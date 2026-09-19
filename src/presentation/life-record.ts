@@ -225,7 +225,12 @@ function recordEntries(
     // generated earlier life are true and are not this character's account of
     // their own life, so putting them here would read as the game narrating
     // things nobody in it noticed.
-    if (!event.tags.some((tag) => tag.startsWith("choice."))) continue;
+    if (
+      !event.tags.some(
+        (tag) => tag.startsWith("choice.") || tag === "contact.lapsed",
+      )
+    )
+      continue;
     const sentence = readable(event.summary);
     if (sentence === null) continue;
     entries.push({

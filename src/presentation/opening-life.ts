@@ -65,6 +65,7 @@ export function generateOpeningLife(
   // opening governor holds a recorded tenure, not GOVERNING's dated term.
   const staffed = establishOpeningOfficeholders(economic, game.playerPersonId, {
     datedTerms: session.setup.worldOpeningVersion !== undefined,
+    includeVicePresident: session.setup.openingDataVersion === "playtest65-v1",
   });
   return {
     ...session,

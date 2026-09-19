@@ -12,9 +12,11 @@ import {
   type SimulationMoment,
   type World,
 } from "../simulation";
+import { venueActivities } from "./venue-activity";
 import { letAdultTimePass } from "./adult-life";
 import {
   advanceCalendarToActivity,
+  playCalendarActivity,
   type CalendarTimeResult,
 } from "./calendar-time-control";
 import { interruptionHandlers } from "./interruption-policy";
@@ -52,7 +54,8 @@ export type TimeCommand =
    */
   | { readonly kind: "quiet-stretch" }
   /** Wait until a recorded calendar activity begins. */
-  | { readonly kind: "until-activity"; readonly activityId: EntityId };
+  | { readonly kind: "until-activity"; readonly activityId: EntityId }
+  | { readonly kind: "attend-activity"; readonly activityId: EntityId };
 
 export interface TimeCommandRequest {
   /** Unique per click. Only used to identify the request in receipts. */
@@ -139,6 +142,19 @@ export function previewTimeCommand(
   personId: EntityId,
   command: TimeCommand,
 ): TimeCommandPreview | null {
+  if (command.kind === "attend-activity") {
+    const entry = venueActivities(world, personId).find(
+      (item) => item.activity.id === command.activityId,
+    );
+    if (!entry || entry.refusal) return null;
+    const target = scheduledActivityState(world, entry.activity.id).end;
+    return {
+      target,
+      targetDate: target.date,
+      days: wholeDaysBetween(world.currentDate, target.date),
+      cappedBy: null,
+    };
+  }
   if (command.kind === "until-activity") {
     const activity = world.history.scheduledActivities.find(
       (record) => record.id === command.activityId,
@@ -180,6 +196,8 @@ function run(
 ): CalendarTimeResult {
   const interruptions = request.interruptions ?? DEFAULT_INTERRUPTIONS;
   const command = request.command;
+  if (command.kind === "attend-activity")
+    return playCalendarActivity(world, request.personId, command.activityId);
   if (command.kind === "until-activity")
     return advanceCalendarToActivity(
       world,

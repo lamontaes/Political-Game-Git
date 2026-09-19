@@ -3,6 +3,8 @@ import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../simulation";
 import {
   applyFullBirthday,
+  resolveCreatorBirthday,
+  creatorBirthdayAgeRange,
   birthYearChoices,
   birthYearForSetup,
   randomFullBirthday,
@@ -68,5 +70,35 @@ describe("full birthday with a derived starting age", () => {
       first.year,
     );
     expect(startAgeForBirthday(first, START)).toBeGreaterThanOrEqual(18);
+  });
+});
+
+describe("PLAYTEST65 birthday completion", () => {
+  it("preserves each chosen component and is stable after completion", () => {
+    const partial = applyFullBirthday(SETUP, {
+      year: 1991,
+      month: 7,
+      day: null,
+    })!;
+    const result = resolveCreatorBirthday(partial, true)!;
+    expect(result.birthYear).toBe(1991);
+    expect(result.birthMonth).toBe(7);
+    expect(result.birthDay).toBeGreaterThan(0);
+    expect(resolveCreatorBirthday(result, true)).toEqual(result);
+    expect(resolveCreatorBirthday(partial, true)).toEqual(result);
+    const dayOnly = resolveCreatorBirthday({ ...SETUP, birthDay: 31 }, false)!;
+    expect(dayOnly.birthDay).toBe(31);
+    expect(dayOnly.startAge).toBe(SETUP.startAge);
+  });
+  it("rejects impossible chosen dates and reports a year-only age range", () => {
+    expect(
+      resolveCreatorBirthday(
+        { ...SETUP, birthYear: 1991, birthMonth: 2, birthDay: 29 },
+        true,
+      ),
+    ).toBeNull();
+    expect(
+      creatorBirthdayAgeRange({ year: 1990, month: null, day: null }, START),
+    ).toEqual({ minimum: 35, maximum: 36 });
   });
 });

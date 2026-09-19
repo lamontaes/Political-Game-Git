@@ -36,6 +36,14 @@ export const OPENING_OFFICE_SOURCES = {
   amendments: "https://www.archives.gov/founding-docs/amendments-11-27",
 } as const;
 const VERSION = "opening-officeholders-v1";
+const VICE_PRESIDENT = {
+  key: "us-vice-president",
+  title: "Vice President of the United States",
+  organization: "Vice Presidency of the United States",
+  years: 4,
+  monthDay: "01-20",
+  anchor: 2025,
+} as const;
 const OFFICES = [
   {
     key: "us-president",
@@ -60,7 +68,10 @@ export function establishOpeningOfficeholders(
   world: World,
   playerPersonId: EntityId,
   /** `datedTerms: false` replays a pre-game-calendar opening exactly. */
-  options: { readonly datedTerms?: boolean } = {},
+  options: {
+    readonly datedTerms?: boolean;
+    readonly includeVicePresident?: boolean;
+  } = {},
 ): World {
   const player = world.people[playerPersonId];
   if (!player) throw new Error("Opening requires an existing player.");
@@ -69,7 +80,10 @@ export function establishOpeningOfficeholders(
   const separatedGeography =
     worldOpeningVersionOf(world) === CRUNCH46_WORLD_OPENING_VERSION;
   let next = world;
-  for (const office of OFFICES) {
+  for (const office of [
+    ...OFFICES,
+    ...(options.includeVicePresident ? [VICE_PRESIDENT] : []),
+  ]) {
     const key = `${VERSION}:${office.key}`;
     // Initialization is one-time. Expired tenures stay history, never reroll on reads.
     if (
@@ -251,7 +265,7 @@ export function openingOfficeholders(world: World) {
 }
 
 function federalOfficeholders(world: World) {
-  const opening = OFFICES.flatMap((office) =>
+  const opening = [...OFFICES, VICE_PRESIDENT].flatMap((office) =>
     world.history.events.flatMap((term) => {
       if (
         term.type !== "world.office-tenure" ||

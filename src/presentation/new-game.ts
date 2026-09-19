@@ -127,6 +127,10 @@ export interface NewGameSetup {
    * date of birth against the place's simulation start; they are not a second
    * age clock.
    */
+  /** Explicit creator year; retained while month/day are unresolved. */
+  readonly birthYear?: number;
+  /** Additive initialization policy; absent descriptors preserve older construction. */
+  readonly openingDataVersion?: "playtest65-v1";
   readonly birthMonth?: number;
   readonly birthDay?: number;
   /**
@@ -210,6 +214,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   appearanceRecipeVersion: COHERENT_APPEARANCE_RECIPE_VERSION,
   givenNameGenerationVersion: DISTINCT_GIVEN_NAME_GENERATION_VERSION,
   worldOpeningVersion: CRUNCH46_WORLD_OPENING_VERSION,
+  openingDataVersion: "playtest65-v1",
   questionnaire: "short",
   priors: [],
 };

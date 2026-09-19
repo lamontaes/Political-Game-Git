@@ -17,7 +17,6 @@ import {
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import { recordDomainAttendance } from "./activity-attendance";
 import { openingLifeLocation } from "./life-scene-flow";
-import { sceneVenueForLocationKey } from "./scene-venues";
 
 export { declineVenueActivity } from "./scheduled-activity-choice";
 
@@ -99,9 +98,6 @@ export function venueActivities(
   transitionHandlers: FutureTransitionHandlerRegistry = createCampaignElectionTransitionRegistry(),
 ) {
   return scheduledActivitiesVisibleTo(world, personId)
-    .filter((activity) =>
-      sceneVenueForLocationKey(activity.location.locationKey),
-    )
     .filter(
       (activity) =>
         scheduledActivityState(world, activity.id).status === "scheduled",

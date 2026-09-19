@@ -116,3 +116,15 @@ export function projectNewsFrontPage(
           : "Nothing has been published yet.",
   };
 }
+
+/** Article detail uses the same publication and access-filtered entity links as its headline. */
+export function projectNewsArticle(
+  world: World,
+  publicationId: EntityId,
+): NewsStory | null {
+  const page = projectNewsFrontPage(world, "front", null);
+  return (
+    [page.lead, ...page.stories].find((item) => item?.id === publicationId) ??
+    null
+  );
+}

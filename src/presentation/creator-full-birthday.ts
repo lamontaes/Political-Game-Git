@@ -1,4 +1,10 @@
-import { isoDateFromParts, lifePlaceByKey, type IsoDate } from "../simulation";
+import {
+  ageOnDate,
+  SeededRng,
+  isoDateFromParts,
+  lifePlaceByKey,
+  type IsoDate,
+} from "../simulation";
 import { DEMO_START_DATE } from "../simulation/demo-jurisdiction-context";
 import {
   MAXIMUM_START_AGE,
@@ -10,11 +16,9 @@ import {
  * A full birthday with the starting age derived from it (UI DECISION
  * FOLLOW-THROUGH: gender -> name -> full birthday -> derived age).
  *
- * The setup keeps its existing shape: `startAge` stays the canonical number
- * the World is built from and `birthMonth`/`birthDay` stay optional. The year
- * the player picks is turned into that age against the day play starts, so no
- * save, rule or builder changes. With no month and day the year alone gives
- * the age, and the game still chooses the anniversary as it always has.
+ * Named year/month/day values survive partial completion. Age is derived
+ * from the completed canonical date against this place's actual start date.
+ * Existing descriptors without a named year keep their original age semantics.
  */
 
 export interface FullBirthday {
@@ -67,9 +71,10 @@ export function startAgeForBirthday(
 export function birthYearForSetup(
   setup: Pick<
     NewGameSetup,
-    "placeKey" | "startAge" | "birthMonth" | "birthDay"
+    "placeKey" | "startAge" | "birthYear" | "birthMonth" | "birthDay"
   >,
 ): number {
+  if (setup.birthYear !== undefined) return setup.birthYear;
   const start = parts(creatorStartDate(setup));
   return (
     start.year -
@@ -129,6 +134,7 @@ export function applyFullBirthday(
   }
   const next: { -readonly [K in keyof NewGameSetup]: NewGameSetup[K] } = {
     ...setup,
+    birthYear: birthday.year,
     startAge: startAgeForBirthday(birthday, startDate),
   };
   if (birthday.month === null) delete next.birthMonth;
@@ -163,4 +169,59 @@ export function randomFullBirthday(
   );
   const year = years[Math.floor(next() * years.length)]!;
   return { year, month, day };
+}
+
+/** Completion is a command at Next, never a render-time draw. */
+export function resolveCreatorBirthday(
+  setup: NewGameSetup,
+  yearChosen: boolean,
+): NewGameSetup | null {
+  const start = creatorStartDate(setup);
+  const year = yearChosen ? birthYearForSetup(setup) : null;
+  const dates: FullBirthday[] = [];
+  const startYear = Number(start.slice(0, 4));
+  for (
+    let y = year ?? startYear - MAXIMUM_START_AGE - 1;
+    y <= (year ?? startYear - MINIMUM_START_AGE);
+    y++
+  ) {
+    for (let month = 1; month <= 12; month++) {
+      if (setup.birthMonth !== undefined && month !== setup.birthMonth)
+        continue;
+      for (let day = 1; day <= 31; day++) {
+        if (setup.birthDay !== undefined && day !== setup.birthDay) continue;
+        if (!dateExists(y, month, day)) continue;
+        const age = ageOnDate(isoDateFromParts(y, month, day), start);
+        if (age < MINIMUM_START_AGE || age > MAXIMUM_START_AGE) continue;
+        // An unnamed year retains the existing selected starting age.
+        if (year === null && age !== setup.startAge) continue;
+        dates.push({ year: y, month, day });
+      }
+    }
+  }
+  if (!dates.length) return null;
+  const rng = new SeededRng(setup.seed).fork("creator-birthday-completion-v1");
+  return applyFullBirthday(setup, dates[rng.integer(0, dates.length)]!);
+}
+
+/** Incomplete anniversaries are a range, never a claimed final age. */
+export function creatorBirthdayAgeRange(
+  birthday: FullBirthday,
+  startDate: IsoDate,
+): { minimum: number; maximum: number } | null {
+  const ages: number[] = [];
+  for (let month = 1; month <= 12; month++)
+    for (let day = 1; day <= 31; day++) {
+      if (birthday.month !== null && month !== birthday.month) continue;
+      if (birthday.day !== null && day !== birthday.day) continue;
+      if (!dateExists(birthday.year, month, day)) continue;
+      const age = ageOnDate(
+        isoDateFromParts(birthday.year, month, day),
+        startDate,
+      );
+      if (age >= MINIMUM_START_AGE && age <= MAXIMUM_START_AGE) ages.push(age);
+    }
+  return ages.length
+    ? { minimum: Math.min(...ages), maximum: Math.max(...ages) }
+    : null;
 }
