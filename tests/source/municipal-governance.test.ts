@@ -10,6 +10,7 @@
  * boolean, and unknown stays unknown.
  */
 
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
   MUNICIPAL_NATIONAL_FIXTURE_PATH,
@@ -655,6 +656,37 @@ describe("the production boundary", () => {
         expect(() => municipalSourceById(artifactId)).not.toThrow();
       }
     }
+  });
+
+  it("compiles Portland quorum and public access without inventing a meeting or full procedure", () => {
+    const lock = JSON.parse(
+      readFileSync(
+        "data/source/municipal-governance/artifact-lock.json",
+        "utf-8",
+      ),
+    );
+    const corpus = sourceDomain.compileProduction(lock);
+    const portland = corpus.records.find(
+      (record) => record.recordId === "us-or-portland",
+    )!;
+    expect(portland.legislativeProcedure.quorumRule).toMatchObject({
+      state: "KNOWN",
+      value: { denominatorBasis: "FIXED_COUNT", fixedVotesRequired: 7 },
+    });
+    expect(portland.legislativeProcedure.passageThreshold.state).toBe(
+      "UNKNOWN",
+    );
+    expect(portland.legislativeProcedure.readings.state).toBe("UNKNOWN");
+    expect(portland.meetingSeries).toHaveLength(2);
+    for (const series of portland.meetingSeries) {
+      expect(series.publicAttendance).toMatchObject({
+        state: "KNOWN",
+        value: { openToPublic: true, publicCommentOffered: "UNKNOWN" },
+      });
+      expect(series.cadence.state).toBe("UNKNOWN");
+      expect(series.venue.state).toBe("UNKNOWN");
+    }
+    expect(validateMunicipalGovernanceCorpus(corpus).findings).toEqual([]);
   });
 
   it("keeps the fixture corpora fixture-class however wide they get", () => {

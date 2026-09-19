@@ -531,6 +531,64 @@
         "status": "public-domain-government-edict"
       },
       "storage": "committed"
+    },
+    {
+      "artifactId": "or-portland-charter-2-1",
+      "bytes": {
+        "length": 114286,
+        "sha256": "2ca428f3fb524d4ae85ab98fefebe4eb49f1ee53572a1de19058979429071e32"
+      },
+      "localPath": "data/source/municipal-governance/raw/or-portland-charter-2-1.html",
+      "mediaType": "text/html",
+      "provider": "City of Portland",
+      "publisher": {
+        "documentationUrl": "https://www.portland.gov/charter/2/1",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 114286,
+        "retrievedAt": "2026-09-19T20:53:00.268Z",
+        "url": "https://www.portland.gov/charter/2/1"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "City of Portland electorate",
+          "instrumentKind": "charter",
+          "instrumentTitle": "Portland City Charter, Article 1 The Council",
+          "jurisdictionKey": "US-OR",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 681,
+              "sha256": "06199526669ae0fc957a2b000024147fc69ce001d605c7b4ae27b1603be3d65a"
+            },
+            "regions": [
+              {
+                "beginsWith": "The City Council of the City of Portland consists of twelve (12) Councilors. There are four (4) City Council districts. Each district is represented by three (3) Councilors. The Mayor is not a member of Council.",
+                "endsWith": "The City Council of the City of Portland consists of twelve (12) Councilors. There are four (4) City Council districts. Each district is represented by three (3) Councilors. The Mayor is not a member of Council."
+              },
+              {
+                "beginsWith": "All regular and special meetings of the Council shall be public. The Council meets the first week of January following each general election and thereafter meets at the time and place fixed by ordinance. The Council shall keep a journal of its proceedings which shall be a public record.",
+                "endsWith": "All regular and special meetings of the Council shall be public. The Council meets the first week of January following each general election and thereafter meets at the time and place fixed by ordinance. The Council shall keep a journal of its proceedings which shall be a public record."
+              },
+              {
+                "beginsWith": "At any meeting of the Council seven (7) Councilors constitute a quorum, but a lesser number may adjourn or recess from time to time, and may compel the attendance of absent members.",
+                "endsWith": "At any meeting of the Council seven (7) Councilors constitute a quorum, but a lesser number may adjourn or recess from time to time, and may compel the attendance of absent members."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
     }
   ],
   "domain": "municipal-governance"

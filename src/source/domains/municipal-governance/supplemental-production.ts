@@ -68,6 +68,71 @@ function annotate(node: unknown): unknown {
     Object.entries(node).map(([key, value]) => [key, annotate(value)]),
   );
 }
-export const SUPPLEMENTAL_PRODUCTION_PACKS = [
-  annotate(pack) as MunicipalPackInput,
-];
+const annotated = annotate(pack) as MunicipalPackInput;
+const articleSourceKey = "or-portland-charter-2-1";
+const quorumExcerpt =
+  "At any meeting of the Council seven (7) Councilors constitute a quorum, but a lesser number may adjourn or recess from time to time, and may compel the attendance of absent members.";
+const meetingsExcerpt =
+  "All regular and special meetings of the Council shall be public. The Council meets the first week of January following each general election and thereafter meets at the time and place fixed by ordinance. The Council shall keep a journal of its proceedings which shall be a public record.";
+function articleFact(value: unknown, section: string, excerpt: string): Cell {
+  return {
+    status: "KNOWN",
+    value,
+    sourceKey: articleSourceKey,
+    legalLocator: `Portland City Charter § ${section}`,
+    excerpt,
+    effectiveDate: "2026-09-19",
+  };
+}
+const portland: MunicipalPackInput = {
+  ...annotated,
+  asOf: "2026-09-19",
+  legislativeProcedure: {
+    ...annotated.legislativeProcedure,
+    quorum: articleFact(
+      "Seven Councilors constitute a quorum at any Council meeting.",
+      "2-114",
+      quorumExcerpt,
+    ),
+    quorumRule: articleFact(
+      {
+        numerator: 7,
+        denominator: 12,
+        denominatorBasis: "FIXED_COUNT",
+        fixedVotesRequired: 7,
+      },
+      "2-114",
+      quorumExcerpt,
+    ),
+  },
+  meetingSeries: (["REGULAR_MEETING", "SPECIAL_MEETING"] as const).map(
+    (kind) => ({
+      seriesKey: `us-or-portland-${kind.toLowerCase()}`,
+      kind,
+      bodyName: annotated.electedStructure.bodyName,
+      cadence: {
+        status: "UNKNOWN",
+        reason:
+          "The charter leaves meeting times to ordinance; no current schedule has been acquired.",
+      },
+      venue: {
+        status: "UNKNOWN",
+        reason:
+          "The charter leaves meeting places to ordinance; no current venue has been acquired.",
+      },
+      publicAttendance: articleFact(
+        {
+          openToPublic: true,
+          publicCommentOffered: "UNKNOWN",
+          note: "Regular and special Council meetings are public; this provision does not establish a public-comment rule.",
+        },
+        "2-112",
+        meetingsExcerpt,
+      ),
+    }),
+  ),
+  unresolved: [
+    "Charter §§ 2-102, 2-112 and 2-114 establish composition, public meetings and quorum. Meeting schedules and venues, ordinance passage, budget and appointment procedure remain uncompiled.",
+  ],
+};
+export const SUPPLEMENTAL_PRODUCTION_PACKS = [portland];

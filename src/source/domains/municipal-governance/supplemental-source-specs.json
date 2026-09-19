@@ -18,5 +18,33 @@
       "length": 211,
       "sha256": "1cc4484c111e0c427f877ceba6262d89a9bffdb07e4621aa569657e85af093e3"
     }
+  },
+  {
+    "artifactId": "or-portland-charter-2-1",
+    "url": "https://www.portland.gov/charter/2/1",
+    "provider": "City of Portland",
+    "jurisdictionKey": "US-OR",
+    "enactingBody": "City of Portland electorate",
+    "instrumentKind": "charter",
+    "instrumentTitle": "Portland City Charter, Article 1 The Council",
+    "localPath": "data/source/municipal-governance/raw/or-portland-charter-2-1.html",
+    "enacted": {
+      "regions": [
+        {
+          "beginsWith": "The City Council of the City of Portland consists of twelve (12) Councilors. There are four (4) City Council districts. Each district is represented by three (3) Councilors. The Mayor is not a member of Council.",
+          "endsWith": "The City Council of the City of Portland consists of twelve (12) Councilors. There are four (4) City Council districts. Each district is represented by three (3) Councilors. The Mayor is not a member of Council."
+        },
+        {
+          "beginsWith": "All regular and special meetings of the Council shall be public. The Council meets the first week of January following each general election and thereafter meets at the time and place fixed by ordinance. The Council shall keep a journal of its proceedings which shall be a public record.",
+          "endsWith": "All regular and special meetings of the Council shall be public. The Council meets the first week of January following each general election and thereafter meets at the time and place fixed by ordinance. The Council shall keep a journal of its proceedings which shall be a public record."
+        },
+        {
+          "beginsWith": "At any meeting of the Council seven (7) Councilors constitute a quorum, but a lesser number may adjourn or recess from time to time, and may compel the attendance of absent members.",
+          "endsWith": "At any meeting of the Council seven (7) Councilors constitute a quorum, but a lesser number may adjourn or recess from time to time, and may compel the attendance of absent members."
+        }
+      ],
+      "length": 681,
+      "sha256": "06199526669ae0fc957a2b000024147fc69ce001d605c7b4ae27b1603be3d65a"
+    }
   }
 ]

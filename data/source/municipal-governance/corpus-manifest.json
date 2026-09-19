@@ -1,6 +1,6 @@
 {
   "asOf": "2026-09-08",
-  "canonicalSha256": "21a77a8bd5d0c5c4f1e9008ca770c8c67f9dcc4d9986be4cb2ec6fcd32b924d9",
+  "canonicalSha256": "3d9c636392c943f823792a92edaa7f3f266500caa3c8c1fa474fea152a6269b6",
   "compiler": {
     "name": "municipal-governance",
     "version": "3.0.0"
@@ -16,6 +16,10 @@
     {
       "artifactId": "or-portland-charter-2-102",
       "sha256": "981cd6eda56b4c315a5cba11da35a32bc0b53c0259e4806a1ec56a57ae3d6b88"
+    },
+    {
+      "artifactId": "or-portland-charter-2-1",
+      "sha256": "2ca428f3fb524d4ae85ab98fefebe4eb49f1ee53572a1de19058979429071e32"
     },
     {
       "artifactId": "va-charlottesville-charter",
