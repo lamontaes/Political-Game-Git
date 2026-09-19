@@ -125,11 +125,18 @@ for (const name of [
   "game-launch-environment.mjs",
   "drawn-appearance-proof.mjs",
   "saved-identity-proof.mjs",
+  "creator-drive.mjs",
 ])
   cpSync(
     path.join(desktopRoot, "scripts", name),
     path.join(packagedRoot, "scripts", name),
   );
+// The updater verifies prepared client bytes with the same trusted tree contract.
+mkdirSync(path.join(resources, "scripts"), { recursive: true });
+cpSync(
+  path.join(repoRoot, "scripts", "client-provenance.mjs"),
+  path.join(resources, "scripts", "client-provenance.mjs"),
+);
 const CONTROLLER_FILES = [
   "main.mjs",
   "hub-model.mjs",

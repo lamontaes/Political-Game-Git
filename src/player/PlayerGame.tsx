@@ -1259,25 +1259,27 @@ function SetupScreen({
             reopen; this is what keeps the whole active step inside the viewport
             instead of stacking every section into a scrolling column.
           */}
-      {steps
-        .filter(
-          (step) =>
-            step !== "begin" && isDone(step) && Boolean(summaryText[step]),
-        )
-        .map((step) => (
-          <button
-            key={step}
-            type="button"
-            className="creator-summary"
-            data-testid={`creator-summary-${step}`}
-            onClick={() => reopen(step)}
-          >
-            <span className="creator-summary-value">{summaryText[step]}</span>
-            <span className="creator-summary-edit" aria-hidden="true">
-              Change
-            </span>
-          </button>
-        ))}
+      <div className="creator-summaries">
+        {steps
+          .filter(
+            (step) =>
+              step !== "begin" && isDone(step) && Boolean(summaryText[step]),
+          )
+          .map((step) => (
+            <button
+              key={step}
+              type="button"
+              className="creator-summary"
+              data-testid={`creator-summary-${step}`}
+              onClick={() => reopen(step)}
+            >
+              <span className="creator-summary-value">{summaryText[step]}</span>
+              <span className="creator-summary-edit" aria-hidden="true">
+                Change
+              </span>
+            </button>
+          ))}
+      </div>
 
       {isCurrent("route") ? (
         <section data-testid="creator-stage-route">
@@ -3627,54 +3629,56 @@ function PlayingScreen({
                   {person.name}: {person.wardrobeRefusal}
                 </p>
               ))}
-            <ShellNav
-              state={shell}
-              dispatch={dispatch}
-              playerName={observing ? "Observing" : moment.personName}
-              portrait={
-                !observing && session.world.people[session.personId] ? (
-                  <PersonPortrait
-                    world={session.world}
-                    personId={session.personId}
-                  />
-                ) : null
-              }
-              dateLabel={moment.dateLabel}
-              placeName={moment.placeName}
-              destinations={destinations}
-              canSave={!savesUnavailable}
-              unsaved={session.saveId === null}
-              onSave={() => {
-                const shellState = {
-                  pins: shell.pins,
-                  preferences: shell.preferences,
-                  journal: shell.legacyJournal,
-                  journals: shell.journals,
-                  personWardrobes: shell.personWardrobes,
-                  progress: shell.progress,
-                };
-                const request = returnToTitleRequest.current;
-                if (request && shell.confirmingLeave) {
-                  request.leaving = true;
-                  onSaveAndLeave(shellState);
-                } else onKeep(shellState);
-              }}
-              onSaveAndLeave={() =>
-                onSaveAndLeave({
-                  pins: shell.pins,
-                  preferences: shell.preferences,
-                  journal: shell.legacyJournal,
-                  journals: shell.journals,
-                  personWardrobes: shell.personWardrobes,
-                  progress: shell.progress,
-                })
-              }
-              onLeave={leaveNow}
-              {...(capabilities.formativeYears || readOnly
-                ? {}
-                : { onPassDays: passDays, passTargets })}
-              passing={timeRunner.pending}
-            />
+            {!showOrientation ? (
+              <ShellNav
+                state={shell}
+                dispatch={dispatch}
+                playerName={observing ? "Observing" : moment.personName}
+                portrait={
+                  !observing && session.world.people[session.personId] ? (
+                    <PersonPortrait
+                      world={session.world}
+                      personId={session.personId}
+                    />
+                  ) : null
+                }
+                dateLabel={moment.dateLabel}
+                placeName={moment.placeName}
+                destinations={destinations}
+                canSave={!savesUnavailable}
+                unsaved={session.saveId === null}
+                onSave={() => {
+                  const shellState = {
+                    pins: shell.pins,
+                    preferences: shell.preferences,
+                    journal: shell.legacyJournal,
+                    journals: shell.journals,
+                    personWardrobes: shell.personWardrobes,
+                    progress: shell.progress,
+                  };
+                  const request = returnToTitleRequest.current;
+                  if (request && shell.confirmingLeave) {
+                    request.leaving = true;
+                    onSaveAndLeave(shellState);
+                  } else onKeep(shellState);
+                }}
+                onSaveAndLeave={() =>
+                  onSaveAndLeave({
+                    pins: shell.pins,
+                    preferences: shell.preferences,
+                    journal: shell.legacyJournal,
+                    journals: shell.journals,
+                    personWardrobes: shell.personWardrobes,
+                    progress: shell.progress,
+                  })
+                }
+                onLeave={leaveNow}
+                {...(capabilities.formativeYears || readOnly
+                  ? {}
+                  : { onPassDays: passDays, passTargets })}
+                passing={timeRunner.pending}
+              />
+            ) : null}
 
             <ShellPinRail
               world={session.world}
@@ -3814,6 +3818,16 @@ function renderWorkspace({
     <PartyChapterSurface
       key={chapter.organizationId}
       chapter={chapter}
+      contact={
+        chapter.contact ? (
+          <ContactsPanel
+            world={session.world}
+            personId={session.personId}
+            contactEntry={chapter.contact}
+            onWorldChange={onWorldChange}
+          />
+        ) : null
+      }
       pinned={pinnedRef({ kind: "organization", id: chapter.organizationId })}
       onTogglePin={() =>
         togglePin({ kind: "organization", id: chapter.organizationId })
@@ -5164,9 +5178,14 @@ function renderWorkspace({
           <WorkLayout
             roleSentence={role.sentence}
             pending={
-              <WorkWorkspace world={session.world} personId={session.personId}>
-                {null}
-              </WorkWorkspace>
+              half === "office" ? null : (
+                <WorkWorkspace
+                  world={session.world}
+                  personId={session.personId}
+                >
+                  {null}
+                </WorkWorkspace>
+              )
             }
             sections={sections}
             timeControl={

@@ -12,7 +12,7 @@
  * Usage: node scripts/smoke-test.mjs --app <executable> [--shell] [--screenshot <png>]
  */
 
-import { mkdtempSync } from "node:fs";
+import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import os from "node:os";
@@ -44,7 +44,9 @@ function arg(name) {
   const index = process.argv.indexOf(name);
   return index >= 0 ? process.argv[index + 1] : undefined;
 }
-const appPath = arg("--app");
+const hubPath = arg("--hub");
+const payloadPath = arg("--payload");
+const appPath = hubPath ?? arg("--app");
 const screenshot = arg("--screenshot");
 const shellChecks = process.argv.includes("--shell");
 if (!appPath) {
@@ -54,6 +56,36 @@ if (!appPath) {
   process.exit(1);
 }
 const profile = mkdtempSync(path.join(os.tmpdir(), "ocd-smoke-"));
+if (hubPath) {
+  if (!payloadPath) throw new Error("A hub smoke check requires --payload.");
+  const identity = JSON.parse(
+    readFileSync(
+      path.join(payloadPath, "Contents", "Resources", "build-identity.json"),
+      "utf8",
+    ),
+  );
+  writeFileSync(
+    path.join(profile, "state.json"),
+    JSON.stringify({
+      schema: 2,
+      repositoryPath: null,
+      privatePackPath: null,
+      selectedTrack: "main",
+      tracks: {
+        main: {
+          branch: "main",
+          current: {
+            ...identity,
+            appPath: path.resolve(payloadPath),
+            delivery: "console-client-payload",
+          },
+          pending: null,
+          previous: null,
+        },
+      },
+    }),
+  );
+}
 
 const failures = [];
 function check(label, condition, detail = "") {
@@ -66,9 +98,25 @@ function check(label, condition, detail = "") {
 async function launch() {
   const app = await _electron.launch({
     executablePath: appPath,
-    env: gameLaunchEnvironment(process.env, profile),
+    env: {
+      ...gameLaunchEnvironment(process.env, profile),
+      ...(hubPath
+        ? {
+            OCD_CONTROLLER_DATA_ROOT: profile,
+            OCD_HUB_SKIP_STARTUP_CHECK: "1",
+            OCD_HUB_NO_BUILDS: "1",
+            OCD_HUB_NO_ARTDESK_AUTOSTART: "1",
+          }
+        : {}),
+    },
   });
-  const page = await app.firstWindow();
+  const page = hubPath
+    ? (app.windows().find((page) => page.url().startsWith("app://game/")) ??
+      (await app.waitForEvent("window", {
+        predicate: (page) => page.url().startsWith("app://game/"),
+        timeout: 30000,
+      })))
+    : await app.firstWindow();
   const foreign = [];
   page.on("request", (request) => {
     if (!isPackagedRenderRequest(request.url())) foreign.push(request.url());

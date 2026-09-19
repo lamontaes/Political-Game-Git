@@ -1,5 +1,6 @@
 import {
   campaignLifeActivityForScheduledActivity,
+  campaignLifeCatalogEntry,
   createCampaignElectionTransitionRegistry,
   type CampaignLifeAttendance,
   type EntityId,
@@ -80,7 +81,9 @@ export function calendarCampaignLifeEntry(
 
   return {
     lifeActivityId: record.id,
-    needsLaneRoute: !playableAsVenue,
+    needsLaneRoute:
+      campaignLifeCatalogEntry(record.form).presence === "remote" ||
+      !playableAsVenue,
     stateLabel: row.stateLabel,
     blockedReason: partyWorkBlockedReason(world, personId, record.id, handlers),
     awaitingRecord: row.awaitingRecord,

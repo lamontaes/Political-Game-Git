@@ -82,6 +82,139 @@ const corridor = "school-corridor-generic";
 const REVIEW_ID = "cand-7cb8ae76-50a4-f439-d468-75cb81da0959";
 
 describe("Art Desk cards", () => {
+  it("files old preparation away without hiding a fresh revision", () => {
+    const original = ingest("cand-preparation", "original", {
+      family: corridor,
+      tags: { deskView: ["cand-preparation:library"] },
+    });
+    const before = artDeskCards(projection([original]));
+    expect(before[0].tabs).toEqual(["library"]);
+    const child = ingest("cand-ready", "repaint", {
+      family: corridor,
+      parent: "cand-preparation",
+      tags: { deskView: ["cand-preparation:library"] },
+    });
+    const after = artDeskCards(projection([original, child]));
+    expect(after[0].leadCandidateId).toBe("cand-ready");
+    expect(after[0].tabs).toContain("needs-review");
+    expect(after[0].versionCount).toBe(2);
+  });
+  it("keeps style references and removed images recoverable without review decisions", () => {
+    const original = ingest("cand-disposition", "original", {
+      family: corridor,
+    });
+    for (const kind of ["reference", "archived"] as const) {
+      const tag: ArtbenchEvent = {
+        ...original,
+        eventId: `tag-${kind}`,
+        seq: original.seq + 1,
+        type: "tags.set",
+        payload: {
+          entity: "candidate",
+          entityId: "cand-disposition",
+          tags: { reviewQueue: [`cand-disposition:${kind}`] },
+          baseVersion: 0,
+          author: { kind: "owner", id: "fixture-owner" },
+        },
+      };
+      const p = projection([original, tag]);
+      const cards = artDeskCards(p);
+      expect(tabCounts(cards)["needs-review"]).toBe(0);
+      expect(
+        filterCards(cards, {
+          tab: kind === "reference" ? "references" : "archived",
+        }),
+      ).toHaveLength(1);
+      expect(p.candidates["cand-disposition"].decisions).toHaveLength(0);
+      expect(p.candidates["cand-disposition"].status).toBe("awaiting-review");
+      const restore: ArtbenchEvent = {
+        ...tag,
+        eventId: `restore-${kind}`,
+        seq: tag.seq + 1,
+        payload: {
+          ...tag.payload,
+          tags: { reviewQueue: ["cand-disposition:review"] },
+          baseVersion: 1,
+        },
+      };
+      expect(
+        tabCounts(artDeskCards(projection([original, tag, restore])))[
+          "needs-review"
+        ],
+      ).toBe(1);
+      const child = ingest(`cand-${kind}-child`, "repaint", {
+        parent: "cand-disposition",
+        family: corridor,
+        tags: { reviewQueue: [`cand-disposition:${kind}`] },
+      });
+      expect(
+        tabCounts(artDeskCards(projection([original, tag, child])))[
+          "needs-review"
+        ],
+      ).toBe(1);
+    }
+  });
+  it("removes an approved review copy from Awaiting review while retaining undecided ancestors", () => {
+    const original = ingest("cand-queue-original", "original", {
+      family: corridor,
+    });
+    const revised = ingest("cand-queue-revised", "repaint", {
+      family: corridor,
+      parent: "cand-queue-original",
+    });
+    const events = [original, revised];
+    const before = projection(events);
+    expect(tabCounts(artDeskCards(before))["needs-review"]).toBe(1);
+    const decision = {
+      ...revised,
+      eventId: "queue-approval",
+      seq: revised.seq + 1,
+      actor: { kind: "owner", id: "fixture-owner" },
+      type: "review.decided",
+      payload: {
+        reviewId: "review-queue",
+        requestId: "inbox",
+        requestVersion: 1,
+        candidateId: "cand-queue-revised",
+        viewedCandidateId: "cand-queue-revised",
+        outputSha256: before.candidates["cand-queue-revised"].sha256,
+        decision: "approve",
+        contractVersion: ARTBENCH_CONTRACT_VERSION,
+        fitContractHash: "a".repeat(64),
+        sceneContractHash: "b".repeat(64),
+        rightsStatus: "unknown",
+        sourceDeclaration: "Disposable test fixture",
+        authority: "session-capability",
+      },
+    } as ArtbenchEvent;
+    const after = projection([...events, decision]);
+    const cards = artDeskCards(after);
+    expect(cards[0].leadCandidateId).toBe("cand-queue-revised");
+    expect(cards[0].status).not.toBe("awaiting-review");
+    expect(tabCounts(cards)["needs-review"]).toBe(0);
+    expect(filterCards(cards, { tab: "library" })).toHaveLength(1);
+    expect(cards[0].versionCount).toBe(2);
+    expect(after.candidates["cand-queue-original"].status).toBe(
+      "awaiting-review",
+    );
+    const rejectedWrite = projection([
+      ...events,
+      {
+        ...decision,
+        payload: { ...decision.payload, outputSha256: "0".repeat(64) },
+      } as ArtbenchEvent,
+    ]);
+    expect(tabCounts(artDeskCards(rejectedWrite))["needs-review"]).toBe(1);
+    const later = ingest("cand-queue-new", "repaint", {
+      family: corridor,
+      parent: "cand-queue-revised",
+    });
+    expect(
+      tabCounts(artDeskCards(projection([...events, decision, later])))[
+        "needs-review"
+      ],
+    ).toBe(1);
+  });
   it("groups a delivery lineage into one named card led by the review copy", () => {
     const cards = artDeskCards(
       projection([
@@ -186,6 +319,12 @@ describe("Art Desk cards", () => {
       "in-progress": 0,
       "in-game": 0,
       library: 1,
+      references: 0,
+      archived: 0,
+      approved: 0,
+      rejected: 0,
+      requests: 0,
+      discussion: 0,
     });
     expect(tabCounts(cards, true).library).toBe(2);
     expect(filterCards(cards, { tab: "library" })).toHaveLength(1);

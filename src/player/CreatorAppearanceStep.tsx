@@ -54,11 +54,6 @@ export function CreatorAppearanceStep({
       className="creator-stage-panel kit41-creator"
       data-testid="creator-stage-appearance"
     >
-      <h2>How you look</h2>
-      <p>
-        Choose your appearance before beginning. These changes affect only your
-        preview.
-      </p>
       {person && draft ? (
         <div className="kit41-creator-layout">
           <div className="kit41-creator-preview">
@@ -73,6 +68,11 @@ export function CreatorAppearanceStep({
             ) : null}
           </div>
           <div>
+            <h2>How you look</h2>
+            <p className="creator-preview-note">
+              Choose your appearance before beginning. These changes affect only
+              your preview.
+            </p>
             {ready ? (
               <PersonAppearanceControls
                 unsavedCreator

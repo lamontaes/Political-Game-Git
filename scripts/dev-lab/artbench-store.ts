@@ -49,6 +49,7 @@ import {
   type ArtbenchEvent,
   type ArtbenchEventSource,
   type ArtbenchProjection,
+  type ArtbenchMessagePayload,
   type BatchCompletedPayload,
   type CandidateIngestedPayload,
   type CandidateProvenance,
@@ -245,6 +246,7 @@ export class ArtbenchStore {
   private readonly now: () => string;
   private readonly newId: () => string;
   private events: ArtbenchEvent[] = [];
+  private eventLogStamp = "";
   private readonly known = new Set<string>();
   private readonly bytesCache = new Map<string, BytesState>();
   private syncState: SyncState;
@@ -302,6 +304,9 @@ export class ArtbenchStore {
 
   private loadEvents(): void {
     if (!existsSync(this.logPath)) return;
+    const stat = statSync(this.logPath, { bigint: true });
+    const stamp = `${stat.dev}:${stat.ino}:${stat.size}:${stat.mtimeNs}:${stat.ctimeNs}`;
+    if (stamp === this.eventLogStamp) return;
     const lines = readFileSync(this.logPath, "utf8")
       .split("\n")
       .filter(Boolean);
@@ -316,14 +321,19 @@ export class ArtbenchStore {
         // A torn final line from a crash is ignored; everything before it stands.
       }
     }
+    this.eventLogStamp = stamp;
   }
 
   allEvents(sinceSeq = 0): readonly ArtbenchEvent[] {
+    this.loadEvents();
     return this.events.filter((event) => event.seq > sinceSeq);
   }
 
   private nextSeq(): number {
-    return (this.events.at(-1)?.seq ?? 0) + 1;
+    return (
+      this.events.reduce((maximum, event) => Math.max(maximum, event.seq), 0) +
+      1
+    );
   }
 
   private persist(event: ArtbenchEvent, toOutbox: boolean): void {
@@ -351,6 +361,7 @@ export class ArtbenchStore {
     source: ArtbenchEventSource,
     eventId = this.newId(),
   ): Extract<ArtbenchEvent, { type: T }> {
+    this.loadEvents();
     if (this.known.has(eventId)) {
       throw new ArtbenchError(
         409,
@@ -463,6 +474,7 @@ export class ArtbenchStore {
   }
 
   projection(): ArtbenchProjection {
+    this.loadEvents();
     return projectArtbench({
       registryRequests: this.registryRequests(),
       qaRequests: this.qaRequests(),
@@ -905,6 +917,53 @@ export class ArtbenchStore {
       },
       input.author,
       "bench",
+    );
+  }
+
+  postMessage(
+    payload: ArtbenchMessagePayload,
+    actor: ArtbenchActor,
+    authority: ReviewAuthority | null = null,
+  ): ArtbenchEvent {
+    if (actor.kind === "owner" && (!authority || actor.id !== this.ownerId))
+      throw new ArtbenchError(
+        403,
+        "owner-capability-required",
+        "Please send your message from the Art Desk.",
+      );
+    const projection = this.projection();
+    const draft: ArtbenchEvent = {
+      contractVersion: ARTBENCH_CONTRACT_VERSION,
+      eventId: this.newId(),
+      seq: this.nextSeq(),
+      at: this.now(),
+      actor,
+      source: "bench",
+      origin: this.storeId,
+      type: "message.posted",
+      payload: { ...payload, text: payload.text.trim() },
+    };
+    const checked = projectArtbench({
+      registryRequests: Object.values(projection.requests).map(
+        (row) => row.request,
+      ),
+      events: [
+        ...this.events.filter((event) => event.type !== "request.created"),
+        draft,
+      ],
+    });
+    if (!checked.messages?.some((message) => message.eventId === draft.eventId))
+      throw new ArtbenchError(
+        422,
+        "invalid-message",
+        "Choose an existing item and enter a message. Replies must name a question on that item.",
+      );
+    return this.append(
+      "message.posted",
+      draft.payload,
+      actor,
+      "bench",
+      draft.eventId,
     );
   }
 
@@ -1566,6 +1625,7 @@ export class ArtbenchStore {
       conflicts: projection.conflicts,
       rejectedEvents: projection.rejectedEvents,
       importedReviews: projection.importedReviews,
+      messages: projection.messages ?? [],
     };
     writeAtomic(
       join(catalogDir, "catalog.json"),

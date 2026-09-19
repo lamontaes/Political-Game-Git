@@ -988,9 +988,20 @@ function startWorker(track) {
   if (process.env.OCD_HUB_NO_BUILDS === "1")
     return { ok: false, message: "Builds are disabled for this test run." };
   const state = readState();
+  if (state?.tracks[track]?.current?.preparedLocally === true) {
+    const present = buildPresentOnDisk(state.tracks[track].current);
+    return {
+      ok: present.ok,
+      message: present.ok
+        ? "This private preview was prepared locally. Its next verified payload will update this same console."
+        : `The prepared payload is unavailable (${present.reason}); retain the current life and reinstall the verified payload.`,
+    };
+  }
   if (!state?.repositoryPath)
     return { ok: false, message: "Choose the project folder in Settings." };
-  if (!state.privatePackPath)
+  const packPath =
+    state.tracks[track]?.privatePackPath ?? state.privatePackPath;
+  if (!packPath)
     return { ok: false, message: "Choose the private art pack in Settings." };
   if (hub.worker) {
     // At most one build per requested target: a repeat click is a no-op.
@@ -1011,7 +1022,7 @@ function startWorker(track) {
       "--track",
       track,
       "--pack",
-      state.privatePackPath,
+      packPath,
     ],
     {
       env: { ...toolEnvironment(), ELECTRON_RUN_AS_NODE: "1" },
@@ -1239,11 +1250,14 @@ async function openPullRequests(repositoryPath) {
 }
 
 async function buildChooser() {
-  const repositoryPath = await verifiedRepository();
-  const branches = await listBranches(repositoryPath);
+  const repositoryPath = await verifiedRepository().catch(() => null);
+  const branches = repositoryPath
+    ? await listBranches(repositoryPath).catch(() => [])
+    : [];
   const commitTimes = {};
   const merged = new Set();
   try {
+    if (!repositoryPath) throw new Error("No repository is configured.");
     const refs = await git(
       [
         "for-each-ref",
@@ -1278,7 +1292,7 @@ async function buildChooser() {
   const view = projectBuildChooser({
     branches: branches.map((b) => ({ name: b.name, sha: b.revision })),
     catalog,
-    pullRequests: await openPullRequests(repositoryPath),
+    pullRequests: repositoryPath ? await openPullRequests(repositoryPath) : [],
     commitTimes,
     merged,
     unsupported,

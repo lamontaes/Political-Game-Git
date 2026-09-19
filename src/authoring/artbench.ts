@@ -192,6 +192,15 @@ export interface CandidateSelectedPayload {
   readonly candidateId: string;
 }
 
+export interface ArtbenchMessagePayload {
+  readonly requestId: string;
+  readonly candidateId?: string;
+  readonly text: string;
+  readonly kind: "question" | "reply" | "note";
+  /** The question or review note this reply answers. */
+  readonly replyTo?: string;
+}
+
 export interface IntegrationQueuedPayload {
   readonly itemId: string;
   readonly candidateId: string;
@@ -225,6 +234,7 @@ export interface BatchCompletedPayload {
 }
 
 export type ArtbenchEvent =
+  | ArtbenchEventOf<"message.posted", ArtbenchMessagePayload>
   | ArtbenchEventOf<"request.created", RequestCreatedPayload>
   | ArtbenchEventOf<"candidate.ingested", CandidateIngestedPayload>
   | ArtbenchEventOf<"candidate.selected", CandidateSelectedPayload>
@@ -401,6 +411,10 @@ export interface ProjectedIntegrationItem extends IntegrationQueuedPayload {
 }
 
 export interface ArtbenchProjection {
+  readonly messages?: readonly ArtbenchEventOf<
+    "message.posted",
+    ArtbenchMessagePayload
+  >[];
   readonly contractVersion: typeof ARTBENCH_CONTRACT_VERSION;
   readonly lastSeq: number;
   readonly eventCount: number;
@@ -528,6 +542,8 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
     }
   }
   const importedReviews: ArtbenchProjection["importedReviews"][number][] = [];
+  const messages: ArtbenchEventOf<"message.posted", ArtbenchMessagePayload>[] =
+    [];
   const qaCandidates = new Set<string>();
   const candidates = new Map<string, MutableCandidate>();
   const assets = new Map<
@@ -567,6 +583,38 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
   for (const event of ordered) {
     lastSeq = Math.max(lastSeq, event.seq);
     switch (event.type) {
+      case "message.posted": {
+        const p = event.payload;
+        const candidate = p.candidateId ? candidates.get(p.candidateId) : null;
+        const target = p.replyTo
+          ? ordered.find((item) => item.eventId === p.replyTo)
+          : null;
+        const sameThread =
+          !p.replyTo ||
+          (target &&
+            (target.type === "message.posted" ||
+              target.type === "review.decided") &&
+            target.payload.requestId === p.requestId &&
+            (!p.candidateId || target.payload.candidateId === p.candidateId));
+        if (
+          (!requests.has(p.requestId) && p.requestId !== INBOX_REQUEST_ID) ||
+          (p.candidateId && candidate?.ingest.requestId !== p.requestId) ||
+          typeof p.text !== "string" ||
+          !p.text.trim() ||
+          p.text.length > 8000 ||
+          !["question", "reply", "note"].includes(p.kind) ||
+          (p.kind === "reply" && !p.replyTo) ||
+          !sameThread
+        ) {
+          rejected.push({
+            eventId: event.eventId,
+            reason: "Invalid message or reply target.",
+          });
+          break;
+        }
+        messages.push(event);
+        break;
+      }
       case "request.created": {
         const { request } = event.payload;
         if (requests.has(request.requestId)) {
@@ -1069,6 +1117,7 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
     intakeConflicts,
     rejectedEvents: rejected,
     importedReviews,
+    messages,
   };
 }
 

@@ -150,3 +150,130 @@ W frozen increments afdb35d3, 2b2a522e, 5140ea3b, 1e9bb51a are acknowledged and
 queued after this bench endpoint. W reports focused 12 government plus 14
 contact/acquisition tests and canonical typecheck pass; U composition remains
 pending. Broad municipal/ACS source coverage remains incomplete, not zero.
+
+## Permanent installation and received-source checkpoint
+
+Owner-authorized installation completed at `/Applications/Our Civic Duty Private.app`.
+The loaded native host is d10739cf, same bundle ID, ad-hoc signed arm64. Deep strict
+code-sign verification passed. The old Applications installation, r1 pinned copy,
+settings and state backups are retained. The single Dock target now points to
+Applications and every unrelated Dock item is preserved. Actual installed-path
+launch and exact revision PNG download passed; a Dock-click launch itself was
+not observed. Receipts are `playtest65-u-bench-loop/installation.json` and
+`dock-continuity.json` under test-results/runs. Native host update/restart was
+explicitly authorized by the owner; no public release occurred.
+
+Art Desk local source/pin was set to d10739cf to avoid the broken historical
+worktree. The running source now includes efaafb2b: a QA child no longer hides a
+normal card; revision strips label QA only and arrival notices skip QA children.
+17 card tests passed. The final clean received HEAD must replace that pin before
+the next controlled restart. QA child disposition and 17 explicit prepared-role
+corrections synchronized; owner review decisions remain unchanged. V verified all
+49 input IDs, hashes, parents and tags against the cloud catalog, including r6
+face repairs and four coily-hair records. Frozen r7 is candidate source only:
+7,505,784 bytes, SHA a60d1bd5c2bae952c0054f4b82ddac15d46260122360224abb0a7c1b79040375.
+V replay passed 113 files and immutable originals; this is not runtime admission.
+
+External-browser drag remains unverified: native pointer input reported
+noWindowsAvailable on one display, and the client changed state before another
+drop could be attempted. Neither U nor V claims an upload or generation occurred.
+The completed local exact-file external crop/reimport/restart/Drive round trip
+and this named external boundary remain separately recorded.
+
+W commits received: afdb35d3→421a6c08, 2b2a522e→7c190038,
+5140ea3b→8ee2afc8, 1e9bb51a→3757a946, 1103f03e→2a4143f1,
+07de4d6e→7922e5e1. These add neutral local institutions, public chapter contact,
+bounded source acquisition, retained mayor identity, Portland charter evidence,
+and selected-area demographic reads. W's final adapter tests passed 11/11 plus
+scoped lint. U owns its map mount and composed validation. Current source manifest
+was regenerated. The short creator check still failed at 180.9px stage height at
+1280×720; U corrected the actual Advanced margin without weakening the assertion.
+Combined gameplay acceptance and final prepared private payload remain pending.
+
+## Owner queue clarity, questions and GitHub update repair
+
+V source received: 8d5e8a02 → be5a1cce (prepared renderer/material transitions,
+rig contact data, immutable external-return intake); 545e87ad → b1e1c43b
+(owner-approved White House revision 6). The exact private White House file is
+5504×3072, SHA d160ee6a08e708b9f0fef68b1a0488c81fad23d426fa548adc59364804808835.
+Coordinates remain normalized against the authored layout canvas. This is an
+external enlarged derivative, not a native-4K claim.
+
+Combined creator/opening/person/map/Guide/News/movable Calendar/Save-Continue
+browser journey passed at b1e1c43b plus the recorded dirty-source digest in
+playtest65-u-review-browser3. Creator checks covered 1280×720, 1280×860 and
+1024×768. The separate Art Desk action journey passed in review-browser4 and
+again with saved questions in friendly-browser: latest thumbnails, failed-write
+retention, approve→Approved, reject→Rejected, reference/archive/restore, briefs,
+exact downloads, and question persistence. These are automated and visual
+inspection receipts, not new owner art approvals. Calendar attendance exposed
+remote-work routing and opening Skip overlap; repairs require the next run.
+
+The owner requested only essential asks, plain language and replies to notes.
+V reviewed 144 requests/208 candidates without constructing another store writer.
+U applied 215 attributed organization-tag events and two V replies through the
+running canonical API. All existing decision event IDs were compared unchanged;
+receipt: playtest65-u-bench-loop/essential-review-organization.json, lastSeq578.
+Candidate-bound organization tags never hide a fresh revision. Old no-image
+requests are recoverable in Library; new images reappear for review. Questions
+and replies are append-only message.posted events, linked to the exact prior
+question or review note. Five-minute V heartbeat answer-art-desk-questions checks
+new notes and stays quiet when unchanged. It cannot claim an answer when the
+console/API is unavailable. A second canonical writer remains prohibited.
+
+A prior stale-store append produced historical sequence collisions (348 event
+IDs, maxseq344). IDs and owner decisions were preserved without renumbering.
+The live store now reads newly appended IDs before projection/append and rejects
+stale tag versions. This is not a general simultaneous-multiwriter lock. Focused
+store/card/Calendar units passed61 before the last small UI repairs.
+
+Owner newly approved Desk revision4 (cand-1f3bd030-77c1-428b-bea3-2019f193c6aa,
+SHA5579b2fae3ee083979ea75e1468eb873cb107322abe7413269df3bb67bd55e5a) and civic
+revision3 (cand-48b10062-b064-46bf-8194-500b0d66cc83,
+SHA1bd1af90f54e7a4764e543e2a503008ad3b2a6ce1b315debcfd0797045c338a1).
+Both are5504×3072; V verified and visually inspected their exact bytes. Neither
+currently has a live scene consumer; keep Approved / waiting to be implemented.
+Do not invent a parent for the civic upload, recorded as an original.
+
+GitHub main checked live:7869561ee8b273796bebe82c803e9d477dd6a907. The installed
+main remainedfed321f because the updater wrongly paired main with gen16's newer
+source contract. A separately named main package was assembled from1693 exact
+referenced legacy files (245,179,898bytes),43manifest seeds,0unresolved paths,
+no newer modular lineage;700main consumer/manifest hashes bind its source.
+Original gen16 is unchanged. New package main-7869561e-retained-art-06b10d898a07,
+manifestSHA06b10d898a07ab335969cf3e34472b664bd8ef0a1cb39d84b81c5d06402a222f,
+lives under desktop/controller-release-artifacts/playtest65-main-art-7869561e.
+Its isolated update job has passed strict art installation and is compiling;
+render/save proof and owner activation remain pending. Per-track artwork paths
+preserve the new preview's own pack. Updates now prepare game payloads for the
+existing console runtime; no replacement game Electron runtime is needed.
+
+## Final repair checkpoint — September 19
+
+- User review now follows the newest real revision: exact thumbnail and selected
+  detail stay bound together; approve/reject moves the card immediately. Requests,
+  Questions & replies, Approved / waiting to be implemented, and Rejected are
+  distinct. V's exact-revision metadata puts old preparation in Library without
+  losing originals, reviews or questions. Agent replies are append-only and never
+  substitute for owner review. The question follow-up is active in V's existing
+  task at five-minute intervals, quiet without new questions.
+- Main update recovery: GitHub `7869561ee8b273796bebe82c803e9d477dd6a907`
+  compiled with a separate, hash-verified 1,693-file legacy-consumer art closure.
+  It passed native create/save/quit/Continue, exact identity and decoded appearance.
+  Pack `main-7869561e-retained-art-06b10d898a07`; manifest
+  `06b10d898a07ab335969cf3e34472b664bd8ef0a1cb39d84b81c5d06402a222f`.
+  Immutable gen16 remains available for the combined preview. The updater now
+  delivers verified client contents through the permanent console, with separate
+  per-version art-package selection. Older source receives only exact verified
+  private-input exclusions during provenance checks; unknown changes still fail.
+- Native old-main to new-main save continuity passed. The subsequent offline
+  version-chooser check exposed its missing-repository failure; the chooser now
+  retains installed versions even without a configured checkout. Final native
+  verification and installation are pending this checkpoint.
+- Focused 68 unit checks passed, typecheck passed, and native tests passed except
+  the sandbox-denied broker socket; all nine broker tests passed with loopback
+  access. Browser Art Desk approval/rejection/questions passed. Calendar remote
+  shifts use the existing campaign writer. W traced the opening optional meeting
+  and its linked journey: the browser must explicitly decline that earlier bundle
+  before attending a later shift. No confirmed commitment is skipped or return
+  journey invented. Final browser and composition gates follow this checkpoint.

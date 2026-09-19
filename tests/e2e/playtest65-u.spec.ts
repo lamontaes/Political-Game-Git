@@ -135,7 +135,9 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
   );
   await page.getByTestId("places-workspace-close").click();
   await goTo(page, "nav-guide");
-  await expect(page.getByTestId("guide-workspace")).toBeVisible();
+  await expect(
+    page.getByRole("region", { name: "Guide", exact: true }),
+  ).toBeVisible();
   await page.getByTestId("guide-workspace-close").click();
   await goTo(page, "nav-news");
   await page.screenshot({ path: info.outputPath("news.png") });

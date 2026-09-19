@@ -9,13 +9,13 @@ import {
   realpathSync,
   renameSync,
   rmSync,
-  statSync,
   writeFileSync,
 } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { createHash } from "node:crypto";
+import { assertProvenanceMatches } from "../../scripts/client-provenance.mjs";
 
 import {
   MAIN_TRACK,
@@ -29,6 +29,7 @@ import {
   buildRecord,
   controllerPaths,
   repositoryIsExpected,
+  privateInputIgnoreRules,
 } from "./private-update.mjs";
 
 const EXPECTED_PACKAGE_NAME = "political-life-rpg";
@@ -53,8 +54,8 @@ const HARNESS_FILES = [
   "game-launch-environment.mjs",
   "drawn-appearance-proof.mjs",
   "saved-identity-proof.mjs",
+  "creator-drive.mjs",
 ];
-const APP_NAME = "Our Civic Duty.app";
 
 const args = process.argv.slice(2);
 const valueAfter = (name) => {
@@ -65,6 +66,7 @@ const dataRoot = valueAfter("--data-root");
 const requestedRepository = valueAfter("--repo");
 const requestedTrack = valueAfter("--track") ?? MAIN_TRACK;
 const requestedPack = valueAfter("--pack");
+const hubExecutable = valueAfter("--hub-executable") ?? process.execPath;
 
 let activeChild = null;
 let cancelled = false;
@@ -458,6 +460,48 @@ async function main() {
     if (trackedAfterPack)
       throw new Error("Staging the private pack changed tracked source.");
 
+    // Older revisions predate the private-art ignore rules. Exclude only
+    // checksummed, verified inputs for this build; unknown files still fail.
+    const packMetadata = JSON.parse(
+      readFileSync(path.join(requestedPack, "pack.json"), "utf8"),
+    );
+    const inputs = privateInputIgnoreRules(
+      readFileSync(
+        path.join(requestedPack, packMetadata.manifest ?? "sha256.txt"),
+        "utf8",
+      ),
+    );
+    for (const input of inputs)
+      if (sha256File(path.join(paths.sourcePath, input.path)) !== input.sha256)
+        throw new Error(`The staged private input changed: ${input.path}`);
+    const excludesPath = path.join(
+      paths.stagingRoot,
+      "verified-private-inputs.ignore",
+    );
+    writeFileSync(
+      excludesPath,
+      `${inputs.map((input) => input.rule).join("\n")}\n`,
+    );
+    const configIndex = Number(process.env.GIT_CONFIG_COUNT ?? 0);
+    const buildEnvironment = {
+      GIT_CONFIG_COUNT: String(configIndex + 1),
+      [`GIT_CONFIG_KEY_${configIndex}`]: "core.excludesFile",
+      [`GIT_CONFIG_VALUE_${configIndex}`]: excludesPath,
+      VITE_OCD_BUILD_PROFILE: "internal-art-review",
+    };
+    const unexpectedFiles = await capture(
+      "/usr/bin/git",
+      ["status", "--porcelain", "--untracked-files=all"],
+      {
+        cwd: paths.sourcePath,
+        env: buildEnvironment,
+      },
+    );
+    if (unexpectedFiles)
+      throw new Error(
+        "The build workspace contains changes beyond its verified private inputs.",
+      );
+
     await run("/usr/bin/env", ["npm", "ci", "--no-audit", "--no-fund"], {
       cwd: paths.sourcePath,
       label: "Installing pinned game dependencies",
@@ -465,15 +509,11 @@ async function main() {
     });
     await run("/usr/bin/env", ["npm", "run", "build"], {
       cwd: paths.sourcePath,
-      env: { VITE_OCD_BUILD_PROFILE: "internal-art-review" },
+      env: buildEnvironment,
       label: "Compiling the internal art-review game",
       phase: "preparing",
     });
     const desktopPath = path.join(paths.sourcePath, "desktop");
-    await run("/usr/bin/env", ["npm", "ci", "--no-audit", "--no-fund"], {
-      cwd: desktopPath,
-      label: "Installing pinned desktop dependencies",
-    });
     await run(
       process.execPath,
       [
@@ -483,44 +523,45 @@ async function main() {
           ? "accepted-main"
           : `branch-preview:${branch}@${targetRevision.slice(0, 12)}`,
       ],
-      { cwd: desktopPath, label: "Verifying and staging the compiled game" },
-    );
-    await run(
-      process.execPath,
-      ["scripts/package.mjs", "--mac", "--arm64", "--dir", "-c.mac.target=dir"],
       {
         cwd: desktopPath,
-        env: { CSC_IDENTITY_AUTO_DISCOVERY: "false" },
-        label: "Packaging the versioned Mac application",
+        env: buildEnvironment,
+        label: "Verifying and staging the compiled game",
       },
     );
     const builtApp = path.join(
-      desktopPath,
-      "release-artifacts",
-      "mac-arm64",
-      APP_NAME,
+      paths.stagingRoot,
+      "prepared",
+      "Our Civic Duty.app",
     );
-    if (!existsSync(builtApp) || !statSync(builtApp).isDirectory())
-      throw new Error("The Mac application was not produced.");
+    const resources = path.join(builtApp, "Contents", "Resources");
+    mkdirSync(resources, { recursive: true });
+    cpSync(
+      path.join(desktopPath, "staged", "client"),
+      path.join(resources, "client"),
+      { recursive: true },
+    );
+    cpSync(
+      path.join(desktopPath, "staged", "build-identity.json"),
+      path.join(resources, "build-identity.json"),
+    );
     const identity = JSON.parse(
-      readFileSync(
-        path.join(builtApp, "Contents", "Resources", "build-identity.json"),
-        "utf8",
-      ),
+      readFileSync(path.join(resources, "build-identity.json"), "utf8"),
     );
-    if (identity.revision !== targetRevision)
-      throw new Error(`The application identity does not match ${label}.`);
-    const executable = path.join(
-      builtApp,
-      "Contents",
-      "MacOS",
-      APP_NAME.slice(0, -4),
-    );
-    const architecture = await capture("/usr/bin/file", ["-b", executable], {
-      label: "Checking the application architecture",
+    const verified = assertProvenanceMatches({
+      clientDir: path.join(resources, "client"),
+      expectedRevision: targetRevision,
+      expectedDirty: false,
     });
-    if (!architecture.includes("arm64"))
-      throw new Error("The application is not an Apple Silicon build.");
+    if (
+      identity.revision !== targetRevision ||
+      identity.profile !== "internal-art-review" ||
+      identity.clientTreeSha256 !== verified.treeSha256
+    )
+      throw new Error("The prepared game does not match the requested update.");
+    const architecture = process.arch;
+    if (architecture !== "arm64")
+      throw new Error("This update requires Apple Silicon.");
 
     const harness = path.join(
       paths.sourcePath,
@@ -533,7 +574,13 @@ async function main() {
       cpSync(path.join(HARNESS_ROOT, file), path.join(harness, file));
     await run(
       process.execPath,
-      [path.join(harness, "smoke-test.mjs"), "--app", executable],
+      [
+        path.join(harness, "smoke-test.mjs"),
+        "--hub",
+        hubExecutable,
+        "--payload",
+        builtApp,
+      ],
       {
         cwd: desktopPath,
         env: { OCD_EXPECT_ART_PREVIEW: "1" },
@@ -553,6 +600,7 @@ async function main() {
     rmSync(paths.appPath, { recursive: true, force: true });
     renameSync(temporaryApp, paths.appPath);
     const record = {
+      delivery: "console-client-payload",
       ...buildRecord(
         identity,
         paths.appPath,

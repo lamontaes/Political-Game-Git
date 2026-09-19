@@ -306,6 +306,27 @@ export function createArtbenchHandler(store: ArtbenchStore) {
         const actor = parsed.actor;
         const payload = body.payload ?? {};
         switch (body.type) {
+          case "message.posted": {
+            const event = store.postMessage(
+              {
+                requestId: String(payload.requestId ?? ""),
+                candidateId:
+                  typeof payload.candidateId === "string"
+                    ? payload.candidateId
+                    : undefined,
+                text: String(payload.text ?? ""),
+                kind: payload.kind as "question" | "reply" | "note",
+                replyTo:
+                  typeof payload.replyTo === "string"
+                    ? payload.replyTo
+                    : undefined,
+              },
+              actor,
+              authority,
+            );
+            sendJson(response, 201, { events: [event] });
+            return;
+          }
           case "qa.disposition": {
             const event = store.dispositionQa(
               {

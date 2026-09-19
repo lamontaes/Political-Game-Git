@@ -21,16 +21,32 @@ import { INBOX_REQUEST_ID } from "./artbench";
  * production stage — never from revision numbers.
  */
 
-export type ArtDeskTab = "needs-review" | "in-progress" | "in-game" | "library";
+export type ArtDeskTab =
+  | "needs-review"
+  | "in-progress"
+  | "in-game"
+  | "library"
+  | "references"
+  | "archived"
+  | "approved"
+  | "rejected"
+  | "requests"
+  | "discussion";
 
 export const ART_DESK_TABS: readonly {
   readonly key: ArtDeskTab;
   readonly label: string;
 }[] = [
   { key: "needs-review", label: "Needs review" },
+  { key: "requests", label: "Requests" },
+  { key: "discussion", label: "Questions & replies" },
+  { key: "approved", label: "Approved / waiting to be implemented" },
+  { key: "rejected", label: "Rejected" },
   { key: "in-progress", label: "In progress" },
   { key: "in-game", label: "In game" },
   { key: "library", label: "Library" },
+  { key: "references", label: "Style references" },
+  { key: "archived", label: "Removed from review" },
 ];
 
 /**
@@ -68,11 +84,11 @@ const STAGE_LABELS: Readonly<Record<EditKind, string>> = {
 
 export const CARD_STATUS_LABELS: Readonly<Record<CandidateStatus, string>> = {
   "awaiting-review": "Awaiting review",
-  approved: "Approved",
-  rejected: "Not used",
+  approved: "Approved / waiting to be implemented",
+  rejected: "Rejected",
   "revision-requested": "Revision requested",
-  "integration-ready": "Approved — preparing for the game",
-  accepted: "Approved — preparing for the game",
+  "integration-ready": "Approved / waiting to be implemented",
+  accepted: "Approved / waiting to be implemented",
   installed: "In game",
   "in-game": "In game",
 };
@@ -315,18 +331,27 @@ export function lineageSentence(record: LineageRecord): string {
   return `Lineage is not recorded for this version: it arrived as a ${stage} with no declared parent. Nothing is inferred from its filename or timing.`;
 }
 
-/** The version a card leads with: newest awaiting review, else newest. */
+/** The latest revision controls the card; older alternatives remain history. */
 function leadOf(
   candidates: readonly ProjectedCandidate[],
-  selectedId?: string,
 ): ProjectedCandidate | undefined {
-  const selected = candidates.find((c) => c.candidateId === selectedId);
   const byTime = [...candidates].sort(
     (a, b) =>
-      b.ingestedAt.localeCompare(a.ingestedAt) || b.revision - a.revision,
+      b.revision - a.revision || b.ingestedAt.localeCompare(a.ingestedAt),
   );
-  const newestWaiting = byTime.find((c) => c.status === "awaiting-review");
-  return newestWaiting ?? selected ?? byTime[0];
+  return byTime[0];
+}
+
+export type ReviewDisposition = "review" | "reference" | "archived";
+
+/** Candidate-bound tags survive export/history without disposing its children. */
+export function reviewDisposition(
+  candidate: ProjectedCandidate,
+): ReviewDisposition {
+  const value = candidate.tags.reviewQueue
+    ?.find((entry) => entry.startsWith(`${candidate.candidateId}:`))
+    ?.slice(candidate.candidateId.length + 1);
+  return value === "reference" || value === "archived" ? value : "review";
 }
 
 function tabsFor(
@@ -334,8 +359,19 @@ function tabsFor(
   status: CandidateStatus | null,
 ): ArtDeskTab[] {
   const tabs: ArtDeskTab[] = ["library"];
-  if (status === "awaiting-review" || lane === "needs-review")
+  if (status === null) return [...tabs, "requests"];
+  if (
+    status === "awaiting-review" ||
+    (status === null && lane === "needs-review")
+  )
     tabs.push("needs-review");
+  else if (
+    status === "approved" ||
+    status === "accepted" ||
+    status === "integration-ready"
+  )
+    tabs.push("approved");
+  else if (status === "rejected") tabs.push("rejected");
   else if (status === "installed" || status === "in-game" || lane === "in-game")
     tabs.push("in-game");
   else if (IN_PROGRESS_LANES.includes(lane) || status === "revision-requested")
@@ -386,13 +422,61 @@ function cardFor(
     ).values(),
   ];
   const production = allVersions.filter((candidate) => !candidate.qa);
-  const lead = leadOf(
-    production.length ? production : candidates,
-    request.selectedCandidateId,
+  // Ancestors remain inspectable history. Once their derived review copy is
+  // decided, an undecided ancestor must not put that same work back in the queue.
+  const ancestors = new Set(
+    production.flatMap((candidate) =>
+      lineageOf(projection, candidate)
+        .slice(1)
+        .map((step) => step.candidateId),
+    ),
   );
+  const currentVersions = production.filter(
+    (candidate) => !ancestors.has(candidate.candidateId),
+  );
+  const lead = leadOf(currentVersions.length ? currentVersions : candidates);
   const lineage = lead ? lineageOf(projection, lead) : [];
   const onLine = new Set(lineage.map((step) => step.candidateId));
   const status = lead?.status ?? null;
+  const disposition = lead ? reviewDisposition(lead) : "review";
+  const deskValue = (key: string) =>
+    lead?.tags[key]
+      ?.find((value) => value.startsWith(`${lead.candidateId}:`))
+      ?.slice(lead.candidateId.length + 1);
+  const deskView = lead
+    ? deskValue("deskView")
+    : projection.assets[request.assetId]?.tags.requestDeskView
+        ?.find((value) => value.startsWith(`${request.request.requestId}:`))
+        ?.slice(request.request.requestId.length + 1);
+  const hasDiscussion =
+    (projection.messages ?? []).some(
+      (message) =>
+        message.payload.requestId === request.request.requestId &&
+        (request.request.requestId !== INBOX_REQUEST_ID ||
+          !message.payload.candidateId ||
+          allVersions.some(
+            (candidate) =>
+              candidate.candidateId === message.payload.candidateId,
+          )),
+    ) ||
+    allVersions.some((candidate) =>
+      candidate.decisions.some((decision) => decision.payload.note?.trim()),
+    );
+  const tabs: ArtDeskTab[] =
+    disposition === "reference"
+      ? ["library", "references"]
+      : disposition === "archived"
+        ? ["library", "archived"]
+        : status && !["awaiting-review", "revision-requested"].includes(status)
+          ? tabsFor(lane, status)
+          : deskView === "library"
+            ? ["library"]
+            : deskView === "working"
+              ? ["library", "in-progress"]
+              : deskView === "reference"
+                ? ["library", "references"]
+                : tabsFor(lane, status);
+  if (hasDiscussion) tabs.push("discussion");
   const facets = facetsOf([
     ...candidates,
     ...lineage
@@ -402,17 +486,24 @@ function cardFor(
   return {
     key,
     requestId: request.request.requestId,
-    title:
-      (lead && DELIVERY_DISPLAY_NAMES[lead.candidateId]) ??
-      stageTitle(baseTitle, lead),
+    title: lead
+      ? (deskValue("deskTitle") ??
+        DELIVERY_DISPLAY_NAMES[lead.candidateId] ??
+        stageTitle(baseTitle, lead))
+      : `Request: ${baseTitle}`,
     baseTitle,
-    change: conciseChange(lead),
+    change: deskValue("deskSummary") ?? conciseChange(lead),
     status,
-    statusLabel: status
-      ? CARD_STATUS_LABELS[status]
-      : request.lane === "awaiting-capable-worker"
-        ? "Waiting for a generator"
-        : "No version yet",
+    statusLabel:
+      disposition === "reference"
+        ? "Style reference"
+        : disposition === "archived"
+          ? "Removed from review"
+          : status
+            ? CARD_STATUS_LABELS[status]
+            : request.lane === "awaiting-capable-worker"
+              ? "Waiting for a generator"
+              : "No version yet",
     leadCandidateId: lead?.candidateId ?? null,
     lineage,
     lineageState: lead ? lineageStateOf(lead, lineage) : null,
@@ -434,7 +525,7 @@ function cardFor(
     qa:
       isQaRequest(request) ||
       (allVersions.length > 0 && allVersions.every((c) => c.qa)),
-    tabs: tabsFor(lane, status),
+    tabs,
   };
 }
 
@@ -559,6 +650,12 @@ export function tabCounts(
     "in-progress": 0,
     "in-game": 0,
     library: 0,
+    references: 0,
+    archived: 0,
+    approved: 0,
+    rejected: 0,
+    requests: 0,
+    discussion: 0,
   };
   for (const card of cards) {
     if (card.qa && !showQa) continue;
@@ -574,6 +671,9 @@ export function candidateDisplayName(
 ): string {
   if (!candidate) return card.baseTitle;
   return (
+    candidate.tags.deskTitle
+      ?.find((value) => value.startsWith(`${candidate.candidateId}:`))
+      ?.slice(candidate.candidateId.length + 1) ??
     DELIVERY_DISPLAY_NAMES[candidate.candidateId] ??
     `${card.baseTitle} — ${deliveryPurpose(candidate) ?? STAGE_LABELS[candidate.editKind]}`
   );

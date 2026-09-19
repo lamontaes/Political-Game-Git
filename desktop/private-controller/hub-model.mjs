@@ -112,6 +112,10 @@ function cleanBuild(build) {
       typeof build.clientTreeSha256 === "string"
         ? build.clientTreeSha256
         : "unknown",
+    ...(build.delivery === "console-client-payload"
+      ? { delivery: "console-client-payload" }
+      : {}),
+    ...(build.preparedLocally === true ? { preparedLocally: true } : {}),
     privatePack: pack,
   };
 }
@@ -122,6 +126,10 @@ function cleanTrack(value) {
   if (!current) return null;
   return {
     branch: typeof value.branch === "string" ? value.branch : MAIN_TRACK,
+    ...(typeof value.privatePackPath === "string" &&
+    path.isAbsolute(value.privatePackPath)
+      ? { privatePackPath: value.privatePackPath }
+      : {}),
     current,
     pending: cleanBuild(value.pending),
     previous: cleanBuild(value.previous),

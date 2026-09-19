@@ -5,4 +5,4 @@ section: Improved
 title: Edit and return exact artwork revisions in the private Art Bench
 ---
 
-Drag full-resolution candidate and reference files from the private client into an external editor. See revision history, copy provider prompts, download the viewed revision, and add edited children with their original lineage and tags. Verified candidates remain available through the private exchange before approval. The client can open a committed local received branch while preserving its existing Play builds.
+See the latest image on each artwork card. Requests, questions, rejected images, and approved images waiting to be added now have separate places. Ask a question and read replies alongside every revision. Old preparation work stays in Library. Download an exact revision, edit it externally, and return the result without losing its original or history. The private client checks GitHub for game updates while preserving the previous version and saved lives.

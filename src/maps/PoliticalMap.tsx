@@ -63,6 +63,7 @@ import {
   HOME_VIEW,
 } from "./map-view";
 import "./political-map.css";
+import { MapPlaceContext } from "./MapPlaceContext";
 
 export interface PoliticalMapFocus {
   /** People to highlight (for example, pinned people or an open card). */
@@ -1111,6 +1112,9 @@ export function PoliticalMap(props: PoliticalMapProps) {
               aria-live="polite"
             >
               <h3>{selection.name}</h3>
+              <MapPlaceContext
+                selection={{ ...selection, asOf: asOf ?? world.currentDate }}
+              />
               {selection.layer === "congressional" &&
               /^0+$/.test(selection.geoid.slice(2)) ? (
                 <p>At-large: one House district covers the entire state.</p>

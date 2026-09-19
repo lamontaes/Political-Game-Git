@@ -348,13 +348,13 @@ let expected;
   };
   writeFileSync(statePath, `${JSON.stringify(state, null, 2)}\n`);
   const { app, chrome, pageFor } = await launchHub();
-  const combo = chrome.getByRole("combobox", { name: "Game build" });
+  const combo = chrome.getByRole("combobox", { name: "Game version" });
   // A build made here with no branch on the remote is a technical entry, so
   // the owner asks for those first; this proves it is still reachable.
   await waitFor(
     async () =>
       (await combo.locator("option").allTextContents()).some((t) =>
-        /technical branches/i.test(t),
+        /More versions/i.test(t),
       ),
     "technical toggle",
   );

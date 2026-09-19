@@ -88,6 +88,85 @@ function makeStore(
   });
 }
 
+it("keeps questions and attributed replies across restart without changing decisions", () => {
+  const workspace = workspaceWith([request("discussion")]);
+  const store = makeStore(workspace);
+  const candidate = store.ingest(
+    tinyPng(8, 4),
+    { requestId: "discussion" },
+    OWNER,
+  ).candidate;
+  const payload = {
+    requestId: "discussion",
+    candidateId: candidate.candidateId,
+    kind: "question" as const,
+    text: "Is this finished artwork or a request?",
+  };
+  expect(() => store.postMessage(payload, OWNER)).toThrow(/Art Desk/);
+  const question = store.postMessage(payload, OWNER, "session-capability");
+  const actor = { kind: "agent" as const, id: "art-team" };
+  const reply = {
+    ...payload,
+    kind: "reply" as const,
+    replyTo: question.eventId,
+    text: "This is artwork ready for review.",
+  };
+  expect(() =>
+    store.postMessage({ ...reply, replyTo: "missing" }, actor),
+  ).toThrow(/Replies/);
+  store.postMessage(reply, actor);
+  const recovered = makeStore(workspace, store.dataRoot).projection();
+  expect(recovered.messages?.map((message) => message.payload.text)).toEqual([
+    payload.text,
+    reply.text,
+  ]);
+  expect(recovered.candidates[candidate.candidateId].decisions).toHaveLength(0);
+  expect(recovered.candidates[candidate.candidateId].status).toBe(
+    "awaiting-review",
+  );
+});
+
+it("a running store sees external appended events before projection and conflict checks", () => {
+  const workspace = workspaceWith([request("fresh-state")]);
+  const first = makeStore(workspace);
+  const second = makeStore(workspace, first.dataRoot);
+  const c = first.ingest(
+    tinyPng(7, 4),
+    { requestId: "fresh-state" },
+    OWNER,
+  ).candidate;
+  expect(second.projection().candidates[c.candidateId].sha256).toBe(c.sha256);
+  first.setTags({
+    entity: "candidate",
+    entityId: c.candidateId,
+    tags: { upscaleMinimum: ["1920x1080"] },
+    baseVersion: 0,
+    author: OWNER,
+  });
+  expect(() =>
+    second.setTags({
+      entity: "candidate",
+      entityId: c.candidateId,
+      tags: { reviewQueue: ["archived"] },
+      baseVersion: 0,
+      author: OWNER,
+    }),
+  ).toThrow(/Tags changed/);
+  expect(
+    second.projection().candidates[c.candidateId].tags.upscaleMinimum,
+  ).toEqual(["1920x1080"]);
+  second.setTags({
+    entity: "candidate",
+    entityId: c.candidateId,
+    tags: { reviewQueue: [`${c.candidateId}:reference`] },
+    baseVersion: 1,
+    author: OWNER,
+  });
+  expect(first.projection().candidates[c.candidateId].tagsVersion).toBe(2);
+  const sequences = first.allEvents().map((event) => event.seq);
+  expect(new Set(sequences).size).toBe(sequences.length);
+});
+
 describe("artbench store: intake, alternatives, lineage and decisions", () => {
   const workspace = workspaceWith([request("env-a"), request("env-b")]);
   const dataRoot = mkdtempSync(join(tmpdir(), "artbench-data-"));

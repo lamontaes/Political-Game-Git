@@ -68,3 +68,17 @@ test("a non-integer generation is refused rather than carried", () => {
   }).tracks.main.current.privatePack;
   assert.equal("generation" in pack, false);
 });
+
+test("each game version keeps its own compatible artwork path", () => {
+  const state = stateWith({
+    packId: "fixture",
+    manifestSha256: "d".repeat(64),
+  });
+  state.privatePackPath = "/packs/new-preview";
+  state.tracks.main.privatePackPath = "/packs/github-main";
+  const reloaded = cleanHubState(state);
+  assert.equal(reloaded.privatePackPath, "/packs/new-preview");
+  assert.equal(reloaded.tracks.main.privatePackPath, "/packs/github-main");
+  state.tracks.main.privatePackPath = "relative-path";
+  assert.equal(cleanHubState(state).tracks.main.privatePackPath, undefined);
+});
