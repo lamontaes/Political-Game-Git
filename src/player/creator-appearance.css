@@ -218,29 +218,37 @@
  * lane's; this is only how much room it is given.
  */
 /*
- * And the pinned rows cannot cover it, because it cannot scroll out from
- * under them.
+ * And the pinned row cannot cover it, because the row is no longer over the
+ * same scrolling area.
  *
- * .kit41-creator-preview is sticky to the top of the scrolling panel while
- * Reset/Begin and Back are sticky to its bottom. A column pinned at the top
- * never reaches the end of the grid, so .kit41-creator-layout's padding-bottom
- * — which is what keeps the last hairstyle card clear — does nothing for it:
- * whatever of the figure falls below the pinned rows is hidden for good, and
- * scrolling moves the other column instead. R1 measured the bar over the
- * bottom 88px of a 300px stage, and the stage is taller than that once its own
- * clamp above governs again.
+ * .kit41-creator-preview is sticky to the top of .kit41-creator's scroll area
+ * and Reset/Begin is sticky to the bottom of that same area, so the bar is
+ * painted over whatever the column is showing. Bounding the column cannot
+ * help: it is still inside the area the bar covers. (An earlier attempt of
+ * mine capped the column against the VIEWPORT, which is not even the right
+ * box — the column starts some way down inside the panel, so the cap allowed
+ * a column taller than the room above the bar. R1 measured 65px of bar over
+ * the stage at three sizes and 73 at phone width.)
  *
- * So the column is bounded by the room the panel actually leaves it — the
- * frame's height, less the frame's own padding, less the two pinned rows. A
- * figure taller than that scrolls inside the column, where it stays reachable.
+ * So the scroll area stops above the bar instead. The panel becomes a column
+ * whose middle row scrolls and whose actions row does not, which takes the
+ * bar out of the scrollport rather than negotiating with it. The preview
+ * still sticks, now to the top of the row it actually lives in.
  */
-.title-tableau--art.front-door .kit41-creator-preview {
-  max-height: calc(
-    var(--pg-vv-height, 100dvh) - 2 * clamp(2rem, 6vh, 4rem) - 6rem
-  );
+.title-tableau--art.front-door .kit41-creator {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.title-tableau--art.front-door .kit41-creator-layout {
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
-  box-sizing: border-box;
+}
+.title-tableau--art.front-door .kit41-creator > .game-setup-actions {
+  position: static;
+  flex: 0 0 auto;
 }
 .title-tableau--art.front-door .kit41-creator .wardrobe-figure-stage {
   height: clamp(320px, 56dvh, 30rem);
