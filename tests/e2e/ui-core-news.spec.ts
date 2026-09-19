@@ -191,7 +191,14 @@ test("the office names the bill being worked on and who has it next", async ({
    * Nothing here is injected. The seat is won through the campaign, because
    * filing needs a member seat and an office job is not one; the drafting
    * table says exactly that when you try, and it is right.
+   *
+   * That real journey got longer on purpose: the rival campaigns weekly, so
+   * the life works every offered day to win, and an election result is not
+   * office authority, so the shell then walks week by week to the term's
+   * start. The budget is the same one office-onboarding-ordinary carries for
+   * the same route; it is this case's premise, not a blanket wait.
    */
+  test.setTimeout(180_000);
   await page.goto("/?seed=ui-connect2-news");
   await startLife(page, {
     place: "Lexington",
