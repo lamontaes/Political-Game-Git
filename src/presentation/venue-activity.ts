@@ -20,7 +20,7 @@ import { openingLifeLocation } from "./life-scene-flow";
 
 export { declineVenueActivity } from "./scheduled-activity-choice";
 
-interface DisclosedJourney {
+export interface DisclosedJourney {
   readonly activity: ScheduledActivityRecord;
   readonly journeyMinutes: number;
   readonly waitMinutes: number;

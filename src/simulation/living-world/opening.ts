@@ -589,7 +589,8 @@ function executiveHoldersNeedingAffiliation(
   for (const event of world.history.events) {
     if (
       event.type !== "world.office-tenure" ||
-      !event.tags.includes("office:us-president") ||
+      (!event.tags.includes("office:us-president") &&
+        !event.tags.includes("office:us-vice-president")) ||
       event.occurredAt > world.currentDate
     )
       continue;

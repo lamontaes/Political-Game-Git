@@ -11,6 +11,7 @@ import {
   peopleInHouseholdAt,
   personName,
   scheduledActivitiesVisibleTo,
+  type PersonAppearance,
   type EntityId,
   type World,
 } from "../simulation";
@@ -60,6 +61,18 @@ export interface PersonDossier {
   readonly relationship: string | null;
   /** The record that established it. Developer-facing. */
   readonly relationshipBasis: string;
+  readonly howYouKnowThem: string | null;
+  readonly appearance: PersonAppearance | null;
+  readonly sharedHistory: readonly {
+    readonly id: EntityId;
+    readonly date: string;
+    readonly summary: string;
+  }[];
+  readonly publicCareer: readonly {
+    readonly eventId: EntityId;
+    readonly date: string;
+    readonly summary: string;
+  }[];
   readonly age: number | null;
   /** True only when this moment's scene puts them in the room. */
   readonly presentNow: boolean;
@@ -337,6 +350,37 @@ export function projectPersonDossier(
     relationship: context?.relationship ?? null,
     relationshipBasis:
       context?.basis ?? "No record establishes a relationship.",
+    howYouKnowThem: context?.relationship ?? null,
+    appearance: subject.appearance ?? null,
+    sharedHistory: world.history.relationshipInteractions
+      .filter(
+        (record) =>
+          record.personIds.includes(playerId) &&
+          record.personIds.includes(personId) &&
+          record.occurredAt <= world.currentDate,
+      )
+      .map((record) => ({
+        id: record.id,
+        date: record.occurredAt,
+        summary: record.summary,
+      })),
+    publicCareer: world.history.events
+      .filter(
+        (event) =>
+          event.visibility === "public" &&
+          event.type === "world.office-tenure" &&
+          event.occurredAt <= world.currentDate &&
+          event.participants.some(
+            (participant) =>
+              participant.personId === personId &&
+              participant.role === "focus:subject",
+          ),
+      )
+      .map((event) => ({
+        eventId: event.id,
+        date: event.occurredAt,
+        summary: event.summary,
+      })),
     age: ageOnDate(subject.birthDate, world.currentDate),
     presentNow: options.presentNow ?? false,
     rightNow: options.rightNow ?? null,

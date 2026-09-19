@@ -57,7 +57,11 @@ export interface WorldOrientation {
   readonly publicMatters: readonly never[];
 }
 
-const FEDERAL_OFFICE_KEYS = new Set(["us-president", "us-vice-president"]);
+const FEDERAL_OFFICE_KEYS = new Set([
+  "us-president",
+  "us-vice-president",
+  "us-chief-justice",
+]);
 
 /**
  * One pure read of the public world a life opens into. It writes nothing,

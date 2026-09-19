@@ -201,3 +201,26 @@ describe("A save slot is addressed apart from its world", () => {
     expect(first).toBe(createSaveId(world.id, "2026-05-01T10:00:00.000Z:1"));
   });
 });
+
+it("preserves opening data and chosen birth year without changing legacy descriptors", () => {
+  const setup: NewGameSetup = {
+    ...BASE,
+    birthYear: 2015,
+    birthMonth: 4,
+    birthDay: 2,
+    openingDataVersion: "playtest65-v1",
+  };
+  expect(decodeReplayDescriptor(encodeReplayDescriptor(setup))).toMatchObject(
+    setup,
+  );
+  const legacy = decodeReplayDescriptor(encodeReplayDescriptor(BASE));
+  expect(legacy?.openingDataVersion).toBeUndefined();
+  expect(legacy?.birthYear).toBeUndefined();
+  expect(worldSeedFor(setup)).toBe(
+    worldSeedFor({
+      ...setup,
+      birthYear: undefined,
+      openingDataVersion: undefined,
+    }),
+  );
+});

@@ -305,32 +305,41 @@ function federalOfficeholders(world: World) {
           startedAt: term.occurredAt,
           endExclusive,
           identityProvenance: "fictional-simulation" as const,
-          sources: Object.values(OPENING_OFFICE_SOURCES),
+          sources: Object.values(OPENING_OFFICE_SOURCES) as string[],
         },
       ];
     }),
   );
-  const actual = nationalOfficeHolder(world, "president");
-  if (!actual) return opening;
-  const work = world.history.workRelationships.find(
-    (record) => record.id === actual.state.workRelationshipId,
-  );
-  if (!work?.organizationId) return opening;
-  return [
-    ...opening.filter((record) => record.officeKey !== "us-president"),
-    {
-      officeKey: "us-president" as const,
-      title: "President of the United States",
-      personId: actual.plan.personId,
-      personName: personName(world.people[actual.plan.personId]!),
-      termId: actual.plan.id,
-      organizationId: work.organizationId,
-      startedAt: actual.state.effectiveAt.date,
-      endExclusive: actual.plan.endsAt.date,
-      identityProvenance: "fictional-simulation" as const,
-      sources: Object.values(NATIONAL_ELECTION_SOURCES),
-    },
-  ];
+  let result = opening;
+  for (const office of ["president", "vice-president"] as const) {
+    const actual = nationalOfficeHolder(world, office);
+    if (!actual) continue;
+    const work = world.history.workRelationships.find(
+      (record) => record.id === actual.state.workRelationshipId,
+    );
+    if (!work?.organizationId) continue;
+    const officeKey =
+      office === "president" ? "us-president" : "us-vice-president";
+    result = [
+      ...result.filter((record) => record.officeKey !== officeKey),
+      {
+        officeKey,
+        title:
+          office === "president"
+            ? "President of the United States"
+            : "Vice President of the United States",
+        personId: actual.plan.personId,
+        personName: personName(world.people[actual.plan.personId]!),
+        termId: actual.plan.id,
+        organizationId: work.organizationId,
+        startedAt: actual.state.effectiveAt.date,
+        endExclusive: actual.plan.endsAt.date,
+        identityProvenance: "fictional-simulation" as const,
+        sources: Object.values(NATIONAL_ELECTION_SOURCES),
+      },
+    ];
+  }
+  return result;
 }
 
 function organizationIdFor(worldId: EntityId, stableKey: string): EntityId {

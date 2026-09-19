@@ -36,9 +36,13 @@ describe("full birthday with a derived starting age", () => {
     const years = birthYearChoices(2, 29, START);
     expect(years.every((year) => year % 4 === 0)).toBe(true);
     for (const year of birthYearChoices(null, null, START)) {
-      const age = startAgeForBirthday({ year, month: null, day: null }, START);
-      expect(age).toBeGreaterThanOrEqual(MINIMUM_START_AGE);
-      expect(age).toBeLessThanOrEqual(MAXIMUM_START_AGE);
+      const range = creatorBirthdayAgeRange(
+        { year, month: null, day: null },
+        START,
+      )!;
+      expect(range).not.toBeNull();
+      expect(range.minimum).toBeGreaterThanOrEqual(MINIMUM_START_AGE);
+      expect(range.maximum).toBeLessThanOrEqual(MAXIMUM_START_AGE);
     }
   });
 

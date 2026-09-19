@@ -110,8 +110,8 @@ export function birthYearChoices(
     if (month !== null && day !== null && !dateExists(year, month, day)) {
       continue;
     }
-    const age = startAgeForBirthday({ year, month, day }, startDate);
-    if (age >= MINIMUM_START_AGE && age <= MAXIMUM_START_AGE) years.push(year);
+    if (creatorBirthdayAgeRange({ year, month, day }, startDate))
+      years.push(year);
   }
   return years;
 }

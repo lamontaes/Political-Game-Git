@@ -15,6 +15,8 @@ import { projectPublicInformationPanel } from "./public-information-adapters";
 export interface NewsStory {
   readonly id: EntityId;
   readonly headline: string;
+  readonly sourceEventId: EntityId;
+  readonly sourceRecordIds: readonly EntityId[];
   readonly body: string;
   readonly outletKey: string;
   readonly outletName: string;
@@ -69,6 +71,8 @@ export function projectNewsFrontPage(
   }));
   const stories: NewsStory[] = panel.items.map((item) => ({
     id: item.publicationId,
+    sourceEventId: item.sourceEventId,
+    sourceRecordIds: item.sourceRecordIds,
     headline: item.headline,
     body: item.body,
     outletKey: item.outletKey,

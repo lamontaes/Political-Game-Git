@@ -1,5 +1,11 @@
 import {
+  openingNeighborhoodWalkOffer,
+  walkOpeningNeighborhood,
+} from "./life-scene-flow";
+import { describePlacesOutcome } from "./player-places";
+import {
   addDays,
+  addSimulationMinutes,
   compareSimulationMoments,
   currentLifeCutoff,
   formativeIntervalAt,
@@ -55,7 +61,8 @@ export type TimeCommand =
   | { readonly kind: "quiet-stretch" }
   /** Wait until a recorded calendar activity begins. */
   | { readonly kind: "until-activity"; readonly activityId: EntityId }
-  | { readonly kind: "attend-activity"; readonly activityId: EntityId };
+  | { readonly kind: "attend-activity"; readonly activityId: EntityId }
+  | { readonly kind: "walk"; readonly destination: "home" | "neighborhood" };
 
 export interface TimeCommandRequest {
   /** Unique per click. Only used to identify the request in receipts. */
@@ -142,6 +149,21 @@ export function previewTimeCommand(
   personId: EntityId,
   command: TimeCommand,
 ): TimeCommandPreview | null {
+  if (command.kind === "walk") {
+    const offer = openingNeighborhoodWalkOffer(
+      world,
+      personId,
+      command.destination,
+    );
+    if (offer.unavailable) return null;
+    const target = addSimulationMinutes(world.currentMoment, offer.minutes);
+    return {
+      target,
+      targetDate: target.date,
+      days: wholeDaysBetween(world.currentDate, target.date),
+      cappedBy: null,
+    };
+  }
   if (command.kind === "attend-activity") {
     const entry = venueActivities(world, personId).find(
       (item) => item.activity.id === command.activityId,
@@ -196,6 +218,18 @@ function run(
 ): CalendarTimeResult {
   const interruptions = request.interruptions ?? DEFAULT_INTERRUPTIONS;
   const command = request.command;
+  if (command.kind === "walk") {
+    const next = walkOpeningNeighborhood(
+      world,
+      request.personId,
+      command.destination,
+    );
+    return {
+      world: next,
+      reached: next.currentMoment,
+      outcome: describePlacesOutcome(world, next, request.personId),
+    };
+  }
   if (command.kind === "attend-activity")
     return playCalendarActivity(world, request.personId, command.activityId);
   if (command.kind === "until-activity")
@@ -286,7 +320,7 @@ export function submitTimeCommand(
     world: result.world,
     receipt: remember({
       ...base,
-      status: "accepted",
+      status: result.world === world ? "refused" : "accepted",
       requestedTarget: preview.target,
       reached: result.reached,
       stoppedEarly:

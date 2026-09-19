@@ -10,7 +10,8 @@ describe("PLAYTEST65 canonical opening", () => {
       prepareOpeningLife({
         ...DEFAULT_NEW_GAME_SETUP,
         seed: "playtest65-w-opening",
-        household: "alone",
+        household: "lives-alone",
+        startKind: "custom",
       }),
     ).game!;
     const before = serializeWorld(world);
@@ -23,7 +24,7 @@ describe("PLAYTEST65 canonical opening", () => {
     );
     expect(
       snapshot.orientation.executive.map((item) => item.officeKey),
-    ).toEqual(["us-president", "us-vice-president"]);
+    ).toEqual(["us-president", "us-chief-justice", "us-vice-president"]);
     expect(snapshot.people.every((item) => item.relationship === null)).toBe(
       true,
     );
@@ -33,7 +34,7 @@ describe("PLAYTEST65 canonical opening", () => {
     ).toEqual(snapshot);
   });
   it("preserves older opening descriptors without the added initialization policy", () => {
-    const { openingDataVersion: _version, ...legacy } = DEFAULT_NEW_GAME_SETUP;
+    const legacy = { ...DEFAULT_NEW_GAME_SETUP, openingDataVersion: undefined };
     const { world, playerPersonId } = generateOpeningLife(
       prepareOpeningLife({ ...legacy, seed: "playtest65-w-legacy" }),
     ).game!;
