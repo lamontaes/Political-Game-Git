@@ -4,20 +4,20 @@ Baseline: 631450da65b1ca92fd3fd9bde819b7b3d3a2835e, retained with its private pa
 
 ## Required correction and evidence ledger
 
-| Findings | Work and required proof | State |
-| --- | --- | --- |
-| D1–D3, D7 | Continuous body skin under fabric, seated ownership, real alpha overlap; actual pixel regressions and crops | Implemented; correction candidate recheck pending |
-| D4, D13 | Turned scalp coverage, expression inherits neutral fit | Implemented; correction candidate recheck pending |
-| D5, D6, D9 | Eye/lip exclusions and consistent shade coordinates; light/dark candidate comparisons | Implemented; correction candidate recheck pending |
-| D8 | Area-aware reduction with ink regression | Implemented; correction candidate recheck pending |
-| D10, D12 | Explicit unavailable combinations and honest reused-pose provenance | Implemented; correction candidate recheck pending |
-| D11 | Transactional installer, manifest digest, copy verification, retry/rollback probes | Implemented; tested |
-| D14 | Seated proportions: matched identity/head-scale comparisons; director acceptance remains distinct | Implemented; correction candidate recheck pending |
-| D15–D16 | A creator preview, sticky Begin and accessible labels; receive frozen fix | Requested |
-| R1, R4–R5 | Mounted-demand cache, whole-person material readiness/refusal, actual browser raster checks | Implemented; correction candidate recheck pending |
-| R2 | Refuse unavailable legacy face/hair translation | Implemented; tested |
-| R3, R6 | Verified profiles, complete successor coverage, stable layer/history/generation handling | Implemented; correction candidate recheck pending |
-| R7–R8 | Required private-test mode, installed-registry tests, truthful Art Desk pack status | Implemented; correction candidate recheck pending |
+| Findings   | Work and required proof                                                                                                                                                                 | State                                             |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| D1–D3, D7  | Continuous body skin under fabric, seated ownership, real alpha overlap; actual pixel regressions and crops                                                                             | Implemented; correction candidate recheck pending |
+| D4, D13    | Turned scalp coverage, expression inherits neutral fit                                                                                                                                  | Implemented; correction candidate recheck pending |
+| D5, D6, D9 | Eye/lip exclusions and consistent shade coordinates; light/dark candidate comparisons                                                                                                   | Implemented; correction candidate recheck pending |
+| D8         | Area-aware reduction with ink regression                                                                                                                                                | Implemented; correction candidate recheck pending |
+| D10, D12   | Explicit unavailable combinations and honest reused-pose provenance                                                                                                                     | Implemented; correction candidate recheck pending |
+| D11        | Transactional installer, manifest digest, copy verification, retry/rollback probes                                                                                                      | Implemented; tested                               |
+| D14        | Seated proportions: matched identity/head-scale comparisons; director acceptance remains distinct                                                                                       | Implemented; correction candidate recheck pending |
+| D15–D16    | A creator preview, sticky Begin and accessible labels; receive frozen fix                                                                                                               | Requested                                         |
+| R1, R4–R5  | Mounted-demand cache, whole-person material readiness/refusal, actual browser raster checks                                                                                             | Implemented; correction candidate recheck pending |
+| R2         | Refuse unavailable legacy face/hair translation                                                                                                                                         | Implemented; tested                               |
+| R3, R6     | Verified profiles, complete successor coverage, stable layer/history/generation handling                                                                                                | Implemented; correction candidate recheck pending |
+| R7–R8      | Required private-test mode, installed-registry tests, truthful Art Desk pack status                                                                                                     | Implemented; correction candidate recheck pending |
 | Q47-003a–f | Lip/proportion candidates; transient expression context; independent identity choices including no hair; explicit reversible generation preview; ownership and rear-layer compatibility | Implemented; correction candidate recheck pending |
 
 Preserve standing neck and ordinary-game passes. Reviewer's originals remain read-only; adapted regressions retain attribution and distinguish characterization of a defect from acceptance of a fix. New corrected pixels must be additive. Final evidence includes exact SHA/base, complete source/private-pack hashes, actual tests/skips/failures, changed-region and full-figure visual review, creator → room → People → Save/Continue, and focused recheck requested from the same R1. No visual acceptance is inferred from automated tests.
