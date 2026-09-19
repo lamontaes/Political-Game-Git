@@ -111,3 +111,42 @@ verified catalog bytes, and local received branch selection in the same client.
 Native safety/download tests passed 5/5; focused intake/bridge/card tests passed
 81/81. First typecheck passed. Packaged client loop, native payload, real Drive
 readback and final source checks are still pending at this checkpoint.
+
+## Bench round trip and permanent console checkpoint
+
+Packaged host `8eb282d2` with bench source `d71f2e2a` passed the real existing-store
+round trip. Evidence is `test-results/runs/playtest65-u-bench-loop/result.json`
+and desk/original/revision/qa-child captures. Original and revised White House
+and desk images were visible; exact wide PNG download matched SHA-256; external
+sips crop reimport retained request, asset, parent, tags and calibration flags;
+restart/reload kept the selected revision and all prior review events unchanged.
+Native export preparation verifies candidate/revision/hash and immutable bytes;
+external browser drop remains unobserved and is not claimed as passed.
+
+QA child `cand-317b8d28-e494-48b9-b1fc-d803c89a568b` has SHA-256
+`f4eec6689bec4f5aa33ce9c2b7e830064e9d9199fd81c59aef6105cfc7a716bb`.
+V independently downloaded those exact cloud bytes (2,329,499 bytes) and verified
+parent/revision metadata. Its explicit QA disposition is being appended, without
+an owner approval. All 17 prepared source/material-map candidates arrived; their
+explicit child role tags need the supplied corrective events. Future child
+intake now appends attributed tag overrides while keeping inherited tags intact;
+56 focused store/duplicate tests pass. Prepared head/material remains unapproved
+because V found a skin-ramp defect and is repairing it.
+
+Real installed startup exposed stale Art Desk worktree metadata. The current
+source identity probe also formerly exceeded its health deadline; content-hash
+caching now retains per-file stat/ctime checks and reduces repeated probes from
+3.3s to 0.26s. Identity/privacy harness checks passed, including same-length
+rewrites with restored modification time. No readiness timeout was relaxed.
+
+The permanent-console delta was read. Actual Dock target is the r1 staged app;
+both it and /Applications/Our Civic Duty Private.app use bundle identity
+com.ourcivicduty.private-controller. The r1 output is registered as protected.
+Owner explicitly authorized the controlled quit, stable installation and single
+Dock retarget. Preserve prior installation and all canonical state for rollback;
+verify the actual loaded application after installation.
+
+W frozen increments afdb35d3, 2b2a522e, 5140ea3b, 1e9bb51a are acknowledged and
+queued after this bench endpoint. W reports focused 12 government plus 14
+contact/acquisition tests and canonical typecheck pass; U composition remains
+pending. Broad municipal/ACS source coverage remains incomplete, not zero.

@@ -1872,7 +1872,7 @@ function RequestDetail({
             ) : null}
             {Object.keys(notes.inheritedTags).length ? (
               <p data-testid="art-desk-inherited-tags">
-                Tags carried forward:{" "}
+                Tags inherited at import (history):{" "}
                 {Object.entries(notes.inheritedTags)
                   .map(([key, values]) => `${key}: ${values.join(", ")}`)
                   .join(" · ")}
@@ -1926,7 +1926,13 @@ function RequestDetail({
             {window.ocdArtBench ? (
               <button
                 type="button"
-                onClick={() => void window.ocdArtBench?.revealDownload()}
+                onClick={async () => {
+                  const result = await window.ocdArtBench?.revealDownload();
+                  if (!result?.ok)
+                    setOriginalNote(
+                      "No completed download in this session. Download this revision first.",
+                    );
+                }}
               >
                 Reveal downloaded file
               </button>
@@ -2095,6 +2101,12 @@ function RequestDetail({
               </a>
             </div>
           )}
+          <p className="art-desk-meta" data-testid="art-desk-current-tags">
+            Current tags:{" "}
+            {Object.entries(viewed.tags)
+              .map(([key, values]) => `${key}: ${values.join(", ")}`)
+              .join(" · ") || "None recorded"}
+          </p>
           <TagEditor
             key={`${viewed.candidateId}:${viewed.tagsVersion}`}
             candidate={viewed}

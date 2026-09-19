@@ -258,6 +258,51 @@ describe("artbench store: intake, alternatives, lineage and decisions", () => {
     expect(store.original(a).bytes.length).toBeGreaterThan(0);
   });
 
+  it("keeps child role overrides and parent facets with attributed history", () => {
+    const local = makeStore(workspaceWith([request("parts")]));
+    const actor = { kind: "worker" as const, id: "prepared-parts" };
+    const parent = local.ingest(
+      tinyPng(4, 4),
+      {
+        requestId: "parts",
+        tags: { body: ["fuller"], assetType: ["person"], outfit: ["shirt"] },
+      },
+      actor,
+    ).candidate;
+    const child = local.ingest(
+      tinyPng(5, 5),
+      {
+        parentCandidateId: parent.candidateId,
+        tags: { assetType: ["material-map"], outfit: [] },
+      },
+      actor,
+    ).candidate;
+    expect(child.tags).toEqual({
+      body: ["fuller"],
+      assetType: ["material-map"],
+    });
+    expect(child.tags.outfit).toBeUndefined();
+    expect(candidateNotes(local.projection(), child).inheritedTags).toEqual(
+      parent.tags,
+    );
+    expect(local.projection().candidates[parent.candidateId].tags).toEqual(
+      parent.tags,
+    );
+    expect(child.status).toBe("awaiting-review");
+    const events = readFileSync(
+      join(local.dataRoot, "events/events.jsonl"),
+      "utf8",
+    )
+      .trim()
+      .split("\n")
+      .map((line) => JSON.parse(line));
+    expect(events.at(-1)).toMatchObject({
+      type: "tags.set",
+      actor,
+      payload: { entityId: child.candidateId },
+    });
+  });
+
   it("shows an edited reimport with the parent's note and tags beside its own", () => {
     const original = store.ingest(
       tinyPng(6, 6),

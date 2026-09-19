@@ -241,6 +241,11 @@
   color: #d5dde0;
   padding: 2px 6px;
 }
+.art-desk-preview figure > .art-desk-meta {
+  display: block;
+  color: #d5dde0;
+  padding: 3px 6px;
+}
 /* Real alpha shows over a checkerboard, never flattened onto a colour. */
 .art-desk-checker,
 .art-desk-thumb--alpha {

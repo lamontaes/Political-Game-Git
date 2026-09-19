@@ -681,6 +681,18 @@ export class ArtbenchStore {
       inheritedTags: parent ? parent.tags : meta.tags,
     };
     const event = this.append("candidate.ingested", payload, actor, source);
+    // Keep the inherited-at-intake record intact. Prepared children can have
+    // their own roles (paint, material map, reference); explicit intake facets
+    // override only those parent facets and remain attributed in history.
+    if (parent && meta.tags) {
+      this.setTags({
+        entity: "candidate",
+        entityId: payload.candidateId,
+        tags: { ...parent.tags, ...meta.tags },
+        baseVersion: 0,
+        author: actor,
+      });
+    }
     const candidate = this.projection().candidates[payload.candidateId]!;
     return { candidate, duplicate: false, event };
   }
