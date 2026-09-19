@@ -138,6 +138,37 @@ describe("Art Desk cards", () => {
     );
   });
 
+  it("keeps a production card visible when a child is marked QA", () => {
+    const original = ingest("cand-production", "original", {
+      family: corridor,
+    });
+    const child = ingest("cand-qa-child", "crop", {
+      parent: "cand-production",
+      family: corridor,
+    });
+    const p = projection([
+      original,
+      child,
+      {
+        ...child,
+        eventId: "qa-disposition",
+        seq: child.seq + 1,
+        type: "qa.disposition",
+        payload: { candidateId: "cand-qa-child", reason: "Round-trip QA" },
+      } as ArtbenchEvent,
+    ]);
+    const cards = artDeskCards(p);
+    expect(cards).toHaveLength(1);
+    expect(cards[0].qa).toBe(false);
+    expect(cards[0].leadCandidateId).toBe("cand-production");
+    expect(cards[0].versionCount).toBe(2);
+    expect(
+      viewedCandidateView(cards[0], p, "cand-production").newer,
+    ).toBeNull();
+    expect(tabCounts(cards)["needs-review"]).toBe(1);
+    expect(p.candidates["cand-qa-child"].qa).toBe(true);
+  });
+
   it("counts tabs from the same cards and hides QA unless asked", () => {
     const events = [
       ingest("cand-x", "original", { family: corridor }),

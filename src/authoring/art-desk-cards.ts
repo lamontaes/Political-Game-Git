@@ -373,7 +373,23 @@ function cardFor(
   family: string | null,
   lane: RequestLane,
 ): ArtDeskCard {
-  const lead = leadOf(candidates, request.selectedCandidateId);
+  const allVersions = [
+    ...new Map(
+      candidates
+        .flatMap((candidate) => [
+          candidate,
+          ...lineageOf(projection, candidate)
+            .map((step) => projection.candidates[step.candidateId])
+            .filter((item): item is ProjectedCandidate => Boolean(item)),
+        ])
+        .map((candidate) => [candidate.candidateId, candidate]),
+    ).values(),
+  ];
+  const production = allVersions.filter((candidate) => !candidate.qa);
+  const lead = leadOf(
+    production.length ? production : candidates,
+    request.selectedCandidateId,
+  );
   const lineage = lead ? lineageOf(projection, lead) : [];
   const onLine = new Set(lineage.map((step) => step.candidateId));
   const status = lead?.status ?? null;
@@ -415,7 +431,9 @@ function cardFor(
       candidates.map((c) => assetTypeOf(c)).find(Boolean) ??
       null,
     facets,
-    qa: isQaRequest(request) || candidates.some((c) => c.qa),
+    qa:
+      isQaRequest(request) ||
+      (allVersions.length > 0 && allVersions.every((c) => c.qa)),
     tabs: tabsFor(lane, status),
   };
 }
@@ -600,6 +618,7 @@ export function viewedCandidateView(
       (c) =>
         viewed &&
         c.candidateId !== viewed.candidateId &&
+        (!c.qa || viewed.qa) &&
         c.status === "awaiting-review" &&
         (c.ingestedAt.localeCompare(viewed.ingestedAt) > 0 ||
           (c.ingestedAt === viewed.ingestedAt && c.revision > viewed.revision)),

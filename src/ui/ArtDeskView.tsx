@@ -1696,6 +1696,7 @@ function RequestDetail({
                   <span className="art-desk-row-copy">
                     <strong>
                       rev {candidate.revision}
+                      {candidate.qa ? " · QA only" : ""}
                       {request.selectedCandidateId === candidateId
                         ? " · preferred"
                         : ""}
