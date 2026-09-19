@@ -1,4 +1,4 @@
-/* global console, process, Buffer, fetch, URL, setTimeout */
+/* global console, process, fetch, window, setTimeout */
 /** Real candidate round trip in the packaged client; isolated game profiles.
  * The explicitly supplied existing bench root/exchange receive one labeled QA
  * child. Owner approval events are compared verbatim and never authored here.
