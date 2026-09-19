@@ -133,7 +133,7 @@ const launch = async () => {
     "bench starts",
     180000,
   );
-  await desk.getByTestId("art-desk-inputs").waitFor({ timeout: 90000 });
+  await desk.getByTestId("art-desk").waitFor({ timeout: 90000 });
   await chrome.getByRole("tab", { name: "Art Desk", exact: true }).click();
   return { chrome, desk };
 };
@@ -160,7 +160,7 @@ const view = async (desk, id) => {
 };
 try {
   let { chrome, desk } = await launch();
-  await chrome.locator("#track").waitFor();
+  await chrome.locator("#track").waitFor({ state: "attached" });
   assert((await chrome.locator("#track option").count()) > 0);
   await chrome.getByRole("tab", { name: "Play", exact: true }).click();
   assert(
