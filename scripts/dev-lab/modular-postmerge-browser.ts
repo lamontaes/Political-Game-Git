@@ -223,6 +223,14 @@ try {
   ]) {
     await page.setViewportSize(viewport);
     await stable();
+    const stage = page.locator(".wardrobe-figure-stage").first();
+    await stage.scrollIntoViewIfNeeded();
+    const stageBox = await stage.boundingBox();
+    expect(stageBox).not.toBeNull();
+    expect(stageBox!.height).toBeGreaterThanOrEqual(400);
+    await expect(stage).toBeInViewport({ ratio: 1 });
+    const measurements = (report.creatorStageMeasurements ??= []) as unknown[];
+    measurements.push({ viewport, stage: stageBox });
     await page.getByTestId("begin").scrollIntoViewIfNeeded();
     await expect(page.getByTestId("begin")).toBeInViewport();
     await page.screenshot({ path: `${out}/creator-${viewport.width}.png` });

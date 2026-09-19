@@ -156,17 +156,8 @@ export function WardrobeFigure({
         ),
     );
     content = plan.complete ? (
-      <div
-        className="wardrobe-figure-stage"
-        style={
-          fillPreview
-            ? {
-                height: "clamp(160px, calc(100dvh - 560px), 400px)",
-                width: "auto",
-              }
-            : undefined
-        }
-      >
+      // The owning surface sizes the stage in CSS (creator versus outfit dialog).
+      <div className="wardrobe-figure-stage">
         <ModularCharacter
           plan={plan}
           expression={supportsSmile ? expression : "neutral"}

@@ -251,6 +251,15 @@ export function proposeCorrectedGeneration(
   library: CharacterComponentLibrary,
   poseFamily: string,
 ): OutfitResult & { readonly appearance?: PersonAppearance } {
+  if (!appearance.selection?.bodyFamily)
+    return {
+      ok: false,
+      message:
+        "This person has no saved body choice to update. Their saved appearance has not changed.",
+      diagnostics: [
+        "Missing saved appearance.selection.bodyFamily; no replacement was selected.",
+      ],
+    };
   let current: number;
   try {
     current = resolveAppearanceCatalogGeneration(

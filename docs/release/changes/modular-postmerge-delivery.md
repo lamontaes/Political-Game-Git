@@ -14,3 +14,5 @@ LEARN: fixture-gated assertions must declare NOT_TESTED when their private input
 Candidate artwork remains subject to user visual acceptance.
 
 A's final source review: per-person MaterialGroup loading/refusal text retains its visible message and data-material-group-state/data-diagnostic attributes, but no longer creates a separate live status region for every person in a room. A two-person regression verifies this. Main nameplates, token controls, pointer structure and creator layout remain intact.
+
+The focused combined recheck also found an inline preview height overriding the creator stylesheet. WardrobeFigure now leaves stage dimensions to the owning surface. Missing prepared-body material input returns a diagnostic refusal, and artwork updates without a saved body choice refuse before lookup without changing the appearance. Dedicated missing-input regressions cover both cases.

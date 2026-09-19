@@ -203,10 +203,32 @@ export function preparedPortraitFrame(
   const size = Math.max(right - left, bottom - top);
   return { x: (left + right - size) / 2, y: (top + bottom - size) / 2, size };
 }
+export interface PreparedMaterialRefusal {
+  readonly ok: false;
+  readonly message: string;
+  readonly diagnostics: readonly string[];
+}
 export function defaultPreparedMaterial(
   family: PreparedFamily,
   generation?: number,
-): AppearanceMaterial {
+): AppearanceMaterial;
+export function defaultPreparedMaterial(
+  family: PreparedFamily | null | undefined,
+  generation?: number,
+): AppearanceMaterial | PreparedMaterialRefusal;
+export function defaultPreparedMaterial(
+  family: PreparedFamily | null | undefined,
+  generation?: number,
+): AppearanceMaterial | PreparedMaterialRefusal {
+  if (!family)
+    return {
+      ok: false,
+      message:
+        "Character materials are unavailable because no compatible body artwork is installed.",
+      diagnostics: [
+        "Missing prepared body family; no default appearance was substituted.",
+      ],
+    };
   const palettes = {} as Record<MaterialChannel, string>;
   for (const p of preparedPartsAt(family, generation))
     for (const m of p.materials) palettes[m.channel] ??= m.ramps[0]!.id;
