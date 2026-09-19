@@ -276,6 +276,8 @@ test.describe("An adult has something to do, and it follows from their life", ()
     await freshBrowser(page);
     // A shared home, so there is somebody to hold the kitchen conversation with.
     await openSetup(page, 37, "skip", "shares-a-home");
+    // The room offers the moment; this reads it, so it opens it.
+    await openMoment(page);
     await expect(page.getByTestId("story-section")).toBeVisible();
     await openElsewhere(page, "day");
     await expect(page.getByTestId("ordinary-section")).toBeVisible();
@@ -291,6 +293,7 @@ test.describe("An adult has something to do, and it follows from their life", ()
   test("shows a child a life and no adult day surface", async ({ page }) => {
     await freshBrowser(page);
     await openSetup(page, 9, "skip");
+    await openMoment(page);
     await expect(page.getByTestId("story-section")).toBeVisible();
     // The growing-up years and adult life share one surface; what a child does
     // not get is the adult household day beside it.

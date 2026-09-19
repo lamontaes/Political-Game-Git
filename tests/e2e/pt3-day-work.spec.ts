@@ -91,13 +91,18 @@ test("Today links into Work instead of carrying it, and reading them costs no ti
   await expect(today).toBeVisible();
   await expect(page.getByTestId("day-date")).toHaveText(clock);
 
-  // Close returns to the room.
+  // Close returns to the room. What the room shows at rest is an authored
+  // scene when there is one, the moment when it has been opened, or the way
+  // into the moment when it has not — coming back closes it, so on this route
+  // it is the third.
   await today.getByRole("button", { name: "Close", exact: true }).click();
   await expect(page.getByTestId("calendar-workspace")).toHaveCount(0);
   await expect(
     page
       .getByTestId("opening-life-scene")
-      .or(page.getByTestId("story-section")),
+      .or(page.getByTestId("story-section"))
+      .or(page.getByTestId("open-moment"))
+      .first(),
   ).toBeVisible();
 
   // Getting on with the day is the one control that waits, and it does.

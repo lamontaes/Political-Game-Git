@@ -312,6 +312,11 @@ export interface ShellState {
   /**
    * Whether the moment's panel is open over the room.
    *
+   * It stays open until the player closes it, with the Return control or
+   * Escape. Closing it on every settle looked tidier and was wrong: opening
+   * People over the room and closing it again would have taken the moment
+   * away too, and an overlay that closes should give back what it covered.
+   *
    * The room is the surface and the moment is opened from it, not standing on
    * it: a panel docked permanently over a full room covers whoever is standing
    * where it lands, and the people are how a life is played. An active
@@ -504,9 +509,6 @@ function settled(state: ShellState): ShellState {
     quickDossierPersonId: null,
     confirmingLeave: false,
     activePinMenuKey: null,
-    // The moment is a layer over the room, so anything that settles the shell
-    // — going somewhere, coming back, turning to talk — closes it.
-    momentOpen: false,
   };
 }
 
