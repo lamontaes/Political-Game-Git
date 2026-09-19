@@ -688,3 +688,30 @@ describe("nothing about production eligibility moved", () => {
     }
   });
 });
+
+describe("placement warnings do not conceal missing character artwork", () => {
+  it("refuses a missing head even when review allows an uncalibrated room", () => {
+    const { world, playerPersonId } = aWorld(34, "art-preview-diagnostics");
+    const sceneId = resolveLifeScene(world, playerPersonId).sceneId!;
+    const household = householdOf(world, playerPersonId);
+    const drawn = planLifeScenePeople(world, household, sceneId, undefined, {
+      wardrobeByPersonId: {},
+      artPreview: PREVIEW,
+    }).find((person) => person.hasArt);
+    expect(drawn).toBeDefined();
+    const head = drawn!.layers.find((layer) => layer.kind === "head");
+    expect(head?.assetId).toBeDefined();
+    const visuals = new Map(PREVIEW.visuals);
+    visuals.delete(head!.assetId!);
+    const after = inUncalibratedScene(sceneId, () =>
+      planLifeScenePeople(world, household, sceneId, undefined, {
+        wardrobeByPersonId: {},
+        artPreview: { ...PREVIEW, visuals },
+      }),
+    ).find((person) => person.personId === drawn!.personId);
+    expect(after).toBeDefined();
+    expect(after!.hasArt).toBe(false);
+    expect(after!.layers).toHaveLength(0);
+    expect(after!.artRefusal).toContain("incomplete-composition");
+  });
+});

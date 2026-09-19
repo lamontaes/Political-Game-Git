@@ -11,10 +11,13 @@ import {
   previewArtRefusal,
 } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
-import { preparedFamily } from "../presentation/engine-people29-data";
+import {
+  preparedFamily,
+  preparedPortraitFrame,
+} from "../presentation/engine-people29-data";
 import { ModularCharacter } from "./ModularCharacter";
 import { personName } from "../simulation";
-import type { EntityId, World } from "../simulation";
+import type { EntityId, PersonAppearance, World } from "../simulation";
 
 export interface PersonPortraitProps {
   readonly snapshot?: PersonRenderSnapshot;
@@ -25,6 +28,10 @@ export interface PersonPortraitProps {
   readonly size?: "small" | "large";
   /** Shown under the name when the world knows one. */
   readonly note?: string | null;
+  /** Render-only creator choice. Never writes or replaces the saved person. */
+  readonly previewAppearance?: PersonAppearance;
+  /** Prepared expression of this same identity; neutral remains the default. */
+  readonly expression?: "neutral" | "smile";
 }
 
 export function PersonPortrait({
@@ -35,6 +42,8 @@ export function PersonPortrait({
   visualLibraries,
   wardrobe,
   snapshot,
+  previewAppearance,
+  expression = "neutral",
 }: PersonPortraitProps) {
   const savedWardrobe = useSavedWardrobe(personId);
   const sharedSnapshot = useSavedRenderSnapshot(personId);
@@ -54,7 +63,11 @@ export function PersonPortrait({
       },
     ),
   );
-  const person = world.people[personId];
+  const savedPerson = world.people[personId];
+  const person =
+    savedPerson && previewAppearance
+      ? { ...savedPerson, appearance: previewAppearance }
+      : savedPerson;
   // The banked bodies are adult bodies and the compositor cannot tell. A child
   // keeps their initials in the preview rather than borrowing an adult figure.
   const previewRefusal =
@@ -98,9 +111,10 @@ export function PersonPortrait({
     : resolvePersonPortrait(person, {
         libraries,
         wardrobe: resolvedWardrobe,
-        snapshot:
-          snapshot ??
-          (!usingReviewLibraries && !wardrobe ? sharedSnapshot : undefined),
+        snapshot: previewAppearance
+          ? undefined
+          : (snapshot ??
+            (!usingReviewLibraries && !wardrobe ? sharedSnapshot : undefined)),
       });
 
   const family =
@@ -109,7 +123,13 @@ export function PersonPortrait({
           visual.plan.layers.find((layer) => layer.kind === "body")?.assetId,
         )
       : undefined;
-  const frame = family?.portraitFrame;
+  const frame =
+    family && visual.kind === "modular"
+      ? preparedPortraitFrame(
+          family,
+          visual.plan.layers.map((l) => l.assetId),
+        )
+      : undefined;
   // Source-authored framing of the existing layers, retaining their material,
   // garment, and identity. No separate portrait picture or saved appearance.
   const portraitPlan =
@@ -172,6 +192,7 @@ export function PersonPortrait({
           />
         ) : visual.kind === "modular" ? (
           <ModularCharacter
+            expression={expression}
             plan={portraitPlan!}
             testId="person-portrait-character"
           />

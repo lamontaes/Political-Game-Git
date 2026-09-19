@@ -3,19 +3,25 @@ import { KIT41_REGISTRY as kit } from "../presentation/private-candidate-manifes
 import { AppearanceOutfitDialog } from "./AppearanceOutfitDialog";
 import { PreparedAppearanceControls } from "./PreparedAppearanceControls";
 import {
+  PREPARED_FAMILIES,
   selectPreparedBody,
   preparedFamily,
+  preparedPartsAt,
 } from "../presentation/engine-people29-data";
+import { GameSelect, optionAccessibleName } from "./controls/GameSelect";
 import "./PersonAppearanceControls.css";
 import { useMemo, useState, useRef, type ReactNode } from "react";
 import type { World, PersonAppearance } from "../simulation/types";
 import { resolveCharacterRecipe } from "../presentation/character-components";
 import {
   commitCompleteOutfit,
+  commitCorrectedGeneration,
   findCompleteOutfit,
+  proposeCorrectedGeneration,
   resolveCompleteOutfit,
   type OutfitFamilies,
 } from "../presentation/complete-outfit";
+import { resolveAppearanceCatalogGeneration } from "../presentation/character-components";
 import {
   listPersonVisualSelections,
   listPersonWardrobeFamilies,
@@ -30,11 +36,20 @@ export interface PersonAppearanceControlsProps extends PersonVisualSelectionCont
   readonly preference?: PersonWardrobePreference;
   readonly familyLabels?: Readonly<Record<string, string>>;
   readonly renderPreview?: (appearance: PersonAppearance) => ReactNode;
+  readonly renderHairThumbnail?: (appearance: PersonAppearance) => ReactNode;
   readonly onWorldChange: (world: World) => void;
   /** Legacy callers retain this prop; new outfits commit atomically on World. */
   readonly onPreferenceChange: (preference: PersonWardrobePreference) => void;
 }
-export function appearanceFamilyLabel(value: string): string {
+export function appearanceFamilyLabel(
+  value: string,
+  fallback = "Appearance choice",
+): string {
+  const authored = PREPARED_FAMILIES.flatMap((f) => f.parts)
+    .slice()
+    .reverse()
+    .find((p) => p.logicalFamily === value && p.label);
+  if (authored?.label) return authored.label;
   const imported = (
     kit.labels as Record<string, { name: string; colour: string }>
   )[value];
@@ -119,21 +134,16 @@ export function appearanceFamilyLabel(value: string): string {
       "hair-rounded-afro": "Rounded afro",
       "hair-straight-bob": "Straight bob",
     };
-    return names[name.replace(/-v2$/, "")] ?? name.replace(/-/g, " ");
+    return names[name.replace(/-v2$/, "")] ?? fallback;
   }
-  return value
-    .replace(/^pv4[-_](?:ocd[-_])?/, "")
-    .replace(/^wave[-_]a[-_]/, "")
-    .replace(/[-_]v\d+(?:[-_]pv4)?$/, "")
-    .replace(/[-_]standing[-_]neutral[-_]front[-_]a/, "")
-    .replace(/[-_]/g, " ")
-    .replace(/\b\w/g, (c) => c.toUpperCase());
+  return fallback;
 }
 /** Every confirmed edit crosses one validated World write. Shell callbacks cannot race it. */
 export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
   const { world, personId, library, poseFamily } = props;
   const person = world.people[personId];
   const [message, setMessage] = useState("");
+  const [hairQuery, setHairQuery] = useState("");
   const randomSequence = useRef(0);
   const pick = <T,>(values: readonly T[]): T =>
     new SeededRng(person!.appearance!.seed)
@@ -143,11 +153,11 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
     appearance: PersonAppearance;
     families: OutfitFamilies;
     source: PersonAppearance;
+    /** An explicit move to newer corrected artwork, not an outfit edit. */
+    artworkUpdate?: boolean;
   } | null>(null);
   const label = (v: string) =>
-    /^ep(?:29|34|35|36|40|41)-/.test(v)
-      ? appearanceFamilyLabel(v)
-      : (props.familyLabels?.[v] ?? appearanceFamilyLabel(v));
+    appearanceFamilyLabel(v, props.familyLabels?.[v]);
   const state = useMemo(() => {
     if (!person?.appearance) return null;
     const appearance = person.appearance;
@@ -231,17 +241,46 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
       </p>
     );
   const appearance = person.appearance;
-  function commit(next: PersonAppearance, families: OutfitFamilies) {
+  let pinnedGeneration: number | null = null;
+  try {
+    pinnedGeneration = resolveAppearanceCatalogGeneration(
+      appearance,
+      library.catalogGeneration,
+    );
+  } catch {
+    pinnedGeneration = null;
+  }
+  const artworkUpdate =
+    pinnedGeneration !== null &&
+    pinnedGeneration < library.catalogGeneration &&
+    Boolean(preparedFamily(appearance.selection?.bodyFamily))
+      ? library.catalogGeneration
+      : null;
+  function commit(
+    next: PersonAppearance,
+    families: OutfitFamilies,
+    update = false,
+  ) {
     try {
       props.onWorldChange(
-        commitCompleteOutfit(world, personId, next, {
-          library,
-          poseFamily,
-          families,
-        }),
+        update
+          ? commitCorrectedGeneration(world, personId, next, {
+              library,
+              poseFamily,
+              families,
+            })
+          : commitCompleteOutfit(world, personId, next, {
+              library,
+              poseFamily,
+              families,
+            }),
       );
       setPending(null);
-      setMessage("Appearance and outfit changed together.");
+      setMessage(
+        update
+          ? "This person now uses the updated artwork."
+          : "Appearance and outfit changed together.",
+      );
     } catch {
       setMessage(
         "That outfit is unavailable. Your saved appearance has not changed.",
@@ -279,6 +318,14 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
       setMessage(replacement.message);
     }
   }
+  const currentPreparedFamily = preparedFamily(
+    appearance.selection?.bodyFamily,
+  );
+  const calibratedIdentity = currentPreparedFamily
+    ? preparedPartsAt(currentPreparedFamily, appearance.catalogGeneration).some(
+        (p) => p.logicalIdentity,
+      )
+    : false;
   function choose(patch: Partial<PersonVisualSelection>) {
     setPending(null);
     if (!state!.current) return;
@@ -288,6 +335,12 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
         propose(prepared, true);
         return;
       }
+    }
+    if (patch.bodyFamily && calibratedIdentity) {
+      setMessage(
+        "That body has no calibrated fit for the current face and hairstyle. Your appearance is unchanged.",
+      );
+      return;
     }
     const wanted = { ...state!.current, ...patch };
     const options = listPersonVisualSelections({
@@ -308,7 +361,7 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
         o.selection.hairFamily === wanted.hairFamily,
     );
     // A body or face change cannot silently substitute another person's face/hair.
-    if (!next && patch.headFamily) {
+    if (!next && patch.headFamily && !calibratedIdentity) {
       const pair =
         options.find(
           (o) =>
@@ -367,7 +420,7 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
             };
             // Head choices may require their matching painted hair. Preview the pair explicitly.
             const compatibleCandidate =
-              kind === "headFamily"
+              kind === "headFamily" && !calibratedIdentity
                 ? {
                     ...candidate,
                     selection: { ...candidate.selection!, hairFamily: null },
@@ -381,9 +434,15 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
             });
             return {
               value: v,
-              reason: result.ok
-                ? undefined
-                : "No complete matching outfit is available.",
+              reason:
+                kind === "bodyFamily" &&
+                calibratedIdentity &&
+                v &&
+                !selectPreparedBody(appearance, v)
+                  ? "No calibrated fit for this face and hairstyle."
+                  : result.ok
+                    ? undefined
+                    : "No complete matching outfit is available.",
             };
           });
           const title = {
@@ -391,44 +450,154 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
             headFamily: "Face",
             hairFamily: "Hairstyle",
           }[kind];
+          const current =
+            (pending?.source === appearance
+              ? pending.appearance.selection?.[kind]
+              : state.current?.[kind]) ?? null;
+          const randomize = (
+            <button
+              type="button"
+              className="appearance-randomize"
+              aria-label={`Randomize ${title.toLowerCase()}`}
+              disabled={choices.filter((c) => !c.reason).length < 2}
+              onClick={() => {
+                const available = choices.filter(
+                  (c) => !c.reason && c.value !== state.current?.[kind],
+                );
+                if (available.length)
+                  choose({ [kind]: pick(available).value ?? null });
+              }}
+            >
+              Randomize {title.toLowerCase()}
+            </button>
+          );
+          if (
+            kind !== "bodyFamily" &&
+            state.current?.bodyFamily.startsWith("ep41-")
+          ) {
+            const query = kind === "hairFamily" ? hairQuery : "";
+            const shown = choices.filter(({ value }) =>
+              value === null
+                ? "no hair".includes(query.trim().toLowerCase())
+                : label(value)
+                    .toLowerCase()
+                    .includes(query.trim().toLowerCase()),
+            );
+            const hairCompatible = (headFamily: string) =>
+              state.current!.hairFamily === null ||
+              listPersonVisualSelections({
+                appearance,
+                library,
+                poseFamily,
+                selectionFilter: {
+                  bodyFamily: state.current!.bodyFamily,
+                  headFamily,
+                  hairFamily: state.current!.hairFamily,
+                },
+              }).length > 0;
+            return (
+              <fieldset
+                key={kind}
+                className="appearance-hair-choices"
+                data-testid={
+                  kind === "hairFamily"
+                    ? "person-appearance-hair-grid"
+                    : "person-appearance-face-grid"
+                }
+              >
+                <legend>{title}</legend>
+                {kind === "hairFamily" && choices.length > 10 ? (
+                  <label>
+                    Find a hairstyle
+                    <input
+                      type="search"
+                      value={hairQuery}
+                      onChange={(event) => setHairQuery(event.target.value)}
+                    />
+                  </label>
+                ) : null}
+                <div className="appearance-hair-grid">
+                  {shown.map(({ value, reason }, index) => {
+                    const chosen = value ?? null;
+                    const selection =
+                      kind === "hairFamily"
+                        ? { ...state.current!, hairFamily: chosen }
+                        : {
+                            ...state.current!,
+                            headFamily: chosen!,
+                            hairFamily: hairCompatible(chosen!)
+                              ? state.current!.hairFamily
+                              : null,
+                          };
+                    return (
+                      <label
+                        key={chosen ?? "none"}
+                        className="appearance-hair-choice"
+                        title={reason}
+                      >
+                        <input
+                          type="radio"
+                          className="appearance-visually-hidden"
+                          name={`person-${kind}-${personId}`}
+                          value={chosen ?? ""}
+                          aria-label={optionAccessibleName(
+                            {
+                              label:
+                                chosen === null ? "No hair" : label(chosen),
+                            },
+                            index,
+                            title,
+                          )}
+                          checked={current === chosen}
+                          disabled={Boolean(reason)}
+                          onChange={() => choose({ [kind]: chosen })}
+                        />
+                        <span
+                          className="appearance-hair-preview"
+                          aria-hidden="true"
+                        >
+                          {props.renderHairThumbnail?.({
+                            ...appearance,
+                            selection,
+                          })}
+                        </span>
+                        <span className="appearance-hair-label">
+                          {chosen === null ? "No hair" : label(chosen)}
+                        </span>
+                        {current === chosen ? (
+                          <span className="appearance-hair-selected">
+                            ✓ Selected
+                          </span>
+                        ) : null}
+                        {reason ? <small>Unavailable: {reason}</small> : null}
+                      </label>
+                    );
+                  })}
+                </div>
+                {shown.length === 0 ? (
+                  <p>No matching {title.toLowerCase()}.</p>
+                ) : null}
+                {randomize}
+              </fieldset>
+            );
+          }
           return (
-            <label key={kind}>
-              {title}
-              <select
+            <label key={kind} className="appearance-select-field">
+              <span className="appearance-choice-title">{title}</span>
+              <GameSelect
                 aria-label={title}
                 data-testid={`person-appearance-${kind}`}
-                value={
-                  (pending?.source === appearance
-                    ? pending.appearance.selection?.[kind]
-                    : state.current?.[kind]) ?? ""
-                }
+                value={current ?? ""}
                 onChange={(e) => choose({ [kind]: e.target.value || null })}
-              >
-                {choices.map(({ value: v, reason }) => (
-                  <option
-                    key={v ?? "none"}
-                    value={v ?? ""}
-                    disabled={Boolean(reason)}
-                  >
-                    {v === null ? "No hair" : label(v)}
-                    {reason ? " — unavailable" : ""}
-                  </option>
-                ))}
-              </select>
-              <button
-                type="button"
-                aria-label={`Randomize ${title.toLowerCase()}`}
-                disabled={choices.filter((c) => !c.reason).length < 2}
-                onClick={() => {
-                  const available = choices.filter(
-                    (c) => !c.reason && c.value !== state.current?.[kind],
-                  );
-                  if (available.length)
-                    choose({ [kind]: pick(available).value });
-                }}
-              >
-                Randomize {title.toLowerCase()}
-              </button>
+                options={choices.map(({ value: v, reason }) => ({
+                  value: v ?? "",
+                  label:
+                    (v === null ? "No hair" : label(v)) +
+                    (reason ? " — unavailable" : ""),
+                  disabled: Boolean(reason),
+                }))}
+              />
+              {randomize}
               {choices.some((c) => c.reason) ? (
                 <small>
                   Unavailable choices have no complete matching outfit in this
@@ -445,6 +614,44 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
           cancel the preview.
         </p>
       ) : null}
+      {artworkUpdate !== null ? (
+        <div
+          className="appearance-artwork-update"
+          data-testid="appearance-artwork-update"
+        >
+          <p>
+            Newer artwork is available to preview. Your saved appearance stays
+            as it is unless you apply the update.
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              const proposal = proposeCorrectedGeneration(
+                appearance,
+                artworkUpdate,
+                library,
+                poseFamily,
+              );
+              if (proposal.ok && proposal.appearance) {
+                setPending({
+                  appearance: proposal.appearance,
+                  families: proposal.families,
+                  source: appearance,
+                  artworkUpdate: true,
+                });
+                setMessage("Review the updated artwork before applying it.");
+              } else
+                setMessage(
+                  proposal.ok
+                    ? "No newer artwork is available for this person."
+                    : proposal.message,
+                );
+            }}
+          >
+            Preview updated artwork
+          </button>
+        </div>
+      ) : null}
       <PreparedAppearanceControls
         appearance={appearance}
         onChange={(next) => commit(next, state.families ?? {})}
@@ -454,7 +661,7 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
         {(["top", "bottom", "footwear"] as const).map((kind) => {
           const value = state.families?.[kind] ?? "";
           return (
-            <label key={kind}>
+            <label key={kind} className="appearance-select-field">
               {
                 {
                   top: "Shirt style",
@@ -462,7 +669,7 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
                   footwear: "Shoes",
                 }[kind]
               }
-              <select
+              <GameSelect
                 aria-label={
                   {
                     top: "Shirt style",
@@ -484,19 +691,24 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
                   if (result.ok) commit(appearance, result.families);
                   else setMessage(result.message);
                 }}
-              >
-                <option value="">Current default</option>
-                {value && !state.supported[kind].includes(value) ? (
-                  <option value={value} disabled>
-                    Saved choice needs recovery
-                  </option>
-                ) : null}
-                {state.supported[kind].map((v) => (
-                  <option key={v} value={v}>
-                    {label(v)}
-                  </option>
-                ))}
-              </select>
+                options={[
+                  { value: "", label: "Current default", disabled: false },
+                  ...(value && !state.supported[kind].includes(value)
+                    ? [
+                        {
+                          value,
+                          label: "Saved choice needs recovery",
+                          disabled: true,
+                        },
+                      ]
+                    : []),
+                  ...state.supported[kind].map((v) => ({
+                    value: v,
+                    label: label(v),
+                    disabled: false,
+                  })),
+                ]}
+              />
               <button
                 type="button"
                 aria-label={`Randomize ${kind === "top" ? "shirt" : kind === "bottom" ? "pants" : "shoes"}`}
@@ -587,7 +799,13 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
             pending.appearance.selection?.bodyFamily ??
               state.current!.bodyFamily,
           )}
-          onApply={() => commit(pending.appearance, pending.families)}
+          onApply={() =>
+            commit(
+              pending.appearance,
+              pending.families,
+              Boolean(pending.artworkUpdate),
+            )
+          }
           onCancel={() => {
             setPending(null);
             setMessage("Your appearance is unchanged.");

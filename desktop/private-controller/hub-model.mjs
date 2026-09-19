@@ -92,6 +92,11 @@ function cleanBuild(build) {
       ? {
           packId: String(build.privatePack.packId ?? "unknown"),
           manifestSha256: String(build.privatePack.manifestSha256 ?? "unknown"),
+          // Carried only when the pack stated it; a pack that does not is
+          // recorded exactly as it was before the field existed.
+          ...(Number.isInteger(build.privatePack.generation)
+            ? { generation: build.privatePack.generation }
+            : {}),
         }
       : null;
   return {

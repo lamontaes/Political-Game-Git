@@ -193,10 +193,22 @@ function verifyPrivatePack(packRoot) {
     throw new Error("The private art pack manifest does not match its record.");
   if (!existsSync(path.join(packRoot, "stage-into-worktree.sh")))
     throw new Error("The private art pack has no installer.");
+  /*
+   * `generation` is optional and additive. A pack that states which kit
+   * generation it was composed from says so here, so the activated record can
+   * name it instead of a reader taking the number out of DELIVERY.md prose. A
+   * pack without it — every pack built before the field existed — verifies and
+   * records exactly what it always did.
+   */
+  const generation =
+    Number.isInteger(pack.generation) && pack.generation >= 0
+      ? pack.generation
+      : null;
   return {
     packId: String(pack.packId),
     manifestSha256: actual,
     fileCount: pack.fileCount ?? null,
+    generation,
   };
 }
 
