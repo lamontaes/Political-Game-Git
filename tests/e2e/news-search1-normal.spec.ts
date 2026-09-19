@@ -135,9 +135,22 @@ test("normal legislative publication supports search, clear, help, person, Back,
   expect(await savedWorld(page)).toEqual(published);
 });
 
+/**
+ * This one case keeps the real campaign, and pays the term walk for it.
+ *
+ * What it is about is search narrowing two published stories to one, so it
+ * needs two publications that can be told apart. The constructed seat's
+ * chamber offers exactly one drafting option, and filing that option twice
+ * would produce two stories whose copy is `designation — shortTitle` with the
+ * same shortTitle both times: they would differ only by bill number, which is
+ * too short to be the four-character token this case searches on. So the
+ * second publication has to be a different bill, and that needs the chamber a
+ * won election actually gives.
+ */
 test("normal News search stays usable on a narrow viewport after a second publication", async ({
   browser,
 }, info) => {
+  test.setTimeout(180_000);
   const context = await browser.newContext({
     viewport: { width: 390, height: 844 },
     hasTouch: true,
@@ -151,7 +164,12 @@ test("normal News search stays usable on a narrow viewport after a second public
     route: "normal",
   });
   await enterLife(page);
-  await publishFirstBill(page);
+  // The real route, not the recorded-term fixture the other cases use.
+  await reachMemberOffice(page);
+  await page.getByTestId("open-drafting-table").click();
+  await page.locator('[data-testid^="drafting-option-"]').first().click();
+  await page.getByTestId("file-the-draft").press("Enter");
+  await expect(page.getByTestId("docket-bill")).toBeVisible();
   await saveLife(page);
   const afterFirst = await savedWorld(page);
   await goTo(page, "elsewhere-work");
@@ -211,7 +229,12 @@ test("normal News keeps For You, outlet following, person Back, and per-life per
     route: "normal",
   });
   await enterLife(page);
-  await publishFirstBill(page);
+  // The real route, not the recorded-term fixture the other cases use.
+  await reachMemberOffice(page);
+  await page.getByTestId("open-drafting-table").click();
+  await page.locator('[data-testid^="drafting-option-"]').first().click();
+  await page.getByTestId("file-the-draft").press("Enter");
+  await expect(page.getByTestId("docket-bill")).toBeVisible();
   await saveLife(page);
 
   const published = await savedWorld(page);

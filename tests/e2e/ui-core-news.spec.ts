@@ -37,9 +37,11 @@ test("normal completed legislative action publishes News with person Back and un
   await expect(
     page.getByTestId("public-information-for-you-empty"),
   ).toBeVisible();
-  await page
-    .getByRole("button", { name: "Close public information" })
-    .press("Escape");
+  // The directory context mounts the panel with showClose={false}, so there is
+  // no close button here. Escape is handled on the panel itself and closing
+  // restores focus through onClose, not through whichever control was focused,
+  // so the focus assertion below still says what it always said.
+  await page.getByTestId("news-view-all").press("Escape");
   await expect(page.getByTestId("shell-nav-cluster")).toBeFocused();
   await enterRecordedMemberTerm(page);
   await page.getByTestId("open-drafting-table").click();
