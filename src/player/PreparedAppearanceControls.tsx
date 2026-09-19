@@ -8,7 +8,8 @@ import {
   preparedRampsAt,
   type MaterialChannel,
 } from "../presentation/engine-people29-data";
-import { GameSelect, optionAccessibleName } from "./controls/GameSelect";
+import { optionAccessibleName } from "./controls/GameSelect";
+import { AppearanceChoice } from "./controls/AppearanceChoice";
 
 /** Light-to-dark display names for the authored swatches. Colour words only. */
 const SKIN_SWATCH_NAMES: readonly string[] = [
@@ -234,7 +235,7 @@ export function PreparedAppearanceControls({
                   <span className="appearance-choice-title">
                     {titles[kind]}
                   </span>
-                  <GameSelect
+                  <AppearanceChoice
                     aria-label={`${kind} shape`}
                     value={value.variant}
                     onChange={(e) => set({ variant: e.target.value })}

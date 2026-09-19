@@ -7,7 +7,6 @@ import type {
   FutureTransitionHandlerRegistry,
   World,
 } from "../simulation";
-import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import {
   describePlacesOutcome,
   projectPlacesWorkspace,
@@ -15,11 +14,10 @@ import {
 } from "../presentation/player-places";
 import { labelForRef } from "../presentation/person-dossier";
 import { PinToggle } from "./controls/PinToggle";
-import { walkOpeningNeighborhood } from "../presentation/life-scene-flow";
-import {
-  declineVenueActivity,
-  performVenueActivity,
-} from "../presentation/venue-activity";
+import { useTimeCommand, type TimeCommandReport } from "./time-command-runner";
+import { previewTimeCommand } from "../presentation/time-command";
+import { skipToLabel } from "../presentation/time-target-label";
+import { declineVenueActivity } from "../presentation/venue-activity";
 
 /** Entity references UI-core passes through `openEntity` / `togglePin`. */
 export type PlacesEntityRef =
@@ -62,8 +60,12 @@ export function PlacesWorkspace({
   onTogglePin,
   isPinned,
   onWorldChange,
-  transitionHandlers = createCampaignElectionTransitionRegistry(),
 }: PlacesWorkspaceProps): ReactNode {
+  const runner = useTimeCommand({ world, personId, onWorldChange });
+  const report = (result: TimeCommandReport) => {
+    setProblem(result.status === "failed" ? result.outcome : null);
+    setOutcome(result.outcome);
+  };
   const [problem, setProblem] = useState<string | null>(null);
   const [outcome, setOutcome] = useState<string | null>(null);
   const model = useMemo(
@@ -122,38 +124,33 @@ export function PlacesWorkspace({
       return;
     }
     if (fresh.walkDestination) {
-      commit(() =>
-        walkOpeningNeighborhood(
-          world,
-          personId,
-          fresh.walkDestination!,
-          transitionHandlers,
-        ),
+      runner.submit(
+        { kind: "walk", destination: fresh.walkDestination },
+        report,
       );
       return;
     }
     if (fresh.activityId) {
-      commit(() =>
-        performVenueActivity(
-          world,
-          personId,
-          fresh.activityId!,
-          transitionHandlers,
-        ),
+      runner.submit(
+        { kind: "attend-activity", activityId: fresh.activityId },
+        report,
       );
       return;
     }
     if (fresh.governmentKey && fresh.meetingId) {
-      commit(() => {
+      runner.perform((current, handlers) => {
         const result = attendMunicipalPublicMeeting(
-          world,
+          current,
           fresh.governmentKey!,
           fresh.meetingId!,
-          transitionHandlers,
+          handlers,
         );
         if (!result.ok) throw new Error(result.reason);
-        return result.world;
-      });
+        return {
+          world: result.world,
+          outcome: describePlacesOutcome(current, result.world, personId),
+        };
+      }, report);
       return;
     }
     setOutcome(null);
@@ -277,11 +274,32 @@ export function PlacesWorkspace({
                   <button
                     type="button"
                     disabled={offer.unavailable !== null}
+                    aria-disabled={runner.pending || undefined}
+                    aria-busy={runner.pending}
                     aria-label={`${actionLabel(offer)}: ${offer.title}`}
                     data-testid={`places-offer-${offer.id}-action`}
                     onClick={() => runOffer(offer)}
                   >
                     {actionLabel(offer)}
+                    {(() => {
+                      const command = offer.walkDestination
+                        ? {
+                            kind: "walk" as const,
+                            destination: offer.walkDestination,
+                          }
+                        : offer.activityId
+                          ? {
+                              kind: "attend-activity" as const,
+                              activityId: offer.activityId,
+                            }
+                          : null;
+                      const preview = command
+                        ? previewTimeCommand(world, personId, command)
+                        : null;
+                      return preview ? (
+                        <small>{skipToLabel(preview.target)}</small>
+                      ) : null;
+                    })()}
                   </button>
                   {offer.declineActivityId ? (
                     <button

@@ -232,6 +232,7 @@ export function ShellNav({
   canSave,
   unsaved,
   onSave,
+  onSaveAndLeave,
   onLeave,
   onPassDays,
   passTargets,
@@ -251,6 +252,7 @@ export function ShellNav({
   readonly canSave: boolean;
   readonly unsaved: boolean;
   readonly onSave: () => void;
+  readonly onSaveAndLeave?: () => void;
   readonly onLeave: () => void;
   /** Day and week through the canonical clock. Absent while growing up. */
   readonly onPassDays?: (days: 1 | 7) => void;
@@ -670,12 +672,14 @@ export function ShellNav({
                     primaryGroups.length + (canSave ? 1 : 0),
                   )}
                   onClick={() =>
-                    unsaved && canSave
-                      ? dispatch({ type: "ask-leave" })
-                      : onLeave()
+                    canSave && onSaveAndLeave
+                      ? onSaveAndLeave()
+                      : unsaved && canSave
+                        ? dispatch({ type: "ask-leave" })
+                        : onLeave()
                   }
                 >
-                  Quit
+                  {canSave && onSaveAndLeave ? "Save and Quit" : "Quit"}
                   <small>To the main menu</small>
                 </button>
               </div>

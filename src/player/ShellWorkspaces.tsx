@@ -63,7 +63,6 @@ import { PersonPortrait } from "./PersonPortrait";
 import {
   authorizeCalendarSimulation,
   declineCalendarActivity,
-  playCalendarActivity,
   simulateAuthorizedCalendarActivity,
 } from "../presentation/calendar-time-control";
 import {
@@ -130,8 +129,8 @@ export function WorkspaceFrame({
   const closeButton = useRef<HTMLButtonElement>(null);
   const [liveLayout, setLiveLayout] = useState<WorkspaceLayout | null>(null);
   const [viewport, setViewport] = useState(() => ({
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: typeof window === "undefined" ? 1280 : window.innerWidth,
+    height: typeof window === "undefined" ? 860 : window.innerHeight,
   }));
   const drag = useRef<{
     mode: "move" | "resize";
@@ -1060,6 +1059,10 @@ function CalendarEventActions({
         ? `Includes the ${describeInterval(venue.journey.journeyMinutes)} journey to ${selected.locationLabel}. ${venue.journey.costDisclosure}`
         : null;
   const busy = runner.pending || undefined;
+  const attendance = previewTimeCommand(world, personId, {
+    kind: "attend-activity",
+    activityId: selected.activityId,
+  });
   return (
     <div
       className="game-choices pg-calendar-actions"
@@ -1105,20 +1108,26 @@ function CalendarEventActions({
         data-route={laneRoute ? "campaign-life" : "venue"}
         aria-disabled={busy}
         onClick={() =>
-          runner.perform(
-            (current) =>
-              laneRoute
-                ? attendCalendarCampaignLifeActivity(
+          laneRoute
+            ? runner.perform(
+                (current) =>
+                  attendCalendarCampaignLifeActivity(
                     current,
                     personId,
                     selected.activityId,
-                  )
-                : playCalendarActivity(current, personId, selected.activityId),
-            onReport,
-          )
+                  ),
+                onReport,
+              )
+            : runner.submit(
+                { kind: "attend-activity", activityId: selected.activityId },
+                onReport,
+              )
         }
       >
         Attend
+        {attendance
+          ? ` · Until ${attendance.target.date === world.currentDate ? "" : `${proseWeekdayDate(attendance.target.date)}, `}${formatMinute(attendance.target.minuteOfDay)}`
+          : ""}
         {attendNote ? <small>{attendNote}</small> : null}
       </button>
       <button
@@ -1319,6 +1328,17 @@ export function PersonalWorkspace({
     () => projectOpeningLife(world, personId),
     [world, personId],
   );
+  const history = useMemo(
+    () => projectLifeRecord(world, personId),
+    [world, personId],
+  );
+  const goals = world.history.goalStates.filter(
+    (goal) =>
+      goal.personId === personId &&
+      !world.history.goalStates.some(
+        (newer) => newer.supersedesGoalStateId === goal.id,
+      ),
+  );
   if (!record) {
     return <p className="game-note">This world has no record of you.</p>;
   }
@@ -1436,6 +1456,34 @@ export function PersonalWorkspace({
           </ul>
         </section>
       ) : null}
+
+      <section className="pg-personal-section" aria-label="Your history">
+        <h3>History</h3>
+        <div className="pg-personal-chronology">
+          {history.chapters.length ? (
+            history.chapters.map((chapter) => (
+              <section key={chapter.key}>
+                <h4>{chapter.heading}</h4>
+                {chapter.entries.map((entry) => (
+                  <p key={entry.key}>
+                    <time>{entry.at}</time> · {entry.sentence}
+                  </p>
+                ))}
+              </section>
+            ))
+          ) : (
+            <p>No remembered milestones are recorded yet.</p>
+          )}
+        </div>
+      </section>
+      <section className="pg-personal-section" aria-label="Your goals">
+        <h3>Goals</h3>
+        {goals.length ? (
+          goals.map((goal) => <p key={goal.id}>{goal.objective}</p>)
+        ) : (
+          <p>No personal goals are recorded yet.</p>
+        )}
+      </section>
 
       {/*
         Three kinds of money, kept apart because the world keeps them apart.

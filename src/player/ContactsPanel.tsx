@@ -35,10 +35,12 @@ export function ContactsPanel({
   world,
   personId,
   onWorldChange,
+  query = "",
 }: {
   readonly world: World;
   readonly personId: EntityId;
   readonly onWorldChange: (world: World) => void;
+  readonly query?: string;
 }) {
   const view = useMemo(
     () => projectContacts(world, personId),
@@ -90,44 +92,48 @@ export function ContactsPanel({
         </p>
       ) : (
         <ul className="pg-contacts-list">
-          {view.contacts.map((contact) => (
-            <ContactRow
-              key={contact.personId}
-              contact={contact}
-              earliest={view.earliestMeetingOn}
-              latest={view.latestMeetingOn}
-              askOn={dayFor(`ask:${contact.personId}`)}
-              offerOn={dayFor(`offer:${contact.personId}`)}
-              onDayChange={(which, on) =>
-                setDays((current) => ({
-                  ...current,
-                  [`${which}:${contact.personId}`]: on,
-                }))
-              }
-              onAsk={(on) =>
-                run(() =>
-                  askToMeet(world, {
-                    personId,
-                    otherPersonId: contact.personId,
-                    on,
-                  }),
-                )
-              }
-              onAnswer={(eventId, answer) =>
-                run(() =>
-                  answerMeeting(world, {
-                    proposalEventId: eventId,
-                    answer,
-                  }),
-                )
-              }
-              onOfferAnotherDay={(eventId, on) =>
-                run(() =>
-                  offerAnotherDay(world, { proposalEventId: eventId, on }),
-                )
-              }
-            />
-          ))}
+          {view.contacts
+            .filter((contact) =>
+              contact.name.toLowerCase().includes(query.toLowerCase()),
+            )
+            .map((contact) => (
+              <ContactRow
+                key={contact.personId}
+                contact={contact}
+                earliest={view.earliestMeetingOn}
+                latest={view.latestMeetingOn}
+                askOn={dayFor(`ask:${contact.personId}`)}
+                offerOn={dayFor(`offer:${contact.personId}`)}
+                onDayChange={(which, on) =>
+                  setDays((current) => ({
+                    ...current,
+                    [`${which}:${contact.personId}`]: on,
+                  }))
+                }
+                onAsk={(on) =>
+                  run(() =>
+                    askToMeet(world, {
+                      personId,
+                      otherPersonId: contact.personId,
+                      on,
+                    }),
+                  )
+                }
+                onAnswer={(eventId, answer) =>
+                  run(() =>
+                    answerMeeting(world, {
+                      proposalEventId: eventId,
+                      answer,
+                    }),
+                  )
+                }
+                onOfferAnotherDay={(eventId, on) =>
+                  run(() =>
+                    offerAnotherDay(world, { proposalEventId: eventId, on }),
+                  )
+                }
+              />
+            ))}
         </ul>
       )}
       {note ? (

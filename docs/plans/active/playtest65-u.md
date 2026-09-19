@@ -67,3 +67,9 @@ remain pending; these checks do not establish visual acceptance.
 V early Firefly kit SENT in existing private exchange folder
 `110W6Ta8MCg8gTQLcrneHKhYyvj3zJsRJ`, 39 files / 18.5 MB reported by V.
 White House candidate artwork and renderer delta are not yet received.
+
+## Second receiving checkpoint
+
+W `3c894cb0` RECEIVED as `57be7433`: person history/contact, opportunity/activity readers, initial home placement and new-opening replay fields. W reports 24 focused checks and scoped lint pass. V has released the shared Mac slot after typecheck and 10 focused tests (one private-input skip). U now owns private-input installation and the first combined browser window.
+
+U wired shared Contact, walk/Attend guards, Save and Quit, Personal history/goals, compact work/study, map state labels, and removed office browsing's duplicate day control. Changed-source lint/format passed; combined typecheck/browser still pending. Q65-W-002 matching public-meeting return journey is awaiting the owner's explicit gameplay decision; local neighborhood/home remains supported.

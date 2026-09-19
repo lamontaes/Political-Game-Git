@@ -7,6 +7,7 @@ import { loadEducationCatalog } from "../education/catalog-load";
 import { useEffect, useMemo, useState } from "react";
 import type { World } from "../simulation/types";
 import type { EducationInstitution } from "../education/types";
+import { projectRelevantEducationDirectory } from "../presentation/practical-opportunities";
 import { searchInstitutions } from "../education/catalog";
 import {
   applyForEducation,
@@ -31,6 +32,7 @@ export function EducationOptionsPanel({
 }: EducationOptionsPanelProps) {
   const [catalog, setCatalog] = useState<readonly EducationInstitution[]>([]),
     [query, setQuery] = useState(""),
+    [wide, setWide] = useState(false),
     [kind, setKind] = useState("postsecondary"),
     [offset, setOffset] = useState(0),
     [selected, setSelected] = useState<string | null>(null),
@@ -66,10 +68,19 @@ export function EducationOptionsPanel({
     }
     return [...byId.values()];
   }, [catalog, world.currentDate]);
-  const result = useMemo(
-    () => searchInstitutions(availableCatalog, query, kind, offset),
-    [availableCatalog, query, kind, offset],
-  );
+  const result = useMemo(() => {
+    if (wide || world.control.kind !== "person")
+      return searchInstitutions(availableCatalog, query, kind, offset);
+    const nearby = projectRelevantEducationDirectory(
+      world,
+      world.control.personId,
+      availableCatalog,
+      query,
+      kind,
+      offset,
+    );
+    return { ...nearby, rows: nearby.rows.map((row) => row.institution) };
+  }, [availableCatalog, query, kind, offset, wide, world]);
   const institution = availableCatalog.find((r) => r.id === selected);
   const [grace, setGrace] = useState<Record<string, string>>({});
   const act = (result: { ok: boolean; world: World; message: string }) => {
@@ -141,12 +152,28 @@ export function EducationOptionsPanel({
           <option value="district">School districts</option>
         </GameSelect>
       </label>
-      <p>{result.total.toLocaleString()} matching institutions</p>
+      <p>
+        {result.total.toLocaleString()} matching institutions
+        {!wide && !query.trim()
+          ? " in your home state or district"
+          : " across the directory"}
+        .
+      </p>
+      <button
+        type="button"
+        className="ui-action"
+        onClick={() => {
+          setWide(!wide);
+          setOffset(0);
+        }}
+      >
+        {wide ? "Start near home" : "Browse the full directory"}
+      </button>
       <ul>
         {result.rows.map((r) => (
           <li key={r.id}>
             <button type="button" onClick={() => setSelected(r.id)}>
-              {r.name} — {r.city}, {r.state} ({r.officialId})
+              {r.name} — {r.city}, {r.state}
             </button>
             <label>
               <input

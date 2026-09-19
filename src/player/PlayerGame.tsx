@@ -3402,6 +3402,20 @@ function PlayingScreen({
                   ? {}
                   : { onTalk: () => talkTo(selectedDossier.personId) })}
                 onMeet={() => dispatch({ type: "go-to-scene" })}
+                onContact={() => {
+                  dispatch({
+                    type: "set-people-query",
+                    query: selectedDossier.name,
+                  });
+                  dispatch({ type: "go-to-surface", surface: "people" });
+                  requestAnimationFrame(() =>
+                    document
+                      .querySelector<HTMLElement>(
+                        `[data-testid="contact-${selectedDossier.personId}"] button`,
+                      )
+                      ?.focus(),
+                  );
+                }}
                 onTravel={() => {
                   if (readOnly) return;
                   const next = travelTowardsPerson(
@@ -3645,6 +3659,16 @@ function PlayingScreen({
                   onSaveAndLeave(shellState);
                 } else onKeep(shellState);
               }}
+              onSaveAndLeave={() =>
+                onSaveAndLeave({
+                  pins: shell.pins,
+                  preferences: shell.preferences,
+                  journal: shell.legacyJournal,
+                  journals: shell.journals,
+                  personWardrobes: shell.personWardrobes,
+                  progress: shell.progress,
+                })
+              }
               onLeave={leaveNow}
               {...(capabilities.formativeYears || readOnly
                 ? {}
@@ -4071,6 +4095,17 @@ function renderWorkspace({
               togglePin({ kind: "person", id: dossier.personId })
             }
             onTalk={() => talkTo(dossier.personId)}
+            onContact={() => {
+              dispatch({ type: "set-people-query", query: dossier.name });
+              dispatch({ type: "go-to-surface", surface: "people" });
+              requestAnimationFrame(() =>
+                document
+                  .querySelector<HTMLElement>(
+                    `[data-testid="contact-${dossier.personId}"] button`,
+                  )
+                  ?.focus(),
+              );
+            }}
             onMeet={() => dispatch({ type: "go-to-scene" })}
             talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
             onOpenLink={openEntity}
@@ -4207,6 +4242,7 @@ function renderWorkspace({
             returns to the card.
           */}
           <ContactsPanel
+            query={shell.peopleQuery}
             world={session.world}
             personId={session.personId}
             onWorldChange={onWorldChange}
@@ -5076,6 +5112,7 @@ function renderWorkspace({
               onWorldChange={onWorldChange}
               transitionHandlers={createCampaignElectionTransitionRegistry()}
               headed={false}
+              showTimeControl={false}
             />
           ),
         });
@@ -5133,7 +5170,7 @@ function renderWorkspace({
             }
             sections={sections}
             timeControl={
-              capabilities.formativeYears ? null : (
+              capabilities.formativeYears || half === "office" ? null : (
                 <PassDayControl
                   session={session}
                   onWorldChange={onWorldChange}

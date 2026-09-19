@@ -986,11 +986,36 @@ export function PoliticalMap(props: PoliticalMapProps) {
                   })
                 : null}
 
+              {preferences.labels && !stateUsps && layer !== "state"
+                ? outlineStates.map((feature) => {
+                    const name = stateNameForUsps(feature.stateUsps);
+                    const text = labelFits(feature, name)
+                      ? name
+                      : feature.stateUsps;
+                    return labelFits(feature, text) ? (
+                      <text
+                        key={`state-context-${feature.geoid}`}
+                        x={feature.label[0]}
+                        y={feature.label[1]}
+                        className="pg-map-label pg-map-state-label"
+                        fontSize={labelSize * 1.1}
+                        aria-hidden="true"
+                      >
+                        {text}
+                      </text>
+                    ) : null;
+                  })
+                : null}
               {preferences.labels
                 ? features.map((feature) => {
                     const text =
                       layer === "state"
-                        ? feature.stateUsps
+                        ? labelFits(
+                            feature,
+                            stateNameForUsps(feature.stateUsps),
+                          )
+                          ? stateNameForUsps(feature.stateUsps)
+                          : feature.stateUsps
                         : shortName(feature, layer);
                     if (!labelFits(feature, text)) return null;
                     return (
@@ -1034,7 +1059,11 @@ export function PoliticalMap(props: PoliticalMapProps) {
 
         <aside className="pg-map-side">
           <div className="pg-map-legend" aria-label="Legend">
-            <strong>Colors: recorded officeholder affiliation</strong>
+            <strong>
+              {mode === "county" || mode === "place"
+                ? "Colors: geography only"
+                : "Colors: recorded officeholder affiliation"}
+            </strong>
             <span>⌂ Home · ● Current location · outline: selected region</span>
             <h3>Key</h3>
             <ul>

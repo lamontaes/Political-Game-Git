@@ -1,10 +1,8 @@
-# PLAYTEST65 interface and combined delivery
+---
+id: playtest65-u
+impact: minor
+section: Improved
+title: Explore your life through clearer creation, records and navigation
+---
 
-- Character creation completes blank birthday fields before continuation and uses direct appearance choices with immediate reversible draft previews.
-- Windows retain optional movement and size, remain clamped to the viewport, and restore their default layout on request.
-- Navigation closes with motion and returns keyboard focus; map browsing retains selection and distinguishes current location, home and at-large districts.
-- Calendar keeps its list beside the grid; News opens published articles and no longer paints headlines over the idle room.
-- Opening reads the prepared saved world, presents President and Vice President, then government and the character's life.
-- The quiet build stamp reports tracked source changes separately from installed untracked private inputs. Package version machinery remains authoritative.
-
-Candidate artwork and human acceptance are tracked in the private combined-delivery receipt.
+Explore appearance choices with immediate reversible previews, then meet the public world and read your life so far. Keep map selections when reopening, distinguish Here from Home, and move or resize reading windows. Calendar keeps events beside its grid, News opens complete articles, and person records bring known history together. Save and Quit returns to the title after saving your life.

@@ -2469,3 +2469,27 @@
     width: 100%;
   }
 }
+
+.pg-personal-chronology {
+  max-height: 24rem;
+  overflow: auto;
+}
+.pg-personal-chronology time {
+  color: var(--pg-muted, #b9b2a3);
+  font-size: 0.85em;
+}
+.pg-opportunity-choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.6rem;
+  margin-block: 0.8rem;
+}
+.pg-opportunity-choices .ui-action {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  text-align: left;
+}
+.pg-opportunity-choices [aria-pressed="true"] {
+  outline: 2px solid var(--pg-gold, #c7ae72);
+}

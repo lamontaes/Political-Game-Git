@@ -119,6 +119,7 @@ export function PersonCard({
   onTogglePin,
   onOpenPerson,
   onTalk,
+  onContact,
   onMeet,
   onTravel,
   onFullRecord,
@@ -141,6 +142,7 @@ export function PersonCard({
   readonly onTogglePin: () => void;
   readonly onOpenPerson: (personId: EntityId) => void;
   readonly onTalk?: () => void;
+  readonly onContact?: () => void;
   readonly onMeet?: () => void;
   readonly onTravel?: () => void;
   /** The full record page, with appearance controls for your own character. */
@@ -345,6 +347,10 @@ export function PersonCard({
           >
             {dossier.lastInteraction}
           </p>
+          {dossier.howYouKnowThem &&
+          dossier.howYouKnowThem !== dossier.relationship ? (
+            <p>{dossier.howYouKnowThem}</p>
+          ) : null}
           <FactList
             facts={facts}
             testId={expanded ? "dossier-facts" : "quick-facts"}
@@ -370,6 +376,34 @@ export function PersonCard({
             </button>
           ) : null}
         </section>
+
+        {expanded && dossier.publicCareer.length > 0 ? (
+          <section className="pg-dossier-section" aria-label="Public career">
+            <h3>Public career</h3>
+            <div className="pg-person-chronology">
+              {dossier.publicCareer.map((entry) => (
+                <p key={entry.eventId}>
+                  <time>{entry.date}</time> · {entry.summary}
+                </p>
+              ))}
+            </div>
+          </section>
+        ) : null}
+        {expanded && dossier.sharedHistory.length > 0 ? (
+          <section
+            className="pg-dossier-section"
+            aria-label="Your shared history"
+          >
+            <h3>Your shared history</h3>
+            <div className="pg-person-chronology">
+              {dossier.sharedHistory.map((entry) => (
+                <p key={entry.id}>
+                  <time>{entry.date}</time> · {entry.summary}
+                </p>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         {connections.length > 0 ? (
           <section className="pg-dossier-section" aria-label="Connected people">
@@ -475,7 +509,8 @@ export function PersonCard({
             type="button"
             className="ui-action"
             data-testid="person-contact"
-            disabled={!contact.contact.available}
+            disabled={!contact.contact.available || !onContact}
+            onClick={onContact}
             aria-describedby={`person-contact-reason-${dossier.personId}`}
           >
             Contact
