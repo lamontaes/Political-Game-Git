@@ -55,6 +55,7 @@ A lower-authority document or implementation cannot silently override a higher-a
 - `npm run storage -- workspace --owner <owner>` — the owner's registered folder (reused; never a new directory)
 - `npm run storage -- outputs [--apply]` — pin-aware retention of disposable run output
 - `npm run storage -- check --path <folder>` — every reason a folder may not be retired
+- `npm run storage -- record --plan <plan.json>` — write each listed path's exact contents (HEAD, tracked differences, untracked paths) into the plan the owner approves
 - `npm run storage -- retire --plan <approved.json> [--apply]` — remove exactly an owner-approved list, re-checked at each removal
 - `npm run measure:arms` — measure each body raster's arms per side and pose, and say what the alpha does not contain
 
