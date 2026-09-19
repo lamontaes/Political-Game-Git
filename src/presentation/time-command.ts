@@ -28,7 +28,10 @@ import {
 import { interruptionHandlers } from "./interruption-policy";
 import { letStoryTimePass, quietStepDays } from "./life-story";
 import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
-import { describeRoutineOutcome } from "./routine-outcome";
+import {
+  describeRoutineOutcome,
+  formatRoutineElapsedMinutes,
+} from "./routine-outcome";
 import {
   DEFAULT_INTERRUPTIONS,
   type InterruptionPreferences,
@@ -92,6 +95,7 @@ export interface TimeCommandReceipt {
 }
 
 export interface TimeCommandPreview {
+  readonly elapsedMinutes?: number;
   readonly target: SimulationMoment;
   readonly targetDate: IsoDate;
   readonly days: number;
@@ -159,6 +163,7 @@ export function previewTimeCommand(
     const target = addSimulationMinutes(world.currentMoment, offer.minutes);
     return {
       target,
+      elapsedMinutes: simulationMinutesBetween(world.currentMoment, target),
       targetDate: target.date,
       days: wholeDaysBetween(world.currentDate, target.date),
       cappedBy: null,
@@ -172,6 +177,7 @@ export function previewTimeCommand(
     const target = scheduledActivityState(world, entry.activity.id).end;
     return {
       target,
+      elapsedMinutes: simulationMinutesBetween(world.currentMoment, target),
       targetDate: target.date,
       days: wholeDaysBetween(world.currentDate, target.date),
       cappedBy: null,
@@ -341,6 +347,12 @@ export function describeTimeCommandPreview(
     year: "numeric",
     timeZone: "UTC",
   }).format(new Date(`${preview.targetDate}T12:00:00Z`));
+  if (preview.elapsedMinutes !== undefined) {
+    const hour = Math.floor(preview.target.minuteOfDay / 60);
+    const minute = preview.target.minuteOfDay % 60;
+    const clock = `${hour % 12 || 12}:${String(minute).padStart(2, "0")} ${hour < 12 ? "AM" : "PM"}`;
+    return `${formatRoutineElapsedMinutes(preview.elapsedMinutes)}, to ${date} at ${clock}`;
+  }
   const span =
     preview.days === 1
       ? "1 day"

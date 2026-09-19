@@ -1,3 +1,7 @@
+import {
+  ensureOpeningPriorLocalRecords,
+  projectPublicMatters,
+} from "../simulation/living-world/developments";
 import { describe, expect, it } from "vitest";
 import { serializeWorld, deserializeWorld } from "../simulation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -10,6 +14,7 @@ describe("PLAYTEST65 canonical opening", () => {
       prepareOpeningLife({
         ...DEFAULT_NEW_GAME_SETUP,
         seed: "playtest65-w-opening",
+        placeKey: "lexington-fayette",
         household: "lives-alone",
         startKind: "custom",
       }),
@@ -28,6 +33,36 @@ describe("PLAYTEST65 canonical opening", () => {
     expect(snapshot.people.every((item) => item.relationship === null)).toBe(
       true,
     );
+    const prior = world.history.events.filter((event) =>
+      event.stableKey.startsWith("playtest65:prior-local"),
+    );
+    expect(prior).toHaveLength(4);
+    expect(
+      prior.every(
+        (event) =>
+          event.occurredAt < world.currentDate &&
+          event.participants.length === 0 &&
+          !event.involvedEntityIds.includes(playerPersonId),
+      ),
+    ).toBe(true);
+    expect(
+      projectPublicMatters(world)
+        .filter((matter) =>
+          matter.matterId.startsWith("playtest65:prior-local"),
+        )
+        .every((matter) => matter.concluded && !matter.openForComment),
+    ).toBe(true);
+    expect(ensureOpeningPriorLocalRecords(world, playerPersonId)).toBe(world);
+    const archivedPublications = (world.history.publications ?? []).filter(
+      (publication) =>
+        prior.some((event) => event.id === publication.sourceEventId),
+    );
+    expect(archivedPublications).toHaveLength(4);
+    expect(
+      archivedPublications.every(
+        (publication) => publication.publishedAt < world.currentDate,
+      ),
+    ).toBe(true);
     expect(serializeWorld(world)).toBe(before);
     expect(
       projectOpeningWorldSnapshot(deserializeWorld(before), playerPersonId),
@@ -41,5 +76,10 @@ describe("PLAYTEST65 canonical opening", () => {
     expect(
       projectOpeningWorldSnapshot(world, playerPersonId).vicePresident,
     ).toBeNull();
+    expect(
+      world.history.events.some((event) =>
+        event.stableKey.startsWith("playtest65:prior-local"),
+      ),
+    ).toBe(false);
   });
 });

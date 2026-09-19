@@ -45,7 +45,10 @@ describe("ALIVE43 W3 background developments", () => {
     expect(matters.map((m) => m.family).sort()).toEqual([
       "international",
       "local-matter",
+      "local-matter",
+      "local-matter",
     ]);
+    expect(matters.filter((matter) => matter.concluded)).toHaveLength(2);
     const digest = projectPublicInformationDigest(life.world);
     for (const matter of matters)
       expect(

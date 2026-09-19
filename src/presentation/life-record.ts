@@ -226,6 +226,7 @@ function recordEntries(
     // their own life, so putting them here would read as the game narrating
     // things nobody in it noticed.
     if (
+      event.type !== "life.scheduled-activity-declined" &&
       !event.tags.some(
         (tag) => tag.startsWith("choice.") || tag === "contact.lapsed",
       )

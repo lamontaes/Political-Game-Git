@@ -12,6 +12,7 @@ export function declineVenueActivity(
   world: World,
   personId: EntityId,
   activityId: EntityId,
+  resolution: "declined" | "lapsed" = "declined",
 ): World {
   const activity = world.history.scheduledActivities.find(
     (candidate) => candidate.id === activityId,
@@ -37,18 +38,24 @@ export function declineVenueActivity(
       {
         personId,
         role: "agency:participant",
-        detail: `Declined ${activity.title}`,
+        detail:
+          resolution === "lapsed"
+            ? `Lapsed hold for ${activity.title}`
+            : `Declined ${activity.title}`,
       },
     ],
     personFactConstraints: [],
     visibility: activity.access.kind === "office" ? "limited" : "private",
-    tags: ["scheduled-activity", "declined", "time-neutral"],
-    summary: `${activity.title} was declined and its calendar hold was released.`,
+    tags: ["scheduled-activity", resolution, "time-neutral"],
+    summary:
+      resolution === "lapsed"
+        ? `The calendar hold for ${activity.title} expired and was canceled.`
+        : `${activity.title} was declined and its calendar hold was released.`,
     context: {
       location: null,
       socialContext: null,
       pressure: null,
-      choice: `Decline ${activity.title}`,
+      choice: resolution === "lapsed" ? null : `Decline ${activity.title}`,
       motivation: null,
       immediateReaction: null,
     },

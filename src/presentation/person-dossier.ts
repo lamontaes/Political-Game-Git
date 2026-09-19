@@ -368,7 +368,8 @@ export function projectPersonDossier(
       .filter(
         (event) =>
           event.visibility === "public" &&
-          event.type === "world.office-tenure" &&
+          (event.type === "world.office-tenure" ||
+            event.type === "world.legislative-seat-tenure") &&
           event.occurredAt <= world.currentDate &&
           event.participants.some(
             (participant) =>

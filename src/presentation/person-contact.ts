@@ -29,10 +29,10 @@ import {
  *   home and the neighborhood — when it actually ends where they were last
  *   recorded. `walkOpeningNeighborhood` is the writer; nothing here invents
  *   a route. Any other destination is named and refused.
- * - Contact: no remote channel writer exists in the simulation (no call,
- *   message or letter producer). The card says so; it does not fake one.
- * - Meet: no invitation producer exists. When they are here, Meet returns to
- *   the room; otherwise the gap is named.
+ * - Contact: the existing contacts route can propose and answer meetings.
+ *   Descriptive channel labels do not imply a separate phone/message writer.
+ * - Meet: when they are here, return to the room; otherwise use the recorded
+ *   contact route to arrange a meeting.
  */
 
 export interface PersonContactAction {

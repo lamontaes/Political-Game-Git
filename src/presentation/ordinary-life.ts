@@ -311,6 +311,7 @@ function advanceOrdinaryDays(
       stepped,
       stepped.control.personId,
       optional.id,
+      "lapsed",
     );
     if (declined === stepped) return stepped;
     current = declined;

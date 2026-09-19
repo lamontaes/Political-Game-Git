@@ -1,3 +1,4 @@
+import { ensureOpeningPriorLocalRecords } from "../simulation/living-world/developments";
 import {
   canonicalJson,
   householdMembershipsAt,
@@ -73,6 +74,10 @@ export function generateOpeningLife(
     datedTerms: session.setup.worldOpeningVersion !== undefined,
     includeVicePresident: session.setup.openingDataVersion === "playtest65-v1",
   });
+  const withPriorRecords =
+    session.setup.openingDataVersion === "playtest65-v1"
+      ? ensureOpeningPriorLocalRecords(staffed, game.playerPersonId)
+      : staffed;
   return {
     ...session,
     phase: "world",
@@ -97,7 +102,10 @@ export function generateOpeningLife(
               // Standing chapter committees exist only in current openings.
               ensurePartyGoverningBodies(
                 ensureHomePartyChapters(
-                  ensureLivingWorldOpening(staffed, game.playerPersonId),
+                  ensureLivingWorldOpening(
+                    withPriorRecords,
+                    game.playerPersonId,
+                  ),
                   game.playerPersonId,
                 ),
                 game.playerPersonId,

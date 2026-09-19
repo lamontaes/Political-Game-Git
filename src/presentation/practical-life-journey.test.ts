@@ -1,8 +1,15 @@
+import {
+  submitTimeCommand,
+  previewTimeCommand,
+  describeTimeCommandPreview,
+} from "./time-command";
+import { openOrdinaryLife } from "./ordinary-life";
 import { describe, expect, it } from "vitest";
 import {
   serializeWorld,
   deserializeWorld,
   simulationMinutesBetween,
+  scheduledActivityState,
 } from "../simulation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -14,7 +21,6 @@ import { projectContacts, askToMeet } from "./people-contacts";
 import { projectPersonContact } from "./person-contact";
 import {
   currentOpeningLifeScene,
-  walkOpeningNeighborhood,
   openingLifeLocation,
 } from "./life-scene-flow";
 
@@ -56,9 +62,28 @@ describe("PLAYTEST65 real opening and practical-life readers", () => {
     expect(dossier.howYouKnowThem || dossier.sharedHistory.length).toBeTruthy();
     projectPracticalOpportunities(world, player);
     expect(serializeWorld(world)).toBe(saved);
-    const out = walkOpeningNeighborhood(world, player, "neighborhood");
+    const walkPreview = previewTimeCommand(world, player, {
+      kind: "walk",
+      destination: "neighborhood",
+    })!;
+    expect(describeTimeCommandPreview(walkPreview)).toContain("5 minutes");
+    const outResult = submitTimeCommand(world, {
+      requestId: "journey-walk-out",
+      personId: player,
+      sourceMoment: world.currentMoment,
+      command: { kind: "walk", destination: "neighborhood" },
+    });
+    expect(outResult.receipt.status).toBe("accepted");
+    const out = outResult.world;
     expect(openingLifeLocation(out, player)?.setting).toBe("neighborhood");
-    const home = walkOpeningNeighborhood(out, player, "home");
+    const homeResult = submitTimeCommand(out, {
+      requestId: "journey-walk-home",
+      personId: player,
+      sourceMoment: out.currentMoment,
+      command: { kind: "walk", destination: "home" },
+    });
+    expect(homeResult.receipt.status).toBe("accepted");
+    const home = homeResult.world;
     expect(openingLifeLocation(home, player)?.setting).toBe("home");
     expect(
       simulationMinutesBetween(world.currentMoment, home.currentMoment),
@@ -74,6 +99,32 @@ describe("PLAYTEST65 real opening and practical-life readers", () => {
       purpose: "Talk about our plans",
     });
     expect(asked.currentMoment).toEqual(restored.currentMoment);
+    const ordinary = openOrdinaryLife(asked, player);
+    const meeting = projectPracticalActivity(ordinary, player).activities.find(
+      (entry) => entry.activity.title === "Posted public meeting",
+    )!;
+    expect(meeting.refusal).toBeNull();
+    const attended = submitTimeCommand(ordinary, {
+      requestId: "journey-attend",
+      personId: player,
+      sourceMoment: ordinary.currentMoment,
+      command: meeting.command,
+    });
+    expect(attended.receipt.status).toBe("accepted");
+    expect(attended.world.currentMoment).toEqual(meeting.state.end);
+    expect(attended.receipt.outcome).toBe(
+      `You completed ${meeting.activity.title} at ${meeting.activity.location.label}.`,
+    );
+    expect(
+      scheduledActivityState(attended.world, meeting.activity.id).status,
+    ).toBe("completed");
+    expect(openingLifeLocation(attended.world, player)?.label).toBe(
+      meeting.activity.location.label,
+    );
+    const continued = deserializeWorld(serializeWorld(attended.world));
+    expect(projectPracticalActivity(continued, player).current).toEqual(
+      projectPracticalActivity(attended.world, player).current,
+    );
   });
   it.each([
     ["1150000", 34],
