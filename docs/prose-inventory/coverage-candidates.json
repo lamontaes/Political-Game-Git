@@ -31633,7 +31633,7 @@
     {
       "sourcePath": "src/presentation/shell-navigation.ts",
       "enclosingSymbol": "shellReducer",
-      "line": 642,
+      "line": 644,
       "text": "Back in the room.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -31641,7 +31641,7 @@
     {
       "sourcePath": "src/presentation/shell-navigation.ts",
       "enclosingSymbol": "shellReducer",
-      "line": 659,
+      "line": 661,
       "text": "Back in the room.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -31649,7 +31649,7 @@
     {
       "sourcePath": "src/presentation/shell-navigation.ts",
       "enclosingSymbol": "shellReducer",
-      "line": 673,
+      "line": 675,
       "text": "Back in the room.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -31657,7 +31657,7 @@
     {
       "sourcePath": "src/presentation/shell-navigation.ts",
       "enclosingSymbol": "shellReducer",
-      "line": 686,
+      "line": 688,
       "text": "Opened {action.section??action.surface}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -31665,7 +31665,7 @@
     {
       "sourcePath": "src/presentation/shell-navigation.ts",
       "enclosingSymbol": "shellReducer",
-      "line": 699,
+      "line": 701,
       "text": "Opened {action.section??action.surface}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -31673,7 +31673,7 @@
     {
       "sourcePath": "src/presentation/shell-navigation.ts",
       "enclosingSymbol": "shellReducer",
-      "line": 730,
+      "line": 732,
       "text": "Back in the room.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -31681,7 +31681,7 @@
     {
       "sourcePath": "src/presentation/shell-navigation.ts",
       "enclosingSymbol": "shellReducer",
-      "line": 737,
+      "line": 739,
       "text": "Opened {action.ref.kind}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -31689,7 +31689,7 @@
     {
       "sourcePath": "src/presentation/shell-navigation.ts",
       "enclosingSymbol": "shellReducer",
-      "line": 745,
+      "line": 747,
       "text": "Went back.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -31697,7 +31697,7 @@
     {
       "sourcePath": "src/presentation/shell-navigation.ts",
       "enclosingSymbol": "shellReducer",
-      "line": 805,
+      "line": 807,
       "text": "A skip will stop for this.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -31705,7 +31705,7 @@
     {
       "sourcePath": "src/presentation/shell-navigation.ts",
       "enclosingSymbol": "shellReducer",
-      "line": 806,
+      "line": 808,
       "text": "A skip will no longer stop for this.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -31713,7 +31713,7 @@
     {
       "sourcePath": "src/presentation/shell-navigation.ts",
       "enclosingSymbol": "shellReducer",
-      "line": 853,
+      "line": 855,
       "text": "Pin size set to {action.size}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -31721,7 +31721,7 @@
     {
       "sourcePath": "src/presentation/shell-navigation.ts",
       "enclosingSymbol": "shellReducer",
-      "line": 867,
+      "line": 869,
       "text": "Reordered pins.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -31729,7 +31729,7 @@
     {
       "sourcePath": "src/presentation/shell-navigation.ts",
       "enclosingSymbol": "shellReducer",
-      "line": 888,
+      "line": 890,
       "text": "Reordered pins.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -31737,7 +31737,7 @@
     {
       "sourcePath": "src/presentation/shell-navigation.ts",
       "enclosingSymbol": "shellReducer",
-      "line": 950,
+      "line": 952,
       "text": "Outlet followed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -31745,7 +31745,7 @@
     {
       "sourcePath": "src/presentation/shell-navigation.ts",
       "enclosingSymbol": "shellReducer",
-      "line": 950,
+      "line": 952,
       "text": "Outlet unfollowed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -31753,7 +31753,7 @@
     {
       "sourcePath": "src/presentation/shell-navigation.ts",
       "enclosingSymbol": "shellReducer",
-      "line": 971,
+      "line": 973,
       "text": "Term marked as learned.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -31761,7 +31761,7 @@
     {
       "sourcePath": "src/presentation/shell-navigation.ts",
       "enclosingSymbol": "shellReducer",
-      "line": 972,
+      "line": 974,
       "text": "Term no longer marked as learned.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -31769,7 +31769,7 @@
     {
       "sourcePath": "src/presentation/shell-navigation.ts",
       "enclosingSymbol": "shellReducer",
-      "line": 1072,
+      "line": 1074,
       "text": "Closed workspace.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
