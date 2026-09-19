@@ -1,13 +1,15 @@
 import "./world-orientation.css";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { projectOpeningWorldSnapshot } from "../presentation/opening-world-snapshot";
 
 import type {
   OrientationChamber,
   OrientationPerson,
   OrientationView,
+  OrientationStep,
 } from "../presentation/world-orientation";
-import type { EntityId } from "../simulation";
+import type { EntityId, World } from "../simulation";
 import { GameSelect } from "./controls/GameSelect";
 
 /**
@@ -25,6 +27,10 @@ export function WorldOrientationPanel({
   mode,
   onClose,
   onOpenPerson,
+  world,
+  personId,
+  renderFigure,
+  establishingPlate,
 }: {
   readonly view: OrientationView;
   readonly homeStateUsps: string | null;
@@ -32,11 +38,59 @@ export function WorldOrientationPanel({
   readonly mode: "first" | "revisit";
   readonly onClose: () => void;
   readonly onOpenPerson: (personId: EntityId) => void;
+  readonly world?: World;
+  readonly personId?: EntityId;
+  readonly renderFigure?: (personId: EntityId) => ReactNode;
+  readonly establishingPlate?: ReactNode;
 }) {
+  const snapshot = useMemo(
+    () =>
+      world && personId ? projectOpeningWorldSnapshot(world, personId) : null,
+    [world, personId],
+  );
+  const steps: readonly (Omit<OrientationStep, "key"> & {
+    readonly key: string;
+  })[] = useMemo(() => {
+    if (!snapshot) return view.steps;
+    const officials = [snapshot.president, snapshot.vicePresident].flatMap(
+      (holder) => {
+        if (!holder) return [];
+        const known = view.steps[0]?.people.find(
+          (person) => person.personId === holder.personId,
+        );
+        return [
+          known ?? {
+            personId: holder.personId,
+            name: holder.personName,
+            title: holder.title,
+            party: null,
+            facts: [],
+          },
+        ];
+      },
+    );
+    return [
+      ...view.steps
+        .filter((step) => !(homeStateUsps === "DC" && step.key === "locality"))
+        .map((step) =>
+          step.key === "executive" ? { ...step, people: officials } : step,
+        ),
+      {
+        key: "your-life",
+        title: "Your life so far",
+        summary:
+          snapshot.beats
+            .find((beat) => beat.key === "your-life")
+            ?.facts.join(" ") ?? "",
+        people: [],
+        chambers: [],
+      },
+    ];
+  }, [snapshot, view.steps, homeStateUsps]);
   const [index, setIndex] = useState(0);
   const heading = useRef<HTMLHeadingElement>(null);
-  const step = view.steps[index]!;
-  const last = index === view.steps.length - 1;
+  const step = steps[Math.min(index, steps.length - 1)]!;
+  const last = index >= steps.length - 1;
 
   useEffect(() => {
     heading.current?.focus();
@@ -57,7 +111,7 @@ export function WorldOrientationPanel({
       }}
     >
       <p className="pg-orientation-kicker">
-        {index + 1} of {view.steps.length} · {view.dateLabel}
+        {index + 1} of {steps.length} · {view.dateLabel}
       </p>
       <h2
         id="pg-orientation-title"
@@ -70,25 +124,70 @@ export function WorldOrientationPanel({
       </h2>
       <p className="pg-orientation-summary">{step.summary}</p>
 
-      {step.chambers.map((chamber) => (
-        <ChamberBlock
-          key={chamber.chamberKey}
-          chamber={chamber}
-          homeStateUsps={homeStateUsps}
-          onOpenPerson={onOpenPerson}
-        />
-      ))}
+      <div className="pg-orientation-reading">
+        {step.key === "executive" ? (
+          <div className="pg-white-house-presentation">
+            {establishingPlate}
+            <div className="pg-opening-officials">
+              {step.people.map((person, position) => (
+                <article
+                  key={person.personId}
+                  className={
+                    position === 0
+                      ? "pg-opening-president"
+                      : "pg-opening-vice-president"
+                  }
+                >
+                  {renderFigure?.(person.personId)}
+                  <PersonButton person={person} onOpenPerson={onOpenPerson} />
+                </article>
+              ))}
+            </div>
+          </div>
+        ) : null}
 
-      {step.people.length > 0 ? (
-        <ul className="pg-orientation-people">
-          {step.people.map((person) => (
-            <li key={`${person.personId}:${person.title}`}>
-              <PersonButton person={person} onOpenPerson={onOpenPerson} />
-            </li>
-          ))}
-        </ul>
-      ) : null}
+        {step.chambers.map((chamber) => (
+          <ChamberBlock
+            key={chamber.chamberKey}
+            chamber={chamber}
+            homeStateUsps={homeStateUsps}
+            onOpenPerson={onOpenPerson}
+          />
+        ))}
 
+        {step.people.length > 0 && step.key !== "executive" ? (
+          <ul className="pg-orientation-people">
+            {step.people.map((person) => (
+              <li key={`${person.personId}:${person.title}`}>
+                <PersonButton person={person} onOpenPerson={onOpenPerson} />
+              </li>
+            ))}
+          </ul>
+        ) : null}
+
+        {step.key === "your-life" && snapshot ? (
+          <>
+            <ul className="pg-opening-household">
+              {snapshot.life.household.household.map((person) => (
+                <li key={person.personId}>
+                  <button
+                    type="button"
+                    className="ui-action"
+                    onClick={() => onOpenPerson(person.personId)}
+                  >
+                    {person.name}
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <p>
+              {snapshot.startingLocation
+                ? `Begin at ${snapshot.startingLocation.label}.`
+                : "Continue into your life."}
+            </p>
+          </>
+        ) : null}
+      </div>
       <div className="pg-orientation-actions">
         <button
           type="button"
@@ -106,9 +205,7 @@ export function WorldOrientationPanel({
           onClick={() =>
             last
               ? onClose()
-              : setIndex((current) =>
-                  Math.min(view.steps.length - 1, current + 1),
-                )
+              : setIndex((current) => Math.min(steps.length - 1, current + 1))
           }
         >
           {last ? "Done" : "Next"}

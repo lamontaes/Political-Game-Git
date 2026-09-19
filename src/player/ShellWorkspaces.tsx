@@ -1,4 +1,9 @@
 import { UX39CalendarGrid, useCalendarDateOrder } from "./UX39CalendarGrid";
+import {
+  clampWorkspace,
+  type WorkspaceLayout,
+} from "../presentation/workspace-layout";
+import type { PointerEvent as ReactPointerEvent } from "react";
 import { PinToggle } from "./controls/PinToggle";
 import { calendarDisplayDate } from "./ux39-calendar-dates";
 import {
@@ -108,6 +113,8 @@ export function WorkspaceFrame({
   onBack,
   onClose,
   children,
+  layout,
+  onLayoutChange,
 }: {
   readonly title: string;
   readonly kicker?: string;
@@ -116,19 +123,154 @@ export function WorkspaceFrame({
   readonly onBack: () => void;
   readonly onClose: () => void;
   readonly children: ReactNode;
+  readonly layout?: WorkspaceLayout;
+  readonly onLayoutChange?: (layout: WorkspaceLayout | null) => void;
 }) {
+  const frame = useRef<HTMLElement>(null);
+  const closeButton = useRef<HTMLButtonElement>(null);
+  const [liveLayout, setLiveLayout] = useState<WorkspaceLayout | null>(null);
+  const [viewport, setViewport] = useState(() => ({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  }));
+  const drag = useRef<{
+    mode: "move" | "resize";
+    x: number;
+    y: number;
+    layout: WorkspaceLayout;
+  } | null>(null);
+  useEffect(() => {
+    const invoker =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+    closeButton.current?.focus();
+    return () => {
+      if (invoker?.isConnected) invoker.focus();
+    };
+  }, [testid]);
+  useEffect(() => {
+    const resize = () =>
+      setViewport({ width: window.innerWidth, height: window.innerHeight });
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
+  }, []);
+  const shown =
+    liveLayout ??
+    (layout ? clampWorkspace(layout, viewport.width, viewport.height) : null);
+  function start(
+    event: ReactPointerEvent<HTMLElement>,
+    mode: "move" | "resize",
+  ) {
+    if (!onLayoutChange || event.button !== 0) return;
+    if (mode === "move" && (event.target as HTMLElement).closest("button"))
+      return;
+    const rect = frame.current?.getBoundingClientRect();
+    if (!rect) return;
+    event.preventDefault();
+    event.currentTarget.setPointerCapture(event.pointerId);
+    drag.current = {
+      mode,
+      x: event.clientX,
+      y: event.clientY,
+      layout: { x: rect.x, y: rect.y, width: rect.width, height: rect.height },
+    };
+  }
+  function move(event: ReactPointerEvent<HTMLElement>) {
+    const current = drag.current;
+    if (!current) return;
+    const dx = event.clientX - current.x,
+      dy = event.clientY - current.y;
+    setLiveLayout(
+      clampWorkspace(
+        {
+          ...current.layout,
+          ...(current.mode === "move"
+            ? { x: current.layout.x + dx, y: current.layout.y + dy }
+            : {
+                width: current.layout.width + dx,
+                height: current.layout.height + dy,
+              }),
+        },
+        viewport.width,
+        viewport.height,
+      ),
+    );
+  }
+  function end() {
+    if (drag.current && liveLayout) onLayoutChange?.(liveLayout);
+    drag.current = null;
+    setLiveLayout(null);
+  }
   return (
     <section
+      ref={frame}
       className="pg-workspace civic-glass"
+      style={
+        shown
+          ? {
+              left: shown.x,
+              top: shown.y,
+              width: shown.width,
+              height: shown.height,
+              maxHeight: viewport.height - 24,
+              transform: "none",
+            }
+          : undefined
+      }
       data-testid={testid}
       aria-label={title}
+      onKeyDown={(event) => {
+        if (event.key === "Escape") {
+          event.stopPropagation();
+          onClose();
+        }
+      }}
     >
-      <header className="pg-workspace-head">
+      <header
+        className="pg-workspace-head"
+        data-movable={Boolean(onLayoutChange)}
+        onPointerDown={(event) => start(event, "move")}
+        onPointerMove={move}
+        onPointerUp={end}
+        onPointerCancel={end}
+      >
         <div>
           {kicker ? <p className="pg-kicker">{kicker}</p> : null}
           <h2>{title}</h2>
         </div>
         <div className="pg-workspace-controls">
+          {onLayoutChange ? (
+            <>
+              <button
+                type="button"
+                className="ui-action ui-action--subtle"
+                onClick={() =>
+                  onLayoutChange(
+                    clampWorkspace(
+                      {
+                        x: 12,
+                        y: 12,
+                        width: viewport.width - 24,
+                        height: viewport.height - 110,
+                      },
+                      viewport.width,
+                      viewport.height,
+                    ),
+                  )
+                }
+              >
+                Maximize
+              </button>
+              <button
+                type="button"
+                className="ui-action ui-action--subtle"
+                onClick={() => onLayoutChange(null)}
+              >
+                Reset layout
+              </button>
+            </>
+          ) : null}
           {canGoBack ? (
             <button
               type="button"
@@ -143,6 +285,7 @@ export function WorkspaceFrame({
             type="button"
             className="ui-icon-button"
             aria-label="Close"
+            ref={closeButton}
             data-testid={`${testid}-close`}
             onClick={onClose}
           >
@@ -151,6 +294,54 @@ export function WorkspaceFrame({
         </div>
       </header>
       <div className="pg-workspace-body">{children}</div>
+      {onLayoutChange ? (
+        <button
+          type="button"
+          className="pg-window-resize"
+          aria-label={`Resize ${title}; use arrow keys`}
+          onPointerDown={(event) => start(event, "resize")}
+          onPointerMove={move}
+          onPointerUp={end}
+          onPointerCancel={end}
+          onKeyDown={(event) => {
+            if (
+              !["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(
+                event.key,
+              )
+            )
+              return;
+            event.preventDefault();
+            const rect = frame.current?.getBoundingClientRect();
+            if (rect)
+              onLayoutChange(
+                clampWorkspace(
+                  {
+                    x: rect.x,
+                    y: rect.y,
+                    width:
+                      rect.width +
+                      (event.key === "ArrowRight"
+                        ? 20
+                        : event.key === "ArrowLeft"
+                          ? -20
+                          : 0),
+                    height:
+                      rect.height +
+                      (event.key === "ArrowDown"
+                        ? 20
+                        : event.key === "ArrowUp"
+                          ? -20
+                          : 0),
+                  },
+                  viewport.width,
+                  viewport.height,
+                ),
+              );
+          }}
+        >
+          ◢
+        </button>
+      ) : null}
     </section>
   );
 }
@@ -588,7 +779,7 @@ export function CalendarWorkspaceSurface({
       </div>
 
       {tab === "today" ? (
-        <>
+        <div className="pg-calendar-board">
           <UX39CalendarGrid
             today={calendar.today.date}
             days={liveDays}
@@ -683,7 +874,7 @@ export function CalendarWorkspaceSurface({
               )
             )}
           </div>
-        </>
+        </div>
       ) : null}
 
       {tab === "history" ? (

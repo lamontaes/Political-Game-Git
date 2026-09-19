@@ -163,6 +163,7 @@ export interface ShellPin {
  * A preference with nothing reading it is a lie about what the game supports.
  */
 export interface ShellPreferences {
+  readonly workspaceLayouts?: Readonly<Record<string, WorkspaceLayout>>;
   readonly peopleView: PeopleView;
   readonly defaultPinSize: PinSize;
   /** Interface-only outlet follows, scoped to this saved life. */
@@ -472,6 +473,11 @@ export type ShellAction =
   | {
       readonly type: "set-reader-preferences";
       readonly patch: Partial<ReaderPreferences>;
+    }
+  | {
+      readonly type: "set-workspace-layout";
+      readonly key: string;
+      readonly layout: WorkspaceLayout | null;
     }
   | {
       readonly type: "set-map-preferences";
@@ -919,6 +925,15 @@ export function shellReducer(
       };
     }
 
+    case "set-workspace-layout": {
+      const workspaceLayouts = { ...state.preferences.workspaceLayouts };
+      if (action.layout) workspaceLayouts[action.key] = action.layout;
+      else delete workspaceLayouts[action.key];
+      return {
+        ...state,
+        preferences: { ...state.preferences, workspaceLayouts },
+      };
+    }
     case "set-map-preferences":
       return {
         ...state,
@@ -1078,3 +1093,4 @@ export function shellReducer(
     }
   }
 }
+import type { WorkspaceLayout } from "./workspace-layout";

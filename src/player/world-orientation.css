@@ -308,3 +308,43 @@
     border: 1px solid CanvasText;
   }
 }
+
+.pg-orientation {
+  width: min(1000px, calc(100vw - 48px));
+  height: min(700px, calc(100dvh - 130px));
+  max-height: calc(100dvh - 130px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.pg-orientation-reading {
+  min-height: 0;
+  flex: 1;
+  overflow: auto;
+}
+.pg-orientation-actions {
+  flex-shrink: 0;
+}
+.pg-white-house-presentation {
+  position: relative;
+  min-height: 350px;
+  isolation: isolate;
+}
+.pg-opening-officials {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: end;
+}
+.pg-opening-president,
+.pg-opening-vice-president {
+  min-width: 0;
+}
+.pg-opening-household {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+}

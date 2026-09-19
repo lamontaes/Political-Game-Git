@@ -73,6 +73,7 @@ export function CreatorAppearanceStep({
           <div>
             {ready ? (
               <PersonAppearanceControls
+                unsavedCreator
                 world={draft}
                 personId={person.id}
                 library={library}

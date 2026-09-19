@@ -35,6 +35,8 @@ export function WorldOrientationEntry({
   }
   return (
     <WorldOrientationPanel
+      world={world}
+      personId={personId}
       view={view}
       homeStateUsps={homeStateUsps}
       mode="revisit"

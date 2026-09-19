@@ -307,7 +307,7 @@ export function PersonCard({
                 className="pg-person-card-note"
                 data-testid="person-card-presence-note"
               >
-                Not here. A card or a pin is a reference, not presence.
+                Away from your current location.
               </p>
             )}
           </div>

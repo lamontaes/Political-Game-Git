@@ -153,30 +153,40 @@ export function PreparedAppearanceControls({
             </p>
           );
         return (
-          <label key={channel} className="appearance-select-field">
-            <span className="appearance-choice-title">
-              <span
-                className="appearance-color-swatch"
-                aria-hidden="true"
-                style={{
-                  backgroundColor: ramps.find(
-                    (r) => r.id === material.palettes[channel],
-                  )?.neutral,
-                }}
-              />
-              {CHANNEL_TITLES[channel]}
-            </span>
-            <GameSelect
-              aria-label={CHANNEL_TITLES[channel]}
-              value={material.palettes[channel]}
-              onChange={(e) => setPalette(channel, e.target.value)}
-              options={ramps.map((r) => ({
-                value: r.id,
-                label: COLOR_NAMES[r.id] ?? "Color",
-                disabled: false,
-              }))}
-            />
-          </label>
+          <fieldset key={channel} className="appearance-material-swatches">
+            <legend>{CHANNEL_TITLES[channel]}</legend>
+            <div className="appearance-skin-row">
+              {ramps.map((ramp) => {
+                const selected = material.palettes[channel] === ramp.id;
+                return (
+                  <label
+                    key={ramp.id}
+                    className="appearance-skin-swatch"
+                    data-selected={selected}
+                  >
+                    <input
+                      type="radio"
+                      className="appearance-visually-hidden"
+                      name={`${skinGroup}-${channel}`}
+                      aria-label={`${CHANNEL_TITLES[channel]}: ${COLOR_NAMES[ramp.id] ?? ramp.id}`}
+                      checked={selected}
+                      onChange={() => setPalette(channel, ramp.id)}
+                    />
+                    <span
+                      className="appearance-skin-chip"
+                      style={{ backgroundColor: ramp.neutral }}
+                      aria-hidden="true"
+                    >
+                      {selected ? "✓" : ""}
+                    </span>
+                    <span className="appearance-skin-name">
+                      {COLOR_NAMES[ramp.id] ?? ramp.id}
+                    </span>
+                  </label>
+                );
+              })}
+            </div>
+          </fieldset>
         );
       })}
       <p className="appearance-note">

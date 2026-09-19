@@ -31,7 +31,7 @@ function git(args) {
 }
 
 const revision = git(["rev-parse", "HEAD"]) ?? "unknown";
-const status = git(["status", "--porcelain"]);
+const status = git(["status", "--porcelain", "--untracked-files=no"]);
 const profile =
   process.env.VITE_OCD_BUILD_PROFILE === "internal-art-review"
     ? "internal-art-review"

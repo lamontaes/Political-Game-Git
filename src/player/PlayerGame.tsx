@@ -22,7 +22,7 @@ import { projectLocationSurfaces } from "../presentation/location-surfaces";
 import { locationReviewVisuals } from "../presentation/location-art-review";
 import { PressWorkspace } from "./PressWorkspace";
 import { ContentPackWorkspace } from "./ContentPackWorkspace";
-import { birthdayProblemForSetup } from "../presentation/new-game-birthday";
+import { resolveCreatorBirthday } from "../presentation/creator-full-birthday";
 import { CreatorBirthdayFields } from "./CreatorBirthdayFields";
 import {
   HOMETOWN_PAGE_SIZE,
@@ -1178,7 +1178,6 @@ function SetupScreen({
   };
 
   const problems = newGameSetupProblems(committed);
-  const birthdayProblem = birthdayProblemForSetup(committed);
   /*
    * Not answering is different from entering an invalid age: both keep Next
    * disabled, but only an entered invalid value needs an error message.
@@ -1210,7 +1209,12 @@ function SetupScreen({
     setup.startAge >= STATE_AGENCY_START_MINIMUM_AGE &&
     stateAgencyStartAvailableFor(place?.stateJurisdictionKey ?? null);
   const chosenGender = statedCreatorGender(setup.gender);
-  const characterMissing = creatorCharacterMissing(committed, ageChosen);
+  const characterMissing = creatorCharacterMissing(committed, ageChosen).filter(
+    (field) => field !== "birthday",
+  );
+  const [birthdayCompletionProblem, setBirthdayCompletionProblem] = useState<
+    string | null
+  >(null);
   const characterHint = creatorCharacterHint(characterMissing);
   const birthDate = ageChosen ? creatorBirthDate(setup) : null;
   // The compact summaries the finished steps collapse to.
@@ -1451,12 +1455,20 @@ function SetupScreen({
             aria-describedby={
               characterHint ? "creator-character-missing" : undefined
             }
-            disabled={
-              characterMissing.length > 0 ||
-              birthdayProblem !== null ||
-              !ageUsable
-            }
-            onClick={() => advanceTo("place")}
+            disabled={characterMissing.length > 0 || (ageChosen && !ageUsable)}
+            onClick={() => {
+              const completed = resolveCreatorBirthday(setup, ageChosen);
+              if (!completed) {
+                setBirthdayCompletionProblem(
+                  "These date fields do not form a supported birthday. Check the day, month and year.",
+                );
+                return;
+              }
+              setBirthdayCompletionProblem(null);
+              setSetup(completed);
+              setAgeChosen(true);
+              advanceTo("place");
+            }}
           >
             Next
           </button>
@@ -1468,6 +1480,9 @@ function SetupScreen({
             >
               {characterHint}
             </p>
+          ) : null}
+          {birthdayCompletionProblem ? (
+            <p role="alert">{birthdayCompletionProblem}</p>
           ) : null}
         </section>
       ) : null}
@@ -3236,7 +3251,15 @@ function PlayingScreen({
               sceneId={sceneId}
               visualLibrary={sceneVisuals}
               people={scenePeople}
-              surfaces={surfaceProjection}
+              surfaces={{
+                ...surfaceProjection,
+                facts: new Map(
+                  [...surfaceProjection.facts].filter(
+                    ([key, fact]) =>
+                      key !== "headline" || fact.channel !== "published",
+                  ),
+                ),
+              }}
               /*
                * UI9-03. The people in the room ARE the selection surface now.
                * The rail that used to sit above them filled itself from whoever
@@ -3334,6 +3357,8 @@ function PlayingScreen({
                       />
                     ) : showOrientation ? (
                       <WorldOrientationPanel
+                        world={session.world}
+                        personId={session.personId}
                         view={orientation.view}
                         homeStateUsps={orientation.homeStateUsps}
                         mode="first"
@@ -3969,6 +3994,12 @@ function renderWorkspace({
   ) => (
     <WorkspaceFrame
       title={title}
+      {...(shell.preferences.workspaceLayouts?.[testid]
+        ? { layout: shell.preferences.workspaceLayouts[testid] }
+        : {})}
+      onLayoutChange={(layout) =>
+        dispatch({ type: "set-workspace-layout", key: testid, layout })
+      }
       {...(kicker === undefined ? {} : { kicker })}
       testid={testid}
       canGoBack={backable}

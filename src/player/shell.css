@@ -1921,6 +1921,28 @@
 
 .pg-workspace-body {
   overscroll-behavior: contain;
+  flex: 1;
+}
+.pg-workspace-head[data-movable="true"] {
+  cursor: move;
+  touch-action: none;
+}
+.pg-workspace-head button {
+  cursor: pointer;
+}
+.pg-window-resize {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  cursor: nwse-resize;
+  touch-action: none;
+  color: var(--pg-brass);
+  background: var(--pg-glass-strong);
+  border: 0;
+  border-radius: 0 0 var(--pg-radius) 0;
 }
 
 /* When the card sits over a workspace it must not hide the frame's controls. */
@@ -2181,6 +2203,26 @@
   }
 }
 
+.pg-nav-flyout[data-motion="closing"] {
+  pointer-events: none;
+  animation: pg-nav-fade-out 200ms ease-in both;
+}
+@keyframes pg-nav-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@media (min-width: 761px) and (min-height: 700px) {
+  .pg-nav-flyout[data-motion="closing"] button[role="menuitem"] {
+    animation: pg-nav-fan-in 200ms ease-in reverse both;
+    animation-delay: 0ms;
+  }
+  .pg-nav-persist button[role="menuitem"] {
+    width: 3.3rem;
+    height: 3.3rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .pg-nav-avatar {
     transform: none;
@@ -2397,4 +2439,33 @@
   align-items: center;
   gap: var(--pg-space-2);
   margin-top: var(--pg-space-1);
+}
+.pg-calendar-board {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 0.9fr);
+  gap: 12px 20px;
+  align-items: start;
+}
+.pg-calendar-board > * {
+  min-width: 0;
+}
+.pg-calendar-board > [data-testid="calendar-upcoming"] {
+  grid-column: 2;
+  grid-row: 1 / span 8;
+  max-height: 52vh;
+  overflow: auto;
+}
+.pg-calendar-board > [data-testid="calendar-time-controls"] {
+  position: sticky;
+  bottom: 0;
+  background: var(--pg-glass-strong);
+}
+@media (max-width: 760px) {
+  .pg-calendar-board {
+    display: flex;
+    flex-direction: column;
+  }
+  .pg-calendar-board > * {
+    width: 100%;
+  }
 }

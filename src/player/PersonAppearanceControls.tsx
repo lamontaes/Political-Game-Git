@@ -8,7 +8,8 @@ import {
   preparedFamily,
   preparedPartsAt,
 } from "../presentation/engine-people29-data";
-import { GameSelect, optionAccessibleName } from "./controls/GameSelect";
+import { optionAccessibleName } from "./controls/GameSelect";
+import { AppearanceChoice } from "./controls/AppearanceChoice";
 import "./PersonAppearanceControls.css";
 import { useMemo, useState, useRef, type ReactNode } from "react";
 import type { World, PersonAppearance } from "../simulation/types";
@@ -31,6 +32,7 @@ import {
 } from "../presentation/person-visual-selection";
 
 export interface PersonAppearanceControlsProps extends PersonVisualSelectionContext {
+  readonly unsavedCreator?: boolean;
   readonly world: World;
   readonly personId: string;
   readonly preference?: PersonWardrobePreference;
@@ -294,7 +296,7 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
       library,
       poseFamily,
     });
-    if (exact.ok && !confirmBody) {
+    if (exact.ok && (!confirmBody || props.unsavedCreator)) {
       commit(next, exact.families);
       return;
     }
@@ -307,6 +309,10 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
           poseFamily,
         });
     if (replacement.ok) {
+      if (props.unsavedCreator) {
+        commit(next, replacement.families);
+        return;
+      }
       setPending({
         appearance: next,
         families: replacement.families,
@@ -584,7 +590,7 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
           return (
             <label key={kind} className="appearance-select-field">
               <span className="appearance-choice-title">{title}</span>
-              <GameSelect
+              <AppearanceChoice
                 aria-label={title}
                 data-testid={`person-appearance-${kind}`}
                 value={current ?? ""}
@@ -669,7 +675,7 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
                   footwear: "Shoes",
                 }[kind]
               }
-              <GameSelect
+              <AppearanceChoice
                 aria-label={
                   {
                     top: "Shirt style",

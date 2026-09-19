@@ -66,7 +66,7 @@ function git(argsList) {
 }
 
 const revision = git(["rev-parse", "HEAD"]) ?? "unknown";
-const status = git(["status", "--porcelain"]);
+const status = git(["status", "--porcelain", "--untracked-files=no"]);
 const dirty = status !== null && status !== "";
 const main = git(["rev-parse", "refs/remotes/origin/main"]);
 const branch = git(["rev-parse", "--abbrev-ref", "HEAD"]);
@@ -125,7 +125,8 @@ function matchOrRebuild() {
     return assertProvenanceMatches({
       clientDir: clientSource,
       expectedRevision: git(["rev-parse", "HEAD"]) ?? revision,
-      expectedDirty: (git(["status", "--porcelain"]) ?? "") !== "",
+      expectedDirty:
+        (git(["status", "--porcelain", "--untracked-files=no"]) ?? "") !== "",
     });
   }
 }

@@ -218,9 +218,16 @@ export function PoliticalMap(props: PoliticalMapProps) {
   const [statePack, setStatePack] = useState<MapGeometryPack | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [asOf, setAsOf] = useState<string | null>(null);
-  const [selection, setSelection] = useState<Selection | null>(null);
+  const selection = preferences.selection ?? null;
+  const setSelection = useCallback(
+    (next: Selection | null) =>
+      onPreferencesChange(
+        patchMapPreferences(preferences, { selection: next }),
+      ),
+    [preferences, onPreferencesChange],
+  );
   const [query, setQuery] = useState("");
-  const [view, setView] = useState<ViewBox>(HOME_VIEW);
+  const [view, setView] = useState<ViewBox>(preferences.view ?? HOME_VIEW);
   const svgRef = useRef<SVGSVGElement | null>(null);
   const drag = useRef<{ x: number; y: number; moved: boolean } | null>(null);
 
@@ -286,6 +293,20 @@ export function PoliticalMap(props: PoliticalMapProps) {
     () => playerGeography(world, personId),
     [world, personId],
   );
+  useEffect(() => {
+    if (!preferences.initialized)
+      setPrefs({
+        initialized: true,
+        stateUsps: preferences.stateUsps ?? player.here?.stateUsps ?? null,
+      });
+  }, [
+    preferences.initialized,
+    preferences.stateUsps,
+    player.here?.stateUsps,
+    setPrefs,
+  ]);
+  const firstFraming = useRef(true);
+  const savedView = useRef(preferences.view);
 
   const highlighted = useMemo(() => {
     const people = [...(focus?.personIds ?? [])];
@@ -315,6 +336,12 @@ export function PoliticalMap(props: PoliticalMapProps) {
 
   // Keep the view on the focused state when it changes.
   useEffect(() => {
+    if (!national) return;
+    if (firstFraming.current && savedView.current) {
+      firstFraming.current = false;
+      return;
+    }
+    firstFraming.current = false;
     if (!stateUsps) {
       setView(HOME_VIEW);
       return;
@@ -324,6 +351,13 @@ export function PoliticalMap(props: PoliticalMapProps) {
     );
     if (outline) setView(fitViewBox(outline.bbox));
   }, [stateUsps, national]);
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      if (JSON.stringify(preferences.view) !== JSON.stringify(view))
+        setPrefs({ view });
+    }, 150);
+    return () => window.clearTimeout(timer);
+  }, [view, preferences.view, setPrefs]);
 
   const inspection = useMemo(
     () =>
@@ -345,7 +379,18 @@ export function PoliticalMap(props: PoliticalMapProps) {
 
   // Selection is cleared when it no longer belongs to the drawn layer.
   useEffect(() => {
-    if (selection && selection.layer !== layer) setSelection(null);
+    if (selection && selection.layer !== layer) {
+      const counterpart = features.find(
+        (feature) =>
+          feature.geoid === selection.geoid &&
+          feature.stateUsps === selection.stateUsps,
+      );
+      setSelection(
+        counterpart
+          ? { ...selection, layer, name: regionLabel(layer, counterpart) }
+          : null,
+      );
+    }
   }, [layer, selection]);
 
   const select = useCallback(
@@ -356,14 +401,18 @@ export function PoliticalMap(props: PoliticalMapProps) {
         stateUsps: feature.stateUsps,
         name: regionLabel(featureLayer, feature),
       }),
-    [],
+    [setSelection],
   );
 
   const focusState = useCallback(
     (usps: string | null) => {
-      setSelection(null);
+      const outline = layerFeatures(national, "state").find(
+        (feature) => feature.stateUsps === usps,
+      );
+      setView(outline ? fitViewBox(outline.bbox) : HOME_VIEW);
       setQuery("");
       setPrefs({
+        selection: null,
         stateUsps: usps,
         mode: usps
           ? preferences.mode
@@ -372,7 +421,7 @@ export function PoliticalMap(props: PoliticalMapProps) {
             : preferences.mode,
       });
     },
-    [preferences.mode, setPrefs],
+    [preferences.mode, setPrefs, national],
   );
 
   /* ---------------- pan / zoom ---------------- */
@@ -549,11 +598,11 @@ export function PoliticalMap(props: PoliticalMapProps) {
   );
 
   const quickTargets = [
-    player.home
-      ? { key: "home", label: "My home", usps: player.home.stateUsps }
+    player.here
+      ? { key: "here", label: "Here", usps: player.here.stateUsps }
       : null,
-    player.here && player.here.stateUsps !== player.home?.stateUsps
-      ? { key: "here", label: "Where I am", usps: player.here.stateUsps }
+    player.home
+      ? { key: "home", label: "Home", usps: player.home.stateUsps }
       : null,
   ].filter((entry): entry is { key: string; label: string; usps: string } =>
     Boolean(entry),
@@ -985,6 +1034,8 @@ export function PoliticalMap(props: PoliticalMapProps) {
 
         <aside className="pg-map-side">
           <div className="pg-map-legend" aria-label="Legend">
+            <strong>Colors: recorded officeholder affiliation</strong>
+            <span>⌂ Home · ● Current location · outline: selected region</span>
             <h3>Key</h3>
             <ul>
               {model.legend.map((entry) => (
@@ -1031,6 +1082,10 @@ export function PoliticalMap(props: PoliticalMapProps) {
               aria-live="polite"
             >
               <h3>{selection.name}</h3>
+              {selection.layer === "congressional" &&
+              /^0+$/.test(selection.geoid.slice(2)) ? (
+                <p>At-large: one House district covers the entire state.</p>
+              ) : null}
               <p className="pg-map-muted">
                 {selection.layer === "state"
                   ? `${selection.stateUsps === "DC" ? "Federal district" : "State"} · Census GEOID ${selection.geoid}`
@@ -1216,7 +1271,9 @@ function shortName(feature: MapFeature, layer: MapLayerId): string {
     layer === "state-lower"
   ) {
     const code = feature.geoid.slice(2).replace(/^0+(?=.)/, "");
-    return /^0+$/.test(feature.geoid.slice(2)) ? "AL" : code;
+    return /^0+$/.test(feature.geoid.slice(2))
+      ? "At-large"
+      : `${feature.stateUsps} ${code}`;
   }
   return feature.name.replace(
     / (city|town|village|borough|CDP|County|Parish|Borough|municipality)$/i,
