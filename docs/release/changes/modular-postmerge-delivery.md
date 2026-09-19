@@ -1,4 +1,7 @@
-# Post-merge modular delivery
+---
+id: modular-postmerge-delivery
+impact: none
+---
 
 Integrate the corrected generation-16 modular people and prior composition on merged #268 (7869561e), preserving generation-15 and earlier source and assets. The current bank exposes readable face, hair and skin input names. Unsupported nonempty saved feature identities refuse rendering instead of silently adopting default eyes. Invalid installed profile data yields a stated candidate-art refusal without throwing at application import; Begin remains natively disabled for this invalid-pack condition.
 

@@ -53,9 +53,7 @@
         "Composes with a released head, hair, top, bottom and footwear into a complete plan with no missing layer.",
         "Human visual approval recorded separately from intake acceptance."
       ],
-      "dependsOn": [
-        "person-adult-body-silhouette-reexport"
-      ]
+      "dependsOn": ["person-adult-body-silhouette-reexport"]
     },
     {
       "requestId": "person-production-seated-body",
@@ -151,9 +149,7 @@
         "Carries the same named semantic anchors so the same compositor places it.",
         "Human visual approval that neither reads as an adult."
       ],
-      "dependsOn": [
-        "person-production-standing-body"
-      ]
+      "dependsOn": ["person-production-standing-body"]
     },
     {
       "requestId": "env-legislative-chamber-floor",
@@ -337,9 +333,7 @@
         "Every non-furniture pixel is fully transparent.",
         "Composited back over the plate, the result is indistinguishable from the plate."
       ],
-      "dependsOn": [
-        "person-production-standing-body"
-      ]
+      "dependsOn": ["person-production-standing-body"]
     },
     {
       "requestId": "env-civic-community-meeting-title-master",
@@ -354,12 +348,8 @@
       },
       "whyNeeded": "The title screen had no art of any kind.",
       "inventoryCheck": {
-        "repositoryPathsSearched": [
-          "art/families/"
-        ],
-        "driveLocationsSearched": [
-          "05_4K_SOURCE_MASTERS/05E_TITLE_UI_MASTERS"
-        ],
+        "repositoryPathsSearched": ["art/families/"],
+        "driveLocationsSearched": ["05_4K_SOURCE_MASTERS/05E_TITLE_UI_MASTERS"],
         "found": "PG_TITLE_BG_COMMUNITY_MEETING_HERO_SLOT_02_5504x3072.png, approved.",
         "shortfall": "None. The bytes were in Drive and had never been brought into the repository, which is not the same as existing."
       },
@@ -393,9 +383,7 @@
       },
       "whyNeeded": "Ordinary life is most of this game and had no room to happen in.",
       "inventoryCheck": {
-        "repositoryPathsSearched": [
-          "art/families/apartment-ordinary/"
-        ],
+        "repositoryPathsSearched": ["art/families/apartment-ordinary/"],
         "driveLocationsSearched": [
           "05_4K_SOURCE_MASTERS/05D_SCENE_ENVIRONMENT_MASTERS",
           "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/10_SCENES/10B_HOME_LIVING"
@@ -433,9 +421,7 @@
       },
       "whyNeeded": "The consumer map recorded that no production hearing master existed and that the community meeting hall must not be substituted for one.",
       "inventoryCheck": {
-        "repositoryPathsSearched": [
-          "art/families/"
-        ],
+        "repositoryPathsSearched": ["art/families/"],
         "driveLocationsSearched": [
           "05_4K_SOURCE_MASTERS/05D_SCENE_ENVIRONMENT_MASTERS"
         ],
@@ -528,12 +514,8 @@
         "container": "png",
         "styleAuthority": "The project rendering language lock"
       },
-      "generationRecipe": [
-        "Superseded by the accepted hero-slot master."
-      ],
-      "acceptanceCriteria": [
-        "Not applicable: rejected."
-      ],
+      "generationRecipe": ["Superseded by the accepted hero-slot master."],
+      "acceptanceCriteria": ["Not applicable: rejected."],
       "dependsOn": [],
       "resolutionNote": "Rejected and closed. The standing intake request still lists them as approved title-plate candidates; that request is stale and this record is why they were not ingested."
     },
@@ -631,9 +613,7 @@
         "Hand height matches a lectern top, not a desk and not a rail.",
         "Green-dominant soft-edge pixels under 2 percent."
       ],
-      "dependsOn": [
-        "person-adult-body-silhouette-reexport"
-      ]
+      "dependsOn": ["person-adult-body-silhouette-reexport"]
     },
     {
       "requestId": "footwear-front-on-pair-reexport",
@@ -681,9 +661,7 @@
         "Laid over the body sheet's bare feet at matching scale, toe direction and separation agree.",
         "Still segments into twelve cells with npm run chop:source-sheet."
       ],
-      "dependsOn": [
-        "person-adult-body-silhouette-reexport"
-      ],
+      "dependsOn": ["person-adult-body-silhouette-reexport"],
       "resolutionNote": "Withdrawn as already covered. shoes.png supersedes the p71 three-quarter footwear sheet for front-on use; its twelve chopped candidates live at art/generated/candidates/recent-drive-sweep/front-facing-footwear/ and are byte-verified against art/qa/p95-recent-drive-sweep/candidate-component-review.json. They are candidates, not released pixels: the ordinary fit, anchor and human-acceptance gates still apply, and none of them is registered in art/manifest/. The p71 three-quarter sheets are retained as the source for a future three-quarter pose family."
     },
     {
@@ -746,21 +724,10 @@
           "humid-subtropical",
           "marine-west-coast"
         ],
-        "terrain": [
-          "inland-plain",
-          "rolling-hills",
-          "coastal-plain"
-        ],
-        "vegetation": [
-          "urban-sparse"
-        ],
-        "seasons": [
-          "year-round-leaf"
-        ],
-        "weatherLight": [
-          "clear-day",
-          "overcast"
-        ],
+        "terrain": ["inland-plain", "rolling-hills", "coastal-plain"],
+        "vegetation": ["urban-sparse"],
+        "seasons": ["year-round-leaf"],
+        "weatherLight": ["clear-day", "overcast"],
         "indoorOutdoor": "threshold",
         "sourceReferenceRegion": "unspecified",
         "allowedReuseRegions": [
@@ -777,9 +744,7 @@
         "placeIdentity": {
           "kind": "generic-reusable"
         },
-        "exclusions": [
-          "not-a-named-address"
-        ],
+        "exclusions": ["not-a-named-address"],
         "snowCoverPossible": false
       }
     },
@@ -801,9 +766,7 @@
           "art/references/candidates/recent-drive-sweep/source-images/IMG_5204.JPG",
           "src/environment/scenes/park-community-pavilion-production.ts"
         ],
-        "driveLocationsSearched": [
-          "Drive 1SVG_lRUgoMJTmyreTsmhLJB6roJitFr1"
-        ],
+        "driveLocationsSearched": ["Drive 1SVG_lRUgoMJTmyreTsmhLJB6roJitFr1"],
         "found": "AX-92B1 park source IMG_5204.JPG and derived candidate tiers already cover the parent pavilion. No winter/leafless variant exists.",
         "shortfall": "A seasonal variant of the SAME pavilion geometry: bare deciduous trees, no snow required, no new landmark, no people."
       },
@@ -835,26 +798,11 @@
       "compatibility": {
         "environmentClass": "park-exterior",
         "architecturalCharacter": "timber-pavilion",
-        "climate": [
-          "humid-continental",
-          "humid-subtropical"
-        ],
-        "terrain": [
-          "inland-plain",
-          "rolling-hills"
-        ],
-        "vegetation": [
-          "deciduous-forest",
-          "mixed-forest",
-          "urban-sparse"
-        ],
-        "seasons": [
-          "winter"
-        ],
-        "weatherLight": [
-          "clear-day",
-          "overcast"
-        ],
+        "climate": ["humid-continental", "humid-subtropical"],
+        "terrain": ["inland-plain", "rolling-hills"],
+        "vegetation": ["deciduous-forest", "mixed-forest", "urban-sparse"],
+        "seasons": ["winter"],
+        "weatherLight": ["clear-day", "overcast"],
         "indoorOutdoor": "outdoor",
         "sourceReferenceRegion": "east-south-central",
         "allowedReuseRegions": [
@@ -866,10 +814,7 @@
         "placeIdentity": {
           "kind": "generic-reusable"
         },
-        "exclusions": [
-          "not-a-named-city-park",
-          "winter-is-not-universal-snow"
-        ],
+        "exclusions": ["not-a-named-city-park", "winter-is-not-universal-snow"],
         "snowCoverPossible": false,
         "geometryVariant": {
           "parentAssetId": "env_park_community_pavilion_candidate_5504x3072_v1",
