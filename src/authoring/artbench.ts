@@ -774,7 +774,7 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
           assetFor(candidate.ingest.assetId).currentApprovedCandidateId ===
           p.candidateId
         ) {
-          assetFor(candidate.ingest.assetId).currentApprovedCandidateId = null;
+          delete assetFor(candidate.ingest.assetId).currentApprovedCandidateId;
         }
         break;
       }

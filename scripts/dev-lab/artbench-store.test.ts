@@ -249,7 +249,7 @@ describe("artbench store: intake, alternatives, lineage and decisions", () => {
     );
     expect(
       after.assets[candidate.assetId].currentApprovedCandidateId,
-    ).toBeNull();
+    ).toBeUndefined();
   });
 
   it("binds decisions to the viewed candidate and verified bytes; approval queues integration once", () => {
