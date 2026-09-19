@@ -430,8 +430,19 @@ function releasedLayers(
       const refusal = notes.length
         ? `incomplete-composition: ${notes.join(", ")}`
         : "incomplete-composition";
-      // A missing required layer is a person-level refusal in every surface.
-      return { layers: [], refusal, notes };
+      // Review may show a complete figure with placement warnings so the room
+      // can be calibrated. Missing parts, URLs or pose/recipe compatibility
+      // still refuse the whole person; placement uncertainty is not missing art.
+      const placementOnlyPreview =
+        preview &&
+        presentation.layers.length > 0 &&
+        presentation.layers.every((layer) => Boolean(layer.url)) &&
+        presentation.diagnostics.every(
+          (diagnostic) =>
+            diagnostic.code === "scene-declares-no-floor-calibration" ||
+            presentation.placement.diagnostics.includes(diagnostic),
+        );
+      if (!placementOnlyPreview) return { layers: [], refusal, notes };
     } else if (fixtures.length > 0 && !preview) {
       return {
         layers: [],

@@ -24945,7 +24945,7 @@
     {
       "sourcePath": "src/presentation/life-scene-people.ts",
       "enclosingSymbol": "releasedLayers",
-      "line": 438,
+      "line": 449,
       "text": "development-fixture-only: {fixtures.length} of {presentation.layers.length} layer(s)",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24953,7 +24953,7 @@
     {
       "sourcePath": "src/presentation/life-scene-people.ts",
       "enclosingSymbol": "thrown",
-      "line": 468,
+      "line": 479,
       "text": "composition-threw: {errorinstanceofError?error.message:String(error)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24961,7 +24961,7 @@
     {
       "sourcePath": "src/presentation/life-scene-people.ts",
       "enclosingSymbol": "renderAt",
-      "line": 647,
+      "line": 658,
       "text": "{person.name}, {person.relationship}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24969,7 +24969,7 @@
     {
       "sourcePath": "src/presentation/life-scene-people.ts",
       "enclosingSymbol": "renderAt",
-      "line": 657,
+      "line": 668,
       "text": "figure-taller-than-space-above-contact-line: {overflowPercent.toFixed(1)}% of the plate is above the top edge, so this figure is cropped at the head.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
