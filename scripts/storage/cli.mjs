@@ -86,6 +86,9 @@ try {
     const reservation = guard.gate({
       operation: rest[0],
       target: process.cwd(),
+      // Every typecheck leaves a run directory here, so a build is also an
+      // output producer and answers to the same per-root budget.
+      outputRoots: [path.join(process.cwd(), "test-results", "runs")],
       owner: process.env.OCD_WORKSPACE_OWNER ?? "unregistered",
     });
     guard.release(reservation.id);
