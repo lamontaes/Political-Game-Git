@@ -50,8 +50,10 @@ it("presentation selection is stable and independent of catalogue ordering", () 
   ).toBe(first);
   expect(["open-a", "open-b"]).toContain(first);
 });
-it("keeps pending environment art truthful and VP separately contextualized", () => {
+it("keeps measured candidate art unreleased and VP separately contextualized", () => {
   expect(PLAYTEST65_WHITE_HOUSE_LAYOUT.plateUrl).toBeNull();
+  expect(PLAYTEST65_WHITE_HOUSE_LAYOUT.status).toBe("candidate-integration-review");
+  expect(PLAYTEST65_WHITE_HOUSE_LAYOUT.canvas).toEqual({ width: 1672, height: 941 });
   expect(PLAYTEST65_WHITE_HOUSE_LAYOUT.vicePresidentPresentation).toBe(
     "record-card",
   );

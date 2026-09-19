@@ -1,16 +1,32 @@
-/** Authoring targets, in pixels; returned environment paint must be measured
- * before these become a calibrated runtime scene. No placeholder art URL. */
+/** Measured candidate plate coordinates; presentation slots are proposed against
+ * these pixels, not a claim that the two officials are physically present. */
 export const PLAYTEST65_WHITE_HOUSE_LAYOUT = {
-  revision: "playtest65-layout-v1",
-  status: "awaiting-artwork",
-  canvas: { width: 1600, height: 900 },
-  president: { x: 135, y: 285, width: 330, height: 560 },
-  presidentFeet: { x: 300, y: 845 },
-  information: { x: 850, y: 560, width: 640, height: 265 },
-  vicePresident: { x: 1160, y: 650, width: 330, height: 175 },
-  // VP is a record card, never evidence that both people are physically here.
+  revision: "playtest65-white-house-wide-r1",
+  status: "candidate-integration-review",
+  assetId: "env_playtest65_white_house_north_wide_r1",
+  canvas: { width: 1672, height: 941 },
+  architectureBounds: { x: 790, y: 285, width: 610, height: 240 },
+  president: { x: 240, y: 290, width: 300, height: 600 },
+  presidentFeet: { x: 390, y: 890 },
+  information: { x: 940, y: 635, width: 630, height: 265 },
+  vicePresident: { x: 1190, y: 750, width: 340, height: 140 },
   vicePresidentPresentation: "record-card",
+  // Resolve through the existing asset manifest/repositoryVisualUrls in review mode.
+  // Runtime approval and actual saved-figure composite review are still pending.
   plateUrl: null,
+} as const;
+
+/** Source-space estimates for authoring seated paint; not a calibrated scene.
+ * The desk-front occlusion must be verified with actual body/arm/hand layers. */
+export const PLAYTEST65_RESOLUTE_LAYOUT = {
+  assetId: "env_playtest65_resolute_desk_r1",
+  status: "awaiting-seated-contact-review",
+  canvas: { width: 1672, height: 941 },
+  chairBounds: { x: 712, y: 335, width: 245, height: 145 },
+  deskBounds: { x: 275, y: 474, width: 1117, height: 396 },
+  deskRearEdge: [{ x: 438, y: 477 }, { x: 1225, y: 477 }],
+  deskFrontEdge: [{ x: 282, y: 533 }, { x: 1385, y: 533 }],
+  proposedHandContacts: [{ x: 755, y: 500 }, { x: 910, y: 500 }],
 } as const;
 
 export type RecordPoseRepertoire =

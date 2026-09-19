@@ -4933,6 +4933,105 @@
           "width": 2752
         }
       ]
+    },
+    {
+      "asset_id": "env_playtest65_white_house_north_wide_r1",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_env_playtest65_white_house_north_wide_r1"
+      ],
+      "rights_note": "Owner-supplied Firefly candidate; native corrections generated under the authorized included allowance. External reuse rights not independently assessed.",
+      "fixed_or_modular": "fixed",
+      "availability": "production-candidate",
+      "variant_rules": "Firefly return expanded and repainted using the included native OpenAI image tool; preserve architecture, add clear foreground and wide composition.",
+      "negative_constraints": [
+        "Candidate-only until focused runtime review; do not change saved person appearance or catalogue generations.",
+        "No baked people, labels, controls, biography or simulation state."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/art-desk/playtest65/environment/white-house-wide-r1.png",
+      "hash": "e5d40a772b35b191d0d4d43647c71a9492b72ef743d7e0f3fb7d79f0ab477bc4",
+      "requires_transparency": false,
+      "raster_tiers": [
+        {
+          "width": 1672,
+          "height": 941,
+          "path": "art/generated/candidates/art-desk/playtest65/environment/white-house-wide-r1.png",
+          "hash": "e5d40a772b35b191d0d4d43647c71a9492b72ef743d7e0f3fb7d79f0ab477bc4",
+          "derivation": "native-master"
+        }
+      ]
+    },
+    {
+      "asset_id": "env_playtest65_resolute_desk_r1",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_env_playtest65_resolute_desk_r1"
+      ],
+      "rights_note": "Owner-supplied Firefly candidate; native corrections generated under the authorized included allowance. External reuse rights not independently assessed.",
+      "fixed_or_modular": "fixed",
+      "availability": "production-candidate",
+      "variant_rules": "Firefly return repainted using the included native OpenAI image tool; ornate oak double-pedestal Resolute-style desk with carved eagle relief and solid rectangular leather-inset top. Seated contact and furniture occlusion acceptance remains pending.",
+      "negative_constraints": [
+        "Candidate-only until focused runtime review; do not change saved person appearance or catalogue generations.",
+        "No baked people, labels, controls, biography or simulation state."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/art-desk/playtest65/environment/resolute-desk-r1.png",
+      "hash": "b3d97968a56523379d8f3fdaf722ec17caf757d569850d8d97b771159642dec6",
+      "requires_transparency": false,
+      "raster_tiers": [
+        {
+          "width": 1672,
+          "height": 941,
+          "path": "art/generated/candidates/art-desk/playtest65/environment/resolute-desk-r1.png",
+          "hash": "b3d97968a56523379d8f3fdaf722ec17caf757d569850d8d97b771159642dec6",
+          "derivation": "native-master"
+        }
+      ]
+    },
+    {
+      "asset_id": "env_playtest65_civic_generic_r1",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_env_playtest65_civic_generic_r1"
+      ],
+      "rights_note": "Owner-supplied Firefly candidate; native corrections generated under the authorized included allowance. External reuse rights not independently assessed.",
+      "fixed_or_modular": "fixed",
+      "availability": "production-candidate",
+      "variant_rules": "Byte-identical selected Firefly return. Generic illustrative civic building, never a sourced jurisdiction-specific building.",
+      "negative_constraints": [
+        "Candidate-only until focused runtime review; do not change saved person appearance or catalogue generations.",
+        "No baked people, labels, controls, biography or simulation state."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/art-desk/playtest65/environment/civic-generic-r1.png",
+      "hash": "a41d0c33bca67ea1c530317ce829da9c5d037ecd430e0cb7a072cd5665d86c85",
+      "requires_transparency": false,
+      "raster_tiers": [
+        {
+          "width": 1600,
+          "height": 896,
+          "path": "art/generated/candidates/art-desk/playtest65/environment/civic-generic-r1.png",
+          "hash": "a41d0c33bca67ea1c530317ce829da9c5d037ecd430e0cb7a072cd5665d86c85",
+          "derivation": "native-master"
+        }
+      ]
     }
   ]
 }

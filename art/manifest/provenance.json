@@ -2120,6 +2120,57 @@
       "edits_performed": "Original JPEG untouched. pureimage JPEG decode to temporary PNG sha256 ff4d65e2e0d420d37f55e51ac50958ed70a7973b777f71377da1838593624b80; existing derive:tiers Lanczos-3 at 1376/2752. Unverified native detail and unknown rights retained. Deterministic reproduction script: scripts/art-asset-factory/derive-g-press.ts.",
       "output_hash_version": "sha256",
       "approval_status": "pending"
+    },
+    {
+      "provenance_id": "prov_env_playtest65_white_house_north_wide_r1",
+      "asset_id": "env_playtest65_white_house_north_wide_r1",
+      "source_url_or_path": "https://drive.google.com/file/d/1uSwN3W-FAApcK8MOZr-En991AkTEMI86/view",
+      "document_photo_plan_title": "PLAYTEST65 Firefly return; parent SHA256 db3e584738756ac4bbc4e6c78def7202b8306afd60001632bb23664fa658a825",
+      "access_retrieval_date": "2026-09-19",
+      "rights_license_status": "unknown",
+      "reference_type": "ai-generated",
+      "source_authority_category": "visual-estimate-support",
+      "generator_tool": "Adobe Firefly + OpenAI built-in image generation",
+      "generated_model_version": "Owner return requested Clean Interior Scenes / IMAGE 5; exact native edit model not exposed",
+      "prompt_spec_manifest_id": "PLAYTEST65-FIREFLY r2 / white-house-wide-r1.png",
+      "generation_edit_date": "2026-09-19",
+      "edits_performed": "Firefly return expanded and repainted using the included native OpenAI image tool; preserve architecture, add clear foreground and wide composition.",
+      "output_hash_version": "sha256",
+      "approval_status": "pending"
+    },
+    {
+      "provenance_id": "prov_env_playtest65_resolute_desk_r1",
+      "asset_id": "env_playtest65_resolute_desk_r1",
+      "source_url_or_path": "https://drive.google.com/file/d/1gxnWIg10bgtd4Bq5zljU5n2Tpyv-JpmH/view",
+      "document_photo_plan_title": "PLAYTEST65 Firefly return; parent SHA256 456d948c2171d97a763939fd16c83925a37772c8e6b5ea553c0aa7073eeef551",
+      "access_retrieval_date": "2026-09-19",
+      "rights_license_status": "unknown",
+      "reference_type": "ai-generated",
+      "source_authority_category": "visual-estimate-support",
+      "generator_tool": "Adobe Firefly + OpenAI built-in image generation",
+      "generated_model_version": "Owner return requested Clean Interior Scenes / IMAGE 5; exact native edit model not exposed",
+      "prompt_spec_manifest_id": "PLAYTEST65-FIREFLY r2 / resolute-desk-r1.png",
+      "generation_edit_date": "2026-09-19",
+      "edits_performed": "Firefly return repainted using the included native OpenAI image tool; ornate oak double-pedestal Resolute-style desk with carved eagle relief and solid rectangular leather-inset top. Seated contact and furniture occlusion acceptance remains pending.",
+      "output_hash_version": "sha256",
+      "approval_status": "pending"
+    },
+    {
+      "provenance_id": "prov_env_playtest65_civic_generic_r1",
+      "asset_id": "env_playtest65_civic_generic_r1",
+      "source_url_or_path": "https://drive.google.com/file/d/1LI6s5Yo7Hmnnug8pU6wmU8Lqn7PMPiDd/view",
+      "document_photo_plan_title": "PLAYTEST65 Firefly return; parent SHA256 a41d0c33bca67ea1c530317ce829da9c5d037ecd430e0cb7a072cd5665d86c85",
+      "access_retrieval_date": "2026-09-19",
+      "rights_license_status": "unknown",
+      "reference_type": "ai-generated",
+      "source_authority_category": "visual-estimate-support",
+      "generator_tool": "Adobe Firefly",
+      "generated_model_version": "Owner return requested Clean Interior Scenes / IMAGE 5; exact native edit model not exposed",
+      "prompt_spec_manifest_id": "PLAYTEST65-FIREFLY r2 / civic-generic-r1.png",
+      "generation_edit_date": "2026-09-19",
+      "edits_performed": "Byte-identical selected Firefly return. Generic illustrative civic building, never a sourced jurisdiction-specific building.",
+      "output_hash_version": "sha256",
+      "approval_status": "pending"
     }
   ]
 }
