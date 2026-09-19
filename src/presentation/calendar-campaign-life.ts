@@ -10,6 +10,7 @@ import {
 import {
   attendPartyWork,
   partyWorkBlockedReason,
+  partyWorkBlockingActivityId,
 } from "./campaign-life-actions";
 import { projectPartyAndCommunityWork } from "./campaign-life-surface";
 import { venueActivities } from "./venue-activity";
@@ -45,6 +46,7 @@ export interface CalendarCampaignLifeEntry {
   readonly stateLabel: string;
   /** Why it cannot be worked right now, from the lane. Null when it can. */
   readonly blockedReason: string | null;
+  readonly blockingActivityId: EntityId | null;
   /** The calendar entry has passed and only the record is outstanding. */
   readonly awaitingRecord: boolean;
   /** Already worked and recorded. */
@@ -86,6 +88,12 @@ export function calendarCampaignLifeEntry(
       !playableAsVenue,
     stateLabel: row.stateLabel,
     blockedReason: partyWorkBlockedReason(world, personId, record.id, handlers),
+    blockingActivityId: partyWorkBlockingActivityId(
+      world,
+      personId,
+      record.id,
+      handlers,
+    ),
     awaitingRecord: row.awaitingRecord,
     completed: row.state === "completed" && row.outcomeLines.length > 0,
     outcomeLines: row.outcomeLines,

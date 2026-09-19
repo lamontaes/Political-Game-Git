@@ -57,7 +57,10 @@ import {
   isPinned,
   type InterruptionPreferences,
 } from "../presentation/shell-navigation";
-import { INTERRUPTION_CATEGORIES } from "../presentation/interruption-policy";
+import {
+  INTERRUPTION_CATEGORIES,
+  interruptionHandlers,
+} from "../presentation/interruption-policy";
 import { PeopleRelationshipWeb } from "./PeopleRelationshipWeb";
 import { PersonPortrait } from "./PersonPortrait";
 import {
@@ -699,6 +702,10 @@ export function CalendarWorkspaceSurface({
                         world={world}
                         personId={personId}
                         interruptions={interruptions}
+                        onOpenBlockingActivity={(id) => {
+                          setSelectedDate(null);
+                          setSelectedId(id);
+                        }}
                       />
                     ) : null}
                   </div>
@@ -1012,6 +1019,7 @@ function CalendarEventActions({
   world,
   personId,
   interruptions,
+  onOpenBlockingActivity,
 }: {
   readonly selected: CalendarEntry;
   readonly onOpen: (ref: ShellRef) => void;
@@ -1024,6 +1032,7 @@ function CalendarEventActions({
   readonly world: World;
   readonly personId: EntityId;
   readonly interruptions: InterruptionPreferences;
+  readonly onOpenBlockingActivity: (id: EntityId) => void;
 }) {
   const simulation = authorizeCalendarSimulation(
     world,
@@ -1049,6 +1058,7 @@ function CalendarEventActions({
     world,
     personId,
     selected.activityId,
+    interruptionHandlers(interruptions),
   );
   const laneRoute = campaignLife?.needsLaneRoute ? campaignLife : null;
   const attendNote = laneRoute
@@ -1110,11 +1120,13 @@ function CalendarEventActions({
         onClick={() =>
           laneRoute
             ? runner.perform(
-                (current) =>
+                (current, handlers) =>
                   attendCalendarCampaignLifeActivity(
                     current,
                     personId,
                     selected.activityId,
+                    "attended",
+                    handlers,
                   ),
                 onReport,
               )
@@ -1130,6 +1142,16 @@ function CalendarEventActions({
           : ""}
         {attendNote ? <small>{attendNote}</small> : null}
       </button>
+      {laneRoute?.blockingActivityId ? (
+        <button
+          type="button"
+          className="ui-action"
+          data-testid="calendar-show-blocker"
+          onClick={() => onOpenBlockingActivity(laneRoute.blockingActivityId!)}
+        >
+          Show earlier event
+        </button>
+      ) : null}
       <button
         type="button"
         className="ui-action"

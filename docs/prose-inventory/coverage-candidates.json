@@ -2,8 +2,8 @@
   "counts": {
     "INVENTORIED": 3167,
     "INTENTIONALLY_NON_PLAYER_FACING": 7117,
-    "DIAGNOSTIC_OR_TEST": 7754,
-    "NEEDS_CLASSIFICATION": 10385
+    "DIAGNOSTIC_OR_TEST": 7755,
+    "NEEDS_CLASSIFICATION": 10386
   },
   "needsClassification": [
     {
@@ -10105,7 +10105,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "WorkspaceFrame",
-      "line": 207,
+      "line": 210,
       "text": "pg-workspace civic-glass",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10113,7 +10113,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "WorkspaceFrame",
-      "line": 246,
+      "line": 249,
       "text": "ui-action ui-action--subtle",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10121,7 +10121,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "WorkspaceFrame",
-      "line": 266,
+      "line": 269,
       "text": "ui-action ui-action--subtle",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10129,7 +10129,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "WorkspaceFrame",
-      "line": 276,
+      "line": 279,
       "text": "ui-action ui-action--subtle",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10137,7 +10137,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "WorkspaceFrame",
-      "line": 300,
+      "line": 303,
       "text": "Resize {title}; use arrow keys",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10145,7 +10145,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PeopleWorkspace",
-      "line": 400,
+      "line": 403,
       "text": "People view",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10153,7 +10153,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PeopleWorkspace",
-      "line": 412,
+      "line": 415,
       "text": "ui-action ui-action--rail",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10161,7 +10161,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PeopleWorkspace",
-      "line": 430,
+      "line": 433,
       "text": "ui-action ui-action--rail",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10169,7 +10169,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PeopleWorkspace",
-      "line": 457,
+      "line": 460,
       "text": "ui-action ui-action--subtle",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10177,7 +10177,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PeopleWorkspace",
-      "line": 462,
+      "line": 465,
       "text": "Show the nearby connections",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10185,7 +10185,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PeopleWorkspace",
-      "line": 463,
+      "line": 466,
       "text": "Show everyone you know",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10193,7 +10193,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PeopleWorkspace",
-      "line": 502,
+      "line": 505,
       "text": "ui-action ui-action--rail",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10201,7 +10201,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "CalendarEntryRow",
-      "line": 557,
+      "line": 560,
       "text": "ui-action ui-action--rail",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10209,7 +10209,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "report",
-      "line": 615,
+      "line": 618,
       "text": "{stoppedEarlyLabel(result.target)} {result.outcome}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10217,7 +10217,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "tabs",
-      "line": 715,
+      "line": 722,
       "text": "Today and upcoming",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10225,7 +10225,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "CalendarWorkspaceSurface",
-      "line": 754,
+      "line": 761,
       "text": "Calendar views",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10233,7 +10233,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "CalendarWorkspaceSurface",
-      "line": 836,
+      "line": 843,
       "text": "game-note pg-calendar-outcome",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10241,7 +10241,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "CalendarWorkspaceSurface",
-      "line": 852,
+      "line": 859,
       "text": "Upcoming and ongoing",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10249,7 +10249,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "CalendarWorkspaceSurface",
-      "line": 902,
+      "line": 909,
       "text": "pg-check pg-check--fixed",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10257,7 +10257,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "CalendarEntryDetail",
-      "line": 976,
+      "line": 983,
       "text": "The record does not say who arranged it or how it reached you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10265,7 +10265,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "CalendarEntryDetail",
-      "line": 983,
+      "line": 990,
       "text": "No attendees are on record.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10273,7 +10273,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "attendNote",
-      "line": 1059,
+      "line": 1069,
       "text": "Includes the {describeInterval(venue.journey.journeyMinutes)} journey to {selected.locationLabel}. {venue.journey.costDisclosure}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10281,7 +10281,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "CalendarEventActions",
-      "line": 1068,
+      "line": 1078,
       "text": "game-choices pg-calendar-actions",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10289,7 +10289,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "CalendarEventActions",
-      "line": 1070,
+      "line": 1080,
       "text": "What to do about {selected.title}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10297,7 +10297,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "CalendarEventActions",
-      "line": 1129,
+      "line": 1141,
       "text": " · Until {attendance.target.date===world.currentDate?\"\":`${proseWeekdayDate(attendance.target.date)},`}{formatMinute(attendance.target.minuteOfDay)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10305,7 +10305,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "MeasureSurface",
-      "line": 1274,
+      "line": 1296,
       "text": "Filed by {briefing.sponsorName}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10313,7 +10313,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "MeasureSurface",
-      "line": 1275,
+      "line": 1297,
       "text": "No sponsor is on the record.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10321,7 +10321,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "MeasureSurface",
-      "line": 1279,
+      "line": 1301,
       "text": "You filed it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10329,7 +10329,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "MeasureSurface",
-      "line": 1280,
+      "line": 1302,
       "text": "You did not file it. Your part in it is whatever the chamber gives you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10337,7 +10337,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "formatMoney",
-      "line": 1308,
+      "line": 1330,
       "text": "{whole} {amount.currency}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10345,7 +10345,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PersonalWorkspace",
-      "line": 1383,
+      "line": 1405,
       "text": " · {record.identity.placeName}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10353,7 +10353,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PersonalWorkspace",
-      "line": 1431,
+      "line": 1453,
       "text": ", {member.relationship}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10361,7 +10361,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PersonalWorkspace",
-      "line": 1460,
+      "line": 1482,
       "text": "Your history",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10369,7 +10369,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PersonalWorkspace",
-      "line": 1479,
+      "line": 1501,
       "text": "Your goals",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10377,7 +10377,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PersonalWorkspace",
-      "line": 1498,
+      "line": 1520,
       "text": "Money and property",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10385,7 +10385,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PersonalWorkspace",
-      "line": 1531,
+      "line": 1553,
       "text": "Economic context",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10393,7 +10393,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PersonalWorkspace",
-      "line": 1536,
+      "line": 1558,
       "text": "Home place not recorded",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10401,7 +10401,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PatchNotesWorkspace",
-      "line": 1732,
+      "line": 1754,
       "text": " · clean source",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10409,7 +10409,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PatchNotesWorkspace",
-      "line": 1732,
+      "line": 1754,
       "text": " · uncommitted changes",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10417,7 +10417,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PatchNotesWorkspace",
-      "line": 1748,
+      "line": 1770,
       "text": "Version {section.version}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10425,7 +10425,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PatchNotesWorkspace",
-      "line": 1749,
+      "line": 1771,
       "text": "Version not stated",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10433,7 +10433,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "PatchNotesWorkspace",
-      "line": 1751,
+      "line": 1773,
       "text": "Release date not recorded",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10441,7 +10441,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "OptionsWorkspace",
-      "line": 1792,
+      "line": 1814,
       "text": "People default view",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10449,7 +10449,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "OptionsWorkspace",
-      "line": 1795,
+      "line": 1817,
       "text": "Relationship web",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10457,7 +10457,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "OptionsWorkspace",
-      "line": 1796,
+      "line": 1818,
       "text": "By category",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10465,7 +10465,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "OptionsWorkspace",
-      "line": 1797,
+      "line": 1819,
       "text": "One list",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10473,7 +10473,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "OptionsWorkspace",
-      "line": 1803,
+      "line": 1825,
       "text": "ui-action ui-action--rail",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10481,7 +10481,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "OptionsWorkspace",
-      "line": 1817,
+      "line": 1839,
       "text": "Default pin size",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10489,7 +10489,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "OptionsWorkspace",
-      "line": 1828,
+      "line": 1850,
       "text": "ui-action ui-action--rail",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10497,7 +10497,7 @@
     {
       "sourcePath": "src/player/ShellWorkspaces.tsx",
       "enclosingSymbol": "OptionsWorkspace",
-      "line": 1856,
+      "line": 1878,
       "text": "ui-action ui-action--subtle",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12641,7 +12641,7 @@
     {
       "sourcePath": "src/presentation/calendar-campaign-life.ts",
       "enclosingSymbol": "attendCalendarCampaignLifeActivity",
-      "line": 121,
+      "line": 129,
       "text": "That calendar entry is not a party or campaign activity.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12649,7 +12649,7 @@
     {
       "sourcePath": "src/presentation/calendar-campaign-life.ts",
       "enclosingSymbol": "attendCalendarCampaignLifeActivity",
-      "line": 147,
+      "line": 155,
       "text": "Something already on the calendar has to happen first.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12657,7 +12657,7 @@
     {
       "sourcePath": "src/presentation/calendar-campaign-life.ts",
       "enclosingSymbol": "attendCalendarCampaignLifeActivity",
-      "line": 160,
+      "line": 168,
       "text": "Something came up before you got there. The time that passed is kept; you can try again.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12825,7 +12825,7 @@
     {
       "sourcePath": "src/presentation/campaign-life-actions.ts",
       "enclosingSymbol": "NOTHING_TO_DO",
-      "line": 36,
+      "line": 37,
       "text": "That activity is no longer waiting on you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12833,7 +12833,7 @@
     {
       "sourcePath": "src/presentation/campaign-life-actions.ts",
       "enclosingSymbol": "partyWorkBlockedReason",
-      "line": 97,
+      "line": 98,
       "text": "That activity cannot be reached from here right now.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12841,7 +12841,15 @@
     {
       "sourcePath": "src/presentation/campaign-life-actions.ts",
       "enclosingSymbol": "partyWorkBlockedReason",
-      "line": 100,
+      "line": 106,
+      "text": "Resolve “{earlier.title}” on your calendar first.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/campaign-life-actions.ts",
+      "enclosingSymbol": "partyWorkBlockedReason",
+      "line": 107,
       "text": "An earlier commitment must be resolved first.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -88822,7 +88830,7 @@
       "sourcePath": "src/presentation/campaign-life-actions.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 13
+      "count": 14
     },
     {
       "sourcePath": "src/presentation/budget-economy.ts",

@@ -428,6 +428,19 @@ for (const how of ["pointer", "keyboard"] as const) {
     } else {
       await open.click();
     }
+    // Follow the Calendar's link to any remaining earlier optional invitation.
+    // Confirm it is tentative before explicitly declining; confirmed work is
+    // never bypassed to make this shift complete.
+    const blocker = page.getByTestId("calendar-show-blocker");
+    for (let count = 0; count < 3 && (await blocker.isVisible()); count += 1) {
+      await blocker.click();
+      await expect(page.getByTestId("calendar-event-detail")).toContainText(
+        "Tentative hold",
+      );
+      await page.getByTestId("calendar-decline-event").click();
+      await open.click();
+    }
+    await expect(blocker).toHaveCount(0);
     const attend = page.getByTestId("calendar-play-event");
     await expect(attend).toBeVisible();
     // Remote shifts use the campaign writer, without a physical journey.

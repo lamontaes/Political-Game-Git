@@ -99,11 +99,12 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
   await page.getByTestId("dossier-pin").click();
   await page.screenshot({ path: info.outputPath("person-record.png") });
   await page.getByTestId("quick-dossier-close").click();
-  const before = await page.getByTestId("story-when").textContent();
+  const openingDate = page.locator(".pg-orientation-kicker");
+  const before = await openingDate.textContent();
   await page.getByTestId("orientation-next").click();
   await expect(page.getByTestId("orientation-step-congress")).toBeVisible();
   await page.getByTestId("orientation-back").click();
-  await expect(page.getByTestId("story-when")).toHaveText(before!);
+  await expect(openingDate).toHaveText(before!);
   await enterLife(page);
 
   await openShellMenu(page);

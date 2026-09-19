@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 3167 |
 | INTENTIONALLY_NON_PLAYER_FACING | 7117 |
-| DIAGNOSTIC_OR_TEST | 7754 |
-| **NEEDS_CLASSIFICATION** | **10385** |
+| DIAGNOSTIC_OR_TEST | 7755 |
+| **NEEDS_CLASSIFICATION** | **10386** |
 
-Scanned 1193 files holding 113732 string
+Scanned 1193 files holding 113744 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -404,6 +404,7 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/player/politics/GovernmentBrowser.tsx` |
 | 4 | `src/player/politics/PublicServicePanel.tsx` |
 | 4 | `src/presentation/browser-shell-state.ts` |
+| 4 | `src/presentation/campaign-life-actions.ts` |
 | 4 | `src/presentation/creator-hometown-page.ts` |
 | 4 | `src/presentation/legislative-procedure-availability.ts` |
 | 4 | `src/presentation/life-story.ts` |
@@ -430,7 +431,6 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/player/PartyChapterSurface.tsx` |
 | 3 | `src/player/engine-people29-svg.ts` |
 | 3 | `src/presentation/calendar-campaign-life.ts` |
-| 3 | `src/presentation/campaign-life-actions.ts` |
 | 3 | `src/presentation/economic-context.ts` |
 | 3 | `src/presentation/legislation-composition.ts` |
 | 3 | `src/presentation/legislation-world.ts` |
