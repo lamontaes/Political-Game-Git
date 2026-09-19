@@ -157,6 +157,7 @@ const view = async (desk, id) => {
         .then((x) => x === "ready"),
     "native bytes ready",
   );
+  await desk.getByTestId("art-desk-candidate-preview").scrollIntoViewIfNeeded();
 };
 try {
   let { chrome, desk } = await launch();
@@ -226,6 +227,7 @@ try {
   const childHash = hash(readFileSync(childFile));
   await desk.getByTestId("art-desk-edit-kind").selectOption("crop");
   await desk
+    .getByTestId("art-desk-edit")
     .getByTestId("art-desk-edit-note")
     .fill(
       "QA only — external sips crop for revision round-trip proof; not owner-approved art.",
@@ -280,9 +282,13 @@ try {
   await app.close();
   app = null;
   ({ chrome, desk } = await launch());
-  assert.equal(
-    await desk.getByTestId("art-desk-viewed").getAttribute("data-candidate-id"),
-    child.candidateId,
+  await wait(
+    () =>
+      desk
+        .getByTestId("art-desk-viewed")
+        .getAttribute("data-candidate-id")
+        .then((id) => id === child.candidateId),
+    "remembered child after restart",
   );
   const restarted = (await state(desk)).projection.candidates[
     child.candidateId

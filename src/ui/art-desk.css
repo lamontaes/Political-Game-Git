@@ -38,7 +38,8 @@
   padding: 8px 12px;
   cursor: pointer;
 }
-.art-desk button[aria-pressed="true"] {
+.art-desk button[aria-pressed="true"],
+.art-desk button[aria-pressed="true"]:hover:not(:disabled) {
   background: #eadcb7;
   color: #14242d;
 }
