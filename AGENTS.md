@@ -22,11 +22,21 @@ Full command and technical reference: `.agents/rules/repository-reference.md`. I
 
 ## Ownership and execution
 
-Use preflight and identify workspace, branch, local/upstream head before substantial work. Keep one writer per overlapping surface and use isolated worktrees. Do not stash, reset, clean, force-push or overwrite someone else's work. Protect the owner's play folder, saves and port. Recheck upstream immediately before publishing.
+Use preflight and identify workspace, branch, local/upstream head before substantial work. Keep one writer per overlapping surface, working in your registered workspace (below); a genuinely parallel writer may need a separate tree, a retry or a new branch does not. Do not stash, reset, clean, force-push or overwrite someone else's work. Protect the owner's play folder, saves and port. Recheck upstream immediately before publishing.
 
 Safe local implementation, fixture tests and repairs caused by the task do not require permission at every step. Continue through the running route, observed defects and handoff the task requests, rather than stop after the first component or report. Escalate only a material product/authority decision, missing permission, destructive action or paid external operation. LAND retains merge authority; do not self-approve consequential code.
 
 A helper needs an independently useful bounded output and explicit path/tool ownership; no recursive delegation or duplicate full-repo review. Preserve configured concurrency limits. Model effort is proportional to the actual task, not permanently maximum.
+
+## Workspaces and storage
+
+On 2026-09-19 more than 100 GB of project copies had accumulated on the owner's Mac, and a manual cleanup removed the repository every worktree shared. `scripts/storage/` exists so that does not recur. It is a script, not an operating-system quota.
+
+- Reuse the registered workspace: `npm run storage -- workspace --owner <owner>` returns the same folder every time. A new chat, retry, viewport, browser or small repair is not a new directory, and a new branch is a version-control operation in the folder you have. A temporary comparison tree needs a named task, exact baseline, lease and retirement condition.
+- Gated entry points take byte headroom first and refuse (exit 3) with the numbers, leaving source, saves, apps and evidence untouched: `npm run agent:preflight`, `npm run build`, every Playwright run through `playwright.config.ts`, `desktop/scripts/stage.mjs` and `desktop/scripts/package.mjs` (all `dist:*`). Defaults: 25 GiB free-space reserve; 60 GiB across at most 8 registered workspaces; 6 GiB and 3 recent runs per disposable output root (a `.pin` file keeps a run). Machine overrides: `~/.ocd-dev/storage-policy.json`. Hosted CI is exempt; `OCD_STORAGE_OVERRIDE="reason"` records a deliberate bypass.
+- Outside the guard: raw `git clone`, `git worktree add`, `cp -R`, a hand-run `npm install`, downloads, and any tool that never calls it. Do not use them to provision another copy of the project.
+- Never delete by name — `base`, `raw`, `scratch`, `backup`, `test-results` prove nothing. `npm run storage -- check --path <folder>` lists what blocks retirement: an active or protected path, a live reservation, unpublished commits, stashes, tracked changes, untracked files (private inputs and evidence are in no bundle), a common Git directory other worktrees use, or an object store another clone borrows through alternates. Removal is `npm run storage -- retire --plan <approved.json> --apply` against the list the owner approved, re-checked at each removal.
+- Large inputs are referenced, not copied: a code-only change reuses installed artwork and data, an unchanged lockfile reuses the valid install, and private packs are immutable — stage them, never edit in place.
 
 ## Validation and delivery
 

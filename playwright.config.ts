@@ -10,10 +10,20 @@ const nodeBinary = process.execPath;
  * Setting PLAYWRIGHT_PORT gives a concurrent worktree a server of its own. The port
  * default is unchanged; server reuse now requires explicit opt-in plus identity verification.
  */
+import { dirname } from "node:path";
+import { gateEntryPoint } from "./scripts/storage/storage-guard.mjs";
 import { runConfig } from "./scripts/dev-lab/run-config";
 import { historicalEvidenceHashes } from "./scripts/dev-lab/historical-evidence";
 import { sourceIdentity } from "./scripts/dev-lab/identity";
 const run = runConfig();
+// Browser capture writes traces, videos and screenshots; take headroom and
+// refuse an over-budget output root BEFORE a server starts. Workers re-import
+// this config, so only the first process (no TEST_WORKER_INDEX) gates.
+if (process.env.TEST_WORKER_INDEX === undefined)
+  gateEntryPoint({
+    operation: "e2e-capture",
+    outputRoots: [dirname(run.artifacts)],
+  });
 process.env.PG_RUN_ID = run.runId;
 const expectedIdentity = sourceIdentity();
 

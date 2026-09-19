@@ -51,6 +51,11 @@ A lower-authority document or implementation cannot silently override a higher-a
 - `npm run coverage:state-legislatures` — regenerate the state elective-office identity coverage report
 - `npm run readiness:art` — reconcile the asset request queue against art the project already owns
 - `npm run corpus:prose` — build the development-time player-facing prose inventory, coverage, diagnostics, transcripts and review packet
+- `npm run storage -- status` — configured storage limits, registered workspaces, protected paths and live reservations
+- `npm run storage -- workspace --owner <owner>` — the owner's registered folder (reused; never a new directory)
+- `npm run storage -- outputs [--apply]` — pin-aware retention of disposable run output
+- `npm run storage -- check --path <folder>` — every reason a folder may not be retired
+- `npm run storage -- retire --plan <approved.json> [--apply]` — remove exactly an owner-approved list, re-checked at each removal
 - `npm run measure:arms` — measure each body raster's arms per side and pose, and say what the alpha does not contain
 
 ## Working Rules
