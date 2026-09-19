@@ -124,6 +124,35 @@ describe("Politics hub government browser", () => {
     expect(JSON.stringify(world)).toBe(before);
   });
 
+  it("retains a separately sourced mayor and saved holder without inventing a court", () => {
+    const place = requireLifePlace("5167000");
+    const government = municipalGovernmentForLifePlace(place)!;
+    let world = createScenarioWorld("w65-richmond-mayor", place.context, {
+      peopleCount: 8,
+    });
+    const personId = world.personOrder[0]!;
+    world = installMunicipalGovernment(world, {
+      governmentKey: government.key,
+      jurisdictionId: place.context.jurisdiction.id,
+      formedAt: world.currentDate,
+    });
+    world = seatMunicipalMember(world, {
+      governmentKey: government.key,
+      personId: world.personOrder[1]!,
+      startedAt: world.currentDate,
+      role: "mayor",
+      seatLabel: "Mayor",
+    });
+    const view = projectGovernmentBrowser(world, personId, {
+      jurisdictionId: place.context.jurisdiction.id,
+    });
+    const office = view.branches
+      .find((row) => row.branch === "executive")!
+      .entries.find((row) => row.title === "Mayor")!;
+    expect(office.holderPersonId).toBe(world.personOrder[1]);
+    expect(view.branches.some((row) => row.branch === "judicial")).toBe(false);
+  });
+
   it("defaults to where the character is and labels any other chosen place", () => {
     const { world, personId } = newLife("ui-follow-government-place");
     const here = projectGovernmentBrowser(world, personId);

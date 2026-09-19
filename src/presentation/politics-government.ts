@@ -261,23 +261,37 @@ function localBranches(
     });
   }
   // A form label alone does not establish an executive office. A mayor may
-  // preside over the body; do not turn that role into a separate executive.
+  // preside over the body; only an explicit separate-executive position belongs
+  // here. Keep every office's saved holder separate.
+  const executive: GovernmentEntry[] = [];
+  if (
+    government &&
+    reading?.mayor?.structuralPosition === "SEPARATE_CHIEF_EXECUTIVE"
+  ) {
+    const mayor = seats.find((seat) => seat.role === "mayor");
+    executive.push({
+      key: `local-mayor:${government.key}`,
+      title: reading.mayor.title,
+      holderName: mayor ? personName(world.people[mayor.personId]!) : null,
+      holderPersonId: mayor?.personId ?? null,
+      detail: null,
+    });
+  }
   if (government && reading?.manager) {
     const manager = seats.find((seat) => seat.role === "professional-manager");
+    executive.push({
+      key: `local-executive:${government.key}`,
+      title: reading.manager.title,
+      holderName: manager ? personName(world.people[manager.personId]!) : null,
+      holderPersonId: manager?.personId ?? null,
+      detail: reading.manager.statedRole || null,
+    });
+  }
+  if (executive.length) {
     branches.push({
       branch: "executive",
-      label: reading.manager.title,
-      entries: [
-        {
-          key: `local-executive:${government.key}`,
-          title: reading.manager.title,
-          holderName: manager
-            ? personName(world.people[manager.personId]!)
-            : null,
-          holderPersonId: manager?.personId ?? null,
-          detail: reading.manager.statedRole || null,
-        },
-      ],
+      label: executive.map((entry) => entry.title).join(" / "),
+      entries: executive,
       absent: null,
     });
   }
