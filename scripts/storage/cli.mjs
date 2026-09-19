@@ -9,9 +9,10 @@
  *   gate <operation>               refuse or reserve (used by entry points)
  *   outputs [--root P] [--apply]   pin-aware retention of disposable runs
  *   check --path P                 every reason a folder may not be retired
+ *   record --plan FILE             write each path's exact contents into the plan
  *   retire --plan FILE [--apply]   remove exactly an approved list
  */
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import path from "node:path";
 import {
@@ -19,6 +20,7 @@ import {
   createStorageGuard,
   formatBytes,
   isEphemeralHost,
+  recordedState,
 } from "./storage-guard.mjs";
 
 const [command, ...rest] = process.argv.slice(2);
@@ -110,6 +112,15 @@ try {
     for (const blocker of blockers)
       console.log(`${blocker.code}: ${blocker.detail}`);
     process.exitCode = blockers.length === 0 ? 0 : 2;
+  } else if (command === "record") {
+    const plan = JSON.parse(readFileSync(flag("plan"), "utf8"));
+    for (const item of plan.items) {
+      item.expectedState = recordedState(item.path, item.identicalTo);
+      console.log(
+        `${item.expectedState === null ? "UNREADABLE" : `${String(item.expectedState.length - 1).padStart(3)} difference(s)`} ${item.path}`,
+      );
+    }
+    writeFileSync(flag("plan"), `${JSON.stringify(plan, null, 1)}\n`);
   } else if (command === "retire") {
     const plan = JSON.parse(readFileSync(flag("plan"), "utf8"));
     const results = guard.retire(plan.items, {

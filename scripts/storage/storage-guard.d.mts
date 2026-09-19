@@ -22,3 +22,7 @@ export function gateEntryPoint(options: {
 
 export function isEphemeralHost(env?: NodeJS.ProcessEnv): boolean;
 export function formatBytes(bytes: number): string;
+export function recordedState(
+  target: string,
+  identicalTo?: { store: string; commit: string },
+): string[] | null;

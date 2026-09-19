@@ -31,6 +31,7 @@ import {
   existsSync,
   lstatSync,
   mkdirSync,
+  mkdtempSync,
   readFileSync,
   readdirSync,
   readlinkSync,
@@ -40,7 +41,7 @@ import {
   statfsSync,
   writeFileSync,
 } from "node:fs";
-import { homedir } from "node:os";
+import { homedir, tmpdir } from "node:os";
 import path from "node:path";
 
 const GiB = 1024 ** 3;
@@ -207,6 +208,61 @@ function notOnOffDeviceRemote(cwd, revisions) {
     ...remotes.map((name) => `--remotes=${name}`),
     "--oneline",
   ]);
+}
+
+/**
+ * The exact recorded contents an approval covers: HEAD (when readable) plus
+ * every tracked difference and untracked path. A broken-linked worktree has no
+ * Git of its own, so it is compared, read-only and through a throwaway index,
+ * with the commit in a surviving store it was found identical to.
+ */
+export function recordedState(target, identicalTo) {
+  if (!identicalTo) {
+    const head = git(target, ["rev-parse", "HEAD"]);
+    const status = git(target, [
+      "status",
+      "--porcelain",
+      "--untracked-files=all",
+    ]);
+    if (head === null || status === null) return null;
+    return [`HEAD ${head}`, ...status.split("\n").filter(Boolean).sort()];
+  }
+  const scratch = mkdtempSync(path.join(tmpdir(), "ocd-storage-index-"));
+  try {
+    const run = (args) => {
+      try {
+        return execFileSync("git", args, {
+          cwd: identicalTo.store,
+          env: { ...process.env, GIT_INDEX_FILE: path.join(scratch, "index") },
+          encoding: "utf8",
+          stdio: ["ignore", "pipe", "ignore"],
+          maxBuffer: 64 * MiB,
+        }).trim();
+      } catch {
+        return null;
+      }
+    };
+    if (run(["read-tree", identicalTo.commit]) === null) return null;
+    const tree = [`--work-tree=${target}`];
+    const tracked = run([...tree, "diff", "--name-status", identicalTo.commit]);
+    const status = run([
+      ...tree,
+      "status",
+      "--porcelain",
+      "--untracked-files=all",
+    ]);
+    if (tracked === null || status === null) return null;
+    return [
+      `IDENTICAL-TO ${identicalTo.commit}`,
+      ...tracked.split("\n").filter(Boolean).sort(),
+      ...status
+        .split("\n")
+        .filter((line) => line.startsWith("??"))
+        .sort(),
+    ];
+  } finally {
+    rmSync(scratch, { recursive: true, force: true });
+  }
 }
 
 /**
@@ -692,6 +748,20 @@ export function createStorageGuard(options = {}) {
           code: "changed-since-approval",
           detail: `measured ${formatBytes(bytes)}, approved at ${formatBytes(item.expectedBytes)}`,
         });
+      if (item.expectedState !== undefined) {
+        const now = recordedState(item.path, item.identicalTo);
+        if (
+          now === null ||
+          JSON.stringify(now) !== JSON.stringify(item.expectedState)
+        )
+          blockers.push({
+            code: "changed-since-approval",
+            detail:
+              now === null
+                ? "recorded contents can no longer be read"
+                : `contents differ from the approved record (${now.filter((line) => !item.expectedState.includes(line)).length} new, ${item.expectedState.filter((line) => !now.includes(line)).length} gone)`,
+          });
+      }
       if (blockers.length > 0) {
         results.push({ path: item.path, removed: false, bytes, blockers });
         continue;

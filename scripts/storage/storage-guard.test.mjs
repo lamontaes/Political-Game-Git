@@ -13,7 +13,11 @@ import {
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { StorageRefusal, createStorageGuard } from "./storage-guard.mjs";
+import {
+  StorageRefusal,
+  createStorageGuard,
+  recordedState,
+} from "./storage-guard.mjs";
 
 const GiB = 1024 ** 3;
 let sandbox;
@@ -278,6 +282,47 @@ describe("retirement protection", () => {
     const result = guard.retire([{ path: clone }], { ...roots(), apply: true });
     expect(result[0].removed).toBe(true);
     expect(existsSync(clone)).toBe(false);
+  });
+
+  it("approval covers the recorded contents, not a file added afterwards", () => {
+    const clone = publishedClone("PG-APPROVED");
+    writeFileSync(path.join(clone, "seen.txt"), "reviewed\n");
+    const item = {
+      path: clone,
+      acknowledged: ["untracked-files"],
+      expectedState: recordedState(clone),
+    };
+    const guard = guardWith();
+    expect(guard.retire([item], roots())[0].blockers).toEqual([]);
+    writeFileSync(path.join(clone, "later.txt"), "not reviewed\n");
+    const result = guard.retire([item], { ...roots(), apply: true });
+    expect(codes(result[0].blockers)).toEqual(["changed-since-approval"]);
+    expect(existsSync(path.join(clone, "later.txt"))).toBe(true);
+  });
+
+  it("checks a broken-linked worktree against the commit it was matched to", () => {
+    const store = publishedClone("PG-SURVIVOR");
+    const commit = git(store, "rev-parse", "HEAD").trim();
+    const broken = path.join(sandbox, "PG-BROKEN");
+    mkdirSync(broken);
+    writeFileSync(
+      path.join(broken, ".git"),
+      "gitdir: /nowhere/.git/worktrees/x\n",
+    );
+    writeFileSync(path.join(broken, "source.txt"), "source\n");
+    const item = {
+      path: broken,
+      acknowledged: ["unknown-git-state"],
+      identicalTo: { store, commit },
+      expectedState: recordedState(broken, { store, commit }),
+    };
+    expect(item.expectedState).toEqual([`IDENTICAL-TO ${commit}`]);
+    const guard = guardWith();
+    expect(guard.retire([item], roots())[0].blockers).toEqual([]);
+    writeFileSync(path.join(broken, "source.txt"), "edited since\n");
+    expect(codes(guard.retire([item], roots())[0].blockers)).toEqual([
+      "changed-since-approval",
+    ]);
   });
 
   it("refuses a folder another checkout reaches through a symlink", () => {
