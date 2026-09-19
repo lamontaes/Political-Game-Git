@@ -73,23 +73,44 @@ test("normal civilian career offer, keyboard consent, work, resignation and save
     .getByRole("button", { name: "Wait one day", exact: true })
     .click();
   /*
-    The settled contract (GOVERNING owns the semantics; interruption-policy.ts
-    says a confirmed commitment is a stop, not a preference): waiting goes
-    through the shell's one time command, and the skip STOPS AT the
-    commitment. The panel must NOT re-impose a blanket refusal on top — the
-    old refusal was only advanceWorldMinutes' no-registry branch, and
-    stopping at the obligation is better than refusing to move at all.
-    So the promise is about the clock, not about a message: the day the
-    player is on does not advance past the obligation they have not resolved.
-    This currently FAILS — the receipt reads "21 hours, 50 minutes passed
-    (1310 minutes). Now 2026-01-06 at 07:00" — and it is left failing on
-    purpose. GOVERNING is establishing whether the blocker is not the
-    activity the Calendar shows, or whether "Wait one day" targets 07:00
-    rather than +24h; those have different fixes and neither is mine.
+    The settled contract, ruled by GOVERNING against their own first answer
+    and checked here against source before it was written down.
+
+    The 20:00 item is a tentative HOLD, not a confirmed commitment, and the
+    two are not treated alike. interruption-policy.ts says what stops a skip
+    whatever the player prefers — "a confirmed commitment, a journey, a
+    decision that needs the player" — and then says of holds: "Passing a day
+    lets an optional hold lapse at its start, recorded as a decline. Asking
+    to be stopped for holds halts the skip at the hold instead."
+    ordinary-life.ts:284-292 is exactly that: stop when the player asked to
+    be stopped, otherwise decline the hold and carry on.
+
+    So with the default preference the day SHOULD advance past this hold.
+    This spec used to promise the opposite and was left failing on purpose
+    waiting for a ruling; the ruling is that the browser was right. What the
+    contract actually owes the player is that the hold is not skipped in
+    silence — declineVenueActivity writes it into the record they can read.
   */
-  await expect(page.getByTestId("shell-nav-cluster")).toContainText(
-    "January 5, 2026",
+  await expect(career.getByRole("status")).toContainText(
+    /passed \(\d+ minutes\)/,
   );
+  await expect(page.getByTestId("shell-nav-cluster")).toContainText(
+    "January 6, 2026",
+  );
+  /*
+    The other half of the contract is NOT asserted here, because it cannot be
+    seen yet. interruption-policy.ts promises the lapse is "recorded as a
+    decline", and scheduled-activity-choice.ts does write that event —
+    "<title> was declined and its calendar hold was released", carrying
+    involvedEntityIds [personId, activityId]. But opening the Journal and its
+    Record shows only "I remember making room at the table": projectLifeRecord
+    does not carry the venue-activity decline through, so a player cannot read
+    the thing the policy says is recorded. That is a gap between the stated
+    contract and the surface. It is filed separately with this evidence, and
+    left unasserted rather than asserted against a surface that would have to
+    change to make it true.
+  */
+  await goTo(page, "nav-jobs");
   // The normal start has a real commitment; fulfill it through Day.
   await openElsewhere(page, "day");
   // Today is the Calendar's first tab now, not a separate day overlay.
