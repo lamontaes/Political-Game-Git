@@ -1,14 +1,16 @@
 import { expect, test, type Page } from "./fixtures";
 
 import {
+  chooseCreatorLocation,
+  completeCharacterStep,
   enterLife,
   expectNoDestination,
   fillCreator,
   goTo,
   openCreator,
   openElsewhere,
+  openMoment,
   startLife as walkCreator,
-  chooseCreatorLocation,
 } from "./support/creator";
 
 /**
@@ -108,6 +110,7 @@ async function takeOneBeat(page: Page, index = 0): Promise<string> {
   // A life that has just finished its calibration opens on the family the
   // generator wrote. Stepping past it here keeps every caller from having to.
   await enterLife(page);
+  await openMoment(page);
   const section = page.getByTestId("story-section");
   await expect(section).toBeVisible();
   const prose =
@@ -219,7 +222,7 @@ test.describe("The calibration is a set of situations, not a quiz", () => {
     await freshBrowser(page);
     await openCreator(page);
     await page.getByTestId("start-normal").click();
-    await page.getByTestId("start-age").fill("31");
+    await completeCharacterStep(page, 31);
     await page.getByTestId("creator-continue-character").click();
     await chooseCreatorLocation(
       page,
@@ -273,6 +276,8 @@ test.describe("An adult has something to do, and it follows from their life", ()
     await freshBrowser(page);
     // A shared home, so there is somebody to hold the kitchen conversation with.
     await openSetup(page, 37, "skip", "shares-a-home");
+    // The room offers the moment; this reads it, so it opens it.
+    await openMoment(page);
     await expect(page.getByTestId("story-section")).toBeVisible();
     await openElsewhere(page, "day");
     await expect(page.getByTestId("ordinary-section")).toBeVisible();
@@ -288,6 +293,7 @@ test.describe("An adult has something to do, and it follows from their life", ()
   test("shows a child a life and no adult day surface", async ({ page }) => {
     await freshBrowser(page);
     await openSetup(page, 9, "skip");
+    await openMoment(page);
     await expect(page.getByTestId("story-section")).toBeVisible();
     // The growing-up years and adult life share one surface; what a child does
     // not get is the adult household day beside it.
@@ -367,6 +373,7 @@ test.describe("A life is kept, and comes back adapting the same way", () => {
     await expect(page.getByTestId("play-screen")).toBeVisible();
     // A reload opens on the room's scene; the continuing life is one step in.
     await enterLife(page);
+    await openMoment(page);
 
     // Same record, and the same next situation — which is the claim that
     // matters, because the next situation is chosen from the calibration and

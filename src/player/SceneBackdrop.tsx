@@ -531,6 +531,15 @@ export function SceneBackdrop({
                   transform.viewport.height - 48,
                 ),
                 transform: "translateX(-50%)",
+                /*
+                 * Above the physical depth stack, and no higher. Raising this
+                 * to clear the moment panel does not work and the measurement
+                 * says so: the panel's dock is position:fixed inside the same
+                 * stacking context, so a name at a figure's feet still reads
+                 * back as story-options underneath it. Lifting the whole label
+                 * layer over the panel would put names across its prose, which
+                 * is a composition decision and not one to smuggle in here.
+                 */
                 zIndex:
                   Math.max(
                     0,
@@ -542,12 +551,40 @@ export function SceneBackdrop({
                   ) + 1,
               }}
             >
-              <span className="scene-person-plate">
-                <strong>{person.name}</strong>
-                {person.relationship ? (
-                  <small>{person.relationship}</small>
-                ) : null}
-              </span>
+              {/*
+                The name is what a player aims at.
+
+                The figure's own token is the control, but the moment panel
+                docks over the room and in a full room it covers somebody's
+                token whatever dock it picks — and a person whose art is
+                refused is drawn as nothing but this name. So the name opens
+                the same person the token does. It is not a second announced
+                control: the token carries the accessible name and the tab
+                stop, and this is hidden from assistive technology and out of
+                the tab order, a pointer shortcut to the control it labels.
+              */}
+              {onSelectPerson ? (
+                <button
+                  type="button"
+                  className="scene-person-plate scene-person-plate--selectable"
+                  data-testid={`scene-name-${person.personId}`}
+                  aria-hidden="true"
+                  tabIndex={-1}
+                  onClick={() => onSelectPerson(person.personId)}
+                >
+                  <strong>{person.name}</strong>
+                  {person.relationship ? (
+                    <small>{person.relationship}</small>
+                  ) : null}
+                </button>
+              ) : (
+                <span className="scene-person-plate">
+                  <strong>{person.name}</strong>
+                  {person.relationship ? (
+                    <small>{person.relationship}</small>
+                  ) : null}
+                </span>
+              )}
             </div>
           ))}
         </div>

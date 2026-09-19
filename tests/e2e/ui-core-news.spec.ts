@@ -1,7 +1,9 @@
 import { saveLife } from "./support/creator";
 import { expect, test } from "./fixtures";
-import { enterLife, goTo, startLife } from "./support/creator";
+import { enterLife, goTo, openNewsContext, startLife } from "./support/creator";
+import { optionEntries } from "./support/controls";
 import {
+  enterRecordedMemberTerm,
   reachMemberOffice,
   readSavedLegislativeWorld as savedWorld,
   expectRecordedMember,
@@ -25,12 +27,23 @@ test("normal completed legislative action publishes News with person Back and un
   });
   await enterLife(page);
   await goTo(page, "nav-news");
-  await expect(page.getByTestId("public-information-empty")).toBeVisible();
-  await page
-    .getByRole("button", { name: "Close public information" })
-    .press("Escape");
+  await openNewsContext(page, "directory");
+  // A seeded opening carries published reporting, so the directory is not
+  // empty — but it opens on For You, and nothing has been published about this
+  // player yet. That is the honest modern form of what this once asserted:
+  // not "nothing exists" but "nothing about you". The full record stays one
+  // click away under All.
+  await expect(page.getByTestId("public-information-empty")).toHaveCount(0);
+  await expect(
+    page.getByTestId("public-information-for-you-empty"),
+  ).toBeVisible();
+  // The directory context mounts the panel with showClose={false}, so there is
+  // no close button here. Escape is handled on the panel itself and closing
+  // restores focus through onClose, not through whichever control was focused,
+  // so the focus assertion below still says what it always said.
+  await page.getByTestId("news-view-all").press("Escape");
   await expect(page.getByTestId("shell-nav-cluster")).toBeFocused();
-  await reachMemberOffice(page);
+  await enterRecordedMemberTerm(page);
   await page.getByTestId("open-drafting-table").click();
   await page.locator('[data-testid^="drafting-option-"]').first().click();
   await page.getByTestId("file-the-draft").press("Enter");
@@ -47,6 +60,7 @@ test("normal completed legislative action publishes News with person Back and un
   );
   expect(publications).toHaveLength(1);
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
   const article = page.locator(
     `.public-information-article[data-source-event-id="${introduction!.eventId}"]`,
   );
@@ -82,6 +96,7 @@ test("normal completed legislative action publishes News with person Back and un
   await page.getByTestId("continue").click();
   await enterLife(page);
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
   await expect(article).toHaveAttribute("data-source-event-id", sourceEventId!);
   await expect(person).toHaveAttribute("data-person-id", personId!);
   await save(page);
@@ -112,7 +127,16 @@ test("legislative staff can preview but cannot file or publish a member bill", a
   await save(page);
   expect(await savedWorld(page)).toEqual(before);
   await goTo(page, "nav-news");
-  await expect(page.getByTestId("public-information-empty")).toBeVisible();
+  await openNewsContext(page, "directory");
+  // A seeded opening carries published reporting, so the directory is not
+  // empty — but it opens on For You, and nothing has been published about this
+  // player yet. That is the honest modern form of what this once asserted:
+  // not "nothing exists" but "nothing about you". The full record stays one
+  // click away under All.
+  await expect(page.getByTestId("public-information-empty")).toHaveCount(0);
+  await expect(
+    page.getByTestId("public-information-for-you-empty"),
+  ).toBeVisible();
 });
 
 test("opening the normal press request form creates no request or consent", async ({
@@ -129,17 +153,20 @@ test("opening the normal press request form creates no request or consent", asyn
   await save(page);
   const before = await savedWorld(page);
   await goTo(page, "nav-news");
+  await openNewsContext(page, "press");
   const form = page.getByTestId("press-request-form");
   await form.locator("summary").press("Enter");
   await expect(form).toHaveAttribute("open", "");
   await expect(
     form.getByRole("button", { name: "Send request" }),
   ).toBeDisabled();
-  await expect(
-    form
-      .getByRole("combobox", { name: "Reporter", exact: true })
-      .locator("option"),
-  ).toHaveCount(1);
+  // The reporter choice is the game's own select; read its options the way
+  // a player sees them (opening and closing the list changes no World).
+  expect(
+    await optionEntries(
+      form.getByRole("combobox", { name: "Reporter", exact: true }),
+    ),
+  ).toHaveLength(1);
   await form.locator("summary").click();
   await save(page);
   expect(await savedWorld(page)).toEqual(before);
@@ -166,7 +193,14 @@ test("the office names the bill being worked on and who has it next", async ({
    * Nothing here is injected. The seat is won through the campaign, because
    * filing needs a member seat and an office job is not one; the drafting
    * table says exactly that when you try, and it is right.
+   *
+   * That real journey got longer on purpose: the rival campaigns weekly, so
+   * the life works every offered day to win, and an election result is not
+   * office authority, so the shell then walks week by week to the term's
+   * start. The budget is the same one office-onboarding-ordinary carries for
+   * the same route; it is this case's premise, not a blanket wait.
    */
+  test.setTimeout(180_000);
   await page.goto("/?seed=ui-connect2-news");
   await startLife(page, {
     place: "Lexington",

@@ -16,10 +16,19 @@ import {
 import type {
   CampaignActionKind,
   EntityId,
+  FutureTransitionHandlerRegistry,
   MoneyAmount,
   World,
 } from "../simulation";
+import { CampaignLifePanel } from "./CampaignLifePanel";
+import { CampaignWeekPanel } from "./CampaignWeekPanel";
+import { projectCampaignWeekPanel } from "../presentation/campaign-life-surface";
+import {
+  campaignPlanningLayout,
+  isPrimaryCampaignPlanningSlot,
+} from "./campaign-planning-layout";
 import { DIAGNOSTICS } from "./diagnostics-profile";
+import { OpponentActivityPanel } from "./OpponentActivityPanel";
 
 /**
  * Running for something.
@@ -45,6 +54,8 @@ export interface CampaignWorkspaceProps {
   readonly world: World;
   readonly personId: EntityId;
   readonly onWorldChange: (world: World) => void;
+  /** Passed through to party and community work; the default registry otherwise. */
+  readonly transitionHandlers?: FutureTransitionHandlerRegistry;
 }
 
 function money(amount: MoneyAmount): string {
@@ -117,6 +128,7 @@ export function CampaignWorkspace({
   world,
   personId,
   onWorldChange,
+  transitionHandlers,
 }: CampaignWorkspaceProps) {
   const [selectedOfficeKey, setSelectedOfficeKey] = useState<string | null>(
     null,
@@ -137,6 +149,12 @@ export function CampaignWorkspace({
   );
   const strategyReport = useMemo(
     () => projectLatestCampaignStrategyReport(world, personId),
+    [world, personId],
+  );
+  // Asked of the same projection the week panel draws from, so "is there a
+  // week to plan" is the panel's own answer rather than a guess from the phase.
+  const weekPanel = useMemo(
+    () => projectCampaignWeekPanel(world, personId),
     [world, personId],
   );
   const [problem, setProblem] = useState<string | null>(null);
@@ -219,6 +237,12 @@ export function CampaignWorkspace({
         <p className="game-note" data-testid="campaign-unavailable">
           {view.unavailableReason}
         </p>
+        <CampaignLifePanel
+          world={world}
+          personId={personId}
+          onWorldChange={onWorldChange}
+          transitionHandlers={transitionHandlers}
+        />
       </section>
     );
   }
@@ -235,6 +259,21 @@ export function CampaignWorkspace({
     ...(view.officeAuthority ? [view.officeAuthority] : []),
     ...view.openQuestions,
   ];
+
+  /*
+   * One planning region, and one primary control in it.
+   *
+   * CRUNCH47 EXPERIENCE decision: the campaign's weekly plan leads. What used
+   * to sit above it — the per-action plan editor and the one "do this now" row
+   * — are the same region's detailed editing and its explicit immediate
+   * action, drawn after the week rather than in front of it. The week is no
+   * longer a collapsed block a player has to find.
+   */
+  const planning = campaignPlanningLayout({
+    weekPlanAvailable: view.phase === "active" && Boolean(weekPanel),
+    detailedEditingAvailable: Boolean(strategy) && view.offers.length > 0,
+    immediateActionsAvailable: view.offers.length > 0,
+  });
 
   return (
     <section className="game-campaign" data-testid="campaign-section">
@@ -429,60 +468,70 @@ export function CampaignWorkspace({
             </p>
           ) : null}
 
-          {strategy && view.offers.length > 0 ? (
-            <section
-              className="game-campaign-strategy"
-              data-testid="campaign-strategy"
-              aria-labelledby="campaign-strategy-title"
-            >
-              <h3 id="campaign-strategy-title">Edit the plan</h3>
-              <p data-testid="campaign-strategy-attribution">
-                <strong>{strategy.attribution}</strong>
-              </p>
-              {proposedLabel ? (
-                <p data-testid="campaign-strategy-proposal">
-                  Proposed next: {proposedLabel}.
+          {/*
+            The planning region. Exactly one child carries data-primary="true",
+            which is the property campaign-planning holds the layout to.
+          */}
+          <div
+            className="game-campaign-planning"
+            data-testid="campaign-planning"
+            data-primary-slot={planning.primary ?? "none"}
+          >
+            {planning.slots.includes("week") ? (
+              <div
+                className="game-campaign-planning-slot"
+                data-testid="campaign-planning-week"
+                data-primary={
+                  isPrimaryCampaignPlanningSlot(planning, "week")
+                    ? "true"
+                    : "false"
+                }
+              >
+                <CampaignWeekPanel
+                  world={world}
+                  personId={personId}
+                  onWorldChange={onWorldChange}
+                />
+              </div>
+            ) : null}
+
+            {planning.slots.includes("detail") && strategy ? (
+              <section
+                className="game-campaign-strategy game-campaign-planning-slot"
+                data-testid="campaign-strategy"
+                aria-labelledby="campaign-strategy-title"
+                data-primary={
+                  isPrimaryCampaignPlanningSlot(planning, "detail")
+                    ? "true"
+                    : "false"
+                }
+              >
+                <h3 id="campaign-strategy-title">Edit the plan</h3>
+                <p data-testid="campaign-strategy-attribution">
+                  <strong>{strategy.attribution}</strong>
                 </p>
-              ) : null}
-              <ul>
-                {strategy.knownSituation.map((fact) => (
-                  <li key={fact}>{readableCampaignDate(fact)}</li>
-                ))}
-              </ul>
-              <p className="game-note">{strategy.caveat}</p>
+                {proposedLabel ? (
+                  <p data-testid="campaign-strategy-proposal">
+                    Proposed next: {proposedLabel}.
+                  </p>
+                ) : null}
+                <ul>
+                  {strategy.knownSituation.map((fact) => (
+                    <li key={fact}>{readableCampaignDate(fact)}</li>
+                  ))}
+                </ul>
+                <p className="game-note">{strategy.caveat}</p>
 
-              <fieldset>
-                <legend>Represented geography</legend>
-                {strategy.geographyChoices.map((choice) => (
-                  <label key={choice.key}>
-                    <input
-                      type="radio"
-                      name="campaign-strategy-geography"
-                      value={choice.key}
-                      checked={geographyKey === choice.key}
-                      onChange={() => setSelectedGeography(choice.key)}
-                    />
-                    <span>
-                      {choice.label}
-                      <small>{choice.explanation}</small>
-                    </span>
-                  </label>
-                ))}
-              </fieldset>
-
-              {/* No affordable buy means no ceiling to set; the advertising
-                  button below already says why. An empty legend is not a control. */}
-              {advertising && advertising.spendingChoices.length > 0 ? (
                 <fieldset>
-                  <legend>Advertising spending ceiling</legend>
-                  {advertising.spendingChoices.map((choice) => (
+                  <legend>Represented geography</legend>
+                  {strategy.geographyChoices.map((choice) => (
                     <label key={choice.key}>
                       <input
                         type="radio"
-                        name="campaign-strategy-spending"
+                        name="campaign-strategy-geography"
                         value={choice.key}
-                        checked={advertisingSpendingKey === choice.key}
-                        onChange={() => setSelectedSpending(choice.key)}
+                        checked={geographyKey === choice.key}
+                        onChange={() => setSelectedGeography(choice.key)}
                       />
                       <span>
                         {choice.label}
@@ -491,55 +540,83 @@ export function CampaignWorkspace({
                     </label>
                   ))}
                 </fieldset>
-              ) : null}
-              <p className="game-hint">
-                Changing the plan does not use any time. The work happens when
-                you choose it below.
-              </p>
-            </section>
-          ) : null}
 
-          {view.offers.length > 0 ? (
-            <section
-              className="game-campaign-now"
-              aria-labelledby="campaign-now-title"
-            >
-              <h3 id="campaign-now-title">Do this now</h3>
-              <div
-                className="game-choices"
-                data-testid="campaign-offers"
-                role="group"
+                {/* No affordable buy means no ceiling to set; the advertising
+                  button below already says why. An empty legend is not a control. */}
+                {advertising && advertising.spendingChoices.length > 0 ? (
+                  <fieldset>
+                    <legend>Advertising spending ceiling</legend>
+                    {advertising.spendingChoices.map((choice) => (
+                      <label key={choice.key}>
+                        <input
+                          type="radio"
+                          name="campaign-strategy-spending"
+                          value={choice.key}
+                          checked={advertisingSpendingKey === choice.key}
+                          onChange={() => setSelectedSpending(choice.key)}
+                        />
+                        <span>
+                          {choice.label}
+                          <small>{choice.explanation}</small>
+                        </span>
+                      </label>
+                    ))}
+                  </fieldset>
+                ) : null}
+                <p className="game-hint">
+                  Changing the plan does not use any time. The work happens when
+                  you choose it below.
+                </p>
+              </section>
+            ) : null}
+
+            {planning.slots.includes("immediate") ? (
+              <section
+                className="game-campaign-now game-campaign-planning-slot"
                 aria-labelledby="campaign-now-title"
+                data-primary={
+                  isPrimaryCampaignPlanningSlot(planning, "immediate")
+                    ? "true"
+                    : "false"
+                }
               >
-                {view.offers.map((offer) => (
-                  <button
-                    key={offer.kind}
-                    type="button"
-                    className="game-campaign-action"
-                    data-testid={`campaign-${offer.kind}`}
-                    data-proposed={
-                      strategy?.proposedPriorityKey === offer.kind
-                        ? "true"
-                        : "false"
-                    }
-                    disabled={offer.unavailable !== null}
-                    title={offer.unavailable ?? undefined}
-                    onClick={() => doNow(offer.kind)}
-                  >
-                    <span className="game-campaign-action-label">
-                      {offer.label}
-                    </span>
-                    <span className="game-campaign-action-note">
-                      {offer.unavailable ??
-                        (strategy?.proposedPriorityKey === offer.kind
-                          ? `Proposed. ${offer.cost}`
-                          : offer.cost)}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </section>
-          ) : null}
+                <h3 id="campaign-now-title">Do this now</h3>
+                <div
+                  className="game-choices"
+                  data-testid="campaign-offers"
+                  role="group"
+                  aria-labelledby="campaign-now-title"
+                >
+                  {view.offers.map((offer) => (
+                    <button
+                      key={offer.kind}
+                      type="button"
+                      className="game-campaign-action"
+                      data-testid={`campaign-${offer.kind}`}
+                      data-proposed={
+                        strategy?.proposedPriorityKey === offer.kind
+                          ? "true"
+                          : "false"
+                      }
+                      disabled={offer.unavailable !== null}
+                      title={offer.unavailable ?? undefined}
+                      onClick={() => doNow(offer.kind)}
+                    >
+                      <span className="game-campaign-action-label">
+                        {offer.label}
+                      </span>
+                      <span className="game-campaign-action-note">
+                        {offer.unavailable ??
+                          (strategy?.proposedPriorityKey === offer.kind
+                            ? `Proposed. ${offer.cost}`
+                            : offer.cost)}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </section>
+            ) : null}
+          </div>
 
           {strategyReport ? (
             <section
@@ -558,6 +635,10 @@ export function CampaignWorkspace({
                 <p className="game-note">{strategyReport.observedResult}</p>
               ) : null}
             </section>
+          ) : null}
+
+          {view.phase === "active" ? (
+            <OpponentActivityPanel world={world} personId={personId} />
           ) : null}
 
           {view.sessions.length > 0 ? (
@@ -593,6 +674,13 @@ export function CampaignWorkspace({
           ) : null}
         </>
       ) : null}
+
+      <CampaignLifePanel
+        world={world}
+        personId={personId}
+        onWorldChange={onWorldChange}
+        transitionHandlers={transitionHandlers}
+      />
 
       {problem ? (
         <p className="game-problem" data-testid="campaign-problem">

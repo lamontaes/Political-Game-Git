@@ -231,6 +231,8 @@ describe("ordinary-life agency and boundaries", () => {
     },
   );
   it("uses one generation controller across transition callbacks in multiple places", () => {
+    // Three full opening generations take about 2.5 s on a quiet host, so the
+    // default 5 s budget is decided by runner load rather than by the check.
     for (const name of ["Boston", "Honolulu", "Anchorage"]) {
       const place = lifePlaceSearch(name, 1)[0]!;
       expect(place).toBeDefined();
@@ -250,5 +252,5 @@ describe("ordinary-life agency and boundaries", () => {
         ),
       ).toBe(18);
     }
-  });
+  }, 30_000);
 });

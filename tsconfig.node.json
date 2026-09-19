@@ -17,13 +17,16 @@
     "playwright.municipal-load.config.ts",
     "tests/acceptance/municipal-load.browser.ts",
     "scripts/dev-lab/**/*.ts",
+    "scripts/maps/**/*.ts",
     "scripts/prose-corpus/**/*.ts",
     "scripts/prose-eval/**/*.ts",
     "scripts/release/**/*.ts",
     "scripts/source/**/*.ts",
+    "src/authoring/**/*.ts",
     "src/cli/**/*.ts",
     "src/education/**/*.ts",
     "src/fiscal-authority/**/*.ts",
+    "src/maps/**/*.ts",
     "src/content/**/*.ts",
     "src/devtools/**/*.ts",
     "src/districts/**/*.ts",
@@ -39,5 +42,5 @@
     "tests/source/**/*.ts",
     "vite.config.ts"
   ],
-  "exclude": ["src/presentation/**/*.test.ts"]
+  "exclude": ["src/presentation/**/*.test.ts", "src/authoring/**/*.test.ts"]
 }

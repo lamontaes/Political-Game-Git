@@ -21,7 +21,8 @@ import { PRODUCTION_CHARACTER_LIBRARY } from "../src/presentation/visual-integra
 import { wearableChoicesIn } from "../src/player/SavedAppearance";
 import { listPersonWardrobeFamilies } from "../src/presentation/person-visual-selection";
 import type { ScenePerson } from "../src/presentation/life-story";
-import type { EntityId, NewGameSetup, Person, World } from "../src/simulation";
+import type { EntityId, Person, World } from "../src/simulation";
+import type { NewGameSetup } from "../src/presentation/new-game";
 
 /**
  * The local development art preview, and the four things that keep it honest.

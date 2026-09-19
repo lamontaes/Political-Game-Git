@@ -1,5 +1,3 @@
-import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
-import { LIFE_PATHS2_HANDLERS } from "../simulation/life-paths2";
 import { useState } from "react";
 import {
   projectEligiblePressAdvisers,
@@ -10,7 +8,6 @@ import {
   producePressAdviserFeedback,
   addSimulationMinutes,
   advanceWorldMinutes,
-  createCampaignElectionTransitionRegistry,
   type HistoricalEvent,
   projectEligiblePressReporters,
   recordPressRequest,
@@ -29,6 +26,7 @@ import {
   type EntityId,
   type World,
 } from "../simulation";
+import { PressDeskPanel } from "./PressDeskPanel";
 import { PressInterviewPanel } from "./PressInterviewPanel";
 import {
   composePressRequestPitch,
@@ -42,6 +40,123 @@ import {
   type PressRequestIntent,
   type PressRequestStance,
 } from "../presentation/press-request";
+import { GameSelect } from "./controls/GameSelect";
+import { proseDate } from "../presentation/prose-dates";
+import { formatMinute } from "../presentation/player-calendar";
+import { simulationMinutesBetween } from "../simulation/dates";
+import {
+  describeInterval,
+  describeTimeTarget,
+  PROTECTED_STOP_NOTE,
+} from "../presentation/time-target-label";
+import {
+  CALENDAR_COMMITMENT_NOTE,
+  useSharedTimeCommand,
+} from "./time-command-runner";
+
+/** The authored step the preparation control offers, disclosed before it runs. */
+const PRESS_PREPARATION_STEP_MINUTES = 15;
+
+/**
+ * Letting preparation time pass, on the one clock.
+ *
+ * The desk used to call `advanceWorldMinutes(world, 15)` straight from its
+ * onClick: no disclosed destination, no pending state, no stale-World check,
+ * and a second press could spend a second quarter hour on top of the first.
+ * A quarter hour is not a whole day, so this is not a `days` command — it goes
+ * through the runner's `perform`, which shares the same pending flag, refuses
+ * a World that moved since this was drawn, and commits through the shell.
+ *
+ * Where no runner is mounted above this desk there is no shared clock to
+ * submit to, so it states why the step is not offered rather than opening a
+ * second clock of its own.
+ */
+export function PressPreparationTimeControl({
+  world,
+}: {
+  readonly world: World;
+}) {
+  const [notice, setNotice] = useState<string | null>(null);
+  const runner = useSharedTimeCommand();
+  return (
+    <div>
+      <p>
+        Preparation progresses as time passes and the assigned adviser’s
+        available capacity.
+      </p>
+      {runner ? (
+        <>
+          <button
+            type="button"
+            data-testid="press-continue-quarter-hour"
+            aria-disabled={runner.pending || undefined}
+            aria-busy={runner.pending}
+            aria-describedby="press-quarter-hour-target"
+            onClick={() =>
+              runner.perform(
+                (current, handlers) => {
+                  // The runner's registry carries the player's interruption
+                  // preferences; composing a fresh one here could not see them.
+                  const next = advanceWorldMinutes(
+                    current,
+                    PRESS_PREPARATION_STEP_MINUTES,
+                    handlers,
+                  );
+                  const elapsed = simulationMinutesBetween(
+                    current.currentMoment,
+                    next.currentMoment,
+                  );
+                  return {
+                    world: next,
+                    outcome:
+                      elapsed === 0
+                        ? CALENDAR_COMMITMENT_NOTE
+                        : elapsed < PRESS_PREPARATION_STEP_MINUTES
+                          ? `${describeInterval(elapsed)} passed, stopping short of ${describeInterval(
+                              PRESS_PREPARATION_STEP_MINUTES,
+                            )} for something protected. It is now ${describeTimeTarget(
+                              next.currentMoment,
+                            )}.`
+                          : `${describeInterval(elapsed)} passed. It is now ${describeTimeTarget(
+                              next.currentMoment,
+                            )}.`,
+                  };
+                },
+                (report) => setNotice(report.outcome),
+              )
+            }
+          >
+            Continue 15 minutes
+          </button>
+          <p id="press-quarter-hour-target">
+            {runner.pending
+              ? "Time is passing…"
+              : `${describeInterval(PRESS_PREPARATION_STEP_MINUTES)}, to ${describeTimeTarget(
+                  addSimulationMinutes(
+                    world.currentMoment,
+                    PRESS_PREPARATION_STEP_MINUTES,
+                  ),
+                )}. ${PROTECTED_STOP_NOTE}`}
+          </p>
+          {notice && !runner.pending ? (
+            <p
+              role="status"
+              data-testid="press-continue-outcome"
+              style={{ whiteSpace: "pre-line" }}
+            >
+              {notice}
+            </p>
+          ) : null}
+        </>
+      ) : (
+        <p data-testid="press-continue-quarter-hour-unavailable">
+          Letting preparation time pass is not offered here: this desk is open
+          outside the play shell, which owns the one clock.
+        </p>
+      )}
+    </div>
+  );
+}
 
 /** Normal saved-world consumer; arrangements and adviser content remain domain-owned. */
 export function PressWorkspace({
@@ -135,10 +250,26 @@ export function PressWorkspace({
     }
   }
   return (
-    <section data-testid="normal-press-workspace" aria-label="Press interviews">
+    <section data-testid="normal-press-workspace" aria-label="Press office">
+      {problem ? (
+        <p className="game-problem" role="status">
+          {problem}
+        </p>
+      ) : null}
+      {requestNotice ? (
+        <p className="game-note" role="status">
+          {requestNotice}
+        </p>
+      ) : null}
+      {controlledPersonId ? (
+        <PressDeskPanel
+          world={world}
+          personId={controlledPersonId}
+          onWorldChange={onWorldChange}
+          onOpenPerson={onOpenPerson}
+        />
+      ) : null}
       <h3>Press interviews</h3>
-      {problem ? <p role="status">{problem}</p> : null}
-      {requestNotice ? <p role="status">{requestNotice}</p> : null}
       {controlledPersonId ? (
         <details data-testid="press-request-form">
           <summary>Request a press exchange</summary>
@@ -187,7 +318,7 @@ export function PressWorkspace({
           >
             <label>
               Public development
-              <select
+              <GameSelect
                 data-testid="press-basis-select"
                 value={basisId}
                 onChange={(event) => {
@@ -201,11 +332,11 @@ export function PressWorkspace({
                     {item.summary}
                   </option>
                 ))}
-              </select>
+              </GameSelect>
             </label>
             <label>
               Reporter
-              <select
+              <GameSelect
                 data-testid="press-reporter-select"
                 value={reporterRoleId}
                 onChange={(event) => setReporterRoleId(event.target.value)}
@@ -219,7 +350,7 @@ export function PressWorkspace({
                     {item.personName} — {item.workRoleTitle}
                   </option>
                 ))}
-              </select>
+              </GameSelect>
             </label>
             {topic && reporters.length === 0 ? (
               <p>
@@ -229,7 +360,7 @@ export function PressWorkspace({
             ) : null}
             <label>
               Channel
-              <select
+              <GameSelect
                 value={channel}
                 onChange={(event) =>
                   setChannel(event.target.value as PressInterviewChannel)
@@ -238,11 +369,11 @@ export function PressWorkspace({
                 {PRESS_INTERVIEW_CHANNELS.map((value) => (
                   <option key={value}>{value}</option>
                 ))}
-              </select>
+              </GameSelect>
             </label>
             <label>
               Record terms
-              <select
+              <GameSelect
                 value={terms}
                 onChange={(event) =>
                   setTerms(event.target.value as PressRecordTerms)
@@ -251,13 +382,13 @@ export function PressWorkspace({
                 {PRESS_RECORD_TERMS.map((value) => (
                   <option key={value}>{value}</option>
                 ))}
-              </select>
+              </GameSelect>
             </label>
             {terms === "on-background" ? (
               attributions.length ? (
                 <label>
                   Proposed attribution
-                  <select
+                  <GameSelect
                     data-testid="press-attribution-select"
                     value={selectedAttribution ?? ""}
                     onChange={(event) => setAttribution(event.target.value)}
@@ -267,7 +398,7 @@ export function PressWorkspace({
                         {choice}
                       </option>
                     ))}
-                  </select>
+                  </GameSelect>
                 </label>
               ) : (
                 <p role="status">
@@ -377,31 +508,7 @@ export function PressWorkspace({
           </ul>
         </section>
       ) : null}
-      {view ? (
-        <div>
-          <p>
-            Preparation progresses as time passes and the assigned adviser’s
-            available capacity.
-          </p>
-          <button
-            type="button"
-            onClick={() =>
-              change(() =>
-                advanceWorldMinutes(
-                  world,
-                  15,
-                  composeFutureTransitionHandlerRegistries(
-                    LIFE_PATHS2_HANDLERS,
-                    createCampaignElectionTransitionRegistry(),
-                  ),
-                ),
-              )
-            }
-          >
-            Continue 15 minutes
-          </button>
-        </div>
-      ) : null}
+      {view ? <PressPreparationTimeControl world={world} /> : null}
       {view ? (
         <PressInterviewPanel
           view={view}
@@ -552,7 +659,7 @@ function PressRequestActions({
         <>
           <label>
             Preparation adviser
-            <select
+            <GameSelect
               value={adviserId}
               onChange={(event) => setAdviserId(event.target.value)}
             >
@@ -562,7 +669,7 @@ function PressRequestActions({
                   {adviser.personName} — {adviser.workRoleTitle}
                 </option>
               ))}
-            </select>
+            </GameSelect>
           </label>
           <button
             type="button"
@@ -630,10 +737,9 @@ function PressRequestActions({
             </p>
           )}
           <p>
-            Proposed start: {start.date} at{" "}
-            {String(Math.floor(start.minuteOfDay / 60)).padStart(2, "0")}:
-            {String(start.minuteOfDay % 60).padStart(2, "0")}. This plan does
-            not establish anyone’s arrival.
+            Proposed start: {proseDate(start.date)} at{" "}
+            {formatMinute(start.minuteOfDay)}. This plan does not establish
+            anyone’s arrival.
           </p>
           <button
             type="button"

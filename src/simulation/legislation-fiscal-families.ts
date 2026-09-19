@@ -45,7 +45,7 @@ const RURAL_TRANSIT_FUND: PredicateAuthority = {
   kind: "standing-statute",
   authorityKey: "standing:rural-transit-assistance",
   citationLabel: "the Rural Transit Assistance Act",
-  programmeLabel: "the rural transit assistance fund",
+  programLabel: "the rural transit assistance fund",
   authorizesSpending: true,
   authorizedCeilingMinorUnits: 4_000_000_000,
   currency: "USD",
@@ -58,7 +58,7 @@ const SCHOOL_FACILITIES_FUND: PredicateAuthority = {
   kind: "standing-statute",
   authorityKey: "standing:school-facilities",
   citationLabel: "the School Facilities Revolving Fund Act",
-  programmeLabel: "the school facilities revolving fund",
+  programLabel: "the school facilities revolving fund",
   authorizesSpending: true,
   authorizedCeilingMinorUnits: 12_000_000_000,
   currency: "USD",
@@ -78,7 +78,7 @@ const RECORDS_RETENTION_ACT: PredicateAuthority = {
   kind: "standing-statute",
   authorityKey: "standing:records-retention",
   citationLabel: "the Public Records Retention Act",
-  programmeLabel: "the public records retention requirements",
+  programLabel: "the public records retention requirements",
   authorizesSpending: false,
   authorizedCeilingMinorUnits: null,
   currency: "USD",
@@ -225,7 +225,7 @@ const APPROPRIATIONS: ProgramFamily = {
               );
             }
             return {
-              text: `The appropriation made by this Act is for ${authority.programmeLabel} as authorized by ${authority.citationLabel}. This Act establishes no program and changes no requirement of ${authority.citationLabel}.`,
+              text: `The appropriation made by this Act is for ${authority.programLabel} as authorized by ${authority.citationLabel}. This Act establishes no program and changes no requirement of ${authority.citationLabel}.`,
               beneficiary: {
                 kind: "general-application",
                 appliesToLabel: `everyone ${authority.citationLabel} already reaches`,
@@ -397,7 +397,7 @@ const APPROPRIATIONS: ProgramFamily = {
               );
             }
             return {
-              text: `This Act makes a supplemental appropriation for ${authority.programmeLabel} as authorized by ${authority.citationLabel}. It is supplemental to, and not in substitution for, any amount already provided for that purpose.`,
+              text: `This Act makes a supplemental appropriation for ${authority.programLabel} as authorized by ${authority.citationLabel}. It is supplemental to, and not in substitution for, any amount already provided for that purpose.`,
               beneficiary: {
                 kind: "general-application",
                 appliesToLabel: `everyone ${authority.citationLabel} already reaches`,
@@ -556,7 +556,7 @@ const APPROPRIATIONS: ProgramFamily = {
               );
             }
             return {
-              text: `The appropriation made by this Act is for ${authority.programmeLabel} as authorized by ${authority.citationLabel}, and is subject to the condition stated in this Act.`,
+              text: `The appropriation made by this Act is for ${authority.programLabel} as authorized by ${authority.citationLabel}, and is subject to the condition stated in this Act.`,
               beneficiary: {
                 kind: "general-application",
                 appliesToLabel: `everyone ${authority.citationLabel} already reaches`,
@@ -762,7 +762,7 @@ const PROGRAM_SUNSET: ProgramFamily = {
               );
             }
             return {
-              text: `This Act applies to ${authority.citationLabel} and to ${authority.programmeLabel} established under it. Nothing in this Act affects an obligation lawfully entered into before the date stated in Section 2.`,
+              text: `This Act applies to ${authority.citationLabel} and to ${authority.programLabel} established under it. Nothing in this Act affects an obligation lawfully entered into before the date stated in Section 2.`,
               beneficiary: {
                 kind: "general-application",
                 appliesToLabel: `everyone ${authority.citationLabel} reaches`,
@@ -902,7 +902,7 @@ const PROGRAM_SUNSET: ProgramFamily = {
               );
             }
             return {
-              text: `This Act replaces the expiration date of ${authority.citationLabel}. Except for the conditions stated in this Act, it makes no other change to that Act, to ${authority.programmeLabel}, or to who may draw on it.`,
+              text: `This Act replaces the expiration date of ${authority.citationLabel}. Except for the conditions stated in this Act, it makes no other change to that Act, to ${authority.programLabel}, or to who may draw on it.`,
               beneficiary: {
                 kind: "general-application",
                 appliesToLabel: `everyone ${authority.citationLabel} reaches`,
@@ -1043,7 +1043,7 @@ const PROGRAM_SUNSET: ProgramFamily = {
               );
             }
             return {
-              text: `${authority.citationLabel} is repealed, and ${authority.programmeLabel} is discontinued, on the date stated in Section 2.`,
+              text: `${authority.citationLabel} is repealed, and ${authority.programLabel} is discontinued, on the date stated in Section 2.`,
               beneficiary: {
                 kind: "general-application",
                 appliesToLabel: `everyone ${authority.citationLabel} reached`,

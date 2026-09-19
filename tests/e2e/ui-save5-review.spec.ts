@@ -6,7 +6,19 @@ import {
   openCreator,
   openElsewhere,
   goTo,
+  openNewsContext,
+  chooseStartAge,
 } from "./support/creator";
+
+/*
+ * The corner cluster draws the player's own portrait, and a workspace can draw
+ * more than one of somebody else — a dossier's head-and-shoulders and the
+ * preview beside the wardrobe controls are both portraits. Naming the portrait
+ * by test id alone therefore names several elements, so each case scopes to
+ * the workspace it is about and takes that surface's first. What is checked is
+ * unchanged: the surface under review draws a portrait.
+ */
+const PORTRAIT = '[data-testid="person-portrait"]';
 
 test("current normal scene and saved-person dossier remain available for owner review", async ({
   page,
@@ -29,7 +41,9 @@ test("current normal scene and saved-person dossier remain available for owner r
   await expect(page.getByTestId("quick-dossier")).toBeVisible();
   await page.getByTestId("quick-dossier-full").click();
   await expect(page.getByTestId("saved-appearance-controls")).toHaveCount(0);
-  await expect(page.getByTestId("person-portrait")).toBeVisible();
+  await expect(
+    page.getByTestId("person-workspace").locator(PORTRAIT).first(),
+  ).toBeVisible();
   await page.screenshot({
     path: info.outputPath("normal-npc-dossier.png"),
     fullPage: true,
@@ -42,7 +56,9 @@ test("current normal scene and saved-person dossier remain available for owner r
   await controls.locator("summary").focus();
   await controls.locator("summary").press("Enter");
   await expect(controls).toHaveAttribute("open", "");
-  await expect(page.getByTestId("person-portrait")).toBeVisible();
+  await expect(
+    page.getByTestId("personal-workspace").locator(PORTRAIT).first(),
+  ).toBeVisible();
   await page.screenshot({
     path: info.outputPath("normal-own-wardrobe.png"),
     fullPage: true,
@@ -65,7 +81,7 @@ test("the rest of the named owner visual set renders on a normal start", async (
   await openCreator(page);
   await page.getByTestId("start-normal").click();
   await expect(page.getByTestId("creator-stage-character")).toBeVisible();
-  await page.getByTestId("start-age").fill("38");
+  await chooseStartAge(page, 38);
   await page.screenshot({
     path: info.outputPath("normal-creator.png"),
     fullPage: true,
@@ -88,11 +104,23 @@ test("the rest of the named owner visual set renders on a normal start", async (
   });
 
   // The newspaper on a normal start, in the state a normal start actually
-  // reaches it: nothing has been published yet, and the surface says so rather
-  // than inventing a reporter or a story to fill itself. Publishing into it
-  // requires a member seat, which this journey does not have.
+  // reaches it. A seeded opening now carries outlets that have already filed,
+  // so this is no longer empty — but the thing the emptiness was guarding is
+  // still asserted, and more directly: every story present names the event it
+  // reports, so none of it was invented to fill the surface. Publishing into
+  // it requires a member seat, which this journey does not have.
   await goTo(page, "nav-news");
-  await expect(page.getByTestId("public-information-empty")).toBeVisible();
+  await openNewsContext(page, "directory");
+  await expect(
+    page.getByTestId("public-information-for-you-empty"),
+  ).toBeVisible();
+  // The full record is under All, and that is where the guarantee is checked.
+  await page.getByTestId("news-view-all").click();
+  const articles = page.locator(".public-information-article");
+  await expect(articles.first()).toBeVisible();
+  for (const article of await articles.all()) {
+    await expect(article).toHaveAttribute("data-source-event-id", /.+/);
+  }
   await page.screenshot({
     path: info.outputPath("normal-news.png"),
     fullPage: true,

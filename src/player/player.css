@@ -6793,6 +6793,12 @@
   margin-bottom: 0.35rem;
 }
 
+/* In play these lists sit on the dark glass card, not on paper. */
+body:where(.pg-game) .game-campaign-log,
+body:where(.pg-game) .game-campaign-tallies {
+  color: var(--pg-ivory-dim, rgba(244, 236, 224, 0.78));
+}
+
 /*
   Packet 72 — the page hierarchy the human playtest could not read.
 
@@ -7307,6 +7313,21 @@
   backdrop-filter: blur(2px);
 }
 
+/*
+ * The name as a control: the same plate, with a button's defaults undone and
+ * a visible hover and focus so it reads as something you can press.
+ */
+.scene-person-plate--selectable {
+  font: inherit;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.scene-person-plate--selectable:hover {
+  border-color: var(--run-a-gold);
+  background: rgb(11 19 32 / 92%);
+}
+
 .scene-person-plate strong {
   font-size: 0.85rem;
 }
@@ -7346,6 +7367,73 @@
 
 .life-exposition .ui-action {
   margin-top: 0.7rem;
+}
+
+/*
+ * The open moment, and the way back out of it.
+ *
+ * The surface had no styling at all, so "Return to the room" fell to the
+ * bottom-left of the dock and landed under the corner cluster, which reads
+ * back as pg-nav-cluster-inner intercepting the press. The panel keeps its own
+ * width and the control sits at its right edge, which is the side the cluster
+ * is not on, and above the name-plate band.
+ */
+.pg-opening-pending {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+  width: min(42rem, 100%);
+  min-height: 0;
+}
+
+.pg-opening-pending > .life-moment {
+  min-height: 0;
+  flex: 0 1 auto;
+}
+
+.pg-opening-pending > [data-testid="pending-life-return"] {
+  align-self: flex-end;
+}
+
+/* --- Opening the moment ------------------------------------------------- */
+
+/*
+ * The control the room offers, sized so it is not a surface.
+ *
+ * It sits clear of the name plates, which are drawn at each figure's feet and
+ * clamped to the bottom 48px of the window: measured, plates occupy roughly
+ * the lowest 50-80px at both 1440x900 and 1024x768, so this rides above that
+ * band rather than through it.
+ */
+.pg-moment-opener {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  align-self: flex-end;
+  margin-bottom: 5rem;
+  padding: 0.5rem 0.9rem;
+  max-width: min(22rem, 100%);
+  color: var(--run-a-ink);
+  background: linear-gradient(180deg, rgb(18 29 46 / 92%), rgb(11 19 32 / 94%));
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.7rem;
+  box-shadow: 0 0.8rem 2rem rgb(8 13 22 / 42%);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--pg-font-ui);
+  font-size: 0.95rem;
+}
+
+.pg-moment-opener small {
+  color: var(--run-a-muted);
+  font-size: 0.78rem;
+}
+
+.pg-moment-opener:hover {
+  border-color: var(--run-a-gold);
 }
 
 /* --- The compact moment panel ------------------------------------------ */
@@ -7995,4 +8083,76 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.3rem;
+}
+
+/*
+ * The officeholder's desk (GOVERNING mount). The briefing's matters and the
+ * desk's programs, staff, measures and casework are all reading surfaces
+ * first, so they are separated by hairlines rather than boxed in cards.
+ */
+.governing-briefing,
+.office-desk {
+  display: grid;
+  gap: var(--pg-space-3);
+  margin: var(--pg-space-4) 0;
+}
+
+.governing-briefing h4,
+.office-desk h4 {
+  margin: var(--pg-space-2) 0 0;
+  padding-top: var(--pg-space-3);
+  border-top: 1px solid var(--pg-hairline);
+}
+
+.governing-matters,
+.office-desk-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--pg-space-3);
+}
+
+.governing-matter,
+.office-program,
+.office-desk-list > li {
+  display: grid;
+  gap: var(--pg-space-1);
+  padding: var(--pg-space-3);
+  border: 1px solid var(--pg-hairline);
+  border-radius: var(--pg-radius);
+  background: var(--pg-glass);
+}
+
+.governing-matter h5,
+.office-program h5 {
+  margin: 0;
+}
+
+.office-program h6 {
+  margin: var(--pg-space-2) 0 0;
+  color: var(--pg-ivory-dim);
+  font-weight: 600;
+}
+
+.office-program-objective {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--pg-space-1);
+}
+
+/* An appropriation is what was put to the office, not a decision it made. */
+.office-program-appropriation {
+  display: grid;
+  gap: var(--pg-space-1);
+  padding-left: var(--pg-space-3);
+  border-left: 2px solid var(--pg-brass-dim);
+}
+
+.office-desk-casework {
+  display: grid;
+  gap: var(--pg-space-2);
+  justify-items: start;
 }

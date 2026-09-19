@@ -19,7 +19,10 @@ import {
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
 import { projectCampaign, spendAnAfternoon } from "./campaign-projection";
-import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
+import {
+  campaignUntilDecided,
+  fileForOffice,
+} from "../../tests/fixtures/campaign-fixture";
 import {
   applyLegislativeCommand,
   openLegislativeWork,
@@ -154,22 +157,11 @@ function billOnTheFloor(world: World, personId: EntityId): World {
   return next;
 }
 
-/** The accepted PR85 win, unchanged from the 79F proofs. */
+/** The accepted PR85 win, now played with daily outreach (CRUNCH46 rivals campaign). */
 function wonSeat() {
   const life = newLife("p85c-owner-0");
   let world = fileForOffice(life.world, life.personId);
-  world = spendAnAfternoon(world, life.personId, "fundraising");
-  for (let index = 0; index < 3; index += 1) {
-    world = advanceWorld(world, 1, createCampaignElectionTransitionRegistry());
-    world = spendAnAfternoon(world, life.personId, "outreach");
-  }
-  for (
-    let day = 0;
-    day < 60 && projectCampaign(world, life.personId).phase === "active";
-    day += 1
-  ) {
-    world = advanceWorld(world, 1, createCampaignElectionTransitionRegistry());
-  }
+  world = campaignUntilDecided(world, life.personId);
   expect(projectCampaign(world, life.personId).phase).toBe("won");
   return {
     world: enterSupportedTerm(world, life.personId),

@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { enterLife, saveLife, startLife } from "./support/creator";
+import { enterLife, openMoment, saveLife, startLife } from "./support/creator";
 
 /**
  * The audit's two browser findings, answered in a browser.
@@ -25,6 +25,7 @@ test("a normal route keeps offering distinct scenes over a played year", async (
     calibration: "skipped",
   });
   await enterLife(page);
+  await openMoment(page);
   await expect(page.getByTestId("play-screen")).toBeVisible();
 
   const scenes: string[] = [];
@@ -79,6 +80,7 @@ test("keeps the same life across a save and a reload mid-route", async ({
     calibration: "skipped",
   });
   await enterLife(page);
+  await openMoment(page);
   for (let beat = 0; beat < 8; beat += 1) {
     await page.getByTestId("story-options").getByRole("button").first().click();
   }
@@ -90,6 +92,7 @@ test("keeps the same life across a save and a reload mid-route", async ({
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
+  await openMoment(page);
   expect(await page.getByTestId("story-section").innerText()).toBe(before);
   await page.getByTestId("open-journal").click();
   expect(await page.getByTestId("journal").innerText()).toBe(journal);

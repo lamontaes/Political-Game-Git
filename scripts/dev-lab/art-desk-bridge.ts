@@ -19,17 +19,36 @@ import {
   statSync,
   writeSync,
 } from "node:fs";
-import { dirname, resolve, sep } from "node:path";
+import { basename, dirname, resolve, sep } from "node:path";
 import type { Plugin } from "vite";
+import {
+  ART_DESK_CANDIDATE_PREFIX,
+  ART_DESK_CANDIDATE_SIDECAR,
+  ART_DESK_QA_REQUEST_SIDECAR,
+  PRIVATE_PACK_ENV,
+  collectArtDeskInputs,
+  refuseUnverifiedReviews,
+  type ArtDeskInputsReceipt,
+  type RasterFacts,
+} from "./art-desk-inputs";
+import { decodeRaster } from "./raster-decode";
+
+export { ART_DESK_CANDIDATE_PREFIX } from "./art-desk-inputs";
 
 export const ART_DESK_BRIDGE_PATHS = [
   "art/requests/asset-requests.json",
   "art/requests/asset-reviews.json",
   "art/requests/asset-claims.json",
   "art/requests/art-desk-reconciliation.json",
+  // Private, gitignored sidecars: uploaded-candidate association and
+  // disposable QA requests. Never a second registry of real requests.
+  ART_DESK_CANDIDATE_SIDECAR,
+  ART_DESK_QA_REQUEST_SIDECAR,
 ] as const;
 
-export const ART_DESK_CANDIDATE_PREFIX = "art/generated/candidates/art-desk/";
+export const ART_DESK_INPUTS_ROUTE = "/__dev/art-desk/inputs";
+const ART_DESK_TOKEN_HEADER = "x-ocd-art-desk-token";
+const REVIEWS_PATH = "art/requests/asset-reviews.json";
 
 const ALLOWED = new Set<string>(ART_DESK_BRIDGE_PATHS);
 
@@ -41,6 +60,8 @@ export type BridgeFailure =
   | "revision-conflict"
   | "not-found"
   | "invalid-body"
+  | "invalid-raster"
+  | "candidate-unverified"
   | "production-mount";
 
 export interface BridgeRequest {
@@ -61,6 +82,8 @@ export type BridgeResult =
       readonly revision: string;
       readonly body?: Buffer;
       readonly contentType?: string;
+      /** Extra JSON fields for a write acknowledgement (e.g. decoded raster facts). */
+      readonly payload?: Record<string, unknown>;
     }
   | {
       readonly ok: false;
@@ -195,9 +218,96 @@ function authorize(
   return null;
 }
 
+export interface BridgeInputsOptions {
+  readonly packDirectory?: string;
+  readonly now: string;
+}
+
+/** GET receipt of private inputs: pack identity state and per-candidate byte verification. */
+export function handleArtDeskInputs(
+  workspace: string,
+  request: BridgeRequest,
+  options: BridgeInputsOptions,
+): BridgeResult {
+  const denied = authorize(request);
+  if (denied) return denied;
+  if (request.method !== "GET") {
+    return fail(405, "invalid-body", "Input receipts are read-only.");
+  }
+  const receipt: ArtDeskInputsReceipt = collectArtDeskInputs(
+    workspace,
+    options.packDirectory,
+    options.now,
+  );
+  const body = Buffer.from(JSON.stringify(receipt));
+  return {
+    ok: true,
+    status: 200,
+    revision: hashBytes(body),
+    body,
+    contentType: "application/json",
+  };
+}
+
+function checkCandidateWrite(
+  relative: string,
+  body: Buffer,
+): Extract<BridgeResult, { ok: false }> | RasterFacts {
+  const decoded = decodeRaster(body);
+  if (!decoded.ok) {
+    return fail(
+      422,
+      "invalid-raster",
+      `Upload did not fully decode (${decoded.code}): ${decoded.message}`,
+    );
+  }
+  const raster: RasterFacts = {
+    container: decoded.raster.container,
+    width: decoded.raster.width,
+    height: decoded.raster.height,
+    hasAlpha: decoded.raster.hasAlpha,
+  };
+  const expected = basename(relative).replace(/\.(png|jpe?g)$/i, "");
+  const actual = hashBytes(body);
+  if (expected !== actual) {
+    return fail(
+      422,
+      "invalid-raster",
+      `Candidate path names ${expected.slice(0, 12)}… but the bytes hash to ${actual.slice(0, 12)}…; the file is stored under its own hash only.`,
+    );
+  }
+  return raster;
+}
+
+function checkReviewWrite(
+  workspace: string,
+  current: Buffer | null,
+  body: Buffer,
+  packDirectory: string | undefined,
+  now: string,
+): Extract<BridgeResult, { ok: false }> | null {
+  let next: { reviews?: never[] };
+  let existing: { reviews?: never[] } | null = null;
+  try {
+    next = JSON.parse(body.toString("utf8"));
+    existing = current ? JSON.parse(current.toString("utf8")) : null;
+  } catch {
+    return fail(400, "invalid-body", "Review document is not JSON.");
+  }
+  const receipt = collectArtDeskInputs(workspace, packDirectory, now);
+  const refusals = refuseUnverifiedReviews(existing, next, receipt.candidates);
+  if (refusals.length === 0) return null;
+  return fail(
+    422,
+    "candidate-unverified",
+    refusals.map((item) => `${item.reviewId}: ${item.reason}`).join(" "),
+  );
+}
+
 export function handleArtDeskBridge(
   workspace: string,
   request: BridgeRequest,
+  options: BridgeInputsOptions = { now: new Date().toISOString() },
 ): BridgeResult {
   const denied = authorize(request);
   if (denied) return denied;
@@ -236,6 +346,29 @@ export function handleArtDeskBridge(
         "If-Match does not equal the current file hash. Reload and retry; the write was not applied.",
       );
     }
+    let payload: Record<string, unknown> | undefined;
+    if (
+      resolved.relative.startsWith(ART_DESK_CANDIDATE_PREFIX) &&
+      !resolved.relative.endsWith(".json")
+    ) {
+      const checked = checkCandidateWrite(resolved.relative, request.body);
+      if ("ok" in checked) return checked;
+      payload = {
+        sha256: hashBytes(request.body),
+        byteLength: request.body.length,
+        ...checked,
+      };
+    }
+    if (resolved.relative === REVIEWS_PATH) {
+      const refused = checkReviewWrite(
+        workspace,
+        current,
+        request.body,
+        options.packDirectory,
+        options.now,
+      );
+      if (refused) return refused;
+    }
     mkdirSync(dirname(resolved.absolute), { recursive: true });
     const temp = `${resolved.absolute}.${process.pid}.tmp`;
     const fd = openSync(temp, "w");
@@ -249,6 +382,7 @@ export function handleArtDeskBridge(
       ok: true,
       status: current ? 200 : 201,
       revision: hashBytes(request.body),
+      payload,
     };
   }
   return fail(
@@ -296,6 +430,42 @@ async function dispatch(
   response: ServerResponse,
 ): Promise<void> {
   const url = new URL(request.url ?? "/", "http://127.0.0.1");
+  const expectedToken = process.env.PG_ART_DESK_TOKEN;
+  if (
+    expectedToken &&
+    request.method !== "GET" &&
+    header(request, ART_DESK_TOKEN_HEADER) !== expectedToken
+  ) {
+    respond(
+      response,
+      fail(
+        401,
+        "unauthorized-origin",
+        "Host token missing or wrong for a write.",
+      ),
+    );
+    return;
+  }
+  const options: BridgeInputsOptions = {
+    packDirectory: process.env[PRIVATE_PACK_ENV] || undefined,
+    now: new Date().toISOString(),
+  };
+  if (url.pathname === ART_DESK_INPUTS_ROUTE) {
+    const receipt = handleArtDeskInputs(
+      workspace,
+      {
+        remoteAddress: request.socket.remoteAddress,
+        origin: header(request, "origin"),
+        host: header(request, "host"),
+        method: request.method ?? "GET",
+        relativePath: "",
+        localReviewEnabled: process.env.PG_LOCAL_REVIEW === "1",
+      },
+      options,
+    );
+    respond(response, receipt);
+    return;
+  }
   const relative =
     url.searchParams.get("path") ??
     decodeURIComponent(
@@ -305,16 +475,24 @@ async function dispatch(
   if (request.method === "PUT" || request.method === "POST") {
     body = await readBody(request);
   }
-  const result = handleArtDeskBridge(workspace, {
-    remoteAddress: request.socket.remoteAddress,
-    origin: header(request, "origin"),
-    host: header(request, "host"),
-    method: request.method === "POST" ? "PUT" : (request.method ?? "GET"),
-    relativePath: relative,
-    ifMatch: header(request, "if-match"),
-    body,
-    localReviewEnabled: process.env.PG_LOCAL_REVIEW === "1",
-  });
+  const result = handleArtDeskBridge(
+    workspace,
+    {
+      remoteAddress: request.socket.remoteAddress,
+      origin: header(request, "origin"),
+      host: header(request, "host"),
+      method: request.method === "POST" ? "PUT" : (request.method ?? "GET"),
+      relativePath: relative,
+      ifMatch: header(request, "if-match"),
+      body,
+      localReviewEnabled: process.env.PG_LOCAL_REVIEW === "1",
+    },
+    options,
+  );
+  respond(response, result);
+}
+
+function respond(response: ServerResponse, result: BridgeResult): void {
   if (!result.ok) {
     response.statusCode = result.status;
     response.setHeader("Content-Type", "application/json");
@@ -337,5 +515,7 @@ async function dispatch(
     return;
   }
   response.setHeader("Content-Type", "application/json");
-  response.end(JSON.stringify({ revision: result.revision }));
+  response.end(
+    JSON.stringify({ revision: result.revision, ...(result.payload ?? {}) }),
+  );
 }

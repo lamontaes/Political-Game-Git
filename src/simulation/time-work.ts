@@ -1,4 +1,8 @@
+import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
+import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { applyNationalTermTransitions } from "./national-election-consumer";
+import { applyCongressTurnover } from "./living-world/congress-turnover";
+import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
 import { workStatusAt } from "./life-queries";
 import {
   addDays,
@@ -8,6 +12,7 @@ import {
   makeSimulationMoment,
   sameSimulationMoment,
   simulationMomentAtLocalTime,
+  simulationMomentEpochMinute,
   simulationMinutesBetween,
 } from "./dates";
 import { createStableId } from "./ids";
@@ -176,14 +181,44 @@ function cloneFlexibility(
       };
 }
 
+/*
+ * GOVERNING profile: "latest state of X" was a full scan per call, and the
+ * integrity pass asks it for every record. History arrays are replaced, never
+ * edited, so an index per array is exact.
+ */
+function latestIndex<T, K>(
+  cache: WeakMap<readonly T[], Map<K, T>>,
+  records: readonly T[],
+  keyOf: (record: T) => K,
+): Map<K, T> {
+  let index = cache.get(records);
+  if (!index) {
+    index = new Map();
+    for (const record of records) index.set(keyOf(record), record);
+    cache.set(records, index);
+  }
+  return index;
+}
+
+const LATEST_ACTIVITY_STATE = new WeakMap<
+  readonly ScheduledActivityStateRecord[],
+  Map<EntityId, ScheduledActivityStateRecord>
+>();
+const LATEST_WORK_STATE = new WeakMap<
+  readonly WorkItemStateRecord[],
+  Map<EntityId, WorkItemStateRecord>
+>();
+
 function latestActivityStateUnchecked(
   world: World,
   activityId: EntityId,
 ): ScheduledActivityStateRecord | null {
   return (
-    world.history.scheduledActivityStates
-      .filter((state) => state.activityId === activityId)
-      .at(-1) ?? null
+    latestIndex(
+      LATEST_ACTIVITY_STATE,
+      world.history.scheduledActivityStates,
+      (state) => state.activityId,
+    ).get(activityId) ?? null
   );
 }
 
@@ -206,9 +241,11 @@ function latestWorkStateUnchecked(
   workItemId: EntityId,
 ): WorkItemStateRecord | null {
   return (
-    world.history.workItemStates
-      .filter((state) => state.workItemId === workItemId)
-      .at(-1) ?? null
+    latestIndex(
+      LATEST_WORK_STATE,
+      world.history.workItemStates,
+      (state) => state.workItemId,
+    ).get(workItemId) ?? null
   );
 }
 
@@ -237,6 +274,37 @@ export function personHasActiveAssignedWork(
       state?.status === "active" && state.assignedPersonIds.includes(personId)
     );
   });
+}
+
+/**
+ * A per-person sweep that finds whether any two scheduled activities sharing
+ * a participant overlap. Only when it finds one does the pairwise loop run,
+ * so the reported pair is the same one it always reported.
+ */
+function scheduledActivitiesMayOverlap(
+  world: World,
+  active: readonly ScheduledActivityRecord[],
+): boolean {
+  const byPerson = new Map<EntityId, { start: number; end: number }[]>();
+  for (const activity of active) {
+    const state = latestActivityStateUnchecked(world, activity.id)!;
+    const start = simulationMomentEpochMinute(state.start);
+    const end = simulationMomentEpochMinute(state.end);
+    for (const personId of new Set(activity.participantPersonIds)) {
+      const list = byPerson.get(personId) ?? [];
+      list.push({ start, end });
+      byPerson.set(personId, list);
+    }
+  }
+  for (const list of byPerson.values()) {
+    list.sort((a, b) => a.start - b.start);
+    let maxEnd = -Infinity;
+    for (const interval of list) {
+      if (interval.start < maxEnd) return true;
+      maxEnd = Math.max(maxEnd, interval.end);
+    }
+  }
+  return false;
 }
 
 function intervalsOverlap(
@@ -1201,12 +1269,15 @@ function advanceCanonicalMinutes(
   let world = inputWorld;
   for (const transition of transitions) {
     if (transition.kind === "date-boundary") {
+      // Resolving due items moves the date to each due day; the continuity
+      // producers must still see the whole span this boundary crossed.
+      const crossedFrom = world.currentDate;
       world = resolveFutureDueItemsThrough(
         world,
         transition.at.date,
         transitionHandlers,
       );
-      world = setCurrentMoment(world, transition.at);
+      world = setCurrentMoment(world, transition.at, crossedFrom);
     } else if (transition.kind === "work-completion" && transition.entityId) {
       world = setCurrentMoment(world, transition.at);
       world = completeStaffWork(
@@ -1559,12 +1630,27 @@ function appendWorkState(world: World, state: WorkItemStateRecord): World {
   return next;
 }
 
-function setCurrentMoment(world: World, moment: SimulationMoment): World {
-  return applyNationalTermTransitions({
+function setCurrentMoment(
+  world: World,
+  moment: SimulationMoment,
+  crossedFrom: World["currentDate"] = world.currentDate,
+): World {
+  const moved = applyNationalTermTransitions({
     ...world,
     currentDate: moment.date,
     currentMoment: cloneMoment(moment),
   });
+  // CRISIS records the death or capacity change; the office consequence is
+  // GOVERNING's, and it runs on the same date boundary so a death reaches the
+  // office the day it happens. The consumer applies each notice once.
+  return applyCrisisRepairFunding(
+    applyCrisisOfficeContinuity(
+      applyGovernorTurnover(
+        crossedFrom,
+        applyCongressTurnover(crossedFrom, moved),
+      ),
+    ),
+  );
 }
 
 function validateFlexibility(
@@ -1607,6 +1693,7 @@ function validateInitialWorkResponsibility(
   requirement: WorkPlayerRequirement,
   waitingOnPersonIds: readonly EntityId[],
   blocker: string | null,
+  answersToCurrentControl = true,
 ): void {
   if (assignedPersonIds.length === 0) {
     throw new Error("Active work requires at least one responsible person.");
@@ -1614,6 +1701,7 @@ function validateInitialWorkResponsibility(
   const controlledPersonId =
     world.control.kind === "person" ? world.control.personId : null;
   if (
+    answersToCurrentControl &&
     requirement !== "none" &&
     (!controlledPersonId || !assignedPersonIds.includes(controlledPersonId))
   ) {
@@ -1709,6 +1797,38 @@ function canonicalSourceAvailable(
   return !!record && record.sequence < sequenceExclusive;
 }
 
+const RECORD_INDEX_ACTIVITY = new WeakMap<
+  readonly ScheduledActivityRecord[],
+  Map<EntityId, ScheduledActivityRecord>
+>();
+const RECORD_INDEX_ACTIVITY_STATE = new WeakMap<
+  readonly ScheduledActivityStateRecord[],
+  Map<EntityId, ScheduledActivityStateRecord>
+>();
+const RECORD_INDEX_WORK = new WeakMap<
+  readonly WorkItemRecord[],
+  Map<EntityId, WorkItemRecord>
+>();
+const RECORD_INDEX_WORK_STATE = new WeakMap<
+  readonly WorkItemStateRecord[],
+  Map<EntityId, WorkItemStateRecord>
+>();
+
+function byId<T extends { readonly id: EntityId }>(
+  cache: WeakMap<readonly T[], Map<EntityId, T>>,
+  records: readonly T[],
+): Map<EntityId, T> {
+  let index = cache.get(records);
+  if (!index) {
+    index = new Map();
+    // First record wins, as the scan it replaces did.
+    for (const record of records)
+      if (!index.has(record.id)) index.set(record.id, record);
+    cache.set(records, index);
+  }
+  return index;
+}
+
 function timeWorkRecordById(
   world: World,
   id: EntityId,
@@ -1718,11 +1838,12 @@ function timeWorkRecordById(
   | WorkItemRecord
   | WorkItemStateRecord
   | null {
+  const h = world.history;
   return (
-    world.history.scheduledActivities.find((record) => record.id === id) ??
-    world.history.scheduledActivityStates.find((record) => record.id === id) ??
-    world.history.workItems.find((record) => record.id === id) ??
-    world.history.workItemStates.find((record) => record.id === id) ??
+    byId(RECORD_INDEX_ACTIVITY, h.scheduledActivities).get(id) ??
+    byId(RECORD_INDEX_ACTIVITY_STATE, h.scheduledActivityStates).get(id) ??
+    byId(RECORD_INDEX_WORK, h.workItems).get(id) ??
+    byId(RECORD_INDEX_WORK_STATE, h.workItemStates).get(id) ??
     null
   );
 }
@@ -1934,26 +2055,29 @@ export function assertTimeWorkIntegrity(
       return state?.status === "scheduled";
     },
   );
-  for (let index = 0; index < activeScheduled.length; index += 1) {
-    const left = activeScheduled[index]!;
-    const leftState = latestActivityStateUnchecked(world, left.id)!;
-    for (const right of activeScheduled.slice(index + 1)) {
-      const rightState = latestActivityStateUnchecked(world, right.id)!;
-      if (
-        left.participantPersonIds.some((personId) =>
-          right.participantPersonIds.includes(personId),
-        ) &&
-        intervalsOverlap(
-          leftState.start,
-          leftState.end,
-          rightState.start,
-          rightState.end,
-        )
-      ) {
-        throw new Error(`Scheduled activities overlap: ${left.id}:${right.id}`);
+  if (scheduledActivitiesMayOverlap(world, activeScheduled))
+    for (let index = 0; index < activeScheduled.length; index += 1) {
+      const left = activeScheduled[index]!;
+      const leftState = latestActivityStateUnchecked(world, left.id)!;
+      for (const right of activeScheduled.slice(index + 1)) {
+        const rightState = latestActivityStateUnchecked(world, right.id)!;
+        if (
+          left.participantPersonIds.some((personId) =>
+            right.participantPersonIds.includes(personId),
+          ) &&
+          intervalsOverlap(
+            leftState.start,
+            leftState.end,
+            rightState.start,
+            rightState.end,
+          )
+        ) {
+          throw new Error(
+            `Scheduled activities overlap: ${left.id}:${right.id}`,
+          );
+        }
       }
     }
-  }
 
   const workById = new Map<EntityId, WorkItemRecord>();
   for (const item of world.history.workItems) {
@@ -1992,6 +2116,14 @@ export function assertTimeWorkIntegrity(
     workById.set(item.id, item);
   }
   const workStates = new Map<EntityId, WorkItemStateRecord[]>();
+  // Who is played can change (PEOPLE continuation). A superseded state was
+  // valid for the person played when it was recorded; only an item's current
+  // state must answer to the person played now.
+  const latestStateIds = new Set([
+    ...new Map(
+      world.history.workItemStates.map((state) => [state.workItemId, state.id]),
+    ).values(),
+  ]);
   for (const state of world.history.workItemStates) {
     assertIdentity(ids, world, state, "work-item-state");
     const item = workById.get(state.workItemId);
@@ -2027,6 +2159,7 @@ export function assertTimeWorkIntegrity(
       state.playerRequirement,
       state.waitingOnPersonIds,
       state.blocker,
+      latestStateIds.has(state.id),
     );
     if (state.status !== "active" && state.playerRequirement !== "none") {
       throw new Error(
@@ -2146,4 +2279,64 @@ function assertUniqueKeys(
       throw new Error(`Duplicate ${label} stable key: ${record.stableKey}`);
     keys.add(record.stableKey);
   }
+}
+
+/**
+ * When play stops being in a person's hands (a played life ended, or the
+ * player moved on), their open work stops waiting on the player. Each active
+ * item that asked the player for a decision or action gets one appended state
+ * that asks nothing; it stays theirs, and nothing earlier is rewritten.
+ *
+ * Call it before `world.control` moves, with the event that records the move;
+ * that event must involve every released item ({@link playerRequiredWorkIds}).
+ */
+/** Active work that is waiting on this person as the player. */
+export function playerRequiredWorkIds(
+  world: World,
+  personId: EntityId,
+): readonly EntityId[] {
+  return world.history.workItems
+    .filter((item) => {
+      const state = latestWorkStateUnchecked(world, item.id);
+      return (
+        !!state &&
+        state.status === "active" &&
+        state.playerRequirement !== "none" &&
+        state.assignedPersonIds.includes(personId)
+      );
+    })
+    .map((item) => item.id);
+}
+
+export function releasePlayerRequiredWork(
+  world: World,
+  input: {
+    readonly personId: EntityId;
+    readonly stableKeyPrefix: string;
+    readonly outcomeEventId: EntityId;
+  },
+): World {
+  let next = world;
+  for (const itemId of playerRequiredWorkIds(world, input.personId)) {
+    const item = world.history.workItems.find((entry) => entry.id === itemId)!;
+    const previous = latestWorkStateUnchecked(next, item.id)!;
+    const stableKey = `${input.stableKeyPrefix}:${item.id}`;
+    next = appendWorkState(next, {
+      id: createStableId("work-item-state", `${next.id}:${stableKey}`),
+      stableKey,
+      sequence: next.history.nextSequence,
+      workItemId: item.id,
+      recordedAt: cloneMoment(next.currentMoment),
+      status: "active",
+      assignedPersonIds: previous.assignedPersonIds,
+      playerRequirement: "none",
+      waitingOnPersonIds: previous.waitingOnPersonIds,
+      blocker: previous.blocker,
+      completedEffortMinutes: previous.completedEffortMinutes,
+      scheduledActivityId: previous.scheduledActivityId,
+      outcomeEventId: input.outcomeEventId,
+      supersedesStateId: previous.id,
+    });
+  }
+  return next;
 }

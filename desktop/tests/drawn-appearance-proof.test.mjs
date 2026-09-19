@@ -27,7 +27,8 @@ const proof = {
       materialVersion: material.version,
       materialState: "ready",
       parameters: material,
-      svgSha256: "a".repeat(64),
+      drawnSha256: "a".repeat(64),
+      drawnVisible: true,
     },
   ],
 };
@@ -87,9 +88,15 @@ for (const [label, mutate] of [
     },
   ],
   [
-    "no SVG identity",
+    "no drawn identity",
     (p) => {
-      p.layers[0].svgSha256 = null;
+      p.layers[0].drawnSha256 = null;
+    },
+  ],
+  [
+    "blank prepared layer",
+    (p) => {
+      p.layers[0].drawnVisible = false;
     },
   ],
 ])
@@ -113,7 +120,8 @@ test("old unmarked rendering retains its own decoded asset identity", () => {
     materialVersion: null,
     materialState: null,
     parameters: null,
-    svgSha256: null,
+    drawnSha256: null,
+    drawnVisible: null,
   });
   assert.doesNotThrow(() =>
     validateDrawnAppearance(old, {

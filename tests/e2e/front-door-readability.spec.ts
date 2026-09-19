@@ -126,7 +126,8 @@ test.describe("The front door stays compact and readable over the room", () => {
     expect(cont.opacity).toBe(1);
     expect(relativeLuminance(cont.color)).toBeGreaterThan(0.28);
     await expect(page.getByTestId("continue")).toBeDisabled();
-    await expect(page.getByTestId("open-saves")).toBeDisabled();
+    // Saved games stays open with nothing saved: it is where an import lives.
+    await expect(page.getByTestId("open-saves")).toBeEnabled();
   });
 
   test("moves focus visibly and activates New game from the keyboard", async ({

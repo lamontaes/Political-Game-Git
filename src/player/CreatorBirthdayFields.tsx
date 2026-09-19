@@ -1,16 +1,25 @@
+import { useState } from "react";
+
 import { isoDateFromParts } from "../simulation";
+import {
+  applyFullBirthday,
+  birthYearChoices,
+  birthYearForSetup,
+  creatorStartDate,
+  randomFullBirthday,
+} from "../presentation/creator-full-birthday";
 import { birthdayProblemForSetup } from "../presentation/new-game-birthday";
 import type { NewGameSetup } from "../presentation/new-game";
+import { GameSelect } from "./controls/GameSelect";
+import { world39Date } from "./World39News";
 import "./creator-finish.css";
 
 /**
- * Birthday as a month name and a day (UI FINISH, after UX #254).
+ * Birthday as a month name, a day and a year (UI FINISH, after UX #254).
  *
- * Two bare number boxes asked the player to know that 7 is July and let them
- * type 31 into February. These are native selects — keyboard, screen reader
- * and pointer all work the way the platform already does — and the day list is
- * never longer than the month. Storage is unchanged: `birthMonth` and
- * `birthDay` stay numbers, and clearing the month clears the day.
+ * Month names rather than numbers, and a day list never longer than the
+ * month. Storage is unchanged: `birthMonth` and `birthDay` stay numbers,
+ * clearing the month clears the day, and the year sets `startAge`.
  */
 export const BIRTHDAY_MONTH_NAMES: readonly string[] = [
   "January",
@@ -46,18 +55,61 @@ export interface BirthdayPatch {
   readonly birthDay: number | null;
 }
 
+/**
+ * The whole birthday, and the age it makes (UI DECISION FOLLOW-THROUGH:
+ * gender -> name -> full birthday -> derived age and start date).
+ *
+ * Month, day and year are the game's own selects. The year is what sets the
+ * starting age; month and day stay optional, and without them the game picks
+ * the anniversary as before. The age and the day play begins are shown, not
+ * typed. Randomize draws a whole adult birthday from the life's seed.
+ */
 export function CreatorBirthdayFields({
   setup,
+  yearChosen,
   onChange,
 }: {
   readonly setup: NewGameSetup;
-  /** `null` means "leave this out of the setup", never zero. */
-  readonly onChange: (patch: BirthdayPatch) => void;
+  /** False until the player has picked (or drawn) a birth year. */
+  readonly yearChosen: boolean;
+  readonly onChange: (next: NewGameSetup, yearChosen: boolean) => void;
 }) {
-  const month = setup.birthMonth;
-  const day = setup.birthDay;
+  const [draws, setDraws] = useState(0);
+  const month = setup.birthMonth ?? null;
+  const day = setup.birthDay ?? null;
   const maxDay = month ? birthdayDaysInMonth(month) : 31;
+  const startDate = creatorStartDate(setup);
+  const year = yearChosen ? birthYearForSetup(setup) : null;
+  const years = birthYearChoices(month, day, startDate);
   const problem = birthdayProblemForSetup(setup);
+
+  /** Keeps the chosen year when month or day changes, if it still works. */
+  const withParts = (nextMonth: number | null, nextDay: number | null) => {
+    if (year === null) {
+      onChange(
+        applyBirthdayPatch(setup, { birthMonth: nextMonth, birthDay: nextDay }),
+        false,
+      );
+      return;
+    }
+    const choices = birthYearChoices(nextMonth, nextDay, startDate);
+    const keptYear = choices.includes(year)
+      ? year
+      : choices.reduce(
+          (best, candidate) =>
+            Math.abs(candidate - year) < Math.abs(best - year)
+              ? candidate
+              : best,
+          choices[0]!,
+        );
+    const next = applyFullBirthday(setup, {
+      year: keptYear,
+      month: nextMonth,
+      day: nextDay,
+    });
+    if (next) onChange(next, true);
+  };
+
   return (
     <fieldset
       className="game-fieldset creator-birthday"
@@ -67,23 +119,22 @@ export function CreatorBirthdayFields({
       <div className="creator-birthday-row">
         <label>
           Month
-          <select
+          <GameSelect
             data-testid="start-birth-month"
             value={month ?? ""}
             onChange={(event) => {
               const text = event.target.value;
               if (text === "") {
-                onChange({ birthMonth: null, birthDay: null });
+                withParts(null, null);
                 return;
               }
               const nextMonth = Number(text);
-              onChange({
-                birthMonth: nextMonth,
-                birthDay:
-                  day !== undefined && day <= birthdayDaysInMonth(nextMonth)
-                    ? day
-                    : null,
-              });
+              withParts(
+                nextMonth,
+                day !== null && day <= birthdayDaysInMonth(nextMonth)
+                  ? day
+                  : null,
+              );
             }}
           >
             <option value="">Not set</option>
@@ -92,20 +143,17 @@ export function CreatorBirthdayFields({
                 {name}
               </option>
             ))}
-          </select>
+          </GameSelect>
         </label>
         <label>
           Day
-          <select
+          <GameSelect
             data-testid="start-birth-day"
             value={day ?? ""}
-            disabled={month === undefined}
+            disabled={month === null}
             onChange={(event) => {
               const text = event.target.value;
-              onChange({
-                birthMonth: month ?? null,
-                birthDay: text === "" ? null : Number(text),
-              });
+              withParts(month, text === "" ? null : Number(text));
             }}
           >
             <option value="">Not set</option>
@@ -116,11 +164,53 @@ export function CreatorBirthdayFields({
                 </option>
               ),
             )}
-          </select>
+          </GameSelect>
         </label>
+        <label>
+          Year
+          <GameSelect
+            data-testid="start-birth-year"
+            value={year ?? ""}
+            placeholder="Choose a year"
+            onChange={(event) => {
+              const text = event.target.value;
+              if (text === "") return;
+              const next = applyFullBirthday(setup, {
+                year: Number(text),
+                month,
+                day,
+              });
+              if (next) onChange(next, true);
+            }}
+          >
+            {years.map((value) => (
+              <option key={value} value={value}>
+                {value}
+              </option>
+            ))}
+          </GameSelect>
+        </label>
+        <button
+          type="button"
+          className="creator-birthday-random"
+          data-testid="creator-randomize-birthday"
+          onClick={() => {
+            const salt = draws + 1;
+            setDraws(salt);
+            const next = applyFullBirthday(
+              setup,
+              randomFullBirthday(setup.seed, salt, startDate),
+            );
+            if (next) onChange(next, true);
+          }}
+        >
+          Randomize birthday
+        </button>
       </div>
-      <p className="game-hint">
-        Optional. Your age still decides how old you are when play starts.
+      <p className="game-hint" data-testid="creator-derived-age">
+        {yearChosen
+          ? `You begin at age ${setup.startAge}, on ${world39Date(startDate)}.`
+          : `Choose a birth year. Play begins on ${world39Date(startDate)}.`}
       </p>
       {problem ? (
         <p role="alert" data-testid="creator-birthday-problem">

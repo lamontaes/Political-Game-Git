@@ -1,6 +1,10 @@
 import { expect, test, type Page } from "./fixtures";
 
-import { openCreator, chooseCreatorLocation } from "./support/creator";
+import {
+  openCreator,
+  chooseCreatorLocation,
+  completeCharacterStep,
+} from "./support/creator";
 
 /**
  * The post-#87 creator, in a browser.
@@ -38,7 +42,7 @@ async function walkToWhoAreYou(page: Page) {
   await openCreator(page);
   await page.getByTestId("start-normal").click();
   await expect(page.getByTestId("creator-stage-character")).toBeVisible();
-  await page.getByTestId("start-age").fill("10");
+  await completeCharacterStep(page, 10);
   await page.getByTestId("creator-continue-character").click();
   await expect(page.getByTestId("creator-stage-place")).toBeVisible();
   await expect(page.getByTestId("place-context")).toHaveCount(0);

@@ -1,8 +1,13 @@
+import { createPressTransitionRegistry } from "./press/transitions";
 import {
   supportedLegislativeTermDates,
   scheduleLegislativeTerm,
   createLegislativeTermTransitionRegistry,
 } from "./legislative-office-terms";
+import { STATE_GOVERNING_HANDLERS } from "./governing/state-governing";
+import { PUBLIC_PROGRAM_HANDLERS } from "./governing/public-program";
+import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
+import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
 import {
   createNationalElectionTransitionRegistry,
   linkedNationalUnitTransition,
@@ -10,6 +15,7 @@ import {
 import { createTransitTransitionRegistry } from "./transit-service";
 import { settlePublicResourcePayment } from "./public-fiscal";
 import { createTaxTransitionHandlerRegistry } from "./tax-policy";
+import { createCrisisTransitionRegistry } from "./crisis";
 import { composeExecutiveWorkHandlers } from "./executive-work";
 import { LIFE_PATHS2_HANDLERS } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
@@ -55,14 +61,28 @@ import {
   recordWorkStatus,
 } from "./life";
 import { LIFE_TRANSITION_HANDLERS } from "./life-callbacks";
+import { PEOPLE_CONTACT_HANDLERS } from "./people-contact";
+import { PEOPLE_FAMILY_HANDLERS } from "./people-family-plan";
+import {
+  CLAIM_CONTRADICTION_TRANSITION_KEY,
+  claimContradictionTransitionHandler,
+} from "./claim-contradictions";
 import {
   CHAPTER_OUTREACH_TRANSITION_KEY,
   chapterOutreachTransitionHandler,
 } from "./living-world/party-chapters";
 import {
+  MACRO_MONTHLY_STEP_KEY,
+  macroMonthlyStepHandler,
+} from "./macro-economy/producer";
+import {
   DEVELOPMENT_STEP_TRANSITION_KEY,
   developmentStepTransitionHandler,
 } from "./living-world/developments";
+import {
+  PARTY_BODY_REVIEW_TRANSITION_KEY,
+  partyBodyReviewTransitionHandler,
+} from "./living-world/party-evolution";
 import { workStatusAt, workStatusHistory } from "./life-queries";
 import {
   lifePlaceByJurisdictionId,
@@ -79,6 +99,7 @@ import {
 import { recordEventKnowledge } from "./records";
 import { SeededRng } from "./rng";
 import {
+  cancelScheduledActivity,
   controlledCommitmentsBlockingActivityPerformance,
   createScheduledActivity,
   performScheduledActivity,
@@ -108,16 +129,22 @@ import type {
   World,
   WorldMetricDefinition,
   WorldMetricObservationRecord,
-  WorldMetricStateRecord,
 } from "./types";
 import {
   createWorldMetricCatalog,
   createWorldMetricDefinition,
-  mostRecentWorldMetricStateAt,
   recordWorldMetricObservation,
   recordWorldMetricState,
 } from "./world-metrics";
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
+import { CAMPAIGN_LIFE_HANDLERS } from "./campaign-life-handlers";
+import { ensureCampaignWeeklyEvaluation } from "./campaign-opponents";
+import {
+  SUPPORT_DENOMINATOR,
+  latestSupportState,
+  quantityBasisPoints,
+  recordSupportShift,
+} from "./campaign-support";
 
 /**
  * Standing for office.
@@ -146,12 +173,6 @@ import { assertWorldIntegrity, recordWorldEvent } from "./world";
 
 export const CAMPAIGN_SUPPORT_METRIC_STABLE_KEY =
   "campaign.candidate-support-share";
-
-/** No candidate is allowed to fall below one percent of canonical support. */
-const SUPPORT_FLOOR_BASIS_POINTS = 100;
-
-/** Support is carried in basis points of one, so ten thousand is everybody. */
-const SUPPORT_DENOMINATOR = 10_000;
 
 /**
  * What the campaign's field memo claims about its own precision. Four points is
@@ -322,44 +343,6 @@ export function canonicalSupportBasisPoints(
     );
   }
   return quantityBasisPoints(latestSupportState(world, campaign, scope));
-}
-
-function quantityBasisPoints(state: WorldMetricStateRecord): number {
-  if (
-    state.value.kind !== "quantity" ||
-    state.value.quantity.unit !== "rate:share"
-  ) {
-    throw new Error("Campaign support state is not an exact share.");
-  }
-  const scaled =
-    (state.value.quantity.numerator * SUPPORT_DENOMINATOR) /
-    state.value.quantity.denominator;
-  if (!Number.isSafeInteger(scaled)) {
-    throw new Error("Campaign support cannot be represented in basis points.");
-  }
-  return scaled;
-}
-
-function latestSupportState(
-  world: World,
-  campaign: CampaignRecord,
-  scope: CampaignCandidateSupportScope,
-): WorldMetricStateRecord {
-  const state = mostRecentWorldMetricStateAt(
-    world,
-    campaign.supportMetricId,
-    { jurisdictionId: campaign.jurisdictionId, segmentKey: scope.segmentKey },
-    {
-      asOfDate: world.currentDate,
-      historySequenceExclusive: world.history.nextSequence,
-    },
-  );
-  if (!state) {
-    throw new Error(
-      `Campaign support state is missing: ${scope.candidatePersonId}`,
-    );
-  }
-  return state;
 }
 
 function recordInitialSupport(world: World, campaign: CampaignRecord): World {
@@ -845,6 +828,9 @@ export function fileCampaign(
   assertWorldIntegrity(world);
   world = recordInitialSupport(world, campaignRecord);
   assertWorldIntegrity(world);
+  // CRUNCH46 CAMPAIGN: the rivals in this race start campaigning on the
+  // world's weekly clock.
+  world = ensureCampaignWeeklyEvaluation(world, campaignRecord.id);
   return { world, campaign: campaignRecord };
 }
 
@@ -1032,41 +1018,9 @@ function requestedGainBasisPoints(
 /**
  * Support is a share, so a gain is a transfer. Taking it evenly from the field
  * and refusing to push anybody below the floor keeps the split a real
- * distribution rather than a score that only ever goes up.
+ * distribution rather than a score that only ever goes up. The shared writer
+ * in `campaign-support.ts` does both, for this campaign and for opponents.
  */
-function supportAfterAction(
-  world: World,
-  campaign: CampaignRecord,
-  action: CampaignActionRecord,
-): Readonly<Record<string, number>> {
-  const current = Object.fromEntries(
-    campaign.candidateSupportScopes.map((scope) => [
-      scope.candidatePersonId,
-      quantityBasisPoints(latestSupportState(world, campaign, scope)),
-    ]),
-  ) as Record<string, number>;
-  const rivals = campaign.candidateSupportScopes
-    .map((scope) => scope.candidatePersonId)
-    .filter((personId) => personId !== campaign.candidatePersonId)
-    .sort();
-  let remaining = requestedGainBasisPoints(world, campaign, action);
-  let removed = 0;
-  for (let index = 0; index < rivals.length && remaining > 0; index += 1) {
-    const rivalId = rivals[index]!;
-    const share = Math.ceil(remaining / (rivals.length - index));
-    const take = Math.min(
-      share,
-      Math.max(0, current[rivalId]! - SUPPORT_FLOOR_BASIS_POINTS),
-    );
-    current[rivalId] = current[rivalId]! - take;
-    remaining -= take;
-    removed += take;
-  }
-  current[campaign.candidatePersonId] =
-    current[campaign.candidatePersonId]! + removed;
-  return current;
-}
-
 function recordSupportAfterAction(
   world: World,
   campaign: CampaignRecord,
@@ -1077,51 +1031,17 @@ function recordSupportAfterAction(
   readonly stateIds: readonly EntityId[];
   readonly candidateStateId: EntityId;
 } {
-  const support = supportAfterAction(world, campaign, action);
-  let next = world;
-  const stateIds: EntityId[] = [];
-  let candidateStateId: EntityId | null = null;
-  for (const scope of campaign.candidateSupportScopes) {
-    const samePeriod = next.history.metricStates
-      .filter(
-        (state) =>
-          state.metricId === campaign.supportMetricId &&
-          state.scope.jurisdictionId === campaign.jurisdictionId &&
-          state.scope.segmentKey === scope.segmentKey &&
-          state.referencePeriod.kind === "point" &&
-          state.referencePeriod.at === next.currentDate,
-      )
-      .at(-1);
-    next = recordWorldMetricState(next, {
-      stableKey: `${action.stableKey}:support:${scope.candidatePersonId}`,
-      metricId: campaign.supportMetricId,
-      scope: {
-        jurisdictionId: campaign.jurisdictionId,
-        segmentKey: scope.segmentKey,
-      },
-      referencePeriod: { kind: "point", at: next.currentDate },
-      value: {
-        kind: "quantity",
-        quantity: createExactQuantity(
-          support[scope.candidatePersonId]!,
-          SUPPORT_DENOMINATOR,
-          "rate:share",
-        ),
-      },
-      recordedAt: next.currentDate,
-      provenance: { kind: "simulated", sourceEntityIds: [outcomeEventId] },
-      supersedesStateId: samePeriod?.id ?? null,
-    });
-    const stateId = next.history.metricStates.at(-1)!.id;
-    stateIds.push(stateId);
-    if (scope.candidatePersonId === campaign.candidatePersonId) {
-      candidateStateId = stateId;
-    }
-  }
+  const shift = recordSupportShift(world, campaign, {
+    stableKeyBase: action.stableKey,
+    gainerPersonId: campaign.candidatePersonId,
+    gainBasisPoints: requestedGainBasisPoints(world, campaign, action),
+    sourceEntityIds: [outcomeEventId],
+  });
+  const candidateStateId = shift.stateIdByPerson[campaign.candidatePersonId];
   if (!candidateStateId) {
     throw new Error("Candidate support state was not recorded.");
   }
-  return { world: next, stateIds, candidateStateId };
+  return { world: shift.world, stateIds: shift.stateIds, candidateStateId };
 }
 
 /**
@@ -1750,6 +1670,12 @@ function closeCampaignAfterElection(
       });
     }
   }
+  // CRUNCH46 CAMPAIGN: campaign work still on the calendar can no longer be
+  // performed once the race is decided, so release it instead of leaving a
+  // confirmed hold that blocks the life that carries on.
+  for (const action of campaignActions(next, campaign.id)) {
+    next = cancelScheduledActivity(next, action.scheduledActivityId);
+  }
   const closedContest = requireElectionContest(next, campaign.contestId);
   if (stateExecutiveIdentityForOfficeKey(closedContest.office.officeKey)) {
     // A state executive office is not a legislative seat. The winner, whoever
@@ -1862,13 +1788,37 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
       ),
       createTaxTransitionHandlerRegistry(),
       LIFE_PATHS2_HANDLERS,
+      // CRUNCH46 CRISIS: mortality windows, deaths and health reviews.
+      createCrisisTransitionRegistry(),
       createFutureTransitionHandlerRegistry([
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
+        // GOVERNING: state office matters, their deadlines and reports.
+        ...STATE_GOVERNING_HANDLERS,
+        ...GOVERNOR_TURNOVER_HANDLERS,
+        ...PUBLIC_PROGRAM_HANDLERS,
+        ...OFFICE_CONTINUITY_HANDLERS,
         // ALIVE43 W2: a local chapter organizer acts while ordinary time passes.
         [CHAPTER_OUTREACH_TRANSITION_KEY, chapterOutreachTransitionHandler],
         // ALIVE43 W3: background public developments take their next step.
         [DEVELOPMENT_STEP_TRANSITION_KEY, developmentStepTransitionHandler],
+        // PROSE B: an earlier answer may meet evidence once the world holds it.
+        [
+          CLAIM_CONTRADICTION_TRANSITION_KEY,
+          claimContradictionTransitionHandler,
+        ],
+        // CRUNCH46 CHANGE: canonical macro history closes each month once.
+        [MACRO_MONTHLY_STEP_KEY, macroMonthlyStepHandler],
+        // CRUNCH46 WORLD: party governing bodies meet and may change.
+        [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
+        // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
+        ...CAMPAIGN_LIFE_HANDLERS,
       ]),
+      // CRUNCH46 PRESS: newsroom desk, story steps, procedures, bookkeeping.
+      createPressTransitionRegistry(),
+      // CRUNCH47 PEOPLE: somebody answers a request to meet, in their own time.
+      PEOPLE_CONTACT_HANDLERS,
+      // CRUNCH47 PEOPLE: a family two people agreed to, on the day it lands.
+      PEOPLE_FAMILY_HANDLERS,
       LIFE_TRANSITION_HANDLERS,
     ),
   );

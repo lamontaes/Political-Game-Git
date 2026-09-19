@@ -16,18 +16,29 @@ const buildIdentity = resolveBuildIdentity(process.cwd());
 
 import { identifiedBuild } from "./scripts/dev-lab/vite-identity";
 import { artDeskBridge } from "./scripts/dev-lab/art-desk-bridge";
+import { artbenchBridge } from "./scripts/dev-lab/artbench-bridge";
+import { RoundRobinSequencer } from "./scripts/dev-lab/round-robin-sequencer";
 
 export default defineConfig({
   cacheDir:
     process.env.PG_CACHE_DIR ??
     resolve("test-results", "cache", process.env.PG_RUN_ID ?? "dev"),
-  plugins: [react(), sites(), identifiedBuild(), artDeskBridge(process.cwd())],
+  plugins: [
+    react(),
+    sites(),
+    identifiedBuild(),
+    artDeskBridge(process.cwd()),
+    artbenchBridge({ workspace: process.cwd() }),
+  ],
   define: buildIdentityDefines(buildIdentity),
   build: {
     outDir: "dist/client",
     rolldownOptions: { input: { app: "index.html", review: "review.html" } },
   },
   test: {
+    // Hosted shards deal the path-sorted suite out one file per shard so
+    // expensive alphabetical clusters do not land on one runner.
+    sequence: { sequencer: RoundRobinSequencer },
     exclude: [
       ...configDefaults.exclude,
       "tests/e2e/**",

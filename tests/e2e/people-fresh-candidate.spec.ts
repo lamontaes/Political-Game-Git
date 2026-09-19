@@ -1,14 +1,18 @@
 import { writeFileSync } from "node:fs";
 import { test, expect, type Page } from "./fixtures";
-import { startLife, enterLife, saveLife } from "./support/creator";
+import { startLife, enterLife, goTo, saveLife } from "./support/creator";
 import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
 import { replayDescriptorUrl } from "../../src/presentation/new-game-identity";
 
 test.use({ video: "on" });
 async function wardrobe(page: Page) {
-  await page.getByTestId("shell-nav-cluster").click();
-  await page.getByTestId("nav-group-personal").click();
-  await page.getByTestId("nav-personal").click();
+  /*
+   * "Who you are" sits inside the Personal group, so it is reached through the
+   * shared walk rather than by pressing the cluster and the group by hand: the
+   * cluster toggles, and a flyout left open on another submenu carries no
+   * top-level Personal entry to press.
+   */
+  await goTo(page, "nav-personal");
   await page.getByTestId("personal-appearance").click();
   await page
     .getByTestId("saved-appearance-controls")

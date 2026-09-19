@@ -7,6 +7,7 @@ import {
 } from "./browser-shell-state";
 import { DEFAULT_PREFERENCES, refKey } from "./shell-navigation";
 import type { ShellRef } from "./shell-navigation";
+import { DEFAULT_MAP_PREFERENCES } from "../maps/map-preferences";
 import type { EntityId } from "../simulation";
 import {
   cancelFutureDueItem,
@@ -428,6 +429,127 @@ describe("the shell's own store", () => {
         stopForWorkShifts: false,
         stopForTentativeHolds: false,
       },
+      // Reader layouts added later load with their defaults from older records.
+      proposalLayout: "auto",
+      newsMode: "front",
+      newsOutletKey: null,
+      journalView: "chapters",
+      journalYear: null,
+      politicsPlace: "here",
+      governmentScope: "local",
+      map: DEFAULT_MAP_PREFERENCES,
+      // Guide terms arrived later too: an older record has marked none.
+      learnedGuideTermKeys: [],
+    });
+  });
+
+  it("loads a record saved before the map existed, and keeps a saved map view", () => {
+    const old = readStoredShellState({
+      version: 4,
+      pins: [],
+      preferences: { peopleView: "list", governmentScope: "federal" },
+    });
+    expect(old?.preferences.peopleView).toBe("list");
+    expect(old?.preferences.governmentScope).toBe("federal");
+    expect(old?.preferences.map).toEqual(DEFAULT_MAP_PREFERENCES);
+
+    const saved = readStoredShellState({
+      version: 4,
+      pins: [],
+      preferences: {
+        map: {
+          mode: "senate",
+          stateUsps: null,
+          labels: false,
+          presentation: "list",
+          asOf: "2026-01-01",
+        },
+      },
+    });
+    // The history date is never part of the saved view.
+    expect(saved?.preferences.map).toEqual({
+      mode: "senate",
+      stateUsps: null,
+      labels: false,
+      presentation: "list",
+    });
+
+    const damaged = readStoredShellState({
+      version: 4,
+      pins: [],
+      preferences: { map: "not a map" },
+    });
+    expect(damaged?.preferences.map).toEqual(DEFAULT_MAP_PREFERENCES);
+  });
+
+  it("keeps the Politics place and level, and falls back from unknown values", async () => {
+    const { store } = storeWith();
+    await store.write(SLOT, {
+      pins: [],
+      preferences: {
+        ...DEFAULT_PREFERENCES,
+        politicsPlace: "home",
+        governmentScope: "state",
+      },
+    });
+    expect((await store.read(SLOT))?.preferences).toMatchObject({
+      politicsPlace: "home",
+      governmentScope: "state",
+    });
+    await store.write(SLOT, {
+      pins: [],
+      preferences: {
+        ...DEFAULT_PREFERENCES,
+        politicsPlace: "moon",
+        governmentScope: "galactic",
+      } as unknown as typeof DEFAULT_PREFERENCES,
+    });
+    expect((await store.read(SLOT))?.preferences).toMatchObject({
+      politicsPlace: "here",
+      governmentScope: "local",
+    });
+  });
+
+  it("keeps reader layout choices and falls back from values it cannot read", async () => {
+    const { store } = storeWith();
+    await store.write(SLOT, {
+      pins: [],
+      preferences: {
+        ...DEFAULT_PREFERENCES,
+        proposalLayout: "read",
+        newsMode: "publication",
+        newsOutletKey: "civic-record",
+        journalView: "years",
+        journalYear: "2019",
+      },
+    });
+    const read = await store.read(SLOT);
+    expect(read?.preferences).toMatchObject({
+      proposalLayout: "read",
+      newsMode: "publication",
+      newsOutletKey: "civic-record",
+      journalView: "years",
+      journalYear: "2019",
+    });
+
+    await store.write(SLOT, {
+      pins: [],
+      preferences: {
+        ...DEFAULT_PREFERENCES,
+        proposalLayout: "sideways",
+        newsMode: "tabloid",
+        newsOutletKey: "   ",
+        journalView: "decades",
+        journalYear: "last year",
+      } as unknown as typeof DEFAULT_PREFERENCES,
+    });
+    const fallback = await store.read(SLOT);
+    expect(fallback?.preferences).toMatchObject({
+      proposalLayout: "auto",
+      newsMode: "front",
+      newsOutletKey: null,
+      journalView: "chapters",
+      journalYear: null,
     });
   });
 
@@ -601,6 +723,19 @@ describe("private Journal storage", () => {
       ambition: "Revised",
       notes: [],
     });
+  });
+
+  it("keeps notebooks apart per played person", async () => {
+    const { store } = storeWith();
+    const mine = { ambition: "Mine", notes: [] };
+    const theirs = { ambition: "Theirs", notes: [] };
+    await store.write(SLOT, {
+      ...EMPTY_SHELL_STATE,
+      journals: { "person-a": mine, "person-b": theirs, "": theirs },
+    });
+    const read = await store.read(SLOT);
+    expect(read?.journals).toEqual({ "person-a": mine, "person-b": theirs });
+    expect(read?.journal).toEqual({ ambition: "", notes: [] });
   });
 });
 

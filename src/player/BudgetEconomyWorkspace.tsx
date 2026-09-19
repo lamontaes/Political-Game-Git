@@ -1,10 +1,12 @@
 import { useMemo } from "react";
 
 import { projectBudgetEconomy } from "../presentation/budget-economy";
+import { proseDate } from "../presentation/prose-dates";
 import { projectModeledAccountHistory } from "../presentation/modeled-account-history";
 import type { EntityId, World } from "../simulation";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import { EconomicContextPanel, EconomicGraph } from "./EconomicContextPanel";
+import { MacroConditionsPanel } from "./MacroConditionsPanel";
 import { ModeledAccountHistory } from "./ModeledAccountHistory";
 import "./budget-economy-workspace.css";
 
@@ -49,7 +51,7 @@ export function BudgetEconomyWorkspace({
         </div>
         <p>
           <strong>{model.placeLabel}</strong>
-          <span>{model.simulationDate}</span>
+          <span>{proseDate(model.simulationDate)}</span>
         </p>
       </header>
 
@@ -58,6 +60,8 @@ export function BudgetEconomyWorkspace({
         move time. Reference observations and this save&rsquo;s government
         history remain separately labeled.
       </p>
+
+      <MacroConditionsPanel world={world} jurisdictionId={jurisdictionId} />
 
       <section
         className="budget-economy-availability"

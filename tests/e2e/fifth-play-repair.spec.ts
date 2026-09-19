@@ -1,6 +1,13 @@
 import { expect, test, type Page } from "./fixtures";
 
-import { enterLife, goTo, openCreator, startLife } from "./support/creator";
+import {
+  completeCharacterStep,
+  enterLife,
+  goTo,
+  openCreator,
+  openMoment,
+  startLife,
+} from "./support/creator";
 
 /**
  * The fifth human-play repairs: viewport-bound creator, and People surfaces
@@ -32,6 +39,7 @@ async function reachPlaceSearch(page: Page) {
   await openCreator(page);
   await page.getByTestId("start-normal").click();
   await expect(page.getByTestId("creator-stage-character")).toBeVisible();
+  await completeCharacterStep(page, 30);
   await page.getByTestId("creator-continue-character").click();
   await expect(page.getByTestId("creator-stage-place")).toBeVisible();
 }
@@ -92,6 +100,7 @@ test.describe("People surfaces have an obvious way out", () => {
     await freshBrowser(page);
     await startLife(page, { place: "Lexington", state: "Kentucky", age: 10 });
     await enterLife(page);
+    await openMoment(page);
 
     const momentBefore = await page.getByTestId("story-prose").innerText();
 

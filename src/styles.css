@@ -42,7 +42,8 @@ button {
   cursor: pointer;
 }
 
-button:hover:not(:disabled) {
+/* In play, controls.css gives unskinned buttons the game palette instead. */
+:where(body:not(.pg-game)) button:hover:not(:disabled) {
   background: #24594d;
 }
 

@@ -1,9 +1,10 @@
 import { saveLife } from "./support/creator";
+import { chooseOption, optionEntries } from "./support/controls";
 import { expect, test } from "./fixtures";
-import { enterLife, goTo, startLife } from "./support/creator";
+import { enterLife, goTo, openNewsContext, startLife } from "./support/creator";
 import { readSavedLegislativeWorld as savedWorld } from "./support/legislative-entry";
 
-test("ordinary News press route establishes a reporter, records the NPC decision, publishes, and reloads", async ({
+test("ordinary News press route reaches a seeded reporter, records the NPC decision, publishes, and reloads", async ({
   page,
 }, info) => {
   test.setTimeout(180_000);
@@ -17,6 +18,7 @@ test("ordinary News press route establishes a reporter, records the NPC decision
   });
   await enterLife(page);
   await goTo(page, "nav-news");
+  await openNewsContext(page, "press");
 
   const workspace = page.getByTestId("normal-press-workspace");
   await expect(workspace).toBeVisible();
@@ -24,29 +26,35 @@ test("ordinary News press route establishes a reporter, records the NPC decision
   await form.locator("summary").click();
   await expect(form).toHaveAttribute("open", "");
 
-  const establish = page.getByTestId("press-seek-reporter");
-  await expect(establish).toBeVisible();
-  await establish.click();
-  await expect(establish).toHaveCount(0);
+  // A current opening is staffed before the player reaches News: the press
+  // media seed pack gives each seeded reporter a work role classified
+  // "profession:journalism", which is exactly what currentJournalists counts.
+  // So the reporter is already there and there is nothing to establish — the
+  // control for that is for a legacy descriptor, whose opening ran before the
+  // seed pack existed, and it is proven against that world in
+  // src/simulation/press-reach.test.ts rather than here. Asserted as the
+  // positive fact rather than as an absence of a control.
+  await expect(
+    form.getByText("No current journalism role is recorded in this life."),
+  ).toHaveCount(0);
+  await expect(page.getByTestId("press-seek-reporter")).toHaveCount(0);
 
   const development = form.getByTestId("press-basis-select");
   await expect
-    .poll(async () => development.locator("option").count())
+    .poll(async () => (await optionEntries(development)).length)
     .toBeGreaterThan(1);
-  const meeting = development
-    .locator("option")
-    .filter({ hasText: /public meeting|agenda/i })
-    .first();
-  if ((await meeting.count()) > 0) {
-    await development.selectOption({ label: (await meeting.textContent())! });
-  } else {
-    await development.selectOption({ index: 1 });
-  }
+  const meeting = (await optionEntries(development)).find((entry) =>
+    /public meeting|agenda/i.test(entry.label),
+  );
+  await chooseOption(
+    development,
+    meeting ? { value: meeting.value } : { index: 1 },
+  );
   const reporter = form.getByTestId("press-reporter-select");
   await expect
-    .poll(async () => reporter.locator("option").count())
+    .poll(async () => (await optionEntries(reporter)).length)
     .toBeGreaterThan(1);
-  await reporter.selectOption({ index: 1 });
+  await chooseOption(reporter, { index: 1 });
   await expect(form.getByTestId("press-request-preview")).not.toBeEmpty();
   await expect(
     form.getByTestId("press-reporter-question-preview"),
@@ -87,6 +95,9 @@ test("ordinary News press route establishes a reporter, records the NPC decision
     .click();
   await panel.getByRole("button", { name: "Record published report" }).click();
 
+  // Published reports are read in the outlet directory, apart from the
+  // press office where they were arranged.
+  await openNewsContext(page, "directory");
   const article = page.locator(".public-information-article").first();
   await expect(article).toBeVisible();
   await expect(article).toContainText(wording);
@@ -103,6 +114,7 @@ test("ordinary News press route establishes a reporter, records the NPC decision
   await page.getByTestId("continue").click();
   await enterLife(page);
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
   await expect(
     page.locator(".public-information-article").first(),
   ).toBeVisible();

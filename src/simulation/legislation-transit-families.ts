@@ -85,7 +85,7 @@ export const TRANSIT_SERVICE_VARIANT: ProgramVariant = {
             "This transit variant requires the authored rural transit program.",
           );
         return clause(
-          `This appropriation funds ${r.authority?.programmeLabel} under ${r.authority?.citationLabel}. It changes no eligibility rule of that program.`,
+          `This appropriation funds ${r.authority?.programLabel} under ${r.authority?.citationLabel}. It changes no eligibility rule of that program.`,
         );
       },
     },

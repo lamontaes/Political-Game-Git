@@ -4,7 +4,7 @@ import { composeConnectiveNarration } from "../src/presentation/life-narration";
 import { householdConversationRoom } from "../src/presentation/ordinary-life";
 import { buildLifeIntroduction } from "../src/presentation/life-introduction";
 import { createNewGameWorld } from "../src/presentation/new-game";
-import type { NewGameSetup } from "../src/simulation";
+import type { NewGameSetup } from "../src/presentation/new-game";
 
 /**
  * The fifth human-play repairs: narrative voice and age/role semantics.

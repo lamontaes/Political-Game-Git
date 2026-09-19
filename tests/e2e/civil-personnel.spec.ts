@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { chooseOption } from "./support/controls";
 
 /** Component activation proof only. This does not claim normal-route or legal-journey acceptance. */
 test("CIVIL-WORK7 private Work supports pointer, keyboard and canonical snapshot reload", async ({
@@ -14,9 +15,10 @@ test("CIVIL-WORK7 private Work supports pointer, keyboard and canonical snapshot
     name: "Public employment preparation",
   });
   await expect(region).toBeVisible();
-  await region
-    .getByRole("combobox", { name: "Employer you know" })
-    .selectOption({ label: "Test employer" });
+  await chooseOption(
+    region.getByRole("combobox", { name: "Employer you know" }),
+    { label: "Test employer" },
+  );
   await region
     .getByRole("textbox", { name: "Questions to prepare" })
     .fill("Ask about the selection procedure.");
@@ -31,9 +33,10 @@ test("CIVIL-WORK7 private Work supports pointer, keyboard and canonical snapshot
       .getByRole("listitem")
       .getByText("Ask about the selection procedure.", { exact: true }),
   ).toBeVisible();
-  await region
-    .getByRole("combobox", { name: "Your employment" })
-    .selectOption({ label: "Employee — Test employer" });
+  await chooseOption(
+    region.getByRole("combobox", { name: "Your employment" }),
+    { label: "Employee — Test employer" },
+  );
   await region
     .getByRole("textbox", { name: "Questions to prepare" })
     .fill("Ask about the review procedure.");

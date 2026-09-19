@@ -3,11 +3,26 @@ import {
   ensureHomePartyChapters,
   ensureLivingWorldDevelopments,
   ensureLivingWorldOpening,
+  ensurePressOpening,
   personName,
   ageOnDate,
+  ensureWorldStartingConditions,
+  LEGACY_WORLD_OPENING_VERSION,
+  generatePoliticalStartingConditions,
+  ensurePartyGoverningBodies,
+  ensureHazardProduction,
+  macroStartingConditions,
+  worldOpeningVersionOf,
+  CRUNCH46_WORLD_OPENING_VERSION,
 } from "../simulation";
+import { ensureCrisisMortality } from "../simulation/crisis/mortality";
+import {
+  ensureMacroEconomyStarted,
+  macroStartForHistory,
+} from "../simulation/macro-economy";
 import type { World, EntityId } from "../simulation";
 import { createNewGameWorld } from "./new-game";
+import { proseDate } from "./prose-dates";
 import type { NewGameSetup, NewGame } from "./new-game";
 import { buildLifeIntroduction } from "./life-introduction";
 import {
@@ -34,10 +49,23 @@ export function generateOpeningLife(
 ): OpeningLifeSession {
   if (session.game) return session;
   const game = createNewGameWorld(session.setup);
-  const staffed = establishOpeningOfficeholders(
-    game.world,
-    game.playerPersonId,
+  // Begin persists this save's generated starting conditions first, so every
+  // later opening step reads the same world. A legacy descriptor writes none.
+  const conditioned = ensureWorldStartingConditions(game.world, {
+    openingVersion:
+      session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
+    political: generatePoliticalStartingConditions,
+  });
+  // CHANGE: macro history starts from WORLD's persisted draw, or not at all.
+  const economic = ensureMacroEconomyStarted(
+    conditioned,
+    macroStartForHistory(macroStartingConditions(conditioned)),
   );
+  // A legacy replay descriptor keeps its prior construction exactly: its
+  // opening governor holds a recorded tenure, not GOVERNING's dated term.
+  const staffed = establishOpeningOfficeholders(economic, game.playerPersonId, {
+    datedTerms: session.setup.worldOpeningVersion !== undefined,
+  });
   return {
     ...session,
     phase: "world",
@@ -45,15 +73,59 @@ export function generateOpeningLife(
       ...game,
       // Congress, the national parties and public affiliations, once, after
       // the executives exist so they receive an affiliation in the same pass.
-      world: ensureLivingWorldDevelopments(
-        ensureHomePartyChapters(
-          ensureLivingWorldOpening(staffed, game.playerPersonId),
-          game.playerPersonId,
+      // The hazard stream schedules its first monthly sample for a current
+      // opening that has something exposed; a legacy save gets none.
+      // CRUNCH47: the mortality model belongs to the world the player is
+      // handed, not to whichever control they happen to press first. It used
+      // to start only inside passOrdinaryDays, so a current opening shipped
+      // without it and paths that move time another way — waiting for a
+      // scheduled activity, a conversation, a venue — left a life that could
+      // not die. Starting it here costs the clock's hot path nothing, and the
+      // version gate keeps a legacy replay byte-identical: those saves still
+      // start it on their first ordinary-day pass, as before.
+      world: openedWorld(
+        ensureOpeningMortality(
+          ensureHazardProduction(
+            ensureLivingWorldDevelopments(
+              // Standing chapter committees exist only in current openings.
+              ensurePartyGoverningBodies(
+                ensureHomePartyChapters(
+                  ensureLivingWorldOpening(staffed, game.playerPersonId),
+                  game.playerPersonId,
+                ),
+                game.playerPersonId,
+              ),
+              game.playerPersonId,
+            ),
+          ),
+          session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
         ),
         game.playerPersonId,
       ),
     },
   };
+}
+
+/**
+ * The press seed pack runs only for an opening of the current version; a
+ * legacy replay descriptor keeps exactly the world it always built, which is
+ * what WORLD's unchanged-hash control depends on.
+ */
+function openedWorld(world: World, playerPersonId: EntityId): World {
+  return pressOpeningApplies(world)
+    ? ensurePressOpening(world, playerPersonId)
+    : world;
+}
+
+/** Whether this world is an opening of the version the press setup is for. */
+export function pressOpeningApplies(world: World): boolean {
+  return worldOpeningVersionOf(world) === CRUNCH46_WORLD_OPENING_VERSION;
+}
+
+/** Only a current opening; a legacy descriptor must rebuild its exact bytes. */
+function ensureOpeningMortality(world: World, openingVersion: string): World {
+  if (openingVersion !== CRUNCH46_WORLD_OPENING_VERSION) return world;
+  return ensureCrisisMortality(world);
 }
 
 export function moveOpeningLife(
@@ -77,7 +149,7 @@ export function projectOpeningLife(world: World, personId: EntityId) {
   return {
     name: personName(person),
     age: ageOnDate(person.birthDate, world.currentDate),
-    date: world.currentDate,
+    date: proseDate(world.currentDate),
     place: household.placeName,
     household,
     officeholders: openingOfficeholders(world),

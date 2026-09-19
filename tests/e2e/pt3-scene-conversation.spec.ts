@@ -1,5 +1,10 @@
 import { expect, test, type Locator, type Page } from "./fixtures";
-import { goTo, openElsewhere, startLife } from "./support/creator";
+import {
+  enterLife,
+  openElsewhere,
+  openMoment,
+  startLife,
+} from "./support/creator";
 
 /**
  * PT3: one conversation box, in the room, that never needs a scrollbar.
@@ -12,23 +17,23 @@ import { goTo, openElsewhere, startLife } from "./support/creator";
  */
 
 /*
- * Quiet Begin (PLAYTEST34 C) lands in the room with nothing auto-opened. The
- * authored scene is reached the way a player reaches it: Personal, then the
- * pending decision. The older introduction route is kept for saves that
- * still open on it.
+ * Quiet Begin (PLAYTEST34 C) lands in the room with nothing auto-opened.
+ *
+ * A new life now opens with the skippable world introduction standing in the
+ * room's own foreground, so neither the introduction panel nor the scene is on
+ * the page until it is dismissed: the walk skips it the way a player does, and
+ * then takes the introduction panel's two steps when the life opens on one.
+ * The old third branch pressed "pending-life-open", a control that exists
+ * nowhere in the game, so it could only ever have failed.
  */
 async function stepIntoTheScene(page: Page) {
-  await expect(page.getByTestId("play-screen")).toBeVisible();
+  await enterLife(page);
+  await openMoment(page);
   const opening = page.getByTestId("opening-life-panel");
   const scene = page.getByTestId("opening-life-scene");
   if ((await opening.count()) > 0) {
     await opening.getByRole("button", { name: "Meet your household" }).click();
     await opening.getByRole("button", { name: "Step inside" }).click();
-  } else if ((await scene.count()) === 0) {
-    await goTo(page, "nav-group-personal");
-    await page.getByTestId("nav-personal").click();
-    await page.getByTestId("pending-life-open").click();
-    await expect(page.getByTestId("pending-life-surface")).toBeVisible();
   }
   await expect(scene).toBeVisible();
 }

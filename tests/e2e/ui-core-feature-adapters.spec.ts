@@ -1,10 +1,17 @@
 import {
-  reachMemberOffice,
+  enterRecordedMemberTerm,
   readSavedLegislativeWorld,
   expectRecordedMember,
 } from "./support/legislative-entry";
 import { expect, test } from "./fixtures";
-import { enterLife, fillCreator, goTo, startLife } from "./support/creator";
+import {
+  enterLife,
+  fillCreator,
+  goTo,
+  openMoment,
+  saveLife,
+  startLife,
+} from "./support/creator";
 
 test("normal Day exposes the frozen study/work adapter and scheduled sessions reach Calendar", async ({
   page,
@@ -18,6 +25,7 @@ test("normal Day exposes the frozen study/work adapter and scheduled sessions re
     household: "shares-a-home",
   });
   await enterLife(page);
+  await openMoment(page);
   /*
    * UI9-01: the day no longer mounts a second copy of the study-and-work
    * stack; it links into the one workspace that owns it. Following that link
@@ -44,7 +52,7 @@ test("normal Day exposes the frozen study/work adapter and scheduled sessions re
   // two destinations now instead of one page holding both.
   await goTo(page, "elsewhere-day");
   await page
-    .getByTestId("day-overlay")
+    .getByTestId("calendar-workspace")
     .getByTestId("venue-activities")
     .getByRole("button", { name: "Carry out activity", exact: true })
     .first()
@@ -84,6 +92,7 @@ test("Custom judicial workplace uses the normal World, Work and save route", asy
   await page.getByTestId("whoareyou-play").click();
   await page.getByTestId("begin").click();
   await enterLife(page);
+  await openMoment(page);
   await goTo(page, "elsewhere-work");
   await page
     .getByRole("button", { name: "Check office correspondence", exact: true })
@@ -103,6 +112,7 @@ test("Custom judicial workplace uses the normal World, Work and save route", asy
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
+  await openMoment(page);
   await goTo(page, "elsewhere-work");
   await expect(
     page.getByRole("button", {
@@ -125,6 +135,7 @@ test("mixed person, session and measure pins preserve identity and clear workspa
     household: "shares-a-home",
   });
   await enterLife(page);
+  await openMoment(page);
   // Pinning is on the person in the room now, in their own action menu.
   await page.locator('[data-testid^="scene-person-"]').first().click();
   await page.getByTestId("quick-dossier-pin").click();
@@ -147,7 +158,7 @@ test("mixed person, session and measure pins preserve identity and clear workspa
   );
   await goTo(page, "elsewhere-day");
   await page
-    .getByTestId("day-overlay")
+    .getByTestId("calendar-workspace")
     .getByTestId("venue-activities")
     .getByRole("button", { name: "Carry out activity", exact: true })
     .first()
@@ -214,6 +225,7 @@ test("mixed person, session and measure pins preserve identity and clear workspa
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
+  await openMoment(page);
   await expect(pins).toHaveCount(3);
   expect(
     await pins.evaluateAll((nodes) =>
@@ -239,6 +251,7 @@ test("normal activity completion replaces household presence without a second cl
     household: "shares-a-home",
   });
   await enterLife(page);
+  await openMoment(page);
   await goTo(page, "elsewhere-day");
   await page
     .getByTestId("venue-activities")
@@ -246,10 +259,10 @@ test("normal activity completion replaces household presence without a second cl
     .first()
     .press("Enter");
   await expect(page.getByTestId("day-opening")).toHaveCount(0);
-  await expect(page.getByTestId("day-overlay")).toContainText(
+  await expect(page.getByTestId("calendar-workspace")).toContainText(
     "You have finished",
   );
-  await page.getByTestId("day-overlay-close").click();
+  await page.getByTestId("calendar-workspace-close").click();
   await expect(page.getByTestId("activity-aftermath")).toBeVisible();
   await expect(page.getByTestId("story-people")).toHaveCount(0);
   await expect(page.getByTestId("story-options")).toHaveCount(0);
@@ -296,6 +309,7 @@ test("normal activity completion replaces household presence without a second cl
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
+  await openMoment(page);
   await expect(page.getByTestId("activity-aftermath")).toBeVisible();
   await expect(page.getByTestId("scene-backdrop")).toHaveAttribute(
     "data-scene-id",
@@ -318,7 +332,7 @@ test("frozen docket uses the normal Work shell and keeps its selected document o
     route: "normal",
   });
   await enterLife(page);
-  await reachMemberOffice(page);
+  await enterRecordedMemberTerm(page);
   await page.getByTestId("open-drafting-table").click();
   await page.locator('[data-testid^="drafting-option-"]').first().click();
   await page.getByTestId("file-the-draft").press("Enter");
@@ -331,13 +345,16 @@ test("frozen docket uses the normal Work shell and keeps its selected document o
   await page.screenshot({
     path: testInfo.outputPath("normal-work-docket.png"),
   });
-  await goTo(page, "keep-world");
-  await expect(page.getByText("Saved.", { exact: true })).toBeVisible();
+  // The constructed seat arrives from a world already written once, so the
+  // menu offers Save rather than Keep; saveLife() takes either and asserts
+  // Keep is gone afterwards.
+  await saveLife(page);
   const filed = await readSavedLegislativeWorld(page);
   expectRecordedMember(filed);
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
+  await openMoment(page);
   await goTo(page, "elsewhere-work");
   await expect(page.getByTestId("docket-lineage")).toHaveText(lineage);
   await expect(page.getByTestId(`pin-measure:${measureId}`)).toBeVisible();

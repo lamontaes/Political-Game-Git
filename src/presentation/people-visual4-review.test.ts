@@ -137,7 +137,9 @@ describe("corrected people pipeline", () => {
           }
     }
     expect(total).toBe(206);
-  });
+    // 206 full plate compositions take a few seconds even on a quiet host, so
+    // the default 5 s budget is decided by runner load rather than by the plan.
+  }, 60_000);
   it("carries selected canonical identity and actual wardrobe through save, portrait and render plan", () => {
     let world = createCharacterProofWorld(library, "visual4-test", 1);
     const id = world.personOrder[0]!;

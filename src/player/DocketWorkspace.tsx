@@ -57,6 +57,11 @@ import {
   projectBillEstimate,
 } from "../presentation/legislation-estimate-action";
 import { billAnalysis } from "../presentation/legislation-analysis";
+import type { ProposalLayout } from "../presentation/shell-navigation";
+import { ProposalLayoutContext, ProposalView } from "./proposal/ProposalLayout";
+import { GuideTerm } from "./GuideTerm";
+import { GameDateField } from "./controls/GameDateField";
+import { GameSelect } from "./controls/GameSelect";
 
 /**
  * The office's bills, and the drafting table beside them.
@@ -81,9 +86,31 @@ export interface DocketWorkspaceProps {
   /** Opens the members' room for one bill. Null while none can be entered. */
   readonly onGoToFloor: (bill: DocketBill) => void;
   readonly floorNote: string | null;
+  /** The saved Compare / Read choice; without it the view keeps its own. */
+  readonly proposalLayout?: ProposalLayout;
+  readonly onProposalLayoutChange?: (layout: ProposalLayout) => void;
 }
 
 export function DocketWorkspace({
+  proposalLayout,
+  onProposalLayoutChange,
+  ...props
+}: DocketWorkspaceProps) {
+  const choice = useMemo(
+    () =>
+      proposalLayout && onProposalLayoutChange
+        ? { layout: proposalLayout, onLayoutChange: onProposalLayoutChange }
+        : null,
+    [proposalLayout, onProposalLayoutChange],
+  );
+  return (
+    <ProposalLayoutContext.Provider value={choice}>
+      <DocketWorkspaceBody {...props} />
+    </ProposalLayoutContext.Provider>
+  );
+}
+
+function DocketWorkspaceBody({
   world,
   playerPersonId,
   scenarioKey,
@@ -91,7 +118,7 @@ export function DocketWorkspace({
   onWorldChange,
   onGoToFloor,
   floorNote,
-}: DocketWorkspaceProps) {
+}: Omit<DocketWorkspaceProps, "proposalLayout" | "onProposalLayoutChange">) {
   const [query, setQuery] = useState<DocketQuery>({});
   const page = useMemo(
     () => queryDocket(world, { scenarioKey, playerPersonId }, query),
@@ -170,7 +197,7 @@ export function DocketWorkspace({
             <div className="docket-filters" data-testid="docket-filters">
               <label className="docket-filter">
                 <span>Kind of bill</span>
-                <select
+                <GameSelect
                   data-testid="docket-filter-instrument"
                   value={query.instrument ?? ""}
                   onChange={(event) =>
@@ -188,12 +215,12 @@ export function DocketWorkspace({
                       {facet.label} ({facet.count})
                     </option>
                   ))}
-                </select>
+                </GameSelect>
               </label>
 
               <label className="docket-filter">
                 <span>Subject</span>
-                <select
+                <GameSelect
                   data-testid="docket-filter-family"
                   value={query.familyKey ?? ""}
                   onChange={(event) =>
@@ -211,12 +238,12 @@ export function DocketWorkspace({
                       {facet.label} ({facet.count})
                     </option>
                   ))}
-                </select>
+                </GameSelect>
               </label>
 
               <label className="docket-filter">
                 <span>Still moving</span>
-                <select
+                <GameSelect
                   data-testid="docket-filter-status"
                   value={query.status ?? "all"}
                   onChange={(event) =>
@@ -230,7 +257,7 @@ export function DocketWorkspace({
                   <option value="concluded">
                     Finished ({page.concludedCount})
                   </option>
-                </select>
+                </GameSelect>
               </label>
 
               <label className="docket-filter">
@@ -505,7 +532,9 @@ function FiledBillPanel({
 
       <dl className="docket-identity" data-testid="docket-identity">
         <div>
-          <dt>Sponsor of record</dt>
+          <dt>
+            <GuideTerm semanticKey="sponsor">Sponsor</GuideTerm> of record
+          </dt>
           <dd data-testid="docket-sponsor">
             {sponsor ? personName(sponsor) : "Not recorded"}
           </dd>
@@ -624,20 +653,24 @@ function FiledBillPanel({
           </p>
           <label>
             From{" "}
-            <input
-              type="date"
+            <GameDateField
+              aria-label="From"
               data-testid="estimate-start"
               value={startsOn}
-              onChange={(event) => setStartsOn(event.target.value)}
+              minYear={Number(world.currentDate.slice(0, 4)) - 1}
+              maxYear={Number(world.currentDate.slice(0, 4)) + 10}
+              onChange={setStartsOn}
             />
           </label>
           <label>
             Through{" "}
-            <input
-              type="date"
+            <GameDateField
+              aria-label="Through"
               data-testid="estimate-end"
               value={endsOn}
-              onChange={(event) => setEndsOn(event.target.value)}
+              minYear={Number(world.currentDate.slice(0, 4)) - 1}
+              maxYear={Number(world.currentDate.slice(0, 4)) + 10}
+              onChange={setEndsOn}
             />
           </label>
           <button
@@ -803,7 +836,8 @@ function BillCompositionEditor({
           <p>
             Save a private working copy of compatible changes and read every
             affected section. The bill's current text changes only after a
-            recorded amendment adopts these proposed changes.
+            recorded <GuideTerm semanticKey="amendment">amendment</GuideTerm>{" "}
+            adopts these proposed changes.
           </p>
           <div className="drafting-controls">
             {base.draft.parameters.map((spec) => (
@@ -822,24 +856,42 @@ function BillCompositionEditor({
           </div>
           {preview?.reason ? <p role="alert">{preview.reason}</p> : null}
           {preview?.value ? (
-            <div data-testid="composition-comparison">
+            <div>
               {preview.value.changes.length === 0 ? (
-                <p>No section changes selected.</p>
+                <p data-testid="composition-comparison">
+                  No section changes selected.
+                </p>
               ) : (
-                preview.value.changes.map((change) => (
-                  <section key={change.before.provisionKey}>
-                    <h5>
-                      Section {change.after.sectionNumber}:{" "}
-                      {change.after.heading}
-                    </h5>
-                    <p>
-                      <strong>Current:</strong> {change.before.text}
-                    </p>
-                    <p>
-                      <strong>Proposed:</strong> {change.after.text}
-                    </p>
-                  </section>
-                ))
+                <ProposalView
+                  testId="composition-layout"
+                  beforeLabel="Current wording"
+                  afterLabel="The bill as these changes would leave it"
+                  rows={preview.value.changes.map((change) => ({
+                    key: change.before.provisionKey,
+                    heading: `Section ${change.after.sectionNumber}: ${change.after.heading}`,
+                    before: change.before.text,
+                    after: change.after.text,
+                    changed: true,
+                  }))}
+                  compare={
+                    <div data-testid="composition-comparison">
+                      {preview.value.changes.map((change) => (
+                        <section key={change.before.provisionKey}>
+                          <h5>
+                            Section {change.after.sectionNumber}:{" "}
+                            {change.after.heading}
+                          </h5>
+                          <p>
+                            <strong>Current:</strong> {change.before.text}
+                          </p>
+                          <p>
+                            <strong>Proposed:</strong> {change.after.text}
+                          </p>
+                        </section>
+                      ))}
+                    </div>
+                  }
+                />
               )}
               <button
                 type="button"
@@ -1146,33 +1198,47 @@ function DraftingTable({
               <h5 className="docket-subheading">
                 As offered, and as you would file it
               </h5>
-              <table
-                className="drafting-compare"
-                data-testid="drafting-compare"
-              >
-                <thead>
-                  <tr>
-                    <th>Section</th>
-                    <th>As offered</th>
-                    <th>As you would file it</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {compareDrafts(asOffered, asChosen.draft).map((row) => (
-                    <tr
-                      key={row.provisionKey}
-                      className={
-                        row.changed ? "drafting-row-changed" : undefined
-                      }
-                      data-testid={`drafting-row-${row.provisionKey}`}
-                    >
-                      <th scope="row">{row.heading}</th>
-                      <td>{row.currentText ?? "—"}</td>
-                      <td>{row.proposedText ?? "—"}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <ProposalView
+                testId="drafting-layout"
+                beforeLabel="As offered"
+                afterLabel="The bill as you would file it"
+                rows={compareDrafts(asOffered, asChosen.draft).map((row) => ({
+                  key: row.provisionKey,
+                  heading: row.heading,
+                  before: row.currentText,
+                  after: row.proposedText,
+                  changed: row.changed,
+                }))}
+                compare={
+                  <table
+                    className="drafting-compare"
+                    data-testid="drafting-compare"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Section</th>
+                        <th>As offered</th>
+                        <th>As you would file it</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {compareDrafts(asOffered, asChosen.draft).map((row) => (
+                        <tr
+                          key={row.provisionKey}
+                          className={
+                            row.changed ? "drafting-row-changed" : undefined
+                          }
+                          data-testid={`drafting-row-${row.provisionKey}`}
+                        >
+                          <th scope="row">{row.heading}</th>
+                          <td>{row.currentText ?? "—"}</td>
+                          <td>{row.proposedText ?? "—"}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                }
+              />
 
               <p className="docket-analysis" data-testid="drafting-total">
                 {asChosen.draft.appropriatedLabel !== null
@@ -1320,7 +1386,7 @@ function ParameterControl({
     return (
       <label className="drafting-control" htmlFor={controlId}>
         <span className="drafting-control-label">{spec.label}</span>
-        <select
+        <GameSelect
           id={controlId}
           data-testid={controlId}
           value={value.value}
@@ -1333,7 +1399,7 @@ function ParameterControl({
               {choice.label}
             </option>
           ))}
-        </select>
+        </GameSelect>
       </label>
     );
   }

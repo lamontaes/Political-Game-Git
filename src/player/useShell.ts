@@ -1,16 +1,19 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 
-import type { BrowserShellStateStore } from "../presentation/browser-shell-state";
+import {
+  assignLegacyJournal,
+  type BrowserShellStateStore,
+} from "../presentation/browser-shell-state";
 import { shellRefIsResolvable } from "../presentation/person-dossier";
 import {
   INITIAL_SHELL_STATE,
-  EMPTY_JOURNAL,
   refKey,
   shellReducer,
   type ShellAction,
   type ShellState,
 } from "../presentation/shell-navigation";
 import type { EntityId, World } from "../simulation";
+import { controlledLineage } from "../simulation/people-continuation";
 
 /**
  * The shell's state, kept and kept up.
@@ -62,6 +65,9 @@ export function useShell(
    */
   const [loadedRecord, setLoadedRecord] = useState<string | null>(null);
   const recordKey = saveId === null ? null : `${store.databaseName}::${saveId}`;
+  /* Read when a record arrives, without re-reading on every World change. */
+  const worldRef = useRef(world);
+  worldRef.current = world;
 
   useEffect(() => {
     if (saveId === null || recordKey === null) return;
@@ -76,9 +82,15 @@ export function useShell(
        * they pressed save.
        */
       if (stored) {
+        // A slot-wide notebook belongs to whoever was played first here.
+        const { journals, legacyJournal } = assignLegacyJournal(
+          stored,
+          controlledLineage(worldRef.current)[0] ?? null,
+        );
         dispatch({
           type: "restore",
-          journal: stored.journal ?? EMPTY_JOURNAL,
+          journals,
+          legacyJournal,
           personWardrobes: stored.personWardrobes ?? {},
           pins: stored.pins,
           preferences: stored.preferences,
@@ -101,7 +113,8 @@ export function useShell(
     if (saveId === null || recordKey === null) return;
     if (loadedRecord !== recordKey) return;
     void store.write(saveId, {
-      journal: state.journal,
+      journal: state.legacyJournal,
+      journals: state.journals,
       personWardrobes: state.personWardrobes,
       pins: state.pins,
       preferences: state.preferences,
@@ -114,7 +127,8 @@ export function useShell(
     store,
     state.pins,
     state.preferences,
-    state.journal,
+    state.journals,
+    state.legacyJournal,
     state.personWardrobes,
     state.progress,
   ]);

@@ -10,7 +10,7 @@
 
 import { ART_DESK_CONTRACT_VERSION } from "./asset-compatibility";
 import type { AssetCompatibilityTags } from "./asset-compatibility";
-import type { AssetRequest } from "./asset-request";
+import type { AssetRequest, AssetStyleReference } from "./asset-request";
 import { toCanonicalJson } from "./canonical-json";
 import type { AuthoringCertainty, ScaffoldField } from "./scene-scaffold";
 
@@ -23,13 +23,67 @@ export const STANDING_FITTED_DERIVATIVE = {
 
 export interface BriefPixelRef {
   readonly role:
-    "style-authority" | "template" | "parent-master" | "derivative";
+    | "style-authority"
+    | "subject-content"
+    | "template"
+    | "parent-master"
+    | "derivative";
   readonly pathOrDriveId: string;
   readonly sha256?: string;
   readonly nativeWidth?: number;
   readonly nativeHeight?: number;
   readonly nativeDetail?: "native" | "declared-upscale" | "unverified";
   readonly missingReason?: string;
+  /**
+   * "declared": a real image id/path with its hash is recorded on the
+   * request. "unresolved": only text or an id without a hash. Neither says
+   * the image was actually supplied to a generator.
+   */
+  readonly resolution?: "declared" | "unresolved";
+}
+
+const REFERENCE_ROLE: Record<
+  AssetStyleReference["role"],
+  BriefPixelRef["role"]
+> = {
+  "drawing-style": "style-authority",
+  "subject-content": "subject-content",
+  "parent-template": "parent-master",
+};
+
+/**
+ * The request's reference images as brief entries. Without explicit
+ * references, the style-authority text is carried as an unresolved
+ * declaration rather than treated as supplied pixels.
+ */
+export function requestReferencePixels(
+  request: Pick<AssetRequest, "target">,
+): BriefPixelRef[] {
+  const explicit = request.target.styleReferences ?? [];
+  if (explicit.length === 0) {
+    return [
+      {
+        role: "style-authority",
+        pathOrDriveId: request.target.styleAuthority,
+        nativeDetail: "unverified",
+        resolution: "unresolved",
+        missingReason:
+          "No reference image is recorded on this request; the style authority is a text declaration, not supplied pixels.",
+      },
+    ];
+  }
+  return explicit.map((reference) => ({
+    role: REFERENCE_ROLE[reference.role],
+    pathOrDriveId: reference.ref,
+    sha256: reference.sha256,
+    nativeWidth: reference.width,
+    nativeHeight: reference.height,
+    nativeDetail: "unverified",
+    resolution: reference.sha256 ? "declared" : "unresolved",
+    missingReason: reference.sha256
+      ? undefined
+      : "No hash is recorded for this reference image.",
+  }));
 }
 
 export interface BriefGeometryField {
@@ -172,6 +226,41 @@ export function briefContractHash(brief: CompiledAssetBrief): string {
     contacts: brief.contacts,
     bodyPoseFamilies: brief.bodyPoseFamilies,
   });
+}
+
+/**
+ * The style references a request is actually judged against. Environment and
+ * mask requests name their own style authority; only people requests draw on
+ * the private character pack, and even then the pack's state comes from the
+ * server receipt, never from a guessed path.
+ */
+export function styleReferencesFor(
+  request: Pick<AssetRequest, "requestId" | "target">,
+  pack: {
+    readonly status: string;
+    readonly note: string;
+    readonly packId?: string;
+    readonly manifestSha256?: string;
+  },
+): readonly BriefPixelRef[] {
+  const references = requestReferencePixels(request);
+  if (!request.requestId.startsWith("person-")) {
+    return references;
+  }
+  const template: BriefPixelRef =
+    pack.status === "verified" && pack.packId
+      ? {
+          role: "template",
+          pathOrDriveId: pack.packId,
+          sha256: pack.manifestSha256,
+          nativeDetail: "unverified",
+        }
+      : {
+          role: "template",
+          pathOrDriveId: "PG_PRIVATE_ART_PACK",
+          missingReason: pack.note,
+        };
+  return [...references, template];
 }
 
 export function privatePackInputState(

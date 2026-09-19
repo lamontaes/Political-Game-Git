@@ -24,27 +24,31 @@ cross-builds Intel Mac output (untested until launched on an Intel Mac).
 Rebuilding after newer accepted UI/game changes is exactly the same
 commands — the wrapper does not change.
 
-The private Apple Silicon delivery adds a separate controller app around a
-verified internal-art-review build:
+The private Apple Silicon delivery is **Our Civic Duty Private**, the owner's
+development hub (`private-controller/`): one window with Play, Art Desk,
+Agents and Settings tabs and a Follow main / branch source selector. It is not
+part of the public game.
 
 ```bash
-VITE_OCD_BUILD_PROFILE=internal-art-review npm run build
-cd desktop
-node scripts/stage.mjs --composition <honest-composition-label>
-node scripts/package.mjs --mac --arm64 --dir -c.mac.target=dir
-node scripts/package-private-controller.mjs
+cd desktop && npm ci && npm ci --prefix private-controller
+OCD_PRIVATE_PACK=<pack dir> node scripts/package-private-controller.mjs --no-bootstrap --dmg
 ```
 
-`Our Civic Duty Private.app` contains that exact verified game as its bootstrap
-build. Install the controller once. From then on its visible **Play**, **Update**,
-and **Finish Update & Play** actions own the private flow; the player does not
-run Git or npm. The controller defaults to the known project location and has a
-folder picker fallback. Update accepts only the configured GitHub repository's
-`origin/main`, builds it in a clean versioned worktree, verifies revision,
-profile and architecture, launches the packaged game through the smoke harness,
-then atomically moves the Play pointer. Network loss, cancellation, build or
-health failure, an unrelated/forked target, or a running game leave the prior
-verified build active. It never swaps code beneath a running game.
+`--no-bootstrap` is the owner delivery: no game payload, so no private art in
+the archive. On first start the installed hub resolves `origin/main` to an
+exact SHA, builds it in a managed worktree with the private pack staged by the
+pack's own installer, runs the hub's own health check and then plays it over
+`app://game`. Follow main shares the internal art-review save profile (backed
+up once before first use); each branch preview has its own profile. A newer
+build waits until Play for that source is closed; Settings keeps the previous
+build for rollback. Without `--no-bootstrap` the packaged art-review game in
+`release-artifacts/mac-arm64` is bundled (CI launch smoke).
+
+Proofs: `scripts/controller-smoke-test.mjs`, `scripts/hub-continuity-test.mjs`,
+`scripts/hub-artdesk-test.mjs`, `scripts/hub-agents-test.mjs`,
+`scripts/hub-exchange-proof.mjs` with `scripts/hub-peer.mjs`. See
+`docs/plans/active/private-desktop-hub.md` for what each proved and what is
+still owner-dependent.
 
 Packaging consumes `dist/client` only when that tree's compile-time
 provenance matches this checkout (source revision, dirty flag, and

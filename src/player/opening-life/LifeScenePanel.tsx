@@ -20,6 +20,7 @@ import {
   walkOpeningNeighborhood,
 } from "../../presentation/life-scene-flow";
 import { formatMinute } from "../../presentation/player-calendar";
+import { proseDate } from "../../presentation/prose-dates";
 import { openingLifeLocation } from "../../presentation/life-scene-flow";
 import {
   lifeReflectionOffer,
@@ -49,6 +50,7 @@ export function LifeScenePanel({
   onTalkTo,
   returnFocusTo = null,
   transitionHandlers,
+  variant = "workspace",
 }: {
   world: World;
   playerPersonId: EntityId;
@@ -63,7 +65,14 @@ export function LifeScenePanel({
   returnFocusTo?: EntityId | null;
   onFocusReturned?: () => void;
   transitionHandlers?: FutureTransitionHandlerRegistry;
+  /**
+   * Where the panel stands. In the room it is the scene alone — prose,
+   * choices and who to talk to. Walks, the walking group and personal plans
+   * are errands of the life, not of the scene, and stay in Personal.
+   */
+  variant?: "room" | "workspace";
 }) {
+  const inRoom = variant === "room";
   const [problem, setProblem] = useState<string | null>(null);
   const [outcome, setOutcome] = useState<string | null>(null);
   const talkToRef = useRef<HTMLElement>(null);
@@ -121,7 +130,7 @@ export function LifeScenePanel({
       const clock =
         after.date === beforeMoment.date
           ? `${formatMinute(beforeMoment.minuteOfDay)} → ${formatMinute(after.minuteOfDay)}`
-          : `${formatMinute(beforeMoment.minuteOfDay)} → ${formatMinute(after.minuteOfDay)}, ${after.date}`;
+          : `${formatMinute(beforeMoment.minuteOfDay)} → ${formatMinute(after.minuteOfDay)}, ${proseDate(after.date)}`;
       const moved =
         afterPlace && afterPlace !== beforePlace ? ` · ${afterPlace}` : "";
       setProblem(null);
@@ -146,6 +155,7 @@ export function LifeScenePanel({
     <section
       className="life-moment pg-opening-flow"
       data-testid="opening-life-scene"
+      data-variant={variant}
     >
       <p data-testid="life-identity">
         {identity.name} · Age {identity.age} · {identity.date} ·{" "}
@@ -289,7 +299,9 @@ export function LifeScenePanel({
           Keep using this approach in conversation
         </button>
       ) : null}
-      {/*
+      {inRoom ? null : (
+        <>
+          {/*
         Both walks, each carrying its own answer.
 
         These were two unconditional buttons, so "Walk home" was offered while
@@ -298,72 +310,76 @@ export function LifeScenePanel({
         be taken is disabled with its actual reason beside it rather than
         pretending to be available.
       */}
-      <div className="game-choices" data-testid="life-walks">
-        {(["neighborhood", "home"] as const).map((destination) => {
-          const offer = openingNeighborhoodWalkOffer(
-            world,
-            playerPersonId,
-            destination,
-          );
-          return (
-            <p key={destination} className="life-walk">
+          <div className="game-choices" data-testid="life-walks">
+            {(["neighborhood", "home"] as const).map((destination) => {
+              const offer = openingNeighborhoodWalkOffer(
+                world,
+                playerPersonId,
+                destination,
+              );
+              return (
+                <p key={destination} className="life-walk">
+                  <button
+                    className="ui-action"
+                    type="button"
+                    data-testid={`life-walk-${destination}`}
+                    disabled={offer.unavailable !== null}
+                    onClick={() =>
+                      commit(() =>
+                        walkOpeningNeighborhood(
+                          world,
+                          playerPersonId,
+                          destination,
+                          transitionHandlers,
+                        ),
+                      )
+                    }
+                  >
+                    {offer.label} · {offer.minutes} minutes
+                  </button>
+                  {offer.unavailable ? (
+                    <small data-testid={`life-walk-${destination}-reason`}>
+                      {offer.unavailable}
+                    </small>
+                  ) : null}
+                </p>
+              );
+            })}
+          </div>
+          {canJoinOrdinaryGroup(world, playerPersonId) ? (
+            <button
+              className="ui-action"
+              type="button"
+              onClick={() =>
+                commit(() => joinOrdinaryGroup(world, playerPersonId))
+              }
+            >
+              Join a neighborhood walking group
+            </button>
+          ) : null}
+          <details>
+            <summary>Personal plans</summary>
+            {Object.entries(ORDINARY_LIFE_GOALS).map(([key, label]) => (
               <button
                 className="ui-action"
                 type="button"
-                data-testid={`life-walk-${destination}`}
-                disabled={offer.unavailable !== null}
+                key={key}
                 onClick={() =>
                   commit(() =>
-                    walkOpeningNeighborhood(
+                    chooseOrdinaryLifeGoal(
                       world,
                       playerPersonId,
-                      destination,
-                      transitionHandlers,
+                      key as keyof typeof ORDINARY_LIFE_GOALS,
                     ),
                   )
                 }
               >
-                {offer.label} · {offer.minutes} minutes
+                {label}
               </button>
-              {offer.unavailable ? (
-                <small data-testid={`life-walk-${destination}-reason`}>
-                  {offer.unavailable}
-                </small>
-              ) : null}
-            </p>
-          );
-        })}
-      </div>
-      {canJoinOrdinaryGroup(world, playerPersonId) ? (
-        <button
-          className="ui-action"
-          type="button"
-          onClick={() => commit(() => joinOrdinaryGroup(world, playerPersonId))}
-        >
-          Join a neighborhood walking group
-        </button>
-      ) : null}
-      <details>
-        <summary>Personal plans</summary>
-        {Object.entries(ORDINARY_LIFE_GOALS).map(([key, label]) => (
-          <button
-            className="ui-action"
-            type="button"
-            key={key}
-            onClick={() =>
-              commit(() =>
-                chooseOrdinaryLifeGoal(
-                  world,
-                  playerPersonId,
-                  key as keyof typeof ORDINARY_LIFE_GOALS,
-                ),
-              )
-            }
-          >
-            {label}
-          </button>
-        ))}
-      </details>
+            ))}
+          </details>
+        </>
+      )}
       {/*
         The one way from this moment to the rest of the life. It used to be
         drawn twice — above the panel and again inside it when no scene was

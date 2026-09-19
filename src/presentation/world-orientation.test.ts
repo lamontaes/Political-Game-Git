@@ -230,6 +230,7 @@ describe("world orientation reader", () => {
     expect(house.parties).toEqual([
       {
         partyOrganizationId: "party-a",
+        noParty: false,
         label: "Democratic Party",
         members: 1,
         slot: 0,
@@ -307,5 +308,93 @@ describe("world orientation reader", () => {
     expect(row.person).toBeNull();
     expect(view.steps[1]!.chambers[0]!.vacancies).toBe(0);
     expect(view.steps[1]!.summary).toContain("1 seat with no recorded holder");
+  });
+
+  it("presents the District of Columbia without a missing governor", () => {
+    const view = projectOrientationView(
+      orientation({
+        homeState: { stateUsps: "DC", jurisdictionId: null, governor: null },
+        locality: {
+          jurisdictionId: id("jur-dc"),
+          name: "Washington",
+          governments: [
+            {
+              organizationId: id("org-dc"),
+              name: "the Government of the District of Columbia",
+              holders: [],
+              membershipMissing: [],
+            },
+          ],
+        },
+      }),
+      stateName,
+    );
+    const step = view.steps[2]!;
+    expect(step.title).toBe("District of Columbia");
+    expect(step.summary).not.toMatch(/No governor is recorded/);
+    expect(step.summary).toMatch(/Mayor/);
+    expect(step.summary).toMatch(/Council/);
+    expect(step.summary).toMatch(
+      /No current record names the Delegate to the U\.S\. House\./,
+    );
+    expect(step.summary).not.toMatch(/vacan/i);
+    expect(step.people).toEqual([]);
+  });
+
+  it("names the District's recorded Mayor, Council and Delegate (code 98)", () => {
+    const base = orientation();
+    const delegate = holder("p-del", "Casey Moore", "Delegate", "party-a");
+    const view = projectOrientationView(
+      orientation({
+        homeState: { stateUsps: "DC", jurisdictionId: null, governor: null },
+        locality: {
+          jurisdictionId: id("jur-dc"),
+          name: "Washington",
+          governments: [
+            {
+              organizationId: id("org-dc"),
+              name: "the Government of the District of Columbia",
+              holders: [
+                holder(
+                  "p-mayor",
+                  "Quinn Park",
+                  "Mayor of the District of Columbia",
+                  null,
+                ),
+                holder("p-cm", "Sam Lee", "Council Chair", null),
+              ],
+              membershipMissing: [],
+            },
+          ],
+        },
+        congress: {
+          ...base.congress!,
+          house: chamber("us-house", [
+            {
+              seatKey: "us-house:DC-98",
+              chamberKey: "us-house",
+              stateUsps: "DC",
+              district: "98",
+              senateClass: null,
+              occupant: { kind: "member", member: delegate },
+            },
+          ]),
+        },
+      }),
+      stateName,
+    );
+    const step = view.steps[2]!;
+    expect(step.summary).toMatch(
+      /Quinn Park is Mayor of the District of Columbia\./,
+    );
+    expect(step.summary).toMatch(/Sam Lee on the Council/);
+    expect(step.summary).toMatch(/Casey Moore is the Delegate/);
+    expect(step.people.map((person) => person.personId)).toEqual([
+      "p-mayor",
+      "p-cm",
+      "p-del",
+    ]);
+    const house = view.steps[1]!.chambers[1]!;
+    expect(house.roster[0]!.seatLabel).toBe("District of Columbia, Delegate");
   });
 });

@@ -1,5 +1,11 @@
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
+import { pressRecordSequence } from "./press/integrity";
+import {
+  MEDIA_OUTLET_KEY_PREFIX,
+  mediaOutletKey,
+  type MediaOutletRecord,
+} from "./press/records";
 import type {
   EntityId,
   HistoricalEvent,
@@ -11,6 +17,32 @@ import type {
 
 export const CIVIC_PUBLICATION_OUTLET_KEY = "civic-ledger" as const;
 export const CIVIC_PUBLICATION_OUTLET_NAME = "Civic Ledger" as const;
+
+/** PRESS46: a reported story is published only by the outlet that reported it. */
+export const PRESS_STORY_EVENT_TYPE = "press.story-published" as const;
+export const PRESS_STORY_OUTLET_TAG = "press.outlet:" as const;
+export const PRESS_STORY_LEAD_TAG = "press.lead:" as const;
+
+/** The outlet a reported story event names, or null for any other event. */
+export function pressStoryOutletId(event: HistoricalEvent): EntityId | null {
+  if (event.type !== PRESS_STORY_EVENT_TYPE) return null;
+  const tag = event.tags.find((candidate) =>
+    candidate.startsWith(PRESS_STORY_OUTLET_TAG),
+  );
+  return tag ? (tag.slice(PRESS_STORY_OUTLET_TAG.length) as EntityId) : null;
+}
+
+export function mediaOutletForKey(
+  world: World,
+  outletKey: string,
+): MediaOutletRecord | null {
+  if (!outletKey.startsWith(MEDIA_OUTLET_KEY_PREFIX)) return null;
+  const id = outletKey.slice(MEDIA_OUTLET_KEY_PREFIX.length);
+  const record = (world.history.pressRecords ?? []).find(
+    (candidate) => candidate.id === id,
+  );
+  return record?.kind === "media-outlet" ? record : null;
+}
 
 const UNSUPPORTED_PUBLIC_EVENT_PREFIXES = [
   "evidence.",
@@ -36,6 +68,25 @@ export function resolvePublicationSource(
   event: HistoricalEvent,
 ): ResolvedPublicationSource | null {
   if (event.visibility !== "public") return null;
+
+  const reportingOutletId = pressStoryOutletId(event);
+  if (reportingOutletId) {
+    const leadTag = event.tags.find((candidate) =>
+      candidate.startsWith(PRESS_STORY_LEAD_TAG),
+    );
+    const leadId = leadTag?.slice(PRESS_STORY_LEAD_TAG.length);
+    const lead = (world.history.pressRecords ?? []).find(
+      (candidate) => candidate.id === leadId,
+    );
+    if (
+      lead?.kind !== "story-lead" ||
+      lead.outletId !== reportingOutletId ||
+      !event.context.socialContext?.trim()
+    ) {
+      return null;
+    }
+    return { kind: "press-story", sourceRecordIds: [lead.id] };
+  }
 
   const action = (world.history.legislativeActions ?? []).find(
     (candidate) => candidate.eventId === event.id,
@@ -95,10 +146,19 @@ export function publicInformationEntityExists(
   world: World,
   entityId: EntityId,
 ): boolean {
-  return (world.history.publications ?? []).some(
-    (publication) => publication.id === entityId,
-  );
+  const publications = world.history.publications ?? [];
+  let ids = PUBLICATION_IDS.get(publications);
+  if (!ids) {
+    ids = new Set(publications.map((publication) => publication.id));
+    PUBLICATION_IDS.set(publications, ids);
+  }
+  return ids.has(entityId);
 }
+
+const PUBLICATION_IDS = new WeakMap<
+  readonly { readonly id: EntityId }[],
+  Set<EntityId>
+>();
 
 export function publicInformationEntityAvailableAt(
   world: World,
@@ -154,14 +214,6 @@ export function assertPublicInformationIntegrity(
       throw new Error(`Duplicate publication key: ${publication.stableKey}`);
     }
     stableKeys.add(publication.stableKey);
-    if (
-      publication.outletKey !== CIVIC_PUBLICATION_OUTLET_KEY ||
-      publication.outletName !== CIVIC_PUBLICATION_OUTLET_NAME
-    ) {
-      throw new Error(
-        `Publication has an unsupported outlet: ${publication.id}`,
-      );
-    }
     assertText(publication.headline, "Publication headline");
     assertText(publication.body, "Publication body");
 
@@ -172,6 +224,30 @@ export function assertPublicInformationIntegrity(
       throw new Error(
         `Publication source event is unavailable: ${publication.id}`,
       );
+    }
+    const reportingOutletId = pressStoryOutletId(sourceEvent);
+    if (publication.outletKey === CIVIC_PUBLICATION_OUTLET_KEY) {
+      if (
+        publication.outletName !== CIVIC_PUBLICATION_OUTLET_NAME ||
+        reportingOutletId !== null
+      ) {
+        throw new Error(
+          `Publication has an unsupported outlet: ${publication.id}`,
+        );
+      }
+    } else {
+      const outlet = mediaOutletForKey(world, publication.outletKey);
+      if (
+        !outlet ||
+        outlet.sequence >= publication.sequence ||
+        outlet.name !== publication.outletName ||
+        reportingOutletId === null ||
+        mediaOutletKey(reportingOutletId) !== publication.outletKey
+      ) {
+        throw new Error(
+          `Publication has an unsupported outlet: ${publication.id}`,
+        );
+      }
     }
     if (
       sourceEvent.occurredAt > publishedAt ||
@@ -264,7 +340,7 @@ function sourceRecordSequence(world: World, id: EntityId): number | null {
     ...(world.history.taxPolicies ?? []),
     ...(world.history.taxCollections ?? []),
   ].find((candidate) => candidate.id === id);
-  return record?.sequence ?? null;
+  return record?.sequence ?? pressRecordSequence(world, id);
 }
 
 function canonicalIds(ids: readonly EntityId[]): readonly EntityId[] {

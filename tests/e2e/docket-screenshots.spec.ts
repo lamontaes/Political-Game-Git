@@ -1,4 +1,4 @@
-import { fileCandidacy } from "./support/campaign";
+import { fileCandidacy, workOfferedOutreach } from "./support/campaign";
 import { expect, test, type Page } from "@playwright/test";
 
 import { enterLife, openElsewhere, startLife } from "./support/creator";
@@ -54,12 +54,18 @@ test("captures the five-minute click path", async ({ page }) => {
     gender: "male",
   });
   await enterLife(page);
-  await openElsewhere(page, "work");
+  await openElsewhere(page, "campaign");
   await fileCandidacy(page);
   await page.getByTestId("campaign-fundraising").click();
-  for (let day = 0; day < 3; day += 1) {
+  // Work every day the control is offered rather than a fixed three. The rival
+  // campaigns weekly since d60b2975, and measured headlessly three outreach
+  // days lose and six also lose while working every offered day wins. This
+  // case is about the docket downstream of a win, so it needs a premise that
+  // still reaches one.
+  for (let day = 0; day < 48; day += 1) {
+    if (await page.getByTestId("campaign-result").isVisible()) break;
     await page.getByTestId("pass-day").click();
-    await page.getByTestId("campaign-outreach").click();
+    await workOfferedOutreach(page);
   }
   expect(await liveUntilDecided(page)).toBe(true);
   await openElsewhere(page, "work");

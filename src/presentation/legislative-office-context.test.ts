@@ -7,9 +7,12 @@ import {
   type EntityId,
 } from "../simulation";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
-import { projectCampaign, spendAnAfternoon } from "./campaign-projection";
-import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
+import { openOrdinaryLife } from "./ordinary-life";
+import { projectCampaign } from "./campaign-projection";
+import {
+  campaignUntilDecided,
+  fileForOffice,
+} from "../../tests/fixtures/campaign-fixture";
 import { projectLegislativeOfficeContext } from "./legislative-office-context";
 
 function wonSeat() {
@@ -24,16 +27,7 @@ function wonSeat() {
   });
   const personId = built.playerPersonId;
   let world = fileForOffice(openOrdinaryLife(built.world, personId), personId);
-  world = spendAnAfternoon(world, personId, "fundraising");
-  for (let index = 0; index < 3; index += 1) {
-    world = spendAnAfternoon(passOrdinaryDays(world), personId, "outreach");
-  }
-  for (
-    let day = 0;
-    day < 60 && projectCampaign(world, personId).phase === "active";
-    day += 1
-  )
-    world = passOrdinaryDays(world);
+  world = campaignUntilDecided(world, personId);
   expect(projectCampaign(world, personId).phase).toBe("won");
   return { world: enterSupportedTerm(world, personId), personId };
 }

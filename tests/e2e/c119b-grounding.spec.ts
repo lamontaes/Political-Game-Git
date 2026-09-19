@@ -1,5 +1,5 @@
 import { expect, test } from "./fixtures";
-import { enterLife, startLife } from "./support/creator";
+import { enterLife, openMoment, startLife } from "./support/creator";
 
 test("childhood choices commit through pointer and keyboard activation", async ({
   page,
@@ -14,6 +14,7 @@ test("childhood choices commit through pointer and keyboard activation", async (
     childhood: true,
   });
   await enterLife(page);
+  await openMoment(page);
   for (const activation of ["pointer", "Enter", "Space"] as const) {
     const prose = page.getByTestId("story-prose");
     const before = await prose.innerText();

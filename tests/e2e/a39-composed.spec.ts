@@ -1,7 +1,10 @@
 import { writeFileSync } from "node:fs";
+import { chooseOption } from "./support/controls";
 import { expect, test, type Page } from "./fixtures";
 import {
   enterLife,
+  isPoliticsHubDestination,
+  openPoliticsHub,
   openShellMenu,
   saveLife,
   startLife,
@@ -32,6 +35,7 @@ async function savedWorld(page: Page) {
   });
 }
 async function navigate(page: Page, id: string, group?: string) {
+  if (isPoliticsHubDestination(id)) return openPoliticsHub(page, id);
   await openShellMenu(page);
   if (!(await page.getByTestId(id).isVisible()) && group)
     await page.getByTestId(`nav-group-${group}`).click();
@@ -66,6 +70,7 @@ test("A39 composed readers, municipal and constitutional routes preserve saved l
   text.calendar = await page.getByTestId("ux39-calendar").innerText();
   await page.screenshot({ path: info.outputPath("01-calendar-private.png") });
   await navigate(page, "nav-news");
+  await page.getByTestId("news-section-around").click();
   await expect(page.getByTestId("world39-news")).toBeVisible();
   text.news = await page.getByTestId("world39-news").innerText();
   await page.screenshot({ path: info.outputPath("02-news-private.png") });
@@ -84,9 +89,10 @@ test("A39 composed readers, municipal and constitutional routes preserve saved l
   await page.screenshot({ path: info.outputPath("03-journal-private.png") });
   await navigate(page, "nav-municipal", "politics");
   await page.getByTestId("municipal-search").fill("Charlottesville");
-  await page
-    .getByTestId("municipal-government-select")
-    .selectOption("us-va-charlottesville");
+  await chooseOption(
+    page.getByTestId("municipal-government-select"),
+    "us-va-charlottesville",
+  );
   await expect(page.getByTestId("municipal-governing")).toBeVisible();
   text.municipal = await page.getByTestId("municipal-governing").innerText();
   await page
@@ -94,7 +100,7 @@ test("A39 composed readers, municipal and constitutional routes preserve saved l
     .locator("summary")
     .press("Enter");
   await expect(page.getByTestId("municipal-governing")).toContainText(
-    "Virginia Code",
+    /(?:Virginia|Va\.) Code § 15\.2-1420\b/,
   );
   await navigate(page, "nav-politics-budget", "politics");
   await page
@@ -107,10 +113,9 @@ test("A39 composed readers, municipal and constitutional routes preserve saved l
   text.constitutional = await page
     .getByTestId("constitutional-workspace")
     .innerText();
-  await navigate(page, "nav-politics-transit", "politics");
-  await expect(
-    page.getByRole("heading", { name: "Transit service", exact: true }),
-  ).toBeVisible();
+  // A citizen without office authority is not offered transit configuration.
+  await navigate(page, "nav-politics-budget", "politics");
+  await expect(page.getByTestId("politics-sub-transit")).toHaveCount(0);
   text.transit = await page.locator("main").innerText();
   await saveLife(page);
   expect(await savedWorld(page)).toBe(before);

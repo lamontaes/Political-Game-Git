@@ -1,11 +1,14 @@
 import { expect, test, type Page } from "./fixtures";
 import {
+  answerCharacterBasics,
+  chooseCreatorLocation,
+  chooseStartAge,
   enterLife,
   expectNoDestination,
   goTo,
   openCreator,
+  openMoment,
   startLife as walkCreator,
-  chooseCreatorLocation,
 } from "./support/creator";
 
 /**
@@ -53,7 +56,7 @@ async function openSetup(page: Page, age: number) {
   // are reached without touching the place search.
   await page.getByTestId("start-normal").click();
   await expect(page.getByTestId("creator-stage-character")).toBeVisible();
-  await page.getByTestId("start-age").fill(String(age));
+  await chooseStartAge(page, age);
 }
 
 /** Picks Kentucky, then Lexington, and advances past the place step. */
@@ -180,6 +183,7 @@ test.describe("The page says whose life this is", () => {
     await expect(page.getByTestId("play-screen")).toBeVisible();
     // The generated household is introduced before the first beat now.
     await enterLife(page);
+    await openMoment(page);
   }
 
   test("names the character, the date and the place before the scene", async ({
@@ -190,9 +194,9 @@ test.describe("The page says whose life this is", () => {
     await expect(where).toBeVisible();
     // Identity is a deliberate name + age display now, not "Name, 10" prose.
     await expect(
-      page.getByTestId("story-who").locator(".life-identity-age"),
+      page.getByTestId("moment-who").locator(".life-identity-age"),
     ).toHaveText("10");
-    const when = await page.getByTestId("story-when").innerText();
+    const when = await page.getByTestId("moment-when").innerText();
     expect(when.length).toBeGreaterThan(4);
     expect(when).not.toMatch(MACHINERY);
   });
@@ -237,14 +241,15 @@ test.describe("The page says whose life this is", () => {
   test("keeps the chosen character through a reload", async ({ page }) => {
     await freshBrowser(page);
     await openSetup(page, 34);
-    await page.getByTestId("gender-male").click();
+    await answerCharacterBasics(page, { gender: "male" });
     await page.getByTestId("creator-continue-character").click();
     await chooseKentucky(page);
     await page.getByTestId("whoareyou-play").click();
     await page.getByTestId("begin").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);
-    const who = page.getByTestId("story-who").locator(".life-identity-name");
+    await openMoment(page);
+    const who = page.getByTestId("moment-who").locator(".life-identity-name");
     const named = await who.innerText();
 
     await goTo(page, "keep-world");
@@ -258,6 +263,7 @@ test.describe("The page says whose life this is", () => {
     // scene; the continuing life, where the name is read, is one step in.
     await expect(page.getByTestId("opening-life-scene")).toBeVisible();
     await enterLife(page);
+    await openMoment(page);
     await expect(who).toHaveText(named);
   });
 });

@@ -23,6 +23,9 @@
     "export:economic-context": "node --import tsx scripts/source/export-economic-context.ts",
     "export:economic-context-browser": "node --import tsx scripts/source/export-economic-context-browser.ts",
     "reconcile:r3h": "node --import tsx scripts/source/r3h-reconciliation.ts",
+    "compile:map-geometry": "node --max-old-space-size=3072 --import tsx scripts/maps/compile-map-geometry.ts",
+    "compile:map-membership": "node --import tsx scripts/maps/compile-membership-candidates.ts",
+    "test:maps": "vitest run src/maps",
     "coverage:state-legislatures": "node --import tsx scripts/source/state-legislature-coverage.ts",
     "coverage:nationwide-rules": "node --import tsx scripts/source/nationwide-rule-coverage.ts",
     "export:government-units": "node --import tsx scripts/source/export-government-units.ts",
@@ -42,7 +45,7 @@
     "test:e2e": "playwright test",
     "test:watch": "vitest",
     "lint": "eslint .",
-    "typecheck": "node --import tsx scripts/dev-lab/typecheck.ts",
+    "typecheck": "node --import tsx scripts/dev-lab/typecheck.ts && node --import tsx scripts/dev-lab/typecheck-test-imports.ts",
     "format": "prettier --check .",
     "format:write": "prettier --write .",
     "intake:texas-senate": "node --import tsx scripts/art-asset-factory/cli-intake.ts",
@@ -97,7 +100,8 @@
     "measure:appearance-v2": "PG_CAPTURE_EVIDENCE=1 vitest run scripts/dev-lab/appearance-recipe-v2-proof.test.ts",
     "measure:visual4-wardrobe": "node --import tsx scripts/art-asset-factory/cli-people-visual4-wardrobe.ts",
     "derive:people-visual4": "node --import tsx scripts/art-asset-factory/people-visual4.ts",
-    "kit:art": "node --import tsx scripts/art-asset-factory/cli-kit41.ts"
+    "kit:art": "node --import tsx scripts/art-asset-factory/cli-kit41.ts",
+    "validate:ci-sharded": "npm run format && npm run lint && npm run typecheck && npm run release:check && npm run source:validate && npm run source:check-fiscal-disposition && npm run source:replay && npm run education:check && npm run check:municipal-generated && npm run build && npm run demo -- validation-seed && npm run validate:art && npm run admit:wave-a-candidates -- --check && npm run derive:wave-a-wardrobe -- --check"
   },
   "dependencies": {
     "react": "19.2.6",

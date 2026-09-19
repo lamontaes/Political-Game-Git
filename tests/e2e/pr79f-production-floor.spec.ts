@@ -1,4 +1,4 @@
-import { fileCandidacy } from "./support/campaign";
+import { campaignUntilDecided, fileCandidacy } from "./support/campaign";
 import { expect, test, type Page } from "./fixtures";
 
 import {
@@ -54,18 +54,10 @@ function watchForErrors(page: Page): string[] {
   return errors;
 }
 
-/** Running for office lives in Work (PT3), beside the day's time control. */
+/** Running for office lives in Politics → Campaigns, beside the time control. */
 async function openCampaign(page: Page) {
-  await openElsewhere(page, "work");
+  await openElsewhere(page, "campaign");
   await expect(page.getByTestId("work-section-campaign")).toBeVisible();
-}
-
-async function liveUntilDecided(page: Page, maxDays = 45) {
-  for (let day = 0; day < maxDays; day += 1) {
-    if (await page.getByTestId("campaign-result").isVisible()) return true;
-    await page.getByTestId("pass-day").click();
-  }
-  return page.getByTestId("campaign-result").isVisible();
 }
 
 async function talkToFirstColleague(page: Page) {
@@ -97,11 +89,11 @@ test("a winner reaches real bargaining from normal play, and keeps it through a 
   await openCampaign(page);
   await fileCandidacy(page);
   await page.getByTestId("campaign-fundraising").click();
-  for (let day = 0; day < 3; day += 1) {
-    await page.getByTestId("pass-day").click();
-    await page.getByTestId("campaign-outreach").click();
-  }
-  expect(await liveUntilDecided(page)).toBe(true);
+  expect(
+    await campaignUntilDecided(page, (page) =>
+      page.getByTestId("pass-day").click(),
+    ),
+  ).toBe(true);
   await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
 
   // The win opened the office; the corner cluster still says Lexington.

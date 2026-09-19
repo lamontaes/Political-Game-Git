@@ -1,3 +1,6 @@
+import { crisisAmbientHandler } from "./crisis/ambient";
+import { crisisEntityAvailableAt, crisisEntityExists } from "./crisis/records";
+import { eventById } from "./event-index";
 import {
   nationalEntityExists,
   nationalEntityAvailableAt,
@@ -362,6 +365,13 @@ export function scheduledFutureDueItemsThrough(
     .sort(compareDueItems);
 }
 
+function handlerFor(
+  registry: FutureTransitionHandlerRegistry,
+  transitionKey: FutureTransitionKey,
+): FutureTransitionHandler | undefined {
+  return registry.get(transitionKey) ?? crisisAmbientHandler(transitionKey);
+}
+
 export function resolveFutureDueItemsThrough(
   world: World,
   throughDate: IsoDate,
@@ -375,21 +385,45 @@ export function resolveFutureDueItemsThrough(
     throughDate,
   );
   for (const item of initiallyDue) {
-    if (!registry.get(item.transitionKey)) {
+    if (!handlerFor(registry, item.transitionKey)) {
       throw new Error(
         `Missing future-transition handler for due item ${item.id}: ${item.transitionKey}`,
       );
     }
   }
 
+  // The due list is recomputed only when the set of due items actually
+  // changes. Scanning and sorting every pending item for every item resolved
+  // cost the clock a pass over the whole schedule per due boundary; a handler
+  // that schedules something new replaces that array, which is what asks for a
+  // fresh list. Cancellations change only the states, and those are caught by
+  // re-reading each candidate's own state before it runs.
+  let candidates: FutureDueItem[] | null = null;
+  let candidatesFrom: readonly FutureDueItem[] | null = null;
   while (true) {
-    const item = scheduledFutureDueItemsThrough(
-      working,
-      startingDate,
-      throughDate,
-    )[0];
+    if (
+      candidates === null ||
+      candidatesFrom !== working.history.futureDueItems
+    ) {
+      candidates = [
+        ...scheduledFutureDueItemsThrough(working, startingDate, throughDate),
+      ];
+      candidatesFrom = working.history.futureDueItems;
+    }
+    let item: FutureDueItem | undefined;
+    while (candidates.length > 0) {
+      const next = candidates[0]!;
+      if (
+        latestDueItemStateAtCurrentFrontier(working, next.id)?.status ===
+        "scheduled"
+      ) {
+        item = next;
+        break;
+      }
+      candidates.shift();
+    }
     if (!item) return working;
-    const handler = registry.get(item.transitionKey);
+    const handler = handlerFor(registry, item.transitionKey);
     if (!handler) {
       throw new Error(
         `Missing future-transition handler for due item ${item.id}: ${item.transitionKey}`,
@@ -426,11 +460,19 @@ export function resolveFutureDueItemsThrough(
     }
     const resultDueItems = result.world.history.futureDueItems;
     const resultDueStates = result.world.history.futureDueItemStates;
+    // The same records, not merely equal ones: history is append-only, so a
+    // handler that rewrote an earlier entry would have to replace the object.
+    // Comparing references proves more than comparing serialized text did,
+    // and it does not re-serialize the whole due history for every item.
+    const prefixUnchanged = <T>(
+      after: readonly T[],
+      before: readonly T[],
+    ): boolean =>
+      after.length >= before.length &&
+      before.every((record, index) => after[index] === record);
     if (
-      JSON.stringify(resultDueItems.slice(0, dueItemsBefore.length)) !==
-        JSON.stringify(dueItemsBefore) ||
-      JSON.stringify(resultDueStates.slice(0, dueStatesBefore.length)) !==
-        JSON.stringify(dueStatesBefore)
+      !prefixUnchanged(resultDueItems, dueItemsBefore) ||
+      !prefixUnchanged(resultDueStates, dueStatesBefore)
     ) {
       throw new Error(
         "Future-transition handlers cannot rewrite existing due-item history.",
@@ -476,13 +518,28 @@ export function futureTransitionHistoryRecords(
   ];
 }
 
+const ID_INDEX = new WeakMap<
+  readonly { readonly id: EntityId }[],
+  Set<EntityId>
+>();
+
+function idsOf(records: readonly { readonly id: EntityId }[]): Set<EntityId> {
+  let ids = ID_INDEX.get(records);
+  if (!ids) {
+    ids = new Set(records.map((record) => record.id));
+    ID_INDEX.set(records, ids);
+  }
+  return ids;
+}
+
 export function futureTransitionEntityExists(
   world: World,
   id: EntityId,
 ): boolean {
+  // Indexed per (immutable) history array; the scan was quadratic on long saves.
   return (
-    world.history.futureDueItems.some((record) => record.id === id) ||
-    world.history.futureDueItemStates.some((record) => record.id === id)
+    idsOf(world.history.futureDueItems).has(id) ||
+    idsOf(world.history.futureDueItemStates).has(id)
   );
 }
 
@@ -628,9 +685,7 @@ export function assertFutureTransitionIntegrity(
       }
       assertOptional(state.context, "Future due-item context");
       if (state.outcomeEventId !== null) {
-        const event = world.history.events.find(
-          (candidate) => candidate.id === state.outcomeEventId,
-        );
+        const event = eventById(world, state.outcomeEventId);
         if (
           !event ||
           event.sequence <= item.sequence ||
@@ -665,15 +720,41 @@ export function assertFutureTransitionIntegrity(
   }
 }
 
+/*
+ * GOVERNING profile: the clock asked for "the latest state of this due item"
+ * once per item, and each answer filtered and sorted every state in history.
+ * With one scan per item and one pass per resolved item, the resolver's cost
+ * grew with the square of a life. States are appended in sequence order and
+ * the array is replaced rather than edited, so one index per array is exact.
+ */
+const LATEST_DUE_STATE = new WeakMap<
+  readonly FutureDueItemStateRecord[],
+  Map<EntityId, FutureDueItemStateRecord>
+>();
+
+function latestDueStateIndex(
+  states: readonly FutureDueItemStateRecord[],
+): Map<EntityId, FutureDueItemStateRecord> {
+  let index = LATEST_DUE_STATE.get(states);
+  if (!index) {
+    index = new Map<EntityId, FutureDueItemStateRecord>();
+    for (const record of states) {
+      const current = index.get(record.dueItemId);
+      if (!current || record.sequence > current.sequence)
+        index.set(record.dueItemId, record);
+    }
+    LATEST_DUE_STATE.set(states, index);
+  }
+  return index;
+}
+
 function latestDueItemStateAtCurrentFrontier(
   world: World,
   dueItemId: EntityId,
 ): FutureDueItemStateRecord | null {
   return (
-    world.history.futureDueItemStates
-      .filter((record) => record.dueItemId === dueItemId)
-      .sort(bySequence)
-      .at(-1) ?? null
+    latestDueStateIndex(world.history.futureDueItemStates).get(dueItemId) ??
+    null
   );
 }
 
@@ -742,6 +823,8 @@ function canonicalEntityAvailable(
   if (vitalityEntityExists(world, id)) {
     return vitalityEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   }
+  if (crisisEntityExists(world, id))
+    return crisisEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   if (nationalEntityExists(world, id))
     return nationalEntityAvailableAt(world, id, asOfDate, sequenceExclusive);
   if (electionContestEntityExists(world, id)) {
@@ -779,7 +862,7 @@ function canonicalEntityAvailable(
       causalRecord.sequence < sequenceExclusive
     );
   }
-  const event = world.history.events.find((record) => record.id === id);
+  const event = eventById(world, id);
   return !!(
     event &&
     event.recordedAt <= asOfDate &&

@@ -1,4 +1,5 @@
 import { expect, type Page } from "@playwright/test";
+import { chooseOption } from "./controls";
 
 import { resolveExplicitCreatorHometown } from "../../../src/presentation/new-game-geography";
 
@@ -118,6 +119,69 @@ export async function chooseCreatorLocation(
  * Deliberately does not press Begin: some tests want to read the setup screen
  * first, and pressing it is one line in the caller.
  */
+/**
+ * The starting age comes from the birth year (gender -> name -> full
+ * birthday -> derived age). Play starts on January 5, 2026: a birthday later
+ * in the year than that has not come round yet, so it needs one year earlier.
+ * Choose month and day first; changing them afterwards keeps the year.
+ */
+export async function chooseStartAge(page: Page, age: number): Promise<void> {
+  const month = Number(
+    (await page.getByTestId("start-birth-month").getAttribute("data-value")) ||
+      0,
+  );
+  const day = Number(
+    (await page.getByTestId("start-birth-day").getAttribute("data-value")) || 0,
+  );
+  const notYet = month > 0 && day > 0 && (month > 1 || day > 5);
+  await chooseOption(
+    page.getByTestId("start-birth-year"),
+    String(2026 - age - (notYet ? 1 : 0)),
+  );
+  await expect(page.getByTestId("creator-derived-age")).toContainText(
+    `age ${age},`,
+  );
+}
+
+/**
+ * The rest of the character step a new life requires (CRUNCH46 R7): a gender,
+ * a first and last name (typed, or drawn for that gender) and a month and day.
+ * Call it before `chooseStartAge`, which keeps the year against that month
+ * and day.
+ */
+export async function answerCharacterBasics(
+  page: Page,
+  life: Pick<CreatorLife, "gender" | "givenName" | "familyName"> = {},
+): Promise<void> {
+  await page.getByTestId(`gender-${life.gender ?? "female"}`).click();
+  if (life.givenName || life.familyName) {
+    await page
+      .getByLabel("First name", { exact: true })
+      .fill(life.givenName ?? "Avery");
+    await page
+      .getByLabel("Last name", { exact: true })
+      .fill(life.familyName ?? "Morgan");
+  } else {
+    await page.getByTestId("creator-randomize-name").click();
+  }
+  const month = page.getByTestId("start-birth-month");
+  if (!(await month.getAttribute("data-value"))) {
+    await chooseOption(month, "1");
+    await chooseOption(page.getByTestId("start-birth-day"), "1");
+  }
+}
+
+/** The whole character step: basics, then the birth year for `age`. */
+export async function completeCharacterStep(
+  page: Page,
+  age: number,
+  life: Pick<CreatorLife, "gender" | "givenName" | "familyName"> = {},
+): Promise<void> {
+  await answerCharacterBasics(page, life);
+  await chooseStartAge(page, age);
+  await expect(page.getByTestId("creator-continue-character")).toBeEnabled();
+}
+
 export async function fillCreator(
   page: Page,
   life: CreatorLife,
@@ -131,12 +195,7 @@ export async function fillCreator(
   await page.getByTestId(custom ? "start-custom" : "start-normal").click();
 
   await expect(page.getByTestId("creator-stage-character")).toBeVisible();
-  await page.getByTestId("start-age").fill(String(life.age));
-  if (life.givenName)
-    await page.getByLabel("First name", { exact: true }).fill(life.givenName);
-  if (life.familyName)
-    await page.getByLabel("Last name", { exact: true }).fill(life.familyName);
-  if (life.gender) await page.getByTestId(`gender-${life.gender}`).click();
+  await completeCharacterStep(page, life.age, life);
   await page.getByTestId("creator-continue-character").click();
 
   await chooseCreatorLocation(page, life, custom);
@@ -198,11 +257,149 @@ export async function enterLife(page: Page): Promise<void> {
  * and translucent until it is reached for, so every test that wants a
  * destination opens the cluster first — the same two moves a player makes.
  */
+/**
+ * The moment, opened the way the room offers it.
+ *
+ * The room is the surface and the moment is a layer over it, so a proof that
+ * wants the moment asks for it. Tolerant on purpose: when the room offers no
+ * moment there is nothing to open, and the caller's own assertions still have
+ * to hold. It never closes one that is already open.
+ */
+export async function openMoment(page: Page): Promise<void> {
+  const panel = page.getByTestId("story-section");
+  const opener = page.getByTestId("open-moment");
+  /*
+   * Wait for whichever the room settles on — the moment already open, or the
+   * way in. Asking for a count straight away raced the render and answered
+   * "neither", and because this helper is deliberately tolerant it then did
+   * nothing at all and let the caller fail one assertion later, which is a
+   * bad way to learn that the room was simply still arriving.
+   */
+  try {
+    await panel
+      .or(opener)
+      .first()
+      .waitFor({ state: "visible", timeout: 15_000 });
+  } catch {
+    // No moment offered here — under a conversation, say. The caller's own
+    // assertions still decide whether that was right.
+    return;
+  }
+  if ((await panel.count()) > 0) return;
+  await opener.click();
+  await expect(panel).toBeVisible();
+}
+
 export async function openShellMenu(page: Page): Promise<void> {
+  const cluster = page.getByTestId("shell-nav-cluster");
   const flyout = page.getByTestId("shell-nav-flyout");
-  if (await flyout.isVisible()) return;
-  await page.getByTestId("shell-nav-cluster").click();
+  /*
+   * Whether the menu is open is asked of the cluster, not of the flyout.
+   *
+   * The cluster is always on the page; the flyout exists only while the menu
+   * is open, and the two questions behave differently when it is not there.
+   * `isVisible` on a flyout that has gone answers false at once, so the helper
+   * presses a toggle it may not need to press; every other question put to it
+   * waits for it to come back instead of answering, which is a wait nothing
+   * ends. The cluster's own aria-expanded is the state the shell keeps, it is
+   * always there to be read, and it is what this decides and waits on.
+   */
+  if ((await cluster.getAttribute("aria-expanded")) !== "true") {
+    await cluster.click();
+  }
+  await expect(cluster).toHaveAttribute("aria-expanded", "true");
   await expect(flyout).toBeVisible();
+  /*
+   * The menu has one submenu level, and a submenu REPLACES the top-level
+   * entries rather than sitting beside them. "The menu is open" is therefore
+   * not enough: a flyout left open on Personal holds no Politics entry at
+   * all, and waiting for one there waits for something the player cannot see
+   * either. Come back up the way a player does, with the menu's own Back.
+   */
+  if ((await flyout.getAttribute("data-level")) === "submenu") {
+    await page.getByTestId("nav-submenu-back").click();
+    await expect(flyout).toHaveAttribute("data-level", "primary");
+  }
+}
+
+/**
+ * Waits for the shell clock to be idle, so the next press is not swallowed.
+ *
+ * The corner Day and Week controls keep focus while a command runs rather than
+ * disabling themselves, and the runner ignores a submit while one is in
+ * flight, so one press can never move the clock twice. A loop that presses
+ * without looking therefore counts days it never advanced. The game already
+ * says when time is passing; that status is what a player waits for, and it
+ * is what this waits for.
+ */
+export async function waitForClockIdle(page: Page): Promise<void> {
+  await expect(page.getByTestId("shell-time-pending")).toHaveCount(0);
+}
+
+/** One press of the corner clock, with the press actually taken. */
+export async function passShellTime(
+  page: Page,
+  unit: "day" | "week" = "day",
+): Promise<void> {
+  await waitForClockIdle(page);
+  await page.getByTestId(`shell-pass-${unit}`).click();
+  await waitForClockIdle(page);
+}
+
+/**
+ * Political destinations that live inside the Politics hub.
+ *
+ * The menu carries one Politics entry; the office, campaigns (every campaign
+ * surface, including running for the legislature), government and
+ * local records, parties, and the budget with transit and taxes are tabs of
+ * the hub. A test that asks for one of the older destination names reaches
+ * the same screen the way a player now does: Politics, then the tab.
+ */
+const POLITICS_HUB: Readonly<Record<string, readonly string[]>> = {
+  "elsewhere-work": ["politics-tab-office"],
+  "elsewhere-campaign": ["politics-tab-campaigns"],
+  "nav-politics-government": ["politics-tab-government"],
+  "nav-municipal": ["politics-tab-government", "politics-sub-records"],
+  "nav-parties": ["politics-tab-parties"],
+  "nav-politics-budget": ["politics-tab-issues", "politics-sub-budget"],
+  "nav-politics-transit": ["politics-tab-issues", "politics-sub-transit"],
+  "nav-politics-tax": ["politics-tab-issues", "politics-sub-tax"],
+  "nav-politics-candidacy": ["politics-tab-campaigns"],
+};
+
+export function isPoliticsHubDestination(testid: string): boolean {
+  return testid in POLITICS_HUB;
+}
+
+/** Politics from the menu, then the tab (and section) that holds `testid`. */
+export async function openPoliticsHub(
+  page: Page,
+  testid: string,
+): Promise<void> {
+  const steps = POLITICS_HUB[testid];
+  if (!steps) throw new Error(`${testid} is not a Politics hub destination`);
+  const last = page.getByTestId(steps[steps.length - 1]!);
+  if (
+    (await last.isVisible()) &&
+    (await last.getAttribute("aria-current")) === "page"
+  ) {
+    return;
+  }
+  await openShellMenu(page);
+  await page.getByTestId("nav-politics").click();
+  for (const step of steps) {
+    const control = page.getByTestId(step);
+    // A tab with a single section draws no section strip; that one section
+    // is already the destination.
+    if (step.startsWith("politics-sub-") && (await control.count()) === 0) {
+      continue;
+    }
+    await expect(control).toBeVisible();
+    if ((await control.getAttribute("aria-current")) !== "page") {
+      await control.click();
+    }
+    await expect(control).toHaveAttribute("aria-current", "page");
+  }
 }
 
 /** Opens the cluster and presses one of its destinations. */
@@ -210,17 +407,10 @@ async function revealShellDestination(page: Page, testid: string) {
   await openShellMenu(page);
   const destination = page.getByTestId(testid);
   if (await destination.isVisible()) return destination;
-  const group = [
-    "elsewhere-work",
-    "nav-municipal",
-    "nav-politics-budget",
-    "nav-politics-candidacy",
-    "nav-politics-tax",
-    "nav-politics-transit",
-  ].includes(testid)
-    ? "politics"
-    : ["nav-finances", "nav-jobs", "nav-personal"].includes(testid)
-      ? "personal"
+  const group = ["nav-finances", "nav-jobs", "nav-personal"].includes(testid)
+    ? "personal"
+    : ["nav-guide", "nav-options"].includes(testid)
+      ? "options"
       : null;
   if (group) {
     const back = page.getByTestId("nav-submenu-back");
@@ -231,9 +421,51 @@ async function revealShellDestination(page: Page, testid: string) {
   return destination;
 }
 
+/**
+ * Day surfaces that are tabs of the Calendar.
+ *
+ * Today stopped being a destination of its own (UI DECISION FOLLOW-THROUGH):
+ * the menu carries one Calendar entry, and "Today and upcoming" is the first
+ * tab of the workspace that opens. A test that asks for the older name reaches
+ * the same screen the way a player now does — Calendar, then the tab.
+ */
+const CALENDAR_TABS: Readonly<Record<string, string>> = {
+  "elsewhere-day": "calendar-tab-today",
+};
+
+/** Calendar from the menu, then the tab that holds `testid`. */
+export async function openCalendarTab(
+  page: Page,
+  testid: string,
+): Promise<void> {
+  const tabId = CALENDAR_TABS[testid];
+  if (!tabId) throw new Error(`${testid} is not a Calendar tab`);
+  await (await revealShellDestination(page, "nav-calendar")).click();
+  const tab = page.getByTestId(tabId);
+  await expect(tab).toBeVisible();
+  if ((await tab.getAttribute("aria-selected")) !== "true") await tab.click();
+  await expect(tab).toHaveAttribute("aria-selected", "true");
+}
+
 /** Opens the cluster and presses one of its destinations. */
 export async function goTo(page: Page, testid: string): Promise<void> {
+  if (isPoliticsHubDestination(testid)) return openPoliticsHub(page, testid);
+  if (testid in CALENDAR_TABS) return openCalendarTab(page, testid);
   await (await revealShellDestination(page, testid)).click();
+}
+
+/**
+ * News opens on the front page only. The orientation reader ("around"), the
+ * outlet directory with search and follows ("directory") and the press office
+ * ("press") are separate contexts, reached the way a player reaches them.
+ */
+export async function openNewsContext(
+  page: Page,
+  context: "around" | "directory" | "press",
+): Promise<void> {
+  const tab = page.getByTestId(`news-section-${context}`);
+  if ((await tab.getAttribute("aria-current")) !== "page") await tab.click();
+  await expect(tab).toHaveAttribute("aria-current", "page");
 }
 
 /**
@@ -246,6 +478,18 @@ export async function expectNoDestination(
   page: Page,
   testid: string,
 ): Promise<void> {
+  if (isPoliticsHubDestination(testid)) {
+    const steps = POLITICS_HUB[testid]!;
+    await openShellMenu(page);
+    const politics = page.getByTestId("nav-politics");
+    if ((await politics.count()) === 0) {
+      await page.keyboard.press("Escape");
+      return;
+    }
+    await politics.click();
+    await expect(page.getByTestId(steps[steps.length - 1]!)).toHaveCount(0);
+    return;
+  }
   await openShellMenu(page);
   await expect(page.getByTestId(testid)).toHaveCount(0);
   await page.keyboard.press("Escape");
@@ -268,11 +512,19 @@ export async function shellIdentity(page: Page): Promise<string> {
  */
 export async function openElsewhere(
   page: Page,
-  key: "day" | "people" | "work",
+  key: "day" | "people" | "work" | "jobs" | "campaign",
 ): Promise<void> {
+  if (key === "work") return openPoliticsHub(page, "elsewhere-work");
+  if (key === "campaign") return openPoliticsHub(page, "elsewhere-campaign");
+  // "work" is the office half of the old Work record; jobs, study, hiring
+  // and invitations are its Personal half, reached as a player reaches them.
   const control = await revealShellDestination(
     page,
-    key === "day" ? "nav-calendar" : `elsewhere-${key}`,
+    key === "day"
+      ? "nav-calendar"
+      : key === "jobs"
+        ? "nav-jobs"
+        : `elsewhere-${key}`,
   );
   await expect(control).toBeVisible();
   if ((await control.getAttribute("aria-pressed")) === "true") {

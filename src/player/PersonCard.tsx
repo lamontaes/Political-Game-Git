@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { PinToggle } from "./controls/PinToggle";
 
 import {
   EDGE_KIND_LABELS,
@@ -13,6 +14,7 @@ import type { EntityId, World } from "../simulation";
 import { pinKindLabel } from "./ShellPinRail";
 import { PersonPortrait } from "./PersonPortrait";
 import { projectPersonContact } from "../presentation/person-contact";
+import { personTraits } from "../simulation/people-traits";
 import "./people-web.css";
 
 /**
@@ -28,6 +30,53 @@ import "./people-web.css";
  * from `projectPersonContact`, which reads records and says why when it
  * cannot. A pin is a saved reference, not a claim that they are here.
  */
+
+/**
+ * Where the clicked person stands on screen, in viewport pixels. A card opened
+ * from a list, the web or a link has none and keeps the side placement.
+ */
+export interface PersonCardAnchor {
+  readonly left: number;
+  readonly top: number;
+  readonly width: number;
+  readonly height: number;
+}
+
+const CARD_MARGIN = 12;
+const CARD_GAP = 14;
+
+/**
+ * Beside the person, on the right when it fits and on the left when it does
+ * not, then clamped inside the window with room kept at the bottom for the
+ * dialogue choices and the lower-corner controls (UI DECISION FOLLOW-THROUGH).
+ */
+export function placeAnchoredCard(
+  anchor: PersonCardAnchor,
+  card: { readonly width: number; readonly height: number },
+  viewport: { readonly width: number; readonly height: number },
+): {
+  readonly left: number;
+  readonly top: number;
+  readonly side: "right" | "left";
+} {
+  let side: "right" | "left" = "right";
+  let left = anchor.left + anchor.width + CARD_GAP;
+  if (left + card.width > viewport.width - CARD_MARGIN) {
+    side = "left";
+    left = anchor.left - CARD_GAP - card.width;
+  }
+  left = Math.max(
+    CARD_MARGIN,
+    Math.min(left, viewport.width - CARD_MARGIN - card.width),
+  );
+  const bottomReserve = Math.min(160, Math.round(viewport.height * 0.22));
+  const maxTop = Math.max(
+    CARD_MARGIN,
+    viewport.height - bottomReserve - card.height,
+  );
+  const top = Math.max(CARD_MARGIN, Math.min(anchor.top, maxTop));
+  return { left, top, side };
+}
 
 function FactList({
   facts,
@@ -75,6 +124,7 @@ export function PersonCard({
   onFullRecord,
   talkUnavailable,
   onOpenLink,
+  anchor = null,
 }: {
   readonly world: World;
   readonly playerId: EntityId;
@@ -82,6 +132,8 @@ export function PersonCard({
   readonly pinned: boolean;
   readonly expanded: boolean;
   readonly mode: "overlay" | "workspace";
+  /** The clicked scene person, when the card was opened from the room. */
+  readonly anchor?: PersonCardAnchor | null;
   /** Who the room says is here. Presence is the room's answer, not a pin's. */
   readonly presentPersonIds?: readonly EntityId[];
   readonly onClose?: () => void;
@@ -106,6 +158,31 @@ export function PersonCard({
   useEffect(() => {
     if (mode === "overlay") cardRef.current?.focus();
   }, [dossier.personId, mode]);
+
+  const [placement, setPlacement] = useState<ReturnType<
+    typeof placeAnchoredCard
+  > | null>(null);
+  useLayoutEffect(() => {
+    if (mode !== "overlay" || !anchor) {
+      setPlacement(null);
+      return;
+    }
+    const place = () => {
+      const card = cardRef.current;
+      if (!card) return;
+      const rect = card.getBoundingClientRect();
+      setPlacement(
+        placeAnchoredCard(
+          anchor,
+          { width: rect.width, height: rect.height },
+          { width: window.innerWidth, height: window.innerHeight },
+        ),
+      );
+    };
+    place();
+    window.addEventListener("resize", place);
+    return () => window.removeEventListener("resize", place);
+  }, [anchor, mode, dossier.personId, expanded]);
 
   const web = projectRelationshipWeb(world, playerId, dossier.personId);
   const connections = neighborsOf(web, dossier.personId).flatMap((edge) => {
@@ -138,6 +215,15 @@ export function PersonCard({
   const alive =
     web.nodes.find((node) => node.personId === dossier.personId)?.alive !==
     false;
+  /* Temperament is shown for other people only, never for the one played. */
+  const played =
+    world.control.kind === "person" ? world.control.personId : null;
+  const traitLabels =
+    isYou || dossier.personId === played || !world.people[dossier.personId]
+      ? []
+      : personTraits(world, dossier.personId).flatMap((trait) =>
+          trait.label === null ? [] : [trait.label],
+        );
   const unavailableReasons = [
     !isYou && onTalk && !contact.talk.available ? contact.talk.reason : null,
     !isYou && !contact.travel.available && !presentNow
@@ -156,6 +242,17 @@ export function PersonCard({
       data-testid={testId}
       data-person-id={dossier.personId}
       data-expanded={expanded ? "true" : "false"}
+      data-placement={placement ? `anchored-${placement.side}` : "side"}
+      style={
+        placement
+          ? {
+              left: placement.left,
+              top: placement.top,
+              right: "auto",
+              bottom: "auto",
+            }
+          : undefined
+      }
       tabIndex={-1}
       ref={cardRef}
     >
@@ -188,6 +285,15 @@ export function PersonCard({
                 You
               </p>
             ) : null}
+            {traitLabels.length > 0 ? (
+              <p
+                className="pg-person-card-traits"
+                data-testid="person-card-traits"
+                aria-label={`Temperament: ${traitLabels.join(", ")}`}
+              >
+                {traitLabels.join(" · ")}
+              </p>
+            ) : null}
             {!alive ? (
               <p className="pg-right-now" data-testid="person-card-deceased">
                 No longer living.
@@ -207,18 +313,12 @@ export function PersonCard({
           </div>
         </div>
         <div className="pg-person-card-corner">
-          <button
-            type="button"
-            className="ui-icon-button"
-            aria-pressed={pinned}
-            aria-label={
-              pinned ? `Unpin ${dossier.name}` : `Pin ${dossier.name}`
-            }
-            data-testid={expanded ? "dossier-pin" : "quick-dossier-pin"}
-            onClick={onTogglePin}
-          >
-            <span aria-hidden="true">{pinned ? "★" : "☆"}</span>
-          </button>
+          <PinToggle
+            pinned={pinned}
+            name={dossier.name}
+            testid={expanded ? "dossier-pin" : "quick-dossier-pin"}
+            onToggle={onTogglePin}
+          />
           {onClose ? (
             <button
               type="button"

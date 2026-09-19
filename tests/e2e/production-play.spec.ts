@@ -5,6 +5,7 @@ import {
   fillCreator,
   goTo,
   openElsewhere,
+  openMoment,
   saveLife,
   startLife as walkCreator,
 } from "./support/creator";
@@ -74,6 +75,7 @@ async function startLife(page: Page, setup: LifeSetup) {
   });
   await expect(page.getByTestId("play-screen")).toBeVisible();
   await enterLife(page);
+  await openMoment(page);
 }
 
 /** Every page error, so "it rendered" is not mistaken for "it worked". */
@@ -189,14 +191,16 @@ test.describe("Opening the game opens a game", () => {
     await page.getByTestId("begin").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);
-    const before = await page.getByTestId("story-who").innerText();
+    await openMoment(page);
+    const before = await page.getByTestId("moment-who").innerText();
     await saveLife(page);
     const original = await savedWorlds(page);
 
     await page.goto(replay);
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);
-    await expect(page.getByTestId("story-who")).toHaveText(before, {
+    await openMoment(page);
+    await expect(page.getByTestId("moment-who")).toHaveText(before, {
       useInnerText: true,
     });
     await saveLife(page);
@@ -269,7 +273,8 @@ test.describe("A life is kept, and comes back", () => {
     await freshBrowser(page);
     await startLife(page, { place: "Lexington", state: "Kentucky", age: 27 });
     await enterLife(page);
-    const before = await page.getByTestId("story-who").innerText();
+    await openMoment(page);
+    const before = await page.getByTestId("moment-who").innerText();
 
     await keepAndWait(page);
 
@@ -279,7 +284,8 @@ test.describe("A life is kept, and comes back", () => {
     // The same person, the same age, the same place — the notice line above
     // them is session chrome and is allowed to differ.
     await enterLife(page);
-    await expect(page.getByTestId("story-who")).toHaveText(before, {
+    await openMoment(page);
+    await expect(page.getByTestId("moment-who")).toHaveText(before, {
       useInnerText: true,
     });
   });
@@ -311,10 +317,10 @@ test.describe("A life is kept, and comes back", () => {
     await expect(page.getByTestId("save-entry")).toHaveCount(0);
 
     // And it stays gone across a reload, rather than being written back by
-    // anything that was still in flight. With nothing left to open, the title
-    // screen says so by leaving the saved-games door shut.
+    // anything that was still in flight. With nothing left to open, Continue
+    // is off; Saved games stays open because an import starts there.
     await page.reload();
-    await expect(page.getByTestId("open-saves")).toBeDisabled();
+    await expect(page.getByTestId("open-saves")).toBeEnabled();
     await expect(page.getByTestId("continue")).toBeDisabled();
   });
 
@@ -455,6 +461,7 @@ test.describe("What the world records, it keeps", () => {
     await page.reload();
     await page.getByTestId("continue").click();
     await enterLife(page);
+    await openMoment(page);
     // The same sentence the world wrote down, not a re-derived paraphrase.
     await page.getByTestId("open-journal").click();
     await expect(page.getByTestId("journal-entries")).toContainText(
@@ -605,6 +612,7 @@ test("initial Keep becomes repeatable Save on the same slot across changes and r
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
+  await openMoment(page);
   await expectNoDestination(page, "keep-world");
   await saveLife(page);
   expect((await read())[0]!.saveId).toBe(initial[0]!.saveId);
@@ -637,6 +645,7 @@ test("two normal browser tabs refuse an older World without overwriting the newe
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
+  await openMoment(page);
   await saveLife(page);
   expect(await savedWorlds(page)).toEqual(newer);
   await other.close();

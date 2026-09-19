@@ -8,6 +8,7 @@ import {
 } from "../presentation/district-selection";
 import type { EntityId, World } from "../simulation";
 import { candidacyPackForJurisdiction } from "../simulation";
+import { GameSelect } from "./controls/GameSelect";
 
 export interface DistrictResidencePanelProps {
   readonly world: World;
@@ -63,7 +64,7 @@ export function DistrictResidencePanel({
       <h2>District seat</h2>
       <label>
         Established office
-        <select
+        <GameSelect
           value={officeKey ?? ""}
           onChange={(event) => {
             setOfficeKey(event.target.value || null);
@@ -76,7 +77,7 @@ export function DistrictResidencePanel({
               {office.office.title}
             </option>
           ))}
-        </select>
+        </GameSelect>
       </label>
       <p>
         Published Gazetteer identities only. Choosing a numbered district is not
@@ -92,7 +93,7 @@ export function DistrictResidencePanel({
         <>
           <label>
             District
-            <select
+            <GameSelect
               data-testid="district-residence-select"
               value={selected ?? ""}
               onChange={(event) => setSelected(event.target.value)}
@@ -103,7 +104,7 @@ export function DistrictResidencePanel({
                   {row.sourceName ?? row.recordId}
                 </option>
               ))}
-            </select>
+            </GameSelect>
           </label>
           <button
             type="button"

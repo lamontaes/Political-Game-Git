@@ -1,14 +1,21 @@
 import { expect, test } from "./fixtures";
-import { enterLife, goTo, saveLife, startLife } from "./support/creator";
+import {
+  enterLife,
+  goTo,
+  saveLife,
+  startLife,
+  openNewsContext,
+} from "./support/creator";
 import {
   expectRecordedMember,
+  enterRecordedMemberTerm,
   reachMemberOffice,
   readSavedLegislativeWorld as savedWorld,
 } from "./support/legislative-entry";
 import type { Page } from "@playwright/test";
 
 async function publishFirstBill(page: Page) {
-  await reachMemberOffice(page);
+  await enterRecordedMemberTerm(page);
   await page.getByTestId("open-drafting-table").click();
   await page.locator('[data-testid^="drafting-option-"]').first().click();
   await page.getByTestId("file-the-draft").press("Enter");
@@ -27,10 +34,22 @@ test("normal legislative publication supports search, clear, help, person, Back,
   });
   await enterLife(page);
   await goTo(page, "nav-news");
-  await expect(page.getByTestId("public-information-empty")).toBeVisible();
-  await page
-    .getByRole("button", { name: "Close public information" })
-    .press("Escape");
+  await openNewsContext(page, "directory");
+  // A seeded opening carries published reporting, so the directory is not
+  // empty — but it opens on For You, and nothing has been published about this
+  // player yet. That is the honest modern form of what this once asserted:
+  // not "nothing exists" but "nothing about you". The full record stays one
+  // click away under All.
+  await expect(page.getByTestId("public-information-empty")).toHaveCount(0);
+  await expect(
+    page.getByTestId("public-information-for-you-empty"),
+  ).toBeVisible();
+  // The directory context mounts the panel with showClose={false}, so there is
+  // no close button here and there has not been since the composition landed —
+  // this step only became reachable once the assertion above stopped failing
+  // first. Escape is handled on the panel itself, so it still closes from any
+  // control inside it.
+  await page.getByTestId("news-view-all").press("Escape");
 
   await publishFirstBill(page);
   await saveLife(page);
@@ -46,6 +65,7 @@ test("normal legislative publication supports search, clear, help, person, Back,
   expect(publications).toHaveLength(1);
 
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
   const article = page.locator(
     `.public-information-article[data-source-event-id="${introduction!.eventId}"]`,
   );
@@ -109,15 +129,29 @@ test("normal legislative publication supports search, clear, help, person, Back,
   await page.getByTestId("continue").click();
   await enterLife(page);
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
   await expect(article).toBeVisible();
   await expect(person).toHaveAttribute("data-person-id", personId!);
   await saveLife(page);
   expect(await savedWorld(page)).toEqual(published);
 });
 
+/**
+ * This one case keeps the real campaign, and pays the term walk for it.
+ *
+ * What it is about is search narrowing two published stories to one, so it
+ * needs two publications that can be told apart. The constructed seat's
+ * chamber offers exactly one drafting option, and filing that option twice
+ * would produce two stories whose copy is `designation — shortTitle` with the
+ * same shortTitle both times: they would differ only by bill number, which is
+ * too short to be the four-character token this case searches on. So the
+ * second publication has to be a different bill, and that needs the chamber a
+ * won election actually gives.
+ */
 test("normal News search stays usable on a narrow viewport after a second publication", async ({
   browser,
 }, info) => {
+  test.setTimeout(180_000);
   const context = await browser.newContext({
     viewport: { width: 390, height: 844 },
     hasTouch: true,
@@ -131,7 +165,12 @@ test("normal News search stays usable on a narrow viewport after a second public
     route: "normal",
   });
   await enterLife(page);
-  await publishFirstBill(page);
+  // The real route, not the recorded-term fixture the other cases use.
+  await reachMemberOffice(page);
+  await page.getByTestId("open-drafting-table").click();
+  await page.locator('[data-testid^="drafting-option-"]').first().click();
+  await page.getByTestId("file-the-draft").press("Enter");
+  await expect(page.getByTestId("docket-bill")).toBeVisible();
   await saveLife(page);
   const afterFirst = await savedWorld(page);
   await goTo(page, "elsewhere-work");
@@ -146,6 +185,7 @@ test("normal News search stays usable on a narrow viewport after a second public
   );
 
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
   const articles = page.locator(".public-information-article");
   await expect(articles).toHaveCount(2);
   const search = page.getByTestId("public-information-search-input");
@@ -201,6 +241,7 @@ test("normal News keeps For You, outlet following, person Back, and per-life per
   expect(introduction).toBeDefined();
 
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
   const article = page.locator(
     `.public-information-article[data-source-event-id="${introduction!.eventId}"]`,
   );
@@ -250,6 +291,7 @@ test("normal News keeps For You, outlet following, person Back, and per-life per
   await page.getByTestId("continue").click();
   await enterLife(page);
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
   await page.getByTestId("news-view-outlet-civic-ledger").click();
   await expect(page.getByTestId("news-outlet-follow")).toHaveText("Unfollow");
   await page.getByTestId("news-outlet-follow").click();
@@ -277,6 +319,7 @@ test("compact News keeps view and follow controls keyboard reachable", async ({
   await enterLife(page);
   await publishFirstBill(page);
   await goTo(page, "nav-news");
+  await openNewsContext(page, "directory");
 
   const outlet = page.getByTestId("news-view-outlet-civic-ledger");
   await outlet.focus();

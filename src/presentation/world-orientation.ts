@@ -45,11 +45,13 @@ export interface OrientationPerson {
 
 export interface OrientationPartyCount {
   readonly partyOrganizationId: EntityId | null;
+  /** True for members with no recorded party: style it, don't color it. */
+  readonly noParty: boolean;
   readonly label: string;
   readonly members: number;
   /**
-   * Fixed color slot for this party: its position in the projection's party
-   * list, never its rank in a chamber, so a party keeps its color between the
+   * Fixed color slot for this party: its position in the save's permanent
+   * party color order, never its rank in a chamber, so a party keeps its color between the
    * Senate and the House and when counts change. Members with no party take
    * the slot after the listed parties.
    */
@@ -97,7 +99,10 @@ export function projectOrientationView(
     orientation.parties.map((party) => [party.organizationId, party]),
   );
   const slots = new Map<EntityId | null, number>(
-    orientation.parties.map((party, index) => [party.organizationId, index]),
+    (
+      orientation.partyColorOrder ??
+      orientation.parties.map((party) => party.organizationId)
+    ).map((organizationId, index) => [organizationId, index]),
   );
   return {
     dateLabel: proseDate(orientation.asOf),
@@ -173,6 +178,7 @@ function chamberFor(
     parties: [...chamber.totals.byParty]
       .map((entry) => ({
         partyOrganizationId: entry.partyOrganizationId,
+        noParty: entry.partyOrganizationId === null,
         label: entry.partyOrganizationId
           ? (parties.get(entry.partyOrganizationId)?.name ?? "Another party")
           : "No party",
@@ -218,12 +224,33 @@ function chamberSummary(chamber: OrientationChamber): string {
   return `${chamber.title}: ${parts.join(", ")}.`;
 }
 
+/** Census congressional code for the DC delegate and PR commissioner. */
+const NON_VOTING_DISTRICT = "98";
+
+/** Places with a House seat code that are not states and have no governor. */
+const NON_STATE_NAMES: Readonly<Record<string, string>> = {
+  DC: "District of Columbia",
+  PR: "Puerto Rico",
+};
+
+function placeName(
+  usps: string,
+  stateName: (usps: string) => string | null,
+): string {
+  return stateName(usps) ?? NON_STATE_NAMES[usps] ?? usps;
+}
+
 function seatLabel(
   seat: SeatView,
   stateName: (usps: string) => string | null,
 ): string {
-  const state = stateName(seat.stateUsps) ?? seat.stateUsps;
+  const state = placeName(seat.stateUsps, stateName);
   if (seat.district === null) return state;
+  if (seat.district === NON_VOTING_DISTRICT) {
+    return seat.stateUsps === "PR"
+      ? `${state}, Resident Commissioner`
+      : `${state}, Delegate`;
+  }
   if (seat.district === "00") return `${state}, at large`;
   return `${state}, district ${Number(seat.district)}`;
 }
@@ -234,7 +261,10 @@ function stateStep(
   stateName: (usps: string) => string | null,
 ): OrientationStep {
   const home = orientation.homeState;
-  const name = home ? (stateName(home.stateUsps) ?? home.stateUsps) : null;
+  if (home?.stateUsps === "DC") {
+    return districtOfColumbiaStep(orientation, parties);
+  }
+  const name = home ? placeName(home.stateUsps, stateName) : null;
   const governor = home?.governor ?? null;
   return {
     key: "state",
@@ -245,6 +275,55 @@ function stateStep(
         ? `No governor is recorded for ${name}.`
         : "This life's records do not name a home state.",
     people: governor ? [personFor(governor, parties)] : [],
+    chambers: [],
+  };
+}
+
+/**
+ * The District is not a state and has no governor. It is governed by its Mayor
+ * and Council and sends a Delegate to the House; this step names whoever the
+ * records hold for those offices and says plainly when they hold nobody.
+ */
+function districtOfColumbiaStep(
+  orientation: WorldOrientation,
+  parties: ReadonlyMap<EntityId, PartyView>,
+): OrientationStep {
+  const localHolders = (orientation.locality?.governments ?? []).flatMap(
+    (government) => government.holders,
+  );
+  const delegates = (orientation.congress?.house.seats ?? []).flatMap((seat) =>
+    seat.stateUsps === "DC" &&
+    (seat.district === NON_VOTING_DISTRICT || seat.district === "00") &&
+    seat.occupant.kind === "member"
+      ? [seat.occupant.member]
+      : [],
+  );
+  const mayor = localHolders.find((holder) => /mayor/i.test(holder.title));
+  const council = localHolders.filter((holder) =>
+    /council/i.test(holder.title),
+  );
+  const delegate = delegates[0] ?? null;
+  const parts = [
+    "The District of Columbia is not a state and has no governor. A Mayor and the Council of the District of Columbia govern it, and it elects a Delegate to the U.S. House of Representatives.",
+    mayor
+      ? `${mayor.personName} is ${mayor.title}.`
+      : "No current record names the Mayor.",
+    council.length > 0
+      ? `The records name ${joinNames(council.map((holder) => holder.personName))} on the Council.`
+      : "No current record names the members of the Council.",
+    delegate
+      ? `${delegate.personName} is the Delegate to the U.S. House.`
+      : "No current record names the Delegate to the U.S. House.",
+  ];
+  return {
+    key: "state",
+    title: "District of Columbia",
+    summary: parts.join(" "),
+    people: [
+      ...(mayor ? [mayor] : []),
+      ...council,
+      ...(delegate ? [delegate] : []),
+    ].map((holder) => personFor(holder, parties)),
     chambers: [],
   };
 }

@@ -1,6 +1,16 @@
+import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
+import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { assertWorldContentPacks } from "./runtime-content-packs";
+import { applyCongressTurnover } from "./living-world/congress-turnover";
+import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
 import { assertAppearanceMaterial } from "./appearance-material";
 import { applyNationalTermTransitions } from "./national-election-consumer";
+import {
+  assertCrisisIntegrity,
+  crisisEntityAvailableAt,
+  crisisEntityExists,
+  crisisRecords,
+} from "./crisis/records";
 import {
   assertNationalElectionIntegrity,
   nationalHistoryRecords,
@@ -15,6 +25,10 @@ import {
 } from "./constitutional-process";
 import { assertPublicPaymentIntegrity } from "./public-fiscal";
 import {
+  assertPublicProgramIntegrity,
+  publicProgramRecords,
+} from "./public-program-integrity";
+import {
   assertTaxIntegrity,
   taxEntityExists,
   taxEntityAvailableAt,
@@ -28,6 +42,7 @@ import {
   simulationMomentOnLocalDate,
 } from "./dates";
 import { assertSetupPriorIntegrity, clonePriors } from "./setup-priors";
+import { assertMacroEconomyIntegrity } from "./macro-economy/store";
 import {
   assertCausalEffectIntegrity,
   assertCausalMechanismCatalogIntegrity,
@@ -65,6 +80,12 @@ import {
   evidenceEntityExists,
   evidenceHistoryRecords,
 } from "./evidence-integrity";
+import {
+  assertPressIntegrity,
+  pressEntityAvailableAt,
+  pressEntityExists,
+  pressHistoryRecords,
+} from "./press/integrity";
 import {
   assertPublicInformationIntegrity,
   publicInformationEntityAvailableAt,
@@ -165,6 +186,10 @@ import {
   personnelHistoryRecords,
 } from "./civil-personnel-integrity";
 import { assertLegislativePoliticsIntegrity } from "./legislative-politics-integrity";
+import {
+  assertWorldSetupIntegrity,
+  worldSetupHistoryRecords,
+} from "./world-setup/integrity";
 import {
   legislativePoliticsHistoryRecords,
   legislativePoliticsEntityExists,
@@ -490,7 +515,21 @@ export function createWorld(input: CreateWorldInput): World {
   return world;
 }
 
+/*
+ * GOVERNING profile: writers validate the World they receive and the World
+ * they return, so one object was being checked again by the next writer.
+ * Worlds are immutable values; an object that passed once is remembered.
+ * A World built by spreading is a new object and is always checked.
+ */
+const VALIDATED_WORLDS = new WeakSet<World>();
+
 export function assertWorldIntegrity(world: World): void {
+  if (VALIDATED_WORLDS.has(world)) return;
+  validateWorldIntegrity(world);
+  VALIDATED_WORLDS.add(world);
+}
+
+function validateWorldIntegrity(world: World): void {
   assertJsonSafe(world, "world");
   if (world.contentPacks !== undefined)
     assertWorldContentPacks(world.contentPacks);
@@ -549,6 +588,7 @@ export function assertWorldIntegrity(world: World): void {
     assertSetupPriorIntegrity(world.setupPriors);
   }
   validateHistoryIntegrity(world);
+  if (world.macroEconomy !== undefined) assertMacroEconomyIntegrity(world);
 }
 
 export function recordWorldEvent(
@@ -614,7 +654,9 @@ export function recordWorldEvent(
       !constitutionalEntityExists(world, entityId) &&
       !legislationEntityExists(world, entityId) &&
       !legislativePoliticsEntityExists(world, entityId) &&
-      !publicInformationEntityExists(world, entityId)
+      !publicInformationEntityExists(world, entityId) &&
+      !pressEntityExists(world, entityId) &&
+      !crisisEntityExists(world, entityId)
     ) {
       throw new Error(
         `Historical event references a missing entity: ${entityId}`,
@@ -669,6 +711,18 @@ export function recordWorldEvent(
         `Historical event references an unavailable causal/effect entity: ${entityId}`,
       );
     }
+    if (
+      crisisEntityExists(world, entityId) &&
+      !crisisEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    )
+      throw new Error(
+        `Historical event references an unavailable CRISIS entity: ${entityId}`,
+      );
     if (
       incidentEntityExists(world, entityId) &&
       !incidentEntityAvailableAt(
@@ -847,6 +901,19 @@ export function recordWorldEvent(
         `Historical event references an unavailable publication entity: ${entityId}`,
       );
     }
+    if (
+      pressEntityExists(world, entityId) &&
+      !pressEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    ) {
+      throw new Error(
+        `Historical event references an unavailable press entity: ${entityId}`,
+      );
+    }
     const involvedPerson = world.people[entityId];
     if (involvedPerson && occurredAt < involvedPerson.birthDate) {
       throw new Error(
@@ -966,7 +1033,18 @@ export function advanceWorld(
     actionSequence: actionSequence + 1,
   };
 
-  return recordWorldEvent(applyNationalTermTransitions(advanced), {
+  const continued = applyCrisisRepairFunding(
+    applyCrisisOfficeContinuity(
+      applyGovernorTurnover(
+        world.currentDate,
+        applyCongressTurnover(
+          world.currentDate,
+          applyNationalTermTransitions(advanced),
+        ),
+      ),
+    ),
+  );
+  return recordWorldEvent(continued, {
     stableKey: `action:${actionSequence}:time-advanced:${world.currentDate}:${days}:${nextDate}`,
     type: "simulation.time-advanced",
     occurredAt: nextDate,
@@ -1563,9 +1641,15 @@ function validateHistoryIntegrity(world: World): void {
     ...draftLineageHistoryRecords(world),
     ...futureTransitionHistoryRecords(world),
     ...publicInformationHistoryRecords(world),
+    ...pressHistoryRecords(world),
     ...personnelHistoryRecords(world),
+    ...worldSetupHistoryRecords(world),
+    ...crisisRecords(world),
+    ...publicProgramRecords(world),
     ...(history.districtResidenceIntervals ?? []),
     ...(history.officeWorkflowPreferences ?? []),
+    ...(history.officeStaffPositions ?? []),
+    ...(history.officeStaffIncumbencies ?? []),
     ...(history.officeVoteInstructions ?? []),
     ...(history.officeBriefingInspections ?? []),
     ...history.events,
@@ -1587,14 +1671,26 @@ function validateHistoryIntegrity(world: World): void {
     ...history.temporaryStates,
     ...history.decisionTraces,
   ];
-  const sequences = records
-    .map((record) => record.sequence)
-    .sort((a, b) => a - b);
-  if (
-    history.nextSequence !== records.length ||
-    sequences.some((sequence, index) => sequence !== index)
-  ) {
+  // Contiguity is "every sequence from 0 to n-1, exactly once", which a seen
+  // list answers in one pass. Sorting every record on every write proved the
+  // same thing at a cost that grew with the length of the life.
+  if (history.nextSequence !== records.length) {
     throw new Error("History sequence is not contiguous and append-oriented.");
+  }
+  const seen = new Uint8Array(records.length);
+  for (const record of records) {
+    const sequence = record.sequence;
+    if (
+      !Number.isInteger(sequence) ||
+      sequence < 0 ||
+      sequence >= records.length ||
+      seen[sequence] === 1
+    ) {
+      throw new Error(
+        "History sequence is not contiguous and append-oriented.",
+      );
+    }
+    seen[sequence] = 1;
   }
   assertSequenceOrdered(history.events, "event");
   assertSequenceOrdered(history.memories, "memory");
@@ -1701,6 +1797,9 @@ function validateHistoryIntegrity(world: World): void {
   assertDraftLineageIntegrity(world);
   assertFutureTransitionIntegrity(world, ids);
   assertPublicInformationIntegrity(world, ids);
+  assertPressIntegrity(world, ids);
+  for (const record of crisisRecords(world)) assertUniqueId(ids, record.id);
+  assertCrisisIntegrity(world);
   for (const interval of history.districtResidenceIntervals ?? []) {
     assertUniqueId(ids, interval.id);
     if (!world.people[interval.personId]) {
@@ -1795,6 +1894,8 @@ function validateHistoryIntegrity(world: World): void {
     }
   }
   assertPersonnelIntegrity(world, ids);
+  assertWorldSetupIntegrity(world, ids);
+  assertPublicProgramIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
   assertUniqueStableKeys(history.knowledge, "knowledge");
@@ -1893,7 +1994,38 @@ function validateHistoryIntegrity(world: World): void {
   const memoryById = new Map(
     history.memories.map((memory) => [memory.id, memory]),
   );
+  // GOVERNING Q47-006: events is the one family an array-identity memo cannot
+  // help, because it changes on nearly every write — 82% of all record-walking
+  // per click was here. So this proves only the suffix appended since the last
+  // proof. Soundness rests on EVENT_PROOF_MONOTONE_CHECKS below: every check in
+  // this loop must be monotone in the safe direction, so an event that passed
+  // cannot start failing. `events-suffix-proof.test.ts` fails if this loop
+  // gains a call outside that declared list, so a later non-monotone check
+  // cannot make the memo silently wrong.
+  //
+  // A world that was loaded, imported or migrated carries fresh event objects
+  // that are in no WeakSet, so none of them is skipped and it is proved in
+  // full. No memo survives serialization.
+  //
+  // Each event is remembered individually, and skipped only if THAT OBJECT was
+  // proved. An earlier attempt remembered a proved prefix LENGTH and trusted
+  // position, which was unsound: a new array with the same length and the same
+  // last event, but a different object at index 2, would have been accepted
+  // whole. Nothing positional is trusted here, so this rests on the same
+  // assumption the existing memos already rest on — a history record is
+  // replaced, never edited in place — and on nothing further.
+  //
+  // The pass still visits every event, because id uniqueness has to be, but it
+  // pays a WeakSet lookup for one already proved instead of the per-record
+  // work, which is where the cost actually was.
   for (const event of history.events) {
+    if (EVENT_PROVED.has(event)) {
+      // Proved already. Its id still enters the shared uniqueness set, because
+      // that check is about the whole history and not about this record: a new
+      // event duplicating an old event's id must still be caught.
+      assertUniqueId(ids, event.id);
+      continue;
+    }
     assertHistoryIdentity(ids, world, event, "event");
     makeIsoDate(event.occurredAt);
     makeIsoDate(event.recordedAt);
@@ -1940,7 +2072,9 @@ function validateHistoryIntegrity(world: World): void {
         !constitutionalEntityExists(world, involvedId) &&
         !legislationEntityExists(world, involvedId) &&
         !legislativePoliticsEntityExists(world, involvedId) &&
-        !publicInformationEntityExists(world, involvedId)
+        !publicInformationEntityExists(world, involvedId) &&
+        !pressEntityExists(world, involvedId) &&
+        !crisisEntityExists(world, involvedId)
       ) {
         throw new Error(
           `Historical event references a missing involved entity: ${event.id}`,
@@ -2175,6 +2309,19 @@ function validateHistoryIntegrity(world: World): void {
           `Historical event references an unavailable publication entity: ${event.id}`,
         );
       }
+      if (
+        pressEntityExists(world, involvedId) &&
+        !pressEntityAvailableAt(
+          world,
+          involvedId,
+          event.occurredAt,
+          event.sequence,
+        )
+      ) {
+        throw new Error(
+          `Historical event references an unavailable press entity: ${event.id}`,
+        );
+      }
       const involvedPerson = world.people[involvedId];
       if (involvedPerson && event.occurredAt < involvedPerson.birthDate) {
         throw new Error(
@@ -2222,6 +2369,10 @@ function validateHistoryIntegrity(world: World): void {
       }
     }
   }
+  // Everything in this array has now passed, so remember each one. Marking
+  // only here, after the whole pass, means a validation that threw partway
+  // leaves nothing marked and the next pass re-proves in full.
+  for (const event of history.events) EVENT_PROVED.add(event);
   for (const person of world.personOrder.map((id) => world.people[id])) {
     if (!person) continue;
     for (const fact of [
@@ -3335,6 +3486,7 @@ function assertUniqueStableKeys(
   records: readonly { readonly stableKey: string }[],
   label: string,
 ): void {
+  if (UNIQUE_KEYS.has(records as readonly object[])) return;
   const keys = new Set<string>();
   for (const record of records) {
     if (keys.has(record.stableKey)) {
@@ -3342,12 +3494,23 @@ function assertUniqueStableKeys(
     }
     keys.add(record.stableKey);
   }
+  UNIQUE_KEYS.add(records as readonly object[]);
 }
+
+/*
+ * Q47-006: history arrays are append-only and replaced rather than edited, so
+ * an array that has already passed one of these checks passes it forever.
+ * Remembering the exact array proved is what stops every write from re-proving
+ * the whole of history.
+ */
+const ORDERED = new WeakSet<readonly object[]>();
+const UNIQUE_KEYS = new WeakSet<readonly object[]>();
 
 function assertSequenceOrdered(
   records: readonly { readonly sequence: number }[],
   label: string,
 ): void {
+  if (ORDERED.has(records as readonly object[])) return;
   if (
     records.some(
       (record, index) =>
@@ -3356,6 +3519,7 @@ function assertSequenceOrdered(
   ) {
     throw new Error(`${label} history is not stored in append-sequence order.`);
   }
+  ORDERED.add(records as readonly object[]);
 }
 
 function assertNonEmptyString(
@@ -3414,6 +3578,139 @@ function validateEventContext(world: World, context: EventContext): void {
   }
 }
 
+/*
+ * GOVERNING profile: every write re-walked every record in history to prove it
+ * was JSON-safe, so the cost of writing one record grew with the length of a
+ * life. History records are immutable and are replaced rather than edited, so
+ * an object that has already been walked stays safe: it is remembered and not
+ * walked again, and a write pays only for what it actually added.
+ */
+/*
+ * GOVERNING Q47-006: the events suffix proof.
+ *
+ * Events is the family an array-identity memo cannot help. The array is
+ * replaced on nearly every write, so ARRAY identity never matches, and
+ * re-proving it accounted for 82% of all record-walking in a click (18,468 of
+ * 22,499 records walked to append 68). RECORD identity does match, because a
+ * history record is replaced rather than edited, so each event is remembered
+ * once and a later pass pays a WeakSet lookup instead of the per-record work.
+ *
+ * WHY THIS IS SOUND WHEN PROVING EACH RECORD ONCE WAS NOT. The rejected
+ * per-record memo failed because most life families read state that can move in
+ * BOTH directions — a later-recorded death, a changed birth date — so a record
+ * that passed could genuinely start failing. Every check in the events loop is
+ * monotone in the SAFE direction instead:
+ *
+ *   - an event's own fields are frozen once appended;
+ *   - `recordedAt > world.currentDate` throws, and currentDate only increases,
+ *     so an event that passed cannot start failing;
+ *   - `world.jurisdictions` and `world.people` are read for EXISTENCE only, and
+ *     both maps are written by spread-and-add with no delete;
+ *   - the `*EntityExists` checks read append-only history: once true, always;
+ *   - the `*AvailableAt` checks are evaluated at the EVENT's own frozen
+ *     `occurredAt` and `sequence` against immutable records, so no later append
+ *     can narrow one.
+ *
+ * The uniqueness of an event's id is NOT monotone in this sense — it is a fact
+ * about the whole history — so a proved event still registers its id on every
+ * pass. Only the per-record work is skipped.
+ *
+ * THE PRECONDITION IS LOAD-BEARING. This soundness is a property of the checks
+ * as they stand, not of the design. A non-monotone check added to that loop
+ * would make the memo silently wrong with nothing failing, so the list below is
+ * declared and `events-suffix-proof.test.ts` fails if the loop calls anything
+ * outside it. Adding a check means adding it here deliberately, having decided
+ * it is monotone.
+ */
+const EVENT_PROVED = new WeakSet<object>();
+
+/** Every call the events loop is allowed to make, each one monotone-safe. */
+export const EVENT_PROOF_MONOTONE_CHECKS: readonly string[] = [
+  // Pure checks on the event's own frozen fields.
+  "makeIsoDate",
+  "assertDottedContentKey",
+  "assertNonEmptyString",
+  "validateOptionalString",
+  "validateTags",
+  "isOpenTaxonomyKey",
+  "validateEventContext",
+  // Identity. `assertUniqueId` is NOT monotone — it is a fact about the whole
+  // history — which is why a proved event still registers its id every pass.
+  // It is listed because the loop calls it, not because skipping it is safe.
+  "assertHistoryIdentity",
+  "assertUniqueId",
+  // Existence against append-only history and additive maps: once true, always.
+  "taxEntityExists",
+  "lifeEntityExists",
+  "resourceHousingEntityExists",
+  "worldMetricEntityExists",
+  "causalEffectEntityExists",
+  "incidentEntityExists",
+  "policySemanticsEntityExists",
+  "vitalityEntityExists",
+  "evidenceEntityExists",
+  "timeWorkEntityExists",
+  "futureTransitionEntityExists",
+  "electionContestEntityExists",
+  "nationalEntityExists",
+  "campaignEntityExists",
+  "constitutionalEntityExists",
+  "legislationEntityExists",
+  "legislativePoliticsEntityExists",
+  "publicInformationEntityExists",
+  // Availability decided at the EVENT's own frozen occurredAt and sequence
+  // against immutable records, so no later append can narrow one.
+  "taxEntityAvailableAt",
+  "lifeEntityAvailableAt",
+  "resourceHousingEntityAvailableAt",
+  "worldMetricEntityAvailableAt",
+  "causalEffectEntityAvailableAt",
+  "incidentEntityAvailableAt",
+  "policySemanticsEntityAvailableAt",
+  "vitalityEntityAvailableAt",
+  "evidenceEntityAvailableAt",
+  "timeWorkEntityAvailableAt",
+  "futureTransitionEntityAvailableAt",
+  "electionContestEntityAvailableAt",
+  "nationalEntityAvailableAt",
+  "campaignEntityAvailableAt",
+  "constitutionalEntityAvailableAt",
+  "legislationEntityAvailableAt",
+  "legislativePoliticsReferenceAvailableAt",
+  "publicInformationEntityAvailableAt",
+];
+
+/**
+ * The same, for calls the loop makes only where another lane's module is
+ * composed in. They are absent from this tree and present on the receiver, so
+ * the loop cannot be required to call them here — but the suffix proof still
+ * has to have cleared them, because the head that SHIPS is the composed one.
+ *
+ * This list exists because the guard caught its own author: the monotone
+ * argument above was derived on a tree missing PRESS and CRISIS, so it was a
+ * true statement about this branch and an incomplete one about the head that
+ * runs. A declared name the loop does not call cannot make the proof unsound;
+ * a call the list does not name can.
+ */
+export const EVENT_PROOF_MONOTONE_CHECKS_COMPOSED: readonly string[] = [
+  // press/integrity.ts — pressEntry reads one append-only array and returns
+  // the record's frozen recordedAt and sequence. Its index keeps the EARLIEST
+  // entry for an id and never replaces it, so an entry cannot move later and
+  // flip an availability that already passed.
+  "pressEntityExists",
+  "pressEntityAvailableAt",
+  // crisis/records.ts — existence only. Its index is last-wins on a duplicate
+  // id, which would matter for an availability check but cannot affect
+  // presence: an append-only array that contains an id keeps containing it.
+  // NOTE for whoever adds one: crisisEntityAvailableAt is NOT cleared. Its
+  // index is last-wins, so a later record for the same id could carry a later
+  // effectiveAt and turn an availability that passed into one that fails. It
+  // must not enter this loop without being fixed or excluded.
+  "crisisEntityExists",
+];
+
+const JSON_SAFE = new WeakSet<object>();
+
 function assertJsonSafe(
   value: unknown,
   path: string,
@@ -3438,6 +3735,7 @@ function assertJsonSafe(
   if (ancestors.has(value)) {
     throw new Error(`Cyclic value is not JSON-safe at ${path}.`);
   }
+  if (JSON_SAFE.has(value)) return;
 
   const prototype = Object.getPrototypeOf(value);
   if (
@@ -3459,6 +3757,7 @@ function assertJsonSafe(
     }
   }
   ancestors.delete(value);
+  JSON_SAFE.add(value);
 }
 
 function cloneFact(fact: PersonFact): PersonFact {

@@ -33,3 +33,37 @@ Stage 6 Run B aggregate evaluation is explicit and writes no automatic daily/mon
 Stage 6 Run E uses the same seam for explicit mortality plans belonging to materialized people. A plan names one future birthday and one exact catalog rate; its due item names only that plan. At the birthday frontier, an injected handler uses plan-keyed deterministic randomness, records survival or death, and schedules the next birthday only after survival and only when the table explicitly supports the next age. A once-valid plan made obsolete by another death terminally cancels with `vitality:person-no-longer-alive`. February 29 births use February 28 in non-leap years. Materialization and ordinary time advancement never scan the population, create mortality plans, or perform daily mortality or capacity rolls.
 
 The current load thresholds are deterministic gameplay calibration and remain separate from Run E's explicit functional-capacity history; neither is a health, diagnosis, disability-law, labor, or family-quality model. Run D-Lite implements only one bounded exact office agenda/work seam and vertical-week projection. Recurrence, automatic scheduling/decisions, billing/payroll, full personal calendars, route finding, traffic, timezone travel gameplay, disease/treatment progression, and multi-resolution population processing remain deferred. See [Core Life](life.md), [World State, Observations, and Future Transitions](world-state-and-observations.md), [Canonical Sub-Day Time, Scheduled Activity, and Office Work](time-work.md), and [Vitality and Functional Capacity](vitality-and-capacity.md).
+
+## Measuring the clock
+
+Performance work on time advancement is measured, not estimated, and the
+measurement is subject to its own rules because the usual ones do not catch
+the ways it goes wrong.
+
+A world used as a measurement before-state is built the way a player reaches
+it — through the ordinary clock — never by calling `advanceWorld` directly. A
+world advanced by calling the engine is not the same object as a save built by
+playing: producers that the clock starts are absent from it, so every
+measurement against it does less work than a real save's would, and any
+initialization the clock performs is paid once per trial rather than never. A
+fixture built the direct way measured 22% fewer records and zero deaths
+against the same seed, opening and end date.
+
+Every before-state states how it was built, the source SHA it was built on, the
+days advanced, and the payload `sha256`. A measurement whose input cannot be
+identified cannot be repeated, and an instrument that is right about the wrong
+input fails in the way that is hardest to notice.
+
+A before/after comparison interleaves its arms — old, new, old, new — and
+records the host load at the start of every run. Sequential A/B on a shared
+host is not reliable at the effect sizes this work produces: a monotonic drift
+in host load is indistinguishable from the change under test, and has produced
+both a false improvement and a false regression here. If load moves materially
+across the sequence, the comparison is reported as unusable rather than as a
+ratio. Discarded runs are part of the result and are declared.
+
+An optimization claims equivalence only against the reached world, not the
+reached date: the same before-state and command must produce an identical save
+payload `sha256`. A digest that names history families reports a family this
+World does not have as an error, never as a zero, so a missing record cannot
+certify itself as an absence.

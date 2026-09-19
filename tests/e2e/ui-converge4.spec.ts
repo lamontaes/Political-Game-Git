@@ -1,9 +1,16 @@
 import { saveLife } from "./support/creator";
+import {
+  chooseOption,
+  chosenValue,
+  expectChosen,
+  optionEntries,
+} from "./support/controls";
 import { readFileSync } from "node:fs";
 import type { Page } from "@playwright/test";
 import type { World } from "../../src/simulation";
 import { searchLifePlaces } from "../../src/simulation";
 import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
+import { proseDate } from "../../src/presentation/prose-dates";
 import { replayDescriptorUrl } from "../../src/presentation/new-game-identity";
 import { expect, test } from "./fixtures";
 import { goTo, startLife } from "./support/creator";
@@ -173,17 +180,16 @@ test("private Journal intentions, grouped notes, real person links and history b
     .getByRole("textbox", { name: "Note", exact: true })
     .fill("Ask about their week when we next talk.");
   await note.getByLabel("Group", { exact: true }).fill("People");
-  const personOption = note
-    .getByLabel("Linked person")
-    .locator("option")
-    .nth(1);
-  const personId = await personOption.getAttribute("value");
-  const personName = await personOption.innerText();
+  const personOption = (
+    await optionEntries(note.getByLabel("Linked person"))
+  )[1]!;
+  const personId = personOption.value;
+  const personName = personOption.label;
   expect(personId).toBeTruthy();
   expect(initial.people[personId!]).toBeDefined();
-  await note.getByLabel("Linked person").selectOption(personId!);
-  await note.getByLabel("History bookmark").selectOption({ index: 1 });
-  const bookmark = await note.getByLabel("History bookmark").inputValue();
+  await chooseOption(note.getByLabel("Linked person"), personId!);
+  await chooseOption(note.getByLabel("History bookmark"), { index: 1 });
+  const bookmark = await chosenValue(note.getByLabel("History bookmark"));
   await note.getByRole("link", { name: "Read bookmarked history" }).click();
   await expect(
     page.locator(`[id="journal-entry-${encodeURIComponent(bookmark)}"]`),
@@ -204,9 +210,9 @@ test("private Journal intentions, grouped notes, real person links and history b
   await second.getByLabel("Title", { exact: true }).fill("Another thought");
   await second.getByLabel("Group", { exact: true }).fill("Later");
   await notebook.getByLabel("Show group").focus();
-  await notebook.getByLabel("Show group").selectOption("People");
+  await chooseOption(notebook.getByLabel("Show group"), "People");
   await expect(notebook.getByTestId("private-note")).toHaveCount(1);
-  await notebook.getByLabel("Show group").selectOption("");
+  await chooseOption(notebook.getByLabel("Show group"), "");
   await expect(notebook.getByTestId("private-note")).toHaveCount(2);
   await save(page);
   expect(await savedWorld(page)).toEqual(initial);
@@ -220,9 +226,9 @@ test("private Journal intentions, grouped notes, real person links and history b
   await expect(
     note.getByRole("textbox", { name: "Note", exact: true }),
   ).toHaveValue("Ask about their week when we next talk.");
-  await expect(note.getByLabel("Linked person")).toHaveValue(personId!);
-  await expect(note.getByLabel("History bookmark")).toHaveValue(bookmark);
-  await notebook.getByLabel("Show group").selectOption("Later");
+  await expectChosen(note.getByLabel("Linked person"), personId);
+  await expectChosen(note.getByLabel("History bookmark"), bookmark);
+  await chooseOption(notebook.getByLabel("Show group"), "Later");
   await expect(
     notebook.getByTestId("private-note").getByLabel("Title", { exact: true }),
   ).toHaveValue("Another thought");
@@ -362,12 +368,16 @@ for (const place of ["Lexington, Kentucky", "Carson City, Nevada"]) {
     await enterOpening(page);
     await save(page);
     const initial = await savedWorld(page);
-    await goTo(page, "nav-group-personal");
+    /* One shared walk to the entry itself: pressing the group and then the
+       entry leaves the menu standing open on a submenu, which the next walk
+       then has to climb back out of. */
     await goTo(page, "nav-personal");
     const panel = page.getByTestId("economic-context-panel");
     if (place === "Lexington, Kentucky") {
       await expect(panel).toBeVisible();
-      await expect(panel).toContainText(initial.currentDate);
+      // UI46 R18: the panel says the saved world's date the way play says
+      // dates ("January 5, 2026"), not as the ISO string the World stores.
+      await expect(panel).toContainText(proseDate(initial.currentDate));
       const sources = panel
         .locator("summary")
         .filter({ hasText: "Sources and scope" });
@@ -391,10 +401,9 @@ for (const place of ["Lexington, Kentucky", "Carson City, Nevada"]) {
     await save(page);
     expect(await savedWorld(page)).toEqual(initial);
     await continueSaved(page);
-    await goTo(page, "nav-group-personal");
     await goTo(page, "nav-personal");
     if (place === "Lexington, Kentucky") {
-      await expect(panel).toContainText(initial.currentDate);
+      await expect(panel).toContainText(proseDate(initial.currentDate));
     } else {
       await expect(panel).toHaveCount(0);
     }

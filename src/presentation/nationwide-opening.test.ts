@@ -1,5 +1,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 import {
+  regularTermWindowOn,
+  stateExecutiveTermRule,
   US_STATE_USPS,
   assertWorldIntegrity,
   bindRuleCapabilityResolver,
@@ -70,13 +72,19 @@ describe("NATIONWIDE opening state executive", () => {
       expect(holder!.title).toBe(office.displayName);
       expect(world.people[holder!.personId]).toBeDefined();
       expect(holder!.personId).not.toBe(playerPersonId);
-      // No admitted term facts in this composition: dates stay unknown, not guessed.
-      expect(holder!.startedAt).toBeNull();
-      expect(holder!.endExclusive).toBeNull();
-      expect(holder!.termFactsUnknown).toEqual(["term.years", "term.start"]);
+      // No admitted law in this composition: the term is dated by the office
+      // calendar (verified for Washington, the labelled game profile
+      // elsewhere), never guessed per state.
+      const window = regularTermWindowOn(
+        stateExecutiveTermRule(usps)!,
+        world.currentDate,
+      );
+      expect(holder!.startedAt).toBe(window.startsAt);
+      expect(holder!.endExclusive).toBe(window.endsAt);
+      expect(holder!.termFactsUnknown).toEqual([]);
       expect(
         openingOfficeholders(world).map((record) => record.officeKey),
-      ).toEqual(["us-president", "us-chief-justice"]);
+      ).toEqual(["us-president", "us-chief-justice", office.officeKey]);
 
       const profile = organizationProfileAt(world, holder!.organizationId);
       expect(profile?.classification).toBe(`service:${office.officeKey}`);

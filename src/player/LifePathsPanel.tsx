@@ -1,4 +1,6 @@
 import { SocialInvitationPanel } from "../presentation/SocialInvitationPanel";
+import { proseDate } from "../presentation/prose-dates";
+import { formatMinute } from "../presentation/player-calendar";
 import { useState } from "react";
 import { CareerPathsPanel } from "./CareerPathsPanel";
 import { EducationOptionsPanel } from "./EducationOptionsPanel";
@@ -34,11 +36,8 @@ import {
   workRoleAt,
 } from "../simulation/life-queries";
 import { resourceFlowTermsAt } from "../simulation/resource-queries";
-import {
-  scheduledActivityState,
-  workItemState,
-  advanceWorldMinutes,
-} from "../simulation/time-work";
+import { scheduledActivityState, workItemState } from "../simulation/time-work";
+import { InlineDayControl } from "./controls/InlineDayControl";
 import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
 import {
   studyUsesPeriodModel,
@@ -52,6 +51,7 @@ import {
   studyProgramCostLabel,
   studyUsesPeriodUi,
 } from "./education-study-display";
+import { GameSelect } from "./controls/GameSelect";
 
 /** Feature-local adapter. UI-CORE owns opening/closing this panel and the World. */
 export interface LifePathsPanelProps {
@@ -113,7 +113,8 @@ export function LifePathsPanel({
         region keeps its accessible name either way.
       */}
       {headed ? <h2>Education and work</h2> : null}
-      <p role="status" aria-live="polite">
+      {/* The clock's own report is several lines; keep them as lines. */}
+      <p role="status" aria-live="polite" style={{ whiteSpace: "pre-line" }}>
         {notice}
       </p>
       <CareerPathsPanel
@@ -221,23 +222,28 @@ export function LifePathsPanel({
           );
         },
       )}
+      {/*
+        One clock. This panel used to call `advanceWorldMinutes(world, 1440)`
+        from its own onClick, which skipped the shared command's disclosure,
+        its pending state and its stale-World guard. Every current mount — the
+        shell's "Jobs and study" and "School" sections, `PersonalRoutinePanel`,
+        and the developer proofs `src/ui/LifePaths2Proof.tsx` and
+        `src/ui/EducationPathProof.tsx` — now renders inside a time-command
+        provider. `InlineDayControl` still states why the day is not offered
+        where none is mounted, so a future mount degrades to an honest sentence
+        rather than crashing on a missing runner or starting a clock of its own.
+      */}
       {showTimeControl ? (
-        <button
-          onClick={() => {
-            const next = advanceWorldMinutes(world, 1440, handlers);
-            act(
-              next === world
-                ? {
-                    ok: false,
-                    world,
-                    message: "A calendar commitment must be resolved first.",
-                  }
-                : { ok: true, world: next, message: "One day passed." },
-            );
-          }}
-        >
-          Continue one day
-        </button>
+        <div className="game-choices">
+          <InlineDayControl
+            world={world}
+            personId={actor}
+            label="Continue one day"
+            testid="life-paths-pass-day"
+            onOutcome={setNotice}
+            unavailableNote="Continuing a day is not offered here: this panel is open outside the play shell, which owns the one clock."
+          />
+        </div>
       ) : null}
       <h3>Your paths</h3>
       {world.history.educationEnrollments
@@ -373,9 +379,8 @@ export function LifePathsPanel({
               return (
                 <div key={a.id}>
                   <p>
-                    {state.start.date},{" "}
-                    {Math.floor(state.start.minuteOfDay / 60)}:
-                    {String(state.start.minuteOfDay % 60).padStart(2, "0")} —{" "}
+                    {proseDate(state.start.date)},{" "}
+                    {formatMinute(state.start.minuteOfDay)} —{" "}
                     {path.sessionMinutes / 60} hours. Attending advances the
                     clock to the end of this session.
                   </p>
@@ -400,7 +405,7 @@ export function LifePathsPanel({
       </p>
       <label>
         Person{" "}
-        <select
+        <GameSelect
           value={person}
           onChange={(e) => setPerson(e.target.value as EntityId)}
         >
@@ -410,11 +415,11 @@ export function LifePathsPanel({
               {name(id)}
             </option>
           ))}
-        </select>
+        </GameSelect>
       </label>
       <label>
         Work{" "}
-        <select
+        <GameSelect
           value={role}
           onChange={(e) => {
             setRole(e.target.value);
@@ -431,7 +436,7 @@ export function LifePathsPanel({
               {p.title} ({p.scope})
             </option>
           ))}
-        </select>
+        </GameSelect>
       </label>
       <label>
         Dollars per completed assignment{" "}

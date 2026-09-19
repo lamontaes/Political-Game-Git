@@ -11,13 +11,17 @@ import {
   emptyClaimDocument,
   recoverExpiredClaims,
 } from "./asset-claim";
-import { compileAssetBrief, privatePackInputState } from "./asset-brief";
+import {
+  compileAssetBrief,
+  privatePackInputState,
+  styleReferencesFor,
+} from "./asset-brief";
 import {
   ART_DESK_CONTRACT_ID,
   emptyReviewDocument,
   recordReview,
 } from "./asset-review";
-import { filterDeskItems, projectArtDesk } from "./art-desk";
+import { decisionBlocker, filterDeskItems, projectArtDesk } from "./art-desk";
 import type { AssetRequest } from "./asset-request";
 import reconciliation from "../../art/requests/art-desk-reconciliation.json";
 import generationBatch from "../../art/requests/art-desk-generation-batch.json";
@@ -243,7 +247,7 @@ describe("Art Desk projection and briefs", () => {
     ).toBe(false);
     expect(byId.get("env-campaign-storefront")?.generationEligible).toBe(false);
     expect(byId.get("env-campaign-storefront")?.lane).toBe("covered-history");
-    expect(desk.privatePack.status).toBe("input-missing");
+    expect(desk.privatePack.status).toBe("unknown");
     const eligible = desk.items.filter((item) => item.generationEligible);
     expect(eligible.map((item) => item.request.requestId).sort()).toEqual([
       "env-neighborhood-doorstep-generic",
@@ -322,5 +326,126 @@ describe("Art Desk projection and briefs", () => {
     expect(brief.camera.certainty).toBe("UNKNOWN");
     expect(brief.derivativeNote).toMatch(/fitted derivative/i);
     expect(brief.stylePixels[0]?.missingReason).toMatch(/access\/input/);
+  });
+});
+
+describe("candidate byte states, pack receipts and disposable QA requests", () => {
+  const doorstep = assetRequestDocument.requests.find(
+    (item) => item.requestId === "env-neighborhood-doorstep-generic",
+  ) as AssetRequest;
+  const baseInputs = {
+    requests: [doorstep],
+    claims: emptyClaimDocument(),
+    reviews: emptyReviewDocument(),
+    now,
+  };
+  const recorded = generationBatch.records[0];
+
+  it("keeps a recorded hash as history when bytes are missing and blocks decisions", () => {
+    const desk = projectArtDesk({
+      ...baseInputs,
+      candidateByRequest: {
+        [doorstep.requestId]: {
+          sha256: recorded.outputSha256,
+          path: recorded.privatePath,
+          bytes: "missing",
+          source: "generation-batch",
+        },
+      },
+    });
+    const item = desk.items[0];
+    expect(item.candidateSha256).toBe(recorded.outputSha256);
+    expect(item.candidateVerified).toBe(false);
+    expect(item.coverage.note).toContain("not in this checkout");
+    expect(decisionBlocker(item)).toContain("missing");
+    expect(desk.privatePack.status).toBe("unknown");
+  });
+
+  it("treats unchecked bytes as not yet approvable", () => {
+    const desk = projectArtDesk({
+      ...baseInputs,
+      candidateByRequest: {
+        [doorstep.requestId]: {
+          sha256: recorded.outputSha256,
+          path: recorded.privatePath,
+        },
+      },
+    });
+    expect(desk.items[0].candidateBytes).toBe("unchecked");
+    expect(decisionBlocker(desk.items[0])).toContain("not verified yet");
+  });
+
+  it("reports verified bytes with decoded size, and a mismatch as a warning", () => {
+    const verified = projectArtDesk({
+      ...baseInputs,
+      privatePack: { status: "verified", note: "ok", packId: "p" },
+      candidateByRequest: {
+        [doorstep.requestId]: {
+          sha256: recorded.outputSha256,
+          path: recorded.privatePath,
+          bytes: "verified",
+          source: "upload-sidecar",
+          raster: { container: "jpg", width: 1280, height: 720 },
+        },
+      },
+    });
+    expect(verified.items[0].candidateVerified).toBe(true);
+    expect(verified.items[0].coverage.note).toContain("1280×720 jpg");
+    expect(decisionBlocker(verified.items[0])).toBeNull();
+    const mismatch = projectArtDesk({
+      ...baseInputs,
+      candidateByRequest: {
+        [doorstep.requestId]: {
+          sha256: recorded.outputSha256,
+          path: recorded.privatePath,
+          bytes: "hash-mismatch",
+        },
+      },
+    });
+    expect(mismatch.items[0].warnings.join(" ")).toContain(
+      "not the recorded candidate",
+    );
+    expect(decisionBlocker(mismatch.items[0])).toContain("hash-mismatch");
+  });
+
+  it("marks sidecar QA requests disposable and never generation-eligible", () => {
+    const qa = request({
+      requestId: "qa-art-desk-round-trip",
+      title: "QA round trip",
+    });
+    const desk = projectArtDesk({
+      ...baseInputs,
+      requests: [qa],
+      disposableRequestIds: new Set([qa.requestId]),
+    });
+    expect(desk.items[0].disposable).toBe(true);
+    expect(desk.items[0].generationEligible).toBe(false);
+    expect(desk.items[0].warnings.join(" ")).toContain("Disposable QA");
+  });
+
+  it("gives environment requests their own style authority and people requests the pack state", () => {
+    const missing = { status: "not-configured", note: "unset" };
+    const env = styleReferencesFor(doorstep, missing);
+    expect(env).toHaveLength(1);
+    expect(env[0].role).toBe("style-authority");
+    expect(env[0].pathOrDriveId).toContain("OCD_SCENE_MASTER");
+    const person = request({ requestId: "person-qa" });
+    const withoutPack = styleReferencesFor(person, missing);
+    expect(withoutPack[1]).toMatchObject({
+      role: "template",
+      missingReason: "unset",
+    });
+    const withPack = styleReferencesFor(person, {
+      status: "verified",
+      note: "ok",
+      packId: "modular41-current-0a044d183ad7",
+      manifestSha256: "a".repeat(64),
+    });
+    expect(withPack[1]).toMatchObject({
+      role: "template",
+      pathOrDriveId: "modular41-current-0a044d183ad7",
+      sha256: "a".repeat(64),
+    });
+    expect(withPack[1].missingReason).toBeUndefined();
   });
 });

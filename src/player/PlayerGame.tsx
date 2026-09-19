@@ -1,23 +1,40 @@
 import { CreatorAppearanceStep } from "./CreatorAppearanceStep";
+import { LifeContinuationPanel } from "./LifeContinuationPanel";
+import { RetireFromPlayAction } from "./RetireFromPlayAction";
+import { PersonalGoalsPanel } from "./PersonalGoalsPanel";
+import {
+  READ_ONLY_REFUSAL,
+  isObserving,
+  observerReadingLens,
+  playedLifeContinuation,
+  shellReadOnly,
+  shellViewpointPersonId,
+  surfaceOpenWhileReadOnly,
+} from "../presentation/life-continuation-shell";
+import { retireFromPlay } from "../presentation/people-continuation";
 import {
   applyCreatorAppearance,
   type CreatorAppearanceChoice,
 } from "../presentation/creator-appearance-preview";
 import { PRODUCTION_CHARACTER_LIBRARY } from "../presentation/visual-integration";
+import { proseDate } from "../presentation/prose-dates";
 import { projectLocationSurfaces } from "../presentation/location-surfaces";
 import { locationReviewVisuals } from "../presentation/location-art-review";
 import { PressWorkspace } from "./PressWorkspace";
 import { ContentPackWorkspace } from "./ContentPackWorkspace";
 import { birthdayProblemForSetup } from "../presentation/new-game-birthday";
-import {
-  applyBirthdayPatch,
-  CreatorBirthdayFields,
-} from "./CreatorBirthdayFields";
+import { CreatorBirthdayFields } from "./CreatorBirthdayFields";
 import {
   HOMETOWN_PAGE_SIZE,
   projectHometownPage,
 } from "../presentation/creator-hometown-page";
 import { previewCreatorNames } from "../presentation/creator-name-preview";
+import {
+  creatorBirthDate,
+  creatorCharacterHint,
+  creatorCharacterMissing,
+  statedCreatorGender,
+} from "../presentation/creator-character";
 import {
   SavedAppearanceProvider,
   SavedRenderSnapshotsProvider,
@@ -27,8 +44,28 @@ import {
 import { createOpeningLifeController } from "../presentation/opening-life";
 import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
 import { LifeScenePanel } from "./opening-life/LifeScenePanel";
+import { PersonPortrait } from "./PersonPortrait";
 import { useContentViewportCss } from "./overlay-viewport";
-import { simulateCalendarDays } from "../presentation/calendar-time-control";
+import {
+  describeTimeCommandPreview,
+  previewTimeCommand,
+} from "../presentation/time-command";
+import {
+  createWorldChangeGuard,
+  recordStaleWorldChange,
+} from "../presentation/world-change-guard";
+import {
+  skipToLabel,
+  stoppedEarlyLabel,
+} from "../presentation/time-target-label";
+import { authorityDecisions } from "../presentation/crisis-shell";
+import { CrisisNoticesPanel } from "./CrisisNoticesPanel";
+import { useCrisisStop } from "./use-crisis-stop";
+import {
+  TimeCommandProvider,
+  useTimeCommand,
+  useTimeCommandRunner,
+} from "./time-command-runner";
 import {
   conversationExchangeTurns,
   currentExchangeTurn,
@@ -39,6 +76,17 @@ import { MunicipalWorkspace } from "./MunicipalWorkspace";
 import { World39News } from "./World39News";
 import { World39Journal } from "./World39Journal";
 import { PlacesWorkspace } from "./PlacesWorkspace";
+import { GovernmentBrowser } from "./politics/GovernmentBrowser";
+import { PublicServicePanel } from "./politics/PublicServicePanel";
+import { NewsDesk } from "./news/NewsDesk";
+import "./controls/controls.css";
+import { PinToggle } from "./controls/PinToggle";
+import { PoliticsTabs, type PoliticsTab } from "./politics/PoliticsTabs";
+import { issuesPlaceForSelection } from "../presentation/politics-government";
+import {
+  ISSUE_WITHHELD,
+  politicsIssueAccess,
+} from "../presentation/politics-issues";
 import { municipalVenueForActivity } from "../presentation/municipal-venue";
 import { resolveActivityVenueScene } from "../presentation/scene-venues";
 import { publishLegislativeTransition } from "../presentation/publish-legislative-transition";
@@ -53,15 +101,27 @@ import {
   type StoredShellState,
 } from "../presentation/browser-shell-state";
 import { LifePathsPanel } from "./LifePathsPanel";
+/* PEOPLE/PRESS seam mounts (CRUNCH47 B1/B2). */
+import { ChildhoodMomentPanel } from "./ChildhoodMomentPanel";
+import { ContactsPanel } from "./ContactsPanel";
+import { PressSourceDesk } from "./PressSourceDesk";
+import { RecallCardsPanel } from "./RecallCardsPanel";
 import { CivilPersonnelPanel } from "./CivilPersonnelPanel";
 import { JudicialOfficeWork } from "./JudicialOfficeWork";
 import { judicialOfficeContexts } from "../simulation/judicial-office-work";
 import { ExecutiveWorkWorkspace } from "./ExecutiveWorkWorkspace";
+import { GoverningBriefing } from "./GoverningBriefing";
+import { GoverningOfficeDesk } from "./GoverningOfficeDesk";
+import { governingOfficeForPerson } from "../simulation/governing/state-governing";
+import { CampaignLifePanel } from "./CampaignLifePanel";
 import { resolveExecutiveOffice } from "../simulation/executive-work-context";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import {
+  lazy,
+  Suspense,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -76,7 +136,6 @@ import {
 import { guardUnsavedWork } from "../presentation/unsaved-work-guard";
 import {
   chooseStoryOption,
-  letStoryTimePass,
   presentPeopleSentence,
   projectStoryMoment,
   type StoryMoment,
@@ -185,21 +244,25 @@ import { measureById } from "../simulation";
 import { measureGate } from "../simulation/legislation";
 import { ConversationStarters, SceneConversation } from "./SceneConversation";
 import { InvokerFocusReturn } from "./PersonSceneActionMenu";
-import type { ConversationAddressee } from "../presentation/run-b-conversation";
 import type { ConversationSubjectKey } from "../presentation/run-b-conversation-progress";
 import { openConversationWith } from "../presentation/person-conversation-entry";
 import {
+  labelForRef,
   projectPersonDossier,
   type PersonDossier,
 } from "../presentation/person-dossier";
 import {
   activeView,
   canGoBack,
+  EMPTY_JOURNAL,
+  conversationSuspended,
   isPinned,
   type ShellAction,
+  type ShellPin,
   type ShellRef,
   type ShellState,
 } from "../presentation/shell-navigation";
+import type { PoliticalMapFocus } from "../maps/PoliticalMap";
 import { useShell } from "./useShell";
 import {
   stateAgencyStartAvailableFor,
@@ -213,6 +276,7 @@ import { WorldOrientationPanel } from "./WorldOrientationPanel";
 import { WorldOrientationEntry } from "./WorldOrientationEntry";
 import { useWorldOrientation } from "./useWorldOrientation";
 import { PartyChapterSurface } from "./PartyChapterSurface";
+import { PartyInitiativesPanel } from "./politics/PartyInitiativesPanel";
 import {
   projectPartyChapter,
   projectPartyChapters,
@@ -226,6 +290,7 @@ import {
 import { declineVenueActivity } from "../presentation/scheduled-activity-choice";
 import { attendChapterMeeting } from "../presentation/party-chapter-actions";
 import { FullDossier, QuickDossier } from "./ShellDossier";
+import type { PersonCardAnchor } from "./PersonCard";
 import {
   CalendarWorkspaceSurface,
   CommitmentSurface,
@@ -237,13 +302,42 @@ import {
   WorkWorkspace,
   WorkspaceFrame,
 } from "./ShellWorkspaces";
+import { GuideWorkspace } from "./GuideWorkspace";
+import { GuideHelpProvider } from "./GuideTerm";
 import { PlayerVersion } from "./PlayerVersion";
+import { ReturnToTitleAction } from "./ReturnToTitleAction";
+import {
+  RETURN_TO_TITLE_REQUEST_EVENT,
+  reportReturnToTitle,
+  type ReturnToTitleRequest,
+} from "./return-to-title-bridge";
 import { PersonalRoutinePanel } from "./PersonalRoutinePanel";
 import {
   SaveImportControl,
   SaveTransferControls,
 } from "./SaveTransferControls";
 import { PoliticsWorkspace } from "./ConstitutionalWorkspace";
+
+/* The map carries its geometry; it loads only when a player opens it. */
+const PoliticalMap = lazy(() => import("../maps/PoliticalMap"));
+
+/*
+ * The map recomputes pinned-seat highlights whenever its focus object changes,
+ * so one focus is kept per pins array (the reducer replaces it only when the
+ * pins change) instead of a fresh object on every render.
+ */
+const mapFocusByPins = new WeakMap<readonly ShellPin[], PoliticalMapFocus>();
+function mapFocusForPins(pins: readonly ShellPin[]): PoliticalMapFocus {
+  const cached = mapFocusByPins.get(pins);
+  if (cached) return cached;
+  const focus: PoliticalMapFocus = {
+    personIds: pins.flatMap((pin) =>
+      pin.ref.kind === "person" ? [pin.ref.id] : [],
+    ),
+  };
+  mapFocusByPins.set(pins, focus);
+  return focus;
+}
 
 /**
  * The game.
@@ -349,6 +443,19 @@ export function PlayerGame() {
   const [screen, setScreen] = useState<Screen>({ kind: "title" });
   const [session, setSession] = useState<Session | null>(null);
   /*
+   * GOVERNING time/continuity: a World change computed from an older World
+   * must not replace a newer one. `committedWorld` is the World the rendered
+   * controls were built from; once a change from it is accepted, only further
+   * changes from that same base are accepted until the next render, so a
+   * chained writer in one handler still lands, and a late or repeated
+   * callback from an earlier render is dropped instead of rewinding or
+   * repeating time.
+   */
+  const worldGuard = useRef(createWorldChangeGuard());
+  useLayoutEffect(() => {
+    worldGuard.current.rendered(session?.world ?? null);
+  }, [session?.world]);
+  /*
    * The content-viewport variables are written once at the root so the title,
    * the creator and the room all size against the same actual rectangle.
    */
@@ -374,6 +481,12 @@ export function PlayerGame() {
   useEffect(() => {
     void refreshSaves();
   }, [refreshSaves]);
+
+  /* The game's own control skins apply while the game is mounted. */
+  useEffect(() => {
+    document.body.classList.add("pg-game");
+    return () => document.body.classList.remove("pg-game");
+  }, []);
 
   const replayStarted = useRef(false);
   useEffect(() => {
@@ -463,7 +576,12 @@ export function PlayerGame() {
     );
     pendingAppearance.current = null;
     setSession({
-      world: openOrdinaryLife(prepared, personId),
+      // A world being observed, or a played life that ended before anything
+      // followed it, has nobody whose week could be opened: loading such a
+      // save must not write new work for the retired or dead character.
+      world: shellReadOnly(prepared)
+        ? prepared
+        : openOrdinaryLife(prepared, personId),
       personId,
       unsavedSeed: seed,
       saveId,
@@ -473,8 +591,8 @@ export function PlayerGame() {
   }
 
   const saveInFlight = useRef(false);
-  async function keepThisWorld(shellState: StoredShellState) {
-    if (!session || !store || saveInFlight.current) return;
+  async function keepThisWorld(shellState: StoredShellState): Promise<boolean> {
+    if (!session || !store || saveInFlight.current) return false;
     saveInFlight.current = true;
     setNotice("Saving…");
     // A slot of its own, so keeping this life never lands on top of another
@@ -489,7 +607,7 @@ export function PlayerGame() {
         // A refused slot is not a broken browser, and saying so would send the
         // player looking for the wrong problem.
         setProblem(outcome.reason);
-        return;
+        return false;
       }
       setSession((current) =>
         current?.world.id === session.world.id
@@ -502,8 +620,10 @@ export function PlayerGame() {
           : "Your life was saved, but your pins and display preferences could not be kept.",
       );
       await refreshSaves();
+      return true;
     } catch {
       setProblem("This game could not be saved just now.");
+      return false;
     } finally {
       saveInFlight.current = false;
     }
@@ -527,11 +647,13 @@ export function PlayerGame() {
     if (!store) return;
     try {
       const world = await store.load(saveId);
-      if (!world || world.control.kind !== "person") {
+      // An observed world opens read-only, seen as the last life played.
+      const personId = world ? shellViewpointPersonId(world) : null;
+      if (!world || personId === null) {
         setProblem("That saved game could not be opened.");
         return;
       }
-      startPlaying(world, world.control.personId, null, saveId);
+      startPlaying(world, personId, null, saveId);
       setNotice(null);
     } catch {
       setProblem("That saved game could not be opened.");
@@ -582,6 +704,7 @@ export function PlayerGame() {
         setProblem(
           `${flushed.reason} This life is still here — leaving now would lose what is not saved.`,
         );
+        finishReturnToTitle("save-failed");
         await refreshSaves();
         return;
       }
@@ -589,7 +712,19 @@ export function PlayerGame() {
     setSession(null);
     setScreen({ kind: "title" });
     setNotice(null);
+    finishReturnToTitle("title");
     await refreshSaves();
+  }
+
+  // A Return to title in progress (Options or the desktop hub), so its
+  // outcome can be reported once it is known.
+  const returnToTitleRequest = useRef<ReturnToTitleRequest | null>(null);
+  function finishReturnToTitle(
+    outcome: Parameters<typeof reportReturnToTitle>[1],
+  ) {
+    const request = returnToTitleRequest.current;
+    returnToTitleRequest.current = null;
+    reportReturnToTitle(request, outcome);
   }
 
   /*
@@ -792,7 +927,17 @@ export function PlayerGame() {
       session={session}
       notice={notice}
       problem={problem}
-      onWorldChange={(world) =>
+      onWorldChange={(world, base) => {
+        // Nobody played, or a life that has ended: only the continuation
+        // commands below may change this World.
+        if (shellReadOnly(session.world)) {
+          setNotice(READ_ONLY_REFUSAL);
+          return;
+        }
+        if (base !== undefined && !worldGuard.current.admit(base)) {
+          recordStaleWorldChange(base, world);
+          return;
+        }
         setSession((current) =>
           current
             ? // Opening is idempotent and gated on the character, so this is
@@ -808,10 +953,40 @@ export function PlayerGame() {
                 ),
               }
             : current,
-        )
-      }
+        );
+      }}
+      onControlChange={(world, base, change) => {
+        if (!worldGuard.current.admit(base)) {
+          recordStaleWorldChange(base, world);
+          return;
+        }
+        // Computed here, not inside the state update, so a refusal throws
+        // back to the command's caller (which says why) and nothing changes.
+        const next =
+          change.kind === "continued"
+            ? applyExecutivePlayTransition(
+                base,
+                openOrdinaryLife(world, change.personId),
+              )
+            : world;
+        setNotice(null);
+        setSession((current) => {
+          if (!current) return current;
+          if (change.kind !== "continued") return { ...current, world: next };
+          // The same World and save; only who is played has moved.
+          return { ...current, personId: change.personId, world: next };
+        });
+      }}
       onKeep={(shellState) => void keepThisWorld(shellState)}
       onLeave={() => void leaveGame()}
+      returnToTitleRequest={returnToTitleRequest}
+      onSaveAndLeave={(shellState) =>
+        void (async () => {
+          if (await keepThisWorld(shellState)) await leaveGame();
+          else finishReturnToTitle("save-failed");
+        })()
+      }
+      onReturnToTitleCancelled={() => finishReturnToTitle("cancelled")}
       savesUnavailable={savesUnavailable}
     />
   );
@@ -973,10 +1148,7 @@ function SetupScreen({
    * A fresh creator starts unanswered. Blur only puts the committed age back
    * after the player has entered something; an untouched field stays empty.
    */
-  const [ageText, setAgeText] = useState(
-    initialSetup ? String(setup.startAge) : "",
-  );
-  const ageHasCommitted = useRef(initialSetup !== undefined);
+  const [ageChosen, setAgeChosen] = useState(initialSetup !== undefined);
   const custom = setup.startKind === "custom";
   const committed = withCreatorLocation(setup, location);
   const steps: readonly CreatorStep[] = custom
@@ -1011,17 +1183,11 @@ function SetupScreen({
    * Not answering is different from entering an invalid age: both keep Next
    * disabled, but only an entered invalid value needs an error message.
    */
-  const ageChosen = ageText.trim() !== "";
-  const ageParsed = Number(ageText.trim());
   const ageUsable =
     ageChosen &&
-    Number.isSafeInteger(ageParsed) &&
-    ageParsed >= MINIMUM_START_AGE &&
-    ageParsed <= MAXIMUM_START_AGE;
-  const ageProblem =
-    ageChosen && !ageUsable
-      ? `Choose a starting age between ${MINIMUM_START_AGE} and ${MAXIMUM_START_AGE}.`
-      : null;
+    Number.isSafeInteger(setup.startAge) &&
+    setup.startAge >= MINIMUM_START_AGE &&
+    setup.startAge <= MAXIMUM_START_AGE;
   const place = selectedCreatorPlace(location);
   const placeListOpen = creatorPlaceListOpen(location.placeKey, replacingPlace);
 
@@ -1043,7 +1209,10 @@ function SetupScreen({
   const stateAgencyAvailable =
     setup.startAge >= STATE_AGENCY_START_MINIMUM_AGE &&
     stateAgencyStartAvailableFor(place?.stateJurisdictionKey ?? null);
-  const genderStated = setup.gender && setup.gender !== "unstated";
+  const chosenGender = statedCreatorGender(setup.gender);
+  const characterMissing = creatorCharacterMissing(committed, ageChosen);
+  const characterHint = creatorCharacterHint(characterMissing);
+  const birthDate = ageChosen ? creatorBirthDate(setup) : null;
   // The compact summaries the finished steps collapse to.
   const summaryText: Partial<Record<CreatorStep, string>> = {
     route: custom ? "Custom start" : "Start a life",
@@ -1051,10 +1220,8 @@ function SetupScreen({
       [setup.givenName, setup.familyName].filter(Boolean).join(" ") ||
         "A name you'll be given",
       `age ${setup.startAge}`,
-      setup.birthMonth !== undefined && setup.birthDay !== undefined
-        ? `birthday ${setup.birthMonth}/${setup.birthDay}`
-        : null,
-      genderStated ? GENDER_IDENTITY_LABELS[setup.gender!] : null,
+      birthDate ? `born ${proseDate(birthDate)}` : null,
+      chosenGender ? GENDER_IDENTITY_LABELS[chosenGender] : null,
     ]
       .filter(Boolean)
       .join(" · "),
@@ -1158,108 +1325,6 @@ function SetupScreen({
       {isCurrent("character") ? (
         <section data-testid="creator-stage-character">
           <h2>Your character</h2>
-          <div className="creator-group creator-group-name">
-            <span className="creator-group-label">Name</span>
-            <div className="game-fields">
-              <label>
-                First name
-                <input
-                  type="text"
-                  value={setup.givenName ?? ""}
-                  aria-describedby="creator-name-hint"
-                  onChange={(event) =>
-                    setSetup((now) => ({
-                      ...now,
-                      givenName: event.target.value || null,
-                    }))
-                  }
-                />
-              </label>
-              <label>
-                Last name
-                <input
-                  type="text"
-                  value={setup.familyName ?? ""}
-                  aria-describedby="creator-name-hint"
-                  onChange={(event) =>
-                    setSetup((now) => ({
-                      ...now,
-                      familyName: event.target.value || null,
-                    }))
-                  }
-                />
-              </label>
-            </div>
-            <div className="creator-name-actions">
-              <button
-                type="button"
-                data-testid="creator-randomize-name"
-                onClick={() => {
-                  const salt = nameDraws + 1;
-                  const draw = previewCreatorNames(
-                    setup.seed,
-                    setup.gender,
-                    salt,
-                  );
-                  setNameDraws(salt);
-                  setSetup((now) => ({
-                    ...now,
-                    givenName: draw.givenName,
-                    familyName: draw.familyName,
-                  }));
-                }}
-              >
-                Randomize name
-              </button>
-              <p
-                className="game-hint"
-                id="creator-name-hint"
-                data-testid="creator-name-hint"
-              >
-                Leave a name blank and the game gives you one.
-              </p>
-            </div>
-          </div>
-
-          <div className="creator-group">
-            <span className="creator-group-label">Age and birthday</span>
-            <div className="game-fields">
-              <label>
-                Starting age
-                <input
-                  type="number"
-                  data-testid="start-age"
-                  min={MINIMUM_START_AGE}
-                  max={MAXIMUM_START_AGE}
-                  value={ageText}
-                  onChange={(event) => {
-                    const text = event.target.value;
-                    setAgeText(text);
-                    /*
-                     * Commit only a real age. An empty or half-typed field leaves
-                     * the last committed one alone rather than becoming 0.
-                     */
-                    if (text.trim() === "") return;
-                    const parsed = Number(text);
-                    if (!Number.isFinite(parsed)) return;
-                    ageHasCommitted.current = true;
-                    setSetup((now) => ({ ...now, startAge: parsed }));
-                  }}
-                  onBlur={() => {
-                    if (!ageHasCommitted.current) return;
-                    setAgeText(String(setup.startAge));
-                  }}
-                />
-              </label>
-            </div>
-            <CreatorBirthdayFields
-              setup={setup}
-              onChange={(patch) =>
-                setSetup((now) => applyBirthdayPatch(now, patch))
-              }
-            />
-          </div>
-
           {/*
                 Gender, asked rather than decided. Guessing it from the first
                 name would be wrong: the name corpus carries no demographic
@@ -1267,8 +1332,12 @@ function SetupScreen({
                 gender only (owner override) — pronouns derive silently from it
                 and are never a player-facing control here.
               */}
-          <fieldset className="game-fieldset" data-testid="gender-choices">
-            <legend>Gender</legend>
+          <fieldset
+            className="game-fieldset"
+            data-testid="gender-choices"
+            aria-required="true"
+          >
+            <legend>Gender (required)</legend>
             <div className="game-choices game-choices-inline">
               {GENDER_IDENTITY_KEYS.filter((key) => key !== "unstated").map(
                 (key) => (
@@ -1293,20 +1362,113 @@ function SetupScreen({
             </div>
           </fieldset>
 
-          {ageProblem ? (
-            <p role="alert" data-testid="creator-age-problem">
-              {ageProblem}
-            </p>
-          ) : null}
+          <div className="creator-group creator-group-name">
+            <span className="creator-group-label">Name</span>
+            <div className="game-fields">
+              <label>
+                First name
+                <input
+                  type="text"
+                  required
+                  autoComplete="off"
+                  value={setup.givenName ?? ""}
+                  aria-describedby="creator-name-hint"
+                  onChange={(event) =>
+                    setSetup((now) => ({
+                      ...now,
+                      givenName: event.target.value || null,
+                    }))
+                  }
+                />
+              </label>
+              <label>
+                Last name
+                <input
+                  type="text"
+                  required
+                  autoComplete="off"
+                  value={setup.familyName ?? ""}
+                  aria-describedby="creator-name-hint"
+                  onChange={(event) =>
+                    setSetup((now) => ({
+                      ...now,
+                      familyName: event.target.value || null,
+                    }))
+                  }
+                />
+              </label>
+            </div>
+            <div className="creator-name-actions">
+              <button
+                type="button"
+                data-testid="creator-randomize-name"
+                disabled={chosenGender === null}
+                onClick={() => {
+                  if (chosenGender === null) return;
+                  const salt = nameDraws + 1;
+                  const draw = previewCreatorNames(
+                    setup.seed,
+                    chosenGender,
+                    salt,
+                  );
+                  setNameDraws(salt);
+                  setSetup((now) => ({
+                    ...now,
+                    givenName: draw.givenName,
+                    familyName: draw.familyName,
+                  }));
+                }}
+              >
+                Randomize name
+              </button>
+              <p
+                className="game-hint"
+                id="creator-name-hint"
+                data-testid="creator-name-hint"
+              >
+                {chosenGender === null
+                  ? "Choose a gender first; Randomize name then draws a name for it."
+                  : "Type a first and last name, or use Randomize name."}
+              </p>
+            </div>
+          </div>
+
+          <div className="creator-group">
+            <CreatorBirthdayFields
+              setup={setup}
+              yearChosen={ageChosen}
+              onChange={(next, yearChosen) => {
+                setSetup(next);
+                if (yearChosen) setAgeChosen(true);
+              }}
+            />
+          </div>
+
           <button
             type="button"
             className="game-creator-next"
             data-testid="creator-continue-character"
-            disabled={birthdayProblem !== null || !ageUsable}
+            aria-describedby={
+              characterHint ? "creator-character-missing" : undefined
+            }
+            disabled={
+              characterMissing.length > 0 ||
+              birthdayProblem !== null ||
+              !ageUsable
+            }
             onClick={() => advanceTo("place")}
           >
             Next
           </button>
+          {characterHint ? (
+            <p
+              className="game-hint"
+              id="creator-character-missing"
+              data-testid="creator-character-missing"
+            >
+              {characterHint}
+            </p>
+          ) : null}
         </section>
       ) : null}
 
@@ -2033,6 +2195,12 @@ function SavesScreen({
           {problem}
         </p>
       ) : null}
+      {saves.length === 0 && !savesUnavailable ? (
+        <p className="game-note" data-testid="saves-empty">
+          No lives are saved in this browser yet. You can import a saved life
+          below.
+        </p>
+      ) : null}
       <ul>
         {saves.map((save) => (
           <li key={save.saveId} data-testid="save-entry">
@@ -2041,7 +2209,7 @@ function SavesScreen({
               <span>
                 {save.playerAge}
                 {save.residence ? ` · ${save.residence.name}` : ""} ·{" "}
-                {save.currentMoment.date}
+                {proseDate(save.currentMoment.date)}
               </span>
             </div>
             <div className="game-saves-actions">
@@ -2162,21 +2330,43 @@ function SavesScreen({
 /* -------------------------------------------------------------------------- */
 
 function PlayingScreen({
-  session,
+  session: storedSession,
   notice,
   problem,
-  onWorldChange,
+  onWorldChange: commitWorld,
+  onControlChange,
   onKeep,
   onLeave,
+  returnToTitleRequest,
+  onSaveAndLeave,
+  onReturnToTitleCancelled,
   savesUnavailable,
   shellStore,
 }: {
   readonly session: Session;
   readonly notice: string | null;
   readonly problem: string | null;
-  readonly onWorldChange: (world: World) => void;
+  /** `base` is the World the change was computed from; see the root guard. */
+  readonly onWorldChange: (world: World, base?: World) => void;
+  /**
+   * A continuation or retirement command's result, computed from `base`.
+   * `continued` moves the session to the successor.
+   */
+  readonly onControlChange: (
+    world: World,
+    base: World,
+    change:
+      | { readonly kind: "continued"; readonly personId: EntityId }
+      | { readonly kind: "observing" }
+      | { readonly kind: "retired" },
+  ) => void;
   readonly onKeep: (shellState: StoredShellState) => void;
   readonly onLeave: () => void;
+  /** Set while a Return to title (Options or desktop hub) is in progress. */
+  readonly returnToTitleRequest: { current: ReturnToTitleRequest | null };
+  /** "Save first" during a Return to title: save, then go to the title. */
+  readonly onSaveAndLeave: (shellState: StoredShellState) => void;
+  readonly onReturnToTitleCancelled: () => void;
   readonly savesUnavailable: boolean;
   /**
    * The one shell-state store for this session.
@@ -2191,9 +2381,42 @@ function PlayingScreen({
    */
   readonly shellStore: BrowserShellStateStore;
 }) {
+  /*
+   * A played life that ended, or a world watched with nobody played, leaves
+   * the shell read-only. While observing, the reading surfaces see the world
+   * through the last life played; that lens is never committed or saved.
+   */
+  const observing = isObserving(storedSession.world);
+  const readOnly = useMemo(
+    () => shellReadOnly(storedSession.world),
+    [storedSession.world],
+  );
+  const continuation = useMemo(
+    () => playedLifeContinuation(storedSession.world),
+    [storedSession.world],
+  );
+  const session = useMemo<Session>(
+    () =>
+      storedSession.world.control.kind === "person"
+        ? storedSession
+        : {
+            ...storedSession,
+            world: observerReadingLens(storedSession.world),
+          },
+    [storedSession],
+  );
   const capabilities = useMemo(
     () => resolvePlayerCapabilities(session.world),
     [session.world],
+  );
+  /*
+   * Every writer below computes from `session.world` as rendered, so that is
+   * the base each change is committed against.
+   */
+  const renderedWorld = session.world;
+  const onWorldChange = useCallback(
+    (world: World) => commitWorld(world, renderedWorld),
+    [commitWorld, renderedWorld],
   );
 
   /*
@@ -2244,16 +2467,14 @@ function PlayingScreen({
   /**
    * The conversation the player asked for, and who they are facing in it.
    *
-   * Held beside the shell rather than inside it because it is not a place — it
-   * is a thing happening in the room. The addressee travels with it, which is
-   * the whole repair: the recorded defect was a selected person being dropped
-   * on the way to a generic surface. PT3: it is drawn in ONE place, the
+   * It is still not a place — it is a thing happening in the room — but the
+   * shell holds the record now, because the shell is what has to answer where
+   * Back goes while it is waiting. The addressee travels with it, which is the
+   * original repair: the recorded defect was a selected person being dropped on
+   * the way to a generic surface. PT3: it is drawn in ONE place, the
    * conversation box in the room, whichever control started it.
    */
-  const [conversation, setConversation] = useState<{
-    readonly subject: ConversationSubjectKey;
-    readonly addressee: ConversationAddressee;
-  } | null>(null);
+  const conversation = shell.conversation;
   /**
    * Whose Talk-to control the room should focus when a conversation closes.
    *
@@ -2276,24 +2497,67 @@ function PlayingScreen({
    * said in the HUD so the player reads where time actually stopped and why.
    */
   const [passOutcome, setPassOutcome] = useState<string | null>(null);
+  /*
+   * Where the clicked scene person stands, kept with that person. A card
+   * reached any other way, or for somebody else, has no anchor and uses the
+   * consistent side placement.
+   */
+  const [cardAnchor, setCardAnchor] = useState<{
+    readonly personId: EntityId;
+    readonly rect: PersonCardAnchor;
+  } | null>(null);
+  useEffect(() => {
+    setCardAnchor((current) =>
+      current && current.personId !== shell.quickDossierPersonId
+        ? null
+        : current,
+    );
+  }, [shell.quickDossierPersonId]);
+  /*
+   * The one runner every time control on this screen submits through, so a
+   * running command marks all of them busy at once.
+   */
+  const timeRunner = useTimeCommandRunner({
+    world: session.world,
+    personId: session.personId,
+    interruptions: shell.preferences.interruptions,
+    onWorldChange,
+  });
+  const { submit: submitTime } = timeRunner;
+  /*
+   * CRISIS raises decisions nobody else may make: disclosing an illness of
+   * your own, a governor's federal request, a President's declaration or
+   * international choice. A skip that passed one says so here and opens the
+   * surface that holds the real decision, so it cannot be buried under the
+   * routine outcome.
+   */
+  const crisisStop = useCrisisStop(session.world);
   const passDays = useCallback(
     (days: 1 | 7) => {
-      const result = simulateCalendarDays(
-        session.world,
-        session.personId,
-        days,
-        shell.preferences.interruptions,
+      crisisStop.watch();
+      submitTime({ kind: "days", days }, (report) =>
+        setPassOutcome(
+          report.stoppedEarly && report.target
+            ? `${stoppedEarlyLabel(report.target)} ${report.outcome}`
+            : report.outcome,
+        ),
       );
-      setPassOutcome(result.outcome);
-      if (result.world !== session.world) onWorldChange(result.world);
     },
-    [
-      session.world,
-      session.personId,
-      shell.preferences.interruptions,
-      onWorldChange,
-    ],
+    [crisisStop, submitTime],
   );
+  const passTargets = useMemo(() => {
+    const day = previewTimeCommand(session.world, session.personId, {
+      kind: "days",
+      days: 1,
+    });
+    const week = previewTimeCommand(session.world, session.personId, {
+      kind: "days",
+      days: 7,
+    });
+    return day && week
+      ? { day: skipToLabel(day.target), week: skipToLabel(week.target) }
+      : undefined;
+  }, [session.world, session.personId]);
 
   const projectedMoment = useMemo(
     () => projectStoryMoment(session.world, session.personId),
@@ -2420,6 +2684,18 @@ function PlayingScreen({
   const openSurface = view.surface;
   const previousSurface = useRef(openSurface);
   const newsPersonReturn = useRef<string | null>(null);
+  /**
+   * The term the Guide should open on when it was reached from inline help.
+   *
+   * Presentation only, and not kept: a player who walks into the Guide from
+   * the menu next time gets the whole catalog rather than whatever word they
+   * last looked up.
+   */
+  const [guideTermKey, setGuideTermKey] = useState<string | null>(null);
+  useEffect(() => {
+    /* Leaving the Guide forgets the lookup, so the menu opens the catalog. */
+    if (openSurface !== "guide" && guideTermKey !== null) setGuideTermKey(null);
+  }, [openSurface, guideTermKey]);
   useEffect(() => {
     const previous = previousSurface.current;
     previousSurface.current = openSurface;
@@ -2438,10 +2714,11 @@ function PlayingScreen({
          * Back in the room. If a conversation is waiting, the keyboard goes
          * to it — its next choice is the sensible place to be, and Escape
          * from there closes the conversation rather than nothing. Otherwise
-         * the corner cluster, which is the room's one resting control.
+         * the corner cluster, which is the room's one resting control. An
+         * open continuation view comes before either: it is the choice left.
          */
         const talk = document.querySelector<HTMLElement>(
-          '[data-testid="conversation-intents"] button, [data-testid="talk-back"]',
+          '[data-testid="life-continuation-heading"], [data-testid="conversation-intents"] button, [data-testid="talk-back"]',
         );
         (
           talk ??
@@ -2462,14 +2739,19 @@ function PlayingScreen({
    * could not tell anybody whether what they were hunting for was behind it.
    * The hint is now built from what the Work surface will actually mount.
    */
+  const holdsOffice =
+    !capabilities.formativeYears &&
+    (judicialOfficeContexts(session.world).length > 0 ||
+      resolveExecutiveOffice(session.world) !== null ||
+      // A governorship is a held office recorded against the office itself,
+      // not an executive employment relationship, so it has to be asked for
+      // by name or the menu sends an officeholder to Campaigns.
+      governingOfficeForPerson(session.world, session.personId) !== null ||
+      capabilities.legislation);
   const workHint = capabilities.formativeYears
     ? "School, and anything waiting on you"
     : [
-        judicialOfficeContexts(session.world).length > 0 ||
-        resolveExecutiveOffice(session.world) ||
-        capabilities.legislation
-          ? "your office"
-          : null,
+        holdsOffice ? "your office" : null,
         capabilities.campaign ? "running for office" : null,
         "jobs and study",
       ]
@@ -2504,65 +2786,45 @@ function PlayingScreen({
       open: openSurface === "people",
       group: "people",
     });
-    if (!capabilities.formativeYears) {
-      entries.push({
-        surface: "work",
-        section: "office",
-        label: "Your office and campaigns",
-        hint: workHint,
-        testid: "elsewhere-work",
-        open: openSurface === "work" && section === "office",
-        group: "politics",
-      });
-    }
-    entries.push({
-      surface: "municipal",
-      label: "Local government",
-      hint: "Public meetings and your municipal work",
-      testid: "nav-municipal",
-      open: openSurface === "municipal",
-      group: "politics",
-    });
-    entries.push({
-      surface: "parties",
-      label: "Local party chapters",
-      hint: "Who organizes them and your invitations",
-      testid: "nav-parties",
-      open: openSurface === "parties",
-      group: "politics",
-    });
-    entries.push({
-      surface: "politics",
-      label: "Budget and constitutional changes",
-      hint: "Public finances and recorded constitutional changes",
-      testid: "nav-politics-budget",
-      open: openSurface === "politics",
-      group: "politics",
-    });
-    entries.push({
-      surface: "transit",
-      label: "Transit service",
-      hint: "Service proposals, public funding and recorded delivery",
-      testid: "nav-politics-transit",
-      open: openSurface === "transit",
-      group: "politics",
-    });
-    entries.push({
-      surface: "tax",
-      label: "Taxes and public receipts",
-      hint: "Tax proposals, their procedure and recorded public receipts",
-      testid: "nav-politics-tax",
-      open: openSurface === "tax",
-      group: "politics",
-    });
-    entries.push({
-      surface: "candidacy",
-      label: "Who governs here, and the state's top office",
-      hint: "Your city and county governments, and standing for your state's executive office",
-      testid: "nav-politics-candidacy",
-      open: openSurface === "candidacy",
-      group: "politics",
-    });
+    /*
+     * Politics is one hub (UI DECISION FOLLOW-THROUGH). Its tab strip reaches
+     * the office, campaigns, government and local records, parties, and the
+     * budget with transit and taxes, so the menu carries a single entry.
+     */
+    const politicsSurfaces: readonly string[] = [
+      "government",
+      "government-map",
+      "municipal",
+      "parties",
+      "politics",
+      "transit",
+      "tax",
+      "candidacy",
+    ];
+    entries.push(
+      capabilities.formativeYears
+        ? {
+            surface: "government",
+            label: "Politics",
+            hint: "Who governs where you are, at every level",
+            testid: "nav-politics",
+            open: politicsSurfaces.includes(openSurface ?? ""),
+            group: "politics",
+          }
+        : {
+            // Politics opens on the office held, or on Campaigns without one.
+            surface: "work",
+            section: holdsOffice ? "office" : "campaign",
+            label: "Politics",
+            hint: workHint,
+            testid: "nav-politics",
+            open:
+              politicsSurfaces.includes(openSurface ?? "") ||
+              (openSurface === "work" &&
+                (section === "office" || section === "campaign")),
+            group: "politics",
+          },
+    );
     entries.push({
       surface: "news",
       label: "News",
@@ -2619,6 +2881,14 @@ function PlayingScreen({
       group: "travel",
     });
     entries.push({
+      surface: "guide",
+      label: "Guide",
+      hint: "What the words on the other screens mean",
+      testid: "nav-guide",
+      open: openSurface === "guide",
+      group: "options",
+    });
+    entries.push({
       surface: "options",
       label: "Options",
       hint: "Settings this game actually reads, and patch notes",
@@ -2626,8 +2896,31 @@ function PlayingScreen({
       open: openSurface === "options" || openSurface === "patch-notes",
       group: "options",
     });
-    return entries;
-  }, [capabilities.formativeYears, workHint, openSurface, view]);
+    if (!readOnly) return entries;
+    // Nobody is played: only the reading surfaces stay, and Politics opens
+    // on who governs rather than on an office or a campaign.
+    return entries
+      .map((entry) =>
+        entry.group === "politics"
+          ? {
+              surface: "government" as const,
+              label: "Politics",
+              hint: "Who governs, at every level",
+              testid: entry.testid,
+              open: entry.open,
+              group: entry.group,
+            }
+          : entry,
+      )
+      .filter((entry) => surfaceOpenWhileReadOnly(entry.surface));
+  }, [
+    capabilities.formativeYears,
+    holdsOffice,
+    workHint,
+    openSurface,
+    view,
+    readOnly,
+  ]);
 
   const openEntity = useCallback(
     (ref: ShellRef) => {
@@ -2776,6 +3069,7 @@ function PlayingScreen({
       subject?: ConversationSubjectKey,
       invoker: "scene" | "panel" = "scene",
     ) => {
+      if (readOnly) return;
       const entry = openConversationWith(
         session.world,
         session.personId,
@@ -2783,14 +3077,75 @@ function PlayingScreen({
       );
       if (entry.kind === "unavailable") return;
       setReturnFocusPrefer(invoker);
-      setConversation({
+      dispatch({
+        type: "set-conversation",
         subject: subject ?? entry.subject,
         addressee: personId,
       });
-      dispatch({ type: "go-to-scene" });
+      dispatch({ type: "talk-in-scene", personId });
     },
-    [session.world, session.personId, dispatch],
+    [session.world, session.personId, dispatch, readOnly],
   );
+
+  /* A conversation cannot go on once nobody is played. */
+  useEffect(() => {
+    if (readOnly) dispatch({ type: "end-conversation" });
+  }, [readOnly, dispatch]);
+
+  /*
+   * The continuation view. Over the room whenever the played life has ended
+   * and nothing has been chosen; while observing, opened from the Observing
+   * bar and put away again with Escape or Keep observing.
+   */
+  const [continuationOpen, setContinuationOpen] = useState(false);
+  const observingButton = useRef<HTMLButtonElement>(null);
+  const closeContinuation = useCallback(() => {
+    setContinuationOpen(false);
+    requestAnimationFrame(() => observingButton.current?.focus());
+  }, []);
+  const showContinuation =
+    continuation !== null &&
+    view.surface === "scene" &&
+    (!observing || continuationOpen);
+
+  const needsLeaveConfirmation = session.saveId === null && !savesUnavailable;
+
+  function leaveNow() {
+    if (returnToTitleRequest.current) {
+      returnToTitleRequest.current.leaving = true;
+    }
+    onLeave();
+  }
+
+  function beginReturnToTitle(fromHub: boolean) {
+    returnToTitleRequest.current = { fromHub, leaving: false };
+    if (needsLeaveConfirmation) dispatch({ type: "ask-leave" });
+    else leaveNow();
+  }
+
+  // The desktop hub asks through a DOM event; see return-to-title-bridge.
+  const beginReturnToTitleRef = useRef(beginReturnToTitle);
+  beginReturnToTitleRef.current = beginReturnToTitle;
+  const leaveFlowOpen = shell.confirmingLeave;
+  useEffect(() => {
+    function onRequest(event: Event) {
+      if (leaveFlowOpen || returnToTitleRequest.current) return;
+      event.preventDefault();
+      beginReturnToTitleRef.current(true);
+    }
+    window.addEventListener(RETURN_TO_TITLE_REQUEST_EVENT, onRequest);
+    return () =>
+      window.removeEventListener(RETURN_TO_TITLE_REQUEST_EVENT, onRequest);
+  }, [leaveFlowOpen, returnToTitleRequest]);
+
+  // Stay or Escape closes the question without leaving.
+  const wasConfirmingLeave = useRef(leaveFlowOpen);
+  useEffect(() => {
+    const closed = wasConfirmingLeave.current && !leaveFlowOpen;
+    wasConfirmingLeave.current = leaveFlowOpen;
+    const request = returnToTitleRequest.current;
+    if (closed && request && !request.leaving) onReturnToTitleCancelled();
+  }, [leaveFlowOpen, returnToTitleRequest, onReturnToTitleCancelled]);
 
   const workspace = renderWorkspace({
     view,
@@ -2808,23 +3163,52 @@ function PlayingScreen({
     goToTheFloor,
     goToTheFloorFor,
     workHint,
+    readOnly,
+    retireFromPlay: readOnly ? null : (
+      <RetireFromPlayAction
+        name={moment.personName}
+        onRetire={() => {
+          try {
+            const next = retireFromPlay(storedSession.world, session.personId);
+            onControlChange(next, storedSession.world, { kind: "retired" });
+            dispatch({ type: "go-to-scene" });
+            return null;
+          } catch (error) {
+            return error instanceof Error
+              ? error.message
+              : "This character could not be retired from play.";
+          }
+        }}
+      />
+    ),
+    guideTermKey,
+    onOpenGuideTerm: setGuideTermKey,
+    returnToTitle: (
+      <ReturnToTitleAction
+        needsConfirmation={needsLeaveConfirmation}
+        confirming={shell.confirmingLeave}
+        onAskConfirmation={() => beginReturnToTitle(false)}
+        onLeave={() => beginReturnToTitle(false)}
+      />
+    ),
   });
 
   return (
-    <SavedAppearanceProvider value={shell.personWardrobes}>
-      <SavedRenderSnapshotsProvider value={renderSnapshots}>
-        <main
-          className="life-shell"
-          data-testid="play-screen"
-          data-scene-id={sceneId ?? ""}
-          data-scene-purpose={playScene.purpose}
-        >
-          <InvokerFocusReturn
-            personId={conversation ? null : returnFocusTo}
-            prefer={returnFocusPrefer}
-            onDone={clearReturnFocus}
-          />
-          {/*
+    <TimeCommandProvider runner={timeRunner}>
+      <SavedAppearanceProvider value={shell.personWardrobes}>
+        <SavedRenderSnapshotsProvider value={renderSnapshots}>
+          <main
+            className="life-shell"
+            data-testid="play-screen"
+            data-scene-id={sceneId ?? ""}
+            data-scene-purpose={playScene.purpose}
+          >
+            <InvokerFocusReturn
+              personId={conversation ? null : returnFocusTo}
+              prefer={returnFocusPrefer}
+              onDone={clearReturnFocus}
+            />
+            {/*
         THE ROOM IS THE SURFACE.
 
         The scene — with the generated household standing on its own anchors —
@@ -2832,274 +3216,450 @@ function PlayingScreen({
         people this life has are a rail on the right, and everything else is a
         quiet cluster in the corner that grows as you reach for it.
       */}
-          {previewBanner ? (
-            /*
-             * Said out loud, on the screen, for as long as the mode is on.
-             * A preview that looked like the game would be worse than no
-             * preview: somebody would screenshot unreleased art as if it had
-             * been approved. `role="status"` so it is announced rather than
-             * only seen.
-             */
-            <p
-              className="art-preview-banner"
-              role="status"
-              data-testid="art-preview-banner"
-            >
-              {previewBanner}
-            </p>
-          ) : null}
-          <SceneBackdrop
-            sceneId={sceneId}
-            visualLibrary={sceneVisuals}
-            people={scenePeople}
-            surfaces={surfaceProjection}
-            /*
-             * UI9-03. The people in the room ARE the selection surface now.
-             * The rail that used to sit above them filled itself from whoever
-             * was present, which made it a second automatic roster nobody
-             * asked for; the one rail that persists is the pin rail, and it
-             * only ever holds what the player put there.
-             */
-            selectedPersonId={shell.quickDossierPersonId}
-            onSelectPerson={(personId) =>
-              dispatch({
-                type: "open-quick-dossier",
-                personId: personId as EntityId,
-              })
-            }
-          >
-            {view.surface === "scene" ? (
-              <OpeningLifeFlow
-                key={session.world.id}
-                world={session.world}
-                playerPersonId={session.personId}
-                onWorldChange={onWorldChange}
-                transitionHandlers={createCampaignElectionTransitionRegistry()}
-                onTalkTo={(personId) => talkTo(personId, undefined, "panel")}
-                returnFocusTo={returnFocusTo}
-                onFocusReturned={() => setReturnFocusTo(null)}
-                foreground={
-                  conversation && view.surface === "scene" ? (
-                    <SceneConversation
-                      key={conversation.subject}
-                      world={session.world}
-                      playerPersonId={session.personId}
-                      subject={conversation.subject}
-                      addressee={conversation.addressee}
-                      onWorldChange={onWorldChange}
-                      onChange={(next) => setConversation(next)}
-                      onBack={() => {
-                        const facing = conversation.addressee;
-                        setConversation(null);
-                        if (facing !== "everyone") setReturnFocusTo(facing);
-                      }}
-                      transitionHandlers={createCampaignElectionTransitionRegistry()}
-                    />
-                  ) : showOrientation ? (
-                    <WorldOrientationPanel
-                      view={orientation.view}
-                      homeStateUsps={orientation.homeStateUsps}
-                      mode="first"
-                      onClose={() => dispatch({ type: "finish-orientation" })}
-                      onOpenPerson={(personId) =>
-                        dispatch({ type: "open-quick-dossier", personId })
-                      }
-                    />
-                  ) : null
-                }
-              />
-            ) : null}
-          </SceneBackdrop>
-
-          {selectedDossier ? (
-            <QuickDossier
-              world={session.world}
-              playerId={session.personId}
-              dossier={selectedDossier}
-              pinned={isPinned(shell, {
-                kind: "person",
-                id: selectedDossier.personId,
-              })}
-              onClose={() => dispatch({ type: "close-quick-dossier" })}
-              onTogglePin={() =>
-                dispatch({
-                  type: "toggle-pin",
-                  ref: { kind: "person", id: selectedDossier.personId },
-                })
-              }
-              onOpenLink={openEntity}
-              onOpenPerson={(personId) =>
-                dispatch({ type: "open-quick-dossier", personId })
-              }
-              onTalk={() => talkTo(selectedDossier.personId)}
-              onMeet={() => dispatch({ type: "go-to-scene" })}
-              onTravel={() => {
-                const next = travelTowardsPerson(
-                  session.world,
-                  session.personId,
-                  selectedDossier.personId,
-                  {
-                    presentPersonIds,
-                    handlers: interruptionHandlers(
-                      shell.preferences.interruptions,
-                    ),
-                  },
-                );
-                if (next !== session.world) {
-                  onWorldChange(next);
-                  dispatch({ type: "go-to-scene" });
-                }
-              }}
-              onFullRecord={() =>
-                openEntity({ kind: "person", id: selectedDossier.personId })
-              }
-              presentPersonIds={presentPersonIds}
-              talkUnavailable={
-                inspectTalkEntry?.kind === "unavailable"
-                  ? inspectTalkEntry.reason
-                  : null
-              }
-            />
-          ) : null}
-
-          {conversation && view.surface !== "scene" ? (
-            <button
-              type="button"
-              className="pg-talk-return"
-              data-testid="conversation-return"
-              onClick={() => dispatch({ type: "go-to-scene" })}
-            >
-              Return to conversation
-              <small>
-                {conversation.addressee === "everyone"
-                  ? "Everyone here"
-                  : session.world.people[conversation.addressee]
-                    ? personName(session.world.people[conversation.addressee]!)
-                    : "Someone"}
-                {pendingLine ? ` · ${pendingLine}` : ""}
-              </small>
-            </button>
-          ) : null}
-
-          {workspace}
-
-          <div className="life-hud" data-testid="life-hud">
-            {notice ? (
-              <p className="life-hud-note" role="status">
-                {notice}
-              </p>
-            ) : null}
-            {problem ? (
-              <p className="life-hud-note life-hud-note--problem" role="status">
-                {problem}
-              </p>
-            ) : null}
-            {passOutcome ? (
+            {previewBanner ? (
+              /*
+               * Said out loud, on the screen, for as long as the mode is on.
+               * A preview that looked like the game would be worse than no
+               * preview: somebody would screenshot unreleased art as if it had
+               * been approved. `role="status"` so it is announced rather than
+               * only seen.
+               */
               <p
-                className="life-hud-note life-hud-note--outcome"
+                className="art-preview-banner"
                 role="status"
-                data-testid="pass-outcome"
+                data-testid="art-preview-banner"
               >
-                {passOutcome}
-                <button
-                  type="button"
-                  className="life-hud-dismiss"
-                  aria-label="Dismiss"
-                  onClick={() => setPassOutcome(null)}
-                >
-                  ✕
-                </button>
+                {previewBanner}
               </p>
             ) : null}
-            {recap ? (
-              <WorldRecapPanel
-                recap={recap}
-                onDismiss={(throughSequence) =>
-                  dispatch({ type: "acknowledge-recap", throughSequence })
+            <SceneBackdrop
+              sceneId={sceneId}
+              visualLibrary={sceneVisuals}
+              people={scenePeople}
+              surfaces={surfaceProjection}
+              /*
+               * UI9-03. The people in the room ARE the selection surface now.
+               * The rail that used to sit above them filled itself from whoever
+               * was present, which made it a second automatic roster nobody
+               * asked for; the one rail that persists is the pin rail, and it
+               * only ever holds what the player put there.
+               */
+              selectedPersonId={shell.quickDossierPersonId}
+              onSelectPerson={(personId) => {
+                const button = document.querySelector<HTMLElement>(
+                  `[data-testid="scene-person-${personId}"]`,
+                );
+                const box = button?.getBoundingClientRect();
+                setCardAnchor(
+                  box
+                    ? {
+                        personId: personId as EntityId,
+                        rect: {
+                          left: box.left,
+                          top: box.top,
+                          width: box.width,
+                          height: box.height,
+                        },
+                      }
+                    : null,
+                );
+                dispatch({
+                  type: "open-quick-dossier",
+                  personId: personId as EntityId,
+                });
+              }}
+            >
+              {view.surface === "scene" && !readOnly ? (
+                <OpeningLifeFlow
+                  key={`${session.world.id}:${session.personId}`}
+                  /*
+                    The room's own seam, wired at last. The moment is the
+                    panel's body; the room offers it and the player opens it,
+                    because a panel standing permanently over a full room
+                    covers whoever is standing where it lands. A conversation
+                    and the first orientation are full surfaces of their own,
+                    so the moment is not offered underneath them.
+                  */
+                  pendingAvailable={!conversation && !showOrientation}
+                  pendingOpen={shell.momentOpen}
+                  pendingLife={
+                    <StoryView
+                      session={session}
+                      moment={projectStoryMoment(
+                        session.world,
+                        session.personId,
+                      )}
+                      onWorldChange={onWorldChange}
+                    />
+                  }
+                  onOpenPending={() => dispatch({ type: "open-moment" })}
+                  onClosePending={() => dispatch({ type: "close-moment" })}
+                  world={session.world}
+                  playerPersonId={session.personId}
+                  onWorldChange={onWorldChange}
+                  transitionHandlers={createCampaignElectionTransitionRegistry()}
+                  onTalkTo={(personId) => talkTo(personId, undefined, "panel")}
+                  returnFocusTo={returnFocusTo}
+                  onFocusReturned={() => setReturnFocusTo(null)}
+                  foreground={
+                    conversation && view.surface === "scene" ? (
+                      <SceneConversation
+                        key={conversation.subject}
+                        world={session.world}
+                        playerPersonId={session.personId}
+                        subject={conversation.subject}
+                        addressee={conversation.addressee}
+                        onWorldChange={onWorldChange}
+                        onChange={(next) =>
+                          dispatch({ type: "set-conversation", ...next })
+                        }
+                        onBack={() => {
+                          const facing = conversation.addressee;
+                          dispatch({ type: "end-conversation" });
+                          // Started from a record: Back returns to that record.
+                          if (canGoBack(shell)) {
+                            dispatch({ type: "back" });
+                            requestAnimationFrame(() =>
+                              document
+                                .querySelector<HTMLElement>(
+                                  ".pg-workspace-controls button",
+                                )
+                                ?.focus(),
+                            );
+                            return;
+                          }
+                          if (facing !== "everyone") setReturnFocusTo(facing);
+                        }}
+                        transitionHandlers={createCampaignElectionTransitionRegistry()}
+                      />
+                    ) : showOrientation ? (
+                      <WorldOrientationPanel
+                        view={orientation.view}
+                        homeStateUsps={orientation.homeStateUsps}
+                        mode="first"
+                        onClose={() => dispatch({ type: "finish-orientation" })}
+                        onOpenPerson={(personId) =>
+                          dispatch({ type: "open-quick-dossier", personId })
+                        }
+                      />
+                    ) : null
+                  }
+                />
+              ) : null}
+            </SceneBackdrop>
+
+            {selectedDossier ? (
+              <QuickDossier
+                world={session.world}
+                playerId={session.personId}
+                dossier={selectedDossier}
+                anchor={
+                  cardAnchor?.personId === selectedDossier.personId
+                    ? cardAnchor.rect
+                    : null
                 }
-                onOpenNews={() =>
-                  dispatch({ type: "go-to-surface", surface: "news" })
+                pinned={isPinned(shell, {
+                  kind: "person",
+                  id: selectedDossier.personId,
+                })}
+                onClose={() => dispatch({ type: "close-quick-dossier" })}
+                onTogglePin={() =>
+                  dispatch({
+                    type: "toggle-pin",
+                    ref: { kind: "person", id: selectedDossier.personId },
+                  })
                 }
+                onOpenLink={openEntity}
                 onOpenPerson={(personId) =>
                   dispatch({ type: "open-quick-dossier", personId })
                 }
+                {...(readOnly
+                  ? {}
+                  : { onTalk: () => talkTo(selectedDossier.personId) })}
+                onMeet={() => dispatch({ type: "go-to-scene" })}
+                onTravel={() => {
+                  if (readOnly) return;
+                  const next = travelTowardsPerson(
+                    session.world,
+                    session.personId,
+                    selectedDossier.personId,
+                    {
+                      presentPersonIds,
+                      handlers: interruptionHandlers(
+                        shell.preferences.interruptions,
+                      ),
+                    },
+                  );
+                  if (next !== session.world) {
+                    onWorldChange(next);
+                    dispatch({ type: "go-to-scene" });
+                  }
+                }}
+                onFullRecord={() =>
+                  openEntity({ kind: "person", id: selectedDossier.personId })
+                }
+                presentPersonIds={presentPersonIds}
+                talkUnavailable={
+                  readOnly
+                    ? READ_ONLY_REFUSAL
+                    : inspectTalkEntry?.kind === "unavailable"
+                      ? inspectTalkEntry.reason
+                      : null
+                }
               />
             ) : null}
-            {session.unsavedSeed !== null ? (
-              <p className="sr-only" data-testid="unsaved-note">
-                This life has not been saved yet.
-              </p>
+
+            {showContinuation && continuation ? (
+              <LifeContinuationPanel
+                world={storedSession.world}
+                view={continuation}
+                observing={observing}
+                onCommit={(next, personId) => {
+                  onControlChange(
+                    next,
+                    storedSession.world,
+                    personId === null
+                      ? { kind: "observing" }
+                      : { kind: "continued", personId },
+                  );
+                  setContinuationOpen(false);
+                  dispatch({ type: "go-to-scene" });
+                }}
+                onViewRecord={() =>
+                  openEntity({
+                    kind: "person",
+                    id: continuation.recordPersonId,
+                  })
+                }
+                {...(observing ? { onClose: closeContinuation } : {})}
+              />
             ) : null}
-            <p className="sr-only" role="status">
-              {shell.announcement}
-            </p>
-          </div>
 
-          {scenePeople
-            .filter((person) => person.wardrobeRefusal)
-            .map((person) => (
-              <p
-                key={person.personId}
+            {observing ? (
+              <div
+                className="pg-observing"
                 role="status"
-                className="life-hud-note life-hud-note--problem"
+                data-testid="observing-label"
               >
-                {person.name}: {person.wardrobeRefusal}
-              </p>
-            ))}
-          <ShellNav
-            state={shell}
-            dispatch={dispatch}
-            playerName={moment.personName}
-            dateLabel={moment.dateLabel}
-            placeName={moment.placeName}
-            destinations={destinations}
-            canSave={!savesUnavailable}
-            unsaved={session.saveId === null}
-            onSave={() =>
-              onKeep({
-                pins: shell.pins,
-                preferences: shell.preferences,
-                journal: shell.journal,
-                personWardrobes: shell.personWardrobes,
-                progress: shell.progress,
-              })
-            }
-            onLeave={onLeave}
-            {...(capabilities.formativeYears ? {} : { onPassDays: passDays })}
-          />
+                <strong>Observing</strong>
+                <span>Nobody is being played. You can look, not act.</span>
+                {continuation && !showContinuation ? (
+                  <button
+                    ref={observingButton}
+                    type="button"
+                    className="ui-action ui-action--subtle"
+                    data-testid="open-continuation"
+                    onClick={() => {
+                      setContinuationOpen(true);
+                      dispatch({ type: "go-to-scene" });
+                    }}
+                  >
+                    Who could be played next
+                  </button>
+                ) : null}
+              </div>
+            ) : null}
 
-          <ShellPinRail
-            world={session.world}
-            state={shell}
-            dispatch={dispatch}
-            onOpen={openEntity}
-          />
-
-          <PlayerVersion />
-
-          {floorSeat ? (
-            <div
-              className="production-floor-layer"
-              data-testid="production-floor"
-            >
+            {/* The one answer to "is a line still waiting behind this?", read
+                from the shell rather than re-derived here, so the offer and
+                the reducer cannot disagree about whether there is one. */}
+            {conversationSuspended(shell) && conversation ? (
               <button
                 type="button"
-                className="ui-action"
-                data-testid="leave-floor"
-                onClick={() => setFloorSeat(null)}
+                className="pg-talk-return"
+                data-testid="conversation-return"
+                onClick={() => dispatch({ type: "resume-conversation" })}
               >
-                Put the bill down and go back
+                Return to conversation
+                <small>
+                  {conversation.addressee === "everyone"
+                    ? "Everyone here"
+                    : session.world.people[conversation.addressee]
+                      ? personName(
+                          session.world.people[conversation.addressee]!,
+                        )
+                      : "Someone"}
+                  {pendingLine ? ` · ${pendingLine}` : ""}
+                </small>
               </button>
-              <MeasureFloorSurface
-                world={session.world}
-                seat={floorSeat}
-                onWorldChange={onWorldChange}
-              />
+            ) : null}
+
+            {workspace}
+
+            <div className="life-hud" data-testid="life-hud">
+              {notice ? (
+                <p className="life-hud-note" role="status">
+                  {notice}
+                </p>
+              ) : null}
+              {problem ? (
+                <p
+                  className="life-hud-note life-hud-note--problem"
+                  role="status"
+                >
+                  {problem}
+                </p>
+              ) : null}
+              {passOutcome ? (
+                <p
+                  className="life-hud-note life-hud-note--outcome"
+                  role="status"
+                  data-testid="pass-outcome"
+                >
+                  {passOutcome}
+                  <button
+                    type="button"
+                    className="life-hud-dismiss"
+                    aria-label="Dismiss"
+                    onClick={() => setPassOutcome(null)}
+                  >
+                    ✕
+                  </button>
+                </p>
+              ) : null}
+              {crisisStop.stop ? (
+                <p
+                  className="life-hud-note life-hud-note--problem"
+                  role="status"
+                  data-testid="crisis-stop"
+                >
+                  {crisisStop.stop.sentence}
+                  <button
+                    type="button"
+                    className="ui-action"
+                    data-testid="crisis-stop-open"
+                    onClick={() => {
+                      crisisStop.clear();
+                      dispatch(
+                        crisisStop.stop?.target === "authority"
+                          ? {
+                              type: "go-to-surface",
+                              surface: "work",
+                              section: "office",
+                            }
+                          : { type: "go-to-surface", surface: "personal" },
+                      );
+                    }}
+                  >
+                    Go to it
+                  </button>
+                  <button
+                    type="button"
+                    className="life-hud-dismiss"
+                    aria-label="Dismiss"
+                    onClick={crisisStop.clear}
+                  >
+                    ✕
+                  </button>
+                </p>
+              ) : null}
+              {recap ? (
+                <WorldRecapPanel
+                  recap={recap}
+                  onDismiss={(throughSequence) =>
+                    dispatch({ type: "acknowledge-recap", throughSequence })
+                  }
+                  onOpenNews={() =>
+                    dispatch({ type: "go-to-surface", surface: "news" })
+                  }
+                  onOpenPerson={(personId) =>
+                    dispatch({ type: "open-quick-dossier", personId })
+                  }
+                />
+              ) : null}
+              {session.unsavedSeed !== null ? (
+                <p className="sr-only" data-testid="unsaved-note">
+                  This life has not been saved yet.
+                </p>
+              ) : null}
+              <p className="sr-only" role="status">
+                {shell.announcement}
+              </p>
             </div>
-          ) : null}
-        </main>
-      </SavedRenderSnapshotsProvider>
-    </SavedAppearanceProvider>
+
+            {scenePeople
+              .filter((person) => person.wardrobeRefusal)
+              .map((person) => (
+                <p
+                  key={person.personId}
+                  role="status"
+                  className="life-hud-note life-hud-note--problem"
+                >
+                  {person.name}: {person.wardrobeRefusal}
+                </p>
+              ))}
+            <ShellNav
+              state={shell}
+              dispatch={dispatch}
+              playerName={observing ? "Observing" : moment.personName}
+              portrait={
+                !observing && session.world.people[session.personId] ? (
+                  <PersonPortrait
+                    world={session.world}
+                    personId={session.personId}
+                  />
+                ) : null
+              }
+              dateLabel={moment.dateLabel}
+              placeName={moment.placeName}
+              destinations={destinations}
+              canSave={!savesUnavailable}
+              unsaved={session.saveId === null}
+              onSave={() => {
+                const shellState = {
+                  pins: shell.pins,
+                  preferences: shell.preferences,
+                  journal: shell.legacyJournal,
+                  journals: shell.journals,
+                  personWardrobes: shell.personWardrobes,
+                  progress: shell.progress,
+                };
+                const request = returnToTitleRequest.current;
+                if (request && shell.confirmingLeave) {
+                  request.leaving = true;
+                  onSaveAndLeave(shellState);
+                } else onKeep(shellState);
+              }}
+              onLeave={leaveNow}
+              {...(capabilities.formativeYears || readOnly
+                ? {}
+                : { onPassDays: passDays, passTargets })}
+              passing={timeRunner.pending}
+            />
+
+            <ShellPinRail
+              world={session.world}
+              state={shell}
+              dispatch={dispatch}
+              onOpen={openEntity}
+            />
+
+            <PlayerVersion />
+
+            {floorSeat ? (
+              <div
+                className="production-floor-layer"
+                data-testid="production-floor"
+              >
+                <button
+                  type="button"
+                  className="ui-action"
+                  data-testid="leave-floor"
+                  onClick={() => setFloorSeat(null)}
+                >
+                  Put the bill down and go back
+                </button>
+                <MeasureFloorSurface
+                  world={session.world}
+                  seat={floorSeat}
+                  onWorldChange={onWorldChange}
+                />
+              </div>
+            ) : null}
+          </main>
+        </SavedRenderSnapshotsProvider>
+      </SavedAppearanceProvider>
+    </TimeCommandProvider>
   );
 }
 
@@ -3129,6 +3689,11 @@ function renderWorkspace({
   goToTheFloor,
   goToTheFloorFor,
   workHint,
+  readOnly,
+  retireFromPlay,
+  guideTermKey,
+  onOpenGuideTerm,
+  returnToTitle,
 }: {
   readonly view: ReturnType<typeof activeView>;
   readonly session: Session;
@@ -3148,6 +3713,21 @@ function renderWorkspace({
   readonly goToTheFloor: () => void;
   readonly goToTheFloorFor: (bill: DocketBill) => void;
   readonly workHint: string;
+  /** Nobody is played, or the played life ended: reading surfaces only. */
+  readonly readOnly: boolean;
+  /** Options' Retire from play, or null when there is nobody to retire. */
+  readonly retireFromPlay: ReactNode;
+  /**
+   * The term the Guide should open on, and how inline help asks for one.
+   *
+   * The shell owns this rather than the Guide, because inline help lives on
+   * every other workspace and has to say which entry it meant before the
+   * Guide is the open surface. It is presentation only and is not saved.
+   */
+  readonly guideTermKey: string | null;
+  readonly onOpenGuideTerm: (semanticKey: string) => void;
+  /** The in-game Options way back to the title screen. */
+  readonly returnToTitle: ReactNode;
 }): ReactNode {
   if (view.surface === "scene") return null;
 
@@ -3160,6 +3740,21 @@ function renderWorkspace({
     onWorldChange(publishLegislativeTransition(session.world, next));
   const pinnedRef = (ref: ShellRef) => isPinned(shell, ref);
   const togglePin = (ref: ShellRef) => dispatch({ type: "toggle-pin", ref });
+  /* Only a record this world has can be pinned; a missing one says so below. */
+  const entityPinToggle = (ref: ShellRef, testid: string) => {
+    const label = labelForRef(session.world, ref);
+    if (label === null) return null;
+    return (
+      <p className="pg-entity-pin">
+        <PinToggle
+          pinned={pinnedRef(ref)}
+          name={label}
+          testid={testid}
+          onToggle={() => togglePin(ref)}
+        />
+      </p>
+    );
+  };
   /*
    * A local party chapter. Each button is an explicit choice routed to W's
    * writers; opening the surface or its pin changes nothing. Going to a
@@ -3268,6 +3863,104 @@ function renderWorkspace({
     />
   );
 
+  /*
+   * The Politics hub (UI DECISION FOLLOW-THROUGH): one tab strip over the
+   * existing political surfaces. Tabs only navigate; every mechanism stays in
+   * the surface that owns it.
+   *
+   * CRUNCH47 A1: a tab is a subroute of the hub, not a second place to come
+   * back through. Menu entries still add a level; these replace the one the
+   * hub already occupies, so one Back from any tab leaves the hub — and lands
+   * on a conversation waiting in the room rather than on the tab passed
+   * through on the way in.
+   */
+  const politicsTabs = (
+    active: PoliticsTab,
+    section?: "budget" | "transit" | "tax" | "overview" | "map" | "records",
+  ) => {
+    const goTo = (tab: PoliticsTab) => {
+      if (tab === "office")
+        dispatch({
+          type: "go-to-subroute",
+          surface: "work",
+          section: "office",
+        });
+      else if (tab === "campaigns")
+        dispatch({
+          type: "go-to-subroute",
+          surface: "work",
+          section: "campaign",
+        });
+      else if (tab === "government")
+        dispatch({ type: "go-to-subroute", surface: "government" });
+      else if (tab === "parties")
+        dispatch({ type: "go-to-subroute", surface: "parties" });
+      else dispatch({ type: "go-to-subroute", surface: "politics" });
+    };
+    /*
+     * Transit and tax configuration are an office's tools: offered only to a
+     * life whose office can use them or that has such a record to follow.
+     */
+    const access =
+      active === "issues"
+        ? politicsIssueAccess(session.world, session.personId)
+        : null;
+    const subItems =
+      active === "issues"
+        ? [
+            { key: "budget", label: "Budget and constitution" },
+            ...(access?.transit || section === "transit"
+              ? [{ key: "transit", label: "Transit" }]
+              : []),
+            ...(access?.tax || section === "tax"
+              ? [{ key: "tax", label: "Taxes" }]
+              : []),
+          ]
+        : active === "government"
+          ? [
+              { key: "overview", label: "Who governs" },
+              { key: "map", label: "Map" },
+              { key: "records", label: "Local meetings and records" },
+            ]
+          : [];
+    return (
+      <PoliticsTabs
+        active={active}
+        onSelect={goTo}
+        hidden={
+          capabilities.formativeYears || readOnly ? ["office", "campaigns"] : []
+        }
+        subItems={subItems.map((item) => ({
+          ...item,
+          current: item.key === section,
+          testid: `politics-sub-${item.key}`,
+        }))}
+        onSelectSub={(key) => {
+          const surface =
+            key === "budget"
+              ? "politics"
+              : key === "records"
+                ? "municipal"
+                : key === "overview"
+                  ? "government"
+                  : key === "map"
+                    ? "government-map"
+                    : key === "transit"
+                      ? "transit"
+                      : "tax";
+          dispatch({ type: "go-to-subroute", surface });
+        }}
+      />
+    );
+  };
+
+  /*
+   * Inline term help reaches every workspace from here.
+   *
+   * A surface that mentions an institutional word wraps it in `GuideTerm` and
+   * needs nothing else: the shell owns the learned list, because it is a saved
+   * presentation preference, and the shell owns navigation into the Guide.
+   */
   const frame = (
     title: string,
     testid: string,
@@ -3282,9 +3975,31 @@ function renderWorkspace({
       onBack={back}
       onClose={close}
     >
-      {body}
+      <GuideHelpProvider
+        help={{
+          learnedKeys: shell.preferences.learnedGuideTermKeys,
+          setLearned: (semanticKey, learned) =>
+            dispatch({ type: "set-guide-term-learned", semanticKey, learned }),
+          openGuide: (semanticKey) => {
+            onOpenGuideTerm(semanticKey);
+            dispatch({ type: "go-to-surface", surface: "guide" });
+          },
+        }}
+      >
+        {body}
+      </GuideHelpProvider>
     </WorkspaceFrame>
   );
+
+  if (readOnly && !surfaceOpenWhileReadOnly(view.surface)) {
+    return frame(
+      "Not while observing",
+      "read-only-workspace",
+      <p className="game-note" data-testid="read-only-note">
+        {READ_ONLY_REFUSAL}
+      </p>,
+    );
+  }
 
   if (view.surface === "entity") {
     if (view.ref.kind === "person") {
@@ -3340,11 +4055,14 @@ function renderWorkspace({
       return frame(
         "Commitment",
         "commitment-workspace",
-        <CommitmentSurface
-          world={session.world}
-          personId={session.personId}
-          activityId={view.ref.id}
-        />,
+        <>
+          {entityPinToggle(view.ref, "commitment-pin")}
+          <CommitmentSurface
+            world={session.world}
+            personId={session.personId}
+            activityId={view.ref.id}
+          />
+        </>,
         "Calendar",
       );
     }
@@ -3352,11 +4070,14 @@ function renderWorkspace({
       return frame(
         "Measure",
         "measure-workspace",
-        <MeasureSurface
-          world={session.world}
-          personId={session.personId}
-          measureId={view.ref.id}
-        />,
+        <>
+          {entityPinToggle(view.ref, "measure-pin")}
+          <MeasureSurface
+            world={session.world}
+            personId={session.personId}
+            measureId={view.ref.id}
+          />
+        </>,
         "Legislation",
       );
     }
@@ -3423,13 +4144,14 @@ function renderWorkspace({
               onOpenCommitment={(activityId) =>
                 openEntity({ kind: "commitment", id: activityId })
               }
-              onGoTo={(surface) =>
-                dispatch({
-                  type: "go-to-surface",
-                  surface,
-                  ...(surface === "work" ? { section: "office" } : {}),
-                })
-              }
+              /*
+                The same link the standalone Today has, going the same place.
+                This copy forced section: "office", so the one control landed
+                on the whole Work record from Today and on the office half
+                from the Calendar's Today — and a life with no office got the
+                empty half, with its jobs and hiring hidden behind a tab.
+              */
+              onGoTo={(surface) => dispatch({ type: "go-to-surface", surface })}
             />
           }
         />,
@@ -3447,19 +4169,37 @@ function renderWorkspace({
             dispatch={dispatch}
           />
           {/*
+            PEOPLE's two reading seams, on the surface People already means:
+            who this life can reach and what is outstanding between them, and
+            what they can be expected to remember. A recall card opens the
+            person through the same `openEntity` everything else uses, so Back
+            returns to the card.
+          */}
+          <ContactsPanel
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={onWorldChange}
+          />
+          <RecallCardsPanel
+            world={session.world}
+            personId={session.personId}
+            onOpenEntity={openEntity}
+          />
+          {/*
             What this life can actually talk about, in the room it is in — as
             ways to START a conversation. They used to be every conversation
             drawn in full, one under another; choosing one now opens it in the
             conversation box in the room, the same box every other route
             opens.
           */}
-          {!completedActivityHere(session.world, session.personId) && (
-            <ConversationStarters
-              world={session.world}
-              personId={session.personId}
-              onStart={(personId, subject) => talkTo(personId, subject)}
-            />
-          )}
+          {!readOnly &&
+            !completedActivityHere(session.world, session.personId) && (
+              <ConversationStarters
+                world={session.world}
+                personId={session.personId}
+                onStart={(personId, subject) => talkTo(personId, subject)}
+              />
+            )}
         </>,
       );
 
@@ -3475,6 +4215,7 @@ function renderWorkspace({
               onWorldChange={onWorldChange}
               onOpenEntity={openEntity}
               onTogglePin={togglePin}
+              isPinned={pinnedRef}
             />
           )}
           <PersonalWorkspace
@@ -3483,19 +4224,58 @@ function renderWorkspace({
             {...(view.section ? { section: view.section } : {})}
             onOpenPerson={openPerson}
           />
+          {view.section !== "finances" && (
+            <>
+              <PersonalGoalsPanel
+                world={session.world}
+                personId={session.personId}
+                onWorldChange={onWorldChange}
+                onOpportunity={(opportunity) => {
+                  if (opportunity.kind === "talk" && opportunity.personId) {
+                    talkTo(
+                      opportunity.personId,
+                      (opportunity.subject ?? undefined) as
+                        ConversationSubjectKey | undefined,
+                    );
+                  } else if (opportunity.kind === "read-news") {
+                    dispatch({ type: "go-to-surface", surface: "news" });
+                  } else {
+                    dispatch({
+                      type: "go-to-surface",
+                      surface: "work",
+                      section: "campaign",
+                    });
+                  }
+                }}
+              />
+              <CrisisNoticesPanel
+                world={session.world}
+                personId={session.personId}
+                onWorldChange={onWorldChange}
+                scope="personal"
+              />
+            </>
+          )}
           <details data-testid="personal-life-choices">
             <summary>Your day, choices and pending favors</summary>
+            {/*
+              Childhood is part of the day, not a place to go, so it mounts
+              inside this existing section rather than on a surface of its own.
+              It draws nothing outside the formative years; the producer gates
+              that, and no age logic is decided here.
+            */}
+            <ChildhoodMomentPanel
+              world={session.world}
+              personId={session.personId}
+              onWorldChange={onWorldChange}
+            />
             <LifeScenePanel
               world={session.world}
               playerPersonId={session.personId}
               onWorldChange={onWorldChange}
               onTalkTo={(personId) => talkTo(personId)}
               transitionHandlers={createCampaignElectionTransitionRegistry()}
-            />
-            <StoryView
-              session={session}
-              moment={projectStoryMoment(session.world, session.personId)}
-              onWorldChange={onWorldChange}
+              variant="workspace"
             />
           </details>
         </>,
@@ -3518,6 +4298,7 @@ function renderWorkspace({
            */
           onOpenEntity={(ref) => openEntity(ref)}
           onTogglePin={(ref) => togglePin(ref)}
+          isPinned={pinnedRef}
           transitionHandlers={createCampaignElectionTransitionRegistry()}
         />,
       );
@@ -3526,7 +4307,10 @@ function renderWorkspace({
       return frame(
         "Local government",
         "municipal-workspace",
-        municipalSurface(),
+        <>
+          {politicsTabs("government", "records")}
+          {municipalSurface()}
+        </>,
       );
 
     case "parties": {
@@ -3534,13 +4318,34 @@ function renderWorkspace({
       return frame(
         "Local party chapters",
         "parties-workspace",
-        chapters.length > 0 ? (
-          <>{chapters.map(chapterSurface)}</>
-        ) : (
-          <p className="game-note" data-testid="parties-none">
-            No local party chapters are recorded where you live.
-          </p>
-        ),
+        <>
+          {politicsTabs("parties")}
+          {/*
+            Party and community work reads as party business, so it sits at the
+            top of Politics > Parties, above the chapters it is transacted with.
+            The Campaigns surface mounts the same panel for a candidate who is
+            already running; the two are never on screen together, because
+            renderWorkspace draws one workspace at a time.
+          */}
+          <CampaignLifePanel
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={onWorldChange}
+            transitionHandlers={createCampaignElectionTransitionRegistry()}
+          />
+          {chapters.length > 0 ? (
+            <>{chapters.map(chapterSurface)}</>
+          ) : (
+            <p className="game-note" data-testid="parties-none">
+              No local party chapters are recorded where you live.
+            </p>
+          )}
+          <PartyInitiativesPanel
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={(next) => onWorldChange(next)}
+          />
+        </>,
       );
     }
 
@@ -3548,43 +4353,178 @@ function renderWorkspace({
       return frame(
         "News",
         "news-workspace",
+        <NewsDesk
+          world={session.world}
+          context={
+            view.section === "news-around"
+              ? "around"
+              : view.section === "news-directory"
+                ? "directory"
+                : view.section === "news-press"
+                  ? "press"
+                  : "read"
+          }
+          onContextChange={(context) =>
+            dispatch({
+              // A News context is a section of the News desk, not a level.
+              type: "go-to-subroute",
+              surface: "news",
+              ...(context === "read"
+                ? {}
+                : { section: `news-${context}` as const }),
+            })
+          }
+          mode={shell.preferences.newsMode}
+          outletKey={shell.preferences.newsOutletKey}
+          onModeChange={(newsMode) =>
+            dispatch({ type: "set-reader-preferences", patch: { newsMode } })
+          }
+          onOutletChange={(newsOutletKey) =>
+            dispatch({
+              type: "set-reader-preferences",
+              patch: { newsOutletKey },
+            })
+          }
+          onOpenPerson={openPerson}
+          around={
+            <>
+              <WorldOrientationEntry
+                world={session.world}
+                personId={session.personId}
+                onOpenPerson={openPerson}
+              />
+              <World39News
+                world={session.world}
+                personId={session.personId}
+                onOpenPerson={openPerson}
+              />
+            </>
+          }
+          directory={
+            <PublicInformationPanel
+              model={projectPublicInformationPanel(session.world)}
+              onClose={back}
+              showClose={false}
+              onOpenPerson={openPerson}
+              viewerPersonId={session.personId}
+              followedOutletKeys={shell.preferences.followedNewsOutletKeys}
+              onToggleOutletFollow={(outletKey) =>
+                dispatch({ type: "toggle-news-outlet-follow", outletKey })
+              }
+            />
+          }
+          press={
+            <>
+              <PressWorkspace
+                world={session.world}
+                onWorldChange={onWorldChange}
+                onOpenPerson={openPerson}
+              />
+              {/*
+                Being a source is press-office business, so it mounts in this
+                separate context and never on the News front page: reading the
+                news and talking to a reporter are different things, and a
+                disclosure control beside the headlines would blur them.
+              */}
+              <PressSourceDesk
+                world={session.world}
+                personId={session.personId}
+                onWorldChange={onWorldChange}
+              />
+            </>
+          }
+        />,
+      );
+
+    case "government":
+      return frame(
+        "Government",
+        "government-workspace",
         <>
-          <WorldOrientationEntry
+          {politicsTabs("government", "overview")}
+          <GovernmentBrowser
             world={session.world}
             personId={session.personId}
-            onOpenPerson={openPerson}
-          />
-          <World39News
-            world={session.world}
-            personId={session.personId}
-            onOpenPerson={openPerson}
-          />
-          <PressWorkspace
-            world={session.world}
-            onWorldChange={onWorldChange}
-            onOpenPerson={openPerson}
-          />
-          <PublicInformationPanel
-            model={projectPublicInformationPanel(session.world)}
-            onClose={back}
-            showClose={false}
-            onOpenPerson={openPerson}
-            viewerPersonId={session.personId}
-            followedOutletKeys={shell.preferences.followedNewsOutletKeys}
-            onToggleOutletFollow={(outletKey) =>
-              dispatch({ type: "toggle-news-outlet-follow", outletKey })
+            place={shell.preferences.politicsPlace}
+            scope={shell.preferences.governmentScope}
+            onSelectionChange={(patch) =>
+              dispatch({ type: "set-reader-preferences", patch })
+            }
+            onOpenPerson={(holderId) =>
+              dispatch({ type: "open-quick-dossier", personId: holderId })
+            }
+            onOpenMeasure={(measureId) =>
+              openEntity({ kind: "measure", id: measureId })
             }
           />
         </>,
+        "Politics",
+      );
+
+    case "government-map":
+      return frame(
+        "Government map",
+        "government-map-workspace",
+        <>
+          {politicsTabs("government", "map")}
+          <Suspense
+            fallback={
+              <p className="game-note" role="status">
+                Loading the map…
+              </p>
+            }
+          >
+            <PoliticalMap
+              world={session.world}
+              personId={session.personId}
+              preferences={shell.preferences.map}
+              onPreferencesChange={(preferences) =>
+                dispatch({ type: "set-map-preferences", preferences })
+              }
+              onOpenPerson={(personId) =>
+                dispatch({ type: "open-quick-dossier", personId })
+              }
+              onOpenMeasure={(measureId) =>
+                openEntity({ kind: "measure", id: measureId })
+              }
+              focus={mapFocusForPins(shell.pins)}
+            />
+          </Suspense>
+        </>,
+        "Politics",
       );
 
     case "politics": {
-      const homeJurisdictionId =
-        session.world.people[session.personId]?.homeJurisdictionId;
+      // Issues follows the place and level chosen in Government.
+      const issuesPlace = issuesPlaceForSelection(
+        session.world,
+        session.personId,
+        {
+          place: shell.preferences.politicsPlace,
+          scope: shell.preferences.governmentScope,
+        },
+      );
       return frame(
         "Politics",
         "politics-workspace",
         <>
+          {politicsTabs("issues", "budget")}
+          <p className="game-note" data-testid="politics-budget-scope">
+            Public finances shown for {issuesPlace.label}. Change the place in
+            Government.
+          </p>
+          {issuesPlace.note ? (
+            <p className="game-note" role="status">
+              {issuesPlace.note}
+            </p>
+          ) : null}
+          {issuesPlace.jurisdictionId ? (
+            <PublicServicePanel
+              world={session.world}
+              jurisdictionId={issuesPlace.jurisdictionId}
+              placeLabel={issuesPlace.label}
+            />
+          ) : null}
           {(session.world.history.nationalElections ?? []).map((election) => (
             <NationalElectionResults
               key={election.id}
@@ -3592,18 +4532,14 @@ function renderWorkspace({
               electionId={election.id}
             />
           ))}
-          {homeJurisdictionId ? (
+          {issuesPlace.jurisdictionId ? (
             <PoliticsWorkspace
               world={session.world}
-              jurisdictionId={homeJurisdictionId}
+              jurisdictionId={issuesPlace.jurisdictionId}
               personId={session.personId}
               onWorldChange={onWorldChange}
             />
-          ) : (
-            <p className="game-note" role="status">
-              This life has no home jurisdiction to inspect.
-            </p>
-          )}
+          ) : null}
         </>,
         "Budget & economy",
       );
@@ -3613,42 +4549,40 @@ function renderWorkspace({
       return frame(
         "Transit service",
         "transit-workspace",
-        <TransitWorkspace
-          world={session.world}
-          personId={session.personId}
-          onWorldChange={onWorldChange}
-          onOpenTaxWork={() =>
-            dispatch({ type: "go-to-surface", surface: "tax" })
-          }
-          onContinue={(days) => {
-            if (days !== 1 && days !== 7) return;
-            const result = simulateCalendarDays(
-              session.world,
-              session.personId,
-              days,
-              shell.preferences.interruptions,
-            );
-            if (result.world !== session.world) onWorldChange(result.world);
-          }}
-          onOpenBill={(docketKey) => {
-            const bill = projectTransitWork(
-              session.world,
-              session.personId,
-            ).bills.find((entry) => entry.bill.docketKey === docketKey)?.bill;
-            if (!bill) return;
-            if (capabilities.legislativeScenarioKey === bill.scenarioKey) {
-              onWorldChange(
-                selectDocketBill(
+        <>
+          {politicsTabs("issues", "transit")}
+          {!politicsIssueAccess(session.world, session.personId).transit ? (
+            <p className="game-note" data-testid="transit-withheld">
+              {ISSUE_WITHHELD.transit}
+            </p>
+          ) : (
+            <TransitWorkspace
+              world={session.world}
+              personId={session.personId}
+              onWorldChange={onWorldChange}
+              onOpenBill={(docketKey) => {
+                const bill = projectTransitWork(
                   session.world,
-                  bill.scenarioKey,
                   session.personId,
-                  docketKey,
-                ),
-              );
-              dispatch({ type: "go-to-surface", surface: "work" });
-            } else openEntity({ kind: "measure", id: bill.measureId });
-          }}
-        />,
+                ).bills.find(
+                  (entry) => entry.bill.docketKey === docketKey,
+                )?.bill;
+                if (!bill) return;
+                if (capabilities.legislativeScenarioKey === bill.scenarioKey) {
+                  onWorldChange(
+                    selectDocketBill(
+                      session.world,
+                      bill.scenarioKey,
+                      session.personId,
+                      docketKey,
+                    ),
+                  );
+                  dispatch({ type: "go-to-surface", surface: "work" });
+                } else openEntity({ kind: "measure", id: bill.measureId });
+              }}
+            />
+          )}
+        </>,
         "Politics",
       );
 
@@ -3656,33 +4590,23 @@ function renderWorkspace({
       return frame(
         "Taxes and public receipts",
         "tax-workspace",
-        <TaxWorkWorkspace
-          world={session.world}
-          personId={session.personId}
-          onWorldChange={onWorldChange}
-          onOpenMeasure={(measureId) =>
-            openEntity({ kind: "measure", id: measureId })
-          }
-        />,
-        "Politics",
-      );
-
-    case "candidacy":
-      return frame(
-        "Who governs here, and the state's top office",
-        "candidacy-workspace",
-        <NationwideCandidacyWorkspace
-          world={session.world}
-          personId={session.personId}
-          onWorldChange={onWorldChange}
-          onOpenCampaign={() =>
-            dispatch({
-              type: "go-to-surface",
-              surface: "work",
-              section: "office",
-            })
-          }
-        />,
+        <>
+          {politicsTabs("issues", "tax")}
+          {politicsIssueAccess(session.world, session.personId).tax ? (
+            <TaxWorkWorkspace
+              world={session.world}
+              personId={session.personId}
+              onWorldChange={onWorldChange}
+              onOpenMeasure={(measureId) =>
+                openEntity({ kind: "measure", id: measureId })
+              }
+            />
+          ) : (
+            <p className="game-note" data-testid="tax-withheld">
+              {ISSUE_WITHHELD.tax}
+            </p>
+          )}
+        </>,
         "Politics",
       );
 
@@ -3691,13 +4615,38 @@ function renderWorkspace({
         "Journal",
         "journal",
         <World39Journal
-          journal={shell.journal}
+          view={shell.preferences.journalView}
+          year={shell.preferences.journalYear}
+          onViewChange={(journalView) =>
+            dispatch({ type: "set-reader-preferences", patch: { journalView } })
+          }
+          onYearChange={(journalYear) =>
+            dispatch({ type: "set-reader-preferences", patch: { journalYear } })
+          }
+          journal={shell.journals[session.personId] ?? EMPTY_JOURNAL}
           onJournalChange={(journal) =>
-            dispatch({ type: "set-journal", journal })
+            dispatch({
+              type: "set-journal",
+              personId: session.personId,
+              journal,
+            })
           }
           world={session.world}
           personId={session.personId}
           onOpenPerson={openPerson}
+        />,
+      );
+
+    case "guide":
+      return frame(
+        "Guide",
+        "guide-workspace",
+        <GuideWorkspace
+          learnedKeys={shell.preferences.learnedGuideTermKeys}
+          openKey={guideTermKey}
+          onSetLearned={(semanticKey, learned) =>
+            dispatch({ type: "set-guide-term-learned", semanticKey, learned })
+          }
         />,
       );
 
@@ -3724,9 +4673,12 @@ function renderWorkspace({
             world={session.world}
             onWorldChange={onWorldChange}
           />
+          {retireFromPlay}
+          {returnToTitle}
         </>,
       );
 
+    case "candidacy":
     case "work": {
       /*
        * Work, for every life, in one predictable order.
@@ -3874,6 +4826,13 @@ function renderWorkspace({
                 onWorldChange={onLegislativeChange}
                 onGoToFloor={goToTheFloorFor}
                 floorNote={floorNote}
+                proposalLayout={shell.preferences.proposalLayout}
+                onProposalLayoutChange={(proposalLayout) =>
+                  dispatch({
+                    type: "set-reader-preferences",
+                    patch: { proposalLayout },
+                  })
+                }
               />
             ) : null}
             {workingBill && (
@@ -3939,15 +4898,44 @@ function renderWorkspace({
        * Politics holds the office and the campaign; Personal holds ordinary
        * jobs, study and hiring. Same canonical panels, mounted once each;
        * the section only decides which half of the one Work record opens.
-       * Growing up has no office, so School is the whole of it.
+       * Growing up has no office, so School is the whole of it. Politics
+       * splits the office from the campaign: Your office holds the office
+       * alone and Campaigns every campaign surface, so neither tab repeats
+       * the other. An older saved "candidacy" view lands on Campaigns.
        */
-      const half: "office" | "jobs" | "all" = capabilities.formativeYears
-        ? "jobs"
-        : view.section === "office" || view.section === "jobs"
-          ? view.section
-          : "all";
+      const half: "office" | "campaign" | "jobs" | "all" =
+        capabilities.formativeYears
+          ? "jobs"
+          : view.surface === "candidacy"
+            ? "campaign"
+            : view.section === "office" ||
+                view.section === "campaign" ||
+                view.section === "jobs"
+              ? view.section
+              : "all";
       const sections: WorkSection[] = [];
-      if (half !== "jobs" && offices.length > 0) {
+      const officeHalf = half === "office" || half === "all";
+      /*
+       * A disaster request or an international choice belongs to whoever
+       * actually holds the office being asked, so the section exists only
+       * while one is pending. A resident reads the same emergency as a public
+       * event under Who you are and is never shown a decision to make.
+       */
+      if (officeHalf && authorityDecisions(session.world).length > 0) {
+        sections.push({
+          key: "crisis",
+          title: "Decisions only you can make",
+          body: (
+            <CrisisNoticesPanel
+              world={session.world}
+              personId={session.personId}
+              onWorldChange={onWorldChange}
+              scope="authority"
+            />
+          ),
+        });
+      }
+      if (officeHalf && offices.length > 0) {
         sections.push({
           key: "office",
           title: "Your court",
@@ -3966,21 +4954,38 @@ function renderWorkspace({
             </>
           ),
         });
-      } else if (half !== "jobs" && executive) {
+      } else if (
+        officeHalf &&
+        (executive || governingOfficeForPerson(session.world, session.personId))
+      ) {
         sections.push({
           key: "office",
           title: "Your office",
           body: (
-            <ExecutiveWorkWorkspace
-              world={session.world}
-              onWorldChange={onWorldChange}
-              onClose={close}
-              handlers={createCampaignElectionTransitionRegistry()}
-            />
+            <>
+              <GoverningBriefing
+                world={session.world}
+                personId={session.personId}
+                onWorldChange={onWorldChange}
+              />
+              <GoverningOfficeDesk
+                world={session.world}
+                personId={session.personId}
+                onWorldChange={onWorldChange}
+              />
+              {executive ? (
+                <ExecutiveWorkWorkspace
+                  world={session.world}
+                  onWorldChange={onWorldChange}
+                  onClose={close}
+                  handlers={createCampaignElectionTransitionRegistry()}
+                />
+              ) : null}
+            </>
           ),
         });
       } else if (
-        half !== "jobs" &&
+        officeHalf &&
         legislative &&
         capabilities.legislativeScenarioKey
       ) {
@@ -3990,7 +4995,10 @@ function renderWorkspace({
           body: legislativeOffice(capabilities.legislativeScenarioKey),
         });
       }
-      if (half !== "jobs" && !capabilities.formativeYears) {
+      if (
+        (half === "campaign" || half === "all") &&
+        !capabilities.formativeYears
+      ) {
         sections.push({
           key: "campaign",
           title: "Running for office",
@@ -4009,7 +5017,25 @@ function renderWorkspace({
           ),
         });
       }
-      if (half !== "office") {
+      if (half === "campaign") {
+        sections.push({
+          key: "statewide",
+          title: "The state's top office",
+          body: (
+            <NationwideCandidacyWorkspace
+              world={session.world}
+              personId={session.personId}
+              onWorldChange={onWorldChange}
+              onOpenCampaign={() => {
+                const heading = document.getElementById("pg-work-campaign");
+                heading?.scrollIntoView({ block: "start" });
+                heading?.focus();
+              }}
+            />
+          ),
+        });
+      }
+      if (half === "jobs" || half === "all") {
         sections.push({
           key: "paths",
           title: capabilities.formativeYears ? "School" : "Jobs and study",
@@ -4039,54 +5065,64 @@ function renderWorkspace({
           title: "Your office",
           body: (
             <p className="game-note" data-testid="no-office">
-              You hold no office in this life yet. Running for one starts below
-              when the game supports it here.
+              You hold no office in this life yet. Running for one is under
+              Campaigns when the game supports it here.
             </p>
           ),
         });
       }
       return frame(
         half === "office"
-          ? "Your office and campaigns"
-          : half === "jobs"
-            ? capabilities.formativeYears
-              ? "School"
-              : "Jobs and study"
-            : "Work",
-        offices.length > 0
-          ? "judicial-office-section"
-          : executive
-            ? "executive-office-section"
-            : legislative
-              ? "office-section"
-              : "personal-work-section",
-        <WorkLayout
-          roleSentence={role.sentence}
-          pending={
-            <WorkWorkspace world={session.world} personId={session.personId}>
-              {null}
-            </WorkWorkspace>
-          }
-          sections={sections}
-          timeControl={
-            capabilities.formativeYears ? null : (
-              <PassDayControl
-                session={session}
-                onWorldChange={onWorldChange}
-                withClock
-              />
-            )
-          }
-        />,
-        offices.length > 0
-          ? "Judicial office"
-          : executive
-            ? "Executive office"
-            : legislative
-              ? "Legislative office"
-              : capabilities.formativeYears
-                ? "Growing up"
-                : undefined,
+          ? "Your office"
+          : half === "campaign"
+            ? "Campaigns"
+            : half === "jobs"
+              ? capabilities.formativeYears
+                ? "School"
+                : "Jobs and study"
+              : "Work",
+        half === "campaign"
+          ? "candidacy-workspace"
+          : offices.length > 0
+            ? "judicial-office-section"
+            : executive
+              ? "executive-office-section"
+              : legislative
+                ? "office-section"
+                : "personal-work-section",
+        <>
+          {half === "office" ? politicsTabs("office") : null}
+          {half === "campaign" ? politicsTabs("campaigns") : null}
+          <WorkLayout
+            roleSentence={role.sentence}
+            pending={
+              <WorkWorkspace world={session.world} personId={session.personId}>
+                {null}
+              </WorkWorkspace>
+            }
+            sections={sections}
+            timeControl={
+              capabilities.formativeYears ? null : (
+                <PassDayControl
+                  session={session}
+                  onWorldChange={onWorldChange}
+                  withClock
+                />
+              )
+            }
+          />
+        </>,
+        half === "campaign"
+          ? "Politics"
+          : offices.length > 0
+            ? "Judicial office"
+            : executive
+              ? "Executive office"
+              : legislative
+                ? "Legislative office"
+                : capabilities.formativeYears
+                  ? "Growing up"
+                  : undefined,
       );
     }
 
@@ -4140,20 +5176,19 @@ function StoryView({
   readonly onWorldChange: (world: World) => void;
 }) {
   const [journalOpen, setJournalOpen] = useState(false);
-
-  if (completedActivityHere(session.world, session.personId))
-    return (
-      <section
-        className="game-story life-moment"
-        data-testid="activity-aftermath"
-      >
-        <VenueActivityPanel
-          world={session.world}
-          personId={session.personId}
-          onWorldChange={onWorldChange}
-        />
-      </section>
-    );
+  const runner = useTimeCommand({
+    world: session.world,
+    personId: session.personId,
+    onWorldChange,
+  });
+  const quietPreview = useMemo(
+    () =>
+      previewTimeCommand(session.world, session.personId, {
+        kind: "quiet-stretch",
+      }),
+    [session.world, session.personId],
+  );
+  const crisisStop = useCrisisStop(session.world);
 
   return (
     <section className="game-story life-moment" data-testid="story-section">
@@ -4170,15 +5205,42 @@ function StoryView({
         className="game-scene-header life-moment-head"
         data-testid="story-where"
       >
-        <h2 className="life-identity" data-testid="story-who">
+        {/*
+          The panel's own identity, under its own ids.
+
+          These were story-who and story-when, which the corner cluster has
+          carried since it became the shell's identity line (ShellNav.tsx).
+          While the moment lived under Personal the two were never on screen
+          together; in the room they are, and every proof asking for either id
+          then matched two elements. The cluster keeps the names it had — it is
+          the shell, and more specs mean it — and the panel takes its own.
+        */}
+        <h2 className="life-identity" data-testid="moment-who">
           <span className="life-identity-name">{moment.personName}</span>
           <span className="life-identity-age">{moment.age}</span>
         </h2>
-        <p className="game-band" data-testid="story-when">
+        <p className="game-band" data-testid="moment-when">
           {moment.dateLabel}
           {moment.placeName ? ` · ${moment.placeName}` : ""}
         </p>
       </header>
+
+      {/*
+        What just happened here, inside the surface rather than in place of it.
+        This used to return early and replace the whole story section, so after
+        an activity the room's own narration and its choices were gone and
+        every spec waiting for story-section waited for something that could
+        not appear. The aftermath keeps its own id and sits above the moment.
+      */}
+      {completedActivityHere(session.world, session.personId) ? (
+        <div data-testid="activity-aftermath">
+          <VenueActivityPanel
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={onWorldChange}
+          />
+        </div>
+      ) : null}
 
       {moment.connective.sentences.length > 0 ? (
         <p className="game-passage" data-testid="story-passage">
@@ -4242,26 +5304,31 @@ function StoryView({
             type="button"
             className="ui-action ui-action--choice ui-action--quiet"
             data-testid="story-let-time-pass"
-            onClick={() =>
-              onWorldChange(
-                letStoryTimePass(
-                  session.world,
-                  session.personId,
-                  (world, days) =>
-                    passOrdinaryDays(
-                      world,
-                      days,
-                      createCampaignElectionTransitionRegistry(),
-                    ),
-                ),
-              )
-            }
+            aria-disabled={runner.pending || undefined}
+            aria-busy={runner.pending}
+            onClick={() => {
+              crisisStop.watch();
+              runner.submit({ kind: "quiet-stretch" });
+            }}
           >
             {moment.formativeYears ? "Let the year run on" : "Let time pass"}
-            <small>Come back to it when something needs you.</small>
+            <small data-testid="story-let-time-pass-target">
+              {moment.formativeYears || !quietPreview
+                ? "Come back to it when something needs you."
+                : `${describeTimeCommandPreview(quietPreview)}. Stops early for anything that needs you.`}
+            </small>
           </button>
         )}
       </div>
+
+      {crisisStop.stop ? (
+        <p className="game-note" role="status" data-testid="story-crisis-stop">
+          {crisisStop.stop.sentence}{" "}
+          {crisisStop.stop.target === "authority"
+            ? "It is waiting in your office."
+            : "It is waiting under Who you are."}
+        </p>
+      ) : null}
 
       {moment.openThreads.length > 0 ? (
         <ul className="game-pending" data-testid="story-open">
@@ -4554,6 +5621,20 @@ function PassDayControl({
     () => (withClock ? projectToday(session.world, session.personId) : null),
     [withClock, session.world, session.personId],
   );
+  const runner = useTimeCommand({
+    world: session.world,
+    personId: session.personId,
+    onWorldChange,
+  });
+  const [outcome, setOutcome] = useState<string | null>(null);
+  const target = useMemo(
+    () =>
+      previewTimeCommand(session.world, session.personId, {
+        kind: "days",
+        days: 1,
+      }),
+    [session.world, session.personId],
+  );
   return (
     <div className="game-choices pg-pass-day">
       {today ? (
@@ -4564,17 +5645,44 @@ function PassDayControl({
       <button
         type="button"
         data-testid="pass-day"
-        onClick={() => onWorldChange(passOrdinaryDays(session.world))}
+        aria-disabled={runner.pending || undefined}
+        aria-busy={runner.pending}
+        onClick={() =>
+          runner.submit({ kind: "days", days: 1 }, (report) =>
+            setOutcome(
+              report.stoppedEarly && report.target
+                ? `${stoppedEarlyLabel(report.target)} ${report.outcome}`
+                : report.outcome,
+            ),
+          )
+        }
       >
         Get on with the day
-        <small>Move to tomorrow.</small>
+        <small>
+          {runner.pending
+            ? "Time is passing…"
+            : target
+              ? `${skipToLabel(target.target)}. Stops early for anything protected.`
+              : "Move to tomorrow."}
+        </small>
       </button>
+      {outcome && !runner.pending ? (
+        <p
+          className="game-note"
+          role="status"
+          data-testid="pass-day-outcome"
+          style={{ whiteSpace: "pre-line" }}
+        >
+          {outcome}
+        </p>
+      ) : null}
     </div>
   );
 }
 
 interface WorkSection {
-  readonly key: "office" | "campaign" | "paths" | "personnel";
+  readonly key:
+    "office" | "campaign" | "statewide" | "paths" | "personnel" | "crisis";
   readonly title: string;
   readonly body: ReactNode;
 }

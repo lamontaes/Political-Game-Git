@@ -13,6 +13,17 @@
   --pg-orientation-series-0: #3987e5;
   --pg-orientation-series-1: #d95926;
   --pg-orientation-series-2: #199e70;
+  /*
+   * Slots 3-7 for saves with more parties, stepped for the same dark ground
+   * (every one >= 3:1 against #121d2e); legends still carry each name.
+   */
+  --pg-party-series-3: #9a6fe3;
+  --pg-party-series-4: #d6a520;
+  --pg-party-series-5: #d9589a;
+  --pg-party-series-6: #45adb8;
+  --pg-party-series-7: #93a337;
+  /* No recorded party: neutral and hatched, never a party color. */
+  --pg-party-none: #8b93a1;
   --pg-orientation-open: #4a5466;
   color: var(--run-a-ink);
   background: linear-gradient(180deg, rgb(18 29 46 / 94%), rgb(11 19 32 / 96%));
@@ -88,7 +99,6 @@
 }
 
 .pg-orientation-person:focus-visible,
-.pg-orientation-state select:focus-visible,
 .pg-orientation-roster summary:focus-visible,
 .pg-link-button:focus-visible {
   outline: 3px solid var(--run-a-focus);
@@ -150,6 +160,40 @@
   background: var(--pg-orientation-series-2);
 }
 
+.pg-orientation-bar [data-series="3"],
+.pg-orientation-legend [data-series="3"]::before {
+  background: var(--pg-party-series-3);
+}
+
+.pg-orientation-bar [data-series="4"],
+.pg-orientation-legend [data-series="4"]::before {
+  background: var(--pg-party-series-4);
+}
+
+.pg-orientation-bar [data-series="5"],
+.pg-orientation-legend [data-series="5"]::before {
+  background: var(--pg-party-series-5);
+}
+
+.pg-orientation-bar [data-series="6"],
+.pg-orientation-legend [data-series="6"]::before {
+  background: var(--pg-party-series-6);
+}
+
+.pg-orientation-bar [data-series="7"],
+.pg-orientation-legend [data-series="7"]::before {
+  background: var(--pg-party-series-7);
+}
+
+.pg-orientation-bar [data-no-party="true"],
+.pg-orientation-legend [data-no-party="true"]::before {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--pg-party-none) 0 3px,
+    rgb(18 29 46 / 70%) 3px 5px
+  );
+}
+
 .pg-orientation-legend {
   display: flex;
   flex-wrap: wrap;
@@ -184,15 +228,6 @@
   align-items: center;
   gap: 0.5rem;
   margin: 0.5rem 0;
-}
-
-.pg-orientation-state select {
-  font: inherit;
-  color: var(--run-a-ink);
-  background: var(--run-a-navy-soft);
-  border: 1px solid var(--run-a-line);
-  border-radius: 0.4rem;
-  padding: 0.25rem 0.4rem;
 }
 
 .pg-orientation-roster ul {

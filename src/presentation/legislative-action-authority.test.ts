@@ -6,8 +6,6 @@ import { describe, expect, it } from "vitest";
 
 import {
   assertWorldIntegrity,
-  advanceWorld,
-  createCampaignElectionTransitionRegistry,
   availableMeasureSteps,
   measurePosition,
   recordWorkRole,
@@ -20,9 +18,13 @@ import {
 } from "../simulation";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
-import { projectCampaign, spendAnAfternoon } from "./campaign-projection";
-import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
+import { projectCampaign } from "./campaign-projection";
 import {
+  campaignUntilDecided,
+  fileForOffice,
+} from "../../tests/fixtures/campaign-fixture";
+import {
+  institutionOwnsStep,
   applyLegislativeCommand,
   openLegislativeWork,
   type LegislativeAssignment,
@@ -72,32 +74,12 @@ function newLife(seed: string) {
   };
 }
 
-/** One ordinary campaign, played through, ending in a recorded win. */
+/** One ordinary campaign, played through with daily outreach, ending in a recorded win. */
 function runOneRace(world: World, personId: EntityId): World {
-  let next = fileForOffice(world, personId);
-  for (let index = 0; index < 4; index += 1) {
-    next = advanceWorld(next, 1, createCampaignElectionTransitionRegistry());
-    try {
-      next = spendAnAfternoon(
-        next,
-        personId,
-        index === 0 ? "fundraising" : "outreach",
-      );
-    } catch {
-      // The day was already spoken for. Campaigning is not the point here.
-    }
-  }
-  for (
-    let day = 0;
-    day < 60 && projectCampaign(next, personId).phase === "active";
-    day += 1
-  ) {
-    next = advanceWorld(next, 1, createCampaignElectionTransitionRegistry());
-  }
-  return next;
+  return campaignUntilDecided(fileForOffice(world, personId), personId);
 }
 
-/** The accepted first-win route, unchanged from the 79R1 proofs. */
+/** The accepted first-win route, now played with daily outreach (CRUNCH46 rivals campaign). */
 function wonSeat(seed = "p85c-owner-0") {
   const life = newLife(seed);
   const world = runOneRace(life.world, life.personId);
@@ -140,8 +122,12 @@ function walkToFloorOf(
     );
     const chosen = steps.find((key) => key !== "offer-amendment") ?? steps[0];
     if (!chosen) break;
+    // Steps outside the member's own chamber belong to the institution; the
+    // member waits while the clock runs them.
     next = applyLegislativeCommand(next, assignment, {
-      kind: "take-step",
+      kind: institutionOwnsStep(next, assignment, chosen)
+        ? "await-institution"
+        : "take-step",
       step: chosen,
     }).world;
   }

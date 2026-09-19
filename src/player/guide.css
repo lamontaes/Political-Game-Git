@@ -1,0 +1,208 @@
+/*
+ * The Guide, and the inline help that shares its catalog.
+ *
+ * Tokens only: the surface has to look like the rest of the shell without
+ * knowing anything about it, and a hard-coded colour here would be the first
+ * place the two drift apart.
+ */
+
+.pg-guide {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pg-space-4);
+}
+
+.pg-guide-body {
+  display: grid;
+  grid-template-columns: minmax(14rem, 22rem) minmax(0, 1fr);
+  gap: var(--pg-space-5);
+  align-items: start;
+}
+
+@media (max-width: 52rem) {
+  .pg-guide-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.pg-guide-results ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pg-space-1);
+}
+
+.pg-guide-result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pg-space-1);
+  width: 100%;
+  text-align: left;
+  padding: var(--pg-space-2) var(--pg-space-3);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--pg-radius);
+  color: var(--pg-ivory);
+  font-family: var(--pg-font-ui);
+  cursor: pointer;
+}
+
+.pg-guide-result:focus-visible,
+.pg-guide-entry:focus-visible,
+.pg-guide-term-trigger:focus-visible {
+  outline: 3px solid var(--run-a-focus);
+  outline-offset: 2px;
+}
+
+.pg-guide-result:hover,
+.pg-guide-result[aria-pressed="true"] {
+  border-color: var(--pg-hairline);
+  background: var(--pg-slate);
+}
+
+.pg-guide-result[aria-pressed="true"] .pg-guide-result-term {
+  color: var(--pg-brass);
+}
+
+.pg-guide-result-term {
+  font-family: var(--pg-font-display);
+  font-size: 1rem;
+}
+
+.pg-guide-result-line {
+  color: var(--pg-ivory-dim);
+  font-size: 0.85rem;
+}
+
+.pg-guide-result-learned {
+  align-self: flex-start;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pg-brass);
+  border: 1px solid var(--pg-brass-dim);
+  border-radius: var(--pg-radius);
+  padding: 0 var(--pg-space-1);
+}
+
+.pg-guide-entry {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pg-space-3);
+  padding: var(--pg-space-4);
+  border: 1px solid var(--pg-hairline);
+  border-radius: var(--pg-radius);
+  background: var(--pg-navy);
+}
+
+.pg-guide-entry h3 {
+  margin: 0;
+  font-family: var(--pg-font-display);
+}
+
+.pg-guide-entry h4 {
+  margin: 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pg-ivory-dim);
+}
+
+.pg-guide-entry p {
+  margin: 0;
+}
+
+.pg-guide-entry-short {
+  color: var(--pg-brass);
+}
+
+.pg-guide-entry .ui-action {
+  align-self: flex-start;
+}
+
+.pg-guide-related {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pg-space-2);
+}
+
+/* ------------------------------------------------------- inline help */
+
+.pg-guide-term {
+  position: relative;
+  display: inline;
+}
+
+.pg-guide-term-trigger {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: help;
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--pg-brass-dim);
+}
+
+/* A term the player has marked learned keeps the link and drops the nudge. */
+.pg-guide-term-trigger[data-learned="true"] {
+  text-decoration-line: none;
+}
+
+.pg-guide-term-trigger[data-learned="true"] .pg-guide-term-mark {
+  opacity: 0;
+}
+
+.pg-guide-term-trigger:hover .pg-guide-term-mark,
+.pg-guide-term-trigger:focus-visible .pg-guide-term-mark {
+  opacity: 1;
+}
+
+.pg-guide-term-mark {
+  margin-left: 0.15em;
+  font-size: 0.7em;
+  vertical-align: super;
+  color: var(--pg-brass);
+}
+
+.pg-guide-popover {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + var(--pg-space-1));
+  left: 0;
+  width: min(22rem, 78vw);
+  display: flex;
+  flex-direction: column;
+  gap: var(--pg-space-2);
+  padding: var(--pg-space-3);
+  border-radius: var(--pg-radius);
+  box-shadow: var(--pg-shadow);
+  text-align: left;
+}
+
+.pg-guide-popover p {
+  margin: 0;
+}
+
+.pg-guide-popover-term {
+  font-family: var(--pg-font-display);
+  color: var(--pg-brass);
+}
+
+.pg-guide-popover-definition {
+  font-size: 0.9rem;
+}
+
+.pg-guide-popover-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pg-space-2);
+}

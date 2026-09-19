@@ -40,7 +40,7 @@ test("recorded result enters its supported term through ordinary Work and files/
   await page.getByTestId("continue").focus();
   await page.keyboard.press("Enter");
   await enterLife(page);
-  await openElsewhere(page, "work");
+  await openElsewhere(page, "campaign");
   await expect(page.getByTestId("campaign-afterword")).toContainText(
     "2027-01-01",
   );
@@ -48,6 +48,9 @@ test("recorded result enters its supported term through ordinary Work and files/
   await page.getByTestId("pass-day").focus();
   await page.keyboard.press("Space");
   await expect(page.getByTestId("day-date")).toContainText("January 1, 2027");
+  // The day was passed on Campaigns, and Campaigns is where the player stays.
+  // The office opens the way a player opens it: the "Your office" tab.
+  await page.getByTestId("politics-tab-office").click();
   await expect(page.getByTestId("office-section")).toContainText(
     "Kentucky legislature",
   );

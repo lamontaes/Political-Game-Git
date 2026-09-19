@@ -23,9 +23,9 @@ import {
 } from "../simulation/life-paths2";
 import type { LifePathResult } from "../simulation/life-paths2";
 import { workRoleAt, workStatusAt } from "../simulation/life-queries";
-import { simulationMinutesBetween } from "../simulation/dates";
-import { advanceWorldMinutes } from "../simulation/time-work";
 import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
+import { GameSelect } from "./controls/GameSelect";
+import { InlineDayControl } from "./controls/InlineDayControl";
 export function CareerPathsPanel({
   world,
   onWorldChange,
@@ -67,7 +67,7 @@ export function CareerPathsPanel({
       <h3>Career opportunities</h3>
       <label>
         Compare work{" "}
-        <select
+        <GameSelect
           value={selected}
           onChange={(e) => {
             setSelected(e.target.value);
@@ -78,7 +78,7 @@ export function CareerPathsPanel({
               {lifePathDefinition(p.pathId).title}
             </option>
           ))}
-        </select>
+        </GameSelect>
       </label>
       <p>
         {path.organizationName} pays ${(path.sessionPayMinor / 100).toFixed(2)}{" "}
@@ -141,29 +141,20 @@ export function CareerPathsPanel({
                   Refuse offer
                 </button>
                 <p>Start date: {r.startedAt}</p>
-                <button
-                  onClick={() => {
-                    const next = advanceWorldMinutes(world, 1440, handlers);
-                    if (next === world)
-                      setNotice(
-                        "Resolve your current calendar commitment before waiting.",
-                      );
-                    else {
-                      onWorldChange(next);
-                      const elapsed = simulationMinutesBetween(
-                        world.currentMoment,
-                        next.currentMoment,
-                      );
-                      setNotice(
-                        elapsed < 1440
-                          ? "Time advanced, but a commitment stopped short of the requested point."
-                          : "One day passed.",
-                      );
-                    }
-                  }}
-                >
-                  Wait one day
-                </button>
+                {/*
+                  One clock. "Wait one day" used to call `advanceWorldMinutes`
+                  from its own onClick: no disclosed destination, no pending
+                  state, and a second press could spend a second day over the
+                  first. It submits the shared day command now.
+                */}
+                <InlineDayControl
+                  world={world}
+                  personId={actor}
+                  label="Wait one day"
+                  testid="career-paths-wait-day"
+                  onOutcome={setNotice}
+                  unavailableNote="Waiting a day is not offered here: this panel is open outside the play shell, which owns the one clock."
+                />
                 <button onClick={() => act(startCareerWork(world, r.id, p))}>
                   Begin accepted work
                 </button>
@@ -209,7 +200,10 @@ export function CareerPathsPanel({
           </article>
         );
       })}
-      <p role="status">{notice}</p>
+      {/* The clock's own report is several lines; keep them as lines. */}
+      <p role="status" style={{ whiteSpace: "pre-line" }}>
+        {notice}
+      </p>
     </section>
   );
 }

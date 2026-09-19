@@ -28,6 +28,7 @@ import {
   savedIdentity,
   sameSavedIdentity,
 } from "./saved-identity-proof.mjs";
+import { chooseStartAge } from "./creator-drive.mjs";
 
 const require = createRequire(
   path.join(
@@ -147,7 +148,7 @@ async function assertVisiblePerson(page, expected) {
   await page.getByTestId("setup-screen").waitFor();
   await page.getByTestId("start-normal").click();
   await page.getByTestId("creator-stage-character").waitFor();
-  await page.getByTestId("start-age").fill("27");
+  await chooseStartAge(page, 27);
   await page.getByTestId("creator-continue-character").click();
   await page.getByTestId("creator-stage-place").waitFor();
   await page.getByTestId("state-search").fill("Kentucky");
@@ -252,12 +253,21 @@ async function assertVisiblePerson(page, expected) {
     await new Promise((r) => setTimeout(r, 1200));
     check("shell: fullscreen off", !(await win((w) => w.isFullScreen())));
 
+    // macOS animates the fullscreen exit above; a minimize requested during
+    // that animation lands a beat later. Wait for the state, bounded, rather
+    // than sampling it once. The contract is unchanged: the window must
+    // actually reach the minimized state and leave it again.
+    const settles = async (predicate) => {
+      for (let i = 0; i < 12; i += 1) {
+        if (await win(predicate)) return true;
+        await new Promise((r) => setTimeout(r, 250));
+      }
+      return false;
+    };
     await win((w) => w.minimize());
-    await new Promise((r) => setTimeout(r, 400));
-    check("shell: minimized", await win((w) => w.isMinimized()));
+    check("shell: minimized", await settles((w) => w.isMinimized()));
     await win((w) => w.restore());
-    await new Promise((r) => setTimeout(r, 400));
-    check("shell: restored", !(await win((w) => w.isMinimized())));
+    check("shell: restored", await settles((w) => !w.isMinimized()));
   }
 
   // Clean quit through the normal close path.
@@ -295,7 +305,7 @@ async function assertVisiblePerson(page, expected) {
   );
   const reopenedDrawnAppearance = await assertVisiblePerson(page, identity);
   check(
-    "reload: drawn asset IDs and native material SVG hashes preserved",
+    "reload: drawn asset IDs and decoded material hashes preserved",
     isDeepStrictEqual(drawnAppearance, reopenedDrawnAppearance),
   );
   check(

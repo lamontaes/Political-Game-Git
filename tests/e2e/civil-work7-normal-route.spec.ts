@@ -1,6 +1,7 @@
 // UI owner applies as tests/e2e/civil-personnel-normal.spec.ts after registration.
 // Tests preparation reachability only, not lawful public hiring or review.
 import { test, expect } from "./fixtures";
+import { chooseOption } from "./support/controls";
 import { enterLife, goTo, startLife } from "./support/creator";
 
 test("ordinary Day and Work expose private personnel preparation", async ({
@@ -30,7 +31,7 @@ test("ordinary Day and Work expose private personnel preparation", async ({
   });
   await expect(panel).toBeVisible();
   const options = panel.getByRole("combobox", { name: "Your employment" });
-  await options.selectOption({
+  await chooseOption(options, {
     label: "Shop assistant — Neighborhood Supply Cooperative (fictional)",
   });
   await panel

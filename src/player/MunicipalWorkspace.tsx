@@ -1,5 +1,9 @@
 import "./MunicipalWorkspace.css";
+import { PinToggle } from "./controls/PinToggle";
+import { GuideTerm } from "./GuideTerm";
 import { projectMunicipalGoverning } from "../presentation/municipal-governing";
+import { proseDate } from "../presentation/prose-dates";
+import { formatMinute } from "../presentation/player-calendar";
 import { municipalCapacitySourceUrl } from "../simulation/municipal-capacity";
 import { municipalVenueForActivity } from "../presentation/municipal-venue";
 import type { ReactNode } from "react";
@@ -40,6 +44,7 @@ import {
   resolveMunicipalInspectionKey,
   stateDisplayName,
 } from "./municipal-directory";
+import { GameSelect } from "./controls/GameSelect";
 
 function humanLabel(value: string): string {
   const words = value.toLowerCase().replace(/[_-]/g, " ");
@@ -175,7 +180,7 @@ export function MunicipalWorkspace({
       ) : null}
       <label>
         {"Inspect a government"}
-        <select
+        <GameSelect
           id="municipal-government-select"
           data-testid="municipal-government-select"
           value={selectValue}
@@ -203,7 +208,7 @@ export function MunicipalWorkspace({
                 ))}
             </optgroup>
           ))}
-        </select>
+        </GameSelect>
       </label>
     </div>
   );
@@ -266,20 +271,13 @@ export function MunicipalWorkspace({
               {stateDisplayName(view.government.state)}
             </span>
             {onTogglePinGovernment ? (
-              <button
-                type="button"
+              <PinToggle
                 className="ui-action"
-                data-testid="municipal-pin"
-                aria-pressed={pinned}
-                aria-label={
-                  pinned
-                    ? `Unpin ${view.government.displayName}`
-                    : `Pin ${view.government.displayName}`
-                }
-                onClick={() => onTogglePinGovernment(view.government.key)}
-              >
-                {pinned ? "★ Pinned" : "☆ Pin this government"}
-              </button>
+                pinned={pinned}
+                name={view.government.displayName}
+                testid="municipal-pin"
+                onToggle={() => onTogglePinGovernment(view.government.key)}
+              />
             ) : null}
           </p>
 
@@ -347,7 +345,8 @@ export function MunicipalWorkspace({
                 <details>
                   <summary>Election rule and remaining actions</summary>
                   <p>
-                    {managerRule.label}, with the body's quorum required.{" "}
+                    {managerRule.label}, with the body's{" "}
+                    <GuideTerm semanticKey="quorum">quorum</GuideTerm> required.{" "}
                     {managerRule.source.sourceUrl ? (
                       <a
                         href={managerRule.source.sourceUrl}
@@ -639,7 +638,7 @@ export function MunicipalWorkspace({
                   </p>
                   <label>
                     {"Public session type"}
-                    <select
+                    <GameSelect
                       value={
                         view.availableMeetingSeries.some(
                           (series) => series.seriesKey === selectedSeriesKey,
@@ -657,7 +656,7 @@ export function MunicipalWorkspace({
                           {" ·"} {humanLabel(series.kind)}
                         </option>
                       ))}
-                    </select>
+                    </GameSelect>
                   </label>
                   <button
                     type="button"
@@ -696,14 +695,9 @@ export function MunicipalWorkspace({
                   <h4>{meeting.title}</h4>
                   <p>{meeting.summary}</p>
                   <p>
-                    {state!.start.date}
-                    {" ·"}{" "}
-                    {String(Math.floor(state!.start.minuteOfDay / 60)).padStart(
-                      2,
-                      "0",
-                    )}
-                    {":"}
-                    {String(state!.start.minuteOfDay % 60).padStart(2, "0")}
+                    {proseDate(state!.start.date)}
+                    {" · "}
+                    {formatMinute(state!.start.minuteOfDay)}
                   </p>
                   <p>
                     {
@@ -1077,7 +1071,7 @@ export function MunicipalWorkspace({
                     ? row.partTimeEmployees.value
                     : "Unknown"}{" "}
                   {"part-time employees; observed "}
-                  {row.referenceDate}
+                  {proseDate(row.referenceDate)}
                   {". Full-time equivalent: unknown."}{" "}
                   {municipalCapacitySourceUrl(row.evidence.artifactId) && (
                     <a

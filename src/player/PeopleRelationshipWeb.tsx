@@ -214,6 +214,9 @@ function WebNode({
   const described = node.isPlayer
     ? "You"
     : `${node.name}${node.relationship ? `, ${node.relationship}` : ""}`;
+  const shownLabel = label.length > 20 ? `${label.slice(0, 18)}…` : label;
+  // An estimate of the rendered label, generous enough to cover it.
+  const labelWidth = Math.max(size, shownLabel.length * 7.5 + 12);
   return (
     <g
       className="pg-relationship-web-node"
@@ -254,8 +257,20 @@ function WebNode({
           <PersonPortrait world={world} personId={node.personId} size="small" />
         </div>
       </foreignObject>
+      {/*
+        The whole name is a target. Safari hit-tests SVG text by glyph, so a
+        click between letters would fall through; this box catches it.
+      */}
+      <rect
+        className="pg-relationship-web-label-hit"
+        data-testid={`people-web-label-${node.personId}`}
+        x={-labelWidth / 2}
+        y={size / 2 + 5}
+        width={labelWidth}
+        height={17}
+      />
       <text x={0} y={size / 2 + 17} textAnchor="middle">
-        {label.length > 20 ? `${label.slice(0, 18)}…` : label}
+        {shownLabel}
       </text>
     </g>
   );

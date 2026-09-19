@@ -1,15 +1,14 @@
-import { fileCandidacy } from "./support/campaign";
 import { programConfigurations } from "../../src/simulation/legislation-program-families";
 import { shotPath } from "./support/shot-path";
 import { expect, test, type Page } from "@playwright/test";
+import { enterRecordedMemberTerm } from "./support/legislative-entry";
+import { chosenValue } from "./support/controls";
 
 import {
   enterLife,
-  expectNoDestination,
-  goTo,
+  saveLife,
   openElsewhere,
   openShellMenu,
-  startLife,
 } from "./support/creator";
 
 /**
@@ -76,41 +75,23 @@ async function freshBrowser(page: Page) {
   });
 }
 
-/** Running for office lives in Work (PT3), beside the day's time control. */
-async function openCampaign(page: Page) {
-  await openElsewhere(page, "work");
-  await expect(page.getByTestId("work-section-campaign")).toBeVisible();
-}
-
-async function liveUntilDecided(page: Page, maxDays = 45) {
-  for (let day = 0; day < maxDays; day += 1) {
-    if (await page.getByTestId("campaign-result").isVisible()) return true;
-    await page.getByTestId("pass-day").click();
-  }
-  return page.getByTestId("campaign-result").isVisible();
-}
+/** Running for office lives in Politics → Campaigns, beside the time control. */
 
 /** A won Kentucky seat, with Work open, reached the way a player reaches it. */
+/**
+ * A seated member with Work open, constructed rather than campaigned for.
+ *
+ * These cases are about the DOCKET. Reaching the seat the ordinary way costs a
+ * won campaign plus the walk from a February result to the term's January
+ * start — an election result is not office authority — and that walk is what
+ * these thirty-second budgets die on, not a wrong assertion. The ordinary
+ * route is still proven by office-onboarding-ordinary, pr79f and
+ * campaign-first-election, which keep the real campaign and have the budget.
+ */
 async function wonSeatWithWorkOpen(page: Page) {
   await freshBrowser(page);
-  await page.goto("/?seed=p85c-owner-0");
-  await startLife(page, {
-    age: 34,
-    place: "Lexington",
-    state: "Kentucky",
-    gender: "male",
-  });
-  await enterLife(page);
-  await openCampaign(page);
-  await fileCandidacy(page);
-  await page.getByTestId("campaign-fundraising").click();
-  for (let day = 0; day < 3; day += 1) {
-    await page.getByTestId("pass-day").click();
-    await page.getByTestId("campaign-outreach").click();
-  }
-  expect(await liveUntilDecided(page)).toBe(true);
-  await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
-  await openElsewhere(page, "work");
+  await page.goto("/");
+  await enterRecordedMemberTerm(page);
   await expect(page.getByTestId("office-section")).toBeVisible();
 }
 
@@ -273,17 +254,23 @@ test.describe("the docket, from the ordinary route", () => {
     await page.getByTestId("file-the-draft").click();
     await expect(page.getByTestId("docket-bill")).toBeVisible();
 
-    // Keep lives in the corner menu; it is opened the way a player opens it.
-    await goTo(page, "keep-world");
-    await expectNoDestination(page, "keep-world");
+    // Keep or Save, depending on whether this life already has a slot. The
+    // constructed seat arrives from a world that was already written once, so
+    // the menu offers Save rather than Keep; saveLife() takes either and
+    // asserts Keep is gone afterwards.
+    await saveLife(page);
     await page.reload();
     await page.getByTestId("continue").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);
 
     await openShellMenu(page);
-    await page.getByTestId("elsewhere-work").focus();
+    await page.getByTestId("nav-politics").focus();
     await page.keyboard.press("Space");
+    await expect(page.getByTestId("politics-tab-office")).toHaveAttribute(
+      "aria-current",
+      "page",
+    );
     await expect(page.getByTestId("docket-list")).toBeVisible();
     await page
       .getByTestId("docket-open-legislative-docket:kentucky:bill-001")
@@ -308,7 +295,11 @@ test("saves compatible proposed changes through ordinary Work without rewriting 
   await wonSeatWithWorkOpen(page);
   const office = page.getByTestId("docket-office-record");
   await office.locator("summary").click();
-  await expect(office).toContainText("No committee appointment record");
+  // The office record says this in the player's own words now; "No committee
+  // appointment record" was database wording, which the copy guard forbids.
+  await expect(office).toContainText(
+    "You have not been appointed to a committee",
+  );
   await page.getByTestId("open-drafting-table").click();
   await page
     .getByTestId(
@@ -331,7 +322,10 @@ test("saves compatible proposed changes through ordinary Work without rewriting 
   await choice.focus();
   await choice.press("p");
   await choice.press("Tab");
-  await expect(choice).toHaveValue("prevent-closure");
+  // The operative choice is a GameSelect now — a combobox button carrying its
+  // choice in data-value — not a native <select>, so toHaveValue() reads an
+  // input that is not there. chosenValue() answers for either kind.
+  expect(await chosenValue(choice)).toBe("prevent-closure");
   const money = page.getByTestId("amend-param-programme-ceiling");
   await money.focus();
   await money.press("Home");
@@ -347,17 +341,17 @@ test("saves compatible proposed changes through ordinary Work without rewriting 
       .filter({ hasText: "Proposed changes saved" }),
   ).toContainText("Proposed changes saved");
   expect(await clauses.innerText()).toBe(originalText);
-  // Keep lives in the corner menu; it is opened the way a player opens it.
-  await goTo(page, "keep-world");
-  await expectNoDestination(page, "keep-world");
+  // Keep or Save, depending on whether this life already has a slot; the
+  // constructed seat arrives already written once, so it is Save.
+  await saveLife(page);
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
   await openElsewhere(page, "work");
   await page.getByTestId("docket-composition").locator("summary").click();
-  await expect(page.getByTestId("amend-param-operative-choice")).toHaveValue(
-    "prevent-closure",
-  );
+  expect(
+    await chosenValue(page.getByTestId("amend-param-operative-choice")),
+  ).toBe("prevent-closure");
   await expect(
     page.getByTestId("composition-comparison").locator("section"),
   ).toHaveCount(2);
@@ -388,12 +382,15 @@ test("new service clauses, saved selection and unavailable scenario refusal work
   await choice.focus();
   await choice.press("p");
   await choice.press("Tab");
-  await expect(choice).toHaveValue("prevent-closure");
+  // The operative choice is a GameSelect now — a combobox button carrying its
+  // choice in data-value — not a native <select>, so toHaveValue() reads an
+  // input that is not there. chosenValue() answers for either kind.
+  expect(await chosenValue(choice)).toBe("prevent-closure");
   const commencement = page.getByTestId("draft-param-commencement");
   await commencement.focus();
   await commencement.press("t");
   await commencement.press("Tab");
-  await expect(commencement).toHaveValue("next-calendar-year");
+  expect(await chosenValue(commencement)).toBe("next-calendar-year");
   await expect(page.getByTestId("drafting-compare")).toContainText("January 1");
   await page.getByTestId("file-the-draft").focus();
   await page.keyboard.press("Enter");
@@ -430,9 +427,9 @@ test("new service clauses, saved selection and unavailable scenario refusal work
   await page
     .getByTestId("docket-open-legislative-docket:kentucky:bill-001")
     .click();
-  // Keep lives in the corner menu; it is opened the way a player opens it.
-  await goTo(page, "keep-world");
-  await expectNoDestination(page, "keep-world");
+  // Keep or Save, depending on whether this life already has a slot; the
+  // constructed seat arrives already written once, so it is Save.
+  await saveLife(page);
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
