@@ -7369,6 +7369,33 @@ body:where(.pg-game) .game-campaign-tallies {
   margin-top: 0.7rem;
 }
 
+/*
+ * The open moment, and the way back out of it.
+ *
+ * The surface had no styling at all, so "Return to the room" fell to the
+ * bottom-left of the dock and landed under the corner cluster, which reads
+ * back as pg-nav-cluster-inner intercepting the press. The panel keeps its own
+ * width and the control sits at its right edge, which is the side the cluster
+ * is not on, and above the name-plate band.
+ */
+.pg-opening-pending {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+  width: min(42rem, 100%);
+  min-height: 0;
+}
+
+.pg-opening-pending > .life-moment {
+  min-height: 0;
+  flex: 0 1 auto;
+}
+
+.pg-opening-pending > [data-testid="pending-life-return"] {
+  align-self: flex-end;
+}
+
 /* --- Opening the moment ------------------------------------------------- */
 
 /*

@@ -267,9 +267,25 @@ export async function enterLife(page: Page): Promise<void> {
  */
 export async function openMoment(page: Page): Promise<void> {
   const panel = page.getByTestId("story-section");
-  if ((await panel.count()) > 0) return;
   const opener = page.getByTestId("open-moment");
-  if ((await opener.count()) === 0) return;
+  /*
+   * Wait for whichever the room settles on — the moment already open, or the
+   * way in. Asking for a count straight away raced the render and answered
+   * "neither", and because this helper is deliberately tolerant it then did
+   * nothing at all and let the caller fail one assertion later, which is a
+   * bad way to learn that the room was simply still arriving.
+   */
+  try {
+    await panel
+      .or(opener)
+      .first()
+      .waitFor({ state: "visible", timeout: 15_000 });
+  } catch {
+    // No moment offered here — under a conversation, say. The caller's own
+    // assertions still decide whether that was right.
+    return;
+  }
+  if ((await panel.count()) > 0) return;
   await opener.click();
   await expect(panel).toBeVisible();
 }
