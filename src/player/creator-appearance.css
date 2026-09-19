@@ -217,6 +217,31 @@
  * exceeds the column. How much of the stage the artwork fills is the figure
  * lane's; this is only how much room it is given.
  */
+/*
+ * And the pinned rows cannot cover it, because it cannot scroll out from
+ * under them.
+ *
+ * .kit41-creator-preview is sticky to the top of the scrolling panel while
+ * Reset/Begin and Back are sticky to its bottom. A column pinned at the top
+ * never reaches the end of the grid, so .kit41-creator-layout's padding-bottom
+ * — which is what keeps the last hairstyle card clear — does nothing for it:
+ * whatever of the figure falls below the pinned rows is hidden for good, and
+ * scrolling moves the other column instead. R1 measured the bar over the
+ * bottom 88px of a 300px stage, and the stage is taller than that once its own
+ * clamp above governs again.
+ *
+ * So the column is bounded by the room the panel actually leaves it — the
+ * frame's height, less the frame's own padding, less the two pinned rows. A
+ * figure taller than that scrolls inside the column, where it stays reachable.
+ */
+.title-tableau--art.front-door .kit41-creator-preview {
+  max-height: calc(
+    var(--pg-vv-height, 100dvh) - 2 * clamp(2rem, 6vh, 4rem) - 6rem
+  );
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  box-sizing: border-box;
+}
 .title-tableau--art.front-door .kit41-creator .wardrobe-figure-stage {
   height: clamp(320px, 56dvh, 30rem);
   width: auto;
