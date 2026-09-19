@@ -31,6 +31,7 @@ import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 
 import electron from "electron";
+import { ArtDeskExports } from "./artdesk-export.mjs";
 
 import {
   APP_ORIGIN,
@@ -190,6 +191,7 @@ function readSettings() {
         : "main",
     // Optional exact bench source on that branch; unset follows its head.
     artDeskPin: validRevision(value.artDeskPin) ? value.artDeskPin : null,
+    artDeskSource: value.artDeskSource === "local" ? "local" : "published",
     // Drive-for-desktop exchange folder for the bench; unset leaves the
     // bench's own default discovery in charge.
     artbenchDriveRoot:
@@ -485,6 +487,7 @@ function publicState() {
     repositoryPath: state?.repositoryPath ?? null,
     privatePackPath: state?.privatePackPath ?? null,
     artDeskBranch: settings.artDeskBranch,
+    artDeskSource: settings.artDeskSource,
     identities: {
       hub: {
         revision: hubBuild.revision,
@@ -757,12 +760,81 @@ function localView(file, query = null) {
 }
 
 let artDeskDownloadsConfigured = false;
+const artDeskExports = new ArtDeskExports(
+  path.join(dataRoot, "art-records", "ocd", "cache", "native-exports"),
+);
+const benchViewPath = path.join(
+  dataRoot,
+  "art-records",
+  "ocd",
+  "cache",
+  "view.json",
+);
+ipcMain.handle("artbench:view-state", (event) => {
+  if (!trustedArtBench(event)) throw new Error("Untrusted Art Bench sender.");
+  try {
+    return JSON.parse(readFileSync(benchViewPath, "utf8"));
+  } catch {
+    return null;
+  }
+});
+ipcMain.on("artbench:remember-view", (event, value) => {
+  if (!trustedArtBench(event) || !value || typeof value !== "object") return;
+  const cleaned = {};
+  for (const key of ["candidateId", "cardKey", "requestId", "tab"])
+    if (typeof value[key] === "string" && value[key].length <= 256)
+      cleaned[key] = value[key];
+  mkdirSync(path.dirname(benchViewPath), { recursive: true });
+  atomicWrite(benchViewPath, cleaned);
+});
+
+function trustedArtBench(event) {
+  const contents = hub.views.get("artdesk")?.webContents;
+  return (
+    contents &&
+    !contents.isDestroyed() &&
+    event.sender === contents &&
+    event.senderFrame === contents.mainFrame &&
+    hub.artdesk.url &&
+    event.senderFrame.url === hub.artdesk.url
+  );
+}
+ipcMain.handle("artbench:prepare", async (event, subject) => {
+  if (!trustedArtBench(event)) throw new Error("Untrusted Art Bench sender.");
+  const item = await artDeskExports.prepare(
+    subject,
+    hub.artdesk.url,
+    hub.artdesk.token,
+  );
+  return { ready: true, sha256: item.sha256, byteLength: item.byteLength };
+});
+ipcMain.on("artbench:drag", (event, subject) => {
+  if (!trustedArtBench(event)) return;
+  try {
+    const item = artDeskExports.resolve(subject);
+    const icon = electron.nativeImage
+      .createFromPath(item.file)
+      .resize({ width: 96 });
+    if (icon.isEmpty()) throw new Error("No usable drag icon.");
+    event.sender.startDrag({ file: item.file, icon });
+  } catch (error) {
+    logLine(`Art Bench drag refused: ${error.message}`);
+  }
+});
+ipcMain.handle("artbench:reveal-download", (event) => {
+  if (!trustedArtBench(event)) throw new Error("Untrusted Art Bench sender.");
+  const target = hub.lastDownload?.path;
+  if (!target || !existsSync(target)) return { ok: false };
+  shell.showItemInFolder(target);
+  return { ok: true };
+});
 
 function artDeskView(url) {
   const origin = new URL(url).origin;
   const view = new WebContentsView({
     webPreferences: {
       partition: "persist:art-desk",
+      preload: path.join(appRoot, "artdesk-preload.cjs"),
       nodeIntegration: false,
       contextIsolation: true,
       sandbox: true,
@@ -806,7 +878,7 @@ function artDeskView(url) {
   if (!artDeskDownloadsConfigured) {
     artDeskDownloadsConfigured = true;
     contents.session.on("will-download", (event, item) => {
-      const dest = artDeskDownloadPath({
+      let dest = artDeskDownloadPath({
         filename: item.getFilename(),
         url: item.getURL(),
         benchOrigin: hub.artdesk?.url ? new URL(hub.artdesk.url).origin : null,
@@ -831,6 +903,11 @@ function artDeskView(url) {
         return;
       }
       mkdirSync(path.dirname(dest), { recursive: true });
+      const requestedDest = dest;
+      for (let copy = 2; existsSync(dest); copy += 1) {
+        const extension = path.extname(requestedDest);
+        dest = `${requestedDest.slice(0, -extension.length)}-${copy}${extension}`;
+      }
       item.setSavePath(dest);
       item.once("done", (_event, state) => {
         logLine(`Art Desk download ${state}: ${dest}`);
@@ -1288,22 +1365,23 @@ async function startArtDesk() {
     const exchange = artbenchExchange();
     const repositoryPath = await verifiedRepository();
     const branch = settings.artDeskBranch;
-    await git(
-      [
-        "fetch",
-        "--quiet",
-        "--no-tags",
-        "origin",
-        `+refs/heads/${branch}:refs/remotes/origin/${branch}`,
-      ],
-      repositoryPath,
-    );
+    if (settings.artDeskSource !== "local")
+      await git(
+        [
+          "fetch",
+          "--quiet",
+          "--no-tags",
+          "origin",
+          `+refs/heads/${branch}:refs/remotes/origin/${branch}`,
+        ],
+        repositoryPath,
+      );
     const head = await git(
       [
         "rev-parse",
         "--verify",
         "--end-of-options",
-        `refs/remotes/origin/${branch}^{commit}`,
+        `${settings.artDeskSource === "local" ? "refs/heads" : "refs/remotes/origin"}/${branch}^{commit}`,
       ],
       repositoryPath,
     );
@@ -1327,6 +1405,7 @@ async function startArtDesk() {
       packPath: state.privatePackPath,
       driveRoot: exchange?.root ?? null,
       exchangeFolders: exchange?.paths ?? null,
+      localSource: settings.artDeskSource === "local",
     });
     const existing = hub.views.get("artdesk");
     if (
@@ -1507,9 +1586,16 @@ handle("hub:choose-pack", async () => {
   return { ok: true };
 });
 handle("hub:artdesk-branch", async (branch) => {
-  const value = String(branch ?? "");
+  const value = String(
+    typeof branch === "object" ? branch?.branch : (branch ?? ""),
+  );
   if (!validBranchName(value)) return { ok: false, message: "Invalid branch." };
-  settings = { ...settings, artDeskBranch: value };
+  settings = {
+    ...settings,
+    artDeskBranch: value,
+    artDeskSource: branch?.source === "local" ? "local" : "published",
+    artDeskPin: null,
+  };
   atomicWrite(settingsPath, settings);
   broadcast();
   return { ok: true, message: "Restart the Art Desk to use this source." };

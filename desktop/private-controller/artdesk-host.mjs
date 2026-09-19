@@ -117,7 +117,10 @@ export function artDeskDownloadPath({
 export class ArtDeskHost {
   constructor({ dataRoot, env, onStatus }) {
     this.root = path.join(dataRoot, "artdesk");
-    this.recordRoot = path.join(dataRoot, "art-records", ART_DESK_PROJECT);
+    this.recordRoot =
+      env.PG_ARTBENCH_DATA_ROOT && path.isAbsolute(env.PG_ARTBENCH_DATA_ROOT)
+        ? env.PG_ARTBENCH_DATA_ROOT
+        : path.join(dataRoot, "art-records", ART_DESK_PROJECT);
     this.token = null;
     this.env = env;
     this.onStatus = onStatus ?? (() => {});
@@ -172,15 +175,27 @@ export class ArtDeskHost {
     packPath,
     driveRoot = null,
     exchangeFolders = null,
+    localSource = false,
   }) {
     if (!validBranchName(branch) || !validRevision(revision))
       throw new Error(
         "Art Desk source must be a valid branch at an exact SHA.",
       );
-    const worktree = this.worktreeFor(branch);
+    const worktree = localSource ? repositoryPath : this.worktreeFor(branch);
     const git = (args, label) =>
       runQuiet("/usr/bin/git", args, { cwd: worktree, env: this.env, label });
     try {
+      if (localSource) {
+        const current = await git(["rev-parse", "HEAD"], "git rev-parse");
+        const dirty = await git(
+          ["status", "--porcelain", "--untracked-files=no"],
+          "git status",
+        );
+        if (current !== revision || dirty)
+          throw new Error(
+            "Local Art Bench requires the selected committed branch to be checked out with no tracked edits. Existing work is preserved.",
+          );
+      }
       if (!existsSync(worktree)) {
         this.#set(
           "preparing",
@@ -215,15 +230,17 @@ export class ArtDeskHost {
         }
       }
       const activeHead = await git(["rev-parse", "HEAD"], "git rev-parse");
-      this.#set("preparing", "Staging private art inputs for the Art Desk…");
-      await runQuiet(
-        "/bin/sh",
-        [path.join(packPath, "stage-into-worktree.sh"), worktree],
-        {
-          env: this.env,
-          label: "private pack installer",
-        },
-      );
+      if (!localSource) {
+        this.#set("preparing", "Staging private art inputs for the Art Desk…");
+        await runQuiet(
+          "/bin/sh",
+          [path.join(packPath, "stage-into-worktree.sh"), worktree],
+          {
+            env: this.env,
+            label: "private pack installer",
+          },
+        );
+      }
       // Reinstall when the source's lockfile differs from the installed one.
       const lockFile = path.join(worktree, "package-lock.json");
       const lockHash = existsSync(lockFile)
@@ -235,7 +252,7 @@ export class ArtDeskHost {
         : null;
       if (
         !existsSync(path.join(worktree, "node_modules", "vite")) ||
-        installedLock !== lockHash
+        (!localSource && installedLock !== lockHash)
       ) {
         this.#set(
           "preparing",

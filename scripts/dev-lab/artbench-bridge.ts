@@ -412,6 +412,18 @@ export function createArtbenchHandler(store: ArtbenchStore) {
       if (route === "original" && method === "GET") {
         const candidateId = url.searchParams.get("candidateId") ?? "";
         const { bytes, candidate } = store.original(candidateId);
+        if (
+          (url.searchParams.has("sha256") &&
+            url.searchParams.get("sha256") !== candidate.sha256) ||
+          (url.searchParams.has("revision") &&
+            url.searchParams.get("revision") !== String(candidate.revision))
+        ) {
+          throw new ArtbenchError(
+            409,
+            "revision-mismatch",
+            "The requested revision does not match the stored candidate.",
+          );
+        }
         response.statusCode = 200;
         response.setHeader(
           "Content-Type",
@@ -421,6 +433,7 @@ export function createArtbenchHandler(store: ArtbenchStore) {
         response.setHeader("Cache-Control", "no-store");
         response.setHeader("X-Artbench-Sha256", candidate.sha256);
         response.setHeader("X-Artbench-Candidate", candidate.candidateId);
+        response.setHeader("X-Artbench-Revision", String(candidate.revision));
         if (url.searchParams.get("download") === "1") {
           // A readable name plus the recorded hash: the bytes stay identifiable.
           response.setHeader(

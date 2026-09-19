@@ -20,6 +20,8 @@ function render(state) {
   $("repo").textContent = state.repositoryPath ?? "Not chosen";
   $("pack").textContent = state.privatePackPath ?? "Not chosen";
   $("artdesk-branch").textContent = state.artDeskBranch;
+  if (document.activeElement !== $("artdesk-source"))
+    $("artdesk-source").value = state.artDeskSource ?? "published";
   if (document.activeElement !== $("artdesk-input"))
     $("artdesk-input").value = state.artDeskBranch;
   $("arch").textContent = `${state.architecture} · hub ${state.hubVersion}`;
@@ -123,7 +125,14 @@ $("choose-pack").addEventListener("click", async () =>
   note((await hub.choosePack())?.message),
 );
 $("artdesk-save").addEventListener("click", async () =>
-  note((await hub.setArtDeskBranch($("artdesk-input").value.trim()))?.message),
+  note(
+    (
+      await hub.setArtDeskBranch({
+        branch: $("artdesk-input").value.trim(),
+        source: $("artdesk-source").value,
+      })
+    )?.message,
+  ),
 );
 $("artdesk-restart").addEventListener("click", async () =>
   note((await hub.restartArtDesk())?.message),

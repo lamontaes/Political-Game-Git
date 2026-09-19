@@ -306,9 +306,36 @@
 }
 
 .art-desk-reference-thumb {
+  display: block;
+  width: 240px;
+  max-width: 100%;
+  max-height: 180px;
+  object-fit: contain;
   vertical-align: middle;
   margin: 0 4px;
   border-radius: 3px;
+}
+.art-desk-provider-prompts textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  margin: 8px 0;
+}
+.art-desk-edit-drop {
+  border: 2px dashed #82724e;
+  padding: 16px;
+}
+.art-desk-asset-lineage ol {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+}
+.art-desk-preview img[data-native-drag="ready"],
+.art-desk-reference-thumb[data-native-drag="ready"] {
+  cursor: grab;
 }
 .art-desk-reference-row {
   display: flex;

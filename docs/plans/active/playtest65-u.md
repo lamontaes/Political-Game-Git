@@ -73,3 +73,41 @@ White House candidate artwork and renderer delta are not yet received.
 W `3c894cb0` RECEIVED as `57be7433`: person history/contact, opportunity/activity readers, initial home placement and new-opening replay fields. W reports 24 focused checks and scoped lint pass. V has released the shared Mac slot after typecheck and 10 focused tests (one private-input skip). U now owns private-input installation and the first combined browser window.
 
 U wired shared Contact, walk/Attend guards, Save and Quit, Personal history/goals, compact work/study, map state labels, and removed office browsing's duplicate day control. Changed-source lint/format passed; combined typecheck/browser still pending. Q65-W-002 matching public-meeting return journey is awaiting the owner's explicit gameplay decision; local neighborhood/home remains supported.
+
+## Art Bench first — September 19 owner priority
+
+Read ART BENCH FIRST through END ART BENCH FIRST. U owns ArtDeskView, native
+client/preload/export, intake/Drive bridge repairs and the working round trip.
+V owns canonical candidate ingestion and reusable people/clothing/pose source.
+Background generation is paused until the owner can use the requested workflow.
+W continues the bounded Michigan municipal/party/demographic domain delta;
+politics-government.ts is W-owned, GovernmentBrowser rendering stays U-owned.
+Existing supported task messages carry acknowledgments; no new receiver.
+
+Preserved combined source `27c4c10363684d105f1d0dbdf30691352451ba7a` includes
+V saved figures/layout and environment registry (`1041f355`, `8bb93c58`),
+W final source `48a03476`, U title/opening and Creator Undo. Combined typecheck
+passed. Browser caught a real creator defect: the figure shrinks to 85px at
+1280×720. That fix and remaining game journey/package are pending while bench
+work takes priority; no visual acceptance claimed.
+
+V received 25 images into the installed store
+`~/Library/Application Support/Our Civic Duty Private/art-records/ocd`, store
+`store-b40dfbc0-bcee-4749-b570-1c9db4591e1a`. Existing 103 events and review actors
+were preserved. Six original Firefly images, two edited environments, ten
+people/clothing source candidates and seven actual references/guides are
+ingested. Receipt: `PG-MODULAR-PACKS/PLAYTEST65-FIREFLY/receipts/artbench-ingestion.json`.
+White House original `cand-18627397-9b4c-eed8-434c-c307c1b0b835` has wide child
+`cand-bf01adf1-0c1f-10e6-7fd0-cfe659bd3a7a`; desk original
+`cand-f331bb9d-b761-a398-6f38-d0183caa0495` has child
+`cand-51191810-44c4-326a-fb42-4808188a9386`. Civic duplicate aliases existing
+`cand-e49e253a-bc98-09b6-532f-0e16d7d97f4f`. No owner art approvals were added.
+V released the sole store writer window after restart and duplicate-sync checks.
+
+U implemented exact candidate/revision/hash native export preparation and drag,
+readable revision export wording, explicit child reimport drop zone, provider
+prompts/count/copy, visible lineage, remembered viewed candidate, unapproved
+verified catalog bytes, and local received branch selection in the same client.
+Native safety/download tests passed 5/5; focused intake/bridge/card tests passed
+81/81. First typecheck passed. Packaged client loop, native payload, real Drive
+readback and final source checks are still pending at this checkpoint.

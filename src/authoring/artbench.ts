@@ -51,6 +51,8 @@ export const EDIT_KINDS: readonly EditKind[] = [
 
 /** Edits that can invalidate neck/seat/anchor/occlusion calibration. */
 export const CALIBRATION_SENSITIVE_EDITS: readonly EditKind[] = [
+  "repaint",
+  "upscale",
   "background-removal",
   "crop",
   "canvas-change",

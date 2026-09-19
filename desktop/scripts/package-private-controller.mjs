@@ -23,6 +23,7 @@ import {
   readdirSync,
   readFileSync,
   readlinkSync,
+  realpathSync,
   rmSync,
   writeFileSync,
 } from "node:fs";
@@ -93,9 +94,17 @@ const hubVersion = JSON.parse(
   readFileSync(path.join(repoRoot, "package.json"), "utf8"),
 ).version;
 
-const outputRoot = path.join(desktopRoot, "controller-release-artifacts");
+const outputIndex = args.indexOf("--output");
+const outputRoot =
+  outputIndex >= 0
+    ? path.resolve(
+        args[outputIndex + 1] ?? fail("--output requires a directory"),
+      )
+    : path.join(desktopRoot, "controller-release-artifacts");
 const appPath = path.join(outputRoot, "Our Civic Duty Private.app");
-rmSync(outputRoot, { recursive: true, force: true });
+if (outputIndex >= 0 && existsSync(outputRoot))
+  fail("The additive output directory already exists; choose a new path.");
+if (outputIndex < 0) rmSync(outputRoot, { recursive: true, force: true });
 mkdirSync(outputRoot, { recursive: true });
 cpSync(electronApp, appPath, { recursive: true, verbatimSymlinks: true });
 
@@ -128,6 +137,8 @@ const CONTROLLER_FILES = [
   "build-catalog.json",
   "worker-watch.mjs",
   "artdesk-host.mjs",
+  "artdesk-export.mjs",
+  "artdesk-preload.cjs",
   "drive-exchange.mjs",
   "preload.cjs",
   "index.html",
@@ -147,10 +158,14 @@ const CONTROLLER_FILES = [
 for (const name of CONTROLLER_FILES)
   cpSync(path.join(controllerRoot, name), path.join(packagedController, name));
 for (const dir of ["agents", "vendor", "node_modules"])
-  cpSync(path.join(controllerRoot, dir), path.join(packagedController, dir), {
-    recursive: true,
-    verbatimSymlinks: true,
-  });
+  cpSync(
+    realpathSync(path.join(controllerRoot, dir)),
+    path.join(packagedController, dir),
+    {
+      recursive: true,
+      verbatimSymlinks: true,
+    },
+  );
 writeFileSync(
   path.join(packagedRoot, "package.json"),
   `${JSON.stringify(

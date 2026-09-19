@@ -1522,11 +1522,7 @@ export class ArtbenchStore {
     const candidates = Object.values(projection.candidates).map((candidate) => {
       const bytes = this.bytesState(candidate);
       let exchangePath: string | null = null;
-      if (
-        bytes.state === "verified" &&
-        candidate.decisions.length > 0 &&
-        this.driveRoot
-      ) {
+      if (bytes.state === "verified" && this.driveRoot) {
         const name = `${candidate.sha256}.${candidate.container}`;
         const target = join(catalogDir, "candidates", name);
         if (!existsSync(target)) {

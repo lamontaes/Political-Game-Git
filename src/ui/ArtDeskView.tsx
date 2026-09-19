@@ -61,6 +61,7 @@ import {
   type ArtDeskTab,
 } from "../authoring/art-desk-cards";
 import "./art-desk.css";
+import { ArtBenchImage } from "./ArtBenchImage";
 
 const INPUTS_ROUTE = "/__dev/art-desk/inputs";
 const BENCH = "/__dev/artbench";
@@ -283,6 +284,24 @@ export function ArtDeskView() {
   const [showMore, setShowMore] = useState(false);
   const [showQa, setShowQa] = useState(false);
   const [advancedOpen, setAdvancedOpen] = useState(false);
+  const [viewRestored, setViewRestored] = useState(!window.ocdArtBench);
+  useEffect(() => {
+    if (!window.ocdArtBench) return;
+    void window.ocdArtBench
+      .viewState()
+      .then((saved) => {
+        if (saved?.candidateId) setViewedCandidateId(saved.candidateId);
+        if (saved?.cardKey) setSelectedCardKey(saved.cardKey);
+        if (saved?.requestId) setSelectedRequestId(saved.requestId);
+        if (
+          saved?.tab &&
+          ART_DESK_TABS.some((entry) => entry.key === saved.tab)
+        )
+          setTabState(saved.tab as ArtDeskTab);
+      })
+      .catch(() => {})
+      .finally(() => setViewRestored(true));
+  }, []);
   const setTab = (next: ArtDeskTab) => {
     setTabState(next);
     try {
@@ -344,7 +363,7 @@ export function ArtDeskView() {
   useEffect(() => {
     // The lane view (Advanced) keeps its own selection; the card view below
     // chooses the viewed version from the selected card.
-    if (!advancedOpen || !selectedRequest) return;
+    if (!viewRestored || !advancedOpen || !selectedRequest) return;
     if (
       viewedCandidateId &&
       selectedRequest.candidateIds.includes(viewedCandidateId)
@@ -355,7 +374,7 @@ export function ArtDeskView() {
         selectedRequest.candidateIds.at(-1) ??
         null,
     );
-  }, [advancedOpen, selectedRequest, viewedCandidateId]);
+  }, [advancedOpen, selectedRequest, viewedCandidateId, viewRestored]);
 
   const viewed =
     (viewedCandidateId && projection?.candidates[viewedCandidateId]) || null;
@@ -409,7 +428,7 @@ export function ArtDeskView() {
       : null;
 
   useEffect(() => {
-    if (advancedOpen || !selectedCard) return;
+    if (!viewRestored || advancedOpen || !selectedCard) return;
     if (
       viewedCandidateId &&
       (selectedCard.lineage.some((s) => s.candidateId === viewedCandidateId) ||
@@ -417,7 +436,16 @@ export function ArtDeskView() {
     )
       return;
     setViewedCandidateId(selectedCard.leadCandidateId);
-  }, [advancedOpen, selectedCard, viewedCandidateId]);
+  }, [advancedOpen, selectedCard, viewedCandidateId, viewRestored]);
+  useEffect(() => {
+    if (viewRestored && viewed)
+      window.ocdArtBench?.rememberView({
+        candidateId: viewed.candidateId,
+        cardKey: selectedCard?.key ?? null,
+        requestId: viewed.requestId,
+        tab,
+      });
+  }, [viewRestored, viewed, selectedCard?.key, tab]);
 
   const contractHashes = useCallback(
     async (request: AssetRequest, sceneId: string | undefined) => {
@@ -976,6 +1004,7 @@ export function ArtDeskView() {
           <div className="art-desk-detail-column">
             {selectedCard?.lineageState ? (
               <details
+                open
                 className="art-desk-asset-lineage"
                 data-testid="art-desk-asset-lineage"
                 data-lineage-state={selectedCard.lineageState}
@@ -1473,7 +1502,10 @@ function RequestDetail({
         ? `Candidate bytes are ${viewedBytes?.state ?? "unchecked"}; a decision binds present, decoded, hash-verified bytes.`
         : null;
 
-  async function uploadEdited(files: FileList | null, approve: boolean) {
+  async function uploadEdited(
+    files: FileList | readonly File[] | null,
+    approve: boolean,
+  ) {
     if (!files || !viewed) return;
     const results = await onIntake([...files], {
       requestId,
@@ -1562,7 +1594,8 @@ function RequestDetail({
           ? ` · related to ${request.parentRequestId}`
           : ""}
       </p>
-      <StyleReferenceSummary request={r} />
+      <StyleReferenceSummary request={r} projection={projection} />
+      <ProviderPrompts request={r} />
       {request.qa ? (
         <p className="art-desk-warning" data-testid="art-desk-qa-flag">
           Disposable QA request from the private sidecar. Its candidates are
@@ -1702,10 +1735,10 @@ function RequestDetail({
               <figure
                 className={parent.hasAlpha ? "art-desk-checker" : undefined}
               >
-                <img
-                  src={originalUrl(parent.candidateId, parent.sha256)}
+                <ArtBenchImage
+                  candidate={parent}
                   alt={`Parent revision ${parent.revision}`}
-                  data-testid="art-desk-parent-preview"
+                  testId="art-desk-parent-preview"
                 />
                 <figcaption className="art-desk-meta">
                   parent rev {parent.revision} · {parent.width}×{parent.height}
@@ -1716,15 +1749,20 @@ function RequestDetail({
               <figure
                 className={viewed.hasAlpha ? "art-desk-checker" : undefined}
               >
-                <img
-                  src={originalUrl(viewed.candidateId, viewed.sha256)}
+                <ArtBenchImage
+                  candidate={viewed}
                   alt={`Candidate for ${r.title}`}
-                  data-testid="art-desk-candidate-preview"
+                  testId="art-desk-candidate-preview"
                 />
                 <figcaption className="art-desk-meta">
                   rev {viewed.revision} · {viewed.width}×{viewed.height}{" "}
                   {viewed.container}
                   {viewed.hasAlpha ? " · transparent" : ""}
+                  {" · "}
+                  {viewed.editKind === "original"
+                    ? "Original source"
+                    : viewed.editKind}
+                  {viewed.note ? ` · ${viewed.note}` : ""}
                 </figcaption>
               </figure>
             ) : (
@@ -1871,7 +1909,7 @@ function RequestDetail({
                 type="button"
                 onClick={() => void onSelect(viewed.candidateId)}
               >
-                Make this the selected revision
+                Make this the preferred candidate
               </button>
             ) : null}
             {viewedBytes?.state === "verified" ? (
@@ -1881,8 +1919,16 @@ function RequestDetail({
                 data-download-name={originalName ?? undefined}
                 onClick={() => void downloadOriginal()}
               >
-                Download original ({viewed.width}×{viewed.height}{" "}
+                Download this revision ({viewed.width}×{viewed.height}{" "}
                 {viewed.container})
+              </button>
+            ) : null}
+            {window.ocdArtBench ? (
+              <button
+                type="button"
+                onClick={() => void window.ocdArtBench?.revealDownload()}
+              >
+                Reveal downloaded file
               </button>
             ) : null}
             <span
@@ -1967,12 +2013,28 @@ function RequestDetail({
               </button>
             </div>
           ) : (
-            <div className="art-desk-dialog" data-testid="art-desk-edit">
-              <strong>External edit round trip</strong>
+            <div
+              className="art-desk-dialog art-desk-edit-drop"
+              data-testid="art-desk-edit"
+              onDragOver={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+              }}
+              onDrop={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                setDragging(false);
+                const files = [...event.dataTransfer.files];
+                if (files.length === 1) void uploadEdited(files, false);
+                else if (files.length) void onIntake(files, {});
+              }}
+            >
+              <strong>Add edited version</strong>
               <span className="art-desk-meta">
-                Download the original above, edit it outside, then upload the
-                result here. Identity, tags, notes and lineage are kept;
-                approval is not.
+                Drop one returned image here or choose a file. It becomes a
+                child of the viewed revision, keeping this card and its tags.
+                Previous approvals stay with their original pixels. Multiple
+                unmatched images go to the inbox.
               </span>
               <label>
                 Edit kind{" "}
@@ -2000,7 +2062,7 @@ function RequestDetail({
                 />
               </label>
               <label className="art-desk-upload">
-                Upload edited version
+                Choose edited version
                 <input
                   type="file"
                   accept="image/png,image/jpeg"
@@ -2166,10 +2228,90 @@ function TagEditor({
   );
 }
 
+function ProviderPrompts({ request }: { request: AssetRequest }) {
+  const [copied, setCopied] = useState("");
+  const parameters = request.generatorParameters;
+  const prompts = [
+    {
+      key: "firefly",
+      label: "Firefly",
+      text: parameters?.fireflyPrompt,
+      model: parameters?.fireflyModel,
+      limit: 1024,
+    },
+    {
+      key: "openai",
+      label: "OpenAI image tool",
+      text: parameters?.openaiPrompt,
+      model: parameters?.openaiModel,
+      limit: null,
+    },
+  ].filter((entry) => entry.text);
+  return (
+    <section
+      className="art-desk-provider-prompts"
+      aria-label="Production prompt"
+    >
+      <h3>Composition guide</h3>
+      <ul>
+        {request.generationRecipe.map((line, index) => (
+          <li key={index}>{line}</li>
+        ))}
+      </ul>
+      {prompts.map(({ key, label, text, model, limit }) => (
+        <div key={key}>
+          <strong>
+            {label}
+            {model ? ` · ${model}` : ""}
+          </strong>
+          <textarea
+            aria-label={`${label} prompt`}
+            readOnly
+            value={text}
+            rows={5}
+          />
+          <span>
+            {text!.length}
+            {limit ? ` / ${limit}` : ""} characters
+          </span>{" "}
+          <button
+            type="button"
+            disabled={limit !== null && text!.length > limit}
+            onClick={async () => {
+              try {
+                await navigator.clipboard.writeText(text!);
+                setCopied(`${label} prompt copied.`);
+              } catch {
+                setCopied("Select the prompt text to copy it.");
+              }
+            }}
+          >
+            Copy {label} prompt
+          </button>
+          {limit !== null && text!.length > limit ? (
+            <p role="alert">
+              This prompt exceeds Firefly’s limit. Its author must shorten it
+              before copying.
+            </p>
+          ) : null}
+        </div>
+      ))}
+      {prompts.length === 0 ? (
+        <p className="art-desk-meta">
+          No provider prompt is recorded for this request.
+        </p>
+      ) : null}
+      <span role="status">{copied}</span>
+    </section>
+  );
+}
+
 function StyleReferenceSummary({
   request,
+  projection,
 }: {
   readonly request: AssetRequest;
+  readonly projection: ArtbenchProjection;
 }) {
   const references = requestReferencePixels(request);
   return (
@@ -2191,12 +2333,13 @@ function StyleReferenceSummary({
             data-role={reference.role}
           >
             {reference.role}:{" "}
-            {candidateId && reference.sha256 ? (
-              <img
+            {candidateId &&
+            reference.sha256 &&
+            projection.candidates[candidateId]?.sha256 === reference.sha256 ? (
+              <ArtBenchImage
                 className="art-desk-reference-thumb"
-                alt=""
-                width={48}
-                src={originalUrl(candidateId, reference.sha256)}
+                alt={`${reference.role} reference`}
+                candidate={projection.candidates[candidateId]!}
               />
             ) : null}
             {driveId ? (
