@@ -383,24 +383,15 @@ for (const how of ["pointer", "keyboard"] as const) {
       await ask.click();
     }
     /*
-     * Asking produces an offer, not a commitment: the lane routes a request
-     * through the same offer it would send unprompted, so the player still has
-     * to say they will do it. That acceptance is what puts the hold on the
-     * calendar, so it happens here rather than being assumed.
+     * Work the player asked for is confirmed on the spot: in
+     * campaign-life-activities.ts offerCampaignLifeActivity makes an
+     * unprompted host-outreach offer a tentative hold the player must accept,
+     * and a requested shift a confirmed commitment — the same line
+     * interruption-policy.ts draws between a hold and a commitment. So there
+     * is no offered row and no accept step after asking; the request itself
+     * is the commitment. (Measured by GOVERNING: the request returns
+     * "accepted".)
      */
-    const offered = page
-      .getByTestId("party-work")
-      .locator('li[data-state="offered"]')
-      .filter({ hasText: "Phone shift" })
-      .first();
-    await expect(offered).toBeVisible();
-    const say = offered.locator('[data-testid^="party-work-accept-"]');
-    if (how === "keyboard") {
-      await say.focus();
-      await page.keyboard.press("Enter");
-    } else {
-      await say.click();
-    }
     const row = page
       .getByTestId("party-work")
       .locator('li[data-state="accepted"]')
