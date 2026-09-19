@@ -158,9 +158,9 @@
       "anchor": "ART_PREVIEW_LABEL-0001",
       "sourcePath": "src/presentation/art-preview.ts",
       "symbol": "ART_PREVIEW_LABEL",
-      "text": "Development art preview — unreleased candidate art, not approved",
+      "text": "Private preview · Some artwork is still awaiting review",
       "occurrence": 0,
-      "textRevision": "2736f3c5c2b6"
+      "textRevision": "8c47e4c19073"
     },
     {
       "anchor": "COMMIT_CONTRACTS-0001",
@@ -1086,9 +1086,9 @@
       "anchor": "INTERNAL_ART_REVIEW_LABEL-0001",
       "sourcePath": "src/presentation/art-preview.ts",
       "symbol": "INTERNAL_ART_REVIEW_LABEL",
-      "text": "Internal art review — unreleased candidate art, not approved",
+      "text": "Private preview · Some artwork is still awaiting review",
       "occurrence": 0,
-      "textRevision": "503328cde9d8"
+      "textRevision": "8c47e4c19073"
     },
     {
       "anchor": "LIFE_TALK_INTENTS-0002",

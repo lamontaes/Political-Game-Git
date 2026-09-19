@@ -59,7 +59,6 @@ The local reader also preserves an explicitly sourced separate chief executive m
 
 Usable follow-through commits sent to U: `afdb35d3` government identities/rosters; `2b2a522e` public party chapter contact; `5140ea3b` bounded evidence acquisition and 50-state target matrix; final separate-mayor reader correction follows them. None claims completed 50-state profiles, acquired ACS demographics, U production browser acceptance or a public release. Existing opening-world/history deliveries remain preserved and already received by U.
 
-
 ### Next staged source input: Portland
 
 While U holds the heavy slot, acquire one official Portland Charter Article 1 HTML response through source:acquire (under 5 MiB expected; no new workspace). Existing source bank contains only section 2-102. The official article page https://www.portland.gov/charter/2/1 identifies the pertinent 2022 amendments effective January 1, 2025. Initial scoped enacted regions cover council composition, public meetings and quorum; rights cover these legal provisions only, excluding site/navigation/editorial history. Preserve existing section 2-102 bytes and lock. Acquisition and exact excerpt verification do not by themselves establish identity, complete procedure or runtime wiring. No new heavy compile/test until U releases a slot.

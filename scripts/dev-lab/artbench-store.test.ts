@@ -213,6 +213,45 @@ describe("artbench store: intake, alternatives, lineage and decisions", () => {
     expect(store.projection().requests.inbox.lane).toBe("inbox");
   });
 
+  it("shows rejection after installation while retaining the installed receipt", () => {
+    const store = makeStore(workspaceWith([request("env-a")]));
+    const { candidate } = store.ingest(
+      tinyPng(7, 4),
+      { requestId: "env-a" },
+      OWNER,
+    );
+    const decision = {
+      candidateId: candidate.candidateId,
+      viewedCandidateId: candidate.candidateId,
+      viewedSha256: candidate.sha256,
+      actor: OWNER,
+      ...CONTRACT,
+    };
+    store.decide({ ...decision, decision: "approve" });
+    const item = store.projection().integrationQueue[0]!;
+    store.recordIntegration(
+      {
+        itemId: item.itemId,
+        state: "installed",
+        receipt: { build: "private-test" },
+      },
+      { kind: "agent", id: "integrator" },
+    );
+    expect(store.projection().candidates[candidate.candidateId].status).toBe(
+      "installed",
+    );
+    store.decide({ ...decision, decision: "reject" });
+    const after = store.projection();
+    expect(after.candidates[candidate.candidateId].status).toBe("rejected");
+    expect(after.integrationQueue[0]!.receipts).toHaveLength(1);
+    expect(after.assets[candidate.assetId].activeRuntimeCandidateId).toBe(
+      candidate.candidateId,
+    );
+    expect(
+      after.assets[candidate.assetId].currentApprovedCandidateId,
+    ).toBeNull();
+  });
+
   it("binds decisions to the viewed candidate and verified bytes; approval queues integration once", () => {
     const projection = store.projection();
     const [a, b] = projection.requests["env-a"].candidateIds;

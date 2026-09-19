@@ -62,10 +62,10 @@ export const ART_PREVIEW_VALUE = "candidate";
 
 /** Said on screen, so nobody mistakes a preview for the shipped game. */
 export const ART_PREVIEW_LABEL =
-  "Development art preview — unreleased candidate art, not approved";
+  "Private preview · Some artwork is still awaiting review";
 
 export const INTERNAL_ART_REVIEW_LABEL =
-  "Internal art review — unreleased candidate art, not approved";
+  "Private preview · Some artwork is still awaiting review";
 
 export interface ArtPreviewLibraries {
   readonly unavailableReason?: string;

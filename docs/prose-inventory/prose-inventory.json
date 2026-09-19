@@ -1,5 +1,5 @@
 {
-  "digest": "cb6f76e08cd110bf",
+  "digest": "ffb2fc77291c33d1",
   "counts": {
     "total": 3267,
     "byDomain": {
@@ -128563,7 +128563,7 @@
       "surface": "status",
       "sourcePath": "src/presentation/art-preview.ts",
       "sourceSymbol": "ART_PREVIEW_LABEL",
-      "text": "Development art preview — unreleased candidate art, not approved",
+      "text": "Private preview · Some artwork is still awaiting review",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -128583,7 +128583,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "2736f3c5c2b6",
+      "textRevision": "8c47e4c19073",
       "contextRevision": "344c358df8bb"
     },
     {
@@ -128595,7 +128595,7 @@
       "surface": "status",
       "sourcePath": "src/presentation/art-preview.ts",
       "sourceSymbol": "INTERNAL_ART_REVIEW_LABEL",
-      "text": "Internal art review — unreleased candidate art, not approved",
+      "text": "Private preview · Some artwork is still awaiting review",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -128615,7 +128615,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "503328cde9d8",
+      "textRevision": "8c47e4c19073",
       "contextRevision": "344c358df8bb"
     },
     {

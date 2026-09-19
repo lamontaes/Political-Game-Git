@@ -491,15 +491,19 @@ function candidateStatus(
   c: MutableCandidate,
   decisions: readonly ProjectedDecision[] = c.decisions,
 ): CandidateStatus {
+  const latest = decisions.at(-1);
+  // Review intent remains visible even while an older installed build still
+  // contains these bytes. The integration receipt keeps that runtime history.
+  if (latest?.payload.decision === "reject") return "rejected";
+  if (latest?.payload.decision === "request-revision")
+    return "revision-requested";
   if (c.integrationState === "installed") return "installed";
   if (c.integrationState === "published") return "in-game";
   if (c.integrationState === "accepted") return "accepted";
-  const latest = decisions.at(-1);
   if (!latest) return "awaiting-review";
   if (latest.payload.decision === "approve") {
     return c.integrationItemId ? "integration-ready" : "approved";
   }
-  if (latest.payload.decision === "reject") return "rejected";
   return "revision-requested";
 }
 
@@ -766,6 +770,11 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
         if (p.decision === "approve") {
           assetFor(candidate.ingest.assetId).currentApprovedCandidateId =
             p.candidateId;
+        } else if (
+          assetFor(candidate.ingest.assetId).currentApprovedCandidateId ===
+          p.candidateId
+        ) {
+          assetFor(candidate.ingest.assetId).currentApprovedCandidateId = null;
         }
         break;
       }

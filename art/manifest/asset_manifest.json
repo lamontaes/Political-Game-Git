@@ -5033,9 +5033,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_env_playtest65_white_house_north_wide_r6"
-      ],
+      "source_refs": ["prov_env_playtest65_white_house_north_wide_r6"],
       "rights_note": "Owner-supplied external upscale/repaint, approved in private Art Bench. Prior source chain preserved.",
       "fixed_or_modular": "fixed",
       "availability": "production-candidate",
