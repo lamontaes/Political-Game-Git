@@ -2,6 +2,7 @@ import fit from "../../art/manifest/character_candidate_visual4_fit.json";
 import {
   KIT41_REGISTRY as kit,
   MODULAR41_HEADS_REGISTRY as headRepair,
+  MODULAR45_REGISTRY as modular45,
   candidateGenerations,
   candidateRegistry,
 } from "./private-candidate-manifests";
@@ -15,6 +16,7 @@ import {
   createCharacterComponentLibrary,
   liftCandidatesForReview,
   type CharacterComponentManifestRecord,
+  type CharacterComponentLibrary,
 } from "./character-components";
 import { createGarmentFitBank, type GarmentFitBankData } from "./garment-fit";
 import { createRuntimeVisualLibrary } from "./visual-integration";
@@ -28,54 +30,84 @@ const audience40 = candidateRegistry("engine40");
 const standing41 = candidateRegistry("engine41");
 // Existing review-only lift, called only by the explicitly gated candidate provider.
 // Input manifests remain draft/pending/unreleased; the production registry is untouched.
-const review = liftCandidatesForReview(
-  [
-    ...eligible,
-    ...(headRepair.assets as unknown as readonly CharacterComponentManifestRecord[]),
-    ...(kit.assets as unknown as readonly CharacterComponentManifestRecord[]),
-    ...(data.assets as unknown as readonly CharacterComponentManifestRecord[]),
-    ...(refinement.assets as unknown as readonly CharacterComponentManifestRecord[]),
-    ...(painted.assets as unknown as readonly CharacterComponentManifestRecord[]),
-    ...(painted36.assets as unknown as readonly CharacterComponentManifestRecord[]),
-    ...(audience40.assets as unknown as readonly CharacterComponentManifestRecord[]),
-    ...(standing41.assets as unknown as readonly CharacterComponentManifestRecord[]),
-  ],
-  frozen.catalog.slots,
-  {
-    frozenGenerations: [
-      ...frozen.catalog.generations,
-      ...candidateGenerations("engine41"),
-      ...headRepair.generations,
-      ...kit.generations,
-      ...candidateGenerations(
-        "engine29",
-        "engine34",
-        "engine35",
-        "engine36",
-        "engine40",
-      ),
-    ],
-  },
-);
-export const ENGINE_PEOPLE29_CHARACTER_LIBRARY =
-  createCharacterComponentLibrary(
-    review.records,
-    review.catalog,
-    createGarmentFitBank({
-      ...fit,
-      garments: [
-        ...fit.garments,
-        ...kit.garments,
-        ...data.garments,
-        ...refinement.garments,
-        ...painted.garments,
-        ...painted36.garments,
-        ...audience40.garments,
-        ...standing41.garments,
+// Invalid candidate input refuses candidate people while keeping saves and the
+// shell available. Never substitute another catalog's person after validation fails.
+const loaded = (() => {
+  try {
+    const review = liftCandidatesForReview(
+      [
+        ...eligible,
+        ...(headRepair.assets as unknown as readonly CharacterComponentManifestRecord[]),
+        ...(modular45.assets as unknown as readonly CharacterComponentManifestRecord[]),
+        ...(kit.assets as unknown as readonly CharacterComponentManifestRecord[]),
+        ...(data.assets as unknown as readonly CharacterComponentManifestRecord[]),
+        ...(refinement.assets as unknown as readonly CharacterComponentManifestRecord[]),
+        ...(painted.assets as unknown as readonly CharacterComponentManifestRecord[]),
+        ...(painted36.assets as unknown as readonly CharacterComponentManifestRecord[]),
+        ...(audience40.assets as unknown as readonly CharacterComponentManifestRecord[]),
+        ...(standing41.assets as unknown as readonly CharacterComponentManifestRecord[]),
       ],
-    } as GarmentFitBankData),
-    PEOPLE_VISUAL4_CHARACTER_LIBRARY.skinTone,
-  );
+      frozen.catalog.slots,
+      {
+        frozenGenerations: [
+          ...frozen.catalog.generations,
+          ...candidateGenerations("engine41"),
+          ...headRepair.generations,
+          ...modular45.generations,
+          ...kit.generations,
+          ...candidateGenerations(
+            "engine29",
+            "engine34",
+            "engine35",
+            "engine36",
+            "engine40",
+          ),
+        ],
+      },
+    );
+    const library = createCharacterComponentLibrary(
+      review.records,
+      {
+        ...review.catalog,
+        prepared_profiles: modular45.preparedProfiles,
+        profile_layer_changes: modular45.profileLayerChanges,
+      },
+      createGarmentFitBank({
+        ...fit,
+        garments: [
+          ...fit.garments,
+          ...kit.garments,
+          ...data.garments,
+          ...refinement.garments,
+          ...painted.garments,
+          ...painted36.garments,
+          ...audience40.garments,
+          ...standing41.garments,
+          ...modular45.garments,
+        ],
+      } as GarmentFitBankData),
+      PEOPLE_VISUAL4_CHARACTER_LIBRARY.skinTone,
+    );
+    return { review, library, inputError: null };
+  } catch (error) {
+    const library: CharacterComponentLibrary = {
+      catalogGeneration: 0,
+      slots: frozen.catalog.slots,
+      generations: [],
+      components: new Map(),
+      fit: null,
+      skinTone: null,
+    };
+    return {
+      review: { records: [] as CharacterComponentManifestRecord[] },
+      library,
+      inputError: `Character artwork unavailable: the installed candidate library is invalid (${error instanceof Error ? error.message : String(error)}).`,
+    };
+  }
+})();
+const review = loaded.review;
+export const ENGINE_PEOPLE29_CHARACTER_LIBRARY = loaded.library;
+export const ENGINE_PEOPLE29_INPUT_ERROR = loaded.inputError;
 const urls = optionalGlob(() =>
   import.meta.glob<string>(
     [
@@ -96,7 +128,8 @@ export const ENGINE_PEOPLE29_VISUAL_LIBRARY = new Map([
     review.records.filter(
       (r) =>
         r.asset_id.startsWith("kit41-") ||
-        /^ep(29|34|35|36|40|41)-/.test(r.asset_id),
+        /^ep(29|34|35|36|40|41)-/.test(r.asset_id) ||
+        modular45.assets.some((asset) => asset.asset_id === r.asset_id),
     ),
     Object.fromEntries(
       Object.entries(urls).map(([p, u]) => [p.replace(/^\.\.\/\.\.\//, ""), u]),

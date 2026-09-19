@@ -95,6 +95,8 @@ export interface LifeSceneWardrobeOptions {
 
 /** A layer of released character art, positioned in plate percentages. */
 export interface ScenePersonLayer {
+  /** Authored local paint order, shared by scene and standalone renderer. */
+  readonly layer?: number;
   readonly assetId?: string;
   readonly kind?: string;
   readonly material?: AppearanceMaterial;
@@ -428,11 +430,8 @@ function releasedLayers(
       const refusal = notes.length
         ? `incomplete-composition: ${notes.join(", ")}`
         : "incomplete-composition";
-      // A preview shows the defect rather than hiding it, as long as there is
-      // anything drawable to show; that judgement is the owner's to make.
-      if (!preview || presentation.layers.every((layer) => !layer.url)) {
-        return { layers: [], refusal, notes };
-      }
+      // A missing required layer is a person-level refusal in every surface.
+      return { layers: [], refusal, notes };
     } else if (fixtures.length > 0 && !preview) {
       return {
         layers: [],
@@ -447,6 +446,7 @@ function releasedLayers(
       .map((layer) => ({
         assetId: layer.assetId,
         kind: layer.kind,
+        layer: layer.layer,
         ...(appearance.material ? { material: appearance.material } : {}),
         url: layer.url,
         leftPercent: layer.leftPercent,

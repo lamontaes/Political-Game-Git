@@ -9,6 +9,7 @@ export function sourceIdentityInputs(root = process.cwd()) {
     execFileSync("git", args, {
       cwd: workspace,
       encoding: "utf8",
+      maxBuffer: 32 * 1024 * 1024,
     })
       .split("\0")
       .filter(Boolean);
@@ -30,7 +31,12 @@ export function sourceIdentityInputs(root = process.cwd()) {
 export function sourceIdentity(root = process.cwd()) {
   const workspace = realpathSync(root);
   const git = (...args: string[]) =>
-    execFileSync("git", args, { cwd: workspace, encoding: "utf8" }).trim();
+    execFileSync("git", args, {
+      cwd: workspace,
+      encoding: "utf8",
+      // Installed private art banks can exceed Node's default 1 MiB listing.
+      maxBuffer: 32 * 1024 * 1024,
+    }).trim();
   const status = git("status", "--porcelain", "--untracked-files=all");
   const hash = createHash("sha256");
   // Git's tree identifies unchanged tracked bytes. Hash only paths differing

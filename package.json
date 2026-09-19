@@ -101,7 +101,9 @@
     "measure:visual4-wardrobe": "node --import tsx scripts/art-asset-factory/cli-people-visual4-wardrobe.ts",
     "derive:people-visual4": "node --import tsx scripts/art-asset-factory/people-visual4.ts",
     "kit:art": "node --import tsx scripts/art-asset-factory/cli-kit41.ts",
-    "validate:ci-sharded": "npm run format && npm run lint && npm run typecheck && npm run release:check && npm run source:validate && npm run source:check-fiscal-disposition && npm run source:replay && npm run education:check && npm run check:municipal-generated && npm run build && npm run demo -- validation-seed && npm run validate:art && npm run admit:wave-a-candidates -- --check && npm run derive:wave-a-wardrobe -- --check"
+    "validate:ci-sharded": "npm run format && npm run lint && npm run typecheck && npm run release:check && npm run source:validate && npm run source:check-fiscal-disposition && npm run source:replay && npm run education:check && npm run check:municipal-generated && npm run build && npm run demo -- validation-seed && npm run validate:art && npm run admit:wave-a-candidates -- --check && npm run derive:wave-a-wardrobe -- --check",
+    "test:modular:public": "node scripts/art-asset-factory/modular_fit/verify.mjs public",
+    "test:modular:private": "node scripts/art-asset-factory/modular_fit/verify.mjs private"
   },
   "dependencies": {
     "react": "19.2.6",
