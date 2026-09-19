@@ -33,11 +33,15 @@ import {
   assertProvenanceMatches,
   defaultComposition,
 } from "../../scripts/client-provenance.mjs";
+import { gateEntryPoint } from "../../scripts/storage/storage-guard.mjs";
 
 const desktopRoot = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const repoRoot = path.dirname(desktopRoot);
 const clientSource = path.join(repoRoot, "dist", "client");
 const stagedRoot = path.join(desktopRoot, "staged");
+
+// Staging copies the whole compiled client (3+ GiB with private people).
+gateEntryPoint({ operation: "desktop-stage", target: desktopRoot });
 
 const args = process.argv.slice(2);
 const rebuild = args.includes("--rebuild");

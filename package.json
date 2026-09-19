@@ -8,7 +8,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "npm run typecheck && node scripts/clean-build.mjs && vite build && node scripts/prepare-sites-build.mjs && node scripts/stamp-client-provenance.mjs",
+    "build": "node scripts/storage/cli.mjs run build -- npm run build:steps",
+    "build:steps": "npm run typecheck && node scripts/clean-build.mjs && vite build && node scripts/prepare-sites-build.mjs && node scripts/stamp-client-provenance.mjs",
     "preview": "vite preview",
     "demo": "node --import tsx src/cli/demo.ts",
     "source:acquire": "node --import tsx scripts/source/acquire.ts",
@@ -81,6 +82,7 @@
     "release:recover": "node --import tsx scripts/release/index.ts recover",
     "release:declare": "node --import tsx scripts/release/index.ts declare",
     "agent:preflight": "node scripts/agent-preflight.mjs",
+    "storage": "node scripts/storage/cli.mjs",
     "agent:test-cadence": "node scripts/agent-test-cadence.mjs",
     "dev:identified": "node scripts/dev-identified.mjs",
     "stress:persons": "node --import tsx src/cli/stress-persons.ts",
