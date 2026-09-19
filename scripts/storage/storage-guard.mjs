@@ -183,6 +183,31 @@ function git(cwd, args) {
 }
 
 /**
+ * A remote whose URL is a path on this machine is not a second copy: deleting
+ * the folder it names deletes the "published" commits with it. Only a network
+ * remote counts as preservation.
+ */
+function offDeviceRemotes(cwd) {
+  const names = git(cwd, ["remote"]);
+  if (!names) return [];
+  return names.split("\n").filter((name) => {
+    const url = git(cwd, ["remote", "get-url", name]) ?? "";
+    return /^(https?|ssh|git):\/\//.test(url) || /^[^/\s]+@[^/\s]+:/.test(url);
+  });
+}
+
+function notOnOffDeviceRemote(cwd, revisions) {
+  const remotes = offDeviceRemotes(cwd);
+  return git(cwd, [
+    "log",
+    ...revisions,
+    ...(remotes.length > 0 ? ["--not"] : []),
+    ...remotes.map((name) => `--remotes=${name}`),
+    "--oneline",
+  ]);
+}
+
+/**
  * @param {{ stateDir?: string, policy?: object, freeBytes?: (p:string)=>number,
  *           now?: () => number, measure?: (p:string)=>number }} [options]
  */
@@ -520,13 +545,7 @@ export function createStorageGuard(options = {}) {
           code: "common-git-dir",
           detail: `common Git directory of ${trees.join(", ")}`,
         });
-      const unpublished = git(target, [
-        "log",
-        "--branches",
-        "--not",
-        "--remotes",
-        "--oneline",
-      ]);
+      const unpublished = notOnOffDeviceRemote(target, ["--branches"]);
       if (unpublished === null)
         blockers.push({
           code: "unknown-git-state",
@@ -535,13 +554,30 @@ export function createStorageGuard(options = {}) {
       else if (unpublished !== "")
         blockers.push({
           code: "unpublished-commits",
-          detail: `${unpublished.split("\n").length} commit(s) on no remote`,
+          detail: `${unpublished.split("\n").length} commit(s) on no off-device remote`,
         });
       const stash = git(target, ["stash", "list"]);
       if (stash)
         blockers.push({
           code: "stash",
           detail: `${stash.split("\n").length} stash entr(ies)`,
+        });
+    }
+    if (gitKind === "worktree") {
+      // A linked worktree's branch survives in the common store, but a
+      // detached HEAD on no branch becomes unreachable once the tree is gone.
+      const onBranch = git(target, [
+        "for-each-ref",
+        "--contains",
+        "HEAD",
+        "refs/heads",
+      ]);
+      const detachedOnly = onBranch === "";
+      const loose = detachedOnly ? notOnOffDeviceRemote(target, ["HEAD"]) : "";
+      if (loose)
+        blockers.push({
+          code: "unpublished-commits",
+          detail: `detached HEAD holds ${loose.split("\n").length} commit(s) on no branch and no off-device remote`,
         });
     }
     if (gitKind !== "none") {

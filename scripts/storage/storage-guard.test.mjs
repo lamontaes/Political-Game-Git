@@ -61,6 +61,8 @@ function publishedClone(name) {
   git(clone, "add", "source.txt");
   git(clone, "commit", "--quiet", "-m", "source");
   git(clone, "push", "--quiet", "origin", "HEAD");
+  // Published means a network remote; the fixture never contacts it.
+  git(clone, "remote", "set-url", "origin", "https://example.invalid/ocd.git");
   return clone;
 }
 
@@ -276,6 +278,32 @@ describe("retirement protection", () => {
     const result = guard.retire([{ path: clone }], { ...roots(), apply: true });
     expect(result[0].removed).toBe(true);
     expect(existsSync(clone)).toBe(false);
+  });
+
+  it("does not count a remote that is a folder on this machine as published", () => {
+    const clone = publishedClone("PG-PATH-REMOTE");
+    git(
+      clone,
+      "remote",
+      "set-url",
+      "origin",
+      path.join(sandbox, "PG-PATH-REMOTE-remote.git"),
+    );
+    expect(codes(guardWith().retirementBlockers(clone, roots()))).toContain(
+      "unpublished-commits",
+    );
+  });
+
+  it("refuses a linked worktree whose detached HEAD is on no branch or remote", () => {
+    const clone = publishedClone("PG-STORE");
+    const tree = path.join(sandbox, "PG-STORE-detached");
+    git(clone, "worktree", "add", "--quiet", "--detach", tree);
+    const guard = guardWith();
+    expect(codes(guard.retirementBlockers(tree, roots()))).toEqual([]);
+    git(tree, "commit", "--quiet", "--allow-empty", "-m", "only here");
+    expect(codes(guard.retirementBlockers(tree, roots()))).toContain(
+      "unpublished-commits",
+    );
   });
 
   it("refuses unpublished commits, tracked changes and untracked private inputs", () => {
