@@ -9,6 +9,7 @@ import {
 import {
   expectRecordedMember,
   enterRecordedMemberTerm,
+  reachMemberOffice,
   readSavedLegislativeWorld as savedWorld,
 } from "./support/legislative-entry";
 import type { Page } from "@playwright/test";
@@ -229,12 +230,7 @@ test("normal News keeps For You, outlet following, person Back, and per-life per
     route: "normal",
   });
   await enterLife(page);
-  // The real route, not the recorded-term fixture the other cases use.
-  await reachMemberOffice(page);
-  await page.getByTestId("open-drafting-table").click();
-  await page.locator('[data-testid^="drafting-option-"]').first().click();
-  await page.getByTestId("file-the-draft").press("Enter");
-  await expect(page.getByTestId("docket-bill")).toBeVisible();
+  await publishFirstBill(page);
   await saveLife(page);
 
   const published = await savedWorld(page);
