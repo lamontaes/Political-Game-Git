@@ -9,8 +9,9 @@ import { serializeWorld, deserializeWorld } from "../simulation/serialization";
 import { describe, it, expect } from "vitest";
 import { ENGINE_PEOPLE29_CHARACTER_LIBRARY as library } from "./engine-people29-review";
 import {
+  type PreparedFamily,
   ENGINE_PEOPLE29_FAMILIES,
-  selectPreparedBody,
+  defaultPreparedMaterial,
   validatePreparedAppearance,
 } from "./engine-people29-data";
 import { resolveCompleteOutfit, findCompleteOutfit } from "./complete-outfit";
@@ -58,14 +59,18 @@ describe.skipIf(needsPrivateArt)("prepared candidate increment", () => {
     );
     for (const family of ENGINE_PEOPLE29_FAMILIES) {
       const body = family.parts.find((p) => p.kind === "body")!.id;
-      const appearance = selectPreparedBody(
-        {
-          seed: "prepared",
-          recipeVersion: "appearance-recipe-v2",
-          catalogGeneration: 5,
+      const appearance = {
+        seed: "prepared",
+        recipeVersion: "appearance-recipe-v2",
+        catalogGeneration: 5,
+        selection: {
+          bodyFamily: body,
+          headFamily: family.parts.find((p) => p.kind === "head")!.id,
+          hairFamily:
+            family.parts.find((p) => p.kind === "hair-front")?.id ?? null,
         },
-        body,
-      )!;
+        material: defaultPreparedMaterial(family, 5),
+      };
       validatePreparedAppearance(appearance);
       const found = findCompleteOutfit({
         appearance,
@@ -103,15 +108,19 @@ it.skipIf(needsPrivateArt)(
   "freezes source bytes and generation5 while old fresh replay markers reproduce",
   () => {
     // Generation 5 = engine-people29; later additive generations preserve it.
-    // The retained current-bank pack finishes at MODULAR41 generation 12.
-    expect(library.catalogGeneration).toBe(12);
-    for (const asset of data.assets)
+    expect(library.catalogGeneration).toBe(
+      Math.max(...library.generations.map((g) => g.generation)),
+    );
+    expect(library.generations.some((g) => g.generation === 13)).toBe(true);
+    for (const asset of data.assets) {
+      expect(asset.final_path).toBeDefined();
       expect(
         createHash("sha256")
-          .update(readFileSync(asset.final_path))
+          .update(readFileSync(asset.final_path!))
           .digest("hex"),
       ).toBe(asset.hash);
-    for (const family of data.families)
+    }
+    for (const family of data.families as readonly PreparedFamily[])
       for (const part of family.parts)
         expect(
           createHash("sha256").update(readFileSync(part.svgPath)).digest("hex"),

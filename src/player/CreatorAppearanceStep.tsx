@@ -92,12 +92,32 @@ export function CreatorAppearanceStep({
                       )
                     : undefined
                 }
+                renderHairThumbnail={
+                  libraries
+                    ? (appearance) => (
+                        <PersonPortrait
+                          world={draft}
+                          personId={person.id}
+                          visualLibraries={libraries}
+                          previewAppearance={appearance}
+                        />
+                      )
+                    : undefined
+                }
               />
             ) : (
-              <p role="status">
-                {refusal
-                  ? "This age has no supported portrait artwork yet. Your character can still begin."
-                  : "No compatible artwork is available in this catalog."}
+              <p
+                role="status"
+                data-testid={
+                  libraries?.unavailableReason
+                    ? "creator-invalid-pack"
+                    : "creator-artwork-status"
+                }
+              >
+                {libraries?.unavailableReason ??
+                  (refusal
+                    ? "This age has no supported portrait artwork yet. Your character can still begin."
+                    : "No compatible artwork is available in this catalog.")}
               </p>
             )}
           </div>
@@ -108,6 +128,7 @@ export function CreatorAppearanceStep({
       <div className="game-setup-actions">
         <button
           type="button"
+          data-testid="creator-reset-appearance"
           onClick={() => setEdited(null)}
           disabled={!edited}
         >
@@ -116,7 +137,7 @@ export function CreatorAppearanceStep({
         <button
           type="button"
           data-testid="begin"
-          disabled={!person}
+          disabled={!person || Boolean(libraries?.unavailableReason)}
           onClick={() =>
             onBegin(
               ready && person?.appearance

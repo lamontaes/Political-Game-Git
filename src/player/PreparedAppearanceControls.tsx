@@ -1,10 +1,67 @@
+import { useId } from "react";
 import type { PersonAppearance } from "../simulation/types";
 import type { AppearanceMaterial } from "../simulation/appearance-material";
 import {
+  PREPARED_SKIN_RAMPS,
   preparedFamily,
+  preparedPartsAt,
+  preparedRampsAt,
   type MaterialChannel,
 } from "../presentation/engine-people29-data";
-/** DOM controls author only the explicitly versioned prepared template ranges. */
+import { GameSelect, optionAccessibleName } from "./controls/GameSelect";
+
+/** Light-to-dark display names for the authored swatches. Colour words only. */
+const SKIN_SWATCH_NAMES: readonly string[] = [
+  "Very light",
+  "Light",
+  "Light medium",
+  "Medium",
+  "Medium brown",
+  "Brown",
+  "Deep brown",
+];
+
+const COLOR_NAMES: Readonly<Record<string, string>> = {
+  "source-colour": "Original painted color",
+  "hair-black": "Black",
+  "hair-brown": "Brown",
+  "hair-blond": "Blond",
+  "hair-gray": "Gray",
+  "hair-auburn": "Auburn",
+  porcelain: "Light",
+  "warm-medium": "Warm medium",
+  olive: "Olive",
+  brown: "Brown",
+  "deep-brown": "Deep brown",
+  espresso: "Dark brown",
+  chestnut: "Chestnut brown",
+  silver: "Gray",
+  "blue-oxford": "Light blue",
+  "burgundy-pique": "Burgundy",
+  sage: "Sage green",
+  "charcoal-wool": "Charcoal",
+  "sand-twill": "Sand",
+  navy: "Navy",
+};
+
+const CHANNEL_TITLES: Readonly<Record<MaterialChannel, string>> = {
+  skin: "Skin tone",
+  hair: "Hair color",
+  top: "Shirt color",
+  bottom: "Pants color",
+};
+
+export function skinSwatchName(id: string): string {
+  const index = PREPARED_SKIN_RAMPS.indexOf(id);
+  if (index >= 0) return SKIN_SWATCH_NAMES[index] ?? `Skin tone ${index + 1}`;
+  return id === "source-colour" ? "Original painting" : "Skin tone";
+}
+
+/**
+ * Game-styled controls for the explicitly versioned prepared template ranges.
+ * Only ramps every drawn region of the person's pinned generation supports are
+ * offered, so a choice always changes the rendered pixels.
+ */
 export function PreparedAppearanceControls({
   appearance,
   onChange,
@@ -12,52 +69,92 @@ export function PreparedAppearanceControls({
   appearance: PersonAppearance;
   onChange: (appearance: PersonAppearance) => void;
 }) {
+  const skinGroup = useId();
   const family = preparedFamily(appearance.selection?.bodyFamily);
   const material = appearance.material;
   if (!family || !material) return null;
+  const generation = appearance.catalogGeneration;
   function change(next: AppearanceMaterial) {
     onChange({ ...appearance, material: next });
   }
-  const colorNames: Record<string, string> = {
-    "source-colour": "Original painted color",
-    porcelain: "Light",
-    "warm-medium": "Warm medium",
-    olive: "Olive",
-    brown: "Brown",
-    "deep-brown": "Deep brown",
-    espresso: "Dark brown",
-    chestnut: "Chestnut brown",
-    silver: "Gray",
-    "blue-oxford": "Light blue",
-    "burgundy-pique": "Burgundy",
-    sage: "Sage green",
-    "charcoal-wool": "Charcoal",
-    "sand-twill": "Sand",
-    navy: "Navy",
-  };
+  function setPalette(channel: MaterialChannel, value: string) {
+    change({
+      ...material!,
+      palettes: { ...material!.palettes, [channel]: value },
+    });
+  }
+  const skin = preparedRampsAt(family, "skin", generation);
+  const swatches = skin.filter(
+    (r) =>
+      PREPARED_SKIN_RAMPS.includes(r.id) ||
+      (r.id === "source-colour" && material.palettes.skin === r.id),
+  );
+  const parts = preparedPartsAt(family, generation);
   return (
-    <fieldset data-testid="prepared-appearance-controls">
+    <fieldset
+      className="prepared-appearance-controls"
+      data-testid="prepared-appearance-controls"
+    >
       <legend>Skin, hair and clothing colors</legend>
-      {(["skin", "hair", "top", "bottom"] as const).map((channel) => {
-        const ramps =
-          family.parts
-            .flatMap((p) => p.materials)
-            .find((m) => m.channel === channel)?.ramps ?? [];
-        const title: Record<MaterialChannel, string> = {
-          skin: "Skin tone",
-          hair: "Hair color",
-          top: "Shirt color",
-          bottom: "Pants color",
-        };
+      {swatches.length > 1 ? (
+        <div
+          className="appearance-skin-swatches"
+          role="radiogroup"
+          aria-labelledby={`${skinGroup}-label`}
+          data-testid="appearance-skin-swatches"
+        >
+          <span id={`${skinGroup}-label`} className="appearance-choice-title">
+            Skin tone
+          </span>
+          <div className="appearance-skin-row">
+            {swatches.map((ramp) => {
+              const selected = material.palettes.skin === ramp.id;
+              return (
+                <label
+                  key={ramp.id}
+                  className="appearance-skin-swatch"
+                  data-selected={selected ? "true" : "false"}
+                  data-ramp-id={ramp.id}
+                >
+                  <input
+                    type="radio"
+                    className="appearance-visually-hidden"
+                    name={`${skinGroup}-skin`}
+                    value={ramp.id}
+                    aria-label={skinSwatchName(ramp.id)}
+                    checked={selected}
+                    onChange={() => setPalette("skin", ramp.id)}
+                  />
+                  <span
+                    className="appearance-skin-chip"
+                    aria-hidden="true"
+                    data-original={ramp.stops ? undefined : "true"}
+                    style={ramp.stops ? { backgroundColor: ramp.neutral } : {}}
+                  >
+                    {selected ? "✓" : ""}
+                  </span>
+                  <span className="appearance-skin-name">
+                    {skinSwatchName(ramp.id)}
+                  </span>
+                </label>
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        <p data-testid="fixed-skin-colour">Skin tone: original painted color</p>
+      )}
+      {(["hair", "top", "bottom"] as const).map((channel) => {
+        const ramps = preparedRampsAt(family, channel, generation);
         if (ramps.length < 2)
           return (
             <p key={channel} data-testid={`fixed-${channel}-colour`}>
-              {title[channel]}: original painted color
+              {CHANNEL_TITLES[channel]}: original painted color
             </p>
           );
         return (
-          <label key={channel}>
-            <span>
+          <label key={channel} className="appearance-select-field">
+            <span className="appearance-choice-title">
               <span
                 className="appearance-color-swatch"
                 aria-hidden="true"
@@ -67,32 +164,26 @@ export function PreparedAppearanceControls({
                   )?.neutral,
                 }}
               />
-              {title[channel]}
+              {CHANNEL_TITLES[channel]}
             </span>
-            <select
-              aria-label={title[channel]}
+            <GameSelect
+              aria-label={CHANNEL_TITLES[channel]}
               value={material.palettes[channel]}
-              onChange={(e) =>
-                change({
-                  ...material,
-                  palettes: { ...material.palettes, [channel]: e.target.value },
-                })
-              }
-            >
-              {ramps.map((r) => (
-                <option key={r.id} value={r.id}>
-                  {colorNames[r.id] ?? "Color"}
-                </option>
-              ))}
-            </select>
+              onChange={(e) => setPalette(channel, e.target.value)}
+              options={ramps.map((r) => ({
+                value: r.id,
+                label: COLOR_NAMES[r.id] ?? "Color",
+                disabled: false,
+              }))}
+            />
           </label>
         );
       })}
-      <p>
+      <p className="appearance-note">
         Eye color follows the selected face. Independent iris color is not
         available in this artwork.
       </p>
-      {family.parts.some((p) =>
+      {parts.some((p) =>
         p.features?.some((f) =>
           Object.values(f.parameters).some(([a, b]) => a !== b),
         ),
@@ -100,7 +191,7 @@ export function PreparedAppearanceControls({
         <details className="appearance-facial-features">
           <summary>Facial features</summary>
           {(["eyes", "brows", "nose", "mouth"] as const).map((kind) => {
-            const choices = family.parts.filter((p) =>
+            const choices = parts.filter((p) =>
               p.features?.[0]?.id.startsWith(kind + "-"),
             );
             if (
@@ -129,19 +220,20 @@ export function PreparedAppearanceControls({
             };
             return (
               <div key={kind}>
-                <label>
-                  {titles[kind]}
-                  <select
+                <label className="appearance-select-field">
+                  <span className="appearance-choice-title">
+                    {titles[kind]}
+                  </span>
+                  <GameSelect
                     aria-label={`${kind} shape`}
                     value={value.variant}
                     onChange={(e) => set({ variant: e.target.value })}
-                  >
-                    {choices.map((p) => (
-                      <option key={p.id} value={p.id}>
-                        {p.features![0]!.id.split("-").slice(1).join(" ")}
-                      </option>
-                    ))}
-                  </select>
+                    options={choices.map((p, index) => ({
+                      value: p.id,
+                      label: optionAccessibleName(p, index, titles[kind]),
+                      disabled: false,
+                    }))}
+                  />
                 </label>
                 {(["x", "y", "scaleX", "scaleY"] as const).map((parameter) => {
                   const range = selected.features![0]!.parameters[parameter];

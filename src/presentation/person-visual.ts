@@ -1,3 +1,4 @@
+import { componentsAtGeneration } from "./character-components";
 import type { PersonRenderSnapshot } from "./person-render-snapshot";
 import type {
   CharacterComponentLibrary,
@@ -84,7 +85,10 @@ export function resolvePersonPortrait(
   // for a recognizable head-and-shoulders crop; never substitute a portrait face.
   const body =
     person.appearance.material &&
-    [...characters.components.values()].find(
+    componentsAtGeneration(
+      characters,
+      person.appearance.catalogGeneration ?? characters.catalogGeneration,
+    ).find(
       (c) =>
         c.definition.kind === "body" &&
         c.definition.family === person.appearance!.selection?.bodyFamily,

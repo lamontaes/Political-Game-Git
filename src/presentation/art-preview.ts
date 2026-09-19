@@ -1,5 +1,6 @@
 import {
   ENGINE_PEOPLE29_CHARACTER_LIBRARY,
+  ENGINE_PEOPLE29_INPUT_ERROR,
   ENGINE_PEOPLE29_VISUAL_LIBRARY,
   ENGINE_PEOPLE29_POSE_ART,
 } from "./engine-people29-review";
@@ -67,6 +68,7 @@ export const INTERNAL_ART_REVIEW_LABEL =
   "Internal art review — unreleased candidate art, not approved";
 
 export interface ArtPreviewLibraries {
+  readonly unavailableReason?: string;
   readonly characters: CharacterComponentLibrary;
   readonly visuals: RuntimeVisualLibrary;
   readonly poseArt: PoseArtIndex;
@@ -147,6 +149,12 @@ export function artPreviewLibraries(
 ): ArtPreviewLibraries | null {
   if (mode !== "candidate-review") return null;
   return {
+    ...(ENGINE_PEOPLE29_INPUT_ERROR
+      ? {
+          unavailableReason:
+            "Character artwork is unavailable. The installed character pack needs repair.",
+        }
+      : {}),
     characters: ENGINE_PEOPLE29_CHARACTER_LIBRARY,
     visuals: ENGINE_PEOPLE29_VISUAL_LIBRARY,
     poseArt: ENGINE_PEOPLE29_POSE_ART,
@@ -182,6 +190,8 @@ export function previewArtRefusal(
   person: { readonly birthDate?: string | null; readonly id: string },
   currentDate: string,
 ): string | null {
+  if (ENGINE_PEOPLE29_INPUT_ERROR)
+    return "Character artwork is unavailable. The installed character pack needs repair.";
   if (!person.birthDate) return "candidate-bank: no birth date to check age";
   let years: number;
   try {

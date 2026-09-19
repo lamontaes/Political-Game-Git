@@ -16,14 +16,202 @@
   gap: 0.25rem;
   min-width: 0;
 }
-.person-appearance-controls select {
+.person-appearance-controls .pg-select {
   width: 100%;
   min-width: 0;
-  padding: 0.45rem;
+}
+.appearance-select-field {
+  align-content: start;
+}
+.appearance-choice-title {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
+.appearance-randomize {
+  justify-self: start;
+  min-height: 2.25rem;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--pg-control-line, #8f9ba8);
+  border-radius: var(--pg-control-radius, 0.45rem);
+  background: var(--pg-control-bg, #1d2a38);
+  color: inherit;
   font: inherit;
+  cursor: pointer;
+}
+.appearance-randomize:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.appearance-randomize:focus-visible,
+.appearance-artwork-update button:focus-visible {
+  outline: 3px solid var(--pg-control-focus, #edc970);
+  outline-offset: 2px;
+}
+/* The native radio stays in the tab order and accessibility tree; the card or
+   swatch is its visible face. */
+.appearance-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  appearance: none;
+}
+.prepared-appearance-controls {
+  display: grid;
+  gap: 0.8rem;
+}
+.appearance-skin-swatches {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 0.4rem;
+}
+.appearance-skin-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.appearance-skin-swatch {
+  position: relative;
+  display: grid !important;
+  justify-items: center;
+  gap: 0.25rem;
+  width: 4.6rem;
+  padding: 0.35rem 0.2rem;
+  border: 1px solid transparent;
+  border-radius: 0.55rem;
+  text-align: center;
+  cursor: pointer;
+}
+.appearance-skin-swatch[data-selected="true"] {
+  border: 2px solid var(--pg-control-accent, #edc970);
+  padding: calc(0.35rem - 1px) calc(0.2rem - 1px);
+  background: rgb(237 201 112 / 12%);
+}
+.appearance-skin-swatch:focus-within {
+  outline: 3px solid var(--pg-control-focus, #edc970);
+  outline-offset: 2px;
+}
+.appearance-skin-chip {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 2px solid rgb(255 255 255 / 70%);
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 55%);
+  color: #fff;
+  font-weight: 700;
+  text-shadow:
+    0 0 3px #000,
+    0 0 1px #000;
+}
+.appearance-skin-chip[data-original="true"] {
+  background: repeating-linear-gradient(45deg, #c98a62 0 6px, #8d5a3c 6px 12px);
+}
+.appearance-skin-name {
+  font-size: 0.8rem;
+  line-height: 1.15;
+}
+.appearance-note {
+  margin: 0;
+  font-size: 0.85rem;
+}
+.appearance-artwork-update {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--pg-control-accent, #edc970);
+  border-radius: 0.55rem;
+}
+.appearance-artwork-update p {
+  margin: 0;
+}
+.appearance-artwork-update button {
+  justify-self: start;
+  min-height: 2.5rem;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--pg-control-accent, #edc970);
+  border-radius: var(--pg-control-radius, 0.45rem);
+  background: var(--pg-control-bg, #1d2a38);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
 }
 .person-appearance-controls [role="alert"] {
   overflow-wrap: anywhere;
+}
+.person-appearance-controls .appearance-hair-choices {
+  grid-column: 1 / -1;
+  display: block;
+}
+.appearance-hair-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+  gap: 0.6rem;
+  max-height: 23rem;
+  overflow: auto;
+  padding: 0.25rem;
+}
+.appearance-hair-choice {
+  position: relative;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 8rem;
+  padding: 0.45rem;
+  border: 1px solid #8f9ba8;
+  border-radius: 0.55rem;
+  text-align: center;
+  cursor: pointer;
+}
+.appearance-hair-choice:has(input:checked) {
+  border: 3px solid #edc970;
+  padding: calc(0.45rem - 2px);
+}
+.appearance-hair-choice:focus-within {
+  outline: 3px solid #edc970;
+  outline-offset: 2px;
+}
+.appearance-hair-choice:has(input:disabled) {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.appearance-hair-preview {
+  display: grid;
+  place-items: center;
+  width: 5rem;
+  height: 5rem;
+}
+.appearance-hair-preview .person-portrait figcaption {
+  display: none;
+}
+.appearance-hair-preview .person-portrait-mark {
+  width: 4.5rem;
+  height: 4.5rem;
+}
+.appearance-no-hair {
+  display: grid;
+  place-items: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 2.5rem;
+}
+.appearance-hair-label,
+.appearance-hair-selected {
+  line-height: 1.2;
+}
+.appearance-hair-selected {
+  font-size: 0.75rem;
+  font-weight: 700;
 }
 
 .wardrobe-figure {
