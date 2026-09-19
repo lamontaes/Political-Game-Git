@@ -5026,6 +5026,40 @@
           "derivation": "native-master"
         }
       ]
+    },
+    {
+      "asset_id": "env_playtest65_white_house_north_wide_r6",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_env_playtest65_white_house_north_wide_r6"
+      ],
+      "rights_note": "Owner-supplied external upscale/repaint, approved in private Art Bench. Prior source chain preserved.",
+      "fixed_or_modular": "fixed",
+      "availability": "production-candidate",
+      "variant_rules": "Exact owner-approved Art Bench revision6; external upscale/repaint of r1, with slightly changed aspect. Derived detail, not native 4K. Preserve the source layout coordinate frame; focused opening integration QA pending.",
+      "negative_constraints": [
+        "Candidate-only until focused runtime review; do not change saved person appearance or catalogue generations.",
+        "No baked people, labels, controls, biography or simulation state."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/art-desk/playtest65/environment/white-house-wide-r6.png",
+      "hash": "d160ee6a08e708b9f0fef68b1a0488c81fad23d426fa548adc59364804808835",
+      "requires_transparency": false,
+      "raster_tiers": [
+        {
+          "width": 5504,
+          "height": 3072,
+          "path": "art/generated/candidates/art-desk/playtest65/environment/white-house-wide-r6.png",
+          "hash": "d160ee6a08e708b9f0fef68b1a0488c81fad23d426fa548adc59364804808835",
+          "derivation": "external-upscale-derivative",
+          "native_detail_width": 1672
+        }
+      ]
     }
   ]
 }

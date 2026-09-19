@@ -2171,6 +2171,23 @@
       "edits_performed": "Byte-identical selected Firefly return. Generic illustrative civic building, never a sourced jurisdiction-specific building.",
       "output_hash_version": "sha256",
       "approval_status": "pending"
+    },
+    {
+      "provenance_id": "prov_env_playtest65_white_house_north_wide_r6",
+      "asset_id": "env_playtest65_white_house_north_wide_r6",
+      "source_url_or_path": "artbench:cand-92371652-ffb6-4d4b-bb82-c7ecc27caaca",
+      "document_photo_plan_title": "Owner-approved White House revision6; parent cand-bf01adf1-0c1f-10e6-7fd0-cfe659bd3a7a SHA256 e5d40a772b35b191d0d4d43647c71a9492b72ef743d7e0f3fb7d79f0ab477bc4",
+      "access_retrieval_date": "2026-09-19",
+      "rights_license_status": "unknown",
+      "reference_type": "ai-generated",
+      "source_authority_category": "visual-estimate-support",
+      "generator_tool": "Owner external Firefly return; embedded credit Made with Google AI",
+      "generated_model_version": "Filename declares Firefly_Gemini Flash; exact model/version not independently verified",
+      "prompt_spec_manifest_id": "Art Bench revision6; original filename Firefly_Gemini Flash_upscale to 4k. change nothing 400264.png",
+      "generation_edit_date": "2026-09-19",
+      "edits_performed": "External upscale/repaint from1672x941 parent to5504x3072. Byte-preserved owner return, no local resampling. Native detail bound declared from parent width1672; sky/foliage differ and aspect increases0.8348%. Owner approval rev-c78d6266-55f9-45fa-97f6-e0813347ee57 / event61b22ba4-7e96-4a7b-9361-3f34392fffa9. Runtime QA separate.",
+      "output_hash_version": "sha256",
+      "approval_status": "approved"
     }
   ]
 }

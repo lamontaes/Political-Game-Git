@@ -1,9 +1,11 @@
 /** Measured candidate plate coordinates; presentation slots are proposed against
  * these pixels, not a claim that the two officials are physically present. */
 export const PLAYTEST65_WHITE_HOUSE_LAYOUT = {
-  revision: "playtest65-white-house-wide-r1",
+  revision: "playtest65-white-house-wide-r6",
   status: "candidate-integration-review",
-  assetId: "env_playtest65_white_house_north_wide_r1",
+  assetId: "env_playtest65_white_house_north_wide_r6",
+  // Coordinate frame retained from the measured composition, independent of
+  // the selected 5504x3072 external derivative. Normalize anchors by this canvas.
   canvas: { width: 1672, height: 941 },
   architectureBounds: { x: 790, y: 285, width: 610, height: 240 },
   president: { x: 240, y: 290, width: 300, height: 600 },
@@ -12,7 +14,7 @@ export const PLAYTEST65_WHITE_HOUSE_LAYOUT = {
   vicePresident: { x: 1190, y: 750, width: 340, height: 140 },
   vicePresidentPresentation: "record-card",
   // Resolve through the existing asset manifest/repositoryVisualUrls in review mode.
-  // Runtime approval and actual saved-figure composite review are still pending.
+  // Pixels are owner-approved; actual saved-figure composite/runtime QA is pending.
   plateUrl: null,
 } as const;
 
