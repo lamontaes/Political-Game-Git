@@ -1,3 +1,4 @@
+import { stateJurisdictionForKey } from "../simulation/life-places";
 import {
   LIVING_WORLD_CONTRACT_VERSION,
   currentStateExecutiveHolders,
@@ -138,10 +139,10 @@ export function projectWorldOrientation(
     homeState: stateUsps
       ? {
           stateUsps,
-          jurisdictionId: governorRecord
-            ? (world.people[governorRecord.personId]?.homeJurisdictionId ??
-              null)
-            : null,
+          jurisdictionId:
+            stateUsps === "DC"
+              ? player.homeJurisdictionId
+              : (stateJurisdictionForKey(`US-${stateUsps}`)?.id ?? null),
           governor,
         }
       : null,
