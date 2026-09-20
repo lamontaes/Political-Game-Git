@@ -1,4 +1,4 @@
-/* global console, process, setTimeout, window, document, CustomEvent */
+/* global console, process, setTimeout, window, document */
 /**
  * Bounded packaged-client smoke: launch → title → new life → keep →
  * relaunch (same binary) → Continue → same life. One binary, one
@@ -121,6 +121,15 @@ async function launch() {
       })))
     : await app.firstWindow();
   const foreign = [];
+  if (nativeSessionChecks) {
+    // Electron's will-prevent-unload handler owns this decision. Playwright's
+    // automatic dialog dismissal can race the already-approved native close.
+    page.on("dialog", (dialog) => {
+      if (dialog.type() !== "beforeunload")
+        throw new Error(`Unexpected browser dialog: ${dialog.type()}`);
+      console.log("Native before-unload decision remains with the host.");
+    });
+  }
   page.on("request", (request) => {
     if (!isPackagedRenderRequest(request.url())) foreign.push(request.url());
   });
@@ -201,17 +210,16 @@ async function nativeRefusals(app, page) {
       )),
   );
 
-  await page.evaluate(() =>
-    window.addEventListener(
-      "ocd:request-save",
-      (event) => {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        event.detail.complete(false);
-      },
-      { capture: true, once: true },
-    ),
-  );
+  await page.evaluate(() => {
+    const dispatch = window.dispatchEvent;
+    window.dispatchEvent = function (event) {
+      if (event.type !== "ocd:request-save") return dispatch.call(this, event);
+      window.dispatchEvent = dispatch;
+      event.preventDefault();
+      event.detail.complete(false);
+      return false;
+    };
+  });
   await nativeChoice(app, [0, 0]);
   await nativeMenu(app, "Quit");
   await waitForNativeDialogs(app, 2);
@@ -228,21 +236,35 @@ async function nativeRefusals(app, page) {
 }
 
 async function nativeSaveAndQuit(app, page) {
-  // Hold one request, then release it to the REAL PlayerGame save listener.
-  // This proves exit waits for its acknowledgment, not a timer or dispatch.
-  await page.evaluate(() =>
-    window.addEventListener(
-      "ocd:request-save",
-      (event) => {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        window.__nativeProofHeld = event.detail;
-      },
-      { capture: true, once: true },
-    ),
+  console.log(
+    "Native delayed-save proof: wrapping real acknowledgment before dispatch.",
   );
+  // Wrap before dispatch: a late window event listener can run after the
+  // game's existing listener has already captured its completion callback.
+  // The real writer runs, but native teardown must await this held result.
+  await page.evaluate(() => {
+    const dispatch = window.dispatchEvent;
+    window.dispatchEvent = function (event) {
+      if (event.type !== "ocd:request-save") return dispatch.call(this, event);
+      window.dispatchEvent = dispatch;
+      const complete = event.detail.complete;
+      event.detail.complete = (saved) => {
+        window.__nativeProofHeld = { complete, saved };
+      };
+      return dispatch.call(this, event);
+    };
+  });
   await nativeChoice(app, [0]);
   await nativeMenu(app, "Quit");
+  await waitForNativeDialogs(app, 1);
+  check(
+    "native: saved life still requires explicit quit choice",
+    await app.evaluate(
+      () =>
+        globalThis.__nativeProofDialogs[0] ===
+        "Save your life before quitting?",
+    ),
+  );
   await page.waitForFunction(() => Boolean(window.__nativeProofHeld));
   await new Promise((resolve) => setTimeout(resolve, 500));
   check(
@@ -251,22 +273,7 @@ async function nativeSaveAndQuit(app, page) {
       () => document.documentElement.inert && Boolean(window.__nativeProofHeld),
     ),
   );
-  await page.evaluate(() =>
-    window.dispatchEvent(
-      new CustomEvent("ocd:request-save", {
-        cancelable: true,
-        detail: {
-          complete: (saved) => {
-            window.__nativeProofSaved = saved;
-          },
-        },
-      }),
-    ),
-  );
-  await page.waitForFunction(
-    () => typeof window.__nativeProofSaved === "boolean",
-  );
-  if (!(await page.evaluate(() => window.__nativeProofSaved)))
+  if (!(await page.evaluate(() => window.__nativeProofHeld.saved)))
     throw new Error("Real save failed");
   const records = await readSavedRecords(page, databaseName);
   const closed = app.waitForEvent("close", { timeout: 30000 });
@@ -278,7 +285,7 @@ async function nativeSaveAndQuit(app, page) {
       .find((item) => item.getURL().startsWith("app://game/"));
     void contents
       .executeJavaScript(
-        `window.__nativeProofHeld.complete(window.__nativeProofSaved)`,
+        `window.__nativeProofHeld.complete(window.__nativeProofHeld.saved)`,
       )
       .catch(() => {});
   });
