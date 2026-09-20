@@ -106,5 +106,113 @@
       "length": 343,
       "sha256": "d0aeb933b9ab0eec155b9c3d25d37694d4be7e0a1c842ccd44713023f339b7bd"
     }
+  },
+  {
+    "artifactId": "dc-code-1-102",
+    "url": "https://code.dccouncil.gov/us/dc/council/code/sections/1-102",
+    "provider": "Council of the District of Columbia, D.C. Law Library",
+    "jurisdictionKey": "US-DC",
+    "enactingBody": "United States Congress",
+    "instrumentKind": "statute",
+    "instrumentTitle": "D.C. Code § 1-102 District created body corporate for municipal purposes",
+    "localPath": "data/source/municipal-governance/raw/dc-code-1-102.html",
+    "enacted": {
+      "regions": [
+        {
+          "beginsWith": "The District is created a government by the name of the “District of Columbia,” by which name it is constituted a body corporate for municipal purposes,",
+          "endsWith": "The District is created a government by the name of the “District of Columbia,” by which name it is constituted a body corporate for municipal purposes,"
+        }
+      ],
+      "length": 156,
+      "sha256": "4e375ff3aa0e3803f3c96de8714e313049ccf7994b789bba2ded236857980e9d"
+    }
+  },
+  {
+    "artifactId": "dc-code-1-204-01",
+    "url": "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.01",
+    "provider": "Council of the District of Columbia, D.C. Law Library",
+    "jurisdictionKey": "US-DC",
+    "enactingBody": "United States Congress",
+    "instrumentKind": "statute",
+    "instrumentTitle": "D.C. Code § 1-204.01 Creation and membership",
+    "localPath": "data/source/municipal-governance/raw/dc-code-1-204-01.html",
+    "enacted": {
+      "regions": [
+        {
+          "beginsWith": "There is established a Council of the District of Columbia; and the members of the Council shall be elected by the registered qualified electors of the District.",
+          "endsWith": "There is established a Council of the District of Columbia; and the members of the Council shall be elected by the registered qualified electors of the District."
+        },
+        {
+          "beginsWith": "The Council established under subsection (a) of this section shall consist of 13 members elected on a partisan basis. The Chairman and 4 members shall be elected at large in the District, and 8 members shall be elected 1 each from the 8 election wards established, from time to time, under Chapter 10 of this title .",
+          "endsWith": "The Council established under subsection (a) of this section shall consist of 13 members elected on a partisan basis. The Chairman and 4 members shall be elected at large in the District, and 8 members shall be elected 1 each from the 8 election wards established, from time to time, under Chapter 10 of this title ."
+        }
+      ],
+      "length": 478,
+      "sha256": "bf39cba487f5a8be86a9c144a707954f5bfd59db76c03743807cfd21fb6c03e5"
+    }
+  },
+  {
+    "artifactId": "dc-code-1-204-21",
+    "url": "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.21",
+    "provider": "Council of the District of Columbia, D.C. Law Library",
+    "jurisdictionKey": "US-DC",
+    "enactingBody": "United States Congress",
+    "instrumentKind": "statute",
+    "instrumentTitle": "D.C. Code § 1-204.21 Office of Mayor",
+    "localPath": "data/source/municipal-governance/raw/dc-code-1-204-21.html",
+    "enacted": {
+      "regions": [
+        {
+          "beginsWith": "There is established the Office of Mayor of the District of Columbia; and the Mayor shall be elected by the registered qualified electors of the District.",
+          "endsWith": "There is established the Office of Mayor of the District of Columbia; and the Mayor shall be elected by the registered qualified electors of the District."
+        }
+      ],
+      "length": 154,
+      "sha256": "d58ad4936e953efe6fb61db2f96cd45fb3c2a21530471ce555b46473a4dc9eb3"
+    }
+  },
+  {
+    "artifactId": "dc-code-1-204-22",
+    "url": "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.22",
+    "provider": "Council of the District of Columbia, D.C. Law Library",
+    "jurisdictionKey": "US-DC",
+    "enactingBody": "United States Congress",
+    "instrumentKind": "statute",
+    "instrumentTitle": "D.C. Code § 1-204.22 Executive identity",
+    "localPath": "data/source/municipal-governance/raw/dc-code-1-204-22.html",
+    "enacted": {
+      "regions": [
+        {
+          "beginsWith": "The executive power of the District shall be vested in the Mayor who shall be the chief executive officer of the District government.",
+          "endsWith": "The executive power of the District shall be vested in the Mayor who shall be the chief executive officer of the District government."
+        }
+      ],
+      "length": 133,
+      "sha256": "1622254f3f114fb99862035b29eb6527d2925ed48ad9467dbb9e47496e010418"
+    }
+  },
+  {
+    "artifactId": "dc-code-1-207-71",
+    "url": "https://code.dccouncil.gov/us/dc/council/code/sections/1-207.71",
+    "provider": "Council of the District of Columbia, D.C. Law Library",
+    "jurisdictionKey": "US-DC",
+    "enactingBody": "United States Congress",
+    "instrumentKind": "statute",
+    "instrumentTitle": "D.C. Code § 1-207.71 Effective dates",
+    "localPath": "data/source/municipal-governance/raw/dc-code-1-207-71.html",
+    "enacted": {
+      "regions": [
+        {
+          "beginsWith": "Sections 1-207.12, 1-207.13, 1-207.14, and 1-207.15 of subchapter VII, and section 1-204.01(b) of subchapter IV, and subchapter II shall take effect July 1, 1974, except that any provision thereof which in effect transfer authority to appoint any citizen member of the National Capital Planning Commission of the District of Columbia Redevelopment Land Agency shall take effect January 2, 1975.",
+          "endsWith": "Sections 1-207.12, 1-207.13, 1-207.14, and 1-207.15 of subchapter VII, and section 1-204.01(b) of subchapter IV, and subchapter II shall take effect July 1, 1974, except that any provision thereof which in effect transfer authority to appoint any citizen member of the National Capital Planning Commission of the District of Columbia Redevelopment Land Agency shall take effect January 2, 1975."
+        },
+        {
+          "beginsWith": "Subchapter III and IV, except § 1-204.01(b) of subchapter IV, shall take effect January 2, 1975, if subchapter IV is accepted by a majority of the registered qualified electors in the District of Columbia voting on the charter issue in the charter referendum.",
+          "endsWith": "Subchapter III and IV, except § 1-204.01(b) of subchapter IV, shall take effect January 2, 1975, if subchapter IV is accepted by a majority of the registered qualified electors in the District of Columbia voting on the charter issue in the charter referendum."
+        }
+      ],
+      "length": 655,
+      "sha256": "5a4fded6574f954107281cfc851e6f5473dc0667ee3c2620f2b3d91481564359"
+    }
   }
 ]

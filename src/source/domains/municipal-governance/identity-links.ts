@@ -5,6 +5,7 @@
  */
 export interface MunicipalIdentityLink {
   readonly governmentKey: string;
+  readonly placeRepresentation?: "district-of-columbia";
   readonly publisherId: string;
   readonly publisherUnitName: string;
   readonly placeGeoid: string;
@@ -74,5 +75,21 @@ export const MUNICIPAL_IDENTITY_LINKS: readonly MunicipalIdentityLink[] = [
     charterLocator: "Charter § 1-101",
     charterIdentity:
       "The municipal corporation now existing and known as the City of Portland shall remain and continue a body politic and corporate by the name of the City of Portland,",
+  },
+  {
+    governmentKey: "us-dc-washington",
+    placeRepresentation: "district-of-columbia",
+    publisherId: "124214",
+    publisherUnitName: "CITY OF WASHINGTON DC",
+    placeGeoid: "1150000",
+    sourceName: "Washington city",
+    state: "DC",
+    ansiCode: "02390665",
+    countyAreaGeoid: "11001",
+    countyEquivalentGeoid: null,
+    charterArtifactId: "dc-code-1-102",
+    charterLocator: "D.C. Code § 1-102",
+    charterIdentity:
+      "The District is created a government by the name of the “District of Columbia,” by which name it is constituted a body corporate for municipal purposes,",
   },
 ];

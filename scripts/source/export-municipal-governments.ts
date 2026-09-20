@@ -318,6 +318,30 @@ function verifiedIdentity(
   );
   if (!link) return publishedWebsiteIdentity(state, readings);
   const countyAreaGeoid = link.countyAreaGeoid ?? link.countyEquivalentGeoid;
+  // Washington's Census place representation is nonfunctioning (N); the
+  // District itself is the corporate government under D.C. Code § 1-102.
+  // This reviewed case does not admit any other inactive place or county join.
+  const districtRepresentation =
+    link.placeRepresentation === "district-of-columbia";
+  if (
+    districtRepresentation &&
+    !(
+      governmentKey === "us-dc-washington" &&
+      link.state === "DC" &&
+      link.publisherId === "124214" &&
+      link.publisherUnitName === "CITY OF WASHINGTON DC" &&
+      link.placeGeoid === "1150000" &&
+      link.sourceName === "Washington city" &&
+      link.ansiCode === "02390665" &&
+      countyAreaGeoid === "11001" &&
+      link.countyEquivalentGeoid === null &&
+      link.charterArtifactId === "dc-code-1-102"
+    )
+  )
+    throw new Error(
+      `Invalid District representation declaration: ${governmentKey}`,
+    );
+
   const inputs = (identityInputs ??= loadIdentityInputs());
   const unit = inputs.units.find((row) => row.publisherId === link.publisherId);
   if (
@@ -368,7 +392,7 @@ function verifiedIdentity(
     (link.countyEquivalentGeoid !== null &&
       (county.geoid !== link.countyEquivalentGeoid ||
         county.ansiCode !== link.ansiCode)) ||
-    place.functionalStatusCode !== "A" ||
+    place.functionalStatusCode !== (districtRepresentation ? "N" : "A") ||
     !charter.includes(link.charterIdentity)
   )
     throw new Error(
@@ -382,8 +406,9 @@ function verifiedIdentity(
     countyEvidence: county.evidence,
     censusGovernmentUnitId: inputs.gids.get(unit.publisherId) ?? null,
     legacyCrosswalkEvidence: inputs.crosswalkEvidence,
-    basis:
-      link.countyEquivalentGeoid === null
+    basis: districtRepresentation
+      ? "D.C. Code § 1-102 identifies the corporate District government. Explicit active Census PID124214 links its Washington place1150000 representation, whose Gazetteer functional status is N and ANSI02390665. County inventory area11001 retains its separate identity; no shared-ANSI county equivalence, separate city government, county parent or office power is inferred."
+      : link.countyEquivalentGeoid === null
         ? "Reviewed charter corporate identity and explicit Census PID6 row; the exact active place GEOID and ANSI identify the municipality. County area is the published inventory area, not a county-equivalent identity, governing parent, exhaustive boundary or grant of powers. Legacy GID comes only from the official PID/GID crosswalk."
         : "Reviewed charter corporate identity and explicit Census PID6 row; place and county-area codes come from the published GUS row. Exact shared ANSI independently identifies the county-equivalent representation. Legacy GID comes only from the official PID/GID crosswalk; no county-government parent or powers are inferred.",
   };

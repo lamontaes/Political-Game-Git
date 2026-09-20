@@ -1,6 +1,6 @@
 {
   "asOf": "2026-09-08",
-  "canonicalSha256": "feb214348e59d5106e4c417cee2a64c42a088c8e9d59a3c072c7864bd21c98fd",
+  "canonicalSha256": "2b0740f3bdb3a932be304eac532e6bba6e20c72fc0f793c344020801e27cda89",
   "compiler": {
     "name": "municipal-governance",
     "version": "3.0.0"
@@ -32,6 +32,26 @@
     {
       "artifactId": "or-portland-charter-2-110",
       "sha256": "afb4508f368aa5727044dacf719f92b81d71060c64fe64e43e77014edc853c31"
+    },
+    {
+      "artifactId": "dc-code-1-102",
+      "sha256": "5a3a02f6db287fa9b17526fb4cc750b7dac68b23112ae0c2aaf64f7fbbf40ade"
+    },
+    {
+      "artifactId": "dc-code-1-204-01",
+      "sha256": "94bd904f583bc748165f5f28a00b73cf2c089e0621c61f3e7ce65002bd5634df"
+    },
+    {
+      "artifactId": "dc-code-1-204-21",
+      "sha256": "8f0917bf9d7453a634978c0e1216a7a2b1ca5e9d2a9d22d00369f5c87e462a95"
+    },
+    {
+      "artifactId": "dc-code-1-204-22",
+      "sha256": "94b0b108229b7bc7cce0f77f4f7124aef1e0ba8c941738814e466f153aa0b9a3"
+    },
+    {
+      "artifactId": "dc-code-1-207-71",
+      "sha256": "39f50dc3171bac97daac328ea64b04159cb9560bd15babc8a205daff4ced6623"
     },
     {
       "artifactId": "va-charlottesville-charter",
@@ -66,5 +86,5 @@
     "name": "municipal-governance-enacted-text",
     "version": "1.0.0"
   },
-  "recordCount": 4
+  "recordCount": 5
 }
