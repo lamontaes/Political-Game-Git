@@ -317,6 +317,7 @@ function verifiedIdentity(
     (row) => row.governmentKey === governmentKey,
   );
   if (!link) return publishedWebsiteIdentity(state, readings);
+  const countyAreaGeoid = link.countyAreaGeoid ?? link.countyEquivalentGeoid;
   const inputs = (identityInputs ??= loadIdentityInputs());
   const unit = inputs.units.find((row) => row.publisherId === link.publisherId);
   if (
@@ -325,7 +326,7 @@ function verifiedIdentity(
     unit.state !== link.state ||
     unit.unitType !== "2 - MUNICIPAL" ||
     `${unit.stateFips}${unit.placeFips}` !== link.placeGeoid ||
-    `${unit.stateFips}${unit.countyAreaFips}` !== link.countyEquivalentGeoid
+    `${unit.stateFips}${unit.countyAreaFips}` !== countyAreaGeoid
   )
     throw new Error(
       `Published government-unit link disagrees with its reviewed declaration: ${governmentKey}`,
@@ -352,9 +353,7 @@ function verifiedIdentity(
     evidence: unknown;
   }[];
   const place = places.find((row) => row.geoid === link.placeGeoid);
-  const county = counties.find(
-    (row) => row.geoid === link.countyEquivalentGeoid,
-  );
+  const county = counties.find((row) => row.geoid === countyAreaGeoid);
   const charter =
     openMunicipalProduction(municipalLock()).artifacts[
       link.charterArtifactId
@@ -366,7 +365,9 @@ function verifiedIdentity(
     place.stateUsps !== link.state ||
     county.stateUsps !== link.state ||
     place.ansiCode !== link.ansiCode ||
-    county.ansiCode !== link.ansiCode ||
+    (link.countyEquivalentGeoid !== null &&
+      (county.geoid !== link.countyEquivalentGeoid ||
+        county.ansiCode !== link.ansiCode)) ||
     place.functionalStatusCode !== "A" ||
     !charter.includes(link.charterIdentity)
   )
@@ -382,7 +383,9 @@ function verifiedIdentity(
     censusGovernmentUnitId: inputs.gids.get(unit.publisherId) ?? null,
     legacyCrosswalkEvidence: inputs.crosswalkEvidence,
     basis:
-      "Reviewed charter corporate identity and explicit Census PID6 row; place and county-area codes come from the published GUS row. Exact shared ANSI independently identifies the county-equivalent representation. Legacy GID comes only from the official PID/GID crosswalk; no county-government parent or powers are inferred.",
+      link.countyEquivalentGeoid === null
+        ? "Reviewed charter corporate identity and explicit Census PID6 row; the exact active place GEOID and ANSI identify the municipality. County area is the published inventory area, not a county-equivalent identity, governing parent, exhaustive boundary or grant of powers. Legacy GID comes only from the official PID/GID crosswalk."
+        : "Reviewed charter corporate identity and explicit Census PID6 row; place and county-area codes come from the published GUS row. Exact shared ANSI independently identifies the county-equivalent representation. Legacy GID comes only from the official PID/GID crosswalk; no county-government parent or powers are inferred.",
   };
 }
 

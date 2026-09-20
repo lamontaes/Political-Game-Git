@@ -69,6 +69,7 @@ describe("map empirical demographics", () => {
   it("does not borrow a county or state for a city or district", async () => {
     for (const selection of [
       { ...county, layer: "place" as const, geoid: "2611400" },
+      { ...county, layer: "place" as const, geoid: "4159000", stateUsps: "OR" },
       { ...county, layer: "congressional" as const, geoid: "2606" },
       { ...county, layer: "state-upper" as const, geoid: "26001" },
       { ...county, layer: "state-lower" as const, geoid: "26001" },

@@ -1705,7 +1705,11 @@ export const PRODUCTION_PACK_ARTIFACTS: Readonly<
     "va-code-15-2-1415",
   ],
   "us-nv-carson-city": ["nv-carson-city-charter"],
-  "us-or-portland": ["or-portland-charter-2-102", "or-portland-charter-2-1"],
+  "us-or-portland": [
+    "or-portland-charter-2-102",
+    "or-portland-charter-2-1",
+    "or-portland-charter-1-101",
+  ],
 };
 
 /**

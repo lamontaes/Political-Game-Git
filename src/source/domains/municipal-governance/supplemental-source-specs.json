@@ -46,5 +46,25 @@
       "length": 681,
       "sha256": "06199526669ae0fc957a2b000024147fc69ce001d605c7b4ae27b1603be3d65a"
     }
+  },
+  {
+    "artifactId": "or-portland-charter-1-101",
+    "url": "https://www.portland.gov/charter/1/all-articles",
+    "provider": "City of Portland",
+    "jurisdictionKey": "US-OR",
+    "enactingBody": "City of Portland electorate",
+    "instrumentKind": "charter",
+    "instrumentTitle": "Portland City Charter, Section 1-101 corporate identity",
+    "localPath": "data/source/municipal-governance/raw/or-portland-charter-1-101.html",
+    "enacted": {
+      "regions": [
+        {
+          "beginsWith": "The municipal corporation now existing and known as the City of Portland shall remain and continue a body politic and corporate by the name of the City of Portland,",
+          "endsWith": "The municipal corporation now existing and known as the City of Portland shall remain and continue a body politic and corporate by the name of the City of Portland,"
+        }
+      ],
+      "length": 164,
+      "sha256": "757c2354e1a1574c6fcce99eb587e02a054ec9036c7ef4531d1fb95af1121648"
+    }
   }
 ]

@@ -1,9 +1,23 @@
 /** Explicitly reviewed links between two separately sourced identities.
- * Gazetteer ANSI identity also links the place to its county-equivalent row.
- * Neither that statistical equivalence nor the charter grants a second county
- * government, a Census government-unit ID, or any office power.
+ * Where declared, shared Gazetteer ANSI links a place to its county equivalent.
+ * County inventory areas are distinct from county-equivalent identities.
+ * Neither a geographic link nor the charter identity grants office powers.
  */
-export const MUNICIPAL_IDENTITY_LINKS = [
+export interface MunicipalIdentityLink {
+  readonly governmentKey: string;
+  readonly publisherId: string;
+  readonly publisherUnitName: string;
+  readonly placeGeoid: string;
+  readonly sourceName: string;
+  readonly state: string;
+  readonly ansiCode: string;
+  readonly countyAreaGeoid?: string;
+  readonly countyEquivalentGeoid: string | null;
+  readonly charterArtifactId: string;
+  readonly charterLocator: string;
+  readonly charterIdentity: string;
+}
+export const MUNICIPAL_IDENTITY_LINKS: readonly MunicipalIdentityLink[] = [
   {
     governmentKey: "us-va-charlottesville",
     publisherId: "194177",
@@ -46,4 +60,19 @@ export const MUNICIPAL_IDENTITY_LINKS = [
     charterIdentity:
       "to effect the consolidation of the governments and functions of Carson City and Ormsby County, the Legislature hereby establishes this Charter for the government of Carson City.",
   },
-] as const;
+  {
+    governmentKey: "us-or-portland",
+    publisherId: "211254",
+    publisherUnitName: "CITY OF PORTLAND",
+    placeGeoid: "4159000",
+    sourceName: "Portland city",
+    state: "OR",
+    ansiCode: "02411471",
+    countyAreaGeoid: "41051",
+    countyEquivalentGeoid: null,
+    charterArtifactId: "or-portland-charter-1-101",
+    charterLocator: "Charter § 1-101",
+    charterIdentity:
+      "The municipal corporation now existing and known as the City of Portland shall remain and continue a body politic and corporate by the name of the City of Portland,",
+  },
+];

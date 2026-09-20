@@ -589,6 +589,56 @@
         "status": "public-domain-government-edict"
       },
       "storage": "committed"
+    },
+    {
+      "artifactId": "or-portland-charter-1-101",
+      "bytes": {
+        "length": 82203,
+        "sha256": "dadc1c84397ba5202fb011d1be46ce044ec3e319ee61583c87892e910ee0a049"
+      },
+      "localPath": "data/source/municipal-governance/raw/or-portland-charter-1-101.html",
+      "mediaType": "text/html",
+      "provider": "City of Portland",
+      "publisher": {
+        "documentationUrl": "https://www.portland.gov/charter/1/all-articles",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 82203,
+        "retrievedAt": "2026-09-20T02:29:55.375Z",
+        "url": "https://www.portland.gov/charter/1/all-articles"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "City of Portland electorate",
+          "instrumentKind": "charter",
+          "instrumentTitle": "Portland City Charter, Section 1-101 corporate identity",
+          "jurisdictionKey": "US-OR",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 164,
+              "sha256": "757c2354e1a1574c6fcce99eb587e02a054ec9036c7ef4531d1fb95af1121648"
+            },
+            "regions": [
+              {
+                "beginsWith": "The municipal corporation now existing and known as the City of Portland shall remain and continue a body politic and corporate by the name of the City of Portland,",
+                "endsWith": "The municipal corporation now existing and known as the City of Portland shall remain and continue a body politic and corporate by the name of the City of Portland,"
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
     }
   ],
   "domain": "municipal-governance"
