@@ -480,15 +480,9 @@ function cardFor(
         .map((step) => step.candidateId),
     ),
   );
-  const leaves = leadVersions.filter(
+  const currentVersions = leadVersions.filter(
     (candidate) => !ancestors.has(candidate.candidateId),
   );
-  // Archived real revisions still supersede their originals. Only after
-  // resolving ancestry may a working alternative take precedence.
-  const workingLeaves = leaves.filter(
-    (candidate) => reviewDisposition(candidate) === "review",
-  );
-  const currentVersions = workingLeaves.length ? workingLeaves : leaves;
   const latest = leadOf(currentVersions.length ? currentVersions : candidates);
   const selected = request.selectedCandidateId
     ? currentVersions.find(

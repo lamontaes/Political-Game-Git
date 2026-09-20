@@ -157,6 +157,10 @@ describe("Art Desk cards", () => {
     }
   });
   it("keeps an archived revision from resurrecting its undecided original", () => {
+    const alternate = ingest("removed-alternate", "original", {
+      family: corridor,
+      at: "2026-09-01T00:00:00Z",
+    });
     const original = ingest("removed-original", "original", {
       family: corridor,
     });
@@ -171,8 +175,8 @@ describe("Art Desk cards", () => {
       tags: { reviewQueue: ["removed-comparison:reference"] },
     });
     for (const events of [
-      [original, archived],
-      [original, archived, reference],
+      [alternate, original, archived],
+      [alternate, original, archived, reference],
     ]) {
       const card = artDeskCards(projection(events))[0];
       expect(card.leadCandidateId).toBe("removed-revision");
