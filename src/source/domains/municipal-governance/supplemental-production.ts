@@ -81,7 +81,8 @@ function articleFact(value: unknown, section: string, excerpt: string): Cell {
     sourceKey: articleSourceKey,
     legalLocator: `Portland City Charter § ${section}`,
     excerpt,
-    effectiveDate: "2026-09-19",
+    // Both cited sections (2-112 and 2-114) state this commencement.
+    effectiveDate: "2025-01-01",
   };
 }
 const allocationExcerpt =

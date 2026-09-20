@@ -58,6 +58,32 @@ describe("reviewed municipal place identities", () => {
       ).toBe(true);
   });
 
+  it("dates Portland's admitted meeting rules to the charter commencement", () => {
+    const government = municipalGovernmentForLifePlace(
+      requireLifePlace("4159000"),
+    )!;
+    const reading = primaryReading(government);
+    const meetingFacts = reading.facts.filter((fact) =>
+      fact.evidence?.some(
+        (source) =>
+          source.artifactId === "or-portland-charter-2-1" &&
+          [
+            "Portland City Charter § 2-112",
+            "Portland City Charter § 2-114",
+          ].includes(source.locator.citation ?? ""),
+      ),
+    );
+    expect(meetingFacts).toHaveLength(4);
+    for (const fact of meetingFacts) {
+      expect(fact.state).toBe("KNOWN");
+      expect(fact.asOf).toBe("2025-01-01");
+    }
+    expect(reading.procedure.introductionSponsorship).toBeNull();
+    expect(reading.procedure.passageText).toBeNull();
+    expect(reading.procedure.effectivePublication).toBeNull();
+    expect(municipalRulePackFor(government).ok).toBe(false);
+  });
+
   it("preserves separately reviewed county-equivalent joins", () => {
     for (const [placeKey, countyGeoid] of [
       ["5114968", "51540"],
