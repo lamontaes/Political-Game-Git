@@ -1709,6 +1709,8 @@ export const PRODUCTION_PACK_ARTIFACTS: Readonly<
     "or-portland-charter-2-102",
     "or-portland-charter-2-1",
     "or-portland-charter-1-101",
+    "or-portland-charter-2-101",
+    "or-portland-charter-2-110",
   ],
 };
 

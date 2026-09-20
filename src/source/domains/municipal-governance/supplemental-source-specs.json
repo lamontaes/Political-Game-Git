@@ -66,5 +66,45 @@
       "length": 164,
       "sha256": "757c2354e1a1574c6fcce99eb587e02a054ec9036c7ef4531d1fb95af1121648"
     }
+  },
+  {
+    "artifactId": "or-portland-charter-2-101",
+    "url": "https://www.portland.gov/charter/2/1/101",
+    "provider": "City of Portland",
+    "jurisdictionKey": "US-OR",
+    "enactingBody": "City of Portland electorate",
+    "instrumentKind": "charter",
+    "instrumentTitle": "Portland City Charter, Section 2-101 Municipal Powers Allocation",
+    "localPath": "data/source/municipal-governance/raw/or-portland-charter-2-101.html",
+    "enacted": {
+      "regions": [
+        {
+          "beginsWith": "The municipal powers and authority of the City are vested as follows: legislative and quasi-judicial authority is vested in the City Council and executive and administrative authority is vested in the Mayor, subject to the initiative and referendum and other powers reserved to the people by the constitution of the State of Oregon as defined and prescribed by the provisions of the constitution and general laws relating thereto, and by any more specific allocation set forth in this Charter.",
+          "endsWith": "The municipal powers and authority of the City are vested as follows: legislative and quasi-judicial authority is vested in the City Council and executive and administrative authority is vested in the Mayor, subject to the initiative and referendum and other powers reserved to the people by the constitution of the State of Oregon as defined and prescribed by the provisions of the constitution and general laws relating thereto, and by any more specific allocation set forth in this Charter."
+        }
+      ],
+      "length": 493,
+      "sha256": "33b8616eafa2cef63464035c6fc2f5acbc0bc4bb2965a6722b28c747c8cce914"
+    }
+  },
+  {
+    "artifactId": "or-portland-charter-2-110",
+    "url": "https://www.portland.gov/charter/2/1/110",
+    "provider": "City of Portland",
+    "jurisdictionKey": "US-OR",
+    "enactingBody": "City of Portland electorate",
+    "instrumentKind": "charter",
+    "instrumentTitle": "Portland City Charter, Section 2-110 Organization",
+    "localPath": "data/source/municipal-governance/raw/or-portland-charter-2-110.html",
+    "enacted": {
+      "regions": [
+        {
+          "beginsWith": "At its first regular meeting each calendar year, or oftener at its option, the Council shall elect a President and Vice President by majority vote of those present. The President shall preside at all meetings of the Council. In the President's absence or incapacity, the Vice President of the Council shall perform the duties of the President.",
+          "endsWith": "At its first regular meeting each calendar year, or oftener at its option, the Council shall elect a President and Vice President by majority vote of those present. The President shall preside at all meetings of the Council. In the President's absence or incapacity, the Vice President of the Council shall perform the duties of the President."
+        }
+      ],
+      "length": 343,
+      "sha256": "d0aeb933b9ab0eec155b9c3d25d37694d4be7e0a1c842ccd44713023f339b7bd"
+    }
   }
 ]

@@ -83,6 +83,44 @@ describe("Politics hub government browser", () => {
     expect(JSON.stringify(world)).toBe(before);
   });
 
+  it("keeps Portland's sourced Mayor separate from its Council without inventing holders", () => {
+    const place = requireLifePlace("4159000");
+    const government = municipalGovernmentForLifePlace(place)!;
+    let world = createScenarioWorld(
+      "w65-portland-institutions",
+      place.context,
+      { peopleCount: 4 },
+    );
+    const personId = world.personOrder[0]!;
+    world = installMunicipalGovernment(world, {
+      governmentKey: government.key,
+      jurisdictionId: place.context.jurisdiction.id,
+      formedAt: world.currentDate,
+    });
+    const before = JSON.stringify(world);
+    const view = projectGovernmentBrowser(world, personId, {
+      jurisdictionId: place.context.jurisdiction.id,
+    });
+    expect(view.branches.map((row) => row.branch)).toEqual([
+      "legislative",
+      "executive",
+    ]);
+    expect(view.branches[0]?.label).toBe("City Council");
+    expect(view.branches[1]?.entries).toEqual([
+      expect.objectContaining({
+        title: "Mayor",
+        holderName: null,
+        holderPersonId: null,
+      }),
+    ]);
+    expect(
+      view.branches
+        .flatMap((row) => row.entries)
+        .every((row) => row.holderPersonId === null),
+    ).toBe(true);
+    expect(JSON.stringify(world)).toBe(before);
+  });
+
   it("shows saved municipal members and managers without inventing missing seats", () => {
     const place = requireLifePlace("5114968");
     const government = municipalGovernmentForLifePlace(place)!;

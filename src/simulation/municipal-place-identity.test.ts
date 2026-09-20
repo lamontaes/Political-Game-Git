@@ -33,6 +33,14 @@ describe("reviewed municipal place identities", () => {
     const reading = primaryReading(government);
     expect(reading.evidence).toBe("enacted-text");
     expect(reading.bodySize).toBe(12);
+    expect(reading.presidingOffice).toBe("President of the Council");
+    expect(reading.separation).toBe("SEPARATE_EXECUTIVE_AND_LEGISLATIVE");
+    expect(reading.mayor).toEqual({
+      title: "Mayor",
+      structuralPosition: "SEPARATE_CHIEF_EXECUTIVE",
+    });
+    expect(reading.executiveSelection).toBeNull();
+    expect(reading.manager).toBeNull();
     expect(reading.procedure.quorumRule?.fixedVotesRequired).toBe(7);
     const meetings = municipalPublicMeetingSeries(government);
     expect(meetings).toHaveLength(2);

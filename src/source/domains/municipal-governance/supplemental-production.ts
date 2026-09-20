@@ -84,9 +84,38 @@ function articleFact(value: unknown, section: string, excerpt: string): Cell {
     effectiveDate: "2026-09-19",
   };
 }
+const allocationExcerpt =
+  "The municipal powers and authority of the City are vested as follows: legislative and quasi-judicial authority is vested in the City Council and executive and administrative authority is vested in the Mayor, subject to the initiative and referendum and other powers reserved to the people by the constitution of the State of Oregon as defined and prescribed by the provisions of the constitution and general laws relating thereto, and by any more specific allocation set forth in this Charter.";
+const presidencyExcerpt =
+  "At its first regular meeting each calendar year, or oftener at its option, the Council shall elect a President and Vice President by majority vote of those present. The President shall preside at all meetings of the Council. In the President's absence or incapacity, the Vice President of the Council shall perform the duties of the President.";
+function institutionFact(value: unknown, section: "101" | "110"): Cell {
+  return {
+    status: "KNOWN",
+    value,
+    sourceKey: `or-portland-charter-2-${section}`,
+    legalLocator: `Portland City Charter § 2-${section}`,
+    excerpt: section === "101" ? allocationExcerpt : presidencyExcerpt,
+    effectiveDate: "2025-01-01",
+  };
+}
 const portland: MunicipalPackInput = {
   ...annotated,
   asOf: "2026-09-19",
+  electedStructure: {
+    ...annotated.electedStructure,
+    presidingOffice: institutionFact("President of the Council", "110"),
+  },
+  administrativeStructure: {
+    ...annotated.administrativeStructure,
+    executiveLegislativeSeparation: institutionFact(
+      "SEPARATE_EXECUTIVE_AND_LEGISLATIVE",
+      "101",
+    ),
+    mayor: institutionFact(
+      { title: "Mayor", structuralPosition: "SEPARATE_CHIEF_EXECUTIVE" },
+      "101",
+    ),
+  },
   legislativeProcedure: {
     ...annotated.legislativeProcedure,
     quorum: articleFact(
@@ -132,7 +161,7 @@ const portland: MunicipalPackInput = {
     }),
   ),
   unresolved: [
-    "Charter §§ 2-102, 2-112 and 2-114 establish composition, public meetings and quorum. Meeting schedules and venues, ordinance passage, budget and appointment procedure remain uncompiled.",
+    "Charter §§ 2-101, 2-102, 2-110, 2-112 and 2-114 establish executive/legislative separation, council composition and presidency, public meetings and quorum. Officeholders, mayoral selection, meeting schedules and venues, ordinance passage, budget and appointment procedure remain uncompiled.",
   ],
 };
 export const SUPPLEMENTAL_PRODUCTION_PACKS = [portland];
