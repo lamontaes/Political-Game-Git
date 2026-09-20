@@ -62,6 +62,11 @@ import {
   type TagSet,
 } from "../../src/authoring/artbench";
 import type { AssetRequest } from "../../src/authoring/asset-request";
+import {
+  requestDisplayCode,
+  codedGenerationPrompt,
+} from "../../src/authoring/art-desk-request-code";
+import { requestArtworkCategory } from "../../src/authoring/art-desk-cards";
 import type { AssetReviewDecision } from "../../src/authoring/asset-review";
 import { artDeskNotifications } from "../../src/authoring/art-desk-notifications";
 import { hashBytes } from "./art-desk-inputs";
@@ -293,6 +298,7 @@ export class ArtbenchStore {
     };
     this.loadEvents();
     this.migrateLegacy();
+    this.ensureRequestCodes();
   }
 
   /* ---------------------------------------------------------------- */
@@ -482,6 +488,50 @@ export class ArtbenchStore {
       events: this.events,
       generatorAvailable: false,
     });
+  }
+
+  /** One allocator in the existing store. Reopening never re-numbers a brief. */
+  ensureRequestCodes(): void {
+    let projection = this.projection();
+    let next = Math.max(
+      0,
+      ...Object.values(projection.assets).flatMap((asset) =>
+        (asset.tags.requestCode ?? []).map((value) =>
+          Number(value.match(/:A(\d+)$/)?.[1] ?? 0),
+        ),
+      ),
+    );
+    const requests = Object.values(projection.requests).filter(
+      (row) =>
+        !row.qa &&
+        row.request.requestId !== INBOX_REQUEST_ID &&
+        requestArtworkCategory(row.request) !== "clothing" &&
+        Boolean(row.request.generatorParameters?.fireflyPrompt),
+    );
+    for (const row of requests) {
+      if (requestDisplayCode(projection, row.request.requestId)) continue;
+      const asset = projection.assets[row.assetId]!;
+      const author = { kind: "system" as const, id: "art-desk-request-codes" };
+      this.append(
+        "tags.set",
+        {
+          entity: "asset",
+          entityId: row.assetId,
+          tags: {
+            ...asset.tags,
+            requestCode: [
+              ...(asset.tags.requestCode ?? []),
+              `${row.request.requestId}:A${String(++next).padStart(2, "0")}`,
+            ],
+          },
+          baseVersion: asset.tagsVersion,
+          author,
+        },
+        author,
+        "bench",
+      );
+      projection = this.projection();
+    }
   }
 
   /** Persistent local UI preferences, outside disposable cache and art history. */
@@ -964,7 +1014,10 @@ export class ArtbenchStore {
       {
         entity: input.entity,
         entityId: input.entityId,
-        tags: input.tags,
+        tags:
+          input.entity === "asset" && target.tags.requestCode
+            ? { ...input.tags, requestCode: target.tags.requestCode }
+            : input.tags,
         baseVersion: input.baseVersion,
         author: input.author,
         suggestion: input.suggestion,
@@ -1067,7 +1120,7 @@ export class ArtbenchStore {
         "Parent candidate does not exist.",
       );
     }
-    return this.append(
+    const created = this.append(
       "request.created",
       {
         request,
@@ -1083,6 +1136,8 @@ export class ArtbenchStore {
       input.actor,
       "bench",
     );
+    this.ensureRequestCodes();
+    return created;
   }
 
   /** Append a brief correction without replacing its history or candidates. */
@@ -1230,12 +1285,33 @@ export class ArtbenchStore {
     const inboxHint = this.driveRoot
       ? `Drive › 00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE › ${EXCHANGE_FOLDER} › ${EXCHANGE_INBOX} › <batchId>/ (or the bench's local inbox folder)`
       : "the bench's local inbox folder (Drive exchange not configured on this machine)";
-    return producerBrief(request.request, {
-      inboxHint,
-      parentCandidate: candidateId
-        ? projection.candidates[candidateId]
-        : undefined,
-    });
+    const code = requestDisplayCode(projection, requestId);
+    const prompt = request.request.generatorParameters?.fireflyPrompt;
+    const prefix = [
+      code
+        ? `# ${code}-R${request.request.requestVersion} · ${request.request.title}`
+        : `# ${request.request.title}`,
+      "",
+      ...(prompt
+        ? [
+            "## Copy this prompt",
+            "",
+            codedGenerationPrompt(request.request, code, prompt),
+            "",
+          ]
+        : []),
+      "Return the original image to this request. Keep earlier versions.",
+      "",
+    ].join("\n");
+    return (
+      prefix +
+      producerBrief(request.request, {
+        inboxHint,
+        parentCandidate: candidateId
+          ? projection.candidates[candidateId]
+          : undefined,
+      })
+    );
   }
 
   /* ---------------------------------------------------------------- */
@@ -1686,6 +1762,7 @@ export class ArtbenchStore {
   /** Rebuildable views. Originals of decided candidates are copied once per hash. */
   private publishCatalog(catalogDir: string): void {
     mkdirSync(catalogDir, { recursive: true });
+    this.ensureRequestCodes();
     const projection = this.projection();
     const candidates = Object.values(projection.candidates).map((candidate) => {
       const bytes = this.bytesState(candidate);

@@ -213,6 +213,12 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
   const givenNameGenerationVersion = setup.givenNameGenerationVersion;
   const appearanceCatalogGeneration = setup.appearanceCatalogGeneration;
   const extras = {
+    ...(setup.questionnaireCopyVersion === undefined
+      ? {}
+      : { questionnaireCopyVersion: setup.questionnaireCopyVersion }),
+    ...(setup.earlierLifeGenerationVersion === undefined
+      ? {}
+      : { earlierLifeGenerationVersion: setup.earlierLifeGenerationVersion }),
     ...(setup.birthYear === undefined ? {} : { birthYear: setup.birthYear }),
     ...(setup.openingDataVersion === undefined
       ? {}
@@ -343,6 +349,16 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   }
   const givenNameGenerationVersion = record.givenNameGenerationVersion;
   if (
+    record.questionnaireCopyVersion !== undefined &&
+    record.questionnaireCopyVersion !== "playtest65-v2"
+  )
+    return null;
+  if (
+    record.earlierLifeGenerationVersion !== undefined &&
+    record.earlierLifeGenerationVersion !== "context-v2"
+  )
+    return null;
+  if (
     givenNameGenerationVersion !== undefined &&
     givenNameGenerationVersion !== LEGACY_GIVEN_NAME_GENERATION_VERSION &&
     givenNameGenerationVersion !== DISTINCT_GIVEN_NAME_GENERATION_VERSION
@@ -408,6 +424,12 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
           pronouns: pronouns as PronounSetKey,
         }),
     ...(record.startKind === "custom" ? { startKind: "custom" as const } : {}),
+    ...(record.questionnaireCopyVersion === undefined
+      ? {}
+      : { questionnaireCopyVersion: "playtest65-v2" as const }),
+    ...(record.earlierLifeGenerationVersion === undefined
+      ? {}
+      : { earlierLifeGenerationVersion: "context-v2" as const }),
     ...(appearanceRecipeVersion === undefined
       ? {}
       : { appearanceRecipeVersion: appearanceRecipeVersion as string }),

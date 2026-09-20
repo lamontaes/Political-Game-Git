@@ -1,4 +1,9 @@
 import type { AssetRequest } from "./asset-request";
+import { candidateUsage, type SelectedArtBuild } from "./art-desk-usage";
+import {
+  requestDisplayCode,
+  codedGenerationPrompt,
+} from "./art-desk-request-code";
 import type {
   ArtbenchProjection,
   CandidateStatus,
@@ -38,12 +43,12 @@ export const ART_DESK_TABS: readonly {
   readonly key: ArtDeskTab;
   readonly label: string;
 }[] = [
-  { key: "needs-review", label: "Needs review" },
+  { key: "needs-review", label: "Awaiting your review" },
   { key: "requests", label: "Requests" },
   { key: "discussion", label: "Questions & replies" },
   { key: "approved", label: "Approved / waiting to be implemented" },
   { key: "rejected", label: "Rejected" },
-  { key: "in-progress", label: "In progress" },
+  { key: "in-progress", label: "With the art team" },
   { key: "in-game", label: "In game" },
   { key: "library", label: "Library" },
   { key: "references", label: "Style references" },
@@ -84,7 +89,7 @@ const STAGE_LABELS: Readonly<Record<EditKind, string>> = {
 };
 
 export const CARD_STATUS_LABELS: Readonly<Record<CandidateStatus, string>> = {
-  "awaiting-review": "Awaiting review",
+  "awaiting-review": "Awaiting your review",
   approved: "Approved / waiting to be implemented",
   rejected: "Rejected",
   "revision-requested": "Revision requested",
@@ -93,6 +98,16 @@ export const CARD_STATUS_LABELS: Readonly<Record<CandidateStatus, string>> = {
   installed: "In game",
   "in-game": "In game",
 };
+
+/** Workflow ownership is distinct from the preserved pixel-approval status. */
+export function candidateWorkflowLabel(candidate: ProjectedCandidate): string {
+  if (candidate.status === "awaiting-review")
+    return candidate.ownerReviewReady
+      ? "Awaiting your review"
+      : "With the art team";
+  if (candidate.status === "revision-requested") return "With the art team";
+  return CARD_STATUS_LABELS[candidate.status];
+}
 
 const IN_PROGRESS_LANES: readonly RequestLane[] = [
   "need-generation",
@@ -136,6 +151,7 @@ export interface LineageRecord {
 export interface ArtDeskCard {
   readonly key: string;
   readonly requestId: string;
+  readonly requestCode?: string | null;
   readonly title: string;
   /** The asset's name without the latest stage's purpose suffix. */
   readonly baseTitle: string;
@@ -158,6 +174,32 @@ export interface ArtDeskCard {
   readonly facets: Readonly<Record<string, readonly string[]>>;
   readonly qa: boolean;
   readonly tabs: readonly ArtDeskTab[];
+}
+
+/** Human categories come from the declared consumer, including undelivered briefs. */
+export function requestArtworkCategory(request: AssetRequest): string | null {
+  if (request.scope?.familyId === "modular-wardrobe") return "clothing";
+  if (
+    request.scope?.familyId === "regional-opening" ||
+    request.scope?.familyId === "ordinary-life-environments"
+  )
+    return "environment-plate";
+  return request.requestId === INBOX_REQUEST_ID
+    ? null
+    : request.target.targetClass;
+}
+
+export function artworkCategoryLabel(category: string): string {
+  return (
+    (
+      {
+        "environment-plate": "Background scenes",
+        "title-plate": "Title artwork",
+        clothing: "Clothing",
+        reference: "References",
+      } as Record<string, string>
+    )[category] ?? category.replace(/-/g, " ")
+  );
 }
 
 function tagValue(tags: TagSet | undefined, facet: string): string | null {
@@ -423,19 +465,38 @@ function cardFor(
     ).values(),
   ];
   const production = allVersions.filter((candidate) => !candidate.qa);
+  // Comparison/reference children support the working image; they do not
+  // replace it as the request's lead or move that work into another section.
+  const working = production.filter(
+    (candidate) => reviewDisposition(candidate) === "review",
+  );
+  const leadVersions = working.length ? working : production;
   // Ancestors remain inspectable history. Once their derived review copy is
   // decided, an undecided ancestor must not put that same work back in the queue.
   const ancestors = new Set(
-    production.flatMap((candidate) =>
+    leadVersions.flatMap((candidate) =>
       lineageOf(projection, candidate)
         .slice(1)
         .map((step) => step.candidateId),
     ),
   );
-  const currentVersions = production.filter(
+  const currentVersions = leadVersions.filter(
     (candidate) => !ancestors.has(candidate.candidateId),
   );
-  const lead = leadOf(currentVersions.length ? currentVersions : candidates);
+  const latest = leadOf(currentVersions.length ? currentVersions : candidates);
+  const selected = request.selectedCandidateId
+    ? currentVersions.find(
+        (candidate) => candidate.candidateId === request.selectedCandidateId,
+      )
+    : undefined;
+  // A recommendation chooses among the returns it examined. A later delivery
+  // must surface for review, even when it is on a different branch.
+  const selectedIsCurrent =
+    selected &&
+    request.selectedAt &&
+    latest &&
+    latest.ingestedAt <= (request.selectedThroughAt ?? request.selectedAt);
+  const lead = selectedIsCurrent ? selected : latest;
   const lineage = lead ? lineageOf(projection, lead) : [];
   const onLine = new Set(lineage.map((step) => step.candidateId));
   const status = lead?.status ?? null;
@@ -477,6 +538,10 @@ function cardFor(
               : deskView === "reference"
                 ? ["library", "references"]
                 : tabsFor(lane, status);
+  if (tabs.includes("needs-review") && !lead?.ownerReviewReady) {
+    tabs.splice(tabs.indexOf("needs-review"), 1);
+    if (!tabs.includes("in-progress")) tabs.push("in-progress");
+  }
   if (hasDiscussion) tabs.push("discussion");
   const facets = facetsOf([
     ...candidates,
@@ -489,9 +554,25 @@ function cardFor(
   )) {
     facets[key] = [...new Set([...(facets[key] ?? []), ...values])].sort();
   }
+  const category = requestArtworkCategory(request.request);
+  const purpose =
+    request.request.scope?.familyId === "regional-opening"
+      ? "regional-background"
+      : category === "clothing"
+        ? "people-wardrobe"
+        : null;
+  if (purpose)
+    facets.purpose = [...new Set([...(facets.purpose ?? []), purpose])];
+  // Clothing source preparation belongs to the art team, not the owner's generator queue.
+  if (category === "clothing" && !lead) {
+    const queueIndex = tabs.indexOf("requests");
+    if (queueIndex !== -1) tabs.splice(queueIndex, 1);
+    if (!tabs.includes("in-progress")) tabs.push("in-progress");
+  }
   return {
     key,
     requestId: request.request.requestId,
+    requestCode: requestDisplayCode(projection, request.request.requestId),
     title: lead
       ? (deskValue("deskTitle") ??
         DELIVERY_DISPLAY_NAMES[lead.candidateId] ??
@@ -506,10 +587,12 @@ function cardFor(
         : disposition === "archived"
           ? "Removed from review"
           : status
-            ? CARD_STATUS_LABELS[status]
-            : request.lane === "awaiting-capable-worker"
-              ? "Waiting for a generator"
-              : "No version yet",
+            ? candidateWorkflowLabel(lead!)
+            : category === "clothing"
+              ? "With the art team"
+              : request.lane === "awaiting-capable-worker"
+                ? "Waiting for a generator"
+                : "No version yet",
     leadCandidateId: lead?.candidateId ?? null,
     lineage,
     lineageState: lead ? lineageStateOf(lead, lineage) : null,
@@ -524,6 +607,7 @@ function cardFor(
     updatedAt: lead?.ingestedAt ?? null,
     family,
     assetType:
+      category ??
       assetTypeOf(lead) ??
       candidates.map((c) => assetTypeOf(c)).find(Boolean) ??
       null,
@@ -535,7 +619,10 @@ function cardFor(
   };
 }
 
-export function artDeskCards(projection: ArtbenchProjection): ArtDeskCard[] {
+export function artDeskCards(
+  projection: ArtbenchProjection,
+  selectedBuild?: SelectedArtBuild | null,
+): ArtDeskCard[] {
   const cards: ArtDeskCard[] = [];
   for (const request of Object.values(projection.requests)) {
     const candidates = request.candidateIds
@@ -586,7 +673,42 @@ export function artDeskCards(projection: ArtbenchProjection): ArtDeskCard[] {
       );
     }
   }
-  return cards.sort(
+  const currentCards =
+    selectedBuild === undefined
+      ? cards
+      : cards.map((card) => {
+          const candidate = card.leadCandidateId
+            ? projection.candidates[card.leadCandidateId]
+            : null;
+          if (!candidate) return card;
+          const usage = candidateUsage(projection, candidate, selectedBuild);
+          const facets = {
+            ...card.facets,
+            usage: [usage.state === "used" ? "used-in-build" : usage.state],
+            usedIn: usage.labels,
+            eligible: usage.eligible,
+          };
+          if (
+            (card.status === "installed" || card.status === "in-game") &&
+            usage.state !== "used"
+          ) {
+            return {
+              ...card,
+              status: "approved" as const,
+              statusLabel:
+                usage.state === "unknown"
+                  ? "Build use unverified"
+                  : CARD_STATUS_LABELS.approved,
+              tabs: [
+                ...card.tabs.filter((tab) => tab !== "in-game"),
+                "approved" as const,
+              ],
+              facets,
+            };
+          }
+          return { ...card, facets };
+        });
+  return currentCards.sort(
     (a, b) =>
       (b.updatedAt ?? "").localeCompare(a.updatedAt ?? "") ||
       a.title.localeCompare(b.title),
@@ -596,7 +718,7 @@ export function artDeskCards(projection: ArtbenchProjection): ArtDeskCard[] {
 export interface CardFilter {
   readonly tab: ArtDeskTab;
   readonly text?: string;
-  readonly status?: CandidateStatus | "all";
+  readonly status?: CandidateStatus | "all" | "with-art-team";
   readonly assetType?: string | "all";
   readonly family?: string | "all";
   readonly showQa?: boolean;
@@ -613,7 +735,15 @@ export function filterCards(
     if (
       filter.status &&
       filter.status !== "all" &&
-      card.status !== filter.status
+      (filter.status === "with-art-team"
+        ? !card.tabs.includes("in-progress")
+        : filter.status === "awaiting-review"
+          ? !card.tabs.includes("needs-review")
+          : filter.status === "approved"
+            ? !card.tabs.includes("approved")
+            : filter.status === "installed"
+              ? !card.tabs.includes("in-game")
+              : card.status !== filter.status)
     )
       return false;
     if (
@@ -634,7 +764,10 @@ export function filterCards(
         card.title,
         card.change,
         card.requestId,
+        card.requestCode ?? "",
         card.family ?? "",
+        ...(card.facets.usedIn ?? []),
+        ...(card.facets.eligible ?? []),
         ...card.lineage.map((s) => s.candidateId),
       ]
         .join(" ")
@@ -725,6 +858,7 @@ export function viewedCandidateView(
         viewed &&
         c.candidateId !== viewed.candidateId &&
         (!c.qa || viewed.qa) &&
+        reviewDisposition(c) === "review" &&
         c.status === "awaiting-review" &&
         (c.ingestedAt.localeCompare(viewed.ingestedAt) > 0 ||
           (c.ingestedAt === viewed.ingestedAt && c.revision > viewed.revision)),
@@ -835,8 +969,15 @@ export function generationRequestReady(
   projection: ArtbenchProjection,
   bytes: Readonly<Record<string, { readonly state: string }>>,
 ): boolean {
+  if (requestArtworkCategory(request) === "clothing") return false;
   const parameters = request.generatorParameters;
-  const prompt = parameters?.fireflyPrompt;
+  const prompt = parameters?.fireflyPrompt
+    ? codedGenerationPrompt(
+        request,
+        requestDisplayCode(projection, request.requestId),
+        parameters.fireflyPrompt,
+      )
+    : null;
   if (
     !prompt?.trim() ||
     prompt.length > 1024 ||

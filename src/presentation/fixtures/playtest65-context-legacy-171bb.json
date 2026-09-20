@@ -1,0 +1,2023 @@
+{
+  "format": "political-life-world",
+  "formatVersion": 15,
+  "snapshotId": "snapshot_2e112c0927d8f11f",
+  "worldId": "world_8e317be0837b9c88",
+  "savedAtWorldDate": "2026-01-05",
+  "world": {
+    "schemaVersion": 15,
+    "generatorVersion": "production-world-v1",
+    "id": "world_8e317be0837b9c88",
+    "seed": "w-context-legacy-171bb-duluth",
+    "startedAt": "2026-01-05",
+    "currentDate": "2026-01-05",
+    "currentMoment": {
+      "date": "2026-01-05",
+      "minuteOfDay": 550,
+      "timeZone": "America/Chicago",
+      "utcOffsetMinutes": -360
+    },
+    "actionSequence": 0,
+    "jurisdictions": {
+      "jurisdiction_52ad918ad6a5c9cc": {
+        "id": "jurisdiction_52ad918ad6a5c9cc",
+        "slug": "us-place-2717000",
+        "name": "Duluth, Minnesota",
+        "kind": "census-place",
+        "parentName": "Minnesota",
+        "provenance": {
+          "asOf": "2026-01-05",
+          "source": "census-gazetteer-2025-places-zip",
+          "jurisdiction": "jurisdiction_52ad918ad6a5c9cc",
+          "status": "approved"
+        }
+      }
+    },
+    "jurisdictionOrder": ["jurisdiction_52ad918ad6a5c9cc"],
+    "people": {
+      "person_e3fa9dac82e31158": {
+        "id": "person_e3fa9dac82e31158",
+        "generationKey": "starting-person-v1:player",
+        "generatorVersion": "starting-person-v1",
+        "corpusVersion": "names-v1",
+        "givenName": "Avery",
+        "familyName": "Lane",
+        "birthDate": "1990-12-07",
+        "homeJurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+        "appearance": {
+          "seed": "app_d9b6e8004c3ecc0b",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_e5b5924d06ff6457",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1990-12-07",
+            "jurisdictionId": null,
+            "summary": "Avery Lane's birth date is established as 1990-12-07.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_0ad8ad4446cf8a57",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1990-12-07",
+            "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+            "summary": "Avery Lane's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          },
+          {
+            "id": "fact_b195a1d46c7cab4f",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+            "summary": "Avery Lane resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Generated from the player's setup at the start of a new game."
+            }
+          }
+        ]
+      },
+      "person_7f82393e998a15f9": {
+        "id": "person_7f82393e998a15f9",
+        "generationKey": "life-context-v1:production:earlier-life:parent",
+        "givenName": "Stella",
+        "familyName": "Lane",
+        "birthDate": "1962-12-07",
+        "homeJurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+        "identity": { "gender": "male", "pronouns": "he-him" },
+        "detailLevel": "lightweight",
+        "appearance": {
+          "seed": "app_a54c4a1384651543",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "establishedFacts": [
+          {
+            "id": "fact_75fc5fd4aabafdfb",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1962-12-07",
+            "jurisdictionId": null,
+            "summary": "Stella Lane's birth date is established.",
+            "provenance": {
+              "method": "manual",
+              "sourceEventId": null,
+              "note": "Character-history bounded context population."
+            }
+          },
+          {
+            "id": "fact_a509d085c798ec7b",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1962-12-07",
+            "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+            "summary": "Stella Lane's birthplace is established.",
+            "provenance": {
+              "method": "manual",
+              "sourceEventId": null,
+              "note": "Character-history bounded context population."
+            }
+          },
+          {
+            "id": "fact_cefb28045241e3a3",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+            "summary": "Stella Lane resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "manual",
+              "sourceEventId": null,
+              "note": "Character-history bounded context population."
+            }
+          }
+        ]
+      },
+      "person_754fb290b5f69d4d": {
+        "id": "person_754fb290b5f69d4d",
+        "generationKey": "life-context-v1:production:earlier-life:peer",
+        "givenName": "Derek",
+        "familyName": "Miranda",
+        "birthDate": "1990-12-07",
+        "homeJurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+        "identity": { "gender": "male", "pronouns": "he-him" },
+        "detailLevel": "lightweight",
+        "appearance": {
+          "seed": "app_047b3d89bd61af8d",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "establishedFacts": [
+          {
+            "id": "fact_7abdbe5f6bcc93d9",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1990-12-07",
+            "jurisdictionId": null,
+            "summary": "Derek Miranda's birth date is established.",
+            "provenance": {
+              "method": "manual",
+              "sourceEventId": null,
+              "note": "Character-history bounded context population."
+            }
+          },
+          {
+            "id": "fact_539fa0e0f03327b5",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1990-12-07",
+            "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+            "summary": "Derek Miranda's birthplace is established.",
+            "provenance": {
+              "method": "manual",
+              "sourceEventId": null,
+              "note": "Character-history bounded context population."
+            }
+          },
+          {
+            "id": "fact_44f418f55c2e4e5d",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+            "summary": "Derek Miranda resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "manual",
+              "sourceEventId": null,
+              "note": "Character-history bounded context population."
+            }
+          }
+        ]
+      },
+      "person_473966cf1caadb99": {
+        "id": "person_473966cf1caadb99",
+        "generationKey": "life-context-v1:production:earlier-life:teacher",
+        "givenName": "Mina",
+        "familyName": "Gomez",
+        "birthDate": "1960-12-07",
+        "homeJurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+        "identity": { "gender": "male", "pronouns": "he-him" },
+        "detailLevel": "lightweight",
+        "appearance": {
+          "seed": "app_c217868c08646356",
+          "recipeVersion": "appearance-recipe-v2",
+          "catalogGeneration": 2
+        },
+        "establishedFacts": [
+          {
+            "id": "fact_c3532b6a7f9d069e",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1960-12-07",
+            "jurisdictionId": null,
+            "summary": "Mina Gomez's birth date is established.",
+            "provenance": {
+              "method": "manual",
+              "sourceEventId": null,
+              "note": "Character-history bounded context population."
+            }
+          },
+          {
+            "id": "fact_5b76566033cbfd0a",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1960-12-07",
+            "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+            "summary": "Mina Gomez's birthplace is established.",
+            "provenance": {
+              "method": "manual",
+              "sourceEventId": null,
+              "note": "Character-history bounded context population."
+            }
+          },
+          {
+            "id": "fact_9197bbfc5ea49c74",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+            "summary": "Mina Gomez resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "manual",
+              "sourceEventId": null,
+              "note": "Character-history bounded context population."
+            }
+          }
+        ]
+      }
+    },
+    "personOrder": [
+      "person_e3fa9dac82e31158",
+      "person_7f82393e998a15f9",
+      "person_754fb290b5f69d4d",
+      "person_473966cf1caadb99"
+    ],
+    "policyCatalog": {
+      "catalogVersion": "production-policy-v1",
+      "domains": {},
+      "domainOrder": [],
+      "issues": {},
+      "issueOrder": [],
+      "propositions": {},
+      "propositionOrder": [],
+      "subjects": {},
+      "subjectOrder": [],
+      "principles": {},
+      "principleOrder": []
+    },
+    "mindCatalog": {
+      "catalogVersion": "mind-catalog-v1",
+      "tendencies": {
+        "personality-tendency-definition_ecd5a041a82244f2": {
+          "id": "personality-tendency-definition_ecd5a041a82244f2",
+          "stableKey": "opening-life-mind-v1:conversation",
+          "name": "Conversation approach",
+          "description": "An ordinary conversational preference that context and later experience can change.",
+          "expressions": [
+            {
+              "key": "ask",
+              "label": "Ask first",
+              "description": "Prefers asking a question before offering advice."
+            },
+            {
+              "key": "listen",
+              "label": "Listen first",
+              "description": "Prefers hearing the other person out."
+            },
+            {
+              "key": "direct",
+              "label": "Speak directly",
+              "description": "Prefers stating a concern plainly."
+            }
+          ]
+        },
+        "personality-tendency-definition_261f95cfa6d0f870": {
+          "id": "personality-tendency-definition_261f95cfa6d0f870",
+          "stableKey": "opening-life-mind-v1:leisure",
+          "name": "Leisure preference",
+          "description": "A preference for how to spend an available ordinary moment; never an obligation.",
+          "expressions": [
+            {
+              "key": "familiar",
+              "label": "Something familiar",
+              "description": "Often chooses a familiar activity."
+            },
+            {
+              "key": "explore",
+              "label": "Try something",
+              "description": "Often wants to try an unfamiliar activity."
+            },
+            {
+              "key": "company",
+              "label": "Spend time together",
+              "description": "Often seeks company during free time."
+            }
+          ]
+        }
+      },
+      "tendencyOrder": [
+        "personality-tendency-definition_ecd5a041a82244f2",
+        "personality-tendency-definition_261f95cfa6d0f870"
+      ],
+      "values": {
+        "value-definition_7468aa8e6b0d7096": {
+          "id": "value-definition_7468aa8e6b0d7096",
+          "stableKey": "opening-life-mind-v1:privacy",
+          "name": "Privacy",
+          "description": "Having a say in what to share about one's own life."
+        },
+        "value-definition_a30c768eb797280a": {
+          "id": "value-definition_a30c768eb797280a",
+          "stableKey": "opening-life-mind-v1:connection",
+          "name": "Connection",
+          "description": "Making time for people one knows."
+        },
+        "value-definition_6c8200968e6311e8": {
+          "id": "value-definition_6c8200968e6311e8",
+          "stableKey": "opening-life-mind-v1:learning",
+          "name": "Learning",
+          "description": "Taking time to understand something unfamiliar."
+        }
+      },
+      "valueOrder": [
+        "value-definition_7468aa8e6b0d7096",
+        "value-definition_a30c768eb797280a",
+        "value-definition_6c8200968e6311e8"
+      ]
+    },
+    "metricCatalog": {
+      "catalogVersion": "world-metric-catalog-v2",
+      "definitions": {},
+      "definitionOrder": []
+    },
+    "causalMechanismCatalog": {
+      "catalogVersion": "causal-mechanism-catalog-v1",
+      "definitions": {},
+      "definitionOrder": []
+    },
+    "incidentCatalog": {
+      "catalogVersion": "incident-catalog-v1",
+      "definitions": {},
+      "definitionOrder": []
+    },
+    "vitalityCatalog": {
+      "catalogVersion": "vitality-catalog-v1",
+      "mortalityTables": {},
+      "mortalityTableOrder": []
+    },
+    "control": { "kind": "person", "personId": "person_e3fa9dac82e31158" },
+    "history": {
+      "nextSequence": 85,
+      "organizations": [
+        {
+          "id": "organization_076715a611617a00",
+          "stableKey": "production:earlier-life:elementary-school",
+          "sequence": 1,
+          "formedAt": "1990-12-07",
+          "detailLevel": "lightweight",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          }
+        },
+        {
+          "id": "organization_dc0a4982cf11e1c5",
+          "stableKey": "production:earlier-life:middle-school",
+          "sequence": 3,
+          "formedAt": "1990-12-07",
+          "detailLevel": "lightweight",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          }
+        },
+        {
+          "id": "organization_f726f7d37aabd002",
+          "stableKey": "production:earlier-life:high-school",
+          "sequence": 5,
+          "formedAt": "1990-12-07",
+          "detailLevel": "lightweight",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          }
+        },
+        {
+          "id": "organization_d7e1a1325bac46ee",
+          "stableKey": "production:earlier-life:civic-club",
+          "sequence": 7,
+          "formedAt": "1990-12-07",
+          "detailLevel": "lightweight",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          }
+        },
+        {
+          "id": "organization_202b1b29b3b1cedf",
+          "stableKey": "production:earlier-life:teen-employer",
+          "sequence": 9,
+          "formedAt": "1990-12-07",
+          "detailLevel": "lightweight",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          }
+        }
+      ],
+      "organizationProfiles": [
+        {
+          "id": "organization-profile_b3f00aba4a8a5cd5",
+          "stableKey": "production:earlier-life:elementary-school:profile:initial",
+          "sequence": 2,
+          "organizationId": "organization_076715a611617a00",
+          "effectiveAt": "1990-12-07",
+          "name": "Local Elementary School",
+          "classification": "service:school",
+          "locationJurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          },
+          "supersedesProfileId": null
+        },
+        {
+          "id": "organization-profile_7a61759b97b78374",
+          "stableKey": "production:earlier-life:middle-school:profile:initial",
+          "sequence": 4,
+          "organizationId": "organization_dc0a4982cf11e1c5",
+          "effectiveAt": "1990-12-07",
+          "name": "Local Middle School",
+          "classification": "service:school",
+          "locationJurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          },
+          "supersedesProfileId": null
+        },
+        {
+          "id": "organization-profile_ce0cfb70ce59001f",
+          "stableKey": "production:earlier-life:high-school:profile:initial",
+          "sequence": 6,
+          "organizationId": "organization_f726f7d37aabd002",
+          "effectiveAt": "1990-12-07",
+          "name": "Local High School",
+          "classification": "service:school",
+          "locationJurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          },
+          "supersedesProfileId": null
+        },
+        {
+          "id": "organization-profile_0c87023a30b336e3",
+          "stableKey": "production:earlier-life:civic-club:profile:initial",
+          "sequence": 8,
+          "organizationId": "organization_d7e1a1325bac46ee",
+          "effectiveAt": "1990-12-07",
+          "name": "Community Service Club",
+          "classification": "community:youth-service",
+          "locationJurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          },
+          "supersedesProfileId": null
+        },
+        {
+          "id": "organization-profile_2d66771e1809242e",
+          "stableKey": "production:earlier-life:teen-employer:profile:initial",
+          "sequence": 10,
+          "organizationId": "organization_202b1b29b3b1cedf",
+          "effectiveAt": "1990-12-07",
+          "name": "Neighborhood Market",
+          "classification": "enterprise:retail",
+          "locationJurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          },
+          "supersedesProfileId": null
+        }
+      ],
+      "educationEnrollments": [
+        {
+          "id": "education-enrollment_232f3d9b41ddb78f",
+          "stableKey": "production:earlier-life:education:elementary",
+          "sequence": 23,
+          "personId": "person_e3fa9dac82e31158",
+          "organizationId": "organization_076715a611617a00",
+          "recordedAt": "2026-01-05",
+          "startedAt": "1995-12-07",
+          "programKind": "schooling:elementary",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          }
+        },
+        {
+          "id": "education-enrollment_207ab3bfcea79e77",
+          "stableKey": "production:earlier-life:education:middle-school",
+          "sequence": 28,
+          "personId": "person_e3fa9dac82e31158",
+          "organizationId": "organization_dc0a4982cf11e1c5",
+          "recordedAt": "2026-01-05",
+          "startedAt": "2001-12-07",
+          "programKind": "schooling:middle",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          }
+        },
+        {
+          "id": "education-enrollment_73f053b5ce7f6148",
+          "stableKey": "production:earlier-life:education:high-school",
+          "sequence": 34,
+          "personId": "person_e3fa9dac82e31158",
+          "organizationId": "organization_f726f7d37aabd002",
+          "recordedAt": "2026-01-05",
+          "startedAt": "2004-12-07",
+          "programKind": "schooling:secondary",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          }
+        },
+        {
+          "id": "education-enrollment_852e473a7caad135",
+          "stableKey": "production:earlier-life:education:peer",
+          "sequence": 36,
+          "personId": "person_754fb290b5f69d4d",
+          "organizationId": "organization_f726f7d37aabd002",
+          "recordedAt": "2026-01-05",
+          "startedAt": "2004-12-07",
+          "programKind": "schooling:secondary",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          }
+        }
+      ],
+      "educationEnrollmentStates": [
+        {
+          "id": "education-enrollment-state_981c04fd81eee1a2",
+          "stableKey": "production:earlier-life:education:elementary:state:initial",
+          "sequence": 24,
+          "enrollmentId": "education-enrollment_232f3d9b41ddb78f",
+          "effectiveAt": "1995-12-07",
+          "status": "active",
+          "contextKind": "stage:elementary",
+          "reason": null,
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          },
+          "supersedesStateId": null
+        },
+        {
+          "stableKey": "production:earlier-life:education:elementary:transfer",
+          "effectiveAt": "1997-12-07",
+          "status": "transferred",
+          "contextKind": "stage:elementary",
+          "reason": "Household move changed school context.",
+          "enrollmentId": "education-enrollment_232f3d9b41ddb78f",
+          "supersedesStateId": "education-enrollment-state_981c04fd81eee1a2",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          },
+          "id": "education-enrollment-state_deaaeb0f4714509c",
+          "sequence": 27
+        },
+        {
+          "id": "education-enrollment-state_70d42f2ab2244e2a",
+          "stableKey": "production:earlier-life:education:middle-school:state:initial",
+          "sequence": 29,
+          "enrollmentId": "education-enrollment_207ab3bfcea79e77",
+          "effectiveAt": "2001-12-07",
+          "status": "active",
+          "contextKind": "stage:school",
+          "reason": null,
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          },
+          "supersedesStateId": null
+        },
+        {
+          "stableKey": "production:earlier-life:education:middle-school:completed",
+          "effectiveAt": "2004-12-07",
+          "status": "completed",
+          "contextKind": "stage:school",
+          "reason": "Completed the middle-school program.",
+          "enrollmentId": "education-enrollment_207ab3bfcea79e77",
+          "supersedesStateId": "education-enrollment-state_70d42f2ab2244e2a",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          },
+          "id": "education-enrollment-state_beb12477a1a777b8",
+          "sequence": 33
+        },
+        {
+          "id": "education-enrollment-state_1c76a2ce6a0f84e9",
+          "stableKey": "production:earlier-life:education:high-school:state:initial",
+          "sequence": 35,
+          "enrollmentId": "education-enrollment_73f053b5ce7f6148",
+          "effectiveAt": "2004-12-07",
+          "status": "active",
+          "contextKind": "stage:school",
+          "reason": null,
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          },
+          "supersedesStateId": null
+        },
+        {
+          "id": "education-enrollment-state_81f149bef7250e38",
+          "stableKey": "production:earlier-life:education:peer:state:initial",
+          "sequence": 37,
+          "enrollmentId": "education-enrollment_852e473a7caad135",
+          "effectiveAt": "2004-12-07",
+          "status": "active",
+          "contextKind": "stage:school",
+          "reason": null,
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          },
+          "supersedesStateId": null
+        },
+        {
+          "stableKey": "production:earlier-life:education:high-school:completed",
+          "effectiveAt": "2008-12-07",
+          "status": "completed",
+          "contextKind": "stage:school",
+          "reason": "Completed the school program.",
+          "enrollmentId": "education-enrollment_73f053b5ce7f6148",
+          "supersedesStateId": "education-enrollment-state_1c76a2ce6a0f84e9",
+          "provenance": {
+            "kind": "simulated-event",
+            "eventId": "event_29999ddf3c7d074d"
+          },
+          "id": "education-enrollment-state_d150ff09319837d3",
+          "sequence": 54
+        }
+      ],
+      "organizationParticipations": [
+        {
+          "id": "organization-participation_ec44004231aa6550",
+          "stableKey": "production:earlier-life:participation:civic",
+          "sequence": 45,
+          "personId": "person_e3fa9dac82e31158",
+          "organizationId": "organization_d7e1a1325bac46ee",
+          "recordedAt": "2026-01-05",
+          "startedAt": "2004-12-07",
+          "kind": "activity:community-service",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          }
+        }
+      ],
+      "organizationParticipationStates": [
+        {
+          "id": "organization-participation-state_96d2b767157d79a5",
+          "stableKey": "production:earlier-life:participation:civic:state:initial",
+          "sequence": 46,
+          "participationId": "organization-participation_ec44004231aa6550",
+          "effectiveAt": "2004-12-07",
+          "status": "active",
+          "roleKind": "participant:volunteer",
+          "context": "Youth community service",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          },
+          "supersedesStateId": null
+        }
+      ],
+      "workRelationships": [
+        {
+          "id": "work-relationship_2ed377d6b465eb5f",
+          "stableKey": "production:earlier-life:work:teacher",
+          "sequence": 30,
+          "personId": "person_473966cf1caadb99",
+          "organizationId": "organization_dc0a4982cf11e1c5",
+          "recordedAt": "2026-01-05",
+          "startedAt": "2001-12-07",
+          "kind": "employment:education",
+          "compensation": "paid",
+          "authority": "directs-others",
+          "dependency": "dependent",
+          "economicRisk": "organization-borne",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          }
+        },
+        {
+          "id": "work-relationship_5c9e47a56045c2c3",
+          "stableKey": "production:earlier-life:work:teen",
+          "sequence": 50,
+          "personId": "person_e3fa9dac82e31158",
+          "organizationId": "organization_202b1b29b3b1cedf",
+          "recordedAt": "2026-01-05",
+          "startedAt": "2006-12-07",
+          "kind": "employment:part-time",
+          "compensation": "paid",
+          "authority": "directed",
+          "dependency": "dependent",
+          "economicRisk": "organization-borne",
+          "provenance": {
+            "kind": "simulated-event",
+            "eventId": "event_1bc1734277dc915b"
+          }
+        }
+      ],
+      "workStatuses": [
+        {
+          "id": "work-status_eaa5dcc3c6c1d3cb",
+          "stableKey": "production:earlier-life:work:teacher:status:initial",
+          "sequence": 31,
+          "workRelationshipId": "work-relationship_2ed377d6b465eb5f",
+          "effectiveAt": "2001-12-07",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          },
+          "supersedesStatusId": null
+        },
+        {
+          "id": "work-status_35a170a7dddf42a7",
+          "stableKey": "production:earlier-life:work:teen:status:initial",
+          "sequence": 51,
+          "workRelationshipId": "work-relationship_5c9e47a56045c2c3",
+          "effectiveAt": "2006-12-07",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "simulated-event",
+            "eventId": "event_1bc1734277dc915b"
+          },
+          "supersedesStatusId": null
+        },
+        {
+          "stableKey": "production:earlier-life:teen-work:ended",
+          "effectiveAt": "2008-12-07",
+          "status": "ended",
+          "reason": "The job the character had at school did not follow them out of it.",
+          "workRelationshipId": "work-relationship_5c9e47a56045c2c3",
+          "supersedesStatusId": "work-status_35a170a7dddf42a7",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "production-world-v1"
+          },
+          "id": "work-status_1aa62365ee3a5652",
+          "sequence": 56
+        }
+      ],
+      "workRoles": [
+        {
+          "id": "work-role_521e6cd896808383",
+          "stableKey": "production:earlier-life:work:teacher:role:initial",
+          "sequence": 32,
+          "workRelationshipId": "work-relationship_2ed377d6b465eb5f",
+          "effectiveAt": "2001-12-07",
+          "title": "Teacher",
+          "occupationClassification": "profession:teacher",
+          "locationJurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+          "timeDemand": {
+            "expectedWeekly": { "minimumHours": 20, "maximumHours": 40 },
+            "attention": "moderate",
+            "concurrency": "partly-concurrent",
+            "scheduleRigidity": "mixed",
+            "interruptibility": "limited",
+            "locationJurisdictionId": "jurisdiction_52ad918ad6a5c9cc"
+          },
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          },
+          "supersedesRoleId": null
+        },
+        {
+          "id": "work-role_c2f1cde7a58232c7",
+          "stableKey": "production:earlier-life:work:teen:role:initial",
+          "sequence": 52,
+          "workRelationshipId": "work-relationship_5c9e47a56045c2c3",
+          "effectiveAt": "2006-12-07",
+          "title": "Store assistant",
+          "occupationClassification": "occupation:retail-assistant",
+          "locationJurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+          "timeDemand": {
+            "expectedWeekly": { "minimumHours": 2, "maximumHours": 8 },
+            "attention": "low",
+            "concurrency": "mostly-concurrent",
+            "scheduleRigidity": "flexible",
+            "interruptibility": "interruptible",
+            "locationJurisdictionId": "jurisdiction_52ad918ad6a5c9cc"
+          },
+          "provenance": {
+            "kind": "simulated-event",
+            "eventId": "event_1bc1734277dc915b"
+          },
+          "supersedesRoleId": null
+        }
+      ],
+      "households": [
+        {
+          "id": "household_c12f57d726724810",
+          "stableKey": "production:earlier-life:household",
+          "sequence": 11,
+          "formedAt": "1990-12-07",
+          "label": "Childhood household",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          }
+        },
+        {
+          "id": "household_fec90a37c63f914c",
+          "stableKey": "production:initial-life:household",
+          "sequence": 57,
+          "formedAt": "2026-01-05",
+          "label": "Avery Lane's household",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "production-world-v1"
+          }
+        }
+      ],
+      "householdLocations": [
+        {
+          "stableKey": "production:earlier-life:household:location:birth",
+          "effectiveAt": "1990-12-07",
+          "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+          "label": "Initial family residence",
+          "kind": "residence:family-home",
+          "householdId": "household_c12f57d726724810",
+          "supersedesLocationId": null,
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          },
+          "id": "household-location_8cb406a605a1d4f2",
+          "sequence": 12
+        },
+        {
+          "stableKey": "production:earlier-life:household:location:move",
+          "effectiveAt": "1996-12-07",
+          "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+          "label": "Later family residence",
+          "kind": "residence:family-home",
+          "householdId": "household_c12f57d726724810",
+          "supersedesLocationId": "household-location_8cb406a605a1d4f2",
+          "provenance": {
+            "kind": "simulated-event",
+            "eventId": "event_d3074e1dc14dc923"
+          },
+          "id": "household-location_2dc1be2210af87e8",
+          "sequence": 26
+        },
+        {
+          "stableKey": "production:initial-life:household:location",
+          "effectiveAt": "2026-01-05",
+          "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+          "label": "Duluth, Minnesota",
+          "kind": "residence:home",
+          "householdId": "household_fec90a37c63f914c",
+          "supersedesLocationId": null,
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "production-world-v1"
+          },
+          "id": "household-location_f021d1cf980e13f5",
+          "sequence": 58
+        }
+      ],
+      "householdMemberships": [
+        {
+          "id": "household-membership_f7efef7904c224cb",
+          "stableKey": "production:earlier-life:household:child",
+          "sequence": 13,
+          "personId": "person_e3fa9dac82e31158",
+          "householdId": "household_c12f57d726724810",
+          "startedAt": "1990-12-07",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          }
+        },
+        {
+          "id": "household-membership_2d92b4978746b41b",
+          "stableKey": "production:earlier-life:household:parent",
+          "sequence": 15,
+          "personId": "person_7f82393e998a15f9",
+          "householdId": "household_c12f57d726724810",
+          "startedAt": "1990-12-07",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          }
+        },
+        {
+          "id": "household-membership_20aa4e935d2c9031",
+          "stableKey": "production:initial-life:membership:player",
+          "sequence": 59,
+          "personId": "person_e3fa9dac82e31158",
+          "householdId": "household_fec90a37c63f914c",
+          "startedAt": "2026-01-05",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "production-world-v1"
+          }
+        }
+      ],
+      "householdMembershipStates": [
+        {
+          "id": "household-membership-state_2d3874dc079a395e",
+          "stableKey": "production:earlier-life:household:child:state:initial",
+          "sequence": 14,
+          "membershipId": "household-membership_f7efef7904c224cb",
+          "effectiveAt": "1990-12-07",
+          "status": "resident",
+          "residenceRole": "primary",
+          "kind": "resident:child",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          },
+          "supersedesStateId": null
+        },
+        {
+          "id": "household-membership-state_d4e06cf164107c7e",
+          "stableKey": "production:earlier-life:household:parent:state:initial",
+          "sequence": 16,
+          "membershipId": "household-membership_2d92b4978746b41b",
+          "effectiveAt": "1990-12-07",
+          "status": "resident",
+          "residenceRole": "primary",
+          "kind": "resident:adult",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          },
+          "supersedesStateId": null
+        },
+        {
+          "stableKey": "production:earlier-life:childhood-home:ended",
+          "effectiveAt": "2026-01-04",
+          "status": "ended",
+          "residenceRole": "primary",
+          "kind": "resident:child",
+          "membershipId": "household-membership_f7efef7904c224cb",
+          "supersedesStateId": "household-membership-state_2d3874dc079a395e",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "production-world-v1"
+          },
+          "id": "household-membership-state_0f5735bf43549b7c",
+          "sequence": 55
+        },
+        {
+          "id": "household-membership-state_5a833d089b788254",
+          "stableKey": "production:initial-life:membership:player:state:initial",
+          "sequence": 60,
+          "membershipId": "household-membership_20aa4e935d2c9031",
+          "effectiveAt": "2026-01-05",
+          "status": "resident",
+          "residenceRole": "primary",
+          "kind": "resident:member",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "production-world-v1"
+          },
+          "supersedesStateId": null
+        }
+      ],
+      "kinshipRelationships": [
+        {
+          "id": "kinship_d470334bdc496808",
+          "stableKey": "production:earlier-life:kinship",
+          "sequence": 17,
+          "personIds": ["person_7f82393e998a15f9", "person_e3fa9dac82e31158"],
+          "establishedAt": "1990-12-07",
+          "kind": "lineal:parent-child",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          }
+        }
+      ],
+      "partnerships": [],
+      "partnershipStates": [],
+      "careResponsibilities": [
+        {
+          "id": "care-responsibility_ce42c07b384605fb",
+          "stableKey": "production:earlier-life:care",
+          "sequence": 18,
+          "caregiverPersonId": "person_7f82393e998a15f9",
+          "recipientPersonId": "person_e3fa9dac82e31158",
+          "startedAt": "1990-12-07",
+          "kind": "supervision:childcare",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          }
+        }
+      ],
+      "careResponsibilityStates": [
+        {
+          "id": "care-state_14b148d80a80c7c5",
+          "stableKey": "production:earlier-life:care:state:initial",
+          "sequence": 19,
+          "careResponsibilityId": "care-responsibility_ce42c07b384605fb",
+          "effectiveAt": "1990-12-07",
+          "status": "active",
+          "share": "primary",
+          "context": "Childhood care",
+          "timeDemand": {
+            "expectedWeekly": { "minimumHours": 2, "maximumHours": 8 },
+            "attention": "low",
+            "concurrency": "mostly-concurrent",
+            "scheduleRigidity": "flexible",
+            "interruptibility": "interruptible",
+            "locationJurisdictionId": "jurisdiction_52ad918ad6a5c9cc"
+          },
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          },
+          "supersedesStateId": null
+        }
+      ],
+      "childAuthorities": [
+        {
+          "id": "child-authority_743587ac3a924caf",
+          "stableKey": "production:earlier-life:authority",
+          "sequence": 20,
+          "childPersonId": "person_e3fa9dac82e31158",
+          "holder": { "kind": "person", "personId": "person_7f82393e998a15f9" },
+          "establishedAt": "1990-12-07",
+          "kind": "parental:ordinary",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          }
+        }
+      ],
+      "childAuthorityStates": [
+        {
+          "id": "child-authority-state_db0f398cd283e762",
+          "stableKey": "production:earlier-life:authority:state:initial",
+          "sequence": 21,
+          "childAuthorityId": "child-authority_743587ac3a924caf",
+          "effectiveAt": "1990-12-07",
+          "status": "active",
+          "basisKind": "custom:family",
+          "context": "Childhood authority",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          },
+          "supersedesStateId": null
+        },
+        {
+          "stableKey": "production:earlier-life:authority:ended",
+          "effectiveAt": "2008-12-07",
+          "status": "ended",
+          "basisKind": "custom:family",
+          "context": "Reached adulthood",
+          "childAuthorityId": "child-authority_743587ac3a924caf",
+          "supersedesStateId": "child-authority-state_db0f398cd283e762",
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          },
+          "id": "child-authority-state_bc1906210c3bb445",
+          "sequence": 22
+        }
+      ],
+      "lifeCommitments": [
+        {
+          "stableKey": "production:earlier-life:commitment:civic",
+          "personId": "person_e3fa9dac82e31158",
+          "startsAt": "2004-12-07",
+          "endsAt": "2008-12-07",
+          "kind": "community:volunteering",
+          "label": "Youth community service",
+          "timeDemand": {
+            "expectedWeekly": { "minimumHours": 2, "maximumHours": 8 },
+            "attention": "low",
+            "concurrency": "mostly-concurrent",
+            "scheduleRigidity": "flexible",
+            "interruptibility": "interruptible",
+            "locationJurisdictionId": "jurisdiction_52ad918ad6a5c9cc"
+          },
+          "provenance": {
+            "kind": "generated",
+            "generatorKey": "character-history-v1:production:earlier-life"
+          },
+          "id": "life-commitment_f003bc68537b8d35",
+          "sequence": 47
+        }
+      ],
+      "lifeLoadResolutions": [],
+      "resourcePositions": [],
+      "resourceFlows": [],
+      "resourceFlowTerms": [],
+      "resourceTransferOutcomes": [],
+      "resourceObligations": [],
+      "resourceObligationStates": [],
+      "dwellings": [],
+      "dwellingOccupancies": [],
+      "dwellingOccupancyStates": [],
+      "housingTenures": [],
+      "housingTenureStates": [],
+      "metricStates": [],
+      "metricObservations": [],
+      "causalProcesses": [],
+      "effectActivations": [],
+      "policyAlternatives": [],
+      "policyBaselines": [],
+      "policyOperations": [],
+      "policyImplementationProfiles": [],
+      "policyEstimates": [],
+      "policyRealizations": [],
+      "incidents": [],
+      "incidentStates": [],
+      "incidentTransitionPlans": [],
+      "mortalityCheckPlans": [],
+      "mortalityCheckResults": [],
+      "personDeaths": [],
+      "personFunctionalCapacities": [],
+      "evidenceArtifacts": [],
+      "evidenceDiscoveries": [],
+      "scheduledActivities": [],
+      "scheduledActivityStates": [],
+      "workItems": [],
+      "workItemStates": [],
+      "futureDueItems": [],
+      "futureDueItemStates": [],
+      "events": [
+        {
+          "id": "event_72befbd561c8ef2c",
+          "stableKey": "production:world-created",
+          "sequence": 0,
+          "type": "world.created",
+          "occurredAt": "2026-01-05",
+          "recordedAt": "2026-01-05",
+          "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+          "involvedEntityIds": [
+            "jurisdiction_52ad918ad6a5c9cc",
+            "person_e3fa9dac82e31158"
+          ],
+          "participants": [
+            {
+              "personId": "person_e3fa9dac82e31158",
+              "role": "focus:subject",
+              "detail": "The character this life follows"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "public",
+          "tags": ["life.started", "world.created"],
+          "summary": "Avery Lane is 35, and lives in Duluth, Minnesota. This is where their life is picked up.",
+          "context": {
+            "location": {
+              "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+              "label": "Duluth, Minnesota",
+              "setting": "The start of a life"
+            },
+            "socialContext": "An ordinary adult life already under way.",
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_d3074e1dc14dc923",
+          "stableKey": "production:earlier-life:event:move",
+          "sequence": 25,
+          "type": "life.household-move",
+          "occurredAt": "1996-12-07",
+          "recordedAt": "1996-12-07",
+          "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+          "involvedEntityIds": [
+            "person_7f82393e998a15f9",
+            "person_e3fa9dac82e31158"
+          ],
+          "participants": [
+            {
+              "personId": "person_7f82393e998a15f9",
+              "role": "presence:participant",
+              "detail": null
+            },
+            {
+              "personId": "person_e3fa9dac82e31158",
+              "role": "focus:subject",
+              "detail": null
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "limited",
+          "tags": ["life.household-move"],
+          "summary": "A household move changed the child's local routine.",
+          "context": {
+            "location": {
+              "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+              "label": "Life context",
+              "setting": null
+            },
+            "socialContext": null,
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_35c5fc361bf96016",
+          "stableKey": "production:earlier-life:event:lunch",
+          "sequence": 38,
+          "type": "life.lunch-table-choice",
+          "occurredAt": "2000-12-07",
+          "recordedAt": "2000-12-07",
+          "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+          "involvedEntityIds": [
+            "person_754fb290b5f69d4d",
+            "person_e3fa9dac82e31158"
+          ],
+          "participants": [
+            {
+              "personId": "person_754fb290b5f69d4d",
+              "role": "presence:participant",
+              "detail": null
+            },
+            {
+              "personId": "person_e3fa9dac82e31158",
+              "role": "focus:subject",
+              "detail": null
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "limited",
+          "tags": ["life.lunch-table-choice"],
+          "summary": "At lunch you made room at the table for another kid.",
+          "context": {
+            "location": {
+              "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+              "label": "Life context",
+              "setting": null
+            },
+            "socialContext": null,
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_eabc9e36b217350b",
+          "stableKey": "production:earlier-life:event:mentor",
+          "sequence": 43,
+          "type": "life.teacher-guidance",
+          "occurredAt": "2002-12-07",
+          "recordedAt": "2002-12-07",
+          "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+          "involvedEntityIds": [
+            "person_473966cf1caadb99",
+            "person_e3fa9dac82e31158"
+          ],
+          "participants": [
+            {
+              "personId": "person_473966cf1caadb99",
+              "role": "presence:participant",
+              "detail": null
+            },
+            {
+              "personId": "person_e3fa9dac82e31158",
+              "role": "focus:subject",
+              "detail": null
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "limited",
+          "tags": ["life.teacher-guidance"],
+          "summary": "A teacher offered concrete guidance.",
+          "context": {
+            "location": {
+              "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+              "label": "Life context",
+              "setting": null
+            },
+            "socialContext": null,
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_9b76e4ac2d8226b4",
+          "stableKey": "production:earlier-life:event:civic",
+          "sequence": 48,
+          "type": "life.civic-volunteering",
+          "occurredAt": "2005-12-07",
+          "recordedAt": "2005-12-07",
+          "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+          "involvedEntityIds": ["person_e3fa9dac82e31158"],
+          "participants": [
+            {
+              "personId": "person_e3fa9dac82e31158",
+              "role": "focus:subject",
+              "detail": null
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "limited",
+          "tags": ["life.civic-volunteering"],
+          "summary": "The teenager joined a local volunteer effort.",
+          "context": {
+            "location": {
+              "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+              "label": "Life context",
+              "setting": null
+            },
+            "socialContext": null,
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_1bc1734277dc915b",
+          "stableKey": "production:earlier-life:event:work",
+          "sequence": 49,
+          "type": "life.teen-work",
+          "occurredAt": "2006-12-07",
+          "recordedAt": "2006-12-07",
+          "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+          "involvedEntityIds": ["person_e3fa9dac82e31158"],
+          "participants": [
+            {
+              "personId": "person_e3fa9dac82e31158",
+              "role": "focus:subject",
+              "detail": null
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "limited",
+          "tags": ["life.teen-work"],
+          "summary": "The teenager took a limited local job.",
+          "context": {
+            "location": {
+              "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+              "label": "Life context",
+              "setting": null
+            },
+            "socialContext": null,
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_29999ddf3c7d074d",
+          "stableKey": "production:earlier-life:event:future",
+          "sequence": 53,
+          "type": "life.future-preparation",
+          "occurredAt": "2007-12-07",
+          "recordedAt": "2007-12-07",
+          "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+          "involvedEntityIds": ["person_e3fa9dac82e31158"],
+          "participants": [
+            {
+              "personId": "person_e3fa9dac82e31158",
+              "role": "focus:subject",
+              "detail": null
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "limited",
+          "tags": ["life.future-preparation"],
+          "summary": "The teenager prepared a next education, training, work, or service step.",
+          "context": {
+            "location": {
+              "jurisdictionId": "jurisdiction_52ad918ad6a5c9cc",
+              "label": "Life context",
+              "setting": null
+            },
+            "socialContext": null,
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        }
+      ],
+      "memories": [
+        {
+          "stableKey": "production:earlier-life:event:lunch:memory",
+          "personId": "person_e3fa9dac82e31158",
+          "eventStableKey": "production:earlier-life:event:lunch",
+          "formedAt": "2000-12-07",
+          "rememberedSummary": "I remember making room at the table.",
+          "interpretation": "It was a small thing, and it stayed with you.",
+          "strength": "moderate",
+          "relevanceTags": ["formative.lunch-table"],
+          "supersedesMemoryId": null,
+          "eventId": "event_35c5fc361bf96016",
+          "id": "memory_ae73ac06598bd6e0",
+          "sequence": 40
+        }
+      ],
+      "knowledge": [
+        {
+          "stableKey": "production:earlier-life:event:lunch:knowledge",
+          "personId": "person_e3fa9dac82e31158",
+          "eventStableKey": "production:earlier-life:event:lunch",
+          "learnedAt": "2000-12-07",
+          "believedSummary": "At lunch you made room at the table for another kid.",
+          "accuracy": "accurate",
+          "confidence": "high",
+          "source": { "kind": "direct" },
+          "eventId": "event_35c5fc361bf96016",
+          "id": "knowledge_4ae36115e59f3e24",
+          "sequence": 39
+        }
+      ],
+      "claims": [],
+      "relationshipInteractions": [
+        {
+          "stableKey": "production:earlier-life:event:lunch:interaction",
+          "personIds": ["person_754fb290b5f69d4d", "person_e3fa9dac82e31158"],
+          "eventStableKey": "production:earlier-life:event:lunch",
+          "occurredAt": "2000-12-07",
+          "kind": "experience:shared-school",
+          "change": "formed",
+          "significance": "meaningful",
+          "summary": "A small shared school moment started a durable acquaintance.",
+          "tags": ["formative.lunch-table"],
+          "eventId": "event_35c5fc361bf96016",
+          "id": "relationship_09143cb24d4b64e8",
+          "sequence": 41
+        },
+        {
+          "stableKey": "production:earlier-life:event:mentor:interaction",
+          "personIds": ["person_473966cf1caadb99", "person_e3fa9dac82e31158"],
+          "eventStableKey": "production:earlier-life:event:mentor",
+          "occurredAt": "2002-12-07",
+          "kind": "mentorship:guidance",
+          "change": "formed",
+          "significance": "meaningful",
+          "summary": "The teacher became a durable mentoring context.",
+          "tags": ["formative.teacher-mentor"],
+          "eventId": "event_eabc9e36b217350b",
+          "id": "relationship_1c98cc10a59263e5",
+          "sequence": 44
+        }
+      ],
+      "propositionExposures": [],
+      "privateBeliefs": [],
+      "publicPositions": [],
+      "campaignCommitments": [],
+      "principles": [],
+      "subjectKnowledge": [],
+      "personalityTendencies": [
+        {
+          "stableKey": "opening-life-mind-v1:person_e3fa9dac82e31158:personality-tendency-definition_ecd5a041a82244f2",
+          "personId": "person_e3fa9dac82e31158",
+          "tendencyId": "personality-tendency-definition_ecd5a041a82244f2",
+          "recordedAt": "2026-01-05",
+          "expressionKey": "listen",
+          "strength": "subtle",
+          "confidence": "low",
+          "scopeTags": ["life:ordinary"],
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "supersedesTendencyId": null,
+          "id": "personality-tendency_96a5d48dd1cf1212",
+          "sequence": 61
+        },
+        {
+          "stableKey": "opening-life-mind-v1:person_e3fa9dac82e31158:personality-tendency-definition_261f95cfa6d0f870",
+          "personId": "person_e3fa9dac82e31158",
+          "tendencyId": "personality-tendency-definition_261f95cfa6d0f870",
+          "recordedAt": "2026-01-05",
+          "expressionKey": "company",
+          "strength": "subtle",
+          "confidence": "low",
+          "scopeTags": ["life:ordinary"],
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "supersedesTendencyId": null,
+          "id": "personality-tendency_ebe750cf558e8c14",
+          "sequence": 62
+        },
+        {
+          "stableKey": "opening-life-mind-v1:person_7f82393e998a15f9:personality-tendency-definition_ecd5a041a82244f2",
+          "personId": "person_7f82393e998a15f9",
+          "tendencyId": "personality-tendency-definition_ecd5a041a82244f2",
+          "recordedAt": "2026-01-05",
+          "expressionKey": "listen",
+          "strength": "subtle",
+          "confidence": "low",
+          "scopeTags": ["life:ordinary"],
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "supersedesTendencyId": null,
+          "id": "personality-tendency_69d1dc4055317ec2",
+          "sequence": 67
+        },
+        {
+          "stableKey": "opening-life-mind-v1:person_7f82393e998a15f9:personality-tendency-definition_261f95cfa6d0f870",
+          "personId": "person_7f82393e998a15f9",
+          "tendencyId": "personality-tendency-definition_261f95cfa6d0f870",
+          "recordedAt": "2026-01-05",
+          "expressionKey": "company",
+          "strength": "subtle",
+          "confidence": "low",
+          "scopeTags": ["life:ordinary"],
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "supersedesTendencyId": null,
+          "id": "personality-tendency_f3e2201e8edf5944",
+          "sequence": 68
+        },
+        {
+          "stableKey": "opening-life-mind-v1:person_754fb290b5f69d4d:personality-tendency-definition_ecd5a041a82244f2",
+          "personId": "person_754fb290b5f69d4d",
+          "tendencyId": "personality-tendency-definition_ecd5a041a82244f2",
+          "recordedAt": "2026-01-05",
+          "expressionKey": "listen",
+          "strength": "subtle",
+          "confidence": "low",
+          "scopeTags": ["life:ordinary"],
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "supersedesTendencyId": null,
+          "id": "personality-tendency_79d627d1452b2ca0",
+          "sequence": 73
+        },
+        {
+          "stableKey": "opening-life-mind-v1:person_754fb290b5f69d4d:personality-tendency-definition_261f95cfa6d0f870",
+          "personId": "person_754fb290b5f69d4d",
+          "tendencyId": "personality-tendency-definition_261f95cfa6d0f870",
+          "recordedAt": "2026-01-05",
+          "expressionKey": "explore",
+          "strength": "subtle",
+          "confidence": "low",
+          "scopeTags": ["life:ordinary"],
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "supersedesTendencyId": null,
+          "id": "personality-tendency_a6e6f24878bea6e6",
+          "sequence": 74
+        },
+        {
+          "stableKey": "opening-life-mind-v1:person_473966cf1caadb99:personality-tendency-definition_ecd5a041a82244f2",
+          "personId": "person_473966cf1caadb99",
+          "tendencyId": "personality-tendency-definition_ecd5a041a82244f2",
+          "recordedAt": "2026-01-05",
+          "expressionKey": "ask",
+          "strength": "subtle",
+          "confidence": "low",
+          "scopeTags": ["life:ordinary"],
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "supersedesTendencyId": null,
+          "id": "personality-tendency_da97c69760496633",
+          "sequence": 79
+        },
+        {
+          "stableKey": "opening-life-mind-v1:person_473966cf1caadb99:personality-tendency-definition_261f95cfa6d0f870",
+          "personId": "person_473966cf1caadb99",
+          "tendencyId": "personality-tendency-definition_261f95cfa6d0f870",
+          "recordedAt": "2026-01-05",
+          "expressionKey": "explore",
+          "strength": "subtle",
+          "confidence": "low",
+          "scopeTags": ["life:ordinary"],
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "supersedesTendencyId": null,
+          "id": "personality-tendency_c6941521a2971fc1",
+          "sequence": 80
+        }
+      ],
+      "personalValues": [
+        {
+          "stableKey": "opening-life-mind-v1:person_e3fa9dac82e31158:value-definition_7468aa8e6b0d7096",
+          "personId": "person_e3fa9dac82e31158",
+          "valueId": "value-definition_7468aa8e6b0d7096",
+          "recordedAt": "2026-01-05",
+          "orientation": "questions",
+          "strength": "subtle",
+          "salience": "low",
+          "qualification": null,
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "supersedesValueId": null,
+          "id": "personal-value_f7b04bb5fc0772d1",
+          "sequence": 63
+        },
+        {
+          "stableKey": "opening-life-mind-v1:person_e3fa9dac82e31158:value-definition_a30c768eb797280a",
+          "personId": "person_e3fa9dac82e31158",
+          "valueId": "value-definition_a30c768eb797280a",
+          "recordedAt": "2026-01-05",
+          "orientation": "conflicted",
+          "strength": "subtle",
+          "salience": "low",
+          "qualification": null,
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "supersedesValueId": null,
+          "id": "personal-value_46239fff3831ec78",
+          "sequence": 64
+        },
+        {
+          "stableKey": "opening-life-mind-v1:person_e3fa9dac82e31158:value-definition_6c8200968e6311e8",
+          "personId": "person_e3fa9dac82e31158",
+          "valueId": "value-definition_6c8200968e6311e8",
+          "recordedAt": "2026-01-05",
+          "orientation": "questions",
+          "strength": "subtle",
+          "salience": "low",
+          "qualification": null,
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "supersedesValueId": null,
+          "id": "personal-value_0e6e747f9b4953d4",
+          "sequence": 65
+        },
+        {
+          "stableKey": "opening-life-mind-v1:person_7f82393e998a15f9:value-definition_7468aa8e6b0d7096",
+          "personId": "person_7f82393e998a15f9",
+          "valueId": "value-definition_7468aa8e6b0d7096",
+          "recordedAt": "2026-01-05",
+          "orientation": "embraces",
+          "strength": "subtle",
+          "salience": "low",
+          "qualification": null,
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "supersedesValueId": null,
+          "id": "personal-value_9e2906d1ea716c79",
+          "sequence": 69
+        },
+        {
+          "stableKey": "opening-life-mind-v1:person_7f82393e998a15f9:value-definition_a30c768eb797280a",
+          "personId": "person_7f82393e998a15f9",
+          "valueId": "value-definition_a30c768eb797280a",
+          "recordedAt": "2026-01-05",
+          "orientation": "conflicted",
+          "strength": "subtle",
+          "salience": "low",
+          "qualification": null,
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "supersedesValueId": null,
+          "id": "personal-value_d7bf31c35983e4e0",
+          "sequence": 70
+        },
+        {
+          "stableKey": "opening-life-mind-v1:person_7f82393e998a15f9:value-definition_6c8200968e6311e8",
+          "personId": "person_7f82393e998a15f9",
+          "valueId": "value-definition_6c8200968e6311e8",
+          "recordedAt": "2026-01-05",
+          "orientation": "embraces",
+          "strength": "subtle",
+          "salience": "low",
+          "qualification": null,
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "supersedesValueId": null,
+          "id": "personal-value_16e911a481d68dac",
+          "sequence": 71
+        },
+        {
+          "stableKey": "opening-life-mind-v1:person_754fb290b5f69d4d:value-definition_7468aa8e6b0d7096",
+          "personId": "person_754fb290b5f69d4d",
+          "valueId": "value-definition_7468aa8e6b0d7096",
+          "recordedAt": "2026-01-05",
+          "orientation": "embraces",
+          "strength": "subtle",
+          "salience": "low",
+          "qualification": null,
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "supersedesValueId": null,
+          "id": "personal-value_632a3f6bd5e5e4ff",
+          "sequence": 75
+        },
+        {
+          "stableKey": "opening-life-mind-v1:person_754fb290b5f69d4d:value-definition_a30c768eb797280a",
+          "personId": "person_754fb290b5f69d4d",
+          "valueId": "value-definition_a30c768eb797280a",
+          "recordedAt": "2026-01-05",
+          "orientation": "questions",
+          "strength": "subtle",
+          "salience": "low",
+          "qualification": null,
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "supersedesValueId": null,
+          "id": "personal-value_c12d017b688c4766",
+          "sequence": 76
+        },
+        {
+          "stableKey": "opening-life-mind-v1:person_754fb290b5f69d4d:value-definition_6c8200968e6311e8",
+          "personId": "person_754fb290b5f69d4d",
+          "valueId": "value-definition_6c8200968e6311e8",
+          "recordedAt": "2026-01-05",
+          "orientation": "embraces",
+          "strength": "subtle",
+          "salience": "low",
+          "qualification": null,
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "supersedesValueId": null,
+          "id": "personal-value_918ae523a29a86f2",
+          "sequence": 77
+        },
+        {
+          "stableKey": "opening-life-mind-v1:person_473966cf1caadb99:value-definition_7468aa8e6b0d7096",
+          "personId": "person_473966cf1caadb99",
+          "valueId": "value-definition_7468aa8e6b0d7096",
+          "recordedAt": "2026-01-05",
+          "orientation": "questions",
+          "strength": "subtle",
+          "salience": "low",
+          "qualification": null,
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "supersedesValueId": null,
+          "id": "personal-value_13fba7a580e78d22",
+          "sequence": 81
+        },
+        {
+          "stableKey": "opening-life-mind-v1:person_473966cf1caadb99:value-definition_a30c768eb797280a",
+          "personId": "person_473966cf1caadb99",
+          "valueId": "value-definition_a30c768eb797280a",
+          "recordedAt": "2026-01-05",
+          "orientation": "questions",
+          "strength": "subtle",
+          "salience": "low",
+          "qualification": null,
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "supersedesValueId": null,
+          "id": "personal-value_da0c91dd83f8e597",
+          "sequence": 82
+        },
+        {
+          "stableKey": "opening-life-mind-v1:person_473966cf1caadb99:value-definition_6c8200968e6311e8",
+          "personId": "person_473966cf1caadb99",
+          "valueId": "value-definition_6c8200968e6311e8",
+          "recordedAt": "2026-01-05",
+          "orientation": "embraces",
+          "strength": "subtle",
+          "salience": "low",
+          "qualification": null,
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "supersedesValueId": null,
+          "id": "personal-value_0d1b71bfc707cc2f",
+          "sequence": 83
+        }
+      ],
+      "goalStates": [
+        {
+          "stableKey": "opening-life-mind-v1:person_e3fa9dac82e31158:ordinary-goal",
+          "personId": "person_e3fa9dac82e31158",
+          "goalKey": "opening-life:connection",
+          "recordedAt": "2026-01-05",
+          "objective": "Make time for people you know",
+          "domain": "life:ordinary",
+          "scope": "personal",
+          "priority": "moderate",
+          "status": "active",
+          "targetEntityId": null,
+          "deadline": null,
+          "outcome": null,
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "replacesGoalId": null,
+          "supersedesGoalStateId": null,
+          "goalId": "goal_eb367a4d24ecaaf1",
+          "createdAt": "2026-01-05",
+          "id": "goal-state_aea4e39bbc74b834",
+          "sequence": 66
+        },
+        {
+          "stableKey": "opening-life-mind-v1:person_7f82393e998a15f9:ordinary-goal",
+          "personId": "person_7f82393e998a15f9",
+          "goalKey": "opening-life:learning",
+          "recordedAt": "2026-01-05",
+          "objective": "Make time to learn something",
+          "domain": "life:ordinary",
+          "scope": "personal",
+          "priority": "moderate",
+          "status": "active",
+          "targetEntityId": null,
+          "deadline": null,
+          "outcome": null,
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "replacesGoalId": null,
+          "supersedesGoalStateId": null,
+          "goalId": "goal_cead38b726cf2183",
+          "createdAt": "2026-01-05",
+          "id": "goal-state_ce117b5027a010a0",
+          "sequence": 72
+        },
+        {
+          "stableKey": "opening-life-mind-v1:person_754fb290b5f69d4d:ordinary-goal",
+          "personId": "person_754fb290b5f69d4d",
+          "goalKey": "opening-life:connection",
+          "recordedAt": "2026-01-05",
+          "objective": "Make time for people you know",
+          "domain": "life:ordinary",
+          "scope": "personal",
+          "priority": "moderate",
+          "status": "active",
+          "targetEntityId": null,
+          "deadline": null,
+          "outcome": null,
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "replacesGoalId": null,
+          "supersedesGoalStateId": null,
+          "goalId": "goal_bf142743630ca52b",
+          "createdAt": "2026-01-05",
+          "id": "goal-state_63c5994593213bda",
+          "sequence": 78
+        },
+        {
+          "stableKey": "opening-life-mind-v1:person_473966cf1caadb99:ordinary-goal",
+          "personId": "person_473966cf1caadb99",
+          "goalKey": "opening-life:privacy",
+          "recordedAt": "2026-01-05",
+          "objective": "Make some time for yourself",
+          "domain": "life:ordinary",
+          "scope": "personal",
+          "priority": "moderate",
+          "status": "active",
+          "targetEntityId": null,
+          "deadline": null,
+          "outcome": null,
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "opening-life-mind-v1: fictional ordinary-life preferences; no empirical or demographic inference."
+          },
+          "replacesGoalId": null,
+          "supersedesGoalStateId": null,
+          "goalId": "goal_9253a8520080aff6",
+          "createdAt": "2026-01-05",
+          "id": "goal-state_d2e00582a375b437",
+          "sequence": 84
+        }
+      ],
+      "appraisals": [
+        {
+          "stableKey": "production:earlier-life:event:lunch:appraisal",
+          "personId": "person_e3fa9dac82e31158",
+          "eventStableKey": "production:earlier-life:event:lunch",
+          "memoryStableKey": "production:earlier-life:event:lunch:memory",
+          "knowledgeStableKey": "production:earlier-life:event:lunch:knowledge",
+          "appraisedAt": "2000-12-07",
+          "meanings": [
+            {
+              "key": "social-choice",
+              "label": "A social choice",
+              "valence": "positive",
+              "intensity": "subtle"
+            }
+          ],
+          "interpretation": "A small social choice mattered.",
+          "confidence": "medium",
+          "involvedPersonIds": ["person_754fb290b5f69d4d"],
+          "supersedesAppraisalId": null,
+          "eventId": "event_35c5fc361bf96016",
+          "memoryId": "memory_ae73ac06598bd6e0",
+          "eventKnowledgeId": "knowledge_4ae36115e59f3e24",
+          "provenance": {
+            "kind": "reflection",
+            "sourceRefs": [
+              {
+                "kind": "historical-event",
+                "eventId": "event_35c5fc361bf96016"
+              }
+            ],
+            "note": null
+          },
+          "id": "appraisal_2f3484b5fa9a3c54",
+          "sequence": 42
+        }
+      ],
+      "perceptions": [],
+      "temporaryStates": [],
+      "decisionTraces": []
+    }
+  }
+}

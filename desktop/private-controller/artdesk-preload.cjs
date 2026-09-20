@@ -6,5 +6,6 @@ contextBridge.exposeInMainWorld("ocdArtBench", {
   startDrag: (subject) => ipcRenderer.send("artbench:drag", subject),
   revealDownload: () => ipcRenderer.invoke("artbench:reveal-download"),
   viewState: () => ipcRenderer.invoke("artbench:view-state"),
+  selectedBuild: () => ipcRenderer.invoke("artbench:selected-build"),
   rememberView: (value) => ipcRenderer.send("artbench:remember-view", value),
 });

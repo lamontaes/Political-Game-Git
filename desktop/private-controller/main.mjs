@@ -38,6 +38,7 @@ import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 
 import electron from "electron";
+import { selectedArtUsage } from "./art-usage.mjs";
 import { ArtDeskExports } from "./artdesk-export.mjs";
 
 import {
@@ -791,6 +792,15 @@ ipcMain.handle("artbench:view-state", (event) => {
     return null;
   }
 });
+ipcMain.handle("artbench:selected-build", (event) => {
+  if (!trustedArtBench(event)) throw new Error("Untrusted Art Bench sender.");
+  const state = readState();
+  const build = state?.tracks[state.selectedTrack]?.current;
+  return selectedArtUsage(
+    build,
+    path.join(dataRoot, "art-records", "ocd", "cache", "art-usage"),
+  );
+});
 ipcMain.on("artbench:remember-view", (event, value) => {
   if (!trustedArtBench(event) || !value || typeof value !== "object") return;
   const cleaned = {};
@@ -1031,15 +1041,6 @@ function startWorker(track) {
   if (process.env.OCD_HUB_NO_BUILDS === "1")
     return { ok: false, message: "Builds are disabled for this test run." };
   const state = readState();
-  if (state?.tracks[track]?.current?.preparedLocally === true) {
-    const present = buildPresentOnDisk(state.tracks[track].current);
-    return {
-      ok: present.ok,
-      message: present.ok
-        ? "This private preview was prepared locally. Its next verified payload will update this same console."
-        : `The prepared payload is unavailable (${present.reason}); retain the current life and reinstall the verified payload.`,
-    };
-  }
   if (!state?.repositoryPath)
     return { ok: false, message: "Choose the project folder in Settings." };
   const packPath =
@@ -1158,8 +1159,9 @@ function onWorkerEvent(track, event) {
   } else if (event.kind === "complete") {
     logLine(event.message);
     hub.phase[track] = { phase: "ready", message: event.message };
-    let outcome =
-      event.outcome === "up-to-date"
+    let outcome = ["source-available", "kept-local"].includes(event.outcome)
+      ? event.outcome
+      : event.outcome === "up-to-date"
         ? "up-to-date"
         : event.outcome === "pending"
           ? "waiting"

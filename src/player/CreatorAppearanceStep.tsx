@@ -3,6 +3,7 @@ import type { World } from "../simulation";
 import type { NewGameSetup } from "../presentation/new-game";
 import {
   creatorAppearanceDraft,
+  creatorBodyAllowed,
   type CreatorAppearanceChoice,
 } from "../presentation/creator-appearance-preview";
 import {
@@ -49,6 +50,10 @@ export function CreatorAppearanceStep({
   const ready = Boolean(
     person?.appearance && !refusal && library.components.size,
   );
+  const bodyUnavailable = Boolean(
+    person?.appearance?.selection?.bodyFamily &&
+    !creatorBodyAllowed(setup, person.appearance.selection.bodyFamily),
+  );
   return (
     <section
       className="creator-stage-panel kit41-creator"
@@ -73,9 +78,16 @@ export function CreatorAppearanceStep({
               Choose your appearance before beginning. These changes affect only
               your preview.
             </p>
+            {bodyUnavailable ? (
+              <p role="alert">
+                No compatible masculine body and outfit is available for this
+                preview. Choose a supported body before beginning.
+              </p>
+            ) : null}
             {ready ? (
               <PersonAppearanceControls
                 unsavedCreator
+                bodyAllowed={(body) => creatorBodyAllowed(setup, body)}
                 world={draft}
                 personId={person.id}
                 library={library}
@@ -178,7 +190,17 @@ export function CreatorAppearanceStep({
         <button
           type="button"
           data-testid="begin"
-          disabled={!person || Boolean(libraries?.unavailableReason)}
+          disabled={
+            !person ||
+            Boolean(libraries?.unavailableReason) ||
+            Boolean(
+              person.appearance?.selection?.bodyFamily &&
+              !creatorBodyAllowed(
+                setup,
+                person.appearance.selection.bodyFamily,
+              ),
+            )
+          }
           onClick={() =>
             onBegin(
               ready && person?.appearance

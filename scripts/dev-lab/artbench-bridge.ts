@@ -12,6 +12,7 @@ import type { Plugin } from "vite";
 
 import type { ArtbenchActor } from "../../src/authoring/artbench";
 import { originalDownloadName } from "../../src/authoring/art-desk-cards";
+import { requestDisplayCode } from "../../src/authoring/art-desk-request-code";
 import { isLoopbackAddress, originAllowed } from "./art-desk-bridge";
 import {
   ArtbenchError,
@@ -464,6 +465,35 @@ export function createArtbenchHandler(store: ArtbenchStore) {
             "The requested revision does not match the stored candidate.",
           );
         }
+        const projection = store.projection();
+        const contextId =
+          url.searchParams.get("requestId") ?? candidate.requestId;
+        const context = projection.requests[contextId]?.request;
+        const linkedReference = context?.target.styleReferences?.some(
+          (reference) =>
+            reference.ref === `candidate:${candidate.candidateId}` &&
+            reference.sha256 === candidate.sha256,
+        );
+        const code =
+          contextId === candidate.requestId || linkedReference
+            ? requestDisplayCode(projection, contextId)
+            : null;
+        const requestedName =
+          url.searchParams.get("name") ??
+          (linkedReference
+            ? "reference"
+            : (context?.title ?? candidate.candidateId));
+        const alias = code
+          ? `${code}-R${linkedReference ? context!.requestVersion : candidate.revision}`
+          : null;
+        const exportName = originalDownloadName(
+          alias && !requestedName.startsWith(`${alias}-`)
+            ? `${alias}-${requestedName}`
+            : requestedName,
+          candidate.sha256,
+          candidate.container,
+        );
+        response.setHeader("X-Artbench-Export-Name", exportName);
         response.statusCode = 200;
         response.setHeader(
           "Content-Type",
@@ -478,11 +508,7 @@ export function createArtbenchHandler(store: ArtbenchStore) {
           // A readable name plus the recorded hash: the bytes stay identifiable.
           response.setHeader(
             "Content-Disposition",
-            `attachment; filename="${originalDownloadName(
-              url.searchParams.get("name") ?? candidate.candidateId,
-              candidate.sha256,
-              candidate.container,
-            )}"`,
+            `attachment; filename="${exportName}"`,
           );
         }
         response.end(bytes);
@@ -500,9 +526,10 @@ export function createArtbenchHandler(store: ArtbenchStore) {
             url.searchParams.get("name"),
             requestId,
           );
+          const code = requestDisplayCode(store.projection(), requestId);
           response.setHeader(
             "Content-Disposition",
-            `attachment; filename="${stem}-brief.md"`,
+            `attachment; filename="${code ? `${code}-` : ""}${stem}-brief.md"`,
           );
         }
         response.end(text);

@@ -1008,7 +1008,9 @@ function writeAsk(world: World, input: AskInput): World {
       start: momentOn(world, input.occasion.date, input.occasion.startHour),
       end: momentOn(world, input.occasion.date, input.occasion.endHour),
       participantPersonIds: [input.personId],
-      responsiblePersonId: null,
+      // This is the recipient's tentative calendar hold, not the host's event.
+      // Attendance is optional, but only that recipient can carry it out.
+      responsiblePersonId: input.personId,
       location: {
         locationKey: `life-opportunity:${input.kind}`,
         label: input.occasion.label,

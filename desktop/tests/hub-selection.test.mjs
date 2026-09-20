@@ -339,3 +339,20 @@ test("the hub resolves the pill and marks a superseded selection", () => {
   // The renderer paints the pill it was given; it does not re-derive one.
   assert.ok(!/pill needs-rebuild/.test(chrome));
 });
+
+test("a checked newer source is not advertised as an installed update", () => {
+  const checks = recordCheck({}, "preview", {
+    outcome: "source-available",
+    at: "2026-09-20T17:00:00Z",
+    revision: SHA_B,
+    message: "Awaiting verified preparation.",
+  });
+  const status = updateStatus({
+    check: checks.preview,
+    build: build(SHA_A),
+    building: false,
+  });
+  assert.equal(status.text, "New version available · awaiting preparation");
+  assert.equal(status.kind, "waiting");
+  assert.equal(checks.preview.lastSuccessRevision, SHA_B);
+});

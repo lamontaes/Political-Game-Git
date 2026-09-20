@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { candidateUsage, type SelectedArtBuild } from "./art-desk-usage";
 
 import {
   artDeskCards,
@@ -97,7 +98,7 @@ describe("Art Desk cards", () => {
     });
     const after = artDeskCards(projection([original, child]));
     expect(after[0].leadCandidateId).toBe("cand-ready");
-    expect(after[0].tabs).toContain("needs-review");
+    expect(after[0].tabs).toContain("in-progress");
     expect(after[0].versionCount).toBe(2);
   });
   it("keeps style references and removed images recoverable without review decisions", () => {
@@ -120,7 +121,7 @@ describe("Art Desk cards", () => {
       };
       const p = projection([original, tag]);
       const cards = artDeskCards(p);
-      expect(tabCounts(cards)["needs-review"]).toBe(0);
+      expect(tabCounts(cards)["in-progress"]).toBe(0);
       expect(
         filterCards(cards, {
           tab: kind === "reference" ? "references" : "archived",
@@ -140,7 +141,7 @@ describe("Art Desk cards", () => {
       };
       expect(
         tabCounts(artDeskCards(projection([original, tag, restore])))[
-          "needs-review"
+          "in-progress"
         ],
       ).toBe(1);
       const child = ingest(`cand-${kind}-child`, "repaint", {
@@ -150,7 +151,7 @@ describe("Art Desk cards", () => {
       });
       expect(
         tabCounts(artDeskCards(projection([original, tag, child])))[
-          "needs-review"
+          "in-progress"
         ],
       ).toBe(1);
     }
@@ -165,7 +166,7 @@ describe("Art Desk cards", () => {
     });
     const events = [original, revised];
     const before = projection(events);
-    expect(tabCounts(artDeskCards(before))["needs-review"]).toBe(1);
+    expect(tabCounts(artDeskCards(before))["in-progress"]).toBe(1);
     const decision = {
       ...revised,
       eventId: "queue-approval",
@@ -192,7 +193,7 @@ describe("Art Desk cards", () => {
     const cards = artDeskCards(after);
     expect(cards[0].leadCandidateId).toBe("cand-queue-revised");
     expect(cards[0].status).not.toBe("awaiting-review");
-    expect(tabCounts(cards)["needs-review"]).toBe(0);
+    expect(tabCounts(cards)["in-progress"]).toBe(0);
     expect(filterCards(cards, { tab: "library" })).toHaveLength(1);
     expect(cards[0].versionCount).toBe(2);
     expect(after.candidates["cand-queue-original"].status).toBe(
@@ -205,14 +206,14 @@ describe("Art Desk cards", () => {
         payload: { ...decision.payload, outputSha256: "0".repeat(64) },
       } as ArtbenchEvent,
     ]);
-    expect(tabCounts(artDeskCards(rejectedWrite))["needs-review"]).toBe(1);
+    expect(tabCounts(artDeskCards(rejectedWrite))["in-progress"]).toBe(1);
     const later = ingest("cand-queue-new", "repaint", {
       family: corridor,
       parent: "cand-queue-revised",
     });
     expect(
       tabCounts(artDeskCards(projection([...events, decision, later])))[
-        "needs-review"
+        "in-progress"
       ],
     ).toBe(1);
   });
@@ -240,7 +241,7 @@ describe("Art Desk cards", () => {
     const card = cards[0]!;
     expect(card.title).toBe("School corridor — fountain correction");
     expect(card.leadCandidateId).toBe(REVIEW_ID);
-    expect(card.statusLabel).toBe("Awaiting review");
+    expect(card.statusLabel).toBe("With the art team");
     expect(card.lineage.map((step) => step.stage)).toEqual([
       "review copy",
       "upscale",
@@ -250,7 +251,7 @@ describe("Art Desk cards", () => {
     ]);
     expect(card.otherVersions).toEqual([]);
     expect(card.versionCount).toBe(5);
-    expect(card.tabs).toContain("needs-review");
+    expect(card.tabs).toContain("in-progress");
     expect(card.title).not.toMatch(/rev\s*\d/i);
   });
 
@@ -299,7 +300,7 @@ describe("Art Desk cards", () => {
     expect(
       viewedCandidateView(cards[0], p, "cand-production").newer,
     ).toBeNull();
-    expect(tabCounts(cards)["needs-review"]).toBe(1);
+    expect(tabCounts(cards)["in-progress"]).toBe(1);
     expect(p.candidates["cand-qa-child"].qa).toBe(true);
   });
 
@@ -316,8 +317,8 @@ describe("Art Desk cards", () => {
         : card,
     );
     expect(tabCounts(cards)).toEqual({
-      "needs-review": 1,
-      "in-progress": 0,
+      "needs-review": 0,
+      "in-progress": 1,
       "in-game": 0,
       library: 1,
       references: 0,
@@ -655,4 +656,249 @@ it("only offers complete short-prompt requests with exact decoded reference byte
       bytes,
     ),
   ).toBe(false);
+});
+
+it("keeps backgrounds searchable before and after return and clothes out of owner requests", () => {
+  const base = projection([ingest("category-reference", "original")]).requests
+    .inbox!.request;
+  const scene = {
+    ...base,
+    requestId: "coast",
+    title: "Coast",
+    scope: { familyId: "regional-opening" },
+    target: { ...base.target, targetClass: "environment-plate" as const },
+  };
+  const clothes = {
+    ...base,
+    requestId: "shoes",
+    title: "Shoes",
+    scope: { familyId: "modular-wardrobe" },
+  };
+  const before = projectArtbench({
+    registryRequests: [scene, clothes],
+    events: [],
+  });
+  const sceneCards = filterCards(artDeskCards(before), {
+    tab: "requests",
+    assetType: "environment-plate",
+    text: "Coast",
+  });
+  expect(sceneCards.map((card) => card.requestId)).toEqual(["coast"]);
+  expect(
+    artDeskCards(before).find((card) => card.requestId === "shoes")?.tabs,
+  ).toContain("in-progress");
+  expect(
+    artDeskCards(before).find((card) => card.requestId === "shoes")?.tabs,
+  ).not.toContain("requests");
+  const after = projectArtbench({
+    registryRequests: [scene, clothes],
+    events: [ingest("coast-original", "original", { requestId: "coast" })],
+  });
+  const returned = filterCards(artDeskCards(after), {
+    tab: "in-progress",
+    assetType: "environment-plate",
+    text: "Coast",
+  });
+  expect(returned.map((card) => card.requestId)).toEqual(["coast"]);
+  expect(cardMatchesFacet(returned[0]!, "purpose", "regional-background")).toBe(
+    true,
+  );
+});
+
+describe("current artwork and scoped recommendations", () => {
+  it("keeps a chosen alternative only through the returns it examined", () => {
+    const inboxTemplate = projection([ingest("template", "original")]).requests
+      .inbox.request;
+    const project = (events: ArtbenchEvent[]) =>
+      projectArtbench({
+        registryRequests: [{ ...inboxTemplate, requestId: "coast" }],
+        events,
+      });
+    const a = ingest("a", "original", {
+      family: corridor,
+      requestId: "coast",
+      at: "2026-09-20T10:00:00Z",
+    });
+    const b = ingest("b", "original", {
+      family: corridor,
+      requestId: "coast",
+      at: "2026-09-20T11:00:00Z",
+    });
+    const selection: ArtbenchEvent = {
+      ...b,
+      eventId: "choose-a",
+      seq: b.seq + 1,
+      at: "2026-09-20T13:00:00Z",
+      type: "candidate.selected",
+      payload: {
+        requestId: "coast",
+        candidateId: "a",
+        latestArrivalBoundary: "2026-09-20T11:00:00Z",
+      },
+    };
+    expect(artDeskCards(project([a, b, selection]))[0].leadCandidateId).toBe(
+      "a",
+    );
+    // A return that arrived after the examined snapshot must win, even when
+    // the recommendation itself was synchronized later.
+    const c = ingest("c", "original", {
+      family: corridor,
+      requestId: "coast",
+      at: "2026-09-20T12:00:00Z",
+    });
+    const cards = artDeskCards(project([a, b, c, selection]));
+    expect(cards[0].leadCandidateId).toBe("c");
+    expect(cards[0].tabs).toContain("in-progress");
+    expect(cards[0].otherVersions).toEqual(expect.arrayContaining(["a", "b"]));
+  });
+
+  it("ties usage to exact selected bytes without inheriting it into a new child", () => {
+    const source = ingest("a", "original", { family: corridor });
+    const child = ingest("b", "repaint", { family: corridor, parent: "a" });
+    const p = projection([source, child]);
+    const selected: SelectedArtBuild = {
+      revision: "current",
+      clientTreeSha256: "tree",
+      packId: "pack",
+      packManifestSha256: "manifest",
+      bindings: [
+        {
+          assetId: "hall",
+          sourceSha256: p.candidates.a.sha256,
+          derivativeSha256: "f".repeat(64),
+          useLabels: ["Local-government introduction"],
+          eligible: ["Generic civic illustration"],
+        },
+      ],
+    };
+    expect(candidateUsage(p, p.candidates.a, selected).state).toBe("used");
+    expect(candidateUsage(p, p.candidates.b, selected).state).toBe("unused");
+    expect(
+      candidateUsage(p, p.candidates.a, {
+        ...selected,
+        revision: "other",
+        bindings: [],
+      }).state,
+    ).toBe("unused");
+    expect(
+      candidateUsage(p, p.candidates.a, { ...selected, bindings: undefined })
+        .state,
+    ).toBe("unknown");
+    expect(candidateUsage(p, p.candidates.a, null).state).toBe("unknown");
+    expect(
+      candidateUsage(p, p.candidates.a, JSON.parse(JSON.stringify(selected))),
+    ).toEqual(candidateUsage(p, p.candidates.a, selected));
+  });
+});
+
+it("only an explicit exact-revision handoff enters the owner's review queue", () => {
+  const original = ingest("owner-lead", "original", {
+    family: corridor,
+    tags: { ownerReviewReady: ["owner-lead:ready"] },
+  });
+  // Ingested/inherited metadata cannot make an owner handoff.
+  expect(artDeskCards(projection([original]))[0].tabs).toContain("in-progress");
+  const ready: ArtbenchEvent = {
+    ...original,
+    eventId: "ready-owner-lead",
+    seq: original.seq + 1,
+    type: "tags.set",
+    payload: {
+      entity: "candidate",
+      entityId: "owner-lead",
+      baseVersion: 0,
+      tags: { ownerReviewReady: ["owner-lead:ready"] },
+      author: { kind: "worker", id: "art-team" },
+    },
+  };
+  const p = projection([original, ready]);
+  const card = artDeskCards(p)[0];
+  expect(card.tabs).toContain("needs-review");
+  expect(card.tabs).not.toContain("in-progress");
+  expect(card.statusLabel).toBe("Awaiting your review");
+  expect(
+    filterCards([card], { tab: "library", status: "awaiting-review" }),
+  ).toHaveLength(1);
+  expect(
+    filterCards([card], { tab: "library", status: "with-art-team" }),
+  ).toHaveLength(0);
+  expect(
+    artDeskCards(projection(JSON.parse(JSON.stringify([original, ready]))))[0],
+  ).toEqual(card);
+  const child = ingest("owner-child", "repaint", {
+    parent: "owner-lead",
+    family: corridor,
+    tags: { ownerReviewReady: ["owner-lead:ready", "owner-child:ready"] },
+    at: "2026-10-01T00:00:00Z",
+  });
+  const childCard = artDeskCards(projection([original, ready, child]))[0];
+  expect(childCard.leadCandidateId).toBe("owner-child");
+  expect(childCard.tabs).toContain("in-progress");
+  expect(childCard.tabs).not.toContain("needs-review");
+  expect(childCard.statusLabel).toBe("With the art team");
+  const comparison = ingest("owner-comparison", "repaint", {
+    parent: "owner-lead",
+    family: corridor,
+    tags: { reviewQueue: ["owner-comparison:reference"] },
+    at: "2026-10-02T00:00:00Z",
+  });
+  const supportedCard = artDeskCards(
+    projection([original, ready, comparison]),
+  )[0];
+  expect(supportedCard.leadCandidateId).toBe("owner-lead");
+  expect(supportedCard.tabs).toContain("needs-review");
+  expect(supportedCard.versionCount).toBe(2);
+  expect(
+    viewedCandidateView(
+      supportedCard,
+      projection([original, ready, comparison]),
+      "owner-lead",
+    ).newer,
+  ).toBeNull();
+  const revisionRequested = {
+    ...ready,
+    eventId: "owner-requests-more-work",
+    seq: ready.seq + 1,
+    actor: { kind: "owner", id: "fixture-owner" },
+    type: "review.decided",
+    payload: {
+      reviewId: "owner-asks-revision",
+      requestId: "inbox",
+      requestVersion: 1,
+      candidateId: "owner-lead",
+      viewedCandidateId: "owner-lead",
+      outputSha256: p.candidates["owner-lead"].sha256,
+      decision: "request-revision",
+      contractVersion: ARTBENCH_CONTRACT_VERSION,
+      fitContractHash: "a".repeat(64),
+      sceneContractHash: "b".repeat(64),
+      rightsStatus: "unknown",
+      sourceDeclaration: "Disposable fixture",
+      authority: "session-capability",
+    },
+  } as ArtbenchEvent;
+  const revisionCard = artDeskCards(
+    projection([original, ready, revisionRequested]),
+  )[0];
+  expect(revisionCard.statusLabel).toBe("With the art team");
+  expect(revisionCard.tabs).toContain("in-progress");
+  expect(revisionCard.tabs).not.toContain("needs-review");
+  for (const disposition of ["reference", "archived"]) {
+    const filed: ArtbenchEvent = {
+      ...ready,
+      eventId: `file-${disposition}`,
+      seq: ready.seq + 1,
+      payload: {
+        ...ready.payload,
+        baseVersion: 1,
+        tags: { reviewQueue: [`owner-lead:${disposition}`] },
+      },
+    } as ArtbenchEvent;
+    const filedCard = artDeskCards(projection([original, ready, filed]))[0];
+    expect(filedCard.tabs).not.toContain("needs-review");
+    expect(filedCard.tabs).not.toContain("in-progress");
+    expect(filedCard.tabs).toContain(
+      disposition === "reference" ? "references" : "archived",
+    );
+  }
 });

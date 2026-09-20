@@ -82,13 +82,11 @@ export function OpeningStateVoting({
             reported voting.
           </p>
           <p>
-            Historical survey estimates for{" "}
-            {stateUsps ? CPS_STATE_NAMES[stateUsps] : totals.geographyName}, not
-            current voter rolls. Counts are rounded to the nearest 1,000 people.
-            ± shows the margin of error in percentage points at 90% confidence.
+            {stateUsps ? CPS_STATE_NAMES[stateUsps] : totals.geographyName} ·
+            Survey estimates, rounded to the nearest 1,000 people.
           </p>
           <details>
-            <summary>Voter breakdown and sources</summary>
+            <summary>Voting by age and other groups</summary>
             <label>
               Group by{" "}
               <GameSelect
@@ -150,11 +148,12 @@ export function OpeningStateVoting({
               <p>This breakdown is unavailable.</p>
             )}
             <p>
-              Census Current Population Survey, civilian noninstitutionalized
-              adults aged 18 and over. Answers may come from the person or
-              another household member. Citizenship does not establish legal
-              voting eligibility. Administrative registration and party
-              registration are not available here.
+              ± shows the margin of error in percentage points at 90%
+              confidence. Census Current Population Survey, civilian
+              noninstitutionalized adults aged 18 and over. Answers may come
+              from the person or another household member. Citizenship does not
+              establish legal voting eligibility. Administrative registration
+              and party registration are not available here.
             </p>
             <ul>
               {(ready?.sources ?? [])

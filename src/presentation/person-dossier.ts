@@ -1,3 +1,4 @@
+import { proseDate } from "./prose-dates";
 import { organizationRefLabel } from "./organization-ref";
 import {
   ageOnDate,
@@ -66,11 +67,13 @@ export interface PersonDossier {
   readonly sharedHistory: readonly {
     readonly id: EntityId;
     readonly date: string;
+    readonly dateLabel: string;
     readonly summary: string;
   }[];
   readonly publicCareer: readonly {
     readonly eventId: EntityId;
     readonly date: string;
+    readonly dateLabel: string;
     readonly summary: string;
   }[];
   readonly age: number | null;
@@ -104,29 +107,7 @@ function describeInteraction(
     ? summary.interactionCount === 1
       ? "You have spoken once."
       : `You have spoken ${summary.interactionCount} times.`
-    : `You last spoke on ${readableRecordDate(when)}.`;
-}
-
-const RECORD_MONTHS = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
-/** "2001-01-28" as "January 28, 2001"; the stored date stays ISO. */
-function readableRecordDate(date: string): string {
-  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date);
-  const month = match ? RECORD_MONTHS[Number(match[2]) - 1] : undefined;
-  return match && month ? `${month} ${Number(match[3])}, ${match[1]}` : date;
+    : `You last spoke on ${proseDate(when)}.`;
 }
 
 /**
@@ -362,6 +343,7 @@ export function projectPersonDossier(
       .map((record) => ({
         id: record.id,
         date: record.occurredAt,
+        dateLabel: proseDate(record.occurredAt),
         summary: record.summary,
       })),
     publicCareer: world.history.events
@@ -380,7 +362,17 @@ export function projectPersonDossier(
       .map((event) => ({
         eventId: event.id,
         date: event.occurredAt,
-        summary: event.summary,
+        dateLabel: proseDate(event.occurredAt),
+        summary: (() => {
+          const office = event.participants.find(
+            (participant) =>
+              participant.personId === personId &&
+              participant.role === "focus:subject",
+          )?.detail;
+          return office
+            ? `Took office as ${office}.`
+            : event.summary.replace(/ in this fictional world\./g, ".");
+        })(),
       })),
     age: ageOnDate(subject.birthDate, world.currentDate),
     presentNow: options.presentNow ?? false,

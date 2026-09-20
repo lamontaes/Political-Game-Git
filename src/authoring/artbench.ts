@@ -190,6 +190,8 @@ export interface RequestCreatedPayload {
 export interface CandidateSelectedPayload {
   readonly requestId: string;
   readonly candidateId: string;
+  /** Latest arrival examined by this recommendation; later returns stay visible. */
+  readonly latestArrivalBoundary?: string;
 }
 
 export interface ArtbenchMessagePayload {
@@ -296,6 +298,8 @@ export interface ProjectedCandidate extends CandidateIngestedPayload {
   readonly childCandidateIds: readonly string[];
   readonly tags: TagSet;
   readonly tagsVersion: number;
+  /** Explicit handoff on this revision, never inherited from image metadata. */
+  readonly ownerReviewReady?: boolean;
   readonly tagAuthors: readonly ArtbenchActor[];
   readonly decisions: readonly ProjectedDecision[];
   readonly latestDecision?: ProjectedDecision;
@@ -373,6 +377,8 @@ export interface ProjectedRequest {
   readonly source: "registry" | "qa" | "event";
   readonly candidateIds: readonly string[];
   readonly selectedCandidateId?: string;
+  readonly selectedAt?: string;
+  readonly selectedThroughAt?: string;
   readonly lane: RequestLane;
   readonly parentRequestId?: string;
   readonly parentCandidateId?: string;
@@ -485,6 +491,7 @@ interface MutableCandidate {
   tags: TagSet;
   tagsVersion: number;
   tagAuthors: ArtbenchActor[];
+  ownerReviewReady: boolean;
   decisions: ProjectedDecision[];
   integrationItemId?: string;
   integrationState?: IntegrationReceivedPayload["state"];
@@ -522,6 +529,8 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
       selectedCandidateId?: string;
       /** True once the owner pinned a revision explicitly (candidate.selected). */
       selectedPinned?: boolean;
+      selectedAt?: string;
+      selectedThroughAt?: string;
       parentRequestId?: string;
       parentCandidateId?: string;
       manifestId?: string;
@@ -709,6 +718,7 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
           tags,
           tagsVersion: 0,
           tagAuthors: [],
+          ownerReviewReady: false,
           decisions: [],
           receipts: [
             {
@@ -745,6 +755,9 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
         if (request && candidates.has(event.payload.candidateId)) {
           request.selectedCandidateId = event.payload.candidateId;
           request.selectedPinned = true;
+          request.selectedAt = event.at;
+          request.selectedThroughAt =
+            event.payload.latestArrivalBoundary ?? event.at;
         } else {
           rejected.push({
             eventId: event.eventId,
@@ -837,6 +850,14 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
           });
           break;
         }
+        if (
+          p.entity === "candidate" &&
+          "ownerReviewReady" in target &&
+          p.tags.ownerReviewReady !== undefined
+        )
+          target.ownerReviewReady = p.tags.ownerReviewReady.includes(
+            `${p.entityId}:ready`,
+          );
         target.tags = mergeTags(target.tags, p.tags);
         target.tagsVersion += 1;
         if ("tagAuthors" in target) target.tagAuthors.push(p.author);
@@ -1055,6 +1076,7 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
       tags: c.tags,
       tagsVersion: c.tagsVersion,
       tagAuthors: c.tagAuthors,
+      ownerReviewReady: c.ownerReviewReady,
       decisions: c.decisions,
       latestDecision: c.decisions.at(-1),
       status: candidateStatus(
@@ -1085,6 +1107,8 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
       source: entry.source,
       candidateIds: entry.candidateIds,
       selectedCandidateId: entry.selectedCandidateId,
+      selectedAt: entry.selectedAt,
+      selectedThroughAt: entry.selectedThroughAt,
       parentRequestId: entry.parentRequestId,
       parentCandidateId: entry.parentCandidateId,
       manifestId: entry.manifestId,

@@ -6,6 +6,23 @@ export interface WorkspaceLayout {
   readonly height: number;
 }
 
+export function defaultWorkspace(
+  width: number,
+  height: number,
+): WorkspaceLayout {
+  const desiredWidth = Math.min(1040, width - 32);
+  return clampWorkspace(
+    {
+      x: (width - desiredWidth) / 2,
+      y: 16,
+      width: desiredWidth,
+      height: height - 112,
+    },
+    width,
+    height,
+  );
+}
+
 export function readWorkspaceLayouts(
   value: unknown,
 ): Readonly<Record<string, WorkspaceLayout>> {

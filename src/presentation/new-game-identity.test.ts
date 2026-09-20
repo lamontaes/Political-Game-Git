@@ -243,3 +243,29 @@ it("versions member names without rerolling the world or upgrading old descripto
   } as unknown as NewGameSetup;
   expect(decodeReplayDescriptor(encodeReplayDescriptor(invalid))).toBeNull();
 });
+
+it("preserves contextual history in replay without reseeding identity", () => {
+  const fresh: NewGameSetup = {
+    ...BASE,
+    earlierLifeGenerationVersion: "context-v2",
+  };
+  expect(worldSeedFor(fresh)).toBe(worldSeedFor(BASE));
+  expect(decodeReplayDescriptor(encodeReplayDescriptor(fresh))).toEqual(fresh);
+  expect(
+    decodeReplayDescriptor(encodeReplayDescriptor(BASE))
+      ?.earlierLifeGenerationVersion,
+  ).toBeUndefined();
+});
+
+it("versions hypothetical copy without rewriting old answers or reseeding the life", () => {
+  const fresh: NewGameSetup = {
+    ...BASE,
+    questionnaireCopyVersion: "playtest65-v2",
+  };
+  expect(worldSeedFor(fresh)).toBe(worldSeedFor(BASE));
+  expect(decodeReplayDescriptor(encodeReplayDescriptor(fresh))).toEqual(fresh);
+  expect(
+    decodeReplayDescriptor(encodeReplayDescriptor(BASE))
+      ?.questionnaireCopyVersion,
+  ).toBeUndefined();
+});

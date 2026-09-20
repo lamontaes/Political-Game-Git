@@ -110,7 +110,11 @@ export function venueActivities(
   return scheduledActivitiesVisibleTo(world, personId)
     .filter(
       (activity) =>
-        scheduledActivityState(world, activity.id).status === "scheduled",
+        scheduledActivityState(world, activity.id).status === "scheduled" &&
+        activity.participantPersonIds.includes(personId) &&
+        (activity.responsiblePersonId === personId ||
+          (activity.responsiblePersonId === null &&
+            activity.kind === "tentative")),
     )
     .map((activity) => {
       let refusal: string | null = null;
@@ -124,7 +128,10 @@ export function venueActivities(
         world.control.personId !== personId ||
         activity.responsiblePersonId !== personId
       ) {
-        refusal = "This activity is not yours to carry out.";
+        refusal =
+          activity.responsiblePersonId === null
+            ? "This invitation has not been confirmed as your activity."
+            : "This activity is not yours to carry out.";
       } else {
         try {
           elapsedMinutes = scheduledActivityPerformanceTiming(
@@ -165,7 +172,10 @@ export function venueActivities(
           activity.kind === "tentative" &&
           world.control.kind === "person" &&
           world.control.personId === personId &&
-          activity.participantPersonIds.includes(personId),
+          activity.participantPersonIds.includes(personId) &&
+          (activity.responsiblePersonId === personId ||
+            (activity.responsiblePersonId === null &&
+              activity.participantPersonIds.length === 1)),
       };
     });
 }

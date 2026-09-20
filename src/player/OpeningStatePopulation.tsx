@@ -57,10 +57,11 @@ export function OpeningStatePopulation({
           <p className="pg-state-population-number">
             {population.value.toLocaleString("en-US")} people
           </p>
-          <p>Population, all ages · {population.period}</p>
-          <p>Historical reference for {population.geography.name}.</p>
+          <p>
+            {population.geography.name} · All ages · {population.period}
+          </p>
           <details>
-            <summary>Source</summary>
+            <summary>About this figure</summary>
             <a href={population.source.url} target="_blank" rel="noreferrer">
               U.S. Bureau of Economic Analysis · {population.period}
             </a>

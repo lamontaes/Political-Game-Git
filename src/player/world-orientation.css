@@ -569,5 +569,50 @@
 }
 .pg-regional-opening-scene[data-has-background="false"]
   .pg-regional-state-information {
-  width: min(100%, 38rem);
+  width: 100%;
+}
+
+.pg-regional-opening-scene {
+  align-items: stretch;
+  padding: 1rem;
+}
+.pg-regional-state-information {
+  width: 100%;
+  max-height: none;
+  align-self: flex-end;
+}
+.pg-state-overview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.4rem;
+  align-items: start;
+}
+.pg-state-overview > section {
+  min-width: 0;
+}
+@media (max-width: 960px) {
+  .pg-state-overview {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pg-state-overview > section:first-child {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 620px) {
+  .pg-state-overview {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.pg-opening-information-illustration {
+  margin: 0 0 1rem;
+}
+.pg-opening-information-illustration img {
+  width: 100%;
+  max-height: 46dvh;
+  object-fit: contain;
+}
+.pg-opening-information-illustration figcaption {
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
 }

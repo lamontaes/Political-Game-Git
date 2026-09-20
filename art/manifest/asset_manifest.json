@@ -5126,6 +5126,28 @@
       "final_path": "art/generated/candidates/art-desk/playtest65/regional/great-plains-pond-r1.png",
       "hash": "0df680c304a6ae6d0d7a1e7d8dfe43f35a8236ef19f696e191ba3207e98d5814",
       "requires_transparency": false
+    },
+    {
+      "asset_id": "env_playtest65_civic_generic_r3",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_env_playtest65_civic_generic_r3"],
+      "rights_note": "Owner-approved private Art Desk return; external reuse rights remain unverified.",
+      "fixed_or_modular": "fixed",
+      "availability": "production-candidate",
+      "variant_rules": "Exact owner-approved revision 3. Generic civic-government illustration only; never a named landmark or evidence of a visit. Encoded dimensions 5504x3072; native detail unverified.",
+      "negative_constraints": [
+        "Candidate-only until focused runtime review; do not change saved person appearance or catalogue generations.",
+        "No baked people, labels, controls, biography or simulation state."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/art-desk/playtest65/environment/civic-generic-r3.png",
+      "hash": "1bd1af90f54e7a4764e543e2a503008ad3b2a6ce1b315debcfd0797045c338a1",
+      "requires_transparency": false
     }
   ]
 }

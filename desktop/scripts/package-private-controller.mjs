@@ -147,6 +147,7 @@ const CONTROLLER_FILES = [
   "worker-watch.mjs",
   "artdesk-host.mjs",
   "artdesk-export.mjs",
+  "art-usage.mjs",
   "artdesk-preload.cjs",
   "drive-exchange.mjs",
   "preload.cjs",

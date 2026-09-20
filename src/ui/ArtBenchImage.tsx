@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import type { ProjectedCandidate } from "../authoring/artbench";
+import type { SelectedArtBuild } from "../authoring/art-desk-usage";
 
-type Subject = Pick<ProjectedCandidate, "candidateId" | "sha256" | "revision">;
+type Subject = Pick<
+  ProjectedCandidate,
+  "candidateId" | "sha256" | "revision"
+> & { requestId?: string };
 declare global {
   interface Window {
     ocdArtBench?: {
@@ -10,6 +14,7 @@ declare global {
       ) => Promise<{ ready: boolean; sha256: string }>;
       startDrag: (subject: Subject) => void;
       revealDownload: () => Promise<{ ok: boolean }>;
+      selectedBuild?: () => Promise<SelectedArtBuild | null>;
       viewState: () => Promise<{
         candidateId?: string;
         cardKey?: string;
@@ -32,22 +37,24 @@ export function ArtBenchImage({
   alt,
   testId,
   className,
+  requestId,
 }: {
   candidate: Subject;
   alt: string;
   testId?: string;
   className?: string;
+  requestId?: string;
 }) {
   const { candidateId, sha256, revision } = candidate;
   const [prepared, setPrepared] = useState<string | null>(null);
   const [failure, setFailure] = useState("");
-  const key = `${candidateId}:${revision}:${sha256}`;
+  const key = `${candidateId}:${revision}:${sha256}:${requestId ?? ""}`;
   useEffect(() => {
     let active = true;
     setFailure("");
     if (window.ocdArtBench) {
       void window.ocdArtBench
-        .prepare({ candidateId, sha256, revision })
+        .prepare({ candidateId, sha256, revision, requestId })
         .then((result) => {
           if (active && result.ready && result.sha256 === sha256)
             setPrepared(key);
@@ -59,7 +66,7 @@ export function ArtBenchImage({
     return () => {
       active = false;
     };
-  }, [candidateId, sha256, revision, key]);
+  }, [candidateId, sha256, revision, key, requestId]);
   const ready = window.ocdArtBench ? prepared === key : false;
   return (
     <>
@@ -74,7 +81,12 @@ export function ArtBenchImage({
           event.preventDefault();
           event.stopPropagation();
           if (ready)
-            window.ocdArtBench?.startDrag({ candidateId, sha256, revision });
+            window.ocdArtBench?.startDrag({
+              candidateId,
+              sha256,
+              revision,
+              requestId,
+            });
         }}
       />
       <span className="art-desk-meta" role="status">

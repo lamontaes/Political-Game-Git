@@ -90,20 +90,16 @@ for (const place of places) {
         path: info.outputPath(`regional-${size.width}.png`),
       });
     }
-    await page.getByRole("button", { name: "Population", exact: true }).click();
+    // Government, population and voting now share one reading surface.
     await expect(
-      page.getByRole("button", { name: "Population", exact: true }),
-    ).toHaveCSS("background-color", "rgb(234, 208, 148)");
-    await expect(
-      page.getByRole("button", { name: "Population", exact: true }),
-    ).toHaveCSS("color", "rgb(23, 32, 43)");
+      page.getByRole("heading", { name: "Your state government" }),
+    ).toBeVisible();
+    await expect(page.getByTestId("opening-state-voting")).toBeVisible();
     await expect(page.getByTestId("opening-state-population")).toBeVisible();
-    await expect(page.getByText(/Population, all ages · 20/)).toBeVisible();
+    await expect(page.getByText(/All ages · 20/)).toBeVisible();
     await page.screenshot({
       path: info.outputPath("regional-population-1024.png"),
     });
-    await page.getByRole("button", { name: "Government", exact: true }).focus();
-    await page.keyboard.press("Enter");
     await expect(
       page.getByRole("heading", { name: "Your state government" }),
     ).toBeVisible();
@@ -135,9 +131,6 @@ for (const place of places) {
       await page.getByTestId("orientation-next").click();
       const region = page.getByTestId("opening-regional-plate");
       const first = await region.getAttribute("data-asset-id");
-      await page
-        .getByRole("button", { name: "Population", exact: true })
-        .click();
       await page
         .getByRole("button", { name: "Next view", exact: true })
         .click();
@@ -238,11 +231,10 @@ test("District introduction follows the White House and keeps population and Con
   await expect(
     page.getByRole("heading", { name: "Your state government" }),
   ).toHaveCount(0);
-  await page.getByRole("button", { name: "Population", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "People in the District" }),
   ).toBeVisible();
-  await expect(page.getByText(/Population, all ages · 20/)).toBeVisible();
+  await expect(page.getByText(/All ages · 20/)).toBeVisible();
   await page.screenshot({ path: info.outputPath("district-population.png") });
   await page.getByTestId("orientation-next").click();
   await expect(page.getByTestId("orientation-step-congress")).toBeVisible();
@@ -272,25 +264,17 @@ test("state voting card shows dated survey counts and readable group tables with
     });
   });
   await page.getByTestId("orientation-next").click();
-  await page.getByRole("button", { name: "Voting", exact: true }).focus();
-  await page.keyboard.press("Enter");
-  const selectedVoting = page.getByRole("button", {
-    name: "Voting",
-    exact: true,
-  });
-  await expect(selectedVoting).toBeFocused();
-  await expect(selectedVoting).toHaveCSS(
-    "background-color",
-    "rgb(234, 208, 148)",
-  );
-  await expect(selectedVoting).toHaveCSS("color", "rgb(23, 32, 43)");
+  await expect(page.getByTestId("opening-state-population")).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Your state government" }),
+  ).toBeVisible();
   const voting = page.getByTestId("opening-state-voting");
   await expect(voting.getByText("2,558,000", { exact: true })).toBeVisible();
   await expect(voting.getByText("2,152,000", { exact: true })).toBeVisible();
   await expect(voting.getByText(/67\.7% ± 3\.6 reported voting/)).toBeVisible();
   await page.screenshot({ path: info.outputPath("state-voting-1024.png") });
   await voting
-    .getByText("Voter breakdown and sources", { exact: true })
+    .getByText("Voting by age and other groups", { exact: true })
     .click();
   const group = voting.getByLabel("Group by");
   await group.focus();
@@ -322,14 +306,11 @@ test("state voting card shows dated survey counts and readable group tables with
   const scene = await page.getByTestId("opening-regional-scene").boundingBox();
   expect(card!.y).toBeGreaterThanOrEqual(scene!.y);
   expect(card!.y + card!.height).toBeLessThanOrEqual(scene!.y + scene!.height);
-  await expect(
-    page.getByRole("button", { name: "Government", exact: true }),
-  ).toBeInViewport();
+  await expect(page.getByTestId("orientation-back")).toBeInViewport();
   await expect(page.getByTestId("orientation-next")).toBeInViewport();
   await page.screenshot({
     path: info.outputPath("state-voting-expanded-1024.png"),
   });
-  await page.getByRole("button", { name: "Government", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "Your state government" }),
   ).toBeVisible();

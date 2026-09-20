@@ -294,7 +294,9 @@ export function PersonCard({
                 data-testid="person-card-traits"
                 aria-label={`Temperament: ${traitLabels.join(", ")}`}
               >
-                {traitLabels.join(" · ")}
+                {traitLabels.map((trait) => (
+                  <span key={trait}>{trait}</span>
+                ))}
               </p>
             ) : null}
             {!alive ? (
@@ -392,7 +394,8 @@ export function PersonCard({
               <div className="pg-person-chronology">
                 {dossier.publicCareer.map((entry) => (
                   <p key={entry.eventId}>
-                    <time>{entry.date}</time> · {entry.summary}
+                    <time dateTime={entry.date}>{entry.dateLabel}</time> ·{" "}
+                    {entry.summary}
                   </p>
                 ))}
               </div>
@@ -407,7 +410,8 @@ export function PersonCard({
               <div className="pg-person-chronology">
                 {dossier.sharedHistory.map((entry) => (
                   <p key={entry.id}>
-                    <time>{entry.date}</time> · {entry.summary}
+                    <time dateTime={entry.date}>{entry.dateLabel}</time> ·{" "}
+                    {entry.summary}
                   </p>
                 ))}
               </div>

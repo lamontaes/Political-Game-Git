@@ -101,3 +101,23 @@ test("arbitrary paths, wrong identities and altered bytes cannot prepare a nativ
     rmSync(root, { recursive: true, force: true });
   }
 });
+
+test("request labels follow reference exports without changing their bytes", async (t) => {
+  const root = mkdtempSync(path.join(tmpdir(), "bench-export-label-"));
+  t.after(() => rmSync(root, { recursive: true, force: true }));
+  const bytes = Buffer.from("exact reference original");
+  const subject = { ...subjectFor("reference", bytes), requestId: "coast" };
+  const cache = new ArtDeskExports(root, async (url) => {
+    assert.equal(url.searchParams.get("requestId"), "coast");
+    const response = responseFor(subject, bytes);
+    response.headers.set(
+      "X-Artbench-Export-Name",
+      "A01-R2-reference-abcdef.png",
+    );
+    return response;
+  });
+  const item = await cache.prepare(subject, "http://127.0.0.1:5000", "token");
+  assert.equal(path.basename(item.file), "A01-R2-reference-abcdef.png");
+  assert.deepEqual(readFileSync(item.file), bytes);
+  assert.throws(() => exportKey({ ...subject, requestId: "../../private" }));
+});

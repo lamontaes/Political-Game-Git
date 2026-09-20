@@ -170,6 +170,9 @@ export interface NewGameSetup {
   readonly appearanceRecipeVersion?: string;
   /** Absent keeps every replay written before the distinct-name repair. */
   readonly givenNameGenerationVersion?: GivenNameGenerationVersion;
+  /** New lives use contextual history; missing preserves legacy replays. */
+  readonly earlierLifeGenerationVersion?: "context-v2";
+  readonly questionnaireCopyVersion?: "playtest65-v2";
   /** Explicit creation lineage, preserved in replays; absent keeps historical defaults. */
   readonly appearanceCatalogGeneration?: number;
   /** Explicit fresh-candidate complete-recipe initialization; absent replays keep old behavior. */
@@ -215,6 +218,8 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   gender: "unstated",
   appearanceRecipeVersion: COHERENT_APPEARANCE_RECIPE_VERSION,
   givenNameGenerationVersion: DISTINCT_GIVEN_NAME_GENERATION_VERSION,
+  earlierLifeGenerationVersion: "context-v2",
+  questionnaireCopyVersion: "playtest65-v2",
   worldOpeningVersion: CRUNCH46_WORLD_OPENING_VERSION,
   openingDataVersion: "playtest65-v1",
   livingWorldMemberNameVersion: "identity-v1",
@@ -431,6 +436,7 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     appearanceRecipeVersion:
       setup.appearanceRecipeVersion ?? LEGACY_APPEARANCE_RECIPE_VERSION,
     givenNameGenerationVersion: setup.givenNameGenerationVersion,
+    earlierLifeGenerationVersion: setup.earlierLifeGenerationVersion,
     ...(setup.appearanceCatalogGeneration === undefined
       ? {}
       : { appearanceCatalogGeneration: setup.appearanceCatalogGeneration }),

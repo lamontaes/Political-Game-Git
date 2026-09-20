@@ -249,7 +249,11 @@ export function buildLifeIntroduction(
       : `You're ${age}.`,
   );
   if (others.length === 0) {
-    sentences.push(householdAbsenceLine(primary !== undefined));
+    sentences.push(
+      recordedSingleResident(world, personId)
+        ? "You live alone."
+        : householdAbsenceLine(primary !== undefined),
+    );
   } else {
     // One line each rather than a joined list. An introduction already carries
     // a comma — "Dakota Romero, your mom" — so joining two of them with
@@ -274,4 +278,43 @@ function householdAbsenceLine(recorded: boolean): string {
   return recorded
     ? "No one else is recorded in your current household."
     : "Your current household is not recorded.";
+}
+
+/** An explicit initialization fact is current only while its exact household,
+ * membership and home remain unchanged. Absence of other records is not proof.
+ */
+function recordedSingleResident(world: World, personId: EntityId): boolean {
+  const homes = householdMembershipsAt(world, personId).filter(
+    (entry) => entry.state.residenceRole === "primary",
+  );
+  if (homes.length !== 1) return false;
+  const home = homes[0]!;
+  if (
+    !home.location ||
+    home.location.jurisdictionId !== world.people[personId]?.homeJurisdictionId
+  )
+    return false;
+  const residents = peopleInHouseholdAt(world, home.household.id);
+  if (residents.length !== 1 || residents[0] !== personId) return false;
+  const fact = world.history.events.find(
+    (entry) =>
+      entry.stableKey === "production:initial-life:single-resident" &&
+      entry.type === "life.household-composition" &&
+      entry.occurredAt <= world.currentDate &&
+      entry.recordedAt <= world.currentDate &&
+      entry.tags.includes("household.single-resident") &&
+      [personId, home.household.id, home.membership.id].every((id) =>
+        entry.involvedEntityIds.includes(id),
+      ),
+  );
+  if (
+    !fact ||
+    home.location.sequence > fact.sequence ||
+    home.state.sequence > fact.sequence
+  )
+    return false;
+  return !world.history.householdMemberships.some(
+    (entry) =>
+      entry.householdId === home.household.id && entry.sequence > fact.sequence,
+  );
 }

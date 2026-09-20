@@ -1,6 +1,7 @@
 import { UX39CalendarGrid, useCalendarDateOrder } from "./UX39CalendarGrid";
 import {
   clampWorkspace,
+  defaultWorkspace,
   type WorkspaceLayout,
 } from "../presentation/workspace-layout";
 import type { PointerEvent as ReactPointerEvent } from "react";
@@ -159,7 +160,9 @@ export function WorkspaceFrame({
   }, []);
   const shown =
     liveLayout ??
-    (layout ? clampWorkspace(layout, viewport.width, viewport.height) : null);
+    (layout
+      ? clampWorkspace(layout, viewport.width, viewport.height)
+      : defaultWorkspace(viewport.width, viewport.height));
   function start(
     event: ReactPointerEvent<HTMLElement>,
     mode: "move" | "resize",
@@ -223,7 +226,8 @@ export function WorkspaceFrame({
       data-testid={testid}
       aria-label={title}
       onKeyDown={(event) => {
-        if (event.key === "Escape") {
+        if (event.key === "Escape" && !event.defaultPrevented) {
+          event.preventDefault();
           event.stopPropagation();
           onClose();
         }

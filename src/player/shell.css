@@ -2538,3 +2538,24 @@
 .pg-window-resize {
   touch-action: none;
 }
+
+.pg-person-card-traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.65rem;
+}
+.pg-person-card-traits > span {
+  white-space: nowrap;
+}
+.pg-workspace-controls .ui-icon-button,
+.pg-person-card .ui-icon-button {
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  padding: 0;
+  display: inline-grid;
+  place-items: center;
+  transform: none;
+}

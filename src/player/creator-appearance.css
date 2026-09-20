@@ -1,6 +1,6 @@
 .kit41-creator {
   padding: 1.1rem;
-  background: #142033;
+  background: transparent;
   color: #f5eddc;
   border: 1px solid #a68a54;
   border-radius: 0.6rem;
@@ -56,7 +56,7 @@
   max-height: 100%;
   padding: 18px;
   overflow: auto;
-  background: #142033;
+  background: transparent;
 }
 .title-tableau--art.front-door .game-creator--appearance .creator-summary {
   display: inline-flex;
@@ -341,7 +341,8 @@
 }
 .appearance-arrow-choice > span {
   text-align: center;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
+  word-break: normal;
 }
 .appearance-arrow-choice button {
   min-height: 34px !important;

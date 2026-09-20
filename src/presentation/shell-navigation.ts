@@ -1089,7 +1089,7 @@ export function shellReducer(
           announcement: "Closed workspace.",
         };
       }
-      return state;
+      return { ...state, navigation: "primary" };
     }
   }
 }

@@ -234,6 +234,9 @@ export function ShellNav({
   onSave,
   onSaveAndLeave,
   onLeave,
+  onAskLeave,
+  leaving = false,
+  leaveProblem = null,
   onPassDays,
   passTargets,
   passing = false,
@@ -254,6 +257,9 @@ export function ShellNav({
   readonly onSave: () => void;
   readonly onSaveAndLeave?: () => void;
   readonly onLeave: () => void;
+  readonly onAskLeave?: () => void;
+  readonly leaving?: boolean;
+  readonly leaveProblem?: string | null;
   /** Day and week through the canonical clock. Absent while growing up. */
   readonly onPassDays?: (days: 1 | 7) => void;
   /** Where each skip would land, said before it is pressed. */
@@ -354,6 +360,7 @@ export function ShellNav({
     if (state.confirmingLeave) {
       event.preventDefault();
       event.stopPropagation();
+      if (leaving) return;
       dispatch({ type: "cancel-leave" });
       clusterRef.current?.focus();
       return;
@@ -672,16 +679,10 @@ export function ShellNav({
                     primaryGroups.length + (canSave ? 1 : 0),
                   )}
                   onClick={() =>
-                    canSave && onSaveAndLeave
-                      ? onSaveAndLeave()
-                      : unsaved && canSave
-                        ? dispatch({ type: "ask-leave" })
-                        : onLeave()
+                    onAskLeave ? onAskLeave() : dispatch({ type: "ask-leave" })
                   }
                 >
-                  {canSave && onSaveAndLeave
-                    ? "Save and leave"
-                    : "Return to title"}
+                  Return to title
                   <small>To the main menu</small>
                 </button>
               </div>
@@ -702,25 +703,25 @@ export function ShellNav({
             Save before returning to the title?
           </p>
           <p className="pg-nav-confirm-copy">
-            This life has not been saved. Returning to the title now leaves it
-            behind.
+            {unsaved
+              ? "This life has not been saved yet."
+              : "Save your latest progress before returning. Earlier autosaves will remain available."}
           </p>
           <button
             type="button"
             className="ui-action ui-action--primary"
             data-testid="leave-save-first"
             autoFocus
-            onClick={() => {
-              onSave();
-              dispatch({ type: "cancel-leave" });
-            }}
+            disabled={!canSave || leaving}
+            onClick={onSaveAndLeave ?? onSave}
           >
-            Save first
+            {leaving ? "Saving…" : "Save and return"}
           </button>
           <button
             type="button"
             className="ui-action"
             data-testid="leave-without-saving"
+            disabled={leaving}
             onClick={() => {
               dispatch({ type: "cancel-leave" });
               onLeave();
@@ -732,10 +733,18 @@ export function ShellNav({
             type="button"
             className="ui-action ui-action--subtle"
             data-testid="leave-cancel"
+            disabled={leaving}
             onClick={() => dispatch({ type: "cancel-leave" })}
           >
-            Stay
+            Cancel
           </button>
+          {leaveProblem ? <p role="alert">{leaveProblem}</p> : null}
+          {!canSave ? (
+            <p role="alert">
+              Saving is unavailable. You can stay in this life or return without
+              saving.
+            </p>
+          ) : null}
         </div>
       ) : null}
     </nav>

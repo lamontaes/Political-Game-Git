@@ -30,10 +30,7 @@ import { PressWorkspace } from "./PressWorkspace";
 import { ContentPackWorkspace } from "./ContentPackWorkspace";
 import { resolveCreatorBirthday } from "../presentation/creator-full-birthday";
 import { CreatorBirthdayFields } from "./CreatorBirthdayFields";
-import {
-  HOMETOWN_PAGE_SIZE,
-  projectHometownPage,
-} from "../presentation/creator-hometown-page";
+import { projectHometownPage } from "../presentation/creator-hometown-page";
 import { previewCreatorNames } from "../presentation/creator-name-preview";
 import {
   creatorBirthDate,
@@ -713,8 +710,10 @@ export function PlayerGame() {
    * what it could not write; if something could not be written, the session
    * stays on screen so the player still has it.
    */
-  async function leaveGame() {
-    if (store) {
+  async function leaveGame(discard = false): Promise<boolean> {
+    if (discard && store && session?.saveId)
+      await store.discardPending(session.saveId);
+    if (store && !discard) {
       const flushed = await store.flush();
       if (flushed.status === "unsaved") {
         setProblem(
@@ -722,14 +721,16 @@ export function PlayerGame() {
         );
         finishReturnToTitle("save-failed");
         await refreshSaves();
-        return;
+        return false;
       }
     }
     setSession(null);
     setScreen({ kind: "title" });
     setNotice(null);
+    setProblem(null);
     finishReturnToTitle("title");
     await refreshSaves();
+    return true;
   }
 
   // A Return to title in progress (Options or the desktop hub), so its
@@ -742,6 +743,32 @@ export function PlayerGame() {
     returnToTitleRequest.current = null;
     reportReturnToTitle(request, outcome);
   }
+
+  useEffect(() => {
+    if (screen.kind === "playing") return;
+    const returnFromOpening = (event: Event) => {
+      event.preventDefault();
+      const hasDraft = ["setup", "questionnaire", "transition"].includes(
+        screen.kind,
+      );
+      const leave =
+        !hasDraft ||
+        window.confirm(
+          "Return to the title screen? Your unfinished character setup will be discarded. Your saved lives will be kept.",
+        );
+      if (leave) setScreen({ kind: "title" });
+      reportReturnToTitle(
+        { fromHub: true, leaving: leave },
+        leave ? "title" : "cancelled",
+      );
+    };
+    window.addEventListener(RETURN_TO_TITLE_REQUEST_EVENT, returnFromOpening);
+    return () =>
+      window.removeEventListener(
+        RETURN_TO_TITLE_REQUEST_EVENT,
+        returnFromOpening,
+      );
+  }, [screen.kind]);
 
   /*
    * One room, held across the whole opening.
@@ -994,14 +1021,13 @@ export function PlayerGame() {
         });
       }}
       onKeep={keepThisWorld}
-      onLeave={() => void leaveGame()}
+      onLeave={() => void leaveGame(true)}
       returnToTitleRequest={returnToTitleRequest}
-      onSaveAndLeave={(shellState) =>
-        void (async () => {
-          if (await keepThisWorld(shellState)) await leaveGame();
-          else finishReturnToTitle("save-failed");
-        })()
-      }
+      onSaveAndLeave={async (shellState) => {
+        if (await keepThisWorld(shellState)) return leaveGame();
+        finishReturnToTitle("save-failed");
+        return false;
+      }}
       onReturnToTitleCancelled={() => finishReturnToTitle("cancelled")}
       savesUnavailable={savesUnavailable}
     />
@@ -1115,22 +1141,19 @@ function SetupScreen({
         state.usps.toLowerCase() === needle,
     );
   }, [stateQuery]);
-  /*
-   * One honest page of towns (UI FINISH). The same accepted search, asked for
-   * every match, then shown a page at a time with a line saying which page —
-   * a short first slice is never presented as the whole state.
-   */
-  const [placeOffset, setPlaceOffset] = useState(0);
-  useEffect(() => {
-    setPlaceOffset(0);
-  }, [location.stateJurisdictionKey, placeQuery]);
+  // One searchable, alphabetized scroll surface; no manual next-page action.
   const placePage = useMemo(() => {
     if (!location.stateJurisdictionKey) return null;
-    return projectHometownPage(placeQuery, placeOffset, {
-      stateJurisdictionKey: location.stateJurisdictionKey,
-      scope: "locality",
-    });
-  }, [location.stateJurisdictionKey, placeQuery, placeOffset]);
+    return projectHometownPage(
+      placeQuery,
+      0,
+      {
+        stateJurisdictionKey: location.stateJurisdictionKey,
+        scope: "locality",
+      },
+      Number.MAX_SAFE_INTEGER,
+    );
+  }, [location.stateJurisdictionKey, placeQuery]);
   const matchingPlaces = placePage?.places ?? [];
   const [nameDraws, setNameDraws] = useState(0);
   const statewidePlace =
@@ -1611,7 +1634,13 @@ function SetupScreen({
                 </div>
               ) : null}
               {placeListOpen && matchingPlaces.length > 0 ? (
-                <div className="game-choices" data-testid="place-choices">
+                <div
+                  className="game-choices creator-place-scroll"
+                  data-testid="place-choices"
+                  key={`${location.stateJurisdictionKey}:${placeQuery}`}
+                  tabIndex={0}
+                  aria-label="Hometowns"
+                >
                   {matchingPlaces.map((candidate) => (
                     <button
                       key={candidate.key}
@@ -1659,30 +1688,6 @@ function SetupScreen({
                   >
                     {placePage.status}
                   </p>
-                  {placePage.pageCount > 1 ? (
-                    <div className="game-choices game-choices-inline">
-                      <button
-                        type="button"
-                        data-testid="place-page-previous"
-                        disabled={!placePage.hasPrevious}
-                        onClick={() =>
-                          setPlaceOffset(placePage.offset - HOMETOWN_PAGE_SIZE)
-                        }
-                      >
-                        Previous places
-                      </button>
-                      <button
-                        type="button"
-                        data-testid="place-page-next"
-                        disabled={!placePage.hasNext}
-                        onClick={() =>
-                          setPlaceOffset(placePage.offset + HOMETOWN_PAGE_SIZE)
-                        }
-                      >
-                        More places
-                      </button>
-                    </div>
-                  ) : null}
                 </div>
               ) : placeListOpen && placeQuery.trim().length === 0 ? (
                 <p className="game-note" data-testid="place-prompt">
@@ -1969,12 +1974,8 @@ function SetupScreen({
         <section data-testid="creator-stage-whoareyou">
           <h2>Who are you?</h2>
           <p className="game-note" data-testid="whoareyou-note">
-            This is optional. A few questions help the game understand what
-            matters to you, so the situations it puts in front of you land
-            closer to home. The world remembers what you choose — some things
-            fade, some echo back years later — but nothing here locks a path or
-            decides who you become. You can skip it and let the game learn from
-            how you actually play.
+            A few imagined situations. Choose what you would do, or skip. These
+            answers do not write your character’s biography.
           </p>
           <div className="game-choices" data-testid="whoareyou-choices">
             <button
@@ -2145,9 +2146,8 @@ function QuestionnaireScreenView({
             nothing about who the character becomes.
           */}
       <p className="game-note" data-testid="questionnaire-framing">
-        These are about you, not your character. They help the game understand
-        how you decide, so it can put the right kind of thing in front of you.
-        Nothing here locks a path, and you can begin whenever you like.
+        These are imagined situations. Choose what you would do, or skip. These
+        answers do not write your character’s biography.
       </p>
       <p className="game-band" data-testid="questionnaire-progress">
         {PHASE_LINE[screen.phase]}
@@ -2398,7 +2398,7 @@ function PlayingScreen({
   /** Set while a Return to title (Options or desktop hub) is in progress. */
   readonly returnToTitleRequest: { current: ReturnToTitleRequest | null };
   /** "Save first" during a Return to title: save, then go to the title. */
-  readonly onSaveAndLeave: (shellState: StoredShellState) => void;
+  readonly onSaveAndLeave: (shellState: StoredShellState) => Promise<boolean>;
   readonly onReturnToTitleCancelled: () => void;
   readonly savesUnavailable: boolean;
   /**
@@ -2859,6 +2859,14 @@ function PlayingScreen({
           },
     );
     entries.push({
+      surface: "government-map",
+      label: "Map",
+      hint: "Places and government",
+      testid: "nav-government-map",
+      open: openSurface === "government-map",
+      group: "politics",
+    });
+    entries.push({
       surface: "news",
       label: "News",
       hint: "Published public records",
@@ -3164,7 +3172,18 @@ function PlayingScreen({
     return () => window.removeEventListener(NATIVE_SAVE_EVENT, save);
   }, []);
 
-  const needsLeaveConfirmation = session.saveId === null && !savesUnavailable;
+  const needsLeaveConfirmation = true;
+  const [savingToTitle, setSavingToTitle] = useState(false);
+  useEffect(() => {
+    if (!savingToTitle) return;
+    const keepSaving = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    };
+    document.addEventListener("keydown", keepSaving, true);
+    return () => document.removeEventListener("keydown", keepSaving, true);
+  }, [savingToTitle]);
 
   function leaveNow() {
     if (returnToTitleRequest.current) {
@@ -3174,9 +3193,32 @@ function PlayingScreen({
   }
 
   function beginReturnToTitle(fromHub: boolean) {
+    if (returnToTitleRequest.current || savingToTitle) return;
     returnToTitleRequest.current = { fromHub, leaving: false };
-    if (needsLeaveConfirmation) dispatch({ type: "ask-leave" });
-    else leaveNow();
+    dispatch({ type: "ask-leave" });
+  }
+
+  async function saveAndReturnToTitle() {
+    if (savingToTitle) return;
+    const request = returnToTitleRequest.current;
+    if (request) request.leaving = true;
+    setSavingToTitle(true);
+    try {
+      const saved = await onSaveAndLeave({
+        pins: shell.pins,
+        preferences: shell.preferences,
+        journal: shell.legacyJournal,
+        journals: shell.journals,
+        personWardrobes: shell.personWardrobes,
+        progress: shell.progress,
+      });
+      if (!saved && request) {
+        request.leaving = false;
+        returnToTitleRequest.current = request;
+      }
+    } finally {
+      setSavingToTitle(false);
+    }
   }
 
   // The desktop hub asks through a DOM event; see return-to-title-bridge.
@@ -3185,8 +3227,8 @@ function PlayingScreen({
   const leaveFlowOpen = shell.confirmingLeave;
   useEffect(() => {
     function onRequest(event: Event) {
-      if (leaveFlowOpen || returnToTitleRequest.current) return;
       event.preventDefault();
+      if (leaveFlowOpen || returnToTitleRequest.current) return;
       beginReturnToTitleRef.current(true);
     }
     window.addEventListener(RETURN_TO_TITLE_REQUEST_EVENT, onRequest);
@@ -3668,7 +3710,7 @@ function PlayingScreen({
                   {person.name}: {person.wardrobeRefusal}
                 </p>
               ))}
-            {!showOrientation ? (
+            {!showOrientation || shell.confirmingLeave ? (
               <ShellNav
                 state={shell}
                 dispatch={dispatch}
@@ -3686,6 +3728,9 @@ function PlayingScreen({
                 destinations={destinations}
                 canSave={!savesUnavailable}
                 unsaved={session.saveId === null}
+                leaving={savingToTitle}
+                leaveProblem={problem}
+                onAskLeave={() => beginReturnToTitle(false)}
                 onSave={() => {
                   const shellState = {
                     pins: shell.pins,
@@ -3695,22 +3740,9 @@ function PlayingScreen({
                     personWardrobes: shell.personWardrobes,
                     progress: shell.progress,
                   };
-                  const request = returnToTitleRequest.current;
-                  if (request && shell.confirmingLeave) {
-                    request.leaving = true;
-                    onSaveAndLeave(shellState);
-                  } else onKeep(shellState);
+                  void onKeep(shellState);
                 }}
-                onSaveAndLeave={() =>
-                  onSaveAndLeave({
-                    pins: shell.pins,
-                    preferences: shell.preferences,
-                    journal: shell.legacyJournal,
-                    journals: shell.journals,
-                    personWardrobes: shell.personWardrobes,
-                    progress: shell.progress,
-                  })
-                }
+                onSaveAndLeave={() => void saveAndReturnToTitle()}
                 onLeave={leaveNow}
                 {...(capabilities.formativeYears || readOnly
                   ? {}
@@ -5227,15 +5259,7 @@ function renderWorkspace({
               )
             }
             sections={sections}
-            timeControl={
-              capabilities.formativeYears || half === "office" ? null : (
-                <PassDayControl
-                  session={session}
-                  onWorldChange={onWorldChange}
-                  withClock
-                />
-              )
-            }
+            timeControl={null}
           />
         </>,
         half === "campaign"

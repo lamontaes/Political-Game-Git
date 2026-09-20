@@ -33,6 +33,7 @@ import {
 
 export interface PersonAppearanceControlsProps extends PersonVisualSelectionContext {
   readonly unsavedCreator?: boolean;
+  readonly bodyAllowed?: (bodyFamily: string) => boolean;
   readonly world: World;
   readonly personId: string;
   readonly preference?: PersonWardrobePreference;
@@ -263,6 +264,12 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
     families: OutfitFamilies,
     update = false,
   ) {
+    if (
+      next.selection &&
+      props.bodyAllowed &&
+      !props.bodyAllowed(next.selection.bodyFamily)
+    )
+      return;
     try {
       props.onWorldChange(
         update
@@ -290,6 +297,12 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
     }
   }
   function propose(next: PersonAppearance, confirmBody = false) {
+    if (
+      next.selection &&
+      props.bodyAllowed &&
+      !props.bodyAllowed(next.selection.bodyFamily)
+    )
+      return;
     const exact = resolveCompleteOutfit({
       appearance: next,
       families: state!.families,
@@ -407,6 +420,10 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
                     o.selection.bodyFamily === state.current?.bodyFamily,
                 );
           let values = [...new Set(options.map((o) => o.selection[kind]))];
+          if (kind === "bodyFamily" && props.bodyAllowed)
+            values = values.filter(
+              (value) => value !== null && props.bodyAllowed!(value),
+            );
           if (
             kind === "bodyFamily" &&
             preparedFamily(state.current?.bodyFamily)
@@ -742,7 +759,11 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
           const pack = state.current?.bodyFamily.split("-")[0];
           const bodies = [
             ...new Set(state.bald.map((o) => o.selection.bodyFamily)),
-          ].filter((v) => v.startsWith(`${pack}-`));
+          ].filter(
+            (v) =>
+              v.startsWith(`${pack}-`) &&
+              (!props.bodyAllowed || props.bodyAllowed(v)),
+          );
           const selected = bodies.length
             ? selectPreparedBody(appearance, pick(bodies))
             : undefined;

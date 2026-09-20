@@ -6039,7 +6039,8 @@
   opacity: 1;
 }
 
-.title-tableau-camera--drift .scene-environment-art {
+.title-tableau-camera--drift .scene-environment-art,
+.title-tableau[data-motion="drift"] .pg-title-establishing {
   transform-origin: 50% 55%;
   animation: title-ambient-drift 44s ease-in-out infinite alternate;
 }
@@ -6073,7 +6074,8 @@
 @media (prefers-reduced-motion: reduce) {
   .title-tableau-stage--arriving,
   .title-tableau-stage--leaving,
-  .title-tableau-camera--drift .scene-environment-art {
+  .title-tableau-camera--drift .scene-environment-art,
+  .title-tableau[data-motion="drift"] .pg-title-establishing {
     animation: none;
   }
 }

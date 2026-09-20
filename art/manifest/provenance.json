@@ -2235,6 +2235,23 @@
       "edits_performed": "No local pixel edits. Exact 2496x1664 owner return preserved; native detail unverified. Existing request renamed regionally without changing candidate identity or history.",
       "output_hash_version": "sha256",
       "approval_status": "pending"
+    },
+    {
+      "provenance_id": "prov_env_playtest65_civic_generic_r3",
+      "asset_id": "env_playtest65_civic_generic_r3",
+      "source_url_or_path": "artbench:cand-48b10062-b064-46bf-8194-500b0d66cc83",
+      "document_photo_plan_title": "Approved generic civic exterior revision 3; SHA256 1bd1af90f54e7a4764e543e2a503008ad3b2a6ce1b315debcfd0797045c338a1",
+      "access_retrieval_date": "2026-09-20",
+      "rights_license_status": "unknown",
+      "reference_type": "ai-generated",
+      "source_authority_category": "visual-estimate-support",
+      "generator_tool": "Owner external return; exact tool unverified",
+      "generated_model_version": "unverified",
+      "prompt_spec_manifest_id": "playtest65-civic-building; revision 3",
+      "generation_edit_date": "2026-09-19",
+      "edits_performed": "Byte-identical owner return. Encoded 5504x3072, native detail unverified. Approval event b2af3de9-8625-4ae0-8cdf-7d39e8fc522c. Geometry and public release not granted.",
+      "output_hash_version": "sha256",
+      "approval_status": "approved"
     }
   ]
 }

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   creatorAppearanceDraft,
+  creatorBodyAllowed,
   applyCreatorAppearance,
 } from "./creator-appearance-preview";
 import { ENGINE_PEOPLE29_CHARACTER_LIBRARY as library } from "./engine-people29-review";
@@ -94,6 +95,42 @@ describe.skipIf(!PRIVATE_CANDIDATE_ART_AVAILABLE)(
       for (const other of world.personOrder.filter((p) => p !== id))
         expect(saved.people[other]).toBe(world.people[other]);
       expect(applyCreatorAppearance(world, null, library)).toBe(world);
+    });
+  },
+);
+
+describe.skipIf(!PRIVATE_CANDIDATE_ART_AVAILABLE)(
+  "Normal Start body choices",
+  () => {
+    it("accepts only the three supported masculine families for a male normal start", () => {
+      const male = {
+        ...setup,
+        startKind: "normal" as const,
+        gender: "male" as const,
+      };
+      for (const shape of ["lean", "average", "heavy"]) {
+        expect(creatorBodyAllowed(male, `ep41-masc-${shape}-body`)).toBe(true);
+        expect(creatorBodyAllowed(male, `ep41-fem-${shape}-body`)).toBe(false);
+      }
+      expect(creatorBodyAllowed(male, "unknown-body")).toBe(false);
+      expect(
+        creatorBodyAllowed(
+          { ...male, startKind: "custom" },
+          "ep41-fem-average-body",
+        ),
+      ).toBe(true);
+      for (const gender of ["female", "nonbinary", "unstated"] as const)
+        expect(
+          creatorBodyAllowed({ ...male, gender }, "ep41-fem-average-body"),
+        ).toBe(true);
+      const draft = creatorAppearanceDraft(male, library)!;
+      expect(
+        creatorBodyAllowed(
+          male,
+          draft.people[draft.personOrder[0]!]!.appearance!.selection!
+            .bodyFamily,
+        ),
+      ).toBe(true);
     });
   },
 );

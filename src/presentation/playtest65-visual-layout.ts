@@ -1,5 +1,32 @@
 /** Measured candidate plate coordinates; presentation slots are proposed against
  * these pixels, not a claim that the two officials are physically present. */
+export const OPENING_INFORMATION_PLATES: Readonly<
+  Record<
+    string,
+    {
+      readonly assetId: string;
+      readonly caption: string;
+      readonly previewRaster: {
+        readonly width: number;
+        readonly height: number;
+        readonly hash: string;
+        readonly nativeDetailState: "unverified";
+      };
+    }
+  >
+> = {
+  locality: {
+    assetId: "env_playtest65_civic_generic_r3",
+    caption: "Local government · Illustrated civic building",
+    previewRaster: {
+      width: 5504,
+      height: 3072,
+      hash: "1bd1af90f54e7a4764e543e2a503008ad3b2a6ce1b315debcfd0797045c338a1",
+      nativeDetailState: "unverified",
+    },
+  },
+};
+
 export const PLAYTEST65_WHITE_HOUSE_LAYOUT = {
   revision: "playtest65-white-house-wide-r6",
   status: "candidate-integration-review",

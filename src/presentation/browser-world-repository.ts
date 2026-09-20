@@ -445,12 +445,22 @@ export class BrowserSaveStore {
    * over a slot nothing could ever write.
    */
   releaseSlot(saveId: EntityId): void {
+    this.#slotEpoch.set(saveId, (this.#slotEpoch.get(saveId) ?? 0) + 1);
     this.#pending.delete(saveId);
     this.#failures.delete(saveId);
     this.#conflicts.delete(saveId);
     this.#observed.delete(saveId);
     this.#durableContent.delete(saveId);
     this.#durableRequest.delete(saveId);
+  }
+
+  #slotEpoch = new Map<string, number>();
+
+  /** Stop queued retries; an already started autosave may have reached disk. */
+  async discardPending(saveId: EntityId): Promise<void> {
+    this.releaseSlot(saveId);
+    await this.#settled.get(saveId);
+    await this.#tail.catch(() => undefined);
   }
 
   /** One hash of one world, kept so the drain does not recompute it. */
@@ -836,7 +846,10 @@ export class BrowserSaveStore {
   }
 
   async #drain(saveId: EntityId): Promise<void> {
+    const epoch = this.#slotEpoch.get(saveId) ?? 0;
+    const stillCurrent = () => (this.#slotEpoch.get(saveId) ?? 0) === epoch;
     while (this.#pending.has(saveId)) {
+      if (!stillCurrent()) return;
       if (this.#deleted.has(saveId)) {
         this.#pending.delete(saveId);
         return;
@@ -864,9 +877,10 @@ export class BrowserSaveStore {
       let written = false;
       for (let attempt = 1; attempt <= this.#attempts; attempt += 1) {
         try {
-          const outcome = await this.#enqueue(() =>
-            this.#writeSlot(prepared, saveId),
+          const outcome = await this.#enqueue(async () =>
+            stillCurrent() ? this.#writeSlot(prepared, saveId) : null,
           );
+          if (!outcome || !stillCurrent()) return;
           if (outcome.status === "discarded") {
             this.#pending.delete(saveId);
             return;
@@ -882,6 +896,7 @@ export class BrowserSaveStore {
           written = true;
           break;
         } catch (error: unknown) {
+          if (!stillCurrent()) return;
           this.#failures.set(saveId, messageOf(error));
           if (attempt === this.#attempts) break;
           // Short and increasing: a quota prompt or an aborted transaction is

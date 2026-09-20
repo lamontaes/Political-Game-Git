@@ -47,3 +47,17 @@ describe("saved window presentation", () => {
     expect(reset.preferences.workspaceLayouts).toEqual({});
   });
 });
+
+it("fits untouched default windows in embedded and full client viewports", async () => {
+  const { defaultWorkspace } = await import("./workspace-layout");
+  for (const [width, height] of [
+    [853, 650],
+    [1280, 720],
+  ]) {
+    const layout = defaultWorkspace(width!, height!);
+    expect(layout.x).toBeGreaterThanOrEqual(12);
+    expect(layout.y).toBeGreaterThanOrEqual(12);
+    expect(layout.x + layout.width).toBeLessThanOrEqual(width! - 12);
+    expect(layout.y + layout.height).toBeLessThanOrEqual(height! - 90);
+  }
+});

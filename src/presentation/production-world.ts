@@ -1,3 +1,7 @@
+import {
+  generateContextualCharacterHistory,
+  type EarlierLifeGenerationVersion,
+} from "../simulation/contextual-character-history";
 import { LEGACY_COHERENT_CATALOG_GENERATION } from "../simulation/person-appearance";
 import {
   guardianAgeBand,
@@ -122,6 +126,8 @@ export interface ProductionWorldInput {
   readonly appearanceCatalogGeneration?: number;
   /** Versioned independently so newer naming does not rewrite old replays. */
   readonly givenNameGenerationVersion?: GivenNameGenerationVersion;
+  /** Absent preserves the original school/work history in replay descriptors. */
+  readonly earlierLifeGenerationVersion?: EarlierLifeGenerationVersion;
 }
 
 export interface ProductionWorld {
@@ -220,6 +226,7 @@ export function buildProductionWorld(
     input.generation ?? null,
     input.familyStructureSeed ?? input.seed,
     input.givenNameGenerationVersion ?? LEGACY_GIVEN_NAME_GENERATION_VERSION,
+    input.earlierLifeGenerationVersion,
   );
   if (input.startingLife === "legislative-office") {
     world = employInLegislativeOffice(world, player.id, place);
@@ -316,6 +323,7 @@ function establishAgeEligibleState(
   generation: SetupGenerationInputs | null,
   familyStructureSeed: string,
   givenNameGenerationVersion: GivenNameGenerationVersion,
+  earlierLifeGenerationVersion?: EarlierLifeGenerationVersion,
 ): World {
   const jurisdictionId = place.context.jurisdiction.id;
   const age = ageOnDate(player.birthDate, world.currentDate);
@@ -375,7 +383,12 @@ function establishAgeEligibleState(
     // accept, and it should not: that would be a false biography, not a
     // bookkeeping quirk.
     void depth;
-    const withEarlierLife = summarizeEarlierLife(world, player, jurisdictionId);
+    const withEarlierLife = summarizeEarlierLife(
+      world,
+      player,
+      jurisdictionId,
+      earlierLifeGenerationVersion,
+    );
     transitions.push({
       kind: "household-membership",
       input: {
@@ -428,12 +441,46 @@ function establishAgeEligibleState(
       );
     }
 
-    return applyCharacterHistoryPlan(withEarlierLife, {
+    const established = applyCharacterHistoryPlan(withEarlierLife, {
       stableKey,
       mode: "quick-generated",
       personId: player.id,
       transitions,
     }).world;
+    if (
+      earlierLifeGenerationVersion !== "context-v2" ||
+      household !== "lives-alone"
+    )
+      return established;
+    const membership = established.history.householdMemberships.find(
+      (entry) =>
+        entry.householdId === householdId && entry.personId === player.id,
+    )!;
+    // Positive setup evidence, distinct from an incomplete list of residents.
+    // Historical only: the reader must recheck current residence and changes.
+    return recordWorldEvent(established, {
+      stableKey: `${stableKey}:single-resident`,
+      type: "life.household-composition",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId,
+      involvedEntityIds: [player.id, householdId, membership.id],
+      participants: [
+        { personId: player.id, role: "focus:subject", detail: "sole resident" },
+      ],
+      personFactConstraints: [],
+      visibility: "private",
+      tags: ["life.household-composition", "household.single-resident"],
+      summary: "You live alone.",
+      context: {
+        location: { jurisdictionId, label: "Home", setting: "home" },
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
   }
 
   // A guardian, named through the versioned corpus like every other canonical
@@ -736,7 +783,7 @@ function establishAgeEligibleState(
     );
   }
 
-  if (age >= SCHOOL_ENTRY_AGE) {
+  if (age >= SCHOOL_ENTRY_AGE && earlierLifeGenerationVersion === undefined) {
     const schoolKey = `${stableKey}:school`;
     // The world does not know when the school was founded, and does not
     // pretend to: the earliest date it can honestly claim the school existed
@@ -917,11 +964,16 @@ function summarizeEarlierLife(
   world: World,
   player: Person,
   jurisdictionId: EntityId,
+  version?: EarlierLifeGenerationVersion,
 ): World {
   const stableKey = "production:earlier-life";
+  const generateHistory =
+    version === "context-v2"
+      ? generateContextualCharacterHistory
+      : generateQuickCharacterHistory;
   const next = applyCharacterHistoryPlan(
     world,
-    generateQuickCharacterHistory(world, {
+    generateHistory(world, {
       stableKey,
       personId: player.id,
       jurisdictionId,
@@ -944,23 +996,27 @@ function summarizeEarlierLife(
           provenance: PROVENANCE,
         },
       },
-      {
-        // The summarized childhood opens a part-time job at sixteen and never
-        // closes it, so an adult arrived still holding it: a thirty-four-year-old
-        // legislative staffer was also, on the record, a store assistant. It
-        // ends when they leave school, which is the only claim the summary can
-        // honestly make about when it ended.
-        kind: "work-status",
-        input: {
-          stableKey: `${stableKey}:teen-work:ended`,
-          workStableKey: `${stableKey}:work:teen`,
-          effectiveAt: dateAtAge(player.birthDate, 18),
-          status: "ended",
-          reason:
-            "The job the character had at school did not follow them out of it.",
-          provenance: PROVENANCE,
-        },
-      },
+      ...(version === "context-v2"
+        ? []
+        : [
+            {
+              // The summarized childhood opens a part-time job at sixteen and never
+              // closes it, so an adult arrived still holding it: a thirty-four-year-old
+              // legislative staffer was also, on the record, a store assistant. It
+              // ends when they leave school, which is the only claim the summary can
+              // honestly make about when it ended.
+              kind: "work-status" as const,
+              input: {
+                stableKey: `${stableKey}:teen-work:ended`,
+                workStableKey: `${stableKey}:work:teen`,
+                effectiveAt: dateAtAge(player.birthDate, 18),
+                status: "ended" as const,
+                reason:
+                  "The job the character had at school did not follow them out of it.",
+                provenance: PROVENANCE,
+              },
+            },
+          ]),
     ],
   }).world;
 }

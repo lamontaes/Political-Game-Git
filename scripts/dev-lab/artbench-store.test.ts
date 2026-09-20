@@ -1060,3 +1060,36 @@ it("persists per-reply notification reads across stores without changing art his
     existsSync(join(store.dataRoot, "preferences/notifications.json")),
   ).toBe(true);
 });
+
+it("allocates stable request codes once and preserves them through revisions and restart", () => {
+  const workspace = workspaceWith([
+    request("background", {
+      generatorParameters: { fireflyPrompt: "Paint the coast." },
+    }),
+  ]);
+  const store = makeStore(workspace);
+  const row = store.projection().requests.background!;
+  const code = store.projection().assets[row.assetId]!.tags.requestCode;
+  expect(code).toEqual(["background:A01"]);
+  const events = store.allEvents();
+  store.ensureRequestCodes();
+  expect(store.allEvents()).toEqual(events);
+  store.reviseRequest({
+    request: { ...row.request, requestVersion: 2 },
+    baseVersion: 1,
+    actor: { kind: "worker", id: "art-team" },
+  });
+  const asset = store.projection().assets[row.assetId]!;
+  store.setTags({
+    entity: "asset",
+    entityId: row.assetId,
+    tags: { category: ["coast"] },
+    baseVersion: asset.tagsVersion,
+    author: { kind: "worker", id: "art-team" },
+  });
+  const reopened = makeStore(workspace, store.dataRoot);
+  expect(reopened.projection().assets[row.assetId]!.tags.requestCode).toEqual(
+    code,
+  );
+  expect(reopened.allEvents().slice(0, events.length)).toEqual(events);
+});

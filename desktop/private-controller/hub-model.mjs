@@ -292,6 +292,8 @@ export function playLabel({
 /* --------------------------------------------------------- update checks */
 
 export const CHECK_OUTCOMES = new Set([
+  "source-available",
+  "kept-local",
   "up-to-date",
   "ready",
   "waiting",
@@ -342,7 +344,13 @@ export function cleanChecks(value) {
  */
 export function recordCheck(checks, id, { outcome, at, revision, message }) {
   const previous = checks[id] ?? null;
-  const success = ["up-to-date", "ready", "waiting"].includes(outcome);
+  const success = [
+    "up-to-date",
+    "ready",
+    "waiting",
+    "source-available",
+    "kept-local",
+  ].includes(outcome);
   return {
     ...checks,
     [id]: cleanCheck({
@@ -391,6 +399,10 @@ export function updateStatus({ phase, check, build, building }) {
       return build && check.revision === build.revision
         ? at("current", "Up to date")
         : at("ready", "Ready to use");
+    case "source-available":
+      return at("waiting", "New version available · awaiting preparation");
+    case "kept-local":
+      return at("current", "Private preview kept");
     case "ready":
       return at("ready", "Ready to use");
     case "waiting":

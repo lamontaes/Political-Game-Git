@@ -37,6 +37,14 @@ const profile =
     ? "internal-art-review"
     : "production";
 
+execFileSync(
+  process.execPath,
+  ["--import", "tsx", "scripts/dev-lab/compiled-art-usage.ts"],
+  {
+    cwd: repoRoot,
+    stdio: "inherit",
+  },
+);
 const treeSha256 = hashClientTree(clientDir);
 const provenance = {
   sourceRevision: revision,

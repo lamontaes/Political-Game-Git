@@ -374,10 +374,15 @@ async function main() {
       currentRevision,
       targetRevision,
       // A branch preview may be rewritten; only main refuses non-descendants.
-      currentIsAncestor: isMain ? currentIsAncestor : true,
+      currentIsAncestor:
+        isMain || existing?.current?.preparedLocally === true
+          ? currentIsAncestor
+          : true,
     });
     const samePack =
-      existing?.current?.privatePack?.manifestSha256 === pack.manifestSha256;
+      existing?.current?.privatePack?.manifestSha256 === pack.manifestSha256 ||
+      (existing?.current?.preparedLocally === true &&
+        currentRevision === targetRevision);
     // A recorded build only counts as already done when its payload is
     // actually on disk and names this revision and profile; otherwise this
     // falls through and rebuilds instead of reporting a build that is gone.
@@ -405,14 +410,38 @@ async function main() {
         revision: targetRevision,
       });
     }
+    // Prepared previews are received through the existing combined delivery.
+    // Checking them must never provision another source worktree.
+    if (
+      existing?.current?.preparedLocally === true &&
+      currentRevision !== targetRevision
+    ) {
+      return emit(
+        "complete",
+        currentIsAncestor
+          ? "A newer version is on GitHub. It is awaiting preparation for this console; your current game is ready to play."
+          : "Your private preview contains work outside the selected GitHub version. It has been kept.",
+        {
+          outcome: currentIsAncestor ? "source-available" : "kept-local",
+          track: id,
+          revision: targetRevision,
+        },
+      );
+    }
     if (assessment.action === "refuse") {
       return fail(
         assessment.reason === "unsupported-downgrade-or-fork"
-          ? "Accepted main is not a descendant of the installed build. Refusing an unsupported downgrade or fork; the current build is unchanged."
+          ? "The installed game contains work that is not on the selected GitHub branch. Your current version has been kept."
           : "The update target could not be verified.",
         assessment.reason,
       );
     }
+
+    if (existing?.current?.preparedLocally === true)
+      return fail(
+        "The prepared game needs repair. Your saves have been kept; a verified replacement must be installed in this console.",
+        "failed",
+      );
 
     const paths = controllerPaths(
       dataRoot,

@@ -24,6 +24,11 @@ export function declineVenueActivity(
     world.control.kind !== "person" ||
     world.control.personId !== personId ||
     !activity.participantPersonIds.includes(personId) ||
+    (activity.responsiblePersonId !== personId &&
+      !(
+        activity.responsiblePersonId === null &&
+        activity.participantPersonIds.length === 1
+      )) ||
     !canPersonAccess(activity.access, personId)
   )
     return world;

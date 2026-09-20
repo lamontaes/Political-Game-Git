@@ -23,7 +23,10 @@ import { OpeningStateVoting } from "./OpeningStateVoting";
 import { SavedPersonFigure } from "./SavedPersonFigure";
 import { PersonPortrait } from "./PersonPortrait";
 import { candidateEstablishingPlate } from "./candidate-establishing-plate";
-import { PLAYTEST65_WHITE_HOUSE_LAYOUT } from "../presentation/playtest65-visual-layout";
+import {
+  PLAYTEST65_WHITE_HOUSE_LAYOUT,
+  OPENING_INFORMATION_PLATES,
+} from "../presentation/playtest65-visual-layout";
 import {
   OPENING_REGIONAL_CANDIDATES,
   openingHomeRegionPreviews,
@@ -118,6 +121,13 @@ export function WorldOrientationPanel({
   const [index, setIndex] = useState(0);
   const heading = useRef<HTMLHeadingElement>(null);
   const step = steps[Math.min(index, steps.length - 1)]!;
+  const informationPlate = OPENING_INFORMATION_PLATES[step.key];
+  const illustration = informationPlate
+    ? candidateEstablishingPlate(
+        informationPlate.assetId,
+        informationPlate.previewRaster,
+      )
+    : null;
   const last = index >= steps.length - 1;
   const regionalContext =
     snapshot?.beats.find(
@@ -136,9 +146,6 @@ export function WorldOrientationPanel({
           }),
         )
       : [];
-  const [stateCard, setStateCard] = useState<
-    "government" | "population" | "voting"
-  >("government");
   const [chosenRegion, setChosenRegion] = useState<string | null>(null);
   const regionIndex = Math.max(
     0,
@@ -181,6 +188,19 @@ export function WorldOrientationPanel({
       ) : null}
 
       <div className="pg-orientation-reading">
+        {illustration ? (
+          <figure className="pg-opening-information-illustration">
+            <img
+              className="pg-establishing-image"
+              src={illustration.url}
+              width={illustration.width}
+              height={illustration.height}
+              alt={informationPlate!.caption}
+              data-asset-id={illustration.assetId}
+            />
+            <figcaption>{informationPlate!.caption}</figcaption>
+          </figure>
+        ) : null}
         {step.key === "state" ? (
           <div
             className="pg-regional-opening-scene"
@@ -204,73 +224,36 @@ export function WorldOrientationPanel({
                   Your home region · Illustration
                 </p>
               ) : null}
-              <div className="pg-regional-card-body">
-                {stateCard === "government" ? (
-                  <>
-                    <h3>
-                      {homeStateUsps === "DC"
-                        ? "Your District government"
-                        : "Your state government"}
-                    </h3>
-                    <p>{step.summary}</p>
-                    {step.people.length > 0 ? (
-                      <ul className="pg-orientation-people">
-                        {step.people.map((person) => (
-                          <li key={`${person.personId}:${person.title}`}>
-                            <PersonButton
-                              person={person}
-                              onOpenPerson={onOpenPerson}
-                            />
-                          </li>
-                        ))}
-                      </ul>
-                    ) : null}
-                  </>
-                ) : stateCard === "population" ? (
-                  <OpeningStatePopulation
-                    stateUsps={homeStateUsps}
-                    asOf={world?.currentDate ?? regionalContext?.asOf ?? ""}
-                  />
-                ) : (
-                  <OpeningStateVoting
-                    stateUsps={homeStateUsps}
-                    asOf={world?.currentDate ?? regionalContext?.asOf ?? ""}
-                  />
-                )}
+              <div className="pg-regional-card-body pg-state-overview">
+                <section>
+                  <h3>
+                    {homeStateUsps === "DC"
+                      ? "Your District government"
+                      : "Your state government"}
+                  </h3>
+                  <p>{step.summary}</p>
+                  {step.people.length > 0 ? (
+                    <ul className="pg-orientation-people">
+                      {step.people.map((person) => (
+                        <li key={`${person.personId}:${person.title}`}>
+                          <PersonButton
+                            person={person}
+                            onOpenPerson={onOpenPerson}
+                          />
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </section>
+                <OpeningStatePopulation
+                  stateUsps={homeStateUsps}
+                  asOf={world?.currentDate ?? regionalContext?.asOf ?? ""}
+                />
+                <OpeningStateVoting
+                  stateUsps={homeStateUsps}
+                  asOf={world?.currentDate ?? regionalContext?.asOf ?? ""}
+                />
               </div>
-              <nav
-                className="pg-regional-state-cards"
-                aria-label={
-                  homeStateUsps === "DC"
-                    ? "District introduction cards"
-                    : "State introduction cards"
-                }
-              >
-                <button
-                  type="button"
-                  className="ui-action"
-                  aria-pressed={stateCard === "government"}
-                  onClick={() => setStateCard("government")}
-                >
-                  Government
-                </button>
-                <button
-                  type="button"
-                  className="ui-action"
-                  aria-pressed={stateCard === "population"}
-                  onClick={() => setStateCard("population")}
-                >
-                  Population
-                </button>
-                <button
-                  type="button"
-                  className="ui-action"
-                  aria-pressed={stateCard === "voting"}
-                  onClick={() => setStateCard("voting")}
-                >
-                  Voting
-                </button>
-              </nav>
               {regionalPlates.length > 1 ? (
                 <nav
                   className="pg-regional-scene-navigation"
