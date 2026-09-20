@@ -17,9 +17,9 @@ declare global {
         tab?: string;
       } | null>;
       rememberView: (value: {
-        candidateId: string;
+        candidateId: string | null;
         cardKey: string | null;
-        requestId: string;
+        requestId: string | null;
         tab: string;
       }) => void;
     };

@@ -1,4 +1,8 @@
 import {
+  artDeskNotifications,
+  type ArtDeskNotification,
+} from "../authoring/art-desk-notifications";
+import {
   useCallback,
   useEffect,
   useMemo,
@@ -96,6 +100,7 @@ interface BenchState {
   readonly sync: SyncInfo;
   readonly store: { readonly storeId: string; readonly dataRootLabel: string };
   readonly generatorAvailable: boolean;
+  readonly notificationReadEventIds?: readonly string[];
 }
 
 interface InputsReceipt {
@@ -223,12 +228,17 @@ function Thumb({
 const STATUS_LABEL = CARD_STATUS_LABELS;
 
 const TAB_STORAGE_KEY = "ocd-art-desk-tab";
+type ArtDeskSection = ArtDeskTab | "notifications";
+const ART_DESK_SECTIONS: readonly { key: ArtDeskSection; label: string }[] = [
+  { key: "notifications", label: "Notifications" },
+  ...ART_DESK_TABS,
+];
 
-function storedTab(): ArtDeskTab {
+function storedTab(): ArtDeskSection {
   try {
     const value = window.localStorage.getItem(TAB_STORAGE_KEY);
-    return ART_DESK_TABS.some((tab) => tab.key === value)
-      ? (value as ArtDeskTab)
+    return ART_DESK_SECTIONS.some((tab) => tab.key === value)
+      ? (value as ArtDeskSection)
       : "needs-review";
   } catch {
     return "needs-review";
@@ -274,7 +284,11 @@ export function ArtDeskView() {
   const [showNewRequest, setShowNewRequest] = useState<RequestDraftMode | null>(
     null,
   );
-  const [tab, setTabState] = useState<ArtDeskTab>(storedTab);
+  const [tab, setTabState] = useState<ArtDeskSection>(storedTab);
+  const lastArtworkTab = useRef<ArtDeskTab>(
+    tab === "notifications" ? "library" : tab,
+  );
+  const [detailHasDraft, setDetailHasDraft] = useState(false);
   const [selectedCardKey, setSelectedCardKey] = useState<string | null>(null);
   const [assetType, setAssetType] = useState<string>("all");
   const [purpose, setPurpose] = useState("all");
@@ -292,14 +306,15 @@ export function ArtDeskView() {
         if (saved?.requestId) setSelectedRequestId(saved.requestId);
         if (
           saved?.tab &&
-          ART_DESK_TABS.some((entry) => entry.key === saved.tab)
+          ART_DESK_SECTIONS.some((entry) => entry.key === saved.tab)
         )
-          setTabState(saved.tab as ArtDeskTab);
+          setTabState(saved.tab as ArtDeskSection);
       })
       .catch(() => {})
       .finally(() => setViewRestored(true));
   }, []);
-  const setTab = (next: ArtDeskTab) => {
+  const setTab = (next: ArtDeskSection) => {
+    if (next !== "notifications") lastArtworkTab.current = next;
     setTabState(next);
     try {
       window.localStorage.setItem(TAB_STORAGE_KEY, next);
@@ -318,7 +333,17 @@ export function ArtDeskView() {
           setBench((previous) =>
             previous && previous.projection.lastSeq > state.projection.lastSeq
               ? previous
-              : state,
+              : {
+                  ...state,
+                  notificationReadEventIds: [
+                    ...new Set([
+                      ...(previous?.store.storeId === state.store.storeId
+                        ? (previous.notificationReadEventIds ?? [])
+                        : []),
+                      ...(state.notificationReadEventIds ?? []),
+                    ]),
+                  ],
+                },
           );
         return state;
       }),
@@ -407,6 +432,65 @@ export function ArtDeskView() {
         : [],
     [projection, bench],
   );
+  const notifications = useMemo(
+    () =>
+      projection
+        ? artDeskNotifications(projection, bench?.notificationReadEventIds)
+        : [],
+    [projection, bench?.notificationReadEventIds],
+  );
+  const unreadCount = notifications.filter((item) => item.unread).length;
+  const [notificationBusy, setNotificationBusy] = useState(false);
+  const [notificationError, setNotificationError] = useState("");
+  const [notificationTarget, setNotificationTarget] = useState<string | null>(
+    null,
+  );
+  const markNotificationsRead = async (ids: readonly string[]) => {
+    setNotificationBusy(true);
+    setNotificationError("");
+    try {
+      if (!ownerSession) await loadSession();
+      const response = await fetch(`${BENCH}/notifications/read`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-OCD-Owner-Capability": ownerSession?.capability ?? "",
+        },
+        body: JSON.stringify({ eventIds: ids }),
+      });
+      if (!response.ok)
+        throw new Error("Could not save read status. Please try again.");
+      const result = (await response.json()) as { readEventIds: string[] };
+      setBench((previous) =>
+        previous
+          ? {
+              ...previous,
+              notificationReadEventIds: [
+                ...new Set([
+                  ...(previous.notificationReadEventIds ?? []),
+                  ...result.readEventIds,
+                ]),
+              ],
+            }
+          : previous,
+      );
+    } catch {
+      setNotificationError("Could not save read status. Please try again.");
+    } finally {
+      setNotificationBusy(false);
+    }
+  };
+  useEffect(() => {
+    if (!notificationTarget || tab === "notifications") return;
+    const element = document.getElementById(
+      `art-desk-message-${notificationTarget}`,
+    );
+    if (element) {
+      element.focus();
+      element.scrollIntoView({ block: "center" });
+      setNotificationTarget(null);
+    }
+  }, [notificationTarget, tab, viewedCandidateId, projection]);
   const counts4 = useMemo(() => tabCounts(cards, showQa), [cards, showQa]);
   const assetTypes = useMemo(
     () =>
@@ -427,7 +511,7 @@ export function ArtDeskView() {
         : byFacet.filter((card) => cardMatchesFacet(card, "purpose", purpose));
     const byUntagged = untagged ? byPurpose.filter(cardIsUntagged) : byPurpose;
     return filterCards(byUntagged, {
-      tab,
+      tab: tab === "notifications" ? lastArtworkTab.current : tab,
       text: query,
       status,
       assetType,
@@ -468,6 +552,27 @@ export function ArtDeskView() {
     setAssetType("all");
     setPurpose("all");
   };
+  const openNotification = (item: ArtDeskNotification) => {
+    if (detailHasDraft) {
+      setNotificationError(
+        "You have an unfinished note. Go back to your artwork to send or clear it before opening another reply.",
+      );
+      return;
+    }
+    clearFilters();
+    setAdvancedOpen(false);
+    setTab("library");
+    setSelectedCardKey(item.cardKey);
+    setSelectedRequestId(item.requestId);
+    setViewedCandidateId(
+      item.candidateId
+        ? (projection?.candidates[item.candidateId]?.aliasOf ??
+            item.candidateId)
+        : null,
+    );
+    setNotificationTarget(item.eventId);
+    void markNotificationsRead([item.eventId]);
+  };
   const detailRequest = advancedOpen
     ? selectedRequest
     : selectedCard && projection
@@ -485,14 +590,21 @@ export function ArtDeskView() {
     setViewedCandidateId(selectedCard.leadCandidateId);
   }, [advancedOpen, selectedCard, viewedCandidateId, viewRestored]);
   useEffect(() => {
-    if (viewRestored && viewed)
+    if (viewRestored && (viewed || detailRequest))
       window.ocdArtBench?.rememberView({
-        candidateId: viewed.candidateId,
+        candidateId: viewed?.candidateId ?? null,
         cardKey: selectedCard?.key ?? null,
-        requestId: viewed.requestId,
+        requestId:
+          detailRequest?.request.requestId ?? viewed?.requestId ?? null,
         tab,
       });
-  }, [viewRestored, viewed, selectedCard?.key, tab]);
+  }, [
+    viewRestored,
+    viewed,
+    detailRequest?.request.requestId,
+    selectedCard?.key,
+    tab,
+  ]);
 
   const contractHashes = useCallback(
     async (request: AssetRequest, sceneId: string | undefined) => {
@@ -648,6 +760,7 @@ export function ArtDeskView() {
   }, [reload]);
 
   function onKey(event: KeyboardEvent<HTMLDivElement>) {
+    if (tab === "notifications") return;
     if (isTextTarget(event.target)) return;
     if (
       !advancedOpen &&
@@ -738,6 +851,7 @@ export function ArtDeskView() {
         showIds={showIds}
         onToggleIds={() => setShowIds((v) => !v)}
         onView={setViewedCandidateId}
+        onDraftChange={setDetailHasDraft}
         onDecide={decide}
         onIntake={intake}
         onSelect={async (candidateId) => {
@@ -817,7 +931,7 @@ export function ArtDeskView() {
           </p>
         </div>
         <nav className="art-desk-tabs" aria-label="Art Desk sections">
-          {ART_DESK_TABS.map((item) => (
+          {ART_DESK_SECTIONS.map((item) => (
             <button
               key={item.key}
               type="button"
@@ -826,16 +940,22 @@ export function ArtDeskView() {
               }
               data-testid={`art-desk-tab-${item.key}`}
               onClick={() => {
+                if (item.key === "notifications") {
+                  setSelectedCardKey(selectedCard?.key ?? null);
+                  setViewedCandidateId(viewed?.candidateId ?? null);
+                }
                 setAdvancedOpen(false);
                 setTab(item.key);
               }}
             >
               {item.label}{" "}
-              <span className="art-desk-count">{counts4[item.key]}</span>
+              <span className="art-desk-count">
+                {item.key === "notifications" ? unreadCount : counts4[item.key]}
+              </span>
             </button>
           ))}
         </nav>
-        <div className="art-desk-toolbar">
+        <div className="art-desk-toolbar" hidden={tab === "notifications"}>
           <label>
             Search{" "}
             <input
@@ -1016,8 +1136,99 @@ export function ArtDeskView() {
           />
         ) : null}
       </header>
+      {notificationError ? (
+        <p role="alert" className="art-desk-warning">
+          {notificationError}
+        </p>
+      ) : null}
+      {tab === "notifications" ? (
+        <section
+          className="art-desk-notifications"
+          aria-label="Art team notifications"
+          data-testid="art-desk-notifications"
+        >
+          <div className="art-desk-notifications-heading">
+            <div>
+              <h2>Notifications</h2>
+              <p>
+                Replies from the art team. Open a reply to see its artwork and
+                conversation.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setNotificationError("");
+                setTab(lastArtworkTab.current);
+              }}
+            >
+              Back to artwork
+            </button>
+            <button
+              type="button"
+              disabled={notificationBusy || unreadCount === 0}
+              onClick={() =>
+                void markNotificationsRead(
+                  notifications
+                    .filter((item) => item.unread)
+                    .map((item) => item.eventId),
+                )
+              }
+            >
+              Mark all read
+            </button>
+          </div>
+          {notifications.length === 0 ? (
+            <p>
+              No replies yet. When the art team answers, you’ll see it here.
+            </p>
+          ) : null}
+          <ol>
+            {notifications.map((item) => (
+              <li
+                key={item.eventId}
+                data-unread={item.unread}
+                data-testid={`art-desk-notification-${item.eventId}`}
+              >
+                <div>
+                  <strong>
+                    {item.unread ? "New reply" : "Art team replied"}
+                  </strong>
+                  <time dateTime={item.at}>
+                    {new Date(item.at).toLocaleString(undefined, {
+                      month: "short",
+                      day: "numeric",
+                      hour: "numeric",
+                      minute: "2-digit",
+                    })}
+                  </time>
+                </div>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+                <button
+                  type="button"
+                  disabled={notificationBusy}
+                  onClick={() => openNotification(item)}
+                >
+                  Open artwork and reply
+                </button>
+                {item.unread ? (
+                  <button
+                    type="button"
+                    className="art-desk-quiet"
+                    disabled={notificationBusy}
+                    onClick={() => void markNotificationsRead([item.eventId])}
+                  >
+                    Mark read
+                  </button>
+                ) : null}
+              </li>
+            ))}
+          </ol>
+        </section>
+      ) : null}
       {advancedOpen ? null : (
-        <div className="art-desk-layout">
+        <div className="art-desk-layout" hidden={tab === "notifications"}>
           <ol
             className="art-desk-list art-desk-cards"
             data-testid="art-desk-list"
@@ -1137,6 +1348,7 @@ export function ArtDeskView() {
       <details
         className="art-desk-advanced"
         data-testid="art-desk-advanced"
+        hidden={tab === "notifications"}
         open={advancedOpen}
         onToggle={(event) =>
           setAdvancedOpen((event.target as HTMLDetailsElement).open)
@@ -1360,9 +1572,11 @@ export function ArtDeskView() {
       </details>
       <footer className="art-desk-pager">
         <span>
-          {advancedOpen
-            ? `${requestRows.length} request(s) · ${filteredRows.filter((r) => r.candidate).length} candidate(s) shown`
-            : `${visibleCards.length} asset(s) shown`}
+          {tab === "notifications"
+            ? `${notifications.length} replies · ${unreadCount} unread`
+            : advancedOpen
+              ? `${requestRows.length} request(s) · ${filteredRows.filter((r) => r.candidate).length} candidate(s) shown`
+              : `${visibleCards.length} asset(s) shown`}
         </span>
         <p role="status" data-testid="art-desk-status">
           {message}
@@ -1383,6 +1597,7 @@ function RequestDetail({
   showIds,
   onToggleIds,
   onView,
+  onDraftChange,
   onDecide,
   onIntake,
   onSelect,
@@ -1402,6 +1617,7 @@ function RequestDetail({
   readonly showIds: boolean;
   readonly onToggleIds: () => void;
   readonly onView: (candidateId: string) => void;
+  readonly onDraftChange: (hasDraft: boolean) => void;
   readonly onDecide: (
     candidate: ProjectedCandidate,
     decision: "approve" | "reject" | "request-revision",
@@ -1434,6 +1650,11 @@ function RequestDetail({
   const [compare, setCompare] = useState(false);
   const [assignTo, setAssignTo] = useState("");
   const [dragging, setDragging] = useState(false);
+  useEffect(() => {
+    onDraftChange(
+      Boolean(question.trim() || revisionText.trim() || editNote.trim()),
+    );
+  }, [question, revisionText, editNote, onDraftChange]);
   useEffect(() => {
     if (!question.trim() && !revisionText.trim() && !editNote.trim()) return;
     const guard = (event: BeforeUnloadEvent) => {
@@ -2415,6 +2636,8 @@ function RequestDetail({
         {discussionMessages.map((message) => (
           <div
             key={message.eventId}
+            id={`art-desk-message-${message.eventId}`}
+            tabIndex={-1}
             className="art-desk-message"
             data-testid="art-desk-message"
           >

@@ -432,3 +432,141 @@ test("returned images keep the exact original reference accessible", async ({
     });
   }
 });
+
+test("notifications show team replies, retain unread on failure and reopen the exact conversation", async ({
+  page,
+  request,
+  baseURL,
+}, info) => {
+  await page.goto("/art-desk.html");
+  await expect(page.getByTestId("art-desk")).toBeVisible();
+  const session = await (
+    await request.get(`${BENCH}/session`, {
+      headers: { "Sec-Fetch-Site": "same-origin" },
+    })
+  ).json();
+  const headers = {
+    Origin: baseURL!,
+    "X-OCD-Owner-Capability": session.capability,
+  };
+  const state = await (await request.get(`${BENCH}/state`)).json();
+  const entry = (
+    Object.values(state.projection.requests) as {
+      qa?: boolean;
+      request: { requestId: string };
+    }[]
+  ).find((r) => !r.qa && r.request.requestId !== "inbox") as {
+    request: { requestId: string };
+  };
+  const requestId = entry.request.requestId;
+  const candidate = await intake(page, png(96, 64, 222), {
+    requestId,
+    originalName: "notification-version.png",
+  });
+  const post = async (
+    actor: Record<string, string>,
+    payload: Record<string, unknown>,
+  ) => {
+    const response = await request.post(`${BENCH}/events`, {
+      headers,
+      data: { type: "message.posted", actor, payload },
+    });
+    expect(response.status()).toBe(201);
+    return (await response.json()).events[0];
+  };
+  const question = await post(ACTOR, {
+    requestId,
+    candidateId: candidate,
+    kind: "question",
+    text: "Can I use this version?",
+  });
+  const reply = await post(
+    { kind: "agent", id: "art-team" },
+    {
+      requestId,
+      candidateId: candidate,
+      kind: "reply",
+      replyTo: question.eventId,
+      text: "Your reference is ready to download.",
+    },
+  );
+  // A later revision must not steal the reply link's exact image.
+  await intake(page, png(96, 64, 223), {
+    requestId,
+    parentCandidateId: candidate,
+    editKind: "repaint",
+    originalName: "later-version.png",
+  });
+  await page.reload();
+  const tab = page.getByTestId("art-desk-tab-notifications");
+  const draft = page.getByTestId("art-desk-question");
+  await draft.fill("Please keep this unfinished question.");
+  await tab.click();
+  const draftReply = page.getByTestId(`art-desk-notification-${reply.eventId}`);
+  await draftReply
+    .getByRole("button", { name: "Open artwork and reply" })
+    .click();
+  await expect(page.getByRole("alert")).toContainText("unfinished note");
+  await expect(draftReply).toHaveAttribute("data-unread", "true");
+  await page.getByRole("button", { name: "Back to artwork" }).click();
+  await expect(draft).toHaveValue("Please keep this unfinished question.");
+  await draft.fill("");
+  await tab.click();
+  const item = page.getByTestId(`art-desk-notification-${reply.eventId}`);
+  await expect(item).toHaveAttribute("data-unread", "true");
+  await expect(item).toContainText("Your reference is ready to download.");
+  await page.route("**/__dev/artbench/notifications/read", (route) =>
+    route.fulfill({ status: 503, body: "temporarily unavailable" }),
+  );
+  await item.getByRole("button", { name: "Mark read", exact: true }).click();
+  await expect(page.getByRole("alert")).toContainText(
+    "Could not save read status",
+  );
+  await expect(item).toHaveAttribute("data-unread", "true");
+  await page.unroute("**/__dev/artbench/notifications/read");
+  for (const size of SIZES) {
+    await page.setViewportSize(size);
+    await expect(
+      item.getByRole("button", { name: "Open artwork and reply" }),
+    ).toBeVisible();
+    await page.screenshot({
+      path: info.outputPath(`notifications-${size.name}.png`),
+    });
+  }
+  await item.getByRole("button", { name: "Open artwork and reply" }).focus();
+  await page.keyboard.press("Enter");
+  const message = page.locator(`[id="art-desk-message-${reply.eventId}"]`);
+  await expect(message).toBeFocused();
+  await expect(
+    page.getByTestId(`art-desk-candidate-${candidate}`),
+  ).toHaveAttribute("aria-pressed", "true");
+  await tab.click();
+  await expect(item).toHaveAttribute("data-unread", "false");
+  await page.reload();
+  await page.getByTestId("art-desk-tab-notifications").click();
+  await expect(
+    page.getByTestId(`art-desk-notification-${reply.eventId}`),
+  ).toHaveAttribute("data-unread", "false");
+  const incoming = await post(
+    { kind: "agent", id: "art-team" },
+    {
+      requestId,
+      candidateId: candidate,
+      kind: "reply",
+      replyTo: question.eventId,
+      text: "A new reply arrived while you were looking.",
+    },
+  );
+  const incomingItem = page.getByTestId(
+    `art-desk-notification-${incoming.eventId}`,
+  );
+  await expect(incomingItem).toHaveAttribute("data-unread", "true", {
+    timeout: 22_000,
+  });
+  await expect(page.getByTestId("art-desk-tab-notifications")).toContainText(
+    "1",
+  );
+  await page.getByRole("button", { name: "Mark all read" }).click();
+  await expect(incomingItem).toHaveAttribute("data-unread", "false");
+  await page.screenshot({ path: info.outputPath("notifications-read.png") });
+});

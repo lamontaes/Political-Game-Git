@@ -1005,3 +1005,58 @@ it("revises a request append-only with optimistic version checks and retained ca
     reopened.projection().candidates[candidate.candidateId]!.requestVersion,
   ).toBe(1);
 });
+
+it("persists per-reply notification reads across stores without changing art history", () => {
+  const workspace = workspaceWith([request("notifications")]);
+  const store = makeStore(workspace);
+  const question = store.postMessage(
+    { requestId: "notifications", kind: "question", text: "Is this ready?" },
+    OWNER,
+    "session-capability",
+  );
+  const actor = { kind: "agent" as const, id: "art-team" };
+  const first = store.postMessage(
+    {
+      requestId: "notifications",
+      kind: "reply",
+      text: "First answer",
+      replyTo: question.eventId,
+    },
+    actor,
+  );
+  const second = store.postMessage(
+    {
+      requestId: "notifications",
+      kind: "reply",
+      text: "Second answer",
+      replyTo: question.eventId,
+    },
+    actor,
+  );
+  const history = readFileSync(join(store.dataRoot, "events/events.jsonl"));
+  expect(() => store.markNotificationsRead([first.eventId], null)).toThrow(
+    /Art Desk/,
+  );
+  expect(() =>
+    store.markNotificationsRead(["future-event"], "session-capability"),
+  ).toThrow(/no longer available/);
+  expect(() =>
+    store.markNotificationsRead([question.eventId], "session-capability"),
+  ).toThrow(/no longer available/);
+  expect(store.notificationReadEventIds()).toEqual([]);
+  store.markNotificationsRead([first.eventId], "session-capability");
+  const reopened = makeStore(workspace, store.dataRoot);
+  expect(reopened.notificationReadEventIds()).toEqual([first.eventId]);
+  reopened.markNotificationsRead([second.eventId], "session-capability");
+  store.markNotificationsRead([first.eventId], "session-capability");
+  expect(store.notificationReadEventIds()).toEqual([
+    first.eventId,
+    second.eventId,
+  ]);
+  expect(readFileSync(join(store.dataRoot, "events/events.jsonl"))).toEqual(
+    history,
+  );
+  expect(
+    existsSync(join(store.dataRoot, "preferences/notifications.json")),
+  ).toBe(true);
+});

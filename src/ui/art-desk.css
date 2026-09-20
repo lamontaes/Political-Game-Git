@@ -539,3 +539,56 @@
   white-space: pre-wrap;
   margin: 0.3rem 0 0;
 }
+
+.art-desk-notifications {
+  max-width: 64rem;
+  margin: 1.25rem auto;
+}
+.art-desk-notifications-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.art-desk-notifications ol {
+  list-style: none;
+  padding: 0;
+}
+.art-desk-notifications li {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #cfc6b3;
+  border-radius: 6px;
+}
+.art-desk-notifications li[data-unread="true"] {
+  border-left: 4px solid #ad6d26;
+}
+.art-desk-notifications li > div {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.art-desk-notifications h3 {
+  margin: 0.75rem 0 0.5rem;
+}
+.art-desk-notifications p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.art-desk-notifications li button {
+  margin-right: 0.75rem;
+}
+.art-desk-message:focus {
+  outline: 2px solid #ad6d26;
+  outline-offset: 4px;
+}
+.art-desk-toolbar[hidden] {
+  display: none;
+}
+.art-desk-layout[hidden],
+.art-desk-advanced[hidden] {
+  display: none;
+}

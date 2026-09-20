@@ -63,6 +63,7 @@ import {
 } from "../../src/authoring/artbench";
 import type { AssetRequest } from "../../src/authoring/asset-request";
 import type { AssetReviewDecision } from "../../src/authoring/asset-review";
+import { artDeskNotifications } from "../../src/authoring/art-desk-notifications";
 import { hashBytes } from "./art-desk-inputs";
 import { decodeRaster, type DecodedRaster } from "./raster-decode";
 
@@ -481,6 +482,59 @@ export class ArtbenchStore {
       events: this.events,
       generatorAvailable: false,
     });
+  }
+
+  /** Persistent local UI preferences, outside disposable cache and art history. */
+  notificationReadEventIds(): string[] {
+    const saved = readJson<{ readEventIds?: unknown }>(
+      join(this.dataRoot, "preferences", "notifications.json"),
+    );
+    return Array.isArray(saved?.readEventIds)
+      ? saved.readEventIds.filter((id): id is string => typeof id === "string")
+      : [];
+  }
+
+  markNotificationsRead(
+    eventIds: unknown,
+    authority: ReviewAuthority | null,
+  ): string[] {
+    if (!authority)
+      throw new ArtbenchError(
+        403,
+        "not-the-bench",
+        "Open notifications in the Art Desk to mark them read.",
+      );
+    if (
+      !Array.isArray(eventIds) ||
+      eventIds.length > 10000 ||
+      eventIds.some((id) => typeof id !== "string" || id.length > 256)
+    )
+      throw new ArtbenchError(
+        400,
+        "invalid-notifications",
+        "Choose the replies you want to mark read.",
+      );
+    const allowed = new Set(
+      artDeskNotifications(this.projection()).map((item) => item.eventId),
+    );
+    if (eventIds.some((id) => !allowed.has(id)))
+      throw new ArtbenchError(
+        400,
+        "unknown-notification",
+        "One of these replies is no longer available. Refresh and try again.",
+      );
+    // Read immediately before a synchronous atomic merge: another tab's earlier
+    // acknowledgment cannot be lost, and future event IDs cannot be pre-read.
+    const merged = [
+      ...new Set([...this.notificationReadEventIds(), ...eventIds]),
+    ];
+    const directory = join(this.dataRoot, "preferences");
+    mkdirSync(directory, { recursive: true });
+    writeAtomic(
+      join(directory, "notifications.json"),
+      JSON.stringify({ readEventIds: merged }, null, 2),
+    );
+    return merged;
   }
 
   /* ---------------------------------------------------------------- */

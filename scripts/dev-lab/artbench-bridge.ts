@@ -243,6 +243,16 @@ export function createArtbenchHandler(store: ArtbenchStore) {
               "PG_ARTBENCH_DATA_ROOT (project-scoped, outside the worktree)",
           },
           generatorAvailable: false,
+          notificationReadEventIds: store.notificationReadEventIds(),
+        });
+        return;
+      }
+      if (route === "notifications/read" && method === "POST") {
+        const body = JSON.parse(
+          (await readBody(request, MAX_JSON_BODY)).toString("utf8"),
+        ) as { eventIds?: unknown };
+        sendJson(response, 200, {
+          readEventIds: store.markNotificationsRead(body.eventIds, authority),
         });
         return;
       }
