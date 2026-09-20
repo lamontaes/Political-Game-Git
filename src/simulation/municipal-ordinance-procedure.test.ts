@@ -265,10 +265,7 @@ describe("explicit municipal passage interval bases", () => {
         expect(
           municipalOrdinanceStatus(restored, key, measureId)?.earliestPassageOn,
         ).toBe(expected);
-        const early = {
-          ...restored,
-          currentDate: addDays(onAgenda.currentDate, offset - 1),
-        };
+        const early = advanceWorld(restored, offset - 1);
         const rejected = passMunicipalOrdinance(early, {
           governmentKey: key,
           measureId,
@@ -276,6 +273,11 @@ describe("explicit municipal passage interval bases", () => {
           provenance: PROVENANCE,
         });
         expect(rejected.ok).toBe(false);
+        if (!rejected.ok) {
+          expect(rejected.reason).toContain(
+            `the earliest valid passage date is ${expected}`,
+          );
+        }
         expect(rejected.world).toBe(early);
         const ready = advanceWorld(restored, offset);
         const result = passMunicipalOrdinance(ready, {
