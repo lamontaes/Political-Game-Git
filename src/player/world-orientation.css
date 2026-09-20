@@ -426,6 +426,25 @@
 .pg-orientation-reading {
   container-type: size;
 }
+/* The introduction is a window, so room-person docking must not squeeze it
+ * into the narrow gap beside an NPC. Keep its navigation inside the viewport. */
+.life-shell .scene-backdrop-content[data-dock] > .pg-orientation {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-width: calc(100vw - 48px);
+  margin: 0;
+}
+.pg-opening-vice-president .person-portrait {
+  flex-direction: column;
+  align-items: center;
+  margin: 0 0 0.35rem;
+  text-align: center;
+}
+.pg-opening-vice-president .person-portrait figcaption > strong {
+  display: none;
+}
 .pg-white-house-presentation[data-has-plate="true"] {
   width: min(100cqw, calc(100cqh * 1672 / 941));
   margin-inline: auto;

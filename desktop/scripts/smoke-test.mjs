@@ -219,6 +219,18 @@ async function assertVisiblePerson(page, expected) {
     /* no household introduction */
   }
   await page.getByTestId("play-screen").waitFor();
+  const orientation = page.getByTestId("world-orientation");
+  if (await orientation.isVisible()) {
+    check("opening: world introduction is available", true);
+    if (screenshot) {
+      await page.screenshot({
+        path: path.resolve(screenshot.replace(/\.png$/, "-opening.png")),
+        fullPage: true,
+      });
+    }
+    await page.getByTestId("orientation-skip").click();
+    await orientation.waitFor({ state: "hidden" });
+  }
   if (process.env.OCD_EXPECT_ART_PREVIEW === "1") {
     await page.getByTestId("art-preview-banner").waitFor({ timeout: 10000 });
     check(

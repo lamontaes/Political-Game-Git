@@ -192,7 +192,11 @@ export function WorldOrientationPanel({
                         />
                       )
                     ) : null)}
-                  <PersonButton person={person} onOpenPerson={onOpenPerson} />
+                  <PersonButton
+                    person={person}
+                    onOpenPerson={onOpenPerson}
+                    compact
+                  />
                 </article>
               ))}
             </div>
@@ -281,9 +285,11 @@ export function WorldOrientationPanel({
 function PersonButton({
   person,
   onOpenPerson,
+  compact = false,
 }: {
   readonly person: OrientationPerson;
   readonly onOpenPerson: (personId: EntityId) => void;
+  readonly compact?: boolean;
 }) {
   return (
     <button
@@ -297,7 +303,7 @@ function PersonButton({
         {person.title}
         {person.party ? ` · ${person.party}` : ""}
       </span>
-      {person.facts.length > 0 ? (
+      {!compact && person.facts.length > 0 ? (
         <small>{person.facts.join(" · ")}</small>
       ) : null}
     </button>
