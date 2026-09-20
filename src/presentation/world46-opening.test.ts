@@ -35,6 +35,7 @@ const peebles = lifePlaceSearch("Peebles", 20, {
 function legacySetup(placeKey: string, seed: string): NewGameSetup {
   const legacy: Omit<NewGameSetup, "seed"> = { ...DEFAULT_NEW_GAME_SETUP };
   delete (legacy as { worldOpeningVersion?: unknown }).worldOpeningVersion;
+  delete (legacy as { openingDataVersion?: unknown }).openingDataVersion;
   return {
     ...legacy,
     seed,
@@ -70,6 +71,10 @@ describe("WORLD46 opening version gate", () => {
         ?.worldOpeningVersion,
     ).toBe(CRUNCH46_WORLD_OPENING_VERSION);
     const old = legacySetup("kentucky", "gate");
+    expect(old.openingDataVersion).toBeUndefined();
+    expect(
+      decodeReplayDescriptor(encodeReplayDescriptor(old))?.openingDataVersion,
+    ).toBeUndefined();
     expect(
       decodeReplayDescriptor(encodeReplayDescriptor(old))?.worldOpeningVersion,
     ).toBeUndefined();

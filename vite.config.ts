@@ -48,6 +48,9 @@ export default defineConfig({
       // The desktop shell has its own Node test runner (`cd desktop && npm test`).
       // Those files use `node:test`, not Vitest.
       "desktop/**",
+      // Immutable private pack authoring snapshots also use node:test.
+      // Their original validators run with Node, not through Vitest discovery.
+      "art/authoring/**",
     ],
   },
 });

@@ -109,6 +109,50 @@ export function manifestedEnvironmentAssetIds(): readonly string[] {
  * start with 145 reference photographs.
  */
 export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
+  {
+    sourceId: "env_playtest65_white_house_north_wide_r1",
+    label: "White House opening — original",
+    path: "art/generated/candidates/art-desk/playtest65/environment/white-house-wide-r1.png",
+    disposition: "reference-only",
+    sceneId: null,
+    remainingStep: null,
+    owedBy: null,
+    openRequestIds: [],
+    note: "Preserved original. Owner-approved revision 6 supersedes this image in the private opening composition; the original bytes remain part of its history.",
+  },
+  {
+    sourceId: "env_playtest65_resolute_desk_r1",
+    label: "Resolute Desk — original",
+    path: "art/generated/candidates/art-desk/playtest65/environment/resolute-desk-r1.png",
+    disposition: "candidate-preview-only",
+    sceneId: null,
+    remainingStep: "Connect the approved later revision to a reviewed scene.",
+    owedBy: "U for integration, then the owner for scene review",
+    openRequestIds: [],
+    note: "Preserved Art Desk original. The owner approved a later revision; no game scene consumes this original or the later image yet. No new art request is implied.",
+  },
+  {
+    sourceId: "env_playtest65_civic_generic_r1",
+    label: "Civic building — original",
+    path: "art/generated/candidates/art-desk/playtest65/environment/civic-generic-r1.png",
+    disposition: "candidate-preview-only",
+    sceneId: null,
+    remainingStep: "Connect the approved later revision to a reviewed scene.",
+    owedBy: "U for integration, then the owner for scene review",
+    openRequestIds: [],
+    note: "Preserved Art Desk original. The owner approved a later revision; no game scene consumes this original or the later image yet. No new art request is implied.",
+  },
+  {
+    sourceId: "env_playtest65_white_house_north_wide_r6",
+    label: "White House opening — revision 6",
+    path: "art/generated/candidates/art-desk/playtest65/environment/white-house-wide-r6.png",
+    disposition: "candidate-preview-only",
+    sceneId: null,
+    remainingStep: "Review the composed opening before public release.",
+    owedBy: "the owner",
+    openRequestIds: [],
+    note: "Exact owner-approved Art Desk revision 6 is used by the White House establishing composition in the isolated private preview. It is an external upscale with derived detail, not native 4K. The establishing image is not a registered walkable room; the manifest remains unreleased and its source history is preserved.",
+  },
   /* --- In ordinary play ------------------------------------------------- */
   {
     sourceId: "env_residence_apartment_living_canonical_03_5504x3072_v1",

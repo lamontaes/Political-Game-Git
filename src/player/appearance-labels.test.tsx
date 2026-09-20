@@ -38,7 +38,7 @@ describe.skipIf(!installed)(
         appearanceFamilyLabel("m47-hair-coily-crop", "M47 hair coily crop"),
       ).toBe("Coily crop");
     });
-    it("names every actual face/hair/skin input and keeps its native checked state", () => {
+    it("names every face, hairstyle, skin and hair-color input and keeps its native checked state", () => {
       const bodyFamily = "ep41-masc-lean-body";
       const appearance: PersonAppearance = {
         seed: "d16-real-controls",
@@ -73,8 +73,19 @@ describe.skipIf(!installed)(
       const inputs = markup.match(/<input\b[^>]*type="radio"[^>]*>/g) ?? [];
       expect(inputs.length).toBeGreaterThanOrEqual(16);
       expect(inputs.filter((input) => /checked=""/.test(input))).toHaveLength(
-        3,
+        4,
       );
+      const groups = new Map<string, string[]>();
+      for (const input of inputs) {
+        const group = input.match(/name="([^"]+)"/)?.[1];
+        expect(group).toBeTruthy();
+        groups.set(group!, [...(groups.get(group!) ?? []), input]);
+      }
+      expect(groups.size).toBe(4);
+      for (const radios of groups.values())
+        expect(radios.filter((input) => /checked=""/.test(input))).toHaveLength(
+          1,
+        );
       for (const input of inputs) {
         const name = input.match(/aria-label="([^"]+)"/)?.[1];
         expect(name).toBeTruthy();

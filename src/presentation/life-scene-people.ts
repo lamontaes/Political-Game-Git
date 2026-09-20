@@ -433,6 +433,12 @@ function releasedLayers(
       // Review may show a complete figure with placement warnings so the room
       // can be calibrated. Missing parts, URLs or pose/recipe compatibility
       // still refuse the whole person; placement uncertainty is not missing art.
+      const permittedStandingFallback =
+        anchor.kind !== "seat" &&
+        presentation.poseFamily?.posture_class === "standing" &&
+        anchor.allowedPoseFamilies?.includes(
+          presentation.poseFamily.pose_family_id,
+        );
       const placementOnlyPreview =
         preview &&
         presentation.layers.length > 0 &&
@@ -440,6 +446,8 @@ function releasedLayers(
         presentation.diagnostics.every(
           (diagnostic) =>
             diagnostic.code === "scene-declares-no-floor-calibration" ||
+            (diagnostic.code === "preferred-pose-substituted" &&
+              permittedStandingFallback) ||
             presentation.placement.diagnostics.includes(diagnostic),
         );
       if (!placementOnlyPreview) return { layers: [], refusal, notes };

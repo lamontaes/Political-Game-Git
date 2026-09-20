@@ -1397,6 +1397,21 @@ export function runManaged({
   log = (line) => process.stderr.write(`${line}\n`),
 }) {
   return new Promise((resolve) => {
+    // Register before gate() publishes the reservation. A caller may signal
+    // the wrapper as soon as that reservation becomes visible to another
+    // process, including before spawn() has returned.
+    const signals = ["SIGINT", "SIGTERM", "SIGHUP"];
+    let pendingSignal = null;
+    let forward = (signal) => {
+      pendingSignal ??= signal;
+    };
+    const handlers = Object.fromEntries(
+      signals.map((signal) => [signal, () => forward(signal)]),
+    );
+    for (const signal of signals) process.on(signal, handlers[signal]);
+    const removeHandlers = () => {
+      for (const signal of signals) process.off(signal, handlers[signal]);
+    };
     const launch = (reservation, guard) => {
       let released = false;
       const release = () => {
@@ -1408,17 +1423,12 @@ export function runManaged({
           /* a dead holder's reservation is dropped by the next reader */
         }
       };
-      const forward = (signal) => child.kill(signal);
-      const signals = ["SIGINT", "SIGTERM", "SIGHUP"];
       const settle = (code) => {
-        for (const signal of signals) process.off(signal, handlers[signal]);
+        removeHandlers();
         process.off("exit", release);
         release();
         resolve(code);
       };
-      const handlers = Object.fromEntries(
-        signals.map((signal) => [signal, () => forward(signal)]),
-      );
       const child = spawn(command, args, {
         stdio,
         // `npm` is npm.cmd on Windows, which only a shell resolves.
@@ -1427,7 +1437,7 @@ export function runManaged({
           ? { ...env, OCD_STORAGE_RESERVATION: reservation.id }
           : env,
       });
-      for (const signal of signals) process.on(signal, handlers[signal]);
+      forward = (signal) => child.kill(signal);
       process.on("exit", release);
       // A command that never started still gives its headroom back.
       child.on("error", (error) => {
@@ -1439,6 +1449,7 @@ export function runManaged({
       child.on("close", (code, signal) =>
         settle(code ?? (signal ? 128 + (signalNumber(signal) ?? 0) : 1)),
       );
+      if (pendingSignal) forward(pendingSignal);
     };
 
     if (isEphemeralHost(env)) {
@@ -1453,12 +1464,19 @@ export function runManaged({
       );
       return launch(null, null);
     }
-    const guard = createStorageGuard();
+    let guard;
+    try {
+      guard = createStorageGuard();
+    } catch (error) {
+      removeHandlers();
+      throw error;
+    }
     if (coveringReservation(guard, env)) return launch(null, null);
     let reservation;
     try {
       reservation = guard.gate({ operation, target, owner, outputRoots });
     } catch (error) {
+      removeHandlers();
       if (!(error instanceof StorageRefusal)) throw error;
       log(`[storage-guard] ${error.message}`);
       return resolve(3);

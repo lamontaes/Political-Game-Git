@@ -1,11 +1,14 @@
 import { afterEach, describe, it, expect } from "vitest";
-import { spawn, type ChildProcess } from "child_process";
+import { spawn, type ChildProcess, type SpawnOptions } from "child_process";
+import { mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
 import path from "path";
 import net from "net";
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 const ownedChildren: ChildProcess[] = [];
 const ownedServers: net.Server[] = [];
+const ownedDirectories: string[] = [];
 afterEach(async () => {
   for (const child of ownedChildren.splice(0)) {
     if (child.exitCode !== null || child.signalCode !== null) continue;
@@ -22,6 +25,8 @@ afterEach(async () => {
     if (server.listening)
       await new Promise<void>((resolve) => server.close(() => resolve()));
   }
+  for (const directory of ownedDirectories.splice(0))
+    rmSync(directory, { recursive: true, force: true });
 }, 8000); // Cleanup may outlive the unchanged 5s assertion deadline.
 async function unusedPort() {
   const server = net.createServer();
@@ -34,8 +39,24 @@ async function unusedPort() {
   await new Promise<void>((resolve) => server.close(() => resolve()));
   return address.port;
 }
-function spawnOwned(...args: Parameters<typeof spawn>) {
-  const child = spawn(...args);
+function spawnOwned(
+  command: string,
+  args: readonly string[],
+  options: SpawnOptions = {},
+) {
+  const root = mkdtempSync(path.join(tmpdir(), "identified-server-test-"));
+  ownedDirectories.push(root);
+  const child = spawn(command, args, {
+    ...options,
+    env: {
+      ...process.env,
+      ...options.env,
+      // Launcher tests must not read or sync the owner's Art Desk and Drive.
+      PG_ARTBENCH_DATA_ROOT: path.join(root, "records"),
+      PG_ARTBENCH_DRIVE_ROOT: path.join(root, "unmounted-drive"),
+      PG_ARTBENCH_SYNC_MS: "0",
+    },
+  });
   ownedChildren.push(child);
   return child;
 }
