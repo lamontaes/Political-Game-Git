@@ -1712,8 +1712,13 @@ function RequestDetail({
           ? ` · Revision ${viewed.revision} · ${CARD_STATUS_LABELS[viewed.status]}`
           : " · Waiting for an image"}
       </p>
+      <StyleReferenceSummary
+        request={r}
+        projection={projection}
+        compact={!!viewed}
+      />
       <details className="art-desk-reference-details" open={!viewed}>
-        <summary>References and editing instructions</summary>
+        <summary>Editing instructions</summary>
         <p>
           <strong>Why requested:</strong> {r.whyNeeded}
         </p>
@@ -1726,7 +1731,6 @@ function RequestDetail({
             team adds it.
           </p>
         ) : null}
-        <StyleReferenceSummary request={r} projection={projection} />
         <ProviderPrompts request={r} />
       </details>
       {request.qa ? (
@@ -2628,9 +2632,11 @@ function ProviderPrompts({ request }: { request: AssetRequest }) {
 function StyleReferenceSummary({
   request,
   projection,
+  compact = false,
 }: {
   readonly request: AssetRequest;
   readonly projection: ArtbenchProjection;
+  readonly compact?: boolean;
 }) {
   const references = requestReferencePixels(request);
   return (
@@ -2649,11 +2655,17 @@ function StyleReferenceSummary({
         return (
           <div
             key={`${reference.pathOrDriveId}-${index}`}
-            className="art-desk-reference"
+            className={`art-desk-reference${compact ? " art-desk-reference--compact" : ""}`}
             data-testid="art-desk-style-reference"
             data-role={reference.role}
           >
-            <h3>{upload ? "Upload this reference" : "Reference image"}</h3>
+            <h3>
+              {compact
+                ? "Original reference"
+                : upload
+                  ? "Upload this reference"
+                  : "Reference image"}
+            </h3>
             {valid ? (
               <>
                 <ArtBenchImage

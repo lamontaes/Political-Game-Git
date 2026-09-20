@@ -22,6 +22,10 @@ import { SavedPersonFigure } from "./SavedPersonFigure";
 import { PersonPortrait } from "./PersonPortrait";
 import { candidateEstablishingPlate } from "./candidate-establishing-plate";
 import { PLAYTEST65_WHITE_HOUSE_LAYOUT } from "../presentation/playtest65-visual-layout";
+import {
+  OPENING_REGIONAL_CANDIDATES,
+  selectOpeningRegionalPreview,
+} from "../presentation/opening-regional-candidates";
 
 /**
  * Four short panels introducing the public world: White House, Congress, the
@@ -105,6 +109,28 @@ export function WorldOrientationPanel({
   const heading = useRef<HTMLHeadingElement>(null);
   const step = steps[Math.min(index, steps.length - 1)]!;
   const last = index >= steps.length - 1;
+  const regionalBeat =
+    step.key === "locality"
+      ? "local"
+      : step.key === "state"
+        ? homeStateUsps === "DC"
+          ? "district"
+          : "state"
+        : null;
+  const regionalContext =
+    snapshot?.beats.find((beat) => beat.key === regionalBeat)?.sceneContext ??
+    null;
+  const regionalPlate = selectOpeningRegionalPreview(
+    regionalContext,
+    regionalBeat,
+    OPENING_REGIONAL_CANDIDATES.flatMap((candidate) => {
+      const raster = candidateEstablishingPlate(
+        candidate.assetId,
+        candidate.previewRaster,
+      );
+      return raster ? [{ ...candidate, ...raster }] : [];
+    }),
+  );
 
   useEffect(() => {
     heading.current?.focus();
@@ -139,6 +165,17 @@ export function WorldOrientationPanel({
       <p className="pg-orientation-summary">{step.summary}</p>
 
       <div className="pg-orientation-reading">
+        {regionalPlate ? (
+          <img
+            className="pg-regional-establishing-image"
+            src={regionalPlate.url}
+            width={regionalPlate.width}
+            height={regionalPlate.height}
+            alt="Illustrated regional setting"
+            data-asset-id={regionalPlate.assetId}
+            data-testid="opening-regional-plate"
+          />
+        ) : null}
         {step.key === "executive" ? (
           <div
             className="pg-white-house-presentation"

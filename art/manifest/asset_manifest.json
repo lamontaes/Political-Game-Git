@@ -5058,6 +5058,30 @@
           "native_detail_width": 1672
         }
       ]
+    },
+    {
+      "asset_id": "env_playtest65_pikeville_valley_street_434644_r1",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_env_playtest65_pikeville_valley_street_434644_r1"
+      ],
+      "rights_note": "Owner-uploaded candidate. External reuse rights and executed model are unverified.",
+      "fixed_or_modular": "fixed",
+      "availability": "production-candidate",
+      "variant_rules": "Candidate-review opening illustration for Pikeville place 2160852 only, May–September. Preserve complete 3:2 image with contain, maximum 280px display height. Encoded 2496x1664 pixels; native detail unverified.",
+      "negative_constraints": [
+        "No statewide or neighboring-place coverage; no actual travel location, weather, building or presence claims.",
+        "No owner visual approval or runtime release inferred. No enlargement, resampling or unreviewed crop."
+      ],
+      "generation_status": "pending",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/art-desk/playtest65/regional/pikeville-valley-street-firefly-434644-r1.png",
+      "hash": "2cfa09f644d30749d8a129d7441f9bbde46b0b5875c1e9e8c6a253cd85e5377f",
+      "requires_transparency": false
     }
   ]
 }

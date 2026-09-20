@@ -2188,6 +2188,21 @@
       "edits_performed": "External upscale/repaint from1672x941 parent to5504x3072. Byte-preserved owner return, no local resampling. Native detail bound declared from parent width1672; sky/foliage differ and aspect increases0.8348%. Owner approval rev-c78d6266-55f9-45fa-97f6-e0813347ee57 / event61b22ba4-7e96-4a7b-9361-3f34392fffa9. Runtime QA separate.",
       "output_hash_version": "sha256",
       "approval_status": "approved"
+    },
+    {
+      "provenance_id": "prov_env_playtest65_pikeville_valley_street_434644_r1",
+      "asset_id": "env_playtest65_pikeville_valley_street_434644_r1",
+      "source_url_or_path": "artbench:cand-26d2f6bc-1f36-40c9-b800-d540c85177f9",
+      "document_photo_plan_title": "Owner return for playtest65-region-pikeville-valley-street; byte-preserved preferred illustration 434644",
+      "rights_license_status": "unknown",
+      "reference_type": "ai-generated",
+      "source_authority_category": "visual-estimate-support",
+      "generator_tool": "Firefly by owner-supplied filename; exact executed tool/settings unverified",
+      "generated_model_version": "unverified",
+      "prompt_spec_manifest_id": "playtest65-region-pikeville-valley-street",
+      "edits_performed": "No pixel edits. Original SHA256 2cfa09f644d30749d8a129d7441f9bbde46b0b5875c1e9e8c6a253cd85e5377f. Encoded 2496x1664; native-detail provenance unverified. Duplicate associations under Buchanan and FortPierre retained but grant no geographic eligibility.",
+      "output_hash_version": "sha256",
+      "approval_status": "pending"
     }
   ]
 }

@@ -321,6 +321,24 @@
   margin: 0 4px;
   border-radius: 3px;
 }
+.art-desk-reference--compact {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0;
+}
+.art-desk-reference--compact h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+.art-desk-reference--compact .art-desk-reference-thumb {
+  width: 96px;
+  max-height: 72px;
+}
+.art-desk-reference--compact details {
+  font-size: 0.85rem;
+}
 .art-desk-provider-prompts textarea,
 .art-desk-upscale-request textarea {
   display: block;

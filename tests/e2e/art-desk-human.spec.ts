@@ -342,3 +342,93 @@ test("the human Art Desk: named cards, lineage, small filters, brief copy and do
   await expect(card).toContainText("Rejected");
   await page.screenshot({ path: info.outputPath("rejected-with-history.png") });
 });
+
+test("returned images keep the exact original reference accessible", async ({
+  page,
+  request,
+  baseURL,
+}, info) => {
+  await page.goto("/art-desk.html");
+  await expect(page.getByTestId("art-desk")).toBeVisible();
+  const origin = baseURL!;
+  const session = await (
+    await request.get(`${BENCH}/session`, {
+      headers: { "Sec-Fetch-Site": "same-origin" },
+    })
+  ).json();
+  const state = await (await request.get(`${BENCH}/state`)).json();
+  const seed = Object.values(state.projection.requests)[0] as {
+    request: Record<string, unknown>;
+  };
+  const reference = await intake(page, png(96, 64, 104), {
+    originalName: "reference-proof.png",
+  });
+  const after = await (await request.get(`${BENCH}/state`)).json();
+  const referenceRow = after.projection.candidates[reference];
+  const requestId = "e2e-visible-original-reference";
+  const created = await request.post(`${BENCH}/events`, {
+    headers: { Origin: origin, "X-OCD-Owner-Capability": session.capability },
+    data: {
+      type: "request.created",
+      actor: ACTOR,
+      payload: {
+        request: {
+          ...seed.request,
+          requestId,
+          requestVersion: 1,
+          title: "Visible original reference",
+          target: {
+            ...(seed.request.target as object),
+            styleReferences: [
+              {
+                role: "subject-content",
+                ref: `candidate:${reference}`,
+                sha256: referenceRow.sha256,
+                width: 96,
+                height: 64,
+              },
+            ],
+          },
+        },
+      },
+    },
+  });
+  expect(created.status()).toBe(201);
+  await intake(page, png(96, 64, 201), {
+    requestId,
+    originalName: "returned-image.png",
+  });
+  await page.reload();
+  await page
+    .getByTestId("art-desk-list")
+    .getByRole("button", { name: /Visible original reference/ })
+    .click();
+  const ref = page.getByTestId("art-desk-style-reference");
+  await expect(
+    ref.getByRole("heading", { name: "Original reference" }),
+  ).toBeVisible();
+  await expect(ref.locator("img")).toBeVisible();
+  await expect(
+    page.getByText("Editing instructions", { exact: true }).locator(".."),
+  ).not.toHaveAttribute("open", "");
+  for (const size of SIZES) {
+    await page.setViewportSize(size);
+    const download = ref.getByRole("link", { name: "Download reference" });
+    await expect(download).toBeVisible();
+    const [saved] = await Promise.all([
+      page.waitForEvent("download"),
+      download.click(),
+    ]);
+    expect(await saved.failure()).toBeNull();
+    const filename = info.outputPath(`reference-${size.name}.png`);
+    await saved.saveAs(filename);
+    expect(readFileSync(filename)).toEqual(png(96, 64, 104));
+    await ref.locator("summary").focus();
+    await page.keyboard.press("Enter");
+    await expect(ref.locator("details")).toHaveAttribute("open", "");
+    await ref.locator("summary").click();
+    await page.screenshot({
+      path: info.outputPath(`visible-reference-${size.name}.png`),
+    });
+  }
+});
