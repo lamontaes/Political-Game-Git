@@ -3,7 +3,7 @@ import type { LifePlace } from "../simulation/life-places";
 import type { OpeningRegionType } from "./opening-regional-plate";
 
 /** Reviewed illustrative associations, never World industries or actual venues.
- * Evidence and scope: docs/reference/regional-opening/README.md.
+ * Evidence and scope: docs/reference/regional-opening/README.md and WAVE2.md.
  * Owner review 755/756 authorizes reusable scene types; geographical evidence
  * supports only the bounded associations below, not every place in a state.
  */
@@ -36,6 +36,66 @@ const associations: readonly {
     stateJurisdictionKey: "US-KY",
     displayName: "Hazard, Kentucky",
     regionType: "appalachian-coal-region-town",
+  },
+  {
+    sourceGeoid: "4845000",
+    stateJurisdictionKey: "US-TX",
+    displayName: "Lubbock, Texas",
+    regionType: "southern-high-plains",
+  },
+  {
+    sourceGeoid: "4007300",
+    stateJurisdictionKey: "US-OK",
+    displayName: "Boise City, Oklahoma",
+    regionType: "southern-high-plains",
+  },
+  {
+    sourceGeoid: "4802104",
+    stateJurisdictionKey: "US-TX",
+    displayName: "Alpine, Texas",
+    regionType: "trans-pecos-desert-mountain",
+  },
+  {
+    sourceGeoid: "4850256",
+    stateJurisdictionKey: "US-TX",
+    displayName: "Nacogdoches, Texas",
+    regionType: "southern-pine-hardwood",
+  },
+  {
+    sourceGeoid: "4819972",
+    stateJurisdictionKey: "US-TX",
+    displayName: "Denton, Texas",
+    regionType: "cross-timbers-oak-prairie",
+  },
+  {
+    sourceGeoid: "4071350",
+    stateJurisdictionKey: "US-OK",
+    displayName: "Sulphur, Oklahoma",
+    regionType: "cross-timbers-oak-prairie",
+  },
+  {
+    sourceGeoid: "2719142",
+    stateJurisdictionKey: "US-MN",
+    displayName: "Ely, Minnesota",
+    regionType: "northwoods-lake-forest",
+  },
+  {
+    sourceGeoid: "2738564",
+    stateJurisdictionKey: "US-MN",
+    displayName: "Luverne, Minnesota",
+    regionType: "upper-midwest-tallgrass-prairie",
+  },
+  {
+    sourceGeoid: "5070450",
+    stateJurisdictionKey: "US-VT",
+    displayName: "Stowe, Vermont",
+    regionType: "green-mountain-forest",
+  },
+  {
+    sourceGeoid: "5010675",
+    stateJurisdictionKey: "US-VT",
+    displayName: "Burlington, Vermont",
+    regionType: "champlain-lake-lowland",
   },
 ];
 

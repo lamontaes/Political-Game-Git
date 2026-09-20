@@ -10,6 +10,14 @@ export const OPENING_REGION_TYPES = [
   "beach-coast",
   "northern-california-oak-woodland",
   "southern-california-inland-bungalow",
+  "southern-high-plains",
+  "trans-pecos-desert-mountain",
+  "southern-pine-hardwood",
+  "cross-timbers-oak-prairie",
+  "northwoods-lake-forest",
+  "upper-midwest-tallgrass-prairie",
+  "green-mountain-forest",
+  "champlain-lake-lowland",
 ] as const;
 export type OpeningRegionType = (typeof OPENING_REGION_TYPES)[number];
 
