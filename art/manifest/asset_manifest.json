@@ -5093,7 +5093,7 @@
       "rights_note": "Private review candidate. Source reuse rights remain unverified.",
       "fixed_or_modular": "fixed",
       "availability": "production-candidate",
-      "variant_rules": "Reusable appalachian-coal-region-town illustration only where explicitly supported by reviewed saved-home geography, May–September. Contain complete 3:2 image, maximum 280px preview height. Encoded 1536x1024. Sufficient for the current preview; future 1920px master target remains unresolved.",
+      "variant_rules": "Reusable appalachian-coal-region-town illustration only where explicitly supported by reviewed saved-home geography, May–September. Contain the complete 3:2 image behind the state information cards as a representative home-region backdrop, never statewide uniform coverage. Encoded 1536x1024 is sufficient for the current 975x650 CSS display; exact 2x target 1950x1300 remains unresolved.",
       "negative_constraints": [
         "Illustration of surrounding regional context, never a claim about the saved home, current location, people, weather, business or industry.",
         "Candidate review only; no owner approval or production runtime release inferred. No raster enlargement or unreviewed crop."
@@ -5115,7 +5115,7 @@
       "rights_note": "Private review candidate. Source reuse rights remain unverified.",
       "fixed_or_modular": "fixed",
       "availability": "production-candidate",
-      "variant_rules": "Reusable great-plains-grassland illustration only where explicitly supported by reviewed saved-home geography, May–September. Contain complete 3:2 image, maximum 280px preview height. Encoded 2496x1664; no upscale required.",
+      "variant_rules": "Reusable great-plains-grassland illustration only where explicitly supported by reviewed saved-home geography, May–September. Contain the complete 3:2 image behind the state information cards as a representative home-region backdrop, never statewide uniform coverage. Encoded 2496x1664; no upscale required.",
       "negative_constraints": [
         "Illustration of surrounding regional context, never a claim about the saved home, current location, people, weather, business or industry.",
         "Candidate review only; no owner approval or production runtime release inferred. No raster enlargement or unreviewed crop."

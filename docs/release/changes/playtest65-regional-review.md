@@ -2,7 +2,7 @@
 id: playtest65-regional-review
 impact: patch
 section: Improved
-title: Show suitable regional illustrations in the private opening preview
+title: Introduce the home region with government and population cards
 ---
 
-The private preview can reuse woodland-town and prairie illustrations in compatible places during their supported seasons. Each image is labeled as a regional illustration. Unsupported locations, winter scenes and statewide introductions keep their existing presentation. Opening screens preserve saved time and place identity.
+The home state now follows the White House, with Government and Population cards over a suitable regional illustration when one is available. Population figures identify their historical year and source. D.C. keeps its distinct government and Congress sequence. Compatible alternate regional views can be browsed without changing the information card or saved game. Unsupported places and seasons keep the information cards without an illustration.

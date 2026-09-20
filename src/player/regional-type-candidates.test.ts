@@ -16,6 +16,7 @@ vi.mock("../presentation/visual-integration", () => ({
 import manifest from "../../art/manifest/asset_manifest.json";
 import {
   REGIONAL_TYPE_REVIEW_CANDIDATES,
+  openingHomeRegionPreviews,
   selectOpeningRegionalPreview,
 } from "../presentation/opening-regional-candidates";
 import type { OpeningRegionalSceneContext } from "../presentation/opening-regional-plate";
@@ -78,6 +79,7 @@ it("reuses a regional type across places without granting statewide or unknown c
       context,
       "local",
       REGIONAL_TYPE_REVIEW_CANDIDATES,
+      openingHomeRegionPreviews,
     ),
   ).toBe(prairie);
   expect(
@@ -90,6 +92,7 @@ it("reuses a regional type across places without granting statewide or unknown c
       },
       "local",
       REGIONAL_TYPE_REVIEW_CANDIDATES,
+      openingHomeRegionPreviews,
     ),
   ).toBe(prairie);
   expect(
@@ -97,6 +100,7 @@ it("reuses a regional type across places without granting statewide or unknown c
       { ...context, regionTypes: [] },
       "local",
       REGIONAL_TYPE_REVIEW_CANDIDATES,
+      openingHomeRegionPreviews,
     ),
   ).toBeNull();
   expect(
@@ -104,6 +108,7 @@ it("reuses a regional type across places without granting statewide or unknown c
       context,
       "state",
       REGIONAL_TYPE_REVIEW_CANDIDATES,
+      openingHomeRegionPreviews,
     ),
   ).toBeNull();
   expect(
@@ -111,6 +116,7 @@ it("reuses a regional type across places without granting statewide or unknown c
       { ...context, asOf: "2026-01-05" as IsoDate },
       "local",
       REGIONAL_TYPE_REVIEW_CANDIDATES,
+      openingHomeRegionPreviews,
     ),
   ).toBeNull();
   expect(
@@ -118,7 +124,45 @@ it("reuses a regional type across places without granting statewide or unknown c
       { ...context, regionTypes: ["appalachian-coal-region-town"] },
       "local",
       REGIONAL_TYPE_REVIEW_CANDIDATES,
+      openingHomeRegionPreviews,
     ),
   ).toBe(REGIONAL_TYPE_REVIEW_CANDIDATES[0]);
   expect(JSON.stringify(context)).toBe(original);
+});
+
+it("lists multiple stable home-region cards without broadening geographic or seasonal coverage", () => {
+  const context: OpeningRegionalSceneContext = {
+    jurisdictionId: "home" as EntityId,
+    placeKey: "2015900",
+    sourceGeoid: "2015900",
+    stateJurisdictionKey: "US-KS",
+    regionTypes: ["great-plains-grassland"],
+    asOf: "2026-06-05" as IsoDate,
+    presentationKey: "same-saved-home",
+  };
+  const first = {
+    ...REGIONAL_TYPE_REVIEW_CANDIDATES[1]!,
+    assetId: "prairie-a",
+  };
+  const second = { ...first, assetId: "prairie-b" };
+  const input = [second, first, REGIONAL_TYPE_REVIEW_CANDIDATES[0]!];
+  const before = JSON.stringify({ context, input });
+  const cards = openingHomeRegionPreviews(context, input);
+  expect(cards).toHaveLength(2);
+  expect(cards).toEqual(
+    openingHomeRegionPreviews(context, [...input].reverse()),
+  );
+  expect(new Set(cards.map((card) => card.assetId))).toEqual(
+    new Set(["prairie-a", "prairie-b"]),
+  );
+  expect(
+    openingHomeRegionPreviews({ ...context, regionTypes: [] }, input),
+  ).toEqual([]);
+  expect(
+    openingHomeRegionPreviews(
+      { ...context, asOf: "2026-01-05" as IsoDate },
+      input,
+    ),
+  ).toEqual([]);
+  expect(JSON.stringify({ context, input })).toBe(before);
 });

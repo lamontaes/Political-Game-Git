@@ -27,6 +27,30 @@ export function selectOpeningRegionalPreview<
   return selectOpeningRegionalPlate(context, eligible);
 }
 
+/** A state introduction may illustrate the saved home's region without asserting
+ * that the image covers every part of the state. Return all compatible cards in
+ * the canonical selector's stable order, preserving its date/geography rules. */
+export function openingHomeRegionPreviews<
+  T extends OpeningRegionalPlateCandidate,
+>(
+  context: OpeningRegionalSceneContext | null,
+  candidates: readonly T[],
+): readonly T[] {
+  const remaining = [
+    ...new Map(
+      candidates.map((candidate) => [candidate.assetId, candidate]),
+    ).values(),
+  ];
+  const result: T[] = [];
+  while (remaining.length) {
+    const next = selectOpeningRegionalPlate(context, remaining);
+    if (!next) break;
+    result.push(next);
+    remaining.splice(remaining.indexOf(next), 1);
+  }
+  return result;
+}
+
 /** Encoded dimensions of an exact owner return, not a native-detail claim.
  * This metadata is available only to the candidate preview consumer. */
 export interface OpeningRegionalPreviewCandidate extends OpeningRegionalPlateCandidate {

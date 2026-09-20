@@ -378,23 +378,59 @@
   height: auto;
   border-radius: 0.5rem;
 }
-.pg-regional-illustration {
-  margin: 0 0 1rem;
-  text-align: center;
+.pg-regional-opening-scene {
+  position: relative;
+  isolation: isolate;
+  min-height: 100cqh;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 1rem;
+  background: #17202b;
 }
-.pg-regional-illustration figcaption {
-  margin-top: 0.5rem;
+.pg-regional-opening-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.pg-regional-state-information {
+  width: min(46%, 31rem);
+  padding: 1rem;
+  border: 1px solid #7d8796;
+  border-radius: 0.5rem;
+  background: rgb(23 32 43 / 96%);
+  color: #f5efe2;
+}
+.pg-regional-context {
+  margin: 0 0 0.75rem;
+  color: #ead094;
   font-size: 0.875rem;
 }
-.pg-regional-establishing-image {
-  display: block;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 280px;
-  object-fit: contain;
-  margin: 0 auto;
-  border-radius: 0.5rem;
+.pg-regional-scene-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+@media (max-width: 700px) {
+  .pg-regional-opening-scene {
+    min-height: 30rem;
+    padding: 0.5rem;
+    align-items: flex-end;
+  }
+  .pg-regional-opening-backdrop {
+    height: 65%;
+    object-position: top center;
+  }
+  .pg-regional-state-information {
+    width: 100%;
+  }
 }
 .pg-white-house-presentation[data-has-plate="true"] .pg-opening-officials {
   position: absolute;
@@ -466,4 +502,28 @@
 .pg-white-house-presentation[data-has-plate="true"] {
   width: min(100cqw, calc(100cqh * 1672 / 941));
   margin-inline: auto;
+}
+
+.pg-regional-state-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.pg-regional-state-cards .ui-action[aria-pressed="true"],
+.pg-regional-state-cards .ui-action[aria-pressed="true"]:hover {
+  color: #17202b;
+  background: #ead094;
+}
+.pg-state-population-number {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.pg-regional-opening-scene[data-has-background="false"] {
+  min-height: 18rem;
+  justify-content: flex-start;
+}
+.pg-regional-opening-scene[data-has-background="false"]
+  .pg-regional-state-information {
+  width: min(100%, 38rem);
 }

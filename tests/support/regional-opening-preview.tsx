@@ -1,4 +1,7 @@
-import { REGIONAL_TYPE_REVIEW_CANDIDATES } from "../../src/presentation/opening-regional-candidates";
+import {
+  BANKED_OPENING_REGIONAL_CANDIDATES,
+  REGIONAL_TYPE_REVIEW_CANDIDATES,
+} from "../../src/presentation/opening-regional-candidates";
 import { createElement } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { WorldOrientationPanel } from "../../src/player/WorldOrientationPanel";
@@ -30,6 +33,7 @@ export function mountRegionalOpeningPreview(options: {
   stateName: string;
   summer: boolean;
   reviewCandidates: boolean;
+  includeBankedTestAlternative?: boolean;
 }) {
   root?.unmount();
   const game = generateOpeningLife(
@@ -64,9 +68,16 @@ export function mountRegionalOpeningPreview(options: {
   root.render(
     createElement(WorldOrientationPanel, {
       world,
-      ...(options.reviewCandidates
-        ? { regionalCandidates: REGIONAL_TYPE_REVIEW_CANDIDATES }
-        : {}),
+      ...(options.includeBankedTestAlternative
+        ? {
+            regionalCandidates: [
+              ...REGIONAL_TYPE_REVIEW_CANDIDATES,
+              ...BANKED_OPENING_REGIONAL_CANDIDATES,
+            ],
+          }
+        : options.reviewCandidates
+          ? { regionalCandidates: REGIONAL_TYPE_REVIEW_CANDIDATES }
+          : {}),
       personId: game.playerPersonId,
       view: projectOrientationView(
         projected.orientation,

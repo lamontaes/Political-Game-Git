@@ -18,19 +18,20 @@ import type {
 } from "../presentation/world-orientation";
 import type { EntityId, World } from "../simulation";
 import { GameSelect } from "./controls/GameSelect";
+import { OpeningStatePopulation } from "./OpeningStatePopulation";
 import { SavedPersonFigure } from "./SavedPersonFigure";
 import { PersonPortrait } from "./PersonPortrait";
 import { candidateEstablishingPlate } from "./candidate-establishing-plate";
 import { PLAYTEST65_WHITE_HOUSE_LAYOUT } from "../presentation/playtest65-visual-layout";
 import {
   OPENING_REGIONAL_CANDIDATES,
-  selectOpeningRegionalPreview,
+  openingHomeRegionPreviews,
   type OpeningRegionalPreviewCandidate,
 } from "../presentation/opening-regional-candidates";
 
 /**
- * Four short panels introducing the public world: White House, Congress, the
- * home state, the place itself.
+ * Introduce the White House, then the home state and region, Congress, and
+ * the home locality. Regional scenes are illustrations, not new World facts.
  *
  * Every word and number comes from the orientation view, which reads the saved
  * World. Choosing a name opens that person's ordinary card — the same card the
@@ -73,7 +74,11 @@ export function WorldOrientationPanel({
   const steps: readonly (Omit<OrientationStep, "key"> & {
     readonly key: string;
   })[] = useMemo(() => {
-    if (!snapshot) return view.steps;
+    const order = ["executive", "state", "congress", "locality"];
+    const ordered = [...view.steps].sort(
+      (a, b) => order.indexOf(a.key) - order.indexOf(b.key),
+    );
+    if (!snapshot) return ordered;
     const officials = [snapshot.president, snapshot.vicePresident].flatMap(
       (holder) => {
         if (!holder) return [];
@@ -92,7 +97,7 @@ export function WorldOrientationPanel({
       },
     );
     return [
-      ...view.steps
+      ...ordered
         .filter((step) => !(homeStateUsps === "DC" && step.key === "locality"))
         .map((step) =>
           step.key === "executive" ? { ...step, people: officials } : step,
@@ -113,28 +118,32 @@ export function WorldOrientationPanel({
   const heading = useRef<HTMLHeadingElement>(null);
   const step = steps[Math.min(index, steps.length - 1)]!;
   const last = index >= steps.length - 1;
-  const regionalBeat =
-    step.key === "locality"
-      ? "local"
-      : step.key === "state"
-        ? homeStateUsps === "DC"
-          ? "district"
-          : "state"
-        : null;
   const regionalContext =
-    snapshot?.beats.find((beat) => beat.key === regionalBeat)?.sceneContext ??
-    null;
-  const regionalPlate = selectOpeningRegionalPreview(
-    regionalContext,
-    regionalBeat,
-    regionalCandidates.flatMap((candidate) => {
-      const raster = candidateEstablishingPlate(
-        candidate.assetId,
-        candidate.previewRaster,
-      );
-      return raster ? [{ ...candidate, ...raster }] : [];
-    }),
+    snapshot?.beats.find(
+      (beat) => beat.key === (homeStateUsps === "DC" ? "district" : "state"),
+    )?.sceneContext ?? null;
+  const regionalPlates =
+    step.key === "state"
+      ? openingHomeRegionPreviews(
+          regionalContext,
+          regionalCandidates.flatMap((candidate) => {
+            const raster = candidateEstablishingPlate(
+              candidate.assetId,
+              candidate.previewRaster,
+            );
+            return raster ? [{ ...candidate, ...raster }] : [];
+          }),
+        )
+      : [];
+  const [stateCard, setStateCard] = useState<"government" | "population">(
+    "government",
   );
+  const [chosenRegion, setChosenRegion] = useState<string | null>(null);
+  const regionIndex = Math.max(
+    0,
+    regionalPlates.findIndex((candidate) => candidate.assetId === chosenRegion),
+  );
+  const regionalPlate = regionalPlates[regionIndex] ?? null;
 
   useEffect(() => {
     heading.current?.focus();
@@ -166,22 +175,125 @@ export function WorldOrientationPanel({
       >
         {step.title}
       </h2>
-      <p className="pg-orientation-summary">{step.summary}</p>
+      {step.key !== "state" ? (
+        <p className="pg-orientation-summary">{step.summary}</p>
+      ) : null}
 
       <div className="pg-orientation-reading">
-        {regionalPlate ? (
-          <figure className="pg-regional-illustration">
-            <img
-              className="pg-regional-establishing-image"
-              src={regionalPlate.url}
-              width={regionalPlate.width}
-              height={regionalPlate.height}
-              alt="Illustrated regional setting"
-              data-asset-id={regionalPlate.assetId}
-              data-testid="opening-regional-plate"
-            />
-            <figcaption>Regional illustration</figcaption>
-          </figure>
+        {step.key === "state" ? (
+          <div
+            className="pg-regional-opening-scene"
+            data-testid="opening-regional-scene"
+            data-has-background={Boolean(regionalPlate)}
+          >
+            {regionalPlate ? (
+              <img
+                className="pg-regional-opening-backdrop"
+                src={regionalPlate.url}
+                width={regionalPlate.width}
+                height={regionalPlate.height}
+                alt="Illustrated setting from your home region"
+                data-asset-id={regionalPlate.assetId}
+                data-testid="opening-regional-plate"
+              />
+            ) : null}
+            <div className="pg-regional-state-information">
+              {regionalPlate ? (
+                <p className="pg-regional-context">
+                  Your home region · Illustration
+                </p>
+              ) : null}
+              {stateCard === "government" ? (
+                <>
+                  <h3>
+                    {homeStateUsps === "DC"
+                      ? "Your District government"
+                      : "Your state government"}
+                  </h3>
+                  <p>{step.summary}</p>
+                  {step.people.length > 0 ? (
+                    <ul className="pg-orientation-people">
+                      {step.people.map((person) => (
+                        <li key={`${person.personId}:${person.title}`}>
+                          <PersonButton
+                            person={person}
+                            onOpenPerson={onOpenPerson}
+                          />
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </>
+              ) : (
+                <OpeningStatePopulation
+                  stateUsps={homeStateUsps}
+                  asOf={world?.currentDate ?? regionalContext?.asOf ?? ""}
+                />
+              )}
+              <nav
+                className="pg-regional-state-cards"
+                aria-label={
+                  homeStateUsps === "DC"
+                    ? "District introduction cards"
+                    : "State introduction cards"
+                }
+              >
+                <button
+                  type="button"
+                  className="ui-action"
+                  aria-pressed={stateCard === "government"}
+                  onClick={() => setStateCard("government")}
+                >
+                  Government
+                </button>
+                <button
+                  type="button"
+                  className="ui-action"
+                  aria-pressed={stateCard === "population"}
+                  onClick={() => setStateCard("population")}
+                >
+                  Population
+                </button>
+              </nav>
+              {regionalPlates.length > 1 ? (
+                <nav
+                  className="pg-regional-scene-navigation"
+                  aria-label="Regional views"
+                >
+                  <button
+                    type="button"
+                    className="ui-action"
+                    onClick={() =>
+                      setChosenRegion(
+                        regionalPlates[
+                          (regionIndex + regionalPlates.length - 1) %
+                            regionalPlates.length
+                        ]!.assetId,
+                      )
+                    }
+                  >
+                    Previous view
+                  </button>
+                  <span>
+                    View {regionIndex + 1} of {regionalPlates.length}
+                  </span>
+                  <button
+                    type="button"
+                    className="ui-action"
+                    onClick={() =>
+                      setChosenRegion(
+                        regionalPlates[
+                          (regionIndex + 1) % regionalPlates.length
+                        ]!.assetId,
+                      )
+                    }
+                  >
+                    Next view
+                  </button>
+                </nav>
+              ) : null}
+            </div>
+          </div>
         ) : null}
         {step.key === "executive" ? (
           <div
@@ -256,7 +368,9 @@ export function WorldOrientationPanel({
           />
         ))}
 
-        {step.people.length > 0 && step.key !== "executive" ? (
+        {step.people.length > 0 &&
+        step.key !== "executive" &&
+        step.key !== "state" ? (
           <ul className="pg-orientation-people">
             {step.people.map((person) => (
               <li key={`${person.personId}:${person.title}`}>
