@@ -1,3 +1,4 @@
+import { openingRegionTypesForCountyProfile } from "./opening-region-profiles";
 import type { LifePlace } from "../simulation/life-places";
 import type { OpeningRegionType } from "./opening-regional-plate";
 
@@ -43,7 +44,7 @@ export function openingRegionTypesForPlace(
   place: LifePlace,
 ): readonly OpeningRegionType[] {
   if (place.scope !== "locality" || !place.sourceGeoid) return [];
-  return associations
+  const direct = associations
     .filter(
       (entry) =>
         entry.sourceGeoid === place.sourceGeoid &&
@@ -51,4 +52,10 @@ export function openingRegionTypesForPlace(
         entry.displayName === place.displayName,
     )
     .map((entry) => entry.regionType);
+  return direct.length > 0 || !place.stateJurisdictionKey
+    ? direct
+    : openingRegionTypesForCountyProfile(
+        place.sourceGeoid,
+        place.stateJurisdictionKey,
+      );
 }

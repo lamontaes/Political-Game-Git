@@ -1,0 +1,28 @@
+# Bounded reusable regional profiles
+
+Owner’s regional variation request includes California differences and Great Plains reuse in Kansas/Nebraska. O approved the existing Census place/county seam and reviewed presentation-only profiles. V’s actually published references take precedence over the earlier coastal proposal: Northern California oak woodland edge (Sonoma reference) and Southern California inland bungalow neighborhood (Escondido reference). The exact type IDs are northern-california-oak-woodland and southern-california-inland-bungalow. No unused coastal-profile code or new art commission is introduced.
+
+## Mapping contract
+
+The existing generated place/county relations describe 2020-04-01 geography, not present government service or a new 2026 boundary. Each place’s every recorded county part must match a profile; missing or incompatible parts yield no type. There is no largest-share, centroid, county-government or state-name fallback. Existing 2025 Gazetteer identity remains unchanged. Original four directly reviewed anchor associations retain priority. Region eligibility illustrates surrounding context and does not locate the player in a scene.
+
+| Profile | Exact reviewed scope | Type | Current bounded reach |
+| --- | --- | --- | --- |
+| Sonoma oak context | Sonoma County 06097, all recorded place parts required | northern-california-oak-woodland | 38 current canonical places represented wholly in that county by the 2020 relation, including Santa Rosa 0670098 and Sonoma 0672646 |
+| Southern inland bungalow context | Exact Escondido 0622804 / San Diego County 06073 and Pasadena 0656000 / Los Angeles County 06037 | southern-california-inland-bungalow | 2 reviewed places; not the rest of either heterogeneous county |
+| Chase Flint Hills context | Chase County 20017, Kansas | great-plains-grassland | 5 canonical places, including Cottonwood Falls 2015900 and Strong City 2068650 |
+| Cherry Sandhills context | Cherry County 31031, Nebraska | great-plains-grassland | 8 canonical places, including Cody 3109760 and Valentine 3149950 |
+
+These 53 additional place associations and the original 4 anchors are useful bounded reuse, not complete California/Kansas/Nebraska coverage. A county context is an authored regional illustration choice, not a claim that every location has the same vegetation. Sonoma has many habitat classes, so a woodland illustration is never a factual rendering of a named street or coast. The southern scene remains independently bounded to documented neighborhood examples; it does not assert the player owns a bungalow or lives in the depicted historic district. Interior/desert/mountain/coastal California profiles remain unclassified unless separately reviewed. Wichita, Omaha, Los Angeles, San Diego and Palm Springs do not inherit these types.
+
+## Preserved primary evidence
+
+[Profile retrieval receipt](profile-retrieval-receipt.json) contains actual HTTP 200, final URL, retrieval time, byte count and SHA-256 records for five immutable originals, totaling 694,519 bytes. No source photographs were acquired or licensed for use in the art bank. No new production-source domain, legal fact, economic field, or GIS framework was created.
+
+- [Sonoma County vegetation metadata](https://socogis.sonomacounty.ca.gov/map/rest/services/OWTSPublic/Sonoma_Veg_Map_Vegetation_and_Habitat/MapServer): describes a 2013 landscape inventory with 82 vegetation classes, including oak woodland/forest among diverse habitats. Only the existence of a regional oak context supports the authored illustration association; no polygons were downloaded and no current vegetation classification is claimed. Original ca-sonoma-vegetation-metadata.html.
+- [City of Escondido historic district](https://www.escondido.gov/382/Old-Escondido-Historic-District): identifies a historic residential district including Craftsman bungalows, with explicit street bounds. Supports a reusable inland neighborhood example, not a whole-city architectural assertion. Original ca-escondido-historic-district.html.
+- [California State Parks, Bungalow Heaven](https://www.parks.ca.gov/ListedResources/Detail/N2405): independently identifies the Pasadena residential district, Arts and Crafts housing, mature street trees and Los Angeles County. Supports the second compatible illustrative neighborhood. Original ca-pasadena-bungalow-heaven.html.
+- [Kansas Geological Survey, Flint Hills](https://www.kgs.ku.edu/Physio/flinthil.html): regional rolling prairie description and Chase County example. Supports a surrounding Flint Hills grassland illustration, not a specific field or land-use fact. Original ks-flint-hills.html.
+- [Cherry County official overview](https://cherrycountyne.gov/about-our-county/): identifies its Nebraska Sandhills region and listed towns. Only regional identity is used; its population/time-zone/school quantities are not copied. Original ne-cherry-county.html. Web reader timed out once; bounded direct retrieval succeeded with HTTP 200.
+
+All source facts used here are bounded geographical/historical reference evidence. The profile choice is explicitly authored; it grants no jobs, industry, rights, access, weather, travel or image approval. Candidate season constraints remain V’s declared visual compatibility, separate from regional mapping. U owns mounting, O owns final receiving, and owner pixel approval remains separate.

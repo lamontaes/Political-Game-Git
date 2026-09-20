@@ -3,6 +3,10 @@ import { requireLifePlace } from "../simulation/life-places";
 import { openingRegionTypesForPlace } from "./opening-region-context";
 import { selectOpeningRegionalPlate } from "./opening-regional-plate";
 import { makeIsoDate } from "../simulation/dates";
+import {
+  OPENING_REGION_GEOGRAPHY_AS_OF,
+  openingRegionTypesForCountyParts,
+} from "./opening-region-profiles";
 
 describe("reviewed illustrative region associations", () => {
   it.each([
@@ -46,6 +50,47 @@ describe("reviewed illustrative region associations", () => {
       }
     },
   );
+  it.each([
+    ["0670098", "northern-california-oak-woodland"],
+    ["0672646", "northern-california-oak-woodland"],
+    ["0622804", "southern-california-inland-bungalow"],
+    ["0656000", "southern-california-inland-bungalow"],
+    ["2015900", "great-plains-grassland"],
+    ["2068650", "great-plains-grassland"],
+    ["3109760", "great-plains-grassland"],
+    ["3149950", "great-plains-grassland"],
+  ])(
+    "uses reviewed regional profiles for %s without changing its identity",
+    (key, type) => {
+      const place = requireLifePlace(key);
+      const before = JSON.stringify(place);
+      expect(openingRegionTypesForPlace(place)).toEqual([type]);
+      expect(JSON.stringify(place)).toBe(before);
+      expect(OPENING_REGION_GEOGRAPHY_AS_OF).toBe("2020-04-01");
+    },
+  );
+
+  it("requires all county parts and keeps unspecified inland, desert and coast places unclassified", () => {
+    expect(
+      openingRegionTypesForCountyParts("fixture", "US-KS", ["20017", "20015"]),
+    ).toEqual([]);
+    expect(
+      openingRegionTypesForCountyParts("fixture", "US-CA", ["06097", "06041"]),
+    ).toEqual([]);
+    expect(openingRegionTypesForCountyParts("fixture", "US-NE", [])).toEqual(
+      [],
+    );
+    expect(
+      openingRegionTypesForCountyParts("unknown-place", "US-CA", ["06073"]),
+    ).toEqual([]);
+    expect(
+      openingRegionTypesForCountyParts("0622804", "US-CA", ["06073", "06065"]),
+    ).toEqual([]);
+    for (const key of ["0666000", "0644000", "0655254", "2079000", "3137000"]) {
+      expect(openingRegionTypesForPlace(requireLifePlace(key))).toEqual([]);
+    }
+  });
+
   it("does not classify namesakes, neighboring states, missing identities or unreviewed places", () => {
     for (const key of ["3121765", "3751780", "4758120", "2611400", "1150000"]) {
       expect(openingRegionTypesForPlace(requireLifePlace(key))).toEqual([]);

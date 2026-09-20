@@ -8,6 +8,8 @@ export const OPENING_REGION_TYPES = [
   "appalachian-coal-region-town",
   "fishing-coast",
   "beach-coast",
+  "northern-california-oak-woodland",
+  "southern-california-inland-bungalow",
 ] as const;
 export type OpeningRegionType = (typeof OPENING_REGION_TYPES)[number];
 

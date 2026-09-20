@@ -23,3 +23,6 @@ Exact IDs/names/states were checked against the existing2025 Census Gazetteer ex
 - [KGS Hazard geologic map announcement](https://www.uky.edu/KGS/announce/map_e.htm):2008-04-07 announcement identifies Hazard among the mapped cities and the mapped area within the Eastern Kentucky Coal Field. Archived historical/geographic reference; no current production or employment claim. Original raw/kgs-hazard-map.html. Copyright retained; no illustration reuse licensed.
 
 The presentation choice is an authored inference from this bounded geography, not a new sourced simulation fact. Source location, filename and search tags never grant candidate eligibility. More places require separately reviewed explicit associations. Selection remains exact place, declared region type, explicit state coverage, then generic, with stable presentation identity and month filtering. U owns production mounting and V owns candidate art review.
+
+
+See [bounded regional profiles](PROFILES.md) for the later California/Kansas/Nebraska expansion through existing place/county geography; the first four anchors above remain unchanged.

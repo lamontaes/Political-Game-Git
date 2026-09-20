@@ -7,6 +7,7 @@ import { serializeWorld, deserializeWorld } from "../simulation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { projectOpeningWorldSnapshot } from "./opening-world-snapshot";
+import type { OpeningRegionType } from "./opening-regional-plate";
 
 describe("PLAYTEST65 canonical opening", () => {
   it.each([
@@ -14,6 +15,10 @@ describe("PLAYTEST65 canonical opening", () => {
     ["2135362", "appalachian-coal-region-town"],
     ["4622260", "great-plains-grassland"],
     ["4649600", "great-plains-grassland"],
+    ["0670098", "northern-california-oak-woodland"],
+    ["0622804", "southern-california-inland-bungalow"],
+    ["2015900", "great-plains-grassland"],
+    ["3109760", "great-plains-grassland"],
   ])(
     "retains %s illustrative region context across saved opening reads",
     (placeKey, type) => {
@@ -34,9 +39,7 @@ describe("PLAYTEST65 canonical opening", () => {
       expect(regional.length).toBeGreaterThan(0);
       expect(
         regional.every((beat) =>
-          beat.sceneContext!.regionTypes?.includes(
-            type as "great-plains-grassland" | "appalachian-coal-region-town",
-          ),
+          beat.sceneContext!.regionTypes?.includes(type as OpeningRegionType),
         ),
       ).toBe(true);
       expect(
