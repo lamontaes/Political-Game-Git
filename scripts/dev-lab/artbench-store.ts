@@ -1031,6 +1031,49 @@ export class ArtbenchStore {
     );
   }
 
+  /** Append a brief correction without replacing its history or candidates. */
+  reviseRequest(input: {
+    readonly request: AssetRequest;
+    readonly baseVersion: number;
+    readonly actor: ArtbenchActor;
+  }): ArtbenchEvent {
+    const { request, baseVersion, actor } = input;
+    const existing = request && this.projection().requests[request.requestId];
+    if (!existing)
+      throw new ArtbenchError(
+        404,
+        "unknown-request",
+        "Request does not exist.",
+      );
+    if (
+      !Number.isInteger(baseVersion) ||
+      existing.request.requestVersion !== baseVersion ||
+      request.requestVersion !== baseVersion + 1
+    )
+      throw new ArtbenchError(
+        409,
+        "stale-request",
+        "Request changed. Reload before revising it.",
+      );
+    if (
+      !request.title?.trim() ||
+      !request.consumer?.consumerId ||
+      !request.target?.targetClass ||
+      !Array.isArray(request.generationRecipe)
+    )
+      throw new ArtbenchError(
+        400,
+        "invalid-request",
+        "A request needs a title, use, target and instructions.",
+      );
+    return this.append(
+      "request.revised",
+      { request, baseVersion },
+      actor,
+      "bench",
+    );
+  }
+
   /** Administrative correction: mark records as QA and return their items. */
   dispositionQa(
     payload: QaDispositionPayload,

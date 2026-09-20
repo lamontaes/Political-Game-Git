@@ -1,3 +1,9 @@
+import {
+  NATIVE_SAVE_EVENT,
+  NATIVE_SESSION_QUERY_EVENT,
+  type NativeSaveRequest,
+  type NativeSessionQuery,
+} from "./native-session-bridge";
 import { CreatorAppearanceStep } from "./CreatorAppearanceStep";
 import { LifeContinuationPanel } from "./LifeContinuationPanel";
 import { RetireFromPlayAction } from "./RetireFromPlayAction";
@@ -590,6 +596,16 @@ export function PlayerGame() {
     setProblem(null);
   }
 
+  useEffect(() => {
+    const query = (event: Event) => {
+      (event as NativeSessionQuery).detail?.respond(
+        screen.kind === "playing" && session !== null,
+      );
+    };
+    window.addEventListener(NATIVE_SESSION_QUERY_EVENT, query);
+    return () => window.removeEventListener(NATIVE_SESSION_QUERY_EVENT, query);
+  }, [screen.kind, session]);
+
   const saveInFlight = useRef(false);
   async function keepThisWorld(shellState: StoredShellState): Promise<boolean> {
     if (!session || !store || saveInFlight.current) return false;
@@ -620,7 +636,7 @@ export function PlayerGame() {
           : "Your life was saved, but your pins and display preferences could not be kept.",
       );
       await refreshSaves();
-      return true;
+      return shellSaved;
     } catch {
       setProblem("This game could not be saved just now.");
       return false;
@@ -977,7 +993,7 @@ export function PlayerGame() {
           return { ...current, personId: change.personId, world: next };
         });
       }}
-      onKeep={(shellState) => void keepThisWorld(shellState)}
+      onKeep={keepThisWorld}
       onLeave={() => void leaveGame()}
       returnToTitleRequest={returnToTitleRequest}
       onSaveAndLeave={(shellState) =>
@@ -2377,7 +2393,7 @@ function PlayingScreen({
       | { readonly kind: "observing" }
       | { readonly kind: "retired" },
   ) => void;
-  readonly onKeep: (shellState: StoredShellState) => void;
+  readonly onKeep: (shellState: StoredShellState) => Promise<boolean>;
   readonly onLeave: () => void;
   /** Set while a Return to title (Options or desktop hub) is in progress. */
   readonly returnToTitleRequest: { current: ReturnToTitleRequest | null };
@@ -3124,6 +3140,29 @@ function PlayingScreen({
     continuation !== null &&
     view.surface === "scene" &&
     (!observing || continuationOpen);
+
+  const nativeSave = useRef(() => Promise.resolve(false));
+  nativeSave.current = () =>
+    onKeep({
+      pins: shell.pins,
+      preferences: shell.preferences,
+      journal: shell.legacyJournal,
+      journals: shell.journals,
+      personWardrobes: shell.personWardrobes,
+      progress: shell.progress,
+    });
+  useEffect(() => {
+    const save = (event: Event) => {
+      const request = event as NativeSaveRequest;
+      if (typeof request.detail?.complete !== "function") return;
+      event.preventDefault();
+      void nativeSave
+        .current()
+        .then(request.detail.complete, () => request.detail.complete(false));
+    };
+    window.addEventListener(NATIVE_SAVE_EVENT, save);
+    return () => window.removeEventListener(NATIVE_SAVE_EVENT, save);
+  }, []);
 
   const needsLeaveConfirmation = session.saveId === null && !savesUnavailable;
 

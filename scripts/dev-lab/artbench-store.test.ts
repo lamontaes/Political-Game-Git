@@ -973,3 +973,35 @@ describe("artbench store: inbox batches and the exchange", () => {
     expect(hashBytes("x")).toHaveLength(64);
   });
 });
+
+it("revises a request append-only with optimistic version checks and retained candidates", () => {
+  const workspace = workspaceWith([]);
+  const store = makeStore(workspace);
+  const actor = { kind: "agent" as const, id: "request-author" };
+  const original = request("room-reference");
+  store.createRequest({ request: original, actor, origin: "worker" });
+  const candidate = store.ingest(
+    tinyPng(8, 4),
+    { requestId: original.requestId },
+    actor,
+  ).candidate;
+  const prefix = store.allEvents();
+  const updated = {
+    ...original,
+    requestVersion: 2,
+    title: "Clearer room",
+    generatorParameters: { fireflyPrompt: "Keep the room geometry." },
+  };
+  store.reviseRequest({ request: updated, baseVersion: 1, actor });
+  expect(() =>
+    store.reviseRequest({ request: updated, baseVersion: 1, actor }),
+  ).toThrow(/Reload/);
+  expect(store.allEvents().slice(0, prefix.length)).toEqual(prefix);
+  const reopened = makeStore(workspace, store.dataRoot);
+  const row = reopened.projection().requests[original.requestId]!;
+  expect(row.request).toEqual(updated);
+  expect(row.candidateIds).toEqual([candidate.candidateId]);
+  expect(
+    reopened.projection().candidates[candidate.candidateId]!.requestVersion,
+  ).toBe(1);
+});

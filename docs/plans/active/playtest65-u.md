@@ -1,6 +1,8 @@
 # PLAYTEST65 receiving register
 
-Owner: U, Codex task `01a0bb17-2e65-78b2-be17-12879579157c`.
+Current final receiver: O, Codex task `01a0bc97-c12c-79e2-963a-2d70ed8e4599`.
+Console/UI engineer and current PG-LAND writer: U, task `01a0bb17-2e65-78b2-be17-12879579157c`.
+Current routing supersedes the historical U receiving duties below; past receipts remain evidence at their stated sources.
 Workspace: `/Users/lamontae/Documents/PG-LAND`; branch `codex/playtest65-u`.
 Assignment: CRUNCH47 PLAYTEST65 CODEX DELIVERY, common/interface/U/shared completion.
 
@@ -15,15 +17,15 @@ automatic approval review rejection; local peer receiving is available.
 
 ## Ownership and receipts
 
-| Lead | Task                                 | Workspace    | Owned surfaces                                                                                                                                            | Receipt                                           |
-| ---- | ------------------------------------ | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
-| U    | 01a0bb17-2e65-78b2-be17-12879579157c | PG-LAND      | PlayerGame, root mounts, shared controls/styles/window/navigation, creator/opening/map/Calendar/person/News UI, final packaging and generated composition | common source COMPOSED                            |
-| V    | 01a0af7c-3a97-74b2-adcf-407cb5182b4b | PG-MODULAR-E | modular source, geometry/material/pose prep, appearance resolution, renderer/cache, reusable figures/portraits, Firefly kit/private pack                  | entry ACK; common source ACK                      |
-| W    | 01a0bb17-acba-7740-89f6-7892785fa315 | PG-PROSE     | world/people/history/opening/birthday/travel/education/opportunity domain adapters and writers                                                            | entry ACK; common source RECEIVED via local fetch |
+| Lead | Task                                 | Workspace    | Owned surfaces                                                                                                                                                   | Receipt                                           |
+| ---- | ------------------------------------ | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| U    | 01a0bb17-2e65-78b2-be17-12879579157c | PG-LAND      | PlayerGame, root mounts, shared controls/styles/window/navigation, creator/opening/map/Calendar/person/News UI and native console; frozen changes delivered to O | common source COMPOSED                            |
+| V    | 01a0af7c-3a97-74b2-adcf-407cb5182b4b | PG-MODULAR-E | modular source, geometry/material/pose prep, appearance resolution, renderer/cache, reusable figures/portraits, Firefly kit/private pack                         | entry ACK; common source ACK                      |
+| W    | 01a0bb17-acba-7740-89f6-7892785fa315 | PG-PROSE     | world/people/history/opening/birthday/travel/education/opportunity domain adapters and writers                                                                   | entry ACK; common source RECEIVED via local fetch |
 
 Direct supported task messages are the active peer channel. This is the single
-U receiving register; do not wake historical Claude owners. No helper agents.
-One heavy Mac operation at a time, coordinated directly. Existing storage CLI
+PLAYTEST65 receiving register, with O owning final integration/delivery; do not wake historical Claude owners. Use the existing U/V/W tasks, no subagents.
+One heavy Mac operation at a time, allocated by O. Existing storage CLI
 and registry apply; no historical deletion. Protected packaged 65f7704b control,
 private immutable pack, recovery and both owner save profiles remain intact.
 
@@ -277,3 +279,13 @@ existing console runtime; no replacement game Electron runtime is needed.
   and its linked journey: the browser must explicitly decline that earlier bundle
   before attending a later shift. No confirmed commitment is skipped or return
   journey invented. Final browser and composition gates follow this checkpoint.
+
+## O receiving — native controls and ready requests, September 19 evening
+
+O owns final receiving. W regional eligibility `711cecb4` received as `2db48a11` by explicit O instruction, with additive receiving-record history preserved. U owns the native/bench changes in this checkout; O supplied the disjoint packaging-test improvement. No subagents, new workspaces or public publication.
+
+The live canonical bench now contains four complete scene requests and V's three contact-review cards. Apartment instructions were corrected through append-only `request.revised` with an expected-version guard; original events, candidates and their original request versions remain. The ready queue requires a short exact prompt, model, reason/use and verified reference bytes. Full production notes and source metadata move behind optional details. The single reference has its own exact-byte download, and the normal request instructions name Add an image. Purpose filters use producer tags. A valid 6016×4000 JPEG exposed an undersized decoder workspace budget; the decoded-pixel and file-byte limits remain intact.
+
+Native source now has a narrow trusted game preload, standard editing menu, Cmd+S and one guarded application Quit. Saving acknowledges both world and presentation persistence. All views give consent before any teardown; unknown old payloads require explicit consent, failed saves retain state, and interaction is suspended during the pending exit. Window Close hides the window; Dock activation restores it. Unsent question/edit notes guard Art Desk exit/restart. These native changes still require an isolated embedded proof and an installed successor before being claimed installed.
+
+Executed: 79 focused store/bridge/decoder/cards checks, then 60 final store/cards checks including new readiness negative cases; 4 native-session negative/acknowledgment tests; packaging test; scoped lint and actual app typecheck plus test-import check (338 excluded tests are import-checked, not semantically certified). No full historical suite rerun or new pixel approval claimed. Owner app was observed on current main7869561 with an unsaved Astrid life; U did not close/discard it. A later independently initiated host restart refused the dirty local source, so restoring the same desk after freezing this source is the immediate next operation.

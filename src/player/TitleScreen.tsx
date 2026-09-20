@@ -20,6 +20,10 @@ import {
 } from "../presentation/title-tableau";
 import { PRODUCTION_VISUAL_LIBRARY } from "../presentation/visual-integration";
 import { PlayerVersion } from "./PlayerVersion";
+import {
+  nativeQuitAvailable,
+  requestNativeQuit,
+} from "./native-session-bridge";
 import { TitleTableau } from "./TitleTableau";
 import { candidateEstablishingPlate } from "./candidate-establishing-plate";
 import { PLAYTEST65_WHITE_HOUSE_LAYOUT } from "../presentation/playtest65-visual-layout";
@@ -309,9 +313,16 @@ export function TitleScreen({
             Patch notes
           </button>
         ) : null}
-        <button type="button" data-testid="quit" disabled>
+        <button
+          type="button"
+          data-testid="quit"
+          disabled={!nativeQuitAvailable()}
+          onClick={requestNativeQuit}
+        >
           Quit
-          <small>Not available in this build.</small>
+          {!nativeQuitAvailable() ? (
+            <small>Not available in this build.</small>
+          ) : null}
         </button>
       </div>
       {savesUnavailable ? (

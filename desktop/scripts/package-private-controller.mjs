@@ -139,6 +139,8 @@ cpSync(
 );
 const CONTROLLER_FILES = [
   "main.mjs",
+  "game-session.mjs",
+  "game-preload.cjs",
   "hub-model.mjs",
   "build-catalog.mjs",
   "build-catalog.json",

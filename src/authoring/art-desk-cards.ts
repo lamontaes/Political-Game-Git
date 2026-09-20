@@ -1,3 +1,4 @@
+import type { AssetRequest } from "./asset-request";
 import type {
   ArtbenchProjection,
   CandidateStatus,
@@ -483,6 +484,11 @@ function cardFor(
       .map((step) => projection.candidates[step.candidateId])
       .filter((c): c is ProjectedCandidate => Boolean(c)),
   ]);
+  for (const [key, values] of Object.entries(
+    projection.assets[request.assetId]?.tags ?? {},
+  )) {
+    facets[key] = [...new Set([...(facets[key] ?? []), ...values])].sort();
+  }
   return {
     key,
     requestId: request.request.requestId,
@@ -821,4 +827,38 @@ export function originalDownloadName(
     : "";
   const extension = assetFileStem(container || "bin");
   return `${assetFileStem(displayName ?? "")}${hash ? `-${hash}` : ""}.${extension}`;
+}
+
+/** A ready request has the exact short prompt and decoded upload pixels. */
+export function generationRequestReady(
+  request: AssetRequest,
+  projection: ArtbenchProjection,
+  bytes: Readonly<Record<string, { readonly state: string }>>,
+): boolean {
+  const parameters = request.generatorParameters;
+  const prompt = parameters?.fireflyPrompt;
+  if (
+    !prompt?.trim() ||
+    prompt.length > 1024 ||
+    !parameters?.fireflyModel?.trim() ||
+    !request.whyNeeded?.trim() ||
+    !request.consumer.playerVisibleUse?.trim()
+  )
+    return false;
+  const references = request.target.styleReferences ?? [];
+  const oneUpload = parameters.referenceUploadCount === "1";
+  const upload = oneUpload ? references.slice(0, 1) : references;
+  return (
+    upload.length > 0 &&
+    upload.every((reference) => {
+      const id = reference.ref.startsWith("candidate:")
+        ? reference.ref.slice(10)
+        : "";
+      return Boolean(
+        reference.sha256 &&
+        projection.candidates[id]?.sha256 === reference.sha256 &&
+        bytes[id]?.state === "verified",
+      );
+    })
+  );
 }

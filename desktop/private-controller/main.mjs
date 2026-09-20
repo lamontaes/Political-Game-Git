@@ -1,3 +1,10 @@
+import {
+  hasSavableLife,
+  saveOpenLife,
+  prepareQuit,
+  hasUnsavedEdits,
+  suspendInteraction,
+} from "./game-session.mjs";
 /* global AbortSignal, Response, URL, fetch, process, setTimeout */
 /**
  * Our Civic Duty Private — the owner's private development hub.
@@ -94,6 +101,7 @@ const {
   clipboard,
   dialog,
   ipcMain,
+  Menu,
   protocol,
   session,
   shell,
@@ -658,6 +666,7 @@ async function openPlay(id, stillWanted = () => true) {
   const view = new WebContentsView({
     webPreferences: {
       session: sessionForTrack(id),
+      preload: path.join(appRoot, "game-preload.cjs"),
       nodeIntegration: false,
       contextIsolation: true,
       sandbox: true,
@@ -675,6 +684,10 @@ async function openPlay(id, stillWanted = () => true) {
     return { action: "deny" };
   });
   contents.on("will-prevent-unload", (event) => {
+    if (quitApproved.has(contents.id)) {
+      event.preventDefault();
+      return;
+    }
     const choice = dialog.showMessageBoxSync(hub.window, {
       type: "warning",
       buttons: ["Keep Playing", "Leave Without Saving"],
@@ -842,6 +855,22 @@ function artDeskView(url) {
     },
   });
   const contents = view.webContents;
+  contents.on("will-prevent-unload", (event) => {
+    if (quitApproved.has(contents.id)) {
+      event.preventDefault();
+      return;
+    }
+    const choice = dialog.showMessageBoxSync(hub.window, {
+      type: "warning",
+      buttons: ["Keep Editing", "Discard Drafts"],
+      defaultId: 0,
+      cancelId: 0,
+      message: "Keep your unfinished Art Desk notes?",
+      detail:
+        "Questions and notes you have not sent will be lost if you leave.",
+    });
+    if (choice === 1) event.preventDefault();
+  });
   // Only one permission: writing text to the clipboard (Copy brief), and only
   // from the bench origin. Everything else stays refused.
   const benchPage = (candidate) =>
@@ -875,6 +904,20 @@ function artDeskView(url) {
     if (!target.startsWith(`${origin}/`)) event.preventDefault();
   });
   contents.setWindowOpenHandler(() => ({ action: "deny" }));
+  // A brief authoring-server restart must not strand the embedded desk on
+  // Chromium's error page. Only retry this exact trusted desk, finitely.
+  let reconnectAttempts = 0;
+  contents.on(
+    "did-fail-load",
+    (_event, code, _description, _url, mainFrame) => {
+      if (!mainFrame || code === -3 || reconnectAttempts >= 3) return;
+      const delay = [1000, 2500, 5000][reconnectAttempts++];
+      setTimeout(() => {
+        if (!contents.isDestroyed() && hub.artdesk?.url === url)
+          void contents.loadURL(url).catch(() => {});
+      }, delay);
+    },
+  );
   if (!artDeskDownloadsConfigured) {
     artDeskDownloadsConfigured = true;
     contents.session.on("will-download", (event, item) => {
@@ -1476,6 +1519,21 @@ function handle(channel, fn) {
   });
 }
 
+// Only the main frame of an actual managed game receives this capability.
+ipcMain.handle("game:request-quit", (event) => {
+  const game = [...hub.play.values()].some(
+    ({ view }) => view.webContents === event.sender,
+  );
+  if (
+    !game ||
+    event.senderFrame !== event.sender.mainFrame ||
+    !event.senderFrame.url.startsWith(`${APP_ORIGIN}/`)
+  ) {
+    throw new Error("Refused: untrusted game sender.");
+  }
+  return requestQuit();
+});
+
 const TABS = new Set(["play", "artdesk", "agents", "settings"]);
 const trackArg = (id) =>
   id === MAIN_TRACK ||
@@ -1616,8 +1674,25 @@ handle("hub:artdesk-branch", async (branch) => {
 });
 handle("hub:artdesk-start", () => startArtDesk().finally(broadcast));
 handle("hub:artdesk-restart", async () => {
-  hub.artdesk.stop();
   const old = hub.views.get("artdesk");
+  if (
+    old &&
+    !old.webContents.isDestroyed() &&
+    (await hasUnsavedEdits(old.webContents)) !== false
+  ) {
+    const choice = dialog.showMessageBoxSync(hub.window, {
+      type: "warning",
+      buttons: ["Keep Editing", "Discard Drafts and Restart"],
+      defaultId: 0,
+      cancelId: 0,
+      message: "The Art Desk has unfinished notes.",
+      detail:
+        "Sent questions and saved artwork are already kept. Unsent drafts will be lost on restart.",
+    });
+    if (choice === 0)
+      return { ok: false, message: "Your Art Desk was kept open." };
+  }
+  hub.artdesk.stop();
   if (old) {
     hub.window.contentView.removeChildView(old);
     old.webContents.close();
@@ -1704,15 +1779,59 @@ function createWindow() {
   win.on("close", (event) => {
     if (hub.quitting) return;
     event.preventDefault();
-    void requestQuit();
+    // Closing the window keeps the current life and drafts in memory.
+    win.hide();
   });
   layout();
 }
 
+function installNativeMenu() {
+  Menu.setApplicationMenu(
+    Menu.buildFromTemplate([
+      {
+        label: app.getName(),
+        submenu: [
+          { role: "about" },
+          { type: "separator" },
+          { role: "hide" },
+          { role: "hideOthers" },
+          { role: "unhide" },
+          { type: "separator" },
+          {
+            label: "Quit",
+            accelerator: "CmdOrCtrl+Q",
+            click: () => void requestQuit(),
+          },
+        ],
+      },
+      {
+        label: "File",
+        submenu: [
+          {
+            label: "Save",
+            accelerator: "CmdOrCtrl+S",
+            click: async () => {
+              if (quitInProgress || hub.activeTab !== "play") return;
+              const id = shownPlayTrack(readState());
+              const contents = id ? hub.play.get(id)?.view.webContents : null;
+              if (await hasSavableLife(contents)) await saveOpenLife(contents);
+            },
+          },
+        ],
+      },
+      { role: "editMenu" },
+      { role: "viewMenu" },
+      { role: "windowMenu" },
+    ]),
+  );
+}
+
+const quitApproved = new Set();
 let quitInProgress = false;
 async function requestQuit() {
   if (quitInProgress || hub.quitting) return;
   quitInProgress = true;
+  const suspended = [];
   try {
     const jobs = hub.agents?.runningJobs() ?? 0;
     if (jobs > 0 || hub.worker) {
@@ -1726,9 +1845,58 @@ async function requestQuit() {
       });
       if (choice === 0) return;
     }
-    for (const id of [...hub.play.keys()]) {
-      if (!(await closePlay(id))) return; // the game kept its unsaved life
+    // Ask every participant before tearing down any view. A bench Cancel
+    // must retain even a life for which the owner had chosen discard.
+    const participants = [...hub.play.values()].map(({ view }) => ({
+      contents: view.webContents,
+      game: true,
+    }));
+    const bench = hub.views.get("artdesk")?.webContents;
+    if (bench && !bench.isDestroyed())
+      participants.push({ contents: bench, game: false });
+    for (const { contents } of participants) {
+      if (!(await suspendInteraction(contents, true))) return;
+      suspended.push(contents);
     }
+    if (
+      !(await prepareQuit(participants, {
+        save: () =>
+          dialog.showMessageBoxSync(hub.window, {
+            type: "question",
+            buttons: ["Save and Quit", "Quit Without Saving", "Cancel"],
+            defaultId: 0,
+            cancelId: 2,
+            message: "Save your life before quitting?",
+            detail:
+              "Save and Quit keeps your current life and display preferences.",
+          }),
+        failed: () =>
+          dialog.showMessageBoxSync(hub.window, {
+            type: "error",
+            buttons: ["Keep Open"],
+            message: "Your life could not be fully saved.",
+            detail:
+              "The app is still open. You can try saving again or cancel quitting.",
+          }),
+        discard: (game) =>
+          dialog.showMessageBoxSync(hub.window, {
+            type: "warning",
+            buttons: ["Keep Open", "Discard and Quit"],
+            defaultId: 0,
+            cancelId: 0,
+            message: game
+              ? "This game may have unsaved changes."
+              : "You have unfinished Art Desk notes.",
+            detail:
+              "Quitting discards changes that have not been saved or sent.",
+          }),
+      }))
+    )
+      return;
+    for (const { contents } of participants) quitApproved.add(contents.id);
+    for (const id of [...hub.play.keys()]) if (!(await closePlay(id))) return;
+    if (bench && !bench.isDestroyed())
+      bench.close({ waitForBeforeUnload: true });
     hub.quitting = true;
     hub.worker?.kill("SIGTERM");
     hub.artdesk?.stop();
@@ -1736,6 +1904,8 @@ async function requestQuit() {
     if (hub.window && !hub.window.isDestroyed()) hub.window.destroy();
     app.quit();
   } finally {
+    quitApproved.clear();
+    for (const contents of suspended) await suspendInteraction(contents, false);
     quitInProgress = false;
   }
 }
@@ -1752,6 +1922,7 @@ if (!app.requestSingleInstanceLock()) {
   });
 
   app.whenReady().then(async () => {
+    installNativeMenu();
     try {
       installBootstrapIfNeeded();
     } catch (error) {
@@ -1831,6 +2002,12 @@ if (!app.requestSingleInstanceLock()) {
     broadcast();
   });
 
+  app.on("activate", () => {
+    if (hub.window && !hub.window.isDestroyed()) {
+      hub.window.show();
+      hub.window.focus();
+    }
+  });
   app.on("window-all-closed", () => {
     if (!hub.quitting) void requestQuit();
   });

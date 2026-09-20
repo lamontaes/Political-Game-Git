@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   artDeskCards,
+  generationRequestReady,
   candidateNotes,
   cardIsUntagged,
   cardMatchesFacet,
@@ -590,4 +591,68 @@ describe("Art Desk download names", () => {
       "main-street.png",
     );
   });
+});
+
+it("only offers complete short-prompt requests with exact decoded reference bytes", () => {
+  const p = projection([ingest("reference", "original")]);
+  const base = p.requests.inbox!.request;
+  const candidate = p.candidates.reference!;
+  const request = {
+    ...base,
+    whyNeeded: "A readable room.",
+    consumer: { ...base.consumer, playerVisibleUse: "The room." },
+    generatorParameters: {
+      fireflyPrompt: "Paint the room.",
+      fireflyModel: "Clean Interior Scenes / IMAGE 5",
+      referenceUploadCount: "1",
+    },
+    target: {
+      ...base.target,
+      styleReferences: [
+        {
+          role: "parent-template" as const,
+          ref: "candidate:reference",
+          sha256: candidate.sha256,
+        },
+      ],
+    },
+  };
+  const bytes = { reference: { state: "verified" } };
+  expect(generationRequestReady(request, p, bytes)).toBe(true);
+  expect(generationRequestReady(request, p, {})).toBe(false);
+  expect(
+    generationRequestReady(
+      { ...request, target: { ...request.target, styleReferences: [] } },
+      p,
+      bytes,
+    ),
+  ).toBe(false);
+  expect(
+    generationRequestReady(
+      {
+        ...request,
+        generatorParameters: {
+          ...request.generatorParameters,
+          fireflyPrompt: "x".repeat(1025),
+        },
+      },
+      p,
+      bytes,
+    ),
+  ).toBe(false);
+  expect(
+    generationRequestReady(
+      {
+        ...request,
+        target: {
+          ...request.target,
+          styleReferences: [
+            { ...request.target.styleReferences[0]!, sha256: "changed" },
+          ],
+        },
+      },
+      p,
+      bytes,
+    ),
+  ).toBe(false);
 });

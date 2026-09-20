@@ -386,6 +386,15 @@ export function createArtbenchHandler(store: ArtbenchStore) {
             sendJson(response, 201, { events: [event] });
             return;
           }
+          case "request.revised": {
+            const event = store.reviseRequest({
+              request: payload.request as never,
+              baseVersion: Number(payload.baseVersion),
+              actor,
+            });
+            sendJson(response, 201, { events: [event] });
+            return;
+          }
           case "request.created": {
             const event = store.createRequest({
               request: payload.request as never,

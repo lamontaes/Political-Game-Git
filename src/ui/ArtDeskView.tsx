@@ -47,6 +47,7 @@ import {
   ART_DESK_TABS,
   CARD_STATUS_LABELS,
   artDeskCards,
+  generationRequestReady,
   assetFileStem,
   candidateNotes,
   cardIsUntagged,
@@ -275,6 +276,7 @@ export function ArtDeskView() {
   const [tab, setTabState] = useState<ArtDeskTab>(storedTab);
   const [selectedCardKey, setSelectedCardKey] = useState<string | null>(null);
   const [assetType, setAssetType] = useState<string>("all");
+  const [purpose, setPurpose] = useState("all");
   const [showMore, setShowMore] = useState(false);
   const [showQa, setShowQa] = useState(false);
   const [advancedOpen, setAdvancedOpen] = useState(false);
@@ -391,8 +393,18 @@ export function ArtDeskView() {
   }, [advancedOpen, selectedRequest, viewedCandidateId, viewRestored]);
 
   const cards = useMemo(
-    () => (projection ? artDeskCards(projection) : []),
-    [projection],
+    () =>
+      projection && bench
+        ? artDeskCards(projection).map((card) => {
+            const request = projection.requests[card.requestId]?.request;
+            return card.tabs.includes("requests") &&
+              request &&
+              !generationRequestReady(request, projection, bench.bytes)
+              ? { ...card, tabs: card.tabs.filter((tab) => tab !== "requests") }
+              : card;
+          })
+        : [],
+    [projection, bench],
   );
   const counts4 = useMemo(() => tabCounts(cards, showQa), [cards, showQa]);
   const assetTypes = useMemo(
@@ -408,7 +420,11 @@ export function ArtDeskView() {
     const byFacet = facet
       ? cards.filter((card) => cardMatchesFacet(card, facet.key, facet.value))
       : cards;
-    const byUntagged = untagged ? byFacet.filter(cardIsUntagged) : byFacet;
+    const byPurpose =
+      purpose === "all"
+        ? byFacet
+        : byFacet.filter((card) => cardMatchesFacet(card, "purpose", purpose));
+    const byUntagged = untagged ? byPurpose.filter(cardIsUntagged) : byPurpose;
     return filterCards(byUntagged, {
       tab,
       text: query,
@@ -416,7 +432,7 @@ export function ArtDeskView() {
       assetType,
       showQa,
     });
-  }, [cards, facet, untagged, tab, query, status, assetType, showQa]);
+  }, [cards, facet, purpose, untagged, tab, query, status, assetType, showQa]);
   const selectedCard =
     visibleCards.find((card) => card.key === selectedCardKey) ??
     visibleCards[0] ??
@@ -449,6 +465,7 @@ export function ArtDeskView() {
     setQuery("");
     setStatus("all");
     setAssetType("all");
+    setPurpose("all");
   };
   const detailRequest = advancedOpen
     ? selectedRequest
@@ -860,6 +877,21 @@ export function ArtDeskView() {
               ))}
             </select>
           </label>
+          <label>
+            Show{" "}
+            <select
+              aria-label="Artwork purpose"
+              value={purpose}
+              onChange={(event) => setPurpose(event.target.value)}
+            >
+              <option value="all">Everything</option>
+              <option value="regional-background">Regional backgrounds</option>
+              <option value="people-wardrobe">People and clothing</option>
+              <option value="pose">Poses</option>
+              <option value="scene-contact">People in scenes</option>
+              <option value="graphics">News and graphics</option>
+            </select>
+          </label>
           <button
             type="button"
             data-testid="art-desk-more-filters"
@@ -871,7 +903,8 @@ export function ArtDeskView() {
           {moreFilterCount ||
           query ||
           status !== "all" ||
-          assetType !== "all" ? (
+          assetType !== "all" ||
+          purpose !== "all" ? (
             <button
               type="button"
               className="art-desk-quiet"
@@ -1400,6 +1433,15 @@ function RequestDetail({
   const [compare, setCompare] = useState(false);
   const [assignTo, setAssignTo] = useState("");
   const [dragging, setDragging] = useState(false);
+  useEffect(() => {
+    if (!question.trim() && !revisionText.trim() && !editNote.trim()) return;
+    const guard = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = "";
+    };
+    window.addEventListener("beforeunload", guard);
+    return () => window.removeEventListener("beforeunload", guard);
+  }, [question, revisionText, editNote]);
   const brief = compileAssetBrief({
     request: r,
     stylePixels: styleReferencesFor(r, pack),
@@ -1596,6 +1638,7 @@ function RequestDetail({
       editKind,
       note: editNote || undefined,
     });
+    if (results.some((result) => result.ok)) setEditNote("");
     const created = results.find((x) => x.ok && x.candidateId);
     if (approve && created?.candidateId) {
       // The new preview is shown by onIntake (it views the new candidate); the
@@ -1668,9 +1711,20 @@ function RequestDetail({
           ? ` · Revision ${viewed.revision} · ${CARD_STATUS_LABELS[viewed.status]}`
           : " · Waiting for an image"}
       </p>
-      <details className="art-desk-reference-details">
+      <details className="art-desk-reference-details" open={!viewed}>
         <summary>References and editing instructions</summary>
-        <p>{r.consumer.playerVisibleUse}</p>
+        <p>
+          <strong>Why requested:</strong> {r.whyNeeded}
+        </p>
+        <p>
+          <strong>Where used:</strong> {r.consumer.playerVisibleUse}
+        </p>
+        {r.generatorParameters?.integrationOwner ? (
+          <p>
+            <strong>Who will add it:</strong> The art team prepares it; the game
+            team adds it.
+          </p>
+        ) : null}
         <StyleReferenceSummary request={r} projection={projection} />
         <ProviderPrompts request={r} />
       </details>
@@ -1682,46 +1736,49 @@ function RequestDetail({
       {request.lane === "awaiting-capable-worker" &&
       request.candidateIds.length === 0 ? (
         <p className="art-desk-warning" data-testid="art-desk-awaiting-worker">
-          Request: create an image. Copy the brief into your image editor, then
-          add the result here.
+          Create an image using the prompt and upload reference below. Return
+          the download here with Add an image.
         </p>
       ) : null}
       <div className="art-desk-actions">
-        <button
-          type="button"
-          data-testid="art-desk-copy-brief"
-          onClick={async () => {
-            setBriefNote("Copying…");
-            try {
-              const response = await fetch(briefUrl);
-              if (!response.ok)
-                throw new Error(
-                  `the brief could not be read (${response.status})`,
+        <details>
+          <summary>Full production notes</summary>
+          <button
+            type="button"
+            data-testid="art-desk-copy-brief"
+            onClick={async () => {
+              setBriefNote("Copying…");
+              try {
+                const response = await fetch(briefUrl);
+                if (!response.ok)
+                  throw new Error(
+                    `the brief could not be read (${response.status})`,
+                  );
+                const text = await response.text();
+                if (!navigator.clipboard)
+                  throw new Error("this window has no clipboard access");
+                await navigator.clipboard.writeText(text);
+                setBriefNote(
+                  `Copied the brief (${text.length.toLocaleString()} characters).`,
                 );
-              const text = await response.text();
-              if (!navigator.clipboard)
-                throw new Error("this window has no clipboard access");
-              await navigator.clipboard.writeText(text);
-              setBriefNote(
-                `Copied the brief (${text.length.toLocaleString()} characters).`,
-              );
-            } catch (error) {
-              setBriefNote(
-                `Could not copy: ${error instanceof Error ? error.message : String(error)}. Use Download brief instead.`,
-              );
-            }
-          }}
-        >
-          Copy brief
-        </button>
-        <a
-          className="art-desk-linkbutton"
-          href={`${briefUrl}&download=1`}
-          data-testid="art-desk-download-brief"
-          onClick={() => setBriefNote(`Downloading ${briefName}-brief.md…`)}
-        >
-          Download brief
-        </a>
+              } catch (error) {
+                setBriefNote(
+                  `Could not copy: ${error instanceof Error ? error.message : String(error)}. Use Download brief instead.`,
+                );
+              }
+            }}
+          >
+            Copy brief
+          </button>
+          <a
+            className="art-desk-linkbutton"
+            href={`${briefUrl}&download=1`}
+            data-testid="art-desk-download-brief"
+            onClick={() => setBriefNote(`Downloading ${briefName}-brief.md…`)}
+          >
+            Download brief
+          </a>
+        </details>
         <span
           role="status"
           className="art-desk-meta"
@@ -2503,12 +2560,13 @@ function ProviderPrompts({ request }: { request: AssetRequest }) {
       className="art-desk-provider-prompts"
       aria-label="Production prompt"
     >
-      <h3>Composition guide</h3>
-      <ul>
-        {request.generationRecipe.map((line, index) => (
-          <li key={index}>{line}</li>
-        ))}
-      </ul>
+      <h3>Create this image</h3>
+      <p>
+        {parameters?.aspect ?? request.target.aspectRatio}
+        {parameters?.referenceUploadCount === "1"
+          ? " · Upload only the reference marked below."
+          : ""}
+      </p>
       {prompts.map(({ key, label, text, model, limit }) => (
         <div key={key}>
           <strong>
@@ -2552,6 +2610,12 @@ function ProviderPrompts({ request }: { request: AssetRequest }) {
           No provider prompt is recorded for this request.
         </p>
       ) : null}
+      {parameters?.returnInstructions ? (
+        <p>
+          Download the original image, then choose Add an image on this card.
+          The art team will prepare it for the game.
+        </p>
+      ) : null}
       <span role="status">{copied}</span>
     </section>
   );
@@ -2566,51 +2630,51 @@ function StyleReferenceSummary({
 }) {
   const references = requestReferencePixels(request);
   return (
-    <div className="art-desk-meta" data-testid="art-desk-style-references">
-      <strong>Style reference</strong>{" "}
+    <div data-testid="art-desk-style-references">
       {references.map((reference, index) => {
         const candidateId = reference.pathOrDriveId.startsWith("candidate:")
           ? reference.pathOrDriveId.slice("candidate:".length)
           : null;
-        const driveId = reference.pathOrDriveId.startsWith("drive:")
-          ? reference.pathOrDriveId.slice("drive:".length)
+        const candidate = candidateId
+          ? projection.candidates[candidateId]
           : null;
+        const valid = candidate && reference.sha256 === candidate.sha256;
+        const upload =
+          request.generatorParameters?.referenceUploadCount === "1" &&
+          index === 0;
         return (
-          <span
+          <div
             key={`${reference.pathOrDriveId}-${index}`}
             className="art-desk-reference"
             data-testid="art-desk-style-reference"
-            data-resolution={reference.resolution ?? "unresolved"}
             data-role={reference.role}
           >
-            {reference.role}:{" "}
-            {candidateId &&
-            reference.sha256 &&
-            projection.candidates[candidateId]?.sha256 === reference.sha256 ? (
-              <ArtBenchImage
-                className="art-desk-reference-thumb"
-                alt={`${reference.role} reference`}
-                candidate={projection.candidates[candidateId]!}
-              />
-            ) : null}
-            {driveId ? (
-              <a
-                href={`https://drive.google.com/file/d/${encodeURIComponent(driveId)}/view`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {reference.pathOrDriveId}
-              </a>
+            <h3>{upload ? "Upload this reference" : "Reference image"}</h3>
+            {valid ? (
+              <>
+                <ArtBenchImage
+                  className="art-desk-reference-thumb"
+                  alt={upload ? "Upload reference" : "Reference image"}
+                  candidate={candidate}
+                />
+                <a
+                  className="art-desk-linkbutton"
+                  href={`${originalUrl(candidate.candidateId, candidate.sha256)}&download=1`}
+                >
+                  Download reference
+                </a>
+              </>
             ) : (
-              reference.pathOrDriveId
+              <p>The reference is being prepared.</p>
             )}
-            {reference.sha256 ? ` · sha ${reference.sha256.slice(0, 12)}…` : ""}{" "}
-            ·{" "}
-            {reference.resolution === "declared"
-              ? "declared (not proof it was supplied)"
-              : `unresolved — ${reference.missingReason ?? "no image recorded"}`}
-            {index < references.length - 1 ? " | " : ""}
-          </span>
+            <details>
+              <summary>Image details</summary>
+              <p>{request.target.styleReferences?.[index]?.note}</p>
+              <p>
+                {reference.pathOrDriveId} · {reference.sha256}
+              </p>
+            </details>
+          </div>
         );
       })}
     </div>

@@ -236,6 +236,10 @@ export interface BatchCompletedPayload {
 export type ArtbenchEvent =
   | ArtbenchEventOf<"message.posted", ArtbenchMessagePayload>
   | ArtbenchEventOf<"request.created", RequestCreatedPayload>
+  | ArtbenchEventOf<
+      "request.revised",
+      { readonly request: AssetRequest; readonly baseVersion: number }
+    >
   | ArtbenchEventOf<"candidate.ingested", CandidateIngestedPayload>
   | ArtbenchEventOf<"candidate.selected", CandidateSelectedPayload>
   | ArtbenchEventOf<"review.decided", ReviewDecidedPayload>
@@ -640,6 +644,23 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
           qa: event.payload.qa === true,
         });
         assetFor(event.payload.assetId).requestIds.add(request.requestId);
+        break;
+      }
+      case "request.revised": {
+        const { request, baseVersion } = event.payload;
+        const existing = requests.get(request.requestId);
+        if (
+          !existing ||
+          existing.request.requestVersion !== baseVersion ||
+          request.requestVersion !== baseVersion + 1
+        ) {
+          rejected.push({
+            eventId: event.eventId,
+            reason: "Request version changed; reload before revising.",
+          });
+          break;
+        }
+        requests.set(request.requestId, { ...existing, request });
         break;
       }
       case "candidate.ingested": {
