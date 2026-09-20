@@ -1,3 +1,4 @@
+import { openingRegionTypesForPlace } from "./opening-region-context";
 import { type EntityId, type IsoDate, type World } from "../simulation";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { stableHash } from "../simulation/ids";
@@ -48,6 +49,7 @@ export function projectOpeningWorldSnapshot(world: World, personId: EntityId) {
           placeKey: home.key,
           sourceGeoid: home.sourceGeoid ?? null,
           stateJurisdictionKey: home.stateJurisdictionKey,
+          regionTypes: openingRegionTypesForPlace(home),
           asOf: world.currentDate,
           presentationKey: `opening-region:${stableHash(JSON.stringify([personId, beat, home.key, homeJurisdictionId]))}`,
         }

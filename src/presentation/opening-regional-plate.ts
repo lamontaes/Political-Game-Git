@@ -2,12 +2,23 @@ import type { EntityId, IsoDate } from "../simulation/types";
 import { stableHash } from "../simulation/ids";
 import { makeIsoDate } from "../simulation/dates";
 
+/** Authored illustrative scene taxonomy, not economic or ecological World state. */
+export const OPENING_REGION_TYPES = [
+  "great-plains-grassland",
+  "appalachian-coal-region-town",
+  "fishing-coast",
+  "beach-coast",
+] as const;
+export type OpeningRegionType = (typeof OPENING_REGION_TYPES)[number];
+
 /** Saved home geography for an illustrative regional beat, not player presence. */
 export interface OpeningRegionalSceneContext {
   readonly jurisdictionId: EntityId;
   readonly placeKey: string;
   readonly sourceGeoid: string | null;
   readonly stateJurisdictionKey: string | null;
+  /** Explicit reviewed presentation associations; absent means unclassified. */
+  readonly regionTypes?: readonly OpeningRegionType[];
   readonly asOf: IsoDate;
   /** Person + beat + place identity. Never history revision or wall-clock time. */
   readonly presentationKey: string;
@@ -22,6 +33,7 @@ export interface OpeningRegionalPlateCandidate {
     /** Canonical LifePlace keys, not inferred names or nearby counties. */
     readonly placeKeys?: readonly string[];
     readonly stateJurisdictionKeys?: readonly string[];
+    readonly regionTypes?: readonly OpeningRegionType[];
     readonly generic?: true;
   };
   /** Omitted means usable year-round; an empty list admits no month. */
@@ -42,7 +54,15 @@ function specificity(
       !candidate.months.includes(month))
   )
     return 0;
-  if (candidate.coverage.placeKeys?.includes(context.placeKey)) return 3;
+  if (candidate.coverage.placeKeys?.includes(context.placeKey)) return 4;
+  if (
+    context.regionTypes?.some(
+      (type) =>
+        OPENING_REGION_TYPES.includes(type) &&
+        candidate.coverage.regionTypes?.includes(type),
+    )
+  )
+    return 3;
   if (
     context.stateJurisdictionKey &&
     candidate.coverage.stateJurisdictionKeys?.includes(

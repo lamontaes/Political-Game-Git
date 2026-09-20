@@ -64,6 +64,47 @@ describe("regional opening image eligibility", () => {
     expect(selectOpeningRegionalPlate(context, candidates)).toBeNull();
     expect(selectOpeningRegionalPlate(null, [generic])).toBeNull();
   });
+  it("matches declared region types across places, below locality and above state", () => {
+    const regional = {
+      assetId: "prairie",
+      coverage: { regionTypes: ["great-plains-grassland"] },
+    } as const;
+    const declared = {
+      ...context,
+      regionTypes: ["great-plains-grassland"],
+    } as const;
+    expect(
+      selectOpeningRegionalPlate(declared, [generic, state, regional]),
+    ).toBe(regional);
+    expect(selectOpeningRegionalPlate(declared, [regional, local])).toBe(local);
+    expect(
+      selectOpeningRegionalPlate({ ...declared, placeKey: "different-place" }, [
+        regional,
+      ]),
+    ).toBe(regional);
+    expect(selectOpeningRegionalPlate(context, [regional, generic])).toBe(
+      generic,
+    );
+    expect(
+      selectOpeningRegionalPlate(
+        { ...context, regionTypes: ["fishing-coast"] },
+        [regional],
+      ),
+    ).toBeNull();
+    expect(
+      selectOpeningRegionalPlate(declared, [
+        { ...regional, months: [7] },
+        generic,
+      ]),
+    ).toBe(generic);
+    const bank = [regional, { ...regional, assetId: "prairie-two" }];
+    const before = JSON.stringify({ declared, bank });
+    expect(selectOpeningRegionalPlate(declared, bank)).toBe(
+      selectOpeningRegionalPlate(declared, [...bank].reverse()),
+    );
+    expect(JSON.stringify({ declared, bank })).toBe(before);
+  });
+
   it("filters incompatible seasons before specificity and rejects malformed month coverage", () => {
     for (const months of [[7], [], [0, 1], [1, 13], [1, 2.5]]) {
       expect(

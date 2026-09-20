@@ -9,6 +9,43 @@ import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { projectOpeningWorldSnapshot } from "./opening-world-snapshot";
 
 describe("PLAYTEST65 canonical opening", () => {
+  it.each([
+    ["2160852", "appalachian-coal-region-town"],
+    ["2135362", "appalachian-coal-region-town"],
+    ["4622260", "great-plains-grassland"],
+    ["4649600", "great-plains-grassland"],
+  ])(
+    "retains %s illustrative region context across saved opening reads",
+    (placeKey, type) => {
+      const { world, playerPersonId } = generateOpeningLife(
+        prepareOpeningLife({
+          ...DEFAULT_NEW_GAME_SETUP,
+          seed: `region:${placeKey}`,
+          placeKey,
+          household: "lives-alone",
+          startKind: "custom",
+        }),
+      ).game!;
+      const before = serializeWorld(world);
+      const snapshot = projectOpeningWorldSnapshot(world, playerPersonId);
+      const regional = snapshot.beats.filter(
+        (beat) => beat.sceneContext !== null,
+      );
+      expect(regional.length).toBeGreaterThan(0);
+      expect(
+        regional.every((beat) =>
+          beat.sceneContext!.regionTypes?.includes(
+            type as "great-plains-grassland" | "appalachian-coal-region-town",
+          ),
+        ),
+      ).toBe(true);
+      expect(
+        projectOpeningWorldSnapshot(deserializeWorld(before), playerPersonId),
+      ).toEqual(snapshot);
+      expect(serializeWorld(world)).toBe(before);
+    },
+  );
+
   it("introduces distinct saved executives without travel, knowledge or time writes", () => {
     const { world, playerPersonId } = generateOpeningLife(
       prepareOpeningLife({
