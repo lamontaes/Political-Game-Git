@@ -1066,7 +1066,9 @@ function CalendarEventActions({
     : venue?.refusal
       ? venue.refusal
       : venue?.journey
-        ? `Includes the ${describeInterval(venue.journey.journeyMinutes)} journey to ${selected.locationLabel}. ${venue.journey.costDisclosure}`
+        ? venue.journey.alreadyCompleted
+          ? `The journey to ${selected.locationLabel} is complete. Attend begins here.`
+          : `Includes the ${describeInterval(venue.journey.journeyMinutes)} journey to ${selected.locationLabel}. ${venue.journey.costDisclosure}`
         : null;
   const busy = runner.pending || undefined;
   const attendance = previewTimeCommand(world, personId, {

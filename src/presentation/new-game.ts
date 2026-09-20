@@ -131,6 +131,8 @@ export interface NewGameSetup {
   readonly birthYear?: number;
   /** Additive initialization policy; absent descriptors preserve older construction. */
   readonly openingDataVersion?: "playtest65-v1";
+  /** New descriptors opt in; absent preserves the original member-name draw. */
+  readonly livingWorldMemberNameVersion?: "identity-v1";
   readonly birthMonth?: number;
   readonly birthDay?: number;
   /**
@@ -215,6 +217,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   givenNameGenerationVersion: DISTINCT_GIVEN_NAME_GENERATION_VERSION,
   worldOpeningVersion: CRUNCH46_WORLD_OPENING_VERSION,
   openingDataVersion: "playtest65-v1",
+  livingWorldMemberNameVersion: "identity-v1",
   questionnaire: "short",
   priors: [],
 };

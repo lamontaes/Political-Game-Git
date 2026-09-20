@@ -128,6 +128,10 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
   await expect(page.getByTestId("map-inspector")).toContainText("Kentucky");
   await page.getByTestId("government-map-workspace-close").click();
 
+  const homeScene = await page
+    .getByTestId("scene-backdrop")
+    .getAttribute("data-scene-id");
+  expect(homeScene).toBeTruthy();
   await goTo(page, "nav-places");
   await page.getByTestId("places-offer-walk-neighborhood-action").click();
   await expect(page.getByTestId("places-current-location")).toContainText(
@@ -138,6 +142,12 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
     /home/i,
   );
   await page.getByTestId("places-workspace-close").click();
+  await expect(page.getByTestId("scene-backdrop")).toHaveAttribute(
+    "data-scene-id",
+    homeScene!,
+  );
+  await expect(page.getByTestId("scene-backdrop-plate")).toBeVisible();
+  await page.screenshot({ path: info.outputPath("returned-home.png") });
   await goTo(page, "nav-guide");
   await expect(
     page.getByRole("region", { name: "Guide", exact: true }),
@@ -167,6 +177,25 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
     calendar.getByRole("button", { name: "Close", exact: true }),
   ).toBeInViewport();
   await page.screenshot({ path: info.outputPath("calendar.png") });
+  await page.getByTestId("calendar-simulate-day").click();
+  await calendar
+    .getByTestId(/^calendar-entry-/)
+    .filter({ hasText: "Journey to the public meeting" })
+    .click();
+  await page.getByTestId("calendar-play-event").click();
+  await calendar
+    .getByTestId(/^calendar-entry-/)
+    .filter({ hasText: "Posted public meeting" })
+    .click();
+  await expect(page.getByTestId("calendar-event-actions")).not.toContainText(
+    "No authored journey",
+  );
+  await page.getByTestId("calendar-play-event").focus();
+  await page.keyboard.press("Enter");
+  await expect(page.getByTestId("calendar-time-outcome")).toContainText(
+    "You completed Posted public meeting",
+  );
+  await page.screenshot({ path: info.outputPath("meeting-after-journey.png") });
   await page.getByTestId("calendar-workspace-close").click();
   await saveLife(page);
   await page.reload();

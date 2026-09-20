@@ -217,6 +217,9 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
     ...(setup.openingDataVersion === undefined
       ? {}
       : { openingDataVersion: setup.openingDataVersion }),
+    ...(setup.livingWorldMemberNameVersion === undefined
+      ? {}
+      : { livingWorldMemberNameVersion: setup.livingWorldMemberNameVersion }),
     ...(setup.worldOpeningVersion === undefined
       ? {}
       : { worldOpeningVersion: setup.worldOpeningVersion }),
@@ -316,6 +319,12 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     openingDataVersion !== "playtest65-v1"
   )
     return null;
+  const livingWorldMemberNameVersion = record.livingWorldMemberNameVersion;
+  if (
+    livingWorldMemberNameVersion !== undefined &&
+    livingWorldMemberNameVersion !== "identity-v1"
+  )
+    return null;
   const birthMonth = record.birthMonth;
   const birthDay = record.birthDay;
   if (birthMonth !== undefined || birthDay !== undefined) {
@@ -366,6 +375,9 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   const base: NewGameSetup = {
     ...(birthYear === undefined ? {} : { birthYear: birthYear as number }),
     ...(openingDataVersion === undefined ? {} : { openingDataVersion }),
+    ...(livingWorldMemberNameVersion === undefined
+      ? {}
+      : { livingWorldMemberNameVersion }),
     ...(worldOpeningVersion === undefined
       ? {}
       : { worldOpeningVersion: worldOpeningVersion as WorldOpeningVersion }),

@@ -17,11 +17,13 @@ import {
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import { recordDomainAttendance } from "./activity-attendance";
 import { openingLifeLocation } from "./life-scene-flow";
+import { completedActivityHere } from "./scene-venues";
 
 export { declineVenueActivity } from "./scheduled-activity-choice";
 
 export interface DisclosedJourney {
   readonly activity: ScheduledActivityRecord;
+  readonly alreadyCompleted: boolean;
   readonly journeyMinutes: number;
   readonly waitMinutes: number;
   readonly costDisclosure: string;
@@ -75,17 +77,25 @@ function disclosedJourneyFor(
         return false;
       const state = scheduledActivityState(world, candidate.id);
       return (
-        state.status === "scheduled" &&
+        (state.status === "scheduled" ||
+          (state.status === "completed" &&
+            completedActivityHere(world, personId, candidate.id) !== null)) &&
         compareSimulationMoments(state.end, destinationState.start) === 0
       );
     },
   );
   if (!activity) return null;
   const state = scheduledActivityState(world, activity.id);
+  const alreadyCompleted = state.status === "completed";
   return {
     activity,
-    journeyMinutes: simulationMinutesBetween(state.start, state.end),
-    waitMinutes: simulationMinutesBetween(world.currentMoment, state.start),
+    alreadyCompleted,
+    journeyMinutes: alreadyCompleted
+      ? 0
+      : simulationMinutesBetween(state.start, state.end),
+    waitMinutes: alreadyCompleted
+      ? 0
+      : simulationMinutesBetween(world.currentMoment, state.start),
     costDisclosure: adapter.costDisclosure,
     destinationSetting: adapter.destinationSetting,
   };
@@ -187,6 +197,21 @@ export function performVenueActivity(
     return world;
   const journey = entry.journey;
   if (!journey) {
+    // Calendar can play the travel leg separately from Attend. Only the same
+    // explicit route adapter and linked destination may establish arrival.
+    const destination =
+      entry.activity.kind === "travel"
+        ? scheduledActivitiesVisibleTo(world, personId).find(
+            (candidate) =>
+              candidate.responsiblePersonId === personId &&
+              canPersonAccess(candidate.access, personId) &&
+              disclosedJourneyFor(world, personId, candidate)?.activity.id ===
+                activityId,
+          )
+        : undefined;
+    const disclosed = destination
+      ? disclosedJourneyFor(world, personId, destination)
+      : null;
     const start = scheduledActivityState(world, activityId).start;
     const waitMinutes = simulationMinutesBetween(world.currentMoment, start);
     const waited =
@@ -197,12 +222,23 @@ export function performVenueActivity(
       return waited;
     // Domain hook: a completed party/campaign activity records its outcome;
     // every other activity (including a bare journey) comes back unchanged.
-    return recordDomainAttendance(
+    const completed = recordDomainAttendance(
       performScheduledActivity(waited, activityId, transitionHandlers),
       personId,
       activityId,
       attendance,
     );
+    return destination &&
+      disclosed &&
+      scheduledActivityState(completed, activityId).status === "completed" &&
+      scheduledActivityState(completed, destination.id).status === "scheduled"
+      ? recordJourneyArrival(
+          completed,
+          disclosed,
+          destination,
+          "Make the journey",
+        )
+      : completed;
   }
 
   // Resolve the legitimate ordinary windows crossed while waiting to depart.
@@ -218,56 +254,21 @@ export function performVenueActivity(
     ) < 0
   )
     return waited;
-  const travelled = performScheduledActivity(
-    waited,
-    journey.activity.id,
-    transitionHandlers,
-  );
-  if (travelled === world) return world;
+  const travelled = journey.alreadyCompleted
+    ? waited
+    : performScheduledActivity(waited, journey.activity.id, transitionHandlers);
   if (
     scheduledActivityState(travelled, journey.activity.id).status !==
     "completed"
   )
     return travelled;
 
-  const arrived = recordWorldEvent(travelled, {
-    stableKey: `attend-journey:${journey.activity.id}:arrival`,
-    type: "life.scene.arrived",
-    occurredAt: travelled.currentDate,
-    recordedAt: travelled.currentDate,
-    jurisdictionId: entry.activity.location.jurisdictionId,
-    involvedEntityIds: [
-      journey.activity.id,
-      entry.activity.id,
-      ...journey.activity.participantPersonIds,
-    ],
-    participants: journey.activity.participantPersonIds.map((id) => ({
-      personId: id,
-      role: "presence:participant",
-      detail: `Arrived at ${entry.activity.location.label}`,
-    })),
-    personFactConstraints: [],
-    visibility: entry.activity.access.kind === "office" ? "limited" : "private",
-    tags: [
-      "attend-journey-v1",
-      `route:${journey.activity.location.locationKey}`,
-      `place:${entry.activity.location.locationKey}`,
-      "cost:not-represented",
-    ],
-    summary: `Arrived at ${entry.activity.location.label}.`,
-    context: {
-      location: {
-        jurisdictionId: entry.activity.location.jurisdictionId,
-        label: entry.activity.location.label,
-        setting: journey.destinationSetting,
-      },
-      socialContext: null,
-      pressure: null,
-      choice: `Attend ${entry.activity.title}`,
-      motivation: null,
-      immediateReaction: null,
-    },
-  });
+  const arrived = recordJourneyArrival(
+    travelled,
+    journey,
+    entry.activity,
+    `Attend ${entry.activity.title}`,
+  );
 
   const refreshed = venueActivities(arrived, personId).find(
     ({ activity }) => activity.id === activityId,
@@ -288,4 +289,50 @@ export function performVenueActivity(
     activityId,
     attendance,
   );
+}
+
+function recordJourneyArrival(
+  travelled: World,
+  journey: DisclosedJourney,
+  destination: ScheduledActivityRecord,
+  choice: string,
+): World {
+  return recordWorldEvent(travelled, {
+    stableKey: `attend-journey:${journey.activity.id}:arrival`,
+    type: "life.scene.arrived",
+    occurredAt: travelled.currentDate,
+    recordedAt: travelled.currentDate,
+    jurisdictionId: destination.location.jurisdictionId,
+    involvedEntityIds: [
+      journey.activity.id,
+      destination.id,
+      ...journey.activity.participantPersonIds,
+    ],
+    participants: journey.activity.participantPersonIds.map((id) => ({
+      personId: id,
+      role: "presence:participant",
+      detail: `Arrived at ${destination.location.label}`,
+    })),
+    personFactConstraints: [],
+    visibility: destination.access.kind === "office" ? "limited" : "private",
+    tags: [
+      "attend-journey-v1",
+      `route:${journey.activity.location.locationKey}`,
+      `place:${destination.location.locationKey}`,
+      "cost:not-represented",
+    ],
+    summary: `Arrived at ${destination.location.label}.`,
+    context: {
+      location: {
+        jurisdictionId: destination.location.jurisdictionId,
+        label: destination.location.label,
+        setting: journey.destinationSetting,
+      },
+      socialContext: null,
+      pressure: null,
+      choice,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
 }

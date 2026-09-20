@@ -105,6 +105,7 @@ export function generateOpeningLife(
                   ensureLivingWorldOpening(
                     withPriorRecords,
                     game.playerPersonId,
+                    session.setup.livingWorldMemberNameVersion,
                   ),
                   game.playerPersonId,
                 ),

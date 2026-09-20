@@ -224,3 +224,22 @@ it("preserves opening data and chosen birth year without changing legacy descrip
     }),
   );
 });
+
+it("versions member names without rerolling the world or upgrading old descriptors", () => {
+  const setup: NewGameSetup = {
+    ...BASE,
+    livingWorldMemberNameVersion: "identity-v1",
+  };
+  expect(decodeReplayDescriptor(encodeReplayDescriptor(setup))).toEqual(setup);
+  expect(canonicalSetupEncoding(setup)).toBe(canonicalSetupEncoding(BASE));
+  expect(worldSeedFor(setup)).toBe(worldSeedFor(BASE));
+  expect(
+    decodeReplayDescriptor(encodeReplayDescriptor(BASE))
+      ?.livingWorldMemberNameVersion,
+  ).toBeUndefined();
+  const invalid = {
+    ...setup,
+    livingWorldMemberNameVersion: "future",
+  } as unknown as NewGameSetup;
+  expect(decodeReplayDescriptor(encodeReplayDescriptor(invalid))).toBeNull();
+});
