@@ -18,6 +18,14 @@ export const OPENING_REGION_TYPES = [
   "upper-midwest-tallgrass-prairie",
   "green-mountain-forest",
   "champlain-lake-lowland",
+  "pacific-temperate-rainforest",
+  "sonoran-desert",
+  "colorado-plateau-redrock",
+  "rocky-mountain-montane",
+  "subtropical-mangrove-wetland",
+  "north-atlantic-granite-coast",
+  "lower-mississippi-delta-marsh",
+  "basalt-coulee-steppe",
 ] as const;
 export type OpeningRegionType = (typeof OPENING_REGION_TYPES)[number];
 

@@ -3,7 +3,7 @@ import type { LifePlace } from "../simulation/life-places";
 import type { OpeningRegionType } from "./opening-regional-plate";
 
 /** Reviewed illustrative associations, never World industries or actual venues.
- * Evidence and scope: docs/reference/regional-opening/README.md and WAVE2.md.
+ * Evidence and scope: docs/reference/regional-opening/README.md, WAVE2.md and WAVE3.md.
  * Owner review 755/756 authorizes reusable scene types; geographical evidence
  * supports only the bounded associations below, not every place in a state.
  */
@@ -96,6 +96,66 @@ const associations: readonly {
     stateJurisdictionKey: "US-VT",
     displayName: "Burlington, Vermont",
     regionType: "champlain-lake-lowland",
+  },
+  {
+    sourceGeoid: "5324810",
+    stateJurisdictionKey: "US-WA",
+    displayName: "Forks, Washington",
+    regionType: "pacific-temperate-rainforest",
+  },
+  {
+    sourceGeoid: "0477000",
+    stateJurisdictionKey: "US-AZ",
+    displayName: "Tucson, Arizona",
+    regionType: "sonoran-desert",
+  },
+  {
+    sourceGeoid: "4950700",
+    stateJurisdictionKey: "US-UT",
+    displayName: "Moab, Utah",
+    regionType: "colorado-plateau-redrock",
+  },
+  {
+    sourceGeoid: "0825115",
+    stateJurisdictionKey: "US-CO",
+    displayName: "Estes Park, Colorado",
+    regionType: "rocky-mountain-montane",
+  },
+  {
+    sourceGeoid: "1221425",
+    stateJurisdictionKey: "US-FL",
+    displayName: "Everglades, Florida",
+    regionType: "subtropical-mangrove-wetland",
+  },
+  {
+    sourceGeoid: "2302830",
+    stateJurisdictionKey: "US-ME",
+    displayName: "Bar Harbor, Maine",
+    regionType: "north-atlantic-granite-coast",
+  },
+  {
+    sourceGeoid: "2248785",
+    stateJurisdictionKey: "US-LA",
+    displayName: "Marrero, Louisiana",
+    regionType: "lower-mississippi-delta-marsh",
+  },
+  {
+    sourceGeoid: "5315080",
+    stateJurisdictionKey: "US-WA",
+    displayName: "Coulee City, Washington",
+    regionType: "basalt-coulee-steppe",
+  },
+  {
+    sourceGeoid: "4103150",
+    stateJurisdictionKey: "US-OR",
+    displayName: "Astoria, Oregon",
+    regionType: "fishing-coast",
+  },
+  {
+    sourceGeoid: "0132272",
+    stateJurisdictionKey: "US-AL",
+    displayName: "Gulf Shores, Alabama",
+    regionType: "beach-coast",
   },
 ];
 

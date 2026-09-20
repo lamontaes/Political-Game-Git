@@ -19,6 +19,16 @@ const ANCHOR_ROWS = [
   ["2738564", "upper-midwest-tallgrass-prairie"],
   ["5070450", "green-mountain-forest"],
   ["5010675", "champlain-lake-lowland"],
+  ["5324810", "pacific-temperate-rainforest"],
+  ["0477000", "sonoran-desert"],
+  ["4950700", "colorado-plateau-redrock"],
+  ["0825115", "rocky-mountain-montane"],
+  ["1221425", "subtropical-mangrove-wetland"],
+  ["2302830", "north-atlantic-granite-coast"],
+  ["2248785", "lower-mississippi-delta-marsh"],
+  ["5315080", "basalt-coulee-steppe"],
+  ["4103150", "fishing-coast"],
+  ["0132272", "beach-coast"],
 ] as const;
 
 describe("reviewed illustrative region associations", () => {
@@ -36,7 +46,7 @@ describe("reviewed illustrative region associations", () => {
         stateJurisdictionKey: place.stateJurisdictionKey,
         regionTypes,
         asOf: makeIsoDate("2026-06-01"),
-        presentationKey: `wave2:${key}`,
+        presentationKey: `regional:${key}`,
       };
       const candidates = [...new Set(ANCHOR_ROWS.map((row) => row[1]))].map(
         (regionType) => ({
@@ -74,6 +84,15 @@ describe("reviewed illustrative region associations", () => {
   );
   it("does not extend the new exact anchors to nearby or same-state places", () => {
     for (const key of [
+      "0455000",
+      "4967000",
+      "0807850",
+      "1258715",
+      "2360545",
+      "2255000",
+      "4105800",
+      "5327995",
+      "0150000",
       "4803000",
       "4879000",
       "4009100",
