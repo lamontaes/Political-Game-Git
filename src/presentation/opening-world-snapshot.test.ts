@@ -22,6 +22,38 @@ describe("PLAYTEST65 canonical opening", () => {
     const before = serializeWorld(world);
     const snapshot = projectOpeningWorldSnapshot(world, playerPersonId);
     expect(snapshot.beats[0]?.key).toBe("white-house");
+    const localContext = snapshot.beats.find(
+      (beat) => beat.key === "local",
+    )!.sceneContext!;
+    expect(localContext).toMatchObject({
+      jurisdictionId: world.people[playerPersonId]!.homeJurisdictionId,
+      placeKey: "lexington-fayette",
+      stateJurisdictionKey: "US-KY",
+      asOf: world.currentDate,
+    });
+    expect(
+      snapshot.beats
+        .filter((beat) =>
+          ["white-house", "congress", "your-life"].includes(beat.key),
+        )
+        .every((beat) => beat.sceneContext === null),
+    ).toBe(true);
+    expect(
+      snapshot.beats.find((beat) => beat.key === "state")?.sceneContext
+        ?.presentationKey,
+    ).not.toBe(localContext.presentationKey);
+    const revised = {
+      ...world,
+      history: {
+        ...world.history,
+        nextSequence: world.history.nextSequence + 1,
+      },
+    };
+    expect(
+      projectOpeningWorldSnapshot(revised, playerPersonId).beats.find(
+        (beat) => beat.key === "local",
+      )?.sceneContext?.presentationKey,
+    ).toBe(localContext.presentationKey);
     expect(snapshot.president).not.toBeNull();
     expect(snapshot.vicePresident).not.toBeNull();
     expect(snapshot.president?.personId).not.toBe(
@@ -68,6 +100,36 @@ describe("PLAYTEST65 canonical opening", () => {
       projectOpeningWorldSnapshot(deserializeWorld(before), playerPersonId),
     ).toEqual(snapshot);
   });
+  it("binds the D.C. beat to its actual locality and preserves presentation identity through reload", () => {
+    const { world, playerPersonId } = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: "regional-dc",
+        placeKey: "1150000",
+        startAge: 34,
+      }),
+    ).game!;
+    const before = serializeWorld(world);
+    const snapshot = projectOpeningWorldSnapshot(world, playerPersonId);
+    const context = snapshot.beats.find(
+      (beat) => beat.key === "district",
+    )!.sceneContext!;
+    expect(context).toMatchObject({
+      placeKey: "1150000",
+      sourceGeoid: "1150000",
+      stateJurisdictionKey: "US-DC",
+      jurisdictionId: world.people[playerPersonId]!.homeJurisdictionId,
+    });
+    expect(snapshot.beats.some((beat) => beat.key === "state")).toBe(false);
+    expect(
+      projectOpeningWorldSnapshot(
+        deserializeWorld(before),
+        playerPersonId,
+      ).beats.find((beat) => beat.key === "district")?.sceneContext,
+    ).toEqual(context);
+    expect(serializeWorld(world)).toBe(before);
+  });
+
   it("preserves older opening descriptors without the added initialization policy", () => {
     const legacy = { ...DEFAULT_NEW_GAME_SETUP, openingDataVersion: undefined };
     const { world, playerPersonId } = generateOpeningLife(

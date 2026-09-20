@@ -1,4 +1,7 @@
 import { type EntityId, type IsoDate, type World } from "../simulation";
+import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { stableHash } from "../simulation/ids";
+import type { OpeningRegionalSceneContext } from "./opening-regional-plate";
 import { projectOpeningLife } from "./opening-life";
 import { projectWorldOrientation } from "./living-world-orientation";
 import { currentPublicOfficeholders } from "./opening-officeholders";
@@ -12,6 +15,7 @@ export interface OpeningWorldBeat {
   readonly jurisdictionId: EntityId | null;
   readonly entityIds: readonly EntityId[];
   readonly facts: readonly string[];
+  readonly sceneContext: OpeningRegionalSceneContext | null;
   readonly sceneRequest:
     "white-house-exterior" | "congress" | "government" | "home" | null;
 }
@@ -33,6 +37,21 @@ export function projectOpeningWorldSnapshot(world: World, personId: EntityId) {
     orientation.locality?.governments.flatMap((item) =>
       item.organizationId ? [item.organizationId] : [],
     ) ?? [];
+  const homeJurisdictionId = world.people[personId]!.homeJurisdictionId;
+  const home = lifePlaceByJurisdictionId(homeJurisdictionId);
+  const regionalContext = (
+    beat: "state" | "district" | "local",
+  ): OpeningRegionalSceneContext | null =>
+    home
+      ? {
+          jurisdictionId: homeJurisdictionId,
+          placeKey: home.key,
+          sourceGeoid: home.sourceGeoid ?? null,
+          stateJurisdictionKey: home.stateJurisdictionKey,
+          asOf: world.currentDate,
+          presentationKey: `opening-region:${stableHash(JSON.stringify([personId, beat, home.key, homeJurisdictionId]))}`,
+        }
+      : null;
   const beats: OpeningWorldBeat[] = [
     {
       key: "white-house",
@@ -42,6 +61,7 @@ export function projectOpeningWorldSnapshot(world: World, personId: EntityId) {
       facts: [president, vicePresident].flatMap((item) =>
         item ? [`${item.personName} — ${item.title}`] : [],
       ),
+      sceneContext: null,
       sceneRequest: "white-house-exterior",
     },
     {
@@ -50,6 +70,7 @@ export function projectOpeningWorldSnapshot(world: World, personId: EntityId) {
       jurisdictionId: null,
       entityIds: [],
       facts: [],
+      sceneContext: null,
       sceneRequest: "congress",
     },
     {
@@ -66,6 +87,7 @@ export function projectOpeningWorldSnapshot(world: World, personId: EntityId) {
             `${orientation.homeState.governor.personName} — ${orientation.homeState.governor.title}`,
           ]
         : [],
+      sceneContext: regionalContext(district ? "district" : "state"),
       sceneRequest: "government",
     },
     ...(!district
@@ -77,6 +99,7 @@ export function projectOpeningWorldSnapshot(world: World, personId: EntityId) {
             entityIds: localIds,
             facts:
               orientation.locality?.governments.map((item) => item.name) ?? [],
+            sceneContext: regionalContext("local"),
             sceneRequest: null,
           },
         ]
@@ -93,6 +116,7 @@ export function projectOpeningWorldSnapshot(world: World, personId: EntityId) {
         ...life.household.sentences,
         ...life.household.grounding.map((item) => item.text),
       ],
+      sceneContext: null,
       sceneRequest: "home",
     },
   ];
