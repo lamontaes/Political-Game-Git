@@ -146,8 +146,8 @@ function buildGrounding(
           (death) =>
             death.personId === otherId && death.diedAt <= world.currentDate,
         )
-          ? `${introducePerson(context)} has died.`
-          : `${introducePerson(context)}.`,
+          ? `${context.name}, ${context.relationship}, has died.`
+          : `${context.name} is ${context.relationship}.`,
         basis: kinship.id,
       });
     }
@@ -255,11 +255,10 @@ export function buildLifeIntroduction(
         : householdAbsenceLine(primary !== undefined),
     );
   } else {
-    // One line each rather than a joined list. An introduction already carries
-    // a comma — "Dakota Romero, your mom" — so joining two of them with
-    // another comma produces a sentence a reader has to parse twice.
-    sentences.push("At home with you:");
-    for (const person of others) sentences.push(person.introduction);
+    // Complete sentences can be assembled into a paragraph without turning
+    // relationship labels into fragments. Only current members support this.
+    for (const person of others)
+      sentences.push(`You live with ${person.introduction}.`);
   }
 
   return {

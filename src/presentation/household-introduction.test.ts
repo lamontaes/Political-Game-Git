@@ -6,6 +6,7 @@ import {
   recordHouseholdLocation,
   startHouseholdMembership,
 } from "../simulation/life";
+import { recordPersonDeath } from "../simulation";
 import { householdMembershipsAt } from "../simulation/life-queries";
 import { serializeWorld, deserializeWorld } from "../simulation/serialization";
 
@@ -39,6 +40,53 @@ describe("explicit current single-resident introduction", () => {
         (event) => event.type === "life.household-composition",
       ),
     ).toHaveLength(1);
+  });
+  it("assembles full family sentences without turning kinship into co-residence", () => {
+    const alone = make("lives-alone");
+    const saved = serializeWorld(alone.world);
+    const packet = buildLifeIntroduction(alone.world, alone.playerPersonId)!;
+    const family = packet.grounding.filter((fact) => fact.kind === "family");
+    expect(family.length).toBeGreaterThan(0);
+    for (const fact of family) expect(fact.text).toMatch(/ is your .+\.$/);
+    expect(packet.sentences).toContain("You live alone.");
+    expect(
+      packet.sentences.some((text) => text.startsWith("You live with ")),
+    ).toBe(false);
+    expect(serializeWorld(alone.world)).toBe(saved);
+    const shared = make("shares-a-home");
+    const household = buildLifeIntroduction(
+      shared.world,
+      shared.playerPersonId,
+    )!;
+    expect(household.household.length).toBeGreaterThan(0);
+    expect(household.sentences).not.toContain("At home with you:");
+    for (const person of household.household)
+      expect(household.sentences).toContain(
+        `You live with ${person.introduction}.`,
+      );
+    const kinship = alone.world.history.kinshipRelationships.find(
+      (record) => record.id === family[0]!.basis,
+    )!;
+    const parentId = kinship.personIds.find(
+      (id) => id !== alone.playerPersonId,
+    )!;
+    const bereaved = recordPersonDeath(alone.world, {
+      stableKey: "fixture:family-introduction-death",
+      personId: parentId,
+      diedAt: alone.world.currentDate,
+      causeKey: "custom:fixture",
+      sourceEntityIds: [parentId],
+      summary: "A recorded death for the introduction fixture.",
+      provenance: { kind: "authored", note: "Family sentence regression" },
+    });
+    const deathLine = buildLifeIntroduction(
+      bereaved,
+      alone.playerPersonId,
+    )!.grounding.find((fact) => fact.basis === family[0]!.basis)!;
+    expect(deathLine.text).toMatch(/, your .+, has died\.$/);
+    expect(
+      buildLifeIntroduction(bereaved, alone.playerPersonId)!.sentences,
+    ).toContain("You live alone.");
   });
   it("preserves unknown wording for legacy and incomplete shared households", () => {
     // Explicit omission, rather than the helper's default parameter.
