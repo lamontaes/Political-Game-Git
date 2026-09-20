@@ -48,6 +48,7 @@ import {
   CARD_STATUS_LABELS,
   artDeskCards,
   generationRequestReady,
+  candidateReviewView,
   assetFileStem,
   candidateNotes,
   cardIsUntagged,
@@ -1706,7 +1707,7 @@ function RequestDetail({
         </p>
       ) : null}
       <p className="art-desk-meta">
-        {viewed ? "Artwork" : "Request"}
+        {viewed ? (candidateReviewView(viewed) ?? "Artwork") : "Request"}
         {viewed
           ? ` · Revision ${viewed.revision} · ${CARD_STATUS_LABELS[viewed.status]}`
           : " · Waiting for an image"}
@@ -1828,6 +1829,9 @@ function RequestDetail({
                   />
                   <span className="art-desk-row-copy">
                     <strong>
+                      {candidateReviewView(candidate)
+                        ? `${candidateReviewView(candidate)} · `
+                        : ""}
                       Revision {candidate.revision}
                       {candidate.qa ? " · Test image" : ""}
                       {request.selectedCandidateId === candidateId

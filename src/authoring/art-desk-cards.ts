@@ -862,3 +862,17 @@ export function generationRequestReady(
     })
   );
 }
+
+/** Producer-supplied review views remain distinct from revision decisions. */
+export function candidateReviewView(
+  candidate: ProjectedCandidate,
+): string | null {
+  const view = candidate.tags.reviewView?.[0];
+  if (view === "clean") return "Clean image";
+  if (view === "annotated") return "Annotated image";
+  if (view === "contact-closeup") return "Contact close-up";
+  const roles = candidate.tags.role ?? candidate.inheritedTags?.role ?? [];
+  if (roles.includes("clean-review")) return "Clean image";
+  if (roles.includes("diagnostic")) return "Reference image";
+  return null;
+}

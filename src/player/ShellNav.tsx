@@ -679,7 +679,9 @@ export function ShellNav({
                         : onLeave()
                   }
                 >
-                  {canSave && onSaveAndLeave ? "Save and Quit" : "Quit"}
+                  {canSave && onSaveAndLeave
+                    ? "Save and leave"
+                    : "Return to title"}
                   <small>To the main menu</small>
                 </button>
               </div>
@@ -697,10 +699,11 @@ export function ShellNav({
           data-testid="leave-confirm"
         >
           <p className="pg-nav-heading" id="pg-nav-confirm-title">
-            Save before quitting?
+            Save before returning to the title?
           </p>
           <p className="pg-nav-confirm-copy">
-            This life has not been saved. Quitting now leaves it behind.
+            This life has not been saved. Returning to the title now leaves it
+            behind.
           </p>
           <button
             type="button"
@@ -723,7 +726,7 @@ export function ShellNav({
               onLeave();
             }}
           >
-            Quit without saving
+            Return without saving
           </button>
           <button
             type="button"
