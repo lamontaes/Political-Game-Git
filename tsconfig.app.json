@@ -20,6 +20,12 @@
     "jsx": "react-jsx",
     "types": ["vite/client"]
   },
+  "files": [
+    "src/source/adapters/state-voting-context.ts",
+    "src/source/domains/census-voting-registration/types.ts",
+    "src/source/core/value.ts",
+    "src/source/core/errors.ts"
+  ],
   "include": ["src"],
   "exclude": ["src/**/*.test.ts", "src/cli", "src/persistence", "src/source"]
 }

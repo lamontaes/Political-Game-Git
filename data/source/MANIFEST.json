@@ -203,6 +203,53 @@
     {
       "artifacts": [
         {
+          "artifactId": "cps-2024-vote04a",
+          "sha256": "068e47d3c7fc970107bd5b4ceb68d557d2cba48158e521b50806f60227da5deb",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "cps-2024-vote04b",
+          "sha256": "fa33c7db6986e49eab1b1930fa1e9bd64f966b9be74a056d0e237cbc1431155b",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "cps-2024-vote04c",
+          "sha256": "dacbb628705ba82e578531b227ef3d82925027491bdbc13067a6c86525992b8e",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "cps-2024-methodology",
+          "sha256": "32acc6da13023a8672313260e35e2d88bea719f64e6eb1ba482b8b25733479df",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "cps-2024-release",
+          "sha256": "bd437e01cf550d175819f7173c5091a1f07652847db008a9335b0eaf15cc1121",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2025-04-30",
+      "boundedSampleReason": "One survey reference period and three published tables. Reported estimates of civilian noninstitutionalized adults; not administrative voter rolls, legal eligibility, party registration or simulated residents.",
+      "canonicalSha256": "10e69654c29e3dc202312cadcf0e3e44c097afa56379712d462c95f4e5b8ed71",
+      "compiler": {
+        "name": "census-voting-registration",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "10e69654c29e3dc202312cadcf0e3e44c097afa56379712d462c95f4e5b8ed71",
+      "corpusId": "census-voting-registration",
+      "domain": "census-voting-registration",
+      "isCompleteUniverse": false,
+      "recordCount": 936,
+      "universeDescription": "Published November 2024 CPS tables 4a, 4b and 4c: United States, 50 states and District of Columbia, with published total, sex, race/Hispanic-origin and age groups."
+    },
+    {
+      "artifacts": [
+        {
           "artifactId": "uscode-title5-section2102",
           "sha256": "b8c26d4a76baaea9dd3a40e596f1fb51276a262eaa28962717b90aa7fe45040b",
           "sliceOfParent": null,

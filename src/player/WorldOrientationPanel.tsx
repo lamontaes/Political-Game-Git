@@ -19,6 +19,7 @@ import type {
 import type { EntityId, World } from "../simulation";
 import { GameSelect } from "./controls/GameSelect";
 import { OpeningStatePopulation } from "./OpeningStatePopulation";
+import { OpeningStateVoting } from "./OpeningStateVoting";
 import { SavedPersonFigure } from "./SavedPersonFigure";
 import { PersonPortrait } from "./PersonPortrait";
 import { candidateEstablishingPlate } from "./candidate-establishing-plate";
@@ -135,9 +136,9 @@ export function WorldOrientationPanel({
           }),
         )
       : [];
-  const [stateCard, setStateCard] = useState<"government" | "population">(
-    "government",
-  );
+  const [stateCard, setStateCard] = useState<
+    "government" | "population" | "voting"
+  >("government");
   const [chosenRegion, setChosenRegion] = useState<string | null>(null);
   const regionIndex = Math.max(
     0,
@@ -203,33 +204,40 @@ export function WorldOrientationPanel({
                   Your home region · Illustration
                 </p>
               ) : null}
-              {stateCard === "government" ? (
-                <>
-                  <h3>
-                    {homeStateUsps === "DC"
-                      ? "Your District government"
-                      : "Your state government"}
-                  </h3>
-                  <p>{step.summary}</p>
-                  {step.people.length > 0 ? (
-                    <ul className="pg-orientation-people">
-                      {step.people.map((person) => (
-                        <li key={`${person.personId}:${person.title}`}>
-                          <PersonButton
-                            person={person}
-                            onOpenPerson={onOpenPerson}
-                          />
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-                </>
-              ) : (
-                <OpeningStatePopulation
-                  stateUsps={homeStateUsps}
-                  asOf={world?.currentDate ?? regionalContext?.asOf ?? ""}
-                />
-              )}
+              <div className="pg-regional-card-body">
+                {stateCard === "government" ? (
+                  <>
+                    <h3>
+                      {homeStateUsps === "DC"
+                        ? "Your District government"
+                        : "Your state government"}
+                    </h3>
+                    <p>{step.summary}</p>
+                    {step.people.length > 0 ? (
+                      <ul className="pg-orientation-people">
+                        {step.people.map((person) => (
+                          <li key={`${person.personId}:${person.title}`}>
+                            <PersonButton
+                              person={person}
+                              onOpenPerson={onOpenPerson}
+                            />
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </>
+                ) : stateCard === "population" ? (
+                  <OpeningStatePopulation
+                    stateUsps={homeStateUsps}
+                    asOf={world?.currentDate ?? regionalContext?.asOf ?? ""}
+                  />
+                ) : (
+                  <OpeningStateVoting
+                    stateUsps={homeStateUsps}
+                    asOf={world?.currentDate ?? regionalContext?.asOf ?? ""}
+                  />
+                )}
+              </div>
               <nav
                 className="pg-regional-state-cards"
                 aria-label={
@@ -253,6 +261,14 @@ export function WorldOrientationPanel({
                   onClick={() => setStateCard("population")}
                 >
                   Population
+                </button>
+                <button
+                  type="button"
+                  className="ui-action"
+                  aria-pressed={stateCard === "voting"}
+                  onClick={() => setStateCard("voting")}
+                >
+                  Voting
                 </button>
               </nav>
               {regionalPlates.length > 1 ? (

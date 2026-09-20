@@ -102,7 +102,10 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
   const openingDate = page.locator(".pg-orientation-kicker");
   const before = await openingDate.textContent();
   await page.getByTestId("orientation-next").click();
+  await expect(page.getByTestId("orientation-step-state")).toBeVisible();
+  await page.getByTestId("orientation-next").click();
   await expect(page.getByTestId("orientation-step-congress")).toBeVisible();
+  await page.getByTestId("orientation-back").click();
   await page.getByTestId("orientation-back").click();
   await expect(openingDate).toHaveText(before!);
   await enterLife(page);
@@ -171,4 +174,75 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
   await enterLife(page);
   await expect(page.getByTestId("story-who")).toContainText("Alexandra");
   expect(errors).toEqual([]);
+});
+
+test("childhood questionnaire introduces its imagined household and reaches appearance review", async ({
+  page,
+}, info) => {
+  await page.goto(
+    "/?art-preview=candidate&seed=playtest65-child-questionnaire",
+  );
+  await fillCreator(page, {
+    age: 10,
+    state: "Kentucky",
+    place: "Lexington",
+    calibration: "short",
+  });
+  await page.getByTestId("begin").click();
+  const prompt = page.getByTestId("questionnaire-prompt");
+  await expect(prompt).toContainText("Dee, who looks after you");
+  await expect(
+    page.getByRole("button", {
+      name: "Wake your sister Bea and tell her",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await page.screenshot({
+    path: info.outputPath("childhood-questionnaire.png"),
+  });
+  const sisterOption = page.getByRole("button", {
+    name: "Wake your sister Bea and tell her",
+    exact: true,
+  });
+  await sisterOption.focus();
+  await page.getByTestId("questionnaire-screen").hover();
+  await page.mouse.wheel(0, 400);
+  const footerBounds = await page.locator(".game-setup-actions").boundingBox();
+  await expect
+    .poll(async () => {
+      const bounds = await sisterOption.boundingBox();
+      return bounds!.y + bounds!.height;
+    })
+    .toBeLessThanOrEqual(footerBounds!.y);
+  await page.screenshot({
+    path: info.outputPath("childhood-questionnaire-last-answer.png"),
+  });
+  const screens = [];
+  for (let i = 0; i < 5; i++) {
+    await expect(page.getByTestId("questionnaire-screen")).toBeVisible();
+    screens.push({
+      prompt: await prompt.innerText(),
+      options: await page
+        .getByTestId("questionnaire-options")
+        .getByRole("button")
+        .allTextContents(),
+    });
+    if (i === 0) await sisterOption.click();
+    else
+      await page
+        .getByTestId("questionnaire-options")
+        .getByRole("button")
+        .first()
+        .click();
+  }
+  await expect(page.getByTestId("questionnaire-screen")).toHaveCount(0);
+  await expect(page.getByTestId("begin")).toBeVisible();
+  await info.attach("assembled-questionnaire", {
+    body: JSON.stringify(
+      { age: 10, route: "normal", path: "short", screens },
+      null,
+      2,
+    ),
+    contentType: "application/json",
+  });
 });

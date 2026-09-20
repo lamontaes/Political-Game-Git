@@ -1,4 +1,5 @@
 import { expect, test } from "./fixtures";
+import { chooseOption, expectChosen } from "./support/controls";
 
 const places = [
   {
@@ -247,6 +248,91 @@ test("District introduction follows the White House and keeps population and Con
   await expect(page.getByTestId("orientation-step-congress")).toBeVisible();
   await page.getByTestId("orientation-next").click();
   await expect(page.getByTestId("orientation-step-your-life")).toBeVisible();
+  expect(
+    await page.evaluate(async () => {
+      const path = "/tests/support/regional-opening-preview.tsx";
+      return (await import(/* @vite-ignore */ path)).regionalPreviewUnchanged();
+    }),
+  ).toBe(true);
+});
+
+test("state voting card shows dated survey counts and readable group tables without changing the saved life", async ({
+  page,
+}, info) => {
+  test.setTimeout(120_000);
+  await page.setViewportSize({ width: 1024, height: 768 });
+  await page.goto("/?art-preview=candidate");
+  await page.evaluate(async () => {
+    const path = "/tests/support/regional-opening-preview.tsx";
+    (await import(/* @vite-ignore */ path)).mountRegionalOpeningPreview({
+      placeKey: "2160852",
+      stateName: "Kentucky",
+      summer: true,
+      reviewCandidates: false,
+    });
+  });
+  await page.getByTestId("orientation-next").click();
+  await page.getByRole("button", { name: "Voting", exact: true }).focus();
+  await page.keyboard.press("Enter");
+  const selectedVoting = page.getByRole("button", {
+    name: "Voting",
+    exact: true,
+  });
+  await expect(selectedVoting).toBeFocused();
+  await expect(selectedVoting).toHaveCSS(
+    "background-color",
+    "rgb(234, 208, 148)",
+  );
+  await expect(selectedVoting).toHaveCSS("color", "rgb(23, 32, 43)");
+  const voting = page.getByTestId("opening-state-voting");
+  await expect(voting.getByText("2,558,000", { exact: true })).toBeVisible();
+  await expect(voting.getByText("2,152,000", { exact: true })).toBeVisible();
+  await expect(voting.getByText(/67\.7% ± 3\.6 reported voting/)).toBeVisible();
+  await page.screenshot({ path: info.outputPath("state-voting-1024.png") });
+  await voting
+    .getByText("Voter breakdown and sources", { exact: true })
+    .click();
+  const group = voting.getByLabel("Group by");
+  await group.focus();
+  await page.keyboard.press("Space");
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("Enter");
+  await expectChosen(group, "sex");
+  await expect(
+    voting.getByRole("rowheader", { name: "Male", exact: true }),
+  ).toBeVisible();
+  await chooseOption(group, "raceAndHispanicOrigin");
+  await expect(
+    voting.getByText(
+      "These categories overlap and must not be added together.",
+    ),
+  ).toBeVisible();
+  const source = voting.getByRole("link", {
+    name: "U.S. Census Bureau · Table 4b",
+  });
+  await expect(source).toHaveAttribute(
+    "href",
+    /census\.gov\/.*vote04b_2024\.xlsx$/,
+  );
+  await expect(source).toHaveCSS("color", "rgb(234, 208, 148)");
+  await source.scrollIntoViewIfNeeded();
+  const card = await page
+    .locator(".pg-regional-state-information")
+    .boundingBox();
+  const scene = await page.getByTestId("opening-regional-scene").boundingBox();
+  expect(card!.y).toBeGreaterThanOrEqual(scene!.y);
+  expect(card!.y + card!.height).toBeLessThanOrEqual(scene!.y + scene!.height);
+  await expect(
+    page.getByRole("button", { name: "Government", exact: true }),
+  ).toBeInViewport();
+  await expect(page.getByTestId("orientation-next")).toBeInViewport();
+  await page.screenshot({
+    path: info.outputPath("state-voting-expanded-1024.png"),
+  });
+  await page.getByRole("button", { name: "Government", exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: "Your state government" }),
+  ).toBeVisible();
   expect(
     await page.evaluate(async () => {
       const path = "/tests/support/regional-opening-preview.tsx";

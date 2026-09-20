@@ -1,4 +1,4 @@
-import type { Evidence, Sourced } from "../../core/index";
+import type { Evidence, Sourced } from "../../core/value";
 
 export type CpsVotingTable = "4a" | "4b" | "4c";
 export type CpsMetricKey =

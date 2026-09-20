@@ -400,12 +400,50 @@
   object-fit: contain;
 }
 .pg-regional-state-information {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100cqh - 2rem);
   width: min(46%, 31rem);
   padding: 1rem;
   border: 1px solid #7d8796;
   border-radius: 0.5rem;
   background: rgb(23 32 43 / 96%);
   color: #f5efe2;
+}
+.pg-regional-card-body {
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+.pg-regional-card-body h3 {
+  margin-top: 0;
+}
+.pg-regional-card-body a {
+  color: #ead094;
+  text-underline-offset: 0.15em;
+}
+.pg-regional-state-cards,
+.pg-regional-scene-navigation,
+.pg-regional-context {
+  flex-shrink: 0;
+}
+.pg-state-voting-table-wrap {
+  overflow-x: auto;
+}
+.pg-state-voting-table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.pg-state-voting-table-wrap th,
+.pg-state-voting-table-wrap td {
+  padding: 0.5rem 0.3rem;
+  border-bottom: 1px solid #7d8796;
+  text-align: left;
+  vertical-align: top;
+}
+.pg-state-voting-table-wrap td {
+  white-space: nowrap;
 }
 .pg-regional-context {
   margin: 0 0 0.75rem;
@@ -510,8 +548,14 @@
   gap: 0.5rem;
   margin-top: 1rem;
 }
+.pg-regional-state-cards .ui-action {
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
 .pg-regional-state-cards .ui-action[aria-pressed="true"],
-.pg-regional-state-cards .ui-action[aria-pressed="true"]:hover {
+.pg-regional-state-cards
+  .ui-action[aria-pressed="true"]:is(:hover, :focus-visible, :active) {
   color: #17202b;
   background: #ead094;
 }
