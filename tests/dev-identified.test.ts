@@ -1,14 +1,26 @@
-import { afterEach, describe, it, expect } from "vitest";
+import { afterAll, afterEach, beforeAll, describe, it, expect } from "vitest";
 import { spawn, type ChildProcess, type SpawnOptions } from "child_process";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "path";
 import net from "net";
+import { ArtbenchStore } from "../scripts/dev-lab/artbench-store";
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 const ownedChildren: ChildProcess[] = [];
 const ownedServers: net.Server[] = [];
-const ownedDirectories: string[] = [];
+const fixtureRoot = mkdtempSync(path.join(tmpdir(), "identified-server-test-"));
+beforeAll(() => {
+  // Prepare a returning user's isolated records once. Legacy asset import has
+  // its own store tests; it is not part of the launcher's lifecycle deadline.
+  new ArtbenchStore({
+    dataRoot: path.join(fixtureRoot, "records"),
+    workspace: REPO_ROOT,
+    driveRoot: null,
+    ownerId: "launcher-fixture",
+  });
+});
+afterAll(() => rmSync(fixtureRoot, { recursive: true, force: true }));
 afterEach(async () => {
   for (const child of ownedChildren.splice(0)) {
     if (child.exitCode !== null || child.signalCode !== null) continue;
@@ -25,9 +37,7 @@ afterEach(async () => {
     if (server.listening)
       await new Promise<void>((resolve) => server.close(() => resolve()));
   }
-  for (const directory of ownedDirectories.splice(0))
-    rmSync(directory, { recursive: true, force: true });
-}, 8000); // Cleanup may outlive the unchanged 5s assertion deadline.
+}, 8000); // Cleanup also covers a failed startup assertion.
 async function unusedPort() {
   const server = net.createServer();
   await new Promise<void>((resolve, reject) => {
@@ -44,16 +54,14 @@ function spawnOwned(
   args: readonly string[],
   options: SpawnOptions = {},
 ) {
-  const root = mkdtempSync(path.join(tmpdir(), "identified-server-test-"));
-  ownedDirectories.push(root);
   const child = spawn(command, args, {
     ...options,
     env: {
       ...process.env,
       ...options.env,
       // Launcher tests must not read or sync the owner's Art Desk and Drive.
-      PG_ARTBENCH_DATA_ROOT: path.join(root, "records"),
-      PG_ARTBENCH_DRIVE_ROOT: path.join(root, "unmounted-drive"),
+      PG_ARTBENCH_DATA_ROOT: path.join(fixtureRoot, "records"),
+      PG_ARTBENCH_DRIVE_ROOT: path.join(fixtureRoot, "unmounted-drive"),
       PG_ARTBENCH_SYNC_MS: "0",
     },
   });
@@ -119,228 +127,235 @@ async function waitForOutput(
   return false;
 }
 
-describe("dev:identified lifecycle and CLI forwarding", () => {
-  it("prints banner and forwards custom arguments like --mode", async () => {
-    const port = await unusedPort();
-    const child = spawnOwned(
-      process.execPath,
-      [
-        SCRIPT_PATH,
-        "--port",
-        port.toString(),
-        "--mode",
-        "test-proof-mode",
-        "--seed",
-        "review /?& fixture",
-      ],
-      {
-        cwd: REPO_ROOT,
-        stdio: ["pipe", "pipe", "pipe"],
-      },
-    );
+// These integration cases launch a real Vite process, then wait for its shutdown.
+// Match the existing 10s startup + 5s shutdown deadlines with room for IPC;
+// the global unit-test timeout remains unchanged.
+describe(
+  "dev:identified lifecycle and CLI forwarding",
+  { timeout: 20000 },
+  () => {
+    it("prints banner and forwards custom arguments like --mode", async () => {
+      const port = await unusedPort();
+      const child = spawnOwned(
+        process.execPath,
+        [
+          SCRIPT_PATH,
+          "--port",
+          port.toString(),
+          "--mode",
+          "test-proof-mode",
+          "--seed",
+          "review /?& fixture",
+        ],
+        {
+          cwd: REPO_ROOT,
+          stdio: ["pipe", "pipe", "pipe"],
+        },
+      );
 
-    let output = "";
-    child.stdout!.on("data", (data) => {
-      output += data.toString();
-    });
-    child.stderr!.on("data", (data) => {
-      output += data.toString();
-    });
+      let output = "";
+      child.stdout!.on("data", (data) => {
+        output += data.toString();
+      });
+      child.stderr!.on("data", (data) => {
+        output += data.toString();
+      });
 
-    const exitPromise = new Promise<{
-      code: number | null;
-      signal: NodeJS.Signals | null;
-    }>((resolve) => {
-      child.on("exit", (code, signal) => resolve({ code, signal }));
-    });
+      const exitPromise = new Promise<{
+        code: number | null;
+        signal: NodeJS.Signals | null;
+      }>((resolve) => {
+        child.on("exit", (code, signal) => resolve({ code, signal }));
+      });
 
-    const isReady = await waitForPort(port, true, 10000);
-    expect(isReady).toBe(true);
+      const isReady = await waitForPort(port, true, 10000);
+      expect(isReady).toBe(true);
 
-    expect(output).toContain("POLITICAL GAME DEV SERVER");
-    expect(output).toContain("Workspace:");
-    expect(output).toContain("Branch:");
-    expect(output).toContain("Commit:");
-    expect(output).toContain("Host: 127.0.0.1");
-    expect(output).toContain(`Requested Port: ${port}`);
-    expect(output).toContain("Launcher PID:");
-    const play = `Play: http://127.0.0.1:${port}/\n`;
-    const candidate = `Candidate-art Play (separate saves): http://127.0.0.1:${port}/?art-preview=candidate\n`;
-    const review = `Review tools (developer fixtures): http://127.0.0.1:${port}/review.html?seed=review%20%2F%3F%26%20fixture\n`;
-    expect(output).toContain(play);
-    expect(output).toContain(candidate);
-    expect(output).toContain(review);
-    expect(output.indexOf(play)).toBeLessThan(output.indexOf(candidate));
-    expect(output.indexOf(candidate)).toBeLessThan(output.indexOf(review));
-    // Printed by Vite, not by the launcher, so it can arrive after the bind.
-    expect(await waitForOutput(() => output, "test-proof-mode")).toBe(true);
+      expect(output).toContain("POLITICAL GAME DEV SERVER");
+      expect(output).toContain("Workspace:");
+      expect(output).toContain("Branch:");
+      expect(output).toContain("Commit:");
+      expect(output).toContain("Host: 127.0.0.1");
+      expect(output).toContain(`Requested Port: ${port}`);
+      expect(output).toContain("Launcher PID:");
+      const play = `Play: http://127.0.0.1:${port}/\n`;
+      const candidate = `Candidate-art Play (separate saves): http://127.0.0.1:${port}/?art-preview=candidate\n`;
+      const review = `Review tools (developer fixtures): http://127.0.0.1:${port}/review.html?seed=review%20%2F%3F%26%20fixture\n`;
+      expect(output).toContain(play);
+      expect(output).toContain(candidate);
+      expect(output).toContain(review);
+      expect(output.indexOf(play)).toBeLessThan(output.indexOf(candidate));
+      expect(output.indexOf(candidate)).toBeLessThan(output.indexOf(review));
+      // Printed by Vite, not by the launcher, so it can arrive after the bind.
+      expect(await waitForOutput(() => output, "test-proof-mode")).toBe(true);
 
-    child.kill("SIGTERM");
-    const isClosed = await waitForPort(port, false, 5000);
-    expect(isClosed).toBe(true);
+      child.kill("SIGTERM");
+      const isClosed = await waitForPort(port, false, 5000);
+      expect(isClosed).toBe(true);
 
-    const { code } = await exitPromise;
-    expect(code).toBe(143);
-  });
-
-  it("handles --host= and --port= syntax without duplicating arguments", async () => {
-    const port = await unusedPort();
-    const child = spawnOwned(
-      process.execPath,
-      [SCRIPT_PATH, `--port=${port}`, "--host=127.0.0.1"],
-      {
-        cwd: REPO_ROOT,
-        stdio: ["pipe", "pipe", "pipe"],
-      },
-    );
-
-    let output = "";
-    child.stdout!.on("data", (data) => {
-      output += data.toString();
+      const { code } = await exitPromise;
+      expect(code).toBe(143);
     });
 
-    const exitPromise = new Promise<{
-      code: number | null;
-      signal: NodeJS.Signals | null;
-    }>((resolve) => {
-      child.on("exit", (code, signal) => resolve({ code, signal }));
+    it("handles --host= and --port= syntax without duplicating arguments", async () => {
+      const port = await unusedPort();
+      const child = spawnOwned(
+        process.execPath,
+        [SCRIPT_PATH, `--port=${port}`, "--host=127.0.0.1"],
+        {
+          cwd: REPO_ROOT,
+          stdio: ["pipe", "pipe", "pipe"],
+        },
+      );
+
+      let output = "";
+      child.stdout!.on("data", (data) => {
+        output += data.toString();
+      });
+
+      const exitPromise = new Promise<{
+        code: number | null;
+        signal: NodeJS.Signals | null;
+      }>((resolve) => {
+        child.on("exit", (code, signal) => resolve({ code, signal }));
+      });
+
+      const isReady = await waitForPort(port, true, 10000);
+      expect(isReady).toBe(true);
+
+      expect(output).toContain("Host: 127.0.0.1");
+      expect(output).toContain(`Requested Port: ${port}`);
+      expect(output).toContain(
+        `Review tools (developer fixtures): http://127.0.0.1:${port}/review.html?seed=dev-lab2-review`,
+      );
+
+      child.kill("SIGTERM");
+      const isClosed = await waitForPort(port, false, 5000);
+      expect(isClosed).toBe(true);
+
+      const { code } = await exitPromise;
+      expect(code).toBe(143);
     });
 
-    const isReady = await waitForPort(port, true, 10000);
-    expect(isReady).toBe(true);
+    it("terminates cleanly and frees port on SIGTERM to wrapper", async () => {
+      const port = await unusedPort();
+      const child = spawnOwned(
+        process.execPath,
+        [SCRIPT_PATH, "--port", port.toString()],
+        {
+          cwd: REPO_ROOT,
+          stdio: ["pipe", "pipe", "pipe"],
+        },
+      );
 
-    expect(output).toContain("Host: 127.0.0.1");
-    expect(output).toContain(`Requested Port: ${port}`);
-    expect(output).toContain(
-      `Review tools (developer fixtures): http://127.0.0.1:${port}/review.html?seed=dev-lab2-review`,
-    );
+      const exitPromise = new Promise<{
+        code: number | null;
+        signal: NodeJS.Signals | null;
+      }>((resolve) => {
+        child.on("exit", (code, signal) => resolve({ code, signal }));
+      });
 
-    child.kill("SIGTERM");
-    const isClosed = await waitForPort(port, false, 5000);
-    expect(isClosed).toBe(true);
+      const isReady = await waitForPort(port, true, 10000);
+      expect(isReady).toBe(true);
 
-    const { code } = await exitPromise;
-    expect(code).toBe(143);
-  });
+      // Send SIGTERM to wrapper
+      child.kill("SIGTERM");
 
-  it("terminates cleanly and frees port on SIGTERM to wrapper", async () => {
-    const port = await unusedPort();
-    const child = spawnOwned(
-      process.execPath,
-      [SCRIPT_PATH, "--port", port.toString()],
-      {
-        cwd: REPO_ROOT,
-        stdio: ["pipe", "pipe", "pipe"],
-      },
-    );
+      const isClosed = await waitForPort(port, false, 5000);
+      expect(isClosed).toBe(true);
 
-    const exitPromise = new Promise<{
-      code: number | null;
-      signal: NodeJS.Signals | null;
-    }>((resolve) => {
-      child.on("exit", (code, signal) => resolve({ code, signal }));
+      const { code } = await exitPromise;
+      expect(code).toBe(143);
     });
 
-    const isReady = await waitForPort(port, true, 10000);
-    expect(isReady).toBe(true);
+    it("terminates cleanly and frees port on SIGINT to wrapper", async () => {
+      const port = await unusedPort();
+      const child = spawnOwned(
+        process.execPath,
+        [SCRIPT_PATH, "--port", port.toString()],
+        {
+          cwd: REPO_ROOT,
+          stdio: ["pipe", "pipe", "pipe"],
+        },
+      );
 
-    // Send SIGTERM to wrapper
-    child.kill("SIGTERM");
+      const exitPromise = new Promise<{
+        code: number | null;
+        signal: NodeJS.Signals | null;
+      }>((resolve) => {
+        child.on("exit", (code, signal) => resolve({ code, signal }));
+      });
 
-    const isClosed = await waitForPort(port, false, 5000);
-    expect(isClosed).toBe(true);
+      const isReady = await waitForPort(port, true, 10000);
+      expect(isReady).toBe(true);
 
-    const { code } = await exitPromise;
-    expect(code).toBe(143);
-  });
+      // Send SIGINT to wrapper
+      child.kill("SIGINT");
 
-  it("terminates cleanly and frees port on SIGINT to wrapper", async () => {
-    const port = await unusedPort();
-    const child = spawnOwned(
-      process.execPath,
-      [SCRIPT_PATH, "--port", port.toString()],
-      {
-        cwd: REPO_ROOT,
-        stdio: ["pipe", "pipe", "pipe"],
-      },
-    );
+      const isClosed = await waitForPort(port, false, 5000);
+      expect(isClosed).toBe(true);
 
-    const exitPromise = new Promise<{
-      code: number | null;
-      signal: NodeJS.Signals | null;
-    }>((resolve) => {
-      child.on("exit", (code, signal) => resolve({ code, signal }));
+      const { code } = await exitPromise;
+      expect(code).toBe(130);
     });
 
-    const isReady = await waitForPort(port, true, 10000);
-    expect(isReady).toBe(true);
+    it("fails with non-zero exit code if requested port is occupied (--strictPort)", async () => {
+      const port = await unusedPort();
+      const dummyServer = net.createServer();
+      ownedServers.push(dummyServer);
+      await new Promise<void>((resolve) => {
+        dummyServer.listen(port, "127.0.0.1", () => resolve());
+      });
 
-    // Send SIGINT to wrapper
-    child.kill("SIGINT");
+      const child = spawnOwned(
+        process.execPath,
+        [SCRIPT_PATH, "--port", port.toString()],
+        {
+          cwd: REPO_ROOT,
+          stdio: ["pipe", "pipe", "pipe"],
+        },
+      );
 
-    const isClosed = await waitForPort(port, false, 5000);
-    expect(isClosed).toBe(true);
+      let output = "";
+      child.stdout!.on("data", (data) => {
+        output += data.toString();
+      });
+      child.stderr!.on("data", (data) => {
+        output += data.toString();
+      });
 
-    const { code } = await exitPromise;
-    expect(code).toBe(130);
-  });
+      const exitCode = await new Promise<number | null>((resolve) => {
+        child.on("exit", (code) => resolve(code));
+      });
 
-  it("fails with non-zero exit code if requested port is occupied (--strictPort)", async () => {
-    const port = await unusedPort();
-    const dummyServer = net.createServer();
-    ownedServers.push(dummyServer);
-    await new Promise<void>((resolve) => {
-      dummyServer.listen(port, "127.0.0.1", () => resolve());
+      expect(dummyServer.listening).toBe(true);
+      await new Promise<void>((resolve) => {
+        dummyServer.close(() => resolve());
+      });
+
+      expect(exitCode).not.toBe(0);
+      expect(output).toContain(`Port ${port} is already in use`);
     });
 
-    const child = spawnOwned(
-      process.execPath,
-      [SCRIPT_PATH, "--port", port.toString()],
-      {
-        cwd: REPO_ROOT,
-        stdio: ["pipe", "pipe", "pipe"],
-      },
-    );
-
-    let output = "";
-    child.stdout!.on("data", (data) => {
-      output += data.toString();
+    it("refuses a non-loopback host before printing destinations or starting Vite", async () => {
+      const child = spawnOwned(
+        process.execPath,
+        [SCRIPT_PATH, "--host=0.0.0.0"],
+        {
+          cwd: REPO_ROOT,
+          stdio: ["pipe", "pipe", "pipe"],
+        },
+      );
+      let output = "";
+      child.stdout!.on("data", (data) => (output += data.toString()));
+      child.stderr!.on("data", (data) => (output += data.toString()));
+      const code = await new Promise<number | null>((resolve) =>
+        child.once("exit", resolve),
+      );
+      expect(code).not.toBe(0);
+      expect(output).toContain("requires a loopback host");
+      expect(output).not.toContain("Play:");
+      expect(output).not.toContain("Owned Vite PID:");
     });
-    child.stderr!.on("data", (data) => {
-      output += data.toString();
-    });
-
-    const exitCode = await new Promise<number | null>((resolve) => {
-      child.on("exit", (code) => resolve(code));
-    });
-
-    expect(dummyServer.listening).toBe(true);
-    await new Promise<void>((resolve) => {
-      dummyServer.close(() => resolve());
-    });
-
-    expect(exitCode).not.toBe(0);
-    expect(output).toContain(`Port ${port} is already in use`);
-  });
-
-  it("refuses a non-loopback host before printing destinations or starting Vite", async () => {
-    const child = spawnOwned(
-      process.execPath,
-      [SCRIPT_PATH, "--host=0.0.0.0"],
-      {
-        cwd: REPO_ROOT,
-        stdio: ["pipe", "pipe", "pipe"],
-      },
-    );
-    let output = "";
-    child.stdout!.on("data", (data) => (output += data.toString()));
-    child.stderr!.on("data", (data) => (output += data.toString()));
-    const code = await new Promise<number | null>((resolve) =>
-      child.once("exit", resolve),
-    );
-    expect(code).not.toBe(0);
-    expect(output).toContain("requires a loopback host");
-    expect(output).not.toContain("Play:");
-    expect(output).not.toContain("Owned Vite PID:");
-  });
-});
+  },
+);
