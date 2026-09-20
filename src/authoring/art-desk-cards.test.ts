@@ -156,6 +156,30 @@ describe("Art Desk cards", () => {
       ).toBe(1);
     }
   });
+  it("keeps an archived revision from resurrecting its undecided original", () => {
+    const original = ingest("removed-original", "original", {
+      family: corridor,
+    });
+    const archived = ingest("removed-revision", "repaint", {
+      parent: "removed-original",
+      family: corridor,
+      tags: { reviewQueue: ["removed-revision:archived"] },
+    });
+    const reference = ingest("removed-comparison", "repaint", {
+      parent: "removed-revision",
+      family: corridor,
+      tags: { reviewQueue: ["removed-comparison:reference"] },
+    });
+    for (const events of [
+      [original, archived],
+      [original, archived, reference],
+    ]) {
+      const card = artDeskCards(projection(events))[0];
+      expect(card.leadCandidateId).toBe("removed-revision");
+      expect(card.tabs).toEqual(["library", "archived"]);
+      expect(card.versionCount).toBe(events.length);
+    }
+  });
   it("removes an approved review copy from Awaiting review while retaining undecided ancestors", () => {
     const original = ingest("cand-queue-original", "original", {
       family: corridor,

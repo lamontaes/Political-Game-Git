@@ -467,10 +467,10 @@ function cardFor(
   const production = allVersions.filter((candidate) => !candidate.qa);
   // Comparison/reference children support the working image; they do not
   // replace it as the request's lead or move that work into another section.
-  const working = production.filter(
-    (candidate) => reviewDisposition(candidate) === "review",
+  const artwork = production.filter(
+    (candidate) => reviewDisposition(candidate) !== "reference",
   );
-  const leadVersions = working.length ? working : production;
+  const leadVersions = artwork.length ? artwork : production;
   // Ancestors remain inspectable history. Once their derived review copy is
   // decided, an undecided ancestor must not put that same work back in the queue.
   const ancestors = new Set(
@@ -480,9 +480,15 @@ function cardFor(
         .map((step) => step.candidateId),
     ),
   );
-  const currentVersions = leadVersions.filter(
+  const leaves = leadVersions.filter(
     (candidate) => !ancestors.has(candidate.candidateId),
   );
+  // Archived real revisions still supersede their originals. Only after
+  // resolving ancestry may a working alternative take precedence.
+  const workingLeaves = leaves.filter(
+    (candidate) => reviewDisposition(candidate) === "review",
+  );
+  const currentVersions = workingLeaves.length ? workingLeaves : leaves;
   const latest = leadOf(currentVersions.length ? currentVersions : candidates);
   const selected = request.selectedCandidateId
     ? currentVersions.find(
