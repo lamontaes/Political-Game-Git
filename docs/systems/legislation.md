@@ -187,3 +187,17 @@ law, institution, committee, vote, sponsorship, agenda, or amendment record.
 The future legislation system remains responsible for those identities and
 procedural semantics; it may consume the existing quantitative-policy layer
 without treating the Run C presentation record as canonical law.
+
+
+### Municipal introduction-to-passage day basis
+
+The existing municipal interval distinguishes whole intervening days from elapsed
+calendar days. An omitted basis preserves the original `minimumInterveningDays`
+contract: five whole days between introduction and passage permit passage on day
+six. Explicit `WHOLE_INTERVENING_DAYS` has the same result. An `ELAPSED_DAYS`
+interval carries `minimumElapsedDays`: five elapsed days permit passage on day
+five. The reader and writer apply the same calculation to the recorded
+introduction date, including after save/reload. Existing packs and saved records
+require no rewrite. Source validation rejects mixed counts, negative/fractional
+counts and unrecognized bases. This interval supplies only a timing condition;
+it grants no introduction, voting, objection, emergency or enactment authority.
