@@ -60,7 +60,9 @@ export function candidateUsage(
         binding.useLabels.length > 0,
     ) ?? [];
   return {
-    state: bindings.length ? "used" : selected?.bindings ? "unused" : "unknown",
+    // These bindings certify individual positive uses, not an exhaustive
+    // inventory of every modular part, scene and UI consumer in the build.
+    state: bindings.length ? "used" : "unknown",
     labels: [...new Set(bindings.flatMap((binding) => binding.useLabels))],
     eligible: [
       ...new Set([

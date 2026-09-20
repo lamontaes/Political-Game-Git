@@ -772,14 +772,14 @@ describe("current artwork and scoped recommendations", () => {
       ],
     };
     expect(candidateUsage(p, p.candidates.a, selected).state).toBe("used");
-    expect(candidateUsage(p, p.candidates.b, selected).state).toBe("unused");
+    expect(candidateUsage(p, p.candidates.b, selected).state).toBe("unknown");
     expect(
       candidateUsage(p, p.candidates.a, {
         ...selected,
         revision: "other",
         bindings: [],
       }).state,
-    ).toBe("unused");
+    ).toBe("unknown");
     expect(
       candidateUsage(p, p.candidates.a, { ...selected, bindings: undefined })
         .state,
