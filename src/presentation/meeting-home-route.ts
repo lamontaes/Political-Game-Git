@@ -18,6 +18,23 @@ export function meetingHomeRoute(
   world: World,
   personId: EntityId,
 ): PlaceTravelOffer {
+  return resolveMeetingHomeRoute(world, personId, false);
+}
+
+/** Pure disclosure for an explicit early departure. The action must cancel
+ * the meeting before travel; merely inspecting this offer creates no records. */
+export function meetingDepartureRoute(
+  world: World,
+  personId: EntityId,
+): PlaceTravelOffer {
+  return resolveMeetingHomeRoute(world, personId, true);
+}
+
+function resolveMeetingHomeRoute(
+  world: World,
+  personId: EntityId,
+  allowScheduled: boolean,
+): PlaceTravelOffer {
   const unavailable = (reason: string): PlaceTravelOffer => ({
     kind: "unavailable",
     reason,
@@ -54,10 +71,13 @@ export function meetingHomeRoute(
       activity.location.locationKey === "ordinary-life:meeting-room" &&
       activity.responsiblePersonId === personId &&
       canPersonAccess(activity.access, personId) &&
-      scheduledActivityState(world, activity.id).status === "completed",
+      (allowScheduled
+        ? ["scheduled", "completed", "cancelled"]
+        : ["completed", "cancelled"]
+      ).includes(scheduledActivityState(world, activity.id).status),
   );
   if (meetings.length !== 1)
-    return unavailable("The completed local meeting is not recorded here.");
+    return unavailable("No eligible local meeting is recorded here.");
   const meeting = meetings[0]!;
   const journeys = world.history.scheduledActivities.filter(
     (activity) =>

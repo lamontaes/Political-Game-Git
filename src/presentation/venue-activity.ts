@@ -1,3 +1,4 @@
+import { recordOrdinaryMeetingPresence } from "../simulation/ordinary-meeting-presence";
 import {
   canPersonAccess,
   advanceWorldMinutes,
@@ -230,13 +231,18 @@ export function performVenueActivity(
         : world;
     if (compareSimulationMoments(waited.currentMoment, start) < 0)
       return waited;
-    // Domain hook: a completed party/campaign activity records its outcome;
-    // every other activity (including a bare journey) comes back unchanged.
-    const completed = recordDomainAttendance(
-      performScheduledActivity(waited, activityId, transitionHandlers),
+    // Existing campaign outcomes and bounded ordinary-meeting presence are
+    // written only after successful completion; bare journeys add neither.
+    const completed = recordOrdinaryMeetingPresence(
+      waited,
+      recordDomainAttendance(
+        performScheduledActivity(waited, activityId, transitionHandlers),
+        personId,
+        activityId,
+        attendance,
+      ),
       personId,
       activityId,
-      attendance,
     );
     return destination &&
       disclosed &&
@@ -290,14 +296,18 @@ export function performVenueActivity(
     !canPersonAccess(refreshed.activity.access, personId)
   )
     return arrived;
-  // Domain hook: once the destination itself has completed, the domain that
-  // booked it (a party/campaign activity) records what happened there. A
-  // no-op, returning the same World, for every other activity.
-  return recordDomainAttendance(
-    performScheduledActivity(arrived, activityId, transitionHandlers),
+  // Preserve domain outcomes, then record the actual ordinary-meeting
+  // aftermath. Neither hook adds another interval or creates a read-time fact.
+  return recordOrdinaryMeetingPresence(
+    arrived,
+    recordDomainAttendance(
+      performScheduledActivity(arrived, activityId, transitionHandlers),
+      personId,
+      activityId,
+      attendance,
+    ),
     personId,
     activityId,
-    attendance,
   );
 }
 

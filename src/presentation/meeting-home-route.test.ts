@@ -9,6 +9,7 @@ import { recordWorldEvent } from "../simulation/world";
 import { serializeWorld, deserializeWorld } from "../simulation/serialization";
 import {
   createScheduledActivity,
+  cancelScheduledActivity,
   scheduledActivityState,
 } from "../simulation/time-work";
 import { recordHouseholdLocation } from "../simulation/life";
@@ -132,6 +133,12 @@ describe("recorded local meeting return and activity ownership", () => {
     expect(meetingHomeRoute(initial.world, initial.player).kind).toBe(
       "unavailable",
     );
+    expect(
+      meetingHomeRoute(
+        cancelScheduledActivity(initial.world, initial.meeting.id),
+        initial.player,
+      ).kind,
+    ).toBe("unavailable");
     const { world, player } = attended("2309585");
     const other = world.personOrder.find((id) => id !== player)!;
     expect(meetingHomeRoute(world, other).kind).toBe("unavailable");
