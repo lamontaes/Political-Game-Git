@@ -54,7 +54,35 @@ export const BANKED_OPENING_REGIONAL_CANDIDATES: readonly OpeningRegionalPreview
     },
   ];
 
-/** The owner requested a different return and region-type coverage. Keep the
- * technical preview leaf banked until its replacement and coverage are received. */
+/** Exact regional returns received for private review. Native detail remains
+ * unverified; the town image is a declared edited derivative in provenance.
+ * These eligibility declarations do not assert a particular home or venue. */
+export const REGIONAL_TYPE_REVIEW_CANDIDATES: readonly OpeningRegionalPreviewCandidate[] =
+  [
+    {
+      assetId: "env_playtest65_wooded_valley_town_street_cleanup_r2",
+      coverage: { regionTypes: ["appalachian-coal-region-town"] },
+      months: [5, 6, 7, 8, 9],
+      previewRaster: {
+        width: 1536,
+        height: 1024,
+        hash: "85720edf325911f8bbc741c2c88fa8b23cb40ba237e455390f6e4e1341515af0",
+        nativeDetailState: "unverified",
+      },
+    },
+    {
+      assetId: "env_playtest65_great_plains_pond_r1",
+      coverage: { regionTypes: ["great-plains-grassland"] },
+      months: [5, 6, 7, 8, 9],
+      previewRaster: {
+        width: 2496,
+        height: 1664,
+        hash: "0df680c304a6ae6d0d7a1e7d8dfe43f35a8236ef19f696e191ba3207e98d5814",
+        nativeDetailState: "unverified",
+      },
+    },
+  ];
+
+/** Verified private review selection. The consumer still refuses production art. */
 export const OPENING_REGIONAL_CANDIDATES: readonly OpeningRegionalPreviewCandidate[] =
-  [];
+  REGIONAL_TYPE_REVIEW_CANDIDATES;

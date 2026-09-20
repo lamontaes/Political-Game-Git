@@ -5065,9 +5065,7 @@
       "art_class": "production",
       "hero_asset": false,
       "reuse_allowed": true,
-      "source_refs": [
-        "prov_env_playtest65_pikeville_valley_street_434644_r1"
-      ],
+      "source_refs": ["prov_env_playtest65_pikeville_valley_street_434644_r1"],
       "rights_note": "Owner-uploaded candidate. External reuse rights and executed model are unverified.",
       "fixed_or_modular": "fixed",
       "availability": "production-candidate",
@@ -5081,6 +5079,52 @@
       "runtime_release_status": "unreleased",
       "final_path": "art/generated/candidates/art-desk/playtest65/regional/pikeville-valley-street-firefly-434644-r1.png",
       "hash": "2cfa09f644d30749d8a129d7441f9bbde46b0b5875c1e9e8c6a253cd85e5377f",
+      "requires_transparency": false
+    },
+    {
+      "asset_id": "env_playtest65_wooded_valley_town_street_cleanup_r2",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_env_playtest65_wooded_valley_town_street_cleanup_r2"
+      ],
+      "rights_note": "Private review candidate. Source reuse rights remain unverified.",
+      "fixed_or_modular": "fixed",
+      "availability": "production-candidate",
+      "variant_rules": "Reusable appalachian-coal-region-town illustration only where explicitly supported by reviewed saved-home geography, May–September. Contain complete 3:2 image, maximum 280px preview height. Encoded 1536x1024. Sufficient for the current preview; future 1920px master target remains unresolved.",
+      "negative_constraints": [
+        "Illustration of surrounding regional context, never a claim about the saved home, current location, people, weather, business or industry.",
+        "Candidate review only; no owner approval or production runtime release inferred. No raster enlargement or unreviewed crop."
+      ],
+      "generation_status": "pending",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/art-desk/playtest65/regional/wooded-valley-street-cleanup-r2.png",
+      "hash": "85720edf325911f8bbc741c2c88fa8b23cb40ba237e455390f6e4e1341515af0",
+      "requires_transparency": false
+    },
+    {
+      "asset_id": "env_playtest65_great_plains_pond_r1",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_env_playtest65_great_plains_pond_r1"],
+      "rights_note": "Private review candidate. Source reuse rights remain unverified.",
+      "fixed_or_modular": "fixed",
+      "availability": "production-candidate",
+      "variant_rules": "Reusable great-plains-grassland illustration only where explicitly supported by reviewed saved-home geography, May–September. Contain complete 3:2 image, maximum 280px preview height. Encoded 2496x1664; no upscale required.",
+      "negative_constraints": [
+        "Illustration of surrounding regional context, never a claim about the saved home, current location, people, weather, business or industry.",
+        "Candidate review only; no owner approval or production runtime release inferred. No raster enlargement or unreviewed crop."
+      ],
+      "generation_status": "pending",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/art-desk/playtest65/regional/great-plains-pond-r1.png",
+      "hash": "0df680c304a6ae6d0d7a1e7d8dfe43f35a8236ef19f696e191ba3207e98d5814",
       "requires_transparency": false
     }
   ]

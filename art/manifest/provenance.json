@@ -2203,6 +2203,38 @@
       "edits_performed": "No pixel edits. Original SHA256 2cfa09f644d30749d8a129d7441f9bbde46b0b5875c1e9e8c6a253cd85e5377f. Encoded 2496x1664; native-detail provenance unverified. Duplicate associations under Buchanan and FortPierre retained but grant no geographic eligibility.",
       "output_hash_version": "sha256",
       "approval_status": "pending"
+    },
+    {
+      "provenance_id": "prov_env_playtest65_wooded_valley_town_street_cleanup_r2",
+      "asset_id": "env_playtest65_wooded_valley_town_street_cleanup_r2",
+      "source_url_or_path": "artbench:cand-67eaed0b-cba7-4877-b6fa-c7889d7742ae",
+      "document_photo_plan_title": "Owner-selected wooded-valley town return, road-paint cleanup child of cand-09f46631-fdd0-413e-804f-7e766f2d074d",
+      "access_retrieval_date": "2026-09-20",
+      "rights_license_status": "unknown",
+      "reference_type": "ai-generated",
+      "source_authority_category": "visual-estimate-support",
+      "generator_tool": "Included image_gen, one exact parent image reference",
+      "generated_model_version": "unverified",
+      "prompt_spec_manifest_id": "playtest65-region-pikeville-valley-street revision 3; 844-character edit prompt retained in private source pack",
+      "edits_performed": "Derived edit from parent SHA256 950128a1975057712fda34798d8b4672b34fa2f1d707d7de6b30c9a164cbf0c3: malformed road paint and false facade numerals removed, coherent crossing repainted. Output 1536x1024 preserved exactly; no upscale. No parent approval inherited.",
+      "output_hash_version": "sha256",
+      "approval_status": "pending"
+    },
+    {
+      "provenance_id": "prov_env_playtest65_great_plains_pond_r1",
+      "asset_id": "env_playtest65_great_plains_pond_r1",
+      "source_url_or_path": "artbench:cand-1302e68e-d6ce-4ee2-8659-3e84fd847a4c",
+      "document_photo_plan_title": "Owner-uploaded Great Plains grassland and pond return; reusable regional illustration",
+      "access_retrieval_date": "2026-09-20",
+      "rights_license_status": "unknown",
+      "reference_type": "ai-generated",
+      "source_authority_category": "visual-estimate-support",
+      "generator_tool": "Owner Firefly return; executed settings unverified",
+      "generated_model_version": "unverified",
+      "prompt_spec_manifest_id": "playtest65-region-fort-pierre-prairie-pond",
+      "edits_performed": "No local pixel edits. Exact 2496x1664 owner return preserved; native detail unverified. Existing request renamed regionally without changing candidate identity or history.",
+      "output_hash_version": "sha256",
+      "approval_status": "pending"
     }
   ]
 }

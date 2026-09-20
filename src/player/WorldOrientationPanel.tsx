@@ -170,15 +170,18 @@ export function WorldOrientationPanel({
 
       <div className="pg-orientation-reading">
         {regionalPlate ? (
-          <img
-            className="pg-regional-establishing-image"
-            src={regionalPlate.url}
-            width={regionalPlate.width}
-            height={regionalPlate.height}
-            alt="Illustrated regional setting"
-            data-asset-id={regionalPlate.assetId}
-            data-testid="opening-regional-plate"
-          />
+          <figure className="pg-regional-illustration">
+            <img
+              className="pg-regional-establishing-image"
+              src={regionalPlate.url}
+              width={regionalPlate.width}
+              height={regionalPlate.height}
+              alt="Illustrated regional setting"
+              data-asset-id={regionalPlate.assetId}
+              data-testid="opening-regional-plate"
+            />
+            <figcaption>Regional illustration</figcaption>
+          </figure>
         ) : null}
         {step.key === "executive" ? (
           <div

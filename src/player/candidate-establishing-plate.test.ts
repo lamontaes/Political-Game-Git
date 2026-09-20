@@ -17,6 +17,7 @@ import { candidateEstablishingPlate } from "./candidate-establishing-plate";
 import {
   BANKED_OPENING_REGIONAL_CANDIDATES,
   OPENING_REGIONAL_CANDIDATES,
+  REGIONAL_TYPE_REVIEW_CANDIDATES,
   selectOpeningRegionalPreview,
 } from "../presentation/opening-regional-candidates";
 import type { OpeningRegionalSceneContext } from "../presentation/opening-regional-plate";
@@ -109,5 +110,6 @@ it("admits June Pikeville locally, excluding January, other towns and the Kentuc
 });
 
 it("keeps the superseded regional choice inactive by default", () => {
-  expect(OPENING_REGIONAL_CANDIDATES).toEqual([]);
+  expect(OPENING_REGIONAL_CANDIDATES).toBe(REGIONAL_TYPE_REVIEW_CANDIDATES);
+  expect(OPENING_REGIONAL_CANDIDATES).not.toContain(candidate);
 });
