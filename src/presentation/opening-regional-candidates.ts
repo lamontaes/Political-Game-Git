@@ -39,7 +39,7 @@ export interface OpeningRegionalPreviewCandidate extends OpeningRegionalPlateCan
 }
 
 /** Reviewed geographic eligibility does not grant owner art approval or release. */
-export const OPENING_REGIONAL_CANDIDATES: readonly OpeningRegionalPreviewCandidate[] =
+export const BANKED_OPENING_REGIONAL_CANDIDATES: readonly OpeningRegionalPreviewCandidate[] =
   [
     {
       assetId: "env_playtest65_pikeville_valley_street_434644_r1",
@@ -53,3 +53,8 @@ export const OPENING_REGIONAL_CANDIDATES: readonly OpeningRegionalPreviewCandida
       },
     },
   ];
+
+/** The owner requested a different return and region-type coverage. Keep the
+ * technical preview leaf banked until its replacement and coverage are received. */
+export const OPENING_REGIONAL_CANDIDATES: readonly OpeningRegionalPreviewCandidate[] =
+  [];

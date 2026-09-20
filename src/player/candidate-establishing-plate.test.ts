@@ -15,12 +15,13 @@ vi.mock("../presentation/visual-integration", () => ({
 import manifest from "../../art/manifest/asset_manifest.json";
 import { candidateEstablishingPlate } from "./candidate-establishing-plate";
 import {
+  BANKED_OPENING_REGIONAL_CANDIDATES,
   OPENING_REGIONAL_CANDIDATES,
   selectOpeningRegionalPreview,
 } from "../presentation/opening-regional-candidates";
 import type { OpeningRegionalSceneContext } from "../presentation/opening-regional-plate";
 import type { EntityId, IsoDate } from "../simulation/types";
-const candidate = OPENING_REGIONAL_CANDIDATES[0]!;
+const candidate = BANKED_OPENING_REGIONAL_CANDIDATES[0]!;
 const asset = manifest.assets.find(
   (row) => row.asset_id === candidate.assetId,
 )!;
@@ -71,26 +72,42 @@ it("never admits this pending return to production", () => {
 });
 it("admits June Pikeville locally, excluding January, other towns and the Kentucky state beat", () => {
   expect(
-    selectOpeningRegionalPreview(context, "local", OPENING_REGIONAL_CANDIDATES),
+    selectOpeningRegionalPreview(
+      context,
+      "local",
+      BANKED_OPENING_REGIONAL_CANDIDATES,
+    ),
   ).toBe(candidate);
   expect(
     selectOpeningRegionalPreview(
       { ...context, asOf: "2026-01-05" as IsoDate },
       "local",
-      OPENING_REGIONAL_CANDIDATES,
+      BANKED_OPENING_REGIONAL_CANDIDATES,
     ),
   ).toBeNull();
   expect(
     selectOpeningRegionalPreview(
       { ...context, placeKey: "another-town" },
       "local",
-      OPENING_REGIONAL_CANDIDATES,
+      BANKED_OPENING_REGIONAL_CANDIDATES,
     ),
   ).toBeNull();
   expect(
-    selectOpeningRegionalPreview(context, "state", OPENING_REGIONAL_CANDIDATES),
+    selectOpeningRegionalPreview(
+      context,
+      "state",
+      BANKED_OPENING_REGIONAL_CANDIDATES,
+    ),
   ).toBeNull();
   expect(
-    selectOpeningRegionalPreview(context, null, OPENING_REGIONAL_CANDIDATES),
+    selectOpeningRegionalPreview(
+      context,
+      null,
+      BANKED_OPENING_REGIONAL_CANDIDATES,
+    ),
   ).toBeNull();
+});
+
+it("keeps the superseded regional choice inactive by default", () => {
+  expect(OPENING_REGIONAL_CANDIDATES).toEqual([]);
 });

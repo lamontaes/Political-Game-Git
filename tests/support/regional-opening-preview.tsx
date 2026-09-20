@@ -1,3 +1,4 @@
+import { BANKED_OPENING_REGIONAL_CANDIDATES } from "../../src/presentation/opening-regional-candidates";
 import { createElement } from "react";
 import { createRoot } from "react-dom/client";
 import { WorldOrientationPanel } from "../../src/player/WorldOrientationPanel";
@@ -28,6 +29,7 @@ export function mountRegionalOpeningPreview() {
   createRoot(host).render(
     createElement(WorldOrientationPanel, {
       world,
+      regionalCandidates: BANKED_OPENING_REGIONAL_CANDIDATES,
       personId: game.playerPersonId,
       view: projectOrientationView(projected.orientation, () => "Kentucky"),
       homeStateUsps: "KY",

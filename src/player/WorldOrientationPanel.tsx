@@ -25,6 +25,7 @@ import { PLAYTEST65_WHITE_HOUSE_LAYOUT } from "../presentation/playtest65-visual
 import {
   OPENING_REGIONAL_CANDIDATES,
   selectOpeningRegionalPreview,
+  type OpeningRegionalPreviewCandidate,
 } from "../presentation/opening-regional-candidates";
 
 /**
@@ -46,6 +47,7 @@ export function WorldOrientationPanel({
   personId,
   renderFigure,
   establishingPlate,
+  regionalCandidates = OPENING_REGIONAL_CANDIDATES,
 }: {
   readonly view: OrientationView;
   readonly homeStateUsps: string | null;
@@ -57,6 +59,8 @@ export function WorldOrientationPanel({
   readonly personId?: EntityId;
   readonly renderFigure?: (personId: EntityId) => ReactNode;
   readonly establishingPlate?: ReactNode;
+  /** Explicit preview fixtures can exercise banked, inactive candidates. */
+  readonly regionalCandidates?: readonly OpeningRegionalPreviewCandidate[];
 }) {
   const plate = candidateEstablishingPlate(
     PLAYTEST65_WHITE_HOUSE_LAYOUT.assetId,
@@ -123,7 +127,7 @@ export function WorldOrientationPanel({
   const regionalPlate = selectOpeningRegionalPreview(
     regionalContext,
     regionalBeat,
-    OPENING_REGIONAL_CANDIDATES.flatMap((candidate) => {
+    regionalCandidates.flatMap((candidate) => {
       const raster = candidateEstablishingPlate(
         candidate.assetId,
         candidate.previewRaster,
