@@ -2917,13 +2917,86 @@ function handleRepairDue(
   // Declined or unanswered: the refusal stands, and nothing is added to it.
   if (!accepted) return quietDue(world);
   const offer = world.history.events.find((event) => event.id === offerId);
-  const summary = `${personName(world.people[counterpartId]!)} made amends, and it held.`;
-  const next = recordRelationshipInteraction(world, {
-    stableKey: `${FOLLOWTHROUGH_TAG}:repair:${offerId}:amends`,
-    personIds: [playerId, counterpartId],
-    eventId: offer?.id ?? null,
+  const offerKind = offer?.tags
+    .find((tag) => tag.startsWith("followthrough.offer:"))
+    ?.slice("followthrough.offer:".length);
+  // What the rethink concretely led to, read from its own records: only a
+  // result that actually happened is remembered, and nothing else is.
+  let held: string | null = null;
+  if (offerKind === "collaborate-now") {
+    if (studyCollaborators(world, playerId).includes(counterpartId)) {
+      held = "are still working on the coursework together";
+    }
+  } else if (offerKind === "meet-now") {
+    const proposal = world.history.events.find(
+      (event) =>
+        event.stableKey ===
+        `${FOLLOWTHROUGH_TAG}:repair:${offerId}:meeting:proposed`,
+    );
+    const meeting = proposal
+      ? world.history.scheduledActivities.find((activity) =>
+          activity.sourceEntityIds.includes(proposal.id),
+        )
+      : undefined;
+    if (
+      meeting &&
+      scheduledActivityState(world, meeting.id).status === "completed"
+    ) {
+      held = "met up after all";
+    }
+  } else if (offerKind === "revise-now") {
+    const refusalId = offer?.tags
+      .find((tag) => tag.startsWith("followthrough.source:"))
+      ?.slice("followthrough.source:".length);
+    const refusal = world.history.events.find(
+      (event) => event.id === refusalId,
+    );
+    if (refusal) {
+      const { requestId } = parseRefusedRevision(refusal.stableKey);
+      if (agreedRevision(world, requestId)) {
+        held = "kept to the changed arrangement";
+      }
+    }
+  }
+  if (!held) return quietDue(world);
+  const player = world.people[playerId]!;
+  const counterpart = world.people[counterpartId]!;
+  const summary = `${personName(player)} and ${personName(counterpart)} ${held}, after the rethink.`;
+  const recorded = recordWorldEvent(world, {
+    stableKey: `${FOLLOWTHROUGH_TAG}:repair:${offerId}:held`,
+    type: "life.repair-held",
     occurredAt: world.currentDate,
-    kind: "support:made-amends",
+    recordedAt: world.currentDate,
+    jurisdictionId: player.homeJurisdictionId,
+    involvedEntityIds: [playerId, counterpartId],
+    participants: [
+      { personId: playerId, role: "agency:actor", detail: held },
+      { personId: counterpartId, role: "agency:actor", detail: held },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [
+      FOLLOWTHROUGH_TAG,
+      "followthrough.family:disagreement-repair",
+      `followthrough.source:${offerId}`,
+    ],
+    summary,
+    context: {
+      location: null,
+      socialContext: "A rethink that led somewhere.",
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const event = recorded.history.events.at(-1)!;
+  const next = recordRelationshipInteraction(recorded, {
+    stableKey: `${FOLLOWTHROUGH_TAG}:repair:${offerId}:held:interaction`,
+    personIds: [playerId, counterpartId],
+    eventId: event.id,
+    occurredAt: recorded.currentDate,
+    kind: "support:repaired",
     change: "strengthened",
     significance: "meaningful",
     summary,
@@ -2933,8 +3006,8 @@ function handleRepairDue(
     world: next,
     status: "resolved",
     reasonKey: null,
-    context: "A repair that held was recorded.",
-    outcomeEventId: null,
+    context: "A rethink that led somewhere was recorded.",
+    outcomeEventId: event.id,
   };
 }
 

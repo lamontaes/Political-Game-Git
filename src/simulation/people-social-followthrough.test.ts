@@ -850,6 +850,25 @@ describe("family 4 — disagreement, then repair or continued refusal", () => {
         (event) => event.type === "life.repair-accepted",
       ),
     ).toBe(true);
+    // Two weeks on, the rethink is remembered only because it led somewhere
+    // real: they are still working on the coursework together.
+    let later = accepted.world;
+    for (let leg = 0; leg < 4; leg += 1) later = passOrdinaryDays(later, 5);
+    assertWorldIntegrity(later);
+    const held = later.history.events.filter(
+      (event) =>
+        event.type === "life.repair-held" &&
+        event.tags.includes(`followthrough.source:${offerId}`),
+    );
+    expect(held).toHaveLength(1);
+    expect(
+      later.history.relationshipInteractions.some(
+        (interaction) =>
+          interaction.kind === "support:repaired" &&
+          interaction.eventId === held[0]!.id &&
+          interaction.occurredAt === held[0]!.occurredAt,
+      ),
+    ).toBe(true);
     // Answering again changes nothing.
     const events = accepted.world.history.events.length;
     const repeated = answerRepairOffer(accepted.world, {
@@ -859,7 +878,7 @@ describe("family 4 — disagreement, then repair or continued refusal", () => {
       statement: "Alright. Thursday evenings, then.",
     });
     expect(repeated.world.history.events.length).toBe(events);
-  });
+  }, 60_000);
 });
 
 describe("family 5 — a consented introduction to an actual person", () => {
