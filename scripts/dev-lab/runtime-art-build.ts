@@ -54,7 +54,7 @@ export function runtimeArtBuild(): Plugin {
         paths
           .map((file, i) => `${JSON.stringify("../../" + file)}:u${i}`)
           .join(",") +
-        "};\nexport const candidateManifests={}; export const componentUrls={}; export const preparedSources={}; export const poseUrls={}; export const posePacks={};"
+        "};\nexport const candidateManifests={}; export const componentUrls={}; export const preparedSources={}; export const poseUrls={}; export const posePacks={}; export const galleryCandidateUrls={}; export const galleryEnvironmentUrls={};"
       );
     },
   };

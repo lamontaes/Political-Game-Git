@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, extname, join, resolve, relative } from "node:path";
 import { createServer } from "vite";
+import { runtimeArtBuild } from "./runtime-art-build";
 import type { ConfiguredArtConsumer } from "../../src/presentation/compiled-art-consumers";
 import { execFileSync } from "node:child_process";
 import manifest from "../../art/manifest/asset_manifest.json";
@@ -55,6 +56,7 @@ const consumers =
     : [];
 const auditServer = await createServer({
   configFile: false,
+  plugins: [runtimeArtBuild()],
   logLevel: "error",
   appType: "custom",
   cacheDir: join(root, "test-results/cache/compiled-art-use"),

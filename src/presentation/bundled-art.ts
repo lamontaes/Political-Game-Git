@@ -1,5 +1,19 @@
 import { optionalGlob } from "./optional-glob";
 
+export const galleryCandidateUrls = optionalGlob(() =>
+  import.meta.glob<string>("../../art/generated/candidates/**/*.png", {
+    eager: true,
+    import: "default",
+    query: "?url",
+  }),
+);
+export const galleryEnvironmentUrls = optionalGlob(() =>
+  import.meta.glob<string>(
+    "../../art/references/candidates/recent-drive-sweep/source-images/*.JPG",
+    { eager: false, import: "default", query: "?url" },
+  ),
+);
+
 export const rasterUrls = optionalGlob(() =>
   import.meta.glob<string>(
     ["../../art/**/*.{png,jpg,jpeg,webp}", "!../../art/references/masters/**"],
