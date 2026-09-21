@@ -17,6 +17,7 @@ import {
 } from "./life-queries";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { recordEventKnowledge } from "./records";
+import { relationshipLeverage } from "./relationship-leverage";
 import {
   createScheduledActivity,
   createWorkItem,
@@ -43,7 +44,7 @@ import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
  * cites as evidence would prove nothing at all, and the separation is the
  * whole point of asking for a premise in the first place.
  *
- * What it may write is deliberately small. Six kinds, each one a proposition
+ * What it may write is deliberately small. Nine kinds, each one a proposition
  * an existing canonical record can already carry — somebody asked something,
  * of somebody, about something, at a time — plus the ordinary household week,
  * which recurs because households do. It is not a social engine, it does not
@@ -71,6 +72,8 @@ export const LIFE_OPPORTUNITY_KINDS = [
   "extra-hours-request",
   "meeting-agenda-item",
   "candidacy-approach",
+  "employment-offer",
+  "assistance-offer",
 ] as const;
 
 export type LifeOpportunityKind = (typeof LIFE_OPPORTUNITY_KINDS)[number];
@@ -86,6 +89,8 @@ export const LIFE_OPPORTUNITY_ANSWERING_KEY: Readonly<
   "extra-hours-request": "adult.work-extra-hours",
   "meeting-agenda-item": "adult.local-issue-position",
   "candidacy-approach": "adult.candidacy-approach",
+  "employment-offer": "adult.work-offer-elsewhere",
+  "assistance-offer": "adult.help-with-strings",
 };
 
 /**
@@ -111,6 +116,8 @@ export const LIFE_OPPORTUNITY_REPEATABLE: Readonly<
   "extra-hours-request": false,
   "meeting-agenda-item": false,
   "candidacy-approach": false,
+  "employment-offer": false,
+  "assistance-offer": false,
 };
 
 export const LIFE_OPPORTUNITY_TAG_PREFIX = "life.opportunity:";
@@ -127,6 +134,16 @@ export function lifeOpportunityTag(kind: LifeOpportunityKind): string {
  * repeated selector cannot pile up work by being called twice.
  */
 export const OPEN_LIFE_OPPORTUNITY_LIMIT = 4;
+
+/**
+ * How lopsided a relationship has to be before an offer of help from it is an
+ * offer with strings.
+ *
+ * Not a new range: it is the floor `adult.help-with-strings` already reads on
+ * its own gate, named here so the writer and the bank measure the same thing.
+ * `life-opportunities.test.ts` pins the two together.
+ */
+export const ASSISTANCE_OFFER_DEPENDENCY_FLOOR = 0.3;
 
 /** How long the household week runs before another one is written. */
 export const HOUSEHOLD_WEEK_DAYS = 7;
@@ -621,7 +638,7 @@ function tryWrite(
 }
 
 /**
- * Which of the six this world can support today.
+ * Which of the nine this world can support today.
  *
  * Every one of them needs a real person, a real record or both, and a kind
  * whose actor the world cannot supply is simply not a candidate. Nobody is
@@ -813,6 +830,83 @@ function eligibleOpportunities(
           },
           believed:
             "They have been asked about one extra hour on the next shift; pay and the date remain unagreed.",
+          occasion: null,
+        }),
+    });
+  }
+
+  // Another job, mentioned by somebody who does not work where this person
+  // works. Employment establishes none of the three facts the scene stands on,
+  // which is what its withholding reason said: the offer is the ask, the terms
+  // are on the ask, and nobody at the current workplace is a participant or a
+  // knower, so "nobody at work knows" is read off the record rather than
+  // asserted. It is not a job: nothing here starts, ends or changes any work
+  // relationship, and following it up is the player's to do.
+  const workRelationships = activeWorkRelationshipsAt(world, personId, cutoff);
+  const outsiderId = firstOf(
+    world,
+    nonColleagueContactIds(world, personId, cutoff),
+  );
+  if (workRelationships.length > 0 && outsiderId) {
+    push({
+      kind: "employment-offer",
+      counterpartPersonId: outsiderId,
+      write: (current, stableKey) =>
+        writeAsk(current, {
+          stableKey,
+          kind: "employment-offer",
+          personId,
+          askerPersonId: outsiderId,
+          jurisdictionId,
+          type: "life.employment-offer-mentioned",
+          summary: `${personName(world.people[outsiderId]!)} mentioned a better-paid job going where they work, and said they had told nobody at this person's own workplace.`,
+          detail: "Mentioned the other job and its pay",
+          details: {
+            version: 1,
+            task: "follow up the other job that was mentioned",
+            opening:
+              "There is a job going where I am, and it pays better than yours. I have not said anything to anyone you work with. Do you want me to put your name forward?",
+            condition:
+              "Nothing is said at your current workplace until you say so",
+            minutes: null,
+          },
+          believed: `${personName(world.people[outsiderId]!)} told them about a better-paid job elsewhere, and that nobody at their own workplace has heard of it.`,
+          occasion: null,
+        }),
+    });
+  }
+
+  // An offer of help from somebody this life already leans on, about a task the
+  // record says is still outstanding. Both halves are required: dependency
+  // alone establishes no offer, and an offer with nothing concrete behind it is
+  // the vagueness the withholding reason refused. The errands the household is
+  // still carrying a week after they were written are the concrete thing, read
+  // off the open work item rather than invented for the scene.
+  const carriedErrands = outstandingHouseholdErrands(world, personId);
+  const reliedOn = mostReliedOn(world, personId, cutoff);
+  if (carriedErrands && reliedOn) {
+    const helperId = reliedOn.personId;
+    push({
+      kind: "assistance-offer",
+      counterpartPersonId: helperId,
+      write: (current, stableKey) =>
+        writeAsk(current, {
+          stableKey,
+          kind: "assistance-offer",
+          personId,
+          askerPersonId: helperId,
+          jurisdictionId,
+          type: "life.assistance-offered",
+          summary: `${personName(world.people[helperId]!)} offered to take care of ${carriedErrands.title.toLowerCase()}, still outstanding since ${makeIsoDate(carriedErrands.createdAt.date)}, and asked for nothing in return.`,
+          detail: `Offered to take care of ${carriedErrands.title.toLowerCase()}`,
+          details: {
+            version: 1,
+            task: `take care of ${carriedErrands.title.toLowerCase()}`,
+            opening: `That has been sitting there a while. Let me take care of ${carriedErrands.title.toLowerCase()} for you. I am not asking for anything.`,
+            condition: null,
+            minutes: null,
+          },
+          believed: `${personName(world.people[helperId]!)} offered to take care of ${carriedErrands.title.toLowerCase()}, and asked for nothing.`,
           occasion: null,
         }),
     });
@@ -1268,6 +1362,50 @@ function familiarPersonIds(
   );
 }
 
+/**
+ * People this life is connected to who do not work where it works.
+ *
+ * Deliberately not `familiarPersonIds` with the coworkers taken out. That
+ * reader prefers the pools it can still reach and only falls back to bare
+ * interaction when they are empty, so in a life whose one reachable contact is
+ * a coworker, filtering afterwards leaves nothing — while the world plainly
+ * contains people this person has actually dealt with. Every pool is gathered
+ * here and the coworkers removed once, which is the question being asked:
+ * somebody outside the place they work.
+ *
+ * Nobody is created. A life whose whole world is its workplace does not get
+ * this kind, and that is the true answer rather than an invented acquaintance.
+ */
+function nonColleagueContactIds(
+  world: World,
+  personId: EntityId,
+  cutoff: HistoricalCutoff,
+): readonly EntityId[] {
+  const colleagues = new Set(colleagueIds(world, personId, cutoff));
+  const household = new Set(householdCompanionIds(world, personId, cutoff));
+  const interacted = new Set(
+    world.history.relationshipInteractions
+      .filter((interaction) => interaction.personIds.includes(personId))
+      .flatMap((interaction) => interaction.personIds),
+  );
+  const pool = new Set([
+    ...interacted,
+    ...communityMemberIds(world, personId, cutoff),
+    ...localNeighbourIds(world, personId, cutoff),
+    ...kinshipRelationshipsAt(world, personId, cutoff).flatMap(
+      (relationship) => relationship.personIds,
+    ),
+  ]);
+  return world.personOrder.filter(
+    (candidate) =>
+      candidate !== personId &&
+      pool.has(candidate) &&
+      !colleagues.has(candidate) &&
+      !household.has(candidate) &&
+      ageOnDate(world.people[candidate]!.birthDate, world.currentDate) >= 18,
+  );
+}
+
 function colleagueIds(
   world: World,
   personId: EntityId,
@@ -1306,6 +1444,71 @@ function communityMemberIds(
         (entry) => organizationIds.has(entry.participation.organizationId),
       ),
   );
+}
+
+/**
+ * The household errands this life is still carrying a week after they arrived.
+ *
+ * "Still" is the whole point. An open work item written today says only that
+ * somebody has a list; one written a week ago and still open is the record
+ * saying it has not been dealt with, which is the fact an offer of help needs
+ * behind it. Nothing here judges why, and nothing here fails the item.
+ */
+function outstandingHouseholdErrands(world: World, personId: EntityId) {
+  const item = householdErrandsFor(world, personId);
+  if (!item) return null;
+  if (
+    addDays(makeIsoDate(item.createdAt.date), HOUSEHOLD_WEEK_DAYS) >
+    world.currentDate
+  ) {
+    return null;
+  }
+  return item;
+}
+
+/**
+ * Whoever this life leans on hardest, and by how much.
+ *
+ * The same four pools and the same reading `adult-situations.ts` builds its
+ * `strongestDependency` from, so the person written onto the offer is the
+ * person the scene's own gate would have measured. Reading one thing here and
+ * another there would let the world write an offer the bank then refuses to
+ * show, which is a silent dead record rather than a scene.
+ *
+ * There is no stored leverage anywhere; this is computed on the spot from
+ * roof, income, care and belonging, exactly as `relationship-leverage.ts`
+ * documents, and it decides nothing beyond which name goes on the offer.
+ */
+function mostReliedOn(
+  world: World,
+  personId: EntityId,
+  cutoff: HistoricalCutoff,
+): { readonly personId: EntityId; readonly imbalance: number } | null {
+  const pool = new Set([
+    ...householdCompanionIds(world, personId, cutoff),
+    ...kinshipRelationshipsAt(world, personId, cutoff).flatMap(
+      (relationship) => relationship.personIds,
+    ),
+    ...colleagueIds(world, personId, cutoff),
+    ...communityMemberIds(world, personId, cutoff),
+  ]);
+  pool.delete(personId);
+  let best: { personId: EntityId; imbalance: number } | null = null;
+  // The world's own person order decides ties, so a replay reaches the same
+  // person rather than whichever one a Set happened to yield first.
+  for (const candidate of world.personOrder) {
+    if (!pool.has(candidate)) continue;
+    const imbalance = relationshipLeverage(
+      world,
+      personId,
+      candidate,
+    ).imbalance;
+    if (imbalance < ASSISTANCE_OFFER_DEPENDENCY_FLOOR) continue;
+    if (best === null || imbalance > best.imbalance) {
+      best = { personId: candidate, imbalance };
+    }
+  }
+  return best;
 }
 
 /** The world's own person order decides, so a replay reaches the same person. */
