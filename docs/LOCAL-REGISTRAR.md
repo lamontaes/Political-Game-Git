@@ -144,6 +144,21 @@ rewrite done. Specifically: GitHub's own `refs/pull/*` refs are read-only and
 survive a force-push; Actions artifacts and caches have their own retention;
 and any fork or local clone keeps the old objects until it is re-cloned.
 
+**Freeze list — every branch must be re-based onto the rewritten history, not
+force-pushed over.** A rewrite rewrites every reachable commit, so any branch
+that is not accounted for at the moment of the rewrite either loses its work or
+reintroduces the purged objects when it is next pushed. At the time of writing
+that is 324 branches, and these are the ones carrying live, unmerged work:
+
+- `claude/current-art-source` (#276), `claude/release-0-3-0` (#277) and
+  `codex/client-content-delivery` (#278) — this lane's own.
+- `claude/nationwide-government`, `claude/modular-legislation`,
+  `claude/people-and-life` (#273) and `claude/nationwide1-measure-bundle`.
+- `codex/systemic-modular-repair` — separately watched; not this lane's to move.
+- The art bench lane's regional-plate branch, adding about 33 MB under
+  `art/families/regional-opening/`. New path, no collision with this lane's
+  deletions, but it must be frozen and re-based like the rest.
+
 **Run, at the Mac, after the rewrite lands:**
 
 ```sh

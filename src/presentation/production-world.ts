@@ -783,7 +783,14 @@ function establishAgeEligibleState(
     );
   }
 
-  if (age >= SCHOOL_ENTRY_AGE && earlierLifeGenerationVersion === undefined) {
+  // `context-v2` declines to assume a school in an ADULT's summarized past,
+  // which is the earlier-life question and is settled above, before this point
+  // is ever reached. A child of school age is a different claim: they are in
+  // school now, and that is present circumstance rather than invented
+  // biography. Gating this on the version left a ten-year-old with no
+  // enrollment, so `in-school` did not hold, every early.school and early.peer
+  // opening became ineligible, and the town had no school in it.
+  if (age >= SCHOOL_ENTRY_AGE) {
     const schoolKey = `${stableKey}:school`;
     // The world does not know when the school was founded, and does not
     // pretend to: the earliest date it can honestly claim the school existed
