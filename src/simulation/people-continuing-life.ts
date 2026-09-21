@@ -1,4 +1,9 @@
-import { addDays, daysBetween } from "./dates";
+import {
+  addDays,
+  compareSimulationMoments,
+  daysBetween,
+  simulationMinutesBetween,
+} from "./dates";
 import { evaluateDecision } from "./decisions";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
@@ -6,12 +11,17 @@ import { favorEntries } from "./life-favors";
 import { currentLifeCutoff } from "./life-queries";
 import { createMindProvenance, recordGoalState } from "./mind";
 import { personName } from "./people";
-import { contactProposals } from "./people-contact";
+import { CONTACT_LOCATION_KEY, contactProposals } from "./people-contact";
 import { studyCollaborators, studyPeers } from "./people-study";
 import { studyPlanSettled } from "./people-study-plan";
 import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import { recordClaim, recordEventKnowledge } from "./records";
-import { scheduledActivityState } from "./time-work";
+import {
+  advanceWorldMinutes,
+  cancelScheduledActivity,
+  performScheduledActivity,
+  scheduledActivityState,
+} from "./time-work";
 import { recordWorldEvent } from "./world";
 import type {
   DecisionConsideration,
@@ -20,6 +30,7 @@ import type {
   FutureTransitionHandlerRegistry,
   FutureTransitionHandlerResult,
   IsoDate,
+  ScheduledActivityRecord,
   World,
 } from "./types";
 import { isPersonAliveAt } from "./vitality-integrity";
@@ -846,6 +857,156 @@ function reviewNpcThread(
 function lowerFirstWord(text: string): string {
   return text.charAt(0).toLowerCase() + text.slice(1);
 }
+/* -------------------------------------------------------------------------- */
+/* Agreed meetings: going is not the same as agreeing, and neither is calling  */
+/* it off                                                                      */
+/* -------------------------------------------------------------------------- */
+
+export const MEETING_CALLED_OFF_EVENT = "life.meeting-called-off";
+
+/**
+ * A confirmed contact meeting between the player and someone else that is
+ * still to happen, today. Reading this writes nothing.
+ */
+export function contactMeetingToday(
+  world: World,
+  playerId: EntityId,
+): ScheduledActivityRecord | null {
+  for (const activity of world.history.scheduledActivities) {
+    if (
+      activity.kind !== "confirmed" ||
+      activity.location.locationKey !== CONTACT_LOCATION_KEY ||
+      !activity.participantPersonIds.includes(playerId)
+    ) {
+      continue;
+    }
+    const state = scheduledActivityState(world, activity.id);
+    if (state.status !== "scheduled") continue;
+    if (state.start.date !== world.currentDate) continue;
+    if (compareSimulationMoments(state.end, world.currentMoment) <= 0) continue;
+    return activity;
+  }
+  return null;
+}
+
+/**
+ * Go to an agreed meeting: the clock moves to its start and through its own
+ * disclosed minutes, once, through the ordinary activity route. Only the
+ * person carrying out their side can go; a meeting recorded before this
+ * route existed names the asker instead, and can still be called off.
+ */
+export function attendContactMeeting(
+  world: World,
+  playerId: EntityId,
+  activityId: EntityId,
+  handlers: FutureTransitionHandlerRegistry,
+): World {
+  if (world.control.kind !== "person" || world.control.personId !== playerId) {
+    throw new Error("Only the person being played can go to their meeting.");
+  }
+  const activity = world.history.scheduledActivities.find(
+    (candidate) => candidate.id === activityId,
+  );
+  if (
+    !activity ||
+    activity.location.locationKey !== CONTACT_LOCATION_KEY ||
+    !activity.participantPersonIds.includes(playerId)
+  ) {
+    throw new Error("That is not a meeting of yours.");
+  }
+  if (activity.responsiblePersonId !== playerId) return world;
+  const state = scheduledActivityState(world, activityId);
+  if (state.status !== "scheduled") return world;
+  let next = world;
+  if (compareSimulationMoments(next.currentMoment, state.start) < 0) {
+    next = advanceWorldMinutes(
+      next,
+      simulationMinutesBetween(next.currentMoment, state.start),
+      handlers,
+    );
+    if (compareSimulationMoments(next.currentMoment, state.start) < 0) {
+      // Something earlier holds the clock; nothing is claimed.
+      return world;
+    }
+  }
+  return performScheduledActivity(next, activityId, handlers);
+}
+
+/**
+ * Call an agreed meeting off. Nothing is broken silently: the other person is
+ * told, in the player's words, and the evening is freed. Calling off is a
+ * record of its own — not a decline of the original ask, and not a lie.
+ */
+export function callOffContactMeeting(
+  world: World,
+  playerId: EntityId,
+  activityId: EntityId,
+  statement: string,
+): World {
+  if (world.control.kind !== "person" || world.control.personId !== playerId) {
+    throw new Error("Only the person being played can call off their meeting.");
+  }
+  const activity = world.history.scheduledActivities.find(
+    (candidate) => candidate.id === activityId,
+  );
+  if (
+    !activity ||
+    activity.location.locationKey !== CONTACT_LOCATION_KEY ||
+    !activity.participantPersonIds.includes(playerId)
+  ) {
+    throw new Error("That is not a meeting of yours.");
+  }
+  if (scheduledActivityState(world, activityId).status !== "scheduled") {
+    return world;
+  }
+  if (!statement.trim()) throw new Error("Calling it off says something.");
+  const otherId = activity.participantPersonIds.find((id) => id !== playerId);
+  const other = otherId ? world.people[otherId] : undefined;
+  if (!otherId || !other) throw new Error("A meeting needs someone to meet.");
+  const player = world.people[playerId]!;
+  const stableKey = `${CONTINUING_LIFE_TAG}:meeting:${activityId}:called-off`;
+  let next = recordWorldEvent(world, {
+    stableKey,
+    type: MEETING_CALLED_OFF_EVENT,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: player.homeJurisdictionId,
+    involvedEntityIds: [playerId, otherId, activityId],
+    participants: [
+      { personId: playerId, role: "agency:actor", detail: statement },
+      {
+        personId: otherId,
+        role: "focus:respondent",
+        detail: "Was told the meeting was off",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [CONTINUING_LIFE_TAG, `continuing.meeting:${activityId}`],
+    summary: `${personName(player)} called off meeting ${personName(other)}.`,
+    context: {
+      location: null,
+      socialContext: "Somebody calling off an agreed meeting.",
+      pressure: null,
+      choice: "Call off the meeting",
+      motivation: null,
+      immediateReaction: statement,
+    },
+  });
+  const event = next.history.events.at(-1)!;
+  next = recordEventKnowledge(next, {
+    stableKey: `${stableKey}:told`,
+    personId: otherId,
+    eventId: event.id,
+    learnedAt: next.currentDate,
+    believedSummary: event.summary,
+    accuracy: "accurate",
+    confidence: "high",
+    source: { kind: "told-by", sourcePersonId: playerId, claimId: null },
+  });
+  return cancelScheduledActivity(next, activityId);
+}
+
 /* -------------------------------------------------------------------------- */
 /* Statements: exact words, and what anybody knows because of them             */
 /* -------------------------------------------------------------------------- */

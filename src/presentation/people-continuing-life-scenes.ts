@@ -1,4 +1,7 @@
-import { addDays, personName } from "../simulation";
+import { addDays, personName, simulationMinutesBetween } from "../simulation";
+import { contactMeetingToday } from "../simulation/people-continuing-life";
+import { scheduledActivityState } from "../simulation/time-work";
+import { formatMinute } from "./player-calendar";
 import type { EntityId, World } from "../simulation";
 import { favorEntries } from "../simulation/life-favors";
 import { describePersonContext } from "../simulation/person-context";
@@ -456,6 +459,48 @@ function produceIntroductionScene(world: World, personId: EntityId): World {
 }
 
 /**
+ * The day of an agreed meeting with the player: the other person checks in,
+ * and the player goes or calls it off. Bound once per meeting, from the
+ * scheduled activity itself, so a moved or cancelled meeting never rebinds.
+ */
+function produceMeetingDayScene(world: World, personId: EntityId): World {
+  const activity = contactMeetingToday(world, personId);
+  if (!activity) return world;
+  if (sceneAlreadyBound(world, personId, "favor", "meeting-day", activity.id)) {
+    return world;
+  }
+  const otherId = activity.participantPersonIds.find((id) => id !== personId);
+  const other = otherId ? world.people[otherId] : undefined;
+  if (!otherId || !other) return world;
+  const state = scheduledActivityState(world, activity.id);
+  return bindFollowThrough(
+    world,
+    {
+      version: 1,
+      family: "favor",
+      variant: "meeting-day",
+      playerPersonId: personId,
+      speakerPersonId: otherId,
+      relationship: relationshipLabel(world, personId, otherId),
+      place: "By phone",
+      jurisdictionId: world.people[personId]!.homeJurisdictionId,
+      request: `Whether to go and meet ${personName(other)} today.`,
+      sourceEntityIds: [activity.id],
+      facts: {
+        speakerGiven: other.givenName,
+        startTime: formatMinute(state.start.minuteOfDay),
+        minutes: String(simulationMinutesBetween(state.start, state.end)),
+      },
+      knownRecordIds: [],
+      target: null,
+      date: state.start.date,
+      expiresAt: state.start.date,
+    },
+    `${personName(other)} checked in about meeting today.`,
+  );
+}
+
+/**
  * A weekly rhythm proposed or running. The offer binds once; each kept point
  * in the rhythm binds its own session scene against the latest marker, so a
  * session is never offered twice and a finished rhythm never reopens.
@@ -595,6 +640,7 @@ export function produceContinuingLifeScenes(
     produceRepairScene,
     produceIntroductionScene,
     produceRecurringScene,
+    produceMeetingDayScene,
   ]) {
     const bound = produce(next, personId);
     if (bound !== next) return bound;

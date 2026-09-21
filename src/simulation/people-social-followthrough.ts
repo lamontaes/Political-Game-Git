@@ -1011,6 +1011,15 @@ export function recordRememberedReconnect(
       immediateReaction: null,
     },
   });
+  // The later callback: once the proposed day has passed, whether the two of
+  // them actually met is what gets remembered — and only if they did.
+  next = scheduleFollowThrough(next, {
+    family: "remembered-reconnect",
+    personId: input.playerId,
+    counterpartId: input.counterpartId,
+    sourceEventId: proposalEvent.id,
+    dueInDays: Math.max(1, daysBetween(next.currentDate, input.on) + 1),
+  });
   return { world: next, proposalId: proposalEvent.id };
 }
 
@@ -2711,26 +2720,41 @@ function handleReconnectDue(
   playerId: EntityId,
   counterpartId: EntityId,
 ): FutureTransitionHandlerResult {
-  const marked = world.history.events.find(
-    (event) =>
-      event.type === "life.reconnect-raised" &&
-      event.involvedEntityIds.includes(playerId) &&
-      event.involvedEntityIds.includes(counterpartId),
-  );
-  const proposalId = marked?.tags
-    .find((tag) => tag.startsWith("followthrough.proposal:"))
-    ?.slice("followthrough.proposal:".length);
-  const meeting = proposalId
-    ? world.history.scheduledActivities.find((activity) =>
-        activity.sourceEntityIds.includes(proposalId as EntityId),
+  const proposalId = sourceOf(dueItem);
+  const marked = proposalId
+    ? world.history.events.find(
+        (event) =>
+          event.type === "life.reconnect-raised" &&
+          event.tags.includes(`followthrough.proposal:${proposalId}`),
       )
     : undefined;
+  if (!proposalId || !marked) return quietDue(world);
+  const meeting = world.history.scheduledActivities.find((activity) =>
+    activity.sourceEntityIds.includes(proposalId),
+  );
+  // Declined, unanswered or lapsed: an ordinary outcome, and nothing more.
   if (!meeting) return quietDue(world);
-  let state: { status: string };
+  let state: ReturnType<typeof scheduledActivityState>;
   try {
     state = scheduledActivityState(world, meeting.id);
   } catch {
     return quietDue(world);
+  }
+  if (state.status === "scheduled" && state.end.date >= world.currentDate) {
+    // Moved to another day: look again the day after it, once it has passed.
+    return {
+      world: scheduleFollowThrough(world, {
+        family: "remembered-reconnect",
+        personId: playerId,
+        counterpartId,
+        sourceEventId: proposalId,
+        dueInDays: daysBetween(world.currentDate, state.end.date) + 1,
+      }),
+      status: "resolved",
+      reasonKey: null,
+      context: "The reconnection meeting has not happened yet.",
+      outcomeEventId: null,
+    };
   }
   // Only a meeting that actually happened strengthens anything. A declined
   // invitation is ordinary, and nothing is recorded for it.

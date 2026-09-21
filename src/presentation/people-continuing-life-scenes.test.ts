@@ -31,6 +31,7 @@ import {
 } from "./player-conversation";
 import type { PlayerConversationView } from "./player-conversation";
 import { commitConversationTurn } from "./run-b-conversation";
+import { scheduledActivityState } from "../simulation/time-work";
 
 /**
  * MUSE-PEOPLE presentation: every follow-through family, read as a player
@@ -371,13 +372,97 @@ describe("family 3 scenes — a childhood friend reaches back on their own", () 
         (entry) => entry.fromPersonId === friend,
       )!;
       expect(proposal.answered).toBe(true);
+      const meeting = agreed.history.scheduledActivities.find(
+        (activity) =>
+          activity.kind === "confirmed" &&
+          activity.sourceEntityIds.includes(proposal.eventId),
+      )!;
+      expect(meeting).toBeTruthy();
+
+      // The later callback remembers only a meeting that happened. On the
+      // day, the friend checks in; going spends the meeting's own minutes.
+      const meetingDay = scheduledActivityState(agreed, meeting.id).start.date;
+      const onTheDay = walkTo(
+        agreed,
+        life.player,
+        "scene-favor",
+        "meeting-day",
+        (current) => letAdultTimePass(current, 1),
+      );
+      expect(onTheDay.currentDate).toBe(meetingDay);
+      const dayView = projectPlayerConversation(
+        onTheDay,
+        life.player,
+        "scene-favor",
+      )!;
+      readable(dayView, onTheDay.people[friend]!.givenName);
+      expect(dayView.intents.map((intent) => intent.key)).toEqual([
+        "go-meet",
+        "call-off",
+        "answer-later",
+      ]);
+      const attended = commit(onTheDay, life.player, "scene-favor", "go-meet");
+      expect(scheduledActivityState(attended, meeting.id).status).toBe(
+        "completed",
+      );
+      let after = attended;
+      for (let step = 0; step < 3; step += 1)
+        after = letAdultTimePass(after, 1);
+      assertWorldIntegrity(after);
       expect(
-        agreed.history.scheduledActivities.some(
-          (activity) =>
-            activity.kind === "confirmed" &&
-            activity.sourceEntityIds.includes(proposal.eventId),
+        after.history.events.filter(
+          (event) =>
+            event.type === "life.reconnect-completed" &&
+            event.involvedEntityIds.includes(friend),
+        ),
+      ).toHaveLength(1);
+      expect(
+        after.history.relationshipInteractions.some(
+          (interaction) =>
+            interaction.kind === "contact:reconnected" &&
+            interaction.personIds.includes(friend),
         ),
       ).toBe(true);
+
+      // Called off on the day: the friend is told, the evening is freed,
+      // time moves on, and nothing is remembered as a reunion.
+      const calledOff = commit(
+        onTheDay,
+        life.player,
+        "scene-favor",
+        "call-off",
+      );
+      expect(scheduledActivityState(calledOff, meeting.id).status).toBe(
+        "cancelled",
+      );
+      expect(
+        calledOff.history.knowledge.some(
+          (entry) =>
+            entry.personId === friend &&
+            calledOff.history.events.find((event) => event.id === entry.eventId)
+              ?.type === "life.meeting-called-off",
+        ),
+      ).toBe(true);
+      let freed = calledOff;
+      for (let step = 0; step < 3; step += 1)
+        freed = letAdultTimePass(freed, 1);
+      expect(freed.currentDate > calledOff.currentDate).toBe(true);
+      expect(
+        freed.history.events.some(
+          (event) => event.type === "life.reconnect-completed",
+        ),
+      ).toBe(false);
+
+      // Turned down, the same reconnection is remembered as nothing at all.
+      const declined = commit(bound, life.player, "scene-favor", "say-no");
+      let quiet = declined;
+      for (let step = 0; step < 14; step += 1)
+        quiet = letAdultTimePass(quiet, 1);
+      expect(
+        quiet.history.events.some(
+          (event) => event.type === "life.reconnect-completed",
+        ),
+      ).toBe(false);
     },
     SLOW,
   );
