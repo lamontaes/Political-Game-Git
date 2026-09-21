@@ -62,7 +62,9 @@ import {
 } from "./life";
 import { LIFE_TRANSITION_HANDLERS } from "./life-callbacks";
 import { PEOPLE_CONTACT_HANDLERS } from "./people-contact";
+import { PEOPLE_CONTINUING_LIFE_HANDLERS } from "./people-continuing-life";
 import { PEOPLE_FAMILY_HANDLERS } from "./people-family-plan";
+import { PEOPLE_SOCIAL_FOLLOWTHROUGH_HANDLERS } from "./people-social-followthrough";
 import {
   CLAIM_CONTRADICTION_TRANSITION_KEY,
   claimContradictionTransitionHandler,
@@ -1819,6 +1821,10 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
       PEOPLE_CONTACT_HANDLERS,
       // CRUNCH47 PEOPLE: a family two people agreed to, on the day it lands.
       PEOPLE_FAMILY_HANDLERS,
+      // MUSE-PEOPLE: intentions and undertakings that continue without the
+      // player, and six relationship-to-opportunity families with callbacks.
+      PEOPLE_CONTINUING_LIFE_HANDLERS,
+      PEOPLE_SOCIAL_FOLLOWTHROUGH_HANDLERS,
       LIFE_TRANSITION_HANDLERS,
     ),
   );

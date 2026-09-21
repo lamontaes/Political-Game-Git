@@ -216,7 +216,10 @@ export function recordStudyAnswer(
   const peer = world.people[input.peerPersonId];
   if (!person || !peer) throw new Error("A collaboration needs two people.");
   const agreed = input.outcome !== "declines";
-  const stableKey = `study:${input.personId}:${input.peerPersonId}:${world.currentDate}`;
+  // A refusal mended the same day is a second answer, not the same record:
+  // the sequence keeps same-day re-answers distinct without changing what
+  // readers match on (participants and outcome, never the key).
+  const stableKey = `study:${input.personId}:${input.peerPersonId}:${world.currentDate}:${world.history.nextSequence}`;
   let next = recordWorldEvent(world, {
     stableKey,
     type: agreed ? STUDY_COLLABORATION_EVENT : STUDY_DECLINED_EVENT,

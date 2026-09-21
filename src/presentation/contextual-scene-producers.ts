@@ -29,6 +29,9 @@ import {
   produceReachingOut,
 } from "../simulation/people-contact";
 import { requestBehindCallback } from "../simulation/people-recall";
+import { produceContinuingLife } from "../simulation/people-continuing-life";
+import { produceSocialFollowThrough } from "../simulation/people-social-followthrough";
+import { produceContinuingLifeScenes } from "./people-continuing-life-scenes";
 import {
   studyAnswered,
   studyCollaborators,
@@ -136,8 +139,14 @@ export function refreshContextualScenes(
     produceCampaignReaction,
     produceStaffFollowup,
     produceReporterQuestion,
+    // MUSE-PEOPLE: later requests, revisions, reconnections, repairs,
+    // introductions, rhythms and chapter places — bound from real records.
+    produceContinuingLifeScenes,
   ];
-  let next = world;
+  // MUSE-PEOPLE: NPC follow-up is decided when ordinary days actually pass,
+  // before any scene is bound from it. Reading a life never runs this.
+  let next = produceContinuingLife(world, personId);
+  next = produceSocialFollowThrough(next, personId);
   for (const produce of producers) {
     try {
       next = produce(next, personId);
@@ -529,7 +538,16 @@ function produceRecalledRequest(world: World, personId: EntityId): World {
 function produceMeetUp(world: World, personId: EntityId): World {
   const reached = produceReachingOut(world, personId);
   const open = contactProposals(reached, personId).find(
-    (proposal) => !proposal.answered && proposal.toPersonId === personId,
+    (proposal) =>
+      !proposal.answered &&
+      proposal.toPersonId === personId &&
+      // A reconnection over a named memory is answered in its own scene, so
+      // the generic meeting scene leaves that proposal alone.
+      !reached.history.events.some(
+        (event) =>
+          event.type === "life.reconnect-raised" &&
+          event.tags.includes(`followthrough.proposal:${proposal.eventId}`),
+      ),
   );
   if (!open) return reached;
   if (sceneAlreadyBound(reached, personId, "favor", "meet-up", open.eventId)) {

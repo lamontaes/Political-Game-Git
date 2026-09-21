@@ -4,8 +4,11 @@ import {
   acceptChapterInvitation,
   canJoinPartyChapter,
   joinPartyChapter,
+  leavePartyChapter,
   projectPartyEncounters,
 } from "../simulation/living-world/party-chapters";
+import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
+import { favorEntries, performFavor } from "../simulation/life-favors";
 import { lifeOpportunitiesFor } from "../simulation/life-opportunities";
 import {
   answerContact,
@@ -20,9 +23,23 @@ import {
   renegotiationAsked,
 } from "../simulation/people-promise";
 import {
+  answerCollaborationOffer,
+  answerIntroductionOffer,
+  answerRepairOffer,
+  answerSharedWorkRequest,
+  askRevisionForCompetingCommitment,
+  chapterPlaceStillHeld,
+  competingCommitmentCases,
+  keepCollaborationSession,
+  performSharedWorkRequest,
+  stopCollaboration,
+  withdrawSharedWorkRequest,
+} from "../simulation/people-social-followthrough";
+import {
   decideStudyPeerOutcome,
   recordStudyAnswer,
   studyAnswered,
+  studyPeers,
 } from "../simulation/people-study";
 import {
   PROPOSABLE_APPROACHES,
@@ -1086,6 +1103,624 @@ function recalledAnswers(context: SceneContext): SceneAnswer[] {
   ];
 }
 
+/**
+ * A peer's later request after shared work — and, later, the same ask raised
+ * again when it was agreed and not done (MUSE-PEOPLE B1).
+ *
+ * The answers write through the follow-through module, because the bank's
+ * writers name their own picnic proofreading. Asking, agreeing, declining,
+ * doing and withdrawing stay five different records.
+ */
+function sharedWorkRequestAnswers(context: SceneContext): SceneAnswer[] {
+  const task = context.fact("task");
+  const status = context.fact("status");
+  const requestEventId = context.fact("requestEventId") as EntityId;
+  const playerId = context.binding.playerPersonId;
+  if (status === "agreed") {
+    const doIt: SceneAnswer = {
+      key: "do-shared-work",
+      label: `Do the ${lowerFirst(task)} now`,
+      description: "Carry it out in its own minutes, separately.",
+      statement: "I’ll do it now.",
+      replies: says(context, [
+        "“Thank you. I knew I could count on you,” {name} says.",
+        "“Good. I’ll stop worrying about it,” {name} says.",
+      ]),
+      record: `The player told ${context.name} they would do the ${lowerFirst(task)} now.`,
+      apply: (world) =>
+        performSharedWorkRequest(world, playerId, requestEventId),
+      relationship: {
+        kind: "support:followed-through",
+        change: "strengthened",
+        significance: "meaningful",
+        summary: ({ playerName, otherName }) =>
+          `${playerName} carried out the shared work ${otherName} had asked for.`,
+      },
+    };
+    return [
+      doIt,
+      {
+        key: "withdraw-work",
+        label: "Say you won’t do it after all",
+        description: "Withdraw the commitment honestly.",
+        statement: "I’m sorry — I’m not going to be able to do it.",
+        replies: says(context, [
+          "“I see. Thanks for telling me straight,” {name} says.",
+          "“All right. I’ll manage without it,” {name} says.",
+        ]),
+        record: `The player told ${context.name} they would not do the ${lowerFirst(task)} after all.`,
+        apply: (world) =>
+          withdrawSharedWorkRequest(world, playerId, requestEventId),
+      },
+      {
+        key: "leave-work",
+        label: "Leave it for now",
+        description: "Say nothing for the moment.",
+        statement: "I haven’t forgotten. Give me a little longer.",
+        replies: says(context, [
+          "“All right. I’ll leave it with you,” {name} says.",
+        ]),
+        record: `The player asked ${context.name} for longer on the ${lowerFirst(task)}.`,
+      },
+    ];
+  }
+  const minutes = context.has("minutes")
+    ? ` It would take about ${context.fact("minutes")} minutes.`
+    : "";
+  const limited: SceneAnswer[] = context.has("condition")
+    ? [
+        {
+          key: "agree-limit-shared-work",
+          label: "Agree, with their limit",
+          description: context.fact("condition"),
+          statement: `I can help. ${context.fact("condition")}.`,
+          replies: says(context, [
+            "“That’s all I need,” {name} says.",
+            "“Fair enough. I’ll handle the rest,” {name} says.",
+          ]),
+          record: `The player agreed to help ${context.name}, on the condition: ${lowerFirst(context.fact("condition"))}.`,
+          apply: (world) =>
+            answerSharedWorkRequest(world, {
+              playerId,
+              requestId: requestEventId,
+              answer: "conditions",
+              statement: `I can help. ${context.fact("condition")}.`,
+            }).world,
+        },
+      ]
+    : [];
+  return [
+    {
+      key: "agree-shared-work",
+      label: `Agree to ${task}`,
+      description: `You’ll do it separately.${minutes}`,
+      statement: "Sure. I’ll help with the notes.",
+      replies: says(context, [
+        "“Thank you. I’ll send them over,” {name} says.",
+        "“You’re a lifesaver. It’s coming your way,” {name} says.",
+      ]),
+      record: `The player agreed to ${task} for ${context.name}.`,
+      apply: (world) =>
+        answerSharedWorkRequest(world, {
+          playerId,
+          requestId: requestEventId,
+          answer: "agree",
+          statement: "Sure. I’ll help with the notes.",
+        }).world,
+    },
+    ...limited,
+    {
+      key: "decline-shared-work",
+      label: "Say you can’t this time",
+      description: "Turn down the request.",
+      statement: "I’m sorry, I can’t take this on right now.",
+      replies: says(context, [
+        "“Okay. I’ll ask someone else,” {name} says.",
+        "“No problem. I figured I’d ask,” {name} says.",
+      ]),
+      record: `The player turned down ${context.name}’s request to ${task}.`,
+      apply: (world) =>
+        answerSharedWorkRequest(world, {
+          playerId,
+          requestId: requestEventId,
+          answer: "decline",
+          statement: "I’m sorry, I can’t take this on right now.",
+        }).world,
+    },
+  ];
+}
+
+/**
+ * An agreed arrangement that collides with something else owed (MUSE-PEOPLE
+ * B2). The player opens it: ask to change the arrangement, or keep carrying
+ * both. Asking is not breaking — the obligation stands unless the other
+ * person actually agrees to move it.
+ */
+function promiseRevisionAnswers(context: SceneContext): SceneAnswer[] {
+  const task = context.fact("task");
+  const requestEventId = context.fact("requestEventId") as EntityId;
+  const playerId = context.binding.playerPersonId;
+  const speakerId = context.binding.speakerPersonId;
+  return [
+    ...PROMISE_REVISIONS.map((revision) => {
+      const decided = decidePromiseRenegotiation(context.world, {
+        personId: playerId,
+        counterpartPersonId: speakerId,
+        requestEventId,
+        revisionId: revision.id,
+      }).outcome;
+      const spoken =
+        decided === "accepts-change"
+          ? `Let’s use ${revision.label} instead.`
+          : decided === "needs-answer"
+            ? `I still need an answer about ${lowerFirst(task)}.`
+            : "I’m still relying on the arrangement we made.";
+      return {
+        key: `ask-for-${revision.id}`,
+        label: `Ask for ${revision.label}`,
+        description: revision.meaning,
+        statement: `I need to discuss a different arrangement for ${lowerFirst(task)} — could we say ${revision.label}?`,
+        replies: says(
+          context,
+          decided === "accepts-change"
+            ? [
+                `“I can agree to ${revision.label},” {name} says.`,
+                `“Let’s use ${revision.label} instead,” {name} says.`,
+              ]
+            : decided === "needs-answer"
+              ? [
+                  `“I still need an answer about ${lowerFirst(task)},” {name} says.`,
+                  "“Please let me know once you have checked,” {name} says.",
+                ]
+              : [
+                  "“I’m still relying on the arrangement we made,” {name} says.",
+                  "“I can’t take that responsibility over,” {name} says.",
+                ],
+        ),
+        record: `The player asked ${context.name} for ${revision.label} on the ${lowerFirst(task)}.`,
+        apply: (world: World) =>
+          askRevisionForCompetingCommitment(world, {
+            playerId,
+            counterpartId: speakerId,
+            requestId: requestEventId,
+            revisionId: revision.id,
+            statement: spoken,
+          }).world,
+      };
+    }),
+    {
+      key: "let-stand",
+      label: "Keep carrying both",
+      description: "Leave the arrangement exactly as agreed.",
+      statement: "Never mind. I’ll manage both.",
+      replies: says(context, [
+        "“All right. I appreciate it,” {name} says.",
+        "“Okay. Let me know if that changes,” {name} says.",
+      ]),
+      record: `The player decided to keep the arrangement with ${context.name} as agreed.`,
+    },
+  ];
+}
+
+/**
+ * A revised arrangement come due (MUSE-PEOPLE B2). Doing it runs the bank's
+ * own performance, because the underlying ask is the bank's; leaving it is
+ * quiet, and the record keeps the difference.
+ */
+function promiseDueAnswers(context: SceneContext): SceneAnswer[] {
+  const task = context.fact("task");
+  const requestEventId = context.fact("requestEventId") as EntityId;
+  const playerId = context.binding.playerPersonId;
+  return [
+    {
+      key: "do-revised-work",
+      label: `Do the ${lowerFirst(task)} now`,
+      description: "Carry out the revised arrangement.",
+      statement: "I’ll do it now.",
+      replies: says(context, [
+        "“Thank you. I’m glad we sorted it,” {name} says.",
+        "“Good. That settles it,” {name} says.",
+      ]),
+      record: `The player told ${context.name} they would do the ${lowerFirst(task)} now.`,
+      apply: (world) =>
+        performFavor(
+          world,
+          playerId,
+          requestEventId,
+          createCampaignElectionTransitionRegistry(),
+        ),
+      relationship: {
+        kind: "support:followed-through",
+        change: "strengthened",
+        significance: "meaningful",
+        summary: ({ playerName, otherName }) =>
+          `${playerName} carried out the revised arrangement ${otherName} had agreed to.`,
+      },
+    },
+    {
+      key: "leave-revised",
+      label: "Leave it for now",
+      description: "Say nothing for the moment.",
+      statement: "I haven’t forgotten. Give me a little longer.",
+      replies: says(context, [
+        "“All right. I’ll leave it with you,” {name} says.",
+      ]),
+      record: `The player asked ${context.name} for longer on the ${lowerFirst(task)}.`,
+    },
+  ];
+}
+
+/**
+ * A repair attempt after a refusal (MUSE-PEOPLE B4). Accepting carries out
+ * the concrete offer through the machinery that owns it; declining persists
+ * the continued refusal, and the disagreement is not raised again.
+ */
+function repairAttemptAnswers(context: SceneContext): SceneAnswer[] {
+  const offerId = context.fact("offerId") as EntityId;
+  const playerId = context.binding.playerPersonId;
+  return [
+    {
+      key: "accept-repair",
+      label: "Accept the repair",
+      description: "Take up the concrete offer.",
+      statement: "All right. Let’s do that.",
+      replies: says(context, [
+        "“Good. I’m glad,” {name} says.",
+        "“Thank you for hearing me out,” {name} says.",
+      ]),
+      record: `The player accepted ${context.name}’s repair attempt.`,
+      apply: (world) =>
+        answerRepairOffer(world, {
+          playerId,
+          offerId,
+          answer: "accept",
+          statement: "All right. Let’s do that.",
+        }).world,
+    },
+    {
+      key: "decline-repair",
+      label: "Turn it down",
+      description: "The refusal stands.",
+      statement: "Thanks, but I’d rather leave it.",
+      replies: says(context, [
+        "“I understand,” {name} says.",
+        "“All right. I won’t ask again,” {name} says.",
+      ]),
+      record: `The player turned down ${context.name}’s repair attempt; the refusal stands.`,
+      apply: (world) =>
+        answerRepairOffer(world, {
+          playerId,
+          offerId,
+          answer: "decline",
+          statement: "Thanks, but I’d rather leave it.",
+        }).world,
+    },
+  ];
+}
+
+/**
+ * A consented introduction to an actual person (MUSE-PEOPLE B5). Consenting
+ * asks the third person, whose answer is theirs; the introduction happens
+ * only if they agree. An introduction is not hiring and not authority.
+ */
+function introductionAnswers(context: SceneContext): SceneAnswer[] {
+  const offerId = context.fact("offerId") as EntityId;
+  const thirdGiven = context.fact("thirdGiven");
+  const playerId = context.binding.playerPersonId;
+  return [
+    {
+      key: "consent-introduction",
+      label: `Agree to meet ${thirdGiven}`,
+      description: "The third person is asked next; they may say no.",
+      statement: "Yes, I’d like that. Please introduce us.",
+      replies: says(context, [
+        "“I’ll ask them,” {name} says.",
+        "“Good. I’ll set it up,” {name} says.",
+      ]),
+      record: `The player consented to ${context.name}’s introduction to ${thirdGiven}.`,
+      apply: (world) =>
+        answerIntroductionOffer(world, {
+          playerId,
+          offerId,
+          consent: true,
+          statement: "Yes, I’d like that. Please introduce us.",
+        }).world,
+    },
+    {
+      key: "decline-introduction",
+      label: "Decline the introduction",
+      description: "No meeting, no follow-up.",
+      statement: "Thanks, but not right now.",
+      replies: says(context, [
+        "“No problem. Another time, maybe,” {name} says.",
+        "“Understood,” {name} says.",
+      ]),
+      record: `The player declined ${context.name}’s introduction to ${thirdGiven}.`,
+      apply: (world) =>
+        answerIntroductionOffer(world, {
+          playerId,
+          offerId,
+          consent: false,
+          statement: "Thanks, but not right now.",
+        }).world,
+    },
+  ];
+}
+
+/**
+ * A weekly rhythm proposed or running (MUSE-PEOPLE B6). Agreeing schedules
+ * its sessions; each session is kept or ended on its own record, and ending
+ * is neither failing nor breaking.
+ */
+function recurringAnswers(context: SceneContext): SceneAnswer[] {
+  const playerId = context.binding.playerPersonId;
+  const session = context.has("sessionNumber");
+  if (!session) {
+    const offerId = context.fact("offerId") as EntityId;
+    return [
+      {
+        key: "agree-recurring",
+        label: "Agree to meet every week",
+        description: "The sessions schedule themselves from here.",
+        statement: "Yes. Let’s meet every week.",
+        replies: says(context, [
+          "“Good. Same time next week, then,” {name} says.",
+          "“I’m glad. See you next week,” {name} says.",
+        ]),
+        record: `The player agreed to meet ${context.name} every week for the coursework.`,
+        apply: (world) =>
+          answerCollaborationOffer(world, {
+            playerId,
+            offerId,
+            accept: true,
+            statement: "Yes. Let’s meet every week.",
+          }).world,
+        relationship: {
+          kind: "support:agreed-rhythm",
+          change: "strengthened",
+          significance: "minor",
+          summary: ({ playerName, otherName }) =>
+            `${playerName} agreed to meet ${otherName} every week for the coursework.`,
+        },
+      },
+      {
+        key: "decline-recurring",
+        label: "Decline the rhythm",
+        description: "Keep the settled plan, nothing more.",
+        statement: "I think what we have is enough for now.",
+        replies: says(context, [
+          "“Fair enough,” {name} says.",
+          "“All right. The offer stands,” {name} says.",
+        ]),
+        record: `The player declined ${context.name}’s proposal to meet every week.`,
+        apply: (world) =>
+          answerCollaborationOffer(world, {
+            playerId,
+            offerId,
+            accept: false,
+            statement: "I think what we have is enough for now.",
+          }).world,
+      },
+    ];
+  }
+  const agreedId = context.fact("agreedId") as EntityId;
+  return [
+    {
+      key: "keep-session",
+      label: "Keep meeting",
+      description: "The rhythm continues.",
+      statement: "Same time next week?",
+      replies: says(context, [
+        "“Same time next week,” {name} says.",
+        "“See you then,” {name} says.",
+      ]),
+      record: `The player kept the weekly session with ${context.name}.`,
+      apply: (world) => keepCollaborationSession(world, playerId, agreedId),
+    },
+    {
+      key: "stop-session",
+      label: "End the rhythm",
+      description: "What was kept stays kept.",
+      statement: "I think we can stop the regular sessions now.",
+      replies: says(context, [
+        "“All right. It was useful while it lasted,” {name} says.",
+        "“Understood. Thanks for the weeks,” {name} says.",
+      ]),
+      record: `The player ended the weekly sessions with ${context.name}.`,
+      apply: (world) =>
+        stopCollaboration(
+          world,
+          playerId,
+          agreedId,
+          "I think we can stop the regular sessions now.",
+        ),
+    },
+  ];
+}
+
+/**
+ * A chapter place through the organizer, and the organizer's later check-in
+ * (MUSE-PEOPLE B6). Joining runs the chapter's own route in the answers, so
+ * an invitation never acts as an appointment; stepping back leaves through
+ * the same route.
+ */
+function roleInvitationAnswers(context: SceneContext): SceneAnswer[] {
+  const playerId = context.binding.playerPersonId;
+  const chapter = context.fact("chapterName");
+  const [, chapterId] = context.binding.sourceEntityIds;
+  const question: SceneAnswer = {
+    key: "what-involved",
+    label: "Ask what helping involves",
+    description: "Find out before you answer.",
+    followUp: true,
+    statement: "What would helping involve?",
+    replies: says(context, [
+      "“Just coming to the meetings and lending a hand where you can. You can step back whenever you like,” {name} says.",
+    ]),
+    record: `The player asked ${context.name} what helping at the ${chapter} would involve.`,
+  };
+  if (!canJoinPartyChapter(context.world, playerId, chapterId!)) {
+    return [question];
+  }
+  const offerId = context.fact("offerId") as EntityId;
+  return [
+    {
+      key: "join-role",
+      label: `Join the ${chapter}`,
+      description: "Become a volunteer member. It is not party registration.",
+      statement: "Yes. I’d like to join.",
+      replies: says(context, [
+        "“Welcome aboard. I’ll add you to the list,” {name} says.",
+        "“Glad to have you,” {name} says.",
+      ]),
+      record: `The player joined the ${chapter} at ${context.name}’s invitation.`,
+      apply: (world) =>
+        answerCollaborationOffer(world, {
+          playerId,
+          offerId,
+          accept: true,
+          statement: "Yes. I’d like to join.",
+        }).world,
+      relationship: {
+        kind: "contact:joined-organization",
+        change: "strengthened",
+        significance: "minor",
+        summary: ({ playerName, otherName }) =>
+          `${playerName} joined the chapter ${otherName} organizes.`,
+      },
+    },
+    {
+      key: "not-yet-role",
+      label: "Say not yet",
+      description: "Leave the place open.",
+      statement: "Not yet. Let me think about it.",
+      replies: says(context, [
+        "“Take your time,” {name} says.",
+        "“The offer stands,” {name} says.",
+      ]),
+      record: `The player told ${context.name} they were not ready to join the ${chapter} yet.`,
+    },
+    question,
+  ];
+}
+
+function roleCheckinAnswers(context: SceneContext): SceneAnswer[] {
+  const playerId = context.binding.playerPersonId;
+  const chapter = context.fact("chapterName");
+  const [, chapterId] = context.binding.sourceEntityIds;
+  return [
+    {
+      key: "keep-helping",
+      label: "Say you’ll keep helping",
+      description: "The membership continues.",
+      statement: "It’s going well. I’ll keep coming.",
+      replies: says(context, [
+        "“Good to hear,” {name} says.",
+        "“Glad it suits you,” {name} says.",
+      ]),
+      record: `The player told ${context.name} they would keep helping at the ${chapter}.`,
+      relationship: {
+        kind: "support:kept-helping",
+        change: "maintained",
+        significance: "minor",
+        summary: ({ playerName, otherName }) =>
+          `${playerName} kept helping at the chapter ${otherName} organizes.`,
+      },
+    },
+    {
+      key: "step-back",
+      label: "Step back",
+      description: "Leave through the chapter’s own route.",
+      statement: "I need to step back for now.",
+      replies: says(context, [
+        "“Sorry to hear it. The door stays open,” {name} says.",
+        "“Understood. Thanks for the help,” {name} says.",
+      ]),
+      record: `The player stepped back from the ${chapter}.`,
+      apply: (world) =>
+        leavePartyChapter(world, playerId, chapterId as EntityId),
+    },
+  ];
+}
+
+/**
+ * Whether a follow-through scene is still answerable (MUSE-PEOPLE B).
+ *
+ * Every branch reads the record the scene was bound from: an answered ask, a
+ * carried-out arrangement, a withdrawn proposal or a finished rhythm stops
+ * the scene, and a changed world never gets the old one.
+ */
+function followThroughSceneRelevant(
+  world: World,
+  binding: BoundScene["binding"],
+): boolean {
+  const playerId = binding.playerPersonId;
+  switch (binding.variant) {
+    case "shared-work-request": {
+      const requestId = binding.facts.requestEventId as EntityId;
+      const entry = favorEntries(world, playerId).find(
+        (candidate) => candidate.request.id === requestId,
+      );
+      if (!entry) return false;
+      if (!entry.response) return true;
+      if (entry.outcome || entry.status !== "agreed") return false;
+      return world.history.events.some(
+        (event) =>
+          event.type === "life.followthrough-raised" &&
+          event.tags.includes(`followthrough.source:${requestId}`),
+      );
+    }
+    case "promise-revision": {
+      const requestId = binding.sourceEntityIds[0];
+      return competingCommitmentCases(world, playerId).some(
+        (casing) => casing.requestId === requestId,
+      );
+    }
+    case "promise-due": {
+      const dueId = binding.sourceEntityIds[0];
+      const due = world.history.events.find((event) => event.id === dueId);
+      if (!due || due.type !== "life.promise-comes-due") return false;
+      const requestId = due.tags
+        .find((tag) => tag.startsWith("followthrough.source:"))
+        ?.slice("followthrough.source:".length);
+      const entry = favorEntries(world, playerId).find(
+        (candidate) => candidate.request.id === requestId,
+      );
+      return !!entry && !entry.outcome && entry.status === "agreed";
+    }
+    case "reconnect": {
+      const proposalId = binding.sourceEntityIds[0];
+      const proposal = openProposal(world, playerId, binding.speakerPersonId);
+      return !!proposal && proposal.eventId === proposalId;
+    }
+    case "repair-attempt": {
+      const offerId = binding.sourceEntityIds[0];
+      const offer = world.history.events.find((event) => event.id === offerId);
+      if (!offer || offer.type !== "life.repair-offered") return false;
+      return !world.history.events.some(
+        (event) =>
+          (event.type === "life.repair-accepted" ||
+            event.type === "life.repair-declined") &&
+          event.tags.includes(`followthrough.answer:${offerId}`),
+      );
+    }
+    case "introduction": {
+      const offerId = binding.sourceEntityIds[0];
+      const offer = world.history.events.find((event) => event.id === offerId);
+      if (!offer || offer.type !== "life.introduction-offered") return false;
+      return !world.history.events.some(
+        (event) =>
+          (event.type === "life.introduction-made" ||
+            event.type === "life.introduction-declined" ||
+            event.type === "life.introduction-offer-declined") &&
+          event.tags.includes(`followthrough.answer:${offerId}`),
+      );
+    }
+    default:
+      return false;
+  }
+}
+
 const favor: SceneFamilyDefinition = {
   family: "favor",
   eventType: "conversation.favor-turn",
@@ -1105,9 +1740,23 @@ const favor: SceneFamilyDefinition = {
             ? "Extra hours at work"
             : binding.variant === "household-evening"
               ? "An evening at home"
-              : binding.facts.speakerGiven
-                ? `A favor for ${binding.facts.speakerGiven}`
-                : "A favor",
+              : binding.variant === "shared-work-request"
+                ? binding.facts.status === "agreed"
+                  ? `The shared work you said you would do`
+                  : `Help with the shared work`
+                : binding.variant === "promise-revision"
+                  ? `Changing the arrangement with ${binding.facts.speakerGiven ?? "somebody"}`
+                  : binding.variant === "promise-due"
+                    ? "The revised arrangement came due"
+                    : binding.variant === "reconnect"
+                      ? `${binding.facts.speakerGiven ?? "Somebody"} got back in touch`
+                      : binding.variant === "repair-attempt"
+                        ? `${binding.facts.speakerGiven ?? "Somebody"} wants to make amends`
+                        : binding.variant === "introduction"
+                          ? `Meeting ${binding.facts.thirdGiven ?? "somebody new"}`
+                          : binding.facts.speakerGiven
+                            ? `A favor for ${binding.facts.speakerGiven}`
+                            : "A favor",
   briefing(context) {
     const who = context.relationship
       ? `${context.fullName}, ${context.relationship},`
@@ -1138,6 +1787,26 @@ const favor: SceneFamilyDefinition = {
     }
     if (context.binding.variant === "extra-hours-request") {
       return `${who} is asking whether you can ${context.fact("task")}. Pay and the date are not settled.`;
+    }
+    if (context.binding.variant === "shared-work-request") {
+      return context.fact("status") === "agreed"
+        ? `${who} is raising the ${context.fact("task")} you said you would do. It is not done.`
+        : `${who} is asking you to ${context.fact("task")}, after the work you did together. Answering takes no time.`;
+    }
+    if (context.binding.variant === "promise-revision") {
+      return `You owe ${who} the ${context.fact("task")}, and ${context.fact("competing")} is in the way. You can ask to change the arrangement, or keep carrying both. Asking is not breaking.`;
+    }
+    if (context.binding.variant === "promise-due") {
+      return `The revised arrangement on the ${context.fact("task")} with ${who} has come due. It is still agreed and not done.`;
+    }
+    if (context.binding.variant === "reconnect") {
+      return `${who} reached out about ${context.fact("memorySummary")}, and is asking whether you want to meet. Answering takes no time.`;
+    }
+    if (context.binding.variant === "repair-attempt") {
+      return `${who} turned down ${context.fact("refusedSummary")} and now wants to ${context.fact("offerText")}.`;
+    }
+    if (context.binding.variant === "introduction") {
+      return `${who} offered to introduce ${context.fact("thirdGiven")}, because ${context.fact("reason")}. Meeting them is a separate choice for each of you.`;
     }
     if (context.binding.variant === "household-evening") {
       return `${who} will be home this evening and is asking whether you would like to sit and talk, from ${context.fact("startTime")}. Answering takes no time; the evening itself is on your calendar.`;
@@ -1176,6 +1845,24 @@ const favor: SceneFamilyDefinition = {
         `“It’s been a while. Did anything come of the ${task}?” {name} asks.`,
       ]);
     }
+    if (context.binding.variant === "promise-revision") {
+      return says(context, [
+        `“About the ${lowerFirst(context.fact("task"))} — with ${context.fact("competing")} in the way, what do you want to do?” {name} asks.`,
+        `“The ${lowerFirst(context.fact("task"))} still stands. Can we talk about how?” {name} asks.`,
+      ]);
+    }
+    if (context.binding.variant === "promise-due") {
+      return says(context, [
+        `“The ${lowerFirst(context.fact("task"))} we changed — it’s time,” {name} says.`,
+        `“I wanted to check on the ${lowerFirst(context.fact("task"))}, the way we left it,” {name} says.`,
+      ]);
+    }
+    if (context.binding.variant === "reconnect") {
+      return says(context, [
+        `“I keep thinking about ${context.fact("memorySummary")}. Are you free to catch up?” {name} asks.`,
+        `“It’s been since ${context.fact("memorySummary")}. Could we meet?” {name} asks.`,
+      ]);
+    }
     const opening = context.fact("opening");
     const verb = opening.trim().endsWith("?") ? "asks" : "says";
     return says(context, [
@@ -1185,6 +1872,21 @@ const favor: SceneFamilyDefinition = {
   },
   answers(context) {
     if (context.binding.variant === "meet-up") return meetUpAnswers(context);
+    if (context.binding.variant === "reconnect") return meetUpAnswers(context);
+    if (context.binding.variant === "shared-work-request") {
+      return sharedWorkRequestAnswers(context);
+    }
+    if (context.binding.variant === "promise-revision") {
+      return promiseRevisionAnswers(context);
+    }
+    if (context.binding.variant === "promise-due")
+      return promiseDueAnswers(context);
+    if (context.binding.variant === "repair-attempt") {
+      return repairAttemptAnswers(context);
+    }
+    if (context.binding.variant === "introduction") {
+      return introductionAnswers(context);
+    }
     if (context.binding.variant === "claim-came-back") {
       return cameBackAnswers(
         context,
@@ -1393,6 +2095,21 @@ const favor: SceneFamilyDefinition = {
       "offer-another-day": "“I’ll let you know,” {name} says.",
       "say-no": "“Take care,” {name} says.",
       "ask-what-for": "“Just the two of us catching up,” {name} says.",
+      "agree-shared-work": "“Thanks again,” {name} says.",
+      "agree-limit-shared-work": "“Thanks. That helps,” {name} says.",
+      "decline-shared-work": "“It’s fine, really,” {name} says.",
+      "do-shared-work": "“Thank you. That means a lot,” {name} says.",
+      "withdraw-work": "“I’m sorry to hear it,” {name} says.",
+      "leave-work": "“All right. I’ll leave it with you,” {name} says.",
+      "ask-for-more-time": "“Let’s see how it goes,” {name} says.",
+      "ask-for-smaller-part": "“Let’s see how it goes,” {name} says.",
+      "let-stand": "“Thanks. I appreciate it,” {name} says.",
+      "do-revised-work": "“Thank you. I’m glad we sorted it,” {name} says.",
+      "leave-revised": "“All right. I’ll leave it with you,” {name} says.",
+      "accept-repair": "“Good. I’m glad,” {name} says.",
+      "decline-repair": "“I understand,” {name} says.",
+      "consent-introduction": "“I’ll ask them,” {name} says.",
+      "decline-introduction": "“No problem,” {name} says.",
     };
     return fill(done[answer ?? ""] ?? "“Okay,” {name} says.", {
       name: context.name,
@@ -1401,24 +2118,31 @@ const favor: SceneFamilyDefinition = {
   relevant: (world, bound) =>
     // A request raised again is answerable on its own record, not on an open
     // opportunity: the opportunity it came from was answered long ago.
-    bound.binding.variant === "meet-up"
-      ? !!openProposal(
-          world,
-          bound.binding.playerPersonId,
-          bound.binding.speakerPersonId,
-        )
-      : bound.binding.variant === "claim-came-back" ||
-          bound.binding.variant === "memory-corrected"
-        ? true
-        : bound.binding.variant === "recalled"
-          ? !!recalledRequest(
-              world,
-              bound.binding.playerPersonId,
-              bound.binding.facts.requestEventId as EntityId,
-            )
-          : lifeOpportunitiesFor(world, bound.binding.playerPersonId).some(
-              (entry) => entry.eventId === bound.binding.sourceEntityIds[0],
-            ),
+    bound.binding.variant === "shared-work-request" ||
+    bound.binding.variant === "promise-revision" ||
+    bound.binding.variant === "promise-due" ||
+    bound.binding.variant === "reconnect" ||
+    bound.binding.variant === "repair-attempt" ||
+    bound.binding.variant === "introduction"
+      ? followThroughSceneRelevant(world, bound.binding)
+      : bound.binding.variant === "meet-up"
+        ? !!openProposal(
+            world,
+            bound.binding.playerPersonId,
+            bound.binding.speakerPersonId,
+          )
+        : bound.binding.variant === "claim-came-back" ||
+            bound.binding.variant === "memory-corrected"
+          ? true
+          : bound.binding.variant === "recalled"
+            ? !!recalledRequest(
+                world,
+                bound.binding.playerPersonId,
+                bound.binding.facts.requestEventId as EntityId,
+              )
+            : lifeOpportunitiesFor(world, bound.binding.playerPersonId).some(
+                (entry) => entry.eventId === bound.binding.sourceEntityIds[0],
+              ),
   room: (world, bound) =>
     bound.binding.variant === "household-evening"
       ? homeRoom(world, bound)
@@ -1626,9 +2350,19 @@ const partyInvite: SceneFamilyDefinition = {
       ? `Joining the ${binding.facts.chapterName}`
       : binding.variant === "after-decline"
         ? `After the ${binding.facts.chapterName} meeting`
-        : `An invitation from the ${binding.facts.chapterName}`,
+        : binding.variant === "role-invitation"
+          ? `Joining the ${binding.facts.chapterName}`
+          : binding.variant === "role-checkin"
+            ? `Settling in at the ${binding.facts.chapterName}`
+            : `An invitation from the ${binding.facts.chapterName}`,
   briefing(context) {
     const chapter = context.fact("chapterName");
+    if (context.binding.variant === "role-invitation") {
+      return `${context.fullName}, who organizes the ${chapter}, invited you to join and help with the meetings. Joining makes you a volunteer member; it is not party registration, and the invitation is not an appointment.`;
+    }
+    if (context.binding.variant === "role-checkin") {
+      return `${context.fullName} is checking how you are settling in at the ${chapter} since you joined.`;
+    }
     if (context.binding.variant === "join-ask") {
       return `You went to the ${chapter} open meeting, and ${context.fullName}, who organizes it, is asking whether you would like to join. Joining makes you a volunteer member; it is not party registration.`;
     }
@@ -1639,6 +2373,22 @@ const partyInvite: SceneFamilyDefinition = {
   },
   opening(context) {
     const chapter = context.fact("chapterName");
+    if (context.binding.variant === "role-invitation") {
+      const opening = context.fact("opening");
+      if (opening.trim()) {
+        const verb = opening.trim().endsWith("?") ? "asks" : "says";
+        return says(context, [`“${opening}” {name} ${verb}.`]);
+      }
+      return says(context, [
+        `“We could use one more person at the ${chapter}. Would you join us?” {name} asks.`,
+      ]);
+    }
+    if (context.binding.variant === "role-checkin") {
+      return says(context, [
+        "“How are you finding the meetings?” {name} asks.",
+        "“Settling in all right? I wanted to check,” {name} says.",
+      ]);
+    }
     if (context.binding.variant === "join-ask") {
       return says(context, [
         `“Thanks for coming to the meeting. Would you like to join the ${chapter}?” {name} asks.`,
@@ -1664,6 +2414,12 @@ const partyInvite: SceneFamilyDefinition = {
     if (context.binding.variant === "after-decline") {
       return partyAfterDeclineAnswers(context);
     }
+    if (context.binding.variant === "role-invitation") {
+      return roleInvitationAnswers(context);
+    }
+    if (context.binding.variant === "role-checkin") {
+      return roleCheckinAnswers(context);
+    }
     return partyInvitationAnswers(context);
   },
   settled(context, answer) {
@@ -1676,6 +2432,10 @@ const partyInvite: SceneFamilyDefinition = {
       "no-thanks": "“Take care,” {name} says.",
       join: "“Welcome aboard,” {name} says.",
       "not-yet": "“See you at the next one, I hope,” {name} says.",
+      "join-role": "“Welcome aboard,” {name} says.",
+      "not-yet-role": "“The offer stands,” {name} says.",
+      "keep-helping": "“Good to hear,” {name} says.",
+      "step-back": "“The door stays open,” {name} says.",
       "keep-inviting": "“Talk soon,” {name} says.",
       "not-for-me": "“Take care,” {name} says.",
     };
@@ -1685,6 +2445,30 @@ const partyInvite: SceneFamilyDefinition = {
   },
   relevant: (world, bound) => {
     const { binding } = bound;
+    if (binding.variant === "role-invitation") {
+      const offerId = binding.sourceEntityIds[0];
+      const offer = world.history.events.find((event) => event.id === offerId);
+      if (!offer || offer.type !== "life.collaboration-offered") return false;
+      const answered = world.history.events.some(
+        (event) =>
+          (event.type === "life.collaboration-agreed" ||
+            event.type === "life.collaboration-declined") &&
+          event.tags.includes(`followthrough.answer:${offerId}`),
+      );
+      if (answered) return false;
+      return canJoinPartyChapter(
+        world,
+        binding.playerPersonId,
+        binding.sourceEntityIds[1]!,
+      );
+    }
+    if (binding.variant === "role-checkin") {
+      return chapterPlaceStillHeld(
+        world,
+        binding.playerPersonId,
+        binding.sourceEntityIds[1]!,
+      );
+    }
     if (binding.variant === "join-ask") {
       return canJoinPartyChapter(
         world,
@@ -2641,6 +3425,52 @@ function studyPlanAnswers(context: SceneContext): readonly SceneAnswer[] {
   ];
 }
 
+/**
+ * Whether a weekly-rhythm scene is still answerable (MUSE-PEOPLE B6).
+ *
+ * The offer binds while neither acceptance nor refusal is on record; a
+ * running rhythm binds while no ending or establishment is recorded, sessions
+ * remain, and the two still share the program. A left program ends the
+ * rhythm through the callback, never through a stale scene.
+ */
+function recurringSceneRelevant(
+  world: World,
+  binding: BoundScene["binding"],
+): boolean {
+  const playerId = binding.playerPersonId;
+  const peerId = binding.speakerPersonId;
+  if (binding.facts.sessionNumber) {
+    const agreedId = binding.facts.agreedId as EntityId;
+    const agreed = world.history.events.find((event) => event.id === agreedId);
+    if (!agreed || agreed.type !== "life.collaboration-agreed") return false;
+    const sourceTag = `followthrough.source:${agreedId}`;
+    const finished = world.history.events.some(
+      (event) =>
+        (event.type === "life.collaboration-ended" ||
+          event.type === "life.collaboration-established" ||
+          event.type === "life.collaboration-declined") &&
+        event.tags.includes(sourceTag),
+    );
+    if (finished) return false;
+    const sessions = world.history.events.filter(
+      (event) =>
+        event.type === "life.collaboration-session-kept" &&
+        event.tags.includes(sourceTag),
+    ).length;
+    if (sessions >= 3) return false;
+    return studyPeers(world, playerId).some((peer) => peer.personId === peerId);
+  }
+  const offerId = binding.sourceEntityIds[0];
+  const offer = world.history.events.find((event) => event.id === offerId);
+  if (!offer || offer.type !== "life.collaboration-offered") return false;
+  return !world.history.events.some(
+    (event) =>
+      (event.type === "life.collaboration-agreed" ||
+        event.type === "life.collaboration-declined") &&
+      event.tags.includes(`followthrough.answer:${offerId}`),
+  );
+}
+
 const studyPlan: SceneFamilyDefinition = {
   family: "study-plan",
   eventType: "conversation.study-plan-turn",
@@ -2649,13 +3479,38 @@ const studyPlan: SceneFamilyDefinition = {
   motivation: "Settle how the shared work gets done.",
   interactionTags: ["conversation.study", "relationship.shared-work"],
   topic: (binding) =>
-    `How to do the work with ${binding.facts.peerGiven ?? "somebody"}`,
+    binding.variant === "recurring"
+      ? binding.facts.sessionNumber
+        ? `The weekly session with ${binding.facts.peerGiven ?? "somebody"}`
+        : `Meeting every week with ${binding.facts.peerGiven ?? "somebody"}`
+      : `How to do the work with ${binding.facts.peerGiven ?? "somebody"}`,
   briefing(context) {
+    if (context.binding.variant === "recurring") {
+      return context.has("sessionNumber")
+        ? `You agreed to meet ${context.fullName} every week for the coursework. Session ${context.fact("sessionNumber")} is due; keeping it or ending it is both ordinary.`
+        : `${context.fullName} proposed meeting every week to keep at the coursework, now the plan you settled on is running.`;
+    }
     return context.binding.variant === "proposal"
       ? `${context.fullName} agreed to work with you. Neither of you has said how yet.`
       : `${context.fullName} wants a different approach from the one you proposed. Nothing has been settled, and neither of you has to give way.`;
   },
   opening(context) {
+    if (context.binding.variant === "recurring") {
+      if (context.has("sessionNumber")) {
+        return says(context, [
+          "“Same time this week?” {name} asks.",
+          "“Are we still on for the week?” {name} asks.",
+        ]);
+      }
+      const opening = context.fact("opening");
+      if (opening.trim()) {
+        const verb = opening.trim().endsWith("?") ? "asks" : "says";
+        return says(context, [`“${opening}” {name} ${verb}.`]);
+      }
+      return says(context, [
+        "“Would you meet every week to keep at it?” {name} asks.",
+      ]);
+    }
     if (context.binding.variant === "proposal") {
       return says(context, [
         "“So how do you want to go about it?” {name} asks.",
@@ -2673,12 +3528,21 @@ const studyPlan: SceneFamilyDefinition = {
       `“I understand what you’re suggesting,” {name} says. “I still think we should ${theirs}.”`,
     ]);
   },
-  answers: studyPlanAnswers,
+  answers(context) {
+    if (context.binding.variant === "recurring") {
+      return recurringAnswers(context);
+    }
+    return studyPlanAnswers(context);
+  },
   settled(context, answer) {
     const lines: Record<string, string> = {
       compare: "“Think about it and tell me,” {name} says.",
       compromise: "“We’ll speak again,” {name} says.",
       hold: "“We’ll speak again,” {name} says.",
+      "agree-recurring": "“Same time next week, then,” {name} says.",
+      "decline-recurring": "“Fair enough,” {name} says.",
+      "keep-session": "“See you then,” {name} says.",
+      "stop-session": "“Understood,” {name} says.",
     };
     return fill(lines[answer ?? ""] ?? "“Okay,” {name} says.", {
       name: context.name,
@@ -2687,6 +3551,9 @@ const studyPlan: SceneFamilyDefinition = {
   relevant: (world, bound) => {
     const player = bound.binding.playerPersonId;
     const peer = bound.binding.speakerPersonId;
+    if (bound.binding.variant === "recurring") {
+      return recurringSceneRelevant(world, bound.binding);
+    }
     if (studyPlanSettled(world, player, peer)) return false;
     return bound.binding.variant === "proposal"
       ? !studyPlanProposals(world, player, peer)

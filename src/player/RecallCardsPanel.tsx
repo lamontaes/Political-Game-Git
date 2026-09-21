@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import type { EntityId, World } from "../simulation";
 import { projectRecallCards } from "../presentation/people-recall-cards";
+import { projectContinuingLifeCards } from "../presentation/people-continuing-life";
 import type { ShellRef } from "../presentation/shell-navigation";
 
 /**
@@ -34,6 +35,10 @@ export function RecallCardsPanel({
     () => projectRecallCards(world, personId),
     [world, personId],
   );
+  const continuing = useMemo(
+    () => projectContinuingLifeCards(world, personId),
+    [world, personId],
+  );
   return (
     <section
       className="pg-personal-section"
@@ -41,6 +46,40 @@ export function RecallCardsPanel({
       aria-labelledby="recall-cards-title"
     >
       <h3 id="recall-cards-title">What you remember</h3>
+      {continuing.length > 0 ? (
+        <section aria-labelledby="continuing-life-title">
+          <h4 id="continuing-life-title">What’s open between you</h4>
+          <ul className="pg-recall-list">
+            {continuing.map((card) => (
+              <li
+                key={card.eventId}
+                data-testid={`continuing-card-${card.eventId}`}
+                data-kind={card.kind}
+                data-open-question={card.openQuestion ? "true" : "false"}
+              >
+                <strong>{card.title}</strong>
+                <span className="pg-recall-line">{card.onSpoken}</span>
+                <span className="pg-recall-line">{card.detail}</span>
+                {card.otherPersonId ? (
+                  <button
+                    type="button"
+                    className="ui-action ui-action--subtle"
+                    data-testid={`continuing-open-${card.eventId}`}
+                    onClick={() =>
+                      onOpenEntity({
+                        kind: "person",
+                        id: card.otherPersonId!,
+                      })
+                    }
+                  >
+                    Open {card.otherPersonName}
+                  </button>
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
       {cards.length === 0 ? (
         <p data-testid="recall-cards-empty">
           Nothing has been asked of you yet, and you have not gone on the record

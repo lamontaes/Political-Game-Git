@@ -21,6 +21,14 @@ import { personName } from "./people";
 import type { EntityId, FutureTransitionHandlerRegistry, World } from "./types";
 
 const REQUEST = "life.favour-request:";
+/**
+ * The tag binding a favour response or outcome to its exact saved request.
+ * Answers written anywhere — the bank's scenes or a follow-through family —
+ * carry this so favour entries, recall and the Journal read them as one ask.
+ */
+export function favorRequestTag(requestId: EntityId): string {
+  return `${REQUEST}${requestId}`;
+}
 export function favorEntries(world: World, personId: EntityId) {
   return world.history.events
     .filter(
