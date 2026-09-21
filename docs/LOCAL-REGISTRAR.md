@@ -178,7 +178,10 @@ that is 324 branches, and these are the ones carrying live, unmerged work:
   `1038869b`) — the art bench lane's regional plates under
   `art/families/regional-opening/`. New paths, no collision with this lane's
   deletions, but it must be frozen and re-based like the rest. It also writes
-  to this registrar file, so expect to share it.
+  to this registrar file: it created the same path independently on main, then
+  rewrote its own entries as L8 under this preamble and in this format. The
+  merge is a mechanical union — keep the preamble once and keep both sets of
+  entries, rather than picking a side.
 
 **Run, at the Mac, after the rewrite lands:**
 
