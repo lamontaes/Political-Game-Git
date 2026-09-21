@@ -144,8 +144,17 @@ export const PEOPLE_VISUAL4_CHARACTER_LIBRARY = createCharacterComponentLibrary(
   createGarmentFitBank(fitData as GarmentFitBankData),
   PEOPLE_VISUAL4_SKIN_TONE,
 );
+/**
+ * The owner removed the people-visual4 (pv4 "wave_a") images. Their catalog
+ * records stay, because published appearance generations are frozen for
+ * saved people; only the pictures are gone, so those parts have no visual and
+ * are never drawn. Worlds on the modular catalog do not use them.
+ */
+const REMOVED_ARTWORK_ROOT = "art/generated/candidates/people-visual4/";
 export const PEOPLE_VISUAL4_VISUAL_LIBRARY = createRuntimeVisualLibrary(
-  lifted.records as readonly RuntimeVisualAssetRecord[],
+  (lifted.records as readonly RuntimeVisualAssetRecord[]).filter(
+    (record) => !record.final_path?.startsWith(REMOVED_ARTWORK_ROOT),
+  ),
   repositoryVisualUrls(),
 );
 

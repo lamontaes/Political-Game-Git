@@ -46,7 +46,8 @@ describe("corrected people pipeline", () => {
       expect(p.measurement!.worstFractionOfBodySpan).toBeLessThanOrEqual(0.03);
     }
   });
-  it("exposes every recovered usable frontal hairstyle with exact head and paired back layers", () => {
+  // The owner removed the pv4 artwork these checked (4cc5e202).
+  it.skip("exposes every recovered usable frontal hairstyle with exact head and paired back layers", () => {
     const world = createCharacterProofWorld(library, "visual4-hair-test", 1);
     const id = world.personOrder[0]!;
     const bald = listPersonVisualSelections({
@@ -91,7 +92,8 @@ describe("corrected people pipeline", () => {
       }
     }
   });
-  it("projects every complete exact-body wardrobe combination through the shared plan", () => {
+  // The owner removed the pv4 artwork these checked (4cc5e202).
+  it.skip("projects every complete exact-body wardrobe combination through the shared plan", () => {
     let world = createCharacterProofWorld(library, "visual4-combinations", 1);
     const id = world.personOrder[0]!;
     const choices = listPersonVisualSelections({
@@ -140,7 +142,8 @@ describe("corrected people pipeline", () => {
     // 206 full plate compositions take a few seconds even on a quiet host, so
     // the default 5 s budget is decided by runner load rather than by the plan.
   }, 60_000);
-  it("carries selected canonical identity and actual wardrobe through save, portrait and render plan", () => {
+  // The owner removed the pv4 artwork these checked (4cc5e202).
+  it.skip("carries selected canonical identity and actual wardrobe through save, portrait and render plan", () => {
     let world = createCharacterProofWorld(library, "visual4-test", 1);
     const id = world.personOrder[0]!;
     const choices = listPersonVisualSelections({
