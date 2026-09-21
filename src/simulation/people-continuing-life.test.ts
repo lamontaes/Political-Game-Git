@@ -14,8 +14,15 @@ import {
   prepareOpeningLife,
 } from "../presentation/opening-life";
 import {
+  openOrdinaryLife,
+  passOrdinaryDays,
+} from "../presentation/ordinary-life";
+import {
   CONTINUING_LIFE_TAG,
+  CONTINUING_LIFE_TRANSITION_KEY,
   NPC_INTENTION_EVENT,
+  NPC_INTENTION_PROGRESS_EVENT,
+  followUpThreads,
   NPC_UNDERTAKING_EVENT,
   commitmentConflict,
   correctSincereMistake,
@@ -500,5 +507,33 @@ describe("old saves and read-only screens", () => {
       npcIntentions(settled, npc).find((entry) => entry.goalId === goalId)
         ?.status,
     ).toBe("completed");
+  });
+});
+
+describe("the day boundary follows up concrete threads only", () => {
+  it("ordinary weeks with nothing owed write no intentions and no due items", () => {
+    const { world, player } = adultLife("continuing-bounded");
+    const opened = openOrdinaryLife(world, player);
+    const dueBefore = opened.history.futureDueItems.filter(
+      (item) => item.transitionKey === CONTINUING_LIFE_TRANSITION_KEY,
+    ).length;
+    let walked = opened;
+    for (let leg = 0; leg < 6; leg += 1) walked = passOrdinaryDays(walked, 10);
+    assertWorldIntegrity(walked);
+    expect(followUpThreads(walked, player)).toEqual([]);
+    // Nobody "raised an open thread" about nothing, and no review ticks piled
+    // up for people the player merely knows.
+    expect(
+      walked.history.events.filter(
+        (event) =>
+          event.type === NPC_INTENTION_EVENT ||
+          event.type === NPC_INTENTION_PROGRESS_EVENT,
+      ),
+    ).toEqual([]);
+    expect(
+      walked.history.futureDueItems.filter(
+        (item) => item.transitionKey === CONTINUING_LIFE_TRANSITION_KEY,
+      ).length,
+    ).toBe(dueBefore);
   });
 });

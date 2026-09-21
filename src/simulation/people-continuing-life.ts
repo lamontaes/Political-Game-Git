@@ -1,4 +1,4 @@
-import { addDays } from "./dates";
+import { addDays, daysBetween } from "./dates";
 import { evaluateDecision } from "./decisions";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
@@ -57,6 +57,13 @@ export const NPC_UNDERTAKING_EVENT = "life.npc-undertaking-progressed";
 const INTENTION_HORIZON_DAYS = 30;
 /** How often an unpursued intention is reconsidered, in days. */
 const INTENTION_REVIEW_DAYS = 7;
+/**
+ * Days agreed shared work sits before its coming-due; the same value as the
+ * follow-through family's own (a literal here to keep the import one-way).
+ */
+const SHARED_WORK_COMING_DUE_DAYS = 21;
+/** A fixed Monday the weekly review counts from, so a week is a week. */
+const REVIEW_WEEK_ORIGIN = "2000-01-03" as IsoDate;
 /** How often an NPC-to-NPC undertaking moves without the player, in days. */
 const UNDERTAKING_STEP_DAYS = 14;
 
@@ -190,7 +197,13 @@ export function recordNpcIntention(
     // An intention is not yet news. Who learns of it learns it when the NPC
     // acts on it, not when they form it.
     visibility: "private",
-    tags: [CONTINUING_LIFE_TAG, `continuing.kind:${input.kind}`],
+    tags: [
+      CONTINUING_LIFE_TAG,
+      `continuing.kind:${input.kind}`,
+      ...(input.sourceEventId === null
+        ? []
+        : [`continuing.source:${input.sourceEventId}`]),
+    ],
     summary: `${personName(npc)} took on: ${input.objective}`,
     context: {
       location: null,
@@ -223,6 +236,20 @@ export function npcIntentions(
     }
     latest.set(record.goalId, record);
   }
+  // The source is carried on the event that noted the intention, so older
+  // intentions recorded without one simply read as sourceless.
+  const sources = new Map<string, EntityId>();
+  for (const event of world.history.events) {
+    if (event.type !== NPC_INTENTION_EVENT) continue;
+    const source = event.tags.find((tag) =>
+      tag.startsWith("continuing.source:"),
+    );
+    if (!source) continue;
+    sources.set(
+      event.stableKey,
+      source.slice("continuing.source:".length) as EntityId,
+    );
+  }
   return [...latest.values()]
     .map((record) => ({
       goalId: record.goalId,
@@ -231,7 +258,10 @@ export function npcIntentions(
       kind: intentionKindOf(record.goalKey) ?? "follow-up",
       objective: record.objective,
       status: record.status,
-      sourceEventId: null,
+      sourceEventId:
+        sources.get(
+          `${CONTINUING_LIFE_TAG}:intention:${record.goalKey}:noted`,
+        ) ?? null,
       deadline: record.deadline,
     }))
     .reverse();
@@ -433,6 +463,11 @@ export interface NpcFollowUpInput {
   readonly commitmentEventId: EntityId | null;
   /** The day a new request would need, when one is on the table. */
   readonly neededOn: IsoDate | null;
+  /**
+   * What makes this a separate decision, when not the day itself: a weekly
+   * review passes its week, so looking again the same week is the same look.
+   */
+  readonly decisionScope?: string;
 }
 
 /**
@@ -558,7 +593,7 @@ export function decideNpcFollowUp(
     });
   }
   const evaluation = evaluateDecision(withTraits, {
-    stableKey: `follow-up:${input.npcId}:${input.commitmentEventId ?? "open"}:${withTraits.currentDate}`,
+    stableKey: `follow-up:${input.npcId}:${input.commitmentEventId ?? "open"}:${input.decisionScope ?? withTraits.currentDate}`,
     decisionType: "people.continuing-follow-up",
     actorPersonId: input.npcId,
     cutoff: {
@@ -645,14 +680,20 @@ export function sharedHistoryConsiderations(
 /* -------------------------------------------------------------------------- */
 
 /**
- * Give every NPC with an open thread a chance to act, at a legitimate clock
- * boundary. Called when ordinary days actually pass — never when a panel
- * opens, never when a life is read.
+ * Give an NPC who is owed something by the player a chance to decide what to
+ * do about it, at a legitimate clock boundary. Called when ordinary days
+ * actually pass — never when a panel opens, never when a life is read.
  *
- * Most threads stay quiet: an intention already reviewed recently waits, the
- * dead stay dead, and "let it drop" writes nothing at all. What is scheduled
- * is a later review or a due undertaking, through the future-transition
- * registry the ordinary advance already carries.
+ * Only a concrete thread is reviewed: agreed shared work the player has not
+ * done. An NPC with nothing owed has nothing to follow up here; their other
+ * reasons to get in touch belong to the follow-through families, which carry
+ * their own eligibility. Each thread is looked at once a week at most, and the
+ * look is the same look however many times that week the days advance.
+ *
+ * Deciding to raise it is an intention the NPC holds privately — a mind goal
+ * state naming the exact ask — which the ask's own coming-due later acts on
+ * (people-social-followthrough). Keeping quiet or letting it drop writes
+ * nothing at all; a quiet outcome is still an outcome.
  */
 export function produceContinuingLife(
   inputWorld: World,
@@ -665,90 +706,128 @@ export function produceContinuingLife(
   ) {
     return world;
   }
-  const counterpartIds = new Set<EntityId>();
-  for (const interaction of world.history.relationshipInteractions) {
-    if (!interaction.personIds.includes(playerPersonId)) continue;
-    for (const id of interaction.personIds) {
-      if (id !== playerPersonId && world.people[id]) counterpartIds.add(id);
-    }
-  }
-  for (const entry of favorEntries(world, playerPersonId)) {
-    if (world.people[entry.counterpartId]) {
-      counterpartIds.add(entry.counterpartId);
-    }
-  }
-  for (const npcId of [...counterpartIds].sort()) {
-    world = reviewNpcThread(world, playerPersonId, npcId);
+  for (const thread of followUpThreads(world, playerPersonId)) {
+    world = reviewNpcThread(world, playerPersonId, thread);
   }
   return world;
+}
+
+/**
+ * Agreed shared work the player still owes, one per request. Bank favours keep
+ * their own callbacks, so only the follow-through family's asks are read.
+ */
+export function followUpThreads(
+  world: World,
+  playerPersonId: EntityId,
+): readonly OpenCommitment[] {
+  const owedByPlayer = new Set(
+    favorEntries(world, playerPersonId)
+      .filter(
+        (entry) =>
+          entry.status === "agreed" &&
+          !entry.outcome &&
+          entry.request.tags.includes(
+            "followthrough.family:shared-work-request",
+          ) &&
+          entry.request.participants.some(
+            (participant) =>
+              participant.personId === playerPersonId &&
+              participant.role === "agency:asked",
+          ),
+      )
+      .map((entry) => entry.request.id),
+  );
+  const threads: OpenCommitment[] = [];
+  for (const id of [
+    ...new Set(
+      favorEntries(world, playerPersonId).map((entry) => entry.counterpartId),
+    ),
+  ].sort()) {
+    if (!world.people[id]) continue;
+    for (const commitment of openCommitments(world, id)) {
+      if (
+        commitment.counterpartPersonId === playerPersonId &&
+        commitment.kind === "favour-owed" &&
+        owedByPlayer.has(commitment.eventId)
+      ) {
+        threads.push({ ...commitment, counterpartPersonId: id });
+      }
+    }
+  }
+  return threads;
+}
+
+/** The NPC's still-active intention to follow up this exact thread, if any. */
+export function activeFollowUpIntention(
+  world: World,
+  npcId: EntityId,
+  threadEventId: EntityId,
+): NpcIntention | null {
+  return (
+    npcIntentions(world, npcId).find(
+      (intention) =>
+        intention.status === "active" &&
+        intention.kind === "follow-up" &&
+        intention.sourceEventId === threadEventId,
+    ) ?? null
+  );
 }
 
 function reviewNpcThread(
   inputWorld: World,
   playerPersonId: EntityId,
-  npcId: EntityId,
+  thread: OpenCommitment,
 ): World {
-  let world = inputWorld;
+  // openCommitments was read from the NPC's side; counterpartPersonId was
+  // rewritten to the NPC in followUpThreads.
+  const npcId = thread.counterpartPersonId;
+  const world = inputWorld;
   if (!isPersonAliveAt(world, npcId, currentLifeCutoff(world))) return world;
-  const reviewedRecently = world.history.events.some(
-    (event) =>
-      (event.type === NPC_INTENTION_EVENT ||
-        event.type === NPC_INTENTION_PROGRESS_EVENT) &&
-      event.occurredAt > addDays(world.currentDate, -INTENTION_REVIEW_DAYS) &&
-      event.involvedEntityIds.includes(npcId),
-  );
-  if (reviewedRecently) return world;
-  const open = openCommitments(world, npcId).filter(
-    (commitment) => commitment.counterpartPersonId === playerPersonId,
+  // Only while it is sitting undone and not yet come due: at the coming-due
+  // the ask's own callback acts, and after that this is not a thread to chase.
+  if (
+    daysBetween(thread.agreedOn, world.currentDate) >=
+    SHARED_WORK_COMING_DUE_DAYS
+  ) {
+    return world;
+  }
+  if (activeFollowUpIntention(world, npcId, thread.eventId)) return world;
+  if (
+    npcIntentions(world, npcId).some(
+      (intention) =>
+        intention.kind === "follow-up" &&
+        intention.sourceEventId === thread.eventId,
+    )
+  ) {
+    // Already raised once and settled: the thread's history is its own.
+    return world;
+  }
+  const week = Math.floor(
+    daysBetween(REVIEW_WEEK_ORIGIN, world.currentDate) / INTENTION_REVIEW_DAYS,
   );
   const { outcome, world: decided } = decideNpcFollowUp(world, {
     npcId,
     playerId: playerPersonId,
-    commitmentEventId: open[0]?.eventId ?? null,
+    commitmentEventId: thread.eventId,
     neededOn: null,
+    decisionScope: `week-${week}`,
   });
-  world = decided;
-  if (outcome === "let-drop" || outcome === "refuse-new") return world;
-  if (outcome === "keep-quiet") {
-    return scheduleFutureDueItem(world, {
-      stableKey: `${CONTINUING_LIFE_TAG}:review:${npcId}:${world.currentDate}`,
-      dueAt: addDays(world.currentDate, INTENTION_REVIEW_DAYS),
-      transitionKey: CONTINUING_LIFE_TRANSITION_KEY,
-      entityIds: [npcId, playerPersonId].sort(),
-      jurisdictionId: null,
-      provenance: { kind: "simulated", sourceEntityIds: [] },
-    });
-  }
-  // reach-out and renegotiate surface through the follow-through families,
-  // which own the premise, the choices and the record. What is written here
-  // is only that the NPC chose to raise it, so the family can proceed once.
-  return recordWorldEvent(world, {
-    stableKey: `${CONTINUING_LIFE_TAG}:raised:${npcId}:${world.currentDate}`,
-    type: NPC_INTENTION_PROGRESS_EVENT,
-    occurredAt: world.currentDate,
-    recordedAt: world.currentDate,
-    jurisdictionId: world.people[npcId]!.homeJurisdictionId,
-    involvedEntityIds: [npcId, playerPersonId],
-    participants: [
-      {
-        personId: npcId,
-        role: "agency:actor",
-        detail: outcome === "renegotiate" ? "Wants to revisit it" : "Raised it",
-      },
-    ],
-    personFactConstraints: [],
-    visibility: "private",
-    tags: [CONTINUING_LIFE_TAG, `continuing.raised:${outcome}`],
-    summary: `${personName(world.people[npcId]!)} raised an open thread.`,
-    context: {
-      location: null,
-      socialContext: "Somebody deciding not to leave something unsaid.",
-      pressure: null,
-      choice: null,
-      motivation: null,
-      immediateReaction: null,
-    },
-  });
+  if (outcome !== "reach-out" && outcome !== "renegotiate") return decided;
+  return recordNpcIntention(decided, {
+    npcId,
+    targetPersonId: playerPersonId,
+    kind: "follow-up",
+    objective:
+      outcome === "renegotiate"
+        ? `Ask where things stand with: ${thread.task}`
+        : `Bring up the ${lowerFirstWord(thread.task)} that was agreed and not done`,
+    sourceEventId: thread.eventId,
+    deadline: null,
+  }).world;
+}
+
+function lowerFirstWord(text: string): string {
+  return text.charAt(0).toLowerCase() + text.slice(1);
 }
 /* -------------------------------------------------------------------------- */
 /* Statements: exact words, and what anybody knows because of them             */

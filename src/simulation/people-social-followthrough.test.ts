@@ -21,7 +21,12 @@ import {
   agreedRevision,
   renegotiationAsked,
 } from "./people-promise";
-import { openCommitments } from "./people-continuing-life";
+import {
+  activeFollowUpIntention,
+  npcIntentions,
+  openCommitments,
+  recordNpcIntention,
+} from "./people-continuing-life";
 import { sceneBindingsFor } from "./scene-bindings";
 import { addDays } from "./dates";
 import { openProposal } from "./people-contact";
@@ -376,7 +381,16 @@ describe("family 1 — shared study, then a later request", () => {
     }
   });
 
-  it("a coming-due fires once through the registry, never twice", () => {
+  function walkPastComingDue(world: World): World {
+    // Advances can pause at holds, so walk in legs past the coming-due.
+    let next = world;
+    for (let leg = 0; leg < 8; leg += 1) {
+      next = passOrdinaryDays(next, 5);
+    }
+    return next;
+  }
+
+  function agreedAsk() {
     const ensured = ensureSharedWorkAsked(later, player, peer, collaborationId);
     const answered = answerSharedWorkRequest(ensured.world, {
       playerId: player,
@@ -384,39 +398,61 @@ describe("family 1 — shared study, then a later request", () => {
       answer: "agree",
       statement: "Leave it with me.",
     });
-    // Three weeks on without doing it: the peer raises it, exactly once.
-    // Advances can pause at holds, so keep walking until the coming-due
-    // has had its day rather than assuming one call covers it.
-    let raised = answered.world;
-    for (let leg = 0; leg < 8; leg += 1) {
-      raised = passOrdinaryDays(raised, 5);
-      if (
-        raised.history.events.some(
-          (event) => event.type === "life.followthrough-raised",
-        )
-      ) {
-        break;
-      }
-    }
+    return { world: answered.world, requestId: ensured.requestId };
+  }
+
+  it("an intention the peer holds is raised at the coming-due, once", () => {
+    const { world, requestId } = agreedAsk();
+    // The peer has privately decided to bring it up; nobody is told yet.
+    const held = recordNpcIntention(world, {
+      npcId: peer,
+      targetPersonId: player,
+      kind: "follow-up",
+      objective: "Bring up the notes that were agreed and not done",
+      sourceEventId: requestId,
+      deadline: null,
+    });
+    expect(activeFollowUpIntention(held.world, peer, requestId)).not.toBeNull();
+    const raised = walkPastComingDue(held.world);
     assertWorldIntegrity(raised);
-    const key = `${FOLLOWTHROUGH_TAG}:shared-work:${ensured.requestId}:raised`;
+    const key = `${FOLLOWTHROUGH_TAG}:shared-work:${requestId}:raised`;
     expect(
       raised.history.events.filter((event) => event.stableKey === key).length,
     ).toBe(1);
+    // Acted on, the intention is kept — a different record from dropped.
+    expect(activeFollowUpIntention(raised, peer, requestId)).toBeNull();
     expect(
-      raised.history.events.some(
-        (event) => event.type === "life.followthrough-raised",
-      ),
-    ).toBe(true);
-    let further = raised;
-    for (let leg = 0; leg < 4; leg += 1) {
-      further = passOrdinaryDays(further, 5);
-    }
+      npcIntentions(raised, peer).find(
+        (intention) => intention.goalId === held.goalId,
+      )?.status,
+    ).toBe("completed");
+    const further = walkPastComingDue(raised);
     expect(
       further.history.events.filter((event) => event.stableKey === key).length,
     ).toBe(1);
   });
 
+  it("without one, the peer's own decision at the coming-due stands, once", () => {
+    const { world, requestId } = agreedAsk();
+    const walked = walkPastComingDue(world);
+    assertWorldIntegrity(walked);
+    const key = `${FOLLOWTHROUGH_TAG}:shared-work:${requestId}:raised`;
+    const raisedCount = walked.history.events.filter(
+      (event) => event.stableKey === key,
+    ).length;
+    // Raised or let lie, it is decided once and never re-rolled.
+    expect(raisedCount).toBeLessThanOrEqual(1);
+    const further = walkPastComingDue(walked);
+    expect(
+      further.history.events.filter((event) => event.stableKey === key).length,
+    ).toBe(raisedCount);
+    // Either way the player's agreement is still owed, not rewritten.
+    expect(
+      favorEntries(further, player).find(
+        (candidate) => candidate.request.id === requestId,
+      )?.status,
+    ).toBe("agreed");
+  });
   it("withdrawing ends the chain quietly; the handler finds nothing to do", () => {
     const ensured = ensureSharedWorkAsked(later, player, peer, collaborationId);
     const answered = answerSharedWorkRequest(ensured.world, {

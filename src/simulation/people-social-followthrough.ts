@@ -26,7 +26,12 @@ import {
   proposeContact,
 } from "./people-contact";
 import { assessRelationshipContinuity } from "./relationship-integration";
-import { decideNpcFollowUp, openCommitments } from "./people-continuing-life";
+import {
+  activeFollowUpIntention,
+  decideNpcFollowUp,
+  openCommitments,
+  settleNpcIntention,
+} from "./people-continuing-life";
 import {
   STUDY_COLLABORATION_EVENT,
   STUDY_DECLINED_EVENT,
@@ -104,6 +109,8 @@ export type FollowThroughFamily = (typeof FOLLOWTHROUGH_FAMILIES)[number];
 
 /** Days after a settled plan that a peer may come back with a later ask. */
 const SHARED_WORK_FOLLOWUP_AFTER_DAYS = 14;
+/** Days agreed shared work may sit undone before the asker may raise it. */
+export const AGREED_WORK_COMING_DUE_DAYS = 21;
 /** Days an unanswered follow-up waits before the asker reconsider. */
 const FOLLOWUP_RECONSIDER_DAYS = 30;
 /** How far back a refusal can still be repaired, in days. */
@@ -565,7 +572,10 @@ export function answerSharedWorkRequest(
     personId: input.playerId,
     counterpartId: entry.counterpartId,
     sourceEventId: input.requestId,
-    dueInDays: input.answer === "decline" ? FOLLOWUP_RECONSIDER_DAYS : 21,
+    dueInDays:
+      input.answer === "decline"
+        ? FOLLOWUP_RECONSIDER_DAYS
+        : AGREED_WORK_COMING_DUE_DAYS,
   });
   return { world: next, responseId: response.id };
 }
@@ -2595,7 +2605,31 @@ function handleSharedWorkDue(
       outcomeEventId: null,
     };
   }
-  const raised = recordWorldEvent(world, {
+  // Whether they raise it is the peer's own decision: an intention they
+  // formed while it sat undone, or — where they had not decided yet — what
+  // they decide now, from their own traits, load and history with the player.
+  const intention = activeFollowUpIntention(world, peerId, requestId);
+  let deciding = world;
+  if (!intention) {
+    const { outcome, world: decided } = decideNpcFollowUp(world, {
+      npcId: peerId,
+      playerId,
+      commitmentEventId: requestId,
+      neededOn: null,
+      decisionScope: "coming-due",
+    });
+    if (outcome !== "reach-out" && outcome !== "renegotiate") {
+      return {
+        world: decided,
+        status: "resolved",
+        reasonKey: null,
+        context: "The peer let the undone work lie; nothing was raised.",
+        outcomeEventId: null,
+      };
+    }
+    deciding = decided;
+  }
+  const raised = recordWorldEvent(deciding, {
     stableKey: `${FOLLOWTHROUGH_TAG}:shared-work:${requestId}:raised`,
     type: "life.followthrough-raised",
     occurredAt: world.currentDate,
@@ -2627,12 +2661,22 @@ function handleSharedWorkDue(
       immediateReaction: null,
     },
   });
+  const raisedEventId = raised.history.events.at(-1)!.id;
+  const settled = intention
+    ? settleNpcIntention(
+        raised,
+        peerId,
+        intention.goalId,
+        "completed",
+        "Brought up the agreed work that had not been done.",
+      )
+    : raised;
   return {
-    world: raised,
+    world: settled,
     status: "resolved",
     reasonKey: null,
     context: "An agreed, unperformed ask was raised again.",
-    outcomeEventId: raised.history.events.at(-1)!.id,
+    outcomeEventId: raisedEventId,
   };
 }
 
