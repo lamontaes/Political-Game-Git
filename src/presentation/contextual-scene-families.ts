@@ -1647,7 +1647,7 @@ const favor: SceneFamilyDefinition = {
                   : binding.variant === "promise-due"
                     ? "The revised arrangement came due"
                     : binding.variant === "reconnect"
-                      ? `${binding.facts.speakerGiven ?? "Somebody"} got back in touch`
+                      ? `${binding.facts.speakerGiven ?? "Somebody"} wants to meet`
                       : binding.variant === "repair-attempt"
                         ? `${binding.facts.speakerGiven ?? "Somebody"} wants to make amends`
                         : binding.variant === "introduction"
@@ -1698,7 +1698,7 @@ const favor: SceneFamilyDefinition = {
       return `The revised arrangement on the ${context.fact("task")} with ${who} has come due. It is still agreed and not done.`;
     }
     if (context.binding.variant === "reconnect") {
-      return `${who} reached out about ${context.fact("memorySummary")}, and is asking whether you want to meet. Answering takes no time.`;
+      return `${who} got back in touch after a long while and is asking whether you want to meet. What you remember of them: “${context.fact("memorySummary")}” Answering takes no time.`;
     }
     if (context.binding.variant === "repair-attempt") {
       return `${who} turned down ${context.fact("refusedSummary")} and now wants to ${context.fact("offerText")}.`;
@@ -1756,10 +1756,17 @@ const favor: SceneFamilyDefinition = {
       ]);
     }
     if (context.binding.variant === "reconnect") {
-      return says(context, [
-        `“I keep thinking about ${context.fact("memorySummary")}. Are you free to catch up?” {name} asks.`,
-        `“It’s been since ${context.fact("memorySummary")}. Could we meet?” {name} asks.`,
-      ]);
+      const spoken = context.has("spokenMemory")
+        ? context.fact("spokenMemory")
+        : "";
+      return spoken
+        ? says(context, [
+            `“I was thinking about ${spoken} the other day. Are you free to catch up?” {name} asks.`,
+            `“It’s been too long. I still remember ${spoken}. Could we meet?” {name} asks.`,
+          ])
+        : says(context, [
+            "“It’s been a long time. Could we meet and catch up?” {name} asks.",
+          ]);
     }
     const opening = context.fact("opening");
     const verb = opening.trim().endsWith("?") ? "asks" : "says";

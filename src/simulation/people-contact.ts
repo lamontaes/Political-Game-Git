@@ -862,6 +862,31 @@ const REACH_OUT_UNANSWERED_LIMIT = 2;
 const REACH_OUT_NOTICE_DAYS = 9;
 
 /**
+ * Whether this person may get back in touch now under the reaching-out
+ * cadence: nobody has proposed meeting the player recently, this person has
+ * not asked within their own spacing, and they have not stopped asking.
+ * Other routes that reach out over a long gap (MUSE-PEOPLE's remembered
+ * reconnection) read the same cadence instead of keeping their own.
+ */
+export function reachingOutPaced(
+  world: World,
+  playerPersonId: EntityId,
+  otherPersonId: EntityId,
+): boolean {
+  const recent = world.history.events.some(
+    (event) =>
+      event.type === CONTACT_PROPOSED_EVENT &&
+      event.occurredAt > addDays(world.currentDate, -REACH_OUT_SPACING_DAYS) &&
+      event.involvedEntityIds.includes(playerPersonId),
+  );
+  return (
+    !recent &&
+    !askedRecently(world, playerPersonId, otherPersonId) &&
+    !stoppedAsking(world, playerPersonId, otherPersonId)
+  );
+}
+
+/**
  * Somebody decides, on their own, to get back in touch (CRUNCH47 B1, P3).
  *
  * Their reason is in the world: the two of them have history and have not seen
