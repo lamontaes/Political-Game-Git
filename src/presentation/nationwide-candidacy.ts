@@ -8,7 +8,7 @@ import {
   makeCurrencyCode,
   nextRegularElection,
   regularFieldClosed,
-  STATE_EXECUTIVE_GAME_PROFILE_NOTE,
+  stateExecutiveTermRuleNote,
   stateExecutiveIdentity,
   stateExecutiveTermRule,
   stateJurisdictionForKey,
@@ -106,8 +106,8 @@ export function stateExecutiveOfficeCalendar(
     basis,
     note:
       basis === "verified"
-        ? "This office's election day, term length and start date follow the state's own law."
-        : STATE_EXECUTIVE_GAME_PROFILE_NOTE,
+        ? "This office's election day, term length and start date follow the jurisdiction's own law."
+        : stateExecutiveTermRuleNote(rule),
     sources: rule.sources,
     ruleVersion: rule.ruleVersion,
   };

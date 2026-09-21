@@ -28,12 +28,25 @@ describe("state executive term rules", () => {
           expect(source.excerpt.length).toBeGreaterThan(5);
         }
       } else {
-        expect(rule.ruleVersion).toBe(STATE_EXECUTIVE_GAME_PROFILE_VERSION);
-        // The game profile never pretends to cite law.
+        // A calibrated profile names the profile AND the row that set its
+        // term length, so a save can tell two calibrations apart.
+        expect(
+          rule.ruleVersion.startsWith(STATE_EXECUTIVE_GAME_PROFILE_VERSION),
+        ).toBe(true);
+        // The game profile never pretends to cite law: research travels as
+        // calibration, beside the rule, never as a source of it.
         expect(rule.sources).toEqual([]);
+        if (rule.calibration) {
+          expect(rule.calibration.row.key).toBe(usps);
+          expect(rule.calibration.row.ordinaryTermYears).toBe(rule.termYears);
+        }
       }
     }
-    expect(stateExecutiveTermRule("DC")).toBeNull();
+    // The District is not a state, and is not in US_STATE_USPS; it has its
+    // own rule, for its own office, asserted in
+    // `nationwide-chief-executives.test.ts`.
+    expect(stateExecutiveTermRule("DC")).not.toBeNull();
+    expect(stateExecutiveTermRule("PR")).toBeNull();
   });
 
   it("dates Washington from RCW 43.01.010: Wednesday after the second Monday of January", () => {

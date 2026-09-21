@@ -1,9 +1,9 @@
 {
   "counts": {
     "INVENTORIED": 3166,
-    "INTENTIONALLY_NON_PLAYER_FACING": 7074,
-    "DIAGNOSTIC_OR_TEST": 7603,
-    "NEEDS_CLASSIFICATION": 10277
+    "INTENTIONALLY_NON_PLAYER_FACING": 7076,
+    "DIAGNOSTIC_OR_TEST": 7631,
+    "NEEDS_CLASSIFICATION": 10292
   },
   "needsClassification": [
     {
@@ -19865,7 +19865,7 @@
     {
       "sourcePath": "src/presentation/governing-briefing.ts",
       "enclosingSymbol": "projectGoverningBriefing",
-      "line": 129,
+      "line": 128,
       "text": "Your term runs until {americanDate(office.termEndsAt)}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -19873,7 +19873,7 @@
     {
       "sourcePath": "src/presentation/governing-briefing.ts",
       "enclosingSymbol": "projectGoverningBriefing",
-      "line": 130,
+      "line": 129,
       "text": "Your term's end date is not established.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25186,7 +25186,7 @@
       "sourcePath": "src/presentation/nationwide-candidacy.ts",
       "enclosingSymbol": "stateExecutiveOfficeCalendar",
       "line": 109,
-      "text": "This office's election day, term length and start date follow the state's own law.",
+      "text": "This office's election day, term length and start date follow the jurisdiction's own law.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -45305,7 +45305,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "measureTitle",
-      "line": 289,
+      "line": 299,
       "text": "{measure.designation}, {measure.shortTitle}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45313,7 +45313,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "subjectLabel",
-      "line": 294,
+      "line": 304,
       "text": "the priority",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45321,7 +45321,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 316,
+      "line": 326,
       "text": "Hire {personName(person)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45329,7 +45329,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 318,
+      "line": 328,
       "text": "Becomes chief of staff, recommends choices and can take matters you hand over.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45337,7 +45337,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 319,
+      "line": 329,
       "text": "{assessment.background}; {assessment.strength}, but {assessment.caution}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45345,7 +45345,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 337,
+      "line": 347,
       "text": "Agencies are told {title.toLowerCase()} comes first this year.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45353,7 +45353,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 339,
+      "line": 349,
       "text": "Staff time and attention go here before other requests.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45361,7 +45361,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 348,
+      "line": 358,
       "text": "No single priority",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45369,7 +45369,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 349,
+      "line": 359,
       "text": "Agencies keep their current plans.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45377,7 +45377,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 350,
+      "line": 360,
       "text": "Nothing is disrupted, and nothing is pushed forward.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45385,7 +45385,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 367,
+      "line": 377,
       "text": "Put more into {title.toLowerCase()}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45393,7 +45393,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 368,
+      "line": 378,
       "text": "The budget you send the legislature asks for more for {title.toLowerCase()}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45401,7 +45401,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 370,
+      "line": 380,
       "text": "Other requests wait, and legislators may cut it back.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45409,7 +45409,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 379,
+      "line": 389,
       "text": "Hold spending where it is",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45417,7 +45417,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 380,
+      "line": 390,
       "text": "The budget you send keeps this year's priorities.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45425,7 +45425,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 381,
+      "line": 391,
       "text": "Easier to pass, and nothing new gets done.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45433,7 +45433,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 406,
+      "line": 416,
       "text": "Nothing is committed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45441,7 +45441,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 409,
+      "line": 419,
       "text": "The rest of the appropriation stays uncommitted.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45449,7 +45449,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 420,
+      "line": 430,
       "text": "It becomes law, and the agencies are told to carry it out.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45457,7 +45457,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 422,
+      "line": 432,
       "text": "Its supporters are pleased; the work lands on your office.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45465,7 +45465,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 428,
+      "line": 438,
       "text": "Send it back unsigned",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45473,7 +45473,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 430,
+      "line": 440,
       "text": "It goes back to the legislature, which may try to pass it over your objection.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45481,7 +45481,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 431,
+      "line": 441,
       "text": "You stop it for now, and its supporters notice.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45489,7 +45489,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 440,
+      "line": 450,
       "text": "Start now with existing staff",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45497,7 +45497,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 442,
+      "line": 452,
       "text": "Work begins at once; a first report is due in about two months.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45505,7 +45505,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 443,
+      "line": 453,
       "text": "Quicker, with a real chance of early problems.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45513,7 +45513,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 449,
+      "line": 459,
       "text": "Plan it carefully first",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45521,7 +45521,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 451,
+      "line": 461,
       "text": "Agencies plan before acting; a first report is due in about four months.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45529,7 +45529,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 452,
+      "line": 462,
       "text": "Slower, and less likely to stumble.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45537,7 +45537,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 458,
+      "line": 468,
       "text": "Hold it until the budget is settled",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45545,7 +45545,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 459,
+      "line": 469,
       "text": "Nothing starts yet; the priority stays on the list.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45553,7 +45553,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "optionsFor",
-      "line": 460,
+      "line": 470,
       "text": "No risk now, and no progress to show.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45561,7 +45561,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "FAMILY_TEXT",
-      "line": 477,
+      "line": 487,
       "text": "Choose a chief of staff",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45569,7 +45569,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "FAMILY_TEXT",
-      "line": 478,
+      "line": 488,
       "text": "The office needs someone to run it day to day. Three people are available.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45577,7 +45577,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "FAMILY_TEXT",
-      "line": 480,
+      "line": 490,
       "text": "The office runs without a chief of staff. Nothing can be handed off, and every matter waits for you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45585,7 +45585,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "FAMILY_TEXT",
-      "line": 483,
+      "line": 493,
       "text": "Set the first priority",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45593,7 +45593,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "FAMILY_TEXT",
-      "line": 484,
+      "line": 494,
       "text": "Agencies are asking what the governor wants done first.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45601,7 +45601,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "FAMILY_TEXT",
-      "line": 485,
+      "line": 495,
       "text": "Agencies keep their current plans. No priority is set.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45609,7 +45609,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "FAMILY_TEXT",
-      "line": 488,
+      "line": 498,
       "text": "Set the budget request",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45617,7 +45617,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "FAMILY_TEXT",
-      "line": 489,
+      "line": 499,
       "text": "The budget office needs your priorities before the request goes to the legislature.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45625,7 +45625,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "FAMILY_TEXT",
-      "line": 491,
+      "line": 501,
       "text": "The budget office sends a request that keeps this year's priorities.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45633,7 +45633,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "FAMILY_TEXT",
-      "line": 494,
+      "line": 504,
       "text": "A bill on {subject} is on your desk",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45641,7 +45641,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "FAMILY_TEXT",
-      "line": 495,
+      "line": 505,
       "text": "The legislature passed it and sent it to you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45649,7 +45649,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "FAMILY_TEXT",
-      "line": 497,
+      "line": 507,
       "text": "In this game, a bill the governor does not act on becomes law without a signature.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45657,7 +45657,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "FAMILY_TEXT",
-      "line": 500,
+      "line": 510,
       "text": "Commit the money adopted for {subject}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45665,7 +45665,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "FAMILY_TEXT",
-      "line": 501,
+      "line": 511,
       "text": "Money has been adopted for this. What it pays for, and when, is your decision.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45673,7 +45673,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "FAMILY_TEXT",
-      "line": 503,
+      "line": 513,
       "text": "Nothing is committed, and the money stays unspent until the appropriation lapses.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45681,7 +45681,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "FAMILY_TEXT",
-      "line": 506,
+      "line": 516,
       "text": "Direct the agencies on {subject}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45689,7 +45689,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "FAMILY_TEXT",
-      "line": 507,
+      "line": 517,
       "text": "The agencies are ready to act on your priority and need to know how fast to move.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45697,7 +45697,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "FAMILY_TEXT",
-      "line": 508,
+      "line": 518,
       "text": "The work does not start, and the priority stays unstarted.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45705,7 +45705,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "matterFromEvent",
-      "line": 565,
+      "line": 575,
       "text": "No deadline for acting is established for this state's governor in the game, so the bill waits on your desk.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45713,7 +45713,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "staffRecommendation",
-      "line": 689,
+      "line": 699,
       "text": "Nothing here has to be committed this week, and the money keeps.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45721,7 +45721,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "staffRecommendation",
-      "line": 690,
+      "line": 700,
       "text": "Paying it out month by month keeps a failed payment from taking the whole year with it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45729,7 +45729,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "next",
-      "line": 864,
+      "line": 874,
       "text": "{office.title}: {title}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45737,7 +45737,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "decisionSummary",
-      "line": 1034,
+      "line": 1044,
       "text": "A bill on {subjectLabel(matter.subjectKey)} became law without the signature of {who}, {office.title}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45745,7 +45745,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "decisionSummary",
-      "line": 1035,
+      "line": 1045,
       "text": "{matter.title}: no decision was made by the deadline. {matter.ifIgnored}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45753,7 +45753,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "decisionSummary",
-      "line": 1042,
+      "line": 1052,
       "text": "{who}, {office.title}, named {hired?personName(hired):\"anew\"} chief of staff.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45761,7 +45761,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "decisionSummary",
-      "line": 1049,
+      "line": 1059,
       "text": "{who}, {office.title}, left agency plans as they were.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45769,7 +45769,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "decisionSummary",
-      "line": 1053,
+      "line": 1063,
       "text": "{who}, {office.title}, made {option.label.toLowerCase()} the office's first priority.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45777,7 +45777,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "decisionSummary",
-      "line": 1059,
+      "line": 1069,
       "text": "{who}, {office.title}, sent the legislature a budget that holds spending where it is.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45785,7 +45785,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "decisionSummary",
-      "line": 1063,
+      "line": 1073,
       "text": "{who}, {office.title}, asked the legislature for more money for {subjectLabel(option.key.slice(\"budget:\".length))}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45793,7 +45793,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "decisionSummary",
-      "line": 1069,
+      "line": 1079,
       "text": "{who}, {office.title}, signed {measureTitle(world,matter.measureId)??`abillon${subjectLabel(matter.subjectKey)}`} into law.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45801,7 +45801,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "decisionSummary",
-      "line": 1073,
+      "line": 1083,
       "text": "{who}, {office.title}, {matter.measureId?`vetoed${measureTitle(world,matter.measureId)??\"thebill\"}`:`sentbackabillon${subjectLabel(matter.subjectKey)}unsigned`}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45809,7 +45809,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "decisionSummary",
-      "line": 1079,
+      "line": 1089,
       "text": "{who}, {office.title}, committed none of the money adopted for {subjectLabel(matter.subjectKey)} yet.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45817,7 +45817,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "decisionSummary",
-      "line": 1083,
+      "line": 1093,
       "text": "{who}, {office.title}, committed money adopted for {subjectLabel(matter.subjectKey)}: {option.label.toLowerCase()}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45825,7 +45825,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "decisionSummary",
-      "line": 1089,
+      "line": 1099,
       "text": "{office.title} held work on {subjectLabel(matter.subjectKey)} until the budget is settled.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45833,7 +45833,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "decisionSummary",
-      "line": 1093,
+      "line": 1103,
       "text": "{office.title} directed state agencies to begin work on {subjectLabel(matter.subjectKey)}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45841,7 +45841,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "employed",
-      "line": 1134,
+      "line": 1144,
       "text": "Chief of Staff",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45849,7 +45849,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "next",
-      "line": 1184,
+      "line": 1194,
       "text": "The governor signed the bill.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45857,7 +45857,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "next",
-      "line": 1185,
+      "line": 1195,
       "text": "The governor vetoed the bill and returned it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45865,7 +45865,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "next",
-      "line": 1309,
+      "line": 1319,
       "text": "Chief of Staff",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45873,7 +45873,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "next",
-      "line": 1325,
+      "line": 1335,
       "text": "No decision",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45881,7 +45881,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "openMatterForPlayer",
-      "line": 1346,
+      "line": 1356,
       "text": "That matter is not on record.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45889,7 +45889,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "openMatterForPlayer",
-      "line": 1347,
+      "line": 1357,
       "text": "That matter has already been settled.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45897,7 +45897,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "openMatterForPlayer",
-      "line": 1349,
+      "line": 1359,
       "text": "Only the officeholder can decide this.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45905,7 +45905,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "openMatterForPlayer",
-      "line": 1356,
+      "line": 1366,
       "text": "The deadline has passed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45913,7 +45913,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "delegateGoverningMatter",
-      "line": 1397,
+      "line": 1407,
       "text": "Choosing the chief of staff is yours to do.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45921,7 +45921,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "delegateGoverningMatter",
-      "line": 1398,
+      "line": 1408,
       "text": "There is no chief of staff to hand this to.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45929,7 +45929,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "governingTransitionHandler",
-      "line": 1475,
+      "line": 1485,
       "text": "The term this transition belonged to is not current.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45937,7 +45937,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "governingTransitionHandler",
-      "line": 1479,
+      "line": 1489,
       "text": "The new office's first matters were opened.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45945,7 +45945,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "governingDeadlineHandler",
-      "line": 1489,
+      "line": 1499,
       "text": "The matter was already settled.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45953,7 +45953,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "governingDeadlineHandler",
-      "line": 1492,
+      "line": 1502,
       "text": "The office changed hands before the deadline.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45961,7 +45961,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "governingDeadlineHandler",
-      "line": 1495,
+      "line": 1505,
       "text": "The deadline passed without a decision.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45969,7 +45969,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "governingNpcDecisionHandler",
-      "line": 1505,
+      "line": 1515,
       "text": "The matter was already settled.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45977,7 +45977,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "governingNpcDecisionHandler",
-      "line": 1508,
+      "line": 1518,
       "text": "The office changed hands.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45985,7 +45985,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "governingNpcDecisionHandler",
-      "line": 1512,
+      "line": 1522,
       "text": "No available choice.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45993,7 +45993,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "governingNpcDecisionHandler",
-      "line": 1529,
+      "line": 1539,
       "text": "The officeholder decided.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -46001,7 +46001,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "implementationOutcome",
-      "line": 1577,
+      "line": 1587,
       "text": "State agencies reported steady early progress on {subject}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -46009,7 +46009,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "implementationOutcome",
-      "line": 1579,
+      "line": 1589,
       "text": "State agencies reported delays and a staffing gap in the early work on {subject}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -46017,7 +46017,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "implementationOutcome",
-      "line": 1580,
+      "line": 1590,
       "text": "Work on {subject} stalled after the office changed hands.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -46025,7 +46025,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "budgetOutcome",
-      "line": 1596,
+      "line": 1606,
       "text": "The legislature passed a budget that holds spending steady.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -46033,7 +46033,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "budgetOutcome",
-      "line": 1604,
+      "line": 1614,
       "text": "The legislature passed a budget with more money for {subject}, as the governor asked.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -46041,7 +46041,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "budgetOutcome",
-      "line": 1609,
+      "line": 1619,
       "text": "The legislature passed a budget that cut the governor's request for {subject}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -46049,7 +46049,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "returnedBillOutcome",
-      "line": 1624,
+      "line": 1634,
       "text": "The legislature passed the bill on {subject} over the governor's objection.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -46057,7 +46057,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "returnedBillOutcome",
-      "line": 1629,
+      "line": 1639,
       "text": "The legislature did not pass the bill on {subject} again; it does not become law.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -46065,7 +46065,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "governingFollowUpHandler",
-      "line": 1642,
+      "line": 1652,
       "text": "No decided matter stands behind this report.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -46073,7 +46073,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "recordMissingLegislatureNote",
-      "line": 1733,
+      "line": 1743,
       "text": "No bill reached {office.title} this session: the game has not compiled {office.stateUsps}'s legislature, so it files no measures. The office's other work is unaffected.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -46081,7 +46081,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "governingSeasonHandler",
-      "line": 1750,
+      "line": 1760,
       "text": "Not a season item.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -46089,7 +46089,7 @@
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
       "enclosingSymbol": "governingSeasonHandler",
-      "line": 1787,
+      "line": 1797,
       "text": "The {kind} season arrived.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -66479,6 +66479,78 @@
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
+      "sourcePath": "src/simulation/nationwide-world/chief-executive-baseline.generated.ts",
+      "enclosingSymbol": "CHIEF_EXECUTIVE_BASELINE_META",
+      "line": 14,
+      "text": "Our Civic Duty — Continuous Coordinator — Audit and Skills Package.zip",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/chief-executive-baseline.generated.ts",
+      "enclosingSymbol": "CHIEF_EXECUTIVE_BASELINE_META",
+      "line": 17,
+      "text": "NATIONWIDE1 checkpoint 3, 2026-09-21",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/chief-executive-baseline.generated.ts",
+      "enclosingSymbol": "CHIEF_EXECUTIVE_BASELINE_META",
+      "line": 20,
+      "text": "Chief executive title and ordinary full term only; not every office term, vacancy calendar or term limit. Research input, not runtime admission.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/chief-executive-baseline.generated.ts",
+      "enclosingSymbol": "CHIEF_EXECUTIVE_BASELINE_ROWS",
+      "line": 29,
+      "text": "[{\"key\":\"AK\",\"name\":\"Alaska\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"AL\",\"name\":\"Alabama\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"AR\",\"name\":\"Arkansas\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"AZ\",\"name\":\"Arizona\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"CA\",\"name\":\"California\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"CO\",\"name\":\"Colorado\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"CT\",\"name\":\"Connecticut\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"DC\",\"name\":\"District of Columbia\",\"kind\":\"federal-district\",\"officeKind\":\"district-mayor\",\"ordinaryTermYears\":4,\"source\":\"https://code.dccouncil.gov/us/dc/council/code/sections/1-204.21\",\"sourceLocator\":\"subsection (b)\",\"evidenceClass\":\"official-code-text\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"DE\",\"name\":\"Delaware\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"FL\",\"name\":\"Florida\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"GA\",\"name\":\"Georgia\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"HI\",\"name\":\"Hawaii\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"IA\",\"name\":\"Iowa\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"ID\",\"name\":\"Idaho\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"IL\",\"name\":\"Illinois\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"IN\",\"name\":\"Indiana\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"KS\",\"name\":\"Kansas\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"KY\",\"name\":\"Kentucky\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"LA\",\"name\":\"Louisiana\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"MA\",\"name\":\"Massachusetts\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"MD\",\"name\":\"Maryland\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"ME\",\"name\":\"Maine\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"MI\",\"name\":\"Michigan\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"MN\",\"name\":\"Minnesota\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"MO\",\"name\":\"Missouri\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"MS\",\"name\":\"Mississippi\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"MT\",\"name\":\"Montana\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"NC\",\"name\":\"North Carolina\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"ND\",\"name\":\"North Dakota\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"NE\",\"name\":\"Nebraska\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"NH\",\"name\":\"New Hampshire\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":2,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"NJ\",\"name\":\"New Jersey\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"NM\",\"name\":\"New Mexico\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"NV\",\"name\":\"Nevada\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"NY\",\"name\":\"New York\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"OH\",\"name\":\"Ohio\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"OK\",\"name\":\"Oklahoma\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"OR\",\"name\":\"Oregon\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"PA\",\"name\":\"Pennsylvania\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"RI\",\"name\":\"Rhode Island\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"SC\",\"name\":\"South Carolina\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"SD\",\"name\":\"South Dakota\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"TN\",\"name\":\"Tennessee\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"TX\",\"name\":\"Texas\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"UT\",\"name\":\"Utah\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"VA\",\"name\":\"Virginia\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"VT\",\"name\":\"Vermont\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":2,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"WA\",\"name\":\"Washington\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"WI\",\"name\":\"Wisconsin\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"WV\",\"name\":\"West Virginia\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"},{\"key\":\"WY\",\"name\":\"Wyoming\",\"kind\":\"state\",\"officeKind\":\"state-governor\",\"ordinaryTermYears\":4,\"source\":\"https://www.nga.org/governors/powers-and-authority/\",\"sourceLocator\":\"Qualifications and Tenure / Term Limits\",\"evidenceClass\":\"institutional-overview\",\"checkedOn\":\"2026-09-21\",\"limits\":\"Not a live officeholder term record, vacancy term, cross-version save change or full current-law audit.\"}]",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/chief-executive-baseline.ts",
+      "enclosingSymbol": "evidence",
+      "line": 87,
+      "text": "{row.source} {row.sourceLocator}, cited but not quoted here",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/chief-executive-baseline.ts",
+      "enclosingSymbol": "evidence",
+      "line": 88,
+      "text": "an institutional summary ({row.source}, {row.sourceLocator}), not this jurisdiction's own instrument",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/chief-executive-baseline.ts",
+      "enclosingSymbol": "chiefExecutiveBaselineDisclosure",
+      "line": 89,
+      "text": "The ordinary {row.ordinaryTermYears}-year term comes from research checked on {row.checkedOn}: {evidence}. It sets the length the game's disclosed rule uses; it is not this jurisdiction's law as the game has read it.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/district-of-columbia.ts",
+      "enclosingSymbol": "DISTRICT_OF_COLUMBIA_OFFICE_DISPLAY_NAME",
+      "line": 45,
+      "text": "Mayor of the District of Columbia",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/district-of-columbia.ts",
+      "enclosingSymbol": "DISTRICT_OF_COLUMBIA_CONSOLIDATION_NOTE",
+      "line": 48,
+      "text": "The District of Columbia is one government. Its citywide and district-wide identities are the same authority, so it has one chief executive, one jurisdiction and one public account — not a mayor beside a governor.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
       "sourcePath": "src/simulation/nationwide-world/local-governments.ts",
       "enclosingSymbol": "COUNTY_RELATION_EMPTY",
       "line": 51,
@@ -66529,7 +66601,7 @@
     {
       "sourcePath": "src/simulation/nationwide-world/state-executive-candidacy-packs.ts",
       "enclosingSymbol": "US_STATE_NAMES",
-      "line": 47,
+      "line": 62,
       "text": "New Hampshire",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -66537,7 +66609,7 @@
     {
       "sourcePath": "src/simulation/nationwide-world/state-executive-candidacy-packs.ts",
       "enclosingSymbol": "US_STATE_NAMES",
-      "line": 48,
+      "line": 63,
       "text": "New Jersey",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -66545,7 +66617,7 @@
     {
       "sourcePath": "src/simulation/nationwide-world/state-executive-candidacy-packs.ts",
       "enclosingSymbol": "US_STATE_NAMES",
-      "line": 49,
+      "line": 64,
       "text": "New Mexico",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -66553,7 +66625,7 @@
     {
       "sourcePath": "src/simulation/nationwide-world/state-executive-candidacy-packs.ts",
       "enclosingSymbol": "US_STATE_NAMES",
-      "line": 50,
+      "line": 65,
       "text": "New York",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -66561,7 +66633,7 @@
     {
       "sourcePath": "src/simulation/nationwide-world/state-executive-candidacy-packs.ts",
       "enclosingSymbol": "US_STATE_NAMES",
-      "line": 51,
+      "line": 66,
       "text": "North Carolina",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -66569,7 +66641,7 @@
     {
       "sourcePath": "src/simulation/nationwide-world/state-executive-candidacy-packs.ts",
       "enclosingSymbol": "US_STATE_NAMES",
-      "line": 52,
+      "line": 67,
       "text": "North Dakota",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -66577,7 +66649,7 @@
     {
       "sourcePath": "src/simulation/nationwide-world/state-executive-candidacy-packs.ts",
       "enclosingSymbol": "US_STATE_NAMES",
-      "line": 57,
+      "line": 72,
       "text": "Rhode Island",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -66585,7 +66657,7 @@
     {
       "sourcePath": "src/simulation/nationwide-world/state-executive-candidacy-packs.ts",
       "enclosingSymbol": "US_STATE_NAMES",
-      "line": 58,
+      "line": 73,
       "text": "South Carolina",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -66593,7 +66665,7 @@
     {
       "sourcePath": "src/simulation/nationwide-world/state-executive-candidacy-packs.ts",
       "enclosingSymbol": "US_STATE_NAMES",
-      "line": 59,
+      "line": 74,
       "text": "South Dakota",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -66601,15 +66673,23 @@
     {
       "sourcePath": "src/simulation/nationwide-world/state-executive-candidacy-packs.ts",
       "enclosingSymbol": "US_STATE_NAMES",
-      "line": 66,
+      "line": 81,
       "text": "West Virginia",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/simulation/nationwide-world/state-executive-candidacy-packs.ts",
+      "enclosingSymbol": "chiefExecutiveJurisdictionName",
+      "line": 112,
+      "text": "District of Columbia",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/state-executive-candidacy-packs.ts",
       "enclosingSymbol": "STRUCTURE_SOURCE",
-      "line": 92,
+      "line": 127,
       "text": "Individual State Descriptions: 2022",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -66617,7 +66697,7 @@
     {
       "sourcePath": "src/simulation/nationwide-world/state-executive-candidacy-packs.ts",
       "enclosingSymbol": "stateExecutiveIdentity",
-      "line": 125,
+      "line": 169,
       "text": "Governor of {US_STATE_NAMES[stateUsps]}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -66625,7 +66705,7 @@
     {
       "sourcePath": "src/simulation/nationwide-world/state-executive-candidacy-packs.ts",
       "enclosingSymbol": "QUALIFICATION_AT_FILING",
-      "line": 143,
+      "line": 197,
       "text": "Read from RULES at filing time for this state's executive office; not recorded in this pack.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -66633,15 +66713,23 @@
     {
       "sourcePath": "src/simulation/nationwide-world/state-executive-candidacy-packs.ts",
       "enclosingSymbol": "NO_FILING_PROCEDURE",
-      "line": 145,
+      "line": 199,
       "text": "No filing deadline, filing officer, primary, nomination, or ballot-access procedure has been read for this office.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/simulation/nationwide-world/state-executive-candidacy-packs.ts",
+      "enclosingSymbol": "DISTRICT_STRUCTURE_SOURCE",
+      "line": 205,
+      "text": "District of Columbia Home Rule Act, as the official Code carries it",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/state-executive-candidacy-packs.ts",
       "enclosingSymbol": "candidacyPackFor",
-      "line": 178,
+      "line": 246,
       "text": "No primary, party nomination or ballot-access rule is sourced, so a filing here is a general-election candidacy and nothing more.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -66649,15 +66737,47 @@
     {
       "sourcePath": "src/simulation/nationwide-world/state-executive-term-rules.ts",
       "enclosingSymbol": "STATE_EXECUTIVE_GAME_PROFILE_NOTE",
-      "line": 103,
-      "text": "This state's real term and election rules are not compiled into the game yet, so the office follows the game's own disclosed rule set: four-year terms, a November election every four years, and a term that begins on the first Monday of January.",
+      "line": 130,
+      "text": "This jurisdiction's real term and election rules are not compiled into the game yet, so the office follows the game's own disclosed rule set: a November election on the same cycle as the term, and a term that begins on the first Monday of January.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/state-executive-term-rules.ts",
+      "enclosingSymbol": "stateExecutiveTermRuleNote",
+      "line": 140,
+      "text": "This office's term and commencement are compiled from {rule.sources.map((source)=>source.citation).join(\",\")}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/state-executive-term-rules.ts",
+      "enclosingSymbol": "cycle",
+      "line": 143,
+      "text": "The game's rule runs {rule.termYears}-year terms with an election every {rule.election.cycleYears} years.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/state-executive-term-rules.ts",
+      "enclosingSymbol": "stateExecutiveTermRuleNote",
+      "line": 145,
+      "text": "{STATE_EXECUTIVE_GAME_PROFILE_NOTE} {cycle} {rule.calibration.disclosure}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/state-executive-term-rules.ts",
+      "enclosingSymbol": "stateExecutiveTermRuleNote",
+      "line": 146,
+      "text": "{STATE_EXECUTIVE_GAME_PROFILE_NOTE} {cycle}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/simulation/nationwide-world/state-executive-term-rules.ts",
       "enclosingSymbol": "VERIFIED",
-      "line": 134,
+      "line": 178,
       "text": "The governor, … shall hold office for the term of four years, and until their successors are elected and qualified; and the term shall commence on the Wednesday after the second Monday of January following their election.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -66665,7 +66785,7 @@
     {
       "sourcePath": "src/simulation/nationwide-world/state-executive-term-rules.ts",
       "enclosingSymbol": "VERIFIED",
-      "line": 142,
+      "line": 186,
       "text": "All state, county, city, town, and district general elections … shall be held on the first Tuesday after the first Monday of November",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -66673,7 +66793,7 @@
     {
       "sourcePath": "src/simulation/nationwide-world/state-executive-term-rules.ts",
       "enclosingSymbol": "VERIFIED",
-      "line": 149,
+      "line": 193,
       "text": "Governor … 4-year term",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -66825,7 +66945,7 @@
     {
       "sourcePath": "src/simulation/nationwide-world/state-executives.ts",
       "enclosingSymbol": "ensureStateExecutiveIncumbent",
-      "line": 333,
+      "line": 356,
       "text": "{personName(next.people[holderId]!)} holds the office of {office.displayName} in this fictional world.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -82807,6 +82927,12 @@
       "count": 2
     },
     {
+      "sourcePath": "src/simulation/policy-semantics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateImplementationFactor. Play fails closed rather than showing it.",
+      "count": 4
+    },
+    {
       "sourcePath": "src/simulation/resource-pressure.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -82817,6 +82943,24 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateOutcome. Play fails closed rather than showing it.",
       "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/policy-semantics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateOperationSemantics. Play fails closed rather than showing it.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/simulation/policy-semantics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validatePolicyEstimate. Play fails closed rather than showing it.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/simulation/policy-semantics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validatePolicyProvenance. Play fails closed rather than showing it.",
+      "count": 3
     },
     {
       "sourcePath": "src/simulation/resource-integrity.ts",
@@ -82837,6 +82981,12 @@
       "count": 24
     },
     {
+      "sourcePath": "src/simulation/policy-semantics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validatePolicyBaseline. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
       "sourcePath": "src/simulation/relationship-integration.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -82847,6 +82997,12 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertTags. Play fails closed rather than showing it.",
       "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/policy-semantics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validatePolicyAlternative. Play fails closed rather than showing it.",
+      "count": 4
     },
     {
       "sourcePath": "src/simulation/records.ts",
@@ -83139,38 +83295,14 @@
     {
       "sourcePath": "src/simulation/policy-semantics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateImplementationFactor. Play fails closed rather than showing it.",
-      "count": 4
+      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/policy-semantics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateOperationSemantics. Play fails closed rather than showing it.",
-      "count": 3
-    },
-    {
-      "sourcePath": "src/simulation/policy-semantics.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validatePolicyEstimate. Play fails closed rather than showing it.",
-      "count": 3
-    },
-    {
-      "sourcePath": "src/simulation/policy-semantics.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validatePolicyProvenance. Play fails closed rather than showing it.",
-      "count": 3
-    },
-    {
-      "sourcePath": "src/simulation/policy-semantics.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validatePolicyBaseline. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
-      "sourcePath": "src/simulation/policy-semantics.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validatePolicyAlternative. Play fails closed rather than showing it.",
-      "count": 4
+      "reason": "A validation message composed in validateUncertainty. Play fails closed rather than showing it.",
+      "count": 2
     },
     {
       "sourcePath": "src/simulation/policy-semantics.ts",
@@ -83263,10 +83395,10 @@
       "count": 2
     },
     {
-      "sourcePath": "src/simulation/policy-semantics.ts",
+      "sourcePath": "src/simulation/people.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateUncertainty. Play fails closed rather than showing it.",
-      "count": 2
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 3
     },
     {
       "sourcePath": "src/simulation/people-study.ts",
@@ -83299,12 +83431,6 @@
       "count": 3
     },
     {
-      "sourcePath": "src/simulation/people.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 3
-    },
-    {
       "sourcePath": "src/simulation/rule-capability-resolver.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
@@ -83323,28 +83449,10 @@
       "count": 15
     },
     {
-      "sourcePath": "src/simulation/people-family-plan.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/people-continuation.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 9
-    },
-    {
       "sourcePath": "src/simulation/people-contact.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 11
-    },
-    {
-      "sourcePath": "src/simulation/people-bereavement.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
     },
     {
       "sourcePath": "src/simulation/pennywise-adaptive-life.test.ts",
@@ -83383,16 +83491,16 @@
       "count": 12
     },
     {
-      "sourcePath": "src/simulation/nationwide-world/state-executive-terms.ts",
+      "sourcePath": "src/simulation/nationwide-world/state-executive-term-rules.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 2
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
     },
     {
-      "sourcePath": "src/simulation/nationwide-world/state-executive-turnover.ts",
+      "sourcePath": "src/simulation/nationwide-world/state-executive-term-rules.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 2
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/nationwide-world/state-executive-term-rules.ts",
@@ -83413,13 +83521,43 @@
       "count": 5
     },
     {
-      "sourcePath": "src/simulation/nationwide-world/local-governments.ts",
+      "sourcePath": "src/simulation/nationwide-world/state-executive-candidacy-packs.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
+      "count": 2
     },
     {
       "sourcePath": "src/simulation/nationwide-world/state-executive-candidacy-packs.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/state-executive-terms.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/state-executive-turnover.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/people-family-plan.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/nationwide-chief-executives.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 19
+    },
+    {
+      "sourcePath": "src/simulation/nationwide-world/local-governments.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 1
@@ -83485,24 +83623,6 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/nationwide-world/state-executive-candidacy-packs.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/nationwide-world/state-executive-term-rules.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/nationwide-world/state-executive-term-rules.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/simulation/nationwide-world/state-executive-turnover-calendar.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -83512,6 +83632,12 @@
       "sourcePath": "src/simulation/nationwide-world/state-executives.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/people-bereavement.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 1
     },
     {
@@ -84193,12 +84319,6 @@
       "count": 5
     },
     {
-      "sourcePath": "src/simulation/legislation-fiscal-families.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 6
-    },
-    {
       "sourcePath": "src/simulation/legislative-event-references.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -84221,12 +84341,6 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 92
-    },
-    {
-      "sourcePath": "src/simulation/history.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
     },
     {
       "sourcePath": "src/simulation/legislation-transit-families.ts",
@@ -84257,12 +84371,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 5
-    },
-    {
-      "sourcePath": "src/simulation/governing/state-governing.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
     },
     {
       "sourcePath": "src/simulation/legislation-service-families.ts",
@@ -84341,6 +84449,12 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 4
+    },
+    {
+      "sourcePath": "src/simulation/legislation-fiscal-families.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 6
     },
     {
       "sourcePath": "src/simulation/legislation-drafting.ts",
@@ -84493,6 +84607,12 @@
       "count": 1
     },
     {
+      "sourcePath": "src/simulation/people-continuation.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/incident-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -84517,6 +84637,12 @@
       "count": 9
     },
     {
+      "sourcePath": "src/simulation/people-continuation.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 9
+    },
+    {
       "sourcePath": "src/simulation/incident-catalog.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -84533,6 +84659,18 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 3
+    },
+    {
+      "sourcePath": "src/simulation/history.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/governing/state-governing.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/governing/state-governing.ts",
@@ -84856,18 +84994,6 @@
       "sourcePath": "src/simulation/executive-governing-kernels.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/people-continuation.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/policy-semantics.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -85279,9 +85405,45 @@
       "count": 66
     },
     {
+      "sourcePath": "src/simulation/character-history-context-people.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/causal-effects.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateMetricScope. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/causal-effects.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/crisis/hazard-producer.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/causal-effects.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateCausalProcess. Play fails closed rather than showing it.",
+      "count": 4
+    },
+    {
+      "sourcePath": "src/simulation/causal-effects.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateCausalProvenance. Play fails closed rather than showing it.",
+      "count": 4
+    },
+    {
+      "sourcePath": "src/simulation/crisis/hazard-producer.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 4
     },
     {
@@ -85334,12 +85496,6 @@
     },
     {
       "sourcePath": "src/simulation/candidate-qualification.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 5
-    },
-    {
-      "sourcePath": "src/simulation/character-history-context-people.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 5
@@ -85591,24 +85747,6 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/causal-effects.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateMetricScope. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/causal-effects.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/crisis/hazard-producer.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/simulation/adult-situations.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -85697,12 +85835,6 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 17
-    },
-    {
-      "sourcePath": "src/presentation/macro-conditions.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 7
     },
     {
       "sourcePath": "src/presentation/transit-cash-snapshot.test.ts",
@@ -86081,12 +86213,6 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 8
-    },
-    {
-      "sourcePath": "src/presentation/location-surfaces.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 2
     },
     {
       "sourcePath": "src/presentation/production-world.ts",
@@ -86473,12 +86599,6 @@
       "count": 1
     },
     {
-      "sourcePath": "src/presentation/location-art-review.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 3
-    },
-    {
       "sourcePath": "src/presentation/opening-life.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -86629,18 +86749,6 @@
       "count": 4
     },
     {
-      "sourcePath": "src/simulation/causal-effects.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateCausalProvenance. Play fails closed rather than showing it.",
-      "count": 4
-    },
-    {
-      "sourcePath": "src/simulation/crisis/hazard-producer.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 4
-    },
-    {
       "sourcePath": "src/presentation/nationwide-state-executive-facts.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -86662,7 +86770,7 @@
       "sourcePath": "src/presentation/nationwide-opening.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 9
+      "count": 10
     },
     {
       "sourcePath": "src/presentation/nationwide-news-officeholders.test.ts",
@@ -86675,6 +86783,12 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 9
+    },
+    {
+      "sourcePath": "src/presentation/nationwide-district-of-columbia.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 8
     },
     {
       "sourcePath": "src/presentation/nationwide-candidacy.ts",
@@ -86705,6 +86819,12 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 3
+    },
+    {
+      "sourcePath": "src/presentation/macro-conditions.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 7
     },
     {
       "sourcePath": "src/presentation/municipal-governing.test.ts",
@@ -86770,6 +86890,18 @@
       "sourcePath": "src/simulation/crisis/fixed-point.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/presentation/location-surfaces.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/presentation/location-art-review.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 3
     },
     {

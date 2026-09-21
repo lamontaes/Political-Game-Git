@@ -23,10 +23,16 @@ import {
   stateExecutiveTermRule,
 } from "./state-executive-term-rules";
 import {
+  CHIEF_EXECUTIVE_JURISDICTIONS,
   STATE_GOVERNMENT_STRUCTURE_SOURCE,
-  US_STATE_USPS,
   stateExecutiveIdentity,
 } from "./state-executive-candidacy-packs";
+import type { StateExecutiveIdentity } from "./state-executive-candidacy-packs";
+import {
+  DISTRICT_OF_COLUMBIA_STRUCTURE_SOURCE,
+  districtOfColumbiaJurisdiction,
+  isDistrictOfColumbia,
+} from "./district-of-columbia";
 
 export const STATE_EXECUTIVE_WRITER_VERSION = "nationwide-state-executive-v1";
 
@@ -50,12 +56,25 @@ export interface StateExecutiveOffice {
   readonly sources: readonly string[];
 }
 
+/**
+ * The jurisdiction a chief executive governs from.
+ *
+ * For a state that is its state jurisdiction. The District is one government,
+ * so its Mayor governs from the same jurisdiction its one city unit does,
+ * rather than from a second district-wide identity beside it.
+ */
+function chiefExecutiveJurisdiction(identity: StateExecutiveIdentity) {
+  return isDistrictOfColumbia(identity.stateUsps)
+    ? districtOfColumbiaJurisdiction()
+    : stateJurisdictionForKey(identity.jurisdictionKey);
+}
+
 export function stateExecutiveOffice(
   stateUsps: string,
 ): StateExecutiveOffice | null {
   const identity = stateExecutiveIdentity(stateUsps);
   if (!identity) return null;
-  const jurisdiction = stateJurisdictionForKey(identity.jurisdictionKey);
+  const jurisdiction = chiefExecutiveJurisdiction(identity);
   if (!jurisdiction) return null;
   const pack = identity.executivePackId
     ? executiveRulePackForJurisdiction(identity.jurisdictionKey)
@@ -71,7 +90,9 @@ export function stateExecutiveOffice(
       : `executive-office:${identity.officeKey}`,
     authorityPackId: identity.executivePackId,
     sources: [
-      STATE_GOVERNMENT_STRUCTURE_SOURCE,
+      isDistrictOfColumbia(identity.stateUsps)
+        ? DISTRICT_OF_COLUMBIA_STRUCTURE_SOURCE
+        : STATE_GOVERNMENT_STRUCTURE_SOURCE,
       ...(pack?.office.source.sourceUrl ? [pack.office.source.sourceUrl] : []),
     ],
   };
@@ -206,7 +227,9 @@ function registerStateJurisdiction(
   office: StateExecutiveOffice,
 ): World {
   if (world.jurisdictions[office.jurisdictionId]) return world;
-  const jurisdiction = stateJurisdictionForKey(office.jurisdictionKey)!;
+  const jurisdiction = chiefExecutiveJurisdiction(
+    stateExecutiveIdentity(office.stateUsps)!,
+  )!;
   return {
     ...world,
     jurisdictions: { ...world.jurisdictions, [jurisdiction.id]: jurisdiction },
@@ -397,7 +420,7 @@ export function currentStateExecutiveHolders(
   world: World,
 ): readonly StateExecutiveHolderRecord[] {
   const records: StateExecutiveHolderRecord[] = [];
-  for (const stateUsps of US_STATE_USPS) {
+  for (const stateUsps of CHIEF_EXECUTIVE_JURISDICTIONS) {
     const office = stateExecutiveOffice(stateUsps);
     if (!office) continue;
     const organization = world.history.organizations.find(

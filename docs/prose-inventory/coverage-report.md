@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 3166 |
-| INTENTIONALLY_NON_PLAYER_FACING | 7074 |
-| DIAGNOSTIC_OR_TEST | 7603 |
-| **NEEDS_CLASSIFICATION** | **10277** |
+| INTENTIONALLY_NON_PLAYER_FACING | 7076 |
+| DIAGNOSTIC_OR_TEST | 7631 |
+| **NEEDS_CLASSIFICATION** | **10292** |
 
-Scanned 1151 files holding 111799 string
+Scanned 1156 files holding 111935 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -188,6 +188,7 @@ literals in total; the table counts only those that read like a sentence.
 | 17 | `src/simulation/executive-governing-kernels.ts` |
 | 17 | `src/simulation/incident-response.ts` |
 | 17 | `src/simulation/life-places.ts` |
+| 17 | `src/simulation/nationwide-world/state-executive-candidacy-packs.ts` |
 | 17 | `src/simulation/people-family-plan.ts` |
 | 17 | `src/simulation/people-trait-definitions.ts` |
 | 17 | `src/ui/CharacterProofView.tsx` |
@@ -204,7 +205,6 @@ literals in total; the table counts only those that read like a sentence.
 | 15 | `src/presentation/party-initiatives.ts` |
 | 15 | `src/presentation/personal-record.ts` |
 | 15 | `src/simulation/narrative-threads.ts` |
-| 15 | `src/simulation/nationwide-world/state-executive-candidacy-packs.ts` |
 | 15 | `src/simulation/people-study.ts` |
 | 14 | `src/player/CampaignWorkspace.tsx` |
 | 14 | `src/player/CivilPersonnelPanel.tsx` |
@@ -307,6 +307,7 @@ literals in total; the table counts only those that read like a sentence.
 | 8 | `src/simulation/future-transitions.ts` |
 | 8 | `src/simulation/incident-catalog.ts` |
 | 8 | `src/simulation/life-callbacks.ts` |
+| 8 | `src/simulation/nationwide-world/state-executive-term-rules.ts` |
 | 8 | `src/simulation/nationwide-world/state-executive-terms.ts` |
 | 8 | `src/simulation/production-catalog.ts` |
 | 8 | `src/simulation/public-information.ts` |
@@ -412,7 +413,7 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/presentation/title-ambient.ts` |
 | 4 | `src/simulation/crisis/notices.ts` |
 | 4 | `src/simulation/governing/state-disposition.ts` |
-| 4 | `src/simulation/nationwide-world/state-executive-term-rules.ts` |
+| 4 | `src/simulation/nationwide-world/chief-executive-baseline.generated.ts` |
 | 4 | `src/simulation/person-identity.ts` |
 | 4 | `src/simulation/portability-fixture.ts` |
 | 4 | `src/simulation/relationship-integration.ts` |
@@ -442,6 +443,7 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/simulation/legislation-drafting.ts` |
 | 3 | `src/simulation/life-choice-evidence.ts` |
 | 3 | `src/simulation/macro-economy/readers.ts` |
+| 3 | `src/simulation/nationwide-world/chief-executive-baseline.ts` |
 | 3 | `src/simulation/nationwide-world/local-governments.ts` |
 | 3 | `src/simulation/perception.ts` |
 | 3 | `src/simulation/policy-decision.ts` |
@@ -485,6 +487,7 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/simulation/life-eligibility.ts` |
 | 2 | `src/simulation/living-world/party-registry.ts` |
 | 2 | `src/simulation/measure-numbering.ts` |
+| 2 | `src/simulation/nationwide-world/district-of-columbia.ts` |
 | 2 | `src/simulation/nationwide-world/rules-capability-binding.ts` |
 | 2 | `src/simulation/office-qualifications.generated.ts` |
 | 2 | `src/simulation/people-request-route.ts` |

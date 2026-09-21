@@ -1,5 +1,11 @@
 import { makeIsoDate } from "../dates";
 import type { IsoDate } from "../types";
+import {
+  chiefExecutiveBaseline,
+  chiefExecutiveBaselineDisclosure,
+} from "./chief-executive-baseline";
+import type { ChiefExecutiveBaselineRow } from "./chief-executive-baseline";
+import { isDistrictOfColumbia } from "./district-of-columbia";
 import { isUsState } from "./state-executive-candidacy-packs";
 
 /**
@@ -15,6 +21,14 @@ import { isUsState } from "./state-executive-candidacy-packs";
  *   loop run in every state. It is NOT a claim about that state's law, it is
  *   never copied from a neighboring state, and it is labelled wherever a
  *   player inspects the office.
+ *
+ * A game profile may be CALIBRATED by the NATIONWIDE1 research baseline: the
+ * term length comes from research that was actually checked for that
+ * jurisdiction, so New Hampshire and Vermont run two years instead of
+ * inheriting a four-year default nobody read. Calibration does not promote a
+ * rule to `verified`. The basis stays `game-profile`, the research travels with
+ * the rule as `calibration`, and the sentence the player reads says which was
+ * read and which was not.
  *
  * A RULES-admitted legal value, read through the rules-capability port, always
  * wins over both (see `state-executive-terms.ts`).
@@ -54,6 +68,16 @@ export interface TermRuleSource {
 
 export type TermRuleBasis = "verified" | "game-profile";
 
+/**
+ * The researched value a game profile was calibrated from. Evidence, kept
+ * beside the operative rule and never mistaken for it.
+ */
+export interface TermRuleCalibration {
+  readonly field: "termYears";
+  readonly row: ChiefExecutiveBaselineRow;
+  readonly disclosure: string;
+}
+
 export interface StateExecutiveTermRule {
   readonly stateUsps: string;
   readonly ruleVersion: string;
@@ -67,19 +91,22 @@ export interface StateExecutiveTermRule {
   readonly commencement: TermCommencementRule;
   readonly election: ElectionTimingRule;
   readonly sources: readonly TermRuleSource[];
+  /** Present only where research set a parameter of the game profile. */
+  readonly calibration: TermRuleCalibration | null;
 }
 
 /**
  * The game's disclosed state-executive profile.
  *
- * PROPOSED PARAMETERS, pending the director's confirmation: a four-year term,
+ * PROPOSED PARAMETERS, pending the director's confirmation: a four-year term
+ * where research checked none,
  * regular elections in the cycle that contains 2026, a November general
  * election on the first Tuesday after the first Monday, and a term that begins
  * on the first Monday of January after the election. Changing any value means
  * a new version; saved terms keep the version they were planned under.
  */
 export const STATE_EXECUTIVE_GAME_PROFILE_VERSION =
-  "ocd-state-executive-game-profile/v1";
+  "ocd-state-executive-game-profile/v2";
 
 export const STATE_EXECUTIVE_GAME_PROFILE = {
   termYears: 4,
@@ -100,7 +127,24 @@ export const STATE_EXECUTIVE_GAME_PROFILE = {
 >;
 
 export const STATE_EXECUTIVE_GAME_PROFILE_NOTE =
-  "This state's real term and election rules are not compiled into the game yet, so the office follows the game's own disclosed rule set: four-year terms, a November election every four years, and a term that begins on the first Monday of January.";
+  "This jurisdiction's real term and election rules are not compiled into the game yet, so the office follows the game's own disclosed rule set: a November election on the same cycle as the term, and a term that begins on the first Monday of January.";
+
+/**
+ * What a player is told about the rule dating this office: the disclosed
+ * profile, plus the research that set its term length where there was some.
+ */
+export function stateExecutiveTermRuleNote(
+  rule: StateExecutiveTermRule,
+): string {
+  if (termRuleBasis(rule) === "verified")
+    return `This office's term and commencement are compiled from ${rule.sources
+      .map((source) => source.citation)
+      .join(", ")}.`;
+  const cycle = `The game's rule runs ${rule.termYears}-year terms with an election every ${rule.election.cycleYears} years.`;
+  return rule.calibration
+    ? `${STATE_EXECUTIVE_GAME_PROFILE_NOTE} ${cycle} ${rule.calibration.disclosure}`
+    : `${STATE_EXECUTIVE_GAME_PROFILE_NOTE} ${cycle}`;
+}
 
 const WA_RETRIEVED = makeIsoDate("2026-09-16");
 
@@ -151,26 +195,54 @@ const VERIFIED: Readonly<Record<string, StateExecutiveTermRule>> = {
         note: "County election office listing the governor on the 2024 general-election ballot; with the four-year term, regular elections fall every fourth year from 2024.",
       },
     ],
+    calibration: null,
   },
 };
 
+/**
+ * The rule that dates this jurisdiction's chief-executive terms: the fifty
+ * states and, separately, the District of Columbia.
+ *
+ * A verified rule wins. Otherwise the game profile applies, with its term
+ * length calibrated by the research baseline where that jurisdiction has a row,
+ * and the election cycle following the term so an office is not left electing
+ * on a cycle longer than the term it fills.
+ */
 export function stateExecutiveTermRule(
   stateUsps: string,
 ): StateExecutiveTermRule | null {
-  if (!isUsState(stateUsps)) return null;
-  return (
-    VERIFIED[stateUsps] ?? {
-      stateUsps,
-      ruleVersion: STATE_EXECUTIVE_GAME_PROFILE_VERSION,
-      basis: {
-        termYears: "game-profile",
-        commencement: "game-profile",
-        election: "game-profile",
-      },
-      ...STATE_EXECUTIVE_GAME_PROFILE,
-      sources: [],
-    }
-  );
+  if (!isUsState(stateUsps) && !isDistrictOfColumbia(stateUsps)) return null;
+  const verified = VERIFIED[stateUsps];
+  if (verified) return verified;
+  const row = chiefExecutiveBaseline(stateUsps);
+  const termYears =
+    row?.ordinaryTermYears ?? STATE_EXECUTIVE_GAME_PROFILE.termYears;
+  return {
+    stateUsps,
+    ruleVersion: row
+      ? `${STATE_EXECUTIVE_GAME_PROFILE_VERSION}+calibrated:${row.key}:${termYears}y`
+      : STATE_EXECUTIVE_GAME_PROFILE_VERSION,
+    basis: {
+      termYears: "game-profile",
+      commencement: "game-profile",
+      election: "game-profile",
+    },
+    ...STATE_EXECUTIVE_GAME_PROFILE,
+    termYears,
+    election: {
+      ...STATE_EXECUTIVE_GAME_PROFILE.election,
+      // An office cannot be elected less often than its term ends.
+      cycleYears: termYears,
+    },
+    sources: [],
+    calibration: row
+      ? {
+          field: "termYears",
+          row,
+          disclosure: chiefExecutiveBaselineDisclosure(row),
+        }
+      : null,
+  };
 }
 
 export function isFullyVerified(rule: StateExecutiveTermRule): boolean {

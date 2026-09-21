@@ -46,13 +46,18 @@ function openIn(placeKey: string, seed: string) {
 afterEach(() => bindRuleCapabilityResolver(unadmittedRuleCapabilityResolver));
 
 describe("NATIONWIDE opening state executive", () => {
-  it("names exactly the fifty states, not DC or Puerto Rico", () => {
+  it("names exactly the fifty states, and gives the District its own office", () => {
     const corpusStates = lifePlaceStateIdentities()
       .map((state) => state.usps)
       .filter((usps) => usps !== "DC" && usps !== "PR")
       .sort();
     expect([...US_STATE_USPS].sort()).toEqual(corpusStates);
-    expect(stateExecutiveOffice("DC")).toBeNull();
+    // NATIONWIDE1 asks for the District separately from the states: it is not
+    // in the fifty, and it is not empty either. Its chief executive is a
+    // Mayor, never a governor. Puerto Rico still has no office here.
+    const district = stateExecutiveOffice("DC")!;
+    expect(district.displayName).toBe("Mayor of the District of Columbia");
+    expect(district.displayName).not.toContain("Governor");
     expect(stateExecutiveOffice("PR")).toBeNull();
   });
 
@@ -114,7 +119,7 @@ describe("NATIONWIDE opening state executive", () => {
     },
   );
 
-  it("DC and Puerto Rico lives open without inventing a state governor", () => {
+  it("opens a District or Puerto Rico life without inventing a state governor", () => {
     for (const usps of ["DC", "PR"]) {
       const place = searchLifePlaces("", 1, {
         stateJurisdictionKey: `US-${usps}`,
@@ -122,9 +127,16 @@ describe("NATIONWIDE opening state executive", () => {
       })[0];
       if (!place) continue;
       const { world } = openIn(place.key, `nationwide-${usps}`);
-      expect(
-        currentPublicOfficeholders(world).map((holder) => holder.officeKey),
-      ).toEqual(["us-president", "us-chief-justice"]);
+      const officeKeys = currentPublicOfficeholders(world).map(
+        (holder) => holder.officeKey,
+      );
+      expect(officeKeys).not.toContain(`us-${usps.toLowerCase()}-governor`);
+      expect(officeKeys.slice(0, 2)).toEqual([
+        "us-president",
+        "us-chief-justice",
+      ]);
+      // The District's own office opens with the life; Puerto Rico has none.
+      expect(officeKeys.slice(2)).toEqual(usps === "DC" ? ["dc-mayor"] : []);
     }
   });
 

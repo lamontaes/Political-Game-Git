@@ -3,7 +3,7 @@ import { scheduleFutureDueItem } from "../future-transitions";
 import { stateJurisdictionForKey } from "../life-places";
 import type { IsoDate, World } from "../types";
 import { scheduleGoverningSeasons } from "../governing/governing-calendar";
-import { US_STATE_USPS } from "./state-executive-candidacy-packs";
+import { CHIEF_EXECUTIVE_JURISDICTIONS } from "./state-executive-candidacy-packs";
 import {
   ensureStateJurisdiction,
   stateExecutiveOffice,
@@ -44,7 +44,7 @@ export function turnoverContestKey(officeKey: string, year: number): string {
 }
 
 function materializedOffices(world: World) {
-  return US_STATE_USPS.flatMap((usps) => {
+  return CHIEF_EXECUTIVE_JURISDICTIONS.flatMap((usps) => {
     const office = stateExecutiveOffice(usps);
     if (!office) return [];
     const organization = world.history.organizations.find(

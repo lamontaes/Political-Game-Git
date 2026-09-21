@@ -6,7 +6,6 @@ import {
   personName,
   staffAssessment,
   staffRecommendation,
-  STATE_EXECUTIVE_GAME_PROFILE_NOTE,
   type EntityId,
   type GoverningMatter,
   type World,
@@ -129,9 +128,7 @@ export function projectGoverningBriefing(
       ? `Your term runs until ${americanDate(office.termEndsAt)}.`
       : "Your term's end date is not established.",
     calendarNote:
-      office.calendarBasis === "verified"
-        ? null
-        : STATE_EXECUTIVE_GAME_PROFILE_NOTE,
+      office.calendarBasis === "verified" ? null : office.calendarNote,
     chiefOfStaff:
       chief && chiefPerson
         ? {
