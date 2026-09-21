@@ -196,13 +196,13 @@ export function peerStudyApproach(
       {
         optionKey: "outline-first",
         trait: "deliberation",
-        pole: "high",
+        pole: "low",
         explanation: "They would rather know the shape before starting.",
       },
       {
         optionKey: "evidence-first",
         trait: "deliberation",
-        pole: "high",
+        pole: "low",
         explanation: "They would rather read everything before deciding.",
       },
       {
