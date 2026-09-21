@@ -1238,16 +1238,24 @@ async function activateAtIdleTitle(id) {
   if (!readState()?.tracks[id]?.pending) return;
   const contents = hub.play.get(id)?.view.webContents;
   if (!contents || !(await isIdleTitle(contents))) return;
+  const bench = hub.views.get("artdesk")?.webContents;
+  if (bench && (await hasUnsavedEdits(bench)) !== false) return;
   if (!(await suspendInteraction(contents, true))) return;
+  if (bench && !(await suspendInteraction(bench, true))) {
+    await suspendInteraction(contents, false);
+    return;
+  }
   try {
     if (
       !(await isIdleTitle(contents)) ||
-      (await hasUnsavedEdits(contents)) !== false
+      (await hasUnsavedEdits(contents)) !== false ||
+      (bench && (await hasUnsavedEdits(bench)) !== false)
     )
       return;
     await applyPending(id);
   } finally {
     if (!contents.isDestroyed()) await suspendInteraction(contents, false);
+    if (bench && !bench.isDestroyed()) await suspendInteraction(bench, false);
   }
 }
 
