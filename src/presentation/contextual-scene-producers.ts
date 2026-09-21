@@ -30,7 +30,10 @@ import {
 } from "../simulation/people-contact";
 import { requestBehindCallback } from "../simulation/people-recall";
 import { produceContinuingLife } from "../simulation/people-continuing-life";
-import { produceSocialFollowThrough } from "../simulation/people-social-followthrough";
+import {
+  adoptRememberedReachOuts,
+  produceSocialFollowThrough,
+} from "../simulation/people-social-followthrough";
 import { produceContinuingLifeScenes } from "./people-continuing-life-scenes";
 import {
   studyAnswered,
@@ -536,7 +539,12 @@ function produceRecalledRequest(world: World, personId: EntityId): World {
  * the conversation it deserves.
  */
 function produceMeetUp(world: World, personId: EntityId): World {
-  const reached = produceReachingOut(world, personId);
+  // MUSE-PEOPLE: an old contact's call that has a remembered moment behind it
+  // is adopted by the reconnection family and bound there instead.
+  const reached = adoptRememberedReachOuts(
+    produceReachingOut(world, personId),
+    personId,
+  );
   const open = contactProposals(reached, personId).find(
     (proposal) =>
       !proposal.answered &&
