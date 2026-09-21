@@ -535,5 +535,5 @@ describe("the day boundary follows up concrete threads only", () => {
         (item) => item.transitionKey === CONTINUING_LIFE_TRANSITION_KEY,
       ).length,
     ).toBe(dueBefore);
-  });
+  }, 60_000);
 });

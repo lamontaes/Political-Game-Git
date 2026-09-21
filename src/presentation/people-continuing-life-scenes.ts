@@ -55,22 +55,25 @@ function produceSharedWorkRequestScene(
     ) {
       continue;
     }
-    const raised = world.history.events.some(
+    const raised = world.history.events.find(
       (event) =>
         event.type === "life.followthrough-raised" &&
         event.tags.includes(`followthrough.source:${entry.request.id}`),
     );
     const unanswered = !entry.response;
     const agreedUnperformed =
-      entry.status === "agreed" && !entry.outcome && raised;
+      entry.status === "agreed" && !entry.outcome && Boolean(raised);
     if (!unanswered && !agreedUnperformed) continue;
+    // The ask and its later raising are two situations: each binds once, the
+    // raising under its own record so the earlier ask does not hide it.
+    const situationId = unanswered ? entry.request.id : raised!.id;
     if (
       sceneAlreadyBound(
         world,
         personId,
         "favor",
         "shared-work-request",
-        entry.request.id,
+        situationId,
       )
     ) {
       continue;
@@ -102,14 +105,16 @@ function produceSharedWorkRequestScene(
         request: unanswered
           ? `Whether to ${entry.details.task}.`
           : `The ${entry.details.task} you said you would do.`,
-        sourceEntityIds: [entry.request.id],
+        sourceEntityIds: [situationId],
         facts,
         knownRecordIds: [entry.request.id],
         target: entry.details.task,
         date: null,
         expiresAt: addDays(world.currentDate, 30),
       },
-      `${personName(speaker)} asked about the shared work.`,
+      unanswered
+        ? `${personName(speaker)} asked about the shared work.`
+        : `${personName(speaker)} brought up the shared work again.`,
     );
   }
   return world;
@@ -292,6 +297,24 @@ function produceReconnectScene(world: World, personId: EntityId): World {
   return world;
 }
 
+/** What each kind of repair is about, in the words the scene uses. */
+const REPAIR_PREMISES: Readonly<
+  Record<string, { readonly refused: string; readonly offer: string }>
+> = {
+  "collaborate-now": {
+    refused: "working together on the coursework",
+    offer: "work on it together after all",
+  },
+  "meet-now": {
+    refused: "meeting up",
+    offer: "find a time to meet after all",
+  },
+  "revise-now": {
+    refused: "changing the arrangement you asked about",
+    offer: "revisit the arrangement",
+  },
+};
+
 /**
  * A repair attempt after a refusal. Bound from the offer with the refusal it
  * answers readable beside it; declined and accepted offers never rebind.
@@ -321,12 +344,13 @@ function produceRepairScene(world: World, personId: EntityId): World {
     )!;
     const speaker = world.people[counterpartId];
     if (!speaker) continue;
-    // The offer's summary is written in a fixed form — "<name> wants to
-    // <offer>, after turning down <refused>." — so the scene can name both.
-    const summary = offer.summary;
-    const refusedSplit = summary.split(", after turning down ");
-    const offerSplit = refusedSplit[0]?.split(" wants to ") ?? [];
-    if (refusedSplit.length !== 2 || offerSplit.length !== 2) continue;
+    // What was refused and what is offered now come from the recorded kind
+    // of offer, in authored words — never from cutting up the summary.
+    const kind = offer.tags
+      .find((tag) => tag.startsWith("followthrough.offer:"))
+      ?.slice("followthrough.offer:".length);
+    const premise = kind ? REPAIR_PREMISES[kind] : undefined;
+    if (!premise) continue;
     const statement = offer.context.immediateReaction;
     if (!statement) continue;
     return bindFollowThrough(
@@ -340,13 +364,13 @@ function produceRepairScene(world: World, personId: EntityId): World {
         relationship: relationshipLabel(world, personId, counterpartId),
         place: "By phone",
         jurisdictionId: world.people[personId]!.homeJurisdictionId,
-        request: `Whether to let ${personName(speaker)} make amends.`,
+        request: `Whether to take up ${personName(speaker)}’s change of mind.`,
         sourceEntityIds: [offer.id],
         facts: {
           speakerGiven: speaker.givenName,
           opening: statement,
-          refusedSummary: refusedSplit[1]!,
-          offerText: offerSplit[1]!,
+          refusedSummary: premise.refused,
+          offerText: premise.offer,
           offerId: offer.id,
         },
         knownRecordIds: [offer.id],
@@ -354,7 +378,7 @@ function produceRepairScene(world: World, personId: EntityId): World {
         date: null,
         expiresAt: addDays(world.currentDate, 30),
       },
-      `${personName(speaker)} wants to make amends.`,
+      `${personName(speaker)} has had a rethink.`,
     );
   }
   return world;
@@ -415,6 +439,7 @@ function produceIntroductionScene(world: World, personId: EntityId): World {
           speakerGiven: introducer.givenName,
           opening: statement,
           thirdGiven: third.givenName,
+          thirdName: personName(third),
           thirdId,
           reason: reasonSplit[1]!,
           offerId: offer.id,
