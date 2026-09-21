@@ -1,0 +1,345 @@
+{
+  "documentVersion": 1,
+  "generatedFrom": "Art Bench catalog store-b40dfbc0 at lastSeq 1229 (generated 2026-09-21T23:17:35Z). One entry per playtest65-region-* request. Plate bytes are present only for scenes delivered into this checkout, verified against the integration queue's sha256. Place selectors are authored by hand from location research; nothing here is inferred from a scene's title.",
+  "regions": [
+    {
+      "regionKey": "appalachian-town-january",
+      "displayName": "Appalachian town \u2014 dormant-season intro",
+      "benchRequestId": "playtest65-region-appalachian-town-january",
+      "plate": null,
+      "places": {
+        "includeStates": [],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      }
+    },
+    {
+      "regionKey": "basalt-coulee-steppe",
+      "displayName": "Interior Northwest: basalt coulee and steppe",
+      "benchRequestId": "playtest65-region-basalt-coulee-steppe",
+      "plate": null,
+      "places": {
+        "includeStates": [],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      }
+    },
+    {
+      "regionKey": "buchanan-small-town",
+      "displayName": "Great Lakes / Midwest: low-rise main street",
+      "benchRequestId": "playtest65-region-buchanan-small-town",
+      "plate": null,
+      "places": {
+        "includeStates": [],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      }
+    },
+    {
+      "regionKey": "champlain-lake-lowland",
+      "displayName": "Lake Champlain: broad lake and distant hills",
+      "benchRequestId": "playtest65-region-champlain-lake-lowland",
+      "plate": null,
+      "places": {
+        "includeStates": [],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      }
+    },
+    {
+      "regionKey": "colorado-plateau-redrock",
+      "displayName": "Colorado Plateau: sandstone fins and scrub",
+      "benchRequestId": "playtest65-region-colorado-plateau-redrock",
+      "plate": null,
+      "places": {
+        "includeStates": [],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      }
+    },
+    {
+      "regionKey": "cross-timbers-oak-prairie",
+      "displayName": "Cross Timbers: oak groves and grassland",
+      "benchRequestId": "playtest65-region-cross-timbers-oak-prairie",
+      "assetId": "asset:regional-opening:cross-timbers-oak-prairie",
+      "plate": {
+        "path": "art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png",
+        "sha256": "a400b48edb4b86f130b037c37f1bff87bb0b523b361b90684ff4bf6e6f7b7ce3",
+        "width": 2496,
+        "height": 1664,
+        "candidateId": "cand-c19c7773-40f1-45f8-b20f-305e0fdf0c98"
+      },
+      "places": {
+        "includeStates": [],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      }
+    },
+    {
+      "regionKey": "fort-pierre-prairie-pond",
+      "displayName": "Great Plains: open grassland and pond",
+      "benchRequestId": "playtest65-region-fort-pierre-prairie-pond",
+      "plate": null,
+      "places": {
+        "includeStates": [],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      }
+    },
+    {
+      "regionKey": "great-plains-january",
+      "displayName": "Great Plains \u2014 dormant-season intro",
+      "benchRequestId": "playtest65-region-great-plains-january",
+      "plate": null,
+      "places": {
+        "includeStates": [],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      }
+    },
+    {
+      "regionKey": "green-mountain-forest",
+      "displayName": "Green Mountains: wooded ridges",
+      "benchRequestId": "playtest65-region-green-mountain-forest",
+      "plate": null,
+      "places": {
+        "includeStates": [],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      }
+    },
+    {
+      "regionKey": "lower-mississippi-delta-marsh",
+      "displayName": "Lower Mississippi Delta: marsh and bayou",
+      "benchRequestId": "playtest65-region-lower-mississippi-delta-marsh",
+      "plate": null,
+      "places": {
+        "includeStates": [],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      }
+    },
+    {
+      "regionKey": "norcal-oak-woodland",
+      "displayName": "Northern California: oak woodland edge",
+      "benchRequestId": "playtest65-region-norcal-oak-woodland",
+      "assetId": "asset:regional-opening:norcal-oak-woodland",
+      "plate": null,
+      "places": {
+        "includeStates": [],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      }
+    },
+    {
+      "regionKey": "north-atlantic-granite-coast",
+      "displayName": "North Atlantic: granite ledges and sea",
+      "benchRequestId": "playtest65-region-north-atlantic-granite-coast",
+      "plate": null,
+      "places": {
+        "includeStates": [],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      }
+    },
+    {
+      "regionKey": "northwoods-lake-forest",
+      "displayName": "Northwoods: forest around an open lake",
+      "benchRequestId": "playtest65-region-northwoods-lake-forest",
+      "plate": null,
+      "places": {
+        "includeStates": [],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      }
+    },
+    {
+      "regionKey": "pacific-temperate-rainforest",
+      "displayName": "Pacific Northwest: mossy temperate forest",
+      "benchRequestId": "playtest65-region-pacific-temperate-rainforest",
+      "assetId": "asset:regional-opening:pacific-temperate-rainforest",
+      "plate": null,
+      "places": {
+        "includeStates": [],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      }
+    },
+    {
+      "regionKey": "pikeville-valley-street",
+      "displayName": "Appalachian coal-region towns: wooded-valley street",
+      "benchRequestId": "playtest65-region-pikeville-valley-street",
+      "plate": null,
+      "places": {
+        "includeStates": [],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      }
+    },
+    {
+      "regionKey": "rocky-mountain-montane",
+      "displayName": "Rocky Mountains: winter meadow and conifers",
+      "benchRequestId": "playtest65-region-rocky-mountain-montane",
+      "plate": null,
+      "places": {
+        "includeStates": [],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      }
+    },
+    {
+      "regionKey": "socal-inland-bungalow-neighborhood",
+      "displayName": "Southern California: inland bungalow neighborhood",
+      "benchRequestId": "playtest65-region-socal-inland-bungalow-neighborhood",
+      "assetId": "asset:regional-opening:socal-inland-bungalow-neighborhood",
+      "plate": null,
+      "places": {
+        "includeStates": [],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      }
+    },
+    {
+      "regionKey": "sonoran-desert",
+      "displayName": "Sonoran Desert: saguaros and distant ridges",
+      "benchRequestId": "playtest65-region-sonoran-desert",
+      "assetId": "asset:regional-opening:sonoran-desert",
+      "plate": {
+        "path": "art/families/regional-opening/env_regional_sonoran_desert_v1.png",
+        "sha256": "dabdae2c70e8703f527af384b8954c22854b16dc18403312596f5858858b7485",
+        "width": 2208,
+        "height": 1584,
+        "candidateId": "cand-3b7577f8-76e5-4da0-89ad-9e422577668d"
+      },
+      "places": {
+        "includeStates": ["US-AZ"],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "COARSE PLACEHOLDER, state-level, pending location research. The Sonoran Desert covers most of populated Arizona including Phoenix and Tucson, so a state-level claim is right far more often than it is wrong here. It is still wrong for the Colorado Plateau and the conifer highlands around Flagstaff; those counties belong in excludeCounties once their GEOIDs are researched rather than guessed."
+      }
+    },
+    {
+      "regionKey": "southern-high-plains",
+      "displayName": "Southern High Plains: open shortgrass",
+      "benchRequestId": "playtest65-region-southern-high-plains",
+      "plate": null,
+      "places": {
+        "includeStates": [],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      }
+    },
+    {
+      "regionKey": "southern-pine-hardwood",
+      "displayName": "East Texas: pine and hardwood woodland",
+      "benchRequestId": "playtest65-region-southern-pine-hardwood",
+      "plate": null,
+      "places": {
+        "includeStates": [],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      }
+    },
+    {
+      "regionKey": "subtropical-mangrove-wetland",
+      "displayName": "South Florida: mangrove shoreline",
+      "benchRequestId": "playtest65-region-subtropical-mangrove-wetland",
+      "plate": null,
+      "places": {
+        "includeStates": [],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      }
+    },
+    {
+      "regionKey": "trans-pecos-desert-mountain",
+      "displayName": "Trans-Pecos: desert basin and mountains",
+      "benchRequestId": "playtest65-region-trans-pecos-desert-mountain",
+      "plate": null,
+      "places": {
+        "includeStates": [],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      }
+    },
+    {
+      "regionKey": "upper-midwest-tallgrass-prairie",
+      "displayName": "Upper Midwest: tallgrass landscape",
+      "benchRequestId": "playtest65-region-upper-midwest-tallgrass-prairie",
+      "plate": null,
+      "places": {
+        "includeStates": [],
+        "includeCounties": [],
+        "excludeCounties": [],
+        "includePlaces": [],
+        "excludePlaces": [],
+        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      }
+    }
+  ]
+}

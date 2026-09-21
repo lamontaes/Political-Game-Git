@@ -7,6 +7,7 @@ import type {
   OrientationPerson,
   OrientationView,
 } from "../presentation/world-orientation";
+import type { RegionalOpeningResult } from "../presentation/regional-opening-plate";
 import type { EntityId } from "../simulation";
 import { GameSelect } from "./controls/GameSelect";
 
@@ -22,12 +23,19 @@ import { GameSelect } from "./controls/GameSelect";
 export function WorldOrientationPanel({
   view,
   homeStateUsps,
+  regionalPlate,
   mode,
   onClose,
   onOpenPerson,
 }: {
   readonly view: OrientationView;
   readonly homeStateUsps: string | null;
+  /**
+   * The regional plate for this life's place. A miss renders no picture at
+   * all: a player shown the wrong landscape has been told the game does not
+   * know where they live, which is worse than a panel with no picture on it.
+   */
+  readonly regionalPlate?: RegionalOpeningResult;
   /** "first" follows a new life; "revisit" is reopened from the menu. */
   readonly mode: "first" | "revisit";
   readonly onClose: () => void;
@@ -59,6 +67,29 @@ export function WorldOrientationPanel({
       <p className="pg-orientation-kicker">
         {index + 1} of {view.steps.length} · {view.dateLabel}
       </p>
+
+      {step.key === "locality" &&
+      regionalPlate &&
+      regionalPlate.kind === "plate" ? (
+        <figure
+          className="pg-orientation-region"
+          data-testid="orientation-region-plate"
+          data-region={regionalPlate.plate.regionKey}
+          data-matched-by={regionalPlate.plate.matchedBy}
+        >
+          <img
+            className="pg-orientation-region-plate"
+            src={regionalPlate.plate.url}
+            width={regionalPlate.plate.width}
+            height={regionalPlate.plate.height}
+            alt={`Illustrated landscape typical of this area: ${regionalPlate.plate.displayName.toLowerCase()}.`}
+          />
+          <figcaption className="pg-orientation-region-caption">
+            Typical countryside near here. Illustration, not this address.
+          </figcaption>
+        </figure>
+      ) : null}
+
       <h2
         id="pg-orientation-title"
         ref={heading}

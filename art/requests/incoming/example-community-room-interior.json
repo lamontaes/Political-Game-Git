@@ -1,0 +1,24 @@
+{
+  "intakeVersion": "art-request-intake/v1",
+  "requestId": "example-community-room-interior",
+  "title": "A community meeting room a resident would recognize",
+  "missing": "The neighborhood meeting opens on a named room with no plate behind it.",
+  "consumerSite": {
+    "runtimeComponent": "none",
+    "playerVisibleUse": "Attending a neighborhood meeting on a weekday evening."
+  },
+  "jurisdiction": {
+    "scope": "jurisdiction-independent",
+    "reason": "A municipal multipurpose room reads the same in most of the country; the regional look is carried by the opening plate, not by this interior."
+  },
+  "whyNeeded": "The meeting is reachable in ordinary play, so every player who attends one sees an empty surface.",
+  "origin": "inspection",
+  "requestedBy": "art bench thread",
+  "filedAt": "2026-09-21T23:00:00.000Z",
+  "priority": "P2",
+  "targetClass": "environment-plate",
+  "environmentClass": "civic-interior",
+  "notes": [
+    "Worked example for the schema. Delete or supersede it once a real community-room request is filed."
+  ]
+}

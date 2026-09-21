@@ -1,0 +1,206 @@
+import { describe, expect, it } from "vitest";
+
+import {
+  ART_REQUEST_INTAKE_VERSION,
+  IntakePromotionError,
+  intakeRecordPath,
+  openIntakeRecords,
+  promoteToAssetRequest,
+  summarizeArtRequestIntake,
+  validateArtRequestIntake,
+  type ArtRequestIntakeRecord,
+} from "./art-request-intake";
+import { validateAssetRequests } from "./asset-request";
+
+function record(
+  overrides: Partial<ArtRequestIntakeRecord> = {},
+): ArtRequestIntakeRecord {
+  return {
+    intakeVersion: ART_REQUEST_INTAKE_VERSION,
+    requestId: "community-room-interior",
+    title: "A community meeting room a resident would recognize",
+    missing: "No plate exists for the community room the meeting happens in.",
+    consumerSite: {
+      runtimeComponent: "src/player/PlayerGame.tsx",
+      playerVisibleUse:
+        "Attending a neighborhood meeting on a weekday evening.",
+    },
+    jurisdiction: {
+      scope: "specific",
+      jurisdictionId: "jurisdiction-lexington",
+      displayName: "Lexington",
+      stateCode: "KY",
+    },
+    whyNeeded:
+      "The meeting is reachable in ordinary play and currently opens on a named room with nothing behind it.",
+    origin: "playtest",
+    requestedBy: "playtest thread",
+    filedAt: "2026-09-21T23:00:00.000Z",
+    priority: "P1",
+    ...overrides,
+  };
+}
+
+const PROMOTION = {
+  repositoryPathsSearched: ["art/families/", "art/generated/approved/"],
+  driveLocationsSearched: ["00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/10_SCENES"],
+  found: "Nothing. The closest plate is a committee hearing room.",
+  shortfall: "A hearing room is a different room with different furniture.",
+  generationRecipe: ["A plain municipal meeting room with stacking chairs."],
+  acceptanceCriteria: ["Reads as a community room, not a courtroom."],
+  target: {
+    targetClass: "environment-plate" as const,
+    minimumWidth: 2048,
+    aspectRatio: "16:9",
+    alphaRequired: false,
+    container: "png" as const,
+    styleAuthority: "Illustrated civic-life environment.",
+  },
+};
+
+describe("validateArtRequestIntake", () => {
+  it("accepts a record a playtest could realistically file", () => {
+    expect(validateArtRequestIntake([record()]).valid).toBe(true);
+  });
+
+  it("refuses a record with no place in the game", () => {
+    const result = validateArtRequestIntake([
+      record({
+        consumerSite: { runtimeComponent: "", playerVisibleUse: "Somewhere." },
+      }),
+    ]);
+    expect(result.valid).toBe(false);
+    expect(result.findings.map((finding) => finding.code)).toContain(
+      "missing-consumer-site",
+    );
+  });
+
+  it("refuses a jurisdiction-independent claim with no reason", () => {
+    const result = validateArtRequestIntake([
+      record({
+        jurisdiction: { scope: "jurisdiction-independent", reason: "  " },
+      }),
+    ]);
+    expect(result.valid).toBe(false);
+    expect(result.findings.map((finding) => finding.code)).toContain(
+      "missing-jurisdiction-reason",
+    );
+  });
+
+  it("accepts jurisdiction-independent when it says why", () => {
+    expect(
+      validateArtRequestIntake([
+        record({
+          jurisdiction: {
+            scope: "jurisdiction-independent",
+            reason: "A DMV waiting room looks the same in every state.",
+          },
+        }),
+      ]).valid,
+    ).toBe(true);
+  });
+
+  it("refuses a seed or a digest as an identity", () => {
+    for (const requestId of ["seed-448291", "a".repeat(32)]) {
+      const result = validateArtRequestIntake([record({ requestId })]);
+      expect(result.valid).toBe(false);
+      expect(result.findings.map((finding) => finding.code)).toContain(
+        "seed-shaped-request-id",
+      );
+    }
+  });
+
+  it("refuses two records claiming the same id", () => {
+    const result = validateArtRequestIntake([record(), record()]);
+    expect(result.valid).toBe(false);
+    expect(result.findings.map((finding) => finding.code)).toContain(
+      "duplicate-request-id",
+    );
+  });
+
+  it("rejects a state code that is not a real one", () => {
+    const result = validateArtRequestIntake([
+      record({
+        jurisdiction: {
+          scope: "specific",
+          displayName: "Nowhere",
+          stateCode: "ZZ",
+        },
+      }),
+    ]);
+    expect(result.valid).toBe(false);
+    expect(result.findings.map((finding) => finding.code)).toContain(
+      "unknown-state-code",
+    );
+  });
+
+  it("warns when why-needed only repeats what is missing", () => {
+    const result = validateArtRequestIntake([
+      record({
+        missing: "No community room plate.",
+        whyNeeded: "no community room plate",
+      }),
+    ]);
+    expect(result.valid).toBe(true);
+    expect(result.findings.map((finding) => finding.code)).toContain(
+      "why-needed-restates-missing",
+    );
+  });
+});
+
+describe("promoteToAssetRequest", () => {
+  it("produces a request the bench's own validator accepts", () => {
+    const request = promoteToAssetRequest(record(), PROMOTION);
+    expect(validateAssetRequests([request]).valid).toBe(true);
+    expect(request.status).toBe("queued");
+  });
+
+  it("carries the place and the person who noticed into the bench record", () => {
+    const request = promoteToAssetRequest(record(), PROMOTION);
+    expect(request.whyNeeded).toContain("Lexington, KY");
+    expect(request.whyNeeded).toContain("playtest thread");
+  });
+
+  it("refuses to promote without an inventory search", () => {
+    expect(() =>
+      promoteToAssetRequest(record(), {
+        ...PROMOTION,
+        repositoryPathsSearched: [],
+        driveLocationsSearched: [],
+      }),
+    ).toThrow(IntakePromotionError);
+  });
+
+  it("refuses to promote without a recipe or criteria", () => {
+    expect(() =>
+      promoteToAssetRequest(record(), { ...PROMOTION, generationRecipe: [] }),
+    ).toThrow(IntakePromotionError);
+    expect(() =>
+      promoteToAssetRequest(record(), { ...PROMOTION, acceptanceCriteria: [] }),
+    ).toThrow(IntakePromotionError);
+  });
+});
+
+describe("the queue", () => {
+  it("treats a promoted record as history", () => {
+    const records = [
+      record(),
+      record({
+        requestId: "already-promoted",
+        promotedToRequestId: "env-community-room",
+      }),
+    ];
+    expect(openIntakeRecords(records)).toHaveLength(1);
+    expect(summarizeArtRequestIntake(records)).toMatchObject({
+      total: 2,
+      open: 1,
+      jurisdictionSpecific: 1,
+    });
+  });
+
+  it("gives every record its own file, so two threads never collide", () => {
+    expect(intakeRecordPath("community-room-interior")).toBe(
+      "art/requests/incoming/community-room-interior.json",
+    );
+  });
+});
