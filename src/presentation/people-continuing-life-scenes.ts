@@ -6,10 +6,6 @@ import { contactProposals } from "../simulation/people-contact";
 import { competingCommitmentCases } from "../simulation/people-social-followthrough";
 import { studyPeers } from "../simulation/people-study";
 import {
-  canJoinPartyChapter,
-  homePartyChapters,
-} from "../simulation/living-world/party-chapters";
-import {
   recordSceneBinding,
   sceneAlreadyBound,
 } from "../simulation/scene-bindings";
@@ -27,8 +23,8 @@ function relationshipLabel(
  *
  * One producer per follow-through situation, each binding exactly what the
  * record holds — a later request, a colliding arrangement, a reconnection
- * over a named memory, a repair attempt, an introduction, a rhythm or a
- * chapter place — and each at most once per record. Where the world has none
+ * over a named memory, a repair attempt, an introduction or a weekly
+ * rhythm — and each at most once per record. Where the world has none
  * of it, nothing is written. Called with the ordinary contextual refresh,
  * which runs when ordinary days actually pass.
  */
@@ -553,136 +549,6 @@ function produceRecurringScene(world: World, personId: EntityId): World {
   return world;
 }
 
-/**
- * A chapter place offered through the organizer, and the organizer's later
- * check-in. Joining runs the chapter's own route in the answers; the scenes
- * only bind while the place is actually open or held.
- */
-function produceChapterRoleScene(world: World, personId: EntityId): World {
-  for (const offer of world.history.events) {
-    if (
-      offer.type !== "life.collaboration-offered" ||
-      !offer.involvedEntityIds.includes(personId) ||
-      !offer.tags.includes("followthrough.collaboration:chapter-role")
-    ) {
-      continue;
-    }
-    const chapterId = offer.tags
-      .find((tag) => tag.startsWith("followthrough.chapter:"))!
-      .slice("followthrough.chapter:".length) as EntityId;
-    const counterpartId = offer.involvedEntityIds.find(
-      (id) => id !== personId,
-    )!;
-    const organizer = world.people[counterpartId];
-    if (!organizer) continue;
-    const answered = world.history.events.some(
-      (event) =>
-        (event.type === "life.collaboration-agreed" ||
-          event.type === "life.collaboration-declined") &&
-        event.tags.includes(`followthrough.answer:${offer.id}`),
-    );
-    if (answered) continue;
-    if (!canJoinPartyChapter(world, personId, chapterId as EntityId)) continue;
-    if (
-      sceneAlreadyBound(
-        world,
-        personId,
-        "party-invite",
-        "role-invitation",
-        offer.id,
-      )
-    ) {
-      continue;
-    }
-    const chapter = homePartyChapters(world).find(
-      (entry) => entry.organizationId === chapterId,
-    );
-    if (!chapter) continue;
-    return bindFollowThrough(
-      world,
-      {
-        version: 1,
-        family: "party-invite",
-        variant: "role-invitation",
-        playerPersonId: personId,
-        speakerPersonId: counterpartId,
-        relationship: relationshipLabel(world, personId, counterpartId),
-        place: "By phone",
-        jurisdictionId: world.people[personId]!.homeJurisdictionId,
-        request: `Whether to join the ${chapter.name}.`,
-        sourceEntityIds: [offer.id, chapterId],
-        facts: {
-          chapterName: chapter.name,
-          speakerGiven: organizer.givenName,
-          opening: offer.context.immediateReaction ?? "",
-          offerId: offer.id,
-        },
-        knownRecordIds: [offer.id],
-        target: null,
-        date: null,
-        expiresAt: addDays(world.currentDate, 30),
-      },
-      `${personName(organizer)} invited the player to join the chapter.`,
-    );
-  }
-  for (const checkin of world.history.events) {
-    if (
-      checkin.type !== "life.collaboration-checkin" ||
-      !checkin.involvedEntityIds.includes(personId)
-    ) {
-      continue;
-    }
-    if (
-      sceneAlreadyBound(
-        world,
-        personId,
-        "party-invite",
-        "role-checkin",
-        checkin.id,
-      )
-    ) {
-      continue;
-    }
-    const counterpartId = checkin.involvedEntityIds.find(
-      (id) => id !== personId,
-    )!;
-    const organizer = world.people[counterpartId];
-    if (!organizer) continue;
-    const chapterId = checkin.tags
-      .find((tag) => tag.startsWith("followthrough.chapter:"))!
-      .slice("followthrough.chapter:".length) as EntityId;
-    const chapter = homePartyChapters(world).find(
-      (entry) => entry.organizationId === chapterId,
-    );
-    if (!chapter) continue;
-    return bindFollowThrough(
-      world,
-      {
-        version: 1,
-        family: "party-invite",
-        variant: "role-checkin",
-        playerPersonId: personId,
-        speakerPersonId: counterpartId,
-        relationship: relationshipLabel(world, personId, counterpartId),
-        place: "By phone",
-        jurisdictionId: world.people[personId]!.homeJurisdictionId,
-        request: `How the ${chapter.name} work is going.`,
-        sourceEntityIds: [checkin.id, chapterId],
-        facts: {
-          chapterName: chapter.name,
-          speakerGiven: organizer.givenName,
-        },
-        knownRecordIds: [checkin.id],
-        target: null,
-        date: null,
-        expiresAt: addDays(world.currentDate, 30),
-      },
-      `${personName(organizer)} checked in after the joining.`,
-    );
-  }
-  return world;
-}
-
 export function produceContinuingLifeScenes(
   world: World,
   personId: EntityId,
@@ -696,7 +562,6 @@ export function produceContinuingLifeScenes(
     produceRepairScene,
     produceIntroductionScene,
     produceRecurringScene,
-    produceChapterRoleScene,
   ]) {
     const bound = produce(next, personId);
     if (bound !== next) return bound;

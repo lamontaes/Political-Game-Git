@@ -59,11 +59,6 @@ import {
   performScheduledActivity,
   scheduledActivityState,
 } from "./time-work";
-import {
-  canJoinPartyChapter,
-  homePartyChapters,
-  joinPartyChapter,
-} from "./living-world/party-chapters";
 import { recordWorldEvent } from "./world";
 import type {
   EntityId,
@@ -122,7 +117,6 @@ const RECURRING_SESSION_DAYS = 7;
 /** Recurring sessions proposed before the rhythm is left to run itself. */
 const RECURRING_SESSION_COUNT = 3;
 /** Days after joining that an organizer checks back in. */
-const CHAPTER_CHECKIN_DAYS = 30;
 
 function alive(world: World, personId: EntityId): boolean {
   return (
@@ -2067,10 +2061,15 @@ export function produceConsentedIntroductions(
   }).world;
 }
 /* -------------------------------------------------------------------------- */
-/* Family 6 — continuing collaboration: a rhythm, or a chapter role            */
+/* Family 6 — continuing collaboration: a weekly study rhythm                  */
 /* -------------------------------------------------------------------------- */
 
-export type CollaborationKind = "study-recurring" | "chapter-role";
+/**
+ * Recruitment into a local party chapter after a meeting is already delivered
+ * by the chapter module's own join-ask (party-invite scenes), so this family
+ * does not duplicate it; what it adds is the recurring collaboration.
+ */
+export type CollaborationKind = "study-recurring";
 
 export interface CollaborationCandidate {
   readonly kind: CollaborationKind;
@@ -2079,16 +2078,12 @@ export interface CollaborationCandidate {
   /** What is proposed, concretely. */
   readonly proposal: string;
   readonly programName: string | null;
-  readonly chapterId: EntityId | null;
-  readonly chapterName: string | null;
 }
 
 /**
- * Settled study partnerships that could become a regular rhythm, and chapter
- * organizers with room for one more. Both go through the consumer that owns
- * them — the study plan machinery, or the chapter's real joining route — so
- * a recurring collaboration is never a second scheduler and an invitation is
- * never an appointment.
+ * Settled study partnerships that could become a regular rhythm. Sessions go
+ * through the ordinary activity route, so a recurring collaboration is never
+ * a second scheduler.
  */
 export function collaborationCandidates(
   world: World,
@@ -2122,33 +2117,6 @@ export function collaborationCandidates(
       counterpartName: peer.name,
       proposal: `meet every week to go over the ${peer.programName} work`,
       programName: peer.programName,
-      chapterId: null,
-      chapterName: null,
-    });
-  }
-  for (const chapter of homePartyChapters(world)) {
-    const organizerId = chapter.organizerPersonId;
-    if (!organizerId || organizerId === playerId) continue;
-    if (!alive(world, organizerId)) continue;
-    if (!canJoinPartyChapter(world, playerId, chapter.organizationId)) continue;
-    if (
-      followThroughAsked(
-        world,
-        "continuing-collaboration",
-        `chapter:${chapter.organizationId}`,
-      )
-    ) {
-      continue;
-    }
-    const organizer = world.people[organizerId]!;
-    found.push({
-      kind: "chapter-role",
-      counterpartId: organizerId,
-      counterpartName: personName(organizer),
-      proposal: `join ${chapter.name} and help with the meetings`,
-      programName: null,
-      chapterId: chapter.organizationId,
-      chapterName: chapter.name,
     });
   }
   return found.sort(
@@ -2164,16 +2132,13 @@ export interface RecordCollaborationOfferInput {
   readonly kind: CollaborationKind;
   readonly proposal: string;
   readonly programName: string | null;
-  readonly chapterId: EntityId | null;
-  readonly chapterName: string | null;
   /** The exact words they opened with, as the scene showed them. */
   readonly statement: string;
 }
 
 /**
  * Offer a continuing collaboration: a weekly rhythm for settled study
- * partners, or a chapter place through the organizer. The offer proposes;
- * joining happens only through the real route, in the player's answer.
+ * partners. The offer proposes; sessions happen only once it is accepted.
  */
 export function recordCollaborationOffer(
   world: World,
@@ -2184,20 +2149,9 @@ export function recordCollaborationOffer(
   if (!player || !counterpart) {
     throw new Error("A collaboration needs both people.");
   }
-  const sourceKey =
-    input.kind === "study-recurring"
-      ? `study:${input.counterpartId}`
-      : `chapter:${input.chapterId}`;
+  const sourceKey = `study:${input.counterpartId}`;
   if (followThroughAsked(world, "continuing-collaboration", sourceKey)) {
     throw new Error("This collaboration was already proposed.");
-  }
-  if (input.kind === "chapter-role") {
-    if (
-      !input.chapterId ||
-      !canJoinPartyChapter(world, input.playerId, input.chapterId)
-    ) {
-      throw new Error("That chapter place is no longer open.");
-    }
   }
   if (!input.proposal.trim() || !input.statement.trim()) {
     throw new Error("A collaboration proposal says what it is.");
@@ -2228,7 +2182,6 @@ export function recordCollaborationOffer(
       "followthrough.family:continuing-collaboration",
       `followthrough.source:${sourceKey}`,
       `followthrough.collaboration:${input.kind}`,
-      ...(input.chapterId ? [`followthrough.chapter:${input.chapterId}`] : []),
     ],
     summary: `${personName(counterpart)} proposed to ${input.proposal}.`,
     context: {
@@ -2267,10 +2220,8 @@ export interface AnswerCollaborationOfferInput {
 }
 
 /**
- * Answer the proposal. Accepting a rhythm schedules its sessions; accepting
- * a chapter place joins through the chapter's own route — and only that
- * route, so an invitation never acts as an appointment. Declining persists,
- * and the proposal is never made twice.
+ * Answer the proposal. Accepting a rhythm schedules its sessions; declining
+ * persists, and the proposal is never made twice.
  */
 export function answerCollaborationOffer(
   world: World,
@@ -2341,17 +2292,6 @@ export function answerCollaborationOffer(
     });
     return { world: next, accepted: false };
   }
-  if (kind === "chapter-role") {
-    const chapterId = offer.tags
-      .find((tag) => tag.startsWith("followthrough.chapter:"))!
-      .slice("followthrough.chapter:".length) as EntityId;
-    // The invitation is not the appointment: joining runs the chapter's own
-    // route, and a filled place or changed eligibility stops it honestly.
-    if (!canJoinPartyChapter(next, input.playerId, chapterId)) {
-      throw new Error("That chapter place is no longer open.");
-    }
-    next = joinPartyChapter(next, input.playerId, chapterId);
-  }
   next = recordWorldEvent(next, {
     stableKey: `${FOLLOWTHROUGH_TAG}:collaboration:${input.offerId}:agreed`,
     type: "life.collaboration-agreed",
@@ -2378,12 +2318,8 @@ export function answerCollaborationOffer(
       "followthrough.family:continuing-collaboration",
       `followthrough.answer:${input.offerId}`,
       `followthrough.collaboration:${kind}`,
-      ...offer.tags.filter((tag) => tag.startsWith("followthrough.chapter:")),
     ],
-    summary:
-      kind === "chapter-role"
-        ? `Joined the chapter through the organizer's invitation.`
-        : `Agreed to meet every week for the coursework.`,
+    summary: `Agreed to meet every week for the coursework.`,
     context: {
       location: null,
       socialContext: "Two people agreeing to keep at something together.",
@@ -2394,55 +2330,20 @@ export function answerCollaborationOffer(
     },
   });
   const agreed = next.history.events.at(-1)!;
-  if (kind === "chapter-role") {
-    next = scheduleFollowThrough(next, {
-      family: "continuing-collaboration",
-      personId: input.playerId,
-      counterpartId,
-      sourceEventId: agreed.id,
-      dueInDays: CHAPTER_CHECKIN_DAYS,
-    });
-  } else {
-    next = scheduleFollowThrough(next, {
-      family: "continuing-collaboration",
-      personId: input.playerId,
-      counterpartId,
-      sourceEventId: agreed.id,
-      dueInDays: RECURRING_SESSION_DAYS,
-    });
-  }
+  next = scheduleFollowThrough(next, {
+    family: "continuing-collaboration",
+    personId: input.playerId,
+    counterpartId,
+    sourceEventId: agreed.id,
+    dueInDays: RECURRING_SESSION_DAYS,
+  });
   return { world: next, accepted: true };
-}
-
-/** Whether the player still holds the chapter place. */
-export function chapterPlaceStillHeld(
-  world: World,
-  playerId: EntityId,
-  chapterId: EntityId,
-): boolean {
-  const joined = world.history.events.some(
-    (event) =>
-      (event.type === "party.chapter-joined" ||
-        event.type === "life.collaboration-agreed") &&
-      event.involvedEntityIds.includes(playerId) &&
-      (event.involvedEntityIds.includes(chapterId) ||
-        event.tags.includes(`followthrough.chapter:${chapterId}`)),
-  );
-  if (!joined) return false;
-  return !world.history.events.some(
-    (event) =>
-      event.type === "party.chapter-left" &&
-      event.involvedEntityIds.includes(playerId) &&
-      event.involvedEntityIds.includes(chapterId),
-  );
 }
 
 /** Authored openings for a collaboration proposal. */
 const COLLABORATION_OPENINGS: Readonly<Record<CollaborationKind, string>> = {
   "study-recurring":
     "The way we've been working suits me. Would you meet every week to keep at it?",
-  "chapter-role":
-    "We could use one more person at the meetings. Would you join us?",
 };
 
 /**
@@ -2469,8 +2370,6 @@ export function produceContinuingCollaborations(
     kind: candidate.kind,
     proposal: candidate.proposal,
     programName: candidate.programName,
-    chapterId: candidate.chapterId,
-    chapterName: candidate.chapterName,
     statement: COLLABORATION_OPENINGS[candidate.kind],
   }).world;
 }
@@ -2937,60 +2836,7 @@ function handleCollaborationDue(
   const kind = agreed.tags
     .find((tag) => tag.startsWith("followthrough.collaboration:"))
     ?.slice("followthrough.collaboration:".length);
-  if (kind === "chapter-role") {
-    const chapterId = agreed.tags
-      .find((tag) => tag.startsWith("followthrough.chapter:"))!
-      .slice("followthrough.chapter:".length) as EntityId;
-    // A left chapter or a filled place ends the thread without rewriting it.
-    if (!chapterPlaceStillHeld(world, playerId, chapterId)) {
-      return {
-        world,
-        status: "cancelled",
-        reasonKey: "life:issue-overtaken",
-        context: "Diagnostic: the chapter place is no longer held.",
-        outcomeEventId: null,
-      };
-    }
-    const checkin = recordWorldEvent(world, {
-      stableKey: `${FOLLOWTHROUGH_TAG}:collaboration:${agreedId}:checkin`,
-      type: "life.collaboration-checkin",
-      occurredAt: world.currentDate,
-      recordedAt: world.currentDate,
-      jurisdictionId: world.people[counterpartId]!.homeJurisdictionId,
-      involvedEntityIds: [playerId, counterpartId],
-      participants: [
-        {
-          personId: counterpartId,
-          role: "agency:actor",
-          detail: "Checked in after the joining",
-        },
-      ],
-      personFactConstraints: [],
-      visibility: "private",
-      tags: [
-        FOLLOWTHROUGH_TAG,
-        "followthrough.family:continuing-collaboration",
-        `followthrough.source:${agreedId}`,
-        `followthrough.chapter:${chapterId}`,
-      ],
-      summary: `${personName(world.people[counterpartId]!)} checked in after the joining.`,
-      context: {
-        location: null,
-        socialContext: "An organizer seeing how the new member settles in.",
-        pressure: null,
-        choice: null,
-        motivation: null,
-        immediateReaction: null,
-      },
-    });
-    return {
-      world: checkin,
-      status: "resolved",
-      reasonKey: null,
-      context: "An organizer checked in.",
-      outcomeEventId: checkin.history.events.at(-1)!.id,
-    };
-  }
+  if (kind !== "study-recurring") return quietDue(world);
   // A study rhythm: a left program ends it, otherwise the next session comes
   // due — until enough sessions have run that the rhythm stands on its own.
   const stillPeers = studyPeers(world, playerId).some(

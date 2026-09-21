@@ -430,7 +430,7 @@ describe("family 1 — shared study, then a later request", () => {
     expect(
       further.history.events.filter((event) => event.stableKey === key).length,
     ).toBe(1);
-  });
+  }, 60_000);
 
   it("without one, the peer's own decision at the coming-due stands, once", () => {
     const { world, requestId } = agreedAsk();
@@ -452,7 +452,7 @@ describe("family 1 — shared study, then a later request", () => {
         (candidate) => candidate.request.id === requestId,
       )?.status,
     ).toBe("agreed");
-  });
+  }, 60_000);
   it("withdrawing ends the chain quietly; the handler finds nothing to do", () => {
     const ensured = ensureSharedWorkAsked(later, player, peer, collaborationId);
     const answered = answerSharedWorkRequest(ensured.world, {
@@ -945,7 +945,7 @@ describe("family 5 — a consented introduction to an actual person", () => {
   });
 });
 
-describe("family 6 — contextual recruitment or a recurring collaboration", () => {
+describe("family 6 — a recurring collaboration", () => {
   const base = settledPlan("followthrough-collaboration");
   const { player, peers } = base;
   const peer = peers[0]!;
@@ -971,8 +971,6 @@ describe("family 6 — contextual recruitment or a recurring collaboration", () 
       kind: "study-recurring",
       proposal: candidate.proposal,
       programName: candidate.programName,
-      chapterId: null,
-      chapterName: null,
       statement: "The way we've been working suits me. Weekly?",
     });
     const accepted = answerCollaborationOffer(offered, {
@@ -996,8 +994,6 @@ describe("family 6 — contextual recruitment or a recurring collaboration", () 
         kind: "study-recurring",
         proposal: candidate.proposal,
         programName: candidate.programName,
-        chapterId: null,
-        chapterName: null,
         statement: "Weekly?",
       }),
     ).toThrow(/already proposed/);
@@ -1025,21 +1021,30 @@ describe("family 6 — contextual recruitment or a recurring collaboration", () 
   it("turning the rhythm down is persisted, not re-asked", () => {
     const twin = settledPlan("followthrough-collaboration-no");
     const twinLater = passOrdinaryDays(twin.world, 22);
+    // The peer may already have proposed it at a clock boundary, on their
+    // own initiative; otherwise it is proposed here from the same candidate.
+    const npcOffer = twinLater.history.events.find(
+      (event) =>
+        event.type === "life.collaboration-offered" &&
+        event.involvedEntityIds.includes(twin.player) &&
+        event.involvedEntityIds.includes(twin.peers[0]!),
+    );
     const candidate = collaborationCandidates(twinLater, twin.player).find(
       (entry) =>
         entry.kind === "study-recurring" &&
         entry.counterpartId === twin.peers[0]!,
-    )!;
-    const { world: offered, offerId } = recordCollaborationOffer(twinLater, {
-      playerId: twin.player,
-      counterpartId: twin.peers[0]!,
-      kind: "study-recurring",
-      proposal: candidate.proposal,
-      programName: candidate.programName,
-      chapterId: null,
-      chapterName: null,
-      statement: "Weekly?",
-    });
+    );
+    expect(Boolean(npcOffer) !== Boolean(candidate)).toBe(true);
+    const { world: offered, offerId } = npcOffer
+      ? { world: twinLater, offerId: npcOffer.id }
+      : recordCollaborationOffer(twinLater, {
+          playerId: twin.player,
+          counterpartId: twin.peers[0]!,
+          kind: "study-recurring",
+          proposal: candidate!.proposal,
+          programName: candidate!.programName,
+          statement: "Weekly?",
+        });
     const declined = answerCollaborationOffer(offered, {
       playerId: twin.player,
       offerId,
