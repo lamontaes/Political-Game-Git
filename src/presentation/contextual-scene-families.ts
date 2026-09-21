@@ -21,10 +21,8 @@ import {
   recordPromiseRenegotiation,
   renegotiationAsked,
 } from "../simulation/people-promise";
-import {
-  attendContactMeeting,
-  callOffContactMeeting,
-} from "../simulation/people-continuing-life";
+import { callOffContactMeeting } from "../simulation/people-continuing-life";
+import { goToAgreedMeeting } from "./people-continuing-life";
 import {
   answerCollaborationOffer,
   answerIntroductionOffer,
@@ -1387,11 +1385,10 @@ function meetingDayAnswers(context: SceneContext): SceneAnswer[] {
       "“Great. I’m looking forward to it,” {name} says.",
     ]),
     record: `The player went to meet ${context.name}.`,
-    apply: (world) =>
-      attendContactMeeting(world, playerId, activityId, registry),
+    apply: (world) => goToAgreedMeeting(world, playerId, activityId, registry),
   };
   const canGo = changesWorld(context.world, (world) =>
-    attendContactMeeting(world, playerId, activityId, registry),
+    goToAgreedMeeting(world, playerId, activityId, registry),
   );
   return [
     ...(canGo ? [go] : []),
