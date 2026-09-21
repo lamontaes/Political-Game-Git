@@ -349,6 +349,7 @@ export class ArtDeskHost {
       });
       const base = `http://127.0.0.1:${port}`;
       const identity = await this.#waitReady(base, 120000);
+      mkdirSync(this.root, { recursive: true, mode: 0o700 });
       writeFileSync(
         path.join(this.root, "ready-runtime.json"),
         JSON.stringify({ branch, revision: activeHead, worktree, lockHash }) +
