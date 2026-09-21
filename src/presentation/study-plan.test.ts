@@ -300,15 +300,43 @@ describe("CTO-PEOPLE2: the study approach argues from the right end of the trait
         event.involvedEntityIds.includes(peerPersonId),
     )!.id;
 
+  /**
+   * Building a seed's world and passing a day is the expensive part, and it
+   * does not depend on which pole is under test. Each test below asked for the
+   * same four seeds, so the eight builds were four worlds built twice; on a
+   * loaded runner that was enough to run the pair past the default timeout.
+   * The pole assignment that follows is what each test actually varies.
+   */
+  const settledBySeed = new Map<
+    string,
+    {
+      readonly world: World;
+      readonly player: EntityId;
+      readonly peerPersonId: EntityId;
+    }
+  >();
+  function settledFor(seed: string) {
+    const cached = settledBySeed.get(seed);
+    if (cached) return cached;
+    const fixture = collaborators(seed);
+    const built = {
+      world: passOrdinaryDays(fixture.world, 1, {
+        stopForTentativeHolds: true,
+      }),
+      player: fixture.player,
+      peerPersonId: fixture.peerPersonId,
+    };
+    settledBySeed.set(seed, built);
+    return built;
+  }
+
   /** The peer, with every trait but the named ones balanced out of the way. */
   function peerWith(
     seed: string,
     leans: Partial<Record<PeopleTrait, TraitValue>>,
   ) {
-    const fixture = collaborators(seed);
-    const settled = passOrdinaryDays(fixture.world, 1, {
-      stopForTentativeHolds: true,
-    });
+    const fixture = settledFor(seed);
+    const settled = fixture.world;
     const eventId = eventFor(settled, fixture.peerPersonId);
     let world = settled;
     for (const trait of PEOPLE_TRAITS) {
@@ -333,13 +361,15 @@ describe("CTO-PEOPLE2: the study approach argues from the right end of the trait
     expect(TRAIT_SHAPES.deliberation.high.key).toBe("impulsive");
   });
 
+  // Four seeded worlds each, so these are long-running by nature rather than
+  // slow by accident. The budget is explicit instead of left at the default.
   it("someone who thinks it through wants the shape or the reading first", () => {
     for (const seed of SEEDS) {
       expect(["outline-first", "evidence-first"], seed).toContain(
         peerWith(seed, { deliberation: -2 }),
       );
     }
-  });
+  }, 60_000);
 
   it("acting on impulse never argues for working the shape out first", () => {
     // Impulsive contributes nothing here, so the one trait that does argue —
@@ -349,5 +379,5 @@ describe("CTO-PEOPLE2: the study approach argues from the right end of the trait
         "split-by-section",
       );
     }
-  });
+  }, 60_000);
 });
