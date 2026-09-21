@@ -22,6 +22,7 @@ import { personName } from "./people";
 import {
   CONTACT_DECLINED_EVENT,
   contactBases,
+  contactProposals,
   openProposal,
   proposeContact,
   reachingOutPaced,
@@ -877,8 +878,6 @@ export function rememberedReconnectCandidates(
   playerId: EntityId,
 ): readonly RememberedReconnect[] {
   if (!world.people[playerId]) return [];
-  const cutoff = currentLifeCutoff(world);
-  const found: RememberedReconnect[] = [];
   const counterpartIds = new Set<EntityId>();
   for (const interaction of world.history.relationshipInteractions) {
     if (!interaction.personIds.includes(playerId)) continue;
@@ -886,53 +885,62 @@ export function rememberedReconnectCandidates(
       if (id !== playerId && world.people[id]) counterpartIds.add(id);
     }
   }
+  const found: RememberedReconnect[] = [];
   for (const counterpartId of [...counterpartIds].sort()) {
-    if (!alive(world, counterpartId)) continue;
-    const continuity = assessRelationshipContinuity(
-      world,
-      [playerId, counterpartId],
-      cutoff,
-    );
-    if (
-      continuity.continuity !== "long-gap" &&
-      continuity.continuity !== "reconnected"
-    ) {
-      continue;
-    }
-    if (!continuity.lastMeaningfulContactAt) continue;
-    // The specific thing this is about: the most recent meaningful moment
-    // between them, with words attached. A reconnection names what it
-    // remembers; "it's been a while" alone is not a reason.
-    const memory = [...world.history.relationshipInteractions]
-      .reverse()
-      .find(
-        (interaction) =>
-          interaction.personIds.includes(playerId) &&
-          interaction.personIds.includes(counterpartId) &&
-          interaction.significance !== "minor" &&
-          interaction.summary.trim().length > 0,
-      );
-    if (!memory) continue;
     if (openProposal(world, playerId, counterpartId)) continue;
-    if (
-      followThroughAsked(
-        world,
-        "remembered-reconnect",
-        memory.eventId ?? memory.id,
-      )
-    ) {
-      continue;
-    }
-    found.push({
-      counterpartId,
-      counterpartName: personName(world.people[counterpartId]!),
-      memorySummary: memory.summary,
-      memoryEventId: memory.eventId ?? memory.id,
-      memoryOn: memory.occurredAt,
-      lastContactOn: continuity.lastMeaningfulContactAt,
-    });
+    const remembered = rememberedTieWith(world, playerId, counterpartId);
+    if (remembered) found.push(remembered);
   }
   return found;
+}
+
+/**
+ * The specific shared moment behind a long gap with one person, if the
+ * record holds one and it has not already brought them back together: the
+ * most recent meaningful moment between them, with words attached. A
+ * reconnection names what it remembers; "it's been a while" alone is not a
+ * reason.
+ */
+export function rememberedTieWith(
+  world: World,
+  playerId: EntityId,
+  counterpartId: EntityId,
+): RememberedReconnect | null {
+  if (!alive(world, counterpartId)) return null;
+  const continuity = assessRelationshipContinuity(
+    world,
+    [playerId, counterpartId],
+    currentLifeCutoff(world),
+  );
+  if (
+    continuity.continuity !== "long-gap" &&
+    continuity.continuity !== "reconnected"
+  ) {
+    return null;
+  }
+  if (!continuity.lastMeaningfulContactAt) return null;
+  const memory = [...world.history.relationshipInteractions]
+    .reverse()
+    .find(
+      (interaction) =>
+        interaction.personIds.includes(playerId) &&
+        interaction.personIds.includes(counterpartId) &&
+        interaction.significance !== "minor" &&
+        interaction.summary.trim().length > 0,
+    );
+  if (!memory) return null;
+  const memoryEventId = memory.eventId ?? memory.id;
+  if (followThroughAsked(world, "remembered-reconnect", memoryEventId)) {
+    return null;
+  }
+  return {
+    counterpartId,
+    counterpartName: personName(world.people[counterpartId]!),
+    memorySummary: memory.summary,
+    memoryEventId,
+    memoryOn: memory.occurredAt,
+    lastContactOn: continuity.lastMeaningfulContactAt,
+  };
 }
 
 export interface RecordRememberedReconnectInput {
@@ -971,17 +979,36 @@ export function recordRememberedReconnect(
       : "Catch up, after a long while",
     answerInPerson: true,
   });
-  let next = proposed.world;
-  const proposalEvent = next.history.events.find(
-    (event) => event.id === proposed.proposal.eventId,
+  return {
+    world: markRememberedReconnect(proposed.world, {
+      ...input,
+      proposalEventId: proposed.proposal.eventId,
+    }),
+    proposalId: proposed.proposal.eventId,
+  };
+}
+
+/**
+ * Tie a proposal to meet to the moment it remembers: the scene can name the
+ * memory, the memory brings them back once, and whether they actually met is
+ * looked at after the day has passed.
+ */
+function markRememberedReconnect(
+  world: World,
+  input: RecordRememberedReconnectInput & {
+    readonly proposalEventId: EntityId;
+  },
+): World {
+  const counterpart = world.people[input.counterpartId]!;
+  const moment = rememberedMoment(world, input.memoryEventId);
+  const proposalEvent = world.history.events.find(
+    (event) => event.id === input.proposalEventId,
   )!;
-  // The proposal is one of this family's: the scene can find the memory it
-  // names, and it is raised once.
-  next = recordWorldEvent(next, {
+  let next = recordWorldEvent(world, {
     stableKey: `${FOLLOWTHROUGH_TAG}:reconnect:${input.memoryEventId}:marked`,
     type: "life.reconnect-raised",
-    occurredAt: next.currentDate,
-    recordedAt: next.currentDate,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
     jurisdictionId: counterpart.homeJurisdictionId,
     involvedEntityIds: [input.playerId, input.counterpartId],
     participants: [
@@ -1020,7 +1047,43 @@ export function recordRememberedReconnect(
     sourceEventId: proposalEvent.id,
     dueInDays: Math.max(1, daysBetween(next.currentDate, input.on) + 1),
   });
-  return { world: next, proposalId: proposalEvent.id };
+  return next;
+}
+
+/**
+ * An old contact who got in touch through the ordinary reaching-out route is
+ * the same reconnection when the record holds a specific moment between
+ * them: the family adopts that proposal — names the moment, and looks later
+ * at whether they met — rather than making a second, competing call.
+ */
+export function adoptRememberedReachOuts(
+  world: World,
+  playerId: EntityId,
+): World {
+  let next = world;
+  for (const proposal of contactProposals(next, playerId)) {
+    if (proposal.answered || proposal.toPersonId !== playerId) continue;
+    if (
+      next.history.events.some(
+        (event) =>
+          event.type === "life.reconnect-raised" &&
+          event.tags.includes(`followthrough.proposal:${proposal.eventId}`),
+      )
+    ) {
+      continue;
+    }
+    const tie = rememberedTieWith(next, playerId, proposal.fromPersonId);
+    if (!tie) continue;
+    next = markRememberedReconnect(next, {
+      playerId,
+      counterpartId: proposal.fromPersonId,
+      memoryEventId: tie.memoryEventId,
+      memorySummary: tie.memorySummary,
+      on: proposal.on,
+      proposalEventId: proposal.eventId,
+    });
+  }
+  return next;
 }
 
 /**
