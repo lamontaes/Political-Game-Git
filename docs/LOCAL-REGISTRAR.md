@@ -7,7 +7,9 @@ whoever is at the Mac — Lamontae, a local Claude, Codex, or ChatGPT reading it
 back — can execute an entry without asking what was meant.
 
 Each entry says what is blocked, the exact commands to run, and what to check
-afterwards. An entry is deleted when it is done. This file is not an archive of
+afterwards. L8 is the art bench lane's; numbers are claimed as entries are
+written, so a gap means an entry was finished and removed. An entry is deleted
+when it is done. This file is not an archive of
 resolved items; if it is still here, it is still outstanding.
 
 Last reconciled: 2026-09-21, from the `claude/current-art-source` thread.
@@ -217,3 +219,50 @@ affected folders while doing it.
 **Verify:** the named items are gone from Trash and do not reappear after the
 sync client resumes. Anything the connector could not reach stays listed here
 with its Drive id until it is gone.
+
+---
+
+## L9 — Eight Art Desk plates the manifest names but Git does not carry
+
+**Blocked:** `npm run validate:art` fails with twelve errors, and
+`tests/art-asset-factory.test.ts` fails with it. Every error names a file under
+`art/generated/candidates/art-desk/playtest65/`, which `.gitignore` line 22
+excludes, so the tracked manifest registers assets the repository can never
+contain. This is a hard blocker on the `repository` CI job for
+`codex/client-content-delivery` and everything based on it.
+
+The eight files, each named by `art/manifest/asset_manifest.json`:
+
+```
+art/generated/candidates/art-desk/playtest65/environment/white-house-wide-r1.png
+art/generated/candidates/art-desk/playtest65/environment/white-house-wide-r6.png
+art/generated/candidates/art-desk/playtest65/environment/resolute-desk-r1.png
+art/generated/candidates/art-desk/playtest65/environment/civic-generic-r1.png
+art/generated/candidates/art-desk/playtest65/environment/civic-generic-r3.png
+art/generated/candidates/art-desk/playtest65/regional/pikeville-valley-street-firefly-434644-r1.png
+art/generated/candidates/art-desk/playtest65/regional/wooded-valley-street-cleanup-r2.png
+art/generated/candidates/art-desk/playtest65/regional/great-plains-pond-r1.png
+```
+
+**Two ways to resolve it, and the choice is the owner's**, because it is about
+art rather than about code:
+
+1. The plates are wanted. Game-art GitHub staging is authorized as of
+   2026-09-21, so commit them from the Art Desk, exactly as they are, and
+   narrow `.gitignore` so this path is carried. They cannot come through the
+   Drive connector, which fails above roughly 7 MB per file — see L1.
+2. The plates are obsolete. Then the manifest rows are obsolete registrations
+   of art the repository will never hold, and they are deleted with their
+   entries rather than left naming nothing.
+
+**Run, at the Mac, for route 1:**
+
+```sh
+# From the Art Desk checkout, on a branch off the current integration head.
+git add -f art/generated/candidates/art-desk/playtest65/
+npm run validate:art     # must print no errors before pushing
+```
+
+**Verify:** `npm run validate:art` exits clean and
+`npx vitest run tests/art-asset-factory.test.ts` passes. Until then the
+`repository` job cannot go green on any branch carrying this manifest.
