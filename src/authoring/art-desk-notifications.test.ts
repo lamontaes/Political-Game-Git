@@ -94,7 +94,7 @@ describe("Art Desk reply notifications", () => {
     expect(JSON.stringify(projection)).toBe(before);
   });
 
-  it("excludes owner posts, unrelated team notes and system events", () => {
+  it("includes team notes without inventing a reply and excludes owner/system posts", () => {
     const projection = projectArtbench({
       registryRequests: [],
       events: [
@@ -105,10 +105,15 @@ describe("Art Desk reply notifications", () => {
         message("worker-reply", 7, "reply", "worker", "owner-question"),
       ],
     });
-    expect(artDeskNotifications(projection).map((item) => item.eventId)).toEqual([
-      "worker-reply",
-      "first-reply",
-    ]);
+    expect(
+      artDeskNotifications(projection).map((item) => item.eventId),
+    ).toEqual(["worker-reply", "team-note", "first-reply"]);
+    expect(artDeskNotifications(projection)[1]).toMatchObject({
+      eventId: "team-note",
+      replyTo: null,
+      unread: true,
+      candidateId: "original",
+    });
   });
 
   it("acknowledges exact event IDs without hiding an older late-arriving reply", () => {

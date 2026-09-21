@@ -24,6 +24,7 @@ import {
   sceneVenueForLocationKey,
 } from "./scene-venues";
 import { venueActivities } from "./venue-activity";
+import { ordinaryGroceryRoute } from "./ordinary-grocery-route";
 
 /** Pure read-model for the feature-local Places workspace. */
 export type PlacesActionKind = "inspect" | "travel" | "return-home" | "attend";
@@ -46,6 +47,7 @@ export interface PlacesOfferView {
   readonly unavailable: string | null;
   readonly companionLabel: string | null;
   readonly walkDestination?: "home" | "neighborhood";
+  readonly groceryDestination?: "grocery" | "home";
   readonly activityId?: EntityId;
   readonly declineActivityId?: EntityId;
   readonly governmentKey?: string;
@@ -84,6 +86,28 @@ export function projectPlacesWorkspace(
   for (const destination of ["neighborhood", "home"] as const) {
     offers.push(projectWalkOffer(world, personId, destination));
   }
+  for (const destination of ["grocery", "home"] as const) {
+    const offer = ordinaryGroceryRoute(world, personId, destination);
+    if (offer.kind !== "available") continue;
+    if (destination === "home") {
+      const index = offers.findIndex((entry) => entry.id === "walk-home");
+      if (index >= 0) offers.splice(index, 1);
+    }
+    offers.push({
+      id: `grocery-${destination}`,
+      kind: destination === "home" ? "return-home" : "travel",
+      title: offer.route.destination.label,
+      detail:
+        destination === "grocery"
+          ? "Walk to the store. Visiting does not buy anything or finish your household errands."
+          : "Walk home along the recorded outward route.",
+      minutes: offer.route.duration.minutes,
+      durationLabel: `${offer.route.duration.minutes} minutes`,
+      unavailable: null,
+      companionLabel: null,
+      groceryDestination: destination,
+    });
+  }
 
   const venueEntries = venueActivities(world, personId);
   const bundledJourneyIds = new Set(
@@ -94,7 +118,28 @@ export function projectPlacesWorkspace(
   for (const entry of venueEntries) {
     // A disclosed journey is part of Attend. Presenting it as a second action
     // recreates the rejected leave-now click and lets the two halves drift.
-    if (bundledJourneyIds.has(entry.activity.id)) continue;
+    if (bundledJourneyIds.has(entry.activity.id)) {
+      if (
+        entry.activity.location.locationKey === "ordinary-life:to-meeting-room"
+      ) {
+        offers.push({
+          id: `meeting-journey-${entry.activity.id}`,
+          kind: "travel",
+          title: "Go to the public meeting",
+          detail:
+            "Travel there first, then choose whether to enter and stay. This does not complete attendance.",
+          minutes: entry.elapsedMinutes,
+          durationLabel:
+            entry.elapsedMinutes === null
+              ? null
+              : `${entry.elapsedMinutes} minutes, including the wait before the journey`,
+          unavailable: entry.refusal,
+          companionLabel: null,
+          activityId: entry.activity.id,
+        });
+      }
+      continue;
+    }
     offers.push(
       projectVenueOffer(
         world,

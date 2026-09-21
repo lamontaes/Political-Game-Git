@@ -197,6 +197,10 @@ import {
 } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
 import { SceneBackdrop } from "./SceneBackdrop";
+import { projectLivingSceneSurface } from "../presentation/living-scene-surfaces";
+import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
+import { PUBLIC_MEETING_ROOM_SCENE_ID } from "../presentation/scene-registry";
+import { OrdinaryMeetingPanel } from "./OrdinaryMeetingPanel";
 import {
   AmbientTableau,
   TitleScreen,
@@ -602,6 +606,18 @@ export function PlayerGame() {
     window.addEventListener(NATIVE_SESSION_QUERY_EVENT, query);
     return () => window.removeEventListener(NATIVE_SESSION_QUERY_EVENT, query);
   }, [screen.kind, session]);
+
+  useEffect(() => {
+    const query = (event: Event) => {
+      const detail = (
+        event as CustomEvent<{ respond: (idle: boolean) => void }>
+      ).detail;
+      detail?.respond(screen.kind === "title");
+    };
+    window.addEventListener("ocd:query-update-boundary", query);
+    if (screen.kind === "title") window.ocdDesktop?.titleReady?.();
+    return () => window.removeEventListener("ocd:query-update-boundary", query);
+  }, [screen.kind]);
 
   const saveInFlight = useRef(false);
   async function keepThisWorld(shellState: StoredShellState): Promise<boolean> {
@@ -2603,6 +2619,24 @@ function PlayingScreen({
   );
 
   const playScene = useMemo(() => {
+    const meeting = projectOrdinaryMeetingScene(
+      session.world,
+      session.personId,
+    );
+    if (meeting)
+      return {
+        purpose: "activity" as const,
+        locationKey: meeting.location.locationKey,
+        sceneId: PUBLIC_MEETING_ROOM_SCENE_ID,
+        reason: "Recorded meeting entry or immediate aftermath.",
+        placeLabel: meeting.location.label,
+        presentPeople: meeting.actors.map((actor) => ({
+          personId: actor.personId,
+          name: actor.name,
+          relationship: null,
+          introduction: actor.role,
+        })),
+      };
     if (!continuingLifeShown)
       return resolveOpeningPlaySceneContext(
         session.world,
@@ -2652,6 +2686,29 @@ function PlayingScreen({
   ]);
 
   const sceneId = playScene.sceneId;
+  const readableSurfaces = useMemo(() => {
+    const news = projectLivingSceneSurface(session.world, session.personId, {
+      kind: "news",
+    });
+    const records = new Map([
+      ["living-room-television", news],
+      ["coffee-table-papers", news],
+    ]);
+    const meeting = projectOrdinaryMeetingScene(
+      session.world,
+      session.personId,
+    );
+    if (meeting)
+      records.set(
+        "lectern-notes",
+        projectLivingSceneSurface(
+          session.world,
+          session.personId,
+          meeting.agendaSelection,
+        ),
+      );
+    return records;
+  }, [session.world, session.personId]);
 
   const surfaceProjection = useMemo(
     () =>
@@ -3332,6 +3389,8 @@ function PlayingScreen({
             ) : null}
             <SceneBackdrop
               sceneId={sceneId}
+              readableSurfaces={readableSurfaces}
+              onOpenSurfaceEntity={openEntity}
               visualLibrary={sceneVisuals}
               people={scenePeople}
               surfaces={{
@@ -3375,6 +3434,17 @@ function PlayingScreen({
                 });
               }}
             >
+              {view.surface === "scene" &&
+              !readOnly &&
+              !showOrientation &&
+              !conversation ? (
+                <OrdinaryMeetingPanel
+                  world={session.world}
+                  personId={session.personId}
+                  onWorldChange={onWorldChange}
+                  onOpenEntity={openEntity}
+                />
+              ) : null}
               {view.surface === "scene" && !readOnly ? (
                 <OpeningLifeFlow
                   key={`${session.world.id}:${session.personId}`}

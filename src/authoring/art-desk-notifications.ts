@@ -14,11 +14,11 @@ export interface ArtDeskNotification {
   readonly text: string;
   readonly at: string;
   readonly authorId: string;
-  readonly replyTo: string;
+  readonly replyTo: string | null;
   readonly unread: boolean;
 }
 
-/** A view of accepted team replies, never a second inbox or an asset decision.
+/** A view of accepted team messages, never a second inbox or an asset decision.
  * Read receipts use event IDs so a late imported reply cannot fall behind a
  * timestamp/sequence cursor and silently count as read. */
 export function artDeskNotifications(
@@ -35,8 +35,11 @@ export function artDeskNotifications(
         : undefined;
       return (
         (message.actor.kind === "agent" || message.actor.kind === "worker") &&
-        message.payload.kind === "reply" &&
-        Boolean(message.payload.replyTo) &&
+        (message.payload.kind === "note" ||
+          (message.payload.kind === "reply" &&
+            Boolean(message.payload.replyTo))) &&
+        Boolean(message.payload.text.trim()) &&
+        (!message.payload.candidateId || candidate !== undefined) &&
         request !== undefined &&
         !request.qa &&
         !candidate?.qa
@@ -63,8 +66,7 @@ export function artDeskNotifications(
         candidateId: candidateId ?? null,
         cardKey: card?.key ?? null,
         title: card
-          ? requestId === INBOX_REQUEST_ID &&
-            candidate?.provenance.originalName
+          ? requestId === INBOX_REQUEST_ID && candidate?.provenance.originalName
             ? candidateDisplayName(
                 {
                   ...card,
@@ -77,7 +79,7 @@ export function artDeskNotifications(
         text: message.payload.text,
         at: message.at,
         authorId: message.actor.id,
-        replyTo: message.payload.replyTo!,
+        replyTo: message.payload.replyTo ?? null,
         unread: !read.has(message.eventId),
       };
     });

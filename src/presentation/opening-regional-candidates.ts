@@ -1,3 +1,4 @@
+import { runtimeArtMetadata } from "./runtime-art";
 import {
   selectOpeningRegionalPlate,
   type OpeningRegionalPlateCandidate,
@@ -109,4 +110,8 @@ export const REGIONAL_TYPE_REVIEW_CANDIDATES: readonly OpeningRegionalPreviewCan
 
 /** Verified private review selection. The consumer still refuses production art. */
 export const OPENING_REGIONAL_CANDIDATES: readonly OpeningRegionalPreviewCandidate[] =
-  REGIONAL_TYPE_REVIEW_CANDIDATES;
+  runtimeArtMetadata<{
+    candidates: readonly OpeningRegionalPreviewCandidate[];
+  }>("art/manifest/opening_regions.json", {
+    candidates: REGIONAL_TYPE_REVIEW_CANDIDATES,
+  }).candidates;

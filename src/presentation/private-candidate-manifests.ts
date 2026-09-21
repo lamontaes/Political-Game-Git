@@ -1,10 +1,11 @@
+import { candidateManifests as manifests } from "./bundled-art";
 import type {
   PreparedProfileRecord,
   ProfileLayerChange,
   CharacterCatalogGeneration,
   CharacterComponentManifestRecord,
 } from "./character-components";
-import { optionalGlob } from "./optional-glob";
+import { runtimeArt, runtimeArtMetadata } from "./runtime-art";
 
 /**
  * The owner-private candidate people manifests (engine-people29 through 41 and
@@ -42,24 +43,16 @@ export interface Kit41RegistryManifest extends CandidateRegistryManifest {
   readonly generations: readonly CharacterCatalogGeneration[];
 }
 
-const manifests = optionalGlob(() =>
-  import.meta.glob<object>(
-    [
-      "../../art/manifest/character_candidate_{engine29,engine34,engine35,engine36,engine40,engine41,kit41}_{registry,generation}.json",
-      "../../art/manifest/character_candidate_modular41_heads.json",
-      "../../art/manifest/character_candidate_modular45_registry.json",
-    ],
-    { eager: true, import: "default" },
-  ),
-);
-
 function manifest(name: string): object | undefined {
-  return manifests[`../../art/manifest/character_candidate_${name}.json`];
+  return runtimeArtMetadata(
+    `art/manifest/character_candidate_${name}.json`,
+    manifests[`../../art/manifest/character_candidate_${name}.json`],
+  );
 }
 
 /** True only in a checkout that carries the private candidate manifests. */
 export const PRIVATE_CANDIDATE_ART_AVAILABLE =
-  Object.keys(manifests).length > 0;
+  Boolean(runtimeArt()) || Object.keys(manifests).length > 0;
 
 export function candidateRegistry(
   engine: CandidateEngine,

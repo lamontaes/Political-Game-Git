@@ -1,3 +1,4 @@
+import { reconcileReceivedChannel } from "./received-channel.mjs";
 /* global process */
 
 import { spawn } from "node:child_process";
@@ -107,7 +108,20 @@ if (!dataRoot || !path.isAbsolute(dataRoot)) {
     "missing-private-pack",
   );
 } else {
-  await main();
+  try {
+    const received = reconcileReceivedChannel(dataRoot, requestedTrack);
+    if (received)
+      emit(
+        "complete",
+        received.outcome === "pending"
+          ? "An update is ready. It will open when your current work is safely closed."
+          : "Your game and artwork match the received version.",
+        { ...received, track: requestedTrack },
+      );
+    else await main();
+  } catch (error) {
+    fail(error.message, "invalid-received-content");
+  }
 }
 
 async function run(command, commandArgs, options = {}) {
@@ -380,9 +394,7 @@ async function main() {
           : true,
     });
     const samePack =
-      existing?.current?.privatePack?.manifestSha256 === pack.manifestSha256 ||
-      (existing?.current?.preparedLocally === true &&
-        currentRevision === targetRevision);
+      existing?.current?.privatePack?.manifestSha256 === pack.manifestSha256;
     // A recorded build only counts as already done when its payload is
     // actually on disk and names this revision and profile; otherwise this
     // falls through and rebuilds instead of reporting a build that is gone.

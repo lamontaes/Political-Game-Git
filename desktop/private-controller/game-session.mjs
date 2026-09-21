@@ -91,3 +91,18 @@ export async function prepareQuit(participants, prompts) {
   }
   return true;
 }
+
+/** Only a modern payload can explicitly attest an idle title. Unknown is unsafe. */
+export async function isIdleTitle(contents) {
+  if (!contents || contents.isDestroyed()) return false;
+  return contents
+    .executeJavaScript(
+      `(() => {
+    let idle = false;
+    window.dispatchEvent(new CustomEvent("ocd:query-update-boundary", { detail: { respond: value => { idle = value === true; } } }));
+    return idle;
+  })()`,
+    )
+    .then((value) => value === true)
+    .catch(() => false);
+}

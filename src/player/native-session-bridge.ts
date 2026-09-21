@@ -1,7 +1,7 @@
 /** Narrow native capability; ordinary browser builds expose no Quit command. */
 declare global {
   interface Window {
-    ocdDesktop?: { requestQuit: () => Promise<void> };
+    ocdDesktop?: { requestQuit: () => Promise<void>; titleReady?: () => void };
   }
 }
 

@@ -79,9 +79,9 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
     page.locator('.pg-opening-president [data-figure-status="ready"]'),
   ).toBeVisible();
   await page.screenshot({ path: info.outputPath("white-house.png") });
-  const president = page.locator(
-    ".pg-opening-president .pg-orientation-person",
-  );
+  const president = page
+    .locator(".pg-opening-official-labels .pg-orientation-person")
+    .first();
   const presidentId = (await president.getAttribute("data-testid"))!.replace(
     "orientation-person-",
     "",
@@ -99,7 +99,9 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
   await page.getByTestId("dossier-pin").click();
   await page.screenshot({ path: info.outputPath("person-record.png") });
   await page.getByTestId("quick-dossier-close").click();
-  const openingDate = page.locator(".pg-orientation-kicker");
+  const openingDate = page.locator(
+    ".pg-scene-chapter:not([aria-hidden]) .pg-orientation-kicker",
+  );
   const before = await openingDate.textContent();
   await page.getByTestId("orientation-next").click();
   await expect(page.getByTestId("orientation-step-state")).toBeVisible();

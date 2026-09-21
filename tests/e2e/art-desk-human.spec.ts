@@ -499,12 +499,14 @@ test("notifications show team replies, retain unread on failure and reopen the e
   });
   await page.reload();
   const tab = page.getByTestId("art-desk-tab-notifications");
+  await page.getByTestId("art-desk-tab-discussion").click();
+  await page.getByTestId("art-desk-list").getByRole("button").first().click();
   const draft = page.getByTestId("art-desk-question");
   await draft.fill("Please keep this unfinished question.");
   await tab.click();
   const draftReply = page.getByTestId(`art-desk-notification-${reply.eventId}`);
   await draftReply
-    .getByRole("button", { name: "Open artwork and reply" })
+    .getByRole("button", { name: "Open artwork and message" })
     .click();
   await expect(page.getByRole("alert")).toContainText("unfinished note");
   await expect(draftReply).toHaveAttribute("data-unread", "true");
@@ -527,13 +529,13 @@ test("notifications show team replies, retain unread on failure and reopen the e
   for (const size of SIZES) {
     await page.setViewportSize(size);
     await expect(
-      item.getByRole("button", { name: "Open artwork and reply" }),
+      item.getByRole("button", { name: "Open artwork and message" }),
     ).toBeVisible();
     await page.screenshot({
       path: info.outputPath(`notifications-${size.name}.png`),
     });
   }
-  await item.getByRole("button", { name: "Open artwork and reply" }).focus();
+  await item.getByRole("button", { name: "Open artwork and message" }).focus();
   await page.keyboard.press("Enter");
   const message = page.locator(`[id="art-desk-message-${reply.eventId}"]`);
   await expect(message).toBeFocused();
@@ -552,9 +554,8 @@ test("notifications show team replies, retain unread on failure and reopen the e
     {
       requestId,
       candidateId: candidate,
-      kind: "reply",
-      replyTo: question.eventId,
-      text: "A new reply arrived while you were looking.",
+      kind: "note",
+      text: "A team update arrived without a prior question.",
     },
   );
   const incomingItem = page.getByTestId(

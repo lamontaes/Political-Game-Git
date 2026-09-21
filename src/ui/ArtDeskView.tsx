@@ -594,7 +594,7 @@ export function ArtDeskView() {
   const openNotification = (item: ArtDeskNotification) => {
     if (detailHasDraft) {
       setNotificationError(
-        "You have an unfinished note. Go back to your artwork to send or clear it before opening another reply.",
+        "You have an unfinished note. Go back to your artwork to send or clear it before opening another message.",
       );
       return;
     }
@@ -1207,8 +1207,8 @@ export function ArtDeskView() {
             <div>
               <h2>Notifications</h2>
               <p>
-                Replies from the art team. Open a reply to see its artwork and
-                conversation.
+                Updates and replies from the art team. Open a message to see its
+                artwork and conversation.
               </p>
             </div>
             <button
@@ -1235,9 +1235,7 @@ export function ArtDeskView() {
             </button>
           </div>
           {notifications.length === 0 ? (
-            <p>
-              No replies yet. When the art team answers, you’ll see it here.
-            </p>
+            <p>No updates yet. Messages from the art team will appear here.</p>
           ) : null}
           <ol>
             {notifications.map((item) => (
@@ -1248,7 +1246,7 @@ export function ArtDeskView() {
               >
                 <div>
                   <strong>
-                    {item.unread ? "New reply" : "Art team replied"}
+                    {item.unread ? "New message" : "Art team update"}
                   </strong>
                   <time dateTime={item.at}>
                     {new Date(item.at).toLocaleString(undefined, {
@@ -1266,7 +1264,7 @@ export function ArtDeskView() {
                   disabled={notificationBusy}
                   onClick={() => openNotification(item)}
                 >
-                  Open artwork and reply
+                  Open artwork and message
                 </button>
                 {item.unread ? (
                   <button
@@ -1632,7 +1630,7 @@ export function ArtDeskView() {
       <footer className="art-desk-pager">
         <span>
           {tab === "notifications"
-            ? `${notifications.length} replies · ${unreadCount} unread`
+            ? `${notifications.length} messages · ${unreadCount} unread`
             : advancedOpen
               ? `${requestRows.length} request(s) · ${filteredRows.filter((r) => r.candidate).length} candidate(s) shown`
               : `${visibleCards.length} asset(s) shown`}

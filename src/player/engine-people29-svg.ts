@@ -1,3 +1,4 @@
+import { preparedSources as sources } from "../presentation/bundled-art";
 import { remapRasterMaterial } from "./raster-material";
 import type { AppearanceMaterial } from "../simulation/appearance-material";
 import {
@@ -6,28 +7,15 @@ import {
   type PreparedPart,
   type FeatureKind,
 } from "../presentation/engine-people29-data";
-import { optionalGlob } from "../presentation/optional-glob";
-const sources = optionalGlob(() =>
-  import.meta.glob<string>(
-    [
-      "../../art/authoring/kit41/families/*/*.svg",
-      "../../art/authoring/engine-people29/families/*/*.svg",
-      "../../art/authoring/engine-people34/families/*/*.svg",
-      "../../art/authoring/engine-people35/families/*/*.svg",
-      "../../art/authoring/engine-people36/families/*/*.svg",
-      "../../art/authoring/engine-people40/families/*/*.svg",
-      "../../art/authoring/engine-people41/families/*/*.svg",
-      "../../art/authoring/modular41-head-v2/*.svg",
-      "../../art/authoring/modular45/parts/*.svg",
-      "../../art/authoring/modular45/pose/*.svg",
-      "../../art/authoring/modular47/parts/*.svg",
-      "../../art/authoring/modular47/pose/*.svg",
-      "../../art/authoring/modular47-r1/parts/*.svg",
-    ],
-    { query: "?raw", import: "default" },
-  ),
-);
+import { runtimeArtUrls } from "../presentation/runtime-art";
+
 async function source(path: string) {
+  const url = runtimeArtUrls()[path];
+  if (url) {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Prepared artwork unavailable.");
+    return response.text();
+  }
   const load = sources[`../../${path}`];
   if (!load) throw new Error("Prepared source is unavailable.");
   return load();

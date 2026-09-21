@@ -38,11 +38,11 @@ function render(state) {
         : " · not built yet"
     }`;
   $("id-game").textContent = ids.game
-    ? `${ids.game.revision} · client ${ids.game.clientTreeSha256} · ${ids.game.architecture}${requested?.pending ? ` · ${requested.pending.revision} waiting for a restart` : ""}`
+    ? `${ids.game.revision} · client ${ids.game.clientTreeSha256} · ${ids.game.architecture}${ids.game.contentId ? ` · artwork ${ids.game.contentId}` : ""}${requested?.pending ? ` · update waiting for the title screen` : ""}`
     : "No verified build yet";
   // What is actually running, never merged with what was requested or staged.
   $("id-loaded").textContent = ids.loaded
-    ? `${ids.loaded.title} · ${ids.loaded.revision ?? "revision unknown"}${
+    ? `${ids.loaded.title} · ${ids.loaded.revision ?? "revision unknown"}${ids.loaded.contentId ? ` · artwork ${ids.loaded.contentId}` : ""}${
         ids.loaded.revision &&
         ids.loaded.selectedBuildRevision &&
         ids.loaded.revision !== ids.loaded.selectedBuildRevision

@@ -18,6 +18,8 @@ import { useTimeCommand, type TimeCommandReport } from "./time-command-runner";
 import { previewTimeCommand } from "../presentation/time-command";
 import { skipToLabel } from "../presentation/time-target-label";
 import { declineVenueActivity } from "../presentation/venue-activity";
+import { ordinaryGroceryRoute } from "../presentation/ordinary-grocery-route";
+import { travelToPlace } from "../presentation/place-travel";
 
 /** Entity references UI-core passes through `openEntity` / `togglePin`. */
 export type PlacesEntityRef =
@@ -130,6 +132,23 @@ export function PlacesWorkspace({
       );
       return;
     }
+    if (fresh.groceryDestination) {
+      const destination = fresh.groceryDestination;
+      runner.perform((current, handlers) => {
+        const next = travelToPlace(
+          current,
+          personId,
+          destination,
+          ordinaryGroceryRoute,
+          handlers,
+        );
+        return {
+          world: next,
+          outcome: describePlacesOutcome(current, next, personId),
+        };
+      }, report);
+      return;
+    }
     if (fresh.activityId) {
       runner.submit(
         { kind: "attend-activity", activityId: fresh.activityId },
@@ -224,7 +243,7 @@ export function PlacesWorkspace({
             className="places-scene-note"
             data-testid="places-current-scene-note"
           >
-            {model.current.sceneNote}
+            There isn’t a view of this place yet.
           </p>
         ) : null}
       </section>

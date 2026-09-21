@@ -116,7 +116,11 @@ rmSync(path.join(resources, "default_app.asar"), { force: true });
 const packagedRoot = path.join(resources, "app");
 const packagedController = path.join(packagedRoot, "private-controller");
 mkdirSync(packagedController, { recursive: true });
-for (const name of ["app-protocol.mjs", "download-policy.mjs"])
+for (const name of [
+  "app-protocol.mjs",
+  "download-policy.mjs",
+  "runtime-content.mjs",
+])
   cpSync(path.join(desktopRoot, name), path.join(packagedRoot, name));
 // The hub's own trusted health-check harness for candidate builds.
 mkdirSync(path.join(packagedRoot, "scripts"), { recursive: true });
@@ -163,6 +167,7 @@ const CONTROLLER_FILES = [
   "styles.css",
   "private-update.mjs",
   "private-update-worker.mjs",
+  "received-channel.mjs",
   "package.json",
 ];
 for (const name of CONTROLLER_FILES)
