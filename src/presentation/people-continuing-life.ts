@@ -1,5 +1,13 @@
-import { personName } from "../simulation";
-import type { EntityId, IsoDate, World } from "../simulation";
+import { compareSimulationMoments, personName } from "../simulation";
+import type {
+  EntityId,
+  FutureTransitionHandlerRegistry,
+  IsoDate,
+  World,
+} from "../simulation";
+import { attendContactMeeting } from "../simulation/people-continuing-life";
+import { scheduledActivityState } from "../simulation/time-work";
+import { declineVenueActivity } from "./scheduled-activity-choice";
 import { currentLifeCutoff } from "../simulation/life-queries";
 import { isPersonAliveAt } from "../simulation/vitality-integrity";
 import { proseDate } from "./prose-dates";
@@ -206,4 +214,46 @@ export function projectContinuingLifeCards(
       ? left.eventId.localeCompare(right.eventId)
       : right.on.localeCompare(left.on),
   );
+}
+
+/**
+ * Go to an agreed meeting the way ordinary time passes: an optional calendar
+ * hold reached on the way lapses, exactly as letting the day run would lapse
+ * it, and a confirmed commitment still stops the way. Returns the World
+ * unchanged when the meeting cannot be reached now.
+ */
+export function goToAgreedMeeting(
+  world: World,
+  playerId: EntityId,
+  activityId: EntityId,
+  handlers: FutureTransitionHandlerRegistry,
+): World {
+  let current = world;
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    const attended = attendContactMeeting(
+      current,
+      playerId,
+      activityId,
+      handlers,
+    );
+    if (attended !== current) return attended;
+    const meetingStart = scheduledActivityState(current, activityId).start;
+    const hold = current.history.scheduledActivities.find((activity) => {
+      if (activity.kind !== "tentative" || activity.id === activityId) {
+        return false;
+      }
+      if (!activity.participantPersonIds.includes(playerId)) return false;
+      const state = scheduledActivityState(current, activity.id);
+      return (
+        state.status === "scheduled" &&
+        compareSimulationMoments(state.start, meetingStart) < 0 &&
+        compareSimulationMoments(state.end, current.currentMoment) > 0
+      );
+    });
+    if (!hold) return world;
+    const lapsed = declineVenueActivity(current, playerId, hold.id, "lapsed");
+    if (lapsed === current) return world;
+    current = lapsed;
+  }
+  return world;
 }

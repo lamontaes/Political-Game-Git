@@ -31,7 +31,10 @@ import {
 } from "./player-conversation";
 import type { PlayerConversationView } from "./player-conversation";
 import { commitConversationTurn } from "./run-b-conversation";
-import { scheduledActivityState } from "../simulation/time-work";
+import {
+  createScheduledActivity,
+  scheduledActivityState,
+} from "../simulation/time-work";
 
 /**
  * MUSE-PEOPLE presentation: every follow-through family, read as a player
@@ -423,6 +426,43 @@ describe("family 3 scenes — a childhood friend reaches back on their own", () 
             interaction.personIds.includes(friend),
         ),
       ).toBe(true);
+
+      // An optional hold earlier the same day does not stand in the way: it
+      // lapses, as letting the day run would lapse it, and the meeting is
+      // still gone to once.
+      const start = scheduledActivityState(onTheDay, meeting.id).start;
+      const held = createScheduledActivity(onTheDay, {
+        stableKey: "scenes:reconnect:afternoon-hold",
+        title: "Something in the afternoon",
+        summary: "An optional hold before the meeting.",
+        kind: "tentative",
+        start: { ...start, minuteOfDay: start.minuteOfDay - 180 },
+        end: { ...start, minuteOfDay: start.minuteOfDay - 120 },
+        participantPersonIds: [life.player],
+        responsiblePersonId: life.player,
+        location: {
+          locationKey: "scenes:hold",
+          label: "Somewhere",
+          jurisdictionId: null,
+        },
+        sourceEntityIds: [raised.id],
+        flexibility: { kind: "fixed" },
+        access: { kind: "private", personIds: [life.player] },
+      });
+      const holdId = held.history.scheduledActivities.at(-1)!.id;
+      const heldView = projectPlayerConversation(
+        held,
+        life.player,
+        "scene-favor",
+      )!;
+      expect(heldView.intents.map((intent) => intent.key)).toContain("go-meet");
+      const wentAnyway = commit(held, life.player, "scene-favor", "go-meet");
+      expect(scheduledActivityState(wentAnyway, meeting.id).status).toBe(
+        "completed",
+      );
+      expect(scheduledActivityState(wentAnyway, holdId).status).toBe(
+        "cancelled",
+      );
 
       // Called off on the day: the friend is told, the evening is freed,
       // time moves on, and nothing is remembered as a reunion.
