@@ -648,6 +648,9 @@ describe("the production boundary", () => {
       "us-va-richmond",
       "us-nv-carson-city",
       "us-or-portland",
+      // Retrieved by 92f6ca92: the Home Rule Act and the D.C. Code sections
+      // it names, which is the same standard the other four were admitted on.
+      "us-dc-washington",
     ]);
     for (const pack of MUNICIPAL_PRODUCTION_PACKS) {
       const allowed = PRODUCTION_PACK_ARTIFACTS[pack.sourceGovernmentKey];

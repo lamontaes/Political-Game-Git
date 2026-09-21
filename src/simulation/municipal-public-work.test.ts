@@ -206,7 +206,12 @@ describe("the municipal corpus reaches the game", () => {
 
   it("reports what it read rather than how many governments it has", () => {
     const meta = municipalCorpusMeta();
-    expect(meta.productionRecords).toBe(4);
+    // One per government whose law was actually retrieved, which grows as law
+    // is read: Charlottesville, Richmond, Carson City, Portland and, since
+    // 92f6ca92, the District of Columbia. The point of the number is that it
+    // counts readings rather than the hundred-odd governments in the catalog,
+    // so it is pinned exactly and raised deliberately when a reading lands.
+    expect(meta.productionRecords).toBe(5);
     expect(meta.fixtureRecords).toBeGreaterThan(100);
     expect(meta.governmentCount).toBeGreaterThan(100);
   }, 60000);

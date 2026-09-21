@@ -15,6 +15,14 @@ import path from "node:path";
 import { isDeepStrictEqual } from "node:util";
 import { chooseStartAge } from "./creator-drive.mjs";
 
+/** Dismisses the world introduction a new life opens on, when it is showing. */
+async function skipOrientation(page) {
+  const orientation = page.getByTestId("world-orientation");
+  if (!(await orientation.isVisible())) return;
+  await page.getByTestId("orientation-skip").click();
+  await orientation.waitFor({ state: "hidden" });
+}
+
 const require = createRequire(
   path.join(
     path.dirname(fileURLToPath(import.meta.url)),
@@ -85,6 +93,10 @@ try {
   /* no household introduction */
 }
 await page.getByTestId("play-screen").waitFor();
+// A new, unsaved life opens on the world introduction, and the shell's nav is
+// deliberately not drawn behind it. Dismiss it the way the smoke test does, or
+// the nav is simply not there to click.
+await skipOrientation(page);
 await page.getByTestId("shell-nav-cluster").click();
 await page.getByTestId("shell-nav-flyout").waitFor();
 await page.getByTestId("keep-world").click();
@@ -334,6 +346,7 @@ for (let index = 0; index < 2; index += 1) {
     .getByRole("button", { name: "Open", exact: true })
     .click();
   await page.getByTestId("play-screen").waitFor();
+  await skipOrientation(page);
   await page.getByTestId("shell-nav-cluster").click();
   await page.getByTestId("shell-nav-flyout").waitFor();
   await page.getByTestId("leave-game").click();
