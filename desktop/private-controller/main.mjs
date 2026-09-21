@@ -1234,7 +1234,18 @@ function onWorkerEvent(track, event) {
   broadcast();
 }
 
+const activatingIdleTitles = new Set();
 async function activateAtIdleTitle(id) {
+  if (activatingIdleTitles.has(id)) return;
+  activatingIdleTitles.add(id);
+  try {
+    await activateAtIdleTitleOnce(id);
+  } finally {
+    activatingIdleTitles.delete(id);
+  }
+}
+
+async function activateAtIdleTitleOnce(id) {
   if (!readState()?.tracks[id]?.pending) return;
   const contents = hub.play.get(id)?.view.webContents;
   if (!contents || !(await isIdleTitle(contents))) return;
@@ -1889,6 +1900,21 @@ handle("hub:reveal-token", (file) => {
 
 /* -------------------------------------------------------------- lifecycle */
 
+let lastForegroundCheck = 0;
+function reconcileOnForeground() {
+  if (hub.quitting) return;
+  const selected = readState()?.selectedTrack;
+  if (!selected) return;
+  void activateAtIdleTitle(selected);
+  const received = channelPath(dataRoot, selected);
+  if (!received || !existsSync(received)) return;
+  // macOS may emit both application activation and window focus together.
+  if (Date.now() - lastForegroundCheck < 2000) return;
+  lastForegroundCheck = Date.now();
+  if (hub.workerTrack === selected) receiveAgain.add(selected);
+  else startWorker(selected);
+}
+
 function createWindow() {
   const win = new BaseWindow({
     width: 1440,
@@ -1907,6 +1933,7 @@ function createWindow() {
   for (const view of hub.views.values()) win.contentView.addChildView(view);
   win.contentView.addChildView(hub.chrome);
   win.on("resize", layout);
+  win.on("focus", reconcileOnForeground);
   win.on("close", (event) => {
     if (hub.quitting) return;
     event.preventDefault();
@@ -2049,9 +2076,7 @@ if (!app.requestSingleInstanceLock()) {
     if (hub.window) {
       if (hub.window.isMinimized()) hub.window.restore();
       hub.window.focus();
-      const selected = readState().selectedTrack;
-      if (channelPath(dataRoot, selected)) startWorker(selected);
-      void activateAtIdleTitle(selected);
+      reconcileOnForeground();
     }
   });
 
@@ -2156,6 +2181,7 @@ if (!app.requestSingleInstanceLock()) {
       hub.window.show();
       hub.window.focus();
     }
+    reconcileOnForeground();
   });
   app.on("window-all-closed", () => {
     if (!hub.quitting) void requestQuit();
