@@ -1,33 +1,43 @@
-# Local registrar
+# Local registrar — work that needs a machine this session cannot reach
 
-Things a cloud session cannot do, written as exact commands to run on the Mac.
-Each entry says what is blocked, why, and what to run.
+Every cloud Project thread runs in an ephemeral Linux container with the
+repository, GitHub and Drive, and nothing else. This file is the standing list
+of work that therefore cannot be finished from a cloud thread, written so that
+whoever is at the Mac — Lamontae, a local Claude, Codex, or ChatGPT reading it
+back — can execute an entry without asking what was meant.
+
+Each entry says what is blocked, the exact commands to run, and what to check
+afterwards. An entry is deleted when it is done. This file is not an archive of
+resolved items; if it is still here, it is still outstanding.
+
+> The art, client and release lane maintains entries L1 to L7 of this file on
+> its own branch. This branch adds L8 only. When the two land, keep this
+> preamble once and both sets of entries.
 
 ---
 
-## 2026-09-21 — three approved regional plates could not be fetched from Drive
+## L8 — Three approved regional plates are too large for the Drive connector
 
-**What is blocked.** Five regional scenes are owner-approved and
-integration-ready on the Art Bench. Two were fetched into the repository and
-committed byte-exact. Three could not be: the Google Drive connector available
-to a cloud session fails with `MCP server "Google_Drive" session expired` on
-every file above roughly 7 MB, reproducibly, across retries. The two that
-succeeded are 4.99 MB and 5.29 MB; the three that fail are 7.14 MB, 7.86 MB and
-7.88 MB.
+**Blocked:** five regional scenes are owner-approved and integration-ready on
+the Art Bench. Two were fetched into the repository and committed byte-exact.
+Three could not be: the Google Drive connector available to a cloud session
+fails with `MCP server "Google_Drive" session expired` on every file above
+roughly 7 MB, reproducibly, across retries. The two that succeeded are 4.99 MB
+and 5.29 MB; the three that fail are 7.14 MB, 7.86 MB and 7.88 MB.
 
-This is a transport ceiling, not a permissions problem. The catalog, the events
-index and the two smaller plates all came through the same connector.
+This is a transport ceiling, not a permissions problem. The bench catalog, the
+events index and the two smaller plates all came through the same connector.
 
-**Effect on play.** `art/regions/regional-scene-places.json` records those three
+**Effect on play:** `art/regions/regional-scene-places.json` records those three
 regions with `"plate": null`, so the resolver reports
-`matched-region-has-no-plate` and the intro shows no picture for them rather
-than a wrong one. Nothing is broken; three approved pictures are simply absent.
+`matched-region-has-no-plate` and the introduction shows no picture for them
+rather than a wrong one. Nothing is broken; three approved pictures are absent.
 
-**What to run.** The files are already on the Mac in the Drive mirror. Copy them
-in under their repository names and verify the hashes:
+**Run, at the Mac:** the files are already in the Drive mirror.
 
-```bash
-cd ~/Documents/Political\ Game/Political-Game-Git   # your checkout
+```sh
+cd /absolute/path/to/your/checkout
+git fetch origin claude/art-bench-requests-sbi892
 git checkout claude/art-bench-requests-sbi892
 
 MIRROR=~/Library/CloudStorage/GoogleDrive-lamontaebilling@gmail.com/"My Drive"/00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/80_ARTBENCH_EXCHANGE/02_CATALOG/candidates
@@ -41,16 +51,14 @@ cp "$MIRROR"/c3cc8800440d77db4b63d563d7d48357629392f0db474b9c1526bae72fb0e818.pn
    "$DEST"/env_regional_norcal_oak_woodland_v1.png
 
 shasum -a 256 "$DEST"/env_regional_socal_inland_bungalow_neighborhood_v1.png
-# expect 7c46ac03d9f7fa3e545caf26a675cba1d2e710ceaa5573dd38be256b3c83bfcd
 shasum -a 256 "$DEST"/env_regional_pacific_temperate_rainforest_v1.png
-# expect 0a82edbe6dbf9d0ef8c88f4ddb32917133ea57e4e823cb0a9c6e72a7c230ff0e
 shasum -a 256 "$DEST"/env_regional_norcal_oak_woodland_v1.png
-# expect c3cc8800440d77db4b63d563d7d48357629392f0db474b9c1526bae72fb0e818
 ```
 
-Then record them in the coverage document. Each entry's `plate` goes from
-`null` to the four facts the gate checks — the path, the sha256 above, the real
-pixel dimensions, and the bench candidate id:
+Each hash must equal the source filename it was copied from. Then record the
+three in the coverage document: each entry's `plate` goes from `null` to the
+four facts the gate checks — the path, that sha256, the real pixel dimensions,
+and the bench candidate id.
 
 | region key                           | candidate id                                | pixels      |
 | ------------------------------------ | ------------------------------------------- | ----------- |
@@ -58,14 +66,13 @@ pixel dimensions, and the bench candidate id:
 | `pacific-temperate-rainforest`       | `cand-4163d8ca-7ad4-4853-86ce-ccd8e30aa889` | 2512 x 1664 |
 | `norcal-oak-woodland`                | `cand-dee5a58b-5a28-e810-a8a6-fbe319f2f67b` | 2352 x 1760 |
 
-Verify, and commit:
-
-```bash
+```sh
 npm run validate:regional-scenes -- --check
 npx vitest run src/authoring/regional-scene-coverage.test.ts
 git add art/families/regional-opening art/regions/regional-scene-places.json
 git commit -m "regional-opening: receive the three remaining approved plates"
 ```
 
-Do not re-encode, downscale or optimise these PNGs. Approval is of those exact
-bytes and the gate re-hashes them.
+**Verify:** the coverage gate exits 0 and reports five regions with a delivered
+plate. Do not re-encode, downscale or optimise these PNGs — approval is of
+those exact bytes and the gate re-hashes them.
