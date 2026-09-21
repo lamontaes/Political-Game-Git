@@ -314,14 +314,73 @@ function ageInYears(row: SourcedQualification): number | null {
   return null;
 }
 
-/** A duration in whole years, or null. Months are not rounded into years. */
-function durationYears(row: SourcedQualification): number | null {
-  if (typeof row.value === "number") return row.value;
-  if (typeof row.value === "string") {
-    const match = /^(\d+)\s*years?$/i.exec(row.value.trim());
-    if (match) return Number(match[1]);
-  }
+/**
+ * A residence requirement in whole months, or null where the value is not one.
+ *
+ * The research transport does not agree with itself about how to write a
+ * duration: some rows carry a bare number of years, some the phrase a
+ * constitution uses ("6 months"), and some a compiler token
+ * ("RESIDENT_1_YEAR"). All three are durations and all three were read from a
+ * real provision, so all three are read here. Months are the unit because a
+ * six-month requirement rounds to nothing in years, which is how Minnesota's
+ * House came to refuse everybody.
+ *
+ * Anything this cannot read stays null and stays unevaluated. A requirement
+ * the game cannot state is never quietly treated as met.
+ */
+function residenceRequirementMonths(row: SourcedQualification): number | null {
+  if (typeof row.value === "number") return row.value * 12;
+  if (typeof row.value !== "string") return null;
+  const value = row.value.trim();
+  const years = /^(\d+)\s*years?$/i.exec(value);
+  if (years) return Number(years[1]) * 12;
+  const months = /^(\d+)\s*months?$/i.exec(value);
+  if (months) return Number(months[1]);
+  const token = /^RESIDENT_(\d+)_YEARS?$/i.exec(value);
+  if (token) return Number(token[1]) * 12;
   return null;
+}
+
+/** Whole months between two dates, counting only months actually completed. */
+function monthsBetween(start: IsoDate, end: IsoDate): number {
+  const [startYear, startMonth, startDay] = start.split("-").map(Number);
+  const [endYear, endMonth, endDay] = end.split("-").map(Number);
+  const months = (endYear! - startYear!) * 12 + (endMonth! - startMonth!);
+  return endDay! < startDay! ? months - 1 : months;
+}
+
+/** A duration said the way a person says it. */
+function durationPhrase(months: number): string {
+  if (months % 12 === 0) {
+    const years = months / 12;
+    return `${years} year${years === 1 ? "" : "s"}`;
+  }
+  return `${months} month${months === 1 ? "" : "s"}`;
+}
+
+/**
+ * What a requirement asks for, in words, for a rule the game reports without
+ * deciding. The raw cell is a transport value — `true`, `15`,
+ * `MEMBER_STATE_BAR_OF_NEVADA` — and printing it put "requires true" on the
+ * player's screen.
+ */
+function requirementPhrase(row: SourcedQualification): string {
+  switch (row.field) {
+    case "US_CITIZENSHIP":
+      return typeof row.value === "number"
+        ? `United States citizenship for ${durationPhrase(row.value * 12)}`
+        : "United States citizenship";
+    case "ELECTOR_REQUIREMENT":
+      return "that the candidate is a qualified elector";
+    case "PROFESSIONAL_QUALIFICATION":
+      return typeof row.value === "string"
+        ? row.value.toLowerCase().replace(/_/g, " ")
+        : "a professional qualification";
+    default:
+      return typeof row.value === "string"
+        ? row.value.toLowerCase().replace(/_/g, " ")
+        : String(row.value);
+  }
 }
 
 export interface QualificationAssessmentInput {
@@ -441,7 +500,7 @@ export function assessOfficeQualifications(
     }
 
     if (row.field === "STATE_RESIDENCE" || row.field === "DISTRICT_RESIDENCE") {
-      const required = durationYears(row);
+      const required = residenceRequirementMonths(row);
       const residenceSince =
         row.field === "STATE_RESIDENCE"
           ? input.stateResidenceSince
@@ -449,15 +508,15 @@ export function assessOfficeQualifications(
       const held =
         residenceSince === null
           ? null
-          : ageOnDate(residenceSince, input.onDate);
+          : monthsBetween(residenceSince, input.onDate);
       if (required === null || held === null) {
         assessments.push({
           field: row.field,
           verdict: "not-evaluated",
           reason:
             held === null
-              ? `${row.citation} requires ${String(row.value)} of residence. The game has not recorded when this character came to live here, so it will not guess whether they qualify.`
-              : `${row.citation} states a residence requirement the game cannot read as a number of years.`,
+              ? `${row.citation} sets a residence requirement. The game has not recorded when this character came to live here, so it will not guess whether they qualify.`
+              : `${row.citation} states a residence requirement the game cannot read as a length of time.`,
           source: row,
         });
         continue;
@@ -467,8 +526,8 @@ export function assessOfficeQualifications(
         verdict: held >= required ? "meets" : "fails",
         reason:
           held >= required
-            ? `Resident long enough: ${row.citation} requires ${required} year${required === 1 ? "" : "s"}.`
-            : `Not resident long enough: ${row.citation} requires ${required} year${required === 1 ? "" : "s"}, and this character has lived here ${held}.`,
+            ? `Resident long enough: ${row.citation} requires ${durationPhrase(required)}.`
+            : `Not resident long enough: ${row.citation} requires ${durationPhrase(required)}, and this character has lived here ${durationPhrase(held)}.`,
         source: row,
       });
       continue;
@@ -498,7 +557,7 @@ export function assessOfficeQualifications(
     assessments.push({
       field: row.field,
       verdict: "not-evaluated",
-      reason: `${row.citation} requires ${String(row.value)}. The game does not record that about a character, so it neither grants nor refuses on it.`,
+      reason: `${row.citation} requires ${requirementPhrase(row)}. The game does not record that about a character, so it neither grants nor refuses on it.`,
       source: row,
     });
   }
