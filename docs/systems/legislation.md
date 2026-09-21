@@ -188,7 +188,6 @@ The future legislation system remains responsible for those identities and
 procedural semantics; it may consume the existing quantitative-policy layer
 without treating the Run C presentation record as canonical law.
 
-
 ### Municipal introduction-to-passage day basis
 
 The existing municipal interval distinguishes whole intervening days from elapsed

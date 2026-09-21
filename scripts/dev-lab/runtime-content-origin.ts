@@ -1,12 +1,12 @@
 import { Buffer } from "node:buffer";
 import type { Plugin, ViteDevServer } from "vite";
-
-type MiddlewareHost = { readonly middlewares: ViteDevServer["middlewares"] };
-// @ts-expect-error -- the desktop content module is plain ESM, shared on purpose.
 import {
   loadContent,
   serveRuntimeContent,
+  type LoadedContent,
 } from "../../desktop/runtime-content.mjs";
+
+type MiddlewareHost = { readonly middlewares: ViteDevServer["middlewares"] };
 
 /**
  * The selected artwork snapshot, served on the page's OWN origin.
@@ -40,26 +40,25 @@ export function runtimeContentOrigin(
 ): Plugin {
   const cacheRoot = environment.PG_RUNTIME_CONTENT_CACHE;
   const id = environment.PG_RUNTIME_CONTENT_ID;
-  let loaded: unknown;
+  let loaded: LoadedContent | null = null;
 
   const mount = (server: MiddlewareHost) => {
-    if (!loaded) return;
+    const snapshot = loaded;
+    if (!snapshot) return;
     server.middlewares.use((request, response, next) => {
       const url = request.url ?? "";
       if (!url.startsWith("/__content/")) return next();
       const host = request.headers.host ?? "localhost";
       const result = serveRuntimeContent(
-        loaded,
+        snapshot,
         new Request(`http://${host}${url}`, { method: request.method }),
         { host },
       ) as Response;
       response.statusCode = result.status;
-      result.headers.forEach((value: string, name: string) =>
-        response.setHeader(name, value),
-      );
+      result.headers.forEach((value, name) => response.setHeader(name, value));
       result
         .arrayBuffer()
-        .then((body: ArrayBuffer) => response.end(Buffer.from(body)))
+        .then((body) => response.end(Buffer.from(body)))
         .catch(next);
     });
   };
