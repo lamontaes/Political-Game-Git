@@ -653,6 +653,8 @@ export function sharedHistoryConsiderations(
   otherId: EntityId,
   stableScope: string,
 ): DecisionConsideration[] {
+  // Formed or strengthened ties lean towards raising it; strained or ended
+  // ones towards letting it lie; a merely maintained tie leans neither way.
   return world.history.relationshipInteractions
     .filter(
       (interaction) =>
@@ -660,10 +662,16 @@ export function sharedHistoryConsiderations(
         interaction.personIds.includes(otherId),
     )
     .slice(-6)
-    .map((interaction, index) => ({
+    .flatMap((interaction, index) => {
+      if (interaction.change === "maintained") return [];
+      return [{ interaction, index }];
+    })
+    .map(({ interaction, index }) => ({
       stableKey: `${stableScope}:shared-history:${index}`,
       optionKey:
-        interaction.change === "strengthened" ? "reach-out" : "let-drop",
+        interaction.change === "formed" || interaction.change === "strengthened"
+          ? "reach-out"
+          : "let-drop",
       sourceType: "social:relationship",
       direction: "supports",
       importance: interaction.significance === "major" ? "strong" : "moderate",
@@ -678,6 +686,18 @@ export function sharedHistoryConsiderations(
 /* -------------------------------------------------------------------------- */
 /* The boundary runner: follow-up happens when days pass, not when panels open */
 /* -------------------------------------------------------------------------- */
+
+/**
+ * The decision scope for a boundary review: one look per thread per week,
+ * however many times that week the days advance, so pacing comes from the
+ * calendar rather than from how often the player presses on.
+ */
+export function reviewWeekScope(world: World, family: string): string {
+  const week = Math.floor(
+    daysBetween(REVIEW_WEEK_ORIGIN, world.currentDate) / INTENTION_REVIEW_DAYS,
+  );
+  return `${family}:week-${week}`;
+}
 
 /**
  * Give an NPC who is owed something by the player a chance to decide what to
@@ -802,15 +822,12 @@ function reviewNpcThread(
     // Already raised once and settled: the thread's history is its own.
     return world;
   }
-  const week = Math.floor(
-    daysBetween(REVIEW_WEEK_ORIGIN, world.currentDate) / INTENTION_REVIEW_DAYS,
-  );
   const { outcome, world: decided } = decideNpcFollowUp(world, {
     npcId,
     playerId: playerPersonId,
     commitmentEventId: thread.eventId,
     neededOn: null,
-    decisionScope: `week-${week}`,
+    decisionScope: reviewWeekScope(world, "shared-work"),
   });
   if (outcome !== "reach-out" && outcome !== "renegotiate") return decided;
   return recordNpcIntention(decided, {

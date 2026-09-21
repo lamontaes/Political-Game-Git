@@ -24,12 +24,14 @@ import {
   contactBases,
   openProposal,
   proposeContact,
+  reachingOutPaced,
 } from "./people-contact";
 import { assessRelationshipContinuity } from "./relationship-integration";
 import {
   activeFollowUpIntention,
   decideNpcFollowUp,
   openCommitments,
+  reviewWeekScope,
   settleNpcIntention,
 } from "./people-continuing-life";
 import {
@@ -441,6 +443,7 @@ export function produceSharedWorkRequests(
     playerId,
     commitmentEventId: candidate.collaborationId,
     neededOn: null,
+    decisionScope: reviewWeekScope(world, "shared-work-request"),
   });
   if (outcome !== "reach-out") return decided;
   return recordSharedWorkRequest(decided, {
@@ -957,12 +960,15 @@ export function recordRememberedReconnect(
   if (followThroughAsked(world, "remembered-reconnect", input.memoryEventId)) {
     throw new Error("This memory already brought them back together.");
   }
+  const moment = rememberedMoment(world, input.memoryEventId);
   const proposed = proposeContact(world, {
     stableKey: `${FOLLOWTHROUGH_TAG}:reconnect:${input.counterpartId}:${input.playerId}:${world.currentDate}`,
     fromPersonId: input.counterpartId,
     toPersonId: input.playerId,
     on: input.on,
-    purpose: `Catch up — it's been since ${shortMemory(input.memorySummary)}`,
+    purpose: moment
+      ? `Catch up after a long while, remembering ${moment.recorded}`
+      : "Catch up, after a long while",
     answerInPerson: true,
   });
   let next = proposed.world;
@@ -993,7 +999,9 @@ export function recordRememberedReconnect(
       `followthrough.source:${input.memoryEventId}`,
       `followthrough.proposal:${proposalEvent.id}`,
     ],
-    summary: `${personName(counterpart)} reached out about ${shortMemory(input.memorySummary)}.`,
+    summary: moment
+      ? `${personName(counterpart)} got back in touch, remembering ${moment.recorded}.`
+      : `${personName(counterpart)} got back in touch after a long while.`,
     context: {
       location: null,
       socialContext: "Somebody getting back in touch over something specific.",
@@ -1006,28 +1014,86 @@ export function recordRememberedReconnect(
   return { world: next, proposalId: proposalEvent.id };
 }
 
-function shortMemory(summary: string): string {
-  const trimmed = summary.trim();
-  if (trimmed.length <= 90) return trimmed;
-  return `${trimmed.slice(0, 87).trimEnd()}…`;
+/**
+ * The remembered moment as words, read from the record's structure — the
+ * authored choice behind a childhood acquaintance, or the task in shared work
+ * — never by cutting up a summary sentence. `spoken` is the counterpart's own
+ * way of saying it to the player; `recorded` is a neutral phrase for the
+ * proposal and the Journal. Null when the record carries no such structure;
+ * the scene then asks plainly and shows the memory as the player's own note.
+ */
+export interface RememberedMoment {
+  readonly spoken: string;
+  readonly recorded: string;
+}
+
+const NEIGHBORHOOD_MOMENTS: Readonly<Record<string, RememberedMoment>> = {
+  ball: {
+    spoken: "playing ball near home when we were kids",
+    recorded: "playing ball near home as kids",
+  },
+  books: {
+    spoken: "trading books back and forth when we were kids",
+    recorded: "trading books as kids",
+  },
+  walks: {
+    spoken: "those walks around the neighborhood when we were kids",
+    recorded: "walks around the neighborhood as kids",
+  },
+};
+
+export function rememberedMoment(
+  world: World,
+  memoryEventId: EntityId,
+): RememberedMoment | null {
+  const event = world.history.events.find(
+    (entry) => entry.id === memoryEventId,
+  );
+  if (!event) return null;
+  if (event.type === "life.neighborhood-acquaintance") {
+    const key = event.stableKey.split(":event:neighbor:")[1];
+    return (key && NEIGHBORHOOD_MOMENTS[key]) || null;
+  }
+  if (
+    event.type === "life.favour-performed" &&
+    event.tags.includes("followthrough.family:shared-work-request") &&
+    event.context.pressure
+  ) {
+    return {
+      spoken: "going over those notes together",
+      recorded: "going over the notes together",
+    };
+  }
+  if (event.type === STUDY_COLLABORATION_EVENT) {
+    return {
+      spoken: "working on the coursework together",
+      recorded: "the coursework they worked on together",
+    };
+  }
+  return null;
 }
 
 /**
- * One drifting counterpart, at most, may reach out — at a clock boundary.
- * Most long gaps stay quiet; reaching out is a decision, not a schedule.
+ * One drifting counterpart, at most, may reach out — at a clock boundary,
+ * within the ordinary reaching-out cadence. Reaching out is their decision,
+ * looked at once a week, not a schedule.
  */
 export function produceRememberedReconnects(
   world: World,
   playerId: EntityId,
 ): World {
-  const candidates = rememberedReconnectCandidates(world, playerId);
-  if (candidates.length === 0) return world;
-  const candidate = candidates[0]!;
+  // The same cadence as any other reaching out after a long gap: nobody
+  // calls on top of a recent call, and nobody keeps ringing unanswered.
+  const candidate = rememberedReconnectCandidates(world, playerId).find(
+    (entry) => reachingOutPaced(world, playerId, entry.counterpartId),
+  );
+  if (!candidate) return world;
   const { outcome, world: decided } = decideNpcFollowUp(world, {
     npcId: candidate.counterpartId,
     playerId,
     commitmentEventId: candidate.memoryEventId,
     neededOn: null,
+    decisionScope: reviewWeekScope(world, "remembered-reconnect"),
   });
   if (outcome !== "reach-out") return decided;
   // Inside the contact module's own notice window (2–45 days): nine days out.
@@ -1551,6 +1617,7 @@ export function produceDisagreementRepairs(
     playerId,
     commitmentEventId: candidate.refusalEventId,
     neededOn: null,
+    decisionScope: reviewWeekScope(world, "disagreement-repair"),
   });
   if (outcome !== "reach-out") return decided;
   return recordRepairOffer(decided, {
@@ -2050,6 +2117,7 @@ export function produceConsentedIntroductions(
     playerId,
     commitmentEventId: null,
     neededOn: null,
+    decisionScope: reviewWeekScope(world, "consented-introduction"),
   });
   if (outcome !== "reach-out") return decided;
   return recordIntroductionOffer(decided, {
@@ -2362,6 +2430,7 @@ export function produceContinuingCollaborations(
     playerId,
     commitmentEventId: null,
     neededOn: null,
+    decisionScope: reviewWeekScope(world, "continuing-collaboration"),
   });
   if (outcome !== "reach-out") return decided;
   return recordCollaborationOffer(decided, {

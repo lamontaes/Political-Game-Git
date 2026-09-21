@@ -67,6 +67,7 @@ import {
   recordIntroductionOffer,
   recordRememberedReconnect,
   recordRepairOffer,
+  rememberedMoment,
   recordSharedWorkRequest,
   rememberedReconnectCandidates,
   repairCandidates,
@@ -693,22 +694,33 @@ describe("family 3 — reconnecting over a specific remembered event", () => {
         true,
       );
     }
-    // Whoever the record holds a specific shared moment with, drifted apart:
-    // the reconnection is about that moment, in the record's own words.
+  });
+
+  it("a childhood friend reaches back about the moment itself, once", () => {
+    // A fresh adult life: the only shared moment with the childhood friend is
+    // decades old, so the gap is real before any day passes.
+    const { world: opened, player: me } = adultLife(
+      "followthrough-reconnect-childhood",
+    );
+    const fresh = openOrdinaryLife(opened, me);
+    const candidates = rememberedReconnectCandidates(fresh, me);
     expect(candidates.length).toBeGreaterThan(0);
     const candidate = candidates[0]!;
-    const memory = drifted.history.relationshipInteractions.find(
+    const memory = fresh.history.relationshipInteractions.find(
       (interaction) =>
         (interaction.eventId ?? interaction.id) === candidate.memoryEventId,
     )!;
     expect(memory.personIds).toContain(candidate.counterpartId);
     expect(candidate.memorySummary).toBe(memory.summary);
-    const reached = recordRememberedReconnect(drifted, {
-      playerId: player,
+    // The moment is read from the record's structure, not cut from prose.
+    const moment = rememberedMoment(fresh, candidate.memoryEventId);
+    expect(moment).not.toBeNull();
+    const reached = recordRememberedReconnect(fresh, {
+      playerId: me,
       counterpartId: candidate.counterpartId,
       memoryEventId: candidate.memoryEventId,
       memorySummary: candidate.memorySummary,
-      on: addDays(drifted.currentDate, 9),
+      on: addDays(fresh.currentDate, 9),
     });
     assertWorldIntegrity(reached.world);
     expect(
@@ -718,28 +730,26 @@ describe("family 3 — reconnecting over a specific remembered event", () => {
         candidate.memoryEventId,
       ),
     ).toBe(true);
-    const proposal = openProposal(
-      reached.world,
-      player,
-      candidate.counterpartId,
-    )!;
+    const proposal = openProposal(reached.world, me, candidate.counterpartId)!;
     expect(proposal.fromPersonId).toBe(candidate.counterpartId);
     expect(proposal.eventId).toBe(reached.proposalId);
+    expect(proposal.purpose).toContain(moment!.recorded);
     expect(() =>
       recordRememberedReconnect(reached.world, {
-        playerId: player,
+        playerId: me,
         counterpartId: candidate.counterpartId,
         memoryEventId: candidate.memoryEventId,
         memorySummary: candidate.memorySummary,
-        on: addDays(drifted.currentDate, 9),
+        on: addDays(fresh.currentDate, 9),
       }),
     ).toThrow(/already brought them back/);
     expect(
-      rememberedReconnectCandidates(reached.world, player).some(
+      rememberedReconnectCandidates(reached.world, me).some(
         (entry) => entry.counterpartId === candidate.counterpartId,
       ),
     ).toBe(false);
   });
+
   it("a stranger's history is not the player's to be reached over", () => {
     const stranger = drifted.personOrder.find(
       (id) => id !== player && id !== peer,
@@ -953,26 +963,33 @@ describe("family 6 — a recurring collaboration", () => {
   const later = passOrdinaryDays(base.world, 22);
 
   it("a rhythm is proposed once, kept session by session, and ended cleanly", () => {
-    const candidates = collaborationCandidates(later, player);
-    expect(
-      candidates.some(
-        (candidate) =>
-          candidate.kind === "study-recurring" &&
-          candidate.counterpartId === peer,
-      ),
-    ).toBe(true);
-    const candidate = candidates.find(
+    // The peer may already have proposed it at a clock boundary, on their
+    // own initiative; otherwise it is proposed here from the same candidate.
+    const npcOffer = later.history.events.find(
+      (event) =>
+        event.type === "life.collaboration-offered" &&
+        event.involvedEntityIds.includes(player) &&
+        event.involvedEntityIds.includes(peer),
+    );
+    const found = collaborationCandidates(later, player).find(
       (entry) =>
         entry.kind === "study-recurring" && entry.counterpartId === peer,
-    )!;
-    const { world: offered, offerId } = recordCollaborationOffer(later, {
-      playerId: player,
-      counterpartId: peer,
-      kind: "study-recurring",
-      proposal: candidate.proposal,
-      programName: candidate.programName,
-      statement: "The way we've been working suits me. Weekly?",
-    });
+    );
+    expect(Boolean(npcOffer) !== Boolean(found)).toBe(true);
+    const candidate = found ?? {
+      proposal: "meet every week to go over the work",
+      programName: null,
+    };
+    const { world: offered, offerId } = npcOffer
+      ? { world: later, offerId: npcOffer.id }
+      : recordCollaborationOffer(later, {
+          playerId: player,
+          counterpartId: peer,
+          kind: "study-recurring",
+          proposal: candidate.proposal,
+          programName: candidate.programName,
+          statement: "The way we've been working suits me. Weekly?",
+        });
     const accepted = answerCollaborationOffer(offered, {
       playerId: player,
       offerId,

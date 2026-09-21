@@ -3,7 +3,10 @@ import type { EntityId, World } from "../simulation";
 import { favorEntries } from "../simulation/life-favors";
 import { describePersonContext } from "../simulation/person-context";
 import { contactProposals } from "../simulation/people-contact";
-import { competingCommitmentCases } from "../simulation/people-social-followthrough";
+import {
+  competingCommitmentCases,
+  rememberedMoment,
+} from "../simulation/people-social-followthrough";
 import { studyPeers } from "../simulation/people-study";
 import {
   recordSceneBinding,
@@ -254,6 +257,10 @@ function produceReconnectScene(world: World, personId: EntityId): World {
         : null;
     // Without the named memory there is no reconnection premise to bind.
     if (!memory) continue;
+    const sourceId = marked.tags
+      .find((tag) => tag.startsWith("followthrough.source:"))
+      ?.slice("followthrough.source:".length) as EntityId | undefined;
+    const moment = sourceId ? rememberedMoment(world, sourceId) : null;
     return bindFollowThrough(
       world,
       {
@@ -271,6 +278,7 @@ function produceReconnectScene(world: World, personId: EntityId): World {
           speakerGiven: speaker.givenName,
           purpose: proposal.purpose,
           memorySummary: memory,
+          ...(moment ? { spokenMemory: moment.spoken } : {}),
           lastContactOn: marked.occurredAt,
         },
         knownRecordIds: [proposal.eventId],
@@ -278,7 +286,7 @@ function produceReconnectScene(world: World, personId: EntityId): World {
         date: proposal.on,
         expiresAt: proposal.on,
       },
-      `${personName(speaker)} reached out about ${memory}.`,
+      marked.summary,
     );
   }
   return world;
