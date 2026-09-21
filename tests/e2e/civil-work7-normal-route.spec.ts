@@ -15,9 +15,16 @@ test("ordinary Day and Work expose private personnel preparation", async ({
     route: "normal",
   });
   await enterLife(page);
-  // UI9-01: study and jobs live in Work now, and the day links into it rather
-  // than mounting a second copy of the same panels.
-  await goTo(page, "elsewhere-work");
+  /*
+   * Study, jobs and hiring are the Personal half of the old Work record.
+   *
+   * `elsewhere-work` became "Politics -> Your office" at the hub split, and
+   * both halves render the `personal-work-section` test id while the player
+   * holds no office. This case therefore found a panel, and then failed
+   * looking for a job offer in the office panel, which reads as a missing
+   * offer rather than a wrong door.
+   */
+  await goTo(page, "nav-jobs");
   const paths = page.getByTestId("personal-work-section");
   // Actual supported LIFE engagement, through its ordinary button.
   const accept = paths.getByRole("button", {
@@ -56,7 +63,7 @@ test("ordinary Day and Work expose private personnel preparation", async ({
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
-  await goTo(page, "elsewhere-work");
+  await goTo(page, "nav-jobs");
   await expect(
     page
       .getByRole("region", { name: "Public employment preparation" })

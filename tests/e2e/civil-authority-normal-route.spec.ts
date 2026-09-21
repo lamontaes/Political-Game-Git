@@ -3,7 +3,22 @@ import type { Page } from "@playwright/test";
 import { enterLife, fillCreator, goTo, openMoment } from "./support/creator";
 
 async function personnel(page: Page) {
-  await goTo(page, "elsewhere-work");
+  /*
+   * Personnel work is the Personal half of the old Work record, not the
+   * Politics office half.
+   *
+   * The Politics hub split left `elsewhere-work` meaning "Politics -> Your
+   * office", and hiring, jobs and study moved to Personal. The two halves
+   * share the `personal-work-section` test id whenever the player holds no
+   * office, so reaching for the office half found a panel, looked in it for
+   * controls that were never there, and failed on the control rather than on
+   * the destination. Ask for the half this case is actually about, and say so
+   * by reading the heading the player sees.
+   */
+  await goTo(page, "nav-jobs");
+  await expect(
+    page.getByRole("heading", { name: "Jobs and study", exact: true }).first(),
+  ).toBeVisible();
   const panel = page
     .getByTestId("personal-work-section")
     .getByRole("region", { name: "Personnel matters" });
@@ -11,17 +26,44 @@ async function personnel(page: Page) {
   return panel;
 }
 
+/**
+ * Walk ordinary time forward to the date the personnel source was observed.
+ *
+ * This used to press `pass-day` on the Calendar surface sixty times. Two
+ * things were wrong with that and only one of them was visible. The control
+ * is the first: `pass-day` is drawn by the work and office frames, not by the
+ * Calendar, whose own time controls are the shell clock's `shell-pass-day`
+ * and `shell-pass-week` — so the loop timed out waiting for a button that is
+ * not on the surface it had navigated to. The arithmetic is the second, and
+ * would have bitten as soon as the control was fixed: this life starts on
+ * 2026-01-05 and the source was observed on 2026-09-06, which is two hundred
+ * and forty-four days, so sixty single days could never have arrived however
+ * reliably they were pressed.
+ *
+ * So it moves by the shell's own week, reading the date back out of the clock
+ * the player reads it from rather than counting presses, and stops the moment
+ * the world is standing on or after the observation date.
+ */
+const OBSERVED_ON = Date.parse("2026-09-06T00:00:00Z");
+
+async function worldDate(page: Page): Promise<number> {
+  const label =
+    (await page.getByTestId("shell-nav-cluster").getAttribute("aria-label")) ??
+    "";
+  // "<name>. <Month D, YYYY>. <Place, State>. Open navigation."
+  const match = label.match(/[A-Z][a-z]+ \d{1,2}, \d{4}/);
+  if (!match) throw new Error(`No date in the shell clock: ${label}`);
+  return Date.parse(`${match[0]} UTC`);
+}
+
 async function passTimeUntilSeptember(page: Page) {
-  for (let turn = 0; turn < 60; turn += 1) {
-    const panel = await personnel(page);
-    const datedRefusal = panel
-      .getByText(/observed in current text on 2026-09-06/)
-      .first();
-    if ((await datedRefusal.count()) === 0) return;
-    await goTo(page, "elsewhere-day");
-    const quiet = page.getByTestId("story-let-time-pass");
-    if (await quiet.isVisible().catch(() => false)) await quiet.click();
-    else await page.getByTestId("pass-day").click();
+  for (let week = 0; week < 60; week += 1) {
+    if ((await worldDate(page)) >= OBSERVED_ON) return;
+    await page.getByTestId("shell-pass-week").click();
+    await expect(page.getByTestId("shell-pass-week")).not.toHaveAttribute(
+      "aria-busy",
+      "true",
+    );
   }
   throw new Error("Ordinary time did not reach the observation date.");
 }

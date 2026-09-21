@@ -26,6 +26,39 @@ import {
  */
 test.setTimeout(120_000);
 
+/**
+ * States where an ordinary 2026-01-05 life is refused a candidacy today.
+ *
+ * This is a recorded finding, not a tolerance. Running this set the first time
+ * showed five of the nine states draw no office browser at all: the eligibility
+ * layer reads the constitutional provision that establishes the seat, sees it
+ * was observed in source in September 2026, and refuses to apply it to a world
+ * standing on January 5, 2026 — for instance Nebraska's
+ *
+ *   "Neb. Const. art. III, § 8 was observed in current source text on
+ *    2026-09-09; that later observation does not establish the rule on
+ *    2026-01-05."
+ *
+ * The provenance rule itself is right, and quietly relaxing it to make this
+ * file green would be weakening a contract to protect a test. The rule packs
+ * for these states do carry their chambers — `candidacyAuthority` returns
+ * them — so what is missing is source observed at or before the world's own
+ * start date, which is corpus work in another lane, not a test fix.
+ *
+ * So the set is named here and asserted in both directions. A state that
+ * starts offering its seats fails this file (delete it from the set, and the
+ * ordinary assertions below take over). A state that stops offering them
+ * fails too. Either way the change is deliberate and visible, rather than a
+ * jurisdiction going dark unnoticed.
+ */
+const REFUSED_BY_LATER_SOURCE: ReadonlySet<string> = new Set([
+  "Omaha, Nebraska",
+  "Anchorage, Alaska",
+  "Minneapolis, Minnesota",
+  "Baltimore, Maryland",
+  "Columbus, Ohio",
+]);
+
 for (const jurisdiction of TEST_JURISDICTIONS) {
   test(`a life in ${jurisdiction.name} stands for its own legislature`, async ({
     page,
@@ -50,6 +83,24 @@ for (const jurisdiction of TEST_JURISDICTIONS) {
 
     await goTo(page, "elsewhere-campaign");
     const browser = page.getByTestId("campaign-office-browser");
+    const refusal = page.getByTestId("campaign-unavailable");
+    await expect(browser.or(refusal).first()).toBeVisible();
+
+    if (REFUSED_BY_LATER_SOURCE.has(jurisdiction.name)) {
+      await expect(
+        browser,
+        `${jurisdiction.name} now offers offices; take it out of REFUSED_BY_LATER_SOURCE`,
+      ).toHaveCount(0);
+      // The refusal has to say why, in the shape of the provenance rule. A
+      // blank surface, or a vague "not available here", would be the failure
+      // this case exists to catch.
+      await expect(refusal).toContainText(
+        /observed in .*source.* on 20\d\d-\d\d-\d\d; that later observation does not establish/,
+      );
+      await expect(refusal).toContainText("2026-01-05");
+      return;
+    }
+
     await expect(browser).toBeVisible();
 
     const offered = await browser
@@ -98,4 +149,28 @@ test("the set covers a unicameral legislature and a chamber that is not a House"
     (entry) => chamberKeyFor(entry, "lower") !== "house",
   );
   expect(notAHouse.map((entry) => entry.name)).toContain("Reno, Nevada");
+
+  // Whatever the refusal set holds, the states that DO run have to keep
+  // covering the shapes this file is here for, or the varied-jurisdiction
+  // coverage has quietly collapsed back to one kind of place.
+  const running = TEST_JURISDICTIONS.filter(
+    (entry) => !REFUSED_BY_LATER_SOURCE.has(entry.name),
+  );
+  expect(running.length).toBeGreaterThanOrEqual(3);
+  expect(
+    running.some((entry) => chamberKeyFor(entry, "lower") !== "house"),
+    "no runnable state has a lower chamber that is not a House",
+  ).toBe(true);
+  expect(
+    new Set(running.map((entry) => entry.state)).size,
+    "runnable states are not distinct",
+  ).toBe(running.length);
+
+  // Every named refusal is a real entry in the table.
+  for (const name of REFUSED_BY_LATER_SOURCE) {
+    expect(
+      TEST_JURISDICTIONS.map((entry) => entry.name),
+      `${name} is in the refusal set but not in the table`,
+    ).toContain(name);
+  }
 });
