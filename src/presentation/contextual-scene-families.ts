@@ -1,5 +1,5 @@
 import type { EntityId, IsoDate, LifeSituationKey, World } from "../simulation";
-import { addDays } from "../simulation";
+import { addDays, compareSimulationMoments } from "../simulation";
 import {
   acceptChapterInvitation,
   canJoinPartyChapter,
@@ -21,6 +21,10 @@ import {
   recordPromiseRenegotiation,
   renegotiationAsked,
 } from "../simulation/people-promise";
+import {
+  attendContactMeeting,
+  callOffContactMeeting,
+} from "../simulation/people-continuing-life";
 import {
   answerCollaborationOffer,
   answerIntroductionOffer,
@@ -1364,6 +1368,64 @@ function promiseDueAnswers(context: SceneContext): SceneAnswer[] {
 }
 
 /**
+ * The day of an agreed meeting (MUSE-PEOPLE). Agreeing was not going: the
+ * player goes, spending the meeting's own disclosed minutes once, or calls it
+ * off and says so. Leaving it for later answers nothing, and the evening
+ * still waits on the calendar.
+ */
+function meetingDayAnswers(context: SceneContext): SceneAnswer[] {
+  const playerId = context.binding.playerPersonId;
+  const activityId = context.binding.sourceEntityIds[0] as EntityId;
+  const registry = createCampaignElectionTransitionRegistry();
+  const go: SceneAnswer = {
+    key: "go-meet",
+    label: `Go to meet ${context.name}`,
+    description: `About ${context.fact("minutes")} minutes, from ${context.fact("startTime")}.`,
+    statement: "Yes, I’ll be there.",
+    replies: says(context, [
+      "“Good. See you soon,” {name} says.",
+      "“Great. I’m looking forward to it,” {name} says.",
+    ]),
+    record: `The player went to meet ${context.name}.`,
+    apply: (world) =>
+      attendContactMeeting(world, playerId, activityId, registry),
+  };
+  const canGo = changesWorld(context.world, (world) =>
+    attendContactMeeting(world, playerId, activityId, registry),
+  );
+  return [
+    ...(canGo ? [go] : []),
+    {
+      key: "call-off",
+      label: "Call it off",
+      description: "Tell them you can’t make it tonight.",
+      statement: "I’m sorry — I can’t make it tonight after all.",
+      replies: says(context, [
+        "“That’s all right. Another time,” {name} says.",
+        "“Oh — okay. Thanks for letting me know,” {name} says.",
+      ]),
+      record: `The player called off meeting ${context.name}.`,
+      apply: (world) =>
+        callOffContactMeeting(
+          world,
+          playerId,
+          activityId,
+          "I’m sorry — I can’t make it tonight after all.",
+        ),
+    },
+    {
+      key: "answer-later",
+      label: "Answer later",
+      description: "Say nothing yet; the meeting still stands.",
+      followUp: true,
+      statement: "Let me see how the day goes.",
+      replies: says(context, ["“Okay. Let me know,” {name} says."]),
+      record: `The player did not answer ${context.name} yet about tonight.`,
+    },
+  ];
+}
+
+/**
  * A repair attempt after a refusal (MUSE-PEOPLE B4). Accepting carries out
  * the concrete offer through the machinery that owns it; declining persists
  * the continued refusal, and the disagreement is not raised again.
@@ -1624,6 +1686,18 @@ function followThroughSceneRelevant(
           event.tags.includes(`followthrough.answer:${offerId}`),
       );
     }
+    case "meeting-day": {
+      const activityId = binding.sourceEntityIds[0] as EntityId;
+      const activity = world.history.scheduledActivities.find(
+        (candidate) => candidate.id === activityId,
+      );
+      if (!activity) return false;
+      const state = scheduledActivityState(world, activityId);
+      return (
+        state.status === "scheduled" &&
+        compareSimulationMoments(state.end, world.currentMoment) > 0
+      );
+    }
     default:
       return false;
   }
@@ -1662,9 +1736,11 @@ const favor: SceneFamilyDefinition = {
                         ? `${binding.facts.speakerGiven ?? "Somebody"} has had a rethink`
                         : binding.variant === "introduction"
                           ? `Meeting ${binding.facts.thirdGiven ?? "somebody new"}`
-                          : binding.facts.speakerGiven
-                            ? `A favor for ${binding.facts.speakerGiven}`
-                            : "A favor",
+                          : binding.variant === "meeting-day"
+                            ? `Meeting ${binding.facts.speakerGiven ?? "them"} tonight`
+                            : binding.facts.speakerGiven
+                              ? `A favor for ${binding.facts.speakerGiven}`
+                              : "A favor",
   briefing(context) {
     const who = context.relationship
       ? `${context.fullName}, ${context.relationship},`
@@ -1712,6 +1788,9 @@ const favor: SceneFamilyDefinition = {
     }
     if (context.binding.variant === "repair-attempt") {
       return `${who} turned down ${context.fact("refusedSummary")} and would now like to ${context.fact("offerText")}. Taking it up is your choice; answering takes no time.`;
+    }
+    if (context.binding.variant === "meeting-day") {
+      return `You agreed to meet ${who} today, from ${context.fact("startTime")} for about ${context.fact("minutes")} minutes. Going spends that time; calling it off frees the evening and tells them why.`;
     }
     if (context.binding.variant === "introduction") {
       return `${who} offered to introduce you to ${context.has("thirdName") ? context.fact("thirdName") : context.fact("thirdGiven")}, because ${context.fact("reason").replace(/[.\s]+$/, "")}. Meeting them is a separate choice for each of you.`;
@@ -1767,6 +1846,12 @@ const favor: SceneFamilyDefinition = {
         `“I wanted to check in, the way we left it: can you ${lowerFirst(context.fact("task"))} now?” {name} asks.`,
       ]);
     }
+    if (context.binding.variant === "meeting-day") {
+      return says(context, [
+        "“Still on for tonight?” {name} asks.",
+        "“Are we still meeting later?” {name} asks.",
+      ]);
+    }
     if (context.binding.variant === "reconnect") {
       const spoken = context.has("spokenMemory")
         ? context.fact("spokenMemory")
@@ -1799,6 +1884,9 @@ const favor: SceneFamilyDefinition = {
   answers(context) {
     if (context.binding.variant === "meet-up") return meetUpAnswers(context);
     if (context.binding.variant === "reconnect") return meetUpAnswers(context);
+    if (context.binding.variant === "meeting-day") {
+      return meetingDayAnswers(context);
+    }
     if (context.binding.variant === "shared-work-request") {
       return sharedWorkRequestAnswers(context);
     }
@@ -2036,6 +2124,8 @@ const favor: SceneFamilyDefinition = {
       "decline-repair": "“I understand,” {name} says.",
       "consent-introduction": "“I’ll ask them,” {name} says.",
       "decline-introduction": "“No problem,” {name} says.",
+      "go-meet": "“Good to see you,” {name} says.",
+      "call-off": "“All right. Another time,” {name} says.",
     };
     return fill(done[answer ?? ""] ?? "“Okay,” {name} says.", {
       name: context.name,
@@ -2049,7 +2139,8 @@ const favor: SceneFamilyDefinition = {
     bound.binding.variant === "promise-due" ||
     bound.binding.variant === "reconnect" ||
     bound.binding.variant === "repair-attempt" ||
-    bound.binding.variant === "introduction"
+    bound.binding.variant === "introduction" ||
+    bound.binding.variant === "meeting-day"
       ? followThroughSceneRelevant(world, bound.binding)
       : bound.binding.variant === "meet-up"
         ? !!openProposal(

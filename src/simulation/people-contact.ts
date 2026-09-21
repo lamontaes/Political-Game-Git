@@ -577,7 +577,15 @@ export function answerContact(
       start,
       end,
       participantPersonIds: [from, to],
-      responsiblePersonId: from,
+      // The person being played carries out their own side of the meeting —
+      // going, or calling it off — so an agreed evening can never hold the
+      // clock with no way through it. Between two other people the asker
+      // stays responsible, as before.
+      responsiblePersonId:
+        next.control.kind === "person" &&
+        (next.control.personId === from || next.control.personId === to)
+          ? next.control.personId
+          : from,
       location: {
         locationKey: CONTACT_LOCATION_KEY,
         label: "Arranged in person",
