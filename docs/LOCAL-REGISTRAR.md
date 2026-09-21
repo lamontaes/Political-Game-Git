@@ -16,11 +16,30 @@ Last reconciled: 2026-09-21, from the `claude/current-art-source` thread.
 
 ## L1 — The private art pack cannot be received into a cloud container
 
-**Blocked:** generation 16, pack `modular47-gen16-postmerge-65f7704b6f35`,
-18,138 assets. The payload is 16 Drive parts totalling about 1.89 GB plus a
-10,057,140-byte metadata archive. A cloud session's writable disk is a fixed
-per-session allowance and the transfer does not fit, so the pack cannot be
-extracted, verified or served from here.
+**Blocked, for two independent reasons.** Generation 16, pack
+`modular47-gen16-postmerge-65f7704b6f35`, 18,138 assets. The payload is 16
+Drive parts totalling about 1.89 GB plus a 10,057,140-byte metadata archive.
+
+1. A cloud session's writable disk is a fixed per-session allowance and the
+   transfer does not fit, so the pack cannot be extracted, verified or served
+   from here.
+2. The Drive connector itself fails reproducibly above roughly 7 MB per file.
+   The art bench lane measured it on this exact connector: plates under 5.3 MB
+   came through, and three at 7.14, 7.86 and 7.88 MB failed on every retry,
+   while the catalogue and smaller files were fine. It is a per-file ceiling,
+   not an access problem, so no cloud session can pull these parts however much
+   disk it has. Any plan that assumes a large single file arrives through Drive
+   is wrong.
+
+**This is what blocks the retired-cast deletion.** The retired Visual4 records
+are not merely a fallback: `src/presentation/engine-people29-review.ts` builds
+the character library the player's own figure is drawn from out of Visual4's
+catalogue slots, generations, garment fit and skin tone, and
+`src/presentation/bundled-art.ts` bundles every PNG under
+`art/generated/candidates/`, which includes the Visual4 pixels. Deleting them
+before the generation-16 kit supplies those same four things would leave the
+figure renderer resolving to nothing. The deletion is written and waiting; it
+runs once the pack is in, which is this entry.
 
 **Run, at the Mac:**
 
@@ -155,9 +174,11 @@ that is 324 branches, and these are the ones carrying live, unmerged work:
 - `claude/nationwide-government`, `claude/modular-legislation`,
   `claude/people-and-life` (#273) and `claude/nationwide1-measure-bundle`.
 - `codex/systemic-modular-repair` — separately watched; not this lane's to move.
-- The art bench lane's regional-plate branch, adding about 33 MB under
-  `art/families/regional-opening/`. New path, no collision with this lane's
-  deletions, but it must be frozen and re-based like the rest.
+- `claude/art-bench-requests-sbi892` (draft PR #281, based on main, head
+  `1038869b`) — the art bench lane's regional plates under
+  `art/families/regional-opening/`. New paths, no collision with this lane's
+  deletions, but it must be frozen and re-based like the rest. It also writes
+  to this registrar file, so expect to share it.
 
 **Run, at the Mac, after the rewrite lands:**
 
