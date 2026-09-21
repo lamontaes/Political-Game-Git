@@ -2,7 +2,7 @@
   "counts": {
     "INVENTORIED": 3404,
     "INTENTIONALLY_NON_PLAYER_FACING": 7149,
-    "DIAGNOSTIC_OR_TEST": 7936,
+    "DIAGNOSTIC_OR_TEST": 7937,
     "NEEDS_CLASSIFICATION": 10649
   },
   "needsClassification": [
@@ -29889,7 +29889,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "establishAgeEligibleState",
-      "line": 879,
+      "line": 886,
       "text": "This parent died before the current life began. The cause is not recorded.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -29897,7 +29897,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "employInLegislativeOffice",
-      "line": 942,
+      "line": 949,
       "text": "Legislative staff",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -89224,7 +89224,7 @@
       "sourcePath": "src/presentation/production-world.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 21
+      "count": 22
     },
     {
       "sourcePath": "src/presentation/production-release-boundary.test.ts",
