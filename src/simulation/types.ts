@@ -2477,6 +2477,37 @@ export interface LegislativeDraftLineageRecord {
    */
   readonly authorityKey?: string;
   readonly authorityMeasureId?: EntityId;
+  /**
+   * Which part of a multi-subject measure this lineage belongs to.
+   *
+   * Absent on every bill written from a single family, which is every bill
+   * filed before measures could carry more than one — so an old save reads
+   * back unchanged and still means "this measure, one configuration". Present
+   * once per component on a measure compiled from a bundle, where the key is
+   * the component's own name and is also the namespace its provision keys
+   * carry, so a lineage and the provisions it produced can be matched up
+   * without a second index.
+   */
+  readonly componentKey?: string;
+  /**
+   * The subject this component was declared to belong to.
+   *
+   * Recorded, not computed. It is the label the drafter declared at filing, so
+   * a measure can still say what it was held to be about under the profile in
+   * force when it was filed. It is not a judicial classification and nothing
+   * re-derives it later.
+   */
+  readonly componentSubject?: string;
+  /** Component keys this one was filed as taking effect after. */
+  readonly componentDependsOn?: readonly string[];
+  /**
+   * What the jurisdiction's saved profile allowed this measure to carry.
+   *
+   * Written identically on each of a bundle's component lineages, because the
+   * rule is a fact about the measure rather than about any one part of it, and
+   * a rule that changed later must not restate what was already filed.
+   */
+  readonly bundleSubjectRule?: "unrestricted" | "single-subject";
   /** Said plainly in the save: this configuration is authored fiction. */
   readonly provenanceNote: string;
 }
