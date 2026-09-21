@@ -366,9 +366,17 @@ function meetUpAnswers(context: SceneContext): SceneAnswer[] {
       description: "Find out before you answer.",
       followUp: true,
       statement: "What\u2019s it about?",
-      replies: says(context, [
-        "\u201cNothing in particular. I just thought of you,\u201d {name} says.",
-      ]),
+      // A reconnection names its reason; an ordinary call has none to give.
+      replies:
+        context.binding.variant === "reconnect"
+          ? says(context, [
+              context.has("spokenMemory")
+                ? `\u201cJust to catch up. I was remembering ${context.fact("spokenMemory")},\u201d {name} says.`
+                : "\u201cJust to catch up. It\u2019s been a long time,\u201d {name} says.",
+            ])
+          : says(context, [
+              "\u201cNothing in particular. I just thought of you,\u201d {name} says.",
+            ]),
       record: `The player asked ${context.name} what the meeting was about.`,
     },
   ];
@@ -1130,14 +1138,16 @@ function sharedWorkRequestAnswers(context: SceneContext): SceneAnswer[] {
   if (status === "agreed") {
     const doIt: SceneAnswer = {
       key: "do-shared-work",
-      label: `Do the ${lowerFirst(task)} now`,
-      description: "Carry it out in its own minutes, separately.",
-      statement: "I’ll do it now.",
+      label: "Do it now",
+      description: context.has("minutes")
+        ? `Sit down with the notes now; it takes about ${context.fact("minutes")} minutes.`
+        : "Sit down with the notes now.",
+      statement: "Let’s do it now.",
       replies: says(context, [
-        "“Thank you. I knew I could count on you,” {name} says.",
+        "“Thank you. That helps a lot,” {name} says.",
         "“Good. I’ll stop worrying about it,” {name} says.",
       ]),
-      record: `The player told ${context.name} they would do the ${lowerFirst(task)} now.`,
+      record: `The player told ${context.name} they would ${lowerFirst(task)} now.`,
       // The performer writes the follow-through itself when the work really
       // happens; the scene never claims it for a blocked or busy moment.
       apply: (world) =>
@@ -1157,7 +1167,7 @@ function sharedWorkRequestAnswers(context: SceneContext): SceneAnswer[] {
           "“I see. Thanks for telling me straight,” {name} says.",
           "“All right. I’ll manage without it,” {name} says.",
         ]),
-        record: `The player told ${context.name} they would not do the ${lowerFirst(task)} after all.`,
+        record: `The player told ${context.name} they would not ${lowerFirst(task)} after all.`,
         apply: (world) =>
           withdrawSharedWorkRequest(world, playerId, requestEventId),
       },
@@ -1169,7 +1179,7 @@ function sharedWorkRequestAnswers(context: SceneContext): SceneAnswer[] {
         replies: says(context, [
           "“All right. I’ll leave it with you,” {name} says.",
         ]),
-        record: `The player asked ${context.name} for longer on the ${lowerFirst(task)}.`,
+        record: `The player asked ${context.name} for longer to ${lowerFirst(task)}.`,
       },
     ];
   }
@@ -1262,13 +1272,13 @@ function promiseRevisionAnswers(context: SceneContext): SceneAnswer[] {
         decided === "accepts-change"
           ? `Let’s use ${revision.label} instead.`
           : decided === "needs-answer"
-            ? `I still need an answer about ${lowerFirst(task)}.`
+            ? `I still need to know you’ll ${lowerFirst(task)}.`
             : "I’m still relying on the arrangement we made.";
       return {
         key: `ask-for-${revision.id}`,
         label: `Ask for ${revision.label}`,
         description: revision.meaning,
-        statement: `I need to discuss a different arrangement for ${lowerFirst(task)} — could we say ${revision.label}?`,
+        statement: `About my promise to ${lowerFirst(task)} — could we agree on ${revision.label}?`,
         replies: says(
           context,
           decided === "accepts-change"
@@ -1278,7 +1288,7 @@ function promiseRevisionAnswers(context: SceneContext): SceneAnswer[] {
               ]
             : decided === "needs-answer"
               ? [
-                  `“I still need an answer about ${lowerFirst(task)},” {name} says.`,
+                  `“I still need to know you’ll ${lowerFirst(task)},” {name} says.`,
                   "“Please let me know once you have checked,” {name} says.",
                 ]
               : [
@@ -1286,7 +1296,7 @@ function promiseRevisionAnswers(context: SceneContext): SceneAnswer[] {
                   "“I can’t take that responsibility over,” {name} says.",
                 ],
         ),
-        record: `The player asked ${context.name} for ${revision.label} on the ${lowerFirst(task)}.`,
+        record: `The player asked ${context.name} for ${revision.label} on their promise to ${lowerFirst(task)}.`,
         apply: (world: World) =>
           askRevisionForCompetingCommitment(world, {
             playerId,
@@ -1323,14 +1333,14 @@ function promiseDueAnswers(context: SceneContext): SceneAnswer[] {
   const registry = createCampaignElectionTransitionRegistry();
   const doIt: SceneAnswer = {
     key: "do-revised-work",
-    label: `Do the ${lowerFirst(task)} now`,
+    label: "Do it now",
     description: "Carry out the revised arrangement.",
     statement: "I’ll do it now.",
     replies: says(context, [
       "“Thank you. I’m glad we sorted it,” {name} says.",
       "“Good. That settles it,” {name} says.",
     ]),
-    record: `The player told ${context.name} they would do the ${lowerFirst(task)} now.`,
+    record: `The player told ${context.name} they would ${lowerFirst(task)} now.`,
     // performFavor records the follow-through when the work is really done;
     // the option is offered only when this moment has room for it.
     apply: (world) => performFavor(world, playerId, requestEventId, registry),
@@ -1348,7 +1358,7 @@ function promiseDueAnswers(context: SceneContext): SceneAnswer[] {
       replies: says(context, [
         "“All right. I’ll leave it with you,” {name} says.",
       ]),
-      record: `The player asked ${context.name} for longer on the ${lowerFirst(task)}.`,
+      record: `The player asked ${context.name} for longer to ${lowerFirst(task)}.`,
     },
   ];
 }
@@ -1364,8 +1374,8 @@ function repairAttemptAnswers(context: SceneContext): SceneAnswer[] {
   return [
     {
       key: "accept-repair",
-      label: "Accept the repair",
-      description: "Take up the concrete offer.",
+      label: "Take them up on it",
+      description: `Say yes: they would ${context.fact("offerText")}.`,
       statement: "All right. Let’s do that.",
       replies: says(context, [
         "“Good. I’m glad,” {name} says.",
@@ -1383,7 +1393,7 @@ function repairAttemptAnswers(context: SceneContext): SceneAnswer[] {
     {
       key: "decline-repair",
       label: "Turn it down",
-      description: "The refusal stands.",
+      description: "Leave things as they are; they won’t ask again.",
       statement: "Thanks, but I’d rather leave it.",
       replies: says(context, [
         "“I understand,” {name} says.",
@@ -1649,7 +1659,7 @@ const favor: SceneFamilyDefinition = {
                     : binding.variant === "reconnect"
                       ? `${binding.facts.speakerGiven ?? "Somebody"} wants to meet`
                       : binding.variant === "repair-attempt"
-                        ? `${binding.facts.speakerGiven ?? "Somebody"} wants to make amends`
+                        ? `${binding.facts.speakerGiven ?? "Somebody"} has had a rethink`
                         : binding.variant === "introduction"
                           ? `Meeting ${binding.facts.thirdGiven ?? "somebody new"}`
                           : binding.facts.speakerGiven
@@ -1688,23 +1698,23 @@ const favor: SceneFamilyDefinition = {
     }
     if (context.binding.variant === "shared-work-request") {
       return context.fact("status") === "agreed"
-        ? `${who} is raising the ${context.fact("task")} you said you would do. It is not done.`
+        ? `${who} is bringing up what you agreed to do: ${context.fact("task")}. It has not been done yet.`
         : `${who} is asking you to ${context.fact("task")}, after the work you did together. Answering takes no time.`;
     }
     if (context.binding.variant === "promise-revision") {
-      return `You owe ${who} the ${context.fact("task")}, and ${context.fact("competing")} is in the way. You can ask to change the arrangement, or keep carrying both. Asking is not breaking.`;
+      return `You told ${who} you would ${lowerFirst(context.fact("task"))}, and ${context.fact("competing")} is in the way. You can ask to change the arrangement, or keep carrying both. Asking is not breaking.`;
     }
     if (context.binding.variant === "promise-due") {
-      return `The revised arrangement on the ${context.fact("task")} with ${who} has come due. It is still agreed and not done.`;
+      return `The revised arrangement with ${who}, to ${lowerFirst(context.fact("task"))}, has come due. It is still agreed and not done.`;
     }
     if (context.binding.variant === "reconnect") {
       return `${who} got back in touch after a long while and is asking whether you want to meet. What you remember of them: “${context.fact("memorySummary")}” Answering takes no time.`;
     }
     if (context.binding.variant === "repair-attempt") {
-      return `${who} turned down ${context.fact("refusedSummary")} and now wants to ${context.fact("offerText")}.`;
+      return `${who} turned down ${context.fact("refusedSummary")} and would now like to ${context.fact("offerText")}. Taking it up is your choice; answering takes no time.`;
     }
     if (context.binding.variant === "introduction") {
-      return `${who} offered to introduce ${context.fact("thirdGiven")}, because ${context.fact("reason")}. Meeting them is a separate choice for each of you.`;
+      return `${who} offered to introduce you to ${context.has("thirdName") ? context.fact("thirdName") : context.fact("thirdGiven")}, because ${context.fact("reason").replace(/[.\s]+$/, "")}. Meeting them is a separate choice for each of you.`;
     }
     if (context.binding.variant === "household-evening") {
       return `${who} will be home this evening and is asking whether you would like to sit and talk, from ${context.fact("startTime")}. Answering takes no time; the evening itself is on your calendar.`;
@@ -1745,14 +1755,16 @@ const favor: SceneFamilyDefinition = {
     }
     if (context.binding.variant === "promise-revision") {
       return says(context, [
-        `“About the ${lowerFirst(context.fact("task"))} — with ${context.fact("competing")} in the way, what do you want to do?” {name} asks.`,
-        `“The ${lowerFirst(context.fact("task"))} still stands. Can we talk about how?” {name} asks.`,
+        // They know what was agreed between them, not what else the player
+        // owes; the collision is the player's to raise.
+        `“Are we still on for you to ${lowerFirst(context.fact("task"))}?” {name} asks.`,
+        `“Is it still all right for you to ${lowerFirst(context.fact("task"))}?” {name} asks.`,
       ]);
     }
     if (context.binding.variant === "promise-due") {
       return says(context, [
-        `“The ${lowerFirst(context.fact("task"))} we changed — it’s time,” {name} says.`,
-        `“I wanted to check on the ${lowerFirst(context.fact("task"))}, the way we left it,” {name} says.`,
+        `“We changed the plan. Is now a good time to ${lowerFirst(context.fact("task"))}?” {name} asks.`,
+        `“I wanted to check in, the way we left it: can you ${lowerFirst(context.fact("task"))} now?” {name} asks.`,
       ]);
     }
     if (context.binding.variant === "reconnect") {
@@ -1761,12 +1773,21 @@ const favor: SceneFamilyDefinition = {
         : "";
       return spoken
         ? says(context, [
-            `“I was thinking about ${spoken} the other day. Are you free to catch up?” {name} asks.`,
+            `“The other day I was thinking about ${spoken}. Are you free to catch up?” {name} asks.`,
             `“It’s been too long. I still remember ${spoken}. Could we meet?” {name} asks.`,
           ])
         : says(context, [
             "“It’s been a long time. Could we meet and catch up?” {name} asks.",
           ]);
+    }
+    if (
+      context.binding.variant === "shared-work-request" &&
+      context.fact("status") === "agreed"
+    ) {
+      return says(context, [
+        "“You said you’d help me with the notes. Is that still happening?” {name} asks.",
+        "“About the notes we talked about — are we still doing that?” {name} asks.",
+      ]);
     }
     const opening = context.fact("opening");
     const verb = opening.trim().endsWith("?") ? "asks" : "says";
