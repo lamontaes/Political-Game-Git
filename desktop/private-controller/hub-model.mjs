@@ -117,6 +117,18 @@ function cleanBuild(build) {
       : {}),
     ...(build.preparedLocally === true ? { preparedLocally: true } : {}),
     privatePack: pack,
+    ...(build.content?.schema === "ocd-runtime-art/v1" &&
+    /^[a-f0-9]{64}$/.test(build.content.id) &&
+    typeof build.content.cacheRoot === "string" &&
+    path.isAbsolute(build.content.cacheRoot)
+      ? {
+          content: {
+            schema: build.content.schema,
+            id: build.content.id,
+            cacheRoot: build.content.cacheRoot,
+          },
+        }
+      : {}),
   };
 }
 
@@ -130,6 +142,7 @@ function cleanTrack(value) {
     path.isAbsolute(value.privatePackPath)
       ? { privatePackPath: value.privatePackPath }
       : {}),
+    ...(value.pinned === true ? { pinned: true } : {}),
     current,
     pending: cleanBuild(value.pending),
     previous: cleanBuild(value.previous),

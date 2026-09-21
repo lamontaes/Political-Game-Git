@@ -51,6 +51,9 @@ const provenance = {
   dirty: status !== null && status !== "",
   profile,
   treeSha256,
+  ...(process.env.VITE_RUNTIME_CONTENT === "1"
+    ? { runtimeArtCapability: "runtime-art-v1" }
+    : {}),
   stampedAt: new Date().toISOString(),
 };
 

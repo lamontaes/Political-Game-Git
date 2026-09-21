@@ -4,13 +4,23 @@ import { test } from "node:test";
 import { runInNewContext } from "node:vm";
 import {
   hasSavableLife,
+  isIdleTitle,
   prepareQuit,
   saveOpenLife,
   suspendInteraction,
 } from "../private-controller/game-session.mjs";
 
-function page({ active = null, dirty = false, save = true } = {}) {
+function page({
+  active = null,
+  dirty = false,
+  save = true,
+  idleTitle = null,
+} = {}) {
   const window = new EventTarget();
+  if (idleTitle !== null)
+    window.addEventListener("ocd:query-update-boundary", (event) =>
+      event.detail.respond(idleTitle),
+    );
   if (active !== null)
     window.addEventListener("ocd:query-session", (event) =>
       event.detail.respond(active),
@@ -115,4 +125,19 @@ test("the pending exit blocks editing and cancellation restores prior state", as
   await suspendInteraction(game.contents, true);
   await suspendInteraction(game.contents, false);
   assert.equal(game.root.inert, true);
+});
+
+test("only an explicit idle title permits automatic update, not a clean creator", async () => {
+  assert.equal(
+    await isIdleTitle(page({ active: false, dirty: false }).contents),
+    false,
+  );
+  assert.equal(
+    await isIdleTitle(page({ active: false, idleTitle: false }).contents),
+    false,
+  );
+  assert.equal(
+    await isIdleTitle(page({ active: false, idleTitle: true }).contents),
+    true,
+  );
 });

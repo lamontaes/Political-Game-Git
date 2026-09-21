@@ -1,3 +1,4 @@
+import { loadContent } from "../runtime-content.mjs";
 import { createHash } from "node:crypto";
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
@@ -50,6 +51,47 @@ export function selectedArtUsage(build, cacheRoot) {
     }
   } catch {
     return selected;
+  }
+  if (build.content) {
+    try {
+      const loaded = loadContent(build.content);
+      const rules = JSON.parse(
+        readFileSync(path.join(client, "runtime-art-consumers.json"), "utf8"),
+      );
+      if (
+        rules.schema !== "ocd-runtime-consumers/v1" ||
+        !Array.isArray(rules.consumers)
+      )
+        throw new Error("Missing consumer contract");
+      const assets =
+        loaded.manifest.metadata["art/manifest/asset_manifest.json"]?.assets ??
+        [];
+      const bindings = rules.consumers.flatMap((rule) => {
+        const asset = assets.find((a) => a.asset_id === rule.assetId);
+        const file = loaded.manifest.files.find(
+          (f) => f.path === asset?.final_path && f.sha256 === asset.hash,
+        );
+        if (!file || !labels(rule.labels) || !labels(rule.eligible)) return [];
+        return [
+          {
+            assetId: asset.asset_id,
+            sourceSha256: file.sha256,
+            derivativeSha256: file.sha256,
+            derivativePath: `/__content/${build.content.id}/${file.sha256}`,
+            useLabels: rule.labels,
+            eligible: rule.eligible,
+          },
+        ];
+      });
+      return {
+        ...selected,
+        packId: "runtime-art",
+        packManifestSha256: build.content.id,
+        bindings,
+      };
+    } catch {
+      return selected;
+    }
   }
   let record;
   try {

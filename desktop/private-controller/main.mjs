@@ -1,11 +1,15 @@
+import { loadContent, serveRuntimeContent } from "../runtime-content.mjs";
+import { watch as watchReceived } from "node:fs";
+import { channelPath, verifyReceivedBuild } from "./received-channel.mjs";
 import {
   hasSavableLife,
+  isIdleTitle,
   saveOpenLife,
   prepareQuit,
   hasUnsavedEdits,
   suspendInteraction,
 } from "./game-session.mjs";
-/* global AbortSignal, Response, URL, fetch, process, setTimeout */
+/* global AbortSignal, Response, URL, fetch, process, setTimeout, clearTimeout */
 /**
  * Our Civic Duty Private — the owner's private development hub.
  *
@@ -510,6 +514,7 @@ function publicState() {
               track: selected,
               revision: build.revision,
               clientTreeSha256: build.clientTreeSha256,
+              contentId: build.content?.id ?? null,
               architecture: build.architecture,
             }
           : null;
@@ -521,6 +526,7 @@ function publicState() {
             track: shown,
             title: shown === MAIN_TRACK ? "Main game" : shown.slice(7),
             revision: hub.play.get(shown)?.revision ?? null,
+            contentId: runtimeSnapshots.get(shown)?.snapshot.id ?? null,
             selectedBuildRevision:
               state?.tracks[shown]?.current?.revision ?? null,
           }
@@ -581,6 +587,7 @@ const SUPERSEDED = "A newer choice replaced this one; nothing was changed.";
 /** A refusal the owner never needs to see: it is marked, logged, not painted. */
 const superseded = () => ({ ok: false, superseded: true, message: SUPERSEDED });
 
+const runtimeSnapshots = new Map();
 const contentRoots = new Map(); // track id -> client directory
 const configuredSessions = new Set();
 
@@ -598,6 +605,12 @@ function sessionForTrack(id) {
   ses.protocol.handle(APP_SCHEME, (request) => {
     const root = contentRoots.get(id);
     if (!root) return new Response("Not found", { status: 404 });
+    if (new URL(request.url).pathname.startsWith("/__content/")) {
+      const loaded = runtimeSnapshots.get(id);
+      return loaded
+        ? serveRuntimeContent(loaded, request)
+        : new Response("Not found", { status: 404 });
+    }
     return serveAppRequest(root, request);
   });
   ses.setPermissionRequestHandler((_wc, _permission, callback) =>
@@ -664,6 +677,18 @@ async function openPlay(id, stillWanted = () => true) {
       ok: false,
       message: `The cached build is not usable (${present.reason}); rebuild this track.`,
     };
+  let loadedContent = null;
+  try {
+    if (track.current.content)
+      loadedContent = loadContent(track.current.content);
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        "The artwork could not be verified. Your current game is unchanged. " +
+        error.message,
+    };
+  }
   const view = new WebContentsView({
     webPreferences: {
       session: sessionForTrack(id),
@@ -717,6 +742,8 @@ async function openPlay(id, stillWanted = () => true) {
     return superseded();
   }
   contentRoots.set(id, clientRoot);
+  if (loadedContent) runtimeSnapshots.set(id, loadedContent);
+  else runtimeSnapshots.delete(id);
   hub.play.set(id, { view, revision: track.current.revision });
   contents.once("destroyed", () => {
     if (hub.play.get(id)?.view === view) hub.play.delete(id);
@@ -1037,7 +1064,10 @@ function layout() {
 
 /* --------------------------------------------------------------- builds */
 
-function startWorker(track) {
+const receiveRetries = new Map();
+const receiveAgain = new Set();
+function startWorker(track, retry = false) {
+  if (!retry) receiveRetries.set(track, 0);
   if (process.env.OCD_HUB_NO_BUILDS === "1")
     return { ok: false, message: "Builds are disabled for this test run." };
   const state = readState();
@@ -1124,6 +1154,24 @@ function startWorker(track) {
     broadcast();
     const next = hub.queue.shift();
     if (next) startWorker(next.track);
+    else if (receiveAgain.delete(track)) startWorker(track);
+    else if (
+      code !== 0 &&
+      channelPath(dataRoot, track) &&
+      existsSync(channelPath(dataRoot, track))
+    ) {
+      const attempt = receiveRetries.get(track) ?? 0;
+      if (attempt < 2) {
+        receiveRetries.set(track, attempt + 1);
+        const timer = setTimeout(
+          () => {
+            if (!hub.worker && !hub.quitting) startWorker(track, true);
+          },
+          attempt === 0 ? 2000 : 10000,
+        );
+        timer.unref();
+      }
+    }
   });
   broadcast();
   return { ok: true, message: "Preparing." };
@@ -1166,10 +1214,11 @@ function onWorkerEvent(track, event) {
         : event.outcome === "pending"
           ? "waiting"
           : "ready";
+    if (event.outcome === "pending" && hub.play.has(track))
+      void activateAtIdleTitle(track);
     if (event.outcome === "pending" && !hub.play.has(track)) {
       // Never swapped under a running game: this track has no open view.
-      atomicWrite(statePath, activatePending(readState(), track));
-      outcome = "ready";
+      outcome = activateVerifiedPending(track) ? "ready" : "failed";
       hub.phase[track] = {
         phase: "ready",
         message: `Ready: ${event.revision.slice(0, 12)} is now the ${track === MAIN_TRACK ? "main" : "preview"} build.`,
@@ -1185,16 +1234,73 @@ function onWorkerEvent(track, event) {
   broadcast();
 }
 
+async function activateAtIdleTitle(id) {
+  if (!readState()?.tracks[id]?.pending) return;
+  const contents = hub.play.get(id)?.view.webContents;
+  if (!contents || !(await isIdleTitle(contents))) return;
+  if (!(await suspendInteraction(contents, true))) return;
+  try {
+    if (
+      !(await isIdleTitle(contents)) ||
+      (await hasUnsavedEdits(contents)) !== false
+    )
+      return;
+    await applyPending(id);
+  } finally {
+    if (!contents.isDestroyed()) await suspendInteraction(contents, false);
+  }
+}
+
+function activateVerifiedPending(id) {
+  const state = readState();
+  const pending = state?.tracks[id]?.pending;
+  if (!pending) return false;
+  try {
+    if (pending.content) verifyReceivedBuild(pending, dataRoot);
+    else if (!buildPresentOnDisk(pending).ok)
+      throw new Error("Waiting game is incomplete");
+    atomicWrite(statePath, activatePending(state, id));
+    return true;
+  } catch (error) {
+    logLine(`Waiting update was retained without activation: ${error.message}`);
+    hub.phase[id] = {
+      phase: "failed",
+      message:
+        "The update could not be verified. Your current game is unchanged.",
+    };
+    return false;
+  }
+}
+
 async function applyPending(id) {
   const state = readState();
   if (!state?.tracks[id]?.pending)
     return { ok: false, message: "Nothing is waiting." };
+  try {
+    if (state.tracks[id].pending.content)
+      verifyReceivedBuild(state.tracks[id].pending, dataRoot);
+    else if (!buildPresentOnDisk(state.tracks[id].pending).ok)
+      throw new Error("Waiting game is incomplete");
+  } catch {
+    return {
+      ok: false,
+      message:
+        "The update could not be verified. Your current game is unchanged.",
+    };
+  }
   if (!(await closePlay(id)))
     return {
       ok: false,
       message: "The game kept its unsaved life; nothing changed.",
     };
-  atomicWrite(statePath, activatePending(readState(), id));
+  if (!activateVerifiedPending(id)) {
+    await openPlay(id);
+    return {
+      ok: false,
+      message:
+        "The update changed while opening. Your previous game was retained.",
+    };
+  }
   const opened = await openPlay(id);
   layout();
   broadcast();
@@ -1424,7 +1530,8 @@ async function startArtDesk() {
     const exchange = artbenchExchange();
     const repositoryPath = await verifiedRepository();
     const branch = settings.artDeskBranch;
-    if (settings.artDeskSource !== "local")
+    const registered = hub.artdesk.registeredRuntime(branch);
+    if (settings.artDeskSource !== "local" && !registered)
       await git(
         [
           "fetch",
@@ -1435,15 +1542,17 @@ async function startArtDesk() {
         ],
         repositoryPath,
       );
-    const head = await git(
-      [
-        "rev-parse",
-        "--verify",
-        "--end-of-options",
-        `${settings.artDeskSource === "local" ? "refs/heads" : "refs/remotes/origin"}/${branch}^{commit}`,
-      ],
-      repositoryPath,
-    );
+    const head =
+      registered?.revision ??
+      (await git(
+        [
+          "rev-parse",
+          "--verify",
+          "--end-of-options",
+          `${settings.artDeskSource === "local" ? "refs/heads" : "refs/remotes/origin"}/${branch}^{commit}`,
+        ],
+        repositoryPath,
+      ));
     let revision = head;
     if (settings.artDeskPin) {
       // A pin must be part of the selected owner-repository branch.
@@ -1534,6 +1643,18 @@ ipcMain.handle("game:request-quit", (event) => {
     throw new Error("Refused: untrusted game sender.");
   }
   return requestQuit();
+});
+
+ipcMain.on("game:title-ready", (event) => {
+  const entry = [...hub.play.entries()].find(
+    ([, game]) => game.view.webContents === event.sender,
+  );
+  if (
+    entry &&
+    event.senderFrame === event.sender.mainFrame &&
+    event.senderFrame.url.startsWith(`${APP_ORIGIN}/`)
+  )
+    void activateAtIdleTitle(entry[0]);
 });
 
 const TABS = new Set(["play", "artdesk", "agents", "settings"]);
@@ -1920,6 +2041,9 @@ if (!app.requestSingleInstanceLock()) {
     if (hub.window) {
       if (hub.window.isMinimized()) hub.window.restore();
       hub.window.focus();
+      const selected = readState().selectedTrack;
+      if (channelPath(dataRoot, selected)) startWorker(selected);
+      void activateAtIdleTitle(selected);
     }
   });
 
@@ -1965,11 +2089,26 @@ if (!app.requestSingleInstanceLock()) {
     // previous Play session to close can take over now.
     for (const [id, track] of Object.entries(readState().tracks))
       if (track.pending) {
-        atomicWrite(statePath, activatePending(readState(), id));
-        logLine(
-          `Activated the waiting ${id} build ${track.pending.revision.slice(0, 12)}.`,
-        );
+        if (activateVerifiedPending(id))
+          logLine(
+            `Activated the waiting ${id} build ${track.pending.revision.slice(0, 12)}.`,
+          );
       }
+    const receivedRoot = path.join(dataRoot, "received");
+    mkdirSync(receivedRoot, { recursive: true });
+    let receivedTimer;
+    const receivedWatcher = watchReceived(receivedRoot, () => {
+      clearTimeout(receivedTimer);
+      receivedTimer = setTimeout(() => {
+        const selected = readState().selectedTrack;
+        if (hub.workerTrack === selected) receiveAgain.add(selected);
+        else startWorker(selected);
+      }, 500);
+    });
+    app.once("will-quit", () => {
+      clearTimeout(receivedTimer);
+      receivedWatcher.close();
+    });
     createWindow();
     const startSelection = readState().selectedTrack;
     const opened = await openPlay(startSelection);

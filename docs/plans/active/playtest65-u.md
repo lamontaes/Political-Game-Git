@@ -393,3 +393,52 @@ Art Desk now separates exact-revision owner readiness from approval: incoming re
 Focused Art Desk store/cards/request-code 67 tests passed before the final reference/archive negative was added. Prior save/creator/history/native verification remains in the exact dated receipts; the current source still requires the final browser/type/build proof and native guarded installation. Canonical art records were read only to prepare an isolated meeting-room replay. Historical art QA generated outputs were preserved under ignored test-results and restored to their prior tracked bytes.
 
 The new Living Scenes packet remains assigned after this ready repair delivery: shared group camera/crossfade, visible actual officials, civilian title cast, everyday routes and dynamic surfaces. W owns three new read-only leaves; V owns candidate contact/paint packets. None of those pending packets has been admitted or represented as installed. V R4 curation and five individually evidenced prior instep-readiness events remain held for O until this reducer is installed.
+
+### Owner usage pause — 2026-09-20T22:15:04.718686+00:00
+
+U / Codex (model identifier unavailable), sole source/index writer, STOPPED at owner instruction relayed by O. Workspace `/Users/lamontae/Documents/PG-LAND`, branch `codex/playtest65-u`, local HEAD `2ac4646c22d3fc7dbbac215f728d1c634bb1ca9b`. Last fetched `origin/codex/playtest65-u` is `aa2c26f65c979679b23c192b49955dd0a29860c3`; no new fetch, publication, PR, build or installation during pause. O remains final receiver. Resume only upon owner allocation.
+
+Installed host/game remains 6c15491b511ef08253b2caa9f36a67d621d14dea. Art Desk-only aa2c26f65c979679b23c192b49955dd0a29860c3 promotion succeeded using normal Settings controls, preserving active character creation. Settings readback confirmed runtime aa2, branch codex/playtest65-u, pin=null, origin http://127.0.0.1:54124. Installed service is intentionally preserved. Evidence: `desktop/controller-release-artifacts/repair-6c15491b/artdesk-aa2c26f6/promotion.json`. No final living-scenes human acceptance or build exists.
+
+Five W donors are adopted locally after aa2 (1593dd3b,3896a967,9a43b2f7,f1c128dc,2ac4646c). Fetched test-only donor 2784083c9d656873386acc98885387077f49a0ff remains unadopted. Fiscal donor 696422 remains held. Modular people/clothing/pose generation, preparation, fitting, cleanup and admission are STOPPED; no gen17 promotion. V draft cardigan is failed/unvalidated. Existing inputs/history preserved.
+
+Dirty tracked scope before this handoff:
+
+```
+scripts/dev-lab/compiled-art-usage.ts
+src/player/PlacesWorkspace.tsx
+src/player/PlayerGame.tsx
+src/player/SceneBackdrop.tsx
+src/player/SceneSurfaceLayer.tsx
+src/player/TitleTableau.tsx
+src/player/WorldOrientationPanel.tsx
+src/player/player.css
+src/player/world-orientation.css
+src/presentation/ordinary-grocery-route.test.ts
+src/presentation/player-places.ts
+tests/e2e/playtest65-systemic-ui.spec.ts
+tests/e2e/playtest65-u.spec.ts
+```
+
+New untracked U source:
+
+```
+src/player/OrdinaryMeetingPanel.tsx
+src/player/SceneChapterTransition.tsx
+src/player/SceneSurfaceReader.tsx
+src/presentation/compiled-art-consumers.ts
+```
+
+Additionally 16,949 untracked files under art remain preserved private inputs; do not blanket-add, clean or copy them. This owning plan is additionally modified by the pause record.
+
+Pending exact feedback defect: all 17 accepted R4 agent assessments are message.posted kind note without replyTo. `src/authoring/art-desk-notifications.ts` requires kind reply and Boolean(replyTo), excluding them. No repair has yet been written. Next authorized resumed step: include substantive accepted team notes for real non-QA requests/candidates with unchanged event IDs/history/read receipts, optional replyTo and exact candidate/message navigation; revise reply-only labels/counts and relevant tests. Do not forge replies, duplicate events, or mark owner notices read for proof. Prioritize focused safe Art Desk-only promotion before the whole game successor.
+
+Other unfinished work: opening shared painted-group transitions and two actual executive figures; read-only TV/paper/agenda readers; grocery and meeting interaction mounts; compiled Where used renderer/lineage enumeration. These dirty changes are not final-head verified. W identified an uncorrected meeting Leave outcome bug: changed World can be a protected partial journey; use describePlacesOutcome or actual home-arrival evidence before claiming returned home. No hypothetical meeting +5-minute continuation/time-work extension is authorized.
+
+Approved background installation/receipt priority on resumption: generic civic candidate cand-48b10062-b064-46bf-8194-500b0d66cc83 SHA 1bd1af90f54e7a4764e543e2a503008ad3b2a6ce1b315debcfd0797045c338a1 has current locality use but still needs exact installed on-card receipt. Resolute candidate cand-1f3bd030-77c1-428b-bea3-2019f193c6aa is an additional approved input, requiring exact binding verification. No candidate review readiness equals approval. Missing Maine plate stays missing.
+
+Current Where used probe session56903 completed exit1: No complete configured creator compositions could be verified. It produced no successful usage evidence; helper remains unfinished. Earlier CPU-bound probe PID54786 was stopped explicitly; no U probe remains running. No persistent development server was started in this resumed segment; preserved installed Art Desk/game must not be stopped. No matching automation for this thread was found under ~/.codex/automations; no active goal. Do not resume automatically.
+
+Validation before latest edits: app/node typecheck PASS only at source fingerprint9d67d86ea8e4, receipt `/private/tmp/u-living-scenes-receipts/typecheck.json`; scoped lint passed earlier subset. Latest donor/meeting/usage changes lack final typecheck, focused tests and browser proof. Prior aa2 native queue/revision readbacks passed; owner feedback notes visibility did not. Tests/e2e edits remain unexecuted. Last frozen game artifacts: `desktop/controller-release-artifacts/repair-6c15491b` retained by .pin. O held-out creator/save/Continue6c evidence is earlier-build evidence, not acceptance of dirty successor.
+
+LEARN: imported team messages were mistaken for owner-visible feedback because projection admitted only direct replies. Persistence/import counts do not establish visibility. No durable notification fix applied yet. Renderer usage enumeration also failed to produce a complete plan; preserve explicit gaps instead of claiming library inclusion is consumer use. Pause preserves all work without claiming readiness.

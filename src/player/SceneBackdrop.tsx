@@ -24,6 +24,12 @@ import {
   type DynamicSurfaceProjection,
 } from "../presentation/surface-projection";
 import { SceneSurfaceLayer } from "./SceneSurfaceLayer";
+import { SceneSurfaceReader } from "./SceneSurfaceReader";
+import {
+  livingSceneSurfacePayload,
+  type LivingSurfaceRecord,
+} from "../presentation/living-scene-surfaces";
+import type { ShellRef } from "../presentation/shell-navigation";
 import {
   PRODUCTION_VISUAL_LIBRARY,
   type RuntimeVisualLibrary,
@@ -71,6 +77,8 @@ export function SceneBackdrop({
   visualLibrary = PRODUCTION_VISUAL_LIBRARY,
   people = [],
   surfaces = EMPTY_SURFACE_PROJECTION,
+  readableSurfaces,
+  onOpenSurfaceEntity,
   onSelectPerson,
   selectedPersonId = null,
   children,
@@ -85,6 +93,8 @@ export function SceneBackdrop({
    * gets a room with its painted decoration, never an invented one.
    */
   readonly surfaces?: DynamicSurfaceProjection;
+  readonly readableSurfaces?: ReadonlyMap<string, LivingSurfaceRecord>;
+  readonly onOpenSurfaceEntity?: (ref: ShellRef) => void;
   /**
    * The generated people standing in this room, positioned by the registry's
    * own anchors. They paint in the plate's coordinate space, above the plate
@@ -113,6 +123,10 @@ export function SceneBackdrop({
   readonly children: ReactNode;
 }) {
   const viewportRef = useRef<HTMLDivElement>(null);
+  const [readingSlot, setReadingSlot] = useState<{
+    sceneId: string | null;
+    slotId: string;
+  } | null>(null);
   const scene = sceneId ? (SCENE_REGISTRY.scenes.get(sceneId) ?? null) : null;
   const environment = scene?.raster
     ? visualLibrary.get(scene.raster.assetId)
@@ -283,9 +297,43 @@ export function SceneBackdrop({
   const plateClips = scenePlateClips(scene);
   const bindings = useMemo(
     () =>
-      scene ? bindSceneSurfaces(scene, dynamicSurfacePayloads(surfaces)) : [],
-    [scene, surfaces],
+      scene
+        ? bindSceneSurfaces(scene, (contentClass, slot) => {
+            const record = readableSurfaces?.get(slot.slot_id);
+            return record
+              ? livingSceneSurfacePayload(record)(contentClass, slot)
+              : dynamicSurfacePayloads(surfaces)(contentClass, slot);
+          })
+        : [],
+    [scene, surfaces, readableSurfaces],
   );
+  const readableSlotIds = new Set(
+    bindings
+      .filter(
+        (binding) =>
+          binding.state === "bound" &&
+          readableSurfaces?.get(binding.slotId)?.status === "bound",
+      )
+      .map((binding) => binding.slotId),
+  );
+  const reading =
+    readingSlot &&
+    readingSlot.sceneId === sceneId &&
+    readableSlotIds.has(readingSlot.slotId)
+      ? readableSurfaces?.get(readingSlot.slotId)
+      : null;
+  const closeReading = () => {
+    const slotId = readingSlot?.slotId;
+    setReadingSlot(null);
+    requestAnimationFrame(() => {
+      if (slotId)
+        document
+          .querySelector<HTMLButtonElement>(
+            `[data-testid="read-surface-${CSS.escape(slotId)}"]`,
+          )
+          ?.focus();
+    });
+  };
 
   return (
     <div
@@ -300,7 +348,7 @@ export function SceneBackdrop({
       <div
         ref={viewportRef}
         className="scene-backdrop-stage"
-        aria-hidden="true"
+        aria-hidden={readableSlotIds.size ? undefined : true}
       >
         {/*
           Headroom is lowered camera, and the band it opens above the plate is
@@ -342,6 +390,8 @@ export function SceneBackdrop({
               slots={scene?.surfaceSlots ?? []}
               bindings={bindings}
               plate={plate}
+              readableSlotIds={readableSlotIds}
+              onRead={(slotId) => setReadingSlot({ sceneId, slotId })}
             />
           ) : null}
         </div>
@@ -591,6 +641,13 @@ export function SceneBackdrop({
             </div>
           ))}
         </div>
+      ) : null}
+      {reading && painted ? (
+        <SceneSurfaceReader
+          record={reading}
+          onClose={closeReading}
+          onOpenEntity={onOpenSurfaceEntity}
+        />
       ) : null}
       <div
         className="scene-backdrop-content"

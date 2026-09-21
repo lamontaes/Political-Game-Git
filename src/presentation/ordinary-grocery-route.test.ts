@@ -15,6 +15,7 @@ import {
 } from "./ordinary-grocery-route";
 import { travelToPlace } from "./place-travel";
 import { projectLivingSceneSurface } from "./living-scene-surfaces";
+import { projectPlacesWorkspace } from "./player-places";
 
 function start(placeKey: string, startAge = 34) {
   const game = generateOpeningLife(
@@ -42,6 +43,15 @@ describe("authored ordinary grocery journey", () => {
       expect(ordinaryGroceryRoute(world, personId, "grocery").kind).toBe(
         "available",
       );
+      expect(
+        projectPlacesWorkspace(world, personId)?.offers.find(
+          (offer) => offer.id === "grocery-grocery",
+        ),
+      ).toMatchObject({
+        groceryDestination: "grocery",
+        minutes: 15,
+        unavailable: null,
+      });
       expect(serializeWorld(world)).toBe(before);
       const shop = travelToPlace(
         world,
@@ -54,6 +64,15 @@ describe("authored ordinary grocery journey", () => {
       ).toBe(15);
       const arrival = currentGroceryArrival(shop, personId)!;
       expect(arrival.context.location?.setting).toBe("grocery");
+      const offers = projectPlacesWorkspace(shop, personId)!.offers;
+      expect(offers.find((offer) => offer.id === "grocery-home")).toMatchObject(
+        { groceryDestination: "home", minutes: 15, unavailable: null },
+      );
+      expect(
+        offers.some(
+          (offer) => offer.id === "grocery-grocery" || offer.id === "walk-home",
+        ),
+      ).toBe(false);
       expect(shop.history.workItemStates).toEqual(world.history.workItemStates);
       const sign = projectLivingSceneSurface(shop, personId, {
         kind: "venue-sign",

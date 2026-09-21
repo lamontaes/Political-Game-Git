@@ -616,3 +616,124 @@
   font-size: 0.8rem;
   margin-top: 0.25rem;
 }
+
+/* Fit and camera motion are separate: every chapter's image, people and
+ * surfaces belong to the same group; navigation remains outside it. */
+.pg-scene-chapters {
+  position: relative;
+  display: grid;
+  min-height: 0;
+  flex: 1;
+  overflow: hidden;
+}
+.pg-scene-chapter {
+  grid-area: 1 / 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
+}
+.pg-scene-chapter[data-stage="leaving"] {
+  pointer-events: none;
+}
+.pg-scene-chapters[data-ready="false"]
+  .pg-scene-chapter[data-stage="arriving"] {
+  opacity: 0;
+}
+.pg-scene-chapters[data-ready="true"] .pg-scene-chapter[data-stage="arriving"] {
+  animation: pg-chapter-arrive 400ms ease both;
+}
+.pg-scene-chapters[data-ready="true"] .pg-scene-chapter[data-stage="leaving"] {
+  opacity: 1;
+}
+.pg-scene-chapters[data-motion="paused"] .pg-scene-camera {
+  animation-play-state: paused;
+}
+@keyframes pg-chapter-arrive {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pg-scene-chapter {
+    animation: none !important;
+  }
+}
+.pg-state-official-figure {
+  width: min(100%, 110px);
+}
+.pg-congress-introduction {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.pg-congress-official-figure {
+  width: min(100%, 130px);
+}
+.pg-white-house-presentation[data-has-plate="true"] .pg-opening-vice-president {
+  inset: 0;
+  width: auto;
+  padding: 0;
+  background: none;
+}
+.pg-white-house-presentation[data-has-plate="true"]
+  .pg-opening-vice-president
+  .pg-opening-figure {
+  left: 33%;
+  top: 37%;
+  width: 16%;
+}
+.pg-white-house-presentation[data-has-plate="true"]
+  .pg-opening-vice-president
+  .pg-orientation-person {
+  position: absolute;
+  left: 55%;
+  top: 78%;
+  width: 40%;
+  font-size: 0.85rem;
+  background: rgb(11 19 32 / 90%);
+}
+.pg-white-house-presentation[data-has-plate="true"]
+  .pg-opening-president
+  .pg-orientation-person {
+  left: 55%;
+  width: 40%;
+  top: 60%;
+}
+.pg-white-house-presentation {
+  overflow: hidden;
+}
+.pg-scene-camera {
+  position: absolute;
+  inset: 0;
+  transform-origin: center;
+  animation: pg-chapter-drift 44s ease-in-out infinite alternate;
+}
+.pg-opening-official-labels {
+  position: absolute;
+  left: 55%;
+  right: 3%;
+  bottom: 8%;
+  display: grid;
+  gap: 0.6rem;
+}
+.pg-opening-official-labels .pg-orientation-person {
+  background: rgb(11 19 32 / 94%);
+}
+@keyframes pg-chapter-drift {
+  from {
+    transform: scale(1.025) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.05) translate3d(-0.8%, -0.6%, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pg-scene-camera {
+    animation: none;
+  }
+}

@@ -1,8 +1,13 @@
-import manifest from "../../art/manifest/asset_manifest.json";
+import { runtimeArtMetadata } from "../presentation/runtime-art";
+import bundledManifest from "../../art/manifest/asset_manifest.json";
 import { repositoryVisualUrls } from "../presentation/visual-integration";
 import { artPreviewMode } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
 
+const manifest = runtimeArtMetadata(
+  "art/manifest/asset_manifest.json",
+  bundledManifest,
+);
 const urls = repositoryVisualUrls();
 
 interface EncodedPreviewRaster {

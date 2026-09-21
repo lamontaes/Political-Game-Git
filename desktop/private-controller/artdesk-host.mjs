@@ -149,6 +149,31 @@ export class ArtDeskHost {
     this.onStatus(this.status);
   }
 
+  registeredRuntime(branch) {
+    try {
+      const record = JSON.parse(
+        readFileSync(path.join(this.root, "ready-runtime.json"), "utf8"),
+      );
+      if (
+        record.branch !== branch ||
+        !validRevision(record.revision) ||
+        record.worktree !== this.worktreeFor(branch)
+      )
+        return null;
+      const lock = readFileSync(
+        path.join(record.worktree, "package-lock.json"),
+      );
+      if (
+        createHash("sha256").update(lock).digest("hex") !== record.lockHash ||
+        !existsSync(path.join(record.worktree, "node_modules", "vite"))
+      )
+        return null;
+      return record;
+    } catch {
+      return null;
+    }
+  }
+
   worktreeFor(branch) {
     return path.join(this.root, branchSlug(branch), "source");
   }
@@ -196,7 +221,8 @@ export class ArtDeskHost {
             "Local Art Bench requires the selected committed branch to be checked out with no tracked edits. Existing work is preserved.",
           );
       }
-      if (!existsSync(worktree)) {
+      const creatingWorkspace = !existsSync(worktree);
+      if (creatingWorkspace) {
         this.#set(
           "preparing",
           `Creating the Art Desk workspace at ${revision.slice(0, 12)}…`,
@@ -230,7 +256,7 @@ export class ArtDeskHost {
         }
       }
       const activeHead = await git(["rev-parse", "HEAD"], "git rev-parse");
-      if (!localSource) {
+      if (!localSource && creatingWorkspace) {
         this.#set("preparing", "Staging private art inputs for the Art Desk…");
         await runQuiet(
           "/bin/sh",
@@ -323,6 +349,12 @@ export class ArtDeskHost {
       });
       const base = `http://127.0.0.1:${port}`;
       const identity = await this.#waitReady(base, 120000);
+      writeFileSync(
+        path.join(this.root, "ready-runtime.json"),
+        JSON.stringify({ branch, revision: activeHead, worktree, lockHash }) +
+          "\n",
+        { mode: 0o600 },
+      );
       this.url = `${base}/art-desk.html`;
       this.#set("ready", "Art Desk ready.", {
         url: this.url,
