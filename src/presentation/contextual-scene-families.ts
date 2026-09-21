@@ -1104,6 +1104,19 @@ function recalledAnswers(context: SceneContext): SceneAnswer[] {
 }
 
 /**
+ * Whether an action would really happen from this moment. Read on a copy of
+ * the world the scene already holds, so projecting the answers writes nothing;
+ * a refusal (blocked hours, a finished ask) simply leaves the option out.
+ */
+function changesWorld(world: World, act: (world: World) => World): boolean {
+  try {
+    return act(world) !== world;
+  } catch {
+    return false;
+  }
+}
+
+/**
  * A peer's later request after shared work — and, later, the same ask raised
  * again when it was agreed and not done (MUSE-PEOPLE B1).
  *
@@ -1127,18 +1140,16 @@ function sharedWorkRequestAnswers(context: SceneContext): SceneAnswer[] {
         "“Good. I’ll stop worrying about it,” {name} says.",
       ]),
       record: `The player told ${context.name} they would do the ${lowerFirst(task)} now.`,
+      // The performer writes the follow-through itself when the work really
+      // happens; the scene never claims it for a blocked or busy moment.
       apply: (world) =>
         performSharedWorkRequest(world, playerId, requestEventId),
-      relationship: {
-        kind: "support:followed-through",
-        change: "strengthened",
-        significance: "meaningful",
-        summary: ({ playerName, otherName }) =>
-          `${playerName} carried out the shared work ${otherName} had asked for.`,
-      },
     };
+    const canDoNow = changesWorld(context.world, (world) =>
+      performSharedWorkRequest(world, playerId, requestEventId),
+    );
     return [
-      doIt,
+      ...(canDoNow ? [doIt] : []),
       {
         key: "withdraw-work",
         label: "Say you won’t do it after all",
@@ -1155,7 +1166,7 @@ function sharedWorkRequestAnswers(context: SceneContext): SceneAnswer[] {
       {
         key: "leave-work",
         label: "Leave it for now",
-        description: "Say nothing for the moment.",
+        description: "Ask for a little more time; it is still owed.",
         statement: "I haven’t forgotten. Give me a little longer.",
         replies: says(context, [
           "“All right. I’ll leave it with you,” {name} says.",
@@ -1311,36 +1322,30 @@ function promiseDueAnswers(context: SceneContext): SceneAnswer[] {
   const task = context.fact("task");
   const requestEventId = context.fact("requestEventId") as EntityId;
   const playerId = context.binding.playerPersonId;
+  const registry = createCampaignElectionTransitionRegistry();
+  const doIt: SceneAnswer = {
+    key: "do-revised-work",
+    label: `Do the ${lowerFirst(task)} now`,
+    description: "Carry out the revised arrangement.",
+    statement: "I’ll do it now.",
+    replies: says(context, [
+      "“Thank you. I’m glad we sorted it,” {name} says.",
+      "“Good. That settles it,” {name} says.",
+    ]),
+    record: `The player told ${context.name} they would do the ${lowerFirst(task)} now.`,
+    // performFavor records the follow-through when the work is really done;
+    // the option is offered only when this moment has room for it.
+    apply: (world) => performFavor(world, playerId, requestEventId, registry),
+  };
+  const canDoNow = changesWorld(context.world, (world) =>
+    performFavor(world, playerId, requestEventId, registry),
+  );
   return [
-    {
-      key: "do-revised-work",
-      label: `Do the ${lowerFirst(task)} now`,
-      description: "Carry out the revised arrangement.",
-      statement: "I’ll do it now.",
-      replies: says(context, [
-        "“Thank you. I’m glad we sorted it,” {name} says.",
-        "“Good. That settles it,” {name} says.",
-      ]),
-      record: `The player told ${context.name} they would do the ${lowerFirst(task)} now.`,
-      apply: (world) =>
-        performFavor(
-          world,
-          playerId,
-          requestEventId,
-          createCampaignElectionTransitionRegistry(),
-        ),
-      relationship: {
-        kind: "support:followed-through",
-        change: "strengthened",
-        significance: "meaningful",
-        summary: ({ playerName, otherName }) =>
-          `${playerName} carried out the revised arrangement ${otherName} had agreed to.`,
-      },
-    },
+    ...(canDoNow ? [doIt] : []),
     {
       key: "leave-revised",
       label: "Leave it for now",
-      description: "Say nothing for the moment.",
+      description: "Ask for a little more time; it is still owed.",
       statement: "I haven’t forgotten. Give me a little longer.",
       replies: says(context, [
         "“All right. I’ll leave it with you,” {name} says.",
