@@ -1,13 +1,13 @@
 {
-  "digest": "ffb2fc77291c33d1",
+  "digest": "42cd908bc1cf4495",
   "counts": {
-    "total": 3267,
+    "total": 3269,
     "byDomain": {
       "campaign": 24,
       "conversation": 455,
       "governing": 193,
       "legislative": 94,
-      "life": 1763,
+      "life": 1765,
       "narration": 79,
       "ordinary": 4,
       "setup": 618,
@@ -17,7 +17,7 @@
       "answer": 547,
       "artifact": 176,
       "callback": 41,
-      "connective": 53,
+      "connective": 55,
       "option-description": 436,
       "option-label": 492,
       "option-memory": 436,
@@ -31,13 +31,13 @@
       "CURRENTLY_UNREACHABLE": 395,
       "DEV_FIXTURE_ONLY": 110,
       "LEGACY_OR_WITHDRAWN": 90,
-      "PLAYER_REACHABLE": 2245,
+      "PLAYER_REACHABLE": 2247,
       "UNKNOWN": 69,
       "WITHHELD_BY_GROUNDING": 358
     },
     "byRealization": {
       "static": 2578,
-      "templated": 689
+      "templated": 691
     }
   },
   "records": [
@@ -100134,10 +100134,11 @@
       "surface": "connective",
       "sourcePath": "src/presentation/life-introduction.ts",
       "sourceSymbol": "buildGrounding",
-      "text": "{introducePerson(context)} has died.",
+      "text": "{context.name}, {context.relationship}, has died.",
       "realization": "templated",
       "slots": [
-        "introducePerson(context)"
+        "context.name",
+        "context.relationship"
       ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "The opening introduces the life before its first moment.",
@@ -100156,21 +100157,24 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "a757f0ab51ac",
+      "textRevision": "10fcfd289d38",
       "contextRevision": "9d5250102a31"
     },
     {
-      "id": "prose:life:introduction:buildLifeIntroduction-0001#text",
+      "id": "prose:life:introduction:buildGrounding-0007#text",
       "domain": "life",
       "bank": "introduction",
-      "stableKey": "buildLifeIntroduction-0001",
+      "stableKey": "buildGrounding-0007",
       "field": "text",
       "surface": "connective",
       "sourcePath": "src/presentation/life-introduction.ts",
-      "sourceSymbol": "buildLifeIntroduction",
-      "text": "At home with you:",
-      "realization": "static",
-      "slots": [],
+      "sourceSymbol": "buildGrounding",
+      "text": "{context.name} is {context.relationship}.",
+      "realization": "templated",
+      "slots": [
+        "context.name",
+        "context.relationship"
+      ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "The opening introduces the life before its first moment.",
       "grounding": [
@@ -100182,13 +100186,13 @@
       ],
       "provenance": {
         "extraction": "syntax-tree",
-        "symbol": "buildLifeIntroduction",
-        "anchor": "buildLifeIntroduction-0001"
+        "symbol": "buildGrounding",
+        "anchor": "buildGrounding-0007"
       },
       "tags": [
         "computed"
       ],
-      "textRevision": "6a074258f505",
+      "textRevision": "6ea3ead96fcd",
       "contextRevision": "9d5250102a31"
     },
     {
@@ -100258,6 +100262,72 @@
         "computed"
       ],
       "textRevision": "6eaa9e09f6b0",
+      "contextRevision": "9d5250102a31"
+    },
+    {
+      "id": "prose:life:introduction:buildLifeIntroduction-0005#text",
+      "domain": "life",
+      "bank": "introduction",
+      "stableKey": "buildLifeIntroduction-0005",
+      "field": "text",
+      "surface": "connective",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "sourceSymbol": "buildLifeIntroduction",
+      "text": "You live alone.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The opening introduces the life before its first moment.",
+      "grounding": [
+        {
+          "key": "person-record",
+          "description": "The character's own canonical name, age, place and household.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "buildLifeIntroduction",
+        "anchor": "buildLifeIntroduction-0005"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "e7e39a565b12",
+      "contextRevision": "9d5250102a31"
+    },
+    {
+      "id": "prose:life:introduction:buildLifeIntroduction-0006#text",
+      "domain": "life",
+      "bank": "introduction",
+      "stableKey": "buildLifeIntroduction-0006",
+      "field": "text",
+      "surface": "connective",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "sourceSymbol": "buildLifeIntroduction",
+      "text": "You live with {person.introduction}.",
+      "realization": "templated",
+      "slots": [
+        "person.introduction"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The opening introduces the life before its first moment.",
+      "grounding": [
+        {
+          "key": "person-record",
+          "description": "The character's own canonical name, age, place and household.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "buildLifeIntroduction",
+        "anchor": "buildLifeIntroduction-0006"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "0b68a3af9ba2",
       "contextRevision": "9d5250102a31"
     },
     {
@@ -109285,7 +109355,7 @@
       "surface": "answer",
       "sourcePath": "src/simulation/setup-questionnaire-bank.ts",
       "sourceSymbol": "SETUP_QUESTIONNAIRE_BANK/child_kitchen_late.text39-v1",
-      "text": "Wake Bea and tell her",
+      "text": "Wake your sister Bea and tell her",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -109307,7 +109377,7 @@
         "register:lived-personal",
         "band:middle-childhood"
       ],
-      "textRevision": "2362ef5640a0",
+      "textRevision": "1607a3095987",
       "contextRevision": "e39d201a1d04"
     },
     {
@@ -109319,7 +109389,7 @@
       "surface": "prompt",
       "sourcePath": "src/simulation/setup-questionnaire-bank.ts",
       "sourceSymbol": "SETUP_QUESTIONNAIRE_BANK/child_kitchen_late.text39-v1",
-      "text": "You get up for water. Dee is at the kitchen table with a calculator and two piles of mail. “Go back to bed,” she says when she sees you. Then, more quietly, “Sorry. It's late.”",
+      "text": "You get up for water. Dee, who looks after you, is at the kitchen table with a calculator and two piles of mail. “Go back to bed,” she says when she sees you. Then, more quietly, “Sorry. It's late.”",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -109341,7 +109411,7 @@
         "register:lived-personal",
         "band:middle-childhood"
       ],
-      "textRevision": "2df87b5cb134",
+      "textRevision": "b487ec7bd312",
       "contextRevision": "e39d201a1d04"
     },
     {

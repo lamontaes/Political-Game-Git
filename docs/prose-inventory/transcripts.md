@@ -14,74 +14,18 @@ quietly passing.
 **Intent.** Early childhood: the 92C age-five-to-seven kernels and their household and school context.
 
 Seed `corpus-early-childhood`, start age 6, Gabriela Lawrence.
-14 beats, 57 realized lines, 41 linked back to a template.
+14 beats, 55 realized lines, 45 linked back to a template.
 
-**Actually demonstrated:** age-band:childhood, connective-narration, episode:companionship.the-friend-you-named, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:opening.early.community.curious-neighbor, episode:opening.early.community.lost-pet-flyer, episode:opening.early.community.sidewalk-curb, episode:opening.early.home.broken-mug, episode:opening.early.peer.dropped-treat, episode:opening.early.peer.toy-damage-accidental, persistent-instance-continuation, person-introduction, scene:episode, thread-recap
+**Actually demonstrated:** age-band:childhood, connective-narration, episode:home.someone-is-not-all-right, episode:opening.early.community.curious-neighbor, episode:opening.early.community.lost-pet-flyer, episode:opening.early.community.sidewalk-curb, episode:opening.early.home.broken-mug, episode:opening.young.home.choose-activity, persistent-instance-continuation, person-introduction, scene:episode, scene:formative, thread-recap
 
 
 
 ### Beats
 
-#### Beat 0 — 2026-01-05, age 6 (episode, opening.early.peer.toy-damage-accidental/moment)
+#### Beat 0 — 2026-01-05, age 6 (episode, home.someone-is-not-all-right/parent-exhaustion)
 
 > You're 6, and you live in Lexington, Kentucky.
 > You live with Rafael Lawrence and Brooke Lawrence.
-> You're enrolled at Lexington, Kentucky public school.
-
-While you play together, a wheel snaps off Marcus Villegas's toy truck in your hands.
-
-- **Show them the wheel** ← chosen
-- Try putting it back
-- Put the truck aside
-
-_Present: Marcus Villegas, who is in your class_
-
-_Grounded by: Age 6; needs at least 6.; Age 6; needs to be under 8.; school-peer is Marcus Villegas: Active enrollment in the same school.; school.enrolled: An active education enrollment._
-
-#### Beat 1 — 2026-01-05, age 6 (episode, opening.early.peer.toy-damage-accidental/follow-through)
-
-
-
-You showed Marcus Villegas the broken wheel and apologized. The toy is still broken.
-
-- **Ask if they want help fixing it** ← chosen
-- Give back the truck and wheel
-
-_Present: Marcus Villegas, who is in your class_
-
-_Grounded by: Age 6; needs at least 6.; Age 6; needs to be under 8.; school-peer is Marcus Villegas: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose show, on 2026-01-05._
-
-#### Beat 2 — 2026-01-05, age 6 (episode, companionship.the-friend-you-named/best-friend-pact)
-
-
-
-Marcus Villegas says the two of you are best friends, and it should be just the two of you. There's a third child who has been playing with you both.
-
-- **Say yes** ← chosen
-- Ask about the third child
-- Don't answer either way
-
-_Present: Marcus Villegas, who is in your class_
-
-_Grounded by: familiar is Marcus Villegas: 4 record(s) name the two of them, none of them family or household; the most recent is 2026-01-05.; familiar is Marcus Villegas, 7, old enough (needs 5).; familiar is Marcus Villegas, 7, young enough (under 9).; answers-for-themselves does not hold, as required.; Age 6; needs at least 6.; Age 6; needs to be under 8._
-
-#### Beat 3 — 2026-01-05, age 6 (episode, growing-up.a-friend-over-years/the-year-you-were-inseparable)
-
-
-
-You and Marcus Villegas have spent most of this year in each other's houses. This afternoon they want you to come somewhere you have already said you would not go.
-
-- **Go with them** ← chosen
-- Stay where you said you'd be
-- Ask them to come with you instead
-
-_Present: Marcus Villegas, who is in your class_
-
-_Grounded by: familiar is Marcus Villegas: 6 record(s) name the two of them, none of them family or household; the most recent is 2026-01-05.; Age 6; needs to be under 18._
-
-#### Beat 4 — 2026-01-05, age 6 (episode, home.someone-is-not-all-right/parent-exhaustion)
-
-
 
 Rafael Lawrence is at the table with their head down. They haven't seen you yet, and you can tell they're not all right.
 
@@ -93,7 +37,7 @@ _Present: Rafael Lawrence, your dad_
 
 _Grounded by: household.shared: Somebody else is on the household record.; guardian is Rafael Lawrence: A parental:primary authority record over the player.; answers-for-themselves does not hold, as required.; Age 6; needs at least 6.; Age 6; needs to be under 8._
 
-#### Beat 5 — 2026-01-05, age 6 (episode, home.someone-is-not-all-right/chore-resistance)
+#### Beat 1 — 2026-01-05, age 6 (episode, home.someone-is-not-all-right/chore-resistance)
 
 
 
@@ -107,7 +51,7 @@ _Present: Rafael Lawrence, your dad_
 
 _Grounded by: household.shared: Somebody else is on the household record.; guardian is Rafael Lawrence: A parental:primary authority record over the player.; answers-for-themselves does not hold, as required.; Age 6; needs at least 5.; Age 6; needs to be under 7._
 
-#### Beat 6 — 2026-01-05, age 6 (episode, home.someone-is-not-all-right/sibling-toy-snatch)
+#### Beat 2 — 2026-01-05, age 6 (episode, home.someone-is-not-all-right/sibling-toy-snatch)
 
 
 
@@ -121,21 +65,7 @@ _Present: Brooke Lawrence, your younger sister_
 
 _Grounded by: household.shared: Somebody else is on the household record.; household-peer is Brooke Lawrence, 3, young enough (under 5).; answers-for-themselves does not hold, as required.; Age 6; needs at least 5.; Age 6; needs to be under 8._
 
-#### Beat 7 — 2026-01-05, age 6 (episode, opening.early.community.lost-pet-flyer/moment)
-
-
-
-Walking with Rafael Lawrence, you spot a white cat with an orange ear under a bush. It looks like the cat on a lost-pet flyer nearby.
-
-- Point out the cat
-- Stop and watch
-- **Ask if it might be the missing cat** ← chosen
-
-_Present: Rafael Lawrence, your dad_
-
-_Grounded by: Age 6; needs at least 6.; Age 6; needs to be under 8.; guardian is Rafael Lawrence: A parental:primary authority record over the player._
-
-#### Beat 8 — 2026-01-05, age 6 (episode, opening.early.community.curious-neighbor/moment)
+#### Beat 3 — 2026-01-05, age 6 (episode, opening.early.community.curious-neighbor/moment)
 
 
 
@@ -149,7 +79,7 @@ _Present: Rafael Lawrence, your dad_
 
 _Grounded by: Age 6; needs at least 5.; Age 6; needs to be under 8.; guardian is Rafael Lawrence: A parental:primary authority record over the player._
 
-#### Beat 9 — 2026-01-05, age 6 (episode, opening.early.community.curious-neighbor/follow-through)
+#### Beat 4 — 2026-01-05, age 6 (episode, opening.early.community.curious-neighbor/follow-through)
 
 
 
@@ -163,7 +93,7 @@ _Present: Rafael Lawrence, your dad_
 
 _Grounded by: Age 6; needs at least 5.; Age 6; needs to be under 8.; guardian is Rafael Lawrence: A parental:primary authority record over the player.; At moment they chose answer-politely, on 2026-01-05._
 
-#### Beat 10 — 2026-01-05, age 6 (episode, opening.early.home.broken-mug/moment)
+#### Beat 5 — 2026-01-05, age 6 (episode, opening.early.home.broken-mug/moment)
 
 
 
@@ -177,7 +107,21 @@ _Present: Rafael Lawrence, your dad_
 
 _Grounded by: Age 6; needs at least 5.; Age 6; needs to be under 8.; Requires a recorded current household.; guardian is Rafael Lawrence: A parental:primary authority record over the player._
 
-#### Beat 11 — 2026-01-05, age 6 (episode, opening.early.community.sidewalk-curb/moment)
+#### Beat 6 — 2026-01-05, age 6 (episode, opening.early.community.lost-pet-flyer/moment)
+
+
+
+Walking with Rafael Lawrence, you spot a white cat with an orange ear under a bush. It looks like the cat on a lost-pet flyer nearby.
+
+- Point out the cat
+- Stop and watch
+- **Ask if it might be the missing cat** ← chosen
+
+_Present: Rafael Lawrence, your dad_
+
+_Grounded by: Age 6; needs at least 6.; Age 6; needs to be under 8.; guardian is Rafael Lawrence: A parental:primary authority record over the player._
+
+#### Beat 7 — 2026-01-05, age 6 (episode, opening.early.community.sidewalk-curb/moment)
 
 
 
@@ -191,7 +135,7 @@ _Present: Rafael Lawrence, your dad_
 
 _Grounded by: Age 6; needs at least 5.; Age 6; needs to be under 7.; guardian is Rafael Lawrence: A parental:primary authority record over the player._
 
-#### Beat 12 — 2026-01-05, age 6 (episode, opening.early.community.sidewalk-curb/follow-through)
+#### Beat 8 — 2026-01-05, age 6 (episode, opening.early.community.sidewalk-curb/follow-through)
 
 
 
@@ -204,19 +148,57 @@ _Present: Rafael Lawrence, your dad_
 
 _Grounded by: Age 6; needs at least 5.; Age 6; needs to be under 7.; guardian is Rafael Lawrence: A parental:primary authority record over the player.; At moment they chose wait, on 2026-01-05._
 
-#### Beat 13 — 2026-01-05, age 6 (episode, opening.early.peer.dropped-treat/moment)
+#### Beat 9 — 2026-01-05, age 6 (episode, opening.young.home.choose-activity/moment)
 
 
 
-During the school break, Marcus Villegas drops a snack into a puddle and starts crying. You still have your own snack.
+You're at home, and the next fifteen minutes are yours.
 
-- **Offer some of your snack** ← chosen
-- Stay and comfort them
-- Move away quietly
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
 
-_Present: Marcus Villegas, who is in your class_
+_Grounded by: Age 6; needs at least 5.; Age 6; needs to be under 18.; Requires a recorded current household._
 
-_Grounded by: Age 6; needs at least 5.; Age 6; needs to be under 8.; school-peer is Marcus Villegas: Active enrollment in the same school.; school.enrolled: An active education enrollment._
+#### Beat 10 — 2026-01-05, age 6 (episode, opening.young.home.choose-activity/follow-through)
+
+
+
+Your drawing is in front of you. Do you want to add anything?
+
+- **Add to the picture** ← chosen
+- Put your picture somewhere safe
+
+_Grounded by: Age 6; needs at least 5.; Age 6; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2026-01-05._
+
+#### Beat 11 — 2026-01-05, age 6 (formative)
+
+
+
+There is a new child in the house. The nights are louder, and the adults are tired in a way you have not seen before.
+
+- **Settle in** ← chosen
+- Keep to your own corner
+- Make yourself useful
+
+#### Beat 12 — 2026-01-05, age 6 (formative)
+
+
+
+Someone at home has been in bed for days. The mornings are quieter than they should be, and nobody has explained why.
+
+- **Stay near them** ← chosen
+- Keep everything else going
+
+#### Beat 13 — 2026-01-05, age 6 (formative)
+
+
+
+A little money of your own, in a pocket, and nobody telling you what it is for.
+
+- **Spend it** ← chosen
+- Put it away
+- Share it
 
 
 ---
@@ -226,47 +208,18 @@ _Grounded by: Age 6; needs at least 5.; Age 6; needs to be under 8.; school-peer
 **Intent.** Adolescence: school, household load and the first work-standing situations.
 
 Seed `corpus-adolescence`, start age 15, Dawn Merritt.
-16 beats, 60 realized lines, 50 linked back to a template.
+16 beats, 56 realized lines, 46 linked back to a template.
 
-**Actually demonstrated:** age-band:adolescence, connective-narration, episode:growing-up.a-friend-over-years, episode:opening.young.home.ask-about-childhood, episode:opening.young.home.choose-activity, episode:school.the-thing-you-got-blamed-for, persistent-instance-continuation, person-introduction, scene:episode, scene:formative, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:adolescence, connective-narration, episode:opening.young.home.ask-about-childhood, episode:opening.young.home.choose-activity, persistent-instance-continuation, person-introduction, scene:episode, scene:formative, scene:ordinary-stretch, thread-recap
 
 
 
 ### Beats
 
-#### Beat 0 — 2026-01-05, age 15 (episode, school.the-thing-you-got-blamed-for/blamed)
+#### Beat 0 — 2026-01-05, age 15 (episode, opening.young.home.ask-about-childhood/moment)
 
 > You're 15, and you live in Lexington, Kentucky.
 > You live with Haley Merritt and Alina Merritt.
-> You're enrolled at Lexington, Kentucky public school.
-
-The fire-alarm cover by the stairs is broken at school, and the office has your name for it. You were standing next to it when it happened, and so was Monique Wells, who is in your class. She broke it. She has not said so, and nobody has asked you what you saw.
-
-- **Say it was Monique Wells** ← chosen
-- Take the blame
-- Say only that it wasn't you
-
-_Present: Monique Wells, who is in your class_
-
-_Grounded by: school.enrolled: An active education enrollment.; Age 15; needs to be under 18.; school-peer is Monique Wells: Active enrollment in the same school._
-
-#### Beat 1 — 2026-01-05, age 15 (episode, growing-up.a-friend-over-years/the-year-you-were-inseparable)
-
-
-
-You and Monique Wells have spent most of this year in each other's houses. This afternoon they want you to come somewhere you have already said you would not go.
-
-- **Go with them** ← chosen
-- Stay where you said you'd be
-- Ask them to come with you instead
-
-_Present: Monique Wells, who is in your class_
-
-_Grounded by: familiar is Monique Wells: 2 record(s) name the two of them, none of them family or household; the most recent is 2026-01-05.; Age 15; needs to be under 18._
-
-#### Beat 2 — 2026-01-05, age 15 (episode, opening.young.home.ask-about-childhood/moment)
-
-
 
 You and Alina Merritt have time for a conversation.
 
@@ -278,7 +231,7 @@ _Present: Alina Merritt, your guardian_
 
 _Grounded by: Age 15; needs at least 8.; Age 15; needs to be under 18.; Requires a recorded current household.; guardian is Alina Merritt: A guardianship:ordinary authority record over the player._
 
-#### Beat 3 — 2026-01-05, age 15 (episode, opening.young.home.ask-about-childhood/follow-through)
+#### Beat 1 — 2026-01-05, age 15 (episode, opening.young.home.ask-about-childhood/follow-through)
 
 
 
@@ -291,7 +244,7 @@ _Present: Alina Merritt, your guardian_
 
 _Grounded by: Age 15; needs at least 8.; Age 15; needs to be under 18.; Requires a recorded current household.; guardian is Alina Merritt: A guardianship:ordinary authority record over the player.; At moment they chose ask, on 2026-01-05._
 
-#### Beat 4 — 2026-01-05, age 15 (episode, opening.young.home.choose-activity/moment)
+#### Beat 2 — 2026-01-05, age 15 (episode, opening.young.home.choose-activity/moment)
 
 
 
@@ -303,7 +256,7 @@ You're at home, and the next fifteen minutes are yours.
 
 _Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires a recorded current household._
 
-#### Beat 5 — 2026-01-05, age 15 (episode, opening.young.home.choose-activity/follow-through)
+#### Beat 3 — 2026-01-05, age 15 (episode, opening.young.home.choose-activity/follow-through)
 
 
 
@@ -314,7 +267,7 @@ Your drawing is in front of you. Do you want to add anything?
 
 _Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2026-01-05._
 
-#### Beat 6 — 2026-01-05, age 15 (formative)
+#### Beat 4 — 2026-01-05, age 15 (formative)
 
 
 
@@ -324,7 +277,7 @@ Something local needs hands on a Saturday, and someone has asked whether you are
 - Observe first
 - Get other people to go
 
-#### Beat 7 — 2026-01-05, age 15 (formative)
+#### Beat 5 — 2026-01-05, age 15 (formative)
 
 
 
@@ -334,7 +287,7 @@ The year is running out, and people keep asking what comes after it.
 - Keep your options open
 - Ask somebody who has done it
 
-#### Beat 8 — 2026-01-05, age 15 (formative)
+#### Beat 6 — 2026-01-05, age 15 (formative)
 
 
 
@@ -344,7 +297,7 @@ Somebody at home needs more looking after than the household can spread around, 
 - Say what you can manage
 - Look for help from outside the house
 
-#### Beat 9 — 2026-01-05, age 15 (formative)
+#### Beat 7 — 2026-01-05, age 15 (formative)
 
 
 
@@ -354,46 +307,7 @@ There is a sign-up sheet, a practice schedule, and only so many afternoons in a 
 - Leave the activity
 - Stay, but do less of it
 
-#### Beat 10 — 2026-01-05, age 15 (formative)
-
-
-
-Someone you respect says something you think is wrong, and says it as though it settles the matter.
-
-- **Say you disagree** ← chosen
-- Let it pass
-
-_Present: Maria Nielsen_
-
-#### Beat 11 — 2026-01-05, age 15 (formative)
-
-
-
-There is a job going. The hours are real, and the law has something to say about which of them you are allowed to work.
-
-- **Accept the opportunity** ← chosen
-- Decline for now
-
-#### Beat 12 — 2026-01-05, age 15 (formative)
-
-
-
-There is a rule at work that nobody follows, and today somebody older is telling you to follow it in front of a customer.
-
-- **Follow the rule** ← chosen
-- Say nobody does that
-- Do it, then say something after
-
-#### Beat 13 — 2026-01-05, age 15 (formative)
-
-
-
-Something at school is wrong enough that people are talking about doing something, and the talking has reached you.
-
-- **Help organize it** ← chosen
-- Stay out of it
-
-#### Beat 14 — 2026-01-05, age 15 (ordinary-stretch)
+#### Beat 8 — 2026-01-05, age 15 (ordinary-stretch)
 
 
 
@@ -401,7 +315,69 @@ Something at school is wrong enough that people are talking about doing somethin
 
 - **Let the year run on** ← chosen
 
-#### Beat 15 — 2026-01-28, age 15 (episode, opening.young.home.choose-activity/moment)
+#### Beat 9 — 2026-01-28, age 15 (episode, opening.young.home.choose-activity/moment)
+
+
+
+You're at home, and the next fifteen minutes are yours.
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 10 — 2026-01-28, age 15 (episode, opening.young.home.choose-activity/follow-through)
+
+
+
+Your drawing is in front of you. Do you want to add anything?
+
+- **Add to the picture** ← chosen
+- Put your picture somewhere safe
+
+_Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2026-01-28._
+
+#### Beat 11 — 2026-01-28, age 15 (ordinary-stretch)
+
+
+
+
+
+- **Let the year run on** ← chosen
+
+#### Beat 12 — 2026-01-29, age 15 (episode, opening.young.home.choose-activity/moment)
+
+
+
+You're at home, and the next fifteen minutes are yours.
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 13 — 2026-01-29, age 15 (episode, opening.young.home.choose-activity/follow-through)
+
+
+
+Your drawing is in front of you. Do you want to add anything?
+
+- **Add to the picture** ← chosen
+- Put your picture somewhere safe
+
+_Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2026-01-29._
+
+#### Beat 14 — 2026-01-29, age 15 (ordinary-stretch)
+
+
+
+
+
+- **Let the year run on** ← chosen
+
+#### Beat 15 — 2026-06-18, age 15 (episode, opening.young.home.choose-activity/moment)
 
 
 
@@ -421,7 +397,7 @@ _Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires
 **Intent.** Ordinary adult life: adult situations, quiet stretches and connective narration between them.
 
 Seed `corpus-ordinary-adult`, start age 34, Zachary Todd.
-20 beats, 78 realized lines, 45 linked back to a template.
+20 beats, 77 realized lines, 45 linked back to a template.
 
 **Actually demonstrated:** age-band:adult, connective-narration, episode:civic.the-thing-nobody-else-turned-up-for, episode:home.the-week-that-does-not-balance, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
 
@@ -433,7 +409,6 @@ Seed `corpus-ordinary-adult`, start age 34, Zachary Todd.
 
 > You're 34, and you live in Kentucky.
 > You live with Caleb Terrell.
-> You belong to Community Service Club.
 
 Caleb Terrell says, not for the first time but for the first time out loud, that the week does not divide evenly. They are right, and they have picked a bad evening to be right on.
 
@@ -529,7 +504,7 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 #### Beat 8 — 2026-03-24, age 34 (episode, civic.the-thing-nobody-else-turned-up-for/you-said-something)
 
 > A couple of months on.
-> You and Devon Lewis were in and out of each other's business more than once.
+> You and Philip Lucas were in and out of each other's business more than once.
 > Things came up at home with Caleb Terrell more than once in that time.
 
 The group has settled into eight people and one of them keeps looking at you when a decision needs making. There is a position going that nobody wants and that somebody has to hold.
@@ -544,13 +519,13 @@ _Grounded by: At the-meeting they chose go, on 2026-01-05.; civic.participation:
 
 
 
-Edward Todd, your dad: “I agreed to organize the family picnic, and now I need to back out. I have not told the guests. Please keep this between us for now.”
+Haris Todd, your dad: “I agreed to organize the family picnic, and now I need to back out. I have not told the guests. Please keep this between us for now.”
 
 - **Agree to keep this conversation private** ← chosen
 - Ask them to tell the picnic guests
 - Say you cannot help with the picnic
 
-_Present: Edward Todd, your dad_
+_Present: Haris Todd, your dad_
 
 #### Beat 10 — 2026-03-24, age 34 (adult)
 
@@ -567,24 +542,24 @@ _Present: Caleb Terrell, who you live with_
 
 
 
-Edward Todd, your dad: “Could you look over my invitation to the family picnic? Just two paragraphs. I want to make sure the wording is clear.” Proofreading takes 20 minutes; answering takes no time.
+Haris Todd, your dad: “Could you look over my invitation to the family picnic? Just two paragraphs. I want to make sure the wording is clear.” Proofreading takes 20 minutes; answering takes no time.
 
 - **Agree to proofread the two-paragraph picnic invitation** ← chosen
 - Agree: Wording only; I will not contact the guests
 - Decline the proofreading request
 
-_Present: Edward Todd, your dad_
+_Present: Haris Todd, your dad_
 
 #### Beat 12 — 2026-03-24, age 34 (adult)
 
 
 
-Edward Todd, your dad: Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.
+Haris Todd, your dad: Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.
 
 - **Say you will come** ← chosen
 - Decline the invitation
 
-_Present: Edward Todd, your dad_
+_Present: Haris Todd, your dad_
 
 #### Beat 13 — 2026-03-24, age 34 (episode, opening.adult.home.free-time/moment)
 
@@ -620,8 +595,8 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 #### Beat 16 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/moment)
 
 > A couple of months on, and you're 35 now.
-> Devon Lewis tried to reach you.
-> You and Joel Miles were in and out of each other's business more than once.
+> Philip Lucas tried to reach you.
+> Things came up at home with Caleb Terrell more than once in that time.
 
 You're at home with fifteen minutes free.
 
@@ -646,12 +621,12 @@ _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requir
 
 
 
-Edward Todd, your dad: Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.
+Haris Todd, your dad: Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.
 
 - **Say you will come** ← chosen
 - Decline the invitation
 
-_Present: Edward Todd, your dad_
+_Present: Haris Todd, your dad_
 
 #### Beat 19 — 2026-05-10, age 35 (adult)
 
@@ -672,61 +647,18 @@ _Present: Caleb Terrell, who you live with_
 **Intent.** Persistent cast across years: a family that binds one canonical person and returns to them in later beats. This lane does NOT claim the 92C childhood-pact callback specifically — that claim is only made when the pact stage and a later stage of the same instance are both actually played, which `demonstrated` reports separately.
 
 Seed `corpus-long-tail`, start age 7, Peter Fleming.
-40 beats, 147 realized lines, 111 linked back to a template.
+40 beats, 136 realized lines, 105 linked back to a template.
 
-**Actually demonstrated:** age-band:childhood, connective-narration, episode:companionship.the-friend-you-named, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:opening.early.community.curious-neighbor, episode:opening.early.community.lost-pet-flyer, episode:opening.early.home.broken-mug, episode:opening.early.peer.dropped-treat, episode:opening.early.peer.roughhouse-line, episode:opening.early.peer.secret-whisper, episode:opening.early.peer.sidewalk-game, episode:opening.early.peer.toy-damage-accidental, episode:opening.early.school.crayon-sharing, episode:opening.early.school.lunchbox-swap, episode:opening.early.school.playground-turn, episode:opening.early.school.spilled-paint, episode:opening.young.home.choose-activity, episode:school.the-thing-you-got-blamed-for, persistent-instance-continuation, person-introduction, scene:episode, scene:formative, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:childhood, connective-narration, episode:home.someone-is-not-all-right, episode:opening.early.community.curious-neighbor, episode:opening.early.community.lost-pet-flyer, episode:opening.early.home.broken-mug, episode:opening.young.home.ask-about-childhood, episode:opening.young.home.choose-activity, persistent-instance-continuation, person-introduction, scene:episode, scene:formative, scene:ordinary-stretch, thread-recap
 
 
 
 ### Beats
 
-#### Beat 0 — 2026-01-05, age 7 (episode, opening.early.peer.dropped-treat/moment)
+#### Beat 0 — 2026-01-05, age 7 (episode, home.someone-is-not-all-right/parent-exhaustion)
 
 > You're 7, and you live in Lexington, Kentucky.
 > You live with Anna Fleming and Teresa Fleming.
-> You're enrolled at Lexington, Kentucky public school.
-
-During the school break, Sofia Hunter drops a snack into a puddle and starts crying. You still have your own snack.
-
-- **Offer some of your snack** ← chosen
-- Stay and comfort them
-- Move away quietly
-
-_Present: Sofia Hunter, who is in your class_
-
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
-
-#### Beat 1 — 2026-01-05, age 7 (episode, companionship.the-friend-you-named/best-friend-pact)
-
-
-
-Sofia Hunter says the two of you are best friends, and it should be just the two of you. There's a third child who has been playing with you both.
-
-- **Say yes** ← chosen
-- Ask about the third child
-- Don't answer either way
-
-_Present: Sofia Hunter, who is in your class_
-
-_Grounded by: familiar is Sofia Hunter: 2 record(s) name the two of them, none of them family or household; the most recent is 2026-01-05.; familiar is Sofia Hunter, 8, old enough (needs 5).; familiar is Sofia Hunter, 8, young enough (under 9).; answers-for-themselves does not hold, as required.; Age 7; needs at least 6.; Age 7; needs to be under 8._
-
-#### Beat 2 — 2026-01-05, age 7 (episode, growing-up.a-friend-over-years/the-year-you-were-inseparable)
-
-
-
-You and Sofia Hunter have spent most of this year in each other's houses. This afternoon they want you to come somewhere you have already said you would not go.
-
-- **Go with them** ← chosen
-- Stay where you said you'd be
-- Ask them to come with you instead
-
-_Present: Sofia Hunter, who is in your class_
-
-_Grounded by: familiar is Sofia Hunter: 4 record(s) name the two of them, none of them family or household; the most recent is 2026-01-05.; Age 7; needs to be under 18._
-
-#### Beat 3 — 2026-01-05, age 7 (episode, home.someone-is-not-all-right/parent-exhaustion)
-
-
 
 Teresa Fleming is at the table with their head down. They haven't seen you yet, and you can tell they're not all right.
 
@@ -738,7 +670,7 @@ _Present: Teresa Fleming, your mom_
 
 _Grounded by: household.shared: Somebody else is on the household record.; guardian is Teresa Fleming: A parental:primary authority record over the player.; answers-for-themselves does not hold, as required.; Age 7; needs at least 6.; Age 7; needs to be under 8._
 
-#### Beat 4 — 2026-01-05, age 7 (episode, home.someone-is-not-all-right/sibling-toy-snatch)
+#### Beat 1 — 2026-01-05, age 7 (episode, home.someone-is-not-all-right/sibling-toy-snatch)
 
 
 
@@ -752,7 +684,7 @@ _Present: Anna Fleming, your younger sister_
 
 _Grounded by: household.shared: Somebody else is on the household record.; household-peer is Anna Fleming, 3, young enough (under 5).; answers-for-themselves does not hold, as required.; Age 7; needs at least 5.; Age 7; needs to be under 8._
 
-#### Beat 5 — 2026-01-05, age 7 (episode, opening.early.community.curious-neighbor/moment)
+#### Beat 2 — 2026-01-05, age 7 (episode, opening.early.community.curious-neighbor/moment)
 
 
 
@@ -766,7 +698,7 @@ _Present: Teresa Fleming, your mom_
 
 _Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; guardian is Teresa Fleming: A parental:primary authority record over the player._
 
-#### Beat 6 — 2026-01-05, age 7 (episode, opening.early.community.curious-neighbor/follow-through)
+#### Beat 3 — 2026-01-05, age 7 (episode, opening.early.community.curious-neighbor/follow-through)
 
 
 
@@ -780,7 +712,7 @@ _Present: Teresa Fleming, your mom_
 
 _Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; guardian is Teresa Fleming: A parental:primary authority record over the player.; At moment they chose answer-politely, on 2026-01-05._
 
-#### Beat 7 — 2026-01-05, age 7 (episode, opening.early.home.broken-mug/moment)
+#### Beat 4 — 2026-01-05, age 7 (episode, opening.early.home.broken-mug/moment)
 
 
 
@@ -794,7 +726,7 @@ _Present: Teresa Fleming, your mom_
 
 _Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; Requires a recorded current household.; guardian is Teresa Fleming: A parental:primary authority record over the player._
 
-#### Beat 8 — 2026-01-05, age 7 (episode, opening.early.home.broken-mug/follow-through)
+#### Beat 5 — 2026-01-05, age 7 (episode, opening.early.home.broken-mug/follow-through)
 
 
 
@@ -807,7 +739,7 @@ _Present: Teresa Fleming, your mom_
 
 _Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; Requires a recorded current household.; guardian is Teresa Fleming: A parental:primary authority record over the player.; At moment they chose tell, on 2026-01-05._
 
-#### Beat 9 — 2026-01-05, age 7 (episode, opening.early.community.lost-pet-flyer/moment)
+#### Beat 6 — 2026-01-05, age 7 (episode, opening.early.community.lost-pet-flyer/moment)
 
 
 
@@ -821,7 +753,7 @@ _Present: Teresa Fleming, your mom_
 
 _Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; guardian is Teresa Fleming: A parental:primary authority record over the player._
 
-#### Beat 10 — 2026-01-05, age 7 (episode, opening.early.community.lost-pet-flyer/follow-through)
+#### Beat 7 — 2026-01-05, age 7 (episode, opening.early.community.lost-pet-flyer/follow-through)
 
 
 
@@ -834,260 +766,7 @@ _Present: Teresa Fleming, your mom_
 
 _Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; guardian is Teresa Fleming: A parental:primary authority record over the player.; At moment they chose show, on 2026-01-05._
 
-#### Beat 11 — 2026-01-05, age 7 (episode, school.the-thing-you-got-blamed-for/partner-pairing)
-
-
-
-The class is being put into pairs for a piece of work, and you've been put with the kid nobody else asked for. You can tell the other kids noticed who you got.
-
-- **Start the work** ← chosen
-- Look around the room
-- Ask for a different partner
-
-_Grounded by: school.enrolled: An active education enrollment.; answers-for-themselves does not hold, as required.; Age 7; needs at least 7.; Age 7; needs to be under 8._
-
-#### Beat 12 — 2026-01-05, age 7 (episode, school.the-thing-you-got-blamed-for/blamed)
-
-
-
-The fire-alarm cover by the stairs is broken at school, and the office has your name for it. You were standing next to it when it happened, and so was Sofia Hunter, who is in your class. She broke it. She has not said so, and nobody has asked you what you saw.
-
-- **Say it was Sofia Hunter** ← chosen
-- Take the blame
-- Say only that it wasn't you
-
-_Present: Sofia Hunter, who is in your class_
-
-_Grounded by: school.enrolled: An active education enrollment.; Age 7; needs to be under 18.; school-peer is Sofia Hunter: Active enrollment in the same school._
-
-#### Beat 13 — 2026-01-05, age 7 (episode, school.the-thing-you-got-blamed-for/tattle-boundary)
-
-
-
-During quiet work you're supposed to stay at your table, and while the adult was out of the room another kid got up and went to the window. The adult is back.
-
-- **Tell the adult** ← chosen
-- Keep working
-- Ask about the rule
-
-_Grounded by: school.enrolled: An active education enrollment.; answers-for-themselves does not hold, as required.; Age 7; needs at least 6.; Age 7; needs to be under 8._
-
-#### Beat 14 — 2026-01-05, age 7 (episode, school.the-thing-you-got-blamed-for/recess-race)
-
-
-
-You lose the race across the yard. Nobody was watching the start except the two of you, and you know it was fair.
-
-- **Say they cheated** ← chosen
-- Ask to race again
-- Say nothing about it
-
-_Grounded by: school.enrolled: An active education enrollment.; answers-for-themselves does not hold, as required.; Age 7; needs at least 6.; Age 7; needs to be under 8._
-
-#### Beat 15 — 2026-01-05, age 7 (episode, opening.early.school.spilled-paint/moment)
-
-
-
-Your elbow knocks a cup of paint water across Sofia Hunter's drawing.
-
-- **Apologize and help blot it** ← chosen
-- Explain it was an accident
-- Stand still
-
-_Present: Sofia Hunter, who is in your class_
-
-_Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
-
-#### Beat 16 — 2026-01-05, age 7 (episode, opening.early.school.spilled-paint/follow-through)
-
-
-
-The drawing is still wet after you blot it.
-
-- **Offer a fresh sheet of paper** ← chosen
-- Ask what you can do to help
-
-_Present: Sofia Hunter, who is in your class_
-
-_Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose apologize, on 2026-01-05._
-
-#### Beat 17 — 2026-01-05, age 7 (episode, opening.early.peer.roughhouse-line/moment)
-
-
-
-Sofia Hunter knocks you over during tag. You sit up on the grass.
-
-- **Say, “Don’t push me”** ← chosen
-- Stop playing for now
-- Get up and keep playing
-
-_Present: Sofia Hunter, who is in your class_
-
-_Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
-
-#### Beat 18 — 2026-01-05, age 7 (episode, opening.early.peer.roughhouse-line/follow-through)
-
-
-
-You’ve told Sofia Hunter not to push you. Do you want to keep playing?
-
-- **Play again, but say no pushing** ← chosen
-- Stop playing tag
-
-_Present: Sofia Hunter, who is in your class_
-
-_Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose state-boundary, on 2026-01-05._
-
-#### Beat 19 — 2026-01-05, age 7 (episode, opening.early.school.crayon-sharing/moment)
-
-
-
-You're drawing with the blue crayon. Sofia Hunter asks for it to draw water.
-
-- **Hand over the crayon** ← chosen
-- Ask to finish coloring first
-- Keep using it
-
-_Present: Sofia Hunter, who is in your class_
-
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
-
-#### Beat 20 — 2026-01-05, age 7 (episode, opening.early.school.crayon-sharing/follow-through)
-
-
-
-You handed the blue crayon to Sofia Hunter and chose another color. Your drawing is still in front of you.
-
-- **Keep drawing** ← chosen
-- Ask for the blue crayon when they finish
-
-_Present: Sofia Hunter, who is in your class_
-
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose hand-over, on 2026-01-05._
-
-#### Beat 21 — 2026-01-05, age 7 (episode, opening.early.peer.secret-whisper/moment)
-
-
-
-During story time, Sofia Hunter whispers an embarrassing story about another child. You don't know whether it happened.
-
-- **Say it sounds unkind** ← chosen
-- Keep it to yourself
-- Ask how they know
-
-_Present: Sofia Hunter, who is in your class_
-
-_Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
-
-#### Beat 22 — 2026-01-05, age 7 (episode, opening.early.school.playground-turn/moment)
-
-
-
-Sofia Hunter is on a swing. You're waiting for a turn.
-
-- **Ask for a turn** ← chosen
-- Wait beside the swing
-- Choose another game
-
-_Present: Sofia Hunter, who is in your class_
-
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
-
-#### Beat 23 — 2026-01-05, age 7 (episode, opening.early.school.playground-turn/follow-through)
-
-
-
-Sofia Hunter is still on the swing after you asked for a turn.
-
-- **Wait for a turn** ← chosen
-- Go and play somewhere else
-
-_Present: Sofia Hunter, who is in your class_
-
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose ask-turn, on 2026-01-05._
-
-#### Beat 24 — 2026-01-05, age 7 (episode, opening.early.peer.sidewalk-game/moment)
-
-
-
-You and Sofia Hunter have drawn a chalk game in the schoolyard. Sofia Hunter wants to add a rule that changes how you play.
-
-- **Suggest trying the rule for one round** ← chosen
-- Ask to keep the rules you agreed
-- Try their rule
-
-_Present: Sofia Hunter, who is in your class_
-
-_Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
-
-#### Beat 25 — 2026-01-05, age 7 (episode, opening.early.peer.sidewalk-game/follow-through)
-
-
-
-You suggested trying the new rule for one round. Do you want to try it?
-
-- **Try one round** ← chosen
-- Ask to use the original rules
-
-_Present: Sofia Hunter, who is in your class_
-
-_Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose compromise-rule, on 2026-01-05._
-
-#### Beat 26 — 2026-01-05, age 7 (episode, opening.early.peer.toy-damage-accidental/moment)
-
-
-
-While you play together, a wheel snaps off Sofia Hunter's toy truck in your hands.
-
-- **Show them the wheel** ← chosen
-- Try putting it back
-- Put the truck aside
-
-_Present: Sofia Hunter, who is in your class_
-
-_Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
-
-#### Beat 27 — 2026-01-05, age 7 (episode, opening.early.peer.toy-damage-accidental/follow-through)
-
-
-
-You showed Sofia Hunter the broken wheel and apologized. The toy is still broken.
-
-- **Ask if they want help fixing it** ← chosen
-- Give back the truck and wheel
-
-_Present: Sofia Hunter, who is in your class_
-
-_Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose show, on 2026-01-05._
-
-#### Beat 28 — 2026-01-05, age 7 (episode, opening.early.school.lunchbox-swap/moment)
-
-
-
-At lunch, Sofia Hunter offers to swap snacks. The lunch monitor has just said to keep your own food.
-
-- **Make the swap quietly** ← chosen
-- Say trading isn't allowed
-- Keep the snack you brought
-
-_Present: Sofia Hunter, who is in your class_
-
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
-
-#### Beat 29 — 2026-01-05, age 7 (episode, opening.early.school.lunchbox-swap/follow-through)
-
-
-
-You traded snacks with Sofia Hunter despite the lunch rule. The exchanged snack is still in front of you.
-
-- **Offer to undo the snack trade** ← chosen
-- Keep the exchanged snack
-
-_Present: Sofia Hunter, who is in your class_
-
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose make-secret-swap, on 2026-01-05._
-
-#### Beat 30 — 2026-01-05, age 7 (episode, opening.young.home.choose-activity/moment)
+#### Beat 8 — 2026-01-05, age 7 (episode, opening.young.home.choose-activity/moment)
 
 
 
@@ -1099,7 +778,7 @@ You're at home, and the next fifteen minutes are yours.
 
 _Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 18.; Requires a recorded current household._
 
-#### Beat 31 — 2026-01-05, age 7 (episode, opening.young.home.choose-activity/follow-through)
+#### Beat 9 — 2026-01-05, age 7 (episode, opening.young.home.choose-activity/follow-through)
 
 
 
@@ -1110,16 +789,36 @@ Your drawing is in front of you. Do you want to add anything?
 
 _Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2026-01-05._
 
-#### Beat 32 — 2026-01-05, age 7 (formative)
+#### Beat 10 — 2026-01-05, age 7 (formative)
 
 
 
-A room of children you do not know, a coat hook with your name on it, and an adult who claps twice when it is time to listen.
+There is a new child in the house. The nights are louder, and the adults are tired in a way you have not seen before.
 
-- **Join in** ← chosen
-- Hang back and watch
+- **Settle in** ← chosen
+- Keep to your own corner
+- Make yourself useful
 
-#### Beat 33 — 2026-01-05, age 7 (formative)
+#### Beat 11 — 2026-01-05, age 7 (formative)
+
+
+
+Someone at home has been in bed for days. The mornings are quieter than they should be, and nobody has explained why.
+
+- **Stay near them** ← chosen
+- Keep everything else going
+
+#### Beat 12 — 2026-01-05, age 7 (formative)
+
+
+
+A little money of your own, in a pocket, and nobody telling you what it is for.
+
+- **Spend it** ← chosen
+- Put it away
+- Share it
+
+#### Beat 13 — 2026-01-05, age 7 (formative)
 
 
 
@@ -1130,36 +829,7 @@ Something that mattered is in pieces on the floor. An adult is in the doorway as
 
 _Present: Teresa Fleming, your mom_
 
-#### Beat 34 — 2026-01-05, age 7 (formative)
-
-
-
-Someone at home has been in bed for days. The mornings are quieter than they should be, and nobody has explained why.
-
-- **Stay near them** ← chosen
-- Keep everything else going
-
-#### Beat 35 — 2026-01-05, age 7 (formative)
-
-
-
-A little money of your own, in a pocket, and nobody telling you what it is for.
-
-- **Spend it** ← chosen
-- Put it away
-- Share it
-
-#### Beat 36 — 2026-01-05, age 7 (formative)
-
-
-
-There is a new child in the house. The nights are louder, and the adults are tired in a way you have not seen before.
-
-- **Settle in** ← chosen
-- Keep to your own corner
-- Make yourself useful
-
-#### Beat 37 — 2026-01-05, age 7 (ordinary-stretch)
+#### Beat 14 — 2026-01-05, age 7 (ordinary-stretch)
 
 
 
@@ -1167,29 +837,268 @@ There is a new child in the house. The nights are louder, and the adults are tir
 
 - **Let the year run on** ← chosen
 
-#### Beat 38 — 2026-09-10, age 8 (episode, school.the-thing-you-got-blamed-for/it-came-out)
+#### Beat 15 — 2026-09-10, age 8 (episode, opening.young.home.ask-about-childhood/moment)
 
 > A year on, and you're 8 now.
 
-Sofia Hunter has not spoken to you since you said it, and has been telling people a different version. One of them asks you, straight out, what happened to the fire-alarm cover by the stairs in the corridor.
+You and Teresa Fleming have time for a conversation.
 
-- **Tell it again** ← chosen
-- Say it's over
+- **Ask what school was like** ← chosen
+- Let them choose a topic
+- Talk about your day
 
-_Present: Sofia Hunter, who is in your class_
+_Present: Teresa Fleming, your mom_
 
-_Grounded by: At blamed they chose name-them, on 2026-01-05.; 248 day(s) since blamed; needs 200.; school-peer is Sofia Hunter: Active enrollment in the same school._
+_Grounded by: Age 8; needs at least 8.; Age 8; needs to be under 18.; Requires a recorded current household.; guardian is Teresa Fleming: A parental:primary authority record over the player._
 
-#### Beat 39 — 2026-09-10, age 8 (episode, school.the-thing-you-got-blamed-for/it-was-still-there)
+#### Beat 16 — 2026-09-10, age 8 (episode, opening.young.home.ask-about-childhood/follow-through)
 
 
 
-It's quiet work, and a kid is at the window again. You remember what you did the first time.
+You’ve asked Teresa Fleming what school was like for them.
 
-- **Go to the window** ← chosen
-- Stay at your table
+- **Wait for their answer** ← chosen
+- Offer to talk about something else
 
-_Grounded by: Stage tattle-boundary was played on 2026-01-05.; 248 day(s) since tattle-boundary; needs 180.; school.enrolled: An active education enrollment.; answers-for-themselves does not hold, as required.; Age 8; needs to be under 9._
+_Present: Teresa Fleming, your mom_
+
+_Grounded by: Age 8; needs at least 8.; Age 8; needs to be under 18.; Requires a recorded current household.; guardian is Teresa Fleming: A parental:primary authority record over the player.; At moment they chose ask, on 2026-09-10._
+
+#### Beat 17 — 2026-09-10, age 8 (episode, opening.young.home.choose-activity/moment)
+
+
+
+You're at home, and the next fifteen minutes are yours.
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 8; needs at least 5.; Age 8; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 18 — 2026-09-10, age 8 (episode, opening.young.home.choose-activity/follow-through)
+
+
+
+Your drawing is in front of you. Do you want to add anything?
+
+- **Add to the picture** ← chosen
+- Put your picture somewhere safe
+
+_Grounded by: Age 8; needs at least 5.; Age 8; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2026-09-10._
+
+#### Beat 19 — 2026-09-10, age 8 (formative)
+
+
+
+The thing that was planned for this month is not happening any more. The reason given is short, and the subject gets changed.
+
+- **Ask what happened** ← chosen
+- Let it go
+
+#### Beat 20 — 2026-09-10, age 8 (formative)
+
+
+
+The house needs you on the same afternoons the thing you signed up for does.
+
+- **Cover things at home** ← chosen
+- Keep the commitment
+- Try to do both
+
+#### Beat 21 — 2026-09-10, age 8 (ordinary-stretch)
+
+
+
+
+
+- **Let the year run on** ← chosen
+
+#### Beat 22 — 2027-04-26, age 8 (episode, opening.young.home.choose-activity/moment)
+
+
+
+You're at home, and the next fifteen minutes are yours.
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 8; needs at least 5.; Age 8; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 23 — 2027-04-26, age 8 (episode, opening.young.home.choose-activity/follow-through)
+
+
+
+Your drawing is in front of you. Do you want to add anything?
+
+- **Add to the picture** ← chosen
+- Put your picture somewhere safe
+
+_Grounded by: Age 8; needs at least 5.; Age 8; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2027-04-26._
+
+#### Beat 24 — 2027-04-26, age 8 (ordinary-stretch)
+
+
+
+
+
+- **Let the year run on** ← chosen
+
+#### Beat 25 — 2027-04-27, age 8 (episode, opening.young.home.choose-activity/moment)
+
+
+
+You're at home, and the next fifteen minutes are yours.
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 8; needs at least 5.; Age 8; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 26 — 2027-04-27, age 8 (episode, opening.young.home.choose-activity/follow-through)
+
+
+
+Your drawing is in front of you. Do you want to add anything?
+
+- **Add to the picture** ← chosen
+- Put your picture somewhere safe
+
+_Grounded by: Age 8; needs at least 5.; Age 8; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2027-04-27._
+
+#### Beat 27 — 2027-04-27, age 8 (ordinary-stretch)
+
+
+
+
+
+- **Let the year run on** ← chosen
+
+#### Beat 28 — 2027-12-11, age 9 (episode, opening.young.home.choose-activity/moment)
+
+> A year on, and you're 9 now.
+
+You're at home, and the next fifteen minutes are yours.
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 9; needs at least 5.; Age 9; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 29 — 2027-12-11, age 9 (episode, opening.young.home.choose-activity/follow-through)
+
+
+
+Your drawing is in front of you. Do you want to add anything?
+
+- **Add to the picture** ← chosen
+- Put your picture somewhere safe
+
+_Grounded by: Age 9; needs at least 5.; Age 9; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2027-12-11._
+
+#### Beat 30 — 2027-12-11, age 9 (ordinary-stretch)
+
+
+
+
+
+- **Let the year run on** ← chosen
+
+#### Beat 31 — 2028-07-26, age 9 (episode, opening.young.home.choose-activity/moment)
+
+
+
+You're at home, and the next fifteen minutes are yours.
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 9; needs at least 5.; Age 9; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 32 — 2028-07-26, age 9 (episode, opening.young.home.choose-activity/follow-through)
+
+
+
+Your drawing is in front of you. Do you want to add anything?
+
+- **Add to the picture** ← chosen
+- Put your picture somewhere safe
+
+_Grounded by: Age 9; needs at least 5.; Age 9; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2028-07-26._
+
+#### Beat 33 — 2028-07-26, age 9 (ordinary-stretch)
+
+
+
+
+
+- **Let the year run on** ← chosen
+
+#### Beat 34 — 2029-03-11, age 10 (episode, opening.young.home.choose-activity/moment)
+
+> A year on, and you're 10 now.
+
+You're at home, and the next fifteen minutes are yours.
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 10; needs at least 5.; Age 10; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 35 — 2029-03-11, age 10 (episode, opening.young.home.choose-activity/follow-through)
+
+
+
+Your drawing is in front of you. Do you want to add anything?
+
+- **Add to the picture** ← chosen
+- Put your picture somewhere safe
+
+_Grounded by: Age 10; needs at least 5.; Age 10; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2029-03-11._
+
+#### Beat 36 — 2029-03-11, age 10 (ordinary-stretch)
+
+
+
+
+
+- **Let the year run on** ← chosen
+
+#### Beat 37 — 2029-10-25, age 11 (episode, opening.young.home.choose-activity/moment)
+
+> A year on, and you're 11 now.
+
+You're at home, and the next fifteen minutes are yours.
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 11; needs at least 5.; Age 11; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 38 — 2029-10-25, age 11 (episode, opening.young.home.choose-activity/follow-through)
+
+
+
+Your drawing is in front of you. Do you want to add anything?
+
+- **Add to the picture** ← chosen
+- Put your picture somewhere safe
+
+_Grounded by: Age 11; needs at least 5.; Age 11; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2029-10-25._
+
+#### Beat 39 — 2029-10-25, age 11 (ordinary-stretch)
+
+
+
+
+
+- **Let the year run on** ← chosen
 
 
 ---
@@ -1199,7 +1108,7 @@ _Grounded by: Stage tattle-boundary was played on 2026-01-05.; 248 day(s) since 
 **Intent.** The PR #85 spine: filing a candidacy, running the campaign, and whatever the contest resolves to.
 
 Seed `p85c-owner-clock`, start age 34, Ethan Vance.
-6 beats, 27 realized lines, 21 linked back to a template.
+6 beats, 26 realized lines, 21 linked back to a template.
 
 **Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:civic.the-thing-nobody-else-turned-up-for, episode:home.the-week-that-does-not-balance, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, legislative-measure-briefing, persistent-instance-continuation, person-introduction, scene:episode, thread-recap
 
@@ -1228,7 +1137,6 @@ Seed `p85c-owner-clock`, start age 34, Ethan Vance.
 
 > You're 34, and you live in Lexington, Kentucky.
 > You live with Warren Mullins.
-> You belong to Community Service Club.
 
 Warren Mullins says, not for the first time but for the first time out loud, that the week does not divide evenly. They are right, and they have picked a bad evening to be right on.
 
@@ -1310,7 +1218,7 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 **Intent.** A second candidacy on a different seed, so a contest outcome is not read from one run.
 
 Seed `corpus-campaign-b`, start age 41, Nadia Tillman.
-6 beats, 22 realized lines, 17 linked back to a template.
+6 beats, 21 realized lines, 17 linked back to a template.
 
 **Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:civic.the-thing-nobody-else-turned-up-for, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, legislative-measure-briefing, persistent-instance-continuation, scene:episode, scene:ordinary-stretch, thread-recap
 
@@ -1338,7 +1246,6 @@ Seed `corpus-campaign-b`, start age 41, Nadia Tillman.
 #### Beat 0 — 2026-01-05, age 41 (episode, opening.adult.home.plan-week/moment)
 
 > You're 41, and you live in Lexington, Kentucky.
-> You belong to Community Service Club.
 
 You're at home, thinking about what to make time for in the days ahead.
 
@@ -1410,7 +1317,7 @@ _Grounded by: Age 41; needs at least 18._
 **Intent.** A filed candidacy that is never worked: the same control seed and the same life as `campaign-and-office`, with the campaign left alone. It is here so the matrix demonstrates a defeat for a reason it can name.
 
 Seed `p85c-owner-clock`, start age 34, Ethan Vance.
-6 beats, 27 realized lines, 21 linked back to a template.
+6 beats, 26 realized lines, 21 linked back to a template.
 
 **Actually demonstrated:** age-band:adult, candidacy-filed, connective-narration, election-lost, episode:civic.the-thing-nobody-else-turned-up-for, episode:home.the-week-that-does-not-balance, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, persistent-instance-continuation, person-introduction, scene:episode, thread-recap
 
@@ -1430,7 +1337,6 @@ _No legislative surface: the capability layer did not open one for this run._
 
 > You're 34, and you live in Lexington, Kentucky.
 > You live with Warren Mullins.
-> You belong to Community Service Club.
 
 Warren Mullins says, not for the first time but for the first time out loud, that the week does not divide evenly. They are right, and they have picked a bad evening to be right on.
 
