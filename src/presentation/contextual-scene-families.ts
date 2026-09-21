@@ -4,7 +4,6 @@ import {
   acceptChapterInvitation,
   canJoinPartyChapter,
   joinPartyChapter,
-  leavePartyChapter,
   projectPartyEncounters,
 } from "../simulation/living-world/party-chapters";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
@@ -28,7 +27,6 @@ import {
   answerRepairOffer,
   answerSharedWorkRequest,
   askRevisionForCompetingCommitment,
-  chapterPlaceStillHeld,
   competingCommitmentCases,
   keepCollaborationSession,
   performSharedWorkRequest,
@@ -1544,111 +1542,6 @@ function recurringAnswers(context: SceneContext): SceneAnswer[] {
 }
 
 /**
- * A chapter place through the organizer, and the organizer's later check-in
- * (MUSE-PEOPLE B6). Joining runs the chapter's own route in the answers, so
- * an invitation never acts as an appointment; stepping back leaves through
- * the same route.
- */
-function roleInvitationAnswers(context: SceneContext): SceneAnswer[] {
-  const playerId = context.binding.playerPersonId;
-  const chapter = context.fact("chapterName");
-  const [, chapterId] = context.binding.sourceEntityIds;
-  const question: SceneAnswer = {
-    key: "what-involved",
-    label: "Ask what helping involves",
-    description: "Find out before you answer.",
-    followUp: true,
-    statement: "What would helping involve?",
-    replies: says(context, [
-      "“Just coming to the meetings and lending a hand where you can. You can step back whenever you like,” {name} says.",
-    ]),
-    record: `The player asked ${context.name} what helping at the ${chapter} would involve.`,
-  };
-  if (!canJoinPartyChapter(context.world, playerId, chapterId!)) {
-    return [question];
-  }
-  const offerId = context.fact("offerId") as EntityId;
-  return [
-    {
-      key: "join-role",
-      label: `Join the ${chapter}`,
-      description: "Become a volunteer member. It is not party registration.",
-      statement: "Yes. I’d like to join.",
-      replies: says(context, [
-        "“Welcome aboard. I’ll add you to the list,” {name} says.",
-        "“Glad to have you,” {name} says.",
-      ]),
-      record: `The player joined the ${chapter} at ${context.name}’s invitation.`,
-      apply: (world) =>
-        answerCollaborationOffer(world, {
-          playerId,
-          offerId,
-          accept: true,
-          statement: "Yes. I’d like to join.",
-        }).world,
-      relationship: {
-        kind: "contact:joined-organization",
-        change: "strengthened",
-        significance: "minor",
-        summary: ({ playerName, otherName }) =>
-          `${playerName} joined the chapter ${otherName} organizes.`,
-      },
-    },
-    {
-      key: "not-yet-role",
-      label: "Say not yet",
-      description: "Leave the place open.",
-      statement: "Not yet. Let me think about it.",
-      replies: says(context, [
-        "“Take your time,” {name} says.",
-        "“The offer stands,” {name} says.",
-      ]),
-      record: `The player told ${context.name} they were not ready to join the ${chapter} yet.`,
-    },
-    question,
-  ];
-}
-
-function roleCheckinAnswers(context: SceneContext): SceneAnswer[] {
-  const playerId = context.binding.playerPersonId;
-  const chapter = context.fact("chapterName");
-  const [, chapterId] = context.binding.sourceEntityIds;
-  return [
-    {
-      key: "keep-helping",
-      label: "Say you’ll keep helping",
-      description: "The membership continues.",
-      statement: "It’s going well. I’ll keep coming.",
-      replies: says(context, [
-        "“Good to hear,” {name} says.",
-        "“Glad it suits you,” {name} says.",
-      ]),
-      record: `The player told ${context.name} they would keep helping at the ${chapter}.`,
-      relationship: {
-        kind: "support:kept-helping",
-        change: "maintained",
-        significance: "minor",
-        summary: ({ playerName, otherName }) =>
-          `${playerName} kept helping at the chapter ${otherName} organizes.`,
-      },
-    },
-    {
-      key: "step-back",
-      label: "Step back",
-      description: "Leave through the chapter’s own route.",
-      statement: "I need to step back for now.",
-      replies: says(context, [
-        "“Sorry to hear it. The door stays open,” {name} says.",
-        "“Understood. Thanks for the help,” {name} says.",
-      ]),
-      record: `The player stepped back from the ${chapter}.`,
-      apply: (world) =>
-        leavePartyChapter(world, playerId, chapterId as EntityId),
-    },
-  ];
-}
-
-/**
  * Whether a follow-through scene is still answerable (MUSE-PEOPLE B).
  *
  * Every branch reads the record the scene was bound from: an answered ask, a
@@ -2355,19 +2248,9 @@ const partyInvite: SceneFamilyDefinition = {
       ? `Joining the ${binding.facts.chapterName}`
       : binding.variant === "after-decline"
         ? `After the ${binding.facts.chapterName} meeting`
-        : binding.variant === "role-invitation"
-          ? `Joining the ${binding.facts.chapterName}`
-          : binding.variant === "role-checkin"
-            ? `Settling in at the ${binding.facts.chapterName}`
-            : `An invitation from the ${binding.facts.chapterName}`,
+        : `An invitation from the ${binding.facts.chapterName}`,
   briefing(context) {
     const chapter = context.fact("chapterName");
-    if (context.binding.variant === "role-invitation") {
-      return `${context.fullName}, who organizes the ${chapter}, invited you to join and help with the meetings. Joining makes you a volunteer member; it is not party registration, and the invitation is not an appointment.`;
-    }
-    if (context.binding.variant === "role-checkin") {
-      return `${context.fullName} is checking how you are settling in at the ${chapter} since you joined.`;
-    }
     if (context.binding.variant === "join-ask") {
       return `You went to the ${chapter} open meeting, and ${context.fullName}, who organizes it, is asking whether you would like to join. Joining makes you a volunteer member; it is not party registration.`;
     }
@@ -2378,22 +2261,6 @@ const partyInvite: SceneFamilyDefinition = {
   },
   opening(context) {
     const chapter = context.fact("chapterName");
-    if (context.binding.variant === "role-invitation") {
-      const opening = context.fact("opening");
-      if (opening.trim()) {
-        const verb = opening.trim().endsWith("?") ? "asks" : "says";
-        return says(context, [`“${opening}” {name} ${verb}.`]);
-      }
-      return says(context, [
-        `“We could use one more person at the ${chapter}. Would you join us?” {name} asks.`,
-      ]);
-    }
-    if (context.binding.variant === "role-checkin") {
-      return says(context, [
-        "“How are you finding the meetings?” {name} asks.",
-        "“Settling in all right? I wanted to check,” {name} says.",
-      ]);
-    }
     if (context.binding.variant === "join-ask") {
       return says(context, [
         `“Thanks for coming to the meeting. Would you like to join the ${chapter}?” {name} asks.`,
@@ -2419,12 +2286,6 @@ const partyInvite: SceneFamilyDefinition = {
     if (context.binding.variant === "after-decline") {
       return partyAfterDeclineAnswers(context);
     }
-    if (context.binding.variant === "role-invitation") {
-      return roleInvitationAnswers(context);
-    }
-    if (context.binding.variant === "role-checkin") {
-      return roleCheckinAnswers(context);
-    }
     return partyInvitationAnswers(context);
   },
   settled(context, answer) {
@@ -2437,10 +2298,6 @@ const partyInvite: SceneFamilyDefinition = {
       "no-thanks": "“Take care,” {name} says.",
       join: "“Welcome aboard,” {name} says.",
       "not-yet": "“See you at the next one, I hope,” {name} says.",
-      "join-role": "“Welcome aboard,” {name} says.",
-      "not-yet-role": "“The offer stands,” {name} says.",
-      "keep-helping": "“Good to hear,” {name} says.",
-      "step-back": "“The door stays open,” {name} says.",
       "keep-inviting": "“Talk soon,” {name} says.",
       "not-for-me": "“Take care,” {name} says.",
     };
@@ -2450,30 +2307,6 @@ const partyInvite: SceneFamilyDefinition = {
   },
   relevant: (world, bound) => {
     const { binding } = bound;
-    if (binding.variant === "role-invitation") {
-      const offerId = binding.sourceEntityIds[0];
-      const offer = world.history.events.find((event) => event.id === offerId);
-      if (!offer || offer.type !== "life.collaboration-offered") return false;
-      const answered = world.history.events.some(
-        (event) =>
-          (event.type === "life.collaboration-agreed" ||
-            event.type === "life.collaboration-declined") &&
-          event.tags.includes(`followthrough.answer:${offerId}`),
-      );
-      if (answered) return false;
-      return canJoinPartyChapter(
-        world,
-        binding.playerPersonId,
-        binding.sourceEntityIds[1]!,
-      );
-    }
-    if (binding.variant === "role-checkin") {
-      return chapterPlaceStillHeld(
-        world,
-        binding.playerPersonId,
-        binding.sourceEntityIds[1]!,
-      );
-    }
     if (binding.variant === "join-ask") {
       return canJoinPartyChapter(
         world,
