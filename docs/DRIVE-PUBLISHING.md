@@ -68,6 +68,39 @@ side, and it is the only workable shape when the published document is the only
 copy. Where a repository source exists, it wins, and bypassing it is the failure
 this section is about.
 
+## A replacement that finds nothing must fail, not pass
+
+This is not only about Drive: **any scripted edit to a committed document should
+assert that it changed something.**
+
+A string replacement that matches nothing is the quietest failure available. It
+returns the text unchanged, writes the file, and exits zero. Nothing is logged,
+because from the tool's point of view nothing went wrong. The document is simply
+missing the edit, and the next reader has no way to tell it was ever attempted.
+
+That is how three defect rows in an audit went unupdated for twenty minutes: the
+formatter had padded the table cells to align them, the strings being replaced
+no longer matched the padded cells, and every replacement silently matched
+nothing. The edits made with an assertion in the same session caught their own
+misses on the spot.
+
+So write the assertion into the edit itself, not into a review afterwards:
+
+```python
+assert s.count(old) == 1
+s = s.replace(old, new)
+```
+
+`count(old) == 1` rather than `>= 1`, because a pattern that matches twice is
+also a mistake — it edits a place you were not looking at. With `sed`, check the
+file actually changed, or use a form that errors on no match; a bare
+`sed -i 's/…/…/'` over a file it does not match is the same silent pass.
+
+It is the same shape as the owner's rule for content packs — ignore it and say
+so — and as the scheduler finding in the audit that produced this document: **a
+thing that does nothing must say so.** Silence is the one outcome that is always
+wrong.
+
 ## A trash is a one-way door, and recreating the document is not the repair
 
 This connector has `trash_file` and no untrash. Once a document is trashed,
