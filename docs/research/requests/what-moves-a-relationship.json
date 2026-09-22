@@ -1,0 +1,57 @@
+{
+  "filedAt": "2026-09-22T15:36:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "The owner settled the shape on 2026-09-22 and it is recorded as D-092: being somewhere exposes you to possibly like-minded people, and your actions and personality drive the relationship from there. Proximity produces candidates, not bonds. This request is the mechanism under that decision, not a re-asking of it.",
+    "WHAT SHIPS TODAY, measured at de6a71cc. deriveRelationshipSummary (src/simulation/queries.ts:230-263) sums one signed magnitude over every interaction ever recorded between two people and buckets the total: below zero estranged, three or more close. Only an explicitly negative interaction lowers it and elapsed time never does, so three ordinary agreeable exchanges make two people close for the rest of both lives. Nothing in that path reads either person's temperament or anything either of them chose.",
+    "AND WHAT IS ALREADY BUILT UNDERNEATH IT. relationship-integration.ts already records participant-specific memory and appraisal, and assessRelationshipContinuity already separates recent-contact, long-gap, reconnected and tension-context. The lossy part is the consumer, not the record. So an answer here lands on seams that exist rather than asking for a second engine.",
+    "THE INTERACTION VOCABULARY. RelationshipInteractionKind is a namespace plus a free content key (types.ts:661-673), the namespaces being contact, work, experience, support, exchange, conflict, commitment, care, mentorship and other. change is formed, strengthened, maintained, strained or ended; significance is minor, meaningful or major. An answer can therefore speak in these terms without inventing a schema.",
+    "THE PACE HAS A PRECEDENT TO MATCH. He has already settled that personality change is paced by how strongly a trait is held, and the numbers under that are themselves out for research as personality-change-bands. A relationship answer that contradicts that pacing would leave the two systems disagreeing about how fast a person changes.",
+    "ONE MEASURED ASYMMETRY WORTH ANSWERING DIRECTLY. Agreeing to work together is recorded; being turned down is recorded nowhere, with a comment saying a refusal is not a grievance (people-study.ts:269). So today a relationship can only ever be built by these paths, never damaged by them."
+  ],
+  "priority": "P1",
+  "question": "Given that conduct and temperament drive relationships rather than proximity: (1) Which conduct should move a relationship, and by how much — is agreeing to help someone once worth the same as keeping a promise, or as turning them down twice? (2) Which traits should bear on it, and in which direction: should somebody conciliatory hold a relationship together through a disagreement that would end one between two confrontational people, and should somebody reserved simply accumulate fewer occasions rather than worse ones? (3) At what pace should a relationship fade when nothing happens — is a year of silence between two people who were close a change in the relationship, or only a change in what the next meeting feels like? (4) Should a refusal ever be recorded as a thing that passed between two people, or is the current position right that being turned down is not a grievance? (5) Can a relationship end, as distinct from decaying to nothing — is there a conduct that makes two people no longer know each other?",
+  "questionId": "what-moves-a-relationship",
+  "relatedQuestionIds": [
+    "relationship-dimensions-and-fading",
+    "personality-change-bands",
+    "college-friendship-and-appointment"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "people and life thread",
+  "sourcesChecked": [
+    {
+      "source": "The owner's decision of 2026-09-22, recorded as D-092",
+      "whatItDidNotSettle": "Settles that conduct and personality drive relationships and that proximity alone does not. Settles no conduct, no trait, no magnitude and no pace."
+    },
+    {
+      "source": "src/simulation/queries.ts deriveRelationshipSummary and its four consumers",
+      "whatItDidNotSettle": "Establishes that what ships is one monotonic signed sum with four buckets, blind to temperament and to elapsed time. Says nothing about what should replace it."
+    },
+    {
+      "source": "src/simulation/relationship-integration.ts",
+      "whatItDidNotSettle": "Establishes that participant-specific memory, appraisal and continuity assessment already exist, so an answer has somewhere to land. Does not supply the weights or the pace."
+    },
+    {
+      "source": "The answered relationship-dimensions-and-fading record",
+      "whatItDidNotSettle": "Settles the five standing interpretations and that elapsed time is never forgiveness, and explicitly settles no number. This request is the numbers and the conduct list under it."
+    }
+  ],
+  "title": "What conduct and which traits should move a relationship, and how fast",
+  "usableAnswer": "A short list of conduct with a direction and a rough weight for each, worked against one example a player would recognize; a position on which of the five ordinary-life traits bear on relationships and how; and a pace for fading, consistent with the personality pacing already settled. Ranges rather than exact numbers are fine. Any answer lands on records that already exist.",
+  "whyItMatters": "This is the owner's first priority stated as a mechanism. Today a relationship is a running total that only goes up, so a person's character decides nothing about who is in their life, and nobody ever drifts apart. Getting the weights wrong is invisible to every test: too generous and everybody is close to everybody, too harsh and nobody ever becomes close to anyone, and both look identical in a passing suite.",
+  "answer": {
+    "summary": "Replace the single closeness sum as the authoritative interpretation with the already approved actor-specific warmth, trust, respect, commitment and unresolved tension over the existing interaction/appraisal history. The current source treats most maintained interactions as positive, adds 1/2/3 and declares close at 3; conflict-prefixed records are negative regardless of a more nuanced outcome. These rules also feed whether a person is close to someone affected by an event. This is a consequential reader connection, not cosmetic labeling.\n\nRecord intent, attempt and fulfillment separately. Agreeing to help creates a commitment and may affect anticipation; delivering meaningful help supplies evidence about reliance. A competent result can increase respect without friendship. A disagreement can preserve affection, a breach can reduce trust without destroying shared history, and an apology need not restore what it acknowledges. Do not use the namespace alone to decide direction: a successful conflict resolution is not automatically harm.\n\nA normal refusal is a recorded response, not automatically a grievance or punishment. A witnessed contemptuous rejection or refusal violating an actual duty can be appraised differently. Reserved people may prefer different encounter forms or initiate less often; they are not assigned worse relationship quality. Conciliatory people can choose repair without consenting to abuse; confrontational people can maintain loyal friendships. A long gap changes context and possible expectations, not an automatic affection tax. End contact/partnership with a real action or event; do not erase knowing someone.\n\nThe supplied conduct rubric gives qualitative direction and illustrative bounded contribution ranges for private test only. These are weights of evidence on separate interpretations, not emotional measurements or thresholds that promise friendship after N actions. Evidence deduplicates by the underlying encounter/obligation and acknowledges magnitude, stakes, consent, alternatives and actor interpretation. Test whether ordinary interactions can sustain an actual friendship over time without grinding.\n\nAcceptance ChatGPT requests (not executed): Three greetings do not establish enduring trust or closeness. One significant fulfilled obligation is distinguishable from three promises. A recorded refusal survives as a response without a compulsory penalty. A repair interaction can reduce tension without erasing the breach. Ten idle years do not apply an affection tax.",
+    "sources": [
+      "ChatGPT DEPTH1 package, 2026-09-22 (uploaded 17:39Z), answers.json entry 'what-moves-a-relationship'; kept verbatim in docs/research/chatgpt-answers/2026-09-22-depth1/ with its SHA256SUMS (14 of 14 verified).",
+      "code-relationships: https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/queries.ts — deriveRelationshipSummary and close-person event consumer, lines 210–290.",
+      "code-trait-pack: https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/people-trait-pack.ts — Five underlying dimensions, scale, ordinary-life-only scope, current movability and contact-answer effects.",
+      "current-queue: https://docs.google.com/document/d/1yVVxtG0YNaKsb85O5TF9ZkxGWWU5N9sSoQWM1qa_FVM/edit — Read complete 16:34Z / 22-open / 44-answered render. Worker caller counts beyond independently inspected bodies remain reports.",
+      "prior-personality: Personality_Research_and_Catalogue.md — Existing 121 candidates and 14 families; not a new survey, empirical prevalence dataset or blanket approval of every candidate."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T17:39:00.000Z",
+    "stillOpen": "Status 'resolved-design-with-labelled-test-rubric'; receiver: existing people/relationships + ordinary work/content owners. Design settled; the conduct rubric (relationship-conduct-rubric.json) is for private test only, not an emotion-points API.\n\nScope limits of the whole DEPTH1 batch, in its own words: evidenceStatus \"read-source-and-research-not-production-test\"; its 12 passing tests are \"research structure and isolated arithmetic only; NOT repository/game tests\"; it read source at main 4965f63c and the 16:34Z render (22 open), not the 15 questions filed since. Any number in it is \"labelled, adjustable private-playtest calibration\", not an empirical fact or an exact number chosen by lamontae. The Acceptance paragraph is a test somebody still has to write, not one that ran."
+  }
+}

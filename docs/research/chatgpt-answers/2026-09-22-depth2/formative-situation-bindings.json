@@ -1,0 +1,603 @@
+{
+  "schema": "ocd-formative-evidence-mapping/1",
+  "status": "20 requested dispositions; 19 exact source scene keys, 1 unlocated requested key. Authored receiving contract, not live code.",
+  "source_head": "4965f63c41fe69621c72f47725c0d2914257f3ea",
+  "rows": [
+    {
+      "requested_key": "activity-choice",
+      "source_key": "formative.activity-choice",
+      "source_options": [
+        "join",
+        "leave",
+        "stay-smaller"
+      ],
+      "legacy_default_target": null,
+      "default_disposition": "No automatic core-tendency change from scene occurrence or repetition.",
+      "conditional_links": [],
+      "nearer_consequences": [
+        "participation",
+        "schedule",
+        "interests",
+        "commitments"
+      ],
+      "explanation": "Joining, leaving and reducing participation each may protect a different priority. None alone establishes ambition, loyalty or risk-taking.",
+      "missing_more_specific_facets": [
+        "interest",
+        "goal-priority",
+        "commitment-follow-through"
+      ],
+      "source_status": "read in source array at pinned main",
+      "source_url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/character-history.ts"
+    },
+    {
+      "requested_key": "belief-challenge",
+      "source_key": "formative.belief-challenge",
+      "source_options": [
+        "say-you-disagree",
+        "let-it-pass"
+      ],
+      "legacy_default_target": null,
+      "default_disposition": "No automatic core-tendency change from scene occurrence or repetition.",
+      "conditional_links": [
+        {
+          "options": [
+            "say-you-disagree"
+          ],
+          "target_stable_key": "conflict-approach",
+          "expression_key": "combative",
+          "evidence_meaning": "Accepts the explicit interpersonal confrontation described by this option; weak/contextual evidence, not hostility or violence.",
+          "required_context": "The choice was actually made, the event is independent, the response is voluntary and meaningfully available, and the target is registered with this exact meaning.",
+          "effect": "candidate evidence only; not a forced development proposal or applied trait"
+        }
+      ],
+      "nearer_consequences": [
+        "private-belief",
+        "public-expression",
+        "relationship-appraisal"
+      ],
+      "explanation": "Expressing disagreement is not changing the belief. Speaking up is evidence of accepting direct confrontation only where that conflict is explicit; silence is not ideological agreement.",
+      "missing_more_specific_facets": [
+        "assertiveness",
+        "tact"
+      ],
+      "source_status": "read in source array at pinned main",
+      "source_url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/character-history.ts"
+    },
+    {
+      "requested_key": "broken-object",
+      "source_key": "formative.broken-object",
+      "source_options": [
+        "say-what-happened",
+        "stay-quiet"
+      ],
+      "legacy_default_target": null,
+      "default_disposition": "No automatic core-tendency change from scene occurrence or repetition.",
+      "conditional_links": [],
+      "nearer_consequences": [
+        "event-knowledge",
+        "truthfulness-of-claim",
+        "responsibility",
+        "relationship-appraisal"
+      ],
+      "explanation": "Honest admission is about perceived truth and responsibility, not risk. Silence may have several causes and is not automatically lying.",
+      "missing_more_specific_facets": [
+        "honesty",
+        "ownership-of-duties"
+      ],
+      "source_status": "read in source array at pinned main",
+      "source_url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/character-history.ts"
+    },
+    {
+      "requested_key": "care-conflict",
+      "source_key": "formative.care-conflict",
+      "source_options": [
+        "cover-at-home",
+        "keep-the-commitment",
+        "do-both-badly"
+      ],
+      "legacy_default_target": null,
+      "default_disposition": "No automatic core-tendency change from scene occurrence or repetition.",
+      "conditional_links": [
+        {
+          "options": [
+            "cover-at-home",
+            "keep-the-commitment"
+          ],
+          "target_stable_key": "loyalty-tendency",
+          "expression_key": "loyal",
+          "evidence_meaning": "Gives a particular established bond or commitment special weight.",
+          "required_context": "Actual prior bond/commitment and the reason for choosing it are represented; necessity alone does not establish loyalty.",
+          "effect": "candidate evidence only; not a forced development proposal or applied trait"
+        }
+      ],
+      "nearer_consequences": [
+        "care-allocation",
+        "schedule-conflict",
+        "commitments"
+      ],
+      "explanation": "Both home care and the prior outside commitment can express loyalty. Need the actual represented obligation and chosen reason before comparing them.",
+      "missing_more_specific_facets": [
+        "responsibility",
+        "boundary-setting"
+      ],
+      "source_status": "read in source array at pinned main",
+      "source_url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/character-history.ts"
+    },
+    {
+      "requested_key": "caring-for-someone",
+      "source_key": "formative.caring-for-someone",
+      "source_options": [
+        "take-it-on",
+        "hold-the-line",
+        "look-outside"
+      ],
+      "legacy_default_target": null,
+      "default_disposition": "No automatic core-tendency change from scene occurrence or repetition.",
+      "conditional_links": [],
+      "nearer_consequences": [
+        "care",
+        "capacity",
+        "outside-help-request",
+        "schedule"
+      ],
+      "explanation": "Accepting care is not the only responsible response. Setting a feasible limit and seeking help can both support the same obligation.",
+      "missing_more_specific_facets": [
+        "nurturing",
+        "responsibility",
+        "assertiveness"
+      ],
+      "source_status": "read in source array at pinned main",
+      "source_url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/character-history.ts"
+    },
+    {
+      "requested_key": "civic-volunteering",
+      "source_key": "formative.civic-volunteering",
+      "source_options": [
+        "volunteer",
+        "observe",
+        "send-others"
+      ],
+      "legacy_default_target": null,
+      "default_disposition": "No automatic core-tendency change from scene occurrence or repetition.",
+      "conditional_links": [
+        {
+          "options": [
+            "observe"
+          ],
+          "target_stable_key": "response-tempo",
+          "expression_key": "patient",
+          "evidence_meaning": "Waits for actual context before agreeing, as the option explicitly states.",
+          "required_context": "The choice was actually made, the event is independent, the response is voluntary and meaningfully available, and the target is registered with this exact meaning.",
+          "effect": "candidate evidence only; not a forced development proposal or applied trait"
+        },
+        {
+          "options": [
+            "observe"
+          ],
+          "target_stable_key": "curiosity",
+          "expression_key": "curious",
+          "evidence_meaning": "Seeks information about unfamiliar work before a choice.",
+          "required_context": "The choice was actually made, the event is independent, the response is voluntary and meaningfully available, and the target is registered with this exact meaning.",
+          "effect": "candidate evidence only; not a forced development proposal or applied trait"
+        }
+      ],
+      "nearer_consequences": [
+        "participation",
+        "information",
+        "referrals",
+        "time"
+      ],
+      "explanation": "Helping is not inherently ambitious; organizing other people is not automatic competence. Observation supplies limited evidence of seeking context before committing.",
+      "missing_more_specific_facets": [
+        "community-goal",
+        "initiative"
+      ],
+      "source_status": "read in source array at pinned main",
+      "source_url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/character-history.ts"
+    },
+    {
+      "requested_key": "friend-conflict",
+      "source_key": "formative.friend-conflict",
+      "source_options": [
+        "repair",
+        "withdraw",
+        "ask-someone"
+      ],
+      "legacy_default_target": null,
+      "default_disposition": "No automatic core-tendency change from scene occurrence or repetition.",
+      "conditional_links": [],
+      "nearer_consequences": [
+        "relationship-tension",
+        "repair-attempt",
+        "mediation-request"
+      ],
+      "explanation": "Repair is neither conflict avoidance nor submissiveness by definition. Withdrawal may be a boundary or a temporary pause. No automatic polarity fits all three choices.",
+      "missing_more_specific_facets": [
+        "repair-orientation",
+        "mediation",
+        "boundaries"
+      ],
+      "source_status": "read in source array at pinned main",
+      "source_url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/character-history.ts"
+    },
+    {
+      "requested_key": "future-preparation",
+      "source_key": "formative.future-preparation",
+      "source_options": [
+        "prepare",
+        "keep-options-open",
+        "ask-someone-who-knows"
+      ],
+      "legacy_default_target": null,
+      "default_disposition": "No automatic core-tendency change from scene occurrence or repetition.",
+      "conditional_links": [
+        {
+          "options": [
+            "ask-someone-who-knows"
+          ],
+          "target_stable_key": "curiosity",
+          "expression_key": "curious",
+          "evidence_meaning": "Actively obtains previously unfamiliar firsthand information.",
+          "required_context": "The choice was actually made, the event is independent, the response is voluntary and meaningfully available, and the target is registered with this exact meaning.",
+          "effect": "candidate evidence only; not a forced development proposal or applied trait"
+        },
+        {
+          "options": [
+            "prepare"
+          ],
+          "target_stable_key": "ambition",
+          "expression_key": "ambitious",
+          "evidence_meaning": "Pursues advancement or consequential achievement.",
+          "required_context": "An actual advancement/achievement aim, feasible alternative and chosen motivation are present; mere survival or compliance does not count.",
+          "effect": "candidate evidence only; not a forced development proposal or applied trait"
+        }
+      ],
+      "nearer_consequences": [
+        "career-or-education-intention",
+        "information",
+        "next-action"
+      ],
+      "explanation": "A concrete step may be financially necessary rather than ambitious. The explicit inquiry can supply curiosity evidence; keeping options open may reflect unresolved facts.",
+      "missing_more_specific_facets": [
+        "planning"
+      ],
+      "source_status": "read in source array at pinned main",
+      "source_url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/character-history.ts"
+    },
+    {
+      "requested_key": "household",
+      "source_key": null,
+      "source_options": [],
+      "legacy_default_target": null,
+      "default_disposition": "No automatic core-tendency change from scene occurrence or repetition.",
+      "conditional_links": [],
+      "nearer_consequences": [
+        "household-records"
+      ],
+      "explanation": "This requested bare key is not in the inspected formative array. It may refer to adult content or an older key. Resolve the exact producer before assigning a target.",
+      "missing_more_specific_facets": [],
+      "source_status": "requested name not found in the 19-entry authored formative array; do not invent a mapping",
+      "source_url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/character-history.ts"
+    },
+    {
+      "requested_key": "household-transition",
+      "source_key": "formative.household-transition",
+      "source_options": [
+        "settle-in",
+        "keep-your-corner",
+        "make-yourself-useful"
+      ],
+      "legacy_default_target": null,
+      "default_disposition": "No automatic core-tendency change from scene occurrence or repetition.",
+      "conditional_links": [],
+      "nearer_consequences": [
+        "household",
+        "care",
+        "routine",
+        "temporary-state"
+      ],
+      "explanation": "A new sibling/household transition is context, not a personality target. Helping, retaining space and adapting cannot be ranked as risk or ambition.",
+      "missing_more_specific_facets": [
+        "adaptability",
+        "privacy",
+        "responsibility"
+      ],
+      "source_status": "read in source array at pinned main",
+      "source_url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/character-history.ts"
+    },
+    {
+      "requested_key": "illness-in-the-house",
+      "source_key": "formative.illness-in-the-house",
+      "source_options": [
+        "keep-close",
+        "keep-the-routine"
+      ],
+      "legacy_default_target": null,
+      "default_disposition": "No automatic core-tendency change from scene occurrence or repetition.",
+      "conditional_links": [],
+      "nearer_consequences": [
+        "care",
+        "health-disclosure",
+        "attachment",
+        "temporary-state"
+      ],
+      "explanation": "Proximity and maintaining a routine can both be responses to uncertainty or distress. Neither alone proves loyalty or indifference.",
+      "missing_more_specific_facets": [
+        "attachment",
+        "coping-style"
+      ],
+      "source_status": "read in source array at pinned main",
+      "source_url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/character-history.ts"
+    },
+    {
+      "requested_key": "lunch-table",
+      "source_key": "formative.lunch-table",
+      "source_options": [
+        "make-room",
+        "look-away",
+        "go-with-them"
+      ],
+      "legacy_default_target": null,
+      "default_disposition": "No automatic core-tendency change from scene occurrence or repetition.",
+      "conditional_links": [],
+      "nearer_consequences": [
+        "social-contact",
+        "inclusion",
+        "relationship",
+        "memory"
+      ],
+      "explanation": "There is no stated uncertain danger making this a risk-taking test. Inclusion may show warmth/concern; looking away is not proof of cruelty.",
+      "missing_more_specific_facets": [
+        "compassion",
+        "social-initiative"
+      ],
+      "source_status": "read in source array at pinned main",
+      "source_url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/character-history.ts"
+    },
+    {
+      "requested_key": "money-shortfall",
+      "source_key": "formative.money-shortfall",
+      "source_options": [
+        "ask-what-happened",
+        "let-it-go"
+      ],
+      "legacy_default_target": null,
+      "default_disposition": "No automatic core-tendency change from scene occurrence or repetition.",
+      "conditional_links": [
+        {
+          "options": [
+            "ask-what-happened"
+          ],
+          "target_stable_key": "curiosity",
+          "expression_key": "curious",
+          "evidence_meaning": "Seeks information about an unexplained change.",
+          "required_context": "Record what is actually asked/learned; this is weak, context-specific evidence requiring broader independent patterns for a core development.",
+          "effect": "candidate evidence only; not a forced development proposal or applied trait"
+        }
+      ],
+      "nearer_consequences": [
+        "household-resource-knowledge",
+        "disappointment",
+        "conversation"
+      ],
+      "explanation": "A loss of funds is not a trait. Asking can supply very narrow inquiry evidence, but accepting an answer is not weak ambition or incuriosity.",
+      "missing_more_specific_facets": [
+        "assertiveness"
+      ],
+      "source_status": "read in source array at pinned main",
+      "source_url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/character-history.ts"
+    },
+    {
+      "requested_key": "school-entry",
+      "source_key": "formative.school-entry",
+      "source_options": [
+        "join-in",
+        "hang-back"
+      ],
+      "legacy_default_target": null,
+      "default_disposition": "No automatic core-tendency change from scene occurrence or repetition.",
+      "conditional_links": [],
+      "nearer_consequences": [
+        "school-participation",
+        "familiarity",
+        "temporary-state"
+      ],
+      "explanation": "Watching an unfamiliar room can be observation, inhibition or practical orientation. The choice cannot disambiguate them.",
+      "missing_more_specific_facets": [
+        "shyness",
+        "observation",
+        "social-approach"
+      ],
+      "source_status": "read in source array at pinned main",
+      "source_url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/character-history.ts"
+    },
+    {
+      "requested_key": "school-rule-input",
+      "source_key": "formative.school-rule-input",
+      "source_options": [
+        "speak-up",
+        "leave-it-to-others",
+        "write-it-down"
+      ],
+      "legacy_default_target": null,
+      "default_disposition": "No automatic core-tendency change from scene occurrence or repetition.",
+      "conditional_links": [],
+      "nearer_consequences": [
+        "public-position",
+        "submission",
+        "school-response"
+      ],
+      "explanation": "Written and spoken input differ in delivery, not necessarily courage or conviction. Need the real rule, view and social context.",
+      "missing_more_specific_facets": [
+        "assertiveness",
+        "reserved-disclosure",
+        "tact"
+      ],
+      "source_status": "read in source array at pinned main",
+      "source_url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/character-history.ts"
+    },
+    {
+      "requested_key": "small-money",
+      "source_key": "formative.small-money",
+      "source_options": [
+        "spend",
+        "put-it-away",
+        "share"
+      ],
+      "legacy_default_target": null,
+      "default_disposition": "No automatic core-tendency change from scene occurrence or repetition.",
+      "conditional_links": [],
+      "nearer_consequences": [
+        "resource-transfer",
+        "saving",
+        "generosity"
+      ],
+      "explanation": "Timing of spending is not uncertainty; saving is not automatically cautious, and sharing is not automatically loyal.",
+      "missing_more_specific_facets": [
+        "generosity",
+        "resource-goal"
+      ],
+      "source_status": "read in source array at pinned main",
+      "source_url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/character-history.ts"
+    },
+    {
+      "requested_key": "student-organizing",
+      "source_key": "formative.student-organizing",
+      "source_options": [
+        "help-organize",
+        "stay-out"
+      ],
+      "legacy_default_target": null,
+      "default_disposition": "No automatic core-tendency change from scene occurrence or repetition.",
+      "conditional_links": [
+        {
+          "options": [
+            "help-organize"
+          ],
+          "target_stable_key": "ambition",
+          "expression_key": "ambitious",
+          "evidence_meaning": "Pursues a specifically represented consequential achievement.",
+          "required_context": "The actual goal/motivation is recorded; not inferred solely from participation or the political label.",
+          "effect": "candidate evidence only; not a forced development proposal or applied trait"
+        }
+      ],
+      "nearer_consequences": [
+        "organization",
+        "participation",
+        "public-position"
+      ],
+      "explanation": "Organizing may seek remedy rather than personal advancement. A real leadership/achievement motive could bear on ambition but the generic key does not establish it.",
+      "missing_more_specific_facets": [
+        "initiative",
+        "community-goal"
+      ],
+      "source_status": "read in source array at pinned main",
+      "source_url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/character-history.ts"
+    },
+    {
+      "requested_key": "teacher-mentor",
+      "source_key": "formative.teacher-mentor",
+      "source_options": [
+        "accept-guidance",
+        "decline-guidance"
+      ],
+      "legacy_default_target": null,
+      "default_disposition": "No automatic core-tendency change from scene occurrence or repetition.",
+      "conditional_links": [],
+      "nearer_consequences": [
+        "learning",
+        "mentor-contact",
+        "independent-study"
+      ],
+      "explanation": "Both options explicitly pursue understanding, one with help and one independently. Neither proves a contrast in curiosity. Actual later study can inform studiousness.",
+      "missing_more_specific_facets": [
+        "studious",
+        "independence",
+        "help-seeking"
+      ],
+      "source_status": "read in source array at pinned main",
+      "source_url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/character-history.ts"
+    },
+    {
+      "requested_key": "teen-work-opportunity",
+      "source_key": "formative.teen-work-opportunity",
+      "source_options": [
+        "accept",
+        "decline"
+      ],
+      "legacy_default_target": null,
+      "default_disposition": "No automatic core-tendency change from scene occurrence or repetition.",
+      "conditional_links": [],
+      "nearer_consequences": [
+        "eligibility",
+        "employment",
+        "schedule",
+        "income"
+      ],
+      "explanation": "Work acceptance is constrained by need, law and other obligations. Declining a role may protect a more ambitious goal; no automatic target.",
+      "missing_more_specific_facets": [
+        "career-goal",
+        "responsibility"
+      ],
+      "source_status": "read in source array at pinned main",
+      "source_url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/character-history.ts"
+    },
+    {
+      "requested_key": "workplace-rule",
+      "source_key": "formative.workplace-rule",
+      "source_options": [
+        "follow-it",
+        "say-nobody-does",
+        "say-it-after"
+      ],
+      "legacy_default_target": null,
+      "default_disposition": "No automatic core-tendency change from scene occurrence or repetition.",
+      "conditional_links": [
+        {
+          "options": [
+            "say-nobody-does"
+          ],
+          "target_stable_key": "conflict-approach",
+          "expression_key": "combative",
+          "evidence_meaning": "Accepts direct disagreement in the stated public encounter.",
+          "required_context": "The choice was actually made, the event is independent, the response is voluntary and meaningfully available, and the target is registered with this exact meaning.",
+          "effect": "candidate evidence only; not a forced development proposal or applied trait"
+        },
+        {
+          "options": [
+            "say-it-after"
+          ],
+          "target_stable_key": "response-tempo",
+          "expression_key": "patient",
+          "evidence_meaning": "Defers reaction until the appropriate context, rather than suppressing the position.",
+          "required_context": "The choice was actually made, the event is independent, the response is voluntary and meaningfully available, and the target is registered with this exact meaning.",
+          "effect": "candidate evidence only; not a forced development proposal or applied trait"
+        }
+      ],
+      "nearer_consequences": [
+        "work-conduct",
+        "public-expression",
+        "relationship",
+        "rule-knowledge"
+      ],
+      "explanation": "Direct challenge versus delayed private challenge can express different response styles, but following a rule is not proof of believing in it.",
+      "missing_more_specific_facets": [
+        "tact",
+        "deference",
+        "assertiveness"
+      ],
+      "source_status": "read in source array at pinned main",
+      "source_url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/character-history.ts"
+    }
+  ],
+  "rules": [
+    "Do not use catalogue order or nearest-match defaults.",
+    "Case names in the queue (riskApproach etc.) are not stored stable keys. Resolve exact definitions and expressions through the active registry.",
+    "The current mind-catalog already permits unipolar expressions; do not force unknown opposites.",
+    "A mapping is not sufficient grounds for change: require distinct meaningful evidence, elapsed game experience, represented motive where ambiguous and controlled-player confirmation.",
+    "No universal requirement for a companion: solitary learning and decisions can be meaningful evidence when actually recorded.",
+    "Do not substitute prose promises for outcomes: asked-for help is not received help, apology not forgiveness, proposed work not completed work.",
+    "Do not apply automatic tension to every withdrawal or classify every engagement as positive.",
+    "The old scene text is inspected input, not a creative endorsement or a request to expand errands."
+  ]
+}

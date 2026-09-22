@@ -1,0 +1,43 @@
+{
+  "filedAt": "2026-09-22T16:20:00.000Z",
+  "impact": "blocks-work",
+  "lane": "research triage",
+  "notes": [
+    "This record exists to unblock, not to ask. ChatGPT held its C26 answer rather than guessing what cheating meant here and blocked the dependent content behind it. lamontae answered within the hour and the answer is the whole point of the record, so it is at the top of the question rather than buried in a note.",
+    "His words, verbatim, 2026-09-22 16:17:33Z: \"cheating can mean any of those.\" The three on the table were academic cheating, romantic infidelity and election misconduct.",
+    "Filed by the research queue lane, which carried his answer and wrote nothing else."
+  ],
+  "priority": "P0",
+  "question": "Cheating in this game covers all three kinds — academic, romantic and election misconduct — and not one of them. That is lamontae's own answer, given 2026-09-22 16:17:33Z in these words: \"cheating can mean any of those.\" So: unblock the content C26 held behind this question, with all three in scope. What does each of the three need in order to exist — what act makes it happen, who can observe it, what follows from being caught and from not being caught, and what should never follow? They share a word and very little else: an exam, a marriage and a ballot have different witnesses, different proof and different consequences, so an answer that collapses them back into one mechanism is not an answer to this.",
+  "questionId": "cheating-covers-all-three",
+  "readFirst": {
+    "words": "cheating can mean any of those",
+    "saidBy": "lamontae",
+    "saidAt": "2026-09-22T16:17:33.000Z"
+  },
+  "requestVersion": "research-request/v1",
+  "requestedBy": "lamontae",
+  "sourcesChecked": [
+    {
+      "source": "ChatGPT's C26 answer in the stress-test batch, ALIVE44 section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', 2026-09-22 15:58Z",
+      "whatItDidNotSettle": "It answers the college-to-friend-to-staff continuity around it and deliberately holds the cheating half, blocking the dependent content rather than picking a meaning. That was the right call and it is what made his one-line answer sufficient. It does not say what any of the three kinds needs in order to exist, which is what is now unblocked and unanswered."
+    },
+    {
+      "source": "lamontae's message in the project timeline, 2026-09-22 16:17:33Z",
+      "whatItDidNotSettle": "Settles the scope completely and settles nothing about mechanism. He said which meanings count, not what any of them does in play."
+    }
+  ],
+  "title": "Cheating means all three kinds, and each needs its own mechanism",
+  "usableAnswer": "Per kind — academic, romantic, election — the act that constitutes it, who can witness or discover it, what follows on discovery and what follows if it is never discovered, and one thing that must never follow. A kind he should not have yet is an equally good answer, as long as it says so rather than quietly folding into another.",
+  "whyItMatters": "Content is sitting blocked behind a question that now has an answer, which is the cheapest kind of stuck there is. It also touches a standing constraint of his: a person's conduct is supposed to drive their relationships and what others make of them, so cheating is one of the few acts that ought to move several systems at once — and today it moves none of them.",
+  "answer": {
+    "summary": "Academic cheating: a particular represented assessment or submission breaches its applicable academic rules. An assessor, participant or evidence can expose it; an institution then applies its actual process and disposition. If undiscovered, any recorded result remains a result, but competence/knowledge is not magically created. No requirement to make the player perform routine homework or a how-to cheating minigame.\n\nRomantic infidelity: conduct breaches the relationship's actual agreement, not merely the existence of another friend or a universal marriage flag. Discovery follows witnesses, disclosure or available evidence. Partners may disagree, end or attempt repair; no automatic breakup, omniscient partner, violence or universal reputation penalty. Consent and relationship terms remain specific to the people. This fits broader relationship scope but is not made a prerequisite for the current friendship/career milestone.\n\nElection misconduct: record an abstract prohibited act by a responsible actor under the contest's rules, its evidence and any legitimate inquiry/remedy. Do not supply real-world methods, vulnerabilities or concealment instructions. Suspicion is not guilt; wrongdoing does not automatically reverse an election without the supported adjudication and result-correction route. If unobserved, actors without knowledge do not punish it; actual affected records/resources still follow the underlying act. Use existing history, evidence, press and institutional powers rather than a single 'cheating score'.\n\nAll three separate underlying act, belief about it, allegation, investigation and consequences. An unsuccessful attempt and a successful act differ. A label never becomes proof, and a character trait alone never declares someone guilty.\n\nAcceptance ChatGPT requests (not executed): For each kind, contrast observed/unobserved and substantiated/unsubstantiated cases. Private consequences do not become universal public knowledge. Same episode cannot apply a penalty once per reader.",
+    "sources": [
+      "ChatGPT DEPTH1 package, 2026-09-22 (uploaded 17:39Z), answers.json entry 'cheating-covers-all-three'; kept verbatim in docs/research/chatgpt-answers/2026-09-22-depth1/ with its SHA256SUMS (14 of 14 verified).",
+      "current-queue: https://docs.google.com/document/d/1yVVxtG0YNaKsb85O5TF9ZkxGWWU5N9sSoQWM1qa_FVM/edit — Read complete 16:34Z / 22-open / 44-answered render. Worker caller counts beyond independently inspected bodies remain reports."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T17:39:00.000Z",
+    "stillOpen": "Status 'resolved-abstract-connection-contract'; receiver: existing life/relationships, education and oversight/election owners. Contract only; not built.\n\nScope limits of the whole DEPTH1 batch, in its own words: evidenceStatus \"read-source-and-research-not-production-test\"; its 12 passing tests are \"research structure and isolated arithmetic only; NOT repository/game tests\"; it read source at main 4965f63c and the 16:34Z render (22 open), not the 15 questions filed since. Any number in it is \"labelled, adjustable private-playtest calibration\", not an empirical fact or an exact number chosen by lamontae. The Acceptance paragraph is a test somebody still has to write, not one that ran."
+  }
+}
