@@ -356,6 +356,14 @@ export function PersonCard({
             >
               {dossier.lastInteraction}
             </p>
+            {dossier.standing === null ? null : (
+              <p
+                className="pg-person-card-read"
+                data-testid={expanded ? "dossier-standing" : "quick-standing"}
+              >
+                {dossier.standing}
+              </p>
+            )}
             {dossier.howYouKnowThem &&
             dossier.howYouKnowThem !== dossier.relationship ? (
               <p>{dossier.howYouKnowThem}</p>
