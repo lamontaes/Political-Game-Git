@@ -714,7 +714,7 @@ export function createStartingPerson(input: StartingPersonInput): Person {
 /**
  * A name off the whole corpus, with nothing said about who is carrying it.
  *
- * Deliberately not exported. It was, and that is most of why a man came out
+ * Deliberately off the module's surface. It was on it, and that is most of why a man came out
  * named Maria: a writer that wanted a name reached for the loose draw, got one
  * with no argument to fill in, and never learnt that a gendered draw existed
  * two functions down. Sixteen routes did exactly that. Correcting sixteen
@@ -722,7 +722,8 @@ export function createStartingPerson(input: StartingPersonInput): Person {
  * the seventeenth, so the surface is now `drawCanonicalNameForGender`, whose
  * gender argument is required. A route that genuinely knows nothing passes
  * `"unstated"` and lands back here, which is the same draw and a declaration
- * instead of an omission.
+ * instead of an omission. The one narrow exception is `drawCanonicalName`
+ * below, which exists so a pre-fix save still replays byte-for-byte.
  */
 function drawUnrestrictedName(
   rng: SeededRng,
@@ -733,6 +734,24 @@ function drawUnrestrictedName(
     givenName: rng.pick(corpus.givenNames),
     familyName: rng.pick(corpus.familyNames),
   };
+}
+
+/**
+ * The loose draw, kept reachable for one purpose only: replaying a world that
+ * was written before the gendered draw existed. A save recorded under the
+ * legacy member-name policy has to produce the same bytes it produced then,
+ * and that means reaching the same stream in the same order with the same
+ * corpus. `src/simulation/living-world/opening.ts` is the only production
+ * caller, behind its `memberNameVersion` gate; `gendered-given-names.test.ts`
+ * holds that allowlist and fails if a second one appears. New code has no
+ * business here — call `drawCanonicalNameForGender` with `"unstated"` if the
+ * gender really is unknown, so the omission is at least written down.
+ */
+export function drawCanonicalName(
+  rng: SeededRng,
+  corpusVersion: string = DEFAULT_CORPUS_VERSION,
+): { readonly givenName: string; readonly familyName: string } {
+  return drawUnrestrictedName(rng, corpusVersion);
 }
 
 export const LEGACY_GIVEN_NAME_GENERATION_VERSION = "given-name-v1";

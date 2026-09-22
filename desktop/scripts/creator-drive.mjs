@@ -52,6 +52,27 @@ export async function answerCharacterBasics(page) {
  * kept.
  */
 export async function chooseStartAge(page, age) {
+  /*
+   * A build older than the full-birthday creator asks for an age and nothing
+   * else — fed321f7 has start-age, and none of start-birth-year, the gender
+   * buttons or the name draw. A continuity proof exists precisely to open a
+   * save made on such a build, so the driver has to be able to start a life
+   * on one. Newer builds are untouched: the birthday path below still runs
+   * whenever start-birth-year is there.
+   */
+  if ((await page.getByTestId("start-birth-year").count()) === 0) {
+    const legacyAge = page.getByTestId("start-age");
+    if ((await legacyAge.count()) === 0) {
+      throw new Error(
+        "This build's creator has neither start-birth-year nor start-age.",
+      );
+    }
+    // It is a plain number input there, not a GameSelect and not a native
+    // select, so it is filled rather than chosen from a list.
+    await legacyAge.fill(String(age));
+    await legacyAge.blur();
+    return;
+  }
   await answerCharacterBasics(page);
   const month = Number(
     (await page.getByTestId("start-birth-month").getAttribute("data-value")) ||

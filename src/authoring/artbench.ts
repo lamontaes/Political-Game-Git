@@ -51,6 +51,8 @@ export const EDIT_KINDS: readonly EditKind[] = [
 
 /** Edits that can invalidate neck/seat/anchor/occlusion calibration. */
 export const CALIBRATION_SENSITIVE_EDITS: readonly EditKind[] = [
+  "repaint",
+  "upscale",
   "background-removal",
   "crop",
   "canvas-change",
@@ -188,6 +190,17 @@ export interface RequestCreatedPayload {
 export interface CandidateSelectedPayload {
   readonly requestId: string;
   readonly candidateId: string;
+  /** Latest arrival examined by this recommendation; later returns stay visible. */
+  readonly latestArrivalBoundary?: string;
+}
+
+export interface ArtbenchMessagePayload {
+  readonly requestId: string;
+  readonly candidateId?: string;
+  readonly text: string;
+  readonly kind: "question" | "reply" | "note";
+  /** The question or review note this reply answers. */
+  readonly replyTo?: string;
 }
 
 export interface IntegrationQueuedPayload {
@@ -216,6 +229,13 @@ export interface BatchCompletedPayload {
   readonly source: "local-inbox" | "drive-inbox";
   readonly itemCount: number;
   readonly ingestedCandidateIds: readonly string[];
+  /**
+   * Items that resolved to bytes the bench already held. They are neither
+   * ingested nor rejected, and leaving them out of both lists is what made a
+   * batch of eight report six with nothing said about the rest. Optional
+   * because events written before this field exists do not carry it.
+   */
+  readonly duplicateCandidateIds?: readonly string[];
   readonly rejected: readonly {
     readonly item: string;
     readonly reason: string;
@@ -223,7 +243,12 @@ export interface BatchCompletedPayload {
 }
 
 export type ArtbenchEvent =
+  | ArtbenchEventOf<"message.posted", ArtbenchMessagePayload>
   | ArtbenchEventOf<"request.created", RequestCreatedPayload>
+  | ArtbenchEventOf<
+      "request.revised",
+      { readonly request: AssetRequest; readonly baseVersion: number }
+    >
   | ArtbenchEventOf<"candidate.ingested", CandidateIngestedPayload>
   | ArtbenchEventOf<"candidate.selected", CandidateSelectedPayload>
   | ArtbenchEventOf<"review.decided", ReviewDecidedPayload>
@@ -280,6 +305,8 @@ export interface ProjectedCandidate extends CandidateIngestedPayload {
   readonly childCandidateIds: readonly string[];
   readonly tags: TagSet;
   readonly tagsVersion: number;
+  /** Explicit handoff on this revision, never inherited from image metadata. */
+  readonly ownerReviewReady?: boolean;
   readonly tagAuthors: readonly ArtbenchActor[];
   readonly decisions: readonly ProjectedDecision[];
   readonly latestDecision?: ProjectedDecision;
@@ -357,6 +384,8 @@ export interface ProjectedRequest {
   readonly source: "registry" | "qa" | "event";
   readonly candidateIds: readonly string[];
   readonly selectedCandidateId?: string;
+  readonly selectedAt?: string;
+  readonly selectedThroughAt?: string;
   readonly lane: RequestLane;
   readonly parentRequestId?: string;
   readonly parentCandidateId?: string;
@@ -399,6 +428,10 @@ export interface ProjectedIntegrationItem extends IntegrationQueuedPayload {
 }
 
 export interface ArtbenchProjection {
+  readonly messages?: readonly ArtbenchEventOf<
+    "message.posted",
+    ArtbenchMessagePayload
+  >[];
   readonly contractVersion: typeof ARTBENCH_CONTRACT_VERSION;
   readonly lastSeq: number;
   readonly eventCount: number;
@@ -465,6 +498,7 @@ interface MutableCandidate {
   tags: TagSet;
   tagsVersion: number;
   tagAuthors: ArtbenchActor[];
+  ownerReviewReady: boolean;
   decisions: ProjectedDecision[];
   integrationItemId?: string;
   integrationState?: IntegrationReceivedPayload["state"];
@@ -475,15 +509,19 @@ function candidateStatus(
   c: MutableCandidate,
   decisions: readonly ProjectedDecision[] = c.decisions,
 ): CandidateStatus {
+  const latest = decisions.at(-1);
+  // Review intent remains visible even while an older installed build still
+  // contains these bytes. The integration receipt keeps that runtime history.
+  if (latest?.payload.decision === "reject") return "rejected";
+  if (latest?.payload.decision === "request-revision")
+    return "revision-requested";
   if (c.integrationState === "installed") return "installed";
   if (c.integrationState === "published") return "in-game";
   if (c.integrationState === "accepted") return "accepted";
-  const latest = decisions.at(-1);
   if (!latest) return "awaiting-review";
   if (latest.payload.decision === "approve") {
     return c.integrationItemId ? "integration-ready" : "approved";
   }
-  if (latest.payload.decision === "reject") return "rejected";
   return "revision-requested";
 }
 
@@ -498,6 +536,8 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
       selectedCandidateId?: string;
       /** True once the owner pinned a revision explicitly (candidate.selected). */
       selectedPinned?: boolean;
+      selectedAt?: string;
+      selectedThroughAt?: string;
       parentRequestId?: string;
       parentCandidateId?: string;
       manifestId?: string;
@@ -526,6 +566,8 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
     }
   }
   const importedReviews: ArtbenchProjection["importedReviews"][number][] = [];
+  const messages: ArtbenchEventOf<"message.posted", ArtbenchMessagePayload>[] =
+    [];
   const qaCandidates = new Set<string>();
   const candidates = new Map<string, MutableCandidate>();
   const assets = new Map<
@@ -565,6 +607,38 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
   for (const event of ordered) {
     lastSeq = Math.max(lastSeq, event.seq);
     switch (event.type) {
+      case "message.posted": {
+        const p = event.payload;
+        const candidate = p.candidateId ? candidates.get(p.candidateId) : null;
+        const target = p.replyTo
+          ? ordered.find((item) => item.eventId === p.replyTo)
+          : null;
+        const sameThread =
+          !p.replyTo ||
+          (target &&
+            (target.type === "message.posted" ||
+              target.type === "review.decided") &&
+            target.payload.requestId === p.requestId &&
+            (!p.candidateId || target.payload.candidateId === p.candidateId));
+        if (
+          (!requests.has(p.requestId) && p.requestId !== INBOX_REQUEST_ID) ||
+          (p.candidateId && candidate?.ingest.requestId !== p.requestId) ||
+          typeof p.text !== "string" ||
+          !p.text.trim() ||
+          p.text.length > 8000 ||
+          !["question", "reply", "note"].includes(p.kind) ||
+          (p.kind === "reply" && !p.replyTo) ||
+          !sameThread
+        ) {
+          rejected.push({
+            eventId: event.eventId,
+            reason: "Invalid message or reply target.",
+          });
+          break;
+        }
+        messages.push(event);
+        break;
+      }
       case "request.created": {
         const { request } = event.payload;
         if (requests.has(request.requestId)) {
@@ -586,6 +660,23 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
           qa: event.payload.qa === true,
         });
         assetFor(event.payload.assetId).requestIds.add(request.requestId);
+        break;
+      }
+      case "request.revised": {
+        const { request, baseVersion } = event.payload;
+        const existing = requests.get(request.requestId);
+        if (
+          !existing ||
+          existing.request.requestVersion !== baseVersion ||
+          request.requestVersion !== baseVersion + 1
+        ) {
+          rejected.push({
+            eventId: event.eventId,
+            reason: "Request version changed; reload before revising.",
+          });
+          break;
+        }
+        requests.set(request.requestId, { ...existing, request });
         break;
       }
       case "candidate.ingested": {
@@ -634,6 +725,7 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
           tags,
           tagsVersion: 0,
           tagAuthors: [],
+          ownerReviewReady: false,
           decisions: [],
           receipts: [
             {
@@ -670,6 +762,9 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
         if (request && candidates.has(event.payload.candidateId)) {
           request.selectedCandidateId = event.payload.candidateId;
           request.selectedPinned = true;
+          request.selectedAt = event.at;
+          request.selectedThroughAt =
+            event.payload.latestArrivalBoundary ?? event.at;
         } else {
           rejected.push({
             eventId: event.eventId,
@@ -716,6 +811,11 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
         if (p.decision === "approve") {
           assetFor(candidate.ingest.assetId).currentApprovedCandidateId =
             p.candidateId;
+        } else if (
+          assetFor(candidate.ingest.assetId).currentApprovedCandidateId ===
+          p.candidateId
+        ) {
+          delete assetFor(candidate.ingest.assetId).currentApprovedCandidateId;
         }
         break;
       }
@@ -757,6 +857,14 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
           });
           break;
         }
+        if (
+          p.entity === "candidate" &&
+          "ownerReviewReady" in target &&
+          p.tags.ownerReviewReady !== undefined
+        )
+          target.ownerReviewReady = p.tags.ownerReviewReady.includes(
+            `${p.entityId}:ready`,
+          );
         target.tags = mergeTags(target.tags, p.tags);
         target.tagsVersion += 1;
         if ("tagAuthors" in target) target.tagAuthors.push(p.author);
@@ -975,6 +1083,7 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
       tags: c.tags,
       tagsVersion: c.tagsVersion,
       tagAuthors: c.tagAuthors,
+      ownerReviewReady: c.ownerReviewReady,
       decisions: c.decisions,
       latestDecision: c.decisions.at(-1),
       status: candidateStatus(
@@ -1005,6 +1114,8 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
       source: entry.source,
       candidateIds: entry.candidateIds,
       selectedCandidateId: entry.selectedCandidateId,
+      selectedAt: entry.selectedAt,
+      selectedThroughAt: entry.selectedThroughAt,
       parentRequestId: entry.parentRequestId,
       parentCandidateId: entry.parentCandidateId,
       manifestId: entry.manifestId,
@@ -1067,6 +1178,7 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
     intakeConflicts,
     rejectedEvents: rejected,
     importedReviews,
+    messages,
   };
 }
 

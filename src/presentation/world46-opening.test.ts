@@ -35,6 +35,17 @@ const peebles = lifePlaceSearch("Peebles", 20, {
 function legacySetup(placeKey: string, seed: string): NewGameSetup {
   const legacy: Omit<NewGameSetup, "seed"> = { ...DEFAULT_NEW_GAME_SETUP };
   delete (legacy as { worldOpeningVersion?: unknown }).worldOpeningVersion;
+  delete (legacy as { openingDataVersion?: unknown }).openingDataVersion;
+  // Every versioned field the current default stamps has to come off, not just
+  // the opening one. A descriptor written before a field existed decodes with
+  // it undefined, so a helper that leaves one on is not building an old save:
+  // it builds a hybrid that never existed, and the hash it produces reports a
+  // difference nobody made. Leaving `earlierLifeGenerationVersion` on is what
+  // made this gate look like the client line had lost a character's schooling.
+  delete (legacy as { earlierLifeGenerationVersion?: unknown })
+    .earlierLifeGenerationVersion;
+  delete (legacy as { livingWorldMemberNameVersion?: unknown })
+    .livingWorldMemberNameVersion;
   return {
     ...legacy,
     seed,
@@ -81,10 +92,39 @@ const sha256 = (text: string) =>
  * without an opening version, not a save written by an old build. It gates the
  * legacy opening PATH, not save compatibility, and it moves whenever shipped
  * content does. LEGACY_OPENING_SHAPE below is the part that should not move.
+ *
+ * RE-ACCEPTED AGAIN 2026-09-22, and this time LEGACY_OPENING_SHAPE moves too,
+ * which by the paragraph above means the opening path really is behaving
+ * differently. It is, deliberately: a generated person's given name is now
+ * drawn from the pool that agrees with the gender the world already gave them,
+ * so a generated name can move whether or not it was previously wrong — the
+ * draw is over a smaller pool, not only a corrected one. `legacySetup` spreads
+ * today's defaults and deletes the versioned fields that exist to make an old
+ * descriptor replay; `givenNameGenerationVersion` is deliberately NOT one of
+ * them here, because this fixture is today's new game minus an opening
+ * version, and today's new game declares the repair.
+ *
+ * Measured rather than assumed. The legacy Kentucky opening was serialized on
+ * `origin/main` at 55183d37 and on this head and compared leaf by leaf: 21
+ * leaves differ in the whole world and no others.
+ *
+ *   - 5 `givenName` values, of 544 people;
+ *   - 15 `establishedFacts[].summary` strings, every one of which becomes
+ *     identical after substituting that person's old given name for their new
+ *     one — 0 summaries are unexplained by the name alone;
+ *   - `snapshotId`, which is a digest of the world and moves with it.
+ *
+ * Four of the five were the defect itself: a "Jeremiah" and an "Austin" both
+ * recorded female, now Monique and Jenna, and two more alongside them. The
+ * fifth, Mason to Gage, was male and stayed male; it moved because the pool
+ * narrowed. Nothing else differs — no person id, birth date, family name,
+ * identity, jurisdiction, organization, event or history structure, and
+ * `worldId` is unchanged. A move here for any other reason is still a
+ * regression.
  */
 const FED321F7_LEGACY = {
-  kentucky: "5aa3b46631f8a2adb69d69255ceeb7c8607ed6c905805a2ff6884e35343176b2",
-  peebles: "f219313a16fb4f3c47a2c9f9d79b104611a5d2e77076e5e2c1d9270667984f51",
+  kentucky: "fb7f1e490ddc0a01cdbefa3058de97ac3be3b9a6c35605b13b4f8aa35158f570",
+  peebles: "ba2ac7e3ffc0a71f5fa0788365e7ae2a905ab3447de6328611b65b5c06f52e27",
 } as const;
 
 /**
@@ -94,35 +134,10 @@ const FED321F7_LEGACY = {
  * the hashes above it does NOT move when authored content ships. A change here
  * is the legacy opening path actually behaving differently, which is what the
  * test above was reaching for and could not hold on its own.
- *
- * RE-ACCEPTED 2026-09-22, and this one IS the opening path behaving
- * differently — deliberately, and it is the only such re-acceptance here.
- * Generated people now take their given name from the pool that agrees with
- * the gender the world gave them, so a generated name moves whether or not it
- * was previously wrong: the draw is over a smaller pool, not a corrected one.
- *
- * What moved was measured rather than assumed. The legacy Kentucky opening was
- * serialized on `origin/main` at 4965f63c and on this head and compared leaf by
- * leaf. The two worlds hold the same 544 people under the same ids. Exactly
- * three things differ:
- *
- *   - 536 `givenName` values;
- *   - 2,139 `establishedFacts[].summary` strings, every one of which becomes
- *     identical after substituting that person's old given name for their new
- *     one — 0 summaries are unexplained by the name alone;
- *   - `snapshotId`, which is a digest of the world and moves with it.
- *
- * Nothing else. No person id, birth date, family name, appearance, identity,
- * jurisdiction, organization, event or history structure differs, and `worldId`
- * is unchanged: 0 identities changed and 0 other person fields differ. An old
- * save therefore rebuilds the same world with the same people, and those people
- * are no longer called things that contradict their own pronouns. That is the
- * change being accepted, and a move here for any other reason is still a
- * regression.
  */
 const LEGACY_OPENING_SHAPE = {
-  kentucky: "dee483710f4ea1611fbc6db5357cf23edb2cd2759a88794376a07c3d98065926",
-  peebles: "b03f5e89f7e67c0224215d9262e30c2926a1c9022eba032221db207713da51c9",
+  kentucky: "0245935171dd00c8a8304679a94428f1fd87dcccceeb5b2f9792c775d3cdc6e8",
+  peebles: "fb58196c5d6d23094e56bc21d48b98e14fbcedc9bb876df57dfc1557e26d27b9",
 } as const;
 
 /**
@@ -149,6 +164,20 @@ describe("WORLD46 opening version gate", () => {
         ?.worldOpeningVersion,
     ).toBe(CRUNCH46_WORLD_OPENING_VERSION);
     const old = legacySetup("kentucky", "gate");
+    expect(old.openingDataVersion).toBeUndefined();
+    expect(old.earlierLifeGenerationVersion).toBeUndefined();
+    expect(old.livingWorldMemberNameVersion).toBeUndefined();
+    expect(
+      decodeReplayDescriptor(encodeReplayDescriptor(old))
+        ?.earlierLifeGenerationVersion,
+    ).toBeUndefined();
+    expect(
+      decodeReplayDescriptor(encodeReplayDescriptor(old))
+        ?.livingWorldMemberNameVersion,
+    ).toBeUndefined();
+    expect(
+      decodeReplayDescriptor(encodeReplayDescriptor(old))?.openingDataVersion,
+    ).toBeUndefined();
     expect(
       decodeReplayDescriptor(encodeReplayDescriptor(old))?.worldOpeningVersion,
     ).toBeUndefined();

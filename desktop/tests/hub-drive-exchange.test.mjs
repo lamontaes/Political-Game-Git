@@ -8,6 +8,7 @@ import test from "node:test";
 import {
   EXCHANGE_FOLDERS,
   configuredExchangeFolders,
+  discoverExchangeRoot,
   exchangeFolderIdOverride,
   exchangeSummary,
   resolveExchangeFolders,
@@ -35,6 +36,46 @@ test("the owner's exchange folders are the configured identities", () => {
       ["events", "03_REVIEW_AND_INTEGRATION_EVENTS", EVENTS],
     ],
   );
+});
+
+test("the single mirrored Art Desk exchange is discovered centrally", () => {
+  const cloud = mkdtempSync(path.join(tmpdir(), "ocd-cloud-"));
+  const root = path.join(
+    cloud,
+    "GoogleDrive-owner@example.test",
+    "My Drive",
+    "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE",
+    "80_ARTBENCH_EXCHANGE",
+  );
+  mkdirSync(root, { recursive: true });
+  try {
+    assert.equal(discoverExchangeRoot({ cloudStorageRoot: cloud }), root);
+  } finally {
+    rmSync(cloud, { recursive: true, force: true });
+  }
+});
+
+test("more than one mirrored Art Desk exchange is refused", () => {
+  const cloud = mkdtempSync(path.join(tmpdir(), "ocd-cloud-"));
+  try {
+    for (const account of ["one", "two"])
+      mkdirSync(
+        path.join(
+          cloud,
+          `GoogleDrive-${account}@example.test`,
+          "My Drive",
+          "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE",
+          "80_ARTBENCH_EXCHANGE",
+        ),
+        { recursive: true },
+      );
+    assert.throws(
+      () => discoverExchangeRoot({ cloudStorageRoot: cloud }),
+      /More than one shared Art Desk exchange/,
+    );
+  } finally {
+    rmSync(cloud, { recursive: true, force: true });
+  }
 });
 
 test("a configured id wins over the folder's name", () => {

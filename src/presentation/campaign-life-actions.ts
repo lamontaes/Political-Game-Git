@@ -3,6 +3,7 @@ import {
   advanceWorldMinutes,
   commitCampaignWeek,
   compareSimulationMoments,
+  canPersonAccess,
   controlledCommitmentsBlockingActivityPerformance,
   performCampaignWeekSession,
   performScheduledActivity,
@@ -96,8 +97,34 @@ export function partyWorkBlockedReason(
       ? entry.refusal
       : "That activity cannot be reached from here right now.";
   }
-  return remoteBlockers(world, view.scheduledActivityId, handlers).length > 0
-    ? "An earlier commitment must be resolved first."
+  const first = remoteBlockers(world, view.scheduledActivityId, handlers)[0];
+  const earlier = world.history.scheduledActivities.find(
+    (item) => item.id === first,
+  );
+  return earlier
+    ? canPersonAccess(earlier.access, personId)
+      ? `Resolve “${earlier.title}” on your calendar first.`
+      : "An earlier commitment must be resolved first."
+    : null;
+}
+
+/** The actual earlier event, for a read-only Calendar link. */
+export function partyWorkBlockingActivityId(
+  world: World,
+  personId: EntityId,
+  lifeActivityId: EntityId,
+  handlers: FutureTransitionHandlerRegistry = createCampaignElectionTransitionRegistry(),
+): EntityId | null {
+  const view = lifeView(world, personId, lifeActivityId);
+  const id =
+    view.presence === "remote" && view.state === "accepted"
+      ? (remoteBlockers(world, view.scheduledActivityId, handlers)[0] ?? null)
+      : null;
+  const activity = world.history.scheduledActivities.find(
+    (item) => item.id === id,
+  );
+  return activity && canPersonAccess(activity.access, personId)
+    ? activity.id
     : null;
 }
 

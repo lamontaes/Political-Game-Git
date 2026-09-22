@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join, relative } from "node:path";
 import { describe, expect, it } from "vitest";
 
+import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import { buildProductionWorld } from "../presentation/production-world";
 import { requireLifePlace } from "./index";
 import { ensureLivingWorldOpening } from "./living-world/opening";
@@ -108,6 +109,30 @@ describe("no route draws a name apart from the identity it belongs to", () => {
     );
   });
 
+  it("keeps the legacy replay escape hatch to its allowed callers", () => {
+    /*
+     * `drawCanonicalName` is the loose draw under a name, kept so a save
+     * written before the repair still replays byte-for-byte: the living-world
+     * opening picks it only when the save says `memberNameVersion` is not
+     * "identity-v1", and the earlier-life generator only when the save's
+     * `givenNameGenerationVersion` is the legacy one. That is a real
+     * obligation, not a loophole, so the allowlist is these two files and this
+     * test is what stops it becoming three.
+     */
+    const callers = productionSources()
+      .filter((path) => !path.endsWith(join("simulation", "people.ts")))
+      .filter((path) =>
+        readFileSync(path, "utf8").includes("drawCanonicalName("),
+      )
+      .map((path) => relative(SOURCE_ROOT, path));
+    expect([...callers].sort()).toStrictEqual(
+      [
+        join("simulation", "character-history.ts"),
+        join("simulation", "living-world", "opening.ts"),
+      ].sort(),
+    );
+  });
+
   function splitDraws(source: string): boolean {
     const lines = source.split("\n");
     return lines.some((line, index) => {
@@ -170,6 +195,10 @@ describe("a generated population's names agree with its genders", () => {
       depth: "summarize-earlier-life",
       household: "lives-alone",
       identity: { gender: "male", pronouns: "he-him" },
+      // What a new game declares. The legacy version still draws the two
+      // halves apart, on purpose, so a pre-repair save rebuilds byte-for-byte.
+      givenNameGenerationVersion:
+        DEFAULT_NEW_GAME_SETUP.givenNameGenerationVersion,
     });
   }
 
@@ -191,7 +220,17 @@ describe("a generated population's names agree with its genders", () => {
 
   it("agrees across the seated Congress", () => {
     const built = adultStart("gendered-names-congress");
-    const seated = ensureLivingWorldOpening(built.world, built.playerPersonId);
+    // A new game's own policy, not a value this test picked: the legacy
+    // branch below it is reachable only by a save recorded before the repair,
+    // and it has to stay reachable for those saves to replay.
+    expect(DEFAULT_NEW_GAME_SETUP.livingWorldMemberNameVersion).toBe(
+      "identity-v1",
+    );
+    const seated = ensureLivingWorldOpening(
+      built.world,
+      built.playerPersonId,
+      DEFAULT_NEW_GAME_SETUP.livingWorldMemberNameVersion,
+    );
     const people = Object.values(seated.people);
     // 538 people before the repair, of which 237 disagreed.
     expect(people.length).toBeGreaterThan(500);

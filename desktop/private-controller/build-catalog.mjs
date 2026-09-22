@@ -1,5 +1,5 @@
 /**
- * The "Game build" chooser, projected from records the hub already has
+ * The "Game version" chooser, projected from records the hub already has
  * (CRUNCH46 H2). Pure: no Electron, no network, no git.
  *
  * - Main game is always first and recommended.
@@ -117,7 +117,7 @@ export function projectBuildChooser({
     if (!track?.branch || track.branch === MAIN_TRACK) continue;
     if (listed.has(track.branch)) continue;
     const entry = catalog[track.branch] ?? null;
-    technical.push({
+    const item = {
       id: `branch:${track.branch}`,
       branch: track.branch,
       revision: validRevision(track.revision) ? track.revision : null,
@@ -126,8 +126,10 @@ export function projectBuildChooser({
       purpose: entry?.purpose ?? null,
       pullRequest: prByBranch.get(track.branch)?.number ?? null,
       updated: null,
-      kind: "recorded",
-    });
+      kind: entry && !entry.historical ? "prepared" : "recorded",
+    };
+    if (item.kind === "prepared") previews.push(item);
+    else technical.push(item);
   }
   const byRecency = (a, b) =>
     (b.updated ?? 0) - (a.updated ?? 0) || a.branch.localeCompare(b.branch);
@@ -147,6 +149,8 @@ export function projectBuildChooser({
 /** One human line for an option; the exact ref stays in the details. */
 export function chooserLabel(item) {
   switch (item.kind) {
+    case "prepared":
+      return `${item.title} — prepared locally`;
     case "merged":
       return `${item.title} — already in main`;
     case "historical":

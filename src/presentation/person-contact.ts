@@ -1,3 +1,4 @@
+import { projectContacts } from "./people-contacts";
 import {
   personName,
   type EntityId,
@@ -28,10 +29,10 @@ import {
  *   home and the neighborhood — when it actually ends where they were last
  *   recorded. `walkOpeningNeighborhood` is the writer; nothing here invents
  *   a route. Any other destination is named and refused.
- * - Contact: no remote channel writer exists in the simulation (no call,
- *   message or letter producer). The card says so; it does not fake one.
- * - Meet: no invitation producer exists. When they are here, Meet returns to
- *   the room; otherwise the gap is named.
+ * - Contact: the existing contacts route can propose and answer meetings.
+ *   Descriptive channel labels do not imply a separate phone/message writer.
+ * - Meet: when they are here, return to the room; otherwise use the recorded
+ *   contact route to arrange a meeting.
  */
 
 export interface PersonContactAction {
@@ -78,15 +79,20 @@ export function projectPersonContact(
       ? talkEntry.reason
       : `${name} can be spoken to. Talk starts that conversation.`;
 
-  const contactAvailable = false;
-  const contactReason = presentNow
-    ? `${name} is in the room, so there is nothing to send. No phone, mail or message channel exists in this life yet.`
-    : `No phone, mail or message channel exists in this life yet, so ${name} cannot be reached from here.`;
+  const remote = projectContacts(world, playerPersonId).contacts.find(
+    (item) => item.personId === personId,
+  );
+  const contactAvailable = remote !== undefined;
+  const contactReason = remote
+    ? remote.channels.map((channel) => channel.label).join(" · ")
+    : `No way to contact ${name} is recorded.`;
 
   const meetAvailable = presentNow;
   const meetReason = presentNow
     ? `${name} is in the room. Meet takes you back to that scene.`
-    : `No way to arrange a meeting with ${name} exists in this life yet. A card or a pin is not proof they are here.`;
+    : remote
+      ? `You can contact ${name} to arrange a meeting.`
+      : `No way to arrange a meeting with ${name} is recorded.`;
 
   const playerPlace = openingLifeLocation(world, playerPersonId);
   const theirPlace = openingLifeLocation(world, personId);
