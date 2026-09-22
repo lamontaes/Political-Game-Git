@@ -5,11 +5,59 @@ on `main` at `273fd2b8` unless another ref is named, by reading the modules and
 their interface mount points rather than by reading earlier reports. Where a
 finding came from another lane it says so and is not restated as ours.
 
-Findings only. Nothing here is a task list, and nothing here changes code.
+Findings only. Nothing here is a task list, and nothing here changes code. The
+one exception is section 0a, which is a decision nobody should make for you.
+
+**If you read two things, read section 0 and section 0a.** The first retires a
+number that has been quoted all night, including in our own notes. The second
+is a yes-or-no about how the game plays.
 
 ---
 
-## 0. One decision for you, and it is the biggest thing in this report
+## 0. The realistic range was agreed and never built
+
+Checked directly on `claude/congress-factions-cg1u98` at `055bc5ac`, by
+searching for the instrument under every name it might carry rather than the
+one expected, and by asking what provenance a generated rule actually records.
+
+The project record says seven states were read and forty-three plus DC are
+generated from the national range. **The second half of that sentence describes
+an intention, not the game.** No module, constant or document in `src/`, in
+`scripts/` or in `docs/` implements a range, and none names one.
+
+What exists instead is `STATE_EXECUTIVE_GAME_PROFILE`
+(`src/simulation/nationwide-world/state-executive-term-rules.ts:84-100`): a
+single frozen constant — four-year terms, a November election every four years,
+a term beginning the first Monday of January — applied identically to every
+state whose real rule has not been compiled, and honestly labelled
+`game-profile` wherever a player inspects the office. It is a disclosed default,
+which is the right shape for a default. It is not a range: it does not vary
+state to state, it is not drawn from the span the read states cover, and it is
+the same value everywhere, which is the single national average the range rule
+was written to rule out.
+
+The legislature side has no default at all.
+`LEGISLATIVE_RULE_PACKS` (`legislature-rule-packs.ts:2534`) is nine hand-written
+states. Every other jurisdiction resolves through `unknownRule`
+(`legislature-rules.ts:77`), which is a refusal carrying a note.
+
+**The figure being retired.** "Seven states read, forty-three plus DC
+generated from the national range" has been quoted all night and is written
+into our own notes. It described an intention, not the game. The corrected
+line is: **seven states read; the rest not generated but unhandled** — a uniform disclosed default for the governor's term
+and clock, and a refusal for everything about a legislature. DC refuses
+candidacy outright for a missing minimum age, and Puerto Rico is absent from the
+coverage report entirely.
+
+That makes the realistic-range rule a different conversation from the one it has
+been having all night. It is not something built and being tuned. It was agreed
+and never started, and the 719-claim ledger with 649 claims rejected for want of
+a fetched authority is what stands in its place: a design that refuses rather
+than generates, exactly the behaviour the rule was written to abolish.
+
+---
+
+## 0a. One decision for you, and it is the biggest decision in this report
 
 **The game answers asks addressed to you, before you ever see them.**
 
@@ -45,47 +93,6 @@ else. It is still your call, and nobody will make it for you.
 
 The full working detail is in `docs/handoffs/people-and-life-2026-09-22.md`
 section 0, on `main` at `d4dca882`.
-
----
-
-## 0b. The realistic range was agreed and never built
-
-Checked directly on `claude/congress-factions-cg1u98` at `055bc5ac`, by
-searching for the instrument under every name it might carry rather than the
-one expected, and by asking what provenance a generated rule actually records.
-
-The project record says seven states were read and forty-three plus DC are
-generated from the national range. **The second half of that sentence describes
-an intention, not the game.** No module, constant or document in `src/`, in
-`scripts/` or in `docs/` implements a range, and none names one.
-
-What exists instead is `STATE_EXECUTIVE_GAME_PROFILE`
-(`src/simulation/nationwide-world/state-executive-term-rules.ts:84-100`): a
-single frozen constant — four-year terms, a November election every four years,
-a term beginning the first Monday of January — applied identically to every
-state whose real rule has not been compiled, and honestly labelled
-`game-profile` wherever a player inspects the office. It is a disclosed default,
-which is the right shape for a default. It is not a range: it does not vary
-state to state, it is not drawn from the span the read states cover, and it is
-the same value everywhere, which is the single national average the range rule
-was written to rule out.
-
-The legislature side has no default at all.
-`LEGISLATIVE_RULE_PACKS` (`legislature-rule-packs.ts:2534`) is nine hand-written
-states. Every other jurisdiction resolves through `unknownRule`
-(`legislature-rules.ts:77`), which is a refusal carrying a note.
-
-So the corrected figure for the report is: **seven states read; the rest not
-generated but unhandled** — a uniform disclosed default for the governor's term
-and clock, and a refusal for everything about a legislature. DC refuses
-candidacy outright for a missing minimum age, and Puerto Rico is absent from the
-coverage report entirely.
-
-That makes the realistic-range rule a different conversation from the one it has
-been having all night. It is not something built and being tuned. It was agreed
-and never started, and the 719-claim ledger with 649 claims rejected for want of
-a fetched authority is what stands in its place: a design that refuses rather
-than generates, exactly the behaviour the rule was written to abolish.
 
 ---
 
