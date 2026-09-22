@@ -159,6 +159,20 @@ function realFileInside(root: string, relative: string): string | null {
   return absolute;
 }
 
+/**
+ * Errors that say "not now" rather than "not ever". A Drive-backed inbox is a
+ * network filesystem, so a read can time out or be refused while the file is
+ * still being written; recording that as a permanent rejection is the same
+ * mistake absence used to be. Anything not on this list is treated as final,
+ * because a retry forever is only right when the condition can actually clear.
+ */
+const TRANSIENT_READ_ERROR =
+  /\b(ETIMEDOUT|ECONNRESET|ECONNABORTED|EAGAIN|EBUSY|ENOENT|EMFILE|ENFILE|EHOSTUNREACH|ENETUNREACH|ENOTCONN)\b/;
+
+function isTransientReadError(reason: string): boolean {
+  return TRANSIENT_READ_ERROR.test(reason);
+}
+
 export interface IntakeMeta {
   readonly requestId?: string;
   readonly requestVersion?: number;
@@ -1538,21 +1552,59 @@ export class ArtbenchStore {
     };
   }
 
+  /**
+   * Pending means the bench is still waiting on something, which is not the
+   * same question as whether the sender has finished uploading. Folder shape
+   * answers the second: manifest.json or COMPLETE says the sender is done. It
+   * used to answer both, and the two parted company the moment an item could
+   * be deferred — a batch whose manifest arrived before its image is complete
+   * by folder shape and unfinished in fact. So a complete batch is pending
+   * while any item it declares has not reached an end state in the same
+   * accumulated record that decides when batch.completed may be appended.
+   */
   private pendingBatchIds(inbox: string): string[] {
     if (!existsSync(inbox)) return [];
     const pending: string[] = [];
     for (const entry of readdirSync(inbox, { withFileTypes: true })) {
       if (entry.isSymbolicLink()) continue;
-      if (entry.isDirectory()) {
-        const folder = join(inbox, entry.name);
-        const complete =
-          existsSync(join(folder, "manifest.json")) ||
-          existsSync(join(folder, "COMPLETE"));
-        const processed = this.syncState.batches[entry.name];
-        if (!complete && !processed) pending.push(entry.name);
+      if (!entry.isDirectory()) continue;
+      const folder = join(inbox, entry.name);
+      const complete =
+        existsSync(join(folder, "manifest.json")) ||
+        existsSync(join(folder, "COMPLETE"));
+      if (!complete) {
+        // The sender has not said it is finished. A batch already processed
+        // under an earlier shape is not re-announced.
+        if (!this.syncState.batches[entry.name]) pending.push(entry.name);
+        continue;
+      }
+      const done = this.syncState.batches[entry.name] ?? {};
+      if (this.declaredItemIds(folder).some((itemId) => !done[itemId])) {
+        pending.push(entry.name);
       }
     }
     return pending;
+  }
+
+  /**
+   * The item ids a batch folder declares, read the same way the import reads
+   * them so the two cannot disagree about what the batch contains.
+   */
+  private declaredItemIds(folder: string): string[] {
+    const manifest = readJson<{ batchId?: string; items?: IntakeItem[] }>(
+      join(folder, "manifest.json"),
+    );
+    const items: readonly IntakeItem[] = manifest?.items?.length
+      ? manifest.items
+      : readdirSync(folder)
+          .filter((name) => IMAGE_EXT.test(name))
+          .map((name) => ({ itemId: name, file: name }));
+    const ids: string[] = [];
+    for (const item of items) {
+      const itemId = item.itemId ?? item.file;
+      if (itemId) ids.push(itemId);
+    }
+    return ids;
   }
 
   /** One pass: import complete batches, export outbox, admit foreign events, publish catalog. */
@@ -1708,6 +1760,11 @@ export class ArtbenchStore {
           : result.candidate.candidateId;
       } catch (error) {
         const reason = error instanceof Error ? error.message : String(error);
+        if (isTransientReadError(reason)) {
+          // Same reasoning as absence: this one can come right on its own.
+          deferred.push(itemId);
+          continue;
+        }
         done[itemId] = `rejected:${reason.slice(0, 80)}`;
       }
       changed = true;
@@ -1719,6 +1776,7 @@ export class ArtbenchStore {
     // worked, with nothing left to look at.
     if (!changed || deferred.length > 0) return;
     const ingested: string[] = [];
+    const duplicates: string[] = [];
     const rejected: { item: string; reason: string }[] = [];
     for (const item of items) {
       const itemId = item.itemId ?? item.file;
@@ -1730,7 +1788,12 @@ export class ArtbenchStore {
           item: itemId,
           reason: outcome.slice("rejected:".length),
         });
-      } else if (!outcome.startsWith("duplicate:")) {
+      } else if (outcome.startsWith("duplicate:")) {
+        // Named rather than dropped. An item that was neither ingested nor
+        // rejected is how a batch came to report six of eight with nothing
+        // said about the other two, which reads as an unexplained hole.
+        duplicates.push(outcome.slice("duplicate:".length));
+      } else {
         ingested.push(outcome);
       }
     }
@@ -1741,6 +1804,7 @@ export class ArtbenchStore {
         source,
         itemCount: items.length,
         ingestedCandidateIds: ingested,
+        duplicateCandidateIds: duplicates,
         rejected,
       },
       { kind: "system", id: "artbench-sync" },
