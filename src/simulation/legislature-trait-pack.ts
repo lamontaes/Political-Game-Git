@@ -43,15 +43,23 @@ export const LEGISLATURE_TRAIT_SCALE: TraitScale = {
  * How movable a bargaining manner is, which is this pack's judgement.
  *
  * Easier to move than an ordinary-life temperament and harder than a mood. A
- * member who has been burned once at a table changes how they answer, and the
- * change costs more each time so that nobody oscillates across a session. It
- * settles over four years, which is roughly a term: a manner held across a
- * whole term without moving is the one everybody in the chamber can rely on.
+ * member who has been burned once at a table changes how they answer, and how
+ * hard that is depends on how strongly the manner is theirs rather than on how
+ * many times they have already changed. It settles over four years, which is
+ * roughly a term: a manner held across a whole term without moving is the one
+ * everybody in the chamber can rely on.
+ *
+ * Experience counts on a thirty-day spacing rather than a season, because a
+ * chamber deals with the same member repeatedly and a month is long enough for
+ * two dealings to be two dealings. The cap is the same as ordinary life: no
+ * amount of coming back to the same member moves them by itself.
  */
 export const LEGISLATURE_TRAIT_MOVABILITY: TraitMovability = {
-  settled: 2,
-  perMove: 1,
+  settledByStrength: { subtle: 1, moderate: 2, strong: 3, defining: 4 },
   settlesOver: 4,
+  unsettledFloor: 0.5,
+  experienceSpacingDays: 30,
+  pressureCap: 3,
 };
 
 export const LEGISLATURE_PACK = "legislature-v1";

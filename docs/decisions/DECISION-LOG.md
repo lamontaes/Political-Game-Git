@@ -3045,3 +3045,38 @@ Consequence, and the part that changes behaviour immediately: **when a branch
 has no checks, read its mergeability before reading the queue.** An empty
 queue and an un-mergeable head look identical from the outside, and only one of
 them gets better by waiting.
+
+## D-090 — A stricter rule the shipped route cannot satisfy is not stricter, it is dead
+
+- Date: 2026-09-22
+- Status: ACCEPTED
+- Supersedes: none
+
+When a returned contract proposes a tighter condition on some behaviour, read
+what actually calls the producer before building the condition. A rule that no
+live caller can ever satisfy does not make the system more careful. It makes
+that part of the system inert, and it does so silently, because a producer that
+never fires and a producer that fires and is correctly refused are
+indistinguishable from the outside — the same shape as D-088, where an
+instrument that fails by measuring nothing reports that as a pass.
+
+**The instance.** The returned contract for personality change said movement
+needs independent experiences "in more than one context", which reads as the
+obviously stricter rule and was built as one. The running game has exactly one
+producer of trait change, `produceRebuffedAskEffects`: somebody reaches out and
+is turned down. Contexts in play are therefore all the same person, so the
+requirement could never be met and nobody's temperament would have been able to
+move at all — the branch would have shipped a working, well-tested, completely
+inert system. Measured by reading the callers, not inferred from the design.
+
+Resolved by making variety raise the count sooner rather than gate it, which
+keeps what the rule was for — repetition is not evidence — while leaving the
+shipped route able to reach it. The time requirement does the work the context
+requirement was supposed to do, and time is something the live route genuinely
+accumulates.
+
+Consequence: a condition added to a producer is reviewed against its callers,
+and a rule no caller can satisfy is either relaxed or filed as a gap, never
+merged as a tightening. Where a rule is deliberately unreachable by today's
+callers, say so in the code at the point of the rule, so the next reader does
+not mistake an empty result for a working refusal.

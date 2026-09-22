@@ -19,8 +19,9 @@ import {
   type TraitResistance,
 } from "./trait-resistance";
 import { latestPersonalityTendency } from "./queries";
+import { daysBetween } from "./dates";
 import { recordWorldEvent } from "./world";
-import type { EntityId, World } from "./types";
+import type { EntityId, IsoDate, World } from "./types";
 
 /**
  * Changing somebody, against how hard they are to change.
@@ -33,13 +34,19 @@ import type { EntityId, World } from "./types";
  * rather than discarded.**
  *
  * That last part is the half that makes it a life rather than a slot machine.
- * Ten arguments become accumulating pressure instead of ten independent coin
- * flips, and the game keeps being able to say that something kept happening to
- * somebody and they did not budge.
+ * Separate experiences accumulate instead of being independent coin flips, and
+ * the game keeps being able to say that something kept happening to somebody
+ * and they did not budge.
+ *
+ * Separate is doing the work in that sentence. The same argument repeated is
+ * one argument however many times it is made; what accumulates is different
+ * things, from different corners of a life, over months and years. See
+ * `traitChangePressure`.
  */
 
 const UNMOVED_EVENT = "people-mind-v1.trait-unmoved";
 const UNMOVED_TAG = "trait-change.unmoved";
+const CONTEXT_TAG_PREFIX = "trait-change.context:";
 
 function directionTag(from: TraitValue, to: TraitValue): string {
   return `trait-change.direction:${to > from ? "up" : "down"}`;
@@ -49,8 +56,17 @@ function traitTag(trait: PeopleTrait): string {
   return `trait-change.trait:${PEOPLE_MIND_VERSION}:${trait}`;
 }
 
+function contextTag(context: string): string {
+  return `${CONTEXT_TAG_PREFIX}${context}`;
+}
+
+function contextOf(tags: readonly string[]): string | null {
+  const tag = tags.find((value) => value.startsWith(CONTEXT_TAG_PREFIX));
+  return tag ? tag.slice(CONTEXT_TAG_PREFIX.length) : null;
+}
+
 /**
- * How many attempts have already failed on this trait, in this direction,
+ * How much independent experience has already argued this way and failed,
  * since the value it is trying to move was written.
  *
  * Counted from the events themselves, so it survives a save and cannot drift
@@ -58,6 +74,36 @@ function traitTag(trait: PeopleTrait): string {
  * current record rather than its date: a move and a failed attempt can land on
  * the same day, and the pressure that a move released must not be counted
  * again against the value it produced.
+ *
+ * **What it is not is a count of attempts.** Counting attempts made the same
+ * thing said ten times in an afternoon worth ten times as much as saying it
+ * once, so persistence alone moved anybody given enough repetitions — a click
+ * counter wearing the clothes of a life. Two requirements are read instead,
+ * and the pressure is the smaller of them, so each further unit needs both at
+ * once:
+ *
+ * - **A separate experience.** An attempt in a context that already argued
+ *   this way fewer than `experienceSpacingDays` ago is the same experience
+ *   continuing, and adds nothing. What counts as a context is the producer's
+ *   to name — for a rebuffed ask it is who did the rebuffing — and it is
+ *   written on the event, so the reason is readable afterwards and so the same
+ *   season can hold one experience of each of several people rather than one
+ *   experience in total.
+ * - **Time.** Spacing periods between the first counted experience and the
+ *   last, so a bad afternoon cannot stand in for a bad decade. This is the one
+ *   that cannot be hurried, and the one that makes the whole thing a life: a
+ *   person becomes somebody who reaches out less over years of it, not over a
+ *   fortnight of it.
+ *
+ * Variety is deliberately not a gate of its own, only a way of reaching the
+ * count sooner. A requirement that several different corners of a life argue
+ * before any of it counts would read well and would leave the only producer
+ * the running game has — being turned down by the person you keep asking —
+ * unable to move anybody at all, which is not a stricter rule but a dead one.
+ *
+ * The pack then caps the whole. A trait whose settled resistance is above the
+ * strongest single force plus that cap cannot be worn down at all, only
+ * argued out of.
  */
 export function traitChangePressure(
   world: World,
@@ -65,6 +111,12 @@ export function traitChangePressure(
   trait: PeopleTrait,
   toward: TraitValue,
 ): number {
+  const registered = loadedTraitRegistry().traits.get(
+    `${PEOPLE_MIND_VERSION}:${trait}`,
+  );
+  if (!registered) return 0;
+  const { experienceSpacingDays, pressureCap } = registered.movability;
+
   const current = personTrait(world, personId, trait);
   const record = latestPersonalityTendency(
     world,
@@ -73,14 +125,50 @@ export function traitChangePressure(
   );
   const since = record?.sequence ?? -1;
   const wanted = directionTag(current.value, toward);
-  return world.history.events.filter(
-    (event) =>
-      event.type === UNMOVED_EVENT &&
-      event.sequence > since &&
-      event.involvedEntityIds.includes(personId) &&
-      event.tags.includes(traitTag(trait)) &&
-      event.tags.includes(wanted),
-  ).length;
+  const arguing = world.history.events
+    .filter(
+      (event) =>
+        event.type === UNMOVED_EVENT &&
+        event.sequence > since &&
+        event.involvedEntityIds.includes(personId) &&
+        event.tags.includes(traitTag(trait)) &&
+        event.tags.includes(wanted),
+    )
+    .slice()
+    .sort((left, right) => left.sequence - right.sequence);
+
+  const lastCountedIn = new Map<string, IsoDate>();
+  let counted = 0;
+  let first: IsoDate | null = null;
+  let last: IsoDate | null = null;
+  for (const event of arguing) {
+    // An event whose producer named no context is its own context, so an old
+    // record from before contexts were written still counts once rather than
+    // silently merging with everything else.
+    const context = contextOf(event.tags) ?? `event:${event.id}`;
+    const previous = lastCountedIn.get(context);
+    if (
+      previous !== undefined &&
+      daysBetween(previous, event.occurredAt) < experienceSpacingDays
+    ) {
+      continue;
+    }
+    lastCountedIn.set(context, event.occurredAt);
+    counted += 1;
+    first ??= event.occurredAt;
+    last = event.occurredAt;
+  }
+  if (counted === 0) return 0;
+
+  const spanDays =
+    first !== null && last !== null ? daysBetween(first, last) : 0;
+  const overTime = 1 + Math.floor(spanDays / experienceSpacingDays);
+  // Minus one, because the first experience is the thing that happened rather
+  // than pressure behind the thing that happened. One corner of a life arguing
+  // once is a force meeting a resistance and nothing more; pressure is what a
+  // person carries into the next one.
+  const reach = Math.min(counted, overTime) - 1;
+  return Math.max(0, Math.min(pressureCap, reach));
 }
 
 export interface AttemptTraitChangeInput {
@@ -94,6 +182,14 @@ export interface AttemptTraitChangeInput {
   readonly force: TraitForce;
   /** A stable key for the attempt, so a failure is written once. */
   readonly stableKey: string;
+  /**
+   * Which corner of this person's life this came from, as a stable label the
+   * producer chooses — who rebuffed them, which room, which body. Required,
+   * because it is what tells the same thing happening again apart from a
+   * second, separate thing happening, and a producer that did not have to name
+   * one would quietly turn repetition back into evidence.
+   */
+  readonly context: string;
 }
 
 export interface TraitChangeOutcome {
@@ -120,6 +216,11 @@ export function attemptTraitChange(
 ): TraitChangeOutcome {
   if (!input.reason.trim()) {
     throw new Error("A trait change needs a reason.");
+  }
+  if (!input.context.trim()) {
+    throw new Error(
+      "A trait change needs a context, so repetition can be told from experience.",
+    );
   }
   const registry = loadedTraitRegistry();
   const registered = registry.traits.get(
@@ -207,6 +308,7 @@ export function attemptTraitChange(
       UNMOVED_TAG,
       traitTag(input.trait),
       directionTag(current.value, input.value),
+      contextTag(input.context.trim()),
     ],
     summary: `${input.reason} ${name} did not change.`,
     context: {
