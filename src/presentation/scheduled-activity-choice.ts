@@ -146,3 +146,84 @@ export function declineVenueActivity(
   });
   return releaseHold(recorded, personId, activityId);
 }
+
+/**
+ * Abandons a commitment the game has no way to let the player keep.
+ *
+ * This is a guard, not the answer to the question behind it. A committed
+ * campaign session books a venue no ordinary life has an authored journey to,
+ * so the calendar refuses to carry it out; every later entry then waits on it;
+ * and time will not step over a confirmed commitment. The result was a life
+ * with no legal move at all — measured on its first morning, in
+ * `docs/playtest/committing-a-campaign-week-stops-time-2026-09-22.md`.
+ *
+ * Refusing to invent a journey is right and stays. What is not defensible is
+ * the dead end, so a commitment the player cannot perform can now be dropped
+ * on purpose, the way an optional hold already could. Whether such a session
+ * should instead become performable is a separate decision and is not taken
+ * here.
+ *
+ * The caller establishes that the activity cannot be performed; this function
+ * establishes that it is the player's own scheduled commitment to drop.
+ */
+export function abandonUnperformableCommitment(
+  world: World,
+  personId: EntityId,
+  activityId: EntityId,
+): World {
+  const activity = world.history.scheduledActivities.find(
+    (candidate) => candidate.id === activityId,
+  );
+  if (
+    !activity ||
+    activity.kind === "tentative" ||
+    activity.kind === "travel" ||
+    scheduledActivityState(world, activityId).status !== "scheduled" ||
+    world.control.kind !== "person" ||
+    world.control.personId !== personId ||
+    activity.responsiblePersonId !== personId ||
+    !canPersonAccess(activity.access, personId)
+  ) {
+    return world;
+  }
+  const recorded = recordWorldEvent(world, {
+    stableKey: `venue-activity:abandoned:${activityId}`,
+    type: ACTIVITY_DECLINED_EVENT,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: activity.location.jurisdictionId,
+    involvedEntityIds: [personId, activityId],
+    participants: [
+      {
+        personId,
+        role: "agency:participant",
+        detail: `Gave up on ${activity.title}`,
+      },
+    ],
+    personFactConstraints: [],
+    visibility: activity.access.kind === "office" ? "limited" : "private",
+    // A choice, so it carries the chosen tag — but its own words, because what
+    // happened is not the same as declining an invitation.
+    tags: ["scheduled-activity", "abandoned", "time-neutral", CHOSEN_TAG],
+    summary: `${activity.title} could not be carried out, and it was given up rather than kept on the calendar.`,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: `Give up on ${activity.title}`,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  let next = cancelScheduledActivity(recorded, activityId);
+  for (const journey of next.history.scheduledActivities) {
+    if (
+      journey.kind === "travel" &&
+      journey.responsiblePersonId === personId &&
+      journey.sourceEntityIds.includes(activityId) &&
+      scheduledActivityState(next, journey.id).status === "scheduled"
+    )
+      next = cancelScheduledActivity(next, journey.id);
+  }
+  return next;
+}
