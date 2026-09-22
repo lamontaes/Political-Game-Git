@@ -580,15 +580,26 @@ interface OpportunityCandidate {
  * rather than to an inbox.
  */
 function writeNextOpportunity(world: World, personId: EntityId): World {
-  // Only a life with nothing in front of it gets given anything. This is the
-  // difference between replenishing and nagging: a player who has been asked
-  // three things and answered none of them is not short of things to do, and a
-  // world that wrote them a fourth every time a month went by would turn a
-  // quiet stretch into a stream of notifications and make silence impossible.
-  if (lifeOpportunitiesFor(world, personId).length > 0) return world;
+  // A life with nothing in front of it is filled up to the cap. A life that
+  // already has something open gets at most one new thing per transition.
+  //
+  // This used to be "only a life with nothing in front of it gets anything",
+  // and in the long playthrough that was the wall: one request that never
+  // expired held the life still, and Fatima Erickson in Eastport, Maine was
+  // offered the same five moments for three years. The cap still stops a
+  // quiet stretch from turning into an inbox; one per transition stops it from
+  // arriving all at once.
+  //
+  // PLACEHOLDER(research: what-an-ordinary-adult-year-contains): how often an
+  // ordinary adult is asked something is unresearched. The cap and the
+  // one-per-transition pace are pacing rules, not rates.
+  const budget =
+    lifeOpportunitiesFor(world, personId).length === 0
+      ? OPEN_LIFE_OPPORTUNITY_LIMIT
+      : 1;
 
   let next = world;
-  for (let attempt = 0; attempt < OPEN_LIFE_OPPORTUNITY_LIMIT; attempt += 1) {
+  for (let attempt = 0; attempt < budget; attempt += 1) {
     const open = lifeOpportunitiesFor(next, personId);
     if (open.length >= OPEN_LIFE_OPPORTUNITY_LIMIT) return next;
 

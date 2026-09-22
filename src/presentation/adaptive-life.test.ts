@@ -457,7 +457,11 @@ describe("Acceptance 3 — a played life outruns the questionnaire", () => {
     ).length;
     expect(beforeSetupEntries).toBeGreaterThan(0);
 
-    const played = playAdultLife(world, personId, 10, 1);
+    // Twelve beats, not ten. Since a life with something open can be offered
+    // one new request per transition, the Saturday invitation comes round a
+    // beat earlier and ten beats land on a tie (14 against 14) where they used
+    // to clear it by one; the claim is about a played life, not a count.
+    const played = playAdultLife(world, personId, 12, 1);
     const after = playerModelFor(played.world, personId);
     const gameplayEntries = after.trail.filter(
       (entry) => entry.strength === "enacted",
