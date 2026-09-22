@@ -81,3 +81,6 @@ desktop/private-controller/vendor/
 # multiply their size and break the manifest digests).
 src/maps/geometry
 src/maps/data/*.generated.json
+
+# ChatGPT's DEPTH1 package, kept byte-identical so its own SHA256SUMS verifies.
+docs/research/chatgpt-answers/2026-09-22-depth1
