@@ -1,5 +1,3 @@
-import fs from "fs";
-import path from "path";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -288,59 +286,21 @@ describe("intake report determinism", () => {
 });
 
 /**
- * `ASSET_TARGET_CLASSES` existed as an exported list with no consumer over the
- * standing request queue, and the queue had drifted past it: six records were
- * already filed as `character-component`, a value the union did not contain.
- * Nothing caught that, because nothing looked. This suite looks.
+ * The vocabulary itself is checked on main: `validateAssetRequests` rejects an
+ * `unknown-target-class` and `tests/asset-requests.test.ts` runs it over the
+ * real `art/requests/asset-requests.json`. What is NOT checked there is the
+ * ruler each class is measured with, which is what this suite is for.
  *
- * It reads the JSON as raw text rather than through `AssetRequest`, on purpose.
- * Typing the document first would let the compiler assert the very thing under
- * test and the check would pass by construction, which is how the drift got in.
+ * Widening the vocabulary put classes into the shipping set whose art is small
+ * by design. The environment master floor is 4608px because a room plate has to
+ * survive a crop and a tier ladder; a masthead nameplate does not, and holding
+ * one to that number would reject correct art for being its intended size.
  */
-describe("the standing asset request queue's target classes", () => {
-  const requestPath = path.resolve(
-    __dirname,
-    "../../art/requests/asset-requests.json",
-  );
-  const document = JSON.parse(fs.readFileSync(requestPath, "utf8")) as {
-    readonly requests: readonly {
-      readonly requestId: string;
-      readonly target: { readonly targetClass: string };
-    }[];
-  };
-
-  it("has at least one record to check", () => {
-    expect(document.requests.length).toBeGreaterThan(0);
-  });
-
-  it("declares a target class the vocabulary contains, for every record", () => {
-    const undeclared = document.requests
-      .filter(
-        (request) =>
-          !(ASSET_TARGET_CLASSES as readonly string[]).includes(
-            request.target.targetClass,
-          ),
-      )
-      .map(
-        (request) => `${request.requestId} -> ${request.target.targetClass}`,
-      );
-    expect(undeclared).toEqual([]);
-  });
-
-  /**
-   * The vocabulary is a closed list and the constant is its only statement of
-   * membership, so the two must not be able to disagree.
-   */
-  it("keeps the exported list free of duplicates", () => {
-    expect(new Set(ASSET_TARGET_CLASSES).size).toBe(
-      ASSET_TARGET_CLASSES.length,
-    );
-  });
-
+describe("the environment master width floor", () => {
   /**
    * `reference` is the one class that is catalogued and never painted. Every
    * other class ships, and adding one must not quietly create a second
-   * non-shipping state.
+   * non-shipping state — the floor below is scoped on top of this.
    */
   it("ships every class except reference", () => {
     for (const targetClass of ASSET_TARGET_CLASSES) {
@@ -349,15 +309,7 @@ describe("the standing asset request queue's target classes", () => {
       );
     }
   });
-});
 
-/**
- * Widening the vocabulary put classes into the shipping set whose art is small
- * by design. The environment master floor is 4608px because a room plate has to
- * survive a crop and a tier ladder; a masthead nameplate does not, and holding
- * one to that number would reject correct art for being its intended size.
- */
-describe("the environment master width floor", () => {
   it("still rejects an undersized room plate", () => {
     const record = evaluateEnvironmentMasterIntake(
       candidate(NATIVE_LINEAGE, { targetClass: "environment-plate" }),
@@ -369,12 +321,10 @@ describe("the environment master width floor", () => {
     expect(record.disposition).toBe("reject");
   });
 
-  it("does not measure a shell plate against a room plate's floor", () => {
+  it("does not measure an interface graphic against a room plate's floor", () => {
     for (const targetClass of [
       "character-component",
-      "document-plate",
-      "interface-plate",
-      "chart-plate",
+      "interface-graphic",
     ] as const) {
       const record = evaluateEnvironmentMasterIntake(
         candidate(NATIVE_LINEAGE, { targetClass }),

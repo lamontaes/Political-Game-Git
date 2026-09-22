@@ -1,0 +1,32 @@
+{
+  "requestVersion": "research-request/v1",
+  "questionId": "long-life-memory-consolidation",
+  "title": "How a person's memory of sixty years should compress without emptying",
+  "question": "Across a played lifetime of decades, which moments should a person still be able to recall unprompted, which should survive only as a general impression of a period or a person, and which should be gone entirely — and what makes the difference between the three?",
+  "whyItMatters": "Memories are appended and never pruned, superseded or weighted by age, so a sixty-year life ends with tens of thousands of equally live recollections and the journal and life record read as an undifferentiated log. The player's own sense of having lived a life depends on this more than on any other system, and the four strength levels the records already carry are set once at writing and never revisited.",
+  "impact": "shapes-design",
+  "lane": "personality and relationships",
+  "usableAnswer": "A rule for what raises a moment above the rest and what lets one fade, expressed in terms the game can observe — how recent it was, how strongly it was felt, how often it has been revisited, who else was there, whether it changed the course of a life. Plus what a faded memory should leave behind, since an impression of a decade is not the same as nothing.",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/types.ts lines 555-569, MemoryRecord and MemoryStrength, on main at 273fd2b8",
+      "whatItDidNotSettle": "Gives four strength levels — faint, moderate, strong, defining — and a supersession pointer. It says nothing about when a memory should move between levels, and in practice strength is set at writing and never changed."
+    },
+    {
+      "source": "src/presentation/world39-journal.ts lines 233-250 and src/presentation/life-record.ts lines 146-165",
+      "whatItDidNotSettle": "Shows the two player-facing readers of the memory store. Both list what is there in order and neither ranks, groups or summarises, so there is no place today where a compressed memory could be shown."
+    },
+    {
+      "source": "The personality catalogue's coherent-person separation, which places memory in its own layer beside temperament and relationships",
+      "whatItDidNotSettle": "Confirms the layer belongs to the person rather than to their traits. It offers no account of how the layer behaves over time."
+    }
+  ],
+  "requestedBy": "research audit thread (technical team lead)",
+  "filedAt": "2026-09-22T05:00:03.000Z",
+  "priority": "P1",
+  "notes": [
+    "Nothing may be deleted. The history store is append-only on purpose and the save has to keep its evidence, so the answer is about what surfaces and how strongly, not about erasing rows.",
+    "Distortion is a separate question and is not being asked here. This is about what is recalled, not about whether the recollection is accurate."
+  ],
+  "relatedQuestionIds": ["relationship-dimensions-and-fading"]
+}

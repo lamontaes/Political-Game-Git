@@ -11,6 +11,16 @@ import { enterLifePath } from "../simulation/life-paths2";
 import { activeEducationEnrollmentsAt } from "../simulation/life-queries";
 import { recordStudyAnswer } from "../simulation/people-study";
 import {
+  PEOPLE_TRAITS,
+  TRAIT_SHAPES,
+} from "../simulation/people-trait-definitions";
+import type {
+  PeopleTrait,
+  TraitValue,
+} from "../simulation/people-trait-definitions";
+import { recordTraitChange } from "../simulation/people-traits";
+import { STUDY_COLLABORATION_EVENT } from "../simulation/people-study";
+import {
   PLAN_OPEN_EVENT,
   PLAN_PROPOSED_EVENT,
   PLAN_REST_DAYS,
@@ -268,4 +278,106 @@ describe("F47.1: how the two of you do the work", () => {
     )!.id;
     expect(returned.at(-1)!.binding.sourceEntityIds).toContain(openedId);
   });
+});
+
+/**
+ * CTO-PEOPLE2. A trait consideration only fires when the person is actually on
+ * the pole it declares, so a lean pointed at the wrong end of a trait is not a
+ * wording slip: it attaches the reason to the opposite temperament and hides it
+ * from the people it describes.
+ *
+ * The trait contract defines `deliberation` low as "Thinks it through" and high
+ * as "Acts on impulse", and these two approaches are chosen for knowing the
+ * shape first and for reading everything first. Balancing the other two traits
+ * leaves deliberation as the only thing arguing, so the approach the peer
+ * actually proposes is the assertion, not the wording.
+ */
+describe("CTO-PEOPLE2: the study approach argues from the right end of the trait", () => {
+  const eventFor = (world: World, peerPersonId: EntityId): EntityId =>
+    world.history.events.find(
+      (event) =>
+        event.type === STUDY_COLLABORATION_EVENT &&
+        event.involvedEntityIds.includes(peerPersonId),
+    )!.id;
+
+  /**
+   * Building a seed's world and passing a day is the expensive part, and it
+   * does not depend on which pole is under test. Each test below asked for the
+   * same four seeds, so the eight builds were four worlds built twice; on a
+   * loaded runner that was enough to run the pair past the default timeout.
+   * The pole assignment that follows is what each test actually varies.
+   */
+  const settledBySeed = new Map<
+    string,
+    {
+      readonly world: World;
+      readonly player: EntityId;
+      readonly peerPersonId: EntityId;
+    }
+  >();
+  function settledFor(seed: string) {
+    const cached = settledBySeed.get(seed);
+    if (cached) return cached;
+    const fixture = collaborators(seed);
+    const built = {
+      world: passOrdinaryDays(fixture.world, 1, {
+        stopForTentativeHolds: true,
+      }),
+      player: fixture.player,
+      peerPersonId: fixture.peerPersonId,
+    };
+    settledBySeed.set(seed, built);
+    return built;
+  }
+
+  /** The peer, with every trait but the named ones balanced out of the way. */
+  function peerWith(
+    seed: string,
+    leans: Partial<Record<PeopleTrait, TraitValue>>,
+  ) {
+    const fixture = settledFor(seed);
+    const settled = fixture.world;
+    const eventId = eventFor(settled, fixture.peerPersonId);
+    let world = settled;
+    for (const trait of PEOPLE_TRAITS) {
+      world = recordTraitChange(world, {
+        personId: fixture.peerPersonId,
+        trait,
+        value: leans[trait] ?? 0,
+        eventId,
+        reason: "CTO-PEOPLE2 pole fixture.",
+      });
+    }
+    return peerStudyApproach(world, {
+      personId: fixture.player,
+      peerPersonId: fixture.peerPersonId,
+    }).approachId;
+  }
+
+  const SEEDS = ["poles-a", "poles-b", "poles-c", "poles-d"];
+
+  it("names the deliberative pole the way the trait contract defines it", () => {
+    expect(TRAIT_SHAPES.deliberation.low.key).toBe("deliberative");
+    expect(TRAIT_SHAPES.deliberation.high.key).toBe("impulsive");
+  });
+
+  // Four seeded worlds each, so these are long-running by nature rather than
+  // slow by accident. The budget is explicit instead of left at the default.
+  it("someone who thinks it through wants the shape or the reading first", () => {
+    for (const seed of SEEDS) {
+      expect(["outline-first", "evidence-first"], seed).toContain(
+        peerWith(seed, { deliberation: -2 }),
+      );
+    }
+  }, 60_000);
+
+  it("acting on impulse never argues for working the shape out first", () => {
+    // Impulsive contributes nothing here, so the one trait that does argue —
+    // wanting their own part to get on with — decides it outright.
+    for (const seed of SEEDS) {
+      expect(peerWith(seed, { deliberation: 2, sociability: -2 }), seed).toBe(
+        "split-by-section",
+      );
+    }
+  }, 60_000);
 });

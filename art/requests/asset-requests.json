@@ -1,6 +1,6 @@
 {
   "documentVersion": 1,
-  "generatedFrom": "Packet 68, reconciled against the 2026-09-03 Drive rescan and the released manifest, then extended by Packet 71's intake of the four 2026-09-04 uploads. ALIVE43 Role A added doorstep and park-winter variant requests after searching park/press/community-meeting coverage; it did not reopen closed Packet 68/71 jobs. Hand-authored; validated by src/authoring/asset-request.ts. Extended for the owner's non-background ask (newspapers, UI surfaces and graphs, no wardrobe): five requests filed against real runtime consumers read in the tree, each inventory-checked against art/ and the released manifest. Drive was not searched from that session and each record says so.",
+  "generatedFrom": "Packet 68, reconciled against the 2026-09-03 Drive rescan and the released manifest, then extended by Packet 71's intake of the four 2026-09-04 uploads. ALIVE43 Role A added doorstep and park-winter variant requests after searching park/press/community-meeting coverage; it did not reopen closed Packet 68/71 jobs. Hand-authored; validated by src/authoring/asset-request.ts. Extended for the owner's non-background ask with three interface grounds the queue's own ui-* records do not cover: the ground behind every economic chart, the Guide term popover card, and the Politics hub tab band. Each is filed against a real runtime consumer read in the tree and inventory-checked against art/ and the released manifest; Drive was not searched from that session and each record says so.",
   "requests": [
     {
       "requestId": "person-production-standing-body",
@@ -741,7 +741,9 @@
           "mountain",
           "pacific"
         ],
-        "placeIdentity": { "kind": "generic-reusable" },
+        "placeIdentity": {
+          "kind": "generic-reusable"
+        },
         "exclusions": ["not-a-named-address"],
         "snowCoverPossible": false
       }
@@ -809,7 +811,9 @@
           "south-atlantic",
           "mid-atlantic"
         ],
-        "placeIdentity": { "kind": "generic-reusable" },
+        "placeIdentity": {
+          "kind": "generic-reusable"
+        },
         "exclusions": ["not-a-named-city-park", "winter-is-not-universal-snow"],
         "snowCoverPossible": false,
         "geometryVariant": {
@@ -820,102 +824,709 @@
       }
     },
     {
-      "requestId": "news-masthead-nameplate-bands",
-      "requestVersion": 1,
-      "priority": "P2",
+      "requestId": "seated-chair-separation-hand-pass",
+      "requestVersion": 2,
+      "priority": "P1",
       "status": "queued",
-      "title": "Four empty newspaper nameplate bands, one per masthead style",
+      "title": "A seated body with no furniture attached, by repair or by generation",
       "consumer": {
-        "consumerId": "news-front-page",
-        "runtimeComponent": "src/player/news/NewsDesk.tsx",
-        "playerVisibleUse": "The band across the top of the paper in News, above the outlet name, whenever a player opens a front page."
+        "consumerId": "serves-many-consumers",
+        "runtimeComponent": "ModularCharacter",
+        "playerVisibleUse": "Any seat anchor a scene supplies its own chair for. A body with a chair baked into it draws a second chair on top of the room's."
       },
-      "whyNeeded": "src/presentation/news-front-page.ts already assigns each outlet a stable typographic treatment (MASTHEAD_STYLES = 4, styleFor()), and src/player/news/news.css renders those four as nothing but a font-family swap and a double bottom rule on .pg-news-masthead--0..3. Four outlets therefore look like four fonts rather than four papers. A drawn nameplate band is the missing half of a treatment the projection already computes.",
+      "whyNeeded": "A seat anchor cannot be filled by any body the project owns. Until one exists, every seated figure either draws a chair the room did not ask for or cannot be placed at all. Jurisdiction-independent: A body is a body. The chair belongs to the room, which is the whole point of this request. Filed by art and client delivery lane, filed by the art bench thread on 2026-09-22T03:12:00.000Z (inspection).",
       "inventoryCheck": {
         "repositoryPathsSearched": [
-          "art/shared/documents_desk_props/",
-          "art/manifest/asset_manifest.json",
-          "art/families/",
-          "art/generated/approved/",
-          "src/player/news/news.css"
+          "art/generated/candidates/wave-a-morphology/average-man/",
+          "art/generated/candidates/wave-a-morphology/older-woman/",
+          "art/generated/candidates/recent-drive-sweep/fat-man/",
+          "art/generated/candidates/recent-drive-sweep/skinny-man/",
+          "art/generated/candidates/wave-a-chairless/ (on claude/character-rendering-triage-19kvvz, where the automatic pass writes)"
         ],
         "driveLocationsSearched": [],
-        "found": "Nothing. art/shared/documents_desk_props/, art/shared/seals_emblems/, art/shared/flags/, art/hero/ and art/events/ each hold only a .gitkeep. art/manifest/asset_manifest.json's 126 assets are env_*, title_*, dev_*, pg_master_* and human_* only; a regex over every asset id for news|paper|masthead|chart|graph|ui|icon|seal|emblem|flag|panel|frame|banner|document|guide|ledger returned nothing but eyewear 'frames' and body 'frame_a/b'. All 24 art/families/ entries are room families. Drive was NOT searched from this session; no Drive access was used, and that is recorded rather than implied. The single filename in the tree containing 'news' is art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R3C2_multiple_coffee_mug_keys_writing_news_v1.png, a coarse desk-supplies region showing a mug, keys and writing — not a legible nameplate and not a page.",
-        "shortfall": "No newspaper art of any kind exists. The four masthead styles are CSS font stacks with no drawn band behind them."
+        "found": "All four existing seated source plates are present in this checkout and were measured here: average-man 710x1653, fat-man 747x1607, skinny-man 697x1658, older-woman 669x1720, every one 8-bit RGBA. Each has a chair baked in where it touches the figure. The automatic separation has already been run against them — `npm run derive:seated-chairless` on claude/character-rendering-triage-19kvvz produces all four derivatives — and it removes everything floating free of the body and stops. No furniture-free seated body exists anywhere in the banks.",
+        "shortfall": "What the game needs is a seated body with no furniture attached to it. Nothing in the banks is one. Repairing the four existing plates is one route and is NOT the only one: a newly drawn seated figure with no chair satisfies the requirement as well, and more cheaply, which is why no generation hold is set on this request. The repair route is measurably hard, and both measurements were made rather than assumed: chair touching a thigh is inside the protection band by definition, so a connectivity-based separation has nothing to cut; and no threshold divides them, because the chair's mid-tones run 96 to 150 while the figure's own sub-knee edge pixels run 64 to 240. Raising the body-tone floor to 160 was tried, rendered and reverted — it takes the feet entirely and shreds the older woman's shins. Drive was not searched: the wave-a source sheets are in no cloud checkout, so a higher-resolution re-derivation cannot be attempted from here either."
       },
       "target": {
-        "targetClass": "document-plate",
-        "minimumWidth": 1600,
-        "aspectRatio": "8:1",
+        "targetClass": "character-component",
+        "minimumWidth": 669,
+        "aspectRatio": "as-delivered: each plate returns at its own source dimensions (710x1653, 747x1607, 697x1658, 669x1720), because a hand pass returns the plate it was given",
         "alphaRequired": true,
         "container": "png",
-        "styleAuthority": "art/style/art_bible.md and art/style/palette.json, read against the warm sheet .pg-news-read already paints (#f6f1e6 paper, #1c1a17 ink)."
+        "styleAuthority": "On the repair route, each plate's own source file, listed in the record's notes — a hand pass is judged against the original it was cut from. On the generation route, the same body-family authority as the rest of the wave-a set."
       },
       "generationRecipe": [
-        "Four separate bands, indexed 0 to 3 to match styleFor() in src/presentation/news-front-page.ts: 0 old-style serif, 1 condensed sans, 2 Didot-like italic, 3 slab.",
-        "Each band is rule work, ornament and ground only: hairlines, a double rule, a small printer's ornament, press texture.",
-        "NO OUTLET NAME AND NO TEXT OF ANY KIND. The outlet name, the date and the story count are canonical publication records drawn over this band by NewsDesk.tsx; a baked name would put a paper in the game that the World does not publish.",
-        "Transparent ground outside the rule work, so the band sits on the #f6f1e6 sheet rather than over-painting it.",
-        "No seal, crest, flag or jurisdiction mark: src/presentation/surface-binding.ts holds that a seal is never approximated."
+        "What is wanted is a seated adult body with NO furniture attached to it — no seat under the thighs, no chair leg against the shins. The scene supplies its own chair.",
+        "Either route satisfies this. ROUTE A, generate: draw a new seated figure, from the front, with no chair in the frame at all. ROUTE B, repair: take the four existing plates and remove the chair pixels that touch the figure, restoring the leg and foot contour underneath rather than cutting around it.",
+        "On route B specifically, an earlier automatic attempt removed about a pixel of the figure's own outline and the whole foot outline. That is what a threshold does to a contour and what a hand does not.",
+        "Either way: 8-bit RGBA, transparent where furniture would have been, at a width no smaller than the plates it replaces."
       ],
       "acceptanceCriteria": [
-        "Four files, each mapping to one style index, distinguishable from each other at the rendered clamp(1.6rem, 3.4vw, 2.6rem) heading size.",
-        "Zero legible glyphs anywhere in the art.",
-        "Real per-pixel alpha outside the rule work, verified rather than assumed.",
-        "Legible on the existing warm sheet without changing .pg-news-read's paper colour."
+        "Shows a seated posture. The posture reads through bent-knees, horizontal-thighs, shins-vertical-to-floor, soles-flat-on-the-floor, seat-plane-between-the-thighs-where-the-chair-was. A figure that merely stands, or an upright figure with shorter legs, is wrong even when its contact points land correctly.",
+        "The figure faces front.",
+        "The posture is already drawn and is NOT being changed; these cues describe the four plates as they stand, so a redraw in a different posture would not satisfy this. What is asked for is the removal of chair pixels where they touch the figure, with the leg and foot contour restored underneath.",
+        "No furniture pixel anywhere against the legs, between the thighs, or beside the shins. The figure must be able to sit on a chair the room draws.",
+        "The leg and foot outline is continuous and unbroken. A plate that has lost its foot outline, or a pixel of its own contour, is a failed delivery even if every chair pixel is gone.",
+        "At least 669 pixels wide — the narrowest of the four plates this would replace — with real per-pixel transparency.",
+        "A genuinely seated posture: bent knees, horizontal thighs, shins vertical, soles on the floor. A standing figure with shortened legs is wrong even when its contact points land correctly."
       ],
-      "dependsOn": [],
-      "scope": {
-        "intendedContext": "news-front-page"
-      }
+      "dependsOn": []
     },
     {
-      "requestId": "news-page-newsprint-ground",
+      "requestId": "env-state-capitol-kentucky",
       "requestVersion": 1,
       "priority": "P2",
       "status": "queued",
-      "title": "Tileable newsprint sheet ground for the news reading pane",
+      "title": "The Kentucky State Capitol, seen from outside",
       "consumer": {
-        "consumerId": "news-front-page",
-        "runtimeComponent": "src/player/news/NewsDesk.tsx",
-        "playerVisibleUse": "The sheet a player is reading on in News, under the headlines and the column rules."
+        "consumerId": "no-declared-consumer",
+        "runtimeComponent": "src/player/WorldOrientationPanel.tsx",
+        "playerVisibleUse": "The state step of the world introduction, where the player is told which state they are starting their life in and is currently shown no picture of it at all."
       },
-      "whyNeeded": "news.css calls .pg-news-read 'the paper itself: a warm sheet with ink, not another dark dashboard', but paints it as one flat fill (#f6f1e6) with a 1px column rule. The reading experience the comment describes has no paper in it.",
+      "whyNeeded": "The state step is one of four steps in the opening and the only one with no artwork behind it, so every life in every state begins on an unillustrated screen naming a government the player has never seen. Kentucky's capitol is already a recorded building identity in the reference corpus, so this asks for a picture of something the project has already established rather than for a new invention. Observed in Kentucky, KY. Filed by art bench and regional scenes thread on 2026-09-22T04:55:00.000Z (inspection).",
       "inventoryCheck": {
         "repositoryPathsSearched": [
-          "art/shared/documents_desk_props/",
           "art/manifest/asset_manifest.json",
-          "art/style/material_tokens.json",
-          "art/references/masters/",
+          "art/generated/approved/",
+          "art/families/regional-opening/",
+          "art/requests/asset-requests.json",
+          "src/environment/reference/corpus.ts"
+        ],
+        "driveLocationsSearched": [],
+        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here — cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.ky.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'jurisdiction-variant' and referencePack 'pending'.",
+        "shortfall": "An identity is not a picture. The reference corpus can say which building this is and what must not be assumed about it, and it cannot put anything on the screen. Drive was not searched for this: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet. This one's reference pack is 'pending', so likeness cannot be judged until sourcing lands; the request is filed at P2 for that reason and is real either way."
+      },
+      "target": {
+        "targetClass": "environment-plate",
+        "minimumWidth": 2208,
+        "aspectRatio": "landscape, 3:2 or wider — matching the 2496x1664 and 2208x1584 plates already in this panel",
+        "alphaRequired": false,
+        "container": "png",
+        "styleAuthority": "The two regional opening plates already shipping in this panel, art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png and env_regional_sonoran_desert_v1.png, for drawing style; and the recorded building identity us.ky.capitol in src/environment/reference/corpus.ts for what the building is."
+      },
+      "generationRecipe": [
+        "The Kentucky State Capitol seen from outside, framed on the building and its immediate grounds, in the same drawn style as the regional opening plates already shipping in this panel.",
+        "Leaf-on months: spring, summer or early autumn. No snow.",
+        "This building is recorded as a jurisdiction variant, so a shared compositional approach is legitimate, but its own identifying features have to be right.",
+        "No people, no vehicles in the foreground, no flags of any party or campaign. This is the building, not an event at it.",
+        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha — the panel paints it full-bleed behind text and has nothing to composite it over."
+      ],
+      "acceptanceCriteria": [
+        "Shows spring or summer or autumn. A delivery showing any other time of year is wrong, whatever else is right about it.",
+        "Built form shows state-capitol, masonry-civic.",
+        "Leaf-on months only. A winter view is a separate request wherever snow on the building is normal, because one plate cannot honestly stand for both and a bare-branch capitol shown in July is the same error as a summer canopy shown in January.",
+        "Recognisably the Kentucky State Capitol to somebody who has seen it, not a generic statehouse.",
+        "Shows spring, summer or autumn. A snow-covered or bare-branch delivery is wrong for this request whatever else is right about it.",
+        "At least 2208 pixels wide — the narrower of the two plates already shipping in this panel — in landscape orientation.",
+        "8-bit RGB. A delivery carrying an alpha channel is wrong: nothing composites behind this.",
+        "Shows the building, not governing. A Capitol identity does not establish an everyday working office or a current occupant, and a delivery implying either has answered a different request."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "env-state-capitol-virginia",
+      "requestVersion": 1,
+      "priority": "P1",
+      "status": "queued",
+      "title": "The Virginia State Capitol, seen from outside",
+      "consumer": {
+        "consumerId": "no-declared-consumer",
+        "runtimeComponent": "src/player/WorldOrientationPanel.tsx",
+        "playerVisibleUse": "The state step of the world introduction, where the player is told which state they are starting their life in and is currently shown no picture of it at all."
+      },
+      "whyNeeded": "The state step is one of four steps in the opening and the only one with no artwork behind it, so every life in every state begins on an unillustrated screen naming a government the player has never seen. Virginia's capitol is already a recorded building identity in the reference corpus, so this asks for a picture of something the project has already established rather than for a new invention. Observed in Virginia, VA. Filed by art bench and regional scenes thread on 2026-09-22T04:55:00.000Z (inspection).",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/generated/approved/",
+          "art/families/regional-opening/",
+          "art/requests/asset-requests.json",
+          "src/environment/reference/corpus.ts"
+        ],
+        "driveLocationsSearched": [],
+        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here — cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.va.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'jurisdiction-variant' and referencePack 'strong-source-family'.",
+        "shortfall": "An identity is not a picture. The reference corpus can say which building this is and what must not be assumed about it, and it cannot put anything on the screen. Drive was not searched for this: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
+      },
+      "target": {
+        "targetClass": "environment-plate",
+        "minimumWidth": 2208,
+        "aspectRatio": "landscape, 3:2 or wider — matching the 2496x1664 and 2208x1584 plates already in this panel",
+        "alphaRequired": false,
+        "container": "png",
+        "styleAuthority": "The two regional opening plates already shipping in this panel, art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png and env_regional_sonoran_desert_v1.png, for drawing style; and the recorded building identity us.va.capitol in src/environment/reference/corpus.ts for what the building is."
+      },
+      "generationRecipe": [
+        "The Virginia State Capitol seen from outside, framed on the building and its immediate grounds, in the same drawn style as the regional opening plates already shipping in this panel.",
+        "Leaf-on months: spring, summer or early autumn. No snow.",
+        "This building is recorded as a jurisdiction variant, so a shared compositional approach is legitimate, but its own identifying features have to be right.",
+        "No people, no vehicles in the foreground, no flags of any party or campaign. This is the building, not an event at it.",
+        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha — the panel paints it full-bleed behind text and has nothing to composite it over."
+      ],
+      "acceptanceCriteria": [
+        "Shows spring or summer or autumn. A delivery showing any other time of year is wrong, whatever else is right about it.",
+        "Built form shows state-capitol, masonry-civic.",
+        "Leaf-on months only. A winter view is a separate request wherever snow on the building is normal, because one plate cannot honestly stand for both and a bare-branch capitol shown in July is the same error as a summer canopy shown in January.",
+        "Recognisably the Virginia State Capitol to somebody who has seen it, not a generic statehouse.",
+        "Shows spring, summer or autumn. A snow-covered or bare-branch delivery is wrong for this request whatever else is right about it.",
+        "At least 2208 pixels wide — the narrower of the two plates already shipping in this panel — in landscape orientation.",
+        "8-bit RGB. A delivery carrying an alpha channel is wrong: nothing composites behind this.",
+        "Shows the building, not governing. A Capitol identity does not establish an everyday working office or a current occupant, and a delivery implying either has answered a different request."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "env-state-capitol-tennessee",
+      "requestVersion": 1,
+      "priority": "P2",
+      "status": "queued",
+      "title": "The Tennessee State Capitol, seen from outside",
+      "consumer": {
+        "consumerId": "no-declared-consumer",
+        "runtimeComponent": "src/player/WorldOrientationPanel.tsx",
+        "playerVisibleUse": "The state step of the world introduction, where the player is told which state they are starting their life in and is currently shown no picture of it at all."
+      },
+      "whyNeeded": "The state step is one of four steps in the opening and the only one with no artwork behind it, so every life in every state begins on an unillustrated screen naming a government the player has never seen. Tennessee's capitol is already a recorded building identity in the reference corpus, so this asks for a picture of something the project has already established rather than for a new invention. Observed in Tennessee, TN. Filed by art bench and regional scenes thread on 2026-09-22T04:55:00.000Z (inspection).",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/generated/approved/",
+          "art/families/regional-opening/",
+          "art/requests/asset-requests.json",
+          "src/environment/reference/corpus.ts"
+        ],
+        "driveLocationsSearched": [],
+        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here — cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.tn.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'jurisdiction-variant' and referencePack 'pending'.",
+        "shortfall": "An identity is not a picture. The reference corpus can say which building this is and what must not be assumed about it, and it cannot put anything on the screen. Drive was not searched for this: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet. This one's reference pack is 'pending', so likeness cannot be judged until sourcing lands; the request is filed at P2 for that reason and is real either way."
+      },
+      "target": {
+        "targetClass": "environment-plate",
+        "minimumWidth": 2208,
+        "aspectRatio": "landscape, 3:2 or wider — matching the 2496x1664 and 2208x1584 plates already in this panel",
+        "alphaRequired": false,
+        "container": "png",
+        "styleAuthority": "The two regional opening plates already shipping in this panel, art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png and env_regional_sonoran_desert_v1.png, for drawing style; and the recorded building identity us.tn.capitol in src/environment/reference/corpus.ts for what the building is."
+      },
+      "generationRecipe": [
+        "The Tennessee State Capitol seen from outside, framed on the building and its immediate grounds, in the same drawn style as the regional opening plates already shipping in this panel.",
+        "Leaf-on months: spring, summer or early autumn. No snow.",
+        "This building is recorded as a jurisdiction variant, so a shared compositional approach is legitimate, but its own identifying features have to be right.",
+        "No people, no vehicles in the foreground, no flags of any party or campaign. This is the building, not an event at it.",
+        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha — the panel paints it full-bleed behind text and has nothing to composite it over."
+      ],
+      "acceptanceCriteria": [
+        "Shows spring or summer or autumn. A delivery showing any other time of year is wrong, whatever else is right about it.",
+        "Built form shows state-capitol, masonry-civic.",
+        "Leaf-on months only. A winter view is a separate request wherever snow on the building is normal, because one plate cannot honestly stand for both and a bare-branch capitol shown in July is the same error as a summer canopy shown in January.",
+        "Recognisably the Tennessee State Capitol to somebody who has seen it, not a generic statehouse.",
+        "Shows spring, summer or autumn. A snow-covered or bare-branch delivery is wrong for this request whatever else is right about it.",
+        "At least 2208 pixels wide — the narrower of the two plates already shipping in this panel — in landscape orientation.",
+        "8-bit RGB. A delivery carrying an alpha channel is wrong: nothing composites behind this.",
+        "Shows the building, not governing. A Capitol identity does not establish an everyday working office or a current occupant, and a delivery implying either has answered a different request."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "env-state-capitol-california",
+      "requestVersion": 1,
+      "priority": "P2",
+      "status": "queued",
+      "title": "The California State Capitol, seen from outside",
+      "consumer": {
+        "consumerId": "no-declared-consumer",
+        "runtimeComponent": "src/player/WorldOrientationPanel.tsx",
+        "playerVisibleUse": "The state step of the world introduction, where the player is told which state they are starting their life in and is currently shown no picture of it at all."
+      },
+      "whyNeeded": "The state step is one of four steps in the opening and the only one with no artwork behind it, so every life in every state begins on an unillustrated screen naming a government the player has never seen. California's capitol is already a recorded building identity in the reference corpus, so this asks for a picture of something the project has already established rather than for a new invention. Observed in California, CA. Filed by art bench and regional scenes thread on 2026-09-22T04:55:00.000Z (inspection).",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/generated/approved/",
+          "art/families/regional-opening/",
+          "art/requests/asset-requests.json",
+          "src/environment/reference/corpus.ts"
+        ],
+        "driveLocationsSearched": [],
+        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here — cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.ca.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'jurisdiction-variant' and referencePack 'pending'.",
+        "shortfall": "An identity is not a picture. The reference corpus can say which building this is and what must not be assumed about it, and it cannot put anything on the screen. Drive was not searched for this: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet. This one's reference pack is 'pending', so likeness cannot be judged until sourcing lands; the request is filed at P2 for that reason and is real either way."
+      },
+      "target": {
+        "targetClass": "environment-plate",
+        "minimumWidth": 2208,
+        "aspectRatio": "landscape, 3:2 or wider — matching the 2496x1664 and 2208x1584 plates already in this panel",
+        "alphaRequired": false,
+        "container": "png",
+        "styleAuthority": "The two regional opening plates already shipping in this panel, art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png and env_regional_sonoran_desert_v1.png, for drawing style; and the recorded building identity us.ca.capitol in src/environment/reference/corpus.ts for what the building is."
+      },
+      "generationRecipe": [
+        "The California State Capitol seen from outside, framed on the building and its immediate grounds, in the same drawn style as the regional opening plates already shipping in this panel.",
+        "Leaf-on months: spring, summer or early autumn. No snow.",
+        "This building is recorded as a jurisdiction variant, so a shared compositional approach is legitimate, but its own identifying features have to be right.",
+        "No people, no vehicles in the foreground, no flags of any party or campaign. This is the building, not an event at it.",
+        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha — the panel paints it full-bleed behind text and has nothing to composite it over."
+      ],
+      "acceptanceCriteria": [
+        "Shows spring or summer or autumn. A delivery showing any other time of year is wrong, whatever else is right about it.",
+        "Built form shows state-capitol, masonry-civic.",
+        "Leaf-on months only. A winter view is a separate request wherever snow on the building is normal, because one plate cannot honestly stand for both and a bare-branch capitol shown in July is the same error as a summer canopy shown in January.",
+        "Recognisably the California State Capitol to somebody who has seen it, not a generic statehouse.",
+        "Shows spring, summer or autumn. A snow-covered or bare-branch delivery is wrong for this request whatever else is right about it.",
+        "At least 2208 pixels wide — the narrower of the two plates already shipping in this panel — in landscape orientation.",
+        "8-bit RGB. A delivery carrying an alpha channel is wrong: nothing composites behind this.",
+        "Shows the building, not governing. A Capitol identity does not establish an everyday working office or a current occupant, and a delivery implying either has answered a different request."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "env-state-capitol-minnesota",
+      "requestVersion": 1,
+      "priority": "P2",
+      "status": "queued",
+      "title": "The Minnesota State Capitol, seen from outside",
+      "consumer": {
+        "consumerId": "no-declared-consumer",
+        "runtimeComponent": "src/player/WorldOrientationPanel.tsx",
+        "playerVisibleUse": "The state step of the world introduction, where the player is told which state they are starting their life in and is currently shown no picture of it at all."
+      },
+      "whyNeeded": "The state step is one of four steps in the opening and the only one with no artwork behind it, so every life in every state begins on an unillustrated screen naming a government the player has never seen. Minnesota's capitol is already a recorded building identity in the reference corpus, so this asks for a picture of something the project has already established rather than for a new invention. Observed in Minnesota, MN. Filed by art bench and regional scenes thread on 2026-09-22T04:55:00.000Z (inspection).",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/generated/approved/",
+          "art/families/regional-opening/",
+          "art/requests/asset-requests.json",
+          "src/environment/reference/corpus.ts"
+        ],
+        "driveLocationsSearched": [],
+        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here — cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.mn.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'jurisdiction-variant' and referencePack 'pending'.",
+        "shortfall": "An identity is not a picture. The reference corpus can say which building this is and what must not be assumed about it, and it cannot put anything on the screen. Drive was not searched for this: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet. This one's reference pack is 'pending', so likeness cannot be judged until sourcing lands; the request is filed at P2 for that reason and is real either way."
+      },
+      "target": {
+        "targetClass": "environment-plate",
+        "minimumWidth": 2208,
+        "aspectRatio": "landscape, 3:2 or wider — matching the 2496x1664 and 2208x1584 plates already in this panel",
+        "alphaRequired": false,
+        "container": "png",
+        "styleAuthority": "The two regional opening plates already shipping in this panel, art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png and env_regional_sonoran_desert_v1.png, for drawing style; and the recorded building identity us.mn.capitol in src/environment/reference/corpus.ts for what the building is."
+      },
+      "generationRecipe": [
+        "The Minnesota State Capitol seen from outside, framed on the building and its immediate grounds, in the same drawn style as the regional opening plates already shipping in this panel.",
+        "Leaf-on months: spring, summer or early autumn. No snow.",
+        "This building is recorded as a jurisdiction variant, so a shared compositional approach is legitimate, but its own identifying features have to be right.",
+        "No people, no vehicles in the foreground, no flags of any party or campaign. This is the building, not an event at it.",
+        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha — the panel paints it full-bleed behind text and has nothing to composite it over."
+      ],
+      "acceptanceCriteria": [
+        "Shows spring or summer or autumn. A delivery showing any other time of year is wrong, whatever else is right about it.",
+        "Built form shows state-capitol, masonry-civic.",
+        "Leaf-on months only. A winter view is a separate request wherever snow on the building is normal, because one plate cannot honestly stand for both and a bare-branch capitol shown in July is the same error as a summer canopy shown in January.",
+        "Recognisably the Minnesota State Capitol to somebody who has seen it, not a generic statehouse.",
+        "Shows spring, summer or autumn. A snow-covered or bare-branch delivery is wrong for this request whatever else is right about it.",
+        "At least 2208 pixels wide — the narrower of the two plates already shipping in this panel — in landscape orientation.",
+        "8-bit RGB. A delivery carrying an alpha channel is wrong: nothing composites behind this.",
+        "Shows the building, not governing. A Capitol identity does not establish an everyday working office or a current occupant, and a delivery implying either has answered a different request."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "env-state-capitol-texas",
+      "requestVersion": 1,
+      "priority": "P1",
+      "status": "queued",
+      "title": "The Texas State Capitol, seen from outside",
+      "consumer": {
+        "consumerId": "no-declared-consumer",
+        "runtimeComponent": "src/player/WorldOrientationPanel.tsx",
+        "playerVisibleUse": "The state step of the world introduction, where the player is told which state they are starting their life in and is currently shown no picture of it at all."
+      },
+      "whyNeeded": "The state step is one of four steps in the opening and the only one with no artwork behind it, so every life in every state begins on an unillustrated screen naming a government the player has never seen. Texas's capitol is already a recorded building identity in the reference corpus, so this asks for a picture of something the project has already established rather than for a new invention. Observed in Texas, TX. Filed by art bench and regional scenes thread on 2026-09-22T04:55:00.000Z (inspection).",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/generated/approved/",
+          "art/families/regional-opening/",
+          "art/requests/asset-requests.json",
+          "src/environment/reference/corpus.ts"
+        ],
+        "driveLocationsSearched": [],
+        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here — cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.tx.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'jurisdiction-variant' and referencePack 'strong-source-family'.",
+        "shortfall": "An identity is not a picture. The reference corpus can say which building this is and what must not be assumed about it, and it cannot put anything on the screen. Drive was not searched for this: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
+      },
+      "target": {
+        "targetClass": "environment-plate",
+        "minimumWidth": 2208,
+        "aspectRatio": "landscape, 3:2 or wider — matching the 2496x1664 and 2208x1584 plates already in this panel",
+        "alphaRequired": false,
+        "container": "png",
+        "styleAuthority": "The two regional opening plates already shipping in this panel, art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png and env_regional_sonoran_desert_v1.png, for drawing style; and the recorded building identity us.tx.capitol in src/environment/reference/corpus.ts for what the building is."
+      },
+      "generationRecipe": [
+        "The Texas State Capitol seen from outside, framed on the building and its immediate grounds, in the same drawn style as the regional opening plates already shipping in this panel.",
+        "Leaf-on months: spring, summer or early autumn. No snow.",
+        "This building is recorded as a jurisdiction variant, so a shared compositional approach is legitimate, but its own identifying features have to be right.",
+        "No people, no vehicles in the foreground, no flags of any party or campaign. This is the building, not an event at it.",
+        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha — the panel paints it full-bleed behind text and has nothing to composite it over."
+      ],
+      "acceptanceCriteria": [
+        "Shows spring or summer or autumn. A delivery showing any other time of year is wrong, whatever else is right about it.",
+        "Built form shows state-capitol, masonry-civic.",
+        "Leaf-on months only. A winter view is a separate request wherever snow on the building is normal, because one plate cannot honestly stand for both and a bare-branch capitol shown in July is the same error as a summer canopy shown in January.",
+        "Recognisably the Texas State Capitol to somebody who has seen it, not a generic statehouse.",
+        "Shows spring, summer or autumn. A snow-covered or bare-branch delivery is wrong for this request whatever else is right about it.",
+        "At least 2208 pixels wide — the narrower of the two plates already shipping in this panel — in landscape orientation.",
+        "8-bit RGB. A delivery carrying an alpha channel is wrong: nothing composites behind this.",
+        "Shows the building, not governing. A Capitol identity does not establish an everyday working office or a current occupant, and a delivery implying either has answered a different request."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "env-state-capitol-new-york",
+      "requestVersion": 1,
+      "priority": "P1",
+      "status": "queued",
+      "title": "The New York State Capitol, seen from outside",
+      "consumer": {
+        "consumerId": "no-declared-consumer",
+        "runtimeComponent": "src/player/WorldOrientationPanel.tsx",
+        "playerVisibleUse": "The state step of the world introduction, where the player is told which state they are starting their life in and is currently shown no picture of it at all."
+      },
+      "whyNeeded": "The state step is one of four steps in the opening and the only one with no artwork behind it, so every life in every state begins on an unillustrated screen naming a government the player has never seen. New York's capitol is already a recorded building identity in the reference corpus, so this asks for a picture of something the project has already established rather than for a new invention. Observed in New York, NY. Filed by art bench and regional scenes thread on 2026-09-22T04:55:00.000Z (inspection).",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/generated/approved/",
+          "art/families/regional-opening/",
+          "art/requests/asset-requests.json",
+          "src/environment/reference/corpus.ts"
+        ],
+        "driveLocationsSearched": [],
+        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here — cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.ny.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'unique' and referencePack 'strong-source-family'.",
+        "shortfall": "An identity is not a picture. The reference corpus can say which building this is and what must not be assumed about it, and it cannot put anything on the screen. Drive was not searched for this: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
+      },
+      "target": {
+        "targetClass": "environment-plate",
+        "minimumWidth": 2208,
+        "aspectRatio": "landscape, 3:2 or wider — matching the 2496x1664 and 2208x1584 plates already in this panel",
+        "alphaRequired": false,
+        "container": "png",
+        "styleAuthority": "The two regional opening plates already shipping in this panel, art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png and env_regional_sonoran_desert_v1.png, for drawing style; and the recorded building identity us.ny.capitol in src/environment/reference/corpus.ts for what the building is."
+      },
+      "generationRecipe": [
+        "The New York State Capitol seen from outside, framed on the building and its immediate grounds, in the same drawn style as the regional opening plates already shipping in this panel.",
+        "Leaf-on months: spring, summer or early autumn. No snow.",
+        "This building is recorded as visually unique. It must be drawn from its own identifying form, never from a generic domed-statehouse template.",
+        "No people, no vehicles in the foreground, no flags of any party or campaign. This is the building, not an event at it.",
+        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha — the panel paints it full-bleed behind text and has nothing to composite it over."
+      ],
+      "acceptanceCriteria": [
+        "Shows spring or summer or autumn. A delivery showing any other time of year is wrong, whatever else is right about it.",
+        "Built form shows state-capitol, masonry-civic.",
+        "Leaf-on months only. A winter view is a separate request wherever snow on the building is normal, because one plate cannot honestly stand for both and a bare-branch capitol shown in July is the same error as a summer canopy shown in January.",
+        "Recognisably the New York State Capitol to somebody who has seen it, not a generic statehouse.",
+        "Shows spring, summer or autumn. A snow-covered or bare-branch delivery is wrong for this request whatever else is right about it.",
+        "At least 2208 pixels wide — the narrower of the two plates already shipping in this panel — in landscape orientation.",
+        "8-bit RGB. A delivery carrying an alpha channel is wrong: nothing composites behind this.",
+        "Shows the building, not governing. A Capitol identity does not establish an everyday working office or a current occupant, and a delivery implying either has answered a different request."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "env-state-capitol-north-dakota",
+      "requestVersion": 1,
+      "priority": "P1",
+      "status": "queued",
+      "title": "The North Dakota State Capitol, seen from outside",
+      "consumer": {
+        "consumerId": "no-declared-consumer",
+        "runtimeComponent": "src/player/WorldOrientationPanel.tsx",
+        "playerVisibleUse": "The state step of the world introduction, where the player is told which state they are starting their life in and is currently shown no picture of it at all."
+      },
+      "whyNeeded": "The state step is one of four steps in the opening and the only one with no artwork behind it, so every life in every state begins on an unillustrated screen naming a government the player has never seen. North Dakota's capitol is already a recorded building identity in the reference corpus, so this asks for a picture of something the project has already established rather than for a new invention. Observed in North Dakota, ND. Filed by art bench and regional scenes thread on 2026-09-22T04:55:00.000Z (inspection).",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/generated/approved/",
+          "art/families/regional-opening/",
+          "art/requests/asset-requests.json",
+          "src/environment/reference/corpus.ts"
+        ],
+        "driveLocationsSearched": [],
+        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here — cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.nd.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'unique' and referencePack 'strong-source-family'.",
+        "shortfall": "An identity is not a picture. The reference corpus can say which building this is and what must not be assumed about it, and it cannot put anything on the screen. Drive was not searched for this: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
+      },
+      "target": {
+        "targetClass": "environment-plate",
+        "minimumWidth": 2208,
+        "aspectRatio": "landscape, 3:2 or wider — matching the 2496x1664 and 2208x1584 plates already in this panel",
+        "alphaRequired": false,
+        "container": "png",
+        "styleAuthority": "The two regional opening plates already shipping in this panel, art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png and env_regional_sonoran_desert_v1.png, for drawing style; and the recorded building identity us.nd.capitol in src/environment/reference/corpus.ts for what the building is."
+      },
+      "generationRecipe": [
+        "The North Dakota State Capitol seen from outside, framed on the building and its immediate grounds, in the same drawn style as the regional opening plates already shipping in this panel.",
+        "Leaf-on months: spring, summer or early autumn. No snow.",
+        "This building is recorded as visually unique. It must be drawn from its own identifying form, never from a generic domed-statehouse template.",
+        "No people, no vehicles in the foreground, no flags of any party or campaign. This is the building, not an event at it.",
+        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha — the panel paints it full-bleed behind text and has nothing to composite it over."
+      ],
+      "acceptanceCriteria": [
+        "Shows spring or summer or autumn. A delivery showing any other time of year is wrong, whatever else is right about it.",
+        "Built form shows state-capitol, masonry-civic.",
+        "Leaf-on months only. A winter view is a separate request wherever snow on the building is normal, because one plate cannot honestly stand for both and a bare-branch capitol shown in July is the same error as a summer canopy shown in January.",
+        "Recognisably the North Dakota State Capitol to somebody who has seen it, not a generic statehouse.",
+        "Shows spring, summer or autumn. A snow-covered or bare-branch delivery is wrong for this request whatever else is right about it.",
+        "At least 2208 pixels wide — the narrower of the two plates already shipping in this panel — in landscape orientation.",
+        "8-bit RGB. A delivery carrying an alpha channel is wrong: nothing composites behind this.",
+        "Shows the building, not governing. A Capitol identity does not establish an everyday working office or a current occupant, and a delivery implying either has answered a different request."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "env-state-capitol-nebraska",
+      "requestVersion": 1,
+      "priority": "P1",
+      "status": "queued",
+      "title": "The Nebraska State Capitol, seen from outside",
+      "consumer": {
+        "consumerId": "no-declared-consumer",
+        "runtimeComponent": "src/player/WorldOrientationPanel.tsx",
+        "playerVisibleUse": "The state step of the world introduction, where the player is told which state they are starting their life in and is currently shown no picture of it at all."
+      },
+      "whyNeeded": "The state step is one of four steps in the opening and the only one with no artwork behind it, so every life in every state begins on an unillustrated screen naming a government the player has never seen. Nebraska's capitol is already a recorded building identity in the reference corpus, so this asks for a picture of something the project has already established rather than for a new invention. Observed in Nebraska, NE. Filed by art bench and regional scenes thread on 2026-09-22T04:55:00.000Z (inspection).",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/generated/approved/",
+          "art/families/regional-opening/",
+          "art/requests/asset-requests.json",
+          "src/environment/reference/corpus.ts"
+        ],
+        "driveLocationsSearched": [],
+        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here — cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.ne.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'unique' and referencePack 'strong-source-family'.",
+        "shortfall": "An identity is not a picture. The reference corpus can say which building this is and what must not be assumed about it, and it cannot put anything on the screen. Drive was not searched for this: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
+      },
+      "target": {
+        "targetClass": "environment-plate",
+        "minimumWidth": 2208,
+        "aspectRatio": "landscape, 3:2 or wider — matching the 2496x1664 and 2208x1584 plates already in this panel",
+        "alphaRequired": false,
+        "container": "png",
+        "styleAuthority": "The two regional opening plates already shipping in this panel, art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png and env_regional_sonoran_desert_v1.png, for drawing style; and the recorded building identity us.ne.capitol in src/environment/reference/corpus.ts for what the building is."
+      },
+      "generationRecipe": [
+        "The Nebraska State Capitol seen from outside, framed on the building and its immediate grounds, in the same drawn style as the regional opening plates already shipping in this panel.",
+        "Leaf-on months: spring, summer or early autumn. No snow.",
+        "This building is recorded as visually unique. It must be drawn from its own identifying form, never from a generic domed-statehouse template.",
+        "No people, no vehicles in the foreground, no flags of any party or campaign. This is the building, not an event at it.",
+        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha — the panel paints it full-bleed behind text and has nothing to composite it over."
+      ],
+      "acceptanceCriteria": [
+        "Shows spring or summer or autumn. A delivery showing any other time of year is wrong, whatever else is right about it.",
+        "Built form shows state-capitol, masonry-civic.",
+        "Leaf-on months only. A winter view is a separate request wherever snow on the building is normal, because one plate cannot honestly stand for both and a bare-branch capitol shown in July is the same error as a summer canopy shown in January.",
+        "Recognisably the Nebraska State Capitol to somebody who has seen it, not a generic statehouse.",
+        "Shows spring, summer or autumn. A snow-covered or bare-branch delivery is wrong for this request whatever else is right about it.",
+        "At least 2208 pixels wide — the narrower of the two plates already shipping in this panel — in landscape orientation.",
+        "8-bit RGB. A delivery carrying an alpha channel is wrong: nothing composites behind this.",
+        "Shows the building, not governing. A Capitol identity does not establish an everyday working office or a current occupant, and a delivery implying either has answered a different request."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "env-state-capitol-new-mexico",
+      "requestVersion": 1,
+      "priority": "P1",
+      "status": "queued",
+      "title": "The New Mexico State Capitol, seen from outside",
+      "consumer": {
+        "consumerId": "no-declared-consumer",
+        "runtimeComponent": "src/player/WorldOrientationPanel.tsx",
+        "playerVisibleUse": "The state step of the world introduction, where the player is told which state they are starting their life in and is currently shown no picture of it at all."
+      },
+      "whyNeeded": "The state step is one of four steps in the opening and the only one with no artwork behind it, so every life in every state begins on an unillustrated screen naming a government the player has never seen. New Mexico's capitol is already a recorded building identity in the reference corpus, so this asks for a picture of something the project has already established rather than for a new invention. Observed in New Mexico, NM. Filed by art bench and regional scenes thread on 2026-09-22T04:55:00.000Z (inspection).",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/generated/approved/",
+          "art/families/regional-opening/",
+          "art/requests/asset-requests.json",
+          "src/environment/reference/corpus.ts"
+        ],
+        "driveLocationsSearched": [],
+        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here — cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.nm.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'unique' and referencePack 'strong-source-family'.",
+        "shortfall": "An identity is not a picture. The reference corpus can say which building this is and what must not be assumed about it, and it cannot put anything on the screen. Drive was not searched for this: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
+      },
+      "target": {
+        "targetClass": "environment-plate",
+        "minimumWidth": 2208,
+        "aspectRatio": "landscape, 3:2 or wider — matching the 2496x1664 and 2208x1584 plates already in this panel",
+        "alphaRequired": false,
+        "container": "png",
+        "styleAuthority": "The two regional opening plates already shipping in this panel, art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png and env_regional_sonoran_desert_v1.png, for drawing style; and the recorded building identity us.nm.capitol in src/environment/reference/corpus.ts for what the building is."
+      },
+      "generationRecipe": [
+        "The New Mexico State Capitol seen from outside, framed on the building and its immediate grounds, in the same drawn style as the regional opening plates already shipping in this panel.",
+        "Leaf-on months: spring, summer or early autumn. No snow.",
+        "This building is recorded as visually unique. It must be drawn from its own identifying form, never from a generic domed-statehouse template.",
+        "No people, no vehicles in the foreground, no flags of any party or campaign. This is the building, not an event at it.",
+        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha — the panel paints it full-bleed behind text and has nothing to composite it over."
+      ],
+      "acceptanceCriteria": [
+        "Shows spring or summer or autumn. A delivery showing any other time of year is wrong, whatever else is right about it.",
+        "Built form shows state-capitol, masonry-civic.",
+        "Leaf-on months only. A winter view is a separate request wherever snow on the building is normal, because one plate cannot honestly stand for both and a bare-branch capitol shown in July is the same error as a summer canopy shown in January.",
+        "Recognisably the New Mexico State Capitol to somebody who has seen it, not a generic statehouse.",
+        "Shows spring, summer or autumn. A snow-covered or bare-branch delivery is wrong for this request whatever else is right about it.",
+        "At least 2208 pixels wide — the narrower of the two plates already shipping in this panel — in landscape orientation.",
+        "8-bit RGB. A delivery carrying an alpha channel is wrong: nothing composites behind this.",
+        "Shows the building, not governing. A Capitol identity does not establish an everyday working office or a current occupant, and a delivery implying either has answered a different request."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "ui-newspaper-page-furniture",
+      "requestVersion": 1,
+      "priority": "P1",
+      "status": "queued",
+      "title": "Page furniture for the in-game newspaper",
+      "consumer": {
+        "consumerId": "no-declared-consumer",
+        "runtimeComponent": "src/player/news/NewsDesk.tsx",
+        "playerVisibleUse": "The news front page, in both its mixed-front-page mode and its single-publication mode. It is reached from the public information surface and shows the stories the world has actually published."
+      },
+      "whyNeeded": "This is the cheapest surface in the game to make look right, because it is already finished. It works, it has two modes, it handles corrections, and nobody has to fix it first — the only thing it lacks is that it does not look like a newspaper. Every other surface needing art also needs engineering; this one needs only the art. Jurisdiction-independent: Page furniture is the paper's physical presentation and is the same wherever the player lives. The outlet names printed on it are generated per world; the furniture is not. Filed by art bench and regional scenes thread on 2026-09-22T05:45:00.000Z (inspection).",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/requests/asset-requests.json",
+          "art/requests/incoming/",
+          "art/regions/regional-scene-places.json",
+          "art/ and public/ (find, for any icon or SVG asset)",
+          "src/player/news/news.css",
+          "src/player/news/NewsDesk.tsx"
+        ],
+        "driveLocationsSearched": [],
+        "found": "Nothing. All 126 manifest assets were read and none is an interface graphic; the only SVGs in the project are pose control plates and arm-measurement QA overlays, which are authoring evidence rather than shipped art. news.css was read in full and its entire visual treatment is font-family, letter-spacing and text-transform, with no image reference anywhere.",
+        "shortfall": "The newspaper surface is complete and functioning and simply has no artwork. Drive was not searched: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
+      },
+      "target": {
+        "targetClass": "interface-graphic",
+        "container": "png",
+        "alphaRequired": true,
+        "minimumWidth": 1024,
+        "aspectRatio": "component pieces rather than one page; the rules and devices are wide and short, the paper ground is tileable",
+        "styleAuthority": "src/player/news/news.css, whose four masthead families and Georgia-based body already set the paper's typographic character; the artwork joins that rather than replacing it."
+      },
+      "generationRecipe": [
+        "A set of page furniture for a printed newspaper: a paper ground with its own tone and grain, a column rule, a rule under the masthead, and a small folio or dateline device.",
+        "Tileable or stretchable rather than one fixed page image. The page runs as long as the stories the world published that day.",
+        "No words of any kind in the artwork. No headlines, no outlet names, no dates. Every word on that page comes from the simulation.",
+        "It has to sit behind and between text without competing with it, so restraint is the brief: this is the paper, not a picture on the paper."
+      ],
+      "acceptanceCriteria": [
+        "Reads as a printed page at a glance, before any of the text is read.",
+        "Contains no text, no outlet name and no date. A delivery with any lettering in it is wrong however good it looks.",
+        "Tiles or stretches without a visible seam over a page of unpredictable length.",
+        "Legible with body text over it: the paper ground must not reduce the contrast of text placed on it."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "ui-masthead-ornaments-four-families",
+      "requestVersion": 1,
+      "priority": "P2",
+      "status": "queued",
+      "title": "Masthead ornaments for the four newspaper style families",
+      "consumer": {
+        "consumerId": "no-declared-consumer",
+        "runtimeComponent": "src/player/news/NewsDesk.tsx",
+        "playerVisibleUse": "The masthead above each outlet's stories on the news front page, and the nameplate at the top of a single publication's page."
+      },
+      "whyNeeded": "Four is a measured number, not a guess: `MASTHEAD_STYLES = 4` in src/presentation/news-front-page.ts, and `styleFor` assigns every outlet to one of them by hashing its key. The consumer already exists and already asks for four distinct looks; it just has nothing to show for them. Jurisdiction-independent: The style a given outlet gets is derived from a hash of its key, not from where it publishes. The same four families serve every jurisdiction. Filed by art bench and regional scenes thread on 2026-09-22T05:45:00.000Z (inspection).",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/requests/asset-requests.json",
+          "art/requests/incoming/",
+          "art/regions/regional-scene-places.json",
+          "art/ and public/ (find, for any icon or SVG asset)",
+          "src/presentation/news-front-page.ts",
           "src/player/news/news.css"
         ],
         "driveLocationsSearched": [],
-        "found": "Nothing. art/shared/documents_desk_props/, art/shared/seals_emblems/, art/shared/flags/, art/hero/ and art/events/ each hold only a .gitkeep. art/manifest/asset_manifest.json's 126 assets are env_*, title_*, dev_*, pg_master_* and human_* only; a regex over every asset id for news|paper|masthead|chart|graph|ui|icon|seal|emblem|flag|panel|frame|banner|document|guide|ledger returned nothing but eyewear 'frames' and body 'frame_a/b'. All 24 art/families/ entries are room families. Drive was NOT searched from this session; no Drive access was used, and that is recorded rather than implied. art/style/material_tokens.json was read for an existing paper material and carries none.",
-        "shortfall": "No paper or newsprint texture exists anywhere in art/. The pane is a flat hex fill."
+        "found": "Nothing drawn. What exists is the structure: MASTHEAD_STYLES is 4 in src/presentation/news-front-page.ts and styleFor() assigns every outlet to one of the four by hashing its key, with four matching CSS rules that differ only in font-family.",
+        "shortfall": "The game already distinguishes four kinds of outlet and has nothing to show for it. Four fonts is the whole of the difference. Drive was not searched, for the same reason as above."
       },
       "target": {
-        "targetClass": "document-plate",
-        "minimumWidth": 2048,
-        "aspectRatio": "1:1",
-        "alphaRequired": false,
+        "targetClass": "interface-graphic",
         "container": "png",
-        "styleAuthority": "The existing #f6f1e6 / #1c1a17 pairing in src/player/news/news.css; art/style/palette.json."
+        "alphaRequired": true,
+        "minimumWidth": 512,
+        "aspectRatio": "wide and short, sitting on a masthead line",
+        "styleAuthority": "The four families already declared in src/player/news/news.css: serif old style, condensed sans, Didot italic, and slab."
       },
       "generationRecipe": [
-        "One seamlessly tileable square of uncoated newsprint: fibre, a faint laid grain, a trace of press mottle.",
-        "Neutral warm, sitting within a few points of #f6f1e6, so #1c1a17 body text keeps its contrast ratio unchanged.",
-        "No fold, no shadow, no curl, no torn edge: it tiles and must not carry a feature that repeats visibly.",
-        "No print, no halftone photographs, no column rules, no text. Columns and rules are drawn by news.css over it."
+        "Four ornaments, one per existing style family, each designed to sit beside a typeset outlet name rather than to contain one.",
+        "They should read as four different kinds of paper: something plain and local, something broadsheet and formal, something tabloid and loud, something older and more ornamental.",
+        "Each must work beside a name of unpredictable length, because outlet names are generated per world.",
+        "No real newspaper's mark, wordmark or identifying device."
       ],
       "acceptanceCriteria": [
-        "Tiles seamlessly on all four edges at 100% with no visible seam or repeating blemish.",
-        "Body text at the existing size stays at or above its current contrast ratio against the busiest part of the texture.",
-        "Texture is readable as paper at the rendered scale and does not read as noise."
+        "Four distinct ornaments that a player can tell apart at a glance in a single column of stories.",
+        "Each contains no lettering. The outlet name is typeset by the game beside it.",
+        "Each sits correctly beside both a short name and a long one.",
+        "None resembles the mark of a real newspaper."
       ],
-      "dependsOn": [],
-      "scope": {
-        "intendedContext": "news-front-page"
-      }
+      "dependsOn": []
+    },
+    {
+      "requestId": "ui-shell-reference-icons",
+      "requestVersion": 1,
+      "priority": "P2",
+      "status": "queued",
+      "title": "Icons for the five things the shell can point at",
+      "consumer": {
+        "consumerId": "no-declared-consumer",
+        "runtimeComponent": "src/player/PinRail.tsx",
+        "playerVisibleUse": "The pin rail and every link or shortcut that reopens something: a person, a commitment in the player's calendar, a measure before a chamber, a government, or an organization such as a local party chapter."
+      },
+      "whyNeeded": "Five is measured, not invented: `ShellRef` in src/presentation/shell-navigation.ts is a closed union of exactly five kinds — person, commitment, measure, government, organization — and that file is explicit that a sixth was deliberately not added because it would have had nothing to resolve to. So the set is complete and will not quietly grow. Jurisdiction-independent: These stand for kinds of thing rather than for any particular thing, so they are the same in every jurisdiction and in every save. Filed by art bench and regional scenes thread on 2026-09-22T05:45:00.000Z (inspection).",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/requests/asset-requests.json",
+          "art/requests/incoming/",
+          "art/regions/regional-scene-places.json",
+          "art/ and public/ (find, for any icon or SVG asset)",
+          "src/presentation/shell-navigation.ts",
+          "src/player/PinRail.tsx"
+        ],
+        "driveLocationsSearched": [],
+        "found": "No icon set exists. A find across art/ and public/ returns only pose control plates and arm-measurement QA overlays, both authoring evidence. The interface uses text and font glyphs throughout.",
+        "shortfall": "The set of things that need an icon is closed and known — ShellRef is exactly five kinds — and none of them has one. Drive was not searched, for the same reason as above."
+      },
+      "target": {
+        "targetClass": "interface-graphic",
+        "container": "png",
+        "alphaRequired": true,
+        "minimumWidth": 256,
+        "aspectRatio": "square, one icon per file",
+        "styleAuthority": "None yet — this set will become the style authority for every icon added after it, so its construction rules matter more than any single glyph."
+      },
+      "generationRecipe": [
+        "Five icons, one for each ShellRef kind: person, commitment, measure, government, organization.",
+        "Government and organization must stay distinguishable at icon size. The navigation code is explicit that a place and the government of that place are different things and that blurring them starts implying where the player lives.",
+        "A commitment is a scheduled activity in the player's own calendar. It should not read as a debt or a promise to somebody.",
+        "One consistent weight and construction across all five, legible in a dense rail, and readable on both light and dark surfaces.",
+        "No party emblems, no donkey or elephant, no real government seal."
+      ],
+      "acceptanceCriteria": [
+        "Exactly five, matching the five ShellRef kinds by name.",
+        "Government and organization are tellable apart at the size the pin rail actually uses.",
+        "All five read as one set: same weight, same construction, same optical size.",
+        "Legible against both a light and a dark surface without a second version.",
+        "Carries no party emblem and no real government's seal."
+      ],
+      "dependsOn": []
     },
     {
       "requestId": "economic-graph-panel-ground",
@@ -942,7 +1553,7 @@
         "shortfall": "There is no ground behind any chart in the game. A flat translucent fill is doing the work."
       },
       "target": {
-        "targetClass": "chart-plate",
+        "targetClass": "interface-graphic",
         "minimumWidth": 1280,
         "aspectRatio": "32:11",
         "alphaRequired": true,
@@ -992,7 +1603,7 @@
         "shortfall": "There is no drawn card ground anywhere in the shell, so there is nothing to reuse or crop."
       },
       "target": {
-        "targetClass": "interface-plate",
+        "targetClass": "interface-graphic",
         "minimumWidth": 1408,
         "aspectRatio": "4:3",
         "alphaRequired": true,
@@ -1042,7 +1653,7 @@
         "shortfall": "No navigation chrome art exists. The strip is colour values only."
       },
       "target": {
-        "targetClass": "interface-plate",
+        "targetClass": "interface-graphic",
         "minimumWidth": 1920,
         "aspectRatio": "24:1",
         "alphaRequired": true,

@@ -2,7 +2,7 @@
 id: alaska-opens-on-an-ordinary-start
 impact: patch
 section: Fixed
-title: You can stand for the Alaska legislature on an ordinary start date again
+title: Alaska now judges a legislative candidacy on its real requirements instead of refusing every date
 ---
 
 A candidate in Alaska was refused for the legislature on any date before September 2026, whatever their age or how long they had lived there. Nothing was wrong with the candidate and nothing was wrong with Alaska's rules; the game simply had no record of when those rules began, only of when we read them, and it would not claim a requirement applied before the day we saw it.
