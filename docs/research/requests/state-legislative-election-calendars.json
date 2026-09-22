@@ -1,0 +1,29 @@
+{
+  "filedAt": "2026-09-22T22:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "campaigns",
+  "notes": [
+    "Asked by the owner on 2026-09-22 at 22:11Z, after a Nevada Assembly race in the long playthrough was decided on September 29: 'fix that election day bug or refer to chat gpt.'",
+    "What the game did, read on main at c9135b0c: every state legislative filing was decided 28 days after it was made (fileForOffice, src/presentation/campaign-projection.ts). It now uses a game profile in src/simulation/nationwide-world/state-legislative-election-calendar.ts: even-year November general elections everywhere except New Jersey and Virginia (odd years) and Louisiana and Mississippi (every four years in odd years). Every seat in a chamber is treated as up at each election, and the candidate field closes 60 days before.",
+    "The game draws one rival per race for both legislative seats and governorships (ensureCampaignOpponents with count 1).",
+    "Narrowed on filing: who runs is already asked in state-legislative-seat-calendar-and-field, whose answer (C07) approved real dates and ruled out a flat drawn field, so this asks only for the calendar that answer approved in principle. It also said candidacy is not years of compulsory campaigning; a filing made in January now waits for November, and the player can pass that time a week at a time."
+  ],
+  "priority": "P1",
+  "question": "For each state's legislature, when are its seats on the ballot? Specifically: which years each chamber is elected, and for staggered senates which seats are up in which year (how the districts are split between cycles, and what happens in the first election after redistricting); the election day, including Louisiana's Saturday elections and its October primary; and the primary date and the filing deadline relative to the general election, as a national rule with the main state variations.",
+  "questionId": "state-legislative-election-calendars",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Running for office across America thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/nationwide-world/state-executive-term-rules.ts",
+      "whatItDidNotSettle": "Holds sourced governors' election cycles only. Nothing covers legislatures."
+    },
+    {
+      "source": "src/simulation/legislative-term-rules.ts",
+      "whatItDidNotSettle": "Holds the Kentucky term length only; the first election's date was an authored 28-day schedule."
+    }
+  ],
+  "title": "When each state legislature is elected, and how many run",
+  "usableAnswer": "A table of the fifty states, with the chamber election years and, for staggered senates, the rule that decides which districts are up (by district number, or by a lot drawn after redistricting); the general election day; the filing deadline and primary date as days before the general election (a national default with the named exceptions); and a realistic range for the number of general-election candidates per legislative race, including the uncontested share. Approximate primary and filing figures are fine; the election years and the staggering rule must be exact.",
+  "whyItMatters": "A legislative race was decided about a month after filing, so a candidate filed in August and was elected in September. The calendar is now the right shape but is a profile, not each state's law, and every race has exactly one rival."
+}

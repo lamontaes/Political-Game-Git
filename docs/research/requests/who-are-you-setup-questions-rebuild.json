@@ -1,0 +1,80 @@
+{
+  "requestVersion": "research-request/v1",
+  "questionId": "who-are-you-setup-questions-rebuild",
+  "title": "What the \"Who are you?\" setup questions should be about, and what each answer should do",
+  "question": "The new-life creator asks \"Who are you?\" and offers \"Answer a few questions\" (5), \"Answer more questions\" (13 to 21) or \"Discover through play.\" The 56 current questions are imagined scenes with invented people (a partner named Dana and her broken furnace opens every adult life). The owner has now rejected them twice: on September 20, 2026, (\"use of the word furnace... this is a stupid question\") and again on September 22, 2026, (\"still awful\"). Before anything is rewritten, decide: (1) what the screen is for: estimating the player's interests to choose later situations (today), proposing the character's starting temperament for the player to confirm, change or skip (allowed by the answered player-temperament-source), setting starting political leanings, or a combination; (2) whether the choices are the player's or the character's, and so whether the questions should come after world generation and name the character's actual family, job or school, or stay before it and name nobody; (3) which setup facts a question may use (age, birthday, gender, state and town, household for a custom start) and what it must never assume without a record (partner, children, home ownership, car, job, sibling); (4) the subject mix per age band, including whether and at what levels of government the player is put in a public role; (5) how many questions per path and whether later questions branch from earlier answers; (6) how many answers per question, whether a plain \"neither\" is always offered, and what keeps two answers from meaning the same thing; (7) in words, what each answer should move: the five temperament scales, descriptors from the 121-word catalog, the hidden player estimate, issue positions, or nothing until confirmed; (8) whether answers should keep shifting the generated parent's age and sibling order; (9) what the player sees at the end and what the screen should say in place of \"These answers do not write your character's biography\"; (10) which of the current 56, if any, survive, are rewritten or move into play.",
+  "whyItMatters": "It is the first thing every new life asks, and the owner has now rejected it twice. Three revisions have reworded the same scenes without anyone deciding what the questions are for, so a fourth copy edit would fail the same way. Today the questions give the character a partner, a house, a car and a job that the generated world does not contain. They ignore the chosen place, and every simulated age-10 short path asks about \"your partner Dana's graduation.\" The screen is titled \"Who are you?\" but no answer sets the character's temperament or any trait. The answers only nudge a hidden estimate of the player and shift the generated parent's age by up to four years. Engineering cannot rebuild it without a decision on purpose, point of view and targets.",
+  "impact": "blocks-work",
+  "lane": "people and life (new-life creator)",
+  "usableAnswer": "A position on each of the ten numbered points, in plain words. Include one fully written example question with its answers for each age band (child under 13, teenager 13 to 17, adult) in American English. For each example answer, say in words what it moves. Also give a short list of checks a build must pass, such as \"no question names a relationship the character does not have\" and \"a short run reaches at least one public-role question.\" A full replacement bank is welcome; a brief precise enough for engineering to write one is sufficient. Directions and shapes rather than numbers; any number it sets is its own labelled calibration.",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/setup-playtest65-copy.ts, setup-opening-bank.ts, setup-young-life-bank.ts, setup-questionnaire-bank.ts and setup-questionnaire.ts at main fc60529b, with the selection run directly for 240 simulated runs per age band and path",
+      "whatItDidNotSettle": "Establishes what exists: 56 selectable questions (37 adult, 10 child, 9 teen), 208 answers, 3 fixed openers per band, a 5-question short path whose public-role questions are unreachable, and a 13-to-21-question long path. Also that only the first three are age-gated and nothing reads the chosen place. It does not say what the questions should be about or what an answer should change."
+    },
+    {
+      "source": "docs/research/requests/player-temperament-source.json (answered September 22, 2026)",
+      "whatItDidNotSettle": "Allows setup to propose a temperament that the player confirms, changes or skips, and forbids setup from inventing biography. It does not say what questions produce that proposal, how many, or how an answer maps to a descriptor. It also does not say whether the existing player-interest estimate should continue."
+    },
+    {
+      "source": "docs/research/requests/person-starting-trait-count.json, ordinary-life-trait-set.json and trait-catalogue-poles-and-tuning-rules.json (answered in ChatGPT's first set of research answers, September 22, 2026)",
+      "whatItDidNotSettle": "Set the starting profile at one or two salient descriptors on five underlying scales and map the 121-word catalog to scales. They do not connect any of it to the setup questions."
+    },
+    {
+      "source": "ChatGPT's second set of research answers (the DEPTH2 package, uploaded September 22, 2026)",
+      "whatItDidNotSettle": "Mentions \"player-confirmed setup\" once, as a starting point for sparse leans. It contains nothing about the setup questions themselves."
+    },
+    {
+      "source": "docs/reports/owner-record/03-modgen.md, the owner's messages of September 20, 2026",
+      "whatItDidNotSettle": "Records his rejection of the furnace question and his preferences: policy and human tension together, a clear public role (\"judicial or executive\" at different levels), more than one or two options, a \"no\" option, 10 to 12 questions, and branching pathways. These are preferences, not a design: they do not say what the answers should move or how questions bind to the character."
+    },
+    {
+      "source": "docs/72A-human-play-conditional-fail-and-character-context-repair-completion.md and docs/77A-pr87-second-human-play-fail-presentation-repair-completion.md",
+      "whatItDidNotSettle": "The two earlier failed human plays and their fixes: age-gating every question, then relaxing the gate after the first three; withdrawing 18 questions; and letting answers lean the generated family. Both kept the premise that the questions are about the player and name nobody real. Neither asked whether that premise is right."
+    }
+  ],
+  "candidateAnswers": [
+    {
+      "label": "Player interests, no people",
+      "recommended": false,
+      "position": "Keep the screen as a player-interest calibration asked before the world exists. Rewrite the questions so none names a relationship, possession or job. Retitle the screen so it no longer says \"Who are you?\"",
+      "argumentFor": "Needs no new ordering in the creator and keeps old saves' meaning unchanged.",
+      "argumentAgainst": "Still says nothing about the character, and scenes with nobody in them are what the owner and both human plays called abstract."
+    },
+    {
+      "label": "Character temperament, after generation",
+      "recommended": false,
+      "position": "Ask after the world is generated. Name the character's actual family, school or job, and use the chosen place. Offer one or two proposed descriptors at the end for the player to confirm, change or skip.",
+      "argumentFor": "Matches the title and the answered player-temperament-source. It cannot assume a partner who does not exist.",
+      "argumentAgainst": "Moves the questions after Begin, needs scenes written against generated records, and needs an answer-to-descriptor mapping nobody has researched."
+    },
+    {
+      "label": "Both, in two parts",
+      "recommended": false,
+      "position": "A few personal scenes bound to the generated character propose a temperament. A separate set of public-role dilemmas, at levels of government that suit the place, feeds starting leanings and later situation choice.",
+      "argumentFor": "Matches both the owner's September 20, 2026, preferences and the temperament answer.",
+      "argumentAgainst": "The largest build, and two kinds of question on one screen may read as two surveys."
+    }
+  ],
+  "requestedBy": "first-playtest lane, for lamontae (owner)",
+  "filedAt": "2026-09-22T21:20:00.000Z",
+  "priority": "P0",
+  "notes": [
+    "The owner's words on September 20, 2026, in his ChatGPT conversation (owner record entry 117): \"this intro quiz is still messed up. i.e. use of the word furnace. and this is a stupid question.\" On September 22, 2026, he played current main and called the questions \"still awful\": \"I assume these questions still aren't fixed. Yeah, these still aren't fixed. Get a report of all of these and send it to ChatGPT because these are still awful.\" (From his screen recording, as relayed by the coordinator session.).",
+    "The full list of all 56 questions, verbatim with their answers, what each answer currently moves and a per-question diagnosis, is in the companion report \"The 'Who are you?' questions still open on Dana's furnace.\" It opens with the owner's September 22, 2026, life: Joseph Arnold, 29 when the game began on January 5, 2026, in Catonsville, Maryland. His household screen lists no one else, and his first question was about his partner Dana's furnace.",
+    "Old saves keep reading their recorded answers whatever is decided; engineering handles that, so it need not constrain the answer.",
+    "docs/systems/adaptive-life-and-setup.md still says answers never reach world generation; since the second failed human play they shift the generated parent's age band and sibling order. The answer should say whether that stays.",
+    "Only 4 of the 56 questions put the player in a public decision (budget committee, alcohol license, bakery inspection, public camera), and only 2 of those name the player's role. The short path can never reach any of them. Two questions the September 3, 2026, playtest flagged as abstractions were rewritten on September 14, 2026, their flags cleared, and are now the fourth and fifth question of every simulated age-10 short path."
+  ],
+  "relatedQuestionIds": [
+    "player-temperament-source",
+    "person-starting-trait-count",
+    "ordinary-life-trait-set",
+    "trait-catalogue-poles-and-tuning-rules"
+  ],
+  "readFirst": {
+    "words": "I assume these questions still aren't fixed. Yeah, these still aren't fixed. Get a report of all of these and send it to ChatGPT because these are still awful.",
+    "saidBy": "lamontae",
+    "saidAt": "2026-09-22T21:07:13.000Z"
+  }
+}

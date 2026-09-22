@@ -889,7 +889,8 @@ describe("Packet 76 approved runtime art", () => {
       "park-community-pavilion",
       "press-briefing-room",
     ]);
-  });
+    // Hashes every released file: 0.4 s alone, 5.8 s beside a full parallel run.
+  }, 60_000);
 
   it("reproduces the 2x Lanczos office plate and furniture-only alpha mask", async () => {
     expect(OFFICE_PLATE_RUNTIME_SCALE).toBe(2);
