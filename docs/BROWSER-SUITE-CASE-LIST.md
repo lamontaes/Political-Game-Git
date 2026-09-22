@@ -311,7 +311,7 @@ is worth reading closely.
 
 - `world39-news-journal.spec.ts:24:1` — News speaks about the place and the Journal tells the life through save (Aurora, Colorado) _(assertion, flaky)_
 
-## Seven of the live assertions now pass, and they were one cause
+## Ten of the 86 now pass, and they were one cause
 
 Worked 2026-09-22 after this list was first written. Measured locally on main,
 Chromium 141, `CI=1`, two workers.
@@ -323,6 +323,18 @@ Chromium 141, `CI=1`, two workers.
     pennywise-adaptive-life.spec.ts:248  plays a run of adult situations
     pennywise-adaptive-life.spec.ts:324  writes no tier and no selection reason
     pennywise-adaptive-life.spec.ts:359  keeps a calibrated life and reloads it
+
+Three more, which this list had filed under **timeout** rather than assertion,
+are the same cause and pass with them:
+
+    pennywise-adaptive-life.spec.ts:194  lets a player decline the whole thing
+    pennywise-adaptive-life.spec.ts:307  shows no tier, no meter and no forecast
+    pennywise-adaptive-life.spec.ts:390  rebuilds the life its replay address came from
+
+That is **ten of the 86 live cases**, leaving 76: 23 private-artwork,
+35 assertion, 17 timeout, 1 unknown. The seven-and-three split is itself the
+point — the same stale walk was counted in two different families, because a
+missing element is waited for and a wrong one is not.
 
 **The creator gained an appearance step.** "How you look", with its own Begin,
 now comes _after_ the questions, so answering the calibration returns the
@@ -348,9 +360,13 @@ helper answers the confirmation; they have not been switched to it.
 
 **And a note on the timeout family.** Three of these four stale references
 presented as two-minute timeouts rather than failed assertions, because a
-missing element is waited for and a wrong one is not. So some of the 20 live
-timeouts in the table below are stale references rather than slow walks, and
-the two families are not as separate as they look.
+missing element is waited for and a wrong one is not — which is exactly why
+three of the ten recovered cases sit in the timeout row of the table below and
+seven in the assertion row, for one cause. So some of the remaining 17 live
+timeouts are stale references rather than slow walks, and the two families are
+not as separate as the table makes them look. The table below is left as
+measured, with this section as its correction, rather than rewritten to hide
+that the families crossed.
 
 ## Totals
 
