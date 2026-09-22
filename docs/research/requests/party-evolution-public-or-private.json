@@ -1,0 +1,35 @@
+{
+  "filedAt": "2026-09-22T05:35:00.000Z",
+  "impact": "shapes-design",
+  "lane": "playtest",
+  "notes": [
+    "Shape one is a line of prose that stops the screen reading as broken, and the playtest lane built it on a small branch while this question is open. Nothing is being built for shape two, which is the part the answer decides.",
+    "This record was corrected after filing. The first version said an item appears only where the player is already involved, which is true of open proposals and false of decided ones. The code shows a decided change to everybody. Read the question as it now stands, not as it was first asked."
+  ],
+  "priority": "P1",
+  "question": "Party evolution's open proposals are settled inside a party, and the screen never says so. Parties found, split, merge and drift in their platforms, and it runs. A player reaches the screen in three presses. On an ordinary first day that screen shows local chapters and things to ask for, and none of the evolution at all. The reason is two-part, measured in the code: an OPEN proposal is yielded only where the player is already involved — the proposer, a member of a party body, a unit leader, or somebody who already responded — while a proposal that has been DECIDED is yielded to everybody, involved or not. So the public half already exists on this screen; a fresh world simply has not made a change yet for it to carry, and the news front page does not render the event at all. Nothing on the screen says any of that, and nothing says how a player would come to be an officer or a committee member. Joining a local chapter, which a player can do when somebody invites them, does not do it: a volunteer member is not an officer, an organizer or a committee member, so it does not open the private half. Three shapes. One, say the rule: the screen adds a line saying these are decisions the people in a party make, and how a player comes to be one of them. Two, carry the public half further: a party splitting or merging is public, and a player who reads the news could learn of it without having been in the room — which needs the news to render an event it does not render today. Three, leave it and say nothing, on the grounds that a player who has not joined a party should not be thinking about party bodies at all.",
+  "questionId": "party-evolution-public-or-private",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "playtest thread",
+  "sourcesChecked": [
+    {
+      "source": "The parties screen walked in the browser from an ordinary cold start, main 445441a5",
+      "whatItDidNotSettle": "Confirms the screen shows local chapters and asks, and no evolution at all, in three presses from the menu. Does not establish what it ought to show instead."
+    },
+    {
+      "source": "src/presentation/party-initiatives.ts, projectPartyInitiatives",
+      "whatItDidNotSettle": "Establishes the gate exactly, and corrects a first reading of it: an OPEN proposal needs involvement, but a DECIDED one is shown to everybody. So the public half is already built on this screen. It says nothing about whether the gate should be explained or the public half carried further."
+    },
+    {
+      "source": "src/simulation/living-world/party-evolution.ts, and joinPartyChapter in party-chapters.ts",
+      "whatItDidNotSettle": "Establishes that only officers, chapter organizers and committee members count, and that joining a chapter as a volunteer does not make a player any of the three. Does not establish whether a player should have a route to becoming one."
+    },
+    {
+      "source": "The news front page, read on the same head",
+      "whatItDidNotSettle": "It renders and has two modes, and it does not render party evolution events. Establishes that shape two is unbuilt rather than broken; does not establish whether it should be built."
+    }
+  ],
+  "title": "Whether a party splitting is a public fact a non-member should hear about",
+  "usableAnswer": "Whether a party splitting or merging should reach a non-member through the news, or only on the parties screen where it already appears once decided. A position on whether the player should be told how to come to be inside a party, or left to discover it. And, if they should be able to, what the route into being an officer or a committee member ought to look like.",
+  "whyItMatters": "The gate itself is defensible: a party's internal decisions are not public, and a player who has never been to a meeting has no business voting in one. What is not defensible is that the screen is silent about it, so a system of some nineteen hundred lines looks empty rather than closed, and a player concludes it was never built. That is the same misreading that put four built and reachable systems on this project's 'never started' list. Shapes one and two are not alternatives and the answer decides how much is worth building: shape two is the larger piece of work and the more interesting game, the country changing around a player whether or not they are in it, and it needs the news surface to carry an event it does not carry today. There is also a second-order question underneath it, which nobody has answered: there is no route a player can seek out to become a party officer or committee member, so the private half may be unreachable by intent rather than by design."
+}

@@ -18,7 +18,8 @@ The prevalence half that record does not carry is filed separately here.
 This branch also carries two records filed on other branches, unchanged and
 still theirs, because the rendered document replaces the published copy
 wholesale and a render from a head missing a record publishes an incomplete
-queue: person-starting-trait-count and bargaining-manner-source.
+queue: person-starting-trait-count, bargaining-manner-source,
+continuing-after-death-when-to-tell and party-evolution-public-or-private.
 
 Records only. No runtime, schema, renderer, release version or human-acceptance
 change.
