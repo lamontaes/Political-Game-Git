@@ -1,0 +1,35 @@
+{
+  "filedAt": "2026-09-22T16:05:00.000Z",
+  "impact": "shapes-design",
+  "lane": "hardcoded content audit",
+  "notes": [
+    "SMALLEST HONEST CHANGE: the mechanism exists and works; what is missing is any check that a hold's owner still exists. The smallest change is to drop the five d-held-people entries from the reconciliation holds map, which returns those requests to the Art Desk queue as ordinary open work. What a player would see: nothing — the Art Desk is a private authoring surface. What lamontae would see is five person requests he has not been shown since 15 September.",
+    "PLAYER-FACING INPUT: none. This gates authoring, not play. It reaches players only as art that was never made."
+  ],
+  "priority": "P1",
+  "question": "When a note about who was working on what gets written into a data field the game reads, what should the game do with it once that work arrangement has expired — and what is the rule that stops a coordination artefact from becoming a product ruling nobody decided?",
+  "questionId": "planning-words-that-became-product-rules",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "hardcoded content audit lane",
+  "sourcesChecked": [
+    {
+      "source": "art/requests/art-desk-reconciliation.json holds map, read today",
+      "whatItDidNotSettle": "Records five requests under d-held-people and gives no expiry, no date and no owner that can be resolved."
+    },
+    {
+      "source": "docs/plans/active/ — every ALIVE43 plan in the tree",
+      "whatItDidNotSettle": "A, L and W exist; there is no D plan, so the letter the hold names cannot be looked up. It does not say whether D was finished, absorbed or abandoned."
+    },
+    {
+      "source": "src/authoring/art-desk.ts:289-305 and src/authoring/artbench.ts:1129",
+      "whatItDidNotSettle": "Shows the mechanism — any generationHold at all becomes \"history\" — but carries no policy about how long a hold is good for."
+    },
+    {
+      "source": "Sweep of src/ and art/ for other planning vocabulary in runtime data",
+      "whatItDidNotSettle": "Found two more field values carrying lane names — src/simulation/education-study-progression.ts:26 writes provenance note \"WEEKEND19-F period study progression.\" into world records at six sites, and src/simulation/executive-work-entry.ts:512 carries owner \"REST37-X / N office identity\" — but neither currently reaches a player, so it does not settle whether they are harmless or the same defect not yet exposed."
+    }
+  ],
+  "title": "Work-planning words that ended up in runtime data, and now gate play",
+  "usableAnswer": "A rule we can apply and test. Specifically: (1) may a work-assignment fact ever live in a field the runtime reads, or must every such hold carry an expiry or an owner that can be checked to still exist; (2) for these five requests today, is new people/body/head generation actually closed, or should the hold be dropped and the requests returned to the queue; (3) what the Art Desk should display when a hold refers to an owner that no longer exists — silence, the request as open, or an explicit 'this hold has expired'.",
+  "whyItMatters": "This is happening right now, measured today. `art/requests/art-desk-reconciliation.json` carries a `holds` map, and five person art requests are held there under the value `d-held-people`: person-production-standing-body, person-production-seated-body, person-child-body-morphology, person-adult-body-silhouette-reexport and person-adult-lectern-pose. `src/authoring/art-desk.ts:304` turns that value into a coverage disposition of \"history\" with the rendered note \"D's hold covers new people/body/head generation. Visible as history, not a P0 generation job.\" The source of the letter D is `docs/plans/active/alive43-a-art-desk.md:14`, an \"Excluded\" section listing which lane owned which surface at the time. There is no lane D plan in the repository at all — ALIVE43 has A, L and W. The file landed on 2026-09-15 (253103dd), so for a week a note about who owned what has been reading, to anyone opening the Art Desk, as a standing product decision that new body and head generation is closed. Nobody decided that. It is a fourth species alongside hardcoded names, gated-shut systems and hardcoded decision thresholds: a coordination artefact that became a rule by being written into data."
+}
