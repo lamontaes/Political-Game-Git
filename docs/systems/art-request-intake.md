@@ -188,3 +188,103 @@ keys are the rule-pack form, `US-KY`. The runtime recovers a GEOID from the
 jurisdiction slug (`us-place-<geoid>`, `us-county-<geoid>`), which is the only
 place a GEOID survives into a save; an authored jurisdiction with neither shape
 resolves by state at best, which is a weaker claim honestly made.
+
+## What has been asked for, and why
+
+Filed 2026-09-22 on `claude/art-bench-requests-sbi892`. Recorded here rather
+than left in a thread, because this file is what a reader — or ChatGPT
+compiling a report — will actually find.
+
+### Ten state capitol exteriors
+
+`src/environment/reference/corpus.ts` records a capitol building identity for
+ten states: Kentucky, Virginia, Tennessee, California, Minnesota, Texas, New
+York, North Dakota, Nebraska and New Mexico. No capitol picture exists
+anywhere in the project — all 126 records in `art/manifest/asset_manifest.json`
+were read, eleven of them environment plates, and the civic exteriors it holds
+are a campaign storefront, a park pavilion and a neighbourhood doorstep. The
+consumer is the `state` step of the world introduction, which is the one step
+of four with no artwork behind it.
+
+The records were generated from the corpus rather than typed. Priority follows
+`referencePack`: P1 for the six states with a strong source family, P2 for the
+four still pending — a sourcing reason, not a judgement about the state.
+`minimumWidth: 2208` and `alphaRequired: false` come from measuring the two
+regional plates that already ship into that same panel (2496x1664 and
+2208x1584, both 8-bit RGB), not from a guess.
+
+The corpus's own anti-assumption is carried into every brief: **a Capitol
+identity does not establish an everyday working office or a current
+occupant.** These ask for the building, not for a scene of anyone governing
+in it.
+
+The other forty-one jurisdictions have no recorded capitol identity, so they
+cannot be filed this way. That is a sourcing question, not an art question.
+
+### Three interface graphics
+
+Asked for on 2026-09-22: art requests beyond backgrounds — newspapers, UI
+things, graphs — and explicitly not clothing.
+
+- **`ui-newspaper-page-furniture`** (P1). The news front page is drawn
+  entirely in CSS and system fonts; `src/player/news/news.css` was read in
+  full and its whole visual treatment is `font-family`, `letter-spacing` and
+  `text-transform`, with no image reference in it. This surface is the
+  cheapest in the game to make look right, because it is the only finished one
+  that needs no engineering first.
+- **`ui-masthead-ornaments-four-families`** (P2). Four is measured, not
+  chosen: `MASTHEAD_STYLES` is 4 in `src/presentation/news-front-page.ts` and
+  `styleFor()` hashes every outlet key into that range. The game already sorts
+  outlets into four kinds and distinguishes them by typeface alone.
+- **`ui-shell-reference-icons`** (P2). Five is closed and measured: `ShellRef`
+  in `src/presentation/shell-navigation.ts` is exactly five kinds — person,
+  commitment, measure, government, organization — and that file states why a
+  sixth was deliberately not added. The project has no icon set at all; the
+  only SVGs on disk are pose control plates and arm-measurement overlays,
+  which are authoring evidence rather than shipped art.
+
+Two constraints run through all three, and both come from the code rather than
+from taste:
+
+**No lettering in the artwork.** Outlet names, headlines and dates are all
+generated per world. A word painted into the art would be a fact the game
+never recorded, and it would appear beside the facts it did.
+
+**Government and organization stay distinct at icon size.**
+`shell-navigation.ts` is emphatic that a place and the government of that
+place are different things, and that blurring them is the first step towards
+a shortcut that quietly implies where the player lives.
+
+### `interface-graphic`, and why it is different from `character-component`
+
+`character-component` was **recorded**: six entries already shipped with it
+while `AssetTargetClass` did not list it, so adding it wrote down something
+that was already true.
+
+`interface-graphic` is **introduced**. Nothing used it before. It exists
+because the four earlier classes cannot hold a masthead ornament — it is not
+a room the compositor paints, not a menu tableau, not a part of a person, and
+not `reference`, which means never shipped.
+
+The boundary that keeps it honest: an interface graphic is drawn once and
+reused wherever that interface element appears, and it never asserts a fact
+about the world. An icon for `measure` stands for the idea of a measure; it
+does not depict any particular bill. Anything depicting a real, identified
+subject belongs in one of the other classes, where the likeness and
+provenance rules apply to it.
+
+### What was deliberately not filed
+
+The twenty-three regions in `art/regions/regional-scene-places.json` all
+already carry a `benchRequestId` of the form `playtest65-region-*`, because
+they came from the Art Bench in the first place. Re-filing them would have put
+a second copy of twenty-three asks on the Art Desk. What those regions lack is
+place selectors — already filed as a research question — and bytes for three
+approved plates, which are blocked on the owner's machine. Neither is a filing
+job.
+
+This is the second duplicate caught before it reached the Desk. The first was
+`seated-at-desk-modular-body` and `standing-at-lectern-modular-body`, which
+ask for the same pictures as registry entries that already exist. **Check what
+the project already owns and has not registered before asking for anything
+new.** A duplicate on the Desk costs more than a missing request does.
