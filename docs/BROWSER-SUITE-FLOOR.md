@@ -298,6 +298,32 @@ that the two are deliberately asserted separately in
 collapsing them would let one path silently adopt the other's sentence without
 a test noticing.
 
+### A gate that was silent for a reason unrelated to what it checks
+
+Relayed from the art/client lane through the coordinator, 2026-09-22; recorded
+here because it is the same lesson as this suite's order-dependence, in a
+different system.
+
+"Documents only, so no release declaration" is not a valid exemption.
+`scripts/release/transition.ts:238` treats every changed path outside
+`docs/release/changes/` as eligible, with no source-versus-documentation
+distinction, so past the legacy cutoff any range that changes anything and
+carries no declaration fails `release:check`. Main's `repository` job went red
+for exactly that, on a range holding two documentation files and nothing else.
+
+The part worth keeping is why it had not bitten sooner. Merges making that
+claim passed because their ranges happened to contain **another lane's**
+declaration. The gate agreed for a reason that had nothing to do with what it
+was checking — which is the shape of every order-dependent result in this
+suite, where a case passes or fails on what else happened to be running beside
+it. A green that depends on a neighbour is not a green about you. Fixed in
+#370; the one line when it happens is
+`npm run release:declare -- <id> --impact none` with a one-line internal
+reason.
+
+Two things this lane's own merges do not rest on: both #365 and #368 carried
+their own declaration, checked against their merge ranges rather than assumed.
+
 ## 7. The browser failures on main were already on main
 
 Measured 2026-09-22. CI's `browser (6, 8)` shard on main at `7fc33c85`, the
