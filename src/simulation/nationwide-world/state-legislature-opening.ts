@@ -135,6 +135,11 @@ export function planStateChambers(pack: CandidacyPack): {
       : [];
     let size: number;
     let basis: ChamberSizeBasis;
+    // PLACEHOLDER until research question
+    // state-legislature-chamber-sizes-and-quorum is answered: a Census
+    // district is not a seat, and multi-member districts (Arizona's House)
+    // seat fewer members here than the chamber has.
+    //
     // A size read from law wins. A size the game drew for an unresearched
     // state's profile gives way to the state's own Census districts, which
     // are a record of that state rather than a range across others; the draw
@@ -213,6 +218,10 @@ export function ensureStateLegislatureOpening(
   stateUsps: string,
 ): World {
   const pack = stateCandidacyPack(`US-${stateUsps}`);
+  // NOT MODELLED HERE: the District of Columbia's legislature is the Council
+  // of the District of Columbia, thirteen members under D.C. Code § 1-204.01,
+  // subject to congressional review. It is described in the municipal
+  // governance data, not as a state pack, and this opening does not seat it.
   if (!pack) return world;
   if (stateLegislatureEstablished(world, pack.packId)) return world;
   if (!world.people[subjectPersonId]) {
@@ -240,6 +249,12 @@ export function ensureStateLegislatureOpening(
   );
   const { chambers, unseated } = planStateChambers(pack);
 
+  // PLACEHOLDER until research question
+  // state-legislator-age-tenure-and-district-lean is answered: the spread,
+  // the age range and the years served below are the game's own rules, not
+  // measurements. Puerto Rico's members get no party until
+  // puerto-rico-legislative-parties is answered.
+  //
   // A seat's lean: this state's own centre, as the save generated its House
   // seats, spread by how much House districts inside one state actually
   // differ from each other across the whole save. Both numbers are read from

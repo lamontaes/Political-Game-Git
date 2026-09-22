@@ -132,3 +132,19 @@ describe("Puerto Rico's Legislative Assembly", () => {
     expect(members.every((member) => member.party === null)).toBe(true);
   });
 });
+
+describe("the District of Columbia", () => {
+  it("seats no state legislature: its Council is not modelled here", () => {
+    const { world, playerPersonId } = openLife(
+      "Washington",
+      "District of Columbia",
+    );
+    expect(homeStateUsps(world, playerPersonId)).toBe("DC");
+    expect(stateCandidacyPack("US-DC")).toBeNull();
+    expect(
+      world.history.workRelationships.filter(
+        (work) => work.kind === "employment:legislative-member",
+      ),
+    ).toEqual([]);
+  });
+});

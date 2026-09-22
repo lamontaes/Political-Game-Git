@@ -824,6 +824,9 @@ export function fileLegislatureMeasure(
   let next = world;
   let sponsorPersonId: EntityId;
   if (seated && seated.body.members.length > 0) {
+    // PLACEHOLDER until research question
+    // how-state-legislators-vote-without-a-stated-position says who sponsors
+    // and carries bills.
     // Any member may file an ordinary bill. The money bill is the majority's:
     // leadership carries the budget, so its sponsor sits in the largest
     // caucus.

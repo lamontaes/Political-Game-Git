@@ -1,0 +1,28 @@
+{
+  "requestVersion": "research-request/v1",
+  "questionId": "how-state-legislators-vote-without-a-stated-position",
+  "title": "How state legislators vote on a bill they have taken no public position on, and who sponsors and carries bills",
+  "question": "In U.S. state legislatures, how do members vote on a bill they have made no public commitment about? Specifically: (1) what share of recorded roll calls in committee and on the floor are unanimous or near-unanimous, and what share divide along party lines, broken out by vote type (committee report, floor passage, amendment, concurrence, veto override) and by whether a chamber is closely divided or lopsided; (2) how often a member votes against a bill sponsored by the other party, and against one sponsored by their own; (3) what share of bills introduced are sponsored by majority-party versus minority-party members, and how passage and committee-kill rates differ by sponsor party; (4) who sponsors or carries the budget or appropriations bill (leadership, the appropriations chair, the governor's request), and how divided legislatures pass a budget; (5) how veto-override votes divide by the governor's party.",
+  "whyItMatters": "Every seat in a state chamber is now a generated member who decides each vote. Until this is answered the game uses a marked placeholder rule: own bill is a strong reason to vote yes, sponsor's party a moderate one, a member of the other party votes yes on an ordinary bill for want of a reason to object, party lines hold only on a veto override, any member may file an ordinary bill, and the budget is carried by the largest caucus. The owner ruled that behavior must not be invented. These numbers replace the placeholder.",
+  "impact": "shapes-design",
+  "lane": "governing and legislative",
+  "usableAnswer": "Rates or ranges with citations, ideally by state or state type (professional versus citizen legislature, divided versus unified control): unanimity share, party-unity rate, cross-party vote rate, sponsor-party share of introductions and enactments, committee-kill rate by sponsor party, budget-carrier convention, override vote division. Where states differ widely, the spread and a few named examples.",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/governing/chamber-votes.ts on branch claude/project-thread-d0xosf at 3f92df2d (PR #440)",
+      "whatItDidNotSettle": "The placeholder weights and rules listed above are the game's own, not measured."
+    },
+    {
+      "source": "docs/research/chatgpt-answers/2026-09-22-depth2/DEPTH2-ANSWERS.md A05 on main",
+      "whatItDidNotSettle": "Says members decide for their own reasons and an absent player is not auto-voted; gives no rates for party-line or unanimous voting."
+    }
+  ],
+  "requestedBy": "modular legislation thread (technical team lead)",
+  "filedAt": "2026-09-22T22:45:00.000Z",
+  "priority": "P0",
+  "notes": [
+    "Aggregate rates only; the game generates its own people.",
+    "Legislative caucus and coalition formation is asked separately."
+  ],
+  "relatedQuestionIds": ["legislative-caucus-and-coalition-formation", "state-legislature-chamber-sizes-and-quorum"]
+}

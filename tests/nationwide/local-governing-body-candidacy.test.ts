@@ -234,6 +234,11 @@ describe("standing for the town's governing body and taking the seat", () => {
         seat!.organizationId,
       );
     },
+    // Opens a life and runs it to election day. Measured 2026-09-22: about
+    // 3.8s on main at 616dcdb5 and about 5s once the home state's legislature
+    // is seated at the opening, because every commit re-checks the whole
+    // world's integrity and the world now holds its legislators.
+    20_000,
   );
 });
 

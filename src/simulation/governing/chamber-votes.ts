@@ -43,6 +43,11 @@ import type {
  * on the question cannot be read as a view on the bill without inventing
  * that direction.
  *
+ * PLACEHOLDER until research question
+ * how-state-legislators-vote-without-a-stated-position is answered: the
+ * party cue, the weights and the rule that only an override divides by party
+ * are the game's own, not measured voting behavior.
+ *
  * Nothing else is invented to fill the list. A member with no reason at all
  * answers present. A seat with nobody in it is a vacancy, not a voter, and
  * lowers the count of members. The player is never voted for: a player who
