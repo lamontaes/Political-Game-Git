@@ -33,7 +33,7 @@ same mechanism that refuses Columbus and Duluth, and it is deliberate — the
 unknown stays unknown rather than being guessed.
 
 So "Alaska opens" and "Alaska refuses" are both correct statements, and neither
-generalises to the state. **The honest sentence is about a town, not a state.**
+generalizes to the state. **The honest sentence is about a town, not a state.**
 Alaska is a state where some lives can stand on day one and others cannot, and
 which one you get depends on where the player said they were from.
 
@@ -60,7 +60,7 @@ Stated at least as plainly as the part that is established:
   commit is named for it. **Do not regenerate the committed coverage report to
   match that number until a commit is named.** A count regenerated to match an
   unexplained change stops being evidence and becomes a record of the change
-  having happened, which is the one failure mode a committed artefact must not
+  having happened, which is the one failure mode a committed artifact must not
   have.
 
 ## What would settle it

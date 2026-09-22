@@ -12,7 +12,7 @@
  *
  * A government can carry two readings. `law` is enacted text this repository
  * retrieved and hash-locked; `reported` is a research pass's transcription of
- * official municipal pages. Both are shown, both are labelled, and no field is
+ * official municipal pages. Both are shown, both are labeled, and no field is
  * ever taken from one to fill a hole in the other. Carson City has both, and
  * the difference is exactly the interesting part: the charter fixes the quorum
  * and the two readings an ordinance takes, and the research pass is where the
@@ -24,7 +24,7 @@
  * A council can only carry an ordinance where an instrument establishes how.
  * `municipalRulePackFor` builds a runtime rule pack out of a reading, and
  * returns a refusal naming the missing fields where it cannot. Nothing here
- * borrows a neighbour's procedure, and nothing falls back to a default: a city
+ * borrows a neighbor's procedure, and nothing falls back to a default: a city
  * whose passage threshold nobody read is a city where the vote step is not on
  * offer, and the player is told which instrument would have to say what.
  */

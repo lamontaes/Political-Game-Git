@@ -105,7 +105,7 @@ function stableHash(text: string): number {
  * is not a zero and not a permission. A caller that gets null has learned that
  * the game cannot even say what is usual, which is a different and smaller
  * claim than saying a state has no requirement. Nothing is borrowed from a
- * neighbouring office to fill it: a senate's district requirement is not a
+ * neighboring office to fill it: a senate's district requirement is not a
  * measurement of a house's.
  */
 export function qualificationRange(

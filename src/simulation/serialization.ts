@@ -39,7 +39,7 @@ export function createWorldSnapshot(world: World): WorldSnapshot {
         ? WORLD_SNAPSHOT_FORMAT_VERSION
         : CONTENT_PACK_SNAPSHOT_FORMAT_VERSION,
     // Canonical, so that a world rebuilt with its record maps in a different
-    // insertion order is recognised as the world it is.
+    // insertion order is recognized as the world it is.
     snapshotId: createStableId("snapshot", canonicalJson(world)),
     worldId: world.id,
     savedAtWorldDate: world.currentDate,

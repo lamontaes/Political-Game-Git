@@ -265,7 +265,7 @@ test("at the smaller 1280 x 720 window the box still needs no scrollbar", async 
   }
 });
 
-test("at 1200 x 720 the conversation stays bottom-centre without a scrollbar", async ({
+test("at 1200 x 720 the conversation stays bottom-center without a scrollbar", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1200, height: 720 });

@@ -884,7 +884,7 @@ const CORPUS_STATE_SLUG = /^state-(us-[a-z]{2})-placeholder$/;
 
 /**
  * The state key a jurisdiction slug names, or null if the slug does not name a
- * state. A slug this module does not recognise is not a state by default:
+ * state. A slug this module does not recognize is not a state by default:
  * unknown is unknown, never a guess at the nearest state.
  */
 export function stateKeyForJurisdictionSlug(slug: string): string | null {

@@ -52,7 +52,7 @@ import type { DimensionNudge, InterestTension } from "./player-model";
  *
  * It is not a four-year college. Nothing here requires, mentions or presumes
  * one: the education-gated stages ask only that an enrollment exists, so a
- * community college, a certificate programme or a training course reaches them
+ * community college, a certificate program or a training course reaches them
  * identically, and the work-gated stages ask only that a job exists. No
  * frequency is sampled and no probability is claimed anywhere in this file —
  * 92C's own demographic figures describe a population, not this person, and
@@ -113,7 +113,7 @@ const hasWork: EpisodeRequirement = {
  * There is an enrollment.
  *
  * Deliberately the whole of the education gate for the adult stages. A
- * two-year programme, a certificate, an apprenticeship's classroom day and a
+ * two-year program, a certificate, an apprenticeship's classroom day and a
  * four-year degree all produce an enrollment record, and asking for anything
  * more here would quietly make the four-year path the default that 92C's
  * Track B exists to remove.
@@ -892,7 +892,7 @@ const FRIEND_YOU_NAMED: EpisodeFamily = {
         { kind: "age-at-least", age: 17 },
       ],
       lines: [
-        "You're both in the queue at the checkout, and {role:familiar} has recognised you.",
+        "You're both in the queue at the checkout, and {role:familiar} has recognized you.",
         "You remember telling {role:familiar} it would be just the two of you.",
       ],
       stakes: "ordinary",
@@ -948,7 +948,7 @@ const FRIEND_YOU_NAMED: EpisodeFamily = {
  * The first stage needs a job and an enrollment at once, which is the ordinary
  * arrangement 92C's Track B says the game was skipping. The second needs only
  * the job. The third is the first one's answer coming back: it is offered only
- * where the record shows the favour was actually done and months have actually
+ * where the record shows the favor was actually done and months have actually
  * passed, and it still says nothing about whether it will be returned.
  */
 const SHIFT_ASKED_FOR: EpisodeFamily = {
@@ -1044,7 +1044,7 @@ const SHIFT_ASKED_FOR: EpisodeFamily = {
         tension(
           ["personal-ties", "privacy-preference"],
           [1, 1],
-          "A reason you cannot check, attached to a favour you can.",
+          "A reason you cannot check, attached to a favor you can.",
         ),
       ],
       mayLeadTo: ["it-came-back-round"],
@@ -1117,14 +1117,14 @@ const SHIFT_ASKED_FOR: EpisodeFamily = {
         tension(
           ["personal-ties", "decision-style"],
           [1, 1],
-          "Spending the favour, and whether to say out loud that it is one.",
+          "Spending the favor, and whether to say out loud that it is one.",
         ),
       ],
       mayLeadTo: [],
       options: [
         {
           key: "ask-and-bring-it-up",
-          label: "Ask and name the favour",
+          label: "Ask and name the favor",
           description:
             "Ask {role:colleague} to cover it and bring up the shift you worked for them.",
           nudges: [nudge("decision-style", 0.35), nudge("personal-ties", -0.2)],
@@ -1587,7 +1587,7 @@ const WORK_NOT_PAID: EpisodeFamily = {
 };
 
 /**
- * Neighbours, in an emergency the incident engine actually produced.
+ * Neighbors, in an emergency the incident engine actually produced.
  *
  * Gated on an active incident rather than on a date, a place name or an
  * authored disaster, which is the whole of 92C's historical-encounter contract
@@ -1906,7 +1906,7 @@ const CAMPAIGN_CANVASS_PARTNER: EpisodeFamily = {
  * An EpisodeFamily is a causal thread, not a folder for similar cards. The
  * school, household and incident kernels below do not invent answer-dependent
  * consequences merely to make a new family branch. They instead join the
- * accepted school, formative-household and neighbourhood families, whose
+ * accepted school, formative-household and neighborhood families, whose
  * stable ids, record shapes and real branches already exist. The player-facing
  * prose and kernel ids remain 92C-owned and are enumerated by
  * `lifeContent92cStages` for review and coverage.

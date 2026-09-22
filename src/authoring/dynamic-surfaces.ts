@@ -4,7 +4,7 @@
  * PRODUCTION PRINCIPLE: LIVED-IN, NOT LEGIBLE.
  *
  * A room should look like somewhere people work. It should have art on the
- * walls, books that lean, a plant that needs water, a few coloured papers on a
+ * walls, books that lean, a plant that needs water, a few colored papers on a
  * desk, a clock-shaped thing near the door. None of that should be READABLE,
  * because the moment a generated wall carries readable words two bad things
  * happen at once. The words are wrong — generated lettering is malformed, and
@@ -46,7 +46,7 @@ import {
  * They used to be declared in this file, and the scene spec kept a second,
  * shorter list of its own for the same slots — `working-draft` there against
  * `document-body` here, for the same piece of paper. A slot could then be legal
- * in the spec and unrecognised by the binder that has to fill it, and a
+ * in the spec and unrecognized by the binder that has to fill it, and a
  * convergence had to pick one. The spec won because it is the lower layer: the
  * slot being validated lives there, and an authoring contract may depend on a
  * scene contract without the reverse being true.

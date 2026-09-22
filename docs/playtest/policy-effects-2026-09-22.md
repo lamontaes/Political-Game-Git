@@ -18,7 +18,7 @@ BLS/BEA observation panel and concluding those were all the economy there was.
 
 There is a second, separate economy, kept in `world.macroEconomy` rather than in
 the metric catalog, which is why a search for world metrics missed it entirely.
-It is a live modelled national economy, it steps every month in an ordinary
+It is a live modeled national economy, it steps every month in an ordinary
 player's save, and the player can see it. Measured below. Everything the rest of
 this record says about the _catalog_ boundary, the causal-effects engine and the
 three `economy.ts` derivations still holds — those are genuinely empty and
@@ -242,22 +242,22 @@ The code says so in its own words: _"No GDP response or policy elasticity is
 inferred"_, _"Changing a slider cannot create an economic or GDP effect"_, and
 _"An area unemployment rate is not a person's probability of unemployment."_
 These are not figures a law is allowed to move; moving them would be writing a
-number into a slot labelled as a real agency's published reading.
+number into a slot labeled as a real agency's published reading.
 
 There is a derived economic layer built on top, and it is worth naming exactly,
 because it is the closest thing the game has to the machinery this question
 needs. Three derivations in `src/simulation/economy.ts`:
 
-| Derivation                | Inputs it requires                                                                                            | What it produces                                                                                        | Could an enacted law supply the input?                                                                                                                                                                     |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `deriveLaborMarketAt`     | `population.resident-count`, `labor.force-count`, `labor.employed-count`, all exact `count:people` quantities | resident population, labour force, employed, unemployed, and an **unemployment rate** as an exact share | Not directly. A law does not hire or fire anyone. It would have to move employment through an intermediate the game does not have.                                                                         |
-| `derivePurchasingPowerAt` | `income.aggregate-personal` (money), `prices.cost-level` (an `index:cost-level` quantity)                     | real purchasing power of that income                                                                    | Partly. A law that transfers money could plausibly move aggregate personal income; nothing in the game has any claim on a cost level.                                                                      |
-| `deriveFiscalBalanceAt`   | `government.revenue`, `government.outlays`, matching scope and interval                                       | revenue against outlays                                                                                 | **Yes, and this is the one.** The tax route already collects real money into a named public account and an appropriation already spends from it. Those two are revenue and outlays in everything but name. |
+| Derivation                | Inputs it requires                                                                                            | What it produces                                                                                       | Could an enacted law supply the input?                                                                                                                                                                     |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `deriveLaborMarketAt`     | `population.resident-count`, `labor.force-count`, `labor.employed-count`, all exact `count:people` quantities | resident population, labor force, employed, unemployed, and an **unemployment rate** as an exact share | Not directly. A law does not hire or fire anyone. It would have to move employment through an intermediate the game does not have.                                                                         |
+| `derivePurchasingPowerAt` | `income.aggregate-personal` (money), `prices.cost-level` (an `index:cost-level` quantity)                     | real purchasing power of that income                                                                   | Partly. A law that transfers money could plausibly move aggregate personal income; nothing in the game has any claim on a cost level.                                                                      |
+| `deriveFiscalBalanceAt`   | `government.revenue`, `government.outlays`, matching scope and interval                                       | revenue against outlays                                                                                | **Yes, and this is the one.** The tax route already collects real money into a named public account and an appropriation already spends from it. Those two are revenue and outlays in everything but name. |
 
 **Outside tests, nothing in the tree calls any of the three.** Every input metric
 above is exactly the kind `assertProductionCatalogBoundary` refuses by name. So
 the simulated economy exists, takes well-specified exact inputs, guards its own
-identities (labour force cannot exceed population, employed cannot exceed labour
+identities (labor force cannot exceed population, employed cannot exceed labor
 force), and is unreachable from a player's save in both directions at once: the
 save may not hold its inputs, and no code asks it for its outputs.
 
@@ -277,7 +277,7 @@ First, what does work, because the distinction matters. `legislation-analysis.ts
 separates two things on purpose: reading what a bill's sections _say_ they cost
 is arithmetic on the bill's own text, available in every world, recomputed when
 an amendment changes the provisions — and the Docket page shows it. Forecasting
-what the programme would _do_ needs a measured series and a baseline. The module
+what the program would _do_ needs a measured series and a baseline. The module
 says so in its own words: a new game carries neither, so it names the missing
 series rather than inventing a budget, an analyst or an impact.
 

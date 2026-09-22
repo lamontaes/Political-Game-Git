@@ -50,7 +50,7 @@ export interface UnsavedWorkGuardOptions {
  * Watches a store for as long as the page lives. Returns the undo.
  *
  * `beforeunload` is the only event that can still stop a close, and a browser
- * only honours it if the handler cancels the event, so that is what happens
+ * only honors it if the handler cancels the event, so that is what happens
  * when work is owed — and nothing happens when none is, because a page that
  * always asks is a page whose question stops meaning anything.
  */

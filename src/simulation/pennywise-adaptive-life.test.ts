@@ -334,7 +334,7 @@ describe("Acceptance 1 — the same world asks the same questions in the same or
     }
   });
 
-  it("penalises repeating the previous item's subject", () => {
+  it("penalizes repeating the previous item's subject", () => {
     // The settled 0.25 per shared dimension. Pinned because it is a contract
     // rather than a tuning knob.
     expect(ADJACENT_OVERLAP_PENALTY).toBe(0.25);
@@ -578,7 +578,7 @@ describe("Acceptance 4 — an option cannot preview its outcome", () => {
   it("puts no number on an option that describes what happens to anybody else", () => {
     // The magnitudes an option does carry are the adaptive layer's, and they
     // are about the player rather than about the world. Nothing else on an
-    // option is numeric, so there is nowhere for "+10 with the neighbours" to
+    // option is numeric, so there is nowhere for "+10 with the neighbors" to
     // live without a schema change that this test would fail.
     for (const situation of adultSituationBank()) {
       for (const option of situation.options) {
@@ -930,7 +930,7 @@ describe("Acceptance 13 — an adult life is not one long dilemma", () => {
     expect(ordinary / tiers.length).toBeGreaterThan(0.2);
   });
 
-  it("penalises another hard moment after a hard run, and relieves a quiet one", () => {
+  it("penalizes another hard moment after a hard run, and relieves a quiet one", () => {
     const candidates: SituationCandidate[] = [
       {
         key: "adult.family-request" as LifeSituationKey,

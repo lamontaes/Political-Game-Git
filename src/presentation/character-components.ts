@@ -184,7 +184,7 @@ export interface CharacterComponentDefinition {
 
   /**
    * Body and head only: the art complexion band this raster was drawn in. A
-   * head's complexion must equal its body's; there is no runtime recolour.
+   * head's complexion must equal its body's; there is no runtime recolor.
    */
   readonly complexion?: CharacterComplexion;
 
@@ -288,14 +288,14 @@ export const CHARACTER_COMPONENT_ASSET_TYPE = "character-component";
  *
  * These are DIFFERENT POINTS with different jobs, and the distinction is the
  * whole contract. Human review of the banked candidates found `hips` sitting
- * around the lower abdomen, which is not a labelling nit: bottoms attach to
+ * around the lower abdomen, which is not a labeling nit: bottoms attach to
  * `hips`, so an anchor placed there hangs every trouser, skirt and pair of
  * jeans from the wrong line on the body.
  *
  * In particular `pelvis-root` and `hips` are not interchangeable and one may
  * never be substituted for the other:
  *
- * - `pelvis-root` is the body's RIG ROOT — the hip JOINT centre, a point inside
+ * - `pelvis-root` is the body's RIG ROOT — the hip JOINT center, a point inside
  *   the body used to place the whole figure in a scene. Nothing is worn on it.
  * - `hips` is a GARMENT ATTACHMENT — the line on the outside of the body where
  *   a bottom's waistband sits. It is at or below the pelvis root, never above
@@ -357,7 +357,7 @@ export function validateProductionBodyAnchors(
     const hips = byId.get("hips")!;
     if (hips.y < root.y) {
       errors.push(
-        `${label} puts the garment 'hips' attachment at ${hips.y.toFixed(4)}, above the pelvis root at ${root.y.toFixed(4)}. A waistband sits at or below the hip joint centre, never above it, and bottoms attach to 'hips'.`,
+        `${label} puts the garment 'hips' attachment at ${hips.y.toFixed(4)}, above the pelvis root at ${root.y.toFixed(4)}. A waistband sits at or below the hip joint center, never above it, and bottoms attach to 'hips'.`,
       );
     }
   }
@@ -445,7 +445,7 @@ export interface CharacterComponentLibrary {
   readonly skinTone: ReadonlyMap<string, SkinTone> | null;
 }
 
-/** Median opaque colour of a bare-skin band, measured from the raster. */
+/** Median opaque color of a bare-skin band, measured from the raster. */
 export interface SkinTone {
   readonly r: number;
   readonly g: number;
@@ -458,7 +458,7 @@ export interface SkinTone {
  * The writer and the resolver have to agree on one string — that agreement is
  * what a version IS — so it is declared once, where an appearance is created,
  * and read here. Naming it separately would let the two drift silently, and a
- * resolver that stopped recognising the version people were being created
+ * resolver that stopped recognizing the version people were being created
  * under would fall back to v1 without failing anything.
  */
 export const COMPLEXION_COHERENT_RECIPE_VERSION =
@@ -1638,7 +1638,7 @@ export interface CharacterRecipeRequest {
    * CANDIDATE REVIEW ONLY. What to do when a REQUIRED slot has no family
    * compatible with the resolved body at all.
    *
-   * `throw` — the default, and the only behaviour any runtime path uses. A
+   * `throw` — the default, and the only behavior any runtime path uses. A
    * library that cannot dress its own bodies is a broken catalog, and a player
    * must never meet a person the library cannot finish.
    *

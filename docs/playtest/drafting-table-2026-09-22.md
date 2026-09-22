@@ -1,12 +1,12 @@
-# The drafting table, and what the empty catalogue does not cost
+# The drafting table, and what the empty catalog does not cost
 
 Walked 2026-09-22 09:05Z on `main` at `4595878e`, in Chromium 141. One life,
 forty years old, made through the creator's custom route with the Legislative
 staff start, in Nebraska. No fixtures, no injected records, no developer
 menu.
 
-This is the follow-up the policy-catalogue walk left open: what the bill
-lifecycle does when the policy catalogue is empty. The answer corrects the
+This is the follow-up the policy-catalog walk left open: what the bill
+lifecycle does when the policy catalog is empty. The answer corrects the
 question.
 
 ## The finding
@@ -15,7 +15,7 @@ question.
 nothing to be about, and those are two different absences.**
 
 The claim carried between lanes — that the bill lifecycle "has nothing to be
-about" because the policy catalogue is empty — is wrong as stated. Pressing
+about" because the policy catalog is empty — is wrong as stated. Pressing
 **Start a new bill** opens a drafting table offering more than forty
 templates across eighteen subject families, each with a kind and a
 one-sentence description of what it does:
@@ -47,7 +47,7 @@ Under that, an **as offered / as you would file it** comparison laid out
 section by section — purpose and construction, eligible areas, service
 standard and reporting, buildout authorization — with the statutory language
 written out in both columns so an edit shows as a difference. The text reads
-like drafting rather than like flavour:
+like drafting rather than like flavor:
 
 > An area is eligible for an award under this Act if no provider offers
 > service in that area at a download speed of 25 megabits per second or
@@ -68,7 +68,7 @@ And it says the thing a civics game has to say, twice, unprompted:
 ## It refuses to file, and it says exactly why
 
 A legislative-staff life cannot introduce a bill, and the screen explains the
-distinction rather than greying a control:
+distinction rather than graying a control:
 
 > Filing requires a supported member seat. This character holds no active
 > legislative member seat. Staff may prepare a draft, but an office job does
@@ -77,7 +77,7 @@ distinction rather than greying a control:
 That is the fails-soft rule working, on the most consequential screen in the
 game.
 
-## So what the empty catalogue does cost
+## So what the empty catalog does cost
 
 The narrower claim stands, and it is worth restating now that the wider one
 is retired. A **policy proposition** is the key that three writers are filed
@@ -106,7 +106,7 @@ size from the others.
 
 ## One more thing the same life found
 
-The Campaigns tab, for this Nebraska life starting 5 January 2026, refuses to
+The Campaigns tab, for this Nebraska life starting January 5, 2026, refuses to
 let the character run:
 
 > You can't run for office in Nebraska this early. The game knows Nebraska's
