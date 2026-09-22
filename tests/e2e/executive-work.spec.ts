@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
 
 test("executive work accepts pointer and keyboard actions and retains snapshot state", async ({
   page,

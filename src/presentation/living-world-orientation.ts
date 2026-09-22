@@ -45,6 +45,7 @@ export interface WorldOrientation {
   readonly homeState: {
     readonly stateUsps: string;
     readonly jurisdictionId: EntityId | null;
+    /** The chief executive: a state's Governor, the District's Mayor. */
     readonly governor: PublicHolderView | null;
   } | null;
   readonly locality: {

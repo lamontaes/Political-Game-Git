@@ -412,6 +412,20 @@ export function artDeskBridge(workspace: string): Plugin {
     name: "our-civic-duty-art-desk-bridge",
     configureServer(server) {
       if (process.env.PG_LOCAL_REVIEW !== "1") return;
+      // Warm the input receipts (hash + full decode of every candidate, once)
+      // before the desk asks, so its first load does not wait on them.
+      const warm = setTimeout(() => {
+        try {
+          collectArtDeskInputs(
+            workspace,
+            process.env[PRIVATE_PACK_ENV] || undefined,
+            new Date().toISOString(),
+          );
+        } catch {
+          /* the request path reports any failure */
+        }
+      }, 0);
+      warm.unref?.();
       server.middlewares.use(async (request, response, next) => {
         const url = request.url ?? "";
         if (!url.startsWith("/__dev/art-desk/")) {

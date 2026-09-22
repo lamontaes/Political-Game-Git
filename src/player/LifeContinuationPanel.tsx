@@ -136,8 +136,9 @@ export function LifeContinuationPanel({
                       : choice.label}
                   </button>
                   <p className="pg-continuation-note" id={noteId}>
-                    {view.predecessorName}&rsquo;s {choice.relation}, age{" "}
-                    {choice.age}.
+                    {choice.relation
+                      ? `${sentenceCase(choice.relation)}, ${choice.age}.`
+                      : `Not someone close to you, ${choice.age}.`}
                     {choice.waitDisclosure ? ` ${choice.waitDisclosure}` : ""}
                   </p>
                 </li>
@@ -204,4 +205,8 @@ export function LifeContinuationPanel({
       </section>
     </div>
   );
+}
+
+function sentenceCase(text: string): string {
+  return `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
 }

@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+
 import { expect, test } from "./fixtures";
 import {
   enterLife,
@@ -7,6 +9,16 @@ import {
   openShellMenu,
   saveLife,
 } from "./support/creator";
+
+/*
+ * The title's White House plate is private Art Desk candidate art. Its bytes
+ * live under art/generated/candidates/art-desk/, which .gitignore keeps out
+ * of the repository, so only a checkout holding the private bank can draw it.
+ * Everywhere else, including CI, the plate is NOT_TESTED and the title is
+ * held to what it can show without it.
+ */
+const WHITE_HOUSE_PLATE =
+  "art/generated/candidates/art-desk/playtest65/environment/white-house-wide-r6.png";
 
 test.describe.configure({ timeout: 240_000 });
 
@@ -20,7 +32,16 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
     waitUntil: "domcontentloaded",
     timeout: 120_000,
   });
-  await expect(page.getByTestId("title-establishing-plate")).toBeVisible();
+  if (existsSync(WHITE_HOUSE_PLATE)) {
+    await expect(page.getByTestId("title-establishing-plate")).toBeVisible();
+  } else {
+    test.info().annotations.push({
+      type: "NOT_TESTED",
+      description: `title plate: private candidate bytes absent (${WHITE_HOUSE_PLATE})`,
+    });
+    await expect(page.getByTestId("title-tableau")).toBeVisible();
+    await expect(page.getByTestId("title-establishing-plate")).toHaveCount(0);
+  }
   await page.screenshot({ path: info.outputPath("title.png") });
   await fillCreator(page, {
     age: 34,

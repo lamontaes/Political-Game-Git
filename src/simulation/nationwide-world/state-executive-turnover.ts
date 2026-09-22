@@ -7,7 +7,7 @@ import {
   electionContestResult,
   scheduleElectionContest,
 } from "../election-contests";
-import { drawCanonicalName } from "../people";
+import { drawCanonicalNamedIdentity } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import { scheduleFutureDueItem } from "../future-transitions";
@@ -19,9 +19,9 @@ import type {
   IsoDate,
   World,
 } from "../types";
-import { stateJurisdictionForKey } from "../life-places";
+import { chiefExecutiveJurisdictionId } from "./government-jurisdiction";
 import { recordedTermsInOffice } from "./prior-terms";
-import { US_STATE_USPS } from "./state-executive-candidacy-packs";
+import { CHIEF_EXECUTIVE_JURISDICTIONS } from "./state-executive-candidacy-packs";
 import {
   ensureStateJurisdiction,
   currentStateExecutiveHolders,
@@ -167,7 +167,7 @@ function openRegularContest(
   // vacant office has no person to name, and the record still has to be about
   // the state whose office it is.
   const withState = ensureStateJurisdiction(world, stateUsps);
-  const stateId = stateJurisdictionForKey(`US-${stateUsps}`)!.id;
+  const stateId = chiefExecutiveJurisdictionId(stateUsps)!;
   let next = recordGovernorCandidacyIntent(withState, {
     office,
     year,
@@ -187,8 +187,10 @@ function openRegularContest(
     const age = personRng.integer(38, 68);
     return {
       stableKey,
-      ...drawCanonicalName(personRng.fork("name")),
-      identity: generatePersonIdentity(personRng.fork("identity")),
+      ...drawCanonicalNamedIdentity(
+        personRng.fork("name"),
+        generatePersonIdentity(personRng.fork("identity")),
+      ),
       birthDate: makeIsoDate(
         `${year - age}-${pad(personRng.integer(1, 13))}-${pad(personRng.integer(1, 29))}`,
       ),
@@ -224,9 +226,9 @@ function openRegularContest(
 function officeForDue(due: FutureDueItem) {
   const match = /^governor-turnover\/v1:(.+):(\d{4}):/.exec(due.stableKey);
   if (!match) return null;
-  const office = US_STATE_USPS.map((usps) => stateExecutiveOffice(usps)).find(
-    (candidate) => candidate?.officeKey === match[1],
-  );
+  const office = CHIEF_EXECUTIVE_JURISDICTIONS.map((usps) =>
+    stateExecutiveOffice(usps),
+  ).find((candidate) => candidate?.officeKey === match[1]);
   return office ? { office, year: Number(match[2]) } : null;
 }
 
@@ -255,7 +257,7 @@ export function governorFieldCloseHandler(
     found.year,
     electionDay,
   );
-  const stateId = stateJurisdictionForKey(`US-${found.office.stateUsps}`)!.id;
+  const stateId = chiefExecutiveJurisdictionId(found.office.stateUsps)!;
   const planKey = `${turnoverContestKey(found.office.officeKey, found.year)}:term-plan`;
   if (!next.history.futureDueItems.some((d) => d.stableKey === planKey))
     next = scheduleFutureDueItem(next, {

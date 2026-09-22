@@ -4,7 +4,8 @@ import {
   currentMeasureProvisions,
   createStableId,
   createWorkItem,
-  drawCanonicalName,
+  drawCanonicalNameForGender,
+  catalogPropositionIds,
   introduceMeasure,
   legislativeBlueprint,
   makeIsoDate,
@@ -14,9 +15,9 @@ import {
 import type { EntityId, IsoDate, World } from "../simulation";
 import {
   BillConfigurationError,
-  designationPrefix,
   draftingSupportsScenario,
 } from "../simulation/legislation-drafting";
+import { chamberDesignationPrefix } from "../simulation/legislature-rules";
 import {
   draftLineageComponents,
   draftParameterValues,
@@ -258,7 +259,7 @@ export function fileBundleDraft(
   const measureStableKey = docketMeasureStableKey(input.scenarioKey, sequence);
   const chamberKey =
     actualSeat?.chamberKey ?? blueprint.pack.chambers[0]?.chamberKey ?? "house";
-  const designation = `${designationPrefix(chamberKey)} ${400 + sequence}`;
+  const designation = `${chamberDesignationPrefix(blueprint.pack, chamberKey)} ${400 + sequence}`;
 
   const bundle = compileMeasureBundle({
     scenarioKey: input.scenarioKey,
@@ -320,7 +321,7 @@ export function fileBundleDraft(
     const rng = new SeededRng(next.seed).fork(
       `legislative-member:${input.scenarioKey}`,
     );
-    const name = drawCanonicalName(rng);
+    const name = drawCanonicalNameForGender(rng, "unstated");
     next = applyCharacterHistoryPlan(next, {
       stableKey: sponsorKey,
       mode: "quick-generated",
@@ -351,6 +352,14 @@ export function fileBundleDraft(
     subjectClass,
     sponsorPersonId,
     originChamberKey: chamberKey,
+    // A bill of several parts is about every question any part is about.
+    propositionIds: catalogPropositionIds(next, [
+      ...new Set(
+        bundle.components.flatMap(
+          (component) => component.draft.propositionKeys,
+        ),
+      ),
+    ]),
   });
 
   const measureId = createStableId(

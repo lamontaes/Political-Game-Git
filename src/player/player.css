@@ -8183,14 +8183,30 @@ body:where(.pg-game) .game-campaign-tallies {
  * first, so they are separated by hairlines rather than boxed in cards.
  */
 .governing-briefing,
-.office-desk {
+/* Not .office-desk: that name belongs to an older room scene's absolutely
+   placed desk, and sharing it floated this section over the page. */
+.governing-office-desk {
   display: grid;
   gap: var(--pg-space-3);
   margin: var(--pg-space-4) 0;
 }
 
+.office-work {
+  display: grid;
+  gap: var(--pg-space-3);
+  margin: var(--pg-space-4) 0;
+}
+
+.office-work > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pg-space-3);
+}
+
 .governing-briefing h4,
-.office-desk h4 {
+.office-work h4,
+.governing-office-desk h4 {
   margin: var(--pg-space-2) 0 0;
   padding-top: var(--pg-space-3);
   border-top: 1px solid var(--pg-hairline);

@@ -623,6 +623,9 @@ export function validatePressRecords(
         text(record.rowKey, "owner row");
         text(record.ownerKind, "owner kind");
         earlier(record.organizationId, seq, "owner organization");
+        if (record.principalPersonId) {
+          person(record.principalPersonId, "owner");
+        }
         break;
       }
       case "outlet-ownership": {
