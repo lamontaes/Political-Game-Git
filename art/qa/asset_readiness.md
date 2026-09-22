@@ -6,7 +6,7 @@ Reconciled against **packet-92b-preserved-assets** (merge `1159da749682cf5eb1dd7
 
 - closed by a preserved asset: **1**
 - premise restated, still required: **7**
-- unaffected, still required: **24**
+- unaffected, still required: **26**
 - preserved units linked to a request: **13** of 20
 - preserved units answering no request: **7** of 20
 
@@ -44,7 +44,9 @@ Reconciled against **packet-92b-preserved-assets** (merge `1159da749682cf5eb1dd7
 | `ui-masthead-ornaments-four-families`        | P2       | queued                    | unaffected-still-required       | —                                                                                                                                                                     |
 | `ui-newspaper-page-furniture`                | P1       | queued                    | unaffected-still-required       | —                                                                                                                                                                     |
 | `ui-no-candidacy-refusal-panel`              | P1       | queued                    | unaffected-still-required       | —                                                                                                                                                                     |
+| `ui-ordinary-day-page-furniture`             | P1       | queued                    | unaffected-still-required       | —                                                                                                                                                                     |
 | `ui-shell-reference-icons`                   | P2       | queued                    | unaffected-still-required       | —                                                                                                                                                                     |
+| `ui-standing-thing-state-marks`              | P1       | queued                    | unaffected-still-required       | —                                                                                                                                                                     |
 | `ui-temperament-marks-ten-poles`             | P2       | queued                    | unaffected-still-required       | —                                                                                                                                                                     |
 
 ### `economic-graph-panel-ground` — unaffected-still-required
@@ -208,9 +210,17 @@ Nothing preserved bears on this. The preserved packet is character components an
 
 Nothing preserved bears on this. The preserved packet is character components and a small number of environment plates; the manifest's 126 assets contain no interface artwork of any kind, and a find across art/ and public/ returns only pose control plates and arm-measurement QA overlays, which are authoring evidence rather than shipped art. So no preserved asset could answer or restate this ask.
 
+### `ui-ordinary-day-page-furniture` — unaffected-still-required
+
+Nothing preserved bears on this. Read at this head rather than copied from the neighbouring interface verdicts: the reconciliation resolves 20 preserved units, twelve character and morphology families and eight swept source photographs, and none of them is interface artwork. The manifest's 126 assets are environment plates and modular character components; a scan of every string in it for an interface word returns only prose sentences and garment filenames. So no preserved asset could answer or restate this ask.
+
 ### `ui-shell-reference-icons` — unaffected-still-required
 
 Nothing preserved bears on this. The preserved packet is character components and a small number of environment plates; it contains no interface artwork of any kind, and a find across art/ and public/ returns only pose control plates and arm-measurement QA overlays, which are authoring evidence rather than shipped art. So no preserved asset could answer or restate an ask for icons for the five ShellRef kinds.
+
+### `ui-standing-thing-state-marks` — unaffected-still-required
+
+Nothing preserved bears on this, for the same measured reason as the page-furniture request above: none of the 20 preserved units is interface artwork, and the manifest holds none either. These are three state marks on the player's own list, which no character component or environment plate could stand in for.
 
 ### `ui-temperament-marks-ten-poles` — unaffected-still-required
 
