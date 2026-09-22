@@ -1,0 +1,31 @@
+{
+  "filedAt": "2026-09-22T13:45:00.000Z",
+  "impact": "blocks-work",
+  "lane": "hardcoded-content audit",
+  "notes": [
+    "This is a content question, not a mechanism one. The mechanism is built and the filter is one predicate; what is missing is what the predicate should say yes to.",
+    "The owner's fail-soft rule applies to whatever comes back: an item whose arrival channel is unknown should still be reachable somewhere and say why it is not on the table, rather than disappearing."
+  ],
+  "priority": "P1",
+  "question": "In an ordinary American household, what physically arrives on the table, the counter or the noticeboard — post, notices, bills, a posted agenda, a school letter, a summons — and on what rhythm? Equally: which of the things a person is currently deciding never arrive that way at all, and are only ever in their head, on their phone, or said to them by somebody?",
+  "questionId": "household-paper-surface-contents",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "hardcoded-content audit thread",
+  "sourcesChecked": [
+    {
+      "source": "The environment-interactivity answer received 2026-09-22, first object family",
+      "whatItDidNotSettle": "It says the papers surface should expose actual available correspondence, invitations, offers, agenda or published information 'for this place and the player's knowledge', and that information must be distinguished from claims and current items from expired ones. It sets the rule and does not supply the content: which real-world items belong to a household place is exactly what is left."
+    },
+    {
+      "source": "src/environment/scenes/residence-apartment-living-production.ts on main d956b92a",
+      "whatItDidNotSettle": "The slot already exists and is already classed: `coffee-table-papers`, kind `desk-document`, information access `personal-household`, falling back to 'the folded newspaper painted on the table'. So the engine already knows this surface may only show what reached a person's own room and own post. It has no opinion about what that is."
+    },
+    {
+      "source": "src/presentation/day-overview.ts and src/simulation/life-opportunities.ts on main d956b92a",
+      "whatItDidNotSettle": "What is waiting on a character is read from work items and unanswered offers. Neither record says how the thing reached them: there is no arrival channel on a work item, so nothing in the data can currently answer 'did this come in the post'. Whether to add one depends on the answer to this question rather than the other way round."
+    }
+  ],
+  "title": "What actually lands on a household's table, and what does not",
+  "usableAnswer": "A short list of what genuinely comes to a household on paper or as a posted notice in the United States today, with any that are near-universal marked as such, and the rough rhythm of each. Then the other half: which categories of pending decision do not arrive physically and should therefore be reachable somewhere other than the table. A ruling that the distinction is not worth drawing, and the table should simply show what is waiting, is a real answer and would settle it.",
+  "whyItMatters": "The first interactive object in a room is the papers, and it now has a list to show: what is waiting on this character. But that list is everything waiting on them, and a table is not everything. An offer of work made in a shop, a favour somebody asked in a kitchen and an errand the character set themselves are all waiting, and none of them is a piece of paper. Showing all of it on the table makes the object a menu wearing a prop's clothes, which is the failure the research answer warned against. Showing only what arrived needs to know what arrives."
+}

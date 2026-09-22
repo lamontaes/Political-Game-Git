@@ -1,0 +1,34 @@
+{
+  "filedAt": "2026-09-22T13:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "playtest",
+  "notes": [
+    "The generator is shipped and inert-safe: it replaces three hardcoded placeholders, it draws through the same seeded stream every other generated name uses, and the organizations it names carry generated provenance. An answer changes a corpus and a set of weights, not saved data — a world rebuilt from the same seed would rename its schools, which is the cost of acting on an answer and worth stating.",
+    "Shipped shape: four patterns — a historical figure, a landscape or neighbourhood stem, a compass point on the town, or the town itself — weighted so high schools lean on the town and elementary schools on people and landscape. The weights are a guess dressed as a convention. Nothing was read to set them.",
+    "The figure list is 73 public historical Americans chosen because they are in wide use on American public schools. Confederate figures were deliberately left out, on the reasoning that schools carrying those names are being renamed rather than added. That is a judgement about the present, not a measurement, and it is exactly the kind of thing that should be checked rather than assumed.",
+    "Era is not modelled at all. A character born in 1962 and one born in 2012 draw from the same list, and the naming conventions of American schools plainly moved between those dates. The generator has the birth date available and does nothing with it.",
+    "Region is not modelled either, beyond the town's own name. Whether a school in Montana should draw from a different pool than one in Georgia is unanswered."
+  ],
+  "priority": "P2",
+  "question": "What is an American public school in a given state and era actually called? Specifically: how the mix of naming shapes (a person, the town, a compass point, a piece of landscape, a county) differs by state, by region and by the decade the school was named; whether the level of the school moves that mix the way the build assumes it does; and which figures are in genuine wide use on school buildings today, including whether leaving out Confederate figures is the right call or an overcorrection.",
+  "questionId": "school-name-plausibility-by-state-and-era",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "playtest thread",
+  "sourcesChecked": [
+    {
+      "source": "src/education/catalog.ts and src/education/types.ts, the shipped education directory",
+      "whatItDidNotSettle": "Settles that the directory cannot be used for a historical attendance: institutionDateReason refuses any date outside its one academic year, and foundingDate is typed null. That is why the names are generated. It carries real school names for one recent year, so it could in principle answer what schools are called today — but reading a naming convention off it is a research pass over a corpus, not a lookup, and nothing in the tree has done it."
+    },
+    {
+      "source": "The owner's approval of 2026-09-22: 'I am completely fine with the generated schools. You can do a county one or you know, some famous person like I'm just making it up like a Andrew Johnson High School or Davy Crockett Middle School, anything like that, or Daniel Boone, or John Brown, anything like that. Also, counties, etc. As long as they're realistic.'",
+      "whatItDidNotSettle": "Settles that generated names are wanted and names four shapes he finds realistic. It does not say what proportion of schools carries each shape, and his four examples are all figures with Kentucky and Tennessee ties, which may be a regional pattern he is reading off his own state or may be coincidence."
+    },
+    {
+      "source": "docs/playtest/generated-school-names-2026-09-22.md, the walk that produced this",
+      "whatItDidNotSettle": "Records what the surface said before and after, across twelve towns. It establishes that the names read as schools rather than placeholders. It cannot establish that the mix matches any real state's."
+    }
+  ],
+  "title": "What an American school in a given state and era is actually called",
+  "usableAnswer": "A rough mix — what share of American public schools carry a person's name, the town's, a compass point, a landscape feature or a county — with any variation by region and by the decade the school was named, and whether the level of the school moves it. Plus a short read on which figures are in wide use on school buildings now, and whether the exclusion of Confederate names is correct. Approximate is fine; the build needs weights, not a census.",
+  "whyItMatters": "Every character whose earlier life the game summarizes goes to three of these schools, and the player reads them on the Personal screen as their own past. Named against the wrong convention they will all be plausible one at a time and wrong as a set, which is the failure no test in the repository can see: the generator works either way. It is also the first generated institution name, so whatever convention it settles on is the pattern the next one copies."
+}

@@ -1,0 +1,37 @@
+{
+  "filedAt": "2026-09-22T13:45:00.000Z",
+  "impact": "blocks-work",
+  "lane": "governing and legislative",
+  "notes": [
+    "The owner approved a federal pack in the project thread on 2026-09-22 ('yes pack'), after this lane raised it as a scope question rather than a research one. What the pack contains is the research question; whether it exists is settled.",
+    "The state and local pack is the model for the answer's shape: domains, issues under them, and for each issue the level that ordinarily decides it. At federal level the level field is uniform and therefore uninteresting, so the useful equivalent is which branch or institution ordinarily decides — statute, appropriation, executive action, or an independent agency's rulemaking.",
+    "The distinguishing sentence per shared issue is the part most likely to be skipped and the part most needed. 'Transportation' at both levels is not one question twice: the federal question is trust fund authorisation and formula distribution, the state question is what gets built and maintained. Without that distinction the two packs would produce dockets that read identically.",
+    "No attention percentages. The same refusal applies as for the state and local weights, which are filed separately and still open."
+  ],
+  "priority": "P1",
+  "question": "What are the policy domains and the recurring issues under them that the United States Congress and the federal executive genuinely spend their time on, in the terms American federal legislators themselves use? Where a subject exists at both levels — health, transportation, energy, education, elections — what is the federal question as distinct from the state one, so that the two are not the same row filed twice? And which subjects are federal only, with no state or local analogue at all?",
+  "questionId": "federal-policy-vocabulary-pack",
+  "relatedQuestionIds": [
+    "policy-issue-taxonomy-state-and-local",
+    "policy-domain-list-reconciliation"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "modular legislation lane, at the owner's direction after approving a federal pack",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/policy-pack-us-state-and-local.ts, the pack this lane just authored, and docs/systems/policy-vocabulary.md",
+      "whatItDidNotSettle": "Establishes exactly what is now covered and that federal policy is deliberately outside it. Says nothing about what federal policy contains, because the research behind it was scoped to state, county and municipal government."
+    },
+    {
+      "source": "src/simulation/policy.ts, createSyntheticPolicyCatalog and its domain list",
+      "whatItDidNotSettle": "It carries foreign policy and monetary policy, which is the only federal vocabulary anywhere in the repository. It is a demo and test fixture with eight invented domains, was never sourced, and is explicitly not a baseline. It shows the shape a federal pack would take; it cannot supply its content."
+    },
+    {
+      "source": "The overnight state and local taxonomy research, ChatGPT, published in the reply document 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc",
+      "whatItDidNotSettle": "It says plainly that federal subjects should go in a national pack and should not be inherited as a state and local baseline, naming Medicare drug negotiation as federal even though states have real prescription drug policy. It draws the boundary without saying what is on the other side of it."
+    }
+  ],
+  "title": "What a federal policy vocabulary actually covers",
+  "usableAnswer": "A hierarchy of federal policy domains and the issues within each, in ordinary American government language, with named sources a reader could check. For every issue that also exists in the state and local pack, one sentence saying what makes the federal version a different question rather than the same one at a bigger scale. A list of the subjects that are federal only. No attention percentages are wanted: the same refusal that applies to the state and local weights applies here, and a proposed frequency would be filed as a separate proposal rather than as part of the vocabulary.",
+  "whyItMatters": "The state and local policy vocabulary now ships: thirteen domains and 127 issues loaded through POLICY_PACKS, covering what a state capitol, a county board and a city council are about. Federal policy has no home in it and was deliberately excluded, because foreign policy, monetary policy, immigration, the federal tax code and federal entitlements are not state and local government and folding them in would have made every level look like every other. The owner has approved a federal pack as its own change. Without this answer it would have to be drafted from memory, which is exactly the thing the production catalog boundary exists to refuse: content describing somewhere real that nobody read. The pack cannot declare itself sourced if there are no sources."
+}

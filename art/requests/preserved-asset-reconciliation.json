@@ -294,6 +294,13 @@
       "preservedUnits": [],
       "evidencePaths": [],
       "reason": "Nothing preserved bears on this. The preserved packet is character components and a small number of environment plates; the manifest's 126 assets contain no interface artwork of any kind, and a find across art/ and public/ returns only pose control plates and arm-measurement QA overlays, which are authoring evidence rather than shipped art. So no preserved asset could answer or restate this ask."
+    },
+    {
+      "requestId": "room-papers-on-a-table",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The preserved cargo is character components and environment plates. There is no prop in it, and no prop anywhere in the manifest: the only asset whose id matches a prop word is a seated character pose. The residence plate paints a folded newspaper on this table as its own decoration, which is the fallback this object would sit over rather than a preserved unit that could close the request."
     }
   ],
   "unlinkedPreservedAssets": [

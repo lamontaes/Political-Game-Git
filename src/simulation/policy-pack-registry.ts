@@ -3,6 +3,7 @@ import {
   type PolicyPack,
   type PolicyRegistry,
 } from "./policy-packs";
+import { US_STATE_AND_LOCAL_POLICY_PACK } from "./policy-pack-us-state-and-local";
 
 /**
  * The policy packs this build loads.
@@ -12,13 +13,16 @@ import {
  * by being added here and nowhere else; a mod loader would later append to the
  * same list and change nothing.
  *
- * **It is empty, and a build that loads nothing produces the empty catalog it
- * produces today.** That is not a placeholder. `production-catalog.ts` explains
- * why an empty catalog is the honest state of a game that has not decided what
- * its politics are about yet, and this file does not make that decision. It
- * makes the decision droppable in when somebody has made it.
+ * The first pack is the vocabulary of American state, county and municipal
+ * government, read from named sources. It says what these governments are
+ * about; it does not say how often any question comes up, because no source
+ * measures that on one basis across the three levels. A build that loads
+ * nothing still produces the empty catalog, which is what keeps a pack a
+ * decision rather than a compiled-in assumption.
  */
-export const POLICY_PACKS: readonly PolicyPack[] = [];
+export const POLICY_PACKS: readonly PolicyPack[] = [
+  US_STATE_AND_LOCAL_POLICY_PACK,
+];
 
 let cached: PolicyRegistry | null = null;
 

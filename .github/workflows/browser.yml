@@ -1,0 +1,237 @@
+name: Browser proofs
+
+# Split out of "Deterministic validation" on 2026-09-22, with lamontae's
+# approval, because the two suites were sharing one queue and the browser
+# shards were starving the unit shards behind them.
+#
+# The arithmetic that produced the split: a browser shard runs 21 to 59
+# minutes and there are eight of them; a unit shard runs about four minutes and
+# there are six. In one run the unit shards sit behind the browser shards for
+# the runner slots, so a four-minute answer waits an hour. On 2026-09-22 main
+# went from 09:38Z to 11:34Z before its six unit shards were all green, and its
+# browser shards had still not finished at 12:50Z. Split, the unit suite is
+# roughly 38 job-minutes and can return a verdict in under fifteen minutes on
+# every push.
+#
+# WHETHER THIS GATES MERGING IS NOT DECIDED HERE. This workflow reports its
+# real result; what blocks a merge is branch protection. As split, the required
+# aggregate in validate.yml no longer waits on the browser suite, so the
+# browser suite reports without blocking. To make it gate again, add
+# `browser-suite` back to that workflow's required checks — it is one line, and
+# the reasoning for either choice is in docs/decisions/DECISION-LOG.md.
+
+on:
+  pull_request:
+  push:
+    branches: [main, "codex/**"]
+
+permissions:
+  contents: read
+
+# Same reasoning as validate.yml's group, and deliberately a separate group:
+# these are now separate runs and must not cancel each other. Not on main, so
+# main keeps the base verdict every lane reads to tell an inherited failure
+# from one it caused.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  # The baseline inventory used to be recorded by validate.yml's `repository`
+  # job and handed to its aggregate as an artifact. Artifacts do not cross
+  # workflow runs, so the browser suite records its own.
+  browser-baseline:
+    name: browser-baseline
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          # Acceptance is for the published PR head, not a synthetic merge SHA.
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Use Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+          cache: npm
+
+      - name: Install deterministic dependencies
+        run: npm ci
+
+      - name: Record the baseline Playwright suite
+        env:
+          PG_RUN_ID: gha-${{ github.run_id }}-baseline
+        run: node --import tsx scripts/dev-lab/write-e2e-baseline-inventory.ts
+
+      - name: Upload the baseline Playwright suite
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-suite-baseline
+          path: test-results/runs/gha-${{ github.run_id }}-baseline/baseline-inventory.json
+          if-no-files-found: error
+          retention-days: 14
+
+  browser:
+    name: browser
+    runs-on: ubuntu-latest
+    # Two shards reached the 75-minute cap on the composed landing without a
+    # gameplay assertion, and with four, three shards did the same on the
+    # CRUNCH47 composition (shard 1 alone took 48 minutes). Eight keep the same
+    # complete-suite/union contract while giving each isolated runner a
+    # bounded share of the browser work.
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - shard: 1
+            total: 8
+          - shard: 2
+            total: 8
+          - shard: 3
+            total: 8
+          - shard: 4
+            total: 8
+          - shard: 5
+            total: 8
+          - shard: 6
+            total: 8
+          - shard: 7
+            total: 8
+          - shard: 8
+            total: 8
+    env:
+      PG_RUN_ID: gha-${{ github.run_id }}-s${{ matrix.shard }}of${{ matrix.total }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Use Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+          cache: npm
+
+      - name: Install deterministic dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Prepare isolated Artbench test storage and identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Both the test worker and its identified server inherit these values.
+          # Keep QA events out of the owner's durable store and Drive mirror.
+          bench_root="$(mktemp -d "${RUNNER_TEMP:?}/ocd-artbench-XXXXXXXX")"
+          mkdir -m 700 "$bench_root/data"
+          {
+            printf 'PG_ARTBENCH_DATA_ROOT=%s\n' "$bench_root/data"
+            # An explicit absent mirror prevents fallback to an owner's mirror.
+            printf 'PG_ARTBENCH_DRIVE_ROOT=%s\n' "$bench_root/drive-mirror"
+            printf 'PG_ARTBENCH_OWNER_ID=%s\n' 'e2e-fixture-owner'
+          } >> "${GITHUB_ENV:?}"
+
+      - name: Enumerate this browser shard
+        run: node --import tsx scripts/dev-lab/write-e2e-shard-inventory.ts ${{ matrix.shard }} ${{ matrix.total }}
+
+      # The packet is generated output and is no longer committed, and its
+      # spec skips itself when the file is absent. Without this the assertion
+      # would quietly stop running in CI, so the shard that carries the spec
+      # builds the packet first. Every other shard skips the work.
+      - name: Generate the prose review packet when this shard carries its spec
+        shell: bash
+        run: |
+          set -euo pipefail
+          inventory="test-results/runs/${PG_RUN_ID:?}/shard-inventory.json"
+          if grep -q 'prose-review-packet.spec.ts' "$inventory"; then
+            npm run corpus:prose
+          else
+            echo "This shard does not carry the packet spec; nothing to build."
+          fi
+
+      - name: Run Run A and Run B browser proofs
+        run: npx playwright test --shard=${{ matrix.shard }}/${{ matrix.total }}
+
+      - name: Upload this shard inventory
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-shard-inventory-${{ matrix.shard }}-of-${{ matrix.total }}
+          path: test-results/runs/${{ env.PG_RUN_ID }}/shard-inventory.json
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Preserve browser failure evidence
+        # Best effort: a hard runner termination can still prevent upload.
+        if: failure() || cancelled()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-failure-evidence-shard-${{ matrix.shard }}-of-${{ matrix.total }}
+          path: test-results/runs/${{ env.PG_RUN_ID }}
+          if-no-files-found: ignore
+          retention-days: 14
+
+  browser-suite:
+    name: browser-suite
+    if: always()
+    needs:
+      - browser-baseline
+      - browser
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - name: Require every browser job
+        shell: bash
+        run: |
+          set -euo pipefail
+          baseline='${{ needs.browser-baseline.result }}'
+          browser='${{ needs.browser.result }}'
+          echo "browser-baseline=$baseline"
+          echo "browser=$browser"
+          if [[ "$baseline" != "success" || "$browser" != "success" ]]; then
+            echo "The browser suite succeeds only when every browser job succeeded."
+            exit 1
+          fi
+
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Use Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+          cache: npm
+
+      - name: Install deterministic dependencies
+        run: npm ci
+
+      - name: Download the baseline Playwright suite
+        uses: actions/download-artifact@v7
+        with:
+          name: playwright-suite-baseline
+          path: /tmp/playwright-suite-baseline
+
+      - name: Download shard inventories
+        uses: actions/download-artifact@v7
+        with:
+          pattern: playwright-shard-inventory-*
+          path: /tmp/playwright-shard-inventories
+
+      # The union check is what stops a shard silently dropping cases. It moved
+      # here with the shards it checks; nothing about it changed.
+      - name: Confirm shard union equals the baseline suite
+        run: node --import tsx scripts/dev-lab/assert-e2e-shard-union.ts /tmp/playwright-suite-baseline/baseline-inventory.json /tmp/playwright-shard-inventories
