@@ -15,6 +15,14 @@ import path from "node:path";
 import { isDeepStrictEqual } from "node:util";
 import { chooseStartAge } from "./creator-drive.mjs";
 
+/** Dismisses the world introduction a new life opens on, when it is showing. */
+async function skipOrientation(page) {
+  const orientation = page.getByTestId("world-orientation");
+  if (!(await orientation.isVisible())) return;
+  await page.getByTestId("orientation-skip").click();
+  await orientation.waitFor({ state: "hidden" });
+}
+
 const require = createRequire(
   path.join(
     path.dirname(fileURLToPath(import.meta.url)),
@@ -55,6 +63,30 @@ const app = await _electron.launch({
     OCD_DOWNLOAD_DIR: profile,
   },
 });
+
+/**
+ * Returning to the title always asks first.
+ *
+ * `leave-game` used to leave outright whenever there was nothing unsaved, so
+ * this proof clicked it and waited for the title. The shell now routes every
+ * return through `beginReturnToTitle`, which raises the confirmation whether or
+ * not the life is saved, so the unchanged click left the proof waiting for a
+ * title screen that was never coming. The proof follows the real flow instead
+ * of the shell being changed back to suit it.
+ *
+ * "Return without saving" rather than "Save and return": neither caller has
+ * work it wants kept at this point — the first has just saved and read the
+ * confirmation, the second only opened a slot and read it back — so a second
+ * save would prove nothing and would put an asynchronous write between the
+ * click and the title.
+ */
+async function returnToTitle(page) {
+  await page.getByTestId("leave-game").click();
+  await page.getByTestId("leave-confirm").waitFor();
+  await page.getByTestId("leave-without-saving").click();
+  await page.getByTestId("new-game").waitFor();
+}
+
 const page = await app.firstWindow();
 await page.waitForLoadState("domcontentloaded");
 
@@ -85,6 +117,10 @@ try {
   /* no household introduction */
 }
 await page.getByTestId("play-screen").waitFor();
+// A new, unsaved life opens on the world introduction, and the shell's nav is
+// deliberately not drawn behind it. Dismiss it the way the smoke test does, or
+// the nav is simply not there to click.
+await skipOrientation(page);
 await page.getByTestId("shell-nav-cluster").click();
 await page.getByTestId("shell-nav-flyout").waitFor();
 await page.getByTestId("keep-world").click();
@@ -92,8 +128,7 @@ await page
   .getByTestId("keep-world")
   .waitFor({ state: "detached", timeout: 15000 });
 await page.getByText("Saved.", { exact: true }).waitFor({ timeout: 15000 });
-await page.getByTestId("leave-game").click();
-await page.getByTestId("new-game").waitFor();
+await returnToTitle(page);
 
 const interfaceSeed = await page.evaluate(async (databaseName) => {
   const db = await new Promise((resolve, reject) => {
@@ -334,10 +369,10 @@ for (let index = 0; index < 2; index += 1) {
     .getByRole("button", { name: "Open", exact: true })
     .click();
   await page.getByTestId("play-screen").waitFor();
+  await skipOrientation(page);
   await page.getByTestId("shell-nav-cluster").click();
   await page.getByTestId("shell-nav-flyout").waitFor();
-  await page.getByTestId("leave-game").click();
-  await page.getByTestId("new-game").waitFor();
+  await returnToTitle(page);
   await page.getByTestId("open-saves").click();
   await page.getByTestId("saves-screen").waitFor();
 }

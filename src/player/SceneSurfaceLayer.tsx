@@ -100,11 +100,15 @@ export function SceneSurfaceLayer({
   slots,
   bindings,
   plate,
+  onRead,
+  readableSlotIds,
 }: {
   readonly slots: readonly SceneSurfaceSlot[];
   readonly bindings: readonly SurfaceBinding[];
   /** Plate pixels, which is what the type size below is measured in. */
   readonly plate: { readonly width: number; readonly height: number };
+  readonly onRead?: (slotId: string) => void;
+  readonly readableSlotIds?: ReadonlySet<string>;
 }) {
   const slotsById = new Map(slots.map((slot) => [slot.slot_id, slot]));
   const painted = bindings.filter((binding) => binding.state === "bound");
@@ -114,7 +118,7 @@ export function SceneSurfaceLayer({
     <div
       className="scene-surface-layer"
       data-testid="scene-surfaces"
-      aria-hidden="true"
+      aria-hidden={onRead ? undefined : true}
     >
       {painted.map((binding) => {
         const slot = slotsById.get(binding.slotId);
@@ -147,6 +151,15 @@ export function SceneSurfaceLayer({
             >
               {binding.shows}
             </span>
+            {onRead && readableSlotIds?.has(binding.slotId) ? (
+              <button
+                type="button"
+                className="scene-surface-read"
+                data-testid={`read-surface-${binding.slotId}`}
+                aria-label={`Read: ${binding.shows}`}
+                onClick={() => onRead(binding.slotId)}
+              />
+            ) : null}
           </div>
         );
       })}

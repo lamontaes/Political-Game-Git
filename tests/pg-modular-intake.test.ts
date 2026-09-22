@@ -235,7 +235,11 @@ describe("PG modular asset intake", () => {
       manifest.assets.filter((a) => a.availability === "development-fixture"),
     ).toHaveLength(46);
     expect(
-      manifest.assets.filter((a) => a.availability === "production-candidate"),
+      manifest.assets.filter(
+        (a) =>
+          a.availability === "production-candidate" &&
+          a.asset_type === "character-component-candidate",
+      ),
     ).toHaveLength(35);
     // The generation signature the intake reports is over its own outputs. It
     // is the identity of the set, published so a promotion can prove it is

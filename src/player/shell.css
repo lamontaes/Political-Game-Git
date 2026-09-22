@@ -1921,6 +1921,28 @@
 
 .pg-workspace-body {
   overscroll-behavior: contain;
+  flex: 1;
+}
+.pg-workspace-head[data-movable="true"] {
+  cursor: move;
+  touch-action: none;
+}
+.pg-workspace-head button {
+  cursor: pointer;
+}
+.pg-window-resize {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  cursor: nwse-resize;
+  touch-action: none;
+  color: var(--pg-brass);
+  background: var(--pg-glass-strong);
+  border: 0;
+  border-radius: 0 0 var(--pg-radius) 0;
 }
 
 /* When the card sits over a workspace it must not hide the frame's controls. */
@@ -2181,6 +2203,26 @@
   }
 }
 
+.pg-nav-flyout[data-motion="closing"] {
+  pointer-events: none;
+  animation: pg-nav-fade-out 200ms ease-in both;
+}
+@keyframes pg-nav-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@media (min-width: 761px) and (min-height: 700px) {
+  .pg-nav-flyout[data-motion="closing"] button[role="menuitem"] {
+    animation: pg-nav-fan-in 200ms ease-in reverse both;
+    animation-delay: 0ms;
+  }
+  .pg-nav-persist button[role="menuitem"] {
+    width: 3.3rem;
+    height: 3.3rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .pg-nav-avatar {
     transform: none;
@@ -2397,4 +2439,123 @@
   align-items: center;
   gap: var(--pg-space-2);
   margin-top: var(--pg-space-1);
+}
+.pg-calendar-board {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 0.9fr);
+  gap: 12px 20px;
+  align-items: start;
+}
+.pg-calendar-board > * {
+  min-width: 0;
+}
+.pg-calendar-board > [data-testid="calendar-upcoming"] {
+  grid-column: 2;
+  grid-row: 1 / span 8;
+  max-height: 52vh;
+  overflow: auto;
+}
+.pg-calendar-board > [data-testid="calendar-time-controls"] {
+  position: sticky;
+  bottom: 0;
+  background: var(--pg-glass-strong);
+}
+@media (max-width: 760px) {
+  .pg-calendar-board {
+    display: flex;
+    flex-direction: column;
+  }
+  .pg-calendar-board > * {
+    width: 100%;
+  }
+}
+
+.pg-personal-chronology {
+  max-height: 24rem;
+  overflow: auto;
+}
+.pg-personal-chronology time {
+  color: var(--pg-muted, #b9b2a3);
+  font-size: 0.85em;
+}
+.pg-opportunity-choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.6rem;
+  margin-block: 0.8rem;
+}
+.pg-opportunity-choices .ui-action {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  text-align: left;
+}
+.pg-opportunity-choices [aria-pressed="true"] {
+  outline: 2px solid var(--pg-gold, #c7ae72);
+}
+
+.pg-person-card--overlay[data-expanded="true"] {
+  width: min(760px, calc(100vw - 48px));
+  height: min(620px, calc(100dvh - 160px));
+}
+.pg-person-card[data-expanded="true"] .pg-person-card-body {
+  display: grid;
+  grid-template-columns: minmax(140px, 30%) minmax(0, 1fr);
+  gap: 1rem;
+  overflow: hidden;
+}
+.pg-person-card--workspace {
+  height: min(570px, calc(100dvh - 210px));
+  display: flex;
+  flex-direction: column;
+}
+.pg-record-figure {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  max-height: 400px;
+  align-self: start;
+  justify-self: center;
+}
+.pg-person-card[data-expanded="true"] .pg-person-card-reading {
+  overflow: auto;
+  min-height: 0;
+  max-height: 400px;
+}
+.pg-person-chronology time {
+  color: var(--pg-muted);
+  font-size: 0.85em;
+}
+
+.pg-workspace-head {
+  flex-wrap: wrap;
+}
+.pg-workspace-controls {
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+.pg-workspace-head[data-movable="true"],
+.pg-window-resize {
+  touch-action: none;
+}
+
+.pg-person-card-traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.65rem;
+}
+.pg-person-card-traits > span {
+  white-space: nowrap;
+}
+.pg-workspace-controls .ui-icon-button,
+.pg-person-card .ui-icon-button {
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  padding: 0;
+  display: inline-grid;
+  place-items: center;
+  transform: none;
 }

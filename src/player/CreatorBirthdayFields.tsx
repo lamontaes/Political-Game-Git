@@ -6,6 +6,7 @@ import {
   birthYearChoices,
   birthYearForSetup,
   creatorStartDate,
+  creatorBirthdayAgeRange,
   randomFullBirthday,
 } from "../presentation/creator-full-birthday";
 import { birthdayProblemForSetup } from "../presentation/new-game-birthday";
@@ -82,6 +83,10 @@ export function CreatorBirthdayFields({
   const year = yearChosen ? birthYearForSetup(setup) : null;
   const years = birthYearChoices(month, day, startDate);
   const problem = birthdayProblemForSetup(setup);
+  const ageRange =
+    year === null
+      ? null
+      : creatorBirthdayAgeRange({ year, month, day }, startDate);
 
   /** Keeps the chosen year when month or day changes, if it still works. */
   const withParts = (nextMonth: number | null, nextDay: number | null) => {
@@ -208,9 +213,11 @@ export function CreatorBirthdayFields({
         </button>
       </div>
       <p className="game-hint" data-testid="creator-derived-age">
-        {yearChosen
+        {yearChosen && month !== null && day !== null
           ? `You begin at age ${setup.startAge}, on ${world39Date(startDate)}.`
-          : `Choose a birth year. Play begins on ${world39Date(startDate)}.`}
+          : ageRange
+            ? `Age ${ageRange.minimum === ageRange.maximum ? ageRange.minimum : `${ageRange.minimum}–${ageRange.maximum}`} on ${world39Date(startDate)}. Next fills the remaining birthday fields.`
+            : `Play begins on ${world39Date(startDate)}. Next fills any blank birthday fields.`}
       </p>
       {problem ? (
         <p role="alert" data-testid="creator-birthday-problem">

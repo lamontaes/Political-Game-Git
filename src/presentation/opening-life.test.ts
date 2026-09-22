@@ -37,12 +37,12 @@ describe("OPENING-LIFE1 opening lifecycle", () => {
       // The identity line says the date the American way, never as ISO.
       expect(view.date).toBe(proseDate(world.currentDate));
       expect(view.date).toMatch(/^[A-Z][a-z]+ \d{1,2}, \d{4}$/);
-      // President, Chief Justice, and the home state's governor, whose opening
+      // President, Vice President, Chief Justice, and the home state's governor, whose opening
       // term is now dated by the office calendar.
-      expect(view.officeholders).toHaveLength(3);
+      expect(view.officeholders).toHaveLength(4);
       expect(
         new Set(view.officeholders.map((holder) => holder.personId)).size,
-      ).toBe(3);
+      ).toBe(4);
       for (const holder of view.officeholders) {
         expect(world.people[holder.personId]).toBeDefined();
         expect(

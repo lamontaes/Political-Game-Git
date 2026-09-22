@@ -11,7 +11,12 @@
  * whether or not that change was committed.
  *
  * Record a run:
- *   node scripts/agent-run-receipt.mjs --stage <name> [--writes] [--out <dir>] -- <command> [args...]
+ *   node scripts/agent-run-receipt.mjs --stage <name> [--writes] [--out <dir>] [--storage <operation>] -- <command> [args...]
+ *
+ * `--storage <operation>` (build, install, e2e-capture, desktop-package, …)
+ * runs the command through the shared storage wrapper, which holds the byte
+ * reservation until the command ends and exits 3, before starting it, when the
+ * headroom is not there. The receipt records the wrapped command as run.
  *
  * Verify a receipt still certifies the current checkout:
  *   node scripts/agent-run-receipt.mjs --verify <receipt.json> [--expect-branch <branch>]
@@ -42,6 +47,7 @@
 import { spawn, execFileSync } from "node:child_process";
 import { Buffer } from "node:buffer";
 import { createHash } from "node:crypto";
+import { fileURLToPath } from "node:url";
 import {
   mkdirSync,
   writeFileSync,
@@ -365,16 +371,34 @@ function parseArgs(argv) {
   let stage = null;
   let outDir = DEFAULT_OUT_DIR;
   let writes = false;
+  let storage = null;
   for (let i = 0; i < head.length; i++) {
     if (head[i] === "--stage") stage = head[++i];
     else if (head[i] === "--out") outDir = head[++i];
     else if (head[i] === "--writes") writes = true;
+    else if (head[i] === "--storage") storage = head[++i];
   }
   if (!stage)
     fail(
       "--stage <name> is required (e.g. format-check, format-write, lint, test).",
     );
   if (!command) usage();
+  if (storage)
+    return {
+      mode: "record",
+      stage,
+      outDir,
+      writes,
+      command: process.execPath,
+      commandArgs: [
+        join(dirname(fileURLToPath(import.meta.url)), "storage", "cli.mjs"),
+        "run",
+        storage,
+        "--",
+        command,
+        ...commandArgs,
+      ],
+    };
   return { mode: "record", stage, outDir, writes, command, commandArgs };
 }
 
