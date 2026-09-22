@@ -66,20 +66,6 @@ const STRAND_WEIGHT: Readonly<Record<RelianceStrand, number>> = {
   "belongs-to-their-group": 0.1,
 };
 
-/**
- * The authored weights, added up without binary floating point noise.
- *
- * Every weight above is written to two decimal places, so every sum and every
- * difference of them is a number with at most two decimal places too. Without
- * this, somebody who shares a roof and a workplace with the person who directs
- * their work reads as 0.29999999999999993 against a gate written as 0.3, and
- * the scene that gate exists for is never offered to anybody. Four places is
- * well inside what the weights can produce and well outside the noise.
- */
-function rounded(value: number): number {
-  return Math.round(value * 10_000) / 10_000;
-}
-
 function dependencyOf(
   world: World,
   personId: EntityId,
@@ -155,7 +141,7 @@ function dependencyOf(
 
   const reliance = Math.min(
     1,
-    rounded(strands.reduce((sum, strand) => sum + STRAND_WEIGHT[strand], 0)),
+    strands.reduce((sum, strand) => sum + STRAND_WEIGHT[strand], 0),
   );
   return { reliance, through: strands };
 }
@@ -176,7 +162,7 @@ export function relationshipLeverage(
   return {
     theirs,
     ours,
-    imbalance: rounded(theirs.reliance - ours.reliance),
+    imbalance: theirs.reliance - ours.reliance,
   };
 }
 

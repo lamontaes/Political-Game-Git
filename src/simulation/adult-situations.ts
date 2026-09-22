@@ -1289,12 +1289,8 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
   },
   {
     key: "adult.work-offer-elsewhere",
-    // The offer, its terms and the player having been told are the
-    // employment-offer opportunity, written by somebody who works elsewhere.
-    // "Nobody at work knows" is read off that record too: the ask is private
-    // and nobody from this person's own workplace is in it. Employment alone
-    // still establishes none of the three, which is why the gate reads both.
-    opportunity: "employment-offer",
+    withheld:
+      "Employment does not establish another offer, better terms or coworkers being unaware. An actual offer and the player knowledge of it are missing.",
     companion: null,
     stakes: "pressing",
     prose:
@@ -1744,12 +1740,8 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
   },
   {
     key: "adult.help-with-strings",
-    // The offer and the concrete thing it would sort out are the
-    // assistance-offer opportunity, written only where the household is still
-    // carrying an open errands item a week after it arrived. Dependency alone
-    // establishes neither, so the gate below still reads the imbalance and the
-    // request has to be open as well.
-    opportunity: "assistance-offer",
+    withheld:
+      "Dependency does not establish an offer of help or the concrete problem it would solve. The offer and terms are missing.",
     companion: "community-member",
     stakes: "pressing",
     prose:
