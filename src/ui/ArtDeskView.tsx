@@ -1931,7 +1931,7 @@ function RequestDetail({
         ),
       ].map((message) => [message.eventId, message]),
     ).values(),
-  ].sort((a, b) => a.at.localeCompare(b.at));
+  ].sort((a, b) => b.at.localeCompare(a.at));
 
   const originalName = viewed
     ? originalDownloadName(
@@ -2015,6 +2015,24 @@ function RequestDetail({
       : viewedBytes?.state !== "verified"
         ? `Candidate bytes are ${viewedBytes?.state ?? "unchecked"}; a decision binds present, decoded, hash-verified bytes.`
         : null;
+  const nextStep = !viewed
+    ? request.lane === "awaiting-capable-worker" &&
+      requestArtworkCategory(r) !== "clothing"
+      ? "Create the image using the supplied prompt and reference, then add it here for review."
+      : "The art team is preparing an image for this request."
+    : viewed.status === "awaiting-review"
+      ? viewed.ownerReviewReady
+        ? "Review this image, then choose Approve, Request revision, or Reject below."
+        : "The art team is checking this image before asking for your review."
+      : viewed.status === "revision-requested"
+        ? "The art team is preparing a revision from the feedback on this card."
+        : usage?.state === "used"
+          ? "Open Play to see this image in its game context."
+          : ["approved", "integration-ready", "accepted"].includes(
+                viewed.status,
+              )
+            ? "The art team will check fit and connect this approved image to its game use."
+            : "The art team will check where this image appears in the selected game build.";
 
   async function uploadEdited(
     files: FileList | readonly File[] | null,
@@ -2064,7 +2082,7 @@ function RequestDetail({
 
   return (
     <article
-      className={`art-desk-detail${dragging ? " art-desk-detail--dragging" : ""}`}
+      className={`art-desk-detail${viewed ? " art-desk-detail--with-image" : ""}${dragging ? " art-desk-detail--dragging" : ""}`}
       data-testid="art-desk-detail"
       onDragOver={(event) => {
         event.preventDefault();
@@ -2142,6 +2160,58 @@ function RequestDetail({
           ) : null}
         </section>
       ) : null}
+      <section
+        className="art-desk-discussion"
+        aria-label="Questions and replies"
+        data-testid="art-desk-discussion"
+      >
+        <h3>Conversation with the art team</h3>
+        <div className="art-desk-message-history">
+          {discussionMessages.length ? (
+            discussionMessages.map((message) => (
+              <div
+                key={message.eventId}
+                id={`art-desk-message-${message.eventId}`}
+                tabIndex={-1}
+                className="art-desk-message"
+                data-testid="art-desk-message"
+              >
+                <strong>
+                  {message.actor.kind === "owner" ? "You" : "Art team"}
+                  {message.payload.kind === "reply" ? " replied" : ""}
+                </strong>
+                <p>{message.payload.text}</p>
+              </div>
+            ))
+          ) : (
+            <p className="art-desk-meta">No messages on this card yet.</p>
+          )}
+        </div>
+        <p className="art-desk-next-step" data-testid="art-desk-next-step">
+          <strong>Next step:</strong> {nextStep}
+        </p>
+        <details className="art-desk-message-composer">
+          <summary>Ask or reply</summary>
+          <label>
+            Ask a question or leave a note
+            <textarea
+              data-testid="art-desk-question"
+              value={question}
+              maxLength={8000}
+              onChange={(event) => setQuestion(event.target.value)}
+            />
+          </label>
+          <button
+            type="button"
+            disabled={busy || !question.trim()}
+            onClick={async () => {
+              if (await onMessage(question.trim())) setQuestion("");
+            }}
+          >
+            Send question
+          </button>
+        </details>
+      </section>
       <StyleReferenceSummary
         request={r}
         projection={projection}
@@ -2878,45 +2948,6 @@ function RequestDetail({
           </div>
         </div>
       ) : null}
-      <section
-        className="art-desk-discussion"
-        aria-label="Questions and replies"
-      >
-        <h3>Questions &amp; replies</h3>
-        {discussionMessages.map((message) => (
-          <div
-            key={message.eventId}
-            id={`art-desk-message-${message.eventId}`}
-            tabIndex={-1}
-            className="art-desk-message"
-            data-testid="art-desk-message"
-          >
-            <strong>
-              {message.actor.kind === "owner" ? "You" : "Art team"}
-              {message.payload.kind === "reply" ? " replied" : ""}
-            </strong>
-            <p>{message.payload.text}</p>
-          </div>
-        ))}
-        <label>
-          Ask a question or leave a note
-          <textarea
-            data-testid="art-desk-question"
-            value={question}
-            maxLength={8000}
-            onChange={(event) => setQuestion(event.target.value)}
-          />
-        </label>
-        <button
-          type="button"
-          disabled={busy || !question.trim()}
-          onClick={async () => {
-            if (await onMessage(question.trim())) setQuestion("");
-          }}
-        >
-          Send question
-        </button>
-      </section>
       <details open={showIds} onToggle={onToggleIds}>
         <summary>More information</summary>
         <pre data-testid="art-desk-brief">{JSON.stringify(brief, null, 2)}</pre>
