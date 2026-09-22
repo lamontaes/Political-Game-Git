@@ -479,3 +479,94 @@ case, "no sitting governor is on record." It had simply never been run.
 
 Fixed by naming the state whose office it is, which is what the record was
 always about. Covered by a regression test.
+
+## Congress: who is in it, and what they actually decide
+
+Added 17:10Z, answering his question directly. Every code claim here is read on
+`claude/project-thread-usbkkb` at `4dbd9887`.
+
+**The members are real and the turnover is dice.** A save holds 431–435 House
+members and 99 senators, generated as people with names, ages, parties and
+caucuses, stable within a save and different across saves because the whole
+thing is forked off `world.seed`. What happens to them is drawn.
+`CONGRESS_TURNOVER_PROFILE` (`living-world/congress-turnover.ts:53`) is four
+numbers: an incumbent runs again and wins on 850 in 1000 for the House and 800
+for the Senate, anyone 82 or older retires, and an open seat keeps the departing
+member's party on 750 in 1000. A new member's party is `rng.pick` between the
+two majors, their age is drawn between the minimum-plus-three and 70, their name
+is drawn. It does keep the records properly — it writes election results and
+candidacy-intent entries and cites 2 U.S.C. § 7 for the election date.
+
+**There is a seam already cut for making this decided rather than drawn.**
+`seatCandidacyIntent` (`:224`, consumed at `:284`) overrides the dice wherever a
+recorded decision for that seat exists. Nothing writes one yet. That is an
+existing hook, not a rewrite.
+
+**Voting is the opposite: genuinely decided, and almost nobody gets to do it.**
+`deriveMemberDisposition` (`legislative-member-decisions.ts:110`) runs
+`evaluateDecision` with `randomness: "none"` and durable retention, weighing
+commitments the member made, whether the bill names a beneficiary in their own
+district, a spending ceiling they stated publicly, what the question is about,
+their working relationship with the asker, and a no-stated-position fallback.
+The machinery is sound and reason-bearing — the player reads the reasons, not a
+score.
+
+What it is handed is not. **Its only non-test caller is the player's bargaining
+action** (`legislative-bargaining-actions.ts:414`), and the chamber that call
+polls is a literal three-entry array (`:386`): an advocate, a guardian, and the
+player, with the guardian's fiscal ceiling written in as `860_000_000`. So the
+only code path in the game that produces a member vote polls three hardcoded
+people. The roughly 530 other members never cast one.
+
+That last sentence is a caller reading, not a save measurement. Establishing it
+properly means running a save and asserting zero `legislation.member-vote`
+events outside a bargaining session, and that has not been done.
+
+**Why this is the cheapest large change found so far:** the deciding half is
+already built, deterministic and explainable. Only the roster is wrong. Filed as
+`who-actually-votes-in-a-chamber`.
+
+## Newspapers: how one decides what to print
+
+**How many.** Measured on a Lexington start: four. Three national — a paper, a
+broadcaster and a politics outlet — and one local, the Lexington-Fayette
+Community Report, created at the opening of the life. Their names are generated
+fresh each save. A state paper is not there on day one; the Kentucky Capitol
+Dispatch appeared by year two, created the first time a public event the player
+took part in happened in a state jurisdiction they were not yet covered for. So
+it is one local paper per town played, and it scales with where the player goes.
+
+Starting a life keyed to a state rather than a town gives three outlets and no
+local paper at all, because local coverage returns early when the home
+jurisdiction is state-level (`press/outlets.ts:296`). That is a harness route
+rather than a player one, but it is worth knowing before anyone measures from a
+state key and concludes the local press is missing.
+
+**How it chooses.** Once a week the desk sweeps every public event that has
+happened, drops the excluded families and anything without a resolvable
+publication source (`press/desk.ts:1261`), and scores what is left per outlet
+(`:1371`): **four points if it is an ethics matter, two if it names a person,
+one if it is on that outlet's beat.** The top scorer becomes a lead, and a
+reporter whose beat and patch fit picks it up unless they are over their
+workload, in which case it is dropped with a recorded reason.
+
+**Nothing scores as good news.** Wrongdoing outweighs everything else four to
+one and an achievement has no term at all. Over two measured years of an
+ordinary Kentucky save (seed `press-A`) the press ran **169 stories: 107 routine
+beat items, 56 economy releases, 6 campaign items, and zero allegations**,
+because nothing had happened to allege. So an ordinary life reads a paper that
+is structurally incapable of printing anything good and, in practice, prints
+economic releases. Filed as `what-makes-an-event-worth-printing`.
+
+### Correction, 16:35Z: the outlets do not print one sentence word for word
+
+An earlier note of mine said three outlets print the same sentence. That is true
+of one paragraph and wrong about the article. `composeStory`
+(`press/desk.ts:1099`) pushes the basis event's own summary verbatim, and the
+code says why in as many words: a paragraph the record wrote is still the
+record's words, and rewriting every one of them is where invention starts. The
+headline is written per outlet through `headlineFor` and `registerFor` on the
+outlet's scope (`press/story-voice.ts:168`), and the rest of the story carries
+that outlet's own sources under their negotiated attribution, whether the
+subject responded to that outlet, and its own byline. ChatGPT's C29 flagged the
+over-broad version and the read confirmed the narrower one.
