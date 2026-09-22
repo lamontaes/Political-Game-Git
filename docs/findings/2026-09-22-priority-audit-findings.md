@@ -9,6 +9,45 @@ Findings only. Nothing here is a task list, and nothing here changes code.
 
 ---
 
+## 0. One decision for you, and it is the biggest thing in this report
+
+**The game answers asks addressed to you, before you ever see them.**
+
+`npcContactAnswer` (`src/simulation/people-contact.ts:589`) decides accept,
+decline or counter for the person being asked, and nothing in that function
+consults `world.control` — read line by line through the whole answer path on
+`claude/congress-factions-cg1u98` at `05c9f44c`, and there is no check of any
+kind for the controlled character. The people-and-life lane instrumented it
+over several rounds of ordinary play and the count of asks still waiting on
+your own answer was zero every round. Not rarely; never. An invitation
+addressed to you is resolved by the simulation and you are never told it
+existed.
+
+This sits directly on the thing ranked first.
+
+It was left unfixed on purpose, which was right, because fixing it changes what
+playing the game is like rather than correcting a mistake.
+
+**The question:** should an ask addressed to you wait for your answer?
+
+- **Yes** — an ask addressed to you stops at the calendar as something waiting,
+  and you answer it the way you answer anything else, including by letting it
+  lapse, which is now recorded as a lapse rather than as a refusal. Asks between
+  two other people keep deciding themselves exactly as they do today. The cost
+  is that ignoring your messages accumulates unanswered asks, which is either
+  realistic or annoying depending on taste.
+- **No** — the current behaviour is intentional, and we stop treating it as a
+  defect and close it.
+
+**We recommend yes.** A life simulation answering your own invitations on your
+behalf is hard to defend, and this is the area you ranked above everything
+else. It is still your call, and nobody will make it for you.
+
+The full working detail is in `docs/handoffs/people-and-life-2026-09-22.md`
+section 0, on `main` at `d4dca882`.
+
+---
+
 ## 1. Four systems recorded as never started are built and reachable in play
 
 The project record listed seven areas as never touched. Four of them ship today
@@ -238,6 +277,21 @@ is not researched twice.
   of them superseded. Those were cancelled by hand. Until the queue is short,
   the sweep has to be repeated, because the group only governs runs created
   after it landed.
+- **Every wrong claim made tonight would have survived a summary and died at a
+  citation.** The people-and-life lane's words, after catching its own error
+  while fetching `file:line` references to write it up. It is the cheapest rule
+  on this list and the one that would have prevented most of the retractions
+  this project has made in twenty-four hours: requiring a citation is not
+  bookkeeping, it is the step that forces somebody to open the line. Three
+  retractions tonight were caught exactly that way and no other.
+- **An enumerated pattern is the wrong instrument for proving absence**, because
+  it only finds the names you already thought of. The claim that no player
+  screen reads a trait came from a grep over a list of identifiers that did not
+  include `observedTraitLabels`, which is the real consumer. The broad fallback
+  grep then returned fourteen files and was read as a count rather than as
+  fourteen things to open, nearly every hit being the substring inside
+  `PersonPortrait`. That is the fourth form of a check whose failure mode is
+  silence: a search that proves nothing and reads as proof.
 
 ---
 
