@@ -6,7 +6,7 @@ import { describe, expect, it } from "vitest";
 /**
  * DONOR CONTAINMENT — the retirement proof, as a test rather than as a claim.
  *
- * Packet 56 authorises closing the superseded graphics branches only once their
+ * Packet 56 authorizes closing the superseded graphics branches only once their
  * cargo is "mechanically contained in the surviving branch". A completion report
  * asserting that is worth nothing on its own: the whole failure this convergence
  * exists to undo began with two branches each believing it had absorbed the

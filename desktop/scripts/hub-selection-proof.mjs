@@ -9,7 +9,7 @@
  *   3. Relaunch: the requested selection is retained and main still plays.
  *   4. Back to main, Check for updates: up to date against the remote.
  *   5. Offline (dead proxy): Could not check, last success kept, main plays.
- *   6. A real preview build is started and cancelled: Check cancelled, the
+ *   6. A real preview build is started and canceled: Check canceled, the
  *      selection and the loaded game are unchanged.
  *   Screenshots of the bar at 1440x900, 1280x720 and 1024x768.
  *
@@ -286,7 +286,7 @@ check("the button offers a retry", /Try again/.test(retry), retry);
 await shoot(hub.app, hub.chrome, "04-offline");
 await hub.app.close();
 
-// 6: a real preview build, cancelled part-way.
+// 6: a real preview build, canceled part-way.
 hub = await launchHub();
 await hub.chrome.evaluate(
   (branch) => window.ocdHub.selectTrack(branch),
@@ -324,7 +324,7 @@ check(
     s.loaded?.track === "main",
 );
 check(
-  "cancel is recorded as cancelled or failed, not as ready",
+  "cancel is recorded as canceled or failed, not as ready",
   ["cancelled", "failed"].includes(
     checks()[`branch:${buildableBranch}`]?.outcome,
   ),

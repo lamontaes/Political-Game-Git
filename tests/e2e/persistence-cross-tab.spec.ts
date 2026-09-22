@@ -20,7 +20,7 @@ import type { Page } from "./fixtures";
  * The modules loaded below are the production ones, served by the same dev
  * server the rest of this suite runs against. Their shape is described here
  * rather than imported, because the end-to-end project is compiled apart from
- * `src`; what is under test is the behaviour of the real code at runtime, and a
+ * `src`; what is under test is the behavior of the real code at runtime, and a
  * signature that drifts fails at the call.
  */
 

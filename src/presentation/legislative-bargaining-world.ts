@@ -95,7 +95,7 @@ export interface OpenLegislativeBargainingInput {
    * Omitted, this opens the single authored sitting exactly as accepted — the
    * legacy path below is unchanged, and the Kentucky transit brief still gates
    * it. Supplied, the sitting is about that docket bill instead, and its
-   * content comes from the programme family the bill was compiled from rather
+   * content comes from the program family the bill was compiled from rather
    * than from the authored transit brief. Either way the authority checks, the
    * fail-closed refusals and the write boundary are the same ones.
    */

@@ -15,7 +15,7 @@ import type {
  *
  * A measure says what a bill is called. Provisions say what it currently reads
  * and what it used to read. Neither says that the text was produced by a named
- * programme family, at a named version of that family, from a named set of
+ * program family, at a named version of that family, from a named set of
  * parameter values — and that is the fact a docket needs in order to reopen a
  * bill months later and still know what it is.
  *

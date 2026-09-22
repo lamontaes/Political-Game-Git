@@ -591,7 +591,7 @@
     }
   ],
   "rules": [
-    "Do not use catalogue order or nearest-match defaults.",
+    "Do not use catalog order or nearest-match defaults.",
     "Case names in the queue (riskApproach etc.) are not stored stable keys. Resolve exact definitions and expressions through the active registry.",
     "The current mind-catalog already permits unipolar expressions; do not force unknown opposites.",
     "A mapping is not sufficient grounds for change: require distinct meaningful evidence, elapsed game experience, represented motive where ambiguous and controlled-player confirmation.",

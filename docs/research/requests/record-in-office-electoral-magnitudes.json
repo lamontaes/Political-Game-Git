@@ -4,7 +4,7 @@
   "lane": "consequences for corruption and laws",
   "notes": [
     "The game now starts a sitting governor ahead or behind in a new race by 60 weight per percentage point that unemployment fell or rose during their term, capped at 150 on a starting draw of 850 to 1150 (UNRESEARCHED_RECORD_IN_OFFICE in src/simulation/record-in-office.ts). These are the values to replace.",
-    "The owner asked, 2026-09-22 ~20:22Z, whether a fantastic governor can win people over and a bad one lose votes. This is the first piece of that; issue-by-issue voting against the policy catalogue is a separate, larger piece."
+    "The owner asked, 2026-09-22 ~20:22Z, whether a fantastic governor can win people over and a bad one lose votes. This is the first piece of that; issue-by-issue voting against the policy catalog is a separate, larger piece."
   ],
   "priority": "P1",
   "question": "How strongly does the state economy during a governor's term (unemployment change, income growth, inflation) predict the governor's or their party's vote share when they next stand, and which measure do voters respond to most? Separately, how large is the incumbency advantage for governors and state legislators, before economic conditions are considered?",

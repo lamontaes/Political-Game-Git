@@ -218,7 +218,7 @@ export function scheduleConversationAftermath(
  *
  * What counts as "the same subject" is deliberately narrow. Matching on the
  * speaker alone would make an opinion formed at home about the week's errands
- * silently overwrite one formed at a neighbourhood meeting about a notice —
+ * silently overwrite one formed at a neighborhood meeting about a notice —
  * they are about the same person and nothing else. The subject key carries the
  * conversation subject for exactly this reason, so a revision is only ever a
  * revision of the same person's position on the same thing.

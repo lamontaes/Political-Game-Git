@@ -206,7 +206,7 @@ export function resolveElectionContest(
   assertNotPresidentialOffice(contest.office.officeKey);
   if (electionContestStatus(world, contest.id) === "cancelled") {
     throw new Error(
-      `Cannot resolve a cancelled election contest: ${contest.id}`,
+      `Cannot resolve a canceled election contest: ${contest.id}`,
     );
   }
   if (isElectionContestResolved(world, contest.id)) {
@@ -693,7 +693,7 @@ export function assertElectionContestIntegrity(
       const latestState = states.sort((a, b) => a.sequence - b.sequence).at(-1);
       if (latestState?.status === "cancelled") {
         throw new Error(
-          `Election contest result exists for cancelled contest: ${contest.id}`,
+          `Election contest result exists for canceled contest: ${contest.id}`,
         );
       }
     }

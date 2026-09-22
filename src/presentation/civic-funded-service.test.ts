@@ -520,7 +520,7 @@ describe("funded civic service: decision -> collected public cash -> payment -> 
       ]);
       expect(payments(cancelled)).toHaveLength(0);
       expect(cash(cancelled, account)).toBe(20_200);
-      // A cancelled request is not a payment in the account history.
+      // A canceled request is not a payment in the account history.
       expect(accountHistory(cancelled).payments).toEqual(money(0, "USD"));
       expect(accountHistory(cancelled).balance).toMatchObject({
         status: "established",

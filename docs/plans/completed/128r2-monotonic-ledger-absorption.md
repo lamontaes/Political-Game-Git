@@ -51,12 +51,12 @@ attested count, or lower any per-symbol high-water mark.
 
 This is deliberately a last-line structural guard rather than a property each
 command is trusted to maintain. The controlling blocker was exactly a command
-that _intended_ to synchronise and in fact re-based trust downward — so
+that _intended_ to synchronize and in fact re-based trust downward — so
 intention is not the thing being relied on.
 
 ### 2. `-- ledger` may absorb, never re-base
 
-`-- ledger` is a synchronisation step, not a repair or a trust bootstrap. It now:
+`-- ledger` is a synchronization step, not a repair or a trust bootstrap. It now:
 
 - loads sidecar, ledger and checkpoint and validates them **as one
   authoritative state** before writing anything;
@@ -95,7 +95,7 @@ part of the regression set.
 
 ### 4. Recovery moves only in a provably monotonic direction
 
-| State                                    | Behaviour                                                                                                              |
+| State                                    | Behavior                                                                                                               |
 | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | Checkpoint missing                       | **Refuses.** A ledger with nothing attesting it is not evidence of itself                                              |
 | Ledger missing, checkpoint intact        | Conservative superset rebuild — every index up to each recorded mark. Some numbers burned unused; none can be recycled |

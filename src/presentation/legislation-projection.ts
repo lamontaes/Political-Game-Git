@@ -72,7 +72,7 @@ export interface MeasureBriefing {
   readonly shortTitle: string;
   readonly summary: string;
   /**
-   * The questions the bill is about, as the catalogue asks them.
+   * The questions the bill is about, as the catalog asks them.
    *
    * Empty for a bill nobody linked, which is most bills: that means the record
    * does not say, not that the bill is about nothing, so a surface shows

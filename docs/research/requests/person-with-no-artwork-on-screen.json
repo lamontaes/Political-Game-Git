@@ -35,7 +35,7 @@
   "impact": "shapes-design",
   "lane": "character art and scenes",
   "notes": [
-    "This is a product judgement, so every candidate is filed unrecommended on purpose. The engineering is already able to do any of them.",
+    "This is a product judgment, so every candidate is filed unrecommended on purpose. The engineering is already able to do any of them.",
     "The situation is not hypothetical: a set of people whose images were deliberately deleted still have records that several live surfaces are built on, so they render as initials today."
   ],
   "priority": "P2",
@@ -54,7 +54,7 @@
       "whatItDidNotSettle": "Each is clear on its own and they were written for different situations. Neither says what to do when the stated reason is itself provenance, which is precisely the portrait case."
     },
     {
-      "source": "The current behaviour in the game, where a person with no artwork appears as their initials",
+      "source": "The current behavior in the game, where a person with no artwork appears as their initials",
       "whatItDidNotSettle": "It is a reasonable default and it is not obviously wrong, but it was never chosen. It is what the component did before anybody asked the question."
     }
   ],

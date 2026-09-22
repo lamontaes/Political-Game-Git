@@ -33,9 +33,9 @@ export const LEGISLATIVE_CHAMBER_PRODUCTION_SCENE: EnvironmentSceneSpec = {
   plate: { width: 1408, height: 768 },
 
   /**
-   * Horizontal focus stays centred because this room's content genuinely runs
+   * Horizontal focus stays centered because this room's content genuinely runs
    * wall to wall: the member desks fill the left half and the rostrum the
-   * right, and a crop that favours either loses the half that explains the
+   * right, and a crop that favors either loses the half that explains the
    * other. Vertical focus is low; the coffered ceiling is the first thing
    * worth losing.
    */

@@ -97,7 +97,7 @@ export const SCENE_VENUES: readonly SceneVenue[] = [
     locationKey: "east-end-community-room",
     sceneId: PUBLIC_MEETING_ROOM_SCENE_ID,
     reason:
-      "A neighbourhood meeting in a community room. Same generic hall; nothing in the plate names a neighbourhood, and the World supplies what it is called.",
+      "A neighborhood meeting in a community room. Same generic hall; nothing in the plate names a neighborhood, and the World supplies what it is called.",
     isJourney: false,
   },
   {
@@ -146,7 +146,7 @@ export const SCENE_VENUES: readonly SceneVenue[] = [
     locationKey: "office-to-east-end",
     sceneId: null,
     reason:
-      "A JOURNEY, not a place. Somebody travelling between the office and the east end is in neither of them, and painting the destination behind them would be exactly the background-only teleport this table exists to prevent.",
+      "A JOURNEY, not a place. Somebody traveling between the office and the east end is in neither of them, and painting the destination behind them would be exactly the background-only teleport this table exists to prevent.",
     isJourney: true,
   },
 ];

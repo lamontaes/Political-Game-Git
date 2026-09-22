@@ -87,7 +87,7 @@ import { PLAYTEST65_WHITE_HOUSE_LAYOUT } from "../presentation/playtest65-visual
  * `title-ambient.ts`. There is no path from here into a World or an RNG.
  */
 
-/** Honours the viewer's own motion preference, and follows it if it changes. */
+/** Honors the viewer's own motion preference, and follows it if it changes. */
 function usePrefersReducedMotion(): boolean {
   const [reduced, setReduced] = useState(false);
   useEffect(() => {
@@ -288,7 +288,7 @@ export function resolvedTitlePresentation(
  * from: the candidate-review bank when this build is in the art preview, the
  * production catalog otherwise. Either way the hero appears only when the
  * private title art and a matching pack variant are present, and resolves to
- * null — today's behaviour — everywhere else.
+ * null — today's behavior — everywhere else.
  */
 export function resolvedTitleLecternHero(
   saves: readonly BrowserWorldSummary[],
