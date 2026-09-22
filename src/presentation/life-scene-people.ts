@@ -110,7 +110,7 @@ export interface ScenePersonLayer {
 export interface PlacedScenePerson {
   readonly personId: string;
   readonly name: string;
-  /** "your mom", "who is in your class", or null. */
+  /** "your mom", "your classmate", or null. */
   readonly relationship: string | null;
   readonly anchorId: string;
   readonly seated: boolean;

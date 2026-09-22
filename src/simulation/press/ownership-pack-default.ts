@@ -13,6 +13,13 @@ export const DEFAULT_MEDIA_OWNERSHIP_PACK: OwnershipPack = {
     kind: "authored-fiction",
     note: "Fictional media owners and provisional coordination practices. Names, likelihoods and shares are game-authored, not real companies or measured behavior.",
   },
+  // Placeholder prices, not market research; filed for research as
+  // what-coordinated-owner-practices-change-in-the-news.
+  askingPriceDollars: {
+    small: 150_000,
+    standard: 4_000_000,
+    major: 250_000_000,
+  },
   practices: [
     {
       key: "practice.cut-newsroom-staff",

@@ -349,15 +349,37 @@ describe("production-compiled office qualification rules", () => {
     expect(district("2026-10-01")?.reason).not.toContain("RESIDENT_1_YEAR");
   });
 
-  it("does not apply a later current-source observation to an earlier life", () => {
-    const earlier = officeQualifications(
+  it("supports Nebraska's seat on an ordinary start, because its amendment history dates the words", () => {
+    // These provisions were observed in September 2026, but the Legislature's
+    // own page carries each section's amendment history, which is primary
+    // material in the locked artifact. So the current words are dated to the
+    // year they were last amended — all before 2000 — not left as a bare
+    // September observation that an ordinary January 2026 life falls before.
+    const onStart = officeQualifications(
       "US-NE",
       "UNICAMERAL_CHAMBER",
       makeIsoDate("2026-01-05"),
     );
-    expect(earlier.length).toBeGreaterThan(0);
+    expect(onStart.length).toBeGreaterThan(0);
     expect(
-      earlier.every((row) => row.temporalApplicability.state === "UNKNOWN"),
+      onStart.every((row) => row.temporalApplicability.state === "SUPPORTED"),
+    ).toBe(true);
+  });
+
+  it("still does not back-date a provision before the words it dates took effect", () => {
+    // The interval has a floor: the earliest amendment among these sections is
+    // 1988, so a life reaching the seat in 1970 predates every dated version
+    // and the rule is UNKNOWN rather than silently applied.
+    const beforeAnyVersion = officeQualifications(
+      "US-NE",
+      "UNICAMERAL_CHAMBER",
+      makeIsoDate("1970-01-05"),
+    );
+    expect(beforeAnyVersion.length).toBeGreaterThan(0);
+    expect(
+      beforeAnyVersion.every(
+        (row) => row.temporalApplicability.state === "UNKNOWN",
+      ),
     ).toBe(true);
   });
 });
