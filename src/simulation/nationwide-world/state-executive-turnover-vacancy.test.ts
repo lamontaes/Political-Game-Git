@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { stateJurisdictionForKey } from "../life-places";
 import { ensureStateJurisdiction } from "./state-executives";
 import { recordGovernorCandidacyIntent } from "./state-executive-turnover";
+import { makeIsoDate } from "../dates";
 import { createWorld } from "../world";
 import { requireLifePlace } from "../life-places";
 
@@ -19,7 +20,7 @@ describe("a governor's candidacy intent with nobody in the office", () => {
   it("records against the state rather than refusing to exist", () => {
     let world = createWorld({
       seed: "vacant-governor-intent",
-      currentDate: "2031-06-01",
+      currentDate: makeIsoDate("2031-06-01"),
       jurisdictions: [requireLifePlace("kentucky").context.jurisdiction],
       people: [],
     });
