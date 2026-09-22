@@ -79,6 +79,7 @@ import {
   cleanHubState,
   createGeneration,
   emptyHubState,
+  hubViewLayout,
   playLabel,
   prunedQueue,
   recordCheck,
@@ -1049,21 +1050,15 @@ function contentForTab() {
 
 function layout() {
   if (!hub.window || hub.window.isDestroyed()) return;
-  const { width, height } = hub.window.getContentBounds();
-  hub.chrome.setBounds({ x: 0, y: 0, width, height: CHROME_HEIGHT });
+  const bounds = hubViewLayout(hub.window.getContentBounds(), CHROME_HEIGHT);
+  hub.chrome.setBounds(bounds.chrome);
   const visible = contentForTab();
-  const bounds = {
-    x: 0,
-    y: CHROME_HEIGHT,
-    width,
-    height: Math.max(0, height - CHROME_HEIGHT),
-  };
   const all = [
     ...hub.views.values(),
     ...[...hub.play.values()].map((entry) => entry.view),
   ];
   for (const view of all) {
-    view.setBounds(bounds);
+    view.setBounds(bounds.content);
     view.setVisible(view === visible);
   }
 }
