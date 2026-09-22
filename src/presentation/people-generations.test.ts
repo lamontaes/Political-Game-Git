@@ -12,7 +12,12 @@ import {
   serializeWorld,
 } from "../simulation";
 import type { EntityId, IsoDate, World } from "../simulation";
-import { kinshipRelationshipsAt } from "../simulation/life-queries";
+import {
+  householdMembershipsAt,
+  kinshipRelationshipsAt,
+  peopleInHouseholdAt,
+} from "../simulation/life-queries";
+import { searchLifePlaces } from "../simulation/life-places";
 import {
   CONTROL_CONTINUED_EVENT,
   ESTATE_OPENED_EVENT,
@@ -22,6 +27,7 @@ import {
 import {
   FAMILY_MEMBER_ADDED_EVENT,
   childrenOf,
+  parentsOf,
   recordFamilyAddition,
 } from "../simulation/people-family";
 import {
@@ -187,13 +193,24 @@ describe("PEOPLE P5 three generations, two handoffs", () => {
       [g2, "child"],
       [g3, "grandchild"],
     ]);
-    // Anybody else prominent is somebody this life was actually bound to, and
+    // Anybody else prominent is somebody this life was actually bound to: a
+    // parent or someone under the same roof, named as such, or a bond, where
     // the choice says what passed between them.
     for (const choice of prominent.slice(2)) {
-      expect(["someone they taught", "someone they kept up with"]).toContain(
-        choice.relation,
-      );
-      expect(choice.connection).toBeTruthy();
+      expect([
+        "parent",
+        "someone they lived with",
+        "someone they taught",
+        "someone who taught them",
+        "someone they kept up with",
+      ]).toContain(choice.relation);
+      if (
+        choice.relation === "someone they taught" ||
+        choice.relation === "someone who taught them" ||
+        choice.relation === "someone they kept up with"
+      ) {
+        expect(choice.connection).toBeTruthy();
+      }
     }
     expect(prominent.every((choice) => choice.availableNow)).toBe(true);
     expect(view.recordPersonId).toBe(g1);
@@ -564,5 +581,83 @@ describe("PEOPLE B1: a predecessor's queued command cannot still apply", () => {
       personId: stranger.personId,
     });
     assertWorldIntegrity(next);
+  });
+});
+
+describe("a retired life's own parents and housemates are not strangers", () => {
+  // Measured in play: a 34-year-old in Reno retired and was offered her own
+  // father and the person she lived with as "no connection on record".
+  const reno = searchLifePlaces("Reno", 3)[0]!;
+  const lives = [
+    "continuation-kin-a",
+    "continuation-kin-b",
+    "continuation-kin-c",
+  ].map(
+    (seed) =>
+      generateOpeningLife(
+        prepareOpeningLife({
+          ...DEFAULT_NEW_GAME_SETUP,
+          placeKey: reno.key,
+          seed,
+          startAge: 34,
+        }),
+      ).game!,
+  );
+
+  it("offers each recorded parent and each person under the same roof by name", () => {
+    let parentsSeen = 0;
+    let housematesSeen = 0;
+    for (const opened of lives) {
+      const me = opened.playerPersonId;
+      const retired = retireFromPlay(opened.world, me);
+      const view = projectLifeContinuation(retired, me)!;
+      const relationOf = new Map(
+        view.choices.map((choice) => [choice.personId, choice]),
+      );
+      for (const parent of parentsOf(retired, me)) {
+        if (!retired.people[parent]) continue;
+        const choice = relationOf.get(parent);
+        if (!choice) continue; // dead or otherwise not playable
+        parentsSeen += 1;
+        expect(choice.prominent).toBe(true);
+        expect(choice.relation).toBe("parent");
+      }
+      const roofs = householdMembershipsAt(retired, me);
+      for (const entry of roofs) {
+        for (const id of peopleInHouseholdAt(
+          retired,
+          entry.membership.householdId,
+        )) {
+          const choice = relationOf.get(id);
+          if (id === me || !choice) continue;
+          housematesSeen += 1;
+          expect(choice.prominent).toBe(true);
+          expect(choice.relation).not.toBe("no connection on record");
+        }
+      }
+    }
+    // Not vacuous: the seeds really do carry both kinds of person.
+    expect(parentsSeen).toBeGreaterThan(0);
+    expect(housematesSeen).toBeGreaterThan(0);
+  });
+
+  it("names a teacher as the one who taught, not as a pupil", () => {
+    let teachersSeen = 0;
+    for (const opened of lives) {
+      const me = opened.playerPersonId;
+      const retired = retireFromPlay(opened.world, me);
+      const view = projectLifeContinuation(retired, me)!;
+      for (const interaction of retired.history.relationshipInteractions) {
+        if (!interaction.kind.startsWith("mentorship:")) continue;
+        if (interaction.personIds[0] !== me) continue;
+        const choice = view.choices.find(
+          (entry) => entry.personId === interaction.personIds[1],
+        );
+        if (!choice) continue;
+        teachersSeen += 1;
+        expect(choice.relation).toBe("someone who taught them");
+      }
+    }
+    expect(teachersSeen).toBeGreaterThan(0);
   });
 });

@@ -34,7 +34,10 @@ const RELATION_LABEL: Readonly<Record<SuccessorRelation, string>> = {
   grandchild: "grandchild",
   sibling: "sibling",
   partner: "partner",
+  parent: "parent",
+  household: "someone they lived with",
   protege: "someone they taught",
+  mentor: "someone who taught them",
   "close-associate": "someone they kept up with",
   other: "no connection on record",
 };

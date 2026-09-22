@@ -1,7 +1,11 @@
 import { ageOnDate, makeIsoDate } from "./dates";
 import { advanceWorld } from "./world";
-import { kinshipRelationshipsAt } from "./life-queries";
-import { childrenOf, grandchildrenOf } from "./people-family";
+import {
+  householdMembershipsAt,
+  kinshipRelationshipsAt,
+  peopleInHouseholdAt,
+} from "./life-queries";
+import { childrenOf, grandchildrenOf, parentsOf } from "./people-family";
 import { personName } from "./people";
 import { recordEventKnowledge } from "./records";
 import type {
@@ -219,7 +223,10 @@ export type SuccessorRelation =
   | "grandchild"
   | "sibling"
   | "partner"
+  | "parent"
+  | "household"
   | "protege"
+  | "mentor"
   | "close-associate"
   | "other";
 
@@ -297,12 +304,31 @@ export function successorCandidates(
       "partner",
     );
   }
+  // A parent is family the record already names; leaving one to the wider
+  // list offered a player's own father as "no connection on record".
+  for (const id of parentsOf(world, predecessorId)) add(id, "parent");
+  // Somebody under the same roof today is not a stranger either, whether or
+  // not any kinship record joins them.
+  for (const entry of householdMembershipsAt(world, predecessorId)) {
+    for (const id of peopleInHouseholdAt(world, entry.membership.householdId)) {
+      add(id, "household");
+    }
+  }
   // Somebody they taught, or somebody they kept up with for years. Not family,
   // but not a stranger either, and the owner asked for both to be offered.
   for (const interaction of meaningfulBonds(world, predecessorId)) {
     const other = interaction.personIds.find((id) => id !== predecessorId)!;
+    // A mentorship record names the person mentored first and the mentor
+    // second (the teacher-mentor and apprenticeship writers in
+    // character-history both do). Reading every mentorship as "someone they
+    // taught" offered a 34-year-old her own middle-school teacher as her pupil.
     const mentorship = interaction.kind.startsWith("mentorship:");
-    add(other, mentorship ? "protege" : "close-associate", interaction.summary);
+    const relation: SuccessorRelation = !mentorship
+      ? "close-associate"
+      : interaction.personIds[0] === predecessorId
+        ? "mentor"
+        : "protege";
+    add(other, relation, interaction.summary);
   }
   // And anybody else alive and old enough. Offered plainly as what it is: a
   // life this one did not touch, which the player may take up anyway.

@@ -136,8 +136,9 @@ export function LifeContinuationPanel({
                       : choice.label}
                   </button>
                   <p className="pg-continuation-note" id={noteId}>
-                    {view.predecessorName}&rsquo;s {choice.relation}, age{" "}
-                    {choice.age}.
+                    {choice.prominent
+                      ? `${view.predecessorName}\u2019s ${choice.relation}, age ${choice.age}.`
+                      : `No connection to ${view.predecessorName} on record. Age ${choice.age}.`}
                     {choice.waitDisclosure ? ` ${choice.waitDisclosure}` : ""}
                   </p>
                 </li>
