@@ -24,13 +24,11 @@ Actual workbook inspection found 52 geographies (United States, 50 states and D.
 
 Use the existing source-core acquisition, branded locked-artifact opening, XLSX reader, value algebra, corpus writer, validator and replay. No parallel source store. Compiled historical data is read-only context; no World mutation, law, registration command, travel, money or time consequence follows from viewing it. U owns the actual state display and browser acceptance; a compiler or isolated fixture is not proof of that route.
 
-
 ## Player interface and ownership
 
 `queryStateVotingContext({ stateUsps, asOf })` in `src/presentation/state-voting-context.ts` lazily reads `/data/state-voting/v1`. Its pure projector returns a total row and separate sex, race/Hispanic-origin and age groups. Every group rate uses that group's adult or citizen-adult denominator, never the share of all state voters. An unavailable state, wrong-state shard, invalid date or date before the April 30 release yields no totals. Unresolved values retain no number.
 
 `scripts/source/export-state-voting-context.ts` deterministically derives one shard per state and D.C. from the production corpus. Its guard checks production class, corpus hash and artifact-lock agreement; browser manifest includes publisher URLs, raw digests and actual retrieval metadata. These are generated delivery files, not a second source store. U owns shared replay/build registration, population/voter display and actual production browser verification. The independent BEA all-age population mount need not wait for these survey data.
-
 
 ## Focused validation receipt
 
