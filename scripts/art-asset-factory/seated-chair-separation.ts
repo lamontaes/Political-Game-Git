@@ -34,12 +34,27 @@ import { readPng, writePng } from "./pg-modular-intake";
  * - Nothing ABOVE the seat plane is touched at all, which is what protects the
  *   garment: shorts and tops are neutral grey too, and they live above it.
  *
- * KNOWN INCOMPLETE. This errs toward the figure, so it under-removes: the
- * chair's own dark outline is drawn in the same brown as the body's, and where
- * that outline falls inside the protected band it survives. The result is a
- * residual chair contour on some plates. That is a visible defect and these
- * derivatives are NOT approvable until it is gone; it is recorded here and in
- * the report rather than left for someone to find.
+ * - WHAT TOUCHES THE FIGURE STAYS, AND THAT IS A MEASURED LIMIT. The chair's
+ *   mid-tones sit at value 96 to 150, and the figure's own edge pixels below
+ *   the knee run from 64 to 240 on these same plates, so every value the chair
+ *   uses is a value the figure also uses. No colour rule separates them, and
+ *   raising the body-tone floor far enough to try starts taking the feet.
+ *   Connectivity cannot reach them either, since being against the figure is
+ *   what puts them inside the protection band. What is left needs the chair
+ *   drawn apart from the figure, not a better threshold.
+ * - WHAT THE PROTECTION STRANDS IS STILL CHAIR. The protection band is
+ *   absolute, so where the chair runs close to a thigh it cuts the chair's fill
+ *   into islands that reach no seed, and those islands were the visible residue
+ *   an earlier version left: a sliver of seat between the thighs, stubs of leg
+ *   beside the shins. An opaque region that touches nothing else in the plate
+ *   is not part of a figure drawn as one connected silhouette, so a component
+ *   that is not the figure's own and lies wholly below the seat plane is taken.
+ *   Below that plane the figure is legs and feet, which run continuously up
+ *   into the torso, so anything down there touching nothing is chair. That is a
+ *   fact about the raster rather than a guess about how big debris ought to be.
+ *   Colour cannot make this call: the chair's lit surfaces are warm and light
+ *   enough to read as body tone, which is why they were protected in the first
+ *   place and why they had to be stranded before they could be taken.
  *
  * The first version of this took roughly a pixel of the figure's own contour
  * everywhere below the seat line, and the whole foot outline, because it asked
@@ -139,7 +154,11 @@ export interface SeparationResult {
   readonly canvas: { readonly width: number; readonly height: number };
   readonly seatPlaneRow: number;
   readonly pixelsCleared: number;
+  /** Of those, pixels taken because they belonged to no connected figure. */
+  readonly pixelsClearedAsStranded: number;
   readonly pixelsKept: number;
+  /** Opaque regions left that touch nothing else in the plate. Should be none. */
+  readonly strayComponentsRemaining: number;
   /** True when no pixel above the seat plane changed. Asserted, not assumed. */
   readonly untouchedAboveSeatPlane: boolean;
 }
@@ -162,8 +181,10 @@ function isChairFill(r: number, g: number, b: number, a: number): boolean {
   return chroma(r, g, b) < CHAIR_MAX_CHROMA;
 }
 
-interface PlateMasks {
+export interface PlateMasks {
   readonly opaque: Uint8Array;
+  /** Lit body tone itself, with no reach added. */
+  readonly bodyTone: Uint8Array;
   /** Lit body tone plus its outline reach. Never cleared, under any condition. */
   readonly protectedMask: Uint8Array;
   readonly chairFill: Uint8Array;
@@ -202,7 +223,7 @@ export function platemasks(bitmap: Bitmap): PlateMasks {
       }
     }
   }
-  return { opaque, protectedMask, chairFill };
+  return { opaque, bodyTone, protectedMask, chairFill };
 }
 
 /**
@@ -244,6 +265,81 @@ export function chairRegion(bitmap: Bitmap, masks: PlateMasks): Uint8Array {
   return reached;
 }
 
+/**
+ * Chair pieces the connectivity pass left stranded.
+ *
+ * The protection band around lit body tone is absolute, and where the chair
+ * runs close to a thigh or a shin that band cuts its fill into islands that no
+ * longer reach any seed. Those islands survived the first pass and are the
+ * visible residue: a sliver of seat between the thighs, stubs of chair leg
+ * beside the shins.
+ *
+ * They are decidable without any threshold at all. An opaque region that
+ * touches nothing else is not part of a figure drawn as one connected
+ * silhouette, so a component that is not the figure's own and lies wholly below
+ * the seat plane is chair: below that plane the figure is legs and feet, and
+ * those run continuously up into the torso.
+ *
+ * Colour is deliberately not consulted. These chairs are drawn warm and light,
+ * so their lit surfaces pass the same body-tone test the legs do — which is
+ * exactly why the protection band covered them and why they had to be stranded
+ * before they could be taken. A test that asks "does this island contain skin"
+ * answers yes on a chair seat.
+ *
+ * Nor is size. "Small enough to be debris" is a guess about the art;
+ * "connected to nothing, and below the seat" is a fact about the raster.
+ */
+export function strandedChairComponents(
+  opaque: Uint8Array,
+  width: number,
+  height: number,
+  seatPlaneRow: number,
+): Uint8Array {
+  const label = new Int32Array(width * height).fill(-1);
+  const sizes: number[] = [];
+  const minRow: number[] = [];
+  const queue: number[] = [];
+  for (let start = 0; start < width * height; start += 1) {
+    if (opaque[start] !== 1 || label[start] !== -1) continue;
+    const id = sizes.length;
+    sizes.push(0);
+    minRow.push(height);
+    label[start] = id;
+    queue.length = 0;
+    queue.push(start);
+    for (let head = 0; head < queue.length; head += 1) {
+      const i = queue[head]!;
+      const y = Math.floor(i / width);
+      const x = i - y * width;
+      sizes[id]! += 1;
+      if (y < minRow[id]!) minRow[id] = y;
+      for (let dy = -1; dy <= 1; dy += 1) {
+        for (let dx = -1; dx <= 1; dx += 1) {
+          const ny = y + dy;
+          const nx = x + dx;
+          if (ny < 0 || ny >= height || nx < 0 || nx >= width) continue;
+          const j = ny * width + nx;
+          if (opaque[j] !== 1 || label[j] !== -1) continue;
+          label[j] = id;
+          queue.push(j);
+        }
+      }
+    }
+  }
+  let figure = -1;
+  for (let id = 0; id < sizes.length; id += 1) {
+    if (figure < 0 || sizes[id]! > sizes[figure]!) figure = id;
+  }
+  const stranded = new Uint8Array(width * height);
+  for (let i = 0; i < width * height; i += 1) {
+    const id = label[i];
+    if (id < 0 || id === figure) continue;
+    if (minRow[id]! < seatPlaneRow) continue;
+    stranded[i] = 1;
+  }
+  return stranded;
+}
+
 export async function separateOne(
   repositoryRoot: string,
   subject: SeparationSubject,
@@ -254,14 +350,32 @@ export async function separateOne(
   const masks = platemasks(bitmap);
   const chair = chairRegion(bitmap, masks);
   const seatPlaneRow = Math.round(subject.seatPlaneYFraction * height);
+  // Strandedness is a property of what the connectivity pass LEAVES, not of the
+  // plate it started from: an island only stops touching anything once the
+  // chair fill that joined it to the rest has gone.
+  const remaining = new Uint8Array(masks.opaque);
+  for (let y = seatPlaneRow; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      const i = y * width + x;
+      if (chair[i] === 1) remaining[i] = 0;
+    }
+  }
+  const stranded = strandedChairComponents(
+    remaining,
+    width,
+    height,
+    seatPlaneRow,
+  );
 
   let cleared = 0;
+  let strandedCleared = 0;
   let kept = 0;
   for (let y = seatPlaneRow; y < height; y += 1) {
     for (let x = 0; x < width; x += 1) {
       const i = y * width + x;
       if (masks.opaque[i] !== 1) continue;
-      if (chair[i] !== 1) {
+      if (stranded[i] === 1) strandedCleared += 1;
+      if (chair[i] !== 1 && stranded[i] !== 1) {
         kept += 1;
         continue;
       }
@@ -295,9 +409,61 @@ export async function separateOne(
     canvas: { width, height },
     seatPlaneRow,
     pixelsCleared: cleared,
+    pixelsClearedAsStranded: strandedCleared,
     pixelsKept: kept,
+    strayComponentsRemaining: countStrayComponents(verify),
     untouchedAboveSeatPlane,
   };
+}
+
+/**
+ * Opaque regions in a finished plate that touch nothing else in it.
+ *
+ * Asserted on the OUTPUT rather than promised by the algorithm, because the
+ * only claim worth making about a subtractive pass is one read back off the
+ * bytes it wrote. A figure is drawn as one connected silhouette, so anything
+ * else left floating is residue and this should come back zero.
+ */
+export function countStrayComponents(bitmap: Bitmap): number {
+  const { width, height } = bitmap;
+  const opaque = new Uint8Array(width * height);
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      if ((bitmap.getPixelRGBA(x, y) & 0xff) > ALPHA_FLOOR)
+        opaque[y * width + x] = 1;
+    }
+  }
+  const seen = new Uint8Array(width * height);
+  const queue: number[] = [];
+  let components = 0;
+  let largest = 0;
+  for (let start = 0; start < width * height; start += 1) {
+    if (opaque[start] !== 1 || seen[start] === 1) continue;
+    components += 1;
+    let size = 0;
+    seen[start] = 1;
+    queue.length = 0;
+    queue.push(start);
+    for (let head = 0; head < queue.length; head += 1) {
+      const i = queue[head]!;
+      const y = Math.floor(i / width);
+      const x = i - y * width;
+      size += 1;
+      for (let dy = -1; dy <= 1; dy += 1) {
+        for (let dx = -1; dx <= 1; dx += 1) {
+          const ny = y + dy;
+          const nx = x + dx;
+          if (ny < 0 || ny >= height || nx < 0 || nx >= width) continue;
+          const j = ny * width + nx;
+          if (opaque[j] !== 1 || seen[j] === 1) continue;
+          seen[j] = 1;
+          queue.push(j);
+        }
+      }
+    }
+    if (size > largest) largest = size;
+  }
+  return Math.max(0, components - 1);
 }
 
 export async function separateSeatedChairs(
@@ -317,14 +483,18 @@ export async function separateSeatedChairs(
         generator: SEATED_CHAIR_SEPARATION_VERSION,
         operation:
           "Deterministic alpha-clearing derivative of the owner's wave-a seated plates. Pixels are removed, never added; no colour is invented and nothing is drawn. Lit body tone and everything within the outline reach of it is never cleared, and a pixel is cleared only where it is connected to the chair's own neutral fill. Each output is a CANDIDATE awaiting the owner's own look, not released art.",
+        verification:
+          "Each output is read back off disk and checked two ways: no pixel above the seat plane changed, and no opaque region is left that touches nothing else in the plate. Verify any change to this script by rendering ONLY the removed pixels. Looking at the result tells you what survived, not what went, and an earlier version took the whole foot outline without that being visible in the result.",
         known_incomplete:
-          "This errs toward the figure and so under-removes. The chair's dark outline is drawn in the same brown as the body's, and where it falls inside the protected band it survives, leaving a residual chair contour on some plates. These derivatives are NOT approvable until that is gone. Verify any change by rendering ONLY the removed pixels: looking at the result tells you what survived, not what went, and an earlier version of this took the whole foot outline without that being visible in the result.",
+          "Chair that TOUCHES the figure survives: a sliver of seat between the thighs and a stub of chair leg against each shin. It cannot be taken by colour, and that is measured rather than assumed. On these plates the figure's own edge pixels below the knee run from value 64 to 240, and the chair's mid-tones sit at 96 to 150, inside that range on every plate; raising the body-tone floor to separate them starts eating the feet, which is the failure an earlier version shipped. Connectivity cannot take them either, because they are inside the protection band by definition. Separating them needs the chair drawn apart from the figure, which means either the owner's layered source or his own brush. These derivatives are NOT approvable until that residue is gone.",
         parameters: {
           alpha_floor: ALPHA_FLOOR,
           body_min_chroma: BODY_MIN_CHROMA,
           body_min_value: BODY_MIN_VALUE,
           chair_max_chroma: CHAIR_MAX_CHROMA,
           outline_reach_px: OUTLINE_REACH_PX,
+          stranded_rule:
+            "an opaque component that is not the figure's own, lies wholly below the seat plane, and contains no lit body tone",
         },
         release_status: "CANDIDATE_REFERENCE_ONLY",
         production_pixels_released: false,

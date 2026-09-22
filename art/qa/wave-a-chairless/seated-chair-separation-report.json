@@ -2,13 +2,15 @@
   "schema": "seated-chair-separation-report-v1",
   "generator": "seated-chair-separation-v1",
   "operation": "Deterministic alpha-clearing derivative of the owner's wave-a seated plates. Pixels are removed, never added; no colour is invented and nothing is drawn. Lit body tone and everything within the outline reach of it is never cleared, and a pixel is cleared only where it is connected to the chair's own neutral fill. Each output is a CANDIDATE awaiting the owner's own look, not released art.",
-  "known_incomplete": "This errs toward the figure and so under-removes. The chair's dark outline is drawn in the same brown as the body's, and where it falls inside the protected band it survives, leaving a residual chair contour on some plates. These derivatives are NOT approvable until that is gone. Verify any change by rendering ONLY the removed pixels: looking at the result tells you what survived, not what went, and an earlier version of this took the whole foot outline without that being visible in the result.",
+  "verification": "Each output is read back off disk and checked two ways: no pixel above the seat plane changed, and no opaque region is left that touches nothing else in the plate. Verify any change to this script by rendering ONLY the removed pixels. Looking at the result tells you what survived, not what went, and an earlier version took the whole foot outline without that being visible in the result.",
+  "known_incomplete": "Chair that TOUCHES the figure survives: a sliver of seat between the thighs and a stub of chair leg against each shin. It cannot be taken by colour, and that is measured rather than assumed. On these plates the figure's own edge pixels below the knee run from value 64 to 240, and the chair's mid-tones sit at 96 to 150, inside that range on every plate; raising the body-tone floor to separate them starts eating the feet, which is the failure an earlier version shipped. Connectivity cannot take them either, because they are inside the protection band by definition. Separating them needs the chair drawn apart from the figure, which means either the owner's layered source or his own brush. These derivatives are NOT approvable until that residue is gone.",
   "parameters": {
     "alpha_floor": 32,
     "body_min_chroma": 15,
     "body_min_value": 110,
     "chair_max_chroma": 10,
-    "outline_reach_px": 3
+    "outline_reach_px": 3,
+    "stranded_rule": "an opaque component that is not the figure's own, lies wholly below the seat plane, and contains no lit body tone"
   },
   "release_status": "CANDIDATE_REFERENCE_ONLY",
   "production_pixels_released": false,
@@ -17,56 +19,64 @@
       "sourcePath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_front_neutral_v1.png",
       "sourceSha256": "259e1d04238995df7129925fbb026b1408e01267ffb9722a8cc0c24cbc449f65",
       "outputPath": "art/generated/candidates/wave-a-chairless/wave_a_average_man_seated_front_neutral_chairless_v1.png",
-      "outputSha256": "d702927f5a75db096aa54700ad344a33c8b9d71080f89d2921d01e090c726709",
+      "outputSha256": "8c517eda80b57c1346c80fd7e00e63e6408c68e0e78cd35037e95b5fe2957cac",
       "canvas": {
         "width": 710,
         "height": 1653
       },
       "seatPlaneRow": 997,
-      "pixelsCleared": 24030,
-      "pixelsKept": 159261,
+      "pixelsCleared": 24291,
+      "pixelsClearedAsStranded": 261,
+      "pixelsKept": 159000,
+      "strayComponentsRemaining": 0,
       "untouchedAboveSeatPlane": true
     },
     {
       "sourcePath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_front_chair_v1.png",
       "sourceSha256": "8ffbf576e4b74465159734996adefb7146ec22d68b34709273933ec1fc5e2fdc",
       "outputPath": "art/generated/candidates/wave-a-chairless/wave_a_fat_man_seated_front_chairless_v1.png",
-      "outputSha256": "0d6069b07e47a59d4765ffe4245e350bd6ce7a55039ee07fef1ffdd18954cc1c",
+      "outputSha256": "7a871401cf5e27cdb0683339de76a5f6e11b2a9bb47b7d1dcdd0fd497e305e94",
       "canvas": {
         "width": 747,
         "height": 1607
       },
       "seatPlaneRow": 964,
-      "pixelsCleared": 22053,
-      "pixelsKept": 163104,
+      "pixelsCleared": 24014,
+      "pixelsClearedAsStranded": 1961,
+      "pixelsKept": 161143,
+      "strayComponentsRemaining": 0,
       "untouchedAboveSeatPlane": true
     },
     {
       "sourcePath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_front_chair_v1.png",
       "sourceSha256": "55071836e9ba9ceb5f2adfd92e7e5216fddc08ecf87ee8503eb4eef4cb92dcea",
       "outputPath": "art/generated/candidates/wave-a-chairless/wave_a_skinny_man_seated_front_chairless_v1.png",
-      "outputSha256": "debedeeaed5fa87e092844c8029bc500182b48ad0e40a295899b3d4d77e9c9db",
+      "outputSha256": "fec291a04da5dafdc46b42cfcda456c2ad886fd01ea621cf7a217b9ff26c4370",
       "canvas": {
         "width": 697,
         "height": 1658
       },
       "seatPlaneRow": 995,
-      "pixelsCleared": 31691,
-      "pixelsKept": 155771,
+      "pixelsCleared": 36455,
+      "pixelsClearedAsStranded": 4764,
+      "pixelsKept": 151007,
+      "strayComponentsRemaining": 0,
       "untouchedAboveSeatPlane": true
     },
     {
       "sourcePath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_front_neutral_v1.png",
       "sourceSha256": "8cb36a8e40aeda29422f842a3195393897963f29980b719bb7c0c55f1626fd00",
       "outputPath": "art/generated/candidates/wave-a-chairless/wave_a_older_woman_seated_front_neutral_chairless_v1.png",
-      "outputSha256": "eb308d735b7d22579455e65310398236be9b0fa33e815082badcb887f83bbf68",
+      "outputSha256": "06cdfdc9951d5496150c9156a71eab6641b1afbe6c8ba9b7549686eb8cbb234e",
       "canvas": {
         "width": 669,
         "height": 1720
       },
       "seatPlaneRow": 1032,
-      "pixelsCleared": 38447,
-      "pixelsKept": 170149,
+      "pixelsCleared": 39325,
+      "pixelsClearedAsStranded": 878,
+      "pixelsKept": 169271,
+      "strayComponentsRemaining": 0,
       "untouchedAboveSeatPlane": true
     }
   ]
