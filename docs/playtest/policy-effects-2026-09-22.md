@@ -9,13 +9,120 @@ The question asked was: pass laws, including combinations of laws, and measure
 what moves — GDP, inflation, unemployment, approval — across several saves and
 several points in a game's history.
 
+## Correction, added after the first pass
+
+The first version of this record said no GDP, inflation or unemployment figure
+exists in a player's save for a law to move. **That was wrong, and wrong in the
+direction that matters.** It came from looking at world metrics and at the
+BLS/BEA observation panel and concluding those were all the economy there was.
+
+There is a second, separate economy, kept in `world.macroEconomy` rather than in
+the metric catalog, which is why a search for world metrics missed it entirely.
+It is a live modelled national economy, it steps every month in an ordinary
+player's save, and the player can see it. Measured below. Everything the rest of
+this record says about the _catalog_ boundary, the causal-effects engine and the
+three `economy.ts` derivations still holds — those are genuinely empty and
+genuinely uncalled. But they are not the only economy, and the live one changes
+the answer to the question that was asked.
+
+## The live economy, measured
+
+Through the ordinary opening route (`prepareOpeningLife` → `generateOpeningLife`,
+which is what `PlayerGame.tsx` uses), then advancing an ordinary life with the
+ordinary transition registry. Two seeds, both Kentucky, age 40, read at day one
+and after roughly one and two years.
+
+|                                     | seed macro-A         | seed macro-B         |
+| ----------------------------------- | -------------------- | -------------------- |
+| opening unemployment                | 3.571122%            | 4.229721%            |
+| opening 12-month inflation          | 1.373956%            | 2.174871%            |
+| housing, first month                | shortage             | surplus              |
+| unemployment after ~1 year          | 3.481064%            | 4.425896%            |
+| unemployment after ~2 years         | 3.853804%            | 4.823765%            |
+| inflation after ~1 year             | 1.835716%            | 2.425062%            |
+| inflation after ~2 years            | 2.430386%            | 2.730191%            |
+| real output growth, latest quarter  | 1.386243% annualized | 1.173759% annualized |
+| monthly records written in ~2 years | 26                   | 26                   |
+
+So: real output growth released quarterly, an unemployment rate and a 12-month
+consumer price inflation rate released monthly, plus a housing supply-to-demand
+ratio, all national, all carried in the save with their own release keys, all
+shown on the Macro conditions panel. **Two saves are genuinely different and
+drift apart** — which is the standing expectation, met, in the one part of the
+game that models an economy.
+
+The kernel is a real model rather than a lookup: inflation persists at 0.95 month
+to month, and unemployment responds to the _previous_ month's growth gap with an
+Okun-style coefficient of 0.04, with authored innovation standard deviations on
+all three series. That is the formula already sitting behind a hard check.
+
+## What a law cannot do to it
+
+The economy moves through **shocks**. `CHANGE_AUTHORED_IMPULSES`
+(`src/simulation/macro-economy/policy.ts:101`) authors a signed impulse profile
+for **eleven** shock kinds — percentage points added to growth, unemployment and
+inflation at full intensity, decaying geometrically by a `monthlyRetention`
+factor unless the origin records an end, and naming the sectors each one hits.
+
+A shock reaches the kernel only through an **origin reader**. There are
+**two**, and between them they can emit **three** of the eleven kinds:
+
+| Reader                           | Kinds it can emit                                             | What triggers it                                                                                                                                   |
+| -------------------------------- | ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `W3_INTERNATIONAL_ORIGIN_READER` | `trade-disruption`                                            | Exactly one living-world subject, index `"0"`, the authored sentence about shipping delays on an international trade route. The map has one entry. |
+| `CRISIS_ORIGIN_READER`           | `disaster-reconstruction`, `international-conflict-spillover` | Disasters and crises.                                                                                                                              |
+
+**The other eight kinds are authored, sitting in the table, and nothing in the
+game can ever emit them.** Among them, by name:
+
+- `revenue-shortfall` — growth −0.05pp, unemployment +0.01pp, retention 0.6
+- `revenue-windfall` — growth +0.05pp, unemployment −0.01pp, retention 0.6
+- `credit-tightening`, `productivity-improvement`,
+  `energy-input-cost-disruption`, `regional-industry-downturn`,
+  `regional-industry-boom`, `public-health-disruption`
+
+A revenue shortfall and a revenue windfall are precisely what a tax rise, a tax
+cut and an appropriation produce. The vocabulary for a law's effect on the
+economy is already written, with magnitudes and a decay curve, and the only
+thing missing is something that watches enacted measures and emits one.
+
+**So the honest answer to "make policy effects measurable" is not "build an
+economy".** The economy is built, it runs, it is seen, and it differs per save.
+It is one origin reader away from a law. That reader would sit beside the two
+that exist, read the enactment records this build already writes, and emit a
+shock of the kind the law is — the same shape as the disaster reader, against a
+kernel that already handles persistence and decay.
+
+Two things stand between that and shipping, and both are decisions rather than
+engineering. The impulse magnitudes say so themselves: they are _"CHANGE-authored
+placeholders for first play. They are not estimates and are reported to the
+director for confirmation; a later confirmed table is a new version, never a
+silent edit of this one."_ And nothing yet says which law is which shock kind,
+because a bill is not about anything yet (see below).
+
 ## The short answer
 
 **Enacting a law moves exactly one kind of figure in this build: money in a
-named account.** Nothing else in the world responds to a law at all. There is
-no GDP, no inflation rate, no unemployment rate and no approval rating that a
-law can move, because in a player's save those quantities either do not exist
-or are read-only published observations that the game is forbidden to alter.
+named account.** Nothing else in the world responds to a law at all.
+
+That is not because the figures are missing. ~~There is no GDP, no inflation
+rate, no unemployment rate and no approval rating that a law can move, because
+in a player's save those quantities either do not exist or are read-only
+published observations that the game is forbidden to alter.~~ [Edit: the first
+three are wrong. A player's save carries a live national economy that steps
+every month — real output growth, an unemployment rate, a 12-month inflation
+rate — which differs between saves and drifts over time. See the correction
+above, which supersedes the struck sentence.] What is missing is any route from
+an enacted law into it: the economy moves on shocks, eleven shock kinds have
+authored magnitudes including a revenue shortfall and a revenue windfall, and
+only three of the eleven can ever be emitted — by disasters and by one authored
+sentence about international shipping. Nothing a government does can emit any of
+them.
+
+There is no approval rating at all, and that part stands. The unemployment and
+price figures on the _Economic context_ screen are a different thing again: real
+BLS and BEA readings the build deliberately refuses to infer a policy response
+from.
 
 Two laws _do_ interact, and the interaction is real and already tested: a tax
 law collects money into a public account and an appropriation spends from that
