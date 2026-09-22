@@ -12,6 +12,11 @@ branch carrying this document is pushed, but its validation runs were cancelled
 deliberately: CI has two job slots repo-wide and main needs both, so a
 documents-only run was not worth starving it.
 
+This file is the source. Each Drive render is a copy of it and carries one line
+this file does not: a header naming the commit it was rendered from. Nothing
+else is ever added during a render, and nothing is ever edited into a render
+that is not written here first.
+
 ---
 
 ## The one-paragraph answer
