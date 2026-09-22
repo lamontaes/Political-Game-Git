@@ -55,10 +55,33 @@ const sample = await runWaveAAdmission(REPOSITORY_ROOT, {
 });
 
 describe("wave A candidate admission", () => {
-  it("measures every flagged crop and admits twelve", () => {
+  /**
+   * The counts are split because the registry is not this pass's alone.
+   *
+   * It used to be, and "admits twelve" was true of both. The seated port added
+   * a second admission pass over the ocd set that writes into the same file,
+   * so a bare length on the registry now silently mixes the two: a wave-a crop
+   * quietly dropping out would be masked by an ocd row arriving. Each pass is
+   * asserted on its own, and the registry total is asserted as their sum.
+   */
+  it("measures every flagged crop and admits sixteen of them", () => {
     expect(report.candidates).toHaveLength(51);
-    expect(registry.assets).toHaveLength(12);
     expect(Object.keys(WAVE_A_VISUAL_OBSERVATIONS)).toHaveLength(51);
+    const admitted = report.candidates.filter(
+      (row) => row.disposition === "admitted-candidate-body",
+    );
+    expect(admitted).toHaveLength(16);
+    // Twelve square and four turned. Before a turned seated pose family was
+    // registered, every admitted crop was square and the four were refused as
+    // an unregistered facing.
+    expect(
+      admitted.filter((row) => row.observation.facing === "front"),
+    ).toHaveLength(12);
+    expect(
+      admitted.filter((row) => row.observation.facing === "three-quarter"),
+    ).toHaveLength(4);
+    // The shared registry: this pass's sixteen plus the ocd pass's six.
+    expect(registry.assets).toHaveLength(22);
   });
 
   it("re-measures a sample to exactly what the report already claims", () => {
@@ -123,11 +146,37 @@ describe("wave A candidate admission", () => {
       } else if (row.observation.bakedProp !== "none") {
         expect(row.disposition, row.assetId).toBe("retained-baked-prop");
       }
+      /*
+       * A non-front facing is no longer disqualifying on its own, and the rule
+       * it replaces is the same rule stated properly.
+       *
+       * The point was never that turned art is bad. It was that the registry
+       * declared only front-facing families, so filing a turned figure meant
+       * claiming a facing no contract carried — a back view quietly landing in
+       * `standing-neutral`. A turned seated family now exists, so the honest
+       * test is whether the registry has somewhere to put this figure, which
+       * is exactly what `registeredPoseFamilyFor` answers. A turned crop with
+       * no direction read for it still has nowhere to go, because filing it
+       * under the mirror of its own turn would seat it backwards in its chair.
+       */
       if (
         row.disposition === "admitted-candidate-body" &&
         row.observation.facing !== "front"
       ) {
-        throw new Error(`${row.assetId} was admitted with a non-front facing.`);
+        const family = registeredPoseFamilyFor(
+          row.observation,
+          row.apparentPoseCategory,
+        );
+        if (family === null) {
+          throw new Error(
+            `${row.assetId} was admitted with facing '${row.observation.facing}', which no registered pose family declares.`,
+          );
+        }
+        if (row.observation.facingDirection === undefined) {
+          throw new Error(
+            `${row.assetId} was admitted turned with no direction read for it.`,
+          );
+        }
       }
     }
   });
