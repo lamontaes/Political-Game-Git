@@ -1,3 +1,4 @@
+import { wasRefused } from "../simulation/scheduled-activity-answer";
 import {
   ensurePeopleTraits,
   traitConsiderations,
@@ -881,6 +882,13 @@ function produceChapterAfterDecline(world: World, personId: EntityId): World {
     const meeting = world.history.scheduledActivities.find((activity) =>
       declined.involvedEntityIds.includes(activity.id),
     );
+    // The organizer says "no problem about the meeting", which only makes
+    // sense once the player has actually said no. A hold the clock ran past
+    // writes no record of this kind at all now, and a record old enough that
+    // the two cannot be told apart is not evidence of a refusal, so no scene
+    // is produced from it. Better silence than an organizer thanking somebody
+    // for an answer they never gave.
+    if (meeting && !wasRefused(world, [meeting.id])) continue;
     const invitation = meeting
       ? sourceInvitation(world, meeting.sourceEntityIds)
       : null;

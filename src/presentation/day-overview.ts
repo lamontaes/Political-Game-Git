@@ -97,10 +97,18 @@ export function projectToday(world: World, personId: EntityId): TodayOverview {
         }
       : null,
     waiting: [
-      ...day.pending.map((entry) => ({
-        key: entry.key,
-        sentence: entry.sentence,
-      })),
+      // Only what is actually waiting. A thing the player has already answered,
+      // or whose own time came and went, is not, and listing it under "what is
+      // waiting on me" was the day going on asking a question that no longer
+      // has an answer to give. What happened to it is still said on the
+      // ordinary-life day, so it is visibly resolved rather than silently
+      // vanishing.
+      ...day.pending
+        .filter((entry) => entry.answeredBy === null)
+        .map((entry) => ({
+          key: entry.key,
+          sentence: entry.sentence,
+        })),
       // "What is waiting on me?" is one of the four questions this surface
       // exists to answer, and an unanswered offer of work is exactly that.
       ...offersAwaitingAnswer(world, personId).map((offer) => ({
