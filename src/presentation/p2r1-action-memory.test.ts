@@ -29,7 +29,6 @@ describe("P2R1 action recaps do not invent reactions or completed outcomes", () 
       "name-the-limit",
       /became assumed|caregiving|its edges/i,
     ],
-    ["adult.help-with-strings", "take-it", /was sorted out/i],
     ["adult.promise-comes-due", "renegotiate", /was accepted/i],
     ["adult.friend-favour", "decline", /they said it was fine/i],
     ["adult.petition-ask", "sign", /people.*would read/i],

@@ -1,3 +1,4 @@
+import { scheduledActivityAnswer } from "../simulation/scheduled-activity-answer";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import { refreshContextualScenes } from "./contextual-scene-producers";
 import { migrateLegacyStudyProgression } from "../simulation/education-study-progression";
@@ -30,7 +31,7 @@ import type {
 } from "../simulation";
 import type { ConversationRoomContext } from "./run-b-conversation";
 import { shortPersonName } from "./conversation-subjects";
-import { declineVenueActivity } from "./scheduled-activity-choice";
+import { lapseVenueActivity } from "./scheduled-activity-choice";
 import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
 
 /**
@@ -56,11 +57,98 @@ export const PUBLIC_MEETING_KEY = "ordinary-life:public-meeting";
 export { ORDINARY_LIFE_WORK_ITEMS };
 export type { OrdinaryLifeWorkItemDefinition };
 
+function daysBetween(from: string, to: string): number {
+  const start = Date.parse(`${from}T00:00:00Z`);
+  const end = Date.parse(`${to}T00:00:00Z`);
+  if (Number.isNaN(start) || Number.isNaN(end)) return 0;
+  return Math.max(0, Math.round((end - start) / 86_400_000));
+}
+
+/**
+ * How long this has been sitting there, said only once it is worth saying.
+ *
+ * Nothing is added in the first week, because a thing written on Monday and
+ * still open on Wednesday is not a fact about the character's life. After that
+ * it is: the same errands and the same posted meeting read identically on the
+ * fifth of January and the thirtieth of March, and a player who had let three
+ * months go by was shown a first morning. The count is derived from the
+ * record's own creation day, so it can only say what actually happened, and no
+ * claim is made about why — whether an errand nobody does should eventually
+ * lapse is a question about the world, not about this sentence.
+ */
+function standingClause(days: number, waitingOnSomeoneElse: boolean): string {
+  if (days < 7) return "";
+  const weeks = Math.floor(days / 7);
+  const howLong = weeks === 1 ? "a week" : `${weeks} weeks`;
+  return waitingOnSomeoneElse
+    ? ` Still waiting, ${howLong} on.`
+    : ` Still not done, ${howLong} on.`;
+}
+
+/**
+ * What became of the calendar hold this is about, if it is about one.
+ *
+ * Read from the records rather than from the hold being cancelled. A first
+ * version asked the activity's state, which the standing-things tests caught
+ * at once: a hold whose day simply passed is cancelled too, so an invitation
+ * nobody ever answered read back as one the player had refused. Declining and
+ * letting something lapse are different facts about a life, and only one of
+ * them is a decision. A record too old to tell the two apart leaves the thing
+ * open, because it is not evidence of an answer.
+ */
+function calendarAnswer(
+  world: World,
+  item: {
+    readonly focus: {
+      readonly kind: string;
+      readonly scheduledActivityId?: EntityId;
+    };
+  },
+): "declined" | "lapsed" | null {
+  const activityId =
+    item.focus.kind === "calendar-item" ? item.focus.scheduledActivityId : null;
+  if (!activityId) return null;
+  const answer = scheduledActivityAnswer(world, [activityId]);
+  return answer === "refused"
+    ? "declined"
+    : answer === "lapsed"
+      ? "lapsed"
+      : null;
+}
+
 export interface PendingThing {
   readonly key: string;
   /** One sentence, in the character's own life, not a work-tracker row. */
   readonly sentence: string;
   readonly waitingOnSomeoneElse: boolean;
+  /** The day this was written. Never moves. */
+  readonly openedOn: string;
+  /**
+   * How long it has been standing, in days.
+   *
+   * Carried on the record rather than worked out inside one sentence, so
+   * anything else that lists these inherits the judgement. The authored
+   * summary is fixed text: on its own it read word for word the same on the
+   * first day of a life and three months later, which is how a life that had
+   * stopped going anywhere still looked exactly like a life on its first
+   * morning. See "Values whose meaning decays with time" in
+   * `docs/systems/player-presentation.md`.
+   */
+  readonly daysStanding: number;
+  /**
+   * What became of this, or null while it is still genuinely open.
+   *
+   * Declining is not the same as ignoring, and until this existed the day
+   * could not tell them apart: declining a calendar hold writes a record and
+   * cancels the hold, but nothing on the day read either, so "Decide whether
+   * to attend" went on saying exactly that to somebody who had decided. The
+   * record was there and the reader was not. `lapsed` is the third case, for
+   * a hold the clock ran past, which is not an answer and must not be shown as
+   * one. Anything answered leaves "what is waiting on me", because it is not,
+   * and says what happened for the day it happened, so that refusing something
+   * is visibly different from it silently vanishing.
+   */
+  readonly answeredBy: "declined" | "lapsed" | null;
 }
 
 export interface OrdinaryDay {
@@ -141,11 +229,27 @@ export function projectOrdinaryDay(
     : undefined;
   const pending = workPendingEntriesFor(world, personId)
     .filter((entry) => entry.state.status !== "completed")
-    .map((entry) => ({
-      key: entry.item.stableKey,
-      sentence: entry.item.summary,
-      waitingOnSomeoneElse: entry.state.waitingOnPersonIds.length > 0,
-    }));
+    .map((entry) => {
+      const waitingOnSomeoneElse = entry.state.waitingOnPersonIds.length > 0;
+      const daysStanding = daysBetween(
+        entry.item.createdAt.date,
+        world.currentDate,
+      );
+      const answeredBy = calendarAnswer(world, entry.item);
+      return {
+        key: entry.item.stableKey,
+        sentence:
+          answeredBy === "declined"
+            ? `${entry.item.title}: you decided not to go.`
+            : answeredBy === "lapsed"
+              ? `${entry.item.title}: the time came and went without an answer.`
+              : `${entry.item.summary}${standingClause(daysStanding, waitingOnSomeoneElse)}`,
+        waitingOnSomeoneElse,
+        openedOn: entry.item.createdAt.date,
+        daysStanding,
+        answeredBy,
+      };
+    });
 
   return {
     personName: personName(person),
@@ -282,8 +386,11 @@ function advanceOrdinaryDays(
     if (compareSimulationMoments(stepped.currentMoment, morning) >= 0)
       return stepped;
 
-    // Passing time is an explicit choice not to attend an optional hold. Write
-    // that choice and release only the tentative activity at this exact
+    // Passing time is not a choice not to attend. It used to be recorded as
+    // one: this wrote a refusal, with a fabricated "Decline <title>" against
+    // the player's name, for holds they were never shown and had no control
+    // for. It now records what actually happened — the time passed and nobody
+    // answered — and releases only the tentative activity at this exact
     // boundary. Confirmed commitments and travel fall through unchanged.
     const optional = stepped.history.scheduledActivities.find((activity) => {
       if (activity.kind !== "tentative") return false;
@@ -307,13 +414,13 @@ function advanceOrdinaryDays(
     if (!optional || stepped.control.kind !== "person") return stepped;
     // The player asked to be stopped here. The hold stays; they decide.
     if (options.stopForTentativeHolds) return stepped;
-    const declined = declineVenueActivity(
+    const lapsed = lapseVenueActivity(
       stepped,
       stepped.control.personId,
       optional.id,
     );
-    if (declined === stepped) return stepped;
-    current = declined;
+    if (lapsed === stepped) return stepped;
+    current = lapsed;
   }
   throw new Error("Ordinary time advancement did not converge.");
 }
