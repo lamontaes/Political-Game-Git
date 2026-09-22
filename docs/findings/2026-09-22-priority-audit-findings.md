@@ -404,6 +404,19 @@ is not researched twice.
 
 ## 6. Process findings, each paid for once
 
+- **The concurrency group protects a run that is already running, and main's
+  runs were never running.** `validate.yml` sets
+  `cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}`, so on `main` an
+  in-progress run is shielded — which is what it was written for. But a group
+  holds only one _waiting_ run, and with two concurrent job slots for the whole
+  repository, main's fifteen-job run waits rather than runs. So each merge to
+  `main` superseded the previous merge's run before it executed a single test.
+  Three in a row tonight, including two report merges an hour apart. **That is
+  why there was no verdict on main all night, and it was not capacity.** The
+  merge freeze had been called to stop lanes racing each other; the actual
+  mechanism was worse than the race it was called for, and nobody would have
+  found it by reading the file, because the line is correct and the behaviour
+  it produces at two slots is not what it looks like.
 - **A cancelled run's aggregation job reports `failure`.** `validate.yml` ends
   in a sixteenth job that gates on the other fifteen, and when the concurrency
   group cancels a superseded run that job concludes failed rather than
