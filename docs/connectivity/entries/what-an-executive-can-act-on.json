@@ -1,0 +1,57 @@
+{
+  "control": {
+    "detail": "The governor picks a first priority and a budget request; a legislator drafts and files a bill.",
+    "present": true
+  },
+  "declaredInContent": false,
+  "duplication": {
+    "kind": "coverage",
+    "playerVisible": true,
+    "producers": [
+      {
+        "at": "main at 7e011a42",
+        "path": "src/simulation/governing/program-families.ts",
+        "reachDetail": "Walked: seed gov-win-CO-1, Acres Green, Colorado, age 40; Zara Ward won and governed from January 5, 2027. Offered in a year: agricultural conservation, assistance eligibility, social-service application access, reporting and oversight. Drawn at state-governing.ts:934 (agenda) and :1756 (budget).",
+        "reachedByPlay": "reaches"
+      },
+      {
+        "at": "main at 7e011a42",
+        "path": "src/simulation/legislation-program-families.ts",
+        "reachDetail": "Walked: seed l-onboard-ordinary-mount, the Kentucky regression hometown, age 38; won a Kentucky House seat. The drafting table offered 43 configurations, the first eight transit, bridges, broadband and water lines.",
+        "reachedByPlay": "reaches"
+      }
+    ],
+    "visibilityDetail": "A governor and a legislator are offered different subjects, and the seven the governor is missing are all infrastructure and resilience."
+  },
+  "entryId": "what-an-executive-can-act-on",
+  "mapVersion": "connectivity-map/v1",
+  "measuredBy": "dual-systems count",
+  "measurements": [
+    {
+      "at": "main at 4965f63c, walked 2026-09-22 ~17:45-18:05Z in Chromium 141 through the ordinary creator",
+      "found": "Four governor subjects in a year, none infrastructure; 43 drafting configurations led by infrastructure. The absence on the governor's side rests on the code: both governor draws sample only PROGRAM_FAMILIES.",
+      "what": "The governor's office and a legislator's drafting table in the running game, two lives"
+    },
+    {
+      "at": "main at 7e011a42",
+      "found": "13 families against 20; the governor's list omits INFRASTRUCTURE_FAMILIES and RESILIENCE_FAMILIES.",
+      "what": "src/simulation/governing/program-families.ts and legislation-program-families.ts"
+    }
+  ],
+  "notes": [
+    "Not one save: a Colorado life cannot reach a legislative seat (Colorado's legislature is not compiled), and a Kentucky governor on seed gov-win-KY-1 lost. Written up in docs/playtest/dual-systems-walk-2026-09-22.md."
+  ],
+  "playerReach": "reaches",
+  "playerReachDetail": "A player who wins a governorship or a legislative seat acts on the list their office reads. A governor never sees transit, bridges, broadband, water service lines, disaster recovery, utility resilience or critical infrastructure.",
+  "reMeasuredByPublisher": true,
+  "recordedAt": "2026-09-22T20:40:00.000Z",
+  "surface": {
+    "detail": "The governor's office screen offers program subjects as choices; a legislator's drafting table lists every configuration.",
+    "present": true
+  },
+  "system": {
+    "detail": "Two program lists. A governing office draws its first-year agenda and every budget season from src/simulation/governing/program-families.ts (13 families: service, fiscal and administration). A legislature drafts from src/simulation/legislation-program-families.ts (20: the same 13 plus infrastructure and resilience).",
+    "present": true
+  },
+  "title": "What an executive can act on"
+}
