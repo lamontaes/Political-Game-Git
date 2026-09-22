@@ -36,7 +36,9 @@ import type {
  *   (`appliesTo: "immediately"`). It needs a sitting term's end to move, and
  *   the saved term's expiry is a scheduled due item that nothing reschedules
  *   yet. Blanket rule meanwhile: an "immediately" change is applied as
- *   terms-beginning-after, and `enactedChanges` records that it was.
+ *   terms-beginning-after, and `enactedChanges` records that it was. How
+ *   real states handled this is research question
+ *   `counting-governor-terms-toward-a-limit`.
  */
 
 /** One enacted change this rule carries, as it was applied. */

@@ -46,6 +46,10 @@ import { stateExecutiveIdentity } from "./state-executive-candidacy-packs";
  * - Where a changing law is silent on whether terms already served count,
  *   they count. That is the reading under which "three terms instead of two"
  *   lets a two-term governor stand again, which is what such a law is for.
+ *
+ * PLACEHOLDERS, NOT LAW: the 90-day break, counting any partial term in full,
+ * and counting prior service under a silent law are the game's own until
+ * research question `counting-governor-terms-toward-a-limit` is answered.
  */
 
 export const EXECUTIVE_TERM_LIMIT_PROFILE_VERSION =
