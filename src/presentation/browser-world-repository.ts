@@ -1,6 +1,9 @@
 import { migrateUnpinnedAppearanceCatalog } from "../simulation/person-appearance";
 import { ageOnDate } from "../simulation/dates";
-import { controlHandoffs } from "../simulation/people-continuation";
+import {
+  controlHandoffs,
+  observerAnchorPersonId,
+} from "../simulation/people-continuation";
 import {
   currentLifeCutoff,
   householdMembershipsAt,
@@ -126,6 +129,12 @@ export interface BrowserWorldSummary {
   readonly playerPersonId: EntityId;
   readonly playerName: string;
   readonly playerAge: number;
+  /**
+   * Set only for a world watched from its start, where nobody was ever
+   * played: the name and age above are the resident it is watched from, and
+   * a save list says "Watching" rather than presenting them as a life.
+   */
+  readonly observing?: true;
   readonly residence: BrowserWorldResidenceSummary | null;
   readonly currentMoment: SimulationMoment;
   readonly actionSequence: number;
@@ -1037,6 +1046,7 @@ function prepareWorldRecord(world: World): PreparedRecord {
       playerPersonId: player.id,
       playerName: personName(player),
       playerAge: ageOnDate(player.birthDate, world.currentDate),
+      ...(watchedFromStart(world) ? { observing: true as const } : {}),
       residence: currentResidence(world, player),
       currentMoment: { ...world.currentMoment },
       actionSequence: world.actionSequence,
@@ -1352,7 +1362,8 @@ function controlledPlayer(world: World): Person {
   const personId =
     world.control.kind === "person"
       ? world.control.personId
-      : (controlHandoffs(world).at(-1)?.fromPersonId ?? null);
+      : (controlHandoffs(world).at(-1)?.fromPersonId ??
+        observerAnchorPersonId(world));
   if (personId === null) {
     throw new Error("A saved game needs a character the player controls.");
   }
@@ -1361,6 +1372,14 @@ function controlledPlayer(world: World): Person {
     throw new Error("The saved game's character is missing from its world.");
   }
   return player;
+}
+
+function watchedFromStart(world: World): boolean {
+  return (
+    world.control.kind === "observer" &&
+    controlHandoffs(world).length === 0 &&
+    observerAnchorPersonId(world) !== null
+  );
 }
 
 function sameCanonicalMetadata(

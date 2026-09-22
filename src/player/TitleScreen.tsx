@@ -307,6 +307,7 @@ export function TitleScreen({
   savesUnavailable,
   problem,
   onNewGame,
+  onWatch,
   onContinue,
   onOpenSaves,
   onOpenOptions,
@@ -329,6 +330,8 @@ export function TitleScreen({
   readonly savesUnavailable: boolean;
   readonly problem: string | null;
   readonly onNewGame: () => void;
+  /** Observer Mode: open a world with nobody played and let it run. */
+  readonly onWatch?: () => void;
   readonly onContinue: () => void;
   readonly onOpenSaves: () => void;
   readonly onOpenOptions: () => void;
@@ -353,6 +356,12 @@ export function TitleScreen({
         <button type="button" data-testid="new-game" onClick={onNewGame}>
           New game
         </button>
+        {onWatch ? (
+          <button type="button" data-testid="watch-world" onClick={onWatch}>
+            Watch the world
+            <small>Nobody played. It runs on its own.</small>
+          </button>
+        ) : null}
         <button
           type="button"
           data-testid="continue"
@@ -362,7 +371,9 @@ export function TitleScreen({
           Continue
           {recent ? (
             <small>
-              {recent.playerName}, {recent.playerAge}
+              {recent.observing
+                ? "Watching the world"
+                : `${recent.playerName}, ${recent.playerAge}`}
               {recent.residence ? ` \u00b7 ${recent.residence.name}` : ""}
             </small>
           ) : setAside > 0 ? (
