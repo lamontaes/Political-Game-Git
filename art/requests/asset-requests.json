@@ -1381,6 +1381,152 @@
         "Shows the building, not governing. A Capitol identity does not establish an everyday working office or a current occupant, and a delivery implying either has answered a different request."
       ],
       "dependsOn": []
+    },
+    {
+      "requestId": "ui-newspaper-page-furniture",
+      "requestVersion": 1,
+      "priority": "P1",
+      "status": "queued",
+      "title": "Page furniture for the in-game newspaper",
+      "consumer": {
+        "consumerId": "no-declared-consumer",
+        "runtimeComponent": "src/player/news/NewsDesk.tsx",
+        "playerVisibleUse": "The news front page, in both its mixed-front-page mode and its single-publication mode. It is reached from the public information surface and shows the stories the world has actually published."
+      },
+      "whyNeeded": "This is the cheapest surface in the game to make look right, because it is already finished. It works, it has two modes, it handles corrections, and nobody has to fix it first — the only thing it lacks is that it does not look like a newspaper. Every other surface needing art also needs engineering; this one needs only the art. Jurisdiction-independent: Page furniture is the paper's physical presentation and is the same wherever the player lives. The outlet names printed on it are generated per world; the furniture is not. Filed by art bench and regional scenes thread on 2026-09-22T05:45:00.000Z (inspection).",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/requests/asset-requests.json",
+          "art/requests/incoming/",
+          "art/regions/regional-scene-places.json",
+          "art/ and public/ (find, for any icon or SVG asset)",
+          "src/player/news/news.css",
+          "src/player/news/NewsDesk.tsx"
+        ],
+        "driveLocationsSearched": [],
+        "found": "Nothing. All 126 manifest assets were read and none is an interface graphic; the only SVGs in the project are pose control plates and arm-measurement QA overlays, which are authoring evidence rather than shipped art. news.css was read in full and its entire visual treatment is font-family, letter-spacing and text-transform, with no image reference anywhere.",
+        "shortfall": "The newspaper surface is complete and functioning and simply has no artwork. Drive was not searched: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
+      },
+      "target": {
+        "targetClass": "interface-graphic",
+        "container": "png",
+        "alphaRequired": true,
+        "minimumWidth": 1024,
+        "aspectRatio": "component pieces rather than one page; the rules and devices are wide and short, the paper ground is tileable",
+        "styleAuthority": "src/player/news/news.css, whose four masthead families and Georgia-based body already set the paper's typographic character; the artwork joins that rather than replacing it."
+      },
+      "generationRecipe": [
+        "A set of page furniture for a printed newspaper: a paper ground with its own tone and grain, a column rule, a rule under the masthead, and a small folio or dateline device.",
+        "Tileable or stretchable rather than one fixed page image. The page runs as long as the stories the world published that day.",
+        "No words of any kind in the artwork. No headlines, no outlet names, no dates. Every word on that page comes from the simulation.",
+        "It has to sit behind and between text without competing with it, so restraint is the brief: this is the paper, not a picture on the paper."
+      ],
+      "acceptanceCriteria": [
+        "Reads as a printed page at a glance, before any of the text is read.",
+        "Contains no text, no outlet name and no date. A delivery with any lettering in it is wrong however good it looks.",
+        "Tiles or stretches without a visible seam over a page of unpredictable length.",
+        "Legible with body text over it: the paper ground must not reduce the contrast of text placed on it."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "ui-masthead-ornaments-four-families",
+      "requestVersion": 1,
+      "priority": "P2",
+      "status": "queued",
+      "title": "Masthead ornaments for the four newspaper style families",
+      "consumer": {
+        "consumerId": "no-declared-consumer",
+        "runtimeComponent": "src/player/news/NewsDesk.tsx",
+        "playerVisibleUse": "The masthead above each outlet's stories on the news front page, and the nameplate at the top of a single publication's page."
+      },
+      "whyNeeded": "Four is a measured number, not a guess: `MASTHEAD_STYLES = 4` in src/presentation/news-front-page.ts, and `styleFor` assigns every outlet to one of them by hashing its key. The consumer already exists and already asks for four distinct looks; it just has nothing to show for them. Jurisdiction-independent: The style a given outlet gets is derived from a hash of its key, not from where it publishes. The same four families serve every jurisdiction. Filed by art bench and regional scenes thread on 2026-09-22T05:45:00.000Z (inspection).",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/requests/asset-requests.json",
+          "art/requests/incoming/",
+          "art/regions/regional-scene-places.json",
+          "art/ and public/ (find, for any icon or SVG asset)",
+          "src/presentation/news-front-page.ts",
+          "src/player/news/news.css"
+        ],
+        "driveLocationsSearched": [],
+        "found": "Nothing drawn. What exists is the structure: MASTHEAD_STYLES is 4 in src/presentation/news-front-page.ts and styleFor() assigns every outlet to one of the four by hashing its key, with four matching CSS rules that differ only in font-family.",
+        "shortfall": "The game already distinguishes four kinds of outlet and has nothing to show for it. Four fonts is the whole of the difference. Drive was not searched, for the same reason as above."
+      },
+      "target": {
+        "targetClass": "interface-graphic",
+        "container": "png",
+        "alphaRequired": true,
+        "minimumWidth": 512,
+        "aspectRatio": "wide and short, sitting on a masthead line",
+        "styleAuthority": "The four families already declared in src/player/news/news.css: serif old style, condensed sans, Didot italic, and slab."
+      },
+      "generationRecipe": [
+        "Four ornaments, one per existing style family, each designed to sit beside a typeset outlet name rather than to contain one.",
+        "They should read as four different kinds of paper: something plain and local, something broadsheet and formal, something tabloid and loud, something older and more ornamental.",
+        "Each must work beside a name of unpredictable length, because outlet names are generated per world.",
+        "No real newspaper's mark, wordmark or identifying device."
+      ],
+      "acceptanceCriteria": [
+        "Four distinct ornaments that a player can tell apart at a glance in a single column of stories.",
+        "Each contains no lettering. The outlet name is typeset by the game beside it.",
+        "Each sits correctly beside both a short name and a long one.",
+        "None resembles the mark of a real newspaper."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "ui-shell-reference-icons",
+      "requestVersion": 1,
+      "priority": "P2",
+      "status": "queued",
+      "title": "Icons for the five things the shell can point at",
+      "consumer": {
+        "consumerId": "no-declared-consumer",
+        "runtimeComponent": "src/player/PinRail.tsx",
+        "playerVisibleUse": "The pin rail and every link or shortcut that reopens something: a person, a commitment in the player's calendar, a measure before a chamber, a government, or an organization such as a local party chapter."
+      },
+      "whyNeeded": "Five is measured, not invented: `ShellRef` in src/presentation/shell-navigation.ts is a closed union of exactly five kinds — person, commitment, measure, government, organization — and that file is explicit that a sixth was deliberately not added because it would have had nothing to resolve to. So the set is complete and will not quietly grow. Jurisdiction-independent: These stand for kinds of thing rather than for any particular thing, so they are the same in every jurisdiction and in every save. Filed by art bench and regional scenes thread on 2026-09-22T05:45:00.000Z (inspection).",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/requests/asset-requests.json",
+          "art/requests/incoming/",
+          "art/regions/regional-scene-places.json",
+          "art/ and public/ (find, for any icon or SVG asset)",
+          "src/presentation/shell-navigation.ts",
+          "src/player/PinRail.tsx"
+        ],
+        "driveLocationsSearched": [],
+        "found": "No icon set exists. A find across art/ and public/ returns only pose control plates and arm-measurement QA overlays, both authoring evidence. The interface uses text and font glyphs throughout.",
+        "shortfall": "The set of things that need an icon is closed and known — ShellRef is exactly five kinds — and none of them has one. Drive was not searched, for the same reason as above."
+      },
+      "target": {
+        "targetClass": "interface-graphic",
+        "container": "png",
+        "alphaRequired": true,
+        "minimumWidth": 256,
+        "aspectRatio": "square, one icon per file",
+        "styleAuthority": "None yet — this set will become the style authority for every icon added after it, so its construction rules matter more than any single glyph."
+      },
+      "generationRecipe": [
+        "Five icons, one for each ShellRef kind: person, commitment, measure, government, organization.",
+        "Government and organization must stay distinguishable at icon size. The navigation code is explicit that a place and the government of that place are different things and that blurring them starts implying where the player lives.",
+        "A commitment is a scheduled activity in the player's own calendar. It should not read as a debt or a promise to somebody.",
+        "One consistent weight and construction across all five, legible in a dense rail, and readable on both light and dark surfaces.",
+        "No party emblems, no donkey or elephant, no real government seal."
+      ],
+      "acceptanceCriteria": [
+        "Exactly five, matching the five ShellRef kinds by name.",
+        "Government and organization are tellable apart at the size the pin rail actually uses.",
+        "All five read as one set: same weight, same construction, same optical size.",
+        "Legible against both a light and a dark surface without a second version.",
+        "Carries no party emblem and no real government's seal."
+      ],
+      "dependsOn": []
     }
   ]
 }

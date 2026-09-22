@@ -276,6 +276,9 @@ describe("Art Desk projection and briefs", () => {
       "env-state-capitol-texas",
       "env-state-capitol-virginia",
       "seated-chair-separation-hand-pass",
+      "ui-masthead-ornaments-four-families",
+      "ui-newspaper-page-furniture",
+      "ui-shell-reference-icons",
     ]);
   });
 
