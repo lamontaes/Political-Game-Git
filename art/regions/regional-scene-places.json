@@ -22,7 +22,7 @@
         "excludeCounties": [],
         "includePlaces": [],
         "excludePlaces": [],
-        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+        "note": "Researched 2026-09-22 (regional-scene-place-ids): left unmatched on purpose, because a valid 2020 GEOID does not show that a resident's place looks like this scene. Any county codes below are leads for place-level and image review, not selectors. Narrow eastern Kentucky coalfield/valley-town starter: Floyd, Harlan, Letcher, Perry and Pike counties. Counties include uplands and do not prove a given street is in a valley; comparable West Virginia and other Appalachian sites remain uncovered. Research lead, not a selector: 21071, 21095, 21133, 21193, 21195. County membership alone does not establish this scene’s street, landform, season, or vegetation at a resident’s actual place."
       },
       "sourceNote": "At the Art Bench catalogue read 2026-09-21T22:30:35Z this request selects the same sha256 as playtest65-region-pikeville-valley-street. Until the bench says whether that record is the parent, a reference or a finished winter output, this row is not a separate seasonal scene and takes no plate.",
       "research": {
@@ -54,7 +54,7 @@
         "excludeCounties": [],
         "includePlaces": [],
         "excludePlaces": [],
-        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+        "note": "Researched 2026-09-22 (regional-scene-place-ids): left unmatched on purpose, because a valid 2020 GEOID does not show that a resident's place looks like this scene. Any county codes below are leads for place-level and image review, not selectors. Adams and Grant counties, Washington, are the named Othello/Drumheller and Potholes/Quincy-area footprint. Counties include agricultural flats beyond coulees; regional scene interpretation only. Research lead, not a selector: 53001, 53025. County membership alone does not establish this scene’s street, landform, season, or vegetation at a resident’s actual place."
       },
       "research": {
         "envelope": "Columbia Plateau/Channeled Scablands coulees of eastern Washington, especially appropriate Grant/Adams-area basalt channel terrain.",
@@ -88,7 +88,7 @@
         "excludeCounties": [],
         "includePlaces": [],
         "excludePlaces": [],
-        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+        "note": "Researched 2026-09-22 (regional-scene-place-ids): left unmatched on purpose, because a valid 2020 GEOID does not show that a resident's place looks like this scene. Any county codes below are leads for place-level and image review, not selectors. Berrien County, Michigan, anchors the source composition's Great Lakes low-rise town setting. Broader Midwest coverage needs a compatible-town inventory; county membership does not establish built form for each locality. Research lead, not a selector: 26021. County membership alone does not establish this scene’s street, landform, season, or vegetation at a resident’s actual place."
       },
       "research": {
         "envelope": "Generic low-rise Great Lakes/Midwestern main street represented by the Buchanan-source composition.",
@@ -119,7 +119,7 @@
         "excludeCounties": [],
         "includePlaces": [],
         "excludePlaces": [],
-        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+        "note": "Researched 2026-09-22 (regional-scene-place-ids): left unmatched on purpose, because a valid 2020 GEOID does not show that a resident's place looks like this scene. Any county codes below are leads for place-level and image review, not selectors. No county-wide selector: the named Vermont/New York counties include inland and upland territory, contrary to the lake-facing low-shore limit. Needs a vetted 2020 shoreline locality footprint."
       },
       "research": {
         "envelope": "Lake Champlain low-shore surroundings in western Vermont and eastern New York.",
@@ -150,7 +150,7 @@
         "excludeCounties": [],
         "includePlaces": [],
         "excludePlaces": [],
-        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+        "note": "Researched 2026-09-22 (regional-scene-place-ids): left unmatched on purpose, because a valid 2020 GEOID does not show that a resident's place looks like this scene. Any county codes below are leads for place-level and image review, not selectors. No selector: candidate counties across four states mix red sandstone with wooded highlands, basins and other geology. Needs a vetted redrock landform locality crosswalk."
       },
       "research": {
         "envelope": "Red-sandstone country of southern/eastern Utah, northern Arizona and compatible western Colorado/northwestern New Mexico areas.",
@@ -228,7 +228,7 @@
         "excludeCounties": [],
         "includePlaces": [],
         "excludePlaces": [],
-        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+        "note": "Researched 2026-09-22 (regional-scene-place-ids): left unmatched on purpose, because a valid 2020 GEOID does not show that a resident's place looks like this scene. Any county codes below are leads for place-level and image review, not selectors. Fort Pierre lies in Stanley County (46117), not Hughes County (46065). Neither county membership nor the source town establishes nearby pond/open grassland for a resident, so this scene remains unassigned."
       },
       "research": {
         "envelope": "Open rolling central/northern Plains grassland with a small pond; Fort Pierre-source terrain as a representative anchor.",
@@ -260,7 +260,7 @@
         "excludeCounties": [],
         "includePlaces": [],
         "excludePlaces": [],
-        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+        "note": "Researched 2026-09-22 (regional-scene-place-ids): left unmatched on purpose, because a valid 2020 GEOID does not show that a resident's place looks like this scene. Any county codes below are leads for place-level and image review, not selectors. No county selector: dormant open grassland cannot be distinguished from cropland, forested hills and streets from county codes alone. The pond scene is not a winter substitute."
       },
       "research": {
         "envelope": "Dormant grassland setting in suitable central/northern Plains open country.",
@@ -292,7 +292,7 @@
         "excludeCounties": [],
         "includePlaces": [],
         "excludePlaces": [],
-        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+        "note": "Researched 2026-09-22 (regional-scene-place-ids): left unmatched on purpose, because a valid 2020 GEOID does not show that a resident's place looks like this scene. Any county codes below are leads for place-level and image review, not selectors. No county-wide selector: Green Mountain ridges occupy only parts of counties, and ridge forest type is unresolved. Needs vetted ridge/forest localities."
       },
       "research": {
         "envelope": "Rounded forested Green Mountain uplands in Vermont and carefully matched adjacent northern Appalachian uplands.",
@@ -324,7 +324,7 @@
         "excludeCounties": [],
         "includePlaces": [],
         "excludePlaces": [],
-        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+        "note": "Researched 2026-09-22 (regional-scene-place-ids): left unmatched on purpose, because a valid 2020 GEOID does not show that a resident's place looks like this scene. Any county codes below are leads for place-level and image review, not selectors. No county-wide selector: lower coastal parishes include urban, leveed, inland and non-marsh areas. Needs a verified marsh/distributary footprint."
       },
       "sourceNote": "The catalogue's selected record is 688x456. Same position as the mangrove row: find the larger original or finish the request. No enlargement.",
       "research": {
@@ -396,7 +396,7 @@
         "excludeCounties": [],
         "includePlaces": [],
         "excludePlaces": [],
-        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+        "note": "Researched 2026-09-22 (regional-scene-place-ids): left unmatched on purpose, because a valid 2020 GEOID does not show that a resident's place looks like this scene. Any county codes below are leads for place-level and image review, not selectors. No county-wide selector: counties include inland areas and sandy/marsh shores, while granite ledges are shoreline-scale. Needs named, verified granite-coast localities."
       },
       "research": {
         "envelope": "Rocky Maine/coastal New England sites with granite ledges and sea, including the Acadia/Schoodic/Isle-au-Haut visual family.",
@@ -425,7 +425,7 @@
         "excludeCounties": [],
         "includePlaces": [],
         "excludePlaces": [],
-        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+        "note": "Researched 2026-09-22 (regional-scene-place-ids): left unmatched on purpose, because a valid 2020 GEOID does not show that a resident's place looks like this scene. Any county codes below are leads for place-level and image review, not selectors. No county selector: county membership cannot establish an open-lake setting and counties include other landscapes. Needs a lake-country locality rule."
       },
       "research": {
         "envelope": "Lake-and-forest country of northern Minnesota, northern Wisconsin and Michigan Upper Peninsula; suitable comparable northern Great Lakes settings.",
@@ -489,7 +489,7 @@
         "excludeCounties": [],
         "includePlaces": [],
         "excludePlaces": [],
-        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+        "note": "Researched 2026-09-22 (regional-scene-place-ids): left unmatched on purpose, because a valid 2020 GEOID does not show that a resident's place looks like this scene. Any county codes below are leads for place-level and image review, not selectors. Same narrow eastern Kentucky coalfield county footprint as the January town entry; compatible wooded-valley town streets are intended, but street-level relief is not guaranteed. Broader Appalachian coverage needs locality evidence. Source currently shares bytes with the January entry, not proof of a distinct winter asset. Research lead, not a selector: 21071, 21095, 21133, 21193, 21195. County membership alone does not establish this scene’s street, landform, season, or vegetation at a resident’s actual place."
       },
       "research": {
         "envelope": "Ordinary Appalachian wooded-valley town streetscape based on the corrected Pikeville composition.",
@@ -520,7 +520,7 @@
         "excludeCounties": [],
         "includePlaces": [],
         "excludePlaces": [],
-        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+        "note": "Researched 2026-09-22 (regional-scene-place-ids): left unmatched on purpose, because a valid 2020 GEOID does not show that a resident's place looks like this scene. Any county codes below are leads for place-level and image review, not selectors. No county-wide selector: counties span plains, basins, alpine peaks and montane belts. Needs finer elevation/land-cover and seasonal criteria."
       },
       "research": {
         "envelope": "Conifer/meadow montane belts below treeline in appropriate Rocky Mountain settings.",
@@ -637,7 +637,7 @@
         "excludeCounties": [],
         "includePlaces": [],
         "excludePlaces": [],
-        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+        "note": "Researched 2026-09-22 (regional-scene-place-ids): left unmatched on purpose, because a valid 2020 GEOID does not show that a resident's place looks like this scene. Any county codes below are leads for place-level and image review, not selectors. No selector: Llano Estacado counties mix caprock/canyons, cropland and urban land with open shortgrass. Needs defensible landform/land-cover screening."
       },
       "research": {
         "envelope": "Llano Estacado and adjoining southern High Plains across the Texas Panhandle/South Plains and eastern New Mexico.",
@@ -670,7 +670,7 @@
         "excludeCounties": [],
         "includePlaces": [],
         "excludePlaces": [],
-        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+        "note": "Researched 2026-09-22 (regional-scene-place-ids): left unmatched on purpose, because a valid 2020 GEOID does not show that a resident's place looks like this scene. Any county codes below are leads for place-level and image review, not selectors. No selector: East Texas/western Louisiana counties mix pine uplands with floodplain swamp, urban and other land cover. Needs vetted upland localities and distinct scene evidence."
       },
       "research": {
         "envelope": "East Texas and adjoining western Louisiana pine/hardwood uplands.",
@@ -701,7 +701,7 @@
         "excludeCounties": [],
         "includePlaces": [],
         "excludePlaces": [],
-        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+        "note": "Researched 2026-09-22 (regional-scene-place-ids): left unmatched on purpose, because a valid 2020 GEOID does not show that a resident's place looks like this scene. Any county codes below are leads for place-level and image review, not selectors. No county-wide selector: Monroe, Miami-Dade and Collier contain inland freshwater, pine uplands, urban land and multiple shores. Needs verified sheltered red-mangrove estuary bounds."
       },
       "sourceNote": "The catalogue's selected record is 640x432. That is a preview or a reference, not a delivered plate. The proper original has to be found or the request finished; enlarging these pixels and calling the result native detail is not an option.",
       "research": {
@@ -732,7 +732,7 @@
         "excludeCounties": [],
         "includePlaces": [],
         "excludePlaces": [],
-        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+        "note": "Researched 2026-09-22 (regional-scene-place-ids): left unmatched on purpose, because a valid 2020 GEOID does not show that a resident's place looks like this scene. Any county codes below are leads for place-level and image review, not selectors. Brewster, Culberson, El Paso, Hudspeth, Jeff Davis and Presidio counties form the named far-west Texas candidate region. Broad basin-and-range establishing interpretation; varied county terrain means no claim every resident is beside rocky desert/mountains. No other Texas county included. Research lead, not a selector: 48043, 48109, 48141, 48229, 48243, 48377. County membership alone does not establish this scene’s street, landform, season, or vegetation at a resident’s actual place."
       },
       "research": {
         "envelope": "Desert basins and mountain fronts of far-west Texas in the Trans-Pecos/Chihuahuan landscape.",
@@ -764,7 +764,7 @@
         "excludeCounties": [],
         "includePlaces": [],
         "excludePlaces": [],
-        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+        "note": "Researched 2026-09-22 (regional-scene-place-ids): left unmatched on purpose, because a valid 2020 GEOID does not show that a resident's place looks like this scene. Any county codes below are leads for place-level and image review, not selectors. No selector: historical tallgrass ecoregion is not proof of present-day flowering prairie; cropland and forested lake shore would be false matches. Needs actual remnant/open-prairie evidence."
       },
       "research": {
         "envelope": "Open tallgrass prairie landscapes in suitable Upper Midwest/eastern Great Plains transition sites.",
