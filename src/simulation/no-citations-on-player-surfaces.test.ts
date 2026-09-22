@@ -8,6 +8,7 @@ import {
 } from "./office-qualification-rules";
 import type { QualificationOfficeFamily } from "./office-qualification-rules";
 import type { Person } from "./types";
+import { makeIsoDate } from "./dates";
 
 /*
  * lamontae's rule, in his own words: "there should be NO references to sources
@@ -69,7 +70,7 @@ const STATE_KEYS = QUALIFICATION_SOURCED_STATE_KEYS;
 /** Every row the corpus carries, reached through the module's own accessor. */
 const ALL_ROWS = STATE_KEYS.flatMap((stateKey) =>
   FAMILIES.flatMap((family) =>
-    officeQualifications(stateKey, family, "2026-01-05"),
+    officeQualifications(stateKey, family, makeIsoDate("2026-01-05")),
   ),
 );
 
@@ -85,14 +86,14 @@ describe("no player-facing sentence carries a citation", () => {
     for (const stateKey of STATE_KEYS) {
       for (const family of FAMILIES) {
         for (const age of [18, 21, 26, 31, 40, 66]) {
-          for (const since of ["1990-01-05", null] as const) {
+          for (const since of [makeIsoDate("1990-01-05"), null] as const) {
             const assessments = assessOfficeQualifications({
               stateJurisdictionKey: stateKey,
               officeFamily: family,
               person: personAged(age),
               stateResidenceSince: since,
               districtResidenceSince: since,
-              onDate: "2026-01-05",
+              onDate: makeIsoDate("2026-01-05"),
               priorTermsInOffice: 0,
             });
             for (const assessment of assessments) {
@@ -114,11 +115,15 @@ describe("no player-facing sentence carries a citation", () => {
   it("holds for a date the rule is not established on", () => {
     const offenders: string[] = [];
     for (const row of ALL_ROWS) {
-      for (const onDate of ["1900-01-05", "1970-01-05", "2026-01-05"]) {
+      for (const onDate of ["1900-01-05", "1970-01-05", "2026-01-05"].map(
+        makeIsoDate,
+      )) {
         const applicability = qualificationTemporalApplicability(row, onDate);
         if (applicability.state === "UNKNOWN") {
           if (CITATION.test(applicability.reason)) {
-            offenders.push(`${row.stateUsps} ${row.field}: ${applicability.reason}`);
+            offenders.push(
+              `${row.stateUsps} ${row.field}: ${applicability.reason}`,
+            );
           }
         }
       }
@@ -129,7 +134,11 @@ describe("no player-facing sentence carries a citation", () => {
   it("keeps the citation in the record, which is the point", () => {
     // Removing the citation from the sentence must not remove it from the
     // evidence. If this ever fails, the fix went too far.
-    const rows = officeQualifications(STATE_KEYS[0]!, "LOWER_CHAMBER", "2026-01-05");
+    const rows = officeQualifications(
+      STATE_KEYS[0]!,
+      "LOWER_CHAMBER",
+      makeIsoDate("2026-01-05"),
+    );
     expect(rows.length).toBeGreaterThan(0);
     for (const row of rows) {
       expect(row.citation.length).toBeGreaterThan(0);

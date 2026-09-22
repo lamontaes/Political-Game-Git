@@ -1,3 +1,10 @@
+---
+id: no-citations-on-player-surfaces
+impact: patch
+section: Changed
+title: A refusal to stand for office now tells you the rule, not where we read it
+---
+
 # A refusal tells you the rule, not where we read it
 
 **For the player.** Standing for office and being turned down used to hand you a
