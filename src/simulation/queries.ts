@@ -363,18 +363,6 @@ export function claimsForEvent(
     .sort(byDateThenSequence);
 }
 
-export function factsNewestFirst(
-  world: World,
-  personId: EntityId,
-): readonly PersonFact[] {
-  const person = world.people[personId];
-  return person
-    ? [...factsForPerson(person)].sort((left, right) =>
-        right.occurredAt.localeCompare(left.occurredAt),
-      )
-    : [];
-}
-
 export function currentHistoricalCutoff(world: World): HistoricalCutoff {
   return {
     asOfDate: world.currentDate,
@@ -890,14 +878,6 @@ export function latestCampaignCommitment(
   return campaignCommitmentHistory(world, personId, propositionId).at(-1);
 }
 
-export function hasCampaignCommitment(
-  world: World,
-  personId: EntityId,
-  propositionId: EntityId,
-): boolean {
-  return latestCampaignCommitment(world, personId, propositionId) !== undefined;
-}
-
 export function principleHistory(
   world: World,
   personId: EntityId,
@@ -1111,30 +1091,6 @@ export function subjectKnowledgeProfile(
   };
 }
 
-export function subjectKnowledgeProfilesForDomain(
-  world: World,
-  personId: EntityId,
-  domainId: EntityId,
-): readonly SubjectKnowledgeProfile[] {
-  return knowledgeSubjectIdsForPerson(world, personId).flatMap((subjectId) => {
-    const subject = world.policyCatalog.subjects[subjectId];
-    const belongsToDomain =
-      subject?.scope === "domain"
-        ? subject.referenceId === domainId
-        : subject?.scope === "issue"
-          ? !!subject.referenceId &&
-            world.policyCatalog.issues[subject.referenceId]?.domainId ===
-              domainId
-          : subject?.scope === "proposition"
-            ? propositionDomainId(world, subject.referenceId) === domainId
-            : false;
-    const profile = belongsToDomain
-      ? subjectKnowledgeProfile(world, personId, subjectId)
-      : undefined;
-    return profile ? [profile] : [];
-  });
-}
-
 export function subjectKnowledgeProfilesForPerson(
   world: World,
   personId: EntityId,
@@ -1207,17 +1163,6 @@ function maxCategory<T extends string>(
   right: T,
 ): T {
   return order.indexOf(left) >= order.indexOf(right) ? left : right;
-}
-
-function propositionDomainId(
-  world: World,
-  propositionId: EntityId | null,
-): EntityId | undefined {
-  if (propositionId === null) return undefined;
-  const proposition = world.policyCatalog.propositions[propositionId];
-  return proposition
-    ? world.policyCatalog.issues[proposition.issueId]?.domainId
-    : undefined;
 }
 
 function periodsOverlap(
