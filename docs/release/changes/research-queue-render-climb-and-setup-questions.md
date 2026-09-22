@@ -25,4 +25,5 @@ jurisdictions, the qualified-elector fact model, a proposed classification of
 the 121 personality words, national local-office distributions, Puerto Rico's
 government and municipios, and the four other inhabited territories. The
 legislative ethics half of the regulator question and a widened orientation
-question for newly elected legislators are filed.
+question for newly elected legislators are filed, along with approval
+ratings for officeholders.
