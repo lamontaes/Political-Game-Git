@@ -232,6 +232,21 @@ describe("the handed-over document", () => {
     expect(document).toContain("1 open · 0 answered");
   });
 
+  it("carries the commit it was rendered from, for the copy that leaves the repo", () => {
+    const document = renderOpenQuestions(
+      [record()],
+      "2026-09-22T00:00:00.000Z",
+      "a9b99fc0",
+    );
+    expect(document).toContain("rendered from a9b99fc0");
+  });
+
+  it("says nothing about a commit when there is none to name", () => {
+    expect(
+      renderOpenQuestions([record()], "2026-09-22T00:00:00.000Z"),
+    ).not.toContain("rendered from");
+  });
+
   it("says so plainly when nothing is open", () => {
     expect(renderOpenQuestions([], "2026-09-22T00:00:00.000Z")).toContain(
       "Nothing is open",

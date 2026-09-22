@@ -20,4 +20,3 @@
   "usableAnswer": "For each academic year, one string per collection kind — postsecondary, school and district — written exactly as the agency designates that release, with the source page it was read from.",
   "whyItMatters": "An institution's record shows the reader which federal release the fact came from, and that label is a hand-kept table with two vintages in it. Adding a third year of data will throw rather than mislabel, which is the right failure, but it stops the vintage from being added at all until somebody supplies the string."
 }
-

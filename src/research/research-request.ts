@@ -521,6 +521,13 @@ const IMPACT_HEADINGS: Readonly<Record<ResearchImpact, string>> = {
 export function renderOpenQuestions(
   records: readonly ResearchRequestRecord[],
   generatedAt: string,
+  /**
+   * The commit this was rendered from. A copy of this document travels outside
+   * the repository — to Drive, where the people answering these actually read
+   * it — so it has to say for itself whether it is current. A reader with no
+   * commit cannot tell a fresh copy from a stale one.
+   */
+  renderedFromCommit?: string,
 ): string {
   const open = openRequests(records);
   const lines: string[] = [
@@ -530,7 +537,8 @@ export function renderOpenQuestions(
     "each question is a file in `docs/research/requests/`, and this document is",
     "rebuilt from them.",
     "",
-    `Generated ${generatedAt} · ${open.length} open · ${records.length - open.length} answered`,
+    `Generated ${generatedAt} · ${open.length} open · ${records.length - open.length} answered` +
+      (renderedFromCommit ? ` · rendered from ${renderedFromCommit}` : ""),
     "",
   ];
 

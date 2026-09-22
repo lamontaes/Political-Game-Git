@@ -34,6 +34,27 @@ npm run research:request -- render --write   # …and put it in docs/research/OP
 copy is generated: if two branches both wrote it, run `render --write` again
 rather than merging the prose.
 
+## Publish it where the researchers can see it
+
+The people answering these — lamontae and ChatGPT — read Drive, not our
+branches, so a question that only exists in this directory has not been asked.
+After the queue changes:
+
+```
+npm run research:request -- render --write
+```
+
+then replace the body of **OUR CIVIC DUTY — OPEN RESEARCH QUESTIONS** in the
+`CLAUDE_MEGA_WAVE_STAGING` Drive folder with the file it wrote. Update that one
+document rather than adding a new one, so there is never a second copy to
+choose between. The document names the commit and the moment it was rendered in
+its own first lines, so a reader can tell whether they are looking at something
+current.
+
+Anything filed here and published there is treated as picked up for research.
+That is the reason the validator refuses an incomplete record: a question that
+reaches Drive is a question somebody is about to spend time on.
+
 ## What a record must answer
 
 Five things, because they are what somebody who hit the question actually

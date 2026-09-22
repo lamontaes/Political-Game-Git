@@ -17,6 +17,7 @@
  * the prose.
  */
 
+import { execFileSync } from "child_process";
 import fs from "fs";
 import path from "path";
 
@@ -44,6 +45,28 @@ function report(records: readonly ResearchRequestRecord[]): boolean {
     console.error(`${mark} ${finding.questionId}: ${finding.message}`);
   }
   return validation.valid;
+}
+
+/**
+ * The head this render describes, or nothing if we are not in a checkout. The
+ * Drive copy is read by people who cannot see our branches, so it has to carry
+ * its own provenance.
+ */
+function currentCommit(): string | undefined {
+  try {
+    const revision = execFileSync("git", ["rev-parse", "--short", "HEAD"], {
+      cwd: repositoryRoot,
+      encoding: "utf8",
+    }).trim();
+    const dirty =
+      execFileSync("git", ["status", "--porcelain"], {
+        cwd: repositoryRoot,
+        encoding: "utf8",
+      }).trim().length > 0;
+    return dirty ? `${revision} (working tree modified)` : revision;
+  } catch {
+    return undefined;
+  }
 }
 
 function loadAll(): readonly ResearchRequestRecord[] {
@@ -93,7 +116,11 @@ if (command === "file") {
   console.log("Every research question is complete enough to act on.");
 } else if (command === "render") {
   const records = loadAll();
-  const document = renderOpenQuestions(records, new Date().toISOString());
+  const document = renderOpenQuestions(
+    records,
+    new Date().toISOString(),
+    currentCommit(),
+  );
   if (rest.includes("--write")) {
     const target = path.join(repositoryRoot, RENDERED_DOCUMENT);
     fs.mkdirSync(path.dirname(target), { recursive: true });
