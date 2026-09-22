@@ -1219,6 +1219,14 @@
       "textRevision": "8e5b25b72a53"
     },
     {
+      "anchor": "LIFE_TALK_INTENTS-0018",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "LIFE_TALK_INTENTS",
+      "text": "Say it can wait",
+      "occurrence": 0,
+      "textRevision": "fa32565f4c95"
+    },
+    {
       "anchor": "MunicipalWorkspace-0001",
       "sourcePath": "src/player/MunicipalWorkspace.tsx",
       "symbol": "MunicipalWorkspace",
@@ -7481,6 +7489,30 @@
       "text": "What did you want to talk about?",
       "occurrence": 0,
       "textRevision": "39de11314d2e"
+    },
+    {
+      "anchor": "replyFor-0064",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "All right. Another time, then.",
+      "occurrence": 0,
+      "textRevision": "5fd92a187a73"
+    },
+    {
+      "anchor": "replyFor-0065",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "All right. You can tell me whenever you like.",
+      "occurrence": 0,
+      "textRevision": "d2a4a851a2ac"
+    },
+    {
+      "anchor": "replyFor-0066",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "What were you going to say?",
+      "occurrence": 0,
+      "textRevision": "5fadd86fcab7"
     },
     {
       "anchor": "reporterQuestion-0001",
