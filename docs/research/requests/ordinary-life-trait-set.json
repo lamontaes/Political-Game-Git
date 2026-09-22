@@ -1,0 +1,28 @@
+{
+  "filedAt": "2026-09-22T04:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "Nothing about the current number is load-bearing. A trait is a row in a pack, so adding, removing or replacing the set is an edit to one file and touches no code.",
+    "The owner gave one or two as a starting answer and said explicitly that he expects the set to move on research coming back.",
+    "An answer that says two of the current five are the same trait wearing different names is a useful answer, not an awkward one."
+  ],
+  "priority": "P2",
+  "question": "Which recurring dispositions show up often enough in ordinary life to be worth modelling as traits, and how many is the right number before they stop being distinguishable from each other in play?",
+  "questionId": "ordinary-life-trait-set",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "people and life thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/people-trait-pack.ts, the five currently declared",
+      "whatItDidNotSettle": "Sociability, deliberation, reliability, conflict and risk. They were an authored first-playable set rather than a researched one, and nothing in the repository records why those five or why five."
+    },
+    {
+      "source": "The four decisions in the game that currently read a trait at all",
+      "whatItDidNotSettle": "Only three of the five are read by anything, and the load report says so on purpose. That tells us which are currently connected, not which are worth having."
+    }
+  ],
+  "title": "Which traits an ordinary life needs, and how many",
+  "usableAnswer": "A proposed set with a sentence each on what it governs and what it would visibly change about how a character behaves. Overlaps with the current five called out explicitly, including any of the five that should be dropped or merged. A rough ceiling on how many a player can actually tell apart is more useful than an exhaustive list.",
+  "whyItMatters": "The owner has said he wants this to be modder-friendly in the way RimWorld and The Sims are, and the shipped set is the example every pack author copies. A set that is really three traits and two synonyms teaches the wrong shape to everybody who extends it, and the wrong shape is far harder to walk back than the wrong count."
+}

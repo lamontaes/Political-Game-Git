@@ -186,7 +186,7 @@ export function compileEducation(
         stateFips: code(d.FIPS, 2),
         countyGeoid: code(d.COUNTYCD, 5),
         parentDistrictId: null,
-        sourceYear: year === 2024 ? "2024-25" : "2025-26",
+        sourceYear: `${year}-${String((year + 1) % 100).padStart(2, "0")}`,
         release:
           year === 2024
             ? "HD2024 directory; IC2024 revised member (September 2026)"
