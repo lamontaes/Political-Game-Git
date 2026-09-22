@@ -2,6 +2,7 @@ import {
   generateContextualCharacterHistory,
   type EarlierLifeGenerationVersion,
 } from "../simulation/contextual-character-history";
+import type { ContextBirthDateVersion } from "../simulation/character-history";
 import { LEGACY_COHERENT_CATALOG_GENERATION } from "../simulation/person-appearance";
 import {
   guardianAgeBand,
@@ -128,6 +129,8 @@ export interface ProductionWorldInput {
   readonly givenNameGenerationVersion?: GivenNameGenerationVersion;
   /** Absent preserves the original school/work history in replay descriptors. */
   readonly earlierLifeGenerationVersion?: EarlierLifeGenerationVersion;
+  /** Absent keeps the fixed childhood birth-date offsets in old replays. */
+  readonly contextBirthDateVersion?: ContextBirthDateVersion;
 }
 
 export interface ProductionWorld {
@@ -227,6 +230,7 @@ export function buildProductionWorld(
     input.familyStructureSeed ?? input.seed,
     input.givenNameGenerationVersion ?? LEGACY_GIVEN_NAME_GENERATION_VERSION,
     input.earlierLifeGenerationVersion,
+    input.contextBirthDateVersion,
   );
   if (input.startingLife === "legislative-office") {
     world = employInLegislativeOffice(world, player.id, place);
@@ -324,6 +328,7 @@ function establishAgeEligibleState(
   familyStructureSeed: string,
   givenNameGenerationVersion: GivenNameGenerationVersion,
   earlierLifeGenerationVersion?: EarlierLifeGenerationVersion,
+  contextBirthDateVersion?: ContextBirthDateVersion,
 ): World {
   const jurisdictionId = place.context.jurisdiction.id;
   const age = ageOnDate(player.birthDate, world.currentDate);
@@ -389,6 +394,7 @@ function establishAgeEligibleState(
       jurisdictionId,
       givenNameGenerationVersion,
       earlierLifeGenerationVersion,
+      contextBirthDateVersion,
     );
     transitions.push({
       kind: "household-membership",
@@ -974,6 +980,7 @@ function summarizeEarlierLife(
   jurisdictionId: EntityId,
   givenNameGenerationVersion: GivenNameGenerationVersion,
   version?: EarlierLifeGenerationVersion,
+  contextBirthDateVersion?: ContextBirthDateVersion,
 ): World {
   const stableKey = "production:earlier-life";
   const generateHistory =
@@ -987,6 +994,9 @@ function summarizeEarlierLife(
       personId: player.id,
       jurisdictionId,
       givenNameGenerationVersion,
+      ...(contextBirthDateVersion === undefined
+        ? {}
+        : { contextBirthDateVersion }),
     }),
   ).world;
   return applyCharacterHistoryPlan(next, {
