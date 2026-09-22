@@ -3,7 +3,7 @@
     "answeredAt": "2026-09-22T13:18:00.000Z",
     "answeredBy": "the owner, with the shape built by the people and life lane",
     "sources": [
-      "The owner's answer of 2026-09-22, relayed in his own words: \"it should just depend on how strongly that trait is to them.\"",
+      "The owner's own words, 2026-09-22 13:18Z in the research-triage thread: \"it should just depend on how strongly that trait is to them.\"",
       "The technical director's review of src/simulation/trait-resistance.ts, which named the unbounded failed-attempt pressure and the permanent per-move hardening.",
       "src/simulation/trait-resistance.ts and src/simulation/people-trait-change.ts as they stood on main at d956b92a, read directly to confirm both defects before anything was changed.",
       "src/simulation/people-trait-occasions.test.ts, which walks the live occasion through proposeContact and answerContact rather than inferring the pace from unit tests."
