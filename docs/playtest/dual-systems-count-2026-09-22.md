@@ -19,7 +19,7 @@ size of the surface the other four bands are drawn from.
 
 ## A. Two producers that disagree today
 
-| #   | The two sites                                                                                                                                                                                      | Which one play reaches                                                       | Do they disagree                                           |
+| #   | The two sites                                                                                                                                                                                      | Which producer the code reaches (see Method)                                 | Do they disagree                                           |
 | --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------- |
 | A1  | `simulation/character-history.ts:2218/2231/2242` draws a name with `drawCanonicalName` and a gender separately, vs `presentation/production-world.ts` (6 sites) using `drawCanonicalNameForGender` | **Both.** `production-world.ts:924` calls `generateQuickCharacterHistory`    | **Yes.** See measurement below                             |
 | A2  | `simulation/governing/program-families.ts` (13 families) vs `simulation/legislation-program-families.ts` (20)                                                                                      | Both, on different screens                                                   | **Yes.** 7 families                                        |
@@ -199,10 +199,36 @@ for no player-visible gain. Worth a test asserting they stay equal instead.
 
 **Neither:** band E needs triage, not consolidation. It is a list to draw from.
 
-## Method
+## Method, and what it does not establish
 
 Import graph over 1492 files, 462 of them tests. Reachability walked from
 `src/main.tsx` (play) and `src/cli/demo.ts`. File-level reachability was **not**
 the discriminator — demo.ts imports nothing play does not, so every row here is
 symbol-level. Probes executed with `node --import tsx` against the worktree at
 `d5c707f4`, not read.
+
+**The limitation, stated because the table is easy to over-trust.** The "which
+one play reaches" column was established by the import graph and by call sites,
+**not by walking the route in the running game**. Those are different claims.
+An import proves a module is bundled and a symbol is referenced; it does not
+prove a player can get to the screen that calls it, or that the call is not
+behind a condition that never holds in an ordinary save. This project has paid
+for that distinction before: a test helper route is not a player route.
+
+So read the column as **"which producer the code reaches"**, which is a strictly
+weaker claim than "which one a player meets". It is sound for the negative
+direction — A3's rule corpus has no importer at all outside its own test, and no
+route can reach what nothing imports. It is weaker in the positive direction: A2
+says a governing office reads the 13-family list and a legislature reads the 20,
+and both of those are import-and-call-site findings that nobody has yet
+confirmed by opening the two screens and reading them.
+
+**What would settle it,** and what the next pass on this should do rather than
+widening the count: walk the governing office screen and the legislature screen
+in the running client on one save, name the town and the character, and record
+which program families each actually offers. That converts A2 from a code
+finding into a player finding. The same walk for A3 would say what a candidate
+in one of the six refusing states is actually told.
+
+Band C's "they agree today" is on firmer ground, because those were executed and
+compared rather than inferred.
