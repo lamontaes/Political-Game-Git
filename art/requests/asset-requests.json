@@ -1770,6 +1770,61 @@
         "The division rule and margin bracket read as belonging to the same set as the seat mark."
       ],
       "dependsOn": []
+    },
+    {
+      "requestId": "person-seated-three-quarter-right-body",
+      "requestVersion": 1,
+      "priority": "P1",
+      "status": "draft",
+      "title": "A seated adult body seen three-quarter to the right, drawn with no furniture in it",
+      "consumer": {
+        "consumerId": "residence-apartment-living-club-chair",
+        "runtimeComponent": "src/environment/scenes/residence-apartment-living-production.ts",
+        "playerVisibleUse": "A person sitting in the leather club chair, which is turned towards the room rather than square to the camera, so a front-facing figure sits in it side-on."
+      },
+      "whyNeeded": "The club chair is turned towards the room and declares permitted_facings [\"three-quarter-right\"]. Every seated body already requested is seated-guest-neutral, which is square to the camera. A square figure placed in a turned chair reads as sitting across it. This is the one seated pose the existing request queue does not cover, and it is the pose the room actually needs.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/generated/candidates/ocd-p76/bodies-despilled/",
+          "art/generated/candidates/wave-a-chairless/",
+          "art/generated/candidates/wave-a-morphology/",
+          "art/generated/approved/pg-modular/",
+          "art/manifest/character_candidate_registry.json"
+        ],
+        "driveLocationsSearched": [
+          "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/30_CHARACTER_CANDIDATES",
+          "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS"
+        ],
+        "found": "Seven turned seated bodies are banked as candidates and now carry a measured seat contact between 0.624 and 0.644 of plate height: three from the ocd despill set and four from wave-a. Four further wave-a plates have a chair painted into them; a deterministic subtractive pass recovers a chairless body from each, but a sliver of seat between the thighs and a stub of chair leg against each shin survive, because the chair's mid-tones fall inside the range of the figure's own edge pixels below the knee.",
+        "shortfall": "Not one of them is released. Every turned seated body in the bank is either an unapproved candidate or a derivative still carrying chair residue, and a derivative is not approvable while the residue is there. What is missing is a turned seated body drawn clean at production resolution, not another recovery pass over plates that have furniture in them."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 600,
+        "aspectRatio": "600:1200 prepared component canvas",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, CRUNCH47 E and CURRENT MODULAR REBUILD"
+      },
+      "generationRecipe": [
+        "One adult body seated at an ordinary seat height, the torso and hips turned about three-quarters to the viewer's right, the head carried in the same direction.",
+        "NO FURNITURE. No chair, no seat, no desk, no cushion, and no shadow cast by any of them. The figure is drawn as if the seat beneath it were invisible.",
+        "Both feet on the floor and separately readable, so the sole band resolves two runs.",
+        "The rear of the hip mass unobstructed on the side away from the knees, because that is where the seat contact is measured from.",
+        "Match the turn of art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_guest_three_quarter_v1.png, which is the reference plate the direction convention is bound to.",
+        "One consistent body family across whatever morphologies are delivered, so the pose can be measured the same way for each."
+      ],
+      "acceptanceCriteria": [
+        "The silhouette measures a turn offset near -0.27, matching the reference plate. Negative is right; a positive value is the mirror of what was asked for.",
+        "The admission pass reads a seat contact from the rear hip mass and it lands between 0.60 and 0.66 of plate height, in company with the twelve plates already measured.",
+        "No opaque region belongs to anything but the figure, verified by rendering the plate against a contrasting field.",
+        "Human visual approval remains separate and pending. Nothing here releases a pixel."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "seated-guest-three-quarter-right",
+        "intendedContext": "the apartment club chair, and any seat that declares a three-quarter-right facing"
+      }
     }
   ]
 }
