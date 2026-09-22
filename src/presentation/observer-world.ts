@@ -17,6 +17,10 @@ import {
   publicPartyAffiliation,
 } from "../simulation/living-world";
 import { SeededRng } from "../simulation/rng";
+import {
+  constitutionalPosition,
+  type ConstitutionalPosition,
+} from "../simulation/constitutional-process";
 import { explicitNewGameSetup } from "./new-game-geography";
 import type { NewGameSetup } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -182,10 +186,16 @@ const OUTCOME_LABEL: Readonly<Record<string, string>> = {
   "died-on-adjournment": "Died when the session ended",
 };
 
-const AMENDMENT_STATUS: Readonly<Record<string, string>> = {
-  proposed: "Proposed",
-  "proposal-vote": "Voted on in the legislature",
-  "state-ratification": "Before the states",
+const AMENDMENT_PHASE: Readonly<
+  Record<ConstitutionalPosition["phase"], string>
+> = {
+  consideration: "Before the legislature",
+  "awaiting-nevada": "Awaiting approval",
+  ratification: "Out for ratification",
+  ratified: "Ratified, not yet in force",
+  operative: "In force",
+  rejected: "Rejected",
+  expired: "Expired",
 };
 
 /**
@@ -241,12 +251,11 @@ export function projectObserverRecord(world: World): ObserverRecord {
       const last = actions
         .filter((action) => action.measureId === measure.id)
         .at(-1);
+      const phase = constitutionalPosition(world, measure.id).phase;
       return {
         id: measure.id,
         text: measure.text,
-        status: last
-          ? (AMENDMENT_STATUS[last.detail.kind] ?? "Under way")
-          : "Proposed",
+        status: AMENDMENT_PHASE[phase],
         at: last?.occurredAt ?? world.currentDate,
       };
     })
