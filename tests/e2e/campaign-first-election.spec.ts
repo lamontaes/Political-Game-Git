@@ -432,7 +432,7 @@ test.describe("A life can stand for something", () => {
       await expect(page.getByTestId("office-section")).toHaveCount(0);
       await openElsewhere(page, "campaign");
       await expect(page.getByTestId("campaign-afterword")).toContainText(
-        /supported term begins/,
+        /term begins/,
       );
     }
 

@@ -1,5 +1,5 @@
 import {
-  GIVEN_NAME_GENERATION_POOLS_V1,
+  givenNamePoolForStatedGender,
   NAMES_STARTER_V1,
   SeededRng,
   type GenderIdentityKey,
@@ -23,12 +23,7 @@ export function previewCreatorNames(
   salt: number,
 ): { readonly givenName: string; readonly familyName: string } {
   const rng = new SeededRng(seed).fork(`creator-name-preview:${salt}`);
-  const givenPool =
-    gender === "male"
-      ? GIVEN_NAME_GENERATION_POOLS_V1.male
-      : gender === "female"
-        ? GIVEN_NAME_GENERATION_POOLS_V1.female
-        : GIVEN_NAME_GENERATION_POOLS_V1.neutral;
+  const givenPool = givenNamePoolForStatedGender(gender);
   return {
     givenName: rng.pick(givenPool),
     familyName: rng.pick(NAMES_STARTER_V1.familyNames),
