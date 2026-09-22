@@ -104,6 +104,29 @@ export interface ResearchAnswer {
   readonly stillOpen?: string;
 }
 
+/**
+ * A position the asker can already see, offered so the researcher argues with
+ * something rather than starting from a blank page.
+ *
+ * A candidate answer is NOT a recommendation unless it says so. Where the
+ * question is a product judgement the asker has no standing to make, every
+ * candidate is filed with `recommended: false` on purpose, and the validator
+ * allows that: "here are two readings, you choose" is a legitimate brief.
+ * What it does not allow is two candidates both claiming to be recommended.
+ */
+export interface ResearchCandidateAnswer {
+  /** A few words naming the position, as it would be referred to in a reply. */
+  readonly label: string;
+  /** The position itself, stated as an answer to the question. */
+  readonly position: string;
+  /** Whether the asker is recommending it. At most one candidate may be. */
+  readonly recommended: boolean;
+  /** The strongest case for it, in the asker's own reading. */
+  readonly argumentFor?: string;
+  /** The cost of choosing it. Present means the asker looked for one. */
+  readonly argumentAgainst?: string;
+}
+
 export interface ResearchRequestRecord {
   readonly requestVersion: typeof RESEARCH_REQUEST_VERSION;
   /** A stable semantic slug. Never a seed, a hash or a single word. */
@@ -133,6 +156,14 @@ export interface ResearchRequestRecord {
    * to say".
    */
   readonly sourcesChecked: readonly ResearchSourceChecked[];
+  /**
+   * Positions the asker can already see, for the researcher to react to.
+   *
+   * Optional, because many questions genuinely have no candidate the asker can
+   * name. When present it is rendered under the question, so a reader meets the
+   * readings before the evidence rather than after.
+   */
+  readonly candidateAnswers?: readonly ResearchCandidateAnswer[];
   /** The thread, session or person filing this. Never blank. */
   readonly requestedBy: string;
   /** ISO 8601 instant the question was filed. */
@@ -165,6 +196,9 @@ export type ResearchRequestFindingCode =
   | "blank-source-checked"
   | "source-without-gap"
   | "no-sources-checked"
+  | "blank-candidate-answer"
+  | "candidate-without-position"
+  | "several-recommended-candidates"
   | "invalid-filed-at"
   | "unknown-impact"
   | "unknown-priority"
@@ -398,6 +432,31 @@ export function validateResearchRequests(
       }
     }
 
+    const candidates = record.candidateAnswers ?? [];
+    for (const candidate of candidates) {
+      if (!candidate?.label?.trim()) {
+        error(
+          "blank-candidate-answer",
+          questionId,
+          "A candidate answer with no label cannot be referred to in a reply, which is the whole point of offering one.",
+        );
+      } else if (!candidate.position?.trim()) {
+        error(
+          "candidate-without-position",
+          questionId,
+          `Candidate '${candidate.label.trim()}' has a label and no position. A name is not something a researcher can argue with.`,
+        );
+      }
+    }
+    const recommended = candidates.filter((candidate) => candidate.recommended);
+    if (recommended.length > 1) {
+      error(
+        "several-recommended-candidates",
+        questionId,
+        `${recommended.length} candidates are marked recommended (${recommended.map((candidate) => candidate.label).join(", ")}). Recommending everything recommends nothing.`,
+      );
+    }
+
     if (!isIsoInstant(record.filedAt)) {
       error(
         "invalid-filed-at",
@@ -573,6 +632,30 @@ export function renderOpenQuestions(
         `**A usable answer.** ${record.usableAnswer}`,
         "",
       );
+      const candidates = record.candidateAnswers ?? [];
+      if (candidates.length > 0) {
+        const anyRecommended = candidates.some(
+          (candidate) => candidate.recommended,
+        );
+        lines.push(
+          anyRecommended
+            ? "**Candidate answers.** The recommended one is marked."
+            : "**Candidate answers.** None is recommended; the choice is the reader's.",
+          "",
+        );
+        for (const candidate of candidates) {
+          lines.push(
+            `- **${candidate.label}**${candidate.recommended ? " — _recommended_" : ""}. ${candidate.position}`,
+          );
+          if (candidate.argumentFor?.trim()) {
+            lines.push(`  - For: ${candidate.argumentFor.trim()}`);
+          }
+          if (candidate.argumentAgainst?.trim()) {
+            lines.push(`  - Against: ${candidate.argumentAgainst.trim()}`);
+          }
+        }
+        lines.push("");
+      }
       if (record.sourcesChecked.length > 0) {
         lines.push("**Already checked.**", "");
         for (const checked of record.sourcesChecked) {

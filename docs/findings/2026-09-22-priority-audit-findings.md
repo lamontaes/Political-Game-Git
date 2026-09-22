@@ -145,6 +145,38 @@ pack format authors scenes and durations.
 population, relationship dimensions and fading, private goal pursuit, long-life
 memory consolidation.
 
+### Where the personality work reaches a screen, and where it stops
+
+Measured after the work landed, on `claude/congress-factions-cg1u98` at
+`05dc90a0`. It is better news than it was first reported as, and the first
+version of this paragraph was wrong in the pessimistic direction: a lane
+reported that no player screen reads a trait at all, and it does not hold.
+
+**Other people's temperament is on a player screen and works.**
+`src/player/PersonCard.tsx:221` calls `personTraits` and renders the labels. So
+the pack-driven traits, the resistance model and the dialogue path are not
+sitting behind an empty surface.
+
+Two narrow gaps remain, and both are small.
+
+- **The one surface that shows temperament is hardwired to five traits.**
+  `personTraits` (`src/simulation/people-traits.ts:145-150`) maps
+  `PEOPLE_TRAITS`, the five-element `as const` at
+  `people-trait-definitions.ts:12-18`, and never consults the loaded registry.
+  A pack that adds a sixth trait is read by the decision layer and is invisible
+  on the only screen that shows temperament. The modder-friendly work stops one
+  call short of the surface. It is one function.
+- **The played character's own temperament has no surface at all.**
+  `PersonCard.tsx:218` excludes it on purpose — "Temperament is shown for other
+  people only, never for the one played" — and that exclusion predates the
+  player-temperament work, so there is no screen on which a player can see or
+  say who they are. That one is a small screen, not a one-liner.
+
+One constraint for whoever closes the first gap: the display must iterate the
+loaded registry and render **per pole, not per trait**. Anything written per
+trait is wrong the moment a pack adds one, which is the same modder-friendly
+rule reaching the UI layer, and it costs nothing to honour now.
+
 ---
 
 ## 5. Exactly one jurisdiction is seated
