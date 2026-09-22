@@ -1,3 +1,4 @@
+import { meetingHomeRoute } from "./meeting-home-route";
 import { lifeActivityHandlers } from "./life-time-handlers";
 import { travelToPlace, type PlaceTravelProvider } from "./place-travel";
 import { runtimeLifeScenes } from "../simulation/runtime-content-packs";
@@ -723,11 +724,19 @@ export function openingNeighborhoodWalkOffer(
   destination: "home" | "neighborhood",
 ): OpeningWalkOffer {
   const resolved = resolveOpeningWalk(world, personId, destination);
+  const returnRoute =
+    !resolved.ok && destination === "home"
+      ? meetingHomeRoute(world, personId)
+      : null;
   return {
     destination,
     label: destination === "home" ? "Walk home" : "Take a short walk nearby",
-    minutes: OPENING_WALK_MINUTES,
-    unavailable: resolved.ok ? null : resolved.reason,
+    minutes:
+      returnRoute?.kind === "available"
+        ? returnRoute.route.duration.minutes
+        : OPENING_WALK_MINUTES,
+    unavailable:
+      resolved.ok || returnRoute?.kind === "available" ? null : resolved.reason,
     fromLabel: openingWalkOrigin(world, personId)?.location.label ?? null,
   };
 }
@@ -742,7 +751,33 @@ export function walkOpeningNeighborhood(
   handlers?: FutureTransitionHandlerRegistry,
 ): World {
   const resolved = resolveOpeningWalk(world, personId, destination);
-  if (!resolved.ok) return world;
+  if (!resolved.ok) {
+    if (
+      destination !== "home" ||
+      meetingHomeRoute(world, personId).kind !== "available"
+    )
+      return world;
+    const next = travelToPlace(
+      world,
+      personId,
+      "home",
+      (current, actor, requested) =>
+        requested === "home"
+          ? meetingHomeRoute(current, actor)
+          : { kind: "unavailable", reason: "This route returns home." },
+      lifeActivityHandlers(handlers),
+    );
+    return next.history.events
+      .slice(world.history.events.length)
+      .some(
+        (event) =>
+          event.type === "life.scene.arrived" &&
+          event.context.location?.setting === "home" &&
+          event.participants.some((entry) => entry.personId === personId),
+      )
+      ? openNextLifeScene(next, personId, "home")
+      : next;
+  }
   const { origin, location, householdId, companionId } = resolved;
   const provider: PlaceTravelProvider = (
     current,

@@ -105,6 +105,19 @@ export function NationalElectionResults({
           <a href={view.sources.constitution}>Constitutional amendments</a>
         </details>
       ) : null}
+      {/*
+        Kept from the player-facing-text lane: an explanation the player can
+        read, with no source in it. The gated block above is the developer's
+        record of where the rule came from; this is the game saying how the
+        count works, which is a different thing and belongs in ordinary play.
+      */}
+      <details>
+        <summary>How the electors are counted</summary>
+        <p>
+          Allocation version: {view.ruleVersion}. Supported cycles: 2024 and
+          2028.
+        </p>
+      </details>
     </section>
   );
 }

@@ -1,3 +1,4 @@
+import { sha256Text } from "./sha256";
 import { stableHash } from "../simulation/ids";
 import {
   COHERENT_APPEARANCE_RECIPE_VERSION,
@@ -145,6 +146,9 @@ export interface CharacterComponentDefinition {
   readonly catalog_generation: number;
   /** Later-generation raster-only revision; all other attachment/identity metadata must match. */
   readonly supersedes_asset_id?: string;
+  /** Explicit offline rig calibration. Its hash pins the authored profile;
+   * only geometry may change in a profile-backed revision, never identity. */
+  readonly prepared_profile?: { readonly id: string; readonly sha256: string };
   /** Coordinated same-canvas garment pieces, never independent wardrobe choices. */
   readonly render_piece_ids?: readonly string[];
   readonly render_piece_of?: string;
@@ -384,7 +388,20 @@ export interface CharacterCatalogGeneration {
  * definitions are frozen by its signature, so an established recipe pinned to
  * a generation is reproducible after the library grows.
  */
+export interface PreparedProfileRecord {
+  readonly id: string;
+  readonly sha256: string;
+  readonly canonicalSource: string;
+}
+export interface ProfileLayerChange {
+  readonly assetId: string;
+  readonly from: number;
+  readonly to: number;
+  readonly reason: string;
+}
 export interface CharacterCatalogData {
+  readonly prepared_profiles?: readonly PreparedProfileRecord[];
+  readonly profile_layer_changes?: readonly ProfileLayerChange[];
   readonly catalog_generation: number;
   readonly slots: readonly CharacterSlotDefinition[];
   readonly generations: readonly CharacterCatalogGeneration[];
@@ -629,25 +646,140 @@ function validateBodyContacts(
 
 function rasterRevisionErrors(
   components: ReadonlyMap<string, CharacterComponent>,
+  catalog: CharacterCatalogData,
 ): string[] {
   const errors: string[] = [];
+  const verified = new Set<string>();
+  for (const record of catalog.prepared_profiles ?? []) {
+    try {
+      const source = JSON.parse(record.canonicalSource);
+      if (
+        source.id !== record.id ||
+        source.schema !== "modular-body-profile-v1" ||
+        sha256Text(record.canonicalSource) !== record.sha256
+      )
+        throw new Error("profile bytes differ");
+      verified.add(record.id + ":" + record.sha256);
+    } catch {
+      errors.push(`Invalid prepared profile registry entry '${record.id}'.`);
+    }
+  }
   const successors = new Set<string>();
-  const normalized = (definition: CharacterComponentDefinition) => {
+  const normalized = (
+    definition: CharacterComponentDefinition,
+    recalibrated = false,
+    layerChange = false,
+  ) => {
     const copy: Record<string, unknown> = { ...definition };
     delete copy.catalog_generation;
     delete copy.supersedes_asset_id;
     delete copy.render_piece_ids;
+    if (recalibrated) {
+      for (const key of [
+        "prepared_profile",
+        "root",
+        "attachment_anchors",
+        "contacts",
+        "origin",
+      ])
+        delete copy[key];
+    }
+    if (layerChange) delete copy.layer;
     return canonicalJson(copy);
   };
   for (const component of components.values()) {
+    const profile = component.definition.prepared_profile;
+    const recalibrated =
+      profile !== undefined &&
+      typeof profile.id === "string" &&
+      profile.id.length > 0 &&
+      /^[a-f0-9]{64}$/.test(profile.sha256) &&
+      verified.has(profile.id + ":" + profile.sha256);
+    if (profile !== undefined && !recalibrated)
+      errors.push(`Invalid prepared profile on '${component.assetId}'.`);
+    if (recalibrated && component.definition.kind !== "body") {
+      const bodies = [...components.values()].filter(
+        (body) =>
+          body.definition.kind === "body" &&
+          body.definition.catalog_generation <=
+            component.definition.catalog_generation &&
+          (!component.definition.compatible_body_families ||
+            component.definition.compatible_body_families.includes(
+              body.definition.family,
+            )) &&
+          body.definition.prepared_profile?.id === profile.id &&
+          body.definition.prepared_profile.sha256 === profile.sha256,
+      );
+      if (!bodies.length)
+        errors.push(
+          `Incomplete prepared kit: '${component.assetId}' has no matching profiled body.`,
+        );
+    }
+    if (recalibrated && component.definition.kind === "body") {
+      const family = component.definition.family;
+      const heads = new Set(
+        [...components.values()]
+          .filter(
+            (part) =>
+              part.definition.kind === "head" &&
+              part.definition.compatible_body_families?.includes(family),
+          )
+          .map((part) => part.definition.family),
+      );
+      const peers = [...components.values()].filter(
+        (part) =>
+          part.definition.kind !== "body" &&
+          (!part.definition.compatible_body_families ||
+            part.definition.compatible_body_families.includes(family)) &&
+          (!part.definition.compatible_head_families ||
+            part.definition.compatible_head_families.some((head) =>
+              heads.has(head),
+            )),
+      );
+      const requiredKinds = new Set(
+        peers
+          .filter(
+            (part) =>
+              part.definition.catalog_generation <
+              component.definition.catalog_generation,
+          )
+          .map((part) => part.definition.kind),
+      );
+      for (const kind of requiredKinds) {
+        if (
+          !peers.some(
+            (part) =>
+              part.definition.kind === kind &&
+              part.definition.catalog_generation <=
+                component.definition.catalog_generation &&
+              part.definition.prepared_profile?.id === profile.id &&
+              part.definition.prepared_profile.sha256 === profile.sha256,
+          )
+        )
+          errors.push(
+            `Incomplete prepared kit: '${component.assetId}' has no compatible '${kind}'.`,
+          );
+      }
+    }
     const previousId = component.definition.supersedes_asset_id;
     if (previousId === undefined) continue;
     const previous = components.get(previousId);
+    const layerChange = Boolean(
+      recalibrated &&
+      catalog.profile_layer_changes?.some(
+        (change) =>
+          change.assetId === component.assetId &&
+          change.from === previous?.definition.layer &&
+          change.to === component.definition.layer &&
+          change.reason.trim().length > 0,
+      ),
+    );
     if (
       !previous ||
       previous.definition.catalog_generation >=
         component.definition.catalog_generation ||
-      normalized(previous.definition) !== normalized(component.definition)
+      normalized(previous.definition, recalibrated, layerChange) !==
+        normalized(component.definition, recalibrated, layerChange)
     )
       errors.push(
         `Invalid raster revision '${component.assetId}' of '${previousId}': an older component with identical identity/attachment metadata is required.`,
@@ -716,7 +848,7 @@ export function createCharacterComponentLibrary(
       fixture: record.availability === "development-fixture",
     });
   }
-  const revisionErrors = rasterRevisionErrors(components);
+  const revisionErrors = rasterRevisionErrors(components, catalog);
   if (revisionErrors.length) throw new Error(revisionErrors.join("\n"));
   return {
     catalogGeneration: catalog.catalog_generation,
@@ -1258,7 +1390,7 @@ export function validateCharacterComponentLibrary(
     }
   }
 
-  errors.push(...rasterRevisionErrors(byId));
+  errors.push(...rasterRevisionErrors(byId, catalog));
 
   // Complexion is a property of the head family, so identity can fix a
   // complexion by choosing a head and the body must then agree.
@@ -1695,6 +1827,23 @@ export function liftCandidatesForReview(
         record.candidate_component !== undefined,
     )
     .map((record) => {
+      // KNOWN LATENT DEFECT, unreached today, left unfixed deliberately.
+      // `published` is truthy when it is an EMPTY array, and Math.max of an
+      // empty list is -Infinity, so an empty frozenGenerations would give every
+      // lifted record a catalog_generation of -Infinity: a number no generation
+      // comparison downstream can ever match, producing a silently empty
+      // catalog rather than saying why. The membership check above does not
+      // catch it, because an empty `published` reduces to 0 and an empty
+      // `membership` has size 0, so the two agree.
+      //
+      // Every caller today passes a non-empty list
+      // (people-visual4-review.ts:128, engine-people29-review.ts:53,
+      // morning23-catalog-continuity.test.ts:99), which is why this is a note
+      // and not a patch: choosing what generation an empty published set should
+      // yield is a semantic decision for whoever owns generation assignment,
+      // and guessing at it in this hot path is worse than recording it here.
+      // Found 2026-09-22 while auditing the compiled-art path for places where
+      // an ABSENCE of material was being reported as a failed verification.
       const generation = published
         ? (membership.get(record.asset_id) ?? unpublishedGeneration)
         : useFrozen && !frozen.has(record.asset_id)
@@ -1938,7 +2087,20 @@ export function componentsAtGeneration(
       .filter((component) => !component.fixture && component.released)
       .map((component) => component.definition.kind),
   );
+  const bodies = current.filter((c) => c.definition.kind === "body");
   return current
+    .filter((component) => {
+      if (component.definition.kind === "body") return true;
+      const families = component.definition.compatible_body_families;
+      const compatibleBodies = bodies.filter(
+        (b) => !families || families.includes(b.definition.family),
+      );
+      // A new rig admits its own prepared kit. Old art remains available at
+      // its historical pin, but cannot become a silent fallback on a new rig.
+      return compatibleBodies.some((b) =>
+        profileCompatible(component.definition, b.definition),
+      );
+    })
     .filter(
       (component) =>
         !component.fixture || !productionKinds.has(component.definition.kind),
@@ -1965,6 +2127,13 @@ function familyCompatibleWithIdentity(
     return (declaresBody && bodyOk) || (declaresHead && headOk);
   }
   return bodyOk && headOk;
+}
+
+function profileCompatible(
+  part: CharacterComponentDefinition,
+  body: CharacterComponentDefinition,
+): boolean {
+  return part.prepared_profile?.sha256 === body.prepared_profile?.sha256;
 }
 
 function contextCompatible(
@@ -2449,6 +2618,7 @@ export function resolveCharacterRecipe(
             (component) =>
               component.definition.kind === slot.kind &&
               wardrobeFamilies.includes(component.definition.family) &&
+              profileCompatible(component.definition, body.definition) &&
               familyCompatibleWithIdentity(
                 component.definition,
                 bodyFamily,
@@ -2497,16 +2667,25 @@ export function resolveCharacterRecipe(
       );
       const forBody = forPose.filter(
         (component) =>
-          component.definition.compatible_body_families === undefined ||
-          component.definition.compatible_body_families.includes(bodyFamily),
+          profileCompatible(component.definition, body.definition) &&
+          (component.definition.compatible_body_families === undefined ||
+            component.definition.compatible_body_families.includes(bodyFamily)),
       );
-      const candidates = forBody.filter((component) =>
-        contextCompatible(
-          component.definition,
-          poseFamily,
-          headOrientation ?? "",
-          bodyFamily,
-        ),
+      // A family can also hold one fitted derivative PER FACE (MODULAR45 hair
+      // fronts). The identity stage only asked whether the family reaches this
+      // face; this keeps a derivative fitted to another face off it. No family
+      // in an earlier generation mixes face compatibility, so earlier recipes
+      // resolve exactly as before.
+      const candidates = forBody.filter(
+        (component) =>
+          contextCompatible(
+            component.definition,
+            poseFamily,
+            headOrientation ?? "",
+            bodyFamily,
+          ) &&
+          (component.definition.compatible_head_families === undefined ||
+            component.definition.compatible_head_families.includes(headFamily)),
       );
       if (candidates.length === 0) {
         const code: CharacterRecipeDiagnosticCode =

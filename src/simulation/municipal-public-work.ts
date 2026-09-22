@@ -1690,6 +1690,7 @@ export function introduceMunicipalOrdinance(
 // ---------------------------------------------------------------------------
 
 export interface MunicipalSeat {
+  readonly participationId: EntityId;
   readonly personId: EntityId;
   readonly role: MunicipalRole;
   readonly seatLabel: string | null;
@@ -1715,6 +1716,7 @@ export function municipalSeats(
     const role = SEAT_ROLE_KINDS[state.roleKind];
     if (!role) continue;
     seats.push({
+      participationId: participation.id,
       personId: participation.personId,
       role,
       seatLabel: state.context,

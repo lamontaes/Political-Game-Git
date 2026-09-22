@@ -278,6 +278,12 @@ export function privatePackInputState(
     role: "template",
     pathOrDriveId: supplied.path,
     sha256: supplied.sha256,
+    ...(supplied.sha256
+      ? {}
+      : {
+          missingReason:
+            "Registry path present; complete private pack integrity has not been verified.",
+        }),
     nativeDetail: "unverified",
   };
 }

@@ -14,8 +14,12 @@ import { spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { gateEntryPoint } from "../../scripts/storage/storage-guard.mjs";
 
 const desktopRoot = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
+// A packaged app, its dmg and zip are the largest single write the project
+// makes (3.8 GiB app alone with private people); take the headroom first.
+gateEntryPoint({ operation: "desktop-package", target: desktopRoot });
 const identityPath = path.join(desktopRoot, "staged", "build-identity.json");
 
 let identity;

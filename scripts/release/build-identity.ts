@@ -56,7 +56,7 @@ export function resolveBuildIdentity(root: string): BuildIdentity {
       ? fromEnvironment
       : null) ??
     "unknown";
-  const status = git(root, ["status", "--porcelain"]);
+  const status = git(root, ["status", "--porcelain", "--untracked-files=no"]);
   return {
     version,
     revision,
