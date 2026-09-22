@@ -58,8 +58,8 @@ function adultLifeIn(usps: string, seed: string) {
  * themselves from the committee twice, a week apart, and does nothing else.
  * Nobody keeps the books. The payments reach the committee's public reports;
  * from there a rival or the state's own review of reports opens the matter,
- * and Washington's generated oversight body (its researched ethics body
- * covers the legislature, not this office) runs it to a finding.
+ * and the Washington State Public Disclosure Commission runs it to a finding
+ * (Washington's legislative ethics body hears only the legislature).
  */
 function washingtonFinding() {
   const { world, personId } = adultLifeIn("WA", "ethics-consequences-wa");
@@ -157,14 +157,14 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
         expect(reportedFlows.has(flowId)).toBe(true);
   });
 
-  it("reaches a public finding by Washington's generated oversight body", () => {
+  it("reaches a public finding by the Washington State Public Disclosure Commission", () => {
     const body = generatedStateOversightBody(
       run.after,
       run.campaign.jurisdictionId,
     )!;
     expect(run.proceeding.procedureKey).toBe("generated-state-oversight");
     expect(run.proceeding.institutionLabel).toBe(body.name);
-    expect(body.name.startsWith("Washington ")).toBe(true);
+    expect(body.name).toBe("Washington State Public Disclosure Commission");
     expect(run.step.publicStep).toBe(true);
     // Whoever noticed first: the rival, or the body's own review of reports.
     expect([run.rivalId, null]).toContain(run.proceeding.complainantPersonId);
@@ -422,10 +422,11 @@ describe("a generated oversight body", () => {
         stateJurisdictionForKey(key)!.id,
       )!,
     );
-    expect(bodies.map((body) => body.name.split(" ")[0])).toEqual([
-      "New",
-      "Georgia",
-      "Maine",
+    // The researched regulator's name, never a neighbor's.
+    expect(bodies.map((body) => body.name)).toEqual([
+      "New Mexico State Ethics Commission",
+      "Georgia State Ethics Commission",
+      "Maine Commission on Governmental Ethics and Election Practices",
     ]);
     const again = generatedStateOversightBody(
       deserializeWorld(serializeWorld(withStates)),
