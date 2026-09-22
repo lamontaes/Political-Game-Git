@@ -99,3 +99,21 @@ test("legacy use is bound to tree, revision and pack; stale receipt or derivativ
   writeFileSync(f.cacheFile, JSON.stringify(f.external));
   assert.deepEqual(selectedArtUsage(f.build, f.cache).bindings, [f.binding]);
 });
+
+test("repeated asks reuse the answer until the client changes", (t) => {
+  const f = fixture(t);
+  const first = selectedArtUsage(f.build, f.cache);
+  assert.deepEqual(first.bindings, [f.binding]);
+  // Unchanged tree: the same verified answer, without re-verifying.
+  assert.equal(selectedArtUsage(f.build, f.cache), first);
+  writeFileSync(path.join(f.client, "assets/scene.png"), "altered pixels");
+  assert.equal(selectedArtUsage(f.build, f.cache).bindings, undefined);
+});
+
+test("a legacy receipt that appears later is picked up", (t) => {
+  const f = fixture(t, true);
+  rmSync(f.cacheFile);
+  assert.equal(selectedArtUsage(f.build, f.cache).bindings, undefined);
+  writeFileSync(f.cacheFile, JSON.stringify(f.external));
+  assert.deepEqual(selectedArtUsage(f.build, f.cache).bindings, [f.binding]);
+});

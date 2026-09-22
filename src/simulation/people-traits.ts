@@ -11,6 +11,13 @@ import {
 import { createMindProvenance, recordPersonalityTendency } from "./mind";
 import { latestPersonalityTendency } from "./queries";
 import { SeededRng } from "./rng";
+import {
+  strengthForMagnitude,
+  traitDefinitionFromPack,
+  type RegisteredTrait,
+} from "./trait-packs";
+import { readTrait } from "./trait-readings";
+import { traitRegistryFor } from "./trait-registry";
 import type {
   DecisionConsideration,
   DecisionImportance,
@@ -161,14 +168,96 @@ export function personTraits(
  * seed value, so a character nobody had ever decided anything with was shown
  * as "Reserved" or "Confrontational" on the strength of a number the game had
  * not written down. Absence is not a middling reading and it is not a lean.
+ *
+ * Every trait this life has loaded, not a fixed five: the build's own packs
+ * first, in their order, then whatever the life's content packs install. A
+ * mod's trait reaches the card the same way a built-in one does, by being
+ * written down.
  */
 export function observedTraitLabels(
   world: World,
   personId: EntityId,
 ): readonly string[] {
-  return personTraits(world, personId).flatMap((trait) =>
-    trait.recordId === null || trait.label === null ? [] : [trait.label],
+  return [...traitRegistryFor(world).traits.values()].flatMap((trait) => {
+    const reading = readTrait(world, personId, trait);
+    return reading.state === "recorded" && reading.label !== null
+      ? [reading.label]
+      : [];
+  });
+}
+
+/**
+ * The seeded traits this life's installed content packs declare. The build's
+ * own five are not here: they keep their own stream and their own writer
+ * below, so a life with nothing installed is written exactly as before.
+ */
+function installedSeededTraits(world: World): readonly RegisteredTrait[] {
+  const installed = new Set(
+    world.contentPacks?.installed.map(({ pack }) => pack.id) ?? [],
   );
+  if (installed.size === 0) return [];
+  return [...traitRegistryFor(world).traits.values()].filter(
+    (trait) =>
+      installed.has(trait.pack) &&
+      trait.conferredBy === "seeded" &&
+      trait.seed !== null,
+  );
+}
+
+/**
+ * Writes one installed trait's seeded value for one person, from their own
+ * stream under the trait's qualified key, in the magnitudes its pack declares.
+ */
+function seedInstalledTrait(
+  world: World,
+  personId: EntityId,
+  trait: RegisteredTrait,
+): World {
+  const definition = traitDefinitionFromPack(trait);
+  let next = world;
+  if (!next.mindCatalog.tendencies[definition.id]) {
+    next = {
+      ...next,
+      mindCatalog: {
+        ...next.mindCatalog,
+        tendencies: {
+          ...next.mindCatalog.tendencies,
+          [definition.id]: definition,
+        },
+        tendencyOrder: [...next.mindCatalog.tendencyOrder, definition.id],
+      },
+    };
+  }
+  if (readTrait(next, personId, trait).state === "recorded") return next;
+  const spread = trait.seed!.spread;
+  const value =
+    spread[
+      new SeededRng(next.seed)
+        .fork(`${PEOPLE_MIND_VERSION}:seed:${personId}:${trait.qualifiedKey}`)
+        .integer(0, spread.length)
+    ]!;
+  // The loader refused any spread value the scale does not declare, so a
+  // nonzero value always has a strength here.
+  const encoded =
+    value === 0
+      ? { expressionKey: trait.scale.balancedKey, strength: "subtle" as const }
+      : {
+          expressionKey: value < 0 ? trait.poles.low.key : trait.poles.high.key,
+          strength: strengthForMagnitude(trait.scale, Math.abs(value))!,
+        };
+  return recordPersonalityTendency(next, {
+    stableKey: `${trait.qualifiedKey}:${personId}:seed`,
+    personId,
+    tendencyId: definition.id,
+    recordedAt: laterOf(next.people[personId]!.birthDate, next.currentDate),
+    ...encoded,
+    confidence: "medium",
+    scopeTags: [`${PEOPLE_MIND_VERSION}.seed`],
+    provenance: createMindProvenance("authored", {
+      note: `Seeded once from this person's own stream, as the installed pack ${trait.pack} declares.`,
+    }),
+    supersedesTendencyId: null,
+  });
 }
 
 /**
@@ -204,6 +293,9 @@ export function ensurePeopleTraits(
         }),
         supersedesTendencyId: null,
       });
+    }
+    for (const trait of installedSeededTraits(next)) {
+      next = seedInstalledTrait(next, personId, trait);
     }
   }
   return next;
