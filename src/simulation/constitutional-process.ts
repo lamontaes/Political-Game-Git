@@ -27,6 +27,7 @@ import { rulePackById } from "./legislature-rule-packs";
 import { activeWorkRelationshipsAt } from "./life-queries";
 import { stateJurisdictionForKey } from "./life-places";
 import type { ConstitutionalProcessKind } from "./constitutional-types";
+import { assertConstitutionalRuleFieldDelta } from "./enacted-rule-changes";
 
 export const ARTICLE_V_STATE_KEYS = Object.freeze(
   "AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY"
@@ -299,6 +300,8 @@ export function proposeConstitutionalMeasure(
       numerator: input.ruleDelta.numerator,
       denominatorParts: input.ruleDelta.denominatorParts,
     });
+  } else if (input.ruleDelta.kind === "rule-field") {
+    assertConstitutionalRuleFieldDelta(input.jurisdictionKey, input.ruleDelta);
   } else if (
     input.ruleDelta.kind !== "text-only" ||
     !input.ruleDelta.unsupportedEffect.trim()
@@ -485,8 +488,24 @@ export function constitutionalPosition(
     ratifiedStates: [...states],
     effectiveAt,
     operativeAt,
-    modeledEffect: m.ruleDelta.kind === "proposal-threshold",
+    modeledEffect:
+      m.ruleDelta.kind === "proposal-threshold" ||
+      m.ruleDelta.kind === "rule-field",
   };
+}
+/** Two deltas that set the same rule, so both passing at once conflict. */
+function sameRuleChanged(
+  a: ConstitutionalMeasureRecord["ruleDelta"],
+  b: ConstitutionalMeasureRecord["ruleDelta"],
+): boolean {
+  if (a.kind === "proposal-threshold" && b.kind === "proposal-threshold")
+    return true;
+  return (
+    a.kind === "rule-field" &&
+    b.kind === "rule-field" &&
+    a.field === b.field &&
+    a.officeKey === b.officeKey
+  );
 }
 function assertDetail(
   world: World,
@@ -633,8 +652,7 @@ function assertDetail(
         (other) =>
           other.id !== m.id &&
           other.jurisdictionKey === m.jurisdictionKey &&
-          other.ruleDelta.kind === "proposal-threshold" &&
-          m.ruleDelta.kind === "proposal-threshold" &&
+          sameRuleChanged(other.ruleDelta, m.ruleDelta) &&
           constitutionalActions(world, other.id).some(
             (a) =>
               a.detail.kind === "statewide-vote" &&

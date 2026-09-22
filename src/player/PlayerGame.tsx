@@ -2949,14 +2949,6 @@ function PlayingScreen({
           },
     );
     entries.push({
-      surface: "government-map",
-      label: "Map",
-      hint: "Places and government",
-      testid: "nav-government-map",
-      open: openSurface === "government-map",
-      group: "politics",
-    });
-    entries.push({
       surface: "news",
       label: "News",
       hint: "Published public records",
