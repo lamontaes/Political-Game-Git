@@ -82,6 +82,21 @@ describe.skipIf(!PRIVATE_CANDIDATE_ART_AVAILABLE)(
         result.some((p) => p.anchorId === "sofa-seated" && p.sourcePoseId),
       ).toBe(true);
       expect(new Set(result.map((p) => p.anchorId)).size).toBe(3);
+      const standingFallback = result.find(
+        (person) => person.anchorId === "living-room-middle-standing",
+      );
+      expect(standingFallback?.hasArt).toBe(true);
+      expect(standingFallback?.seated).toBe(false);
+      expect(standingFallback?.artDiagnostics).toContain(
+        "preferred-pose-substituted",
+      );
+      expect(
+        result.some((person) =>
+          ["club-chair-seated", "entry-side-standing"].includes(
+            person.anchorId,
+          ),
+        ),
+      ).toBe(false);
       expect(
         planLifeScenePeople(
           world,

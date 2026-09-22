@@ -4,6 +4,8 @@ import {
   rmSync,
   symlinkSync,
   mkdirSync,
+  statSync,
+  utimesSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -59,6 +61,14 @@ describe("Shared-machine harness", () => {
       );
       expect(() => assertIdentity(untracked, sourceIdentity(root))).toThrow(
         "Identity inputs (1 paths): new.txt",
+      );
+      const withInput = sourceIdentity(root);
+      expect(sourceIdentity(root).sourceDigest).toBe(withInput.sourceDigest);
+      const savedTimes = statSync(join(root, "new.txt"));
+      writeFileSync(join(root, "new.txt"), "old");
+      utimesSync(join(root, "new.txt"), savedTimes.atime, savedTimes.mtime);
+      expect(sourceIdentity(root).sourceDigest).not.toBe(
+        withInput.sourceDigest,
       );
     } finally {
       rmSync(root, { recursive: true, force: true });

@@ -1,0 +1,150 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "cps-2024-vote04a",
+      "bytes": {
+        "length": 15882,
+        "sha256": "068e47d3c7fc970107bd5b4ceb68d557d2cba48158e521b50806f60227da5deb"
+      },
+      "localPath": "data/source/census-voting-registration/raw/vote04a_2024.xlsx",
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "provider": "U.S. Census Bureau, Current Population Survey",
+      "publisher": {
+        "documentationUrl": "https://www.census.gov/data/tables/time-series/demo/voting-and-registration/p20-590.html",
+        "releaseDate": "2025-04-30",
+        "schemaVersion": "2024 CPS Voting and Registration Supplement",
+        "statedVintage": "November 2024"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 15882,
+        "retrievedAt": "2026-09-20T04:47:03.453Z",
+        "url": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "cps-2024-vote04b",
+      "bytes": {
+        "length": 61561,
+        "sha256": "fa33c7db6986e49eab1b1930fa1e9bd64f966b9be74a056d0e237cbc1431155b"
+      },
+      "localPath": "data/source/census-voting-registration/raw/vote04b_2024.xlsx",
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "provider": "U.S. Census Bureau, Current Population Survey",
+      "publisher": {
+        "documentationUrl": "https://www.census.gov/data/tables/time-series/demo/voting-and-registration/p20-590.html",
+        "releaseDate": "2025-04-30",
+        "schemaVersion": "2024 CPS Voting and Registration Supplement",
+        "statedVintage": "November 2024"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 61561,
+        "retrievedAt": "2026-09-20T04:47:05.505Z",
+        "url": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04b_2024.xlsx"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "cps-2024-vote04c",
+      "bytes": {
+        "length": 38664,
+        "sha256": "dacbb628705ba82e578531b227ef3d82925027491bdbc13067a6c86525992b8e"
+      },
+      "localPath": "data/source/census-voting-registration/raw/vote04c_2024.xlsx",
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "provider": "U.S. Census Bureau, Current Population Survey",
+      "publisher": {
+        "documentationUrl": "https://www.census.gov/data/tables/time-series/demo/voting-and-registration/p20-590.html",
+        "releaseDate": "2025-04-30",
+        "schemaVersion": "2024 CPS Voting and Registration Supplement",
+        "statedVintage": "November 2024"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 38664,
+        "retrievedAt": "2026-09-20T04:47:07.562Z",
+        "url": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04c_2024.xlsx"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "cps-2024-methodology",
+      "bytes": {
+        "length": 1752259,
+        "sha256": "32acc6da13023a8672313260e35e2d88bea719f64e6eb1ba482b8b25733479df"
+      },
+      "localPath": "data/source/census-voting-registration/raw/cpsnov24.pdf",
+      "mediaType": "application/pdf",
+      "provider": "U.S. Census Bureau, Current Population Survey",
+      "publisher": {
+        "documentationUrl": "https://www.census.gov/data/tables/time-series/demo/voting-and-registration/p20-590.html",
+        "releaseDate": null,
+        "schemaVersion": "2024 CPS Voting and Registration Supplement",
+        "statedVintage": "November 2024"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 1752259,
+        "retrievedAt": "2026-09-20T04:47:09.620Z",
+        "url": "https://www2.census.gov/programs-surveys/cps/techdocs/cpsnov24.pdf"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "cps-2024-release",
+      "bytes": {
+        "length": 327860,
+        "sha256": "bd437e01cf550d175819f7173c5091a1f07652847db008a9335b0eaf15cc1121"
+      },
+      "localPath": "data/source/census-voting-registration/raw/release-2025-04-30.html",
+      "mediaType": "text/html",
+      "provider": "U.S. Census Bureau, Current Population Survey",
+      "publisher": {
+        "documentationUrl": "https://www.census.gov/data/tables/time-series/demo/voting-and-registration/p20-590.html",
+        "releaseDate": "2025-04-30",
+        "schemaVersion": "2024 CPS Voting and Registration Supplement",
+        "statedVintage": "November 2024"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 327860,
+        "retrievedAt": "2026-09-20T05:01:29.471Z",
+        "url": "https://www.census.gov/newsroom/press-releases/2025/2024-presidential-election-voting-registration-tables.html"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "census-voting-registration"
+}

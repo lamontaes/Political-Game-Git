@@ -133,3 +133,13 @@ describe("Creator location is chosen, not inherited", () => {
     expect(committed.placeKey).not.toBe("kentucky");
   });
 });
+
+it("resolves the District's single offered locality without a second choice", () => {
+  const district = selectCreatorState(emptyCreatorLocation(), "US-DC");
+  expect(district.placeKey).not.toBeNull();
+  expect(creatorLocationIsReady(district)).toBe(true);
+  expect(lifePlaceByKey(district.placeKey!)?.stateJurisdictionKey).toBe(
+    "US-DC",
+  );
+  expect(selectCreatorState(district, "US-KY").placeKey).toBeNull();
+});

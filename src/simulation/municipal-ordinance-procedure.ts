@@ -23,6 +23,7 @@
  */
 
 import { addDays } from "./dates";
+import type { MunicipalPassageInterval } from "./municipal-government";
 import {
   enrollMeasure,
   measureEnactment,
@@ -61,6 +62,18 @@ export const RULES_MUNICIPAL_AUTHORITY_VERSION = "rules-municipal-authority/v1";
 export type MunicipalOrdinanceResult =
   | { readonly ok: true; readonly world: World }
   | { readonly ok: false; readonly world: World; readonly reason: string };
+
+function passageInterval(interval: MunicipalPassageInterval) {
+  return interval.basis === "ELAPSED_DAYS"
+    ? {
+        offset: interval.minimumElapsedDays,
+        description: `at least ${interval.minimumElapsedDays} elapsed days`,
+      }
+    : {
+        offset: interval.minimumInterveningDays + 1,
+        description: `at least ${interval.minimumInterveningDays} whole intervening days`,
+      };
+}
 
 function refuse(world: World, reason: string): MunicipalOrdinanceResult {
   return { ok: false, world, reason };
@@ -154,12 +167,12 @@ export function municipalOrdinanceStatus(
     phase: measurePosition(world, measureId).phase,
     introducedAt: measure.introducedAt,
     earliestPassageOn: interval
-      ? addDays(measure.introducedAt, interval.minimumInterveningDays + 1)
+      ? addDays(measure.introducedAt, passageInterval(interval).offset)
       : null,
     passageRule:
       finalStage?.vote.kind === "known" ? finalStage.vote.value.label : null,
     timingRule: interval
-      ? `At least ${interval.minimumInterveningDays} days must intervene between introduction and passage${citationFor(reading, "legislativeProcedure.introductionToPassage")}.`
+      ? `Passage requires ${passageInterval(interval).description} between introduction and passage${citationFor(reading, "legislativeProcedure.introductionToPassage")}.`
       : null,
     quorumRule: reading.procedure.quorumText,
     effectiveRule: reading.procedure.effectivePublication,
@@ -279,12 +292,12 @@ export function passMunicipalOrdinance(
   if (interval) {
     const earliest = addDays(
       measure.introducedAt,
-      interval.minimumInterveningDays + 1,
+      passageInterval(interval).offset,
     );
     if (world.currentDate < earliest) {
       return refuse(
         world,
-        `A general ordinance is not valid unless at least ${interval.minimumInterveningDays} days intervene between its introduction on ${measure.introducedAt} and its passage; the earliest valid passage date is ${earliest}. Passing it sooner needs ${interval.sameDayException ?? "an exception"}, which the game does not offer because the Code does not say what that fraction counts.`,
+        `A general ordinance requires ${passageInterval(interval).description} between its introduction on ${measure.introducedAt} and passage; the earliest valid passage date is ${earliest}. ${interval.sameDayException ? `The stated exception (${interval.sameDayException}) is not supported by this route.` : "No earlier-passage exception is established for this route."}`,
       );
     }
   }

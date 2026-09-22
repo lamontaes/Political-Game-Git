@@ -107,6 +107,32 @@ export function validateMunicipalGovernanceCorpus(
     }
     recordIds.add(id);
 
+    const passageInterval = record.legislativeProcedure.introductionToPassage;
+    if (passageInterval.state === "KNOWN") {
+      const interval = passageInterval.value;
+      const elapsed = interval.basis === "ELAPSED_DAYS";
+      const count = elapsed
+        ? interval.minimumElapsedDays
+        : interval.minimumInterveningDays;
+      if (
+        (interval.basis !== undefined &&
+          interval.basis !== "ELAPSED_DAYS" &&
+          interval.basis !== "WHOLE_INTERVENING_DAYS") ||
+        !Number.isSafeInteger(count) ||
+        count < 0 ||
+        (elapsed
+          ? "minimumInterveningDays" in interval
+          : "minimumElapsedDays" in interval)
+      ) {
+        findings.push({
+          severity: "error",
+          code: "municipal/invalid-passage-interval",
+          message: `${id} has an invalid or ambiguous introduction-to-passage day basis.`,
+          recordId: id,
+        });
+      }
+    }
+
     // 1. No power collapsed into a dial, and no consolidation boolean.
     forEachKey(record, (key) => {
       if (FORBIDDEN_STRENGTH_KEYS.includes(key)) {
