@@ -71,6 +71,7 @@ import { recordWorldEvent } from "./world";
 import { evaluateLifeEligibility } from "./life-eligibility";
 import { SeededRng } from "./rng";
 import { lifePathDefinition, LIFE_PATHS2_CATALOG } from "./life-paths2-catalog";
+import { programsSatisfiedBy } from "./degree-levels";
 import type { LifePathDefinition } from "./life-paths2-catalog";
 import type {
   EntityId,
@@ -160,7 +161,9 @@ export function hasLifePathCredential(
   return world.history.educationEnrollments.some(
     (e) =>
       e.personId === personId &&
-      e.programKind === program &&
+      programsSatisfiedBy(e.programKind).some(
+        (satisfied) => satisfied === program,
+      ) &&
       educationEnrollmentStateAt(world, e.id)?.status === "completed",
   );
 }
