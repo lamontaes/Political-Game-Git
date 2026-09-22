@@ -33,6 +33,7 @@ import { constitutionalPosition } from "./constitutional-process";
 import { addDays } from "./dates";
 import { createStableId } from "./ids";
 import { requireMeasure } from "./legislation";
+import { lawLevelRank, type LawLevel } from "./law-hierarchy";
 import { rulePackById } from "./legislature-rule-packs";
 import type { EntityId, IsoDate, World } from "./types";
 
@@ -210,6 +211,8 @@ export interface EnactedRuleChange {
    */
   readonly operativeBasis: "enacted-date" | "game-default";
   readonly instrument: "statute" | "constitutional-amendment";
+  /** Where the law ranks; see `law-hierarchy.ts`. */
+  readonly level: LawLevel;
   readonly measureId: EntityId;
   readonly designation: string;
   /**
@@ -462,6 +465,7 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
         addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS),
       operativeBasis: explicit ? "enacted-date" : "game-default",
       instrument: "statute",
+      level: "state-statute",
       measureId: provision.measureId,
       designation:
         enactment.actDesignation ??
@@ -486,6 +490,7 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       operativeAt: position.operativeAt,
       operativeBasis: "enacted-date",
       instrument: "constitutional-amendment",
+      level: "state-constitution",
       measureId: measure.id,
       designation: measure.designation,
       sequence: measure.sequence,
@@ -524,21 +529,25 @@ export function enactedRuleChangeAt(
       change.field === query.field &&
       change.operativeAt <= query.onDate,
   );
-  // A statute cannot override the state's constitution: once an amendment
-  // fixes a rule, only a later amendment changes it. NOT MODELLED: which
-  // constitutions delegate a rule to statute. Blanket rule meanwhile: an
-  // amendment always outranks a statute, whenever each took effect.
   return ruleChangeInForce(inForce);
 }
 
-/** Of changes already in force for one rule, in operative order, the one that governs. */
+/**
+ * Of changes already in force for one rule, in operative order, the one that
+ * governs: the highest level of law in force, and the latest law at that
+ * level. A statute cannot override its state's constitution, whenever each
+ * took effect. The blanket rules behind this (field preemption everywhere, no
+ * rule delegated to statute) are listed in `law-hierarchy.ts`.
+ */
 export function ruleChangeInForce(
   inForce: readonly EnactedRuleChange[],
 ): EnactedRuleChange | null {
-  const amendments = inForce.filter(
-    (change) => change.instrument === "constitutional-amendment",
+  if (inForce.length === 0) return null;
+  const top = Math.max(...inForce.map((change) => lawLevelRank(change.level)));
+  return (
+    inForce.filter((change) => lawLevelRank(change.level) === top).at(-1) ??
+    null
   );
-  return (amendments.length ? amendments : inForce).at(-1) ?? null;
 }
 
 /** A rule as this World's law has it, and where that value came from. */
@@ -552,6 +561,7 @@ export type RuleValueInWorld<T> =
       readonly effectiveAt: IsoDate;
       readonly operativeBasis: EnactedRuleChange["operativeBasis"];
       readonly instrument: EnactedRuleChange["instrument"];
+      readonly level: LawLevel;
       readonly applicability: RuleChangeApplicability;
     };
 
@@ -586,6 +596,7 @@ export function ruleValueInWorld<T>(
     effectiveAt: change.operativeAt,
     operativeBasis: change.operativeBasis,
     instrument: change.instrument,
+    level: change.level,
     applicability: { ...change.applicability },
   };
 }

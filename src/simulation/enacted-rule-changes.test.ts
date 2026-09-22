@@ -538,6 +538,10 @@ describe("Which law governs when several are in force", () => {
     operativeAt: makeIsoDate(operativeAt),
     operativeBasis: "enacted-date" as const,
     instrument,
+    level:
+      instrument === "statute"
+        ? ("state-statute" as const)
+        : ("state-constitution" as const),
     measureId: createStableId(
       "constitutional-measure",
       `${instrument}:${value}`,
