@@ -1,4 +1,4 @@
-/* global console, process, setTimeout */
+/* global console, process, setTimeout, window, document */
 /**
  * Bounded packaged-client smoke: launch → title → new life → keep →
  * relaunch (same binary) → Continue → same life. One binary, one
@@ -12,7 +12,7 @@
  * Usage: node scripts/smoke-test.mjs --app <executable> [--shell] [--screenshot <png>]
  */
 
-import { mkdtempSync } from "node:fs";
+import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import os from "node:os";
@@ -44,9 +44,14 @@ function arg(name) {
   const index = process.argv.indexOf(name);
   return index >= 0 ? process.argv[index + 1] : undefined;
 }
-const appPath = arg("--app");
+const hubPath = arg("--hub");
+const payloadPath = arg("--payload");
+const appPath = hubPath ?? arg("--app");
 const screenshot = arg("--screenshot");
 const shellChecks = process.argv.includes("--shell");
+const nativeSessionChecks = process.argv.includes("--native-session");
+if (nativeSessionChecks && !hubPath)
+  throw new Error("Native session checks require the actual hub.");
 if (!appPath) {
   console.error(
     "Usage: node scripts/smoke-test.mjs --app <executable> [--shell] [--screenshot <png>]",
@@ -54,6 +59,36 @@ if (!appPath) {
   process.exit(1);
 }
 const profile = mkdtempSync(path.join(os.tmpdir(), "ocd-smoke-"));
+if (hubPath) {
+  if (!payloadPath) throw new Error("A hub smoke check requires --payload.");
+  const identity = JSON.parse(
+    readFileSync(
+      path.join(payloadPath, "Contents", "Resources", "build-identity.json"),
+      "utf8",
+    ),
+  );
+  writeFileSync(
+    path.join(profile, "state.json"),
+    JSON.stringify({
+      schema: 2,
+      repositoryPath: null,
+      privatePackPath: null,
+      selectedTrack: "main",
+      tracks: {
+        main: {
+          branch: "main",
+          current: {
+            ...identity,
+            appPath: path.resolve(payloadPath),
+            delivery: "console-client-payload",
+          },
+          pending: null,
+          previous: null,
+        },
+      },
+    }),
+  );
+}
 
 const failures = [];
 function check(label, condition, detail = "") {
@@ -66,10 +101,35 @@ function check(label, condition, detail = "") {
 async function launch() {
   const app = await _electron.launch({
     executablePath: appPath,
-    env: gameLaunchEnvironment(process.env, profile),
+    env: {
+      ...gameLaunchEnvironment(process.env, profile),
+      ...(hubPath
+        ? {
+            OCD_CONTROLLER_DATA_ROOT: profile,
+            OCD_HUB_SKIP_STARTUP_CHECK: "1",
+            OCD_HUB_NO_BUILDS: "1",
+            OCD_HUB_NO_ARTDESK_AUTOSTART: "1",
+          }
+        : {}),
+    },
   });
-  const page = await app.firstWindow();
+  const page = hubPath
+    ? (app.windows().find((page) => page.url().startsWith("app://game/")) ??
+      (await app.waitForEvent("window", {
+        predicate: (page) => page.url().startsWith("app://game/"),
+        timeout: 30000,
+      })))
+    : await app.firstWindow();
   const foreign = [];
+  if (nativeSessionChecks) {
+    // Electron's will-prevent-unload handler owns this decision. Playwright's
+    // automatic dialog dismissal can race the already-approved native close.
+    page.on("dialog", (dialog) => {
+      if (dialog.type() !== "beforeunload")
+        throw new Error(`Unexpected browser dialog: ${dialog.type()}`);
+      console.log("Native before-unload decision remains with the host.");
+    });
+  }
   page.on("request", (request) => {
     if (!isPackagedRenderRequest(request.url())) foreign.push(request.url());
   });
@@ -77,10 +137,184 @@ async function launch() {
   return { app, page, foreign };
 }
 
+// Fault injection is confined to this disposable renderer and its native
+// dialogs. Production menu callbacks, preload and persistence remain real.
+async function nativeChoice(app, choices) {
+  await app.evaluate(({ dialog }, answers) => {
+    globalThis.__nativeProofDialogs = [];
+    dialog.showMessageBoxSync = (_parent, options) => {
+      globalThis.__nativeProofDialogs.push(options.message);
+      if (!answers.length) throw new Error("Unexpected native dialog");
+      return answers.shift();
+    };
+  }, choices);
+}
+
+async function nativeMenu(app, label) {
+  await app.evaluate(({ Menu }, name) => {
+    const items = Menu.getApplicationMenu().items.flatMap(
+      (item) => item.submenu?.items ?? [],
+    );
+    const item = items.find((item) => item.label === name);
+    if (!item) throw new Error(`Missing native menu item: ${name}`);
+    // Do not return the async save/quit callback across a process that exits.
+    void item.click();
+  }, label);
+}
+
+async function waitForNativeDialogs(app, count) {
+  for (let i = 0; i < 100; i += 1) {
+    if (
+      (await app.evaluate(() => globalThis.__nativeProofDialogs.length)) >=
+      count
+    )
+      return;
+    await new Promise((resolve) => setTimeout(resolve, 50));
+  }
+  throw new Error(`Native dialog did not appear (${count})`);
+}
+
+async function nativeRefusals(app, page) {
+  check(
+    "native: isolated game preload present",
+    await page.evaluate(
+      () => typeof window.ocdDesktop?.requestQuit === "function",
+    ),
+  );
+  await app.evaluate(({ BaseWindow }) => BaseWindow.getAllWindows()[0].close());
+  check(
+    "native: window Close hides instead of discarding",
+    await app.evaluate(
+      ({ BaseWindow }) => !BaseWindow.getAllWindows()[0].isVisible(),
+    ),
+  );
+  await app.evaluate(({ app }) => app.emit("activate"));
+  check(
+    "native: activation restores the same life",
+    (await app.evaluate(({ BaseWindow }) =>
+      BaseWindow.getAllWindows()[0].isVisible(),
+    )) && (await page.getByTestId("play-screen").isVisible()),
+  );
+
+  await nativeChoice(app, [2]);
+  await nativeMenu(app, "Quit");
+  await waitForNativeDialogs(app, 1);
+  await page.waitForFunction(() => !document.documentElement.inert);
+  check(
+    "native: Cancel retains the life",
+    (await page.getByTestId("play-screen").isVisible()) &&
+      (await app.evaluate(() =>
+        globalThis.__nativeProofDialogs.includes(
+          "Save your life before quitting?",
+        ),
+      )),
+  );
+
+  await page.evaluate(() => {
+    const dispatch = window.dispatchEvent;
+    window.dispatchEvent = function (event) {
+      if (event.type !== "ocd:request-save") return dispatch.call(this, event);
+      window.dispatchEvent = dispatch;
+      event.preventDefault();
+      event.detail.complete(false);
+      return false;
+    };
+  });
+  await nativeChoice(app, [0, 0]);
+  await nativeMenu(app, "Quit");
+  await waitForNativeDialogs(app, 2);
+  await page.waitForFunction(() => !document.documentElement.inert);
+  check(
+    "native: failed save keeps the app and life open",
+    (await page.getByTestId("play-screen").isVisible()) &&
+      (await app.evaluate(() =>
+        globalThis.__nativeProofDialogs.includes(
+          "Your life could not be fully saved.",
+        ),
+      )),
+  );
+}
+
+async function nativeSaveAndQuit(app, page) {
+  console.log(
+    "Native delayed-save proof: wrapping real acknowledgment before dispatch.",
+  );
+  // Wrap before dispatch: a late window event listener can run after the
+  // game's existing listener has already captured its completion callback.
+  // The real writer runs, but native teardown must await this held result.
+  await page.evaluate(() => {
+    const dispatch = window.dispatchEvent;
+    window.dispatchEvent = function (event) {
+      if (event.type !== "ocd:request-save") return dispatch.call(this, event);
+      window.dispatchEvent = dispatch;
+      const complete = event.detail.complete;
+      event.detail.complete = (saved) => {
+        window.__nativeProofHeld = { complete, saved };
+      };
+      return dispatch.call(this, event);
+    };
+  });
+  await nativeChoice(app, [0]);
+  await nativeMenu(app, "Quit");
+  await waitForNativeDialogs(app, 1);
+  check(
+    "native: saved life still requires explicit quit choice",
+    await app.evaluate(
+      () =>
+        globalThis.__nativeProofDialogs[0] ===
+        "Save your life before quitting?",
+    ),
+  );
+  await page.waitForFunction(() => Boolean(window.__nativeProofHeld));
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  check(
+    "native: pending save keeps life alive and blocks edits",
+    await page.evaluate(
+      () => document.documentElement.inert && Boolean(window.__nativeProofHeld),
+    ),
+  );
+  if (!(await page.evaluate(() => window.__nativeProofHeld.saved)))
+    throw new Error("Real save failed");
+  const records = await readSavedRecords(page, databaseName);
+  const closed = app.waitForEvent("close", { timeout: 30000 });
+  // Release from the main process so successful renderer destruction cannot
+  // race the Playwright evaluate response.
+  await app.evaluate(({ webContents }) => {
+    const contents = webContents
+      .getAllWebContents()
+      .find((item) => item.getURL().startsWith("app://game/"));
+    void contents
+      .executeJavaScript(
+        `window.__nativeProofHeld.complete(window.__nativeProofHeld.saved)`,
+      )
+      .catch(() => {});
+  });
+  await closed;
+  check("native: acknowledged save quits the actual host", true);
+  return records;
+}
+
 let identity;
 let savedInterface;
 let drawnAppearance;
 const review = process.env.OCD_EXPECT_ART_PREVIEW === "1";
+/*
+ * Whether a private candidate pack is actually installed behind the review
+ * build, which is a different question from whether the build is a review
+ * build. Public CI runs the review profile deliberately and is forbidden to
+ * contain a pack, so there is no candidate body for the wardrobe to draw and
+ * `wardrobe-full-body` never appears — this proof sat on it for thirty
+ * seconds and failed the art-review packaging job for having no art, which is
+ * an absence of material rather than a defect.
+ *
+ * Unset, the check accepts either the drawn figure or the surface's own
+ * stated reason for not drawing one, and says on the line which it found, so
+ * it can never pass silently. Set to "1" — on the owner's Mac, where the pack
+ * is installed — the figure is required exactly as before. This is the same
+ * shape as OCD_EXPECT_MATERIALS just below: the environment states what it
+ * has, and the proof is as strong as the material present allows.
+ */
+const expectCandidateFigure = process.env.OCD_EXPECT_CANDIDATE_FIGURE === "1";
 const databaseName = review
   ? "political-life-worlds-art-preview"
   : "political-life-worlds";
@@ -112,6 +346,25 @@ async function assertVisiblePerson(page, expected) {
       .getByText("Appearance and wardrobe", { exact: true })
       .click();
     const figure = page.getByTestId("wardrobe-full-body");
+    if (!expectCandidateFigure) {
+      const unavailable = page.getByRole("status");
+      await Promise.race([
+        figure.waitFor().catch(() => {}),
+        unavailable
+          .first()
+          .waitFor()
+          .catch(() => {}),
+      ]);
+      if (!(await figure.isVisible())) {
+        check(
+          "surface: no candidate body here, and the surface says why",
+          await unavailable.first().isVisible(),
+          (await unavailable.first().textContent())?.trim(),
+        );
+        await page.getByTestId("person-workspace-close").click();
+        return proof;
+      }
+    }
     await figure.waitFor();
     check(
       "surface: candidate body uses saved person/appearance/catalog",
@@ -171,6 +424,18 @@ async function assertVisiblePerson(page, expected) {
     /* no household introduction */
   }
   await page.getByTestId("play-screen").waitFor();
+  const orientation = page.getByTestId("world-orientation");
+  if (await orientation.isVisible()) {
+    check("opening: world introduction is available", true);
+    if (screenshot) {
+      await page.screenshot({
+        path: path.resolve(screenshot.replace(/\.png$/, "-opening.png")),
+        fullPage: true,
+      });
+    }
+    await page.getByTestId("orientation-skip").click();
+    await orientation.waitFor({ state: "hidden" });
+  }
   if (process.env.OCD_EXPECT_ART_PREVIEW === "1") {
     await page.getByTestId("art-preview-banner").waitFor({ timeout: 10000 });
     check(
@@ -186,12 +451,17 @@ async function assertVisiblePerson(page, expected) {
   if (screenshot) {
     await page.screenshot({ path: path.resolve(screenshot), fullPage: true });
   }
-  await page.getByTestId("shell-nav-cluster").click();
-  await page.getByTestId("shell-nav-flyout").waitFor();
-  await page.getByTestId("keep-world").click();
-  await page
-    .getByTestId("keep-world")
-    .waitFor({ state: "detached", timeout: 15000 });
+  if (nativeSessionChecks) {
+    await nativeRefusals(app, page);
+    await nativeMenu(app, "Save");
+  } else {
+    await page.getByTestId("shell-nav-cluster").click();
+    await page.getByTestId("shell-nav-flyout").waitFor();
+    await page.getByTestId("keep-world").click();
+    await page
+      .getByTestId("keep-world")
+      .waitFor({ state: "detached", timeout: 15000 });
+  }
   // The control flips as soon as the slot exists; the visible Saved status is
   // the later durability acknowledgement. Do not race app.close against the
   // repository write or Playwright may collide with the legitimate close guard.
@@ -207,7 +477,7 @@ async function assertVisiblePerson(page, expected) {
     JSON.stringify(identity),
   );
   // Close the save flyout before independently inspecting the normal person surface.
-  await page.getByTestId("shell-nav-cluster").click();
+  if (!nativeSessionChecks) await page.getByTestId("shell-nav-cluster").click();
   drawnAppearance = await assertVisiblePerson(page, identity);
   check(
     "offline: no request left the packaged origin",
@@ -271,7 +541,14 @@ async function assertVisiblePerson(page, expected) {
   }
 
   // Clean quit through the normal close path.
-  await app.close();
+  if (nativeSessionChecks) {
+    const finalSaved = await nativeSaveAndQuit(app, page);
+    check(
+      "native: final save preserves the same identity",
+      sameSavedIdentity(identity, savedIdentity(finalSaved.worlds[0])),
+    );
+    savedInterface = finalSaved.interfaces;
+  } else await app.close();
   check("shell: clean quit", true);
 }
 
@@ -313,7 +590,12 @@ async function assertVisiblePerson(page, expected) {
     foreign.length === 0,
     foreign.slice(0, 3).join(", "),
   );
-  await app.close();
+  if (nativeSessionChecks) {
+    await nativeChoice(app, [1]);
+    const closed = app.waitForEvent("close", { timeout: 30000 });
+    await nativeMenu(app, "Quit");
+    await closed;
+  } else await app.close();
 }
 
 console.log(`\nProfile: ${profile}`);

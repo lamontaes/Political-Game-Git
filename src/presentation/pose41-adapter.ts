@@ -1,5 +1,7 @@
+import { posePacks as bundledPacks } from "./bundled-art";
+import { poseUrls as urls } from "./bundled-art";
 import type { CharacterComponentKind } from "./character-components";
-import { optionalGlob } from "./optional-glob";
+import { runtimeArt, runtimeArtUrls } from "./runtime-art";
 
 export type Pose41Pose = "standing-listening" | "seated-guest-neutral";
 export interface Pose41Point {
@@ -84,30 +86,25 @@ export type Pose41Resolution =
         | "pose-source-unavailable";
     };
 
-const urls = optionalGlob(() =>
-  import.meta.glob<string>("../../art/generated/candidates/pose41/*.png", {
-    eager: true,
-    query: "?url",
-    import: "default",
-  }),
-);
 // The original and repaired-identity pose packs describe owner-private pose art
 // and are absent from a public checkout; the bank is then empty and every
 // request refuses as pose-fit-missing.
-const packs = optionalGlob(() =>
-  import.meta.glob<{ readonly variants: readonly unknown[] }>(
-    [
-      "../../art/authoring/pose41/pack.json",
-      "../../art/authoring/modular41-head-v2/pose-pack.json",
-    ],
-    { eager: true, import: "default" },
+
+const packs = {
+  ...bundledPacks,
+  ...Object.fromEntries(
+    Object.entries(runtimeArt()?.metadata ?? {})
+      .filter(([name]) => name.endsWith("pack.json"))
+      .map(([name, value]) => [
+        `../../${name}`,
+        value as { readonly variants: readonly unknown[] },
+      ]),
   ),
-);
-export const POSE41_VARIANTS = [
-  ...(packs["../../art/authoring/pose41/pack.json"]?.variants ?? []),
-  ...(packs["../../art/authoring/modular41-head-v2/pose-pack.json"]?.variants ??
-    []),
-] as unknown as readonly Pose41Variant[];
+};
+export const POSE41_VARIANTS = Object.values(packs).flatMap(
+  (pack) => pack.variants ?? [],
+) as readonly Pose41Variant[];
+
 const sameSet = (a: readonly string[], b: readonly string[]) =>
   a.length === b.length &&
   new Set(a).size === a.length &&
@@ -122,7 +119,7 @@ export function resolvePose41(
   request: Pose41Request,
   bank: readonly Pose41Variant[] = POSE41_VARIANTS,
   urlForPath: (path: string) => string | undefined = (path) =>
-    urls[`../../${path}`],
+    runtimeArtUrls()[path] ?? urls[`../../${path}`],
 ): Pose41Resolution {
   if (!request.candidatePreview)
     return { status: "unavailable", reason: "private-preview-required" };

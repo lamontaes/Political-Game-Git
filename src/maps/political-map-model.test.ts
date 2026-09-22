@@ -414,6 +414,31 @@ describe("political map: player places and ambiguous membership", () => {
 });
 
 describe("map preferences and view helpers", () => {
+  it("retains a deliberate selected district and camera with the saved layer", () => {
+    const selected = {
+      layer: "congressional",
+      geoid: "0200",
+      stateUsps: "AK",
+      name: "Alaska at-large district",
+    };
+    const saved = readMapPreferences({
+      ...DEFAULT_MAP_PREFERENCES,
+      initialized: true,
+      stateUsps: "AK",
+      selection: selected,
+      view: { x: 20, y: 30, w: 150, h: 100 },
+    });
+    expect(readMapPreferences(JSON.parse(JSON.stringify(saved)))).toEqual(
+      saved,
+    );
+    expect(saved.selection).toEqual(selected);
+    expect(
+      readMapPreferences({
+        selection: { ...selected, layer: "invented" },
+        view: { x: 0, y: 0, w: -10, h: 3 },
+      }),
+    ).toEqual(DEFAULT_MAP_PREFERENCES);
+  });
   it("restores saved preferences and repairs damaged ones field by field", () => {
     const saved = {
       mode: "state-lower",

@@ -1,0 +1,34 @@
+{
+  "filedAt": "2026-09-22T16:40:00.000Z",
+  "impact": "blocks-work",
+  "lane": "playtest",
+  "notes": [
+    "Measured in the browser on 2026-09-22 on main at 1c4992e8, in Columbus and Athens, Ohio, through the ordinary creator at age 40. Under Running for office the screen reads, word for word: 'This office requires that the candidate is a qualified elector. The game does not record that about a character, so it neither grants nor refuses on it.' No office browser renders under it. Ohio has a shipped legislature pack (us-oh-general-assembly-v1) with both chambers, and a player still cannot stand for either.",
+    "Athens is the control. Columbus is split across more than one district and refuses on that ground first; Athens is whole and refuses on the elector requirement alone, so the elector rule is the binding one rather than a second symptom of the split.",
+    "The same sentence appears under The state's top office in both towns, where it is a caveat rather than a refusal: 'Put your name in' is there and enabled, and the governor's race files. One sentence therefore does two different jobs on one screen, which is its own problem and is reported separately.",
+    "The rule is real and sourced. src/simulation/office-qualifications.generated.ts carries ELECTOR_REQUIREMENT = true for Ohio's LOWER_CHAMBER, UPPER_CHAMBER, GOVERNOR, LIEUTENANT_GOVERNOR and ATTORNEY_GENERAL, citing Ohio Const. art. XV, section 4, EXACT_INTERVAL from 1953-11-03. Nothing is wrong with the research. What is missing is any fact about a person that the rule can be applied to.",
+    "This is not an Ohio question. ELECTOR_REQUIREMENT rows exist for other states in the same corpus, so every state researched to this depth will close the same way unless the game can answer the question about a character."
+  ],
+  "priority": "P1",
+  "question": "What does a state mean when it requires a candidate for legislative office to be a 'qualified elector', and what facts about a person establish or defeat it? Specifically: is it the same set of conditions as being registered to vote, or is registration one way of showing it; which of its conditions are already things a life simulation would naturally know about a person (age, citizenship, residence in the district or state for some period) and which are not (registration itself, a felony conviction and its restoration of rights, an adjudication of incompetence); and does it have to hold on filing day, on election day, or on taking office?",
+  "questionId": "elector-requirement-what-establishes-it",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "playtest thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/office-qualifications.generated.ts, the Ohio rows",
+      "whatItDidNotSettle": "Establishes that the requirement exists, which provision carries it, and from when. It says nothing about what the phrase decomposes into, so the engine has a true rule and no way to apply it."
+    },
+    {
+      "source": "Columbus and Athens walked in the browser, main at 1c4992e8",
+      "whatItDidNotSettle": "Establishes the player-facing consequence: both Ohio chambers unreachable, with an honest sentence explaining why. It cannot say what the missing fact should be."
+    },
+    {
+      "source": "The shipped Ohio legislature pack, us-oh-general-assembly-v1",
+      "whatItDidNotSettle": "Carries both chambers and who may stand, which is why Ohio looks like a read state. The elector rule sits outside it and closes what it opens."
+    }
+  ],
+  "title": "What makes a character a qualified elector, and which of its conditions a life simulation already knows",
+  "usableAnswer": "A decomposition of 'qualified elector' into conditions, each marked as something a person-record could plausibly carry (age, citizenship, residence and its duration) or something the game would have to start recording (voter registration, felony status and restoration of rights, competency adjudication), with the states that add conditions beyond the common core named. Plus one sentence on the moment it must hold: filing, election day, or taking office. A common-core answer with the exceptions named is enough; fifty separate answers are not needed to unblock this.",
+  "whyItMatters": "Ohio is a fully researched state with a shipped rule pack and it is closed to legislative candidacy in every town, because the game knows a rule it cannot apply to anybody. The refusal is honest and correct as far as it goes, which makes it worse rather than better: it will not go away by itself, and every future state researched to this standard will close the same way. Running for office is what the game is about, so a requirement that no character can ever satisfy is not a gap in a data file, it is a state the player cannot play in."
+}

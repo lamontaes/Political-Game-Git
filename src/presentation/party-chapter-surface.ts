@@ -1,3 +1,4 @@
+import { projectContacts, type ContactEntry } from "./people-contacts";
 import {
   canJoinPartyChapter,
   personName,
@@ -37,6 +38,8 @@ export interface PartyChapterView {
     readonly personId: EntityId;
     readonly name: string;
   } | null;
+  /** Public contact route; availability and pending request come from Contacts. */
+  readonly contact: ContactEntry | null;
   readonly member: boolean;
   readonly canJoin: boolean;
   readonly meetings: readonly ChapterMeetingRow[];
@@ -72,6 +75,11 @@ function chapterView(
       organizer && encounter.organizerPersonId
         ? { personId: encounter.organizerPersonId, name: personName(organizer) }
         : null,
+    contact: encounter.organizerPersonId
+      ? (projectContacts(world, personId).contacts.find(
+          (entry) => entry.personId === encounter.organizerPersonId,
+        ) ?? null)
+      : null,
     member: encounter.playerParticipation !== null,
     canJoin:
       encounter.playerParticipation === null &&

@@ -1,4 +1,8 @@
 import {
+  artDeskNotifications,
+  type ArtDeskNotification,
+} from "../authoring/art-desk-notifications";
+import {
   useCallback,
   useEffect,
   useMemo,
@@ -42,10 +46,19 @@ import {
   type RequestDraftFields,
   type RequestDraftMode,
 } from "../authoring/artbench-request-draft";
+import {
+  requestDisplayCode,
+  codedGenerationPrompt,
+} from "../authoring/art-desk-request-code";
 import { ART_DESK_CONTRACT_ID } from "../authoring/asset-review";
 import {
-  ART_DESK_TABS,
+  ART_DESK_NAV_TABS,
   artDeskCards,
+  artworkCategoryLabel,
+  requestArtworkCategory,
+  generationRequestReady,
+  candidateReviewView,
+  candidateWorkflowLabel,
   assetFileStem,
   candidateNotes,
   cardIsUntagged,
@@ -55,12 +68,19 @@ import {
   lineageOfCandidate,
   lineageSentence,
   originalDownloadName,
+  reviewDisposition,
   tabCounts,
   viewedCandidateView,
   type ArtDeskCard,
   type ArtDeskTab,
 } from "../authoring/art-desk-cards";
 import "./art-desk.css";
+import { ArtBenchImage } from "./ArtBenchImage";
+import {
+  candidateUsage,
+  type SelectedArtBuild,
+} from "../authoring/art-desk-usage";
+import { upscaleRequirement } from "../authoring/artbench-upscale";
 
 const INPUTS_ROUTE = "/__dev/art-desk/inputs";
 const BENCH = "/__dev/artbench";
@@ -90,11 +110,36 @@ interface BenchState {
   readonly sync: SyncInfo;
   readonly store: { readonly storeId: string; readonly dataRootLabel: string };
   readonly generatorAvailable: boolean;
+  readonly notificationReadEventIds?: readonly string[];
 }
 
 interface InputsReceipt {
   readonly checkedAt: string;
   readonly privatePack: ArtDeskPrivatePackReceipt;
+}
+
+/** Fields that can change what the desk renders, without serializing the art. */
+function benchSnapshotSignature(state: BenchState): string {
+  const byteStates = Object.entries(state.bytes)
+    .map(([id, bytes]) => `${id}:${bytes.state}`)
+    .join("|");
+  const read = [...(state.notificationReadEventIds ?? [])].sort().join(",");
+  const sync = state.sync;
+  return [
+    state.store.storeId,
+    state.projection.lastSeq,
+    byteStates,
+    read,
+    sync.status,
+    sync.driveRoot,
+    sync.lastSuccessAt,
+    sync.lastError,
+    sync.pendingOutbox,
+    sync.pendingBatches.join(","),
+    sync.processedBatches,
+    sync.exportedEvents,
+    sync.importedEvents,
+  ].join("\n");
 }
 
 async function sha256Hex(data: BufferSource | string): Promise<string> {
@@ -175,10 +220,10 @@ function isTextTarget(target: EventTarget | null): boolean {
 
 const BYTES_LABEL: Record<BytesInfo["state"] | "unchecked" | "none", string> = {
   verified: "",
-  missing: "no bytes",
-  "hash-mismatch": "mismatch",
-  "not-a-raster": "broken",
-  unchecked: "unchecked",
+  missing: "Image unavailable",
+  "hash-mismatch": "File changed",
+  "not-a-raster": "Image unreadable",
+  unchecked: "Loading image",
   none: "—",
 };
 
@@ -198,6 +243,9 @@ function Thumb({
         data-testid={testId}
         src={originalUrl(candidate.candidateId, candidate.sha256)}
         alt=""
+        loading="lazy"
+        decoding="async"
+        fetchPriority="low"
       />
     );
   }
@@ -214,24 +262,18 @@ function Thumb({
   );
 }
 
-const STATUS_LABEL: Record<CandidateStatus, string> = {
-  "awaiting-review": "awaiting review",
-  approved: "approved",
-  rejected: "rejected",
-  "revision-requested": "revision requested",
-  "integration-ready": "integration-ready",
-  accepted: "accepted by integration",
-  installed: "installed",
-  "in-game": "in game",
-};
-
 const TAB_STORAGE_KEY = "ocd-art-desk-tab";
+type ArtDeskSection = ArtDeskTab | "notifications";
+const ART_DESK_SECTIONS: readonly { key: ArtDeskSection; label: string }[] = [
+  { key: "notifications", label: "Notifications" },
+  ...ART_DESK_NAV_TABS,
+];
 
-function storedTab(): ArtDeskTab {
+function storedTab(): ArtDeskSection {
   try {
     const value = window.localStorage.getItem(TAB_STORAGE_KEY);
-    return ART_DESK_TABS.some((tab) => tab.key === value)
-      ? (value as ArtDeskTab)
+    return ART_DESK_SECTIONS.some((tab) => tab.key === value)
+      ? (value as ArtDeskSection)
       : "needs-review";
   } catch {
     return "needs-review";
@@ -252,6 +294,11 @@ function shortDate(iso: string | null): string {
     : date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
 }
 
+function historyStageLabel(stage: string | null | undefined): string {
+  const label = stage?.trim() ?? "";
+  return label ? label[0]!.toUpperCase() + label.slice(1) : "Version";
+}
+
 const MORE_FILTER_FACETS = ["region", "season", "family", "custom"] as const;
 
 export function ArtDeskView() {
@@ -259,7 +306,9 @@ export function ArtDeskView() {
   const [bench, setBench] = useState<BenchState | null>(null);
   const [inputs, setInputs] = useState<InputsReceipt | null>(null);
   const [lane, setLane] = useState<RequestLane | "all">("needs-review");
-  const [status, setStatus] = useState<CandidateStatus | "all">("all");
+  const [status, setStatus] = useState<
+    CandidateStatus | "all" | "with-art-team"
+  >("all");
   const [query, setQuery] = useState("");
   const [facet, setFacet] = useState<{ key: string; value: string } | null>(
     null,
@@ -277,13 +326,37 @@ export function ArtDeskView() {
   const [showNewRequest, setShowNewRequest] = useState<RequestDraftMode | null>(
     null,
   );
-  const [tab, setTabState] = useState<ArtDeskTab>(storedTab);
+  const [tab, setTabState] = useState<ArtDeskSection>(storedTab);
+  const lastArtworkTab = useRef<ArtDeskTab>(
+    tab === "notifications" ? "needs-review" : tab,
+  );
+  const [detailHasDraft, setDetailHasDraft] = useState(false);
   const [selectedCardKey, setSelectedCardKey] = useState<string | null>(null);
   const [assetType, setAssetType] = useState<string>("all");
+  const [purpose, setPurpose] = useState("all");
   const [showMore, setShowMore] = useState(false);
   const [showQa, setShowQa] = useState(false);
   const [advancedOpen, setAdvancedOpen] = useState(false);
-  const setTab = (next: ArtDeskTab) => {
+  const [viewRestored, setViewRestored] = useState(!window.ocdArtBench);
+  useEffect(() => {
+    if (!window.ocdArtBench) return;
+    void window.ocdArtBench
+      .viewState()
+      .then((saved) => {
+        if (saved?.candidateId) setViewedCandidateId(saved.candidateId);
+        if (saved?.cardKey) setSelectedCardKey(saved.cardKey);
+        if (saved?.requestId) setSelectedRequestId(saved.requestId);
+        if (
+          saved?.tab &&
+          ART_DESK_SECTIONS.some((entry) => entry.key === saved.tab)
+        )
+          setTabState(saved.tab as ArtDeskSection);
+      })
+      .catch(() => {})
+      .finally(() => setViewRestored(true));
+  }, []);
+  const setTab = (next: ArtDeskSection) => {
+    if (next !== "notifications") lastArtworkTab.current = next;
     setTabState(next);
     try {
       window.localStorage.setItem(TAB_STORAGE_KEY, next);
@@ -292,13 +365,51 @@ export function ArtDeskView() {
     }
   };
 
+  const reloadTicket = useRef(0);
+  const inputsRequest = useRef<Promise<InputsReceipt | null> | null>(null);
   const reload = useCallback(async () => {
-    const [state, receipt] = await Promise.all([
-      getJson<BenchState>(`${BENCH}/state`),
-      getJson<InputsReceipt>(INPUTS_ROUTE),
+    const ticket = ++reloadTicket.current;
+    const [state] = await Promise.all([
+      getJson<BenchState>(`${BENCH}/state`).then((state) => {
+        if (state && ticket === reloadTicket.current)
+          setBench((previous) => {
+            if (
+              previous &&
+              previous.projection.lastSeq > state.projection.lastSeq
+            )
+              return previous;
+            const merged = {
+              ...state,
+              notificationReadEventIds: [
+                ...new Set([
+                  ...(previous?.store.storeId === state.store.storeId
+                    ? (previous.notificationReadEventIds ?? [])
+                    : []),
+                  ...(state.notificationReadEventIds ?? []),
+                ]),
+              ],
+            };
+            return previous &&
+              benchSnapshotSignature(previous) ===
+                benchSnapshotSignature(merged)
+              ? previous
+              : merged;
+          });
+        return state;
+      }),
+      (inputsRequest.current ??= getJson<InputsReceipt>(INPUTS_ROUTE).then(
+        (receipt) => {
+          if (!receipt) inputsRequest.current = null;
+          return receipt;
+        },
+        () => {
+          inputsRequest.current = null;
+          return null;
+        },
+      )).then((receipt) => {
+        if (receipt) setInputs(receipt);
+      }),
     ]);
-    if (state) setBench(state);
-    if (receipt) setInputs(receipt);
     return state;
   }, []);
 
@@ -320,7 +431,7 @@ export function ArtDeskView() {
     () =>
       filterCatalog(rows, {
         lane,
-        status,
+        status: status === "with-art-team" ? "all" : status,
         text: query,
         untagged,
         tags: facet ? { [facet.key]: [facet.value] } : undefined,
@@ -344,7 +455,7 @@ export function ArtDeskView() {
   useEffect(() => {
     // The lane view (Advanced) keeps its own selection; the card view below
     // chooses the viewed version from the selected card.
-    if (!advancedOpen || !selectedRequest) return;
+    if (!viewRestored || !advancedOpen || !selectedRequest) return;
     if (
       viewedCandidateId &&
       selectedRequest.candidateIds.includes(viewedCandidateId)
@@ -355,16 +466,110 @@ export function ArtDeskView() {
         selectedRequest.candidateIds.at(-1) ??
         null,
     );
-  }, [advancedOpen, selectedRequest, viewedCandidateId]);
+  }, [advancedOpen, selectedRequest, viewedCandidateId, viewRestored]);
 
-  const viewed =
-    (viewedCandidateId && projection?.candidates[viewedCandidateId]) || null;
-  const viewedBytes = viewed ? bench?.bytes[viewed.candidateId] : undefined;
+  const [selectedBuild, setSelectedBuild] = useState<SelectedArtBuild | null>(
+    null,
+  );
+  useEffect(() => {
+    let live = true;
+    const refresh = () =>
+      void window.ocdArtBench
+        ?.selectedBuild?.()
+        .then((build) => {
+          if (live)
+            setSelectedBuild((previous) =>
+              JSON.stringify(previous) === JSON.stringify(build)
+                ? previous
+                : build,
+            );
+        })
+        .catch(() => {
+          if (live) setSelectedBuild(null);
+        });
+    refresh();
+    const timer = window.setInterval(refresh, 5000);
+    window.addEventListener("focus", refresh);
+    return () => {
+      live = false;
+      window.clearInterval(timer);
+      window.removeEventListener("focus", refresh);
+    };
+  }, []);
 
   const cards = useMemo(
-    () => (projection ? artDeskCards(projection) : []),
-    [projection],
+    () =>
+      projection && bench
+        ? artDeskCards(projection, selectedBuild).map((card) => {
+            const request = projection.requests[card.requestId]?.request;
+            return card.tabs.includes("requests") &&
+              request &&
+              !generationRequestReady(request, projection, bench.bytes)
+              ? { ...card, tabs: card.tabs.filter((tab) => tab !== "requests") }
+              : card;
+          })
+        : [],
+    [projection, bench, selectedBuild],
   );
+  const notifications = useMemo(
+    () =>
+      projection
+        ? artDeskNotifications(projection, bench?.notificationReadEventIds)
+        : [],
+    [projection, bench?.notificationReadEventIds],
+  );
+  const unreadCount = notifications.filter((item) => item.unread).length;
+  const [notificationBusy, setNotificationBusy] = useState(false);
+  const [notificationError, setNotificationError] = useState("");
+  const [notificationTarget, setNotificationTarget] = useState<string | null>(
+    null,
+  );
+  const markNotificationsRead = async (ids: readonly string[]) => {
+    setNotificationBusy(true);
+    setNotificationError("");
+    try {
+      if (!ownerSession) await loadSession();
+      const response = await fetch(`${BENCH}/notifications/read`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-OCD-Owner-Capability": ownerSession?.capability ?? "",
+        },
+        body: JSON.stringify({ eventIds: ids }),
+      });
+      if (!response.ok)
+        throw new Error("Could not save read status. Please try again.");
+      const result = (await response.json()) as { readEventIds: string[] };
+      setBench((previous) =>
+        previous
+          ? {
+              ...previous,
+              notificationReadEventIds: [
+                ...new Set([
+                  ...(previous.notificationReadEventIds ?? []),
+                  ...result.readEventIds,
+                ]),
+              ],
+            }
+          : previous,
+      );
+    } catch {
+      setNotificationError("Could not save read status. Please try again.");
+    } finally {
+      setNotificationBusy(false);
+    }
+  };
+  useEffect(() => {
+    if (!notificationTarget || tab === "notifications") return;
+    const element = document.getElementById(
+      `art-desk-message-${notificationTarget}`,
+    );
+    if (element) {
+      element.focus();
+      element.scrollIntoView({ block: "center" });
+      setNotificationTarget(null);
+    }
+  }, [notificationTarget, tab, viewedCandidateId, projection]);
   const counts4 = useMemo(() => tabCounts(cards, showQa), [cards, showQa]);
   const assetTypes = useMemo(
     () =>
@@ -379,19 +584,42 @@ export function ArtDeskView() {
     const byFacet = facet
       ? cards.filter((card) => cardMatchesFacet(card, facet.key, facet.value))
       : cards;
-    const byUntagged = untagged ? byFacet.filter(cardIsUntagged) : byFacet;
+    const byPurpose =
+      purpose === "all"
+        ? byFacet
+        : byFacet.filter((card) => cardMatchesFacet(card, "purpose", purpose));
+    const byUntagged = untagged ? byPurpose.filter(cardIsUntagged) : byPurpose;
     return filterCards(byUntagged, {
-      tab,
+      tab: tab === "notifications" ? lastArtworkTab.current : tab,
       text: query,
       status,
       assetType,
       showQa,
     });
-  }, [cards, facet, untagged, tab, query, status, assetType, showQa]);
+  }, [cards, facet, purpose, untagged, tab, query, status, assetType, showQa]);
   const selectedCard =
     visibleCards.find((card) => card.key === selectedCardKey) ??
     visibleCards[0] ??
     null;
+  const allowedCandidateIds = advancedOpen
+    ? (selectedRequest?.candidateIds ?? [])
+    : selectedCard
+      ? [
+          ...selectedCard.lineage.map((step) => step.candidateId),
+          ...selectedCard.otherVersions,
+        ]
+      : [];
+  const effectiveCandidateId =
+    viewedCandidateId && allowedCandidateIds.includes(viewedCandidateId)
+      ? viewedCandidateId
+      : advancedOpen
+        ? (selectedRequest?.selectedCandidateId ??
+          selectedRequest?.candidateIds.at(-1))
+        : selectedCard?.leadCandidateId;
+  const viewed =
+    (effectiveCandidateId && projection?.candidates[effectiveCandidateId]) ||
+    null;
+  const viewedBytes = viewed ? bench?.bytes[viewed.candidateId] : undefined;
   const moreFilterCount =
     (facet ? 1 : 0) + (untagged ? 1 : 0) + (showQa ? 1 : 0);
   const clearFilters = () => {
@@ -401,6 +629,28 @@ export function ArtDeskView() {
     setQuery("");
     setStatus("all");
     setAssetType("all");
+    setPurpose("all");
+  };
+  const openNotification = (item: ArtDeskNotification) => {
+    if (detailHasDraft) {
+      setNotificationError(
+        "You have an unfinished note. Go back to your artwork to send or clear it before opening another message.",
+      );
+      return;
+    }
+    clearFilters();
+    setAdvancedOpen(false);
+    setTab("discussion");
+    setSelectedCardKey(item.cardKey);
+    setSelectedRequestId(item.requestId);
+    setViewedCandidateId(
+      item.candidateId
+        ? (projection?.candidates[item.candidateId]?.aliasOf ??
+            item.candidateId)
+        : null,
+    );
+    setNotificationTarget(item.eventId);
+    void markNotificationsRead([item.eventId]);
   };
   const detailRequest = advancedOpen
     ? selectedRequest
@@ -409,7 +659,7 @@ export function ArtDeskView() {
       : null;
 
   useEffect(() => {
-    if (advancedOpen || !selectedCard) return;
+    if (!viewRestored || advancedOpen || !selectedCard) return;
     if (
       viewedCandidateId &&
       (selectedCard.lineage.some((s) => s.candidateId === viewedCandidateId) ||
@@ -417,7 +667,23 @@ export function ArtDeskView() {
     )
       return;
     setViewedCandidateId(selectedCard.leadCandidateId);
-  }, [advancedOpen, selectedCard, viewedCandidateId]);
+  }, [advancedOpen, selectedCard, viewedCandidateId, viewRestored]);
+  useEffect(() => {
+    if (viewRestored && (viewed || detailRequest))
+      window.ocdArtBench?.rememberView({
+        candidateId: viewed?.candidateId ?? null,
+        cardKey: selectedCard?.key ?? null,
+        requestId:
+          detailRequest?.request.requestId ?? viewed?.requestId ?? null,
+        tab,
+      });
+  }, [
+    viewRestored,
+    viewed,
+    detailRequest?.request.requestId,
+    selectedCard?.key,
+    tab,
+  ]);
 
   const contractHashes = useCallback(
     async (request: AssetRequest, sceneId: string | undefined) => {
@@ -484,14 +750,16 @@ export function ArtDeskView() {
           )),
         });
         if (!result.ok) {
-          setMessage(
-            `${decision} refused (${result.error ?? "error"}): ${result.message}`,
-          );
+          setMessage(`Could not save your decision: ${result.message}`);
           return false;
         }
         await reload();
         setMessage(
-          `${decision} recorded for ${candidate.candidateId.slice(0, 13)}… at ${candidate.sha256.slice(0, 12)}… (event ${result.body.events[0]?.eventId ?? "?"}). Private acceptance is not public release.`,
+          decision === "approve"
+            ? "Approved. Moved to Approved / waiting to be implemented."
+            : decision === "reject"
+              ? "Rejected. Moved to Rejected."
+              : "Changes requested. Your note is saved.",
         );
         return true;
       } finally {
@@ -560,6 +828,7 @@ export function ArtDeskView() {
     try {
       const response = await fetch(`${BENCH}/sync`, { method: "POST" });
       const status = (await response.json()) as SyncInfo;
+      inputsRequest.current = null;
       await reload();
       setMessage(
         `Sync ${status.status}: ${status.pendingOutbox} unsynced event(s), ${status.pendingBatches.length} partial batch(es)${status.lastError ? `; ${status.lastError}` : ""}.`,
@@ -570,6 +839,7 @@ export function ArtDeskView() {
   }, [reload]);
 
   function onKey(event: KeyboardEvent<HTMLDivElement>) {
+    if (tab === "notifications") return;
     if (isTextTarget(event.target)) return;
     if (
       !advancedOpen &&
@@ -633,25 +903,26 @@ export function ArtDeskView() {
 
   const syncLine = sync
     ? sync.status === "ok"
-      ? `Drive exchange synced${sync.lastSuccessAt ? ` ${shortDate(sync.lastSuccessAt)}` : ""}`
+      ? `Shared with the art team${sync.lastSuccessAt ? ` ${shortDate(sync.lastSuccessAt)}` : ""}`
       : sync.status === "needs-mirror"
-        ? "Drive exchange not on this Mac"
+        ? "Shared art-team exchange not connected"
         : sync.status === "error"
-          ? "Drive exchange error"
-          : "Drive exchange not synced yet"
-    : "Drive exchange —";
+          ? "Could not sync with the art team"
+          : "Waiting to sync with the art team"
+    : "Shared art-team exchange —";
   const packLine =
     pack.status === "verified"
-      ? "Private pack ready"
+      ? "Artwork ready"
       : `Private pack ${pack.status}`;
 
   const detail =
     detailRequest && projection && bench ? (
       <RequestDetail
-        key={detailRequest.request.requestId}
+        key={selectedCard?.key ?? detailRequest.request.requestId}
         card={advancedOpen ? undefined : (selectedCard ?? undefined)}
         request={detailRequest}
         projection={projection}
+        selectedBuild={selectedBuild}
         bench={bench}
         pack={pack}
         viewed={viewed}
@@ -660,6 +931,7 @@ export function ArtDeskView() {
         showIds={showIds}
         onToggleIds={() => setShowIds((v) => !v)}
         onView={setViewedCandidateId}
+        onDraftChange={setDetailHasDraft}
         onDecide={decide}
         onIntake={intake}
         onSelect={async (candidateId) => {
@@ -674,6 +946,21 @@ export function ArtDeskView() {
           );
           await reload();
         }}
+        onMessage={async (text) => {
+          const result = await postEvent("message.posted", {
+            requestId: detailRequest.request.requestId,
+            candidateId: viewed?.candidateId,
+            text,
+            kind: "question",
+          });
+          setMessage(
+            result.ok
+              ? "Question saved. Replies will appear on this item."
+              : `Could not send: ${result.message}`,
+          );
+          await reload();
+          return result.ok;
+        }}
         onTags={async (candidate, tags) => {
           const result = await postEvent("tags.set", {
             entity: "candidate",
@@ -682,9 +969,7 @@ export function ArtDeskView() {
             baseVersion: candidate.tagsVersion,
           });
           setMessage(
-            result.ok
-              ? `Tags saved for ${candidate.candidateId.slice(0, 13)}… (event ${result.body.events[0]?.eventId}).`
-              : `Tags not saved: ${result.message}`,
+            result.ok ? "Saved." : `Tags not saved: ${result.message}`,
           );
           await reload();
           return result.ok;
@@ -726,7 +1011,7 @@ export function ArtDeskView() {
           </p>
         </div>
         <nav className="art-desk-tabs" aria-label="Art Desk sections">
-          {ART_DESK_TABS.map((item) => (
+          {ART_DESK_SECTIONS.map((item) => (
             <button
               key={item.key}
               type="button"
@@ -735,16 +1020,22 @@ export function ArtDeskView() {
               }
               data-testid={`art-desk-tab-${item.key}`}
               onClick={() => {
+                if (item.key === "notifications") {
+                  setSelectedCardKey(selectedCard?.key ?? null);
+                  setViewedCandidateId(viewed?.candidateId ?? null);
+                }
                 setAdvancedOpen(false);
                 setTab(item.key);
               }}
             >
               {item.label}{" "}
-              <span className="art-desk-count">{counts4[item.key]}</span>
+              <span className="art-desk-count">
+                {item.key === "notifications" ? unreadCount : counts4[item.key]}
+              </span>
             </button>
           ))}
         </nav>
-        <div className="art-desk-toolbar">
+        <div className="art-desk-toolbar" hidden={tab === "notifications"}>
           <label>
             Search{" "}
             <input
@@ -759,22 +1050,38 @@ export function ArtDeskView() {
               aria-label="Candidate status"
               value={status}
               onChange={(event) =>
-                setStatus(event.target.value as CandidateStatus | "all")
+                setStatus(
+                  event.target.value as
+                    CandidateStatus | "all" | "with-art-team",
+                )
               }
             >
               <option value="all">Any</option>
-              {Object.entries(STATUS_LABEL).map(([key, label]) => (
+              {[
+                [
+                  "awaiting-review",
+                  "Awaiting your review",
+                  counts4["needs-review"],
+                ],
+                ["with-art-team", "With the art team", counts4["in-progress"]],
+                [
+                  "approved",
+                  "Approved / waiting to be implemented",
+                  counts4.approved,
+                ],
+                ["rejected", "Rejected", counts4.rejected],
+                ["installed", "In game", counts4["in-game"]],
+              ].map(([key, label, count]) => (
                 <option key={key} value={key}>
-                  {label[0]!.toUpperCase() + label.slice(1)} (
-                  {counts.statuses[key] ?? 0})
+                  {label} ({count})
                 </option>
               ))}
             </select>
           </label>
           <label>
-            Asset type{" "}
+            Category{" "}
             <select
-              aria-label="Asset type"
+              aria-label="Artwork category"
               data-testid="art-desk-asset-type"
               value={assetType}
               onChange={(event) => setAssetType(event.target.value)}
@@ -782,9 +1089,24 @@ export function ArtDeskView() {
               <option value="all">Any</option>
               {assetTypes.map((type) => (
                 <option key={type} value={type}>
-                  {type.replace(/-/g, " ")}
+                  {artworkCategoryLabel(type)}
                 </option>
               ))}
+            </select>
+          </label>
+          <label>
+            Show{" "}
+            <select
+              aria-label="Artwork purpose"
+              value={purpose}
+              onChange={(event) => setPurpose(event.target.value)}
+            >
+              <option value="all">Everything</option>
+              <option value="regional-background">Regional backgrounds</option>
+              <option value="people-wardrobe">People and clothing</option>
+              <option value="pose">Poses</option>
+              <option value="scene-contact">People in scenes</option>
+              <option value="graphics">News and graphics</option>
             </select>
           </label>
           <button
@@ -798,7 +1120,8 @@ export function ArtDeskView() {
           {moreFilterCount ||
           query ||
           status !== "all" ||
-          assetType !== "all" ? (
+          assetType !== "all" ||
+          purpose !== "all" ? (
             <button
               type="button"
               className="art-desk-quiet"
@@ -900,7 +1223,7 @@ export function ArtDeskView() {
               setShowNewRequest(null);
               await reload();
               if (created) {
-                setTab("library");
+                setTab("requests");
                 setSelectedCardKey(`request:${created}`);
                 setSelectedRequestId(created);
               }
@@ -909,8 +1232,97 @@ export function ArtDeskView() {
           />
         ) : null}
       </header>
+      {notificationError ? (
+        <p role="alert" className="art-desk-warning">
+          {notificationError}
+        </p>
+      ) : null}
+      {tab === "notifications" ? (
+        <section
+          className="art-desk-notifications"
+          aria-label="Art team notifications"
+          data-testid="art-desk-notifications"
+        >
+          <div className="art-desk-notifications-heading">
+            <div>
+              <h2>Notifications</h2>
+              <p>
+                Updates and replies from the art team. Open a message to see its
+                artwork and conversation.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setNotificationError("");
+                setTab(lastArtworkTab.current);
+              }}
+            >
+              Back to artwork
+            </button>
+            <button
+              type="button"
+              disabled={notificationBusy || unreadCount === 0}
+              onClick={() =>
+                void markNotificationsRead(
+                  notifications
+                    .filter((item) => item.unread)
+                    .map((item) => item.eventId),
+                )
+              }
+            >
+              Mark all read
+            </button>
+          </div>
+          {notifications.length === 0 ? (
+            <p>No updates yet. Messages from the art team will appear here.</p>
+          ) : null}
+          <ol>
+            {notifications.map((item) => (
+              <li
+                key={item.eventId}
+                data-unread={item.unread}
+                data-testid={`art-desk-notification-${item.eventId}`}
+              >
+                <div>
+                  <strong>
+                    {item.unread ? "New message" : "Art team update"}
+                  </strong>
+                  <time dateTime={item.at}>
+                    {new Date(item.at).toLocaleString(undefined, {
+                      month: "short",
+                      day: "numeric",
+                      hour: "numeric",
+                      minute: "2-digit",
+                    })}
+                  </time>
+                </div>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+                <button
+                  type="button"
+                  disabled={notificationBusy}
+                  onClick={() => openNotification(item)}
+                >
+                  Open artwork and message
+                </button>
+                {item.unread ? (
+                  <button
+                    type="button"
+                    className="art-desk-quiet"
+                    disabled={notificationBusy}
+                    onClick={() => void markNotificationsRead([item.eventId])}
+                  >
+                    Mark read
+                  </button>
+                ) : null}
+              </li>
+            ))}
+          </ol>
+        </section>
+      ) : null}
       {advancedOpen ? null : (
-        <div className="art-desk-layout">
+        <div className="art-desk-layout" hidden={tab === "notifications"}>
           <ol
             className="art-desk-list art-desk-cards"
             data-testid="art-desk-list"
@@ -950,7 +1362,10 @@ export function ArtDeskView() {
                       }
                     />
                     <span className="art-desk-row-copy">
-                      <strong>{card.title}</strong>
+                      <strong>
+                        {card.requestCode ? `${card.requestCode} · ` : ""}
+                        {card.title}
+                      </strong>
                       <span className="art-desk-card-change">
                         {card.change}
                       </span>
@@ -960,6 +1375,9 @@ export function ArtDeskView() {
                         >
                           {card.statusLabel}
                         </span>{" "}
+                        {lead
+                          ? `Latest: revision ${lead.revision} · `
+                          : "Request · "}
                         {card.versionCount} version
                         {card.versionCount === 1 ? "" : "s"}
                         {card.updatedAt
@@ -980,13 +1398,7 @@ export function ArtDeskView() {
                 data-testid="art-desk-asset-lineage"
                 data-lineage-state={selectedCard.lineageState}
               >
-                <summary>
-                  {selectedCard.lineageState === "chain"
-                    ? `How this asset was made (${selectedCard.lineage.length} steps)`
-                    : selectedCard.lineageState === "original"
-                      ? "How this asset was made (the recorded original)"
-                      : "How this asset was made (not recorded)"}
-                </summary>
+                <summary>Version history</summary>
                 {selectedCard.lineageState === "not-recorded" ? (
                   <p
                     className="art-desk-warning"
@@ -1011,8 +1423,8 @@ export function ArtDeskView() {
                         aria-pressed={viewedCandidateId === step.candidateId}
                         onClick={() => setViewedCandidateId(step.candidateId)}
                       >
-                        {step.stage[0]!.toUpperCase() + step.stage.slice(1)} ·{" "}
-                        {step.width}×{step.height} · {shortDate(step.at)}
+                        {historyStageLabel(step.stage)} · {step.width}×
+                        {step.height} · {shortDate(step.at)}
                       </button>
                     </li>
                   ))}
@@ -1021,7 +1433,7 @@ export function ArtDeskView() {
                   <p className="art-desk-meta">
                     Also {selectedCard.otherVersions.length} other version
                     {selectedCard.otherVersions.length === 1 ? "" : "s"} of this
-                    asset, listed below.
+                    image, listed below.
                   </p>
                 ) : null}
               </details>
@@ -1033,14 +1445,13 @@ export function ArtDeskView() {
       <details
         className="art-desk-advanced"
         data-testid="art-desk-advanced"
+        hidden={tab === "notifications"}
         open={advancedOpen}
         onToggle={(event) =>
           setAdvancedOpen((event.target as HTMLDetailsElement).open)
         }
       >
-        <summary>
-          Advanced: all requests by lane, queue, history and store
-        </summary>
+        <summary>More information</summary>
         {advancedOpen ? (
           <>
             <p
@@ -1076,7 +1487,7 @@ export function ArtDeskView() {
                 data-testid="art-desk-sync"
                 data-sync-status={sync.status}
               >
-                <strong>Drive exchange: {sync.status}.</strong>{" "}
+                <strong>Shared art-team exchange: {sync.status}.</strong>{" "}
                 {sync.driveRootPresent
                   ? `Mirror ${sync.driveRoot} present.`
                   : "No Drive-for-desktop mirror of 80_ARTBENCH_EXCHANGE on this machine; decisions queue durably in the outbox."}{" "}
@@ -1258,9 +1669,11 @@ export function ArtDeskView() {
       </details>
       <footer className="art-desk-pager">
         <span>
-          {advancedOpen
-            ? `${requestRows.length} request(s) · ${filteredRows.filter((r) => r.candidate).length} candidate(s) shown`
-            : `${visibleCards.length} asset(s) shown`}
+          {tab === "notifications"
+            ? `${notifications.length} messages · ${unreadCount} unread`
+            : advancedOpen
+              ? `${requestRows.length} request(s) · ${filteredRows.filter((r) => r.candidate).length} candidate(s) shown`
+              : `${visibleCards.length} asset(s) shown`}
         </span>
         <p role="status" data-testid="art-desk-status">
           {message}
@@ -1273,6 +1686,7 @@ export function ArtDeskView() {
 function RequestDetail({
   request,
   projection,
+  selectedBuild,
   bench,
   pack,
   viewed,
@@ -1281,16 +1695,19 @@ function RequestDetail({
   showIds,
   onToggleIds,
   onView,
+  onDraftChange,
   onDecide,
   onIntake,
   onSelect,
   onTags,
+  onMessage,
   card,
 }: {
   /** The asset card this detail was opened from, in the card view. */
   readonly card?: ArtDeskCard;
   readonly request: ProjectedRequest;
   readonly projection: ArtbenchProjection;
+  readonly selectedBuild: SelectedArtBuild | null;
   readonly bench: BenchState;
   readonly pack: ArtDeskPrivatePackReceipt;
   readonly viewed: ProjectedCandidate | null;
@@ -1299,6 +1716,7 @@ function RequestDetail({
   readonly showIds: boolean;
   readonly onToggleIds: () => void;
   readonly onView: (candidateId: string) => void;
+  readonly onDraftChange: (hasDraft: boolean) => void;
   readonly onDecide: (
     candidate: ProjectedCandidate,
     decision: "approve" | "reject" | "request-revision",
@@ -1313,12 +1731,14 @@ function RequestDetail({
       note?: string;
     },
   ) => Promise<{ ok: boolean; candidateId?: string }[]>;
+  readonly onMessage: (text: string) => Promise<boolean>;
   readonly onSelect: (candidateId: string) => Promise<void>;
   readonly onTags: (
     candidate: ProjectedCandidate,
     tags: TagSet,
   ) => Promise<boolean>;
 }) {
+  const [question, setQuestion] = useState("");
   const r = request.request;
   const requestId = r.requestId;
   const isInbox = requestId === "inbox";
@@ -1329,6 +1749,20 @@ function RequestDetail({
   const [compare, setCompare] = useState(false);
   const [assignTo, setAssignTo] = useState("");
   const [dragging, setDragging] = useState(false);
+  useEffect(() => {
+    onDraftChange(
+      Boolean(question.trim() || revisionText.trim() || editNote.trim()),
+    );
+  }, [question, revisionText, editNote, onDraftChange]);
+  useEffect(() => {
+    if (!question.trim() && !revisionText.trim() && !editNote.trim()) return;
+    const guard = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = "";
+    };
+    window.addEventListener("beforeunload", guard);
+    return () => window.removeEventListener("beforeunload", guard);
+  }, [question, revisionText, editNote]);
   const brief = compileAssetBrief({
     request: r,
     stylePixels: styleReferencesFor(r, pack),
@@ -1345,6 +1779,9 @@ function RequestDetail({
   );
   const briefUrl = `${BENCH}/brief?requestId=${encodeURIComponent(requestId)}${viewed ? `&candidateId=${encodeURIComponent(viewed.candidateId)}` : ""}&name=${encodeURIComponent(briefName)}`;
   const [briefNote, setBriefNote] = useState("");
+  const upscale = viewed
+    ? upscaleRequirement(viewed, projection.candidates)
+    : null;
   const [originalNote, setOriginalNote] = useState("");
   useEffect(() => {
     // The private hub reports how a download ended; a plain browser does not.
@@ -1393,9 +1830,47 @@ function RequestDetail({
   const heading = subject?.title ?? r.title;
   const lineage = viewed ? lineageOfCandidate(projection, viewed) : null;
   const notes = candidateNotes(projection, viewed ?? undefined);
+  const discussionMessages = [
+    ...new Map(
+      [
+        ...Object.values(projection.candidates)
+          .filter(
+            (candidate) =>
+              candidate.requestId === requestId &&
+              (!isInbox ||
+                card?.lineage.some(
+                  (step) => step.candidateId === candidate.candidateId,
+                ) ||
+                card?.otherVersions.includes(candidate.candidateId)),
+          )
+          .flatMap((candidate) => candidate.groupDecisions)
+          .filter((decision) => decision.payload.note?.trim())
+          .map((decision) => ({
+            ...decision,
+            payload: {
+              requestId,
+              candidateId: decision.payload.candidateId,
+              text: decision.payload.note!,
+              kind: "note",
+            },
+          })),
+        ...(projection.messages ?? []).filter(
+          (message) =>
+            message.payload.requestId === requestId &&
+            (!isInbox ||
+              !message.payload.candidateId ||
+              card?.lineage.some(
+                (step) => step.candidateId === message.payload.candidateId,
+              ) ||
+              card?.otherVersions.includes(message.payload.candidateId)),
+        ),
+      ].map((message) => [message.eventId, message]),
+    ).values(),
+  ].sort((a, b) => a.at.localeCompare(b.at));
+
   const originalName = viewed
     ? originalDownloadName(
-        subject?.title ?? r.title,
+        `${requestDisplayCode(projection, r.requestId) ? `${requestDisplayCode(projection, r.requestId)}-R${viewed.revision} ` : ""}${subject?.title ?? r.title}`,
         viewed.sha256,
         viewed.container,
       )
@@ -1403,6 +1878,9 @@ function RequestDetail({
   const parent = viewed?.parentCandidateId
     ? projection.candidates[viewed.parentCandidateId]
     : undefined;
+  const usage = viewed
+    ? candidateUsage(projection, viewed, selectedBuild)
+    : null;
 
   /**
    * Fetch the recorded bytes, check them against the recorded hash, then hand
@@ -1473,7 +1951,10 @@ function RequestDetail({
         ? `Candidate bytes are ${viewedBytes?.state ?? "unchecked"}; a decision binds present, decoded, hash-verified bytes.`
         : null;
 
-  async function uploadEdited(files: FileList | null, approve: boolean) {
+  async function uploadEdited(
+    files: FileList | readonly File[] | null,
+    approve: boolean,
+  ) {
     if (!files || !viewed) return;
     const results = await onIntake([...files], {
       requestId,
@@ -1481,6 +1962,7 @@ function RequestDetail({
       editKind,
       note: editNote || undefined,
     });
+    if (results.some((result) => result.ok)) setEditNote("");
     const created = results.find((x) => x.ok && x.candidateId);
     if (approve && created?.candidateId) {
       // The new preview is shown by onIntake (it views the new candidate); the
@@ -1534,11 +2016,16 @@ function RequestDetail({
         if (files.length) void onIntake(files, isInbox ? {} : { requestId });
       }}
     >
-      <h2 data-testid="art-desk-detail-heading">{heading}</h2>
+      <h2 data-testid="art-desk-detail-heading">
+        {requestDisplayCode(projection, r.requestId)
+          ? `${requestDisplayCode(projection, r.requestId)} · `
+          : ""}
+        {heading}
+      </h2>
       {subject?.newer ? (
         <p className="art-desk-warning" data-testid="art-desk-newer-candidate">
-          A newer version of this asset is waiting for review:{" "}
-          {subject.newer.title} ({shortDate(subject.newer.at)}).{" "}
+          A newer version has arrived: {subject.newer.title} (
+          {shortDate(subject.newer.at)}).{" "}
           <button
             type="button"
             onClick={() => onView(subject.newer!.candidateId)}
@@ -1547,72 +2034,129 @@ function RequestDetail({
           </button>
         </p>
       ) : null}
-      <p>
-        {heading !== r.title
-          ? `${r.title}. ${r.consumer.playerVisibleUse}`
-          : r.consumer.playerVisibleUse}
-      </p>
       <p className="art-desk-meta">
-        {LANE_LABELS[request.lane]} · request v{r.requestVersion} · target{" "}
-        {r.target.targetClass} ≥{r.target.minimumWidth}px,{" "}
-        {r.target.aspectRatio}, alpha{" "}
-        {r.target.alphaRequired ? "required" : "optional"} · asset{" "}
-        {request.assetId}
-        {request.parentRequestId
-          ? ` · related to ${request.parentRequestId}`
-          : ""}
+        {viewed ? (candidateReviewView(viewed) ?? "Artwork") : "Request"}
+        {viewed
+          ? ` · Revision ${viewed.revision} · ${["installed", "in-game"].includes(viewed.status) && usage?.state !== "used" ? (usage?.state === "unknown" ? "Game use not yet checked" : "Approved / waiting to be implemented") : candidateWorkflowLabel(viewed)}`
+          : " · Waiting for an image"}
       </p>
-      <StyleReferenceSummary request={r} />
+      {usage ? (
+        <section className="art-desk-usage" data-testid="art-desk-where-used">
+          <strong>
+            {usage.state === "used"
+              ? "Available in this game version"
+              : usage.state === "unknown"
+                ? "Game use not yet checked"
+                : "Not in this game version"}
+          </strong>
+          {selectedBuild ? (
+            <p className="art-desk-meta">
+              Game version {selectedBuild.revision.slice(0, 7)}
+            </p>
+          ) : (
+            <p className="art-desk-meta">
+              Select a game version to check where this image is available.
+            </p>
+          )}
+          {usage.labels.length ? (
+            <p>{usage.labels.join(" · ")}</p>
+          ) : (
+            <p>{r.consumer.playerVisibleUse}</p>
+          )}
+          {usage.eligible.length ? (
+            <p>
+              <strong>Eligible regions and settings:</strong>{" "}
+              {usage.eligible.join(" · ")}
+            </p>
+          ) : null}
+          {usage.receipts.length ? (
+            <details>
+              <summary>Build details</summary>
+              <pre>{JSON.stringify(usage.receipts, null, 2)}</pre>
+            </details>
+          ) : null}
+        </section>
+      ) : null}
+      <StyleReferenceSummary
+        request={r}
+        projection={projection}
+        compact={!!viewed}
+      />
+      <details className="art-desk-reference-details" open={!viewed}>
+        <summary>Editing instructions</summary>
+        <p>
+          <strong>Why requested:</strong> {r.whyNeeded}
+        </p>
+        <p>
+          <strong>Intended use:</strong> {r.consumer.playerVisibleUse}
+        </p>
+        {r.generatorParameters?.integrationOwner ? (
+          <p>
+            <strong>Who will add it:</strong> The art team prepares it; the game
+            team adds it.
+          </p>
+        ) : null}
+        {requestArtworkCategory(r) === "clothing" ? (
+          <p>The art team is preparing this clothing.</p>
+        ) : (
+          <ProviderPrompts
+            request={r}
+            code={requestDisplayCode(projection, r.requestId)}
+          />
+        )}
+      </details>
       {request.qa ? (
         <p className="art-desk-warning" data-testid="art-desk-qa-flag">
-          Disposable QA request from the private sidecar. Its candidates are
-          bench proof, not production art, and never count as coverage.
+          Test request. These images are kept separately from game artwork.
         </p>
       ) : null}
       {request.lane === "awaiting-capable-worker" &&
+      requestArtworkCategory(r) !== "clothing" &&
       request.candidateIds.length === 0 ? (
         <p className="art-desk-warning" data-testid="art-desk-awaiting-worker">
-          Needs generation, but no capable generator is registered with this
-          bench. Copy the brief to a producer; the inbox importer will bring the
-          batch back. Nothing is faked.
+          Create an image using the prompt and upload reference below. Return
+          the download here with Add an image.
         </p>
       ) : null}
       <div className="art-desk-actions">
-        <button
-          type="button"
-          data-testid="art-desk-copy-brief"
-          onClick={async () => {
-            setBriefNote("Copying…");
-            try {
-              const response = await fetch(briefUrl);
-              if (!response.ok)
-                throw new Error(
-                  `the brief could not be read (${response.status})`,
+        <details>
+          <summary>Full production notes</summary>
+          <button
+            type="button"
+            data-testid="art-desk-copy-brief"
+            onClick={async () => {
+              setBriefNote("Copying…");
+              try {
+                const response = await fetch(briefUrl);
+                if (!response.ok)
+                  throw new Error(
+                    `the brief could not be read (${response.status})`,
+                  );
+                const text = await response.text();
+                if (!navigator.clipboard)
+                  throw new Error("this window has no clipboard access");
+                await navigator.clipboard.writeText(text);
+                setBriefNote(
+                  `Copied the brief (${text.length.toLocaleString()} characters).`,
                 );
-              const text = await response.text();
-              if (!navigator.clipboard)
-                throw new Error("this window has no clipboard access");
-              await navigator.clipboard.writeText(text);
-              setBriefNote(
-                `Copied the brief (${text.length.toLocaleString()} characters).`,
-              );
-            } catch (error) {
-              setBriefNote(
-                `Could not copy: ${error instanceof Error ? error.message : String(error)}. Use Download brief instead.`,
-              );
-            }
-          }}
-        >
-          Copy brief
-        </button>
-        <a
-          className="art-desk-linkbutton"
-          href={`${briefUrl}&download=1`}
-          data-testid="art-desk-download-brief"
-          onClick={() => setBriefNote(`Downloading ${briefName}-brief.md…`)}
-        >
-          Download brief
-        </a>
+              } catch (error) {
+                setBriefNote(
+                  `Could not copy: ${error instanceof Error ? error.message : String(error)}. Use Download brief instead.`,
+                );
+              }
+            }}
+          >
+            Copy brief
+          </button>
+          <a
+            className="art-desk-linkbutton"
+            href={`${briefUrl}&download=1`}
+            data-testid="art-desk-download-brief"
+            onClick={() => setBriefNote(`Downloading ${briefName}-brief.md…`)}
+          >
+            Download brief
+          </a>
+        </details>
         <span
           role="status"
           className="art-desk-meta"
@@ -1621,7 +2165,7 @@ function RequestDetail({
           {briefNote}
         </span>
         <label className="art-desk-upload">
-          {isInbox ? "Upload to inbox" : "Upload candidate(s)"}
+          {isInbox ? "Upload to inbox" : "Add an image"}
           <input
             type="file"
             accept="image/png,image/jpeg"
@@ -1637,53 +2181,89 @@ function RequestDetail({
         </label>
         <span className="art-desk-meta">or drop files here</span>
       </div>
+      {request.candidateIds.some(
+        (id) =>
+          projection.candidates[id] &&
+          reviewDisposition(projection.candidates[id]) !== "review",
+      ) ? (
+        <details className="art-desk-history-alternatives">
+          <summary>History and alternatives</summary>
+          {request.candidateIds
+            .filter(
+              (id) =>
+                projection.candidates[id] &&
+                reviewDisposition(projection.candidates[id]) !== "review",
+            )
+            .map((id) => {
+              const candidate = projection.candidates[id];
+              if (!candidate) return null;
+              return (
+                <button key={id} type="button" onClick={() => onView(id)}>
+                  Revision {candidate.revision} ·{" "}
+                  {reviewDisposition(candidate) === "reference"
+                    ? "Reference"
+                    : "Alternative"}
+                </button>
+              );
+            })}
+        </details>
+      ) : null}
       {request.candidateIds.length > 0 ? (
         <ol
           className="art-desk-alternatives"
           data-testid="art-desk-alternatives"
         >
-          {request.candidateIds.map((candidateId) => {
-            const candidate = projection.candidates[candidateId];
-            if (!candidate) return null;
-            const bytes = bench.bytes[candidateId];
-            return (
-              <li key={candidateId}>
-                <button
-                  type="button"
-                  className="art-desk-alt"
-                  aria-pressed={viewed?.candidateId === candidateId}
-                  data-testid={`art-desk-candidate-${candidateId}`}
-                  onClick={() => onView(candidateId)}
-                >
-                  <Thumb
-                    candidate={candidate}
-                    bytes={bytes}
-                    testId={`art-desk-alt-thumb-${candidateId}`}
-                  />
-                  <span className="art-desk-row-copy">
-                    <strong>
-                      rev {candidate.revision}
-                      {request.selectedCandidateId === candidateId
-                        ? " · selected"
-                        : ""}
-                    </strong>
-                    <span className="art-desk-meta">
-                      {STATUS_LABEL[candidate.status]} · {candidate.width}×
-                      {candidate.height} {candidate.container}
-                      {candidate.hasAlpha ? " α" : ""} · {candidate.editKind}
-                      {candidate.parentCandidateId
-                        ? ` of rev ${projection.candidates[candidate.parentCandidateId]?.revision ?? "?"}`
-                        : ""}
+          {request.candidateIds
+            .filter((id) => {
+              const candidate = projection.candidates[id];
+              return candidate && reviewDisposition(candidate) === "review";
+            })
+            .map((candidateId) => {
+              const candidate = projection.candidates[candidateId];
+              if (!candidate) return null;
+              const bytes = bench.bytes[candidateId];
+              return (
+                <li key={candidateId}>
+                  <button
+                    type="button"
+                    className="art-desk-alt"
+                    aria-pressed={viewed?.candidateId === candidateId}
+                    data-testid={`art-desk-candidate-${candidateId}`}
+                    onClick={() => onView(candidateId)}
+                  >
+                    <Thumb
+                      candidate={candidate}
+                      bytes={bytes}
+                      testId={`art-desk-alt-thumb-${candidateId}`}
+                    />
+                    <span className="art-desk-row-copy">
+                      <strong>
+                        {candidateReviewView(candidate)
+                          ? `${candidateReviewView(candidate)} · `
+                          : ""}
+                        Revision {candidate.revision}
+                        {candidate.qa ? " · Test image" : ""}
+                        {request.selectedCandidateId === candidateId
+                          ? " · preferred"
+                          : ""}
+                      </strong>
+                      <span className="art-desk-meta">
+                        {candidateWorkflowLabel(candidate)} · {candidate.width}×
+                        {candidate.height} {candidate.container}
+                        {candidate.hasAlpha ? " α" : ""} · {candidate.editKind}
+                        {candidate.parentCandidateId
+                          ? ` of rev ${projection.candidates[candidate.parentCandidateId]?.revision ?? "?"}`
+                          : ""}
+                      </span>
                     </span>
-                  </span>
-                </button>
-              </li>
-            );
-          })}
+                  </button>
+                </li>
+              );
+            })}
         </ol>
       ) : (
         <p data-testid="art-desk-no-candidates">
-          No candidate is recorded for this request.
+          Request: an image has not been supplied yet.
         </p>
       )}
       {viewed ? (
@@ -1702,13 +2282,14 @@ function RequestDetail({
               <figure
                 className={parent.hasAlpha ? "art-desk-checker" : undefined}
               >
-                <img
-                  src={originalUrl(parent.candidateId, parent.sha256)}
+                <ArtBenchImage
+                  candidate={parent}
                   alt={`Parent revision ${parent.revision}`}
-                  data-testid="art-desk-parent-preview"
+                  testId="art-desk-parent-preview"
                 />
                 <figcaption className="art-desk-meta">
-                  parent rev {parent.revision} · {parent.width}×{parent.height}
+                  Earlier revision {parent.revision} · {parent.width}×
+                  {parent.height}
                 </figcaption>
               </figure>
             ) : null}
@@ -1716,74 +2297,86 @@ function RequestDetail({
               <figure
                 className={viewed.hasAlpha ? "art-desk-checker" : undefined}
               >
-                <img
-                  src={originalUrl(viewed.candidateId, viewed.sha256)}
+                <ArtBenchImage
+                  candidate={viewed}
+                  requestId={requestId}
                   alt={`Candidate for ${r.title}`}
-                  data-testid="art-desk-candidate-preview"
+                  testId="art-desk-candidate-preview"
                 />
                 <figcaption className="art-desk-meta">
-                  rev {viewed.revision} · {viewed.width}×{viewed.height}{" "}
+                  Revision {viewed.revision} · {viewed.width}×{viewed.height}{" "}
                   {viewed.container}
                   {viewed.hasAlpha ? " · transparent" : ""}
+                  {" · "}
+                  {viewed.editKind === "original"
+                    ? "Original source"
+                    : viewed.editKind}
                 </figcaption>
               </figure>
             ) : (
               <p data-testid="art-desk-candidate-preview-missing">
                 {viewedBytes
                   ? `${viewedBytes.state}: ${viewedBytes.note}`
-                  : "Bench data not loaded for this candidate."}
+                  : "This image has not loaded yet. Try Sync now."}
               </p>
             )}
           </div>
-          <p
-            className="art-desk-meta"
-            data-testid="art-desk-candidate-state"
-            data-candidate-bytes={viewedBytes?.state ?? "unchecked"}
-          >
-            Recorded hash {viewed.sha256.slice(0, 12)}… · {viewed.candidateId} ·
-            rev {viewed.revision} · {viewed.source} · bytes{" "}
-            {viewedBytes?.state ?? "unchecked"} · {viewed.width}×{viewed.height}{" "}
-            {viewed.container} · native detail {viewed.nativeDetail}
-            {r.target.minimumWidth > 1 && viewed.width < r.target.minimumWidth
-              ? ` · below the ${r.target.minimumWidth}px target`
-              : ""}
-            {viewed.calibrationRecheck.length
-              ? ` · recheck: ${viewed.calibrationRecheck.join(", ")}`
-              : ""}
-            {viewed.provenance.worker
-              ? ` · worker ${viewed.provenance.worker}`
-              : ""}
-            {viewed.provenance.batchId
-              ? ` · batch ${viewed.provenance.batchId}/${viewed.provenance.itemId ?? "?"}`
-              : ""}
-          </p>
-          <p className="art-desk-meta" data-testid="art-desk-reference-inputs">
-            Reference inputs reported by the producer:{" "}
-            {viewed.provenance.referenceInputs
-              ? viewed.provenance.referenceInputs.length
-                ? viewed.provenance.referenceInputs
-                    .map(
-                      (input) =>
-                        `${input.role ? `${input.role} ` : ""}${input.ref}${input.sha256 ? ` (${input.sha256.slice(0, 12)}…)` : ""}`,
-                    )
-                    .join(", ")
-                : "none"
-              : "unknown (no receipt)"}
-          </p>
-          {viewed.aliasIds.length || viewed.ingestReceipts.length > 1 ? (
-            <p className="art-desk-meta" data-testid="art-desk-duplicates">
-              One delivered item, recorded {viewed.ingestReceipts.length}× by{" "}
-              {[...new Set(viewed.ingestReceipts.map((x) => x.origin))].join(
-                ", ",
-              )}
-              {viewed.aliasIds.length
-                ? ` · legacy duplicate ids kept as history: ${viewed.aliasIds.join(", ")}`
+          <details>
+            <summary>File information</summary>
+            <p
+              className="art-desk-meta"
+              data-testid="art-desk-candidate-state"
+              data-candidate-bytes={viewedBytes?.state ?? "unchecked"}
+            >
+              Recorded hash {viewed.sha256.slice(0, 12)}… · {viewed.candidateId}{" "}
+              · Revision {viewed.revision} · {viewed.source} · bytes{" "}
+              {viewedBytes?.state ?? "unchecked"} · {viewed.width}×
+              {viewed.height} {viewed.container} · native detail{" "}
+              {viewed.nativeDetail}
+              {r.target.minimumWidth > 1 && viewed.width < r.target.minimumWidth
+                ? ` · below the ${r.target.minimumWidth}px target`
                 : ""}
-              {viewed.groupDecisions.length > viewed.decisions.length
-                ? ` · ${viewed.groupDecisions.length} decisions across the group`
+              {viewed.calibrationRecheck.length
+                ? ` · recheck: ${viewed.calibrationRecheck.join(", ")}`
+                : ""}
+              {viewed.provenance.worker
+                ? ` · worker ${viewed.provenance.worker}`
+                : ""}
+              {viewed.provenance.batchId
+                ? ` · batch ${viewed.provenance.batchId}/${viewed.provenance.itemId ?? "?"}`
                 : ""}
             </p>
-          ) : null}
+            <p
+              className="art-desk-meta"
+              data-testid="art-desk-reference-inputs"
+            >
+              Reference inputs reported by the producer:{" "}
+              {viewed.provenance.referenceInputs
+                ? viewed.provenance.referenceInputs.length
+                  ? viewed.provenance.referenceInputs
+                      .map(
+                        (input) =>
+                          `${input.role ? `${input.role} ` : ""}${input.ref}${input.sha256 ? ` (${input.sha256.slice(0, 12)}…)` : ""}`,
+                      )
+                      .join(", ")
+                  : "none"
+                : "unknown (no receipt)"}
+            </p>
+            {viewed.aliasIds.length || viewed.ingestReceipts.length > 1 ? (
+              <p className="art-desk-meta" data-testid="art-desk-duplicates">
+                One delivered item, recorded {viewed.ingestReceipts.length}× by{" "}
+                {[...new Set(viewed.ingestReceipts.map((x) => x.origin))].join(
+                  ", ",
+                )}
+                {viewed.aliasIds.length
+                  ? ` · legacy duplicate ids kept as history: ${viewed.aliasIds.join(", ")}`
+                  : ""}
+                {viewed.groupDecisions.length > viewed.decisions.length
+                  ? ` · ${viewed.groupDecisions.length} decisions across the group`
+                  : ""}
+              </p>
+            ) : null}
+          </details>
           {viewed.duplicateDecisionConflict ? (
             <p
               className="art-desk-warning"
@@ -1794,53 +2387,170 @@ function RequestDetail({
             </p>
           ) : null}
           {lineage ? (
-            <p
-              className={
-                lineage.state === "not-recorded"
-                  ? "art-desk-warning"
-                  : "art-desk-meta"
-              }
-              data-testid="art-desk-lineage"
-              data-lineage-state={lineage.state}
-            >
-              {lineageSentence(lineage)}
-              {parent ? (
-                <>
-                  {" "}
-                  Parent {parent.candidateId} (rev {parent.revision},{" "}
-                  {parent.width}×{parent.height}
-                  {parent.hasAlpha ? " α" : ""}).{" "}
-                  <button type="button" onClick={() => setCompare((v) => !v)}>
-                    {compare ? "Hide parent" : "Compare with parent"}
-                  </button>
-                </>
-              ) : null}
-            </p>
+            <details>
+              <summary>About this version</summary>
+              <p
+                className={
+                  lineage.state === "not-recorded"
+                    ? "art-desk-warning"
+                    : "art-desk-meta"
+                }
+                data-testid="art-desk-lineage"
+                data-lineage-state={lineage.state}
+              >
+                {lineageSentence(lineage)}
+                {parent ? (
+                  <>
+                    {" "}
+                    Previous version {parent.revision}.{" "}
+                    <button type="button" onClick={() => setCompare((v) => !v)}>
+                      {compare
+                        ? "Hide comparison"
+                        : "Compare with earlier version"}
+                    </button>
+                  </>
+                ) : null}
+              </p>
+            </details>
           ) : null}
-          <div className="art-desk-meta" data-testid="art-desk-notes">
-            {notes.inherited.length ? (
-              <p data-testid="art-desk-inherited-note">
-                Carried forward from the {notes.inherited[0]!.stage} it was
-                edited from: “{notes.inherited[0]!.note}”
-                {notes.inherited.length > 1
-                  ? ` (+${notes.inherited.length - 1} earlier note${notes.inherited.length > 2 ? "s" : ""})`
-                  : ""}
-              </p>
-            ) : null}
-            {notes.own ? (
-              <p data-testid="art-desk-edit-note">
-                This version's note: “{notes.own}”
-              </p>
-            ) : null}
-            {Object.keys(notes.inheritedTags).length ? (
-              <p data-testid="art-desk-inherited-tags">
-                Tags carried forward:{" "}
-                {Object.entries(notes.inheritedTags)
-                  .map(([key, values]) => `${key}: ${values.join(", ")}`)
-                  .join(" · ")}
-              </p>
+          <details>
+            <summary>Earlier notes</summary>
+            <div className="art-desk-meta" data-testid="art-desk-notes">
+              {notes.inherited.length ? (
+                <p data-testid="art-desk-inherited-note">
+                  Carried forward from the {notes.inherited[0]!.stage} it was
+                  edited from: “{notes.inherited[0]!.note}”
+                  {notes.inherited.length > 1
+                    ? ` (+${notes.inherited.length - 1} earlier note${notes.inherited.length > 2 ? "s" : ""})`
+                    : ""}
+                </p>
+              ) : null}
+              {notes.own ? (
+                <p data-testid="art-desk-edit-note">
+                  This version's note: “{notes.own}”
+                </p>
+              ) : null}
+              {Object.keys(notes.inheritedTags).length ? (
+                <p data-testid="art-desk-inherited-tags">
+                  Tags inherited at import (history):{" "}
+                  {Object.entries(notes.inheritedTags)
+                    .map(([key, values]) => `${key}: ${values.join(", ")}`)
+                    .join(" · ")}
+                </p>
+              ) : null}
+            </div>
+          </details>
+          <div className="art-desk-actions">
+            {upscale ? (
+              <section
+                className="art-desk-upscale-request"
+                data-testid="art-desk-upscale-request"
+              >
+                <h3>
+                  {upscale.fulfilledBy
+                    ? "Larger image received"
+                    : "Request: enlarge this image"}
+                </h3>
+                {upscale.fulfilledBy ? (
+                  <p>
+                    Revision {upscale.fulfilledBy.revision} is{" "}
+                    {upscale.fulfilledBy.width}×{upscale.fulfilledBy.height} and
+                    meets this size request.{" "}
+                    <button
+                      type="button"
+                      onClick={() => onView(upscale.fulfilledBy!.candidateId)}
+                    >
+                      View returned revision
+                    </button>
+                  </p>
+                ) : null}
+                <p>
+                  Current: {viewed.width}×{viewed.height}. Minimum:{" "}
+                  {upscale.minimum.width}×{upscale.minimum.height} for{" "}
+                  {upscale.use}. Preserve the full aspect ratio; suggested
+                  export: {upscale.output.width}×{upscale.output.height}.
+                </p>
+                <p>
+                  Use this exact revision as the single reference. Return it
+                  through Add edited version and choose Upscale. You can review
+                  the returned image before approving it.
+                </p>
+                {!upscale.fulfilledBy ? (
+                  <>
+                    <textarea
+                      readOnly
+                      aria-label="External upscale prompt"
+                      rows={5}
+                      value={upscale.prompt}
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        void navigator.clipboard.writeText(upscale.prompt).then(
+                          () =>
+                            setBriefNote("Copied the external upscale prompt."),
+                          () =>
+                            setBriefNote(
+                              "Copy unavailable; select the upscale prompt text.",
+                            ),
+                        )
+                      }
+                    >
+                      Copy upscale prompt ({upscale.prompt.length}/1,024)
+                    </button>
+                  </>
+                ) : null}
+              </section>
             ) : null}
           </div>
+          <div className="art-desk-actions">
+            <button
+              type="button"
+              disabled={busy}
+              onClick={() =>
+                void onTags(viewed, {
+                  ...viewed.tags,
+                  reviewQueue: [`${viewed.candidateId}:reference`],
+                })
+              }
+            >
+              Use as style reference
+            </button>
+            <button
+              type="button"
+              disabled={busy}
+              onClick={() =>
+                void onTags(viewed, {
+                  ...viewed.tags,
+                  reviewQueue: [`${viewed.candidateId}:archived`],
+                })
+              }
+            >
+              Remove from review
+            </button>
+            {reviewDisposition(viewed) !== "review" ||
+            viewed.tags.deskView?.some((value) =>
+              value.startsWith(`${viewed.candidateId}:`),
+            ) ? (
+              <button
+                type="button"
+                disabled={busy}
+                onClick={() =>
+                  void onTags(viewed, {
+                    ...viewed.tags,
+                    reviewQueue: [`${viewed.candidateId}:review`],
+                    deskView: [],
+                  })
+                }
+              >
+                Return to review queue
+              </button>
+            ) : null}
+          </div>
+          <p className="art-desk-meta">
+            Style references and removed items remain in Library with their full
+            history. These actions do not approve or reject the artwork.
+          </p>
           <div className="art-desk-actions">
             <button
               type="button"
@@ -1871,7 +2581,7 @@ function RequestDetail({
                 type="button"
                 onClick={() => void onSelect(viewed.candidateId)}
               >
-                Make this the selected revision
+                Use this version
               </button>
             ) : null}
             {viewedBytes?.state === "verified" ? (
@@ -1881,8 +2591,22 @@ function RequestDetail({
                 data-download-name={originalName ?? undefined}
                 onClick={() => void downloadOriginal()}
               >
-                Download original ({viewed.width}×{viewed.height}{" "}
+                Download this revision ({viewed.width}×{viewed.height}{" "}
                 {viewed.container})
+              </button>
+            ) : null}
+            {window.ocdArtBench ? (
+              <button
+                type="button"
+                onClick={async () => {
+                  const result = await window.ocdArtBench?.revealDownload();
+                  if (!result?.ok)
+                    setOriginalNote(
+                      "No completed download in this session. Download this revision first.",
+                    );
+                }}
+              >
+                Reveal downloaded file
               </button>
             ) : null}
             <span
@@ -1910,7 +2634,7 @@ function RequestDetail({
                   value={revisionText}
                   onChange={(event) => setRevisionText(event.target.value)}
                   rows={3}
-                  placeholder="Exactly what should change on this candidate."
+                  placeholder="What would you like changed?"
                 />
               </label>
               <button
@@ -1967,12 +2691,26 @@ function RequestDetail({
               </button>
             </div>
           ) : (
-            <div className="art-desk-dialog" data-testid="art-desk-edit">
-              <strong>External edit round trip</strong>
+            <div
+              className="art-desk-dialog art-desk-edit-drop"
+              data-testid="art-desk-edit"
+              onDragOver={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+              }}
+              onDrop={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                setDragging(false);
+                const files = [...event.dataTransfer.files];
+                if (files.length === 1) void uploadEdited(files, false);
+                else if (files.length) void onIntake(files, {});
+              }}
+            >
+              <strong>Add edited version</strong>
               <span className="art-desk-meta">
-                Download the original above, edit it outside, then upload the
-                result here. Identity, tags, notes and lineage are kept;
-                approval is not.
+                Add the edited image as a new version. Earlier images and
+                decisions stay in history.
               </span>
               <label>
                 Edit kind{" "}
@@ -2000,7 +2738,7 @@ function RequestDetail({
                 />
               </label>
               <label className="art-desk-upload">
-                Upload edited version
+                Choose edited version
                 <input
                   type="file"
                   accept="image/png,image/jpeg"
@@ -2033,19 +2771,25 @@ function RequestDetail({
               </a>
             </div>
           )}
-          <TagEditor
-            key={`${viewed.candidateId}:${viewed.tagsVersion}`}
-            candidate={viewed}
-            busy={busy}
-            onSave={(tags) => onTags(viewed, tags)}
-          />
+          <details>
+            <summary>Organize this image</summary>
+            <p className="art-desk-meta" data-testid="art-desk-current-tags">
+              Current tags:{" "}
+              {Object.entries(viewed.tags)
+                .map(([key, values]) => `${key}: ${values.join(", ")}`)
+                .join(" · ") || "None recorded"}
+            </p>
+            <TagEditor
+              key={`${viewed.candidateId}:${viewed.tagsVersion}`}
+              candidate={viewed}
+              busy={busy}
+              onSave={(tags) => onTags(viewed, tags)}
+            />
+          </details>
           <div data-testid="art-desk-decisions">
             <strong>Decisions</strong>
             {viewed.decisions.length === 0 ? (
-              <p className="art-desk-meta">
-                Awaiting review. No decision has been recorded for these exact
-                bytes.
-              </p>
+              <p className="art-desk-meta">No decision yet.</p>
             ) : (
               <ul>
                 {viewed.decisions.map((d) => (
@@ -2053,12 +2797,15 @@ function RequestDetail({
                     key={d.eventId}
                     data-testid={`art-desk-decision-${d.payload.decision}`}
                   >
-                    <strong>{d.payload.decision}</strong> by {d.actor.id} at{" "}
-                    {d.at} · review {d.payload.reviewId} · event {d.eventId}
+                    <strong>
+                      {d.payload.decision === "approve"
+                        ? "Approved"
+                        : d.payload.decision === "reject"
+                          ? "Rejected"
+                          : "Changes requested"}
+                    </strong>{" "}
+                    · {shortDate(d.at)}
                     {d.payload.note ? ` · "${d.payload.note}"` : ""}
-                    {d.payload.supersedesReviewId
-                      ? ` · supersedes ${d.payload.supersedesReviewId}`
-                      : ""}
                   </li>
                 ))}
               </ul>
@@ -2066,8 +2813,47 @@ function RequestDetail({
           </div>
         </div>
       ) : null}
+      <section
+        className="art-desk-discussion"
+        aria-label="Questions and replies"
+      >
+        <h3>Questions &amp; replies</h3>
+        {discussionMessages.map((message) => (
+          <div
+            key={message.eventId}
+            id={`art-desk-message-${message.eventId}`}
+            tabIndex={-1}
+            className="art-desk-message"
+            data-testid="art-desk-message"
+          >
+            <strong>
+              {message.actor.kind === "owner" ? "You" : "Art team"}
+              {message.payload.kind === "reply" ? " replied" : ""}
+            </strong>
+            <p>{message.payload.text}</p>
+          </div>
+        ))}
+        <label>
+          Ask a question or leave a note
+          <textarea
+            data-testid="art-desk-question"
+            value={question}
+            maxLength={8000}
+            onChange={(event) => setQuestion(event.target.value)}
+          />
+        </label>
+        <button
+          type="button"
+          disabled={busy || !question.trim()}
+          onClick={async () => {
+            if (await onMessage(question.trim())) setQuestion("");
+          }}
+        >
+          Send question
+        </button>
+      </section>
       <details open={showIds} onToggle={onToggleIds}>
-        <summary>IDs, measurements and compiled brief</summary>
+        <summary>More information</summary>
         <pre data-testid="art-desk-brief">{JSON.stringify(brief, null, 2)}</pre>
       </details>
     </article>
@@ -2166,57 +2952,164 @@ function TagEditor({
   );
 }
 
+function ProviderPrompts({
+  request,
+  code,
+}: {
+  request: AssetRequest;
+  code: string | null;
+}) {
+  const [copied, setCopied] = useState("");
+  const parameters = request.generatorParameters;
+  const prompts = [
+    {
+      key: "firefly",
+      label: "Firefly",
+      text: parameters?.fireflyPrompt
+        ? codedGenerationPrompt(request, code, parameters.fireflyPrompt)
+        : undefined,
+      model: parameters?.fireflyModel,
+      limit: 1024,
+    },
+    {
+      key: "openai",
+      label: "OpenAI image tool",
+      text: parameters?.openaiPrompt
+        ? codedGenerationPrompt(request, code, parameters.openaiPrompt)
+        : undefined,
+      model: parameters?.openaiModel,
+      limit: null,
+    },
+  ].filter((entry) => entry.text);
+  return (
+    <section
+      className="art-desk-provider-prompts"
+      aria-label="Production prompt"
+    >
+      <h3>Create this image</h3>
+      <p>
+        {parameters?.aspect ?? request.target.aspectRatio}
+        {parameters?.referenceUploadCount === "1"
+          ? " · Upload only the reference marked below."
+          : ""}
+      </p>
+      {prompts.map(({ key, label, text, model, limit }) => (
+        <div key={key}>
+          <strong>
+            {label}
+            {model ? ` · ${model}` : ""}
+          </strong>
+          <textarea
+            aria-label={`${label} prompt`}
+            readOnly
+            value={text}
+            rows={5}
+          />
+          <span>
+            {text!.length}
+            {limit ? ` / ${limit}` : ""} characters
+          </span>{" "}
+          <button
+            type="button"
+            disabled={limit !== null && text!.length > limit}
+            onClick={async () => {
+              try {
+                await navigator.clipboard.writeText(text!);
+                setCopied(`${label} prompt copied.`);
+              } catch {
+                setCopied("Select the prompt text to copy it.");
+              }
+            }}
+          >
+            Copy {label} prompt
+          </button>
+          {limit !== null && text!.length > limit ? (
+            <p role="alert">
+              This prompt exceeds Firefly’s limit. Its author must shorten it
+              before copying.
+            </p>
+          ) : null}
+        </div>
+      ))}
+      {prompts.length === 0 ? (
+        <p className="art-desk-meta">
+          No provider prompt is recorded for this request.
+        </p>
+      ) : null}
+      {parameters?.returnInstructions ? (
+        <p>
+          Download the original image, then choose Add an image on this card.
+          The art team will prepare it for the game.
+        </p>
+      ) : null}
+      <span role="status">{copied}</span>
+    </section>
+  );
+}
+
 function StyleReferenceSummary({
   request,
+  projection,
+  compact = false,
 }: {
   readonly request: AssetRequest;
+  readonly projection: ArtbenchProjection;
+  readonly compact?: boolean;
 }) {
   const references = requestReferencePixels(request);
   return (
-    <div className="art-desk-meta" data-testid="art-desk-style-references">
-      <strong>Style reference</strong>{" "}
+    <div data-testid="art-desk-style-references">
       {references.map((reference, index) => {
         const candidateId = reference.pathOrDriveId.startsWith("candidate:")
           ? reference.pathOrDriveId.slice("candidate:".length)
           : null;
-        const driveId = reference.pathOrDriveId.startsWith("drive:")
-          ? reference.pathOrDriveId.slice("drive:".length)
+        const candidate = candidateId
+          ? projection.candidates[candidateId]
           : null;
+        const valid = candidate && reference.sha256 === candidate.sha256;
+        const upload =
+          request.generatorParameters?.referenceUploadCount === "1" &&
+          index === 0;
         return (
-          <span
+          <div
             key={`${reference.pathOrDriveId}-${index}`}
-            className="art-desk-reference"
+            className={`art-desk-reference${compact ? " art-desk-reference--compact" : ""}`}
             data-testid="art-desk-style-reference"
-            data-resolution={reference.resolution ?? "unresolved"}
             data-role={reference.role}
           >
-            {reference.role}:{" "}
-            {candidateId && reference.sha256 ? (
-              <img
-                className="art-desk-reference-thumb"
-                alt=""
-                width={48}
-                src={originalUrl(candidateId, reference.sha256)}
-              />
-            ) : null}
-            {driveId ? (
-              <a
-                href={`https://drive.google.com/file/d/${encodeURIComponent(driveId)}/view`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {reference.pathOrDriveId}
-              </a>
+            <h3>
+              {compact
+                ? "Original reference"
+                : upload
+                  ? "Upload this reference"
+                  : "Reference image"}
+            </h3>
+            {valid ? (
+              <>
+                <ArtBenchImage
+                  className="art-desk-reference-thumb"
+                  alt={upload ? "Upload reference" : "Reference image"}
+                  candidate={candidate}
+                  requestId={request.requestId}
+                />
+                <a
+                  className="art-desk-linkbutton"
+                  href={`${originalUrl(candidate.candidateId, candidate.sha256)}&download=1&requestId=${encodeURIComponent(request.requestId)}`}
+                >
+                  Download reference
+                </a>
+              </>
             ) : (
-              reference.pathOrDriveId
+              <p>The reference is being prepared.</p>
             )}
-            {reference.sha256 ? ` · sha ${reference.sha256.slice(0, 12)}…` : ""}{" "}
-            ·{" "}
-            {reference.resolution === "declared"
-              ? "declared (not proof it was supplied)"
-              : `unresolved — ${reference.missingReason ?? "no image recorded"}`}
-            {index < references.length - 1 ? " | " : ""}
-          </span>
+            <details>
+              <summary>Image details</summary>
+              <p>{request.target.styleReferences?.[index]?.note}</p>
+              <p>
+                {reference.pathOrDriveId} · {reference.sha256}
+              </p>
+            </details>
+          </div>
         );
       })}
     </div>
@@ -2225,7 +3118,6 @@ function StyleReferenceSummary({
 
 function NewRequestForm({
   mode,
-  projection,
   related,
   relatedCandidate,
   onDone,
@@ -2284,7 +3176,7 @@ function NewRequestForm({
         });
         setMessage(
           result.ok
-            ? `Request ${draft.request.requestId} created (event ${result.body.events[0]?.eventId}).`
+            ? "Request created."
             : `Request not created: ${result.message}`,
         );
         await onDone(result.ok ? draft.request.requestId : null);
@@ -2292,15 +3184,15 @@ function NewRequestForm({
     >
       <strong data-testid="art-desk-new-request-heading">
         {parent
-          ? `Related variant of ${parent.request.requestId} — copies its target, acceptance criteria, scope and style authority`
-          : "New independent request — nothing is copied from the selected row"}
+          ? `New version of ${parent.request.title} — copies its size and references`
+          : "New request — nothing is copied from the selected image"}
       </strong>
       <span className="art-desk-meta">
-        A request declares need; it does not generate or spend.{" "}
-        {Object.keys(projection.requests).length} requests exist.
+        Describe the image you need. You can add the result here when it is
+        ready.
       </span>
       <label>
-        requestId{" "}
+        Request name (unique){" "}
         <input
           data-testid="art-desk-new-id"
           value={fields.requestId}
@@ -2319,7 +3211,7 @@ function NewRequestForm({
         />
       </label>
       <label>
-        Player-visible use{" "}
+        Where will this image be used?{" "}
         <input
           data-testid="art-desk-new-use"
           value={fields.use}
@@ -2328,7 +3220,7 @@ function NewRequestForm({
         />
       </label>
       <label>
-        Consumer{" "}
+        Game connection (optional){" "}
         <input
           data-testid="art-desk-new-consumer"
           value={fields.consumerId}
@@ -2336,7 +3228,7 @@ function NewRequestForm({
         />
       </label>
       <label>
-        Target class{" "}
+        Image type{" "}
         <select
           value={fields.targetClass}
           onChange={(e) =>
@@ -2367,7 +3259,7 @@ function NewRequestForm({
           checked={fields.alphaRequired}
           onChange={(e) => set("alphaRequired", e.target.checked)}
         />{" "}
-        alpha required
+        Transparent background needed
       </label>
       <label>
         <input
@@ -2376,7 +3268,7 @@ function NewRequestForm({
           checked={qa}
           onChange={(e) => setQa(e.target.checked)}
         />{" "}
-        QA / disposable (never coverage or integration cargo)
+        Test only — keep separate from game artwork
       </label>
       {parent && relatedCandidate ? (
         <label>
@@ -2385,14 +3277,11 @@ function NewRequestForm({
             checked={linkParent}
             onChange={(e) => setLinkParent(e.target.checked)}
           />{" "}
-          use {relatedCandidate.candidateId.slice(0, 13)}… as parent (variant of
-          the same asset)
+          Link this to revision {relatedCandidate.revision}
         </label>
       ) : null}
       <fieldset data-testid="art-desk-new-references">
-        <legend>
-          Style reference images (optional; unresolved is allowed)
-        </legend>
+        <legend>Style reference images (optional)</legend>
         {fields.styleReferences.map((reference, index) => (
           <div key={index} className="art-desk-reference-row">
             <select

@@ -205,3 +205,24 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
+.pg-news-headline {
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.pg-news-headline:hover {
+  text-decoration: underline;
+}
+.pg-news-article {
+  max-width: 48rem;
+  margin: auto;
+}
+.pg-news-article .pg-news-body {
+  white-space: pre-line;
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
