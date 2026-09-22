@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "./fixtures";
 import {
+  beginAfterCalibration,
   completeCharacterStep,
   enterLife,
   openCreator,
@@ -580,6 +581,9 @@ test.describe("The calibration opens a life", () => {
         .getByRole("button");
       await options.first().click();
     }
+    // The questions hand back to the creator's appearance step rather than to
+    // the life; Begin is the player's next act and the walk takes it.
+    await beginAfterCalibration(page);
     await expect(page.getByTestId("play-screen")).toBeVisible();
     expect(asked).toBeGreaterThan(0);
     expect(asked).toBeLessThan(60);

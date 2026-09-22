@@ -146,9 +146,84 @@ walks rather than picked: the slowest passing cases measured 42.9s, 43.6s and
 
 ### After
 
-_To be filled from the re-measure in flight. It will name the head it ran
-against, the browser build, and the count broken out by family: product defect,
-harness defect, stale expectation, and cannot-run-in-a-cloud-container._
+Re-measured on the whole suite at `445441a5` — main plus the timeout budget
+above, taken before the merge train of the 21st into the 22nd began. Local, in
+this container, Chromium 141 aliased as described in section 3, 2 workers,
+3 hours 6 minutes wall clock. `CI=1`, so retries are on and a case that passed
+on its second attempt is counted as flaky rather than as a pass.
+
+    93 failed
+    11 flaky
+    474 passed
+    ---
+    588 cases, 104 distinct not passing
+
+Against 144 not passing at the previous head, that is **40 cases recovered**,
+and the recovery is the timeout budget: the 30-second cluster stopped dying
+part-way through walks that were never hung.
+
+**The prediction this document made was too pessimistic.** Section 4's "Before"
+said to expect the honest failure count to rise as the budget stopped masking
+assertions. It fell. The budget converted about forty timeouts into passes and
+uncovered only a couple of assertions underneath them. The reasoning was sound
+and the size of the effect was wrong; recorded here rather than quietly
+dropped, because the next person to raise a budget will want to know which way
+it actually went once.
+
+#### Eighteen of those 104 no longer exist
+
+Seven spec files in the run have since been deleted from main:
+
+    morning23-b.spec.ts
+    people-coherence-b.spec.ts
+    people-fresh-candidate.spec.ts
+    people-snapshot6.spec.ts
+    people-visual4.spec.ts
+    people1-r1.spec.ts
+    playable29-outfit.spec.ts
+
+They carry 18 of the 104. Nobody should spend on them. **86 are live.**
+
+#### By family
+
+The placeholder this replaces promised four families: product defect, harness
+defect, stale expectation, and cannot-run-in-a-cloud-container. Two of those
+four can be assigned from the run itself; two cannot, and saying so is the
+point of the table.
+
+| Family                                      | 104 total | 86 live | Assigned from                              |
+| ------------------------------------------- | --------- | ------- | ------------------------------------------ |
+| Private artwork absent (a floor, section 1) | 35        | 23      | The spec's `?art-preview=candidate` opener |
+| Timeout at an already-raised budget         | 25        | 20      | The reporter's own verdict                 |
+| Assertion failure                           | 43        | 42      | The reporter's own verdict                 |
+| Unknown                                     | 1         | 1       | Crashed before reporting                   |
+
+The 8 environment cases of section 2 are inside the 35/23 private-artwork row
+and the assertion row; they are not a separate line here, because the run does
+not label them and separating them by hand would be an estimate wearing the
+same typeface as a measurement.
+
+**What is not established: the split of the 42 live assertions into product
+defect, harness defect and stale expectation.** That split cannot be read off a
+reporter. It needs each case opened, the screen it asserts about looked at, and
+a decision about whether the game is wrong or the expectation is. That is the
+work this lane is doing next, and until it reports, "42 assertions" is a count
+of red cases and not a count of bugs. A document that guessed the ratio would
+be exactly the kind of true-shaped, unmeasured claim this file exists to stop.
+
+Two things are known about that 42 without opening them:
+
+- **Six are one cause, not six.** `pt3-scene-conversation.spec.ts` (four
+  viewport variants) and `pt3-school-scene.spec.ts:149` (two corridor routes)
+  are the same PT3 scene surface met from six directions. Section 7 shows CI
+  naming the same six on a different browser.
+- **Two more are not this lane's.** `pt3-microfix-version.spec.ts:81` asserts
+  the version stamp, which the release machinery owns.
+
+The 20 live timeouts are the other open question, and they are a different one
+from the 25: these are cases that still run out of time at a budget sized from
+measured walks, so "the walk is slow" no longer explains them. Whether that is
+twenty hangs or one shared stall reached twenty ways is not established.
 
 ## 5. What CI itself said
 
@@ -180,9 +255,23 @@ The fix is not to delete the case — the fixture path is worth testing — but 
 have a second case walk an ordinary creator start with no injection, and to let
 each title say which of the two it covers. That case is being written.
 
-Until it reports, the honest state of Alaska is: two independent measurements
-at the engine say the rule admits a candidacy, and zero measurements say what
-the filing screen renders.
+**Superseded, and the resolution is better than either half.** This said the
+honest state of Alaska was two engine measurements admitting a candidacy and
+zero measurements of the screen. There are now measurements of the screen, and
+they do not contradict the engine: **Alaska is not one answer, it is one answer
+per town.** Sitka is a single state house district and a lifelong resident
+stands there on day one; Anchorage spans several, so the whole-place join
+declines to pick one and the district-residence rule cannot be answered either
+way. Measured independently in two lanes, at the engine and in the browser.
+
+"Alaska refuses" and "Alaska opens" are both true with the town dropped, which
+is how one fact got claimed and retracted twice in one night. The lesson is
+narrower than it looked: nothing was wrong with either measurement, and the
+name of the jurisdiction was doing work the town should have been doing.
+
+What is still worth writing is the second case this section asked for — an
+ordinary creator start in Sitka with no fixture injection, so the suite covers
+the town that opens as well as the town that refuses.
 
 ### Two refusals that mean the same thing and do not say so
 
@@ -240,7 +329,12 @@ same nine titles — stronger evidence than one browser, not weaker. And
 "pre-existing" here means present at `445441a5`; it does not date them further
 back than that.
 
-The six PT3 cases are very likely one cause rather than six. They are all
-conversation or scene rendering on the same PT3 surface, reached across two
-spec files and four viewport sizes, which is the signature of one broken thing
-met from six directions.
+The six PT3 cases looked like one cause rather than six — all conversation or
+scene rendering on the same PT3 surface, across two spec files and four
+viewport sizes. **That guess was half right and is retracted as stated.** The
+four in `pt3-scene-conversation.spec.ts` were one cause, a walk asking for the
+room and the moment at once when the game shows only one of them. The two in
+`pt3-school-scene.spec.ts:149` die on `data-scene-purpose` reading `home` where
+the walk wants `school`, which is a different problem. A shared prefix and a
+shared shard are not a shared cause; the full account is in
+`BROWSER-SUITE-CASE-LIST.md`.
