@@ -3,7 +3,8 @@
   "impact": "shapes-design",
   "lane": "invented-depth audit",
   "notes": [
-    "Measured by the playtest lane on 2026-09-22: 27 day-pressed sessions won with 81%; zero sessions lost with about 41%. The rival's weekly cadence gives it roughly a twenty-eighth of the player's action budget."
+    "Measured by the playtest lane on 2026-09-22: 27 day-pressed sessions won with 81%; zero sessions lost with about 41%. The rival's weekly cadence gives it roughly a twenty-eighth of the player's action budget.",
+    "APPENDED 2026-09-22 7:55 p.m. ET by the running-for-office lane, carrying two owner rulings. First, at 6:52 p.m.: 'the every afternoon of door knocking added 1.4 points... That's unacceptable.' A playtest candidate canvassed from 48% to 96%, because a gain is the same size at 90% as at 40% and the same in a town of two thousand as statewide. A stand-in now stops campaign gains at 75% and shrinks them above half (CAMPAIGN_SUPPORT_CEILING_BASIS_POINTS in src/simulation/campaign-support.ts). Please extend the answer to a U.S. House district and a statewide race, and say how fast the return falls as support rises and how much of an electorate is persuadable at all. Second, at 7:35 p.m.: a Maine House candidate won a contested seat without raising a dollar, which he called insane. So please also say what money buys in a race (reach, staff, advertising, polling) and what a typical opponent raises and spends at each level."
   ],
   "priority": "P1",
   "question": "In a real state legislative or local race, how much does a candidate's own effort (door-knocking hours, volunteers, fundraising, paid advertising) move vote share, how much can a candidate realistically raise per session of call time at each level of office, and how active is a typical opponent over a campaign?",

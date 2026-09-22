@@ -46,7 +46,7 @@ export const SUPPORT_DENOMINATOR = 10_000;
  * Not modelled: the size of the electorate (an afternoon on the doors is worth
  * the same in a town of two thousand and a district of two hundred thousand),
  * partisan lean, and turnout. Filed with ChatGPT as
- * `campaign-activity-effects-by-race-size`, beside
+ * `campaign-effort-to-support-magnitudes`, beside
  * `realistic-vote-shares-and-how-far-a-campaign-moves-them`.
  */
 export const CAMPAIGN_SUPPORT_CEILING_BASIS_POINTS = 7_500;
