@@ -238,6 +238,15 @@ main, and no player reads it.
 The standing rule: **title an entry after the failure observed, not the cause
 suspected or the fix intended, until the cause is measured.**
 
+One detail from that check is worth keeping on its own, because it is the kind
+of thing that misleads the next reader rather than this one:
+`QualificationSourceRef.researchLineage` reads like provenance and is never
+consulted as any. It is a string naming the research row a verification came
+from, and no code path in `candidate-qualification.ts` looks a row up by it. A
+field that looks like a pointer and is only a label will eventually be believed
+by somebody tracing a fact back, so it is worth saying plainly that the trail
+stops there.
+
 ### The mechanism the body describes was checked too, not only the title
 
 A wrong title is the obvious failure; a body that describes the wrong machinery
@@ -270,16 +279,37 @@ Stated so the morning report does not have to infer it.
 
 - No branch in this lane has a **CI verdict**. Everything above is local
   evidence, run in this container and named as such.
-- `src/presentation/character-components.ts` around line 1816 has a latent
-  `-Infinity`: `published` is truthy when it is an empty array, and
-  `Math.max(...[]) + 1` is `-Infinity`. The membership check above does not catch
-  it. Recorded in a comment at the site; every current caller passes a non-empty
-  list, so it is latent rather than live.
+- **Fixed.** `liftCandidatesForReview` in
+  `src/presentation/character-components.ts` stamped every lifted candidate with
+  a `catalog_generation` of `-Infinity` when handed `frozenGenerations: []`. An
+  empty array is truthy, so the published branch was taken, and `Math.max()` of
+  nothing is `-Infinity`. It was carried as latent because every current caller
+  passes a non-empty list — which is exactly how something becomes a bug report
+  months later. An empty publication means nothing has been published, so the
+  first unclaimed candidate now joins `CANDIDATE_REVIEW_GENERATION`, the same
+  answer the unpublished path already gives. The regression case in
+  `tests/pg-modular-intake.test.ts` fails against the unfixed source with
+  `expected -Infinity to be 1`, and the file passes 9 of 9 with the fix;
+  `morning23-catalog-continuity` and `production-release-boundary` pass 25 of 25
+  beside it.
 - `desktop/tests/hub-broker.test.mjs` fails in this container and needs
   `npm ci --prefix private-controller`, which CI does run. 151 of 152 desktop
   tests pass here.
 - The controller locator fix is **not runtime-verified**: a cloud container has
   no Electron and cannot launch the packaged controller. It is a read of the
   shipped markup. Mac verification is registrar L13.
-- Seated bodies drawn free of furniture do not exist (registrar L12). The
-  figure-framing report now names this in the pipeline's own words.
+- **Corrected.** An earlier version of this list said seated bodies do not
+  exist. They do, in quantity, and this is the second time the project has paid
+  for that claim. Counted here: **63 distinct seated files under `art/`, of
+  which 8 are garment tops cut for the pose and 55 are body or pose plates**,
+  spanning men and women across average, fat, skinny and older builds. What is
+  missing is registration, not art — `art/manifest/character_candidate_registry.json`
+  holds 12 entries and **2 of them are seated**, both `approved` with QA still
+  `pending` and `unreleased`, which is why nobody sits. The rendering lane has
+  since admitted more of them and derived chairless bodies from four chair
+  plates without adding a pixel. The figure-framing report's "no body resolves
+  for `seated-at-desk` or `seated-guest-neutral`" is a statement about that
+  registry, not about the bank. One genuine art gap does show up on inventory:
+  **exactly one seated plate in the tree is three-quarter or turned**
+  (`ocd_body_adult_fem_seated_guest_three_quarter_v1`), and every seated request
+  is square to the camera while the club chair is turned. Registrar L12.
