@@ -301,6 +301,29 @@
       "preservedUnits": [],
       "evidencePaths": [],
       "reason": "The preserved cargo is character components and environment plates. There is no prop in it, and no prop anywhere in the manifest: the only asset whose id matches a prop word is a seated character pose. The residence plate paints a folded newspaper on this table as its own decoration, which is the fallback this object would sit over rather than a preserved unit that could close the request."
+    },
+    {
+      "requestId": "person-seated-three-quarter-right-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved cargo holds the same nineteen banked seated poses, so the request may not say seated art is simply absent. What it may say is that none of it is turned: the nineteen fall into four categories, seven seated_interaction_surface_v1, six seated_conversational_open_hand_v1, four seated_front_neutral_v1 and two seated_front_chair_v1, and not one component in the review names a three-quarter facing or a direction at all. A square figure in a seat drawn turned towards the room sits across it, which is the defect this request exists to answer. Still required on the same ground as its siblings besides: all one hundred and eleven reviewed components report eligibleAsProductionCharacterBody false, so none of them can close a production request whichever way it faces."
     }
   ],
   "unlinkedPreservedAssets": [
