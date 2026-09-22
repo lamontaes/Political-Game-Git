@@ -1272,8 +1272,8 @@ function bargainingConsiderations(
   }
 
   // Whatever the loaded trait packs say bears on this answer. The decision
-  // names no trait: it names the situation it is in, and the packs decide what
-  // argues about it. A trait nothing has conferred contributes nothing, so a
+  // names no trait: it names the situation it is in, who is deciding and who
+  // they are deciding about, and the packs decide what argues about it. A trait nothing has conferred contributes nothing, so a
   // sitting in a world where no member has a recorded manner decides exactly
   // as it did before this call existed.
   considerations.push(
@@ -1285,6 +1285,12 @@ function bargainingConsiderations(
       input.intent === "request-support"
         ? BARGAINING_ANSWER_REQUEST_DECISION.id
         : BARGAINING_ANSWER_OFFER_DECISION.id,
+      // The member is deciding about the player's ask, so the player is the
+      // subject, and a pack row about the subject reads the player's manner
+      // rather than the member's. This is the only way the played character's
+      // own temperament reaches anybody: it never decides for them, it is how
+      // they are read across a table.
+      input.room.playerPersonId,
     ),
   );
 

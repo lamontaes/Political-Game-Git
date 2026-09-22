@@ -1,4 +1,4 @@
-import type { TraitPack, TraitScale } from "./trait-packs";
+import type { TraitMovability, TraitPack, TraitScale } from "./trait-packs";
 
 /**
  * The legislature's own trait pack.
@@ -39,6 +39,21 @@ export const LEGISLATURE_TRAIT_SCALE: TraitScale = {
   ],
 };
 
+/**
+ * How movable a bargaining manner is, which is this pack's judgement.
+ *
+ * Easier to move than an ordinary-life temperament and harder than a mood. A
+ * member who has been burned once at a table changes how they answer, and the
+ * change costs more each time so that nobody oscillates across a session. It
+ * settles over four years, which is roughly a term: a manner held across a
+ * whole term without moving is the one everybody in the chamber can rely on.
+ */
+export const LEGISLATURE_TRAIT_MOVABILITY: TraitMovability = {
+  settled: 2,
+  perMove: 1,
+  settlesOver: 4,
+};
+
 export const LEGISLATURE_PACK = "legislature-v1";
 
 export function legislatureTraitPack(): TraitPack {
@@ -67,6 +82,7 @@ export function legislatureTraitPack(): TraitPack {
         scopes: ["government:bargaining"],
         conferredBy: "conferred-only",
         scale: LEGISLATURE_TRAIT_SCALE,
+        movability: LEGISLATURE_TRAIT_MOVABILITY,
         seed: null,
       },
     ],
@@ -88,6 +104,14 @@ export function legislatureTraitPack(): TraitPack {
             explanation:
               "This member does not say where they will be until the text stops changing.",
           },
+          {
+            option: "commit",
+            trait: `${LEGISLATURE_PACK}:showing-their-hand`,
+            pole: "high",
+            about: "subject",
+            explanation:
+              "The person asking has given straight answers on moving bills before, so an answer back to them is worth something.",
+          },
         ],
       },
       {
@@ -106,6 +130,14 @@ export function legislatureTraitPack(): TraitPack {
             pole: "low",
             explanation:
               "This member holds out rather than settle while there is still room to ask.",
+          },
+          {
+            option: "take-the-offer",
+            trait: `${LEGISLATURE_PACK}:showing-their-hand`,
+            pole: "high",
+            about: "subject",
+            explanation:
+              "The person offering this has been plain about where they stand before, which makes the offer easier to read.",
           },
         ],
       },

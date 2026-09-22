@@ -153,6 +153,40 @@ describe("what a conferred manner argues for", () => {
     expect(only.sourceRefs[0]).toMatchObject({ kind: "personality-tendency" });
   });
 
+  it("reads the person being decided about, when a row says it is about them", () => {
+    const base = createDemoWorld("bargaining-traits-subject");
+    const member = personId(base, 0);
+    const asker = personId(base, 1);
+    const world = confer(base, asker, "says-where-they-stand", "strong");
+    const considerations = registeredTraitConsiderations(
+      world,
+      loadedTraitRegistry(),
+      member,
+      "bargaining",
+      BARGAINING_ANSWER_REQUEST_DECISION.id,
+      asker,
+    );
+    expect(considerations).toHaveLength(1);
+    expect(considerations[0]!.optionKey).toBe("commit");
+    expect(considerations[0]!.explanation).toContain("The person asking");
+  });
+
+  it("drops a row about the subject when the decision names no subject", () => {
+    const base = createDemoWorld("bargaining-traits-no-subject");
+    const member = personId(base, 0);
+    const asker = personId(base, 1);
+    const world = confer(base, asker, "says-where-they-stand", "strong");
+    expect(
+      registeredTraitConsiderations(
+        world,
+        loadedTraitRegistry(),
+        member,
+        "bargaining",
+        BARGAINING_ANSWER_REQUEST_DECISION.id,
+      ),
+    ).toEqual([]);
+  });
+
   it("argues for holding out on an offer when a member keeps it open", () => {
     const base = createDemoWorld("bargaining-traits-closed");
     const actor = personId(base);
