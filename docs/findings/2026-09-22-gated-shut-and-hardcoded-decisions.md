@@ -313,6 +313,45 @@ A lane that only corrects in the flattering direction is not checking, it is
 agreeing, and the rule that catches all three is the same: measure at a named
 head and say what you did not look at.
 
+## 8. Healthcare, negotiation and budgets: where the numbers come from
+
+lamontae asked for more than the economy, and for each number to be proven —
+which player-facing input moves it, if any. Measured at `1c4992e8`, the three
+he named give three different answers.
+
+**Negotiation is real and playable.** `MeasurePaperWorkspace.tsx` carries 24
+interactive controls and `MeasureFloorSurface.tsx` two, reaching
+`offerNegotiatedAmendment` and `takeNegotiatedFloorVote` in
+`legislative-bargaining-actions.ts`. A player presses something and the
+negotiation moves. This is the one of the three that needs nothing.
+
+**Budgets are read-only, and the page says so.**
+`src/player/BudgetEconomyWorkspace.tsx` exists, resolves
+`projectBudgetEconomy`, and shows macro conditions and fiscal availability —
+and it contains **zero** buttons, inputs, selects, forms or click handlers.
+Its own text tells the player: "Reading this page does not change a budget,
+grant fiscal authority, or move time." So the honest answer to "what
+player-facing input moves these numbers" is **none, by design, and the game
+admits it on the page.** That is not a defect to repair quietly; it is a
+decision to confirm or change.
+
+**Healthcare has vocabulary and no substance.** There is no healthcare
+file anywhere under `src/` — no model, no numbers, no surface. What exists is
+policy _content_: the shipped pack declares a `health-human-services` domain
+("Coverage, care and the services people fall back on. Medicaid, insurance,
+hospitals, public and behavioral health...") with issues including
+`health-human-services.medicaid` and `health-human-services.insurance-access`.
+So a player can file a bill about Medicaid, and nothing in the world
+represents healthcare for that bill to affect or be measured against. Naming a
+subject is not modelling it, and this is the clearest example in the codebase
+of the difference.
+
+The pattern across the three is worth stating: **a number on screen, a control
+that moves it, and a system underneath are three separate things, and this
+game has every combination of them.** Negotiation has all three. Budgets have
+the first and third without the second. Healthcare has none, behind a
+vocabulary that makes it look present.
+
 ## What this sweep did not establish
 
 `PARTY_BODY_CADENCE.repeatedDisputes` still reads 2 on `1c4992e8`. The

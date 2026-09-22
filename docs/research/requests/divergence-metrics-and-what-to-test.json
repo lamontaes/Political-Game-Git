@@ -3,6 +3,7 @@
   "impact": "shapes-design",
   "lane": "hardcoded-content audit",
   "notes": [
+    "PLAYER-FACING INPUT: the measures proposed here are for a report, not a screen. Where one names a quantity a player sees, the record should say which control moves it — and for the economy the answer today is that the numbers move on their own, monthly, with no player input reaching them at all.",
     "Ownership, corrected after filing: the divergence lane ('How the world changes') owns the measurement and the report, and the playtesting lane has the browser instruments and town coverage and has offered to execute. This lane defines and hands over; it does not own either. An earlier note in this record said the shortlist should go to the playtesting lane, which named the wrong owner.",
     "Metric 1 is the one this lane most wants, because it turns its own audit into something measurable: a value that is identical across seeds is a candidate constant, and that reverses the current order where a constant is found by reading and only then confirmed by play.",
     "Two of lamontae's three examples are about drift compounding upward, from a place or a person to a region. Nothing measured so far speaks to that at all, so an honest answer may be that the game cannot yet produce the phenomenon he is asking to measure. If so, that is the answer worth having early rather than after a measurement programme is built.",
