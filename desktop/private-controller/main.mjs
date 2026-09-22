@@ -760,7 +760,7 @@ async function openPlay(id, stillWanted = () => true) {
 }
 
 /** Close a Play view through the page's own unload guard. */
-function closePlay(id) {
+function closePlay(id, { force = false } = {}) {
   const entry = hub.play.get(id);
   if (!entry) return Promise.resolve(true);
   return new Promise((resolve) => {
@@ -777,7 +777,9 @@ function closePlay(id) {
       resolve(closed);
     };
     contents.once("destroyed", () => finish(true));
-    contents.close({ waitForBeforeUnload: true });
+    // A hung page never runs beforeunload; force is only for a page the
+    // owner already chose to quit without saving.
+    contents.close({ waitForBeforeUnload: !force });
     // A prevented unload leaves the page alive.
     setTimeout(() => finish(contents.isDestroyed()), 2500);
   });
@@ -1951,9 +1953,18 @@ async function requestQuit() {
     const bench = hub.views.get("artdesk")?.webContents;
     if (bench && !bench.isDestroyed())
       participants.push({ contents: bench, game: false });
-    for (const { contents } of participants) {
-      if (!(await suspendInteraction(contents, true))) return;
-      suspended.push(contents);
+    for (const participant of participants) {
+      const answer = await suspendInteraction(participant.contents, true);
+      if (answer === false) return;
+      // A page that did not answer may still apply the freeze later, so it is
+      // restored too; the restore is bounded like every other question.
+      if (answer === null) {
+        participant.unresponsive = true;
+        logLine(
+          `Quit: ${participant.game ? "a game view" : "the Art Desk"} did not respond.`,
+        );
+      }
+      suspended.push(participant.contents);
     }
     if (
       !(await prepareQuit(participants, {
@@ -1975,6 +1986,16 @@ async function requestQuit() {
             detail:
               "The app is still open. You can try saving again or cancel quitting.",
           }),
+        unresponsive: () =>
+          dialog.showMessageBoxSync(hub.window, {
+            type: "warning",
+            buttons: ["Keep Open", "Quit Without Saving"],
+            defaultId: 0,
+            cancelId: 0,
+            message: "The game is not responding.",
+            detail:
+              "It may hold a life that has not been saved. Quitting now discards anything unsaved.",
+          }),
         discard: (game) =>
           dialog.showMessageBoxSync(hub.window, {
             type: "warning",
@@ -1991,9 +2012,15 @@ async function requestQuit() {
     )
       return;
     for (const { contents } of participants) quitApproved.add(contents.id);
-    for (const id of [...hub.play.keys()]) if (!(await closePlay(id))) return;
+    const unresponsive = new Set(
+      participants.filter((p) => p.unresponsive).map((p) => p.contents.id),
+    );
+    for (const [id, { view }] of [...hub.play.entries()]) {
+      const force = unresponsive.has(view.webContents.id);
+      if (!(await closePlay(id, { force }))) return;
+    }
     if (bench && !bench.isDestroyed())
-      bench.close({ waitForBeforeUnload: true });
+      bench.close({ waitForBeforeUnload: !unresponsive.has(bench.id) });
     hub.quitting = true;
     hub.worker?.kill("SIGTERM");
     hub.artdesk?.stop();
@@ -2002,8 +2029,13 @@ async function requestQuit() {
     app.quit();
   } finally {
     quitApproved.clear();
-    for (const contents of suspended) await suspendInteraction(contents, false);
-    quitInProgress = false;
+    try {
+      // Bounded: a hung page cannot hold the restore, and so cannot hold quit.
+      for (const contents of suspended)
+        await suspendInteraction(contents, false);
+    } finally {
+      quitInProgress = false;
+    }
   }
 }
 
