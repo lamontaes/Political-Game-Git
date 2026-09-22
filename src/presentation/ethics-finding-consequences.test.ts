@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 
 import {
   addDays,
-  ageOnDate,
   campaignForCandidate,
   ensureCampaignOpponents,
   ensureStateJurisdiction,
@@ -16,17 +15,16 @@ import {
 } from "../simulation";
 import type { World } from "../simulation";
 import {
-  fileComplaint,
-  openMatter,
+  CANDIDATE_PAYMENTS_REPORTED_EVENT,
+  generatedStateOversightBody,
   pressRecordsOfKind,
-  procedureForSubject,
   publicAdverseFindingsAgainst,
   spendCampaignFundsPersonally,
   UNRESEARCHED_FINDING_EFFECTS,
+  UNRESEARCHED_STATE_OVERSIGHT,
 } from "../simulation/press";
 import { canonicalSupportBasisPoints } from "../simulation/campaigns";
 import { supportAfterLoss } from "../simulation/campaign-support";
-import { recordEvidenceDiscovery } from "../simulation/evidence";
 import { spendAnAfternoon } from "./campaign-projection";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -53,12 +51,14 @@ function adultLifeIn(usps: string, seed: string) {
 }
 
 /**
- * A Washington life running for governor misuses campaign money, the books
- * show it, a rival complains, and the review the game can honestly run for a
- * governor's race (a simulated inquiry: Washington's researched ethics body
- * covers its legislature, not this office) issues a public report.
+ * The Nome case, in Washington: a governor's candidate with no staff pays
+ * themselves from the committee twice, a week apart, and does nothing else.
+ * Nobody keeps the books. The payments reach the committee's public reports;
+ * from there a rival or the state's own review of reports opens the matter,
+ * and Washington's generated oversight body (its researched ethics body
+ * covers the legislature, not this office) runs it to a finding.
  */
-function washingtonReport() {
+function washingtonFinding() {
   const { world, personId } = adultLifeIn("WA", "ethics-consequences-wa");
   const identity = stateExecutiveIdentity("WA")!;
   const jurisdictionId = stateJurisdictionForKey("US-WA")!.id;
@@ -78,7 +78,7 @@ function washingtonReport() {
     jurisdictionId,
     officeKey: identity.officeKey,
     districtBinding: null,
-    electionDate: addDays(world.currentDate, 300),
+    electionDate: addDays(world.currentDate, 480),
     rivalPersonIds: opponents.personIds,
     existingContestId: null,
     committeeName: "Committee for the Washington fixture",
@@ -89,78 +89,71 @@ function washingtonReport() {
   });
   const funded = spendAnAfternoon(filed.world, personId, "fundraising");
   const campaign = campaignForCandidate(funded, personId)!;
-  const misused = spendCampaignFundsPersonally(funded, {
-    stableKey: "ethics-consequences:misuse",
-    amountMinorUnits: 40_000,
+  const first = spendCampaignFundsPersonally(funded, {
+    stableKey: "ethics-consequences:misuse:1",
+    amountMinorUnits: 20_000,
     purpose: "a boat payment",
   });
-  const bookkeeperId = misused.world.personOrder.find(
-    (id) =>
-      id !== personId &&
-      id !== rivalId &&
-      ageOnDate(
-        misused.world.people[id]!.birthDate,
-        misused.world.currentDate,
-      ) >= 18,
-  )!;
-  const ledgerId = misused.occurrence.recordEvidenceArtifactIds[0]!;
-  const discovered = recordEvidenceDiscovery(misused.world, {
-    stableKey: "ethics-consequences:ledger-found",
-    personId: bookkeeperId,
-    evidenceArtifactId: ledgerId,
-    discoveredAt: misused.world.currentDate,
-    recordedAt: misused.world.currentDate,
-    methodKey: "work:bookkeeping-review",
-    provenance: {
-      kind: "simulated",
-      sourceEntityIds: [ledgerId, misused.occurrence.occurrenceEventId].sort(),
+  const second = spendCampaignFundsPersonally(
+    passOrdinaryDays(first.world, 7),
+    {
+      stableKey: "ethics-consequences:misuse:2",
+      amountMinorUnits: 20_000,
+      purpose: "another boat payment",
     },
-  });
-  const opened = openMatter(discovered, {
-    stableKey: "ethics-consequences:matter",
-    family: "M1",
-    subjectPersonIds: [personId],
-    occurrenceId: misused.occurrence.id,
-    originEventId: discovered.history.events.at(-1)!.id,
-    jurisdictionId,
-  });
-  const procedureKey = procedureForSubject(opened.world, personId, campaign);
-  const complained = fileComplaint(opened.world, {
-    stableKey: "ethics-consequences:complaint",
-    matterId: opened.matter.id,
-    complainantPersonId: rivalId,
-    procedureKey,
-  }).world;
-  const beforeReport = canonicalSupportBasisPoints(
-    complained,
-    campaign,
-    personId,
   );
-  const after = passOrdinaryDays(complained, 40);
+  let after = second.world;
+  const finding = (w: World) =>
+    pressRecordsOfKind(w, "proceeding-step").find(
+      (step) => step.outcome === "finding",
+    );
+  for (let chunk = 0; chunk < 14 && !finding(after); chunk += 1) {
+    after = passOrdinaryDays(after, 30);
+  }
+  const step = finding(after)!;
+  const proceeding = pressRecordsOfKind(after, "matter-proceeding").find(
+    (row) => row.id === step.proceedingId,
+  )!;
   return {
     after,
     personId,
     rivalId,
     campaign,
-    procedureKey,
-    beforeReport,
-    matterId: opened.matter.id,
+    step,
+    proceeding,
+    occurrences: [first.occurrence, second.occurrence],
   };
 }
 
-describe("an ethics outcome against a Washington candidate has consequences", () => {
-  const run = washingtonReport();
-  const proceeding = pressRecordsOfKind(run.after, "matter-proceeding").find(
-    (row) => row.matterId === run.matterId,
-  )!;
-  const report = pressRecordsOfKind(run.after, "proceeding-step").find(
-    (step) => step.proceedingId === proceeding.id && step.outcome !== null,
-  )!;
+describe("a Washington candidate paying themselves is noticed and punished", () => {
+  const run = washingtonFinding();
 
-  it("routes a governor's race to the honest simulated review and reports", () => {
-    expect(run.procedureKey).toBe("simulated-inquiry");
-    expect(report.outcome).toBe("report-issued");
-    expect(report.publicStep).toBe(true);
+  it("puts the payments on a public report, without the private purpose", () => {
+    const reports = run.after.history.events.filter(
+      (event) => event.type === CANDIDATE_PAYMENTS_REPORTED_EVENT,
+    );
+    expect(reports.length).toBeGreaterThan(0);
+    expect(reports.every((event) => event.visibility === "public")).toBe(true);
+    expect(reports.some((event) => event.summary.includes("boat"))).toBe(false);
+    const reportedFlows = new Set(
+      reports.flatMap((event) => event.involvedEntityIds),
+    );
+    for (const occurrence of run.occurrences)
+      for (const flowId of occurrence.resourceFlowIds)
+        expect(reportedFlows.has(flowId)).toBe(true);
+  });
+
+  it("reaches a public finding by Washington's generated oversight body", () => {
+    const body = generatedStateOversightBody(
+      run.after,
+      run.campaign.jurisdictionId,
+    )!;
+    expect(run.proceeding.procedureKey).toBe("generated-state-oversight");
+    expect(run.proceeding.institutionLabel).toBe(body.name);
+    expect(body.name.startsWith("Washington ")).toBe(true);
+    expect(run.step.publicStep).toBe(true);
+    // Whoever noticed first: the rival, or the body's own review of reports.
+    expect([run.rivalId, null]).toContain(run.proceeding.complainantPersonId);
     expect(publicAdverseFindingsAgainst(run.after, run.personId)).toHaveLength(
       1,
     );
@@ -168,7 +161,7 @@ describe("an ethics outcome against a Washington candidate has consequences", ()
 
   it("costs the candidate support in the open race, handed to the rival", () => {
     const lossStates = run.after.history.metricStates.filter((state) =>
-      state.stableKey.startsWith(`${report.stableKey}:finding-support:`),
+      state.stableKey.startsWith(`${run.step.stableKey}:finding-support:`),
     );
     expect(lossStates).toHaveLength(2);
     const lossIndex = run.after.history.metricStates.indexOf(lossStates[0]!);
@@ -183,7 +176,7 @@ describe("an ethics outcome against a Washington candidate has consequences", ()
       justBefore,
       run.campaign,
       run.personId,
-      UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints["report-issued"],
+      UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints.finding,
     );
     const [playerState, rivalState] = [run.personId, run.rivalId].map((id) =>
       lossStates.find((state) => state.stableKey.endsWith(`:support:${id}`))!,
@@ -198,26 +191,60 @@ describe("an ethics outcome against a Washington candidate has consequences", ()
     expect(
       canonicalSupportBasisPoints(justBefore, run.campaign, run.personId) -
         share(playerState),
-    ).toBe(
-      UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints["report-issued"],
-    );
+    ).toBe(UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints.finding);
   });
 
-  it("orders no repayment, because a simulated review has no such power", () => {
-    expect(
-      run.after.history.events.some(
-        (event) => event.type === "matter.restitution-ordered",
-      ),
-    ).toBe(false);
+  it("orders both payments repaid to the committee", () => {
+    const order = run.after.history.events.find(
+      (event) =>
+        event.type === "matter.restitution-ordered" &&
+        event.stableKey.startsWith(run.step.stableKey),
+    )!;
+    expect(order.visibility).toBe("public");
+    const flow = run.after.history.resourceFlows.find(
+      (row) => row.basisKind === "custom:ethics-restitution",
+    )!;
+    const repaid = run.after.history.resourceTransferOutcomes.find(
+      (row) => row.resourceFlowId === flow.id,
+    )!;
+    expect(repaid.attemptedAmount.minorUnits).toBe(40_000);
+    expect(flow.recipient).toEqual({
+      kind: "organization",
+      organizationId: run.campaign.organizationId,
+    });
+  });
+
+  it("fines the candidate per payment, paid to the state", () => {
+    const body = generatedStateOversightBody(
+      run.after,
+      run.campaign.jurisdictionId,
+    )!;
+    const fine = run.after.history.events.find(
+      (event) => event.type === "matter.civil-penalty-imposed",
+    )!;
+    expect(fine.visibility).toBe("public");
+    const flow = run.after.history.resourceFlows.find(
+      (row) => row.basisKind === "custom:civil-penalty",
+    )!;
+    const outcome = run.after.history.resourceTransferOutcomes.find(
+      (row) => row.resourceFlowId === flow.id,
+    )!;
+    expect(outcome.attemptedAmount.minorUnits).toBe(
+      body.civilPenaltyPerPaymentMinorUnits * 2,
+    );
+    // Paid when they hold it; otherwise the fine stands unpaid, and says so.
+    expect(["completed", "blocked"]).toContain(outcome.status);
+    expect(fine.summary).toContain(
+      outcome.status === "completed" ? "paid it" : "stands unpaid",
+    );
   });
 
   it("lets the people around the candidate read it and decide for themselves", () => {
     const readers = run.after.history.knowledge.filter(
       (record) =>
-        record.eventId === report.eventId &&
+        record.eventId === run.step.eventId &&
         record.stableKey.includes(":read-by:"),
     );
-    // Family and household here; the complainant was already told.
     expect(readers.length).toBeGreaterThan(0);
     expect(readers.map((r) => r.personId)).not.toContain(run.rivalId);
     const responses = pressRecordsOfKind(run.after, "matter-response").filter(
@@ -243,5 +270,49 @@ describe("an ethics outcome against a Washington candidate has consequences", ()
     expect(publicAdverseFindingsAgainst(reopened, run.personId)).toEqual(
       publicAdverseFindingsAgainst(run.after, run.personId),
     );
+  });
+});
+
+describe("a generated oversight body", () => {
+  it("is the same body for a state every time and differs between states", () => {
+    const { world } = adultLifeIn("OR", "generated-body-or");
+    const withStates = ["NM", "GA", "ME"].reduce(
+      (w, usps) => ensureStateJurisdiction(w, usps),
+      world,
+    );
+    const bodies = ["US-NM", "US-GA", "US-ME"].map((key) =>
+      generatedStateOversightBody(
+        withStates,
+        stateJurisdictionForKey(key)!.id,
+      )!,
+    );
+    expect(bodies.map((body) => body.name.split(" ")[0])).toEqual([
+      "New",
+      "Georgia",
+      "Maine",
+    ]);
+    const again = generatedStateOversightBody(
+      deserializeWorld(serializeWorld(withStates)),
+      stateJurisdictionForKey("US-GA")!.id,
+    );
+    expect(again).toEqual(bodies[1]);
+    const rule = UNRESEARCHED_STATE_OVERSIGHT;
+    for (const body of bodies) {
+      expect(body.reportReviewDays).toBeGreaterThanOrEqual(
+        rule.reportReviewDays[0],
+      );
+      expect(body.reportReviewDays).toBeLessThanOrEqual(
+        rule.reportReviewDays[1],
+      );
+      expect(body.civilPenaltyPerPaymentMinorUnits).toBeGreaterThanOrEqual(
+        rule.civilPenaltyPerPaymentMinorUnits[0],
+      );
+      expect(body.civilPenaltyPerPaymentMinorUnits).toBeLessThanOrEqual(
+        rule.civilPenaltyPerPaymentMinorUnits[1],
+      );
+    }
+    expect(
+      new Set(bodies.map((body) => JSON.stringify(body.intervalDays))).size,
+    ).toBeGreaterThan(1);
   });
 });

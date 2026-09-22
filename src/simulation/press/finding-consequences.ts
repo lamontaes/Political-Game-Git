@@ -8,8 +8,10 @@ import {
   createResourceFlow,
   recordResourceTransferOutcome,
 } from "../resources";
+import { ensureTaxPublicAccount, publicOrganizationKey } from "../tax-policy";
 import type { EntityId, HistoricalEvent, MoneyAmount, World } from "../types";
 import { recordWorldEvent } from "../world";
+import { generatedStateOversightBody } from "./generated-state-oversight";
 import {
   isAdversePublicStep,
   UNRESEARCHED_FINDING_EFFECTS,
@@ -26,7 +28,11 @@ import {
   partyContactsForSubject,
   produceMatterResponses,
 } from "./responses";
-import { PRESS_MATTER_TAG, sortedUnique } from "./shared";
+import {
+  DISBURSEMENT_RECORD_KEY_PREFIX,
+  PRESS_MATTER_TAG,
+  sortedUnique,
+} from "./shared";
 import { pressRecordsOfKind, requirePressRecord } from "./store";
 
 /**
@@ -101,24 +107,55 @@ function supportConsequence(
   return next;
 }
 
-/** Money the respondent actually took from a committee, per flow. */
+interface MisusedMoney {
+  readonly organizationId: EntityId;
+  readonly amount: MoneyAmount;
+  /** How many separate payments make up the amount. */
+  readonly payments: number;
+}
+
+/**
+ * Money the respondent actually took from a committee: the matter's own
+ * occurrence, plus every other M1 payment of theirs whose public disbursement
+ * record was linked to the matter as evidence (a rival complaint links each
+ * payment it saw). Summed per committee.
+ */
 function misusedCampaignMoney(
   world: World,
   proceeding: MatterProceedingRecord,
   respondentId: EntityId,
-): readonly {
-  readonly organizationId: EntityId;
-  readonly amount: MoneyAmount;
-}[] {
+): readonly MisusedMoney[] {
   const matter = requirePressRecord(world, "matter", proceeding.matterId);
-  if (matter.family !== "M1" || matter.occurrenceId === null) return [];
-  const occurrence = pressRecordsOfKind(world, "financial-occurrence").find(
-    (record) => record.id === matter.occurrenceId,
+  if (matter.family !== "M1") return [];
+  const theirs = pressRecordsOfKind(world, "financial-occurrence").filter(
+    (record) =>
+      record.family === "M1" && record.actorPersonIds.includes(respondentId),
   );
-  if (!occurrence || !occurrence.actorPersonIds.includes(respondentId))
-    return [];
-  const owed = new Map<string, MoneyAmount>();
-  for (const flowId of occurrence.resourceFlowIds) {
+  const linkedFlowIds = new Set(
+    pressRecordsOfKind(world, "matter-evidence-link")
+      .filter(
+        (link) => link.matterId === matter.id && link.bearing === "supports",
+      )
+      .flatMap((link) => {
+        const artifact = world.history.evidenceArtifacts.find(
+          (row) => row.id === link.evidenceArtifactId,
+        );
+        return artifact?.stableKey.startsWith(DISBURSEMENT_RECORD_KEY_PREFIX)
+          ? [artifact.stableKey.slice(DISBURSEMENT_RECORD_KEY_PREFIX.length)]
+          : [];
+      }),
+  );
+  const flowIds = new Set(
+    theirs.flatMap((occurrence) =>
+      occurrence.id === matter.occurrenceId
+        ? occurrence.resourceFlowIds
+        : occurrence.resourceFlowIds.filter((flowId) =>
+            linkedFlowIds.has(flowId),
+          ),
+    ),
+  );
+  const owed = new Map<string, { amount: MoneyAmount; payments: number }>();
+  for (const flowId of [...flowIds].sort()) {
     const flow = world.history.resourceFlows.find((row) => row.id === flowId);
     if (
       !flow ||
@@ -129,24 +166,32 @@ function misusedCampaignMoney(
       continue;
     const organizationId = flow.source.organizationId;
     for (const outcome of world.history.resourceTransferOutcomes) {
-      if (outcome.resourceFlowId !== flow.id || outcome.status !== "completed")
+      if (
+        outcome.resourceFlowId !== flow.id ||
+        outcome.status !== "completed" ||
+        outcome.transferredAmount.minorUnits <= 0
+      )
         continue;
       const key = `${organizationId}|${outcome.transferredAmount.currency}`;
       const prior = owed.get(key);
       owed.set(key, {
-        minorUnits:
-          (prior?.minorUnits ?? 0) + outcome.transferredAmount.minorUnits,
-        currency: outcome.transferredAmount.currency,
+        amount: {
+          minorUnits:
+            (prior?.amount.minorUnits ?? 0) +
+            outcome.transferredAmount.minorUnits,
+          currency: outcome.transferredAmount.currency,
+        },
+        payments: (prior?.payments ?? 0) + 1,
       });
     }
   }
   return [...owed.entries()]
     .sort(([left], [right]) => left.localeCompare(right))
-    .map(([key, amount]) => ({
+    .map(([key, row]) => ({
       organizationId: key.slice(0, key.indexOf("|")) as EntityId,
-      amount,
-    }))
-    .filter((row) => row.amount.minorUnits > 0);
+      amount: row.amount,
+      payments: row.payments,
+    }));
 }
 
 function restitutionConsequence(
@@ -156,100 +201,193 @@ function restitutionConsequence(
   step: ProceedingStepRecord,
 ): World {
   let next = world;
-  for (const owed of misusedCampaignMoney(next, proceeding, respondentId)) {
-    const key = `${step.stableKey}:restitution:${respondentId}:${owed.organizationId}`;
-    const payer = { kind: "person" as const, personId: respondentId };
-    const position = resourcePositionAt(next, payer, owed.amount.currency);
-    const paid =
-      position !== undefined &&
-      position.liquidBalance.minorUnits >= owed.amount.minorUnits;
+  const misused = misusedCampaignMoney(next, proceeding, respondentId);
+  for (const owed of misused) {
     const name = personName(next.people[respondentId]!);
-    const dollars = (owed.amount.minorUnits / 100).toFixed(2);
-    next = recordWorldEvent(next, {
-      stableKey: `${key}:event`,
-      type: "matter.restitution-ordered",
-      occurredAt: next.currentDate,
-      recordedAt: next.currentDate,
-      jurisdictionId: requirePressRecord(next, "matter", proceeding.matterId)
-        .jurisdictionId,
-      involvedEntityIds: sortedUnique([
-        respondentId,
-        owed.organizationId,
-        proceeding.id,
-      ]),
-      participants: [
-        {
-          personId: respondentId,
-          role: "focus:respondent",
-          detail: paid ? "Repaid the committee" : "Could not repay in full",
-        },
-      ],
-      personFactConstraints: [],
-      visibility: "public",
-      tags: [
-        PRESS_CONTRACT_VERSION,
-        `${PRESS_MATTER_TAG}${proceeding.matterId}`,
-        "matter.consequence:restitution",
-      ],
-      summary: paid
-        ? `${name} repaid $${dollars} of campaign money to the committee, as the ${proceeding.institutionLabel} required.`
-        : `The ${proceeding.institutionLabel} required ${name} to repay $${dollars} of campaign money; ${name} did not have it, and the debt stands unpaid.`,
-      context: {
-        location: null,
-        socialContext: proceeding.institutionLabel,
-        pressure: null,
-        choice: null,
-        motivation:
-          "Repayment of the misused amount itself. No penalty schedule has been researched, so no fine is added.",
-        immediateReaction: null,
-      },
-    });
-    const orderEvent = next.history.events.at(-1)!;
-    next = createResourceFlow(next, {
-      stableKey: `${key}:flow`,
-      source: payer,
-      recipient: { kind: "organization", organizationId: owed.organizationId },
-      startsAt: next.currentDate,
+    const dollars = formatDollars(owed.amount);
+    next = orderPayment(next, proceeding, respondentId, {
+      key: `${step.stableKey}:restitution:${respondentId}:${owed.organizationId}`,
+      recipientOrganizationId: owed.organizationId,
       amount: owed.amount,
-      cadenceKind: "schedule:one-time",
+      eventType: "matter.restitution-ordered",
+      consequenceTag: "matter.consequence:restitution",
       basisKind: "custom:ethics-restitution",
-      basisReference: { kind: "general" },
       restrictionKind: "purpose:campaign",
-      jurisdictionId: orderEvent.jurisdictionId,
-      provenance: { kind: "simulated-event", eventId: orderEvent.id },
-    });
-    const flow = next.history.resourceFlows.at(-1)!;
-    next = recordResourceTransferOutcome(next, {
-      stableKey: `${key}:transfer`,
-      resourceFlowId: flow.id,
-      periodStartsAt: next.currentDate,
-      periodEndsAt: next.currentDate,
-      occurredAt: next.currentDate,
-      attemptedAmount: owed.amount,
-      transferredAmount: paid
-        ? owed.amount
-        : { minorUnits: 0, currency: owed.amount.currency },
-      status: paid ? "completed" : "blocked",
-      reasonKind: paid ? null : "capacity:restitution-unavailable",
-      note: paid
-        ? "Repaid as ordered."
-        : position
-          ? "Insufficient funds to repay."
-          : "No account to repay from.",
-      provenance: { kind: "simulated-event", eventId: orderEvent.id },
-    });
-    next = recordEventKnowledge(next, {
-      stableKey: `${key}:respondent-knows`,
-      personId: respondentId,
-      eventId: orderEvent.id,
-      learnedAt: next.currentDate,
-      believedSummary: orderEvent.summary,
-      accuracy: "accurate",
-      confidence: "high",
-      source: { kind: "direct" },
+      paidSummary: `${name} repaid ${dollars} of campaign money to the committee, as the ${proceeding.institutionLabel} required.`,
+      unpaidSummary: `The ${proceeding.institutionLabel} required ${name} to repay ${dollars} of campaign money; ${name} did not have it, and the debt stands unpaid.`,
+      motivation:
+        "Repayment of the misused amount itself, ordered with the finding.",
     });
   }
+  return proceeding.procedureKey === "generated-state-oversight" &&
+    step.outcome === "finding"
+    ? civilPenaltyConsequence(next, proceeding, respondentId, step, misused)
+    : next;
+}
+
+/**
+ * A generated state body's civil penalty: its UNRESEARCHED per-payment scale
+ * (`generated-state-oversight.ts`) times the payments found, paid to the
+ * state. Researched bodies impose none here, because nothing researched says
+ * what they may impose; the FEC's conciliation penalties are unresearched too.
+ */
+function civilPenaltyConsequence(
+  world: World,
+  proceeding: MatterProceedingRecord,
+  respondentId: EntityId,
+  step: ProceedingStepRecord,
+  misused: readonly MisusedMoney[],
+): World {
+  const matter = requirePressRecord(world, "matter", proceeding.matterId);
+  const body = generatedStateOversightBody(world, matter.jurisdictionId);
+  const payments = misused.reduce((sum, row) => sum + row.payments, 0);
+  if (!body || payments === 0) return world;
+  let next = ensureTaxPublicAccount(world, body.stateJurisdictionId);
+  const state = next.history.organizations.find(
+    (row) => row.stableKey === publicOrganizationKey(body.stateJurisdictionId),
+  )!;
+  const amount: MoneyAmount = {
+    minorUnits: body.civilPenaltyPerPaymentMinorUnits * payments,
+    currency: misused[0]!.amount.currency,
+  };
+  const name = personName(next.people[respondentId]!);
+  const dollars = formatDollars(amount);
+  const count = payments === 1 ? "one payment" : `${payments} payments`;
+  next = orderPayment(next, proceeding, respondentId, {
+    key: `${step.stableKey}:civil-penalty:${respondentId}`,
+    recipientOrganizationId: state.id,
+    amount,
+    eventType: "matter.civil-penalty-imposed",
+    consequenceTag: "matter.consequence:civil-penalty",
+    basisKind: "custom:civil-penalty",
+    restrictionKind: "purpose:general",
+    paidSummary: `The ${proceeding.institutionLabel} fined ${name} ${dollars} for ${count} of campaign money used for personal expenses, and ${name} paid it.`,
+    unpaidSummary: `The ${proceeding.institutionLabel} fined ${name} ${dollars} for ${count} of campaign money used for personal expenses; ${name} did not have it, and the fine stands unpaid.`,
+    motivation: "A civil penalty for each payment found.",
+  });
   return next;
+}
+
+function formatDollars(amount: MoneyAmount): string {
+  return `$${(amount.minorUnits / 100).toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
+}
+
+interface PaymentOrder {
+  readonly key: string;
+  readonly recipientOrganizationId: EntityId;
+  readonly amount: MoneyAmount;
+  readonly eventType: `${string}.${string}`;
+  readonly consequenceTag: string;
+  readonly basisKind: `custom:${string}`;
+  readonly restrictionKind: "purpose:campaign" | "purpose:general";
+  readonly paidSummary: string;
+  readonly unpaidSummary: string;
+  readonly motivation: string;
+}
+
+/**
+ * Records the order in public, then the respondent's payment through the
+ * existing money writers: completed when they hold the money, blocked (the
+ * debt stands) when they do not. Tracked positions never overdraw.
+ */
+function orderPayment(
+  world: World,
+  proceeding: MatterProceedingRecord,
+  respondentId: EntityId,
+  order: PaymentOrder,
+): World {
+  let next = world;
+  const payer = { kind: "person" as const, personId: respondentId };
+  const position = resourcePositionAt(next, payer, order.amount.currency);
+  const paid =
+    position !== undefined &&
+    position.liquidBalance.minorUnits >= order.amount.minorUnits;
+  next = recordWorldEvent(next, {
+    stableKey: `${order.key}:event`,
+    type: order.eventType,
+    occurredAt: next.currentDate,
+    recordedAt: next.currentDate,
+    jurisdictionId: requirePressRecord(next, "matter", proceeding.matterId)
+      .jurisdictionId,
+    involvedEntityIds: sortedUnique([
+      respondentId,
+      order.recipientOrganizationId,
+      proceeding.id,
+    ]),
+    participants: [
+      {
+        personId: respondentId,
+        role: "focus:respondent",
+        detail: paid ? "Paid as ordered" : "Could not pay in full",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      PRESS_CONTRACT_VERSION,
+      `${PRESS_MATTER_TAG}${proceeding.matterId}`,
+      order.consequenceTag,
+    ],
+    summary: paid ? order.paidSummary : order.unpaidSummary,
+    context: {
+      location: null,
+      socialContext: proceeding.institutionLabel,
+      pressure: null,
+      choice: null,
+      motivation: order.motivation,
+      immediateReaction: null,
+    },
+  });
+  const orderEvent = next.history.events.at(-1)!;
+  next = createResourceFlow(next, {
+    stableKey: `${order.key}:flow`,
+    source: payer,
+    recipient: {
+      kind: "organization",
+      organizationId: order.recipientOrganizationId,
+    },
+    startsAt: next.currentDate,
+    amount: order.amount,
+    cadenceKind: "schedule:one-time",
+    basisKind: order.basisKind,
+    basisReference: { kind: "general" },
+    restrictionKind: order.restrictionKind,
+    jurisdictionId: orderEvent.jurisdictionId,
+    provenance: { kind: "simulated-event", eventId: orderEvent.id },
+  });
+  const flow = next.history.resourceFlows.at(-1)!;
+  next = recordResourceTransferOutcome(next, {
+    stableKey: `${order.key}:transfer`,
+    resourceFlowId: flow.id,
+    periodStartsAt: next.currentDate,
+    periodEndsAt: next.currentDate,
+    occurredAt: next.currentDate,
+    attemptedAmount: order.amount,
+    transferredAmount: paid
+      ? order.amount
+      : { minorUnits: 0, currency: order.amount.currency },
+    status: paid ? "completed" : "blocked",
+    reasonKind: paid ? null : "capacity:restitution-unavailable",
+    note: paid
+      ? "Paid as ordered."
+      : position
+        ? "Insufficient funds to pay."
+        : "No account to pay from.",
+    provenance: { kind: "simulated-event", eventId: orderEvent.id },
+  });
+  return recordEventKnowledge(next, {
+    stableKey: `${order.key}:respondent-knows`,
+    personId: respondentId,
+    eventId: orderEvent.id,
+    learnedAt: next.currentDate,
+    believedSummary: orderEvent.summary,
+    accuracy: "accurate",
+    confidence: "high",
+    source: { kind: "direct" },
+  });
 }
 
 /**

@@ -16,7 +16,7 @@ import {
 import {
   PRESS_LEDGER_REVIEW_TRANSITION_KEY,
   pressLedgerReviewHandler,
-  produceRivalComplaints,
+  produceCampaignFinanceScrutiny,
 } from "./matters";
 import { ensurePressLocalCoverage, ensurePressMediaOpening } from "./outlets";
 import { ensurePressExposureCoverage } from "./views";
@@ -34,7 +34,9 @@ function pressWeeklyHandler(
   world: World,
   dueItem: FutureDueItem,
 ): FutureTransitionHandlerResult {
-  const prepared = ensurePressExposureCoverage(produceRivalComplaints(world));
+  const prepared = ensurePressExposureCoverage(
+    produceCampaignFinanceScrutiny(world),
+  );
   return pressDeskSweepHandler(prepared, dueItem);
 }
 

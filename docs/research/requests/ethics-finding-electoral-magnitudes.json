@@ -4,7 +4,7 @@
   "lane": "consequences for corruption and laws",
   "notes": [
     "The game now applies placeholder values, marked unresearched in src/simulation/press/findings.ts (UNRESEARCHED_FINDING_EFFECTS): 300 basis points (3 points of a two-way share) lost at a finding or conciliation, 150 at a supported report from a review with no sanction power, and a smaller starting position in any race filed within six years. These are the values to replace.",
-    "Money is already grounded: a finding or conciliation about campaign money taken for personal use orders that exact amount repaid. What is missing is civil penalty schedules; none is applied because none is researched.",
+    "Money is already grounded: a finding or conciliation about campaign money taken for personal use orders that exact amount repaid. A generated state body now also imposes an unresearched per-payment civil penalty (see state-campaign-finance-regulators); researched bodies and the FEC impose none until their schedules are known.",
     "ChatGPT's C04 answer (stress-test connection answers) settled the procedure side: separate act, allegation, evidence, finding and consequence, and no fixed conviction odds. This asks only for the size of the electoral consequence once a finding is public."
   ],
   "priority": "P1",

@@ -6,6 +6,7 @@ export * from "./desk";
 export * from "./sources";
 export * from "./procedures";
 export * from "./matters";
+export * from "./generated-state-oversight";
 export * from "./responses";
 export * from "./views";
 export * from "./transitions";

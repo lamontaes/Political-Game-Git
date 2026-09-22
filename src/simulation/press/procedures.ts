@@ -30,6 +30,10 @@ import {
   requirePressRecord,
 } from "./store";
 import {
+  generatedStateOversightBody,
+  type GeneratedStateOversightBody,
+} from "./generated-state-oversight";
+import {
   ethicsInstitutionKey,
   STATE_LEGISLATIVE_ETHICS_BODIES,
   type StateLegislativeEthicsBody,
@@ -74,6 +78,11 @@ interface StepContext {
 interface ProcedureDefinition {
   readonly key: ProcedureKey;
   readonly institutionLabel: string;
+  /** The body's own name where it depends on the matter's state. */
+  readonly institutionLabelFor?: (
+    world: World,
+    jurisdictionId: EntityId | null,
+  ) => string;
   readonly institution: AccountableInstitution | null;
   readonly confidentialWhilePending: boolean;
   readonly sourceRefs: readonly string[];
@@ -488,8 +497,152 @@ function stateLegislativeEthicsDefinition(
   };
 }
 
+/**
+ * A state oversight body generated from an UNRESEARCHED range
+ * (`generated-state-oversight.ts`): a realistic name and calendar drawn once
+ * per state. It can open a matter from its own review of filed reports, with
+ * no complainant, and it can issue findings; `finding-consequences.ts` reads
+ * the same body for the civil penalty. The intervals are authored, not rule.
+ */
+function generatedBodyFor(
+  world: World,
+  proceeding: MatterProceedingRecord,
+): GeneratedStateOversightBody | null {
+  return generatedStateOversightBody(
+    world,
+    requirePressRecord(world, "matter", proceeding.matterId).jurisdictionId,
+  );
+}
+
+const GENERATED_STATE_OVERSIGHT: ProcedureDefinition = {
+  key: "generated-state-oversight",
+  institutionLabel: "state oversight body",
+  institutionLabelFor: (world, jurisdictionId) =>
+    generatedStateOversightBody(world, jurisdictionId)?.name ??
+    "state oversight body",
+  institution: null,
+  confidentialWhilePending: true,
+  sourceRefs: [],
+  after(previous, supported, world, proceeding) {
+    const days =
+      generatedBodyFor(world, proceeding)?.intervalDays ??
+      UNRESEARCHED_STATE_OVERSIGHT_FALLBACK_DAYS;
+    switch (previous?.step ?? null) {
+      case null:
+        return proceeding.complainantPersonId
+          ? {
+              step: "complaint-received",
+              summary: (c) =>
+                `The ${c.institution} received a complaint naming ${c.respondents}. A complaint is an allegation, not a finding.`,
+              publicStep: false,
+              outcome: null,
+              closes: false,
+              next: { days: days.intake, basis: "authored" },
+              respondentsNotified: false,
+              action: null,
+            }
+          : {
+              step: "review-opened",
+              summary: (c) =>
+                `The ${c.institution}'s review of filed campaign reports flagged payments to ${c.respondents} and opened a matter of its own. This is not a finding.`,
+              publicStep: false,
+              outcome: null,
+              closes: false,
+              next: { days: days.intake, basis: "authored" },
+              respondentsNotified: false,
+              action: null,
+            };
+      case "complaint-received":
+      case "review-opened":
+        return {
+          step: "respondent-notified",
+          summary: (c) =>
+            `The ${c.institution} notified ${c.respondents} of the matter and of the opportunity to answer it.`,
+          publicStep: false,
+          outcome: null,
+          closes: false,
+          next: { days: days.notice, basis: "authored" },
+          respondentsNotified: true,
+          action: null,
+        };
+      case "respondent-notified":
+        return {
+          step: "response-period-closed",
+          summary: (c) => `The answer period for ${c.respondents} closed.`,
+          publicStep: false,
+          outcome: null,
+          closes: false,
+          next: { days: days.answer, basis: "authored" },
+          respondentsNotified: true,
+          action: null,
+        };
+      case "response-period-closed":
+        return supported
+          ? {
+              step: "preliminary-inquiry",
+              summary: (c) =>
+                `The ${c.institution} found reason to believe further inquiry is warranted and opened one. This is not a finding.`,
+              publicStep: false,
+              outcome: "reason-to-believe",
+              closes: false,
+              next: { days: days.inquiry, basis: "authored" },
+              respondentsNotified: true,
+              action: null,
+            }
+          : {
+              step: "dismissed",
+              summary: (c) =>
+                `The ${c.institution} dismissed the matter against ${c.respondents}.`,
+              publicStep: false,
+              outcome: "dismissed",
+              closes: true,
+              next: null,
+              respondentsNotified: true,
+              action: null,
+            };
+      case "preliminary-inquiry":
+        return supported
+          ? {
+              step: "findings-issued",
+              summary: (c) =>
+                `The ${c.institution} completed its inquiry and issued findings against ${c.respondents}.`,
+              publicStep: true,
+              outcome: "finding",
+              closes: true,
+              next: null,
+              respondentsNotified: true,
+              action: null,
+            }
+          : {
+              step: "dismissed",
+              summary: (c) =>
+                `The ${c.institution} ended its inquiry and dismissed the matter against ${c.respondents}.`,
+              publicStep: false,
+              outcome: "dismissed",
+              closes: true,
+              next: null,
+              respondentsNotified: true,
+              action: null,
+            };
+      default:
+        return null;
+    }
+  },
+};
+
+/** Only for a matter whose state the World cannot name; the range midpoints. */
+const UNRESEARCHED_STATE_OVERSIGHT_FALLBACK_DAYS = {
+  intake: 14,
+  notice: 21,
+  answer: 40,
+  inquiry: 75,
+} as const;
+
 const DEFINITIONS = Object.fromEntries([
-  ...[FEC, KLEC, SIMULATED].map((definition) => [definition.key, definition]),
+  ...[FEC, KLEC, SIMULATED, GENERATED_STATE_OVERSIGHT].map((definition) => [
+    definition.key,
+    definition,
+  ]),
   ...STATE_LEGISLATIVE_ETHICS_BODIES.map((body) => [
     body.procedureKey,
     stateLegislativeEthicsDefinition(body),
@@ -578,7 +731,11 @@ export function openProceeding(
     stableKey: input.stableKey,
     matterId: input.matterId,
     procedureKey: input.procedureKey,
-    institutionLabel: definition.institutionLabel,
+    institutionLabel:
+      definition.institutionLabelFor?.(
+        world,
+        requirePressRecord(world, "matter", input.matterId).jurisdictionId,
+      ) ?? definition.institutionLabel,
     complainantPersonId: input.complainantPersonId,
     respondentPersonIds: sortedUnique(input.respondentPersonIds),
     openedAt: world.currentDate,
@@ -635,7 +792,7 @@ export function advanceProceeding(
     .map((person) => personName(person))
     .join(" and ");
   const summary = plan.summary({
-    institution: definition.institutionLabel,
+    institution: proceeding.institutionLabel,
     respondents: respondents || "the respondent",
     supported: support.supported,
   });
@@ -693,13 +850,14 @@ export function advanceProceeding(
     summary,
     context: {
       location: null,
-      socialContext: definition.institutionLabel,
+      socialContext: proceeding.institutionLabel,
       pressure: plan.next
         ? `${plan.next.basis === "rule" ? "Rule deadline" : "Authored waiting interval"}: ${plan.next.days} days.`
         : null,
       choice: null,
       motivation:
-        proceeding.simulatedDisclosure ?? definition.sourceRefs.join(" "),
+        proceeding.simulatedDisclosure ??
+        (definition.sourceRefs.join(" ") || null),
       immediateReaction: null,
     },
   });
@@ -723,7 +881,7 @@ export function advanceProceeding(
         confidence: "high",
         source: {
           kind: "public-record",
-          reference: definition.institutionLabel,
+          reference: proceeding.institutionLabel,
         },
       });
     }

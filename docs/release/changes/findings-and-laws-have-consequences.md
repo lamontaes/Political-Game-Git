@@ -12,6 +12,15 @@ and party organizers hear about it and decide for themselves whether to stand
 by them or keep their distance, and a party chapter weighs it before agreeing
 to help their campaign. A finding is remembered when they run again.
 
+A candidate who pays themselves from campaign money can now be caught. The
+payments appear on the committee's monthly public report, where newspapers
+can see them, a rival can complain, and the state's campaign-finance regulator
+can open a case from its own review. A campaign bookkeeper who has already
+raised one such payment privately may report the next outside the campaign.
+A finding orders every reported payment repaid, and the regulator fines the
+candidate for each one. Every state now has a regulator. Where the real one
+has not been researched yet, its name, timeline and fines are generated.
+
 Laws now reach the economy through the money they actually move. When a
 government pays out under an appropriation or a program, that state's own
 economy picks up; when it collects a tax, demand comes out. Passing a law does
