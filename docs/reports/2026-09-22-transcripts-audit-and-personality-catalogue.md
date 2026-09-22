@@ -37,13 +37,25 @@ handwritten feedback.
 
 ## 1. Decisions we are acting against, or acting without
 
-### 1.1 Unresearched jurisdictions get an average. This was already settled.
+### 1.1 Unresearched jurisdictions get a realistic range, and the legislation mirrors it
 
-The owner, in this thread, 2026-09-22:
+The owner, in this thread, 2026-09-22 at 03:47 UTC:
 
 > "what should happen for non researched areas it should be an average."
 
-That is not new. The overnight chat has the fullest statement of it, message
+Ten minutes later, in the project chat, he corrected himself:
+
+> "not the middle or an average. sorry. a realistic range. it just needs to
+> resemble real life. just make the corrosponding legislation mirrior that."
+
+**A range, not a midpoint**, varying jurisdiction to jurisdiction across what
+the researched states actually span — and the legislation for that jurisdiction
+generated to match the same range, so a rule and the bills written under it do
+not describe different governments. That correction is the more consistent
+reading of everything below, which is about bounded generation rather than a
+single representative value.
+
+The principle is not new. The overnight chat has the fullest statement of it, message
 [2] — the RimWorld analogy, and it is about **everything**, not only economics:
 
 > "it's not just the economic data that doesn't need to be specific, but
@@ -100,25 +112,36 @@ wording the lanes adopted:
 So the rule is three states, not two:
 
 1. **Sourced** — a retrieved, hashed authority. Cited as law.
-2. **Averaged game profile** — a typical modern American rule for that office
-   class, versioned and disclosed as a game profile, generated within a
-   bounded range around today. **Playable.** This is what an unresearched
-   jurisdiction gets.
+2. **Generated game profile** — a rule drawn from a realistic range for that
+   office class, bounded by what the researched jurisdictions actually span,
+   versioned and recorded as a game profile rather than as law, and varying
+   jurisdiction to jurisdiction. The legislation generated for that
+   jurisdiction mirrors the same range. **Playable.** This is what an
+   unresearched jurisdiction gets.
 3. **Genuinely unknown** — no source and no profile applies. Refuses, and says
    so without developer language.
 
 Today the middle state does not exist as a first-class thing for office
 qualifications, which is why absence collapses into refusal.
 
-One boundary to keep. "Average" governs **rules**. For **observed data** the
+One boundary to keep. The range governs **rules**. For **observed data** the
 owner's separate rule is unchanged, merge-263 [70]:
 
 > "Missing observations remain missing. They do not become zero, an invented
 > estimate or a graph line that conceals the gap."
 
 A generated qualification rule is a game profile the player can act under. A
-missing unemployment figure is a hole in a chart. They are not the same thing
-and averaging the first does not license filling the second.
+missing unemployment figure is a hole in a chart. They are not the same thing,
+and generating the first does not license filling the second.
+
+**And none of it is visible in play.** He settled that separately, project
+chat, 2026-09-22 00:36 UTC:
+
+> "there should be NO references to sources in the game. just display the
+> info. this is player facing."
+
+So a generated rule is not labelled on screen as generated, any more than a
+sourced one is labelled as sourced. The distinction lives in the record.
 
 ### 1.2 PERMANENT REMOVAL versus "rename and archive"
 
@@ -385,31 +408,36 @@ Nothing here was wired. This is a reading, not a change.
 
 ## 4. Questions
 
-Short, one answer each, recommendation marked.
+Three of the six drafted here were already answered and have been removed:
+the range rather than an average (above), whether a generated rule is visible
+in play (no — "NO references to sources in the game"), and how resistance to
+change is modelled (from the record chain, which the people-and-life lane has
+already put to him and is building).
 
-1. **Averaged jurisdiction rules — one national average, or a regional one?**
-   A single modern-American profile for each office class, or profiles that
-   vary by region so the South and New England differ.
-   *Recommendation: single national profile first, regional later.*
+Two remain, one answer each, recommendation marked.
 
-2. **Should an averaged rule be visible to the player as generated?**
-   A quiet game profile that simply works, or a line somewhere saying this
-   jurisdiction's rules are typical rather than researched.
-   *Recommendation: quiet in play; visible in the record, never as developer
-   language.*
-
-3. **The wardrobe count — is the audit's reading right?** Six outfits per body
-   profile (36 total) with shoes, hair and facial hair independently
+1. **The wardrobe count — is the audit's reading right?** Six outfits per body
+   profile (36 combinations) with shoes, hair and facial hair independently
    selectable, which is where the "9 things to test" comes from.
    *Recommendation: yes, treat the question as closed.*
 
-4. **PERMANENT REMOVAL and the report trail.** Does the delete rule extend to
-   superseded reports like this one, or do dated reports stay?
-   *Recommendation: dated reports stay; everything that ships does not.*
-
-5. **Resistance.** Read from the record chain as the proposal says, or is a
-   per-person stubbornness value what you wanted?
-   *Recommendation: the record chain.*
-
-6. **How many traits should a generated person carry?**
+2. **How many traits should a generated person carry?**
    *Recommendation: three to five marked, the rest balanced.*
+
+## 5. PERMANENT REMOVAL, resolved rather than asked
+
+Drafted as a question; it does not need to be one. His rule governs everything
+this project owns — unused assets, obsolete code, packed copies, stale
+instructions, dated reports:
+
+> "SUPERSEEDING IS SACRELIGIOUS. DELETE."
+
+The one exception is not an exception to that rule but a different case: a
+document outside our control that somebody else holds a live pointer into.
+The evidence is his own most recent act. A Drive document that ALIVE44 names
+as its checkpoint was deleted, together with ChatGPT's replies; he restored
+them from Drive trash himself rather than asking for them to be recreated.
+
+So: delete our own things, permanently, without asking. Do not delete
+something another party is pointing at. That covers the rename-and-archive
+instruction this thread was given without contradicting him.
