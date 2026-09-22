@@ -1,10 +1,8 @@
 import { UX39CalendarGrid, useCalendarDateOrder } from "./UX39CalendarGrid";
 import { PinToggle } from "./controls/PinToggle";
 import { calendarDisplayDate } from "./ux39-calendar-dates";
-import {
-  EconomicContextPanel,
-  LEXINGTON_ECONOMIC_BINDING,
-} from "./EconomicContextPanel";
+import { EconomicContextPanel } from "./EconomicContextPanel";
+import { economicContextBindingForPlace } from "../presentation/economic-context-bindings";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import { playerEconomicContextLines } from "../presentation/economic-context";
 import { buildIdentity } from "../release/build-identity";
@@ -1137,6 +1135,9 @@ export function PersonalWorkspace({
   const economicLines = economicPlace
     ? playerEconomicContextLines(economicPlace.key, world.currentDate)
     : [];
+  const economicBinding = economicPlace
+    ? economicContextBindingForPlace(economicPlace.key)
+    : null;
 
   /*
    * "Money and property" asked for the money, so put the money in front of
@@ -1305,9 +1306,14 @@ export function PersonalWorkspace({
             date.
           </p>
         )}
-        {economicPlace?.key === LEXINGTON_ECONOMIC_BINDING.placeKey ? (
+        {/*
+          The binding registry decides whether this place has one, not a
+          comparison against one named city. A second reviewed crosswalk shows
+          up here by being registered.
+        */}
+        {economicBinding ? (
           <EconomicContextPanel
-            binding={LEXINGTON_ECONOMIC_BINDING}
+            binding={economicBinding}
             simulationDate={world.currentDate}
             diagnostics={DIAGNOSTICS}
           />

@@ -31,6 +31,10 @@ import type {
 import { recordWorldEvent } from "../world";
 import { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import { stateOfJurisdiction } from "./outlets";
+import {
+  STATE_LEGISLATIVE_ETHICS_PROCEDURES,
+  stateJurisdictionIdForKey,
+} from "./state-ethics";
 import { openProceeding, proceedingSteps } from "./procedures";
 import {
   MISCONDUCT_FAMILY_LABELS,
@@ -374,22 +378,27 @@ export function procedureForSubject(
   if (/^us-(house|senate|president)|(^|:)us-congress|federal/.test(officeKey)) {
     return "fec-enforcement";
   }
-  const kentucky = world.jurisdictionOrder.find((id) => {
-    const jurisdiction = world.jurisdictions[id]!;
-    return (
-      jurisdiction.kind.startsWith("state") && jurisdiction.name === "Kentucky"
+  const candidacyPackId = campaign?.candidacyPackId ?? "";
+  const legislativeWork = activeWorkRelationshipsAt(world, subjectPersonId)
+    .filter((entry) =>
+      entry.relationship.kind.startsWith("employment:legislative"),
+    )
+    .map((entry) =>
+      stateOfJurisdiction(world, entry.role.locationJurisdictionId),
     );
-  });
-  const kyLegislative =
-    (campaign?.candidacyPackId ?? "").startsWith("us-ky-general-assembly") ||
-    activeWorkRelationshipsAt(world, subjectPersonId).some(
-      (entry) =>
-        entry.relationship.kind.startsWith("employment:legislative") &&
-        kentucky !== undefined &&
-        stateOfJurisdiction(world, entry.role.locationJurisdictionId) ===
-          kentucky,
+  for (const entry of STATE_LEGISLATIVE_ETHICS_PROCEDURES) {
+    const byCandidacy = entry.candidacyPackPrefixes.some((prefix) =>
+      candidacyPackId.startsWith(prefix),
     );
-  if (kyLegislative) return "ky-legislative-ethics";
+    if (byCandidacy) return entry.procedureKey;
+    const stateId = stateJurisdictionIdForKey(
+      world,
+      entry.stateJurisdictionKey,
+    );
+    if (stateId !== null && legislativeWork.includes(stateId)) {
+      return entry.procedureKey;
+    }
+  }
   return "simulated-inquiry";
 }
 
