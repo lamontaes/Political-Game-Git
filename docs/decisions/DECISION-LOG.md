@@ -2908,6 +2908,30 @@ Reported by their lanes:
 - A probe matching whole-page text against `/found|new party|formed/i`, loose
   enough to agree with almost anything. It cost two retractions on its own.
 
+**The corollary, added 2026-09-22 09:45Z after it caught the author of this
+entry.** _An instrument that reports nothing invites a guessed explanation,
+and the guess inherits the same false confidence._
+
+Three lanes in ninety minutes looked at the same time control and each wrote
+down a different confident reason a locator could not find it; none was
+checked against the file until the fourth reading. One said the label is
+screen-reader-only. The second — written into an earlier version of this
+entry — said the string does not exist, on the strength of a
+`git grep "Skip to Monday"` that returned nothing. The string is composed:
+`skipToLabel` at `src/presentation/time-target-label.ts:18` returns
+`` `Skip to ${describeTimeTarget(moment)}` ``, so a literal search cannot find
+it however often it reaches the screen. That is the fourth instance above,
+committed while writing the list of instances.
+
+The measured reason, on `main` at `b8f8702f`: the string is on that button in
+the `title` at `src/player/ShellNav.tsx:515`, in an `sr-only` span at `:542`,
+and via the `aria-describedby` at `:514`. The button's text content is `Week`
+with an `aria-hidden` chevron, so its accessible **name** is "Week", and
+`aria-describedby` contributes to an accessible _description_, never to a
+name. A role-and-name locator therefore cannot match it, and the fix is the
+`data-testid` or the accessible name. Both wrong diagnoses pointed at other
+fixes entirely.
+
 **The rule.** An assertion that cannot fail is worse than no assertion,
 because it manufactures confidence rather than merely withholding it. So an
 instrument asserts its own reach before it asserts its result: a non-empty
