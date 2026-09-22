@@ -20,6 +20,92 @@ recommended in it.
 
 ## The list to click through
 
+**REFRESHED 12:50Z against `origin/main` at `5492eb07`.** Everything under the
+08:40Z heading further down is **superseded and kept only as evidence** — it
+still lists #277 as a click, #304 as a draft and #320 and #325 as unmerged, and
+its #305 and #311 heads were read from a 07:20Z listing. Do not build a click
+list from it. Read this section instead.
+
+### Already merged — nothing to do
+
+**#277, the 0.4.0 release**, merged at `43a9798b`. Also **#370** (the release
+declaration defect), **#371**, **#372** (the run-data retraction) and **#373**
+(the client line's lost schooling), plus #304, #320 and #325, which the older
+list below still shows as outstanding.
+
+### Still a click — five, in this order
+
+Every head below is newer than the one in the 08:40Z list, because four of the
+five re-merged main after the release landed. All five **merge clean against
+`5492eb07`**, measured with `git merge-tree` at 12:47Z rather than read from
+GitHub's `mergeable_state`. **None of them has a completed CI verdict of its
+own**; the order is by value, not by dependency, and there is no ordering
+constraint among them.
+
+1. **#292** — a life that has always lived somewhere has always lived in its
+   district too. Head `38821bb9`. The do-not-merge in the older list below is
+   **lifted**: it was about a fixture asserting a sentence this branch removes,
+   and about a conflict, and neither survives at this head.
+2. **#311** — art requests for newspaper, chart and interface surfaces. Head
+   `25dc2a26`. Contains code.
+3. **#305** — the Congress faction view. Head `ca3e9f19`. Contains code; its
+   lane reports its unit suite green on its own tree and every browser failure
+   attributed by name.
+4. **#369** — making the journey no longer strands the meeting it was booked
+   for. Head `16f1362e`. Carries its own release declaration, confirmed here at
+   `9a06fd9f` by reading the merge range rather than the check colour.
+5. **#283** — every state has a legislature and the District governs itself.
+   Head `02a0b058`, **still a draft**, so no merge button until someone presses
+   "Ready for review".
+
+### Do not click
+
+- **#278**, the client line, **conflicts with main** at `70fa13a7` and is a
+  draft. It also carries the defect recorded in #373: a character opened from
+  an old save on that branch has lost their schooling and their job history,
+  and a new character has lost their schooling. **Not on main**, and it becomes
+  a player-facing problem only if that branch merges as it stands.
+- **#280 and #282: unverified.** Neither appears among the forty open pull
+  requests the listing returned, which suggests both are gone, but that listing
+  returned exactly its page size. Recorded as unverified rather than resolved.
+- **#254, #249, #248, #237, #231 and #205** are out of draft but are not from
+  this night, on `cursor/` and `codex/` branches from earlier sessions. Nothing
+  about them has been checked here.
+
+### What CI actually established, in three clauses
+
+**Main's unit suite is green across all six shards at `35e7b81a`** — run
+`35711551223`, the last shard at 11:34:28Z. That head is three merges behind
+main's current one and does **not** include 0.4.0, and it retires the caveat
+this document carried twice: "main's unit suite is clean" is now safe to say,
+at that head and no other.
+
+**Main's browser suite never finished.** At the same head: shards 8, 1 and 2
+red and done, all three already on main before this night and named by spec and
+title in `docs/BROWSER-SUITE-CASE-LIST.md`; shard 5 still running at ninety-six
+minutes; shards 6, 7 and 3 never started.
+
+**The release head got a verdict after it merged, and it is good.** Run
+`35718220285` at `f20381f1` allocated nothing for seventy-seven minutes, then
+started at 11:50Z. Its `repository` job is **green at 11:57:44Z** — format,
+lint, typecheck, `release:check` and `source:validate` all passing under CI
+rather than only locally. Exactly one job failed in the whole run, `browser
+(4, 8)`, at 6 failed, 1 skipped, 51 passed, and **all six failures are main's,
+six for six**, matched by spec file plus test title against the case list. Four
+are the `p29-g-apartment` cases dying at `new-game-geography.ts:312` — "Name
+the state, then a town" — which is the creator harness defect the fix-main lane
+established, not an art failure. So the merge commit's "landed without a
+completed verdict" was true when written and is now superseded: the release
+merged on local evidence, and CI has since agreed as far as it has run.
+
+### Superseded, kept as evidence: the 08:40Z list
+
+Everything from here to the end of this section is the list as it stood at
+08:40Z. It is wrong about what is merged and about several heads. It is kept
+rather than deleted because it carries the #283 near miss and the D-087
+reasoning that came out of it, which are the evidence that this document's
+claims were checked rather than relayed.
+
 > **The do-not-merge on #283 is LIFTED, as of 10:30Z.** An earlier version of
 > this banner said not to click it. That warning was about `eb80bbc1`, which
 > is no longer the head. The branch pushed at last and the break is gone:
@@ -1102,6 +1188,11 @@ different things, and the second one is the one that governs the action.
   complete enough to act on. Merged as `4be30238`.
 
 ## Ready to click, not merged
+
+> **SUPERSEDED 12:50Z.** This section's heads were read at 07:20Z and #320 and
+> #325 have both merged since. The current list is "Still a click — five, in
+> this order" at the top of this document. Kept for the evidence each entry
+> names at the head it names.
 
 Out of draft against recent main. Each says what it rests on. Heads below are
 read from the pull request listing at 07:20Z; the gate evidence under each is
