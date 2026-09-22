@@ -81,7 +81,6 @@ import type {
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
-  HistoricalEvent,
   IsoDate,
   MoneyAmount,
   ScheduledActivityRecord,
