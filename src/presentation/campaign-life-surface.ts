@@ -135,7 +135,6 @@ export interface PartyWorkRow {
   readonly outcomeLines: readonly string[];
   /** Candidate guidance only: what the host could honestly say. */
   readonly guidanceFacts: readonly string[];
-  readonly guidanceSources: readonly string[];
 }
 
 export interface PartyWorkRequestOption {
@@ -344,10 +343,6 @@ export function projectPartyAndCommunityWork(
       guidanceFacts:
         view.form === "candidate-guidance" && view.outcome && guidance
           ? guidance.facts
-          : [],
-      guidanceSources:
-        view.form === "candidate-guidance" && view.outcome && guidance
-          ? guidance.sources
           : [],
     };
   });

@@ -1,0 +1,29 @@
+{
+  "filedAt": "2026-09-22T20:15:00.000Z",
+  "impact": "blocks-work",
+  "lane": "playtest",
+  "notes": [
+    "Asked for by the owner on 2026-09-22 at 20:02Z ('the mayor and stuff needs to... add that to ChatGPT as well'), reading the across-America playtest, where Louisville, San Juan, Ponce and Urban Honolulu all print 'No city or town government is recorded for this place'. Whether a player can stand for a mayoralty or council seat anywhere is being checked separately.",
+    "The owner's standing rule applies: where a place has no researched rule, the game draws from a realistic national range, stable per place across saves, and records that the value is drawn rather than known; a real rule overrides. So a usable answer is the national spread plus the state general-law rules that override it, not a list of every city.",
+    "The municipal election rule packs (src/simulation/municipal-election-rules.ts, municipal-election-rule-packs.ts) already carry ballot type, runoff and majority rules per state, every value marked secondary-synthesis-only behind MUNICIPAL_RULES_AUDIT_GATE. They do not carry the form of government, whether a mayor exists or how one is chosen, term lengths, term limits or qualifications for local office.",
+    "Companion question already filed: election-results-calling-recounts-and-ties (tie-breaks and runoff triggers). This one is about the offices themselves."
+  ],
+  "priority": "P1",
+  "question": "For American cities, towns and counties, what are the rules for the local chief executive and governing body that a life simulation needs to let a person run for and hold local office? Specifically: the forms of municipal government in use (mayor-council strong and weak, council-manager, commission, town meeting) and roughly how common each is by place size; whether the mayor is directly elected, chosen by the council from its members, or rotates, and how common each is; the usual term length and whether term limits exist; the qualifications for local office (minimum age, residency period in the municipality or ward, being a registered voter); whether local elections are partisan or nonpartisan and when they are held (odd years, spring, consolidated with state elections); and where a state's general municipal law fixes any of these for all its municipalities rather than leaving them to each charter. Also the county equivalent: an elected county executive or mayor versus a commission or board, and how common each is.",
+  "questionId": "local-executive-and-council-rules",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "playtest thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/municipal-election-rules.ts and municipal-election-rule-packs.ts on main",
+      "whatItDidNotSettle": "Cover how local ballots are counted and citizen petitions, per state, from a research synthesis. Silent on the form of government, mayors, term lengths, term limits and qualifications."
+    },
+    {
+      "source": "docs/playtest/across-america-past-the-election-2026-09-22.md, sections 7 and 8",
+      "whatItDidNotSettle": "Show four large consolidated governments with no local government on screen, and D.C. named 'City of Washington Dc'. They say nothing about what the right local offices are."
+    }
+  ],
+  "title": "Mayors, councils and county executives: who holds local office and how",
+  "usableAnswer": "A national distribution for each item (form of government by place-size band, mayor selection method, term length, term limits, age and residency qualifications, partisan or nonpartisan, election timing), expressed as ranges or shares the game can draw from, plus the list of states whose general law fixes a value for every municipality, with the instrument named. Large-city specifics are welcome but optional; the distribution and the state overrides are what the game needs, because the game must fill every town with something realistic and mark where the value is drawn rather than known.",
+  "whyItMatters": "The owner wants a player able to run for office in every town in America, including small ones nobody has heard of. Local office is the first rung of a political career and today the game offers state legislative seats and governors but not a mayoralty or a council seat, and prints that no local government exists for some of the largest cities in the country."
+}

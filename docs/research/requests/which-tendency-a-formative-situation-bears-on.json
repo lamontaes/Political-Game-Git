@@ -1,0 +1,49 @@
+{
+  "filedAt": "2026-09-22T16:35:00.000Z",
+  "impact": "blocks-work",
+  "lane": "hardcoded content audit",
+  "notes": [
+    "SMALLEST HONEST CHANGE: a declared table from situation key to tendency, read where `tendencyOrder[0]` is read today, and no proposal at all where the table has no entry. That is C11's fourth case — an optional observation is omitted rather than invented. Nothing else needs building. What a player would see: a proposed change that is about what actually kept happening to them, and no proposal after situations that bear on nothing.",
+    "PLAYER-FACING INPUT: yes, and it is the whole point. A development proposal is shown to the player and requires their choice (`requiresPlayerChoice: true`). So the player is currently being asked to accept or refuse a change about risk-taking on the evidence of two lunch-table choices.",
+    "Related to the thresholds review's disposition on personality evidence: two copies of one event are one observation. That half is now fixed — occasions are counted rather than rows — and is a separate matter from which tendency the occasions bear on.",
+    "WHAT THE SCHEMA HOLDS TODAY, because a disposition that names a record is only actionable if the record exists: the situation-to-tendency table does not exist anywhere. There is no field for it on a tendency definition, none on a situation definition, and no separate record. So this is a schema-and-content job, not a reclassification. What a save loses if the recommended answer is taken and the table starts empty: nothing a player would miss, because today's proposals are all the same one — but it is worth saying rather than discovering, since the surface does go quiet until the table is filled."
+  ],
+  "priority": "P0",
+  "question": "For each of the twenty formative situations the game can put to a player, which personality tendency does repeating it bear on — and which of them bear on none, so that repeating them should propose no change at all?",
+  "questionId": "which-tendency-a-formative-situation-bears-on",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "hardcoded content audit lane",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/character-history.ts, read and its behaviour traced at main 1c4992e8",
+      "whatItDidNotSettle": "Shows that the tendency is taken from position zero of the catalogue order and carries no link from a situation to a tendency anywhere."
+    },
+    {
+      "source": "src/simulation/mind-catalog.ts",
+      "whatItDidNotSettle": "Defines six tendencies with names, descriptions and expressions, and nothing that associates any of them with a life situation."
+    },
+    {
+      "source": "The twenty formative situation definitions",
+      "whatItDidNotSettle": "Each carries its own prose and options; none names a tendency it bears on."
+    }
+  ],
+  "title": "Which part of a person each formative situation actually bears on",
+  "usableAnswer": "A row per situation naming the tendency it bears on, or naming none explicitly. \"None\" is a real answer and the more useful one where it is true: a situation that bears on nothing should propose nothing rather than propose something arbitrary. Where a situation plausibly bears on a tendency the catalogue does not carry, say which tendency is missing rather than forcing it onto one of the six.",
+  "whyItMatters": "Measured at main `1c4992e8`: when two distinct occasions of the same formative situation occur between the player and the same person, `character-history.ts` proposes a character development. The tendency it proposes is `mindCatalog.tendencyOrder[0]` — the catalogue's first entry, every time, whatever those occasions were about. In the synthetic catalogue that is `riskApproach`, so **every character development the game has ever proposed, in every life, has been about risk approach**, including after two lunch-table choices or two conflicts with a friend. The evidence decides whether a development is proposed and has no influence whatever on which one. This is the sharpest instance yet of the pattern the owner named after his ten-year run — a producer that runs, reads its evidence, and then ignores it. The repeated-count half is fixed; this half cannot be fixed without an authored link, and inventing twenty mappings is content this lane will not make up.\n\nThe twenty situations: activity-choice, belief-challenge, broken-object, care-conflict, caring-for-someone, civic-volunteering, friend-conflict, future-preparation, household, household-transition, illness-in-the-house, lunch-table, money-shortfall, school-entry, school-rule-input, small-money, student-organizing, teacher-mentor, teen-work-opportunity, workplace-rule.\n\nThe six tendencies available: riskApproach, responseTempo, conflictApproach, curiosity, loyalty, ambition.",
+  "candidateAnswers": [
+    {
+      "label": "Silence where nothing is borne on",
+      "position": "Map only the situations that genuinely bear on one of the six tendencies, and have a situation with no entry propose nothing at all. A proposal is never made on a default, a nearest match or the catalogue's first entry.",
+      "recommended": true,
+      "argumentFor": "A development proposal is shown to the player and asks them to accept or refuse it. Asking someone to decide about a change to their risk-taking on the evidence of two lunch-table choices is not a wrong mapping, it is the game asking a question it has no business asking. Silence is the honest output when the link is unknown, and it is the same rule the missing-fact classification already sets for an optional observation: omit it or state its absence, never invent a value. It also degrades safely as the catalogue grows, because a newly added situation proposes nothing until somebody says what it bears on.",
+      "argumentAgainst": "Fewer proposals reach the player than today, and on the twenty situations as they stand it may be a lot fewer. Today's proposals are all the same one, so nothing true is lost, but the surface does get quieter until the table is filled in."
+    },
+    {
+      "label": "Map all twenty, nearest fit",
+      "position": "Assign every one of the twenty situations to whichever of the six tendencies it comes closest to, so a proposal always follows repeated history.",
+      "recommended": false,
+      "argumentFor": "Keeps the frequency of proposals roughly as it is, and no situation is left inert.",
+      "argumentAgainst": "Several of the twenty do not plausibly bear on any of the six — a household transition or starting school is not obviously about risk, tempo, conflict, curiosity, loyalty or ambition. Forcing a nearest fit reproduces the present defect in a politer form: the player is still asked about a change the evidence does not support, and now with a mapping table that makes it look considered."
+    }
+  ]
+}

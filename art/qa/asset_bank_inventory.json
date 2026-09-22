@@ -266,6 +266,15 @@
       "covered": false
     },
     {
+      "poseFamilyId": "seated-guest-three-quarter-right",
+      "priority": "P1",
+      "postureClass": "seated",
+      "productionStatus": "pending-generation",
+      "coveredBodyFamilies": [],
+      "missingBodyFamilies": [],
+      "covered": false
+    },
+    {
       "poseFamilyId": "standing-conversational",
       "priority": "P0",
       "postureClass": "standing",
@@ -380,6 +389,16 @@
       "controlPlate": "art/pose-control-plates/standing-podium-or-lectern__front.svg",
       "masterMinimum": "1696x2528",
       "nominalCanvas": "1080x1920"
+    },
+    {
+      "poseFamilyId": "seated-guest-three-quarter-right",
+      "priority": "P1",
+      "blocks": "later-breadth",
+      "consumingAnchors": [],
+      "missingBodyFamilies": [],
+      "controlPlate": "art/pose-control-plates/seated-guest-three-quarter-right__three-quarter-right.svg",
+      "masterMinimum": "1530x2048",
+      "nominalCanvas": "1530x2048"
     }
   ],
   "cargo": {

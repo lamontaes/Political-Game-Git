@@ -253,6 +253,30 @@ export interface PropositionParameter {
   readonly value: string;
 }
 
+/**
+ * Which way a proposition cuts against a principle.
+ *
+ * Deliberately two values and not a scale. A pack author can say honestly
+ * that agreeing with a question sits with a principle or against it; a pack
+ * author inventing how *much* would be inventing a number nobody measured.
+ * A principle a proposition does not engage is left out rather than written
+ * as a zero, because "this does not bear on it" and "it bears on it not at
+ * all" are different claims and only the first one is knowable here.
+ */
+export type PrincipleBearing = "consistent-with" | "against";
+
+/**
+ * One principle a proposition engages, and which way.
+ *
+ * The bearing describes AGREEING with the question. A character who
+ * disagrees engages the same principle the other way round, which is why
+ * there is no separate row for the opposing side.
+ */
+export interface PropositionPrincipleBearing {
+  readonly principleId: EntityId;
+  readonly bearing: PrincipleBearing;
+}
+
 export interface PolicyPropositionDefinition {
   readonly id: EntityId;
   readonly stableKey: string;
@@ -261,6 +285,20 @@ export interface PolicyPropositionDefinition {
   readonly question: string;
   readonly parameters: readonly PropositionParameter[];
   readonly tags: readonly string[];
+  /**
+   * The principles this question engages, where its pack declares them.
+   *
+   * Absent means the pack has not said, which a consumer must not read as
+   * "engages none": an unknown fact is not permission, so anything deriving
+   * a view from principles has to treat the absence as "cannot say" and
+   * decline, never as a settled zero.
+   *
+   * Optional, and omitted rather than written empty, so a world holding
+   * propositions nobody related to a principle serialises exactly as it did
+   * before this field existed and a save written then stays readable. Same
+   * rule, and the same reason, as `PolicyIssueDefinition.levels`.
+   */
+  readonly principles?: readonly PropositionPrincipleBearing[];
 }
 
 export type KnowledgeSubjectScope =
