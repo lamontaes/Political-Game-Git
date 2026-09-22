@@ -48,6 +48,25 @@ export async function campaignUntilDecided(
     await workOfferedOutreach(page);
     await passDay(page);
   }
+  return campaignWeeklyUntilDecided(page);
+}
+
+/**
+ * A state legislative race is decided on the state's own election day, which
+ * from a January start is most of a year away. After the daily push the
+ * campaign carries on the way a player would carry it: take the week's
+ * outreach, then let the week run. Returns whether the result appeared.
+ */
+export async function campaignWeeklyUntilDecided(page: Page, maxWeeks = 110) {
+  for (let week = 0; week < maxWeeks; week += 1) {
+    if (await page.getByTestId("campaign-result").isVisible()) return true;
+    await workOfferedOutreach(page);
+    await page.getByTestId("shell-pass-week").click();
+    await expect(page.getByTestId("shell-pass-week")).not.toHaveAttribute(
+      "aria-disabled",
+      "true",
+    );
+  }
   return page.getByTestId("campaign-result").isVisible();
 }
 
