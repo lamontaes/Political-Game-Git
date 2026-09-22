@@ -368,7 +368,7 @@ January 4, 2027 to January 6, 2031 is over or was never entered". **The answer
 is yes, and that earlier life had skipped one button.**
 
 **Ariana Moore, Reno, Nevada** (seed `gov-reno-nv`). She filed with "Put your
-name in" under *The state's top office* on Campaigns, then did one session on
+name in" under _The state's top office_ on Campaigns, then did one session on
 the doors and pressed Week, every week. The Campaigns screen ran through three
 states:
 
