@@ -727,12 +727,60 @@ describe("artbench store: inbox batches and the exchange", () => {
     expect(
       last.type === "batch.completed" && last.payload.rejected,
     ).toHaveLength(0);
+    // Both items are in the one event even though they were taken on
+    // different passes. Reporting only the pass that happened to finish last
+    // is the other way a batch of n can say less than n with nothing marked
+    // rejected, and it is why the lists are composed from the accumulated
+    // record rather than from the pass.
+    if (last.type !== "batch.completed") throw new Error("wrong event");
+    expect(
+      last.payload.ingestedCandidateIds.length +
+        (last.payload.duplicateCandidateIds?.length ?? 0) +
+        last.payload.rejected.length,
+    ).toBe(last.payload.itemCount);
 
     // And it is not re-announced once it is done.
     store.syncOnce();
     expect(
       store.allEvents().filter((e) => e.type === "batch.completed"),
     ).toHaveLength(before + 1);
+  });
+
+  it("reports a batch as pending while an item it declared has not arrived", () => {
+    // pendingBatches used to be read off folder shape alone, which answers
+    // "has the sender finished uploading" rather than "is the bench still
+    // waiting on anything". Those two parted company the moment an item could
+    // be deferred: a manifest present and an image missing is complete by
+    // folder shape and unfinished in fact, and under the old rule the batch
+    // appeared in neither the pending list nor the ingested one.
+    const batch = join(drive, "01_INBOX", "batch-2026-09-22-pending-visible");
+    mkdirSync(batch, { recursive: true });
+    writeFileSync(join(batch, "here.png"), tinyPng(31, 4));
+    writeFileSync(
+      join(batch, "manifest.json"),
+      JSON.stringify({
+        batchId: "batch-2026-09-22-pending-visible",
+        items: [
+          { itemId: "here", file: "here.png", requestId: "env-c" },
+          { itemId: "coming", file: "coming.png", requestId: "env-c" },
+        ],
+      }),
+    );
+
+    expect(store.syncStatus().pendingBatches).toContain(
+      "batch-2026-09-22-pending-visible",
+    );
+    store.syncOnce();
+    // Still waiting: one item has reached no end state.
+    expect(store.syncStatus().pendingBatches).toContain(
+      "batch-2026-09-22-pending-visible",
+    );
+
+    writeFileSync(join(batch, "coming.png"), tinyPng(32, 4));
+    store.syncOnce();
+    expect(store.syncStatus().pendingBatches).not.toContain(
+      "batch-2026-09-22-pending-visible",
+    );
   });
 
   it("keeps rejecting a file that is present and is not an image", () => {

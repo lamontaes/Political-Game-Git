@@ -229,6 +229,13 @@ export interface BatchCompletedPayload {
   readonly source: "local-inbox" | "drive-inbox";
   readonly itemCount: number;
   readonly ingestedCandidateIds: readonly string[];
+  /**
+   * Items that resolved to bytes the bench already held. They are neither
+   * ingested nor rejected, and leaving them out of both lists is what made a
+   * batch of eight report six with nothing said about the rest. Optional
+   * because events written before this field exists do not carry it.
+   */
+  readonly duplicateCandidateIds?: readonly string[];
   readonly rejected: readonly {
     readonly item: string;
     readonly reason: string;
