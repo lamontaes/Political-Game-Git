@@ -109,6 +109,45 @@ repository whose runs start promptly, and this one's do not — which means the
 freeze is not a nicety. It is the only condition under which main can ever
 report at all.
 
+## `started_at` is not a start
+
+A field that reads like progress and is not. It is the sixth reading trap this
+night produced and the likeliest to catch the next person, because it is the
+one you fall for at a glance rather than by reasoning badly.
+
+At 07:38:08Z main's run allocated all fifteen jobs. Reading them back five
+minutes later, every job carried:
+
+```
+"status": "queued",
+"created_at": "2026-09-22T07:38:08Z",
+"started_at": "2026-09-22T07:38:08Z"
+```
+
+`started_at` is set, identical to `created_at`, on a job whose own `status` is
+`queued`. It records when the job was **allocated**, not when it began
+executing. The run's own `status` read `queued` at the same moment. Nothing had
+run a step.
+
+So "fifteen jobs, all with a `started_at`" and "fifteen jobs running" look the
+same and are not, and a glance at a job list will tell you work is under way
+when none is. **Read `status` — `queued`, `in_progress`, `completed`. Never
+infer execution from a timestamp.**
+
+This mattered immediately rather than academically. The question on the table
+was whether the freeze could be lifted, and the argument for lifting it was
+that a run which is already executing is protected from the next merge by
+`cancel-in-progress: false`. The jobs were not executing, so the run was not in
+the protected state, and the premise was false at the moment it was about to be
+relied on.
+
+**And the protection itself is an inference, not an observation.** What was
+measured is why three _pending_ main runs died. No main run tonight ever
+reached the executing state, so nothing tested whether a merge would spare one.
+That is the difference between a fact and a plan, and the two should not be
+written down in the same words. See the section above on why main could not get
+a verdict for the half that is measured.
+
 ## What one verdict on main cost, exactly
 
 At 07:34Z the decision was taken to cancel every queued run standing ahead of
