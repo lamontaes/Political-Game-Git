@@ -2359,12 +2359,12 @@
           "chamberFamily": "lower",
           "citations": [
             "Minn. Const. art. IV, § 22",
-            "Minn. Stat. § 2.021"
+            "Minn. Stat. § 2.021",
+            "Minn. Const. art. VII, § 6; art. IV, § 6",
+            "Minn. Const. art. IV, § 6"
           ],
-          "missing": [
-            "qualification.minimumAge"
-          ],
-          "standForOffice": "refused"
+          "missing": [],
+          "standForOffice": "admitted"
         },
         {
           "chamberFamily": "upper",
@@ -2397,10 +2397,8 @@
           ],
           "officeKey": "us-mn-legislature-v1:house",
           "seats": 134,
-          "standForOffice": "refused",
-          "standForOfficeMissing": [
-            "qualification.minimumAge"
-          ]
+          "standForOffice": "admitted",
+          "standForOfficeMissing": []
         },
         {
           "enterTerm": "refused",
@@ -2417,7 +2415,7 @@
       ],
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
-      "standForOfficeAdmitted": 0,
+      "standForOfficeAdmitted": 1,
       "state": "MN"
     },
     {
@@ -2582,10 +2580,11 @@
         {
           "chamberFamily": "unicameral",
           "citations": [
-            "Lawmaking in Nebraska"
+            "Lawmaking in Nebraska",
+            "Neb. Const. art. III, § 8"
           ],
           "missing": [
-            "qualification.minimumAge"
+            "qualification.stateResidenceYears"
           ],
           "standForOffice": "refused"
         }
@@ -2611,7 +2610,7 @@
           "seats": null,
           "standForOffice": "refused",
           "standForOfficeMissing": [
-            "qualification.minimumAge"
+            "qualification.stateResidenceYears"
           ]
         }
       ],
@@ -3681,7 +3680,7 @@
       "ordinance.introductionToPassage": 2
     },
     "states": 50,
-    "statesWithAnyStandForOfficeAdmitted": 2,
+    "statesWithAnyStandForOfficeAdmitted": 3,
     "statesWithAnyTermRuleAdmitted": 1,
     "statesWithLegislativePack": 9,
     "unitsWithAdmittedLocalRoute": 3

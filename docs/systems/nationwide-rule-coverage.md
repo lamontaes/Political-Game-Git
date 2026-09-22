@@ -7,7 +7,7 @@ Rule admission only. An admitted field is a compiled, dated rule the resolver wi
 ## Totals
 
 - States: 50; with a compiled legislative pack: 9.
-- States where standing for at least one legislative seat is admitted: 2.
+- States where standing for at least one legislative seat is admitted: 3.
 - States where a legislative term rule is admitted: 1.
 - General-purpose governments in the catalog: 38704.
 - Governments with at least one admitted local action: 3.
@@ -28,7 +28,7 @@ Missing mandatory fields for passing an ordinance (first missing field per gover
 
 ## By state
 
-States where a legislator's qualifications are admitted for at least one chamber, with or without a playable office: 2.
+States where a legislator's qualifications are admitted for at least one chamber, with or without a playable office: 3.
 
 | State | Legislature | Legislator qualifications | Seats with candidacy admitted | Seats with term rule | Local units | Enacted instrument | Pass ordinance | Appropriation rule | Missing for candidacy |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
@@ -54,11 +54,11 @@ States where a legislator's qualifications are admitted for at least one chamber
 | MD | bicameral | lower: refused; upper: refused | 0/2 | 0/2 | 180 | 0 | 0 | 0 | qualification.minimumAge |
 | MA | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 357 | 0 | 0 | 0 | no compiled legislative pack |
 | MI | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 1856 | 0 | 0 | 0 | no compiled legislative pack |
-| MN | bicameral | lower: refused; upper: refused | 0/2 | 0/2 | 2720 | 0 | 0 | 0 | qualification.minimumAge |
+| MN | bicameral | lower: admitted; upper: refused | 1/2 | 0/2 | 2720 | 0 | 0 | 0 | qualification.minimumAge |
 | MS | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 381 | 0 | 0 | 0 | no compiled legislative pack |
 | MO | bicameral | lower: refused; upper: refused | 0/2 | 0/2 | 1337 | 0 | 0 | 0 | qualification.stateResidenceYears |
 | MT | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 183 | 0 | 0 | 0 | no compiled legislative pack |
-| NE | unicameral | unicameral: refused | 0/1 | 0/1 | 971 | 0 | 0 | 0 | qualification.minimumAge |
+| NE | unicameral | unicameral: refused | 0/1 | 0/1 | 971 | 0 | 0 | 0 | qualification.stateResidenceYears |
 | NV | bicameral | lower: admitted; upper: refused | 1/2 | 0/2 | 35 | 1 | 0 | 0 | qualification.minimumAge |
 | NH | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 246 | 0 | 0 | 0 | no compiled legislative pack |
 | NJ | not compiled | lower: admitted; upper: admitted | 0/0 | 0/0 | 585 | 0 | 0 | 0 | no compiled legislative pack |
