@@ -227,6 +227,59 @@ describe("production-compiled office qualification rules", () => {
     expect(limit(0)?.reason).toMatch(/No recorded term in this office/);
   });
 
+  /*
+   * Minnesota's House asks for six months in the district, and six months is
+   * not a number of years. The reader used to accept whole years only, so this
+   * row could not be expressed at all and was reported as unevaluated --
+   * honest, but it meant a Minnesota House candidate was refused a seat their
+   * own Senate would have given them, for a reason that was about our units
+   * rather than about them.
+   */
+  it("assesses a residence requirement the law states in months", () => {
+    const world = createScenarioWorld(
+      "qualification-months",
+      LEXINGTON_DEMO_CONTEXT,
+      { peopleCount: 3 },
+    );
+    const person = world.people[world.personOrder[0]!]!;
+    // After the Minnesota rows' own observation date, so this test is about
+    // the unit and nothing else.
+    const onDate = makeIsoDate("2026-11-03");
+    const district = (districtResidenceSince: string) =>
+      assessOfficeQualifications({
+        person,
+        stateJurisdictionKey: "US-MN",
+        officeFamily: "LOWER_CHAMBER" as const,
+        stateResidenceSince: makeIsoDate("2000-01-01"),
+        districtResidenceSince: makeIsoDate(districtResidenceSince),
+        onDate,
+      }).find((assessment) => assessment.field === "DISTRICT_RESIDENCE");
+
+    // Exactly six months is enough; one day short is not. Neither answer is
+    // reachable if six months is rounded to a year or to nothing.
+    expect(district("2026-05-03")?.verdict).toBe("meets");
+    expect(district("2026-05-04")?.verdict).toBe("fails");
+
+    // The sentence quotes the law's own unit rather than translating it into
+    // a half year nobody wrote.
+    expect(district("2026-05-04")?.reason).toContain("6 months");
+    expect(district("2026-05-04")?.reason).not.toContain("0.5");
+    expect(district("2026-05-04")?.reason).not.toContain("year");
+
+    // A requirement stated in years still reads as years on both sides.
+    const stateSide = assessOfficeQualifications({
+      person,
+      stateJurisdictionKey: "US-MN",
+      officeFamily: "LOWER_CHAMBER" as const,
+      stateResidenceSince: makeIsoDate("2026-10-01"),
+      districtResidenceSince: makeIsoDate("2026-05-03"),
+      onDate,
+    }).find((assessment) => assessment.field === "STATE_RESIDENCE");
+    if (stateSide && stateSide.verdict === "fails") {
+      expect(stateSide.reason).toMatch(/requires 1 year|requires \d+ years/);
+    }
+  });
+
   it("does not apply a later current-source observation to an earlier life", () => {
     const earlier = officeQualifications(
       "US-NE",
