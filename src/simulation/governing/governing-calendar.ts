@@ -10,8 +10,14 @@ import type { EntityId, IsoDate, World } from "../types";
 const STATE_GOVERNING_VERSION = "state-governing/v1";
 
 /**
- * PROPOSED balance parameters, pending the director's confirmation. A
+ * PROVISIONAL, and awaiting SOURCED RULES rather than anyone's sign-off. A
  * disclosed game calendar, not any state's law.
+ *
+ * overrideSucceedsPercent is the weakest of these: one national chance applied
+ * without reference to the state's override threshold, the session calendar or
+ * who holds the chamber. lamontae ruled against choosing a better number on
+ * 2026-09-22 ("no hardcoding"); filed as
+ * legislative-step-pacing-and-veto-override.
  */
 export const STATE_GOVERNING_CALENDAR = {
   id: "ocd-state-governing-calendar/v1",

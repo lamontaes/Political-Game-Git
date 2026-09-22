@@ -1,0 +1,37 @@
+{
+  "filedAt": "2026-09-22T16:20:00.000Z",
+  "impact": "blocks-work",
+  "lane": "hardcoded content audit",
+  "notes": [
+    "SMALLEST HONEST CHANGE: the mechanism is already right — `VERIFIED` overrides the profile per state and records `basis: verified` with its sources. Nothing needs building. Each answered row is one entry in that map. What a player would see: a governor's term that ends when it should, and in NH and VT an election every two years rather than every four.",
+    "PLAYER-FACING INPUT: none directly. It reaches the player as the date a term ends and the year the next election falls, on the campaign screen and in the world's calendar."
+  ],
+  "priority": "P0",
+  "question": "For each state other than Washington, what is the governor's term length, what instrument establishes it, when does the term commence, and in which years do regular gubernatorial elections fall?",
+  "questionId": "governor-term-length-outside-washington",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "hardcoded content audit lane",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/nationwide-world/state-executive-term-rules.ts, read and executed at main 1c4992e8",
+      "whatItDidNotSettle": "Carries one verified state, Washington, with RCW 43.01.010 and RCW 29A.04.321 cited. Establishes nothing about the other forty-nine, and explicitly labels its own fallback as proposed."
+    },
+    {
+      "source": "The state publishers themselves",
+      "whatItDidNotSettle": "The egress proxy returns 403 for every state publisher from this container, so the instruments cannot be fetched here at all. This is the reason the question is going out rather than being answered in the branch."
+    }
+  ],
+  "title": "How long a governor's term is, and when it starts, in the forty-nine states the game has not read",
+  "usableAnswer": "A row per state: term length in years, the constitutional or statutory citation establishing it, the commencement rule in the form the game already uses (which weekday, which ordinal week, which month, any offset in days), the election cycle length and one reference year in which a regular gubernatorial election was held. New Hampshire and Vermont are the two the game is known to have wrong, so those two rows are the ones that repay being done first.",
+  "whyItMatters": "Measured today at main `1c4992e8`: `stateExecutiveTermRule` in `src/simulation/nationwide-world/state-executive-term-rules.ts` holds a `VERIFIED` map with exactly one entry, Washington. Every other state falls through to `STATE_EXECUTIVE_GAME_PROFILE`, which is a flat `termYears: 4` with a January commencement and a four-year cycle referenced to 2026. Run against the real function: NH 4 (basis game-profile, 0 sources), VT 4 (game-profile, 0 sources), KY 4, TX 4, WA 4 (verified, 3 sources). **New Hampshire and Vermont governors serve two-year terms.** So the game is currently wrong about two states as a matter of law, not as a matter of balance, and it is unverified about forty-nine. The profile carries the marker \"PROPOSED PARAMETERS, pending the director's confirmation\", which has stood since the file was written — a number waiting for approval is a number nobody researched.",
+  "answer": {
+    "summary": "## A10 — NH/VT are ready to stop using a four-year fallback\n\n**Question:** `governor-term-length-outside-washington` — partial factual delivery.\n\nNew Hampshire RSA653:1.I establishes a two-year governor term. Vermont Constitution chapterII§49 establishes two years with a chosen-and-qualified commencement and the specified successor/adjournment conditions. Its legislative January weekday in§46 is not a governor commencement rule.\n\nThe two rows are actionable duration evidence but not full qualification/calendar packs. NH's exact commencement and the other states' complete instrument/cycle rows remain to compile. Illinois official retrieval failed and an indexed proposed amendment is not a valid replacement for current constitutional text. Do not claim all49states complete, or change a source's event-bound condition into a fabricated weekday because the current type only supports weekdays.\n\nSources:\n- https://www.gc.nh.gov/rsa/html/LXIII/653/653-1.htm\n- https://legislature.vermont.gov/statutes/constitution-of-the-state-of-vermont",
+    "sources": [
+      "ChatGPT DEPTH2 package, Drive packages folder 1baN6DcYsLRKqOqceu3xuJ5FVZkZpZYLF, DEPTH2_Research_and_Content_Inputs.zip (1fm5p3K6hGzVpq2jUUoAsU32Xb3F7wjdo, 18:27Z), DEPTH2-ANSWERS.md section A10; request-dispositions.json row 'governor-term-length-outside-washington'. Kept verbatim in docs/research/chatgpt-answers/2026-09-22-depth2/ with its SHA256SUMS (11 of 11 verified).",
+      "Primary sources ChatGPT cites are listed in that file's 'Source and evidence register' section."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T18:27:00.000Z",
+    "stillOpen": "Disposition 'partial-factual'. Remaining, in ChatGPT's words: NH/VT two-year evidence; VT event-based commencement. Remaining full state matrix incomplete. Not implemented or tested by this director batch; existing source owner receives and verifies.\n\nScope limits of the whole DEPTH2 batch, in its own words: \"These are 17 dispositions, not 17 completed implementations or 17 fully closed research questions.\" It read source at main 4965f63c and the 17:57Z render; \"no whole repository execution, game test, browser walk, merge or installed-client check was performed\". Its 31 passing checks are data-structure and date-order checks only (validation.json lists as not tested: the repository loader, a production world, browser, native client, new factual validation of every row, real human behaviour). Calibration it offers is labelled private-playtest calibration; exact factual dates remain evidence."
+  }
+}

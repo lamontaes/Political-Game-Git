@@ -25,16 +25,162 @@ describe("what a build ships with", () => {
   it("loads the American state and local vocabulary, so a world has something to legislate about", () => {
     expect(POLICY_PACKS.map((entry) => entry.pack)).toEqual([
       "us-state-and-local",
+      "us-policy-positions",
     ]);
     expect(catalog.domainOrder.length).toBe(13);
     expect(catalog.issueOrder.length).toBeGreaterThan(100);
     expect(registry.report.rejections).toEqual([]);
   });
 
-  it("ships no propositions, subjects or principles, because nothing decides those yet", () => {
-    expect(catalog.propositionOrder).toEqual([]);
+  it("ships positions a person can hold, and still no knowledge subjects", () => {
+    // Propositions are what a player can actually see. Every player-facing
+    // reader of the catalog reads propositions — the political profile screen
+    // and the journal — and none reads domains or issues, so a vocabulary
+    // without these reaches nobody.
+    expect(catalog.propositionOrder.length).toBeGreaterThan(50);
+    for (const id of catalog.propositionOrder) {
+      const proposition = catalog.propositions[id]!;
+      // A position, put as a question a person can agree or disagree with.
+      // Direction lives in the answer, not in the proposition.
+      expect(proposition.question.endsWith("?")).toBe(true);
+      expect(catalog.issues[proposition.issueId]).toBeDefined();
+    }
+    // Still nothing here, and the emptiness is the honest answer: no
+    // knowledge subject has been established.
     expect(catalog.subjectOrder).toEqual([]);
-    expect(catalog.principleOrder).toEqual([]);
+  });
+
+  it("gives every position the principles it engages", () => {
+    // The relation is what lets a recorded conviction reach a question
+    // nobody wrote it about. Without it the mapping from what a person
+    // believes to what they think of a bill is invented at the point of
+    // use, and inside a save that is indistinguishable from a grounded one.
+    expect(catalog.principleOrder.length).toBe(14);
+    for (const id of catalog.propositionOrder) {
+      const proposition = catalog.propositions[id]!;
+      const bearings = proposition.principles ?? [];
+      expect(bearings.length).toBeGreaterThan(0);
+      const named = new Set<string>();
+      for (const bearing of bearings) {
+        expect(catalog.principles[bearing.principleId]).toBeDefined();
+        // The same principle twice on one question would be a contradiction
+        // or a duplicate, and neither is authoring anyone meant.
+        expect(named.has(bearing.principleId)).toBe(false);
+        named.add(bearing.principleId);
+      }
+    }
+  });
+
+  it("engages every principle from more than one domain", () => {
+    // A principle only ever raised by one question is that question restated,
+    // and tells a reader nothing the question did not. This is the assertion
+    // that keeps the vocabulary general as positions are added.
+    const domainsPerPrinciple = new Map<string, Set<string>>();
+    for (const id of catalog.propositionOrder) {
+      const proposition = catalog.propositions[id]!;
+      const domainId = catalog.issues[proposition.issueId]!.domainId;
+      for (const bearing of proposition.principles ?? []) {
+        const seen = domainsPerPrinciple.get(bearing.principleId) ?? new Set();
+        seen.add(domainId);
+        domainsPerPrinciple.set(bearing.principleId, seen);
+      }
+    }
+    for (const principleId of catalog.principleOrder) {
+      expect(domainsPerPrinciple.get(principleId)?.size ?? 0).toBeGreaterThan(
+        1,
+      );
+    }
+  });
+
+  it("cuts both ways on every principle", () => {
+    // A principle that only ever appears as `consistent-with` is not a
+    // principle, it is an agree-with-everything dial: holding it could never
+    // move a character to disagree with anything the game ships. Found by
+    // counting rather than by reading — environmental-stewardship,
+    // equal-opportunity and transparency were all one-sided on the first
+    // authoring pass, and nothing in the set's design would have shown it.
+    //
+    // It also makes `conflicted` reachable. A person holding two principles
+    // that a question engages in opposite directions is the case worth
+    // representing, and it cannot arise if every principle points one way.
+    const sides = new Map<string, Set<string>>();
+    for (const id of catalog.propositionOrder) {
+      for (const bearing of catalog.propositions[id]!.principles ?? []) {
+        const seen = sides.get(bearing.principleId) ?? new Set<string>();
+        seen.add(bearing.bearing);
+        sides.set(bearing.principleId, seen);
+      }
+    }
+    for (const principleId of catalog.principleOrder) {
+      const principle = catalog.principles[principleId]!;
+      expect({
+        principle: principle.stableKey,
+        sides: [...(sides.get(principleId) ?? [])].sort(),
+      }).toEqual({
+        principle: principle.stableKey,
+        sides: ["against", "consistent-with"],
+      });
+    }
+  });
+
+  it("puts principles in tension on at least some questions", () => {
+    // Where the two previous assertions meet. A question engaging one
+    // principle each way is what a character with ordinary, mixed
+    // convictions actually runs into, and if the catalog had none of them
+    // every view formed from principles would be unanimous.
+    const inTension = catalog.propositionOrder.filter((id) => {
+      const bearings = catalog.propositions[id]!.principles ?? [];
+      return (
+        bearings.some((entry) => entry.bearing === "consistent-with") &&
+        bearings.some((entry) => entry.bearing === "against")
+      );
+    });
+    expect(inTension.length).toBeGreaterThan(
+      catalog.propositionOrder.length / 2,
+    );
+  });
+
+  it("rejects a proposition naming a principle nobody declares, by name", () => {
+    // Fails soft, and loudly. A relation that quietly became an empty list
+    // would leave a position looking authored and engaging nothing.
+    const registry = loadPolicyPacks([
+      pack({
+        pack: "reaching-forward",
+        domains: [{ key: "d", name: "D", description: "A domain." }],
+        issues: [
+          { key: "i", domain: "d", name: "I", description: "An issue." },
+        ],
+        propositions: [
+          {
+            key: "p",
+            issue: "i",
+            name: "P",
+            question: "Should it?",
+            principles: [{ principle: "nobody-declared", bearing: "against" }],
+          },
+        ],
+      }),
+    ]);
+    expect(registry.report.rejections).toEqual([
+      {
+        pack: "reaching-forward",
+        where: 'proposition "p"',
+        reason:
+          'engages the principle "reaching-forward:nobody-declared", which no pack loaded before it declares',
+      },
+    ]);
+    expect(registry.propositions).toEqual([]);
+  });
+
+  it("puts a position in every domain, so no domain is a heading with nothing under it", () => {
+    const domainsWithPropositions = new Set(
+      catalog.propositionOrder.map(
+        (id) => catalog.issues[catalog.propositions[id]!.issueId]!.domainId,
+      ),
+    );
+    for (const domain of registry.domains) {
+      expect(domainsWithPropositions.has(domain.id)).toBe(true);
+    }
   });
 
   it("leaves no domain without a question in it", () => {
@@ -44,8 +190,9 @@ describe("what a build ships with", () => {
     for (const domain of registry.domains) {
       expect(domainsWithIssues.has(domain.id)).toBe(true);
     }
-    // Every issue is reported unused, because this pack ships no
-    // propositions. No domain is, which is the part that would be a defect.
+    // An issue with no proposition on it is reported unused, which is fair:
+    // not every one has a position authored yet. No DOMAIN is, which is the
+    // part that would be a defect.
     const unused = new Set(registry.report.packs[0]?.registeredButUnused ?? []);
     for (const domain of registry.domains) {
       expect(unused.has(domain.stableKey)).toBe(false);

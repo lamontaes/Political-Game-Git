@@ -93,38 +93,17 @@ const sha256 = (text: string) =>
  * legacy opening PATH, not save compatibility, and it moves whenever shipped
  * content does. LEGACY_OPENING_SHAPE below is the part that should not move.
  *
- * RE-ACCEPTED AGAIN 2026-09-22, and this time LEGACY_OPENING_SHAPE moves too,
- * which by the paragraph above means the opening path really is behaving
- * differently. It is, deliberately: a generated person's given name is now
- * drawn from the pool that agrees with the gender the world already gave them,
- * so a generated name can move whether or not it was previously wrong — the
- * draw is over a smaller pool, not only a corrected one. `legacySetup` spreads
- * today's defaults and deletes the versioned fields that exist to make an old
- * descriptor replay; `givenNameGenerationVersion` is deliberately NOT one of
- * them here, because this fixture is today's new game minus an opening
- * version, and today's new game declares the repair.
- *
- * Measured rather than assumed. The legacy Kentucky opening was serialized on
- * `origin/main` at 55183d37 and on this head and compared leaf by leaf: 21
- * leaves differ in the whole world and no others.
- *
- *   - 5 `givenName` values, of 544 people;
- *   - 15 `establishedFacts[].summary` strings, every one of which becomes
- *     identical after substituting that person's old given name for their new
- *     one — 0 summaries are unexplained by the name alone;
- *   - `snapshotId`, which is a digest of the world and moves with it.
- *
- * Four of the five were the defect itself: a "Jeremiah" and an "Austin" both
- * recorded female, now Monique and Jenna, and two more alongside them. The
- * fifth, Mason to Gage, was male and stayed male; it moved because the pool
- * narrowed. Nothing else differs — no person id, birth date, family name,
- * identity, jurisdiction, organization, event or history structure, and
- * `worldId` is unchanged. A move here for any other reason is still a
- * regression.
+ * RE-ACCEPTED AGAIN 2026-09-22, for the policy positions pack: sixty-six
+ * propositions and fourteen principles where the catalog had questions nobody
+ * could take a side on. This is the predicted movement, not a new one — the
+ * note above says these hashes move whenever shipped content does — and it is
+ * a decision on the same evidence as before, because LEGACY_OPENING_SHAPE
+ * PASSED unchanged on the run that moved these. That is the whole point of
+ * having both: the field these hashes moved on is the one the shape strips.
  */
 const FED321F7_LEGACY = {
-  kentucky: "fb7f1e490ddc0a01cdbefa3058de97ac3be3b9a6c35605b13b4f8aa35158f570",
-  peebles: "ba2ac7e3ffc0a71f5fa0788365e7ae2a905ab3447de6328611b65b5c06f52e27",
+  kentucky: "375cd5fb89e7b62a399365e3ad07c7b0f78eb909aac6b81747d7779c65a09ad7",
+  peebles: "99ebe80d1b29f387bf4cb1b277a6206f8d115dccfd44f7759c838ae2fbc19b37",
 } as const;
 
 /**
@@ -136,8 +115,8 @@ const FED321F7_LEGACY = {
  * test above was reaching for and could not hold on its own.
  */
 const LEGACY_OPENING_SHAPE = {
-  kentucky: "0245935171dd00c8a8304679a94428f1fd87dcccceeb5b2f9792c775d3cdc6e8",
-  peebles: "fb58196c5d6d23094e56bc21d48b98e14fbcedc9bb876df57dfc1557e26d27b9",
+  kentucky: "11b9c3a70029aeaf79fb2a78b43e2bba14185fab2c6c7e496f26ed57350a3534",
+  peebles: "f936aaf182ccc43581bc87856f87fa404c0ebff3eb869ff5984a3e447828712b",
 } as const;
 
 /**

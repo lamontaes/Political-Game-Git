@@ -1,4 +1,15 @@
 {
+  "answer": {
+    "summary": "A bill is about the provision meanings actually chosen, and every introduction route must preserve them: the player's own selections; an NPC's goals, knowledge, authority and feasible choices; coherent generated initial law; and explicitly isolated test fixtures. Alternatives come from those four routes, not from the docket. Docket context enables a position to be considered, it does not select every position automatically, and a sponsor's beliefs are not the whole bill — so do not load every alternative under an issue into an enacted law. Before wiring anything, trace the precise policyAlternativeIds type and its consumer: a procedural instrument can legitimately carry no substantive alternative when its procedural effect exists. Empty legacy alternative ids do not erase meaningful tax or bundle provisions, but a title and a summary are not a substitute for an actual effect.\n\nExtended 2026-09-22 15:58Z, answer C01 of ChatGPT's stress-test batch: bills-carry-no-policy-alternatives: register reusable proposition families in the existing loaded policy registry, with generated selected parameters/alternatives bound to actual provisions. Sourced issue vocabulary and authored simulated policy choices have different provenance. Current boundary checks loaded IDs: do not mint unadmitted per-bill definitions directly in a save. Preserve operative tax/budget provision meaning. One selected alternative drives text, evaluation and eventual effect; unselected options never execute.",
+    "sources": [
+      "ChatGPT stress-test connection answers, 2026-09-22, at source head 1c4992e8: /mnt/project-files/chatgpt-stress-test-answers-2026-09-22/STRESS-TEST-CONNECTION-ANSWERS.md",
+      "ChatGPT reply document 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, entry 'COUPLED WORLD — LIVE AUDIT PRIORITY AND ECONOMY CORRECTION', read 2026-09-22, paragraph 'BILL CONTENT ANSWER'",
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C01, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT (technical director), stress-test connection answers batch",
+    "answeredAt": "2026-09-22T15:57:02.000Z",
+    "stillOpen": "It answers where alternatives come from and gates the wiring, but does not name the consumer of policyAlternativeIds — that trace is ours to do. ChatGPT asks that this be received beside the existing law-effect work rather than as another compiler, and says the entry is source and worker evidence, not implementation or a passing test.\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
+  },
   "filedAt": "2026-09-22T15:20:00.000Z",
   "impact": "blocks-work",
   "lane": "hardcoded-content audit",
@@ -30,14 +41,5 @@
   ],
   "title": "What a bill should be about, and where its alternatives come from",
   "usableAnswer": "A rule for where the alternatives come from, and whether it is the same rule for all seven paths or differs between a player filing a bill, a scenario seeding one, and the institution generating one. If a bill may legitimately have no alternatives — a purely procedural measure, say — say so, because then the empty list is correct for some callers and the question becomes which ones.",
-  "whyItMatters": "The policy catalogue landed on 2026-09-22 with 13 domains and 127 issues, so the game now knows what politics is about. introduceMeasure accepts the list of alternatives a bill is choosing between, and not one of the seven callers passes it, so every bill in every game carries an empty list. A bill is not about anything. This is the connection between the catalogue and the thing a legislator actually does, and until it is made, the catalogue is reachable by nothing.",
-  "answer": {
-    "summary": "Answered as C01 in the 2026-09-22 stress-test batch. The full text is in the batch document under that heading.",
-    "sources": [
-      "ChatGPT stress-test connection answers, 2026-09-22, at source head 1c4992e8: /mnt/project-files/chatgpt-stress-test-answers-2026-09-22/STRESS-TEST-CONNECTION-ANSWERS.md"
-    ],
-    "answeredBy": "ChatGPT (technical director), stress-test connection answers batch",
-    "answeredAt": "2026-09-22T15:57:02.000Z",
-    "stillOpen": "Recorded here so the queue stops listing this as open. The implementing lane should read C01 in full rather than this line."
-  }
+  "whyItMatters": "The policy catalogue landed on 2026-09-22 with 13 domains and 127 issues, so the game now knows what politics is about. introduceMeasure accepts the list of alternatives a bill is choosing between, and not one of the seven callers passes it, so every bill in every game carries an empty list. A bill is not about anything. This is the connection between the catalogue and the thing a legislator actually does, and until it is made, the catalogue is reachable by nothing."
 }

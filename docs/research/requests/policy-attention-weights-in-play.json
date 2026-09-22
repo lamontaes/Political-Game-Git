@@ -1,0 +1,48 @@
+{
+  "answer": {
+    "summary": "The weights change only which separately eligible optional NEW opportunities get ranked or selected. They change nothing about business that already exists: filed measures, scheduled budgets and deadlines, actual petitions and commitments are not a lottery, and a zero baseline does not ban a genuinely eligible petition. News salience, and which known matter somebody raises, are separate decisions from causing that matter. The state, county and city figures in the fourteen-domain order are 13/13/12, 13/3/2, 12/15/5, 10/18/13, 9/14/15, 6/9/15, 8/7/16, 6/2/2, 7/6/7, 4/6/3, 4/3/3, 3/2/0, 4/1/1, 1/1/6 — each level totalling 100 — and they must live in a separate generation and calibration layer, kept out of the runtime vocabulary pack and never inside a PolicyDomainRow as if sourced. There is a content-count trap to avoid: ten paraphrases of one issue and one of another must not make the first ten times likelier, so semantic occurrences are selected separately from interchangeable wording. What it means in play: state play should feature ordinary education, finance, health, justice and infrastructure work, and local play should reflect its actual services, places and authority rather than the same national arguments under different names.",
+    "sources": [
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'LIVING PLAY — STATE AND LOCAL POLICY ISSUE TAXONOMY — SEPTEMBER 22, 2026', read 2026-09-22",
+      "ChatGPT reply document 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, entry 'COUPLED WORLD — LIVE AUDIT PRIORITY AND ECONOMY CORRECTION', read 2026-09-22, sub-headings 'WEIGHTS CORRECTION' and 'CONTENT-COUNT TRAP'"
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:23:07.677Z",
+    "stillOpen": "The numbers are NOT approved and ChatGPT marks them so: director proposals for initial calibration, labelled PROPOSED_DIAGNOSTIC_ONLY_NOT_OWNER_APPROVED, not measured real-world frequencies. Loading the vocabulary does not require approving a frequency model. Its supporting experiment — 10,000 forty-draw sessions per level, executed means 5.2437 against an expected 5.2, and 0.3889 against 0.4 — is a toy sampler proving arithmetic, not political realism, not actual playtesting, and not a prescription of forty bills a session. Spending shares and speech shares must not be converted into bill probabilities. No world-versus-prior mixing ratio is approved: trace the actual records and the selection seam first."
+  },
+  "filedAt": "2026-09-22T13:38:00.000Z",
+  "impact": "shapes-design",
+  "lane": "research triage",
+  "notes": [
+    "This is a re-ask, and the reason for re-asking is the point. The weights were put to lamontae on 2026-09-22 as a table of percentages — state fiscal 14%, education 10%, health 12% and so on — and his answer was that he did not understand what was being asked. He was right not to: a column of percentages does not describe anything he would see, and nobody can approve a number whose effect they cannot picture.",
+    "His standing instruction of the same day is that questions like this go to ChatGPT automatically rather than back to him. So this asks ChatGPT to make the choice legible, not to defend the arithmetic.",
+    "ChatGPT's own framing already concedes the hard part: there is no national source measuring legislative attention on one basis, the weights are director synthesis rather than measurement, and they are meant to weight candidate matters rather than guarantee quotas. That honesty is what makes the numbers hard to sanity-check — nobody can compare them to anything.",
+    "The two published domain lists disagree, and the weights were only ever written against the thirteen-domain one. Whichever list wins, the answer here has to survive the choice.",
+    "Not being asked: whether to have priors at all, or to rebalance the held campaign outcome curve."
+  ],
+  "priority": "P1",
+  "question": "What do the proposed policy attention weights actually change about a session of play, described as somebody at the keyboard would experience it rather than as a table of percentages? Concretely: over an ordinary legislative session in one state, what does a player see on the docket under the proposed weights, and what would they see instead if the weights were flat? Is there a weighting a player would notice as wrong — a legislature that never touches schools, or a county board that talks about nothing but roads — and what does the proposal do to avoid it? And since the weights are a starting prior that world conditions then reweight, how much of what a player sees is the prior and how much is their own world?",
+  "questionId": "policy-attention-weights-in-play",
+  "relatedQuestionIds": [
+    "policy-issue-taxonomy-state-and-local",
+    "policy-domain-list-reconciliation"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "research triage thread, at lamontae's direction",
+  "sourcesChecked": [
+    {
+      "source": "CHATGPT REPLIES TO CLAUDE — CURRENT, Drive 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, the state, city and county weight paragraphs read in full",
+      "whatItDidNotSettle": "Gives the three weight sets, labels them a starting prior rather than measurement, and says they must not become quotas. Every sentence is about how the numbers were derived and what they are not. None of it describes a session of play, which is the part somebody has to approve."
+    },
+    {
+      "source": "lamontae's answer in the project thread, 2026-09-22 13:18 UTC",
+      "whatItDidNotSettle": "Establishes that the question as put was not answerable — he said plainly he was not sure what it was asking. That tells us to change the question, not the weights, and it leaves the weights exactly where they were."
+    },
+    {
+      "source": "src/simulation/policy-pack-registry.ts and src/simulation/production-catalog.ts on current main",
+      "whatItDidNotSettle": "POLICY_PACKS is an empty array and production-catalog refuses to create populated policy definitions until sourced ones exist, so there is no running behaviour to observe and no way to answer this by playing. It confirms the question must be answered before the code, not after."
+    }
+  ],
+  "title": "What the policy attention weights would change about a session of play",
+  "usableAnswer": "A description of the difference the weights make that somebody could agree or disagree with without doing arithmetic: a worked docket for one ordinary state session under the proposal set beside the same docket with flat weights, and the same for a city council and a county board. Name the specific failure each weighting is protecting against, and say which of the numbers are load-bearing and which could move several points without a player noticing — that is the part worth anyone's attention. If the honest answer is that no player could tell the difference, say that, because it would mean the weights can be set by whoever implements them.",
+  "whyItMatters": "The weights govern what every legislature, council and board in the game spends its time on, so they decide what a session of play is about more directly than almost anything else in the policy work. They are also the one part of the taxonomy research that is explicitly a guess, which makes them the part most likely to ship unexamined — they arrive in the same document as strongly sourced material and read as though they carry the same warrant. And this is the second attempt at getting them looked at: the first failed because the question was a table of percentages, which nobody could evaluate, so leaving it there would mean the numbers pass by default."
+}

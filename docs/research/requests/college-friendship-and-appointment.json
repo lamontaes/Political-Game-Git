@@ -1,0 +1,55 @@
+{
+  "answer": {
+    "summary": "COLLEGE→FRIEND→STAFF: maintain the same acquaintance across school, moves and later recruitment. Actual skills, role requirements, availability, terms and consent still matter; friendship enables opportunity, not guaranteed hiring or qualifications. Keep education compact. The unspecified 'cheating' example needs its intended meaning before that content is added, without holding the unrelated relationship chain.",
+    "sources": [
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C26, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:58:00.000Z",
+    "stillOpen": "\"The unspecified 'cheating' example needs its intended meaning before that content is added, without holding the unrelated relationship chain.\"\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
+  },
+  "filedAt": "2026-09-22T15:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "Traced at head 95a7c575, every claim below read from source.",
+    "WHAT EXISTS. Choosing a college is real: applying creates an Organization for the actual institution, and the NCES identifier survives in its stableKey and in the accepted-terms record (src/education/study-provider.ts:151-186). Co-enrollment is also real and already forms relationships: studyPeers reads enrollments rather than inventing anybody (src/simulation/people-study.ts:63-91), and agreeing to work together writes a relationship interaction of kind work:shared-coursework (people-study.ts:265-285), reachable through a contextual scene. People made this way persist: they are ordinary Person records with deterministic ids (character-history.ts:417-447).",
+    "THE FIRST MISSING LINK. Nothing ever enrols a second person in a college. The three production writers of createEducationEnrollment enrol the controlled character (study-provider.ts:324, life-paths2.ts:333) or run a scheduled transition (character-history.ts:714); the only cohort anywhere is two children at the player's own school (production-world.ts:773-812, commented 'A school with one pupil in it is not a school'). So the machinery that would make a college friend works, and there is nobody at the college to be one. A test fixture has to enrol the second person by hand, which is the proof.",
+    "THE SECOND MISSING LINK. Where the institution is is not a fact the world holds. The Organization is created with locationJurisdictionId: null (study-provider.ts:166), and the life-paths2 route uses one shared fictional college for every player in every world (life-paths2-catalog.ts:49-164, life-paths2.ts:214). 'You went to Wyoming' survives only as words inside a name string. The shipped institution catalog does carry city and state (src/education/types.ts:10) but is a browser-side projection that never reaches the save.",
+    "APPOINTMENT. Five routes appoint somebody, and exactly one reads a relationship: recruitLifePathPerson refuses anybody the actor has no recorded interaction or kinship with (life-paths2.ts:1218-1246), and it is reachable from the player's Life Paths panel. It is a binary gate, not a weight: how close you are changes nothing. The other four read no relationship at all — campaign staff at filing takes a caller-supplied list and both production callers pass an empty one (campaign-projection.ts:690, nationwide-candidacy.ts:161); a chief of staff is chosen from three strangers generated on the spot with fabricated careers (governing/state-governing.ts:746-789); a municipal manager is caller-supplied and vote-gated; committee seats are dealt from a seeded ordering.",
+    "AND A DISCONNECT WORTH FIXING WITH IT. Recruiting somebody onto a campaign creates a work relationship but never adds it to CampaignRecord.staffWorkRelationshipIds, which is written once at filing and never again (campaigns.ts:716-819). Eight consumers read that field — weekly plans, strategy, integrity, and the bookkeeping review that discovers misuse of campaign funds (press/matters.ts:534). So a person you recruited is not staff to any of them, and since production campaigns file with no staff at all, the misconduct discovery path never runs in ordinary play.",
+    "CHEATING, ALL THREE SENSES, ANSWERED FROM THE CODE. Campaign and public-funds misconduct is real, modelled and player-reachable: three families (campaign funds to personal use, undisclosed conflict of interest, public money outside its purpose) at press/records.ts:128-137, a deliberate act the player can take at player/PressDeskPanel.tsx:447 that moves real money, and separate layers for the occurrence, the evidence, a public allegation and an institutional proceeding before real ethics bodies. Academic cheating does not exist: the whole corpus is one childhood option where a six-year-old accuses another child of cheating at a footrace the narration says was fair, and there is no exam, grade or credential to cheat at. Romantic infidelity does not exist either: the relationship vocabulary has no romantic namespace, and a partnership record carries only active or ended, with no reason.",
+    "MAPPING JUDGED, NOT LABELLED. Checked against ChatGPT's own connection-answers.json in the delivered package: thirty of its thirty-one answers carry requestIds naming the question they answer, and mine agree with all thirty. C26 is the one exception — it carries no requestId, and this lane matched it to this record on subject. If that is wrong, the answer above belongs somewhere else and nothing else in the batch moves. C26 is also the answer that held its cheating half rather than guessing; lamontae has since said cheating covers all three kinds, and that is filed separately as cheating-covers-all-three."
+  ],
+  "priority": "P1",
+  "question": "What should choosing a college do to a person's life, over the decades after it? Specifically: (1) Should a college have a cohort — other students enrolled alongside the player, who persist afterwards — and how many people is right for a life to carry out of it, given that the same question decides how crowded a life feels? (2) How should closeness earned years ago bear on whether somebody agrees to work for you now: as the binary 'do I know you at all' that ships today, or as a strength that changes whether they say yes, what they will do, and what they expect in return? (3) Should where you studied be a durable fact about a person — the state, the institution — that later life can read: who else is from there, whether you stayed or left, whether a stranger from the same place is warmer to you? (4) Cheating: the game models misuse of campaign and public money and nothing else. Is academic dishonesty a thing this game should have at all, and is infidelity, or are both deliberately out of scope?",
+  "questionId": "college-friendship-and-appointment",
+  "relatedQuestionIds": [
+    "relationship-dimensions-and-fading",
+    "npc-private-goal-pursuit",
+    "long-life-memory-consolidation"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "people and life thread",
+  "sourcesChecked": [
+    {
+      "source": "src/education/study-provider.ts and src/simulation/life-paths2.ts, the two routes into study",
+      "whatItDidNotSettle": "Establishes that the institution is a real recorded entity on one route and a single shared fiction on the other, and that neither records where it is. Says nothing about what a college ought to leave behind in a person."
+    },
+    {
+      "source": "src/simulation/people-study.ts, the classmate and shared-coursework path",
+      "whatItDidNotSettle": "Establishes that co-enrollment already forms a real relationship and that the mechanism is level-agnostic. Does not say how many classmates a life should carry, or which of them should still be there twenty years later."
+    },
+    {
+      "source": "The five appointment routes, read in full",
+      "whatItDidNotSettle": "Establishes that only one reads a relationship and only as a yes-or-no gate. Does not say what closeness should buy, which is the actual design question."
+    },
+    {
+      "source": "Repository-wide search for cheating in three senses",
+      "whatItDidNotSettle": "Establishes what exists: financial misconduct yes, academic dishonesty no, infidelity no. Does not say whether the two absences are gaps or deliberate scope."
+    }
+  ],
+  "title": "What college leaves behind: a cohort, a place, and who you can later appoint",
+  "usableAnswer": "For each of the four: a plain statement of what should be true, worked against one example a player would recognize. The cohort question needs a number or a range and a view on how many survive into adult life. The appointment question needs a position on whether closeness is a gate or a scale, and if a scale, what it changes. The place question needs a yes or no on whether the state of your college is a durable fact other systems may read. The cheating question needs a scope answer, not a mechanic.",
+  "whyItMatters": "This is the owner's first priority — relationships that persist and matter — asked as a concrete case. Both halves of the machinery already exist and are not joined: a college with nobody in it, and an appointment route that asks only whether you have ever met. The smallest honest change is to put people in the college, and the answer to how many and how close decides whether the rest of a life has anybody in it."
+}
