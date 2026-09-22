@@ -1,13 +1,20 @@
-import { SERVICE_FAMILIES } from "../legislation-service-families";
-import { FISCAL_INSTRUMENT_FAMILIES } from "../legislation-fiscal-families";
-import { PUBLIC_ADMINISTRATION_FAMILIES } from "../legislation-administration-families";
+import type { ProgramFamily } from "../legislation-program-families";
+import { programFamilies } from "../legislation-program-families";
 
-/** The program subjects a governing office can act on, from the drafting families. */
-export const PROGRAM_FAMILIES = [
-  ...SERVICE_FAMILIES,
-  ...FISCAL_INSTRUMENT_FAMILIES,
-  ...PUBLIC_ADMINISTRATION_FAMILIES,
-];
+/**
+ * The program subjects a governing office can act on: every drafting family.
+ *
+ * This used to hand-pick three of the five banks (service, fiscal and
+ * administration) and leave out infrastructure and resilience, with no record
+ * saying why; the legislature's list already had all five when it was
+ * written. So a governor's first-year agenda and budget season could never
+ * name transit, bridges, broadband, water service lines, disaster recovery,
+ * utility resilience or critical infrastructure, and an adopted appropriation
+ * for one of them reached the office titled "public work". One list, read
+ * from the canonical one, so a bank added for legislators reaches governors
+ * too.
+ */
+export const PROGRAM_FAMILIES: readonly ProgramFamily[] = programFamilies();
 
 export function programFamilyTitle(familyKey: string): string | null {
   return (
