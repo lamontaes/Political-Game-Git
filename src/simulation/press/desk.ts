@@ -624,6 +624,13 @@ function openResponseRequest(world: World, leadId: EntityId) {
   return settled ? null : request;
 }
 
+/*
+ * PLACEHOLDER: who comments and what an answer says are not researched. A
+ * non-player disputes an allegation against them, declines or stays silent,
+ * weighed only by whether they are named in the matter; personality is not
+ * consulted and no other answer is written, because nothing says what it
+ * would contain. Filed as `who-talks-to-reporters-and-what-they-say`.
+ */
 function produceNonPlayerResponses(world: World, lead: StoryLeadRecord): World {
   let next = world;
   const controlled =

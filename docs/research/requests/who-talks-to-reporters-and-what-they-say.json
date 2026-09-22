@@ -1,0 +1,19 @@
+{
+  "filedAt": "2026-09-22T23:58:00.000Z",
+  "impact": "shapes-design",
+  "lane": "How the world changes (press coverage)",
+  "priority": "P1",
+  "question": "When a reporter asks a person in the story for comment, what decides whether they answer, decline or stay silent, and what does an answer actually say? Which personality traits (from the game's trait catalogue) make someone seek out the press or avoid it, how does their office, party role or legal exposure change that, and for each kind of story (an election win or loss, a disaster response, an allegation, a policy decision) what are the realistic shapes of an on-the-record answer that a game can compose from recorded facts without inventing a quote?",
+  "questionId": "who-talks-to-reporters-and-what-they-say",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "How the world changes thread, on lamontae's 2026-09-22 23:44Z ruling: 'Decline to comment is just fine. If they really didn't decline to comment, you could have one person who's all about the media and one person who hates it.'",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/press/desk.ts produceNonPlayerResponses",
+      "whatItDidNotSettle": "A non-player chooses between disputing an allegation, declining and not responding, weighed only by whether they are named in the matter. Personality is not consulted, and there is no 'answer' option except a flat denial, because nothing says what an answer would contain."
+    }
+  ],
+  "title": "Who talks to reporters, and what an on-the-record answer says",
+  "usableAnswer": "A table mapping traits (and office or exposure) to a tendency to comment, decline or ignore, with the strength of each; and for each story kind, two to four answer shapes built only from facts the game records (for example 'thanked voters in [district]', 'said the response was under way'), marking which need something the game does not record.",
+  "whyItMatters": "Every non-player in a story now either declines or says nothing, so every story ends the same way. The owner wants people to differ by personality. Until this is answered the choice stays as it is and is marked as a placeholder in the code, rather than inventing quotes."
+}
