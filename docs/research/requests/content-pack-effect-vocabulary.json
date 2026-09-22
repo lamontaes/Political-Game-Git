@@ -1,4 +1,13 @@
 {
+  "answer": {
+    "answeredAt": "2026-09-22T13:48:00.000Z",
+    "answeredBy": "research direction, via the coordinator session",
+    "sources": [
+      "ChatGPT's record of decisions lamontae made on its side, relayed 2026-09-22 by this project's coordinator session. Secondhand by one step: it is a record of his decision rather than his words here."
+    ],
+    "stillOpen": "The protected boundary is named but not enumerated against this codebase. Which existing writers count as execution, identity, persistence and security for a pack's purposes is ours to derive from the code, and is engineering rather than research.",
+    "summary": "A content pack is not limited to a small whitelisted vocabulary of effects. Modders may change content AND rules. What stays protected is the boundary around execution, identity, persistence and security: a pack may say what the game is about and how it behaves, and may not run arbitrary code, forge or reassign identities, write outside its own persisted state, or reach past the security boundary. So the gap to close is not 'pick twenty verbs', it is 'declare what is protected and let the rest be authored'."
+  },
   "filedAt": "2026-09-22T04:36:00.000Z",
   "impact": "blocks-work",
   "lane": "hardcoded-content audit",
@@ -21,7 +30,7 @@
     },
     {
       "source": "The LifeSceneChoice and LifeSceneDefinition types in src/simulation/opening-life-content.ts, read on main 273fd2b8",
-      "whatItDidNotSettle": "Establishes exactly what a pack can say today, which is the floor this question builds from. A choice carries a key, a label, aftermath prose, elapsed minutes and optionally one of three approaches — ask, listen or direct. A scene's setting is a closed union of three: home, school, neighborhood. The validator refuses any field not on that list. So a modder can write prose, spend time and pick one of three tones in one of three rooms, and nothing they write can change anything. It does not say which of the absent effects matter most."
+      "whatItDidNotSettle": "Establishes exactly what a pack can say today, which is the floor this question builds from. A choice carries a key, a label, aftermath prose, elapsed minutes and optionally one of three approaches \u2014 ask, listen or direct. A scene's setting is a closed union of three: home, school, neighborhood. The validator refuses any field not on that list. So a modder can write prose, spend time and pick one of three tones in one of three rooms, and nothing they write can change anything. It does not say which of the absent effects matter most."
     },
     {
       "source": "The modularity audit, 2026-09-22, which installed a pack and round-tripped it through the save",
@@ -33,6 +42,6 @@
     }
   ],
   "title": "What a content pack's choice should be allowed to do",
-  "usableAnswer": "A ranked list of effects a choice may carry, each with the shape of its data and what it must not be able to reach. For example — and only as an example of the shape — 'change money by an amount, signed, bounded by what the character has' or 'record that this happened, under a key another pack can read'. For each, one line on why a modder needs it early or why it can wait. Also worth saying: which effects should be refused outright because a pack that could do them could break a save or tell a lie about the real world, since the game's own rule is that unknown facts refuse rather than default.",
-  "whyItMatters": "The game already ships a real, player-reachable mod loader and its effect vocabulary is empty. Everything expensive is already built — installation from the Options screen, namespacing, load-time validation, saves that carry packs across a reload — and a modder who installs one can write prose that changes nothing. This is the shortest distance between where the game is and the modding the owner has twice said he wants, and it is blocked on a design decision rather than on engineering."
+  "usableAnswer": "A ranked list of effects a choice may carry, each with the shape of its data and what it must not be able to reach. For example \u2014 and only as an example of the shape \u2014 'change money by an amount, signed, bounded by what the character has' or 'record that this happened, under a key another pack can read'. For each, one line on why a modder needs it early or why it can wait. Also worth saying: which effects should be refused outright because a pack that could do them could break a save or tell a lie about the real world, since the game's own rule is that unknown facts refuse rather than default.",
+  "whyItMatters": "The game already ships a real, player-reachable mod loader and its effect vocabulary is empty. Everything expensive is already built \u2014 installation from the Options screen, namespacing, load-time validation, saves that carry packs across a reload \u2014 and a modder who installs one can write prose that changes nothing. This is the shortest distance between where the game is and the modding the owner has twice said he wants, and it is blocked on a design decision rather than on engineering."
 }

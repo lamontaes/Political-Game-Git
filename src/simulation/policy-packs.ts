@@ -9,6 +9,7 @@ import type {
   KnowledgeSubjectDefinition,
   KnowledgeSubjectScope,
   PolicyDomainDefinition,
+  PolicyGovernmentLevel,
   PolicyIssueDefinition,
   PolicyPropositionDefinition,
   PoliticalPrincipleDefinition,
@@ -87,6 +88,12 @@ export interface PolicyIssueRow {
   readonly domain: string;
   readonly name: string;
   readonly description: string;
+  /**
+   * The levels this question is ordinarily decided at, where the pack's
+   * sources say so. Left out means the pack does not know, which a consumer
+   * must not read as "every level" — see `PolicyGovernmentLevel`.
+   */
+  readonly levels?: readonly PolicyGovernmentLevel[];
 }
 
 /** A specific thing that could be done about an issue. */
@@ -354,6 +361,7 @@ export function loadPolicyPacks(packs: readonly PolicyPack[]): PolicyRegistry {
           domain.id,
           row.name,
           row.description,
+          row.levels ?? [],
         ),
       );
       issuesByDomain.set(domainKey, (issuesByDomain.get(domainKey) ?? 0) + 1);

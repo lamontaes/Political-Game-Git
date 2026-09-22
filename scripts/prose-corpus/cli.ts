@@ -129,6 +129,35 @@ export function buildBaseline(
   };
 }
 
+/**
+ * The assertion surface of the coverage report, on its own.
+ *
+ * `coverage-report.md` is 545 lines and nearly all of it is a per-file list of
+ * where the unclassified candidates are — text that moves whenever anybody adds
+ * a file anywhere under `src/`. Two branches adding a source file each rewrite
+ * the same region of it, so merging them conflicts by construction, and on a
+ * night of frequent merges every branch touching `src/` is made un-mergeable
+ * within minutes of every merge.
+ *
+ * What actually has to be committed is much smaller. The guarantee the report
+ * carried is a tripwire: adding prose without regenerating fails the build,
+ * because the committed numbers have to agree with what the scanner measures
+ * now. That claim needs these five numbers and nothing else. So these are
+ * tracked and the report is not, which keeps the tripwire and drops the
+ * conflict surface by a factor of about seventy.
+ */
+function coverageCounts(report: CoverageReport): {
+  scannedFiles: number;
+  totalLiterals: number;
+  counts: Readonly<Record<string, number>>;
+} {
+  return {
+    scannedFiles: report.scannedFiles,
+    totalLiterals: report.totalLiterals,
+    counts: report.counts,
+  };
+}
+
 function coverageMarkdown(report: CoverageReport): string {
   const needing = report.candidates.filter(
     (candidate) => candidate.verdict === "NEEDS_CLASSIFICATION",
@@ -1089,9 +1118,39 @@ function main(): void {
     // it names, which it records on purpose. Saying "byte-identical" of all
     // eleven was the overstatement this check replaces.
     const drift: string[] = [];
-    const committed = (name: string): string | null => {
+    /**
+     * The artifact this branch OWNS, or nothing.
+     *
+     * Reading whatever sat on disk was unsound for an artifact the repository
+     * does not track. `git checkout` never touches an ignored file, so a clone
+     * that switches branches keeps the previous branch's regeneration in place
+     * and this check would compare the new branch's source against the old
+     * branch's output. It could report drift that is not this branch's, and —
+     * worse, because nothing prompts anybody to look — it could report a match
+     * for a reason unrelated to the code. An artifact the branch does not own
+     * is not weaker evidence; it is different evidence spelled the same way.
+     *
+     * So the file is read only when git tracks it. A tracked artifact is the
+     * branch's own, because switching branches rewrites it; an untracked one
+     * is skipped, whatever happens to be lying there. The comparison stays
+     * against the working tree, so regenerating and re-checking still works
+     * without committing first.
+     */
+    const tracked = (path: string): boolean => {
       try {
-        return readFileSync(join(OUT_DIR, name), "utf8");
+        execFileSync("git", ["ls-files", "--error-unmatch", "--", path], {
+          stdio: "ignore",
+        });
+        return true;
+      } catch {
+        return false;
+      }
+    };
+    const committed = (name: string): string | null => {
+      const path = `${OUT_DIR}/${name}`;
+      if (!tracked(path)) return null;
+      try {
+        return readFileSync(path, "utf8");
       } catch {
         return null;
       }
@@ -1107,15 +1166,18 @@ function main(): void {
       ],
       ["prose-inventory.csv", inventoryCsv(inventory)],
       ["coverage-report.md", coverageMarkdown(coverage)],
+      ["coverage-counts.json", stableJson(coverageCounts(coverage))],
       ["lint-summary.md", lintMarkdown(diagnostics, inventory)],
       ["lint-findings.json", stableJson(diagnostics.findings)],
       ["grounding-map.md", groundingMarkdown(buildGroundingMap(inventory))],
       ["metrics-baseline.json", stableJson(baseline)],
     ];
-    // Four of these artifacts are generated but not committed, because their
-    // committed revisions were most of the repository's history. An absent
-    // file is therefore normal rather than a fault, and the comparison is
-    // made against whichever copies are actually on disk.
+    // Six of these artifacts are generated but not committed: four because
+    // their committed revisions were most of the repository's history, and
+    // `coverage-report.md` and `README.md` because they conflicted on
+    // essentially every base merge while asserting nothing that
+    // `coverage-counts.json` does not assert in five numbers. An artifact
+    // absent from the commit is therefore normal rather than a fault.
     let compared = 0;
     for (const [name, expected] of exact) {
       const found = committed(name);
@@ -1169,6 +1231,10 @@ function main(): void {
   writeFileSync(
     join(OUT_DIR, "coverage-report.md"),
     coverageMarkdown(coverage),
+  );
+  writeFileSync(
+    join(OUT_DIR, "coverage-counts.json"),
+    stableJson(coverageCounts(coverage)),
   );
   // Only the candidates a person still has to judge are listed in full. The
   // excluded ones are summarised by file and reason: 3.8MB of "this is a key"
