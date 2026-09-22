@@ -16,6 +16,8 @@ import { PersonAppearanceControls } from "./PersonAppearanceControls";
 import { wearableChoicesIn } from "./SavedAppearance";
 import { PersonPortrait } from "./PersonPortrait";
 import { WardrobeFigure } from "./WardrobeFigure";
+import { PreparedArtworkPreload } from "./ModularCharacter";
+import { resolvePersonPortrait } from "../presentation/person-visual";
 import "./creator-appearance.css";
 
 /** Reuses the personal wardrobe transaction on an isolated prospective record. */
@@ -120,6 +122,20 @@ export function CreatorAppearanceStep({
                           libraries={libraries}
                         />
                       )
+                    : undefined
+                }
+                renderPreload={
+                  libraries
+                    ? (appearance) => {
+                        // The preview and portrait draw this same plan.
+                        const visual = resolvePersonPortrait(
+                          { ...person, appearance },
+                          { libraries },
+                        );
+                        return visual.kind === "modular" ? (
+                          <PreparedArtworkPreload plans={[visual.plan]} />
+                        ) : null;
+                      }
                     : undefined
                 }
                 renderHairThumbnail={
