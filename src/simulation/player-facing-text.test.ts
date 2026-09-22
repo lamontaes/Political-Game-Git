@@ -5,6 +5,8 @@ import { createScenarioWorld } from "./demo";
 import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
 import { makeIsoDate } from "./dates";
 import { OFFICE_QUALIFICATION_ROWS } from "./office-qualifications.generated";
+import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
+import { regularSessionActionRefusal } from "../presentation/legislative-session-window";
 import { resolveCapability } from "./rule-capability-resolver";
 import {
   QUALIFICATION_SOURCED_STATE_KEYS,
@@ -280,6 +282,29 @@ describe("player-facing text carries no source reference", () => {
               `${stateKey} refusal on ${onDate}: ${found.join(", ")} — "${resolution.refusal}"`,
             );
           }
+        }
+      }
+    }
+    expect(failures).toEqual([]);
+  });
+
+  /*
+   * A seventh producer, found by grepping for provenance interpolated into a
+   * template rather than by reading the call graph, which is how the fifth was
+   * missed. The session refusal is reached from four different legislative
+   * surfaces and named the provision its deadline came from.
+   */
+  it("keeps the regular-session refusal free of it", () => {
+    const failures: string[] = [];
+    for (const pack of LEGISLATIVE_RULE_PACKS) {
+      for (const onDate of DATES) {
+        const refusal = regularSessionActionRefusal(pack, makeIsoDate(onDate));
+        if (refusal === null) continue;
+        const found = offences(refusal, needles);
+        if (found.length > 0) {
+          failures.push(
+            `${pack.jurisdictionKey} on ${onDate}: ${found.join(", ")} — "${refusal}"`,
+          );
         }
       }
     }
