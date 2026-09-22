@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 3139 |
-| INTENTIONALLY_NON_PLAYER_FACING | 7206 |
-| DIAGNOSTIC_OR_TEST | 8194 |
-| **NEEDS_CLASSIFICATION** | **10693** |
+| INTENTIONALLY_NON_PLAYER_FACING | 7204 |
+| DIAGNOSTIC_OR_TEST | 8243 |
+| **NEEDS_CLASSIFICATION** | **10792** |
 
-Scanned 1204 files holding 115432 string
+Scanned 1208 files holding 115730 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -48,6 +48,7 @@ literals in total; the table counts only those that read like a sentence.
 | 117 | `src/simulation/civil-personnel-actions.ts` |
 | 111 | `src/presentation/guide-terms.ts` |
 | 99 | `src/simulation/governing/state-governing.ts` |
+| 97 | `src/simulation/school-names.ts` |
 | 94 | `src/simulation/adult-situations.ts` |
 | 87 | `src/simulation/policy.ts` |
 | 84 | `src/maps/political-map-model.ts` |
@@ -170,6 +171,7 @@ literals in total; the table counts only those that read like a sentence.
 | 19 | `src/simulation/legislative-member-decisions.ts` |
 | 19 | `src/simulation/life-integrity.ts` |
 | 19 | `src/simulation/life-mind-content.ts` |
+| 19 | `src/simulation/life-places.ts` |
 | 19 | `src/simulation/setup-young-life-bank.ts` |
 | 19 | `src/simulation/situation-profiles.ts` |
 | 19 | `src/simulation/world.ts` |
@@ -191,7 +193,6 @@ literals in total; the table counts only those that read like a sentence.
 | 17 | `src/presentation/legislative-member-seat.ts` |
 | 17 | `src/simulation/executive-governing-kernels.ts` |
 | 17 | `src/simulation/incident-response.ts` |
-| 17 | `src/simulation/life-places.ts` |
 | 17 | `src/simulation/people-family-plan.ts` |
 | 17 | `src/simulation/people-trait-definitions.ts` |
 | 17 | `src/ui/CharacterProofView.tsx` |

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { residentPlaceName } from "./life-places";
+import { residentNameForJurisdiction, residentPlaceName } from "./life-places";
 import { requireLocalityInState } from "../presentation/new-game-geography";
 
 /**
@@ -58,5 +58,25 @@ describe("the name a resident uses", () => {
   it("does not disturb a town that was already right", () => {
     const springfield = requireLocalityInState("US-IL", "Springfield");
     expect(springfield.displayName).toBe("Springfield, Illinois");
+  });
+});
+
+describe("the town name inside a jurisdiction record", () => {
+  it.each([
+    // The government keeps its own real name; a person is from the town.
+    ["Lexington-Fayette, Kentucky", "Kentucky", "Lexington"],
+    [
+      "Nashville-Davidson metropolitan government (balance), Tennessee",
+      "Tennessee",
+      "Nashville",
+    ],
+    ["Springfield, Illinois", "Illinois", "Springfield"],
+    ["Sangamon County, Illinois", "Illinois", "Sangamon County"],
+    // A parent the state table does not carry leaves the stem alone rather
+    // than guessing at a state.
+    ["Somewhere, Freedonia", "Freedonia", "Somewhere"],
+    ["Somewhere", null, "Somewhere"],
+  ])("reads %s as %s", (name, parent, expected) => {
+    expect(residentNameForJurisdiction(name, parent)).toBe(expected);
   });
 });

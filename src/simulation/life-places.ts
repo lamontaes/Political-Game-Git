@@ -451,6 +451,40 @@ export function residentPlaceName(censusName: string, usps: string): string {
   return countyNamesFor(usps).has(tail) ? head.trim() : withoutUnit;
 }
 
+let uspsByStateName: ReadonlyMap<string, string> | null = null;
+
+/**
+ * The town name inside a jurisdiction record, as a resident says it.
+ *
+ * A jurisdiction is the government, so its `name` is allowed to be the filing
+ * name — the Lexington-Fayette Urban County Government is a real body with
+ * that real name, and `run-a` asserts it. But a generated school, a household
+ * label or anything else naming the place a person is FROM wants the
+ * resident's name, and got "South Lexington-Fayette High School" from the
+ * government's. Same three-step rule as `residentPlaceName`; the state comes
+ * from the record's own parent.
+ */
+export function residentNameForJurisdiction(
+  jurisdictionName: string,
+  parentName: string | null,
+): string {
+  const suffix = parentName === null ? "" : `, ${parentName}`;
+  const stem =
+    suffix.length > 0 && jurisdictionName.endsWith(suffix)
+      ? jurisdictionName.slice(0, jurisdictionName.length - suffix.length)
+      : jurisdictionName;
+  if (!uspsByStateName) {
+    uspsByStateName = new Map(
+      Object.entries(STATES).map(([code, state]) => [state.name, code]),
+    );
+  }
+  const usps =
+    parentName === null ? undefined : uspsByStateName.get(parentName);
+  return usps === undefined
+    ? stem.trim()
+    : residentPlaceName(stem.trim(), usps).trim();
+}
+
 function nationwideCounties(): ReadonlyMap<string, LifePlace> {
   countyRows ??= JSON.parse(NATIONAL_COUNTIES_ROWS) as readonly NationwideRow[];
   countyPlaces ??= new Map(
