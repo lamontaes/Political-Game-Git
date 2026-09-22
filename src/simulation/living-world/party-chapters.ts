@@ -19,11 +19,12 @@ import {
 import { organizationParticipationStateAt } from "../life-queries";
 import {
   homeLocalGovernmentUnits,
-  localGovernmentDisplayName,
+  localGovernmentAreaName,
 } from "../nationwide-world/local-governments";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { recordEventKnowledge } from "../records";
+import { residentNameForJurisdiction } from "../life-places";
 import { SeededRng } from "../rng";
 import {
   cancelScheduledActivity,
@@ -136,9 +137,14 @@ export function ensureHomePartyChapters(
   if (parties.length === 0) return world;
 
   const county = homeLocalGovernmentUnits(world, playerPersonId).counties[0];
+  // The place as a resident says it: "Baltimore County Democrats", never the
+  // listing's "County of Baltimore", and never a town with its state attached.
+  const home = world.jurisdictions[player.homeJurisdictionId];
   const area = county
-    ? localGovernmentDisplayName(county)
-    : (world.jurisdictions[player.homeJurisdictionId]?.name ?? null);
+    ? localGovernmentAreaName(county)
+    : home
+      ? residentNameForJurisdiction(home.name, home.parentName ?? null)
+      : null;
   if (!area) return world;
   const date = world.currentDate;
   const rng = new SeededRng(world.seed).fork(

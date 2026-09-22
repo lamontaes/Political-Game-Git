@@ -7,7 +7,11 @@ import {
 } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
 import { createOrganization } from "../life";
-import { lifePlaceByJurisdictionId, lifePlaceByKey } from "../life-places";
+import {
+  lifePlaceByJurisdictionId,
+  lifePlaceByKey,
+  residentNameForJurisdiction,
+} from "../life-places";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import type { EntityId, IsoDate, Jurisdiction, World } from "../types";
 import { governingJurisdictionIdFor } from "./government-jurisdiction";
@@ -156,6 +160,22 @@ export function localGovernmentDisplayName(
           ),
     )
     .join(" ");
+}
+
+/**
+ * The government's area as a resident says it: "Baltimore County", not the
+ * listing's filing name "County of Baltimore". For a party chapter, a club or
+ * anything else named for the place rather than for the government itself.
+ * Falls back to the display name for a unit with no seated place.
+ */
+export function localGovernmentAreaName(unit: GovernmentUnitIdentity): string {
+  const jurisdiction = jurisdictionForUnit(unit);
+  return jurisdiction
+    ? residentNameForJurisdiction(
+        jurisdiction.name,
+        jurisdiction.parentName ?? null,
+      )
+    : localGovernmentDisplayName(unit);
 }
 
 export function localGovernmentOrganizationKey(
