@@ -19,17 +19,34 @@ import { readPng, writePng } from "./pg-modular-intake";
  * none, and the same input bytes and parameters always produce the same output
  * bytes. Nothing here draws, paints, infills or generates.
  *
- * How it separates, and why it is safe to do by machine on these four:
+ * How it separates, and the two things that had to be true at once:
  *
- * - The figure's skin is chromatic (warm, well off the grey axis); the chair is
- *   neutral grey and near-black outline. So skin is found by saturation, never
- *   by position.
- * - Below the seat plane a pixel is kept only if it lies within
- *   `OUTLINE_REACH_PX` of skin, which is the body's own outline and shading,
- *   and is dropped otherwise, which is the chair. The chair legs run clear of
- *   the calves, so they fall outside that reach; the body's outline never does.
+ * - NOTHING OF THE FIGURE MAY BE TAKEN. Lit body tone is found by colour
+ *   (chromatic and light, never by position), and everything within
+ *   `OUTLINE_REACH_PX` of it is protected, which is the figure's own outline
+ *   and shading. That protection is absolute: a protected pixel is never
+ *   cleared, whatever else is true of it.
+ * - WHAT IS TAKEN MUST BE THE CHAIR. A pixel is cleared only if it is
+ *   CONNECTED, through unprotected pixels, to the chair's own neutral-grey
+ *   fill. An unprotected dark pixel that reaches no chair fill is left alone,
+ *   so a shadow of the figure's that happens to sit clear of the body is kept
+ *   rather than guessed at.
  * - Nothing ABOVE the seat plane is touched at all, which is what protects the
  *   garment: shorts and tops are neutral grey too, and they live above it.
+ *
+ * KNOWN INCOMPLETE. This errs toward the figure, so it under-removes: the
+ * chair's own dark outline is drawn in the same brown as the body's, and where
+ * that outline falls inside the protected band it survives. The result is a
+ * residual chair contour on some plates. That is a visible defect and these
+ * derivatives are NOT approvable until it is gone; it is recorded here and in
+ * the report rather than left for someone to find.
+ *
+ * The first version of this took roughly a pixel of the figure's own contour
+ * everywhere below the seat line, and the whole foot outline, because it asked
+ * for chroma above 45 and the feet are drawn desaturated at 19 to 24. It was
+ * caught by rendering ONLY the removed pixels rather than looking at the
+ * result. Looking at a result tells you what survived, not what went; anything
+ * subtractive should be checked the second way.
  *
  * What this does NOT do. It does not touch a plate whose prop is a DESK: a desk
  * is painted across the lap and forearms, so separating it would mean inventing
@@ -51,16 +68,23 @@ export const SEPARATION_REPORT_PATH =
 /** Alpha at or below this is already background. */
 const ALPHA_FLOOR = 32;
 
-/** Chroma above this, with a warm red channel, reads as skin rather than chair. */
-const SKIN_MIN_CHROMA = 45;
-const SKIN_MIN_RED = 120;
+/**
+ * Lit body tone: chromatic and light. The thresholds are deliberately generous
+ * because the cost of missing body tone is taking part of the figure. The feet
+ * in these plates sit at chroma 19 and were missed by an earlier, tighter test.
+ */
+const BODY_MIN_CHROMA = 15;
+const BODY_MIN_VALUE = 110;
+
+/** The chair's own fill is neutral: the grey axis, with essentially no chroma. */
+const CHAIR_MAX_CHROMA = 10;
 
 /**
- * How far the body's own outline and shading reach from lit skin, in pixels.
- * Two is the drawn line weight at this master size; the chair legs stand clear
- * of the calves by far more, which is what makes the two separable at all.
+ * How far the figure's own outline and shading reach from lit body tone, in
+ * pixels. Three covers the drawn line weight at this master size with a margin,
+ * and erring high costs only residual chair, never part of the person.
  */
-const OUTLINE_REACH_PX = 2;
+const OUTLINE_REACH_PX = 3;
 
 export interface SeparationSubject {
   /** The owner's plate. Read, never written. */
@@ -122,20 +146,34 @@ export interface SeparationResult {
 
 type Bitmap = Awaited<ReturnType<typeof readPng>>;
 
-function isSkin(r: number, g: number, b: number, a: number): boolean {
-  if (a <= ALPHA_FLOOR) return false;
-  const chroma = Math.max(r, g, b) - Math.min(r, g, b);
-  return chroma > SKIN_MIN_CHROMA && r > SKIN_MIN_RED;
+function chroma(r: number, g: number, b: number): number {
+  return Math.max(r, g, b) - Math.min(r, g, b);
 }
 
-/**
- * The mask of pixels the body's own line work can occupy: lit skin, plus
- * everything within `OUTLINE_REACH_PX` of it. Computed as a plain square
- * dilation so the result is exactly reproducible.
- */
-export function bodyReachMask(bitmap: Bitmap): Uint8Array {
+function isBodyTone(r: number, g: number, b: number, a: number): boolean {
+  if (a <= ALPHA_FLOOR) return false;
+  return (
+    chroma(r, g, b) >= BODY_MIN_CHROMA && Math.max(r, g, b) >= BODY_MIN_VALUE
+  );
+}
+
+function isChairFill(r: number, g: number, b: number, a: number): boolean {
+  if (a <= ALPHA_FLOOR) return false;
+  return chroma(r, g, b) < CHAIR_MAX_CHROMA;
+}
+
+interface PlateMasks {
+  readonly opaque: Uint8Array;
+  /** Lit body tone plus its outline reach. Never cleared, under any condition. */
+  readonly protectedMask: Uint8Array;
+  readonly chairFill: Uint8Array;
+}
+
+export function platemasks(bitmap: Bitmap): PlateMasks {
   const { width, height } = bitmap;
-  const skin = new Uint8Array(width * height);
+  const opaque = new Uint8Array(width * height);
+  const bodyTone = new Uint8Array(width * height);
+  const chairFill = new Uint8Array(width * height);
   for (let y = 0; y < height; y += 1) {
     for (let x = 0; x < width; x += 1) {
       const rgba = bitmap.getPixelRGBA(x, y);
@@ -143,23 +181,67 @@ export function bodyReachMask(bitmap: Bitmap): Uint8Array {
       const g = (rgba >> 16) & 0xff;
       const b = (rgba >> 8) & 0xff;
       const a = rgba & 0xff;
-      if (isSkin(r, g, b, a)) skin[y * width + x] = 1;
+      const i = y * width + x;
+      if (a <= ALPHA_FLOOR) continue;
+      opaque[i] = 1;
+      if (isBodyTone(r, g, b, a)) bodyTone[i] = 1;
+      else if (isChairFill(r, g, b, a)) chairFill[i] = 1;
     }
   }
-  const reach = new Uint8Array(width * height);
+  // Square dilation, so the result is exactly reproducible.
+  const protectedMask = new Uint8Array(width * height);
   for (let y = 0; y < height; y += 1) {
     for (let x = 0; x < width; x += 1) {
-      if (skin[y * width + x] !== 1) continue;
+      if (bodyTone[y * width + x] !== 1) continue;
       const y0 = Math.max(0, y - OUTLINE_REACH_PX);
       const y1 = Math.min(height - 1, y + OUTLINE_REACH_PX);
       const x0 = Math.max(0, x - OUTLINE_REACH_PX);
       const x1 = Math.min(width - 1, x + OUTLINE_REACH_PX);
       for (let yy = y0; yy <= y1; yy += 1) {
-        for (let xx = x0; xx <= x1; xx += 1) reach[yy * width + xx] = 1;
+        for (let xx = x0; xx <= x1; xx += 1) protectedMask[yy * width + xx] = 1;
       }
     }
   }
-  return reach;
+  return { opaque, protectedMask, chairFill };
+}
+
+/**
+ * The chair: every unprotected opaque pixel reachable, eight-connected, from
+ * the chair's own neutral fill without crossing a protected pixel.
+ *
+ * Reachability rather than colour is what lets the chair's dark outline go
+ * while a dark pixel belonging to the figure stays: the chair's outline hangs
+ * off chair fill, and a mark of the figure's does not.
+ */
+export function chairRegion(bitmap: Bitmap, masks: PlateMasks): Uint8Array {
+  const { width, height } = bitmap;
+  const { opaque, protectedMask, chairFill } = masks;
+  const reached = new Uint8Array(width * height);
+  const queue: number[] = [];
+  for (let i = 0; i < width * height; i += 1) {
+    if (chairFill[i] === 1 && protectedMask[i] !== 1) {
+      reached[i] = 1;
+      queue.push(i);
+    }
+  }
+  for (let head = 0; head < queue.length; head += 1) {
+    const i = queue[head]!;
+    const y = Math.floor(i / width);
+    const x = i - y * width;
+    for (let dy = -1; dy <= 1; dy += 1) {
+      for (let dx = -1; dx <= 1; dx += 1) {
+        const ny = y + dy;
+        const nx = x + dx;
+        if (ny < 0 || ny >= height || nx < 0 || nx >= width) continue;
+        const j = ny * width + nx;
+        if (reached[j] === 1 || opaque[j] !== 1 || protectedMask[j] === 1)
+          continue;
+        reached[j] = 1;
+        queue.push(j);
+      }
+    }
+  }
+  return reached;
 }
 
 export async function separateOne(
@@ -169,23 +251,23 @@ export async function separateOne(
   const sourceFile = path.join(repositoryRoot, subject.sourcePath);
   const bitmap = await readPng(sourceFile);
   const { width, height } = bitmap;
-  const reach = bodyReachMask(bitmap);
+  const masks = platemasks(bitmap);
+  const chair = chairRegion(bitmap, masks);
   const seatPlaneRow = Math.round(subject.seatPlaneYFraction * height);
 
   let cleared = 0;
   let kept = 0;
   for (let y = seatPlaneRow; y < height; y += 1) {
     for (let x = 0; x < width; x += 1) {
-      const rgba = bitmap.getPixelRGBA(x, y);
-      const a = rgba & 0xff;
-      if (a <= ALPHA_FLOOR) continue;
-      if (reach[y * width + x] === 1) {
+      const i = y * width + x;
+      if (masks.opaque[i] !== 1) continue;
+      if (chair[i] !== 1) {
         kept += 1;
         continue;
       }
       // Clear ALPHA only. The colour channels are left exactly as drawn, so the
       // operation is reversible from the original and adds no invented colour.
-      bitmap.setPixelRGBA(x, y, rgba & 0xffffff00);
+      bitmap.setPixelRGBA(x, y, bitmap.getPixelRGBA(x, y) & 0xffffff00);
       cleared += 1;
     }
   }
@@ -234,11 +316,14 @@ export async function separateSeatedChairs(
         schema: "seated-chair-separation-report-v1",
         generator: SEATED_CHAIR_SEPARATION_VERSION,
         operation:
-          "Deterministic alpha-clearing derivative of the owner's wave-a seated plates. Pixels are removed, never added; no colour is invented and nothing is drawn. Each output is a CANDIDATE awaiting the owner's own look, not released art.",
+          "Deterministic alpha-clearing derivative of the owner's wave-a seated plates. Pixels are removed, never added; no colour is invented and nothing is drawn. Lit body tone and everything within the outline reach of it is never cleared, and a pixel is cleared only where it is connected to the chair's own neutral fill. Each output is a CANDIDATE awaiting the owner's own look, not released art.",
+        known_incomplete:
+          "This errs toward the figure and so under-removes. The chair's dark outline is drawn in the same brown as the body's, and where it falls inside the protected band it survives, leaving a residual chair contour on some plates. These derivatives are NOT approvable until that is gone. Verify any change by rendering ONLY the removed pixels: looking at the result tells you what survived, not what went, and an earlier version of this took the whole foot outline without that being visible in the result.",
         parameters: {
           alpha_floor: ALPHA_FLOOR,
-          skin_min_chroma: SKIN_MIN_CHROMA,
-          skin_min_red: SKIN_MIN_RED,
+          body_min_chroma: BODY_MIN_CHROMA,
+          body_min_value: BODY_MIN_VALUE,
+          chair_max_chroma: CHAIR_MAX_CHROMA,
           outline_reach_px: OUTLINE_REACH_PX,
         },
         release_status: "CANDIDATE_REFERENCE_ONLY",
