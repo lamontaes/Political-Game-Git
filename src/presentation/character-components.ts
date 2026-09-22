@@ -1811,6 +1811,23 @@ export function liftCandidatesForReview(
         record.candidate_component !== undefined,
     )
     .map((record) => {
+      // KNOWN LATENT DEFECT, unreached today, left unfixed deliberately.
+      // `published` is truthy when it is an EMPTY array, and Math.max of an
+      // empty list is -Infinity, so an empty frozenGenerations would give every
+      // lifted record a catalog_generation of -Infinity: a number no generation
+      // comparison downstream can ever match, producing a silently empty
+      // catalog rather than saying why. The membership check above does not
+      // catch it, because an empty `published` reduces to 0 and an empty
+      // `membership` has size 0, so the two agree.
+      //
+      // Every caller today passes a non-empty list
+      // (people-visual4-review.ts:128, engine-people29-review.ts:53,
+      // morning23-catalog-continuity.test.ts:99), which is why this is a note
+      // and not a patch: choosing what generation an empty published set should
+      // yield is a semantic decision for whoever owns generation assignment,
+      // and guessing at it in this hot path is worse than recording it here.
+      // Found 2026-09-22 while auditing the compiled-art path for places where
+      // an ABSENCE of material was being reported as a failed verification.
       const generation = published
         ? (membership.get(record.asset_id) ??
           Math.max(...published.map((g) => g.generation)) + 1)
