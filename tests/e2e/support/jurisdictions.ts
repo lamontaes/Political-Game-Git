@@ -36,9 +36,33 @@ export interface TestJurisdiction {
   readonly chamberKeys: readonly string[];
   /** Whether the municipal corpus carries a city government for the place. */
   readonly municipal: boolean;
+  /** What an ordinary forty-year-old can do about a seat here, today. */
+  readonly candidacy: CandidacyToday;
   /** Why this place is in the set, rather than any other town. */
   readonly note: string;
 }
+
+/**
+ * What the game actually lets a new life do about a legislative seat.
+ *
+ * Recorded per state rather than assumed, because running the set showed it is
+ * not the same everywhere, and the differences are findings rather than noise.
+ * Four of the nine refuse an ordinary forty-year-old a candidacy on the
+ * January 5, 2026 start date, for three different reasons, and one of those
+ * reasons says nothing to the player at all.
+ *
+ * `because` is asserted against what the campaign surface actually says, so a
+ * state whose refusal changes shape fails rather than passing on the old
+ * wording, and a state that starts working fails too and can be promoted to
+ * `stands`.
+ */
+export type CandidacyToday =
+  /** Seats on offer, and the lower chamber can be filed for. */
+  | { readonly kind: "stands" }
+  /** No office browser at all; the surface says why, or should. */
+  | { readonly kind: "no-seats"; readonly because: string }
+  /** Seats on offer, but filing is not available; the surface says why. */
+  | { readonly kind: "cannot-file"; readonly because: string };
 
 export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
   {
@@ -49,6 +73,7 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
     packId: "us-ky-general-assembly-v1",
     chamberKeys: ["house", "senate"],
     municipal: true,
+    candidacy: { kind: "stands" },
     note: "A consolidated city-county: one urban county government where most places have a city and a county separately. Kept as the long-standing regression scenario.",
   },
   {
@@ -59,6 +84,11 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
     packId: "us-ne-legislature-v1",
     chamberKeys: ["legislature"],
     municipal: false,
+    candidacy: {
+      kind: "no-seats",
+      because:
+        "was observed in current source text on 2026-09-09; that later observation does not establish the rule on 2026-01-05",
+    },
     note: "The one unicameral state legislature. A route that assumes a lower and an upper chamber cannot run here at all.",
   },
   {
@@ -69,6 +99,7 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
     packId: "us-nv-legislature-v1",
     chamberKeys: ["assembly", "senate"],
     municipal: true,
+    candidacy: { kind: "stands" },
     note: "Nevada's lower chamber is an Assembly, not a House. A route that names 'house' by its literal key silently skips this state.",
   },
   {
@@ -79,6 +110,11 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
     packId: "us-ak-legislature-v1",
     chamberKeys: ["house", "senate"],
     municipal: true,
+    candidacy: {
+      kind: "no-seats",
+      because:
+        "was observed in the acquired source on 2026-09-06; that later observation does not establish minimum age on 2026-01-05",
+    },
     note: "A unified municipality, and a state with boroughs rather than counties.",
   },
   {
@@ -89,6 +125,10 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
     packId: "us-mn-legislature-v1",
     chamberKeys: ["house", "senate"],
     municipal: false,
+    candidacy: {
+      kind: "cannot-file",
+      because: "Upcoming election timing is not established in this save",
+    },
     note: "A large city the municipal corpus does not carry, so the place has a state legislature but no city government record.",
   },
   {
@@ -99,6 +139,7 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
     packId: "us-md-general-assembly-v1",
     chamberKeys: ["house", "senate"],
     municipal: true,
+    candidacy: { kind: "stands" },
     note: "An independent city, belonging to no county.",
   },
   {
@@ -109,6 +150,11 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
     packId: "us-oh-general-assembly-v1",
     chamberKeys: ["house", "senate"],
     municipal: true,
+    candidacy: {
+      kind: "no-seats",
+      because:
+        "The game has not recorded when this character came to live here, so it will not guess whether they qualify",
+    },
     note: "An ordinary city inside an ordinary county, which is what most of the country looks like.",
   },
   {
@@ -119,6 +165,7 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
     packId: "us-il-general-assembly-v1",
     chamberKeys: ["house", "senate"],
     municipal: false,
+    candidacy: { kind: "stands" },
     note: "A state capital that is not its largest city, and no municipal record.",
   },
   {
@@ -129,6 +176,7 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
     packId: "us-mo-general-assembly-v1",
     chamberKeys: ["house", "senate"],
     municipal: false,
+    candidacy: { kind: "stands" },
     note: "A city spanning several counties, and a name that also names a city in another state.",
   },
 ];

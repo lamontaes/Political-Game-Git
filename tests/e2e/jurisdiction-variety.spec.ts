@@ -26,39 +26,6 @@ import {
  */
 test.setTimeout(120_000);
 
-/**
- * States where an ordinary 2026-01-05 life is refused a candidacy today.
- *
- * This is a recorded finding, not a tolerance. Running this set the first time
- * showed five of the nine states draw no office browser at all: the eligibility
- * layer reads the constitutional provision that establishes the seat, sees it
- * was observed in source in September 2026, and refuses to apply it to a world
- * standing on January 5, 2026 — for instance Nebraska's
- *
- *   "Neb. Const. art. III, § 8 was observed in current source text on
- *    2026-09-09; that later observation does not establish the rule on
- *    2026-01-05."
- *
- * The provenance rule itself is right, and quietly relaxing it to make this
- * file green would be weakening a contract to protect a test. The rule packs
- * for these states do carry their chambers — `candidacyAuthority` returns
- * them — so what is missing is source observed at or before the world's own
- * start date, which is corpus work in another lane, not a test fix.
- *
- * So the set is named here and asserted in both directions. A state that
- * starts offering its seats fails this file (delete it from the set, and the
- * ordinary assertions below take over). A state that stops offering them
- * fails too. Either way the change is deliberate and visible, rather than a
- * jurisdiction going dark unnoticed.
- */
-const REFUSED_BY_LATER_SOURCE: ReadonlySet<string> = new Set([
-  "Omaha, Nebraska",
-  "Anchorage, Alaska",
-  "Minneapolis, Minnesota",
-  "Baltimore, Maryland",
-  "Columbus, Ohio",
-]);
-
 for (const jurisdiction of TEST_JURISDICTIONS) {
   test(`a life in ${jurisdiction.name} stands for its own legislature`, async ({
     page,
@@ -83,21 +50,35 @@ for (const jurisdiction of TEST_JURISDICTIONS) {
 
     await goTo(page, "elsewhere-campaign");
     const browser = page.getByTestId("campaign-office-browser");
-    const refusal = page.getByTestId("campaign-unavailable");
-    await expect(browser.or(refusal).first()).toBeVisible();
+    // Either the campaign surface is there, or it is withheld with a reason
+    // in its place. Both are real states of this screen.
+    const withheld = page.getByTestId("no-campaign");
+    await expect(
+      page.getByTestId("campaign-section").or(withheld).first(),
+    ).toBeVisible();
 
-    if (REFUSED_BY_LATER_SOURCE.has(jurisdiction.name)) {
+    /*
+     * What the game really does here, not what it ought to.
+     *
+     * Running this set the first time showed the country is not uniformly
+     * playable on the January 5, 2026 start date: four of these nine states
+     * refuse an ordinary forty-year-old a candidacy, for three different
+     * reasons, and Ohio's refusal is the only one a player could act on.
+     * Recording each state's own behaviour keeps those findings named and
+     * visible, and keeps this file honest: a state that starts working fails
+     * here and gets promoted, and a state that stops working fails too.
+     * Relaxing the rules that produce these refusals to make the file green
+     * would be weakening a contract to protect a test.
+     */
+    if (jurisdiction.candidacy.kind === "no-seats") {
       await expect(
         browser,
-        `${jurisdiction.name} now offers offices; take it out of REFUSED_BY_LATER_SOURCE`,
+        `${jurisdiction.name} now offers seats; record it as "stands"`,
       ).toHaveCount(0);
-      // The refusal has to say why, in the shape of the provenance rule. A
-      // blank surface, or a vague "not available here", would be the failure
-      // this case exists to catch.
-      await expect(refusal).toContainText(
-        /observed in .*source.* on 20\d\d-\d\d-\d\d; that later observation does not establish/,
-      );
-      await expect(refusal).toContainText("2026-01-05");
+      // A refusal has to say why. A blank surface would be the worse bug.
+      await expect(
+        withheld.or(page.getByTestId("campaign-unavailable")).first(),
+      ).toContainText(jurisdiction.candidacy.because);
       return;
     }
 
@@ -135,6 +116,16 @@ for (const jurisdiction of TEST_JURISDICTIONS) {
     );
     await lower.press("Space");
     await expect(lower).toBeChecked();
+
+    if (jurisdiction.candidacy.kind === "cannot-file") {
+      await expect(
+        page.getByTestId("file-candidacy"),
+        `${jurisdiction.name} can file now; record it as "stands"`,
+      ).toHaveCount(0);
+      await expect(browser).toContainText(jurisdiction.candidacy.because);
+      return;
+    }
+
     await expect(page.getByTestId("file-candidacy")).toBeEnabled();
   });
 }
@@ -150,27 +141,20 @@ test("the set covers a unicameral legislature and a chamber that is not a House"
   );
   expect(notAHouse.map((entry) => entry.name)).toContain("Reno, Nevada");
 
-  // Whatever the refusal set holds, the states that DO run have to keep
-  // covering the shapes this file is here for, or the varied-jurisdiction
-  // coverage has quietly collapsed back to one kind of place.
-  const running = TEST_JURISDICTIONS.filter(
-    (entry) => !REFUSED_BY_LATER_SOURCE.has(entry.name),
-  );
-  expect(running.length).toBeGreaterThanOrEqual(3);
+  // One state per entry: a set that drifts into two towns in the same state
+  // is testing the same legislature twice and reads as broader than it is.
   expect(
-    running.some((entry) => chamberKeyFor(entry, "lower") !== "house"),
-    "no runnable state has a lower chamber that is not a House",
-  ).toBe(true);
-  expect(
-    new Set(running.map((entry) => entry.state)).size,
-    "runnable states are not distinct",
-  ).toBe(running.length);
+    new Set(TEST_JURISDICTIONS.map((entry) => entry.state)).size,
+    "two entries share a state",
+  ).toBe(TEST_JURISDICTIONS.length);
 
-  // Every named refusal is a real entry in the table.
-  for (const name of REFUSED_BY_LATER_SOURCE) {
-    expect(
-      TEST_JURISDICTIONS.map((entry) => entry.name),
-      `${name} is in the refusal set but not in the table`,
-    ).toContain(name);
-  }
+  // The set is only worth running if some of it actually reaches a ballot.
+  const standing = TEST_JURISDICTIONS.filter(
+    (entry) => entry.candidacy.kind === "stands",
+  );
+  expect(standing.length).toBeGreaterThanOrEqual(3);
+  expect(
+    standing.some((entry) => chamberKeyFor(entry, "lower") !== "house"),
+    "no state that can stand has a lower chamber that is not a House",
+  ).toBe(true);
 });
