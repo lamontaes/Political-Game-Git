@@ -1,0 +1,22 @@
+{
+  "filedAt": "2026-09-22T00:21:00.000Z",
+  "impact": "background",
+  "lane": "hardcoded-content audit",
+  "notes": [
+    "Only needed when a new vintage is compiled. Filed so the answer is on hand before that rather than blocking it."
+  ],
+  "priority": "P2",
+  "question": "For each academic year of IPEDS and CCD data the game may carry, what is the exact release designation the agency publishes it under, including the provisional or revised status and the month of revision?",
+  "questionId": "education-vintage-release-designations",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "hardcoded-content audit thread",
+  "sourcesChecked": [
+    {
+      "source": "src/education/vintage.ts",
+      "whatItDidNotSettle": "Holds the designations for 2024-25 and 2025-26, transcribed when those vintages were compiled. It is the table that needs extending, not a source for it."
+    }
+  ],
+  "title": "The federal release designation for each education data vintage",
+  "usableAnswer": "For each academic year, one string per collection kind — postsecondary, school and district — written exactly as the agency designates that release, with the source page it was read from.",
+  "whyItMatters": "An institution's record shows the reader which federal release the fact came from, and that label is a hand-kept table with two vintages in it. Adding a third year of data will throw rather than mislabel, which is the right failure, but it stops the vintage from being added at all until somebody supplies the string."
+}

@@ -1,4 +1,5 @@
 import type { EducationInstitution, EducationCapability } from "./types";
+import { releaseLabel, type AcademicYear } from "./vintage";
 /** Positional transport schema v1; shared dictionary removes repeated labels and hashes. */
 export type CompactInstitution = readonly [
   string,
@@ -15,7 +16,7 @@ export type CompactInstitution = readonly [
   string,
   readonly (readonly [string, string])[],
   readonly (readonly [string, string, number])[],
-  "2024-25" | "2025-26",
+  AcademicYear,
 ];
 export interface EducationDictionary {
   readonly capabilities: Readonly<
@@ -63,12 +64,7 @@ export function expandInstitution(
     statusEffectiveDate: r[10],
     openAdmissionPolicy: r[11] as EducationInstitution["openAdmissionPolicy"],
     sourceYear: r[14],
-    release:
-      r[14] === "2025-26"
-        ? "HD2025/IC2025 provisional"
-        : r[1] === "postsecondary"
-          ? "HD2024; IC2024 revised September 2026"
-          : "CCD preliminary v0a",
+    release: releaseLabel(r[14], r[1] as EducationInstitution["kind"]),
     foundingDate: null,
     capabilities: r[12].map(([code, raw]) => {
       const definition = d.capabilities[`${r[14].slice(0, 4)}:${code}`];

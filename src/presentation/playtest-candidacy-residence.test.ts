@@ -111,27 +111,44 @@ describe("standing for a seat in the state you have always lived in", () => {
     expect(district! < world.currentDate).toBe(true);
   });
 
-  it("no longer says a lifelong resident has no district residence to measure", () => {
+  it("lets a lifelong resident stand for their own seat on day one", () => {
     // The same seat as the Alaska row above, with no months let pass. A
     // forty-year-old who has lived in Sitka all their life is no longer told
     // the world has no start date for that interval; it has one, from the
     // household records, and it is decades old.
     //
-    // Alaska still refuses on the opening date, for a different and real
-    // reason: its provisions were read from the source in September 2026 and
-    // nothing in that reading establishes them for a January start. That is
-    // the dating work this lane owns separately, and it is pinned here so the
-    // two are not confused for one blocker.
+    // This test used to pin a SECOND blocker as well: Alaska's provisions were
+    // read from the source in September 2026, and that reading did not reach a
+    // January start, so the seat still refused for a dating reason rather than
+    // a residence one. Both were pinned so the two would not be confused for
+    // one. The dating has since been fixed on this branch's base, so the
+    // refusal is gone and the whole journey opens — which is the thing the
+    // residence work was for. What remains pinned is the outcome, and the two
+    // specific sentences that must never come back.
     const { world, personId } = lifeIn("0200650", "playtest-day-zero", 0);
-    const reasons = eligibility(world, personId, "us-ak-legislature-v1:house")
-      .blocks.map((block) => block.reason)
-      .join(" ");
+    const verdict = eligibility(world, personId, "us-ak-legislature-v1:house");
+    const reasons = verdict.blocks.map((block) => block.reason).join(" ");
     expect(reasons).not.toContain("no proved start date");
     expect(reasons).not.toContain(
       "has not recorded when this character came to live here",
     );
-    expect(reasons).toContain(
-      "does not establish district residence on 2026-01-05",
+    expect(verdict.blocks).toEqual([]);
+    expect(verdict.eligible).toBe(true);
+  });
+
+  it("still refuses where the district genuinely cannot be established", () => {
+    // Nothing above was loosened. A town split across several districts still
+    // refuses, and still says the district is what it cannot establish.
+    const { world, personId } = lifeIn("3918000", "playtest-split-town", 0);
+    const reasons = eligibility(
+      world,
+      personId,
+      "us-oh-general-assembly-v1:house",
+    )
+      .blocks.map((block) => block.reason)
+      .join(" ");
+    expect(reasons).not.toContain(
+      "has not recorded when this character came to live here",
     );
   });
 

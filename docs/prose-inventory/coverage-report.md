@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 3166 |
-| INTENTIONALLY_NON_PLAYER_FACING | 7074 |
-| DIAGNOSTIC_OR_TEST | 7645 |
-| **NEEDS_CLASSIFICATION** | **10286** |
+| INTENTIONALLY_NON_PLAYER_FACING | 7097 |
+| DIAGNOSTIC_OR_TEST | 7763 |
+| **NEEDS_CLASSIFICATION** | **10348** |
 
-Scanned 1156 files holding 112035 string
+Scanned 1163 files holding 112680 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -68,6 +68,7 @@ literals in total; the table counts only those that read like a sentence.
 | 51 | `src/simulation/campaigns.ts` |
 | 51 | `src/simulation/resources.ts` |
 | 50 | `src/player/DocketWorkspace.tsx` |
+| 50 | `src/research/research-request.ts` |
 | 50 | `src/simulation/judicial-office-content.ts` |
 | 50 | `src/simulation/life-opportunities.ts` |
 | 50 | `src/simulation/life.ts` |
@@ -154,6 +155,7 @@ literals in total; the table counts only those that read like a sentence.
 | 21 | `src/presentation/title-tableau.ts` |
 | 21 | `src/simulation/legislation-content-contracts.ts` |
 | 21 | `src/simulation/life-favors.ts` |
+| 21 | `src/simulation/office-qualification-rules.ts` |
 | 21 | `src/simulation/people-promise.ts` |
 | 20 | `src/player/LifePathsPanel.tsx` |
 | 20 | `src/player/TaxWorkWorkspace.tsx` |
@@ -188,7 +190,6 @@ literals in total; the table counts only those that read like a sentence.
 | 17 | `src/simulation/executive-governing-kernels.ts` |
 | 17 | `src/simulation/incident-response.ts` |
 | 17 | `src/simulation/life-places.ts` |
-| 17 | `src/simulation/office-qualification-rules.ts` |
 | 17 | `src/simulation/people-family-plan.ts` |
 | 17 | `src/simulation/people-trait-definitions.ts` |
 | 17 | `src/ui/CharacterProofView.tsx` |
@@ -229,6 +230,7 @@ literals in total; the table counts only those that read like a sentence.
 | 13 | `src/presentation/campaign-compliance-projection.ts` |
 | 13 | `src/presentation/executive-work.ts` |
 | 13 | `src/presentation/person-contact.ts` |
+| 13 | `src/simulation/candidate-qualification.ts` |
 | 13 | `src/simulation/civil-personnel-start.ts` |
 | 13 | `src/simulation/election-contests.ts` |
 | 13 | `src/simulation/press/views.ts` |
@@ -285,7 +287,6 @@ literals in total; the table counts only those that read like a sentence.
 | 9 | `src/presentation/relationship-web.ts` |
 | 9 | `src/presentation/surface-binding.ts` |
 | 9 | `src/simulation/campaign-compliance.ts` |
-| 9 | `src/simulation/candidate-qualification.ts` |
 | 9 | `src/simulation/constitutional-process.ts` |
 | 9 | `src/simulation/governing/office-staffing.ts` |
 | 9 | `src/simulation/national-election-consumer.ts` |
@@ -348,6 +349,7 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/presentation/campaign-office-discovery.ts` |
 | 6 | `src/presentation/component-masters.ts` |
 | 6 | `src/presentation/day-overview.ts` |
+| 6 | `src/presentation/economic-context.ts` |
 | 6 | `src/presentation/formative-context.ts` |
 | 6 | `src/presentation/formative-play.ts` |
 | 6 | `src/presentation/interruption-policy.ts` |
@@ -390,6 +392,7 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/ui/ScenePresentationProofView.tsx` |
 | 4 | `src/districts/query.ts` |
 | 4 | `src/education/catalog.ts` |
+| 4 | `src/education/vintage.ts` |
 | 4 | `src/maps/projection.ts` |
 | 4 | `src/persistence/sqlite-world-repository.ts` |
 | 4 | `src/player/ContactsPanel.tsx` |
@@ -418,7 +421,6 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/simulation/relationship-integration.ts` |
 | 4 | `src/simulation/resource-pressure.ts` |
 | 4 | `src/simulation/vitality-catalog.ts` |
-| 3 | `src/education/compact.ts` |
 | 3 | `src/player/ContentPackWorkspace.tsx` |
 | 3 | `src/player/CreatorAppearanceStep.tsx` |
 | 3 | `src/player/ExecutiveWorkWorkspace.tsx` |
@@ -427,7 +429,6 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/presentation/art-preview.ts` |
 | 3 | `src/presentation/calendar-campaign-life.ts` |
 | 3 | `src/presentation/campaign-life-actions.ts` |
-| 3 | `src/presentation/economic-context.ts` |
 | 3 | `src/presentation/legislation-composition.ts` |
 | 3 | `src/presentation/legislation-world.ts` |
 | 3 | `src/presentation/life-introduction.ts` |

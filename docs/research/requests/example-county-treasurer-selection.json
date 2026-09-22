@@ -1,0 +1,27 @@
+{
+  "requestVersion": "research-request/v1",
+  "questionId": "example-county-treasurer-selection",
+  "title": "How a county treasurer takes office, state by state",
+  "question": "For each state that has county treasurers, is the office elected by county voters, appointed by the county's governing body, appointed by a professional administrator, or abolished in favour of a combined finance office — and which instrument establishes that?",
+  "whyItMatters": "County offices are seated from the government-unit corpus, which records that a treasurer exists but not how the seat is filled. Without the selection mechanism a county office cannot be put on a ballot or filled by appointment, so the whole county layer stays unreachable in play rather than merely thin.",
+  "impact": "blocks-work",
+  "lane": "nationwide government",
+  "usableAnswer": "A row per state: the selection mechanism, the constitutional or statutory citation that establishes it, and an explicit note where the state leaves it to each county's charter rather than setting one rule.",
+  "sourcesChecked": [
+    {
+      "source": "Census Government Units Survey 2025 listing",
+      "whatItDidNotSettle": "Establishes that a county government exists and what it is called, and records no office-holding or selection facts at all."
+    },
+    {
+      "source": "src/simulation/municipal-government.ts and the compiled municipal corpus",
+      "whatItDidNotSettle": "Carries selection mechanisms for municipalities only; counties are outside the corpus that was compiled."
+    }
+  ],
+  "requestedBy": "example record in the research queue README",
+  "filedAt": "2026-09-22T00:00:00.000Z",
+  "priority": "P2",
+  "notes": [
+    "Worked example for the schema. Delete or supersede it once a real question is filed.",
+    "A state that leaves this to each county's charter is a real answer, not a gap — say so rather than leaving the row blank."
+  ]
+}
