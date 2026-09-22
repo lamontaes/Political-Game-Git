@@ -214,6 +214,15 @@ read by no interface. It is now on the Government screen — PR #305, branch
 
 ---
 
+**One of the four is bounded more tightly than "built".** The same playtest
+walk found that the newspaper's per-outlet composition works for party stories
+as designed, and every other story family still prints the record's own
+sentence identically — five exact duplicates on a thirteen-story page. The
+mechanism is proven and wired to one story family. That is a real distinction
+between a system that exists and a system that is finished.
+
+---
+
 ## 2. The largest empty vocabulary in the game
 
 A new player world ships with **no policy domains, issues, propositions,
@@ -356,6 +365,24 @@ rule reaching the UI layer, and it costs nothing to honour now.
 
 ## 5. Exactly one jurisdiction is seated
 
+**The number underneath it.** `docs/systems/nationwide-rule-coverage.json`
+counts **38,704 general-purpose local governments**. Three of them carry any
+admitted ordinance route at all, and exactly one carries an admitted
+pass-ordinance rule. The playtest walk of 2026-09-22 (`453b6893`,
+`docs/playtest/walk-2026-09-22-0711.md`) reports the same thing from the other
+end — that nobody is sitting on them — and puts it better than we did: **the
+rules are further along than the world is.**
+
+Those two measures are not the same measure, and the distinction is the point
+of the process finding below about reading a generated document's own header.
+Rule admission says a compiled rule exists for the resolver to apply. Seating
+says somebody holds the office. A jurisdiction can fail either independently.
+
+**And one small thing sitting on top of it.** The same walk found the
+Government screen in Columbus reading "U.S. House District not recorded".
+Congress is the only body in the game that is actually seated, and it is the
+one body the player is shown no connection to. That is specific and fixable,
+and it is a worse first impression than the seating gap it sits on.
 The United States Congress is seated with 535 real generated people, 435 House
 and 100 Senate, built at a new life's opening
 (`src/simulation/living-world/opening.ts:160`).
@@ -383,6 +410,15 @@ is not researched twice.
   cancelled. So every superseded push leaves a red check asserting nothing, on
   a head nobody is looking at. A red check has to be opened and its run's
   conclusion read before it means anything.
+- **A generated document usually tells you what it does not mean, and reading
+  that takes thirty seconds.** The nationwide coverage report's fourth line
+  says it outright: "Rule admission only. An admitted field is a compiled,
+  dated rule the resolver will apply; it is not proof that a player can reach
+  the action, that an office or contest exists in a save, or that every clause
+  of local law was read." Three retractions this week came from claims built on
+  top of that report by people who never read its header — the screen and the
+  report had never disagreed with each other. Read the header before you build
+  on the numbers.
 - **A render replaces a published document wholesale, so it must come from a
   head that carries every record.** The open-questions queue is filed
   one-file-per-record across many branches. A sweep of every pushed branch, run
