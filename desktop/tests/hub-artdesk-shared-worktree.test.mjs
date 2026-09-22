@@ -12,7 +12,10 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 import test from "node:test";
 
-import { ArtDeskHost } from "../private-controller/artdesk-host.mjs";
+import {
+  ArtDeskHost,
+  artDeskSourcePlan,
+} from "../private-controller/artdesk-host.mjs";
 
 function git(cwd, ...args) {
   return execFileSync("/usr/bin/git", args, {
@@ -66,6 +69,20 @@ test("Art Desk uses one branch-neutral shared worktree", () => {
     host.worktreeFor("another/branch"),
     host.worktreeFor("any/branch"),
   );
+});
+
+test("published Art Desk branches are re-fetched on every start", () => {
+  assert.deepEqual(
+    artDeskSourcePlan("published", "codex/client-content-delivery"),
+    {
+      fetch: true,
+      ref: "refs/remotes/origin/codex/client-content-delivery^{commit}",
+    },
+  );
+  assert.deepEqual(artDeskSourcePlan("local", "codex/local-art"), {
+    fetch: false,
+    ref: "refs/heads/codex/local-art^{commit}",
+  });
 });
 
 test("a clean legacy Art Desk worktree is moved into the shared slot", async () => {

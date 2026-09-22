@@ -116,6 +116,21 @@ export function artDeskDownloadPath({
   return resolved;
 }
 
+/**
+ * Describe how the controller resolves the requested Art Desk revision.
+ * Published branches are fetched on every start, even when a prepared shared
+ * runtime already exists, so that the runtime record cannot pin the desk to an
+ * older Git head. Local branches use the owner's checkout directly and rely on
+ * Vite's file watcher for live edits.
+ */
+export function artDeskSourcePlan(source, branch) {
+  const local = source === "local";
+  return {
+    fetch: !local,
+    ref: `${local ? "refs/heads" : "refs/remotes/origin"}/${branch}^{commit}`,
+  };
+}
+
 export class ArtDeskHost {
   constructor({ dataRoot, env, onStatus }) {
     this.root = path.join(dataRoot, "artdesk");
