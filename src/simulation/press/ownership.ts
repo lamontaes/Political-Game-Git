@@ -165,7 +165,9 @@ export function ensureMediaOwnership(
       outletId: outlet.id,
       ownerId: owned.owner.id,
       basis: "founding-owner",
-      effectiveAt: outlet.establishedAt,
+      // The owner is recorded today; on an older save the outlet predates it,
+      // and a holding must not begin before its owner exists.
+      effectiveAt: owned.world.currentDate,
       eventId: null,
       supersedesOwnershipId: null,
     }).world;

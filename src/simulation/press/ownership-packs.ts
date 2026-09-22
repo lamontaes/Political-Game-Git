@@ -178,6 +178,8 @@ function ownerProblem(row: OwnershipOwnerRow): string | null {
     return "has no names";
   if (row.perOutlet && row.names.some((name) => !name.includes("{outlet}")))
     return "is per-outlet and a name lacks {outlet}";
+  if (!row.perOutlet && row.names.some((name) => name.includes("{outlet}")))
+    return "names {outlet} but is not per-outlet, so one outlet's name would stick to every holding";
   if (typeof row.ownerKind !== "string" || !row.ownerKind.trim())
     return "has no owner kind";
   const products = row.holds?.products ?? [];

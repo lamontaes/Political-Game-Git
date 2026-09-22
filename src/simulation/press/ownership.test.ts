@@ -158,6 +158,22 @@ describe("media ownership packs", () => {
           },
         ],
       },
+      {
+        id: "test.shared-name",
+        provenance: PROVENANCE,
+        owners: [
+          {
+            key: "owner.shared",
+            ownerKind: "family-chain",
+            names: ["{outlet} Holdings"],
+            holds: {},
+            foundingWeight: 1,
+            reviewEveryDays: 182,
+            sellsOutlets: true,
+            practices: [],
+          },
+        ],
+      },
       // A pack arrives as modder data; one that omits its provenance must be
       // refused by the loader, so the type is deliberately bypassed here.
       { id: "test.unsaid", provenance: undefined as never },
@@ -168,6 +184,7 @@ describe("media ownership packs", () => {
     expect(reasons).toEqual([
       "test.mod practices[0] practice.broken: has a likelihood outside 0 to 1",
       'test.mod owners[1] owner.dangling: uses the practice "practice.nowhere", which no pack loaded before it declares',
+      "test.shared-name owners[0] owner.shared: names {outlet} but is not per-outlet, so one outlet's name would stick to every holding",
       "test.unsaid provenance: the pack does not say whether it is authored fiction or sourced, so none of its rows load",
     ]);
     expect(registry.report.replaced).toEqual([
