@@ -2,7 +2,7 @@
  * Emits the R3I coverage reconciliation as a machine-readable evidence file.
  *
  * The reconciliation itself lives in
- * `src/simulation/executive-authority-r3h-reconciliation.ts`, next to the packs
+ * `scripts/source/executive-authority-r3h-reconciliation.ts`, next to the packs
  * it accounts for, and its test checks every claim against the live runtime.
  * This script only serialises it, so the checked-in evidence file can never
  * assert something the module and its test do not already hold.
@@ -24,7 +24,7 @@ import {
   packFieldIsKnown,
   packForEntry,
   summarizeR3hReconciliation,
-} from "../../src/simulation/executive-authority-r3h-reconciliation";
+} from "./executive-authority-r3h-reconciliation";
 
 const OUTPUT = resolve(
   import.meta.dirname,
