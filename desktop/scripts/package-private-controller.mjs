@@ -23,6 +23,7 @@ import {
   readdirSync,
   readFileSync,
   readlinkSync,
+  realpathSync,
   rmSync,
   writeFileSync,
 } from "node:fs";
@@ -93,9 +94,17 @@ const hubVersion = JSON.parse(
   readFileSync(path.join(repoRoot, "package.json"), "utf8"),
 ).version;
 
-const outputRoot = path.join(desktopRoot, "controller-release-artifacts");
+const outputIndex = args.indexOf("--output");
+const outputRoot =
+  outputIndex >= 0
+    ? path.resolve(
+        args[outputIndex + 1] ?? fail("--output requires a directory"),
+      )
+    : path.join(desktopRoot, "controller-release-artifacts");
 const appPath = path.join(outputRoot, "Our Civic Duty Private.app");
-rmSync(outputRoot, { recursive: true, force: true });
+if (outputIndex >= 0 && existsSync(outputRoot))
+  fail("The additive output directory already exists; choose a new path.");
+if (outputIndex < 0) rmSync(outputRoot, { recursive: true, force: true });
 mkdirSync(outputRoot, { recursive: true });
 cpSync(electronApp, appPath, { recursive: true, verbatimSymlinks: true });
 
@@ -107,7 +116,11 @@ rmSync(path.join(resources, "default_app.asar"), { force: true });
 const packagedRoot = path.join(resources, "app");
 const packagedController = path.join(packagedRoot, "private-controller");
 mkdirSync(packagedController, { recursive: true });
-for (const name of ["app-protocol.mjs", "download-policy.mjs"])
+for (const name of [
+  "app-protocol.mjs",
+  "download-policy.mjs",
+  "runtime-content.mjs",
+])
   cpSync(path.join(desktopRoot, name), path.join(packagedRoot, name));
 // The hub's own trusted health-check harness for candidate builds.
 mkdirSync(path.join(packagedRoot, "scripts"), { recursive: true });
@@ -116,18 +129,30 @@ for (const name of [
   "game-launch-environment.mjs",
   "drawn-appearance-proof.mjs",
   "saved-identity-proof.mjs",
+  "creator-drive.mjs",
 ])
   cpSync(
     path.join(desktopRoot, "scripts", name),
     path.join(packagedRoot, "scripts", name),
   );
+// The updater verifies prepared client bytes with the same trusted tree contract.
+mkdirSync(path.join(resources, "scripts"), { recursive: true });
+cpSync(
+  path.join(repoRoot, "scripts", "client-provenance.mjs"),
+  path.join(resources, "scripts", "client-provenance.mjs"),
+);
 const CONTROLLER_FILES = [
   "main.mjs",
+  "game-session.mjs",
+  "game-preload.cjs",
   "hub-model.mjs",
   "build-catalog.mjs",
   "build-catalog.json",
   "worker-watch.mjs",
   "artdesk-host.mjs",
+  "artdesk-export.mjs",
+  "art-usage.mjs",
+  "artdesk-preload.cjs",
   "drive-exchange.mjs",
   "preload.cjs",
   "index.html",
@@ -142,15 +167,20 @@ const CONTROLLER_FILES = [
   "styles.css",
   "private-update.mjs",
   "private-update-worker.mjs",
+  "received-channel.mjs",
   "package.json",
 ];
 for (const name of CONTROLLER_FILES)
   cpSync(path.join(controllerRoot, name), path.join(packagedController, name));
 for (const dir of ["agents", "vendor", "node_modules"])
-  cpSync(path.join(controllerRoot, dir), path.join(packagedController, dir), {
-    recursive: true,
-    verbatimSymlinks: true,
-  });
+  cpSync(
+    realpathSync(path.join(controllerRoot, dir)),
+    path.join(packagedController, dir),
+    {
+      recursive: true,
+      verbatimSymlinks: true,
+    },
+  );
 writeFileSync(
   path.join(packagedRoot, "package.json"),
   `${JSON.stringify(

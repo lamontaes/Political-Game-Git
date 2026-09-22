@@ -138,9 +138,9 @@ const GROUP_ORDER: readonly ShellDestinationGroup[] = [
  * negative upwards.
  */
 export const FAN_RINGS: readonly { radius: number; capacity: number }[] = [
-  { radius: 170, capacity: 3 },
-  { radius: 275, capacity: 5 },
-  { radius: 380, capacity: 7 },
+  { radius: 140, capacity: 3 },
+  { radius: 250, capacity: 5 },
+  { radius: 360, capacity: 7 },
   { radius: 480, capacity: 9 },
 ];
 const FAN_FROM_DEGREES = 90;
@@ -232,7 +232,11 @@ export function ShellNav({
   canSave,
   unsaved,
   onSave,
+  onSaveAndLeave,
   onLeave,
+  onAskLeave,
+  leaving = false,
+  leaveProblem = null,
   onPassDays,
   passTargets,
   passing = false,
@@ -251,7 +255,11 @@ export function ShellNav({
   readonly canSave: boolean;
   readonly unsaved: boolean;
   readonly onSave: () => void;
+  readonly onSaveAndLeave?: () => void;
   readonly onLeave: () => void;
+  readonly onAskLeave?: () => void;
+  readonly leaving?: boolean;
+  readonly leaveProblem?: string | null;
   /** Day and week through the canonical clock. Absent while growing up. */
   readonly onPassDays?: (days: 1 | 7) => void;
   /** Where each skip would land, said before it is pressed. */
@@ -260,6 +268,21 @@ export function ShellNav({
   readonly passing?: boolean;
 }) {
   const open = state.navigation !== "closed";
+  const [visibleNavigation, setVisibleNavigation] = useState(state.navigation);
+  if (open && visibleNavigation !== state.navigation)
+    setVisibleNavigation(state.navigation);
+  const closing = !open && visibleNavigation !== "closed";
+  useEffect(() => {
+    if (open) return;
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const timer = window.setTimeout(
+      () => setVisibleNavigation("closed"),
+      reduced ? 0 : 220,
+    );
+    return () => window.clearTimeout(timer);
+  }, [open]);
   const navRef = useRef<HTMLElement>(null);
   const rowRef = useRef<HTMLDivElement>(null);
 
@@ -310,6 +333,10 @@ export function ShellNav({
   const flyoutRef = useRef<HTMLDivElement>(null);
   const clusterRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
+    if (closing && flyoutRef.current?.contains(document.activeElement))
+      clusterRef.current?.focus();
+  }, [closing]);
+  useEffect(() => {
     if (!open) return;
     const first =
       flyoutRef.current?.querySelector<HTMLElement>('[role="menuitem"]');
@@ -333,6 +360,7 @@ export function ShellNav({
     if (state.confirmingLeave) {
       event.preventDefault();
       event.stopPropagation();
+      if (leaving) return;
       dispatch({ type: "cancel-leave" });
       clusterRef.current?.focus();
       return;
@@ -378,10 +406,10 @@ export function ShellNav({
   // Listing the levels by hand is how "options" opened nothing at all once the
   // Guide gave that group a second member.
   const submenuGroup: ShellDestinationGroup | null =
-    state.navigation === "personal" ||
-    state.navigation === "politics" ||
-    state.navigation === "options"
-      ? state.navigation
+    visibleNavigation === "personal" ||
+    visibleNavigation === "politics" ||
+    visibleNavigation === "options"
+      ? visibleNavigation
       : null;
 
   const primaryGroups = GROUP_ORDER.flatMap((group) => {
@@ -557,10 +585,14 @@ export function ShellNav({
         ) : null}
       </div>
 
-      {open ? (
+      {open || closing ? (
         <div
+          key={visibleNavigation}
           id="pg-nav-flyout"
           className="pg-nav-flyout"
+          data-motion={closing ? "closing" : "open"}
+          inert={closing}
+          aria-hidden={closing || undefined}
           data-level={submenuGroup ? "submenu" : "primary"}
           data-testid="shell-nav-flyout"
           role="menu"
@@ -647,12 +679,10 @@ export function ShellNav({
                     primaryGroups.length + (canSave ? 1 : 0),
                   )}
                   onClick={() =>
-                    unsaved && canSave
-                      ? dispatch({ type: "ask-leave" })
-                      : onLeave()
+                    onAskLeave ? onAskLeave() : dispatch({ type: "ask-leave" })
                   }
                 >
-                  Quit
+                  Return to title
                   <small>To the main menu</small>
                 </button>
               </div>
@@ -670,42 +700,51 @@ export function ShellNav({
           data-testid="leave-confirm"
         >
           <p className="pg-nav-heading" id="pg-nav-confirm-title">
-            Save before quitting?
+            Save before returning to the title?
           </p>
           <p className="pg-nav-confirm-copy">
-            This life has not been saved. Quitting now leaves it behind.
+            {unsaved
+              ? "This life has not been saved yet."
+              : "Save your latest progress before returning. Earlier autosaves will remain available."}
           </p>
           <button
             type="button"
             className="ui-action ui-action--primary"
             data-testid="leave-save-first"
             autoFocus
-            onClick={() => {
-              onSave();
-              dispatch({ type: "cancel-leave" });
-            }}
+            disabled={!canSave || leaving}
+            onClick={onSaveAndLeave ?? onSave}
           >
-            Save first
+            {leaving ? "Saving…" : "Save and return"}
           </button>
           <button
             type="button"
             className="ui-action"
             data-testid="leave-without-saving"
+            disabled={leaving}
             onClick={() => {
               dispatch({ type: "cancel-leave" });
               onLeave();
             }}
           >
-            Quit without saving
+            Return without saving
           </button>
           <button
             type="button"
             className="ui-action ui-action--subtle"
             data-testid="leave-cancel"
+            disabled={leaving}
             onClick={() => dispatch({ type: "cancel-leave" })}
           >
-            Stay
+            Cancel
           </button>
+          {leaveProblem ? <p role="alert">{leaveProblem}</p> : null}
+          {!canSave ? (
+            <p role="alert">
+              Saving is unavailable. You can stay in this life or return without
+              saving.
+            </p>
+          ) : null}
         </div>
       ) : null}
     </nav>

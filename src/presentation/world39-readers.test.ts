@@ -73,12 +73,13 @@ describe("WORLD39 saved-world readers", () => {
       );
       expect(source?.tags.some((tag) => tag.startsWith("matter:"))).toBe(true);
     }
-    // The two federal holders plus the home state's executive the opening
+    // The three federal holders plus the home state's executive the opening
     // writer produced; its term is dated by the game's office calendar.
     const kentucky = stateExecutiveOffice("KY")!;
     expect(model.officeholders.map((holder) => holder.officeKey)).toEqual([
       "us-president",
       "us-chief-justice",
+      "us-vice-president",
       kentucky.officeKey,
     ]);
     expect(

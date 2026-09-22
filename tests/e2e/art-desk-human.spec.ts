@@ -76,15 +76,62 @@ test("the human Art Desk: named cards, lineage, small filters, brief copy and do
   await expect(page.getByTestId("art-desk")).toBeVisible();
 
   const stamp = String(info.workerIndex * 1000 + (Date.now() % 1000));
-  const original = await intake(page, png(64, 36, Number(stamp)), {
-    originalName: `corridor_native_${stamp}.png`,
-    note: "Owner-generated native plate.",
-  });
+  const requestId = `e2e-corridor-${stamp}`;
   const session = await (
     await request.get(`${BENCH}/session`, {
       headers: { "Sec-Fetch-Site": "same-origin" },
     })
   ).json();
+  const created = await request.post(`${BENCH}/events`, {
+    headers: {
+      "Content-Type": "application/json",
+      Origin: origin,
+      "X-OCD-Owner-Capability": session.capability,
+    },
+    data: {
+      type: "request.created",
+      actor: ACTOR,
+      payload: {
+        request: {
+          requestId,
+          requestVersion: 1,
+          priority: "P2",
+          status: "queued",
+          title: "School corridor",
+          consumer: {
+            consumerId: "isolated-corridor-test",
+            runtimeComponent: "none",
+            playerVisibleUse: "Isolated UI fixture only.",
+          },
+          whyNeeded:
+            "Verify review transitions without touching owner records.",
+          inventoryCheck: {
+            repositoryPathsSearched: ["art/families/"],
+            driveLocationsSearched: ["none"],
+            found: "Disposable generated test pixels.",
+            shortfall: "None.",
+          },
+          target: {
+            targetClass: "environment-plate",
+            minimumWidth: 1,
+            aspectRatio: "any",
+            alphaRequired: false,
+            container: "either",
+            styleAuthority: "Test fixture",
+          },
+          generationRecipe: ["Do not generate."],
+          acceptanceCriteria: ["Preserve exact revision and review history."],
+          dependsOn: [],
+        },
+      },
+    },
+  });
+  expect(created.status()).toBe(201);
+  const original = await intake(page, png(64, 36, Number(stamp)), {
+    requestId,
+    originalName: `corridor_native_${stamp}.png`,
+    note: "Owner-generated native plate.",
+  });
   const tagged = await request.post(`${BENCH}/events`, {
     headers: {
       "Content-Type": "application/json",
@@ -107,6 +154,7 @@ test("the human Art Desk: named cards, lineage, small filters, brief copy and do
   });
   expect(tagged.status()).toBe(201);
   const repair = await intake(page, png(64, 36, Number(stamp) + 1), {
+    requestId,
     originalName: `corridor_fix_${stamp}.png`,
     parentCandidateId: original,
     editKind: "repaint",
@@ -163,11 +211,17 @@ test("the human Art Desk: named cards, lineage, small filters, brief copy and do
     "Copied the brief",
   );
   const copied = await page.evaluate(() => navigator.clipboard.readText());
-  const served = await (
-    await request.get(
-      `${BENCH}/brief?requestId=inbox&candidateId=${encodeURIComponent(repair)}`,
-    )
-  ).text();
+  const served = await page.evaluate(
+    async ({ candidateId, requestId }) => {
+      const response = await fetch(
+        `/__dev/artbench/brief?requestId=${encodeURIComponent(requestId)}&candidateId=${encodeURIComponent(candidateId)}`,
+      );
+      if (!response.ok)
+        throw new Error(`Brief fetch failed (${response.status})`);
+      return response.text();
+    },
+    { candidateId: repair, requestId },
+  );
   expect(copied).toBe(served);
 
   // Download brief writes the same text under a readable name.
@@ -175,7 +229,7 @@ test("the human Art Desk: named cards, lineage, small filters, brief copy and do
     page.waitForEvent("download"),
     page.getByTestId("art-desk-download-brief").click(),
   ]);
-  expect(download.suggestedFilename()).toBe(`corridor-fix-${stamp}-brief.md`);
+  expect(download.suggestedFilename()).toBe("school-corridor-brief.md");
   const saved = await download.path();
   expect(readFileSync(saved, "utf8")).toBe(served);
 
@@ -190,4 +244,330 @@ test("the human Art Desk: named cards, lineage, small filters, brief copy and do
   await expect(page.getByTestId("art-desk-original-status")).toContainText(
     "hash verified",
   );
+
+  await page
+    .getByTestId("art-desk-question")
+    .fill("Is this an image to review or a request?");
+  await page
+    .getByRole("button", { name: "Send question", exact: true })
+    .click();
+  await expect(page.getByTestId("art-desk-message")).toContainText(
+    "Is this an image to review or a request?",
+  );
+  await page.reload();
+  await expect(page.getByTestId("art-desk-message")).toContainText(
+    "Is this an image to review or a request?",
+  );
+
+  // A failed write keeps this exact review visible. A successful canonical
+  // decision removes it immediately, without a browser reload or history loss.
+  for (const [action, destination] of [
+    ["Use as style reference", "references"],
+    ["Remove from review", "archived"],
+  ] as const) {
+    await page
+      .getByTestId("art-desk-detail")
+      .getByRole("button", { name: action, exact: true })
+      .click();
+    await expect(card).toHaveCount(0);
+    await page.getByTestId(`art-desk-tab-${destination}`).click();
+    await expect(card).toBeVisible();
+    await card.click();
+    await page
+      .getByRole("button", { name: "Return to review queue", exact: true })
+      .click();
+    await expect(card).toHaveCount(0);
+    await page.getByTestId("art-desk-tab-needs-review").click();
+    await expect(card).toBeVisible();
+    await card.click();
+  }
+  const eventsRoute = "**/__dev/artbench/events";
+  await page.route(eventsRoute, async (route) => {
+    if (route.request().postDataJSON()?.type === "review.decided") {
+      await route.fulfill({
+        status: 409,
+        contentType: "application/json",
+        body: JSON.stringify({
+          error: "fixture-conflict",
+          message: "Disposable rejected-write proof",
+        }),
+      });
+    } else await route.continue();
+  });
+  const approve = page
+    .getByTestId("art-desk-detail")
+    .getByRole("button", { name: "Approve", exact: true });
+  await approve.click();
+  await expect(page.getByTestId("art-desk-status")).toContainText(
+    "Could not save your decision",
+  );
+  await expect(card).toBeVisible();
+  await page.unroute(eventsRoute);
+  await approve.click();
+  await expect(page.getByTestId("art-desk-status")).toContainText(
+    "Approved. Moved",
+  );
+  await expect(card).toHaveCount(0);
+  await page.getByTestId("art-desk-tab-approved").click();
+  await expect(card).toBeVisible();
+  await expect(card).not.toContainText("Awaiting review");
+  await card.click();
+  await expect(page.getByTestId("art-desk-viewed")).toHaveAttribute(
+    "data-candidate-id",
+    repair,
+  );
+  const state = await page.evaluate(async () => {
+    const response = await fetch("/__dev/artbench/state");
+    if (!response.ok)
+      throw new Error(`State fetch failed (${response.status})`);
+    return response.json();
+  });
+  expect(state.projection.candidates[original].status).toBe("awaiting-review");
+  expect(state.projection.candidates[repair].status).not.toBe(
+    "awaiting-review",
+  );
+  await page.screenshot({
+    path: info.outputPath("approved-kept-in-library.png"),
+  });
+  await page
+    .getByTestId("art-desk-detail")
+    .getByRole("button", { name: "Reject", exact: true })
+    .click();
+  await expect(page.getByTestId("art-desk-status")).toContainText(
+    "Rejected. Moved",
+  );
+  await expect(card).toHaveCount(0);
+  await page.getByTestId("art-desk-tab-rejected").click();
+  await expect(card).toBeVisible();
+  await expect(card).toContainText("Rejected");
+  await page.screenshot({ path: info.outputPath("rejected-with-history.png") });
+});
+
+test("returned images keep the exact original reference accessible", async ({
+  page,
+  request,
+  baseURL,
+}, info) => {
+  await page.goto("/art-desk.html");
+  await expect(page.getByTestId("art-desk")).toBeVisible();
+  const origin = baseURL!;
+  const session = await (
+    await request.get(`${BENCH}/session`, {
+      headers: { "Sec-Fetch-Site": "same-origin" },
+    })
+  ).json();
+  const state = await (await request.get(`${BENCH}/state`)).json();
+  const seed = Object.values(state.projection.requests)[0] as {
+    request: Record<string, unknown>;
+  };
+  const reference = await intake(page, png(96, 64, 104), {
+    originalName: "reference-proof.png",
+  });
+  const after = await (await request.get(`${BENCH}/state`)).json();
+  const referenceRow = after.projection.candidates[reference];
+  const requestId = "e2e-visible-original-reference";
+  const created = await request.post(`${BENCH}/events`, {
+    headers: { Origin: origin, "X-OCD-Owner-Capability": session.capability },
+    data: {
+      type: "request.created",
+      actor: ACTOR,
+      payload: {
+        request: {
+          ...seed.request,
+          requestId,
+          requestVersion: 1,
+          title: "Visible original reference",
+          target: {
+            ...(seed.request.target as object),
+            styleReferences: [
+              {
+                role: "subject-content",
+                ref: `candidate:${reference}`,
+                sha256: referenceRow.sha256,
+                width: 96,
+                height: 64,
+              },
+            ],
+          },
+        },
+      },
+    },
+  });
+  expect(created.status()).toBe(201);
+  await intake(page, png(96, 64, 201), {
+    requestId,
+    originalName: "returned-image.png",
+  });
+  await page.reload();
+  await page
+    .getByTestId("art-desk-list")
+    .getByRole("button", { name: /Visible original reference/ })
+    .click();
+  const ref = page.getByTestId("art-desk-style-reference");
+  await expect(
+    ref.getByRole("heading", { name: "Original reference" }),
+  ).toBeVisible();
+  await expect(ref.locator("img")).toBeVisible();
+  await expect(
+    page.getByText("Editing instructions", { exact: true }).locator(".."),
+  ).not.toHaveAttribute("open", "");
+  for (const size of SIZES) {
+    await page.setViewportSize(size);
+    const download = ref.getByRole("link", { name: "Download reference" });
+    await expect(download).toBeVisible();
+    const [saved] = await Promise.all([
+      page.waitForEvent("download"),
+      download.click(),
+    ]);
+    expect(await saved.failure()).toBeNull();
+    const filename = info.outputPath(`reference-${size.name}.png`);
+    await saved.saveAs(filename);
+    expect(readFileSync(filename)).toEqual(png(96, 64, 104));
+    await ref.locator("summary").focus();
+    await page.keyboard.press("Enter");
+    await expect(ref.locator("details")).toHaveAttribute("open", "");
+    await ref.locator("summary").click();
+    await page.screenshot({
+      path: info.outputPath(`visible-reference-${size.name}.png`),
+    });
+  }
+});
+
+test("notifications show team replies, retain unread on failure and reopen the exact conversation", async ({
+  page,
+  request,
+  baseURL,
+}, info) => {
+  await page.goto("/art-desk.html");
+  await expect(page.getByTestId("art-desk")).toBeVisible();
+  const session = await (
+    await request.get(`${BENCH}/session`, {
+      headers: { "Sec-Fetch-Site": "same-origin" },
+    })
+  ).json();
+  const headers = {
+    Origin: baseURL!,
+    "X-OCD-Owner-Capability": session.capability,
+  };
+  const state = await (await request.get(`${BENCH}/state`)).json();
+  const entry = (
+    Object.values(state.projection.requests) as {
+      qa?: boolean;
+      request: { requestId: string };
+    }[]
+  ).find((r) => !r.qa && r.request.requestId !== "inbox") as {
+    request: { requestId: string };
+  };
+  const requestId = entry.request.requestId;
+  const candidate = await intake(page, png(96, 64, 222), {
+    requestId,
+    originalName: "notification-version.png",
+  });
+  const post = async (
+    actor: Record<string, string>,
+    payload: Record<string, unknown>,
+  ) => {
+    const response = await request.post(`${BENCH}/events`, {
+      headers,
+      data: { type: "message.posted", actor, payload },
+    });
+    expect(response.status()).toBe(201);
+    return (await response.json()).events[0];
+  };
+  const question = await post(ACTOR, {
+    requestId,
+    candidateId: candidate,
+    kind: "question",
+    text: "Can I use this version?",
+  });
+  const reply = await post(
+    { kind: "agent", id: "art-team" },
+    {
+      requestId,
+      candidateId: candidate,
+      kind: "reply",
+      replyTo: question.eventId,
+      text: "Your reference is ready to download.",
+    },
+  );
+  // A later revision must not steal the reply link's exact image.
+  await intake(page, png(96, 64, 223), {
+    requestId,
+    parentCandidateId: candidate,
+    editKind: "repaint",
+    originalName: "later-version.png",
+  });
+  await page.reload();
+  const tab = page.getByTestId("art-desk-tab-notifications");
+  await page.getByTestId("art-desk-tab-discussion").click();
+  await page.getByTestId("art-desk-list").getByRole("button").first().click();
+  const draft = page.getByTestId("art-desk-question");
+  await draft.fill("Please keep this unfinished question.");
+  await tab.click();
+  const draftReply = page.getByTestId(`art-desk-notification-${reply.eventId}`);
+  await draftReply
+    .getByRole("button", { name: "Open artwork and message" })
+    .click();
+  await expect(page.getByRole("alert")).toContainText("unfinished note");
+  await expect(draftReply).toHaveAttribute("data-unread", "true");
+  await page.getByRole("button", { name: "Back to artwork" }).click();
+  await expect(draft).toHaveValue("Please keep this unfinished question.");
+  await draft.fill("");
+  await tab.click();
+  const item = page.getByTestId(`art-desk-notification-${reply.eventId}`);
+  await expect(item).toHaveAttribute("data-unread", "true");
+  await expect(item).toContainText("Your reference is ready to download.");
+  await page.route("**/__dev/artbench/notifications/read", (route) =>
+    route.fulfill({ status: 503, body: "temporarily unavailable" }),
+  );
+  await item.getByRole("button", { name: "Mark read", exact: true }).click();
+  await expect(page.getByRole("alert")).toContainText(
+    "Could not save read status",
+  );
+  await expect(item).toHaveAttribute("data-unread", "true");
+  await page.unroute("**/__dev/artbench/notifications/read");
+  for (const size of SIZES) {
+    await page.setViewportSize(size);
+    await expect(
+      item.getByRole("button", { name: "Open artwork and message" }),
+    ).toBeVisible();
+    await page.screenshot({
+      path: info.outputPath(`notifications-${size.name}.png`),
+    });
+  }
+  await item.getByRole("button", { name: "Open artwork and message" }).focus();
+  await page.keyboard.press("Enter");
+  const message = page.locator(`[id="art-desk-message-${reply.eventId}"]`);
+  await expect(message).toBeFocused();
+  await expect(
+    page.getByTestId(`art-desk-candidate-${candidate}`),
+  ).toHaveAttribute("aria-pressed", "true");
+  await tab.click();
+  await expect(item).toHaveAttribute("data-unread", "false");
+  await page.reload();
+  await page.getByTestId("art-desk-tab-notifications").click();
+  await expect(
+    page.getByTestId(`art-desk-notification-${reply.eventId}`),
+  ).toHaveAttribute("data-unread", "false");
+  const incoming = await post(
+    { kind: "agent", id: "art-team" },
+    {
+      requestId,
+      candidateId: candidate,
+      kind: "note",
+      text: "A team update arrived without a prior question.",
+    },
+  );
+  const incomingItem = page.getByTestId(
+    `art-desk-notification-${incoming.eventId}`,
+  );
+  await expect(incomingItem).toHaveAttribute("data-unread", "true", {
+    timeout: 22_000,
+  });
+  await expect(page.getByTestId("art-desk-tab-notifications")).toContainText(
+    "1",
+  );
+  await page.getByRole("button", { name: "Mark all read" }).click();
+  await expect(incomingItem).toHaveAttribute("data-unread", "false");
+  await page.screenshot({ path: info.outputPath("notifications-read.png") });
 });

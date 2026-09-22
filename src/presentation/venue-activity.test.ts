@@ -1,3 +1,4 @@
+import { submitTimeCommand } from "./time-command";
 import { describe, expect, it } from "vitest";
 import { createNewGameWorld } from "./new-game";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
@@ -109,4 +110,29 @@ describe("normal venue activity control", () => {
       world,
     );
   });
+});
+
+it("Attend reports the actual event and rejects a repeated stale click", () => {
+  const { world, personId } = life();
+  const entry = venueActivities(world, personId)[0]!;
+  const request = {
+    requestId: "w-attend",
+    personId,
+    sourceMoment: world.currentMoment,
+    command: {
+      kind: "attend-activity" as const,
+      activityId: entry.activity.id,
+    },
+  };
+  const first = submitTimeCommand(world, request);
+  expect(first.receipt.status).toBe("accepted");
+  expect(first.receipt.outcome).toBe(
+    `You completed ${entry.activity.title} at ${entry.activity.location.label}.`,
+  );
+  expect(scheduledActivityState(first.world, entry.activity.id).status).toBe(
+    "completed",
+  );
+  const again = submitTimeCommand(first.world, request);
+  expect(again.world).toBe(first.world);
+  expect(again.receipt.status).toBe("stale");
 });

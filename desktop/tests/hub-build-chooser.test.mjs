@@ -11,6 +11,22 @@ import {
 } from "../private-controller/build-catalog.mjs";
 
 const SHA = "a".repeat(40);
+
+test("authored locally prepared builds remain visible without a remote branch", () => {
+  const view = projectBuildChooser({
+    branches: [],
+    catalog: {
+      "codex/local": {
+        title: "Combined private build",
+        purpose: "Owner preview",
+      },
+    },
+    recorded: [{ branch: "codex/local", revision: SHA }],
+  });
+  assert.equal(view.previews[0].revision, SHA);
+  assert.equal(view.previews[0].kind, "prepared");
+  assert.match(chooserLabel(view.previews[0]), /prepared locally/);
+});
 const catalog = cleanCatalog(
   JSON.parse(
     readFileSync(

@@ -1,4 +1,6 @@
-import assetManifest from "../../art/manifest/asset_manifest.json";
+import { runtimeArtMetadata, runtimeArtUrls } from "./runtime-art";
+import { rasterUrls as runtimeUrls } from "./bundled-art";
+import bundledManifest from "../../art/manifest/asset_manifest.json";
 import characterCatalog from "../../art/manifest/character_catalog.json";
 import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json";
 import poseFamilies from "../../art/manifest/pose_families.json";
@@ -257,15 +259,10 @@ export interface OfficeVisualComposition {
  * Globbing them anyway put tens of megabytes of source master into the shipped
  * bundle to satisfy URLs no page ever asks for.
  */
-const runtimeUrls = optionalGlob(() =>
-  import.meta.glob<string>(
-    ["../../art/**/*.{png,jpg,jpeg,webp}", "!../../art/references/masters/**"],
-    {
-      eager: true,
-      import: "default",
-      query: "?url",
-    },
-  ),
+
+const assetManifest = runtimeArtMetadata(
+  "art/manifest/asset_manifest.json",
+  bundledManifest,
 );
 
 export function createRuntimeVisualLibrary(
@@ -352,12 +349,15 @@ function repositoryUrls(): Readonly<Record<string, string>> {
       {},
       { get: (_target, key) => (typeof key === "string" ? key : undefined) },
     );
-  return Object.fromEntries(
-    Object.entries(runtimeUrls).map(([modulePath, url]) => [
-      modulePath.replace(/^\.\.\/\.\.\//, ""),
-      url,
-    ]),
-  );
+  return {
+    ...Object.fromEntries(
+      Object.entries(runtimeUrls).map(([modulePath, url]) => [
+        modulePath.replace(/^\.\.\/\.\.\//, ""),
+        url,
+      ]),
+    ),
+    ...runtimeArtUrls(),
+  };
 }
 
 /**

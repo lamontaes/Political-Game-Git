@@ -309,6 +309,435 @@
   }
 }
 
+.pg-orientation {
+  width: min(1000px, calc(100vw - 48px));
+  height: min(700px, calc(100dvh - 130px));
+  max-height: calc(100dvh - 130px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.pg-orientation-reading {
+  min-height: 0;
+  flex: 1;
+  overflow: auto;
+}
+.pg-orientation-actions {
+  flex-shrink: 0;
+}
+.pg-white-house-presentation {
+  position: relative;
+  min-height: 350px;
+  isolation: isolate;
+}
+.pg-opening-officials {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: end;
+}
+.pg-opening-president,
+.pg-opening-vice-president {
+  min-width: 0;
+}
+.pg-opening-household {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+}
+
+.pg-opening-president {
+  display: grid;
+  grid-template-columns: minmax(120px, 40%) minmax(0, 1fr);
+  align-items: end;
+  gap: 1rem;
+}
+.pg-opening-figure {
+  width: min(100%, 190px);
+  justify-self: center;
+}
+.pg-opening-vice-president {
+  padding: 1rem;
+  border-radius: 0.6rem;
+  background: rgb(11 19 32 / 86%);
+}
+.pg-opening-president .pg-orientation-person {
+  background: rgb(11 19 32 / 90%);
+}
+
+.pg-white-house-presentation[data-has-plate="true"] {
+  min-height: 0;
+  width: 100%;
+}
+.pg-establishing-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+}
+.pg-regional-opening-scene {
+  position: relative;
+  isolation: isolate;
+  min-height: 100cqh;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 1rem;
+  background: #17202b;
+}
+.pg-regional-opening-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.pg-regional-state-information {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100cqh - 2rem);
+  width: min(46%, 31rem);
+  padding: 1rem;
+  border: 1px solid #7d8796;
+  border-radius: 0.5rem;
+  background: rgb(23 32 43 / 96%);
+  color: #f5efe2;
+}
+.pg-regional-card-body {
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+.pg-regional-card-body h3 {
+  margin-top: 0;
+}
+.pg-regional-card-body a {
+  color: #ead094;
+  text-underline-offset: 0.15em;
+}
+.pg-regional-state-cards,
+.pg-regional-scene-navigation,
+.pg-regional-context {
+  flex-shrink: 0;
+}
+.pg-state-voting-table-wrap {
+  overflow-x: auto;
+}
+.pg-state-voting-table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.pg-state-voting-table-wrap th,
+.pg-state-voting-table-wrap td {
+  padding: 0.5rem 0.3rem;
+  border-bottom: 1px solid #7d8796;
+  text-align: left;
+  vertical-align: top;
+}
+.pg-state-voting-table-wrap td {
+  white-space: nowrap;
+}
+.pg-regional-context {
+  margin: 0 0 0.75rem;
+  color: #ead094;
+  font-size: 0.875rem;
+}
+.pg-regional-scene-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+@media (max-width: 700px) {
+  .pg-regional-opening-scene {
+    min-height: 30rem;
+    padding: 0.5rem;
+    align-items: flex-end;
+  }
+  .pg-regional-opening-backdrop {
+    height: 65%;
+    object-position: top center;
+  }
+  .pg-regional-state-information {
+    width: 100%;
+  }
+}
+.pg-white-house-presentation[data-has-plate="true"] .pg-opening-officials {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+.pg-white-house-presentation[data-has-plate="true"] .pg-opening-president {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+.pg-white-house-presentation[data-has-plate="true"] .pg-opening-figure {
+  position: absolute !important;
+  left: var(--pg-figure-x);
+  top: var(--pg-figure-y);
+  width: var(--pg-figure-width);
+}
+.pg-white-house-presentation[data-has-plate="true"]
+  .pg-opening-president
+  .pg-orientation-person {
+  position: absolute;
+  left: 42%;
+  top: 64%;
+  width: 34%;
+  font-size: 0.85rem;
+}
+.pg-white-house-presentation[data-has-plate="true"] .pg-opening-vice-president {
+  position: absolute;
+  right: 2%;
+  bottom: 3%;
+  width: 21%;
+  padding: 0.4rem;
+}
+.pg-white-house-presentation[data-has-plate="true"]
+  .pg-opening-vice-president
+  .pg-orientation-person {
+  padding: 0.3rem;
+  font-size: 0.75rem;
+}
+.pg-title-establishing {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 65% center;
+}
+
+.pg-orientation-reading {
+  container-type: size;
+}
+/* The introduction is a window, so room-person docking must not squeeze it
+ * into the narrow gap beside an NPC. Keep its navigation inside the viewport. */
+.life-shell .scene-backdrop-content[data-dock] > .pg-orientation {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-width: calc(100vw - 48px);
+  margin: 0;
+}
+.pg-opening-vice-president .person-portrait {
+  flex-direction: column;
+  align-items: center;
+  margin: 0 0 0.35rem;
+  text-align: center;
+}
+.pg-opening-vice-president .person-portrait figcaption > strong {
+  display: none;
+}
+.pg-white-house-presentation[data-has-plate="true"] {
+  width: min(100cqw, calc(100cqh * 1672 / 941));
+  margin-inline: auto;
+}
+
+.pg-regional-state-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.pg-regional-state-cards .ui-action {
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.pg-regional-state-cards .ui-action[aria-pressed="true"],
+.pg-regional-state-cards
+  .ui-action[aria-pressed="true"]:is(:hover, :focus-visible, :active) {
+  color: #17202b;
+  background: #ead094;
+}
+.pg-state-population-number {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.pg-regional-opening-scene[data-has-background="false"] {
+  min-height: 18rem;
+  justify-content: flex-start;
+}
+.pg-regional-opening-scene[data-has-background="false"]
+  .pg-regional-state-information {
+  width: 100%;
+}
+
+.pg-regional-opening-scene {
+  align-items: stretch;
+  padding: 1rem;
+}
+.pg-regional-state-information {
+  width: 100%;
+  max-height: none;
+  align-self: flex-end;
+}
+.pg-state-overview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.4rem;
+  align-items: start;
+}
+.pg-state-overview > section {
+  min-width: 0;
+}
+@media (max-width: 960px) {
+  .pg-state-overview {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pg-state-overview > section:first-child {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 620px) {
+  .pg-state-overview {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.pg-opening-information-illustration {
+  margin: 0 0 1rem;
+}
+.pg-opening-information-illustration img {
+  width: 100%;
+  max-height: 46dvh;
+  object-fit: contain;
+}
+.pg-opening-information-illustration figcaption {
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+/* Fit and camera motion are separate: every chapter's image, people and
+ * surfaces belong to the same group; navigation remains outside it. */
+.pg-scene-chapters {
+  position: relative;
+  display: grid;
+  min-height: 0;
+  flex: 1;
+  overflow: hidden;
+}
+.pg-scene-chapter {
+  grid-area: 1 / 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
+}
+.pg-scene-chapter[data-stage="leaving"] {
+  pointer-events: none;
+}
+.pg-scene-chapters[data-ready="false"]
+  .pg-scene-chapter[data-stage="arriving"] {
+  opacity: 0;
+}
+.pg-scene-chapters[data-ready="true"] .pg-scene-chapter[data-stage="arriving"] {
+  animation: pg-chapter-arrive 400ms ease both;
+}
+.pg-scene-chapters[data-ready="true"] .pg-scene-chapter[data-stage="leaving"] {
+  opacity: 1;
+}
+.pg-scene-chapters[data-motion="paused"] .pg-scene-camera {
+  animation-play-state: paused;
+}
+@keyframes pg-chapter-arrive {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pg-scene-chapter {
+    animation: none !important;
+  }
+}
+.pg-state-official-figure {
+  width: min(100%, 110px);
+}
+.pg-congress-introduction {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.pg-congress-official-figure {
+  width: min(100%, 130px);
+}
+.pg-white-house-presentation[data-has-plate="true"] .pg-opening-vice-president {
+  inset: 0;
+  width: auto;
+  padding: 0;
+  background: none;
+}
+.pg-white-house-presentation[data-has-plate="true"]
+  .pg-opening-vice-president
+  .pg-opening-figure {
+  left: 33%;
+  top: 37%;
+  width: 16%;
+}
+.pg-white-house-presentation[data-has-plate="true"]
+  .pg-opening-vice-president
+  .pg-orientation-person {
+  position: absolute;
+  left: 55%;
+  top: 78%;
+  width: 40%;
+  font-size: 0.85rem;
+  background: rgb(11 19 32 / 90%);
+}
+.pg-white-house-presentation[data-has-plate="true"]
+  .pg-opening-president
+  .pg-orientation-person {
+  left: 55%;
+  width: 40%;
+  top: 60%;
+}
+.pg-white-house-presentation {
+  overflow: hidden;
+}
+.pg-scene-camera {
+  position: absolute;
+  inset: 0;
+  transform-origin: center;
+  animation: pg-chapter-drift 44s ease-in-out infinite alternate;
+}
+.pg-opening-official-labels {
+  position: absolute;
+  left: 55%;
+  right: 3%;
+  bottom: 8%;
+  display: grid;
+  gap: 0.6rem;
+}
+.pg-opening-official-labels .pg-orientation-person {
+  background: rgb(11 19 32 / 94%);
+}
+@keyframes pg-chapter-drift {
+  from {
+    transform: scale(1.025) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.05) translate3d(-0.8%, -0.6%, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pg-scene-camera {
+    animation: none;
+  }
+}
+
 /*
  * The regional plate on the locality step.
  *

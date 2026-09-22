@@ -11,6 +11,7 @@
 
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
+import { pathToFileURL } from "node:url";
 import {
   listZipMembers,
   readZipMemberEntry,
@@ -76,6 +77,7 @@ async function acquireOne(
     string,
     { artifact: RawArtifact; bytes: Buffer }
   >,
+  write: (path: string, bytes: Buffer) => void = writeBytes,
 ): Promise<{ artifact: RawArtifact; bytes: Buffer }> {
   if (request.sliceOf) {
     const parent = alreadyAcquired.get(request.sliceOf.parentArtifactId);
@@ -93,7 +95,7 @@ async function acquireOne(
         `QA slice "${request.artifactId}" must be committed somewhere.`,
       );
     }
-    writeBytes(resolve(REPO_ROOT, request.localPath), bytes);
+    write(resolve(REPO_ROOT, request.localPath), bytes);
     const artifact: RawArtifact = {
       artifactId: request.artifactId,
       provider: request.provider,
@@ -135,7 +137,7 @@ async function acquireOne(
       `Artifact "${request.artifactId}" declares nowhere to put its bytes.`,
     );
   }
-  writeBytes(resolve(REPO_ROOT, destination), bytes);
+  write(resolve(REPO_ROOT, destination), bytes);
 
   let container: RawArtifact["container"];
   if (request.containerMemberPath) {
@@ -180,10 +182,11 @@ async function acquireOne(
   return { artifact, bytes };
 }
 
-async function acquirePlan(
+export async function acquirePlan(
   domainName: string,
   plan: SourceDomainModule["acquisitionPlan"],
   lockPath: string,
+  artifactId?: string,
 ): Promise<void> {
   if (plan.domain !== domainName) {
     throw new Error(
@@ -193,8 +196,49 @@ async function acquirePlan(
   const acquired = new Map<string, { artifact: RawArtifact; bytes: Buffer }>();
   const artifacts: RawArtifact[] = [];
 
+  // A bounded acquisition keeps all unrelated bytes and their exact lock
+  // records. Validate them before a request; an old broken lock is not repaired
+  // by silently relabeling it during an unrelated download.
+  const requests = artifactId
+    ? plan.requests.filter((request) => request.artifactId === artifactId)
+    : plan.requests;
+  if (artifactId && requests.length !== 1)
+    throw new Error(`Expected one declared artifact named "${artifactId}".`);
+  const pendingWrites = new Map<string, Buffer>();
+  let retained: readonly RawArtifact[] = [];
+  if (artifactId) {
+    if (requests[0]!.sliceOf)
+      throw new Error("A derived slice requires the full acquisition plan.");
+    const existing = JSON.parse(
+      readFileSync(lockPath, "utf-8"),
+    ) as ArtifactLock;
+    assertValidArtifactLock(existing);
+    if (existing.domain !== domainName)
+      throw new Error("Artifact lock domain mismatch.");
+    retained = existing.artifacts.filter(
+      (artifact) => artifact.artifactId !== artifactId,
+    );
+    for (const artifact of retained) {
+      const request = plan.requests.find(
+        (row) => row.artifactId === artifact.artifactId,
+      );
+      const path = artifact.localPath ?? request?.cachePath;
+      if (!path)
+        throw new Error(
+          `Cannot verify retained artifact ${artifact.artifactId}.`,
+        );
+      const bytes = readFileSync(resolve(REPO_ROOT, path));
+      if (
+        bytes.length !== artifact.bytes.length ||
+        sha256Hex(bytes) !== artifact.bytes.sha256
+      )
+        throw new Error(
+          `Retained artifact ${artifact.artifactId} differs from its lock.`,
+        );
+    }
+  }
   let requestedFrom: string | null = null;
-  for (const request of plan.requests) {
+  for (const request of requests) {
     /*
      * Space out repeat visits to one publisher.
      *
@@ -212,7 +256,15 @@ async function acquirePlan(
     }
     if (host !== null) requestedFrom = host;
     process.stdout.write(`  ${request.artifactId} ... `);
-    const result = await acquireOne(request, acquired);
+    const result = await acquireOne(
+      request,
+      acquired,
+      artifactId
+        ? (path, bytes) => {
+            pendingWrites.set(path, bytes);
+          }
+        : writeBytes,
+    );
     acquired.set(request.artifactId, result);
     artifacts.push(result.artifact);
     process.stdout.write(
@@ -220,19 +272,27 @@ async function acquirePlan(
     );
   }
 
-  const lock: ArtifactLock = { domain: domainName, artifacts };
+  const lock: ArtifactLock = {
+    domain: domainName,
+    artifacts: [...retained, ...artifacts],
+  };
   assertValidArtifactLock(lock);
+  for (const [path, bytes] of pendingWrites) writeBytes(path, bytes);
   mkdirSync(dirname(lockPath), { recursive: true });
   writeFileSync(lockPath, toCanonicalJson(lock), "utf-8");
   console.log(`  wrote ${artifacts.length} artifacts to ${lockPath}`);
 }
 
-async function acquireDomain(domainName: string): Promise<void> {
+async function acquireDomain(
+  domainName: string,
+  artifactId?: string,
+): Promise<void> {
   const domain = await loadDomain(domainName);
   await acquirePlan(
     domainName,
     domain.acquisitionPlan,
     resolve(domainDataDir(domainName), "artifact-lock.json"),
+    artifactId,
   );
 }
 
@@ -252,10 +312,14 @@ function flagValue(argv: readonly string[], name: string): string | null {
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
   const only = domainFlag(argv);
+  const artifactId = flagValue(argv, "--artifact");
+  if (artifactId && !only) throw new Error("--artifact requires --domain.");
   const surveyYear = flagValue(argv, "--survey-year");
   const stateUsps = flagValue(argv, "--state-usps");
   const stateFips = flagValue(argv, "--state-fips");
   if (surveyYear || stateUsps || stateFips) {
+    if (artifactId)
+      throw new Error("--artifact cannot be combined with PUMS shard flags.");
     if (
       only !== "acs-pums" ||
       surveyYear !== "2024" ||
@@ -285,7 +349,7 @@ async function main(): Promise<void> {
     : (await loadDomains()).map((domain) => domain.domain);
   for (const domain of domains) {
     console.log(`source:acquire ${domain}`);
-    await acquireDomain(domain);
+    await acquireDomain(domain, artifactId ?? undefined);
   }
 }
 
@@ -294,4 +358,9 @@ export function localDigest(relativePath: string): string {
   return sha256Hex(readFileSync(resolve(REPO_ROOT, relativePath)));
 }
 
-await main();
+if (
+  process.argv[1] &&
+  import.meta.url === pathToFileURL(resolve(process.argv[1])).href
+) {
+  await main();
+}
