@@ -1,0 +1,33 @@
+{
+  "filedAt": "2026-09-22T16:20:00.000Z",
+  "impact": "blocks-work",
+  "lane": "research triage",
+  "notes": [
+    "This record exists to unblock, not to ask. ChatGPT held its C26 answer rather than guessing what cheating meant here and blocked the dependent content behind it. lamontae answered within the hour and the answer is the whole point of the record, so it is at the top of the question rather than buried in a note.",
+    "His words, verbatim, 2026-09-22 16:17:33Z: \"cheating can mean any of those.\" The three on the table were academic cheating, romantic infidelity and election misconduct.",
+    "Filed by the research queue lane, which carried his answer and wrote nothing else."
+  ],
+  "priority": "P0",
+  "question": "Cheating in this game covers all three kinds — academic, romantic and election misconduct — and not one of them. That is lamontae's own answer, given 2026-09-22 16:17:33Z in these words: \"cheating can mean any of those.\" So: unblock the content C26 held behind this question, with all three in scope. What does each of the three need in order to exist — what act makes it happen, who can observe it, what follows from being caught and from not being caught, and what should never follow? They share a word and very little else: an exam, a marriage and a ballot have different witnesses, different proof and different consequences, so an answer that collapses them back into one mechanism is not an answer to this.",
+  "questionId": "cheating-covers-all-three",
+  "readFirst": {
+    "words": "cheating can mean any of those",
+    "saidBy": "lamontae",
+    "saidAt": "2026-09-22T16:17:33.000Z"
+  },
+  "requestVersion": "research-request/v1",
+  "requestedBy": "lamontae",
+  "sourcesChecked": [
+    {
+      "source": "ChatGPT's C26 answer in the stress-test batch, ALIVE44 section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', 2026-09-22 15:58Z",
+      "whatItDidNotSettle": "It answers the college-to-friend-to-staff continuity around it and deliberately holds the cheating half, blocking the dependent content rather than picking a meaning. That was the right call and it is what made his one-line answer sufficient. It does not say what any of the three kinds needs in order to exist, which is what is now unblocked and unanswered."
+    },
+    {
+      "source": "lamontae's message in the project timeline, 2026-09-22 16:17:33Z",
+      "whatItDidNotSettle": "Settles the scope completely and settles nothing about mechanism. He said which meanings count, not what any of them does in play."
+    }
+  ],
+  "title": "Cheating means all three kinds, and each needs its own mechanism",
+  "usableAnswer": "Per kind — academic, romantic, election — the act that constitutes it, who can witness or discover it, what follows on discovery and what follows if it is never discovered, and one thing that must never follow. A kind he should not have yet is an equally good answer, as long as it says so rather than quietly folding into another.",
+  "whyItMatters": "Content is sitting blocked behind a question that now has an answer, which is the cheapest kind of stuck there is. It also touches a standing constraint of his: a person's conduct is supposed to drive their relationships and what others make of them, so cheating is one of the few acts that ought to move several systems at once — and today it moves none of them."
+}
