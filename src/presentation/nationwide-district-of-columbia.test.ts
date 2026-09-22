@@ -49,10 +49,10 @@ describe("a life in the District of Columbia", () => {
     // game's profile any longer.
     expect(calendar.basis).toBe("verified");
     expect(calendar.ruleVersion).toBe(rule.ruleVersion);
-    // The player is told the term and its January 2nd start, and nothing about
+    // The player is told the term and its January 2 start, and nothing about
     // which instrument says so: no citation, no host, no observation date.
-    expect(calendar.note).toContain("4 years");
-    expect(calendar.note).toContain("January 2nd");
+    expect(calendar.note).toContain("A term here lasts four years.");
+    expect(calendar.note).toContain("takes office on January 2 after the election");
     expect(calendar.note).not.toContain("code.dccouncil.gov");
     expect(calendar.note).not.toMatch(/cited|quoted|Code|law/i);
   });
