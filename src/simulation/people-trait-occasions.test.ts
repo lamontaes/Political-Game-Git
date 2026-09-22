@@ -154,6 +154,12 @@ describe("the same thing happening again is what moves somebody", () => {
     // The same person asking and the player saying no every time, written
     // through the real answer path. Each ask is its own event with its own
     // day, which is what the records have to be able to say afterwards.
+    //
+    // The interval is the part worth reading. Being turned down every few days
+    // is one thing that keeps happening, and it moves nobody however long it
+    // goes on; what changes a person is the same thing still happening a
+    // season later, and again the season after that. So the loop lets real
+    // time pass between asks, and what it proves is that this takes years.
     let moved = false;
     let asks = 0;
     for (let index = 0; index < 14 && !moved; index += 1) {
@@ -169,13 +175,15 @@ describe("the same thing happening again is what moves somebody", () => {
         proposalEventId: proposed.proposal.eventId,
         answer: "decline",
       }).world;
-      next = passOrdinaryDays(next, 5);
+      next = passOrdinaryDays(next, 100);
       next = produceRebuffedAskEffects(next, set.playerId);
       moved = personTrait(next, asker, "sociability").value !== before;
     }
 
     expect(moved).toBe(true);
-    expect(asks).toBeGreaterThan(0);
+    // More than one season of it, and more than one refusal. A first no moves
+    // nobody, and neither does a second.
+    expect(asks).toBeGreaterThan(2);
     expect(personTrait(next, asker, "sociability").value).toBeLessThan(before);
     // What carried it was accumulated pressure, not this one refusal: this
     // person had already been rebuffed before the loop began, and the earlier

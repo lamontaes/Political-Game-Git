@@ -288,13 +288,10 @@ nothing is invented. This is "ignore it and say so".
 Three questions are filed in the research queue as records under
 `docs/research/requests/`, and appear in the rendered `OPEN-QUESTIONS.md`:
 
-- `personality-change-pace` (**P1**) — how much has to happen before a
-  disposition shifts, how much one formative event should do against how much
-  accumulated repetition, and whether prior change makes the next change easier
-  or harder. **The numbers currently shipped are authored placeholders and say
-  so in the file.** No test in this repository can catch a wrong answer here:
-  the suite passes identically whether characters reinvent themselves every few
-  months or never change at all.
+- `personality-change-pace` (**P1**) — **ANSWERED, 2026-09-22.** See section 9.
+  The owner's answer to what the pacing depends on: "it should just depend on
+  how strongly that trait is to them." The shape is built; the bands remain
+  authored and are an edit to a pack file.
 - `player-temperament-source` (**P2**) — whether setup answers count as
   choosing a disposition, or whether temperament should come only from choices
   in play. Built as the second; an answer of "both" is additive.
@@ -502,3 +499,65 @@ them, so in a clone that has switched branches `corpus:prose -- check` can be
 checking the previous branch's leftover files. It fails loudly in one direction
 and passes silently in the other. Regenerate before trusting a prose verdict in
 a clone that has changed branches.
+
+---
+
+## 9. ANSWERED and built: what personality change is paced by
+
+**The owner, 2026-09-22:** "it should just depend on how strongly that trait is
+to them."
+
+Nothing new had to be stored to do it. `PersonalityTendencyRecord` already
+carries a `strength` — the word the store writes to say whether a lean is
+subtle or defining — so `traitResistance` reads that strength against a
+resistance the declaring pack names for each one. A faint lean shifts sooner
+than a defining one, in the same life, on the same day, with no second hidden
+number about how stubborn anybody is.
+
+**Two defects went with it.** Both came from the technical director's review of
+`trait-resistance.ts`; both were confirmed here, in the code, before anything
+changed.
+
+**Repetition was evidence.** `traitChangePressure` counted failed attempts and
+added the count to the force with no bound, so the same argument ten times in
+one afternoon carried ten times the weight of saying it once, and persistence
+alone eventually moved anybody. The file's own comment asserted the intent —
+"one argument does not change somebody, and the same argument for the tenth
+time does" — and the code did the opposite of the first half. It now reads two
+things and takes the smaller, less one: **separate experiences**, where an
+attempt from a context that already argued this way inside the pack's spacing
+window is the same experience continuing; and **elapsed time**, in spacing
+periods between the first counted experience and the last. The pack caps the
+total, which is what makes the guarantee statable and asserted in the tests: a
+value held as `defining` resists the weakest force plus the maximum pressure
+for as long as anyone keeps at it, and moves only when something argues harder.
+
+**Every past move added permanent hardening.** It stopped oscillation, and it
+also meant somebody who had lived through things became progressively
+unreachable — a life made of events ending in a character no event could touch,
+which is the opposite of the requirement that every character can change.
+Removed. A value now carries the pack's unsettled floor the day it is written,
+so there is no week-after swing back. Prior moves are still counted and still
+said out loud, because they are true about the person.
+
+**Where the numbers live.** Every number a change is weighed against is now in
+`TraitMovability`, per pack, per trait: a settled resistance for each of the
+four strengths, years to settle, the unsettled floor, the experience spacing in
+days, and the pressure cap. The engine keeps only what the three force words
+mean, because those have to mean the same thing to every pack. **The bands
+themselves are still authored and still his to change** — they are an edit to
+`people-trait-pack.ts` or `legislature-trait-pack.ts` and touch no code.
+
+**One proposal declined, and why.** Requiring that several different corners of
+a life argue before any of it counts reads well and was proposed. The running
+game has exactly one producer — being turned down by the person you keep asking
+— so contexts in play are all the same person, and that rule would have left
+nobody's temperament able to move at all. That is not a stricter rule, it is a
+dead one. Variety reaches the count sooner instead of gating it.
+
+**What changed for a player, walked rather than inferred.** An NPC who keeps
+being turned down still becomes a person who reaches out less. It now takes
+years of it rather than a fortnight.
+`src/simulation/people-trait-occasions.test.ts` drives real asks through
+`proposeContact` and `answerContact` with ordinary days passing between them,
+and asserts it takes more than two refusals.

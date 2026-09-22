@@ -661,17 +661,22 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // Compare the committed report to the live scanner, not a count pinned to
     // an older source tree. Adding a valid feature must regenerate the report;
     // it must not require silently weakening or refreshing a magic test number.
+    // The tripwire moved from `coverage-report.md` to `coverage-counts.json`
+    // and did not weaken: it asserted on these numbers before and asserts on
+    // the same numbers now. What changed is that the 545-line report carrying
+    // them is no longer committed, because its per-file candidate list
+    // conflicted on essentially every base merge while claiming nothing.
     const coverage = buildCoverageReport(inventory);
-    const report = readFileSync(
-      "docs/prose-inventory/coverage-report.md",
-      "utf8",
-    );
-    expect(report).toContain(
-      `Scanned ${coverage.scannedFiles} files holding ${coverage.totalLiterals} string`,
-    );
-    expect(report).toContain(
-      `| INVENTORIED | ${coverage.counts.INVENTORIED} |`,
-    );
+    const committed = JSON.parse(
+      readFileSync("docs/prose-inventory/coverage-counts.json", "utf8"),
+    ) as {
+      scannedFiles: number;
+      totalLiterals: number;
+      counts: Record<string, number>;
+    };
+    expect(committed.scannedFiles).toBe(coverage.scannedFiles);
+    expect(committed.totalLiterals).toBe(coverage.totalLiterals);
+    expect(committed.counts).toStrictEqual({ ...coverage.counts });
   }, 30_000);
 });
 

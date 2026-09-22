@@ -1,0 +1,37 @@
+{
+  "filedAt": "2026-09-22T13:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "The current set is authored and labelled as such. Ordinary-life traits declare a settled resistance per strength running roughly 1.5 to 6, settling over eight to fifteen years, carrying half to three fifths of that resistance the week after a change, counting experiences sixty to one hundred and eighty days apart, and capping accumulated experience at three. Bargaining manner is deliberately easier and settles over four years, which is roughly a term.",
+    "One relationship between the numbers is load-bearing rather than taste, and should survive any answer: a value held as defining must resist the weakest force plus the maximum accumulated experience, so persistence alone never moves anybody, and must still be below the strongest force plus that maximum, so every character can change. Both are asserted in trait-resistance.test.ts.",
+    "The live occasion in play argues with the weakest force, so the spacing and the cap together decide whether being turned down repeatedly can ever move somebody at all, and how many years of it that takes."
+  ],
+  "priority": "P1",
+  "question": "The shape of personality change is settled: how hard somebody is to change depends on how strongly the trait is theirs, and what accumulates is separate experiences spread over time rather than repeated attempts. The numbers underneath it are not. For an ordinary-life temperament: how much harder should a defining hold be than a faint one — twice, three times, more? How long should a value have to stand before it counts as settled, and does that differ by trait? How much resistance should a value still carry the week after it changed, as a share of its settled resistance? How far apart do two experiences have to be before the second is genuinely a second one — a month, a season, a year? And how much should accumulated experience ever be able to add, given that a single formative event is worth three times a passing one?",
+  "questionId": "personality-change-bands",
+  "relatedQuestionIds": [
+    "personality-change-pace",
+    "ordinary-life-trait-set",
+    "person-starting-trait-count"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "people and life thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/people-trait-pack.ts and src/simulation/legislature-trait-pack.ts, the movability numbers as shipped",
+      "whatItDidNotSettle": "They are the whole of the question. Every one was chosen to be plausible rather than researched, and nothing in the repository checks them against anything."
+    },
+    {
+      "source": "The owner's answer of 2026-09-22 on what the pacing depends on",
+      "whatItDidNotSettle": "Settles the shape and nothing about scale. It says a strongly held trait is harder than a faint one; it does not say whether a strongly held trait should shift once in a decade or three times in a life."
+    },
+    {
+      "source": "src/simulation/people-trait-occasions.test.ts, walked at the new numbers",
+      "whatItDidNotSettle": "Establishes that the live route still moves somebody and that it now takes years rather than a fortnight. It proves the mechanism behaves at these numbers; it has nothing to say about whether years is the right answer."
+    }
+  ],
+  "title": "The durations and bands under personality change",
+  "usableAnswer": "Rough ranges rather than exact numbers, worked against a named example: how many separate experiences, over how long, before somebody who is strongly a certain way plausibly stops being that way; and the same for somebody who barely leans. A position on whether the settling period should differ between a way of thinking and a way of getting on with people would settle five numbers at once. Any answer replaces numbers in a pack file and touches no code.",
+  "whyItMatters": "These numbers are what a player actually feels, and the shape above cannot save them. Set too loose, characters reinvent themselves every few months and stop being people. Set too tight, nothing anyone does to anyone ever matters and the system is decoration. Both failures look identical in tests, which pass either way, so nothing in this repository will ever catch a wrong answer here."
+}
