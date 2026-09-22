@@ -43,6 +43,24 @@ invocation, failing inside another, and failing when run alone. Unlike the
 `childhood` sequence above, those three runs were not confounded by a changing
 head.
 
+## One reproduction on clean `main`, and the limit of it
+
+Run on `main` `7f2717a2` with an untouched worktree, so no branch is involved:
+
+- `src/simulation/civil-personnel-import-graph.test.ts` **alone**: 1 file, 3
+  tests, all passing.
+- The whole of `src/simulation` in one invocation: 123 files, 1,525 tests, **1
+  failed**.
+
+Stated with its limit, because this is a document about overclaiming from thin
+measurements: **the name of the failing test in the second run was not
+captured** — the run was reduced to its summary lines and the re-run to recover
+the name was cancelled when the machine ran out of capacity. So this pair shows
+that a clean `main` does not return the same verdict for every scheduling, and
+it does not by itself prove the failure was `civil-personnel-import-graph`.
+Naming it is a five-minute run for whoever picks this up, and it should be the
+first thing done.
+
 ## Why this is larger than two tests
 
 **A one-run failure list is a weaker instrument than its precision suggests.**
