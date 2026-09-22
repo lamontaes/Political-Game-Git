@@ -193,10 +193,52 @@ export function recordedDistrictResidenceSince(
   chamber: DistrictChamber,
   onDate: IsoDate,
 ): IsoDate | null {
-  return (
-    recordedDistrictMembership(world, personId, chamber, onDate)?.startedOn ??
-    null
+  const membership = recordedDistrictMembership(
+    world,
+    personId,
+    chamber,
+    onDate,
   );
+  if (membership === null) return null;
+  /*
+   * The interval says WHICH district; the household records say SINCE WHEN.
+   *
+   * The join is written once, at world creation, so its `startedOn` is the day
+   * the world was written rather than the day this life came to live there. A
+   * forty-year-old who has never moved was therefore resident in their state
+   * since childhood and in their own house district for no time at all, and a
+   * residence requirement measured against that refused a lifelong resident.
+   * Absence read as a confident zero, which is the unknown-is-not-zero rule
+   * crossed from the other side.
+   *
+   * Answering it here rather than at the join is deliberate, and it is the
+   * second attempt: writing the corrected date INTO the interval changed the
+   * recorded bytes, and a replay descriptor is a promise that replaying it
+   * rebuilds the same world — `world46-opening` holds the game to that hash by
+   * hash, and it caught the change. Reading it instead records nothing new, so
+   * old saves keep their bytes AND get the corrected answer, which a
+   * write-time repair could never reach.
+   *
+   * Where the two disagree the household record wins, because it is the only
+   * one of them that is evidence of when somebody came to live somewhere; the
+   * interval's own start is evidence of when the join was written. The
+   * interval remains the answer whenever the household records say nothing.
+   * What this dates is residence in the TERRITORY: district lines stay the
+   * catalog's vintage, and nothing here claims where a boundary ran in an
+   * earlier year.
+   */
+  const person = world.people[personId];
+  if (!person) return membership.startedOn;
+  const livedHereSince = homeJurisdictionResidenceSince(
+    world,
+    personId,
+    person.homeJurisdictionId,
+    onDate,
+  );
+  if (livedHereSince === null) return membership.startedOn;
+  return livedHereSince < membership.startedOn
+    ? livedHereSince
+    : membership.startedOn;
 }
 
 /**
@@ -528,15 +570,7 @@ export function syncDistrictMembershipFromCanonicalHome(
   );
   if (!residence) return world;
   const placeGeoid = canonicalHomePlaceGeoid(world, personId);
-  const livedHereSince = homeJurisdictionResidenceSince(
-    world,
-    personId,
-    person.homeJurisdictionId,
-  );
-  const startedOn =
-    livedHereSince !== null && livedHereSince < residence.occurredAt
-      ? livedHereSince
-      : residence.occurredAt;
+  const startedOn = residence.occurredAt;
   let next = world;
   for (const chamber of HOME_JOIN_CHAMBERS) {
     const join = districtMembershipFromCanonicalHome({
@@ -583,7 +617,7 @@ export function syncDistrictMembershipFromCanonicalHome(
       provenance: {
         method: "canonical-home-join",
         sourceEventId: residence.id,
-        note: `Whole-place membership from ${SLD_PLACE_RELATION_VINTAGE} for Census place ${placeGeoid}, held since ${startedOn}, the recorded start of this life's continuous residence in that place.`,
+        note: `Whole-place membership from ${SLD_PLACE_RELATION_VINTAGE} for Census place ${placeGeoid}.`,
       },
     });
     if (recorded.kind === "recorded") next = recorded.world;
