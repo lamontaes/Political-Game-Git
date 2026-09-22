@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  amendableRuleFieldLabel,
   constitutionalActions,
   constitutionalMemberBody,
   constitutionalPosition,
@@ -246,7 +247,9 @@ export function ConstitutionalWorkspace({
           <p>
             {measure.ruleDelta.kind === "proposal-threshold"
               ? `Modeled rule: later proposal threshold ${measure.ruleDelta.numerator}/${measure.ruleDelta.denominatorParts}, applied from the recorded operative date.`
-              : `Text recorded; effect unavailable: ${measure.ruleDelta.unsupportedEffect}`}
+              : measure.ruleDelta.kind === "rule-field"
+                ? `Modeled rule: ${amendableRuleFieldLabel(measure.ruleDelta.field)} becomes ${measure.ruleDelta.value}, applied from the recorded operative date.`
+                : `Text recorded; effect unavailable: ${measure.ruleDelta.unsupportedEffect}`}
           </p>
           <p>
             Collective rollcalls and ratification decisions come from the

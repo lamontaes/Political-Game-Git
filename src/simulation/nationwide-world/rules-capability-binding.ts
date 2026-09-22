@@ -21,6 +21,7 @@ export const rulesCapabilityResolver: RuleCapabilityResolver = (request) => {
     officeKey: request.officeKey ?? null,
     action: request.action,
     onDate: request.onDate,
+    ...(request.world ? { world: request.world } : {}),
   });
   const fields: ResolvedRuleField[] = request.fields.map(
     (field) =>

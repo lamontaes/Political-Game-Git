@@ -27,6 +27,7 @@ import { rulePackById } from "./legislature-rule-packs";
 import { activeWorkRelationshipsAt } from "./life-queries";
 import { stateJurisdictionForKey } from "./life-places";
 import type { ConstitutionalProcessKind } from "./constitutional-types";
+import { assertConstitutionalRuleFieldDelta } from "./enacted-rule-changes";
 
 export const ARTICLE_V_STATE_KEYS = Object.freeze(
   "AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY"
@@ -299,6 +300,8 @@ export function proposeConstitutionalMeasure(
       numerator: input.ruleDelta.numerator,
       denominatorParts: input.ruleDelta.denominatorParts,
     });
+  } else if (input.ruleDelta.kind === "rule-field") {
+    assertConstitutionalRuleFieldDelta(input.jurisdictionKey, input.ruleDelta);
   } else if (
     input.ruleDelta.kind !== "text-only" ||
     !input.ruleDelta.unsupportedEffect.trim()
@@ -485,7 +488,9 @@ export function constitutionalPosition(
     ratifiedStates: [...states],
     effectiveAt,
     operativeAt,
-    modeledEffect: m.ruleDelta.kind === "proposal-threshold",
+    modeledEffect:
+      m.ruleDelta.kind === "proposal-threshold" ||
+      m.ruleDelta.kind === "rule-field",
   };
 }
 function assertDetail(

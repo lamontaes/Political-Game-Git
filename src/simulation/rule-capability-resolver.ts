@@ -48,7 +48,11 @@ import {
   stateName,
   type QualificationFieldName,
 } from "./office-qualification-rules";
-import type { IsoDate } from "./types";
+import {
+  enactedRuleChangeAt,
+  STATUTE_EFFECTIVE_DEFAULT_DAYS,
+} from "./enacted-rule-changes";
+import type { IsoDate, World } from "./types";
 
 export const RULES_CAPABILITY_VERSION = "rules-capability/v1";
 
@@ -776,19 +780,79 @@ function refusalFor(
   return null;
 }
 
+/**
+ * A law enacted in this World replaces the compiled value of the rule it
+ * changed, from its operative date. It can also establish a rule the game had
+ * no compiled value for: the law in this World now says what it is. A term's
+ * end is derived from its length, so a changed length carries into it.
+ */
+function withEnactedChange(
+  resolved: ResolvedField,
+  world: World,
+  stateUsps: string,
+  officeKey: string | null,
+  onDate: IsoDate,
+): ResolvedField {
+  const lookup = (field: string) =>
+    enactedRuleChangeAt(world, { stateUsps, officeKey, field, onDate });
+  if (resolved.field === "term.expiry") {
+    const years = lookup("term.years");
+    if (!years || resolved.state !== "ADMITTED") return resolved;
+    return {
+      ...resolved,
+      value: { kind: "derived-from-start", years: years.value },
+      ruleVersion: `enacted:${years.measureId}`,
+      validFrom: years.operativeAt,
+    };
+  }
+  const change = lookup(resolved.field);
+  if (!change) return resolved;
+  return {
+    field: resolved.field,
+    state: "ADMITTED",
+    value: change.value,
+    ruleScope:
+      change.instrument === "constitutional-amendment"
+        ? "state-constitution"
+        : "state-statute",
+    ruleVersion: `enacted:${change.measureId}`,
+    validFrom: change.operativeAt,
+    validThrough: null,
+    source: {
+      citation:
+        change.operativeBasis === "game-default"
+          ? `${change.designation}, enacted in this game; in force after the game's default of ${STATUTE_EFFECTIVE_DEFAULT_DAYS} days because this state's effective-date rule is not modelled`
+          : `${change.designation}, enacted in this game`,
+      url: null,
+      artifactId: null,
+    },
+    reason: null,
+  };
+}
+
 /** Resolve every field an action touches in one scope on one date. */
 export function resolveCapability(input: {
   readonly scope: GovernmentScope;
   readonly officeKey?: string | null;
   readonly action: CapabilityAction;
   readonly onDate: IsoDate;
+  /**
+   * The World whose enacted laws apply. Without it only the compiled rules
+   * are read, which is right for a question about real law and wrong for a
+   * question about this life's government.
+   */
+  readonly world?: World;
 }): CapabilityResolution {
   const officeKey = input.officeKey ?? null;
   if (input.scope.kind === "state") {
     const usps = input.scope.stateUsps;
-    const fields = STATE_FIELDS.map((field) =>
-      resolveStateField(field, usps, officeKey, input.onDate),
-    );
+    const world = input.world;
+    const fields = STATE_FIELDS.map((field) => {
+      const compiled = resolveStateField(field, usps, officeKey, input.onDate);
+      return world
+        ? withEnactedChange(compiled, world, usps, officeKey, input.onDate)
+        : compiled;
+    });
     return {
       resolverVersion: RULES_CAPABILITY_VERSION,
       scope: input.scope,
@@ -832,12 +896,14 @@ export function resolveCapabilityField(input: {
   readonly officeKey?: string | null;
   readonly field: CapabilityField;
   readonly onDate: IsoDate;
+  readonly world?: World;
 }): ResolvedField {
   const resolution = resolveCapability({
     scope: input.scope,
     officeKey: input.officeKey ?? null,
     action: "inspect",
     onDate: input.onDate,
+    ...(input.world ? { world: input.world } : {}),
   });
   return (
     resolution.fields.find((entry) => entry.field === input.field) ??
