@@ -54,6 +54,10 @@ async function probe(page: Page, tag: string) {
 
 async function play(page: Page, tag: string, state: string, town: string) {
   console.log(`\n==== ${tag}: ${town}, ${state} — build 6146df35 ====`);
+  // openCreator assumes the front door is already open, and this build takes
+  // a good ten seconds to finish loading before it draws one.
+  await page.goto("/");
+  await expect(page.getByTestId("new-game")).toBeVisible({ timeout: 60_000 });
   await fillCreator(page, { age: 26, state, place: town, route: "normal" });
   await page.getByTestId("begin").click();
   await enterLife(page);
