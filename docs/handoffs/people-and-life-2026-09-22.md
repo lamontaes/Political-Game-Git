@@ -1,9 +1,115 @@
 # People and life, overnight 2026-09-21 into 2026-09-22
 
-Written for the morning report. Everything below is on
-`claude/people-and-life-4qpuwb` (PR #280) unless a section says otherwise.
-Findings that need a decision are marked **OPEN**; everything else is settled
-and built.
+Written for the morning report. PR #280 is **merged**: all of it is on `main`
+at `d4dca882`. Findings that need a decision are marked **OPEN**; everything
+else is settled and built.
+
+## What changed for a player
+
+_Written for the owner, in the words it was put to him. Everything below this
+section is the working detail behind it._
+
+Personality is now packs of data rather than five traits written into the code,
+so a sixth can be added without touching TypeScript. Your own character has
+their own temperament, said by you rather than seeded, and unsaid until you say
+it. People who have actually dealt with somebody can read them; strangers say
+nothing rather than guessing at a middle. And letting a day go by is no longer
+recorded as you turning something down, which three different surfaces were
+getting wrong.
+
+Three things are worth knowing alongside that, because each is a gap rather
+than a win, and each is small and specific.
+
+The code that feeds the one screen showing temperament walks the five traits
+written into the source and never asks the loaded packs. So a mod that adds a
+sixth trait is consulted by every decision in the game and invisible on the
+only screen that shows temperament. That is the RimWorld comparison failing at
+the very last step, and it is a one-function fix.
+
+Your own character's temperament has no screen at all. The person card
+deliberately never shows it, which was the right call back when your character
+had no temperament to show, and stopped being right last night.
+
+The day you spend the most time on has no artwork whatsoever — all twenty-eight
+player stylesheets were checked and not one references an image — and the three
+ways a thing on your calendar can end are drawn identically. A thing you turned
+down, a thing that expired without you ever being asked, and a thing still
+waiting are all the same grey dot. Both are now filed as art requests; the
+third request, for traits, is held because it would mean asking someone to draw
+for a half-built screen, and art commissioned that way constrains the screen
+instead of serving it.
+
+---
+
+## 0. OPEN, and the biggest thing here: the game answers asks addressed to you
+
+**Not fixed. This is a decision, not a defect to be quietly patched.**
+
+`npcContactAnswer` in `src/simulation/people-contact.ts` never checks whether
+the person being asked is the controlled character. So when somebody reaches
+out to you, the simulation decides your answer — accept, decline or counter —
+before you are ever shown the ask. Instrumented over several rounds of ordinary
+play, the count of asks still awaiting the player's own answer was zero in every
+round: not "rarely reaches you", never.
+
+This sits directly on top of the thing ranked first: relationships, private
+goals and the people around you. An invitation answered on your behalf is the
+game playing that part of your life for you.
+
+**What the fix would change about play.** The answer path would have to split:
+an ask addressed to the played character stops at the calendar as something
+waiting, and the player answers it the way they answer any other standing thing
+— including by letting it lapse, which since this branch is recorded as a lapse
+rather than as a refusal. Asks between two other people keep deciding
+themselves exactly as they do now. The cost is that a player who ignores their
+messages accumulates unanswered asks, which is either realistic or annoying
+depending on taste, and that is the judgement somebody has to make rather than
+me.
+
+It was left alone deliberately. It changes how the game behaves in a way a
+player will feel, and the choice belongs to the owner.
+
+---
+
+## 0a. OPEN: the trait surface shows five traits and cannot show a sixth
+
+**Not fixed. Small, specific and it undercuts the headline of this branch.**
+
+Temperament does reach a player screen: `src/player/PersonCard.tsx:221` calls
+`observedTraitLabels` and renders the words for whatever the person has
+actually been observed to have. That part works, and it correctly says nothing
+about a person nobody has decided anything with.
+
+Two gaps sit behind it.
+
+**The display path is hardwired to the five.** `personTraits`
+(`src/simulation/people-traits.ts:150`) is `PEOPLE_TRAITS.map(...)`, and
+`PEOPLE_TRAITS` is the five-element `as const` at
+`people-trait-definitions.ts:12`. It never consults the loaded registry. So a
+pack that adds a sixth trait is read by every decision in the game and is
+invisible on the only screen that shows temperament. The whole point of this
+branch was that a trait is a row in a pack, and that stops one function call
+short of the player. It is a one-function change: iterate the registry, render
+per pole.
+
+**The played character's own temperament has no surface at all.**
+`PersonCard.tsx:218` excludes it on purpose — "Temperament is shown for other
+people only, never for the one played" — and that exclusion predates this
+branch. It is not an oversight: it was a correct decision taken when the played
+character had no temperament to show, and the ground moved under it tonight.
+Whoever changes it should change it on purpose rather than patch it.
+`recordPlayerTraitChoice` and `playerTemperament` landed tonight with
+no screen behind them, so there is still no way for a player to say who they
+are. That one is a small screen rather than a one-liner, and it is the
+remaining half of "obviously you as a character need your own".
+
+Neither is a missing system. Both are a finished system stopping just short of
+the surface, which is the same shape as the four systems that turned out built
+and simply never surfaced.
+
+**The constraint on whoever does it:** per pole, not per trait. A treatment
+with one entry per named trait is wrong the moment a pack adds a sixth, and
+the sixth trait is the thing this branch exists to make possible.
 
 ---
 
@@ -260,51 +366,84 @@ Worth knowing for the future: this class of break is invisible to whoever causes
 it, because it only fires on the next regeneration, which is usually somebody
 else's branch.
 
-## 7. Art this lane needs, and why the requests are not in the queue yet
+## 7. The art requests: two filed, one held
 
-lamontae asked for art requests covering everything, not just backgrounds —
-newspapers, graphs, interface pieces — and explicitly not clothing. Two things
-stop this lane from filing them directly, and both are worth him knowing at 9am
-because they are short fixes somebody else owns.
+`interface-graphic` reached `main` with #281, so the class this lane was
+waiting for now exists. Two requests are filed in
+`art/requests/asset-requests.json`, each with its
+`unaffected-still-required` verdict in
+`art/requests/preserved-asset-reconciliation.json`, which
+`tests/asset-readiness.test.ts` requires of every open request.
 
-**The request document has no class for interface art.** `AssetTargetClass` in
-`src/authoring/asset-lineage.ts:94` is exactly three values:
-`environment-plate`, `title-plate`, `reference`. A newspaper page, a chart, a
-panel frame is none of those. The queue already carries `character-component`
-entries that the union does not name, so the JSON is not typechecked against it
-at rest — which means filing an interface request under `environment-plate`
-would be a lie recorded in the one place the Art Desk reads, rather than a gap
-somebody can see. The fix is one member on that union and whatever the Desk
-does with it, and it belongs to the lane that owns the Desk.
+- **`ui-ordinary-day-page-furniture`** — the day a player actually lives in.
+  It is the most-read surface in the game and every one of the twenty-eight
+  stylesheets under `src/player/` contains zero `url()` declarations,
+  `player.css` and `shell.css` included, which between them are 10,558 lines.
+  There is no artwork on it at all.
+- **`ui-standing-thing-state-marks`** — three marks for the three ways a
+  standing thing ends. Section 1 made a lapse genuinely different from a
+  refusal in the simulation, and the interface still draws both, and a thing
+  still waiting, with the same 4px grey dot at `src/player/player.css:4992`.
+  A player who cannot tell them apart reads every expired hold as a decision
+  they made.
 
-**Adding any queued request breaks an owned assertion.**
-`src/authoring/art-desk.test.ts:252` asserts the generation-eligible set is
-exactly `env-neighborhood-doorstep-generic` and
-`env-park-community-pavilion-winter-variant`. A new `queued` request joins that
-set and turns the test red for every branch, not only this one. That assertion
-is the art lane's to update alongside whatever it admits.
+Both forbid lettering in the artwork, because every word on those surfaces —
+names, dates, the things themselves — is generated per world, and a word
+painted into the art would be a fact the game never recorded.
 
-What this lane would ask for, once there is a class to ask under. None of it is
-clothing.
+**The third is held.** A per-pole treatment for traits was the obvious third
+request: something that reads as "far toward this end" and, separately, as
+"nothing recorded". It is not filed because the surface it would dress is
+half-built — see section 0a, which is the finding that came out of checking
+whether this request had a consumer. The trait words a player sees today are
+plain text on the person card, and until that path reads the registry rather
+than the hardcoded five, artwork would be dressing a list that cannot show a
+modded trait anyway.
 
-- **The day's own page.** The ordinary-life day view is the surface a player
-  spends the most time on and it is entirely typography. It needs a frame: a
-  heading treatment, a rule between what happened and what is waiting, and a
-  distinct mark for a thing that has stood a long time. It has none.
-- **A standing thing that has aged.** Section 1 of this document made a hold
-  that lapsed different from one that was refused, and made a thing that has
-  stood twelve weeks say so. All three states read as the same paragraph of
-  plain text. They want three visibly different marks, not three sentences.
-- **A person's temperament, shown rather than listed.** Traits are now rows in
-  loaded packs and a pack may add a sixth. Anything drawn per-trait would be
-  wrong on the day somebody mods one in, so this wants a _pole_ treatment —
-  something that reads as "far toward this end" and "unrecorded" — applied to
-  whatever rows the pack happens to carry. Unrecorded needs its own mark and
-  must not look like a middle, which is the whole point of that system.
-- **The contact list.** Getting back in touch, an ask waiting on an answer, an
-  ask that was turned down, and somebody there is no recorded way to reach are
-  four different states rendered as four similar lines.
+When it is filed it must be a _pole_ treatment rather than one drawing per
+trait, because a pack may add a sixth trait and anything drawn per-trait is
+wrong the moment somebody does.
 
-Filed here rather than in the queue deliberately. A request recorded under the
-wrong class is worse than a request not yet recorded, because the Desk acts on
-the first and nobody ever rereads it.
+_A correction, recorded because the wrong version was briefly circulated: an
+earlier draft of this section said no player component reads a trait at all.
+That is false. The grep behind it searched for the wrong identifiers and its
+broader pass looked confirmatory only because nearly every hit was the
+substring "trait" inside `PersonPortrait`. Section 0a is the measured
+version._
+
+---
+
+## 8. Two process findings that cost other lanes rounds
+
+**Byte-identity is the wrong test for prose anchors.** The advice circulating
+last night was to confirm `computed-anchors.json` and `metrics-baseline.json`
+come back byte-identical to main's after regenerating, so that nobody's
+re-anchoring is silently reverted. That gives a false alarm on every branch
+that legitimately retires or mints an anchor — and the obvious response to a
+false alarm is to revert real work.
+
+The right test is the set difference in both directions, with every entry
+named. On this branch: the only anchors `main` had that this tree lacked were
+`RETURN_SUMMARY-0017` and `RETURN_SUMMARY-0029`, the two scenes this work
+removes, both burned in `computed-anchor-ledger.json` rather than deleted; and
+the only one this tree added was `unavailableReason-0005`, minted for new
+text. Every difference accounted for, nothing of anybody else's reverted.
+
+**Tracked generated files are costing about one conflict per merge.**
+`docs/prose-inventory/coverage-report.md` conflicted on every one of the six
+merges of `main` this lane did between 06:00 and 07:05Z.
+`docs/dehardwire/census.json` conflicted on three of them, and
+`docs/prose-inventory/README.md` on five. None of these is hand-written; each
+is regenerated by tooling the repository already owns, and the resolution is
+always the same — take either side, run the generator, commit. With four lanes
+pushing it is a tax paid per merge, and on a night with a deadline it was the
+single largest consumer of merge time here.
+
+The fix is to stop tracking them, as three of the four prose artifacts already
+are (`.gitignore` lines 37 to 40), or to regenerate them in CI rather than in
+the tree. Not a job for tonight. One caution that comes with the existing
+gitignoring: because those three are untracked, `git checkout` never touches
+them, so in a clone that has switched branches `corpus:prose -- check` can be
+checking the previous branch's leftover files. It fails loudly in one direction
+and passes silently in the other. Regenerate before trusting a prose verdict in
+a clone that has changed branches.

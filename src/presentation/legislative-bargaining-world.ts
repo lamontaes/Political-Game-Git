@@ -396,6 +396,17 @@ export function openLegislativeBargaining(
         input.playerPersonId,
         advocatePersonId,
       ),
+      // A generated sitting describes its own cause. The authored Kentucky
+      // sitting passes none and keeps its accepted Ashland reads, because that
+      // is the sitting it is; every docket bill states the section and the
+      // beneficiary its own invitation carries.
+      cause:
+        docket === null
+          ? undefined
+          : {
+              sectionLabel: facts.requestedSectionLabel,
+              beneficiaryLabel: facts.requestedBeneficiaryLabel,
+            },
     }),
     roomContext,
     privateRoomContext,
