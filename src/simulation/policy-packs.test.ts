@@ -92,6 +92,54 @@ describe("what a build ships with", () => {
     }
   });
 
+  it("cuts both ways on every principle", () => {
+    // A principle that only ever appears as `consistent-with` is not a
+    // principle, it is an agree-with-everything dial: holding it could never
+    // move a character to disagree with anything the game ships. Found by
+    // counting rather than by reading — environmental-stewardship,
+    // equal-opportunity and transparency were all one-sided on the first
+    // authoring pass, and nothing in the set's design would have shown it.
+    //
+    // It also makes `conflicted` reachable. A person holding two principles
+    // that a question engages in opposite directions is the case worth
+    // representing, and it cannot arise if every principle points one way.
+    const sides = new Map<string, Set<string>>();
+    for (const id of catalog.propositionOrder) {
+      for (const bearing of catalog.propositions[id]!.principles ?? []) {
+        const seen = sides.get(bearing.principleId) ?? new Set<string>();
+        seen.add(bearing.bearing);
+        sides.set(bearing.principleId, seen);
+      }
+    }
+    for (const principleId of catalog.principleOrder) {
+      const principle = catalog.principles[principleId]!;
+      expect({
+        principle: principle.stableKey,
+        sides: [...(sides.get(principleId) ?? [])].sort(),
+      }).toEqual({
+        principle: principle.stableKey,
+        sides: ["against", "consistent-with"],
+      });
+    }
+  });
+
+  it("puts principles in tension on at least some questions", () => {
+    // Where the two previous assertions meet. A question engaging one
+    // principle each way is what a character with ordinary, mixed
+    // convictions actually runs into, and if the catalog had none of them
+    // every view formed from principles would be unanimous.
+    const inTension = catalog.propositionOrder.filter((id) => {
+      const bearings = catalog.propositions[id]!.principles ?? [];
+      return (
+        bearings.some((entry) => entry.bearing === "consistent-with") &&
+        bearings.some((entry) => entry.bearing === "against")
+      );
+    });
+    expect(inTension.length).toBeGreaterThan(
+      catalog.propositionOrder.length / 2,
+    );
+  });
+
   it("rejects a proposition naming a principle nobody declares, by name", () => {
     // Fails soft, and loudly. A relation that quietly became an empty list
     // would leave a position looking authored and engaging nothing.

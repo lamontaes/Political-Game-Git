@@ -176,6 +176,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         { principle: "property-rights", bearing: "consistent-with" },
         { principle: "limited-government", bearing: "consistent-with" },
         { principle: "collective-provision", bearing: "against" },
+        { principle: "equal-opportunity", bearing: "against" },
       ],
     },
     {
@@ -320,6 +321,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         { principle: "personal-liberty", bearing: "consistent-with" },
         { principle: "market-competition", bearing: "consistent-with" },
         { principle: "collective-provision", bearing: "against" },
+        { principle: "equal-opportunity", bearing: "against" },
       ],
     },
     {
@@ -538,6 +540,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       principles: [
         { principle: "property-rights", bearing: "consistent-with" },
         { principle: "local-control", bearing: "against" },
+        { principle: "transparency", bearing: "against" },
       ],
     },
     {
@@ -561,6 +564,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       principles: [
         { principle: "market-competition", bearing: "consistent-with" },
         { principle: "local-control", bearing: "against" },
+        { principle: "transparency", bearing: "against" },
       ],
     },
     {
@@ -606,6 +610,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       principles: [
         { principle: "fiscal-restraint", bearing: "consistent-with" },
         { principle: "personal-liberty", bearing: "against" },
+        { principle: "environmental-stewardship", bearing: "against" },
       ],
     },
     {
@@ -831,6 +836,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       principles: [
         { principle: "personal-liberty", bearing: "consistent-with" },
         { principle: "property-rights", bearing: "against" },
+        { principle: "environmental-stewardship", bearing: "against" },
       ],
     },
     {

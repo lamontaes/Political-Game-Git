@@ -91,8 +91,8 @@ const sha256 = (text: string) =>
  * having both: the field these hashes moved on is the one the shape strips.
  */
 const FED321F7_LEGACY = {
-  kentucky: "1a9db20c7fa9cc010481a3fbda6fba7906b9cbe30f6af703f661236307e93e15",
-  peebles: "db959f3046df06b3ad50eabeb9b0e36f3470a5c8524d1592ec77aa7461ddc2d5",
+  kentucky: "375cd5fb89e7b62a399365e3ad07c7b0f78eb909aac6b81747d7779c65a09ad7",
+  peebles: "99ebe80d1b29f387bf4cb1b277a6206f8d115dccfd44f7759c838ae2fbc19b37",
 } as const;
 
 /**
