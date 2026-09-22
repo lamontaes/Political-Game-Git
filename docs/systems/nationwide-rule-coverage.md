@@ -7,7 +7,7 @@ Rule admission only. An admitted field is a compiled, dated rule the resolver wi
 ## Totals
 
 - States: 50; with a compiled legislative pack: 9.
-- States where standing for at least one legislative seat is admitted: 1.
+- States where standing for at least one legislative seat is admitted: 2.
 - States where a legislative term rule is admitted: 1.
 - General-purpose governments in the catalog: 38704.
 - Governments with at least one admitted local action: 3.
@@ -33,7 +33,7 @@ States where a legislator's qualifications are admitted for at least one chamber
 | State | Legislature | Legislator qualifications | Seats with candidacy admitted | Seats with term rule | Local units | Enacted instrument | Pass ordinance | Appropriation rule | Missing for candidacy |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
 | AL | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 531 | 0 | 0 | 0 | no compiled legislative pack |
-| AK | bicameral | lower: refused; upper: refused | 0/2 | 0/2 | 164 | 0 | 0 | 0 | qualification.minimumAge |
+| AK | bicameral | lower: refused; upper: refused | 2/2 | 0/2 | 164 | 0 | 0 | 0 | — |
 | AZ | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 106 | 0 | 0 | 0 | no compiled legislative pack |
 | AR | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 575 | 0 | 0 | 0 | no compiled legislative pack |
 | CA | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 540 | 0 | 0 | 0 | no compiled legislative pack |

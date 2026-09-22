@@ -14,7 +14,7 @@ import type { EntityId, World } from "../simulation";
 import { pinKindLabel } from "./ShellPinRail";
 import { PersonPortrait } from "./PersonPortrait";
 import { projectPersonContact } from "../presentation/person-contact";
-import { personTraits } from "../simulation/people-traits";
+import { observedTraitLabels } from "../simulation/people-traits";
 import "./people-web.css";
 
 /**
@@ -221,9 +221,7 @@ export function PersonCard({
   const traitLabels =
     isYou || dossier.personId === played || !world.people[dossier.personId]
       ? []
-      : personTraits(world, dossier.personId).flatMap((trait) =>
-          trait.label === null ? [] : [trait.label],
-        );
+      : observedTraitLabels(world, dossier.personId);
   const unavailableReasons = [
     !isYou && onTalk && !contact.talk.available ? contact.talk.reason : null,
     !isYou && !contact.travel.available && !presentNow

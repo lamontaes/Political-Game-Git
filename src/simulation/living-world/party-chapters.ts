@@ -1,3 +1,4 @@
+import { scheduledActivityAnswer } from "../scheduled-activity-answer";
 import { ensurePeopleTraits, traitConsiderations } from "../people-traits";
 import { createCharacterHistoryContextPeople } from "../character-history";
 import { characterHistoryContextPersonId } from "../character-history";
@@ -915,7 +916,14 @@ export function leavePartyChapter(
 }
 
 export type ChapterInvitationState =
-  "offered" | "accepted" | "declined" | "expired" | "attended";
+  | "offered"
+  | "accepted"
+  /** The player turned it down. */
+  | "declined"
+  /** The time passed and nobody answered. Not a refusal. */
+  | "lapsed"
+  | "expired"
+  | "attended";
 
 export interface PartyEncounterView {
   readonly chapterOrganizationId: EntityId;
@@ -977,22 +985,22 @@ export function projectPartyEncounters(
             event.type === CHAPTER_MEETING_ATTENDED_EVENT &&
             event.tags.includes(`invitation:${invitation.id}`),
         );
-        const declined = world.history.events.some(
-          (event) =>
-            (event.type === "life.scheduled-activity-declined" ||
-              event.type === "life.social-invitation-declined") &&
-            event.involvedEntityIds.includes(meeting.id),
-        );
+        // Three answers, not two. A hold the clock ran past is `lapsed`, which
+        // is not the player having turned the invitation down, and a record
+        // written before the two were told apart is neither.
+        const answer = scheduledActivityAnswer(world, [meeting.id]);
         const inviteState: ChapterInvitationState = attended
           ? "attended"
-          : declined
+          : answer === "refused"
             ? "declined"
-            : state.status === "scheduled" &&
-                compareSimulationMoments(state.end, world.currentMoment) > 0
-              ? meeting.kind === "confirmed"
-                ? "accepted"
-                : "offered"
-              : "expired";
+            : answer === "lapsed"
+              ? "lapsed"
+              : state.status === "scheduled" &&
+                  compareSimulationMoments(state.end, world.currentMoment) > 0
+                ? meeting.kind === "confirmed"
+                  ? "accepted"
+                  : "offered"
+                : "expired";
         return [
           {
             invitationEventId: invitation.id,

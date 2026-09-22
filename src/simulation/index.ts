@@ -217,6 +217,7 @@ export * from "./serialization";
 export * from "./setup-generation-inputs";
 export * from "./setup-priors";
 export * from "./sha256";
+export * from "./scheduled-activity-answer";
 export * from "./player-model";
 export * from "./setup-opening-bank";
 export * from "./setup-questionnaire-bank";

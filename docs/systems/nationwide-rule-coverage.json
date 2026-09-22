@@ -1439,10 +1439,8 @@
           ],
           "officeKey": "us-ak-legislature-v1:house",
           "seats": 40,
-          "standForOffice": "refused",
-          "standForOfficeMissing": [
-            "qualification.minimumAge"
-          ]
+          "standForOffice": "admitted",
+          "standForOfficeMissing": []
         },
         {
           "enterTerm": "refused",
@@ -1451,15 +1449,13 @@
           ],
           "officeKey": "us-ak-legislature-v1:senate",
           "seats": 20,
-          "standForOffice": "refused",
-          "standForOfficeMissing": [
-            "qualification.minimumAge"
-          ]
+          "standForOffice": "admitted",
+          "standForOfficeMissing": []
         }
       ],
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
-      "standForOfficeAdmitted": 0,
+      "standForOfficeAdmitted": 2,
       "state": "AK"
     },
     {
@@ -3685,7 +3681,7 @@
       "ordinance.introductionToPassage": 2
     },
     "states": 50,
-    "statesWithAnyStandForOfficeAdmitted": 1,
+    "statesWithAnyStandForOfficeAdmitted": 2,
     "statesWithAnyTermRuleAdmitted": 1,
     "statesWithLegislativePack": 9,
     "unitsWithAdmittedLocalRoute": 3

@@ -1,0 +1,36 @@
+{
+  "repositoryPathsSearched": [
+    "art/manifest/asset_manifest.json",
+    "art/requests/asset-requests.json",
+    "art/requests/incoming/",
+    "art/regions/regional-scene-places.json",
+    "art/ and public/ (find, for any icon or SVG asset)",
+    "src/presentation/shell-navigation.ts",
+    "src/player/PinRail.tsx"
+  ],
+  "driveLocationsSearched": [],
+  "found": "No icon set exists. A find across art/ and public/ returns only pose control plates and arm-measurement QA overlays, both authoring evidence. The interface uses text and font glyphs throughout.",
+  "shortfall": "The set of things that need an icon is closed and known \u2014 ShellRef is exactly five kinds \u2014 and none of them has one. Drive was not searched, for the same reason as above.",
+  "generationRecipe": [
+    "Five icons, one for each ShellRef kind: person, commitment, measure, government, organization.",
+    "Government and organization must stay distinguishable at icon size. The navigation code is explicit that a place and the government of that place are different things and that blurring them starts implying where the player lives.",
+    "A commitment is a scheduled activity in the player's own calendar. It should not read as a debt or a promise to somebody.",
+    "One consistent weight and construction across all five, legible in a dense rail, and readable on both light and dark surfaces.",
+    "No party emblems, no donkey or elephant, no real government seal."
+  ],
+  "acceptanceCriteria": [
+    "Exactly five, matching the five ShellRef kinds by name.",
+    "Government and organization are tellable apart at the size the pin rail actually uses.",
+    "All five read as one set: same weight, same construction, same optical size.",
+    "Legible against both a light and a dark surface without a second version.",
+    "Carries no party emblem and no real government's seal."
+  ],
+  "target": {
+    "targetClass": "interface-graphic",
+    "container": "png",
+    "alphaRequired": true,
+    "minimumWidth": 256,
+    "aspectRatio": "square, one icon per file",
+    "styleAuthority": "None yet \u2014 this set will become the style authority for every icon added after it, so its construction rules matter more than any single glyph."
+  }
+}
