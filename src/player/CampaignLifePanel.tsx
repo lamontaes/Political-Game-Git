@@ -238,16 +238,6 @@ export function CampaignLifePanel({
                       ))}
                     </ul>
                   ) : null}
-                  {row.guidanceSources.length > 0 ? (
-                    <details className="game-campaign-detail">
-                      <summary>Sources and detail</summary>
-                      <ul>
-                        {row.guidanceSources.map((source) => (
-                          <li key={source}>{source}</li>
-                        ))}
-                      </ul>
-                    </details>
-                  ) : null}
                 </div>
               ) : null}
             </li>

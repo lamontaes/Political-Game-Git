@@ -4,7 +4,10 @@ import {
   localGovernmentDisplayName,
 } from "../simulation";
 import type { CandidacyBlock, EntityId, World } from "../simulation";
-import { projectCampaign } from "../presentation/campaign-projection";
+import {
+  displayedSharePercents,
+  projectCampaign,
+} from "../presentation/campaign-projection";
 import {
   fileForStateExecutiveOffice,
   qualifyForStateExecutiveTerm,
@@ -46,9 +49,23 @@ export function NationwideCandidacyWorkspace({
   const calendar = candidacy
     ? stateExecutiveOfficeCalendar(world, candidacy.identity.stateUsps)
     : null;
-  const share = (unitId: string) =>
-    home.countyShares?.find((entry) => entry.unitId === unitId)
-      ?.landAreaShare ?? null;
+  // Rounded together, not one by one: Columbus's three counties printed
+  // 98 + 2 + 1 = 101 percent when each share was rounded on its own.
+  const measured = home.counties.flatMap((unit) => {
+    const landAreaShare = home.countyShares?.find(
+      (entry) => entry.unitId === unit.id,
+    )?.landAreaShare;
+    return landAreaShare === undefined
+      ? []
+      : [{ unitId: unit.id, landAreaShare }];
+  });
+  const printed = displayedSharePercents(
+    measured.map((entry) => entry.landAreaShare),
+    0,
+  );
+  const landPercents = new Map(
+    measured.map((entry, index) => [entry.unitId, printed[index]!]),
+  );
   const act = (change: () => World) => {
     try {
       onWorldChange(change());
@@ -90,12 +107,12 @@ export function NationwideCandidacyWorkspace({
         {home.counties.length > 0 ? (
           <ul data-testid="home-counties">
             {home.counties.map((unit) => {
-              const landShare = share(unit.id);
+              const landShare = landPercents.get(unit.id) ?? null;
               return (
                 <li key={unit.id} data-unit-id={unit.id}>
                   {localGovernmentDisplayName(unit)}
                   {landShare !== null && home.counties.length > 1
-                    ? ` — ${Math.round(landShare * 100)} percent of this place's land`
+                    ? ` — ${landShare} percent of this place's land`
                     : null}
                 </li>
               );
@@ -113,14 +130,10 @@ export function NationwideCandidacyWorkspace({
             government is named.
           </p>
         ) : null}
-        <details className="game-campaign-detail">
-          <summary>Sources and detail</summary>
-          <p>
-            Government names are the Census Bureau's own listing of government
-            units. A place that lies across several counties keeps every one of
-            them; none is chosen for it.
-          </p>
-        </details>
+        <p className="game-note" data-testid="home-county-spread">
+          A place that lies across several counties keeps every one of them;
+          none is chosen for it.
+        </p>
       </section>
 
       {candidacy ? (
@@ -151,16 +164,8 @@ export function NationwideCandidacyWorkspace({
                   act(() => fileForStateExecutiveOffice(world, personId))
                 }
               >
-                {/*
-                 * The office is named on the button, not only in the
-                 * paragraph above it. This screen carries a second control
-                 * with the same verb for a legislative seat, and a player
-                 * deciding between them should not have to work out which
-                 * section they are looking at to know what they are filing
-                 * for.
-                 */}
                 <span className="game-campaign-action-label">
-                  Put your name in for {candidacy.identity.title}
+                  Put your name in
                 </span>
                 <span className="game-campaign-action-note">
                   {calendar
@@ -249,6 +254,11 @@ export function NationwideCandidacyWorkspace({
 
 function BlockList({ blocks }: { blocks: readonly CandidacyBlock[] }) {
   if (blocks.length === 0) return null;
+  /*
+   * The block's own reason is the whole of what a player is told. The
+   * citations behind it stay on the record, where a reviewer can read them,
+   * and never on this panel.
+   */
   return (
     <div className="game-note" data-testid="state-executive-blocks">
       <p>{blocks.map((block) => block.reason).join(" ")}</p>
