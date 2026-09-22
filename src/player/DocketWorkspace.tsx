@@ -59,7 +59,7 @@ import {
 import { billAnalysis } from "../presentation/legislation-analysis";
 import type { ProposalLayout } from "../presentation/shell-navigation";
 import { ProposalLayoutContext, ProposalView } from "./proposal/ProposalLayout";
-import { GuideTerm } from "./GuideTerm";
+import { GuideTerm, GuideTermText } from "./GuideTerm";
 import { GameDateField } from "./controls/GameDateField";
 import { GameSelect } from "./controls/GameSelect";
 
@@ -160,25 +160,17 @@ function DocketWorkspaceBody({
             You have been working here since{" "}
             {officeContext.member.recordedWorkStartedAt}.
           </p>
-          <p>{officeContext.committeeMembership.reason}</p>
+          <p>
+            <GuideTermText text={officeContext.committeeMembership.reason} />
+          </p>
         </details>
       ) : null}
 
       {sessionWindow.kind === "past-outer-limit" ? (
         <p data-testid="docket-session-limit">
-          The configured regular-session deadline was {sessionWindow.deadline}.
-          No exceptional-session record is available for procedural work.{" "}
-          {sessionWindow.source.sourceUrl ? (
-            <a
-              href={sessionWindow.source.sourceUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {sessionWindow.source.citation}
-            </a>
-          ) : (
-            sessionWindow.source.citation
-          )}
+          This chamber's regular session ended {sessionWindow.deadline}. No
+          special session is on record, so there is no procedural work to do
+          here until one is called.
         </p>
       ) : null}
 
@@ -559,7 +551,9 @@ function FiledBillPanel({
         </div>
         <div>
           <dt>Where it is</dt>
-          <dd>{stageLabel(bill)}</dd>
+          <dd>
+            <GuideTermText text={stageLabel(bill)} />
+          </dd>
         </div>
         <div>
           <dt>Kind of bill</dt>
@@ -625,7 +619,7 @@ function FiledBillPanel({
               : analysis.fiscal.effect.kind === "collects-charge"
                 ? `The sections propose ${analysis.fiscal.statedCeilingLabel}.`
                 : `The sections propose authorization of up to ${analysis.fiscal.statedCeilingLabel}.`}{" "}
-        {analysis.fiscal.basis}
+        <GuideTermText text={analysis.fiscal.basis} />
       </p>
       {analysis.fiscal.headroom ? (
         <p className="docket-analysis" data-testid="docket-headroom">
@@ -636,9 +630,13 @@ function FiledBillPanel({
         </p>
       ) : null}
       <p className="docket-analysis" data-testid="docket-estimate">
-        {analysis.estimate.kind === "available"
-          ? `${analysis.estimate.statement} That can be estimated: somebody has established where it stands today.`
-          : `No estimate is available. ${analysis.estimate.reason}`}
+        <GuideTermText
+          text={
+            analysis.estimate.kind === "available"
+              ? `${analysis.estimate.statement} That can be estimated: somebody has established where it stands today.`
+              : `No estimate is available. ${analysis.estimate.reason}`
+          }
+        />
       </p>
       {canEstimate ? (
         <fieldset

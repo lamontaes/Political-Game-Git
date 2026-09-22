@@ -3,6 +3,8 @@ import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../simulation";
 import {
   applyFullBirthday,
+  resolveCreatorBirthday,
+  creatorBirthdayAgeRange,
   birthYearChoices,
   birthYearForSetup,
   randomFullBirthday,
@@ -34,9 +36,13 @@ describe("full birthday with a derived starting age", () => {
     const years = birthYearChoices(2, 29, START);
     expect(years.every((year) => year % 4 === 0)).toBe(true);
     for (const year of birthYearChoices(null, null, START)) {
-      const age = startAgeForBirthday({ year, month: null, day: null }, START);
-      expect(age).toBeGreaterThanOrEqual(MINIMUM_START_AGE);
-      expect(age).toBeLessThanOrEqual(MAXIMUM_START_AGE);
+      const range = creatorBirthdayAgeRange(
+        { year, month: null, day: null },
+        START,
+      )!;
+      expect(range).not.toBeNull();
+      expect(range.minimum).toBeGreaterThanOrEqual(MINIMUM_START_AGE);
+      expect(range.maximum).toBeLessThanOrEqual(MAXIMUM_START_AGE);
     }
   });
 
@@ -68,5 +74,35 @@ describe("full birthday with a derived starting age", () => {
       first.year,
     );
     expect(startAgeForBirthday(first, START)).toBeGreaterThanOrEqual(18);
+  });
+});
+
+describe("PLAYTEST65 birthday completion", () => {
+  it("preserves each chosen component and is stable after completion", () => {
+    const partial = applyFullBirthday(SETUP, {
+      year: 1991,
+      month: 7,
+      day: null,
+    })!;
+    const result = resolveCreatorBirthday(partial, true)!;
+    expect(result.birthYear).toBe(1991);
+    expect(result.birthMonth).toBe(7);
+    expect(result.birthDay).toBeGreaterThan(0);
+    expect(resolveCreatorBirthday(result, true)).toEqual(result);
+    expect(resolveCreatorBirthday(partial, true)).toEqual(result);
+    const dayOnly = resolveCreatorBirthday({ ...SETUP, birthDay: 31 }, false)!;
+    expect(dayOnly.birthDay).toBe(31);
+    expect(dayOnly.startAge).toBe(SETUP.startAge);
+  });
+  it("rejects impossible chosen dates and reports a year-only age range", () => {
+    expect(
+      resolveCreatorBirthday(
+        { ...SETUP, birthYear: 1991, birthMonth: 2, birthDay: 29 },
+        true,
+      ),
+    ).toBeNull();
+    expect(
+      creatorBirthdayAgeRange({ year: 1990, month: null, day: null }, START),
+    ).toEqual({ minimum: 35, maximum: 36 });
   });
 });

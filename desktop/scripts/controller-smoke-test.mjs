@@ -62,7 +62,14 @@ try {
   await chrome.getByRole("tab", { name: "Play" }).waitFor();
   await chrome.getByRole("tab", { name: "Art Desk" }).waitFor();
   await chrome.getByRole("tab", { name: "Agents" }).waitFor();
-  await chrome.getByRole("combobox", { name: "Game build" }).waitFor();
+  // Named for the label the hub actually ships, `<label for="track">` in
+  // index.html, which reads "Game version". It was renamed from "Game build"
+  // in c14cb9d3 and this proof was not renamed with it, so the locator matched
+  // nothing and timed out after thirty seconds against a chooser that was
+  // rendering correctly the whole time. An accessible name is part of the
+  // interface: when it changes, everything that addresses the control by it
+  // has to change too.
+  await chrome.getByRole("combobox", { name: "Game version" }).waitFor();
   const game = await waitFor(() => pageFor(/^app:\/\/game\//), "Play view");
   await game.waitForLoadState("domcontentloaded");
   const marker = await game.evaluate(() => {

@@ -1,3 +1,4 @@
+import { lifeEntityAvailableAt, lifeEntityExists } from "../life-integrity";
 import { addDays } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { homeLocalGovernmentStatus } from "../nationwide-world/local-governments";
@@ -179,6 +180,7 @@ function writeStage(
     readonly involved: readonly EntityId[];
     readonly summary: string;
     readonly subjectIndex: number;
+    readonly publishedAt?: IsoDate;
   },
 ): { world: World; eventId: EntityId } {
   const stableKey = `${input.matterId}:stage:${matterEvents(world, input.matterId).length + 1}:${input.stage}`;
@@ -186,7 +188,7 @@ function writeStage(
     stableKey,
     type: input.definition.type,
     occurredAt: input.occurredAt,
-    recordedAt: world.currentDate,
+    recordedAt: input.publishedAt ?? world.currentDate,
     jurisdictionId: input.jurisdictionId,
     involvedEntityIds: input.involved.length ? [...input.involved] : [world.id],
     participants: [],
@@ -214,6 +216,9 @@ function writeStage(
   next = publishPublicEvent(next, {
     stableKey: `${stableKey}:publication`,
     sourceEventId: eventId,
+    ...(input.publishedAt === undefined
+      ? {}
+      : { publishedAt: input.publishedAt, recordedAt: input.publishedAt }),
   });
   return { world: next, eventId };
 }
@@ -312,6 +317,71 @@ function startMatter(
     null,
     { kind: "initialization", reference: matterId },
   );
+}
+
+/** Bounded fictional archive, only called by the opted-in opening writer.
+ * Closed public matters carry no attendance, knowledge, payment or future work.
+ */
+export function ensureOpeningPriorLocalRecords(
+  world: World,
+  personId: EntityId,
+): World {
+  const local = localContext(world, personId);
+  if (!local) return world;
+  const prefix = "playtest65:prior-local";
+  if (world.history.events.some((event) => event.stableKey.startsWith(prefix)))
+    return world;
+  let next = world;
+  // Authored archive dates, not a probability or a rule for future government action.
+  for (const [index, daysAgo] of [300, 160].entries()) {
+    const subjectIndex = index;
+    const matterId = `${prefix}:${index + 1}`;
+    const postedAt = addDays(world.currentDate, -daysAgo);
+    const closedAt = addDays(postedAt, 30);
+    if (
+      local.involved.some(
+        (id) =>
+          lifeEntityExists(world, id) &&
+          (!lifeEntityAvailableAt(
+            world,
+            id,
+            postedAt,
+            world.history.nextSequence,
+          ) ||
+            !lifeEntityAvailableAt(
+              world,
+              id,
+              closedAt,
+              world.history.nextSequence,
+            )),
+      )
+    )
+      continue;
+    const shared = {
+      family: "local-matter" as const,
+      matterId,
+      jurisdictionId: local.jurisdictionId,
+      involved: local.involved,
+      subjectIndex,
+    };
+    next = writeStage(next, {
+      ...shared,
+      stage: "proposal-posted",
+      definition: LOCAL_STAGES["proposal-posted"]!,
+      occurredAt: postedAt,
+      publishedAt: postedAt,
+      summary: `${local.governmentName} posted a proposal about ${LOCAL_SUBJECTS[subjectIndex]} and opened a public comment period.`,
+    }).world;
+    next = writeStage(next, {
+      ...shared,
+      stage: "revised-proposal-posted",
+      definition: LOCAL_STAGES["revised-proposal-posted"]!,
+      occurredAt: closedAt,
+      publishedAt: closedAt,
+      summary: `${local.governmentName} posted a revised proposal about ${LOCAL_SUBJECTS[subjectIndex]} after the public comment period.`,
+    }).world;
+  }
+  return next;
 }
 
 /**

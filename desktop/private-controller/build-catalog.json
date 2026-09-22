@@ -2,6 +2,10 @@
   "schema": 1,
   "note": "Authored display names for feature previews in the private hub. Branch refs stay the identity; this only labels them.",
   "branches": {
+    "codex/playtest65-u": {
+      "title": "Latest private preview",
+      "purpose": "Updated creator, White House opening, map, Calendar and Art Desk."
+    },
     "claude/ui-decision-follow-through": {
       "title": "Menus, creator and Calendar improvements",
       "purpose": "Politics hub, News and Journal readers, the game's own menus and the full-birthday creator."

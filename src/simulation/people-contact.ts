@@ -1,3 +1,4 @@
+import { homePartyChapters } from "./living-world/party-chapters";
 import { addDays } from "./dates";
 import { evaluateDecision } from "./decisions";
 import {
@@ -176,6 +177,11 @@ export function contactBases(
     const other = interaction.personIds.find((id) => id !== personId);
     if (other) add(other, "somebody you know");
   }
+  for (const chapter of homePartyChapters(world)) {
+    if (chapter.organizerPersonId) {
+      add(chapter.organizerPersonId, `public organizer of ${chapter.name}`);
+    }
+  }
   return [...bases.entries()]
     .map(([otherId, basis]) => {
       const continuity = assessRelationshipContinuity(
@@ -205,9 +211,22 @@ function contactChannels(
   const waiting = open
     ? "You have already asked, and they have not answered yet."
     : null;
-  const channels: ContactChannel[] = [
-    { kind: "call", label: "By phone", note: waiting },
-  ];
+  const publicChapter = basis.some((entry) =>
+    entry.startsWith("public organizer of "),
+  );
+  const personalBasis = basis.some(
+    (entry) => !entry.startsWith("public organizer of "),
+  );
+  const channels: ContactChannel[] = personalBasis
+    ? [{ kind: "call", label: "By phone", note: waiting }]
+    : [];
+  if (publicChapter) {
+    channels.push({
+      kind: "through-group",
+      label: "Through the chapter",
+      note: waiting,
+    });
+  }
   if (basis.includes("shares your home")) {
     channels.push({ kind: "in-person", label: "At home", note: null });
   }

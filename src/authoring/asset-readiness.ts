@@ -234,6 +234,33 @@ export function reconcileAssetReadiness(
   );
 
   /**
+   * One probe per path per reconciliation.
+   *
+   * The probe hashes the file it finds, and every regular file inside a
+   * directory it finds. The same evidence path is cited by many verdicts (a
+   * component directory of a garment family answers a request per body type,
+   * per pose and per length), so without this the same art is read off disk
+   * and hashed dozens of times in one pass. Measured on this tree, 152
+   * requests over 20 units: 11.1s per reconciliation, and the suite calls it
+   * again in every case, which is what put eleven of them past the 5s
+   * default timeout.
+   *
+   * The cache lives for one call and no longer, deliberately. The suite
+   * mutates the filesystem between reconciliations to check that this fails
+   * closed on a missing file, a wrong hash or a symlink out of the
+   * repository, and a cache that outlived the call would answer those from
+   * before the change.
+   */
+  const probed = new Map<string, EvidenceProbe>();
+  const probeOnce = (declaredPath: string): EvidenceProbe => {
+    const cached = probed.get(declaredPath);
+    if (cached !== undefined) return cached;
+    const found = probe(declaredPath);
+    probed.set(declaredPath, found);
+    return found;
+  };
+
+  /**
    * Verifies one cited path against the units it is declared under. The path
    * has to be canonical, has to be admissible evidence for at least one of
    * those units, and has to be on disk exactly as the preserved evidence
@@ -271,7 +298,7 @@ export function reconcileAssetReadiness(
       return [];
     }
 
-    const found = probe(declaredPath);
+    const found = probeOnce(declaredPath);
     if (found.status === "escapes-repository") {
       error(
         "evidence-escapes-repository",

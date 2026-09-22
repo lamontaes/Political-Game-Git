@@ -314,7 +314,7 @@ async function connectClient(provider) {
     steps: result.clipboard
       ? [
           `The hub entry for ${name} is on your clipboard.`,
-          `Paste it inside "mcpServers" in ${CONFIG_FILES[provider]} (create the file with {"mcpServers": {}} if it is missing), then reload ${name}.`,
+          `Paste it inside "mcpServers" in ${CONFIG_FILES[provider]} (create or repair the file with {"mcpServers": {}} if it is missing or empty), then reload ${name}.`,
           `In a new ${name} chat, ask once: ${result.firstPrompt}`,
           "Come back and press Test connection.",
         ]
