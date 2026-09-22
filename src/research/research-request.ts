@@ -573,6 +573,96 @@ const IMPACT_HEADINGS: Readonly<Record<ResearchImpact, string>> = {
   background: "Background",
 };
 
+const MANIFEST_HEADING = "## What this document contains";
+const MANIFEST_OPEN_PREFIX = "Open:";
+const MANIFEST_ANSWERED_PREFIX = "Answered:";
+
+/**
+ * Every question id this copy carries, open and answered, on the page.
+ *
+ * Without it the header is the only thing a reader has, and a header is a
+ * count: a render produced on a branch holding two thirds of the queue looks
+ * exactly like a complete one, and publishing it deletes the rest from the
+ * copy people actually read. Ids make a drop visible to a reader and checkable
+ * by a machine — see `droppedQuestionIds`, which is what the renderer uses to
+ * refuse rather than to hope somebody notices.
+ *
+ * Answered ids are listed too. An answered question is still the record of an
+ * answer, and dropping one loses the answer as surely as dropping an open one
+ * loses the question.
+ */
+function renderContentsManifest(
+  records: readonly ResearchRequestRecord[],
+): readonly string[] {
+  const open = openRequests(records).map((record) => record.questionId);
+  const answered = answeredRequests(records).map((record) => record.questionId);
+  const asList = (ids: readonly string[]): string =>
+    ids.length === 0
+      ? "none"
+      : [...ids]
+          .sort((left, right) => left.localeCompare(right))
+          .map((id) => `\`${id}\``)
+          .join(", ");
+  return [
+    MANIFEST_HEADING,
+    "",
+    "Every question in the queue at the commit above, so that a reader can see",
+    "a missing one rather than trust a count. If a question you filed is not",
+    "listed here, this copy came off a branch that did not hold it.",
+    "",
+    `${MANIFEST_OPEN_PREFIX} ${asList(open)}`,
+    "",
+    `${MANIFEST_ANSWERED_PREFIX} ${asList(answered)}`,
+    "",
+  ];
+}
+
+/**
+ * The question ids a rendered document says it contains.
+ *
+ * Reads the manifest back off the page rather than out of a sidecar file,
+ * because the page is the thing that travels: the copy in Drive is the one a
+ * drop would happen to, and it has to be checkable on its own.
+ */
+export function renderedQuestionIds(document: string): readonly string[] {
+  const ids: string[] = [];
+  for (const line of document.split("\n")) {
+    const trimmed = line.trim();
+    if (
+      !trimmed.startsWith(MANIFEST_OPEN_PREFIX) &&
+      !trimmed.startsWith(MANIFEST_ANSWERED_PREFIX)
+    ) {
+      continue;
+    }
+    for (const match of trimmed.matchAll(/`([^`]+)`/g)) {
+      const id = match[1];
+      if (id !== undefined) ids.push(id);
+    }
+  }
+  return ids;
+}
+
+/**
+ * What a previously published document carried and this set of records does
+ * not — in reading order, sorted, deduplicated.
+ *
+ * A non-empty result means publishing this render would remove a question
+ * somebody filed from the copy people read, which has nearly happened twice.
+ * It is not by itself an error: a record can be deliberately withdrawn. It is
+ * something a human has to say yes to, which is why this returns ids rather
+ * than throwing.
+ */
+export function droppedQuestionIds(
+  previousDocument: string,
+  records: readonly ResearchRequestRecord[],
+): readonly string[] {
+  const present = new Set(records.map((record) => record.questionId));
+  const dropped = new Set(
+    renderedQuestionIds(previousDocument).filter((id) => !present.has(id)),
+  );
+  return [...dropped].sort((left, right) => left.localeCompare(right));
+}
+
 /**
  * The whole open queue as one document.
  *
@@ -592,6 +682,15 @@ export function renderOpenQuestions(
    * commit cannot tell a fresh copy from a stale one.
    */
   renderedFromCommit?: string,
+  /**
+   * The branch it was rendered from, which matters more than the commit. This
+   * document is mechanically a function of whichever request files the
+   * rendering checkout happens to hold, so any branch can produce a copy that
+   * is short, complete-looking and stamped with an authoritative count. Naming
+   * the branch is what lets a reader ask whether that branch was the one
+   * holding every question.
+   */
+  renderedFromBranch?: string,
 ): string {
   const open = openRequests(records);
   const lines: string[] = [
@@ -602,8 +701,10 @@ export function renderOpenQuestions(
     "rebuilt from them.",
     "",
     `Generated ${generatedAt} · ${open.length} open · ${records.length - open.length} answered` +
+      (renderedFromBranch ? ` · branch ${renderedFromBranch}` : "") +
       (renderedFromCommit ? ` · rendered from ${renderedFromCommit}` : ""),
     "",
+    ...renderContentsManifest(records),
   ];
 
   if (open.length === 0) {

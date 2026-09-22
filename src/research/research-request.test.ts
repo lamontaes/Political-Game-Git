@@ -3,8 +3,10 @@ import { describe, expect, it } from "vitest";
 import {
   RESEARCH_REQUEST_VERSION,
   answeredRequests,
+  droppedQuestionIds,
   openRequests,
   renderOpenQuestions,
+  renderedQuestionIds,
   sortForReading,
   summarizeOpenQuestions,
   validateResearchRequests,
@@ -245,6 +247,62 @@ describe("the handed-over document", () => {
     expect(
       renderOpenQuestions([record()], "2026-09-22T00:00:00.000Z"),
     ).not.toContain("rendered from");
+  });
+
+  it("names the branch it was rendered from, not only the commit", () => {
+    const document = renderOpenQuestions(
+      [record()],
+      "2026-09-22T00:00:00.000Z",
+      "a9b99fc0",
+      "claude/project-thread-k8w14s",
+    );
+    expect(document).toContain("branch claude/project-thread-k8w14s");
+  });
+
+  it("lists every question id it contains, answered ones included", () => {
+    // The header is a count, and a render produced on a branch holding half
+    // the queue carries an authoritative-looking one. Ids are what let a
+    // reader see the half that is missing.
+    const document = renderOpenQuestions(
+      [
+        record({ questionId: "still-open" }),
+        record({
+          questionId: "already-answered",
+          answer: {
+            summary: "Elected in thirty-eight states.",
+            sources: ["Census Government Units Survey 2025"],
+            answeredBy: "ChatGPT",
+            answeredAt: "2026-09-22T00:00:00.000Z",
+          },
+        }),
+      ],
+      "2026-09-22T00:00:00.000Z",
+    );
+    expect(document).toContain("## What this document contains");
+    expect(renderedQuestionIds(document)).toEqual([
+      "still-open",
+      "already-answered",
+    ]);
+  });
+
+  it("names the questions a shorter render would delete from the published copy", () => {
+    const published = renderOpenQuestions(
+      [
+        record({ questionId: "kept" }),
+        record({ questionId: "only-on-a-branch" }),
+      ],
+      "2026-09-22T00:00:00.000Z",
+    );
+    expect(
+      droppedQuestionIds(published, [record({ questionId: "kept" })]),
+    ).toEqual(["only-on-a-branch"]);
+    expect(
+      droppedQuestionIds(published, [
+        record({ questionId: "kept" }),
+        record({ questionId: "only-on-a-branch" }),
+        record({ questionId: "filed-since" }),
+      ]),
+    ).toEqual([]);
   });
 
   it("says so plainly when nothing is open", () => {
