@@ -158,6 +158,10 @@ const NATIONAL_PLANS: readonly OutletPlan[] = [
  * its media, cadence, staff and reach. No population figure reaches this
  * module, so nothing here claims a place is big enough for a daily: the draw
  * is a spread of plausible newsrooms, stable for the save.
+ *
+ * PLACEHOLDER, NOT RESEARCHED: the kinds, their staff and the weights below
+ * were authored on 2026-09-22 and are filed as the research question
+ * `what-newsrooms-cover-a-town-and-a-state`. Replace them with the answer.
  */
 interface OutletProfile {
   readonly product: MediaProduct;
@@ -378,7 +382,8 @@ const LOCAL_PROFILES: readonly OutletProfile[] = [
  * Puerto Rico keeps its own press identity. Its newsrooms work in Spanish
  * first, so the island's outlets carry Spanish mastheads, and the
  * commonwealth's newsroom covers the Capitolio, not a "statehouse". These
- * are fictional names, like every other masthead here.
+ * are fictional names, like every other masthead here. PLACEHOLDER: the
+ * island's press identity is part of the same research question.
  */
 const PUERTO_RICO_STATE_NAMES: readonly ((place: string) => string)[] = [
   () => "El Heraldo de Puerto Rico",
@@ -406,7 +411,8 @@ const DISTRICT_KEY = "US-DC";
 /*
  * A local daily is the rarest of the four: most American towns are served by
  * a weekly, a small digital outlet or a station, and nothing here can tell a
- * city from a hamlet. Weights are an authored spread, not a measurement.
+ * city from a hamlet. Weights are an authored spread, not a measurement
+ * (PLACEHOLDER, see above).
  */
 const LOCAL_PROFILE_WEIGHTS: readonly number[] = [3, 3, 1, 2];
 const STATE_PROFILE_WEIGHTS: readonly number[] = [1, 1, 1, 1];

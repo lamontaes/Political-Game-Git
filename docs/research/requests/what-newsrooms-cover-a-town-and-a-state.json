@@ -1,0 +1,19 @@
+{
+  "filedAt": "2026-09-22T22:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "How the world changes (press coverage)",
+  "priority": "P1",
+  "question": "For towns and cities of different sizes, and for each state's capitol, which kinds of news organization actually cover them today (weekly paper, daily paper, public radio, nonprofit digital newsroom, politics newsletter, television), in what rough proportions, with what typical staff size and publishing frequency — and how does Puerto Rico's press differ (language, the Capitolio press corps, island-wide versus municipal outlets)?",
+  "questionId": "what-newsrooms-cover-a-town-and-a-state",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "How the world changes thread, following ChatGPT's 20:45Z press corrections ('the hardcoded three local suffixes and small defaults are a starter profile, not a realistic permanent ceiling') and lamontae's 22:38Z rule not to invent depth",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/press/outlets.ts (starter profiles authored 2026-09-22)",
+      "whatItDidNotSettle": "The profiles and weights are authored, not measured; nothing in the repository ties outlet kind or staff to a place's size, and the game has no population figure for most places to tie it to."
+    }
+  ],
+  "title": "What kinds of newsroom cover an American town, a state capitol and Puerto Rico",
+  "usableAnswer": "A short table for towns by size band and one for state capitols: each kind of outlet, how common it is, a typical newsroom headcount and cadence, with a source per row; plus a paragraph on Puerto Rico's press (languages, island-wide dailies, municipal coverage, the Capitolio corps). Where a size band has no measured answer, say so rather than estimate.",
+  "whyItMatters": "Every town and every state now gets a newsroom in the game, and which kind it is decides its staff, how often it publishes and how many stories it can chase at once. The spread of kinds and their weights (weekly 3, digital 3, daily 1, radio 2 for towns; four equally likely kinds for a state) and the Spanish mastheads for Puerto Rico were authored without research. They are marked as placeholders in src/simulation/press/outlets.ts and should be replaced by what is actually true."
+}
