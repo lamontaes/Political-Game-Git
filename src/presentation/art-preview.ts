@@ -66,6 +66,25 @@ export const ART_PREVIEW_LABEL =
 export const INTERNAL_ART_REVIEW_LABEL =
   "Internal art review — unreleased candidate art, not approved";
 
+/**
+ * What the banner says when the mode is on and the art is not there.
+ *
+ * The private candidate bank is owner-private and in no checkout a machine can
+ * make, so in every runner and every public clone `setupForArtPreview` and
+ * `prepareCandidateOpeningWorld` hand back what they were given and the
+ * ordinary appearance path is what draws. Until this label existed the banner
+ * went on saying "unreleased candidate art" over production art: not silence,
+ * which would already be against the rule that unknown content is skipped with
+ * a stated reason, but an assertion about itself that was false.
+ *
+ * The distinction this preserves is the one the banner exists for. Somebody
+ * screenshotting this screen must not be able to mistake it for approved art,
+ * and must equally not be able to mistake ordinary art for candidate art. The
+ * first risk is why the banner is there; the second is what this line fixes.
+ */
+export const ART_PREVIEW_UNAVAILABLE_LABEL =
+  "Development art preview — the candidate art bank is not in this checkout, so the ordinary appearance is what is drawn";
+
 export interface ArtPreviewLibraries {
   readonly characters: CharacterComponentLibrary;
   readonly visuals: RuntimeVisualLibrary;
@@ -215,9 +234,25 @@ export function previewDatabaseName(
 
 export function artPreviewBanner(mode: ArtPreviewMode): string | null {
   if (mode !== "candidate-review") return null;
+  // Asked before the build profile, because a review build with no bank is
+  // still a review build looking at production art, and saying "internal art
+  // review — unreleased candidate art" over it would be the same false claim
+  // in a more authoritative voice.
+  if (!PRIVATE_CANDIDATE_ART_AVAILABLE) return ART_PREVIEW_UNAVAILABLE_LABEL;
   return gameBuildProfile() === "internal-art-review"
     ? INTERNAL_ART_REVIEW_LABEL
     : ART_PREVIEW_LABEL;
+}
+
+/**
+ * Whether the preview is showing what it claims to.
+ *
+ * Exported separately from the sentence so a caller can mark the surface
+ * without matching prose. A test that asserted the wording would pin the
+ * wording; what matters is the state.
+ */
+export function artPreviewIsShowingCandidateArt(mode: ArtPreviewMode): boolean {
+  return mode === "candidate-review" && PRIVATE_CANDIDATE_ART_AVAILABLE;
 }
 
 /** Fresh setup initialization ONLY. Unpinned legacy replays and loaded Worlds must bypass this helper. Existing explicit pins win. */
