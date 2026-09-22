@@ -283,16 +283,17 @@ This was established by another lane tonight; it was re-measured here and holds.
 - The intersection of those two sets is **empty**. They share the mind store and
   no consumer.
 
-### The thirteen decision callers that read no personality at all
+### The twelve decision callers that read no personality at all
 
-Of the 23 modules that call `evaluateDecision`, **13 contain no
-`traitConsiderations` call**:
+31 files call `evaluateDecision`; 23 of them are production. One of those is
+`decisions.ts`, the engine itself. So **twelve production modules decide
+something and read no temperament at all**:
 
 `legislative-bargaining`, `legislative-member-decisions`, `press/desk`,
 `press/matters`, `press/responses`, `press-interview-producers`,
 `political-belief-formation`, `living-world/party-evolution`,
-`campaign-opponents`, `campaign-life-activities`, `civil-personnel-actions`,
-`run-b-conversation`, and `decisions` itself.
+`campaign-opponents`, `campaign-life-activities`, `civil-personnel-actions`
+and `run-b-conversation`.
 
 Read the source types they do use and the shape is clear: bargaining reasons from
 `context:section-in-the-bill`, `context:offer-below-request`,
@@ -305,11 +306,35 @@ nobody's temperament in them. **Two legislators identical on the record and
 opposite in every trait vote and bargain identically.**
 
 This is the "systems that look connected and are not" shape the briefing
-predicted, and it is the largest instance of it. It is also the cheapest to close:
-the decision engine already accepts a `mind:personality` consideration from any
-caller. Nothing needs to be built — ten lines of `TraitLean` in
-`legislative-member-decisions.ts` would connect the two systems today. That it
-has not been done is a wiring gap, not an architectural one.
+predicted, and it is the largest instance of it.
+
+**It is not, however, cheap to close, and an earlier version of this document
+said it was.** That claim contradicted this document's own Part 2 finding two
+pages up. `TraitLean.trait` is typed `PeopleTrait`
+(`src/simulation/people-traits.ts:235`) — the closed five-member union. So
+wiring `legislative-member-decisions.ts` to `traitConsiderations` today would
+not connect two systems; it would hardwire those exact five traits into
+legislative bargaining, which is the thing the owner ruled out when he asked for
+the trait system itself rather than those five. Writing those ten lines would be
+building the wrong thing faster.
+
+The modular-legislation lane, which re-measured this rather than taking it on
+trust, reports a replacement framework on `origin/claude/people-and-life-4qpuwb`
+at 7af87594 — not on main and not measured here — under which a decision
+publishes a declaration and a trait pack refuses a lean whose scopes do not
+include the consuming decision's scope. That refusal is the point: closing these
+twelve is then a decision, per trait, about whether it is readable in a
+government scope, not a mechanical pass. The same lane reports two live blockers
+under it, also unverified here: `leansForDecision` returns a qualified string
+key while `personTrait` reads only the enum, so there is no bridge; and
+`loadTraitPacks` has one production caller, `life-mind-content.ts:105`, for
+content validation only, so nothing loads a registry during play.
+
+So the honest statement is the one this document makes everywhere else: the gap
+is that a trait cannot declare what it argues for. The twelve silent modules are
+that gap's largest symptom, not a separate wiring oversight.
+_(Corrected 2026-09-22 after the modular-legislation lane checked this against
+live code; the type and the counts above were re-verified here on main.)_
 
 ### Coupling nobody intended
 
@@ -381,14 +406,14 @@ Against "modder-friendly like RimWorld and The Sims", the position is:
 
 Recorded, not fixed — this was an audit.
 
-| Finding                                                                                                                 | Evidence                                                       | Suggested owner                |
-| ----------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ------------------------------ |
-| `recordTraitChange` has no production caller; traits never change during play                                           | Measured: only 3 test files reference it                       | People and life                |
-| The played character has no trait records, so their temperament never enters any decision                               | Measured: all five `recordId: null` after `ensurePeopleTraits` | People and life                |
-| No legislative module produces a `mind:personality` consideration                                                       | Measured: 0 `traitConsiderations` in 13 of 23 decision callers | Modular legislation            |
-| Content packs refuse unknown fields rather than ignoring them with a reason                                             | Measured: `Content pack has missing or unsupported fields.`    | Product decision for the owner |
-| The content registry indexes content no gameplay path reads                                                             | Read: 2 consumers, both review surfaces                        | Hardcoded-content audit        |
-| Registry composition resolves a duplicate key first-match-wins with no detection, and drops every routine but the first | Read: `src/simulation/future-transitions.ts:137-148`           | Fix main                       |
+| Finding                                                                                                                                                                | Evidence                                                                                                             | Suggested owner                          |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `recordTraitChange` has no production caller; traits never change during play                                                                                          | Measured: only 3 test files reference it                                                                             | People and life                          |
+| The played character has no trait records, so their temperament never enters any decision                                                                              | Measured: all five `recordId: null` after `ensurePeopleTraits`                                                       | People and life                          |
+| No legislative module produces a `mind:personality` consideration, and `TraitLean` is typed to the five hardwired traits so wiring one today would hardwire those five | Measured: 12 of the 23 production `evaluateDecision` callers read no trait, the engine aside; `people-traits.ts:235` | Modular legislation with people and life |
+| Content packs refuse unknown fields rather than ignoring them with a reason                                                                                            | Measured: `Content pack has missing or unsupported fields.`                                                          | Product decision for the owner           |
+| The content registry indexes content no gameplay path reads                                                                                                            | Read: 2 consumers, both review surfaces                                                                              | Hardcoded-content audit                  |
+| Registry composition resolves a duplicate key first-match-wins with no detection, and drops every routine but the first                                                | Read: `src/simulation/future-transitions.ts:137-148`                                                                 | Fix main                                 |
 
 ## Corrections to previously relayed claims
 
@@ -397,6 +422,11 @@ Recorded, not fixed — this was an audit.
   points across 3 files, and the union plus brace list are the fragile part.
 - The played build carries a runtime art snapshot layer that main does not, so
   any claim about art modularity must say which tree it was measured on.
+- **"Cheap to close" on the twelve personality-blind decision modules was
+  wrong**, and is corrected above. It contradicted this document's own finding
+  that a trait's effects are not data: `TraitLean` is typed to the five
+  hardwired traits, so wiring a legislative module to it would hardwire those
+  five rather than connect anything. Caught by the modular-legislation lane.
 - **My own first version of the scheduler finding was wrong** and is corrected
   above. It called `campaigns.ts` a monolith through which all autonomous
   wiring passes. Thirteen of its fourteen arguments are already factored out,
