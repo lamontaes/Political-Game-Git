@@ -2967,3 +2967,81 @@ loop over a collection that may be empty.
 Consequence: a report that an instrument passed is incomplete without what it
 covered. "Green" on its own stops being a result, exactly as "merged cleanly"
 does under D-087.
+
+## D-089 — A generated file that is committed makes a branch un-mergeable, and an un-mergeable branch gets no CI at all
+
+- Date: 2026-09-22
+- Status: ACCEPTED
+- Supersedes: none
+
+**CI silence is a reason to check mergeability first, not to wait longer.**
+
+Two lanes lost hours on the night of 21–22 September watching an empty queue
+for a run that was never going to be created. The reason is structural rather
+than incidental, and it is worth stating as a rule because nothing visible
+from the outside distinguishes it from a busy queue.
+
+**The mechanism, in three steps.**
+
+1. `docs/prose-inventory/README.md` and `docs/prose-inventory/coverage-report.md`
+   are generated output that is also committed, and the repository requires any
+   branch touching `src/` to regenerate them. `docs/dehardwire/census.json` is
+   the same shape.
+2. `main` therefore rewrites those files on essentially every source merge. So
+   does every branch. Two branches that touch no common source file still
+   collide there.
+3. GitHub builds no merge ref for a conflicted pull request, so it creates **no
+   `pull_request` workflow run at all.** Not a queued run, not a cancelled run —
+   nothing to read, and nothing to cancel.
+
+Put together: on a night merging every two or three minutes, any branch
+touching `src/` becomes un-mergeable, and therefore un-testable, within minutes
+of every merge to `main` — **on a file no human wrote.**
+
+**Measured twice, independently.**
+
+The research-audit lane ran `git merge-tree --write-tree` for #305's head
+against every `main` in a three-hour window: clean against the two mains
+current at push time, **dirty against all twenty mains from `a08d2eef`
+(08:53:27Z) through `a610ea3f` (10:28Z)**, and the conflict is always the same
+two prose-inventory files.
+
+This lane's own instance, measured here rather than relayed. `08a999f2`, the
+0.4.0 release head, was pushed at 08:54:53Z having merged `main` at
+`4595878e` (08:49:53Z):
+
+| Merged against         | Result    |
+| ---------------------- | --------- |
+| `4595878e` — 08:49:53Z | clean     |
+| `a08d2eef` — 08:53:27Z | **dirty** |
+| `c659f256` — later     | **dirty** |
+
+It went un-mergeable **three and a half minutes after the merge it was built
+on**, and has stayed so. There is no workflow run on `08a999f2` and there never
+was one: the only run the release branch has ever had a verdict from is
+`35706104688`, on the earlier head `eb0abea1`. What had been written down in
+this lane's own documents as a branch deliberately _parked_ was in fact a
+branch that could not be _tested_, and that correction is the point of
+recording this.
+
+**The caveat, which must travel with the finding.** This explains 2h57m of the
+three hours, not all of it: at push time the head was clean and there were
+already zero checks three minutes later. **Mostly explained, not solved.** It
+also retires two earlier explanations of that lane's — a queue cap and a
+concurrency-group reading — both of which fitted everything visible at the
+time, which is the ordinary way a wrong explanation survives.
+
+**Three narrow options, none of which anyone should pick tonight.** They are
+recorded for the owner because each trades something real:
+
+- Stop committing `docs/prose-inventory/`, which removes the collision and
+  also removes the reviewable diff.
+- Have the gate regenerate and compare rather than diff a committed artifact,
+  which costs gate time on every run.
+- Give those files a merge driver, which keeps the diff and the gate and adds
+  a piece of git configuration every checkout must have.
+
+Consequence, and the part that changes behaviour immediately: **when a branch
+has no checks, read its mergeability before reading the queue.** An empty
+queue and an un-mergeable head look identical from the outside, and only one of
+them gets better by waiting.
