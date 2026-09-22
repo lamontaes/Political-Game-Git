@@ -5,6 +5,7 @@ import {
   performVenueActivity,
   venueActivities,
 } from "../presentation/venue-activity";
+import { abandonUnperformableCommitment } from "../presentation/scheduled-activity-choice";
 
 /** Feature-local normal-play control. The caller owns the sole World/save. */
 export function VenueActivityPanel({
@@ -27,7 +28,7 @@ export function VenueActivityPanel({
           You have finished {completed.title} at {completed.location.label}.
         </p>
       ) : null}
-      {entries.map(({ activity, elapsedMinutes, refusal }) => (
+      {entries.map(({ activity, elapsedMinutes, refusal, abandonable }) => (
         <div key={activity.id}>
           <p>
             {activity.title} · {activity.location.label}
@@ -58,10 +59,45 @@ export function VenueActivityPanel({
               ? "Make the journey"
               : "Carry out activity"}
           </button>
+          {abandonable ? (
+            /*
+             * The way out of a commitment the game cannot let you keep.
+             *
+             * Time refuses to step over a confirmed commitment, and this one
+             * cannot be carried out, so without this control the life has no
+             * legal move at all. Giving it up is a choice and is recorded as
+             * one; nothing is faked and no time passes.
+             */
+            <button
+              type="button"
+              data-testid={`venue-activity-give-up-${activity.id}`}
+              onClick={() => {
+                const next = abandonUnperformableCommitment(
+                  world,
+                  personId,
+                  activity.id,
+                );
+                setProblem(
+                  next === world
+                    ? "This commitment could not be given up."
+                    : null,
+                );
+                if (next !== world) onWorldChange(next);
+              }}
+            >
+              Give up on this
+            </button>
+          ) : null}
           <p>
             {refusal ??
               `${elapsedMinutes} minutes, including any wait before it begins.`}
           </p>
+          {abandonable ? (
+            <p data-testid={`venue-activity-give-up-note-${activity.id}`}>
+              Giving up takes no time and spends nothing. It clears the
+              commitment so the rest of the day can go on.
+            </p>
+          ) : null}
         </div>
       ))}
       {problem ? <p role="status">{problem}</p> : null}
