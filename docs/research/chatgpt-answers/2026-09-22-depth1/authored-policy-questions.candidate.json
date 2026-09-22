@@ -1,0 +1,419 @@
+{
+  "pack": "ocd-authored-policy-questions",
+  "provenance": {
+    "kind": "authored-fiction",
+    "note": "Director-authored general policy preference questions for the fictional game. Referenced issue vocabulary is separately sourced. These rows are not real enacted statutes, executable effects, or blanket approval of every concrete bill variant. Bind actual proposition alternatives, target, authority and terms before evaluating a specific measure."
+  },
+  "propositions": [
+    {
+      "key": "income-base-breadth",
+      "issue": "us-state-and-local:fiscal.income-tax",
+      "name": "Breadth of the income-tax base",
+      "question": "Should more forms of income fall within the income-tax base?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "income-rate-progressivity",
+      "issue": "us-state-and-local:fiscal.income-tax",
+      "name": "Income-tax progressivity",
+      "question": "Should higher taxable-income bands face a steeper rate schedule?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "sales-tax-essential-exemptions",
+      "issue": "us-state-and-local:fiscal.sales-tax",
+      "name": "Essential-goods exemptions",
+      "question": "Should essential goods receive broader sales-tax exemptions?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "property-tax-relief-targeting",
+      "issue": "us-state-and-local:fiscal.property-tax",
+      "name": "Targeted property-tax relief",
+      "question": "Should property-tax relief concentrate on households meeting need-based conditions?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "service-fee-waivers",
+      "issue": "us-state-and-local:fiscal.fees-and-charges",
+      "name": "Service-fee waivers",
+      "question": "Should users meeting need-based conditions pay reduced fees for specified public services?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "reserve-use-for-service-continuity",
+      "issue": "us-state-and-local:fiscal.reserves",
+      "name": "Reserves and service continuity",
+      "question": "Should available reserves protect essential service delivery during a temporary revenue shortfall?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "capital-borrowing",
+      "issue": "us-state-and-local:fiscal.debt-and-bonds",
+      "name": "Borrowing for durable projects",
+      "question": "Should eligible durable public projects be financed partly through borrowing rather than entirely through current revenue?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "local-revenue-sharing",
+      "issue": "us-state-and-local:fiscal.revenue-sharing",
+      "name": "Local revenue-sharing distribution",
+      "question": "Should a larger share of state revenue-sharing support localities with higher measured service needs?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "public-contract-disclosure",
+      "issue": "us-state-and-local:government-operations.public-contracting",
+      "name": "Public-contract disclosure",
+      "question": "Should public contracts carry stronger disclosure of relevant ownership and conflicts?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "public-hiring-access",
+      "issue": "us-state-and-local:government-operations.civil-service",
+      "name": "Access to public employment",
+      "question": "Should qualification rules accept relevant demonstrated experience as an alternative to specified credentials where the role permits it?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "agency-responsibility-transfer",
+      "issue": "us-state-and-local:government-operations.agency-organization",
+      "name": "Agency responsibility",
+      "question": "Should a specified public responsibility move to a different accountable agency?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "school-funding-need-weight",
+      "issue": "us-state-and-local:education.school-funding",
+      "name": "Need-weighted school funding",
+      "question": "Should school funding give more weight to documented student and community needs?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "teacher-compensation",
+      "issue": "us-state-and-local:education.teacher-workforce",
+      "name": "Teacher compensation",
+      "question": "Should additional available education funds prioritize teacher compensation and retention?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "college-need-based-aid",
+      "issue": "us-state-and-local:education.higher-education-tuition-and-aid",
+      "name": "Need-based college aid",
+      "question": "Should aid eligibility and award levels place greater weight on financial need?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "career-training-access",
+      "issue": "us-state-and-local:education.career-and-technical-education",
+      "name": "Career-training access",
+      "question": "Should public support make recognized job-related training more accessible to eligible workers?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "coverage-eligibility",
+      "issue": "us-state-and-local:health-human-services.medicaid",
+      "name": "Public health-coverage eligibility",
+      "question": "Should eligibility for the represented public health-coverage program be broadened within this government\u2019s actual authority?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "health-provider-capacity",
+      "issue": "us-state-and-local:health-human-services.hospitals-and-providers",
+      "name": "Health-service capacity",
+      "question": "Should available support prioritize adding provider capacity in underserved areas?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "income-assistance-access",
+      "issue": "us-state-and-local:health-human-services.food-and-income-assistance",
+      "name": "Income-assistance access",
+      "question": "Should assistance rules reduce avoidable barriers for otherwise eligible applicants?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "housing-density-permission",
+      "issue": "us-state-and-local:housing-land-use.zoning",
+      "name": "Residential density",
+      "question": "Should more residential density be permitted in suitable existing developed areas?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "housing-permit-process",
+      "issue": "us-state-and-local:housing-land-use.permitting",
+      "name": "Housing permit process",
+      "question": "Should qualifying housing projects receive a simpler permit process while retaining applicable safety requirements?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "housing-subsidy-targeting",
+      "issue": "us-state-and-local:housing-land-use.housing-affordability",
+      "name": "Housing support targeting",
+      "question": "Should housing support give greater weight to the difference between local housing costs and household resources?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "transit-service-reach",
+      "issue": "us-state-and-local:transportation-infrastructure.transit",
+      "name": "Transit service reach",
+      "question": "Should available transit funding extend useful service to currently underserved users?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "water-reliability-investment",
+      "issue": "us-state-and-local:transportation-infrastructure.water-and-sewer",
+      "name": "Water-system reliability",
+      "question": "Should available capital funding prioritize renewal of water-system components with higher service-loss risk?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    },
+    {
+      "key": "emergency-response-capacity",
+      "issue": "us-state-and-local:justice-public-safety.emergency-response",
+      "name": "Emergency-response capacity",
+      "question": "Should additional response resources prioritize areas with a larger gap between demand and available service?",
+      "tags": [
+        "general-policy-direction",
+        "requires-bound-terms-for-specific-measure"
+      ]
+    }
+  ],
+  "subjects": [
+    {
+      "key": "income-base-breadth-knowledge",
+      "name": "Understanding breadth of the income-tax base",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:income-base-breadth"
+    },
+    {
+      "key": "income-rate-progressivity-knowledge",
+      "name": "Understanding income-tax progressivity",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:income-rate-progressivity"
+    },
+    {
+      "key": "sales-tax-essential-exemptions-knowledge",
+      "name": "Understanding essential-goods exemptions",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:sales-tax-essential-exemptions"
+    },
+    {
+      "key": "property-tax-relief-targeting-knowledge",
+      "name": "Understanding targeted property-tax relief",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:property-tax-relief-targeting"
+    },
+    {
+      "key": "service-fee-waivers-knowledge",
+      "name": "Understanding service-fee waivers",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:service-fee-waivers"
+    },
+    {
+      "key": "reserve-use-for-service-continuity-knowledge",
+      "name": "Understanding reserves and service continuity",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:reserve-use-for-service-continuity"
+    },
+    {
+      "key": "capital-borrowing-knowledge",
+      "name": "Understanding borrowing for durable projects",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:capital-borrowing"
+    },
+    {
+      "key": "local-revenue-sharing-knowledge",
+      "name": "Understanding local revenue-sharing distribution",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:local-revenue-sharing"
+    },
+    {
+      "key": "public-contract-disclosure-knowledge",
+      "name": "Understanding public-contract disclosure",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:public-contract-disclosure"
+    },
+    {
+      "key": "public-hiring-access-knowledge",
+      "name": "Understanding access to public employment",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:public-hiring-access"
+    },
+    {
+      "key": "agency-responsibility-transfer-knowledge",
+      "name": "Understanding agency responsibility",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:agency-responsibility-transfer"
+    },
+    {
+      "key": "school-funding-need-weight-knowledge",
+      "name": "Understanding need-weighted school funding",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:school-funding-need-weight"
+    },
+    {
+      "key": "teacher-compensation-knowledge",
+      "name": "Understanding teacher compensation",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:teacher-compensation"
+    },
+    {
+      "key": "college-need-based-aid-knowledge",
+      "name": "Understanding need-based college aid",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:college-need-based-aid"
+    },
+    {
+      "key": "career-training-access-knowledge",
+      "name": "Understanding career-training access",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:career-training-access"
+    },
+    {
+      "key": "coverage-eligibility-knowledge",
+      "name": "Understanding public health-coverage eligibility",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:coverage-eligibility"
+    },
+    {
+      "key": "health-provider-capacity-knowledge",
+      "name": "Understanding health-service capacity",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:health-provider-capacity"
+    },
+    {
+      "key": "income-assistance-access-knowledge",
+      "name": "Understanding income-assistance access",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:income-assistance-access"
+    },
+    {
+      "key": "housing-density-permission-knowledge",
+      "name": "Understanding residential density",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:housing-density-permission"
+    },
+    {
+      "key": "housing-permit-process-knowledge",
+      "name": "Understanding housing permit process",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:housing-permit-process"
+    },
+    {
+      "key": "housing-subsidy-targeting-knowledge",
+      "name": "Understanding housing support targeting",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:housing-subsidy-targeting"
+    },
+    {
+      "key": "transit-service-reach-knowledge",
+      "name": "Understanding transit service reach",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:transit-service-reach"
+    },
+    {
+      "key": "water-reliability-investment-knowledge",
+      "name": "Understanding water-system reliability",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:water-reliability-investment"
+    },
+    {
+      "key": "emergency-response-capacity-knowledge",
+      "name": "Understanding emergency-response capacity",
+      "description": "Knowledge relevant to this proposed policy direction; a subject definition does not give any person that knowledge.",
+      "scope": "proposition",
+      "about": "ocd-authored-policy-questions:emergency-response-capacity"
+    }
+  ]
+}

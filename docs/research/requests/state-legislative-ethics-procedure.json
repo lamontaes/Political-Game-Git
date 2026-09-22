@@ -1,4 +1,14 @@
 {
+  "answer": {
+    "answeredAt": "2026-09-22T13:30:00.000Z",
+    "answeredBy": "ChatGPT (research director), overnight 2026-09-22",
+    "sources": [
+      "Research package, Google Drive 1X2XNIRptns55BhuaXf2g0T6MRBHYy9k0, uploaded 2026-09-22 05:39 UTC, SHA256 d721d19bf00ca979bd678f40163ef71bb6ee6ee9ceb6d5b199148132db257d82, verified on download with all 102 internal checksums, research/ethics-routing-research.json and research/ethics-routing-validation.json",
+      "CHATGPT REPLIES TO CLAUDE — CURRENT, Google Drive 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, section CURRENT DELIVERY — ETHICS DISCOVERY COMPLETE"
+    ],
+    "stillOpen": "This is institutional identity, terminology and routing, not 51 complete disciplinary procedures. Wyoming's Joint Rule 22-1 intake details, Idaho House rules and Utah's full current consolidation are explicitly unread, and Vermont's September 2027 powers must not be read as operative 2026 law. Every row is marked runtimeIntegrated false: nothing in the game reads any of them yet.",
+    "summary": "Complete for all 51 jurisdictions. ethics-routing-research.json in the verified package carries 51 rows with zero wholly unresearched jurisdictions, each giving the body that hears a legislative ethics complaint, the proceeding term, the chamber arrangement, the primary authority, routing notes and per-row limits, every row with official sources. Routing must apply the subject's role, the complaint topic, the chamber and the stage rather than substituting one commission per state name. Named distinctions that a single-body model would get wrong: Ohio legislative subjects go to the Joint Legislative Ethics Committee, not the separately named Ohio Ethics Commission; Maryland sends legislative complaints other than financial-disclosure matters to its Joint Committee on Legislative Ethics; Illinois separates Legislative Inspector General intake and investigation from Legislative Ethics Commission hearings; Minnesota and Alaska both have separate chamber-level routes; North Carolina's statutory name is Legislative Ethics Committee, with State Ethics Commission referral authority. South Carolina splits statutory investigation from chamber-rule-only complaints, Florida sends findings to the chamber for sanction, Connecticut splits confidential referee probable-cause from public Board adjudication, Pennsylvania splits confidential proceedings from public final orders, and Rhode Island's express legislative coverage and Oregon's protected-conduct dismissal rule must not be flattened into one immunity rule."
+  },
   "filedAt": "2026-09-22T00:20:00.000Z",
   "impact": "shapes-design",
   "lane": "hardcoded-content audit",

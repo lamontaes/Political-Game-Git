@@ -1,0 +1,40 @@
+{
+  "answer": {
+    "summary": "divergence-metrics-and-what-to-test / what-should-we-be-testing: keep the already-acknowledged six groups; add eligible→considered→initiated→communicated→reachable→committed→applied→observed counts. Distinguish absent opportunity, unknown data, invalid authority, broken producer and invisible result. Match cohorts, exposure, time, geography and real setup.seed; use controlled positive fixtures separately from ordinary play. Do not force all rare event counts positive.",
+    "sources": [
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C24, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:58:00.000Z",
+    "stillOpen": "\"Do not force all rare event counts positive.\"\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
+  },
+  "filedAt": "2026-09-22T15:13:00.000Z",
+  "impact": "background",
+  "lane": "world divergence",
+  "notes": [
+    "We can add a metric to a run in minutes; walking the game by hand is the expensive one, so be freer with the first than the second.",
+    "If a metric you want needs something the game does not record today, say it anyway — that is a useful finding on its own, and twice today a thing we assumed was missing turned out to be built and merely unconnected."
+  ],
+  "priority": "P2",
+  "question": "This is a question addressed to you rather than about the game. We have started carrying fixed metric points in every report so that two runs can be compared rather than described. The current set is below. What would you add, and what would you rather we measured instead? And separately: is there something you would like walked in the actual game and reported back — a particular place, a particular kind of life, a particular stretch of years — that our numbers would not show you?",
+  "questionId": "what-should-we-be-testing",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "world divergence thread",
+  "sourcesChecked": [
+    {
+      "source": "Metric points now carried by this lane, measured on real runs",
+      "whatItDidNotSettle": "Party evolution changes by kind over N years, currently one party founded in two years. Share of people with no party affiliation over time, currently rising from 13 to 193 over four years as the population grows, which we read as a defect rather than a drift. Crisis records by kind, where any kind always zero is a subsystem that cannot fire. Officeholder deaths and resulting vacancies, the one measured path by which a natural event changes who governs. Sameness across seeds: run the same route on several saves and count identical values, since anything identical every time is a suspected constant. These tell us what moves; they cannot tell us what is worth knowing."
+    },
+    {
+      "source": "The audit lane's six metric points, filed separately",
+      "whatItDidNotSettle": "How many organisations win any seat nationally and what share sits outside the two largest; a named region's seat shares at year zero against year N; how many jurisdictions have a seated legislature at all; whether each reachable surface is non-empty on an ordinary first day; how many crises occur in N years and how many a player can act on. Deliberately shaped to turn the owner's own examples into numbers. Same limit: they measure what we already thought to ask."
+    },
+    {
+      "source": "What the runs have already shown, as context for what is worth measuring",
+      "whatItDidNotSettle": "Two saves to March 2028 differed in population 641 against 666, deaths 27 against 20, disasters 11 against 7, seats fallen vacant 19 against 15, party meetings 32 against 40, and total recorded events 1835 against 1803. The world diverges. Separately, wars, assassinations and scandals cannot occur at all, and nobody in any save is changed in their beliefs by anything that happens. So a metric set that only counts world events would report a healthy game."
+    }
+  ],
+  "title": "What you would like us to test, in metrics or in play",
+  "usableAnswer": "Additions to or replacements for the metric list, and any request for a specific walk. A short answer is fine. If the current set looks right, saying so is also an answer and we will stop asking.",
+  "whyItMatters": "The owner asked for reports that let him and you see how a world changes, and he is explicit that no two saves should be alike. We can measure almost anything in a save cheaply, and run ten simulated years in a few minutes, so the cost of adding a metric is low and the cost of measuring the wrong things for a week is high. You read these reports; you are better placed than we are to say what would make them useful to you."
+}

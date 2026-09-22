@@ -1,0 +1,271 @@
+{
+  "schema": "ocd-research-legislative-clock-inputs/1",
+  "preparedAt": "2026-09-22T20:15:13.778830+00:00",
+  "questionId": "legislative-step-pacing-and-veto-override",
+  "scope": "Nine scoped rules, not five complete government profiles or a national procedural code. No production loader/clock execution is claimed.",
+  "sourceHead": "d10dd525731bcd7bded20d165d74b9e0bae38ad8",
+  "sourcePath": "src/simulation/governing/legislative-clock.ts",
+  "sourceBlob": "68269c569584eed1f360f0b810f075125b860724",
+  "sources": {
+    "ca": {
+      "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?article=IV&lawCode=CONS&sectionNum=SEC.+8.",
+      "locator": "California Constitution, Article IV, section 8(a), (b)(1)–(2)",
+      "read": "2026-09-22",
+      "kind": "official-constitutional-text"
+    },
+    "ny": {
+      "url": "https://www.nysenate.gov/legislation/laws/CNS/A3S14",
+      "locator": "New York Constitution, Article III, section 14",
+      "read": "2026-09-22",
+      "kind": "official-constitutional-text"
+    },
+    "tx": {
+      "url": "https://journals.house.texas.gov/HJRNL/89R/HTML/89RDAY05FINAL.HTM",
+      "locator": "89th Legislature House adopted rules, Rule 8 sections 14–15, January 23, 2025 journal",
+      "read": "2026-09-22",
+      "kind": "official-adopted-rules-journal"
+    },
+    "fl": {
+      "url": "https://www.flsenate.gov/Laws/Constitution",
+      "locator": "Florida Constitution, Article III, section 7",
+      "read": "2026-09-22",
+      "kind": "official-constitutional-text"
+    },
+    "ohProcedure": {
+      "url": "https://codes.ohio.gov/ohio-revised-code/section-731.17",
+      "locator": "Ohio Revised Code 731.17(A)(2), effective November 19, 1975",
+      "read": "2026-09-22",
+      "kind": "official-statute"
+    }
+  },
+  "rules": [
+    {
+      "key": "CA.introduction-wait",
+      "jurisdiction": "US-CA",
+      "bodyScope": "house-considering-bill",
+      "stage": "committee-or-house-consideration",
+      "appliesWhen": "regular-session bill other than the budget bill",
+      "constraint": {
+        "unit": "ordinal-day-after-introduction",
+        "value": 31,
+        "countFrom": "actual bill introduction"
+      },
+      "waiver": {
+        "recordedVoteFraction": [
+          3,
+          4
+        ],
+        "denominator": "house-membership",
+        "rollCallInJournal": true
+      },
+      "sourceId": "ca",
+      "remaining": [
+        "Apply the represented session and bill classification; this is not a three-day delay between all stages."
+      ],
+      "status": "scoped-research-input-not-executed-profile"
+    },
+    {
+      "key": "CA.three-readings",
+      "jurisdiction": "US-CA",
+      "bodyScope": "each-house",
+      "stage": "passage",
+      "appliesWhen": "bill passage",
+      "constraint": {
+        "unit": "distinct-reading-days",
+        "value": 3,
+        "countFrom": "each house reading record"
+      },
+      "waiver": {
+        "recordedVoteFraction": [
+          2,
+          3
+        ],
+        "denominator": "house-membership",
+        "rollCallInJournal": true
+      },
+      "sourceId": "ca",
+      "remaining": [
+        "Distinct days are not a compulsory elapsed gap of three days after each reading."
+      ],
+      "status": "scoped-research-input-not-executed-profile"
+    },
+    {
+      "key": "CA.final-form-availability",
+      "jurisdiction": "US-CA",
+      "bodyScope": "house-considering-bill",
+      "stage": "vote-on-bill",
+      "appliesWhen": "bill in final form including amendments",
+      "constraint": {
+        "unit": "elapsed-hours",
+        "value": 72,
+        "countFrom": "final-form printed, member-distributed and Internet-published availability"
+      },
+      "waiver": {
+        "allRequired": [
+          "governor written necessity statement for this bill addressing governor-declared state of emergency",
+          "separate prior house roll-call waiver recorded in journal"
+        ],
+        "recordedVoteFraction": [
+          2,
+          3
+        ],
+        "denominator": "house-membership"
+      },
+      "sourceId": "ca",
+      "remaining": [
+        "Track the actual version; an emergency event alone is not a waiver. Effective-date and urgency-statute rules are separate."
+      ],
+      "status": "scoped-research-input-not-executed-profile"
+    },
+    {
+      "key": "NY.final-form-availability",
+      "jurisdiction": "US-NY",
+      "bodyScope": "each-branch",
+      "stage": "final-passage",
+      "appliesWhen": "bill in final form",
+      "constraint": {
+        "unit": "calendar-legislative-days",
+        "value": 3,
+        "countFrom": "final form available at members desks"
+      },
+      "waiver": {
+        "requires": "governor or acting-governor certified facts necessitating immediate vote",
+        "finalFormStillRequired": true
+      },
+      "sourceId": "ny",
+      "remaining": [
+        "The quoted constitutional unit requires a verified calendar interpretation; do not silently translate it to 72 hours."
+      ],
+      "status": "scoped-research-input-not-executed-profile"
+    },
+    {
+      "key": "TX89H.three-readings",
+      "jurisdiction": "US-TX",
+      "bodyScope": "89th-legislature-house",
+      "stage": "passage",
+      "appliesWhen": "bill in this adopted House rule scope",
+      "constraint": {
+        "unit": "distinct-legislative-reading-days",
+        "value": 3,
+        "countFrom": "reading records"
+      },
+      "waiver": {
+        "recordedVoteFraction": [
+          4,
+          5
+        ],
+        "denominator": "members-present-and-voting",
+        "quorumRequired": true,
+        "rollCallInJournal": true
+      },
+      "sourceId": "tx",
+      "remaining": [
+        "Verify recipient session/version; this does not establish a separate Senate rules profile."
+      ],
+      "status": "scoped-research-input-not-executed-profile"
+    },
+    {
+      "key": "TX89H.ordinary-second-reading-delivery",
+      "jurisdiction": "US-TX",
+      "bodyScope": "89th-legislature-house",
+      "stage": "second-reading",
+      "appliesWhen": "bill or resolution excluding general appropriations bill",
+      "constraint": {
+        "unit": "elapsed-hours",
+        "value": {
+          "regularSession": 36,
+          "specialSession": 24
+        },
+        "countFrom": "electronic copy available and member notice under Rule 8 section 14"
+      },
+      "waiver": {
+        "status": "separate applicable suspension rules not compiled"
+      },
+      "sourceId": "tx",
+      "remaining": [
+        "Do not confuse this delivery wait with reading days or committee hearing notice."
+      ],
+      "status": "scoped-research-input-not-executed-profile"
+    },
+    {
+      "key": "TX89H.general-appropriations-delivery",
+      "jurisdiction": "US-TX",
+      "bodyScope": "89th-legislature-house",
+      "stage": "second-reading",
+      "appliesWhen": "general appropriations bill",
+      "constraint": {
+        "unit": "elapsed-hours",
+        "value": {
+          "regularSession": 168,
+          "specialSession": 72
+        },
+        "countFrom": "required member delivery under Rule 8 section 14(a-1)"
+      },
+      "waiver": {
+        "status": "separate applicable suspension rules not compiled"
+      },
+      "sourceId": "tx",
+      "remaining": [
+        "Timing is sourced; confirm the receiving version and its required delivery medium, including the journal amendments, before admission."
+      ],
+      "status": "scoped-research-input-not-executed-profile"
+    },
+    {
+      "key": "FL.three-readings",
+      "jurisdiction": "US-FL",
+      "bodyScope": "each-house",
+      "stage": "passage",
+      "appliesWhen": "bill",
+      "constraint": {
+        "unit": "distinct-reading-days",
+        "value": 3,
+        "countFrom": "each house reading record"
+      },
+      "waiver": {
+        "recordedVoteFraction": [
+          2,
+          3
+        ],
+        "denominator": null,
+        "denominatorStatus": "not established by the cited paragraph alone"
+      },
+      "sourceId": "fl",
+      "remaining": [
+        "Title publication in the journal can satisfy first reading; exact waiver basis and calendar semantics need the applicable rule profile."
+      ],
+      "status": "scoped-research-input-not-executed-profile"
+    },
+    {
+      "key": "OH.statutory-municipal-readings",
+      "jurisdiction": "US-OH",
+      "bodyScope": "applicable-municipal-legislative-authority",
+      "stage": "ordinance-or-resolution-passage",
+      "appliesWhen": "municipal body to which statutory procedure applies",
+      "constraint": {
+        "unit": "distinct-reading-days",
+        "value": 3,
+        "countFrom": "municipal readings"
+      },
+      "waiver": {
+        "recordedVoteFraction": [
+          3,
+          4
+        ],
+        "denominator": "body-members"
+      },
+      "sourceId": "ohProcedure",
+      "remaining": [
+        "Confirm charter-specific applicability. This is not the rule of every Ohio charter municipality by assertion."
+      ],
+      "status": "scoped-research-input-not-executed-profile"
+    }
+  ],
+  "integration": [
+    "Keep eligibility, actual scheduling, member decision, enactment and operative date separate. All applicable constraints combine; satisfying one is not satisfying all.",
+    "Use each chamber/body calendar and the actual bill revision, session and recorded waivers. Recess is not a new reading and idle days are not automatic hearings.",
+    "Legal permission never compels action. Agenda, notice, capacity and actual decisions determine the next feasible step through the existing common clock.",
+    "An unknown factual detail is explicit; do not turn this partial research into a blanket all-state hold. Label allowed game scheduling assumptions without calling them sourced law.",
+    "Use existing sourced veto thresholds and real eligible members. A coin flip is neither the vote nor the reason an override attempt begins.",
+    "Controlled-player ballots require an explicit choice or valid already-selected standing instruction in its supported scope; pending actions and sponsorship are not consent."
+  ]
+}

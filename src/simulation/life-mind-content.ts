@@ -5,11 +5,13 @@ import {
 } from "./mind-catalog";
 import type { MindCatalog } from "./types";
 import { canonicalJson } from "./canonical-json";
+import { legislatureTraitPack } from "./legislature-trait-pack";
 import { peopleTraitPack } from "./people-trait-pack";
 import {
   loadTraitPacks,
   packOfQualifiedKey,
   traitDefinitionFromPack,
+  type TraitPack,
 } from "./trait-packs";
 
 /** Authored fictional-life content, not a psychometric or empirical model. */
@@ -96,13 +98,24 @@ export function createLifeMindCatalog(): MindCatalog {
 }
 
 /**
- * The packs this build loads. A trait reaches a world only through one of
- * these, and `assertLifeMindContent` below will not admit a definition no pack
- * declares. Adding a pack here is the seam a mod loader would later fill; see
- * `docs/systems/traits.md`.
+ * The packs this build compiles in, in load order. One list: the trait
+ * registry and the save check below both read it, because when they read two
+ * lists that disagreed — this one once named the people pack alone — a
+ * legislator's recorded manner was a trait the game wrote and the save check
+ * then refused, so the life could not be saved again.
  */
-export function loadedTraitPacks() {
-  return loadTraitPacks([peopleTraitPack()], []);
+export function compiledTraitPacks(): readonly TraitPack[] {
+  return [peopleTraitPack(), legislatureTraitPack()];
+}
+
+/**
+ * The packs this life loads: the build's own and whatever its content packs
+ * install. A trait reaches a world only through one of these, and
+ * `assertLifeMindContent` below will not admit a definition no pack declares.
+ * See `docs/systems/traits.md`.
+ */
+export function loadedTraitPacks(installed: readonly TraitPack[] = []) {
+  return loadTraitPacks([...compiledTraitPacks(), ...installed], []);
 }
 
 /**
@@ -123,10 +136,17 @@ export function loadedTraitPacks() {
  * A definition whose pack is not loaded is reported as exactly that. Its
  * records are preserved and simply not consulted, because removing a pack must
  * not destroy a save's history. Older empty saves remain valid.
+ *
+ * `installed` is the trait packs the life's own content packs carry, read by
+ * `installedTraitPacks`. A trait a mod declares is admitted on exactly the
+ * terms a built-in one is: its definition must be the one its pack declares.
  */
-export function assertLifeMindContent(catalog: MindCatalog): void {
+export function assertLifeMindContent(
+  catalog: MindCatalog,
+  installed: readonly TraitPack[] = [],
+): void {
   const allowed = createLifeMindCatalog();
-  const registry = loadedTraitPacks();
+  const registry = loadedTraitPacks(installed);
   const packed = new Map(
     [...registry.traits.values()].map((trait) => {
       const definition = traitDefinitionFromPack(trait);
