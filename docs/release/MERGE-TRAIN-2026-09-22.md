@@ -109,6 +109,35 @@ repository whose runs start promptly, and this one's do not — which means the
 freeze is not a nicety. It is the only condition under which main can ever
 report at all.
 
+## A freeze on merges is not a freeze on capacity
+
+The night's most general lesson, and the last one it taught, by catching us
+all out after we thought we had understood it.
+
+Main was frozen so that one run could report. The freeze stopped the thing
+that **kills** a pending run — a merge entering its concurrency group. It said
+nothing about the thing that **starves** one, which is any other run taking a
+slot. And a push is not a merge: every lane, this one included, went on
+pushing documents to its held pull requests, and each push started a fresh
+fifteen-job run.
+
+So at 07:41:54Z a run on this lane's own documents branch was executing
+alongside main's, and **for about eight minutes main had one of the two slots
+instead of both**, while everyone involved believed the freeze was protecting
+it. The lane that had just spent seventy-two cancellations clearing main's path
+was competing with it.
+
+The rule that follows: **during a freeze, no pushes to any branch either.** A
+documents push is not free. It buys a fifteen-job run nobody wants, out of a
+budget of two.
+
+This is the same shape as everything else recorded here — **a control that
+addresses the mechanism you noticed and leaves alone the one you did not.**
+`cancel-in-progress: false` addressed cancellation and not starvation. The
+sweep addressed the queue and not the slots. The freeze addressed merges and
+not pushes. Each was correct about its own mechanism and each left the
+outcome exactly where it was.
+
 ## `started_at` is not a start
 
 A field that reads like progress and is not. It is the sixth reading trap this
