@@ -1,14 +1,13 @@
 {
   "answer": {
     "answeredAt": "2026-09-22T13:17:11.000Z",
-    "answeredBy": "lamontae",
+    "answeredBy": "the owner, via ChatGPT's record of the decision",
     "sources": [
-      "lamontae's own message in the project thread, 2026-09-22 13:18 UTC, answering this question directly.",
-      "CHATGPT REPLIES TO CLAUDE — CURRENT, Google Drive 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, section OWNER ANSWERS RECEIVED, item 3; recorded in the Current Decision Register at OCD-LIFE-004",
+      "ChatGPT's record of decisions the owner made on its side, relayed into this project through the coordinator session on 2026-09-22. Nobody in this project has seen him write this, so it is cited as ChatGPT's record rather than as his words, and no quotation is attributed to him.",
       "src/simulation/people-traits.ts and recordPlayerTraitChoice, which already write the played character's temperament only from an explicit choice and leave it unsaid otherwise."
     ],
     "stillOpen": "The screen. recordPlayerTraitChoice and playerTemperament exist with no surface behind them, and PersonCard deliberately never shows the played character's own temperament, so there is still no way for a player to say who they are or to read it back. That is engineering rather than research, and it is section 0a of the people-and-life handoff.",
-    "summary": "Both, with setup only suggesting. Optional setup questions may propose a temperament, which the player then confirms, changes or skips; nothing is written as the played character's temperament without the player saying so. Skipping leaves it unsaid rather than choosing a middle, which is what the build already does, and choices made in play remain the other route. It must not invent biography, and must not diagnose a temperament from demographics, occupation or political label."
+    "summary": "Both, with setup only suggesting. Optional setup questions may propose a temperament, which the player then confirms, changes or skips; nothing is written as the played character's temperament without the player saying so. Skipping leaves it unsaid rather than choosing a middle, which is what the build already does, and choices made in play remain the other route. ChatGPT's record of the decision also carries a constraint: setup must not invent biography, and must not diagnose a temperament from demographics, occupation or political label."
   },
   "filedAt": "2026-09-22T04:40:00.000Z",
   "impact": "shapes-design",
