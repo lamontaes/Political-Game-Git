@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 3166 |
-| INTENTIONALLY_NON_PLAYER_FACING | 7101 |
-| DIAGNOSTIC_OR_TEST | 7763 |
-| **NEEDS_CLASSIFICATION** | **10583** |
+| INTENTIONALLY_NON_PLAYER_FACING | 7099 |
+| DIAGNOSTIC_OR_TEST | 7786 |
+| **NEEDS_CLASSIFICATION** | **10589** |
 
-Scanned 1166 files holding 113193 string
+Scanned 1168 files holding 113296 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -136,6 +136,7 @@ literals in total; the table counts only those that read like a sentence.
 | 27 | `src/simulation/governing/staff-evidence.ts` |
 | 27 | `src/simulation/transit-service.ts` |
 | 26 | `src/simulation/life-content-92c.ts` |
+| 26 | `src/simulation/office-qualification-rules.ts` |
 | 26 | `src/ui/DeveloperReviewHub.tsx` |
 | 25 | `src/player/SceneConversation.tsx` |
 | 25 | `src/presentation/economic-graphs.ts` |
@@ -162,7 +163,6 @@ literals in total; the table counts only those that read like a sentence.
 | 20 | `src/presentation/economic-context-browser.ts` |
 | 20 | `src/presentation/legislative-bargaining-actions.ts` |
 | 20 | `src/simulation/candidacy-packs.ts` |
-| 20 | `src/simulation/office-qualification-rules.ts` |
 | 19 | `src/education/study-provider.ts` |
 | 19 | `src/presentation/player-places.ts` |
 | 19 | `src/presentation/run-a-fixture.ts` |
