@@ -1995,6 +1995,22 @@
       "textRevision": "698cbb5f9e2b"
     },
     {
+      "anchor": "RELATION_LABEL-0004",
+      "sourcePath": "src/presentation/people-continuation.ts",
+      "symbol": "RELATION_LABEL",
+      "text": "someone they lived with",
+      "occurrence": 0,
+      "textRevision": "b19f65965d1f"
+    },
+    {
+      "anchor": "RELATION_LABEL-0005",
+      "sourcePath": "src/presentation/people-continuation.ts",
+      "symbol": "RELATION_LABEL",
+      "text": "someone who taught them",
+      "occurrence": 0,
+      "textRevision": "7a9118cb9fb7"
+    },
+    {
       "anchor": "RETURN_SUMMARY-0001",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
