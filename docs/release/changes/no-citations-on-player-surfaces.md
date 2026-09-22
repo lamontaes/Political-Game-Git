@@ -5,8 +5,6 @@ section: Changed
 title: A refusal to stand for office now tells you the rule, not where we read it
 ---
 
-# A refusal tells you the rule, not where we read it
-
 **For the player.** Standing for office and being turned down used to hand you a
 legal citation. Columbus read "Ohio Const. art. XV, § 4 requires that the
 candidate is a qualified elector"; Nevada read "NRS 218A.200 requires 1 year".

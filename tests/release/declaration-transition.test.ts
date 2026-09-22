@@ -117,6 +117,37 @@ describe("transition-aware release declarations", { timeout: 120_000 }, () => {
     }
   });
 
+  // A count is not an instruction. The refusal has to name the files, or the
+  // lane reading it has to go and work out what the range touched — which on
+  // 2026-09-22 ended with #392 merged and its commit message recording that no
+  // declaration was required, while this very check said otherwise.
+  it("names the undeclared files, not just how many there are", () => {
+    const fixture = historyFixture();
+    try {
+      fixture.run("checkout", "-q", "-b", "named", fixture.rollout);
+      for (const name of ["alpha", "beta"]) {
+        writeFileSync(
+          join(fixture.root, "src", `${name}.ts`),
+          `export const ${name} = true;\n`,
+        );
+      }
+      const head = fixture.commit("Two files, no declaration");
+      const result = checkDeclarationTransition(fixture.root, {
+        base: fixture.rollout,
+        head,
+        mode: "pr",
+      });
+      const said = result.problems.join("\n");
+      expect(said).toContain("src/alpha.ts");
+      expect(said).toContain("src/beta.ts");
+      // And the count still has to be right, so naming them cannot quietly
+      // become naming some of them.
+      expect(said).toContain("modifies 2 non-declaration path(s)");
+    } finally {
+      fixture.dispose();
+    }
+  });
+
   it("accepts explicit none for a fresh source-only branch", () => {
     const fixture = historyFixture();
     try {
