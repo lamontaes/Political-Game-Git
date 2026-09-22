@@ -1,0 +1,37 @@
+{
+  "filedAt": "2026-09-22T13:25:00.000Z",
+  "impact": "blocks-work",
+  "lane": "research triage",
+  "notes": [
+    "Both lists were written by ChatGPT, overnight on 2026-09-22, and both are published in the same document: CHATGPT REPLIES TO CLAUDE — CURRENT (Drive 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc). The 14-domain list appears under OVERNIGHT RESEARCH REPLY — P0 STATE/LOCAL POLICY VOCABULARY; the 13-domain list appears under OVERNIGHT RESEARCH — WHAT STATE AND LOCAL POLITICS IS ACTUALLY ABOUT. Neither section acknowledges the other.",
+    "The 14-domain list: public finance/administration; education/workforce; health/human services; justice/public safety; transportation/infrastructure; housing/land use/community development; economic development/business/professional regulation; labor/employment/pensions; energy/environment/natural resources; elections/democracy/ethics; technology/communications/cybersecurity; agriculture/rural/food; civil/family/consumer; parks/culture/community life.",
+    "The 13-domain list: fiscal policy/budget/taxation; government operations/democracy/local government; education; health and human services; civil and criminal justice/public safety; housing/land use/community development; transportation/infrastructure/utilities; business/commerce/insurance/economic development; labor/workforce; environment/energy/climate; agriculture/food/natural resources; civil/family/community policy; technology/privacy/cybersecurity/communications.",
+    "The two disagree about structure, not only wording. Elections, democracy and ethics is a domain of its own in the 14-domain list and is folded into government operations in the 13-domain list. Parks, culture and community life is a domain of its own in the 14-domain list and is folded into civil/family/community in the 13-domain list. Education and workforce are one domain in the 14-domain list and two in the 13-domain list, which separates education from labor/workforce.",
+    "Only the 13-domain list carries the per-level attention weights and the level-of-government routing paragraph. If the 14-domain list is chosen, those weights do not map onto it row for row.",
+    "lamontae asked for this to be put back to ChatGPT rather than decided here (2026-09-22, in the project thread, of the two lists that came back: 'put those as a question in ChatGPT').",
+    "This record does not reopen the underlying research. The sources, the level-of-government routing and the honest refusal to claim a measured national attention share are all sound and should be reused whichever list wins."
+  ],
+  "priority": "P0",
+  "question": "ChatGPT answered the P0 state and local policy taxonomy twice overnight and published two different domain lists, one of fourteen domains and one of thirteen. Which list should the game load, and why? Where they differ structurally — elections and ethics as its own domain or inside government operations, parks and culture as its own domain or inside civil and community, education and workforce together or apart — which grouping is the one a player's legislature should actually work in?",
+  "questionId": "policy-domain-list-reconciliation",
+  "relatedQuestionIds": ["policy-issue-taxonomy-state-and-local"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "research triage thread, at lamontae's direction",
+  "sourcesChecked": [
+    {
+      "source": "CHATGPT REPLIES TO CLAUDE — CURRENT, Drive 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, both policy sections read in full",
+      "whatItDidNotSettle": "Establishes that both lists exist, that both are ChatGPT's own work from the same night, and exactly where they diverge. Neither section mentions the other or supersedes it, so the document gives no basis for choosing between them."
+    },
+    {
+      "source": "The verified 05:39 UTC research package, Drive 1X2XNIRptns55BhuaXf2g0T6MRBHYy9k0, SHA256 d721d19bf00ca979bd678f40163ef71bb6ee6ee9ceb6d5b199148132db257d82, all 102 internal checksums verified",
+      "whatItDidNotSettle": "The package carries the ethics and personality research as files but contains no policy domain file at all. Both lists exist only as prose, so there is no machine-readable version whose shape would settle which is current."
+    },
+    {
+      "source": "src/simulation/policy-pack-registry.ts and src/simulation/production-catalog.ts on current main",
+      "whatItDidNotSettle": "Confirms the question is live rather than academic: POLICY_PACKS is still an empty array and production-catalog refuses to create populated policy definitions until sourced ones exist. It shows a list is needed; it cannot say which list."
+    }
+  ],
+  "title": "Which of ChatGPT's two policy domain lists the game should load",
+  "whyItMatters": "Nothing can be loaded while there are two answers. The policy vocabulary is the one thing every legislature, council and county board in the game draws its subject matter from, so the list is not a label on top of the work — it decides what a player's session is about, which body is even competent to act, and which existing government-unit capability filters an issue out. Choosing wrong is expensive twice over: every authored issue row, every generated docket and every saved world inherits the grouping, and a later regrouping would have to migrate all of them. It is also the difference between shipping the taxonomy this week and leaving POLICY_PACKS empty, which is what it is today.",
+  "usableAnswer": "A decision naming one list as the one to load, with the reason for each structural difference rather than a flat preference — in particular whether elections and ethics is its own policy domain in play, whether parks and culture is, and whether education and workforce belong together. If the answer is a third list, the full domain names. If the 14-domain list wins, the attention weights need restating against it, since they were only ever written for the 13."
+}
