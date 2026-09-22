@@ -75,7 +75,9 @@ run.
 
 - The browser suite is red on main and was before tonight — nine cases, all
   reproduced at `445441a5`.
-- Four of six unit shards on main never ran at all.
+- Main's unit suite finally reported: five of six shards, four green and one
+  red, which is the failure #333 already fixed. The sixth was still running
+  at 09:00Z. This replaces the earlier line that said four shards never ran.
 - Two lanes are deliberately not merging: the player-facing-text lane reads
   `AGENTS.md` as putting merge authority with LAND, which is a defensible
   reading and was not overridden.
@@ -268,6 +270,15 @@ when #333 was merged at 08:12Z. Immediately afterwards the run was still alive:
 `unit (5, 6)` still queued and intact. The merge queued behind it, exactly as
 the corrected reading predicts.
 
+**Confirmed again at 09:00Z, four merges later.** Main's run on `7fc33c85`
+has now survived the merges of #304, #336, #341 and #342, and is still
+running its browser shards. Each of those four merges created a main run that
+died with zero jobs allocated — `4595878e`, `a08d2eef`, `d9753c87` cancelled,
+`0f1db2d3` pending as this was written. So the practical shape on a busy
+morning is that main gets one executing run and every merge after it inherits
+a run that never starts. The verdict a lane reads for main is the one from
+`7fc33c85`, and no later commit on main has been tested by CI at all.
+
 **Three lanes reached the same instrument independently.** The playtest lane
 measured run `35699947412` reading `queued` at run level while browser shards
 3, 5 and 7 were all `in_progress` at that same moment. A lane deciding whether
@@ -286,10 +297,10 @@ run-level `status` field is no help in telling those apart, since it reads
 
 ## What to say about main, and what not to say
 
-**The sentence for the report is: main is merged, and of its unit suite one
-shard of six reported green, one reported the failure that #333 then fixed,
-and four never ran. Not "main is green," and not "its unit suite is clean"
-either.**
+**The sentence for the report, as of 09:00Z: main is merged, and of its unit
+suite four shards of six are green, one is red with the failure #333 already
+fixed, and the sixth is still running. Not "main is green," and not "its unit
+suite is clean" either.**
 
 That second phrasing was mine, written at 08:09Z, and it was an overclaim. I
 am correcting it here rather than quietly, because it is the same mistake this
@@ -301,10 +312,22 @@ What is actually on the record, all on `7fc33c85`:
 - `repository` — green.
 - `unit (1, 6)` — green.
 - `unit (2, 6)` — **red**, one test of 1197. That is the failure #333 fixed.
-- `unit (3, 6)` through `unit (6, 6)` — **never started.** Still queued forty
-  minutes after the run was created, because the browser shards took every
-  free slot ahead of them.
+- `unit (3, 6)` — green, 08:28:17Z.
+- `unit (4, 6)` — green, 08:32:47Z.
+- `unit (5, 6)` — still running at 09:00Z, started 08:58:01Z.
+- `unit (6, 6)` — green, 08:56:53Z.
 - `browser (6, 8)` — nine failures, all pre-existing (see below).
+- `browser (3, 8)`, `browser (7, 8)`, `browser (2, 8)` — red, completed
+  08:35:59Z, 08:45:09Z and 08:52:17Z.
+- `browser (1, 8)` and `browser (5, 8)` — still running. `browser (4, 8)` and
+  `browser (8, 8)` — still queued after eighty minutes.
+
+**Corrected at 09:00Z.** An earlier version of this section said shards 3
+through 6 never started. They did start — between 08:25Z and 08:58Z, an hour
+after the run was created, once the browser shards ahead of them finished.
+The claim was true when written and stopped being true, which is a different
+failure from an overclaim and needs the same correction. Read the run again
+before repeating any line of this section.
 
 So **no CI run has ever reported a green `unit (2, 6)` on main.** #333's fix
 rests on local evidence: the failure reproduced first, then the same test
