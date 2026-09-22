@@ -2865,3 +2865,86 @@ in is a change like any other and needs a check run after it, not before.
 
 Consequence: "merged cleanly" stops being reported as a result on its own. The
 result is the gate that ran on the merged tree.
+
+## D-088 — An instrument that can fail by measuring nothing will report that as a pass
+
+- Date: 2026-09-22
+- Status: ACCEPTED
+- Supersedes: none
+
+**Every instrument needs a check that it engaged at all.**
+
+On the night of 21–22 September this shape appeared six times, in four
+unrelated lanes, in tools with nothing to do with each other. Each time it
+produced a confident report of agreement where nothing had been observed, and
+each time the resulting claim travelled before anyone checked it. It is the
+common root of most of that night's retractions.
+
+**The instances.** Two are verified in this repository at the lines named; the
+other four were reported by the lanes that hit them and are recorded as such.
+
+Verified in the tree:
+
+- `src/simulation/no-citations-on-player-surfaces.test.ts:211` — the first
+  version of that block called `resolveCapability` with `officeKey: null`
+  only, and the resolver takes a whole branch, with its own sentences, only
+  when it is given an office key. In the file's own words: "the producer was
+  missed once by not being called at all, and missed again by being called
+  down one path."
+- `tests/e2e/civil-authority-normal-route.spec.ts:33` — a loop pressed
+  `pass-day` sixty times on the Calendar, which does not draw that control.
+  The arithmetic was wrong underneath it too: two hundred and forty-four days
+  could never be reached by sixty single-day presses.
+
+Reported by their lanes:
+
+- A walk helper that did a bare `continue` past a missing sub-control, so
+  three destinations were measured as one page three times — producing a
+  defect report about a screen that was fine.
+- A citation sweep that passed against an unfixed file, because its fixture
+  never reached a rule carrying a citation.
+- A `vitest` invocation naming three test files where two exist; the missing
+  path was ignored silently, so a passing count covered two files.
+- A probe matching whole-page text against `/found|new party|formed/i`, loose
+  enough to agree with almost anything. It cost two retractions on its own.
+
+**The corollary, added 2026-09-22 09:45Z after it caught the author of this
+entry.** _An instrument that reports nothing invites a guessed explanation,
+and the guess inherits the same false confidence._
+
+Three lanes in ninety minutes looked at the same time control and each wrote
+down a different confident reason a locator could not find it; none was
+checked against the file until the fourth reading. One said the label is
+screen-reader-only. The second — written into an earlier version of this
+entry — said the string does not exist, on the strength of a
+`git grep "Skip to Monday"` that returned nothing. The string is composed:
+`skipToLabel` at `src/presentation/time-target-label.ts:18` returns
+`` `Skip to ${describeTimeTarget(moment)}` ``, so a literal search cannot find
+it however often it reaches the screen. That is the fourth instance above,
+committed while writing the list of instances.
+
+The measured reason, on `main` at `b8f8702f`: the string is on that button in
+the `title` at `src/player/ShellNav.tsx:515`, in an `sr-only` span at `:542`,
+and via the `aria-describedby` at `:514`. The button's text content is `Week`
+with an `aria-hidden` chevron, so its accessible **name** is "Week", and
+`aria-describedby` contributes to an accessible _description_, never to a
+name. A role-and-name locator therefore cannot match it, and the fix is the
+`data-testid` or the accessible name. Both wrong diagnoses pointed at other
+fixes entirely.
+
+**The rule.** An assertion that cannot fail is worse than no assertion,
+because it manufactures confidence rather than merely withholding it. So an
+instrument asserts its own reach before it asserts its result: a non-empty
+count of what it examined, a control it proves it found, a file list it proves
+it loaded. A walk that measures zero weeks fails loudly rather than agreeing
+quietly.
+
+**What it does not license.** It is not a reason to loosen an assertion so it
+stops being brittle — a loose matcher is instance four, not a fix for it. Nor
+is it a demand that every test carry a meta-assertion: it applies where the
+instrument can silently reach nothing, which is any sweep, walk, glob, grep or
+loop over a collection that may be empty.
+
+Consequence: a report that an instrument passed is incomplete without what it
+covered. "Green" on its own stops being a result, exactly as "merged cleanly"
+does under D-087.
