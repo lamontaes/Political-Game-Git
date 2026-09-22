@@ -83,8 +83,8 @@ const sha256 = (text: string) =>
  * content does. LEGACY_OPENING_SHAPE below is the part that should not move.
  */
 const FED321F7_LEGACY = {
-  kentucky: "8c715a8939d979c09a542894d421492542fbc821c57f1757d3390556f1891e3f",
-  peebles: "edc4ae31adf37db239bf41d6e9ebc9d07bacabb42307a7f5abcccb2513f4560b",
+  kentucky: "5aa3b46631f8a2adb69d69255ceeb7c8607ed6c905805a2ff6884e35343176b2",
+  peebles: "f219313a16fb4f3c47a2c9f9d79b104611a5d2e77076e5e2c1d9270667984f51",
 } as const;
 
 /**
@@ -94,10 +94,35 @@ const FED321F7_LEGACY = {
  * the hashes above it does NOT move when authored content ships. A change here
  * is the legacy opening path actually behaving differently, which is what the
  * test above was reaching for and could not hold on its own.
+ *
+ * RE-ACCEPTED 2026-09-22, and this one IS the opening path behaving
+ * differently — deliberately, and it is the only such re-acceptance here.
+ * Generated people now take their given name from the pool that agrees with
+ * the gender the world gave them, so a generated name moves whether or not it
+ * was previously wrong: the draw is over a smaller pool, not a corrected one.
+ *
+ * What moved was measured rather than assumed. The legacy Kentucky opening was
+ * serialized on `origin/main` at 4965f63c and on this head and compared leaf by
+ * leaf. The two worlds hold the same 544 people under the same ids. Exactly
+ * three things differ:
+ *
+ *   - 536 `givenName` values;
+ *   - 2,139 `establishedFacts[].summary` strings, every one of which becomes
+ *     identical after substituting that person's old given name for their new
+ *     one — 0 summaries are unexplained by the name alone;
+ *   - `snapshotId`, which is a digest of the world and moves with it.
+ *
+ * Nothing else. No person id, birth date, family name, appearance, identity,
+ * jurisdiction, organization, event or history structure differs, and `worldId`
+ * is unchanged: 0 identities changed and 0 other person fields differ. An old
+ * save therefore rebuilds the same world with the same people, and those people
+ * are no longer called things that contradict their own pronouns. That is the
+ * change being accepted, and a move here for any other reason is still a
+ * regression.
  */
 const LEGACY_OPENING_SHAPE = {
-  kentucky: "11b9c3a70029aeaf79fb2a78b43e2bba14185fab2c6c7e496f26ed57350a3534",
-  peebles: "f936aaf182ccc43581bc87856f87fa404c0ebff3eb869ff5984a3e447828712b",
+  kentucky: "dee483710f4ea1611fbc6db5357cf23edb2cd2759a88794376a07c3d98065926",
+  peebles: "b03f5e89f7e67c0224215d9262e30c2926a1c9022eba032221db207713da51c9",
 } as const;
 
 /**
