@@ -18,7 +18,86 @@ trust the rest should read those first: they are the evidence that the
 standard in **D-086** was applied to this document too, and not only
 recommended in it.
 
-## The list to click through
+## The click list is RETIRED, 14:55Z
+
+**Do not maintain this list by hand again, and do not read the sections below
+as current.** Everything from here down is kept as evidence of what was
+measured when, and nothing in it is a live instruction — including any sentence
+that reads like "do not merge".
+
+It went stale three times in eight hours, each time within the hour of being
+written, and the last refresh below was superseded ten minutes after it was
+made. That is not carelessness being repeated; it is the instrument being
+wrong. A hand-written list of what to click cannot track lanes that merge their
+own work under the owner's standing authority, and while it is wrong it is
+worse than nothing: a stale do-not-merge banner on it parked #283 in at least
+one lane's reading for hours.
+
+**What replaces it.** There is no standing list. Lanes merge their own work, so
+what is clickable at any moment is whatever pull request is open and not a
+draft — one API read, taken when the question is asked, never written down
+here. As of 14:45Z that was exactly one, #381, with every other open pull
+request a draft that only its own thread can release. That sentence is the
+whole document this section used to be.
+
+**What this document is still for**, and why it is not deleted: it is the
+record of _why_ work merged on local evidence during the night of 2026-09-22,
+with its own wrong claims struck in place. That part does not go stale, and it
+is what a morning report needs.
+
+### Superseded ten minutes after it was written: the 14:45Z list
+
+**Measured 14:45Z against `origin/main` at `1c4992e8`.** Everything under the
+12:50Z heading below is **superseded and kept as evidence**, and so is the
+08:40Z list under that. The 12:50Z list named five clicks; four of them have
+since merged, so a reader who worked it top to bottom at 14:00Z would have
+spent their time on already-merged work. That is the failure this refresh
+exists to stop, and it is the second time this document has had it.
+
+**Read from GitHub's live pull-request state at 14:45Z**, not from a check
+colour and not from memory.
+
+### There is exactly one click
+
+- **#381** — files three character questions and re-files the seated-pose art
+  request that never reached main. It is the **only** open pull request in the
+  project that is not a draft. Everything else below needs its author to press
+  "Ready for review" first, so there is no merge button to press.
+
+### Merged since the 12:50Z list, nothing to do
+
+**#292**, **#305**, **#311**, **#369** and **#304** — all five of that list's
+clicks except #283. Also **#375** (stop committing the generated prose coverage
+report, which is what made every branch conflict within minutes all night),
+**#377** (the CI split), **#378**, **#379**, **#382**, **#383**, **#385**,
+**#386** and **#387**.
+
+### Drafts — not clickable until their lane presses the button
+
+#389, #388, #384, #376, #307, #295, #293, #288, **#283** and **#278**.
+
+**On #283 specifically, since it has been asked twice.** Its do-not-merge was
+lifted at 10:30Z and the lifting is recorded below in the superseded section;
+the typecheck break that caused it is long fixed. Nothing here says not to
+merge it. What it needs is not a decision from anyone reading this document: it
+is a draft, and only its own lane can take it out of draft. The reason a reader
+keeps finding a warning is that the lift is buried inside a section headed
+"superseded", where the words "do not click it" still appear in the quoted
+history — this paragraph is here so the next reader does not have to dig for
+the resolution. Re-checked 14:45Z: still a draft.
+
+**On #278, the client line.** Still a draft, and the schooling defect recorded
+in #373 is still not on main. Nothing has changed about it since 12:50Z beyond
+a push from another session at `de91d130`, which has not been read here.
+
+### A note on how this list goes stale
+
+Three refreshes in eight hours, each because entries aged out within the hour.
+A click list is a measurement with a timestamp, not a standing document. If the
+heading above does not say a time within the last hour, **re-read GitHub before
+clicking anything**, and date whatever you correct rather than deleting it.
+
+## Superseded, kept as evidence: the 12:50Z list
 
 **REFRESHED 12:50Z against `origin/main` at `5492eb07`.** Everything under the
 08:40Z heading further down is **superseded and kept only as evidence** — it
