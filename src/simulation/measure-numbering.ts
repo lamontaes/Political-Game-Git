@@ -1,4 +1,4 @@
-import { designationPrefix } from "./legislation-drafting";
+import type { ChamberRule } from "./legislature-rules";
 import { SeededRng } from "./rng";
 import type { EntityId, World } from "./types";
 
@@ -14,9 +14,11 @@ import type { EntityId, World } from "./types";
  * The number now comes from the jurisdiction's own numbering state in the
  * player's world:
  *
- *   - the prefix is the chamber's, read from the same `designationPrefix` the
- *     player-drafting route already uses — "HB" is a chamber label, not a
- *     bill's identity, and it stays;
+ *   - the prefix is the chamber's own, read off the chamber record the rule
+ *     pack carries — "HB" is a chamber label, not a bill's identity, and it
+ *     stays. It is read rather than inferred from the chamber key, so a
+ *     legislature whose chambers are named differently numbers its bills the
+ *     way it names them instead of raising;
  *   - where that chamber's numbering stands when this session opens is drawn
  *     once from the world's seed, so two lives started differently do not open
  *     on the same bill number;
@@ -46,7 +48,8 @@ const OPENING_NUMBER_MAXIMUM_EXCLUSIVE = 640;
 
 export interface MeasureDesignationInput {
   readonly jurisdictionId: EntityId;
-  readonly originChamberKey: string;
+  /** The chamber receiving the introduction, from its own rule pack. */
+  readonly originChamber: ChamberRule;
 }
 
 /**
@@ -59,16 +62,17 @@ export function nextMeasureDesignation(
   world: World,
   input: MeasureDesignationInput,
 ): string {
-  const prefix = designationPrefix(input.originChamberKey);
+  const prefix = input.originChamber.billDesignationPrefix;
+  const originChamberKey = input.originChamber.chamberKey;
   const opening = new SeededRng(world.seed)
-    .fork(`measure-numbering:${input.jurisdictionId}:${input.originChamberKey}`)
+    .fork(`measure-numbering:${input.jurisdictionId}:${originChamberKey}`)
     .integer(OPENING_NUMBER_MINIMUM, OPENING_NUMBER_MAXIMUM_EXCLUSIVE);
 
   const filed = world.history.legislativeMeasures ?? [];
   const alreadyInThisChamber = filed.filter(
     (record) =>
       record.jurisdictionId === input.jurisdictionId &&
-      record.originChamberKey === input.originChamberKey,
+      record.originChamberKey === originChamberKey,
   ).length;
 
   // Two bills in one chamber never share a number. The count is the ordinary
