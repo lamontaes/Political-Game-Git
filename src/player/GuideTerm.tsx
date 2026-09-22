@@ -8,7 +8,11 @@ import {
   type ReactNode,
 } from "react";
 
-import { guideTerm, guideTermByLabel } from "../presentation/guide-terms";
+import {
+  annotateGuideTerms,
+  guideTerm,
+  guideTermByLabel,
+} from "../presentation/guide-terms";
 import type { GuideTermEntry } from "../presentation/guide-terms";
 
 import "./guide.css";
@@ -87,6 +91,43 @@ export function GuideTerm(props: GuideTermProps) {
       returnFocus.current = false;
       triggerRef.current?.focus();
     }
+  }, [open]);
+
+  /*
+   * Where the explanation goes.
+   *
+   * A popover pinned under the word covers the next two lines, which on a
+   * docket is the sentence the player was reading when the word stopped them.
+   * So it opens below only when there is room below, flips above when there is
+   * not, and slides sideways rather than off the edge of a narrow screen. The
+   * word itself is never covered either way, so the player can still see what
+   * they asked about.
+   */
+  useEffect(() => {
+    if (!open) return;
+    const place = (): void => {
+      const trigger = triggerRef.current;
+      const popover = popoverRef.current;
+      if (!trigger || !popover) return;
+      const anchor = trigger.getBoundingClientRect();
+      const card = popover.getBoundingClientRect();
+      const margin = 8;
+      const below = window.innerHeight - anchor.bottom;
+      popover.dataset.placement =
+        below < card.height + margin && anchor.top > below ? "above" : "below";
+      const overflow = anchor.left + card.width + margin - window.innerWidth;
+      popover.style.setProperty(
+        "--pg-guide-popover-shift",
+        `${Math.round(Math.min(0, -Math.max(0, overflow)))}px`,
+      );
+    };
+    place();
+    window.addEventListener("resize", place);
+    window.addEventListener("scroll", place, true);
+    return () => {
+      window.removeEventListener("resize", place);
+      window.removeEventListener("scroll", place, true);
+    };
   }, [open]);
 
   if (!entry || !help) return <>{text}</>;
@@ -185,5 +226,30 @@ export function GuideTerm(props: GuideTermProps) {
         </div>
       ) : null}
     </span>
+  );
+}
+
+/**
+ * A sentence the game assembled elsewhere, with its terms explained in place.
+ *
+ * The producers keep writing whole sentences, which is what makes them read
+ * like a person wrote them, and the words a player might not know still carry
+ * their explanation. Which words those are is declared in the catalog, not
+ * guessed here, and the text is rendered exactly as it was written.
+ */
+export function GuideTermText({ text }: { readonly text: string }) {
+  const segments = annotateGuideTerms(text);
+  return (
+    <>
+      {segments.map((segment, index) =>
+        segment.semanticKey ? (
+          <GuideTerm key={index} semanticKey={segment.semanticKey}>
+            {segment.text}
+          </GuideTerm>
+        ) : (
+          <span key={index}>{segment.text}</span>
+        ),
+      )}
+    </>
   );
 }

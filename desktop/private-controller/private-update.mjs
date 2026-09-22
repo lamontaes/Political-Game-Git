@@ -6,6 +6,28 @@ export const CONTROLLER_STATE_SCHEMA = 1;
 export const EXPECTED_BUILD_PROFILE = "internal-art-review";
 export const EXPECTED_REPOSITORY = "github.com/lamontaes/Political-Game-Git";
 
+/** Exact private inputs are build dependencies, never source changes. */
+export function privateInputIgnoreRules(manifest) {
+  return manifest
+    .trim()
+    .split(/\r?\n/)
+    .map((line) => {
+      const match = /^([a-f0-9]{64}) {2}(art\/[^\r\n]+)$/.exec(line);
+      if (
+        !match ||
+        match[2]
+          .split("/")
+          .some((part) => !part || part === "." || part === "..")
+      )
+        throw new Error("The private input manifest contains an invalid path.");
+      return {
+        sha256: match[1],
+        path: match[2],
+        rule: `/${match[2].replace(/[\\*?[\] !#]/g, "\\$&")}`,
+      };
+    });
+}
+
 export function canonicalRepository(value) {
   const raw = String(value ?? "").trim();
   if (!raw) return null;

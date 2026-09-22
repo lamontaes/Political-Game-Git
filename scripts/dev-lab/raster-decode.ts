@@ -239,7 +239,9 @@ export function decodeRaster(
       const image = jpeg.decode(bytes, {
         useTArray: true,
         maxMemoryUsageInMB:
-          Math.ceil((limits.maxPixels * 4) / (1024 * 1024)) + 64,
+          // JPEG coefficients/planes coexist with the RGBA output.
+          // A four-byte-only budget rejected valid 24MP reference originals.
+          Math.ceil((limits.maxPixels * 8) / (1024 * 1024)) + 64,
         maxResolutionInMP: Math.ceil(limits.maxPixels / 1_000_000),
         tolerantDecoding: false,
       });

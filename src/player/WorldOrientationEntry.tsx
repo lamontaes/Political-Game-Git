@@ -38,6 +38,8 @@ export function WorldOrientationEntry({
   }
   return (
     <WorldOrientationPanel
+      world={world}
+      personId={personId}
       view={view}
       homeStateUsps={homeStateUsps}
       regionalPlate={regionalPlate}

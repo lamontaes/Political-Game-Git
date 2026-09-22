@@ -22,6 +22,7 @@ export function QuickDossier({
   onOpenLink,
   onOpenPerson,
   onTalk,
+  onContact,
   onMeet,
   onTravel,
   onFullRecord,
@@ -39,6 +40,7 @@ export function QuickDossier({
   readonly onOpenLink: (ref: ShellRef) => void;
   readonly onOpenPerson?: (personId: EntityId) => void;
   readonly onTalk?: () => void;
+  readonly onContact?: () => void;
   readonly onMeet?: () => void;
   readonly onTravel?: () => void;
   readonly onFullRecord?: () => void;
@@ -61,6 +63,7 @@ export function QuickDossier({
       onTogglePin={onTogglePin}
       onOpenPerson={(personId) => onOpenPerson?.(personId)}
       onTalk={onTalk}
+      onContact={onContact}
       onMeet={onMeet}
       onTravel={onTravel}
       onFullRecord={onFullRecord}
@@ -104,6 +107,7 @@ export function FullDossier({
   pinned,
   onTogglePin,
   onTalk,
+  onContact,
   onMeet,
   talkUnavailable,
   onOpenLink,
@@ -115,6 +119,7 @@ export function FullDossier({
   readonly pinned: boolean;
   readonly onTogglePin: () => void;
   readonly onTalk: () => void;
+  readonly onContact?: () => void;
   readonly onMeet?: () => void;
   readonly talkUnavailable: string | null;
   readonly onOpenLink: (ref: ShellRef) => void;
@@ -131,6 +136,7 @@ export function FullDossier({
       onTogglePin={onTogglePin}
       onOpenPerson={(personId) => onOpenPerson?.(personId)}
       onTalk={onTalk}
+      onContact={onContact}
       onMeet={onMeet}
       talkUnavailable={talkUnavailable}
       onOpenLink={onOpenLink}

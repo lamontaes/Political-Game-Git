@@ -311,12 +311,12 @@ export const TEXT39_SETUP_COPY: Readonly<
   },
   child_kitchen_late: {
     prompt:
-      "You get up for water. Dee is at the kitchen table with a calculator and two piles of mail. “Go back to bed,” she says when she sees you. Then, more quietly, “Sorry. It's late.”",
+      "You get up for water. Dee, who looks after you, is at the kitchen table with a calculator and two piles of mail. “Go back to bed,” she says when she sees you. Then, more quietly, “Sorry. It's late.”",
     options: {
       "go-back": "Go back to bed",
       "ask-what-is-wrong": "Ask what's wrong",
       "sit-on-the-stairs": "Sit on the stairs and listen",
-      "tell-bea": "Wake Bea and tell her",
+      "tell-bea": "Wake your sister Bea and tell her",
     },
   },
   child_theo_took_it: {

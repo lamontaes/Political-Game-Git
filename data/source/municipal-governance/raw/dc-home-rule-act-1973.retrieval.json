@@ -1,0 +1,14 @@
+{
+  "kind": "supporting-original-law-research",
+  "productionAdmitted": false,
+  "requestedUrl": "https://www.govinfo.gov/content/pkg/STATUTE-87/pdf/STATUTE-87-Pg774.pdf",
+  "effectiveUrl": "https://www.govinfo.gov/content/pkg/STATUTE-87/pdf/STATUTE-87-Pg774.pdf",
+  "httpStatus": 200,
+  "method": "GET via curl --fail --location --max-filesize 16777216",
+  "receivedAt": "2026-09-20T03:14:12.263009+00:00",
+  "bytes": 11600295,
+  "sha256": "ee87f6027e6f3902a09e1907d991c5d40fab8b3931446ccf7d8a558325636ebb",
+  "localPath": "data/source/municipal-governance/raw/dc-home-rule-act-1973.pdf",
+  "reviewStatus": "pypdf text and rendered pages visually reviewed: PDF pages12,16,17,63 / Statutes785,789,790,836; Council401(a),(b)(1), Mayor421(a), executive422 first sentence, commencement771(c)",
+  "scope": "Original-law lineage research only; not inserted into production artifact-lock."
+}

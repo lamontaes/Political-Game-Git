@@ -1,3 +1,4 @@
+import { playtest65QuestionnaireItem } from "./setup-playtest65-copy";
 import {
   PLAYER_MODEL_DIMENSIONS,
   applyAllPlayerEvidence,
@@ -296,6 +297,12 @@ export const DEFAULT_SETUP_LIFE_CONTEXT: SetupLifeContext = {
  * `admissibleQuestionnaireBank`, not by this.
  */
 export function questionnaireItem(key: string): QuestionnaireItem | null {
+  if (key.endsWith(".playtest65-v2")) {
+    const legacy = SETUP_QUESTIONNAIRE_BANK.find(
+      (item) => item.key === key.replace(/\.playtest65-v2$/, ".text39-v1"),
+    );
+    return legacy ? playtest65QuestionnaireItem(legacy) : null;
+  }
   return (
     SETUP_QUESTIONNAIRE_BANK.find((item) => item.key === key) ??
     ALL_AUTHORED_SETUP_ITEMS.find((item) => item.key === key) ??
@@ -596,8 +603,11 @@ export function nextQuestionnaireStep(
 
   const asked = new Set(
     input.answers.flatMap((answer) => {
-      const original = answer.questionKey.replace(/\.text39-v1$/, "");
-      return [original, `${original}.text39-v1`];
+      const original = answer.questionKey.replace(
+        /\.(?:text39-v1|playtest65-v2)$/,
+        "",
+      );
+      return [original, `${original}.text39-v1`, `${original}.playtest65-v2`];
     }),
   );
   const phase = questionnairePhase(input.depth, input.answers.length);
@@ -791,8 +801,11 @@ export function questionnaireOutcome(
 ): QuestionnaireOutcome {
   const asked = new Set(
     input.answers.flatMap((answer) => {
-      const original = answer.questionKey.replace(/\.text39-v1$/, "");
-      return [original, `${original}.text39-v1`];
+      const original = answer.questionKey.replace(
+        /\.(?:text39-v1|playtest65-v2)$/,
+        "",
+      );
+      return [original, `${original}.text39-v1`, `${original}.playtest65-v2`];
     }),
   );
   const model = modelFromSetupPriors({
