@@ -4,6 +4,7 @@ import {
   mkdtempSync,
   readdirSync,
   readFileSync,
+  rmSync,
   symlinkSync,
   writeFileSync,
 } from "node:fs";
@@ -1220,4 +1221,86 @@ it("allocates stable request codes once and preserves them through revisions and
     code,
   );
   expect(reopened.allEvents().slice(0, events.length)).toEqual(events);
+});
+
+describe("byte verification without stalling the Art Desk", () => {
+  it("remembers verified bytes across a restart, bound to the exact file", () => {
+    const workspace = workspaceWith([request("ledger")]);
+    const store = makeStore(workspace);
+    const { candidate } = store.ingest(
+      tinyPng(6, 4),
+      { requestId: "ledger" },
+      OWNER,
+    );
+    expect(store.bytesState(candidate).state).toBe("verified");
+    store.saveLedger();
+    const restarted = makeStore(workspace, store.dataRoot);
+    const projected = restarted.projection().candidates[candidate.candidateId];
+    // Known at once, without re-hashing or decoding.
+    expect(restarted.knownBytesState(projected)?.state).toBe("verified");
+    // Any rewrite of the file invalidates the record.
+    const file = restarted.resolveStorage(projected)!;
+    writeFileSync(file, "tampered");
+    const again = makeStore(workspace, store.dataRoot);
+    const reprojected = again.projection().candidates[candidate.candidateId];
+    expect(again.knownBytesState(reprojected)).toBeNull();
+    expect(again.bytesState(reprojected).state).toBe("hash-mismatch");
+  });
+
+  it("a sync never verifies inline; its catalog follows once checks finish", async () => {
+    const workspace = workspaceWith([request("deferred")]);
+    const drive = mkdtempSync(join(tmpdir(), "artbench-drive-"));
+    const first = makeStore(workspace);
+    const { candidate } = first.ingest(
+      tinyPng(9, 4),
+      { requestId: "deferred" },
+      OWNER,
+    );
+    // A later launch that has no record of these bytes yet.
+    rmSync(join(first.dataRoot, "cache", "bytes-verified.json"), {
+      force: true,
+    });
+    const store = new ArtbenchStore({
+      dataRoot: first.dataRoot,
+      workspace,
+      ownerId: OWNER.id,
+      driveRoot: drive,
+    });
+    const catalog = join(drive, "02_CATALOG", "CATALOG.md");
+    store.syncOnce();
+    expect(store.bytesPending).toBe(1);
+    expect(existsSync(catalog)).toBe(false);
+    while (store.bytesPending > 0)
+      await new Promise((resolve) => setImmediate(resolve));
+    await new Promise((resolve) => setImmediate(resolve));
+    expect(readFileSync(catalog, "utf8")).toContain(candidate.sha256);
+  });
+
+  it("checks queued candidates in the background, first-asked first", async () => {
+    const workspace = workspaceWith([request("queue")]);
+    const store = makeStore(workspace);
+    const ids = [3, 4, 5].map(
+      (width) =>
+        store.ingest(tinyPng(width, 4), { requestId: "queue" }, OWNER).candidate
+          .candidateId,
+    );
+    const fresh = makeStore(workspace, store.dataRoot);
+    const candidates = ids.map((id) => fresh.projection().candidates[id]);
+    expect(candidates.map((c) => fresh.knownBytesState(c))).toEqual([
+      null,
+      null,
+      null,
+    ]);
+    fresh.queueBytesVerification([candidates[2], candidates[0]]);
+    expect(fresh.bytesPending).toBe(2);
+    // Nothing is checked synchronously: the caller's request returns first.
+    expect(fresh.knownBytesState(candidates[2])).toBeNull();
+    await new Promise((resolve) => setImmediate(resolve));
+    expect(fresh.knownBytesState(candidates[2])?.state).toBe("verified");
+    expect(fresh.knownBytesState(candidates[0])).toBeNull();
+    while (fresh.bytesPending > 0)
+      await new Promise((resolve) => setImmediate(resolve));
+    expect(fresh.knownBytesState(candidates[0])?.state).toBe("verified");
+    expect(fresh.knownBytesState(candidates[1])).toBeNull();
+  });
 });

@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 import { chooseOption } from "./support/controls";
 
 /** Component activation proof only. This does not claim normal-route or legal-journey acceptance. */

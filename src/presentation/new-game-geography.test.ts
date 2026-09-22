@@ -201,9 +201,23 @@ describe("Ordinary-control journeys in named states", () => {
       expect(controls.office).toBe(false);
       expect(controls.withheldLegislation).not.toMatch(/Kentucky/i);
       if (journey.usps === "CA") {
-        expect(created.geography.legislativeRulePackId).toBeNull();
-        expect(created.geography.candidacyPackId).toBeNull();
-        expect(created.geography.discoveredOfficeKeys).toEqual([]);
+        // California's own law has not been compiled, so it plays with the
+        // game's own legislature rather than with nothing. This used to assert
+        // null on all three, and that null was the bug: a Sacramento life could
+        // reach a seat with no chamber under it. What still has to hold is that
+        // what California gets is CALIFORNIA's — never Kentucky's.
+        expect(created.geography.legislativeRulePackId).toBe(
+          "us-ca-legislature-profile-v1",
+        );
+        expect(created.geography.candidacyPackId).toBe(
+          "us-ca-legislature-profile-v1:candidacy",
+        );
+        expect(created.geography.discoveredOfficeKeys.length).toBeGreaterThan(
+          0,
+        );
+        for (const officeKey of created.geography.discoveredOfficeKeys) {
+          expect(officeKey).toMatch(/^us-ca-/);
+        }
       } else {
         expect(created.geography.legislativeRulePackId).toMatch(
           new RegExp(`us-${journey.usps.toLowerCase()}-`),

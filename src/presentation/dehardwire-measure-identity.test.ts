@@ -9,6 +9,7 @@ import {
   serializeWorld,
 } from "../simulation";
 import { LEGISLATIVE_RULE_PACKS } from "../simulation/legislature-rule-packs";
+import { chamberByKey } from "../simulation/legislature-rules";
 import { createNewGameWorld } from "./new-game";
 import type { NewGameSetup } from "./new-game";
 import {
@@ -103,9 +104,12 @@ describe("the opening measure comes from the world, not from a literal", () => {
 
   it("gives a second bill in the same chamber its own number", () => {
     const first = ordinaryLife(SEED_A, "kentucky");
+    const kentucky = LEGISLATIVE_RULE_PACKS.find(
+      (pack) => pack.jurisdictionKey === "US-KY",
+    )!;
     const second = nextMeasureDesignation(first.world, {
       jurisdictionId: first.jurisdictionId,
-      originChamberKey: "house",
+      originChamber: chamberByKey(kentucky, "house"),
     });
     expect(second).not.toBe(first.measure.designation);
     expect(second).toMatch(/^HB \d+$/);
@@ -263,10 +267,10 @@ describe("the institutional work route", () => {
       for (const chamber of pack.chambers) {
         const designation = nextMeasureDesignation(world, {
           jurisdictionId,
-          originChamberKey: chamber.chamberKey,
+          originChamber: chamber,
         });
         expect(designation, `${pack.packId}/${chamber.chamberKey}`).toMatch(
-          /^[A-Z]{2} \d+$/,
+          /^[A-Z]{2,4} \d+$/,
         );
       }
     }

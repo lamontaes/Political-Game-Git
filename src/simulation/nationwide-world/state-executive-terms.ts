@@ -14,7 +14,7 @@ import {
   planElectedExecutiveOfficeTerm,
   recordElectedExecutiveQualification,
 } from "../executive-work-entry";
-import { stateJurisdictionForKey } from "../life-places";
+import { chiefExecutiveJurisdiction } from "./government-jurisdiction";
 import type { EntityId, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import {
@@ -264,7 +264,7 @@ export function recoverOffCycleStateExecutiveTerm(
     endsAt: status.recovery.endsAt,
     termNote: `${OFF_CYCLE_RECOVERY_VERSION}: the player chose to take up the next full term after a victory recorded on ${contest.electionDate}. ${rule.ruleVersion}.`,
   });
-  const jurisdiction = stateJurisdictionForKey(identity.jurisdictionKey)!;
+  const jurisdiction = chiefExecutiveJurisdiction(identity.stateUsps)!;
   return recordWorldEvent(planned, {
     stableKey: `${OFF_CYCLE_RECOVERY_VERSION}:${contest.id}`,
     type: "governing.term-recovery",
@@ -368,7 +368,7 @@ function qualificationBlocksFor(
   personId: EntityId,
   identity: StateExecutiveIdentity,
 ): readonly CandidacyBlock[] {
-  const jurisdiction = stateJurisdictionForKey(identity.jurisdictionKey);
+  const jurisdiction = chiefExecutiveJurisdiction(identity.stateUsps);
   if (!jurisdiction) return [];
   return candidacyEligibility(world, {
     personId,
@@ -390,7 +390,7 @@ function routineQualificationBlocks(
   personId: EntityId,
   identity: StateExecutiveIdentity,
 ): readonly CandidacyBlock[] {
-  const stateId = stateJurisdictionForKey(identity.jurisdictionKey)?.id;
+  const stateId = chiefExecutiveJurisdiction(identity.stateUsps)?.id;
   const livesInState = world.people[personId]?.homeJurisdictionId === stateId;
   return qualificationBlocksFor(world, personId, identity).filter(
     (block) =>

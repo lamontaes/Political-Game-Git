@@ -24,7 +24,8 @@ import {
  * The claims this file has to settle are the ones that cannot be settled in a
  * unit test, because they are claims about what a person sees:
  *
- * - a place the game has no sourced office for says so, and keeps its life;
+ * - a state the game has not read gets a legislature of its own, never a
+ *   neighbour's, and keeps its life;
  * - the only support number on the screen is a memo with a margin on it;
  * - election day arrives because the player got on with their weeks;
  * - losing leaves the game running, with the same day screen it started with.
@@ -74,7 +75,13 @@ async function beginAdultLifeIn(page: Page, place: string) {
   await openCampaign(page);
 }
 
-function unsupportedLocality(): LifePlace {
+/**
+ * A town in a state whose legislature nobody has read.
+ *
+ * `candidacyPacks()` is the researched set only, so anything outside it is a
+ * state the game has to generate a legislature for rather than read one.
+ */
+function unreadStateLocality(): LifePlace {
   const supported = new Set(
     candidacyPacks().map((pack) => pack.jurisdictionKey),
   );
@@ -84,7 +91,7 @@ function unsupportedLocality(): LifePlace {
       candidate.stateJurisdictionKey !== null &&
       !supported.has(candidate.stateJurisdictionKey),
   );
-  if (!place) throw new Error("The place corpus has no unsupported locality.");
+  if (!place) throw new Error("The place corpus has no unread-state locality.");
   return place;
 }
 
@@ -232,22 +239,37 @@ test.describe("A life can stand for something", () => {
     expect(errors).toEqual([]);
   });
 
-  test("refuses to invent an office where nothing is sourced, and leaves the life alone", async ({
+  /*
+   * This case used to assert the opposite: that a state with no researched
+   * pack refuses with "has not read this state" and offers nothing. Giving
+   * every unread state a disclosed, generated legislature is what replaced
+   * that refusal, so the negative control became a positive one. What it
+   * still guards is the half that never changes: the seats on offer belong
+   * to the state the life is in, and borrowing a neighbour's is a failure.
+   */
+  test("gives a state the game has not read a legislature of its own, and leaves the life alone", async ({
     page,
   }) => {
     const errors = watchForErrors(page);
     await freshBrowser(page);
-    // The negative control comes from the accepted pack set rather than naming
-    // a state whose source coverage may arrive later.
-    await beginAdultLifeIn(page, unsupportedLocality().displayName);
+    const place = unreadStateLocality();
+    const state = place.displayName.split(", ").at(-1) ?? "";
+    expect(state).not.toBe("");
+    await beginAdultLifeIn(page, place.displayName);
 
-    await expect(page.getByTestId("no-campaign")).toContainText(
-      /has not read this state/i,
-    );
-    await expect(page.getByTestId("campaign-section")).toHaveCount(0);
-    await expect(page.getByTestId("campaign-offer")).toHaveCount(0);
+    await expect(page.getByTestId("no-campaign")).toHaveCount(0);
+    const offices = page
+      .getByTestId("campaign-office-browser")
+      .getByRole("radio");
+    await expect(offices.first()).toBeVisible();
+    const count = await offices.count();
+    for (let index = 0; index < count; index += 1) {
+      await expect(offices.nth(index)).toHaveAccessibleName(
+        new RegExp(`${state} Legislature`),
+      );
+    }
 
-    // The ordinary life is untouched by the refusal: the day still moves.
+    // The ordinary life is untouched by standing or not: the day still moves.
     await openDay(page);
     const before = (await page.getByTestId("day-date").textContent()) ?? "";
     await page.getByTestId("shell-pass-day").click();
