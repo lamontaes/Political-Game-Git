@@ -3,7 +3,7 @@ import {
   BARGAINING_ANSWER_REQUEST_DECISION,
 } from "../simulation/legislative-bargaining-decisions";
 import { conferBargainingManner } from "../simulation/legislature-manner";
-import { loadedTraitRegistry } from "../simulation/trait-registry";
+import { traitRegistryFor } from "../simulation/trait-registry";
 import { registeredTraitConsiderations } from "../simulation/trait-readings";
 import {
   assertNpcAutonomousApplication,
@@ -1285,7 +1285,7 @@ function bargainingConsiderations(
   considerations.push(
     ...registeredTraitConsiderations(
       world,
-      loadedTraitRegistry(),
+      traitRegistryFor(world),
       input.speakerPersonId,
       "bargaining",
       input.intent === "request-support"

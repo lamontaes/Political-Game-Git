@@ -6,7 +6,12 @@
       "The owner's own words, 2026-09-22 13:18Z in the research-triage thread: \"it should just depend on how strongly that trait is to them.\"",
       "The technical director's review of src/simulation/trait-resistance.ts, which named the unbounded failed-attempt pressure and the permanent per-move hardening.",
       "src/simulation/trait-resistance.ts and src/simulation/people-trait-change.ts as they stood on main at d956b92a, read directly to confirm both defects before anything was changed.",
-      "src/simulation/people-trait-occasions.test.ts, which walks the live occasion through proposeContact and answerContact rather than inferring the pace from unit tests."
+      "src/simulation/people-trait-occasions.test.ts, which walks the live occasion through proposeContact and answerContact rather than inferring the pace from unit tests.",
+      "ALIVE44 — LIVING WORLD EXPANSION RESEARCH — CURRENT, Google Drive 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section LIVING PLAY — PERSONALITY CHANGE PACE RESEARCH",
+      "CHATGPT REPLIES TO CLAUDE — CURRENT, Google Drive 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, section OVERNIGHT LIVING-PLAY RESEARCH — PERSONALITY CHANGE PACE",
+      "Roberts et al., adult trait-change intervention review, https://pubmed.ncbi.nlm.nih.gov/28054797/",
+      "Frequent-assessment life-event trajectory study, https://pubmed.ncbi.nlm.nih.gov/37041673/",
+      "Between-person variability in event effects, https://pubmed.ncbi.nlm.nih.gov/37956070/"
     ],
     "stillOpen": "The bands themselves, which are now filed separately as personality-change-bands. Every number is in TraitMovability, per pack, per trait, and each remains authored rather than researched.",
     "summary": "The owner, 2026-09-22: \"it should just depend on how strongly that trait is to them.\" Built. Resistance reads the strength already carried on the person's own tendency record against a resistance the declaring pack names for each of the four strengths, so a faint lean shifts sooner than a defining one in the same life on the same day, and nothing new is stored about anybody. Two defects were found and fixed alongside it. Repeated attempts no longer count as repeated evidence: what accumulates is separate experiences spread over time, capped by the pack, so persistence alone cannot wear anybody down. And having already changed no longer adds permanent hardening, which had made a person who had lived through things progressively unreachable. The third note filed with this question asked for exactly that contradiction to be challenged, and it was the one that mattered."
@@ -35,7 +40,7 @@
     },
     {
       "source": "The owner's instruction of 2026-09-22: 'every character should be able to change with varying levels of resistance.'",
-      "whatItDidNotSettle": "Settles that resistance must vary between people, which the record-chain reading delivers. It gives no sense of scale \u2014 whether a disposition should shift once in a decade or several times in a year."
+      "whatItDidNotSettle": "Settles that resistance must vary between people, which the record-chain reading delivers. It gives no sense of scale — whether a disposition should shift once in a decade or several times in a year."
     }
   ],
   "title": "What a believable pace of personality change looks like",

@@ -27,5 +27,17 @@
   "notes": [
     "Filed under the rule lamontae set on 2026-09-22: a judgement about how the simulated world should feel goes to ChatGPT as a brief, and ChatGPT comes back to him. It is not a question to put to him directly again.",
     "His starting answer of one or two is the working default until this is answered; generation should not block on it."
-  ]
+  ],
+  "answer": {
+    "summary": "Keep the owner's one-or-two salient starting descriptors as the working adult baseline. For the first private comparison use a 50/50 one-versus-two draw; this is explicitly authored calibration, not a measured human distribution or an owner-selected exact percentage. It applies to salient descriptors, not deletion/zeroing of the five underlying dimensions. Existing meaningful generated traits are not discarded to satisfy a display budget.\n\nUse the same underlying generation policy for NPCs and the player. The player can confirm/change/skip their suggested profile; observers see only justified impressions about others. Age informs plausible experiences and the evidence behind a disposition, not a fixed birthday that awards another trait. No automatic lifelong maximum, no count that rises every time another memory is written. Adding later nuance can mean clearer recognition of existing character as well as actual development. Strong adult moral/role labels should not be assigned to young children simply to fill two slots.\n\nAcceptance ChatGPT requests (not executed): Generate adults with one/two salient descriptors while other represented dimensions remain available; verify same seed and version repeat. No automatic extra trait after a birthday or ten events. Observer card does not show unknown latent descriptors.",
+    "sources": [
+      "ChatGPT DEPTH1 package, 2026-09-22 (uploaded 17:39Z), answers.json entry 'person-starting-trait-count'; kept verbatim in docs/research/chatgpt-answers/2026-09-22-depth1/ with its SHA256SUMS (14 of 14 verified).",
+      "code-trait-pack: https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/people-trait-pack.ts — Five underlying dimensions, scale, ordinary-life-only scope, current movability and contact-answer effects.",
+      "prior-personality: Personality_Research_and_Catalogue.md — Existing 121 candidates and 14 families; not a new survey, empirical prevalence dataset or blanket approval of every candidate.",
+      "current-queue: https://docs.google.com/document/d/1yVVxtG0YNaKsb85O5TF9ZkxGWWU5N9sSoQWM1qa_FVM/edit — Read complete 16:34Z / 22-open / 44-answered render. Worker caller counts beyond independently inspected bodies remain reports."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T17:39:00.000Z",
+    "stillOpen": "Status 'resolved-labelled-private-baseline'; receiver: existing people/character setup owners. The 50/50 one-versus-two split is authored calibration, not a measured distribution.\n\nScope limits of the whole DEPTH1 batch, in its own words: evidenceStatus \"read-source-and-research-not-production-test\"; its 12 passing tests are \"research structure and isolated arithmetic only; NOT repository/game tests\"; it read source at main 4965f63c and the 16:34Z render (22 open), not the 15 questions filed since. Any number in it is \"labelled, adjustable private-playtest calibration\", not an empirical fact or an exact number chosen by lamontae. The Acceptance paragraph is a test somebody still has to write, not one that ran."
+  }
 }

@@ -1,16 +1,25 @@
 {
+  "answer": {
+    "summary": "party-body-dispute-cadence: stakes, unresolved meaningful disagreements, voice, attachments and feasible alternatives matter—not two defeats. Reviews permit decisions rather than require a split. Preserve actual positive evolution paths and test controls; zero in one save is not proof the engine never runs.",
+    "sources": [
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C18, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:58:00.000Z",
+    "stillOpen": "\"zero in one save is not proof the engine never runs.\"\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
+  },
   "filedAt": "2026-09-22T14:58:00.000Z",
   "impact": "shapes-design",
   "lane": "people and life",
   "notes": [
     "PARTY_BODY_CADENCE in src/simulation/living-world/party-evolution.ts declares reviewEveryMonths 3, repeatedDisputes 2, and an inactivity finding at 180 days. The comment on repeatedDisputes says 'A dispute must recur at least this often before anyone considers leaving'; the number itself is authored. CORRECTED 2026-09-22 15:50Z: the quarterly review rotates through the four questions (questionKey = PARTY_QUESTIONS[n % PARTY_QUESTIONS.length], party-evolution.ts:1936), so any given question recurs about once a year and two defeats on the same question is two years, not the half-year first written here. The earlier sentence read the cadence as quarterly per question when it is quarterly across four.",
-    "As of 2026-09-22 the count is separate occasions \u2014 distinct days the body decided \u2014 rather than decision records, because the player's own route writes a fresh record on every press with no date gate. So the number now means 'two meetings', not 'two clicks'.",
+    "As of 2026-09-22 the count is separate occasions — distinct days the body decided — rather than decision records, because the player's own route writes a fresh record on every press with no date gate. So the number now means 'two meetings', not 'two clicks'.",
     "Two other gates sit after the count and are not in question here: the member's stance must be held as defining, and at least one other member must have dissented alongside them. On measured seeds the ally requirement, not the count, is what usually stops a split.",
     "Any answer changes one constant and the review cadence beside it. No code moves.",
-    "A measured ten-year Kentucky run, on main and without the occasion fix, produced exactly one party-evolution event in the decade \u2014 a single founding, and no split, merger, rename, dissolution or platform change. The count rule is not what makes it rare: the gate also needs the member's stance to be 'defining' and an ally holding the same option who dissented alongside them, and partyActorStance draws both the option and the strength at random per person per question. See where-a-persons-politics-comes-from."
+    "A measured ten-year Kentucky run, on main and without the occasion fix, produced exactly one party-evolution event in the decade — a single founding, and no split, merger, rename, dissolution or platform change. The count rule is not what makes it rare: the gate also needs the member's stance to be 'defining' and an ally holding the same option who dissented alongside them, and partyActorStance draws both the option and the strength at random per person per question. See where-a-persons-politics-comes-from."
   ],
   "priority": "P2",
-  "question": "How many separate occasions of losing the same question inside a party body, and over how long, before a member with a defining conviction plausibly starts organizing against it \u2014 a breakaway faction or a new party? Two occasions is what ships today, and because the quarterly review rotates through four questions, any one question recurs about once a year, so that is roughly two years. Is that too patient, or too quick? Does the answer depend on the size or level of the body, on whether the member holds office, or on how long they have belonged? And is there an upper end past which somebody who keeps losing simply stops caring rather than leaving?",
+  "question": "How many separate occasions of losing the same question inside a party body, and over how long, before a member with a defining conviction plausibly starts organizing against it — a breakaway faction or a new party? Two occasions is what ships today, and because the quarterly review rotates through four questions, any one question recurs about once a year, so that is roughly two years. Is that too patient, or too quick? Does the answer depend on the size or level of the body, on whether the member holds office, or on how long they have belonged? And is there an upper end past which somebody who keeps losing simply stops caring rather than leaving?",
   "questionId": "party-body-dispute-cadence",
   "relatedQuestionIds": [
     "personality-change-bands",
@@ -29,6 +38,6 @@
     }
   ],
   "title": "How often a party body has to overrule somebody before they leave",
-  "usableAnswer": "A range rather than a number, worked against one plain example: somebody who holds a position as firmly as anything about them, on a body that meets quarterly, losing that question repeatedly \u2014 after how many defeats, across how long, does organizing against it become the ordinary human response rather than an unusually quick exit? A note on whether belonging longer makes leaving harder or easier would settle a second constant.",
+  "usableAnswer": "A range rather than a number, worked against one plain example: somebody who holds a position as firmly as anything about them, on a body that meets quarterly, losing that question repeatedly — after how many defeats, across how long, does organizing against it become the ordinary human response rather than an unusually quick exit? A note on whether belonging longer makes leaving harder or easier would settle a second constant.",
   "whyItMatters": "This is the only route in the game by which a party splits or a new one is founded, which is the whole of party evolution the owner asked to ship. Too few occasions and organizations shatter constantly and mean nothing; too many and no party ever changes and the system is decoration. Tests pass at either setting, so nothing here will catch a wrong answer."
 }
