@@ -98,7 +98,7 @@ export function decidePromiseRenegotiation(
       {
         optionKey: "needs-answer",
         trait: "deliberation",
-        pole: "high",
+        pole: "low",
         explanation:
           "They want to know where it stands before agreeing to anything.",
       },
