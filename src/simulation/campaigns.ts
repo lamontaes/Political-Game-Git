@@ -22,6 +22,7 @@ import { requireCandidacyPack } from "./candidacy-packs";
 import { candidacyEligibility, districtSeatMustBeNamed } from "./candidacy";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
+import { congressSeatIdentityForOfficeKey } from "./nationwide-world/congress-candidacy-packs";
 import type { GovernmentUnitIdentity } from "./government-units";
 import {
   ensureLocalGovernmentOrganization,
@@ -1800,6 +1801,10 @@ function closeCampaignAfterElection(
     // it is, gets a dated term only through the admitted term facts and the
     // elected executive term chain; nothing is occupied on election night.
     next = planOrdinaryStateExecutiveTerm(next, closedContest.id);
+  } else if (congressSeatIdentityForOfficeKey(closedContest.office.officeKey)) {
+    // A seat in Congress is filled by congressional turnover on 3 January,
+    // which reads this contest's result for the seat. Nothing is occupied on
+    // election night, and no separate job is created beside the membership.
   } else if (
     status === "won" ||
     supportedLegislativeTermDates(

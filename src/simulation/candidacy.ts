@@ -11,6 +11,10 @@ import {
 } from "./life-places";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import {
+  congressCandidacyPack,
+  congressSeatIdentityForOfficeKey,
+} from "./nationwide-world/congress-candidacy-packs";
+import {
   localGoverningBodyCandidacyPack,
   localGoverningBodyIdentity,
   localGoverningBodyIdentityForOfficeKey,
@@ -266,6 +270,9 @@ export function districtSeatMustBeNamed(
 ): boolean {
   const executive = stateExecutiveIdentityForOfficeKey(officeKey);
   if (executive) return false;
+  // A House seat is named by its own key, and the Constitution asks only
+  // that a Representative live in the state, so no district is inferred.
+  if (congressSeatIdentityForOfficeKey(officeKey)) return false;
   // A town's governing body has no districts the game has read.
   if (localGoverningBodyIdentityForOfficeKey(officeKey)) return false;
   const authority = candidacyAuthority(jurisdictionId);
@@ -304,19 +311,29 @@ export function candidacyEligibility(
   // A state's executive office is the state's own, whatever legislature pack
   // governs the place: it is filed for statewide, against its own pack.
   const executive = stateExecutiveIdentityForOfficeKey(input.officeKey);
+  // A seat in Congress is filed for from the state, like the governorship:
+  // the Constitution asks that a member live in the state, not the district.
+  const congress = executive
+    ? null
+    : congressSeatIdentityForOfficeKey(input.officeKey);
   // A town's governing body is the town's own, whatever the state above it
   // has, and only somebody living in that town can stand for it.
-  const local = executive
-    ? null
-    : localGoverningBodyHere(input.jurisdictionId, input.officeKey);
+  const local =
+    executive || congress
+      ? null
+      : localGoverningBodyHere(input.jurisdictionId, input.officeKey);
   const pack = executive
     ? candidacyPackById(executive.candidacyPackId)
-    : local
-      ? localGoverningBodyCandidacyPack(local)
-      : authority.pack;
+    : congress
+      ? congressCandidacyPack(congress)
+      : local
+        ? localGoverningBodyCandidacyPack(local)
+        : authority.pack;
   const stateJurisdictionKey = executive
     ? executive.jurisdictionKey
-    : authority.stateJurisdictionKey;
+    : congress
+      ? congress.jurisdictionKey
+      : authority.stateJurisdictionKey;
   const option =
     pack?.offices.find(
       (candidate) => candidate.officeKey === input.officeKey,
@@ -375,9 +392,11 @@ export function candidacyEligibility(
   const chamberKey = option?.officeKey.split(":").at(-1) ?? null;
   const officeFamily = executive
     ? "GOVERNOR"
-    : chamberKey === null
+    : congress
       ? null
-      : officeFamilyForChamberKey(chamberKey);
+      : chamberKey === null
+        ? null
+        : officeFamilyForChamberKey(chamberKey);
   const boundDistrict = boundOption?.office.districtBinding ?? null;
   // A district-residence rule is asked about before any seat is bound, which
   // is every time the player looks at whether they could stand at all. With no
@@ -388,7 +407,7 @@ export function candidacyEligibility(
   // Falling back to the person's own recorded district for this chamber asks
   // the same question of the same records; it does not relax the rule.
   const gazetteerChamber =
-    chamberKey === null
+    chamberKey === null || congress
       ? null
       : gazetteerChamberForOfficeChamberKey(chamberKey);
   const districtSince =
@@ -473,9 +492,17 @@ export function candidacyEligibility(
       });
     }
   }
-  const sourcedMinimumAge = qualificationAssessments.some(
-    (assessment) => assessment.field === "MINIMUM_AGE",
-  );
+  if (congress && age < congress.minimumAge) {
+    blocks.push({
+      kind: "sourced-minimum-age",
+      reason: `${congress.title === "U.S. Senator" ? "A Senator" : "A Representative"} must be at least ${congress.minimumAge} years old.`,
+    });
+  }
+  const sourcedMinimumAge =
+    congress !== null ||
+    qualificationAssessments.some(
+      (assessment) => assessment.field === "MINIMUM_AGE",
+    );
   if (
     qualificationRules === null &&
     !sourcedMinimumAge &&
@@ -486,17 +513,19 @@ export function candidacyEligibility(
       reason: `The game has not read this state's minimum age for the office, so it holds to its own adult rule and will not put anyone under ${GAME_ADULT_CANDIDACY_AGE} on a ballot.`,
     });
   }
-  const livesElsewhere = executive
+  const statewide = executive ?? congress;
+  const livesElsewhere = statewide
     ? lifePlaceByJurisdictionId(person.homeJurisdictionId)
-        ?.stateJurisdictionKey !== executive.jurisdictionKey ||
+        ?.stateJurisdictionKey !== statewide.jurisdictionKey ||
       input.jurisdictionId !==
-        stateJurisdictionForKey(executive.jurisdictionKey)?.id
+        stateJurisdictionForKey(statewide.jurisdictionKey)?.id
     : person.homeJurisdictionId !== input.jurisdictionId;
   if (livesElsewhere) {
     blocks.push({
       kind: "lives-elsewhere",
-      reason:
-        "This character does not live in the place holding the election, and the game has no sourced residency rule that would let them stand there anyway.",
+      reason: congress
+        ? "A member of Congress must live in the state they represent, and this character lives somewhere else."
+        : "This character does not live in the place holding the election, and the game has no sourced residency rule that would let them stand there anyway.",
     });
   }
   if (input.alreadyACandidate) {
