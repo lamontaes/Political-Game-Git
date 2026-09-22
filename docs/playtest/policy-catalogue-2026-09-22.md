@@ -113,15 +113,52 @@ city and county listed from the Census Bureau, districts reported as not
 recorded rather than guessed, and "Looking at government does not use any time
 or give you any power."
 
+## A mod pack cannot fill it, and that is settled
+
+This was the open question the walk left, because it is the shortest imaginable
+route from here to a game with politics in it. The answer is no, twice over.
+
+**The boundary is not a creation-time check.** `assertProductionCatalogBoundary`
+runs inside `validateWorldIntegrity`, which every `assertWorldIntegrity` call
+reaches, so any production world carrying a proposition fails validation no
+matter when it acquired one. The line says so itself:
+
+> A world that says it is somebody's game must not be carrying the engine's
+> validation substrate, whoever built it and however it was loaded.
+
+**And the mod vocabulary has no word for a policy anyway.** A
+`RuntimeContentPack` — the only thing `installRuntimeContentPack` will put into
+a world — carries exactly two kinds of content:
+
+- `durations`, a key and a number of minutes
+- `scenes`, life scene definitions
+
+That is the whole list. No policies, no propositions, no traits, no effects.
+This is the concrete shape of the gap recorded elsewhere as "the mod loader
+ships and works but its effect vocabulary is empty": the loader, the digest,
+the dependency ordering and the save round-trip are all real and all careful,
+and what they carry is scenes and durations.
+
+So filling the catalogue means changing `assertProductionCatalogBoundary` on
+purpose and saying where the content came from — which is exactly what its own
+comment asks for. There is no side door, and looking for one is now a settled
+question rather than an open one.
+
+### A correction to the morning walk, from the same measurement
+
+That walk said traits are "pack-driven", in a sentence that reads as though a
+mod could add one. The pack shape is real — `loadedTraitRegistry()` composes
+`peopleTraitPack()` and `legislatureTraitPack()`, and the simulation honours
+what they declare — but both are compiled into the build, `loadTraitPacks` is
+never called with anything else anywhere in the tree, and the runtime pack type
+above has no field for a trait. A trait added **to the build** works. A trait
+added **by a mod** is not possible today. The walk's own file is corrected in
+the same commit as this one.
+
 ## What this walk did not establish
 
 - **Whether tax and transit sections appear for an officeholder.** This life
   holds no office — "You do not hold a job or an office right now." The three
   destinations collapsing to one page is measured for an ordinary player only.
-- **Whether a mod pack can supply propositions.** The boundary assertion refuses
-  a populated catalogue in a production world, and I did not test whether the
-  loader has a path through it. If it does, that is the shortest route from here
-  to a game with politics in it, and it is worth knowing before anyone authors
-  content by hand.
 - **What the bill lifecycle does with an empty catalogue.** Unreached; a player
   with no office cannot open it.
