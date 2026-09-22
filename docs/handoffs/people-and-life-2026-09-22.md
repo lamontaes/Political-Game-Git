@@ -46,6 +46,48 @@ player will feel, and the choice belongs to the owner.
 
 ---
 
+## 0a. OPEN: the trait surface shows five traits and cannot show a sixth
+
+**Not fixed. Small, specific and it undercuts the headline of this branch.**
+
+Temperament does reach a player screen: `src/player/PersonCard.tsx:221` calls
+`observedTraitLabels` and renders the words for whatever the person has
+actually been observed to have. That part works, and it correctly says nothing
+about a person nobody has decided anything with.
+
+Two gaps sit behind it.
+
+**The display path is hardwired to the five.** `personTraits`
+(`src/simulation/people-traits.ts:150`) is `PEOPLE_TRAITS.map(...)`, and
+`PEOPLE_TRAITS` is the five-element `as const` at
+`people-trait-definitions.ts:12`. It never consults the loaded registry. So a
+pack that adds a sixth trait is read by every decision in the game and is
+invisible on the only screen that shows temperament. The whole point of this
+branch was that a trait is a row in a pack, and that stops one function call
+short of the player. It is a one-function change: iterate the registry, render
+per pole.
+
+**The played character's own temperament has no surface at all.**
+`PersonCard.tsx:218` excludes it on purpose — "Temperament is shown for other
+people only, never for the one played" — and that exclusion predates this
+branch. It is not an oversight: it was a correct decision taken when the played
+character had no temperament to show, and the ground moved under it tonight.
+Whoever changes it should change it on purpose rather than patch it.
+`recordPlayerTraitChoice` and `playerTemperament` landed tonight with
+no screen behind them, so there is still no way for a player to say who they
+are. That one is a small screen rather than a one-liner, and it is the
+remaining half of "obviously you as a character need your own".
+
+Neither is a missing system. Both are a finished system stopping just short of
+the surface, which is the same shape as the four systems that turned out built
+and simply never surfaced.
+
+**The constraint on whoever does it:** per pole, not per trait. A treatment
+with one entry per named trait is wrong the moment a pack adds a sixth, and
+the sixth trait is the thing this branch exists to make possible.
+
+---
+
 ## 1. The one thing a player will notice: letting a day go by is not turning something down
 
 **Fixed.** `docs/release/changes/lapse-is-not-a-refusal.md` carries the
@@ -324,16 +366,25 @@ Both forbid lettering in the artwork, because every word on those surfaces —
 names, dates, the things themselves — is generated per world, and a word
 painted into the art would be a fact the game never recorded.
 
-**The third is held, and this is the interesting one.** A per-pole treatment
-for traits was the obvious third request: something that reads as "far toward
-this end" and, separately, as "nothing recorded". It is not filed because it
-has no player-facing consumer. No `.tsx` under `src/player/` reads a trait at
-all; the only thing that renders tendencies is `src/ui/MindProfile.tsx`, which
-is a developer view. Asking for art for a screen that does not exist is asking
-somebody to draw for a wish. The request should be filed the day a surface
-reads traits, and it should be a _pole_ treatment rather than one drawing per
+**The third is held.** A per-pole treatment for traits was the obvious third
+request: something that reads as "far toward this end" and, separately, as
+"nothing recorded". It is not filed because the surface it would dress is
+half-built — see section 0a, which is the finding that came out of checking
+whether this request had a consumer. The trait words a player sees today are
+plain text on the person card, and until that path reads the registry rather
+than the hardcoded five, artwork would be dressing a list that cannot show a
+modded trait anyway.
+
+When it is filed it must be a _pole_ treatment rather than one drawing per
 trait, because a pack may add a sixth trait and anything drawn per-trait is
 wrong the moment somebody does.
+
+_A correction, recorded because the wrong version was briefly circulated: an
+earlier draft of this section said no player component reads a trait at all.
+That is false. The grep behind it searched for the wrong identifiers and its
+broader pass looked confirmatory only because nearly every hit was the
+substring "trait" inside `PersonPortrait`. Section 0a is the measured
+version._
 
 ---
 
