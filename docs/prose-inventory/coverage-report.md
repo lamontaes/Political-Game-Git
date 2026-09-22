@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 3139 |
-| INTENTIONALLY_NON_PLAYER_FACING | 7186 |
-| DIAGNOSTIC_OR_TEST | 8072 |
-| **NEEDS_CLASSIFICATION** | **10652** |
+| INTENTIONALLY_NON_PLAYER_FACING | 7206 |
+| DIAGNOSTIC_OR_TEST | 8113 |
+| **NEEDS_CLASSIFICATION** | **10662** |
 
-Scanned 1199 files holding 114957 string
+Scanned 1199 files holding 115060 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -209,6 +209,7 @@ literals in total; the table counts only those that read like a sentence.
 | 15 | `src/simulation/narrative-threads.ts` |
 | 15 | `src/simulation/nationwide-world/state-executive-candidacy-packs.ts` |
 | 15 | `src/simulation/people-study.ts` |
+| 15 | `src/simulation/policy-packs.ts` |
 | 14 | `src/player/CampaignWorkspace.tsx` |
 | 14 | `src/player/CivilPersonnelPanel.tsx` |
 | 14 | `src/player/PersonCard.tsx` |
@@ -216,6 +217,7 @@ literals in total; the table counts only those that read like a sentence.
 | 14 | `src/player/TransitWorkspace.tsx` |
 | 14 | `src/presentation/childhood.ts` |
 | 14 | `src/presentation/legislation-analysis.ts` |
+| 14 | `src/presentation/ordinary-life.ts` |
 | 14 | `src/presentation/pose-control-plate.ts` |
 | 14 | `src/presentation/surface-projection.ts` |
 | 14 | `src/simulation/education-study-progression.ts` |
@@ -240,7 +242,6 @@ literals in total; the table counts only those that read like a sentence.
 | 12 | `src/player/PermanentShell.tsx` |
 | 12 | `src/presentation/legislative-routine-plan.ts` |
 | 12 | `src/presentation/life-scene-flow.ts` |
-| 12 | `src/presentation/ordinary-life.ts` |
 | 12 | `src/presentation/routine-outcome.ts` |
 | 12 | `src/presentation/run-b-conversation-progress.ts` |
 | 12 | `src/presentation/venue-activity.ts` |
@@ -253,6 +254,7 @@ literals in total; the table counts only those that read like a sentence.
 | 11 | `src/player/NationwideCandidacyWorkspace.tsx` |
 | 11 | `src/player/PlacesWorkspace.tsx` |
 | 11 | `src/player/PublicInformationPanel.tsx` |
+| 11 | `src/player/WorldOrientationPanel.tsx` |
 | 11 | `src/player/news/NewsDesk.tsx` |
 | 11 | `src/player/politics/PartyInitiativesPanel.tsx` |
 | 11 | `src/presentation/modeled-account-history.ts` |
@@ -283,7 +285,6 @@ literals in total; the table counts only those that read like a sentence.
 | 10 | `src/simulation/setup-questionnaire-bank.ts` |
 | 10 | `src/simulation/trait-packs.ts` |
 | 10 | `src/ui/CausalTraceView.tsx` |
-| 10 | `src/ui/PeopleVisual4Review.tsx` |
 | 9 | `src/player/GoverningBriefing.tsx` |
 | 9 | `src/player/NationalElectionResults.tsx` |
 | 9 | `src/player/PressWorkspace.tsx` |
@@ -352,7 +353,6 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/player/PressSourceDesk.tsx` |
 | 6 | `src/player/TitleScreen.tsx` |
 | 6 | `src/player/VenueActivityPanel.tsx` |
-| 6 | `src/player/opening-life/OpeningLifePanel.tsx` |
 | 6 | `src/presentation/calendar-time-control.ts` |
 | 6 | `src/presentation/campaign-office-discovery.ts` |
 | 6 | `src/presentation/component-masters.ts` |
@@ -386,6 +386,7 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/presentation/national-election-results.ts` |
 | 5 | `src/presentation/people-contacts.ts` |
 | 5 | `src/presentation/place-travel.ts` |
+| 5 | `src/presentation/scheduled-activity-choice.ts` |
 | 5 | `src/presentation/title-lectern-scene.ts` |
 | 5 | `src/presentation/world-recap.ts` |
 | 5 | `src/simulation/causal-effects.ts` |
@@ -407,7 +408,6 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/player/CreatorBirthdayFields.tsx` |
 | 4 | `src/player/GuideWorkspace.tsx` |
 | 4 | `src/player/WardrobeFigure.tsx` |
-| 4 | `src/player/WorldOrientationPanel.tsx` |
 | 4 | `src/player/politics/GovernmentBrowser.tsx` |
 | 4 | `src/player/politics/PublicServicePanel.tsx` |
 | 4 | `src/presentation/browser-shell-state.ts` |
@@ -444,7 +444,6 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/presentation/life-introduction.ts` |
 | 3 | `src/presentation/people-continuation.ts` |
 | 3 | `src/presentation/production-office.ts` |
-| 3 | `src/presentation/scheduled-activity-choice.ts` |
 | 3 | `src/presentation/setup-questionnaire-flow.ts` |
 | 3 | `src/simulation/candidacy.ts` |
 | 3 | `src/simulation/crisis/continuity.ts` |

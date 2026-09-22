@@ -1,0 +1,32 @@
+{
+  "repositoryPathsSearched": [
+    "art/generated/candidates/wave-a-morphology/average-man/",
+    "art/generated/candidates/wave-a-morphology/older-woman/",
+    "art/generated/candidates/recent-drive-sweep/fat-man/",
+    "art/generated/candidates/recent-drive-sweep/skinny-man/",
+    "art/generated/candidates/wave-a-chairless/ (on claude/character-rendering-triage-19kvvz, where the automatic pass writes)"
+  ],
+  "driveLocationsSearched": [],
+  "found": "All four existing seated source plates are present in this checkout and were measured here: average-man 710x1653, fat-man 747x1607, skinny-man 697x1658, older-woman 669x1720, every one 8-bit RGBA. Each has a chair baked in where it touches the figure. The automatic separation has already been run against them \u2014 `npm run derive:seated-chairless` on claude/character-rendering-triage-19kvvz produces all four derivatives \u2014 and it removes everything floating free of the body and stops. No furniture-free seated body exists anywhere in the banks.",
+  "shortfall": "What the game needs is a seated body with no furniture attached to it. Nothing in the banks is one. Repairing the four existing plates is one route and is NOT the only one: a newly drawn seated figure with no chair satisfies the requirement as well, and more cheaply, which is why no generation hold is set on this request. The repair route is measurably hard, and both measurements were made rather than assumed: chair touching a thigh is inside the protection band by definition, so a connectivity-based separation has nothing to cut; and no threshold divides them, because the chair's mid-tones run 96 to 150 while the figure's own sub-knee edge pixels run 64 to 240. Raising the body-tone floor to 160 was tried, rendered and reverted \u2014 it takes the feet entirely and shreds the older woman's shins. Drive was not searched: the wave-a source sheets are in no cloud checkout, so a higher-resolution re-derivation cannot be attempted from here either.",
+  "generationRecipe": [
+    "What is wanted is a seated adult body with NO furniture attached to it \u2014 no seat under the thighs, no chair leg against the shins. The scene supplies its own chair.",
+    "Either route satisfies this. ROUTE A, generate: draw a new seated figure, from the front, with no chair in the frame at all. ROUTE B, repair: take the four existing plates and remove the chair pixels that touch the figure, restoring the leg and foot contour underneath rather than cutting around it.",
+    "On route B specifically, an earlier automatic attempt removed about a pixel of the figure's own outline and the whole foot outline. That is what a threshold does to a contour and what a hand does not.",
+    "Either way: 8-bit RGBA, transparent where furniture would have been, at a width no smaller than the plates it replaces."
+  ],
+  "acceptanceCriteria": [
+    "No furniture pixel anywhere against the legs, between the thighs, or beside the shins. The figure must be able to sit on a chair the room draws.",
+    "The leg and foot outline is continuous and unbroken. A plate that has lost its foot outline, or a pixel of its own contour, is a failed delivery even if every chair pixel is gone.",
+    "At least 669 pixels wide \u2014 the narrowest of the four plates this would replace \u2014 with real per-pixel transparency.",
+    "A genuinely seated posture: bent knees, horizontal thighs, shins vertical, soles on the floor. A standing figure with shortened legs is wrong even when its contact points land correctly."
+  ],
+  "target": {
+    "targetClass": "character-component",
+    "minimumWidth": 669,
+    "aspectRatio": "as-delivered: each plate returns at its own source dimensions (710x1653, 747x1607, 697x1658, 669x1720), because a hand pass returns the plate it was given",
+    "alphaRequired": true,
+    "container": "png",
+    "styleAuthority": "On the repair route, each plate's own source file, listed in the record's notes \u2014 a hand pass is judged against the original it was cut from. On the generation route, the same body-family authority as the rest of the wave-a set."
+  }
+}

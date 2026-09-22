@@ -501,3 +501,47 @@ repository is not, and a peer session's go-ahead is not the owner's word for it.
 
 They cannot come through the Drive connector, which fails above roughly 7 MB
 per file — see L1 — so any trip that carries them is a trip to the Mac.
+
+---
+
+## L11 — Three regional scene records the Art Bench catalogue cannot settle
+
+**Blocked:** three of the twenty-three regional scenes carry a catalogue defect
+recorded as a `sourceNote` in `art/regions/regional-scene-places.json`. None of
+them can be settled from a cloud thread, because each needs a look at the
+source bank behind the bench rather than at the catalogue row.
+
+- `appalachian-town-january` selects the same sha256 as
+  `playtest65-region-pikeville-valley-street`. One of the two records is not
+  what it claims. The question is what that shared file actually is: the parent
+  both rows derive from, a reference image, or a finished winter output that
+  one row is mislabelling.
+- `subtropical-mangrove-wetland` selects a record that is 640x432.
+- `lower-mississippi-delta-marsh` selects a record that is 688x456.
+
+The last two are preview or reference sizes, not delivered plates. The other
+approved regional originals are 2208 to 2576 px. **No enlargement**: scaling
+these up and recording the result as native detail is not an option, and the
+sizes above are measurements of the selected records, not of any original.
+
+**Effect on play:** all three regions carry `"plate": null`, so the resolver
+reports `matched-region-has-no-plate` and the introduction shows no picture for
+them. Nothing renders wrongly; three scenes are absent. They are also among the
+eighteen regions with no place selectors, so even a correct plate would reach
+no player until the place IDs come back (`regional-scene-place-ids` in the
+research queue).
+
+**What is needed, at the Mac or from whoever can read the source bank:** for
+each of the three, either the larger original with its sha256, or a statement
+that the request was never finished and the row should stay without a plate.
+For the Appalachian row, what the shared file is, in those three terms.
+
+**Then, in a checkout:**
+
+```sh
+npm run validate:regional-scenes -- --check
+npx vitest run src/authoring/regional-scene-coverage.test.ts
+```
+
+Record the answer by replacing that region's `sourceNote` with the finding, and
+adding a `plate` only where a real original was found.

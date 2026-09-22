@@ -1,0 +1,41 @@
+{
+  "alreadySearched": [
+    "art/manifest/asset_manifest.json — all 126 assets read: 11 environment-plate, 2 environment-master, 1 environment-foreground-mask, 1 environment-reference-master, and no capitol or statehouse among them.",
+    "art/generated/approved/ — 83 PNGs, all under pg-modular, dev-modular and dev-modular-g2, which are character components rather than environments.",
+    "art/requests/asset-requests.json — 17 requests, 8 of them environment-plate or title-plate, none for a capitol.",
+    "src/environment/reference/corpus.ts — the building identity `us.ca.capitol` IS recorded, with uniquenessClass 'jurisdiction-variant' and referencePack 'pending'. The identity exists; the picture does not."
+  ],
+  "consumerSite": {
+    "consumerId": "no-declared-consumer",
+    "playerVisibleUse": "The state step of the world introduction, where the player is told which state they are starting their life in and is currently shown no picture of it at all.",
+    "runtimeComponent": "src/player/WorldOrientationPanel.tsx"
+  },
+  "environmentClass": "landmark-exterior",
+  "filedAt": "2026-09-22T04:55:00.000Z",
+  "intakeVersion": "art-request-intake/v1",
+  "jurisdiction": {
+    "displayName": "California",
+    "scope": "specific",
+    "stateCode": "CA"
+  },
+  "missing": "No picture of the California State Capitol exists anywhere in the project. The asset manifest carries eleven environment plates and not one of them is a capitol: the civic exteriors it does hold are a campaign storefront, a park pavilion and a neighbourhood doorstep, and the only legislative art is an interior chamber floor with no state attached to it.",
+  "notes": [
+    "Reference strength: PENDING. The reference corpus records this building but its reference pack is 'pending', so sourcing has to land before the picture can be judged for likeness. Filed at P2 for that reason, not because the state matters less.",
+    "This capitol is recorded as a jurisdiction variant, so a shared compositional approach is legitimate, but the building's own identifying features still have to be right.",
+    "The reference corpus states the anti-assumption explicitly and it belongs in the brief: a Capitol identity does not establish an everyday working office or a current occupant. This is the building, not a scene of anyone governing in it.",
+    "Ten of the fifty-one jurisdictions have a recorded capitol identity; the other forty-one have none, so they cannot be filed this way yet. That gap is a sourcing question, not an art question."
+  ],
+  "origin": "inspection",
+  "priority": "P2",
+  "promotedToRequestId": "env-state-capitol-california",
+  "requestId": "env-state-capitol-california",
+  "requestedBy": "art bench and regional scenes thread",
+  "targetClass": "environment-plate",
+  "title": "The California State Capitol, seen from outside",
+  "visualContext": {
+    "builtForm": ["state-capitol", "masonry-civic"],
+    "note": "Leaf-on months only. A winter view is a separate request wherever snow on the building is normal, because one plate cannot honestly stand for both and a bare-branch capitol shown in July is the same error as a summer canopy shown in January.",
+    "seasons": ["spring", "summer", "autumn"]
+  },
+  "whyNeeded": "The state step is one of four steps in the opening and the only one with no artwork behind it, so every life in every state begins on an unillustrated screen naming a government the player has never seen. California's capitol is already a recorded building identity in the reference corpus, so this asks for a picture of something the project has already established rather than for a new invention."
+}

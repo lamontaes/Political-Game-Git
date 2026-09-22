@@ -624,7 +624,6 @@ function tryWrite(
   }
 }
 
-
 /**
  * Somebody this character actually helped, and how often.
  *
@@ -655,7 +654,8 @@ function favourActuallyPerformedFor(
     }
     const counterpart = event.participants.find(
       (entry) =>
-        entry.personId !== personId && entry.role === "coordination:counterpart",
+        entry.personId !== personId &&
+        entry.role === "coordination:counterpart",
     )?.personId;
     if (!counterpart || !world.people[counterpart]) continue;
     counts.set(counterpart, (counts.get(counterpart) ?? 0) + 1);

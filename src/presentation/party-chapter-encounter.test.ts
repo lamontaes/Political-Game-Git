@@ -242,7 +242,10 @@ describe("ALIVE43 W2 home party chapters and organizer encounters", () => {
     const state = projectPartyEncounters(lapsed, player)
       .flatMap((e) => e.activities)
       .find((a) => a.activityId === offered.offer.activityId)!;
-    expect(["declined", "expired"]).toContain(state.state);
+    // Lapsed specifically, not declined. The player was never shown this
+    // invitation and never answered it; time ran past it. It used to record
+    // a refusal against their name, which is what this now proves it does not.
+    expect(state.state).toBe("lapsed");
     expect(lapsed.history.relationshipInteractions.length).toBe(
       offered.world.history.relationshipInteractions.length,
     );

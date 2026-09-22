@@ -51,7 +51,12 @@ describe("an ordinary life's standing things age", () => {
     const { world, personId } = ordinaryLife("pending-age-week");
     const day = projectOrdinaryDay(passOrdinaryDays(world, 10), personId);
     expect(day.pending.length).toBeGreaterThan(0);
-    for (const thing of day.pending) {
+    // Only what is still open ages. Ten days is long enough for the posted
+    // meeting's own time to have come and gone, and a thing that is over does
+    // not go on saying how long it has been waiting for an answer.
+    const open = day.pending.filter((thing) => thing.answeredBy === null);
+    expect(open.length).toBeGreaterThan(0);
+    for (const thing of open) {
       expect(thing.daysStanding).toBe(10);
       expect(thing.sentence).toMatch(/a week on\./);
       // The day it was written has not moved and is not restated as today.
@@ -71,10 +76,22 @@ describe("an ordinary life's standing things age", () => {
       expect(thing.key).toBe(first.pending[index]!.key);
       // Same thing, not the same sentence.
       expect(thing.sentence).not.toBe(first.pending[index]!.sentence);
+      expect(thing.daysStanding).toBe(84);
+      if (thing.answeredBy !== null) {
+        // Twelve weeks after the meeting's own evening, the day says the time
+        // came and went. It used to say "Decide whether to attend", to a
+        // player who had never been shown a control for deciding.
+        expect(thing.answeredBy).toBe("lapsed");
+        expect(thing.sentence).toMatch(/came and went without an answer/);
+        continue;
+      }
       expect(thing.sentence).toContain(first.pending[index]!.sentence);
       expect(thing.sentence).toMatch(/12 weeks on\./);
-      expect(thing.daysStanding).toBe(84);
     }
+    // Something did lapse here, or this test is no longer about what it says.
+    expect(twelve.pending.some((thing) => thing.answeredBy === "lapsed")).toBe(
+      true,
+    );
     // And the day's own waiting list inherits it rather than restating it.
     for (const entry of projectToday(later, personId).waiting) {
       if (entry.key.startsWith("work-offer:")) continue;

@@ -109,8 +109,10 @@ describe("ALIVE43 W3 background developments", () => {
     );
     expect(invitations.length).toBeGreaterThan(0);
     expect(
-      invitations.some((a) => ["declined", "expired"].includes(a.state)),
+      invitations.some((a) => ["lapsed", "expired"].includes(a.state)),
     ).toBe(true);
+    // Nothing was answered, so nothing reads as a refusal.
+    expect(invitations.some((a) => a.state === "declined")).toBe(false);
     expect(
       projectMeaningfulChanges(later, player, life.world.history.nextSequence)
         .length,

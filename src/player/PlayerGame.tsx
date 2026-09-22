@@ -3336,6 +3336,7 @@ function PlayingScreen({
                       <WorldOrientationPanel
                         view={orientation.view}
                         homeStateUsps={orientation.homeStateUsps}
+                        regionalPlate={orientation.regionalPlate}
                         mode="first"
                         onClose={() => dispatch({ type: "finish-orientation" })}
                         onOpenPerson={(personId) =>

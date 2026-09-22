@@ -649,11 +649,19 @@ export function npcContactAnswer(
       sourceRefs: [],
     });
   }
-  // Both sides: the answerer's own temperament, and whatever this world has
-  // recorded about the person asking, which the rows declared `about:
-  // "subject"` read. The played character is never seeded, so they contribute
-  // nothing here until they have chosen who they are.
-  const withTraits = ensurePeopleTraits(world, [to, from]);
+  // The answerer's own temperament is established here, because they are the
+  // one deciding and a decision may rest on who they are.
+  //
+  // The asker's is not, and deliberately. Rows declared `about: "subject"`
+  // read whatever this world has already recorded about the person asking,
+  // which is an observation rather than a fact waiting to be established —
+  // seeding it at the moment somebody needs it would manufacture the
+  // observation exactly when it is convenient. It also broke: this scheduled
+  // answer is evaluated against the world as of the moment it was scheduled,
+  // so a record written now is not available to it and the decision refused
+  // its own citation. An unrecorded asker contributes nothing, which is the
+  // same answer the player gets before they have said who they are.
+  const withTraits = ensurePeopleTraits(world, [to]);
   // Registered effects first: whatever the loaded packs say bears on
   // `contact.answer`. This decision names no trait, and a pack adding one
   // reaches it without this file changing.
