@@ -4,6 +4,7 @@ import {
   expectNoDestination,
   fillCreator,
   goTo,
+  leaveGame,
   openElsewhere,
   openMoment,
   saveLife,
@@ -294,11 +295,11 @@ test.describe("A life is kept, and comes back", () => {
     await freshBrowser(page);
     await startLife(page, { age: 22, place: "Lexington", state: "Kentucky" });
     await keepAndWait(page);
-    await goTo(page, "leave-game");
+    await leaveGame(page);
 
     await startLife(page, { age: 55, place: "Anchorage", state: "Alaska" });
     await keepAndWait(page);
-    await goTo(page, "leave-game");
+    await leaveGame(page);
 
     await page.getByTestId("open-saves").click();
     await expect(page.getByTestId("save-entry")).toHaveCount(2);
@@ -308,7 +309,7 @@ test.describe("A life is kept, and comes back", () => {
     await freshBrowser(page);
     await startLife(page, { place: "Lexington", state: "Kentucky", age: 31 });
     await keepAndWait(page);
-    await goTo(page, "leave-game");
+    await leaveGame(page);
 
     await page.getByTestId("open-saves").click();
     await expect(page.getByTestId("save-entry")).toHaveCount(1);
@@ -328,7 +329,7 @@ test.describe("A life is kept, and comes back", () => {
     await freshBrowser(page);
     await startLife(page, { place: "Lexington", state: "Kentucky", age: 29 });
     await keepAndWait(page);
-    await goTo(page, "leave-game");
+    await leaveGame(page);
 
     // A record this build cannot read, written straight into storage.
     await page.evaluate(async () => {
@@ -428,7 +429,7 @@ test.describe("What is written to disk is a player's world", () => {
     await page.getByTestId("story-options").getByRole("button").first().click();
     const remembered = await readJournal(page);
 
-    await goTo(page, "leave-game");
+    await leaveGame(page);
     await expect(page.getByTestId("title-screen")).toBeVisible();
     await page.reload();
     await page.getByTestId("continue").click();
@@ -555,7 +556,7 @@ test.describe("Nothing on screen is developer vocabulary", () => {
     expect(screen).not.toMatch(/synthetic|lorem|TODO|placeholder/i);
 
     await keepAndWait(page);
-    await goTo(page, "leave-game");
+    await leaveGame(page);
     await page.getByTestId("open-saves").click();
     expect(await page.getByTestId("saves-screen").innerText()).not.toMatch(
       DEVELOPER_WORDS,
