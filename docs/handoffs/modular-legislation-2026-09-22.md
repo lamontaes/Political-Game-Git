@@ -45,6 +45,17 @@ post-date it. Regenerated with the corpus CLI on both branches. It conflicted
 on both merges and was resolved both times by taking main's copy and
 regenerating on top — never by picking lines out of a generated file.
 
+## A red check against merged work, which is not a failure
+
+The one `validate` conclusion any of these branches got reads
+`repository=cancelled, unit=cancelled, browser=cancelled` — the aggregate job
+reporting that its three mandatory jobs were cancelled, not that a test failed.
+It landed on a head three commits behind what merged. The repository runs two
+concurrent jobs and the queue has been hours deep, so each new head cancels its
+predecessor's queued run before that run reports. Anyone reading the merged
+work later will see a red check beside it; that check is a cancellation, and
+the log says so in four lines.
+
 ## Three rounds of keeping branches mergeable
 
 Main moved eight times under this lane's branches overnight, and this lane
