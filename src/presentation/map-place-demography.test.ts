@@ -15,7 +15,8 @@ const county: MapDemographySelection = {
   layer: "county",
   geoid: "26163",
   stateUsps: "MI",
-  asOf: "2026-01-05",
+  // The day the locked county personal income edition was released.
+  asOf: "2026-02-05",
 };
 const manifest = JSON.parse(
   readFileSync(
@@ -91,13 +92,21 @@ describe("map empirical demographics", () => {
     expect(result.population?.geography.geoid).toBe("51760");
     expect(result.selection.geoid).toBe("5167000");
   });
-  it("guards reference years without mislabeling retrieval time as publication time", async () => {
-    const result = await queryMapPlaceDemography(
-      { ...county, asOf: "2024-06-01" },
-      { fetchJson: local },
-    );
-    expect(result.population?.period).toBe("2023");
-    expect(result.population?.publisherReleaseDate).toBeNull();
+  it("shows no county figure before the edition that holds it was released", async () => {
+    // A January 2026 opening: the edition describing 2024 came out on
+    // February 5, and a 2023 value revised in that same edition is not the
+    // 2023 estimate anybody could read earlier, so nothing is backdated.
+    for (const asOf of ["2026-01-05", "2026-02-04", "2024-06-01"]) {
+      const result = await queryMapPlaceDemography(
+        { ...county, asOf },
+        { fetchJson: local },
+      );
+      expect(result.population).toBeNull();
+    }
+    const released = await queryMapPlaceDemography(county, {
+      fetchJson: local,
+    });
+    expect(released.population?.publisherReleaseDate).toBe("2026-02-05");
   });
   it("withholds an actual later publisher release date", async () => {
     const result = await queryMapPlaceDemography(county, {
