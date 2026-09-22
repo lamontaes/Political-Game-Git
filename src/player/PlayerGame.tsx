@@ -245,6 +245,8 @@ import { projectTransitWork } from "../presentation/transit-work";
 import { DocketWorkspace } from "./DocketWorkspace";
 import { OfficeOnboardingWorkspace } from "./OfficeOnboardingWorkspace";
 import { OfficeTransitionPanel } from "./OfficeTransitionPanel";
+import { congressSeatStatus } from "../presentation/congress-candidacy";
+import { congressStatusText } from "./CongressCandidacySection";
 import { projectOfficeTransition } from "../presentation/office-transition";
 import {
   docketBill,
@@ -5372,6 +5374,33 @@ function renderWorkspace({
               world={session.world}
               onWorldChange={onWorldChange}
             />
+          ),
+        });
+      }
+      const congressSeat =
+        officeHalf && !sections.some((section) => section.key === "office")
+          ? congressSeatStatus(session.world, session.personId)
+          : null;
+      if (congressSeat?.kind === "in-office") {
+        /*
+         * A seat in Congress, read from the same record the Congress overview
+         * and turnover use. The chamber's floor and committees are not yet
+         * something a member can take part in, and the card says so instead
+         * of offering work that does nothing.
+         */
+        sections.push({
+          key: "office",
+          title: "Your office",
+          body: (
+            <div data-testid="congress-seat-held">
+              <p>{congressStatusText(congressSeat)}</p>
+              <p className="game-note">
+                Your seat, its term and your record in it are real, and the seat
+                is decided again at its next election; file for it under
+                Campaigns to keep it. Floor votes, committees and a member's
+                office staff are not yet something you can take part in.
+              </p>
+            </div>
           ),
         });
       }

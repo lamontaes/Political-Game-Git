@@ -203,6 +203,8 @@ export type CongressSeatStatus =
   | {
       readonly kind: "won-awaiting-term";
       readonly identity: CongressSeatIdentity;
+      readonly contestId: EntityId;
+      readonly electionDate: IsoDate;
       readonly startsAt: IsoDate;
       readonly endsAt: IsoDate;
     }
@@ -291,6 +293,8 @@ export function congressSeatStatus(
     return {
       kind: "won-awaiting-term",
       identity,
+      contestId: contest.id,
+      electionDate: contest.electionDate,
       startsAt: term.startsAt,
       endsAt: term.endExclusive,
     };

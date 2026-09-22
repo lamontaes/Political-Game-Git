@@ -2,6 +2,7 @@ import {
   activeEducationEnrollmentsAt,
   activeWorkRelationshipsAt,
 } from "../simulation";
+import { congressSeatStatus } from "./congress-candidacy";
 import {
   workRelationshipHistoryForPerson,
   workRoleAt,
@@ -268,13 +269,21 @@ function ordinaryOfferSentence(offers: readonly OfferAwaitingAnswer[]): string {
 }
 
 export function projectWorkRole(world: World, personId: EntityId): WorkRole {
+  // A seat in Congress is held through the Congress record, not a work
+  // relationship, so it is read from there and named alongside any job.
+  const congress = congressSeatStatus(world, personId);
   const roles = [
-    ...new Set(
-      activeWorkRelationshipsAt(world, personId).map(
+    ...new Set([
+      ...activeWorkRelationshipsAt(world, personId).map(
         (entry) => entry.role.title,
       ),
-    ),
+      ...(congress.kind === "in-office" ? [congress.identity.displayName] : []),
+    ]),
   ];
+  const congressElect =
+    congress.kind === "won-awaiting-term"
+      ? `You won the race for ${congress.identity.displayName}. You take the seat on ${proseDate(congress.startsAt)}.`
+      : "";
   const studying = activeEducationEnrollmentsAt(world, personId).length;
   const study =
     studying === 0
@@ -293,6 +302,7 @@ export function projectWorkRole(world: World, personId: EntityId): WorkRole {
       ? "You do not hold a job or an office right now."
       : `${roles.length === 1 ? "Your role" : "Your roles"}: ${roles.join("; ")}.`,
     offer,
+    congressElect,
     study,
   ]
     .filter((part) => part.length > 0)
