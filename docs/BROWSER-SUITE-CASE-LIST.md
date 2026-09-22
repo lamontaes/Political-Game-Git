@@ -16,12 +16,27 @@ pinned 1234; see section 3 of the floor document), 2 workers, `CI=1`, 3 hours
 
 **What this list cannot tell you.** At least two cases in this suite answer
 differently depending on what runs alongside them, measured independently by
-the nationwide lane. So a case absent from this list can still be real in
+the nationwide lane, and there have since been two more sightings — the
+research-audit lane's national-election case, and the seventeenth failure on
+the release tree described below. So a case absent from this list can still be real in
 another run, and a case present here can pass in isolation. That weakens
 same-tree attribution in both directions, including the nine-for-nine match
 recorded in the floor document: matching titles across two runs is good
 evidence and it is not proof that the two runs met the same defect. Treat a
 match as a strong prior and a non-match as no information at all.
+
+**Two findings from the release tree, relayed rather than measured here.**
+Reported by the art/client lane through the coordinator on 2026-09-22; recorded
+because they bear on this list, not because this lane ran them.
+
+- `unit (2, 6)` came back green on the release tree. That is the shard that is
+  red on main, so it is the first CI evidence for the campaign-projection fix,
+  which until then rested on a local run only.
+- Of seventeen browser failures on that run, sixteen matched this list by spec
+  file, line and title. The seventeenth was not in the list, was run by hand on
+  both trees, and is flaky on both — so it is neither the release's nor new.
+  Three lanes have now used the "strong prior, not proof" rule in the paragraph
+  above and none has been burned by it.
 
 **How to use it.** Match on spec file plus test title. Shard numbers are not
 stable across runs and matching on them will lie to you. A case here that your
@@ -147,10 +162,37 @@ is worth reading closely.
 
 ### `p29-g-apartment.spec.ts`
 
-- `p29-g-apartment.spec.ts:25:5` — apartment residence-apartment-living-canonical-03 on ordinary controls at 1200 _(artwork)_
-- `p29-g-apartment.spec.ts:25:5` — apartment residence-apartment-living-canonical-03 on ordinary controls at 1440 _(artwork)_
-- `p29-g-apartment.spec.ts:25:5` — apartment residence-apartment-living-ordinary-02 on ordinary controls at 1200 _(artwork)_
-- `p29-g-apartment.spec.ts:25:5` — apartment residence-apartment-living-ordinary-02 on ordinary controls at 1440 _(artwork)_
+- `p29-g-apartment.spec.ts:29:5` — apartment residence-apartment-living-canonical-03 on ordinary controls at 1200 _(artwork, and a harness defect that was hiding behind it)_
+- `p29-g-apartment.spec.ts:29:5` — apartment residence-apartment-living-canonical-03 on ordinary controls at 1440 _(artwork, and a harness defect that was hiding behind it)_
+- `p29-g-apartment.spec.ts:29:5` — apartment residence-apartment-living-ordinary-02 on ordinary controls at 1200 _(artwork, and a harness defect that was hiding behind it)_
+- `p29-g-apartment.spec.ts:29:5` — apartment residence-apartment-living-ordinary-02 on ordinary controls at 1440 _(artwork, and a harness defect that was hiding behind it)_
+
+**These four were filed `artwork` for a reason that was not true, and checking
+it found a second defect.** Measured 2026-09-22, local, Chromium 141, on
+`4d092083`. The art/client lane read them as not artwork cases and asked for
+the reading to be checked; that was the right challenge, and it was half right.
+
+Run as they stood, all four threw in the character creator, at
+`src/presentation/new-game-geography.ts:312` — "Name the state, then a town.
+Lexington and Kentucky are not assumed." They never reached a single art
+assertion. The rooms were calibrated when the creator still inferred a
+hometown; it no longer does, so the walk died three steps before the geometry
+it exists to measure. That is a harness defect, and the only reason nobody
+found it is that the case was already sitting in the floor, and nobody opens a
+floor item twice.
+
+With the hometown named — explicitly, through `KENTUCKY_LEXINGTON_REGRESSION`,
+since these assertions are about apartment geometry and not about jurisdiction
+— all four reach their first art assertion and fail there:
+`[data-has-art="true"]` expected 1, received 0, with the room plate drawn and
+the candidate banner on the page reading "the candidate art bank is not in this
+checkout". So the family is right after all and **the floor stays at 23**.
+
+What moved is the account of why, and the lesson generalises: a failure's
+recorded family describes the line it died on, which is not the same as its
+cause. This is the third instance tonight. A case in the floor is the worst
+place for that error to land, because a floor item is one nobody looks at
+again — which is exactly what happened here.
 
 ### `p2r1-editorial.spec.ts`
 

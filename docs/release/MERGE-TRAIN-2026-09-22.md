@@ -416,6 +416,49 @@ them inherited from `main`, with six jobs never run** — and #277 is
 `release:check`. Not "the release is verified". Not "the release is failing".
 And not, any longer, "the release cannot be merged".
 
+## "Documentation only, so no release declaration" is wrong, and it turned main's gate red
+
+**Measured 2026-09-22 11:25Z.** Main's `repository` job failed on `35e7b81a`
+([job 106698937271](https://github.com/lamontaes/Political-Game-Git/actions/runs/35711551223/job/106698937271),
+10:37:09–10:40:03Z):
+
+```
+release:check — Post-rollout eligible change b8f8702f..35e7b81a modifies
+2 non-declaration path(s) but adds or changes no declaration in
+docs/release/changes. Declare impact: patch, minor, or explicit none.
+```
+
+**The two paths are `docs/decisions/DECISION-LOG.md` and this file.** They are
+this lane's own, from this lane's own merges. The gate was red on `main` because
+of documentation this lane landed while asserting documentation needed no
+declaration.
+
+**The rule, read from the source rather than assumed.**
+`scripts/release/transition.ts:238` computes `eligiblePaths` as _every_ changed
+path that is not under `docs/release/changes/`. There is no `src/` versus
+`docs/` distinction anywhere in it. Past the legacy cutoff, **a comparison range
+that changes anything at all and contains no declaration fails.**
+
+**Why nobody noticed for hours.** A doc-only merge whose comparison range also
+contains some other lane's declaration passes — on that lane's declaration, not
+on its own merit. The gate only bites when a range happens to be _entirely_
+documentation. At least four pull requests tonight, across two lanes, carry the
+sentence "documents only … so no release declaration" in their own merge
+commits. Every one of them was riding someone else's paperwork.
+
+**This lane knew and forgot.** `docs/release/changes/merge-train-2026-09-22.md`
+and `merge-train-document-2026-09-22.md` already exist, both `impact: none`,
+both written for this same document earlier the same night. The practice was
+right and then quietly lapsed, which is worse than never having had it, because
+the lapse looked like a settled convention.
+
+**The correction is one line of practice:** documentation is not exempt, it is
+`impact: none`. `npm run release:declare -- <id> --impact none`, with a
+one-line internal reason. It costs nothing and it is the difference between
+main's gate being green and being red.
+
+Filed as `merge-train-and-decision-log-2026-09-22`.
+
 ## Withdrawn: the three-menu-destinations claim, which is in a merge commit
 
 **If you came here from git history, read this before believing a commit
