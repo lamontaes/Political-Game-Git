@@ -9,7 +9,7 @@ Before, every relationship the player had was one hidden sum of everything that
 had ever passed between the two of them, sorted into four words. A colleague
 the player worked beside for a decade and a friend they grew up with read the
 same. So did a friendship with a quarrel in it that was never made up, because
-the next pleasant afternoon cancelled the quarrel out.
+the next pleasant afternoon canceled the quarrel out.
 
 Now the same log is read along five separate lines: whether the player is glad
 of that person's company, whether they would take them at their word, what they

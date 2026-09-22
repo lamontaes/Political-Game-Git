@@ -17,9 +17,9 @@ import type {
  * The world already logs every interaction with a namespace, a direction and a
  * significance. Until now the only reading of that log collapsed it into one
  * hidden sum and four buckets, so a person could not be trusted at work and
- * disliked at home, and a quarrel that was never repaired was cancelled out by
+ * disliked at home, and a quarrel that was never repaired was canceled out by
  * the next pleasant afternoon. This reads the same log along five separate
- * lines instead, each of which a player can see in behaviour.
+ * lines instead, each of which a player can see in behavior.
  *
  * Like `relationship-leverage.ts`, nothing here is stored. There is no meter,
  * nothing accumulates on a person, and a save carries interactions rather than

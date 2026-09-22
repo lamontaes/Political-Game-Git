@@ -255,7 +255,7 @@ describe("private goals somebody actually pursues", () => {
     const subjectId = personId(world, 1);
     world = withGoal(world, subjectId, "connection");
     // The goal lives in history, where the player has no reader, and nothing is
-    // written onto the person. A player learns an agenda from behaviour.
+    // written onto the person. A player learns an agenda from behavior.
     expect(world.people[subjectId]).not.toHaveProperty("goal");
     expect(JSON.stringify(world.people[subjectId])).not.toMatch(
       /opening-life|objective/i,
