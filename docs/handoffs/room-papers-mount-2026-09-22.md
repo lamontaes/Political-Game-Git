@@ -30,14 +30,28 @@ The anchor exists. `coffee-table-papers` is declared in
 "the folded newspaper painted on the table" — and today it renders as painted
 decoration.
 
-The one design decision, and it is in your file rather than mine:
-**`SceneBackdrop`'s `children` render in the dock, outside the camera.** A
-papers object positioned in plate percentages has to go _inside_
-`.scene-camera`, beside `SceneSurfaceLayer`, or it will drift away from the
-table at every viewport. So the mount is a new optional prop — call it
-`sceneObjects` — rendered right after `SceneSurfaceLayer` within the camera
-div, and `PlayerGame` passes the papers object through it with the slot's own
-`rect_percent`.
+**Superseded, 2026-09-22, by the built mount (`3721530c`). Read the
+correction, not the paragraph under it.** `.scene-backdrop-stage` — the
+camera — carries `aria-hidden="true"`, so a control rendered inside it is
+unreachable to assistive technology and invisible to Playwright's role
+queries. The object layer has to be a **sibling of the stage**, exactly as
+`scene-backdrop-people` already is, positioning itself from the slot's
+`rect_percent` with the same `transform` math rather than inheriting the
+camera's. What shipped is an optional `objects` prop taking
+`SceneObjectMount { slotId, node }`, rendered as `.scene-backdrop-objects`
+immediately before the people layer, failing closed when the scene declares
+no such slot.
+
+The original paragraph, kept so the reasoning can be argued with:
+
+> The one design decision, and it is in your file rather than mine:
+> **`SceneBackdrop`'s `children` render in the dock, outside the camera.** A
+> papers object positioned in plate percentages has to go _inside_
+> `.scene-camera`, beside `SceneSurfaceLayer`, or it will drift away from the
+> table at every viewport. So the mount is a new optional prop — call it
+> `sceneObjects` — rendered right after `SceneSurfaceLayer` within the camera
+> div, and `PlayerGame` passes the papers object through it with the slot's
+> own `rect_percent`.
 
 Three rules the object has to keep, from the environment-interactivity
 research answer, because they are the whole point of the family:
