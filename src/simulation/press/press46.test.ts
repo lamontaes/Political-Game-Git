@@ -560,6 +560,50 @@ describe("PRESS46 established finding, leak and ground rules", () => {
     expect(delegated).toHaveLength(1);
   });
 
+  it("makes the finding order the misused money repaid, and costs no decided race", () => {
+    const proceeding = pressRecordsOfKind(concluded, "matter-proceeding").find(
+      (p) => p.matterId === opened.matter.id,
+    )!;
+    const finding = proceedingSteps(concluded, proceeding.id).at(-1)!;
+    // The race was decided on the day the final order landed, before it, so
+    // no open race is left for the finding to cost support in.
+    expect(
+      (concluded.history.campaignStates ?? []).some(
+        (state) =>
+          state.campaignId === fixture.campaign.id &&
+          state.status === "lost" &&
+          state.effectiveAt <= finding.at,
+      ),
+    ).toBe(true);
+    expect(
+      concluded.history.metricStates.some((state) =>
+        state.stableKey.startsWith(`${finding.stableKey}:finding-support:`),
+      ),
+    ).toBe(false);
+    const order = concluded.history.events.find(
+      (event) => event.type === "matter.restitution-ordered",
+    )!;
+    expect(order.summary).toContain("$25.00");
+    const flow = concluded.history.resourceFlows.find(
+      (row) => row.basisKind === "custom:ethics-restitution",
+    )!;
+    expect(flow.recipient).toEqual({
+      kind: "organization",
+      organizationId: fixture.campaign.organizationId,
+    });
+    const outcome = concluded.history.resourceTransferOutcomes.find(
+      (row) => row.resourceFlowId === flow.id,
+    )!;
+    // Repaid in full, or refused with nothing moved and the reason recorded.
+    expect(
+      (outcome.status === "completed" &&
+        outcome.transferredAmount.minorUnits === 2_500) ||
+        (outcome.status === "blocked" &&
+          outcome.transferredAmount.minorUnits === 0 &&
+          order.summary.includes("did not have it")),
+    ).toBe(true);
+  });
+
   it("surfaces no removal or censure without researched authority", () => {
     // With GOVERNING's real reader in place this is a sourced "unavailable"
     // for somebody who is not a member, rather than the stand-in's "unknown".

@@ -1,5 +1,9 @@
 import { createPressTransitionRegistry } from "./press/transitions";
 import {
+  rememberedAdverseFindingsAgainst,
+  UNRESEARCHED_FINDING_EFFECTS,
+} from "./press/findings";
+import {
   supportedLegislativeTermDates,
   scheduleLegislativeTerm,
   createLegislativeTermTransitionRegistry,
@@ -368,12 +372,22 @@ function recordInitialSupport(world: World, campaign: CampaignRecord): World {
   );
   // A first-time filer starts behind somebody who is already known. Nothing
   // here is a handicap the player can read; it is a starting position.
+  // A public ethics finding still in voters' memory starts a candidate
+  // further back (an UNRESEARCHED blanket rule, see `press/findings.ts`).
   const weights = campaign.candidateSupportScopes.map((scope) => ({
     id: scope.candidatePersonId,
-    weight:
+    weight: Math.max(
+      1,
       850 +
-      rng.fork(scope.candidatePersonId).integer(0, 301) +
-      (scope.candidatePersonId === campaign.candidatePersonId ? -60 : 0),
+        rng.fork(scope.candidatePersonId).integer(0, 301) +
+        (scope.candidatePersonId === campaign.candidatePersonId ? -60 : 0) -
+        rememberedAdverseFindingsAgainst(
+          world,
+          scope.candidatePersonId,
+          campaign.filedAt,
+        ).length *
+          UNRESEARCHED_FINDING_EFFECTS.laterContestWeightPenalty,
+    ),
   }));
   const basisPoints = allocateBasisPoints(weights);
   let next = world;

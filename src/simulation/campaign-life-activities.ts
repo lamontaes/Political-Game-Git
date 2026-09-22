@@ -1,4 +1,5 @@
 import { wasRefused } from "./scheduled-activity-answer";
+import { rememberedAdverseFindingsAgainst } from "./press/findings";
 import {
   CAMPAIGN_LIFE_CATALOG,
   CAMPAIGN_LIFE_TRAVEL_COST_DISCLOSURE,
@@ -1149,6 +1150,21 @@ function supportRequestDecision(
       confidence: "high",
       explanation: "Nothing on record says they share the chapter's party.",
       sourceRefs: [],
+    });
+  }
+  for (const finding of rememberedAdverseFindingsAgainst(
+    world,
+    record.subjectPersonId,
+  )) {
+    considerations.push({
+      stableKey: `${decisionKey}:public-finding:${finding.step.id}`,
+      optionKey: "decline",
+      sourceType: "context:public-ethics-finding",
+      direction: "supports",
+      importance: "strong",
+      confidence: "high",
+      explanation: `The ${finding.proceeding.institutionLabel} has made a public finding against them.`,
+      sourceRefs: [{ kind: "historical-event", eventId: finding.step.eventId }],
     });
   }
   const evaluation = evaluateDecision(world, {
