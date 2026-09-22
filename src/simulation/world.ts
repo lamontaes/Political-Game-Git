@@ -535,6 +535,10 @@ const VALIDATED_WORLDS = new WeakSet<World>();
  * skip that check, and the caller validates the result once, in full, before
  * anything is kept. A World that fails is still refused; it is refused at the
  * end of the transition rather than at the write that made it.
+ *
+ * So a writer's own entry checks must not lean on the whole-world check: a
+ * handler that catches a writer's error to fall back must get that error
+ * from the writer itself, since the full check no longer runs mid-scope.
  */
 let integrityDeferredDepth = 0;
 
