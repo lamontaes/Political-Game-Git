@@ -1,6 +1,8 @@
 ---
 id: governor-terms-follow-the-law
-impact: minor
+impact: patch
+section: Added
+title: A governor's term limit and term length follow the law, and a law can change them
 ---
 
 A governor's term limit now bars a candidate who has served the terms their
