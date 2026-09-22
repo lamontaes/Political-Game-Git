@@ -56,6 +56,7 @@ import {
   recordRelationshipInteraction,
 } from "./records";
 import {
+  drawCanonicalName,
   drawCanonicalNamedIdentity,
   LEGACY_GIVEN_NAME_GENERATION_VERSION,
   type GivenNameGenerationVersion,
@@ -2209,16 +2210,21 @@ export function generateQuickCharacterHistory(
   // gender moves; the name is then drawn to agree with it. The names already
   // handed out are passed along so the three cannot collide — a household that
   // offers "Tell Charles Rush" about Charles Rush is an unanswerable scene.
+  //
+  // Versioned, like the living-world opening's own member names: a save
+  // recorded before this existed has to rebuild to the same bytes it was
+  // captured with, so the legacy branch keeps the two separate draws on the
+  // two streams it always used. A new game declares v2 and gets the pairing.
   const spokenFor: string[] = [];
   const named = (suffix: string) => {
-    const drawn = drawCanonicalNamedIdentity(
-      rng.fork(suffix),
-      generatePersonIdentity(rng.fork(`${suffix}:identity`)),
-      {
-        generationVersion: givenNameGenerationVersion,
-        takenGivenNames: spokenFor,
-      },
-    );
+    const identity = generatePersonIdentity(rng.fork(`${suffix}:identity`));
+    if (givenNameGenerationVersion === LEGACY_GIVEN_NAME_GENERATION_VERSION) {
+      return { ...drawCanonicalName(rng.fork(suffix)), identity };
+    }
+    const drawn = drawCanonicalNamedIdentity(rng.fork(suffix), identity, {
+      generationVersion: givenNameGenerationVersion,
+      takenGivenNames: spokenFor,
+    });
     spokenFor.push(drawn.givenName);
     return drawn;
   };

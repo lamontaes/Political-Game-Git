@@ -21,7 +21,14 @@ optional and these routes did not.
 
 The two draws are now one call, so a route cannot take the name without the
 identity that shaped it, and a test fails if any route pairs them apart again.
-The same counts after the repair are 0 of 72 and 0 of 516.
+The same counts after the repair are 0 of 72 and 0 of 516. The seated Congress
+half of that arrived separately, through the client line's own versioned member
+names; this change is the other fifteen routes, and the test now covers both.
+
+A save written before the repair still rebuilds the world it recorded. The
+earlier life's three people are drawn the old way when the save says so, the
+same way the seated Congress already gated its member names, so nobody's
+existing character is quietly renamed. A new game declares the repair.
 
 Nothing is read backwards: a gender still decides a name and a name never
 decides a gender. Names that are genuinely shared across genders are a separate

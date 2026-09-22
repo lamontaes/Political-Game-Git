@@ -1,7 +1,21 @@
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { readFileSync, realpathSync } from "node:fs";
+import { readFileSync, realpathSync, statSync } from "node:fs";
 import { resolve } from "node:path";
+
+// Private inputs remain part of identity. Hash unchanged bytes once per
+// process, but stat every input on every probe: edits, replacement and restored
+// mtimes invalidate the cached digest through ctime/inode as well as size.
+const inputDigests = new Map<string, { stamp: string; digest: string }>();
+function inputDigest(file: string): string {
+  const stat = statSync(file, { bigint: true });
+  const stamp = `${stat.dev}:${stat.ino}:${stat.size}:${stat.mtimeNs}:${stat.ctimeNs}`;
+  const previous = inputDigests.get(file);
+  if (previous?.stamp === stamp) return previous.digest;
+  const digest = createHash("sha256").update(readFileSync(file)).digest("hex");
+  inputDigests.set(file, { stamp, digest });
+  return digest;
+}
 
 export function sourceIdentityInputs(root = process.cwd()) {
   const workspace = realpathSync(root);
@@ -9,6 +23,7 @@ export function sourceIdentityInputs(root = process.cwd()) {
     execFileSync("git", args, {
       cwd: workspace,
       encoding: "utf8",
+      maxBuffer: 32 * 1024 * 1024,
     })
       .split("\0")
       .filter(Boolean);
@@ -30,18 +45,26 @@ export function sourceIdentityInputs(root = process.cwd()) {
 export function sourceIdentity(root = process.cwd()) {
   const workspace = realpathSync(root);
   const git = (...args: string[]) =>
-    execFileSync("git", args, { cwd: workspace, encoding: "utf8" }).trim();
+    execFileSync("git", args, {
+      cwd: workspace,
+      encoding: "utf8",
+      // Installed private art banks can exceed Node's default 1 MiB listing.
+      maxBuffer: 32 * 1024 * 1024,
+    }).trim();
   const status = git("status", "--porcelain", "--untracked-files=all");
   const hash = createHash("sha256");
   // Git's tree identifies unchanged tracked bytes. Hash only paths differing
   // from HEAD plus untracked inputs, avoiding rereading gigabytes of unchanged
   // art on every health probe. Staged/unstaged status does not change identity.
-  hash.update(git("rev-parse", "HEAD^{tree}")).update("\0");
+  hash
+    .update("source-identity-file-digests-v2\0")
+    .update(git("rev-parse", "HEAD^{tree}"))
+    .update("\0");
   const files = sourceIdentityInputs(workspace);
   for (const file of files) {
     hash.update(file).update("\0");
     try {
-      hash.update(readFileSync(resolve(workspace, file)));
+      hash.update(inputDigest(resolve(workspace, file)));
     } catch (error) {
       if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
       hash.update("<deleted>");

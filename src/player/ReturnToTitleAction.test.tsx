@@ -18,7 +18,7 @@ describe("Return to title in Options", () => {
     expect(html).toContain('type="button"');
     expect(html).toContain("Return to title");
     expect(html).toContain('aria-describedby="return-to-title-note"');
-    expect(html).toContain("asked whether to save it first");
+    expect(html).toContain("Choose whether to save your latest progress");
   });
 
   it("tells a saved life it is kept before the title opens", () => {
@@ -30,6 +30,6 @@ describe("Return to title in Options", () => {
         onLeave={noop}
       />,
     );
-    expect(html).toContain("Your saved life is kept");
+    expect(html).toContain("Choose whether to save your latest progress");
   });
 });

@@ -11,11 +11,32 @@ import {
 import {
   commitCompleteOutfit,
   initializeFreshCandidateOutfits,
+  findCompleteOutfit,
 } from "./complete-outfit";
 import type { CharacterComponentLibrary } from "./character-components";
 import { buildSeedFor } from "./new-game-identity";
 import { PRIVATE_CANDIDATE_ART_AVAILABLE } from "./private-candidate-manifests";
 import type { NewGameSetup } from "./new-game";
+import {
+  PREPARED_FAMILIES,
+  preparedFamily,
+  selectPreparedBody,
+} from "./engine-people29-data";
+
+/** A creation rule only; existing people and saved appearance are never rewritten. */
+export function creatorBodyAllowed(
+  setup: NewGameSetup,
+  bodyFamily: string,
+): boolean {
+  return (
+    setup.startKind === "custom" ||
+    setup.gender !== "male" ||
+    (preparedFamily(bodyFamily)?.geometry.presentation === "masculine" &&
+      ["masculine-lean", "masculine-average", "masculine-heavy"].includes(
+        preparedFamily(bodyFamily)!.bodyType,
+      ))
+  );
+}
 
 /**
  * A prospective character for creator preview. Not a World, not a household,
@@ -71,13 +92,42 @@ export function creatorAppearanceDraft(
   // A descriptor marked for complete candidate outfits (for example a replay
   // from a private build) still previews in a public checkout, which carries
   // no prepared bodies to dress.
-  return setup.appearanceOutfitVersion && PRIVATE_CANDIDATE_ART_AVAILABLE
-    ? initializeFreshCandidateOutfits(
-        draft,
+  const dressed =
+    setup.appearanceOutfitVersion && PRIVATE_CANDIDATE_ART_AVAILABLE
+      ? initializeFreshCandidateOutfits(
+          draft,
+          library,
+          setup.appearanceOutfitVersion,
+        )
+      : draft;
+  const appearance = dressed.people[person.id]?.appearance;
+  const body = appearance?.selection?.bodyFamily;
+  if (!appearance || !body || creatorBodyAllowed(setup, body)) return dressed;
+  const pack = body.split("-")[0];
+  for (const family of PREPARED_FAMILIES) {
+    const candidateBody = family.parts.find(
+      (part) => part.kind === "body",
+    )?.logicalFamily;
+    if (
+      !candidateBody?.startsWith(`${pack}-`) ||
+      !creatorBodyAllowed(setup, candidateBody)
+    )
+      continue;
+    const selected = selectPreparedBody(appearance, candidateBody);
+    if (!selected) continue;
+    const outfit = findCompleteOutfit({
+      appearance: selected,
+      library,
+      poseFamily: "standing-neutral",
+    });
+    if (outfit.ok)
+      return commitCompleteOutfit(dressed, person.id, selected, {
         library,
-        setup.appearanceOutfitVersion,
-      )
-    : draft;
+        poseFamily: "standing-neutral",
+        families: outfit.families,
+      });
+  }
+  return dressed;
 }
 
 export interface CreatorAppearanceChoice {

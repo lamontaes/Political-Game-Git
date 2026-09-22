@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import type { EntityId, IsoDate, World } from "../simulation";
 import {
   answerMeeting,
@@ -35,11 +35,16 @@ export function ContactsPanel({
   world,
   personId,
   onWorldChange,
+  query = "",
+  contactEntry,
 }: {
   readonly world: World;
   readonly personId: EntityId;
   readonly onWorldChange: (world: World) => void;
+  readonly query?: string;
+  readonly contactEntry?: ContactEntry;
 }) {
+  const titleId = useId();
   const view = useMemo(
     () => projectContacts(world, personId),
     [world, personId],
@@ -68,9 +73,9 @@ export function ContactsPanel({
     <section
       className="pg-personal-section"
       data-testid="contacts"
-      aria-labelledby="contacts-title"
+      aria-labelledby={titleId}
     >
-      <h3 id="contacts-title">Getting in touch</h3>
+      <h3 id={titleId}>Getting in touch</h3>
       <p className="game-note">
         A way of reaching somebody is not a promise that they will say yes.
         Asking costs no time; the meeting itself will.
@@ -84,50 +89,54 @@ export function ContactsPanel({
         A meeting can be arranged between {view.earliestMeetingSpoken} and{" "}
         {view.latestMeetingSpoken}.
       </p>
-      {view.contacts.length === 0 ? (
+      {!contactEntry && view.contacts.length === 0 ? (
         <p data-testid="contacts-empty">
           There is nobody you have a recorded way of reaching yet.
         </p>
       ) : (
         <ul className="pg-contacts-list">
-          {view.contacts.map((contact) => (
-            <ContactRow
-              key={contact.personId}
-              contact={contact}
-              earliest={view.earliestMeetingOn}
-              latest={view.latestMeetingOn}
-              askOn={dayFor(`ask:${contact.personId}`)}
-              offerOn={dayFor(`offer:${contact.personId}`)}
-              onDayChange={(which, on) =>
-                setDays((current) => ({
-                  ...current,
-                  [`${which}:${contact.personId}`]: on,
-                }))
-              }
-              onAsk={(on) =>
-                run(() =>
-                  askToMeet(world, {
-                    personId,
-                    otherPersonId: contact.personId,
-                    on,
-                  }),
-                )
-              }
-              onAnswer={(eventId, answer) =>
-                run(() =>
-                  answerMeeting(world, {
-                    proposalEventId: eventId,
-                    answer,
-                  }),
-                )
-              }
-              onOfferAnotherDay={(eventId, on) =>
-                run(() =>
-                  offerAnotherDay(world, { proposalEventId: eventId, on }),
-                )
-              }
-            />
-          ))}
+          {(contactEntry ? [contactEntry] : view.contacts)
+            .filter((contact) =>
+              contact.name.toLowerCase().includes(query.toLowerCase()),
+            )
+            .map((contact) => (
+              <ContactRow
+                key={contact.personId}
+                contact={contact}
+                earliest={view.earliestMeetingOn}
+                latest={view.latestMeetingOn}
+                askOn={dayFor(`ask:${contact.personId}`)}
+                offerOn={dayFor(`offer:${contact.personId}`)}
+                onDayChange={(which, on) =>
+                  setDays((current) => ({
+                    ...current,
+                    [`${which}:${contact.personId}`]: on,
+                  }))
+                }
+                onAsk={(on) =>
+                  run(() =>
+                    askToMeet(world, {
+                      personId,
+                      otherPersonId: contact.personId,
+                      on,
+                    }),
+                  )
+                }
+                onAnswer={(eventId, answer) =>
+                  run(() =>
+                    answerMeeting(world, {
+                      proposalEventId: eventId,
+                      answer,
+                    }),
+                  )
+                }
+                onOfferAnotherDay={(eventId, on) =>
+                  run(() =>
+                    offerAnotherDay(world, { proposalEventId: eventId, on }),
+                  )
+                }
+              />
+            ))}
         </ul>
       )}
       {note ? (

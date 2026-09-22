@@ -2,6 +2,7 @@ import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 
 import { describe, expect, it } from "vitest";
+import ts from "typescript";
 
 import { createNewGameWorld } from "../presentation/new-game";
 import { projectStoryMoment } from "../presentation/life-story";
@@ -761,7 +762,58 @@ describe("every committed line has a fact packet and a grounding verdict behind 
 /* 11 — nothing calls a model at runtime                                       */
 /* -------------------------------------------------------------------------- */
 
+function containsRuntimeModelCode(text: string): boolean {
+  if (
+    /@anthropic-ai\/|api\.(anthropic|openai)\.com|claude-(opus|sonnet|haiku|fable)|generateText\(/i.test(
+      text,
+    )
+  )
+    return true;
+  // Recorded tool names and prompt-history fields are data, not model calls.
+  // Inspect identifiers and module imports so labels do not hide real SDK use.
+  const source = ts.createSourceFile(
+    "runtime.tsx",
+    text,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX,
+  );
+  let found = false;
+  const visit = (node: ts.Node): void => {
+    if (ts.isIdentifier(node) && /^openai$/i.test(node.text)) found = true;
+    if (
+      ts.isStringLiteralLike(node) &&
+      /^(?:@openai\/|openai(?:\/|$))/i.test(node.text) &&
+      (ts.isImportDeclaration(node.parent) ||
+        ts.isExportDeclaration(node.parent) ||
+        ts.isCallExpression(node.parent))
+    )
+      found = true;
+    ts.forEachChild(node, visit);
+  };
+  visit(source);
+  return found;
+}
+
 describe("shipped play never depends on generating prose", () => {
+  it("distinguishes recorded tool labels from model SDKs and calls", () => {
+    expect(
+      containsRuntimeModelCode(
+        '({ key: "openai", label: "OpenAI image tool", text: parameters.openaiPrompt, model: parameters.openaiModel })',
+      ),
+    ).toBe(false);
+    for (const code of [
+      'import Client from "openai";',
+      'const Client = require("openai/resources");',
+      'const client = await import("@openai/agents");',
+      "new OpenAI({});",
+      "openai.responses.create({});",
+      'fetch("https://api.openai.com/v1/responses");',
+      'import Client from "@anthropic-ai/sdk";',
+      "generateText({});",
+    ])
+      expect(containsRuntimeModelCode(code), code).toBe(true);
+  });
   it("keeps every model call out of src/", () => {
     const offenders: string[] = [];
     const walk = (dir: string): void => {
@@ -776,11 +828,7 @@ describe("shipped play never depends on generating prose", () => {
         if (!/\.(ts|tsx)$/.test(entry.name)) continue;
         if (/\.test\.tsx?$/.test(entry.name)) continue;
         const text = readFileSync(path, "utf8");
-        if (
-          /@anthropic-ai\/|api\.anthropic\.com|claude-(opus|sonnet|haiku|fable)|openai|generateText\(/i.test(
-            text,
-          )
-        ) {
+        if (containsRuntimeModelCode(text)) {
           offenders.push(path);
         }
       }

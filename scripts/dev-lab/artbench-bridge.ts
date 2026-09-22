@@ -12,6 +12,7 @@ import type { Plugin } from "vite";
 
 import type { ArtbenchActor } from "../../src/authoring/artbench";
 import { originalDownloadName } from "../../src/authoring/art-desk-cards";
+import { requestDisplayCode } from "../../src/authoring/art-desk-request-code";
 import { isLoopbackAddress, originAllowed } from "./art-desk-bridge";
 import {
   ArtbenchError,
@@ -243,6 +244,16 @@ export function createArtbenchHandler(store: ArtbenchStore) {
               "PG_ARTBENCH_DATA_ROOT (project-scoped, outside the worktree)",
           },
           generatorAvailable: false,
+          notificationReadEventIds: store.notificationReadEventIds(),
+        });
+        return;
+      }
+      if (route === "notifications/read" && method === "POST") {
+        const body = JSON.parse(
+          (await readBody(request, MAX_JSON_BODY)).toString("utf8"),
+        ) as { eventIds?: unknown };
+        sendJson(response, 200, {
+          readEventIds: store.markNotificationsRead(body.eventIds, authority),
         });
         return;
       }
@@ -306,6 +317,27 @@ export function createArtbenchHandler(store: ArtbenchStore) {
         const actor = parsed.actor;
         const payload = body.payload ?? {};
         switch (body.type) {
+          case "message.posted": {
+            const event = store.postMessage(
+              {
+                requestId: String(payload.requestId ?? ""),
+                candidateId:
+                  typeof payload.candidateId === "string"
+                    ? payload.candidateId
+                    : undefined,
+                text: String(payload.text ?? ""),
+                kind: payload.kind as "question" | "reply" | "note",
+                replyTo:
+                  typeof payload.replyTo === "string"
+                    ? payload.replyTo
+                    : undefined,
+              },
+              actor,
+              authority,
+            );
+            sendJson(response, 201, { events: [event] });
+            return;
+          }
           case "qa.disposition": {
             const event = store.dispositionQa(
               {
@@ -365,6 +397,15 @@ export function createArtbenchHandler(store: ArtbenchStore) {
             sendJson(response, 201, { events: [event] });
             return;
           }
+          case "request.revised": {
+            const event = store.reviseRequest({
+              request: payload.request as never,
+              baseVersion: Number(payload.baseVersion),
+              actor,
+            });
+            sendJson(response, 201, { events: [event] });
+            return;
+          }
           case "request.created": {
             const event = store.createRequest({
               request: payload.request as never,
@@ -412,6 +453,47 @@ export function createArtbenchHandler(store: ArtbenchStore) {
       if (route === "original" && method === "GET") {
         const candidateId = url.searchParams.get("candidateId") ?? "";
         const { bytes, candidate } = store.original(candidateId);
+        if (
+          (url.searchParams.has("sha256") &&
+            url.searchParams.get("sha256") !== candidate.sha256) ||
+          (url.searchParams.has("revision") &&
+            url.searchParams.get("revision") !== String(candidate.revision))
+        ) {
+          throw new ArtbenchError(
+            409,
+            "revision-mismatch",
+            "The requested revision does not match the stored candidate.",
+          );
+        }
+        const projection = store.projection();
+        const contextId =
+          url.searchParams.get("requestId") ?? candidate.requestId;
+        const context = projection.requests[contextId]?.request;
+        const linkedReference = context?.target.styleReferences?.some(
+          (reference) =>
+            reference.ref === `candidate:${candidate.candidateId}` &&
+            reference.sha256 === candidate.sha256,
+        );
+        const code =
+          contextId === candidate.requestId || linkedReference
+            ? requestDisplayCode(projection, contextId)
+            : null;
+        const requestedName =
+          url.searchParams.get("name") ??
+          (linkedReference
+            ? "reference"
+            : (context?.title ?? candidate.candidateId));
+        const alias = code
+          ? `${code}-R${linkedReference ? context!.requestVersion : candidate.revision}`
+          : null;
+        const exportName = originalDownloadName(
+          alias && !requestedName.startsWith(`${alias}-`)
+            ? `${alias}-${requestedName}`
+            : requestedName,
+          candidate.sha256,
+          candidate.container,
+        );
+        response.setHeader("X-Artbench-Export-Name", exportName);
         response.statusCode = 200;
         response.setHeader(
           "Content-Type",
@@ -421,15 +503,12 @@ export function createArtbenchHandler(store: ArtbenchStore) {
         response.setHeader("Cache-Control", "no-store");
         response.setHeader("X-Artbench-Sha256", candidate.sha256);
         response.setHeader("X-Artbench-Candidate", candidate.candidateId);
+        response.setHeader("X-Artbench-Revision", String(candidate.revision));
         if (url.searchParams.get("download") === "1") {
           // A readable name plus the recorded hash: the bytes stay identifiable.
           response.setHeader(
             "Content-Disposition",
-            `attachment; filename="${originalDownloadName(
-              url.searchParams.get("name") ?? candidate.candidateId,
-              candidate.sha256,
-              candidate.container,
-            )}"`,
+            `attachment; filename="${exportName}"`,
           );
         }
         response.end(bytes);
@@ -447,9 +526,10 @@ export function createArtbenchHandler(store: ArtbenchStore) {
             url.searchParams.get("name"),
             requestId,
           );
+          const code = requestDisplayCode(store.projection(), requestId);
           response.setHeader(
             "Content-Disposition",
-            `attachment; filename="${stem}-brief.md"`,
+            `attachment; filename="${code ? `${code}-` : ""}${stem}-brief.md"`,
           );
         }
         response.end(text);

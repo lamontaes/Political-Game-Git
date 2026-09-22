@@ -11,8 +11,18 @@
  */
 
 import { MAP_MODE_LAYER, type MapMode } from "./political-map-model";
+import type { MapLayerId } from "./geometry-types";
+import type { ViewBox } from "./map-view";
 
 export interface MapPreferences {
+  readonly initialized?: boolean;
+  readonly selection?: {
+    readonly layer: MapLayerId;
+    readonly geoid: string;
+    readonly stateUsps: string;
+    readonly name: string;
+  } | null;
+  readonly view?: ViewBox;
   readonly mode: MapMode;
   /** Focused state or D.C. postal code; null is the national view. */
   readonly stateUsps: string | null;
@@ -42,7 +52,32 @@ export function readMapPreferences(value: unknown): MapPreferences {
     typeof record.mode === "string" && MODES.has(record.mode)
       ? (record.mode as MapMode)
       : DEFAULT_MAP_PREFERENCES.mode;
+  const selected = record.selection as MapPreferences["selection"];
+  const view = record.view as MapPreferences["view"];
   return {
+    ...(record.initialized === true ? { initialized: true } : {}),
+    ...(record.selection === null
+      ? { selection: null }
+      : selected &&
+          [
+            "state",
+            "congressional",
+            "state-upper",
+            "state-lower",
+            "county",
+            "place",
+          ].includes(selected.layer) &&
+          typeof selected.geoid === "string" &&
+          typeof selected.name === "string" &&
+          typeof selected.stateUsps === "string"
+        ? { selection: selected }
+        : {}),
+    ...(view &&
+    [view.x, view.y, view.w, view.h].every(Number.isFinite) &&
+    view.w > 0 &&
+    view.h > 0
+      ? { view }
+      : {}),
     // A state-only layer without a state would draw nothing; fall back.
     mode:
       stateUsps || mode === "house" || mode === "senate"
