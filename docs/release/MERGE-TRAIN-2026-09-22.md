@@ -261,6 +261,54 @@ current branch with no verdict at all. When the verdict arrives, the head it
 ran on is named beside it, and that head is the claim — not `main` as it
 stands when someone reads the report.
 
+**The trade paid off, and the verdict is partial.** Run
+[35706104688](https://github.com/lamontaes/Political-Game-Git/actions/runs/35706104688)
+on **`eb0abea1`** was created 08:40Z, allocated its fifteen jobs at 09:01Z and
+started executing at 09:37Z — **fifty-seven minutes queued.** It survived
+because nothing pushed to the branch in that hour. Every earlier attempt died
+pending because something did.
+
+Shard by shard, read at 10:20Z, on `eb0abea1`:
+
+| Job              | Result                      | When                     |
+| ---------------- | --------------------------- | ------------------------ |
+| `unit (5, 6)`    | **green**                   | 09:38:32–09:43:48, 5m16s |
+| `browser (6, 8)` | **red**, 9 failed 54 passed | 09:46:55–10:04:29, 17.6m |
+| `browser (4, 8)` | running                     | since 10:06:06           |
+| `browser (2, 8)` | running                     | since 10:15:32           |
+| the other eleven | **still queued**            | —                        |
+
+**Two of fifteen have reported.** `repository`, five of the six unit shards and
+five browser shards had not started at 10:20Z.
+
+**The one red is main's, established by title rather than by shard number.**
+`browser (6, 8)` failed with exactly the nine spec-and-title pairs main's own
+`browser (6, 8)` failed at `7fc33c85`, and with the same 9-failed / 54-passed
+split. The fix-main lane independently reproduced all nine at `445441a5` the
+same way. The release adds nothing to them. It was not re-run: an identical
+match against the base branch is stronger than a second run of the same shard,
+and a re-run would cost 17.6 minutes out of the queue the other eleven shards
+are still sitting in. Recorded on the pull request as
+[a comment](https://github.com/lamontaes/Political-Game-Git/pull/277#issuecomment-5774630845).
+
+**Two of those nine were this lane's and are now fixed on `main` as #351** —
+and they were not what they were filed as. `pt3-microfix-version.spec.ts:81`
+was timing out on `play-screen` two steps before its first assertion about the
+version stamp, because `questionnaire-finish` reads **"Review appearance"** and
+returns the player to the creator's appearance step with Begin still to press.
+The test id had outlived the button's meaning. Reproduced first, then fixed:
+both cases failed and the file's third case passed, which is precisely the
+split CI reported here; after the change all three pass in 56.2s. The fix went
+to `main` rather than to this branch, because pushing here would have killed
+the run above.
+
+**What this means for the morning report.** At the rate the queue is moving —
+eight browser shards at 18 to 40 minutes each against roughly three slots — the
+release will not have a complete verdict by nine o'clock. **The honest sentence
+is that the 0.4.0 release has one green unit shard and one inherited red
+browser shard on `eb0abea1`, and thirteen jobs outstanding.** Not "the release
+is verified", and not "the release is failing" either.
+
 ## Withdrawn: the three-menu-destinations claim, which is in a merge commit
 
 **If you came here from git history, read this before believing a commit
