@@ -11,7 +11,7 @@ import { projectRunADossier } from "./run-a-projection";
  *
  *   1. Every birthplace and residence on the player's dossier was run through
  *      `runAPlaceDisplayName`, the Run-A development fixture's helper, which
- *      recognised exactly one place by literal. A character from Lexington read
+ *      recognized exactly one place by literal. A character from Lexington read
  *      correctly; a character from anywhere else was shown whatever filing name
  *      the jurisdiction record carried.
  *   2. `createDemoWorld` defaults its jurisdiction to Lexington when none is
@@ -99,7 +99,7 @@ describe("the dossier names a place the way the catalog does", () => {
     expect(place).toBeDefined();
     if (place.id === "hometown") {
       // No recorded place fact. Saying so is the truthful answer; an unknown
-      // place is not a licence to name one.
+      // place is not a license to name one.
       expect(place.value).toBe("Not known");
       return;
     }

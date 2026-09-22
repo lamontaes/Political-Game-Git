@@ -569,7 +569,7 @@ function capitalize(text: string): string {
  * The organization's recorded profile name, or null.
  *
  * Read from the same store `narrative-threads` titles from, so a thread whose
- * title fell back to "Work" or "Something in the neighbourhood" is detected by
+ * title fell back to "Work" or "Something in the neighborhood" is detected by
  * the absence of the record rather than by matching the fallback string.
  */
 function organizationName(

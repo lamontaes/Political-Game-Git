@@ -19,7 +19,7 @@ import { isUsState } from "./state-executive-candidacy-packs";
  * - `game-profile`: the disclosed, versioned simulation rule the game uses
  *   where the real rule is not compiled. It lets the ordinary campaign-to-office
  *   loop run in every state. It is NOT a claim about that state's law, it is
- *   never copied from a neighboring state, and it is labelled wherever a
+ *   never copied from a neighboring state, and it is labeled wherever a
  *   player inspects the office.
  *
  * A game profile may be CALIBRATED by the NATIONWIDE1 research baseline: the

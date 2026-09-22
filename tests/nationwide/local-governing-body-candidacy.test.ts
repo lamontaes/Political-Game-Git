@@ -13,6 +13,7 @@ import {
   searchLifePlaces,
   serializeWorld,
 } from "../../src/simulation";
+import { activeOrganizationParticipationsAt } from "../../src/simulation/life-queries";
 import type { EntityId, World } from "../../src/simulation";
 import {
   fileForOffice,
@@ -40,6 +41,7 @@ const BOWLING_GREEN = "2108902";
 const BOISE = "1608830";
 const PADUCAH = "2158836";
 const AMERICAN_FALLS = "1601900";
+const ELY = "2719142";
 
 function adultLifeAt(placeKey: string, seed: string) {
   const game = generateOpeningLife(
@@ -240,6 +242,34 @@ describe("standing for the town's governing body and taking the seat", () => {
     // world's integrity and the world now holds its legislators.
     20_000,
   );
+});
+
+describe("standing again after a race is over", () => {
+  // Found in a playtest in Ely, Minnesota: after one council race the game
+  // never offered another filing, and a sitting member's re-election refused
+  // its own result.
+  it("Ely, Minnesota: files, wins, and stands again twice, keeping one seat", () => {
+    const { world: opening, personId } = adultLifeAt(ELY, "town-body-again");
+    const home = opening.people[personId]!.homeJurisdictionId;
+    const body = localGoverningBodiesForJurisdiction(home)[0]!;
+    let world = opening;
+    for (const race of [1, 2, 3]) {
+      // Picking the office again offers the filing, whatever came before.
+      expect(projectCampaign(world, personId, body.officeKey).phase).toBe(
+        "can-file",
+      );
+      world = fileForOffice(world, personId, null, body.officeKey);
+      expect(world.history.electionContests!.length).toBe(race);
+      world = runToElection(world, personId, suppliedWin(personId));
+      // Until another office is picked, the last race's result stays up.
+      expect(projectCampaign(world, personId).phase).toBe("won");
+      const seats = activeOrganizationParticipationsAt(world, personId).filter(
+        (active) => active.state.roleKind === "leader:municipal-member",
+      );
+      expect(seats).toHaveLength(1);
+      expect(localGoverningSeatFor(world, personId)).not.toBeNull();
+    }
+  }, 120_000);
 });
 
 // 19,480 municipalities join to a place; 18 of them are not functionally active.

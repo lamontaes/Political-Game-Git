@@ -1159,9 +1159,10 @@ const CORPORA_BY_VERSION: Readonly<Record<string, NameCorpus>> = {
  * out here rather than computed so it can be read and corrected by hand.
  *
  * `neutral` holds the names the published counts do not put decisively on
- * either side. It is the pool a stated non-binary identity draws from, and it
- * is a smaller list than the other two — which is a fact about the starter
- * corpus, not a statement about people.
+ * either side. It is the pool a stated non-binary identity draws from, and one
+ * a stated man or woman may draw from as well (`GIVEN_NAME_POOL_REACH_V1`
+ * below). It is a smaller list than the other two — which is a fact about
+ * the starter corpus, not a statement about people.
  *
  * A player who states nothing draws from the whole corpus exactly as before.
  */
@@ -1525,6 +1526,47 @@ export const GIVEN_NAME_GENERATION_POOLS_V1: GivenNameGenerationPools = {
     "Tracy",
   ],
 };
+
+/**
+ * Which pools a stated gender draws its given name from. An AUTHORED GAME
+ * RULE, written here as data so it can be read and changed by hand; it is not
+ * a measured rate and nothing should cite it as one.
+ *
+ * A name both sexes carried is not reserved for non-binary people. Jordan,
+ * Taylor, Jamie and Terry each appear on both the boys' and the girls' SSA
+ * top 100 of the same decade, and until this rule a woman drawn by the game
+ * could never be called Jordan, by any path. So a stated man or woman reaches
+ * the shared pool as well as their own; a stated non-binary person draws from
+ * the shared pool, as before.
+ *
+ * Every name reached is equally likely, which is the weighting the whole
+ * corpus has always had. Real frequencies vary by name and by birth year and
+ * wait on SSA's per-name, per-year counts, which nobody has compiled yet (see
+ * `docs/research/requests/cross-gender-given-name-rate.json`). When they
+ * arrive they replace the weighting, not this direction: a gender goes in and
+ * a name comes out, and no name is ever read back to decide a gender.
+ *
+ * The player's own typed name always overrides anything drawn here.
+ */
+export const GIVEN_NAME_POOL_REACH_V1: Readonly<
+  Record<
+    "male" | "female" | "nonbinary",
+    readonly (keyof GivenNameGenerationPools)[]
+  >
+> = {
+  male: ["male", "neutral"],
+  female: ["female", "neutral"],
+  nonbinary: ["neutral"],
+};
+
+/** The names a stated gender can be given, under `GIVEN_NAME_POOL_REACH_V1`. */
+export function givenNamePoolForStatedGender(
+  gender: "male" | "female" | "nonbinary",
+): readonly string[] {
+  return GIVEN_NAME_POOL_REACH_V1[gender].flatMap(
+    (pool) => GIVEN_NAME_GENERATION_POOLS_V1[pool],
+  );
+}
 
 export function getNameCorpus(version = DEFAULT_CORPUS_VERSION): NameCorpus {
   const corpus = CORPORA_BY_VERSION[version];

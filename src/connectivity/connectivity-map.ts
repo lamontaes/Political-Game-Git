@@ -69,6 +69,56 @@ export interface ConnectivityPart {
   readonly detail: string;
 }
 
+/**
+ * Two producers of one thing, when a subject has them.
+ *
+ * The dual-systems count (docs/playtest/dual-systems-count-2026-09-22.md)
+ * found six pairs where the game makes the same thing in two places and the
+ * two disagree today. A fix that lands on one of them and not the other is
+ * how a repaired defect comes back, so the map says which producer a player
+ * actually meets.
+ *
+ * `not-walked` is its own answer. Which producer the CODE reaches is an
+ * import-and-call-site finding; which one a PLAYER reaches is found by
+ * walking the route in the running game, and the two have disagreed in this
+ * project before. An unwalked producer is never reported as unreached.
+ */
+export type ProducerReach = "reaches" | "does-not-reach" | "not-walked";
+
+export const PRODUCER_REACHES: readonly ProducerReach[] = [
+  "reaches",
+  "does-not-reach",
+  "not-walked",
+];
+
+/** What the two disagree about: the values, the rules, or how far each reaches. */
+export type DisagreementKind = "data" | "rules" | "coverage";
+
+export const DISAGREEMENT_KINDS: readonly DisagreementKind[] = [
+  "data",
+  "rules",
+  "coverage",
+];
+
+export interface ConnectivityProducer {
+  /** The module that produces it, by path under src/. */
+  readonly path: string;
+  /** The tree the path was read at, because a module moves. */
+  readonly at: string;
+  readonly reachedByPlay: ProducerReach;
+  /** The route walked — town, character, screen — or why it was not. */
+  readonly reachDetail: string;
+}
+
+export interface ConnectivityDuplication {
+  /** At least two. One producer is not a duplication. */
+  readonly producers: readonly ConnectivityProducer[];
+  readonly kind: DisagreementKind;
+  /** Whether a player can see the two disagree, or only the code can. */
+  readonly playerVisible: boolean;
+  readonly visibilityDetail: string;
+}
+
 export interface ConnectivityEntry {
   readonly mapVersion: string;
   /** Kebab-case, unique, and the entry's filename. */
@@ -84,7 +134,7 @@ export interface ConnectivityEntry {
   /**
    * Whether shipped content names this subject although nothing above is
    * there. This is the case the map exists for: a declared policy domain, a
-   * named federal programme, a catalogue row. The name makes it look present
+   * named federal program, a catalog row. The name makes it look present
    * to every check we have.
    */
   readonly declaredInContent: boolean;
@@ -113,6 +163,8 @@ export interface ConnectivityEntry {
    * in full at the top and left out of its band, so nothing is said twice.
    */
   readonly opensTheDocument?: string;
+  /** Two producers of this subject, when the game has two. */
+  readonly duplication?: ConnectivityDuplication;
   /** Anything a reader needs that does not fit above. */
   readonly notes?: readonly string[];
 }
@@ -206,7 +258,7 @@ export function validateConnectivityEntries(
     } else if (entry.declaredInContent && !nonEmpty(entry.declaredDetail)) {
       fail(
         "undeclared-declaration",
-        "declaredInContent is true, so declaredDetail must say where it is declared — the pack, the catalogue row, the programme name.",
+        "declaredInContent is true, so declaredDetail must say where it is declared — the pack, the catalog row, the program name.",
       );
     }
 
@@ -221,6 +273,54 @@ export function validateConnectivityEntries(
         "missing-re-measured",
         "reMeasuredByPublisher is required. A carried reading and a re-measured one are different evidence, and leaving it out publishes the stronger claim by default.",
       );
+    }
+
+    if (entry.duplication !== undefined) {
+      const duplication = entry.duplication;
+      const producers = Array.isArray(duplication?.producers)
+        ? duplication.producers
+        : [];
+      if (producers.length < 2) {
+        fail(
+          "single-producer",
+          "duplication needs at least two producers. One producer is not a duplication, and recording it as one sends somebody looking for a second that does not exist.",
+        );
+      }
+      for (const producer of producers) {
+        if (!nonEmpty(producer?.path) || !nonEmpty(producer?.reachDetail)) {
+          fail(
+            "empty-producer",
+            "Every producer needs its module path and what was walked to establish whether a player reaches it.",
+          );
+        }
+        if (!nonEmpty(producer?.at)) {
+          fail(
+            "unanchored-producer",
+            `A producer of '${id}' names no tree or commit. Module paths move, and one read at no named head cannot be found again.`,
+          );
+        }
+        if (!PRODUCER_REACHES.includes(producer?.reachedByPlay)) {
+          fail(
+            "unknown-producer-reach",
+            `reachedByPlay '${String(producer?.reachedByPlay)}' is not one of ${PRODUCER_REACHES.join(", ")}. A producer nobody walked to is 'not-walked', never 'does-not-reach'.`,
+          );
+        }
+      }
+      if (!DISAGREEMENT_KINDS.includes(duplication?.kind)) {
+        fail(
+          "unknown-disagreement",
+          `kind '${String(duplication?.kind)}' is not one of ${DISAGREEMENT_KINDS.join(", ")}.`,
+        );
+      }
+      if (
+        typeof duplication?.playerVisible !== "boolean" ||
+        !nonEmpty(duplication?.visibilityDetail)
+      ) {
+        fail(
+          "missing-visibility",
+          "duplication needs playerVisible and visibilityDetail. Whether a player can see the two disagree decides whether this is a defect today or a trap for the next fix.",
+        );
+      }
     }
 
     const measurements = entry.measurements ?? [];
@@ -427,6 +527,38 @@ function partLine(name: string, part: ConnectivityPart): string {
   return `**${name}.** ${part.present ? "Yes" : "No"} — ${part.detail}`;
 }
 
+const PRODUCER_REACH_WORDS: Readonly<Record<ProducerReach, string>> = {
+  reaches: "a player reaches it",
+  "does-not-reach": "a player does not reach it",
+  "not-walked": "not walked, so whether a player reaches it is not known",
+};
+
+const DISAGREEMENT_WORDS: Readonly<Record<DisagreementKind, string>> = {
+  data: "they disagree about values",
+  rules: "they disagree about rules",
+  coverage: "they disagree about how far each reaches",
+};
+
+function renderDuplication(
+  duplication: ConnectivityDuplication,
+): readonly string[] {
+  const lines: string[] = [
+    `**Made in ${duplication.producers.length} places.** ${capitalize(DISAGREEMENT_WORDS[duplication.kind])}. ${duplication.playerVisible ? "A player can see it." : "Only the code can see it."} ${duplication.visibilityDetail}`,
+    "",
+  ];
+  for (const producer of duplication.producers) {
+    lines.push(
+      `- \`${producer.path}\` at ${producer.at}: ${PRODUCER_REACH_WORDS[producer.reachedByPlay]}. ${producer.reachDetail}`,
+    );
+  }
+  lines.push("");
+  return lines;
+}
+
+function capitalize(text: string): string {
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
 function renderEntry(entry: ConnectivityEntry): readonly string[] {
   const lines: string[] = [
     `### ${entry.title}`,
@@ -450,6 +582,9 @@ function renderEntry(entry: ConnectivityEntry): readonly string[] {
     `**A player.** ${PLAYER_REACH_SENTENCE[entry.playerReach]} ${entry.playerReachDetail}`,
     "",
   );
+  if (entry.duplication !== undefined) {
+    lines.push(...renderDuplication(entry.duplication));
+  }
   if (!entry.reMeasuredByPublisher) {
     lines.push(
       "**Carried, not re-measured here.** This is the filing lane's",

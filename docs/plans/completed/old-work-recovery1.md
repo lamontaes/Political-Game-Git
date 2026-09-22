@@ -23,7 +23,7 @@ Status: complete
 - Durable packet: `docs/agent/history/old-work-recovery1.md`.
 - Exact per-file/blob dispositions for #92/#98/#100 and empty-carrier proof for #106.
 - Finite recovery results for Jules task `3173115192154108533`, 49R1, and `political_game_research_handoff_v1.zip`.
-- Existing-owner acknowledgements for all transferred live findings.
+- Existing-owner acknowledgments for all transferred live findings.
 - Actual GitHub closures of #92, #98, #100, and #106, verified at unchanged heads.
 
 ## Validation

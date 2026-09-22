@@ -187,8 +187,8 @@ carried an _aftermath_ — an obligation, a grievance, goodwill, or standing —
 
 The code is explicit that these are **pacing numbers, not research**:
 
-> _"Presentation pacing, and labelled as such. There is no survey that says how
-> long a favour stays owed, and the research is explicit that inventing one would
+> _"Presentation pacing, and labeled as such. There is no survey that says how
+> long a favor stays owed, and the research is explicit that inventing one would
 > be worse than admitting the gap. What these numbers do is stop everything
 > landing in the same month."_
 
@@ -257,7 +257,7 @@ on what the subject says is available, which depends on the progress so far.
 
 The **five subjects** are: a constituent referral in an office, a bill provision
 with a briefing lead, who does the errands at home, who does which half of a
-school project, and a notice about a neighbourhood meeting.
+school project, and a notice about a neighborhood meeting.
 
 **In the shipped game, only the household one is reachable.** The other four are
 real, tested, and behind a developer route. **[MAIN-PLAYABLE]** for one;
@@ -535,7 +535,7 @@ not a log.
 
 It also refuses to show noise: `readable()` suppresses any entry whose summary is
 under twelve characters, on the grounds that a two-word record is a machine
-artefact, not a memory.
+artifact, not a memory.
 
 ### Narrative threads **[OPEN-PR #87]**
 
@@ -998,7 +998,7 @@ system in the repository.
 ### Incidents — things that happen to people **[MAIN-SUBSTRATE]**
 
 `recordActorInitiatedIncident`, `recordIncidentTransitionPlan`. 1,084 lines plus
-a 363-line catalogue plus 731 lines of integrity checks. No production caller.
+a 363-line catalog plus 731 lines of integrity checks. No production caller.
 
 ### World metrics and causal effects **[MAIN-SUBSTRATE]**
 
@@ -1010,7 +1010,7 @@ in play produces or consumes a metric.
 ### Evidence **[MAIN-SUBSTRATE]**
 
 `recordEvidenceArtifact`, `recordEvidenceDiscovery`. The ability to find out a
-fact through an artefact — a document, a record, a discovery — exists and is
+fact through an artifact — a document, a record, a discovery — exists and is
 unused.
 
 ### Mind — goals, values, personality **[MAIN-SUBSTRATE]**
@@ -1103,7 +1103,7 @@ matter, and what defends them.
 **What it looks like:** the game says "because you helped Marcus last year, Dana
 came to you" when nothing recorded a connection.
 **Why it is fatal:** it is the one lie a player can catch and never trust again.
-**Defence:** threads require a declared link basis. Adjacency is never a link.
+**Defense:** threads require a declared link basis. Adjacency is never a link.
 Every episode requirement keeps the record ids that satisfied it.
 
 ## 2. Leaking mechanism into player copy
@@ -1111,7 +1111,7 @@ Every episode requirement keeps the record ids that satisfied it.
 **What it looks like:** "This is a _pressing_ situation" or "your _civic-order_
 score shifted."
 **Why it is fatal:** it turns a life into a spreadsheet.
-**Defence:** `life-opacity.test.ts` fails the build if any of `stakes`,
+**Defense:** `life-opacity.test.ts` fails the build if any of `stakes`,
 `pressing`, `notable`, `cross-pressure`, `dormant`, `thread key`, `instance key`,
 `episode key`, `salience`, `confidence`, `prior`, `weight` or `dimension` reaches
 a player surface — and separately forbids player modules from importing the
@@ -1121,7 +1121,7 @@ diagnostics module at all.
 
 **What it looks like:** you promised something, time passed, and nothing
 happened — with no reason.
-**Defence:** `advanceWorld` throws rather than stepping over a due item it has no
+**Defense:** `advanceWorld` throws rather than stepping over a due item it has no
 handler for. Six separate checks verify a handler did not mutate its input, move
 the clock, change world identity, or rewrite history.
 
@@ -1129,28 +1129,28 @@ the clock, change world identity, or rewrite history.
 
 **What it looks like:** the same seed gives two different lives; a bug cannot be
 reproduced; the replay tests become meaningless.
-**Defence:** a seeded RNG, canonical JSON key ordering, SHA-256 tie-breaks, and
+**Defense:** a seeded RNG, canonical JSON key ordering, SHA-256 tie-breaks, and
 in-browser seed-replay e2e tests.
 
 ## 5. Presentation writing to canonical state
 
 **What it looks like:** a screen "fixes" a record to make itself look right, and
 the world quietly diverges from its own history.
-**Defence:** `assertWorldIntegrity` before and after every mutation; the
+**Defense:** `assertWorldIntegrity` before and after every mutation; the
 architecture-integrity test; the separation of projection functions (read) from
 write functions.
 
 ## 6. Handing a generated stranger somebody else's face
 
 **What it looks like:** every third NPC looks like the same two drawn people.
-**Defence:** `PersonPortrait` checks the authored appearance seeds and draws
+**Defense:** `PersonPortrait` checks the authored appearance seeds and draws
 initials rather than borrowing a likeness.
 
 ## 7. Component state diverging from world state
 
 **What it looks like:** you save mid-conversation, reload, and are back at turn
 one of a conversation the world remembers you finishing.
-**Defence:** `HouseholdConversation` derives both its progress and its turn
+**Defense:** `HouseholdConversation` derives both its progress and its turn
 ordinal from `world.history`, never from React state. This was a real bug and
 this is the fix.
 
@@ -1160,14 +1160,14 @@ this is the fix.
 **Why it matters:** it is the same class of error as the "central ministry" the
 packet itself names, and it silently makes the game feel like it is about
 somewhere else.
-**Defence:** none automated. This wave's new copy had to be corrected by hand.
+**Defense:** none automated. This wave's new copy had to be corrected by hand.
 See 60C improvement #12.
 
 ## 9. A packet's boundary outliving its packet
 
 **What it looks like:** a test that once enforced ownership starts failing every
 future wave because it measures the working tree.
-**Defence:** boundary tests are closed at a specific commit range
+**Defense:** boundary tests are closed at a specific commit range
 (`b986fbe..6311dd6`), not left open-ended. This wave's own boundary test caught a
 scratch Playwright config that `git add -A` had swept in.
 
@@ -1175,7 +1175,7 @@ scratch Playwright config that `git add -A` had swept in.
 
 **What it looks like:** the cold-start life-shape uniformity gets "fixed" by
 adding randomness, and a real upstream defect is buried.
-**Defence:** the gap is pinned as a test that fails when it is fixed, and stated
+**Defense:** the gap is pinned as a test that fails when it is fixed, and stated
 plainly in the completion report as an upstream `generateQuickCharacterHistory`
 issue that this wave does not own.
 
@@ -1704,7 +1704,7 @@ its limits is the feature.
 
 ---
 
-# PART THREE — THE SYSTEMS CATALOGUE
+# PART THREE — THE SYSTEMS CATALOG
 
 Forty-four named systems. Each is described with the same eleven points, in the
 same order, so you can compare any two of them:
@@ -2093,7 +2093,7 @@ same order, so you can compare any two of them:
 4. **What it does for a player.** Nothing yet.
 5. **What it reads.** The world.
 6. **What it writes.** Death and capacity records.
-7. **What decides its behaviour.** A catalogue of vitality states.
+7. **What decides its behaviour.** A catalog of vitality states.
 8. **Worked example.** None exists in play.
 9. **What it cannot do.** Be reached. **Nobody in this game can die.**
 10. **What breaks if it is wrong.** Nothing today — which is the problem.
@@ -2139,15 +2139,15 @@ same order, so you can compare any two of them:
 
 ### SYSTEM 22 — EVIDENCE
 
-1. **What it is.** Artefacts that carry facts, and the discovery of them.
+1. **What it is.** Artifacts that carry facts, and the discovery of them.
 2. **Where it lives.** `src/simulation/evidence.ts` (340),
    `evidence-integrity.ts` (508).
 3. **Status.** **[MAIN-SUBSTRATE]** — `recordEvidenceArtifact` and
    `recordEvidenceDiscovery` have no caller outside `evidence.ts`.
 4. **What it does for a player.** Nothing yet.
 5. **What it reads.** The world.
-6. **What it writes.** Artefacts and discoveries.
-7. **What decides its behaviour.** An artefact establishes a fact; discovering it
+6. **What it writes.** Artifacts and discoveries.
+7. **What decides its behaviour.** An artifact establishes a fact; discovering it
    is a separate event.
 8. **Worked example.** None in play.
 9. **What it cannot do.** Be reached. There is no "you found out" moment in the game.
@@ -2167,7 +2167,7 @@ same order, so you can compare any two of them:
 5. **What it reads.** The world.
 6. **What it writes.** `recordActorInitiatedIncident`,
    `recordIncidentTransitionPlan`, `recordCausalProcess`.
-7. **What decides its behaviour.** An incident has a catalogue entry and a plan.
+7. **What decides its behaviour.** An incident has a catalog entry and a plan.
 8. **Worked example.** None in play.
 9. **What it cannot do.** Be triggered by anything a player does.
 10. **What breaks if it is wrong.** Two of the 35 adult situations can never fire.
@@ -2599,7 +2599,7 @@ same order, so you can compare any two of them:
 
 ## GROUP EIGHT — PRESENTATION, GRAPHICS AND PERSISTENCE
 
-_(Summarised here; 60B is the full treatment.)_
+_(Summarized here; 60B is the full treatment.)_
 
 ### SYSTEM 45 — SCENE REGISTRY AND ENVIRONMENT SPECS
 
@@ -2680,7 +2680,7 @@ one step; an _instance_ is one run of the family bound to specific people.
 **Event** — the atom of "something happened", with participants who each carry a
 role saying how they were involved.
 
-**Formative years** — ages 5 to 18, played as beats rather than summarised, if the
+**Formative years** — ages 5 to 18, played as beats rather than summarized, if the
 player chooses that depth at setup.
 
 **Future due item** — something dated that will happen. It resolves when time
@@ -2712,7 +2712,7 @@ and knowledge record that produced it.
 can name its source record, or say honestly that it read a person's own fields.
 
 **Register** — one of six subject areas a calibration question belongs to. The
-selector penalises asking two in a row from the same one.
+selector penalizes asking two in a row from the same one.
 
 **Replay descriptor** — the seed plus the setup priors, kept separate so that
 changing a prior cannot silently change the world.

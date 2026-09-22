@@ -153,3 +153,92 @@ describe("the rendered map", () => {
     ]);
   });
 });
+
+describe("a subject the game makes in two places", () => {
+  const twoProducers = {
+    producers: [
+      {
+        path: "src/simulation/governing/program-families.ts",
+        at: "main at 7e011a42",
+        reachedByPlay: "reaches" as const,
+        reachDetail: "Walked: a Colorado governor's first-year agenda.",
+      },
+      {
+        path: "src/simulation/legislation-program-families.ts",
+        at: "main at 7e011a42",
+        reachedByPlay: "not-walked" as const,
+        reachDetail: "Nobody has walked this one yet.",
+      },
+    ],
+    kind: "coverage" as const,
+    playerVisible: true,
+    visibilityDetail: "A governor is offered 13 subjects, a legislator 20.",
+  };
+
+  it("accepts two anchored producers", () => {
+    expect(codes([entry({ duplication: twoProducers })])).toEqual([]);
+  });
+
+  it("refuses a duplication with one producer", () => {
+    expect(
+      codes([
+        entry({
+          duplication: {
+            ...twoProducers,
+            producers: [twoProducers.producers[0]!],
+          },
+        }),
+      ]),
+    ).toEqual(["single-producer"]);
+  });
+
+  it("refuses a producer read at no named tree", () => {
+    expect(
+      codes([
+        entry({
+          duplication: {
+            ...twoProducers,
+            producers: [
+              twoProducers.producers[0]!,
+              { ...twoProducers.producers[1]!, at: " " },
+            ],
+          },
+        }),
+      ]),
+    ).toEqual(["unanchored-producer"]);
+  });
+
+  it("refuses a disagreement kind or visibility it cannot read", () => {
+    expect(
+      codes([
+        entry({
+          duplication: {
+            ...twoProducers,
+            kind: "vibes" as never,
+            visibilityDetail: "",
+          },
+        }),
+      ]),
+    ).toEqual(["unknown-disagreement", "missing-visibility"]);
+  });
+
+  it("says an unwalked producer is unknown, never unreached", () => {
+    const document = renderConnectivityMap(
+      [entry({ duplication: twoProducers })],
+      "2026-09-22T00:00:00.000Z",
+    );
+    expect(document).toContain("**Made in 2 places.**");
+    expect(document).toContain(
+      "`src/simulation/legislation-program-families.ts` at main at 7e011a42: not walked, so whether a player reaches it is not known.",
+    );
+    expect(document).not.toMatch(
+      /legislation-program-families\.ts` at main at 7e011a42: a player does not reach it/,
+    );
+  });
+
+  it("renders nothing extra for an entry with one producer", () => {
+    expect(
+      renderConnectivityMap([entry()], "2026-09-22T00:00:00.000Z"),
+    ).not.toContain("Made in");
+  });
+});

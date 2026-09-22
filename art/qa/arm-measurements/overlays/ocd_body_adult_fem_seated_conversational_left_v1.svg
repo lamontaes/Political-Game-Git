@@ -20,7 +20,7 @@
   <circle cx="115" cy="770" r="3" fill="#dc2626" />
   <circle cx="106" cy="795" r="3" fill="#dc2626" />
   <circle cx="98" cy="819" r="3" fill="#dc2626" />
-  <circle cx="80" cy="452" r="10" fill="#1f9d55" fill-opacity="0.85" stroke="#ffffff" stroke-width="2"><title>left shoulder: measured — Outer silhouette edge at the shoulder row — the first row at or below the neck reaching 92% of the widest painted width within 15% of figure height, the rule the accepted body rig uses. A silhouette shoulder, not the joint centre; on a pose whose upper arm lifts above the shoulder line the row moves with it.</title></circle>
+  <circle cx="80" cy="452" r="10" fill="#1f9d55" fill-opacity="0.85" stroke="#ffffff" stroke-width="2"><title>left shoulder: measured — Outer silhouette edge at the shoulder row — the first row at or below the neck reaching 92% of the widest painted width within 15% of figure height, the rule the accepted body rig uses. A silhouette shoulder, not the joint center; on a pose whose upper arm lifts above the shoulder line the row moves with it.</title></circle>
   <polyline points="484,452 489,473 493,494 497,515 501,537 505,558 509,579 514,600 519,621 542,642 581,663 628,684 750,706 778,727 786,748 769,769" fill="none" stroke="#111827" stroke-width="3" />
   <circle cx="484" cy="452" r="3" fill="#dc2626" />
   <circle cx="489" cy="473" r="3" fill="#dc2626" />
@@ -36,7 +36,7 @@
   <circle cx="628" cy="684" r="3" fill="#dc2626" />
   <circle cx="750" cy="706" r="3" fill="#dc2626" />
   <circle cx="778" cy="727" r="3" fill="#dc2626" />
-  <circle cx="484" cy="452" r="10" fill="#1f9d55" fill-opacity="0.85" stroke="#ffffff" stroke-width="2"><title>right shoulder: measured — Outer silhouette edge at the shoulder row — the first row at or below the neck reaching 92% of the widest painted width within 15% of figure height, the rule the accepted body rig uses. A silhouette shoulder, not the joint centre; on a pose whose upper arm lifts above the shoulder line the row moves with it.</title></circle>
+  <circle cx="484" cy="452" r="10" fill="#1f9d55" fill-opacity="0.85" stroke="#ffffff" stroke-width="2"><title>right shoulder: measured — Outer silhouette edge at the shoulder row — the first row at or below the neck reaching 92% of the widest painted width within 15% of figure height, the rule the accepted body rig uses. A silhouette shoulder, not the joint center; on a pose whose upper arm lifts above the shoulder line the row moves with it.</title></circle>
   <line x1="484" y1="452" x2="485" y2="732" stroke="#d97706" stroke-width="3" />
   <circle cx="485" cy="732" r="10" fill="#d97706" fill-opacity="0.85" stroke="#ffffff" stroke-width="2"><title>right elbow: partially-measured — Root end of the separated segment where it meets the fused silhouette. The arm is carried forward or raised, so the segment that clears the torso is the forearm and the joint lies at or inside the fused boundary; this is the nearest the alpha gets to it.</title></circle>
   <circle cx="786" cy="751" r="10" fill="#d97706" fill-opacity="0.85" stroke="#ffffff" stroke-width="2"><title>right extremity: partially-measured — Far end of the separated segment along its principal axis. Not shown to be a hand.</title></circle>

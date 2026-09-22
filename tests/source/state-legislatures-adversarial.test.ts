@@ -784,8 +784,8 @@ describe("state instruments: evidence binds to the authority it names", () => {
 
   it("refuses repackaged 92K material even under an innocuous name", () => {
     /*
-     * The old defence was a list of strings to look for, which a rename walked
-     * past. The defence now is that the artifact has to be one this domain
+     * The old defense was a list of strings to look for, which a rename walked
+     * past. The defense now is that the artifact has to be one this domain
      * declared it retrieved, so the name it arrives under does not matter.
      */
     const doctored = replaceChamber(

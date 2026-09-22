@@ -32,9 +32,9 @@ These shipped subjects have no explicit linked research item in this comparison 
 
 A broad research heading might accommodate these later. That possibility is not an actual issue mapping, nor a reason to delete or silently remap an existing proposition. Other rows are only partial overlaps: maternal/child clinical health is not child protection; professional scope is not merely professional entry licensing; consumer protection is not insurance-market solvency; an appropriation is not transport delivery.
 
-## Real use, rather than another catalogue
+## Real use, rather than another catalog
 
-Expose the cross-classification through existing browse/referral views where useful. Leave saved belief, proposition, measure and program references attached to current stable issue identities. Governors and legislators must resolve the same issue/provision semantics but retain different actions and authority. Do not duplicate the governor catalogue from the drafting templates.
+Expose the cross-classification through existing browse/referral views where useful. Leave saved belief, proposition, measure and program references attached to current stable issue identities. Governors and legislators must resolve the same issue/provision semantics but retain different actions and authority. Do not duplicate the governor catalog from the drafting templates.
 
 ## Acceptance assigned to the existing policy/playtest owners
 

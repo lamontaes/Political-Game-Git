@@ -33,7 +33,7 @@ The current location is not recorded, so the game cannot establish a journey to 
 The meeting was refused for the rest of the life. Three further days passed
 and the sentence never changed. The only control left on it was the give-up
 guard from #350 — which is to say the guard was catching a commitment the
-player had already travelled to.
+player had already traveled to.
 
 **Twice in one walk.** The same thing happened first to a posted public
 meeting, then to the organizing meeting, from two different producers.

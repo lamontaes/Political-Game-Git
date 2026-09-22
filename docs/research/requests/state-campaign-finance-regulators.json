@@ -20,5 +20,17 @@
   ],
   "title": "Who enforces campaign-finance law in each state, and what can they do",
   "usableAnswer": "One row per jurisdiction: regulator name; whether it reviews filed reports on its own initiative and how soon; complaint steps with statutory deadlines where they exist; civil penalty range for personal use of campaign funds; and, for the 28 unread jurisdictions, the legislative ethics body's name and proceeding term. Official sources per row.",
-  "whyItMatters": "A candidate who took campaign money every week for a whole race in Nome, Alaska was never noticed or punished. Every state now has a regulator that can catch and fine that, but its name, calendar and fines are generated, not real."
+  "whyItMatters": "A candidate who took campaign money every week for a whole race in Nome, Alaska was never noticed or punished. Every state now has a regulator that can catch and fine that, but its name, calendar and fines are generated, not real.",
+  "answer": {
+    "summary": "ChatGPT delivered one consolidated source map covering all 52 jurisdictions (50 states, D.C. and Puerto Rico), with a regulator or enforcement lead for each and the gaps marked UNKNOWN (ALIVE44 counts 179 explicit unknown markers). Many states split filing, complaint intake, civil enforcement and criminal referral between bodies (for example Arizona's filing officer plus Attorney General, Vermont's Secretary of State plus Attorney General or State's Attorney, Tennessee's Registry for state matters and district attorneys for local ones). Kentucky's and Missouri's leads were corrected against official pages. The file itself says it is a broad agency and process map, not an approved legal profile: a cited overview does not verify every detail in its row, and an UNKNOWN field must not have a fact generated for it. It also says to keep the game's fictional case history and government-unit ids separate, and to label any jurisdiction-wide fallback as a simulated profile, not verified law.",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-22-campaign-finance-regulators/CAMPAIGN-FINANCE-REGULATORS-52.md",
+      "Drive file 1ZBWrR2STXFYIMNFRjJW0xaJ6OqfL04LM, 86,702 bytes, SHA-256 783250ffbe342d2177563e66f5465e865ba964cd05edb79927197d26d2d9bd2b, created 21:34:07Z",
+      "ChatGPT reply document 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, 'NATIONWIDE RESEARCH RECEIPT', read 22:12Z",
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, 'CURRENT RECEIPT — NATIONWIDE REGULATOR RESEARCH', modified 21:35Z"
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T21:34:00.000Z",
+    "stillOpen": "ChatGPT keeps this question open in its own words: it 'does not close the exact-law queue item or authorize game coefficients'. Still open for every jurisdiction: exact authority and the state/local split, own-initiative review of filed reports, complaint stages and their deadlines, the personal-use rule, and civil penalties for personal use. The second half of the question, which body hears ethics complaints against legislators where the game has no researched legislative ethics body, is not addressed by this file; it is split out as who-hears-ethics-complaints-against-legislators so it stays in the published list."
+  }
 }

@@ -46,7 +46,7 @@ import type {
  *   directs others while this person's is directed — read off both work
  *   records. A colleague is not promoted to one by the wording of a scene.
  * - Agreeing to cover a shift is not having covered it. The later request that
- *   leans on the favour is written only after a scheduled covered shift has a
+ *   leans on the favor is written only after a scheduled covered shift has a
  *   completed state on the calendar.
  */
 export const LIFE_CIRCUMSTANCE_KINDS = [
@@ -262,7 +262,7 @@ export function lifeCircumstancesFor(
  * way. But a scene composed from it speaks in the present tense — "your
  * supervisor asks", "a shift at the same time as a class you have booked" — so
  * once the supervisor has left the job, the colleague has left, or the class
- * session is cancelled or already past, the circumstance stops being open
+ * session is canceled or already past, the circumstance stops being open
  * rather than holding a slot and a sentence that is no longer true.
  */
 function premiseStillHolds(
@@ -624,7 +624,7 @@ function tryWriteCircumstance(
 
     case "own-shift-coverage-needed": {
       if (work.length === 0) return world;
-      // The favour this leans on must have been worked, not only agreed to:
+      // The favor this leans on must have been worked, not only agreed to:
       // a covered shift that reached a completed state on the calendar.
       const worked = completedCoveredShifts(world, personId).find(
         (entry) =>
@@ -1146,7 +1146,7 @@ function agreedCoverageRequests(
  * `cover-it` answer, and the existing Calendar/Places route offers the booked
  * activity for performance. No separate shift-management surface exists.
  */
-/** Unique per attempt, so a cancelled booking can be replaced. */
+/** Unique per attempt, so a canceled booking can be replaced. */
 function coverShiftKey(
   world: World,
   personId: EntityId,
@@ -1170,7 +1170,7 @@ export function scheduleAgreedCoverShift(
   const pending = agreedCoverageRequests(world, personId).find(
     (entry) =>
       sharesEmployer(world, personId, entry.requesterPersonId, cutoff) &&
-      // A cancelled booking is not a booking: only a live or worked one stands
+      // A canceled booking is not a booking: only a live or worked one stands
       // in the way of putting the shift back on the calendar.
       !world.history.scheduledActivities.some(
         (activity) =>
@@ -1282,7 +1282,7 @@ export function completedCoveredShifts(
     });
 }
 
-/** Somebody enrolled at the same school or programme. */
+/** Somebody enrolled at the same school or program. */
 function firstClassmate(
   world: World,
   personId: EntityId,

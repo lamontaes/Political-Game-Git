@@ -122,7 +122,20 @@ const sha256 = (text: string) =>
  * 0 identities changed and `worldId` is unchanged. A move here for any other
  * reason is still a regression.
  *
- * AND RE-ACCEPTED ON TOP OF THAT 2026-09-22, for the federal policy pack: twenty
+ * RE-ACCEPTED AGAIN the same day, for the shared-name rule
+ * (`GIVEN_NAME_POOL_REACH_V1`): a stated man or woman can now also be given
+ * one of the 36 names both sexes carried. Measured the same way, against the
+ * hashes this replaced: same people and ids, identical leaf paths, 0
+ * identities changed. Kentucky: 6 given names and 18 summaries, each made
+ * identical by one renamed person's old given name, plus `snapshotId`.
+ * Peebles: 3 given names and 9 summaries, plus `snapshotId`. 0 unexplained.
+ *
+ * RE-ACCEPTED 2026-09-22 for the American English sweep: the policy catalog's
+ * authored text now spells labor, defense and program the American way.
+ * LEGACY_OPENING_SHAPE passed unchanged on the run that moved these hashes, so
+ * only the stripped catalog field moved.
+ *
+ * AND RE-ACCEPTED ON TOP OF THOSE 2026-09-22, for the federal policy pack: twenty
  * federal domains, sixty federal issues and sixty knowledge subjects, all in
  * `world.policyCatalog` under the `us-federal:` namespace. Same predicted
  * movement, same evidence: LEGACY_OPENING_SHAPE, as re-set above, PASSED
@@ -130,8 +143,8 @@ const sha256 = (text: string) =>
  * catalogue already had is untouched and in its old place.
  */
 const FED321F7_LEGACY = {
-  kentucky: "5e2fc4806d6626660f0e7606285753c53e4c68ea4c145926e9c12f152714b599",
-  peebles: "617b6879acc9764d6848019f5817548f10bc934cae0003e4843e28ff5700a0c7",
+  kentucky: "6cf6cccd95c62cca5504d753373bb7172629c9d980a6da25d1047cdc4f9255de",
+  peebles: "87a074b6e5ed57bad73f1507139ace65fdfb93c7ea81ef17c3efda94077c7406",
 } as const;
 
 /**
@@ -143,8 +156,8 @@ const FED321F7_LEGACY = {
  * test above was reaching for and could not hold on its own.
  */
 const LEGACY_OPENING_SHAPE = {
-  kentucky: "0245935171dd00c8a8304679a94428f1fd87dcccceeb5b2f9792c775d3cdc6e8",
-  peebles: "fb58196c5d6d23094e56bc21d48b98e14fbcedc9bb876df57dfc1557e26d27b9",
+  kentucky: "039d5fc55cc85c1f3a1a1487f101faa56d0158be229af007b0878edf2b431ec2",
+  peebles: "f50d53595074667a4183212edc0eeb00d4286079b1060635b884949cd737fdd8",
 } as const;
 
 /**

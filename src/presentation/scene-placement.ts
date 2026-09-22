@@ -195,11 +195,11 @@ function soleContacts(contacts: CharacterBodyContacts | undefined): {
  *
  * Seated: the seated pelvis lands on the seat plane, and the resulting sole
  * line is then checked against the seat's floor line — because a seated
- * person's feet are on the floor, and modelling only the pelvis is exactly why
+ * person's feet are on the floor, and modeling only the pelvis is exactly why
  * hand-tuned seated sprites float.
  *
  * A body that declares no contacts falls back to its pelvis root, which
- * reproduces the older hand-placed behaviour and says so in a diagnostic.
+ * reproduces the older hand-placed behavior and says so in a diagnostic.
  */
 export function placeSubjectAtAnchor(
   scene: RegisteredScene,

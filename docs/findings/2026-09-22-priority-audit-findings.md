@@ -32,7 +32,7 @@ What exists instead is `STATE_EXECUTIVE_GAME_PROFILE`
 (`src/simulation/nationwide-world/state-executive-term-rules.ts:84-100`): a
 single frozen constant — four-year terms, a November election every four years,
 a term beginning the first Monday of January — applied identically to every
-state whose real rule has not been compiled, and honestly labelled
+state whose real rule has not been compiled, and honestly labeled
 `game-profile` wherever a player inspects the office. It is a disclosed default,
 which is the right shape for a default. It is not a range: it does not vary
 state to state, it is not drawn from the span the read states cover, and it is
@@ -56,7 +56,7 @@ That makes the realistic-range rule a different conversation from the one it has
 been having all night. It is not something built and being tuned. It was agreed
 and never started, and the 719-claim ledger with 649 claims rejected for want of
 a fetched authority is what stands in its place: a design that refuses rather
-than generates, exactly the behaviour the rule was written to abolish.
+than generates, exactly the behavior the rule was written to abolish.
 
 ---
 
@@ -87,7 +87,7 @@ playing the game is like rather than correcting a mistake.
   two other people keep deciding themselves exactly as they do today. The cost
   is that ignoring your messages accumulates unanswered asks, which is either
   realistic or annoying depending on taste.
-- **No** — the current behaviour is intentional, and we stop treating it as a
+- **No** — the current behavior is intentional, and we stop treating it as a
   defect and close it.
 
 **We recommend yes.** A life simulation answering your own invitations on your
@@ -117,14 +117,14 @@ question directly. Neither ships content on purpose, because authoring the first
 domains and issues is a product call, not an engineering one. Their write-up is
 `docs/handoffs/modular-legislation-2026-09-22.md` on `main` at `d12eb75f`.
 
-**The question:** should we author a starting catalogue?
+**The question:** should we author a starting catalog?
 
 - **Yes** — somebody writes the first domains, issues and propositions, and
   bills in a new world are about schools, roads, policing and taxes out of the
   box. The cost is that whatever is authored becomes the default political
   vocabulary of every save, and a first draft of that is hard to walk back once
   people have played against it.
-- **No** — the game ships with an empty catalogue and the content arrives as
+- **No** — the game ships with an empty catalog and the content arrives as
   packs, ours or a modder's. That is the purest version of the
   content-as-data rule, and it means a fresh install has a legislature that can
   pass bills about nothing until somebody loads a pack.
@@ -142,7 +142,7 @@ broken. Both are starving.** The structural breakdown matters more than the
 total here, because it is what tells an authoring lane what shape the missing
 content is: subjects and stages, not prose.
 
-There is a third answer nobody has costed: generate the catalogue the way the
+There is a third answer nobody has costed: generate the catalog the way the
 rest of the world is generated. We have not measured what that would take and
 are not recommending it blind.
 
@@ -150,14 +150,14 @@ are not recommending it blind.
 
 ## 0c. Our reading, across the three findings above
 
-This one is a judgement, not a measurement, and it is marked as such because you
+This one is a judgment, not a measurement, and it is marked as such because you
 may disagree with it.
 
 Three of the largest things measured tonight turn out to be the same shape.
 
 - **The realistic range** (section 0): agreed and never built. The machinery
   refuses in exactly the places it was meant to generate.
-- **The policy catalogue** (section 0b): a finished bill lifecycle with no
+- **The policy catalog** (section 0b): a finished bill lifecycle with no
   subject matter.
 - **Traits** (section 4): the pack system works, and the one screen showing
   temperament walks five values written into the source.
@@ -166,15 +166,15 @@ In each case the engineering is done or nearly done, and what is missing is
 content or a surface. **Our reading is that this project's gap is not depth.**
 
 **They are the same shape and not the same fault, and the difference matters.**
-The catalogue is a question genuinely open in both directions:
+The catalog is a question genuinely open in both directions:
 `assertProductionCatalogBoundary` enforces the emptiness on purpose, so it is a
-designed state, and nobody has ever agreed what a first catalogue should hold.
+designed state, and nobody has ever agreed what a first catalog should hold.
 The other two are decisions already made and not carried out — the rule for
 unresearched jurisdictions was stated and never built, and the pack system was
 built and the one screen that shows temperament was never updated to read it.
 So one of the three is an open question and two are unfinished follow-through.
 Flattening them would read as three failures, and that would be wrong about the
-catalogue.
+catalog.
 
 That is a different diagnosis from the one the work has been running on, and if
 it is right it changes what the next stretch should be spent on. It is three
@@ -236,7 +236,7 @@ empty and guarded the same way, with two named carve-outs at `:74-78`.
 Against that, `src/simulation/legislation.ts` is **2704 lines of enforced bill
 lifecycle** — filing, origination rules, referral to a named committee,
 hearings, committee report, calendar placement, the multi-day floor rule,
-crossing to the second chamber, concurrence, enrolment, presentment, veto,
+crossing to the second chamber, concurrence, enrollment, presentment, veto,
 override and enactment — every stage guarded rather than stubbed, and reachable
 in play.
 
@@ -359,7 +359,7 @@ Two narrow gaps remain, and both are small.
 One constraint for whoever closes the first gap: the display must iterate the
 loaded registry and render **per pole, not per trait**. Anything written per
 trait is wrong the moment a pack adds one, which is the same modder-friendly
-rule reaching the UI layer, and it costs nothing to honour now.
+rule reaching the UI layer, and it costs nothing to honor now.
 
 ---
 
@@ -400,7 +400,7 @@ a new life's opening (`src/simulation/living-world/opening.ts:160`).
 seat count.** The seating lane built five lives through the ordinary creator —
 Augusta AR, Columbus GA, Tucson AZ, Billings MO, Sitka AK — reading Congress
 through the game's own `projectCongress` and everything else from each save's
-organisation records, with no fixtures and no coverage-report rows (#331 at
+organization records, with no fixtures and no coverage-report rows (#331 at
 `7b5647a1`). Every seat carries a person or an explicitly recorded vacancy. The
 headcount came out 432, 435, 433, 433 and 435 in the House and 99 in the Senate
 every time — one to four short depending on seed, with which seats are vacant
@@ -411,9 +411,9 @@ than the round number it replaces.
 **555 to 559 people**. Subtract Congress and twenty to twenty-five remain: the
 player, their household, the four or five people they know, three officeholders
 — the Presidency, the Supreme Court and the state's governor, one each — and a
-handful of press bylines. A save holds 23 or 24 organisations, of which the city
+handful of press bylines. A save holds 23 or 24 organizations, of which the city
 government, the county government, three schools, a youth club and a market all
-read zero people. **No state legislature organisation exists in any save at
+read zero people. **No state legislature organization exists in any save at
 all** — absent rather than empty, which is a stronger statement than "no
 compiled pack" and consistent with it.
 
@@ -482,7 +482,7 @@ is not researched twice.
 - **The third leg: a fifteen-job run cannot fit between pushes at two slots,
   even with nobody merging.** Measured at job level on run `35692915930`: one
   `browser` shard had been running **twenty-four minutes** when it was
-  cancelled, and was not finished. The cancellation is the mechanism; a shard
+  canceled, and was not finished. The cancellation is the mechanism; a shard
   outliving the window between pushes is why there was never anything to cancel
   into. Those two facts together are the whole of it, and neither alone
   explains a night without a verdict.
@@ -523,11 +523,11 @@ is not researched twice.
   starves it: a push to any branch starts its own fifteen-job run, and there
   are two job slots for the whole repository. So while main's run was finally
   executing, ordinary branch pushes — including this document's — were taking a
-  slot from it and had to be cancelled. Two different scarcities wearing one
+  slot from it and had to be canceled. Two different scarcities wearing one
   name. Freezing the one that was visible left the one that was not.
 - **An amendment to our own rule, and the most useful finding in this section.**
   Tonight every lane was told: on a red check, first see whether the event's
-  `head_sha` is still the branch head, because a stale sha with cancelled jobs
+  `head_sha` is still the branch head, because a stale sha with canceled jobs
   is a supersede that needs no action. That rule saved several rounds and is
   still the right first check. It would also have hidden a real failure. Two
   `validate` reds arrived on #292 wearing exactly the supersede shape, on
@@ -547,7 +547,7 @@ is not researched twice.
   failure mode is silence, and the first we introduced ourselves.
 
   Applied immediately: the two reds on #305 were re-checked at job level rather
-  than at run level before being called supersedes. All fifteen jobs cancelled
+  than at run level before being called supersedes. All fifteen jobs canceled
   in both, only the aggregation job failed. They are supersedes, and now that is
   measured rather than assumed.
 
@@ -562,12 +562,12 @@ is not researched twice.
   why there was no verdict on main all night, and it was not capacity.** The
   merge freeze had been called to stop lanes racing each other; the actual
   mechanism was worse than the race it was called for, and nobody would have
-  found it by reading the file, because the line is correct and the behaviour
+  found it by reading the file, because the line is correct and the behavior
   it produces at two slots is not what it looks like.
-- **A cancelled run's aggregation job reports `failure`.** `validate.yml` ends
+- **A canceled run's aggregation job reports `failure`.** `validate.yml` ends
   in a sixteenth job that gates on the other fifteen, and when the concurrency
   group cancels a superseded run that job concludes failed rather than
-  cancelled. So every superseded push leaves a red check asserting nothing, on
+  canceled. So every superseded push leaves a red check asserting nothing, on
   a head nobody is looking at. A red check has to be opened and its run's
   conclusion read before it means anything.
 - **A generated document usually tells you what it does not mean, and reading
@@ -631,7 +631,7 @@ is not researched twice.
   run everywhere except on `main`, whose run is the base verdict other lanes
   read. That closes the leak but not the backlog already in front of it: at
   05:42 the queue still held 105 runs across 31 branch-and-workflow groups, 74
-  of them superseded. Those were cancelled by hand. Until the queue is short,
+  of them superseded. Those were canceled by hand. Until the queue is short,
   the sweep has to be repeated, because the group only governs runs created
   after it landed.
 - **Every wrong claim made tonight would have survived a summary and died at a
@@ -646,14 +646,14 @@ is not researched twice.
   lint — in the background, and then kept editing, so the clean result belonged
   to a head that was never pushed. The same lane had regenerated the prose
   report before its last edit rather than after it an hour earlier and did not
-  recognise it as the same mistake. This lane did it too: lint was left running
+  recognize it as the same mistake. This lane did it too: lint was left running
   across a merge that changed 1,655 files underneath it, and the run had to be
   killed and repeated against the committed tree. Run the gates last, after the
   final edit, never alongside more editing. It is "name the branch in any claim
   about code" applied to time instead of to branches, and it caught two
   different gates and three lanes in one night.
 - **Two line numbers for one function is how the wrong one gets quoted back.**
-  The empty policy catalogue was measured twice in this document, in two
+  The empty policy catalog was measured twice in this document, in two
   sections written hours apart, and the two citations for
   `createProductionPolicyCatalog` had drifted apart across the night's merges —
   neither matched the file by the time anyone would read it. Measure a thing

@@ -29,7 +29,7 @@ import type {
  * a fixed number sitting in a fixture.
  *
  * Seats without a simulated person keep their authored dispositions. A member
- * the game has never modelled does not acquire a mind because a neighbouring
+ * the game has never modeled does not acquire a mind because a neighboring
  * seat has one; extending this to a whole chamber is a separate piece of work
  * with its own content problem, and the seam is here rather than a guess.
  */

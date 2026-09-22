@@ -1,0 +1,44 @@
+{
+  "candidateAnswers": [
+    {
+      "argumentAgainst": "The seat stays empty of play in about 19,400 towns: a playtester in Ely, Minnesota won a council seat and had nothing to do.",
+      "argumentFor": "Nothing invented.",
+      "label": "Only towns the game has read get council work",
+      "position": "Meetings, agenda votes and casework exist only for the 60 towns whose government the game has compiled.",
+      "recommended": false
+    },
+    {
+      "argumentAgainst": "Needs a realistic account of what an ordinary council member's months look like, which the game does not have.",
+      "argumentFor": "Every town's member has regular meetings, agenda items to vote on and residents asking for help, drawn from a national picture and labeled as typical where the town was not read.",
+      "label": "Typical council work everywhere, marked as typical",
+      "position": "Unread towns get the same meeting, agenda and vote route the read towns have, run on typical values for meeting frequency and agenda content until each town is read.",
+      "recommended": true
+    }
+  ],
+  "filedAt": "2026-09-22T22:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "nationwide coverage",
+  "notes": [
+    "The game already has a council route for the 60 towns it has compiled: public meetings, ordinance introduction, placing an ordinance on the agenda and a recorded vote (src/simulation/municipal-public-work.ts, src/presentation/municipal-governing.ts). It is keyed to a compiled government, so a member elected in any other town gets nothing.",
+    "Found in the council-to-president playtest in Ely, Minnesota and named in ChatGPT's intent readback of 2026-09-22: a won council seat has no work.",
+    "Standing rule from the owner (2026-09-22 22:38Z): depth is never invented. Whatever the game shows for an unread town is a marked placeholder until this is answered."
+  ],
+  "priority": "P1",
+  "question": "What does an ordinary member of a town council or village board actually do across a year, in a town the game has not read? How often does the body meet (regular and special meetings), what kinds of items come before it and in what rough proportions (budget and appropriations, ordinances, zoning and land use, contracts and purchases, appointments to boards, proclamations, consent-agenda routine), how many items a typical meeting votes on, how often votes are contested rather than unanimous, and what casework residents bring to a member between meetings. How does this vary by town size and by form of government?",
+  "questionId": "what-a-town-council-member-does",
+  "relatedQuestionIds": [
+    "local-executive-and-council-rules",
+    "town-council-size-by-town-size"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "every-town-in-america thread (technical team lead)",
+  "sourcesChecked": [
+    {
+      "source": "The compiled municipal governments and their rule packs",
+      "whatItDidNotSettle": "They give each read town's own procedures but no national picture of a member's ordinary year."
+    }
+  ],
+  "title": "What a town council member does all year",
+  "usableAnswer": "By population band and form of government: regular meetings per month, special meetings per year, a share breakdown of agenda item kinds, items voted per meeting, the share of contested votes, and the common kinds and rough frequency of resident casework. Ranges are fine; unknowns stay marked unknown.",
+  "whyItMatters": "Winning a council seat is the first rung of the political climb, and today it gives the player nothing to do in nearly every town."
+}

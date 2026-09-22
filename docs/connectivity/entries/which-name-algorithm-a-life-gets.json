@@ -1,0 +1,49 @@
+{
+  "control": {
+    "detail": "The route chooses it: src/presentation/new-game.ts:220 sets v2 for a new game, and src/presentation/production-world.ts:228 falls back to v1 when a caller passes none.",
+    "present": false
+  },
+  "declaredInContent": false,
+  "duplication": {
+    "kind": "rules",
+    "playerVisible": false,
+    "producers": [
+      {
+        "at": "main at 7e011a42",
+        "path": "src/presentation/new-game.ts",
+        "reachDetail": "The ordinary New Game route sets given-name-v2; every walked life in this project starts here.",
+        "reachedByPlay": "reaches"
+      },
+      {
+        "at": "main at 7e011a42",
+        "path": "src/presentation/production-world.ts",
+        "reachDetail": "Defaults to given-name-v1 when givenNameGenerationVersion is omitted. Which callers omit it, and whether a player reaches one, is not walked.",
+        "reachedByPlay": "not-walked"
+      }
+    ],
+    "visibilityDetail": "Only the code can see which algorithm ran; a player sees names, not versions."
+  },
+  "entryId": "which-name-algorithm-a-life-gets",
+  "mapVersion": "connectivity-map/v1",
+  "measuredBy": "dual-systems count",
+  "measurements": [
+    {
+      "at": "main at 7e011a42",
+      "found": "new-game.ts sets v2; production-world.ts defaults to v1; new-game-identity.ts accepts both on load.",
+      "what": "Every non-test reference to the given-name generation version"
+    }
+  ],
+  "playerReach": "unknown",
+  "playerReachDetail": "Which entry points a player can reach that take the v1 fallback has not been walked.",
+  "reMeasuredByPublisher": true,
+  "recordedAt": "2026-09-22T20:40:00.000Z",
+  "surface": {
+    "detail": "Nothing on screen says which one a world was made with.",
+    "present": false
+  },
+  "system": {
+    "detail": "Two given-name generation versions in src/simulation/people.ts: given-name-v1 (LEGACY) and given-name-v2 (DISTINCT).",
+    "present": true
+  },
+  "title": "Which name algorithm a life gets"
+}

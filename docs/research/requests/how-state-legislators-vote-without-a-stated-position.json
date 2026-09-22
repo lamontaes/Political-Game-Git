@@ -24,5 +24,8 @@
     "Aggregate rates only; the game generates its own people.",
     "Legislative caucus and coalition formation is asked separately."
   ],
-  "relatedQuestionIds": ["legislative-caucus-and-coalition-formation", "state-legislature-chamber-sizes-and-quorum"]
+  "relatedQuestionIds": [
+    "legislative-caucus-and-coalition-formation",
+    "state-legislature-chamber-sizes-and-quorum"
+  ]
 }

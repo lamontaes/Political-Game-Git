@@ -283,7 +283,7 @@ describe("FEMA — the fraud oracles", () => {
     ).toHaveLength(0);
   });
 
-  it("keeps the provider's own incident type, title and legacy programme flag", () => {
+  it("keeps the provider's own incident type, title and legacy program flag", () => {
     expect(all.find((r) => r.disasterNumber === 4586)?.incidentType).toBe(
       "Severe Ice Storm",
     );

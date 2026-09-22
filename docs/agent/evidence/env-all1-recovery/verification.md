@@ -113,7 +113,7 @@ anonymous decoration and has no canonical identity/attendance mapping.
 
 Gallery proof on ENV `d9c7092` passed actual pointer activation at 1440px and Enter
 at 960px. The courtroom raster was not requested as an image before activation,
-loaded at its declared 1376px tier, and remained explicitly labelled unreleased.
+loaded at its declared 1376px tier, and remained explicitly labeled unreleased.
 No page errors occurred. Both `courtroom-preview-*.png` images were inspected;
 geometry unknowns remain legible. This is review access, never normal courtroom
 release or acceptance. The owned strict-port server was stopped after the proof.

@@ -251,7 +251,7 @@ export interface PolicyIssueDefinition {
    * must treat its absence as "do not know" and say so, never as "anywhere".
    *
    * Optional, and omitted rather than written empty, so a world holding issues
-   * nobody routed serialises exactly as it did before this field existed and
+   * nobody routed serializes exactly as it did before this field existed and
    * a save written then stays readable.
    */
   readonly levels?: readonly PolicyGovernmentLevel[];
@@ -303,7 +303,7 @@ export interface PolicyPropositionDefinition {
    * decline, never as a settled zero.
    *
    * Optional, and omitted rather than written empty, so a world holding
-   * propositions nobody related to a principle serialises exactly as it did
+   * propositions nobody related to a principle serializes exactly as it did
    * before this field existed and a save written then stays readable. Same
    * rule, and the same reason, as `PolicyIssueDefinition.levels`.
    */
@@ -2513,7 +2513,7 @@ export type LegislativeDraftParameterRecord =
  * because nothing already in the store can express it. A measure records what a
  * bill is called and what it is about; provisions record its operative text and
  * every later version of that text. Neither records that the text was compiled
- * from a named programme family, at a named version of that family, from a
+ * from a named program family, at a named version of that family, from a
  * named set of parameter values — and without that, reopening a saved bill
  * cannot say which family it belongs to, which amendment its politics are
  * about, or whether a later edit to the content bank has moved underneath it.
@@ -2575,8 +2575,8 @@ export interface LegislativeDraftLineageRecord {
    * What this component did to existing law, where it did anything to it.
    *
    * Absent means an insertion, which is what a component creating a new
-   * programme does and what every component filed before amendments were
-   * modelled did — so an old save reads back unchanged. Present on a component
+   * program does and what every component filed before amendments were
+   * modeled did — so an old save reads back unchanged. Present on a component
    * that amended or repealed, with the provisions it acted on and the exact
    * revision of each it was written against, so the measure can still say what
    * text its author actually had in front of them.
@@ -2742,7 +2742,7 @@ export type ResourceEndpoint =
  * An organization owns money in its own right rather than through whoever runs
  * it. A campaign treasury is the case that forced the distinction: the money is
  * the committee's, is reported as the committee's, and does not become the
- * candidate's personal balance because the candidate signs for it. Modelling it
+ * candidate's personal balance because the candidate signs for it. Modeling it
  * as a person's would have been a false statement about ownership, and a
  * separate campaign wallet would have been a second money system.
  */
@@ -3904,7 +3904,7 @@ export interface HistoryStore {
 // Legislation — canonical measures, procedural actions, and recorded votes
 // ---------------------------------------------------------------------------
 
-/** How a measure came to exist, for provenance rather than gameplay flavour. */
+/** How a measure came to exist, for provenance rather than gameplay flavor. */
 export type LegislativeMeasureOrigin =
   "member-introduction" | "committee-introduction" | "executive-request";
 
@@ -3942,7 +3942,7 @@ export interface LegislativeMeasureRecord {
    * Separate from `policyAlternativeIds` rather than reached through one,
    * because an alternative carries a quantitative operation — set a level, cap
    * it, raise it by a share — and most of what a legislature does is not a
-   * number. Who may do what, who must be told, what counts as an offence and
+   * number. Who may do what, who must be told, what counts as an offense and
    * who is eligible are all bills about a question that change no quantity, and
    * routing them through a quantitative alternative so the link exists would
    * pass every test while lying about the domain.
@@ -4352,7 +4352,7 @@ export type LegislativeProvisionBeneficiary =
  * procedural position does, and nothing is quietly rewritten in place.
  */
 export interface LegislativeProvisionRecord {
-  /** Explicit annual amount; omission preserves older whole-programme records. */
+  /** Explicit annual amount; omission preserves older whole-program records. */
   readonly fiscalPeriod?: "annual";
   readonly id: EntityId;
   readonly stableKey: string;

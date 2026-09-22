@@ -37,7 +37,7 @@ import type { ScannedLiteral } from "./scan";
  * to anchors instead of computing keys. Matching is on the site's FULL text
  * inside its own (file, symbol) group, so a shared prefix cannot redirect
  * anything, and an unresolved match is a visible failure rather than a silent
- * rematch to the nearest neighbour.
+ * rematch to the nearest neighbor.
  *
  * Three concepts stay separate, and this file owns the first two:
  *

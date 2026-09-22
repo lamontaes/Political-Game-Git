@@ -3,7 +3,7 @@
  *
  * A flag on a standard and a seal on a rostrum are the two objects in a civic
  * scene that a generative model will cheerfully invent and get wrong. They are
- * also the two whose misuse is a statutory offence in most states. So they are
+ * also the two whose misuse is a statutory offense in most states. So they are
  * not art assets here at all: they are IDENTITIES the world resolves, with a
  * citation attached, and the bytes arrive from the issuing authority or not at
  * all.
@@ -353,7 +353,7 @@ export function validateCivicSymbols(
       finding(
         "unknown-asset-status",
         id,
-        `Asset status '${symbol.asset_status}' is not recognised. There is deliberately no status meaning the artwork was generated.`,
+        `Asset status '${symbol.asset_status}' is not recognized. There is deliberately no status meaning the artwork was generated.`,
       );
     }
     if (!symbol.geography_id || !symbol.geography_id.startsWith("geo:")) {

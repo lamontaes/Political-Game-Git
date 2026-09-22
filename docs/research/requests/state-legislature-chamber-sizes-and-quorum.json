@@ -28,5 +28,8 @@
     "The game generates its own people, so only the counts, arrangement, quorum rule and composition shares are wanted, not the names of sitting members.",
     "Where a chamber's size changes after a scheduled redistricting, give the size in force now and the date of the change."
   ],
-  "relatedQuestionIds": ["state-legislative-seat-calendar-and-field", "legislative-caucus-and-coalition-formation"]
+  "relatedQuestionIds": [
+    "state-legislative-seat-calendar-and-field",
+    "legislative-caucus-and-coalition-formation"
+  ]
 }

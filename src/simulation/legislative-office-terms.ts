@@ -1,5 +1,5 @@
 import { candidacyEligibility } from "./candidacy";
-import { candidacyPackById } from "./candidacy-packs";
+import { candidacyPackById, candidacyPacks } from "./candidacy-packs";
 import { makeIsoDate } from "./dates";
 import {
   electionContestById,
@@ -22,11 +22,17 @@ import type {
 } from "./types";
 
 import {
+  BLANKET_LEGISLATIVE_TERM_RULE_VERSION,
+  blanketLegislativeTermYears,
   KY_TERM_RULE_VERSION,
   SUPPORTED_LEGISLATIVE_TERM_RULES,
 } from "./legislative-term-rules";
 
-export { KY_TERM_RULE_VERSION, SUPPORTED_LEGISLATIVE_TERM_RULES };
+export {
+  BLANKET_LEGISLATIVE_TERM_RULE_VERSION,
+  KY_TERM_RULE_VERSION,
+  SUPPORTED_LEGISLATIVE_TERM_RULES,
+};
 
 export const LEGISLATIVE_TERM_ENTRY = "election:legislative-term-entry";
 export const LEGISLATIVE_TERM_EXPIRY = "election:legislative-term-expiry";
@@ -50,6 +56,34 @@ export function supportedLegislativeTermDates(
   };
 }
 
+/**
+ * When a legislative term won on `electionDate` begins and ends: the sourced
+ * rule where there is one, otherwise the marked blanket rule. Never the
+ * result date. `basis` says which.
+ */
+export function legislativeTermDates(officeKey: string, electionDate: IsoDate) {
+  const supported = supportedLegislativeTermDates(officeKey, electionDate);
+  if (supported) return { ...supported, basis: "sourced" as const };
+  const office = candidacyPacks()
+    .flatMap((pack) => pack.offices)
+    .find((candidate) => candidate.officeKey === officeKey);
+  if (!office) return null;
+  const termYears = office.qualification.termYears;
+  const years = blanketLegislativeTermYears(
+    officeKey,
+    termYears.kind === "known" ? termYears.value : null,
+  );
+  const startYear = Number(electionDate.slice(0, 4)) + 1;
+  return {
+    startsAt: makeIsoDate(`${startYear}-01-01`),
+    endsAt: makeIsoDate(`${startYear + years}-01-01`),
+    ruleVersion: BLANKET_LEGISLATIVE_TERM_RULE_VERSION,
+    note: "Blanket rule, not researched for this state: the term begins on January 1 after the election.",
+    sourceUrl: "",
+    basis: "blanket" as const,
+  };
+}
+
 /** Frozen dates use existing expected work and future-due records; no second office store. */
 export function scheduleLegislativeTerm(
   world: World,
@@ -63,10 +97,7 @@ export function scheduleLegislativeTerm(
   const result = electionContestResult(world, contestId);
   const timing =
     contest &&
-    supportedLegislativeTermDates(
-      contest.office.officeKey,
-      contest.electionDate,
-    );
+    legislativeTermDates(contest.office.officeKey, contest.electionDate);
   if (
     !relationship ||
     !contest ||
@@ -91,7 +122,9 @@ export function scheduleLegislativeTerm(
       jurisdictionId: workRoleAt(next, relationship.id)!.locationJurisdictionId,
       provenance: {
         kind: "authored",
-        note: `${timing.note} ${timing.sourceUrl}`,
+        note: timing.sourceUrl
+          ? `${timing.note} ${timing.sourceUrl}`
+          : timing.note,
       },
     });
   return next;
@@ -126,10 +159,7 @@ export function legislativeTermForRelationship(
   );
   const timing =
     contest &&
-    supportedLegislativeTermDates(
-      contest.office.officeKey,
-      contest.electionDate,
-    );
+    legislativeTermDates(contest.office.officeKey, contest.electionDate);
   if (
     !relationship ||
     !contest ||

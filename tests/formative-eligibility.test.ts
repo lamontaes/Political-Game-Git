@@ -27,7 +27,7 @@ import {
  * refused, not fabricated onto a child who could not plausibly be its subject.
  *
  * The worlds are built through the custom route, which is where an explicit
- * shared household is honoured; a normal start generates the household from the
+ * shared household is honored; a normal start generates the household from the
  * seed (Task E), and the ages below are drawn by the generator, never set here.
  */
 

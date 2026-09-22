@@ -32,7 +32,7 @@ import type {
  *
  * This is the schema and the loader for dropping it in. It is deliberately the
  * same shape as `trait-packs.ts`, because a modder who has written one should
- * recognise the other: rows referencing rows by stable key, every reference
+ * recognize the other: rows referencing rows by stable key, every reference
  * resolved once at load against declarations that exist, and a row that does
  * not resolve rejected by name with its reason rather than ignored at play
  * time, where a row matching nothing looks exactly like a row doing its job.

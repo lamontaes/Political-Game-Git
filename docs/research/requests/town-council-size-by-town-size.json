@@ -1,0 +1,43 @@
+{
+  "candidateAnswers": [
+    {
+      "argumentAgainst": "A hamlet of 300 people and a city of 90,000 draw from the same band, so small towns get councils as large as mid-sized cities.",
+      "argumentFor": "Already built, stable per town, drawn only from councils the game has actually read.",
+      "label": "Keep the read councils' middle band",
+      "position": "An unread town's seat count is drawn from the middle half of the read councils' sizes (7 to 12 today) and its term from every read term.",
+      "recommended": false
+    },
+    {
+      "argumentAgainst": "Needs a national distribution by population band that the game does not have.",
+      "argumentFor": "A village gets a village board and a city a city council, as in the real country.",
+      "label": "Draw by population band",
+      "position": "An unread town's seat count and term are drawn from a national distribution for towns of its population band, with any state that fixes them by general law overriding the draw.",
+      "recommended": true
+    }
+  ],
+  "filedAt": "2026-09-22T22:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "nationwide coverage",
+  "notes": [
+    "Measured on branch claude/project-thread-l04zry: 19,462 towns are offered a governing body; 60 have a compiled government and 39 of those state a seat count or term. Every other town is given a PLACEHOLDER: seats drawn from the middle half of the read sizes (7 to 12) and a term from every read term (mostly 2 years, some 3 and 4). The placeholder is marked in code (src/simulation/nationwide-world/local-governing-body-rules.ts) and labeled as typical on the office screen.",
+    "The read councils are mostly cities, so the placeholder is biased toward city-sized bodies. Presque Isle ME (pop. about 9,000) draws 7 seats and 4-year terms; a village of a few hundred would draw the same range."
+  ],
+  "priority": "P2",
+  "question": "When the game has not read a town's charter, how many seats should its governing body have and how long should the terms run, given the town's population? Is there a national distribution of council or board size and term length by population band, and which states fix either by general municipal law for all their municipalities?",
+  "questionId": "town-council-size-by-town-size",
+  "relatedQuestionIds": [
+    "local-executive-and-council-rules",
+    "town-election-calendar-from-state-municipal-law"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "every-town-in-america thread (technical team lead)",
+  "sourcesChecked": [
+    {
+      "source": "The 39 compiled municipal governments whose readings state a body size or term",
+      "whatItDidNotSettle": "Nearly all are cities; they say nothing about villages and small towns."
+    }
+  ],
+  "title": "How big a town's council is, by town size",
+  "usableAnswer": "For each population band (for example under 1,000; 1,000 to 10,000; 10,000 to 50,000; over 50,000), a range or shares of governing-body size and of term length, plus the states whose general law fixes size or term for every municipality, with the instrument named. Unknown stays marked unknown.",
+  "whyItMatters": "Every unread town, which is nearly all of them, shows a council size and term on the office screen, and a council's size decides how many colleagues vote with or against a member."
+}

@@ -14,7 +14,7 @@ import { WorldOrientationPanel } from "./WorldOrientationPanel";
  */
 
 const VIEW: OrientationView = {
-  dateLabel: "12 January 2026",
+  dateLabel: "January 12, 2026",
   steps: [
     {
       key: "locality",

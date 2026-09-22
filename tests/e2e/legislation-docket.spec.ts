@@ -118,7 +118,7 @@ test.describe("the docket, from the ordinary route", () => {
 
     // Two genuinely different proposals, compared by reading them.
     await expect(options).toContainText("Program authorization");
-    await expect(options).not.toContainText("Programme authorization");
+    await expect(options).not.toContainText("Program authorization");
     await expect(options).toContainText("Transit access");
     await expect(options).toContainText("Bridge and culvert maintenance");
     await expect(options).toContainText("Broadband access");
@@ -174,7 +174,7 @@ test.describe("the docket, from the ordinary route", () => {
       "Bridge and culvert maintenance",
     );
     await expect(page.getByTestId("docket-filed-on")).not.toBeEmpty();
-    // A repair programme for standing structures bears on the catalogue's
+    // A repair program for standing structures bears on the catalog's
     // upkeep-before-new-construction question, and the docket says so.
     await expect(page.getByTestId("docket-questions")).toHaveText(
       "Should maintenance of existing infrastructure be funded before new construction?",
