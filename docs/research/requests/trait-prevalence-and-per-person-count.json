@@ -38,8 +38,5 @@
     "A trait row is data, not code, so any number here is a pack value a modder can change. The answer sets the shipped default, not a permanent rule.",
     "This does not ask what a trait argues for in a given decision. That mapping is authored per decision and is the personality lane's work, not research."
   ],
-  "relatedQuestionIds": [
-    "ordinary-life-trait-set",
-    "personality-change-pace"
-  ]
+  "relatedQuestionIds": ["ordinary-life-trait-set", "personality-change-pace"]
 }
