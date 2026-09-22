@@ -1,0 +1,66 @@
+{
+  "kind": "our-civic-duty-content-pack",
+  "api": "ordinary-scenes-v1",
+  "id": "mod.example.patience",
+  "version": "1.0.0",
+  "title": "Patience — an example trait",
+  "authority": "authored-fiction",
+  "dependencies": [],
+  "durations": [],
+  "scenes": [],
+  "traits": {
+    "traits": [
+      {
+        "key": "patience",
+        "label": "Patience",
+        "description": "Whether someone can wait for a thing to come right. A fictional behavior tendency, not a measurement.",
+        "poles": {
+          "low": {
+            "key": "restless",
+            "label": "Gets restless",
+            "description": "Leans toward settling things now."
+          },
+          "high": {
+            "key": "patient",
+            "label": "Waits it out",
+            "description": "Leans toward letting things come right."
+          }
+        },
+        "scopes": ["life:ordinary"],
+        "conferredBy": "seeded",
+        "scale": {
+          "balancedKey": "balanced",
+          "balancedLabel": "Neither, much",
+          "balancedDescription": "No marked lean either way.",
+          "steps": [{ "magnitude": 1, "strength": "moderate" }]
+        },
+        "seed": { "spread": [-1, 0, 0, 1] },
+        "movability": {
+          "settledByStrength": {
+            "subtle": 1.5,
+            "moderate": 2.5,
+            "strong": 4,
+            "defining": 5
+          },
+          "settlesOver": 10,
+          "unsettledFloor": 0.5,
+          "experienceSpacingDays": 90,
+          "pressureCap": 3
+        }
+      }
+    ],
+    "effects": [
+      {
+        "decision": "contact.answer",
+        "leans": [
+          {
+            "option": "counter",
+            "trait": "mod.example.patience:patience",
+            "pole": "low",
+            "explanation": "They would rather settle it now than wait."
+          }
+        ]
+      }
+    ]
+  }
+}
