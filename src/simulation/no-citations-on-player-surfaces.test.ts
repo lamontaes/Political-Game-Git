@@ -10,7 +10,10 @@ import type { QualificationOfficeFamily } from "./office-qualification-rules";
 import type { Person } from "./types";
 import { makeIsoDate } from "./dates";
 import { allGovernmentUnits } from "./government-units";
-import { resolveCapability } from "./rule-capability-resolver";
+import {
+  resolveCapability,
+  supplementalQualificationOfficeKeys,
+} from "./rule-capability-resolver";
 import { lifePlaceStateIdentities } from "./life-places";
 
 /*
@@ -205,6 +208,23 @@ describe("the capability resolver refuses without naming its source", () => {
     "pass-appropriation",
   ] as const;
 
+  /*
+   * Office keys matter, and this is the sharper version of the lesson this
+   * file already carries. The first version of this block called
+   * resolveCapability only with `officeKey: null` — and the resolver takes a
+   * whole branch, with its own sentences, only when it IS given an office
+   * key. So the producer was missed once by not being called at all, and
+   * missed again by being called down one path.
+   *
+   * Widening a net is not the same as widening it in the right dimension. A
+   * count of producers covered says nothing about the argument space that
+   * selects their branches.
+   */
+  const OFFICE_KEYS: readonly (string | null)[] = [
+    null,
+    ...supplementalQualificationOfficeKeys(),
+  ];
+
   /** Each sentence the resolver can hand a player, with a label to report. */
   function sentencesOf(resolution: {
     refusal: string | null;
@@ -236,16 +256,20 @@ describe("the capability resolver refuses without naming its source", () => {
     for (const usps of JURISDICTIONS) {
       for (const action of ACTIONS) {
         for (const onDate of DATES) {
-          const resolution = resolveCapability({
-            scope: { kind: "state", stateUsps: usps },
-            officeKey: null,
-            action,
-            onDate,
-          });
-          for (const [where, sentence] of sentencesOf(resolution)) {
-            checked += 1;
-            if (CITATION.test(sentence) || INTERNAL_ID.test(sentence)) {
-              offenders.push(`${usps} ${action} ${where}: ${sentence}`);
+          for (const officeKey of OFFICE_KEYS) {
+            const resolution = resolveCapability({
+              scope: { kind: "state", stateUsps: usps },
+              officeKey,
+              action,
+              onDate,
+            });
+            for (const [where, sentence] of sentencesOf(resolution)) {
+              checked += 1;
+              if (CITATION.test(sentence) || INTERNAL_ID.test(sentence)) {
+                offenders.push(
+                  `${usps} ${action} ${officeKey ?? "no-office"} ${where}: ${sentence}`,
+                );
+              }
             }
           }
         }
@@ -264,16 +288,20 @@ describe("the capability resolver refuses without naming its source", () => {
     let checked = 0;
     for (const unit of sample) {
       for (const action of ACTIONS) {
-        const resolution = resolveCapability({
-          scope: { kind: "local", governmentUnitId: unit.id },
-          officeKey: null,
-          action,
-          onDate: DATES[2]!,
-        });
-        for (const [where, sentence] of sentencesOf(resolution)) {
-          checked += 1;
-          if (CITATION.test(sentence) || INTERNAL_ID.test(sentence)) {
-            offenders.push(`${unit.id} ${action} ${where}: ${sentence}`);
+        for (const officeKey of OFFICE_KEYS) {
+          const resolution = resolveCapability({
+            scope: { kind: "local", governmentUnitId: unit.id },
+            officeKey,
+            action,
+            onDate: DATES[2]!,
+          });
+          for (const [where, sentence] of sentencesOf(resolution)) {
+            checked += 1;
+            if (CITATION.test(sentence) || INTERNAL_ID.test(sentence)) {
+              offenders.push(
+                `${unit.id} ${action} ${officeKey ?? "no-office"} ${where}: ${sentence}`,
+              );
+            }
           }
         }
       }

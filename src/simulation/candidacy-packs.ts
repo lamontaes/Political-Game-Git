@@ -431,7 +431,7 @@ export function candidacyCoverage(): CandidacyCoverage {
     qualificationsAreSourced: sourcedOfficeCount > 0,
     sourcedOfficeCount,
     outstandingDependency: NO_QUALIFICATION_CORPUS,
-    playerNote: `${sourcedOfficeCount} offered legislative offices carry at least one source-verified qualification. Every other field remains explicitly unresolved; no jurisdiction borrows another's rule.`,
+    playerNote: `${sourcedOfficeCount} of the legislative offices on offer have at least one rule the game knows for certain. Everything else is left open rather than guessed, and no state borrows another's rule.`,
   };
 }
 

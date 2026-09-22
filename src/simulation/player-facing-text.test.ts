@@ -7,7 +7,10 @@ import { makeIsoDate } from "./dates";
 import { OFFICE_QUALIFICATION_ROWS } from "./office-qualifications.generated";
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import { regularSessionActionRefusal } from "../presentation/legislative-session-window";
-import { resolveCapability } from "./rule-capability-resolver";
+import {
+  resolveCapability,
+  supplementalQualificationOfficeKeys,
+} from "./rule-capability-resolver";
 import {
   QUALIFICATION_SOURCED_STATE_KEYS,
   assessOfficeQualifications,
@@ -55,6 +58,17 @@ const FAMILIES: readonly QualificationOfficeFamily[] = [
   "LOWER_CHAMBER",
   "UNICAMERAL_CHAMBER",
   "GOVERNOR",
+];
+
+/*
+ * Null plus every supplemental office key. The resolver takes a different
+ * branch when it has an office key, and passing only null left that branch
+ * — and the citation in it — unexercised. The fifth producer was missed by
+ * not calling it at all; this one was missed by calling it one way.
+ */
+const OFFICE_KEYS: readonly (string | null)[] = [
+  null,
+  ...supplementalQualificationOfficeKeys(),
 ];
 
 /** Dates around every recorded commencement, plus two ordinary starts. */
@@ -260,27 +274,30 @@ describe("player-facing text carries no source reference", () => {
     const failures: string[] = [];
     for (const stateKey of QUALIFICATION_SOURCED_STATE_KEYS) {
       for (const onDate of DATES) {
-        const resolution = resolveCapability({
-          // The scope takes the bare USPS code; the sourced keys are `US-XX`.
-          scope: { kind: "state", stateUsps: stateKey.replace(/^US-/, "") },
-          action: "inspect",
-          onDate: makeIsoDate(onDate),
-        });
-        for (const field of resolution.fields) {
-          if (field.reason === null) continue;
-          const found = offences(field.reason, needles);
-          if (found.length > 0) {
-            failures.push(
-              `${stateKey} ${field.field} on ${onDate}: ${found.join(", ")} — "${field.reason}"`,
-            );
+        for (const officeKey of OFFICE_KEYS) {
+          const resolution = resolveCapability({
+            // The scope takes the bare USPS code; the sourced keys are `US-XX`.
+            scope: { kind: "state", stateUsps: stateKey.replace(/^US-/, "") },
+            officeKey,
+            action: "inspect",
+            onDate: makeIsoDate(onDate),
+          });
+          for (const field of resolution.fields) {
+            if (field.reason === null) continue;
+            const found = offences(field.reason, needles);
+            if (found.length > 0) {
+              failures.push(
+                `${stateKey} ${field.field} on ${onDate}: ${found.join(", ")} — "${field.reason}"`,
+              );
+            }
           }
-        }
-        if (resolution.refusal !== null) {
-          const found = offences(resolution.refusal, needles);
-          if (found.length > 0) {
-            failures.push(
-              `${stateKey} refusal on ${onDate}: ${found.join(", ")} — "${resolution.refusal}"`,
-            );
+          if (resolution.refusal !== null) {
+            const found = offences(resolution.refusal, needles);
+            if (found.length > 0) {
+              failures.push(
+                `${stateKey} refusal on ${onDate}: ${found.join(", ")} — "${resolution.refusal}"`,
+              );
+            }
           }
         }
       }
