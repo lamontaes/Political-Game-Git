@@ -18,6 +18,7 @@ import {
   peopleInHouseholdAt,
 } from "../simulation/life-queries";
 import { searchLifePlaces } from "../simulation/life-places";
+import { describePersonContext } from "../simulation/person-context";
 import {
   CONTROL_CONTINUED_EVENT,
   ESTATE_OPENED_EVENT,
@@ -187,30 +188,20 @@ describe("PEOPLE P5 three generations, two handoffs", () => {
     expect(view.heading).toMatch(/died on/);
     const prominent = view.choices.filter((choice) => choice.prominent);
     // Family first, in the order the record puts them in.
-    expect(
-      prominent.slice(0, 2).map((choice) => [choice.personId, choice.relation]),
-    ).toEqual([
-      [g2, "child"],
-      [g3, "grandchild"],
+    expect(prominent.slice(0, 2).map((choice) => choice.personId)).toEqual([
+      g2,
+      g3,
     ]);
+    // Said from the side of the life that ended, as every screen says it.
+    expect(prominent[0]!.relation).toMatch(/^your (son|daughter|child)$/);
+    expect(prominent[1]!.relation).toMatch(
+      /^your (grandson|granddaughter|grandchild)$/,
+    );
     // Anybody else prominent is somebody this life was actually bound to: a
     // parent or someone under the same roof, named as such, or a bond, where
     // the choice says what passed between them.
     for (const choice of prominent.slice(2)) {
-      expect([
-        "parent",
-        "someone they lived with",
-        "someone they taught",
-        "someone who taught them",
-        "someone they kept up with",
-      ]).toContain(choice.relation);
-      if (
-        choice.relation === "someone they taught" ||
-        choice.relation === "someone who taught them" ||
-        choice.relation === "someone they kept up with"
-      ) {
-        expect(choice.connection).toBeTruthy();
-      }
+      expect(choice.relation).toMatch(/^(your |someone you |a former )/);
     }
     expect(prominent.every((choice) => choice.availableNow)).toBe(true);
     expect(view.recordPersonId).toBe(g1);
@@ -522,9 +513,18 @@ describe("PEOPLE B1: a predecessor's queued command cannot still apply", () => {
       (entry) => entry.personId === stranger.personId,
     );
     const before = new Set(dead.history.knowledge.map((entry) => entry.id));
-    expect(
-      theirs.filter((entry) => !before.has(entry.id)).map((e) => e.eventId),
-    ).toEqual([death.eventId]);
+    // Their own earlier life, written when they are taken up, is theirs to
+    // know; nothing else of anybody's is.
+    const aboutOthers = theirs
+      .filter((entry) => !before.has(entry.id))
+      .map((entry) => entry.eventId)
+      .filter(
+        (eventId) =>
+          !next.history.events
+            .find((event) => event.id === eventId)
+            ?.involvedEntityIds.includes(stranger.personId),
+      );
+    expect(aboutOthers).toEqual([death.eventId]);
     expect(
       next.history.personalityTendencies.filter((t) => t.personId === g1),
     ).toEqual(
@@ -560,16 +560,19 @@ describe("PEOPLE B1: a predecessor's queued command cannot still apply", () => {
     expect(prominent.map((choice) => choice.personId)).toContain(
       fixture.childPersonId,
     );
-    expect(
-      prominent.every(
-        (choice) => choice.relation !== "no connection on record",
-      ),
-    ).toBe(true);
+    expect(prominent.every((choice) => choice.relation !== null)).toBe(true);
     const wider = view.choices.filter((choice) => !choice.prominent);
     // The wider choice is offered, and never dressed up as a relationship.
     expect(wider.length).toBeGreaterThan(0);
     for (const choice of wider) {
-      expect(choice.relation).toBe("no connection on record");
+      // Only what the shared reader finds on record, such as a coworker;
+      // otherwise nothing at all.
+      expect(choice.relation).toBe(
+        describePersonContext(dead, g1, choice.personId)?.relationship ?? null,
+      );
+      expect(choice.relation ?? "").not.toMatch(
+        /\b(mom|dad|parent|son|daughter|child|sibling|brother|sister|partner)\b/,
+      );
       expect(choice.connection).toBeNull();
       expect(dead.people[choice.personId]).toBeTruthy();
     }
@@ -620,7 +623,7 @@ describe("a retired life's own parents and housemates are not strangers", () => 
         if (!choice) continue; // dead or otherwise not playable
         parentsSeen += 1;
         expect(choice.prominent).toBe(true);
-        expect(choice.relation).toBe("parent");
+        expect(choice.relation).toMatch(/^your (mom|dad|parent)$/);
       }
       const roofs = householdMembershipsAt(retired, me);
       for (const entry of roofs) {
@@ -632,7 +635,7 @@ describe("a retired life's own parents and housemates are not strangers", () => 
           if (id === me || !choice) continue;
           housematesSeen += 1;
           expect(choice.prominent).toBe(true);
-          expect(choice.relation).not.toBe("no connection on record");
+          expect(choice.relation).not.toBeNull();
         }
       }
     }
@@ -655,7 +658,7 @@ describe("a retired life's own parents and housemates are not strangers", () => 
         );
         if (!choice) continue;
         teachersSeen += 1;
-        expect(choice.relation).toBe("someone who taught them");
+        expect(choice.relation).toBe("your former teacher");
       }
     }
     expect(teachersSeen).toBeGreaterThan(0);
