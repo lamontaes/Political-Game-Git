@@ -315,7 +315,12 @@ same nine titles — stronger evidence than one browser, not weaker. And
 "pre-existing" here means present at `445441a5`; it does not date them further
 back than that.
 
-The six PT3 cases are very likely one cause rather than six. They are all
-conversation or scene rendering on the same PT3 surface, reached across two
-spec files and four viewport sizes, which is the signature of one broken thing
-met from six directions.
+The six PT3 cases looked like one cause rather than six — all conversation or
+scene rendering on the same PT3 surface, across two spec files and four
+viewport sizes. **That guess was half right and is retracted as stated.** The
+four in `pt3-scene-conversation.spec.ts` were one cause, a walk asking for the
+room and the moment at once when the game shows only one of them. The two in
+`pt3-school-scene.spec.ts:149` die on `data-scene-purpose` reading `home` where
+the walk wants `school`, which is a different problem. A shared prefix and a
+shared shard are not a shared cause; the full account is in
+`BROWSER-SUITE-CASE-LIST.md`.
