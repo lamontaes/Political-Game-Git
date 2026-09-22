@@ -8,7 +8,10 @@ import {
 import { allGovernmentUnits, countyGovernmentUnit } from "./government-units";
 import { lifePlaceSearch } from "./life-places";
 import { homePartyChapters } from "./living-world/party-chapters";
-import { localGovernmentAreaName } from "./nationwide-world/local-governments";
+import {
+  homeLocalPartyAreaName,
+  localGovernmentAreaName,
+} from "./nationwide-world/local-governments";
 
 // The Census listing files a county under its legal form, "COUNTY OF
 // BALTIMORE". A party chapter named from that read "County of Baltimore
@@ -54,5 +57,42 @@ describe("a place named the way the people who live there say it", () => {
     );
     expect(chapters).toContain("Baltimore County Democrats");
     expect(chapters.filter((name) => FILING_FORM.test(name))).toStrictEqual([]);
+  });
+
+  // Parties organize by county, parish and borough whether or not the area
+  // has its own government, and by the town where the town is the county.
+  it.each([
+    ["Houma", "US-LA", "Terrebonne Parish"],
+    ["New Orleans", "US-LA", "Orleans Parish"],
+    ["Nashville", "US-TN", "Davidson County"],
+    ["Wasilla", "US-AK", "Matanuska-Susitna Borough"],
+    ["Anchorage", "US-AK", "Anchorage"],
+    ["Juneau", "US-AK", "Juneau"],
+    ["Bethel", "US-AK", "Bethel"],
+    ["Denver", "US-CO", "Denver"],
+    ["Richmond", "US-VA", "Richmond"],
+    ["Hartford", "US-CT", "Hartford"],
+    ["Boston", "US-MA", "Boston"],
+    ["New York", "US-NY", "New York"],
+  ])("names the party area of %s (%s) %s", (town, state, expected) => {
+    const place = lifePlaceSearch(town, 10, {
+      stateJurisdictionKey: state,
+      scope: "locality",
+    }).find((candidate) => candidate.displayName.startsWith(`${town},`))!;
+    expect(place).toBeDefined();
+    const game = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: "party-area",
+        placeKey: place.key,
+        startAge: 30,
+      }),
+    ).game!;
+    expect(homeLocalPartyAreaName(game.world, game.playerPersonId)).toBe(
+      expected,
+    );
+    expect(homePartyChapters(game.world).map((c) => c.name)).toContain(
+      `${expected} Democrats`,
+    );
   });
 });
