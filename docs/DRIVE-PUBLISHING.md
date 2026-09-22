@@ -38,6 +38,27 @@ Two things it cost before it was fixed, both on 2026-09-22:
   one ALIVE44 names as its current checkpoint. The far end's pointer now
   resolves to nothing.
 
+## A render is a copy, never the source
+
+Write the source first, then upload it unchanged. Never write a sentence into
+the upload that is not already in the source.
+
+The source is whatever this project can read back and diff: a file in this
+repository for anything generated from it — the research queue's
+`OPEN-QUESTIONS.md` is the source and its Drive document is a copy — or, for a
+document that has no repository home, a single file in the publishing session's
+scratchpad that the upload is made from.
+
+This connector cannot edit a document body, so every refresh uploads a whole new
+document. That makes an in-flight edit invisible: it lands in Drive, never
+reaches the source, and the next render silently drops it. The two copies
+diverge within minutes and nothing reports it. It has already happened once, in
+an audit whose own subject was a registry that nothing reads.
+
+The rule is the same one this project applies to generated code: do not hand-edit
+the output. If a sentence is worth publishing it is worth being in the source,
+and if it is only in the render, it is already lost.
+
 ## A trash is a one-way door, and recreating the document is not the repair
 
 This connector has `trash_file` and no untrash. Once a document is trashed,
