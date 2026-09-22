@@ -67,12 +67,17 @@ export const AMERICAN_ENGLISH_EXEMPT: readonly {
     reason: "asset records bound to received files and their hashes",
   },
   {
+    pattern: /^docs\/writing\/[^/]*-original\.md$/,
+    reason:
+      "a report kept as it was sent, so the writing check is tested on it",
+  },
+  {
     pattern: /(^|\/)fixtures\/[^/]*old-save[^/]*$/,
     reason: "an old save, kept as it was written so migration is tested",
   },
   {
     pattern:
-      /^(scripts\/prose-eval\/(american-spelling|american-english|american-english-scope|prose-ranges)(\.test)?\.ts|tests\/content-american-english\.test\.ts|tests\/american-english-sweep\.test\.ts|src\/presentation\/legislation-american-english\.test\.ts)$/,
+      /^(scripts\/prose-eval\/(american-spelling|american-english|american-english-scope|prose-ranges)(\.test)?\.ts|scripts\/report-check\/report-check(\.test)?\.(mjs|ts)|tests\/content-american-english\.test\.ts|tests\/american-english-sweep\.test\.ts|src\/presentation\/legislation-american-english\.test\.ts)$/,
     reason: "the word tables and their tests name the British forms on purpose",
   },
 ];
