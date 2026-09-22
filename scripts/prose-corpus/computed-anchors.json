@@ -1971,28 +1971,76 @@
       "textRevision": "7985cc6382bd"
     },
     {
-      "anchor": "RELATION_LABEL-0001",
-      "sourcePath": "src/presentation/people-continuation.ts",
-      "symbol": "RELATION_LABEL",
-      "text": "no connection on record",
-      "occurrence": 0,
-      "textRevision": "85118d75c88b"
-    },
-    {
       "anchor": "RELATION_LABEL-0002",
       "sourcePath": "src/presentation/people-continuation.ts",
       "symbol": "RELATION_LABEL",
-      "text": "someone they kept up with",
+      "text": "someone you kept up with",
       "occurrence": 0,
-      "textRevision": "a8e05a56ed09"
+      "textRevision": "25d591a4decd"
     },
     {
       "anchor": "RELATION_LABEL-0003",
       "sourcePath": "src/presentation/people-continuation.ts",
       "symbol": "RELATION_LABEL",
-      "text": "someone they taught",
+      "text": "someone you taught",
       "occurrence": 0,
-      "textRevision": "698cbb5f9e2b"
+      "textRevision": "186bff8f184c"
+    },
+    {
+      "anchor": "RELATION_LABEL-0004",
+      "sourcePath": "src/presentation/people-continuation.ts",
+      "symbol": "RELATION_LABEL",
+      "text": "your housemate",
+      "occurrence": 0,
+      "textRevision": "a7c78259eb5f"
+    },
+    {
+      "anchor": "RELATION_LABEL-0005",
+      "sourcePath": "src/presentation/people-continuation.ts",
+      "symbol": "RELATION_LABEL",
+      "text": "your former teacher",
+      "occurrence": 0,
+      "textRevision": "0e27f6ca8a1d"
+    },
+    {
+      "anchor": "RELATION_LABEL-0006",
+      "sourcePath": "src/presentation/people-continuation.ts",
+      "symbol": "RELATION_LABEL",
+      "text": "your child",
+      "occurrence": 0,
+      "textRevision": "25a87ccaa4c1"
+    },
+    {
+      "anchor": "RELATION_LABEL-0007",
+      "sourcePath": "src/presentation/people-continuation.ts",
+      "symbol": "RELATION_LABEL",
+      "text": "your grandchild",
+      "occurrence": 0,
+      "textRevision": "e7509ee0a87c"
+    },
+    {
+      "anchor": "RELATION_LABEL-0008",
+      "sourcePath": "src/presentation/people-continuation.ts",
+      "symbol": "RELATION_LABEL",
+      "text": "your parent",
+      "occurrence": 0,
+      "textRevision": "0afea0094a6d"
+    },
+    {
+      "anchor": "RELATION_LABEL-0009",
+      "sourcePath": "src/presentation/people-continuation.ts",
+      "symbol": "RELATION_LABEL",
+      "text": "your partner",
+      "occurrence": 0,
+      "textRevision": "6b8e757646a2"
+    },
+    {
+      "anchor": "RELATION_LABEL-0010",
+      "sourcePath": "src/presentation/people-continuation.ts",
+      "symbol": "RELATION_LABEL",
+      "text": "your sibling",
+      "occurrence": 0,
+      "textRevision": "bcca18d1f0ee"
     },
     {
       "anchor": "RETURN_SUMMARY-0001",
@@ -6214,9 +6262,9 @@
       "anchor": "projectCampaign-0003",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} won. The supported term begins {supportedLegislativeTermDates(contest.office.officeKey,contest.electionDate)!.startsAt}; the result itself grants no current office authority.",
+      "text": "{candidateName} won. The term begins {proseDate(term.startsAt)}; until then the office is not theirs.",
       "occurrence": 0,
-      "textRevision": "fdcd60cba88c"
+      "textRevision": "17d4e131512b"
     },
     {
       "anchor": "projectDisclosure-0001",

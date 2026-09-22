@@ -1,0 +1,36 @@
+{
+  "filedAt": "2026-09-22T22:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "long playthrough",
+  "notes": [
+    "Owner's words, September 22, 2026: \"93% is super unrealistic\" and \"Find out how her campaign found the number 93%, whether it's accurate, and how she's done that.\"",
+    "The memo itself is honest: it is true support within about six points. The unrealistic part is the true support.",
+    "The Running for office thread owns the fix and is waiting on this for the numbers."
+  ],
+  "priority": "P1",
+  "question": "For a first-time or unaffiliated candidate, where does support realistically start, and how much can a week of door-knocking and phone calls move it? How does that differ between a town council seat, a state legislative seat and a governor's race, and between a small town and a whole state? Where does it level off?",
+  "questionId": "how-fast-a-campaign-can-move-support",
+  "relatedQuestionIds": [
+    "how-an-election-night-should-come-out",
+    "state-legislative-seat-calendar-and-field"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "long playthrough thread (Fatima Erickson and Seth Woodward)",
+  "sourcesChecked": [
+    {
+      "source": "Long playthrough in the browser, September 22, 2026: Fatima Erickson, Eastport, Maine, running for governor",
+      "whatItDidNotSettle": "Measures the game: her field memo went 48, 61, 70, 86, 93, 96 over about sixteen committed field weeks. Says nothing about real campaigns."
+    },
+    {
+      "source": "The campaign support code as built (requestedGainBasisPoints, recordCampaignObservation)",
+      "whatItDidNotSettle": "Shows each 90-minute door shift adds about 1.35 points times a random 60 to 141%, with no scaling by electorate and no ceiling. The constants have no source."
+    },
+    {
+      "source": "Earlier answer to how-an-election-night-should-come-out",
+      "whatItDidNotSettle": "Says to reuse a finite-audience model and states that no empirical persuasion or turnout coefficients were supplied."
+    }
+  ],
+  "title": "How fast a season of campaigning can move a candidate's support, by office and place size",
+  "usableAnswer": "Rules with their inputs named: a realistic starting range for a first-time or unaffiliated candidate by office level; roughly how many people a candidate and volunteers can reach per week and what share of an electorate that is at each size; how persuasion falls off as a campaign goes on; and a realistic ceiling for support in a contested race. Bands are fine. This is the calibration the earlier election-night answer said it did not supply.",
+  "whyItMatters": "In the game today one person knocking on doors for sixteen weeks took a statewide governor's race from about 48% to 96% support. lamontae read the 93% point and called it super unrealistic. Each door shift adds the same amount whether the race is a town of 1,300 or all of Maine, and nothing slows it down near the top, so effort alone wins any race by a landslide."
+}

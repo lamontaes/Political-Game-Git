@@ -34,5 +34,15 @@
   ],
   "title": "Which counties and places each of eighteen regional introduction scenes covers",
   "usableAnswer": "A JSON array, one object per region, with regionKey exactly as the coverage document writes it and a places object carrying includeStates, includeCounties, excludeCounties, includePlaces and excludePlaces as quoted Census strings, plus a note saying what the list claims and what it deliberately does not. Regions may be answered in any order and one may be left out entirely if it is not being answered.",
-  "whyItMatters": "Eighteen of the twenty-three regional scenes are shown to no player at all today, because the resolver matches on state, county and place identifiers and those eighteen regions declare none. This is coverage a player would see on the opening step, not tidying. The pictures are drawn and the resolver works; the identifiers are the only missing part."
+  "whyItMatters": "Eighteen of the twenty-three regional scenes are shown to no player at all today, because the resolver matches on state, county and place identifiers and those eighteen regions declare none. This is coverage a player would see on the opening step, not tidying. The pictures are drawn and the resolver works; the identifiers are the only missing part.",
+  "answer": {
+    "summary": "ChatGPT reviewed all 18 unmatched region keys in art/regions/regional-place-id-request.md and deliberately proposes no selectors for any of them: a valid 2020 GEOID does not prove the pictured landform, season, vegetation or built form fits a resident's place. An earlier draft of six county selectors was withdrawn because each covered people outside the scene, and one used Hughes County (46065) for Fort Pierre, which is in Stanley County (46117). County codes are kept as research leads only: eastern Kentucky 21071, 21095, 21133, 21193, 21195 (Floyd, Harlan, Letcher, Perry, Pike) for appalachian-town-january and pikeville-valley-street; basalt-coulee-steppe 53001, 53025 (Adams and Grant, WA); buchanan-small-town 26021 (Berrien, MI); trans-pecos-desert-mountain 48043, 48109, 48141, 48229, 48243, 48377. It also notes the pikeville source currently shares bytes with the January entry.",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-22-nationwide-2235/OCD-REGIONAL-SCENES--18-KEY-GEOID-REVIEW--NO-UNSUPPORTED-SELECTORS--2026-09-22.md (Drive 1iye6dZ1zH30ktCH8xKEUfT_pFG5nu4t2, SHA-256 455eb199621c2e216dcf200f3624e58b637c1a72d1fd062c900c6aa15152c1bf)",
+      "ChatGPT reply document 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, 'CTO RESEARCH RECEIPT — 6:27 P.M. EASTERN', read 22:40Z"
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T22:35:00.000Z",
+    "stillOpen": "In ChatGPT's words: 'Until then, the 18 scenes should remain unmatched.' What would close it: a vetted list of 2020 Census places with scene-specific landform, built-form and season checks, 'plus actual image inspection'. 'Candidate scene pixels were not visually accepted in this pass.' It is 'not scene admission or a recommendation to change the runtime mapping.'"
+  }
 }

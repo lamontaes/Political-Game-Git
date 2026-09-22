@@ -1,3 +1,4 @@
+import { privateModularInputs } from "../../src/presentation/private-test-inputs";
 import { expect, test } from "./fixtures";
 import {
   enterLife,
@@ -8,11 +9,30 @@ import {
   saveLife,
 } from "./support/creator";
 
+/*
+ * The first walk is a candidate-art review (?art-preview=candidate): the title
+ * plate, the creator's wardrobe figure and the opening's president are all
+ * drawn from private art. The plate's bytes live under
+ * art/generated/candidates/art-desk/, which .gitignore keeps out of the
+ * repository, and the figures need the installed modular pack. A checkout
+ * without them, CI included, cannot run this walk, so it reports NOT_TESTED
+ * rather than failing for want of art; MODULAR_REQUIRE_PRIVATE=1 makes the
+ * absence a failure where the private bank is meant to be present.
+ */
+const candidateArtReady = privateModularInputs("playtest65-u.spec.ts", [
+  "art/generated/candidates/art-desk/playtest65/environment/white-house-wide-r6.png",
+  "art/manifest/character_candidate_modular45_registry.json",
+]);
+
 test.describe.configure({ timeout: 240_000 });
 
 test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", async ({
   page,
 }, info) => {
+  test.skip(
+    !candidateArtReady,
+    "NOT_TESTED: requires the private Art Desk title plate and the installed modular candidate pack.",
+  );
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.setViewportSize({ width: 1280, height: 860 });

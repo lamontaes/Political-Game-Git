@@ -41,6 +41,7 @@ import type {
   SimulationMoment,
   World,
 } from "../types";
+import { formatStatutoryDate } from "../legislation-content-contracts";
 import { recordWorldEvent } from "../world";
 import type { MajorPartyKey } from "./contract";
 import { activePartyUnitsAt, partyUnits } from "./party-registry";
@@ -577,6 +578,7 @@ function tryWriteInvitation(
 ): { world: World; invitationId: EntityId; meetingDate: IsoDate } | null {
   const meetingDate = nextMeetingDate(world.currentDate, weeksLater);
   const organizer = world.people[organizerId]!;
+  const invitee = world.people[personId]!;
   const stableKey = `${dueItem.stableKey}:invitation`;
   try {
     let next = recordWorldEvent(world, {
@@ -590,7 +592,7 @@ function tryWriteInvitation(
         {
           personId: organizerId,
           role: "agency:asked",
-          detail: `Invited them to the next ${chapter.name} meeting`,
+          detail: `Invited ${personName(invitee)} to the next ${chapter.name} meeting`,
         },
         { personId, role: "focus:asked-of", detail: "Was invited" },
       ],
@@ -601,7 +603,7 @@ function tryWriteInvitation(
         `chapter:${chapter.organizationId}`,
         `meeting-date:${meetingDate}`,
       ],
-      summary: `${personName(organizer)} invited them to the ${chapter.name} open meeting.`,
+      summary: `${personName(organizer)} invited ${personName(invitee)} to the ${chapter.name} open meeting.`,
       context: {
         location: {
           jurisdictionId: chapter.jurisdictionId,
@@ -630,7 +632,9 @@ function tryWriteInvitation(
       personId,
       eventId: invitation.id,
       learnedAt: world.currentDate,
-      believedSummary: `${personName(organizer)} invited them to the ${chapter.name} open meeting on ${meetingDate}. Coming is optional.`,
+      // What the invitee knows, so it is said to them: the journal shows it as
+      // written, and "invited them" read in their own journal as somebody else.
+      believedSummary: `${personName(organizer)} invited you to the ${chapter.name} open meeting on ${formatStatutoryDate(meetingDate)}. Going is optional.`,
       accuracy: "accurate",
       confidence: "high",
       source: { kind: "told-by", sourcePersonId: organizerId, claimId: null },
@@ -677,8 +681,7 @@ function writeMeeting(
   next = createScheduledActivity(next, {
     stableKey: `${stableKey}:journey:${kind}`,
     title: "Journey to the community room",
-    summary:
-      "A game-authored 20-minute local journey included in Attend. Travel cost is not represented; no fare is charged.",
+    summary: "About twenty minutes to get to the community room.",
     kind: "travel",
     start: momentAt(
       world,
