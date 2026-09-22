@@ -1,0 +1,34 @@
+{
+  "intakeVersion": "art-request-intake/v1",
+  "requestId": "seated-adult-body-genuine-pose",
+  "title": "A genuinely seated adult body, bent knees and thighs forward",
+  "missing": "There is no true sitting body anywhere in the game. Every body labelled seated is an upright figure with shortened legs: gen-1 dev_body_adult_seated_v1, the g2 *_seated bodies, and all five standing-neutral bodies in the candidate bank the client build actually draws from. So a person placed on a chair reads as standing behind it.",
+  "consumerSite": {
+    "runtimeComponent": "src/presentation/visual-integration.ts",
+    "playerVisibleUse": "The council-office scene places Mara Rice on the desk chair. Her contact points land correctly - pelvis on the seat plane, soles on the floor - and she still reads as standing, because the body art is an upright figure, not a seated pose."
+  },
+  "jurisdiction": {
+    "scope": "jurisdiction-independent",
+    "reason": "A seated body is a character pose, not a place. It is needed wherever a seated scene puts a person in a chair - the council office first - and looks the same in every state."
+  },
+  "whyNeeded": "Seated scenes are reachable in ordinary play and every one of them currently shows a standing figure on a chair. The geometric contract passes on these plates, so nothing catches it but the eye; a genuine seated body is the only fix.",
+  "origin": "playtest",
+  "requestedBy": "art bench thread, from the character triage lane's measurement on the client build",
+  "filedAt": "2026-09-22T01:00:00.000Z",
+  "priority": "P1",
+  "figureContext": {
+    "postureClass": "seated",
+    "postureCues": [
+      "bent-knees",
+      "horizontal-thighs",
+      "thighs-coming-forward",
+      "shins-vertical-to-floor"
+    ],
+    "facing": "toward the viewer at a desk, and a guest-chair variant angled to the room",
+    "note": "A genuine seated adult body. NOT a revision of dev_body_adult_seated_v1, which is frozen generation 1 under a no-reroll signature - this is a new seated body. Shortening the legs of a standing figure is exactly the wrong delivery: the thighs must come forward off the hip and the knees must bend, so the silhouette is a person sitting, not a short person standing. Before-screenshots are in the character triage lane's thread with lamontae."
+  },
+  "notes": [
+    "Offending bodies measured on the client build: dev_g2_body_slim_light_seated_v1 and gen-1 dev_body_adult_seated_v1, both upright with shortened legs. The build's candidate bank holds five bodies, all standing-neutral, none seated.",
+    "The council-office consumer uses pose families seated-at-desk and seated-in-guest-chair (src/presentation/visual-integration.ts), so both a desk-seated and a guest-chair-seated body are wanted."
+  ]
+}
