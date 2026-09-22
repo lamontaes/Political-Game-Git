@@ -1,0 +1,26 @@
+{
+  "filedAt": "2026-09-22T23:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "invented-depth audit",
+  "notes": [
+    "Audit report: invented-depth audit, 2026-09-22 7 p.m. Eastern. Until answered the game keeps the current values as a blanket rule; each should carry a marker naming this question."
+  ],
+  "priority": "P1",
+  "question": "For a flood or severe storm of a given size in a U.S. county, what share of homes are damaged or destroyed, what share of residents in those homes are injured or killed, how long power and services stay out, how fast homes are repaired, and what actually decides whether a governor requests and the President grants a federal major disaster declaration?",
+  "questionId": "disaster-damage-casualties-and-declarations",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "invented-depth audit lane",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/crisis/disaster.ts and hazard-producer.ts at main 9f42ba19",
+      "whatItDidNotSettle": "The values are labelled provisional and cite nothing except the 30-day request window."
+    },
+    {
+      "source": "docs/research/requests/ (all 101 records)",
+      "whatItDidNotSettle": "No existing question covers disaster damage, casualties or declaration thresholds."
+    }
+  ],
+  "title": "How badly a storm or flood damages homes, hurts people, and when a governor and the President declare a disaster",
+  "usableAnswer": "Per hazard family (flood, severe storm), the observed ranges for home damage and destruction, injury and death per affected resident, outage length and repair pace, with sources; and the real decision rule for a governor's request and a presidential declaration (the per-capita indicator, its current value, and what else FEMA weighs). Where the answer is a spread, say so, so the game can draw from it instead of one national number.",
+  "whyItMatters": "Disasters run live in every new life (opened from opening-life.ts:100) and they can injure and kill people, including the player. Every number that decides this is invented. At main 9f42ba19:\n\n1. src/simulation/crisis/disaster.ts:61-110 — damaged homes 5%/15%/35%/60% by magnitude, destroyed up to 30%; injury 0/3%/8%/15% for a resident of a damaged home; death 0/0/1%/4% for a resident of a destroyed home; outages of 10-90% for 1/3/10/30 days; repair capacity 2 or 8 units a week; state review after 3 days, federal after 10. Labelled 'crunch46-provisional' and pointing at no question.\n2. src/simulation/crisis/hazard-producer.ts:110-112 — the magnitude ladder itself: 12 counties or 40 events is 'catastrophic', 5/12 'major', 2/4 'moderate'. Every rate above is keyed on this made-up ladder.\n3. src/simulation/crisis/disaster.ts:748-750 and :804 — a computer-run governor requests federal help at 'major' (or 'moderate' with a destroyed home) and the President always declares at 'major'. Real declarations turn on FEMA's per-capita damage indicator and state capacity.\n\nOnly the 30-day request window is cited (44 CFR 206.36). The storm incidence itself is sourced from NCEI."
+}

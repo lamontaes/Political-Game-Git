@@ -20,7 +20,9 @@ import {
   ensureCampaignOpponents,
   fileCampaign,
   lifePlaceByJurisdictionId,
+  localGoverningBodyIdentityForOfficeKey,
   makeCurrencyCode,
+  nextStateLegislativeElection,
   performCampaignAction,
   personName,
   requireElectionContest,
@@ -37,6 +39,7 @@ import type {
   DistrictSeatBinding,
   ElectiveOfficeOption,
   EntityId,
+  IsoDate,
   MoneyAmount,
   World,
 } from "../simulation";
@@ -659,11 +662,37 @@ function latestReading(
  * The opponent is materialized first and separately, because they are a person
  * in this world afterwards rather than a fixture belonging to a screen.
  */
+/**
+ * The election a filing for this office stands in. A state legislative seat
+ * is elected at the state's next regular legislative election, on the state's
+ * own calendar. A town's own body keeps the short authored schedule, which
+ * belongs to the local-races work and has no calendar of its own yet.
+ */
+export function campaignElectionDate(
+  world: World,
+  jurisdictionId: EntityId,
+  officeKey: string,
+) {
+  const stateKey =
+    lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey ?? null;
+  if (localGoverningBodyIdentityForOfficeKey(officeKey) || !stateKey)
+    return addDays(world.currentDate, 28);
+  return nextStateLegislativeElection(
+    stateKey.replace(/^US-/, ""),
+    world.currentDate,
+  ).electionDate;
+}
+
 export function fileForOffice(
   world: World,
   personId: EntityId,
   districtBinding: DistrictSeatBinding | null = null,
   officeKey: string | null = null,
+  /**
+   * Scenario fixtures only: an authored election date in place of the
+   * office's own calendar. Play never passes it.
+   */
+  authoredElectionDate: IsoDate | null = null,
 ): World {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
@@ -681,9 +710,9 @@ export function fileForOffice(
     count: 1,
     excludePersonIds: [personId],
   });
-  // Long enough to have to choose what to spend the weeks on, short enough
-  // that the election is a thing this life reaches rather than a horizon.
-  const electionDate = addDays(world.currentDate, 28);
+  const electionDate =
+    authoredElectionDate ??
+    campaignElectionDate(world, jurisdictionId, officeKey);
   return fileCampaign(opponents.world, {
     stableKey,
     candidatePersonId: personId,
