@@ -214,6 +214,31 @@ function settlesTension(interaction: RelationshipInteraction): boolean {
   );
 }
 
+/**
+ * Whether an interaction moves where the two stand at all, rather than only
+ * being on the record.
+ *
+ * Two kinds stay on the record and move nothing, after ChatGPT's conduct
+ * rubric for `what-moves-a-relationship` (DEPTH1, 2026-09-22):
+ *
+ * - Routine contact that only kept things as they were. A greeting repeated a
+ *   hundred times is a hundred greetings, not a friendship; contact counts
+ *   when it formed or strengthened something.
+ * - A conflict that was not recorded as straining or ending anything. The
+ *   namespace alone does not decide direction: an honest disagreement is
+ *   logged as conflict and is not a quarrel.
+ */
+function bearsOnStanding(
+  interaction: RelationshipInteraction,
+  namespace: RelationshipInteractionNamespace,
+): boolean {
+  if (namespace === "contact") return interaction.change !== "maintained";
+  if (namespace === "conflict") {
+    return interaction.change === "strained" || interaction.change === "ended";
+  }
+  return true;
+}
+
 interface Accumulator {
   weight: number;
   readonly basis: EntityId[];
@@ -273,6 +298,7 @@ function accumulate(
     const namespace = namespaceOf(interaction);
     const dimensions = DIMENSIONS_BY_NAMESPACE[namespace];
     if (!dimensions) continue;
+    if (!bearsOnStanding(interaction, namespace)) continue;
 
     const magnitude =
       SIGNIFICANCE_WEIGHT[interaction.significance] *

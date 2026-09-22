@@ -409,4 +409,67 @@ describe("relationship standing", () => {
       deriveRelationshipSummary(world, pair[0], pair[1]).closeness,
     ).not.toBe("estranged");
   });
+
+  it("keeps routine contact on the record without reading it as warmth", () => {
+    // ChatGPT's conduct rubric: a greeting or routine acknowledgement is
+    // contact, not standing. Twenty of them are still nothing between them.
+    let world = bareWorld("standing-routine-contact");
+    const pair = [personId(world, 0), personId(world, 1)] as const;
+    for (let day = 10; day < 30; day += 1) {
+      world = log(
+        world,
+        pair,
+        "contact:friendship",
+        "maintained",
+        "minor",
+        `2022-01-${day}`,
+      );
+    }
+    const standing = readRelationshipStanding(world, pair[0], pair[1]);
+    expect(standing.interactionCount).toBe(20);
+    for (const dimension of RELATIONSHIP_DIMENSIONS) {
+      expect(rawWeight(world, pair[0], pair[1], dimension)).toBe(0);
+    }
+
+    // Contact that formed something still counts, so the rule is about
+    // repetition and not about the namespace.
+    world = log(
+      world,
+      pair,
+      "contact:friendship",
+      "formed",
+      "meaningful",
+      "2022-02-01",
+    );
+    expect(rawWeight(world, pair[0], pair[1], "warmth")).toBeGreaterThan(0);
+  });
+
+  it("does not read an honest disagreement as a quarrel", () => {
+    // The conflict namespace does not decide direction; the recorded change
+    // does. A disagreement logged as maintaining things moves no line.
+    let world = bareWorld("standing-honest-disagreement");
+    const pair = [personId(world, 0), personId(world, 1)] as const;
+    world = log(
+      world,
+      pair,
+      "conflict:friendship",
+      "maintained",
+      "meaningful",
+      "2022-01-01",
+    );
+    for (const dimension of RELATIONSHIP_DIMENSIONS) {
+      expect(rawWeight(world, pair[0], pair[1], dimension)).toBe(0);
+    }
+
+    world = log(
+      world,
+      pair,
+      "conflict:friendship",
+      "strained",
+      "meaningful",
+      "2022-02-01",
+    );
+    expect(rawWeight(world, pair[0], pair[1], "tension")).toBeGreaterThan(0);
+    expect(rawWeight(world, pair[0], pair[1], "warmth")).toBeLessThan(0);
+  });
 });

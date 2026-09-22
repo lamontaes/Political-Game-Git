@@ -17,6 +17,9 @@ make of how that person goes about things, what is owed between them, and
 whether anything between them was left unsettled. A person can be rated at work
 and not wanted at home. An unsettled quarrel stays unsettled until the two of
 them do something about it, and being owed something survives falling out.
+Saying hello every day is not a friendship, and an honest disagreement is not a
+quarrel: routine contact and a conflict that strained nothing stay on the
+record without moving where the two of them stand.
 
 The person card now says where the player stands in a sentence of plain words,
 where before it said only when they last spoke.
