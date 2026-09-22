@@ -48,6 +48,17 @@ be failed rather than argued about.
 Interiors are asked none of this. Reporting that a community room has no art
 should not require classifying vegetation.
 
+## Figures declare a posture
+
+If the request is for a **figure** (a body plate), give a `figureContext` with a
+`postureClass` from the pose families' own set — `standing`, `seated`,
+`leaning`, `podium-or-lectern`. A non-standing posture must also name its
+`postureCues`: the visible marks that make it that posture, such as
+`bent-knees` and `thighs-forward`. A plate labelled `seated` that is really a
+short upright figure passes every geometric contact check, so the cues are what
+a reviewer fails the wrong pose on. At promotion they become an acceptance
+criterion that names the exact wrong delivery.
+
 You are not expected to search the whole catalog before filing. That happens at
 promotion, when `promoteToAssetRequest` carries the record into the Art Bench's
 own `AssetRequest` shape and demands the inventory check, the recipe and the

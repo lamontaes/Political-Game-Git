@@ -216,7 +216,77 @@ describe("what an outdoor plate has to declare", () => {
   });
 });
 
+describe("what a figure request has to declare", () => {
+  const codes = (records: ArtRequestIntakeRecord[]) =>
+    validateArtRequestIntake(records).findings.map((finding) => finding.code);
+
+  it("refuses a seated request that does not say what makes it seated", () => {
+    const found = codes([
+      record({ figureContext: { postureClass: "seated" } }),
+    ]);
+    expect(found).toContain("non-standing-posture-without-cues");
+    expect(
+      validateArtRequestIntake([
+        record({ figureContext: { postureClass: "seated" } }),
+      ]).valid,
+    ).toBe(false);
+  });
+
+  it("accepts a seated request that names the cues", () => {
+    const result = validateArtRequestIntake([
+      record({
+        figureContext: {
+          postureClass: "seated",
+          postureCues: ["bent-knees", "thighs-forward"],
+        },
+      }),
+    ]);
+    expect(result.valid).toBe(true);
+  });
+
+  it("asks a standing figure for no cues", () => {
+    const result = validateArtRequestIntake([
+      record({ figureContext: { postureClass: "standing" } }),
+    ]);
+    expect(result.valid).toBe(true);
+  });
+
+  it("rejects a posture outside the pose families' vocabulary", () => {
+    expect(
+      codes([record({ figureContext: { postureClass: "crouched" as never } })]),
+    ).toContain("unknown-posture-class");
+  });
+
+  it("will not let one record be both a figure and a plate", () => {
+    expect(
+      codes([
+        record({
+          figureContext: { postureClass: "standing" },
+          visualContext: { seasons: ["summer"] },
+        }),
+      ]),
+    ).toContain("figure-and-environment-context-together");
+  });
+});
+
 describe("promoteToAssetRequest", () => {
+  it("makes a seated pose a criterion a short upright figure fails", () => {
+    const request = promoteToAssetRequest(
+      record({
+        figureContext: {
+          postureClass: "seated",
+          postureCues: ["bent-knees", "thighs-forward"],
+        },
+      }),
+      PROMOTION,
+    );
+    const first = request.acceptanceCriteria[0]!;
+    expect(first).toContain("seated");
+    expect(first).toContain("bent-knees");
+    expect(first).toContain("shorter legs");
+    expect(validateAssetRequests([request]).valid).toBe(true);
+  });
+
   it("carries the declared look into criteria a delivery can fail", () => {
     const request = promoteToAssetRequest(
       record({

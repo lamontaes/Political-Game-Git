@@ -52,6 +52,26 @@ makes gaps go unreported costs more than it saves. `targetClass:
 "environment-plate"` must name an `environmentClass`, and that answer is what
 decides which of the two questions the record is asked.
 
+### What a figure request has to declare
+
+A request for a body carries a `figureContext` with a `postureClass` from the
+pose families' own vocabulary (`POSE_POSTURE_CLASSES`), so a body request speaks
+the same words as the poses it will fill. A non-standing posture must also name
+its `postureCues` — `bent-knees`, `thighs-forward`. This is the seated-chair
+case: a plate labelled `seated` that is really a short upright figure lands
+every contact assertion (pelvis on the seat plane, soles on the floor) and
+still reads as standing behind the chair, so "seated" as a bare label is not
+enough. At promotion the cues become an acceptance criterion naming the wrong
+delivery outright: a figure that merely stands, or an upright figure with
+shorter legs, is wrong even when its contacts are correct.
+
+A record carries a figure posture or an environment context, not both, and the
+validator refuses one that carries both. The intake's target vocabulary does
+not yet name a figure class, so the presence of `figureContext` is what marks a
+record as a figure request; forcing every figure request to carry it the way an
+outdoor plate is forced to carry its season would need that class, which
+reaches into `asset-lineage.ts`.
+
 `jurisdiction` has two honest shapes. `specific` names the place the player was
 in. `jurisdiction-independent` is a claim and must carry its reason: a blank
 answer would be read later as nationwide, which is exactly the kind of silent

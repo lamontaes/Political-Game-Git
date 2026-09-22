@@ -50,6 +50,8 @@ import {
   REGIONAL_LANDFORMS,
   REGIONAL_SCENE_KINDS,
 } from "./regional-scene-coverage";
+import type { PosePostureClass } from "../presentation/pose-families";
+import { POSE_POSTURE_CLASSES } from "../presentation/pose-families";
 
 export const ART_REQUEST_INTAKE_VERSION = "art-request-intake/v1" as const;
 
@@ -156,6 +158,43 @@ export const OUTDOOR_ENVIRONMENT_CLASSES: readonly EnvironmentClass[] = [
   "landmark-exterior",
 ];
 
+/**
+ * What a figure request has to declare about the body's posture.
+ *
+ * The case that proves the need: a person assigned to a chair was drawn by a
+ * body plate labelled `seated` that is actually an upright figure with shorter
+ * legs. Every contact assertion passed — pelvis on the seat plane, soles on
+ * the floor — and it still looked like someone standing behind the chair,
+ * because "seated" was a filename rather than a checkable claim. So a figure
+ * request names its posture in the same canonical vocabulary the pose families
+ * use (`POSE_POSTURE_CLASSES`), and, for a posture that is not plain standing,
+ * the visible cues a merely shorter figure would fail.
+ */
+export interface ArtRequestFigureContext {
+  readonly postureClass: PosePostureClass;
+  /**
+   * The visible marks of the posture, as slugs: `bent-knees`, `thighs-forward`.
+   * Required for a non-standing posture, because they are what a reviewer fails
+   * a wrong pose on, and what tells a real seated figure from a short standing
+   * one. A standing figure needs none.
+   */
+  readonly postureCues?: readonly string[];
+  /** Which way the figure faces, when it matters. Free text. */
+  readonly facing?: string;
+  /** Anything else about the body a delivery could get wrong. */
+  readonly note?: string;
+}
+
+/**
+ * Postures whose whole point is that the body is not upright.
+ *
+ * For these, "declared the posture" is not enough: the request must also say
+ * what makes it that posture, or the delivery that got it wrong — a short
+ * upright figure — satisfies the record.
+ */
+export const NON_STANDING_POSTURES: readonly PosePostureClass[] =
+  POSE_POSTURE_CLASSES.filter((posture) => posture !== "standing");
+
 export interface ArtRequestConsumerSite {
   /** Matches an `AssetRequestConsumer.consumerId` when the consumer has one. */
   readonly consumerId?: string;
@@ -191,6 +230,12 @@ export interface ArtRequestIntakeRecord {
    * optional everywhere else.
    */
   readonly visualContext?: ArtRequestVisualContext;
+  /**
+   * What the body's posture is. Present on a figure request; its presence is
+   * what tells the validator this is a figure rather than a plate, since the
+   * intake's target vocabulary does not yet name a figure class.
+   */
+  readonly figureContext?: ArtRequestFigureContext;
   /**
    * Anything already looked at. Optional here, unlike on a bench request: a
    * noticer is not expected to sweep the catalog, and a promotion that carries
@@ -234,6 +279,9 @@ export type ArtRequestIntakeFindingCode =
   | "unknown-season"
   | "unknown-landform"
   | "unknown-scene-kind"
+  | "unknown-posture-class"
+  | "non-standing-posture-without-cues"
+  | "figure-and-environment-context-together"
   | "promoted-record-still-open";
 
 export interface ArtRequestIntakeFinding {
@@ -598,6 +646,42 @@ export function validateArtRequestIntake(
       }
     }
 
+    /**
+     * A figure request declares its posture, and a non-standing one says what
+     * makes it that posture.
+     *
+     * This is the seated-chair case: a plate labelled `seated` that is really
+     * a short upright figure passed every geometric contact check. The cues
+     * are what a reviewer fails the wrong pose on, so a seated request without
+     * them is a filename again.
+     */
+    const figure = record.figureContext;
+    if (figure) {
+      if (record.visualContext) {
+        error(
+          "figure-and-environment-context-together",
+          requestId,
+          `A record carries both a figure posture and an environment context. One request is a body or a plate, not both; split them.`,
+        );
+      }
+      if (!POSE_POSTURE_CLASSES.includes(figure.postureClass)) {
+        error(
+          "unknown-posture-class",
+          requestId,
+          `'${figure.postureClass}' is not a posture class. The pose families own the closed set, so a body request speaks the same words as the poses it will fill.`,
+        );
+      } else if (
+        NON_STANDING_POSTURES.includes(figure.postureClass) &&
+        !(figure.postureCues?.length ?? 0)
+      ) {
+        error(
+          "non-standing-posture-without-cues",
+          requestId,
+          `A '${figure.postureClass}' request must name the visible cues that make it that posture, such as bent knees and thighs forward. Without them a shorter upright figure satisfies the request, which is exactly the delivery this field exists to reject.`,
+        );
+      }
+    }
+
     if (record.promotedToRequestId !== undefined) {
       if (!record.promotedToRequestId.trim()) {
         error(
@@ -748,6 +832,7 @@ export function promoteToAssetRequest(
     generationRecipe: [...inputs.generationRecipe],
     acceptanceCriteria: [
       ...visualCriteria(record.visualContext),
+      ...postureCriteria(record.figureContext),
       ...inputs.acceptanceCriteria,
     ],
     dependsOn: [],
@@ -787,5 +872,35 @@ function visualCriteria(
     );
   }
   if (context.note?.trim()) criteria.push(context.note.trim());
+  return criteria;
+}
+
+/**
+ * Turn the declared posture into criteria a delivery can fail.
+ *
+ * The seated case is the whole reason this exists: "shows a seated posture" is
+ * not enough, because a short upright figure reads as standing behind the
+ * chair and still lands its contacts. So the cues go in as the test — bent
+ * knees, thighs forward — and the failure it names is the exact wrong delivery.
+ */
+function postureCriteria(
+  figure: ArtRequestFigureContext | undefined,
+): readonly string[] {
+  if (!figure) return [];
+  const criteria: string[] = [];
+  const cues = figure.postureCues?.length
+    ? ` The posture reads through ${figure.postureCues.join(", ")}.`
+    : "";
+  if (NON_STANDING_POSTURES.includes(figure.postureClass)) {
+    criteria.push(
+      `Shows a ${figure.postureClass} posture.${cues} A figure that merely stands, or an upright figure with shorter legs, is wrong even when its contact points land correctly.`,
+    );
+  } else {
+    criteria.push(`Shows a ${figure.postureClass} posture.${cues}`);
+  }
+  if (figure.facing?.trim()) {
+    criteria.push(`The figure faces ${figure.facing.trim()}.`);
+  }
+  if (figure.note?.trim()) criteria.push(figure.note.trim());
   return criteria;
 }
