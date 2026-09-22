@@ -63,6 +63,33 @@ export const KENTUCKY_LEXINGTON_REGRESSION = {
 } as const;
 
 /**
+ * Starts the life once the calibration's questions have run out.
+ *
+ * The questions no longer end in the life. The creator gained an appearance
+ * step — "How you look", with its own Begin — and the calibration returns to
+ * it, so a walk that answers every question and then waits for the play screen
+ * stops on a creator with Begin sitting unpressed in front of it. It reads as
+ * the calibration failing to start a life, and because a missing element is
+ * waited for rather than compared, it reports as a timeout rather than as a
+ * failed assertion.
+ *
+ * `startLife` says in its own comment that it deliberately leaves Begin
+ * unpressed because pressing it is one line in the caller. On the calibrated
+ * route that line had nowhere to live, since the questions come between the
+ * creator and Begin. This is that line, in one place.
+ *
+ * Tolerant about the button on purpose: a caller that declined the questions,
+ * or stopped part way, is not necessarily looking at an enabled Begin, and
+ * this helper is not the place to decide what that caller wanted.
+ */
+export async function beginAfterCalibration(page: Page): Promise<void> {
+  const begin = page.getByTestId("begin");
+  if ((await begin.count()) === 0) return;
+  if (!(await begin.isEnabled())) return;
+  await begin.click();
+}
+
+/**
  * Quits to the title screen, answering the unsaved-life confirmation.
  *
  * `goTo(page, "leave-game")` alone is not enough and has not been for a while:

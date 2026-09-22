@@ -311,6 +311,63 @@ is worth reading closely.
 
 - `world39-news-journal.spec.ts:24:1` — News speaks about the place and the Journal tells the life through save (Aurora, Colorado) _(assertion, flaky)_
 
+## Ten of the 86 now pass, and they were one cause
+
+Worked 2026-09-22 after this list was first written. Measured locally on main,
+Chromium 141, `CI=1`, two workers.
+
+    narrative-life.spec.ts:556           runs the questions and ends into the life
+    p2r1-editorial.spec.ts:54            the old age-32 calibrated fixture
+    pennywise-adaptive-life.spec.ts:143  asks the short path, answers it
+    pennywise-adaptive-life.spec.ts:174  never tells the player what it concluded
+    pennywise-adaptive-life.spec.ts:248  plays a run of adult situations
+    pennywise-adaptive-life.spec.ts:324  writes no tier and no selection reason
+    pennywise-adaptive-life.spec.ts:359  keeps a calibrated life and reloads it
+
+Three more, which this list had filed under **timeout** rather than assertion,
+are the same cause and pass with them:
+
+    pennywise-adaptive-life.spec.ts:194  lets a player decline the whole thing
+    pennywise-adaptive-life.spec.ts:307  shows no tier, no meter and no forecast
+    pennywise-adaptive-life.spec.ts:390  rebuilds the life its replay address came from
+
+That is **ten of the 86 live cases**, leaving 76: 23 private-artwork,
+35 assertion, 17 timeout, 1 unknown. The seven-and-three split is itself the
+point — the same stale walk was counted in two different families, because a
+missing element is waited for and a wrong one is not.
+
+**The creator gained an appearance step.** "How you look", with its own Begin,
+now comes _after_ the questions, so answering the calibration returns the
+player to the creator rather than dropping them in a room. Every one of these
+asserted `play-screen` immediately and stopped on a creator with Begin sitting
+unpressed in front of it. A stale walk in seven places, not seven defects, and
+now one shared `beginAfterCalibration` helper.
+
+Running `pennywise-adaptive-life.spec.ts` by itself surfaced **eight**
+failures where the whole-suite run recorded five, which is a second instance of
+the order-dependence this list warns about above. Three more stale references
+came out of that file with them: quitting a life that has never been saved
+opens a confirmation, so `goTo(page, "leave-game")` leaves the player where
+they were; the replay case waited for an `opening-life-panel` that exists
+nowhere in `src` any more; and it was reading behind the skippable world
+introduction. That file is now 11 passed, 0 failed, from 8 failed.
+
+**Worth carrying to other lanes: eight other specs call `leave-game` directly**
+and will hang the same way on an unsaved life —
+`front-door-readability.spec.ts`, `production-play.spec.ts` (six call sites),
+`title-tableau.spec.ts` and `frontdoor44.spec.ts`. The shared `leaveGame`
+helper answers the confirmation; they have not been switched to it.
+
+**And a note on the timeout family.** Three of these four stale references
+presented as two-minute timeouts rather than failed assertions, because a
+missing element is waited for and a wrong one is not — which is exactly why
+three of the ten recovered cases sit in the timeout row of the table below and
+seven in the assertion row, for one cause. So some of the remaining 17 live
+timeouts are stale references rather than slow walks, and the two families are
+not as separate as the table makes them look. The table below is left as
+measured, with this section as its correction, rather than rewritten to hide
+that the families crossed.
+
 ## Totals
 
 | Family                           | All 104 | Live 86 |
