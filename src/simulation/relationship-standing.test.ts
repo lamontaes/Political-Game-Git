@@ -425,7 +425,7 @@ describe("relationship standing", () => {
   });
 
   it("keeps routine contact on the record without reading it as warmth", () => {
-    // ChatGPT's conduct rubric: a greeting or routine acknowledgement is
+    // ChatGPT's conduct rubric: a greeting or routine acknowledgment is
     // contact, not standing. Twenty of them are still nothing between them.
     let world = bareWorld("standing-routine-contact");
     const pair = [personId(world, 0), personId(world, 1)] as const;

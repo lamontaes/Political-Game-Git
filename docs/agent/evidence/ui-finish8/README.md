@@ -46,7 +46,7 @@ worth roughly three points of final margin:
 Two afternoons is the crossover. Both contests were being settled inside a
 sub-two-point residual — on accepted main as much as here. The same sweep on
 `ec437eda` gives lost-by-7.32 / lost-by-3.72 at zero afternoons and
-won-by-10.16 / won-by-10.74 at six, so the behaviour is not branch-specific.
+won-by-10.16 / won-by-10.74 at six, so the behavior is not branch-specific.
 
 **What changed to expose it.** #144's OPENING integration advances ordinary
 opening scenes by minutes (`advanceWorldMinutes`) rather than by whole days,
@@ -82,7 +82,7 @@ and records `campaign-and-office` won, `campaign-alternate` won,
 `campaign-without-the-work` lost.
 
 **For D:** this is the "written causal account and independent adjudication"
-the contract asks for. The judgement worth checking is the second part — that a
+the contract asks for. The judgment worth checking is the second part — that a
 lane which does no campaigning is a legitimate way to demonstrate a defeat,
 rather than a way of arranging for one.
 
@@ -109,7 +109,7 @@ branch head, tree clean:
     survives reload and a repeated Save byte-for-byte.
 - The invitation's date is derived, not written: `nextSaturday(currentDate)` in
   `life-opportunities.ts`. On this journey the world date is 2026-01-05, so the
-  declined occasion is **Saturday 10 January 2026** — the invitation the
+  declined occasion is **Saturday January 10, 2026** — the invitation the
   contract names.
 - No money is granted at load. `ensureLifePathPersonalPosition` opens a
   position from recorded transfer outcomes only, records the carried outcome

@@ -236,7 +236,7 @@ interface SyncState {
   batches: Record<string, Record<string, string>>;
 }
 
-interface BytesState {
+export interface BytesState {
   readonly state: "verified" | "missing" | "hash-mismatch" | "not-a-raster";
   readonly note: string;
   readonly raster?: DecodedRaster;
@@ -255,6 +255,24 @@ export interface StoreOptions {
   readonly ownerId?: string;
 }
 
+const BYTES_LEDGER_SCHEMA = "artbench-bytes-verified-v1";
+
+interface BytesLedgerEntry {
+  readonly path: string;
+  readonly stamp: string;
+  readonly result: BytesState;
+}
+
+function verifiedNote(raster: DecodedRaster): string {
+  return `Present, hash-verified and fully decoded: ${raster.width}×${raster.height} ${raster.container}${raster.hasAlpha ? " with alpha" : ""}.`;
+}
+
+/** Size, times and inode: any rewrite or replacement changes it. */
+function fileStamp(absolute: string): string {
+  const stat = statSync(absolute, { bigint: true });
+  return `${stat.size}:${stat.mtimeNs}:${stat.ctimeNs}:${stat.ino}`;
+}
+
 export class ArtbenchStore {
   readonly dataRoot: string;
   readonly workspace: string;
@@ -269,6 +287,18 @@ export class ArtbenchStore {
   private eventLogStamp = "";
   private readonly known = new Set<string>();
   private readonly bytesCache = new Map<string, BytesState>();
+  /**
+   * Verification results that survive a restart (cache/bytes-verified.json),
+   * keyed by hash and bound to the exact file (path, size, times, inode).
+   * Hashing and fully decoding every original took ~80 s on each launch,
+   * during which the single-threaded server answered nothing.
+   */
+  private bytesLedger: Record<string, BytesLedgerEntry> = {};
+  private ledgerTimer: ReturnType<typeof setTimeout> | null = null;
+  private readonly verifyQueue = new Map<string, ProjectedCandidate>();
+  private verifying = false;
+  /** A sync postponed its catalog until the queued checks finish. */
+  private catalogWaiting = false;
   private syncState: SyncState;
   private settling = new Map<string, number>();
 
@@ -284,6 +314,12 @@ export class ArtbenchStore {
     for (const dir of ["events", "bytes", "inbox", "outbox", "sync", "cache"]) {
       mkdirSync(join(this.dataRoot, dir), { recursive: true });
     }
+    const ledger = readJson<{
+      schema?: string;
+      bytes?: Record<string, BytesLedgerEntry>;
+    }>(this.ledgerFile);
+    if (ledger?.schema === BYTES_LEDGER_SCHEMA && ledger.bytes)
+      this.bytesLedger = ledger.bytes;
     const storeFile = join(this.dataRoot, "store.json");
     const existing = readJson<{ storeId?: string }>(storeFile);
     if (existing?.storeId) {
@@ -615,7 +651,12 @@ export class ArtbenchStore {
     return realFileInside(this.workspace, candidate.storagePath);
   }
 
-  bytesState(candidate: ProjectedCandidate): BytesState {
+  /**
+   * What is already known about a candidate's bytes, without reading them:
+   * missing, or a verification of this exact file. null means "not checked
+   * yet" (bytesState or queueBytesVerification will check it).
+   */
+  knownBytesState(candidate: ProjectedCandidate): BytesState | null {
     const absolute = this.resolveStorage(candidate);
     if (!absolute || !existsSync(absolute) || !statSync(absolute).isFile()) {
       return {
@@ -632,6 +673,26 @@ export class ArtbenchStore {
     ) {
       return cached;
     }
+    const stamp = fileStamp(absolute);
+    const recorded = this.bytesLedger[candidate.sha256];
+    if (recorded && recorded.path === absolute && recorded.stamp === stamp) {
+      const entry = {
+        ...recorded.result,
+        mtimeMs: stat.mtimeMs,
+        size: stat.size,
+      };
+      this.bytesCache.set(candidate.sha256, entry);
+      return entry;
+    }
+    return null;
+  }
+
+  bytesState(candidate: ProjectedCandidate): BytesState {
+    const known = this.knownBytesState(candidate);
+    if (known) return known;
+    const absolute = this.resolveStorage(candidate)!;
+    // Stamped before reading: a file changed mid-read is re-checked later.
+    const stamp = fileStamp(absolute);
     const bytes = readFileSync(absolute);
     const actual = hashBytes(bytes);
     let result: BytesState;
@@ -645,7 +706,7 @@ export class ArtbenchStore {
       result = decoded.ok
         ? {
             state: "verified",
-            note: `Present, hash-verified and fully decoded: ${decoded.raster.width}×${decoded.raster.height} ${decoded.raster.container}${decoded.raster.hasAlpha ? " with alpha" : ""}.`,
+            note: verifiedNote(decoded.raster),
             raster: decoded.raster,
           }
         : {
@@ -653,13 +714,124 @@ export class ArtbenchStore {
             note: `${decoded.code}: ${decoded.message}`,
           };
     }
+    return this.recordBytes(candidate.sha256, absolute, result, stamp);
+  }
+
+  private recordBytes(
+    sha256: string,
+    absolute: string,
+    result: BytesState,
+    stamp = fileStamp(absolute),
+  ): BytesState {
+    const stat = statSync(absolute);
     const entry = { ...result, mtimeMs: stat.mtimeMs, size: stat.size };
-    this.bytesCache.set(candidate.sha256, entry);
+    this.bytesCache.set(sha256, entry);
+    this.bytesLedger[sha256] = {
+      path: absolute,
+      stamp,
+      result,
+    };
+    this.saveLedgerSoon();
     return entry;
+  }
+
+  /** Candidates still waiting for a background check. */
+  get bytesPending(): number {
+    return this.verifyQueue.size;
+  }
+
+  /**
+   * Check these candidates' bytes in the background, in the given order, one
+   * per event-loop turn, so requests keep being answered meanwhile. A new
+   * call re-prioritizes: its candidates go first (or last, with first: false).
+   */
+  queueBytesVerification(
+    candidates: readonly ProjectedCandidate[],
+    { first = true }: { readonly first?: boolean } = {},
+  ): void {
+    const rest = [...this.verifyQueue.values()];
+    this.verifyQueue.clear();
+    for (const candidate of first
+      ? [...candidates, ...rest]
+      : [...rest, ...candidates])
+      if (
+        !this.verifyQueue.has(candidate.sha256) &&
+        !this.knownBytesState(candidate)
+      )
+        this.verifyQueue.set(candidate.sha256, candidate);
+    if (this.verifying || this.verifyQueue.size === 0) return;
+    this.verifying = true;
+    const step = () => {
+      const next = this.verifyQueue.values().next();
+      if (next.done) {
+        this.verifying = false;
+        // Finish the sync that was waiting (start-up or Sync now), once.
+        if (this.catalogWaiting) {
+          this.catalogWaiting = false;
+          try {
+            this.syncOnce();
+          } catch {
+            /* reported in sync status by the next Sync now */
+          }
+        }
+        return;
+      }
+      this.verifyQueue.delete(next.value.sha256);
+      try {
+        this.bytesState(next.value);
+      } catch {
+        /* reported when that candidate is next asked for */
+      }
+      setImmediate(step);
+    };
+    setImmediate(step);
+  }
+
+  private get ledgerFile(): string {
+    return join(this.dataRoot, "cache", "bytes-verified.json");
+  }
+
+  private saveLedgerSoon(): void {
+    if (this.ledgerTimer) return;
+    this.ledgerTimer = setTimeout(() => {
+      this.ledgerTimer = null;
+      this.saveLedger();
+    }, 1000);
+    this.ledgerTimer.unref?.();
+  }
+
+  /** Write the verification ledger now (also used by tests). */
+  saveLedger(): void {
+    if (this.ledgerTimer) {
+      clearTimeout(this.ledgerTimer);
+      this.ledgerTimer = null;
+    }
+    try {
+      writeAtomic(
+        this.ledgerFile,
+        JSON.stringify({
+          schema: BYTES_LEDGER_SCHEMA,
+          bytes: this.bytesLedger,
+        }),
+      );
+    } catch {
+      /* a rebuildable cache: the next launch re-verifies instead */
+    }
   }
 
   original(candidateId: string): {
     readonly bytes: Buffer;
+    readonly candidate: ProjectedCandidate;
+  } {
+    const { file, candidate } = this.originalFile(candidateId);
+    // The saved name is the caller's business: the Art Desk builds a readable
+    // one from the asset's name plus this hash (originalDownloadName).
+    return { bytes: readFileSync(file), candidate };
+  }
+
+  /** Where a verified original lives, without reading its bytes. */
+  originalFile(candidateId: string): {
+    readonly file: string;
     readonly candidate: ProjectedCandidate;
   } {
     const candidate = this.projection().candidates[candidateId];
@@ -673,10 +845,7 @@ export class ArtbenchStore {
     if (state.state !== "verified") {
       throw new ArtbenchError(409, "bytes-unavailable", state.note);
     }
-    const absolute = this.resolveStorage(candidate)!;
-    // The saved name is the caller's business: the Art Desk builds a readable
-    // one from the asset's name plus this hash (originalDownloadName).
-    return { bytes: readFileSync(absolute), candidate };
+    return { file: this.resolveStorage(candidate)!, candidate };
   }
 
   /* ---------------------------------------------------------------- */
@@ -776,7 +945,16 @@ export class ArtbenchStore {
     const container = decoded.raster.container;
     const storagePath = `bytes/${sha256}.${container}`;
     const absolute = join(this.dataRoot, storagePath);
-    if (!existsSync(absolute)) writeAtomic(absolute, bytes);
+    if (!existsSync(absolute)) {
+      writeAtomic(absolute, bytes);
+      // These exact bytes were just hashed and fully decoded: record it, so
+      // they are never re-verified on a later launch or catalog pass.
+      this.recordBytes(sha256, absolute, {
+        state: "verified",
+        note: verifiedNote(decoded.raster),
+        raster: decoded.raster,
+      });
+    }
     const editKind: EditKind = meta.editKind ?? (parent ? "other" : "original");
     const assetId =
       parent?.assetId ??
@@ -1855,6 +2033,18 @@ export class ArtbenchStore {
     mkdirSync(catalogDir, { recursive: true });
     this.ensureRequestCodes();
     const projection = this.projection();
+    // Verifying every original here blocked the server for ~40 s per launch.
+    // Unverified bytes are checked in the background; the previous catalog
+    // stands until every candidate's state is known, then the next sync
+    // publishes a complete one.
+    const unknown = Object.values(projection.candidates).filter(
+      (candidate) => !this.knownBytesState(candidate),
+    );
+    if (unknown.length > 0) {
+      this.catalogWaiting = true;
+      this.queueBytesVerification(unknown, { first: false });
+      return;
+    }
     const candidates = Object.values(projection.candidates).map((candidate) => {
       const bytes = this.bytesState(candidate);
       let exchangePath: string | null = null;

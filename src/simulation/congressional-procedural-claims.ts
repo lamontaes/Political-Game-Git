@@ -1,3 +1,23 @@
+/**
+ * Federal congressional procedure, read from primary sources and not yet wired.
+ *
+ * NOTHING IMPORTS THIS YET, and that is a state rather than an oversight. The
+ * rules below are read from the Constitution, the 119th House Rules and Manual
+ * and the Senate's own published voting page, in the same three-way
+ * Known/Unknown/not-applicable shape `legislature-rules.ts` uses, with
+ * `effectiveDate` left `unknownRule` because no source supplies one.
+ *
+ * The intended consumers are the living Congress — `living-world/congress.ts`,
+ * `congress-seats.ts` and `congress-turnover.ts` — together with `legislation.ts`,
+ * which already reads `VoteThresholdRule`. None of them reads these claims today.
+ *
+ * It is not retired and not superseded, so the permanent-removal rule does not
+ * reach it. Federal Congress is outside NATIONWIDE1, which is the fifty states
+ * and the District, so no lane currently owns wiring it; that ownership is an
+ * open question rather than an abandoned one. Delete this only once something
+ * reads it or the decision is taken that nothing will.
+ */
+
 import {
   knownRule,
   notApplicableRule,

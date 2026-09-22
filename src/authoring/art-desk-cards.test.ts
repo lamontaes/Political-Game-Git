@@ -4,6 +4,7 @@ import { candidateUsage, type SelectedArtBuild } from "./art-desk-usage";
 import {
   ART_DESK_NAV_TABS,
   artDeskCards,
+  cardOnDesk,
   generationRequestReady,
   candidateNotes,
   cardIsUntagged,
@@ -24,9 +25,24 @@ import {
   type TagSet,
 } from "./artbench";
 
-it("owner navigation omits the library and style-reference buckets", () => {
-  expect(ART_DESK_NAV_TABS.map((tab) => tab.key)).not.toContain("library");
-  expect(ART_DESK_NAV_TABS.map((tab) => tab.key)).not.toContain("references");
+it("owner navigation omits library, references, rejected and removed art", () => {
+  const keys = ART_DESK_NAV_TABS.map((tab) => tab.key);
+  for (const key of ["library", "references", "rejected", "archived"])
+    expect(keys).not.toContain(key);
+  expect(keys).toContain("needs-review");
+});
+
+it("only cards live in an owner-facing tab are on the desk", () => {
+  expect(cardOnDesk({ tabs: ["library", "needs-review"] })).toBe(true);
+  expect(cardOnDesk({ tabs: ["library", "requests"] })).toBe(true);
+  expect(cardOnDesk({ tabs: ["library"] })).toBe(false);
+  expect(cardOnDesk({ tabs: ["library", "references"] })).toBe(false);
+  expect(cardOnDesk({ tabs: ["library", "rejected"] })).toBe(false);
+  expect(cardOnDesk({ tabs: ["library", "archived"] })).toBe(false);
+  // A question on removed or rejected art does not bring it back.
+  expect(cardOnDesk({ tabs: ["library", "archived", "discussion"] })).toBe(
+    false,
+  );
 });
 
 let seq = 0;
@@ -464,7 +480,7 @@ describe("Art Desk viewed version", () => {
         parent: "cand-street",
         family: street,
         at: "2026-09-17T10:00:00.000Z",
-        note: "TITLE: Main street B - kerb repair. CHANGES: kerb.",
+        note: "TITLE: Main street B - curb repair. CHANGES: kerb.",
       }),
     ]);
     const card = artDeskCards(view)[0]!;
@@ -473,9 +489,9 @@ describe("Art Desk viewed version", () => {
     expect(viewed.candidateId).toBe("cand-street-a");
     expect(viewed.title).toBe("Main street — road markings");
     expect(viewed.newer?.candidateId).toBe("cand-street-b");
-    expect(viewed.newer?.title).toBe("Main street — kerb repair");
+    expect(viewed.newer?.title).toBe("Main street — curb repair");
     const onLead = viewedCandidateView(card, view, "cand-street-b");
-    expect(onLead.title).toBe("Main street — kerb repair");
+    expect(onLead.title).toBe("Main street — curb repair");
     expect(onLead.newer).toBeNull();
   });
 

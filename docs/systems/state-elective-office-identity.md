@@ -181,4 +181,4 @@ Census locality -> municipal candidacy                                  -> UNKNO
 
 A chamber becomes a candidacy seat only where this domain says its members are
 elected, and a seat count that is UNKNOWN stays UNKNOWN in the pack rather than
-being filled in from a neighbour or a national average.
+being filled in from a neighbor or a national average.

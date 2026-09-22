@@ -496,8 +496,8 @@ describe("a supervisor is a recorded work authority, not a name", () => {
 /* Defect 3 — agreeing to cover is not having covered                          */
 /* -------------------------------------------------------------------------- */
 
-describe("a favour is leaned on only after the covered shift was worked", () => {
-  it("books the accepted favour into the existing calendar and performs it through Places", () => {
+describe("a favor is leaned on only after the covered shift was worked", () => {
+  it("books the accepted favor into the existing calendar and performs it through Places", () => {
     const fixture = life({ seed: "playable-covered-shift", startAge: 24 });
     const world = refreshLifeCircumstances(fixture.world, fixture.playerId);
     const asked = beat(world, fixture.playerId, SHIFT, "asked-by-a-colleague")!;
@@ -531,7 +531,7 @@ describe("a favour is leaned on only after the covered shift was worked", () => 
       venueActivities(unknownOrigin, fixture.playerId).find(
         (entry) => entry.activity.id === shift.id,
       )?.refusal,
-    ).toMatch(/current location is not recorded/i);
+    ).toMatch(/no way to get to .* from where you are/i);
     expect(
       performVenueActivity(unknownOrigin, fixture.playerId, shift.id),
     ).toBe(unknownOrigin);
@@ -608,7 +608,7 @@ describe("a favour is leaned on only after the covered shift was worked", () => 
     ).toBeUndefined();
   });
 
-  it("offers no follow-up when the covered shift was booked and then cancelled", () => {
+  it("offers no follow-up when the covered shift was booked and then canceled", () => {
     const agreed = agreeToCover("booked-then-cancelled");
     const booked = scheduleAgreedCoverShift(agreed.world, agreed.playerId);
     const shift = coveredShift(booked, agreed.playerId)!;
@@ -701,7 +701,7 @@ describe("a favour is leaned on only after the covered shift was worked", () => 
     ).toBe(false);
   });
 
-  it("agrees, books, works, and only then leans on the favour — across reload", () => {
+  it("agrees, books, works, and only then leans on the favor — across reload", () => {
     const agreed = agreeToCover("worked-shift");
     // Agreeing wrote no calendar entry.
     expect(coveredShift(agreed.world, agreed.playerId)).toBeUndefined();
@@ -751,7 +751,7 @@ describe("a favour is leaned on only after the covered shift was worked", () => 
 /* -------------------------------------------------------------------------- */
 
 describe("an open circumstance keeps speaking only while its premise holds", () => {
-  it("closes the class clash when the session it names is cancelled", () => {
+  it("closes the class clash when the session it names is canceled", () => {
     const fixture = life({
       seed: "clash-cancelled",
       startAge: 20,
@@ -853,7 +853,7 @@ describe("an open circumstance keeps speaking only while its premise holds", () 
     ).toHaveLength(1);
   });
 
-  it("books the covered shift again after a cancelled booking", () => {
+  it("books the covered shift again after a canceled booking", () => {
     const agreed = agreeToCover("rebook");
     const booked = scheduleAgreedCoverShift(agreed.world, agreed.playerId);
     const first = coveredShift(booked, agreed.playerId)!;

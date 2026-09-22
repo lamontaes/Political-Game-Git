@@ -128,8 +128,8 @@ function describeInteraction(
  * This is the half of the player-pure rule that adds rather than removes.
  * Holding public office is a public fact: a citizen knows who their governor is
  * without having been introduced to them, and a card that stayed blank until
- * the player had personally met an officeholder was modelling acquaintance
- * where it should have been modelling publicity.
+ * the player had personally met an officeholder was modeling acquaintance
+ * where it should have been modeling publicity.
  *
  * So the gate is the record's own `visibility`, not the player's social
  * distance. Only a publicly visible tenure event counts, only while it is

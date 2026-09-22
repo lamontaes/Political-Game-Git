@@ -6,7 +6,7 @@ import {
 import { ageOnDate, makeIsoDate } from "./dates";
 import { isPersonAliveAt } from "./vitality-integrity";
 import { createOrganization, createWorkRelationship } from "./life";
-import { drawCanonicalName } from "./people";
+import { drawCanonicalNameForGender } from "./people";
 import { SeededRng } from "./rng";
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
 import {
@@ -92,8 +92,9 @@ export function initializeJudicialOfficePractice(
       let personId = principalId;
       if (requirement.roleKey !== "principal") {
         const personKey = `${key}:${requirement.roleKey}`;
-        const name = drawCanonicalName(
+        const name = drawCanonicalNameForGender(
           new SeededRng(world.seed).fork(personKey),
+          "unstated",
         );
         next = applyCharacterHistoryPlan(next, {
           stableKey: personKey,

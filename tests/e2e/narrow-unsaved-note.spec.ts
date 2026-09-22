@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "./fixtures";
 
 import { startLife } from "./support/creator";
 
@@ -54,7 +54,7 @@ test.describe("status notes at phone width", () => {
       expect(overlaps).toBe(false);
     }
 
-    // 2. Hit testing: what is actually under the button's own centre is the
+    // 2. Hit testing: what is actually under the button's own center is the
     //    button. Playwright's ordinary click enforces this; a forced one would
     //    not, which is why this is a plain click.
     await primary.click();
@@ -78,7 +78,7 @@ test.describe("status notes at phone width", () => {
     expect(box).not.toBeNull();
     /*
      * The container was the hit target, not the sentence inside it, so the
-     * check asks the document what is under the note's own centre rather than
+     * check asks the document what is under the note's own center rather than
      * asking the note about itself.
      */
     const underneath = await page.evaluate(

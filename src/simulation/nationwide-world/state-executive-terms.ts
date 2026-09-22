@@ -14,7 +14,7 @@ import {
   planElectedExecutiveOfficeTerm,
   recordElectedExecutiveQualification,
 } from "../executive-work-entry";
-import { stateJurisdictionForKey } from "../life-places";
+import { chiefExecutiveJurisdiction } from "./government-jurisdiction";
 import type { EntityId, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import {
@@ -23,6 +23,10 @@ import {
   unadmittedRuleFields,
 } from "./rule-capability-port";
 import type { RuleFieldKey } from "./rule-capability-port";
+import {
+  stateExecutiveTermRuleForElectionYear,
+  stateExecutiveTermRuleInWorld,
+} from "./executive-term-rules-in-world";
 import { stateExecutiveIdentityForOfficeKey } from "./state-executive-candidacy-packs";
 import type { StateExecutiveIdentity } from "./state-executive-candidacy-packs";
 import {
@@ -30,7 +34,6 @@ import {
   commencementInYear,
   generalElectionDay,
   isElectionYear,
-  stateExecutiveTermRule,
   termDatesAfterElection,
   termRuleBasis,
   type StateExecutiveTermRule,
@@ -72,12 +75,23 @@ function wholeYears(value: unknown): number | null {
  * disclosed game-profile calendar. Never the result date.
  */
 export function ordinaryStateExecutiveTermDates(
+  world: World,
   identity: StateExecutiveIdentity,
   electionDate: IsoDate,
 ): OrdinaryTermDates {
-  const admitted = admittedTermDates(identity, electionDate);
+  // A law passed in this World that changed the term outranks what the game
+  // read; with none, RULES-admitted law, then the office's own calendar.
+  const inWorld = stateExecutiveTermRuleForElectionYear(
+    world,
+    identity.stateUsps,
+    Number(electionDate.slice(0, 4)),
+  );
+  const admitted =
+    inWorld && inWorld.enactedChanges.length > 0
+      ? null
+      : admittedTermDates(identity, electionDate);
   if (admitted) return admitted;
-  const rule = stateExecutiveTermRule(identity.stateUsps);
+  const rule = inWorld;
   if (!rule) return { kind: "unknown", unknownFields: TERM_FIELDS };
   return {
     kind: "dated",
@@ -93,10 +107,15 @@ export function ordinaryStateExecutiveTermDates(
  * route always is; one recorded before this rule existed may not be.
  */
 export function isRegularStateExecutiveElection(
+  world: World,
   identity: StateExecutiveIdentity,
   electionDate: IsoDate,
 ): boolean {
-  const rule = stateExecutiveTermRule(identity.stateUsps);
+  const rule = stateExecutiveTermRuleForElectionYear(
+    world,
+    identity.stateUsps,
+    Number(electionDate.slice(0, 4)),
+  );
   if (!rule) return false;
   const year = Number(electionDate.slice(0, 4));
   return (
@@ -185,9 +204,13 @@ export function planOrdinaryStateExecutiveTerm(
   // A contest recorded off the office's regular calendar (an older save's
   // synthetic filing horizon) is not silently given a term under a rule it
   // was never run under. Its winner is offered an explicit recovery instead.
-  if (!isRegularStateExecutiveElection(identity, contest.electionDate))
+  if (!isRegularStateExecutiveElection(world, identity, contest.electionDate))
     return world;
-  const dates = ordinaryStateExecutiveTermDates(identity, contest.electionDate);
+  const dates = ordinaryStateExecutiveTermDates(
+    world,
+    identity,
+    contest.electionDate,
+  );
   if (dates.kind !== "dated") return world;
   const planned = planElectedExecutiveOfficeTerm(world, {
     contestId,
@@ -257,14 +280,18 @@ export function recoverOffCycleStateExecutiveTerm(
   const identity = stateExecutiveIdentityForOfficeKey(
     contest.office.officeKey,
   )!;
-  const rule = stateExecutiveTermRule(identity.stateUsps)!;
+  const rule = stateExecutiveTermRuleInWorld(
+    world,
+    identity.stateUsps,
+    world.currentDate,
+  )!;
   const planned = planElectedExecutiveOfficeTerm(world, {
     contestId: contest.id,
     startsAt: status.recovery.startsAt,
     endsAt: status.recovery.endsAt,
     termNote: `${OFF_CYCLE_RECOVERY_VERSION}: the player chose to take up the next full term after a victory recorded on ${contest.electionDate}. ${rule.ruleVersion}.`,
   });
-  const jurisdiction = stateJurisdictionForKey(identity.jurisdictionKey)!;
+  const jurisdiction = chiefExecutiveJurisdiction(identity.stateUsps)!;
   return recordWorldEvent(planned, {
     stableKey: `${OFF_CYCLE_RECOVERY_VERSION}:${contest.id}`,
     type: "governing.term-recovery",
@@ -368,7 +395,7 @@ function qualificationBlocksFor(
   personId: EntityId,
   identity: StateExecutiveIdentity,
 ): readonly CandidacyBlock[] {
-  const jurisdiction = stateJurisdictionForKey(identity.jurisdictionKey);
+  const jurisdiction = chiefExecutiveJurisdiction(identity.stateUsps);
   if (!jurisdiction) return [];
   return candidacyEligibility(world, {
     personId,
@@ -390,7 +417,7 @@ function routineQualificationBlocks(
   personId: EntityId,
   identity: StateExecutiveIdentity,
 ): readonly CandidacyBlock[] {
-  const stateId = stateJurisdictionForKey(identity.jurisdictionKey)?.id;
+  const stateId = chiefExecutiveJurisdiction(identity.stateUsps)?.id;
   const livesInState = world.people[personId]?.homeJurisdictionId === stateId;
   return qualificationBlocksFor(world, personId, identity).filter(
     (block) =>
@@ -427,10 +454,14 @@ export function stateExecutiveEntryStatus(
   const seat = executiveSeatFor(world, contest.id);
   const term = seat && electedExecutiveTermForRelationship(world, seat.id);
   if (!seat || !term) {
-    const rule = stateExecutiveTermRule(identity.stateUsps);
+    const rule = stateExecutiveTermRuleInWorld(
+      world,
+      identity.stateUsps,
+      world.currentDate,
+    );
     if (
       rule &&
-      !isRegularStateExecutiveElection(identity, contest.electionDate)
+      !isRegularStateExecutiveElection(world, identity, contest.electionDate)
     ) {
       const recovery = offCycleRecoveryDates(rule, world.currentDate);
       return {
@@ -446,6 +477,7 @@ export function stateExecutiveEntryStatus(
       };
     }
     const dates = ordinaryStateExecutiveTermDates(
+      world,
       identity,
       contest.electionDate,
     );

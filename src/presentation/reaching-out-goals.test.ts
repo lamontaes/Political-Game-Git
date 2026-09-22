@@ -16,7 +16,7 @@ import { openOrdinaryLife } from "./ordinary-life";
  * A private goal reaching a decision somebody makes for themselves.
  *
  * `produceReachingOut` is the one place in the game where an NPC acts rather
- * than answers, so it is where a goal first becomes visible as behaviour. This
+ * than answers, so it is where a goal first becomes visible as behavior. This
  * walks the real producer over a real life: nobody's goal is asserted from a
  * fixture's own arithmetic, and the step has to land on the proposal that the
  * producer actually wrote.

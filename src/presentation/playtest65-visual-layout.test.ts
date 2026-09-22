@@ -27,7 +27,7 @@ it("does not invent a pose when the current saved generation has no compatible p
     ),
   ).toBe("standing-neutral");
 });
-it("presentation selection is stable and independent of catalogue ordering", () => {
+it("presentation selection is stable and independent of catalog ordering", () => {
   const a = {
     id: "a",
     poseFamily: "open-a",

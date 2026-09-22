@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { GIVEN_NAME_GENERATION_POOLS_V1 } from "../simulation";
+import {
+  GIVEN_NAME_GENERATION_POOLS_V1,
+  givenNamePoolForStatedGender,
+} from "../simulation";
 import {
   creatorBirthDate,
   creatorCharacterHint,
@@ -94,10 +97,10 @@ describe("creator character step (R7)", () => {
 
   it("draws a randomized first name from the chosen gender's pool", () => {
     for (let salt = 1; salt <= 20; salt += 1) {
-      expect(GIVEN_NAME_GENERATION_POOLS_V1.male).toContain(
+      expect(givenNamePoolForStatedGender("male")).toContain(
         previewCreatorNames("r7", "male", salt).givenName,
       );
-      expect(GIVEN_NAME_GENERATION_POOLS_V1.female).toContain(
+      expect(givenNamePoolForStatedGender("female")).toContain(
         previewCreatorNames("r7", "female", salt).givenName,
       );
       expect(GIVEN_NAME_GENERATION_POOLS_V1.neutral).toContain(

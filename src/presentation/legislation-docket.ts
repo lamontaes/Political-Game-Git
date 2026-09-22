@@ -9,7 +9,8 @@ import {
   characterHistoryContextPersonId,
   createStableId,
   createWorkItem,
-  drawCanonicalName,
+  drawCanonicalNameForGender,
+  catalogPropositionIds,
   introduceMeasure,
   legislativeBlueprint,
   makeIsoDate,
@@ -23,10 +24,10 @@ import type {
   LegislativeDraftLineageRecord,
   World,
 } from "../simulation";
+import { chamberDesignationPrefix } from "../simulation/legislature-rules";
 import {
   compileBillDraft,
   BillConfigurationError,
-  designationPrefix,
   draftingSupportsScenario,
   type CompiledBillDraft,
 } from "../simulation/legislation-drafting";
@@ -398,7 +399,7 @@ export function nextDocketSequence(world: World, scenarioKey: string): number {
 /* -------------------------------------------------------------------------- */
 
 export interface DocketQuery {
-  /** Restrict to one programme family. */
+  /** Restrict to one program family. */
   readonly familyKey?: string;
   /** Restrict to one kind of legal act. */
   readonly instrument?: LegalInstrument;
@@ -560,7 +561,7 @@ const DOCKET_AUTHORITY_PREFIX = "docket:";
  * Everything a bill in this legislature could be written against.
  *
  * Two sources, kept visibly apart. The standing statutes are authored
- * background — the programmes this state is assumed already to run — and they
+ * background — the programs this state is assumed already to run — and they
  * exist so an appropriation is playable before the player has authorized
  * anything. The docket measures are the player's own earlier bills, and they
  * are the point of the whole arrangement: a second bill that funds, narrows or
@@ -636,7 +637,7 @@ function measureStatedCeiling(
   measureId: EntityId,
 ): number | null {
   const provisions = currentMeasureProvisions(world, measureId);
-  // An annual cap cannot be compared with a whole-programme appropriation.
+  // An annual cap cannot be compared with a whole-program appropriation.
   if (provisions.some((record) => record.fiscalPeriod === "annual"))
     return null;
   const amounts = provisions
@@ -739,7 +740,7 @@ export function previewDraft(input: DraftPreviewInput): CompiledBillDraft {
     scenarioKey: input.scenarioKey,
     jurisdictionId: input.jurisdictionId,
     rulePackId: blueprint.pack.packId,
-    designation: `${designationPrefix(chamberKey)} ${400 + input.provisionalSequence}`,
+    designation: `${chamberDesignationPrefix(blueprint.pack, chamberKey)} ${400 + input.provisionalSequence}`,
     filedOn: input.filedOn,
     ...(input.predicateAuthority !== undefined
       ? { predicateAuthority: input.predicateAuthority }
@@ -911,7 +912,7 @@ export function fileDraft(
     scenarioKey: input.scenarioKey,
     jurisdictionId: input.jurisdictionId,
     rulePackId: blueprint.pack.packId,
-    designation: `${designationPrefix(chamberKey)} ${400 + sequence}`,
+    designation: `${chamberDesignationPrefix(blueprint.pack, chamberKey)} ${400 + sequence}`,
     filedOn: world.currentDate,
     ...(authority !== null ? { predicateAuthority: authority } : {}),
   });
@@ -928,7 +929,7 @@ export function fileDraft(
     const rng = new SeededRng(next.seed).fork(
       `legislative-member:${input.scenarioKey}`,
     );
-    const name = drawCanonicalName(rng);
+    const name = drawCanonicalNameForGender(rng, "unstated");
     next = applyCharacterHistoryPlan(next, {
       stableKey: sponsorKey,
       mode: "quick-generated",
@@ -959,6 +960,7 @@ export function fileDraft(
     subjectClass: draft.subjectClass,
     sponsorPersonId,
     originChamberKey: chamberKey,
+    propositionIds: catalogPropositionIds(next, draft.propositionKeys),
   });
 
   const measureId = createStableId(

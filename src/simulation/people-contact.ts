@@ -52,9 +52,11 @@ import type {
  * them, and what else is already on that day. A refusal and a different day
  * offered back are both ordinary answers, and neither ends anything.
  *
- * Nothing here decays. A friendship that has not been in view for a year is
- * still a friendship; the gap is a fact the other person may weigh, not a
- * number counting down. And no NPC is required to say yes because the player
+ * Nothing here counts down. The owner ruled on 2026-09-22 that relationships
+ * do fade with absence, and they do, as a state read from dated history in
+ * `relationship-absence.ts`: a friendship not in view for a year may have gone
+ * less current or dormant there, and still be a friendship. This file adds no
+ * fading of its own. And no NPC is required to say yes because the player
  * asked nicely.
  *
  * One request, one answer, one commitment. Agreeing writes a confirmed entry
@@ -858,9 +860,10 @@ const REACH_OUT_PAIR_SPACING_DAYS = 240;
 /**
  * After this many unanswered attempts, they stop asking.
  *
- * Not a decayed friendship — nothing here decays, and they would still answer
- * if the player called tomorrow. It is the ordinary fact that people stop
- * being the one who rings when the ringing is never returned.
+ * Not the friendship fading, which `relationship-absence.ts` reads separately;
+ * they would still answer if the player called tomorrow. It is the ordinary
+ * fact that people stop being the one who rings when the ringing is never
+ * returned.
  */
 const REACH_OUT_UNANSWERED_LIMIT = 2;
 /** How far ahead somebody suggests meeting when they call. */

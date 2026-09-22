@@ -53,7 +53,7 @@ function render(state: ShellState, portrait?: ReactNode) {
 }
 
 describe("ShellNav portrait hub", () => {
-  it("centres the closed cluster on the player's own portrait", () => {
+  it("centers the closed cluster on the player's own portrait", () => {
     const html = render(
       INITIAL_SHELL_STATE,
       <figure data-testid="person-portrait" />,
@@ -125,8 +125,8 @@ describe("fanLayout", () => {
     }
   });
 
-  it("keeps neighbours on a ring far enough apart that entries never touch", () => {
-    // An entry's width plus a visible margin between neighbours.
+  it("keeps neighbors on a ring far enough apart that entries never touch", () => {
+    // An entry's width plus a visible margin between neighbors.
     const entry = 3.9 * 16 + 4;
     const layout = fanLayout(18);
     for (const ring of FAN_RINGS.keys()) {
@@ -143,7 +143,7 @@ describe("fanLayout", () => {
 
   it("fits the tallest ring used by the full menu inside a 768-pixel window", () => {
     const top = Math.min(...fanLayout(10).map((at) => at.y));
-    // Portrait centre sits about 54px above the bottom edge; entries are 62px.
+    // Portrait center sits about 54px above the bottom edge; entries are 62px.
     expect(54 - top + 31).toBeLessThan(768);
   });
 });

@@ -1,5 +1,11 @@
-import { createPressTransitionRegistry } from "./press/transitions";
 import {
+  MIGRATION_REVIEW_TRANSITION_KEY,
+  migrationReviewHandler,
+} from "./migration";
+import { createPressTransitionRegistry } from "./press/transitions";
+import { startingSupportAdjustment } from "./record-in-office";
+import {
+  legislativeTermDates,
   supportedLegislativeTermDates,
   scheduleLegislativeTerm,
   createLegislativeTermTransitionRegistry,
@@ -98,12 +104,16 @@ import {
   PARTY_BODY_REVIEW_TRANSITION_KEY,
   partyBodyReviewTransitionHandler,
 } from "./living-world/party-evolution";
-import { workStatusAt, workStatusHistory } from "./life-queries";
+import {
+  activeOrganizationParticipationsAt,
+  workStatusAt,
+  workStatusHistory,
+} from "./life-queries";
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
 } from "./life-places";
-import { drawCanonicalName } from "./people";
+import { drawCanonicalNameForGender } from "./people";
 import { createExactQuantity } from "./quantity";
 import { positionOwnerEndpoint } from "./resource-queries";
 import {
@@ -194,7 +204,7 @@ export const CAMPAIGN_SUPPORT_METRIC_STABLE_KEY =
 /**
  * What the campaign's field memo claims about its own precision. Four points is
  * a claim, not a guarantee: the error below is drawn from a wider range and
- * sometimes lands outside it, which is what makes reading it a judgement.
+ * sometimes lands outside it, which is what makes reading it a judgment.
  */
 const OBSERVATION_MARGIN_BASIS_POINTS = 400;
 
@@ -368,12 +378,21 @@ function recordInitialSupport(world: World, campaign: CampaignRecord): World {
   );
   // A first-time filer starts behind somebody who is already known. Nothing
   // here is a handicap the player can read; it is a starting position.
+  // A candidate's past moves where they start: a remembered ethics finding,
+  // or a sitting governor's record on the economy (`record-in-office.ts`).
   const weights = campaign.candidateSupportScopes.map((scope) => ({
     id: scope.candidatePersonId,
-    weight:
+    weight: Math.max(
+      1,
       850 +
-      rng.fork(scope.candidatePersonId).integer(0, 301) +
-      (scope.candidatePersonId === campaign.candidatePersonId ? -60 : 0),
+        rng.fork(scope.candidatePersonId).integer(0, 301) +
+        (scope.candidatePersonId === campaign.candidatePersonId ? -60 : 0) +
+        startingSupportAdjustment(
+          world,
+          scope.candidatePersonId,
+          campaign.filedAt,
+        ),
+    ),
   }));
   const basisPoints = allocateBasisPoints(weights);
   let next = world;
@@ -456,7 +475,7 @@ export function ensureCampaignOpponents(
   for (let index = 0; index < input.count; index += 1) {
     const key = `${input.stableKey}:opponent:${index}`;
     const rng = new SeededRng(world.seed).fork(`campaign-opponent:${key}`);
-    const name = drawCanonicalName(rng);
+    const name = drawCanonicalNameForGender(rng, "unstated");
     const before = next;
     next = createCharacterHistoryContextPerson(next, {
       stableKey: key,
@@ -1018,7 +1037,7 @@ export function scheduleCampaignAction(
  * A fundraising session moves nothing. An afternoon on the phones converts the
  * candidate's time into the committee's money, and money persuades nobody until
  * it is spent — which is what an advertising buy is for. Asking somebody who
- * already supports you for a cheque is not the same act as changing a mind, and
+ * already supports you for a check is not the same act as changing a mind, and
  * paying the campaign twice for one afternoon would make the phones strictly
  * better than the doors.
  */
@@ -1617,7 +1636,7 @@ function seatTheWinner(
       (organization) => organization.stableKey === bodyKey,
     )!.id;
 
-  const timing = supportedLegislativeTermDates(
+  const timing = legislativeTermDates(
     contest.office.officeKey,
     contest.electionDate,
   );
@@ -1714,6 +1733,23 @@ function seatOnLocalGoverningBody(
     throw new Error(
       `The town government ${unit.id} cannot be placed in this world, so nobody can be seated on it.`,
     );
+  // Re-elected: a member who still sits on the body keeps the seat they hold.
+  // Writing a second seat for the same person used to refuse the whole result.
+  if (
+    activeOrganizationParticipationsAt(next, winnerPersonId).some(
+      (active) =>
+        active.participation.organizationId === organizationId &&
+        active.state.roleKind === "leader:municipal-member",
+    )
+  )
+    return next;
+  // Returning after time away: a new seat, so the earlier one stays as it was.
+  if (
+    next.history.organizationParticipations.some(
+      (participation) => participation.stableKey === stableKey,
+    )
+  )
+    stableKey = `${stableKey}:${contest.id}`;
   next = createOrganizationParticipation(next, {
     stableKey,
     personId: winnerPersonId,
@@ -1928,6 +1964,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         [MACRO_MONTHLY_STEP_KEY, macroMonthlyStepHandler],
         // CRUNCH46 WORLD: party governing bodies meet and may change.
         [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
+        // MIGRATION: households leave town, newcomers arrive, waves step.
+        [MIGRATION_REVIEW_TRANSITION_KEY, migrationReviewHandler],
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
         ...CAMPAIGN_LIFE_HANDLERS,
       ]),

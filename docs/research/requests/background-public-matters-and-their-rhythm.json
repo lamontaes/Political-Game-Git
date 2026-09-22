@@ -1,0 +1,20 @@
+{
+  "filedAt": "2026-09-22T23:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "invented-depth audit",
+  "notes": [],
+  "priority": "P2",
+  "question": "What kinds of matters does a typical city, county and state government have open at any time (and how many at once), how long does each stage take from proposal to decision, and how often does public comment change the outcome?",
+  "questionId": "background-public-matters-and-their-rhythm",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "invented-depth audit lane",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/living-world/developments.ts at main 9f42ba19",
+      "whatItDidNotSettle": "Subjects, rhythm and comment effect are authored with no source."
+    }
+  ],
+  "title": "What a town or state government is actually working on at any moment, and how fast those matters move",
+  "usableAnswer": "A realistic catalog of recurring local and state matters by government type (zoning, budgets, contracts, ordinances, appointments) with typical durations, and evidence on how often public comment changes a proposal.",
+  "whyItMatters": "The living world's background news is four local subjects and two international ones, cycling forever on invented gaps. At main 9f42ba19: src/simulation/living-world/developments.ts:43-81 — stage gaps of 6-18 days; :131 — a new matter every 20-45 days; :89-114 — the four and two subjects; :577-583 — the next outcome is an even random pick and any public comment always produces a revised proposal. None of these is marked or has a question. The answered built-producers-with-no-player-entry says to wire these matters to the player; this asks what they should contain."
+}

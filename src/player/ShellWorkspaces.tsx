@@ -109,6 +109,38 @@ import {
  * still spends no time.
  */
 
+type ResizeEdge = "n" | "s" | "e" | "w" | "ne" | "nw" | "se" | "sw";
+
+const RESIZE_EDGES: readonly ResizeEdge[] = [
+  "n",
+  "s",
+  "e",
+  "w",
+  "ne",
+  "nw",
+  "se",
+  "sw",
+];
+
+/** How long the closing fade runs; matches `pg-workspace-leave` in shell.css. */
+const WORKSPACE_CLOSE_MS = 160;
+
+function prefersReducedMotion(): boolean {
+  return (
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
+/**
+ * A workspace is moved by dragging its title bar and resized from any edge or
+ * corner; there are no layout buttons. A change lasts while the workspace is
+ * open. Keeping it is the player's choice ("Keep this size"); otherwise the
+ * workspace opens at its saved size, or the default, the next time.
+ * Double-clicking the title bar puts it back to the default and forgets any
+ * kept size.
+ */
 export function WorkspaceFrame({
   title,
   kicker,
@@ -132,13 +164,16 @@ export function WorkspaceFrame({
 }) {
   const frame = useRef<HTMLElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
+  // Where the player has put the frame since it opened, not yet kept.
+  const [draft, setDraft] = useState<WorkspaceLayout | null>(null);
   const [liveLayout, setLiveLayout] = useState<WorkspaceLayout | null>(null);
+  const [closing, setClosing] = useState(false);
   const [viewport, setViewport] = useState(() => ({
     width: typeof window === "undefined" ? 1280 : window.innerWidth,
     height: typeof window === "undefined" ? 860 : window.innerHeight,
   }));
   const drag = useRef<{
-    mode: "move" | "resize";
+    mode: "move" | ResizeEdge;
     x: number;
     y: number;
     layout: WorkspaceLayout;
@@ -153,20 +188,35 @@ export function WorkspaceFrame({
       if (invoker?.isConnected) invoker.focus();
     };
   }, [testid]);
+  // Another workspace in the same frame starts from its own size.
+  useEffect(() => {
+    setDraft(null);
+  }, [testid]);
   useEffect(() => {
     const resize = () =>
       setViewport({ width: window.innerWidth, height: window.innerHeight });
     window.addEventListener("resize", resize);
     return () => window.removeEventListener("resize", resize);
   }, []);
+  const settled = draft ?? layout;
   const shown =
     liveLayout ??
-    (layout
-      ? clampWorkspace(layout, viewport.width, viewport.height)
+    (settled
+      ? clampWorkspace(settled, viewport.width, viewport.height)
       : defaultWorkspace(viewport.width, viewport.height));
+  const unsaved = draft !== null;
+  function close() {
+    if (closing) return;
+    if (prefersReducedMotion()) {
+      onClose();
+      return;
+    }
+    setClosing(true);
+    window.setTimeout(onClose, WORKSPACE_CLOSE_MS);
+  }
   function start(
     event: ReactPointerEvent<HTMLElement>,
-    mode: "move" | "resize",
+    mode: "move" | ResizeEdge,
   ) {
     if (!onLayoutChange || event.button !== 0) return;
     if (mode === "move" && (event.target as HTMLElement).closest("button"))
@@ -187,24 +237,34 @@ export function WorkspaceFrame({
     if (!current) return;
     const dx = event.clientX - current.x,
       dy = event.clientY - current.y;
-    setLiveLayout(
-      clampWorkspace(
-        {
-          ...current.layout,
-          ...(current.mode === "move"
-            ? { x: current.layout.x + dx, y: current.layout.y + dy }
-            : {
-                width: current.layout.width + dx,
-                height: current.layout.height + dy,
-              }),
-        },
-        viewport.width,
-        viewport.height,
-      ),
-    );
+    const from = current.layout;
+    let next: WorkspaceLayout;
+    if (current.mode === "move") {
+      next = { ...from, x: from.x + dx, y: from.y + dy };
+    } else {
+      const edge = current.mode;
+      // Dragging a left or top edge moves that edge, keeping the other fixed.
+      const width = edge.includes("e")
+        ? from.width + dx
+        : edge.includes("w")
+          ? from.width - dx
+          : from.width;
+      const height = edge.includes("s")
+        ? from.height + dy
+        : edge.includes("n")
+          ? from.height - dy
+          : from.height;
+      next = {
+        width,
+        height,
+        x: edge.includes("w") ? from.x + from.width - width : from.x,
+        y: edge.includes("n") ? from.y + from.height - height : from.y,
+      };
+    }
+    setLiveLayout(clampWorkspace(next, viewport.width, viewport.height));
   }
   function end() {
-    if (drag.current && liveLayout) onLayoutChange?.(liveLayout);
+    if (drag.current && liveLayout) setDraft(liveLayout);
     drag.current = null;
     setLiveLayout(null);
   }
@@ -212,6 +272,7 @@ export function WorkspaceFrame({
     <section
       ref={frame}
       className="pg-workspace civic-glass"
+      data-closing={closing || undefined}
       style={
         shown
           ? {
@@ -230,7 +291,7 @@ export function WorkspaceFrame({
         if (event.key === "Escape" && !event.defaultPrevented) {
           event.preventDefault();
           event.stopPropagation();
-          onClose();
+          close();
         }
       }}
     >
@@ -241,42 +302,30 @@ export function WorkspaceFrame({
         onPointerMove={move}
         onPointerUp={end}
         onPointerCancel={end}
+        onDoubleClick={(event) => {
+          if (!onLayoutChange) return;
+          if ((event.target as HTMLElement).closest("button")) return;
+          setDraft(null);
+          onLayoutChange(null);
+        }}
       >
         <div>
           {kicker ? <p className="pg-kicker">{kicker}</p> : null}
           <h2>{title}</h2>
         </div>
         <div className="pg-workspace-controls">
-          {onLayoutChange ? (
-            <>
-              <button
-                type="button"
-                className="ui-action ui-action--subtle"
-                onClick={() =>
-                  onLayoutChange(
-                    clampWorkspace(
-                      {
-                        x: 12,
-                        y: 12,
-                        width: viewport.width - 24,
-                        height: viewport.height - 110,
-                      },
-                      viewport.width,
-                      viewport.height,
-                    ),
-                  )
-                }
-              >
-                Maximize
-              </button>
-              <button
-                type="button"
-                className="ui-action ui-action--subtle"
-                onClick={() => onLayoutChange(null)}
-              >
-                Reset layout
-              </button>
-            </>
+          {onLayoutChange && unsaved ? (
+            <button
+              type="button"
+              className="pg-workspace-keep"
+              data-testid={`${testid}-keep-layout`}
+              onClick={() => {
+                if (draft) onLayoutChange(draft);
+                setDraft(null);
+              }}
+            >
+              Keep this size
+            </button>
           ) : null}
           {canGoBack ? (
             <button
@@ -294,19 +343,33 @@ export function WorkspaceFrame({
             aria-label="Close"
             ref={closeButton}
             data-testid={`${testid}-close`}
-            onClick={onClose}
+            onClick={close}
           >
             <span aria-hidden="true">✕</span>
           </button>
         </div>
       </header>
       <div className="pg-workspace-body">{children}</div>
+      {onLayoutChange
+        ? RESIZE_EDGES.map((edge) => (
+            <div
+              key={edge}
+              className="pg-window-edge"
+              data-edge={edge}
+              aria-hidden="true"
+              onPointerDown={(event) => start(event, edge)}
+              onPointerMove={move}
+              onPointerUp={end}
+              onPointerCancel={end}
+            />
+          ))
+        : null}
       {onLayoutChange ? (
         <button
           type="button"
           className="pg-window-resize"
           aria-label={`Resize ${title}; use arrow keys`}
-          onPointerDown={(event) => start(event, "resize")}
+          onPointerDown={(event) => start(event, "se")}
           onPointerMove={move}
           onPointerUp={end}
           onPointerCancel={end}
@@ -320,7 +383,7 @@ export function WorkspaceFrame({
             event.preventDefault();
             const rect = frame.current?.getBoundingClientRect();
             if (rect)
-              onLayoutChange(
+              setDraft(
                 clampWorkspace(
                   {
                     x: rect.x,
@@ -345,9 +408,7 @@ export function WorkspaceFrame({
                 ),
               );
           }}
-        >
-          ◢
-        </button>
+        />
       ) : null}
     </section>
   );
@@ -381,7 +442,7 @@ export function PeopleWorkspace({
   /*
    * Choosing somebody here opens the one person card the whole game uses,
    * beside this workspace, rather than a second card drawn inline. The web
-   * keeps the chosen person at its centre so the card and the drawing agree.
+   * keeps the chosen person at its center so the card and the drawing agree.
    */
   const focusId = state.quickDossierPersonId ?? personId;
   function selectPerson(id: EntityId) {
@@ -1159,35 +1220,34 @@ function CalendarEventActions({
           Show earlier event
         </button>
       ) : null}
-      <button
-        type="button"
-        className="ui-action"
-        data-testid="calendar-simulate-event"
-        disabled={!simulation.authorized}
-        aria-disabled={busy}
-        aria-describedby={`calendar-simulate-reason-${selected.activityId}`}
-        onClick={() =>
-          runner.perform(
-            (current) =>
-              simulateAuthorizedCalendarActivity(
-                current,
-                personId,
-                selected.activityId,
-                interruptions,
-              ),
-            onReport,
-          )
-        }
-      >
-        Simulate authorized attendance
-        <small>{simulation.reason}</small>
-      </button>
-      <p
-        className="sr-only"
-        id={`calendar-simulate-reason-${selected.activityId}`}
-      >
-        {simulation.reason}
-      </p>
+      {/*
+        Offered only when the player's standing preferences allow it. Its
+        refusal reasons are rules talk ("Advance and Play stay distinct"), so
+        a button that cannot be used is not drawn at all (owner's playtest,
+        2026-09-22).
+      */}
+      {simulation.authorized ? (
+        <button
+          type="button"
+          className="ui-action"
+          data-testid="calendar-simulate-event"
+          aria-disabled={busy}
+          onClick={() =>
+            runner.perform(
+              (current) =>
+                simulateAuthorizedCalendarActivity(
+                  current,
+                  personId,
+                  selected.activityId,
+                  interruptions,
+                ),
+              onReport,
+            )
+          }
+        >
+          Go, and skip ahead to afterward
+        </button>
+      ) : null}
       <button
         type="button"
         className="ui-action"
@@ -1242,9 +1302,11 @@ export function CommitmentSurface({
       <p data-testid="commitment-ownership">{entry.ownershipNote}</p>
       <p>{entry.summary}</p>
       <p className="game-note">Where: {entry.locationLabel}</p>
-      {entry.participantNames.length > 0 ? (
+      {/* The player is not "with" themself: only the others are named. */}
+      {entry.attendeeNames.filter((name) => name !== "You").length > 0 ? (
         <p className="game-note" data-testid="commitment-participants">
-          With {entry.participantNames.join(", ")}.
+          With {entry.attendeeNames.filter((name) => name !== "You").join(", ")}
+          .
         </p>
       ) : null}
     </div>
@@ -1309,6 +1371,11 @@ export function MeasureSurface({
           : "You did not file it. Your part in it is whatever the chamber gives you."}
       </p>
       <p>{briefing.summary}</p>
+      {briefing.questions.length > 0 ? (
+        <p data-testid="measure-questions">
+          {`${briefing.questions.length === 1 ? "The question it bears on" : "The questions it bears on"}: ${briefing.questions.join(" ")}`}
+        </p>
+      ) : null}
       <p data-testid="measure-standing">{briefing.whereItStands}</p>
       {briefing.votes.length > 0 ? (
         <section className="pg-personal-section">
@@ -1374,6 +1441,7 @@ export function PersonalWorkspace({
 
   const homeId = world.people[personId]?.homeJurisdictionId;
   const economicPlace = homeId ? lifePlaceByJurisdictionId(homeId) : null;
+  const economicJurisdictionId = homeId ?? undefined;
   const economicLines = economicPlace
     ? playerEconomicContextLines(economicPlace.key, world.currentDate)
     : [];
@@ -1401,7 +1469,7 @@ export function PersonalWorkspace({
    *
    * This record used to open on regional economic observations and a chart,
    * with the player's own name and age below them. The owner asked "Who am I?"
-   * and got labour statistics, which is the wrong answer to that question no
+   * and got labor statistics, which is the wrong answer to that question no
    * matter how good the statistics are. The context is kept — it is real,
    * sourced and worth reading — but it belongs after the person, framed as
    * being about the place rather than about them.
@@ -1596,6 +1664,8 @@ export function PersonalWorkspace({
             binding={economicBinding}
             simulationDate={world.currentDate}
             diagnostics={DIAGNOSTICS}
+            world={world}
+            jurisdictionId={economicJurisdictionId}
           />
         ) : economicPlace ? (
           <p className="game-note" data-testid="economic-context-unavailable">

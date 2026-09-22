@@ -1,0 +1,25 @@
+{
+  "filedAt": "2026-09-22T23:58:00.000Z",
+  "impact": "shapes-design",
+  "lane": "consequences for corruption and laws",
+  "notes": [
+    "How detection works in the game today (src/simulation/press/matters.ts): a monthly committee report lists payments to the candidate 30 days after they are made; a rival weighs rivalry (moderate), the payments on the report (strong if more than one) and 'could be a reimbursement' (slight or moderate) and may complain; the state body's own review flags reported payments 45 to 120 days after filing (placeholder per state); a paid bookkeeper, if any, first raises it privately, then may report outside if the payments continue.",
+    "How a case proceeds (src/simulation/press/procedures.ts GENERATED_STATE_OVERSIGHT): complaint received or review opened, respondent notified, answer period closed, preliminary inquiry, then findings or dismissal. Step lengths are placeholders drawn per state: 7-21, 14-30, 21-60 and 30-120 days.",
+    "Disposition today is deterministic: supported only when an actual payment with record evidence exists (procedures.ts institutionHoldsSupport), and then always a finding. ChatGPT's C04 rejected fixed conviction odds, so a replacement should be a rule, not a probability, if the research allows.",
+    "Consequences today (src/simulation/press/finding-consequences.ts, findings.ts): 300 basis points of contest share lost in an open race, handed evenly to rivals, never below 1 point; +50% per earlier finding up to 3x; 90 off a later race's starting weight (850-1150 scale) for six years; restitution of every payment found; a civil penalty per payment drawn per state from $500 to $5,000, doubled for a second finding, only where the body's profile is generated."
+  ],
+  "priority": "P1",
+  "question": "For campaign-finance cases alleging personal use of campaign money that reach a state regulator or the FEC, what share end in dismissal, admonishment or warning, settlement or conciliation, or a formal finding with penalty, and what drives the difference (amount, repeat conduct, cooperation, the respondent's answer)? Separately: the earlier answer (ethics-finding-electoral-magnitudes) found no universal vote penalty for a finding, only the 6 to 11 point Peters and Welch range for corruption charges. Given the game models a finding as a single support shift in the race under way, what defensible rule should it use (a range by conduct type and timing, a dependence on coverage, or none), and should it scale with the amount taken?",
+  "questionId": "ethics-case-dispositions-and-finding-size",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Consequences for corruption and laws thread",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/chatgpt-answers/2026-09-22-nationwide-2315/OCD-ETHICS-FINDING-ELECTORAL-MAGNITUDES--2026-09-22.md",
+      "whatItDidNotSettle": "No universal vote penalty for an official finding; the 6-11 point range is for charges in 1968-1978 House races. Says nothing about how often cases end without a finding."
+    }
+  ],
+  "title": "How campaign-money cases actually end, and what a finding should cost in the game",
+  "usableAnswer": "(1) Disposition shares or at least an ordering (dismissal, warning, conciliation, finding) with the factors that move a case between them, per body where known. (2) A rule for the in-race support cost of a public finding the game can apply, with the factors it depends on, or an explicit statement that no rule is supported and why.",
+  "whyItMatters": "The owner asked on 2026-09-22 whether a finding always brings punishment and how the lost points are calculated. Today every case with a real recorded payment ends in a finding, which is too certain, and a finding costs a flat 3 points (4.5 for a repeat) regardless of the amount, the coverage or the timing."
+}

@@ -68,7 +68,7 @@ export function validateFemaCorpus(
         findings.push({
           severity: "error",
           code: "fema/declaration-is-not-hazard",
-          message: `Field "${key}" turns an administrative declaration into a claim about hazard behaviour. A declaration is evidence that a government acted.`,
+          message: `Field "${key}" turns an administrative declaration into a claim about hazard behavior. A declaration is evidence that a government acted.`,
           recordId: record.recordId,
         });
       }

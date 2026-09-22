@@ -157,7 +157,7 @@ describe("PT3 an offer of work that has not been answered", () => {
     const offerLaterEntry = projectWorkRole(later, personId).awaitingAnswer[0]!;
     // The recorded date has not moved, and nothing here pretends it has. What
     // changes is that the projection now says the date is behind us, so a
-    // consumer that renders from the record inherits the judgement rather than
+    // consumer that renders from the record inherits the judgment rather than
     // having to rediscover that this field goes stale.
     expect(offerLaterEntry.startsOn).toBe(startsOn);
     expect(offerLaterEntry.startIsAhead).toBe(false);

@@ -134,7 +134,7 @@ function describeWorkOrg(
  * Builds the visible web, or an empty player-only web when this life knows
  * nobody else.
  *
- * `focusId` is who the layout should treat as the centre: the selected person
+ * `focusId` is who the layout should treat as the center: the selected person
  * when the player has chosen one, otherwise the player. A focus the projection
  * cannot show falls back to the player rather than inventing a node.
  */

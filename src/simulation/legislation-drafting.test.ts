@@ -4,7 +4,6 @@ import {
   BillConfigurationError,
   compareDrafts,
   compileBillDraft,
-  designationPrefix,
   draftClauseDimensions,
   nonMoneyClauses,
   type CompiledBillDraft,
@@ -22,6 +21,7 @@ import {
   type ProgramParameterValue,
 } from "./legislation-program-families";
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
+import { chamberDesignationPrefix } from "./legislature-rules";
 import { createStableId } from "./ids";
 import { makeIsoDate } from "./dates";
 
@@ -90,7 +90,7 @@ function compileAnywhere(
   });
 }
 
-describe("the programme bank offers genuinely different families", () => {
+describe("the program bank offers genuinely different families", () => {
   /**
    * No configuration count is asserted anywhere in this file.
    *
@@ -157,7 +157,7 @@ describe("the programme bank offers genuinely different families", () => {
     // shared: the purpose section, and the section naming what the Act acts
     // upon. Both are the same role in every family that has one, and their
     // texts are asserted to differ separately, below. Everything else is the
-    // programme's own mechanism and has to be its own.
+    // program's own mechanism and has to be its own.
     const operativeKeysByFamily = programFamilies().map(
       (family) =>
         new Set(
@@ -277,7 +277,7 @@ describe("the bank writes more than one kind of legal act", () => {
    * The failure this guards against is subtler than a rename and was the
    * actual state of the first tranche: eight configurations across four
    * subjects, every one of them the same kind of act. A bank that can only
-   * authorize programmes is a funding slider with several titles, whatever the
+   * authorize programs is a funding slider with several titles, whatever the
    * subjects are called.
    */
   it("puts at least one configuration behind every declared instrument", () => {
@@ -718,30 +718,36 @@ describe("a draft is written for a named legislature, never a default one", () =
   });
 
   it("names a bill the way its own chamber does", () => {
-    expect(designationPrefix("house")).toBe("HB");
-    expect(designationPrefix("senate")).toBe("SB");
-    expect(designationPrefix("legislature")).toBe("LB");
-    // Nevada's lower chamber is an Assembly and issues Assembly Bills. This
-    // assertion used "assembly" as its example of an unknown chamber, which
-    // was true only while no registered pack had one.
-    expect(designationPrefix("assembly")).toBe("AB");
-    expect(() => designationPrefix("star-chamber")).toThrow(
-      BillConfigurationError,
-    );
+    // The prefix is read off the chamber, not inferred from its key. Nevada's
+    // lower chamber is an Assembly and issues Assembly Bills; Maryland's is a
+    // House of Delegates; a municipal council passes ordinances. None of that
+    // is derivable from "house" or "senate", which is why the value lives on
+    // the record.
+    const nevada = LEGISLATIVE_RULE_PACKS.find(
+      (pack) => pack.jurisdictionKey === "US-NV",
+    )!;
+    expect(chamberDesignationPrefix(nevada, "assembly")).toBe("AB");
+    expect(chamberDesignationPrefix(nevada, "senate")).toBe("SB");
+    const nebraska = LEGISLATIVE_RULE_PACKS.find(
+      (pack) => pack.jurisdictionKey === "US-NE",
+    )!;
+    expect(chamberDesignationPrefix(nebraska, "legislature")).toBe("LB");
+    expect(() => chamberDesignationPrefix(nebraska, "star-chamber")).toThrow();
   });
 
   it("can name a bill in every chamber a registered legislature actually has", () => {
     // Template compatibility, checked against the registry rather than a list
     // kept by hand: a member filing in any registered chamber gets a bill
-    // number instead of an error.
+    // number instead of an error. Adding a legislature cannot regress this,
+    // because the chamber record requires the value rather than a consumer
+    // discovering it is missing by throwing.
     expect(LEGISLATIVE_RULE_PACKS.length).toBeGreaterThan(0);
     for (const pack of LEGISLATIVE_RULE_PACKS) {
       for (const chamber of pack.chambers) {
-        const prefix = designationPrefix(chamber.chamberKey);
         expect(
-          prefix,
+          chamberDesignationPrefix(pack, chamber.chamberKey),
           `${pack.packId}/${chamber.chamberKey} has no bill designation`,
-        ).toMatch(/^[A-Z]{2}$/);
+        ).toMatch(/^[A-Z]{2,4}$/);
       }
     }
   });

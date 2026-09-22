@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "./fixtures";
-import { enterLife, goTo, startLife } from "./support/creator";
+import { enterLife, goTo, leaveGame, startLife } from "./support/creator";
 
 const RETIRED_PATH = /title_bg_civic_community_meeting_hero_slot/i;
 const RETIRED_SCENE = "civic-community-meeting-title";
@@ -124,15 +124,7 @@ test.describe("FRONTDOOR44 retirement", () => {
     });
     await enterLife(page);
     await goTo(page, "keep-world");
-    await goTo(page, "leave-game");
-    const confirmSavedReturn = page.getByRole("button", {
-      name: "Quit without saving",
-      exact: true,
-    });
-    if (await confirmSavedReturn.isVisible()) {
-      await confirmSavedReturn.click();
-    }
-    await expect(page.getByTestId("title-screen")).toBeVisible();
+    await leaveGame(page);
     await currentBackdrop(page);
     await page.screenshot({
       path: test.info().outputPath("saved-life-title.png"),

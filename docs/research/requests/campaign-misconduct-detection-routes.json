@@ -1,0 +1,34 @@
+{
+  "filedAt": "2026-09-22T21:25:00.000Z",
+  "impact": "shapes-design",
+  "lane": "consequences for corruption and laws",
+  "notes": [
+    "Built now: the committee's monthly public report lists payments to the candidate (the purpose stays private); outlets see it through the ordinary news desk; a rival reads it and decides whether to complain; the state regulator's own review of reports opens a matter when nobody complains; a campaign bookkeeper who already raised a payment privately and finds another decides whether to complain outside the campaign.",
+    "Not built: an outside accountant or auditor, a reporter investigating beyond the public record, the FEC's own review of federal reports, prosecutors.",
+    "The filing lag (30 days) and report interval (30 days) are authored, not law."
+  ],
+  "priority": "P1",
+  "question": "How is personal use of campaign funds actually discovered in the United States? For federal and for state campaigns: what share of enforcement cases begin with a complaint by an opponent, with the regulator's own review of filed reports (for the FEC, Reports Analysis Division referrals), with press reporting, with a campaign insider or treasurer, or with an audit; how long after the spending each route typically takes; and how often the filing lists the payee as the candidate versus disguising it?",
+  "questionId": "campaign-misconduct-detection-routes",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Consequences for corruption and laws thread",
+  "sourcesChecked": [
+    {
+      "source": "chatgpt-stress-test-answers-2026-09-22, C04 (scandals)",
+      "whatItDidNotSettle": "Settles that acts, allegations, evidence and findings are separate and that there are no fixed scandal odds; says nothing about who discovers campaign-money misuse or how long it takes."
+    }
+  ],
+  "title": "Who actually catches a candidate spending campaign money on themselves",
+  "usableAnswer": "For federal and for state campaigns: the discovery routes with their rough share of cases and typical time from spending to discovery, sourced; whether filings name the candidate as payee; and which routes the game is missing.",
+  "whyItMatters": "The owner defined this as done when reporters, an accountant, the FEC or regulator, or someone inside the campaign can notice. The routes now exist with authored timing; the timing and weighting should be real.",
+  "answer": {
+    "summary": "ChatGPT mapped the federal detection routes and procedural stages and found no source for any route-share percentage, typical discovery delay, or direct-payee versus intermediary split. Routes: public disclosure and outside scrutiny; a sworn complaint from any person (no special opponent route); Reports Analysis Division review and referral to the Office of General Counsel or ADR; the FEC Audit Division (example: the Raul Ruiz for Congress 2018 interim audit); other agency referrals; DOJ criminal referral, which needs knowing-and-willful intent. Payees are itemized once they pass $200 per election cycle; House and Senate committees file quarterly plus pre-election reports. Matters stay confidential while pending; the public file appears generally 30 days after certification of the closing vote. Eight stages: transaction, evidence, lead, complaint or referral, reason to believe, investigation, probable cause, litigation. Fixed FEC clocks: notice 5 days, response 15, pre-probable-cause conciliation 60, post-probable-cause conciliation 30 to 90. It warns: do not turn a complaint into a guilt finding or use one universal discovery probability.",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-22-nationwide-2235/OCD-CAMPAIGN-MISCONDUCT-DETECTION--NATIONWIDE-ROUTES-AND-UNKNOWNS--2026-09-22.md (Drive 1_KIS59FUGxRqwDHcSh9m1tyi9Yt0t36w, SHA-256 00eeaa06ed4ca4eadac9195903250b3aa10ac1debd2a3edad61e4e845cf7eff3)",
+      "ChatGPT reply document 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, 'CTO RESEARCH RECEIPT — 6:27 P.M. EASTERN', read 22:40Z"
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T22:31:00.000Z",
+    "stillOpen": "Open: exact state detection procedures were 'not verified across all 50 states, D.C. and Puerto Rico'; route percentages, discovery delays, reason-to-believe and investigation durations are unknown. Not supportable: state route percentages, a universal delay, a uniform payee pattern, any single 30-day interval or penalty range. Four decisions it leaves pending: a 52-jurisdiction legal-source pass; whether route-incidence calibration is needed at all (possibly a coded sample of closed FEC matters); how to treat campaign accountants; not using 'reason to believe' or 'probable cause' labels in states that do not use them. Its design implications are 'possible game-model choices, not empirical rates or legal requirements.'"
+  }
+}

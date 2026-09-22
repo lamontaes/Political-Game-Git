@@ -11,7 +11,7 @@ This is not all of Stage 5. Formative-age content and play (5.2), adult educatio
 ## Approved Research and Governance Gate
 
 - [x] Read the repository authority hierarchy, completed Stage 4 plan, relevant Stage 1–4 simulation/persistence/tests, Git history, and the approved Stage 5.1 brief.
-- [x] Treat the supplied household, care, time-use, labour, real-career, and comparable-game research as reviewed and approved; do not restart a broad research project or turn illustrative categories into engine ontology.
+- [x] Treat the supplied household, care, time-use, labor, real-career, and comparable-game research as reviewed and approved; do not restart a broad research project or turn illustrative categories into engine ontology.
 - [x] Record the bounded research-gated implementation-run process in the decision log.
 - [x] Inspect the Stage 4 belief-option wording. Correct the confirmed conviction/flexibility wording in a separate checkpoint before Stage 5.1.
 - [x] Run the permanent Architecture Integrity Audit over affected Stage 1–4 concepts before choosing migrations.

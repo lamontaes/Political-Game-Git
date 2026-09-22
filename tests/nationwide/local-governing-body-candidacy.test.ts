@@ -13,6 +13,11 @@ import {
   searchLifePlaces,
   serializeWorld,
 } from "../../src/simulation";
+import { activeOrganizationParticipationsAt } from "../../src/simulation/life-queries";
+import { personName } from "../../src/simulation";
+import { projectCampaignGuidance } from "../../src/simulation/campaign-life-activities";
+import { projectWorkRole } from "../../src/presentation/day-overview";
+import { projectGovernmentBrowser } from "../../src/presentation/politics-government";
 import type { EntityId, World } from "../../src/simulation";
 import {
   fileForOffice,
@@ -40,6 +45,7 @@ const BOWLING_GREEN = "2108902";
 const BOISE = "1608830";
 const PADUCAH = "2158836";
 const AMERICAN_FALLS = "1601900";
+const ELY = "2719142";
 
 function adultLifeAt(placeKey: string, seed: string) {
   const game = generateOpeningLife(
@@ -235,6 +241,57 @@ describe("standing for the town's governing body and taking the seat", () => {
       );
     },
   );
+});
+
+describe("standing again after a race is over", () => {
+  // Found in a playtest in Ely, Minnesota: after one council race the game
+  // never offered another filing, and a sitting member's re-election refused
+  // its own result.
+  it("Ely, Minnesota: files, wins, and stands again twice, keeping one seat", () => {
+    const { world: opening, personId } = adultLifeAt(ELY, "town-body-again");
+    const home = opening.people[personId]!.homeJurisdictionId;
+    const body = localGoverningBodiesForJurisdiction(home)[0]!;
+    let world = opening;
+    for (const race of [1, 2, 3]) {
+      // Picking the office again offers the filing, whatever came before.
+      expect(projectCampaign(world, personId, body.officeKey).phase).toBe(
+        "can-file",
+      );
+      world = fileForOffice(world, personId, null, body.officeKey);
+      expect(world.history.electionContests!.length).toBe(race);
+      world = runToElection(world, personId, suppliedWin(personId));
+      // Until another office is picked, the last race's result stays up.
+      expect(projectCampaign(world, personId).phase).toBe("won");
+      const seats = activeOrganizationParticipationsAt(world, personId).filter(
+        (active) => active.state.roleKind === "leader:municipal-member",
+      );
+      expect(seats).toHaveLength(1);
+      expect(localGoverningSeatFor(world, personId)).not.toBeNull();
+    }
+
+    // The seat reads as an office everywhere the life is described.
+    const name = personName(world.people[personId]!);
+    expect(projectWorkRole(world, personId).sentence).toBe(
+      "Your role: Member of the governing body, City of Ely.",
+    );
+    const ely = projectGovernmentBrowser(world, personId).localGovernments.find(
+      (entry) => entry.key === `unit:${body.unit.id}`,
+    );
+    expect(ely?.holderName).toBe(name);
+    expect(ely?.detail).toContain("Member of the governing body.");
+    // The county above it is named the way Minnesotans say it.
+    expect(
+      projectGovernmentBrowser(world, personId).alsoGoverning.map(
+        (entry) => entry.title,
+      ),
+    ).toContain("St. Louis County");
+    // A party host's advice knows the town's own seat.
+    expect(
+      projectCampaignGuidance(world, personId).offices.map(
+        (office) => office.officeKey,
+      ),
+    ).toContain(body.officeKey);
+  }, 120_000);
 });
 
 // 19,480 municipalities join to a place; 18 of them are not functionally active.

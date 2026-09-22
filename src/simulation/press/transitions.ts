@@ -16,7 +16,7 @@ import {
 import {
   PRESS_LEDGER_REVIEW_TRANSITION_KEY,
   pressLedgerReviewHandler,
-  produceRivalComplaints,
+  produceCampaignFinanceScrutiny,
 } from "./matters";
 import { ensurePressLocalCoverage, ensurePressMediaOpening } from "./outlets";
 import {
@@ -24,6 +24,7 @@ import {
   PRESS_OWNER_REVIEW_TRANSITION_KEY,
   pressOwnerReviewHandler,
 } from "./ownership";
+import { produceCaughtLyingLeads } from "./caught-lying";
 import { ensurePressExposureCoverage } from "./views";
 import {
   PRESS_PROCEEDING_TRANSITION_KEY,
@@ -41,7 +42,9 @@ function pressWeeklyHandler(
   dueItem: FutureDueItem,
 ): FutureTransitionHandlerResult {
   const prepared = ensureMediaOwnership(
-    ensurePressExposureCoverage(produceRivalComplaints(world)),
+    ensurePressExposureCoverage(
+      produceCaughtLyingLeads(produceCampaignFinanceScrutiny(world)),
+    ),
   );
   return pressDeskSweepHandler(prepared, dueItem);
 }

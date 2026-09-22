@@ -3,7 +3,7 @@ import { executiveRulePackForJurisdiction } from "../executive-authority-rule-pa
 import { LEGISLATIVE_RULE_PACKS } from "../legislature-rule-packs";
 import { officeQualifications } from "../office-qualification-rules";
 import {
-  US_STATE_NAMES,
+  chiefExecutiveJurisdictionName,
   US_STATE_USPS,
   stateExecutiveIdentity,
 } from "../nationwide-world/state-executive-candidacy-packs";
@@ -82,7 +82,7 @@ export function stateGoverningDisposition(
   ];
   return {
     stateUsps,
-    stateName: US_STATE_NAMES[identity.stateUsps],
+    stateName: chiefExecutiveJurisdictionName(identity.stateUsps),
     governorOfficeKey: identity.officeKey,
     termCalendar,
     termRuleVersion: rule.ruleVersion,

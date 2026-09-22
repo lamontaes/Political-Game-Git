@@ -94,7 +94,7 @@ test.describe("The title is a room with a menu on it", () => {
     const panel = await page.getByTestId("title-screen").boundingBox();
     expect(panel).not.toBeNull();
     expect(panel!.width / 1440).toBeLessThan(0.34);
-    // Left-biased: its centre sits in the left-hand half of the frame.
+    // Left-biased: its center sits in the left-hand half of the frame.
     expect(panel!.x + panel!.width / 2).toBeLessThan(1440 / 2);
 
     // Five controls, all of them reachable from the keyboard.

@@ -50,7 +50,7 @@ const SEED_SPREAD = [-2, -1, -1, 0, 0, 0, 0, 1, 1, 2] as const;
 const ORDINARY_LIFE_SCOPES = ["life:ordinary"] as const;
 
 /**
- * How movable each of the five is, which is this pack's judgement and not the
+ * How movable each of the five is, which is this pack's judgment and not the
  * engine's.
  *
  * `settledByStrength` is what a value resists once it has stood for

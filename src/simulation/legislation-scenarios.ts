@@ -78,7 +78,7 @@ export interface LegislativeScenario {
   readonly committeeMemberCount: number;
   /**
    * How the seated members decide each question. These are authored for the
-   * scenario, not produced by a model of legislator behaviour: this slice
+   * scenario, not produced by a model of legislator behavior: this slice
    * proves the institution resolves a question correctly and leaves how a
    * member makes up their mind to the character systems.
    */
@@ -331,6 +331,11 @@ interface ScenarioBlueprint {
   readonly votePlan: Readonly<Record<string, AuthoredVoteCounts>>;
   readonly governorAction: "signed" | "vetoed";
   readonly governorRationale: string;
+  /**
+   * Qualified catalog keys for the questions this bill is about. Omitted
+   * where no shipped question fits — see `ProgramVariant.propositionKeys`.
+   */
+  readonly propositionKeys?: readonly string[];
 }
 
 /**
@@ -394,6 +399,15 @@ const BLUEPRINTS: readonly ScenarioBlueprint[] = [
     governorAction: "vetoed",
     governorRationale:
       "The Governor objected to committing the state to two years of ongoing cost.",
+    // Fare-free rides for assistance enrollees is a bill about whether transit
+    // should be free to ride, whatever its narrower reach. The other eight
+    // bills in this bank — signage, ferry notice, credentials, dredging,
+    // crossing signals, winter clearing, and two formula extensions — decide
+    // nothing any shipped question asks, and are left unlinked rather than
+    // pinned to the nearest-sounding one.
+    propositionKeys: [
+      "us-policy-positions:transportation-infrastructure.fare-free-transit",
+    ],
   },
   {
     scenarioKey: "nebraska",
@@ -598,7 +612,7 @@ const BLUEPRINTS: readonly ScenarioBlueprint[] = [
     shortTitle: "Harbor Dredging Schedule",
     subjectClass: "general-policy",
     summary:
-      "Would require a published dredging schedule for state-maintained small-boat harbours before each season opens.",
+      "Would require a published dredging schedule for state-maintained small-boat harbors before each season opens.",
     nonpartisan: false,
     votePlan: {
       "committee:house-transportation": { yea: 5, nay: 2 },
@@ -649,6 +663,8 @@ export interface LegislativeBlueprint {
   readonly votePlan: Readonly<Record<string, AuthoredVoteCounts>>;
   readonly governorAction: "signed" | "vetoed" | null;
   readonly governorRationale: string;
+  /** Qualified catalog keys for the questions this bill is about. */
+  readonly propositionKeys: readonly string[];
 }
 
 export function legislativeBlueprint(
@@ -672,6 +688,7 @@ export function legislativeBlueprint(
     votePlan: blueprint.votePlan,
     governorAction: blueprint.governorAction,
     governorRationale: blueprint.governorRationale,
+    propositionKeys: blueprint.propositionKeys ?? [],
   };
 }
 
@@ -809,5 +826,7 @@ function institutionalWorkBlueprint(workKey: string): LegislativeBlueprint {
     governorAction: null,
     governorRationale:
       "No executive disposition supplied; signature, veto and inaction remain separate unresolved outcomes.",
+    // A placeholder proposal is about nothing the catalog asks.
+    propositionKeys: [],
   };
 }
