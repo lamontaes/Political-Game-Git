@@ -453,6 +453,13 @@ is not researched twice.
 
 ## 6. Process findings, each paid for once
 
+- **A freeze on merges is not a freeze on capacity.** The freeze was called to
+  stop merges killing main's pending run, and it left untouched the thing that
+  starves it: a push to any branch starts its own fifteen-job run, and there
+  are two job slots for the whole repository. So while main's run was finally
+  executing, ordinary branch pushes — including this document's — were taking a
+  slot from it and had to be cancelled. Two different scarcities wearing one
+  name. Freezing the one that was visible left the one that was not.
 - **An amendment to our own rule, and the most useful finding in this section.**
   Tonight every lane was told: on a red check, first see whether the event's
   `head_sha` is still the branch head, because a stale sha with cancelled jobs
