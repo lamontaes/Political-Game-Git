@@ -5,6 +5,7 @@ import {
 import { createPressTransitionRegistry } from "./press/transitions";
 import { startingSupportAdjustment } from "./record-in-office";
 import {
+  legislativeTermDates,
   supportedLegislativeTermDates,
   scheduleLegislativeTerm,
   createLegislativeTermTransitionRegistry,
@@ -1631,7 +1632,7 @@ function seatTheWinner(
       (organization) => organization.stableKey === bodyKey,
     )!.id;
 
-  const timing = supportedLegislativeTermDates(
+  const timing = legislativeTermDates(
     contest.office.officeKey,
     contest.electionDate,
   );
