@@ -12,6 +12,9 @@ The expanded **Running for office across America** report was read, including it
 
 ### Data delivered
 
+Continuation: `policy-crosswalk/` now supplies the complete 92↔127 row mapping and fourteen research-group views. Twelve data-consistency checks pass; no runtime migration or loader execution is claimed. The older 60-issue federal input is unchanged.
+
+
 - `personality-scale-dispositions.json`: all **121** original catalogue IDs accounted for exactly once; **18** proposed bipolar pairs, **84** one-sided facets, and **one** descriptor held as a composite presentation rather than an independent force. Seven relative tuning profiles. These are proposed authoring definitions, not 102 compulsory per-person stats or a complete executable TraitPack.
 - `formative-situation-bindings.json`: **20** request rows; **19** current authored keys inspected and one requested bare `household` key explicitly unlocated. Actual option IDs, nearer consequences, conditional tendency evidence, and no automatic nearest-match targets.
 - `us-federal.policy-pack.candidate.json`: **20** organized domains, **60** federal issue rows and **60** knowledge-subject rows in the inspected PolicyPack structure. No forced frequency or named Act. The existing policy implementation owner must load and test this at the real receiving head before claiming runtime use.
@@ -237,13 +240,29 @@ Do not insert real2024candidates into ordinary seeded2026history by default. A r
 
 Source: https://www.fec.gov/campaign-finance-data/candidate-committee-linkage-file-description/
 
-## A13 — Do not migrate the working policy vocabulary without the missing row-level crosswalk
+## A13 — Complete row-level crosswalk: retain the 127 shipped issues
 
-**Question:** `policy-domain-crosswalk-13-127-to-14-92` — exact mapping pending.
+**Question:** `policy-domain-crosswalk-13-127-to-14-92` — mapping now delivered in `policy-crosswalk/`.
 
-The queue reports that13domains/127issues already load, with66authored positions referring to those identifiers. Do not regress to an empty catalogue or replace127with92because the earlier research used a different organizational grouping. The new federal namespace is independent and does not require this migration.
+The continuation inspected the current sourced pack at main `d10dd525731bcd7bded20d165d74b9e0bae38ad8`, blob `a51034f630acb7f30bd8259dcc486480c1ec181e`, and the authored-position pack header plus actual qualified reference examples, blob `dfc81629b089ddaa4737f358329ed0b32736b0bb`. Its key inventory was manually transcribed from connector-returned source, not silently fetched or executed in the runtime.
 
-The previous crosswalk was not the full requested127↔92mapping. This batch does **not** claim it supplies that mapping. The receiving rule is settled: preserve current identifiers and useful issues; a later display grouping can relate to them without changing proposition references. A true schema/key migration must validate both packs and saved references, with explicit unmatched rows in both directions. Schedule that exact reconciliation separately; it is not a blocker for ordinary drafting, beliefs or the new federal issue candidate.
+The crosswalk accounts for **all 92 returned research items, all 127 existing issue keys in the inverse direction, and all 14 research groups**. Relationship kinds distinguish equivalent topics, broader umbrellas, specializations, partial overlap, no explicit counterpart and underspecified labels. No domain/issue rename is authorized. **Keep the shipped 127 and its dependent positions; use the fourteen groups as an optional cross-classification view.** A single issue appearing in multiple views does not gain extra probability or duplicate its consequences.
+
+Two researched items have no explicit matching shipped subject: traffic safety and immigration-related policy. The research's `general` row is underspecified, not a license to declare everything matched. Eleven shipped issues have no explicit link from these research items: reserves; legislative/administrative procedure; school safety; special education; victim services; energy efficiency; climate mitigation; environmental permitting; children/youth; platforms/social media; telecommunications. Preserve them all. A possible broader heading is not an actual issue-level substitute.
+
+Other matches are deliberately partial. Maternal/child clinical health is not child protection; professional scope is not just licensing entry; market solvency is not the same as individual consumer protection. The shipped state-housing-preemption row links to the broader intergovernmental-power research heading without losing its specific identity.
+
+**Receiving proof required:** compare exact issue and proposition ID sets and rejection reports before/after; verify saved belief and filed-measure references survive; test multi-heading rendering without extra agenda occurrences; preserve actual level authority. The queue's 66-proposition count is prior reported evidence, not a fresh runtime count. Twelve crosswalk-data consistency checks ran and passed; the repository loader, TypeScript and gameplay were not executed here.
+
+Full readable mapping, JSON, CSV, exact-key inventory, generator and validation are in `policy-crosswalk/`. This completes the missing mapping input, not its implementation. The 60-issue federal candidate remains byte-identical; the screenshot's later 94-issue expansion remains unverified.
+
+## A14 — Legislative timing: sourced constraints and actual scheduling
+
+Continuation September 22, 2026: `clock-and-tax/legislative-clock-source-inputs.partial.json` supplies nine scoped rule rows from California, New York, the 89th Texas House, Florida and Ohio municipal statutory procedure. Actual distinct reading days, elapsed hours, and New York calendar-legislative days are kept separate. Waivers attach to the exact body, rule and bill revision. This extends A09's direction with factual inputs; it does not claim complete national procedure or admission to the runtime. The full receiving answer and sources are in `clock-and-tax/CLOCK-AND-TAX-RECEIVING.md`.
+
+## A15 — Municipal income-tax discovery and settlement
+
+Current state-only topic routing is too narrow: Ohio 718.04 provides a direct municipal-authority example, subject to chapter/local limits. Philadelphia's Wage/Earnings treatment supplies a concrete anti-double-collection and operative-date test. Receive `clock-and-tax/local-income-tax-routing.json` without rewriting existing issue/proposition IDs or granting all local governments taxing authority. Read the full scope and twelve authored, not executed, acceptance cases. Eleven research-data checks pass; no production clock/tax test is claimed.
 
 ## Receiving and tests
 
