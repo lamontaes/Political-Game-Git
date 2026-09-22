@@ -139,10 +139,11 @@ describe("PT3 an offer of work that has not been answered", () => {
 
   it("stops quoting a start date once that date has gone by", () => {
     const { world, personId } = lifeWithAnOfferSought();
-    const startsOn = projectWorkRole(world, personId).awaitingAnswer[0]!
-      .startsOn;
+    const offerNowEntry = projectWorkRole(world, personId).awaitingAnswer[0]!;
+    const startsOn = offerNowEntry.startsOn;
     // While it is still ahead, saying when it would begin is useful.
     expect(startsOn > world.currentDate).toBe(true);
+    expect(offerNowEntry.startIsAhead).toBe(true);
     const offerNow = projectToday(world, personId).waiting.find((entry) =>
       entry.key.startsWith("work-offer:"),
     )!;
@@ -153,6 +154,13 @@ describe("PT3 an offer of work that has not been answered", () => {
     // replaced, so it is not repeated.
     const later = passOrdinaryDays(world, 84);
     expect(startsOn < later.currentDate).toBe(true);
+    const offerLaterEntry = projectWorkRole(later, personId).awaitingAnswer[0]!;
+    // The recorded date has not moved, and nothing here pretends it has. What
+    // changes is that the projection now says the date is behind us, so a
+    // consumer that renders from the record inherits the judgement rather than
+    // having to rediscover that this field goes stale.
+    expect(offerLaterEntry.startsOn).toBe(startsOn);
+    expect(offerLaterEntry.startIsAhead).toBe(false);
     const offerLater = projectToday(later, personId).waiting.find((entry) =>
       entry.key.startsWith("work-offer:"),
     )!;

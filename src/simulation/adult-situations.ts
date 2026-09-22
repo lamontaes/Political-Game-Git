@@ -2418,8 +2418,16 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
   },
   {
     key: "adult.old-favour-returns",
-    withheld:
-      "An earlier favour-family choice may be a refusal. It does not establish help given, a new larger request or a recurrence count. The actual prior action and new request are missing.",
+    // Was withheld: "An earlier favour-family choice may be a refusal. It does
+    // not establish help given, a new larger request or a recurrence count."
+    // All three now exist as records. Help given is `life.favour-performed`,
+    // which the world writes only when a favour was agreed to, scheduled and
+    // actually carried out — a refusal never produces one. The new larger
+    // request is the `returning-favour` opportunity, written by the same
+    // person who was helped. The recurrence count is a count of performances
+    // rather than of asks, so somebody who asked three times and was helped
+    // once returns on the strength of the one.
+    opportunity: "returning-favour",
     companion: "community-member",
     stakes: "notable",
     prose:

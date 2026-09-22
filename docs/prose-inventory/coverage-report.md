@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 3139 |
 | INTENTIONALLY_NON_PLAYER_FACING | 7074 |
-| DIAGNOSTIC_OR_TEST | 7613 |
-| **NEEDS_CLASSIFICATION** | **10274** |
+| DIAGNOSTIC_OR_TEST | 7619 |
+| **NEEDS_CLASSIFICATION** | **10280** |
 
-Scanned 1151 files holding 111751 string
+Scanned 1152 files holding 111818 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -47,7 +47,7 @@ literals in total; the table counts only those that read like a sentence.
 | 117 | `src/simulation/civil-personnel-actions.ts` |
 | 111 | `src/presentation/guide-terms.ts` |
 | 99 | `src/simulation/governing/state-governing.ts` |
-| 95 | `src/simulation/adult-situations.ts` |
+| 94 | `src/simulation/adult-situations.ts` |
 | 87 | `src/simulation/policy.ts` |
 | 84 | `src/maps/political-map-model.ts` |
 | 84 | `src/simulation/life-paths2.ts` |
@@ -62,6 +62,7 @@ literals in total; the table counts only those that read like a sentence.
 | 62 | `src/simulation/people-study-plan.ts` |
 | 61 | `src/simulation/press-interviews.ts` |
 | 59 | `src/presentation/legislative-dialogue-motifs.ts` |
+| 56 | `src/simulation/life-opportunities.ts` |
 | 54 | `src/presentation/run-c-working-document.ts` |
 | 53 | `src/simulation/civil-personnel.ts` |
 | 52 | `src/presentation/politics-government.ts` |
@@ -69,7 +70,6 @@ literals in total; the table counts only those that read like a sentence.
 | 51 | `src/simulation/resources.ts` |
 | 50 | `src/player/DocketWorkspace.tsx` |
 | 50 | `src/simulation/judicial-office-content.ts` |
-| 50 | `src/simulation/life-opportunities.ts` |
 | 50 | `src/simulation/life.ts` |
 | 48 | `src/simulation/legislation-scenarios.ts` |
 | 48 | `src/simulation/life-episodes.ts` |
@@ -262,6 +262,7 @@ literals in total; the table counts only those that read like a sentence.
 | 10 | `src/player/LegislationWorkspace.tsx` |
 | 10 | `src/player/MeasureFloorSurface.tsx` |
 | 10 | `src/player/World39News.tsx` |
+| 10 | `src/presentation/day-overview.ts` |
 | 10 | `src/presentation/legislative-authored-sitting.ts` |
 | 10 | `src/presentation/life-record.ts` |
 | 10 | `src/presentation/player-calendar.ts` |
@@ -280,7 +281,6 @@ literals in total; the table counts only those that read like a sentence.
 | 9 | `src/player/NationalElectionResults.tsx` |
 | 9 | `src/player/PressWorkspace.tsx` |
 | 9 | `src/player/ShellPinRail.tsx` |
-| 9 | `src/presentation/day-overview.ts` |
 | 9 | `src/presentation/fiscal-authority-work.ts` |
 | 9 | `src/presentation/new-game.ts` |
 | 9 | `src/presentation/relationship-web.ts` |

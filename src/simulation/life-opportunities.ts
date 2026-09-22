@@ -43,7 +43,7 @@ import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
  * cites as evidence would prove nothing at all, and the separation is the
  * whole point of asking for a premise in the first place.
  *
- * What it may write is deliberately small. Six kinds, each one a proposition
+ * What it may write is deliberately small. Eight kinds, each one a proposition
  * an existing canonical record can already carry — somebody asked something,
  * of somebody, about something, at a time — plus the ordinary household week,
  * which recurs because households do. It is not a social engine, it does not
@@ -71,6 +71,7 @@ export const LIFE_OPPORTUNITY_KINDS = [
   "extra-hours-request",
   "meeting-agenda-item",
   "candidacy-approach",
+  "returning-favour",
 ] as const;
 
 export type LifeOpportunityKind = (typeof LIFE_OPPORTUNITY_KINDS)[number];
@@ -86,16 +87,18 @@ export const LIFE_OPPORTUNITY_ANSWERING_KEY: Readonly<
   "extra-hours-request": "adult.work-extra-hours",
   "meeting-agenda-item": "adult.local-issue-position",
   "candidacy-approach": "adult.candidacy-approach",
+  "returning-favour": "adult.old-favour-returns",
 };
 
 /**
  * Whether a kind may be written again once its scene has been played.
  *
  * The two ordinary weeks of a life — an evening in, an invitation to something
- * on a Saturday — recur, because they do. The other five do not: a favour
- * asked, a confidence given, an approach about standing for office and a read
- * agenda item happen once in this bank, and a world that kept writing new ones
- * would be manufacturing a queue of requests nobody would ever be offered.
+ * on a Saturday — recur, because they do. The other six do not: a favour
+ * asked, a confidence given, an approach about standing for office, a read
+ * agenda item and a favour coming back larger happen once in this bank, and a
+ * world that kept writing new ones would be manufacturing a queue of requests
+ * nobody would ever be offered.
  *
  * This mirrors the `ordinary` stakes tier in the adult bank, which cannot be
  * imported here without a cycle. `adult-situations.test.ts` pins the two
@@ -111,6 +114,7 @@ export const LIFE_OPPORTUNITY_REPEATABLE: Readonly<
   "extra-hours-request": false,
   "meeting-agenda-item": false,
   "candidacy-approach": false,
+  "returning-favour": false,
 };
 
 export const LIFE_OPPORTUNITY_TAG_PREFIX = "life.opportunity:";
@@ -620,8 +624,53 @@ function tryWrite(
   }
 }
 
+
 /**
- * Which of the six this world can support today.
+ * Somebody this character actually helped, and how often.
+ *
+ * Read from `life.favour-performed`, which is written only when a favour was
+ * agreed to, scheduled and carried out — not when it was asked, and not when
+ * it was refused. That distinction is the whole reason
+ * `adult.old-favour-returns` was withheld: an earlier favour-family choice may
+ * have been a refusal, and a scene about somebody turning up on the strength
+ * of help given cannot stand on a record that may say help was declined.
+ *
+ * The count is the recurrence the scene needs. It is a count of performances,
+ * not of asks, so a person who asked three times and was helped once returns
+ * on the strength of one.
+ */
+function favourActuallyPerformedFor(
+  world: World,
+  personId: EntityId,
+): { readonly counterpartPersonId: EntityId; readonly count: number } | null {
+  const counts = new Map<EntityId, number>();
+  for (const event of world.history.events) {
+    if (event.type !== "life.favour-performed") continue;
+    if (
+      !event.participants.some(
+        (entry) => entry.personId === personId && entry.role === "agency:actor",
+      )
+    ) {
+      continue;
+    }
+    const counterpart = event.participants.find(
+      (entry) =>
+        entry.personId !== personId && entry.role === "coordination:counterpart",
+    )?.personId;
+    if (!counterpart || !world.people[counterpart]) continue;
+    counts.set(counterpart, (counts.get(counterpart) ?? 0) + 1);
+  }
+  // The person helped most, and the earliest of those on a tie, so the choice
+  // is a fact about the record rather than about map ordering.
+  const ranked = [...counts.entries()].sort(
+    (left, right) => right[1] - left[1] || (left[0] < right[0] ? -1 : 1),
+  );
+  const best = ranked[0];
+  return best ? { counterpartPersonId: best[0], count: best[1] } : null;
+}
+
+/**
+ * Which of the eight this world can support today.
  *
  * Every one of them needs a real person, a real record or both, and a kind
  * whose actor the world cannot supply is simply not a candidate. Nobody is
@@ -783,6 +832,40 @@ function eligibleOpportunities(
             minutes: null,
           },
           believed: `${personName(world.people[familiarId]!)} told them privately about needing to withdraw from organizing the family picnic.`,
+          occasion: null,
+        }),
+    });
+  }
+
+  const helped = favourActuallyPerformedFor(world, personId);
+  if (helped) {
+    const helpedName = personName(world.people[helped.counterpartPersonId]!);
+    push({
+      kind: "returning-favour",
+      counterpartPersonId: helped.counterpartPersonId,
+      write: (current, stableKey) =>
+        writeAsk(current, {
+          stableKey,
+          kind: "returning-favour",
+          personId,
+          askerPersonId: helped.counterpartPersonId,
+          jurisdictionId,
+          type: "life.larger-favour-requested",
+          // Larger than the proofreading, and said as the larger thing it is.
+          // The count is stated because the scene is about what the earlier
+          // help is now being read as meaning, and a scene that implied a
+          // history of helping would need the history to exist.
+          summary: `${helpedName} asked whether they would spend a Saturday morning helping move furniture out of a flat, having been helped ${helped.count === 1 ? "once" : `${helped.count} times`} before.`,
+          detail: "Asked for a Saturday morning helping move furniture",
+          details: {
+            version: 1,
+            task: "spend a Saturday morning helping move furniture out of a flat",
+            opening:
+              "You helped me before and I have not forgotten it. I am moving out of the flat and I cannot do it on my own. Could you give me a Saturday morning?",
+            condition: "The morning only; I will have the van booked",
+            minutes: 240,
+          },
+          believed: `${helpedName} asked them for a Saturday morning helping move furniture, a larger thing than the help they gave before.`,
           occasion: null,
         }),
     });

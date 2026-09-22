@@ -113,10 +113,9 @@ export function projectToday(world: World, personId: EntityId): TodayOverview {
         // the past reads as a broken game rather than an open decision. The
         // date is not re-stated as something acceptance would settle, because
         // nothing here moves it.
-        sentence:
-          offer.startsOn > world.currentDate
-            ? `${offer.roleTitle}: an offer of work is waiting for your answer, to start on ${proseDate(offer.startsOn)}.`
-            : `${offer.roleTitle}: an offer of work is waiting for your answer.`,
+        sentence: offer.startIsAhead
+          ? `${offer.roleTitle}: an offer of work is waiting for your answer, to start on ${proseDate(offer.startsOn)}.`
+          : `${offer.roleTitle}: an offer of work is waiting for your answer.`,
       })),
     ],
   };
@@ -158,7 +157,20 @@ export interface WorkRole {
 export interface OfferAwaitingAnswer {
   readonly relationshipId: EntityId;
   readonly roleTitle: string;
+  /**
+   * The start date the offer was written with. It never moves: nothing in the
+   * career path rewrites it when the offer sits unanswered, so weeks later it
+   * is a date in the past and saying it out loud is saying something untrue.
+   */
   readonly startsOn: string;
+  /**
+   * Whether that date is still ahead of today.
+   *
+   * The judgement lives here rather than in one sentence somewhere, so the
+   * next thing that renders an offer inherits it instead of having to
+   * rediscover that `startsOn` goes stale.
+   */
+  readonly startIsAhead: boolean;
 }
 
 export function offersAwaitingAnswer(
@@ -174,6 +186,7 @@ export function offersAwaitingAnswer(
               relationshipId: relationship.id,
               roleTitle: role.title,
               startsOn: relationship.startedAt,
+              startIsAhead: relationship.startedAt > world.currentDate,
             },
           ]
         : [];

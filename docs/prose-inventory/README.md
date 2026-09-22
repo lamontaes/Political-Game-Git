@@ -28,8 +28,8 @@ than a derivative. `check` compares whichever of them is present on disk.
 ## Current state
 
 - **3240** inventoried templates.
-- Reachability: 396 CURRENTLY_UNREACHABLE, 110 DEV_FIXTURE_ONLY, 90 LEGACY_OR_WITHDRAWN, 2243 PLAYER_REACHABLE, 69 UNKNOWN, 332 WITHHELD_BY_GROUNDING.
-- **10274** coverage candidates still need a
+- Reachability: 396 CURRENTLY_UNREACHABLE, 110 DEV_FIXTURE_ONLY, 90 LEGACY_OR_WITHDRAWN, 2256 PLAYER_REACHABLE, 69 UNKNOWN, 319 WITHHELD_BY_GROUNDING.
+- **10280** coverage candidates still need a
   person's classification. 100% coverage is *not* claimed.
 - **0** hard errors, **274** review warnings.
 
