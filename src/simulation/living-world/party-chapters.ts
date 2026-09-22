@@ -681,8 +681,7 @@ function writeMeeting(
   next = createScheduledActivity(next, {
     stableKey: `${stableKey}:journey:${kind}`,
     title: "Journey to the community room",
-    summary:
-      "A game-authored 20-minute local journey included in Attend. Travel cost is not represented; no fare is charged.",
+    summary: "About twenty minutes to get to the community room.",
     kind: "travel",
     start: momentAt(
       world,

@@ -25,7 +25,7 @@ defect than the one it was aimed at.
 - 3248 templates, 3031 distinct texts.
 - 84 exact duplicate groups.
 - 95 normalized duplicate groups.
-- 37 near-duplicate clusters (Jaccard ≥ 0.72).
+- 36 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each
 keeps its own ID, and two banks may legitimately both offer "Say nothing".
@@ -39,9 +39,9 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `no instrument read` | 22 | 1 |
 | `the player asked` | 21 | 2 |
 | `there is a` | 20 | 4 |
+| `asked you to` | 18 | 6 |
 | `it is not` | 18 | 4 |
 | `out of the` | 18 | 5 |
-| `asked you to` | 17 | 5 |
 | `you want to` | 17 | 4 |
 | `the end of` | 16 | 5 |
 | `you tell you` | 16 | 1 |
@@ -52,9 +52,9 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `the two of` | 14 | 4 |
 | `existing saves are` | 13 | 1 |
 | `existing saves are unchanged` | 13 | 1 |
+| `has asked you` | 13 | 5 |
 | `saves are unchanged` | 13 | 1 |
 | `and it is` | 12 | 5 |
-| `has asked you` | 12 | 4 |
 | `no instrument read establishes` | 12 | 1 |
 | `proof of income` | 12 | 2 |
 | `the two of you` | 12 | 4 |

@@ -1,4 +1,5 @@
-import { supportedLegislativeTermDates } from "../simulation/legislative-office-terms";
+import { legislativeTermDates } from "../simulation/legislative-office-terms";
+import { proseDate } from "./prose-dates";
 
 import {
   activeCampaignForCandidate,
@@ -399,12 +400,15 @@ export function projectCampaign(
     })(),
     afterword:
       state.status === "won"
-        ? supportedLegislativeTermDates(
-            contest.office.officeKey,
-            contest.electionDate,
+        ? ((term) =>
+            term
+              ? `${candidateName} won. The term begins ${proseDate(term.startsAt)}; until then the office is not theirs.`
+              : `${candidateName} won. The seat is theirs, and so is everything that came before it.`)(
+            legislativeTermDates(
+              contest.office.officeKey,
+              contest.electionDate,
+            ),
           )
-          ? `${candidateName} won. The supported term begins ${supportedLegislativeTermDates(contest.office.officeKey, contest.electionDate)!.startsAt}; the result itself grants no current office authority.`
-          : `${candidateName} won. The seat is theirs, and so is everything that came before it.`
         : state.status === "lost"
           ? `${candidateName} lost. That is a thing that happened to them, not the end of them — tomorrow is still there.`
           : null,
