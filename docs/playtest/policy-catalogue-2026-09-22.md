@@ -25,20 +25,93 @@ It has two sections and neither is an issue:
 There are no domains, no issues, no propositions, no subjects and no
 principles. Not a short list — none.
 
-## Three menu entries, one screen
+## Retracted: "three menu entries, one screen"
 
-Something smaller and checkable falls out of walking it. The shell menu offers
-Budget, Tax and Transit as separate destinations under Politics. All three land
-on the same page.
+**Retracted 2026-09-22 08:45Z, re-measured on `main` at `0e0cebe8` in
+Chromium 141.** This document first said the shell menu offered Budget, Tax
+and Transit as three separate destinations under Politics, that all three
+opened the same page, and that a player who asked for Tax was shown a budget
+without being told. None of that is true, and the way it went wrong is worth
+more than the claim was.
 
-The visible text of the Budget destination and the Tax destination is identical,
-character for character, and Transit opens the same screen again. The section
-strip on that screen lists only Budget & economy and Constitutional & charter
-changes, so there is no tax section and no transit section for an ordinary
-player to be taken to.
+What the menu actually holds, read off the open flyout in two lives:
 
-A player who chooses Tax from a menu and is shown a budget page has been
-answered with something else without being told.
+- One Politics entry, and only one. `nav-politics-budget`, `nav-politics-tax`
+  and `nav-politics-transit` are each present zero times on the page.
+- Its hint changes with the life: "Running for office, jobs and study" for a
+  life with no office, "Your office, jobs and study" for one that has one.
+
+Those three names are not the game's. They are keys in `POLITICS_HUB`, a map
+inside `tests/e2e/support/creator.ts` that lets a spec name a place inside the
+hub; the helper clicks the single Politics entry and then walks to a tab and a
+section. When the section control does not exist it does this:
+
+```ts
+if (step.startsWith("politics-sub-") && (await control.count()) === 0) {
+  continue;
+}
+```
+
+So three helper destinations walked to the same tab, found no section to
+click, and left the walk on the same page three times. The identical text was
+the same screen read three times, not two screens that had been confused for
+each other. **A test helper's route is not a player's route**, which is this
+lane's own standing rule, and this is what breaking it looks like.
+
+What is really there is the opposite of a defect. Transit and tax are separate
+surfaces with their own frames and titles — "Transit service", "Taxes and
+public receipts" — and when a life cannot use them the screen says so in
+words, at `PlayerGame.tsx` `transit-withheld` and `tax-withheld`:
+
+> Transit service work opens when you hold an office that can propose a
+> service appropriation.
+
+> Tax work opens when you hold an office with power to propose taxes.
+
+`politicsIssueAccess` in `src/presentation/politics-issues.ts` is deliberate
+about it and says why: the public budget is for everyone, and transit and tax
+are an office's configuration tools. That is the fails-soft rule working.
+
+This is the fourth claim tonight that was true of one reading and false of
+another, so the reconciliation is the finding: the player-facing-text lane read
+the cases on `claude/player-facing-text-client` at `6db9b5bd` and found the
+three separate frames; this lane walked the screen on `main` at `0e0cebe8` and
+found the same thing. Both trees agree. Only the helper disagreed.
+
+## What the Issues tab actually offers, in two lives
+
+Measured the same way, in the browser, on `main` at `0e0cebe8`:
+
+- **A life with no office**, Springfield, Illinois: the Issues tab is there and
+  the section strip is not. `politics-sub-budget`, `politics-sub-transit` and
+  `politics-sub-tax` are each present zero times. A tab with one section draws
+  no strip, so the budget is simply the tab.
+- **A life that starts as legislative staff**, Nebraska: the same. Still no
+  transit section and no tax section. `politicsIssueAccess` returns false for
+  both, because a staff start is not a seat that can propose a service
+  appropriation or a tax.
+
+So the open question "do tax and transit appear for an officeholder" is
+answered for staff and still open for a seated member, which needs an election
+won rather than a creator choice.
+
+### The legislative-staff start exists in three states
+
+Found while reaching for that measurement, and it is a location-agnosticism
+gap rather than a politics one. The creator's Legislative staff choice is
+disabled unless the selected place has a legislative scenario, and
+`legislativeScenarioKeysForPlace` reads `BLUEPRINTS` in
+`src/simulation/legislation-scenarios.ts`, which holds scenarios for Kentucky,
+Nebraska and Alaska and no other state.
+
+It is also statewide-only. Choosing a town disables the button even inside
+those three: Springfield, Illinois and Lincoln, Nebraska both render
+
+> A legislative staff start is not available for this selected place yet.
+
+and only the statewide custom choice for Nebraska enabled it. So of
+fifty-one places a player might start, three offer this route, and only if
+they decline to name a town.
 
 ## What the empty catalogue actually costs
 
@@ -157,8 +230,9 @@ the same commit as this one.
 
 ## What this walk did not establish
 
-- **Whether tax and transit sections appear for an officeholder.** This life
-  holds no office — "You do not hold a job or an office right now." The three
-  destinations collapsing to one page is measured for an ordinary player only.
-- **What the bill lifecycle does with an empty catalogue.** Unreached; a player
-  with no office cannot open it.
+- **Whether tax and transit sections appear for a seated member.** Answered
+  above for a life with no office and for a legislative-staff start, in both
+  cases no. A seated member needs an election won, which is a year of play and
+  not a creator choice, so it stays unmeasured.
+- **What the bill lifecycle does with an empty catalogue.** Unreached; neither
+  of the two lives walked here could open it.
