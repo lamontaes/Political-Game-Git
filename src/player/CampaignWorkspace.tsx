@@ -684,7 +684,7 @@ export function CampaignWorkspace({
                   <li key={tally.candidatePersonId}>
                     {tally.candidateName}
                     {tally.isThisCandidate ? " (them)" : ""} —{" "}
-                    {(tally.voteShare * 100).toFixed(1)}%
+                    {tally.displayedSharePercent}%
                   </li>
                 ))}
               </ul>
