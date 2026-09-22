@@ -294,8 +294,24 @@ and already decides; nothing calls it on any tick.
 
 The rule this sweep now follows, and states in each record: walk up until you
 reach something a player or the clock actually drives, and say where you
-stopped looking. Both corrections went the same direction — the thing was
-more built than the first reading said.
+stopped looking.
+
+**And a third correction, this one against the direction of the other two.**
+This document previously said the catalogue had stopped being a blocker,
+because the boundary now refuses only what no loaded pack declares. The
+people-and-life lane challenged that and was right. The boundary is genuinely
+open, but `POLICY_PACKS` loads one pack; `propositions` is an **optional**
+field on `PolicyPack`; and that pack does not carry it — `grep -c proposition`
+on `policy-pack-us-state-and-local.ts` returns **0**. The registry declares 13
+domains, 127 issues and no propositions at all. Every belief writer in
+`politics.ts` calls `requireProposition` first, at lines 73, 98, 142 and 179.
+
+So the first piece is **one row of content, not one function call**, and no
+scheduler helps until a proposition exists to hold a belief about. Two
+corrections made a finding smaller; this one puts a step back in front of it.
+A lane that only corrects in the flattering direction is not checking, it is
+agreeing, and the rule that catches all three is the same: measure at a named
+head and say what you did not look at.
 
 ## What this sweep did not establish
 
