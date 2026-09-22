@@ -3099,3 +3099,14 @@ longer to find out. What the split buys is that a unit regression is caught in
 under fifteen minutes instead of two hours, and the repository's most common
 failure by far is a unit failure. If the browser suite is ever brought to a
 state where it can go green on a runner, this decision should be revisited.
+
+**Where this decision actually lives, and why no test can guard it.** Both
+workflows and `tests/release/validate-workflow.test.ts` describe the split;
+none of them decides it. What blocks a merge is the required-checks list in
+this repository's branch protection, a setting no file in the tree can read.
+So the most likely way this decision gets reversed is not an edit anyone
+reviews — it is `browser-suite` being added to that list, after which the
+workflows and the tests stay green and unchanged while unit verdicts start
+queueing behind browser shards again. Raised by the fix-main lane during
+adversarial review of the test file on 2026-09-22. If a unit verdict is ever
+slow again for no visible reason, read branch protection before reading code.

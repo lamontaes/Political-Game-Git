@@ -24,7 +24,14 @@ describe("deterministic validation workflow capacity", () => {
   // The aggregate must not quietly start waiting on it again: that would undo
   // the split without anyone editing the browser workflow.
   it("no longer waits on the browser suite, which lives in its own workflow", () => {
-    const aggregate = validate.slice(validate.indexOf("  validate:"));
+    // indexOf returning -1 would make slice() hand back the last character,
+    // and every assertion below is a negative one, so the whole case would
+    // pass while asserting nothing. Prove the slice exists first. Found by
+    // mutation: renaming the job key to `validate-all:` while leaving
+    // `name: validate` alone let a `- browser` dependency back in unnoticed.
+    const aggregateAt = validate.indexOf("\n  validate:\n");
+    expect(aggregateAt).toBeGreaterThan(-1);
+    const aggregate = validate.slice(aggregateAt);
     expect(aggregate).not.toContain("- browser");
     expect(aggregate).not.toContain("needs.browser");
     expect(validate).not.toContain("  browser:\n    name: browser\n");
@@ -65,19 +72,28 @@ describe("deterministic validation workflow capacity", () => {
     expect(browserWorkflow).toContain("npx playwright test --shard=");
     expect(browserWorkflow).toContain("write-e2e-shard-inventory.ts");
     expect(browserWorkflow).toContain("write-e2e-baseline-inventory.ts");
-    expect(browserWorkflow).toContain("assert-e2e-shard-union.ts");
-    const repository = validate.slice(
-      validate.indexOf("  repository:"),
-      validate.indexOf("  unit:"),
+    // Naming the file only proves the file is named. Pin the whole run line,
+    // ending at the newline, so appending `|| true` breaks this. Found by
+    // mutation: `|| true` on the union check passed all five cases.
+    expect(browserWorkflow).toContain(
+      "run: node --import tsx scripts/dev-lab/assert-e2e-shard-union.ts /tmp/playwright-suite-baseline/baseline-inventory.json /tmp/playwright-shard-inventories\n",
     );
-    const unit = validate.slice(
-      validate.indexOf("  unit:"),
-      validate.indexOf("  validate:"),
-    );
-    const browser = browserWorkflow.slice(
-      browserWorkflow.indexOf("  browser:"),
-      browserWorkflow.indexOf("  browser-suite:"),
-    );
+    const repositoryAt = validate.indexOf("\n  repository:\n");
+    expect(repositoryAt).toBeGreaterThan(-1);
+    // Same fail-open family as the aggregate slice above: if either bound is
+    // absent, indexOf returns -1 and the negative assertions below pass over a
+    // one-character string. Prove both bounds first.
+    const unitAt = validate.indexOf("\n  unit:\n");
+    const aggregateAt = validate.indexOf("\n  validate:\n");
+    expect(unitAt).toBeGreaterThan(-1);
+    expect(aggregateAt).toBeGreaterThan(unitAt);
+    const unit = validate.slice(unitAt, aggregateAt);
+    const repository = validate.slice(repositoryAt, unitAt);
+    const browserAt = browserWorkflow.indexOf("\n  browser:\n");
+    const browserSuiteAt = browserWorkflow.indexOf("\n  browser-suite:\n");
+    expect(browserAt).toBeGreaterThan(-1);
+    expect(browserSuiteAt).toBeGreaterThan(browserAt);
+    const browser = browserWorkflow.slice(browserAt, browserSuiteAt);
     expect(repository).toContain("npm run validate:ci-sharded");
 
     // Every shard reports what it ran and each aggregate refuses a run whose
@@ -85,7 +101,10 @@ describe("deterministic validation workflow capacity", () => {
     expect(unit).toContain("--shard=${{ matrix.shard }}/${{ matrix.total }}");
     expect(unit).toContain("unit-shard-report-");
     expect(unit).not.toContain("npm run validate");
-    expect(validate).toContain("assert-unit-shard-union.ts");
+    // Pinned whole, for the same reason as the browser union check above.
+    expect(validate).toContain(
+      "run: node --import tsx scripts/dev-lab/assert-unit-shard-union.ts /tmp/unit-suite-baseline/files.txt /tmp/unit-shard-reports\n",
+    );
     // The sharded chain is the full validate chain with only the unit step
     // removed, so nothing is dropped by sharding.
     const scripts = JSON.parse(readFileSync("package.json", "utf8"))
