@@ -98,6 +98,6 @@ export function writeResearchRequest(
       `'${record.questionId}' is already filed at ${filePath}. Read it first: if it is the same question, nothing more is needed; if it is a different one, give it its own id.`,
     );
   }
-  fs.writeFileSync(filePath, `${toCanonicalJson(record)}\n`);
+  fs.writeFileSync(filePath, toCanonicalJson(record));
   return filePath;
 }

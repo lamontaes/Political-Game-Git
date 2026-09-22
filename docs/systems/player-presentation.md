@@ -400,3 +400,40 @@ without removing its pointer-proximity, focus, touch, or reduced-motion
 behavior. Empty deliberate-pin presentation collapses without changing
 unpin/re-pin semantics. The obsolete artificial desk-edge strip and permanent
 top-right status tray are gone.
+
+## Values whose meaning decays with time
+
+A projected field that is true when it is written and becomes untrue as time
+passes carries its own decay, on the record, rather than having the judgement
+written into one rendered sentence.
+
+The failure this rule exists for came twice in one evening and looked different
+each time. An unanswered offer of work is written with a start date of the
+following day; nothing moves that date while the offer sits, so twelve weeks
+later the day was telling the player the job started eleven weeks ago, which
+reads as a broken game rather than an open decision. Separately, a work item's
+authored summary is fixed text, so the household errands and a posted meeting
+read word for word the same on a life's first morning and three months later,
+and a player who had let a season go by was shown a first morning.
+
+Both were first fixed inside the sentence that rendered them. That is not
+enough: the raw field is still there, still stale, and the next thing that
+renders from it reintroduces the defect, having no way to know the judgement
+existed. So the projection states it.
+
+- `OfferAwaitingAnswer` carries `startIsAhead` beside `startsOn`
+  (`src/presentation/day-overview.ts`).
+- `PendingThing` carries `daysStanding` beside `openedOn`
+  (`src/presentation/ordinary-life.ts`).
+
+The recorded value never moves and nothing pretends it has. What the projection
+adds is the reading — whether the date is still ahead, how long the thing has
+stood — derived from the record's own dates, so it can only say what actually
+happened. Nothing is inferred about _why_, and nothing expires: whether an
+unanswered offer should be withdrawn, or an errand nobody does should lapse, is
+a question about the world and belongs to the simulation and its owner, not to
+a projection.
+
+The next case will not look like either of these. The test is whether a field
+can be read correctly today and incorrectly in a month without anything having
+been written in between. Where it can, say so on the record.
