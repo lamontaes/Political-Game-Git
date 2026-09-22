@@ -10,9 +10,10 @@ Each entry says what is blocked, the exact commands to run, and what to check
 afterwards. An entry is deleted when it is done. This file is not an archive of
 resolved items; if it is still here, it is still outstanding.
 
-> The art, client and release lane maintains entries L1 to L7 of this file on
-> its own branch. This branch adds L8 only. When the two land, keep this
-> preamble once and both sets of entries.
+> The art, client and release lane maintains L1 to L7, L9 and L10 of this file
+> on `claude/current-art-source`. This branch adds L8 and L11 only, numbered
+> around that lane's entries so the two sets merge without renumbering. When
+> they land, keep this preamble once and both sets of entries.
 
 ---
 
@@ -76,3 +77,47 @@ git commit -m "regional-opening: receive the three remaining approved plates"
 **Verify:** the coverage gate exits 0 and reports five regions with a delivered
 plate. Do not re-encode, downscale or optimise these PNGs — approval is of
 those exact bytes and the gate re-hashes them.
+
+---
+
+## L11 — Three regional scene records the Art Bench catalogue cannot settle
+
+**Blocked:** three of the twenty-three regional scenes carry a catalogue defect
+recorded as a `sourceNote` in `art/regions/regional-scene-places.json`. None of
+them can be settled from a cloud thread, because each needs a look at the
+source bank behind the bench rather than at the catalogue row.
+
+- `appalachian-town-january` selects the same sha256 as
+  `playtest65-region-pikeville-valley-street`. One of the two records is not
+  what it claims. The question is what that shared file actually is: the parent
+  both rows derive from, a reference image, or a finished winter output that
+  one row is mislabelling.
+- `subtropical-mangrove-wetland` selects a record that is 640x432.
+- `lower-mississippi-delta-marsh` selects a record that is 688x456.
+
+The last two are preview or reference sizes, not delivered plates. The other
+approved regional originals are 2208 to 2576 px. **No enlargement**: scaling
+these up and recording the result as native detail is not an option, and the
+sizes above are measurements of the selected records, not of any original.
+
+**Effect on play:** all three regions carry `"plate": null`, so the resolver
+reports `matched-region-has-no-plate` and the introduction shows no picture for
+them. Nothing renders wrongly; three scenes are absent. They are also among the
+eighteen regions with no place selectors, so even a correct plate would reach
+no player until the place IDs come back (`regional-scene-place-ids` in the
+research queue).
+
+**What is needed, at the Mac or from whoever can read the source bank:** for
+each of the three, either the larger original with its sha256, or a statement
+that the request was never finished and the row should stay without a plate.
+For the Appalachian row, what the shared file is, in those three terms.
+
+**Then, in a checkout:**
+
+```sh
+npm run validate:regional-scenes -- --check
+npx vitest run src/authoring/regional-scene-coverage.test.ts
+```
+
+Record the answer by replacing that region's `sourceNote` with the finding, and
+adding a `plate` only where a real original was found.
