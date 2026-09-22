@@ -102,9 +102,11 @@ describe("a second state's rules cite their own instrument", () => {
     const gated = ruleSetApplicableOn(set, makeIsoDate("2020-01-01"));
     expect(gated.minimumAge.state).toBe("UNKNOWN");
     if (gated.minimumAge.state !== "UNKNOWN") return;
-    // Its own locator and its own observation date, not another state's.
-    expect(gated.minimumAge.reason).toContain(set.source.legalLocator);
-    expect(gated.minimumAge.reason).toContain(set.source.observedCurrentOn);
+    // The observation branch, and no provenance in the sentence: a refusal a
+    // player reads never names the instrument or the date it was read.
+    expect(gated.minimumAge.reason).toContain("as it stands now");
+    expect(gated.minimumAge.reason).not.toContain(set.source.legalLocator);
+    expect(gated.minimumAge.reason).not.toContain(set.source.observedCurrentOn);
   });
 
   it("an unread rule refuses rather than passing, and a sourced absence does not refuse", () => {
@@ -202,12 +204,12 @@ describe("a rule that states when it took effect is governed by that date", () =
     const before = ruleSetApplicableOn(dated, makeIsoDate("1958-06-01"));
     expect(before.minimumAge.state).toBe("UNKNOWN");
     if (before.minimumAge.state !== "UNKNOWN") return;
-    expect(before.minimumAge.reason).toContain("1959-01-03");
-    // The weaker observation sentence must not be the one shown when the
-    // stronger fact is what decided it.
-    expect(before.minimumAge.reason).not.toContain(
-      "observed in the acquired source",
-    );
+    // The commencement branch decided it, so its sentence is the one shown,
+    // and the weaker observation sentence is not. The distinction is kept;
+    // what is gone is the date and the locator, which a player never needs.
+    expect(before.minimumAge.reason).toContain("did not yet apply this early");
+    expect(before.minimumAge.reason).not.toContain("as it stands now");
+    expect(before.minimumAge.reason).not.toContain("1959-01-03");
   });
 
   it("falls back to the retrieval date only while commencement is unknown", () => {
@@ -216,8 +218,9 @@ describe("a rule that states when it took effect is governed by that date", () =
     const before = ruleSetApplicableOn(set, makeIsoDate("2020-01-01"));
     expect(before.minimumAge.state).toBe("UNKNOWN");
     if (before.minimumAge.state !== "UNKNOWN") return;
-    expect(before.minimumAge.reason).toContain(
-      "observed in the acquired source",
+    expect(before.minimumAge.reason).toContain("as it stands now");
+    expect(before.minimumAge.reason).not.toContain(
+      "did not yet apply this early",
     );
   });
 });
