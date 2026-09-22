@@ -11,15 +11,38 @@ import {
   OPENING_LIFE_FAMILIES,
   OPENING_LIFE_LATER,
   openingLaterStageKey,
+  openingLifeFamily,
   openingLifeSceneAtStage,
 } from "../simulation/opening-life-content";
+import { PROPOSED_OPENING_LIFE_LATER as PROPOSED } from "./opening-life-later.fixture";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 
 const DAY = 24 * 60;
+// The mechanism is exercised against proposed entries; shipped play reads an
+// empty table until the research question is answered.
+const FAMILIES = OPENING_LIFE_ADDITIONS.map((scene) =>
+  openingLifeFamily(scene, undefined, PROPOSED),
+);
+
+it("offers no later answer in shipped play until one is researched", () => {
+  expect(OPENING_LIFE_LATER).toEqual({});
+  for (const family of OPENING_LIFE_FAMILIES)
+    expect(
+      family.stages.filter((stage) => stage.key.startsWith("later.")),
+      family.key,
+    ).toEqual([]);
+  // The proposals would add stages, so the empty assertion above is not
+  // vacuous.
+  expect(
+    FAMILIES.flatMap((family) => family.stages).filter((stage) =>
+      stage.key.startsWith("later."),
+    ),
+  ).toHaveLength(Object.values(PROPOSED).flat().length);
+});
 
 describe("a later scene answers the choice actually recorded, after the time actually passed", () => {
   it.each(
-    Object.keys(OPENING_LIFE_LATER).map(
+    Object.keys(PROPOSED).map(
       (key) =>
         [
           key,
@@ -28,7 +51,7 @@ describe("a later scene answers the choice actually recorded, after the time act
     ),
   )("%s", (key, definition) => {
     expect(definition, key).toBeDefined();
-    const laters = OPENING_LIFE_LATER[key]!;
+    const laters = PROPOSED[key]!;
     const game = createNewGameWorld({
       ...DEFAULT_NEW_GAME_SETUP,
       startKind: "custom",
@@ -41,7 +64,7 @@ describe("a later scene answers the choice actually recorded, after the time act
       eligibleEpisodeBeats({
         world,
         personId,
-        families: OPENING_LIFE_FAMILIES,
+        families: FAMILIES,
       }).beats.filter((beat) => beat.episodeKey === `opening.${key}`);
     const moment = beats(game.world).find((beat) => beat.stageKey === "moment");
     expect(moment, key).toBeDefined();
@@ -51,7 +74,7 @@ describe("a later scene answers the choice actually recorded, after the time act
         personId,
         beat: moment!,
         optionKey: choice.key,
-        families: OPENING_LIFE_FAMILIES,
+        families: FAMILIES,
       }).world;
       const expected = laters.filter(
         (later) => later.afterChoice === choice.key,
@@ -87,7 +110,11 @@ describe("a later scene answers the choice actually recorded, after the time act
         if (!offered) continue;
         // The same person as the first moment, never whoever is nearest now.
         expect(offered.bindings).toEqual(moment!.bindings);
-        const atStage = openingLifeSceneAtStage(definition, stageKey)!;
+        const atStage = openingLifeSceneAtStage(
+          definition,
+          stageKey,
+          PROPOSED,
+        )!;
         expect(offered.options.map((option) => option.key)).toEqual(
           atStage.choices.map((option) => option.key),
         );
@@ -95,7 +122,7 @@ describe("a later scene answers the choice actually recorded, after the time act
           personId,
           beat: offered,
           optionKey: later.choices[0]!.key,
-          families: OPENING_LIFE_FAMILIES,
+          families: FAMILIES,
         }).world;
         // A later answer plays once.
         expect(laterStages(played)).not.toContain(stageKey);
@@ -104,7 +131,7 @@ describe("a later scene answers the choice actually recorded, after the time act
   });
 
   it("gives opposite answers to one moment different later scenes", () => {
-    for (const [key, laters] of Object.entries(OPENING_LIFE_LATER)) {
+    for (const [key, laters] of Object.entries(PROPOSED)) {
       const choices = new Set(laters.map((later) => later.afterChoice));
       expect(choices.size, key).toBe(laters.length);
       const definition = OPENING_LIFE_ADDITIONS.find(
