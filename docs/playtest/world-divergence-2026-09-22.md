@@ -388,7 +388,7 @@ and is there any wire from a policy to it. Searched at this head.
 | The pharmaceutical industry                              | **No.** One sentence in a setup questionnaire mentions pharmaceutical precursors; there is no industry, no supply, no producer behind it. | —                                                                                                                                   | —                                                                                                                                                                                                                                                                                                                            |
 | Executive orders                                         | **No.** No match anywhere in `src/`.                                                                                                      | —                                                                                                                                   | —                                                                                                                                                                                                                                                                                                                            |
 | Civil war                                                | **No.** No match anywhere in `src/`.                                                                                                      | —                                                                                                                                   | —                                                                                                                                                                                                                                                                                                                            |
-| Federal disaster programmes                              | **Named only.** Public assistance, individual assistance and hazard mitigation are named per magnitude inside the disaster policy.        | The names reach the record.                                                                                                         | **No.** Nothing else in the tree reads those names. A declaration names programmes and no programme does anything. The module says so: CRISIS records the decision and the programmes, never an amount.                                                                                                                      |
+| Federal disaster programmes                              | **The names are inert; the declaration is not.** See the correction below this table.                                                     | The names reach the record; the declaration reaches the repair queue.                                                               | **Partly.** A federal declaration quadruples weekly repair capacity and tags the funding. The programme names do nothing.                                                                                                                                                                                                    |
 | Constitutional amendments                                | **Yes, and half-wired.**                                                                                                                  | **Proposing one is reachable** — `ConstitutionalWorkspace.tsx:69` calls `proposeConstitutionalMeasure`, and `PlayerGame` mounts it. | **No, and it cannot finish.** The four writers that resolve a proposal — `recordConstitutionalProposalVote`, `recordArticleVRatification`, `recordCaliforniaRatification`, `recordCarsonCharterEnactment` — have zero callers outside tests. A player can propose an amendment and nothing can ever vote on it or ratify it. |
 
 **On "disasters are hardcoded not to affect politics" — not quite, and the
@@ -410,6 +410,29 @@ would go the same way: declared provenance, loaded through a registry, admitted
 because it answered the question the boundary exists to ask. The tax route is
 the worked example of a wire that was allowed through, and it works because
 every number in it is exact and declared.
+
+### Correction, 16:10Z: federal disaster assistance is not inert
+
+~~Nothing else in the tree reads those names. A declaration names programmes
+and no programme does anything.~~
+
+[Edit: struck rather than deleted, because the overbroad version was reported.]
+ChatGPT pushed back on this in its 15:58Z batch and it is right. Checked in
+code: `crisis/disaster.ts:96` sets `weeklyCapacity: { local: 2,
+federalAssisted: 6 }`, and `disasterRepairCycleHandler` (`:850`) computes
+`capacity = local + (federal ? federalAssisted : 0)`. **So a federal
+declaration takes weekly repair from 2 units to 8 — a fourfold speedup — and
+tags every repair record `funding: "federal-assisted"` instead of `"local"`.**
+Homes in a declared disaster are genuinely repaired four times faster.
+
+What is true, and it is narrower: the **programme names** are inert. Public
+assistance, individual assistance and hazard mitigation are named per magnitude
+and nothing reads the names, and no amount of money is ever recorded. The
+declaration is a capacity switch, not a budget.
+
+This lane had the capacity figures in its own crisis summary and still drew the
+broad conclusion from the programme names, which is the error worth naming:
+**a part of a system being inert is not the system being inert.**
 
 ## A defect this run exposed, fixed
 
