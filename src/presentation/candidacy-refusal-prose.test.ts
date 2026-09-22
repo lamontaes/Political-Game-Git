@@ -27,6 +27,16 @@ import type { World } from "../simulation";
  * statute hardest were the ones about not knowing — a rule whose commencement
  * is later than the date being asked about. A sweep that only asked about
  * today would never reach them.
+ *
+ * What it deliberately cannot reach: `NEVADA_RULE_PACK.unresolvedGaps` in
+ * `legislature-rule-packs.ts`, which keeps its citations on purpose. That is
+ * research for whoever reads the authorities next, and only the diagnostics
+ * gate renders it — but its entries read almost identically to the seat-count
+ * notes in the same file, which do reach a player. One lane rewrote an entry,
+ * broke `legislature-rule-packs-matrix.test.ts`, and reverted. This sweep runs
+ * `candidacyEligibility` → `resolvePlayerCapabilities` → the withheld reason
+ * and never touches that file, so it cannot make that mistake; a sweep that
+ * does reach it has to tell the two apart before asserting anything.
  */
 
 const CITATION_SHAPE = /Const\.|art\.|§|Stat\.|Rev\.|Ann\.|U\.S\.C\.|http/;

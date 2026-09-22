@@ -125,6 +125,37 @@ So one proves the sentence leaves the simulation clean and the other proves it
 arrives at the screen clean. A later change in the presentation layer would
 slip past the first.
 
+## A rule for writing a refusal, taken from a better sentence
+
+The player-facing-text lane's wording for the two temporal sentences was kept
+over this lane's, on the merits rather than on precedence, and the reason
+generalises:
+
+> "The game knows this office's minimum age rule, but that rule did not yet
+> apply this early, and it won't apply a rule to a time it can't place it in.
+> **A life that starts later may be able to run here.**"
+
+This lane's draft said what the game does not know and stopped there. Theirs
+names the condition under which the answer would change.
+
+**A refusal that only states an absence leaves the player stuck; one that
+names the condition under which it would change does not.** That applies to
+every refusal sentence in this repository, not just these two, and it is the
+rule to write the next twenty by.
+
+## This sweep is a control, not more evidence
+
+The dependency on #320 was proved both ways rather than asserted: the sweep is
+red on `main` at `453b6893` with 21 offending sentences, and green on #320's
+head `ec62a2e7`, measured by fetching `pull/320/head` and moving the test onto
+it.
+
+That distinction is worth naming. Everything else produced tonight on this
+defect is **evidence** — a measurement of how things stood at a named head.
+The sweep is a **control**: it is the one artifact that will fail if any of
+the three lanes' fixes regress, in any state, on either side of the source
+observation dates. Evidence ages the moment a head moves; a control does not.
+
 ## How this was measured, which matters more than the count
 
 The first sweep written for this defect class **passed against the unfixed
