@@ -1,0 +1,44 @@
+{
+  "alreadySearched": [
+    "art/generated/candidates/wave-a-chairless on claude/character-rendering-triage-19kvvz — the automatic pass, `npm run derive:seated-chairless`, has already produced all four derivatives. It removes everything floating free of the body and stops there, which is why this request exists rather than a second run of the script.",
+    "The wave-a source sheets, for a higher-resolution route — they are in no cloud checkout. Only the ocd sheet is present, so re-deriving from a larger original cannot be attempted from a cloud thread."
+  ],
+  "consumerSite": {
+    "playerVisibleUse": "Any seat anchor a scene supplies its own chair for. A body with a chair baked into it draws a second chair on top of the room's.",
+    "runtimeComponent": "ModularCharacter"
+  },
+  "figureContext": {
+    "facing": "front",
+    "note": "The posture is already drawn and is NOT being changed; these cues describe the four plates as they stand, so a redraw in a different posture would not satisfy this. What is asked for is the removal of chair pixels where they touch the figure, with the leg and foot contour restored underneath.",
+    "postureClass": "seated",
+    "postureCues": [
+      "bent-knees",
+      "horizontal-thighs",
+      "shins-vertical-to-floor",
+      "soles-flat-on-the-floor",
+      "seat-plane-between-the-thighs-where-the-chair-was"
+    ]
+  },
+  "filedAt": "2026-09-22T03:12:00.000Z",
+  "intakeVersion": "art-request-intake/v1",
+  "jurisdiction": {
+    "reason": "A body is a body. The chair belongs to the room, which is the whole point of this request.",
+    "scope": "jurisdiction-independent"
+  },
+  "missing": "Four seated modular bodies still carry a baked chair where it touches the figure: a sliver of seat between the thighs and a stub of chair leg against each shin. Everything not touching the body has already been removed automatically; what remains cannot be, and no furniture-free version of these four exists.",
+  "notes": [
+    "The four plates, at their source paths on this branch: art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_front_neutral_v1.png; art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_front_chair_v1.png; art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_front_chair_v1.png; art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_front_neutral_v1.png. All four verified present in this checkout 2026-09-22.",
+    "This is a hand pass, and the two measurements that establish it are not a code task are the reason. First, connectivity cannot reach the remaining pixels: chair touching a thigh is inside the protection band by definition, so a component-based separation has nothing to cut. Second, no threshold divides them — the chair's mid-tones run 96 to 150 and the figure's own sub-knee edge pixels run 64 to 240, so the ranges overlap across the whole contested region.",
+    "Raising the body-tone floor to 160 was tried, rendered and reverted: it takes the feet entirely and shreds the older woman's shins. Do not propose it again as a cheaper route.",
+    "What is wanted is only what touches the body — the seat between the thighs and the chair leg against each shin — with the leg and foot contour restored underneath rather than cut around. An earlier automatic attempt removed about a pixel of the figure's own outline and the whole foot outline, which is what a threshold does to a contour and what a hand does not.",
+    "Retirement condition, as the art and client lane stated it: the four derivatives come back with no chair against the legs, at which point the plates stop being retained for a baked prop and go through ordinary admission.",
+    "Registered as L12 in docs/LOCAL-REGISTRAR.md on the art and client lane's branch. Keep the two tied; they are one job with two records.",
+    "Not a generation request. Nothing here is asking for a new figure, a new posture or a new body family."
+  ],
+  "origin": "inspection",
+  "priority": "P1",
+  "requestId": "seated-chair-separation-hand-pass",
+  "requestedBy": "art and client delivery lane, filed by the art bench thread",
+  "title": "Four seated plates need the last of the chair drawn off the legs by hand",
+  "whyNeeded": "These four are retained solely because of the baked prop. Once they come back clean they stop being a special case and go through ordinary admission like every other plate."
+}
