@@ -1,0 +1,44 @@
+{
+  "filedAt": "2026-09-22T15:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "hardcoded-content audit",
+  "notes": [
+    "SMALLEST HONEST CHANGE, per item, since these differ. PUBLIC MATTERS — exists: `projectPublicMatters` fully implemented and tested. Missing link: the field it would fill is typed `readonly never[]`, which the compiler forbids holding anything. Smallest honest change: change the type to the producer's own return type and call it. What a player would then see: the living-world screen showing what is actually happening in the world instead of a permanently empty list. SCANDAL — exists: the whole reading side wired through `press/`. Missing link: `recordAllegation`, `fileComplaint` and `fileRivalComplaint` have no callers. Smallest honest change: one caller, from wherever a rival or a reporter would act. What a player would then see: a scandal that can begin, on machinery already built to carry it. OFFICEHOLDER'S MATTERS — exists: `projectOfficeMatters`. Missing link: `office-response.ts` has no importer at all. Smallest honest change: import it into the office surface. What a player would then see: an officeholder able to see what is alleged against them.",
+    "PLAYER-FACING INPUT, per item: public matters — none, the living-world screen renders a field the type system forbids filling. Scandal — none; the reading side is reachable but no control anywhere calls the three writers. Officeholder's matters — none; office-response.ts has no importer, so no surface renders it. Economic context — none; it answers for Lexington and returns null for the other fifty-one places.",
+    "Fourteen leads came from the 'What passing a law actually does' lane's read-only sweep, handed over unverified and explicitly not filed by them. Every item above was re-measured here before being written down, and two of the fourteen did not survive that: 'press/matters.ts is test-only' is false, and 'projectOfficeMatters has no non-test importer' understated a stronger finding. The full account, including the corrections, is in docs/findings/2026-09-22-gated-shut-and-hardcoded-decisions.md.",
+    "One withdrawn claim worth not repeating: the game DOES run a real monthly national economy in every ordinary save, in src/simulation/macro-economy. An earlier statement that no unemployment or inflation figure exists was wrong and is struck.",
+    "The macro kernel's own coefficients are the enacted-law lane's, filed by them as policy-effect-model-state-and-local, and are deliberately absent here.",
+    "One of five records from this sweep."
+  ],
+  "priority": "P1",
+  "question": "Several systems are built, tested and reachable by nothing a player touches. Which should be connected first, and for each, what does a player do that starts it — a control on an existing screen, a scheduled consequence of holding office, or something the world does to them?",
+  "questionId": "built-producers-with-no-player-entry",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "hardcoded-content audit thread",
+  "sourcesChecked": [
+    {
+      "source": "src/presentation/living-world-orientation.ts:57 and src/simulation/living-world/developments.ts:607 on origin/main at 1c4992e8",
+      "whatItDidNotSettle": "publicMatters is typed readonly never[], commented 'Filled by W3 producers; empty until then'. never[] cannot hold a value, so the field cannot be filled without a type change, while projectPublicMatters is fully implemented with every caller a test. It establishes that a decision was taken to hold this shut; it does not say what would open it."
+    },
+    {
+      "source": "src/presentation/office-response.ts and src/simulation/press/matters.ts",
+      "whatItDidNotSettle": "projectOfficeMatters would show an officeholder the matters against them; searching every import of that module across src returns nothing at all, so no player surface reaches it. Separately, press/matters.ts is NOT test-only — press/index.ts, press/views.ts and press/transitions.ts all import it — but its writers recordAllegation, fileComplaint and fileRivalComplaint have zero callers outside their own module. The readers of a scandal are connected and nothing can start one. Neither fact says which act should start one."
+    },
+    {
+      "source": "src/presentation/economic-context-bindings.ts:39 and src/environment/reference/",
+      "whatItDidNotSettle": "BINDINGS_BY_PLACE holds exactly one entry, Lexington, so economicContextBindingForPlace returns null for the other fifty-one jurisdictions. A large catalog of transcribed civic venues with a query engine beside it has no importer outside its own directory. Both are content and wiring waiting on a decision about scope, not defects to repair blind."
+    }
+  ],
+  "title": "Which finished systems should get a player entry point first",
+  "usableAnswer": "An order, and one sentence per system saying what the player does that starts it. Any he does not want connected yet is an equally good answer, because then the emptiness is intended and can be recorded as such rather than read as a defect at the next playtest.",
+  "whyItMatters": "lamontae's report pattern is a surface a player reaches that is empty on an ordinary first day with nothing saying why. These are the other half of it: the producer exists and the surface does not, so the work is already paid for and only the entry point is missing. Deciding the order is his, not ours, and the answers are cheap to implement once given.",
+  "answer": {
+    "summary": "Answered as C16 in the 2026-09-22 stress-test batch. The full text is in the batch document under that heading.",
+    "sources": [
+      "ChatGPT stress-test connection answers, 2026-09-22, at source head 1c4992e8: /mnt/project-files/chatgpt-stress-test-answers-2026-09-22/STRESS-TEST-CONNECTION-ANSWERS.md"
+    ],
+    "answeredBy": "ChatGPT (technical director), stress-test connection answers batch",
+    "answeredAt": "2026-09-22T15:57:02.000Z",
+    "stillOpen": "Recorded here so the queue stops listing this as open. The implementing lane should read C16 in full rather than this line."
+  }
+}
