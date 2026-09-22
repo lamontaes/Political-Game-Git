@@ -49,13 +49,72 @@ function someoneWithAnEvent(world: World): {
   throw new Error("The fixture world holds no event involving a person.");
 }
 
+/**
+ * Distinct sittings for a member's commitments.
+ *
+ * A manner is read from occasions rather than from clauses, so a fixture that
+ * puts every commitment at one event is describing a single appearance and
+ * should read as one. These are the separate appearances an ordinary run of
+ * play would produce.
+ */
+function sittings(
+  world: World,
+  holderPersonId: EntityId,
+  count: number,
+): { readonly world: World; readonly eventIds: readonly EntityId[] } {
+  const template = world.history.events.find(
+    (event) =>
+      event.occurredAt <= world.currentDate &&
+      event.involvedEntityIds.includes(holderPersonId),
+  );
+  if (!template) {
+    throw new Error("The fixture world holds no event for this member.");
+  }
+  // Separate appearances, copied from one the world really holds so the shape
+  // is the world's own rather than invented. A member who bargains three times
+  // was at three sittings; a fixture that reuses one event is describing a
+  // single appearance and should read as one.
+  const added = Array.from({ length: Math.max(0, count - 1) }, (_, index) => ({
+    ...template,
+    id: createStableId("event", `${world.id}:synthetic:sitting:${index}`),
+    stableKey: `synthetic:sitting:${index}`,
+    sequence: world.history.nextSequence + index,
+    summary: "Another sitting this member was at.",
+  }));
+  return {
+    world: {
+      ...world,
+      history: {
+        ...world.history,
+        events: [...world.history.events, ...added],
+        nextSequence: world.history.nextSequence + added.length,
+      },
+    },
+    eventIds: [template.id, ...added.map((event) => event.id)],
+  };
+}
+
 function withCommitments(
   world: World,
   holderPersonId: EntityId,
   firmnesses: readonly LegislativeCommitmentFirmness[],
   eventIdOverride?: EntityId,
+  options: { readonly allAtOneSitting?: boolean } = {},
 ): World {
-  const eventId = eventIdOverride ?? someoneWithAnEvent(world).eventId;
+  // One sitting per commitment unless the case is deliberately about several
+  // clauses stated at a single appearance.
+  let source = world;
+  let eventIds: readonly EntityId[];
+  if (eventIdOverride) {
+    eventIds = firmnesses.map(() => eventIdOverride);
+  } else if (options.allAtOneSitting) {
+    eventIds = firmnesses.map(() => someoneWithAnEvent(world).eventId);
+  } else {
+    const spread = sittings(world, holderPersonId, firmnesses.length);
+    source = spread.world;
+    eventIds = spread.eventIds;
+  }
+  world = source;
   // A commitment is about a measure, and world integrity checks that the
   // measure exists, so the fixture supplies one rather than pointing at a
   // plausible-looking id.
@@ -109,7 +168,7 @@ function withCommitments(
       conditions: [],
       audience: "private",
       statedAt: world.currentDate,
-      eventId,
+      eventId: eventIds[index] ?? eventIds[0]!,
       claimId: null,
       heardByPersonIds: [],
       statement: "Recorded for a test.",
@@ -144,6 +203,47 @@ describe("reading a member's manner from their own record", () => {
     expect(bargainingMannerFromRecord(world, actor)).toEqual({
       state: "unknown",
     });
+  });
+
+  it("says unknown for three clauses stated at one sitting, because that is one appearance", () => {
+    const base = createDemoWorld("manner-one-sitting");
+    const actor = personId(base);
+    const world = withCommitments(
+      base,
+      actor,
+      ["explicit", "explicit", "explicit"],
+      undefined,
+      { allAtOneSitting: true },
+    );
+    // Three commitment rows, one occasion. Counting rows would read this as a
+    // clear majority of plain answers over a share of 1.0 and call the member
+    // strongly hand-showing off a single appearance, citing one event.
+    expect(world.history.legislativeCommitments).toHaveLength(3);
+    expect(
+      new Set(
+        (world.history.legislativeCommitments ?? []).map(
+          (record) => record.eventId,
+        ),
+      ).size,
+    ).toBe(1);
+    expect(bargainingMannerFromRecord(world, actor)).toEqual({
+      state: "unknown",
+    });
+  });
+
+  it("reads three answers at three sittings, which is the same rows spread out", () => {
+    const base = createDemoWorld("manner-three-sittings");
+    const actor = personId(base);
+    const world = withCommitments(base, actor, [
+      "explicit",
+      "explicit",
+      "explicit",
+    ]);
+    const reading = bargainingMannerFromRecord(world, actor);
+    expect(reading.state).toBe("observed");
+    if (reading.state !== "observed") return;
+    expect(reading.value).toBe(2);
+    expect(reading.eventIds).toHaveLength(3);
   });
 
   it("reads a clear majority of plain answers as strongly showing their hand", () => {
