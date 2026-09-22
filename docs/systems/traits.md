@@ -648,3 +648,6 @@ from `personality-catalogue.generated.ts`, which
   researched.
 - **No effects yet.** The profile scopes are the research's intended readers,
   not decisions that exist. A lean is admitted only against a declared decision.
+- **Its wording is part of every save.** The save check compares stored
+  definitions with the pack field for field, so revised research text goes in a
+  new pack version rather than regenerating `personality-v1` in place.

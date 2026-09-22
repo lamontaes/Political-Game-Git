@@ -616,7 +616,12 @@ export function describeTraitLoad(report: TraitLoadReport): string {
 export function traitDefinitionFromPack(
   trait: RegisteredTrait,
 ): PersonalityTendencyDefinition {
-  return createPersonalityTendencyDefinition(
+  // Registered traits are the registry's own objects and never change, and a
+  // definition's id is a hash of its text: computing it once per trait is what
+  // lets a card read a hundred traits without hashing a hundred definitions.
+  const known = definitionsByTrait.get(trait);
+  if (known) return known;
+  const definition = createPersonalityTendencyDefinition(
     trait.qualifiedKey,
     trait.label,
     trait.description,
@@ -638,7 +643,14 @@ export function traitDefinitionFromPack(
       },
     ],
   );
+  definitionsByTrait.set(trait, definition);
+  return definition;
 }
+
+const definitionsByTrait = new WeakMap<
+  RegisteredTrait,
+  PersonalityTendencyDefinition
+>();
 
 /** Every definition the loaded packs declare, in pack then declaration order. */
 export function traitDefinitions(

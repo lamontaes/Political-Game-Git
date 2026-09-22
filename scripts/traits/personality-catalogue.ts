@@ -13,8 +13,14 @@ import { fileURLToPath } from "node:url";
  * here and the five keep their meaning.
  *
  * Run `npx tsx scripts/traits/personality-catalogue.ts` to rewrite
- * `src/simulation/personality-catalogue.generated.ts`; a test fails when the two
- * disagree.
+ * `src/simulation/personality-catalogue.generated.ts`;
+ * `tests/personality-catalogue-generated.test.ts` fails when the two disagree.
+ *
+ * **The wording is part of every save that holds a quality.** The save check
+ * compares a stored definition with the pack's field for field, so a revised
+ * label or meaning regenerated in place would make those saves refuse to
+ * load. A revision of the received text belongs in a new pack version, not a
+ * rewrite of `personality-v1`.
  */
 
 const SOURCE = new URL(

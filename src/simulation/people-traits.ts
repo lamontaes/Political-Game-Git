@@ -184,7 +184,16 @@ export function observedTraitLabels(
   world: World,
   personId: EntityId,
 ): readonly string[] {
+  // One pass over the person's records first: most of the catalogue is
+  // unrecorded for anybody, and reading each trait separately would scan the
+  // whole history once per trait on every render of a card.
+  const recorded = new Set(
+    latestPersonalityTendenciesForPerson(world, personId).map(
+      (record) => record.tendencyId,
+    ),
+  );
   return [...traitRegistryFor(world).traits.values()].flatMap((trait) => {
+    if (!recorded.has(traitDefinitionFromPack(trait).id)) return [];
     const reading = readTrait(world, personId, trait);
     return reading.state === "recorded" && reading.label !== null
       ? [reading.label]
@@ -338,6 +347,8 @@ export function ensurePeopleTraits(
   return next;
 }
 
+const CATALOGUE_FAMILIES = catalogueFamilies();
+
 /** The age a person is known for qualities of their own rather than a child's. */
 const SALIENT_QUALITIES_FROM_AGE = 18;
 
@@ -386,7 +397,7 @@ function seedSalientQualities(world: World, personId: EntityId): World {
   const rng = new SeededRng(world.seed).fork(
     `${PERSONALITY_PACK}:salient:${personId}`,
   );
-  const families = [...catalogueFamilies()];
+  const families = [...CATALOGUE_FAMILIES];
   const count = rng.integer(1, 3);
   let next = world;
   for (let index = 0; index < count && families.length > 0; index += 1) {
