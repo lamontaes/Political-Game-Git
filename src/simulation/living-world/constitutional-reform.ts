@@ -124,18 +124,22 @@ function measureKey(stateUsps: string, year: number): string {
 }
 
 /** Governorships a review covers: materialized, and a state's. */
+// States with an amendment route never change during play, and building a
+// generated legislature is not free, so they are found once.
+let amendableStates: readonly string[] | null = null;
+
 function reviewedStates(world: World): readonly string[] {
-  return CHIEF_EXECUTIVE_JURISDICTIONS.filter((usps) => {
-    if (!stateAmendmentProfile(`US-${usps}`)) return false;
-    const office = stateExecutiveOffice(usps);
-    return (
-      office !== null &&
-      world.history.organizations.some(
-        (organization) =>
-          organization.stableKey === office.organizationStableKey,
-      )
-    );
-  });
+  amendableStates ??= CHIEF_EXECUTIVE_JURISDICTIONS.filter(
+    (usps) =>
+      stateAmendmentProfile(`US-${usps}`) !== null &&
+      stateExecutiveOffice(usps) !== null,
+  );
+  const organizations = new Set(
+    world.history.organizations.map((organization) => organization.stableKey),
+  );
+  return amendableStates.filter((usps) =>
+    organizations.has(stateExecutiveOffice(usps)!.organizationStableKey),
+  );
 }
 
 function reviewDateFor(year: number): IsoDate {
@@ -174,9 +178,23 @@ export function applyConstitutionalReform(
   world: World,
 ): World {
   if (world.currentDate <= before) return world;
+  const year = Number(world.currentDate.slice(0, 4));
+  const scheduled = new Set(
+    world.history.futureDueItems
+      .filter((due) => due.transitionKey === CONSTITUTIONAL_REFORM_REVIEW)
+      .map((due) => due.stableKey),
+  );
   let next = world;
-  for (const usps of reviewedStates(world))
+  for (const usps of reviewedStates(world)) {
+    // Already on the calendar for this year or next: nothing to write.
+    if (
+      scheduled.has(reviewKey(usps, year)) &&
+      reviewDateFor(year) > world.currentDate
+    )
+      continue;
+    if (scheduled.has(reviewKey(usps, year + 1))) continue;
     next = scheduleNextReview(next, usps, next.currentDate);
+  }
   return next;
 }
 
@@ -317,6 +335,15 @@ export function constitutionalReformReviewHandler(
   if (!found) return done(world, "No state matches this review.");
   const { stateUsps, year } = found;
   const next = scheduleNextReview(world, stateUsps, world.currentDate);
+  // The draw comes first: it is independent of the cause, so drawing before
+  // looking changes no outcome and spares the lookups in most years.
+  const key = measureKey(stateUsps, year);
+  const rng = new SeededRng(next.seed).fork(key);
+  if (
+    rng.fork("propose").integer(0, 1000) >=
+    CONSTITUTIONAL_REFORM_PROFILE.proposalPermille
+  )
+    return done(next, "No amendment was proposed this year.");
   if (hasOpenReform(next, stateUsps))
     return done(next, "An amendment on this is already pending.");
   const cause = reformCause(next, stateUsps);
@@ -329,13 +356,6 @@ export function constitutionalReformReviewHandler(
     processKind: "state-amendment",
   });
   if (!route.available) return done(next, route.reason);
-  const key = measureKey(stateUsps, year);
-  const rng = new SeededRng(next.seed).fork(key);
-  if (
-    rng.fork("propose").integer(0, 1000) >=
-    CONSTITUTIONAL_REFORM_PROFILE.proposalPermille
-  )
-    return done(next, `No amendment was proposed although ${cause.reason}.`);
   return done(
     proposeAndVote(next, stateUsps, year, cause, rng),
     `An amendment on the governor's term limit was proposed because ${cause.reason}.`,
