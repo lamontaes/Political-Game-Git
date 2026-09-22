@@ -11,7 +11,7 @@ import {
   campaignState,
   campaignTreasuryPosition,
   candidacyEligibility,
-  candidacyPackForJurisdiction,
+  electiveOfficesForJurisdiction,
   compareSimulationMoments,
   controlledCommitmentsBlockingActivityPerformance,
   daysUntilElection,
@@ -209,7 +209,7 @@ function offeredOffice(
   officeKey: string,
 ): ElectiveOfficeOption | null {
   return (
-    candidacyPackForJurisdiction(jurisdictionId)?.offices.find(
+    electiveOfficesForJurisdiction(jurisdictionId).find(
       (option) => option.officeKey === officeKey,
     ) ?? null
   );
@@ -442,7 +442,7 @@ function notYetFiled(
 ): CampaignView {
   const person = world.people[personId]!;
   const jurisdictionId = person.homeJurisdictionId;
-  const options = candidacyPackForJurisdiction(jurisdictionId)?.offices ?? [];
+  const options = electiveOfficesForJurisdiction(jurisdictionId);
   const option = selectedOfficeKey
     ? offeredOffice(jurisdictionId, selectedOfficeKey)
     : null;

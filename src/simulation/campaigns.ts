@@ -21,6 +21,20 @@ import { LIFE_PATHS2_HANDLERS } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
 import { candidacyEligibility, districtSeatMustBeNamed } from "./candidacy";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
+import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
+import type { GovernmentUnitIdentity } from "./government-units";
+import {
+  ensureLocalGovernmentOrganization,
+  localGovernmentOrganizationKey,
+} from "./nationwide-world/local-governments";
+import { municipalGovernmentForUnit } from "./rule-capability-resolver";
+import { primaryReading } from "./municipal-government";
+import {
+  installMunicipalGovernment,
+  municipalOrganizationFor,
+  municipalSeatKey,
+  municipalSeats,
+} from "./municipal-public-work";
 import { planOrdinaryStateExecutiveTerm } from "./nationwide-world/state-executive-terms";
 import {
   activeCampaignForCandidate,
@@ -57,6 +71,7 @@ import {
 import { createStableId, stableHash } from "./ids";
 import {
   createOrganization,
+  createOrganizationParticipation,
   createWorkRelationship,
   recordWorkStatus,
 } from "./life";
@@ -117,6 +132,7 @@ import type {
   CandidateTally,
   CurrencyCode,
   DistrictSeatBinding,
+  ElectionContestRecord,
   EntityId,
   FutureDueItem,
   IsoDate,
@@ -1528,6 +1544,19 @@ function seatTheWinner(
 ): World {
   const pack = requireCandidacyPack(campaign.candidacyPackId);
   const contest = requireElectionContest(world, campaign.contestId);
+  const local = localGoverningBodyIdentityForOfficeKey(
+    contest.office.officeKey,
+  );
+  if (local)
+    return seatOnLocalGoverningBody(
+      world,
+      campaign,
+      contest,
+      local.unit,
+      effectiveAt,
+      outcomeEventId,
+      winnerPersonId,
+    );
   const governingJurisdiction = stateJurisdictionForKey(pack.jurisdictionKey);
   if (!governingJurisdiction) {
     throw new Error(
@@ -1620,6 +1649,71 @@ function seatTheWinner(
       next.history.workRelationships.at(-1)!.id,
       contest.id,
     );
+  assertWorldIntegrity(next);
+  return next;
+}
+
+/**
+ * A seat on a town's governing body, taken up in that town's own government.
+ *
+ * Recorded the way every municipal seat in this game is recorded — a member's
+ * participation in the town government's organization — so the city screens
+ * that already read seats read this one. A town the game has read in depth
+ * keeps its own compiled government and its own seat limit; any other town
+ * gets the government the Census listing records, placed once.
+ *
+ * No term, ward or seat number is written, because none has been read. When a
+ * read body is already full the result still stands and nobody is seated over
+ * the limit, since the record's seat count is a fact and this election is not.
+ */
+function seatOnLocalGoverningBody(
+  world: World,
+  campaign: CampaignRecord,
+  contest: ElectionContestRecord,
+  unit: GovernmentUnitIdentity,
+  effectiveAt: string,
+  outcomeEventId: EntityId,
+  winnerPersonId: EntityId,
+): World {
+  const compiled = municipalGovernmentForUnit(unit);
+  let next = world;
+  let organizationId: EntityId | undefined;
+  let stableKey: string;
+  if (compiled) {
+    next = installMunicipalGovernment(next, {
+      governmentKey: compiled.key,
+      jurisdictionId: campaign.jurisdictionId,
+      formedAt: next.currentDate,
+    });
+    organizationId = municipalOrganizationFor(next, compiled.key)?.id;
+    const bodySize = primaryReading(compiled).bodySize;
+    const seated = municipalSeats(next, compiled.key).filter(
+      (seat) => seat.role === "member" || seat.role === "presiding-member",
+    ).length;
+    if (bodySize !== null && seated >= bodySize) return next;
+    stableKey = municipalSeatKey(compiled.key, winnerPersonId);
+  } else {
+    next = ensureLocalGovernmentOrganization(next, unit);
+    organizationId = next.history.organizations.find(
+      (organization) =>
+        organization.stableKey === localGovernmentOrganizationKey(unit),
+    )?.id;
+    stableKey = `local-government-seat:${unit.id}:${winnerPersonId}`;
+  }
+  if (!organizationId)
+    throw new Error(
+      `The town government ${unit.id} cannot be placed in this world, so nobody can be seated on it.`,
+    );
+  next = createOrganizationParticipation(next, {
+    stableKey,
+    personId: winnerPersonId,
+    organizationId,
+    startedAt: effectiveAt,
+    kind: "leadership:municipal-office",
+    roleKind: "leader:municipal-member",
+    context: `Elected ${contest.electionDate}`,
+    provenance: { kind: "simulated-event", eventId: outcomeEventId },
+  });
   assertWorldIntegrity(next);
   return next;
 }

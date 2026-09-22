@@ -8,12 +8,12 @@ import {
   makeCurrencyCode,
   nextRegularElection,
   regularFieldClosed,
-  STATE_EXECUTIVE_GAME_PROFILE_NOTE,
   stateExecutiveIdentity,
   stateExecutiveTermRule,
   stateJurisdictionForKey,
   termDatesAfterElection,
 } from "../simulation";
+import { describeStateExecutiveTerm } from "./state-executive-term-description";
 import type {
   CandidacyBlock,
   EntityId,
@@ -74,7 +74,7 @@ export interface StateExecutiveOfficeCalendar {
   readonly termEndsAt: IsoDate;
   /** "verified" only when every calendar value is compiled state law. */
   readonly basis: "verified" | "game-profile" | "mixed";
-  /** Player-facing explanation of where the calendar comes from. */
+  /** Player-facing statement of the calendar's rules, not of their source. */
   readonly note: string;
   readonly sources: readonly TermRuleSource[];
   readonly ruleVersion: string;
@@ -104,10 +104,7 @@ export function stateExecutiveOfficeCalendar(
     termStartsAt: term.startsAt,
     termEndsAt: term.endsAt,
     basis,
-    note:
-      basis === "verified"
-        ? "This office's election day, term length and start date follow the state's own law."
-        : STATE_EXECUTIVE_GAME_PROFILE_NOTE,
+    note: describeStateExecutiveTerm(rule),
     sources: rule.sources,
     ruleVersion: rule.ruleVersion,
   };

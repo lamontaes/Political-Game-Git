@@ -1,4 +1,13 @@
 {
+  "answer": {
+    "summary": "state-legislative-seat-calendar-and-field: real dates and multiple candidates/primaries/independents are already approved. A seeded2–4 field is not the completed model; eligible people, incumbency, party nomination, resources and goals should determine entries, including unopposed and crowded races. Persist the field; no re-rolling on refresh. Connect ordinary town to its state government independently of calendar research; candidacy is not years of compulsory daily campaigning.",
+    "sources": [
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C07, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:58:00.000Z",
+    "stillOpen": "\"A seeded2–4 field is not the completed model\"\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
+  },
   "filedAt": "2026-09-22T14:15:00.000Z",
   "impact": "shapes-design",
   "lane": "playtest",

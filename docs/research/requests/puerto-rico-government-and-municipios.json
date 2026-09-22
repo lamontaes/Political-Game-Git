@@ -1,0 +1,45 @@
+{
+  "filedAt": "2026-09-22T13:35:00.000Z",
+  "impact": "blocks-work",
+  "lane": "nationwide government",
+  "notes": [
+    "PARKED BY CHATGPT on 2026-09-22 at 15:58Z, in its stress-test batch, which answered thirty-one questions and deferred these. Its parked list, verbatim: extensive regional selector reconstruction; PuertoRico profile survey; federal issue expansion; trait prevalence; exact personality bands; school-naming distribution; three unread ethics details; extensive standalone research is parked behind these; 7hold only extensive/quantitative detail; Exact state thresholds/dates remain factual inputs, not supplied by this paragraph ... while that broader compilation is queued; Rate and disposition percentages remain unselected (C04); Player-as-initiator control and exact frequencies remain separate unresolved matters (C09); Existing0.05pp/0.01pp/0.6 placeholders are not confirmed (C02). This question therefore stays open rather than being read as answered by that batch. Recorded by the research queue lane; the filing lane owns the rest.",
+    "lamontae settled the scope question on 2026-09-22: 'you can include Puerto Rico.' So this is no longer whether, only what.",
+    "Measured on current main rather than assumed. lifePlaceStateIdentities() returns 52 identities and US-PR is one of them, so the game already seats Puerto Rico as a jurisdiction. The geography layer has it: the 2025 Gazetteer places and counties domains both cover it, municipios are recorded as county-equivalents, the zona urbana class (LSAD 62) is noted as existing in no state, and the resident commissioner geography is published as congressional code 98. world-orientation.ts lists PR alongside DC as a place with a House seat code and no governor.",
+    "What it does not have: no legislature rule pack (only nine exist, for AK IL KY MD MN MO NE NV OH), no candidate-qualification rows, and place-county-relations explicitly excludes Puerto Rico from its summary-level 155 source, so the place-to-county membership that ordinary town queries rely on is absent there.",
+    "The D.C. precedent is the model to follow, not a template to copy: D.C. has an approved separate scope in this project and a council rather than a legislature, so the answer should say where Puerto Rico is like D.C. and where it is not.",
+    "This matters more than a coverage number because absence of a rule pack currently reads as PERMISSION in this engine rather than as unknown. A player in an uncovered jurisdiction can be offered an office nobody checked they qualify for.",
+    "Spanish is the working language of much of the primary source. Official Spanish-language citations are expected and fine; say which language each source was read in."
+  ],
+  "priority": "P1",
+  "question": "What does Puerto Rico's government actually consist of, for a game that now seats it as a jurisdiction? Specifically: which offices a person can hold and how each is filled; the Legislative Assembly's two chambers, their sizes, term lengths and the at-large and district seats; the qualification rules for each seat — minimum age, residence in Puerto Rico and in the district, and how long each is required, with the assessment moment; the Governor's term and qualification; the Resident Commissioner's term, which is not the same length as a House term; and at local level, what the 78 municipios are, how a mayor and a municipal legislature are chosen, and what powers a municipio actually has. Separately: do Puerto Rico's municipios appear in the Census source that produces the national local-government count, and if so as what class?",
+  "questionId": "puerto-rico-government-and-municipios",
+  "relatedQuestionIds": ["national-range-instrument-for-non-states"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "research triage thread, at lamontae's direction",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/life-places.ts, lifePlaceStateIdentities() executed on current main",
+      "whatItDidNotSettle": "Returns 52 identities including US-PR, which establishes that the game already seats Puerto Rico and that this is a real gap rather than a hypothetical. It carries a name and a jurisdiction key and nothing else — no offices, no chambers, no terms."
+    },
+    {
+      "source": "src/simulation/legislature-rule-packs.ts and src/simulation/candidate-qualification.ts on current main",
+      "whatItDidNotSettle": "Confirms there is no Puerto Rico rule pack and no qualification row for it — the nine packs are AK, IL, KY, MD, MN, MO, NE, NV and OH. It establishes the shape a pack has to take but supplies none of Puerto Rico's own content."
+    },
+    {
+      "source": "src/source/domains/places/index.ts, counties/index.ts, counties/identity.ts and political-districts/identity.ts on current main",
+      "whatItDidNotSettle": "The geography is already there: Gazetteer places and counties both cover Puerto Rico, municipios are recorded as county-equivalents, and the resident commissioner geography is code 98. These are Census identifiers and areas. They say nothing about what office exists, who may hold it, or what a municipio governs."
+    },
+    {
+      "source": "src/source/domains/place-county-relations/index.ts on current main",
+      "whatItDidNotSettle": "States in its own words that its 2020 Census summary-level 155 source covers the 50 states and D.C. and that Puerto Rico is not included. It identifies the gap precisely but does not say what source would fill it."
+    },
+    {
+      "source": "src/presentation/world-orientation.ts and nationwide-opening.test.ts on current main",
+      "whatItDidNotSettle": "Shows the existing handling: Puerto Rico and D.C. are treated together as places with a House seat code and no governor, and a test asserts a life there opens without inventing a state governor. That is a guard against a wrong answer, not the right one."
+    }
+  ],
+  "title": "What Puerto Rico's government is, now that it is in scope",
+  "usableAnswer": "Enough to author a rule pack and qualification rows the way the nine existing states have them: per office, the term length, how the seat is filled, and the qualification fields with their units and the moment each is assessed, each with an official citation. For the municipios, the count, what a municipal government consists of, how its mayor and legislature are chosen, and which powers are genuinely municipal rather than commonwealth. For the census question, a yes or no with the class name and the source table, so the local-government count can either include them or say why it does not. Where a rule genuinely has no counterpart in a state, say so plainly rather than mapping it onto the nearest state concept.",
+  "whyItMatters": "The game seats Puerto Rico today and knows nothing about it, and in this engine that is worse than not seating it: a missing rule pack currently reads as permission rather than as unknown, which is how a twenty-one-year-old was once offered a governorship. Every coverage number the project has published says 'fifty states and D.C.', so the arithmetic in the briefs, the candidacy work and the research summaries is all one jurisdiction short and nobody has checked whether the offices it does generate there are coherent. It also decides whether the national range — the generated fallback used where no researched pack exists — is a defensible instrument for a place whose institutions are not a state's, which is the open half of a separate question."
+}
