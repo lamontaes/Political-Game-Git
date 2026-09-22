@@ -1,0 +1,32 @@
+{
+  "filedAt": "2026-09-22T04:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "Filed under the owner's standing rule of 2026-09-22 that anything without explicit research behind it is deferred rather than held or guessed at.",
+    "The build does not wait on this. Traits recorded from choices made in play are built and shipped; an answer that says setup should also feed them is additive, and an answer that says it should not costs nothing.",
+    "An answer of 'both, but they mean different things' is expected and welcome. The two could produce different kinds of record rather than the same one."
+  ],
+  "priority": "P2",
+  "question": "Does answering a question about your life during character setup amount to choosing a disposition, such that the answers should be written as the played character's temperament? Or should a temperament come only from choices made during play, with setup describing circumstances rather than character?",
+  "questionId": "player-temperament-source",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "people and life thread",
+  "sourcesChecked": [
+    {
+      "source": "The owner's instruction of 2026-09-22: 'every character should be able to change with varying levels of resistance. and obviously you as a character need your own. it's how you are portayed to people. ignore it and say so.'",
+      "whatItDidNotSettle": "Settles that the played character must be able to have traits, and that a player who declines must not be blocked. Both are built. It says nothing about whether the setup questionnaire is one of the places those traits come from."
+    },
+    {
+      "source": "src/simulation/setup-questionnaire.ts, the existing setup path",
+      "whatItDidNotSettle": "It already carries dimensions, loadings and priors, so the wiring is available and this is not a question about feasibility. It does not establish that a setup answer and a fictional behaviour tendency are the same kind of thing, which is the actual question."
+    },
+    {
+      "source": "src/simulation/mind.ts, validateMindProvenance",
+      "whatItDidNotSettle": "The store refuses any record for the controlled person whose provenance is not player-choice, so whatever the answer is, setup answers would have to be recorded as the player's own choices. It decides the mechanism, not whether setup qualifies as choosing."
+    }
+  ],
+  "title": "Where the played character's temperament comes from",
+  "usableAnswer": "A position on whether setup answers constitute choosing a disposition, with reasons. If yes, some indication of what kind of setup answer maps to a disposition and what kind does not — a question about what you did for a living is not obviously the same as a question about how you handled something. If no, the reason, so the next person does not reopen it.",
+  "whyItMatters": "Whether the game gets to say anything about who the player is before the player has done anything. Deriving a temperament from setup answers puts words in their mouth about their own character, which is the error this system has been built specifically to avoid everywhere else. Leaving it out means most players start entirely unobserved by everybody around them, which may be exactly right or may make the opening hours feel like nobody has any impression of you at all."
+}

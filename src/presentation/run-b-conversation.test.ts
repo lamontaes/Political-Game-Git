@@ -233,6 +233,41 @@ describe("Stage 6.5 Run B conversation semantics", () => {
     expect(serializeWorld(fixture.world)).toBe(before);
   });
 
+  /**
+   * The briefing used to restate its own packet as literals: "Three Lexington
+   * tenants", "two referrals" and "the third" were written into the sentence
+   * while the same facts sat unread beside it, and the packet's type pinned
+   * each field to those exact words. This is the proof that a different packet
+   * now produces a different briefing.
+   */
+  it("says what its fact packet says, not what one authored sitting said", () => {
+    const fixture = createRunBFixture();
+    const base = createRunBConversationProgress();
+    const progress = {
+      ...base,
+      subjectFacts: {
+        ...base.subjectFacts,
+        constituentDescription: "five Dover households",
+        requiredDocument: "residency affidavit",
+        knownAffectedReferralCount: 4,
+        unresolvedReferralOrdinal: 5,
+      },
+    };
+    const briefing = describeRunBBriefingContext(
+      fixture.world,
+      fixture.roomContext,
+      progress,
+    );
+    expect(briefing).toMatch(
+      /^Five Dover households asked this office for emergency-rent help\./,
+    );
+    expect(briefing).toMatch(
+      /could not process four referrals.*residency affidavit/,
+    );
+    expect(briefing).toMatch(/is checking the fifth\./);
+    expect(briefing).not.toMatch(/Lexington|proof-of-income|the third/);
+  });
+
   it("establishes the bounded briefing problem before intent selection", () => {
     const fixture = createRunBFixture();
     const progress = createRunBConversationProgress();

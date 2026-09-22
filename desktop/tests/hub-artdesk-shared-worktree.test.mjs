@@ -17,8 +17,26 @@ import {
   artDeskSourcePlan,
 } from "../private-controller/artdesk-host.mjs";
 
+/*
+ * The two moving tests below drive ArtDeskHost.adoptSharedRuntime, which runs
+ * `/usr/bin/git` by absolute path, alongside `/usr/bin/defaults` and
+ * `/usr/bin/env` elsewhere in the same host. That is a macOS private
+ * controller, and it is only ever packaged on macOS. On win32 there is no
+ * /usr/bin, so the fixture died on `spawnSync /usr/bin/git ENOENT` and took
+ * the whole Windows packaging job down with it — a proof failing because the
+ * thing it proves does not exist there, which is not the same as a defect.
+ *
+ * The two pure tests run everywhere; the two that need the host's own git are
+ * asserted where the host runs, and say out loud why they are not asserted
+ * elsewhere. If the controller is ever ported to Windows, this guard is what
+ * has to come out.
+ */
+const HOST_GIT = "/usr/bin/git";
+const HOST_PLATFORM = existsSync(HOST_GIT);
+const OTHER_PLATFORM_REASON = `the Art Desk private controller invokes ${HOST_GIT} by absolute path and is packaged for macOS only; this platform has no ${HOST_GIT}, so the shared-worktree move cannot be exercised here`;
+
 function git(cwd, ...args) {
-  return execFileSync("/usr/bin/git", args, {
+  return execFileSync(HOST_GIT, args, {
     cwd,
     encoding: "utf8",
     env: process.env,
@@ -85,7 +103,11 @@ test("published Art Desk branches are re-fetched on every start", () => {
   });
 });
 
-test("a clean legacy Art Desk worktree is moved into the shared slot", async () => {
+test("a clean legacy Art Desk worktree is moved into the shared slot", async (t) => {
+  if (!HOST_PLATFORM) {
+    t.diagnostic(OTHER_PLATFORM_REASON);
+    return;
+  }
   const f = fixture();
   try {
     const host = new ArtDeskHost({ dataRoot: f.dataRoot, env: process.env });
@@ -109,7 +131,11 @@ test("a clean legacy Art Desk worktree is moved into the shared slot", async () 
   }
 });
 
-test("tracked legacy edits stop the shared-workspace move", async () => {
+test("tracked legacy edits stop the shared-workspace move", async (t) => {
+  if (!HOST_PLATFORM) {
+    t.diagnostic(OTHER_PLATFORM_REASON);
+    return;
+  }
   const f = fixture();
   try {
     writeFileSync(

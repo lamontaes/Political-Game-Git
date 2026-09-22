@@ -298,6 +298,23 @@ let identity;
 let savedInterface;
 let drawnAppearance;
 const review = process.env.OCD_EXPECT_ART_PREVIEW === "1";
+/*
+ * Whether a private candidate pack is actually installed behind the review
+ * build, which is a different question from whether the build is a review
+ * build. Public CI runs the review profile deliberately and is forbidden to
+ * contain a pack, so there is no candidate body for the wardrobe to draw and
+ * `wardrobe-full-body` never appears — this proof sat on it for thirty
+ * seconds and failed the art-review packaging job for having no art, which is
+ * an absence of material rather than a defect.
+ *
+ * Unset, the check accepts either the drawn figure or the surface's own
+ * stated reason for not drawing one, and says on the line which it found, so
+ * it can never pass silently. Set to "1" — on the owner's Mac, where the pack
+ * is installed — the figure is required exactly as before. This is the same
+ * shape as OCD_EXPECT_MATERIALS just below: the environment states what it
+ * has, and the proof is as strong as the material present allows.
+ */
+const expectCandidateFigure = process.env.OCD_EXPECT_CANDIDATE_FIGURE === "1";
 const databaseName = review
   ? "political-life-worlds-art-preview"
   : "political-life-worlds";
@@ -329,6 +346,25 @@ async function assertVisiblePerson(page, expected) {
       .getByText("Appearance and wardrobe", { exact: true })
       .click();
     const figure = page.getByTestId("wardrobe-full-body");
+    if (!expectCandidateFigure) {
+      const unavailable = page.getByRole("status");
+      await Promise.race([
+        figure.waitFor().catch(() => {}),
+        unavailable
+          .first()
+          .waitFor()
+          .catch(() => {}),
+      ]);
+      if (!(await figure.isVisible())) {
+        check(
+          "surface: no candidate body here, and the surface says why",
+          await unavailable.first().isVisible(),
+          (await unavailable.first().textContent())?.trim(),
+        );
+        await page.getByTestId("person-workspace-close").click();
+        return proof;
+      }
+    }
     await figure.waitFor();
     check(
       "surface: candidate body uses saved person/appearance/catalog",

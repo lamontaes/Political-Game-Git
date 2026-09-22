@@ -190,6 +190,13 @@ async function createAndKeepLife(page) {
     /* no household introduction */
   }
   await page.getByTestId("play-screen").waitFor();
+  // A new, unsaved life opens on the world introduction, which the shell's nav
+  // is deliberately not drawn behind. Dismiss it first, as the smoke test does.
+  const orientation = page.getByTestId("world-orientation");
+  if (await orientation.isVisible()) {
+    await page.getByTestId("orientation-skip").click();
+    await orientation.waitFor({ state: "hidden" });
+  }
   await page.getByTestId("shell-nav-cluster").click();
   await page.getByTestId("shell-nav-flyout").waitFor();
   await page.getByTestId("keep-world").click();
