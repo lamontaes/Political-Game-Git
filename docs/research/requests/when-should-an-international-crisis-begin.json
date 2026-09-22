@@ -1,0 +1,27 @@
+{
+  "filedAt": "2026-09-22T15:26:00.000Z",
+  "impact": "shapes-design",
+  "lane": "world divergence",
+  "notes": [
+    "Retiring the system is an acceptable answer and should be said plainly if it is the right one. Half-wired machinery is worse than none.",
+    "If a rate is given, give the base it comes from; a drawn number with no source cannot ship under the boundary above."
+  ],
+  "priority": "P1",
+  "question": "The game can put an international crisis in front of a player and take their decision, and has no way to raise one. So: (1) over a forty-year life, how many international crises should a player live through, and how many should require a decision from them rather than merely happening; (2) what should determine whether one begins — nothing in the simulated world plausibly causes one, so is this a drawn rate from a real historical base rate, and if so which base; (3) how should the office a player holds change what they see and what they may decide, since a state legislator and a governor are not in the chain at all while a member of Congress is; (4) what should a crisis actually do that a player can observe, given that it may not move an economic figure or a poll number without a defensible source for the size of the move; and (5) should war powers, which the game already models as a certifiable extension with a clock, be reachable at all in a life that is mostly state and local?",
+  "questionId": "when-should-an-international-crisis-begin",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "world divergence thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/crisis/international.ts, every export checked for callers outside its own file and tests",
+      "whatItDidNotSettle": "Establishes the asymmetry exactly: two producers with zero callers, the consumer wired to the player's panel. Says nothing about how often a crisis should happen or what it should be about."
+    },
+    {
+      "source": "The production catalog boundary, which forbids any causal mechanism in a shipped save with one authored exception",
+      "whatItDidNotSettle": "Settles that a crisis may not move an economic or approval figure until the size of that move has a source. It does not say what a crisis may do instead, which is the part worth answering."
+    }
+  ],
+  "title": "What should start an international crisis, when the panel for deciding one already works",
+  "usableAnswer": "A rate and a source for it. A short list of crisis kinds worth representing, with what each demands of whom. A position on what a crisis may change in the world without inventing a number. And an honest answer on scope: if an international crisis has no place in a game whose player is usually a state legislator, saying so is a usable answer and retires a built system rather than half-wiring it.",
+  "whyItMatters": "Measured 2026-09-22 at main 62368c1e. WHAT EXISTS: declareInternationalCrisis, internationalCrisisState, pendingInternationalDecisions, decideInternationalCrisis and certifyWarPowersExtension, a complete model with decision options, a war-powers clock and a player panel. THE ONE MISSING LINK: declareInternationalCrisis has zero callers outside tests, and so does certifyWarPowersExtension, while decideInternationalCrisis is wired from the player's own CrisisNoticesPanel. The player can decide a crisis and nothing can give them one. THE SMALLEST HONEST CHANGE: one scheduled producer that draws at an authored rate and declares a crisis, which is a few lines against a finished API. WHAT A PLAYER WOULD SEE: a notice on their crisis panel, in a life where that panel has never shown anything."
+}

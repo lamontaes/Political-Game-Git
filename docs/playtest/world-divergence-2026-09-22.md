@@ -92,23 +92,51 @@ without anyone doing anything. This half of the crisis system is alive.
 ## What cannot happen at all
 
 Each of these is a complete, tested subsystem with **zero callers outside its
-own tests**. Re-grepped at this head.
+own tests**. Re-grepped at this head. Scandal was on this list and has been
+struck below — it is reachable, narrowly.
 
 |                                              | The writer                                              | Callers in play |
 | -------------------------------------------- | ------------------------------------------------------- | --------------- |
 | An assassination or attempt on anyone's life | `recordViolenceAttempt` (`crisis/international.ts:876`) | none            |
 | An international crisis, hence any war       | `declareInternationalCrisis` (`:221`)                   | none            |
 | A war-powers extension                       | `certifyWarPowersExtension` (`:789`)                    | none            |
-| A scandal — filing an allegation             | `recordAllegation` (`press/matters.ts:275`)             | none            |
-| A scandal — filing a complaint               | `fileComplaint` (`:412`), `fileRivalComplaint` (`:785`) | none            |
 
 **The asymmetry is the finding.** `decideInternationalCrisis` _is_ wired, from
 `player/CrisisNoticesPanel.tsx:307`. The player's panel for deciding an
 international crisis is connected to the game. Nothing can start one for them
-to decide. The readers of a scandal are likewise wired and nothing can begin
-one. An attempt on a life additionally requires prior canonical evidence of
-threat or intent — a deliberate and correct guard — and nothing in the game
+to decide. An attempt on a life additionally requires prior canonical evidence
+of threat or intent — a deliberate and correct guard — and nothing in the game
 produces such evidence, so the guard has never been reached.
+
+### Correction, 15:30Z: scandal does not belong on that list
+
+~~A scandal — filing an allegation (`recordAllegation`, `press/matters.ts:275`)
+— zero callers. A scandal — filing a complaint (`fileComplaint` `:412`,
+`fileRivalComplaint` `:785`) — zero callers.~~
+
+[Edit: both rows were wrong and are struck rather than deleted, because the
+claim was reported to the owner before it was checked properly.] The grep that
+produced them looked for callers of the innermost writers. The chain is entered
+two functions above them, and it **is** reachable in ordinary play:
+
+`pressWeeklyHandler` (`press/transitions.ts:37`, on the weekly desk sweep) →
+`produceRivalComplaints` (`matters.ts:698`) → a rival's `evaluateDecision` →
+`fileRivalComplaint` (`:785`) → `recordAllegation` + `fileComplaint`.
+
+So a scandal can happen. What it cannot do is happen to anybody but the player.
+`produceRivalComplaints` returns the world unchanged unless **all** of these
+hold: the world is controlled by a person; that person has an active campaign;
+that campaign has a resource flow of basis `custom:campaign-expenditure` to an
+organization; the contest has another candidate the world still knows; and no
+matter or decision trace already exists for that campaign's stable key. That
+last condition caps it at **one scandal per campaign, ever**. The player's own
+route in is `spendCampaignFundsPersonally`, wired from
+`player/PressDeskPanel.tsx:447`.
+
+The machinery itself is general — `openMatter` takes `subjectPersonIds` and
+does not care who they are. **The missing piece is a producer that can open a
+matter about somebody who is not the player.** Filed as
+`what-opens-a-scandal-about-somebody-else`.
 
 ## His three examples, answered
 
