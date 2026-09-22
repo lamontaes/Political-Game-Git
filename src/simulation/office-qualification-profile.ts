@@ -47,6 +47,7 @@
  * decision records which of the two it rested on.
  */
 
+import type { RuleSourceRef } from "./legislature-rules";
 import {
   OFFICE_QUALIFICATIONS_META,
   qualificationRows,
@@ -183,3 +184,26 @@ export const QUALIFICATION_PROFILE_COVERAGE = {
   statesRead: OFFICE_QUALIFICATIONS_META.states,
   asOf: OFFICE_QUALIFICATIONS_META.asOf,
 } as const;
+
+/**
+ * A generated qualification as a rule source ref.
+ *
+ * It says `game-profile` in both the authority and the verification, so a
+ * consumer reading either one sees what this is. The note carries the evidence
+ * a reader of the record needs — the spread and the states behind it — and no
+ * player-facing surface prints it; `standInRequirementSentence` is what a screen
+ * shows.
+ */
+export function standInQualificationSourceRef(
+  standIn: StandInQualification,
+): RuleSourceRef {
+  return {
+    authority: "game-profile",
+    citation: `${standIn.field} for a ${standIn.officeFamily} in ${standIn.stateJurisdictionKey}`,
+    sourceTitle: "Our Civic Duty office qualification profile",
+    sourceUrl: null,
+    retrievedAt: null,
+    verification: "game-profile",
+    note: `Drawn from ${standIn.lowest} to ${standIn.highest}, the spread enacted by ${standIn.states.join(", ")}. Not a claim about this state's law.`,
+  };
+}

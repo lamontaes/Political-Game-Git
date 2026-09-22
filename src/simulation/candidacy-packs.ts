@@ -1,4 +1,12 @@
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
+import {
+  legislatureForState,
+  legislatureProfilePackById,
+} from "./legislature-game-profile";
+import {
+  standInQualification,
+  standInQualificationSourceRef,
+} from "./office-qualification-profile";
 import { knownRule, notApplicableRule, unknownRule } from "./legislature-rules";
 import type {
   FormalSeatCount,
@@ -273,6 +281,42 @@ function officeQualification(
       };
     }
   }
+  // Nothing has been read for this state. That used to end here, with every
+  // requirement unknown, and an office nobody can be shown to qualify for is an
+  // office nobody can stand for — which is how forty-two states ended up closed.
+  // A generated rule is offered instead: drawn from the spread the read states
+  // set, fixed for this state, and labelled `game-profile` so it can never be
+  // quoted back as this state's law.
+  if (officeFamily !== null) {
+    const standIn = (
+      field: Parameters<typeof standInQualification>[1],
+    ): RuleValue<number> => {
+      const drawn = standInQualification(jurisdictionKey, field, officeFamily);
+      if (drawn === null) return unknownRule(NO_QUALIFICATION_CORPUS);
+      return knownRule(drawn.value, standInQualificationSourceRef(drawn));
+    };
+    const age = standIn("MINIMUM_AGE");
+    const stateResidence = standInQualification(
+      jurisdictionKey,
+      "STATE_RESIDENCE",
+      officeFamily,
+    );
+    if (age.kind === "known" || stateResidence !== null) {
+      return {
+        minimumAge: age,
+        residency:
+          stateResidence === null
+            ? unknownRule(NO_QUALIFICATION_CORPUS)
+            : knownRule(
+                `${stateResidence.value} years in the state immediately preceding filing`,
+                standInQualificationSourceRef(stateResidence),
+              ),
+        termYears: standIn("TERM_LENGTH"),
+        filing: unknownRule(NO_FILING_CORPUS),
+      };
+    }
+  }
+
   return {
     minimumAge: unknownRule(NO_QUALIFICATION_CORPUS),
     residency: unknownRule(NO_QUALIFICATION_CORPUS),
@@ -367,8 +411,25 @@ export function candidacyPackById(packId: string): CandidacyPack | null {
   return (
     CANDIDACY_PACKS.find((pack) => pack.packId === packId) ??
     stateExecutiveCandidacyPacks().find((pack) => pack.packId === packId) ??
+    generatedCandidacyPackById(packId) ??
     null
   );
+}
+
+/**
+ * The candidacy pack of a generated legislature, by id.
+ *
+ * It resolves last, so a state that gets compiled takes over the moment its own
+ * pack exists. A filed campaign records its pack id, and without this a save in
+ * an uncompiled state would reopen with its authority pointing at nothing.
+ */
+function generatedCandidacyPackById(packId: string): CandidacyPack | null {
+  const rulePackId = packId.endsWith(":candidacy")
+    ? packId.slice(0, -":candidacy".length)
+    : null;
+  if (rulePackId === null) return null;
+  const generated = legislatureProfilePackById(rulePackId);
+  return generated === null ? null : candidacyPackFromRulePack(generated);
 }
 
 /**
@@ -384,11 +445,17 @@ export function stateCandidacyPack(
   stateJurisdictionKey: string | null,
 ): CandidacyPack | null {
   if (stateJurisdictionKey === null) return null;
-  return (
-    CANDIDACY_PACKS.find(
-      (pack) => pack.jurisdictionKey === stateJurisdictionKey,
-    ) ?? null
+  const compiled = CANDIDACY_PACKS.find(
+    (pack) => pack.jurisdictionKey === stateJurisdictionKey,
   );
+  if (compiled) return compiled;
+  // No compiled pack. That used to be the end of it, and a state with no
+  // compiled legislature had no office anybody could stand for — which is the
+  // same absence-read-as-refusal that closed forty-two states. The generated
+  // legislature carries offices like any other, and its qualifications say
+  // `game-profile` rather than claiming this state's law.
+  const generated = legislatureForState(stateJurisdictionKey);
+  return generated === null ? null : candidacyPackFromRulePack(generated);
 }
 
 export function requireCandidacyPack(packId: string): CandidacyPack {

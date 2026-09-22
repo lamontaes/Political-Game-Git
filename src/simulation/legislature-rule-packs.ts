@@ -1,3 +1,4 @@
+import { legislatureProfilePackById } from "./legislature-game-profile";
 import { municipalRulePackById } from "./municipal-rule-registry";
 import {
   fractionOf,
@@ -420,6 +421,7 @@ export const KENTUCKY_RULE_PACK: LegislativeRulePack = {
   packId: "us-ky-general-assembly-v1",
   jurisdictionKey: "US-KY",
   displayName: "Kentucky General Assembly",
+  basis: "researched",
   structure: "bicameral",
   chambers: [
     kentuckyChamber(
@@ -607,6 +609,7 @@ export const NEBRASKA_RULE_PACK: LegislativeRulePack = {
   packId: "us-ne-legislature-v1",
   jurisdictionKey: "US-NE",
   displayName: "Nebraska Legislature",
+  basis: "researched",
   structure: "unicameral",
   chambers: [
     {
@@ -965,6 +968,7 @@ export const ALASKA_RULE_PACK: LegislativeRulePack = {
   packId: "us-ak-legislature-v1",
   jurisdictionKey: "US-AK",
   displayName: "Alaska State Legislature",
+  basis: "researched",
   structure: "bicameral",
   chambers: [
     alaskaChamber("house", "House of Representatives", "HB", 40),
@@ -1288,6 +1292,7 @@ export const MINNESOTA_RULE_PACK: LegislativeRulePack = {
   packId: "us-mn-legislature-v1",
   jurisdictionKey: "US-MN",
   displayName: "Minnesota Legislature",
+  basis: "researched",
   structure: "bicameral",
   chambers: [
     minnesotaChamber("house", "House of Representatives", "HB", 134),
@@ -1499,6 +1504,7 @@ export const ILLINOIS_RULE_PACK: LegislativeRulePack = {
   packId: "us-il-general-assembly-v1",
   jurisdictionKey: "US-IL",
   displayName: "Illinois General Assembly",
+  basis: "researched",
   structure: "bicameral",
   chambers: [
     illinoisChamber("house", "House of Representatives", "HB", 118),
@@ -1798,6 +1804,7 @@ export const MARYLAND_RULE_PACK: LegislativeRulePack = {
   packId: "us-md-general-assembly-v1",
   jurisdictionKey: "US-MD",
   displayName: "Maryland General Assembly",
+  basis: "researched",
   structure: "bicameral",
   chambers: [
     marylandChamber("house", "House of Delegates", "HB", 141),
@@ -2043,6 +2050,7 @@ export const MISSOURI_RULE_PACK: LegislativeRulePack = {
   packId: "us-mo-general-assembly-v1",
   jurisdictionKey: "US-MO",
   displayName: "Missouri General Assembly",
+  basis: "researched",
   structure: "bicameral",
   chambers: [
     missouriChamber(
@@ -2252,6 +2260,7 @@ export const NEVADA_RULE_PACK: LegislativeRulePack = {
   packId: "us-nv-legislature-v1",
   jurisdictionKey: "US-NV",
   displayName: "Nevada Legislature",
+  basis: "researched",
   structure: "bicameral",
   chambers: [
     nevadaChamber("assembly", "Assembly", "AB"),
@@ -2478,6 +2487,7 @@ export const OHIO_RULE_PACK: LegislativeRulePack = {
   packId: "us-oh-general-assembly-v1",
   jurisdictionKey: "US-OH",
   displayName: "Ohio General Assembly",
+  basis: "researched",
   structure: "bicameral",
   chambers: [
     ohioChamber("house", "House of Representatives", "HB", 99),
@@ -2590,7 +2600,12 @@ export const LEGISLATIVE_RULE_PACKS: readonly LegislativeRulePack[] = [
 export function rulePackById(packId: string): LegislativeRulePack {
   const pack =
     LEGISLATIVE_RULE_PACKS.find((candidate) => candidate.packId === packId) ??
-    municipalRulePackById(packId);
+    municipalRulePackById(packId) ??
+    // A save made in a state with no compiled pack records a generated one, and
+    // it has to resolve or the save opens onto a seat with no chamber under it.
+    // It resolves last, so a state that gets compiled later takes over the
+    // moment its own pack exists.
+    legislatureProfilePackById(packId);
   if (!pack) {
     throw new Error(`No legislative rule pack is registered as '${packId}'.`);
   }

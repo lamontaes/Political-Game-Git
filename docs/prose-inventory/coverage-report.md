@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 3166 |
-| INTENTIONALLY_NON_PLAYER_FACING | 7081 |
-| DIAGNOSTIC_OR_TEST | 7655 |
-| **NEEDS_CLASSIFICATION** | **10305** |
+| INTENTIONALLY_NON_PLAYER_FACING | 7085 |
+| DIAGNOSTIC_OR_TEST | 7695 |
+| **NEEDS_CLASSIFICATION** | **10338** |
 
-Scanned 1159 files holding 112109 string
+Scanned 1162 files holding 112354 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -116,6 +116,7 @@ literals in total; the table counts only those that read like a sentence.
 | 32 | `src/simulation/municipal-ordinance-procedure.ts` |
 | 32 | `src/simulation/person-context.ts` |
 | 31 | `src/simulation/career-path7.ts` |
+| 31 | `src/simulation/legislature-game-profile.ts` |
 | 31 | `src/simulation/politics.ts` |
 | 31 | `src/simulation/press/procedures.ts` |
 | 30 | `src/presentation/office-onboarding.ts` |
@@ -152,6 +153,7 @@ literals in total; the table counts only those that read like a sentence.
 | 21 | `src/presentation/civic-glossary.ts` |
 | 21 | `src/presentation/macro-conditions.ts` |
 | 21 | `src/presentation/title-tableau.ts` |
+| 21 | `src/simulation/candidacy-packs.ts` |
 | 21 | `src/simulation/legislation-content-contracts.ts` |
 | 21 | `src/simulation/life-favors.ts` |
 | 21 | `src/simulation/nationwide-world/state-executive-term-rules.ts` |
@@ -160,7 +162,6 @@ literals in total; the table counts only those that read like a sentence.
 | 20 | `src/player/TaxWorkWorkspace.tsx` |
 | 20 | `src/presentation/economic-context-browser.ts` |
 | 20 | `src/presentation/legislative-bargaining-actions.ts` |
-| 20 | `src/simulation/candidacy-packs.ts` |
 | 19 | `src/education/study-provider.ts` |
 | 19 | `src/presentation/player-places.ts` |
 | 19 | `src/presentation/run-a-fixture.ts` |
@@ -488,6 +489,7 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/simulation/measure-numbering.ts` |
 | 2 | `src/simulation/nationwide-world/district-of-columbia-identity.ts` |
 | 2 | `src/simulation/nationwide-world/rules-capability-binding.ts` |
+| 2 | `src/simulation/office-qualification-profile.ts` |
 | 2 | `src/simulation/office-qualifications.generated.ts` |
 | 2 | `src/simulation/people-request-route.ts` |
 | 2 | `src/simulation/place-county-relations.generated.ts` |
@@ -534,7 +536,6 @@ literals in total; the table counts only those that read like a sentence.
 | 1 | `src/simulation/national-elections.ts` |
 | 1 | `src/simulation/nationwide-world/rule-capability-port.ts` |
 | 1 | `src/simulation/nationwide-world/state-executives.ts` |
-| 1 | `src/simulation/office-qualification-profile.ts` |
 | 1 | `src/simulation/public-information-integrity.ts` |
 | 1 | `src/simulation/scene-bindings.ts` |
 | 1 | `src/simulation/setup-questionnaire.ts` |

@@ -26,9 +26,26 @@ export type RuleAuthorityLayer =
   | "uniform-rules"
   | "statute"
   | "parliamentary-fallback"
-  | "research-reference";
+  | "research-reference"
+  /**
+   * Not an authority at all: the game's own disclosed rule, used where no
+   * instrument for this jurisdiction has been read. It is named as a layer so
+   * that a generated rule cannot be mistaken for a constitutional one by a
+   * consumer reading the layer, and so that a pack carrying one is detectable
+   * by inspection rather than by trusting whoever wrote it.
+   */
+  | "game-profile";
 
-export type RuleVerificationStatus = "verified" | "partial" | "unresolved";
+export type RuleVerificationStatus =
+  | "verified"
+  | "partial"
+  | "unresolved"
+  /**
+   * The value came from the game's own profile rather than from a source.
+   * `assertRulePackIntegrity` permits it only inside a pack that declares
+   * itself a game profile, so it can never appear in a researched pack.
+   */
+  | "game-profile";
 
 /** Citation for one institutional rule, carried into the runtime. */
 export interface RuleSourceRef {
@@ -534,6 +551,22 @@ export interface LegislativeRulePack {
   readonly packId: string;
   readonly jurisdictionKey: string;
   readonly displayName: string;
+  /**
+   * Whether this pack states read law or the game's own rule.
+   *
+   * `researched` is the only kind that describes a real legislature. It is
+   * compiled from instruments that were actually retrieved, and every rule in
+   * it either cites one or says plainly that nothing resolved it.
+   *
+   * `game-profile` is the state that used to be missing, and its absence is
+   * why forty-two states had no legislature at all rather than a provisional
+   * one. Such a pack is playable and disclosed: its rules are drawn from the
+   * spread the researched packs span, they are stable for that state forever,
+   * and they are labelled `game-profile` at every source ref so nothing can
+   * quote one back as that state's law. Reading the state's own instruments
+   * replaces the whole pack.
+   */
+  readonly basis: "researched" | "game-profile";
   readonly structure: LegislatureStructure;
   readonly chambers: readonly ChamberRule[];
   /**
@@ -884,13 +917,14 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
         `Unresolved formal seat count for '${chamber.chamberKey}' must not carry a numeric value or source.`,
       );
     }
-    if (
-      formalSeats.kind === "known" &&
-      formalSeats.source.verification !== "verified"
-    ) {
-      throw new Error(
-        `Known formal seat count for '${chamber.chamberKey}' must cite a verified source.`,
-      );
+    if (formalSeats.kind === "known") {
+      const acceptable =
+        pack.basis === "game-profile" ? "game-profile" : "verified";
+      if (formalSeats.source.verification !== acceptable) {
+        throw new Error(
+          `Known formal seat count for '${chamber.chamberKey}' must cite a ${acceptable} source.`,
+        );
+      }
     }
     if (chamber.floorStages.length === 0) {
       throw new Error(
@@ -1118,4 +1152,56 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
   for (const source of pack.sources) {
     assertSourceRef(source, `source in '${pack.packId}'`);
   }
+
+  assertBasisIsHonest(pack);
+}
+
+/**
+ * The two kinds of pack may not be blended.
+ *
+ * A researched pack that carried one generated rule would be the worst of both:
+ * everything about it says "this is the law of this state" and one field would
+ * not be. A game profile that carried one verified rule is the same failure
+ * read the other way — it would let a reader conclude the rest was checked too.
+ *
+ * So the check is total rather than field-by-field: every source ref anywhere
+ * in the pack must agree with the pack's own declared basis. It walks the whole
+ * object because a source ref can sit at any depth — on a threshold, inside a
+ * floor stage, under a committee — and a check that only looked at the places
+ * someone remembered would pass the one they forgot.
+ */
+function assertBasisIsHonest(pack: LegislativeRulePack): void {
+  const wanted = pack.basis === "game-profile" ? "game-profile" : null;
+  const seen = new Set<object>();
+  const walk = (node: unknown, path: string): void => {
+    if (node === null || typeof node !== "object") return;
+    if (seen.has(node)) return;
+    seen.add(node);
+    if (Array.isArray(node)) {
+      node.forEach((entry, index) => walk(entry, `${path}[${index}]`));
+      return;
+    }
+    const record = node as Record<string, unknown>;
+    if (
+      typeof record.authority === "string" &&
+      typeof record.verification === "string" &&
+      typeof record.citation === "string"
+    ) {
+      const isProfile = record.verification === "game-profile";
+      if (wanted === "game-profile" && !isProfile) {
+        throw new Error(
+          `Game-profile pack '${pack.packId}' carries a non-profile source at ${path}: ${record.citation}. A generated legislature may not claim a read source.`,
+        );
+      }
+      if (wanted === null && isProfile) {
+        throw new Error(
+          `Researched pack '${pack.packId}' carries a game-profile source at ${path}: ${record.citation}. A researched legislature may not carry a generated rule.`,
+        );
+      }
+    }
+    for (const [key, value] of Object.entries(record)) {
+      walk(value, `${path}.${key}`);
+    }
+  };
+  walk(pack, pack.packId);
 }

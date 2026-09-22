@@ -708,6 +708,8 @@ export function municipalRulePackFor(
     packId: municipalRulePackId(reading),
     jurisdictionKey: `US-${reading.state}`,
     displayName: `${reading.displayName} — ${bodyName}`,
+    // Compiled from this city's own charter reading, so it states read law.
+    basis: "researched",
     structure: "unicameral",
     chambers: [
       {
