@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 3166 |
-| INTENTIONALLY_NON_PLAYER_FACING | 7101 |
-| DIAGNOSTIC_OR_TEST | 7763 |
-| **NEEDS_CLASSIFICATION** | **10583** |
+| INTENTIONALLY_NON_PLAYER_FACING | 7100 |
+| DIAGNOSTIC_OR_TEST | 7771 |
+| **NEEDS_CLASSIFICATION** | **10586** |
 
-Scanned 1166 files holding 113193 string
+Scanned 1166 files holding 113243 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -156,13 +156,13 @@ literals in total; the table counts only those that read like a sentence.
 | 21 | `src/presentation/title-tableau.ts` |
 | 21 | `src/simulation/legislation-content-contracts.ts` |
 | 21 | `src/simulation/life-favors.ts` |
+| 21 | `src/simulation/office-qualification-rules.ts` |
 | 21 | `src/simulation/people-promise.ts` |
 | 20 | `src/player/LifePathsPanel.tsx` |
 | 20 | `src/player/TaxWorkWorkspace.tsx` |
 | 20 | `src/presentation/economic-context-browser.ts` |
 | 20 | `src/presentation/legislative-bargaining-actions.ts` |
 | 20 | `src/simulation/candidacy-packs.ts` |
-| 20 | `src/simulation/office-qualification-rules.ts` |
 | 19 | `src/education/study-provider.ts` |
 | 19 | `src/presentation/player-places.ts` |
 | 19 | `src/presentation/run-a-fixture.ts` |
@@ -231,6 +231,7 @@ literals in total; the table counts only those that read like a sentence.
 | 13 | `src/presentation/campaign-compliance-projection.ts` |
 | 13 | `src/presentation/executive-work.ts` |
 | 13 | `src/presentation/person-contact.ts` |
+| 13 | `src/simulation/candidate-qualification.ts` |
 | 13 | `src/simulation/civil-personnel-start.ts` |
 | 13 | `src/simulation/election-contests.ts` |
 | 13 | `src/simulation/press/views.ts` |
@@ -256,7 +257,6 @@ literals in total; the table counts only those that read like a sentence.
 | 11 | `src/presentation/modeled-account-history.ts` |
 | 11 | `src/presentation/person-dossier.ts` |
 | 11 | `src/presentation/scene-placement.ts` |
-| 11 | `src/simulation/candidate-qualification.ts` |
 | 11 | `src/simulation/crisis/health.ts` |
 | 11 | `src/simulation/political-belief-formation.ts` |
 | 11 | `src/simulation/tax-policy.ts` |
