@@ -134,6 +134,21 @@ same and are not, and a glance at a job list will tell you work is under way
 when none is. **Read `status` — `queued`, `in_progress`, `completed`. Never
 infer execution from a timestamp.**
 
+**The contrast, once one job genuinely started.** At 07:41:00Z the `repository`
+job began, and reading the same list then shows both shapes side by side:
+
+|              | Allocated only      | Actually executing           |
+| ------------ | ------------------- | ---------------------------- |
+| `status`     | `queued`            | `in_progress`                |
+| `started_at` | equals `created_at` | later than `created_at`      |
+| `steps`      | absent              | present, with per-step times |
+
+Two further tells beyond `status`, then: a genuinely started job has a
+`started_at` that **differs** from its `created_at`, and it carries a `steps`
+array. A job that has only been allocated has neither. The fourteen jobs still
+waiting at that moment had `started_at` of 07:38:08Z and no `steps`; the one
+running had 07:41:00Z and nine of them.
+
 This mattered immediately rather than academically. The question on the table
 was whether the freeze could be lifted, and the argument for lifting it was
 that a run which is already executing is protected from the next merge by
