@@ -1,0 +1,48 @@
+{
+  "candidateAnswers": [
+    {
+      "argumentAgainst": "It assumes apparent turn is a single angle, which may be false: a figure can read as turned because of its face and shoulders while its body is nearly square.",
+      "argumentFor": "It is computable, it extends to seats nobody has drawn yet, and it turns the hand-written permission lists into something derived.",
+      "label": "Angle agreement within a tolerance",
+      "position": "A seat records the angle it is drawn at, a figure records the angle it is drawn at, and a figure reads as seated when the two are within some stated number of degrees.",
+      "recommended": false
+    },
+    {
+      "argumentAgainst": "If it is wrong we would be filling angled seats with square figures and only find out when somebody looks at a finished room.",
+      "argumentFor": "It would explain why square figures have looked acceptable in angled chairs so far, and we already measure the contact point.",
+      "label": "Contact and occlusion carry it, not angle",
+      "position": "What sells a seated figure is that its hips meet the seat surface and its near leg reads in front of the chair's near edge. Turn agreement is secondary and a wide mismatch passes unnoticed.",
+      "recommended": false
+    }
+  ],
+  "filedAt": "2026-09-22T13:50:00Z",
+  "impact": "shapes-design",
+  "lane": "character art and scenes",
+  "notes": [
+    "This is a question about what a viewer perceives, not about our data. We can measure anything about our own plates that an answer asks us to measure.",
+    "A room is first person, so the seated figure is usually another person in the room with the player rather than the player themselves."
+  ],
+  "priority": "P1",
+  "question": "When a room's seat is drawn at an angle to the camera and a person is composed onto it from a separate flat plate, what has to agree between the two for the result to read as that person sitting in that chair rather than near it — how closely must the figure's own turn match the seat's drawn angle, how much mismatch is tolerable before a viewer notices, and what should a seat and a figure each record so a room can decide this by rule instead of somebody deciding by eye?",
+  "questionId": "seated-figure-reads-as-in-the-seat",
+  "relatedQuestionIds": ["scene-depth-ordering"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "character rendering triage thread",
+  "sourcesChecked": [
+    {
+      "source": "art/manifest/pose_families.json, which declares each pose family's posture and facing",
+      "whatItDidNotSettle": "It records which way a figure faces, and a seat records which facings it permits, but permission is a yes or no list written by hand. Nothing says how far apart the two may be, so the list is an assertion rather than a derivation."
+    },
+    {
+      "source": "The turn measurement in scripts/art-asset-factory/seated-contact.ts, and the twelve seated plates measured through it",
+      "whatItDidNotSettle": "It gives each figure a signed turn offset, so we can compare figures to each other. It says nothing about what a viewer accepts, because there is no measurement of a chair's drawn angle to compare it against and no evidence about tolerance."
+    },
+    {
+      "source": "src/environment/scenes/residence-apartment-living-production.ts, the apartment club chair",
+      "whatItDidNotSettle": "The chair is drawn turned towards the room and permits one facing. Whether a figure carrying that facing actually looks seated in it was left as a judgement to be made by eye, which is the gap this question is about."
+    }
+  ],
+  "title": "What makes a drawn sitting figure read as sitting in this particular chair",
+  "usableAnswer": "A stated rule with a number in it — for example, that a figure reads as seated when its turn is within some stated angle of the seat's drawn angle, or that turn agreement matters less than a named cue such as where the near knee falls — together with which properties a seat and a figure each have to carry for a room to apply that rule without a person looking.",
+  "whyItMatters": "Every seated placement in the project is currently settled by looking at it. We can measure a figure's turn and the point where it meets a seat, and we do, but nothing tells us whether a figure turned one way belongs in a seat drawn another way, so the last step before a person appears in a chair is a judgement nobody can check or repeat. That makes seated coverage un-plannable: we cannot say which seats our existing people can fill, or what to ask for when they cannot."
+}

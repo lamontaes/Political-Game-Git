@@ -1,0 +1,33 @@
+{
+  "filedAt": "2026-09-22T17:05:00.000Z",
+  "impact": "shapes-design",
+  "lane": "drive research audit thread",
+  "notes": [
+    "Measured on origin/main at 4965f63c, 2026-09-22. `data/source/fec/corpus.json` is 22 MB, 39,355 records. Grep for `domains/fec`, `data/source/fec`, `compileFec`, `openFecArtifacts` and `FEC_CORPUS` outside `src/source/domains/fec/` returns nothing at all.",
+    "The gate is a prose declaration in the domain header, not a `productionGate` field, so it does not appear in `data/source/MANIFEST.json` gatedDomains — the domain compiles and validates as production on every run and then goes nowhere.",
+    "Stage 7 is described in docs/ARCHITECTURE-INTEGRITY-AUDIT.md:237 as owning effective mutable law, institutional powers, organization hierarchy and territory-specific content. Whether a candidate/committee identity record needs any of that is the crux of the question.",
+    "Filed out of the Drive research audit rather than by an owning lane, because this corpus has no owning lane. The audit is at /mnt/project-files/research/DRIVE-RESEARCH-AUDIT-2026-09-22.md."
+  ],
+  "priority": "P2",
+  "question": "The FEC corpus holds every row of all three bulk files — 39,355 candidate, committee and linkage master records, 22 MB, as of 2024-12-31 — and its domain header states that nothing in it reaches gameplay because the adapter is gated on Stage 7 authorisation and does not exist. What should these records feed, and is Stage 7 still the correct owner for that, or is there a bounded consumer that does not need effective-law machinery?",
+  "questionId": "what-the-fec-corpus-would-feed",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "drive research audit thread",
+  "sourcesChecked": [
+    {
+      "source": "src/source/domains/fec/index.ts:11-12 on origin/main at 4965f63c",
+      "whatItDidNotSettle": "It settles that the absence is deliberate and names the gate. It does not say what the adapter would have fed, nor what would lift the gate short of Stage 7 arriving."
+    },
+    {
+      "source": "data/source/MANIFEST.json",
+      "whatItDidNotSettle": "It lists fec among the 24 production domains and lists only government-units as gated, so the manifest disagrees with the header about this domain's status. It does not say which is authoritative."
+    },
+    {
+      "source": "docs/ARCHITECTURE-INTEGRITY-AUDIT.md:237",
+      "whatItDidNotSettle": "It defines what Stage 7 owns. It does not establish that federal candidate and committee identity is one of those things rather than an ordinary sourced identity product like places or counties."
+    }
+  ],
+  "title": "What 39,355 FEC records should feed, and whether Stage 7 is still the right owner",
+  "usableAnswer": "Either a named bounded consumer that can be built without Stage 7 — for example, seeding the identity of real prior federal candidates in a jurisdiction's political history, or grounding committee structure for a player's own federal run — or a ruling that the corpus stays deferred until Stage 7 with a stated re-check point. If the answer is that it should not ship at all, say so, because 22 MB compiled and validated on every run has a cost either way.",
+  "whyItMatters": "This is the largest compiled corpus in the repository with no consumer of any kind — not a script, not a test, not an adapter. It is correctly and explicitly declared, so it is not neglect. But a declared deferral that nobody revisits is indistinguishable from an abandoned one, and this corpus is the only sourced record in the project of who actually ran for federal office and which committees backed them. The campaign systems a player touches today generate their opponents."
+}

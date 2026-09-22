@@ -108,8 +108,10 @@ export interface StateExecutiveTermRule {
 /**
  * The game's disclosed state-executive profile.
  *
- * PROPOSED PARAMETERS, pending the director's confirmation: a four-year term
- * where research checked none,
+ * PROVISIONAL PARAMETERS, awaiting SOURCED RULES rather than anyone's sign-off
+ * (filed as executive-terms-and-incumbency-turnover): a four-year term where
+ * research checked none (the two states that run two-year terms are
+ * calibrated from research through `calibration`, not held to this value),
  * regular elections in the cycle that contains 2026, a November general
  * election on the first Tuesday after the first Monday, and a term that begins
  * on the first Monday of January after the election. Changing any value means
