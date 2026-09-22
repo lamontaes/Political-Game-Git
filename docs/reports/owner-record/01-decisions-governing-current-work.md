@@ -705,6 +705,13 @@ verification job, not a research question.
   `61B_CLAUDE_ORIGINAL_VISION_AND_DYNAMIC_CAUSAL_ARCHITECTURE_AUDIT`, Drive
   `1982313Yo3NKERYCBQsyszNfafSxi62UiIMWLoIWaH7A` — which is a separate, unread
   document. Both exist. This record treats the 63-page PDF as the one meant.
+
+  **Warning on 61B.** It is dated 2026-09-04 and audited at main `b986fbe`,
+  PR #60 — three weeks stale. It states flatly that no party model exists,
+  which was true then and is false at `273fd2b8`. Read for its framing, never
+  for its findings, and measure at the current head before planning anything
+  from it. Read in full 2026-09-22; what survives is in
+  `07-tasks-making-the-game-alive.md`, appendix.
 - **Inside the "Review modular generation" export**, 82 of 162 messages are his.
   A large share of those are pastes of agent delivery reports with his own words
   appended at the end; the verbatim file marks what could be identified and

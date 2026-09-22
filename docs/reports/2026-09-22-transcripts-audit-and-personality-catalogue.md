@@ -33,6 +33,13 @@ audit". Both documents exist and both are available; this report treats the
 "print-ready", "for Lamontae Shively", with numbered finding IDs and space for
 handwritten feedback.
 
+**Warning on 61B.** It is dated 2026-09-04 and audited at main `b986fbe`,
+PR #60 — three weeks stale. It states flatly that no party model exists,
+which was true then and is false at `273fd2b8`. Read for its framing, never
+for its findings, and measure at the current head before planning anything
+from it. Read in full 2026-09-22; what survives is in
+`07-tasks-making-the-game-alive.md`, appendix.
+
 ---
 
 ## 1. Decisions we are acting against, or acting without

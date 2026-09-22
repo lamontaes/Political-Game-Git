@@ -275,3 +275,10 @@ jurisdiction rows in tabular form. Also
 `61B_CLAUDE_ORIGINAL_VISION_AND_DYNAMIC_CAUSAL_ARCHITECTURE_AUDIT` (Drive
 `1982313Yo3NKERYCBQsyszNfafSxi62UiIMWLoIWaH7A`), which is what "61" names in the
 transcripts.
+
+**Warning on 61B.** It is dated 2026-09-04 and audited at main `b986fbe`,
+PR #60 — three weeks stale. It states flatly that no party model exists,
+which was true then and is false at `273fd2b8`. Read for its framing, never
+for its findings, and measure at the current head before planning anything
+from it. Read in full 2026-09-22; what survives is in
+`07-tasks-making-the-game-alive.md`, appendix.
