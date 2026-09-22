@@ -46,6 +46,28 @@ function inputFor(
     earlierLifeGenerationVersion: "context-v2",
   };
 }
+/**
+ * Removes the fields that shipped authored content moves, and only those.
+ * Organization profiles keep every field but `name`, so a profile that changes
+ * any other way still reaches the comparison.
+ */
+function withoutShippedContent(serialized: string): string {
+  const parsed = JSON.parse(serialized) as {
+    snapshotId?: unknown;
+    world: {
+      policyCatalog?: unknown;
+      history: { organizationProfiles: Record<string, unknown>[] };
+    };
+  };
+  delete parsed.snapshotId;
+  delete parsed.world.policyCatalog;
+  parsed.world.history.organizationProfiles =
+    parsed.world.history.organizationProfiles.map((profile) => {
+      const { name: _name, ...rest } = profile;
+      return rest;
+    });
+  return JSON.stringify(parsed);
+}
 describe("versioned canonical earlier life", () => {
   it("preserves the captured pre-repair 171bb production save byte-for-byte", () => {
     const payload = readFileSync(
@@ -73,12 +95,28 @@ describe("versioned canonical earlier life", () => {
       }),
     ).world;
     expect(serializeWorld(result)).toBe(before);
+    // The captured save is the promise, and the two assertions above hold it
+    // exactly: it loads byte-for-byte, and the earlier-life generator leaves
+    // it alone. A REBUILD from the same descriptor is a weaker claim, because
+    // a rebuilt world carries whatever authored content this build ships.
+    // Two lanes shipped some on 2026-09-22 — the sourced policy vocabulary
+    // (#379) and generated school names (#378) — and main re-accepted its own
+    // legacy-opening hashes for exactly that reason (`3c168794`,
+    // `world46-opening.test.ts`). Measured here against this fixture, the
+    // rebuild differs from the capture in exactly three places and nowhere
+    // else: `world.policyCatalog`, the `name` of each generated organization
+    // profile ("Local Elementary School" and its two siblings), and
+    // `snapshotId`, which is a digest of those. Everything else — people,
+    // jurisdictions, the rest of history, every other field of every profile —
+    // is still required to match.
     const replay = buildProductionWorld({
       ...inputFor("Duluth", "MN", 35, "lives-alone"),
       seed: "w-context-legacy-171bb-duluth",
       earlierLifeGenerationVersion: undefined,
     }).world;
-    expect(serializeWorld(replay)).toBe(before);
+    expect(withoutShippedContent(serializeWorld(replay))).toBe(
+      withoutShippedContent(before),
+    );
   });
   it.each(cases)(
     "keeps %s %s family and known history without universal institutions",
