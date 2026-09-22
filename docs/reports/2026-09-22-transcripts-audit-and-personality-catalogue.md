@@ -7,22 +7,22 @@ an instruction to any engineering session.
 
 ## Sources actually read
 
-| Source | Extent read |
-| --- | --- |
-| `ChatGPT-Become_My_CTO-20260921-2343.json` | all 63 messages |
-| `ChatGPT-Merge_263_and_clean_PRs-20260921-2347.json` | all 79 messages |
-| `ChatGPT-OCD_Overnight_Report-20260921-2346.json` | all 116 messages |
-| `ChatGPT-Review_modular_generation-20260921-0050.json` | all 82 owner-authored prompts of 162 messages |
-| `Personality_Research_and_Catalogue.md` | all 912 lines |
-| `Personality_Research_Catalogue.xlsx` | four sheets, 121 / 29 / 17 rows |
-| Drive: *Our Civic Duty — Full-Game Audit — Review Edition 1.pdf* | cover to cover, all 20 chapters |
-| Drive: *05_OUR_CIVIC_DUTY_ORIGINAL_PRODUCT_VISION_INVARIANTS* | in full, all 22 invariants |
+| Source                                                           | Extent read                                   |
+| ---------------------------------------------------------------- | --------------------------------------------- |
+| `ChatGPT-Become_My_CTO-20260921-2343.json`                       | all 63 messages                               |
+| `ChatGPT-Merge_263_and_clean_PRs-20260921-2347.json`             | all 79 messages                               |
+| `ChatGPT-OCD_Overnight_Report-20260921-2346.json`                | all 116 messages                              |
+| `ChatGPT-Review_modular_generation-20260921-0050.json`           | all 82 owner-authored prompts of 162 messages |
+| `Personality_Research_and_Catalogue.md`                          | all 912 lines                                 |
+| `Personality_Research_Catalogue.xlsx`                            | four sheets, 121 / 29 / 17 rows               |
+| Drive: _Our Civic Duty — Full-Game Audit — Review Edition 1.pdf_ | cover to cover, all 20 chapters               |
+| Drive: _05_OUR_CIVIC_DUTY_ORIGINAL_PRODUCT_VISION_INVARIANTS_    | in full, all 22 invariants                    |
 
-Located but not yet read: *Continuous Coordinator — Complete Audit
-Knowledge.md* (368 KB, Drive `19lJ5ONFpvaK2vbSy5FoZ8SestUW_75I1`),
-*Continuous Coordinator — Audit and Skills Package.zip* (990 KB, Drive
+Located but not yet read: _Continuous Coordinator — Complete Audit
+Knowledge.md_ (368 KB, Drive `19lJ5ONFpvaK2vbSy5FoZ8SestUW_75I1`),
+_Continuous Coordinator — Audit and Skills Package.zip_ (990 KB, Drive
 `1X2XNIRptns55BhuaXf2g0T6MRBHYy9k0`), and
-*61B_CLAUDE_ORIGINAL_VISION_AND_DYNAMIC_CAUSAL_ARCHITECTURE_AUDIT* (Drive
+_61B_CLAUDE_ORIGINAL_VISION_AND_DYNAMIC_CAUSAL_ARCHITECTURE_AUDIT_ (Drive
 `1982313Yo3NKERYCBQsyszNfafSxi62UiIMWLoIWaH7A`). Nothing was unreachable.
 
 A note on "the 61 page audit". The printed review is **63 pages**, not 61.
@@ -355,7 +355,7 @@ describes.
 **What is not personality.** 29 separately listed concepts — interests,
 values, goals, moods and states, relationship states, skills, identity,
 appearance, clinical labels, roles, out-of-setting material. This is the more
-useful half. It says what must *not* become a trait row, which is the failure
+useful half. It says what must _not_ become a trait row, which is the failure
 mode a 121-entry catalogue would otherwise invite.
 
 **The coherent-person separation**: Temperament / Values / Goals and
@@ -365,7 +365,7 @@ Relationships and impressions. This matches the vision document's invariant 4
 argues rather than decides.
 
 **Leisure preference.** The catalogue's clearest concrete finding: the
-existing three-way switch conflates *what activity* with *who is present*, and
+existing three-way switch conflates _what activity_ with _who is present_, and
 should stop standing in for personality.
 
 **The five that exist map cleanly in.** Entries 040 Deliberate, 041 Impulsive,

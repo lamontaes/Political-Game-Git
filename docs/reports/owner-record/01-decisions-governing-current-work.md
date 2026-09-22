@@ -7,7 +7,7 @@ names the transcript and message index so it can be found in context.
 
 Sources: four ChatGPT exports (Merge 263, 2026-09-15; OCD Overnight,
 2026-09-15 to 09-17; Review modular generation, 2026-09-17 to 09-21; Become My
-CTO, 2026-09-21), the 63-page *Full-Game Audit — Review Edition 1*, the
+CTO, 2026-09-21), the 63-page _Full-Game Audit — Review Edition 1_, the
 personality catalogue, the original product vision invariants, and the project
 chat through 2026-09-22 04:14 UTC.
 
@@ -140,14 +140,14 @@ fullest statement, and it covers everything rather than only economics:
 3. **Unknown** — no source and no profile applies. Refuses.
 
 The middle state does not exist today for office qualifications, which is why
-absence collapses into refusal. The audit permits it at **JUR-003**: *"Other
+absence collapses into refusal. The audit permits it at **JUR-003**: _"Other
 consumers may admit separately approved fictional/game-profile behavior. They
-must be audited as those routes, not silently counted as sourced law."*
+must be audited as those routes, not silently counted as sourced law."_
 
-**Two boundaries.** First, the range governs *rules*; for observed *data* his
-older rule stands — merge263 [70]: *"Missing observations remain missing. They
+**Two boundaries.** First, the range governs _rules_; for observed _data_ his
+older rule stands — merge263 [70]: _"Missing observations remain missing. They
 do not become zero, an invented estimate or a graph line that conceals the
-gap."* Second, none of it is visible in play. **Project chat, 2026-09-22 00:36
+gap."_ Second, none of it is visible in play. **Project chat, 2026-09-22 00:36
 UTC:**
 
 > "there should be NO references to sources in the game. just display the info.
@@ -191,9 +191,9 @@ the night of 2026-09-21 rather than asking for them to be recreated.
 > be given to ChatGPT to come back with me, come back to with me. So it should
 > just ask me those questions."
 
-And at 04:13 UTC, of two questions this thread had put to him directly: *"This
+And at 04:13 UTC, of two questions this thread had put to him directly: _"This
 should be given to chat GPT... you should have gotten that from the main
-chat."*
+chat."_
 
 **Three kinds of question, three destinations.**
 
@@ -207,8 +207,8 @@ chat."*
   a disposition, how a system is balanced. Written as a research brief for
   **ChatGPT**, which comes back to him. Not to him from us.
 
-The trait count is the worked example. He gave a starting answer — *"start
-people with one or two traits and then... It will be adjusted"* — and said in
+The trait count is the worked example. He gave a starting answer — _"start
+people with one or two traits and then... It will be adjusted"_ — and said in
 the same breath that it will move, which is exactly the case for filing it
 rather than treating it as closed.
 
@@ -242,22 +242,22 @@ and nothing since has replaced it. This is the routing table.
 
 Read out as an ordering:
 
-| Rank | Area | His words |
-| --- | --- | --- |
-| **1A** | Relationships, personality, private goals, long-life memory | "Actually, this is number one. It's 1A and 1B. This is 1A." |
-| **1B** | A genuinely seated world | "out of this list, this is number one, I think" |
-| **Above the list** | UI and prose | "the UI and shit's number one in pros" |
-| **8–9 / 10** | Governing and legislative | "I would like to go to, like, an eight or nine out of ten" |
-| **High** | Map content; health, death, succession, disasters, crisis | "very high for me"; "pretty high up there. Just realism, really" |
-| **Core, must ship** | Party evolution, multi-generation play | "a core part of something that needs to be shipped" |
-| **5 / 10** | Party life | "about a five out of ten into that right now" |
-| **Low** | Ordinary life | "that's still pretty low for me. I'm not really worried about that right now" |
-| **Clear first** | Delivery picture, playtest debt, pork barrel | "should be completely cleared out now" |
+| Rank                | Area                                                        | His words                                                                     |
+| ------------------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| **1A**              | Relationships, personality, private goals, long-life memory | "Actually, this is number one. It's 1A and 1B. This is 1A."                   |
+| **1B**              | A genuinely seated world                                    | "out of this list, this is number one, I think"                               |
+| **Above the list**  | UI and prose                                                | "the UI and shit's number one in pros"                                        |
+| **8–9 / 10**        | Governing and legislative                                   | "I would like to go to, like, an eight or nine out of ten"                    |
+| **High**            | Map content; health, death, succession, disasters, crisis   | "very high for me"; "pretty high up there. Just realism, really"              |
+| **Core, must ship** | Party evolution, multi-generation play                      | "a core part of something that needs to be shipped"                           |
+| **5 / 10**          | Party life                                                  | "about a five out of ten into that right now"                                 |
+| **Low**             | Ordinary life                                               | "that's still pretty low for me. I'm not really worried about that right now" |
+| **Clear first**     | Delivery picture, playtest debt, pork barrel                | "should be completely cleared out now"                                        |
 
 Personality is 1A. That is the same system the playtest lane was told to
-examine on 2026-09-22 02:05 — *"look at people's personalities - how many are
+examine on 2026-09-22 02:05 — _"look at people's personalities - how many are
 there? do they actually affect the game? do they act? does dialogue change? how
-does it work with negotiation etc? i fiigure that system is very shallow"* —
+does it work with negotiation etc? i fiigure that system is very shallow"_ —
 and the same one the trait framework serves. It is not a side quest.
 
 ---
@@ -270,9 +270,9 @@ and the same one the trait framework serves. It is not a side quest.
 > at any time without explicit prior permission as long as you let me know
 > afterwards"
 
-merge263 [71]: *"As the technical director, you have complete authority. The
+merge263 [71]: _"As the technical director, you have complete authority. The
 fact that you have direct access to me versus agents puts you at a distinct
-advantage. So change whatever, at any time, as long as you let me know."*
+advantage. So change whatever, at any time, as long as you let me know."_
 
 **Explicitness — the PB&J rule.** overnight [81], the most-quoted directive he
 has given:
@@ -304,11 +304,11 @@ merge263 [36], the same rule stated as a correction:
 > for different things versus their token consumption. And high effort is not
 > always needed."
 
-**Merge posture.** merge263 [2]: *"small bugs and fixes should not keep us from
-merging. The goal is to merge, merge, merge."* merge263 [57]: *"if a couple of
+**Merge posture.** merge263 [2]: _"small bugs and fixes should not keep us from
+merging. The goal is to merge, merge, merge."_ merge263 [57]: _"if a couple of
 them have anything useful, write it in the docs or whatever, or we can pork
-barrel it later."* And the limit, audit OPS-002: *"A failing required check
-remains failing; do not erase tests or label an unrun check passed."*
+barrel it later."_ And the limit, audit OPS-002: _"A failing required check
+remains failing; do not erase tests or label an unrun check passed."_
 
 **Do not hold work back to test it.** overnight [63]:
 
@@ -355,18 +355,18 @@ remains failing; do not erase tests or label an unrun check passed."*
 > the gameplay systems, and stuff being hardcoded in is messing that behavior
 > up."
 
-Project chat 2026-09-21 23:02: *"PLEASE find anything else hardcoded in like
+Project chat 2026-09-21 23:02: _"PLEASE find anything else hardcoded in like
 names, bills, etc. stuff that shouldnt be hardcoded in when the point of the
-game is modularity."*
+game is modularity."_
 
-And the honest limit, ChatGPT merge263 [142]: *"'Zero detected by this
-restricted scan' is not 'the game is dehardcoded.'"*
+And the honest limit, ChatGPT merge263 [142]: _"'Zero detected by this
+restricted scan' is not 'the game is dehardcoded.'"_
 
 **Modder-friendly is the shape of the whole thing.** Project chat 2026-09-22
-03:02: *"i have mentioned that i want this game to be like rimworld and the
-sims - super modder friendly."* And 03:01: *"i want the trait system itself.
+03:02: _"i have mentioned that i want this game to be like rimworld and the
+sims - super modder friendly."_ And 03:01: _"i want the trait system itself.
 not those 5 hardwired. built the connectors for later traits and effects etc.
-that goes with all systems."*
+that goes with all systems."_
 
 **No developer-facing language in play.** merge263 [2]:
 
@@ -374,9 +374,9 @@ that goes with all systems."*
 > not know this, or whatever, or no, no acting this blood because your character
 > does not know this, or anything like that. I don't want that."
 
-With the rule that must not be broken in response, ChatGPT merge263 [3]: *"DO
+With the rule that must not be broken in response, ChatGPT merge263 [3]: _"DO
 NOT remove the underlying knowledge, authority, privacy or evidence logic. That
-logic remains authoritative and should normally operate silently."*
+logic remains authoritative and should normally operate silently."_
 
 **The world happens around you.** overnight [87]:
 
@@ -397,13 +397,13 @@ overnight [89]:
 > "you should not be able to tell me what event could happen based on my world
 > if you run a thousand simulations."
 
-**Not everything cascades.** overnight [87]: *"Not everything has to affect
+**Not everything cascades.** overnight [87]: _"Not everything has to affect
 everything. There can be a budget cut that doesn't affect transit or housing or
-something, or something can just be straight up ineffective."*
+something, or something can just be straight up ineffective."_
 
-**One cause, many consequences, never duplicated.** overnight [89]: *"I want to
+**One cause, many consequences, never duplicated.** overnight [89]: _"I want to
 make sure that it's not duplicating, but its effects are having realistic
-butterfly effects."*
+butterfly effects."_
 
 **Lying is player agency.** merge263 [63]:
 
@@ -412,9 +412,9 @@ butterfly effects."*
 > click lie, or you can click from memory, or something like that. ... But
 > broadly, yes, you should be able to lie."
 
-With ChatGPT's constraint, merge263 [64]: *"there is no magical lie detector"*
-and *"lying should not be implemented by slapping lie=true onto the current NPC
-Claim."*
+With ChatGPT's constraint, merge263 [64]: _"there is no magical lie detector"_
+and _"lying should not be implemented by slapping lie=true onto the current NPC
+Claim."_
 
 **Generate on demand, not all at once.** merge263 [63]:
 
@@ -431,12 +431,12 @@ Claim."*
 > affect it. But if you mean, like, if you travel to an event and then do an
 > interview, yes, everything should change."
 
-**Generational play, Crusader Kings model.** overnight [85]: *"If you make a
+**Generational play, Crusader Kings model.** overnight [85]: _"If you make a
 save before, but once the character's dead, it's dead. I'm thinking of Crusader
-Kings."* overnight [87], the full model, on the succession choice: *"Do you be
+Kings."_ overnight [87], the full model, on the succession choice: _"Do you be
 your vice president? Do you be the upcoming person? Or do you be a child?
 That's a cool decision to make when you die. It keeps you invested in an
-ever-changing world."*
+ever-changing world."_
 
 **Campaigns must not be a math problem.** overnight [87]:
 
@@ -447,9 +447,9 @@ ever-changing world."*
 > that needs to be in these packets so that we make sure that it's not a math
 > problem. Or if it is, it's one that makes sense in the world."
 
-**Money needs a reason.** overnight [89]: *"corruption should not be the reason
+**Money needs a reason.** overnight [89]: _"corruption should not be the reason
 wealth exists. Corruption should exist because there is a value to that wealth.
-That is not click button, win election."*
+That is not click button, win election."_
 
 ---
 
@@ -490,24 +490,24 @@ That is not click button, win election."*
 > something like, you know, state, federal, local, and then you should be able to
 > choose legislative, judicial, executive."
 
-**Creator ordering.** overnight [17]: *"It should have you—it should do gender
+**Creator ordering.** overnight [17]: _"It should have you—it should do gender
 first: gender, name, birthday, age. That's how it should go. And there should be
 some thing somewhere that tells you that you're starting on January—what is it?
 1st or 5th, 2026? ... And so you should put in your birth month, day, and year,
-and then it should say you will start the game at this years old."*
+and then it should say you will start the game at this years old."_
 
-**Hair, skin and face are independent.** overnight [17]: *"the hairstyle follows
-the face. That shouldn't happen. These should all be individual."* and *"the
-skin tone needs to be a separate thing."*
+**Hair, skin and face are independent.** overnight [17]: _"the hairstyle follows
+the face. That shouldn't happen. These should all be individual."_ and _"the
+skin tone needs to be a separate thing."_
 
-**Ken Burns, turned up.** overnight [20]: *"I like the still pan and zoom. Like
+**Ken Burns, turned up.** overnight [20]: _"I like the still pan and zoom. Like
 I said, it's the Ken Burns style. It can honestly be turned up a little bit,
-like 15-20%."* And on the crossfade: *"it's like a big jump, and I believe
-that's from the perspective of the picture."*
+like 15-20%."_ And on the crossfade: _"it's like a big jump, and I believe
+that's from the perspective of the picture."_
 
-**Occupants stay seated while you browse.** overnight [20]: *"I think occupants
+**Occupants stay seated while you browse.** overnight [20]: _"I think occupants
 should remain visible in natural seated positions while you browse menus and
-stuff. Full body figures can appear when needed."*
+stuff. Full body figures can appear when needed."_
 
 **Inline civics helper and an in-game encyclopedia.** overnight [95]:
 
@@ -521,9 +521,9 @@ stuff. Full body figures can appear when needed."*
 the last playtest** — overnight [17] and [20]: the shading behind the title, the
 "uncommitted" build label at the top, the "V.2.0" label, the black box behind
 the creator, the back button wired to custom start, the top-bar element
-(*"Remember, this up here needs to be completely removed. There's no reason this
-should be here."*), Taxes and public receipts as a player-facing form
-(*"I shouldn't be entering this kind of information"*), and Transit service as
+(_"Remember, this up here needs to be completely removed. There's no reason this
+should be here."_), Taxes and public receipts as a player-facing form
+(_"I shouldn't be entering this kind of information"_), and Transit service as
 its own menu entry.
 
 ---
@@ -556,14 +556,14 @@ its own menu entry.
 > filters and stuff, it's really messy. It's not very human-centric UI, really.
 > And then I don't think any of the buttons work."
 
-**Pre-load the bench.** overnight [95]: *"I would love if the art bench is
+**Pre-load the bench.** overnight [95]: _"I would love if the art bench is
 prepped with like fifty to a hundred different things, right? So it can fix the
 modular generation first and then just start generating scenes and modular
-pieces and UI stuff and screens."*
+pieces and UI stuff and screens."_
 
-**Generation needs real references.** overnight [81]: *"when it does this stuff,
+**Generation needs real references.** overnight [81]: _"when it does this stuff,
 it should look for images of the stuff it's trying to replace it with or fix, so
-that way it has a reference. ... It needs real stuff."*
+that way it has a reference. ... It needs real stuff."_
 
 **Plausible, not recognisable.** merge263 [34]:
 
@@ -587,19 +587,19 @@ that way it has a reference. ... It needs real stuff."*
 > corners of the mouth, here's what smiling looks like, and so this is how you
 > make characters smile, plus the eyes and all that."
 
-**Presidential poses.** overnight [9]: *"I wouldn't mind if there were three or
+**Presidential poses.** overnight [9]: _"I wouldn't mind if there were three or
 four poses that the president could take, like one maybe like an action one where
 they're pointing, one sitting at the Resolute desk, you know, one among a bunch
 of people, and maybe, like just a regular portrait or something. Maybe depending
-on the personality of the president or something, or maybe just random."*
+on the personality of the president or something, or maybe just random."_
 
-**Fifty state capitals, eventually.** overnight [9]: *"It would probably be best
+**Fifty state capitals, eventually.** overnight [9]: _"It would probably be best
 to do 50 state capitals, uh, scenes, but local stuff we can have, like, again,
 just like the parks or whatever, localized scenes for certain parts in the
-country."*
+country."_
 
-**Only he approves pixels.** Audit DESK-001: *"Only Lamontae approves exact
-pixels. A changed child does not inherit its parent's approval."*
+**Only he approves pixels.** Audit DESK-001: _"Only Lamontae approves exact
+pixels. A changed child does not inherit its parent's approval."_
 
 ---
 
@@ -621,24 +621,24 @@ and the clock contract (PLACE-001, TIME-001).
 
 **Implemented differently from what he described, and the difference matters.**
 
-- *Legislation exists as text and reaches nobody.* LAW-001: *"These are types of
-  proposals the compiler can form, not 43 enacted statutes."* PR #282's own
-  disclosure: "No shipped surface consumes bundles yet." Against his *"I want
-  legislation to start being implemented too."*
-- *Jurisdiction coverage is three different layers being counted as one.*
+- _Legislation exists as text and reaches nobody._ LAW-001: _"These are types of
+  proposals the compiler can form, not 43 enacted statutes."_ PR #282's own
+  disclosure: "No shipped surface consumes bundles yet." Against his _"I want
+  legislation to start being implemented too."_
+- _Jurisdiction coverage is three different layers being counted as one._
   JUR-002. A governor identity exists for all fifty states; a compiled
   legislative pack exists for nine; an executive-authority pack for five plus
-  federal. His *"all 50 states. That keeps being bottlenecked"* (overnight [20])
+  federal. His _"all 50 states. That keeps being bottlenecked"_ (overnight [20])
   is about the third layer, not the first.
-- *The trait system is five compiled-in constants where he asked for a system.*
-  PEOPLE-001 lists the five. Project chat 2026-09-22 03:01: *"i want the trait
-  system itself. not those 5 hardwired."*
-- *Leisure preference stands in for personality.* The catalogue's clearest
+- _The trait system is five compiled-in constants where he asked for a system._
+  PEOPLE-001 lists the five. Project chat 2026-09-22 03:01: _"i want the trait
+  system itself. not those 5 hardwired."_
+- _Leisure preference stands in for personality._ The catalogue's clearest
   finding: the three-way switch conflates what the activity is with who is
   present.
-- *The journal is a log where he asked for a chronicle.* overnight [20], quoted
+- _The journal is a log where he asked for a chronicle._ overnight [20], quoted
   in full above.
-- *Approved regional art has no consumer.* Five approved scenes; the panel all
+- _Approved regional art has no consumer._ Five approved scenes; the panel all
   twenty-three requests name paints no plate.
 
 **Never touched.** These are the ones he is asking about, and nobody has
@@ -649,7 +649,7 @@ produced the list before:
   to see the Squad, the Tea Party, the Libertarians, Bernie caucusing with
   Democrats. Nothing implements it.
 - **Multi-generation play beyond the writers.** Birth, adoption and control
-  transfer exist (PEOPLE-008); the succession *choice* he describes in overnight
+  transfer exist (PEOPLE-008); the succession _choice_ he describes in overnight
   [87] — vice president, protégé, child — does not.
 - **The in-game encyclopedia and inline civics helper**, overnight [95]. Not
   started.
@@ -665,8 +665,8 @@ produced the list before:
   want, never scoped.
 - **The campaign as a human problem rather than a formula.** The audit's
   CAMP-001 describes the weekly plan; ChatGPT's overnight [86] finding is the
-  sharp one: *"The function cannot express 'they heard you clearly, understood
-  your position, and disliked it.'"*
+  sharp one: _"The function cannot express 'they heard you clearly, understood
+  your position, and disliked it.'"_
 
 ---
 
@@ -675,17 +675,17 @@ produced the list before:
 Checked at `origin/main` = `273fd2b8` on 2026-09-22. Naming the tree matters
 here: several of these are true of one branch and false of another.
 
-| Finding, and where it was named | State on `origin/main` `273fd2b8` |
-| --- | --- |
-| Hidden time-jump constants producing "How did we go to April?" (overnight [21]) | **STILL PRESENT.** `QUIET_ADULT_STEPS: readonly number[] = [31, 47, 78, 124]` at `src/presentation/life-story.ts:803` |
-| Person contact always unavailable (overnight [86]) | **STILL PRESENT.** `const contactAvailable = false;` at `src/presentation/person-contact.ts:81`, read at line 136 |
-| Agent actions recorded as the owner (overnight [39]) | **FIXED.** `src/ui/ArtDeskView.tsx:150` now reads `{ kind: "owner", id: ownerSession?.ownerId ?? "unknown" }` rather than a hardcoded `"lamontae"` |
-| Art Desk hardwiring `privatePackPath: undefined` (overnight [25]) | **GONE from main** — no occurrence of `privatePackPath` in `src/` at this head. Whether the "no bytes" display he saw is fixed is a separate question about his installed build |
-| 435 House and 33 Senate seats with no recorded holder (overnight [21]) | Not re-measured here. ChatGPT's distinction stands and is the important part: *"'No recorded holder' is not the same as 'vacant.'"* |
-| Executive-authority packs for five states only (overnight [66]) | Registry present at `src/simulation/executive-authority-rule-packs.ts`; the pack count was not re-counted at this head |
-| Filing sets the election to exactly 28 days after filing (overnight [21]) | Not re-checked |
-| The RNG can return zero, so `-log(0)` is infinity in mortality (overnight [84]) | Not re-checked |
-| `#266`'s magic constants — 85% House / 80% Senate incumbent return, retirement threshold 82, 75% party retention, `staffAssessment` deriving competence from a person ID hash (overnight [92]) | Not re-checked. The audit's GOV-003 says the person-ID-hash approach should be replaced with real evidence, and that the seam for it now exists |
+| Finding, and where it was named                                                                                                                                                                | State on `origin/main` `273fd2b8`                                                                                                                                               |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Hidden time-jump constants producing "How did we go to April?" (overnight [21])                                                                                                                | **STILL PRESENT.** `QUIET_ADULT_STEPS: readonly number[] = [31, 47, 78, 124]` at `src/presentation/life-story.ts:803`                                                           |
+| Person contact always unavailable (overnight [86])                                                                                                                                             | **STILL PRESENT.** `const contactAvailable = false;` at `src/presentation/person-contact.ts:81`, read at line 136                                                               |
+| Agent actions recorded as the owner (overnight [39])                                                                                                                                           | **FIXED.** `src/ui/ArtDeskView.tsx:150` now reads `{ kind: "owner", id: ownerSession?.ownerId ?? "unknown" }` rather than a hardcoded `"lamontae"`                              |
+| Art Desk hardwiring `privatePackPath: undefined` (overnight [25])                                                                                                                              | **GONE from main** — no occurrence of `privatePackPath` in `src/` at this head. Whether the "no bytes" display he saw is fixed is a separate question about his installed build |
+| 435 House and 33 Senate seats with no recorded holder (overnight [21])                                                                                                                         | Not re-measured here. ChatGPT's distinction stands and is the important part: _"'No recorded holder' is not the same as 'vacant.'"_                                             |
+| Executive-authority packs for five states only (overnight [66])                                                                                                                                | Registry present at `src/simulation/executive-authority-rule-packs.ts`; the pack count was not re-counted at this head                                                          |
+| Filing sets the election to exactly 28 days after filing (overnight [21])                                                                                                                      | Not re-checked                                                                                                                                                                  |
+| The RNG can return zero, so `-log(0)` is infinity in mortality (overnight [84])                                                                                                                | Not re-checked                                                                                                                                                                  |
+| `#266`'s magic constants — 85% House / 80% Senate incumbent return, retirement threshold 82, 75% party retention, `staffAssessment` deriving competence from a person ID hash (overnight [92]) | Not re-checked. The audit's GOV-003 says the person-ID-hash approach should be replaced with real evidence, and that the seam for it now exists                                 |
 
 Everything in the right-hand column marked "not re-checked" is a bounded
 verification job, not a research question.
@@ -694,9 +694,9 @@ verification job, not a research question.
 
 ## J. What could not be extracted
 
-- **The two companion files to the audit** — *Continuous Coordinator — Complete
-  Audit Knowledge.md* (368 KB, Drive `19lJ5ONFpvaK2vbSy5FoZ8SestUW_75I1`) and
-  *Audit and Skills Package.zip* (990 KB, Drive
+- **The two companion files to the audit** — _Continuous Coordinator — Complete
+  Audit Knowledge.md_ (368 KB, Drive `19lJ5ONFpvaK2vbSy5FoZ8SestUW_75I1`) and
+  _Audit and Skills Package.zip_ (990 KB, Drive
   `1X2XNIRptns55BhuaXf2g0T6MRBHYy9k0`) — are located and readable but not yet
   read. They hold the audit's coverage CSVs, all forty-three law variants, all
   sixty judicial entries and the fifty-one jurisdiction rows in tabular form.
@@ -712,6 +712,7 @@ verification job, not a research question.
   for its findings, and measure at the current head before planning anything
   from it. Read in full 2026-09-22; what survives is in
   `07-tasks-making-the-game-alive.md`, appendix.
+
 - **Inside the "Review modular generation" export**, 82 of 162 messages are his.
   A large share of those are pastes of agent delivery reports with his own words
   appended at the end; the verbatim file marks what could be identified and
