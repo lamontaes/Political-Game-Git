@@ -392,24 +392,41 @@ are. It is rejected. It would be one more fact the game asserts about somebody
 without having observed it, which is the error this whole document keeps
 circling, and it would explain nothing to a player.
 
-`PersonalityTendencyRecord` already carries `supersedesTendencyId` and
-`recordedAt`, so the chain of records for one person on one trait _is_ that
-person's history on it. Resistance is read from that chain:
+`PersonalityTendencyRecord` already carries a `strength` — the word the store
+writes to say whether a lean is subtle or defining — along with
+`supersedesTendencyId` and `recordedAt`, so the chain of records for one person
+on one trait _is_ that person's history on it. Resistance is read from that
+chain:
 
+- **How strongly the person holds it.** The owner's answer, 2026-09-22, to what
+  the pacing should depend on: "it should just depend on how strongly that
+  trait is to them." A faint lean and a defining one are not equally hard to
+  shift, and the strength is already on the record, so saying it costs nothing
+  new and asserts nothing unobserved.
 - **How long the current value has stood.** Somebody who has been this way for
   nine years is not moved by one afternoon. Somebody whose value was written
-  last month is.
-- **How often it has already moved.** A person whose temperament has shifted
-  twice is more movable than one whose never has, which is both true to life
-  and self-limiting: a character does not oscillate, because each move makes
-  the next one need more.
+  last month is more movable — though never free, because a value that resisted
+  nothing the week it was written would let a character swing straight back.
 - **What the pack says about the trait.** A pack declares how movable a trait
   is at all, because some dispositions are more fundamental than others, and
-  that is the pack author's judgement rather than the engine's.
+  that is the pack author's judgement rather than the engine's. Every number a
+  change is weighed against lives in `TraitMovability`; the engine holds none
+  of them.
 
 Two people who have lived differently therefore resist differently, from
 records that already exist. Nothing is invented, and the reason is always
-sayable: _she has been like this for as long as anyone has known her._
+sayable: _she has been like this for as long as anyone has known her, and she
+holds it strongly._
+
+**Retired, 2026-09-22: a permanent cost for every move ever made.** The first
+shape added a fixed amount to resistance for each time a person's value had
+already changed. It was there to stop oscillation and it did, but it also meant
+somebody who had lived through things became progressively unreachable — a life
+made of events ending in a character no event could touch, which is the
+opposite of the requirement that every character can change. Oscillation is
+held off by the settling clock instead. Prior moves are still counted and still
+said out loud, because they are true about the person; they no longer harden
+them.
 
 ### A change is a force meeting a resistance, and the failure is a fact
 
@@ -418,11 +435,46 @@ change. If force exceeds resistance the value moves, as now. If it does not,
 **the attempt is recorded rather than discarded** — an ordinary world event
 saying this happened and did not change them.
 
-That record is the point, not bookkeeping. It makes accumulated pressure the
-thing that moves people: one argument does not change somebody, and the same
-argument for the tenth time does. It also keeps the game honest about what it
+That record is the point, not bookkeeping. It makes accumulated experience the
+thing that moves people: one argument does not change somebody, and a life that
+keeps arguing the same way does. It also keeps the game honest about what it
 knows, because "this kept happening to her and she did not budge" is a fact
 about a life, and a system that dropped the failures could never say it.
+
+### Repetition is not evidence
+
+**Corrected, 2026-09-22.** The first version of the paragraph above said "and
+the same argument for the tenth time does", and the code meant it literally:
+pressure was the number of failed attempts, added to the force without a bound.
+Ten attempts in one afternoon therefore carried ten times the weight of one,
+and persistence alone eventually moved anybody — a click counter wearing the
+clothes of a life. Both halves are now bounded, and `traitChangePressure` reads
+two things instead of counting attempts:
+
+- **A separate experience.** An attempt from a context that already argued this
+  way fewer than the pack's `experienceSpacingDays` ago is the same experience
+  continuing, and adds nothing. The producer names the context — for a rebuffed
+  ask it is who did the rebuffing — and it is written on the event, so the
+  reason stays readable afterwards, and so one season can hold one experience
+  from each of several people rather than one in total.
+- **Time.** How many spacing periods separate the first counted experience from
+  the last. This is the one that cannot be hurried, and it is what makes the
+  whole thing a life: somebody becomes a person who reaches out less over years
+  of being turned down, not over a fortnight of it.
+
+The pressure is the smaller of the two, less one, because the first experience
+is the thing that happened rather than pressure behind it. The pack then caps
+the whole, which is what makes the guarantee statable: a value held as
+`defining` resists the weakest force plus the maximum the cap allows, for as
+long as anyone cares to keep at it, and moves only when something argues
+harder. Both halves are asserted in `trait-resistance.test.ts`.
+
+**Variety is deliberately not a gate of its own.** Requiring that several
+different corners of a life argue before any of it counts reads well and was
+proposed, but the running game has exactly one producer — being turned down by
+the person you keep asking — so that rule would have left nobody's temperament
+able to move at all. That is not a stricter rule, it is a dead one. Variety
+reaches the count sooner instead.
 
 ### Two write paths, and which one play uses
 

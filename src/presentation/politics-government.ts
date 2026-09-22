@@ -16,7 +16,9 @@ import {
 } from "../simulation/municipal-government";
 import { stateExecutiveOffice } from "../simulation/nationwide-world/state-executives";
 import { projectCongress } from "../simulation/living-world/congress";
+import { organizationNameAt } from "../simulation/living-world/party-registry";
 import type {
+  ChamberView,
   CongressView,
   SeatView,
 } from "../simulation/living-world/contract";
@@ -86,6 +88,48 @@ export interface GovernmentSeatCounts {
   readonly noCurrentRecord: number;
 }
 
+/**
+ * How a chamber divides, and where those two divisions disagree.
+ *
+ * A chamber has two memberships and they are not the same fact. Party is who a
+ * member says they belong to; caucus is who they sit and count with inside this
+ * chamber. For most members the two agree and the caucus breakdown only repeats
+ * the party bar. The members it does not agree for are the reading worth having
+ * — an independent who counts with one of the two, a member of a party too
+ * small to have its own caucus — and they are listed by name rather than left
+ * to be inferred from a difference between two totals.
+ *
+ * Every line is derived from seat records on the read. Nothing is stored, and a
+ * chamber whose save records no caucus at all says so and still shows its
+ * parties.
+ */
+export interface ChamberStanding {
+  readonly key: string;
+  readonly label: string;
+  readonly members: number;
+}
+
+/** One member whose caucus is not their party. Named, because that is the point. */
+export interface ChamberCrossing {
+  readonly key: string;
+  readonly personId: EntityId;
+  readonly name: string;
+  readonly seatLabel: string;
+  /** Null when the save records no party for them at all. */
+  readonly partyLabel: string | null;
+  readonly caucusLabel: string;
+}
+
+export interface ChamberStandings {
+  readonly parties: readonly ChamberStanding[];
+  readonly caucuses: readonly ChamberStanding[];
+  readonly crossings: readonly ChamberCrossing[];
+  /** Said plainly when the save records no caucus for any member here. */
+  readonly caucusNote: string | null;
+  /** Said plainly when every member's caucus matches their party. */
+  readonly crossingNote: string | null;
+}
+
 /** A saved legislative record the measure card already opens. */
 export interface GovernmentRecordLink {
   readonly key: string;
@@ -102,6 +146,8 @@ export interface GovernmentEntry {
   /** Present for a chamber whose seats the save records. */
   readonly counts?: GovernmentSeatCounts;
   readonly roster?: readonly GovernmentSeatRow[];
+  /** Present for a chamber: how it divides by party and by caucus. */
+  readonly standings?: ChamberStandings;
   /** Said plainly when a body exists but no member roster is recorded. */
   readonly rosterNote?: string;
   readonly records?: readonly GovernmentRecordLink[];
@@ -422,6 +468,7 @@ function federalBranches(world: World): {
           noCurrentRecord: chamber.totals.noCurrentRecord,
         },
         roster: chamber.seats.map((seat) => seatRow(world, seat)),
+        standings: chamberStandings(world, chamber),
       }))
     : [];
   const president = holderEntry(
@@ -458,6 +505,112 @@ function federalBranches(world: World): {
 
 function stateNameFor(usps: string): string {
   return stateJurisdictionForKey(`US-${usps}`)?.name ?? usps;
+}
+
+/**
+ * The party key behind a living-world organization, read from its own stable
+ * key. A national party is `party:<key>`; a chamber caucus is
+ * `caucus:<chamber>:<key>`. Comparing the two organization ids directly would
+ * say every member crosses, because a party and a caucus are different
+ * organizations even when they stand for the same party.
+ */
+function partyKeyOf(
+  world: World,
+  organizationId: EntityId | null,
+): string | null {
+  if (!organizationId) return null;
+  const organization = world.history.organizations.find(
+    (candidate) => candidate.id === organizationId,
+  );
+  if (!organization) return null;
+  const parts = organization.stableKey.split(":");
+  const kind = parts.indexOf("party") >= 0 ? "party" : "caucus";
+  const at = parts.indexOf(kind);
+  if (at < 0) return null;
+  // party:<key> and caucus:<chamber>:<key> both end with the key.
+  return parts[parts.length - 1] ?? null;
+}
+
+function standingsFor(
+  world: World,
+  entries: readonly {
+    readonly organizationId: EntityId | null;
+    readonly members: number;
+  }[],
+  unnamed: string,
+): readonly ChamberStanding[] {
+  return entries.map((entry) => ({
+    key: entry.organizationId ?? "none",
+    label: entry.organizationId
+      ? (organizationNameAt(world, entry.organizationId) ??
+        "Another organization")
+      : unnamed,
+    members: entry.members,
+  }));
+}
+
+/** How a chamber divides, and the members whose caucus is not their party. */
+function chamberStandings(
+  world: World,
+  chamber: ChamberView,
+): ChamberStandings {
+  const parties = standingsFor(
+    world,
+    chamber.totals.byParty.map((entry) => ({
+      organizationId: entry.partyOrganizationId,
+      members: entry.members,
+    })),
+    "No recorded party",
+  );
+  const caucuses = standingsFor(
+    world,
+    chamber.totals.byCaucus.map((entry) => ({
+      organizationId: entry.caucusOrganizationId,
+      members: entry.members,
+    })),
+    "No recorded caucus",
+  );
+  const anyCaucusRecorded = chamber.totals.byCaucus.some(
+    (entry) => entry.caucusOrganizationId !== null,
+  );
+  const crossings: ChamberCrossing[] = [];
+  for (const seat of chamber.seats) {
+    if (seat.occupant.kind !== "member") continue;
+    const { member } = seat.occupant;
+    const partyKey = partyKeyOf(world, member.partyOrganizationId);
+    const caucusKey = partyKeyOf(world, member.caucusOrganizationId);
+    if (caucusKey === null || caucusKey === partyKey) continue;
+    crossings.push({
+      key: seat.seatKey,
+      personId: member.personId,
+      name: member.personName,
+      seatLabel: seatLabelFor(seat),
+      partyLabel: member.partyOrganizationId
+        ? (organizationNameAt(world, member.partyOrganizationId) ??
+          "Another party")
+        : null,
+      caucusLabel:
+        organizationNameAt(world, member.caucusOrganizationId as EntityId) ??
+        "Another caucus",
+    });
+  }
+  crossings.sort(
+    (left, right) =>
+      left.caucusLabel.localeCompare(right.caucusLabel) ||
+      left.seatLabel.localeCompare(right.seatLabel),
+  );
+  return {
+    parties,
+    caucuses: anyCaucusRecorded ? caucuses : [],
+    crossings,
+    caucusNote: anyCaucusRecorded
+      ? null
+      : "No caucus is recorded for anyone in this chamber.",
+    crossingNote:
+      anyCaucusRecorded && crossings.length === 0
+        ? "Every member here caucuses with their own party."
+        : null,
+  };
 }
 
 const SENATE_CLASS = ["", "I", "II", "III"] as const;

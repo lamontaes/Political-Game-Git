@@ -29,7 +29,7 @@
           "05_4K_SOURCE_MASTERS/05B_BODY_HEAD_SOURCE_SHEETS",
           "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS"
         ],
-        "found": "Four standing cells arrived on the Packet 71 body sheet — two standing-neutral and two standing-conversational — in one consistent family measured at 6.8 to 7.2 heads tall. The figures are right. The silhouette is not: it carries a green contour on 67 to 80 percent of its soft-edge pixels, which the approved style authority does not have and which is plainly visible at the ~250 plate pixels a body actually paints at. Reconciled against the preserved assets: seven adult morphologies are now banked and measured - fat, skinny, average and older figures across both presentations, plus a three-pose supplement - as fifty-one morphology-reference components inside a hundred-and-eleven-component review.",
+        "found": "Four standing cells arrived on the Packet 71 body sheet \u2014 two standing-neutral and two standing-conversational \u2014 in one consistent family measured at 6.8 to 7.2 heads tall. The figures are right. The silhouette is not: it carries a green contour on 67 to 80 percent of its soft-edge pixels, which the approved style authority does not have and which is plainly visible at the ~250 plate pixels a body actually paints at. Reconciled against the preserved assets: seven adult morphologies are now banked and measured - fat, skinny, average and older figures across both presentations, plus a three-pose supplement - as fifty-one morphology-reference components inside a hundred-and-eleven-component review.",
         "shortfall": "The cells are banked under art/generated/candidates/ocd-p71/bodies with per-cell measurements in art/qa/p71/source_intake_dispositions.json. Every one is REVISE. No attachment anchors are authored, because D-068 requires them measured from the raster that ships and this raster is being re-exported. The preserved morphologies do not answer it either: every one of the hundred and eleven components reports eligibleAsProductionCharacterBody false, because each source cell sits under the 1696x2528 standing floor and the pipeline never enlarges a raster."
       },
       "target": {
@@ -140,7 +140,7 @@
       },
       "generationRecipe": [
         "Standing bodies at two ages that read clearly as different: roughly middle childhood and roughly mid-adolescence.",
-        "Age is carried by proportion — head-to-body ratio, limb length, shoulder width — not by shrinking an adult.",
+        "Age is carried by proportion \u2014 head-to-body ratio, limb length, shoulder width \u2014 not by shrinking an adult.",
         "Ordinary everyday clothing appropriate to the age, nothing costumed.",
         "True transparency; same rendering language as the adult bodies."
       ],
@@ -218,9 +218,9 @@
         "driveLocationsSearched": [
           "05_4K_SOURCE_MASTERS/05D_SCENE_ENVIRONMENT_MASTERS",
           "05_4K_SOURCE_MASTERS/05Y_REJECTED_HIGH_RES_CALIBRATION",
-          "Our Civic Duty — ChatGPT Continuity/Stage 6.5 Visual Review — Render Evidence"
+          "Our Civic Duty \u2014 ChatGPT Continuity/Stage 6.5 Visual Review \u2014 Render Evidence"
         ],
-        "found": "The 1672x941 illustrated master, banked and registered here. A 5568x3008 Topaz variant exists in Drive and is filed under rejected high-resolution calibration as photoreal drift. A CANDIDATE ARRIVED DURING THIS RUN: Drive root IMG_5189.JPG, 5504x3072 JPEG, uploaded 2026-09-04 14:20. Wood-panelled private study with a fireplace, a large desk, leather wingback chairs and windows onto trees — and, critically, no capitol dome, no state flag and no seal, which is what the generic requirement in this request was about. It clears the 4608px floor. Unclassified Drive-root upload with no managed copy: measured, not ingested. Reconciled against the preserved assets: IMG_5189.JPG, an empty executive-office candidate at 5504x3072, is in the repository and clears the 4608 environment master floor on width.",
+        "found": "The 1672x941 illustrated master, banked and registered here. A 5568x3008 Topaz variant exists in Drive and is filed under rejected high-resolution calibration as photoreal drift. A CANDIDATE ARRIVED DURING THIS RUN: Drive root IMG_5189.JPG, 5504x3072 JPEG, uploaded 2026-09-04 14:20. Wood-panelled private study with a fireplace, a large desk, leather wingback chairs and windows onto trees \u2014 and, critically, no capitol dome, no state flag and no seal, which is what the generic requirement in this request was about. It clears the 4608px floor. Unclassified Drive-root upload with no managed copy: measured, not ingested. Reconciled against the preserved assets: IMG_5189.JPG, an empty executive-office candidate at 5504x3072, is in the repository and clears the 4608 environment master floor on width.",
         "shortfall": "1672 is below the 4608 environment master minimum and is not a production plate. The larger files are a rejected photoreal style and IMG_5189.JPG, and neither is an answer yet: IMG_5189.JPG clears the 4608 floor on width, but its style has not been judged, no environment intake has been run on it and it carries no declared source lineage. Clearing a dimension floor is not acceptance. It is assessed before anything new is commissioned for this room."
       },
       "target": {
@@ -268,7 +268,7 @@
           "05_4K_SOURCE_MASTERS/05D_SCENE_ENVIRONMENT_MASTERS",
           "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/10_SCENES"
         ],
-        "found": "No accepted master is a campaign space; the nearest banked rooms are a domestic living room and a public meeting hall. Three swept candidates do bear on this room and are in the repository. IMG_5190.JPG and IMG_5207.JPG, both 5504x3072, are different JPEG bytes that decode to identical pixels — one picture encoded twice, not two variants — and both carry the baked readable text this request forbids: a 'FIELD OFFICE' window sign and 'supplies' printed on two boxes. A blank unlabelled US map outline on the whiteboard is decor rather than information and is acceptable. IMG_5205.JPG, also 5504x3072, is a different room and the closer candidate: a storefront in use as a phone bank, with folding tables, mismatched chairs, desk phones, stacked boxes whose labels are blank, a blank corkboard and a blank whiteboard, empty of people, and no readable text found on inspection. All three are unclassified Drive-root uploads with no managed copy: measured, not ingested.",
+        "found": "No accepted master is a campaign space; the nearest banked rooms are a domestic living room and a public meeting hall. Three swept candidates do bear on this room and are in the repository. IMG_5190.JPG and IMG_5207.JPG, both 5504x3072, are different JPEG bytes that decode to identical pixels \u2014 one picture encoded twice, not two variants \u2014 and both carry the baked readable text this request forbids: a 'FIELD OFFICE' window sign and 'supplies' printed on two boxes. A blank unlabelled US map outline on the whiteboard is decor rather than information and is acceptable. IMG_5205.JPG, also 5504x3072, is a different room and the closer candidate: a storefront in use as a phone bank, with folding tables, mismatched chairs, desk phones, stacked boxes whose labels are blank, a blank corkboard and a blank whiteboard, empty of people, and no readable text found on inspection. All three are unclassified Drive-root uploads with no managed copy: measured, not ingested.",
         "shortfall": "IMG_5190.JPG and IMG_5207.JPG are a revision away rather than a regeneration: the same room without the window sign and the printed box labels, because baked signage text belongs to a declared dynamic surface slot and not to a plate. IMG_5205.JPG needs no revision on inspection, and the remaining blocker for it is assessment rather than generation: it has never been through npm run intake:environment, carries no declared source lineage, has not been judged against the accepted shared-workroom rendering language, and has no human acceptance. Clearing the written criteria is not acceptance. No new storefront may be commissioned until IMG_5205.JPG has been assessed and rejected."
       },
       "target": {
@@ -542,7 +542,7 @@
           "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS",
           "Drive root IMG_5178.PNG"
         ],
-        "found": "The 5056x3392 eight-pose sheet, measured here. Fully transparent pixels carry zero colour, so the background is clean; the defect is confined to the partially-transparent edge, where 67-80 percent of pixels per cell are green-dominant at a mean of roughly (43,79,30). It totals 8.4 percent of the figure's own opaque area. A CORRECTED SINGLE POSE ARRIVED DURING THIS RUN: Drive root IMG_5192.PNG, 5056x3392 RGBA, uploaded 2026-09-04 14:24. It is the standing-conversational pose from this same family with ZERO green-dominant soft-edge pixels, measured the same way — so the fix is confirmed possible and this request is now about re-exporting the remaining seven poses the same way. It is an unclassified Drive-root upload with no managed copy, so it was measured but NOT ingested. Reconciled against the preserved assets: IMG_5192.PNG is now in the repository rather than only in Drive, and it shows the green contour fix is achievable inside this art family.",
+        "found": "The 5056x3392 eight-pose sheet, measured here. Fully transparent pixels carry zero colour, so the background is clean; the defect is confined to the partially-transparent edge, where 67-80 percent of pixels per cell are green-dominant at a mean of roughly (43,79,30). It totals 8.4 percent of the figure's own opaque area. A CORRECTED SINGLE POSE ARRIVED DURING THIS RUN: Drive root IMG_5192.PNG, 5056x3392 RGBA, uploaded 2026-09-04 14:24. It is the standing-conversational pose from this same family with ZERO green-dominant soft-edge pixels, measured the same way \u2014 so the fix is confirmed possible and this request is now about re-exporting the remaining seven poses the same way. It is an unclassified Drive-root upload with no managed copy, so it was measured but NOT ingested. Reconciled against the preserved assets: IMG_5192.PNG is now in the repository rather than only in Drive, and it shows the green contour fix is achievable inside this art family.",
         "shortfall": "The approved style authority PG_STYLE_REFERENCE_CHARACTER_P005_APPROVED.png has no silhouette stroke of any colour, so this is out of family rather than house style. Removing it here would mean rewriting the colour of pixels I cannot verify the correct value of, which is a repair the pipeline should not make silently. IMG_5192.PNG does not close it: at 5056x3392 it is the same sheet resolution, so a clean re-export at that size still fails the body floor. The ask is a re-export at production resolution, not only a clean edge."
       },
       "target": {
@@ -578,7 +578,7 @@
         "runtimeComponent": "src/player/LegislationWorkspace.tsx",
         "playerVisibleUse": "Speaking at the rostrum lectern in the chamber, or at the lectern in the hearing room or the community hall."
       },
-      "whyNeeded": "Three production rooms now declare a lectern anchor — the chamber rostrum, the hearing room's testimony lectern and the community hall podium — and no released or candidate body can stand at any of them.",
+      "whyNeeded": "Three production rooms now declare a lectern anchor \u2014 the chamber rostrum, the hearing room's testimony lectern and the community hall podium \u2014 and no released or candidate body can stand at any of them.",
       "inventoryCheck": {
         "repositoryPathsSearched": [
           "art/generated/candidates/ocd-p71/bodies/",
@@ -590,7 +590,7 @@
         "driveLocationsSearched": [
           "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS"
         ],
-        "found": "Eight poses on the Packet 71 sheet, mapped cell by cell: two standing-neutral, two standing-conversational and four seated-guest-neutral. The pose control plate standing-podium-or-lectern__front.svg exists, so the contract and the drawing guide are both already here. Reconciled against the preserved assets: five banked components carry a baked lectern — the fat-man and additional-fat-female lectern-interaction cells, the average-man and older-woman interaction-surface cells, and the skinny-man standing_neutral_back cell.",
+        "found": "Eight poses on the Packet 71 sheet, mapped cell by cell: two standing-neutral, two standing-conversational and four seated-guest-neutral. The pose control plate standing-podium-or-lectern__front.svg exists, so the contract and the drawing guide are both already here. Reconciled against the preserved assets: five banked components carry a baked lectern \u2014 the fat-man and additional-fat-female lectern-interaction cells, the average-man and older-woman interaction-surface cells, and the skinny-man standing_neutral_back cell.",
         "shortfall": "The Packet 71 sheet provides no cell at a lectern, and the five banked lectern components do not answer it either: each carries the lectern baked into the figure and sits under the production body floor, which makes them reference for the pose rather than modular art a scene can compose."
       },
       "target": {
@@ -6479,8 +6479,8 @@
           "art/generated/candidates/wave-a-chairless/ (on claude/character-rendering-triage-19kvvz, where the automatic pass writes)"
         ],
         "driveLocationsSearched": [],
-        "found": "All four existing seated source plates are present in this checkout and were measured here: average-man 710x1653, fat-man 747x1607, skinny-man 697x1658, older-woman 669x1720, every one 8-bit RGBA. Each has a chair baked in where it touches the figure. The automatic separation has already been run against them — `npm run derive:seated-chairless` on claude/character-rendering-triage-19kvvz produces all four derivatives — and it removes everything floating free of the body and stops. No furniture-free seated body exists anywhere in the banks.",
-        "shortfall": "What the game needs is a seated body with no furniture attached to it. Nothing in the banks is one. Repairing the four existing plates is one route and is NOT the only one: a newly drawn seated figure with no chair satisfies the requirement as well, and more cheaply, which is why no generation hold is set on this request. The repair route is measurably hard, and both measurements were made rather than assumed: chair touching a thigh is inside the protection band by definition, so a connectivity-based separation has nothing to cut; and no threshold divides them, because the chair's mid-tones run 96 to 150 while the figure's own sub-knee edge pixels run 64 to 240. Raising the body-tone floor to 160 was tried, rendered and reverted — it takes the feet entirely and shreds the older woman's shins. Drive was not searched: the wave-a source sheets are in no cloud checkout, so a higher-resolution re-derivation cannot be attempted from here either."
+        "found": "All four existing seated source plates are present in this checkout and were measured here: average-man 710x1653, fat-man 747x1607, skinny-man 697x1658, older-woman 669x1720, every one 8-bit RGBA. Each has a chair baked in where it touches the figure. The automatic separation has already been run against them \u2014 `npm run derive:seated-chairless` on claude/character-rendering-triage-19kvvz produces all four derivatives \u2014 and it removes everything floating free of the body and stops. No furniture-free seated body exists anywhere in the banks.",
+        "shortfall": "What the game needs is a seated body with no furniture attached to it. Nothing in the banks is one. Repairing the four existing plates is one route and is NOT the only one: a newly drawn seated figure with no chair satisfies the requirement as well, and more cheaply, which is why no generation hold is set on this request. The repair route is measurably hard, and both measurements were made rather than assumed: chair touching a thigh is inside the protection band by definition, so a connectivity-based separation has nothing to cut; and no threshold divides them, because the chair's mid-tones run 96 to 150 while the figure's own sub-knee edge pixels run 64 to 240. Raising the body-tone floor to 160 was tried, rendered and reverted \u2014 it takes the feet entirely and shreds the older woman's shins. Drive was not searched: the wave-a source sheets are in no cloud checkout, so a higher-resolution re-derivation cannot be attempted from here either."
       },
       "target": {
         "targetClass": "character-component",
@@ -6488,10 +6488,10 @@
         "aspectRatio": "as-delivered: each plate returns at its own source dimensions (710x1653, 747x1607, 697x1658, 669x1720), because a hand pass returns the plate it was given",
         "alphaRequired": true,
         "container": "png",
-        "styleAuthority": "On the repair route, each plate's own source file, listed in the record's notes — a hand pass is judged against the original it was cut from. On the generation route, the same body-family authority as the rest of the wave-a set."
+        "styleAuthority": "On the repair route, each plate's own source file, listed in the record's notes \u2014 a hand pass is judged against the original it was cut from. On the generation route, the same body-family authority as the rest of the wave-a set."
       },
       "generationRecipe": [
-        "What is wanted is a seated adult body with NO furniture attached to it — no seat under the thighs, no chair leg against the shins. The scene supplies its own chair.",
+        "What is wanted is a seated adult body with NO furniture attached to it \u2014 no seat under the thighs, no chair leg against the shins. The scene supplies its own chair.",
         "Either route satisfies this. ROUTE A, generate: draw a new seated figure, from the front, with no chair in the frame at all. ROUTE B, repair: take the four existing plates and remove the chair pixels that touch the figure, restoring the leg and foot contour underneath rather than cutting around it.",
         "On route B specifically, an earlier automatic attempt removed about a pixel of the figure's own outline and the whole foot outline. That is what a threshold does to a contour and what a hand does not.",
         "Either way: 8-bit RGBA, transparent where furniture would have been, at a width no smaller than the plates it replaces."
@@ -6502,7 +6502,7 @@
         "The posture is already drawn and is NOT being changed; these cues describe the four plates as they stand, so a redraw in a different posture would not satisfy this. What is asked for is the removal of chair pixels where they touch the figure, with the leg and foot contour restored underneath.",
         "No furniture pixel anywhere against the legs, between the thighs, or beside the shins. The figure must be able to sit on a chair the room draws.",
         "The leg and foot outline is continuous and unbroken. A plate that has lost its foot outline, or a pixel of its own contour, is a failed delivery even if every chair pixel is gone.",
-        "At least 669 pixels wide — the narrowest of the four plates this would replace — with real per-pixel transparency.",
+        "At least 669 pixels wide \u2014 the narrowest of the four plates this would replace \u2014 with real per-pixel transparency.",
         "A genuinely seated posture: bent knees, horizontal thighs, shins vertical, soles on the floor. A standing figure with shortened legs is wrong even when its contact points land correctly."
       ],
       "dependsOn": []
@@ -6528,13 +6528,13 @@
           "src/environment/reference/corpus.ts"
         ],
         "driveLocationsSearched": [],
-        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here — cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.ky.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'jurisdiction-variant' and referencePack 'pending'.",
+        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here \u2014 cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.ky.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'jurisdiction-variant' and referencePack 'pending'.",
         "shortfall": "An identity is not a picture. The reference corpus can say which building this is and what must not be assumed about it, and it cannot put anything on the screen. Drive was not searched for this: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet. This one's reference pack is 'pending', so likeness cannot be judged until sourcing lands; the request is filed at P2 for that reason and is real either way."
       },
       "target": {
         "targetClass": "environment-plate",
         "minimumWidth": 2208,
-        "aspectRatio": "landscape, 3:2 or wider — matching the 2496x1664 and 2208x1584 plates already in this panel",
+        "aspectRatio": "landscape, 3:2 or wider \u2014 matching the 2496x1664 and 2208x1584 plates already in this panel",
         "alphaRequired": false,
         "container": "png",
         "styleAuthority": "The two regional opening plates already shipping in this panel, art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png and env_regional_sonoran_desert_v1.png, for drawing style; and the recorded building identity us.ky.capitol in src/environment/reference/corpus.ts for what the building is."
@@ -6544,7 +6544,7 @@
         "Leaf-on months: spring, summer or early autumn. No snow.",
         "This building is recorded as a jurisdiction variant, so a shared compositional approach is legitimate, but its own identifying features have to be right.",
         "No people, no vehicles in the foreground, no flags of any party or campaign. This is the building, not an event at it.",
-        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha — the panel paints it full-bleed behind text and has nothing to composite it over."
+        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha \u2014 the panel paints it full-bleed behind text and has nothing to composite it over."
       ],
       "acceptanceCriteria": [
         "Shows spring or summer or autumn. A delivery showing any other time of year is wrong, whatever else is right about it.",
@@ -6552,7 +6552,7 @@
         "Leaf-on months only. A winter view is a separate request wherever snow on the building is normal, because one plate cannot honestly stand for both and a bare-branch capitol shown in July is the same error as a summer canopy shown in January.",
         "Recognisably the Kentucky State Capitol to somebody who has seen it, not a generic statehouse.",
         "Shows spring, summer or autumn. A snow-covered or bare-branch delivery is wrong for this request whatever else is right about it.",
-        "At least 2208 pixels wide — the narrower of the two plates already shipping in this panel — in landscape orientation.",
+        "At least 2208 pixels wide \u2014 the narrower of the two plates already shipping in this panel \u2014 in landscape orientation.",
         "8-bit RGB. A delivery carrying an alpha channel is wrong: nothing composites behind this.",
         "Shows the building, not governing. A Capitol identity does not establish an everyday working office or a current occupant, and a delivery implying either has answered a different request."
       ],
@@ -6579,13 +6579,13 @@
           "src/environment/reference/corpus.ts"
         ],
         "driveLocationsSearched": [],
-        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here — cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.va.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'jurisdiction-variant' and referencePack 'strong-source-family'.",
+        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here \u2014 cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.va.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'jurisdiction-variant' and referencePack 'strong-source-family'.",
         "shortfall": "An identity is not a picture. The reference corpus can say which building this is and what must not be assumed about it, and it cannot put anything on the screen. Drive was not searched for this: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
       },
       "target": {
         "targetClass": "environment-plate",
         "minimumWidth": 2208,
-        "aspectRatio": "landscape, 3:2 or wider — matching the 2496x1664 and 2208x1584 plates already in this panel",
+        "aspectRatio": "landscape, 3:2 or wider \u2014 matching the 2496x1664 and 2208x1584 plates already in this panel",
         "alphaRequired": false,
         "container": "png",
         "styleAuthority": "The two regional opening plates already shipping in this panel, art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png and env_regional_sonoran_desert_v1.png, for drawing style; and the recorded building identity us.va.capitol in src/environment/reference/corpus.ts for what the building is."
@@ -6595,7 +6595,7 @@
         "Leaf-on months: spring, summer or early autumn. No snow.",
         "This building is recorded as a jurisdiction variant, so a shared compositional approach is legitimate, but its own identifying features have to be right.",
         "No people, no vehicles in the foreground, no flags of any party or campaign. This is the building, not an event at it.",
-        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha — the panel paints it full-bleed behind text and has nothing to composite it over."
+        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha \u2014 the panel paints it full-bleed behind text and has nothing to composite it over."
       ],
       "acceptanceCriteria": [
         "Shows spring or summer or autumn. A delivery showing any other time of year is wrong, whatever else is right about it.",
@@ -6603,7 +6603,7 @@
         "Leaf-on months only. A winter view is a separate request wherever snow on the building is normal, because one plate cannot honestly stand for both and a bare-branch capitol shown in July is the same error as a summer canopy shown in January.",
         "Recognisably the Virginia State Capitol to somebody who has seen it, not a generic statehouse.",
         "Shows spring, summer or autumn. A snow-covered or bare-branch delivery is wrong for this request whatever else is right about it.",
-        "At least 2208 pixels wide — the narrower of the two plates already shipping in this panel — in landscape orientation.",
+        "At least 2208 pixels wide \u2014 the narrower of the two plates already shipping in this panel \u2014 in landscape orientation.",
         "8-bit RGB. A delivery carrying an alpha channel is wrong: nothing composites behind this.",
         "Shows the building, not governing. A Capitol identity does not establish an everyday working office or a current occupant, and a delivery implying either has answered a different request."
       ],
@@ -6630,13 +6630,13 @@
           "src/environment/reference/corpus.ts"
         ],
         "driveLocationsSearched": [],
-        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here — cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.tn.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'jurisdiction-variant' and referencePack 'pending'.",
+        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here \u2014 cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.tn.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'jurisdiction-variant' and referencePack 'pending'.",
         "shortfall": "An identity is not a picture. The reference corpus can say which building this is and what must not be assumed about it, and it cannot put anything on the screen. Drive was not searched for this: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet. This one's reference pack is 'pending', so likeness cannot be judged until sourcing lands; the request is filed at P2 for that reason and is real either way."
       },
       "target": {
         "targetClass": "environment-plate",
         "minimumWidth": 2208,
-        "aspectRatio": "landscape, 3:2 or wider — matching the 2496x1664 and 2208x1584 plates already in this panel",
+        "aspectRatio": "landscape, 3:2 or wider \u2014 matching the 2496x1664 and 2208x1584 plates already in this panel",
         "alphaRequired": false,
         "container": "png",
         "styleAuthority": "The two regional opening plates already shipping in this panel, art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png and env_regional_sonoran_desert_v1.png, for drawing style; and the recorded building identity us.tn.capitol in src/environment/reference/corpus.ts for what the building is."
@@ -6646,7 +6646,7 @@
         "Leaf-on months: spring, summer or early autumn. No snow.",
         "This building is recorded as a jurisdiction variant, so a shared compositional approach is legitimate, but its own identifying features have to be right.",
         "No people, no vehicles in the foreground, no flags of any party or campaign. This is the building, not an event at it.",
-        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha — the panel paints it full-bleed behind text and has nothing to composite it over."
+        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha \u2014 the panel paints it full-bleed behind text and has nothing to composite it over."
       ],
       "acceptanceCriteria": [
         "Shows spring or summer or autumn. A delivery showing any other time of year is wrong, whatever else is right about it.",
@@ -6654,7 +6654,7 @@
         "Leaf-on months only. A winter view is a separate request wherever snow on the building is normal, because one plate cannot honestly stand for both and a bare-branch capitol shown in July is the same error as a summer canopy shown in January.",
         "Recognisably the Tennessee State Capitol to somebody who has seen it, not a generic statehouse.",
         "Shows spring, summer or autumn. A snow-covered or bare-branch delivery is wrong for this request whatever else is right about it.",
-        "At least 2208 pixels wide — the narrower of the two plates already shipping in this panel — in landscape orientation.",
+        "At least 2208 pixels wide \u2014 the narrower of the two plates already shipping in this panel \u2014 in landscape orientation.",
         "8-bit RGB. A delivery carrying an alpha channel is wrong: nothing composites behind this.",
         "Shows the building, not governing. A Capitol identity does not establish an everyday working office or a current occupant, and a delivery implying either has answered a different request."
       ],
@@ -6681,13 +6681,13 @@
           "src/environment/reference/corpus.ts"
         ],
         "driveLocationsSearched": [],
-        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here — cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.ca.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'jurisdiction-variant' and referencePack 'pending'.",
+        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here \u2014 cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.ca.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'jurisdiction-variant' and referencePack 'pending'.",
         "shortfall": "An identity is not a picture. The reference corpus can say which building this is and what must not be assumed about it, and it cannot put anything on the screen. Drive was not searched for this: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet. This one's reference pack is 'pending', so likeness cannot be judged until sourcing lands; the request is filed at P2 for that reason and is real either way."
       },
       "target": {
         "targetClass": "environment-plate",
         "minimumWidth": 2208,
-        "aspectRatio": "landscape, 3:2 or wider — matching the 2496x1664 and 2208x1584 plates already in this panel",
+        "aspectRatio": "landscape, 3:2 or wider \u2014 matching the 2496x1664 and 2208x1584 plates already in this panel",
         "alphaRequired": false,
         "container": "png",
         "styleAuthority": "The two regional opening plates already shipping in this panel, art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png and env_regional_sonoran_desert_v1.png, for drawing style; and the recorded building identity us.ca.capitol in src/environment/reference/corpus.ts for what the building is."
@@ -6697,7 +6697,7 @@
         "Leaf-on months: spring, summer or early autumn. No snow.",
         "This building is recorded as a jurisdiction variant, so a shared compositional approach is legitimate, but its own identifying features have to be right.",
         "No people, no vehicles in the foreground, no flags of any party or campaign. This is the building, not an event at it.",
-        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha — the panel paints it full-bleed behind text and has nothing to composite it over."
+        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha \u2014 the panel paints it full-bleed behind text and has nothing to composite it over."
       ],
       "acceptanceCriteria": [
         "Shows spring or summer or autumn. A delivery showing any other time of year is wrong, whatever else is right about it.",
@@ -6705,7 +6705,7 @@
         "Leaf-on months only. A winter view is a separate request wherever snow on the building is normal, because one plate cannot honestly stand for both and a bare-branch capitol shown in July is the same error as a summer canopy shown in January.",
         "Recognisably the California State Capitol to somebody who has seen it, not a generic statehouse.",
         "Shows spring, summer or autumn. A snow-covered or bare-branch delivery is wrong for this request whatever else is right about it.",
-        "At least 2208 pixels wide — the narrower of the two plates already shipping in this panel — in landscape orientation.",
+        "At least 2208 pixels wide \u2014 the narrower of the two plates already shipping in this panel \u2014 in landscape orientation.",
         "8-bit RGB. A delivery carrying an alpha channel is wrong: nothing composites behind this.",
         "Shows the building, not governing. A Capitol identity does not establish an everyday working office or a current occupant, and a delivery implying either has answered a different request."
       ],
@@ -6732,13 +6732,13 @@
           "src/environment/reference/corpus.ts"
         ],
         "driveLocationsSearched": [],
-        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here — cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.mn.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'jurisdiction-variant' and referencePack 'pending'.",
+        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here \u2014 cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.mn.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'jurisdiction-variant' and referencePack 'pending'.",
         "shortfall": "An identity is not a picture. The reference corpus can say which building this is and what must not be assumed about it, and it cannot put anything on the screen. Drive was not searched for this: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet. This one's reference pack is 'pending', so likeness cannot be judged until sourcing lands; the request is filed at P2 for that reason and is real either way."
       },
       "target": {
         "targetClass": "environment-plate",
         "minimumWidth": 2208,
-        "aspectRatio": "landscape, 3:2 or wider — matching the 2496x1664 and 2208x1584 plates already in this panel",
+        "aspectRatio": "landscape, 3:2 or wider \u2014 matching the 2496x1664 and 2208x1584 plates already in this panel",
         "alphaRequired": false,
         "container": "png",
         "styleAuthority": "The two regional opening plates already shipping in this panel, art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png and env_regional_sonoran_desert_v1.png, for drawing style; and the recorded building identity us.mn.capitol in src/environment/reference/corpus.ts for what the building is."
@@ -6748,7 +6748,7 @@
         "Leaf-on months: spring, summer or early autumn. No snow.",
         "This building is recorded as a jurisdiction variant, so a shared compositional approach is legitimate, but its own identifying features have to be right.",
         "No people, no vehicles in the foreground, no flags of any party or campaign. This is the building, not an event at it.",
-        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha — the panel paints it full-bleed behind text and has nothing to composite it over."
+        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha \u2014 the panel paints it full-bleed behind text and has nothing to composite it over."
       ],
       "acceptanceCriteria": [
         "Shows spring or summer or autumn. A delivery showing any other time of year is wrong, whatever else is right about it.",
@@ -6756,7 +6756,7 @@
         "Leaf-on months only. A winter view is a separate request wherever snow on the building is normal, because one plate cannot honestly stand for both and a bare-branch capitol shown in July is the same error as a summer canopy shown in January.",
         "Recognisably the Minnesota State Capitol to somebody who has seen it, not a generic statehouse.",
         "Shows spring, summer or autumn. A snow-covered or bare-branch delivery is wrong for this request whatever else is right about it.",
-        "At least 2208 pixels wide — the narrower of the two plates already shipping in this panel — in landscape orientation.",
+        "At least 2208 pixels wide \u2014 the narrower of the two plates already shipping in this panel \u2014 in landscape orientation.",
         "8-bit RGB. A delivery carrying an alpha channel is wrong: nothing composites behind this.",
         "Shows the building, not governing. A Capitol identity does not establish an everyday working office or a current occupant, and a delivery implying either has answered a different request."
       ],
@@ -6783,13 +6783,13 @@
           "src/environment/reference/corpus.ts"
         ],
         "driveLocationsSearched": [],
-        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here — cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.tx.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'jurisdiction-variant' and referencePack 'strong-source-family'.",
+        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here \u2014 cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.tx.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'jurisdiction-variant' and referencePack 'strong-source-family'.",
         "shortfall": "An identity is not a picture. The reference corpus can say which building this is and what must not be assumed about it, and it cannot put anything on the screen. Drive was not searched for this: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
       },
       "target": {
         "targetClass": "environment-plate",
         "minimumWidth": 2208,
-        "aspectRatio": "landscape, 3:2 or wider — matching the 2496x1664 and 2208x1584 plates already in this panel",
+        "aspectRatio": "landscape, 3:2 or wider \u2014 matching the 2496x1664 and 2208x1584 plates already in this panel",
         "alphaRequired": false,
         "container": "png",
         "styleAuthority": "The two regional opening plates already shipping in this panel, art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png and env_regional_sonoran_desert_v1.png, for drawing style; and the recorded building identity us.tx.capitol in src/environment/reference/corpus.ts for what the building is."
@@ -6799,7 +6799,7 @@
         "Leaf-on months: spring, summer or early autumn. No snow.",
         "This building is recorded as a jurisdiction variant, so a shared compositional approach is legitimate, but its own identifying features have to be right.",
         "No people, no vehicles in the foreground, no flags of any party or campaign. This is the building, not an event at it.",
-        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha — the panel paints it full-bleed behind text and has nothing to composite it over."
+        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha \u2014 the panel paints it full-bleed behind text and has nothing to composite it over."
       ],
       "acceptanceCriteria": [
         "Shows spring or summer or autumn. A delivery showing any other time of year is wrong, whatever else is right about it.",
@@ -6807,7 +6807,7 @@
         "Leaf-on months only. A winter view is a separate request wherever snow on the building is normal, because one plate cannot honestly stand for both and a bare-branch capitol shown in July is the same error as a summer canopy shown in January.",
         "Recognisably the Texas State Capitol to somebody who has seen it, not a generic statehouse.",
         "Shows spring, summer or autumn. A snow-covered or bare-branch delivery is wrong for this request whatever else is right about it.",
-        "At least 2208 pixels wide — the narrower of the two plates already shipping in this panel — in landscape orientation.",
+        "At least 2208 pixels wide \u2014 the narrower of the two plates already shipping in this panel \u2014 in landscape orientation.",
         "8-bit RGB. A delivery carrying an alpha channel is wrong: nothing composites behind this.",
         "Shows the building, not governing. A Capitol identity does not establish an everyday working office or a current occupant, and a delivery implying either has answered a different request."
       ],
@@ -6834,13 +6834,13 @@
           "src/environment/reference/corpus.ts"
         ],
         "driveLocationsSearched": [],
-        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here — cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.ny.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'unique' and referencePack 'strong-source-family'.",
+        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here \u2014 cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.ny.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'unique' and referencePack 'strong-source-family'.",
         "shortfall": "An identity is not a picture. The reference corpus can say which building this is and what must not be assumed about it, and it cannot put anything on the screen. Drive was not searched for this: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
       },
       "target": {
         "targetClass": "environment-plate",
         "minimumWidth": 2208,
-        "aspectRatio": "landscape, 3:2 or wider — matching the 2496x1664 and 2208x1584 plates already in this panel",
+        "aspectRatio": "landscape, 3:2 or wider \u2014 matching the 2496x1664 and 2208x1584 plates already in this panel",
         "alphaRequired": false,
         "container": "png",
         "styleAuthority": "The two regional opening plates already shipping in this panel, art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png and env_regional_sonoran_desert_v1.png, for drawing style; and the recorded building identity us.ny.capitol in src/environment/reference/corpus.ts for what the building is."
@@ -6850,7 +6850,7 @@
         "Leaf-on months: spring, summer or early autumn. No snow.",
         "This building is recorded as visually unique. It must be drawn from its own identifying form, never from a generic domed-statehouse template.",
         "No people, no vehicles in the foreground, no flags of any party or campaign. This is the building, not an event at it.",
-        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha — the panel paints it full-bleed behind text and has nothing to composite it over."
+        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha \u2014 the panel paints it full-bleed behind text and has nothing to composite it over."
       ],
       "acceptanceCriteria": [
         "Shows spring or summer or autumn. A delivery showing any other time of year is wrong, whatever else is right about it.",
@@ -6858,7 +6858,7 @@
         "Leaf-on months only. A winter view is a separate request wherever snow on the building is normal, because one plate cannot honestly stand for both and a bare-branch capitol shown in July is the same error as a summer canopy shown in January.",
         "Recognisably the New York State Capitol to somebody who has seen it, not a generic statehouse.",
         "Shows spring, summer or autumn. A snow-covered or bare-branch delivery is wrong for this request whatever else is right about it.",
-        "At least 2208 pixels wide — the narrower of the two plates already shipping in this panel — in landscape orientation.",
+        "At least 2208 pixels wide \u2014 the narrower of the two plates already shipping in this panel \u2014 in landscape orientation.",
         "8-bit RGB. A delivery carrying an alpha channel is wrong: nothing composites behind this.",
         "Shows the building, not governing. A Capitol identity does not establish an everyday working office or a current occupant, and a delivery implying either has answered a different request."
       ],
@@ -6885,13 +6885,13 @@
           "src/environment/reference/corpus.ts"
         ],
         "driveLocationsSearched": [],
-        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here — cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.nd.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'unique' and referencePack 'strong-source-family'.",
+        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here \u2014 cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.nd.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'unique' and referencePack 'strong-source-family'.",
         "shortfall": "An identity is not a picture. The reference corpus can say which building this is and what must not be assumed about it, and it cannot put anything on the screen. Drive was not searched for this: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
       },
       "target": {
         "targetClass": "environment-plate",
         "minimumWidth": 2208,
-        "aspectRatio": "landscape, 3:2 or wider — matching the 2496x1664 and 2208x1584 plates already in this panel",
+        "aspectRatio": "landscape, 3:2 or wider \u2014 matching the 2496x1664 and 2208x1584 plates already in this panel",
         "alphaRequired": false,
         "container": "png",
         "styleAuthority": "The two regional opening plates already shipping in this panel, art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png and env_regional_sonoran_desert_v1.png, for drawing style; and the recorded building identity us.nd.capitol in src/environment/reference/corpus.ts for what the building is."
@@ -6901,7 +6901,7 @@
         "Leaf-on months: spring, summer or early autumn. No snow.",
         "This building is recorded as visually unique. It must be drawn from its own identifying form, never from a generic domed-statehouse template.",
         "No people, no vehicles in the foreground, no flags of any party or campaign. This is the building, not an event at it.",
-        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha — the panel paints it full-bleed behind text and has nothing to composite it over."
+        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha \u2014 the panel paints it full-bleed behind text and has nothing to composite it over."
       ],
       "acceptanceCriteria": [
         "Shows spring or summer or autumn. A delivery showing any other time of year is wrong, whatever else is right about it.",
@@ -6909,7 +6909,7 @@
         "Leaf-on months only. A winter view is a separate request wherever snow on the building is normal, because one plate cannot honestly stand for both and a bare-branch capitol shown in July is the same error as a summer canopy shown in January.",
         "Recognisably the North Dakota State Capitol to somebody who has seen it, not a generic statehouse.",
         "Shows spring, summer or autumn. A snow-covered or bare-branch delivery is wrong for this request whatever else is right about it.",
-        "At least 2208 pixels wide — the narrower of the two plates already shipping in this panel — in landscape orientation.",
+        "At least 2208 pixels wide \u2014 the narrower of the two plates already shipping in this panel \u2014 in landscape orientation.",
         "8-bit RGB. A delivery carrying an alpha channel is wrong: nothing composites behind this.",
         "Shows the building, not governing. A Capitol identity does not establish an everyday working office or a current occupant, and a delivery implying either has answered a different request."
       ],
@@ -6936,13 +6936,13 @@
           "src/environment/reference/corpus.ts"
         ],
         "driveLocationsSearched": [],
-        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here — cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.ne.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'unique' and referencePack 'strong-source-family'.",
+        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here \u2014 cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.ne.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'unique' and referencePack 'strong-source-family'.",
         "shortfall": "An identity is not a picture. The reference corpus can say which building this is and what must not be assumed about it, and it cannot put anything on the screen. Drive was not searched for this: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
       },
       "target": {
         "targetClass": "environment-plate",
         "minimumWidth": 2208,
-        "aspectRatio": "landscape, 3:2 or wider — matching the 2496x1664 and 2208x1584 plates already in this panel",
+        "aspectRatio": "landscape, 3:2 or wider \u2014 matching the 2496x1664 and 2208x1584 plates already in this panel",
         "alphaRequired": false,
         "container": "png",
         "styleAuthority": "The two regional opening plates already shipping in this panel, art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png and env_regional_sonoran_desert_v1.png, for drawing style; and the recorded building identity us.ne.capitol in src/environment/reference/corpus.ts for what the building is."
@@ -6952,7 +6952,7 @@
         "Leaf-on months: spring, summer or early autumn. No snow.",
         "This building is recorded as visually unique. It must be drawn from its own identifying form, never from a generic domed-statehouse template.",
         "No people, no vehicles in the foreground, no flags of any party or campaign. This is the building, not an event at it.",
-        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha — the panel paints it full-bleed behind text and has nothing to composite it over."
+        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha \u2014 the panel paints it full-bleed behind text and has nothing to composite it over."
       ],
       "acceptanceCriteria": [
         "Shows spring or summer or autumn. A delivery showing any other time of year is wrong, whatever else is right about it.",
@@ -6960,7 +6960,7 @@
         "Leaf-on months only. A winter view is a separate request wherever snow on the building is normal, because one plate cannot honestly stand for both and a bare-branch capitol shown in July is the same error as a summer canopy shown in January.",
         "Recognisably the Nebraska State Capitol to somebody who has seen it, not a generic statehouse.",
         "Shows spring, summer or autumn. A snow-covered or bare-branch delivery is wrong for this request whatever else is right about it.",
-        "At least 2208 pixels wide — the narrower of the two plates already shipping in this panel — in landscape orientation.",
+        "At least 2208 pixels wide \u2014 the narrower of the two plates already shipping in this panel \u2014 in landscape orientation.",
         "8-bit RGB. A delivery carrying an alpha channel is wrong: nothing composites behind this.",
         "Shows the building, not governing. A Capitol identity does not establish an everyday working office or a current occupant, and a delivery implying either has answered a different request."
       ],
@@ -6987,13 +6987,13 @@
           "src/environment/reference/corpus.ts"
         ],
         "driveLocationsSearched": [],
-        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here — cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.nm.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'unique' and referencePack 'strong-source-family'.",
+        "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here \u2014 cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.nm.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'unique' and referencePack 'strong-source-family'.",
         "shortfall": "An identity is not a picture. The reference corpus can say which building this is and what must not be assumed about it, and it cannot put anything on the screen. Drive was not searched for this: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
       },
       "target": {
         "targetClass": "environment-plate",
         "minimumWidth": 2208,
-        "aspectRatio": "landscape, 3:2 or wider — matching the 2496x1664 and 2208x1584 plates already in this panel",
+        "aspectRatio": "landscape, 3:2 or wider \u2014 matching the 2496x1664 and 2208x1584 plates already in this panel",
         "alphaRequired": false,
         "container": "png",
         "styleAuthority": "The two regional opening plates already shipping in this panel, art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png and env_regional_sonoran_desert_v1.png, for drawing style; and the recorded building identity us.nm.capitol in src/environment/reference/corpus.ts for what the building is."
@@ -7003,7 +7003,7 @@
         "Leaf-on months: spring, summer or early autumn. No snow.",
         "This building is recorded as visually unique. It must be drawn from its own identifying form, never from a generic domed-statehouse template.",
         "No people, no vehicles in the foreground, no flags of any party or campaign. This is the building, not an event at it.",
-        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha — the panel paints it full-bleed behind text and has nothing to composite it over."
+        "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha \u2014 the panel paints it full-bleed behind text and has nothing to composite it over."
       ],
       "acceptanceCriteria": [
         "Shows spring or summer or autumn. A delivery showing any other time of year is wrong, whatever else is right about it.",
@@ -7011,7 +7011,7 @@
         "Leaf-on months only. A winter view is a separate request wherever snow on the building is normal, because one plate cannot honestly stand for both and a bare-branch capitol shown in July is the same error as a summer canopy shown in January.",
         "Recognisably the New Mexico State Capitol to somebody who has seen it, not a generic statehouse.",
         "Shows spring, summer or autumn. A snow-covered or bare-branch delivery is wrong for this request whatever else is right about it.",
-        "At least 2208 pixels wide — the narrower of the two plates already shipping in this panel — in landscape orientation.",
+        "At least 2208 pixels wide \u2014 the narrower of the two plates already shipping in this panel \u2014 in landscape orientation.",
         "8-bit RGB. A delivery carrying an alpha channel is wrong: nothing composites behind this.",
         "Shows the building, not governing. A Capitol identity does not establish an everyday working office or a current occupant, and a delivery implying either has answered a different request."
       ],
@@ -7028,7 +7028,7 @@
         "runtimeComponent": "src/player/news/NewsDesk.tsx",
         "playerVisibleUse": "The news front page, in both its mixed-front-page mode and its single-publication mode. It is reached from the public information surface and shows the stories the world has actually published."
       },
-      "whyNeeded": "This is the cheapest surface in the game to make look right, because it is already finished. It works, it has two modes, it handles corrections, and nobody has to fix it first — the only thing it lacks is that it does not look like a newspaper. Every other surface needing art also needs engineering; this one needs only the art. Jurisdiction-independent: Page furniture is the paper's physical presentation and is the same wherever the player lives. The outlet names printed on it are generated per world; the furniture is not. Filed by art bench and regional scenes thread on 2026-09-22T05:45:00.000Z (inspection).",
+      "whyNeeded": "This is the cheapest surface in the game to make look right, because it is already finished. It works, it has two modes, it handles corrections, and nobody has to fix it first \u2014 the only thing it lacks is that it does not look like a newspaper. Every other surface needing art also needs engineering; this one needs only the art. Jurisdiction-independent: Page furniture is the paper's physical presentation and is the same wherever the player lives. The outlet names printed on it are generated per world; the furniture is not. Filed by art bench and regional scenes thread on 2026-09-22T05:45:00.000Z (inspection).",
       "inventoryCheck": {
         "repositoryPathsSearched": [
           "art/manifest/asset_manifest.json",
@@ -7124,7 +7124,7 @@
         "runtimeComponent": "src/player/PinRail.tsx",
         "playerVisibleUse": "The pin rail and every link or shortcut that reopens something: a person, a commitment in the player's calendar, a measure before a chamber, a government, or an organization such as a local party chapter."
       },
-      "whyNeeded": "Five is measured, not invented: `ShellRef` in src/presentation/shell-navigation.ts is a closed union of exactly five kinds — person, commitment, measure, government, organization — and that file is explicit that a sixth was deliberately not added because it would have had nothing to resolve to. So the set is complete and will not quietly grow. Jurisdiction-independent: These stand for kinds of thing rather than for any particular thing, so they are the same in every jurisdiction and in every save. Filed by art bench and regional scenes thread on 2026-09-22T05:45:00.000Z (inspection).",
+      "whyNeeded": "Five is measured, not invented: `ShellRef` in src/presentation/shell-navigation.ts is a closed union of exactly five kinds \u2014 person, commitment, measure, government, organization \u2014 and that file is explicit that a sixth was deliberately not added because it would have had nothing to resolve to. So the set is complete and will not quietly grow. Jurisdiction-independent: These stand for kinds of thing rather than for any particular thing, so they are the same in every jurisdiction and in every save. Filed by art bench and regional scenes thread on 2026-09-22T05:45:00.000Z (inspection).",
       "inventoryCheck": {
         "repositoryPathsSearched": [
           "art/manifest/asset_manifest.json",
@@ -7137,7 +7137,7 @@
         ],
         "driveLocationsSearched": [],
         "found": "No icon set exists. A find across art/ and public/ returns only pose control plates and arm-measurement QA overlays, both authoring evidence. The interface uses text and font glyphs throughout.",
-        "shortfall": "The set of things that need an icon is closed and known — ShellRef is exactly five kinds — and none of them has one. Drive was not searched, for the same reason as above."
+        "shortfall": "The set of things that need an icon is closed and known \u2014 ShellRef is exactly five kinds \u2014 and none of them has one. Drive was not searched, for the same reason as above."
       },
       "target": {
         "targetClass": "interface-graphic",
@@ -7145,7 +7145,7 @@
         "alphaRequired": true,
         "minimumWidth": 256,
         "aspectRatio": "square, one icon per file",
-        "styleAuthority": "None yet — this set will become the style authority for every icon added after it, so its construction rules matter more than any single glyph."
+        "styleAuthority": "None yet \u2014 this set will become the style authority for every icon added after it, so its construction rules matter more than any single glyph."
       },
       "generationRecipe": [
         "Five icons, one for each ShellRef kind: person, commitment, measure, government, organization.",
@@ -7174,7 +7174,7 @@
         "runtimeComponent": "src/player/EconomicContextPanel.tsx",
         "playerVisibleUse": "Behind every chart the player opens: the Issues and budget graphs, the macro conditions card graph, and the account history graph."
       },
-      "whyNeeded": "EconomicGraph() in src/player/EconomicContextPanel.tsx draws a live 640x220 SVG — two axis lines, then polylines or bars from the series — onto .economic-graph, which is rgba(3,10,18,0.58) with a 1px border. Three surfaces reuse it (MacroConditionsPanel.tsx, ModeledAccountHistory.tsx, EconomicContextPanel.tsx), so one ground improves all three. The chart itself stays generated; only what it is drawn ON is being asked for.",
+      "whyNeeded": "EconomicGraph() in src/player/EconomicContextPanel.tsx draws a live 640x220 SVG \u2014 two axis lines, then polylines or bars from the series \u2014 onto .economic-graph, which is rgba(3,10,18,0.58) with a 1px border. Three surfaces reuse it (MacroConditionsPanel.tsx, ModeledAccountHistory.tsx, EconomicContextPanel.tsx), so one ground improves all three. The chart itself stays generated; only what it is drawn ON is being asked for.",
       "inventoryCheck": {
         "repositoryPathsSearched": [
           "art/shared/documents_desk_props/",
@@ -7224,7 +7224,7 @@
         "runtimeComponent": "src/player/GuideTerm.tsx",
         "playerVisibleUse": "The small card that opens when a player taps an underlined civics term anywhere in the game."
       },
-      "whyNeeded": "GuideTerm.tsx renders .pg-guide-popover with the shared civic-glass class and no ground of its own: width, radius and a box-shadow token. It is the most reused explanatory surface in the game — DocketWorkspace, GovernmentBrowser, MunicipalWorkspace, GuideWorkspace, ShellNav and PlayerGame all mount Guide terms — and it currently looks like a generic tooltip rather than part of this game.",
+      "whyNeeded": "GuideTerm.tsx renders .pg-guide-popover with the shared civic-glass class and no ground of its own: width, radius and a box-shadow token. It is the most reused explanatory surface in the game \u2014 DocketWorkspace, GovernmentBrowser, MunicipalWorkspace, GuideWorkspace, ShellNav and PlayerGame all mount Guide terms \u2014 and it currently looks like a generic tooltip rather than part of this game.",
       "inventoryCheck": {
         "repositoryPathsSearched": [
           "art/shared/documents_desk_props/",
@@ -7249,7 +7249,7 @@
         "A nine-slice-safe card ground: corners and edges that survive being stretched to the rendered width of min(22rem, 78vw) at any height.",
         "Quiet paper-and-brass civic character, a hairline frame, a brass-keyed top edge answering .pg-guide-popover-term.",
         "No text, no glyphs, no icon, no term name: the term and its definition are authored Guide records rendered over this.",
-        "Transparent outside the frame, and no baked drop shadow — --pg-shadow already supplies it and two would double.",
+        "Transparent outside the frame, and no baked drop shadow \u2014 --pg-shadow already supplies it and two would double.",
         "Interior quiet enough that the definition paragraph stays the first thing read."
       ],
       "acceptanceCriteria": [
@@ -7322,7 +7322,7 @@
       "consumer": {
         "consumerId": "no-declared-consumer",
         "runtimeComponent": "src/player/PlayerGame.tsx",
-        "playerVisibleUse": "The campaign section, when the character cannot stand for anything. It is rendered as the `no-campaign` note and carries the single sentence explaining why — too young, not resident long enough, no such office in this state, or that the game does not know the rule and will not guess."
+        "playerVisibleUse": "The campaign section, when the character cannot stand for anything. It is rendered as the `no-campaign` note and carries the single sentence explaining why \u2014 too young, not resident long enough, no such office in this state, or that the game does not know the rule and will not guess."
       },
       "whyNeeded": "Refusing a character a ballot line is one of the most significant things this game does to a player, and it currently happens in a bare paragraph of text with no visual weight at all. The player asked to run for something and the game said no; the surface gives that no less presence than an ordinary note. The sentence itself was just rewritten so it explains the rule in plain words rather than quoting a constitutional article, which means the words are now worth reading and the frame around them is the remaining gap. Jurisdiction-independent: the frame is the same wherever the player lives, and the sentence inside it is generated per state and per office.",
       "inventoryCheck": {
@@ -7334,7 +7334,7 @@
           "art/ and public/ (find, for any chart, graph, ballot or icon asset)"
         ],
         "driveLocationsSearched": [],
-        "found": "Nothing. The manifest's 126 assets are 109 character components, 15 environment plates or masters, one foreground mask and two authored poses — no interface graphic of any kind. The only asset ids that match an interface word do so incidentally (dev_g2_eyewear_thin_frames_v1, and two standing-body frames). Of the 31 filed requests, three are interface work and all three are the newspaper and shell set landed in #281; none covers this surface.",
+        "found": "Nothing. The manifest's 126 assets are 109 character components, 15 environment plates or masters, one foreground mask and two authored poses \u2014 no interface graphic of any kind. The only asset ids that match an interface word do so incidentally (dev_g2_eyewear_thin_frames_v1, and two standing-body frames). Of the 31 filed requests, three are interface work and all three are the newspaper and shell set landed in #281; none covers this surface.",
         "shortfall": "The surface is finished and reachable and has no artwork. Drive was not searched: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
       },
       "target": {
@@ -7349,7 +7349,7 @@
         "A panel or frame that gives a refusal its own weight on the page: something closed and official rather than alarming. A closed door, a stamped edge, an unfilled line on a form.",
         "It has to stretch, because the sentence inside is one to three lines and varies by state and office.",
         "No words of any kind in the artwork. The sentence is generated for that character in that state and no part of it can be painted in.",
-        "Restraint. This is not an error and not a punishment — the game is saying it will not guess, which is a considered answer, and the art should read as considered."
+        "Restraint. This is not an error and not a punishment \u2014 the game is saying it will not guess, which is a considered answer, and the art should read as considered."
       ],
       "acceptanceCriteria": [
         "Reads as a distinct, deliberate moment at a glance, not as an ordinary note.",
@@ -7371,7 +7371,7 @@
         "runtimeComponent": "no runtime consumer yet",
         "playerVisibleUse": "A chamber view showing how a legislature divides by caucus, and the margin on a vote. No interface reads this yet: `byCaucus` is already computed for every chamber and nothing renders it."
       },
-      "whyNeeded": "The owner listed graphs among the art he wants, and this is the graph the game already has the numbers for. Every chamber's division by caucus is computed and read by no interface, so the missing piece is one screen rather than a system — and a screen of bare numbers is not what a chamber division should look like. Filing the art now means the screen is not held up waiting for it. Jurisdiction-independent: the treatment is the same for any chamber; the caucus names, counts and colours come from the world.",
+      "whyNeeded": "The owner listed graphs among the art he wants, and this is the graph the game already has the numbers for. Every chamber's division by caucus is computed and read by no interface, so the missing piece is one screen rather than a system \u2014 and a screen of bare numbers is not what a chamber division should look like. Filing the art now means the screen is not held up waiting for it. Jurisdiction-independent: the treatment is the same for any chamber; the caucus names, counts and colours come from the world.",
       "inventoryCheck": {
         "repositoryPathsSearched": [
           "art/manifest/asset_manifest.json (all 126 assets, by asset_type and asset_id)",
@@ -7381,7 +7381,7 @@
           "art/ and public/ (find, for any chart, graph, ballot or icon asset)"
         ],
         "driveLocationsSearched": [],
-        "found": "Nothing. The manifest's 126 assets are 109 character components, 15 environment plates or masters, one foreground mask and two authored poses — no interface graphic of any kind. The only asset ids that match an interface word do so incidentally (dev_g2_eyewear_thin_frames_v1, and two standing-body frames). Of the 31 filed requests, three are interface work and all three are the newspaper and shell set landed in #281; none covers this surface.",
+        "found": "Nothing. The manifest's 126 assets are 109 character components, 15 environment plates or masters, one foreground mask and two authored poses \u2014 no interface graphic of any kind. The only asset ids that match an interface word do so incidentally (dev_g2_eyewear_thin_frames_v1, and two standing-body frames). Of the 31 filed requests, three are interface work and all three are the newspaper and shell set landed in #281; none covers this surface.",
         "shortfall": "No chart or graph artwork exists anywhere in the project. Drive was not searched: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
       },
       "target": {
@@ -7403,6 +7403,53 @@
         "Contains no text and no numerals. A delivery with any lettering in it is wrong however good it looks.",
         "Carries no party iconography and reads as neutral between sides.",
         "The division rule and margin bracket read as belonging to the same set as the seat mark."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "room-papers-on-a-table",
+      "requestVersion": 1,
+      "priority": "P1",
+      "status": "queued",
+      "title": "The papers on a table, at rest and with something waiting",
+      "consumer": {
+        "consumerId": "ordinary-domestic-life",
+        "runtimeComponent": "src/player/PlayerGame.tsx, at the residence scene's coffee-table-papers slot",
+        "playerVisibleUse": "The first object in a room a player can act on. It sits on the living-room table and holds what is actually waiting on the character \u2014 the posted meeting, an unanswered offer of work, the week's errands. The slot is declared today and renders as painted decoration."
+      },
+      "whyNeeded": "What is waiting on a player is currently two navigations away, inside the Calendar, behind the corner menu, and nothing in the room mentions it. The fix is to put it on the table, and a table object has to look like something before it can be one. This is the only piece that is art rather than engineering: the reader and its routes are built and tested, and the mount is written down. It also needs two states, because the whole interaction rule is that the room is attentive rather than everything glowing \u2014 so the difference between 'there is nothing here' and 'there is something here for you' has to be visible without a word being written.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json (all 126 assets, by asset_id and asset_type, matching paper, mail, letter, document, envelope, prop, desk, note)",
+          "art/requests/asset-requests.json (all 36 existing requests)",
+          "art/requests/incoming/ and art/requests/promotions/",
+          "src/environment/scenes/residence-apartment-living-production.ts, for what the plate already paints on that table"
+        ],
+        "driveLocationsSearched": [],
+        "found": "Nothing usable. The manifest's only match is human_candidate_A01_primary_desk_seated_v1, which is a seated character pose, not a prop. Of the five interface requests already filed, three are the newspaper and shell set landed in #281 and two are the refusal panel and the chamber graph filed earlier today; none is a room object. The residence plate paints 'the folded newspaper painted on the table' as its own decoration, which is the fallback this would sit over rather than a source to reuse.",
+        "shortfall": "No prop artwork exists in the project at all. Drive was not searched: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
+      },
+      "target": {
+        "targetClass": "interface-graphic",
+        "container": "png",
+        "alphaRequired": true,
+        "minimumWidth": 1024,
+        "aspectRatio": "two pieces at the same size and registration, so one can replace the other in place: a resting state and an attentive state",
+        "styleAuthority": "the residence living-room plate it sits on; it has to read as belonging to that table rather than as an icon dropped onto it."
+      },
+      "generationRecipe": [
+        "A small stack of loose papers and post as it would actually lie on a living-room table, seen from the room's own angle rather than flat-on.",
+        "Two states at identical size and registration. At rest it is tidy and closed and reads as furniture. Attentive, something has plainly arrived \u2014 a corner lifted, an envelope not yet opened, the stack a little out of square. The difference must be legible at a glance and without any change in colour temperature, because the room is painted for its time of day.",
+        "No lettering of any kind: no words, no numerals, no letterhead, no masthead, no handwriting that reads as words. Everything written in this game is generated per world, and a printed word in the artwork would be a sentence the simulation never said.",
+        "No seal, flag, party mark or any civic insignia. Those are canonical and never drawn.",
+        "It must survive being tinted and dimmed with the rest of the room, and must stay readable at the size the table occupies on a phone."
+      ],
+      "acceptanceCriteria": [
+        "The two states are the same size and register exactly, so swapping one for the other moves nothing else on the table.",
+        "A person shown both without explanation can say which one means something is waiting.",
+        "Contains no text and no numerals. A delivery with any lettering in it is wrong however good it looks.",
+        "Carries no seal, flag or party mark.",
+        "Sits on the residence living-room plate without reading as pasted on, at phone width as well as full size."
       ],
       "dependsOn": []
     }

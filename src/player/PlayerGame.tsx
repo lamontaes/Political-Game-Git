@@ -180,6 +180,7 @@ import {
 } from "../presentation/setup-questionnaire-flow";
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
 import { projectToday, projectWorkRole } from "../presentation/day-overview";
+import { projectHouseholdPapers } from "../presentation/household-papers";
 import { projectDynamicSurfaces } from "../presentation/surface-projection";
 import {
   resolvePlaySceneContext,
@@ -4399,6 +4400,9 @@ function renderWorkspace({
               onOpenCommitment={(activityId) =>
                 openEntity({ kind: "commitment", id: activityId })
               }
+              onOpenPerson={(personId) =>
+                openEntity({ kind: "person", id: personId })
+              }
               /*
                 The same link the standalone Today has, going the same place.
                 This copy forced section: "office", so the one control landed
@@ -5735,6 +5739,7 @@ function TodayView({
   onWorldChange,
   workHint,
   onOpenCommitment,
+  onOpenPerson,
   onGoTo,
   embedded = false,
 }: {
@@ -5742,12 +5747,25 @@ function TodayView({
   readonly onWorldChange: (world: World) => void;
   readonly workHint: string;
   readonly onOpenCommitment: (activityId: EntityId) => void;
+  readonly onOpenPerson: (personId: EntityId) => void;
   readonly onGoTo: (surface: "work" | "calendar" | "places") => void;
   /** Inside the Calendar, which carries its own day controls and entries. */
   readonly embedded?: boolean;
 }) {
   const today = useMemo(
     () => projectToday(session.world, session.personId),
+    [session.world, session.personId],
+  );
+  /*
+    The same list, with somewhere to go. "Waiting on you" used to be a stack
+    of true sentences and no way to answer any of them, so a player read that
+    an offer of work was waiting for their answer and then went looking for
+    the screen that takes it. Every route below is read off the work item's
+    own recorded focus; where the record has no route the sentence stays a
+    sentence, which is the honest outcome rather than a button that guesses.
+  */
+  const papers = useMemo(
+    () => projectHouseholdPapers(session.world, session.personId),
     [session.world, session.personId],
   );
 
@@ -5799,9 +5817,49 @@ function TodayView({
         <section className="pg-today-block" aria-labelledby="pg-today-waiting">
           <h3 id="pg-today-waiting">Waiting on you</h3>
           <ul className="game-pending" data-testid="day-pending">
-            {today.waiting.map((thing) => (
-              <li key={thing.key}>{thing.sentence}</li>
-            ))}
+            {papers.map((paper) => {
+              const destination = paper.destination;
+              const route =
+                destination.kind === "commitment"
+                  ? {
+                      hint: "Read it in the calendar",
+                      go: () => onOpenCommitment(destination.activityId),
+                    }
+                  : destination.kind === "person"
+                    ? {
+                        hint: "Open the person this is with",
+                        go: () => onOpenPerson(destination.personId),
+                      }
+                    : destination.kind === "surface"
+                      ? {
+                          hint: "Answer it where work is",
+                          go: () => onGoTo(destination.surface),
+                        }
+                      : null;
+              return (
+                <li key={paper.key}>
+                  {route ? (
+                    <button
+                      type="button"
+                      className="ui-action ui-action--subtle pg-today-link"
+                      data-testid={`day-pending-open-${paper.key}`}
+                      onClick={route.go}
+                    >
+                      {paper.sentence}
+                      <small>{route.hint}</small>
+                    </button>
+                  ) : (
+                    /*
+                      Answered here, with the time below, or carrying no route
+                      the record can support. Either way there is nowhere to
+                      send anybody, so it stays the sentence it already was
+                      rather than becoming a button that guesses.
+                    */
+                    paper.sentence
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </section>
       ) : null}
