@@ -303,7 +303,7 @@ function fromRuleSetValue(
           url: value.source.sourceUrl,
           artifactId: null,
         },
-        reason: `${value.source.legalLocator} was read and imposes no such requirement.`,
+        reason: "This office has no such requirement.",
       };
     default:
       return unknownField(field, value.reason);
