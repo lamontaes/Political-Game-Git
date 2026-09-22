@@ -43,11 +43,11 @@ Every story on the page has this shape. It is not specific to parties.
 Thirteen publications produced a front page with the same headline printed
 three times, word for word, by three different outlets:
 
-| Outlet | Headline |
-| --- | --- |
-| The Evening Compass | Several governments opened talks over fishing rights in shared waters. |
+| Outlet                  | Headline                                                               |
+| ----------------------- | ---------------------------------------------------------------------- |
+| The Evening Compass     | Several governments opened talks over fishing rights in shared waters. |
 | Longwire Public Affairs | Several governments opened talks over fishing rights in shared waters. |
-| Civic Ledger | Several governments opened talks over fishing rights in shared waters. |
+| Civic Ledger            | Several governments opened talks over fishing rights in shared waters. |
 
 The same for the shipping story, three times, and the January unemployment
 figure, twice. Ten of the twelve stories under the lead are one of three
