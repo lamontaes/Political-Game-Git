@@ -115,8 +115,10 @@ test("an ordinary first session, two contrasting places", async ({ page }) => {
   // An exploration run by hand against a chosen build, not a pipeline gate:
   // it prints what each surface offers rather than asserting an outcome, so
   // CI skips it and it never reds a PR it is only riding along on.
+  // GITHUB_ACTIONS, not CI: a local run sets CI=1 only to pick the browser
+  // channel, and should still run this; the pipeline sets GITHUB_ACTIONS.
   test.skip(
-    Boolean(process.env.CI),
+    process.env.GITHUB_ACTIONS === "true",
     "manual playtest exploration; run locally against a chosen build",
   );
   test.setTimeout(240_000);
