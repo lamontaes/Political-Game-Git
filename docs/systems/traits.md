@@ -194,6 +194,77 @@ traitConsiderations(world, personId, keyPrefix, leansFor("contact.answer"));
 Same function, same additive contract, same `sourceRefs`. The array is loaded
 rather than written.
 
+### Where a trait's meaning depends on the situation
+
+A lean is `{option, trait, pole, explanation}`, resolved once at load against
+option keys a decision publishes. That works while a trait argues the same way
+every time that option is on the table. It does not work when the same trait
+and the same pole argue for opposite things depending on who is in what
+position.
+
+**The rule: when a trait's meaning depends on the situation, the situation
+belongs in the option key, not in the lean.** A decision that cannot say which
+situation it is in has nothing a lean can attach to, and no pack can repair
+that from outside.
+
+The legislation lane found this by trying, and it is worth recording in full
+because it is the seam's main limit. Their "whose commitment binds" axis —
+holds you to yours, against holds their own first — argues for pressing when
+the commitment at stake was made _to_ the member and for letting it go when the
+member made it. Same trait, same pole, opposite options, decided by who holds
+what. In `src/presentation/legislative-bargaining.ts` the published intent is a
+single `remind-of-commitment`; whether it resolves to
+`confront-broken-commitment` or `defend-broken-commitment` is computed
+afterwards, from `playerOwedIt`. So there is one option key, and the asymmetry
+lives downstream of it where no lean can reach.
+
+The fix is for the decision to publish the asymmetry as distinct options, which
+is a product decision for whoever owns that room rather than a schema change
+here. The alternative — a condition over situation state inside the lean — is
+rejected: it is the door to arbitrary logic in data, and a pack language with
+conditionals is a programming language nobody validated.
+
+Stating the rule matters because without it the seam _looks_ like it can
+express a relational trait and cannot. Better a constraint decision authors can
+check than a limit the second consumer discovers.
+
+### Who has a trait is not the same question as who may read it
+
+`scopes` says which decisions may read a trait. It does not say which people
+have one, and the two must not be conflated.
+
+`conferredBy` answers the second:
+
+- **`seeded`** — every person, drawn once from their own stream. The five
+  ordinary-life traits. Universal by nature: everybody has some disposition
+  toward risk.
+- **`conferred-only`** — nobody has it until a system writes it. A trait that
+  belongs to a role rather than to a person: a bargaining disposition is a fact
+  about a legislator, and seeding it for every person in the world pays a
+  record in every save for people who will never enter a members' room.
+- **`player`** — declared, not implemented. See below.
+
+**A `conferred-only` trait's conferral path is code in the system that owns the
+role**, not a predicate in the pack. The legislature writes the disposition
+when somebody becomes a member, because the legislature is what knows who its
+members are. The pack declares that the trait is conferred; it does not declare
+who qualifies, because eligibility is a fact about the world and a pack cannot
+see the world.
+
+That answers a question the legislation lane raised and it is worth being
+explicit about the limit. A person who is not a legislator and a member nobody
+has observed both read back **unrecorded**, and the trait system cannot tell
+them apart. That is not a conflation to fix here: `unrecorded` truthfully means
+"this world has not written this trait for this person", which is the case in
+both. The difference is the consuming system's to know, and it knows it
+already — it asks whether somebody is a member before it asks anything about
+their disposition. A trait store that tried to answer "does this apply to
+them?" would be guessing at a fact it does not hold.
+
+What does belong here is the guard: only a declared conferrer may write a
+`conferred-only` trait, so a record appearing for somebody who should never
+have one is a rejection rather than a silence.
+
 ### Loading is validated, row by row, and fails soft
 
 Every rejection names the row and the reason, and is collected into a load
