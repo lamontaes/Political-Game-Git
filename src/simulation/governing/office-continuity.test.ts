@@ -169,7 +169,8 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     const ruling = officeContinuityRulings(next, governor.officeKey)[0]!;
     expect(ruling.outcome).toBe("blocked");
     const event = next.history.events.find((e) => e.id === ruling.eventId)!;
-    expect(event.summary).toMatch(/not compiled/);
+    expect(event.summary).toMatch(/no successor has taken office/);
+    expect(event.summary).not.toMatch(/game|compiled|modeled/);
   }, 300_000);
 
   it("the opening President's death is a truthful block; illness transfers nothing", () => {

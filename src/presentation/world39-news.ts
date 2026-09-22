@@ -12,6 +12,7 @@ import {
   municipalGovernmentForLifePlace,
   primaryReading,
 } from "../simulation/municipal-government";
+import { stateOfJurisdiction } from "../simulation/press/outlets";
 import { resolvePublicationSource } from "../simulation/public-information-integrity";
 import { currentPublicOfficeholders } from "./opening-officeholders";
 import { projectPublicInformationPanel } from "./public-information-adapters";
@@ -94,6 +95,16 @@ export function projectWorld39News(world: World, personId: EntityId) {
       )
       .map((entry) => entry.eventId),
   );
+  // A resident's news is their own place, their state, the nation, and what
+  // concerns them by name. A House vacancy in another state is not news in
+  // Maine (Maine playthrough, 2026-09-22).
+  const homeState = stateOfJurisdiction(world, jurisdictionId);
+  const closeToHome = (event: (typeof world.history.events)[number]) =>
+    event.jurisdictionId === null ||
+    event.jurisdictionId === jurisdictionId ||
+    (homeState !== null &&
+      stateOfJurisdiction(world, event.jurisdictionId) === homeState) ||
+    event.involvedEntityIds.includes(personId);
   const publicEvents = world.history.events
     .filter(
       (event) =>
@@ -102,6 +113,7 @@ export function projectWorld39News(world: World, personId: EntityId) {
         !publishedEvents.has(event.id) &&
         !officeEvents.has(event.id) &&
         !isWorldMachineryEvent(event.type, event.tags) &&
+        closeToHome(event) &&
         resolvePublicationSource(world, event) !== null,
     )
     .sort(

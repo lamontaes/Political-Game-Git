@@ -9,6 +9,7 @@ import {
   simulationMomentOnLocalDate,
 } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
+import { formatStatutoryDate } from "../legislation-content-contracts";
 import { stateJurisdictionForKey } from "../life-places";
 import { LIVING_WORLD_SCENARIO_PROFILE } from "../living-world/contract";
 import {
@@ -241,7 +242,12 @@ function vacateSeat(
         officeKey: seat.seatKey,
         title,
         outcome: "blocked",
-        sentence: `The seat is vacant. The Seventeenth Amendment lets ${seat.stateUsps}'s legislature allow its governor to appoint a temporary senator, but the game has not compiled ${seat.stateUsps}'s rule, so no one is appointed.`,
+        // PLACEHOLDER: the Seventeenth Amendment lets a state's legislature
+        // allow its governor to appoint a temporary senator. That rule is not
+        // compiled per state, so no one is appointed. The sentence is printed
+        // to players and says only what happened.
+        sentence:
+          "The seat is vacant, and no temporary senator has been appointed.",
       },
     };
   const window = seatTermWindow(seat, notice.effectiveDate);
@@ -261,7 +267,12 @@ function vacateSeat(
         officeKey: seat.seatKey,
         title,
         outcome: "vacant",
-        sentence: `The seat is vacant until the regular election on ${regular} fills it for the next term.`,
+        // A vacancy after the regular election has already been held waits
+        // for the new term rather than for an election in the past.
+        sentence:
+          regular > next.currentDate
+            ? `The seat is vacant until the regular election on ${formatStatutoryDate(regular)}.`
+            : `The seat stays vacant until the new term begins on ${formatStatutoryDate(window.endExclusive)}.`,
       },
     };
   const dueKey = specialElectionKey(seat, notice.effectiveDate);
@@ -283,7 +294,9 @@ function vacateSeat(
       officeKey: seat.seatKey,
       title,
       outcome: "special-election",
-      sentence: `The seat is vacant. ${seat.stateUsps}'s governor calls a special election, held on ${electionDay} in this game.`,
+      // The interval to the special election is a game profile, not the
+      // state's law (see HOUSE_SPECIAL_ELECTION_PROFILE).
+      sentence: `The seat is vacant. The governor has called a special election for ${formatStatutoryDate(electionDay)}.`,
     },
   };
 }
@@ -475,7 +488,9 @@ function presidentialRuling(
     ruling: {
       ...base,
       outcome: "succeeded",
-      sentence: `${personName(world.people[vice.plan.personId]!)} became President under the Twenty-Fifth Amendment. The vice presidency is vacant until a nominee is confirmed by both houses, which is not modeled.`,
+      // PLACEHOLDER: filling the vice presidency (a nominee confirmed by both
+      // houses) is not modeled, so the office stays vacant.
+      sentence: `${personName(world.people[vice.plan.personId]!)} became President under the Twenty-Fifth Amendment. The vice presidency is vacant.`,
     },
   };
 }
@@ -523,7 +538,9 @@ function rulingFor(
       ruling: {
         ...base,
         outcome: "blocked",
-        sentence: `${governorship.displayName} is vacant. ${governorship.stateUsps}'s constitution names the successor, but the game has not compiled that rule, so no one takes office.`,
+        // PLACEHOLDER: the state's constitution names the successor, and that
+        // rule is not compiled, so no one takes office.
+        sentence: `The office of ${governorship.displayName} is vacant, and no successor has taken office.`,
       },
     };
   return {
@@ -585,9 +602,12 @@ export function applyOfficeContinuityNotices(
           `outcome:${ruling.officeKey}:${ruling.outcome}`,
         ]),
       ],
-      summary: `${person ? personName(person) : "An officeholder"}: ${rulings
-        .map((ruling) => `${ruling.title}: ${ruling.sentence}`)
-        .join(" ")}`,
+      summary: rulings
+        .map(
+          (ruling) =>
+            `${person ? `${personName(person)}, ${ruling.title}.` : `${ruling.title}.`} ${ruling.sentence}`,
+        )
+        .join(" "),
       context: CONTEXT,
     });
   }
