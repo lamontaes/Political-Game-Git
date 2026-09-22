@@ -2,6 +2,7 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
 } from "./character-history";
+import { rememberedAdverseFindingsAgainst } from "./press/findings";
 import {
   CAMPAIGN_WEEKLY_EVALUATION_KEY,
   type CampaignOpponentRecord,
@@ -1082,6 +1083,21 @@ function writeSupportRequest(
       sourceRefs: [],
     },
   ];
+  for (const finding of rememberedAdverseFindingsAgainst(
+    world,
+    opponent.candidatePersonId,
+  )) {
+    considerations.push({
+      stableKey: `${stepKey}:organizer:public-finding:${finding.step.id}`,
+      optionKey: "decline",
+      sourceType: "context:public-ethics-finding",
+      direction: "supports",
+      importance: "strong",
+      confidence: "high",
+      explanation: `The ${finding.proceeding.institutionLabel} has made a public finding against the candidate.`,
+      sourceRefs: [{ kind: "historical-event", eventId: finding.step.eventId }],
+    });
+  }
   if (chapterBackedPlayer) {
     considerations.push({
       stableKey: `${stepKey}:organizer:already-backing`,
