@@ -467,6 +467,21 @@ is not researched twice.
   outliving the window between pushes is why there was never anything to cancel
   into. Those two facts together are the whole of it, and neither alone
   explains a night without a verdict.
+- **The first verdict on main came back red, and the red was already fixed.**
+  On `7fc33c85`, `unit (2, 6)` failed: `campaign-projection.test.ts:125`
+  expected the Kentucky seat-count note to match
+  `/no instrument fixing it was separately read/i` and got "The game does not
+  know how many seats Kentucky's chamber formally has, and it will not guess a
+  number." 1 failed, 1,189 passed. The producer in
+  `legislature-rule-packs.ts:345` had been rewritten to say the refusal in the
+  game's own voice instead of reciting research vocabulary at a candidate, and
+  the test was still pinned to the retired sentence. Commit `62ee25b7` fixed
+  the test to follow its producer — and **`62ee25b7` is not an ancestor of
+  `7fc33c85`, but is on current `main`**. So the night's first verdict is red
+  on a commit whose failure the branch had already repaired before the verdict
+  arrived. That is the merge-train problem stated as a test result rather than
+  as a queue: the verdict is for a state of the world that no longer exists by
+  the time anybody reads it.
 - **Main did get a verdict, at 07:46:10Z, and it is the first of the night.**
   Once the merges stopped, the run on `7fc33c85` executed: the `repository`
   job completed **success** with twelve steps, and a `unit` shard was running
