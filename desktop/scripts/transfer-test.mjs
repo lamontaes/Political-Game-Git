@@ -55,6 +55,30 @@ const app = await _electron.launch({
     OCD_DOWNLOAD_DIR: profile,
   },
 });
+
+/**
+ * Returning to the title always asks first.
+ *
+ * `leave-game` used to leave outright whenever there was nothing unsaved, so
+ * this proof clicked it and waited for the title. The shell now routes every
+ * return through `beginReturnToTitle`, which raises the confirmation whether or
+ * not the life is saved, so the unchanged click left the proof waiting for a
+ * title screen that was never coming. The proof follows the real flow instead
+ * of the shell being changed back to suit it.
+ *
+ * "Return without saving" rather than "Save and return": neither caller has
+ * work it wants kept at this point — the first has just saved and read the
+ * confirmation, the second only opened a slot and read it back — so a second
+ * save would prove nothing and would put an asynchronous write between the
+ * click and the title.
+ */
+async function returnToTitle(page) {
+  await page.getByTestId("leave-game").click();
+  await page.getByTestId("leave-confirm").waitFor();
+  await page.getByTestId("leave-without-saving").click();
+  await page.getByTestId("new-game").waitFor();
+}
+
 const page = await app.firstWindow();
 await page.waitForLoadState("domcontentloaded");
 
@@ -92,8 +116,7 @@ await page
   .getByTestId("keep-world")
   .waitFor({ state: "detached", timeout: 15000 });
 await page.getByText("Saved.", { exact: true }).waitFor({ timeout: 15000 });
-await page.getByTestId("leave-game").click();
-await page.getByTestId("new-game").waitFor();
+await returnToTitle(page);
 
 const interfaceSeed = await page.evaluate(async (databaseName) => {
   const db = await new Promise((resolve, reject) => {
@@ -336,8 +359,7 @@ for (let index = 0; index < 2; index += 1) {
   await page.getByTestId("play-screen").waitFor();
   await page.getByTestId("shell-nav-cluster").click();
   await page.getByTestId("shell-nav-flyout").waitFor();
-  await page.getByTestId("leave-game").click();
-  await page.getByTestId("new-game").waitFor();
+  await returnToTitle(page);
   await page.getByTestId("open-saves").click();
   await page.getByTestId("saves-screen").waitFor();
 }
