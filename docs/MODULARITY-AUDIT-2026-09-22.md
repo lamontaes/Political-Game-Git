@@ -202,21 +202,44 @@ point in the game and it should be the model for the rest.
   **zero production call sites** — the only callers in the whole repository are
   three test files. A person's temperament is seeded once from their own stream
   and is frozen for the life of the save. The machinery for "experience changes
-  who you are" is built and nothing drives it. _What it would take:_ call sites,
-  not code — the function is finished.
+  who you are" is built and nothing drives it.
+
+  **Now a requirement, not a finding.** The owner, 2026-09-22: "every character
+  should be able to change with varying levels of resistance." Measured: there
+  is no resistance concept anywhere in the simulation — the only match in the
+  tree is an unrelated episode key, `early.home.chore-resistance`.
+  `recordTraitChange` takes a justifying event and a reason and applies the new
+  value outright; nothing weighs how hard this person is to move, and nothing
+  makes one person harder to move than another. So this is a design gap on top
+  of a wiring gap: the call sites are missing, and the function they would call
+  does not yet model what he asked for.
+
 - **The player has no temperament, at all.** Measured: after `ensurePeopleTraits`
   over the controlled person, all five traits came back with `recordId: null`.
   `traitConsiderations` requires a non-null `recordId`, so **the played
   character's own traits contribute exactly nothing to any decision, ever.** This
-  is deliberate — `validateMindProvenance` refuses an authored temperament for
-  the controlled person because the game does not author the player — but the
-  consequence is that a system described as five traits across everyone is
-  five traits across everyone _except you_.
+  is deliberate, and more precisely than it first looks: `validateMindProvenance`
+  (`src/simulation/mind.ts:851`) refuses a trait record for the controlled
+  person **whose provenance is not `player-choice`** — not one for the player as
+  such. The seeding path writes `authored` provenance, which is why it skips
+  you. The game declines to author your temperament; it does not decline to let
+  you have one.
+
+  **Now a requirement.** The owner, 2026-09-22: "obviously you as a character
+  need your own. it's how you are portrayed to people." That reasoning matches
+  the guard rather than overriding it — your traits should come from what you
+  choose, which is what `player-choice` provenance is for. So this is not a
+  design to reverse but a seam built for exactly this and never filled: what is
+  missing is a path that records your traits from your own choices, and
+  consumers that read them when other people size you up.
+
 - **A trait's effects are not data.** `traitConsiderations` takes an array of
-  `TraitLean` written as a TypeScript literal at each call site. A trait cannot
-  say what it argues for; each consumer says it. So the sixth trait that costs
-  one file to define costs one edit _per situation it should matter in_, and
-  until then it is inert. Measured: the new `patience` trait produced zero
+  `TraitLean` written as a TypeScript literal at each call site, and
+  `TraitLean.trait` is typed `PeopleTrait` (`src/simulation/people-traits.ts:235`)
+  — the closed five-member union. A trait cannot say what it argues for; each
+  consumer says it, and can only say it about those five. So the sixth trait that
+  costs one file to define costs one edit _per situation it should matter in_,
+  no third party can reach any of them, and until then it is inert. Measured: the new `patience` trait produced zero
   considerations everywhere. _What it would take:_ move the leans into the trait
   definition, or into the content that raises the decision — this is the single
   change that turns the trait system into a trait framework.
@@ -263,10 +286,19 @@ Against the standing requirement that content be able to say _"in this kind of
 decision, argue this much for options of this shape"_, a pack today can only
 declare that it exists.
 
-One deliberate divergence worth a decision: unknown fields are **refused**, not
-ignored with a stated reason. Strict refusal is the right call for a save-bearing
-format, but it means a pack written for a later API cannot load at all on an
-earlier build. Whether that is the wanted behaviour is a product call.
+Unknown fields are **refused**, not ignored with a stated reason, so a pack
+written for a later API cannot load at all on an earlier build.
+
+**Decided by the owner, 2026-09-22, in his own words: "ignore it and say so.
+that shouldnt hold the game back."** So strict refusal is wrong here. A pack
+carrying something this build does not understand should load, the unknown part
+should be skipped, and the game should say which part was skipped and why. The
+`shape()` helper inside `assertRuntimeContentPack` is where that changes: today
+it throws when a key is neither required nor optional. This is a requirement
+now, not an open question, and **failing soft with a stated reason is the
+standard the effect-vocabulary work has to meet** — it is what lets a pack
+written for a later vocabulary keep working on an older build instead of
+bouncing.
 
 ### The two personality systems, confirmed independently
 
@@ -390,6 +422,9 @@ Against "modder-friendly like RimWorld and The Sims", the position is:
 1. **The loader is real and shipped.** That is the hard part and it is done.
 2. **The effect vocabulary is empty.** A pack can spend minutes and print a
    sentence. This is the gap that makes everything else look worse than it is.
+   And by the owner's decision of 2026-09-22, whatever fills it must fail soft:
+   a pack naming an effect this build does not know loads anyway, skips that
+   part, and says which part and why.
 3. **The state schema has no room for a mod.** `HistoryStore`'s 125 fields and
    `schemaVersion: 15` mean mod state has nowhere to live. Until there is a
    namespaced place for it, a mod cannot remember anything.
