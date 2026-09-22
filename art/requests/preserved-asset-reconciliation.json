@@ -303,6 +303,20 @@
       "reason": "The preserved cargo is character components and environment plates. There is no prop in it, and no prop anywhere in the manifest: the only asset whose id matches a prop word is a seated character pose. The residence plate paints a folded newspaper on this table as its own decoration, which is the fallback this object would sit over rather than a preserved unit that could close the request."
     },
     {
+      "requestId": "ui-ordinary-day-page-furniture",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this. Read at this head rather than copied from the neighbouring interface verdicts: the reconciliation resolves 20 preserved units, twelve character and morphology families and eight swept source photographs, and none of them is interface artwork. The manifest's 126 assets are environment plates and modular character components; a scan of every string in it for an interface word returns only prose sentences and garment filenames. So no preserved asset could answer or restate this ask."
+    },
+    {
+      "requestId": "ui-standing-thing-state-marks",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this, for the same measured reason as the page-furniture request above: none of the 20 preserved units is interface artwork, and the manifest holds none either. These are three state marks on the player's own list, which no character component or environment plate could stand in for."
+    },
+    {
       "requestId": "ui-temperament-marks-ten-poles",
       "verdict": "unaffected-still-required",
       "preservedUnits": [],
