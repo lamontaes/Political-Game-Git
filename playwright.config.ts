@@ -27,6 +27,31 @@ export default defineConfig({
     artifacts: run.artifacts,
     historicalEvidence: historicalEvidenceHashes(),
   },
+  /*
+   * A budget sized from what the walks actually cost, not from the default.
+   *
+   * This suite never set a `timeout`, so every case inherited Playwright's
+   * thirty seconds. That is below what an ordinary walk in this game costs:
+   * a case here opens the creator, answers every stage, enters a life and
+   * then does its actual work, and the simulation runs for real throughout.
+   * Measured on this machine at two workers, the docket route's own cases
+   * take 42.9 s, 43.6 s, 55.7 s and two at 60 s — all of them passing, none
+   * of them hung. Sixty of the suite's failures were that: a walk killed
+   * part-way and reported as a timeout, which reads like a broken screen.
+   *
+   * Two minutes is a little over twice the slowest legitimate case measured
+   * here, which leaves room for a CI runner slower than this one without
+   * leaving a genuinely hung test spinning for minutes before it is called.
+   * It is deliberately not generous: the sixty-second docket cases are close
+   * enough to this ceiling to be worth watching, and the point of writing the
+   * number down is that it can be argued with rather than silently inherited.
+   *
+   * Raising this does not hide anything. It uncovers: giving the cluster more
+   * time surfaced assertions that were already wrong and had been dying
+   * before they could be reached. A file that needs longer still says so
+   * itself, and `test.setTimeout` still wins over this.
+   */
+  timeout: 120_000,
   fullyParallel: false,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 1 : 0,

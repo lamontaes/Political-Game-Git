@@ -30,6 +30,15 @@ export interface QualificationSourceRef {
 
 export interface CandidateQualificationRuleSet {
   readonly ruleSetId: string;
+  /**
+   * The instrument this set's rules were read from.
+   *
+   * Declared per rule set rather than shared, because provenance is the one
+   * thing that must never be inherited from whichever state happened to be
+   * researched first. A second state's rows attributed to Alaska's
+   * constitution would be a sourcing error the game states as fact.
+   */
+  readonly source: QualificationSourceRef;
   readonly candidacyPackId: string;
   readonly officeKey: string;
   readonly jurisdictionKey: string;
@@ -44,36 +53,55 @@ const AK_CONSTITUTION: QualificationSourceRef = {
   sourceUrl: "https://ltgov.alaska.gov/information/alaskas-constitution/",
   legalLocator: "Alaska Const. art. II, §§ 2–3",
   retrievedAt: "2026-09-06T18:45:27.267Z",
-  provisionEffectiveOn: null,
+  // The constitution "became operative with the formal Proclamation of
+  // Statehood on January 3, 1959", in the publisher's own words, on the page
+  // already held at data/source/state-legislatures/raw/ak-constitution.html.
+  //
+  // That date governs THESE TWO SECTIONS only because their present words are
+  // the original ones, and the evidence for that is the publisher's own
+  // convention rather than an absence we are reading hopefully: the edition
+  // marks an amended section with a bracketed year, and Article II's body
+  // carries three such markers — 1984 on § 5 and 1976 twice — while §§ 2 and 3
+  // carry none. A convention that is demonstrably applied inside this very
+  // article, and applied to neighbours of these sections, makes its silence
+  // here evidence. Without that check the date would be convenient rather than
+  // honest, and a convenient date is exactly what ruleSetApplicableOn exists to
+  // keep out.
+  provisionEffectiveOn: "1959-01-03" as IsoDate,
   observedCurrentOn: "2026-09-06" as IsoDate,
   researchLineage: "31A Alaska legislative-office qualification rows",
 };
 
-function known<T>(value: T): QualificationValue<T> {
-  return { state: "KNOWN", value, source: AK_CONSTITUTION };
+function known<T>(
+  value: T,
+  source: QualificationSourceRef,
+): QualificationValue<T> {
+  return { state: "KNOWN", value, source };
 }
 
 export const CANDIDATE_QUALIFICATION_RULE_SETS: readonly CandidateQualificationRuleSet[] =
   [
     {
       ruleSetId: "us-ak-house-qualifications-v1",
+      source: AK_CONSTITUTION,
       candidacyPackId: "us-ak-legislature-v1:candidacy",
       officeKey: "us-ak-legislature-v1:house",
       jurisdictionKey: "US-AK",
-      minimumAge: known(21),
-      stateResidenceYears: known(3),
-      districtResidenceYears: known(1),
-      termYears: known(2),
+      minimumAge: known(21, AK_CONSTITUTION),
+      stateResidenceYears: known(3, AK_CONSTITUTION),
+      districtResidenceYears: known(1, AK_CONSTITUTION),
+      termYears: known(2, AK_CONSTITUTION),
     },
     {
       ruleSetId: "us-ak-senate-qualifications-v1",
+      source: AK_CONSTITUTION,
       candidacyPackId: "us-ak-legislature-v1:candidacy",
       officeKey: "us-ak-legislature-v1:senate",
       jurisdictionKey: "US-AK",
-      minimumAge: known(25),
-      stateResidenceYears: known(3),
-      districtResidenceYears: known(1),
-      termYears: known(4),
+      minimumAge: known(25, AK_CONSTITUTION),
+      stateResidenceYears: known(3, AK_CONSTITUTION),
+      districtResidenceYears: known(1, AK_CONSTITUTION),
+      termYears: known(4, AK_CONSTITUTION),
     },
   ];
 
@@ -88,10 +116,53 @@ export function candidateQualificationRuleSet(
         rules.candidacyPackId === candidacyPackId &&
         rules.officeKey === officeKey,
     ) ?? null;
-  if (!rules || onDate >= AK_CONSTITUTION.observedCurrentOn) return rules;
+  return rules === null ? null : ruleSetApplicableOn(rules, onDate);
+}
+
+/**
+ * The same rule set, with any field the evidence cannot place on `onDate`
+ * turned to UNKNOWN.
+ *
+ * Separated from the lookup above so the dating rule can be exercised on a set
+ * this build does not ship. Otherwise it could only ever be tested against
+ * Alaska's two, and the behaviour that matters is what happens to the next
+ * state's.
+ */
+export function ruleSetApplicableOn(
+  rules: CandidateQualificationRuleSet,
+  onDate: IsoDate,
+): CandidateQualificationRuleSet {
+  // Two different questions, asked in the right order.
+  //
+  // If the instrument's own commencement is known, that is the fact: the words
+  // applied from that day, whenever we happened to read them. Only when it is
+  // unknown do we fall back to the weaker claim, that we can vouch for the text
+  // no earlier than the day we saw it. The same distinction the sourced
+  // qualification corpus draws between an EXACT_INTERVAL and a bare
+  // CURRENT_OBSERVATION — one discipline, kept the same in both files.
+  //
+  // Each set is gated on ITS OWN instrument. Reading one state's dates against
+  // another state's rows would either hide a stale rule or refuse a sound one.
+  const { legalLocator, observedCurrentOn, provisionEffectiveOn } =
+    rules.source;
+  if (provisionEffectiveOn !== null) {
+    if (onDate >= provisionEffectiveOn) return rules;
+    const unknownBefore = (field: string): QualificationValue<number> => ({
+      state: "UNKNOWN",
+      reason: `${legalLocator} took effect on ${provisionEffectiveOn}; it does not establish ${field} on the earlier date ${onDate}.`,
+    });
+    return {
+      ...rules,
+      minimumAge: unknownBefore("minimum age"),
+      stateResidenceYears: unknownBefore("state residence"),
+      districtResidenceYears: unknownBefore("district residence"),
+      termYears: unknownBefore("term length"),
+    };
+  }
+  if (onDate >= observedCurrentOn) return rules;
   const unavailable = (field: string): QualificationValue<number> => ({
     state: "UNKNOWN",
-    reason: `${AK_CONSTITUTION.legalLocator} was observed in the acquired source on ${AK_CONSTITUTION.observedCurrentOn}; that later observation does not establish ${field} on ${onDate}.`,
+    reason: `${legalLocator} was observed in the acquired source on ${observedCurrentOn}; that later observation does not establish ${field} on ${onDate}.`,
   });
   return {
     ...rules,
