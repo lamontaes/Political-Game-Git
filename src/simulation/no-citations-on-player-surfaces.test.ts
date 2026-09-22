@@ -11,7 +11,7 @@ import type { Person } from "./types";
 import { makeIsoDate } from "./dates";
 import { allGovernmentUnits } from "./government-units";
 import { resolveCapability } from "./rule-capability-resolver";
-import { US_STATE_NAMES } from "./nationwide-world/state-executive-candidacy-packs";
+import { lifePlaceStateIdentities } from "./life-places";
 
 /*
  * lamontae's rule, in his own words: "there should be NO references to sources
@@ -177,6 +177,14 @@ describe("no player-facing sentence carries a citation", () => {
 /** An internal identifier that must never reach a sentence. */
 const INTERNAL_ID = /US-[A-Z]{2}\b|gus2025:|\bPID6\b/;
 
+/**
+ * Every jurisdiction the game seats, taken from the game's own list rather
+ * than typed here. It is 52 — the fifty states, DC and Puerto Rico.
+ */
+const JURISDICTIONS = lifePlaceStateIdentities().map(
+  (identity) => identity.usps,
+);
+
 describe("the capability resolver refuses without naming its source", () => {
   const DATES = [
     makeIsoDate("1900-01-05"),
@@ -206,16 +214,20 @@ describe("the capability resolver refuses without naming its source", () => {
   }
 
   it("has scopes to check, so a silent zero cannot pass this block", () => {
-    // Fifty exactly: this map is the states with governors, and DC is a place,
-    // not a state. The game's "50 states and DC" is a different list; if a
-    // resolver sentence for DC is ever player-facing it needs its own sweep.
-    expect(Object.keys(US_STATE_NAMES).length).toBe(50);
+    // Derived, not authored. The first version of this block walked
+    // US_STATE_NAMES, which is the fifty states WITH GOVERNORS and says so in
+    // its own comment. The game's jurisdictions are 52: the fifty states, the
+    // District of Columbia and Puerto Rico. Two of them were outside every
+    // net in the repository, and adding DC by hand would have left Puerto
+    // Rico exactly as unswept while looking complete.
+    expect(JURISDICTIONS.length).toBeGreaterThanOrEqual(51);
+    expect(JURISDICTIONS).toContain("DC");
     expect(allGovernmentUnits().length).toBeGreaterThan(0);
   });
 
-  it("holds for every state, action and date", () => {
+  it("holds for every jurisdiction, action and date", () => {
     const offenders: string[] = [];
-    for (const usps of Object.keys(US_STATE_NAMES)) {
+    for (const usps of JURISDICTIONS) {
       for (const action of ACTIONS) {
         for (const onDate of DATES) {
           const resolution = resolveCapability({
