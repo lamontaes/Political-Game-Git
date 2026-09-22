@@ -480,3 +480,41 @@ task.
   list.
 - **A theme for the UI.** U6 above is the one item that needs him rather than a
   lane.
+
+---
+
+## Appendix · 61B, read 2026-09-22
+
+`61B_CLAUDE_ORIGINAL_VISION_AND_DYNAMIC_CAUSAL_ARCHITECTURE_AUDIT`, Drive
+`1982313Yo3NKERYCBQsyszNfafSxi62UiIMWLoIWaH7A`, dated 2026-09-04 and audited at
+main `b986fbe`, PR #60. This is not the "61 page audit" — that is the 63-page
+*Full-Game Audit — Review Edition 1*. It is a separate document with a
+confusingly similar name.
+
+**It is three weeks stale and most of it is already overtaken.** Its central
+claim about parties — *"no party model exists"* — was true at `b986fbe` and is
+false at `273fd2b8`, which is the same trap P1 above corrects. Nothing in it
+should be turned into a task without measuring at the current head first.
+
+**Two things in it are still worth checking**, because neither would announce
+itself:
+
+- **R5, a crash rather than a defect.** It found production time paths calling
+  `advanceWorld(world, days)` with no transition-handler registry, and predicted
+  that the first scheduled item outliving the call that scheduled it throws
+  *"Missing future-transition handler"* the next time the player advances the
+  day. At `273fd2b8` the throw still exists at `future-transitions.ts:390` and
+  `:429`, and `character-history.ts:1159` still calls `advanceWorld` with two
+  arguments while `people-continuation.ts:638` passes handlers. Whether it is
+  reachable today is unmeasured. A fixture that schedules across a call
+  boundary would settle it in an hour.
+- **P8, the behaviour it calls the one most responsible for "the game
+  remembered that".** Callbacks that fire because preserved causal state says
+  they should. It reported the ingredients present and never assembled. This is
+  the same territory as A5 and A7 and should be checked alongside them.
+
+**Its framing is useful even where its findings are not.** Its eight-row
+dynamism matrix asks, for each claim, whether the capability exists, whether
+content supplies it, whether anything player-facing is wired to it, and whether
+a test proves it. Capability without supply or wiring is the failure mode this
+project keeps rediscovering — it is what A2, B6, G1 and M1 all are.
