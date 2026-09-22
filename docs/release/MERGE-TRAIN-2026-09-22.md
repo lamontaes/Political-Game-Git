@@ -106,6 +106,41 @@ world-event line pinned to the top of six different screens. Nobody had
 reported it and nothing fixes it tonight. It is a real bug and it belongs in
 the report rather than on this list.
 
+## Withdrawn: the three-menu-destinations claim, which is in a merge commit
+
+**If you came here from git history, read this before believing a commit
+message you passed on the way.**
+
+A claim circulated last night that Budget, Tax and Transit were three shell
+menu destinations all opening the same page. **It is withdrawn.** It is not in
+this document's own text, but it _is_ in **#335's merge commit message**, which
+is on `main` and cannot be edited without rewriting published history. So the
+retraction lives here, where a reader following the train is likely to land.
+
+**What was actually happening.** Settled in the browser on `main` at
+`0e0cebe8`: the shell holds one Politics entry, and `nav-politics-budget`,
+`nav-politics-tax` and `nav-politics-transit` appear **zero times** on the
+rendered page. They are keys in `POLITICS_HUB` in
+`tests/e2e/support/creator.ts`, and `openPoliticsHub` does a bare `continue`
+when the sub-control does not exist. Three helper destinations therefore left
+the walk sitting on the same page three times, and the identical text was one
+screen read three times rather than three screens reading alike.
+
+**The corrected sentence belongs in the good column.** Transit and tax are
+their own surfaces with their own frames, and a life that cannot use them is
+told so in words, at `transit-withheld` and `tax-withheld`, because
+`politicsIssueAccess` holds that the budget is for everyone while transit and
+tax are an office's tools. That is the fail-soft rule working exactly as it was
+asked to: not refused, not silent, told why.
+
+**The rule, which belongs beside D-086.** _A test helper route is not a player
+route._ Confirm a destination exists on the rendered page before writing down a
+navigation defect. A helper that skips silently when a control is missing will
+report agreement between screens that were never visited, and the failure looks
+like a finding rather than like an error.
+
+Retracted in the tree as #338 at `d6090983`.
+
 ## A proposal: the unit suite and the browser suite should not be one run
 
 **Named here so it can be decided rather than rediscovered.** This is not

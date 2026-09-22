@@ -2807,6 +2807,17 @@ which shard, or which browser.
   author teaches nobody, and the reader cannot tell which other claims from the
   same source to re-examine.
 
+**A corollary, from the one finding that turned out not to be one: a test
+helper route is not a player route.** A walk reported that three menu
+destinations all opened the same page. They were keys in a Playwright helper,
+and the helper skipped silently when the control did not exist, so the walk sat
+on one page three times and read the same text three times. Confirm a
+destination exists on the rendered page before writing down a navigation
+defect. This is the same rule as the rest of the entry seen from the
+instrument's side: a measurement carries what it actually reached, and a
+helper that fails by doing nothing reports agreement where there was no
+observation.
+
 **What this does not license.** It is not permission to skip a gate that is
 available, to call a failing test an infrastructure flake, or to merge code
 whose behaviour nobody exercised. Where a verdict is obtainable it is obtained.
