@@ -1,0 +1,34 @@
+{
+  "repositoryPathsSearched": [
+    "art/manifest/asset_manifest.json",
+    "art/generated/approved/",
+    "art/families/regional-opening/",
+    "art/requests/asset-requests.json",
+    "src/environment/reference/corpus.ts"
+  ],
+  "driveLocationsSearched": [],
+  "found": "No capitol picture exists. All 126 records in the asset manifest were read: 11 are environment-plate and none is a capitol or statehouse. The 83 approved PNGs on disk are all character components. The two environment plates that actually ship into this same panel were measured here \u2014 cross-timbers-oak-prairie at 2496x1664 and sonoran-desert at 2208x1584, both 8-bit RGB with no alpha channel. What does exist is the building identity `us.va.capitol` in src/environment/reference/corpus.ts, recorded with uniquenessClass 'jurisdiction-variant' and referencePack 'strong-source-family'.",
+  "shortfall": "An identity is not a picture. The reference corpus can say which building this is and what must not be assumed about it, and it cannot put anything on the screen. Drive was not searched for this: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet.",
+  "generationRecipe": [
+    "The Virginia State Capitol seen from outside, framed on the building and its immediate grounds, in the same drawn style as the regional opening plates already shipping in this panel.",
+    "Leaf-on months: spring, summer or early autumn. No snow.",
+    "This building is recorded as a jurisdiction variant, so a shared compositional approach is legitimate, but its own identifying features have to be right.",
+    "No people, no vehicles in the foreground, no flags of any party or campaign. This is the building, not an event at it.",
+    "Landscape orientation, at least as wide as the plates already in this panel, 8-bit RGB with no alpha \u2014 the panel paints it full-bleed behind text and has nothing to composite it over."
+  ],
+  "acceptanceCriteria": [
+    "Recognisably the Virginia State Capitol to somebody who has seen it, not a generic statehouse.",
+    "Shows spring, summer or autumn. A snow-covered or bare-branch delivery is wrong for this request whatever else is right about it.",
+    "At least 2208 pixels wide \u2014 the narrower of the two plates already shipping in this panel \u2014 in landscape orientation.",
+    "8-bit RGB. A delivery carrying an alpha channel is wrong: nothing composites behind this.",
+    "Shows the building, not governing. A Capitol identity does not establish an everyday working office or a current occupant, and a delivery implying either has answered a different request."
+  ],
+  "target": {
+    "targetClass": "environment-plate",
+    "minimumWidth": 2208,
+    "aspectRatio": "landscape, 3:2 or wider \u2014 matching the 2496x1664 and 2208x1584 plates already in this panel",
+    "alphaRequired": false,
+    "container": "png",
+    "styleAuthority": "The two regional opening plates already shipping in this panel, art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png and env_regional_sonoran_desert_v1.png, for drawing style; and the recorded building identity us.va.capitol in src/environment/reference/corpus.ts for what the building is."
+  }
+}

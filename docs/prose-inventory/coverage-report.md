@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 3166 |
 | INTENTIONALLY_NON_PLAYER_FACING | 7099 |
-| DIAGNOSTIC_OR_TEST | 7795 |
-| **NEEDS_CLASSIFICATION** | **10589** |
+| DIAGNOSTIC_OR_TEST | 7881 |
+| **NEEDS_CLASSIFICATION** | **10601** |
 
-Scanned 1168 files holding 113327 string
+Scanned 1175 files holding 113681 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -251,6 +251,7 @@ literals in total; the table counts only those that read like a sentence.
 | 11 | `src/player/NationwideCandidacyWorkspace.tsx` |
 | 11 | `src/player/PlacesWorkspace.tsx` |
 | 11 | `src/player/PublicInformationPanel.tsx` |
+| 11 | `src/player/WorldOrientationPanel.tsx` |
 | 11 | `src/player/news/NewsDesk.tsx` |
 | 11 | `src/player/politics/PartyInitiativesPanel.tsx` |
 | 11 | `src/presentation/modeled-account-history.ts` |
@@ -390,6 +391,7 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/simulation/government-units.generated.ts` |
 | 5 | `src/simulation/incident-response.fixture.ts` |
 | 5 | `src/simulation/municipal-election-rules.ts` |
+| 5 | `src/simulation/press/story-voice.ts` |
 | 5 | `src/simulation/service-delivery-response.ts` |
 | 5 | `src/ui/ScenePresentationProofView.tsx` |
 | 4 | `src/districts/query.ts` |
@@ -401,7 +403,6 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/player/CreatorBirthdayFields.tsx` |
 | 4 | `src/player/GuideWorkspace.tsx` |
 | 4 | `src/player/WardrobeFigure.tsx` |
-| 4 | `src/player/WorldOrientationPanel.tsx` |
 | 4 | `src/player/politics/GovernmentBrowser.tsx` |
 | 4 | `src/player/politics/PublicServicePanel.tsx` |
 | 4 | `src/presentation/browser-shell-state.ts` |
