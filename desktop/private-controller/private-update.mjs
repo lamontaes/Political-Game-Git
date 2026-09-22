@@ -205,3 +205,22 @@ export function buildRecord(identity, appPath, architecture, installedAt) {
     installedAt,
   };
 }
+
+/**
+ * The runtime-content snapshot a track's next build should pair with: its
+ * own when it has one, otherwise the most recently installed snapshot any
+ * other track already plays with. Art then travels independently of code,
+ * so a code change can never make a track's artwork "incompatible".
+ */
+export function runtimeContentFor(state, id) {
+  const own = state?.tracks?.[id]?.current?.content;
+  if (own) return own;
+  let chosen = null;
+  for (const track of Object.values(state?.tracks ?? {})) {
+    const build = track?.current;
+    if (!build?.content) continue;
+    if (!chosen || String(build.installedAt) > String(chosen.installedAt))
+      chosen = build;
+  }
+  return chosen?.content ?? null;
+}

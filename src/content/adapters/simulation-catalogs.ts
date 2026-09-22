@@ -42,8 +42,10 @@ import {
  * table, a bounded outbreak, a synthetic policy corpus — and
  * `assertProductionCatalogBoundary` refuses to let any of it into a player's
  * world. `createProduction*Catalog` builds what a player's world actually
- * starts with, and today that is nothing at all, because no sourced actuarial
- * table, policy corpus or incident model exists yet.
+ * starts with. That was nothing at all until the policy packs landed; today it
+ * carries the sourced issue vocabulary and the authored positions on it, and
+ * stays empty for mortality and incidents, because no sourced actuarial table
+ * or incident model exists yet.
  *
  * Both belong in the index and neither may be mistaken for the other, which is
  * what `authority` and `status` are for. An empty production bank is a real

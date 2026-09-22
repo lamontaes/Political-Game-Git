@@ -12,6 +12,7 @@ import {
   repositoryIsExpected,
   withPendingBuild,
   privateInputIgnoreRules,
+  runtimeContentFor,
 } from "../private-controller/private-update.mjs";
 
 const A = "a".repeat(40);
@@ -146,4 +147,28 @@ test("state and built identity validation fail closed", () => {
     ).revision,
     A,
   );
+});
+
+test("main pairs with the newest runtime-content snapshot any track plays", () => {
+  const snap = (c) => ({
+    schema: "ocd-runtime-art/v1",
+    id: c.repeat(64),
+    cacheRoot: "/data/content",
+  });
+  const state = {
+    tracks: {
+      main: { current: { installedAt: "2026-09-22T00:00:00Z" } },
+      "branch:old": {
+        current: { installedAt: "2026-09-20T00:00:00Z", content: snap("a") },
+      },
+      "branch:new": {
+        current: { installedAt: "2026-09-21T00:00:00Z", content: snap("b") },
+      },
+    },
+  };
+  assert.equal(runtimeContentFor(state, "main").id, "b".repeat(64));
+  // A track's own snapshot always wins over another track's newer one.
+  state.tracks.main.current.content = snap("c");
+  assert.equal(runtimeContentFor(state, "main").id, "c".repeat(64));
+  assert.equal(runtimeContentFor({ tracks: {} }, "main"), null);
 });
