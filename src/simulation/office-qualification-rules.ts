@@ -392,6 +392,36 @@ function durationMonths(
   return null;
 }
 
+/**
+ * What a requirement asks for, in words, for a rule the game reports without
+ * deciding.
+ *
+ * The raw cell is a transport value — `true` for Ohio's elector requirement,
+ * `MEMBER_STATE_BAR_OF_NEVADA` for Nevada's Attorney General, a bare number
+ * for a citizenship term — and printing it put "requires true" on the player's
+ * screen. A player is owed the requirement, not our storage for it.
+ */
+function requirementPhrase(row: SourcedQualification): string {
+  switch (row.field) {
+    case "US_CITIZENSHIP": {
+      const term = durationMonths(row);
+      return term === null
+        ? "United States citizenship"
+        : `United States citizenship for ${term.label}`;
+    }
+    case "ELECTOR_REQUIREMENT":
+      return "that the candidate is a qualified elector";
+    case "PROFESSIONAL_QUALIFICATION":
+      return typeof row.value === "string"
+        ? row.value.toLowerCase().replace(/_/g, " ")
+        : "a professional qualification";
+    default:
+      return typeof row.value === "string"
+        ? row.value.toLowerCase().replace(/_/g, " ")
+        : String(row.value);
+  }
+}
+
 /** The elapsed side of the same comparison, in the same unit. */
 function residedLabel(months: number): string {
   if (months >= 12 && months % 12 === 0) {
@@ -533,7 +563,7 @@ export function assessOfficeQualifications(
           verdict: "not-evaluated",
           reason:
             held === null
-              ? `${row.citation} requires ${String(row.value)} of residence. The game has not recorded when this character came to live here, so it will not guess whether they qualify.`
+              ? `${row.citation} ${required === null ? "sets a residence requirement" : `requires ${required.label} of residence`}. The game has not recorded when this character came to live here, so it will not guess whether they qualify.`
               : `${row.citation} states a residence requirement the game cannot read as a length of time.`,
           source: row,
         });
@@ -575,7 +605,7 @@ export function assessOfficeQualifications(
     assessments.push({
       field: row.field,
       verdict: "not-evaluated",
-      reason: `${row.citation} requires ${String(row.value)}. The game does not record that about a character, so it neither grants nor refuses on it.`,
+      reason: `${row.citation} requires ${requirementPhrase(row)}. The game does not record that about a character, so it neither grants nor refuses on it.`,
       source: row,
     });
   }

@@ -17,13 +17,16 @@ import {
 import {
   assessOfficeQualifications,
   officeFamilyForChamberKey,
+  officeQualifications,
 } from "./office-qualification-rules";
 import type { QualificationAssessment } from "./office-qualification-rules";
-import type { DistrictSeatBinding, EntityId, World } from "./types";
+import type { DistrictSeatBinding, EntityId, IsoDate, World } from "./types";
 import {
   bindOfficeToDistrict,
   districtResidenceSince,
+  recordedDistrictResidenceSince,
 } from "./district-residence";
+import { gazetteerChamberForOfficeChamberKey } from "../districts/query";
 
 /**
  * Whether a particular character may stand, and where.
@@ -187,6 +190,51 @@ export interface CandidacyEligibilityInput {
  * openly admits is its own rule. None of them is a hidden threshold, and none
  * of them tells the player how close they came.
  */
+/**
+ * Whether this office's seats are identified by district, so a filing has to
+ * name one.
+ *
+ * Eligibility reads the district a person already lives in, which answers
+ * "could they stand at all". It does not answer "which seat", and a contest is
+ * recorded against a Gazetteer identity, so filing still needs the binding
+ * spelled out. Before this existed, an unbound filing was refused only as a
+ * side effect of the district being unreadable — which was also why the
+ * campaign screen refused everybody in these states.
+ */
+export function districtSeatMustBeNamed(
+  jurisdictionId: EntityId,
+  officeKey: string,
+  onDate: IsoDate,
+): boolean {
+  const executive = stateExecutiveIdentityForOfficeKey(officeKey);
+  if (executive) return false;
+  const authority = candidacyAuthority(jurisdictionId);
+  // Two rule sources carry a district requirement and either one makes the
+  // seat district-identified: the pack's own sourced rule set, and the
+  // per-state qualification rows.
+  const pack = authority.pack;
+  if (pack) {
+    const rules = candidateQualificationRuleSet(pack.packId, officeKey, onDate);
+    const district = rules?.districtResidenceYears;
+    if (
+      district &&
+      district.state !== "NOT_APPLICABLE" &&
+      district.state !== "NO_REQUIREMENT_FOUND"
+    ) {
+      return true;
+    }
+  }
+  const chamberKey = officeKey.split(":").at(-1) ?? null;
+  const officeFamily =
+    chamberKey === null ? null : officeFamilyForChamberKey(chamberKey);
+  if (officeFamily === null) return false;
+  return officeQualifications(
+    authority.stateJurisdictionKey,
+    officeFamily,
+    onDate,
+  ).some((row) => row.field === "DISTRICT_RESIDENCE");
+}
+
 export function candidacyEligibility(
   world: World,
   input: CandidacyEligibilityInput,
@@ -264,9 +312,28 @@ export function candidacyEligibility(
       ? null
       : officeFamilyForChamberKey(chamberKey);
   const boundDistrict = boundOption?.office.districtBinding ?? null;
+  // A district-residence rule is asked about before any seat is bound, which
+  // is every time the player looks at whether they could stand at all. With no
+  // binding to measure against, this used to answer null, and null reads as
+  // "the game has not recorded when this character came to live here" — so
+  // every office whose rules carry a district-residence requirement refused
+  // forever, in a world that had recorded the membership on its first day.
+  // Falling back to the person's own recorded district for this chamber asks
+  // the same question of the same records; it does not relax the rule.
+  const gazetteerChamber =
+    chamberKey === null
+      ? null
+      : gazetteerChamberForOfficeChamberKey(chamberKey);
   const districtSince =
     boundDistrict === null
-      ? null
+      ? gazetteerChamber === null
+        ? null
+        : recordedDistrictResidenceSince(
+            world,
+            input.personId,
+            gazetteerChamber,
+            world.currentDate,
+          )
       : districtResidenceSince(
           world,
           input.personId,
