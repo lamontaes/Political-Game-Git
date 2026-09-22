@@ -4,10 +4,7 @@ import { makeIsoDate } from "../dates";
 import { executiveRulePackForJurisdiction } from "../executive-authority-rule-packs";
 import { activeElectedExecutiveTermEvidence } from "../executive-work-context";
 import { createStableId } from "../ids";
-import {
-  lifePlaceByJurisdictionId,
-  stateJurisdictionForKey,
-} from "../life-places";
+import { lifePlaceByJurisdictionId } from "../life-places";
 import { drawCanonicalName, personName } from "../people";
 import { SeededRng } from "../rng";
 import type { EntityId, IsoDate, World } from "../types";
@@ -27,12 +24,11 @@ import {
   STATE_GOVERNMENT_STRUCTURE_SOURCE,
   stateExecutiveIdentity,
 } from "./state-executive-candidacy-packs";
-import type { StateExecutiveIdentity } from "./state-executive-candidacy-packs";
 import {
   DISTRICT_OF_COLUMBIA_STRUCTURE_SOURCE,
-  districtOfColumbiaJurisdiction,
   isDistrictOfColumbia,
 } from "./district-of-columbia";
+import { chiefExecutiveJurisdiction } from "./government-jurisdiction";
 
 export const STATE_EXECUTIVE_WRITER_VERSION = "nationwide-state-executive-v1";
 
@@ -56,25 +52,12 @@ export interface StateExecutiveOffice {
   readonly sources: readonly string[];
 }
 
-/**
- * The jurisdiction a chief executive governs from.
- *
- * For a state that is its state jurisdiction. The District is one government,
- * so its Mayor governs from the same jurisdiction its one city unit does,
- * rather than from a second district-wide identity beside it.
- */
-function chiefExecutiveJurisdiction(identity: StateExecutiveIdentity) {
-  return isDistrictOfColumbia(identity.stateUsps)
-    ? districtOfColumbiaJurisdiction()
-    : stateJurisdictionForKey(identity.jurisdictionKey);
-}
-
 export function stateExecutiveOffice(
   stateUsps: string,
 ): StateExecutiveOffice | null {
   const identity = stateExecutiveIdentity(stateUsps);
   if (!identity) return null;
-  const jurisdiction = chiefExecutiveJurisdiction(identity);
+  const jurisdiction = chiefExecutiveJurisdiction(identity.stateUsps);
   if (!jurisdiction) return null;
   const pack = identity.executivePackId
     ? executiveRulePackForJurisdiction(identity.jurisdictionKey)
@@ -227,9 +210,7 @@ function registerStateJurisdiction(
   office: StateExecutiveOffice,
 ): World {
   if (world.jurisdictions[office.jurisdictionId]) return world;
-  const jurisdiction = chiefExecutiveJurisdiction(
-    stateExecutiveIdentity(office.stateUsps)!,
-  )!;
+  const jurisdiction = chiefExecutiveJurisdiction(office.stateUsps)!;
   return {
     ...world,
     jurisdictions: { ...world.jurisdictions, [jurisdiction.id]: jurisdiction },

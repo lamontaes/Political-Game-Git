@@ -5,10 +5,8 @@ import {
 } from "./candidacy-packs";
 import type { CandidacyPack, ElectiveOfficeOption } from "./candidacy-packs";
 import { ageOnDate } from "./dates";
-import {
-  lifePlaceByJurisdictionId,
-  stateJurisdictionForKey,
-} from "./life-places";
+import { lifePlaceByJurisdictionId } from "./life-places";
+import { chiefExecutiveJurisdictionId } from "./nationwide-world/government-jurisdiction";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import { stateResidenceSince } from "./nationwide-world/residence-duration";
 import { recordedTermsInOffice } from "./nationwide-world/prior-terms";
@@ -341,8 +339,7 @@ export function candidacyEligibility(
   const livesElsewhere = executive
     ? lifePlaceByJurisdictionId(person.homeJurisdictionId)
         ?.stateJurisdictionKey !== executive.jurisdictionKey ||
-      input.jurisdictionId !==
-        stateJurisdictionForKey(executive.jurisdictionKey)?.id
+      input.jurisdictionId !== chiefExecutiveJurisdictionId(executive.stateUsps)
     : person.homeJurisdictionId !== input.jurisdictionId;
   if (livesElsewhere) {
     blocks.push({

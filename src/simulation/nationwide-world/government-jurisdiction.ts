@@ -1,7 +1,8 @@
 import { createStableId } from "../ids";
 import { stateJurisdictionForKey } from "../life-places";
-import type { EntityId } from "../types";
+import type { EntityId, Jurisdiction } from "../types";
 import {
+  districtOfColumbiaJurisdiction,
   districtOfColumbiaJurisdictionId,
   isDistrictOfColumbia,
 } from "./district-of-columbia";
@@ -68,4 +69,28 @@ export function governingJurisdictionIdFor(
     return createStableId("jurisdiction", `national-place:${unit.placeGeoid}`);
   }
   return createStableId("jurisdiction", `government-unit:${unit.id}`);
+}
+
+/**
+ * The one jurisdiction a state's or the District's chief executive governs
+ * from.
+ *
+ * Every producer on the chief-executive route reads this rather than resolving
+ * `US-xx` itself, because that resolution is wrong for the District: it yields
+ * a district-wide placeholder beside the jurisdiction its one real government
+ * already governs from. An office compiled from one and a candidacy checked
+ * against the other is the duplicate identity NATIONWIDE1 forbids, and it does
+ * not show up in a test that reads only titles.
+ */
+export function chiefExecutiveJurisdiction(
+  stateUsps: string,
+): Jurisdiction | null {
+  if (isDistrictOfColumbia(stateUsps)) return districtOfColumbiaJurisdiction();
+  return stateJurisdictionForKey(`US-${stateUsps}`);
+}
+
+export function chiefExecutiveJurisdictionId(
+  stateUsps: string,
+): EntityId | null {
+  return chiefExecutiveJurisdiction(stateUsps)?.id ?? null;
 }

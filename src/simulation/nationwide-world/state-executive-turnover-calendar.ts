@@ -1,6 +1,6 @@
 import { addDays } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { stateJurisdictionForKey } from "../life-places";
+import { chiefExecutiveJurisdictionId } from "./government-jurisdiction";
 import type { IsoDate, World } from "../types";
 import { scheduleGoverningSeasons } from "../governing/governing-calendar";
 import { CHIEF_EXECUTIVE_JURISDICTIONS } from "./state-executive-candidacy-packs";
@@ -87,7 +87,7 @@ export function scheduleNextFieldClose(
   if (world.history.futureDueItems.some((due) => due.stableKey === stableKey))
     return world;
   const registered = ensureStateJurisdiction(world, stateUsps);
-  const stateId = stateJurisdictionForKey(`US-${stateUsps}`)!.id;
+  const stateId = chiefExecutiveJurisdictionId(stateUsps)!;
   return scheduleFutureDueItem(registered, {
     stableKey,
     dueAt: fieldClosingDate(next.electionDay),
@@ -114,7 +114,7 @@ export function applyGovernorTurnover(before: IsoDate, world: World): World {
     next = scheduleGoverningSeasons(
       next,
       office.officeKey,
-      stateJurisdictionForKey(`US-${office.stateUsps}`)!.id,
+      chiefExecutiveJurisdictionId(office.stateUsps)!,
     );
   }
   return next;

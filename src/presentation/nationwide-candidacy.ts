@@ -11,7 +11,7 @@ import {
   stateExecutiveTermRuleNote,
   stateExecutiveIdentity,
   stateExecutiveTermRule,
-  stateJurisdictionForKey,
+  chiefExecutiveJurisdiction,
   termDatesAfterElection,
 } from "../simulation";
 import type {
@@ -49,7 +49,7 @@ export function stateExecutiveCandidacyForPerson(
   const usps = homeStateUsps(world, personId);
   const identity = usps ? stateExecutiveIdentity(usps) : null;
   const jurisdiction = identity
-    ? stateJurisdictionForKey(identity.jurisdictionKey)
+    ? chiefExecutiveJurisdiction(identity.stateUsps)
     : null;
   if (!identity || !jurisdiction) return null;
   const eligibility = candidacyEligibility(world, {

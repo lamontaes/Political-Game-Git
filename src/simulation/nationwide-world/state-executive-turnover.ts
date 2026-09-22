@@ -19,7 +19,7 @@ import type {
   IsoDate,
   World,
 } from "../types";
-import { stateJurisdictionForKey } from "../life-places";
+import { chiefExecutiveJurisdictionId } from "./government-jurisdiction";
 import { recordedTermsInOffice } from "./prior-terms";
 import { CHIEF_EXECUTIVE_JURISDICTIONS } from "./state-executive-candidacy-packs";
 import {
@@ -170,7 +170,7 @@ function openRegularContest(
           : "they are standing down.",
   });
   next = ensureStateJurisdiction(next, stateUsps);
-  const stateId = stateJurisdictionForKey(`US-${stateUsps}`)!.id;
+  const stateId = chiefExecutiveJurisdictionId(stateUsps)!;
   const inputs = Array.from({ length: challengers }, (_, index) => {
     const stableKey = `${key}:candidate:${index}`;
     const personRng = rng.fork(stableKey);
@@ -245,7 +245,7 @@ export function governorFieldCloseHandler(
     found.year,
     electionDay,
   );
-  const stateId = stateJurisdictionForKey(`US-${found.office.stateUsps}`)!.id;
+  const stateId = chiefExecutiveJurisdictionId(found.office.stateUsps)!;
   const planKey = `${turnoverContestKey(found.office.officeKey, found.year)}:term-plan`;
   if (!next.history.futureDueItems.some((d) => d.stableKey === planKey))
     next = scheduleFutureDueItem(next, {

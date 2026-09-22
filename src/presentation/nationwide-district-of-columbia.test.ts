@@ -21,7 +21,9 @@ import {
   unadmittedRuleCapabilityResolver,
 } from "../simulation";
 import {
+  fileForStateExecutiveOffice,
   stateExecutiveCandidacyForPerson,
+  stateExecutiveEntryStatus,
   stateExecutiveOfficeCalendar,
 } from "./nationwide-candidacy";
 
@@ -75,5 +77,34 @@ describe("a life in the District of Columbia", () => {
         jurisdiction.parentName === "District of Columbia",
     );
     expect(districtJurisdictions.map((j) => j.id)).toEqual([jurisdictionId]);
+  });
+});
+
+describe("standing for the District's own office", () => {
+  it("files into the District's own election, on the District's one jurisdiction", () => {
+    const { world, personId } = residentIn(DISTRICT_OF_COLUMBIA_USPS, "dc-4");
+    const candidacy = stateExecutiveCandidacyForPerson(world, personId)!;
+    // The office and the candidacy check must name the SAME government. A
+    // second, district-wide identity here is the duplicate this lane exists
+    // to prevent, and it would not show up in a test that only reads titles.
+    expect(candidacy.jurisdictionId).toBe(districtOfColumbiaJurisdiction()!.id);
+    if (!candidacy.eligible) {
+      expect(candidacy.blocks.length).toBeGreaterThan(0);
+      expect(() => fileForStateExecutiveOffice(world, personId)).toThrow(
+        candidacy.blocks[0]!.reason,
+      );
+      return;
+    }
+    const calendar = stateExecutiveOfficeCalendar(
+      world,
+      DISTRICT_OF_COLUMBIA_USPS,
+    )!;
+    const filed = fileForStateExecutiveOffice(world, personId);
+    const contest = filed.history.electionContests!.at(-1)!;
+    expect(contest.electionDate).toBe(calendar.nextElection);
+    expect(contest.jurisdictionId).toBe(districtOfColumbiaJurisdiction()!.id);
+    expect(stateExecutiveEntryStatus(filed, personId).kind).toBe(
+      "pending-election",
+    );
   });
 });
