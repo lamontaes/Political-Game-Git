@@ -1,5 +1,5 @@
 import { expect, test } from "./fixtures";
-import { enterLife, openShellMenu } from "./support/creator";
+import { enterLife, goTo } from "./support/creator";
 
 /**
  * A Kentucky House winner between the result and the January term, on the
@@ -39,10 +39,7 @@ test("a member-elect sees the transition and attends an open service", async ({
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
-  await openShellMenu(page);
-  await page.getByRole("menuitem", { name: /^Politics/ }).click();
-  await page.getByTestId("nav-politics").click();
-  await page.getByTestId("politics-tab-office").click();
+  await goTo(page, "elsewhere-work");
 
   const panel = page.getByTestId("office-transition");
   await expect(panel).toBeVisible();
