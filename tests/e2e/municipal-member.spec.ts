@@ -4,7 +4,9 @@ import { saveLife } from "./support/creator";
  * production controls never grant it and all subsequent actions use normal UI.
  */
 import { test, expect, type Page } from "./fixtures";
-import { enterLife, startLife } from "./support/creator";
+// Municipal records are a section of the Politics hub, not a menu entry of
+// their own; the shared goTo walks Politics, Government, then the section.
+import { enterLife, goTo, startLife } from "./support/creator";
 import {
   createBrowserWorldRecord,
   type StoredBrowserWorldRecord,
@@ -17,14 +19,6 @@ import {
 import { municipalWorkspaceFor } from "../../src/presentation/municipal-workspace";
 import { simulationMinutesBetween } from "../../src/simulation/dates";
 import { workItemState } from "../../src/simulation/time-work";
-
-async function goTo(page: Page, id: string) {
-  const flyout = page.getByTestId("shell-nav-flyout");
-  if (!(await flyout.isVisible()))
-    await page.getByTestId("shell-nav-cluster").click();
-  await expect(flyout).toBeVisible();
-  await page.getByTestId(id).click();
-}
 
 async function savedRecord(page: Page): Promise<StoredBrowserWorldRecord> {
   return page.evaluate(async () => {
