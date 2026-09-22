@@ -277,7 +277,7 @@ describe("GOVERNING 4: bills and the budget reach the governor", () => {
           m.holderPersonId === personId,
       );
 
-    // Colorado's legislature is not compiled, so no bill reaches this desk.
+    // Colorado's legislature has no written measures, so no bill reaches this desk.
     // The office says that plainly instead of inventing one, and the rest of
     // its work carries on.
     current = passTo(current, "2027-05-01");
@@ -289,7 +289,8 @@ describe("GOVERNING 4: bills and the budget reach the governor", () => {
           event.tags.includes(`office:${office.officeKey}`),
       );
     const note = notesForThisOffice(current)[0]!;
-    expect(note.summary).toContain("has not compiled");
+    expect(note.summary).toContain("has no bills written");
+    expect(note.summary).not.toContain("has not compiled");
     expect(note.summary).toContain("other work is unaffected");
     // Said once for the session, not once a day.
     // Once per session for this office, not once a bill day.
