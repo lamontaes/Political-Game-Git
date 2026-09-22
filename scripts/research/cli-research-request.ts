@@ -5,6 +5,8 @@
  *   cli-research-request.ts check                validate every record, as a gate
  *   cli-research-request.ts render [--write] [--allow-drop]
  *                                                the open queue as one document
+ *   cli-research-request.ts built-since <rev> [--ref <ref>]
+ *                                                merges to main since <rev>, for review
  *
  * `file` takes the record as JSON on disk rather than as a wall of flags, so a
  * thread can write it with the tools it already has and so the thing that was
@@ -37,6 +39,11 @@ import {
   type FiledRecordPlacement,
   type ResearchRequestRecord,
 } from "../../src/research/research-request";
+import {
+  renderBuiltSince,
+  type ChangedFile,
+  type MergedChange,
+} from "../../src/research/built-since";
 import {
   ResearchRequestExistsError,
   loadResearchRequests,
@@ -271,6 +278,53 @@ if (command === "file") {
   } else {
     process.stdout.write(document);
   }
+} else if (command === "built-since") {
+  // Every first-parent merge on the published branch since <rev>: what was
+  // built, for ChatGPT to review. Read from history so no lane has to report.
+  const [since] = rest;
+  const refIndex = rest.indexOf("--ref");
+  const ref = refIndex >= 0 ? rest[refIndex + 1] : "origin/main";
+  if (!since || since.startsWith("--")) {
+    console.error(
+      "Usage: cli-research-request.ts built-since <rev> [--ref <ref>]",
+    );
+    process.exit(2);
+  }
+  const git = (...args: string[]): string =>
+    execFileSync("git", args, {
+      cwd: repositoryRoot,
+      encoding: "utf8",
+      maxBuffer: 64 * 1024 * 1024,
+    });
+  const shas = git("rev-list", "--first-parent", "--merges", `${since}..${ref}`)
+    .split("\n")
+    .filter(Boolean);
+  const changes: MergedChange[] = shas.map((sha) => {
+    const [subject, mergedAt] = git(
+      "show",
+      "-s",
+      "--format=%s%n%cI",
+      sha,
+    ).split("\n");
+    const body = git("show", "-s", "--format=%b", sha);
+    const messages = git("log", "--format=%B", `${sha}^1..${sha}^2`);
+    const files: ChangedFile[] = git("diff", "--numstat", `${sha}^1`, sha)
+      .split("\n")
+      .filter(Boolean)
+      .map((line) => {
+        const [added, removed, ...rest] = line.split("\t");
+        const lines = added === "-" ? 0 : Number(added) + Number(removed);
+        return { path: rest.join("\t"), linesChanged: lines };
+      });
+    const lastCommitSubject = git("show", "-s", "--format=%s", `${sha}^2`);
+    return { sha, mergedAt, subject, body, messages, lastCommitSubject, files };
+  });
+  process.stdout.write(
+    renderBuiltSince(changes, {
+      sinceLabel: `since \`${git("rev-parse", "--short", since).trim()}\``,
+      knownQuestionIds: loadAll().map((record) => record.questionId),
+    }),
+  );
 } else {
   console.error(
     [
@@ -279,6 +333,7 @@ if (command === "file") {
       "  cli-research-request.ts list",
       "  cli-research-request.ts check",
       "  cli-research-request.ts render [--write] [--allow-drop]",
+      "  cli-research-request.ts built-since <rev> [--ref <ref>]",
     ].join("\n"),
   );
   process.exit(2);

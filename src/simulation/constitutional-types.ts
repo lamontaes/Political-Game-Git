@@ -5,6 +5,11 @@ import type {
   LegislativeVoteRecord,
 } from "./types";
 import type { VoteThresholdRule } from "./legislature-rules";
+import type {
+  AmendableRuleField,
+  RuleChangeApplicability,
+  RuleChangeValue,
+} from "./enacted-rule-changes";
 
 export type ConstitutionalProcessKind =
   | "federal-amendment"
@@ -16,6 +21,14 @@ export type ConstitutionalRuleDelta =
       readonly kind: "proposal-threshold";
       readonly numerator: number;
       readonly denominatorParts: number;
+    }
+  | {
+      /** Changes one rule the game reads; see `enacted-rule-changes.ts`. */
+      readonly kind: "rule-field";
+      readonly officeKey: string;
+      readonly field: AmendableRuleField;
+      readonly value: RuleChangeValue;
+      readonly applicability?: RuleChangeApplicability;
     }
   | { readonly kind: "text-only"; readonly unsupportedEffect: string };
 /** A narrow measure identity extension; ordinary bill records cannot enter this process. */

@@ -167,6 +167,12 @@ export function PressDeskPanel({
               <li key={outlet.outletId}>
                 <p className="pg-press-desk-line">
                   <strong>{outlet.name}</strong> — {SCOPE_LABELS[outlet.scope]}
+                  {outlet.ownerName ? (
+                    <span className="game-note">
+                      {" "}
+                      · owned by {outlet.ownerName}
+                    </span>
+                  ) : null}
                 </p>
                 {outlet.reporters.length > 0 ? (
                   <ul className="pg-press-desk-list">

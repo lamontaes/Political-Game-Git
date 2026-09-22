@@ -126,10 +126,15 @@ export function compileBeaRegional(
 
   for (const product of BEA_PRODUCTS) {
     const opened: OpenedArtifact = input.artifacts[product.role];
-    const table = parseBeaTable(
-      readZipMember(opened.bytes, product.member),
-      product.encoding,
+    const memberBytes = readZipMember(opened.bytes, product.member);
+    const table = parseBeaTable(memberBytes, product.encoding);
+    const editionDefect = releaseDateDefect(
+      opened.artifact.publisher.releaseDate,
+      memberBytes,
     );
+    if (editionDefect) {
+      defects.push(`${opened.artifact.artifactId}: ${editionDefect}`);
+    }
     const lineDescriptions = parseBeaTableDefinition(
       readZipMember(opened.bytes, product.definitionMember),
     );
@@ -205,6 +210,54 @@ export function compileBeaRegional(
     },
     records,
   } as CompiledCorpus<BeaObservationRecord>;
+}
+
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+/**
+ * The edition date a BEA regional table states about itself, as ISO, or null.
+ *
+ * Every table ends with a line such as "Last updated: February 5, 2026-- new
+ * statistics for 2024; revised statistics for 2020-2023." That is the release
+ * the bytes belong to, which is what a player's in-world date is compared with.
+ */
+export function beaTableEditionDate(memberBytes: Uint8Array): string | null {
+  const text = new TextDecoder("latin1").decode(memberBytes.slice(-4096));
+  const match = /Last updated: ([A-Z][a-z]+) (\d{1,2}), (\d{4})/.exec(text);
+  if (!match) return null;
+  const month = MONTHS.indexOf(match[1]!) + 1;
+  if (month === 0) return null;
+  return `${match[3]}-${String(month).padStart(2, "0")}-${match[2]!.padStart(2, "0")}`;
+}
+
+/**
+ * A recorded release date must be the edition the bytes say they are. Without
+ * this, re-retrieving a table after the Bureau publishes a newer edition would
+ * silently keep the old date and show players figures before their release.
+ */
+function releaseDateDefect(
+  recorded: string | null,
+  memberBytes: Uint8Array,
+): string | null {
+  if (recorded === null) return null;
+  const stated = beaTableEditionDate(memberBytes);
+  if (stated === recorded) return null;
+  return stated === null
+    ? `the lock records release ${recorded} but the table states no "Last updated" edition.`
+    : `the lock records release ${recorded} but the table states it was last updated ${stated}.`;
 }
 
 /** Select only years the publisher actually placed in the table header. */
