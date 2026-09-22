@@ -344,7 +344,14 @@ export function projectCampaign(
   const placeName = place?.displayName ?? null;
   const existing = campaignForCandidate(world, personId);
 
-  if (!existing)
+  // A race that is over does not close the office list: once the player picks
+  // an office again, they are offered the filing for it, as before their
+  // first race. Until they do, the last race's result stays on the screen.
+  if (
+    !existing ||
+    (selectedOfficeKey !== null &&
+      campaignState(world, existing.id).status !== "active")
+  )
     return notYetFiled(
       world,
       personId,
