@@ -2932,6 +2932,25 @@ name. A role-and-name locator therefore cannot match it, and the fix is the
 `data-testid` or the accessible name. Both wrong diagnoses pointed at other
 fixes entirely.
 
+**The mirror image, added 2026-09-22 10:30Z.** An instrument that fails to
+start can report it as a **failure**. The research-audit lane's first attempt
+at a browser check printed `1 failed` when the browser had never started, so a
+harness that ran no test body produced the line a genuine assertion failure
+produces. That manufactures a defect rather than hiding one. Same root, same
+defence: the instrument must show it engaged before its verdict means
+anything.
+
+**A consequence for this repository specifically.** Three independent lanes
+found tests whose result depends on what else runs alongside them: one that
+passes alone on both `main` and a branch and fails only in a full shard, and
+two that answer differently depending on their neighbours. So **some of this
+suite's results depend on what else is running**, which weakens every
+same-tree attribution in both directions, including matches used to call a
+failure inherited. Re-running a case **on its own** is therefore a real
+diagnostic here — it produces a specific reportable fact, "passes alone, fails
+in company", rather than a second opinion — and it is not covered by the
+prohibition on re-running to dismiss a flake.
+
 **The rule.** An assertion that cannot fail is worse than no assertion,
 because it manufactures confidence rather than merely withholding it. So an
 instrument asserts its own reach before it asserts its result: a non-empty
