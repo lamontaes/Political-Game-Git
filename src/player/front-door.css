@@ -204,13 +204,11 @@
   max-height: 100%;
   overflow-y: auto;
   overscroll-behavior: contain;
-  border: 1px solid rgb(245 235 212 / 0.14);
+  border: 0;
   border-radius: 3px;
-  background: rgb(8 13 21 / 0.42);
-  backdrop-filter: blur(10px);
-  box-shadow:
-    0 1px 0 rgb(244 236 224 / 0.1) inset,
-    0 18px 44px rgb(0 0 0 / 0.35);
+  background: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
   padding: 0.9rem 1rem 1rem;
   box-sizing: border-box;
 }
@@ -228,7 +226,7 @@
   margin: 0.15rem 0 0.65rem;
   padding: 0.15rem 0.55rem 0.25rem 0.15rem;
   color: var(--front-door-ink);
-  background: rgb(8 13 21 / 0.62);
+  background: transparent;
   font-family: var(--front-door-display);
   font-size: 1.28rem;
   font-weight: 600;
@@ -423,4 +421,11 @@
     .game-fields {
     grid-template-columns: 1fr 1fr;
   }
+}
+
+.creator-place-scroll {
+  max-height: min(24rem, 48dvh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
 }

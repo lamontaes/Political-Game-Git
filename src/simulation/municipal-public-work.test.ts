@@ -206,7 +206,20 @@ describe("the municipal corpus reaches the game", () => {
 
   it("reports what it read rather than how many governments it has", () => {
     const meta = municipalCorpusMeta();
-    expect(meta.productionRecords).toBe(4);
+    // The count is DERIVED, not written down. A literal here was a hand-kept
+    // number sitting beside a corpus that regenerates: it said 4, the corpus
+    // grew to 5, and the only thing the failure proved was that somebody had
+    // added a record. A production record is an enacted-text reading, so the
+    // projection can be counted and the meta held to it — which stays true
+    // however many are read next, and still fails if the meta and the
+    // governments beside it disagree.
+    const enacted = municipalGovernments().filter(
+      (government) => lawReading(government) !== null,
+    );
+    expect(meta.productionRecords).toBe(enacted.length);
+    expect(enacted.length).toBeGreaterThan(0);
+    // The claim in the test's name: far fewer read than held.
+    expect(meta.productionRecords).toBeLessThan(meta.governmentCount);
     expect(meta.fixtureRecords).toBeGreaterThan(100);
     expect(meta.governmentCount).toBeGreaterThan(100);
   }, 60000);

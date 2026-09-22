@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* global require */
 
-// Narrow bridge for the hub's own local pages only. The game and Art Desk
-// views have no preload and therefore no IPC surface.
+// Narrow bridge for the hub's own local pages only. The game has no preload;
+// Art Bench uses its separate candidate-ID-only artdesk-preload.cjs bridge.
 const { contextBridge, ipcRenderer } = require("electron");
 
 const invoke = (channel) => (arg) => ipcRenderer.invoke(channel, arg);

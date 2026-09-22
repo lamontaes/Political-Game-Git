@@ -17,6 +17,11 @@ import {
   simulateCalendarDays,
 } from "./calendar-time-control";
 import { projectPersonContact } from "./person-contact";
+import { projectContacts } from "./people-contacts";
+import {
+  currentPublicOfficeholders,
+  establishOpeningOfficeholders,
+} from "./opening-officeholders";
 import { openConversationWith } from "./person-conversation-entry";
 import { createNewGameWorld } from "./new-game";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
@@ -90,18 +95,22 @@ describe("PLAYTEST34 C contracts", () => {
       world = openNextLifeScene(world, playerId);
     }
     const scene = currentOpeningLifeScene(world, playerId);
-    const other =
-      scene?.presentPersonIds.find((id) => id !== playerId) ??
-      Object.keys(world.people).find((id) => id !== playerId)!;
-    const contact = projectPersonContact(world, playerId, other);
-    expect(contact.contact.available).toBe(false);
+    const other = scene?.presentPersonIds.find((id) => id !== playerId);
+    expect(other).toBeDefined();
+    expect(
+      projectContacts(world, playerId).contacts.find(
+        (entry) => entry.personId === other,
+      )?.basis,
+    ).toContain("shares your home");
+    const contact = projectPersonContact(world, playerId, other!);
+    expect(contact.contact.available).toBe(true);
     expect(contact.travel.available).toBe(false);
     expect(contact.talk.kind).toBe("talk");
     expect(contact.contact.kind).toBe("contact");
     expect(contact.meet.kind).toBe("meet");
     expect(contact.travel.kind).toBe("travel");
     expect(contact.talk.reason).not.toEqual(contact.contact.reason);
-    const theirPlace = openingLifeLocation(world, other);
+    const theirPlace = openingLifeLocation(world, other!);
     const playerPlace = openingLifeLocation(world, playerId);
     if (theirPlace) {
       expect(contact.travel.reason).toContain(theirPlace.label);
@@ -124,12 +133,16 @@ describe("PLAYTEST34 C contracts", () => {
     const world = created.game.world;
     const playerId = created.game.playerPersonId;
     expect(currentOpeningLifeScene(world, playerId)).toBeNull();
-    const other = Object.keys(world.people).find((id) => id !== playerId)!;
+    const housemate = projectContacts(world, playerId).contacts.find((entry) =>
+      entry.basis.includes("shares your home"),
+    );
+    expect(housemate).toBeDefined();
+    const other = housemate!.personId;
     const entry = openConversationWith(world, playerId, other);
     const contact = projectPersonContact(world, playerId, other);
     expect(contact.talk.available).toBe(entry.kind === "available");
     expect(contact.presentNow).toBe(false);
-    expect(contact.contact.available).toBe(false);
+    expect(contact.contact.available).toBe(true);
     expect(contact.travel.available).toBe(false);
     const playerPlace = openingLifeLocation(world, playerId);
     const theirPlace = openingLifeLocation(world, other);
@@ -142,6 +155,23 @@ describe("PLAYTEST34 C contracts", () => {
     ) {
       expect(contact.travel.reason).not.toMatch(/both recorded/i);
     }
+    const officialWorld = establishOpeningOfficeholders(world, playerId);
+    const chiefJustice = currentPublicOfficeholders(officialWorld).find(
+      (holder) => holder.officeKey === "us-chief-justice",
+    );
+    expect(chiefJustice).toBeDefined();
+    expect(
+      projectContacts(officialWorld, playerId).contacts.some(
+        (entry) => entry.personId === chiefJustice!.personId,
+      ),
+    ).toBe(false);
+    const uncontacted = projectPersonContact(
+      officialWorld,
+      playerId,
+      chiefJustice!.personId,
+    );
+    expect(uncontacted.contact.available).toBe(false);
+    expect(uncontacted.travel.available).toBe(false);
   });
 
   it("refuses unauthorized calendar simulation without moving time", () => {

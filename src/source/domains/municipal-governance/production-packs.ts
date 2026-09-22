@@ -23,6 +23,7 @@
  * UNKNOWN; a passage threshold alone does not enable ordinance progression.
  */
 
+import { DC_PRODUCTION_PACK } from "./dc-production";
 import { SUPPLEMENTAL_PRODUCTION_PACKS } from "./supplemental-production";
 import type { Cell, MunicipalPackInput } from "./parse";
 import type {
@@ -1687,6 +1688,7 @@ export const MUNICIPAL_PRODUCTION_PACKS: readonly MunicipalPackInput[] = [
   RICHMOND,
   CARSON_CITY,
   ...SUPPLEMENTAL_PRODUCTION_PACKS,
+  DC_PRODUCTION_PACK,
 ];
 
 /** Which retrieved artifacts a government's cells are allowed to cite. */
@@ -1705,7 +1707,20 @@ export const PRODUCTION_PACK_ARTIFACTS: Readonly<
     "va-code-15-2-1415",
   ],
   "us-nv-carson-city": ["nv-carson-city-charter"],
-  "us-or-portland": ["or-portland-charter-2-102"],
+  "us-dc-washington": [
+    "dc-code-1-102",
+    "dc-code-1-204-01",
+    "dc-code-1-204-21",
+    "dc-code-1-204-22",
+    "dc-code-1-207-71",
+  ],
+  "us-or-portland": [
+    "or-portland-charter-2-102",
+    "or-portland-charter-2-1",
+    "or-portland-charter-1-101",
+    "or-portland-charter-2-101",
+    "or-portland-charter-2-110",
+  ],
 };
 
 /**

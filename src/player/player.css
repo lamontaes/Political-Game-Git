@@ -6039,7 +6039,10 @@
   opacity: 1;
 }
 
-.title-tableau-camera--drift .scene-environment-art {
+.title-tableau-camera--drift .title-tableau-motion,
+.title-tableau[data-motion="drift"]
+  > .title-tableau-stage
+  > .title-tableau-motion {
   transform-origin: 50% 55%;
   animation: title-ambient-drift 44s ease-in-out infinite alternate;
 }
@@ -6073,7 +6076,10 @@
 @media (prefers-reduced-motion: reduce) {
   .title-tableau-stage--arriving,
   .title-tableau-stage--leaving,
-  .title-tableau-camera--drift .scene-environment-art {
+  .title-tableau-camera--drift .title-tableau-motion,
+  .title-tableau[data-motion="drift"]
+    > .title-tableau-stage
+    > .title-tableau-motion {
     animation: none;
   }
 }
@@ -6431,6 +6437,7 @@
   content: "";
   position: absolute;
   inset: 0;
+  pointer-events: none;
 
   /* Heavier than the title's, because the play surface has a header and a row
      of controls sitting straight on the room rather than on panels of their
@@ -8240,4 +8247,55 @@ body:where(.pg-game) .game-campaign-tallies {
   display: grid;
   gap: var(--pg-space-2);
   justify-items: start;
+}
+
+.title-tableau-motion {
+  position: absolute;
+  inset: 0;
+}
+
+.scene-surface-read {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.scene-surface-read:hover,
+.scene-surface-read:focus-visible {
+  outline: 3px solid var(--run-a-focus, #e8cf91);
+  outline-offset: -3px;
+}
+.pg-surface-reader {
+  position: fixed;
+  z-index: 40;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: min(38rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 5rem);
+  overflow: auto;
+  box-sizing: border-box;
+  padding: 1.3rem;
+  border: 1px solid #857e6d;
+  border-radius: 0.5rem;
+  background: #f3eee2;
+  color: #26333a;
+  pointer-events: auto;
+  box-shadow: 0 1rem 3rem #0006;
+}
+.pg-surface-reader header {
+  display: flex;
+  align-items: start;
+  gap: 1rem;
+}
+.pg-surface-reader h2 {
+  flex: 1;
+  margin-top: 0;
+}
+.pg-surface-reader-body {
+  white-space: pre-line;
+  line-height: 1.6;
 }

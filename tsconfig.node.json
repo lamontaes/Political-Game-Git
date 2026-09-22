@@ -17,6 +17,7 @@
     "playwright.municipal-load.config.ts",
     "tests/acceptance/municipal-load.browser.ts",
     "scripts/dev-lab/**/*.ts",
+    "scripts/content/**/*.ts",
     "scripts/maps/**/*.ts",
     "scripts/prose-corpus/**/*.ts",
     "scripts/prose-eval/**/*.ts",

@@ -8,7 +8,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "npm run typecheck && node scripts/clean-build.mjs && vite build && node scripts/prepare-sites-build.mjs && node scripts/stamp-client-provenance.mjs",
+    "build": "node scripts/storage/cli.mjs run build -- npm run build:steps",
+    "build:steps": "npm run typecheck && npm run export:state-voting-context && node scripts/clean-build.mjs && vite build && node scripts/prepare-sites-build.mjs && node scripts/stamp-client-provenance.mjs",
     "preview": "vite preview",
     "demo": "node --import tsx src/cli/demo.ts",
     "source:acquire": "node --import tsx scripts/source/acquire.ts",
@@ -22,6 +23,7 @@
     "source:check-fiscal-disposition": "node --import tsx scripts/source/fiscal-authority-inventory.ts --check",
     "export:economic-context": "node --import tsx scripts/source/export-economic-context.ts",
     "export:economic-context-browser": "node --import tsx scripts/source/export-economic-context-browser.ts",
+    "export:state-voting-context": "node --import tsx scripts/source/export-state-voting-context.ts",
     "reconcile:r3h": "node --import tsx scripts/source/r3h-reconciliation.ts",
     "compile:map-geometry": "node --max-old-space-size=3072 --import tsx scripts/maps/compile-map-geometry.ts",
     "compile:map-membership": "node --import tsx scripts/maps/compile-membership-candidates.ts",
@@ -87,6 +89,7 @@
     "release:recover": "node --import tsx scripts/release/index.ts recover",
     "release:declare": "node --import tsx scripts/release/index.ts declare",
     "agent:preflight": "node scripts/agent-preflight.mjs",
+    "storage": "node scripts/storage/cli.mjs",
     "agent:test-cadence": "node scripts/agent-test-cadence.mjs",
     "dev:identified": "node scripts/dev-identified.mjs",
     "stress:persons": "node --import tsx src/cli/stress-persons.ts",
@@ -102,7 +105,9 @@
     "export:municipal-governments": "node --import tsx scripts/source/export-municipal-governments.ts",
     "check:municipal-generated": "node --import tsx scripts/source/export-municipal-governments.ts --check && node --import tsx scripts/source/export-municipal-capacity.ts --check",
     "kit:art": "node --import tsx scripts/art-asset-factory/cli-kit41.ts",
-    "validate:ci-sharded": "npm run format && npm run lint && npm run typecheck && npm run release:check && npm run source:validate && npm run source:check-fiscal-disposition && npm run source:replay && npm run education:check && npm run check:municipal-generated && npm run build && npm run demo -- validation-seed && npm run validate:art && npm run admit:wave-a-candidates -- --check && npm run derive:wave-a-wardrobe -- --check"
+    "validate:ci-sharded": "npm run format && npm run lint && npm run typecheck && npm run release:check && npm run source:validate && npm run source:check-fiscal-disposition && npm run source:replay && npm run education:check && npm run check:municipal-generated && npm run build && npm run demo -- validation-seed && npm run validate:art && npm run admit:wave-a-candidates -- --check && npm run derive:wave-a-wardrobe -- --check",
+    "test:modular:public": "node scripts/art-asset-factory/modular_fit/verify.mjs public",
+    "test:modular:private": "node scripts/art-asset-factory/modular_fit/verify.mjs private"
   },
   "dependencies": {
     "react": "19.2.6",

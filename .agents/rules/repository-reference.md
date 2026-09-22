@@ -51,6 +51,15 @@ A lower-authority document or implementation cannot silently override a higher-a
 - `npm run coverage:state-legislatures` — regenerate the state elective-office identity coverage report
 - `npm run readiness:art` — reconcile the asset request queue against art the project already owns
 - `npm run corpus:prose` — build the development-time player-facing prose inventory, coverage, diagnostics, transcripts and review packet
+- `npm run storage -- status` — configured storage limits, registered workspaces, protected paths and live reservations
+- `npm run storage -- workspace --owner <owner>` — the owner's registered folder (reused; never a new directory)
+- `npm run storage -- run <operation> -- <command>` — hold the byte reservation until the command ends, fails or is signalled (exit 3, before starting it, when the headroom is not there)
+- `npm run storage -- gate <operation>` — admission check only; holds nothing afterwards
+- `npm run storage -- output-root --path <dir> [--historical-disposable]` — register one exact directory inside a registered workspace as disposable run output
+- `npm run storage -- outputs [--root <dir>] [--apply]` — retention report for any root; removes only in a registered output root and never a pinned, protected, live or undisposed historical run
+- `npm run storage -- check --path <folder>` — every reason a folder may not be retired
+- `npm run storage -- record --plan <plan.json>` — write each listed path's content manifest (source identity plus digests of everything Git would not give back) into the plan the owner approves
+- `npm run storage -- retire --plan <approved.json> [--apply]` — remove exactly an owner-approved list; refuses a path without a manifest or whose bytes changed, re-checked at each removal
 - `npm run measure:arms` — measure each body raster's arms per side and pose, and say what the alpha does not contain
 
 ## Working Rules
