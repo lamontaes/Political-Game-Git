@@ -8,6 +8,7 @@ import {
   activeWorkRelationshipsAt,
   currentLifeCutoff,
   didPeopleShareEducationOrganization,
+  educationEnrollmentHistoryForPerson,
   householdMembershipsAt,
   kinshipRelationshipsAt,
   organizationProfileAt,
@@ -549,12 +550,56 @@ function resolveSchool(
   asOfDate: IsoDate,
 ): Resolved | null {
   const cutoff = currentLifeCutoff(world);
-  const mine = activeEducationEnrollmentsAt(world, viewerId, cutoff);
-  if (mine.length === 0) return null;
   if (
     !didPeopleShareEducationOrganization(world, viewerId, subjectId, cutoff)
   ) {
     return null;
+  }
+  const mine = activeEducationEnrollmentsAt(world, viewerId, cutoff);
+  if (mine.length === 0) {
+    // Out of school now: somebody the same age who went to the same school is
+    // a former classmate. Anyone else who shared a school is not named, since
+    // passing in a corridor years apart is not a relationship.
+    const viewer = world.people[viewerId];
+    const subject = world.people[subjectId];
+    if (
+      !viewer ||
+      !subject ||
+      Math.abs(
+        ageOnDate(viewer.birthDate, asOfDate) -
+          ageOnDate(subject.birthDate, asOfDate),
+      ) > 1
+    ) {
+      return null;
+    }
+    const theirs = new Set(
+      educationEnrollmentHistoryForPerson(world, subjectId, cutoff).map(
+        (enrollment) => enrollment.organizationId,
+      ),
+    );
+    const shared = educationEnrollmentHistoryForPerson(
+      world,
+      viewerId,
+      cutoff,
+    ).find((enrollment) => theirs.has(enrollment.organizationId));
+    return {
+      relationship: "your former classmate",
+      basis:
+        "Enrolled at the same school over an overlapping period, and within a year of age.",
+      anchors: shared
+        ? [
+            {
+              store: "educationEnrollments",
+              recordId: shared.id,
+              stableKey: shared.stableKey,
+              at: shared.startedAt,
+              sequence: shared.sequence,
+              role: "context",
+              note: "An enrollment at the school they shared.",
+            },
+          ]
+        : [],
+    };
   }
   const viewer = world.people[viewerId];
   const subject = world.people[subjectId];
