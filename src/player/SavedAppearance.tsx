@@ -194,10 +194,7 @@ export function SavedAppearanceControls(
           familyLabels={familyLabels}
         />
       ) : (
-        <p>
-          No approved compatible appearance choices are available in this
-          catalog.
-        </p>
+        <p>Changing how you look is not available yet.</p>
       )}
     </details>
   );
