@@ -378,7 +378,7 @@ export function PeopleWorkspace({
   /*
    * Choosing somebody here opens the one person card the whole game uses,
    * beside this workspace, rather than a second card drawn inline. The web
-   * keeps the chosen person at its centre so the card and the drawing agree.
+   * keeps the chosen person at its center so the card and the drawing agree.
    */
   const focusId = state.quickDossierPersonId ?? personId;
   function selectPerson(id: EntityId) {
@@ -1398,7 +1398,7 @@ export function PersonalWorkspace({
    *
    * This record used to open on regional economic observations and a chart,
    * with the player's own name and age below them. The owner asked "Who am I?"
-   * and got labour statistics, which is the wrong answer to that question no
+   * and got labor statistics, which is the wrong answer to that question no
    * matter how good the statistics are. The context is kept — it is real,
    * sourced and worth reading — but it belongs after the person, framed as
    * being about the place rather than about them.

@@ -78,7 +78,7 @@ export interface LegislativeScenario {
   readonly committeeMemberCount: number;
   /**
    * How the seated members decide each question. These are authored for the
-   * scenario, not produced by a model of legislator behaviour: this slice
+   * scenario, not produced by a model of legislator behavior: this slice
    * proves the institution resolves a question correctly and leaves how a
    * member makes up their mind to the character systems.
    */
@@ -598,7 +598,7 @@ const BLUEPRINTS: readonly ScenarioBlueprint[] = [
     shortTitle: "Harbor Dredging Schedule",
     subjectClass: "general-policy",
     summary:
-      "Would require a published dredging schedule for state-maintained small-boat harbours before each season opens.",
+      "Would require a published dredging schedule for state-maintained small-boat harbors before each season opens.",
     nonpartisan: false,
     votePlan: {
       "committee:house-transportation": { yea: 5, nay: 2 },

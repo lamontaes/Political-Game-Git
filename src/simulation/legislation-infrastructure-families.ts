@@ -34,7 +34,7 @@ import {
  *
  * The second is deliberately a different mechanism rather than the same one
  * relabelled: it does not touch fares at all, and reaches counties by the
- * absence of a fixed-route provider instead of reaching riders by enrolment.
+ * absence of a fixed-route provider instead of reaching riders by enrollment.
  */
 const TRANSIT_ACCESS: ProgramFamily = {
   familyKey: "transit-access",
@@ -728,7 +728,7 @@ const BRIDGE_MAINTENANCE: ProgramFamily = {
  * The operative clause here is a *service obligation*: a minimum the recipient
  * must meet and keep meeting, enforced by a reporting duty rather than by
  * spending more. The supply-side and demand-side variants are different
- * programmes — one builds to places, the other pays toward household
+ * programs — one builds to places, the other pays toward household
  * subscriptions — and the compiler will not let a caller mix their parameters.
  */
 const BROADBAND_ACCESS: ProgramFamily = {
@@ -826,7 +826,7 @@ const BROADBAND_ACCESS: ProgramFamily = {
               value: "speed-latency-and-price",
               label: "Speed, latency, and a published price",
               clausePhrase:
-                "deliver the download and upload speeds stated in its award agreement, keep round-trip latency below the ceiling stated in that agreement, and publish and honour the price stated in that agreement",
+                "deliver the download and upload speeds stated in its award agreement, keep round-trip latency below the ceiling stated in that agreement, and publish and honor the price stated in that agreement",
             },
           ],
           evidence: authored(
@@ -998,7 +998,7 @@ const BROADBAND_ACCESS: ProgramFamily = {
             },
             {
               value: "enrolled-and-disconnected",
-              label: "Enrolments and disconnections",
+              label: "Enrollments and disconnections",
               clausePhrase:
                 "the number of eligible households enrolled in each county and the number disconnected for non-payment during the year",
             },
@@ -1072,7 +1072,7 @@ const BROADBAND_ACCESS: ProgramFamily = {
               text: `There is appropriated for support under this Act a sum not to exceed ${amount}, applied to the subscription of an eligible household and paid to the provider serving it.`,
               beneficiary: {
                 kind: "general-application",
-                appliesToLabel: "every eligible household that enrols",
+                appliesToLabel: "every eligible household that enrolls",
               },
               fiscalExposureLabel: `${amount} for household support`,
               fiscalExposureMinorUnits:

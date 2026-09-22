@@ -613,7 +613,7 @@ export function createStartingPerson(input: StartingPersonInput): Person {
   const drawnFamilyName = rng.pick(corpus.familyNames);
   // A player who states a gender and leaves the name blank is asking for a name
   // that goes with what they just said. That draw runs on its own forked
-  // stream, so honouring it cannot move the birthday, the appearance, or any
+  // stream, so honoring it cannot move the birthday, the appearance, or any
   // other person in the world by a single value.
   const statedGivenName = statedGenderGivenName(
     input.worldSeed,
@@ -739,7 +739,7 @@ export type GivenNameGenerationVersion =
  *
  * OCD-UI-003 settles the direction: gender is the input to name generation, and
  * a name is never read backwards to decide a gender. `createStartingPerson`
- * already honours that for the player. Every other generated person — a
+ * already honors that for the player. Every other generated person — a
  * guardian, a sibling, a housemate, a fictional governor — was getting an
  * identity from one stream and a name from the whole corpus on another, with
  * nothing joining them, which is how a household ended up introducing "Moses
@@ -763,7 +763,7 @@ export type GivenNameGenerationVersion =
  * parent stream still advances by exactly two values.
  *
  * `takenGivenNames` is for a group the player meets under one roof, where two
- * people sharing a first name is not colour but an unanswerable scene: the
+ * people sharing a first name is not color but an unanswerable scene: the
  * household passes the names it has already handed out and the draw steps on
  * through the same pool. It is a preference, not a guarantee — a pool smaller
  * than the group keeps the drawn name rather than inventing one outside it.

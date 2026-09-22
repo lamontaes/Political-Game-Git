@@ -3,7 +3,7 @@
   "impact": "shapes-design",
   "lane": "people and life",
   "notes": [
-    "The current set is authored and labelled as such. Ordinary-life traits declare a settled resistance per strength running roughly 1.5 to 6, settling over eight to fifteen years, carrying half to three fifths of that resistance the week after a change, counting experiences sixty to one hundred and eighty days apart, and capping accumulated experience at three. Bargaining manner is deliberately easier and settles over four years, which is roughly a term.",
+    "The current set is authored and labeled as such. Ordinary-life traits declare a settled resistance per strength running roughly 1.5 to 6, settling over eight to fifteen years, carrying half to three fifths of that resistance the week after a change, counting experiences sixty to one hundred and eighty days apart, and capping accumulated experience at three. Bargaining manner is deliberately easier and settles over four years, which is roughly a term.",
     "One relationship between the numbers is load-bearing rather than taste, and should survive any answer: a value held as defining must resist the weakest force plus the maximum accumulated experience, so persistence alone never moves anybody, and must still be below the strongest force plus that maximum, so every character can change. Both are asserted in trait-resistance.test.ts.",
     "The live occasion in play argues with the weakest force, so the spacing and the cap together decide whether being turned down repeatedly can ever move somebody at all, and how many years of it that takes."
   ],

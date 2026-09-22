@@ -261,9 +261,7 @@ export function setFutureDueItemTerminalState(
     );
   }
   if (input.status === "cancelled" && effectiveAt > dueItem.dueAt) {
-    throw new Error(
-      "A future due item cannot be cancelled after its due date.",
-    );
+    throw new Error("A future due item cannot be canceled after its due date.");
   }
   const previous = latestDueItemStateAtCurrentFrontier(world, dueItem.id);
   if (!previous || previous.status !== "scheduled") {

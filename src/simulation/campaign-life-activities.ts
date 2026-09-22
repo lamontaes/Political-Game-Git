@@ -974,7 +974,7 @@ export interface CampaignGuidanceView {
   readonly filingDeadline: CampaignGuidanceUnestablished;
   readonly filingFees: CampaignGuidanceUnestablished;
   readonly petitions: CampaignGuidanceUnestablished;
-  /** The game's own adult floor, labelled as the game's and not the law's. */
+  /** The game's own adult floor, labeled as the game's and not the law's. */
   readonly gameAdultCandidacyAge: number;
   readonly runningNow: boolean;
 }

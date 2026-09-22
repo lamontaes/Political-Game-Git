@@ -94,9 +94,9 @@ export const LIFE_OPPORTUNITY_ANSWERING_KEY: Readonly<
  * Whether a kind may be written again once its scene has been played.
  *
  * The two ordinary weeks of a life — an evening in, an invitation to something
- * on a Saturday — recur, because they do. The other six do not: a favour
+ * on a Saturday — recur, because they do. The other six do not: a favor
  * asked, a confidence given, an approach about standing for office, a read
- * agenda item and a favour coming back larger happen once in this bank, and a
+ * agenda item and a favor coming back larger happen once in this bank, and a
  * world that kept writing new ones would be manufacturing a queue of requests
  * nobody would ever be offered.
  *
@@ -627,10 +627,10 @@ function tryWrite(
 /**
  * Somebody this character actually helped, and how often.
  *
- * Read from `life.favour-performed`, which is written only when a favour was
+ * Read from `life.favour-performed`, which is written only when a favor was
  * agreed to, scheduled and carried out — not when it was asked, and not when
  * it was refused. That distinction is the whole reason
- * `adult.old-favour-returns` was withheld: an earlier favour-family choice may
+ * `adult.old-favor-returns` was withheld: an earlier favor-family choice may
  * have been a refusal, and a scene about somebody turning up on the strength
  * of help given cannot stand on a record that may say help was declined.
  *
@@ -778,7 +778,7 @@ function eligibleOpportunities(
             date: nextSaturday(world.currentDate),
             startHour: 15,
             endHour: 18,
-            label: place?.displayName ?? "The neighbourhood",
+            label: place?.displayName ?? "The neighborhood",
           },
         }),
     });
@@ -1256,7 +1256,7 @@ function householdCompanionIds(
  *
  * A shared place, and only that. It is enough for an invitation, which claims
  * nothing more than that a local person asked — and it is deliberately not
- * enough for the favour below, which claims the player knows them.
+ * enough for the favor below, which claims the player knows them.
  */
 function localNeighbourIds(
   world: World,
@@ -1298,7 +1298,7 @@ function localNeighbourIds(
  *
  * A recorded interaction and nothing softer. It is what makes "somebody you
  * know" true rather than a friendship announced because two people were in the
- * same world, and it deliberately does not ask where they live: a favour and a
+ * same world, and it deliberately does not ask where they live: a favor and a
  * confidence travel, and a game that required a shared postcode for either
  * would be inventing a rule to make its own bookkeeping easier.
  */
@@ -1315,7 +1315,7 @@ function familiarPersonIds(
   );
   // Somebody there is still a route to, first.
   //
-  // A favour and a confidence are both things that can come back, and
+  // A favor and a confidence are both things that can come back, and
   // `life-callbacks.ts` will only bring one back where the world still has a
   // standing connection between the two people. Asking somebody the record has
   // long since lost track of produces a scene whose consequence is settled in

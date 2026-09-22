@@ -168,7 +168,7 @@ describe("map empirical demographics", () => {
   it("derives density only from a sourced same-year same-geography land area", async () => {
     const landArea = {
       ...county,
-      squareMeters: 1_000_000,
+      squareMeters: 1_609.344 ** 2,
       referencePeriod: "2024",
       source: {
         artifactId: "test-land-area",
@@ -180,7 +180,9 @@ describe("map empirical demographics", () => {
       { ...county, landArea },
       { fetchJson: local },
     );
-    expect(result.density?.value).toBe(result.population?.value);
+    // One square mile of land: density in people per square mile equals population.
+    expect(result.density?.value).toBeCloseTo(result.population!.value, 6);
+    expect(result.density?.unit).toBe("people per square mile");
     for (const changed of [
       { geoid: "26165" },
       { layer: "place" as const },

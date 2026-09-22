@@ -142,7 +142,7 @@ export function measureActions(
  *
  * Every action must be legal from the state immediately before it: the phase
  * must permit that kind of action, the chamber/committee/stage it names must be
- * the one the measure is actually in, the rule that authorises it must be
+ * the one the measure is actually in, the rule that authorizes it must be
  * known, and nothing at all may follow a terminal action. A history that
  * violates any of that is rejected rather than quietly reduced to a plausible
  * position.
@@ -427,7 +427,7 @@ function applyRecordedAction(
       }
       if (state.transmitted && state.secondChamberAmended) {
         // The second chamber changed the bill. The chamber it started in has
-        // to agree to that change before there is one text to enrol.
+        // to agree to that change before there is one text to enroll.
         state.phase = "awaiting-concurrence";
         state.chamberKey = measure.originChamberKey;
         return LEGAL;
@@ -791,7 +791,7 @@ export function measureGate(world: World, measureId: EntityId): MeasureGate {
  * What a player can actually do next.
  *
  * These are acts and requests, never outcomes. "Ask the committee to vote" is
- * something a sponsor does; "the committee reported favourably" is something
+ * something a sponsor does; "the committee reported favorably" is something
  * that happens as a result, and the recorded members decide which. Where the
  * next move belongs to somebody the player does not control — a governor with
  * a bill on the desk — the only step is to wait for them.
@@ -815,7 +815,7 @@ export type MeasureStepKey =
 
 /**
  * Steps the rules permit next. A step controlled by a rule the pack has not
- * resolved is not offered at all: an unresolved rule never authorises an act.
+ * resolved is not offered at all: an unresolved rule never authorizes an act.
  */
 export function availableMeasureSteps(
   world: World,
@@ -1248,10 +1248,10 @@ function assertUniqueStableKey(
 /**
  * How many members are actually elected and entitled to vote in this chamber.
  *
- * A chamber's authorised seats and its current membership are not the same
+ * A chamber's authorized seats and its current membership are not the same
  * number: a vacant seat still exists but nobody holds it, and "a majority of
  * members elected" counts people, not desks. Callers that model a full roster
- * may leave this out; anything modelling vacancies supplies the real count.
+ * may leave this out; anything modeling vacancies supplies the real count.
  */
 export function electedMembersFor(
   chamber: ChamberRule,
@@ -1389,7 +1389,7 @@ export function introduceMeasure(
     if (!world.policyCatalog.propositions[propositionId]) {
       // A bill about a question this world does not hold is a bill about
       // nothing, said convincingly. Refused rather than stored, because the
-      // catalogue is what decides which questions exist and a measure cannot
+      // catalog is what decides which questions exist and a measure cannot
       // invent one by naming it.
       throw new Error(
         `Measure references a policy proposition this world's catalog does not hold: ${propositionId}`,
@@ -1700,7 +1700,7 @@ export function recordCommitteeDisposition(
   });
 
   // The motion to report is what controls reachability. The recommendation
-  // attached to a carried report — favourable, unfavourable, or none at all —
+  // attached to a carried report — favorable, unfavorable, or none at all —
   // is the committee's opinion and does not stop the bill.
   const reported = vote.outcome === "passed";
   const disposition: CommitteeDisposition = reported
@@ -2069,10 +2069,10 @@ export interface ConcurrenceVoteInput {
  *
  * Two chambers cannot send different texts to a governor. Where the second
  * chamber amends a bill, the chamber it started in has to agree to that
- * amendment before there is one bill to enrol — in Kentucky the amended bill
+ * amendment before there is one bill to enroll — in Kentucky the amended bill
  * goes back to the Rules Committee and then to the floor for concurrence
  * (House Rule 54; Senate Rule 54; House Rule 59). Refusing to concur ends the
- * bill here; a conference between the two chambers is not modelled.
+ * bill here; a conference between the two chambers is not modeled.
  */
 export function recordConcurrenceVote(
   world: World,
@@ -2595,7 +2595,7 @@ export function recordAdjournmentDeath(
 // ---------------------------------------------------------------------------
 
 /**
- * The policy questions a measure says it is about, as the catalogue defines
+ * The policy questions a measure says it is about, as the catalog defines
  * them. Pure.
  *
  * Empty is the truthful answer for every measure written before measures could

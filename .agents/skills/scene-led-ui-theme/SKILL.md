@@ -46,7 +46,7 @@ and control components. Current anchors include `src/player/ShellNav.tsx`,
 6. Preserve the withdrawn status of the Politics default/tab-dragging proposal.
    Keep approved layouts, art identity and intro direction unless specifically
    changed. A new skin is not a data model, fictional document system or engine.
-7. Use real data for production, explicitly labelled fixtures for isolated
+7. Use real data for production, explicitly labeled fixtures for isolated
    prototypes, and runtime text for changing names/dates/headlines. New generated
    pixels need the owner's normal art approval; no fake review events.
 

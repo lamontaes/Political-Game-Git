@@ -32,6 +32,6 @@
     }
   ],
   "title": "Crosswalk the shipped thirteen-domain vocabulary against the returned fourteen",
-  "usableAnswer": "A row per returned domain naming its counterpart among the thirteen and the KIND of relationship — identical, renamed, split from, merged into, or new — and the same for items against issues, with both directions of unmatched entries listed explicitly. Enough that the mapping can be applied as a rename table rather than as a judgement call, and enough that every currently shipped issue key can be checked for whether it survives.",
+  "usableAnswer": "A row per returned domain naming its counterpart among the thirteen and the KIND of relationship — identical, renamed, split from, merged into, or new — and the same for items against issues, with both directions of unmatched entries listed explicitly. Enough that the mapping can be applied as a rename table rather than as a judgment call, and enough that every currently shipped issue key can be checked for whether it survives.",
   "whyItMatters": "The vocabulary is the thing every bill, every position and eventually every conviction is keyed to, so its identifiers are load-bearing in a way most content is not. Getting the reconciliation wrong does not produce an error; it produces a quieter game, with positions that no longer attach to anything and a loader that reports a clean load. Doing it once, from a mapping rather than from a reading, is the difference."
 }

@@ -9,7 +9,7 @@
     "Filed out of the Drive research audit rather than by an owning lane, because this corpus has no owning lane. The audit is at /mnt/project-files/research/DRIVE-RESEARCH-AUDIT-2026-09-22.md."
   ],
   "priority": "P2",
-  "question": "The FEC corpus holds every row of all three bulk files — 39,355 candidate, committee and linkage master records, 22 MB, as of 2024-12-31 — and its domain header states that nothing in it reaches gameplay because the adapter is gated on Stage 7 authorisation and does not exist. What should these records feed, and is Stage 7 still the correct owner for that, or is there a bounded consumer that does not need effective-law machinery?",
+  "question": "The FEC corpus holds every row of all three bulk files — 39,355 candidate, committee and linkage master records, 22 MB, as of 2024-12-31 — and its domain header states that nothing in it reaches gameplay because the adapter is gated on Stage 7 authorization and does not exist. What should these records feed, and is Stage 7 still the correct owner for that, or is there a bounded consumer that does not need effective-law machinery?",
   "questionId": "what-the-fec-corpus-would-feed",
   "requestVersion": "research-request/v1",
   "requestedBy": "drive research audit thread",

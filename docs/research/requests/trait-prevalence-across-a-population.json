@@ -3,10 +3,10 @@
   "questionId": "trait-prevalence-across-a-population",
   "title": "How common each trait should be across a town",
   "question": "Across the few hundred people a player meets in one life, how common should each family of temperament traits be — which ones should turn up in most people, which in a handful, and which should be rare enough that meeting one is worth noticing?",
-  "whyItMatters": "Every generated person currently draws every trait from one seeded curve, so each pole is equally likely on everybody and the population is uniform by construction. A count alone does not fix that: if a person carries two traits drawn from a flat list, a town of three hundred still has no texture, because the same traits recur at the same rate everywhere. Prevalence is what makes a neighbourhood feel populated rather than sampled.",
+  "whyItMatters": "Every generated person currently draws every trait from one seeded curve, so each pole is equally likely on everybody and the population is uniform by construction. A count alone does not fix that: if a person carries two traits drawn from a flat list, a town of three hundred still has no texture, because the same traits recur at the same rate everywhere. Prevalence is what makes a neighborhood feel populated rather than sampled.",
   "impact": "shapes-design",
   "lane": "personality and relationships",
-  "usableAnswer": "A prevalence band per family in the catalogue's fourteen — roughly what share of adults should be marked with something from it — with the rare ones called out by name, and a line on whether any of them should cluster by circumstance rather than being spread evenly. The reasoning behind each band matters more than its exact figure, because the figure becomes a pack value a modder can change.",
+  "usableAnswer": "A prevalence band per family in the catalog's fourteen — roughly what share of adults should be marked with something from it — with the rare ones called out by name, and a line on whether any of them should cluster by circumstance rather than being spread evenly. The reasoning behind each band matters more than its exact figure, because the figure becomes a pack value a modder can change.",
   "sourcesChecked": [
     {
       "source": "Personality_Research_Catalogue.xlsx and Personality_Research_and_Catalogue.md, read in full by the transcripts lane 2026-09-22",

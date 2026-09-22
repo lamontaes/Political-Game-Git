@@ -3,9 +3,9 @@
  *
  * This module describes what a legislature's *formal rules* say. It contains no
  * jurisdiction-specific facts: those live in rule packs compiled from sourced
- * research. Nothing here models political behaviour — how a member is likely to
- * vote, who owes whom a favour, or what leadership prefers. Formal rule and
- * observed political behaviour stay separate concepts by construction.
+ * research. Nothing here models political behavior — how a member is likely to
+ * vote, who owes whom a favor, or what leadership prefers. Formal rule and
+ * observed political behavior stay separate concepts by construction.
  *
  * Three epistemic states are distinct everywhere and never collapse:
  * - `known`           the rule is resolved from an official source;
@@ -125,7 +125,7 @@ export function requireKnown<T>(value: RuleValue<T>, label: string): T {
 export type VoteDenominator =
   /**
    * Members actually elected and entitled to serve. This equals the chamber's
-   * authorised seats only when no seat is vacant; a vacancy lowers it.
+   * authorized seats only when no seat is vacant; a vacancy lowers it.
    */
   | "members-elected"
   /** Members actually present when the vote is taken. */

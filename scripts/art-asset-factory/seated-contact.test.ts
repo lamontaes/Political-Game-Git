@@ -40,7 +40,7 @@ interface Band {
   /** Rows, as fractions of canvas height. */
   readonly from: number;
   readonly to: number;
-  /** Centre and width in pixels. */
+  /** Center and width in pixels. */
   readonly centre: number;
   readonly width: number;
   /** Two runs with a gap between them, for legs. */

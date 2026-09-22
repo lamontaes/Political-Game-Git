@@ -666,7 +666,7 @@ export function assessOfficeQualifications(
     /*
      * Everything else is read and reported, and deliberately not decided.
      *
-     * The world models no bar admission, no naturalisation date and no voter
+     * The world models no bar admission, no naturalization date and no voter
      * registration, so a citizenship, elector or professional requirement has
      * nothing to test against. Saying "meets" would hand out an eligibility the
      * game never checked.

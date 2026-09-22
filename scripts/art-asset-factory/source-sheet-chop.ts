@@ -38,7 +38,7 @@ export interface ChopOptions {
    * gap is treated as a hole inside one component rather than a boundary.
    */
   readonly minimumGapPixels: number;
-  /** Components smaller than this are artefacts, reported and not written. */
+  /** Components smaller than this are artifacts, reported and not written. */
   readonly minimumComponentPixels: number;
 }
 

@@ -138,7 +138,7 @@ export function referToPerson(context: PersonContext): string {
 }
 
 /**
- * The relation on its own, capitalised for the start of a sentence.
+ * The relation on its own, capitalized for the start of a sentence.
  *
  * Returns the name when there is no relation, so a caller never has to
  * assemble a sentence around an empty string.

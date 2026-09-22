@@ -8,7 +8,7 @@
     "An answer that says two of the current five are the same trait wearing different names is a useful answer, not an awkward one."
   ],
   "priority": "P2",
-  "question": "Which recurring dispositions show up often enough in ordinary life to be worth modelling as traits, and how many is the right number before they stop being distinguishable from each other in play?",
+  "question": "Which recurring dispositions show up often enough in ordinary life to be worth modeling as traits, and how many is the right number before they stop being distinguishable from each other in play?",
   "questionId": "ordinary-life-trait-set",
   "requestVersion": "research-request/v1",
   "requestedBy": "people and life thread",

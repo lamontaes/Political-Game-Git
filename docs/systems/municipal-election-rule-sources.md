@@ -59,13 +59,13 @@ number into that field.
 
 The JSON also contains two deliberately separate registers:
 
-- `sourceFrontiers` is the four-item section 7 catalogue copied verbatim from
+- `sourceFrontiers` is the four-item section 7 catalog copied verbatim from
   92O: North Carolina election-method synchronization, Illinois non-home-rule
   term-limit jurisprudence, Texas Type A runoff versus local plurality custom,
   and Kentucky urban-county/metro initiative authority.
 - `compilerConflicts` is the ten-item implementation review register. These are
   conflicts or unsafe shapes found while compiling the profiles. They are not
-  labelled as 92O's own section 7 catalogue.
+  labeled as 92O's own section 7 catalog.
 
 ## Why the packet's flat TypeScript proposal is not used
 

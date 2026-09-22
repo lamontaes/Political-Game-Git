@@ -190,9 +190,9 @@
       "anchor": "COMMIT_CONTRACTS-0004",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "COMMIT_CONTRACTS",
-      "text": "A conversation between neighbours about a meeting that has been posted.",
+      "text": "A conversation between neighbors about a meeting that has been posted.",
       "occurrence": 0,
-      "textRevision": "83c32650972a"
+      "textRevision": "22cfcb91ef65"
     },
     {
       "anchor": "COMMIT_CONTRACTS-0005",
@@ -990,9 +990,9 @@
       "anchor": "COMMIT_CONTRACTS-0109",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "COMMIT_CONTRACTS",
-      "text": "The player cancelled the activity agreed with {addresseeName}.",
+      "text": "The player canceled the activity agreed with {addresseeName}.",
       "occurrence": 0,
-      "textRevision": "47222358b928"
+      "textRevision": "e3cbfdf2103b"
     },
     {
       "anchor": "COMMIT_CONTRACTS-0110",
@@ -2006,9 +2006,9 @@
       "anchor": "RETURN_SUMMARY-0002",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "The old favour got a mention.",
+      "text": "The old favor got a mention.",
       "occurrence": 0,
-      "textRevision": "12e4eea2c9d2"
+      "textRevision": "92146db4a61f"
     },
     {
       "anchor": "RETURN_SUMMARY-0003",
@@ -2022,17 +2022,17 @@
       "anchor": "RETURN_SUMMARY-0004",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "The neighbourhood meeting came up again.",
+      "text": "The neighborhood meeting came up again.",
       "occurrence": 0,
-      "textRevision": "1e3c17a10a8f"
+      "textRevision": "4633abbba3f3"
     },
     {
       "anchor": "RETURN_SUMMARY-0005",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "The favour was put to you once more.",
+      "text": "The favor was put to you once more.",
       "occurrence": 0,
-      "textRevision": "aa9a72d6fd47"
+      "textRevision": "72b26ee15640"
     },
     {
       "anchor": "RETURN_SUMMARY-0006",
@@ -2134,9 +2134,9 @@
       "anchor": "RETURN_SUMMARY-0019",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "Helping the neighbours came back to you.",
+      "text": "Helping the neighbors came back to you.",
       "occurrence": 0,
-      "textRevision": "e3df1ac49c68"
+      "textRevision": "9484488134b6"
     },
     {
       "anchor": "RETURN_SUMMARY-0020",

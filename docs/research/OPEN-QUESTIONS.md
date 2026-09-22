@@ -14,13 +14,13 @@ Generated 2026-09-22T14:47:46.551Z · 27 open · 7 answered · rendered from 724
 
 **The question.** Across recent American state legislative sessions and city councils, what are the subjects that legislators genuinely spend their time on, in what proportions, and how do those subjects differ between a state capitol, a county board and a city council?
 
-**Why it matters.** A new player world ships with an entirely empty policy catalogue — no domains, no issues, no propositions, no subjects and no principles — and an invariant refuses to let anything be put there that has not been established. So the political simulation currently has nothing for politics to be about, and every other governing system that is built and reachable is arguing over an empty set. This is the single largest empty vocabulary in the game and it sits directly under the owner's eight-or-nine-out-of-ten priority.
+**Why it matters.** A new player world ships with an entirely empty policy catalog — no domains, no issues, no propositions, no subjects and no principles — and an invariant refuses to let anything be put there that has not been established. So the political simulation currently has nothing for politics to be about, and every other governing system that is built and reachable is arguing over an empty set. This is the single largest empty vocabulary in the game and it sits directly under the owner's eight-or-nine-out-of-ten priority.
 
 **A usable answer.** A hierarchy of policy domains and the issues within each, in the terms American legislators themselves use, with a rough share of legislative attention per domain and a note of which level of government each issue actually belongs to. Where an issue is genuinely a state matter in some states and a local one in others, say so rather than picking one.
 
 **Already checked.**
 
-- src/simulation/production-catalog.ts lines 88-97 and 146-190 on main at 273fd2b8 — Establishes that createProductionPolicyCatalog returns empty arrays for all five policy vocabularies and that assertProductionCatalogBoundary throws if anything is added that has not been established. It explains why the catalogue is empty and says nothing about what belongs in it.
+- src/simulation/production-catalog.ts lines 88-97 and 146-190 on main at 273fd2b8 — Establishes that createProductionPolicyCatalog returns empty arrays for all five policy vocabularies and that assertProductionCatalogBoundary throws if anything is added that has not been established. It explains why the catalog is empty and says nothing about what belongs in it.
 - docs/research/92M-campaign-finance-ethics-lobbying.json in the repository — Covers campaign finance, ethics and lobbying regulation as legal rules. It is about how politics is conducted, not about what it is conducted over.
 - The legislation lifecycle in src/simulation/legislation.ts, all 2704 lines of it — Carries the full procedural path from filing to enactment and enforces every stage. A measure's subject is a field it passes along; the module has no opinion about what subjects exist.
 - /mnt/project-files/research/policy-primitives.json — Read for exactly this. It describes primitive shapes a policy can take rather than the subject matter politics is about, so it is a grammar without a vocabulary.
@@ -45,14 +45,14 @@ Generated 2026-09-22T14:47:46.551Z · 27 open · 7 answered · rendered from 724
 
 - art/regions/regional-scene-places.json, the coverage document itself — Carries all 23 regions with the owner's geographic prose attached as a research block, but only 5 of them have selectors. The other 18 have empty includeStates, includeCounties and includePlaces, which is why they match nobody.
 - The previous research round's own text, carried as the research block on each region in art/regions/regional-scene-places.json — It came back as geographic prose rather than identifiers — 'the lower, warmer parts of Pima, Pinal and Maricopa' — which is the input to this question rather than its output. The resolver never reads those blocks and cannot; they are quoted back to the researcher in the full request so the question is not restated in somebody else's words.
-- src/simulation/place-county-relations.generated.ts, the 2020 redistricting place-within-county parts — Establishes which counties a place lies in, which is what makes a county answer usable at all, and is now wired into the resolver. It cannot say which counties belong to a described landscape; that judgement is the work being asked for.
+- src/simulation/place-county-relations.generated.ts, the 2020 redistricting place-within-county parts — Establishes which counties a place lies in, which is what makes a county answer usable at all, and is now wired into the resolver. It cannot say which counties belong to a described landscape; that judgment is the work being asked for.
 - src/simulation/life-places.ts, the 2025 Gazetteer corpus the game starts lives in — Confirms that the 32 place identifiers already in the file name places a life can start in, so the format is proven. It holds no landform, biome or scene classification, so nothing in it can be selected on.
 
 > Counties are the cheaper answer and they now work. A saved town carries the counties it lies in, from the 2020 place-within-county crosswalk, so naming a county covers everybody in it without enumerating its towns. Reach for place identifiers only where a county is genuinely too coarse — a county with a mountain range in it is the usual case.
 
 > Every identifier must be a quoted string: "04019", not 4019. A county is exactly 5 characters and a place exactly 7. Numbers destroy leading zeros, and 21 of the 32 identifiers already in the file begin with one.
 
-> An empty list is a real answer. A region whose honest answer is that no county can be named without more work should come back with empty lists rather than a guess; a region nothing matches shows no picture, which is the current behaviour and costs nothing.
+> An empty list is a real answer. A region whose honest answer is that no county can be named without more work should come back with empty lists rather than a guess; a region nothing matches shows no picture, which is the current behavior and costs nothing.
 
 > The full request, with each region's own research text quoted back and a worked example, is generated in the repository at art/regions/regional-place-id-request.md and published to Drive at https://drive.google.com/file/d/14nwVTqOozVSlzjZzhmhOU0_kVgsRQjRl/view
 
@@ -71,7 +71,7 @@ Generated 2026-09-22T14:47:46.551Z · 27 open · 7 answered · rendered from 724
 - src/presentation/scene-registry.ts, the runtime scene contract, read on main 273fd2b8 — The depth model exists and is more complete than the question implies, which is why the question is narrow. Each anchor carries a zOrder, described in the file's own comment as paint order, with the note that perspective depth is derived from contacts rather than from it. Each anchor also carries contactFloorYPercent, the floor line it stands or sits on, and that is what perspective scale is interpolated from. Occluders are first-class, with their own zOrder, a region and a plate clip. What it does not establish is where a figure belongs in the order when it is not standing at an authored anchor: zOrder is a number the author of the room wrote down.
 - src/presentation/scene-placement.ts, which places a body at an anchor — Computes scale from the contact floor line, checks the sprite against the anchor's footprint and foot spread, and returns the placement carrying the anchor's zOrder through unchanged. So scale is computed from geometry and order is copied from authoring. That asymmetry is the whole of this question. It cannot say what the order should be, because nothing asks it to.
 - src/presentation/scene-occlusion.ts and the seat-contact work in the character rendering triage lane — Occluders can be released and plate clips applied, and seat contact is recorded per anchor, so a seated figure meets its chair at a known line. That is the nearest measured ground the project has and it is cited as context, not as an answer: it establishes that the game knows where a figure touches the world, and says nothing about ordering two figures against each other.
-- The shipped rooms themselves — They look right, which is evidence that the authored orders are correct for the figures currently placed in them. It is not evidence that the rule generalises, and it is why this reads as an assumption rather than a bug.
+- The shipped rooms themselves — They look right, which is evidence that the authored orders are correct for the figures currently placed in them. It is not evidence that the rule generalizes, and it is why this reads as an assumption rather than a bug.
 
 > Filed from the owner's own words on 2026-09-22: the game cannot figure out the z space, the depth, and that is an assumption. The second half is the precise part. There is a depth model; what is authored rather than computed is the ordering.
 
@@ -85,7 +85,7 @@ Generated 2026-09-22T14:47:46.551Z · 27 open · 7 answered · rendered from 724
 
 **P1** · asked by governing and legislative (modular legislation lane, at the owner's direction after approving a federal pack) · filed 2026-09-22 · `federal-policy-vocabulary-pack`
 
-**The question.** What are the policy domains and the recurring issues under them that the United States Congress and the federal executive genuinely spend their time on, in the terms American federal legislators themselves use? Where a subject exists at both levels — health, transportation, energy, education, elections — what is the federal question as distinct from the state one, so that the two are not the same row filed twice? And which subjects are federal only, with no state or local analogue at all?
+**The question.** What are the policy domains and the recurring issues under them that the United States Congress and the federal executive genuinely spend their time on, in the terms American federal legislators themselves use? Where a subject exists at both levels — health, transportation, energy, education, elections — what is the federal question as distinct from the state one, so that the two are not the same row filed twice? And which subjects are federal only, with no state or local analog at all?
 
 **Why it matters.** The state and local policy vocabulary now ships: thirteen domains and 127 issues loaded through POLICY_PACKS, covering what a state capitol, a county board and a city council are about. Federal policy has no home in it and was deliberately excluded, because foreign policy, monetary policy, immigration, the federal tax code and federal entitlements are not state and local government and folding them in would have made every level look like every other. The owner has approved a federal pack as its own change. Without this answer it would have to be drafted from memory, which is exactly the thing the production catalog boundary exists to refuse: content describing somewhere real that nobody read. The pack cannot declare itself sourced if there are no sources.
 
@@ -101,7 +101,7 @@ Generated 2026-09-22T14:47:46.551Z · 27 open · 7 answered · rendered from 724
 
 > The state and local pack is the model for the answer's shape: domains, issues under them, and for each issue the level that ordinarily decides it. At federal level the level field is uniform and therefore uninteresting, so the useful equivalent is which branch or institution ordinarily decides — statute, appropriation, executive action, or an independent agency's rulemaking.
 
-> The distinguishing sentence per shared issue is the part most likely to be skipped and the part most needed. 'Transportation' at both levels is not one question twice: the federal question is trust fund authorisation and formula distribution, the state question is what gets built and maintained. Without that distinction the two packs would produce dockets that read identically.
+> The distinguishing sentence per shared issue is the part most likely to be skipped and the part most needed. 'Transportation' at both levels is not one question twice: the federal question is trust fund authorization and formula distribution, the state question is what gets built and maintained. Without that distinction the two packs would produce dockets that read identically.
 
 > No attention percentages. The same refusal applies as for the state and local weights, which are filed separately and still open.
 
@@ -113,7 +113,7 @@ Related: `policy-issue-taxonomy-state-and-local`, `policy-domain-list-reconcilia
 
 **The question.** In an ordinary American household, what physically arrives on the table, the counter or the noticeboard — post, notices, bills, a posted agenda, a school letter, a summons — and on what rhythm? Equally: which of the things a person is currently deciding never arrive that way at all, and are only ever in their head, on their phone, or said to them by somebody?
 
-**Why it matters.** The first interactive object in a room is the papers, and it now has a list to show: what is waiting on this character. But that list is everything waiting on them, and a table is not everything. An offer of work made in a shop, a favour somebody asked in a kitchen and an errand the character set themselves are all waiting, and none of them is a piece of paper. Showing all of it on the table makes the object a menu wearing a prop's clothes, which is the failure the research answer warned against. Showing only what arrived needs to know what arrives.
+**Why it matters.** The first interactive object in a room is the papers, and it now has a list to show: what is waiting on this character. But that list is everything waiting on them, and a table is not everything. An offer of work made in a shop, a favor somebody asked in a kitchen and an errand the character set themselves are all waiting, and none of them is a piece of paper. Showing all of it on the table makes the object a menu wearing a prop's clothes, which is the failure the research answer warned against. Showing only what arrived needs to know what arrives.
 
 **A usable answer.** A short list of what genuinely comes to a household on paper or as a posted notice in the United States today, with any that are near-universal marked as such, and the rough rhythm of each. Then the other half: which categories of pending decision do not arrive physically and should therefore be reachable somewhere other than the table. A ruling that the distinction is not worth drawing, and the table should simply show what is waiting, is a real answer and would settle it.
 
@@ -131,7 +131,7 @@ Related: `policy-issue-taxonomy-state-and-local`, `policy-domain-list-reconcilia
 
 **P2** · asked by nationwide government (example record in the research queue README) · filed 2026-09-22 · `example-county-treasurer-selection`
 
-**The question.** For each state that has county treasurers, is the office elected by county voters, appointed by the county's governing body, appointed by a professional administrator, or abolished in favour of a combined finance office — and which instrument establishes that?
+**The question.** For each state that has county treasurers, is the office elected by county voters, appointed by the county's governing body, appointed by a professional administrator, or abolished in favor of a combined finance office — and which instrument establishes that?
 
 **Why it matters.** County offices are seated from the government-unit corpus, which records that a treasurer exists but not how the seat is filled. Without the selection mechanism a county office cannot be put on a ballot or filled by appointment, so the whole county layer stays unreachable in play rather than merely thin.
 
@@ -162,9 +162,9 @@ Related: `policy-issue-taxonomy-state-and-local`, `policy-domain-list-reconcilia
 
 - lamontae's own messages, 2026-09-22 03:36 and 04:11 (owner record 01, section A) — Gives 'one or two' as a starting answer and says explicitly that it will be adjusted. Settles that the number is small; settles nothing about how it varies, how it grows, or whether the player differs.
 - docs/systems/traits.md on origin/claude/people-and-life-4qpuwb (PROPOSED) — Specifies what a trait is, how a pack declares movability and how resistance is read from the record chain. It does not specify how many traits a generated person starts holding.
-- The personality catalogue in docs/reports/2026-09-22-transcripts-audit-and-personality-catalogue.md — Measures what the game has against what the transcripts proposed. It identified the count as an open question rather than answering it.
+- The personality catalog in docs/reports/2026-09-22-transcripts-audit-and-personality-catalogue.md — Measures what the game has against what the transcripts proposed. It identified the count as an open question rather than answering it.
 
-> Filed under the rule lamontae set on 2026-09-22: a judgement about how the simulated world should feel goes to ChatGPT as a brief, and ChatGPT comes back to him. It is not a question to put to him directly again.
+> Filed under the rule lamontae set on 2026-09-22: a judgment about how the simulated world should feel goes to ChatGPT as a brief, and ChatGPT comes back to him. It is not a question to put to him directly again.
 
 > His starting answer of one or two is the working default until this is answered; generation should not block on it.
 
@@ -174,9 +174,9 @@ Related: `policy-issue-taxonomy-state-and-local`, `policy-domain-list-reconcilia
 
 **The question.** Across the few hundred people a player meets in one life, how common should each family of temperament traits be — which ones should turn up in most people, which in a handful, and which should be rare enough that meeting one is worth noticing?
 
-**Why it matters.** Every generated person currently draws every trait from one seeded curve, so each pole is equally likely on everybody and the population is uniform by construction. A count alone does not fix that: if a person carries two traits drawn from a flat list, a town of three hundred still has no texture, because the same traits recur at the same rate everywhere. Prevalence is what makes a neighbourhood feel populated rather than sampled.
+**Why it matters.** Every generated person currently draws every trait from one seeded curve, so each pole is equally likely on everybody and the population is uniform by construction. A count alone does not fix that: if a person carries two traits drawn from a flat list, a town of three hundred still has no texture, because the same traits recur at the same rate everywhere. Prevalence is what makes a neighborhood feel populated rather than sampled.
 
-**A usable answer.** A prevalence band per family in the catalogue's fourteen — roughly what share of adults should be marked with something from it — with the rare ones called out by name, and a line on whether any of them should cluster by circumstance rather than being spread evenly. The reasoning behind each band matters more than its exact figure, because the figure becomes a pack value a modder can change.
+**A usable answer.** A prevalence band per family in the catalog's fourteen — roughly what share of adults should be marked with something from it — with the rare ones called out by name, and a line on whether any of them should cluster by circumstance rather than being spread evenly. The reasoning behind each band matters more than its exact figure, because the figure becomes a pack value a modder can change.
 
 **Already checked.**
 
@@ -207,14 +207,14 @@ Related: `ordinary-life-trait-set`, `personality-change-pace`
 
 - src/simulation/queries.ts lines 221-263, deriveRelationshipSummary on main at 273fd2b8 — This is the whole closeness model: one hidden sum weighted +3/+2/+1 by significance, negated for ended, strained and conflict, bucketed into none, acquainted, close and estranged. The thresholds are hardcoded and nothing records why they are those numbers.
 - src/simulation/types.ts lines 637-654, the interaction vocabulary — Gives ten namespaces, five change values and three significance levels for logging what happened. It describes events, not the standing state between two people, and two of its namespaces are never written at all.
-- src/simulation/people-contact.ts lines 46 and 837 — States as a deliberate choice that nothing here decays. It records the decision without a view on what the right behaviour would be, which is the question.
-- The personality catalogue's 29 entries listing what is not a trait, including relationship states — Separates relationships from temperament and says relationships belong in their own layer. It does not say what that layer holds.
+- src/simulation/people-contact.ts lines 46 and 837 — States as a deliberate choice that nothing here decays. It records the decision without a view on what the right behavior would be, which is the question.
+- The personality catalog's 29 entries listing what is not a trait, including relationship states — Separates relationships from temperament and says relationships belong in their own layer. It does not say what that layer holds.
 
 > Fading and forgetting are different. A person can remember someone perfectly and still feel less about them, and the memory record and the relationship state are stored separately here, so the answer can treat them separately too.
 
 > Asymmetry is wanted where it is real: A may rely on B while B barely notices A. Say whether each dimension is held per person or shared between the pair.
 
-> Keep the dimension count to what a player could actually perceive through behaviour. A dimension nothing can show is a number in a file.
+> Keep the dimension count to what a player could actually perceive through behavior. A dimension nothing can show is a number in a file.
 
 Related: `ordinary-life-trait-set`
 
@@ -236,7 +236,7 @@ Related: `ordinary-life-trait-set`
 
 > Political ambition is the interesting case and is the one most likely to be over-supplied. Most people in a town should want something entirely unpolitical, and the answer should say roughly how many want office at all.
 
-> A pursued goal has to be visible to the player through behaviour rather than through a label. Where a step would only ever be a line of text, say so.
+> A pursued goal has to be visible to the player through behavior rather than through a label. Where a step would only ever be a line of text, say so.
 
 Related: `ordinary-life-trait-set`, `personality-change-pace`
 
@@ -253,8 +253,8 @@ Related: `ordinary-life-trait-set`, `personality-change-pace`
 **Already checked.**
 
 - src/simulation/types.ts lines 555-569, MemoryRecord and MemoryStrength, on main at 273fd2b8 — Gives four strength levels — faint, moderate, strong, defining — and a supersession pointer. It says nothing about when a memory should move between levels, and in practice strength is set at writing and never changed.
-- src/presentation/world39-journal.ts lines 233-250 and src/presentation/life-record.ts lines 146-165 — Shows the two player-facing readers of the memory store. Both list what is there in order and neither ranks, groups or summarises, so there is no place today where a compressed memory could be shown.
-- The personality catalogue's coherent-person separation, which places memory in its own layer beside temperament and relationships — Confirms the layer belongs to the person rather than to their traits. It offers no account of how the layer behaves over time.
+- src/presentation/world39-journal.ts lines 233-250 and src/presentation/life-record.ts lines 146-165 — Shows the two player-facing readers of the memory store. Both list what is there in order and neither ranks, groups or summarizes, so there is no place today where a compressed memory could be shown.
+- The personality catalog's coherent-person separation, which places memory in its own layer beside temperament and relationships — Confirms the layer belongs to the person rather than to their traits. It offers no account of how the layer behaves over time.
 
 > Nothing may be deleted. The history store is append-only on purpose and the save has to keep its evidence, so the answer is about what surfaces and how strongly, not about erasing rows.
 
@@ -268,7 +268,7 @@ Related: `relationship-dimensions-and-fading`
 
 **The question.** Inside a chamber, what makes a group of legislators become a named standing caucus or a durable voting bloc rather than a one-bill alliance — who convenes it, what holds it together between votes, what makes a member leave, and how often does a bloc vote against its own party?
 
-**Why it matters.** The owner asked specifically for a chamber view where he could pick out the Squad and the Tea Party. Party membership and chamber caucus organizations exist and are counted, and party splits and foundings are modelled, but there is no standing group inside a chamber at all and no bloc or wing concept anywhere in the code. Without one there is nothing for that view to show beyond two party totals, and a chamber of several hundred members reads as two blocks of identical people.
+**Why it matters.** The owner asked specifically for a chamber view where he could pick out the Squad and the Tea Party. Party membership and chamber caucus organizations exist and are counted, and party splits and foundings are modeled, but there is no standing group inside a chamber at all and no bloc or wing concept anywhere in the code. Without one there is nothing for that view to show beyond two party totals, and a chamber of several hundred members reads as two blocks of identical people.
 
 **A usable answer.** An account of how such a group comes into being and what sustains it, in terms the simulation can observe — repeated shared positions, a convening member, a public statement of purpose, a shared constituency type. Plus roughly how many such groups a chamber carries at once, how large they run, and how long they last.
 
@@ -277,7 +277,7 @@ Related: `relationship-dimensions-and-fading`
 - src/simulation/living-world/congress.ts lines 104-112 and 339-378 on main at 273fd2b8 — Tracks caucus membership separately from party affiliation and computes a byCaucus breakdown for each chamber. The only caucuses that exist are the four chamber party caucuses, so the breakdown reproduces the party split and no UI reads it.
 - src/simulation/living-world/party-evolution.ts, the faction handling around lines 647-751 and 1293-1321 — Models a member leading a faction out of a party into a new one, from recorded repeated disagreement and whether allies share it. It is about leaving a party, not about a group that stays inside one, which is what a caucus is.
 - src/presentation/guide-terms.ts line 222, the Guide's own definition of caucus — Defines the word for the player. Nothing in the simulation produces the thing it defines.
-- A repository-wide search for bloc, wing and coalition across src/ — Finds no module for any of them. Cross-party agreement is modelled per bill in the bargaining code and does not persist past the vote.
+- A repository-wide search for bloc, wing and coalition across src/ — Finds no module for any of them. Cross-party agreement is modeled per bill in the bargaining code and does not persist past the vote.
 
 > State legislatures are the case that matters most here and are the less documented one. Where the answer is drawn from Congress because the state evidence is thin, say so.
 
@@ -333,12 +333,12 @@ Related: `policy-issue-taxonomy-state-and-local`
 - lifePlaceStateIdentities() in src/simulation/life-places.ts:579, executed rather than read, on claude/congress-factions-cg1u98 at 615c552f — Returns 52 jurisdictions: fifty states, DC and Puerto Rico. Establishes that the game seats both non-states and that a player can start in either. Says nothing about whether the rules generated for them are appropriate.
 - US_STATE_NAMES, read in the same tree — Has exactly 50 keys and no DC, because by its own comment it is the states that have governors. It is not the jurisdiction list, and reading it as one is how a sweep comes back one short and looks complete. Recorded here so the next reader does not repeat it.
 - The project's own scope statements, including the owner's framing, the research briefs and the candidacy arithmetic of seven states read plus forty-three and DC generated — Every one of them says fifty states and DC, which is 51. The code seats 52. That discrepancy is an engineering matter and is not what this record asks; it is named here because it is why nobody has looked at Puerto Rico.
-- src/presentation/world-orientation.ts, NON_STATE_NAMES and NON_VOTING_DISTRICT — Shows the presentation layer already knows DC and PR are not states and labels their House seats as Delegate and Resident Commissioner. Establishes that the distinction exists at the surface; does not establish that the rule generator honours it.
+- src/presentation/world-orientation.ts, NON_STATE_NAMES and NON_VOTING_DISTRICT — Shows the presentation layer already knows DC and PR are not states and labels their House seats as Delegate and Resident Commissioner. Establishes that the distinction exists at the surface; does not establish that the rule generator honors it.
 - docs/systems/nationwide-rule-coverage.json, read on claude/congress-factions-cg1u98 at 05dc90a0, plus a grep for the range instrument across src/ and docs/ — Settles the current state, which is neither of the two outcomes this question was filed fearing. The coverage report carries 51 rows: fifty states and DC, no Puerto Rico. DC's row reads isState false, candidacyPack null, legislativeStructure null, and both chamber probes standForOffice "refused" for missing qualification.minimumAge. The only generated-rather-than-sourced rule instrument that exists in code is the game-profile basis in src/simulation/nationwide-world/state-executive-term-rules.ts, and it is gated by isUsState, whose list has fifty keys and excludes DC and Puerto Rico in its own comment. No module, constant or document anywhere in src/ or docs/ implements or names a national range. So no rules drawn from the wrong population are in play today; what is in play is a refusal for DC and no measurement at all for Puerto Rico. It does not settle what should happen when the range is built.
 
 > Current state, measured rather than assumed, because the question reads differently depending on the answer. Neither jurisdiction is currently governed by the national range, because the national range is not built: it is the owner's stated policy and has no implementation. DC today refuses candidacy for both chambers on a missing minimum age; Puerto Rico is not in the coverage report at all. That makes this a decision taken before the wrong rules exist rather than a correction after, which is the cheap end of it. It also names the live risk: the one generated-rule instrument that does exist is gated on a fifty-key state list, so a range built on the same gate would silently leave both jurisdictions permanently refused, and nothing would report that as a gap.
 
-> Filed deliberately as a design question rather than an engineering one. Whether a territory should be simulated by interpolation from states is a judgement about what the game is meant to cover, not something that can be settled by reading our own code.
+> Filed deliberately as a design question rather than an engineering one. Whether a territory should be simulated by interpolation from states is a judgment about what the game is meant to cover, not something that can be settled by reading our own code.
 
 > The engineering half is separable and is ours: the code seats 52 jurisdictions and every document says 51. That is a correction to make regardless of how this is answered, and it does not wait on this.
 
@@ -346,7 +346,7 @@ Related: `policy-issue-taxonomy-state-and-local`
 
 > Real law always overrides a generated range, per the owner's standing rule, so a decision to read either jurisdiction's actual law is compatible with everything already built and needs no new mechanism.
 
-> Two candidate answers are offered below so there is something to react to. Neither is recommended. This is a product judgement about what the game claims to cover, and it is the owner's call, not ours.
+> Two candidate answers are offered below so there is something to react to. Neither is recommended. This is a product judgment about what the game claims to cover, and it is the owner's call, not ours.
 
 ### The durations and bands under personality change
 
@@ -364,7 +364,7 @@ Related: `policy-issue-taxonomy-state-and-local`
 - The owner's answer of 2026-09-22 on what the pacing depends on — Settles the shape and nothing about scale. It says a strongly held trait is harder than a faint one; it does not say whether a strongly held trait should shift once in a decade or three times in a life.
 - src/simulation/people-trait-occasions.test.ts, walked at the new numbers — Establishes that the live route still moves somebody and that it now takes years rather than a fortnight. It proves the mechanism behaves at these numbers; it has nothing to say about whether years is the right answer.
 
-> The current set is authored and labelled as such. Ordinary-life traits declare a settled resistance per strength running roughly 1.5 to 6, settling over eight to fifteen years, carrying half to three fifths of that resistance the week after a change, counting experiences sixty to one hundred and eighty days apart, and capping accumulated experience at three. Bargaining manner is deliberately easier and settles over four years, which is roughly a term.
+> The current set is authored and labeled as such. Ordinary-life traits declare a settled resistance per strength running roughly 1.5 to 6, settling over eight to fifteen years, carrying half to three fifths of that resistance the week after a change, counting experiences sixty to one hundred and eighty days apart, and capping accumulated experience at three. Bargaining manner is deliberately easier and settles over four years, which is roughly a term.
 
 > One relationship between the numbers is load-bearing rather than taste, and should survive any answer: a value held as defining must resist the weakest force plus the maximum accumulated experience, so persistence alone never moves anybody, and must still be below the strongest force plus that maximum, so every character can change. Both are asserted in trait-resistance.test.ts.
 
@@ -378,7 +378,7 @@ Related: `personality-change-pace`, `ordinary-life-trait-set`, `person-starting-
 
 **The question.** When a room's seat is drawn at an angle to the camera and a person is composed onto it from a separate flat plate, what has to agree between the two for the result to read as that person sitting in that chair rather than near it — how closely must the figure's own turn match the seat's drawn angle, how much mismatch is tolerable before a viewer notices, and what should a seat and a figure each record so a room can decide this by rule instead of somebody deciding by eye?
 
-**Why it matters.** Every seated placement in the project is currently settled by looking at it. We can measure a figure's turn and the point where it meets a seat, and we do, but nothing tells us whether a figure turned one way belongs in a seat drawn another way, so the last step before a person appears in a chair is a judgement nobody can check or repeat. That makes seated coverage un-plannable: we cannot say which seats our existing people can fill, or what to ask for when they cannot.
+**Why it matters.** Every seated placement in the project is currently settled by looking at it. We can measure a figure's turn and the point where it meets a seat, and we do, but nothing tells us whether a figure turned one way belongs in a seat drawn another way, so the last step before a person appears in a chair is a judgment nobody can check or repeat. That makes seated coverage un-plannable: we cannot say which seats our existing people can fill, or what to ask for when they cannot.
 
 **A usable answer.** A stated rule with a number in it — for example, that a figure reads as seated when its turn is within some stated angle of the seat's drawn angle, or that turn agreement matters less than a named cue such as where the near knee falls — together with which properties a seat and a figure each have to carry for a room to apply that rule without a person looking.
 
@@ -395,7 +395,7 @@ Related: `personality-change-pace`, `ordinary-life-trait-set`, `person-starting-
 
 - art/manifest/pose_families.json, which declares each pose family's posture and facing — It records which way a figure faces, and a seat records which facings it permits, but permission is a yes or no list written by hand. Nothing says how far apart the two may be, so the list is an assertion rather than a derivation.
 - The turn measurement in scripts/art-asset-factory/seated-contact.ts, and the twelve seated plates measured through it — It gives each figure a signed turn offset, so we can compare figures to each other. It says nothing about what a viewer accepts, because there is no measurement of a chair's drawn angle to compare it against and no evidence about tolerance.
-- src/environment/scenes/residence-apartment-living-production.ts, the apartment club chair — The chair is drawn turned towards the room and permits one facing. Whether a figure carrying that facing actually looks seated in it was left as a judgement to be made by eye, which is the gap this question is about.
+- src/environment/scenes/residence-apartment-living-production.ts, the apartment club chair — The chair is drawn turned towards the room and permits one facing. Whether a figure carrying that facing actually looks seated in it was left as a judgment to be made by eye, which is the gap this question is about.
 
 > This is a question about what a viewer perceives, not about our data. We can measure anything about our own plates that an answer asks us to measure.
 
@@ -409,7 +409,7 @@ Related: `scene-depth-ordering`
 
 **The question.** For a flat drawn human figure, which cues actually tell a viewer which way the body is facing — the asymmetry of the outline, the direction of the face, the foreshortening of the shoulders, the crossing of the limbs — and in what order of strength, such that a figure whose outline is measurably lopsided can still read as facing straight ahead and the reverse?
 
-**Why it matters.** Our admission gate decides which way a seated figure is turned by measuring its silhouette, comparing the horizontal centre of the lower body against the upper. That number is stable and repeatable, and it is the only evidence the pipeline has. But three plates it calls clearly turned read close to straight-on when a person looks at them, and the prose written by whoever first catalogued those same plates disagrees with the measurement on two of four. If the outline is a weak cue, then the gate is confidently filing figures under a facing they do not appear to have, which puts them in the wrong seats and is exactly the kind of wrong-but-plausible number that nothing downstream can catch.
+**Why it matters.** Our admission gate decides which way a seated figure is turned by measuring its silhouette, comparing the horizontal center of the lower body against the upper. That number is stable and repeatable, and it is the only evidence the pipeline has. But three plates it calls clearly turned read close to straight-on when a person looks at them, and the prose written by whoever first cataloged those same plates disagrees with the measurement on two of four. If the outline is a weak cue, then the gate is confidently filing figures under a facing they do not appear to have, which puts them in the wrong seats and is exactly the kind of wrong-but-plausible number that nothing downstream can catch.
 
 **A usable answer.** A ranking of the cues by how strongly each one determines perceived facing in a flat illustrated figure, with enough detail to tell us whether a silhouette-only measurement is a sound proxy or a weak one — and, if it is weak, which cue we should be measuring instead and whether it can be measured from the pixels we have rather than from a description somebody writes.
 
@@ -425,7 +425,7 @@ Related: `scene-depth-ordering`
 **Already checked.**
 
 - Our own measurement across twelve seated plates: centroid of the lower quarter minus centroid of the upper sixth, as a fraction of canvas width — It is internally consistent and reproduces exactly, and it correctly separates plates that are obviously turned from plates that are obviously square. It cannot tell us whether what it measures is what a viewer uses, because agreement with a viewer was never tested.
-- art/qa/p71/source_intake_dispositions.json, the written descriptions of the same plates — It disagrees with the measurement on two of its four seated plates, calling one close to square that measures strongly turned and calling another turned the opposite way. Two disagreeing judgements do not establish which is right; they establish that the question is real.
+- art/qa/p71/source_intake_dispositions.json, the written descriptions of the same plates — It disagrees with the measurement on two of its four seated plates, calling one close to square that measures strongly turned and calling another turned the opposite way. Two disagreeing judgments do not establish which is right; they establish that the question is real.
 - The contact sheet of all twenty-two candidate bodies, looked at directly — Four plates read clearly turned and three read close to straight-on, while all seven measure turned in the same direction. One person's impression of seven pictures is not evidence about perception, which is why this is a research question rather than a second opinion.
 
 > We can measure anything an answer asks us to measure from our own plates, including per-region centroids, shoulder spans and limb crossings.
@@ -449,7 +449,7 @@ Related: `seated-figure-reads-as-in-the-seat`, `facial-expression-derivation`
 - src/presentation/campaign-projection.ts, fileForOffice as built — Establishes exactly what the game does today: one opponent, 28 days, every state. It cannot say what it should do, and its own comment defends the 28 days on pacing grounds rather than on any claim about American elections.
 - The governor's route on the same screen, read in eleven towns — Proves the game can carry a real election date and a real date of taking office, and does so nationally for the state executive. It says nothing about whether every state's legislative chambers share that date, which they do not, or about primaries, which the governor's route does not model either.
 - The shipped legislature packs (us-il-general-assembly-v1, us-ky-general-assembly-v1, us-nv-legislature-v1, us-mo-general-assembly-v1, us-md-general-assembly-v1, us-ak-legislature-v1) — Carries who may stand and the chambers each state has, which is why these six states offer seats at all. Nothing in them was read by the filing route for when the seat is next contested.
-- docs/playtest/running-for-office-across-america-2026-09-22.md, this walk — Records the behaviour in fifteen towns with screenshots. It measures what the game does; it has no standing to say what an American state legislative election looks like.
+- docs/playtest/running-for-office-across-america-2026-09-22.md, this walk — Records the behavior in fifteen towns with screenshots. It measures what the game does; it has no standing to say what an American state legislative election looks like.
 
 > Measured in the browser on 2026-09-22, eleven towns in five states: every legislative candidacy produced exactly one generated opponent and an election exactly 28 days after filing, for a House seat and an Assembly seat alike. The two lines are `count: 1` and `addDays(world.currentDate, 28)` in `fileForOffice`, src/presentation/campaign-projection.ts.
 
@@ -467,7 +467,7 @@ Related: `seated-figure-reads-as-in-the-seat`, `facial-expression-derivation`
 
 **The question.** In the twenty-seven states that are not already answered — Arkansas, Arizona, California, Colorado, Delaware, Georgia, Iowa, Idaho, Indiana, Kansas, Louisiana, Massachusetts, Maine, Michigan, Mississippi, Montana, North Dakota, New Hampshire, New Mexico, Oklahoma, South Dakota, Tennessee, Utah, Virginia, Vermont, West Virginia and Wyoming — which body receives and hears an ethics complaint against a sitting legislator, what is that procedure called in the state's own words, and which constitutional provision, statute or chamber rule establishes it?
 
-**Why it matters.** A press matter about a legislator picks its procedure from a registry that currently holds one entry, Kentucky, so the same story reads identically in fifty states and the one place-specific detail a player would recognise is missing. Twenty-four jurisdictions are already answered with their authorities and are ours to integrate; these twenty-seven are the only ones that still need looking up, and asking for all fifty-one again would spend the answer on rows that are already in hand.
+**Why it matters.** A press matter about a legislator picks its procedure from a registry that currently holds one entry, Kentucky, so the same story reads identically in fifty states and the one place-specific detail a player would recognize is missing. Twenty-four jurisdictions are already answered with their authorities and are ours to integrate; these twenty-seven are the only ones that still need looking up, and asking for all fifty-one again would spend the answer on rows that are already in hand.
 
 **A usable answer.** A row per state for those twenty-seven, in the same shape as the twenty-four already answered: the body's own name, the term the state uses for the proceeding, whether the two chambers run separate panels or share one, and the citation that establishes it. Where a state routes legislator complaints to a general ethics commission rather than a legislative panel, say so rather than leaving the row blank.
 
@@ -495,7 +495,7 @@ Related: `seated-figure-reads-as-in-the-seat`, `facial-expression-derivation`
 
 - The four states unblocked on 2026-09-22 — Alaska, Nebraska, Minnesota and Ohio — and the candidate-qualification refusal path they all ran through — All four refused, and all four refused for a reason about the repository rather than about the candidate: a missing commencement date, a requirement stated in months the code read in years, a compiler token the parser did not know. That establishes the refusal discipline is worth its cost for legal requirements. It says nothing about where else the same discipline applies, and three of the four looked like ordinary bugs from the screen.
 - The same evening's counter-examples, in the same repository — An unanswered job offer asserted a start date that had gone stale and quoted it months later. An education release label was guessed, which disabled the refusal that would otherwise have fired. Nebraska and Minnesota were settled by re-deriving from pages already held, in under an hour. Three different answers to the same question, none of them chosen deliberately, and each defensible in isolation.
-- The owner's own ruling on content packs, 2026-09-22: 'ignore it and say so. that shouldnt hold the game back.' — Settles the case where the missing thing is a modder's work: load what is understood, skip the rest, and state what was skipped. It cannot be generalised as it stands, because the cost of being wrong about a modder's field is an afternoon, while the cost of being wrong about a state's eligibility rule is the game asserting something false about the real world.
+- The owner's own ruling on content packs, 2026-09-22: 'ignore it and say so. that shouldnt hold the game back.' — Settles the case where the missing thing is a modder's work: load what is understood, skip the rest, and state what was skipped. It cannot be generalized as it stands, because the cost of being wrong about a modder's field is an afternoon, while the cost of being wrong about a state's eligibility rule is the game asserting something false about the real world.
 - src/simulation/candidate-qualification.ts and the four-state research typing it implements — Implements KNOWN, UNKNOWN, NO_REQUIREMENT_FOUND and NOT_APPLICABLE, and holds the line that unknown is not permission. It is the machinery for whatever answer this question produces; it does not choose the policy, and it currently exists in only one corner of the game.
 
 > This is a design question rather than a factual survey, filed here because no explicit research has been done on it and the owner's instruction is to defer such things rather than hold them.
@@ -508,7 +508,7 @@ Related: `seated-figure-reads-as-in-the-seat`, `facial-expression-derivation`
 
 **P2** · asked by people and life (people and life thread) · filed 2026-09-22 · `ordinary-life-trait-set`
 
-**The question.** Which recurring dispositions show up often enough in ordinary life to be worth modelling as traits, and how many is the right number before they stop being distinguishable from each other in play?
+**The question.** Which recurring dispositions show up often enough in ordinary life to be worth modeling as traits, and how many is the right number before they stop being distinguishable from each other in play?
 
 **Why it matters.** The owner has said he wants this to be modder-friendly in the way RimWorld and The Sims are, and the shipped set is the example every pack author copies. A set that is really three traits and two synonyms teaches the wrong shape to everybody who extends it, and the wrong shape is far harder to walk back than the wrong count.
 
@@ -540,7 +540,7 @@ Related: `seated-figure-reads-as-in-the-seat`, `facial-expression-derivation`
 - src/presentation/character-components.ts lines 35-46 on main at 273fd2b8 — Lists all ten component kinds a character is assembled from. None is an expression or a face layer; facial-hair is a beard.
 - src/presentation/component-masters.ts line 68, the head master requirement — Requires every head master to be drawn with a neutral expression. It fixes the current state deliberately and says nothing about what a second variant should be.
 - src/presentation/pose-families.ts, the pose vocabulary — Carries posture classes, facings, landmarks and two prop slots, all of them body-level. There are no face landmarks, so nothing in the pose system could place an expression.
-- src/simulation/types.ts lines 276-288, PersonalityExpressionDefinition — Despite the name this describes how a personality tendency expresses itself in behaviour. It is not visual and carries nothing a renderer could use.
+- src/simulation/types.ts lines 276-288, PersonalityExpressionDefinition — Despite the name this describes how a personality tendency expresses itself in behavior. It is not visual and carries nothing a renderer could use.
 
 > Every expression is a drawn variant of an approved head, so the cost is real and a short list is the useful answer. A list of twenty would not be acted on.
 
@@ -552,22 +552,22 @@ Related: `seated-figure-reads-as-in-the-seat`, `facial-expression-derivation`
 
 **P2** · asked by modular legislation (modular legislation thread) · filed 2026-09-22 · `bargaining-manner-source`
 
-**The question.** What should decide how a legislator behaves at a bargaining table? The build derives it from how firmly they have stated past commitments. Is a record of past commitments the right source at all, or should a bargaining manner come from something else — who they owe, what they have survived, how safe their seat is, who is watching — and if past behaviour is right, is the firmness of what they said the most telling part of it?
+**The question.** What should decide how a legislator behaves at a bargaining table? The build derives it from how firmly they have stated past commitments. Is a record of past commitments the right source at all, or should a bargaining manner come from something else — who they owe, what they have survived, how safe their seat is, who is watching — and if past behavior is right, is the firmness of what they said the most telling part of it?
 
 **Why it matters.** Bargaining is the deepest negotiation surface in the game and it is live in the played client. Read from the wrong source, every member in the chamber acquires a manner that is internally consistent and wrong, and it will not look wrong in any test — the seam works either way. It is also the first legislative trait, so whatever it reads from sets the pattern for every one after it.
 
-**A usable answer.** A position on whether past behaviour is the right source, and if so which behaviour: firmness of stated commitments, whether those commitments were kept, the pattern of refusals and deferrals, or something outside the record entirely such as seat safety or who the member owes. If more than one, a rough sense of which dominates. A worked sketch of two contrasting members and how each should read would be ideal, since the distinction that matters is between members the current reading cannot tell apart.
+**A usable answer.** A position on whether past behavior is the right source, and if so which behavior: firmness of stated commitments, whether those commitments were kept, the pattern of refusals and deferrals, or something outside the record entirely such as seat safety or who the member owes. If more than one, a rough sense of which dominates. A worked sketch of two contrasting members and how each should read would be ideal, since the distinction that matters is between members the current reading cannot tell apart.
 
 **Already checked.**
 
-- src/simulation/legislature-manner.ts, the derivation as built — Establishes that a manner can be derived from records alone, explain itself in the player's own terms, and leave an unobserved member genuinely unknown rather than middling. It has nothing to say about whether commitment firmness is the behaviour that most decides how somebody bargains.
+- src/simulation/legislature-manner.ts, the derivation as built — Establishes that a manner can be derived from records alone, explain itself in the player's own terms, and leave an unobserved member genuinely unknown rather than middling. It has nothing to say about whether commitment firmness is the behavior that most decides how somebody bargains.
 - src/simulation/types.ts, LegislativeCommitmentRecord and LegislativeNegotiationRecord — Shows what the world already records about a member's dealings: the firmness and stance of every commitment, and the disposition of every approach including refused, deferred, countered and withdrawn. It establishes that other sources are available; it cannot say which of them a legislator's manner actually rests on.
 - The owner's instruction of 2026-09-22: 'i want the trait system itself. not those 5 hardwired. built the connectors for later traits and effects etc. that goes with all systems.' — Settles that a legislative trait belongs in a pack rather than hardwired, which is how it is built. It says nothing about what the trait should be, or what in a member's life should confer it.
 - The coordinator's decision of 2026-09-22, taken as technical lead rather than by the owner — Chose the member's own negotiating record as the source, on the same principle the resistance work rests on: the game does not assert something about a person it never observed. That principle rules out inventing a value; it does not choose between the several observed things that could be read instead.
 
 > The mechanism is built and shipped inert-safe, so this question is not blocking anything. A member with fewer than three recorded commitments reads as unknown and contributes nothing, which means an answer that replaces the source changes a derivation rather than unpicking saved data.
 
-> The build currently derives manner from LegislativeCommitmentFirmness alone: explicit counts as showing their hand, noncommittal and provisional as keeping it open, qualified on neither side. That choice is defensible because it is the game's own record of what the member said, but it is one reading of a member's behaviour and not obviously the most telling one.
+> The build currently derives manner from LegislativeCommitmentFirmness alone: explicit counts as showing their hand, noncommittal and provisional as keeping it open, qualified on neither side. That choice is defensible because it is the game's own record of what the member said, but it is one reading of a member's behavior and not obviously the most telling one.
 
 > Deliberately not used, and worth challenging: whether the member kept the commitments they made. The world records that too, and a member who promises plainly and then does not deliver is a different person from one who promises plainly and delivers, while the current reading cannot tell them apart.
 
@@ -589,13 +589,13 @@ Related: `seated-figure-reads-as-in-the-seat`, `facial-expression-derivation`
 
 > The generator is shipped and inert-safe: it replaces three hardcoded placeholders, it draws through the same seeded stream every other generated name uses, and the organizations it names carry generated provenance. An answer changes a corpus and a set of weights, not saved data — a world rebuilt from the same seed would rename its schools, which is the cost of acting on an answer and worth stating.
 
-> Shipped shape: four patterns — a historical figure, a landscape or neighbourhood stem, a compass point on the town, or the town itself — weighted so high schools lean on the town and elementary schools on people and landscape. The weights are a guess dressed as a convention. Nothing was read to set them.
+> Shipped shape: four patterns — a historical figure, a landscape or neighborhood stem, a compass point on the town, or the town itself — weighted so high schools lean on the town and elementary schools on people and landscape. The weights are a guess dressed as a convention. Nothing was read to set them.
 
-> The figure list is 73 public historical Americans chosen because they are in wide use on American public schools. Confederate figures were deliberately left out, on the reasoning that schools carrying those names are being renamed rather than added. That is a judgement about the present, not a measurement, and it is exactly the kind of thing that should be checked rather than assumed.
+> The figure list is 73 public historical Americans chosen because they are in wide use on American public schools. Confederate figures were deliberately left out, on the reasoning that schools carrying those names are being renamed rather than added. That is a judgment about the present, not a measurement, and it is exactly the kind of thing that should be checked rather than assumed.
 
-> Era is not modelled at all. A character born in 1962 and one born in 2012 draw from the same list, and the naming conventions of American schools plainly moved between those dates. The generator has the birth date available and does nothing with it.
+> Era is not modeled at all. A character born in 1962 and one born in 2012 draw from the same list, and the naming conventions of American schools plainly moved between those dates. The generator has the birth date available and does nothing with it.
 
-> Region is not modelled either, beyond the town's own name. Whether a school in Montana should draw from a different pool than one in Georgia is unanswered.
+> Region is not modeled either, beyond the town's own name. Whether a school in Montana should draw from a different pool than one in Georgia is unanswered.
 
 ### What a room needs beyond papers, a door and a desk
 
@@ -643,9 +643,9 @@ Related: `seated-figure-reads-as-in-the-seat`, `facial-expression-derivation`
 
 - The portrait resolution path and the component that renders it, read directly — It establishes what happens today and that the reason is preserved rather than discarded: the refusal names which layers are missing and reaches the rendered markup, where a developer can read it. It does not establish what a player ought to see, which no amount of reading the code can decide.
 - The two standing rules themselves, that content is skipped with a stated reason and never silently, and that player-facing surfaces carry no provenance — Each is clear on its own and they were written for different situations. Neither says what to do when the stated reason is itself provenance, which is precisely the portrait case.
-- The current behaviour in the game, where a person with no artwork appears as their initials — It is a reasonable default and it is not obviously wrong, but it was never chosen. It is what the component did before anybody asked the question.
+- The current behavior in the game, where a person with no artwork appears as their initials — It is a reasonable default and it is not obviously wrong, but it was never chosen. It is what the component did before anybody asked the question.
 
-> This is a product judgement, so every candidate is filed unrecommended on purpose. The engineering is already able to do any of them.
+> This is a product judgment, so every candidate is filed unrecommended on purpose. The engineering is already able to do any of them.
 
 > The situation is not hypothetical: a set of people whose images were deliberately deleted still have records that several live surfaces are built on, so they render as initials today.
 
@@ -676,7 +676,7 @@ Related: `missing-fact-refuse-assert-rederive`
 A question belongs here if no explicit research has been done on it. That is
 the owner's instruction and it is wider than the test this queue used to
 apply, which asked whether a question was bulky enough to be worth handing
-over. So expect this document to grow, and expect more of it to be judgement
+over. So expect this document to grow, and expect more of it to be judgment
 than citation: design questions belong here too, not only factual surveys.
 
 Two kinds of answer are worth as much as a filled-in table. "It depends, and

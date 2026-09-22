@@ -33,7 +33,8 @@ describe("UX39 calendar presentation dates", () => {
     expect(calendarDisplayDate("2026-03-08", "month-day")).toBe(
       "March 8, 2026",
     );
-    expect(calendarDisplayDate("2026-03-08", "day-month")).toBe("8 March 2026");
+    // british-spelling-ok: the optional day-first setting a player can choose.
+    expect(calendarDisplayDate("2026-03-08", "day-month")).toBe("March 8, 2026");
     expect(calendarShiftPeriod("2026-03-08", "week", 1)).toBe("2026-03-15");
   });
 });

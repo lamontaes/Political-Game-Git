@@ -3,7 +3,7 @@
   "questionId": "legislative-caucus-and-coalition-formation",
   "title": "How caucuses and voting blocs form and hold inside an American legislature",
   "question": "Inside a chamber, what makes a group of legislators become a named standing caucus or a durable voting bloc rather than a one-bill alliance — who convenes it, what holds it together between votes, what makes a member leave, and how often does a bloc vote against its own party?",
-  "whyItMatters": "The owner asked specifically for a chamber view where he could pick out the Squad and the Tea Party. Party membership and chamber caucus organizations exist and are counted, and party splits and foundings are modelled, but there is no standing group inside a chamber at all and no bloc or wing concept anywhere in the code. Without one there is nothing for that view to show beyond two party totals, and a chamber of several hundred members reads as two blocks of identical people.",
+  "whyItMatters": "The owner asked specifically for a chamber view where he could pick out the Squad and the Tea Party. Party membership and chamber caucus organizations exist and are counted, and party splits and foundings are modeled, but there is no standing group inside a chamber at all and no bloc or wing concept anywhere in the code. Without one there is nothing for that view to show beyond two party totals, and a chamber of several hundred members reads as two blocks of identical people.",
   "impact": "shapes-design",
   "lane": "governing and legislative",
   "usableAnswer": "An account of how such a group comes into being and what sustains it, in terms the simulation can observe — repeated shared positions, a convening member, a public statement of purpose, a shared constituency type. Plus roughly how many such groups a chamber carries at once, how large they run, and how long they last.",
@@ -22,7 +22,7 @@
     },
     {
       "source": "A repository-wide search for bloc, wing and coalition across src/",
-      "whatItDidNotSettle": "Finds no module for any of them. Cross-party agreement is modelled per bill in the bargaining code and does not persist past the vote."
+      "whatItDidNotSettle": "Finds no module for any of them. Cross-party agreement is modeled per bill in the bargaining code and does not persist past the vote."
     }
   ],
   "requestedBy": "research audit thread (technical team lead)",

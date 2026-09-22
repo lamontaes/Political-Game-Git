@@ -26,7 +26,7 @@ import { PNG } from "pngjs";
  *   guessed.
  *
  * Nothing in this file infers semantics. It does not know a podium from a
- * table; it finds rectangles of flat low-variance colour and reports where they
+ * table; it finds rectangles of flat low-variance color and reports where they
  * are, and a human or a prompt author says what they are. Calling a rectangle a
  * lectern is exactly the invention the project refuses elsewhere.
  */
@@ -192,7 +192,7 @@ function findHorizon(raster: RasterPixels): Measured<{
   if (bestY < 0 || best === 0) {
     return unknown("No horizontal luminance step stood out.");
   }
-  // Runner-up outside a 32px neighbourhood of the winner.
+  // Runner-up outside a 32px neighborhood of the winner.
   let runnerUp = 0;
   for (let y = top; y < bottom; y += 1) {
     if (Math.abs(y - bestY) < 32) continue;
@@ -207,7 +207,7 @@ function findHorizon(raster: RasterPixels): Measured<{
 }
 
 /**
- * Rectangles of flat, low-variance colour large enough to be a surface.
+ * Rectangles of flat, low-variance color large enough to be a surface.
  *
  * These are the candidates for the things this project must never bake text
  * into — monitors, whiteboards, bulletin boards, blank signage. The function
@@ -410,7 +410,7 @@ export interface FigureMeasurementCard {
  *
  * The crown, the sole and the box are readings with no free parameters. The
  * shoulder line is the first row below the head whose width jumps, which is a
- * heuristic and is labelled as one — on a pose with an arm raised it will be
+ * heuristic and is labeled as one — on a pose with an arm raised it will be
  * wrong, and a prompt author needs to know that rather than trust a number.
  */
 export function measureFigure(file: string): FigureMeasurementCard {

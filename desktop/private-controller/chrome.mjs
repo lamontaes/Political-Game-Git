@@ -189,7 +189,7 @@ function render(state) {
       download.state === "completed"
         ? `Saved ${download.name}`
         : download.state === "cancelled"
-          ? `Download cancelled: ${download.name}`
+          ? `Download canceled: ${download.name}`
           : `Download failed: ${download.name}`;
   $("check-updates").hidden = state.activeTab !== "play";
   document.querySelector(".track").hidden = state.activeTab !== "play";

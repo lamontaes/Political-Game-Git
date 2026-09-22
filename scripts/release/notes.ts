@@ -131,7 +131,7 @@ const MONTHS = [
   "December",
 ];
 
-/** `2026-09-08` → `8 September 2026`, matching the prose already in the file. */
+/** `2026-09-08` → `September 8, 2026`, matching the prose already in the file. */
 export function formatReleaseDate(isoDate: string): string {
   const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(isoDate);
   if (!match) {
@@ -142,7 +142,7 @@ export function formatReleaseDate(isoDate: string): string {
   const day = Number(match[3]);
   const name = MONTHS[month - 1];
   if (!name) throw new Error(`Release date '${isoDate}' has no such month.`);
-  return `${day} ${name} ${year}`;
+  return `${name} ${day}, ${year}`;
 }
 
 /**

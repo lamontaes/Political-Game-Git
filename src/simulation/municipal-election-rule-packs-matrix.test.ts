@@ -434,9 +434,9 @@ function packReaders(): readonly string[] {
 describe("the lane boundary", () => {
   it("is not yet consumed by candidacy, election or player-facing code", () => {
     // This wave builds source authority. Wiring it into a surface is a later,
-    // separately authorised step that must clear the audit gate first, so this
+    // separately authorized step that must clear the audit gate first, so this
     // test is the only thing in the tree that reads the compiled packs. When a
-    // consumer is authorised, it lands here deliberately rather than by drift.
+    // consumer is authorized, it lands here deliberately rather than by drift.
     expect(packReaders()).toEqual([
       "src/simulation/municipal-election-rule-packs-matrix.test.ts",
     ]);

@@ -17,7 +17,7 @@ import type { RuntimeVisualLibrary } from "./visual-integration";
  * they hold an office, sit in a legislature, run a campaign or lead an
  * executive agency is NOT on the summary — and the absence of a fact is not
  * evidence of it, so no tag is emitted and the tableaux gated on those tags
- * simply never match. That is the whole defence against a title screen that
+ * simply never match. That is the whole defense against a title screen that
  * hands an ordinary person a podium because the podium art exists.
  *
  * When the persistence lane starts carrying canonical capability tags on the

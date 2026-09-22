@@ -14,10 +14,10 @@
     },
     {
       "source": "src/presentation/world39-journal.ts lines 233-250 and src/presentation/life-record.ts lines 146-165",
-      "whatItDidNotSettle": "Shows the two player-facing readers of the memory store. Both list what is there in order and neither ranks, groups or summarises, so there is no place today where a compressed memory could be shown."
+      "whatItDidNotSettle": "Shows the two player-facing readers of the memory store. Both list what is there in order and neither ranks, groups or summarizes, so there is no place today where a compressed memory could be shown."
     },
     {
-      "source": "The personality catalogue's coherent-person separation, which places memory in its own layer beside temperament and relationships",
+      "source": "The personality catalog's coherent-person separation, which places memory in its own layer beside temperament and relationships",
       "whatItDidNotSettle": "Confirms the layer belongs to the person rather than to their traits. It offers no account of how the layer behaves over time."
     }
   ],

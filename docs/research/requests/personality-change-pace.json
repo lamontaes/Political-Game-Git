@@ -16,7 +16,7 @@
   "lane": "people and life",
   "notes": [
     "The mechanism is built and is not in question: resistance is read from the person's own chain of records, and failed attempts are recorded so pressure accumulates rather than each attempt being an independent roll. How it is computed is engineering and stays in the code.",
-    "What is deferred is only the numbers, which decide how a life feels. They are authored placeholders and are labelled as such in the file, so an answer replaces three numbers per trait and touches no code.",
+    "What is deferred is only the numbers, which decide how a life feels. They are authored placeholders and are labeled as such in the file, so an answer replaces three numbers per trait and touches no code.",
     "The build currently asserts both directions at once and that is the part most worth challenging: somebody recently shaken is easier to shift again, while every change already made adds a permanent cost, so each shift leaves them harder to move than the last time they settled."
   ],
   "priority": "P1",

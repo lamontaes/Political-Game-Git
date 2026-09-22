@@ -171,7 +171,7 @@ export function constitutionalProposalRuleForWorld(
     rule: constitutionalProposalRuleAt(world, key, world.currentDate),
   };
 }
-/** An office-labelled job alone grants nothing. Reconcile the active election/work chain. */
+/** An office-labeled job alone grants nothing. Reconcile the active election/work chain. */
 export function constitutionalMemberBody(
   world: World,
   personId: EntityId,

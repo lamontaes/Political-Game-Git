@@ -39,10 +39,10 @@
     },
     {
       "source": "src/environment/scenes/residence-apartment-living-production.ts, the apartment club chair",
-      "whatItDidNotSettle": "The chair is drawn turned towards the room and permits one facing. Whether a figure carrying that facing actually looks seated in it was left as a judgement to be made by eye, which is the gap this question is about."
+      "whatItDidNotSettle": "The chair is drawn turned towards the room and permits one facing. Whether a figure carrying that facing actually looks seated in it was left as a judgment to be made by eye, which is the gap this question is about."
     }
   ],
   "title": "What makes a drawn sitting figure read as sitting in this particular chair",
   "usableAnswer": "A stated rule with a number in it — for example, that a figure reads as seated when its turn is within some stated angle of the seat's drawn angle, or that turn agreement matters less than a named cue such as where the near knee falls — together with which properties a seat and a figure each have to carry for a room to apply that rule without a person looking.",
-  "whyItMatters": "Every seated placement in the project is currently settled by looking at it. We can measure a figure's turn and the point where it meets a seat, and we do, but nothing tells us whether a figure turned one way belongs in a seat drawn another way, so the last step before a person appears in a chair is a judgement nobody can check or repeat. That makes seated coverage un-plannable: we cannot say which seats our existing people can fill, or what to ask for when they cannot."
+  "whyItMatters": "Every seated placement in the project is currently settled by looking at it. We can measure a figure's turn and the point where it meets a seat, and we do, but nothing tells us whether a figure turned one way belongs in a seat drawn another way, so the last step before a person appears in a chair is a judgment nobody can check or repeat. That makes seated coverage un-plannable: we cannot say which seats our existing people can fill, or what to ask for when they cannot."
 }

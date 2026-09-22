@@ -5,7 +5,7 @@
   "notes": [
     "Counties are the cheaper answer and they now work. A saved town carries the counties it lies in, from the 2020 place-within-county crosswalk, so naming a county covers everybody in it without enumerating its towns. Reach for place identifiers only where a county is genuinely too coarse — a county with a mountain range in it is the usual case.",
     "Every identifier must be a quoted string: \"04019\", not 4019. A county is exactly 5 characters and a place exactly 7. Numbers destroy leading zeros, and 21 of the 32 identifiers already in the file begin with one.",
-    "An empty list is a real answer. A region whose honest answer is that no county can be named without more work should come back with empty lists rather than a guess; a region nothing matches shows no picture, which is the current behaviour and costs nothing.",
+    "An empty list is a real answer. A region whose honest answer is that no county can be named without more work should come back with empty lists rather than a guess; a region nothing matches shows no picture, which is the current behavior and costs nothing.",
     "The full request, with each region's own research text quoted back and a worked example, is generated in the repository at art/regions/regional-place-id-request.md and published to Drive at https://drive.google.com/file/d/14nwVTqOozVSlzjZzhmhOU0_kVgsRQjRl/view"
   ],
   "priority": "P1",
@@ -24,7 +24,7 @@
     },
     {
       "source": "src/simulation/place-county-relations.generated.ts, the 2020 redistricting place-within-county parts",
-      "whatItDidNotSettle": "Establishes which counties a place lies in, which is what makes a county answer usable at all, and is now wired into the resolver. It cannot say which counties belong to a described landscape; that judgement is the work being asked for."
+      "whatItDidNotSettle": "Establishes which counties a place lies in, which is what makes a county answer usable at all, and is now wired into the resolver. It cannot say which counties belong to a described landscape; that judgment is the work being asked for."
     },
     {
       "source": "src/simulation/life-places.ts, the 2025 Gazetteer corpus the game starts lives in",

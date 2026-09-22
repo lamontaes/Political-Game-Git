@@ -18,10 +18,10 @@
     },
     {
       "source": "src/simulation/people-contact.ts lines 46 and 837",
-      "whatItDidNotSettle": "States as a deliberate choice that nothing here decays. It records the decision without a view on what the right behaviour would be, which is the question."
+      "whatItDidNotSettle": "States as a deliberate choice that nothing here decays. It records the decision without a view on what the right behavior would be, which is the question."
     },
     {
-      "source": "The personality catalogue's 29 entries listing what is not a trait, including relationship states",
+      "source": "The personality catalog's 29 entries listing what is not a trait, including relationship states",
       "whatItDidNotSettle": "Separates relationships from temperament and says relationships belong in their own layer. It does not say what that layer holds."
     }
   ],
@@ -31,7 +31,7 @@
   "notes": [
     "Fading and forgetting are different. A person can remember someone perfectly and still feel less about them, and the memory record and the relationship state are stored separately here, so the answer can treat them separately too.",
     "Asymmetry is wanted where it is real: A may rely on B while B barely notices A. Say whether each dimension is held per person or shared between the pair.",
-    "Keep the dimension count to what a player could actually perceive through behaviour. A dimension nothing can show is a number in a file."
+    "Keep the dimension count to what a player could actually perceive through behavior. A dimension nothing can show is a number in a file."
   ],
   "relatedQuestionIds": ["ordinary-life-trait-set"]
 }

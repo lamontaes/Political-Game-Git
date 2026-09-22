@@ -3,14 +3,14 @@
   "questionId": "policy-issue-taxonomy-state-and-local",
   "title": "What state and local politics is actually about, as a list of issues",
   "question": "Across recent American state legislative sessions and city councils, what are the subjects that legislators genuinely spend their time on, in what proportions, and how do those subjects differ between a state capitol, a county board and a city council?",
-  "whyItMatters": "A new player world ships with an entirely empty policy catalogue — no domains, no issues, no propositions, no subjects and no principles — and an invariant refuses to let anything be put there that has not been established. So the political simulation currently has nothing for politics to be about, and every other governing system that is built and reachable is arguing over an empty set. This is the single largest empty vocabulary in the game and it sits directly under the owner's eight-or-nine-out-of-ten priority.",
+  "whyItMatters": "A new player world ships with an entirely empty policy catalog — no domains, no issues, no propositions, no subjects and no principles — and an invariant refuses to let anything be put there that has not been established. So the political simulation currently has nothing for politics to be about, and every other governing system that is built and reachable is arguing over an empty set. This is the single largest empty vocabulary in the game and it sits directly under the owner's eight-or-nine-out-of-ten priority.",
   "impact": "blocks-work",
   "lane": "governing and legislative",
   "usableAnswer": "A hierarchy of policy domains and the issues within each, in the terms American legislators themselves use, with a rough share of legislative attention per domain and a note of which level of government each issue actually belongs to. Where an issue is genuinely a state matter in some states and a local one in others, say so rather than picking one.",
   "sourcesChecked": [
     {
       "source": "src/simulation/production-catalog.ts lines 88-97 and 146-190 on main at 273fd2b8",
-      "whatItDidNotSettle": "Establishes that createProductionPolicyCatalog returns empty arrays for all five policy vocabularies and that assertProductionCatalogBoundary throws if anything is added that has not been established. It explains why the catalogue is empty and says nothing about what belongs in it."
+      "whatItDidNotSettle": "Establishes that createProductionPolicyCatalog returns empty arrays for all five policy vocabularies and that assertProductionCatalogBoundary throws if anything is added that has not been established. It explains why the catalog is empty and says nothing about what belongs in it."
     },
     {
       "source": "docs/research/92M-campaign-finance-ethics-lobbying.json in the repository",

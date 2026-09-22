@@ -40,7 +40,7 @@ import {
  * 3. **Missing measurements stay missing.** The rig comes from the accepted
  *    `measureBodyRig` silhouette measurement and nothing else. A landmark the
  *    silhouette cannot carry — a `brow` on a blank face, the interior hip joint
- *    centre — is recorded as unresolved. Nothing is filled in from proportions.
+ *    center — is recorded as unresolved. Nothing is filled in from proportions.
  *
  * The whole file is deterministic: the same rasters produce the same registry
  * and the same report, byte for byte.
@@ -1084,7 +1084,7 @@ export function unresolvedFor(
 ): readonly string[] {
   const unresolved: string[] = [
     "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
-    "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+    "root: pelvis-hip-center is an interior joint center and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
     "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
     "rights: the source sheets carry unknown external reuse rights.",
     "owner style acceptance: unassessed.",

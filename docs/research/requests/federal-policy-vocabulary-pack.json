@@ -5,11 +5,11 @@
   "notes": [
     "The owner approved a federal pack in the project thread on 2026-09-22 ('yes pack'), after this lane raised it as a scope question rather than a research one. What the pack contains is the research question; whether it exists is settled.",
     "The state and local pack is the model for the answer's shape: domains, issues under them, and for each issue the level that ordinarily decides it. At federal level the level field is uniform and therefore uninteresting, so the useful equivalent is which branch or institution ordinarily decides — statute, appropriation, executive action, or an independent agency's rulemaking.",
-    "The distinguishing sentence per shared issue is the part most likely to be skipped and the part most needed. 'Transportation' at both levels is not one question twice: the federal question is trust fund authorisation and formula distribution, the state question is what gets built and maintained. Without that distinction the two packs would produce dockets that read identically.",
+    "The distinguishing sentence per shared issue is the part most likely to be skipped and the part most needed. 'Transportation' at both levels is not one question twice: the federal question is trust fund authorization and formula distribution, the state question is what gets built and maintained. Without that distinction the two packs would produce dockets that read identically.",
     "No attention percentages. The same refusal applies as for the state and local weights, which are filed separately and still open."
   ],
   "priority": "P1",
-  "question": "What are the policy domains and the recurring issues under them that the United States Congress and the federal executive genuinely spend their time on, in the terms American federal legislators themselves use? Where a subject exists at both levels — health, transportation, energy, education, elections — what is the federal question as distinct from the state one, so that the two are not the same row filed twice? And which subjects are federal only, with no state or local analogue at all?",
+  "question": "What are the policy domains and the recurring issues under them that the United States Congress and the federal executive genuinely spend their time on, in the terms American federal legislators themselves use? Where a subject exists at both levels — health, transportation, energy, education, elections — what is the federal question as distinct from the state one, so that the two are not the same row filed twice? And which subjects are federal only, with no state or local analog at all?",
   "questionId": "federal-policy-vocabulary-pack",
   "relatedQuestionIds": [
     "policy-issue-taxonomy-state-and-local",

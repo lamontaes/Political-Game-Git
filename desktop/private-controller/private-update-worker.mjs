@@ -944,7 +944,7 @@ async function main(received = null) {
   } catch (error) {
     if (cancelled)
       return fail(
-        "Update cancelled. The current verified build is unchanged.",
+        "Update canceled. The current verified build is unchanged.",
         "cancelled",
       );
     fail(

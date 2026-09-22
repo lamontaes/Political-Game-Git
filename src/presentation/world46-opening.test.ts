@@ -100,10 +100,15 @@ const sha256 = (text: string) =>
  * a decision on the same evidence as before, because LEGACY_OPENING_SHAPE
  * PASSED unchanged on the run that moved these. That is the whole point of
  * having both: the field these hashes moved on is the one the shape strips.
+ *
+ * RE-ACCEPTED 2026-09-22 for the American English sweep: the policy catalog's
+ * authored text now spells labor, defense and program the American way. Same
+ * evidence again — LEGACY_OPENING_SHAPE passed unchanged on the run that moved
+ * these two hashes.
  */
 const FED321F7_LEGACY = {
-  kentucky: "375cd5fb89e7b62a399365e3ad07c7b0f78eb909aac6b81747d7779c65a09ad7",
-  peebles: "99ebe80d1b29f387bf4cb1b277a6206f8d115dccfd44f7759c838ae2fbc19b37",
+  kentucky: "759ece99fbfadfe94f0b8fc0634e0dec712abef10f5df59ae728de938133aa24",
+  peebles: "95a13a002e7f2484b4044a243ef4ebf1275dfe552dd720be3d5777d79aea7872",
 } as const;
 
 /**

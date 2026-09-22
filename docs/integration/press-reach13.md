@@ -24,7 +24,7 @@ posted public-meeting/agenda basis → request → NPC response → unprepared
 arrangement → condensed answer → publication in Civic Ledger → save/reload.
 
 Hosted full `npm run test:e2e` remains an external UI-core job: run
-`34636990923` cancelled at 45 minutes after `npm run validate` passed. The
+`34636990923` canceled at 45 minutes after `npm run validate` passed. The
 timed-out files are campaign first-election, character-context reload,
 legislation docket, narrow unsaved-note, and owner-play repair. Those specs
 were not authored on this branch.

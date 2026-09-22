@@ -112,7 +112,7 @@ it.
 
 ## Verification is enforced, not self-reported
 
-Two development-time mechanisms sit outside the writer's own judgement:
+Two development-time mechanisms sit outside the writer's own judgment:
 
 - `npm run prose:eval -- ground <packet-file> <output-file>` — deterministic
   check for the enumerated grounding classes. No model call, runs in CI. It is

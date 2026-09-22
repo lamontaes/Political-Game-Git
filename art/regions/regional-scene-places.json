@@ -13,7 +13,7 @@
         "vegetation": ["bare-deciduous", "dormant-brown-ground"],
         "builtForm": ["small-town-street"],
         "sceneKind": "street",
-        "note": "Request is explicitly bare deciduous trees and dormant brown ground with no invented snow. See the source note: at the inspected catalogue this request selects the same bytes as pikeville-valley-street."
+        "note": "Request is explicitly bare deciduous trees and dormant brown ground with no invented snow. See the source note: at the inspected catalog this request selects the same bytes as pikeville-valley-street."
       },
       "places": {
         "includeStates": [],
@@ -24,12 +24,12 @@
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
       },
-      "sourceNote": "At the Art Bench catalogue read 2026-09-21T22:30:35Z this request selects the same sha256 as playtest65-region-pikeville-valley-street. Until the bench says whether that record is the parent, a reference or a finished winter output, this row is not a separate seasonal scene and takes no plate.",
+      "sourceNote": "At the Art Bench catalog read 2026-09-21T22:30:35Z this request selects the same sha256 as playtest65-region-pikeville-valley-street. Until the bench says whether that record is the parent, a reference or a finished winter output, this row is not a separate seasonal scene and takes no plate.",
       "research": {
         "envelope": "Dormant-season version of a generic wooded Appalachian valley town; appropriate eastern Kentucky/West Virginia and comparable valley settlements.",
         "countyRefinement": "Use valley relief plus town streetscape. A source town is not an exclusive locality license. Compile separately from broad flat plateau towns.",
         "appearance": "Request explicitly bare deciduous trees and dormant brown ground, without invented snow. At the inspected catalog it shares the SAME selected byte hash as pikeville-valley-street; inspect role/parent before calling it an independently finished winter scene.",
-        "doNotAssume": "Automatic all-Appalachia/all-Kentucky, leafy summer source labelled January, or forced snowfall.",
+        "doNotAssume": "Automatic all-Appalachia/all-Kentucky, leafy summer source labeled January, or forced snowfall.",
         "sources": [
           "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states"
         ]
@@ -315,7 +315,7 @@
         "landform": "coastal-lowland",
         "vegetation": ["reed-marsh", "tidal-channel"],
         "sceneKind": "open-landscape",
-        "note": "Request: flat reed and grassy marsh with channels. The catalogue's selected record is only 688x456; see the source note on this region."
+        "note": "Request: flat reed and grassy marsh with channels. The catalog's selected record is only 688x456; see the source note on this region."
       },
       "places": {
         "includeStates": [],
@@ -326,11 +326,11 @@
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
       },
-      "sourceNote": "The catalogue's selected record is 688x456. Same position as the mangrove row: find the larger original or finish the request. No enlargement.",
+      "sourceNote": "The catalog's selected record is 688x456. Same position as the mangrove row: find the larger original or finish the request. No enlargement.",
       "research": {
         "envelope": "Low coastal marsh and distributary-channel landscapes at the Mississippi mouth in southeastern Louisiana.",
         "countyRefinement": "Start with appropriate lower Plaquemines/coastal delta subareas; evaluate adjoining coastal marsh rather than the entire inland Mississippi Delta region.",
-        "appearance": "Request describes flat reed/grassy marsh and channels. Catalogue-selected image688x456; verify larger original or proper output. Pixels uninspected.",
+        "appearance": "Request describes flat reed/grassy marsh and channels. Catalog-selected image688x456; verify larger original or proper output. Pixels uninspected.",
         "doNotAssume": "Cotton fields in the inland Mississippi Delta, leveed urban centers, upland woods, or all lower Mississippi counties.",
         "sources": [
           "https://www.recreation.gov/camping/gateways/1374",
@@ -387,7 +387,7 @@
         "landform": "rocky-shoreline",
         "vegetation": ["exposed-granite", "open-water"],
         "sceneKind": "shoreline",
-        "note": "Request: exposed pink and grey granite shoreline and open water, with no lighthouse or named skyline. Nothing in the request supports a winter coast, so winter is left out rather than assumed."
+        "note": "Request: exposed pink and gray granite shoreline and open water, with no lighthouse or named skyline. Nothing in the request supports a winter coast, so winter is left out rather than assumed."
       },
       "places": {
         "includeStates": [],
@@ -692,7 +692,7 @@
         "landform": "coastal-lowland",
         "vegetation": ["red-mangrove-prop-roots", "estuarine-water"],
         "sceneKind": "shoreline",
-        "note": "Request: red-mangrove prop roots and estuarine water. Evergreen subtropical, so no season rules it out. The catalogue's selected record is only 640x432; see the source note on this region."
+        "note": "Request: red-mangrove prop roots and estuarine water. Evergreen subtropical, so no season rules it out. The catalog's selected record is only 640x432; see the source note on this region."
       },
       "places": {
         "includeStates": [],
@@ -703,11 +703,11 @@
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
       },
-      "sourceNote": "The catalogue's selected record is 640x432. That is a preview or a reference, not a delivered plate. The proper original has to be found or the request finished; enlarging these pixels and calling the result native detail is not an option.",
+      "sourceNote": "The catalog's selected record is 640x432. That is a preview or a reference, not a delivered plate. The proper original has to be found or the request finished; enlarging these pixels and calling the result native detail is not an option.",
       "research": {
         "envelope": "Sheltered coastal southern Florida estuaries, especially Everglades/Florida Bay and southwest coast environments matching red-mangrove roots.",
         "countyRefinement": "Coastal subareas of Monroe, Miami-Dade, Collier and suitable neighboring estuaries require finer bounds than whole counties.",
-        "appearance": "Request describes red-mangrove prop/stilt roots and estuarine water. Selected catalogue preview is only640x432; check for a larger original or needed generation. Pixels uninspected.",
+        "appearance": "Request describes red-mangrove prop/stilt roots and estuarine water. Selected catalog preview is only640x432; check for a larger original or needed generation. Pixels uninspected.",
         "doNotAssume": "Inland freshwater Everglades, pine uplands, all Florida, or extending the same red-root picture to all Gulf black-mangrove habitats.",
         "sources": ["https://www.nps.gov/ever/learn/nature/mangroves.htm"]
       }

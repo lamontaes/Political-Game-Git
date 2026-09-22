@@ -213,7 +213,7 @@ test("offline reads differently from a failed check and keeps its message", () =
   assert.equal(failed.detail, "Packaging failed.");
 });
 
-test("a build whose payload is gone is never labelled verified", () => {
+test("a build whose payload is gone is never labeled verified", () => {
   const present = playLabel({
     track: "main",
     build: build(SHA_A),

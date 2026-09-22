@@ -108,7 +108,7 @@ export function resolveFormativeCompanion(
   const schoolId = enrolment.enrollment.organizationId;
   if (schoolId === null) return null;
   // Nobody joins a school before it has one, and a companion's record must not
-  // predate the enrolment that makes them a companion.
+  // predate the enrollment that makes them a companion.
   const joinedOn = enrolment.enrollment.startedAt as IsoDate;
 
   const existing = findCompanion(world, personId, role, childAge, schoolId);

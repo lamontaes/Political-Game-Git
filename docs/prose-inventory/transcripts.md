@@ -1219,7 +1219,7 @@ Seed `p85c-owner-clock`, start age 34, Ethan Vance.
   - Committee on Committees
   - Committee on Committees decides which committee takes the measure.
   - Ask for the bill to be sent to a committee
-  - Even-year sessions run 60 legislative days and adjourn by 15 April; odd-year sessions run 30 legislative days and adjourn by 30 March.
+  - Even-year sessions run 60 legislative days and adjourn by April 15; odd-year sessions run 30 legislative days and adjourn by March 30.
 
 
 ### Beats
@@ -1330,7 +1330,7 @@ Seed `corpus-campaign-b`, start age 41, Nadia Tillman.
   - Committee on Committees
   - Committee on Committees decides which committee takes the measure.
   - Ask for the bill to be sent to a committee
-  - Even-year sessions run 60 legislative days and adjourn by 15 April; odd-year sessions run 30 legislative days and adjourn by 30 March.
+  - Even-year sessions run 60 legislative days and adjourn by April 15; odd-year sessions run 30 legislative days and adjourn by March 30.
 
 
 ### Beats

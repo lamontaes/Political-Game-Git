@@ -17,7 +17,7 @@
       "whatItDidNotSettle": "Specifies what a trait is, how a pack declares movability and how resistance is read from the record chain. It does not specify how many traits a generated person starts holding."
     },
     {
-      "source": "The personality catalogue in docs/reports/2026-09-22-transcripts-audit-and-personality-catalogue.md",
+      "source": "The personality catalog in docs/reports/2026-09-22-transcripts-audit-and-personality-catalogue.md",
       "whatItDidNotSettle": "Measures what the game has against what the transcripts proposed. It identified the count as an open question rather than answering it."
     }
   ],
@@ -25,7 +25,7 @@
   "filedAt": "2026-09-22T04:50:00.000Z",
   "priority": "P1",
   "notes": [
-    "Filed under the rule lamontae set on 2026-09-22: a judgement about how the simulated world should feel goes to ChatGPT as a brief, and ChatGPT comes back to him. It is not a question to put to him directly again.",
+    "Filed under the rule lamontae set on 2026-09-22: a judgment about how the simulated world should feel goes to ChatGPT as a brief, and ChatGPT comes back to him. It is not a question to put to him directly again.",
     "His starting answer of one or two is the working default until this is answered; generation should not block on it."
   ]
 }

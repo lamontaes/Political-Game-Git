@@ -18,7 +18,7 @@
     },
     {
       "source": "src/simulation/governing/governing-calendar.ts:16, STATE_GOVERNING_CALENDAR",
-      "whatItDidNotSettle": "Carries overrideSucceedsPercent: 25 as one national chance, applied without reference to the override threshold, the session calendar or who holds the chamber. Also fixes budget season at 1 December and bill days at 15 February, 15 March and 15 April for every state alike."
+      "whatItDidNotSettle": "Carries overrideSucceedsPercent: 25 as one national chance, applied without reference to the override threshold, the session calendar or who holds the chamber. Also fixes budget season at December 1 and bill days at February 15, March 15 and April 15 for every state alike."
     },
     {
       "source": "The legislative rule packs under src/simulation/legislature",

@@ -26,7 +26,7 @@
   "priority": "P1",
   "notes": [
     "Political ambition is the interesting case and is the one most likely to be over-supplied. Most people in a town should want something entirely unpolitical, and the answer should say roughly how many want office at all.",
-    "A pursued goal has to be visible to the player through behaviour rather than through a label. Where a step would only ever be a line of text, say so."
+    "A pursued goal has to be visible to the player through behavior rather than through a label. Where a step would only ever be a line of text, say so."
   ],
   "relatedQuestionIds": ["ordinary-life-trait-set", "personality-change-pace"]
 }

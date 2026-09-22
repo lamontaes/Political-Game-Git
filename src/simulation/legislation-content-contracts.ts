@@ -24,8 +24,8 @@ export type { IsoDate };
  * them was choosing a label.
  *
  * This module is the content contract that fixes that. A *family* says what
- * kind of programme a bill establishes and, crucially, which clause dimensions
- * that programme is even capable of carrying. A *variant* is one supported
+ * kind of program a bill establishes and, crucially, which clause dimensions
+ * that program is even capable of carrying. A *variant* is one supported
  * configuration of a family. The compiler in `legislation-drafting.ts` turns a
  * family, a variant and a set of parameter values into numbered clauses, and
  * refuses combinations the family does not accept.
@@ -63,7 +63,7 @@ export type ProgramContentEvidence =
   /**
    * A real measure, hearing or analysis that demonstrated this *shape*. It
    * establishes that legislatures write clauses like this. It does NOT
-   * establish that this game's numbers, places or programmes exist.
+   * establish that this game's numbers, places or programs exist.
    */
   | {
       readonly kind: "source-example";
@@ -101,7 +101,7 @@ export type ProgramContentEvidence =
  *
  * A family declares which of these it accepts. Asking for one it does not
  * accept is refused at the compiler boundary rather than producing a section
- * whose text says something the programme cannot do.
+ * whose text says something the program cannot do.
  */
 export type ClauseDimension =
   /** A ceiling on what the measure authorizes. Money. */
@@ -122,7 +122,7 @@ export type ClauseDimension =
    * state rather than out of it.
    *
    * Separate from `funding-cap` because the two are not the same quantity with
-   * opposite signs. A cap is the most a programme may spend; a charge is what
+   * opposite signs. A cap is the most a program may spend; a charge is what
    * somebody is made to pay, and the pilot's own analyst treats revenue and
    * spending as different lines that are not netted against each other before
    * anybody has argued about them.
@@ -148,11 +148,11 @@ export type ClauseDimension =
  *
  * Subject area, legal instrument and procedural stage are three different
  * questions, and collapsing them is the specific failure this type exists to
- * prevent. "Broadband" is a subject; "authorizes a grant programme" is an
+ * prevent. "Broadband" is a subject; "authorizes a grant program" is an
  * instrument; "on the floor of the second chamber" is a stage. A bank that
  * knows only the subject produces eight bills that are one bill with eight
  * titles — every one of them a funding slider — because authorizing a
- * programme is the only thing it can express.
+ * program is the only thing it can express.
  *
  * These are the instruments this game supports. Each one is enforced: the
  * compiler reads the rule below and refuses a configuration that carries a
@@ -160,7 +160,7 @@ export type ClauseDimension =
  * acts on an existing authority without naming one.
  */
 export type LegalInstrument =
-  /** Creates a programme and states the most it may spend. */
+  /** Creates a program and states the most it may spend. */
   | "programme-authorization"
   /**
    * Makes money available for something already authorized.
@@ -389,7 +389,7 @@ export function legalInstrumentRules(): readonly LegalInstrumentRule[] {
  * requires one and none arrived.
  *
  * Two things can be an authority. A standing statute is authored background:
- * the programme this jurisdiction is fictionally assumed to already run. A
+ * the program this jurisdiction is fictionally assumed to already run. A
  * docket measure is a bill the player themselves filed earlier in this life,
  * which is what lets a second bill be *about* the first one rather than merely
  * next to it on a list.
@@ -449,7 +449,7 @@ export type ProgramParameterSpec =
       readonly kind: "duration-years";
       readonly label: string;
       readonly minYears: number;
-      /** Null means the configuration supports an ongoing programme. */
+      /** Null means the configuration supports an ongoing program. */
       readonly maxYears: number | null;
       readonly evidence: ProgramContentEvidence;
     }
@@ -507,7 +507,7 @@ export interface ClauseTemplate {
 }
 
 export interface ClauseRendering {
-  /** Omitted on legacy whole-programme amounts. */
+  /** Omitted on legacy whole-program amounts. */
   readonly fiscalPeriod?: "annual";
   readonly text: string;
   readonly beneficiary: LegislativeProvisionBeneficiary;
@@ -579,7 +579,7 @@ export interface ProgramVariant {
    * What kind of legal act this configuration is.
    *
    * Declared per variant rather than per family, because one subject genuinely
-   * supports several instruments: the same water programme can be a duty with
+   * supports several instruments: the same water program can be a duty with
    * no money attached and a funded replacement, and calling those one thing is
    * how a bank ends up with a single mechanism wearing different titles.
    */
@@ -601,7 +601,7 @@ export interface ProgramVariant {
    *
    * Declared rather than derived from each parameter's minimum, because a
    * variant's default is a piece of authored content in its own right: the
-   * transit pilot's default is the $8,000,000 two-year programme the accepted
+   * transit pilot's default is the $8,000,000 two-year program the accepted
    * bargaining sitting is written against, and deriving it would silently
    * restate that bill the first time somebody widened a bound.
    */
@@ -628,7 +628,7 @@ export interface ProgramFamily {
   /** Source material that demonstrated this clause shape exists. */
   readonly structuralProvenance: readonly ProgramContentEvidence[];
   /**
-   * What the programme is meant to change, and why the game cannot score it.
+   * What the program is meant to change, and why the game cannot score it.
    *
    * Declared so the analysis surface can name the exact series an estimate
    * would need instead of producing a confident number from nothing. A world
@@ -654,7 +654,7 @@ export interface ProgramFamily {
    * Authorities a bill in this family may act upon without the player having
    * filed one first.
    *
-   * Authored background: the programmes this state is assumed already to run.
+   * Authored background: the programs this state is assumed already to run.
    * They exist so that an appropriation or a repeal is playable on the first
    * day of a term rather than only after the player has authorized something
    * themselves — and they are declared here, with evidence, rather than

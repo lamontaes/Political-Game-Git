@@ -1,24 +1,24 @@
 {
   "requestVersion": "research-request/v1",
   "questionId": "trait-catalogue-poles-and-tuning-rules",
-  "title": "Turning the 121-trait catalogue into scales: which words are opposite ends, and the rules each scale's tuning follows",
-  "question": "The game's traits are scales between two opposite ends. The personality catalogue researched on 2026-09-21 is a list of 121 single words. Which of those words pair as the two ends of one scale, which stand alone as one end with a plain opposite, and which are aliases of the same scale? For each resulting scale, what rule should decide how strongly people hold it, how it is spread across a starting population, which kinds of decision may read it, whether people are born with it or only acquire it, and how hard it is to change?",
-  "whyItMatters": "The catalogue cannot enter the game until this is answered. Only its names and meanings map onto what the engine stores; every trait the engine loads also needs two opposite ends and a set of tuning values, and the catalogue deliberately carries none of them. Filling them by engineering guess would decide how every person in the game behaves without anyone having designed it. Meanwhile the game ships five abstract axes, and lamontae ranks personality first.",
+  "title": "Turning the 121-trait catalog into scales: which words are opposite ends, and the rules each scale's tuning follows",
+  "question": "The game's traits are scales between two opposite ends. The personality catalog researched on 2026-09-21 is a list of 121 single words. Which of those words pair as the two ends of one scale, which stand alone as one end with a plain opposite, and which are aliases of the same scale? For each resulting scale, what rule should decide how strongly people hold it, how it is spread across a starting population, which kinds of decision may read it, whether people are born with it or only acquire it, and how hard it is to change?",
+  "whyItMatters": "The catalog cannot enter the game until this is answered. Only its names and meanings map onto what the engine stores; every trait the engine loads also needs two opposite ends and a set of tuning values, and the catalog deliberately carries none of them. Filling them by engineering guess would decide how every person in the game behaves without anyone having designed it. Meanwhile the game ships five abstract axes, and lamontae ranks personality first.",
   "impact": "blocks-work",
   "lane": "people and life",
-  "usableAnswer": "Two things. First, a grouping of the 121 catalogue ids into scales: each scale names its two ends (by catalogue id where the catalogue has the word, otherwise a proposed plain word), and every catalogue id appears exactly once, as an end, an alias of an end, or explicitly set aside with a reason. Second, for each tuning dimension, a rule for how it varies between kinds of scale rather than a number per trait — for example, which families of scale should be harder to change than others, which should be something a person is born with versus something they acquire, and which kinds of decision each family is allowed to inform. Rules that vary, not constants; no per-trait numbers are wanted, and none have been approved.",
+  "usableAnswer": "Two things. First, a grouping of the 121 catalog ids into scales: each scale names its two ends (by catalog id where the catalog has the word, otherwise a proposed plain word), and every catalog id appears exactly once, as an end, an alias of an end, or explicitly set aside with a reason. Second, for each tuning dimension, a rule for how it varies between kinds of scale rather than a number per trait — for example, which families of scale should be harder to change than others, which should be something a person is born with versus something they acquire, and which kinds of decision each family is allowed to inform. Rules that vary, not constants; no per-trait numbers are wanted, and none have been approved.",
   "sourcesChecked": [
     {
-      "source": "The personality catalogue, /mnt/project-files/research/personality/personality-catalogue.json (schema ocd-personality-research/1, research date 2026-09-21), with its .md and .xlsx renders and validation.json",
+      "source": "The personality catalog, /mnt/project-files/research/personality/personality-catalogue.json (schema ocd-personality-research/1, research date 2026-09-21), with its .md and .xlsx renders and validation.json",
       "whatItDidNotSettle": "121 candidates in 14 families, 29 separate concepts, 20 sources. Every candidate carries the same eleven fields: id, name, family, source_ids, source_locator, proposed_meaning, ordinary_life_example, public_role_example, boundary, status, source_urls. All 121 are marked 'RESEARCH CANDIDATE — not implemented; final module selection/behavior requires review'. Its own rules say no trait count, weights, prevalence or change rate is approved, and that aliases may share one mechanism. It does not pair any word with an opposite and carries no tuning of any kind."
     },
     {
-      "source": "The catalogue's claim that its text is original",
-      "whatItDidNotSettle": "Its rules state that every proposal field is original design and that no descriptions are copied from the games and mods it cites (a Sims 4 custom-trait spreadsheet, Sims 4 mods, Crusader Kings III development diaries and others). This thread did NOT verify that claim against any of those sources. It is recorded here as the catalogue's own assertion, not as a checked fact."
+      "source": "The catalog's claim that its text is original",
+      "whatItDidNotSettle": "Its rules state that every proposal field is original design and that no descriptions are copied from the games and mods it cites (a Sims 4 custom-trait spreadsheet, Sims 4 mods, Crusader Kings III development diaries and others). This thread did NOT verify that claim against any of those sources. It is recorded here as the catalog's own assertion, not as a checked fact."
     },
     {
       "source": "src/simulation/trait-packs.ts on origin/main 4965f63c (TraitDeclaration)",
-      "whatItDidNotSettle": "Establishes what a loaded trait must carry: a key, label and description, two poles each with a key, label and description, a scale of strengths, the decision scopes that may read it, who confers it (seeded, player or conferred-only), a seed spread for seeded traits, and five movability values. It says what the fields are, not what any catalogue trait's values should be."
+      "whatItDidNotSettle": "Establishes what a loaded trait must carry: a key, label and description, two poles each with a key, label and description, a scale of strengths, the decision scopes that may read it, who confers it (seeded, player or conferred-only), a seed spread for seeded traits, and five movability values. It says what the fields are, not what any catalog trait's values should be."
     },
     {
       "source": "lamontae's own answers, 2026-09-22 (owner record 01, section A)",
@@ -31,6 +31,6 @@
   "notes": [
     "Distinct from person-starting-trait-count (how many traits one person starts with) and from people-and-life's ordinary-life-trait-set (how large the vocabulary should be). This one takes the existing 121 as given and asks how they become scales.",
     "The engine half — a loader, a trait field in content packs, the registry reading installed packs, and the person card reading loaded packs instead of the fixed five — is engineering, not research, and is written up separately in docs/reports/owner-record/08-trait-loader-job.md.",
-    "Do not answer with a page of per-trait numbers. lamontae's standing rule is that proposed values are not a thing to put to him, and the catalogue itself says none are approved."
+    "Do not answer with a page of per-trait numbers. lamontae's standing rule is that proposed values are not a thing to put to him, and the catalog itself says none are approved."
   ]
 }

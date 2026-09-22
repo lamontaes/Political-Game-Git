@@ -489,7 +489,7 @@ export const KENTUCKY_RULE_PACK: LegislativeRulePack = {
     ),
     sessionLabel: "Regular session",
     adjournmentRule: knownRule(
-      "Even-year sessions run 60 legislative days and adjourn by 15 April; odd-year sessions run 30 legislative days and adjourn by 30 March.",
+      "Even-year sessions run 60 legislative days and adjourn by April 15; odd-year sessions run 30 legislative days and adjourn by March 30.",
       KY_SEC_42,
     ),
     measuresDieAtAdjournment: unknownRule(
@@ -2043,7 +2043,7 @@ export const MISSOURI_RULE_PACK: LegislativeRulePack = {
       MO_ART3_SEC27,
     ),
     conference: unknownRule(
-      "Mo. Const. art. III, § 27 fixes the vote needed to adopt a Missouri conference report but not how many conferees each house appoints or whether the report may be amended, so conference is not modelled here.",
+      "Mo. Const. art. III, § 27 fixes the vote needed to adopt a Missouri conference report but not how many conferees each house appoints or whether the report may be amended, so conference is not modeled here.",
     ),
     source: MO_ART3_SEC27,
   },

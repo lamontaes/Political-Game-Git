@@ -127,7 +127,7 @@ cost credit, not as required clicks.
 
 An active legacy enrollment is migrated append-only when normal time advances:
 completed session events remain, their paid cost is credited cumulatively,
-an obsolete open session is cancelled, and one canonical next-period due item
+an obsolete open session is canceled, and one canonical next-period due item
 is scheduled. The accepted institution, program, credential, start date,
 elapsed minimum, session total, payment history, and enrollment identity are
 not rewritten. Save/reload preserves the migrated World exactly. Insufficient

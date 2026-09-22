@@ -442,7 +442,7 @@ describe("a stage that needs somebody says so, and is withheld without them", ()
     }
   });
 
-  it("names no person, place or organisation of its own", () => {
+  it("names no person, place or organization of its own", () => {
     // Everything a player sees is either a slot the world fills or a common
     // noun. A capital mid-sentence — not after a full stop and not opening a
     // line — is a name somebody typed here, which is exactly the

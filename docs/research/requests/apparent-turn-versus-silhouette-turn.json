@@ -38,7 +38,7 @@
     },
     {
       "source": "art/qa/p71/source_intake_dispositions.json, the written descriptions of the same plates",
-      "whatItDidNotSettle": "It disagrees with the measurement on two of its four seated plates, calling one close to square that measures strongly turned and calling another turned the opposite way. Two disagreeing judgements do not establish which is right; they establish that the question is real."
+      "whatItDidNotSettle": "It disagrees with the measurement on two of its four seated plates, calling one close to square that measures strongly turned and calling another turned the opposite way. Two disagreeing judgments do not establish which is right; they establish that the question is real."
     },
     {
       "source": "The contact sheet of all twenty-two candidate bodies, looked at directly",
@@ -47,5 +47,5 @@
   ],
   "title": "Which cues make a drawn figure read as turned, when its outline says otherwise",
   "usableAnswer": "A ranking of the cues by how strongly each one determines perceived facing in a flat illustrated figure, with enough detail to tell us whether a silhouette-only measurement is a sound proxy or a weak one — and, if it is weak, which cue we should be measuring instead and whether it can be measured from the pixels we have rather than from a description somebody writes.",
-  "whyItMatters": "Our admission gate decides which way a seated figure is turned by measuring its silhouette, comparing the horizontal centre of the lower body against the upper. That number is stable and repeatable, and it is the only evidence the pipeline has. But three plates it calls clearly turned read close to straight-on when a person looks at them, and the prose written by whoever first catalogued those same plates disagrees with the measurement on two of four. If the outline is a weak cue, then the gate is confidently filing figures under a facing they do not appear to have, which puts them in the wrong seats and is exactly the kind of wrong-but-plausible number that nothing downstream can catch."
+  "whyItMatters": "Our admission gate decides which way a seated figure is turned by measuring its silhouette, comparing the horizontal center of the lower body against the upper. That number is stable and repeatable, and it is the only evidence the pipeline has. But three plates it calls clearly turned read close to straight-on when a person looks at them, and the prose written by whoever first cataloged those same plates disagrees with the measurement on two of four. If the outline is a weak cue, then the gate is confidently filing figures under a facing they do not appear to have, which puts them in the wrong seats and is exactly the kind of wrong-but-plausible number that nothing downstream can catch."
 }

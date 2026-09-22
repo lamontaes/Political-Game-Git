@@ -3,7 +3,7 @@
   "impact": "shapes-design",
   "lane": "playtest",
   "notes": [
-    "Measured in the browser on 2026-09-22 on main at 1c4992e8. Two lives won a seat in the state house on the same simulated day, 2 February 2026, one in Galena, Illinois and one in Lexington, Kentucky, both at 81 percent after twenty-seven door-knocking sessions.",
+    "Measured in the browser on 2026-09-22 on main at 1c4992e8. Two lives won a seat in the state house on the same simulated day, February 2, 2026, one in Galena, Illinois and one in Lexington, Kentucky, both at 81 percent after twenty-seven door-knocking sessions.",
     "Illinois seats the winner immediately. The office screen reads 'Dawn works for the Illinois legislature, so what is in front of the chamber is in front of them too', with a voting workflow, a casework policy and a bill docket.",
     "Kentucky does not. The result reads 'Jasmine Carlson won. The supported term begins 2027-01-01; the result itself grants no current office authority.' Her office screen still reads 'You hold no office in this life yet. Running for one is under Campaigns when the game supports it here.' Ten weeks later it still reads that.",
     "So one of the two is wrong and the game does not know which. Kentucky's eleven-month gap is the closer match to how American legislatures actually work; Illinois seating a winner the same afternoon is not. But an eleven-month gap in which the player holds nothing and the screen tells them they have never run for anything is not the right answer either.",

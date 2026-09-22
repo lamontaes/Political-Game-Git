@@ -78,7 +78,7 @@ describe("a blank name respects the gender the player stated", () => {
 
   it("moves nothing else about the person", () => {
     // The gendered draw runs on its own forked stream, so the birthday, the id
-    // and the family name are the same whatever was stated. If honouring the
+    // and the family name are the same whatever was stated. If honoring the
     // answer shifted the main stream it would quietly rewrite every other
     // generated fact about this life.
     const people = (["male", "female", "nonbinary", "unstated"] as const).map(
@@ -199,7 +199,7 @@ describe("the generation pools are an honest partition of the corpus", () => {
     expect(new Set(all).size).toBe(all.length);
   });
 
-  it("leaves no pool empty, so every stated answer can be honoured", () => {
+  it("leaves no pool empty, so every stated answer can be honored", () => {
     expect(pools.male.length).toBeGreaterThan(0);
     expect(pools.female.length).toBeGreaterThan(0);
     expect(pools.neutral.length).toBeGreaterThan(0);

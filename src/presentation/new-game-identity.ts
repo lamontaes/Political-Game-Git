@@ -132,7 +132,7 @@ export function canonicalSetupEncoding(setup: NewGameSetup): string {
  * That second half is by construction rather than by luck. The seed used to be
  * a 64-bit FNV-1a digest of the setup and nothing else, so "different setups
  * get different worlds" rested on a hash never colliding — a claim that width
- * does not support. The digest is kept because it makes a seed recognisable at
+ * does not support. The digest is kept because it makes a seed recognizable at
  * a glance, but the canonical encoding travels with it, so two seeds are equal
  * only when the setups they came from were. The seed is internal and never
  * shown, so its length costs the player nothing.
@@ -308,7 +308,7 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     }
   }
   // Absent means the ordinary route, which is what every descriptor written
-  // before the field existed meant. Anything else present but unrecognised is
+  // before the field existed meant. Anything else present but unrecognized is
   // a corrupt descriptor rather than a route to guess at.
   if (record.startKind !== undefined && record.startKind !== "custom") {
     return null;
