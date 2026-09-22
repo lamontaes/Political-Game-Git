@@ -261,18 +261,18 @@
       "reason": "Nothing preserved bears on this. The preserved packet is character components and a small number of environment plates; it contains no interface artwork of any kind, and a find across art/ and public/ returns only pose control plates and arm-measurement QA overlays, which are authoring evidence rather than shipped art. So no preserved asset could answer or restate an ask for icons for the five ShellRef kinds."
     },
     {
-      "requestId": "ui-ordinary-day-page-furniture",
+      "requestId": "ui-no-candidacy-refusal-panel",
       "verdict": "unaffected-still-required",
       "preservedUnits": [],
       "evidencePaths": [],
-      "reason": "Nothing preserved bears on this. The preserved packet is character components and a small number of environment plates and carries no interface artwork of any kind; a find across art/ and public/ returns only pose control plates and arm-measurement QA overlays, which are authoring evidence rather than shipped art. No preserved asset could answer or restate this ask."
+      "reason": "Nothing preserved bears on this. The preserved packet is character components and a small number of environment plates; the manifest's 126 assets contain no interface artwork of any kind, and a find across art/ and public/ returns only pose control plates and arm-measurement QA overlays, which are authoring evidence rather than shipped art. So no preserved asset could answer or restate this ask."
     },
     {
-      "requestId": "ui-standing-thing-state-marks",
+      "requestId": "ui-chamber-vote-margin-graph",
       "verdict": "unaffected-still-required",
       "preservedUnits": [],
       "evidencePaths": [],
-      "reason": "Nothing preserved bears on this. The preserved packet is character components and a small number of environment plates and carries no interface artwork of any kind; a find across art/ and public/ returns only pose control plates and arm-measurement QA overlays, which are authoring evidence rather than shipped art. No preserved asset could answer or restate this ask."
+      "reason": "Nothing preserved bears on this. The preserved packet is character components and a small number of environment plates; the manifest's 126 assets contain no interface artwork of any kind, and a find across art/ and public/ returns only pose control plates and arm-measurement QA overlays, which are authoring evidence rather than shipped art. So no preserved asset could answer or restate this ask."
     }
   ],
   "unlinkedPreservedAssets": [
