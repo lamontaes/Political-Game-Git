@@ -9,7 +9,8 @@ import {
   characterHistoryContextPersonId,
   createStableId,
   createWorkItem,
-  drawCanonicalName,
+  drawCanonicalNameForGender,
+  catalogPropositionIds,
   introduceMeasure,
   legislativeBlueprint,
   makeIsoDate,
@@ -928,7 +929,7 @@ export function fileDraft(
     const rng = new SeededRng(next.seed).fork(
       `legislative-member:${input.scenarioKey}`,
     );
-    const name = drawCanonicalName(rng);
+    const name = drawCanonicalNameForGender(rng, "unstated");
     next = applyCharacterHistoryPlan(next, {
       stableKey: sponsorKey,
       mode: "quick-generated",
@@ -959,6 +960,7 @@ export function fileDraft(
     subjectClass: draft.subjectClass,
     sponsorPersonId,
     originChamberKey: chamberKey,
+    propositionIds: catalogPropositionIds(next, draft.propositionKeys),
   });
 
   const measureId = createStableId(
