@@ -12,7 +12,7 @@
   },
   "filedAt": "2026-09-22T05:00:01.000Z",
   "impact": "shapes-design",
-  "lane": "personality and relationships",
+  "lane": "people and life",
   "notes": [
     "Fading and forgetting are different. A person can remember someone perfectly and still feel less about them, and the memory record and the relationship state are stored separately here, so the answer can treat them separately too.",
     "Asymmetry is wanted where it is real: A may rely on B while B barely notices A. Say whether each dimension is held per person or shared between the pair.",

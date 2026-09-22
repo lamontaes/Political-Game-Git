@@ -14,7 +14,7 @@
   },
   "filedAt": "2026-09-22T05:00:03.000Z",
   "impact": "shapes-design",
-  "lane": "personality and relationships",
+  "lane": "people and life",
   "notes": [
     "Nothing may be deleted. The history store is append-only on purpose and the save has to keep its evidence, so the answer is about what surfaces and how strongly, not about erasing rows.",
     "Distortion is a separate question and is not being asked here. This is about what is recalled, not about whether the recollection is accurate."

@@ -1,0 +1,40 @@
+{
+  "filedAt": "2026-09-22T17:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "MEASURED IN SOURCE at 142eaf7f, chasing C10's disposition on the party review interval: \"Opportunity to reassess; does not cause dissent or guarantee an initiative.\" Today it causes both, and the number 3 is not the part that is wrong.",
+    "THE CHAIN, read end to end in src/simulation/living-world/party-evolution.ts. (1) A review due item comes due. The only thing that has happened is that a date arrived. (2) partyBodyReviewTransitionHandler picks the question by rotation, PARTY_QUESTIONS[n % PARTY_QUESTIONS.length], where n is how many decisions the body has already taken. Nothing in the world raised it. (3) recordPartyBodyDecision makes every member vote, and for anybody but the player that vote is partyActorStance, a seeded draw on person id and question key that reads no trait, value, goal, life event or relationship. (4) Members who lost while holding the stance as defining are recorded as dissenting. (5) That dissent feeds assessPartyInitiative, which is the only route by which a party splits or a new one is founded.",
+    "SO THE WHOLE DISSENT PIPELINE RUNS ON A CALENDAR AND A COIN FLIP. A consequence worth stating for anyone quoting a rate: the frequency of splits and foundings in any save is a function of the review schedule, not of anything a player or an NPC did. Earlier measurements reading party evolution as firing once in ten simulated years were measuring the clock.",
+    "THIS IS THE THIRD FACE OF ONE MISSING THING, alongside where-a-persons-politics-comes-from: no ordinary person has a party, a person's stance inside one is a dice roll, and now the question they are taking a stance on was not raised by anybody either. Nothing joins a party, or a person, to a political position that came from the world.",
+    "NOT THE SAME QUESTION AS party-body-dispute-cadence, which C18 answered in the 15:58Z batch. That one asked how often a dispute must recur before somebody considers leaving. This one asks what should make a body take up a question at all, which is upstream of it and makes the recurrence count meaningful or meaningless depending on the answer.",
+    "WHAT IS NOT BEING ASKED. Not for a number: the interval is legitimate as scheduling once it is named as scheduling, and a review that finds nothing to decide is a correct and quiet outcome. The question is what supplies the questions."
+  ],
+  "priority": "P1",
+  "question": "(1) What should make a party body take up a question — a member raising it, a bill reaching a chamber the party sits in, an election result, a dispute between chapters, a public event, something a rival party did? (2) Should a scheduled review that finds nothing pending simply pass without a decision, so that a quiet body is a real outcome rather than a gap? (3) When a body does take something up, where should a member's position on it come from, given that D-093 settles that people decide for themselves and their party does not decide for them? (4) Should a question a body has already settled be reopenable, and by what — a changed circumstance, new members, a failed consequence of the earlier decision? (5) Is dissent inside a body the right and only road to a party splitting, or should a split be reachable another way entirely?",
+  "questionId": "what-makes-a-party-body-take-up-a-question",
+  "relatedQuestionIds": [
+    "party-body-dispute-cadence",
+    "where-a-persons-politics-comes-from",
+    "party-evolution-public-or-private"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "people and life thread",
+  "sourcesChecked": [
+    {
+      "source": "The director's C10 answer and threshold-dispositions.json, 2026-09-22",
+      "whatItDidNotSettle": "Settles that the review interval is work scheduling and must not cause dissent or guarantee an initiative. Says nothing about what should cause a body to take up a question, which is what this asks."
+    },
+    {
+      "source": "party-evolution.ts read end to end at 142eaf7f",
+      "whatItDidNotSettle": "Establishes that the question is chosen by rotation on a date and that every stance on it is a seeded draw. Says nothing about what should choose it."
+    },
+    {
+      "source": "The owner's decision D-093 of 2026-09-22",
+      "whatItDidNotSettle": "Settles that people decide their own positions and that a party does not decide for its members. Does not say what puts a question in front of a party body in the first place."
+    }
+  ],
+  "title": "What should make a party body take up a question, rather than a date arriving",
+  "usableAnswer": "A list of the things that should put a question in front of a party body, with a sense of which are common and which are rare; a position on whether a quiet review is a correct outcome; and whether dissent inside a body should remain the only road to a party splitting. No interval and no rate is being asked for.",
+  "whyItMatters": "Party evolution is the only mechanism by which the party landscape changes, and he has said party evolution and multi-generation play must ship. Today every split and every founding in the game traces back to a rotating calendar and a dice roll, so the system produces motion without anything having happened, and its measured rate describes the schedule rather than the world."
+}
