@@ -520,6 +520,17 @@ export interface LifeReportRequest {
   readonly answerIndex: number;
   readonly beats: number;
   readonly startAge?: number;
+  /**
+   * Where the reported life is lived.
+   *
+   * Kentucky remains the default because it is the scenario this report was
+   * written against and changing what an existing invocation reports would be
+   * a silent change to the evidence. It is a default, not a normal: Kentucky
+   * is an authored scenario rather than a universal starting place, and a
+   * report that could only ever be run there would keep saying so to every
+   * reader of it.
+   */
+  readonly placeKey?: string;
 }
 
 /**
@@ -537,7 +548,7 @@ export interface LifeReportRequest {
  */
 export function lifeReportMarkdown(request: LifeReportRequest): string {
   const base: NewGameSetup = {
-    placeKey: "kentucky",
+    placeKey: request.placeKey ?? "kentucky",
     startAge: request.startAge ?? 34,
     depth: "summarize-earlier-life",
     startingLife: "ordinary-life",
