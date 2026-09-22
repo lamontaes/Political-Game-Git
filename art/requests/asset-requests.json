@@ -1,6 +1,6 @@
 {
   "documentVersion": 1,
-  "generatedFrom": "Packet 68, reconciled against the 2026-09-03 Drive rescan and the released manifest, then extended by Packet 71's intake of the four 2026-09-04 uploads. ALIVE43 Role A added doorstep and park-winter variant requests after searching park/press/community-meeting coverage; it did not reopen closed Packet 68/71 jobs. Hand-authored; validated by src/authoring/asset-request.ts. Hardcoded-content audit thread added two interface requests on 2026-09-22 after the art bench lane closed out: the no-candidacy refusal panel and a chamber vote-margin graph. It searched the manifest and the existing requests first and did not refile the newspaper furniture, masthead ornaments or shell icons already landed in #281.",
+  "generatedFrom": "Packet 68, reconciled against the 2026-09-03 Drive rescan and the released manifest, then extended by Packet 71's intake of the four 2026-09-04 uploads. ALIVE43 Role A added doorstep and park-winter variant requests after searching park/press/community-meeting coverage; it did not reopen closed Packet 68/71 jobs. Hand-authored; validated by src/authoring/asset-request.ts. Hardcoded-content audit thread added two interface requests on 2026-09-22 after the art bench lane closed out: the no-candidacy refusal panel and a chamber vote-margin graph. It searched the manifest and the existing requests first and did not refile the newspaper furniture, masthead ornaments or shell icons already landed in #281. Extended for the owner's non-background ask with three interface grounds the queue's own ui-* records do not cover: the ground behind every economic chart, the Guide term popover card, and the Politics hub tab band. Each is filed against a real runtime consumer read in the tree and inventory-checked against art/ and the released manifest; Drive was not searched from that session and each record says so.",
   "requests": [
     {
       "requestId": "person-production-standing-body",
@@ -1527,6 +1527,156 @@
         "Carries no party emblem and no real government's seal."
       ],
       "dependsOn": []
+    },
+    {
+      "requestId": "economic-graph-panel-ground",
+      "requestVersion": 1,
+      "priority": "P2",
+      "status": "queued",
+      "title": "Plotting-paper ground and panel frame for the economic graph figure",
+      "consumer": {
+        "consumerId": "economic-context-graph",
+        "runtimeComponent": "src/player/EconomicContextPanel.tsx",
+        "playerVisibleUse": "Behind every chart the player opens: the Issues and budget graphs, the macro conditions card graph, and the account history graph."
+      },
+      "whyNeeded": "EconomicGraph() in src/player/EconomicContextPanel.tsx draws a live 640x220 SVG — two axis lines, then polylines or bars from the series — onto .economic-graph, which is rgba(3,10,18,0.58) with a 1px border. Three surfaces reuse it (MacroConditionsPanel.tsx, ModeledAccountHistory.tsx, EconomicContextPanel.tsx), so one ground improves all three. The chart itself stays generated; only what it is drawn ON is being asked for.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/shared/documents_desk_props/",
+          "art/manifest/asset_manifest.json",
+          "art/style/material_tokens.json",
+          "art/generated/approved/",
+          "src/player/economic-context-panel.css"
+        ],
+        "driveLocationsSearched": [],
+        "found": "Nothing. art/shared/documents_desk_props/, art/shared/seals_emblems/, art/shared/flags/, art/hero/ and art/events/ each hold only a .gitkeep. art/manifest/asset_manifest.json's 126 assets are env_*, title_*, dev_*, pg_master_* and human_* only; a regex over every asset id for news|paper|masthead|chart|graph|ui|icon|seal|emblem|flag|panel|frame|banner|document|guide|ledger returned nothing but eyewear 'frames' and body 'frame_a/b'. All 24 art/families/ entries are room families. Drive was NOT searched from this session; no Drive access was used, and that is recorded rather than implied. No chart, graph, grid or plotting-paper asset exists, and economic-context-panel.css draws the whole panel from colour values.",
+        "shortfall": "There is no ground behind any chart in the game. A flat translucent fill is doing the work."
+      },
+      "target": {
+        "targetClass": "interface-graphic",
+        "minimumWidth": 1280,
+        "aspectRatio": "32:11",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "art/style/palette.json and the existing .economic-axis / .economic-mark treatment in src/player/economic-context-panel.css."
+      },
+      "generationRecipe": [
+        "A plot-area ground matching the SVG's 640x220 viewBox proportion, with the plot region inset to the x=52 / y=184 axis origin the component already uses.",
+        "Fine plotting-grid rule work and a light panel frame; dark-ground palette, consistent with the surrounding shell rather than the warm news sheet.",
+        "NO DATA MARKS. No lines, no bars, no points, no trend, no shading under a curve. Every mark is generated from canonical series and drawn over this.",
+        "NO NUMBERS, TICK LABELS, AXIS TITLES, LEGEND TEXT OR DATES. Those are series values; a baked one would show an economy this World does not have.",
+        "Alpha outside the frame, and grid rules faint enough that economic-line and economic-mark stay the most legible thing in the figure."
+      ],
+      "acceptanceCriteria": [
+        "The plot region registers against the component's existing x=52, y=12..184 axis box without the component's coordinates being changed.",
+        "Zero glyphs and zero data-bearing marks in the art.",
+        "Series lines and bars remain clearly readable over the grid at the smallest grid cell in .economic-graph-grid.",
+        "Usable unchanged by MacroConditionsPanel.tsx and ModeledAccountHistory.tsx, which render the same figure."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "intendedContext": "economic-graph"
+      }
+    },
+    {
+      "requestId": "guide-popover-card-ground",
+      "requestVersion": 1,
+      "priority": "P2",
+      "status": "draft",
+      "title": "Card ground and frame for the civics Guide term popover",
+      "consumer": {
+        "consumerId": "guide-term-popover",
+        "runtimeComponent": "src/player/GuideTerm.tsx",
+        "playerVisibleUse": "The small card that opens when a player taps an underlined civics term anywhere in the game."
+      },
+      "whyNeeded": "GuideTerm.tsx renders .pg-guide-popover with the shared civic-glass class and no ground of its own: width, radius and a box-shadow token. It is the most reused explanatory surface in the game — DocketWorkspace, GovernmentBrowser, MunicipalWorkspace, GuideWorkspace, ShellNav and PlayerGame all mount Guide terms — and it currently looks like a generic tooltip rather than part of this game.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/shared/documents_desk_props/",
+          "art/manifest/asset_manifest.json",
+          "art/style/material_tokens.json",
+          "art/generated/approved/",
+          "src/player/guide.css"
+        ],
+        "driveLocationsSearched": [],
+        "found": "Nothing. art/shared/documents_desk_props/, art/shared/seals_emblems/, art/shared/flags/, art/hero/ and art/events/ each hold only a .gitkeep. art/manifest/asset_manifest.json's 126 assets are env_*, title_*, dev_*, pg_master_* and human_* only; a regex over every asset id for news|paper|masthead|chart|graph|ui|icon|seal|emblem|flag|panel|frame|banner|document|guide|ledger returned nothing but eyewear 'frames' and body 'frame_a/b'. All 24 art/families/ entries are room families. Drive was NOT searched from this session; no Drive access was used, and that is recorded rather than implied. No shell chrome, card, frame or panel art exists; guide.css defines the popover entirely from --pg-radius and --pg-shadow tokens.",
+        "shortfall": "There is no drawn card ground anywhere in the shell, so there is nothing to reuse or crop."
+      },
+      "target": {
+        "targetClass": "interface-graphic",
+        "minimumWidth": 1408,
+        "aspectRatio": "4:3",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "The existing civic-glass treatment and --pg-brass (#c29b48) accent in src/player/guide.css; art/style/palette.json."
+      },
+      "generationRecipe": [
+        "A nine-slice-safe card ground: corners and edges that survive being stretched to the rendered width of min(22rem, 78vw) at any height.",
+        "Quiet paper-and-brass civic character, a hairline frame, a brass-keyed top edge answering .pg-guide-popover-term.",
+        "No text, no glyphs, no icon, no term name: the term and its definition are authored Guide records rendered over this.",
+        "Transparent outside the frame, and no baked drop shadow — --pg-shadow already supplies it and two would double.",
+        "Interior quiet enough that the definition paragraph stays the first thing read."
+      ],
+      "acceptanceCriteria": [
+        "Stretches to the real rendered popover box with no corner distortion.",
+        "Definition text keeps at least its current contrast ratio over the busiest part of the ground.",
+        "Real per-pixel alpha outside the frame, verified rather than assumed.",
+        "No second shadow when composited under the existing --pg-shadow."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "intendedContext": "guide-term-popover"
+      }
+    },
+    {
+      "requestId": "politics-hub-tab-band",
+      "requestVersion": 1,
+      "priority": "P2",
+      "status": "draft",
+      "title": "Tab strip band for the Politics hub and the Government scope row",
+      "consumer": {
+        "consumerId": "politics-hub-tabs",
+        "runtimeComponent": "src/player/politics/PoliticsTabs.tsx",
+        "playerVisibleUse": "The strip a player moves along to reach Your office, Campaigns, Government, Parties, and Issues and budget."
+      },
+      "whyNeeded": "PoliticsTabs.tsx renders .pg-politics-tabs / .pg-politics-tab-list, and politics-hub.css gives every tab the same rgba(11,19,32,0.55) chip with a brass border when current. The hub is the front door to the game's political surfaces and reads as a row of identical chips. GovernmentBrowser.tsx's .pg-government-scopes and .pg-government-places rows share that exact rule block, so one band serves both.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/shared/documents_desk_props/",
+          "art/manifest/asset_manifest.json",
+          "art/generated/approved/",
+          "art/families/",
+          "src/player/politics/politics-hub.css"
+        ],
+        "driveLocationsSearched": [],
+        "found": "Nothing. art/shared/documents_desk_props/, art/shared/seals_emblems/, art/shared/flags/, art/hero/ and art/events/ each hold only a .gitkeep. art/manifest/asset_manifest.json's 126 assets are env_*, title_*, dev_*, pg_master_* and human_* only; a regex over every asset id for news|paper|masthead|chart|graph|ui|icon|seal|emblem|flag|panel|frame|banner|document|guide|ledger returned nothing but eyewear 'frames' and body 'frame_a/b'. All 24 art/families/ entries are room families. Drive was NOT searched from this session; no Drive access was used, and that is recorded rather than implied. politics-hub.css contains no url() and no image reference of any kind.",
+        "shortfall": "No navigation chrome art exists. The strip is colour values only."
+      },
+      "target": {
+        "targetClass": "interface-graphic",
+        "minimumWidth": 1920,
+        "aspectRatio": "24:1",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "The existing --pg-brass (#c29b48) current-tab accent and --pg-hairline in src/player/politics/politics-hub.css; art/style/palette.json."
+      },
+      "generationRecipe": [
+        "One horizontally tileable band for the strip ground, plus a separate raised treatment for the aria-current tab.",
+        "Restrained civic hardware character: a hairline, a shallow bevel, a brass keyline. It is chrome, not a scene.",
+        "No text and no labels: the five tab labels come from POLITICS_TABS in PoliticsTabs.tsx.",
+        "No seal, crest, flag, party mark or jurisdiction emblem. src/presentation/surface-binding.ts holds that a seal is never approximated, and a party mark would name a party this World may not have.",
+        "Must survive the strip scrolling sideways on a phone, so the tile has no feature that must land at a fixed position."
+      ],
+      "acceptanceCriteria": [
+        "Tiles horizontally with no visible seam at the strip's rendered height.",
+        "The current-tab treatment is distinguishable from the rest without relying on the existing brass border alone.",
+        "Zero glyphs and zero emblems in the art.",
+        "Focus-visible outline (2px #f4d68a) stays clearly visible over the band."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "intendedContext": "politics-hub"
+      }
     },
     {
       "requestId": "ui-no-candidacy-refusal-panel",
