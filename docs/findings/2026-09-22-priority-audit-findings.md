@@ -396,6 +396,20 @@ is not researched twice.
   this project has made in twenty-four hours: requiring a citation is not
   bookkeeping, it is the step that forces somebody to open the line. Three
   retractions tonight were caught exactly that way and no other.
+- **Two line numbers for one function is how the wrong one gets quoted back.**
+  The empty policy catalogue was measured twice in this document, in two
+  sections written hours apart, and the two citations for
+  `createProductionPolicyCatalog` had drifted apart across the night's merges —
+  neither matched the file by the time anyone would read it. Measure a thing
+  once, cite it once, and re-read the line rather than carrying a number
+  forward. This document will be quoted back, which is exactly why it cannot
+  carry two answers to the same question.
+- **A cancelled run's aggregation job reports `failure`.** `validate.yml` ends
+  in a sixteenth job that gates on the other fifteen, and when the concurrency
+  group cancels a superseded run that job concludes failed rather than
+  cancelled. So every superseded push leaves a red check asserting nothing, on
+  a head nobody is looking at. A red check has to be opened and its run's
+  conclusion read before it means anything.
 - **An enumerated pattern is the wrong instrument for proving absence**, because
   it only finds the names you already thought of. The claim that no player
   screen reads a trait came from a grep over a list of identifiers that did not
