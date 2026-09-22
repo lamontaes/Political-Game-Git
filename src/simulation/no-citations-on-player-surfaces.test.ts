@@ -9,6 +9,9 @@ import {
 import type { QualificationOfficeFamily } from "./office-qualification-rules";
 import type { Person } from "./types";
 import { makeIsoDate } from "./dates";
+import { allGovernmentUnits } from "./government-units";
+import { resolveCapability } from "./rule-capability-resolver";
+import { US_STATE_NAMES } from "./nationwide-world/state-executive-candidacy-packs";
 
 /*
  * lamontae's rule, in his own words: "there should be NO references to sources
@@ -143,5 +146,116 @@ describe("no player-facing sentence carries a citation", () => {
     for (const row of rows) {
       expect(row.citation.length).toBeGreaterThan(0);
     }
+  });
+});
+
+/*
+ * The resolver was invisible to this file until 2026-09-22, and the reason is
+ * worth keeping next to the fix.
+ *
+ * This test had no file axis at all. It imported four symbols from one module
+ * and swept states, offices, ages and dates through them — exhaustive in four
+ * dimensions and hand-authored in the fifth. `rule-capability-resolver.ts`
+ * could not have been reached by any input, because nothing here ever named a
+ * second module. It is named like plumbing and it writes sentences a player
+ * reads, which is exactly the shape that survives a net drawn this way.
+ *
+ * Adding it below closes this instance and not the class. The producers this
+ * file knows about are:
+ *
+ *   qualificationTemporalApplicability, assessOfficeQualifications,
+ *   qualificationRuleValue, candidacyPacks, resolveCapability
+ *
+ * Five known producers, completeness unproven. If there is a sixth, the same
+ * hole is open and nothing here can report it. The durable fix is that a test
+ * enumerating producers must DERIVE that list rather than author it — walk the
+ * module's exports for functions returning a `reason`, or assert the covered
+ * count against a declared total — so that a miss becomes a visible gap
+ * instead of a silent hole.
+ */
+
+/** An internal identifier that must never reach a sentence. */
+const INTERNAL_ID = /US-[A-Z]{2}\b|gus2025:|\bPID6\b/;
+
+describe("the capability resolver refuses without naming its source", () => {
+  const DATES = [
+    makeIsoDate("1900-01-05"),
+    makeIsoDate("1970-01-05"),
+    makeIsoDate("2026-01-05"),
+  ];
+  const ACTIONS = [
+    "inspect",
+    "stand-for-office",
+    "enter-office-term",
+    "introduce-ordinance",
+    "pass-ordinance",
+    "pass-appropriation",
+  ] as const;
+
+  /** Each sentence the resolver can hand a player, with a label to report. */
+  function sentencesOf(resolution: {
+    refusal: string | null;
+    fields: readonly { field: string; reason: string | null }[];
+  }): [string, string][] {
+    const out: [string, string][] = [];
+    if (resolution.refusal) out.push(["refusal", resolution.refusal]);
+    for (const field of resolution.fields) {
+      if (field.reason) out.push([field.field, field.reason]);
+    }
+    return out;
+  }
+
+  it("has scopes to check, so a silent zero cannot pass this block", () => {
+    // Fifty exactly: this map is the states with governors, and DC is a place,
+    // not a state. The game's "50 states and DC" is a different list; if a
+    // resolver sentence for DC is ever player-facing it needs its own sweep.
+    expect(Object.keys(US_STATE_NAMES).length).toBe(50);
+    expect(allGovernmentUnits().length).toBeGreaterThan(0);
+  });
+
+  it("holds for every state, action and date", () => {
+    const offenders: string[] = [];
+    for (const usps of Object.keys(US_STATE_NAMES)) {
+      for (const action of ACTIONS) {
+        for (const onDate of DATES) {
+          const resolution = resolveCapability({
+            scope: { kind: "state", stateUsps: usps },
+            officeKey: null,
+            action,
+            onDate,
+          });
+          for (const [where, sentence] of sentencesOf(resolution)) {
+            if (CITATION.test(sentence) || INTERNAL_ID.test(sentence)) {
+              offenders.push(`${usps} ${action} ${where}: ${sentence}`);
+            }
+          }
+        }
+      }
+    }
+    expect(offenders).toEqual([]);
+  });
+
+  it("holds for a wide sample of real local governments", () => {
+    const units = allGovernmentUnits();
+    // Every 97th unit — a prime stride, so the sample is not one state.
+    const sample = units.filter((_unit, index) => index % 97 === 0);
+    expect(sample.length).toBeGreaterThan(20);
+    const offenders: string[] = [];
+    for (const unit of sample) {
+      for (const action of ACTIONS) {
+        const resolution = resolveCapability({
+          scope: { kind: "local", governmentUnitId: unit.id },
+          officeKey: null,
+          action,
+          onDate: DATES[2]!,
+        });
+        for (const [where, sentence] of sentencesOf(resolution)) {
+          if (CITATION.test(sentence) || INTERNAL_ID.test(sentence)) {
+            offenders.push(`${unit.id} ${action} ${where}: ${sentence}`);
+          }
+        }
+      }
+    }
+    expect(offenders).toEqual([]);
   });
 });
