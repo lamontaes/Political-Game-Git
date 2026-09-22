@@ -1,4 +1,7 @@
-import { governmentUnitDisplayName } from "./government-unit-names";
+import {
+  governmentUnitDisplayName,
+  governmentUnitRecordedName,
+} from "./government-unit-names";
 import {
   GOVERNMENT_UNITS_META,
   PLACE_COUNTY_RELATIONS_META,
@@ -145,6 +148,13 @@ export function localGovernmentDisplayName(
   return governmentUnitDisplayName(unit);
 }
 
+/** The name an organization for this unit is written into a world under. */
+export function localGovernmentRecordedName(
+  unit: GovernmentUnitIdentity,
+): string {
+  return governmentUnitRecordedName(unit);
+}
+
 export function localGovernmentOrganizationKey(
   unit: GovernmentUnitIdentity,
 ): string {
@@ -232,7 +242,8 @@ export function ensureLocalGovernmentOrganization(
           note: `Placed from ${GOVERNMENT_UNITS_META.artifactId} ${unit.id}, which speaks as of ${asOf}, after this world's ${next.currentDate}; not backdated.`,
         },
     initialProfile: {
-      name: localGovernmentDisplayName(unit),
+      // The recorded name, unchanged since worlds were first built with it.
+      name: governmentUnitRecordedName(unit),
       classification:
         unit.unitType === "county"
           ? "service:county-government"

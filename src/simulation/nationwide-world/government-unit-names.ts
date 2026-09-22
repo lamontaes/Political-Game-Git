@@ -17,6 +17,32 @@ const ABBREVIATIONS = new Map([
 ]);
 
 /**
+ * The name written into a world's records when the unit's organization is
+ * placed: the listing's own words in ordinary capitals, nothing reordered.
+ *
+ * Kept exactly as it was when worlds were first built with it, because an old
+ * save's opening must rebuild byte for byte; screens use
+ * `governmentUnitDisplayName` instead.
+ */
+export function governmentUnitRecordedName(
+  unit: Pick<GovernmentUnitIdentity, "name">,
+): string {
+  return unit.name
+    .toLowerCase()
+    .split(" ")
+    .map((word, index) =>
+      index > 0 && LOWERCASE_WORDS.has(word)
+        ? word
+        : word.replace(
+            /(^|[-'(])([a-z])/g,
+            (_, lead: string, letter: string) =>
+              `${lead}${letter.toUpperCase()}`,
+          ),
+    )
+    .join(" ");
+}
+
+/**
  * A government unit's name as people write it: ordinary capitals, the period
  * the listing drops from "St.", and a county called "Washington County"
  * rather than "County of Washington". No other word is added or dropped.
