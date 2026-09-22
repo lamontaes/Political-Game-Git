@@ -47,16 +47,58 @@ import type { EntityId, IsoDate, World } from "./types";
  * change any of these, and the record keeps which one did.
  */
 export const AMENDABLE_RULE_FIELDS = {
-  "body.seats": { min: 1, max: 1000, needsOffice: true },
-  "term.years": { min: 1, max: 10, needsOffice: true },
-  "qualification.minimumAge": { min: 18, max: 100, needsOffice: true },
-  "qualification.stateResidenceYears": { min: 0, max: 30, needsOffice: true },
-  "qualification.districtResidenceYears": {
+  "body.seats": { kind: "integer", min: 1, max: 1000, family: "legislature" },
+  "term.years": { kind: "integer", min: 1, max: 10, family: "legislature" },
+  "qualification.minimumAge": {
+    kind: "integer",
+    min: 18,
+    max: 100,
+    family: "legislature",
+  },
+  "qualification.stateResidenceYears": {
+    kind: "integer",
     min: 0,
     max: 30,
-    needsOffice: true,
+    family: "legislature",
   },
+  "qualification.districtResidenceYears": {
+    kind: "integer",
+    min: 0,
+    max: 30,
+    family: "legislature",
+  },
+  /** A chief executive's term length. Read by the executive-term consumer. */
+  "executive.term.years": {
+    kind: "integer",
+    min: 1,
+    max: 10,
+    family: "executive",
+  },
+  /**
+   * A chief executive's term limit: a `TermLimitRule`, or null for "no limit".
+   * Read by the executive-term consumer, which owns what the limit means.
+   */
+  "executive.term.limit": { kind: "term-limit", family: "executive" },
 } as const;
+
+/** A term limit as a law states it; null in any part means the law is silent on it. */
+export interface TermLimitRule {
+  readonly maxConsecutiveTerms: number | null;
+  readonly maxLifetimeTerms: number | null;
+  readonly lookbackYears: number | null;
+}
+
+/** A whole number for most rules; a term limit or null ("no limit") for one. */
+export type RuleChangeValue = number | TermLimitRule | null;
+
+/**
+ * Whom a change reaches, as the law says. Null in either part means the law
+ * is silent; the consumer that owns the rule decides the default.
+ */
+export interface RuleChangeApplicability {
+  readonly appliesTo: "terms-beginning-after" | "immediately" | null;
+  readonly countsPriorService: boolean | null;
+}
 
 export type AmendableRuleField = keyof typeof AMENDABLE_RULE_FIELDS;
 
@@ -95,7 +137,27 @@ const AMENDABLE_RULE_FIELD_LABELS: Readonly<
     "the years of state residence required to serve",
   "qualification.districtResidenceYears":
     "the years of district residence required to serve",
+  "executive.term.years": "the length of the chief executive's term in years",
+  "executive.term.limit": "the chief executive's term limit",
 };
+
+/** Plain words for a changed value, for a player-facing sentence. */
+export function describeRuleChangeValue(value: RuleChangeValue): string {
+  if (value === null) return "no limit";
+  if (typeof value === "number") return String(value);
+  const parts = [
+    value.maxConsecutiveTerms === null
+      ? null
+      : `${value.maxConsecutiveTerms} consecutive terms`,
+    value.maxLifetimeTerms === null
+      ? null
+      : `${value.maxLifetimeTerms} terms in a lifetime`,
+    value.lookbackYears === null
+      ? null
+      : `counted over ${value.lookbackYears} years`,
+  ].filter((part): part is string => part !== null);
+  return parts.length ? parts.join(", ") : "no limit";
+}
 
 /** Plain words for a rule a law can change, for a player-facing sentence. */
 export function amendableRuleFieldLabel(field: AmendableRuleField): string {
@@ -126,16 +188,21 @@ export interface RuleChangeProvisionRecord {
   /** The office or chamber the rule belongs to, in rules-capability form. */
   readonly officeKey: string;
   readonly field: AmendableRuleField;
-  readonly value: number;
+  readonly value: RuleChangeValue;
+  /** Absent on records written before applicability existed: silent. */
+  readonly applicability?: RuleChangeApplicability;
   readonly filedAt: IsoDate;
 }
 
 /** An operative-dated change, derived from what was enacted. */
 export interface EnactedRuleChange {
   readonly stateUsps: string;
+  /** `US-` plus the postal code, as jurisdictions are keyed elsewhere. */
+  readonly jurisdictionKey: string;
   readonly officeKey: string;
   readonly field: AmendableRuleField;
-  readonly value: number;
+  readonly value: RuleChangeValue;
+  readonly applicability: RuleChangeApplicability;
   readonly operativeAt: IsoDate;
   /**
    * `enacted-date` when the law's own record dates it; `game-default` when the
@@ -145,14 +212,30 @@ export interface EnactedRuleChange {
   readonly instrument: "statute" | "constitutional-amendment";
   readonly measureId: EntityId;
   readonly designation: string;
-  /** Orders two changes operative on the same day: the later record wins. */
+  /**
+   * Orders two changes of one instrument operative on the same day: the later
+   * record wins (the enactment for a statute, the proposal for an amendment).
+   */
   readonly sequence: number;
+}
+
+const SILENT: RuleChangeApplicability = {
+  appliesTo: null,
+  countsPriorService: null,
+};
+
+function wholeOrNull(value: unknown, min: number): boolean {
+  return (
+    value === null ||
+    (typeof value === "number" && Number.isInteger(value) && value >= min)
+  );
 }
 
 export function assertAmendableRuleValue(
   field: string,
-  value: number,
+  value: RuleChangeValue,
   officeKey: string | null,
+  applicability?: RuleChangeApplicability,
 ): asserts field is AmendableRuleField {
   if (!isAmendableRuleField(field)) {
     throw new Error(
@@ -160,22 +243,103 @@ export function assertAmendableRuleValue(
         `"${field}" is not a rule the game reads.`,
     );
   }
-  const bounds = AMENDABLE_RULE_FIELDS[field];
-  if (!Number.isInteger(value) || value < bounds.min || value > bounds.max) {
-    throw new Error(
-      `${field} must be a whole number from ${bounds.min} to ${bounds.max}.`,
-    );
+  const spec = AMENDABLE_RULE_FIELDS[field];
+  if (spec.kind === "integer") {
+    if (
+      typeof value !== "number" ||
+      !Number.isInteger(value) ||
+      value < spec.min ||
+      value > spec.max
+    ) {
+      throw new Error(
+        `${field} must be a whole number from ${spec.min} to ${spec.max}.`,
+      );
+    }
+  } else if (value !== null) {
+    const keys =
+      typeof value === "object" ? Object.keys(value).sort().join(",") : "";
+    if (
+      typeof value !== "object" ||
+      keys !== "lookbackYears,maxConsecutiveTerms,maxLifetimeTerms" ||
+      !wholeOrNull(value.maxConsecutiveTerms, 1) ||
+      !wholeOrNull(value.maxLifetimeTerms, 1) ||
+      !wholeOrNull(value.lookbackYears, 1) ||
+      (value.maxConsecutiveTerms === null && value.maxLifetimeTerms === null)
+    ) {
+      throw new Error(
+        `${field} must be null (no limit) or a limit naming consecutive or lifetime terms as whole numbers.`,
+      );
+    }
   }
-  if (bounds.needsOffice && !officeKey?.trim()) {
+  if (!officeKey?.trim()) {
     throw new Error(
       `${field} belongs to an office or chamber; none was named.`,
     );
   }
+  if (applicability) {
+    if (
+      ![null, "terms-beginning-after", "immediately"].includes(
+        applicability.appliesTo,
+      ) ||
+      ![null, true, false].includes(applicability.countsPriorService) ||
+      Object.keys(applicability).length !== 2
+    ) {
+      throw new Error("A change's applicability is not one the game reads.");
+    }
+  }
+}
+
+/**
+ * Whether an office key belongs to this state. A legislative rule names a
+ * chamber of the state's own rule pack. NOT MODELLED: a registry of executive
+ * offices this module can check against without depending on the executive
+ * consumer. Blanket rule meanwhile: an executive office key must carry the
+ * state's own prefix (`us-nh-governor`, `dc-mayor`).
+ */
+function officeBelongsToState(
+  field: AmendableRuleField,
+  officeKey: string,
+  stateUsps: string,
+  rulePackId: string | null,
+): boolean {
+  const lower = stateUsps.toLowerCase();
+  if (AMENDABLE_RULE_FIELDS[field].family === "legislature" && rulePackId) {
+    // A statute names a chamber its own legislature actually has.
+    const [packId, chamberKey] = officeKey.split(":");
+    return (
+      packId === rulePackId &&
+      rulePackById(rulePackId).chambers.some(
+        (chamber) => chamber.chamberKey === chamberKey,
+      )
+    );
+  }
+  // NOT MODELLED: a registry of every state's offices (a state with no
+  // compiled legislature has no chamber list to check). Blanket rule: the
+  // key must carry the state's own prefix, so no law reaches another state.
+  return (
+    officeKey.startsWith(`us-${lower}-`) || officeKey.startsWith(`${lower}-`)
+  );
 }
 
 function stateUspsForPack(rulePackId: string): string | null {
   const key = rulePackById(rulePackId).jurisdictionKey;
   return /^US-[A-Z]{2}$/.test(key) ? key.slice(3) : null;
+}
+
+/**
+ * The first recorded vote of a whole chamber or joint session on a bill. A
+ * committee vote does not close the text; a floor vote does. NOT MODELLED: a
+ * rule-change clause offered as a floor amendment. Blanket rule meanwhile:
+ * clauses are filed before the first floor vote or not at all.
+ */
+function firstFloorVoteSequence(
+  world: World,
+  measureId: EntityId,
+): number | null {
+  const floor = (world.history.legislativeVotes ?? []).filter(
+    (vote) => vote.measureId === measureId && vote.forum.kind !== "committee",
+  );
+  return floor.length ? Math.min(...floor.map((vote) => vote.sequence)) : null;
 }
 
 export function ruleChangeProvisionHistoryRecords(
@@ -195,11 +359,17 @@ export function fileRuleChangeProvision(
     readonly measureId: EntityId;
     readonly officeKey: string;
     readonly field: string;
-    readonly value: number;
+    readonly value: RuleChangeValue;
+    readonly applicability?: RuleChangeApplicability;
   },
 ): World {
   const measure = requireMeasure(world, input.measureId);
-  assertAmendableRuleValue(input.field, input.value, input.officeKey);
+  assertAmendableRuleValue(
+    input.field,
+    input.value,
+    input.officeKey,
+    input.applicability,
+  );
   const stateUsps = stateUspsForPack(measure.rulePackId);
   if (!stateUsps) {
     // Local governments change these rules by charter, which is not routed
@@ -208,18 +378,21 @@ export function fileRuleChangeProvision(
       "Only a state legislature's bill can change these rules yet; local charter changes are not modelled.",
     );
   }
-  if (!input.officeKey.startsWith(`${measure.rulePackId}:`)) {
+  if (
+    !officeBelongsToState(
+      input.field,
+      input.officeKey,
+      stateUsps,
+      measure.rulePackId,
+    )
+  ) {
     throw new Error(
       `A ${stateUsps} bill can only change rules for ${stateUsps}'s own offices.`,
     );
   }
-  if (
-    (world.history.legislativeEnactments ?? []).some(
-      (row) => row.measureId === measure.id,
-    )
-  ) {
+  if (firstFloorVoteSequence(world, measure.id) !== null) {
     throw new Error(
-      "The bill has already reached its final outcome; its text cannot gain a clause now.",
+      "A chamber has already voted on this bill; a clause added now would become law without a vote on it.",
     );
   }
   const existing = ruleChangeProvisionHistoryRecords(world);
@@ -247,7 +420,10 @@ export function fileRuleChangeProvision(
     stateUsps,
     officeKey: input.officeKey,
     field: input.field,
-    value: input.value,
+    value: structuredClone(input.value),
+    ...(input.applicability
+      ? { applicability: { ...input.applicability } }
+      : {}),
     filedAt: world.currentDate,
   };
   return {
@@ -276,9 +452,11 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
     const explicit = enactment.effectiveAt;
     changes.push({
       stateUsps: provision.stateUsps,
+      jurisdictionKey: `US-${provision.stateUsps}`,
       officeKey: provision.officeKey,
       field: provision.field,
-      value: provision.value,
+      value: structuredClone(provision.value),
+      applicability: { ...(provision.applicability ?? SILENT) },
       operativeAt:
         explicit ??
         addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS),
@@ -300,9 +478,11 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
     if (!position.operativeAt) continue;
     changes.push({
       stateUsps,
+      jurisdictionKey: `US-${stateUsps}`,
       officeKey: delta.officeKey,
       field: delta.field,
-      value: delta.value,
+      value: structuredClone(delta.value),
+      applicability: { ...(delta.applicability ?? SILENT) },
       operativeAt: position.operativeAt,
       operativeBasis: "enacted-date",
       instrument: "constitutional-amendment",
@@ -337,17 +517,77 @@ export function enactedRuleChangeAt(
   },
 ): EnactedRuleChange | null {
   if (!query.officeKey || !isAmendableRuleField(query.field)) return null;
-  return (
-    enactedRuleChanges(world)
-      .filter(
-        (change) =>
-          change.stateUsps === query.stateUsps &&
-          change.officeKey === query.officeKey &&
-          change.field === query.field &&
-          change.operativeAt <= query.onDate,
-      )
-      .at(-1) ?? null
+  const inForce = enactedRuleChanges(world).filter(
+    (change) =>
+      change.stateUsps === query.stateUsps &&
+      change.officeKey === query.officeKey &&
+      change.field === query.field &&
+      change.operativeAt <= query.onDate,
   );
+  // A statute cannot override the state's constitution: once an amendment
+  // fixes a rule, only a later amendment changes it. NOT MODELLED: which
+  // constitutions delegate a rule to statute. Blanket rule meanwhile: an
+  // amendment always outranks a statute, whenever each took effect.
+  return ruleChangeInForce(inForce);
+}
+
+/** Of changes already in force for one rule, in operative order, the one that governs. */
+export function ruleChangeInForce(
+  inForce: readonly EnactedRuleChange[],
+): EnactedRuleChange | null {
+  const amendments = inForce.filter(
+    (change) => change.instrument === "constitutional-amendment",
+  );
+  return (amendments.length ? amendments : inForce).at(-1) ?? null;
+}
+
+/** A rule as this World's law has it, and where that value came from. */
+export type RuleValueInWorld<T> =
+  | { readonly source: "compiled"; readonly value: T }
+  | {
+      readonly source: "enacted";
+      readonly value: RuleChangeValue;
+      readonly measureId: EntityId;
+      readonly designation: string;
+      readonly effectiveAt: IsoDate;
+      readonly operativeBasis: EnactedRuleChange["operativeBasis"];
+      readonly instrument: EnactedRuleChange["instrument"];
+      readonly applicability: RuleChangeApplicability;
+    };
+
+/**
+ * The value in force: an enacted change if one is operative on the date,
+ * otherwise the compiled value the consumer supplies. Accepts the state as a
+ * postal code or a `US-XX` jurisdiction key.
+ */
+export function ruleValueInWorld<T>(
+  world: World,
+  query: {
+    readonly jurisdiction: string;
+    readonly officeKey: string;
+    readonly field: AmendableRuleField;
+    readonly onDate: IsoDate;
+  },
+  compiled: T,
+): RuleValueInWorld<T> {
+  const stateUsps = query.jurisdiction.replace(/^US-/, "");
+  const change = enactedRuleChangeAt(world, {
+    stateUsps,
+    officeKey: query.officeKey,
+    field: query.field,
+    onDate: query.onDate,
+  });
+  if (!change) return { source: "compiled", value: compiled };
+  return {
+    source: "enacted",
+    value: structuredClone(change.value),
+    measureId: change.measureId,
+    designation: change.designation,
+    effectiveAt: change.operativeAt,
+    operativeBasis: change.operativeBasis,
+    instrument: change.instrument,
+    applicability: { ...change.applicability },
+  };
 }
 
 export function assertRuleChangeProvisionIntegrity(
@@ -372,10 +612,20 @@ export function assertRuleChangeProvisionIntegrity(
     )
       throw new Error("Rule change provision identity does not match its key.");
     const measure = requireMeasure(world, row.measureId);
-    assertAmendableRuleValue(row.field, row.value, row.officeKey);
+    assertAmendableRuleValue(
+      row.field,
+      row.value,
+      row.officeKey,
+      row.applicability,
+    );
     if (
       stateUspsForPack(measure.rulePackId) !== row.stateUsps ||
-      !row.officeKey.startsWith(`${measure.rulePackId}:`)
+      !officeBelongsToState(
+        row.field,
+        row.officeKey,
+        row.stateUsps,
+        measure.rulePackId,
+      )
     )
       throw new Error("Rule change provision names another government.");
     const clause = `${row.measureId}|${row.officeKey}|${row.field}`;
@@ -384,13 +634,11 @@ export function assertRuleChangeProvisionIntegrity(
     seenClauses.add(clause);
     if (row.filedAt < measure.introducedAt || row.filedAt > world.currentDate)
       throw new Error("Rule change provision is dated outside its bill.");
-    // A clause added after the bill's final outcome was never voted on.
-    const enactment = (world.history.legislativeEnactments ?? []).find(
-      (e) => e.measureId === row.measureId,
-    );
-    if (enactment && enactment.sequence < row.sequence)
+    // A clause added after a chamber voted was never voted on by it.
+    const floor = firstFloorVoteSequence(world, row.measureId);
+    if (floor !== null && floor < row.sequence)
       throw new Error(
-        "Rule change provision was added after the bill's outcome.",
+        "Rule change provision was added after a chamber voted on the bill.",
       );
   }
   for (const measure of world.history.constitutionalMeasures ?? []) {
@@ -406,8 +654,9 @@ export function assertConstitutionalRuleFieldDelta(
   jurisdictionKey: string,
   delta: {
     readonly field: string;
-    readonly value: number;
+    readonly value: RuleChangeValue;
     readonly officeKey: string;
+    readonly applicability?: RuleChangeApplicability;
   },
 ): void {
   const stateUsps = constitutionalStateUsps(jurisdictionKey);
@@ -415,5 +664,12 @@ export function assertConstitutionalRuleFieldDelta(
     throw new Error(
       "Only a state constitution's amendment can change these rules yet; federal and charter changes are not modelled.",
     );
-  assertAmendableRuleValue(delta.field, delta.value, delta.officeKey);
+  assertAmendableRuleValue(
+    delta.field,
+    delta.value,
+    delta.officeKey,
+    delta.applicability,
+  );
+  if (!officeBelongsToState(delta.field, delta.officeKey, stateUsps, null))
+    throw new Error("The amendment names another state's office.");
 }

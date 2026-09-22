@@ -51,6 +51,7 @@ import {
 import {
   enactedRuleChangeAt,
   STATUTE_EFFECTIVE_DEFAULT_DAYS,
+  type EnactedRuleChange,
 } from "./enacted-rule-changes";
 import type { IsoDate, World } from "./types";
 
@@ -797,20 +798,28 @@ function withEnactedChange(
     enactedRuleChangeAt(world, { stateUsps, officeKey, field, onDate });
   if (resolved.field === "term.expiry") {
     const years = lookup("term.years");
-    if (!years || resolved.state !== "ADMITTED") return resolved;
-    return {
-      ...resolved,
-      value: { kind: "derived-from-start", years: years.value },
-      ruleVersion: `enacted:${years.measureId}`,
-      validFrom: years.operativeAt,
-    };
+    if (!years || typeof years.value !== "number") return resolved;
+    return enactedField(resolved.field, years, {
+      kind: "derived-from-start",
+      years: years.value,
+    });
   }
   const change = lookup(resolved.field);
-  if (!change) return resolved;
+  // Every capability field is a whole number; a structured value belongs to
+  // a consumer that reads it through `ruleValueInWorld` instead.
+  if (!change || typeof change.value !== "number") return resolved;
+  return enactedField(resolved.field, change, change.value);
+}
+
+function enactedField(
+  field: CapabilityField,
+  change: EnactedRuleChange,
+  value: unknown,
+): ResolvedField {
   return {
-    field: resolved.field,
+    field,
     state: "ADMITTED",
-    value: change.value,
+    value,
     ruleScope:
       change.instrument === "constitutional-amendment"
         ? "state-constitution"

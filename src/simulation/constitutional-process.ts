@@ -493,6 +493,20 @@ export function constitutionalPosition(
       m.ruleDelta.kind === "rule-field",
   };
 }
+/** Two deltas that set the same rule, so both passing at once conflict. */
+function sameRuleChanged(
+  a: ConstitutionalMeasureRecord["ruleDelta"],
+  b: ConstitutionalMeasureRecord["ruleDelta"],
+): boolean {
+  if (a.kind === "proposal-threshold" && b.kind === "proposal-threshold")
+    return true;
+  return (
+    a.kind === "rule-field" &&
+    b.kind === "rule-field" &&
+    a.field === b.field &&
+    a.officeKey === b.officeKey
+  );
+}
 function assertDetail(
   world: World,
   m: ConstitutionalMeasureRecord,
@@ -638,8 +652,7 @@ function assertDetail(
         (other) =>
           other.id !== m.id &&
           other.jurisdictionKey === m.jurisdictionKey &&
-          other.ruleDelta.kind === "proposal-threshold" &&
-          m.ruleDelta.kind === "proposal-threshold" &&
+          sameRuleChanged(other.ruleDelta, m.ruleDelta) &&
           constitutionalActions(world, other.id).some(
             (a) =>
               a.detail.kind === "statewide-vote" &&

@@ -36,6 +36,8 @@ import {
   enactedRuleChangeAt,
   enactedRuleChanges,
   fileRuleChangeProvision,
+  ruleChangeInForce,
+  ruleValueInWorld,
 } from "./enacted-rule-changes";
 import {
   resolveCapability,
@@ -350,7 +352,31 @@ describe("A Kentucky bill changing the House's rules", () => {
         field: "qualification.minimumAge",
         value: 30,
       }),
-    ).toThrow(/final outcome/);
+    ).toThrow(/already voted/);
+    const voted = clearFloor(
+      scenario,
+      toFloor(scenario, world, "house", 9),
+      "house",
+      60,
+    );
+    expect(() =>
+      fileRuleChangeProvision(voted, {
+        stableKey: "after-the-house",
+        measureId: scenario.measureId,
+        officeKey: HOUSE,
+        field: "qualification.minimumAge",
+        value: 30,
+      }),
+    ).toThrow(/already voted/);
+    expect(() =>
+      fileRuleChangeProvision(world, {
+        stableKey: "bogus",
+        measureId: scenario.measureId,
+        officeKey: "us-ky-general-assembly-v1:bogus",
+        field: "body.seats",
+        value: 50,
+      }),
+    ).toThrow(/KY's own offices/);
   });
 
   it("refuses a save whose clause was slipped in after the bill became law", () => {
@@ -377,9 +403,163 @@ describe("A Kentucky bill changing the House's rules", () => {
         ],
       },
     };
-    expect(() => assertWorldIntegrity(forged)).toThrow(
-      /after the bill's outcome/,
-    );
+    expect(() => assertWorldIntegrity(forged)).toThrow(/after a chamber voted/);
+  });
+});
+
+describe("A chief executive's term, as the executive-term consumer reads it", () => {
+  const GOVERNOR = "us-ky-governor";
+  it("carries a structured term limit, its applicability and where it came from", () => {
+    const scenario = createLegislativeScenario("kentucky");
+    let world = fileRuleChangeProvision(scenario.world, {
+      stableKey: "three-terms",
+      measureId: scenario.measureId,
+      officeKey: GOVERNOR,
+      field: "executive.term.limit",
+      value: {
+        maxConsecutiveTerms: 3,
+        maxLifetimeTerms: null,
+        lookbackYears: null,
+      },
+      applicability: {
+        appliesTo: "terms-beginning-after",
+        countsPriorService: false,
+      },
+    });
+    world = fileRuleChangeProvision(world, {
+      stableKey: "longer-term",
+      measureId: scenario.measureId,
+      officeKey: GOVERNOR,
+      field: "executive.term.years",
+      value: 5,
+    });
+    const query = {
+      jurisdiction: "US-KY",
+      officeKey: GOVERNOR,
+      field: "executive.term.limit" as const,
+      onDate: makeIsoDate("2026-07-15"),
+    };
+    const compiled = {
+      maxConsecutiveTerms: 2,
+      maxLifetimeTerms: null,
+      lookbackYears: null,
+    };
+    expect(ruleValueInWorld(world, query, compiled)).toEqual({
+      source: "compiled",
+      value: compiled,
+    });
+    const law = enact(scenario, world, "2026-07-15");
+    expect(ruleValueInWorld(law, query, compiled)).toMatchObject({
+      source: "enacted",
+      value: {
+        maxConsecutiveTerms: 3,
+        maxLifetimeTerms: null,
+        lookbackYears: null,
+      },
+      effectiveAt: "2026-07-15",
+      operativeBasis: "enacted-date",
+      instrument: "statute",
+      applicability: {
+        appliesTo: "terms-beginning-after",
+        countsPriorService: false,
+      },
+    });
+    // A law that is silent on applicability says so, and the consumer decides.
+    expect(
+      ruleValueInWorld(law, { ...query, field: "executive.term.years" }, 4),
+    ).toMatchObject({
+      value: 5,
+      applicability: { appliesTo: null, countsPriorService: null },
+    });
+    const reopened = deserializeWorld(serializeWorld(law));
+    expect(() => assertWorldIntegrity(reopened)).not.toThrow();
+    expect(ruleValueInWorld(reopened, query, compiled).value).toEqual({
+      maxConsecutiveTerms: 3,
+      maxLifetimeTerms: null,
+      lookbackYears: null,
+    });
+  });
+
+  it("takes null as no limit, refuses a malformed limit and another state's governor", () => {
+    const scenario = createLegislativeScenario("kentucky");
+    const base = {
+      measureId: scenario.measureId,
+      officeKey: GOVERNOR,
+      field: "executive.term.limit",
+    };
+    expect(() =>
+      fileRuleChangeProvision(scenario.world, {
+        ...base,
+        stableKey: "none",
+        value: null,
+      }),
+    ).not.toThrow();
+    expect(() =>
+      fileRuleChangeProvision(scenario.world, {
+        ...base,
+        stableKey: "empty",
+        value: {
+          maxConsecutiveTerms: null,
+          maxLifetimeTerms: null,
+          lookbackYears: null,
+        },
+      }),
+    ).toThrow(/null \(no limit\)/);
+    expect(() =>
+      fileRuleChangeProvision(scenario.world, {
+        ...base,
+        stableKey: "number",
+        value: 2,
+      }),
+    ).toThrow(/null \(no limit\)/);
+    expect(() =>
+      fileRuleChangeProvision(scenario.world, {
+        ...base,
+        stableKey: "ohio",
+        officeKey: "us-oh-governor",
+        value: null,
+      }),
+    ).toThrow(/KY's own offices/);
+  });
+});
+
+describe("Which law governs when several are in force", () => {
+  const change = (
+    instrument: "statute" | "constitutional-amendment",
+    operativeAt: string,
+    value: number,
+  ) => ({
+    stateUsps: "CA",
+    jurisdictionKey: "US-CA",
+    officeKey: "us-ca-legislature:assembly",
+    field: "term.years" as const,
+    value,
+    applicability: { appliesTo: null, countsPriorService: null },
+    operativeAt: makeIsoDate(operativeAt),
+    operativeBasis: "enacted-date" as const,
+    instrument,
+    measureId: createStableId(
+      "constitutional-measure",
+      `${instrument}:${value}`,
+    ),
+    designation: `${instrument} ${value}`,
+    sequence: value,
+  });
+  it("lets a later statute replace an earlier one", () => {
+    expect(
+      ruleChangeInForce([
+        change("statute", "2026-01-01", 3),
+        change("statute", "2027-01-01", 5),
+      ])?.value,
+    ).toBe(5);
+  });
+  it("never lets a statute override the constitution, whenever it took effect", () => {
+    expect(
+      ruleChangeInForce([
+        change("constitutional-amendment", "2026-01-01", 4),
+        change("statute", "2027-01-01", 6),
+      ])?.value,
+    ).toBe(4);
   });
 });
 

@@ -18,10 +18,24 @@ next amendment.
   kind. It acts from the ratified amendment's operative date. State routes only;
   the federal and charter routes refuse it with the reason.
 
+## Values and applicability
+
+Most fields take a whole number inside game bounds. `executive.term.years`
+and `executive.term.limit` exist for the executive-term consumer (Nationwide
+government lane), which owns what they mean. A term limit is a
+`TermLimitRule` (`maxConsecutiveTerms`, `maxLifetimeTerms`, `lookbackYears`)
+or null for no limit. A change may carry `applicability`
+(`appliesTo: terms-beginning-after | immediately`, `countsPriorService`); null
+in either part means the law is silent and the consumer decides.
+
 ## Reader
 
 `enactedRuleChangeAt(world, { stateUsps, officeKey, field, onDate })` returns
-the change in force, latest operative date first, later record winning a tie.
+the change in force: the latest operative amendment if any, otherwise the
+latest operative statute, a later record winning a same-day tie.
+`ruleValueInWorld(world, query, compiled)` returns the value in force with
+where it came from (`compiled`, or `enacted` with the measure, effective date,
+basis, instrument and applicability).
 Nothing stores "the current rule": the value is derived from the clause and
 the enactment each read, so a bill that never becomes law never changes
 anything.
@@ -42,7 +56,14 @@ only compiled law is read, which is right for a question about real law.
   `operativeBasis` and citation say so.
 - **Which instrument a rule needs.** Whether a state requires an amendment or
   allows a statute for each rule is not compiled. Blanket rule: either may
-  change any amendable field, and the record keeps which one did.
+  change any amendable field, the record keeps which one did, and an amendment
+  always outranks a statute.
+- **Floor amendments.** A rule-change clause offered on the floor is not
+  modelled. Blanket rule: clauses are filed before the first floor vote, and
+  integrity refuses one filed after.
+- **An office registry.** A statute's legislative clause must name a chamber
+  of its own rule pack. Elsewhere the office key must carry the state's own
+  prefix (`us-nh-governor`, `dc-mayor`).
 - **Fields no law can change yet** are listed in
   `NOT_YET_AMENDABLE_RULE_FIELDS`, each with its reason, and refused with it.
 
