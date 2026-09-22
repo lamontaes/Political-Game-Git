@@ -73,7 +73,6 @@ function ServiceItem({ service }: { readonly service: PublicServiceView }) {
     <li data-testid={`public-service-${service.programKey}`}>
       <p className="pg-public-services-name">
         <strong>{service.serviceLabel}</strong>
-        <small>{service.basisLabel}</small>
       </p>
       <p>{service.summary}</p>
       <details>

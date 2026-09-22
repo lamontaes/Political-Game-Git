@@ -15,6 +15,8 @@ import { projectPublicInformationPanel } from "./public-information-adapters";
 export interface NewsStory {
   readonly id: EntityId;
   readonly headline: string;
+  readonly sourceEventId: EntityId;
+  readonly sourceRecordIds: readonly EntityId[];
   readonly body: string;
   readonly outletKey: string;
   readonly outletName: string;
@@ -69,6 +71,8 @@ export function projectNewsFrontPage(
   }));
   const stories: NewsStory[] = panel.items.map((item) => ({
     id: item.publicationId,
+    sourceEventId: item.sourceEventId,
+    sourceRecordIds: item.sourceRecordIds,
     headline: item.headline,
     body: item.body,
     outletKey: item.outletKey,
@@ -115,4 +119,16 @@ export function projectNewsFrontPage(
           ? `${outlet.outletName} has published nothing yet.`
           : "Nothing has been published yet.",
   };
+}
+
+/** Article detail uses the same publication and access-filtered entity links as its headline. */
+export function projectNewsArticle(
+  world: World,
+  publicationId: EntityId,
+): NewsStory | null {
+  const page = projectNewsFrontPage(world, "front", null);
+  return (
+    [page.lead, ...page.stories].find((item) => item?.id === publicationId) ??
+    null
+  );
 }

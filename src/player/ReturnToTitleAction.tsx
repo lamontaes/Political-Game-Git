@@ -39,9 +39,7 @@ export function ReturnToTitleAction({
     >
       <h3>Title screen</h3>
       <p className="game-note" id="return-to-title-note">
-        {needsConfirmation
-          ? "This life has not been saved. You will be asked whether to save it first."
-          : "Your saved life is kept before the title screen opens."}
+        Choose whether to save your latest progress before returning.
       </p>
       <button
         ref={buttonRef}

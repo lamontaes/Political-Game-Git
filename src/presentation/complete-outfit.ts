@@ -2,6 +2,7 @@ import {
   preparedFamily,
   defaultPreparedMaterial,
   generatedPreparedMaterial,
+  preparedRampsAt,
   validatePreparedAppearance,
 } from "./engine-people29-data";
 import type { PersonAppearance, World } from "../simulation/types";
@@ -237,6 +238,122 @@ export function commitCompleteOutfit(
   };
 }
 
+/**
+ * Explicit, player-previewed move of one saved person to a newer corrected
+ * catalog generation. Seed, recipe version, the chosen body/face/hair families
+ * and outfit families are kept; only the pin changes, plus a complexion the new
+ * generation maps (the unmapped painting becomes the neutral swatch). Never
+ * called on load or for anyone but the controlled person.
+ */
+export function proposeCorrectedGeneration(
+  appearance: PersonAppearance,
+  generation: number,
+  library: CharacterComponentLibrary,
+  poseFamily: string,
+): OutfitResult & { readonly appearance?: PersonAppearance } {
+  if (!appearance.selection?.bodyFamily)
+    return {
+      ok: false,
+      message:
+        "This person has no saved body choice to update. Their saved appearance has not changed.",
+      diagnostics: [
+        "Missing saved appearance.selection.bodyFamily; no replacement was selected.",
+      ],
+    };
+  let current: number;
+  try {
+    current = resolveAppearanceCatalogGeneration(
+      appearance,
+      library.catalogGeneration,
+    );
+  } catch (error) {
+    return { ok: false, message: String(error), diagnostics: [] };
+  }
+  if (
+    !appearance.selection ||
+    !Number.isSafeInteger(generation) ||
+    generation <= current ||
+    generation > library.catalogGeneration
+  )
+    return {
+      ok: false,
+      message: "No newer artwork is available for this person.",
+      diagnostics: [`generation ${generation} from ${current}`],
+    };
+  const prepared = preparedFamily(appearance.selection.bodyFamily);
+  let material = appearance.material;
+  if (prepared && material && material.familyId === prepared.id) {
+    const skin = preparedRampsAt(prepared, "skin", generation);
+    if (
+      material.palettes.skin === "source-colour" &&
+      skin.some((r) => r.id !== "source-colour")
+    )
+      material = {
+        ...material,
+        palettes: {
+          ...material.palettes,
+          skin: defaultPreparedMaterial(prepared, generation).palettes.skin,
+        },
+      };
+  }
+  const next: PersonAppearance = {
+    ...appearance,
+    catalogGeneration: generation,
+    ...(material ? { material } : {}),
+  };
+  const result = resolveCompleteOutfit({
+    appearance: next,
+    families: appearance.outfit?.families,
+    library,
+    poseFamily,
+  });
+  return result.ok ? { ...result, appearance: next } : result;
+}
+
+export function commitCorrectedGeneration(
+  world: World,
+  personId: string,
+  appearance: PersonAppearance,
+  request: Omit<OutfitRequest, "appearance">,
+): World {
+  if (world.control.kind !== "person" || world.control.personId !== personId)
+    throw new Error("Only your own appearance can be changed.");
+  const person = world.people[personId];
+  const saved = person?.appearance;
+  if (
+    !saved ||
+    saved.seed !== appearance.seed ||
+    saved.recipeVersion !== appearance.recipeVersion ||
+    JSON.stringify(saved.selection) !== JSON.stringify(appearance.selection) ||
+    appearance.catalogGeneration === undefined ||
+    appearance.catalogGeneration <=
+      resolveAppearanceCatalogGeneration(
+        saved,
+        request.library.catalogGeneration,
+      )
+  )
+    throw new Error("An artwork update must keep the saved identity.");
+  const result = resolveCompleteOutfit({
+    ...request,
+    appearance,
+    families: request.families ?? saved.outfit?.families,
+  });
+  if (!result.ok) throw new Error(result.message);
+  return {
+    ...world,
+    people: {
+      ...world.people,
+      [personId]: {
+        ...person,
+        appearance: {
+          ...appearance,
+          outfit: { version: "complete-outfit-v1", families: result.families },
+        },
+      },
+    },
+  };
+}
+
 /** Caller invokes once after genuinely fresh candidate creation; never on replay/load. */
 export function initializeFreshCandidateOutfits(
   world: World,
@@ -244,6 +361,7 @@ export function initializeFreshCandidateOutfits(
   initializationVersion:
     "complete-outfit-v1" | "complete-outfit-v2" = "complete-outfit-v1",
 ): World {
+  if (library.components.size === 0) return world;
   const people = { ...world.people };
   for (const id of world.personOrder) {
     const person = people[id]!;
@@ -325,8 +443,15 @@ export function initializeFreshCandidateOutfits(
           ...(prepared
             ? {
                 material: coherentDefaults
-                  ? generatedPreparedMaterial(prepared, appearance.seed)
-                  : defaultPreparedMaterial(prepared),
+                  ? generatedPreparedMaterial(
+                      prepared,
+                      appearance.seed,
+                      appearance.catalogGeneration,
+                    )
+                  : defaultPreparedMaterial(
+                      prepared,
+                      appearance.catalogGeneration,
+                    ),
               }
             : {}),
           selection: { bodyFamily, headFamily, hairFamily: null },

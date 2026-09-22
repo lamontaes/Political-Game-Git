@@ -70,6 +70,7 @@ export function LifePathsPanel({
   showTimeControl = true,
 }: LifePathsPanelProps) {
   const [notice, setNotice] = useState("");
+  const [browse, setBrowse] = useState<"work" | "study">("work");
   const [person, setPerson] = useState<EntityId | "">("");
   const [role, setRole] = useState("community-volunteer");
   const [pay, setPay] = useState("0");
@@ -117,111 +118,141 @@ export function LifePathsPanel({
       <p role="status" aria-live="polite" style={{ whiteSpace: "pre-line" }}>
         {notice}
       </p>
-      <CareerPathsPanel
-        world={world}
-        onWorldChange={onWorldChange}
-        transitionHandlers={handlers}
-      />
-      <EducationOptionsPanel world={world} onWorldChange={onWorldChange} />
-      <SocialInvitationPanel
-        world={world}
-        personId={actor}
-        onWorldChange={onWorldChange}
-      />
-      <h3>Available paths</h3>
-      <p>These opportunities and terms are fictional parts of the game.</p>
-      <p>
-        Accepted work, care and study: {weeklyLoad.minimumHours}–
-        {weeklyLoad.maximumHours} authored hours per week. This is a time-demand
-        range, not a measured capacity or penalty.
-      </p>
-      {weeklyLoad.commitments > 1 ? (
+      <div
+        role="group"
+        aria-label="Browse opportunities"
+        className="game-choices"
+      >
+        <button
+          type="button"
+          className="ui-action"
+          aria-pressed={browse === "work"}
+          onClick={() => setBrowse("work")}
+        >
+          Work
+        </button>
+        <button
+          type="button"
+          className="ui-action"
+          aria-pressed={browse === "study"}
+          onClick={() => setBrowse("study")}
+        >
+          Study
+        </button>
+      </div>
+      <div hidden={browse !== "work"}>
+        <CareerPathsPanel
+          world={world}
+          onWorldChange={onWorldChange}
+          transitionHandlers={handlers}
+        />
+      </div>
+      <div hidden={browse !== "study"}>
+        <EducationOptionsPanel world={world} onWorldChange={onWorldChange} />
+      </div>
+      <details>
+        <summary>Other paths and invitations</summary>
+        <SocialInvitationPanel
+          world={world}
+          personId={actor}
+          onWorldChange={onWorldChange}
+        />
+        <h3>Available paths</h3>
+        <p>These opportunities and terms are fictional parts of the game.</p>
         <p>
-          Several commitments share your week. Review their demands before
-          adding another. Interrupt or leave a path if the load is too much;
-          reading this warning creates no fatigue, dismissal or financial
-          penalty.
+          Accepted work, care and study: {weeklyLoad.minimumHours}–
+          {weeklyLoad.maximumHours} authored hours per week. This is a
+          time-demand range, not a measured capacity or penalty.
         </p>
-      ) : null}
-      {LIFE_PATHS2_CATALOG.filter((p) => p.scope === "personal").map(
-        (rawPath) => {
-          const path =
-            rawPath.kind === "study" ? periodizedStudyPath(rawPath) : rawPath;
-          const reason = lifePathEntryReason(world, actor, path);
-          return (
-            <article key={path.id}>
-              <h4>{path.title}</h4>
-              <p>{path.organizationName}</p>
-              <p>{path.responsibility}</p>
-              <p>
-                {path.kind === "study" && studyUsesPeriodModel(path)
-                  ? studyProgramCostLabel(path)
-                  : path.sessionMinutes > 0
-                    ? `${path.sessionMinutes / 60} hours per session. ${
-                        path.sessionCostMinor > 0
-                          ? `You pay $${path.sessionCostMinor / 100} after each attended session.`
-                          : path.sessionPayMinor > 0
-                            ? `The employer pays $${path.sessionPayMinor / 100} the day after each completed shift.`
-                            : "This is unpaid volunteer work."
-                      }`
-                    : path.sessionPayMinor > 0
-                      ? `The employer pays $${path.sessionPayMinor / 100} the day after each completed shift.`
-                      : "This is unpaid volunteer work."}
-              </p>
-              {path.kind === "study" && path.credential && (
-                <p>Completing leads to: {path.credential}.</p>
-              )}
-              {path.kind === "study" ? (
-                <>
-                  <p>
-                    Accepting fixes the price, duration, credential and funding
-                    terms for this enrollment. Tuition uses available personal
-                    cash at period end. No loan or free tuition is automatic.
-                  </p>
-                  <label>
-                    Tuition grace days for {path.title}{" "}
-                    <input
-                      type="number"
-                      min="0"
-                      step="1"
-                      value={
-                        grace[path.id] ??
-                        String(DEFAULT_AUTHORED_TUITION_GRACE_DAYS)
-                      }
-                      onChange={(e) =>
-                        setGrace({ ...grace, [path.id]: e.target.value })
-                      }
-                    />
-                  </label>
-                  <p>
-                    This editable game-authored grace begins when a period
-                    cannot be funded. At its disclosed deadline, unfunded study
-                    pauses; work, pay and the World continue.
-                  </p>
-                </>
-              ) : null}
-              {reason && <p>{reason}</p>}
-              <button
-                disabled={!!reason}
-                onClick={() =>
-                  act(
-                    enterLifePath(world, path.id, {
-                      tuitionGraceDays:
-                        grace[path.id] === undefined
-                          ? DEFAULT_AUTHORED_TUITION_GRACE_DAYS
-                          : (grace[path.id] ?? "").trim() === ""
-                            ? NaN
-                            : Number(grace[path.id]),
-                    }),
-                  )
-                }
-              >
-                {path.kind === "study" ? "Enroll in" : "Accept"} {path.title}
-              </button>
-            </article>
-          );
-        },
-      )}
+        {weeklyLoad.commitments > 1 ? (
+          <p>
+            Several commitments share your week. Review their demands before
+            adding another. Interrupt or leave a path if the load is too much;
+            reading this warning creates no fatigue, dismissal or financial
+            penalty.
+          </p>
+        ) : null}
+        {LIFE_PATHS2_CATALOG.filter((p) => p.scope === "personal").map(
+          (rawPath) => {
+            const path =
+              rawPath.kind === "study" ? periodizedStudyPath(rawPath) : rawPath;
+            const reason = lifePathEntryReason(world, actor, path);
+            return (
+              <article key={path.id}>
+                <h4>{path.title}</h4>
+                <p>{path.organizationName}</p>
+                <p>{path.responsibility}</p>
+                <p>
+                  {path.kind === "study" && studyUsesPeriodModel(path)
+                    ? studyProgramCostLabel(path)
+                    : path.sessionMinutes > 0
+                      ? `${path.sessionMinutes / 60} hours per session. ${
+                          path.sessionCostMinor > 0
+                            ? `You pay $${path.sessionCostMinor / 100} after each attended session.`
+                            : path.sessionPayMinor > 0
+                              ? `The employer pays $${path.sessionPayMinor / 100} the day after each completed shift.`
+                              : "This is unpaid volunteer work."
+                        }`
+                      : path.sessionPayMinor > 0
+                        ? `The employer pays $${path.sessionPayMinor / 100} the day after each completed shift.`
+                        : "This is unpaid volunteer work."}
+                </p>
+                {path.kind === "study" && path.credential && (
+                  <p>Completing leads to: {path.credential}.</p>
+                )}
+                {path.kind === "study" ? (
+                  <>
+                    <p>
+                      Accepting fixes the price, duration, credential and
+                      funding terms for this enrollment. Tuition uses available
+                      personal cash at period end. No loan or free tuition is
+                      automatic.
+                    </p>
+                    <label>
+                      Tuition grace days for {path.title}{" "}
+                      <input
+                        type="number"
+                        min="0"
+                        step="1"
+                        value={
+                          grace[path.id] ??
+                          String(DEFAULT_AUTHORED_TUITION_GRACE_DAYS)
+                        }
+                        onChange={(e) =>
+                          setGrace({ ...grace, [path.id]: e.target.value })
+                        }
+                      />
+                    </label>
+                    <p>
+                      This editable game-authored grace begins when a period
+                      cannot be funded. At its disclosed deadline, unfunded
+                      study pauses; work, pay and the World continue.
+                    </p>
+                  </>
+                ) : null}
+                {reason && <p>{reason}</p>}
+                <button
+                  disabled={!!reason}
+                  onClick={() =>
+                    act(
+                      enterLifePath(world, path.id, {
+                        tuitionGraceDays:
+                          grace[path.id] === undefined
+                            ? DEFAULT_AUTHORED_TUITION_GRACE_DAYS
+                            : (grace[path.id] ?? "").trim() === ""
+                              ? NaN
+                              : Number(grace[path.id]),
+                      }),
+                    )
+                  }
+                >
+                  {path.kind === "study" ? "Enroll in" : "Accept"} {path.title}
+                </button>
+              </article>
+            );
+          },
+        )}
+      </details>
       {/*
         One clock. This panel used to call `advanceWorldMinutes(world, 1440)`
         from its own onClick, which skipped the shared command's disclosure,
@@ -397,73 +428,75 @@ export function LifePathsPanel({
           </article>
         );
       })}
-      <h3>Recruit someone you know</h3>
-      <p>
-        Personal assignments use your own money. Campaign assignments use the
-        active campaign’s treasury. Public-office hiring is unavailable until
-        its authority and restrictions are established.
-      </p>
-      <label>
-        Person{" "}
-        <GameSelect
-          value={person}
-          onChange={(e) => setPerson(e.target.value as EntityId)}
-        >
-          <option value="">Choose a person</option>
-          {knownLifePathPeople(world, actor).map((id) => (
-            <option key={id} value={id}>
-              {name(id)}
-            </option>
-          ))}
-        </GameSelect>
-      </label>
-      <label>
-        Work{" "}
-        <GameSelect
-          value={role}
-          onChange={(e) => {
-            setRole(e.target.value);
-            setPay(
-              String(
-                (LIFE_PATHS2_CATALOG.find((p) => p.id === e.target.value)
-                  ?.sessionPayMinor ?? 0) / 100,
-              ),
-            );
+      <details>
+        <summary>Recruit someone you know</summary>
+        <p>
+          Personal assignments use your own money. Campaign assignments use the
+          active campaign’s treasury. Public-office hiring is unavailable until
+          its authority and restrictions are established.
+        </p>
+        <label>
+          Person{" "}
+          <GameSelect
+            value={person}
+            onChange={(e) => setPerson(e.target.value as EntityId)}
+          >
+            <option value="">Choose a person</option>
+            {knownLifePathPeople(world, actor).map((id) => (
+              <option key={id} value={id}>
+                {name(id)}
+              </option>
+            ))}
+          </GameSelect>
+        </label>
+        <label>
+          Work{" "}
+          <GameSelect
+            value={role}
+            onChange={(e) => {
+              setRole(e.target.value);
+              setPay(
+                String(
+                  (LIFE_PATHS2_CATALOG.find((p) => p.id === e.target.value)
+                    ?.sessionPayMinor ?? 0) / 100,
+                ),
+              );
+            }}
+          >
+            {LIFE_PATHS2_CATALOG.filter((p) => p.kind === "work").map((p) => (
+              <option value={p.id} key={p.id}>
+                {p.title} ({p.scope})
+              </option>
+            ))}
+          </GameSelect>
+        </label>
+        <label>
+          Dollars per completed assignment{" "}
+          <input
+            type="number"
+            min="0"
+            step="0.01"
+            value={pay}
+            onChange={(e) => setPay(e.target.value)}
+          />
+        </label>
+        <button
+          disabled={!person}
+          onClick={() => {
+            if (person)
+              act(
+                recruitLifePathPerson(
+                  world,
+                  person,
+                  role,
+                  Math.round(Number(pay) * 100),
+                ),
+              );
           }}
         >
-          {LIFE_PATHS2_CATALOG.filter((p) => p.kind === "work").map((p) => (
-            <option value={p.id} key={p.id}>
-              {p.title} ({p.scope})
-            </option>
-          ))}
-        </GameSelect>
-      </label>
-      <label>
-        Dollars per completed assignment{" "}
-        <input
-          type="number"
-          min="0"
-          step="0.01"
-          value={pay}
-          onChange={(e) => setPay(e.target.value)}
-        />
-      </label>
-      <button
-        disabled={!person}
-        onClick={() => {
-          if (person)
-            act(
-              recruitLifePathPerson(
-                world,
-                person,
-                role,
-                Math.round(Number(pay) * 100),
-              ),
-            );
-        }}
-      >
-        Make offer
-      </button>
+          Make offer
+        </button>
+      </details>
       {offers.map((work) => {
         const status = workStatusAt(world, work.id)?.status;
         const negotiated = world.history.events.some(
