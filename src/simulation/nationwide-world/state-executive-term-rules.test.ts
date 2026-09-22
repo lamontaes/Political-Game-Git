@@ -20,20 +20,44 @@ describe("state executive term rules", () => {
       expect(rule.stateUsps).toBe(usps);
       for (const basis of Object.values(rule.basis))
         expect(["verified", "game-profile"]).toContain(basis);
-      if (isFullyVerified(rule)) {
-        // A verified rule always carries its sources and excerpts.
+      // A rule that read ANY field from an instrument carries its sources and
+      // excerpts. Vermont reads its term and its election day but not its
+      // commencement date, so "carries sources" and "fully verified" are two
+      // different questions and this checks them separately.
+      const readSomething = Object.values(rule.basis).some(
+        (basis) => basis === "verified",
+      );
+      if (readSomething) {
         expect(rule.sources.length).toBeGreaterThan(0);
         for (const source of rule.sources) {
           expect(source.url).toMatch(/^https:\/\//);
           expect(source.excerpt.length).toBeGreaterThan(5);
         }
+        // Reading an instrument replaces calibration; it does not sit beside it.
+        expect(rule.calibration).toBeNull();
       } else {
-        expect(rule.ruleVersion).toBe(STATE_EXECUTIVE_GAME_PROFILE_VERSION);
-        // The game profile never pretends to cite law.
+        // A calibrated profile names the profile AND the row that set its
+        // term length, so a save can tell two calibrations apart.
+        expect(
+          rule.ruleVersion.startsWith(STATE_EXECUTIVE_GAME_PROFILE_VERSION),
+        ).toBe(true);
+        // The game profile never pretends to cite law: research travels as
+        // calibration, beside the rule, never as a source of it.
         expect(rule.sources).toEqual([]);
+        if (rule.calibration) {
+          expect(rule.calibration.row.key).toBe(usps);
+          expect(rule.calibration.row.ordinaryTermYears).toBe(rule.termYears);
+        }
       }
     }
-    expect(stateExecutiveTermRule("DC")).toBeNull();
+    // The District is not a state, and is not in US_STATE_USPS; it has its
+    // own rule, for its own office, asserted in
+    // `nationwide-chief-executives.test.ts`.
+    expect(stateExecutiveTermRule("DC")).not.toBeNull();
+    // Puerto Rico's Governor is real and is not compiled yet, so this is a
+    // gap rather than a finding. See
+    // `nationwide-chief-executives.test.ts`.
+    expect(stateExecutiveTermRule("PR")).toBeNull();
   });
 
   it("dates Washington from RCW 43.01.010: Wednesday after the second Monday of January", () => {

@@ -524,7 +524,7 @@ export function SceneBackdrop({
                       "aria-expanded": chosen,
                       /*
                        * The accessible name is the presence line the room
-                       * already computes — "Beth Mathis, who you live with" —
+                       * already computes — "Beth Mathis, your housemate" —
                        * so somebody using a screen reader hears who they are
                        * about to choose and how this life knows them, which is
                        * exactly what the rail used to say.

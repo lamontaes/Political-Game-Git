@@ -7,11 +7,23 @@
  * through PG_ARTBENCH_DATA_ROOT, not through the worktree.
  */
 
+import { readFile } from "node:fs/promises";
 import type { IncomingMessage, ServerResponse } from "node:http";
+import { join } from "node:path";
 import type { Plugin } from "vite";
 
-import type { ArtbenchActor } from "../../src/authoring/artbench";
-import { originalDownloadName } from "../../src/authoring/art-desk-cards";
+import type {
+  ArtbenchActor,
+  ArtbenchProjection,
+  ProjectedCandidate,
+} from "../../src/authoring/artbench";
+import {
+  artDeskCards,
+  cardOnDesk,
+  originalDownloadName,
+  type ArtDeskCard,
+  type ArtDeskTab,
+} from "../../src/authoring/art-desk-cards";
 import { requestDisplayCode } from "../../src/authoring/art-desk-request-code";
 import { isLoopbackAddress, originAllowed } from "./art-desk-bridge";
 import {
@@ -19,8 +31,10 @@ import {
   ArtbenchStore,
   defaultDataRoot,
   defaultDriveRoot,
+  type BytesState,
   type IntakeMeta,
 } from "./artbench-store";
+import { ThumbnailCache } from "./artbench-thumbnails";
 
 export const ARTBENCH_ROUTE_PREFIX = "/__dev/artbench/";
 /** Desktop hub launch token: when set, every artbench request must carry it. */
@@ -152,7 +166,45 @@ export interface ArtbenchBridgeOptions {
   readonly syncIntervalMs?: number;
 }
 
-export function createArtbenchHandler(store: ArtbenchStore) {
+/**
+ * The candidates the desk can show, those in `tab` first (each card's lead
+ * before its history). Cards off the desk contribute nothing.
+ */
+const deskCards = new WeakMap<ArtbenchProjection, ArtDeskCard[]>();
+export function onDeskCandidates(
+  projection: ArtbenchProjection,
+  tab: string | null,
+): ProjectedCandidate[] {
+  let cards = deskCards.get(projection);
+  if (!cards) {
+    cards = artDeskCards(projection).filter(cardOnDesk);
+    deskCards.set(projection, cards);
+  }
+  const ordered = [
+    ...cards.filter((card) => tab && card.tabs.includes(tab as ArtDeskTab)),
+    ...cards,
+  ];
+  const seen = new Set<string>();
+  const result: ProjectedCandidate[] = [];
+  for (const card of ordered)
+    for (const id of [
+      card.leadCandidateId,
+      ...card.lineage.map((step) => step.candidateId),
+      ...card.otherVersions,
+    ]) {
+      const candidate = id ? projection.candidates[id] : undefined;
+      if (candidate && !seen.has(id!)) {
+        seen.add(id!);
+        result.push(candidate);
+      }
+    }
+  return result;
+}
+
+export function createArtbenchHandler(
+  store: ArtbenchStore,
+  thumbnails = new ThumbnailCache(join(store.dataRoot, "cache", "thumbnails")),
+) {
   return async function handle(
     request: IncomingMessage,
     response: ServerResponse,
@@ -225,9 +277,32 @@ export function createArtbenchHandler(store: ArtbenchStore) {
       }
       if (route === "state" && method === "GET") {
         const projection = store.projection();
+        // Never verify the whole store inside a request (that took ~80 s on
+        // a fresh launch). The images the page has open are checked now;
+        // the rest of what is on the desk, current tab first, is checked in
+        // the background; off-desk art (library, references, rejected,
+        // removed) is not checked at all.
+        const focus = (url.searchParams.get("focus") ?? "")
+          .split(",")
+          .filter(Boolean)
+          .slice(0, 8);
+        for (const candidateId of focus) {
+          const candidate = projection.candidates[candidateId];
+          if (candidate) store.bytesState(candidate);
+        }
+        store.queueBytesVerification(
+          onDeskCandidates(projection, url.searchParams.get("tab")),
+        );
         const bytes: Record<string, unknown> = {};
         for (const candidate of Object.values(projection.candidates)) {
-          const state = store.bytesState(candidate);
+          const state: {
+            state: BytesState["state"] | "unchecked";
+            note: string;
+            raster?: BytesState["raster"];
+          } = store.knownBytesState(candidate) ?? {
+            state: "unchecked",
+            note: "Checking this image.",
+          };
           bytes[candidate.candidateId] = {
             state: state.state,
             note: state.note,
@@ -244,6 +319,7 @@ export function createArtbenchHandler(store: ArtbenchStore) {
               "PG_ARTBENCH_DATA_ROOT (project-scoped, outside the worktree)",
           },
           generatorAvailable: false,
+          bytesPending: store.bytesPending,
           notificationReadEventIds: store.notificationReadEventIds(),
         });
         return;
@@ -450,6 +526,47 @@ export function createArtbenchHandler(store: ArtbenchStore) {
             return;
         }
       }
+      if (route === "thumb" && method === "GET") {
+        const candidateId = url.searchParams.get("candidateId") ?? "";
+        const { file, candidate } = store.originalFile(candidateId);
+        if (
+          url.searchParams.has("sha256") &&
+          url.searchParams.get("sha256") !== candidate.sha256
+        ) {
+          throw new ArtbenchError(
+            409,
+            "revision-mismatch",
+            "The requested revision does not match the stored candidate.",
+          );
+        }
+        let bytes: Buffer;
+        let contentType: string;
+        try {
+          const thumbnail = await thumbnails.get(
+            candidate.sha256,
+            file,
+            candidate.hasAlpha === true,
+          );
+          bytes = await readFile(thumbnail.file);
+          contentType = thumbnail.contentType;
+        } catch {
+          // No thumbnailer here: the verified original still shows.
+          bytes = await readFile(file);
+          contentType =
+            candidate.container === "png" ? "image/png" : "image/jpeg";
+        }
+        response.statusCode = 200;
+        response.setHeader("Content-Type", contentType);
+        response.setHeader("Content-Length", String(bytes.length));
+        // Keyed by the original's hash in the URL, so it can never go stale.
+        response.setHeader(
+          "Cache-Control",
+          "private, max-age=31536000, immutable",
+        );
+        response.setHeader("X-Artbench-Sha256", candidate.sha256);
+        response.end(bytes);
+        return;
+      }
       if (route === "original" && method === "GET") {
         const candidateId = url.searchParams.get("candidateId") ?? "";
         const { bytes, candidate } = store.original(candidateId);
@@ -584,9 +701,11 @@ export function artbenchBridge(options: ArtbenchBridgeOptions): Plugin {
         }
         await handle(request, response);
       });
+      // The exchange syncs once at start-up and then when the owner presses
+      // Sync now. A periodic sync is opt-in (syncIntervalMs /
+      // PG_ARTBENCH_SYNC_MS), for unattended tooling only.
       const interval =
-        options.syncIntervalMs ??
-        Number(process.env.PG_ARTBENCH_SYNC_MS ?? 10_000);
+        options.syncIntervalMs ?? Number(process.env.PG_ARTBENCH_SYNC_MS ?? 0);
       if (interval > 0) {
         const timer = setInterval(() => {
           // The Drive mirror may appear after start-up (client launched later).

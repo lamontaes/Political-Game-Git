@@ -712,12 +712,20 @@ export function createStartingPerson(input: StartingPersonInput): Person {
 }
 
 /**
- * A canonical name for someone the world needs in a supporting role — a
- * guardian, a classmate, a teacher. It goes through the same versioned corpus
- * and seeded generator every other name does, so no module keeps a private
- * list of three first names to choose between.
+ * A name off the whole corpus, with nothing said about who is carrying it.
+ *
+ * Deliberately off the module's surface. It was on it, and that is most of why a man came out
+ * named Maria: a writer that wanted a name reached for the loose draw, got one
+ * with no argument to fill in, and never learnt that a gendered draw existed
+ * two functions down. Sixteen routes did exactly that. Correcting sixteen
+ * callers while leaving the loose draw on the module's surface only waits for
+ * the seventeenth, so the surface is now `drawCanonicalNameForGender`, whose
+ * gender argument is required. A route that genuinely knows nothing passes
+ * `"unstated"` and lands back here, which is the same draw and a declaration
+ * instead of an omission. The one narrow exception is `drawCanonicalName`
+ * below, which exists so a pre-fix save still replays byte-for-byte.
  */
-export function drawCanonicalName(
+function drawUnrestrictedName(
   rng: SeededRng,
   corpusVersion: string = DEFAULT_CORPUS_VERSION,
 ): { readonly givenName: string; readonly familyName: string } {
@@ -726,6 +734,24 @@ export function drawCanonicalName(
     givenName: rng.pick(corpus.givenNames),
     familyName: rng.pick(corpus.familyNames),
   };
+}
+
+/**
+ * The loose draw, kept reachable for one purpose only: replaying a world that
+ * was written before the gendered draw existed. A save recorded under the
+ * legacy member-name policy has to produce the same bytes it produced then,
+ * and that means reaching the same stream in the same order with the same
+ * corpus. `src/simulation/living-world/opening.ts` is the only production
+ * caller, behind its `memberNameVersion` gate; `gendered-given-names.test.ts`
+ * holds that allowlist and fails if a second one appears. New code has no
+ * business here — call `drawCanonicalNameForGender` with `"unstated"` if the
+ * gender really is unknown, so the omission is at least written down.
+ */
+export function drawCanonicalName(
+  rng: SeededRng,
+  corpusVersion: string = DEFAULT_CORPUS_VERSION,
+): { readonly givenName: string; readonly familyName: string } {
+  return drawUnrestrictedName(rng, corpusVersion);
 }
 
 export const LEGACY_GIVEN_NAME_GENERATION_VERSION = "given-name-v1";
@@ -770,13 +796,13 @@ export type GivenNameGenerationVersion =
  */
 export function drawCanonicalNameForGender(
   rng: SeededRng,
-  gender: GenderIdentityKey | undefined,
+  gender: GenderIdentityKey,
   corpusVersion: string = DEFAULT_CORPUS_VERSION,
   generationVersion: GivenNameGenerationVersion = LEGACY_GIVEN_NAME_GENERATION_VERSION,
   takenGivenNames: readonly string[] = [],
 ): { readonly givenName: string; readonly familyName: string } {
-  const drawn = drawCanonicalName(rng, corpusVersion);
-  if (gender === undefined || gender === "unstated") return drawn;
+  const drawn = drawUnrestrictedName(rng, corpusVersion);
+  if (gender === "unstated") return drawn;
   const pool =
     gender === "male"
       ? GIVEN_NAME_GENERATION_POOLS_V1.male
@@ -800,4 +826,50 @@ export function drawCanonicalNameForGender(
     givenName = pool[(offset + step + 1) % pool.length] as string;
   }
   return { givenName, familyName: drawn.familyName };
+}
+
+/**
+ * A name and the identity it agrees with, drawn as one act.
+ *
+ * `drawCanonicalNameForGender` has existed since OCD-UI-003 and is correct.
+ * The defect it was written for kept happening anyway, because honouring it is
+ * opt-in: a writer that draws a name on one stream and an identity on another
+ * gets a person whose two halves were never introduced, and nothing complains.
+ * Measured on this branch before the repair, an adult start in Lexington gave
+ * 29 of 72 generated people a given name from the opposite pool — the owner
+ * met a man called Maria and correctly called him "your dad".
+ *
+ * So the pairing is the unit. A route passes the identity it already draws —
+ * on its own stream, under its own key, so no generated gender moves — and
+ * gets back the name together with it. There is one call, one spread, and no
+ * way to take the name without the identity that shaped it.
+ *
+ * The direction is still OCD-UI-003's: gender is the input, and no name is
+ * ever read backwards to decide one. An `unstated` identity keeps the
+ * unrestricted draw, because a person the world says nothing about must not be
+ * given a name that implies something.
+ */
+export function drawCanonicalNamedIdentity(
+  rng: SeededRng,
+  identity: PersonIdentity,
+  options: {
+    readonly corpusVersion?: string;
+    readonly generationVersion?: GivenNameGenerationVersion;
+    readonly takenGivenNames?: readonly string[];
+  } = {},
+): {
+  readonly givenName: string;
+  readonly familyName: string;
+  readonly identity: PersonIdentity;
+} {
+  return {
+    ...drawCanonicalNameForGender(
+      rng,
+      identity.gender,
+      options.corpusVersion,
+      options.generationVersion ?? LEGACY_GIVEN_NAME_GENERATION_VERSION,
+      options.takenGivenNames ?? [],
+    ),
+    identity,
+  };
 }

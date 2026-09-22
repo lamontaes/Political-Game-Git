@@ -1,5 +1,5 @@
 import { fileCandidacy, workOfferedOutreach } from "./support/campaign";
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "./fixtures";
 
 import { enterLife, openElsewhere, startLife } from "./support/creator";
 import { shotPath } from "./support/shot-path";
