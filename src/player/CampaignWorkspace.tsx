@@ -185,7 +185,12 @@ export function CampaignWorkspace({
           needsDistrict ? districtBinding : null,
           selectedOfficeKey,
         ),
-      (next) => onWorldChange(next),
+      (next) => {
+        // The choice is spent on this filing. Picking an office again once the
+        // race is over is what offers the next filing.
+        setSelectedOfficeKey(null);
+        onWorldChange(next);
+      },
     );
   }
 

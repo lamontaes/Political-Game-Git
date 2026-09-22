@@ -1,5 +1,4 @@
-import { existsSync } from "node:fs";
-
+import { privateModularInputs } from "../../src/presentation/private-test-inputs";
 import { expect, test } from "./fixtures";
 import {
   enterLife,
@@ -11,20 +10,29 @@ import {
 } from "./support/creator";
 
 /*
- * The title's White House plate is private Art Desk candidate art. Its bytes
- * live under art/generated/candidates/art-desk/, which .gitignore keeps out
- * of the repository, so only a checkout holding the private bank can draw it.
- * Everywhere else, including CI, the plate is NOT_TESTED and the title is
- * held to what it can show without it.
+ * The first walk is a candidate-art review (?art-preview=candidate): the title
+ * plate, the creator's wardrobe figure and the opening's president are all
+ * drawn from private art. The plate's bytes live under
+ * art/generated/candidates/art-desk/, which .gitignore keeps out of the
+ * repository, and the figures need the installed modular pack. A checkout
+ * without them, CI included, cannot run this walk, so it reports NOT_TESTED
+ * rather than failing for want of art; MODULAR_REQUIRE_PRIVATE=1 makes the
+ * absence a failure where the private bank is meant to be present.
  */
-const WHITE_HOUSE_PLATE =
-  "art/generated/candidates/art-desk/playtest65/environment/white-house-wide-r6.png";
+const candidateArtReady = privateModularInputs("playtest65-u.spec.ts", [
+  "art/generated/candidates/art-desk/playtest65/environment/white-house-wide-r6.png",
+  "art/manifest/character_candidate_modular45_registry.json",
+]);
 
 test.describe.configure({ timeout: 240_000 });
 
 test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", async ({
   page,
 }, info) => {
+  test.skip(
+    !candidateArtReady,
+    "NOT_TESTED: requires the private Art Desk title plate and the installed modular candidate pack.",
+  );
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.setViewportSize({ width: 1280, height: 860 });
@@ -32,16 +40,7 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
     waitUntil: "domcontentloaded",
     timeout: 120_000,
   });
-  if (existsSync(WHITE_HOUSE_PLATE)) {
-    await expect(page.getByTestId("title-establishing-plate")).toBeVisible();
-  } else {
-    test.info().annotations.push({
-      type: "NOT_TESTED",
-      description: `title plate: private candidate bytes absent (${WHITE_HOUSE_PLATE})`,
-    });
-    await expect(page.getByTestId("title-tableau")).toBeVisible();
-    await expect(page.getByTestId("title-establishing-plate")).toHaveCount(0);
-  }
+  await expect(page.getByTestId("title-establishing-plate")).toBeVisible();
   await page.screenshot({ path: info.outputPath("title.png") });
   await fillCreator(page, {
     age: 34,

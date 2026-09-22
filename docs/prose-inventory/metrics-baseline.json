@@ -1,5 +1,5 @@
 {
-  "digest": "18946a2514cc8d98",
+  "digest": "45dfec89fce6a46d",
   "totalRecords": 3248,
   "distinctTexts": 3031,
   "exactDuplicateGroups": 84,
@@ -42,7 +42,7 @@
     "prose:campaign:campaign-status:officeAuthority-0001#text": "ff443ef0133d",
     "prose:campaign:campaign-status:projectCampaign-0001#text": "0486ea5ede7c",
     "prose:campaign:campaign-status:projectCampaign-0002#text": "9f38e3705693",
-    "prose:campaign:campaign-status:projectCampaign-0003#text": "fdcd60cba88c",
+    "prose:campaign:campaign-status:projectCampaign-0003#text": "17d4e131512b",
     "prose:campaign:campaign-status:unavailable-0001#text": "7d8c776ef72b",
     "prose:campaign:campaign-status:unavailable-0002#text": "5a0d555537c5",
     "prose:campaign:campaign-status:unavailable-0003#text": "1b5c8d4ed244",

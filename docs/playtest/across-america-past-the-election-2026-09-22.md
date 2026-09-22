@@ -46,6 +46,13 @@ town — and then carries lives past the result into what follows.
 
 ## 1. What happens after you win depends on which state you are in
 
+> **Superseded as current behaviour, 2026-09-22 (transition services thread).**
+> What follows is history at the head it names. A legislative winner in a
+> state with no sourced term rule is no longer seated on election night: the
+> seat begins on January 1 after the election under a marked blanket rule
+> (`BLANKET_LEGISLATIVE_TERM_RULE_VERSION`), and until then Your office shows
+> "Before you take office". Kentucky keeps its sourced rule.
+
 This is the finding with the most behind it, and it is two screens.
 
 Two lives, both at 81 percent, both deciding on **2 February 2026**, both a seat
@@ -359,6 +366,11 @@ states most likely to refuse are the ones that have been researched most
 carefully.
 
 ## 10. Winning a governorship, walked to the office (added 17:50Z)
+
+> **Note, 2026-09-22 (transition services thread).** The Nevada Assembly winner
+> "seated the same day" below is history at `4965f63c`: that seat now begins on
+> January 1 after the election under the blanket legislative term rule. The
+> governorship route is unchanged.
 
 Walked 2026-09-22 between 17:25Z and 17:50Z on `main` at **`4965f63c`**, the
 same container browser as the rest of this record. Three lives, ordinary

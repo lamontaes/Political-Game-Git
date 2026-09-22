@@ -1,0 +1,28 @@
+{
+  "filedAt": "2026-09-22T22:42:00.000Z",
+  "impact": "blocks-work",
+  "lane": "consequences for corruption and laws",
+  "priority": "P1",
+  "question": "For each of these 28 jurisdictions, answered as one complete set: Arizona, Arkansas, California, Colorado, Delaware, Georgia, Idaho, Indiana, Iowa, Kansas, Louisiana, Maine, Massachusetts, Michigan, Mississippi, Montana, New Hampshire, New Mexico, North Dakota, Oklahoma, Puerto Rico, South Dakota, Tennessee, Utah, Vermont, Virginia, West Virginia and Wyoming. Which body receives and hears an ethics complaint against a sitting state legislator (a chamber ethics committee, a joint committee, an independent commission, or none)? Does each chamber have its own? Who may file, what the stages are with any statutory deadlines, what findings the body can make, and which body imposes a sanction (reprimand, censure, fine, expulsion)? Cite the rule, statute or constitutional provision, and mark anything not found as UNKNOWN rather than inferring it.",
+  "questionId": "who-hears-ethics-complaints-against-legislators",
+  "relatedQuestionIds": [
+    "state-campaign-finance-regulators",
+    "campaign-misconduct-detection-routes",
+    "ethics-finding-electoral-magnitudes"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Consequences for corruption and laws thread, filed by the research intake thread",
+  "sourcesChecked": [
+    {
+      "source": "ChatGPT's campaign finance regulator map, docs/research/chatgpt-answers/2026-09-22-campaign-finance-regulators/CAMPAIGN-FINANCE-REGULATORS-52.md (Drive 1ZBWrR2STXFYIMNFRjJW0xaJ6OqfL04LM)",
+      "whatItDidNotSettle": "It names campaign finance regulators, not the body that hears ethics complaints against legislators."
+    },
+    {
+      "source": "src/simulation/press/state-ethics-bodies.ts at main 616dcdb5",
+      "whatItDidNotSettle": "Covers 23 jurisdictions, plus Kentucky in procedures.ts; the 28 listed have no entry."
+    }
+  ],
+  "title": "Who hears an ethics complaint against a state legislator, in every jurisdiction the game has not researched",
+  "usableAnswer": "A 28-row table: jurisdiction; intake body; hearing body per chamber; who may file; stages and deadlines; available findings; sanctioning body; citations; and an evidence status for each field (official law, secondary synthesis, or UNKNOWN).",
+  "whyItMatters": "The game has a researched legislative ethics body for 24 jurisdictions only: Kentucky's hand-written KLEC procedure (src/simulation/press/procedures.ts) and 23 table rows (src/simulation/press/state-ethics-bodies.ts STATE_LEGISLATIVE_ETHICS_BODIES at main 616dcdb5: AK, AL, CT, DC, FL, HI, IL, MD, MN, MO, NC, NE, NJ, NV, NY, OH, OR, PA, RI, SC, TX, WA, WI). Everywhere else it uses a generated body. lamontae's standing rule is that no depth gets invented, so until this is answered a complaint against a legislator in those 28 places runs through a body that may not exist. This was the second half of state-campaign-finance-regulators; ChatGPT's 52-jurisdiction regulator map (21:34Z) covered campaign finance enforcement and did not address it, so it is split out here."
+}
