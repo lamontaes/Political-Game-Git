@@ -147,6 +147,1485 @@
       "reason": "The preserved packet contains the warm-leaf parent pavilion only. It contains no same-geometry leafless winter variant, and the separate private Art Desk attempt remains unapproved and is not evidence in this reconciliation."
     },
     {
+      "requestId": "person-modular47-masc-lean-standing-anatomy",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-masc-lean-seated-anatomy",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-masc-average-standing-anatomy",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-masc-average-seated-anatomy",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-masc-heavy-standing-anatomy",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-masc-heavy-seated-anatomy",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-fem-lean-standing-anatomy",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-fem-lean-seated-anatomy",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-fem-average-standing-anatomy",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-fem-average-seated-anatomy",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-fem-heavy-standing-anatomy",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-fem-heavy-seated-anatomy",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-face-rowan",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-face-ellis",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-face-june",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-face-kai",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-face-mira",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-face-nadia",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-face-avery",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-hair-coily-crop",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-hair-coily-crop-left",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-hair-coily-crop-right",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-hair-short-waves-front",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-hair-short-waves-right",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-hair-swept-pixie-front",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-expansion-green-shirt",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-lean-standing-neutral-short-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-lean-standing-neutral-short-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-lean-standing-neutral-short-bottom",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-bottoms"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-bottoms"
+      ],
+      "reason": "Preserved trouser candidates exist as garment references. They are not proof of this modular47 body-and-pose-specific lower garment fit, particularly for feminine body profiles; the submitted component still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-lean-standing-neutral-short-footwear",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:shoes"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/front-facing-footwear"
+      ],
+      "reason": "The twelve preserved front-facing footwear pairs exist and must not be recommissioned. They do not by themselves answer this pose-specific integrated modular47 footwear component and fit review. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-lean-standing-neutral-long-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-lean-standing-neutral-long-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-lean-seated-guest-neutral-short-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-lean-seated-guest-neutral-short-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-lean-seated-guest-neutral-short-bottom",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-bottoms"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-bottoms"
+      ],
+      "reason": "Preserved trouser candidates exist as garment references. They are not proof of this modular47 body-and-pose-specific lower garment fit, particularly for feminine body profiles; the submitted component still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-lean-seated-guest-neutral-short-footwear",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:shoes"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/front-facing-footwear"
+      ],
+      "reason": "The twelve preserved front-facing footwear pairs exist and must not be recommissioned. They do not by themselves answer this pose-specific integrated modular47 footwear component and fit review. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-lean-seated-guest-neutral-long-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-lean-seated-guest-neutral-long-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-average-standing-neutral-short-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-average-standing-neutral-short-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-average-standing-neutral-short-bottom",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-bottoms"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-bottoms"
+      ],
+      "reason": "Preserved trouser candidates exist as garment references. They are not proof of this modular47 body-and-pose-specific lower garment fit, particularly for feminine body profiles; the submitted component still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-average-standing-neutral-short-footwear",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:shoes"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/front-facing-footwear"
+      ],
+      "reason": "The twelve preserved front-facing footwear pairs exist and must not be recommissioned. They do not by themselves answer this pose-specific integrated modular47 footwear component and fit review. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-average-standing-neutral-long-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-average-standing-neutral-long-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-average-seated-guest-neutral-short-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-average-seated-guest-neutral-short-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-average-seated-guest-neutral-short-bottom",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-bottoms"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-bottoms"
+      ],
+      "reason": "Preserved trouser candidates exist as garment references. They are not proof of this modular47 body-and-pose-specific lower garment fit, particularly for feminine body profiles; the submitted component still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-average-seated-guest-neutral-short-footwear",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:shoes"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/front-facing-footwear"
+      ],
+      "reason": "The twelve preserved front-facing footwear pairs exist and must not be recommissioned. They do not by themselves answer this pose-specific integrated modular47 footwear component and fit review. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-average-seated-guest-neutral-long-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-average-seated-guest-neutral-long-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-heavy-standing-neutral-short-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-heavy-standing-neutral-short-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-heavy-standing-neutral-short-bottom",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-bottoms"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-bottoms"
+      ],
+      "reason": "Preserved trouser candidates exist as garment references. They are not proof of this modular47 body-and-pose-specific lower garment fit, particularly for feminine body profiles; the submitted component still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-heavy-standing-neutral-short-footwear",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:shoes"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/front-facing-footwear"
+      ],
+      "reason": "The twelve preserved front-facing footwear pairs exist and must not be recommissioned. They do not by themselves answer this pose-specific integrated modular47 footwear component and fit review. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-heavy-standing-neutral-long-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-heavy-standing-neutral-long-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-heavy-seated-guest-neutral-short-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-heavy-seated-guest-neutral-short-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-heavy-seated-guest-neutral-short-bottom",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-bottoms"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-bottoms"
+      ],
+      "reason": "Preserved trouser candidates exist as garment references. They are not proof of this modular47 body-and-pose-specific lower garment fit, particularly for feminine body profiles; the submitted component still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-heavy-seated-guest-neutral-short-footwear",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:shoes"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/front-facing-footwear"
+      ],
+      "reason": "The twelve preserved front-facing footwear pairs exist and must not be recommissioned. They do not by themselves answer this pose-specific integrated modular47 footwear component and fit review. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-heavy-seated-guest-neutral-long-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-masc-heavy-seated-guest-neutral-long-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-lean-standing-neutral-short-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-lean-standing-neutral-short-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:female-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/female-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-lean-standing-neutral-short-bottom",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-bottoms"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-bottoms"
+      ],
+      "reason": "Preserved trouser candidates exist as garment references. They are not proof of this modular47 body-and-pose-specific lower garment fit, particularly for feminine body profiles; the submitted component still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-lean-standing-neutral-short-footwear",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:shoes"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/front-facing-footwear"
+      ],
+      "reason": "The twelve preserved front-facing footwear pairs exist and must not be recommissioned. They do not by themselves answer this pose-specific integrated modular47 footwear component and fit review. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-lean-standing-neutral-long-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-lean-standing-neutral-long-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:female-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/female-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-lean-seated-guest-neutral-short-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-lean-seated-guest-neutral-short-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:female-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/female-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-lean-seated-guest-neutral-short-bottom",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-bottoms"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-bottoms"
+      ],
+      "reason": "Preserved trouser candidates exist as garment references. They are not proof of this modular47 body-and-pose-specific lower garment fit, particularly for feminine body profiles; the submitted component still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-lean-seated-guest-neutral-short-footwear",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:shoes"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/front-facing-footwear"
+      ],
+      "reason": "The twelve preserved front-facing footwear pairs exist and must not be recommissioned. They do not by themselves answer this pose-specific integrated modular47 footwear component and fit review. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-lean-seated-guest-neutral-long-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-lean-seated-guest-neutral-long-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:female-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/female-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-average-standing-neutral-short-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-average-standing-neutral-short-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:female-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/female-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-average-standing-neutral-short-bottom",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-bottoms"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-bottoms"
+      ],
+      "reason": "Preserved trouser candidates exist as garment references. They are not proof of this modular47 body-and-pose-specific lower garment fit, particularly for feminine body profiles; the submitted component still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-average-standing-neutral-short-footwear",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:shoes"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/front-facing-footwear"
+      ],
+      "reason": "The twelve preserved front-facing footwear pairs exist and must not be recommissioned. They do not by themselves answer this pose-specific integrated modular47 footwear component and fit review. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-average-standing-neutral-long-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-average-standing-neutral-long-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:female-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/female-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-average-seated-guest-neutral-short-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-average-seated-guest-neutral-short-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:female-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/female-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-average-seated-guest-neutral-short-bottom",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-bottoms"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-bottoms"
+      ],
+      "reason": "Preserved trouser candidates exist as garment references. They are not proof of this modular47 body-and-pose-specific lower garment fit, particularly for feminine body profiles; the submitted component still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-average-seated-guest-neutral-short-footwear",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:shoes"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/front-facing-footwear"
+      ],
+      "reason": "The twelve preserved front-facing footwear pairs exist and must not be recommissioned. They do not by themselves answer this pose-specific integrated modular47 footwear component and fit review. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-average-seated-guest-neutral-long-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-average-seated-guest-neutral-long-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:female-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/female-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-heavy-standing-neutral-short-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-heavy-standing-neutral-short-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:female-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/female-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-heavy-standing-neutral-short-bottom",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-bottoms"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-bottoms"
+      ],
+      "reason": "Preserved trouser candidates exist as garment references. They are not proof of this modular47 body-and-pose-specific lower garment fit, particularly for feminine body profiles; the submitted component still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-heavy-standing-neutral-short-footwear",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:shoes"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/front-facing-footwear"
+      ],
+      "reason": "The twelve preserved front-facing footwear pairs exist and must not be recommissioned. They do not by themselves answer this pose-specific integrated modular47 footwear component and fit review. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-heavy-standing-neutral-long-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-heavy-standing-neutral-long-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:female-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/female-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-heavy-seated-guest-neutral-short-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-heavy-seated-guest-neutral-short-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:female-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/female-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-heavy-seated-guest-neutral-short-bottom",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:male-bottoms"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/male-bottoms"
+      ],
+      "reason": "Preserved trouser candidates exist as garment references. They are not proof of this modular47 body-and-pose-specific lower garment fit, particularly for feminine body profiles; the submitted component still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-heavy-seated-guest-neutral-short-footwear",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:shoes"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/front-facing-footwear"
+      ],
+      "reason": "The twelve preserved front-facing footwear pairs exist and must not be recommissioned. They do not by themselves answer this pose-specific integrated modular47 footwear component and fit review. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-heavy-seated-guest-neutral-long-body",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved adult morphology families are available as reference, but do not supply this isolated body-owned neck/anatomy component with the corrected modular47 pose and material contract. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-fem-heavy-seated-guest-neutral-long-top",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": ["family:female-tops"],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/female-tops"
+      ],
+      "reason": "Preserved garment candidates exist. They do not by themselves supply this modular47 component aligned to its body, pose, sleeve and exposed-skin material contract; the submitted replacement still needs assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-face-rowan-neutral",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-face-rowan-smile",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-face-ellis-neutral",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-face-ellis-smile",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-face-june-neutral",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-face-june-smile",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-face-kai-neutral",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-face-kai-smile",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-face-mira-neutral",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-face-mira-smile",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-face-nadia-neutral",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-face-nadia-smile",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-hair-coily-crop",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-hair-coily-crop-left",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-hair-coily-crop-right",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-hair-short-waves-front",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
+      "requestId": "person-modular47-r1-hair-short-waves-right",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The declared packet-92b/p95 preserved universe contains morphology and garment references, but no separate compatible modular47 facial plate or view-matched hairstyle that answers this exact request. Existing historical and newly submitted private face/hair candidates remain preserved and awaiting assessment. This is reconciliation against packet-92b/p95 preserved art only. The modular47 replacement candidate has already been submitted through its declared private intake. Keep candidate-submitted and generationHold=awaiting-assessment; review the existing candidate before any new generation. No runtime promotion or human visual approval is implied."
+    },
+    {
       "requestId": "seated-chair-separation-hand-pass",
       "verdict": "premise-restated-still-required",
       "preservedUnits": [
@@ -325,30 +1804,6 @@
     }
   ],
   "unlinkedPreservedAssets": [
-    {
-      "preservedUnit": "family:female-tops",
-      "evidencePaths": [
-        "art/generated/candidates/recent-drive-sweep/female-tops"
-      ],
-      "reason": "Twelve feminine garment candidates, banked and hashed. No open request asks for garments, because garments composite over a production body that does not exist yet.",
-      "nextRequiredAction": "Hold as candidate intake. Do not commission garment generation; the fit question belongs to the garment morphology work, not to a new source."
-    },
-    {
-      "preservedUnit": "family:male-tops",
-      "evidencePaths": [
-        "art/generated/candidates/recent-drive-sweep/male-tops"
-      ],
-      "reason": "Twelve masculine top candidates, banked and hashed, with no open request behind them for the same reason.",
-      "nextRequiredAction": "Hold as candidate intake."
-    },
-    {
-      "preservedUnit": "family:male-bottoms",
-      "evidencePaths": [
-        "art/generated/candidates/recent-drive-sweep/male-bottoms"
-      ],
-      "reason": "Twelve masculine bottom candidates, banked and hashed, with no open request behind them for the same reason.",
-      "nextRequiredAction": "Hold as candidate intake."
-    },
     {
       "preservedUnit": "family:supplies",
       "evidencePaths": [

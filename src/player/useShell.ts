@@ -158,7 +158,8 @@ export function useShell(
 
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
-      if (event.key !== "Escape") return;
+      if (event.key !== "Escape" || event.defaultPrevented) return;
+      event.preventDefault();
       dispatch({ type: "escape" });
     }
     document.addEventListener("keydown", onKey);

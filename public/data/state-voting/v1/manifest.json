@@ -1,0 +1,97 @@
+{
+  "corpusSha256": "10e69654c29e3dc202312cadcf0e3e44c097afa56379712d462c95f4e5b8ed71",
+  "inputClass": "production",
+  "releaseDate": "2025-04-30",
+  "schemaVersion": "1",
+  "sources": [
+    {
+      "artifactId": "cps-2024-vote04a",
+      "releaseDate": "2025-04-30",
+      "retrievedAt": "2026-09-20T04:47:03.453Z",
+      "sha256": "068e47d3c7fc970107bd5b4ceb68d557d2cba48158e521b50806f60227da5deb",
+      "url": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx"
+    },
+    {
+      "artifactId": "cps-2024-vote04b",
+      "releaseDate": "2025-04-30",
+      "retrievedAt": "2026-09-20T04:47:05.505Z",
+      "sha256": "fa33c7db6986e49eab1b1930fa1e9bd64f966b9be74a056d0e237cbc1431155b",
+      "url": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04b_2024.xlsx"
+    },
+    {
+      "artifactId": "cps-2024-vote04c",
+      "releaseDate": "2025-04-30",
+      "retrievedAt": "2026-09-20T04:47:07.562Z",
+      "sha256": "dacbb628705ba82e578531b227ef3d82925027491bdbc13067a6c86525992b8e",
+      "url": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04c_2024.xlsx"
+    },
+    {
+      "artifactId": "cps-2024-methodology",
+      "releaseDate": null,
+      "retrievedAt": "2026-09-20T04:47:09.620Z",
+      "sha256": "32acc6da13023a8672313260e35e2d88bea719f64e6eb1ba482b8b25733479df",
+      "url": "https://www2.census.gov/programs-surveys/cps/techdocs/cpsnov24.pdf"
+    },
+    {
+      "artifactId": "cps-2024-release",
+      "releaseDate": "2025-04-30",
+      "retrievedAt": "2026-09-20T05:01:29.471Z",
+      "sha256": "bd437e01cf550d175819f7173c5091a1f07652847db008a9335b0eaf15cc1121",
+      "url": "https://www.census.gov/newsroom/press-releases/2025/2024-presidential-election-voting-registration-tables.html"
+    }
+  ],
+  "states": {
+    "AK": "AK.json",
+    "AL": "AL.json",
+    "AR": "AR.json",
+    "AZ": "AZ.json",
+    "CA": "CA.json",
+    "CO": "CO.json",
+    "CT": "CT.json",
+    "DC": "DC.json",
+    "DE": "DE.json",
+    "FL": "FL.json",
+    "GA": "GA.json",
+    "HI": "HI.json",
+    "IA": "IA.json",
+    "ID": "ID.json",
+    "IL": "IL.json",
+    "IN": "IN.json",
+    "KS": "KS.json",
+    "KY": "KY.json",
+    "LA": "LA.json",
+    "MA": "MA.json",
+    "MD": "MD.json",
+    "ME": "ME.json",
+    "MI": "MI.json",
+    "MN": "MN.json",
+    "MO": "MO.json",
+    "MS": "MS.json",
+    "MT": "MT.json",
+    "NC": "NC.json",
+    "ND": "ND.json",
+    "NE": "NE.json",
+    "NH": "NH.json",
+    "NJ": "NJ.json",
+    "NM": "NM.json",
+    "NV": "NV.json",
+    "NY": "NY.json",
+    "OH": "OH.json",
+    "OK": "OK.json",
+    "OR": "OR.json",
+    "PA": "PA.json",
+    "RI": "RI.json",
+    "SC": "SC.json",
+    "SD": "SD.json",
+    "TN": "TN.json",
+    "TX": "TX.json",
+    "UT": "UT.json",
+    "VA": "VA.json",
+    "VT": "VT.json",
+    "WA": "WA.json",
+    "WI": "WI.json",
+    "WV": "WV.json",
+    "WY": "WY.json"
+  }
+}
+
