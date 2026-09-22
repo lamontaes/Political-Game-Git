@@ -1,62 +1,87 @@
 # The merge train of 2026-09-22, and why some of it landed without a CI verdict
 
-Written 2026-09-22 06:45Z, measured on `origin/main` between `445441a5` and
-`7f2717a2`.
+Begun 2026-09-22 06:45Z between `445441a5` and `7f2717a2`; **brought to its
+final state at 08:40Z against `origin/main` at `af6b379b`**, after the train
+ran.
 
 This document exists so the morning report does not have to infer why work
 merged on local evidence. It is not a defence of the practice. It is the
 arithmetic that made the alternative unavailable, stated plainly enough to
 disagree with.
 
+**It also carries its own corrections.** Four claims in here were wrong when
+first written and are struck through or retracted in place rather than edited
+out — the repository's job-slot count, what a merge does to main's run, and,
+twice, a sentence about main's unit suite that outran what had been measured.
+Each retraction says whose claim it was. A reader who wants to know how far to
+trust the rest should read those first: they are the evidence that the
+standard in **D-086** was applied to this document too, and not only
+recommended in it.
+
 ## The list to click through
 
-Refreshed against `origin/main` at `de030bff`, 08:17Z. #333 and #331 have
-merged since the previous refresh and have been taken off the list. The sections below give
-the evidence behind each entry; this is the index.
+**Final state, refreshed against `origin/main` at `af6b379b`, 08:40Z.** The
+train has run. This section is what is left, not what was planned — where the
+two differ, the difference is stated rather than tidied away.
 
 **The headline, which you can check yourself before you finish your coffee.**
 Three things are wrong in the first two minutes of play, and all three are
-sentences rather than systems. Four lanes reached that same conclusion tonight
-from different directions — a playtest walk, the capacity arithmetic below, the
+sentences rather than systems. Four lanes reached that conclusion from
+different directions — a playtest walk, the capacity arithmetic below, the
 research audit and the citation sweep. It is the cheapest good news in the
 report: the first things you will notice are also the fastest to fix.
 
-**Click these in this order.**
+### Already merged — nothing to do
 
-1. **#304 — say what is behind the Politics entry.** The menu reads
-   "Politics — Jobs and study" while behind it are your office, campaigns, the
-   government where you live, parties and the budget. Most visible thing in the
-   game's first two minutes, and the cheapest click here.
-2. **#325 — prove the refusal a player reads arrives at the screen clean.** It
-   carries no sentence fixes of its own; it is the gate. It needed #320 first,
-   and **#320 is now merged**, so nothing blocks it. Its checks read red until
-   it lands, which its own body explains.
-3. **The documents — #330 and #294 — in either order, and safe to clear
-   first.** #330 is the report updates, #294 the artbench-exchange write-up at
-   131 lines. Neither touches source or a shipped path. This is the part of
-   the list you can clear without thinking about it. (#331, the playtest walk,
-   was here and has merged.)
-4. **#292 — a life that has always lived somewhere has always lived in its
-   district too**, and **#283 — every state has a legislature, the District
-   governs itself, and read law beats the draw.** Both the nationwide lane's,
-   both with their dependencies and their unattributed failures named in their
-   own bodies.
+**#333** the seat-count test, **#331** the playtest walk, **#330** the audit
+report findings, **#294** how a batch reaches the Art Bench, **#325** the
+refusal-screen control, plus #320, #334, #335 and #337 from other lanes.
 
-Then **#277**, the 0.4.0 release, this lane's. The freeze has lifted. Its
-full unit suite passed at `9d7ec442`: 6411 tests, 52 skipped, one failure —
-a directory we make unwritable stays writable for root in a container, which is
-red on main too and is not the release's.
+Each was merged on evidence named at an exact head rather than on a CI
+verdict, which is the standard recorded as **D-086** in the decision log. Every
+merge commit says which commands were run, on which commit, and what was not
+run.
 
-**#320 → #325 is the only ordered pair on the whole list, and #320 is done.**
-The numbering above is priority, not dependency: it is the order that gets the
-most visible thing fixed first.
+### Still a click, and why
 
-**One thing to know before you start clicking.** GitHub will not let you merge
-a pull request that is still a draft, and several of the above are. Ready to
-merge right now: **#292**, **#305**, **#311**. Still draft at this refresh:
-**#304**, **#325**, **#277**, **#283**. Each of those needs its "Ready for
-review" button pressed first — one extra click, not a problem, but worth
-knowing rather than discovering.
+- **#277 — the 0.4.0 release.** This lane's, out of draft, current with main,
+  and **the only branch tonight with a real CI run going** rather than a
+  cancelled one. Everything else about it is local evidence: its full unit
+  suite passed at `9d7ec442` with 6411 tests and one failure, a directory we
+  make unwritable staying writable for root in a container, which is red on
+  main too and is not the release's.
+- **#304 — say what is behind the Politics entry.** The most visible thing in
+  the game's first two minutes, and it is **still a draft** its lane last
+  touched at 06:51Z, on a base main has moved a long way past. It also adds a
+  Playwright spec to a browser suite that is already red. Worth doing; not
+  worth another lane undrafting and merging on their behalf.
+- **#292 — a life that has always lived somewhere has always lived in its
+  district too.** **Do not merge this yet, and the reason is specific.** Its
+  wording changes are measured and change no jurisdiction's answer. But
+  `tests/e2e/support/jurisdictions.ts` line 174 on current main still asserts
+  the exact sentence this branch removes — "The game has not recorded when this
+  character came to live here, so it will not guess whether they qualify" —
+  because that fixture asserts the _sentence_, not the verdict. Checked on
+  `af6b379b` rather than taken from the hold note. It needs the fix-main lane's
+  fixture patch first.
+- **#283 — every state has a legislature, the District governs itself.** Held
+  by its own lane with seven unattributed test failures and a merge conflict,
+  and being put back to the nationwide lane rather than assumed ready.
+- **#305** and **#311** were reported ready earlier on heads that have since
+  moved. Their evidence is older than the head each now carries, so they are
+  clicks rather than merges.
+
+### What did not land, and why, in one line each
+
+- The browser suite is red on main and was before tonight — nine cases, all
+  reproduced at `445441a5`.
+- Four of six unit shards on main never ran at all.
+- Two lanes are deliberately not merging: the player-facing-text lane reads
+  `AGENTS.md` as putting merge authority with LAND, which is a defensible
+  reading and was not overridden.
+
+**A draft cannot be merged.** #304 and #283 are drafts; each needs its "Ready
+for review" button pressed before the merge button appears.
 
 **Already in main — nothing to do.** Thirty-four pull requests merged between
 22:00Z and this refresh, read from `git log` on `origin/main` at `7fc33c85`:

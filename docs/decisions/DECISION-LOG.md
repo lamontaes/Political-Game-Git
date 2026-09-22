@@ -1583,7 +1583,7 @@ Nothing in this repository enlarged anything.
 measured from that master. The room's tiled floor is its own ruler: a 12-inch
 commercial tile measured near and far gives the apparent size of a known length
 at two depths, which solves the horizon at 39.9% of plate height and yields
-one metre ~= 0.585 * (floor_y - 39.9)% of plate height. The floor calibration,
+one metre ~= 0.585 \* (floor_y - 39.9)% of plate height. The floor calibration,
 the 18.42% standard body width and the cross-check on the one measurable seat
 all come out of that single relation. Nothing was transplanted from prompt30;
 a test asserts the two scenes share no plate, no ramp, no body width and no
@@ -2633,64 +2633,6 @@ bounded six-jurisdiction substrate, all six shipped executive packs, every
 jurisdiction fact, and every accepted sourced row are unchanged by this
 documentation reconciliation.
 
-## D-085 — A bill records the configuration that wrote it, and that record pins the version
-
-- Date: 2026-09-08
-- Status: ACCEPTED
-- Supersedes: none
-- Reconciled: numbered D-085 rather than D-084, which the current packet
-  reserves for PR #90. Main's D-079/D-080/D-083 and PR79's D-081/D-082 are
-  preserved unchanged.
-
-Bills in this game were authored one at a time. Three legislative scenarios
-existed and all three were the same mechanism — a transit subsidy — with the
-state, the bill number and the beneficiary changed, so a player choosing among
-them was choosing a label. Making bills composable means a bill's text is
-produced from a declared programme family and a set of parameter values rather
-than written out by hand.
-
-That creates a fact nothing in the store could express.
-
-A measure record says what a bill is called, which jurisdiction and rule pack
-it belongs to, and who sponsored it. Provision records say what its operative
-text currently reads and what it used to read, append-only, with amendment
-authority behind every revision. Between them they describe the bill
-completely — and neither of them can say that the text was compiled from a
-named family, at a named version of that family, from a named set of parameter
-values. Without that, reopening a saved bill cannot say which programme it
-belongs to, which amendment its politics are about, or whether the content
-bank has moved underneath it since.
-
-So one canonical shape is added: `legislativeDraftLineages`, an optional
-append-only `HistoryStore` family, wired into world integrity and history
-aggregation exactly as provisions are. Three things about it are the decision.
-
-It is written once, when the bill is filed, and never rewritten. An amended
-bill's text moves through the accepted provision writers; its lineage still
-records where it started. One measure may carry only one lineage, because two
-would mean two answers to "which configuration wrote this" and the later one
-would win by accident.
-
-It pins `familyVersion`, and that is the point of the record rather than a
-detail of it. The filed text is authoritative and lives in provisions, so
-editing a family in the bank — widening a bound, rewording a clause, retiring a
-configuration — changes what a _new_ bill would say and cannot restate a bill a
-player already filed. A saved bill whose family version no longer matches the
-bank is read back as what it is: its filed text stands, and the re-reading is
-reported unavailable with the reason, rather than silently recompiled into
-something else.
-
-Parameter values are stored as typed discriminated records, sorted by key, not
-as a JSON blob or an encoded identifier. A serialized world stays inspectable,
-two saves of the same configuration are byte-identical regardless of the order
-the player moved the controls in, and no value can arrive as a string that
-something downstream parses back into a number.
-
-Consequence: a docket can hold three unrelated bills in one life, each one
-still knowing what it is; and the content bank can grow, change or retire
-configurations without any of it reaching backwards into bills that are already
-filed.
-
 ## D-084 — An arm is measured from the alpha that contains it, and the part the alpha does not contain is reported occluded rather than estimated
 
 - Date: 2026-09-04
@@ -2823,3 +2765,54 @@ Consequence: a docket can hold three unrelated bills in one life, each one
 still knowing what it is; and the content bank can grow, change or retire
 configurations without any of it reaching backwards into bills that are already
 filed.
+
+## D-086 — Evidence named at an exact head is a merge standard, and a claim carries what was measured
+
+- Date: 2026-09-22
+- Status: ACCEPTED
+- Supersedes: none
+
+On the night of 21–22 September the repository could not produce a CI verdict
+for any branch, and roughly thirty pull requests needed to reach `main` by
+morning. Every lane faced the same question independently: what may be merged
+when the gate cannot report.
+
+The answer adopted, and the reason it is not a licence.
+
+**A merge requires evidence named at an exact head.** Not "the tests pass" but
+which commands were run, on which commit, with what output, and what was not
+run. A pull request merged this way says so in its own body and in the merge
+commit, so the record shows the standard that was applied rather than implying
+a verdict that never existed. Documents merged on local evidence; code required
+the gates a contributor runs locally — format, lint, typecheck, the affected
+tests and the release declaration range — each named at the head it ran on.
+
+**The reason this is safe is the naming, not the running.** A local run that
+nobody can locate afterwards is worth less than no claim at all, because it
+invites a reader to assume more than was done. Five separate claims that night
+outran their measurement and each was caught by someone asking which head, or
+which shard, or which browser.
+
+**So a claim carries what was measured.** Three habits, each paid for:
+
+- **Name the ref.** "The formatter is clean" was true on one branch and false
+  on another.
+- **Prefer the measurement to the conclusion, especially in anything durable.**
+  "Two of six unit shards reported green at 08:09Z" survives being wrong later;
+  "the unit suite is clean" has nothing in it to check. Two of the five wrong
+  claims travelled through project memory rather than a conversation, which
+  reaches every later reader stripped of the context that would let them judge
+  it.
+- **Retract in place, and say whose it was.** A correction that hides its
+  author teaches nobody, and the reader cannot tell which other claims from the
+  same source to re-examine.
+
+**What this does not license.** It is not permission to skip a gate that is
+available, to call a failing test an infrastructure flake, or to merge code
+whose behaviour nobody exercised. Where a verdict is obtainable it is obtained.
+The standard exists for the case where it is not, and the honest report of that
+case says which parts were measured and which were merely argued.
+
+Consequence: the morning report distinguishes what was measured from what was
+inferred, and a reader who checks any individual claim finds the head it was
+measured on rather than a bare assertion.
