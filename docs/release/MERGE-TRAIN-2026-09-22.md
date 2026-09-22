@@ -8,6 +8,53 @@ merged on local evidence. It is not a defence of the practice. It is the
 arithmetic that made the alternative unavailable, stated plainly enough to
 disagree with.
 
+## The list to click through
+
+Kept current as things land, so it can be read in thirty seconds rather than
+assembled at the end. Last refreshed against `origin/main` at `effad80f`. The
+sections below give the evidence behind each entry; this is the index.
+
+**Already in main — nothing to do.** Twenty-five pull requests merged between
+22:00Z and this refresh: #275, #279, #280, #281, #284, #285, #286, #287, #290,
+#297, #299, #300, #301, #302, #303, #308, #309, #312, #315, #316, #317, #318,
+#319, #321, #322. The ones that change what a player gets or what the project
+can do: the retired Visual4 cast permanently deleted (#290), a trait system in
+place of five hardwired traits (#280), the CI concurrency group (#303), the
+prose gate repaired (#301), and the Alaska candidacy note retitled to what the
+change actually did (#275).
+
+**Waiting on a click.** #277, the 0.4.0 release, this lane's, at `9d7ec442`
+with main merged in. #305, #311 and #320 from other lanes, out of draft against
+recent main — see "Ready to click, not merged" below for what each rests on.
+
+**Still moving.** #282, #283, #292, #294, #295, #304, #306, #307 are drafts
+their lanes are working.
+
+**Not for tonight.** #278, the client line, is assembled at `70fa13a7` with
+#276 inside it and has never had a verdict: its run has had zero jobs allocated
+for over an hour. #296 sits on top of it. Everything numbered below #262
+predates this night and is not part of this train.
+
+## The sweep, and why it does not end on its own
+
+The rounds shrink sharply as branches take main. Round one: **87 of 94**
+cancelled runs were on commits that did not carry the concurrency group. Round
+two, ninety minutes later: **9 of 19**. The group is doing most of the work.
+
+But 6 of the 10 group-carrying superseded runs in round two were untouched —
+`updated_at` never moved — so a residual remains, and an earlier claim that the
+rounds are self-liquidating was stronger than the measurement supported.
+
+**Hypothesis, not proved.** Two of those six were on this lane's branch at
+`dbff3ad1` and `1a526f2b`, and both now report `prs=None` because the pull
+requests they belonged to have merged. For a `pull_request` event the
+concurrency key is that PR's own ref, and nothing will ever push to a closed
+PR's ref again, so nothing supersedes its queued runs. If that holds, the sweep
+is permanently needed for closed-PR orphans at small volume rather than being
+something that ends. **What would confirm it:** check whether every untouched
+group-carrying run belongs to a PR that has since closed. That has not been
+done.
+
 ## The capacity, measured
 
 The repository runs **two concurrent jobs, for the whole repository**. One
