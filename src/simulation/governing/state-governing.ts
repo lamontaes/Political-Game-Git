@@ -4,7 +4,7 @@ import { scheduleFutureDueItem } from "../future-transitions";
 import { createStableId } from "../ids";
 import { createWorkRelationship } from "../life";
 import { activeWorkRelationshipsAt } from "../life-queries";
-import { drawCanonicalName, personName } from "../people";
+import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng, pickDistinct } from "../rng";
 import {
@@ -774,8 +774,10 @@ function createCandidates(
           kind: "context-person",
           input: {
             stableKey,
-            ...drawCanonicalName(rng.fork("name")),
-            identity: generatePersonIdentity(rng.fork("identity")),
+            ...drawCanonicalNamedIdentity(
+              rng.fork("name"),
+              generatePersonIdentity(rng.fork("identity")),
+            ),
             birthDate: makeIsoDate(
               `${anchorYear - rng.integer(34, 62)}-${pad(rng.integer(1, 13))}-${pad(rng.integer(1, 29))}`,
             ),
@@ -1713,9 +1715,9 @@ export function governingFollowUpHandler(
 }
 
 /**
- * Said once a year, in the office's own record: this state's legislature is
- * not compiled, so no bill reaches this desk. It names what is missing rather
- * than filling the desk with an unbound bill.
+ * Said once a year, in the office's own record: this state's legislature has
+ * no written measures, so no bill reaches this desk. It names what is missing
+ * rather than filling the desk with an unbound bill.
  */
 function recordMissingLegislatureNote(
   world: World,
@@ -1740,7 +1742,10 @@ function recordMissingLegislatureNote(
       `office:${office.officeKey}`,
       "governing:no-compiled-legislature",
     ],
-    summary: `No bill reached ${office.title} this session: the game has not compiled ${office.stateUsps}'s legislature, so it files no measures. The office's other work is unaffected.`,
+    // The legislature itself may well be compiled (Nevada's and Illinois's
+    // are, and a player can sit in them): what is missing is written bills
+    // for its other members to file. Saying "not compiled" was untrue there.
+    summary: `No bill reached ${office.title} this session: the game has no bills written for ${office.stateUsps}'s legislature yet, so none were filed. The office's other work is unaffected.`,
     context: emptyContext(),
   });
 }
@@ -1787,7 +1792,7 @@ export function governingSeasonHandler(
         intakeKey: `${office.officeKey}:${due.dueAt}`,
       });
     } else {
-      // No bill is invented for a legislature the game has not compiled. The
+      // No bill is invented for a legislature with no written measures. The
       // office's other work continues, and the gap is stated once a year.
       next = recordMissingLegislatureNote(next, office, due.dueAt);
     }

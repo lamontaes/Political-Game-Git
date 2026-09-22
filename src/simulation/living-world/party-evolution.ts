@@ -18,7 +18,7 @@ import {
   recordOrganizationProfile,
 } from "../life";
 import { organizationParticipationStateAt } from "../life-queries";
-import { drawCanonicalName } from "../people";
+import { drawCanonicalNamedIdentity } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import type {
@@ -269,8 +269,10 @@ export function ensurePartyLeadership(
       const personRng = rng.fork(memberKey(index));
       return {
         stableKey: memberKey(index),
-        ...drawCanonicalName(personRng.fork("name")),
-        identity: generatePersonIdentity(personRng.fork("identity")),
+        ...drawCanonicalNamedIdentity(
+          personRng.fork("name"),
+          generatePersonIdentity(personRng.fork("identity")),
+        ),
         // Adults only: an officer must have been able to hold the role.
         birthDate: makeIsoDate(
           `${Number(date.slice(0, 4)) - personRng.integer(30, 76)}-${String(personRng.integer(1, 13)).padStart(2, "0")}-${String(personRng.integer(1, 29)).padStart(2, "0")}`,
@@ -640,6 +642,15 @@ function openInitiativeFor(world: World, personId: EntityId): boolean {
 }
 
 /**
+ * Separate occasions, not rows. The body can record the same question more than
+ * once on a day — the player route does exactly that — and two presses in one
+ * afternoon are not a dispute that keeps coming back.
+ */
+function occasionsOf(list: readonly PartyBodyDecisionRecord[]): number {
+  return new Set(list.map((decision) => decision.decidedAt)).size;
+}
+
+/**
  * An actor's own consideration of leaving to organize. Only their recorded,
  * repeated disagreement with this body's actual decisions counts, together
  * with whether anyone else on it shares that view. Staying is always there.
@@ -663,10 +674,20 @@ export function assessPartyInitiative(
     ]);
   }
   const ranked = [...disputes.entries()]
-    .filter(([, list]) => list.length >= PARTY_BODY_CADENCE.repeatedDisputes)
-    .sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]));
+    .map(
+      ([key, list]) =>
+        [key, list, occasionsOf(list)] as [
+          string,
+          PartyBodyDecisionRecord[],
+          number,
+        ],
+    )
+    .filter(
+      ([, , occasions]) => occasions >= PARTY_BODY_CADENCE.repeatedDisputes,
+    )
+    .sort((a, b) => b[2] - a[2] || a[0].localeCompare(b[0]));
   if (ranked.length === 0) return NONE;
-  const [questionKey, disputed] = ranked[0]!;
+  const [questionKey, disputed, occasions] = ranked[0]!;
   const stance = partyActorStance(world, personId, questionKey);
   if (stance.strength !== "defining") return NONE;
   const members = partyBodyMembers(world, organizationId);
@@ -713,7 +734,7 @@ export function assessPartyInitiative(
       sourceType: "institution:party-body-decision",
       direction: "supports",
       importance: "strong",
-      confidence: disputed.length >= 3 ? "high" : "medium",
+      confidence: occasions >= 3 ? "high" : "medium",
       explanation:
         "The body keeps deciding against what they hold most firmly.",
       sourceRefs: refs,
@@ -1276,7 +1297,12 @@ export function adoptPartyInitiative(
       }
       next = seedPlatform(next, initiative, created.organizationId);
       next = evolutionRecord(next, initiative, "founded", {
-        fromOrganizationIds: [],
+        // Where they came from, which the founders have just walked out of a
+        // few lines above. Writing [] here said a party organized out of
+        // dissent came from nowhere, discarding the parentage at the moment it
+        // was established. A founding proposed from nothing carries no subject
+        // organizations, so this is still empty for one of those.
+        fromOrganizationIds: initiative.subjectOrganizationIds,
         toOrganizationIds: [created.organizationId],
         movedPersonIds: founders,
         name,
@@ -1766,8 +1792,10 @@ export function ensurePartyGoverningBodies(
           const personRng = rng.fork(memberKey(chapter.organizationId, index));
           return {
             stableKey: memberKey(chapter.organizationId, index),
-            ...drawCanonicalName(personRng.fork("name")),
-            identity: generatePersonIdentity(personRng.fork("identity")),
+            ...drawCanonicalNamedIdentity(
+              personRng.fork("name"),
+              generatePersonIdentity(personRng.fork("identity")),
+            ),
             birthDate: makeIsoDate(
               `${Number(date.slice(0, 4)) - personRng.integer(21, 78)}-${String(personRng.integer(1, 13)).padStart(2, "0")}-${String(personRng.integer(1, 29)).padStart(2, "0")}`,
             ),

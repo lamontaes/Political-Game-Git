@@ -1,0 +1,24 @@
+{
+  "filedAt": "2026-09-22T21:25:00.000Z",
+  "impact": "shapes-design",
+  "lane": "consequences for corruption and laws",
+  "notes": [
+    "Built now: the committee's monthly public report lists payments to the candidate (the purpose stays private); outlets see it through the ordinary news desk; a rival reads it and decides whether to complain; the state regulator's own review of reports opens a matter when nobody complains; a campaign bookkeeper who already raised a payment privately and finds another decides whether to complain outside the campaign.",
+    "Not built: an outside accountant or auditor, a reporter investigating beyond the public record, the FEC's own review of federal reports, prosecutors.",
+    "The filing lag (30 days) and report interval (30 days) are authored, not law."
+  ],
+  "priority": "P1",
+  "question": "How is personal use of campaign funds actually discovered in the United States? For federal and for state campaigns: what share of enforcement cases begin with a complaint by an opponent, with the regulator's own review of filed reports (for the FEC, Reports Analysis Division referrals), with press reporting, with a campaign insider or treasurer, or with an audit; how long after the spending each route typically takes; and how often the filing lists the payee as the candidate versus disguising it?",
+  "questionId": "campaign-misconduct-detection-routes",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Consequences for corruption and laws thread",
+  "sourcesChecked": [
+    {
+      "source": "chatgpt-stress-test-answers-2026-09-22, C04 (scandals)",
+      "whatItDidNotSettle": "Settles that acts, allegations, evidence and findings are separate and that there are no fixed scandal odds; says nothing about who discovers campaign-money misuse or how long it takes."
+    }
+  ],
+  "title": "Who actually catches a candidate spending campaign money on themselves",
+  "usableAnswer": "For federal and for state campaigns: the discovery routes with their rough share of cases and typical time from spending to discovery, sourced; whether filings name the candidate as payee; and which routes the game is missing.",
+  "whyItMatters": "The owner defined this as done when reporters, an accountant, the FEC or regulator, or someone inside the campaign can notice. The routes now exist with authored timing; the timing and weighting should be real."
+}

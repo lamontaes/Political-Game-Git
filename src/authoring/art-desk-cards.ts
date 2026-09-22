@@ -55,10 +55,29 @@ export const ART_DESK_TABS: readonly {
   { key: "archived", label: "Removed from review" },
 ];
 
-/** Owner-facing sections; archive/library classifications remain in history. */
+/**
+ * Owner-facing sections. Library, references, rejected and removed-from-review
+ * art is not on the desk: it stays in history (events, bytes) untouched, but
+ * the desk neither lists nor loads it.
+ */
+const OFF_DESK: ReadonlySet<ArtDeskTab> = new Set([
+  "library",
+  "references",
+  "rejected",
+  "archived",
+]);
 export const ART_DESK_NAV_TABS = ART_DESK_TABS.filter(
-  ({ key }) => key !== "library" && key !== "references",
+  ({ key }) => !OFF_DESK.has(key),
 );
+
+/** A card belongs on the desk only if it is live in some owner-facing tab. */
+export function cardOnDesk(card: { readonly tabs: readonly ArtDeskTab[] }) {
+  return (
+    !card.tabs.includes("rejected") &&
+    !card.tabs.includes("archived") &&
+    card.tabs.some((tab) => !OFF_DESK.has(tab))
+  );
+}
 
 /**
  * Display names from the delivery receipts (CRUNCH46 H5). Keyed by exact

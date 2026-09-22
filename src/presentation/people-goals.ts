@@ -537,9 +537,14 @@ function progressFor(
       interaction.personIds.includes(record.targetEntityId!) &&
       interaction.occurredAt >= record.createdAt,
   );
-  return since.length > 0
+  // Occasions, not rows. A conversation writes one interaction per turn, all
+  // of them on the day it happened, so counting records tells the player they
+  // were in touch four times when they spoke to somebody once.
+  const occasions = new Set(since.map((interaction) => interaction.occurredAt))
+    .size;
+  return occasions > 0
     ? [
-        `You have been in touch ${since.length === 1 ? "once" : `${since.length} times`} since you set this.`,
+        `You have been in touch ${occasions === 1 ? "once" : `${occasions} times`} since you set this.`,
       ]
     : [];
 }

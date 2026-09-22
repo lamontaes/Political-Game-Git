@@ -21,7 +21,8 @@ import {
   createStableId,
   chamberByKey,
   defaultOriginChamber,
-  drawCanonicalName,
+  drawCanonicalNameForGender,
+  catalogPropositionIds,
   introduceMeasure,
   legislativeBlueprint,
   legislativeScenarioKeysForPlace,
@@ -397,7 +398,7 @@ export function openLegislativeWork(
   const rng = new SeededRng(world.seed).fork(
     `legislative-member:${input.scenarioKey}`,
   );
-  const name = drawCanonicalName(rng);
+  const name = drawCanonicalNameForGender(rng, "unstated");
   // The office's member is the same person for every bill it files.
   const sponsorExists =
     !institutional && Boolean(world.people[sponsorPersonId]);
@@ -447,6 +448,7 @@ export function openLegislativeWork(
     subjectClass: content.subjectClass,
     sponsorPersonId,
     originChamberKey: originChamber.chamberKey,
+    propositionIds: catalogPropositionIds(next, content.propositionKeys),
   });
 
   const measureId = createStableId(

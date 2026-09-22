@@ -17,6 +17,7 @@ import {
   availableMeasureSteps,
   COMMITTEE_HEARING_TRANSITION_KEY,
   enrollMeasure,
+  catalogPropositionIds,
   introduceMeasure,
   measureActions,
   measurePosition,
@@ -53,7 +54,7 @@ import {
   floorStageByKey,
 } from "../legislature-rules";
 import type { LegislativeRulePack } from "../legislature-rules";
-import { drawCanonicalName, personName } from "../people";
+import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import {
@@ -700,8 +701,10 @@ export function fileLegislatureMeasure(
   let next = createCharacterHistoryContextPeople(world, [
     {
       stableKey: sponsorKey,
-      ...drawCanonicalName(rng.fork("name")),
-      identity: generatePersonIdentity(rng.fork("identity")),
+      ...drawCanonicalNamedIdentity(
+        rng.fork("name"),
+        generatePersonIdentity(rng.fork("identity")),
+      ),
       birthDate: makeIsoDate(
         `${Number(world.currentDate.slice(0, 4)) - age}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
       ),
@@ -724,6 +727,7 @@ export function fileLegislatureMeasure(
     subjectClass: blueprint.subjectClass,
     sponsorPersonId,
     originChamberKey: originChamber.chamberKey,
+    propositionIds: catalogPropositionIds(next, blueprint.propositionKeys),
   });
   const measure = next.history.legislativeMeasures!.at(-1)!;
   if (blueprint.subjectClass === "appropriation")

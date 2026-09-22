@@ -1,4 +1,4 @@
-import { loadContent } from "../runtime-content.mjs";
+import { loadContentManifest } from "../runtime-content.mjs";
 import { createHash } from "node:crypto";
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
@@ -27,10 +27,58 @@ const labels = (value) =>
   Array.isArray(value) &&
   value.every((item) => typeof item === "string" && item.length <= 240);
 
-/** A projection belongs to one immutable client, never merely to an asset name. */
+/**
+ * The Art Desk asks every few seconds, on the hub's main thread. The answer
+ * only changes when the client tree (stamped by size and times), the content
+ * snapshot or the legacy cache record changes, so it is computed once per
+ * stamp and reused.
+ */
+const usageAnswers = new Map();
 export function selectedArtUsage(build, cacheRoot) {
   if (!build?.clientTreeSha256) return null;
   const client = path.join(build.appPath, "Contents", "Resources", "client");
+  let stamp;
+  try {
+    stamp = [
+      treeStamp(client),
+      build.revision,
+      build.clientTreeSha256,
+      build.content?.id ?? "",
+      build.privatePack?.packId ?? "",
+      build.privatePack?.manifestSha256 ?? "",
+      recordStamp(path.join(cacheRoot, `${build.clientTreeSha256}.json`)),
+      build.content && typeof build.content.cacheRoot === "string"
+        ? recordStamp(
+            path.join(
+              build.content.cacheRoot,
+              "snapshots",
+              `${build.content.id}.json`,
+            ),
+          )
+        : "",
+    ].join("\n");
+  } catch {
+    stamp = null;
+  }
+  const key = `${client}:${cacheRoot}`;
+  const known = stamp && usageAnswers.get(key);
+  if (known && known.stamp === stamp) return known.answer;
+  const answer = computeArtUsage(build, cacheRoot, client);
+  if (stamp) usageAnswers.set(key, { stamp, answer });
+  return answer;
+}
+
+function recordStamp(file) {
+  try {
+    const stat = statSync(file, { bigint: true });
+    return `${stat.size}:${stat.mtimeNs}:${stat.ctimeNs}`;
+  } catch {
+    return "absent";
+  }
+}
+
+/** A projection belongs to one immutable client, never merely to an asset name. */
+function computeArtUsage(build, cacheRoot, client) {
   const selected = {
     revision: build.revision,
     clientTreeSha256: build.clientTreeSha256,
@@ -54,7 +102,7 @@ export function selectedArtUsage(build, cacheRoot) {
   }
   if (build.content) {
     try {
-      const loaded = loadContent(build.content);
+      const loaded = loadContentManifest(build.content);
       const rules = JSON.parse(
         readFileSync(path.join(client, "runtime-art-consumers.json"), "utf8"),
       );

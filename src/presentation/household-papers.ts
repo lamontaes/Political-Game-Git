@@ -1,6 +1,6 @@
 import { workPendingEntriesFor } from "../simulation";
 import type { EntityId, World, WorkFocusTarget } from "../simulation";
-import { projectToday } from "./day-overview";
+import { offersAwaitingAnswer, projectToday } from "./day-overview";
 
 /**
  * The papers in the room, and where each one is answered.
@@ -39,7 +39,12 @@ export type PaperDestination =
   /** Somebody else. Opened as the person, because they are the matter. */
   | { readonly kind: "person"; readonly personId: EntityId }
   /** A surface the player runtime already navigates to by name. */
-  | { readonly kind: "surface"; readonly surface: "work" | "calendar" }
+  | {
+      readonly kind: "surface";
+      readonly surface: "work" | "calendar";
+      /** A section of that surface, when the answer lives in one. */
+      readonly section?: "campaign";
+    }
   /**
    * Answered where the player is already standing, with the time they have.
    * Not a missing route: an errand is done by doing it, and sending somebody
@@ -95,6 +100,7 @@ export function projectHouseholdPapers(
   personId: EntityId,
 ): readonly HouseholdPaper[] {
   const waiting = projectToday(world, personId).waiting;
+  const offers = offersAwaitingAnswer(world, personId);
   // Keyed once, not searched per entry: a long-lived character accumulates
   // work items, and this is read on every render of the room.
   const byStableKey = new Map(
@@ -106,10 +112,23 @@ export function projectHouseholdPapers(
 
   return waiting.map((entry) => {
     if (entry.key.startsWith(WORK_OFFER_PREFIX)) {
+      // A won executive term is answered by qualifying on Campaigns, not by
+      // accepting on Work, so it opens the section that holds the control.
+      const offer = offers.find(
+        (candidate) =>
+          `${WORK_OFFER_PREFIX}${candidate.relationshipId}` === entry.key,
+      );
       return {
         key: entry.key,
         sentence: entry.sentence,
-        destination: { kind: "surface", surface: "work" } as const,
+        destination:
+          offer?.answer === "qualify"
+            ? ({
+                kind: "surface",
+                surface: "work",
+                section: "campaign",
+              } as const)
+            : ({ kind: "surface", surface: "work" } as const),
       };
     }
     const item = byStableKey.get(entry.key);

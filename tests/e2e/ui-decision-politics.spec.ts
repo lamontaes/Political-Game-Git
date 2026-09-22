@@ -100,17 +100,17 @@ for (const size of SIZES) {
     );
     await expect(page.getByTestId("government-place")).toContainText("Here");
     await expect(page.getByTestId("government-place")).toContainText("Alamo");
+    // Alamo is an unincorporated place: no city government is recorded for
+    // it, so the local view draws no branches rather than inventing a body,
+    // an executive or a court (421a6c08). What does govern it is named.
     for (const branch of ["legislative", "executive", "judicial"]) {
-      await expect(
-        page.getByTestId(`government-branch-${branch}`),
-      ).toBeVisible();
+      await expect(page.getByTestId(`government-branch-${branch}`)).toHaveCount(
+        0,
+      );
     }
-    // Local government invents no vacancy; only a saved record may state one.
-    for (const branch of ["legislative", "executive", "judicial"]) {
-      await expect(
-        page.getByTestId(`government-branch-${branch}`),
-      ).not.toContainText(/vacan/i);
-    }
+    await expect(page.getByTestId("government-also-governing")).toContainText(
+      "Lincoln",
+    );
     await expect(page.getByTestId("government-represented-by")).toContainText(
       "Represented by",
     );

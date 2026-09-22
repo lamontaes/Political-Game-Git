@@ -14,6 +14,7 @@ import {
   MEDIA_RESOURCE_TIERS,
   MEDIA_SCOPES,
   MISCONDUCT_FAMILIES,
+  OUTLET_OWNERSHIP_BASES,
   PRESS_POLICY_VERSION,
   PROCEDURE_KEYS,
   PROCEEDING_OUTCOMES,
@@ -174,6 +175,7 @@ export function validatePressRecords(
   const leadDecision = new Map<EntityId, StoryDecision>();
   const closedProceedings = new Set<EntityId>();
   const reporterRoles: ReporterRoleRecord[] = [];
+  const currentOwnership = new Map<EntityId, EntityId>();
   let previousSequence = -1;
 
   const prior = <K extends PressRecord["kind"]>(
@@ -612,6 +614,61 @@ export function validatePressRecords(
               `A response may rest only on the responder's knowledge: ${record.id}`,
             );
           }
+        }
+        break;
+      }
+      case "media-owner": {
+        text(record.name, "owner name");
+        text(record.packId, "owner pack");
+        text(record.rowKey, "owner row");
+        text(record.ownerKind, "owner kind");
+        earlier(record.organizationId, seq, "owner organization");
+        if (record.principalPersonId) {
+          person(record.principalPersonId, "owner");
+        }
+        break;
+      }
+      case "outlet-ownership": {
+        prior(record.outletId, "media-outlet", "ownership");
+        prior(record.ownerId, "media-owner", "ownership");
+        member(OUTLET_OWNERSHIP_BASES, record.basis, "ownership basis");
+        const current = currentOwnership.get(record.outletId) ?? null;
+        if (record.supersedesOwnershipId !== current) {
+          throw new Error(
+            `An ownership record must supersede the outlet's current holding: ${record.id}`,
+          );
+        }
+        if ((record.basis === "acquisition") !== (record.eventId !== null)) {
+          throw new Error(
+            `Only an acquisition carries an acquisition event: ${record.id}`,
+          );
+        }
+        if (record.eventId) earlier(record.eventId, seq, "acquisition event");
+        currentOwnership.set(record.outletId, record.id);
+        break;
+      }
+      case "owner-directive": {
+        prior(record.ownerId, "media-owner", "directive");
+        text(record.practiceKey, "directive practice");
+        text(record.effect, "directive effect");
+        earlier(record.eventId, seq, "directive event");
+        for (const id of record.outletIds) {
+          prior(id, "media-outlet", "directive");
+        }
+        for (const id of record.endedWorkRelationshipIds) {
+          earlier(id, seq, "directive ended job");
+        }
+        if (record.ownershipId) {
+          prior(record.ownershipId, "outlet-ownership", "directive");
+        }
+        if (
+          !record.simulated &&
+          (record.endedWorkRelationshipIds.length > 0 ||
+            record.ownershipId !== null)
+        ) {
+          throw new Error(
+            `A directive whose effect is not simulated cannot change anything: ${record.id}`,
+          );
         }
         break;
       }

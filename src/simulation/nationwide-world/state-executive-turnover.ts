@@ -7,7 +7,7 @@ import {
   electionContestResult,
   scheduleElectionContest,
 } from "../election-contests";
-import { drawCanonicalName } from "../people";
+import { drawCanonicalNamedIdentity } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import { scheduleFutureDueItem } from "../future-transitions";
@@ -209,8 +209,10 @@ function openRegularContest(
     const age = personRng.integer(38, 68);
     return {
       stableKey,
-      ...drawCanonicalName(personRng.fork("name")),
-      identity: generatePersonIdentity(personRng.fork("identity")),
+      ...drawCanonicalNamedIdentity(
+        personRng.fork("name"),
+        generatePersonIdentity(personRng.fork("identity")),
+      ),
       birthDate: makeIsoDate(
         `${year - age}-${pad(personRng.integer(1, 13))}-${pad(personRng.integer(1, 29))}`,
       ),
