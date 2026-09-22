@@ -37,13 +37,15 @@ import {
   existsSync,
   mkdirSync,
   readFileSync,
+  renameSync,
+  rmdirSync,
   statSync,
   writeFileSync,
 } from "node:fs";
 import { createServer } from "node:net";
 import path from "node:path";
 
-import { branchSlug, validBranchName, validRevision } from "./hub-model.mjs";
+import { validBranchName, validRevision } from "./hub-model.mjs";
 
 export function freePort() {
   return new Promise((resolve, reject) => {
@@ -174,8 +176,74 @@ export class ArtDeskHost {
     }
   }
 
-  worktreeFor(branch) {
-    return path.join(this.root, branchSlug(branch), "source");
+  worktreeFor() {
+    return path.join(this.root, "shared", "source");
+  }
+
+  legacyRuntimeWorktree() {
+    try {
+      const record = JSON.parse(
+        readFileSync(path.join(this.root, "ready-runtime.json"), "utf8"),
+      );
+      const candidate = path.resolve(String(record.worktree ?? ""));
+      const relative = path.relative(path.resolve(this.root), candidate);
+      if (
+        !validRevision(record.revision) ||
+        !relative ||
+        relative.startsWith(`..${path.sep}`) ||
+        path.isAbsolute(relative) ||
+        path.basename(candidate) !== "source" ||
+        candidate === this.worktreeFor() ||
+        !existsSync(candidate)
+      )
+        return null;
+      return candidate;
+    } catch {
+      return null;
+    }
+  }
+
+  /**
+   * Move the one older branch-named Art Desk checkout into the shared slot.
+   * `git worktree move` updates Git's own registration while preserving the
+   * installed dependencies and private staged inputs in place. Tracked edits
+   * always stop the migration so another writer's work cannot be overwritten.
+   */
+  async adoptSharedRuntime(repositoryPath) {
+    const shared = this.worktreeFor();
+    if (existsSync(shared)) return null;
+    const legacy = this.legacyRuntimeWorktree();
+    if (!legacy) return null;
+    const trackedChanges = await runQuiet(
+      "/usr/bin/git",
+      ["status", "--porcelain", "--untracked-files=no"],
+      { cwd: legacy, env: this.env, label: "git status" },
+    );
+    if (trackedChanges)
+      throw new Error(
+        "The existing Art Desk workspace has tracked edits, so it was preserved in its current location. Commit or hand off those edits before moving it to the shared art-team workspace.",
+      );
+
+    const oldParent = path.dirname(legacy);
+    const sharedParent = path.dirname(shared);
+    mkdirSync(sharedParent, { recursive: true });
+    await runQuiet("/usr/bin/git", ["worktree", "move", legacy, shared], {
+      cwd: repositoryPath,
+      env: this.env,
+      label: "git worktree move",
+    });
+    for (const marker of [".ocd-hub-artdesk", ".ocd-hub-lock-sha"]) {
+      const oldMarker = path.join(oldParent, marker);
+      const sharedMarker = path.join(sharedParent, marker);
+      if (existsSync(oldMarker) && !existsSync(sharedMarker))
+        renameSync(oldMarker, sharedMarker);
+    }
+    try {
+      rmdirSync(oldParent);
+    } catch {
+      // Leave an old folder alone if it contains anything besides our markers.
+    }
+    return { from: legacy, to: shared };
   }
 
   /**
@@ -206,10 +274,18 @@ export class ArtDeskHost {
       throw new Error(
         "Art Desk source must be a valid branch at an exact SHA.",
       );
-    const worktree = localSource ? repositoryPath : this.worktreeFor(branch);
-    const git = (args, label) =>
-      runQuiet("/usr/bin/git", args, { cwd: worktree, env: this.env, label });
+    const worktree = localSource ? repositoryPath : this.worktreeFor();
     try {
+      if (!localSource && !existsSync(worktree)) {
+        this.#set("preparing", "Moving Art Desk into the shared workspace…");
+        await this.adoptSharedRuntime(repositoryPath);
+      }
+      const git = (args, label) =>
+        runQuiet("/usr/bin/git", args, {
+          cwd: worktree,
+          env: this.env,
+          label,
+        });
       if (localSource) {
         const current = await git(["rev-parse", "HEAD"], "git rev-parse");
         const dirty = await git(
@@ -236,6 +312,12 @@ export class ArtDeskHost {
           "/usr/bin/git",
           ["worktree", "add", "--detach", worktree, revision],
           { cwd: repositoryPath, env: this.env, label: "git worktree add" },
+        );
+      }
+      if (!localSource) {
+        writeFileSync(
+          path.join(path.dirname(worktree), ".ocd-hub-artdesk"),
+          `${branch}\n`,
         );
       }
       const head = await git(["rev-parse", "HEAD"], "git rev-parse");
