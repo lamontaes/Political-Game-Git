@@ -160,6 +160,24 @@ export const OUTDOOR_ENVIRONMENT_CLASSES: readonly EnvironmentClass[] = [
 ];
 
 /**
+ * The outdoor classes whose picture is a piece of countryside, and so has a
+ * landform and a kind of view.
+ *
+ * `landmark-exterior` is outdoors and deliberately not here. Those two fields
+ * exist to match a LANDSCAPE against the terrain a player actually lives in,
+ * and to decide a caption like "typical countryside near here". A landmark is
+ * one named building: it is captioned by its own name, it is not
+ * interchangeable with anything, and asking which of twelve landforms a state
+ * capitol sits on invites fifty unsourced geographic claims in a file the Art
+ * Desk treats as checked. Season still applies, because snow on a dome is a
+ * real difference a player sees.
+ */
+export const LANDSCAPE_FRAMED_OUTDOOR_CLASSES: readonly EnvironmentClass[] =
+  OUTDOOR_ENVIRONMENT_CLASSES.filter(
+    (environmentClass) => environmentClass !== "landmark-exterior",
+  );
+
+/**
  * What a figure request has to declare about the body's posture.
  *
  * The case that proves the need: a person assigned to a chair was drawn by a
@@ -681,14 +699,17 @@ export function validateArtRequestIntake(
             `An outdoor plate must name the seasons it may show. A season written only in prose is how a winter scene ends up standing in for July: nothing can act on it.`,
           );
         }
-        if (!context?.landform) {
+        const landscapeFramed = LANDSCAPE_FRAMED_OUTDOOR_CLASSES.includes(
+          record.environmentClass,
+        );
+        if (landscapeFramed && !context?.landform) {
           error(
             "outdoor-plate-without-landform",
             requestId,
             `An outdoor plate must name its landform. It is what tells two pictures of one place apart from two pictures of different places.`,
           );
         }
-        if (!context?.sceneKind) {
+        if (landscapeFramed && !context?.sceneKind) {
           error(
             "outdoor-plate-without-scene-kind",
             requestId,
