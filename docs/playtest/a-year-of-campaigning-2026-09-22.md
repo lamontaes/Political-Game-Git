@@ -61,6 +61,20 @@ This is the concrete weight behind the first of the three options in
 happen where the player is. That option removes the cost. The guard only
 bounds it.
 
+## RETRACTED: "twelve committed weeks changed nothing visible"
+
+**Withdrawn 2026-09-22 10:35Z**, measured in Denver and written up in
+`no-campaign-session-can-be-carried-out-2026-09-22.md`. The section below read
+an empty treasury as the campaign system sitting still while the player
+worked. The arithmetic in this same walk gives it away: twelve committed
+weeks, forty-eight sessions, forty-eight cleared by *giving up*. Every booking
+that life held was one it could not carry out, so it never campaigned at all.
+
+No campaign session is performable: a committed week holds six bookings and
+not one button is ever enabled. Whether performing one would move the treasury
+is untested, because the door has never been opened. The original section
+follows, wrong in its reading and correct in its numbers.
+
 ## And twelve committed weeks changed nothing visible
 
 After twelve committed weeks of field shifts the treasury still read **USD
