@@ -10,6 +10,7 @@ import {
   projectGoverningBriefing,
   type BriefingMatter,
 } from "../presentation/governing-briefing";
+import { GuideTermText } from "./GuideTerm";
 
 /**
  * GOVERNING: the office briefing inside Work. A few matters that need the
@@ -115,7 +116,9 @@ function MatterCard({
   return (
     <li className="governing-matter" data-testid="governing-matter">
       <h5>{matter.title}</h5>
-      <p>{matter.ask}</p>
+      <p>
+        <GuideTermText text={matter.ask} />
+      </p>
       <p className="game-note">
         {`Decide by ${matter.deadline}`}
         {matter.daysLeft >= 0 ? ` (${matter.daysLeft} days).` : "."}
@@ -160,7 +163,9 @@ function MatterCard({
             </li>
           ))}
         </ul>
-        <p>{`If nothing is decided: ${matter.ifIgnored}`}</p>
+        <p>
+          <GuideTermText text={`If nothing is decided: ${matter.ifIgnored}`} />
+        </p>
       </details>
     </li>
   );

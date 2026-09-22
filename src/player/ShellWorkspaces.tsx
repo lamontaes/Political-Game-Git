@@ -1755,12 +1755,20 @@ export function PatchNotesWorkspace() {
       <p className="game-band" data-testid="patch-notes-version">
         Version {CANONICAL_VERSION}
       </p>
-      <p className="game-note" data-testid="patch-notes-build">
-        Running source {identity.revision}
-        {identity.dirty ? " · uncommitted changes" : " · clean source"}. This
-        identifies this game bundle, not the installed controller or a different
-        saved life.
-      </p>
+      {/*
+        The build stamp is a revision, which is a fact about where this bundle
+        came from rather than anything in the game. It stays readable on a
+        developer surface and stops being part of the patch notes a player
+        opens.
+      */}
+      {DIAGNOSTICS ? (
+        <p className="game-note" data-testid="patch-notes-build">
+          Running source {identity.revision}
+          {identity.dirty ? " · uncommitted changes" : " · clean source"}. This
+          identifies this game bundle, not the installed controller or a
+          different saved life.
+        </p>
+      ) : null}
       {released.map((section) => (
         <section
           key={section.id}
