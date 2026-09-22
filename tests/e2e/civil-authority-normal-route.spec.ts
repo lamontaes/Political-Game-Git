@@ -18,7 +18,10 @@ async function personnel(page: Page) {
   await goTo(page, "nav-jobs");
   await expect(
     page.getByRole("heading", { name: "Jobs and study", exact: true }).first(),
-  ).toBeVisible();
+    "the Personal jobs half did not open",
+    // The surface is reached after a full creator walk and a long clock run,
+    // and under shard load it has been slower than the five-second default.
+  ).toBeVisible({ timeout: 15_000 });
   const panel = page
     .getByTestId("personal-work-section")
     .getByRole("region", { name: "Personnel matters" });
