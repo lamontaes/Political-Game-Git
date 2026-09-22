@@ -82,9 +82,9 @@
     },
     {
       "request_id": "legislative-step-pacing-and-veto-override",
-      "answer_section": "A09",
-      "disposition": "answered-model-direction",
-      "remaining": "No override coin flip; existing researched threshold/actual member decisions. Complete current local schedules remain with source owner.",
+      "answer_section": "A09; A14; clock-and-tax/CLOCK-AND-TAX-RECEIVING.md",
+      "disposition": "answered-model-direction-with-nine-scoped-rule-inputs",
+      "remaining": "Exact receiving profiles/calendars/waivers and remaining national coverage remain incomplete; no existing-rule regression or runtime execution performed by director.",
       "implementation": "Not implemented or tested by this director batch; existing source owner receives and verifies."
     },
     {
@@ -117,9 +117,9 @@
     },
     {
       "request_id": "policy-domain-crosswalk-13-127-to-14-92",
-      "answer_section": "A13",
-      "disposition": "exact-data-pending",
-      "remaining": "Preserve working IDs/positions now; the actual bidirectional127/92row map is not delivered by this batch.",
+      "answer_section": "A13; policy-crosswalk/POLICY-CROSSWALK-92-127.md",
+      "disposition": "answered-with-complete-row-mapping",
+      "remaining": "Existing policy owner validates actual loader/ID sets, saved references and view consumers; no destructive replacement or issue rekeying.",
       "implementation": "Not implemented or tested by this director batch; existing source owner receives and verifies."
     },
     {
@@ -136,5 +136,6 @@
     "puerto-rico-government-and-municipios",
     "regional-scene-place-ids",
     "school-name-plausibility-by-state-and-era"
-  ]
+  ],
+  "latest_continuation": "2026-09-22T20:15:13.778830+00:00"
 }

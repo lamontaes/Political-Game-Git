@@ -103,6 +103,14 @@ function timeText(iso) {
       });
 }
 
+/** The player-facing release number of a build record, or null. */
+function releaseVersion(build) {
+  return typeof build?.version === "string" &&
+    /^\d+\.\d+\.\d+$/.test(build.version)
+    ? `v${build.version}`
+    : null;
+}
+
 function render(state) {
   last = state;
   for (const button of document.querySelectorAll("[data-tab]"))
@@ -136,6 +144,8 @@ function render(state) {
       }`;
   } else {
     html += `<strong>${esc(item.title)}</strong>`;
+    const shownVersion = releaseVersion(selected?.current);
+    if (shownVersion) html += ` · ${esc(shownVersion)}`;
     // A recorded build whose payload is gone says so here, not "verified".
     // The pill above already carries the needs-rebuild wording, so the
     // sentence names the reason instead of repeating it.
@@ -189,9 +199,13 @@ function render(state) {
   const switching = Boolean(chosen) && state.activeTab === "play";
   $("switch-version").hidden = !switching;
   $("apply").hidden = switching || !selected?.pending;
-  $("apply").textContent = selected?.pending
-    ? `Install update ${selected.pending.revision.slice(0, 7)}`
-    : "Install update";
+  // A pending build that carries a newer release number names it; one that
+  // is the same release rebuilt from newer main is just "Install update".
+  const pendingVersion = releaseVersion(selected?.pending);
+  $("apply").textContent =
+    pendingVersion && pendingVersion !== releaseVersion(selected?.current)
+      ? `Install update ${pendingVersion}`
+      : "Install update";
   $("return-main").hidden = state.selectedTrack === "main";
   $("cancel-build").hidden = !building;
   $("return-title").hidden = state.activeTab !== "play" || !state.loaded;

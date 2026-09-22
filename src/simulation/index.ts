@@ -251,6 +251,7 @@ export * from "./legislative-election-rules";
 export * from "./legislative-office-terms";
 export * from "./constitutional-process";
 export type * from "./constitutional-types";
+export * from "./enacted-rule-changes";
 export * from "./tax-policy";
 export type * from "./tax-types";
 
