@@ -442,6 +442,25 @@ is not researched twice.
   top of that report by people who never read its header — the screen and the
   report had never disagreed with each other. Read the header before you build
   on the numbers.
+- **Three from the audit lane, written up in full rather than restated here.**
+  `docs/findings/2026-09-22-statute-citations-on-player-screens.md`, under
+  "Process findings from doing this work". In short: **a watch should be a
+  notification, not an action**, because an automation that acts carries the
+  conditions of the moment it was written and those are exactly what nobody
+  re-checks — theirs would have merged into a frozen main, and the conditions
+  around its trigger reversed twice inside half an hour. **Merge up eagerly and
+  gate once at the end**, because a merge-up is cheap to repeat and a gate run
+  is not; two lanes reached that independently, which is what made it a
+  decision rather than an opinion. And **a stale explanation is worse than
+  none, because the reader believes it** — it covered a superseded CI warning
+  left standing, a PR body naming a head three heads old, and a draft state
+  nobody had noticed. Their document is the copy; this is the pointer, for the
+  reason two bullets down.
+- **A click list is a scarce resource and each item on it costs a decision.**
+  The same lane had three findings to deliver during a merge freeze and added
+  them to a document already on a PR the owner was going to click, rather than
+  opening a third PR. One more commit on an item he is already clicking costs
+  him nothing; a new PR costs him a choice about whether to click it.
 - **A render replaces a published document wholesale, so it must come from a
   head that carries every record.** The open-questions queue is filed
   one-file-per-record across many branches. A sweep of every pushed branch, run
