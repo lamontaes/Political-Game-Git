@@ -1,5 +1,6 @@
 import {
   ENGINE_PEOPLE29_CHARACTER_LIBRARY,
+  ENGINE_PEOPLE29_INPUT_ERROR,
   ENGINE_PEOPLE29_VISUAL_LIBRARY,
   ENGINE_PEOPLE29_POSE_ART,
 } from "./engine-people29-review";
@@ -61,10 +62,10 @@ export const ART_PREVIEW_VALUE = "candidate";
 
 /** Said on screen, so nobody mistakes a preview for the shipped game. */
 export const ART_PREVIEW_LABEL =
-  "Development art preview — unreleased candidate art, not approved";
+  "Private preview · Some artwork is still awaiting review";
 
 export const INTERNAL_ART_REVIEW_LABEL =
-  "Internal art review — unreleased candidate art, not approved";
+  "Private preview · Some artwork is still awaiting review";
 
 /**
  * What the banner says when the mode is on and the art is not there.
@@ -86,6 +87,7 @@ export const ART_PREVIEW_UNAVAILABLE_LABEL =
   "Development art preview — the candidate art bank is not in this checkout, so the ordinary appearance is what is drawn";
 
 export interface ArtPreviewLibraries {
+  readonly unavailableReason?: string;
   readonly characters: CharacterComponentLibrary;
   readonly visuals: RuntimeVisualLibrary;
   readonly poseArt: PoseArtIndex;
@@ -146,6 +148,12 @@ export function artPreviewLibraries(
 ): ArtPreviewLibraries | null {
   if (mode !== "candidate-review") return null;
   return {
+    ...(ENGINE_PEOPLE29_INPUT_ERROR
+      ? {
+          unavailableReason:
+            "Character artwork is unavailable. The installed character pack needs repair.",
+        }
+      : {}),
     characters: ENGINE_PEOPLE29_CHARACTER_LIBRARY,
     visuals: ENGINE_PEOPLE29_VISUAL_LIBRARY,
     poseArt: ENGINE_PEOPLE29_POSE_ART,
@@ -181,6 +189,8 @@ export function previewArtRefusal(
   person: { readonly birthDate?: string | null; readonly id: string },
   currentDate: string,
 ): string | null {
+  if (ENGINE_PEOPLE29_INPUT_ERROR)
+    return "Character artwork is unavailable. The installed character pack needs repair.";
   if (!person.birthDate) return "candidate-bank: no birth date to check age";
   let years: number;
   try {

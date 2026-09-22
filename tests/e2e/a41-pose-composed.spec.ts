@@ -1,3 +1,4 @@
+import { privateModularInputs } from "../../src/presentation/private-test-inputs";
 import { writeFileSync } from "node:fs";
 import type { World } from "../../src/simulation";
 import { expect, test, type Page } from "./fixtures";
@@ -168,3 +169,14 @@ for (const [generation, width, height, age, seed] of [
     );
   });
 }
+
+// A public checkout cannot exercise this private-art route. Required delivery mode fails instead of skipping.
+const privateInputsReady = privateModularInputs("a41-pose-composed.spec.ts", [
+  "art/manifest/character_candidate_engine29_registry.json",
+  "art/manifest/character_candidate_engine41_registry.json",
+  "art/manifest/character_candidate_modular45_registry.json",
+]);
+test.skip(
+  !privateInputsReady,
+  "NOT_TESTED: requires the matching installed MODULAR generation-16 pack (including historical engine29/41 inputs).",
+);

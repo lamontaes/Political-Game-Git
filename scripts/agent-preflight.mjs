@@ -1,6 +1,7 @@
 /* global console, process */
 import { execSync } from "child_process";
 import { statfsSync } from "node:fs";
+import { createStorageGuard } from "./storage/storage-guard.mjs";
 
 function runCmd(cmd) {
   try {
@@ -34,10 +35,12 @@ function formatBytes(bytes) {
 /**
  * Free space on the filesystem holding the workspace.
  *
- * Informational only. Large test and source runs have repeatedly hit ENOSPC
- * here, and the useful thing is seeing that coming — not a gate. This never
- * fails preflight, never deletes anything, and reports "unavailable" rather
- * than guessing when the platform does not answer.
+ * This WAS informational only, and the volume reached ENOSPC twice in one
+ * night with preflight printing a number nobody had to act on. It is a gate
+ * now: below the configured reserve, preflight fails. It still never deletes
+ * anything, and reports "unavailable" rather than guessing when the platform
+ * does not answer. `OCD_STORAGE_OVERRIDE="reason"` records a deliberate
+ * bypass.
  */
 function diskCapacity(path) {
   try {
@@ -67,11 +70,35 @@ const workspace = process.cwd();
 console.log(`Workspace: ${workspace}`);
 
 const capacity = diskCapacity(workspace);
+const storage = createStorageGuard();
+const reserveBytes = storage.policy.freeSpaceReserveBytes;
 console.log(
   capacity
-    ? `Disk (workspace filesystem): ${formatBytes(capacity.free)} free of ${formatBytes(capacity.total)} (informational; preflight does not gate or clean)`
+    ? `Disk (workspace filesystem): ${formatBytes(capacity.free)} free of ${formatBytes(capacity.total)}; reserve ${formatBytes(reserveBytes)} (gate; preflight never cleans)`
     : "Disk (workspace filesystem): unavailable",
 );
+const registered = storage
+  .registry()
+  .workspaces.find(
+    (entry) => entry.state === "active" && entry.path === workspace,
+  );
+console.log(
+  registered
+    ? `Registered workspace: ${registered.owner} (${registered.role})`
+    : "Registered workspace: NO — this folder is not on the workspace map (npm run storage -- register)",
+);
+if (capacity && capacity.free < reserveBytes) {
+  if (process.env.OCD_STORAGE_OVERRIDE) {
+    console.warn(
+      `WARNING: below the storage reserve; overridden: ${process.env.OCD_STORAGE_OVERRIDE}`,
+    );
+  } else {
+    console.error(
+      `Error: ${formatBytes(capacity.free)} free is below the ${formatBytes(reserveBytes)} storage reserve. Free space (npm run storage -- outputs, npm run storage -- status) before substantial work.`,
+    );
+    process.exit(3);
+  }
+}
 
 const branch = runCmd("git branch --show-current");
 if (!branch) {

@@ -1,3 +1,9 @@
+import {
+  NATIVE_SAVE_EVENT,
+  NATIVE_SESSION_QUERY_EVENT,
+  type NativeSaveRequest,
+  type NativeSessionQuery,
+} from "./native-session-bridge";
 import { CreatorAppearanceStep } from "./CreatorAppearanceStep";
 import { LifeContinuationPanel } from "./LifeContinuationPanel";
 import { RetireFromPlayAction } from "./RetireFromPlayAction";
@@ -22,12 +28,9 @@ import { projectLocationSurfaces } from "../presentation/location-surfaces";
 import { locationReviewVisuals } from "../presentation/location-art-review";
 import { PressWorkspace } from "./PressWorkspace";
 import { ContentPackWorkspace } from "./ContentPackWorkspace";
-import { birthdayProblemForSetup } from "../presentation/new-game-birthday";
+import { resolveCreatorBirthday } from "../presentation/creator-full-birthday";
 import { CreatorBirthdayFields } from "./CreatorBirthdayFields";
-import {
-  HOMETOWN_PAGE_SIZE,
-  projectHometownPage,
-} from "../presentation/creator-hometown-page";
+import { projectHometownPage } from "../presentation/creator-hometown-page";
 import { previewCreatorNames } from "../presentation/creator-name-preview";
 import {
   creatorBirthDate,
@@ -196,6 +199,10 @@ import {
 } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
 import { SceneBackdrop } from "./SceneBackdrop";
+import { projectLivingSceneSurface } from "../presentation/living-scene-surfaces";
+import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
+import { PUBLIC_MEETING_ROOM_SCENE_ID } from "../presentation/scene-registry";
+import { OrdinaryMeetingPanel } from "./OrdinaryMeetingPanel";
 import { RoomPapers } from "./RoomPapers";
 import {
   AmbientTableau,
@@ -593,6 +600,28 @@ export function PlayerGame() {
     setProblem(null);
   }
 
+  useEffect(() => {
+    const query = (event: Event) => {
+      (event as NativeSessionQuery).detail?.respond(
+        screen.kind === "playing" && session !== null,
+      );
+    };
+    window.addEventListener(NATIVE_SESSION_QUERY_EVENT, query);
+    return () => window.removeEventListener(NATIVE_SESSION_QUERY_EVENT, query);
+  }, [screen.kind, session]);
+
+  useEffect(() => {
+    const query = (event: Event) => {
+      const detail = (
+        event as CustomEvent<{ respond: (idle: boolean) => void }>
+      ).detail;
+      detail?.respond(screen.kind === "title");
+    };
+    window.addEventListener("ocd:query-update-boundary", query);
+    if (screen.kind === "title") window.ocdDesktop?.titleReady?.();
+    return () => window.removeEventListener("ocd:query-update-boundary", query);
+  }, [screen.kind]);
+
   const saveInFlight = useRef(false);
   async function keepThisWorld(shellState: StoredShellState): Promise<boolean> {
     if (!session || !store || saveInFlight.current) return false;
@@ -623,7 +652,7 @@ export function PlayerGame() {
           : "Your life was saved, but your pins and display preferences could not be kept.",
       );
       await refreshSaves();
-      return true;
+      return shellSaved;
     } catch {
       setProblem("This game could not be saved just now.");
       return false;
@@ -700,8 +729,10 @@ export function PlayerGame() {
    * what it could not write; if something could not be written, the session
    * stays on screen so the player still has it.
    */
-  async function leaveGame() {
-    if (store) {
+  async function leaveGame(discard = false): Promise<boolean> {
+    if (discard && store && session?.saveId)
+      await store.discardPending(session.saveId);
+    if (store && !discard) {
       const flushed = await store.flush();
       if (flushed.status === "unsaved") {
         setProblem(
@@ -709,14 +740,16 @@ export function PlayerGame() {
         );
         finishReturnToTitle("save-failed");
         await refreshSaves();
-        return;
+        return false;
       }
     }
     setSession(null);
     setScreen({ kind: "title" });
     setNotice(null);
+    setProblem(null);
     finishReturnToTitle("title");
     await refreshSaves();
+    return true;
   }
 
   // A Return to title in progress (Options or the desktop hub), so its
@@ -729,6 +762,32 @@ export function PlayerGame() {
     returnToTitleRequest.current = null;
     reportReturnToTitle(request, outcome);
   }
+
+  useEffect(() => {
+    if (screen.kind === "playing") return;
+    const returnFromOpening = (event: Event) => {
+      event.preventDefault();
+      const hasDraft = ["setup", "questionnaire", "transition"].includes(
+        screen.kind,
+      );
+      const leave =
+        !hasDraft ||
+        window.confirm(
+          "Return to the title screen? Your unfinished character setup will be discarded. Your saved lives will be kept.",
+        );
+      if (leave) setScreen({ kind: "title" });
+      reportReturnToTitle(
+        { fromHub: true, leaving: leave },
+        leave ? "title" : "cancelled",
+      );
+    };
+    window.addEventListener(RETURN_TO_TITLE_REQUEST_EVENT, returnFromOpening);
+    return () =>
+      window.removeEventListener(
+        RETURN_TO_TITLE_REQUEST_EVENT,
+        returnFromOpening,
+      );
+  }, [screen.kind]);
 
   /*
    * One room, held across the whole opening.
@@ -752,6 +811,7 @@ export function PlayerGame() {
         {() => (
           <TitleScreen
             saves={saves}
+            damaged={damaged}
             savesUnavailable={savesUnavailable}
             problem={problem}
             onNewGame={() => {
@@ -980,15 +1040,14 @@ export function PlayerGame() {
           return { ...current, personId: change.personId, world: next };
         });
       }}
-      onKeep={(shellState) => void keepThisWorld(shellState)}
-      onLeave={() => void leaveGame()}
+      onKeep={keepThisWorld}
+      onLeave={() => void leaveGame(true)}
       returnToTitleRequest={returnToTitleRequest}
-      onSaveAndLeave={(shellState) =>
-        void (async () => {
-          if (await keepThisWorld(shellState)) await leaveGame();
-          else finishReturnToTitle("save-failed");
-        })()
-      }
+      onSaveAndLeave={async (shellState) => {
+        if (await keepThisWorld(shellState)) return leaveGame();
+        finishReturnToTitle("save-failed");
+        return false;
+      }}
       onReturnToTitleCancelled={() => finishReturnToTitle("cancelled")}
       savesUnavailable={savesUnavailable}
     />
@@ -1102,22 +1161,19 @@ function SetupScreen({
         state.usps.toLowerCase() === needle,
     );
   }, [stateQuery]);
-  /*
-   * One honest page of towns (UI FINISH). The same accepted search, asked for
-   * every match, then shown a page at a time with a line saying which page —
-   * a short first slice is never presented as the whole state.
-   */
-  const [placeOffset, setPlaceOffset] = useState(0);
-  useEffect(() => {
-    setPlaceOffset(0);
-  }, [location.stateJurisdictionKey, placeQuery]);
+  // One searchable, alphabetized scroll surface; no manual next-page action.
   const placePage = useMemo(() => {
     if (!location.stateJurisdictionKey) return null;
-    return projectHometownPage(placeQuery, placeOffset, {
-      stateJurisdictionKey: location.stateJurisdictionKey,
-      scope: "locality",
-    });
-  }, [location.stateJurisdictionKey, placeQuery, placeOffset]);
+    return projectHometownPage(
+      placeQuery,
+      0,
+      {
+        stateJurisdictionKey: location.stateJurisdictionKey,
+        scope: "locality",
+      },
+      Number.MAX_SAFE_INTEGER,
+    );
+  }, [location.stateJurisdictionKey, placeQuery]);
   const matchingPlaces = placePage?.places ?? [];
   const [nameDraws, setNameDraws] = useState(0);
   const statewidePlace =
@@ -1181,7 +1237,6 @@ function SetupScreen({
   };
 
   const problems = newGameSetupProblems(committed);
-  const birthdayProblem = birthdayProblemForSetup(committed);
   /*
    * Not answering is different from entering an invalid age: both keep Next
    * disabled, but only an entered invalid value needs an error message.
@@ -1213,7 +1268,12 @@ function SetupScreen({
     setup.startAge >= STATE_AGENCY_START_MINIMUM_AGE &&
     stateAgencyStartAvailableFor(place?.stateJurisdictionKey ?? null);
   const chosenGender = statedCreatorGender(setup.gender);
-  const characterMissing = creatorCharacterMissing(committed, ageChosen);
+  const characterMissing = creatorCharacterMissing(committed, ageChosen).filter(
+    (field) => field !== "birthday",
+  );
+  const [birthdayCompletionProblem, setBirthdayCompletionProblem] = useState<
+    string | null
+  >(null);
   const characterHint = creatorCharacterHint(characterMissing);
   const birthDate = ageChosen ? creatorBirthDate(setup) : null;
   // The compact summaries the finished steps collapse to.
@@ -1258,25 +1318,27 @@ function SetupScreen({
             reopen; this is what keeps the whole active step inside the viewport
             instead of stacking every section into a scrolling column.
           */}
-      {steps
-        .filter(
-          (step) =>
-            step !== "begin" && isDone(step) && Boolean(summaryText[step]),
-        )
-        .map((step) => (
-          <button
-            key={step}
-            type="button"
-            className="creator-summary"
-            data-testid={`creator-summary-${step}`}
-            onClick={() => reopen(step)}
-          >
-            <span className="creator-summary-value">{summaryText[step]}</span>
-            <span className="creator-summary-edit" aria-hidden="true">
-              Change
-            </span>
-          </button>
-        ))}
+      <div className="creator-summaries">
+        {steps
+          .filter(
+            (step) =>
+              step !== "begin" && isDone(step) && Boolean(summaryText[step]),
+          )
+          .map((step) => (
+            <button
+              key={step}
+              type="button"
+              className="creator-summary"
+              data-testid={`creator-summary-${step}`}
+              onClick={() => reopen(step)}
+            >
+              <span className="creator-summary-value">{summaryText[step]}</span>
+              <span className="creator-summary-edit" aria-hidden="true">
+                Change
+              </span>
+            </button>
+          ))}
+      </div>
 
       {isCurrent("route") ? (
         <section data-testid="creator-stage-route">
@@ -1454,12 +1516,20 @@ function SetupScreen({
             aria-describedby={
               characterHint ? "creator-character-missing" : undefined
             }
-            disabled={
-              characterMissing.length > 0 ||
-              birthdayProblem !== null ||
-              !ageUsable
-            }
-            onClick={() => advanceTo("place")}
+            disabled={characterMissing.length > 0 || (ageChosen && !ageUsable)}
+            onClick={() => {
+              const completed = resolveCreatorBirthday(setup, ageChosen);
+              if (!completed) {
+                setBirthdayCompletionProblem(
+                  "These date fields do not form a supported birthday. Check the day, month and year.",
+                );
+                return;
+              }
+              setBirthdayCompletionProblem(null);
+              setSetup(completed);
+              setAgeChosen(true);
+              advanceTo("place");
+            }}
           >
             Next
           </button>
@@ -1471,6 +1541,9 @@ function SetupScreen({
             >
               {characterHint}
             </p>
+          ) : null}
+          {birthdayCompletionProblem ? (
+            <p role="alert">{birthdayCompletionProblem}</p>
           ) : null}
         </section>
       ) : null}
@@ -1581,7 +1654,13 @@ function SetupScreen({
                 </div>
               ) : null}
               {placeListOpen && matchingPlaces.length > 0 ? (
-                <div className="game-choices" data-testid="place-choices">
+                <div
+                  className="game-choices creator-place-scroll"
+                  data-testid="place-choices"
+                  key={`${location.stateJurisdictionKey}:${placeQuery}`}
+                  tabIndex={0}
+                  aria-label="Hometowns"
+                >
                   {matchingPlaces.map((candidate) => (
                     <button
                       key={candidate.key}
@@ -1629,30 +1708,6 @@ function SetupScreen({
                   >
                     {placePage.status}
                   </p>
-                  {placePage.pageCount > 1 ? (
-                    <div className="game-choices game-choices-inline">
-                      <button
-                        type="button"
-                        data-testid="place-page-previous"
-                        disabled={!placePage.hasPrevious}
-                        onClick={() =>
-                          setPlaceOffset(placePage.offset - HOMETOWN_PAGE_SIZE)
-                        }
-                      >
-                        Previous places
-                      </button>
-                      <button
-                        type="button"
-                        data-testid="place-page-next"
-                        disabled={!placePage.hasNext}
-                        onClick={() =>
-                          setPlaceOffset(placePage.offset + HOMETOWN_PAGE_SIZE)
-                        }
-                      >
-                        More places
-                      </button>
-                    </div>
-                  ) : null}
                 </div>
               ) : placeListOpen && placeQuery.trim().length === 0 ? (
                 <p className="game-note" data-testid="place-prompt">
@@ -1703,11 +1758,7 @@ function SetupScreen({
                     className="game-hint"
                     data-testid={`place-${fact.kind}`}
                   >
-                    {fact.kind === "county"
-                      ? fact.asOf
-                        ? `${fact.text} · ${fact.asOf.slice(0, 4)}`
-                        : fact.text
-                      : fact.text}
+                    {fact.text}
                   </p>
                 ))}
               {populationFacts.map((fact) => (
@@ -1716,17 +1767,9 @@ function SetupScreen({
                   className="game-hint"
                   data-testid="place-population"
                 >
-                  {fact.asOf
-                    ? `${fact.text} · ${fact.geography} · ${fact.asOf}`
+                  {fact.geography
+                    ? `${fact.text} · ${fact.geography}`
                     : fact.text}
-                  {fact.attribution ? (
-                    <span
-                      className="creator-place-attribution"
-                      data-testid="place-population-source"
-                    >
-                      {fact.attribution}
-                    </span>
-                  ) : null}
                 </p>
               ))}
               {replacingPlace ? null : (
@@ -1939,12 +1982,8 @@ function SetupScreen({
         <section data-testid="creator-stage-whoareyou">
           <h2>Who are you?</h2>
           <p className="game-note" data-testid="whoareyou-note">
-            This is optional. A few questions help the game understand what
-            matters to you, so the situations it puts in front of you land
-            closer to home. The world remembers what you choose — some things
-            fade, some echo back years later — but nothing here locks a path or
-            decides who you become. You can skip it and let the game learn from
-            how you actually play.
+            A few imagined situations. Choose what you would do, or skip. These
+            answers do not write your character’s biography.
           </p>
           <div className="game-choices" data-testid="whoareyou-choices">
             <button
@@ -2115,9 +2154,8 @@ function QuestionnaireScreenView({
             nothing about who the character becomes.
           */}
       <p className="game-note" data-testid="questionnaire-framing">
-        These are about you, not your character. They help the game understand
-        how you decide, so it can put the right kind of thing in front of you.
-        Nothing here locks a path, and you can begin whenever you like.
+        These are imagined situations. Choose what you would do, or skip. These
+        answers do not write your character’s biography.
       </p>
       <p className="game-band" data-testid="questionnaire-progress">
         {PHASE_LINE[screen.phase]}
@@ -2363,12 +2401,12 @@ function PlayingScreen({
       | { readonly kind: "observing" }
       | { readonly kind: "retired" },
   ) => void;
-  readonly onKeep: (shellState: StoredShellState) => void;
+  readonly onKeep: (shellState: StoredShellState) => Promise<boolean>;
   readonly onLeave: () => void;
   /** Set while a Return to title (Options or desktop hub) is in progress. */
   readonly returnToTitleRequest: { current: ReturnToTitleRequest | null };
   /** "Save first" during a Return to title: save, then go to the title. */
-  readonly onSaveAndLeave: (shellState: StoredShellState) => void;
+  readonly onSaveAndLeave: (shellState: StoredShellState) => Promise<boolean>;
   readonly onReturnToTitleCancelled: () => void;
   readonly savesUnavailable: boolean;
   /**
@@ -2574,6 +2612,24 @@ function PlayingScreen({
   );
 
   const playScene = useMemo(() => {
+    const meeting = projectOrdinaryMeetingScene(
+      session.world,
+      session.personId,
+    );
+    if (meeting)
+      return {
+        purpose: "activity" as const,
+        locationKey: meeting.location.locationKey,
+        sceneId: PUBLIC_MEETING_ROOM_SCENE_ID,
+        reason: "Recorded meeting entry or immediate aftermath.",
+        placeLabel: meeting.location.label,
+        presentPeople: meeting.actors.map((actor) => ({
+          personId: actor.personId,
+          name: actor.name,
+          relationship: null,
+          introduction: actor.role,
+        })),
+      };
     if (!continuingLifeShown)
       return resolveOpeningPlaySceneContext(
         session.world,
@@ -2623,6 +2679,29 @@ function PlayingScreen({
   ]);
 
   const sceneId = playScene.sceneId;
+  const readableSurfaces = useMemo(() => {
+    const news = projectLivingSceneSurface(session.world, session.personId, {
+      kind: "news",
+    });
+    const records = new Map([
+      ["living-room-television", news],
+      ["coffee-table-papers", news],
+    ]);
+    const meeting = projectOrdinaryMeetingScene(
+      session.world,
+      session.personId,
+    );
+    if (meeting)
+      records.set(
+        "lectern-notes",
+        projectLivingSceneSurface(
+          session.world,
+          session.personId,
+          meeting.agendaSelection,
+        ),
+      );
+    return records;
+  }, [session.world, session.personId]);
 
   /*
     What is waiting on this character, with the route that answers each thing.
@@ -2862,6 +2941,14 @@ function PlayingScreen({
             group: "politics",
           },
     );
+    entries.push({
+      surface: "government-map",
+      label: "Map",
+      hint: "Places and government",
+      testid: "nav-government-map",
+      open: openSurface === "government-map",
+      group: "politics",
+    });
     entries.push({
       surface: "news",
       label: "News",
@@ -3145,7 +3232,41 @@ function PlayingScreen({
     view.surface === "scene" &&
     (!observing || continuationOpen);
 
-  const needsLeaveConfirmation = session.saveId === null && !savesUnavailable;
+  const nativeSave = useRef(() => Promise.resolve(false));
+  nativeSave.current = () =>
+    onKeep({
+      pins: shell.pins,
+      preferences: shell.preferences,
+      journal: shell.legacyJournal,
+      journals: shell.journals,
+      personWardrobes: shell.personWardrobes,
+      progress: shell.progress,
+    });
+  useEffect(() => {
+    const save = (event: Event) => {
+      const request = event as NativeSaveRequest;
+      if (typeof request.detail?.complete !== "function") return;
+      event.preventDefault();
+      void nativeSave
+        .current()
+        .then(request.detail.complete, () => request.detail.complete(false));
+    };
+    window.addEventListener(NATIVE_SAVE_EVENT, save);
+    return () => window.removeEventListener(NATIVE_SAVE_EVENT, save);
+  }, []);
+
+  const needsLeaveConfirmation = true;
+  const [savingToTitle, setSavingToTitle] = useState(false);
+  useEffect(() => {
+    if (!savingToTitle) return;
+    const keepSaving = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    };
+    document.addEventListener("keydown", keepSaving, true);
+    return () => document.removeEventListener("keydown", keepSaving, true);
+  }, [savingToTitle]);
 
   function leaveNow() {
     if (returnToTitleRequest.current) {
@@ -3155,9 +3276,32 @@ function PlayingScreen({
   }
 
   function beginReturnToTitle(fromHub: boolean) {
+    if (returnToTitleRequest.current || savingToTitle) return;
     returnToTitleRequest.current = { fromHub, leaving: false };
-    if (needsLeaveConfirmation) dispatch({ type: "ask-leave" });
-    else leaveNow();
+    dispatch({ type: "ask-leave" });
+  }
+
+  async function saveAndReturnToTitle() {
+    if (savingToTitle) return;
+    const request = returnToTitleRequest.current;
+    if (request) request.leaving = true;
+    setSavingToTitle(true);
+    try {
+      const saved = await onSaveAndLeave({
+        pins: shell.pins,
+        preferences: shell.preferences,
+        journal: shell.legacyJournal,
+        journals: shell.journals,
+        personWardrobes: shell.personWardrobes,
+        progress: shell.progress,
+      });
+      if (!saved && request) {
+        request.leaving = false;
+        returnToTitleRequest.current = request;
+      }
+    } finally {
+      setSavingToTitle(false);
+    }
   }
 
   // The desktop hub asks through a DOM event; see return-to-title-bridge.
@@ -3166,8 +3310,8 @@ function PlayingScreen({
   const leaveFlowOpen = shell.confirmingLeave;
   useEffect(() => {
     function onRequest(event: Event) {
-      if (leaveFlowOpen || returnToTitleRequest.current) return;
       event.preventDefault();
+      if (leaveFlowOpen || returnToTitleRequest.current) return;
       beginReturnToTitleRef.current(true);
     }
     window.addEventListener(RETURN_TO_TITLE_REQUEST_EVENT, onRequest);
@@ -3278,9 +3422,19 @@ function PlayingScreen({
             ) : null}
             <SceneBackdrop
               sceneId={sceneId}
+              readableSurfaces={readableSurfaces}
+              onOpenSurfaceEntity={openEntity}
               visualLibrary={sceneVisuals}
               people={scenePeople}
-              surfaces={surfaceProjection}
+              surfaces={{
+                ...surfaceProjection,
+                facts: new Map(
+                  [...surfaceProjection.facts].filter(
+                    ([key, fact]) =>
+                      key !== "headline" || fact.channel !== "published",
+                  ),
+                ),
+              }}
               /*
                 The papers on the table. The residence scene declares the slot
                 and has painted a newspaper there all along; this is the first
@@ -3342,6 +3496,17 @@ function PlayingScreen({
                 });
               }}
             >
+              {view.surface === "scene" &&
+              !readOnly &&
+              !showOrientation &&
+              !conversation ? (
+                <OrdinaryMeetingPanel
+                  world={session.world}
+                  personId={session.personId}
+                  onWorldChange={onWorldChange}
+                  onOpenEntity={openEntity}
+                />
+              ) : null}
               {view.surface === "scene" && !readOnly ? (
                 <OpeningLifeFlow
                   key={`${session.world.id}:${session.personId}`}
@@ -3407,6 +3572,8 @@ function PlayingScreen({
                       />
                     ) : showOrientation ? (
                       <WorldOrientationPanel
+                        world={session.world}
+                        personId={session.personId}
                         view={orientation.view}
                         homeStateUsps={orientation.homeStateUsps}
                         regionalPlate={orientation.regionalPlate}
@@ -3451,6 +3618,20 @@ function PlayingScreen({
                   ? {}
                   : { onTalk: () => talkTo(selectedDossier.personId) })}
                 onMeet={() => dispatch({ type: "go-to-scene" })}
+                onContact={() => {
+                  dispatch({
+                    type: "set-people-query",
+                    query: selectedDossier.name,
+                  });
+                  dispatch({ type: "go-to-surface", surface: "people" });
+                  requestAnimationFrame(() =>
+                    document
+                      .querySelector<HTMLElement>(
+                        `[data-testid="contact-${selectedDossier.personId}"] button`,
+                      )
+                      ?.focus(),
+                  );
+                }}
                 onTravel={() => {
                   if (readOnly) return;
                   const next = travelTowardsPerson(
@@ -3662,44 +3843,46 @@ function PlayingScreen({
                   {person.name}: {person.wardrobeRefusal}
                 </p>
               ))}
-            <ShellNav
-              state={shell}
-              dispatch={dispatch}
-              playerName={observing ? "Observing" : moment.personName}
-              portrait={
-                !observing && session.world.people[session.personId] ? (
-                  <PersonPortrait
-                    world={session.world}
-                    personId={session.personId}
-                  />
-                ) : null
-              }
-              dateLabel={moment.dateLabel}
-              placeName={moment.placeName}
-              destinations={destinations}
-              canSave={!savesUnavailable}
-              unsaved={session.saveId === null}
-              onSave={() => {
-                const shellState = {
-                  pins: shell.pins,
-                  preferences: shell.preferences,
-                  journal: shell.legacyJournal,
-                  journals: shell.journals,
-                  personWardrobes: shell.personWardrobes,
-                  progress: shell.progress,
-                };
-                const request = returnToTitleRequest.current;
-                if (request && shell.confirmingLeave) {
-                  request.leaving = true;
-                  onSaveAndLeave(shellState);
-                } else onKeep(shellState);
-              }}
-              onLeave={leaveNow}
-              {...(capabilities.formativeYears || readOnly
-                ? {}
-                : { onPassDays: passDays, passTargets })}
-              passing={timeRunner.pending}
-            />
+            {!showOrientation || shell.confirmingLeave ? (
+              <ShellNav
+                state={shell}
+                dispatch={dispatch}
+                playerName={observing ? "Observing" : moment.personName}
+                portrait={
+                  !observing && session.world.people[session.personId] ? (
+                    <PersonPortrait
+                      world={session.world}
+                      personId={session.personId}
+                    />
+                  ) : null
+                }
+                dateLabel={moment.dateLabel}
+                placeName={moment.placeName}
+                destinations={destinations}
+                canSave={!savesUnavailable}
+                unsaved={session.saveId === null}
+                leaving={savingToTitle}
+                leaveProblem={problem}
+                onAskLeave={() => beginReturnToTitle(false)}
+                onSave={() => {
+                  const shellState = {
+                    pins: shell.pins,
+                    preferences: shell.preferences,
+                    journal: shell.legacyJournal,
+                    journals: shell.journals,
+                    personWardrobes: shell.personWardrobes,
+                    progress: shell.progress,
+                  };
+                  void onKeep(shellState);
+                }}
+                onSaveAndLeave={() => void saveAndReturnToTitle()}
+                onLeave={leaveNow}
+                {...(capabilities.formativeYears || readOnly
+                  ? {}
+                  : { onPassDays: passDays, passTargets })}
+                passing={timeRunner.pending}
+              />
+            ) : null}
 
             <ShellPinRail
               world={session.world}
@@ -3839,6 +4022,16 @@ function renderWorkspace({
     <PartyChapterSurface
       key={chapter.organizationId}
       chapter={chapter}
+      contact={
+        chapter.contact ? (
+          <ContactsPanel
+            world={session.world}
+            personId={session.personId}
+            contactEntry={chapter.contact}
+            onWorldChange={onWorldChange}
+          />
+        ) : null
+      }
       pinned={pinnedRef({ kind: "organization", id: chapter.organizationId })}
       onTogglePin={() =>
         togglePin({ kind: "organization", id: chapter.organizationId })
@@ -4043,6 +4236,12 @@ function renderWorkspace({
   ) => (
     <WorkspaceFrame
       title={title}
+      {...(shell.preferences.workspaceLayouts?.[testid]
+        ? { layout: shell.preferences.workspaceLayouts[testid] }
+        : {})}
+      onLayoutChange={(layout) =>
+        dispatch({ type: "set-workspace-layout", key: testid, layout })
+      }
       {...(kicker === undefined ? {} : { kicker })}
       testid={testid}
       canGoBack={backable}
@@ -4114,6 +4313,17 @@ function renderWorkspace({
               togglePin({ kind: "person", id: dossier.personId })
             }
             onTalk={() => talkTo(dossier.personId)}
+            onContact={() => {
+              dispatch({ type: "set-people-query", query: dossier.name });
+              dispatch({ type: "go-to-surface", surface: "people" });
+              requestAnimationFrame(() =>
+                document
+                  .querySelector<HTMLElement>(
+                    `[data-testid="contact-${dossier.personId}"] button`,
+                  )
+                  ?.focus(),
+              );
+            }}
             onMeet={() => dispatch({ type: "go-to-scene" })}
             talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
             onOpenLink={openEntity}
@@ -4259,6 +4469,7 @@ function renderWorkspace({
             returns to the card.
           */}
           <ContactsPanel
+            query={shell.peopleQuery}
             world={session.world}
             personId={session.personId}
             onWorldChange={onWorldChange}
@@ -5128,6 +5339,7 @@ function renderWorkspace({
               onWorldChange={onWorldChange}
               transitionHandlers={createCampaignElectionTransitionRegistry()}
               headed={false}
+              showTimeControl={false}
             />
           ),
         });
@@ -5179,20 +5391,17 @@ function renderWorkspace({
           <WorkLayout
             roleSentence={role.sentence}
             pending={
-              <WorkWorkspace world={session.world} personId={session.personId}>
-                {null}
-              </WorkWorkspace>
-            }
-            sections={sections}
-            timeControl={
-              capabilities.formativeYears ? null : (
-                <PassDayControl
-                  session={session}
-                  onWorldChange={onWorldChange}
-                  withClock
-                />
+              half === "office" ? null : (
+                <WorkWorkspace
+                  world={session.world}
+                  personId={session.personId}
+                >
+                  {null}
+                </WorkWorkspace>
               )
             }
+            sections={sections}
+            timeControl={null}
           />
         </>,
         half === "campaign"

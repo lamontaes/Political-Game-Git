@@ -201,3 +201,71 @@ describe("A save slot is addressed apart from its world", () => {
     expect(first).toBe(createSaveId(world.id, "2026-05-01T10:00:00.000Z:1"));
   });
 });
+
+it("preserves opening data and chosen birth year without changing legacy descriptors", () => {
+  const setup: NewGameSetup = {
+    ...BASE,
+    birthYear: 2015,
+    birthMonth: 4,
+    birthDay: 2,
+    openingDataVersion: "playtest65-v1",
+  };
+  expect(decodeReplayDescriptor(encodeReplayDescriptor(setup))).toMatchObject(
+    setup,
+  );
+  const legacy = decodeReplayDescriptor(encodeReplayDescriptor(BASE));
+  expect(legacy?.openingDataVersion).toBeUndefined();
+  expect(legacy?.birthYear).toBeUndefined();
+  expect(worldSeedFor(setup)).toBe(
+    worldSeedFor({
+      ...setup,
+      birthYear: undefined,
+      openingDataVersion: undefined,
+    }),
+  );
+});
+
+it("versions member names without rerolling the world or upgrading old descriptors", () => {
+  const setup: NewGameSetup = {
+    ...BASE,
+    livingWorldMemberNameVersion: "identity-v1",
+  };
+  expect(decodeReplayDescriptor(encodeReplayDescriptor(setup))).toEqual(setup);
+  expect(canonicalSetupEncoding(setup)).toBe(canonicalSetupEncoding(BASE));
+  expect(worldSeedFor(setup)).toBe(worldSeedFor(BASE));
+  expect(
+    decodeReplayDescriptor(encodeReplayDescriptor(BASE))
+      ?.livingWorldMemberNameVersion,
+  ).toBeUndefined();
+  const invalid = {
+    ...setup,
+    livingWorldMemberNameVersion: "future",
+  } as unknown as NewGameSetup;
+  expect(decodeReplayDescriptor(encodeReplayDescriptor(invalid))).toBeNull();
+});
+
+it("preserves contextual history in replay without reseeding identity", () => {
+  const fresh: NewGameSetup = {
+    ...BASE,
+    earlierLifeGenerationVersion: "context-v2",
+  };
+  expect(worldSeedFor(fresh)).toBe(worldSeedFor(BASE));
+  expect(decodeReplayDescriptor(encodeReplayDescriptor(fresh))).toEqual(fresh);
+  expect(
+    decodeReplayDescriptor(encodeReplayDescriptor(BASE))
+      ?.earlierLifeGenerationVersion,
+  ).toBeUndefined();
+});
+
+it("versions hypothetical copy without rewriting old answers or reseeding the life", () => {
+  const fresh: NewGameSetup = {
+    ...BASE,
+    questionnaireCopyVersion: "playtest65-v2",
+  };
+  expect(worldSeedFor(fresh)).toBe(worldSeedFor(BASE));
+  expect(decodeReplayDescriptor(encodeReplayDescriptor(fresh))).toEqual(fresh);
+  expect(
+    decodeReplayDescriptor(encodeReplayDescriptor(BASE))
+      ?.questionnaireCopyVersion,
+  ).toBeUndefined();
+});
