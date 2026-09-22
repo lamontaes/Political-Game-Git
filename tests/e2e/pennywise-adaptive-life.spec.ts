@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "./fixtures";
 
 import {
+  beginAfterCalibration,
   chooseCreatorLocation,
   completeCharacterStep,
   enterLife,
@@ -124,10 +125,7 @@ async function answerCalibration(page: Page, index: number, limit = 60) {
     const count = await options.count();
     await options.nth(Math.min(index, count - 1)).click();
   }
-  const begin = page.getByTestId("begin");
-  if ((await begin.count()) > 0 && (await begin.isEnabled())) {
-    await begin.click();
-  }
+  await beginAfterCalibration(page);
   return prompts;
 }
 
