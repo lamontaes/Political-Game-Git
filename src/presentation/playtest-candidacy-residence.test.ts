@@ -100,6 +100,27 @@ describe("requirements a player has to be able to read", () => {
     expect(reasons.join(" ")).not.toContain("cannot read");
   });
 
+  /**
+   * The band nothing had ever been measured in.
+   *
+   * Every candidacy case here and every figure the playtest lane has reported
+   * used either no residence at all or 700 days, and 700 days clears six
+   * months and a year alike however the number is rounded. Between the two
+   * cutoffs is the only place a whole-year model gives a different answer, so
+   * it is the only place this can be held.
+   *
+   * Ten months of residence in Minnesota, where the House asks for six. The
+   * date is also past the September observation, so the rule is established
+   * and the refusal, if one came, would be about the duration and nothing
+   * else. Rounding the requirement up to a year refuses this character.
+   */
+  it("admits somebody past a six-month cutoff but short of a year", () => {
+    const { world, personId } = lifeIn("2700172", "playtest-band", 10);
+    const result = eligibility(world, personId, "us-mn-legislature-v1:house");
+    expect(result.blocks.map((block) => block.reason)).toEqual([]);
+    expect(result.eligible).toBe(true);
+  });
+
   it("never prints a transport value at a player", () => {
     const { world, personId } = lifeIn("3900198", "playtest-raw", 18);
     const reasons = eligibility(
