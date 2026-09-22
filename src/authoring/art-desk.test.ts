@@ -335,7 +335,7 @@ describe("Art Desk projection and briefs", () => {
     }
   });
 
-  it("keeps held people in history and submitted modular candidates in review", () => {
+  it("puts open person requests in the lane and submitted modular candidates in review", () => {
     const desk = projectArtDesk({
       requests: assetRequestDocument.requests as AssetRequest[],
       claims: emptyClaimDocument(),
@@ -350,13 +350,50 @@ describe("Art Desk projection and briefs", () => {
           item.request.requestId === "env-neighborhood-doorstep-generic",
       ),
     ).toBe(true);
-    expect(
-      needs.some(
-        (item) =>
-          item.request.requestId.startsWith("person-") &&
-          !item.request.requestId.startsWith("person-modular47-"),
-      ),
-    ).toBe(false);
+    /**
+     * This used to assert that no request whose id starts with "person-"
+     * reaches the lane, which read as a rule about people art and was not
+     * one. What kept them out was the d-held-people flag: a lane-ownership
+     * note from the Art Desk's own plan, written into data on 2026-09-15 and
+     * left reading like a product decision nobody made. The flag is gone, so
+     * the rule it enforced is gone with it, and a person request is now an
+     * open ask like any other.
+     *
+     * Not a weakening. Each of the six was checked against the preserved
+     * bank first and every one is still required: the banked morphologies,
+     * seated poses and lectern cells are all under the production floor or
+     * carry a baked prop, and nothing child or adolescent exists at all. So
+     * none of them re-commissions art the project already holds.
+     */
+    expect(Object.values(reconciliation.holds)).not.toContain("d-held-people");
+    for (const requestId of [
+      "person-adult-body-silhouette-reexport",
+      "person-child-body-morphology",
+      "person-adult-lectern-pose",
+      "person-seated-three-quarter-right-body",
+    ]) {
+      expect(
+        needs.some((item) => item.request.requestId === requestId),
+        requestId,
+      ).toBe(true);
+    }
+    /**
+     * The two production body requests do not appear here, and that is the
+     * lane working rather than the flag surviving: both are
+     * revision-requested, so they sort to "revision". Asserted rather than
+     * assumed, because "it is not in this lane" was exactly the shape that
+     * hid all six for a week.
+     */
+    const revision = filterDeskItems(desk.items, "revision", "");
+    for (const requestId of [
+      "person-production-standing-body",
+      "person-production-seated-body",
+    ]) {
+      expect(
+        revision.some((item) => item.request.requestId === requestId),
+        requestId,
+      ).toBe(true);
+    }
     const modularRequests = assetRequestDocument.requests.filter((request) =>
       request.requestId.startsWith("person-modular47-"),
     );

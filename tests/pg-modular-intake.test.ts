@@ -23,7 +23,7 @@ import {
   PG_MASTER_SOURCE_DIRECTORY,
   runPgModularIntake,
 } from "../scripts/art-asset-factory/pg-modular-intake";
-import { measureSeatedContact } from "../scripts/art-asset-factory/seated-contact";
+import { measureSeatPlaneFromRaster } from "../scripts/art-asset-factory/seated-contact";
 import type {
   AssetManifest,
   CharacterCatalogData,
@@ -372,7 +372,7 @@ describe("Office seated-contact repair", () => {
         "human_candidate_B01_left_guest_seated_v1.png",
       ],
     ] as const) {
-      const measured = await measureSeatedContact(
+      const measured = await measureSeatPlaneFromRaster(
         path.join(REPO_ROOT, "art/generated/approved", file),
       );
       expect(Math.abs(recipe.root.y - measured.root.y)).toBeLessThan(0.01);
