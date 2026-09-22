@@ -835,7 +835,15 @@ export function renderOpenQuestions(
         lines.push("**Already checked.** Nothing yet.", "");
       }
       for (const note of record.notes ?? []) {
-        lines.push(`> ${note}`, "");
+        // Every line of a multi-line note stays inside the quote, or its
+        // later lines render as loose text under the question.
+        lines.push(
+          note
+            .split("\n")
+            .map((line) => (line.trim() === "" ? ">" : `> ${line}`))
+            .join("\n"),
+          "",
+        );
       }
       if ((record.relatedQuestionIds ?? []).length > 0) {
         lines.push(

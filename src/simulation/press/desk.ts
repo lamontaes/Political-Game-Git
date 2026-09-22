@@ -1350,6 +1350,7 @@ function outletCovers(
   if (outlet.scope === "national") {
     return event.jurisdictionId === null || isNationalOffice(event);
   }
+  if (hometownMatter(world, outlet, event)) return true;
   if (event.jurisdictionId === null) return false;
   if (outlet.primaryJurisdictionIds.includes(event.jurisdictionId)) return true;
   if (outlet.scope === "state") {
@@ -1358,6 +1359,29 @@ function outletCovers(
     );
   }
   return false;
+}
+
+/**
+ * A matter about somebody from the outlet's own town is local news wherever
+ * the proceeding sits: a state body's finding against a hometown candidate is
+ * recorded at the state, and before this only the statehouse paper saw it
+ * (Washington replay, 2026-09-22). Only matters, not every public event a
+ * resident appears in. How far a scandal travels beyond the hometown and the
+ * state (national outlets, neighboring markets) depends on who the person is
+ * and how surprising it is; that is filed as `how-far-a-scandal-travels` and
+ * not decided here.
+ */
+function hometownMatter(
+  world: World,
+  outlet: MediaOutletRecord,
+  event: HistoricalEvent,
+): boolean {
+  if (outlet.scope !== "local" || !matterIdOf(event)) return false;
+  return subjectsOf(world, event).some((personId) =>
+    outlet.primaryJurisdictionIds.includes(
+      world.people[personId]!.homeJurisdictionId,
+    ),
+  );
 }
 
 function isNationalOffice(event: HistoricalEvent): boolean {
