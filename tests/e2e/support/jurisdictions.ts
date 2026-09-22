@@ -112,8 +112,24 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
     municipal: true,
     candidacy: {
       kind: "no-seats",
+      /*
+       * Alaska refused on minimum age when this table was written: the age row
+       * was a current observation dated after the January 5 start, and a later
+       * observation does not establish the rule on an earlier date. That
+       * refusal is gone at main 445441a5 and a second one is showing through
+       * behind it, from the other qualification path entirely --
+       * `durationRefusal` in src/simulation/candidate-qualification.ts, which
+       * holds Alaska's residence requirement as a pack constant rather than
+       * reading it from the ledger. It asks for a year in the district and the
+       * world cannot say when this life began living there.
+       *
+       * So the state of play did not change, only which honest refusal the
+       * player is shown first. Recorded as it now reads rather than as it read
+       * before, because asserting the old sentence would pass for the wrong
+       * reason the moment either path moves.
+       */
       because:
-        "was observed in the acquired source on 2026-09-06; that later observation does not establish minimum age on 2026-01-05",
+        "The district-residence rule requires 1 year, but the world has no proved start date for that residence interval.",
     },
     note: "A unified municipality, and a state with boroughs rather than counties.",
   },
