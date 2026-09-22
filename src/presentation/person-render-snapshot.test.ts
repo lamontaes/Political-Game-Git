@@ -85,11 +85,23 @@ describe("person presentation snapshot", () => {
       libraries: { characters: library, visuals },
       snapshot,
     });
-    expect(portrait.kind).toBe("modular");
-    if (portrait.kind === "modular")
-      expect(portrait.plan.layers.map((l) => [l.assetId, l.url])).toEqual(
-        subject.plan.layers.map((l) => [l.assetId, l.url]),
-      );
+    /*
+     * THE PORTRAIT REFUSES, AND SAYING SO IS THE POINT.
+     *
+     * This asked for a modular portrait until the pv4 images were deleted at
+     * the owner's request. The definitions stayed, the pixels did not, so the
+     * planner builds all six layers and reports five of them missing. The
+     * refusal is correct behaviour and it names what is absent rather than
+     * quietly drawing initials, which is the property worth holding.
+     *
+     * It is asserted here rather than deleted because the assertion it
+     * replaced failed on every run, and a failing assertion ends the test: the
+     * scene parity, the three snapshot-binding refusals and the two
+     * frozen-ness checks below had not executed since the images went.
+     */
+    expect(portrait.kind).toBe("placeholder");
+    if (portrait.kind === "placeholder")
+      expect(portrait.reason).toBe("required-art-unavailable");
     const pair = [...SCENE_REGISTRY.scenes.values()].flatMap((scene) =>
       [...scene.anchors.values()]
         .filter(
@@ -111,7 +123,10 @@ describe("person presentation snapshot", () => {
       poseRegistry: PRODUCTION_POSE_REGISTRY,
       poseArt: PEOPLE_VISUAL4_POSE_ART,
     });
-    expect(scene.complete).toBe(true);
+    // Incomplete for the same reason the portrait refuses: the art is gone.
+    // What the scene still owes is that it composes the same layers from the
+    // same recipe, which the two assertions below hold it to.
+    expect(scene.complete).toBe(false);
     expect(scene.recipe).toBe(recipe);
     expect(scene.layers.map((l) => [l.assetId, l.url])).toEqual(
       subject.plan.layers.map((l) => [l.assetId, l.url]),
