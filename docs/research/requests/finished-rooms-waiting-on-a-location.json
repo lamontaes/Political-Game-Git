@@ -1,0 +1,32 @@
+{
+  "filedAt": "2026-09-22T14:58:00.000Z",
+  "impact": "shapes-design",
+  "lane": "hardcoded-content audit",
+  "notes": [
+    "The repository is honest about this rather than hiding it, which is why the question is answerable in one line. Nothing here is a defect in the venue table or the consumer registry; both are doing their job of refusing to guess.",
+    "A caution that cost this project time before: the shared workroom looks reachable and is not. Its venue mapping is declared and proven, but the key lexington-legislative-office is written ONLY by createRunDLiteFixture, a development fixture at ?view=office-fixture, so no ordinary life reaches that room either. Verified by searching every writer of the key on origin/main. Whatever rule answers this question should also say whether an ordinary legislative job is supposed to schedule located staff days, because that third room is one producer away from the same fix.",
+    "Not asked here, and belonging to the 'What passing a law actually does' lane: anything downstream of an enacted law, including the production catalogue boundary and the causal-effects engine."
+  ],
+  "priority": "P1",
+  "question": "When a legislator attends a floor vote or a committee hearing, which physical place should the completed activity record as its location, and where does that place come from — the jurisdiction's capitol record, the chamber the seat belongs to, or something the scenario authors per jurisdiction?",
+  "questionId": "finished-rooms-waiting-on-a-location",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "hardcoded-content audit thread",
+  "sourcesChecked": [
+    {
+      "source": "src/presentation/scene-venues.ts on origin/main at 1c4992e8, the withheld-venue table",
+      "whatItDidNotSettle": "It states the cause for both rooms in its own words. For the hearing room: 'Committee hearings are canonical, but they are scheduled as future due items rather than as located activities, so they carry no location key for this table to map. The room is ready; the hearing needs a location before it has one.' For the chamber: 'Floor votes are canonical and, like committee hearings, carry no located activity. Same room-is-ready, same missing location.' It names what is missing and correctly declines to invent it."
+    },
+    {
+      "source": "src/presentation/scene-consumers.ts, the seventeen declared player-facing room surfaces",
+      "whatItDidNotSettle": "It confirms the consequence: 'The chamber floor' resolves legislative-chamber-production and is painted by nothing; 'A committee hearing' resolves civic-hearing-room-production, is painted by nothing, and records its gate as 'No canonical hearing surface exists in the player runtime.' Seven of the seventeen surfaces are painted by nothing; these two are the ones whose art is finished and whose blocker is a single missing fact rather than missing artwork or missing human acceptance."
+    },
+    {
+      "source": "The existing located producers, for the shape to copy",
+      "whatItDidNotSettle": "Three surfaces already work this way and prove the mechanism end to end: the posted public meeting maps from ordinary-life:meeting-room, the campaign office from campaign-office or campaign-call-desk, and the staff workroom from lexington-legislative-office. They show the seam is sound and that only the producer's write is absent; they do not say which place a legislature should name."
+    }
+  ],
+  "title": "Where a floor vote and a committee hearing physically happen",
+  "usableAnswer": "One rule, plus a worked example for a state legislature and for a city council. Name the record the location is read from, say whether the floor and the committee room are two locations or one, and say what should happen for a jurisdiction where no capitol or chamber place exists yet — the honest fallback is presumably no location and therefore no room, which is the current behaviour and is acceptable as an answer.",
+  "whyItMatters": "lamontae rates governing and legislative play 8 to 9 out of 10, and the two rooms where legislating visibly happens are finished and dark. The artwork exists and is registered; the venue table already knows which room each belongs to; the only missing fact is a location key on the activity. Both rooms are gated by one shared, small cause, so one answer lights both. This is the cheapest large gain the environment audit found."
+}

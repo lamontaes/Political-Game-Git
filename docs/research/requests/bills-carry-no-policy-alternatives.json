@@ -1,0 +1,32 @@
+{
+  "filedAt": "2026-09-22T15:20:00.000Z",
+  "impact": "blocks-work",
+  "lane": "hardcoded-content audit",
+  "notes": [
+    "Handed over by the 'What passing a law actually does' lane, which found it outside its own scope, and re-measured here before filing. Their count was six callers; it is seven.",
+    "This is a wiring gap rather than a content gap, and it is the same shape the catalogue itself had: the vocabulary landed and the thing that would reach it was never called. Worth answering together with the policy domain list rather than after it.",
+    "One of four records from this sweep. The others are mod-api-vocabulary-is-two-fields, finished-rooms-waiting-on-a-location and decision-thresholds-are-constants-in-code."
+  ],
+  "priority": "P0",
+  "question": "When a measure is introduced, which policy alternatives should it carry, and which of the seven paths that introduce measures decides them — the sponsor's own position, the issue the bill is filed under, the body's docket, or the player's choice at the moment of filing?",
+  "questionId": "bills-carry-no-policy-alternatives",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "hardcoded-content audit thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/legislation.ts:1338, 1377 and 1418 on origin/main at 1c4992e8",
+      "whatItDidNotSettle": "It establishes that the field exists, is optional, defaults to an empty array and is stored on the measure. It says nothing about who should populate it."
+    },
+    {
+      "source": "Every call site of introduceMeasure outside its own module",
+      "whatItDidNotSettle": "It settles the fact and not the intent. Seven callers — legislation-docket.ts:951, legislation-world.ts:434, tax-work.ts:47, legislation-bundle-docket.ts:343, municipal-public-work.ts:1673, legislation-scenarios.ts:732 and governing/legislative-clock.ts:706 — and none passes policyAlternativeIds. Outside the module the field appears only in two test files, each passing an empty array explicitly."
+    },
+    {
+      "source": "src/simulation/legislation-integrity.ts:142",
+      "whatItDidNotSettle": "It reads measure.policyAlternativeIds, so there is a consumer waiting and the shape is not vestigial. It does not say what a correct list looks like."
+    }
+  ],
+  "title": "What a bill should be about, and where its alternatives come from",
+  "usableAnswer": "A rule for where the alternatives come from, and whether it is the same rule for all seven paths or differs between a player filing a bill, a scenario seeding one, and the institution generating one. If a bill may legitimately have no alternatives — a purely procedural measure, say — say so, because then the empty list is correct for some callers and the question becomes which ones.",
+  "whyItMatters": "The policy catalogue landed on 2026-09-22 with 13 domains and 127 issues, so the game now knows what politics is about. introduceMeasure accepts the list of alternatives a bill is choosing between, and not one of the seven callers passes it, so every bill in every game carries an empty list. A bill is not about anything. This is the connection between the catalogue and the thing a legislator actually does, and until it is made, the catalogue is reachable by nothing."
+}
