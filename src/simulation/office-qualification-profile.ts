@@ -1,5 +1,5 @@
 /**
- * What a typical office asks, measured from the states the game has read.
+ * What an office plausibly asks, in a state the game has not read.
  *
  * Most of the country is not in the qualification corpus: seven states are,
  * and forty-three and the District are not. That absence is a fact about this
@@ -10,23 +10,36 @@
  * It could refuse, which reads as the country being closed rather than as the
  * game being careful, and which would unseat offices that work today. It could
  * invent a number, which is worse: an invented rule gets quoted back later as
- * though the state had legislated it. Or it can say plainly that it has not
- * read this state's rule and is applying a typical one instead, and show its
- * working.
+ * though the state had legislated it. Or it can give that state a plausible
+ * rule, drawn from what real states actually do, and say plainly that it is a
+ * stand-in.
  *
- * This module is the third answer. Every value below is the median of the
- * values the corpus actually carries for that field and office family. Nothing
- * is written down by hand, so the profile moves on its own as states are
- * compiled, and it cannot drift away from its own evidence. A state the game
- * HAS read always uses its own rule; the profile is consulted only where there
- * is nothing to consult.
+ * This module is the third answer, and the shape of it matters. One value for
+ * all forty-three would be measured and still wrong, because it would make
+ * every unread state identical — a player crossing a state line would find the
+ * same numbers waiting, which is the one thing real American law never does.
+ * So each unread state draws from the RANGE the read states span, and
+ * different states land on different values inside it.
  *
- * The median, not the mean, because the samples are small and a median returns
- * a value that real law actually uses — twenty-one years, one year — where a
- * mean returns 21.75, which looks like a legal figure and is not one. On an
- * even-sized sample the lower of the two middle values wins: the game is
- * guessing about somebody's right to stand for office, and a guess should not
- * invent a barrier stricter than the states it learned from.
+ * Three rules hold that honest.
+ *
+ * Every value offered is a whole number inside the spread real states set. A
+ * state may land between two enacted values — twenty-two years where the
+ * corpus holds twenty-one and twenty-four — because whole years in that
+ * window are the ordinary stuff of American qualification law and reading a
+ * few more states would turn several of them up. What it may never produce is
+ * a figure arithmetic invents and no legislature would write: no 21.75, no
+ * half years. The spread's ends are always real enacted values.
+ *
+ * A state's draw is stable. It is derived from the state's own key, so the
+ * same state answers the same way in every session, in every save, on every
+ * machine, forever. A value rolled per session would let one save contradict
+ * itself between two readings of the same rule.
+ *
+ * And the range comes from the corpus rather than from this file, so it widens
+ * on its own as states are compiled, and it cannot drift away from its own
+ * evidence. A state the game HAS read always uses its own rule; nothing here
+ * is consulted for a state that has one.
  *
  * This is the same device `STATE_EXECUTIVE_GAME_PROFILE` already uses for
  * governors' terms, and it carries the same obligation: a profile value is
@@ -41,16 +54,24 @@ import {
   type QualificationOfficeFamily,
 } from "./office-qualification-rules";
 
-/** A typical value, with enough provenance to say where it came from. */
-export interface TypicalQualification {
+/** The spread of enacted values behind one field of one office family. */
+export interface QualificationRange {
   readonly field: QualificationFieldName;
   readonly officeFamily: QualificationOfficeFamily;
-  /** The median of the corpus values, in the units that field is stated in. */
-  readonly value: number;
-  /** How many compiled records the median was taken over. */
-  readonly sampleSize: number;
-  /** The states those records came from, so a reader can check the spread. */
+  /** Every distinct value the corpus carries, ascending. Enacted, all of them. */
+  readonly enactedValues: readonly number[];
+  readonly lowest: number;
+  readonly highest: number;
+  /** The states those values came from, so a reader can check the spread. */
   readonly states: readonly string[];
+}
+
+/** What one unread state gets, and the evidence it was drawn from. */
+export interface StandInQualification extends QualificationRange {
+  /** The state this was drawn for, as `US-XX`. */
+  readonly stateJurisdictionKey: string;
+  /** The drawn value. Always a whole number within the enacted spread. */
+  readonly value: number;
   /**
    * Always `game-profile`. Present so a caller cannot pass this value to
    * something expecting a sourced rule without the mismatch being visible.
@@ -58,26 +79,38 @@ export interface TypicalQualification {
   readonly basis: "game-profile";
 }
 
-function median(values: readonly number[]): number {
-  const sorted = [...values].sort((left, right) => left - right);
-  const middle = sorted.length / 2;
-  if (sorted.length % 2 === 1) return sorted[(sorted.length - 1) / 2]!;
-  // Even sample: the lower middle value, for the reason in the header.
-  return sorted[middle - 1]!;
+/**
+ * A small stable hash of a string.
+ *
+ * FNV-1a, written out rather than imported, because what this needs is not
+ * cryptographic strength but a promise: the same input gives the same number
+ * on every machine and every version of the runtime, for as long as saves
+ * live. A hash whose algorithm might be tuned later would quietly change
+ * every unread state's rules underneath existing saves.
+ */
+function stableHash(text: string): number {
+  let hash = 0x811c9dc5;
+  for (let index = 0; index < text.length; index += 1) {
+    hash ^= text.charCodeAt(index);
+    hash = Math.imul(hash, 0x01000193) >>> 0;
+  }
+  return hash >>> 0;
 }
 
 /**
- * The typical value for one field of one office family, or null.
+ * The enacted spread for one field of one office family, or null.
  *
  * Null means the corpus carries no numeric value for that pair at all, and it
  * is not a zero and not a permission. A caller that gets null has learned that
- * the game cannot even say what is typical, which is a different and smaller
- * claim than saying a state has no requirement.
+ * the game cannot even say what is usual, which is a different and smaller
+ * claim than saying a state has no requirement. Nothing is borrowed from a
+ * neighbouring office to fill it: a senate's district requirement is not a
+ * measurement of a house's.
  */
-export function typicalQualification(
+export function qualificationRange(
   field: QualificationFieldName,
   officeFamily: QualificationOfficeFamily,
-): TypicalQualification | null {
+): QualificationRange | null {
   const matching = qualificationRows().filter(
     (row) =>
       row.field === field &&
@@ -86,35 +119,63 @@ export function typicalQualification(
       typeof row.value === "number",
   );
   if (matching.length === 0) return null;
+  const enactedValues = [
+    ...new Set(matching.map((row) => row.value as number)),
+  ].sort((left, right) => left - right);
   return {
     field,
     officeFamily,
-    value: median(matching.map((row) => row.value as number)),
-    sampleSize: matching.length,
+    enactedValues,
+    lowest: enactedValues[0]!,
+    highest: enactedValues[enactedValues.length - 1]!,
     states: [...new Set(matching.map((row) => row.stateUsps))].sort(),
+  };
+}
+
+/**
+ * What one unread state asks for one field, or null if nothing is known.
+ *
+ * The draw is a stable hash of the state, the field and the office, so two
+ * fields of one state vary independently — a state does not get the strictest
+ * of everything or the loosest of everything — while each stays fixed for that
+ * state forever.
+ */
+export function standInQualification(
+  stateJurisdictionKey: string,
+  field: QualificationFieldName,
+  officeFamily: QualificationOfficeFamily,
+): StandInQualification | null {
+  const range = qualificationRange(field, officeFamily);
+  if (range === null) return null;
+  const draw = stableHash(`${stateJurisdictionKey}|${field}|${officeFamily}`);
+  return {
+    ...range,
+    stateJurisdictionKey,
+    value: range.lowest + (draw % (range.highest - range.lowest + 1)),
     basis: "game-profile",
   };
 }
 
 /**
- * How the game says this out loud, in the player's words.
+ * The requirement in the player's own words, and nothing else.
  *
- * It names the typical value and says where it came from, and it never says
- * the state requires it, because the state may not. Keeping the sentence here
- * rather than at each call site is deliberate: there is one wording for this
- * claim, and it cannot quietly become a different and more confident one on
- * one screen.
+ * A generated rule is shown exactly as a sourced one is. The player is not
+ * told which states the game has read, how wide the spread is, or that this
+ * office's rule was generated at all — a game does not narrate its own
+ * research state at somebody trying to stand for office, and a rule that
+ * announces itself as provisional is not a rule anyone can play against.
+ *
+ * Every bit of that provenance survives in the record: `basis` says
+ * `game-profile`, `enactedValues`, `lowest`, `highest` and `states` carry the
+ * evidence, and reading the real law replaces the whole thing. That is where
+ * an auditor looks. This function is what a screen prints.
  */
-export function typicalQualificationNote(
-  typical: TypicalQualification,
+export function standInRequirementSentence(
+  standIn: StandInQualification,
   measure: string,
   unit: string,
 ): string {
-  const spread =
-    typical.sampleSize === 1
-      ? `the one state the game has read this rule for`
-      : `the ${typical.sampleSize} states the game has read this rule for`;
-  return `The game has not read this state's ${measure} for this office, so it is using a typical one instead: ${typical.value} ${unit}, the middle value across ${spread}. That is the game's own stand-in and not this state's law.`;
+  return `This office asks for ${standIn.value} ${unit} of ${measure}.`;
 }
 
 /** How wide the evidence behind the whole profile is, for a reader who asks. */
