@@ -33,6 +33,21 @@ export default defineConfig({
     artbenchBridge({ workspace: process.cwd() }),
   ],
   define: buildIdentityDefines(buildIdentity),
+  // This repository has thousands of source modules and several HTML entry
+  // points, but its browser-facing third-party graph is deliberately tiny.
+  // Listing that graph avoids a full cold-start dependency crawl every time
+  // the owner opens the Art Desk from the private hub.
+  optimizeDeps: {
+    noDiscovery: true,
+    holdUntilCrawlEnd: false,
+    include: [
+      "react",
+      "react-dom",
+      "react-dom/client",
+      "react/jsx-runtime",
+      "react/jsx-dev-runtime",
+    ],
+  },
   build: {
     outDir: "dist/client",
     rolldownOptions: { input: { app: "index.html", review: "review.html" } },
