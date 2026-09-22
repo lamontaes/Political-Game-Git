@@ -1,3 +1,4 @@
+import { recordOrdinaryMeetingPresence } from "../simulation/ordinary-meeting-presence";
 import {
   canPersonAccess,
   advanceWorldMinutes,
@@ -17,15 +18,16 @@ import {
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import { recordDomainAttendance } from "./activity-attendance";
 import { openingLifeLocation } from "./life-scene-flow";
-import { sceneVenueForLocationKey } from "./scene-venues";
+import { completedActivityHere } from "./scene-venues";
 
 export {
   declineVenueActivity,
   lapseVenueActivity,
 } from "./scheduled-activity-choice";
 
-interface DisclosedJourney {
+export interface DisclosedJourney {
   readonly activity: ScheduledActivityRecord;
+  readonly alreadyCompleted: boolean;
   readonly journeyMinutes: number;
   readonly waitMinutes: number;
   readonly costDisclosure: string;
@@ -79,17 +81,25 @@ function disclosedJourneyFor(
         return false;
       const state = scheduledActivityState(world, candidate.id);
       return (
-        state.status === "scheduled" &&
+        (state.status === "scheduled" ||
+          (state.status === "completed" &&
+            completedActivityHere(world, personId, candidate.id) !== null)) &&
         compareSimulationMoments(state.end, destinationState.start) === 0
       );
     },
   );
   if (!activity) return null;
   const state = scheduledActivityState(world, activity.id);
+  const alreadyCompleted = state.status === "completed";
   return {
     activity,
-    journeyMinutes: simulationMinutesBetween(state.start, state.end),
-    waitMinutes: simulationMinutesBetween(world.currentMoment, state.start),
+    alreadyCompleted,
+    journeyMinutes: alreadyCompleted
+      ? 0
+      : simulationMinutesBetween(state.start, state.end),
+    waitMinutes: alreadyCompleted
+      ? 0
+      : simulationMinutesBetween(world.currentMoment, state.start),
     costDisclosure: adapter.costDisclosure,
     destinationSetting: adapter.destinationSetting,
   };
@@ -105,11 +115,19 @@ function disclosedJourneyFor(
  * the destination refused forever. Measured in Springfield, Illinois: a party
  * organizing meeting asked for, travelled to, and then permanently unkeepable.
  */
+/**
+ * `choice` is a parameter, from the client line, and must stay one. A journey
+ * played on its own from the Calendar is the player choosing to make the
+ * journey; writing "Attend <destination>" against their name there records a
+ * decision they have not taken yet. Same mistake as a lapsed hold wearing a
+ * refusal's clothes.
+ */
 function recordJourneyArrival(
   world: World,
   travel: ScheduledActivityRecord,
   destination: ScheduledActivityRecord,
   destinationSetting: string,
+  choice: string,
 ): World {
   return recordWorldEvent(world, {
     stableKey: `attend-journey:${travel.id}:arrival`,
@@ -144,7 +162,7 @@ function recordJourneyArrival(
       },
       socialContext: null,
       pressure: null,
-      choice: `Attend ${destination.title}`,
+      choice,
       motivation: null,
       immediateReaction: null,
     },
@@ -181,12 +199,13 @@ export function venueActivities(
   transitionHandlers: FutureTransitionHandlerRegistry = createCampaignElectionTransitionRegistry(),
 ) {
   return scheduledActivitiesVisibleTo(world, personId)
-    .filter((activity) =>
-      sceneVenueForLocationKey(activity.location.locationKey),
-    )
     .filter(
       (activity) =>
-        scheduledActivityState(world, activity.id).status === "scheduled",
+        scheduledActivityState(world, activity.id).status === "scheduled" &&
+        activity.participantPersonIds.includes(personId) &&
+        (activity.responsiblePersonId === personId ||
+          (activity.responsiblePersonId === null &&
+            activity.kind === "tentative")),
     )
     .map((activity) => {
       let refusal: string | null = null;
@@ -204,7 +223,10 @@ export function venueActivities(
         world.control.personId !== personId ||
         activity.responsiblePersonId !== personId
       ) {
-        refusal = "This activity is not yours to carry out.";
+        refusal =
+          activity.responsiblePersonId === null
+            ? "This invitation has not been confirmed as your activity."
+            : "This activity is not yours to carry out.";
       } else {
         try {
           elapsedMinutes = scheduledActivityPerformanceTiming(
@@ -247,7 +269,12 @@ export function venueActivities(
           activity.kind === "tentative" &&
           world.control.kind === "person" &&
           world.control.personId === personId &&
-          activity.participantPersonIds.includes(personId),
+          activity.participantPersonIds.includes(personId) &&
+          // Kept from the client line: the offer to decline is shown only to
+          // whoever owes the answer. See `declineVenueActivity`.
+          (activity.responsiblePersonId === personId ||
+            (activity.responsiblePersonId === null &&
+              activity.participantPersonIds.length === 1)),
         /**
          * A commitment the game cannot let this player carry out, which they
          * may therefore give up. Time will not step over a confirmed
@@ -292,6 +319,10 @@ export function performVenueActivity(
     return world;
   const journey = entry.journey;
   if (!journey) {
+    // Calendar can play the travel leg separately from Attend. Only the same
+    // explicit route adapter and linked destination may establish arrival —
+    // read from the travel side by `arrivedDestinationFor`, below, which is
+    // main's form of the lookup this line was doing from the destination side.
     const start = scheduledActivityState(world, activityId).start;
     const waitMinutes = simulationMinutesBetween(world.currentMoment, start);
     const waited =
@@ -300,13 +331,18 @@ export function performVenueActivity(
         : world;
     if (compareSimulationMoments(waited.currentMoment, start) < 0)
       return waited;
-    // Domain hook: a completed party/campaign activity records its outcome;
-    // every other activity (including a bare journey) comes back unchanged.
-    const performed = recordDomainAttendance(
-      performScheduledActivity(waited, activityId, transitionHandlers),
+    // Existing campaign outcomes and bounded ordinary-meeting presence are
+    // written only after successful completion; bare journeys add neither.
+    const performed = recordOrdinaryMeetingPresence(
+      waited,
+      recordDomainAttendance(
+        performScheduledActivity(waited, activityId, transitionHandlers),
+        personId,
+        activityId,
+        attendance,
+      ),
       personId,
       activityId,
-      attendance,
     );
     if (entry.activity.kind !== "travel") return performed;
     if (scheduledActivityState(performed, activityId).status !== "completed")
@@ -318,6 +354,7 @@ export function performVenueActivity(
       entry.activity,
       arrived.destination,
       arrived.destinationSetting,
+      "Make the journey",
     );
   }
 
@@ -334,12 +371,9 @@ export function performVenueActivity(
     ) < 0
   )
     return waited;
-  const travelled = performScheduledActivity(
-    waited,
-    journey.activity.id,
-    transitionHandlers,
-  );
-  if (travelled === world) return world;
+  const travelled = journey.alreadyCompleted
+    ? waited
+    : performScheduledActivity(waited, journey.activity.id, transitionHandlers);
   if (
     scheduledActivityState(travelled, journey.activity.id).status !==
     "completed"
@@ -351,6 +385,7 @@ export function performVenueActivity(
     journey.activity,
     entry.activity,
     journey.destinationSetting,
+    `Attend ${entry.activity.title}`,
   );
 
   const refreshed = venueActivities(arrived, personId).find(
@@ -363,13 +398,17 @@ export function performVenueActivity(
     !canPersonAccess(refreshed.activity.access, personId)
   )
     return arrived;
-  // Domain hook: once the destination itself has completed, the domain that
-  // booked it (a party/campaign activity) records what happened there. A
-  // no-op, returning the same World, for every other activity.
-  return recordDomainAttendance(
-    performScheduledActivity(arrived, activityId, transitionHandlers),
+  // Preserve domain outcomes, then record the actual ordinary-meeting
+  // aftermath. Neither hook adds another interval or creates a read-time fact.
+  return recordOrdinaryMeetingPresence(
+    arrived,
+    recordDomainAttendance(
+      performScheduledActivity(arrived, activityId, transitionHandlers),
+      personId,
+      activityId,
+      attendance,
+    ),
     personId,
     activityId,
-    attendance,
   );
 }

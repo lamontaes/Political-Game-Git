@@ -91,7 +91,12 @@ describe("NATIONWIDE opening state executive", () => {
       expect(holder!.termFactsUnknown).toEqual([]);
       expect(
         openingOfficeholders(world).map((record) => record.officeKey),
-      ).toEqual(["us-president", "us-chief-justice", office.officeKey]);
+      ).toEqual([
+        "us-president",
+        "us-chief-justice",
+        "us-vice-president",
+        office.officeKey,
+      ]);
 
       const profile = organizationProfileAt(world, holder!.organizationId);
       expect(profile?.classification).toBe(`service:${office.officeKey}`);
@@ -137,13 +142,14 @@ describe("NATIONWIDE opening state executive", () => {
         (holder) => holder.officeKey,
       );
       expect(officeKeys).not.toContain(`us-${usps.toLowerCase()}-governor`);
-      expect(officeKeys.slice(0, 2)).toEqual([
+      expect(officeKeys.slice(0, 3)).toEqual([
         "us-president",
         "us-chief-justice",
+        "us-vice-president",
       ]);
       // The District's own office opens with the life. Puerto Rico's is not
       // compiled, so nothing opens with it yet.
-      expect(officeKeys.slice(2)).toEqual(usps === "DC" ? ["dc-mayor"] : []);
+      expect(officeKeys.slice(3)).toEqual(usps === "DC" ? ["dc-mayor"] : []);
     }
   });
 

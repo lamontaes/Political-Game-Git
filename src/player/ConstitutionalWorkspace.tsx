@@ -9,7 +9,6 @@ import {
   assertWorldIntegrity,
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
-import { CONSTITUTIONAL_EVIDENCE } from "../simulation/constitutional-sources.generated";
 import { BudgetEconomyWorkspace } from "./BudgetEconomyWorkspace";
 import "./constitutional-workspace.css";
 
@@ -105,31 +104,22 @@ export function ConstitutionalWorkspace({
       <h3 id="constitutional-title">Constitutional &amp; charter changes</h3>
       <p>Public process record · {world.currentDate}</p>
       <details>
-        <summary>Supported procedures and sources</summary>
+        <summary>How these procedures work</summary>
         <p>
           Federal amendments: Congress proposes; the designated state
           legislatures or conventions ratify. The President has no approval or
           veto step. Convention proposal details and disputed state
-          reconsiderations remain unresolved.{" "}
-          <a href={CONSTITUTIONAL_EVIDENCE["us-process"].url}>
-            Article V process
-          </a>
+          reconsiderations remain unresolved.
         </p>
         <p>
           California legislative amendments and revisions: each house proposes;
           electors decide. Effectiveness is five days after filing the statement
           of the vote, with a later operative date where the measure provides
-          one. Initiative qualification and conventions remain unavailable.{" "}
-          <a href={CONSTITUTIONAL_EVIDENCE["ca-constitution-xviii"].url}>
-            Article XVIII
-          </a>
+          one. Initiative qualification and conventions remain unavailable.
         </p>
         <p>
           Carson charter changes proceed through Nevada legislative measures.
-          Local approval alone cannot amend the charter.{" "}
-          <a href={CONSTITUTIONAL_EVIDENCE["carson-charter"].url}>
-            Carson charter § 1.090
-          </a>
+          Local approval alone cannot amend the charter.
         </p>
       </details>
       <button
@@ -239,12 +229,7 @@ export function ConstitutionalWorkspace({
           <p className="constitutional-text">{measure.text}</p>
           <p>Process: {p.phase.replaceAll("-", " ")}</p>
           {measure.proposalRule && (
-            <p>
-              Proposal threshold: {measure.proposalRule.label} ·{" "}
-              <a href={measure.proposalRule.source.sourceUrl ?? undefined}>
-                Proposal rule source
-              </a>
-            </p>
+            <p>Proposal threshold: {measure.proposalRule.label}</p>
           )}
           <p>Ratification: {measure.ratificationMode.replaceAll("-", " ")}</p>
           <p>Deadline: {measure.deadlineAt ?? "No deadline recorded"}</p>

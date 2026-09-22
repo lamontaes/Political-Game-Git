@@ -88,6 +88,85 @@ function makeStore(
   });
 }
 
+it("keeps questions and attributed replies across restart without changing decisions", () => {
+  const workspace = workspaceWith([request("discussion")]);
+  const store = makeStore(workspace);
+  const candidate = store.ingest(
+    tinyPng(8, 4),
+    { requestId: "discussion" },
+    OWNER,
+  ).candidate;
+  const payload = {
+    requestId: "discussion",
+    candidateId: candidate.candidateId,
+    kind: "question" as const,
+    text: "Is this finished artwork or a request?",
+  };
+  expect(() => store.postMessage(payload, OWNER)).toThrow(/Art Desk/);
+  const question = store.postMessage(payload, OWNER, "session-capability");
+  const actor = { kind: "agent" as const, id: "art-team" };
+  const reply = {
+    ...payload,
+    kind: "reply" as const,
+    replyTo: question.eventId,
+    text: "This is artwork ready for review.",
+  };
+  expect(() =>
+    store.postMessage({ ...reply, replyTo: "missing" }, actor),
+  ).toThrow(/Replies/);
+  store.postMessage(reply, actor);
+  const recovered = makeStore(workspace, store.dataRoot).projection();
+  expect(recovered.messages?.map((message) => message.payload.text)).toEqual([
+    payload.text,
+    reply.text,
+  ]);
+  expect(recovered.candidates[candidate.candidateId].decisions).toHaveLength(0);
+  expect(recovered.candidates[candidate.candidateId].status).toBe(
+    "awaiting-review",
+  );
+});
+
+it("a running store sees external appended events before projection and conflict checks", () => {
+  const workspace = workspaceWith([request("fresh-state")]);
+  const first = makeStore(workspace);
+  const second = makeStore(workspace, first.dataRoot);
+  const c = first.ingest(
+    tinyPng(7, 4),
+    { requestId: "fresh-state" },
+    OWNER,
+  ).candidate;
+  expect(second.projection().candidates[c.candidateId].sha256).toBe(c.sha256);
+  first.setTags({
+    entity: "candidate",
+    entityId: c.candidateId,
+    tags: { upscaleMinimum: ["1920x1080"] },
+    baseVersion: 0,
+    author: OWNER,
+  });
+  expect(() =>
+    second.setTags({
+      entity: "candidate",
+      entityId: c.candidateId,
+      tags: { reviewQueue: ["archived"] },
+      baseVersion: 0,
+      author: OWNER,
+    }),
+  ).toThrow(/Tags changed/);
+  expect(
+    second.projection().candidates[c.candidateId].tags.upscaleMinimum,
+  ).toEqual(["1920x1080"]);
+  second.setTags({
+    entity: "candidate",
+    entityId: c.candidateId,
+    tags: { reviewQueue: [`${c.candidateId}:reference`] },
+    baseVersion: 1,
+    author: OWNER,
+  });
+  expect(first.projection().candidates[c.candidateId].tagsVersion).toBe(2);
+  const sequences = first.allEvents().map((event) => event.seq);
+  expect(new Set(sequences).size).toBe(sequences.length);
+});
+
 describe("artbench store: intake, alternatives, lineage and decisions", () => {
   const workspace = workspaceWith([request("env-a"), request("env-b")]);
   const dataRoot = mkdtempSync(join(tmpdir(), "artbench-data-"));
@@ -132,6 +211,45 @@ describe("artbench store: intake, alternatives, lineage and decisions", () => {
     const result = store.ingest(tinyPng(3, 3), {}, OWNER);
     expect(result.candidate.requestId).toBe("inbox");
     expect(store.projection().requests.inbox.lane).toBe("inbox");
+  });
+
+  it("shows rejection after installation while retaining the installed receipt", () => {
+    const store = makeStore(workspaceWith([request("env-a")]));
+    const { candidate } = store.ingest(
+      tinyPng(7, 4),
+      { requestId: "env-a" },
+      OWNER,
+    );
+    const decision = {
+      candidateId: candidate.candidateId,
+      viewedCandidateId: candidate.candidateId,
+      viewedSha256: candidate.sha256,
+      actor: OWNER,
+      ...CONTRACT,
+    };
+    store.decide({ ...decision, decision: "approve" });
+    const item = store.projection().integrationQueue[0]!;
+    store.recordIntegration(
+      {
+        itemId: item.itemId,
+        state: "installed",
+        receipt: { build: "private-test" },
+      },
+      { kind: "agent", id: "integrator" },
+    );
+    expect(store.projection().candidates[candidate.candidateId].status).toBe(
+      "installed",
+    );
+    store.decide({ ...decision, decision: "reject" });
+    const after = store.projection();
+    expect(after.candidates[candidate.candidateId].status).toBe("rejected");
+    expect(after.integrationQueue[0]!.receipts).toHaveLength(1);
+    expect(after.assets[candidate.assetId].activeRuntimeCandidateId).toBe(
+      candidate.candidateId,
+    );
+    expect(
+      after.assets[candidate.assetId].currentApprovedCandidateId,
+    ).toBeUndefined();
   });
 
   it("binds decisions to the viewed candidate and verified bytes; approval queues integration once", () => {
@@ -256,6 +374,51 @@ describe("artbench store: intake, alternatives, lineage and decisions", () => {
     expect(after.assets[c.assetId].currentApprovedCandidateId).toBe(a);
     expect(after.requests["env-a"].selectedCandidateId).toBe(c.candidateId);
     expect(store.original(a).bytes.length).toBeGreaterThan(0);
+  });
+
+  it("keeps child role overrides and parent facets with attributed history", () => {
+    const local = makeStore(workspaceWith([request("parts")]));
+    const actor = { kind: "worker" as const, id: "prepared-parts" };
+    const parent = local.ingest(
+      tinyPng(4, 4),
+      {
+        requestId: "parts",
+        tags: { body: ["fuller"], assetType: ["person"], outfit: ["shirt"] },
+      },
+      actor,
+    ).candidate;
+    const child = local.ingest(
+      tinyPng(5, 5),
+      {
+        parentCandidateId: parent.candidateId,
+        tags: { assetType: ["material-map"], outfit: [] },
+      },
+      actor,
+    ).candidate;
+    expect(child.tags).toEqual({
+      body: ["fuller"],
+      assetType: ["material-map"],
+    });
+    expect(child.tags.outfit).toBeUndefined();
+    expect(candidateNotes(local.projection(), child).inheritedTags).toEqual(
+      parent.tags,
+    );
+    expect(local.projection().candidates[parent.candidateId].tags).toEqual(
+      parent.tags,
+    );
+    expect(child.status).toBe("awaiting-review");
+    const events = readFileSync(
+      join(local.dataRoot, "events/events.jsonl"),
+      "utf8",
+    )
+      .trim()
+      .split("\n")
+      .map((line) => JSON.parse(line));
+    expect(events.at(-1)).toMatchObject({
+      type: "tags.set",
+      actor,
+      payload: { entityId: child.candidateId },
+    });
   });
 
   it("shows an edited reimport with the parent's note and tags beside its own", () => {
@@ -521,6 +684,134 @@ describe("artbench store: inbox batches and the exchange", () => {
     expect(
       store.allEvents().filter((e) => e.type === "batch.completed"),
     ).toHaveLength(1);
+  });
+
+  it("defers an item whose file has not arrived yet, and says nothing about the batch until it has", () => {
+    // The sender's contract is manifest.json last. A sender that writes it
+    // first announces a batch whose payload is still uploading, and this is
+    // the case that used to be eaten: the missing file took a permanent
+    // "rejected" marker, the next pass skipped it for having one, and the
+    // batch reported completed with nothing in it.
+    const batch = join(drive, "01_INBOX", "batch-2026-09-22-late-upload");
+    mkdirSync(batch, { recursive: true });
+    const items = [
+      { itemId: "early", file: "early.png", requestId: "env-c" },
+      { itemId: "late", file: "late.png", requestId: "env-c" },
+    ];
+    writeFileSync(join(batch, "early.png"), tinyPng(21, 4));
+    writeFileSync(
+      join(batch, "manifest.json"),
+      JSON.stringify({ batchId: "batch-2026-09-22-late-upload", items }),
+    );
+
+    const before = store
+      .allEvents()
+      .filter((e) => e.type === "batch.completed").length;
+    store.syncOnce();
+    // The one file that is here is taken, and the batch stays quiet.
+    expect(
+      store.allEvents().filter((e) => e.type === "batch.completed"),
+    ).toHaveLength(before);
+
+    // The upload finishes.
+    writeFileSync(join(batch, "late.png"), tinyPng(22, 4));
+    store.syncOnce();
+    const completed = store
+      .allEvents()
+      .filter((e) => e.type === "batch.completed");
+    expect(completed).toHaveLength(before + 1);
+    const last = completed[completed.length - 1];
+    expect(
+      last.type === "batch.completed" && last.payload.ingestedCandidateIds,
+    ).toHaveLength(2);
+    expect(
+      last.type === "batch.completed" && last.payload.rejected,
+    ).toHaveLength(0);
+    // Both items are in the one event even though they were taken on
+    // different passes. Reporting only the pass that happened to finish last
+    // is the other way a batch of n can say less than n with nothing marked
+    // rejected, and it is why the lists are composed from the accumulated
+    // record rather than from the pass.
+    if (last.type !== "batch.completed") throw new Error("wrong event");
+    expect(
+      last.payload.ingestedCandidateIds.length +
+        (last.payload.duplicateCandidateIds?.length ?? 0) +
+        last.payload.rejected.length,
+    ).toBe(last.payload.itemCount);
+
+    // And it is not re-announced once it is done.
+    store.syncOnce();
+    expect(
+      store.allEvents().filter((e) => e.type === "batch.completed"),
+    ).toHaveLength(before + 1);
+  });
+
+  it("reports a batch as pending while an item it declared has not arrived", () => {
+    // pendingBatches used to be read off folder shape alone, which answers
+    // "has the sender finished uploading" rather than "is the bench still
+    // waiting on anything". Those two parted company the moment an item could
+    // be deferred: a manifest present and an image missing is complete by
+    // folder shape and unfinished in fact, and under the old rule the batch
+    // appeared in neither the pending list nor the ingested one.
+    const batch = join(drive, "01_INBOX", "batch-2026-09-22-pending-visible");
+    mkdirSync(batch, { recursive: true });
+    writeFileSync(join(batch, "here.png"), tinyPng(31, 4));
+    writeFileSync(
+      join(batch, "manifest.json"),
+      JSON.stringify({
+        batchId: "batch-2026-09-22-pending-visible",
+        items: [
+          { itemId: "here", file: "here.png", requestId: "env-c" },
+          { itemId: "coming", file: "coming.png", requestId: "env-c" },
+        ],
+      }),
+    );
+
+    expect(store.syncStatus().pendingBatches).toContain(
+      "batch-2026-09-22-pending-visible",
+    );
+    store.syncOnce();
+    // Still waiting: one item has reached no end state.
+    expect(store.syncStatus().pendingBatches).toContain(
+      "batch-2026-09-22-pending-visible",
+    );
+
+    writeFileSync(join(batch, "coming.png"), tinyPng(32, 4));
+    store.syncOnce();
+    expect(store.syncStatus().pendingBatches).not.toContain(
+      "batch-2026-09-22-pending-visible",
+    );
+  });
+
+  it("keeps rejecting a file that is present and is not an image", () => {
+    // The other half of the split: this one never becomes true on its own,
+    // so it keeps its permanent marker and is not retried for ever.
+    const batch = join(drive, "01_INBOX", "batch-2026-09-22-not-an-image");
+    mkdirSync(batch, { recursive: true });
+    writeFileSync(join(batch, "note.txt"), "not an image");
+    writeFileSync(
+      join(batch, "manifest.json"),
+      JSON.stringify({
+        batchId: "batch-2026-09-22-not-an-image",
+        items: [{ itemId: "note", file: "note.txt", requestId: "env-c" }],
+      }),
+    );
+    const before = store
+      .allEvents()
+      .filter((e) => e.type === "batch.completed").length;
+    store.syncOnce();
+    const completed = store
+      .allEvents()
+      .filter((e) => e.type === "batch.completed");
+    expect(completed).toHaveLength(before + 1);
+    const last = completed[completed.length - 1];
+    expect(
+      last.type === "batch.completed" && last.payload.rejected,
+    ).toHaveLength(1);
+    store.syncOnce();
+    expect(
+      store.allEvents().filter((e) => e.type === "batch.completed"),
+    ).toHaveLength(before + 1);
   });
 
   it("exports decisions as immutable event files and a readable catalog, and admits foreign events", () => {
@@ -809,4 +1100,124 @@ describe("artbench store: inbox batches and the exchange", () => {
     expect(Object.keys(store.projection().candidates).length).toBe(before);
     expect(hashBytes("x")).toHaveLength(64);
   });
+});
+
+it("revises a request append-only with optimistic version checks and retained candidates", () => {
+  const workspace = workspaceWith([]);
+  const store = makeStore(workspace);
+  const actor = { kind: "agent" as const, id: "request-author" };
+  const original = request("room-reference");
+  store.createRequest({ request: original, actor, origin: "worker" });
+  const candidate = store.ingest(
+    tinyPng(8, 4),
+    { requestId: original.requestId },
+    actor,
+  ).candidate;
+  const prefix = store.allEvents();
+  const updated = {
+    ...original,
+    requestVersion: 2,
+    title: "Clearer room",
+    generatorParameters: { fireflyPrompt: "Keep the room geometry." },
+  };
+  store.reviseRequest({ request: updated, baseVersion: 1, actor });
+  expect(() =>
+    store.reviseRequest({ request: updated, baseVersion: 1, actor }),
+  ).toThrow(/Reload/);
+  expect(store.allEvents().slice(0, prefix.length)).toEqual(prefix);
+  const reopened = makeStore(workspace, store.dataRoot);
+  const row = reopened.projection().requests[original.requestId]!;
+  expect(row.request).toEqual(updated);
+  expect(row.candidateIds).toEqual([candidate.candidateId]);
+  expect(
+    reopened.projection().candidates[candidate.candidateId]!.requestVersion,
+  ).toBe(1);
+});
+
+it("persists per-reply notification reads across stores without changing art history", () => {
+  const workspace = workspaceWith([request("notifications")]);
+  const store = makeStore(workspace);
+  const question = store.postMessage(
+    { requestId: "notifications", kind: "question", text: "Is this ready?" },
+    OWNER,
+    "session-capability",
+  );
+  const actor = { kind: "agent" as const, id: "art-team" };
+  const first = store.postMessage(
+    {
+      requestId: "notifications",
+      kind: "reply",
+      text: "First answer",
+      replyTo: question.eventId,
+    },
+    actor,
+  );
+  const second = store.postMessage(
+    {
+      requestId: "notifications",
+      kind: "reply",
+      text: "Second answer",
+      replyTo: question.eventId,
+    },
+    actor,
+  );
+  const history = readFileSync(join(store.dataRoot, "events/events.jsonl"));
+  expect(() => store.markNotificationsRead([first.eventId], null)).toThrow(
+    /Art Desk/,
+  );
+  expect(() =>
+    store.markNotificationsRead(["future-event"], "session-capability"),
+  ).toThrow(/no longer available/);
+  expect(() =>
+    store.markNotificationsRead([question.eventId], "session-capability"),
+  ).toThrow(/no longer available/);
+  expect(store.notificationReadEventIds()).toEqual([]);
+  store.markNotificationsRead([first.eventId], "session-capability");
+  const reopened = makeStore(workspace, store.dataRoot);
+  expect(reopened.notificationReadEventIds()).toEqual([first.eventId]);
+  reopened.markNotificationsRead([second.eventId], "session-capability");
+  store.markNotificationsRead([first.eventId], "session-capability");
+  expect(store.notificationReadEventIds()).toEqual([
+    first.eventId,
+    second.eventId,
+  ]);
+  expect(readFileSync(join(store.dataRoot, "events/events.jsonl"))).toEqual(
+    history,
+  );
+  expect(
+    existsSync(join(store.dataRoot, "preferences/notifications.json")),
+  ).toBe(true);
+});
+
+it("allocates stable request codes once and preserves them through revisions and restart", () => {
+  const workspace = workspaceWith([
+    request("background", {
+      generatorParameters: { fireflyPrompt: "Paint the coast." },
+    }),
+  ]);
+  const store = makeStore(workspace);
+  const row = store.projection().requests.background!;
+  const code = store.projection().assets[row.assetId]!.tags.requestCode;
+  expect(code).toEqual(["background:A01"]);
+  const events = store.allEvents();
+  store.ensureRequestCodes();
+  expect(store.allEvents()).toEqual(events);
+  store.reviseRequest({
+    request: { ...row.request, requestVersion: 2 },
+    baseVersion: 1,
+    actor: { kind: "worker", id: "art-team" },
+  });
+  const asset = store.projection().assets[row.assetId]!;
+  store.setTags({
+    entity: "asset",
+    entityId: row.assetId,
+    tags: { category: ["coast"] },
+    baseVersion: asset.tagsVersion,
+    author: { kind: "worker", id: "art-team" },
+  });
+  const reopened = makeStore(workspace, store.dataRoot);
+  expect(reopened.projection().assets[row.assetId]!.tags.requestCode).toEqual(
+    code,
+  );
+  expect(reopened.allEvents().slice(0, events.length)).toEqual(events);
 });

@@ -11,19 +11,20 @@ Rule admission only. An admitted field is a compiled, dated rule the resolver wi
 - States where a legislative term rule is admitted: 1.
 - General-purpose governments in the catalog: 38704.
 - Governments with at least one admitted local action: 3.
-- Loaded municipal records: 144; mapped to a catalog unit: 63.
+- Loaded municipal records: 144; mapped to a catalog unit: 65.
 
 Missing mandatory fields for passing an ordinance (first missing field per government):
 
-- `body.seats`: 38701
+- `body.seats`: 38699
 - `ordinance.introductionToPassage`: 2
+- `ordinance.passage`: 2
 
 ## By unit type
 
 | Type | Units | Enacted instrument compiled | Introduce ordinance | Pass ordinance | Appropriation vote rule | Pass appropriation | Inherited default only | Identity only |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | county | 3031 | 0 | 0 | 0 | 95 | 0 | 95 | 2936 |
-| municipality | 19489 | 3 | 3 | 1 | 227 | 2 | 225 | 19261 |
+| municipality | 19489 | 5 | 3 | 1 | 227 | 2 | 225 | 19259 |
 | township | 16184 | 0 | 0 | 0 | 0 | 0 | 0 | 16184 |
 
 ## By state
@@ -68,7 +69,7 @@ States where a legislator's qualifications are admitted for at least one chamber
 | ND | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 1710 | 0 | 0 | 0 | no compiled legislative pack |
 | OH | bicameral | lower: refused; upper: refused | 0/2 | 0/2 | 2321 | 0 | 0 | 0 | qualification.minimumAge |
 | OK | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 672 | 0 | 0 | 0 | no compiled legislative pack |
-| OR | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 277 | 0 | 0 | 0 | no compiled legislative pack |
+| OR | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 277 | 1 | 0 | 0 | no compiled legislative pack |
 | PA | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 2623 | 0 | 0 | 0 | no compiled legislative pack |
 | RI | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 39 | 0 | 0 | 0 | no compiled legislative pack |
 | SC | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 317 | 0 | 0 | 0 | no compiled legislative pack |
@@ -82,7 +83,7 @@ States where a legislator's qualifications are admitted for at least one chamber
 | WV | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 285 | 0 | 0 | 0 | no compiled legislative pack |
 | WI | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 1920 | 0 | 0 | 0 | no compiled legislative pack |
 | WY | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 122 | 0 | 0 | 0 | no compiled legislative pack |
-| DC | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 1 | 0 | 0 | 0 | no compiled legislative pack |
+| DC | not compiled | lower: refused; upper: refused | 0/0 | 0/0 | 1 | 1 | 0 | 0 | no compiled legislative pack |
 
 Ordinary initialization, office/contest producers and save continuity are not measured here; they belong to the NATIONWIDE WORLD/ELECTION producers.
 
@@ -111,7 +112,6 @@ Ordinary initialization, office/contest producers and save continuity are not me
 - `us-co-pueblo` (CO; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-ct-hartford` (CT; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-ct-new-haven` (CT; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
-- `us-dc-washington` (DC; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-de-newark` (DE; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-fl-jacksonville` (FL; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-fl-miami` (FL; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
@@ -162,7 +162,6 @@ Ordinary initialization, office/contest producers and save continuity are not me
 - `us-oh-cincinnati` (OH; research-transcription, reference-observation): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-oh-cleveland` (OH; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-ok-tulsa` (OK; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
-- `us-or-portland` (OR; enacted-text, research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-pa-pittsburgh` (PA; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-ri-providence` (RI; research-transcription, reference-observation): carries neither a declared Census identity link nor a place GEOID; names are never matched
 - `us-sc-charleston` (SC; research-transcription): carries neither a declared Census identity link nor a place GEOID; names are never matched

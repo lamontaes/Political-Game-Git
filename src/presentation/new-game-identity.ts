@@ -213,6 +213,19 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
   const givenNameGenerationVersion = setup.givenNameGenerationVersion;
   const appearanceCatalogGeneration = setup.appearanceCatalogGeneration;
   const extras = {
+    ...(setup.questionnaireCopyVersion === undefined
+      ? {}
+      : { questionnaireCopyVersion: setup.questionnaireCopyVersion }),
+    ...(setup.earlierLifeGenerationVersion === undefined
+      ? {}
+      : { earlierLifeGenerationVersion: setup.earlierLifeGenerationVersion }),
+    ...(setup.birthYear === undefined ? {} : { birthYear: setup.birthYear }),
+    ...(setup.openingDataVersion === undefined
+      ? {}
+      : { openingDataVersion: setup.openingDataVersion }),
+    ...(setup.livingWorldMemberNameVersion === undefined
+      ? {}
+      : { livingWorldMemberNameVersion: setup.livingWorldMemberNameVersion }),
     ...(setup.worldOpeningVersion === undefined
       ? {}
       : { worldOpeningVersion: setup.worldOpeningVersion }),
@@ -300,6 +313,24 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   if (record.startKind !== undefined && record.startKind !== "custom") {
     return null;
   }
+  const birthYear = record.birthYear;
+  if (
+    birthYear !== undefined &&
+    (!Number.isSafeInteger(birthYear) || (birthYear as number) < 1)
+  )
+    return null;
+  const openingDataVersion = record.openingDataVersion;
+  if (
+    openingDataVersion !== undefined &&
+    openingDataVersion !== "playtest65-v1"
+  )
+    return null;
+  const livingWorldMemberNameVersion = record.livingWorldMemberNameVersion;
+  if (
+    livingWorldMemberNameVersion !== undefined &&
+    livingWorldMemberNameVersion !== "identity-v1"
+  )
+    return null;
   const birthMonth = record.birthMonth;
   const birthDay = record.birthDay;
   if (birthMonth !== undefined || birthDay !== undefined) {
@@ -317,6 +348,16 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     }
   }
   const givenNameGenerationVersion = record.givenNameGenerationVersion;
+  if (
+    record.questionnaireCopyVersion !== undefined &&
+    record.questionnaireCopyVersion !== "playtest65-v2"
+  )
+    return null;
+  if (
+    record.earlierLifeGenerationVersion !== undefined &&
+    record.earlierLifeGenerationVersion !== "context-v2"
+  )
+    return null;
   if (
     givenNameGenerationVersion !== undefined &&
     givenNameGenerationVersion !== LEGACY_GIVEN_NAME_GENERATION_VERSION &&
@@ -348,6 +389,11 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   )
     return null;
   const base: NewGameSetup = {
+    ...(birthYear === undefined ? {} : { birthYear: birthYear as number }),
+    ...(openingDataVersion === undefined ? {} : { openingDataVersion }),
+    ...(livingWorldMemberNameVersion === undefined
+      ? {}
+      : { livingWorldMemberNameVersion }),
     ...(worldOpeningVersion === undefined
       ? {}
       : { worldOpeningVersion: worldOpeningVersion as WorldOpeningVersion }),
@@ -378,6 +424,12 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
           pronouns: pronouns as PronounSetKey,
         }),
     ...(record.startKind === "custom" ? { startKind: "custom" as const } : {}),
+    ...(record.questionnaireCopyVersion === undefined
+      ? {}
+      : { questionnaireCopyVersion: "playtest65-v2" as const }),
+    ...(record.earlierLifeGenerationVersion === undefined
+      ? {}
+      : { earlierLifeGenerationVersion: "context-v2" as const }),
     ...(appearanceRecipeVersion === undefined
       ? {}
       : { appearanceRecipeVersion: appearanceRecipeVersion as string }),

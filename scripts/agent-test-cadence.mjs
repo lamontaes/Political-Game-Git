@@ -140,7 +140,11 @@ export function planCadence(changedFiles, options = {}) {
 
 function gitChangedFiles() {
   const run = (args) =>
-    execFileSync("git", args, { cwd: REPO_ROOT, encoding: "utf8" }).trim();
+    execFileSync("git", args, {
+      cwd: REPO_ROOT,
+      encoding: "utf8",
+      maxBuffer: 64 * 1024 * 1024,
+    }).trim();
   try {
     const upstream = run(["rev-parse", "--abbrev-ref", "@{upstream}"]);
     if (upstream) {

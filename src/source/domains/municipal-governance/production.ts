@@ -268,9 +268,9 @@ export function compileMunicipalProduction(
       coverage: {
         isCompleteUniverse: false,
         universeDescription:
-          "Three municipal governments — Charlottesville and Richmond in Virginia and Carson City in Nevada — compiled from the enacted text of their own charters and, where the charter delegates the rule, the Code of Virginia sections that carry it. Chosen for structural difference: a manager plan whose council elects its own mayor, an elected chief-executive mayor with a veto, and a consolidated municipality whose board contains its mayor.",
+          "Five scoped local-government records: Charlottesville and Richmond, Virginia; Carson City, Nevada; Portland, Oregon; and the District of Columbia. Compiled from locked enacted-text excerpts; supported fields differ by record and do not imply complete operative profiles.",
         boundedSampleReason:
-          "The tranche is bounded by publication, not by government. Virginia and Nevada publish municipal charters themselves as enacted acts in retrievable first-party HTML; most states do not, and their charters sit on city sites as PDFs or behind commercial code publishers that refuse a non-browser client. The wider national institutional corpus stays a fixture for exactly that reason.",
+          "Coverage is limited to reviewed, acquired and compiled enacted provisions for these named governments. Uncompiled fields remain unresolved; national research transcriptions remain separate and this is not nationwide coverage.",
       },
     },
     records,

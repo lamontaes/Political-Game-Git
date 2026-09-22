@@ -16,6 +16,19 @@ const legacy = Object.values(
     { eager: true, import: "default" },
   ),
 )[0] ?? { variants: [] };
+const declaredPacks = import.meta.glob<{
+  readonly variants: readonly Pose41Variant[];
+}>(
+  [
+    "../../art/authoring/pose41/pack.json",
+    "../../art/authoring/modular41-head-v2/pose-pack.json",
+    "../../art/authoring/modular45/pose-pack.json",
+    "../../art/authoring/systemic-repair/pose-pack.json",
+    "../../art/authoring/modular47/pose-pack.json",
+    "../../art/authoring/modular47-r1/pose-pack.json",
+  ],
+  { eager: true, import: "default" },
+);
 
 const request = (index = 0): Pose41Request => {
   const v = POSE41_VARIANTS[index]!;
@@ -32,7 +45,27 @@ describe.skipIf(!PRIVATE_CANDIDATE_ART_AVAILABLE)(
   "POSE41 source compatibility and identity continuity",
   () => {
     it("retains the frozen pose bank plus the MODULAR41 repaired-head variants", () => {
-      expect(POSE41_VARIANTS).toHaveLength(42);
+      const frozen = [
+        ...(declaredPacks["../../art/authoring/pose41/pack.json"]?.variants ??
+          []),
+        ...(declaredPacks[
+          "../../art/authoring/modular41-head-v2/pose-pack.json"
+        ]?.variants ?? []),
+      ];
+      expect(frozen).toHaveLength(42);
+      for (const old of frozen)
+        expect(POSE41_VARIANTS.find((v) => v.id === old.id)).toEqual(old);
+      const declared = Object.values(declaredPacks).flatMap(
+        (pack) => pack.variants,
+      );
+      expect(POSE41_VARIANTS).toHaveLength(declared.length);
+      expect(new Set(POSE41_VARIANTS.map((variant) => variant.id)).size).toBe(
+        declared.length,
+      );
+      for (const variant of declared)
+        expect(POSE41_VARIANTS.find((v) => v.id === variant.id)).toEqual(
+          variant,
+        );
       for (const old of legacy.variants) {
         expect(POSE41_VARIANTS.find((v) => v.id === old.id)).toEqual(old);
         expect(

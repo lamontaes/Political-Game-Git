@@ -128,11 +128,20 @@ export interface MunicipalProcedure {
   /** The source layer's state for committee referral, verbatim. */
   readonly committeeReferralState?: string;
   /** Least time between introduction and passage, where a source fixed one. */
-  readonly introductionToPassage?: {
-    readonly minimumInterveningDays: number;
-    readonly sameDayException: string | null;
-  } | null;
+  readonly introductionToPassage?: MunicipalPassageInterval | null;
 }
+
+/** Missing basis retains old pack and saved-world passage timing. */
+export type MunicipalPassageInterval = (
+  | {
+      readonly basis?: "WHOLE_INTERVENING_DAYS";
+      readonly minimumInterveningDays: number;
+    }
+  | {
+      readonly basis: "ELAPSED_DAYS";
+      readonly minimumElapsedDays: number;
+    }
+) & { readonly sameDayException: string | null };
 
 export interface MunicipalBudget {
   readonly fiscalYear: {

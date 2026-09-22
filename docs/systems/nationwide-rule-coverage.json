@@ -262,12 +262,13 @@
       "state": "CT"
     },
     {
-      "catalogUnitId": null,
+      "catalogUnitId": "gus2025:124214",
       "evidence": [
+        "enacted-text",
         "research-transcription"
       ],
       "governmentKey": "us-dc-washington",
-      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "mapping": "mapped",
       "state": "DC"
     },
     {
@@ -1120,13 +1121,13 @@
       "state": "OK"
     },
     {
-      "catalogUnitId": null,
+      "catalogUnitId": "gus2025:211254",
       "evidence": [
         "enacted-text",
         "research-transcription"
       ],
       "governmentKey": "us-or-portland",
-      "mapping": "carries neither a declared Census identity link nor a place GEOID; names are never matched",
+      "mapping": "mapped",
       "state": "OR"
     },
     {
@@ -3063,13 +3064,13 @@
       ],
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
-        "identityOnly": 277,
+        "identityOnly": 276,
         "inheritedDefaultOnly": 0,
         "introduceOrdinanceAdmitted": 0,
         "passAppropriationAdmitted": 0,
         "passOrdinanceAdmitted": 0,
         "units": 277,
-        "withCompiledEnactedInstrument": 0
+        "withCompiledEnactedInstrument": 1
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
@@ -3623,13 +3624,13 @@
       ],
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
-        "identityOnly": 1,
+        "identityOnly": 0,
         "inheritedDefaultOnly": 0,
         "introduceOrdinanceAdmitted": 0,
         "passAppropriationAdmitted": 0,
         "passOrdinanceAdmitted": 0,
         "units": 1,
-        "withCompiledEnactedInstrument": 0
+        "withCompiledEnactedInstrument": 1
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
@@ -3653,13 +3654,13 @@
       },
       "municipality": {
         "appropriationVoteRuleAdmitted": 227,
-        "identityOnly": 19261,
+        "identityOnly": 19259,
         "inheritedDefaultOnly": 225,
         "introduceOrdinanceAdmitted": 3,
         "passAppropriationAdmitted": 2,
         "passOrdinanceAdmitted": 1,
         "units": 19489,
-        "withCompiledEnactedInstrument": 3
+        "withCompiledEnactedInstrument": 5
       },
       "township": {
         "appropriationVoteRuleAdmitted": 0,
@@ -3674,10 +3675,11 @@
     },
     "catalogUnits": 38704,
     "loadedMunicipalRecords": 144,
-    "loadedRecordsMappedToCatalog": 63,
+    "loadedRecordsMappedToCatalog": 65,
     "missingMandatoryLocalFields": {
-      "body.seats": 38701,
-      "ordinance.introductionToPassage": 2
+      "body.seats": 38699,
+      "ordinance.introductionToPassage": 2,
+      "ordinance.passage": 2
     },
     "states": 50,
     "statesWithAnyStandForOfficeAdmitted": 3,
