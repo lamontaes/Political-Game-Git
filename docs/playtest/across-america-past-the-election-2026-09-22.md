@@ -39,7 +39,8 @@ town — and then carries lives past the result into what follows.
 9. **A won governorship seats you, if you press "Qualify for the term".**
    Walked later the same day on `4965f63c` in Reno and Springfield: qualify
    in November and you are Governor on 4 January 2027. Skip it and the term
-   is lost for good. See section 10.
+   is lost for good. Outside Kentucky, Nebraska and Alaska no bill ever
+   reaches the governor's desk. See section 10.
 
 ---
 
@@ -409,22 +410,39 @@ with no second press. "Term over or never entered" happens only when the start
 date passes without a qualification, and `stateExecutiveEntryStatus` documents
 that as intended.
 
-**What a new governor finds is empty.** Both offices say, on the first
-morning:
+**On the first morning the office is empty. It stops being empty the
+next day.** On 4 January both offices read:
 
 > Needs you — Nothing is waiting on you right now.
-> No bill reached Governor of Nevada this session: the game has not compiled
-> NV's legislature, so it files no measures.
 > What this office is answerable for — No program of this government has a
 > record here yet — no service capacity, no appropriation and no commitment.
 > Who works here — Nobody is recorded as working for this office.
 
-The Illinois office reads the same, with "the game has not compiled IL's
-legislature", and it has an "Office work — Work for 30 minutes" control.
-The only recent entry under "What came of it" is the outgoing governor's
-December budget request.
-The same shape as the empty legislature in section 1:
-**you can reach the office, but on day one there is nothing to do in it.**
+The browser walk stopped there. That was the entry day, and the office's
+first matters are scheduled for the day after it
+(`scheduleGoverningTransition`, `src/simulation/governing/state-governing.ts`,
+entry plus one day). The same route through the game's own clock
+(NV, IL and KY, each qualified and then carried forward, measured 18:15Z on
+`4965f63c`) gives:
+
+| Date           | Nevada and Illinois                                                                     | Kentucky                                                                                                                |
+| -------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| 5 January 2027 | "Choose a chief of staff", "Set the first priority"                                     | the same two                                                                                                            |
+| 15 February    | "No bill reached Governor of … this session: the game has not compiled …'s legislature" | no such note; a written measure is filed into the legislature instead, and none had reached the governor by 10 December |
+| 1 December     | "Set the budget request"                                                                | the same                                                                                                                |
+
+So the office has work from its second day. The difference between the
+states is the legislature's bills. The governor's bill season files a
+measure only where `authoredMeasuresForJurisdiction` finds one
+(`src/simulation/governing/legislative-clock.ts:650`). That function reads
+the hand-written scenario blueprints in
+`src/simulation/legislation-scenarios.ts`, which cover Kentucky, Nebraska and
+Alaska only. **Its sentence is wrong about Nevada and Illinois**: both _have_
+a compiled legislature, and Paola Evans sits in Nevada's. What they lack is
+written measures for the other members to file. #283, the nationwide
+legislatures, does not touch this gate. With it merged, every state will have
+a legislature, and every state except those three will still tell its
+governor that it has none.
 
 **The legislative seat, rechecked on `4965f63c`.** Paola Evans, Reno (seed
 `leg-reno-nv`), filed for the Assembly, did one session on the doors and pressed
