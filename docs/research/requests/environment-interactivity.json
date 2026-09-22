@@ -1,13 +1,14 @@
 {
   "answer": {
-    "answeredAt": "2026-09-22T13:30:00.000Z",
-    "answeredBy": "ChatGPT (research director), overnight 2026-09-22",
+    "answeredAt": "2026-09-22T13:20:00.000Z",
+    "answeredBy": "research direction",
     "sources": [
-      "CHATGPT REPLIES TO CLAUDE — CURRENT, Google Drive 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, sections FIRST THREE FUNCTIONAL OBJECT FAMILIES and ALIVENESS COMES FROM CHANGED CONTENT AND PEOPLE, NOT MORE POPUPS",
+      "ChatGPT research return, 2026-09-22, section 'LIVING PLAY — ROOMS MUST LEAD TO REAL ACTIONS', in the stable reply document.",
+      "src/presentation/scene-consumers.ts on main d956b92a, which answers the return's own open question about OfficeScene: it is wired only through PlayerOffice.tsx for the frozen Lexington-Fayette council-staff fixture and is quarantined from every generic office use.",
       "ALIVE44 — LIVING WORLD EXPANSION RESEARCH — CURRENT, Google Drive 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, LIVING PLAY ROOM ANSWER"
     ],
-    "stillOpen": "This is a first functional delivery, not an all-object taxonomy. Sitting, animation and freely moving furniture stay with their current owners. The integrated-room playtest it asks for has not been run.",
-    "summary": "Answered with three functional object families in delivery order, and an interaction rule. First, papers, noticeboard, telephone or media surface: expose the actual correspondence, invitations, offers, agenda or published information for this place and this player's knowledge, distinguishing information from claims and current from expired, then follow the same underlying item into its existing action interface rather than holding duplicate object-only state. Second, exit, door or place connection: show the real destination and existing travel and availability terms before commitment, then use the existing location and time action; cancelling leaves time, money and location unchanged, and a locked connection explains the known reason without disclosing hidden information. Third, desk or work surface: open the task genuinely associated with the person's current role, employment or programme; inspecting a document costs no time, committing consumes the existing duration and resources and records the real output once, and a desk grants no employment, authority, money, knowledge or credential. The interaction rule: hover or focus reveals, deliberate activation inspects or previews, only explicit commitment performs — clicking must never silently spend time. Keyboard and pointer must reach the same underlying action, and a discoverable accessible alternative must exist so a tiny hotspot is not the only way to answer an offer. An object with a real purpose but no available action may show concise status; meaningless decoration is not a fake action target."
+    "stillOpen": "Three families are explicitly a first delivery rather than a taxonomy, so the fourth is unanswered and is filed as room-objects-beyond-the-first-three. What a household paper surface should actually hold is filed as household-paper-surface-contents.",
+    "summary": "Rooms are not backdrops, and the direction was already settled by the owner: interact through highlighted objects rather than embedded action menus. Three object families, in delivery order. One, papers, a noticeboard, a telephone or a media surface: show the correspondence, invitations, offers, agenda or published information actually available for this place and this character's knowledge, and follow each into the interface that already owns it rather than keeping object-only state. Two, an exit or place connection: name the real destination and the existing travel terms before commitment, then use the existing location action; cancelling leaves time, money and location untouched. Three, a desk or work surface: open the task genuinely tied to the person's role, employment or programme; inspecting costs no time, committing spends the existing duration and records the output once, and a desk grants no employment, authority, money or credential. Across all three: hover or focus reveals, deliberate activation inspects or previews, and only explicit commitment performs; clicking must never silently spend time; keyboard and pointer reach the same action; and an object with a real purpose but no available action may show concise status rather than every lamp and chair glowing. Two further conditions from the same return: a discoverable accessible alternative must exist, so a tiny hotspot is never the only way to answer an offer, and a locked connection explains its known reason without disclosing hidden information. Meaningless decoration is not a fake action target."
   },
   "filedAt": "2026-09-22T04:46:00.000Z",
   "impact": "blocks-work",
@@ -22,6 +23,10 @@
   "priority": "P1",
   "question": "What makes a place in a life simulation feel like somewhere you can act rather than a backdrop you are standing in front of? Given that people in a room are already clickable and lead to real actions, and that nothing else in a room is, what should a player be able to do with the room itself — and what has to be true of an object before it is worth making a target?",
   "questionId": "environment-interactivity",
+  "relatedQuestionIds": [
+    "room-objects-beyond-the-first-three",
+    "household-paper-surface-contents"
+  ],
   "requestVersion": "research-request/v1",
   "requestedBy": "hardcoded-content audit thread",
   "sourcesChecked": [

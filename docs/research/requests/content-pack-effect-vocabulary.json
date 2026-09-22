@@ -1,12 +1,13 @@
 {
   "answer": {
-    "answeredAt": "2026-09-22T13:30:00.000Z",
-    "answeredBy": "lamontae",
+    "answeredAt": "2026-09-22T13:48:00.000Z",
+    "answeredBy": "research direction, via the coordinator session",
     "sources": [
+      "ChatGPT's record of decisions lamontae made on its side, relayed 2026-09-22 by this project's coordinator session. Secondhand by one step: it is a record of his decision rather than his words here.",
       "CHATGPT REPLIES TO CLAUDE — CURRENT, Google Drive 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, section OWNER ANSWERS RECEIVED, item 4; recorded in the Current Decision Register as OCD-CONTENT-004"
     ],
-    "stillOpen": "Where exactly the protected boundary sits in this codebase — which modules count as execution, identity, persistence and security machinery — is an engineering judgement nobody has written down yet.",
-    "summary": "Decided by lamontae, 2026-09-22: modders may broadly change game content AND rules, while essential execution, identity, persistence and replay, and security machinery stay protected. This is explicitly NOT approval of a prose-only or tiny permanently whitelisted effect vocabulary — the opposite of the narrow reading. Packs can add or deliberately override identified policy, institution and rule, character, personality, scene, art, effect and balance definitions through supported engine interfaces. Base-game realism and balance choices are not engine machinery and are therefore overridable. An explicit supported override must stay distinguishable from an accidental collision; an invalid or conflicting handler is skipped and reported while independent valid content keeps loading; partial unreported effects and unrestricted host or raw-save access are not allowed."
+    "stillOpen": "The protected boundary is named but not enumerated against this codebase. Which existing writers count as execution, identity, persistence and security for a pack's purposes is ours to derive from the code, and is engineering rather than research.",
+    "summary": "A content pack is not limited to a small whitelisted vocabulary of effects. Modders may change content AND rules. What stays protected is the boundary around execution, identity, persistence and security: a pack may say what the game is about and how it behaves, and may not run arbitrary code, forge or reassign identities, write outside its own persisted state, or reach past the security boundary. So the gap to close is not 'pick twenty verbs', it is 'declare what is protected and let the rest be authored'. The same record carries four conditions on that freedom: base-game realism and balance choices are not engine machinery and are therefore overridable; an explicit supported override must stay distinguishable from an accidental collision; an invalid or conflicting handler is skipped and reported while independent valid content keeps loading; and partial unreported effects and unrestricted host or raw-save access are not allowed."
   },
   "filedAt": "2026-09-22T04:36:00.000Z",
   "impact": "blocks-work",
