@@ -87,7 +87,7 @@
     "id": "noaa-catalog",
     "kind": "primary-external",
     "url": "https://www.ncei.noaa.gov/metadata/geoportal/rest/metadata/item/gov.noaa.ncdc%3AC00510/html",
-    "use": "Weather-event families, damage/injury reports and reporting delay; official catalog metadata, not newly compiled hazard rates."
+    "use": "Weather-event families, damage/injury reports and reporting delay; official catalogue metadata, not newly compiled hazard rates."
   },
   {
     "id": "nws-reports",

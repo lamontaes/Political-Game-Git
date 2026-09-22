@@ -60,7 +60,13 @@ export function CreatorAppearanceStep({
       data-testid="creator-stage-appearance"
     >
       {person && draft ? (
-        <div className="kit41-creator-layout">
+        <div
+          className={
+            libraries && ready
+              ? "kit41-creator-layout"
+              : "kit41-creator-layout kit41-creator-layout--no-figure"
+          }
+        >
           <div className="kit41-creator-preview">
             <PersonPortrait world={draft} personId={person.id} size="large" />
             {libraries && ready ? (
@@ -74,10 +80,12 @@ export function CreatorAppearanceStep({
           </div>
           <div>
             <h2>How you look</h2>
-            <p className="creator-preview-note">
-              Choose your appearance before beginning. These changes affect only
-              your preview.
-            </p>
+            {ready ? (
+              <p className="creator-preview-note">
+                Choose your appearance before beginning. These changes affect
+                only your preview.
+              </p>
+            ) : null}
             {bodyUnavailable ? (
               <p role="alert">
                 No compatible masculine body and outfit is available for this
@@ -139,7 +147,7 @@ export function CreatorAppearanceStep({
                 {libraries?.unavailableReason ??
                   (refusal
                     ? "This age has no supported portrait artwork yet. Your character can still begin."
-                    : "No compatible artwork is available in this catalog.")}
+                    : "Choosing how you look is not available yet. Your character can still begin.")}
               </p>
             )}
           </div>
