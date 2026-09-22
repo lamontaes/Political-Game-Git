@@ -1,4 +1,6 @@
 import {
+  ACTIVITY_DECLINED_EVENT,
+  ACTIVITY_LAPSED_EVENT,
   ageOnDate,
   lifePlaceByJurisdictionId,
   narrativeThreads,
@@ -225,8 +227,14 @@ function recordEntries(
     // generated earlier life are true and are not this character's account of
     // their own life, so putting them here would read as the game narrating
     // things nobody in it noticed.
+    // A refusal and a lapse are separate event types now: main split them so a
+    // hold the player was never shown stops reading as one they turned down.
+    // Both still belong in the player's own record — the hold was on their
+    // calendar and is gone — so admitting only the refusal silently dropped
+    // every lapsed hold from the life record.
     if (
-      event.type !== "life.scheduled-activity-declined" &&
+      event.type !== ACTIVITY_DECLINED_EVENT &&
+      event.type !== ACTIVITY_LAPSED_EVENT &&
       !event.tags.some(
         (tag) => tag.startsWith("choice.") || tag === "contact.lapsed",
       )

@@ -117,7 +117,7 @@ describe("versioned canonical earlier life", () => {
       expect(serializeWorld(repeated)).toBe(serialized);
     },
   );
-  it("keeps D.C. distinct and does not invent a school for a child", () => {
+  it("keeps D.C. distinct and puts a school-age child in the school they attend", () => {
     const input: ProductionWorldInput = {
       seed: "w-context-v2-dc-child",
       place: requireLifePlace("1150000"),
@@ -129,9 +129,25 @@ describe("versioned canonical earlier life", () => {
       household: "shares-a-home",
       earlierLifeGenerationVersion: "context-v2",
     };
-    const { world } = buildProductionWorld(input);
+    const { world, playerPersonId } = buildProductionWorld(input);
     assertWorldIntegrity(world);
-    expect(world.history.educationEnrollments).toHaveLength(0);
+    // `context-v2` declines to invent a school in an ADULT's summarized past.
+    // A ten-year-old is a different claim: they are in school now, and that is
+    // present circumstance rather than invented biography. This assertion read
+    // zero before that distinction was drawn, and a ten-year-old with no
+    // enrollment made `in-school` false, every early.school and early.peer
+    // opening ineligible, and left the town with no school in it.
+    const mine = world.history.educationEnrollments.filter(
+      (enrollment) => enrollment.personId === playerPersonId,
+    );
+    expect(mine).toHaveLength(1);
+    // The classmates are enrolled at the same school, not at invented ones.
+    const schools = new Set(
+      world.history.educationEnrollments.map(
+        (enrollment) => enrollment.organizationId,
+      ),
+    );
+    expect(schools).toEqual(new Set([mine[0]!.organizationId]));
     expect(world.history.workRelationships).toHaveLength(0);
     expect(world.history.childAuthorities.length).toBeGreaterThan(0);
     expect(world.personOrder.length).toBeGreaterThan(1);

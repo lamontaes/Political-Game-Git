@@ -13,6 +13,7 @@ import {
 } from "./venue-activity";
 import { enterLifePath, changeLifePathStatus } from "../simulation/life-paths2";
 import {
+  ACTIVITY_LAPSED_EVENT,
   deserializeWorld,
   serializeWorld,
   scheduledActivityState,
@@ -264,9 +265,12 @@ it("records an unanswered hold as lapsed and exposes its released calendar conse
     (e) => e.activity.title === "Posted public meeting",
   )!;
   const next = passOrdinaryDays(world, 2, { stopForTentativeHolds: false });
+  // A lapse has its own event type. It used to share the refusal's, which is
+  // what made a hold nobody was shown read downstream as one the player turned
+  // down. See `src/simulation/scheduled-activity-answer.ts`.
   const lapse = next.history.events.find(
     (e) =>
-      e.type === "life.scheduled-activity-declined" &&
+      e.type === ACTIVITY_LAPSED_EVENT &&
       e.involvedEntityIds.includes(entry.activity.id),
   );
   expect(lapse?.tags).toContain("lapsed");
