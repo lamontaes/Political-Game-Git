@@ -109,6 +109,34 @@ repository whose runs start promptly, and this one's do not — which means the
 freeze is not a nicety. It is the only condition under which main can ever
 report at all.
 
+## A count in a pull request body has a shelf life
+
+Three separate corrections tonight were the same mistake, which makes it a
+pattern rather than three slips.
+
+- #305 and #311 carried gate evidence measured at a head the pull request had
+  since moved past.
+- The Alaska release note's title described an outcome the measurement did not
+  support.
+- #277's body said `release:check` reported **zero** pending declarations. True
+  when written. After merging main at `7fc33c85` it is **74**, because other
+  lanes landed declarations overnight.
+
+None of these was careless at the time. Each was measured, written down
+accurately, and then went stale underneath its author, because **a branch that
+merges its base is a moving tree and every number taken from it is a
+measurement of one moment.**
+
+The rule: **state the tree a count was measured on.** "6411 tests passed at
+`9d7ec442`" survives contact with a base merge; "6411 tests pass" does not. The
+same goes for a conflict status, a pending count, a file count, or a green
+check.
+
+And when one does move, **correct it visibly rather than overwriting it.** A
+reader takes these sentences as claims about the world, so they should be able
+to see which ones moved under us and why. Silently replacing seventy-four for
+zero hides exactly the thing worth knowing.
+
 ## Twelve reds, none of them real, and why you still open the log
 
 In one batch at 07:45Z this lane received fifteen GitHub notifications. Twelve
