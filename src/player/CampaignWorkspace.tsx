@@ -91,40 +91,27 @@ export function readableCampaignDate(text: string): string {
 }
 
 /**
- * Splits a joined eligibility explanation into what the player needs to read
- * and what is source bookkeeping.
+ * A joined eligibility explanation as the sentences a player reads.
  *
- * A block reason is kept word for word; only its placement changes. Sentences
- * that carry an observation or retrieval date, or talk about source text, are
- * provenance: still true, still reachable, but under "Sources and detail"
- * rather than in the office's one-line status. Repeated sentences (two rule
- * checks can return the same reason) are shown once.
+ * Two rule checks can return the same reason, so a repeated sentence is shown
+ * once. Nothing is filtered: every sentence a producer wrote is a sentence
+ * about the office and the character, because a reason that needed hiding
+ * behind "Sources and detail" was a reason written for the wrong reader, and
+ * those are now written for this one.
  */
 export function splitEligibilityText(text: string): {
   readonly reasons: readonly string[];
-  readonly provenance: readonly string[];
 } {
-  const sentences = [
-    ...new Set(
-      text
-        .split(/(?<=\.)\s+/)
-        .map((sentence) => sentence.trim())
-        .filter(Boolean),
-    ),
-  ];
-  const reasons: string[] = [];
-  const provenance: string[] = [];
-  for (const sentence of sentences) {
-    if (
-      ISO_DATE.test(sentence) ||
-      /\b(observed|retrieved|source text|shapefile|pack)\b/i.test(sentence)
-    ) {
-      provenance.push(sentence);
-    } else {
-      reasons.push(sentence);
-    }
-  }
-  return { reasons, provenance };
+  return {
+    reasons: [
+      ...new Set(
+        text
+          .split(/(?<=\.)\s+/)
+          .map((sentence) => sentence.trim())
+          .filter(Boolean),
+      ),
+    ],
+  };
 }
 
 export function CampaignWorkspace({
@@ -321,16 +308,22 @@ export function CampaignWorkspace({
                   .filter((office) => office.governmentLevel === level)
                   .map((office) => {
                     const status = office.eligible
-                      ? { reasons: [office.eligibility], provenance: [] }
+                      ? { reasons: [office.eligibility] }
                       : splitEligibilityText(office.eligibility);
                     const [electionOn, ...timingDetail] = office.timing
                       .split(" — ")
                       .map((part) => part.trim());
                     const hasElection = ISO_DATE.test(office.timing);
+                    /*
+                     * What is left to say about the office, beyond its status
+                     * and its date. The unresolved research gaps are notes to
+                     * whoever reads the authorities next, written in their
+                     * terms and citing them, so they belong to the developer
+                     * surface rather than to a player choosing an office.
+                     */
                     const detail = [
-                      ...status.provenance,
                       ...(hasElection ? timingDetail : []),
-                      ...office.gaps,
+                      ...(DIAGNOSTICS ? office.gaps : []),
                     ];
                     return (
                       <label
@@ -363,7 +356,7 @@ export function CampaignWorkspace({
                               ? office.eligibility
                               : status.reasons.length > 0
                                 ? status.reasons.join(" ")
-                                : "You can't file for this office right now. The reason is under Sources and detail."}
+                                : "You can't file for this office right now."}
                           </span>
                           <span className="game-campaign-office-line">
                             {hasElection
@@ -415,16 +408,6 @@ export function CampaignWorkspace({
               ? unavailable.reasons.join(" ")
               : "There is no office here you can file for right now."}
           </p>
-          {unavailable.provenance.length > 0 ? (
-            <details className="game-campaign-detail">
-              <summary>Sources and detail</summary>
-              <ul>
-                {unavailable.provenance.map((line) => (
-                  <li key={line}>{line}</li>
-                ))}
-              </ul>
-            </details>
-          ) : null}
         </div>
       ) : null}
 

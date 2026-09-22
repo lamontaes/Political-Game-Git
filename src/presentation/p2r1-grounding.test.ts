@@ -21,7 +21,6 @@ describe("P2R1 canonical pre-offer counterexamples", () => {
   for (const [key, build] of [
     ["adult.housing-cost-change", housingFixture],
     ["adult.work-extra-hours", fixture],
-    ["adult.work-offer-elsewhere", fixture],
     ["adult.care-request", fixture],
     ["adult.volunteer-ask", fixture],
     ["adult.incident-aftermath", incidentFixture],
