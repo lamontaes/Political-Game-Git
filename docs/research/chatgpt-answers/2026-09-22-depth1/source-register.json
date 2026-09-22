@@ -1,0 +1,116 @@
+[
+  {
+    "id": "code-beliefs",
+    "kind": "source-inspected",
+    "url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/political-belief-formation.ts",
+    "use": "Existing evaluator, personally sourced factors, private record, no-opinion and player/NPC boundary."
+  },
+  {
+    "id": "code-policy-pack",
+    "kind": "source-inspected",
+    "url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/policy-packs.ts",
+    "use": "Authored-fiction/sourced provenance, cross-pack issue references, optional proposition rows; inspected lines 1\u2013210."
+  },
+  {
+    "id": "code-policy",
+    "kind": "source-inspected",
+    "url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/policy.ts",
+    "use": "Definition construction and parameter validation, inspected lines 1\u2013230."
+  },
+  {
+    "id": "code-vocabulary",
+    "kind": "source-inspected",
+    "url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/policy-pack-us-state-and-local.ts",
+    "use": "Current 13-domain issue keys, actual issue rows read in lines 1\u2013770. This is not a new count of the entire catalogue."
+  },
+  {
+    "id": "code-relationships",
+    "kind": "source-inspected",
+    "url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/queries.ts",
+    "use": "deriveRelationshipSummary and close-person event consumer, lines 210\u2013290."
+  },
+  {
+    "id": "code-trait-pack",
+    "kind": "source-inspected",
+    "url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/people-trait-pack.ts",
+    "use": "Five underlying dimensions, scale, ordinary-life-only scope, current movability and contact-answer effects."
+  },
+  {
+    "id": "code-hazards",
+    "kind": "source-inspected",
+    "url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/crisis/hazard-producer.ts",
+    "use": "Monthly historical-report sampler and two-family mapping; lines 1\u2013285 inspected."
+  },
+  {
+    "id": "code-crisis-types",
+    "kind": "source-inspected",
+    "url": "https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/crisis/types.ts",
+    "use": "Existing hazard/health/damage/response/continuity records; lines 1\u2013200 inspected."
+  },
+  {
+    "id": "census-weights",
+    "kind": "primary-external",
+    "url": "https://www.census.gov/data/developers/guidance/microdata-api-user-guide/additional-concepts-0331.html",
+    "use": "Survey person weights produce population estimates; do not transfer them to named game-character influence. Official indexed text read."
+  },
+  {
+    "id": "census-puma",
+    "kind": "primary-external",
+    "url": "https://www.census.gov/programs-surveys/geography/guidance/geo-areas/pumas.html",
+    "use": "PUMAs are statistical microdata areas, not exact residential locations. Do not claim a microdata record identifies a particular town resident."
+  },
+  {
+    "id": "census-docs",
+    "kind": "primary-external",
+    "url": "https://www.census.gov/programs-surveys/acs/microdata/documentation.html",
+    "use": "Year-specific codebooks, sample methodology and correct-weight documentation; documentation landing page read, no new national population dataset acquired."
+  },
+  {
+    "id": "bls-jolts",
+    "kind": "primary-external",
+    "url": "https://www.bls.gov/jlt/jltdef.htm",
+    "use": "Vacancy, hiring, internal promotion and separation are different events. The 30-day opening definition is not a required offer-expiry rule. Page states updated May 6, 2026."
+  },
+  {
+    "id": "epa-lifelines",
+    "kind": "primary-external",
+    "url": "https://www.epa.gov/waterresilience/femas-community-lifelines-construct",
+    "use": "Operational service functions and root causes; eighth water-systems lifeline. Page states updated June 10, 2026."
+  },
+  {
+    "id": "epa-dependencies",
+    "kind": "primary-external",
+    "url": "https://www.epa.gov/waterresilience/water-sector-interdependencies",
+    "use": "Energy/water/healthcare/supply-chain dependencies support a shared-impact graph, not fixed catastrophe escalation. Page states updated May 18, 2026."
+  },
+  {
+    "id": "noaa-catalog",
+    "kind": "primary-external",
+    "url": "https://www.ncei.noaa.gov/metadata/geoportal/rest/metadata/item/gov.noaa.ncdc%3AC00510/html",
+    "use": "Weather-event families, damage/injury reports and reporting delay; official catalogue metadata, not newly compiled hazard rates."
+  },
+  {
+    "id": "nws-reports",
+    "kind": "primary-external",
+    "url": "https://www.weather.gov/unr/storm_reports",
+    "use": "Different coverage periods and reported-event limitations; no probability that an unreported event never happened."
+  },
+  {
+    "id": "ssa-names",
+    "kind": "primary-external",
+    "url": "https://www.ssa.gov/oact/babynames/background.html",
+    "use": "Birth-year/sex recorded categories, shared names, suppression and pre-1937 coverage limits; not present gender-identity statistics. March 2026 extraction stated."
+  },
+  {
+    "id": "prior-personality",
+    "kind": "previous-project-research-reused",
+    "path": "Personality_Research_and_Catalogue.md",
+    "use": "Existing 121 candidates and 14 families; not a new survey, empirical prevalence dataset or blanket approval of every candidate."
+  },
+  {
+    "id": "current-queue",
+    "kind": "worker-report-read",
+    "url": "https://docs.google.com/document/d/1yVVxtG0YNaKsb85O5TF9ZkxGWWU5N9sSoQWM1qa_FVM/edit",
+    "use": "Read complete 16:34Z / 22-open / 44-answered render. Worker caller counts beyond independently inspected bodies remain reports."
+  }
+]

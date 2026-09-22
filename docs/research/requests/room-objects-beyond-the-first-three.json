@@ -1,4 +1,13 @@
 {
+  "answer": {
+    "summary": "room-objects-beyond-the-first-three: communications and genuine role-related task/material surfaces next, not every decorative object made into a menu. Consistent pointer/keyboard affordance; no hover-side effects. Full-screen workspaces must not display a room television headline as a global banner. Source actual actions before adding labels.",
+    "sources": [
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C15, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:58:00.000Z",
+    "stillOpen": "\"Source actual actions before adding labels.\"\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
+  },
   "filedAt": "2026-09-22T13:47:00.000Z",
   "impact": "shapes-design",
   "lane": "hardcoded-content audit",
