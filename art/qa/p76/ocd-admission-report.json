@@ -75,6 +75,12 @@
       },
       "turnOffsetFraction": 0.32828,
       "measuredTurnDirection": "left",
+      "seatedContact": {
+        "basis": "measured-rear-hip",
+        "x": 0.261013,
+        "y": 0.639805,
+        "reason": null
+      },
       "rigPlausible": true,
       "registeredPoseFamily": null,
       "disposition": "retained-unregistered-facing",
@@ -134,6 +140,12 @@
       },
       "turnOffsetFraction": -0.226388,
       "measuredTurnDirection": "right",
+      "seatedContact": {
+        "basis": "measured-rear-hip",
+        "x": 0.723366,
+        "y": 0.643558,
+        "reason": null
+      },
       "rigPlausible": true,
       "registeredPoseFamily": "seated-guest-three-quarter-right",
       "disposition": "admitted-candidate-body",
@@ -195,6 +207,12 @@
       },
       "turnOffsetFraction": -0.276407,
       "measuredTurnDirection": "right",
+      "seatedContact": {
+        "basis": "measured-rear-hip",
+        "x": 0.742724,
+        "y": 0.644119,
+        "reason": null
+      },
       "rigPlausible": true,
       "registeredPoseFamily": "seated-guest-three-quarter-right",
       "disposition": "admitted-candidate-body",
@@ -256,6 +274,12 @@
       },
       "turnOffsetFraction": -0.270956,
       "measuredTurnDirection": "right",
+      "seatedContact": {
+        "basis": "measured-rear-hip",
+        "x": 0.725214,
+        "y": 0.638802,
+        "reason": null
+      },
       "rigPlausible": true,
       "registeredPoseFamily": "seated-guest-three-quarter-right",
       "disposition": "admitted-candidate-body",
@@ -314,6 +338,7 @@
       },
       "turnOffsetFraction": 0.039673,
       "measuredTurnDirection": null,
+      "seatedContact": null,
       "rigPlausible": true,
       "registeredPoseFamily": null,
       "disposition": "retained-unregistered-facing",
@@ -372,6 +397,7 @@
       },
       "turnOffsetFraction": -0.006726,
       "measuredTurnDirection": null,
+      "seatedContact": null,
       "rigPlausible": true,
       "registeredPoseFamily": "standing-conversational",
       "disposition": "admitted-candidate-body",
@@ -430,6 +456,7 @@
       },
       "turnOffsetFraction": 0.000813,
       "measuredTurnDirection": null,
+      "seatedContact": null,
       "rigPlausible": true,
       "registeredPoseFamily": "standing-neutral",
       "disposition": "admitted-candidate-body",
@@ -488,6 +515,7 @@
       },
       "turnOffsetFraction": 0.021534,
       "measuredTurnDirection": null,
+      "seatedContact": null,
       "rigPlausible": true,
       "registeredPoseFamily": "standing-neutral",
       "disposition": "admitted-candidate-body",

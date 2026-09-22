@@ -3,6 +3,13 @@ import path from "path";
 
 import type { CharacterComponentManifestRecord } from "../../src/presentation/character-components";
 import { hashArtFile } from "./content-hash";
+import { measureBodyRig } from "./pg-modular-intake";
+import {
+  measuredTurnDirection,
+  measureSeatedContact,
+  turnOffsetFraction,
+  type SeatedContactMeasurement,
+} from "./seated-contact";
 import {
   anchorsFromMeasurement,
   contactsFromMeasurement,
@@ -63,90 +70,6 @@ export const OCD_BODY_FAMILY = "ocd-adult-feminine";
 
 export const OCD_OBSERVATION_METHOD =
   "Direct inspection of each despilled raster at review scale (about 760 px tall per figure) by the character rendering triage lane, 2026-09-22, with the seated turn corroborated by the silhouette measurement below. Packet 71's prose pose descriptions were read afterwards and are carried as the prior claim; where the pixels and the prose disagree the disagreement is reported rather than resolved silently. This is a reviewable candidate observation, not owner acceptance and not a production pose certification.";
-
-// ---------------------------------------------------------------------------
-// Turn measurement
-// ---------------------------------------------------------------------------
-
-/**
- * How far the figure's lower body sits to one side of its head, as a fraction
- * of canvas width: the horizontal centroid of the bottom quarter of the figure
- * minus the horizontal centroid of the top sixth.
- *
- * A seated figure's shins and feet swing to one side as it turns, so this is
- * large and signed for a seated three-quarter pose and near zero for a square
- * one — `wave_a_average_woman_seated_front_neutral_v1` measures -0.000 and the
- * turned seated crops measure between 0.20 and 0.35. It is a silhouette fact,
- * so it settles what prose cannot: Packet 71 describes
- * `ocd_body_adult_fem_seated_guest_front_v1` as close to square and
- * `ocd_body_adult_fem_seated_gesture_forward_v1` as turned the opposite way
- * from `ocd_body_adult_fem_seated_guest_three_quarter_v1`, and the measurement
- * contradicts both.
- *
- * The SIGN is bound to the same reference plate the facing convention is bound
- * to, and for the same reason: the direction is fixed by matching the plate
- * Packet 71 calls three-quarter right, not by reasoning about whose left.
- * That plate measures negative, so negative is `right`.
- *
- * This does NOT decide a standing turn. A standing figure's feet stay under it
- * however it is rotated, so the offset stays near zero whichever way it faces;
- * `ocd_body_adult_fem_standing_conversational_a_v1` is visibly turned and
- * measures +0.040. A standing facing is read, not measured.
- */
-export function turnOffsetFraction(bitmap: {
-  readonly width: number;
-  readonly height: number;
-  readonly data: Uint8Array | Uint8ClampedArray;
-}): number {
-  const { width, height, data } = bitmap;
-  const rowSum = new Float64Array(height);
-  const rowCount = new Float64Array(height);
-  let top = -1;
-  let bottom = -1;
-  for (let y = 0; y < height; y += 1) {
-    const base = y * width;
-    let sum = 0;
-    let count = 0;
-    for (let x = 0; x < width; x += 1) {
-      if ((data[(base + x) * 4 + 3] ?? 0) > 127) {
-        sum += x;
-        count += 1;
-      }
-    }
-    rowSum[y] = sum;
-    rowCount[y] = count;
-    if (count > 0) {
-      if (top < 0) top = y;
-      bottom = y;
-    }
-  }
-  if (top < 0) return 0;
-  const figureHeight = bottom - top + 1;
-  const bandCentre = (from: number, to: number): number => {
-    const y0 = Math.max(top, Math.floor(top + from * figureHeight));
-    const y1 = Math.min(bottom, Math.floor(top + to * figureHeight));
-    let sum = 0;
-    let count = 0;
-    for (let y = y0; y <= y1; y += 1) {
-      sum += rowSum[y]!;
-      count += rowCount[y]!;
-    }
-    return count === 0 ? Number.NaN : sum / count / width;
-  };
-  const head = bandCentre(0, 0.18);
-  const lower = bandCentre(0.75, 1);
-  if (Number.isNaN(head) || Number.isNaN(lower)) return 0;
-  return Math.round((lower - head) * 1e6) / 1e6;
-}
-
-/** Below this the offset is not a turn; see `turnOffsetFraction`. */
-export const OCD_SEATED_TURN_THRESHOLD = 0.08;
-
-/** The turn direction the measurement carries, or null when it carries none. */
-export function measuredTurnDirection(offset: number): "left" | "right" | null {
-  if (Math.abs(offset) < OCD_SEATED_TURN_THRESHOLD) return null;
-  return offset < 0 ? "right" : "left";
-}
 
 // ---------------------------------------------------------------------------
 // Reviewed pixel observations
@@ -335,6 +258,7 @@ export interface OcdAdmissionRow {
   readonly measurement: WaveAMeasurement;
   readonly turnOffsetFraction: number;
   readonly measuredTurnDirection: "left" | "right" | null;
+  readonly seatedContact: SeatedContactMeasurement | null;
   readonly rigPlausible: boolean;
   readonly registeredPoseFamily: string | null;
   readonly disposition: OcdDisposition;
@@ -446,6 +370,15 @@ export async function runOcdAdmission(
     const offset = turnOffsetFraction(bitmap);
     const measured = measuredTurnDirection(offset);
     const plausible = rigIsPlausible(measurement);
+    const seatedContact =
+      subject.observation.posture === "seated"
+        ? measureSeatedContact(
+            bitmap,
+            measureBodyRig(bitmap),
+            offset,
+            measurement.soleRunCount,
+          )
+        : null;
     const poseFamily = registeredPoseFamilyFor(
       subject.observation,
       subject.apparentPoseCategory,
@@ -492,6 +425,7 @@ export async function runOcdAdmission(
       measurement,
       turnOffsetFraction: offset,
       measuredTurnDirection: measured,
+      seatedContact,
       rigPlausible: plausible,
       registeredPoseFamily: poseFamily,
       disposition,
@@ -505,6 +439,7 @@ export async function runOcdAdmission(
       const contacts = contactsFromMeasurement(
         measurement,
         subject.observation.posture,
+        seatedContact ?? undefined,
       );
       records.push({
         asset_id: subject.assetId,

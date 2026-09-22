@@ -83,6 +83,13 @@
         "widestRowYFraction": 0.372195
       },
       "rigPlausible": false,
+      "turnOffsetFraction": -0.204637,
+      "seatedContact": {
+        "basis": "measured-rear-hip",
+        "x": 0.71542,
+        "y": 0.63217,
+        "reason": null
+      },
       "registeredPoseFamily": "seated-guest-three-quarter-right",
       "disposition": "retained-unmeasurable-rig",
       "priorClaimDisagreements": [],
@@ -93,7 +100,7 @@
         "rights: the source sheets carry unknown external reuse rights.",
         "owner style acceptance: unassessed.",
         "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
-        "seated pelvis: the crotch row measures 0.493766 of canvas height and the sole band resolves 1 runs. The silhouette finds a crotch where it opens into two legs, so on a figure whose legs never separate that row is not a pelvis; here it is at the shin or the ankle. No seat contact is declared, and this body cannot be placed on a seat until one is measured as a seat contact rather than inferred from a leg gap."
+        "seat plane: the seat contact is measured from the silhouette (measured-rear-hip); the true seat plane still needs a scene seat to calibrate against."
       ]
     },
     {
@@ -146,6 +153,13 @@
         "widestRowYFraction": 0.413192
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.000866,
+      "seatedContact": {
+        "basis": "measured-leg-gap",
+        "x": 0.499331,
+        "y": 0.64468,
+        "reason": null
+      },
       "registeredPoseFamily": null,
       "disposition": "retained-baked-prop",
       "priorClaimDisagreements": [],
@@ -155,7 +169,7 @@
         "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
         "rights: the source sheets carry unknown external reuse rights.",
         "owner style acceptance: unassessed.",
-        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+        "seat plane: the seat contact is measured from the silhouette (measured-leg-gap); the true seat plane still needs a scene seat to calibrate against."
       ]
     },
     {
@@ -208,6 +222,13 @@
         "widestRowYFraction": 0.432331
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.227073,
+      "seatedContact": {
+        "basis": "measured-rear-hip",
+        "x": 0.348432,
+        "y": 0.633459,
+        "reason": null
+      },
       "registeredPoseFamily": null,
       "disposition": "retained-baked-prop",
       "priorClaimDisagreements": [],
@@ -218,7 +239,7 @@
         "rights: the source sheets carry unknown external reuse rights.",
         "owner style acceptance: unassessed.",
         "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
-        "seated pelvis: the crotch row measures 0.845238 of canvas height and the sole band resolves 1 runs. The silhouette finds a crotch where it opens into two legs, so on a figure whose legs never separate that row is not a pelvis; here it is at the shin or the ankle. No seat contact is declared, and this body cannot be placed on a seat until one is measured as a seat contact rather than inferred from a leg gap."
+        "seat plane: the seat contact is measured from the silhouette (measured-rear-hip); the true seat plane still needs a scene seat to calibrate against."
       ]
     },
     {
@@ -271,6 +292,8 @@
         "widestRowYFraction": 0.326062
       },
       "rigPlausible": true,
+      "turnOffsetFraction": -0.017307,
+      "seatedContact": null,
       "registeredPoseFamily": null,
       "disposition": "retained-unregistered-facing",
       "priorClaimDisagreements": [],
@@ -334,6 +357,8 @@
         "widestRowYFraction": 0.424555
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.03432,
+      "seatedContact": null,
       "registeredPoseFamily": null,
       "disposition": "retained-baked-prop",
       "priorClaimDisagreements": [
@@ -399,6 +424,8 @@
         "widestRowYFraction": 0.418818
       },
       "rigPlausible": true,
+      "turnOffsetFraction": -0.002805,
+      "seatedContact": null,
       "registeredPoseFamily": null,
       "disposition": "retained-unregistered-facing",
       "priorClaimDisagreements": [
@@ -463,6 +490,8 @@
         "widestRowYFraction": 0.424957
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.000684,
+      "seatedContact": null,
       "registeredPoseFamily": "standing-neutral",
       "disposition": "admitted-candidate-body",
       "priorClaimDisagreements": [],
@@ -524,6 +553,8 @@
         "widestRowYFraction": 0.428068
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.109519,
+      "seatedContact": null,
       "registeredPoseFamily": null,
       "disposition": "retained-unregistered-facing",
       "priorClaimDisagreements": [
@@ -589,6 +620,13 @@
         "widestRowYFraction": 0.389706
       },
       "rigPlausible": false,
+      "turnOffsetFraction": -0.206694,
+      "seatedContact": {
+        "basis": "measured-rear-hip",
+        "x": 0.706697,
+        "y": 0.637868,
+        "reason": null
+      },
       "registeredPoseFamily": "seated-guest-three-quarter-right",
       "disposition": "retained-unmeasurable-rig",
       "priorClaimDisagreements": [],
@@ -599,7 +637,7 @@
         "rights: the source sheets carry unknown external reuse rights.",
         "owner style acceptance: unassessed.",
         "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
-        "seated pelvis: the crotch row measures 0.484681 of canvas height and the sole band resolves 1 runs. The silhouette finds a crotch where it opens into two legs, so on a figure whose legs never separate that row is not a pelvis; here it is at the shin or the ankle. No seat contact is declared, and this body cannot be placed on a seat until one is measured as a seat contact rather than inferred from a leg gap."
+        "seat plane: the seat contact is measured from the silhouette (measured-rear-hip); the true seat plane still needs a scene seat to calibrate against."
       ]
     },
     {
@@ -652,6 +690,13 @@
         "widestRowYFraction": 0.371532
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.000284,
+      "seatedContact": {
+        "basis": "measured-leg-gap",
+        "x": 0.500717,
+        "y": 0.656815,
+        "reason": null
+      },
       "registeredPoseFamily": null,
       "disposition": "retained-baked-prop",
       "priorClaimDisagreements": [],
@@ -661,7 +706,7 @@
         "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
         "rights: the source sheets carry unknown external reuse rights.",
         "owner style acceptance: unassessed.",
-        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+        "seat plane: the seat contact is measured from the silhouette (measured-leg-gap); the true seat plane still needs a scene seat to calibrate against."
       ]
     },
     {
@@ -714,6 +759,13 @@
         "widestRowYFraction": 0.443147
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.262636,
+      "seatedContact": {
+        "basis": "measured-rear-hip",
+        "x": 0.304649,
+        "y": 0.639828,
+        "reason": null
+      },
       "registeredPoseFamily": null,
       "disposition": "retained-baked-prop",
       "priorClaimDisagreements": [
@@ -726,7 +778,7 @@
         "rights: the source sheets carry unknown external reuse rights.",
         "owner style acceptance: unassessed.",
         "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
-        "seated pelvis: the crotch row measures 0.468961 of canvas height and the sole band resolves 1 runs. The silhouette finds a crotch where it opens into two legs, so on a figure whose legs never separate that row is not a pelvis; here it is at the shin or the ankle. No seat contact is declared, and this body cannot be placed on a seat until one is measured as a seat contact rather than inferred from a leg gap."
+        "seat plane: the seat contact is measured from the silhouette (measured-rear-hip); the true seat plane still needs a scene seat to calibrate against."
       ]
     },
     {
@@ -779,6 +831,8 @@
         "widestRowYFraction": 0.338444
       },
       "rigPlausible": true,
+      "turnOffsetFraction": -0.009923,
+      "seatedContact": null,
       "registeredPoseFamily": null,
       "disposition": "retained-unregistered-facing",
       "priorClaimDisagreements": [],
@@ -842,6 +896,8 @@
         "widestRowYFraction": 0.426304
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.039431,
+      "seatedContact": null,
       "registeredPoseFamily": null,
       "disposition": "retained-baked-prop",
       "priorClaimDisagreements": [
@@ -907,6 +963,8 @@
         "widestRowYFraction": 0.464327
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.02705,
+      "seatedContact": null,
       "registeredPoseFamily": null,
       "disposition": "retained-unregistered-facing",
       "priorClaimDisagreements": [
@@ -971,6 +1029,8 @@
         "widestRowYFraction": 0.350457
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.00142,
+      "seatedContact": null,
       "registeredPoseFamily": "standing-neutral",
       "disposition": "admitted-candidate-body",
       "priorClaimDisagreements": [],
@@ -1032,6 +1092,8 @@
         "widestRowYFraction": 0.445358
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.05931,
+      "seatedContact": null,
       "registeredPoseFamily": null,
       "disposition": "retained-unregistered-facing",
       "priorClaimDisagreements": [
@@ -1102,6 +1164,13 @@
         "widestRowYFraction": 0.390735
       },
       "rigPlausible": true,
+      "turnOffsetFraction": -0.008098,
+      "seatedContact": {
+        "basis": "unmeasured",
+        "x": null,
+        "y": null,
+        "reason": "the leg gap measures 0.436388 of canvas height, outside the credible seated band 0.45..0.8"
+      },
       "registeredPoseFamily": null,
       "disposition": "retained-baked-prop",
       "priorClaimDisagreements": [],
@@ -1111,7 +1180,7 @@
         "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
         "rights: the source sheets carry unknown external reuse rights.",
         "owner style acceptance: unassessed.",
-        "seated pelvis: the crotch row measures 0.436388 of canvas height and the sole band resolves 2 runs. The silhouette finds a crotch where it opens into two legs, so on a figure whose legs never separate that row is not a pelvis; here it is at the shin or the ankle. No seat contact is declared, and this body cannot be placed on a seat until one is measured as a seat contact rather than inferred from a leg gap."
+        "seat contact: the leg gap measures 0.436388 of canvas height, outside the credible seated band 0.45..0.8. No seat contact is declared, and without one this body cannot be placed in a chair by anything. It is not supplied from proportions."
       ]
     },
     {
@@ -1165,6 +1234,8 @@
         "widestRowYFraction": 0.349711
       },
       "rigPlausible": true,
+      "turnOffsetFraction": -0.040051,
+      "seatedContact": null,
       "registeredPoseFamily": null,
       "disposition": "retained-ambiguous-observation",
       "priorClaimDisagreements": [],
@@ -1233,6 +1304,8 @@
         "widestRowYFraction": 0.891702
       },
       "rigPlausible": true,
+      "turnOffsetFraction": -0.006054,
+      "seatedContact": null,
       "registeredPoseFamily": null,
       "disposition": "retained-partial-figure",
       "priorClaimDisagreements": [
@@ -1299,6 +1372,13 @@
         "widestRowYFraction": 0.387968
       },
       "rigPlausible": true,
+      "turnOffsetFraction": -0.207218,
+      "seatedContact": {
+        "basis": "measured-rear-hip",
+        "x": 0.715596,
+        "y": 0.640884,
+        "reason": null
+      },
       "registeredPoseFamily": "seated-guest-three-quarter-right",
       "disposition": "admitted-candidate-body",
       "priorClaimDisagreements": [],
@@ -1309,7 +1389,7 @@
         "rights: the source sheets carry unknown external reuse rights.",
         "owner style acceptance: unassessed.",
         "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
-        "seated pelvis: the crotch row measures 0.957643 of canvas height and the sole band resolves 1 runs. The silhouette finds a crotch where it opens into two legs, so on a figure whose legs never separate that row is not a pelvis; here it is at the shin or the ankle. No seat contact is declared, and this body cannot be placed on a seat until one is measured as a seat contact rather than inferred from a leg gap."
+        "seat plane: the seat contact is measured from the silhouette (measured-rear-hip); the true seat plane still needs a scene seat to calibrate against."
       ]
     },
     {
@@ -1363,6 +1443,13 @@
         "widestRowYFraction": 0.447671
       },
       "rigPlausible": true,
+      "turnOffsetFraction": -0.000574,
+      "seatedContact": {
+        "basis": "measured-leg-gap",
+        "x": 0.498592,
+        "y": 0.655777,
+        "reason": null
+      },
       "registeredPoseFamily": null,
       "disposition": "retained-baked-prop",
       "priorClaimDisagreements": [],
@@ -1372,7 +1459,7 @@
         "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
         "rights: the source sheets carry unknown external reuse rights.",
         "owner style acceptance: unassessed.",
-        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+        "seat plane: the seat contact is measured from the silhouette (measured-leg-gap); the true seat plane still needs a scene seat to calibrate against."
       ]
     },
     {
@@ -1431,6 +1518,13 @@
         "widestRowYFraction": 0.427692
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.231268,
+      "seatedContact": {
+        "basis": "measured-rear-hip",
+        "x": 0.355556,
+        "y": 0.641231,
+        "reason": null
+      },
       "registeredPoseFamily": null,
       "disposition": "retained-baked-prop",
       "priorClaimDisagreements": [],
@@ -1441,7 +1535,7 @@
         "rights: the source sheets carry unknown external reuse rights.",
         "owner style acceptance: unassessed.",
         "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
-        "seated pelvis: the crotch row measures 0.957538 of canvas height and the sole band resolves 1 runs. The silhouette finds a crotch where it opens into two legs, so on a figure whose legs never separate that row is not a pelvis; here it is at the shin or the ankle. No seat contact is declared, and this body cannot be placed on a seat until one is measured as a seat contact rather than inferred from a leg gap."
+        "seat plane: the seat contact is measured from the silhouette (measured-rear-hip); the true seat plane still needs a scene seat to calibrate against."
       ]
     },
     {
@@ -1494,6 +1588,8 @@
         "widestRowYFraction": 0.338497
       },
       "rigPlausible": true,
+      "turnOffsetFraction": -0.003684,
+      "seatedContact": null,
       "registeredPoseFamily": null,
       "disposition": "retained-unregistered-facing",
       "priorClaimDisagreements": [],
@@ -1557,6 +1653,8 @@
         "widestRowYFraction": 0.428326
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.030853,
+      "seatedContact": null,
       "registeredPoseFamily": null,
       "disposition": "retained-baked-prop",
       "priorClaimDisagreements": [],
@@ -1619,6 +1717,8 @@
         "widestRowYFraction": 0.550575
       },
       "rigPlausible": true,
+      "turnOffsetFraction": -0.000132,
+      "seatedContact": null,
       "registeredPoseFamily": "standing-neutral",
       "disposition": "admitted-candidate-body",
       "priorClaimDisagreements": [],
@@ -1681,6 +1781,8 @@
         "widestRowYFraction": 0.552813
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.00654,
+      "seatedContact": null,
       "registeredPoseFamily": "standing-neutral",
       "disposition": "admitted-candidate-body",
       "priorClaimDisagreements": [],
@@ -1743,6 +1845,8 @@
         "widestRowYFraction": 0.415239
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.054633,
+      "seatedContact": null,
       "registeredPoseFamily": null,
       "disposition": "retained-unregistered-facing",
       "priorClaimDisagreements": [
@@ -1808,6 +1912,13 @@
         "widestRowYFraction": 0.589319
       },
       "rigPlausible": true,
+      "turnOffsetFraction": -0.223657,
+      "seatedContact": {
+        "basis": "measured-rear-hip",
+        "x": 0.745192,
+        "y": 0.642112,
+        "reason": null
+      },
       "registeredPoseFamily": "seated-guest-three-quarter-right",
       "disposition": "admitted-candidate-body",
       "priorClaimDisagreements": [],
@@ -1818,7 +1929,7 @@
         "rights: the source sheets carry unknown external reuse rights.",
         "owner style acceptance: unassessed.",
         "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
-        "seated pelvis: the crotch row measures 0.921424 of canvas height and the sole band resolves 1 runs. The silhouette finds a crotch where it opens into two legs, so on a figure whose legs never separate that row is not a pelvis; here it is at the shin or the ankle. No seat contact is declared, and this body cannot be placed on a seat until one is measured as a seat contact rather than inferred from a leg gap."
+        "seat plane: the seat contact is measured from the silhouette (measured-rear-hip); the true seat plane still needs a scene seat to calibrate against."
       ]
     },
     {
@@ -1872,6 +1983,13 @@
         "widestRowYFraction": 0.428486
       },
       "rigPlausible": true,
+      "turnOffsetFraction": -0.00008,
+      "seatedContact": {
+        "basis": "measured-leg-gap",
+        "x": 0.499246,
+        "y": 0.603365,
+        "reason": null
+      },
       "registeredPoseFamily": "seated-guest-neutral",
       "disposition": "admitted-candidate-body",
       "priorClaimDisagreements": [],
@@ -1881,7 +1999,7 @@
         "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
         "rights: the source sheets carry unknown external reuse rights.",
         "owner style acceptance: unassessed.",
-        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+        "seat plane: the seat contact is measured from the silhouette (measured-leg-gap); the true seat plane still needs a scene seat to calibrate against."
       ]
     },
     {
@@ -1935,6 +2053,13 @@
         "widestRowYFraction": 0.470588
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.312202,
+      "seatedContact": {
+        "basis": "measured-rear-hip",
+        "x": 0.228448,
+        "y": 0.63848,
+        "reason": null
+      },
       "registeredPoseFamily": null,
       "disposition": "retained-baked-prop",
       "priorClaimDisagreements": [],
@@ -1945,7 +2070,7 @@
         "rights: the source sheets carry unknown external reuse rights.",
         "owner style acceptance: unassessed.",
         "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
-        "seated pelvis: the crotch row measures 0.490196 of canvas height and the sole band resolves 1 runs. The silhouette finds a crotch where it opens into two legs, so on a figure whose legs never separate that row is not a pelvis; here it is at the shin or the ankle. No seat contact is declared, and this body cannot be placed on a seat until one is measured as a seat contact rather than inferred from a leg gap."
+        "seat plane: the seat contact is measured from the silhouette (measured-rear-hip); the true seat plane still needs a scene seat to calibrate against."
       ]
     },
     {
@@ -1998,6 +2123,8 @@
         "widestRowYFraction": 0.329114
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.048947,
+      "seatedContact": null,
       "registeredPoseFamily": null,
       "disposition": "retained-unregistered-facing",
       "priorClaimDisagreements": [],
@@ -2060,6 +2187,8 @@
         "widestRowYFraction": 0.410817
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.058532,
+      "seatedContact": null,
       "registeredPoseFamily": null,
       "disposition": "retained-baked-prop",
       "priorClaimDisagreements": [],
@@ -2122,6 +2251,8 @@
         "widestRowYFraction": 0.53019
       },
       "rigPlausible": true,
+      "turnOffsetFraction": -0.00013,
+      "seatedContact": null,
       "registeredPoseFamily": "standing-neutral",
       "disposition": "admitted-candidate-body",
       "priorClaimDisagreements": [],
@@ -2183,6 +2314,8 @@
         "widestRowYFraction": 0.529919
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.000911,
+      "seatedContact": null,
       "registeredPoseFamily": "standing-neutral",
       "disposition": "admitted-candidate-body",
       "priorClaimDisagreements": [],
@@ -2245,6 +2378,8 @@
         "widestRowYFraction": 0.517428
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.026324,
+      "seatedContact": null,
       "registeredPoseFamily": null,
       "disposition": "retained-ambiguous-observation",
       "priorClaimDisagreements": [
@@ -2310,6 +2445,13 @@
         "widestRowYFraction": 0.587838
       },
       "rigPlausible": true,
+      "turnOffsetFraction": -0.220631,
+      "seatedContact": {
+        "basis": "measured-rear-hip",
+        "x": 0.75059,
+        "y": 0.641278,
+        "reason": null
+      },
       "registeredPoseFamily": "seated-guest-three-quarter-right",
       "disposition": "admitted-candidate-body",
       "priorClaimDisagreements": [],
@@ -2320,7 +2462,7 @@
         "rights: the source sheets carry unknown external reuse rights.",
         "owner style acceptance: unassessed.",
         "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
-        "seated pelvis: the crotch row measures 0.920147 of canvas height and the sole band resolves 1 runs. The silhouette finds a crotch where it opens into two legs, so on a figure whose legs never separate that row is not a pelvis; here it is at the shin or the ankle. No seat contact is declared, and this body cannot be placed on a seat until one is measured as a seat contact rather than inferred from a leg gap."
+        "seat plane: the seat contact is measured from the silhouette (measured-rear-hip); the true seat plane still needs a scene seat to calibrate against."
       ]
     },
     {
@@ -2374,6 +2516,13 @@
         "widestRowYFraction": 0.409302
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.001523,
+      "seatedContact": {
+        "basis": "measured-leg-gap",
+        "x": 0.499253,
+        "y": 0.599419,
+        "reason": null
+      },
       "registeredPoseFamily": null,
       "disposition": "retained-baked-prop",
       "priorClaimDisagreements": [],
@@ -2383,7 +2532,7 @@
         "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
         "rights: the source sheets carry unknown external reuse rights.",
         "owner style acceptance: unassessed.",
-        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+        "seat plane: the seat contact is measured from the silhouette (measured-leg-gap); the true seat plane still needs a scene seat to calibrate against."
       ]
     },
     {
@@ -2436,6 +2585,13 @@
         "widestRowYFraction": 0.483516
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.275347,
+      "seatedContact": {
+        "basis": "measured-rear-hip",
+        "x": 0.285384,
+        "y": 0.636142,
+        "reason": null
+      },
       "registeredPoseFamily": null,
       "disposition": "retained-baked-prop",
       "priorClaimDisagreements": [],
@@ -2446,7 +2602,7 @@
         "rights: the source sheets carry unknown external reuse rights.",
         "owner style acceptance: unassessed.",
         "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
-        "seated pelvis: the crotch row measures 0.808913 of canvas height and the sole band resolves 1 runs. The silhouette finds a crotch where it opens into two legs, so on a figure whose legs never separate that row is not a pelvis; here it is at the shin or the ankle. No seat contact is declared, and this body cannot be placed on a seat until one is measured as a seat contact rather than inferred from a leg gap."
+        "seat plane: the seat contact is measured from the silhouette (measured-rear-hip); the true seat plane still needs a scene seat to calibrate against."
       ]
     },
     {
@@ -2499,6 +2655,8 @@
         "widestRowYFraction": 0.334311
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.030452,
+      "seatedContact": null,
       "registeredPoseFamily": null,
       "disposition": "retained-unregistered-facing",
       "priorClaimDisagreements": [],
@@ -2561,6 +2719,8 @@
         "widestRowYFraction": 0.427415
       },
       "rigPlausible": true,
+      "turnOffsetFraction": -0.009888,
+      "seatedContact": null,
       "registeredPoseFamily": null,
       "disposition": "retained-baked-prop",
       "priorClaimDisagreements": [],
@@ -2622,6 +2782,8 @@
         "widestRowYFraction": 0.52879
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.000548,
+      "seatedContact": null,
       "registeredPoseFamily": "standing-neutral",
       "disposition": "admitted-candidate-body",
       "priorClaimDisagreements": [],
@@ -2683,6 +2845,8 @@
         "widestRowYFraction": 0.543478
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.022091,
+      "seatedContact": null,
       "registeredPoseFamily": "standing-neutral",
       "disposition": "admitted-candidate-body",
       "priorClaimDisagreements": [],
@@ -2744,6 +2908,8 @@
         "widestRowYFraction": 0.525072
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.049577,
+      "seatedContact": null,
       "registeredPoseFamily": null,
       "disposition": "retained-unregistered-facing",
       "priorClaimDisagreements": [
@@ -2809,6 +2975,13 @@
         "widestRowYFraction": 0.586568
       },
       "rigPlausible": true,
+      "turnOffsetFraction": -0.235796,
+      "seatedContact": {
+        "basis": "measured-rear-hip",
+        "x": 0.759694,
+        "y": 0.624153,
+        "reason": null
+      },
       "registeredPoseFamily": "seated-guest-three-quarter-right",
       "disposition": "admitted-candidate-body",
       "priorClaimDisagreements": [],
@@ -2819,7 +2992,7 @@
         "rights: the source sheets carry unknown external reuse rights.",
         "owner style acceptance: unassessed.",
         "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
-        "seated pelvis: the crotch row measures 0.856439 of canvas height and the sole band resolves 1 runs. The silhouette finds a crotch where it opens into two legs, so on a figure whose legs never separate that row is not a pelvis; here it is at the shin or the ankle. No seat contact is declared, and this body cannot be placed on a seat until one is measured as a seat contact rather than inferred from a leg gap."
+        "seat plane: the seat contact is measured from the silhouette (measured-rear-hip); the true seat plane still needs a scene seat to calibrate against."
       ]
     },
     {
@@ -2873,6 +3046,13 @@
         "widestRowYFraction": 0.356273
       },
       "rigPlausible": true,
+      "turnOffsetFraction": -0.000248,
+      "seatedContact": {
+        "basis": "measured-leg-gap",
+        "x": 0.499213,
+        "y": 0.606577,
+        "reason": null
+      },
       "registeredPoseFamily": "seated-guest-neutral",
       "disposition": "admitted-candidate-body",
       "priorClaimDisagreements": [],
@@ -2882,7 +3062,7 @@
         "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
         "rights: the source sheets carry unknown external reuse rights.",
         "owner style acceptance: unassessed.",
-        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+        "seat plane: the seat contact is measured from the silhouette (measured-leg-gap); the true seat plane still needs a scene seat to calibrate against."
       ]
     },
     {
@@ -2935,6 +3115,13 @@
         "widestRowYFraction": 0.581651
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.344553,
+      "seatedContact": {
+        "basis": "measured-rear-hip",
+        "x": 0.240418,
+        "y": 0.631804,
+        "reason": null
+      },
       "registeredPoseFamily": null,
       "disposition": "retained-baked-prop",
       "priorClaimDisagreements": [],
@@ -2945,7 +3132,7 @@
         "rights: the source sheets carry unknown external reuse rights.",
         "owner style acceptance: unassessed.",
         "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
-        "seated pelvis: the crotch row measures 0.466667 of canvas height and the sole band resolves 1 runs. The silhouette finds a crotch where it opens into two legs, so on a figure whose legs never separate that row is not a pelvis; here it is at the shin or the ankle. No seat contact is declared, and this body cannot be placed on a seat until one is measured as a seat contact rather than inferred from a leg gap."
+        "seat plane: the seat contact is measured from the silhouette (measured-rear-hip); the true seat plane still needs a scene seat to calibrate against."
       ]
     },
     {
@@ -2998,6 +3185,8 @@
         "widestRowYFraction": 0.276124
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.053053,
+      "seatedContact": null,
       "registeredPoseFamily": null,
       "disposition": "retained-unregistered-facing",
       "priorClaimDisagreements": [],
@@ -3060,6 +3249,8 @@
         "widestRowYFraction": 0.411937
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.029635,
+      "seatedContact": null,
       "registeredPoseFamily": null,
       "disposition": "retained-baked-prop",
       "priorClaimDisagreements": [],
@@ -3122,6 +3313,8 @@
         "widestRowYFraction": 0.519671
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.001536,
+      "seatedContact": null,
       "registeredPoseFamily": "standing-neutral",
       "disposition": "admitted-candidate-body",
       "priorClaimDisagreements": [],
@@ -3183,6 +3376,8 @@
         "widestRowYFraction": 0.521102
       },
       "rigPlausible": true,
+      "turnOffsetFraction": 0.00225,
+      "seatedContact": null,
       "registeredPoseFamily": "standing-neutral",
       "disposition": "admitted-candidate-body",
       "priorClaimDisagreements": [],
@@ -3244,6 +3439,8 @@
         "widestRowYFraction": 0.546441
       },
       "rigPlausible": true,
+      "turnOffsetFraction": -0.011262,
+      "seatedContact": null,
       "registeredPoseFamily": null,
       "disposition": "retained-unregistered-facing",
       "priorClaimDisagreements": [

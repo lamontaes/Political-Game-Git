@@ -10,6 +10,11 @@ import type {
 } from "../../src/presentation/character-components";
 import { hashArtFile } from "./content-hash";
 import { measureBodyRig, opaqueBounds } from "./pg-modular-intake";
+import {
+  measureSeatedContact,
+  turnOffsetFraction,
+  type SeatedContactMeasurement,
+} from "./seated-contact";
 
 /**
  * Wave A candidate ADMISSION.
@@ -924,39 +929,24 @@ export function anchorsFromMeasurement(
 /**
  * The contacts the silhouette carries, and only those.
  *
- * Feet and pelvis are measured independently, and each is emitted only if its
- * own measurement resolved. Two sole runs are two feet on a floor line; one run
- * is two feet the silhouette cannot tell apart, which is common in a turned
- * pose where the near foot occludes the far one, and it is reported unresolved
+ * Feet and seat are measured independently, and each is emitted only if its own
+ * measurement resolved. Two sole runs are two feet on a floor line; one run is
+ * two feet the silhouette cannot tell apart, which is common in a turned pose
+ * where the near foot occludes the far one, and it is reported unresolved
  * rather than split down the middle.
  *
- * The pelvis does not depend on that. It comes from the measured crotch row and
- * the measured midline, so an unreadable sole band is no reason to withhold it
- * — and withholding it is not a harmless omission: `seatedPelvis` is the point
- * that lands on a seat, so a seated body without one cannot be placed in a
- * chair at all. Every turned seated candidate in this registry was emitted with
- * no contacts whatsoever for exactly that reason, which made a set of admitted
- * seated bodies that still could not sit.
- *
- * It is emitted only where the measurement behind it means anything.
- * `measureBodyRig` finds the crotch by the row where the silhouette opens into
- * two legs, so it is a leg-gap measurement, and a turned seated figure never
- * opens: the near leg covers the far one all the way down and the row runs on
- * toward the ankles. The condition under which that row is a pelvis is the
- * same condition that resolves two feet — a silhouette that separates the legs
- * — so the soles gate the pelvis, and the accepted 0.45..0.80 band guards it
- * after. Both are needed: `ocd_body_adult_fem_seated_guest_three_quarter_v1`
- * measures 0.777, inside the band and plainly at mid-shin.
- *
- * The consequence is stated rather than papered over. Every turned seated
- * candidate here is legal art that still cannot be placed on a seat, because a
- * seat contact measured AS a seat contact does not exist yet. That is the
- * missing measurement, and inventing one from proportions is what this
- * admission exists to refuse.
+ * The seat contact comes from `measureSeatedContact`, which measures where the
+ * figure meets a chair rather than where its legs part. See that module for why
+ * the difference matters; in short, the old number was a leg-gap row that ran
+ * to the shin on every turned figure and was inside every plausibility band
+ * while doing it. A seat contact that could not be measured is absent, and an
+ * absent one is why a body cannot be placed in a chair — never a reason to
+ * supply one from proportions.
  */
 export function contactsFromMeasurement(
   measurement: WaveAMeasurement,
   posture: ObservedPosture,
+  seatedContact?: SeatedContactMeasurement,
 ): CharacterBodyContacts | undefined {
   const [left, right] = measurement.soleRunCentersFraction;
   const solesResolved =
@@ -968,33 +958,13 @@ export function contactsFromMeasurement(
       }
     : {};
   if (posture === "standing") return solesResolved ? soles : undefined;
-  const pelvisY = measurement.rig.crotchYFraction;
-  const pelvisBelievable =
-    solesResolved &&
-    pelvisY >= SEATED_PELVIS_PLAUSIBLE.minimum &&
-    pelvisY <= SEATED_PELVIS_PLAUSIBLE.maximum;
-  const contacts = {
-    ...soles,
-    ...(pelvisBelievable
-      ? {
-          seatedPelvis: {
-            x: measurement.rig.centerXFraction,
-            y: pelvisY,
-          },
-        }
-      : {}),
-  };
+  const seat =
+    seatedContact && seatedContact.x !== null && seatedContact.y !== null
+      ? { seatedPelvis: { x: seatedContact.x, y: seatedContact.y } }
+      : {};
+  const contacts = { ...soles, ...seat };
   return Object.keys(contacts).length > 0 ? contacts : undefined;
 }
-
-/**
- * The band a seated pelvis can credibly fall in, matching
- * `SEATED_PELVIS_Y_RANGE` in the pose registry. Duplicated as a number here
- * rather than imported so this factory script stays independent of the runtime
- * module graph; the pose registry validates the same bound, so a drift between
- * them fails there.
- */
-export const SEATED_PELVIS_PLAUSIBLE = { minimum: 0.45, maximum: 0.8 } as const;
 
 /** Body draw order, matching the banked pg candidates. */
 export const WAVE_A_BODY_LAYER = 20;
@@ -1019,9 +989,14 @@ export function buildCandidateRecord(
   measurement: WaveAMeasurement,
   poseFamily: string,
   fileHash: string,
+  seatedContact?: SeatedContactMeasurement,
 ): CharacterComponentManifestRecord {
   const assetId = waveAAssetId(sweep.choppedOutputPath);
-  const contacts = contactsFromMeasurement(measurement, observation.posture);
+  const contacts = contactsFromMeasurement(
+    measurement,
+    observation.posture,
+    seatedContact,
+  );
   const candidate: CharacterComponentCandidateDefinition = {
     kind: "body",
     family: waveAFamilyId(sweep.family),
@@ -1082,6 +1057,8 @@ export interface WaveAAdmissionRow {
   readonly observation: WaveAVisualObservation;
   readonly measurement: WaveAMeasurement;
   readonly rigPlausible: boolean;
+  readonly turnOffsetFraction: number;
+  readonly seatedContact: SeatedContactMeasurement | null;
   readonly registeredPoseFamily: string | null;
   readonly disposition: WaveADisposition;
   readonly priorClaimDisagreements: readonly string[];
@@ -1103,6 +1080,7 @@ export interface WaveAAdmissionResult {
 export function unresolvedFor(
   observation: WaveAVisualObservation,
   measurement: WaveAMeasurement,
+  seatedContact?: SeatedContactMeasurement,
 ): readonly string[] {
   const unresolved: string[] = [
     "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
@@ -1117,18 +1095,13 @@ export function unresolvedFor(
     );
   }
   if (observation.posture === "seated") {
-    const pelvisY = measurement.rig.crotchYFraction;
-    const pelvisUsable =
-      measurement.soleRunCount === 2 &&
-      pelvisY >= SEATED_PELVIS_PLAUSIBLE.minimum &&
-      pelvisY <= SEATED_PELVIS_PLAUSIBLE.maximum;
-    if (!pelvisUsable) {
+    if (!seatedContact || seatedContact.basis === "unmeasured") {
       unresolved.push(
-        `seated pelvis: the crotch row measures ${pelvisY} of canvas height and the sole band resolves ${measurement.soleRunCount} runs. The silhouette finds a crotch where it opens into two legs, so on a figure whose legs never separate that row is not a pelvis; here it is at the shin or the ankle. No seat contact is declared, and this body cannot be placed on a seat until one is measured as a seat contact rather than inferred from a leg gap.`,
+        `seat contact: ${seatedContact?.reason ?? "not measured"}. No seat contact is declared, and without one this body cannot be placed in a chair by anything. It is not supplied from proportions.`,
       );
     } else {
       unresolved.push(
-        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against.",
+        `seat plane: the seat contact is measured from the silhouette (${seatedContact.basis}); the true seat plane still needs a scene seat to calibrate against.`,
       );
     }
   }
@@ -1198,6 +1171,16 @@ export async function runWaveAAdmission(
     const bitmap = await readPng(absolute);
     const measurement = measureWaveACrop(bitmap);
     const plausible = rigIsPlausible(measurement);
+    const turnOffset = turnOffsetFraction(bitmap);
+    const seatedContact =
+      observation.posture === "seated"
+        ? measureSeatedContact(
+            bitmap,
+            measureBodyRig(bitmap),
+            turnOffset,
+            measurement.soleRunCount,
+          )
+        : null;
     const poseFamily = registeredPoseFamilyFor(
       observation,
       sweep.apparentPoseCategory,
@@ -1225,10 +1208,16 @@ export async function runWaveAAdmission(
       observation,
       measurement,
       rigPlausible: plausible,
+      turnOffsetFraction: turnOffset,
+      seatedContact,
       registeredPoseFamily: poseFamily,
       disposition,
       priorClaimDisagreements: disagreementsWithPriorClaim(sweep, observation),
-      unresolved: unresolvedFor(observation, measurement),
+      unresolved: unresolvedFor(
+        observation,
+        measurement,
+        seatedContact ?? undefined,
+      ),
     });
 
     if (disposition === "admitted-candidate-body" && poseFamily) {
@@ -1239,6 +1228,7 @@ export async function runWaveAAdmission(
           measurement,
           poseFamily,
           fileHash,
+          seatedContact ?? undefined,
         ),
       );
     }
