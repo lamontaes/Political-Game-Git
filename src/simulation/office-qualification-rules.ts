@@ -362,7 +362,9 @@ function monthsBetween(start: IsoDate, end: IsoDate): number {
   const [endYear, endMonth, endDay] = end.split("-").map(Number);
   const months = (endYear! - startYear!) * 12 + (endMonth! - startMonth!);
   if (endDay! >= startDay!) return months;
-  const daysInEndMonth = new Date(Date.UTC(endYear!, endMonth!, 0)).getUTCDate();
+  const daysInEndMonth = new Date(
+    Date.UTC(endYear!, endMonth!, 0),
+  ).getUTCDate();
   return startDay! <= daysInEndMonth ? months - 1 : months;
 }
 
