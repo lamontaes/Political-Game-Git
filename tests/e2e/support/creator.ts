@@ -62,6 +62,31 @@ export const KENTUCKY_LEXINGTON_REGRESSION = {
   place: "Lexington",
 } as const;
 
+/**
+ * Quits to the title screen, answering the unsaved-life confirmation.
+ *
+ * `goTo(page, "leave-game")` alone is not enough and has not been for a while:
+ * quitting a life that has never been saved opens an alertdialog asking
+ * whether to save first, so the click leaves the player exactly where they
+ * were and the next step waits on a title screen that never comes. Measured
+ * as a two-minute timeout rather than a failed assertion, which is why it
+ * reads like a hang.
+ *
+ * "Quit without saving" is what a walk that quits and starts another life
+ * means. A walk that wants the save keeps it before quitting, and then this
+ * helper finds no dialog and does nothing.
+ */
+export async function leaveGame(page: Page): Promise<void> {
+  await goTo(page, "leave-game");
+  const withoutSaving = page.getByTestId("leave-without-saving");
+  const shown = await withoutSaving
+    .waitFor({ state: "visible", timeout: 2000 })
+    .then(() => true)
+    .catch(() => false);
+  if (shown) await withoutSaving.click();
+  await expect(page.getByTestId("title-screen")).toBeVisible();
+}
+
 /** Opens the creator and stops at the first stage. */
 export async function openCreator(page: Page): Promise<void> {
   await page.getByTestId("new-game").click();
