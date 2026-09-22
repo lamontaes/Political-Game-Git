@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 3139 |
-| INTENTIONALLY_NON_PLAYER_FACING | 7208 |
-| DIAGNOSTIC_OR_TEST | 8202 |
-| **NEEDS_CLASSIFICATION** | **10697** |
+| INTENTIONALLY_NON_PLAYER_FACING | 7211 |
+| DIAGNOSTIC_OR_TEST | 8207 |
+| **NEEDS_CLASSIFICATION** | **10699** |
 
-Scanned 1206 files holding 115516 string
+Scanned 1206 files holding 115564 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -346,6 +346,7 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/simulation/people-family.ts` |
 | 7 | `src/simulation/press/records.ts` |
 | 7 | `src/simulation/starting-birthday.ts` |
+| 7 | `src/simulation/trait-resistance.ts` |
 | 6 | `src/player/GoverningOfficeDesk.tsx` |
 | 6 | `src/player/LifeContinuationPanel.tsx` |
 | 6 | `src/player/LifeFavorPanel.tsx` |
@@ -398,7 +399,6 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/simulation/municipal-election-rules.ts` |
 | 5 | `src/simulation/press/story-voice.ts` |
 | 5 | `src/simulation/service-delivery-response.ts` |
-| 5 | `src/simulation/trait-resistance.ts` |
 | 5 | `src/ui/ScenePresentationProofView.tsx` |
 | 4 | `src/districts/query.ts` |
 | 4 | `src/education/catalog.ts` |

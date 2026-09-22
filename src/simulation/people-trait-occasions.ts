@@ -78,10 +78,11 @@ function alreadyWeighed(
  * say which happened, rather than flattening them into "it did not work out".
  *
  * One such evening does nothing. That is resistance doing its job and it is
- * true to life: the same thing happening again and again is what moves
- * somebody, because each failed attempt is recorded and counts as pressure on
- * the next. Somebody who reaches out for a year and keeps getting nowhere
- * becomes a person who reaches out less.
+ * true to life. So is what it takes instead: the failures are recorded, and
+ * they add up only when they are genuinely separate — different people, months
+ * apart. One friend who is always busy is a fact about that friendship.
+ * Reaching out across a year and getting nowhere from several directions is
+ * what makes somebody a person who reaches out less.
  *
  * Only asks whose day has passed count. An ask still ahead has not come to
  * nothing; it is waiting, and treating the two alike is the same error as
@@ -114,6 +115,11 @@ export function produceRebuffedAskEffects(
       reason: `${outcome.reason} (${proposal.on})`,
       force: "passing",
       stableKey: occasionKey,
+      // Who did the rebuffing is the context. One person who keeps saying no
+      // is one thing that keeps happening; being turned down across a year by
+      // several different people is the thing that actually makes somebody
+      // reach out less, and this is what lets the two be told apart.
+      context: `contact:rebuffed-by:${proposal.toPersonId}`,
     }).world;
   }
   return next;
