@@ -311,6 +311,85 @@ is worth reading closely.
 
 - `world39-news-journal.spec.ts:24:1` — News speaks about the place and the Journal tells the life through save (Aurora, Colorado) _(assertion, flaky)_
 
+## Ten of the 86 now pass, and they were one cause
+
+Worked 2026-09-22 after this list was first written. Measured locally on main,
+Chromium 141, `CI=1`, two workers.
+
+    narrative-life.spec.ts:556           runs the questions and ends into the life
+    p2r1-editorial.spec.ts:54            the old age-32 calibrated fixture
+    pennywise-adaptive-life.spec.ts:143  asks the short path, answers it
+    pennywise-adaptive-life.spec.ts:174  never tells the player what it concluded
+    pennywise-adaptive-life.spec.ts:248  plays a run of adult situations
+    pennywise-adaptive-life.spec.ts:324  writes no tier and no selection reason
+    pennywise-adaptive-life.spec.ts:359  keeps a calibrated life and reloads it
+
+Three more, which this list had filed under **timeout** rather than assertion,
+are the same cause and pass with them:
+
+    pennywise-adaptive-life.spec.ts:194  lets a player decline the whole thing
+    pennywise-adaptive-life.spec.ts:307  shows no tier, no meter and no forecast
+    pennywise-adaptive-life.spec.ts:390  rebuilds the life its replay address came from
+
+That is **ten of the 86 live cases**, leaving 76: 23 private-artwork,
+35 assertion, 17 timeout, 1 unknown. The seven-and-three split is itself the
+point — the same stale walk was counted in two different families, because a
+missing element is waited for and a wrong one is not.
+
+**The creator gained an appearance step.** "How you look", with its own Begin,
+now comes _after_ the questions, so answering the calibration returns the
+player to the creator rather than dropping them in a room. Every one of these
+asserted `play-screen` immediately and stopped on a creator with Begin sitting
+unpressed in front of it. A stale walk in seven places, not seven defects, and
+now one shared `beginAfterCalibration` helper.
+
+Running `pennywise-adaptive-life.spec.ts` by itself surfaced **eight**
+failures where the whole-suite run recorded five, which is a second instance of
+the order-dependence this list warns about above. Three more stale references
+came out of that file with them: quitting a life that has never been saved
+opens a confirmation, so `goTo(page, "leave-game")` leaves the player where
+they were; the replay case waited for an `opening-life-panel` that exists
+nowhere in `src` any more; and it was reading behind the skippable world
+introduction. That file is now 11 passed, 0 failed, from 8 failed.
+
+**Eight other specs call `leave-game` directly, and that is a hazard rather
+than a prediction.** Measured afterwards rather than assumed:
+`title-tableau.spec.ts` and `frontdoor44.spec.ts` both pass, so their quits do
+not meet the confirmation — they are not quitting an unsaved life. The claim
+that all eight would hang was too strong and is withdrawn. What holds is that
+the pattern is unsafe: `goTo(page, "leave-game")` is only reliable on a life
+that has been saved, and the shared `leaveGame` helper is what makes it
+reliable either way. `production-play.spec.ts` has six call sites and has not
+been checked one by one.
+
+**And a note on the timeout family.** Three of these four stale references
+presented as two-minute timeouts rather than failed assertions, because a
+missing element is waited for and a wrong one is not — which is exactly why
+three of the ten recovered cases sit in the timeout row of the table below and
+seven in the assertion row, for one cause. So some of the remaining 17 live
+timeouts are stale references rather than slow walks, and the two families are
+not as separate as the table makes them look. The table below is left as
+measured, with this section as its correction, rather than rewritten to hide
+that the families crossed.
+
+## The creator has no `h1`
+
+`front-door-readability.spec.ts:152` waits for
+`getByTestId('setup-screen').locator('h1')` and spends the full budget on it.
+Measured on main: there is no `h1` inside the creator. The wordmark is an
+`h1` on the title screen; the creator's own headings are the `h2` stage
+titles, which the same case reads successfully one line later.
+
+Not classified here, because it is two different findings depending on an
+answer this lane does not own. If the creator is meant to carry a heading of
+its own, a `main` landmark with no `h1` is an accessibility gap and the test
+is right. If the collapsed-summary creator is meant to be a continuation of
+the title screen rather than a page in its own right, the test is pinning a
+heading the design removed and should read the `h2` it already reads.
+
+Either way the case is currently a two-minute wait on a missing element rather
+than a statement about contrast, which is what it was written to measure.
+
 ## Totals
 
 | Family                           | All 104 | Live 86 |
@@ -323,13 +402,82 @@ is worth reading closely.
 
 ## Two clusters worth naming
 
-**Six cases are one cause.** The four in `pt3-scene-conversation.spec.ts` and
-the two in `pt3-school-scene.spec.ts:149` are the same PT3 scene surface met
-from six directions across two spec files and four viewport sizes. CI names the
-same six on its own browser, on main at `7fc33c85`. Re-measured directly on
-2026-09-22 at main `0e0cebe8`: all four conversation cases fail in the same
-place, `stepIntoTheScene` waiting on `opening-life-scene`, which is never
-found. That is one missing scene, counted six times.
+**Four cases were one cause. The other two are not — that earlier claim was
+wrong.** All four in `pt3-scene-conversation.spec.ts` died in the same place,
+`stepIntoTheScene` waiting on `opening-life-scene`. The two in
+`pt3-school-scene.spec.ts:149` die somewhere else entirely, on
+`data-scene-purpose` reading `home` where the walk wants `school`. They were
+grouped together because CI names all six in one shard and they share a
+prefix, which is not evidence. Opening them was.
+
+_The four, resolved as a stale walk._ The moment does not sit on the room; it
+**replaces** it. `OpeningLifeFlow` returns the moment surface alone while
+`pendingOpen` is set, for a stated reason — a panel docked permanently over a
+full room covers whoever is standing where it lands, and the people are how a
+life is played. The helper opened the moment and then waited for the room, so
+it asked for two surfaces the game deliberately never shows at once. The scene
+panel for an ordinary start is reached through Personal → "Your day, choices
+and pending favors", which is the route `playtest34-life.spec.ts` already uses
+and which passes.
+
+_What the repaired walk then exposed_, measured 2026-09-22 on main `8d0f0629`,
+local, Chromium 141. These are new findings, not new breakage — the cases
+never got far enough to report them before:
+
+- `turning to a second classmate` fails `expectBounded`: the conversation box's
+  `scrollHeight` is 432 against a smaller `clientHeight`, so the box overflows
+  and needs a scrollbar. That is the PT3 Run B rule the file exists to hold,
+  failing for real.
+- `the owner's age-22 conversation` and `at the smaller 1280 x 720 window` both
+  run out of the full 120-second budget inside the conversation, on
+  `locator.innerText` and `locator.click` respectively.
+
+So of the six, one is now a named layout defect, two are timeouts deep inside a
+working walk, one is unmeasured, and two were never the same problem. The
+lesson is the one this file keeps paying for: a shared prefix and a shared
+shard are not a shared cause.
 
 **Two are not this lane's.** `pt3-microfix-version.spec.ts:81` asserts the
 version stamp, which the release machinery owns.
+
+## The conversation box overflows by eighteen pixels
+
+Measured 2026-09-22 on main, local, Chromium 141, at 1440 x 900, in the
+school-project conversation with two addressees, after turning to the second:
+
+    scrollHeight   432
+    clientHeight   414
+    max-height     416px  (26rem)
+
+    pg-talk-head                129
+    conversation-briefing        30
+    conversation-addressees      30
+    conversation-beat            96
+    conversation-intents         34
+    pg-talk-foot                 30
+    pg-talk-hearing              15
+    ---------------------------------
+    children                    364
+    six 0.5rem gaps              48
+    padding                      20
+    ---------------------------------
+    total                       432
+
+So the content is **16 pixels over the 26rem cap**, and `overflow: auto` turns
+that into the scrollbar the Run B rule forbids. The head is the largest single
+part at 129px; the briefing, the addressee row and the hearing line are the
+three rows that only appear in a multi-addressee conversation, and together
+they are 75px.
+
+**This is not fixed and should not be fixed by picking a number.** The obvious
+change — raise the cap to 27rem — is exactly 432px, the measured content of
+this one conversation, with no headroom; the next added row breaks it again.
+The next obvious change, 28rem, is 448px against a separate rule in the same
+file that the box stay under half the viewport, which is 450px at this size.
+Two pixels is not a margin.
+
+What it actually needs is a decision about the box: whether it may be taller
+when a conversation has more than one addressee, or whether something comes
+out of the head. That is a look at the screen and an owner's call, not a
+number chosen to make a measurement pass. Recorded here at full precision so
+whoever takes it does not have to measure it again.

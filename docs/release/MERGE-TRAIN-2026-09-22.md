@@ -20,6 +20,12 @@ recommended in it.
 
 ## The list to click through
 
+> **The do-not-merge on #283 is LIFTED, as of 10:30Z.** An earlier version of
+> this banner said not to click it. That warning was about `eb80bbc1`, which
+> is no longer the head. The branch pushed at last and the break is gone:
+> merging **`54f9cbfe`** with `main` at `c659f256` typechecks clean, verified
+> here rather than taken on report. Its entry below says what it needs now.
+
 **Final state, refreshed against `origin/main` at `af6b379b`, 08:40Z.** The
 train has run. This section is what is left, not what was planned — where the
 two differ, the difference is stated rather than tidied away.
@@ -64,9 +70,49 @@ run.
   because that fixture asserts the _sentence_, not the verdict. Checked on
   `af6b379b` rather than taken from the hold note. It needs the fix-main lane's
   fixture patch first.
-- **#283 — every state has a legislature, the District governs itself.** Held
-  by its own lane with seven unattributed test failures and a merge conflict,
-  and being put back to the nationwide lane rather than assumed ready.
+- **#283 — the do-not-merge is lifted; it is a draft until its checks
+  report.** Every state has a legislature and the District governs itself.
+  The branch is now on GitHub at **`54f9cbfe`**, and the typecheck break that
+  made an earlier version of this entry say "do not click it" is fixed in
+  that head.
+
+  **Verified rather than relayed, at 10:30Z**, to the same standard the
+  warning was: merge `origin/main` at `c659f256` into `54f9cbfe` and
+  `npm run typecheck` is clean. Only `docs/prose-inventory/README.md` and
+  `coverage-report.md` conflict, both generated; there is no source conflict
+  at all now, where the earlier head also conflicted in
+  `office-qualification-rules.ts`.
+
+  **How the push gate opened is not established.** The nationwide lane does
+  not know, this lane did not open it, and the coordinator session states it
+  did not either. lamontae has sent nothing since 05:35Z. So the record says
+  it is unknown, rather than letting "a session approved it" become the story
+  by default.
+
+  **The near miss is worth keeping.** For roughly an hour the commit reachable
+  from this pull request's merge button would have broken `main`'s typecheck,
+  under standing authority to merge, and nothing stood between it and a merge
+  except a reproduction and a banner. It was caught by merging the two heads
+  and running the gate — not by reading the diff, which shows no conflict, and
+  not by reading the lane's own report, which was green on a commit nobody
+  else could see. That is D-087 earning its place the same night it was
+  written.
+
+- **#292 — ready, but NOT clickable yet: it conflicts with main.** The
+  district-residence clock. Head `c7c19744`, out of draft. GitHub reports
+  `mergeable_state: dirty` at 10:27Z, so the merge button is not available
+  until someone merges `main` into it. Stated because it reached this document
+  described as clickable as soon as its checks report, and a base merge is
+  needed first.
+
+- **#305 — the Congress faction view, held by its own lane on purpose.** Head
+  `e1020cd6`, out of draft. Its lane declined to merge it and was right to:
+  the repository's own guidance puts consequential code with LAND, and there
+  is no CI run on the head that would actually be merged. Its one-line
+  justification, in its lane's words: the unit suite is green on its tree, and
+  every browser failure is attributed by name against the case list. So it is
+  a click for a human, not an omission.
+
 - **#305** and **#311** were reported ready earlier on heads that have since
   moved. Their evidence is older than the head each now carries, so they are
   clicks rather than merges.
@@ -83,7 +129,8 @@ run.
   reading and was not overridden.
 
 **A draft cannot be merged.** #304 and #283 are drafts; each needs its "Ready
-for review" button pressed before the merge button appears.
+for review" button pressed before the merge button appears. For #283 that is
+a guardrail rather than an obstacle — read its entry above before touching it.
 
 **Already in main — nothing to do.** Thirty-four pull requests merged between
 22:00Z and this refresh, read from `git log` on `origin/main` at `7fc33c85`:
@@ -110,9 +157,17 @@ the report rather than on this list.
 
 ## An instrument that fails by doing nothing is indistinguishable from a pass
 
-**The most transferable thing measured tonight.** It appeared four times, in
-four unrelated tools, and each time it produced a confident report of agreement
-where nothing had been observed.
+**If this report carries one line, make it this one.** Recorded as D-087's
+companion, **D-088**, in `docs/decisions/DECISION-LOG.md`.
+
+> A measurement that can fail by measuring nothing will report that as a pass.
+> Every instrument needs a check that it engaged at all.
+
+It appeared **six times tonight, across four lanes**, in tools that have
+nothing to do with each other, and each time it produced a confident report of
+agreement where nothing had been observed. It is also the common root of most
+of tonight's retractions, which is the reason it leads rather than sits sixth
+in a list.
 
 1. **A Playwright helper skipped a missing control.** `openPoliticsHub` does a
    bare `continue` when a sub-control is not on the page, so a walk visiting
@@ -128,6 +183,58 @@ where nothing had been observed.
 4. **A grep-driven sweep updated only what it could spell.** It rewrote a
    sentence and updated every consumer that spelled it the same way, silently
    missing one that lived elsewhere.
+5. **An invariant test called one producer down one branch.**
+   `src/simulation/no-citations-on-player-surfaces.test.ts:211` carries its own
+   account: the first version called `resolveCapability` with `officeKey: null`
+   only, and the resolver takes a whole branch, with its own sentences, only
+   when it **is** given an office key. "So the producer was missed once by not
+   being called at all, and missed again by being called down one path."
+   Widening a net is not the same as widening it in the right dimension.
+6. **A walk pressed a control that was not on the surface it had reached.**
+   `tests/e2e/civil-authority-normal-route.spec.ts:33` records it: a loop
+   pressed `pass-day` sixty times on the Calendar, which does not draw that
+   control — the Calendar's own time controls are `shell-pass-day` and
+   `shell-pass-week`. The arithmetic was wrong underneath it as well, and
+   would have bitten the moment the control was fixed: the life starts
+   2026-01-05 and the observation is 2026-09-06, two hundred and forty-four
+   days, so sixty single days could never have arrived however reliably they
+   were pressed. **A walk that measures zero weeks should fail loudly, not
+   agree quietly.**
+
+**A seventh instance, and it is the sharpest one, because the diagnosis is
+what failed.** Three lanes in ninety minutes looked at the same time control,
+and each wrote down a different confident reason a locator could not find it.
+None of the three was checked against the file until the fourth reading.
+
+- "Its `Skip to Monday…` text is screen-reader-only." Vague, and it points at
+  the wrong fix.
+- "The string does not exist." **Mine, and false.** I ran
+  `git grep "Skip to Monday"`, got nothing, and believed it. The string is
+  _composed_ — `skipToLabel` at `src/presentation/time-target-label.ts:18`
+  returns `` `Skip to ${describeTimeTarget(moment)}` `` — so a literal search
+  for it finds nothing however many times it reaches the screen. **That is
+  instance 4 of this very list, committed while writing the list.**
+- The measured reason: on `main` at `b8f8702f` the string is on that button
+  three ways — the `title` attribute at `src/player/ShellNav.tsx:515`, an
+  `sr-only` span at `:542`, and the `aria-describedby` at `:514` that points
+  at it. The button's text content is `Week` with an `aria-hidden` chevron, so
+  its accessible **name** is "Week". **`aria-describedby` contributes to an
+  element's accessible _description_, not its accessible _name_**, and neither
+  does `title` when a name is already present. So
+  `getByRole("button", { name: /Skip to/ })` cannot match it however visible
+  the string is. The fix is the `data-testid` or the real accessible name.
+
+  (On `claude/player-facing-text-client` at `f010bff7` the same string reaches
+  the screen through a `pg-nav-days-target` hint with the prefix stripped
+  rather than through the `sr-only` span. Different tree, same conclusion.)
+
+**The clause that earns its place:** _an instrument that reports nothing
+invites a guessed explanation, and the guess inherits the same false
+confidence._ The two wrong diagnoses pointed at opposite fixes — one says add
+a string that is already there twice, the other says reveal something that is
+already a tooltip — and neither leads to the locator. A rule about instruments
+that measure nothing is best served by an instance where the **diagnosis**
+failed the same way.
 
 **Why this family is worth a name.** A tool that fails loudly costs one cycle.
 A tool that fails by doing nothing costs a wrong belief, and the wrong belief
@@ -139,22 +246,175 @@ that was fixed now checks a non-empty block count before it checks any wording.
 That is the general shape: make the instrument prove it arrived somewhere
 before you believe what it says about the place.
 
-## The release is parked, on purpose, and here is the trade
+**An assertion that cannot fail is worse than no assertion**, because it
+manufactures confidence rather than merely withholding it. Every one of these
+six produced a claim, and every one of those claims then travelled.
 
-A branch that re-merges `main` and regenerates `docs/prose-inventory/coverage-report.md`
-on every move of the base **can never hold still long enough to be verified**.
-Each push supersedes its own pending run, so the release had a run and lost it
-three times without one ever starting. Keeping the branch perpetually current
-had become the thing preventing the verdict we made an exception to obtain.
+**The mirror image, from the research-audit lane, and it is the same root.**
+Checking whether a browser failure was new, its first attempt printed
+**`1 failed` — and the browser had never started.** A harness that never ran a
+test body printed the line a genuine assertion failure prints. So beside "an
+instrument that fails by measuring nothing reports it as a pass" there is:
+**an instrument that fails to start can report it as a failure.** That one
+manufactures a defect rather than hiding one, and between them the two explain
+why one night produced both phantom findings and phantom clean results. The
+defence is identical either way: the instrument must show it engaged before
+its verdict means anything.
 
-**So it is parked at its current head and left to run.** It will be re-merged
-only if GitHub reports it un-mergeable.
+**And a substantive finding that qualifies several of tonight's claims,
+including this lane's own.** The failure that lane was chasing **passes when
+run on its own, on current `main` and on the branch alike, and fails only when
+the whole shard runs together.** That is the third independent sighting of
+test interdependence, after the nationwide lane's two tests that answer
+differently depending on what runs alongside them. Three sightings is enough
+to state plainly rather than as a caveat: **some of this suite's results
+depend on what else is running.**
+
+It weakens every same-tree attribution made tonight **in both directions** —
+this lane's nine-for-nine match between the release's `browser (6, 8)` and
+main's, and the seventy-one-of-seventy-two match another lane reported. Those
+matches are still the best available evidence and they are no longer clean
+proof, and it is the likeliest single explanation for the timeout family in
+the case list. It also makes "run it again on its own" a **real diagnostic
+here rather than a flake excuse**: the difference is that it produces a
+specific reportable fact — passes alone, fails in company — instead of a
+second opinion.
+
+## The release was not parked. It was un-mergeable, which is not the same thing
+
+**This section said "parked, on purpose" for most of the night, and that was
+wrong in a way worth keeping rather than overwriting.** The branch was not
+holding still by choice. It could not be tested at all, and nothing visible
+from the outside told the difference.
+
+What was true, and is still true: a branch that re-merges `main` and
+regenerates `docs/prose-inventory/coverage-report.md` on every move of the base
+**can never hold still long enough to be verified**, because each push
+supersedes its own pending run. That is why the release lost a run three times
+without one ever starting, and why it was left alone afterwards.
+
+What was not true is the word _parked_. Measured at 10:45Z: `08a999f2`, the
+release head pushed at 08:54:53Z, merges cleanly with `4595878e` — the `main`
+it was built on at 08:49:53Z — and **conflicts with `a08d2eef`, the next
+`main`, 08:53:27Z.** Three and a half minutes. GitHub builds no merge ref for a
+conflicted pull request and therefore **creates no workflow run at all**, so
+there is no run on `08a999f2` and there never was one. The branch spent the
+morning un-testable rather than resting.
+
+The general rule this produced is **D-089**, measured independently by the
+research-audit lane across twenty successive mains: a generated file that is
+also committed makes a whole class of branches un-mergeable within minutes of
+every merge to `main`, on a file no human wrote. The behavioural half of it
+belongs in this document too, because two lanes paid for it tonight:
+
+> **CI silence is a reason to check mergeability first, not to wait longer.**
+> An empty queue and an un-mergeable head look identical from the outside, and
+> only one of them gets better by waiting.
+
+It will be re-merged whenever GitHub reports it un-mergeable, which now means
+roughly whenever anything merges.
 
 **The trade, stated so nobody has to infer it:** a verdict that ran on a head
 one or two `main` commits behind is a better artefact than a perpetually
 current branch with no verdict at all. When the verdict arrives, the head it
 ran on is named beside it, and that head is the claim — not `main` as it
 stands when someone reads the report.
+
+**The verdict the run did produce is partial, and it is worth having.** The
+trade above still holds — a verdict on a head one or two `main` commits behind
+beats none — but it was never the reason this run survived. It survived because
+the branch could not be pushed to usefully, which is luck wearing a decision's
+clothes. Run
+[35706104688](https://github.com/lamontaes/Political-Game-Git/actions/runs/35706104688)
+on **`eb0abea1`** was created 08:40Z, allocated its fifteen jobs at 09:01Z and
+started executing at 09:37Z — **fifty-seven minutes queued.** It survived
+because nothing pushed to the branch in that hour. Every earlier attempt died
+pending because something did.
+
+Shard by shard, final, on `eb0abea1`. The run was cancelled at 11:10Z by the
+base-merge push described below, with **nine of fifteen jobs reported**:
+
+| Job                                                          | Result                                | When                     |
+| ------------------------------------------------------------ | ------------------------------------- | ------------------------ |
+| `unit (1, 6)`                                                | **green**                             | 10:40:46–10:46:17, 5m31s |
+| `unit (2, 6)`                                                | **green**                             | 10:29:51–10:34:27, 4m36s |
+| `unit (5, 6)`                                                | **green**                             | 09:38:32–09:43:48, 5m16s |
+| `unit (6, 6)`                                                | **green**                             | 10:40:50–10:45:54, 5m04s |
+| `browser (6, 8)`                                             | **red**, 9 failed 54 passed           | 09:46:55–10:04:29, 17.6m |
+| `browser (2, 8)`                                             | **red**, 1 failed 74 passed           | 10:15:32–10:32:17, 16.7m |
+| `browser (4, 8)`                                             | **red**, 7 failed 1 skipped 50 passed | 10:06:06–10:36:09, 30.0m |
+| `unit (3, 6)`, `unit (4, 6)`, `repository`, 5 browser shards | never ran                             | —                        |
+
+**Four of six unit shards green, and no red belonging to this branch.**
+
+`unit (2, 6)` is worth more than its colour. It is the shard that is **red on
+`main`**, and its green here is the first CI evidence for the
+campaign-projection fix, which until 10:34Z rested on local evidence only. The
+whole point of buying this run was to stop saying "it passes locally".
+
+**All seventeen browser failures are `main`'s**, and sixteen of them were
+established without spending a single re-run: they are named by spec file,
+line and test title in `docs/BROWSER-SUITE-CASE-LIST.md`, the inventory of
+`main`'s 104 not-passing cases. That inventory was built to describe `main`
+and answered a question about a different branch, which is the best thing that
+happened to it.
+
+The seventeenth, `national-election.spec.ts:4:1`, is **not** in that list — so
+it was run by hand rather than assumed, on this merged tree and on `main`'s
+tree in the same container. **Flaky on both**: the first attempt fails at the
+`national-election-results` locator, the retry passes. The same tree without
+the release's changes fails it the same way, so it is not the release's. It
+had simply never failed twice on `main` before.
+
+**One finding handed back rather than acted on.** Four of `browser (4, 8)`'s
+seven are `p29-g-apartment.spec.ts:25:5` cases, classified in the case list as
+_(artwork)_ — among the 23 that "need owner-private artwork and can never pass
+on a runner". At least one of them is not failing for that reason. The runner's
+error is `Name the state, then a town. Lexington and Kentucky are not assumed.`
+at `src/presentation/new-game-geography.ts:312`, reached from
+`chooseCreatorLocation` at `tests/e2e/support/creator.ts:78`. That is the
+production guard working correctly and a test helper failing to name a state —
+a fixable test-side defect, not a missing private asset. Not reclassified here:
+it is not this lane's file, and the error was confirmed for one of the four
+rather than all four.
+
+**How `browser (6, 8)`'s nine were established.** It failed with exactly the
+nine spec-and-title pairs main's own `browser (6, 8)` failed at `7fc33c85`,
+with the same 9-failed / 54-passed split, and the fix-main lane independently
+reproduced all nine at `445441a5`. Not re-run: an identical match against the
+base branch is stronger than a second run of the same shard, and 17.6 minutes
+were worth more to the shards still queued. Recorded on the pull request as
+[a comment](https://github.com/lamontaes/Political-Game-Git/pull/277#issuecomment-5774630845),
+with the other two shards' stand-downs
+[here](https://github.com/lamontaes/Political-Game-Git/pull/277#issuecomment-5775000316)
+and
+[here](https://github.com/lamontaes/Political-Game-Git/pull/277#issuecomment-5775130916).
+
+**Two of those nine were this lane's and are now fixed on `main` as #351** —
+and they were not what they were filed as. `pt3-microfix-version.spec.ts:81`
+was timing out on `play-screen` two steps before its first assertion about the
+version stamp, because `questionnaire-finish` reads **"Review appearance"** and
+returns the player to the creator's appearance step with Begin still to press.
+The test id had outlived the button's meaning. Reproduced first, then fixed:
+both cases failed and the file's third case passed, which is precisely the
+split CI reported here; after the change all three pass in 56.2s. The fix went
+to `main` rather than to this branch, because pushing here would have killed
+the run above.
+
+**What this means for the morning report, and what was traded for it.** The
+release was never going to have a complete verdict by nine: eight browser
+shards at 18 to 40 minutes each against roughly three slots does not fit in
+the time. At 11:10Z the choice was between letting the remaining six jobs run
+on a head that **is not this pull request's head and never will be merged**,
+and making the pull request clickable, which is what the owner actually asked
+for. The base merge went in, and it cancelled the run.
+
+**The honest sentence for the report:** the 0.4.0 release has **four of six
+unit shards green and three red browser shards on `eb0abea1`, every red of
+them inherited from `main`, with six jobs never run** — and #277 is
+`mergeable_state: clean` at `f20381f1`, gated locally on format, typecheck and
+`release:check`. Not "the release is verified". Not "the release is failing".
+And not, any longer, "the release cannot be merged".
 
 ## Withdrawn: the three-menu-destinations claim, which is in a merge commit
 
