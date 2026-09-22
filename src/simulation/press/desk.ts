@@ -1326,8 +1326,9 @@ function sweepOutlet(
   );
   // Authored editorial attention: one routine item per weekly review; items
   // with a substantive reason (a matter, named people, a recorded scale above
-  // minor, a public office) may use the rest of the free capacity. Being on the beat or
-  // in the outlet's own town does not by itself make an item more than routine.
+  // minor, a public office) may use the rest of the free capacity. Being on
+  // the beat or in the outlet's own town does not by itself make an item more
+  // than routine.
   let routineTaken = 0;
   const chosen = routed.slice(0, free).filter(({ routine }) => {
     if (!routine) return true;

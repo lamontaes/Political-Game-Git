@@ -49,7 +49,7 @@ function fixture(): World {
 function record(
   world: World,
   key: string,
-  type: string,
+  type: HistoricalEvent["type"],
   tags: readonly string[],
   jurisdictionId: EntityId | null = KY,
 ): { world: World; event: HistoricalEvent } {
