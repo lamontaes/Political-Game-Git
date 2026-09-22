@@ -306,7 +306,7 @@ function answerFamilyPlan(
         {
           optionKey: "not-now",
           trait: "deliberation",
-          pole: "high",
+          pole: "low",
           explanation: "They would rather think it through for longer.",
         },
         {

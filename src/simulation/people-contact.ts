@@ -664,7 +664,7 @@ export function npcContactAnswer(
       {
         optionKey: "counter",
         trait: "deliberation",
-        pole: "low",
+        pole: "high",
         explanation: "They would rather sort it out now than leave it.",
       },
       {
