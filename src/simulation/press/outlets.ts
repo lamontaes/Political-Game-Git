@@ -152,12 +152,16 @@ const NATIONAL_PLANS: readonly OutletPlan[] = [
 ];
 
 /*
- * Starter profiles, not a ceiling. A state's and a town's newsroom is drawn
- * once per save from the profiles below, so one place gets a public-radio
- * statehouse desk and another a daily's bureau; the kind of outlet decides
- * its media, cadence, staff and reach. No population figure reaches this
- * module, so nothing here claims a place is big enough for a daily: the draw
- * is a spread of plausible newsrooms, stable for the save.
+ * Starter profiles, not a ceiling. A town's newsroom is drawn once per save
+ * from the profiles below, so one town gets a weekly and another a station;
+ * a state's newsroom is one kind for now (see STATE_PROFILE). The kind of
+ * outlet decides its media, cadence, staff and reach. No population figure
+ * reaches this module, so nothing here claims a place is big enough for a
+ * daily: the draw is a spread of plausible newsrooms, stable for the save.
+ *
+ * PLACEHOLDER, NOT RESEARCHED: the kinds, their staff and the weights below
+ * were authored on 2026-09-22 and are filed as the research question
+ * `what-newsrooms-cover-a-town-and-a-state`. Replace them with the answer.
  */
 interface OutletProfile {
   readonly product: MediaProduct;
@@ -169,115 +173,53 @@ interface OutletProfile {
   readonly names: readonly ((place: string) => string)[];
 }
 
-const STATE_PROFILES: readonly OutletProfile[] = [
-  {
-    product: "state-newsroom",
-    mediums: ["text", "digital", "audio"],
-    beats: [
-      "statehouse",
-      "campaigns",
-      "local-government",
-      "investigations",
-      "business-economy",
-      "public-safety",
-    ],
-    resourceTier: "standard",
-    cadence: "daily",
-    desks: [
-      {
-        title: "Statehouse reporter",
-        beats: ["statehouse", "campaigns", "investigations"],
-      },
-      {
-        title: "Regional reporter",
-        beats: [
-          "local-government",
-          "public-safety",
-          "business-economy",
-          "investigations",
-        ],
-      },
-    ],
-    names: [
-      (state) => `${state} Capitol Dispatch`,
-      (state) => `${state} Statehouse Review`,
-      (state) => `The ${state} Civic Record`,
-    ],
-  },
-  {
-    product: "public-affairs-broadcaster",
-    mediums: ["audio", "digital"],
-    beats: ["statehouse", "campaigns", "local-government", "public-safety"],
-    resourceTier: "standard",
-    cadence: "daily",
-    desks: [
-      {
-        title: "Statehouse correspondent",
-        beats: ["statehouse", "campaigns"],
-      },
-      {
-        title: "Regional correspondent",
-        beats: ["local-government", "public-safety"],
-      },
-    ],
-    names: [
-      (state) => `${state} Public Radio`,
-      (state) => `${state} Public Media`,
-      (state) => `${state} Capitol Radio`,
-    ],
-  },
-  {
-    product: "general-newspaper",
-    mediums: ["text", "digital"],
-    beats: [
-      "statehouse",
-      "campaigns",
-      "local-government",
-      "business-economy",
-      "public-safety",
-      "investigations",
-    ],
-    resourceTier: "major",
-    cadence: "daily",
-    desks: [
-      {
-        title: "Capitol bureau reporter",
-        beats: ["statehouse", "campaigns"],
-      },
-      {
-        title: "Investigations reporter",
-        beats: ["investigations", "statehouse", "business-economy"],
-      },
-      {
-        title: "Metro reporter",
-        beats: ["local-government", "public-safety", "business-economy"],
-      },
-    ],
-    names: [
-      (state) => `The ${state} Ledger`,
-      (state) => `The ${state} Herald`,
-      (state) => `${state} Daily Courier`,
-    ],
-  },
-  {
-    product: "politics-publication",
-    mediums: ["digital", "newsletter"],
-    beats: ["statehouse", "campaigns", "investigations"],
-    resourceTier: "small",
-    cadence: "daily",
-    desks: [
-      {
-        title: "Statehouse reporter",
-        beats: ["statehouse", "campaigns", "investigations"],
-      },
-    ],
-    names: [
-      (state) => `${state} Capitol Watch`,
-      (state) => `The ${state} Accountability Project`,
-      (state) => `${state} Politics Report`,
-    ],
-  },
-];
+/*
+ * Every state gets the same kind of newsroom, varied only by its masthead.
+ * The press desk, ownership market and story capacity are all built around a
+ * standard statehouse newsroom, and which states are served by a public
+ * broadcaster, a large daily or a small politics site instead is exactly what
+ * the research question above has to answer. Until it does, the kind is not
+ * drawn (PLACEHOLDER).
+ */
+const STATE_PROFILE: OutletProfile = {
+  product: "state-newsroom",
+  mediums: ["text", "digital", "audio"],
+  beats: [
+    "statehouse",
+    "campaigns",
+    "local-government",
+    "investigations",
+    "business-economy",
+    "public-safety",
+  ],
+  resourceTier: "standard",
+  cadence: "daily",
+  desks: [
+    {
+      title: "Statehouse reporter",
+      beats: ["statehouse", "campaigns", "investigations"],
+    },
+    {
+      title: "Regional reporter",
+      beats: [
+        "local-government",
+        "public-safety",
+        "business-economy",
+        "investigations",
+      ],
+    },
+  ],
+  names: [
+    (state) => `${state} Capitol Dispatch`,
+    (state) => `${state} Statehouse Review`,
+    (state) => `The ${state} Civic Record`,
+    (state) => `The ${state} Ledger`,
+    (state) => `The ${state} Herald`,
+    (state) => `${state} Public Media`,
+    (state) => `${state} Capitol Watch`,
+    (state) => `${state} Politics Report`,
+  ],
+};
 
 const LOCAL_PROFILES: readonly OutletProfile[] = [
   {
@@ -378,7 +320,8 @@ const LOCAL_PROFILES: readonly OutletProfile[] = [
  * Puerto Rico keeps its own press identity. Its newsrooms work in Spanish
  * first, so the island's outlets carry Spanish mastheads, and the
  * commonwealth's newsroom covers the Capitolio, not a "statehouse". These
- * are fictional names, like every other masthead here.
+ * are fictional names, like every other masthead here. PLACEHOLDER: the
+ * island's press identity is part of the same research question.
  */
 const PUERTO_RICO_STATE_NAMES: readonly ((place: string) => string)[] = [
   () => "El Heraldo de Puerto Rico",
@@ -406,10 +349,10 @@ const DISTRICT_KEY = "US-DC";
 /*
  * A local daily is the rarest of the four: most American towns are served by
  * a weekly, a small digital outlet or a station, and nothing here can tell a
- * city from a hamlet. Weights are an authored spread, not a measurement.
+ * city from a hamlet. Weights are an authored spread, not a measurement
+ * (PLACEHOLDER, see above).
  */
 const LOCAL_PROFILE_WEIGHTS: readonly number[] = [3, 3, 1, 2];
-const STATE_PROFILE_WEIGHTS: readonly number[] = [1, 1, 1, 1];
 
 function drawProfile(
   world: World,
@@ -551,12 +494,7 @@ export function ensurePressStateCoverage(
   const state = world.jurisdictions[stateJurisdictionId];
   if (!state || !state.kind.startsWith("state")) return world;
   const slot = `state:${state.slug}`;
-  const profile = drawProfile(
-    world,
-    slot,
-    STATE_PROFILES,
-    STATE_PROFILE_WEIGHTS,
-  );
+  const profile = STATE_PROFILE;
   const key = stateKeyOf(state.slug);
   const names =
     key === PUERTO_RICO_KEY
