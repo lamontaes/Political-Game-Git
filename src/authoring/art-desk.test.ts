@@ -249,9 +249,18 @@ describe("Art Desk projection and briefs", () => {
     expect(byId.get("env-campaign-storefront")?.lane).toBe("covered-history");
     expect(desk.privatePack.status).toBe("unknown");
     const eligible = desk.items.filter((item) => item.generationEligible);
+    // The five non-background requests are new work, not re-commissioned work:
+    // nothing in art/ answers a newspaper, a chart ground or a shell plate, so
+    // the desk is right to offer them. The list stays exhaustive so that a
+    // request which IS already covered cannot join it unnoticed.
     expect(eligible.map((item) => item.request.requestId).sort()).toEqual([
+      "economic-graph-panel-ground",
       "env-neighborhood-doorstep-generic",
       "env-park-community-pavilion-winter-variant",
+      "guide-popover-card-ground",
+      "news-masthead-nameplate-bands",
+      "news-page-newsprint-ground",
+      "politics-hub-tab-band",
     ]);
   });
 

@@ -96,12 +96,24 @@ export type AssetTargetClass =
   | "environment-plate"
   /** A title/menu tableau background. */
   | "title-plate"
+  /** One isolated layered part of a person: a body, a pose, a hair, a shoe. */
+  | "character-component"
+  /** The face of a printed thing read in-world: a newspaper page, a mailer. */
+  | "document-plate"
+  /** Out-of-world shell chrome: a panel ground, a card frame, a tab band. */
+  | "interface-plate"
+  /** The frame a generated chart is drawn into; never its data marks. */
+  | "chart-plate"
   /** Evidence and authoring reference; never shipped. */
   | "reference";
 
 export const ASSET_TARGET_CLASSES: readonly AssetTargetClass[] = [
   "environment-plate",
   "title-plate",
+  "character-component",
+  "document-plate",
+  "interface-plate",
+  "chart-plate",
   "reference",
 ];
 
@@ -263,6 +275,27 @@ export function targetClassShips(targetClass: AssetTargetClass): boolean {
 }
 
 /**
+ * Whether the ENVIRONMENT MASTER width floor is the right ruler for this class.
+ *
+ * It is the right ruler for exactly the two classes it was written for: art
+ * that fills a screen, where 4608px is what survives a crop and a tier ladder.
+ * It is the wrong ruler for everything else. A masthead nameplate, a popover
+ * card ground or a chart frame is a few hundred pixels wide by design, and
+ * measuring one against a full-bleed room plate's floor would reject correct
+ * art for being the size it is supposed to be.
+ *
+ * Those classes are not unmeasured. Their floor is the `minimumWidth` their own
+ * request declares in `art/requests/asset-requests.json`, which is where a
+ * per-asset floor belongs — one number per picture, set by the surface that
+ * will paint it, rather than one constant standing in for all of them.
+ */
+export function targetClassUsesEnvironmentMasterFloor(
+  targetClass: AssetTargetClass,
+): boolean {
+  return targetClass === "environment-plate" || targetClass === "title-plate";
+}
+
+/**
  * The whole intake judgement for one candidate, as a value.
  *
  * Nothing here reads a filename to decide anything that matters. Naming
@@ -385,38 +418,40 @@ export function evaluateEnvironmentMasterIntake(
 
   const nativeDetailWidth = effectiveNativeDetailWidth(detail, measured.width);
 
-  // --- Size contract, applied to plates only -------------------------------
+  // --- Size contract, applied to full-bleed plates only --------------------
   const ships = targetClassShips(candidate.targetClass);
   if (ships) {
-    if (measured.width < ENVIRONMENT_MASTER_MINIMUM_WIDTH) {
-      findings.push(
-        finding(
-          "master-width-below-minimum",
-          "error",
-          `Width ${measured.width}px is below the ${ENVIRONMENT_MASTER_MINIMUM_WIDTH}px absolute minimum for an environment master.`,
-        ),
-      );
-    } else if (measured.width < ENVIRONMENT_MASTER_RECOMMENDED_WIDTH) {
-      findings.push(
-        finding(
-          "master-width-below-recommendation",
-          "warning",
-          `Width ${measured.width}px clears the absolute minimum but is below the ${ENVIRONMENT_MASTER_RECOMMENDED_WIDTH}px recommendation; a 4096 tier will not survive a crop.`,
-        ),
-      );
-    }
+    if (targetClassUsesEnvironmentMasterFloor(candidate.targetClass)) {
+      if (measured.width < ENVIRONMENT_MASTER_MINIMUM_WIDTH) {
+        findings.push(
+          finding(
+            "master-width-below-minimum",
+            "error",
+            `Width ${measured.width}px is below the ${ENVIRONMENT_MASTER_MINIMUM_WIDTH}px absolute minimum for an environment master.`,
+          ),
+        );
+      } else if (measured.width < ENVIRONMENT_MASTER_RECOMMENDED_WIDTH) {
+        findings.push(
+          finding(
+            "master-width-below-recommendation",
+            "warning",
+            `Width ${measured.width}px clears the absolute minimum but is below the ${ENVIRONMENT_MASTER_RECOMMENDED_WIDTH}px recommendation; a 4096 tier will not survive a crop.`,
+          ),
+        );
+      }
 
-    if (
-      nativeDetailWidth !== null &&
-      nativeDetailWidth < ENVIRONMENT_MASTER_MINIMUM_WIDTH
-    ) {
-      findings.push(
-        finding(
-          "native-detail-below-minimum",
-          "warning",
-          `Real detail stops at ${nativeDetailWidth}px, below the ${ENVIRONMENT_MASTER_MINIMUM_WIDTH}px master minimum, even though the file is ${measured.width}px. This master is admissible with its lineage declared, but its top tiers will carry interpolated pixels and will say so.`,
-        ),
-      );
+      if (
+        nativeDetailWidth !== null &&
+        nativeDetailWidth < ENVIRONMENT_MASTER_MINIMUM_WIDTH
+      ) {
+        findings.push(
+          finding(
+            "native-detail-below-minimum",
+            "warning",
+            `Real detail stops at ${nativeDetailWidth}px, below the ${ENVIRONMENT_MASTER_MINIMUM_WIDTH}px master minimum, even though the file is ${measured.width}px. This master is admissible with its lineage declared, but its top tiers will carry interpolated pixels and will say so.`,
+          ),
+        );
+      }
     }
     if (detail.state === "unverified") {
       findings.push(
