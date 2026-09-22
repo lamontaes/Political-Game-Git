@@ -109,6 +109,35 @@ repository whose runs start promptly, and this one's do not — which means the
 freeze is not a nicety. It is the only condition under which main can ever
 report at all.
 
+## Twelve reds, none of them real, and why you still open the log
+
+In one batch at 07:45Z this lane received fifteen GitHub notifications. Twelve
+were failing `validate` checks across four pull requests. None was a defect.
+
+Every one was the **cancelled-supersede**: `validate` is an aggregate job that
+exits 1 unless every required job reports `success`, so a cancelled run
+produces a failing gate on a commit where **nothing was tested**. All twelve
+sat on heads whose runs this lane had itself cancelled minutes earlier during
+the sweep. Our own action came back as twelve failures.
+
+Eleven were on plainly stale heads. One was not: #278's was on `70fa13a7`,
+that pull request's **current** head, where staleness explains nothing. So the
+log was opened rather than the pattern assumed, and it read:
+
+```
+repository=cancelled
+unit=cancelled
+browser=cancelled
+Aggregate validate succeeds only when every mandatory job succeeded.
+```
+
+**That is the whole argument for the rule.** Twelve notifications, each
+indistinguishable from a real failure by its conclusion alone, and the only
+thing that separates them from a genuine red is four lines of log. A webhook
+delivers a conclusion, never a cause. Read the log before acting on any red —
+and note that the shortcut of checking whether the head is stale would have
+misfiled the one case that was not.
+
 ## A freeze on merges is not a freeze on capacity
 
 The night's most general lesson, and the last one it taught, by catching us
