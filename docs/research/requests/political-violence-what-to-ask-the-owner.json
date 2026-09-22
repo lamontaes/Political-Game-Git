@@ -1,0 +1,35 @@
+{
+  "filedAt": "2026-09-22T16:33:00Z",
+  "impact": "shapes-design",
+  "lane": "dual-systems survey (project-thread-t24oub)",
+  "priority": "P1",
+  "question": "Think about political violence in this game and come back with a question for lamontae to answer. Not a survey and not a recommendation: the deliverable is the question itself, put to him, in a form he can answer in a sentence. He asked for this directly on 2026-09-22: \"tell chatgpt to think about and ask me a question about the political violence.\" What the game holds today is one primitive and nothing else. `recordViolenceAttempt` in src/simulation/crisis/international.ts:876 records an abstract attempt on a person's life: it requires earlier canonical evidence of threat or intent, carries no method at all, and resolves to survival, injury or death with the same consequences as any other cause. Its only caller anywhere is a test. There is no domestic political violence of any other kind — no unrest, no threat against an official short of an attempt, no intimidation of a candidate or a voter, no organised group, and nothing that connects violence to an election, a bill, a party or a grievance. The abstraction looks deliberate rather than unfinished, and the outcome constants are marked PROVISIONAL. So the open question is not how to model it in detail; it is what this game should be willing to depict at all, and where the line sits. Consider at least: whether political violence should reach the player as something that happens to them and people they know, or only as news about a world they are in; whether a player may ever be the one who does it, or threatens it, or benefits from it without acting; whether an official under threat changes how they govern, which is the mechanism by which violence actually shapes politics; and whether the existing abstraction — a threat that precedes it, no method, ordinary consequences — is the right shape to build on or the wrong one.",
+  "questionId": "political-violence-what-to-ask-the-owner",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "lamontae",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/crisis/international.ts:864-960, read at main d5c707f4",
+      "whatItDidNotSettle": "Gives the only violence primitive in the tree and shows it is deliberately abstract, but says nothing about whether it was meant to stay international-only, and its outcome constants are marked PROVISIONAL with no record of who set them or against what."
+    },
+    {
+      "source": "Grep for violence, unrest, riot, protest, insurrection, assassination, militia and National Guard across src/simulation/crisis and src/simulation/governing at d5c707f4",
+      "whatItDidNotSettle": "Established that no domestic political violence of any kind is modelled, but cannot show whether that is a decision already taken and unrecorded or a subject never reached."
+    },
+    {
+      "source": "docs/research/requests/, all 32 existing records",
+      "whatItDidNotSettle": "No record covers political violence, so this is not a re-ask; it also means there is no prior ruling from him to build on."
+    },
+    {
+      "source": "docs/GAME-CONSTITUTION.md clause 17, read at main d5c707f4",
+      "whatItDidNotSettle": "This is the one binding ruling that touches the subject and it must be quoted to him rather than worked around: assassinations and terrorist attacks, among other extraordinary outcomes, \"must be causally grounded rather than arbitrary spectacle or context-free random cards\". That is almost certainly why the existing primitive demands prior threat evidence and carries no method. But it constrains HOW such an event may arise and says nothing about whether the game depicts political violence at all, who may be subject to it, whether a player may commit it, or what an official under threat does differently. The question must be put inside this constraint, not as though the field were blank."
+    },
+    {
+      "source": "docs/decisions/DECISION-LOG.md, searched for violence, unrest, riot, assassination, insurrection and threat at main d5c707f4",
+      "whatItDidNotSettle": "No accepted decision covers the subject; the one textual hit is an unrelated sentence about a weather mass threatening a safe area. So there is no prior ruling from him beyond the constitution clause above."
+    }
+  ],
+  "title": "What political violence this game should depict, and where the line sits",
+  "usableAnswer": "One question for lamontae, or at most three, each answerable in a sentence and each forcing a real choice rather than a preference. State for each what follows from either answer, so he can see what he is deciding. Say explicitly which of the four considerations above the question does not cover, so nobody reads a narrow question as a settled scope. Do not return a design proposal, a set of numbers, or a recommendation on what the game should depict.",
+  "whyItMatters": "Political violence is a real and central part of the subject this game is about, and the game currently has a careful primitive for it that nothing calls, which means the decision has been deferred rather than made. While it stays deferred, two things go wrong. Any lane that touches unrest, threats against officials, or an election going badly has no ruling to build against, so it will either invent a line of its own or avoid the subject, and both are worse than an answer. And the existing primitive's shape — no method, prior threat evidence required, PROVISIONAL constants — encodes a judgement nobody has confirmed, so it may be quietly wrong in either direction. This is his decision and nobody else's, and he asked for it to come to him as a question rather than as a page of proposed numbers, which is exactly how the project has learned not to ask him things."
+}

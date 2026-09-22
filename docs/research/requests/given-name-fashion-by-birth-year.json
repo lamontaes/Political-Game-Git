@@ -1,0 +1,38 @@
+{
+  "filedAt": "2026-09-22T16:35:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "lamontae said on 2026-09-22 that ChatGPT already holds SSA research on names over time and by age. If that is so, this question and the cross-gender rate are likely both answered by the same material and should be read together rather than re-commissioned.",
+    "A band is more useful than a year. A name that was current from the 1930s to the 1960s is actionable; a precise peak year would read as a measurement the game never made.",
+    "This is a generation rule, never an observation. It must never be read backwards to infer anybody's age from their name, for the same reason a name is never read to infer a gender.",
+    "The corpus needs widening either way. Even a perfect era rule cannot give a person born in 1945 a name of their time if no such name is in the list."
+  ],
+  "priority": "P2",
+  "question": "How does the set of given names an American is plausibly called change with the year they were born? Which names were common enough in a given decade that somebody born then would realistically carry one, which had effectively not arrived yet, and which had faded? How sharp is the change — is a name's currency a broad band of decades or a narrow peak?",
+  "questionId": "given-name-fashion-by-birth-year",
+  "relatedQuestionIds": ["cross-gender-given-name-rate"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "gendered given names thread (technical team lead)",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/names-data.ts, NAMES_STARTER_V1, on claude/project-thread-1wv2e2",
+      "whatItDidNotSettle": "The corpus is two flat arrays of strings with no year, era or frequency field of any kind, and its header states the names are treated strictly as non-demographic strings. It carries the names in use; nothing records when any of them was in use."
+    },
+    {
+      "source": "src/simulation/people.ts, drawCanonicalName and drawCanonicalNamedIdentity, on claude/project-thread-1wv2e2",
+      "whatItDidNotSettle": "Neither draw takes a birth date or an age, so there is no seam where a year could be honoured even if one were known. The place the answer would be applied does not exist yet; this question is what would justify building it."
+    },
+    {
+      "source": "Measurement run on claude/project-thread-1wv2e2: six seeded worlds with the Congress seated, 3,218 people, bucketed by birth decade",
+      "whatItDidNotSettle": "Establishes that the defect is real and its size, and nothing more. It says the generator does not vary names by birth year; it cannot say what varying them correctly would look like."
+    },
+    {
+      "source": "U.S. Social Security Administration National Data on the Relative Frequency of Given Names, cited as the corpus provenance",
+      "whatItDidNotSettle": "The published tables are per name per year and are exactly the shape this needs, but the repository holds only the curated list drawn from them, not the yearly counts, and the egress proxy blocks the publisher."
+    }
+  ],
+  "title": "Which American given names suit which birth year",
+  "usableAnswer": "Enough to key a draw on birth year. Either a band per name — roughly the decades in which it was current — or a set of era cohorts with the names that belong to each and the overlap between them, whichever the evidence actually supports. A line on how gradual the change is, since a hard cutoff by decade would be its own invention. Names still in use across the whole span should be identified as such rather than assigned to one era. The list also needs names that were current before the 1990s and are not in the corpus now, because the pool cannot produce an era it does not contain.",
+  "whyItMatters": "The generator draws every given name from one flat list of 346 names regardless of age. Measured across 3,218 generated people in six seeded worlds with birth decades from the 1940s to the 1990s, each decade drew 248 to 285 distinct names from that same list: a person born in the 1950s came out named Aiden, and one born in the 1940s came out named Luna. The list is also contemporary by construction — none of eighteen strongly mid-century American given names (Mildred, Gertrude, Harold, Doris, Eugene, Clarence, Agnes, Edna and the rest) appears in it at all, so an eighty-year-old cannot be called any of them either. This is the same shape as the gender defect just repaired: a real distinction the generator does not carry, believable at any single person and wrong across a room. A world where the oldest senator and the newest intern draw from one pool of names reads as a cast rather than as a country."
+}
