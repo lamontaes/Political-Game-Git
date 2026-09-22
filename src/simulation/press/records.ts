@@ -426,6 +426,11 @@ export interface MediaOwnerRecord extends PressRecordBase {
   /** Descriptive only; behavior comes from the row's practices. */
   readonly ownerKind: string;
   readonly establishedAt: IsoDate;
+  /**
+   * The person who owns outright, when the owner is a person rather than a
+   * company from a pack. Absent on owners recorded before people could buy.
+   */
+  readonly principalPersonId?: EntityId | null;
 }
 
 export interface OutletOwnershipRecord extends PressRecordBase {
