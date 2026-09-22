@@ -55,11 +55,65 @@ const sha256 = (text: string) =>
  * Hashes of the same openings built by main fed321f7 before this change
  * (PG-WORLD46-scratch/golden/legacy-hash.ts, run 2026-09-16 on the pristine
  * base worktree). An old descriptor must still rebuild exactly that world.
+ *
+ * RE-ACCEPTED 2026-09-22, and this is a decision rather than a moved baseline.
+ * These hashes cover the WHOLE serialized world, and a world carries the
+ * authored catalogs it shipped with, so any authored content legitimately
+ * moves them. Two lanes changed authored content that day and the delta was
+ * measured to be exactly those two things and nothing else:
+ *
+ *   - `world.policyCatalog`, from the first sourced policy vocabulary (#379):
+ *     13 domains and 127 issues where the production catalog had been empty.
+ *   - `world.history.organizationProfiles`, from the school and party names
+ *     (#378): "Local Elementary School" became "Thomas Edison Elementary
+ *     School", and the two others alongside it.
+ *   - `snapshotId`, which is a digest of the above and moves with them.
+ *
+ * `worldId` is UNCHANGED, and so is every other part of the world: people,
+ * jurisdictions and the rest of history are byte-identical. That was
+ * established by hashing both openings on this head and on `1d92c558`, the
+ * last commit before either change, with those three fields removed — the
+ * remainders match exactly for both Kentucky and Peebles. So the opening logic
+ * did not move; the content it opens with did.
+ *
+ * Note what this fixture can and cannot promise. `legacySetup` spreads
+ * DEFAULT_NEW_GAME_SETUP and deletes one field, so it is today's defaults
+ * without an opening version, not a save written by an old build. It gates the
+ * legacy opening PATH, not save compatibility, and it moves whenever shipped
+ * content does. LEGACY_OPENING_SHAPE below is the part that should not move.
  */
 const FED321F7_LEGACY = {
-  kentucky: "446fc2516699d0a28d87d7a6e3268f11c7d8be919a58c48ced817575dc48bf55",
-  peebles: "34562e64faae79fb7938063d27f47de557869646dc599885956283b5029a989c",
+  kentucky: "8c715a8939d979c09a542894d421492542fbc821c57f1757d3390556f1891e3f",
+  peebles: "edc4ae31adf37db239bf41d6e9ebc9d07bacabb42307a7f5abcccb2513f4560b",
 } as const;
+
+/**
+ * The same two openings with the authored catalogs, the generated organization
+ * names and the derived snapshot digest removed. This is the invariant with
+ * real teeth: it is what fed321f7 built and what this head builds, and unlike
+ * the hashes above it does NOT move when authored content ships. A change here
+ * is the legacy opening path actually behaving differently, which is what the
+ * test above was reaching for and could not hold on its own.
+ */
+const LEGACY_OPENING_SHAPE = {
+  kentucky: "11b9c3a70029aeaf79fb2a78b43e2bba14185fab2c6c7e496f26ed57350a3534",
+  peebles: "f936aaf182ccc43581bc87856f87fa404c0ebff3eb869ff5984a3e447828712b",
+} as const;
+
+/**
+ * Strips the three fields that shipped content moves, so what remains is the
+ * opening path's own output. Deliberately NOT a deep filter: it removes named
+ * fields and leaves everything else exactly as serialized, so anything new
+ * appearing in a world still reaches the comparison.
+ */
+function openingShape(serialized: string): string {
+  const parsed = JSON.parse(serialized) as Record<string, unknown>;
+  delete parsed.snapshotId;
+  const world = parsed.world as Record<string, unknown>;
+  delete world.policyCatalog;
+  delete (world.history as Record<string, unknown>).organizationProfiles;
+  return JSON.stringify(parsed);
+}
 
 describe("WORLD46 opening version gate", () => {
   it("a replay descriptor carries the opening version; an old one reads as legacy", () => {
@@ -92,12 +146,19 @@ describe("WORLD46 opening version gate", () => {
       expect(worldOpeningVersionOf(kentucky.world)).toBeNull();
       // PRESS setup belongs to the new opening only; a legacy replay has none.
       expect(kentucky.world.history.pressRecords ?? []).toHaveLength(0);
-      expect(sha256(serializeWorld(kentucky.world))).toBe(
-        FED321F7_LEGACY.kentucky,
+      // Shape first, so a genuine opening-path regression is what the failure
+      // names. The whole-world hashes below also move when content ships, and
+      // on their own they cannot tell the two apart.
+      const kentuckySerialized = serializeWorld(kentucky.world);
+      const peeblesSerialized = serializeWorld(legacyPeebles.world);
+      expect(sha256(openingShape(kentuckySerialized))).toBe(
+        LEGACY_OPENING_SHAPE.kentucky,
       );
-      expect(sha256(serializeWorld(legacyPeebles.world))).toBe(
-        FED321F7_LEGACY.peebles,
+      expect(sha256(openingShape(peeblesSerialized))).toBe(
+        LEGACY_OPENING_SHAPE.peebles,
       );
+      expect(sha256(kentuckySerialized)).toBe(FED321F7_LEGACY.kentucky);
+      expect(sha256(peeblesSerialized)).toBe(FED321F7_LEGACY.peebles);
     },
     LONG,
   );
