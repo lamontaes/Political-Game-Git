@@ -121,10 +121,18 @@ const sha256 = (text: string) =>
  * identity, jurisdiction, organization, event or history structure, and
  * `worldId` is unchanged. A move here for any other reason is still a
  * regression.
+ *
+ * RE-ACCEPTED AGAIN the same day, for the shared-name rule
+ * (`GIVEN_NAME_POOL_REACH_V1`): a stated man or woman can now also be given
+ * one of the 36 names both sexes carried. Measured the same way, against the
+ * hashes this replaced: same people and ids, identical leaf paths, 0
+ * identities changed. Kentucky: 6 given names and 18 summaries, each made
+ * identical by one renamed person's old given name, plus `snapshotId`.
+ * Peebles: 3 given names and 9 summaries, plus `snapshotId`. 0 unexplained.
  */
 const FED321F7_LEGACY = {
-  kentucky: "fb7f1e490ddc0a01cdbefa3058de97ac3be3b9a6c35605b13b4f8aa35158f570",
-  peebles: "ba2ac7e3ffc0a71f5fa0788365e7ae2a905ab3447de6328611b65b5c06f52e27",
+  kentucky: "7ecf6924fb6a9451f63be38669c06c9e9a598b16f199739b344c403b8a59e3e2",
+  peebles: "1dc306e0694eec4e8f4fbdf5da3a8c4e781e7ff869a73eec57d6650bc2e7789c",
 } as const;
 
 /**
@@ -136,8 +144,8 @@ const FED321F7_LEGACY = {
  * test above was reaching for and could not hold on its own.
  */
 const LEGACY_OPENING_SHAPE = {
-  kentucky: "0245935171dd00c8a8304679a94428f1fd87dcccceeb5b2f9792c775d3cdc6e8",
-  peebles: "fb58196c5d6d23094e56bc21d48b98e14fbcedc9bb876df57dfc1557e26d27b9",
+  kentucky: "039d5fc55cc85c1f3a1a1487f101faa56d0158be229af007b0878edf2b431ec2",
+  peebles: "f50d53595074667a4183212edc0eeb00d4286079b1060635b884949cd737fdd8",
 } as const;
 
 /**
