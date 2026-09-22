@@ -1,7 +1,16 @@
-import { ageOnDate, makeIsoDate } from "./dates";
+import {
+  applyCharacterHistoryPlan,
+  generateQuickCharacterHistory,
+} from "./character-history";
+import { ageOnDate, dateAtAge, makeIsoDate } from "./dates";
+import { createStableId } from "./ids";
 import { advanceWorld } from "./world";
-import { kinshipRelationshipsAt } from "./life-queries";
-import { childrenOf, grandchildrenOf } from "./people-family";
+import {
+  householdMembershipStateHistory,
+  householdMembershipsAt,
+  kinshipRelationshipsAt,
+} from "./life-queries";
+import { childrenOf, grandchildrenOf, parentsOf } from "./people-family";
 import { personName } from "./people";
 import { recordEventKnowledge } from "./records";
 import type {
@@ -474,6 +483,9 @@ export function continueAsRelative(
   if (reason === "death") {
     next = openEstate(next, input.predecessorId);
   }
+  // Before they are in hand: a generated past may not be written into the
+  // life of somebody the player already controls.
+  next = establishSuccessorBackground(next, input.successorId);
   // What the successor is told: the family facts of this change, nothing else.
   // What a successor is told, and what being chosen does not entitle them to.
   //
@@ -563,6 +575,178 @@ export function continueAsRelative(
     outcomeEventId: next.history.events.at(-1)!.id,
   });
   return { ...next, control: { kind: "person", personId: input.successorId } };
+}
+
+/**
+ * The oldest a new character can start at, and so the oldest age the summary
+ * has ever been written for. Its generated parent is twenty-eight years older
+ * and still alive; past this, that claim stops being plausible, so an older
+ * successor keeps only what the world already records of them.
+ */
+const SUMMARIZED_EARLIER_LIFE_MAXIMUM_AGE = 70;
+
+/**
+ * The earlier life of somebody the world only knew from the outside.
+ *
+ * Most people a player can continue as were written into the world as a
+ * bystander in somebody else's history: a teacher, a housemate, a parent. They
+ * have the record that made them useful to that story and nothing of their
+ * own, so the first life played on through them opened with one person known
+ * and nobody at home. A person's history is generated up to their age and the
+ * world they are loaded into; taking one up is when this person is loaded.
+ *
+ * So an adult successor with no recorded childhood is given the same summarized
+ * earlier life a new adult character gets: a parent and a childhood home, the
+ * schools of their own town, a classmate, a teacher, a first job. Everything
+ * they already have is kept. The childhood home is left at eighteen, and a
+ * person with no home on record today gets one of their own, as a new adult
+ * character does. Somebody already recorded living somewhere keeps that home
+ * as the only one on their record.
+ *
+ * Nothing is written for somebody who already has parents or a childhood home
+ * on record, nothing past the oldest age a new character can start at, and
+ * nothing for a minor, whose childhood is still being lived and
+ * is not the summary's to claim. It is written once: a second hand-off to the
+ * same person finds the childhood already there.
+ */
+export function establishSuccessorBackground(
+  world: World,
+  personId: EntityId,
+): World {
+  const person = world.people[personId];
+  if (!person) return world;
+  const age = ageOnDate(person.birthDate, world.currentDate);
+  if (age < 18 || age > SUMMARIZED_EARLIER_LIFE_MAXIMUM_AGE) return world;
+  if (parentsOf(world, personId).length > 0) return world;
+  const memberships = world.history.householdMemberships.filter(
+    (membership) => membership.personId === personId,
+  );
+  const firstState = (membershipId: EntityId) =>
+    householdMembershipStateHistory(world, membershipId)[0];
+  if (
+    memberships.some(
+      (membership) => firstState(membership.id)?.kind === "resident:child",
+    )
+  ) {
+    return world;
+  }
+
+  const stableKey = `${PEOPLE_CONTINUATION_VERSION}:earlier-life:${personId}`;
+  const jurisdictionId = person.homeJurisdictionId;
+  const adulthood = dateAtAge(person.birthDate, 18);
+  const earliestHome = memberships
+    .filter(
+      (membership) => firstState(membership.id)?.residenceRole === "primary",
+    )
+    .map((membership) => membership.startedAt)
+    .sort()[0];
+  // Recorded at home somewhere from the day they were born: that is already a
+  // childhood, whatever it was called, and not one to write over.
+  if (earliestHome !== undefined && earliestHome <= person.birthDate) {
+    return world;
+  }
+  // Somebody already recorded living somewhere keeps that as the only home on
+  // their record. The world will not hold two primary homes at once, and when
+  // they moved out of the one they grew up in is not something the summary
+  // knows; their parent's household is still written, without claiming the
+  // dates they lived in it.
+  const childhoodHome = earliestHome === undefined;
+  const livesSomewhere = householdMembershipsAt(world, personId).some(
+    (entry) => entry.state.residenceRole === "primary",
+  );
+  const generatedPlan = generateQuickCharacterHistory(world, {
+    stableKey,
+    personId,
+    jurisdictionId,
+  });
+  let next = applyCharacterHistoryPlan(world, {
+    ...generatedPlan,
+    transitions: childhoodHome
+      ? generatedPlan.transitions
+      : generatedPlan.transitions.filter(
+          (transition) =>
+            !(
+              transition.kind === "household-membership" &&
+              transition.input.stableKey === `${stableKey}:household:child`
+            ),
+        ),
+  }).world;
+  const ownHome = `${stableKey}:own-household`;
+  next = applyCharacterHistoryPlan(next, {
+    stableKey: `${stableKey}:left-home`,
+    mode: "quick-generated",
+    personId,
+    transitions: [
+      ...(childhoodHome
+        ? ([
+            {
+              kind: "household-membership-state",
+              input: {
+                stableKey: `${stableKey}:childhood-home:ended`,
+                membershipStableKey: `${stableKey}:household:child`,
+                effectiveAt: adulthood,
+                status: "ended",
+                residenceRole: "primary",
+                kind: "resident:child",
+                provenance: { kind: "generated", generatorKey: stableKey },
+              },
+            },
+          ] as const)
+        : []),
+      {
+        kind: "work-status",
+        input: {
+          stableKey: `${stableKey}:teen-work:ended`,
+          workStableKey: `${stableKey}:work:teen`,
+          effectiveAt: adulthood,
+          status: "ended",
+          reason: "The job they had at school did not follow them out of it.",
+          provenance: { kind: "generated", generatorKey: stableKey },
+        },
+      },
+      ...(livesSomewhere
+        ? []
+        : ([
+            {
+              kind: "household",
+              input: {
+                stableKey: ownHome,
+                formedAt: world.currentDate,
+                label: `${personName(person)}'s household`,
+                provenance: { kind: "generated", generatorKey: stableKey },
+              },
+            },
+            {
+              kind: "household-location",
+              input: {
+                stableKey: `${ownHome}:location`,
+                householdStableKey: ownHome,
+                effectiveAt: world.currentDate,
+                jurisdictionId,
+                label: world.jurisdictions[jurisdictionId]?.name ?? "Home",
+                kind: "residence:home",
+                provenance: { kind: "generated", generatorKey: stableKey },
+              },
+            },
+            {
+              kind: "household-membership",
+              input: {
+                stableKey: `${ownHome}:membership`,
+                personId,
+                householdId: createStableId(
+                  "household",
+                  `${world.id}:${ownHome}`,
+                ),
+                startedAt: world.currentDate,
+                residenceRole: "primary",
+                kind: "resident:member",
+                provenance: { kind: "generated", generatorKey: stableKey },
+              },
+            },
+          ] as const)),
+    ],
+  }).world;
+  return next;
 }
 
 /** Keep the world running with nobody in hand. */
