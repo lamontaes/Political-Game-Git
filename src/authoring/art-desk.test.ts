@@ -249,9 +249,17 @@ describe("Art Desk projection and briefs", () => {
     expect(byId.get("env-campaign-storefront")?.lane).toBe("covered-history");
     expect(desk.privatePack.status).toBe("unknown");
     const eligible = desk.items.filter((item) => item.generationEligible);
+    // `seated-body-with-no-furniture` is deliberately in this list. It was
+    // first filed as a hand pass over four existing plates and carried
+    // `generationHold: "already-covered-candidate"` accordingly, which kept it
+    // out. It has since been rewritten as the requirement rather than the
+    // repair — a seated body free of furniture, reached by drawing a new one OR
+    // by repairing the old ones — so offering it for generation is now correct,
+    // and holding it would suppress the cheaper of the two routes.
     expect(eligible.map((item) => item.request.requestId).sort()).toEqual([
       "env-neighborhood-doorstep-generic",
       "env-park-community-pavilion-winter-variant",
+      "seated-chair-separation-hand-pass",
     ]);
   });
 

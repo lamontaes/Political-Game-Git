@@ -26,7 +26,7 @@
     "reason": "A body is a body. The chair belongs to the room, which is the whole point of this request.",
     "scope": "jurisdiction-independent"
   },
-  "missing": "Four seated modular bodies still carry a baked chair where it touches the figure: a sliver of seat between the thighs and a stub of chair leg against each shin. Everything not touching the body has already been removed automatically; what remains cannot be, and no furniture-free version of these four exists.",
+  "missing": "No seated adult body exists without furniture baked into it. The four existing seated plates each carry a chair where it touches the figure — a sliver of seat between the thighs and a stub of chair leg against each shin — and everything not touching the body has already been removed automatically. So a person placed on a chair the room draws gets a second chair drawn on top of it.",
   "notes": [
     "The four plates, at their source paths on this branch: art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_front_neutral_v1.png; art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_front_chair_v1.png; art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_front_chair_v1.png; art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_front_neutral_v1.png. All four verified present in this checkout 2026-09-22.",
     "This is a hand pass, and the two measurements that establish it are not a code task are the reason. First, connectivity cannot reach the remaining pixels: chair touching a thigh is inside the protection band by definition, so a component-based separation has nothing to cut. Second, no threshold divides them — the chair's mid-tones run 96 to 150 and the figure's own sub-knee edge pixels run 64 to 240, so the ranges overlap across the whole contested region.",
@@ -34,13 +34,14 @@
     "What is wanted is only what touches the body — the seat between the thighs and the chair leg against each shin — with the leg and foot contour restored underneath rather than cut around. An earlier automatic attempt removed about a pixel of the figure's own outline and the whole foot outline, which is what a threshold does to a contour and what a hand does not.",
     "Retirement condition, as the art and client lane stated it: the four derivatives come back with no chair against the legs, at which point the plates stop being retained for a baked prop and go through ordinary admission.",
     "Registered as L12 in docs/LOCAL-REGISTRAR.md on the art and client lane's branch. Keep the two tied; they are one job with two records.",
-    "Not a generation request. Nothing here is asking for a new figure, a new posture or a new body family."
+    "Not a generation request. Nothing here is asking for a new figure, a new posture or a new body family.",
+    "Rewritten 2026-09-22 as the REQUIREMENT rather than the repair. It was first filed as a hand pass over the four existing plates, and the request id still says so. What the game needs is a seated body free of furniture; repairing those four is one route to it and a newly generated seated figure is another, so no generation hold is set and the cheaper route is not suppressed. The registrar entry L12 was rewritten the same way and for the same reason; keep the two tied."
   ],
   "origin": "inspection",
   "priority": "P1",
   "promotedToRequestId": "seated-chair-separation-hand-pass",
   "requestId": "seated-chair-separation-hand-pass",
   "requestedBy": "art and client delivery lane, filed by the art bench thread",
-  "title": "Four seated plates need the last of the chair drawn off the legs by hand",
-  "whyNeeded": "These four are retained solely because of the baked prop. Once they come back clean they stop being a special case and go through ordinary admission like every other plate."
+  "title": "A seated body with no furniture attached, by repair or by generation",
+  "whyNeeded": "A seat anchor cannot be filled by any body the project owns. Until one exists, every seated figure either draws a chair the room did not ask for or cannot be placed at all."
 }
