@@ -76,6 +76,7 @@ import {
 import { travelTowardsPerson } from "../presentation/person-contact";
 import { interruptionHandlers } from "../presentation/interruption-policy";
 import { MunicipalWorkspace } from "./MunicipalWorkspace";
+import { localGoverningSeatFor } from "../presentation/local-governing-seat";
 import { World39News } from "./World39News";
 import { World39Journal } from "./World39Journal";
 import { PlacesWorkspace } from "./PlacesWorkspace";
@@ -208,6 +209,7 @@ import {
   AmbientTableau,
   TitleScreen,
   resolvedTitlePresentation,
+  resolvedTitleLecternHero,
 } from "./TitleScreen";
 import {
   readReplaySeed,
@@ -807,7 +809,10 @@ export function PlayerGame() {
    */
   if (screen.kind === "title") {
     return (
-      <AmbientTableau resolved={resolvedTitlePresentation(saves)}>
+      <AmbientTableau
+        resolved={resolvedTitlePresentation(saves)}
+        hero={resolvedTitleLecternHero(saves)}
+      >
         {() => (
           <TitleScreen
             saves={saves}
@@ -5341,6 +5346,35 @@ function renderWorkspace({
               world={session.world}
               onWorldChange={onWorldChange}
             />
+          ),
+        });
+      }
+      const townSeat =
+        half === "office" && sections.length === 0
+          ? localGoverningSeatFor(session.world, session.personId)
+          : null;
+      if (townSeat) {
+        /*
+         * A seat on the town's own governing body. Where the game has read the
+         * town's government, its business is on the city's own screen; where
+         * it has not, the seat is real and the game says plainly what it does
+         * not yet know, rather than telling a winner they hold nothing.
+         */
+        sections.push({
+          key: "office",
+          title: "Your office",
+          body: (
+            <div data-testid="town-seat">
+              <p>
+                You sit on the {townSeat.bodyName} of {townSeat.governmentName},
+                since {townSeat.since}.
+              </p>
+              <p className="game-note">
+                {townSeat.hasCityScreen
+                  ? "Its meetings and business are under Government, in Local meetings and records."
+                  : "The game has not read this town's charter yet, so its meetings, votes and powers are not established here. The seat is yours all the same."}
+              </p>
+            </div>
           ),
         });
       }

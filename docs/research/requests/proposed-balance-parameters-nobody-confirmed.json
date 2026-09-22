@@ -1,0 +1,28 @@
+{
+  "filedAt": "2026-09-22T16:22:00.000Z",
+  "impact": "shapes-design",
+  "lane": "hardcoded content audit",
+  "notes": [
+    "SMALLEST HONEST CHANGE: the values are already isolated in named, exported, versioned profile objects, which is the right shape — nothing needs restructuring to replace them. The change per block is the numbers themselves, plus a per-state draw where the answer is a spread rather than a constant.",
+    "PLAYER-FACING INPUT: none. A player cannot see or influence any of these five. They are felt as how often an incumbent survives, when a bill reaches the governor, and how long anything takes.",
+    "The marker itself is the reusable finding: \"pending the director's confirmation\" in source is a smell rather than a status, and the five places it appears are listed here so the owning lanes can strip the comment once the value is settled."
+  ],
+  "priority": "P1",
+  "question": "For each of the five parameter blocks below, what should the value be — and where a real spread exists across states, what is that spread, so the game can draw from a range rather than apply one national number?",
+  "questionId": "proposed-balance-parameters-nobody-confirmed",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "hardcoded content audit lane",
+  "sourcesChecked": [
+    {
+      "source": "The five source files, read at main 1c4992e8",
+      "whatItDidNotSettle": "Each states its own values and marks them proposed. None records who proposed them, on what basis, or what confirmation would consist of."
+    },
+    {
+      "source": "docs/decisions/DECISION-LOG.md",
+      "whatItDidNotSettle": "No accepted decision confirms any of these five blocks, so the marker is accurate: the confirmation never happened."
+    }
+  ],
+  "title": "Five blocks of balance parameters marked \"pending the director's confirmation\", which never came",
+  "usableAnswer": "Per block, either a confirmed value with the reasoning, or — where the thing really varies — the observed spread it should be drawn from, in the form the game's other unresearched rules already use: a national range, varying per state, stable per state across saves, with real law overriding where real law is known. Say explicitly which of the five are genuinely one national number (congressional incumbency rates may well be) and which are standing in for a spread.",
+  "whyItMatters": "Each block carries the comment \"PROPOSED balance parameters, pending the director's confirmation\". No confirmation is recorded anywhere, and the values have been live in play the whole time. A number waiting for approval is a number nobody researched, and a single national constant standing in for something that really varies is a defect in its own right — not a simplification. All five are national constants applied to fifty states.\n\nThe blocks, measured at main `1c4992e8`:\n\n1. `living-world/congress-turnover.ts:52` CONGRESS_TURNOVER_PROFILE — incumbent returns 850 per mille in the House and 800 in the Senate, retirement at 82, an open seat stays with the departing member's party 750 per mille. One pair of numbers for every state, every district and both parties.\n2. `nationwide-world/state-executive-turnover-calendar.ts:25` GOVERNOR_TURNOVER_PROFILE — the candidate field closes 60 days before the general, an incumbent steps down after 2 consecutive terms, retirement at 78, an eligible incumbent runs again 800 per mille. Real filing deadlines and real gubernatorial term limits both vary by state, and Virginia's rule is not a count of terms at all.\n3. `nationwide-world/state-executive-term-rules.ts:75` STATE_EXECUTIVE_GAME_PROFILE — a four-year term and a January commencement for all forty-nine unverified states. Filed separately as `governor-term-length-outside-washington`, because two states are wrong as a matter of law.\n4. `governing/governing-calendar.ts:13` STATE_GOVERNING_CALENDAR — budget season opens 12-01, the legislature sends the governor a bill on exactly 02-15, 03-15 and 04-15, and a returned bill is passed again over the governor's objection 25 percent of the time. One session calendar for fifty legislatures, several of which do not meet every year.\n5. `governing/legislative-clock.ts:90` LEGISLATIVE_CADENCE_PROFILE — 3 days between institutional steps, 7 days from referral to a scheduled committee hearing."
+}

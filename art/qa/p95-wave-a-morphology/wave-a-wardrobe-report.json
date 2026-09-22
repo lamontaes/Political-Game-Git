@@ -35,16 +35,133 @@
     }
   },
   "summary": {
-    "runtime_bodies": 12,
-    "derived_garments": 68,
-    "measured": 68,
+    "runtime_bodies": 18,
+    "derived_garments": 71,
+    "measured": 71,
     "within_bound": 0,
-    "outside_bound": 68,
+    "outside_bound": 71,
     "banked_within_bound": 0,
-    "heads_baked_in": 12,
-    "refused_by_pose": 4
+    "heads_baked_in": 18,
+    "refused_by_pose": 20,
+    "bodies_underived": 4
   },
   "bodies": [
+    {
+      "asset_id": "ocd_body_adult_fem_seated_guest_front_v1_rt960",
+      "admitted_asset_id": "ocd_body_adult_fem_seated_guest_front_v1",
+      "family": "ocd-adult-feminine-rt960",
+      "source_family": "ocd-adult-feminine",
+      "pose_family": "seated-guest-three-quarter-right",
+      "canvas": {
+        "width": 463,
+        "height": 960
+      },
+      "resample_scale": 0.635762,
+      "head_baked_in": true,
+      "source_crop": {
+        "repositoryPath": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_guest_front_v1.png",
+        "hash": "99784955898472f1801124e3dba0911043ddc7e663e6e9397ef5075c737d982b",
+        "width": 859,
+        "height": 1641
+      },
+      "landmarks": {
+        "crown": 0.0020833333333333333,
+        "neck": 0.171875,
+        "shoulder": 0.2552083333333333,
+        "waist": 0.4625,
+        "hip": 0.596875,
+        "crotch": 0.83125,
+        "ankle": 0.9864583333333333,
+        "sole": 0.996875
+      }
+    },
+    {
+      "asset_id": "ocd_body_adult_fem_seated_guest_three_quarter_v1_rt960",
+      "admitted_asset_id": "ocd_body_adult_fem_seated_guest_three_quarter_v1",
+      "family": "ocd-adult-feminine-rt960",
+      "source_family": "ocd-adult-feminine",
+      "pose_family": "seated-guest-three-quarter-right",
+      "canvas": {
+        "width": 447,
+        "height": 960
+      },
+      "resample_scale": 0.652174,
+      "head_baked_in": true,
+      "source_crop": {
+        "repositoryPath": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_guest_three_quarter_v1.png",
+        "hash": "bc2b3c0750c1f894010bbf5f5fff492c9185989496103dd6712927bcbfa99c79",
+        "width": 817,
+        "height": 1603
+      },
+      "landmarks": {
+        "crown": 0.004166666666666667,
+        "neck": 0.165625,
+        "shoulder": 0.25729166666666664,
+        "waist": 0.4635416666666667,
+        "hip": 0.5864583333333333,
+        "crotch": 0.7989583333333333,
+        "ankle": 0.9864583333333333,
+        "sole": 0.996875
+      }
+    },
+    {
+      "asset_id": "ocd_body_adult_fem_standing_neutral_a_v1_rt960",
+      "admitted_asset_id": "ocd_body_adult_fem_standing_neutral_a_v1",
+      "family": "ocd-adult-feminine-rt960",
+      "source_family": "ocd-adult-feminine",
+      "pose_family": "standing-neutral",
+      "canvas": {
+        "width": 465,
+        "height": 960
+      },
+      "resample_scale": 0.610299,
+      "head_baked_in": true,
+      "source_crop": {
+        "repositoryPath": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_neutral_a_v1.png",
+        "hash": "192820a8fe1fec3b36583a6c87c2e45cbc8ceb1d2fe479960a191f986c6aaa9b",
+        "width": 892,
+        "height": 1703
+      },
+      "landmarks": {
+        "crown": 0.0020833333333333333,
+        "neck": 0.13854166666666667,
+        "shoulder": 0.24583333333333332,
+        "waist": 0.346875,
+        "hip": 0.515625,
+        "crotch": 0.5895833333333333,
+        "ankle": 0.9052083333333333,
+        "sole": 0.996875
+      }
+    },
+    {
+      "asset_id": "ocd_body_adult_fem_standing_neutral_b_v1_rt960",
+      "admitted_asset_id": "ocd_body_adult_fem_standing_neutral_b_v1",
+      "family": "ocd-adult-feminine-rt960",
+      "source_family": "ocd-adult-feminine",
+      "pose_family": "standing-neutral",
+      "canvas": {
+        "width": 427,
+        "height": 960
+      },
+      "resample_scale": 0.610299,
+      "head_baked_in": true,
+      "source_crop": {
+        "repositoryPath": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_neutral_b_v1.png",
+        "hash": "01761f913049bb3814b22a87361675e86cd085779fed1a6c7e235b8108bb276b",
+        "width": 830,
+        "height": 1704
+      },
+      "landmarks": {
+        "crown": 0.0020833333333333333,
+        "neck": 0.14375,
+        "shoulder": 0.24479166666666666,
+        "waist": 0.3572916666666667,
+        "hip": 0.5302083333333333,
+        "crotch": 0.6375,
+        "ankle": 0.9052083333333333,
+        "sole": 0.996875
+      }
+    },
     {
       "asset_id": "wave_a_average_man_standing_neutral_front_a_v1_rt960",
       "admitted_asset_id": "wave_a_average_man_standing_neutral_front_a_v1",
@@ -101,6 +218,35 @@
         "crotch": 0.6427083333333333,
         "ankle": 0.971875,
         "sole": 0.9979166666666667
+      }
+    },
+    {
+      "asset_id": "wave_a_average_woman_seated_conversational_open_hand_v1_rt960",
+      "admitted_asset_id": "wave_a_average_woman_seated_conversational_open_hand_v1",
+      "family": "wave-a-average-woman-rt960",
+      "source_family": "wave-a-average-woman",
+      "pose_family": "seated-guest-three-quarter-right",
+      "canvas": {
+        "width": 450,
+        "height": 960
+      },
+      "resample_scale": 0.640427,
+      "head_baked_in": true,
+      "source_crop": {
+        "repositoryPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_seated_conversational_open_hand_v1.png",
+        "hash": "d93b36bfc7ec86cb7cf6e1fe4a7e9ad31a9bc87e22b1e29340d2c0cba515c9f1",
+        "width": 832,
+        "height": 1629
+      },
+      "landmarks": {
+        "crown": 0.0020833333333333333,
+        "neck": 0.17083333333333334,
+        "shoulder": 0.27708333333333335,
+        "waist": 0.4635416666666667,
+        "hip": 0.59375,
+        "crotch": 0.8833333333333333,
+        "ankle": 0.9864583333333333,
+        "sole": 0.996875
       }
     },
     {
@@ -307,6 +453,35 @@
       }
     },
     {
+      "asset_id": "wave_a_skinny_woman_seated_conversational_open_hand_v1_rt960",
+      "admitted_asset_id": "wave_a_skinny_woman_seated_conversational_open_hand_v1",
+      "family": "wave-a-skinny-woman-rt960",
+      "source_family": "wave-a-skinny-woman",
+      "pose_family": "seated-guest-three-quarter-right",
+      "canvas": {
+        "width": 464,
+        "height": 960
+      },
+      "resample_scale": 0.643001,
+      "head_baked_in": true,
+      "source_crop": {
+        "repositoryPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_seated_conversational_open_hand_v1.png",
+        "hash": "44aa67878faa18121dbd486634db3a576372bc24eac693f479975617f7c1818b",
+        "width": 851,
+        "height": 1623
+      },
+      "landmarks": {
+        "crown": 0.0020833333333333333,
+        "neck": 0.171875,
+        "shoulder": 0.28229166666666666,
+        "waist": 0.41041666666666665,
+        "hip": 0.5927083333333333,
+        "crotch": 0.8770833333333333,
+        "ankle": 0.9864583333333333,
+        "sole": 0.996875
+      }
+    },
+    {
       "asset_id": "wave_a_skinny_woman_seated_front_neutral_v1_rt960",
       "admitted_asset_id": "wave_a_skinny_woman_seated_front_neutral_v1",
       "family": "wave-a-skinny-woman-rt960",
@@ -395,6 +570,66 @@
     }
   ],
   "garments": [
+    {
+      "asset_id": "pg_shoe_001_low_top_sneakers_ocd_adult_feminine_rt960_standing_neutral_v1",
+      "family": "pg-shoe-001",
+      "kind": "footwear",
+      "body_family": "ocd-adult-feminine-rt960",
+      "pose_family": "standing-neutral",
+      "canvas": {
+        "width": 148,
+        "height": 93
+      },
+      "scale_x": 0.665946,
+      "scale_y": 0.665946,
+      "master": {
+        "repositoryPath": "art/references/masters/pg-modular/footwear/pg_master_footwear_01_low_top_sneakers.png",
+        "hash": "446397950fb72f217e730229f9510f7010bd72972a70358562f6aa5c63c6f0a7",
+        "set": "PG_FOOTWEAR_MASTERS_v1",
+        "width": 243,
+        "height": 244
+      }
+    },
+    {
+      "asset_id": "pg_shoe_004_leather_loafers_ocd_adult_feminine_rt960_standing_neutral_v1",
+      "family": "pg-shoe-004",
+      "kind": "footwear",
+      "body_family": "ocd-adult-feminine-rt960",
+      "pose_family": "standing-neutral",
+      "canvas": {
+        "width": 148,
+        "height": 88
+      },
+      "scale_x": 0.654159,
+      "scale_y": 0.654159,
+      "master": {
+        "repositoryPath": "art/references/masters/pg-modular/footwear/pg_master_footwear_02_leather_loafers.png",
+        "hash": "d0684557ae1ad2ffb13141372062ae9ccf3bda71b8b1018ecf6b37ddc216c46d",
+        "set": "PG_FOOTWEAR_MASTERS_v1",
+        "width": 243,
+        "height": 244
+      }
+    },
+    {
+      "asset_id": "pg_shoe_009_low_practical_flats_ocd_adult_feminine_rt960_standing_neutral_v1",
+      "family": "pg-shoe-009",
+      "kind": "footwear",
+      "body_family": "ocd-adult-feminine-rt960",
+      "pose_family": "standing-neutral",
+      "canvas": {
+        "width": 148,
+        "height": 96
+      },
+      "scale_x": 0.651278,
+      "scale_y": 0.651278,
+      "master": {
+        "repositoryPath": "art/references/masters/pg-modular/footwear/pg_master_footwear_03_low_practical_flats.png",
+        "hash": "105975db81d5bdc45855463c0245563b8b8af115d7c8da815eb5ce4b57ef97d7",
+        "set": "PG_FOOTWEAR_MASTERS_v1",
+        "width": 243,
+        "height": 244
+      }
+    },
     {
       "asset_id": "pg_top_001_short_sleeve_crew_tee_wave_a_average_man_rt960_standing_neutral_v1",
       "family": "pg-top-001",
@@ -1757,6 +1992,192 @@
     }
   ],
   "measurements": [
+    {
+      "garment_asset_id": "pg_shoe_001_low_top_sneakers_ocd_adult_feminine_rt960_standing_neutral_v1",
+      "body_asset_id": "ocd_body_adult_fem_standing_neutral_a_v1_rt960",
+      "kind": "footwear",
+      "within_bound": false,
+      "worst_landmark_fraction": 0.494652,
+      "worst_coverage_fraction": 0.389205,
+      "landmark_residuals": [
+        {
+          "anchor": "ankle",
+          "row": 869,
+          "onAttachmentRow": false,
+          "bodyHalfWidthPx": 88,
+          "garmentHalfWidthPx": 23,
+          "edgeDeltaPx": -68.5,
+          "fractionOfBodySpan": 0.389205
+        },
+        {
+          "anchor": "sole",
+          "row": 957,
+          "onAttachmentRow": true,
+          "bodyHalfWidthPx": 93.5,
+          "garmentHalfWidthPx": 13,
+          "edgeDeltaPx": -92.5,
+          "fractionOfBodySpan": 0.494652
+        }
+      ],
+      "ease_metric_derived": {
+        "status": "insufficient-coverage",
+        "statusReason": "Only 0 of 1 rows in the coverage window had both the garment and the body painted; at least 4 rows and 25% of the window are needed before a number means anything.",
+        "mode": "coverage",
+        "fromRow": 957,
+        "toRow": 957,
+        "overhangPx": 0,
+        "overhangAtRow": -1,
+        "undercoveragePx": 0,
+        "undercoverageAtRow": -1,
+        "worstPx": 0,
+        "worstAtRow": -1,
+        "worstFractionOfBodySpan": 0,
+        "rowsCompared": 0,
+        "rowsInWindow": 1
+      },
+      "banked_unfitted_on_same_body": {
+        "status": "insufficient-coverage",
+        "statusReason": "Only 0 of 1 rows in the coverage window had both the garment and the body painted; at least 4 rows and 25% of the window are needed before a number means anything.",
+        "mode": "coverage",
+        "fromRow": 957,
+        "toRow": 957,
+        "overhangPx": 0,
+        "overhangAtRow": -1,
+        "undercoveragePx": 0,
+        "undercoverageAtRow": -1,
+        "worstPx": 0,
+        "worstAtRow": -1,
+        "worstFractionOfBodySpan": 0,
+        "rowsCompared": 0,
+        "rowsInWindow": 1
+      },
+      "banked_within_bound": false,
+      "note": "The derived footwear is -68.5px from the body edge at the ankle (38.92% of the body span there), outside the 3.0% bound. The body is uncovered there. It is a candidate for review, not an accepted fit."
+    },
+    {
+      "garment_asset_id": "pg_shoe_004_leather_loafers_ocd_adult_feminine_rt960_standing_neutral_v1",
+      "body_asset_id": "ocd_body_adult_fem_standing_neutral_a_v1_rt960",
+      "kind": "footwear",
+      "within_bound": false,
+      "worst_landmark_fraction": 0.599432,
+      "worst_coverage_fraction": 0.599432,
+      "landmark_residuals": [
+        {
+          "anchor": "ankle",
+          "row": 869,
+          "onAttachmentRow": false,
+          "bodyHalfWidthPx": 88,
+          "garmentHalfWidthPx": 4.5,
+          "edgeDeltaPx": -105.5,
+          "fractionOfBodySpan": 0.599432
+        },
+        {
+          "anchor": "sole",
+          "row": 957,
+          "onAttachmentRow": true,
+          "bodyHalfWidthPx": 93.5,
+          "garmentHalfWidthPx": 14,
+          "edgeDeltaPx": -93.5,
+          "fractionOfBodySpan": 0.5
+        }
+      ],
+      "ease_metric_derived": {
+        "status": "insufficient-coverage",
+        "statusReason": "Only 0 of 1 rows in the coverage window had both the garment and the body painted; at least 4 rows and 25% of the window are needed before a number means anything.",
+        "mode": "coverage",
+        "fromRow": 957,
+        "toRow": 957,
+        "overhangPx": 0,
+        "overhangAtRow": -1,
+        "undercoveragePx": 0,
+        "undercoverageAtRow": -1,
+        "worstPx": 0,
+        "worstAtRow": -1,
+        "worstFractionOfBodySpan": 0,
+        "rowsCompared": 0,
+        "rowsInWindow": 1
+      },
+      "banked_unfitted_on_same_body": {
+        "status": "insufficient-coverage",
+        "statusReason": "Only 0 of 1 rows in the coverage window had both the garment and the body painted; at least 4 rows and 25% of the window are needed before a number means anything.",
+        "mode": "coverage",
+        "fromRow": 957,
+        "toRow": 957,
+        "overhangPx": 0,
+        "overhangAtRow": -1,
+        "undercoveragePx": 0,
+        "undercoverageAtRow": -1,
+        "worstPx": 0,
+        "worstAtRow": -1,
+        "worstFractionOfBodySpan": 0,
+        "rowsCompared": 0,
+        "rowsInWindow": 1
+      },
+      "banked_within_bound": false,
+      "note": "The derived footwear is -105.5px from the body edge at the ankle (59.94% of the body span there), outside the 3.0% bound. The body is uncovered there. It is a candidate for review, not an accepted fit."
+    },
+    {
+      "garment_asset_id": "pg_shoe_009_low_practical_flats_ocd_adult_feminine_rt960_standing_neutral_v1",
+      "body_asset_id": "ocd_body_adult_fem_standing_neutral_a_v1_rt960",
+      "kind": "footwear",
+      "within_bound": false,
+      "worst_landmark_fraction": 0.559659,
+      "worst_coverage_fraction": 0.559659,
+      "landmark_residuals": [
+        {
+          "anchor": "ankle",
+          "row": 869,
+          "onAttachmentRow": false,
+          "bodyHalfWidthPx": 88,
+          "garmentHalfWidthPx": 12,
+          "edgeDeltaPx": -98.5,
+          "fractionOfBodySpan": 0.559659
+        },
+        {
+          "anchor": "sole",
+          "row": 957,
+          "onAttachmentRow": true,
+          "bodyHalfWidthPx": 93.5,
+          "garmentHalfWidthPx": 14,
+          "edgeDeltaPx": -92.5,
+          "fractionOfBodySpan": 0.494652
+        }
+      ],
+      "ease_metric_derived": {
+        "status": "insufficient-coverage",
+        "statusReason": "Only 0 of 1 rows in the coverage window had both the garment and the body painted; at least 4 rows and 25% of the window are needed before a number means anything.",
+        "mode": "coverage",
+        "fromRow": 957,
+        "toRow": 957,
+        "overhangPx": 0,
+        "overhangAtRow": -1,
+        "undercoveragePx": 0,
+        "undercoverageAtRow": -1,
+        "worstPx": 0,
+        "worstAtRow": -1,
+        "worstFractionOfBodySpan": 0,
+        "rowsCompared": 0,
+        "rowsInWindow": 1
+      },
+      "banked_unfitted_on_same_body": {
+        "status": "insufficient-coverage",
+        "statusReason": "Only 0 of 1 rows in the coverage window had both the garment and the body painted; at least 4 rows and 25% of the window are needed before a number means anything.",
+        "mode": "coverage",
+        "fromRow": 957,
+        "toRow": 957,
+        "overhangPx": 0,
+        "overhangAtRow": -1,
+        "undercoveragePx": 0,
+        "undercoverageAtRow": -1,
+        "worstPx": 0,
+        "worstAtRow": -1,
+        "worstFractionOfBodySpan": 0,
+        "rowsCompared": 0,
+        "rowsInWindow": 1
+      },
+      "banked_within_bound": false,
+      "note": "The derived footwear is -98.5px from the body edge at the ankle (55.97% of the body span there), outside the 3.0% bound. The body is uncovered there. It is a candidate for review, not an accepted fit."
+    },
     {
       "garment_asset_id": "pg_top_001_short_sleeve_crew_tee_wave_a_average_man_rt960_standing_neutral_v1",
       "body_asset_id": "wave_a_average_man_standing_neutral_front_a_v1_rt960",
@@ -5793,6 +6214,56 @@
   ],
   "refused_by_pose": [
     {
+      "bodyAssetId": "ocd_body_adult_fem_seated_guest_front_v1_rt960",
+      "kind": "top",
+      "reason": "The banked tops are flat lays drawn for a torso square to camera. This body is turned, so it presents one shoulder nearer than the other and a side seam the flat lay does not contain; fitting it would be a cross-viewpoint fit, which the accepted contract refuses because the source does not carry the geometry. An authored turned garment, or a turned photograph of one, is what this needs."
+    },
+    {
+      "bodyAssetId": "ocd_body_adult_fem_seated_guest_front_v1_rt960",
+      "kind": "bottom",
+      "reason": "The banked bottoms are straight flat lays drawn for standing legs, and this body is both seated and turned."
+    },
+    {
+      "bodyAssetId": "ocd_body_adult_fem_seated_guest_front_v1_rt960",
+      "kind": "footwear",
+      "reason": "The banked footwear is drawn from the front of a standing foot, and this body is both seated and turned."
+    },
+    {
+      "bodyAssetId": "ocd_body_adult_fem_standing_neutral_a_v1_rt960",
+      "kind": "top",
+      "reason": "Garment 'pg_top_001_short_sleeve_crew_tee' would have to reach 294x229 from a master of 187x199, and this pipeline does not enlarge a raster. No retained output exists for this pairing either, so there is nothing to verify instead. It needs a larger authored master."
+    },
+    {
+      "bodyAssetId": "ocd_body_adult_fem_standing_neutral_a_v1_rt960",
+      "kind": "top",
+      "reason": "Garment 'pg_top_005_long_sleeve_button_shirt' would have to reach 294x261 from a master of 188x228, and this pipeline does not enlarge a raster. No retained output exists for this pairing either, so there is nothing to verify instead. It needs a larger authored master."
+    },
+    {
+      "bodyAssetId": "ocd_body_adult_fem_standing_neutral_a_v1_rt960",
+      "kind": "top",
+      "reason": "Garment 'pg_top_006_pullover_sweater' would have to reach 294x238 from a master of 192x212, and this pipeline does not enlarge a raster. No retained output exists for this pairing either, so there is nothing to verify instead. It needs a larger authored master."
+    },
+    {
+      "bodyAssetId": "ocd_body_adult_fem_standing_neutral_a_v1_rt960",
+      "kind": "top",
+      "reason": "Garment 'pg_top_011_structured_blazer' would have to reach 294x262 from a master of 185x225, and this pipeline does not enlarge a raster. No retained output exists for this pairing either, so there is nothing to verify instead. It needs a larger authored master."
+    },
+    {
+      "bodyAssetId": "ocd_body_adult_fem_standing_neutral_a_v1_rt960",
+      "kind": "bottom",
+      "reason": "Garment 'pg_bottom_001_straight_leg_blue_jeans' would have to reach 218x309 from a master of 108x230, and this pipeline does not enlarge a raster. No retained output exists for this pairing either, so there is nothing to verify instead. It needs a larger authored master."
+    },
+    {
+      "bodyAssetId": "ocd_body_adult_fem_standing_neutral_a_v1_rt960",
+      "kind": "bottom",
+      "reason": "Garment 'pg_bottom_005_dress_trousers' would have to reach 218x300 from a master of 112x231, and this pipeline does not enlarge a raster. No retained output exists for this pairing either, so there is nothing to verify instead. It needs a larger authored master."
+    },
+    {
+      "bodyAssetId": "ocd_body_adult_fem_standing_neutral_a_v1_rt960",
+      "kind": "bottom",
+      "reason": "Garment 'pg_bottom_010_a_line_knee_skirt' would have to reach 218x205 from a master of 160x225, and this pipeline does not enlarge a raster. No retained output exists for this pairing either, so there is nothing to verify instead. It needs a larger authored master."
+    },
+    {
       "bodyAssetId": "wave_a_average_woman_seated_front_neutral_v1_rt960",
       "kind": "bottom",
       "reason": "The banked bottoms are straight flat lays drawn for standing legs. A seated body's thighs run forward and its shins drop from the knee; placing a straight trouser on them would be a cross-viewpoint fit, which the accepted contract refuses because the source does not contain the geometry."
@@ -5803,6 +6274,21 @@
       "reason": "The banked footwear is drawn from the front of a standing foot. A seated body presents the top of the shoe at a different angle, and no measurement recovers a viewpoint the raster does not carry."
     },
     {
+      "bodyAssetId": "wave_a_average_woman_seated_conversational_open_hand_v1_rt960",
+      "kind": "top",
+      "reason": "The banked tops are flat lays drawn for a torso square to camera. This body is turned, so it presents one shoulder nearer than the other and a side seam the flat lay does not contain; fitting it would be a cross-viewpoint fit, which the accepted contract refuses because the source does not carry the geometry. An authored turned garment, or a turned photograph of one, is what this needs."
+    },
+    {
+      "bodyAssetId": "wave_a_average_woman_seated_conversational_open_hand_v1_rt960",
+      "kind": "bottom",
+      "reason": "The banked bottoms are straight flat lays drawn for standing legs, and this body is both seated and turned."
+    },
+    {
+      "bodyAssetId": "wave_a_average_woman_seated_conversational_open_hand_v1_rt960",
+      "kind": "footwear",
+      "reason": "The banked footwear is drawn from the front of a standing foot, and this body is both seated and turned."
+    },
+    {
       "bodyAssetId": "wave_a_skinny_woman_seated_front_neutral_v1_rt960",
       "kind": "bottom",
       "reason": "The banked bottoms are straight flat lays drawn for standing legs. A seated body's thighs run forward and its shins drop from the knee; placing a straight trouser on them would be a cross-viewpoint fit, which the accepted contract refuses because the source does not contain the geometry."
@@ -5811,6 +6297,43 @@
       "bodyAssetId": "wave_a_skinny_woman_seated_front_neutral_v1_rt960",
       "kind": "footwear",
       "reason": "The banked footwear is drawn from the front of a standing foot. A seated body presents the top of the shoe at a different angle, and no measurement recovers a viewpoint the raster does not carry."
+    },
+    {
+      "bodyAssetId": "wave_a_skinny_woman_seated_conversational_open_hand_v1_rt960",
+      "kind": "top",
+      "reason": "The banked tops are flat lays drawn for a torso square to camera. This body is turned, so it presents one shoulder nearer than the other and a side seam the flat lay does not contain; fitting it would be a cross-viewpoint fit, which the accepted contract refuses because the source does not carry the geometry. An authored turned garment, or a turned photograph of one, is what this needs."
+    },
+    {
+      "bodyAssetId": "wave_a_skinny_woman_seated_conversational_open_hand_v1_rt960",
+      "kind": "bottom",
+      "reason": "The banked bottoms are straight flat lays drawn for standing legs, and this body is both seated and turned."
+    },
+    {
+      "bodyAssetId": "wave_a_skinny_woman_seated_conversational_open_hand_v1_rt960",
+      "kind": "footwear",
+      "reason": "The banked footwear is drawn from the front of a standing foot, and this body is both seated and turned."
+    }
+  ],
+  "bodies_underived": [
+    {
+      "assetId": "ocd_body_adult_fem_seated_gesture_forward_v1",
+      "poseFamily": "seated-guest-three-quarter-right",
+      "reason": "Body landmarks need an ankle band to search; this body left 1 row(s) between the lower leg and the sole, under the 10 the canvas requires."
+    },
+    {
+      "assetId": "ocd_body_adult_fem_standing_conversational_b_v1",
+      "poseFamily": "standing-conversational",
+      "reason": "Body landmarks need an ankle band to search; this body left 1 row(s) between the lower leg and the sole, under the 10 the canvas requires."
+    },
+    {
+      "assetId": "wave_a_average_man_seated_conversational_open_hand_v1",
+      "poseFamily": "seated-guest-three-quarter-right",
+      "reason": "Body landmarks need an ankle band to search; this body left 1 row(s) between the lower leg and the sole, under the 10 the canvas requires."
+    },
+    {
+      "assetId": "wave_a_older_woman_seated_conversational_open_hand_v1",
+      "poseFamily": "seated-guest-three-quarter-right",
+      "reason": "Body landmarks need an ankle band to search; this body left 3 row(s) between the lower leg and the sole, under the 10 the canvas requires."
     }
   ]
 }

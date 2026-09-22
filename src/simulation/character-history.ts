@@ -108,6 +108,7 @@ import type {
   FormativePacingBand,
   IsoDate,
   LifeEligibilityDecision,
+  RelationshipInteraction,
   LifeEligibilityProvider,
   LifeRecordProvenance,
   LifeSituationKey,
@@ -1841,6 +1842,23 @@ export type LifeSituationResolution =
     };
 
 /** Bounded content resolution that leaves truth in ordinary Stage 3/4/5 records. */
+
+/**
+ * How many times something happened, rather than how many rows recorded it.
+ *
+ * Several interaction records can carry one event, so counting rows counts
+ * one occasion more than once. Records with no event fall back to their own
+ * stable key, which is unique per record and therefore counts as its own
+ * occasion — a record the history cannot tie to an event is the only evidence
+ * there is that it happened.
+ */
+export function distinctOccasions(
+  interactions: readonly RelationshipInteraction[],
+): number {
+  return new Set(interactions.map((item) => item.eventId ?? item.stableKey))
+    .size;
+}
+
 export function resolveLifeSituation(
   world: World,
   input: ResolveLifeSituationInput,
@@ -2113,7 +2131,25 @@ export function resolveLifeSituation(
       )
     : [];
   let proposals: readonly DevelopmentProposal[] = [];
-  if (interactions.length >= 2 && other) {
+  /*
+   * Two copies of one event are one observation.
+   *
+   * This used to count rows in `relationshipInteractions`, which is not the
+   * same as counting times something happened: several records can carry one
+   * event. Distinct occasions are counted instead, falling back to the
+   * record's own stable key where an interaction carries no event.
+   *
+   * What is NOT fixed here, and is filed as
+   * `which-tendency-a-formative-situation-bears-on`: the tendency proposed
+   * below is `tendencyOrder[0]`, the catalogue's first entry, whatever the
+   * occasions were about. In the synthetic catalogue that is `riskApproach`,
+   * so every character development this produces, in every life, is about
+   * risk. The evidence decides whether a development is proposed and has no
+   * say in which one. Choosing correctly needs an authored link from a
+   * situation to the tendency it bears on, which is content this lane will
+   * not invent.
+   */
+  if (distinctOccasions(interactions) >= 2 && other) {
     const tendency =
       next.mindCatalog.tendencies[
         next.mindCatalog.tendencyOrder[0] as EntityId

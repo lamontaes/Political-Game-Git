@@ -6,11 +6,13 @@ import {
   personName,
   staffAssessment,
   staffRecommendation,
-  STATE_EXECUTIVE_GAME_PROFILE_NOTE,
+  STATE_EXECUTIVE_GAME_PROFILE,
+  stateExecutiveTermRule,
   type EntityId,
   type GoverningMatter,
   type World,
 } from "../simulation";
+import { describeStateExecutiveTerm } from "./state-executive-term-description";
 
 /**
  * The staff briefing for a governorship: the few matters that need the
@@ -128,10 +130,9 @@ export function projectGoverningBriefing(
     termLine: office.termEndsAt
       ? `Your term runs until ${americanDate(office.termEndsAt)}.`
       : "Your term's end date is not established.",
-    calendarNote:
-      office.calendarBasis === "verified"
-        ? null
-        : STATE_EXECUTIVE_GAME_PROFILE_NOTE,
+    calendarNote: describeStateExecutiveTerm(
+      stateExecutiveTermRule(office.stateUsps) ?? STATE_EXECUTIVE_GAME_PROFILE,
+    ),
     chiefOfStaff:
       chief && chiefPerson
         ? {

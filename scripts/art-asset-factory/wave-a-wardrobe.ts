@@ -230,6 +230,47 @@ function centralWidth(bitmap: Bitmap, y: number, centerX: number): number {
  * hip mass on the side away from the knees — not a fallback that reads as an
  * answer.
  */
+/**
+ * A garment pairing this bank cannot cover without enlarging a raster.
+ *
+ * Its own class so a caller can tell it from a genuine defect. The rule it
+ * enforces is unchanged and nothing is upscaled: what changed is only that a
+ * pairing nobody has ever produced no longer aborts every other pairing in the
+ * run, because a newly admitted body being unclothable is an art gap with a
+ * number on it, not a broken pipeline.
+ *
+ * It is thrown only when there is ALSO no retained output. The bank's
+ * historical R1 garments enlarge too, and they are verified by hash against
+ * the registry rather than regenerated; those keep working exactly as before.
+ */
+export class GarmentEnlargementRefusal extends Error {
+  readonly idStem: string;
+  constructor(idStem: string, needed: string, have: string) {
+    super(
+      `Garment '${idStem}' would have to reach ${needed} from a master of ${have}, and this pipeline does not enlarge a raster. No retained output exists for this pairing either, so there is nothing to verify instead. It needs a larger authored master.`,
+    );
+    this.name = "GarmentEnlargementRefusal";
+    this.idStem = idStem;
+  }
+}
+
+/**
+ * A body whose silhouette does not give this measurement the rows it needs.
+ *
+ * Its own class so a caller can tell it apart from every other way this
+ * pipeline fails. A missing file, a raster that would have to be enlarged and
+ * a stale derivative are all defects that must stop a run; a crop whose legs
+ * part at the shins is a property of the drawing, and the honest response is
+ * to derive nothing for it and say which body and why. Catching `Error`
+ * broadly here would have swallowed the first three along with the fourth.
+ */
+export class BodyLandmarkRefusal extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "BodyLandmarkRefusal";
+  }
+}
+
 export function measureCandidateBodyLandmarks(
   bitmap: Bitmap,
   rig: BodyRigMeasurement,
@@ -238,11 +279,11 @@ export function measureCandidateBodyLandmarks(
   const widths = rowWidths(bitmap);
 
   if (!rig.crotchSplit)
-    throw new Error(
+    throw new BodyLandmarkRefusal(
       "Body landmarks need a measured leg split; this silhouette never parts at the midline, so its hip and ankle rows cannot be derived from the crotch.",
     );
   if (rig.crotchRow <= rig.waistRow)
-    throw new Error(
+    throw new BodyLandmarkRefusal(
       `Body landmarks need a hip band between the waist and the crotch; this body measured waist ${rig.waistRow} and crotch ${rig.crotchRow}.`,
     );
 
@@ -264,7 +305,7 @@ export function measureCandidateBodyLandmarks(
   // than that and the narrowest row is whichever row the search started on.
   const ankleBandFloor = Math.round(H * 0.01);
   if (legTo - legFrom + 1 < ankleBandFloor)
-    throw new Error(
+    throw new BodyLandmarkRefusal(
       `Body landmarks need an ankle band to search; this body left ${legTo - legFrom + 1} row(s) between the lower leg and the sole, under the ${ankleBandFloor} the canvas requires.`,
     );
   let ankleRow = legFrom;
@@ -637,11 +678,6 @@ export async function deriveGarment(
     throw new Error(`Garment '${spec.idStem}' has invalid dimensions.`);
   }
   const enlarges = width > cropped.width || height > cropped.height;
-  if (enlarges && !check) {
-    throw new Error(
-      `Garment '${spec.idStem}' requires enlargement; recover a sufficient native source before deriving new pixels.`,
-    );
-  }
 
   // The pose is part of the id because a morphology can be admitted in more
   // than one pose and a garment is derived per pose: `skinny-woman` has both a
@@ -659,8 +695,17 @@ export async function deriveGarment(
       ),
     ) as { assets: CharacterComponentManifestRecord[] };
     const retained = bank.assets.find((record) => record.asset_id === assetId);
+    if (!retained) {
+      // Never produced, so there is nothing to retain and nothing to make. The
+      // caller records the pairing and carries on; it is an art gap, and one
+      // uncoverable pairing is not a reason to abandon the run.
+      throw new GarmentEnlargementRefusal(
+        spec.idStem,
+        `${width}x${height}`,
+        `${cropped.width}x${cropped.height}`,
+      );
+    }
     if (
-      !retained ||
       retained.final_path !== repositoryPath ||
       hashArtFile(path.join(repositoryRoot, repositoryPath)) !== retained.hash
     ) {
@@ -1060,6 +1105,20 @@ export interface WaveAWardrobeResult {
     readonly kind: string;
     readonly reason: string;
   }[];
+  /**
+   * Admitted bodies this derivation produced no runtime body for, and why.
+   *
+   * Never empty-by-construction and never silent: the CLI report carries every
+   * row, so a body that vanished from the wardrobe says which body it was and
+   * what could not be measured on it. A body missing from BOTH this list and
+   * `bodies` would be a body that disappeared, which is the failure the list
+   * exists to make impossible.
+   */
+  readonly underivedBodies: readonly {
+    readonly assetId: string;
+    readonly poseFamily: string;
+    readonly reason: string;
+  }[];
 }
 
 /**
@@ -1081,6 +1140,50 @@ export function kindsForPose(poseFamily: string): {
 } {
   if (!poseFamily.startsWith("seated")) {
     return { allowed: [...WARDROBE_DERIVED_KINDS], refused: [] };
+  }
+  /*
+   * A seated body turned away from square refuses the top as well.
+   *
+   * The reason is the one already written below for bottoms and footwear,
+   * carried one step further rather than a new rule. A banked top is a flat lay
+   * drawn for a torso square to camera: its shoulder line, its button placket
+   * and its side seams are all in the plane of the page. A three-quarter torso
+   * presents one shoulder nearer than the other and shows a side seam the flat
+   * lay does not contain, so fitting it would be the same cross-viewpoint fit
+   * the contract already refuses — and the fit would be the visible kind,
+   * across the chest of a person sitting in front of the player.
+   *
+   * This is not what blocks the turned bodies today. They are refused at a
+   * second, harder gate anyway: a top scaled to reach a three-quarter torso
+   * comes out larger than its own master, and this pipeline does not enlarge a
+   * raster. Saying it here means the refusal reads as the contract rather than
+   * as a resolution accident, and means recovering a larger master would not
+   * silently start fitting square clothes to turned people.
+   */
+  if (
+    poseFamily !== "seated-guest-neutral" &&
+    poseFamily !== "seated-at-desk"
+  ) {
+    return {
+      allowed: [],
+      refused: [
+        {
+          kind: "top",
+          reason:
+            "The banked tops are flat lays drawn for a torso square to camera. This body is turned, so it presents one shoulder nearer than the other and a side seam the flat lay does not contain; fitting it would be a cross-viewpoint fit, which the accepted contract refuses because the source does not carry the geometry. An authored turned garment, or a turned photograph of one, is what this needs.",
+        },
+        {
+          kind: "bottom",
+          reason:
+            "The banked bottoms are straight flat lays drawn for standing legs, and this body is both seated and turned.",
+        },
+        {
+          kind: "footwear",
+          reason:
+            "The banked footwear is drawn from the front of a standing foot, and this body is both seated and turned.",
+        },
+      ],
+    };
   }
   return {
     allowed: ["top"],
@@ -1180,17 +1283,32 @@ export async function runWaveAWardrobeDerivation(
   }
 
   const bodies: RuntimeBody[] = [];
+  const underivedBodies: {
+    assetId: string;
+    poseFamily: string;
+    reason: string;
+  }[] = [];
   for (const record of [...admitted.assets].sort((a, b) =>
     a.asset_id < b.asset_id ? -1 : 1,
   )) {
-    bodies.push(
-      await deriveRuntimeBody(
-        repositoryRoot,
-        record,
-        WAVE_A_RUNTIME_BODY_DIRECTORY,
-        options.check ?? false,
-      ),
-    );
+    try {
+      bodies.push(
+        await deriveRuntimeBody(
+          repositoryRoot,
+          record,
+          WAVE_A_RUNTIME_BODY_DIRECTORY,
+          options.check ?? false,
+        ),
+      );
+    } catch (error) {
+      // Only a landmark refusal. Everything else still stops the run.
+      if (!(error instanceof BodyLandmarkRefusal)) throw error;
+      underivedBodies.push({
+        assetId: record.asset_id,
+        poseFamily: record.candidate_component!.pose_family!,
+        reason: error.message,
+      });
+    }
   }
 
   const bodyRecords = bodies.map((body) =>
@@ -1226,14 +1344,27 @@ export async function runWaveAWardrobeDerivation(
     for (const spec of specs) {
       if (!allowed.includes(spec.kind)) continue;
       const proportion = proportions[spec.idStem]?.reference ?? 1;
-      const garment = await deriveGarment(
-        repositoryRoot,
-        spec,
-        body,
-        proportion,
-        WAVE_A_WARDROBE_DIRECTORY,
-        options.check ?? false,
-      );
+      let garment: DerivedGarment;
+      try {
+        garment = await deriveGarment(
+          repositoryRoot,
+          spec,
+          body,
+          proportion,
+          WAVE_A_WARDROBE_DIRECTORY,
+          options.check ?? false,
+        );
+      } catch (error) {
+        // Only an uncoverable new pairing. Every other failure stops the run,
+        // including a retained output that has gone missing or changed.
+        if (!(error instanceof GarmentEnlargementRefusal)) throw error;
+        skipped.push({
+          bodyAssetId: body.assetId,
+          kind: spec.kind,
+          reason: error.message,
+        });
+        continue;
+      }
       garments.push(garment);
 
       const bankedRecord = manifestRecord(`${spec.idStem}_fl_v1`);
@@ -1272,5 +1403,6 @@ export async function runWaveAWardrobeDerivation(
     measurements,
     proportions,
     skipped,
+    underivedBodies,
   };
 }
