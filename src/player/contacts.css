@@ -1,0 +1,233 @@
+/*
+ * Getting in touch: the list in People, a party chapter's organizer, and the
+ * contact screen for one person.
+ *
+ * Every part of a row is its own line. These used to be inline spans with no
+ * styling at all, so the name, who they are and when you last spoke ran into
+ * one another with no space between them.
+ */
+
+.pg-contacts-list,
+.pg-recall-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pg-contact,
+.pg-recall-list > li {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--pg-hairline, rgba(244, 236, 224, 0.16));
+  border-radius: 0.4rem;
+  background: rgba(8, 14, 24, 0.35);
+}
+
+.pg-contacts--focused .pg-contact {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.pg-contact-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.1rem 0.6rem;
+}
+
+.pg-contact-name,
+.pg-recall-list > li > strong {
+  display: block;
+  font-weight: 700;
+  color: var(--pg-ivory, var(--run-a-ink));
+}
+
+.pg-contact-meta {
+  display: block;
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--pg-brass, var(--run-a-gold));
+}
+
+.pg-contact-line,
+.pg-recall-line {
+  display: block;
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--pg-ivory-dim, var(--run-a-muted));
+}
+
+/* Ways of reaching them: plain tags, never controls. */
+.pg-contact-channels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0.15rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pg-contact-channels > li {
+  padding: 0.1rem 0.5rem;
+  font-size: 0.75rem;
+  color: var(--pg-ivory-dim, var(--run-a-muted));
+  border: 1px solid var(--pg-hairline, rgba(244, 236, 224, 0.16));
+  border-radius: 1rem;
+}
+
+.pg-contact-channels > li[data-blocked="true"] {
+  border-style: dashed;
+}
+
+.pg-contact-ask {
+  display: grid;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+}
+
+.pg-contact-ask > p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.pg-contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.4rem 0.6rem;
+}
+
+.pg-contact-day {
+  display: grid;
+  gap: 0.15rem;
+  font-size: 0.75rem;
+  color: var(--pg-ivory-dim, var(--run-a-muted));
+}
+
+.pg-contact-day input {
+  min-height: 2rem;
+  padding: 0.2rem 0.4rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--pg-ivory, var(--run-a-ink));
+  background: rgba(8, 14, 24, 0.6);
+  border: 1px solid var(--pg-hairline, rgba(244, 236, 224, 0.16));
+  border-radius: 0.3rem;
+  color-scheme: dark;
+}
+
+.pg-contact-note {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: #ffd9a8;
+}
+
+/* The contact screen for one person, over whatever was open. */
+.pg-contact-dialog {
+  box-sizing: border-box;
+  width: min(30rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
+  padding: 0;
+  overflow: auto;
+  color: var(--pg-ivory, var(--run-a-ink));
+  font-family: var(--pg-font-ui, inherit);
+  background: linear-gradient(
+    180deg,
+    rgba(14, 23, 38, 0.97),
+    rgba(9, 15, 26, 0.98)
+  );
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.6rem;
+  box-shadow:
+    0 1px 0 rgba(244, 236, 224, 0.12) inset,
+    0 1.2rem 3rem rgba(8, 13, 22, 0.5);
+}
+
+.pg-contact-dialog-body {
+  padding: 0.9rem 1rem 1rem;
+}
+
+.pg-contact-dialog[open] {
+  animation: pg-contact-in 180ms ease-out;
+}
+
+.pg-contact-dialog::backdrop {
+  background: rgba(4, 8, 14, 0.55);
+  animation: pg-contact-fade 180ms ease-out;
+}
+
+@keyframes pg-contact-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pg-contact-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pg-contact-dialog[open],
+  .pg-contact-dialog::backdrop {
+    animation: none;
+  }
+}
+
+.pg-contact-dialog-head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.6rem;
+}
+
+.pg-contact-dialog-head .person-portrait figcaption {
+  display: none;
+}
+
+.pg-contact-dialog-head .person-portrait-mark {
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 0.4rem;
+}
+
+.pg-contact-dialog-who {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.pg-contact-dialog-who h2 {
+  margin: 0;
+  font-family: var(--pg-font-display, Georgia, serif);
+  font-size: 1.15rem;
+  line-height: 1.2;
+}
+
+.pg-contact-dialog-who p {
+  margin: 0.1rem 0 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pg-brass, var(--run-a-gold));
+}
+
+.pg-contact-dialog button:focus-visible,
+.pg-contact-dialog input:focus-visible {
+  outline: 3px solid var(--run-a-focus);
+  outline-offset: 2px;
+}
