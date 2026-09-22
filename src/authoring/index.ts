@@ -48,6 +48,8 @@ export * from "./civic-symbols";
 export * from "./dynamic-components";
 export * from "./external-packs";
 export * from "./asset-request";
+export * from "./art-request-intake";
+export * from "./regional-scene-coverage";
 export * from "./asset-readiness";
 export * from "./asset-compatibility";
 export * from "./asset-claim";
