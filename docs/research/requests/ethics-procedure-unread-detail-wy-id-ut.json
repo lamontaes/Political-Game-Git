@@ -1,0 +1,36 @@
+{
+  "candidateAnswers": [],
+  "filedAt": "2026-09-22T13:46:00.000Z",
+  "impact": "background",
+  "lane": "nationwide government",
+  "notes": [
+    "Filed from the nationwide government lane because that lane measured the package, not because it owns the subject. If the intake or press lane would rather carry it, the record moves with no argument from here.",
+    "The package was relayed as having gained 27 rows over 24 previously held. It gained 13 over 38, by its own increment record and its own receipt. That correction is written up separately and is noted here only so a reader of this record does not carry the wrong figure forward.",
+    "No candidate answers offered. This is a reading, not a judgement, and there is nothing here for the owner to decide."
+  ],
+  "priority": "P2",
+  "question": "The state legislative ethics procedure package reached 51 jurisdictions with none unresearched, and carries three jurisdictions whose detail its own record says could not be read. Wyoming: the current Joint Rule 22-1 intake, screening and confidentiality text. Idaho: the current House rule and committee procedural detail, which could not be read from the official host. Utah: the consolidated JR6 text and the disposition of 2026 SJR016. For each, what does the current instrument actually say about who receives a complaint, who screens it, what is confidential and for how long, and what dispositions are available? Citations to the rule number and its current text.",
+  "questionId": "ethics-procedure-unread-detail-wy-id-ut",
+  "relatedQuestionIds": [
+    "state-legislative-ethics-procedure"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "nationwide government lane (technical team lead)",
+  "sourcesChecked": [
+    {
+      "source": "/mnt/project-files/research/ethics-routing-research.json, counted rather than summarised on 2026-09-22",
+      "whatItDidNotSettle": "51 rows, 51 distinct jurisdiction keys, unresearchedJurisdictionKeys empty, latestIncrement.newCount 13 with priorRowsChanged 0. Its verificationOutstanding array names exactly these three jurisdictions and what could not be read for each. It states the gaps; it does not fill them."
+    },
+    {
+      "source": "The package's own validation receipt, ethics-routing-validation.json",
+      "whatItDidNotSettle": "Twelve structural checks passed, and its own scope line says data structure and explicit boundary checks only, with no legal completeness certification. It is explicit that it does not answer this."
+    },
+    {
+      "source": "runtimeIntegrated across all 51 rows, read in the same file",
+      "whatItDidNotSettle": "False on every row, so nothing in the game reads any of this yet. Sets the priority at P2 rather than P1; does not affect whether the three are answerable."
+    }
+  ],
+  "title": "The three ethics procedures that could not be read",
+  "usableAnswer": "One entry per jurisdiction naming the body that receives a complaint, the screening step and who performs it, the confidentiality rule and its duration, and the dispositions the rule allows - each cited to the rule as it currently stands. For Utah, whether SJR016 of 2026 changed JR6 and, if so, what the text is now. Where an official host cannot be reached, say which secondary source was used and how current it is, rather than presenting it as the instrument.",
+  "whyItMatters": "The package reports zero unresearched jurisdictions, and that is true. Read alone it implies the subject is closed, and three jurisdictions are not. A completeness claim with three quiet exceptions inside it is exactly the shape this project keeps paying for, and the cheapest way to stop it being repeated downstream is to close the three rather than to keep restating the caveat. Nothing in the game reads any of these rows yet, so this blocks no work; it protects a claim."
+}

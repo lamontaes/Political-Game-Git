@@ -1,0 +1,45 @@
+{
+  "candidateAnswers": [],
+  "filedAt": "2026-09-22T13:45:00.000Z",
+  "impact": "background",
+  "lane": "nationwide government",
+  "notes": [
+    "This is a factual lookup, not a design judgement. It does not overlap national-range-instrument-for-non-states, which asks whether the range is the right instrument for a non-state at all. That one is the owner's call; this one is a reading. If the answer to that record is that Puerto Rico should be read rather than ranged, this record is what closes it.",
+    "That earlier record's measured state is now stale in one respect worth naming rather than letting it be discovered: it says Puerto Rico is not in the coverage report at all. On the current branch Puerto Rico is seated, carries a generated pack and appears with the other jurisdictions. The design question it asks is unaffected.",
+    "Puerto Rico's legislature is bicameral, so the generated shape is not wrong in structure the way a generated bicameral legislature for DC would have been. The numbers inside it are what is unread.",
+    "Not urgent in the sense of blocking anything: the drawn values are playable and disclosed. It is P1 because a drawn value that is never replaced quietly becomes the answer."
+  ],
+  "priority": "P1",
+  "question": "Puerto Rico is now seated with a generated legislature rather than nothing, so the question is no longer whether it is covered but whether the numbers are its own. From the Constitution of the Commonwealth of Puerto Rico and its election law: how many members sit in the Senate and in the House of Representatives, including the at-large and district split and any provision that adds members to correct a supermajority; what is the minimum age to stand for each chamber; what residence is required, in the Commonwealth and in the district, and for how long before filing; how long is a term for each chamber; and what is the Governor's term, minimum age and residence requirement? The same for the Resident Commissioner if it is cheap to include. Citations to the article and section, in the instrument's own words, are what we need rather than a summary.",
+  "questionId": "puerto-rico-legislature-and-candidacy-law",
+  "relatedQuestionIds": [
+    "national-range-instrument-for-non-states"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "nationwide government lane (technical team lead)",
+  "sourcesChecked": [
+    {
+      "source": "resolvePlayGeography(\"7276770\") - San Juan - executed on claude/nationwide-government-mqcw7p at dc4735b3",
+      "whatItDidNotSettle": "Establishes that Puerto Rico now resolves to us-pr-legislature-profile-v1 with a house and a senate, where main at d956b92a returns a null pack and no offices at all. Says nothing about what Puerto Rico's law actually requires."
+    },
+    {
+      "source": "The generated pack's own qualification block, read in the same tree",
+      "whatItDidNotSettle": "Carries minimumAge 23 and a one-year residence, each with a note naming the national spread it was drawn from and disclaiming any claim about this jurisdiction's law. It is explicit that it is not an answer to this question."
+    },
+    {
+      "source": "data/source/state-office-qualifications/corpus.json, searched for Puerto Rico rows",
+      "whatItDidNotSettle": "Holds 69 rows and none of them is Puerto Rico's, so there is no sourced value for the resolver to prefer. Confirms the gap rather than filling it."
+    },
+    {
+      "source": "data/source/place-county-relations/raw, 51 files listed",
+      "whatItDidNotSettle": "Has no Puerto Rico file, so place-to-county membership is absent there by construction. Relevant to district residence and recorded here so the next reader does not rediscover it, but it is a data-coverage fact and not this question."
+    },
+    {
+      "source": "The egress proxy, per this project's standing record",
+      "whatItDidNotSettle": "State and territorial publishers are refused from this environment, which is why 649 ledger claims sit rejected only because nobody fetched the cited law. This is the reason the question is filed rather than answered here."
+    }
+  ],
+  "title": "Puerto Rico's own legislature and who may stand for it",
+  "usableAnswer": "One row per office - Senate, House of Representatives, Governor - giving seat count where it applies, minimum age, residence requirement with its duration and whether it is Commonwealth-wide or district, and term length. Each value cited to the constitutional article and section or the statute, quoted closely enough that we can record the instrument's own words. Where a rule has a condition our single-value shape cannot hold, say so plainly rather than flattening it; we would rather record a declared gap than a convenient number.",
+  "whyItMatters": "Puerto Rico currently plays on drawn numbers. The pack records a minimum age of 23 drawn from the 21-to-24 spread that MN, MO, NJ and NV enacted, and states in its own note that it is not a claim about this jurisdiction's law. That is the game's rule honestly labelled, and the owner's standing rule is that real law always overrides it. So a read answer here does not need any new mechanism - it replaces a drawn value the moment it lands. Until then a player standing for the Senate of Puerto Rico meets a number no Puerto Rican legislature ever enacted, which is the difference between a jurisdiction the game can claim to cover and one it merely does not refuse."
+}
