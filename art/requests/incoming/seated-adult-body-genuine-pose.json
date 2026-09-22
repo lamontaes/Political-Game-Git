@@ -25,10 +25,16 @@
       "shins-vertical-to-floor"
     ],
     "facing": "toward the viewer at a desk, and a guest-chair variant angled to the room",
-    "note": "A genuine seated adult body. NOT a revision of dev_body_adult_seated_v1, which is frozen generation 1 under a no-reroll signature - this is a new seated body. Shortening the legs of a standing figure is exactly the wrong delivery: the thighs must come forward off the hip and the knees must bend, so the silhouette is a person sitting, not a short person standing. Before-screenshots are in the character triage lane's thread with lamontae."
+    "note": "A genuine seated adult body. NOT a revision of dev_body_adult_seated_v1, which is frozen generation 1 under a no-reroll signature - this is a new seated body. Shortening the legs of a standing figure is exactly the wrong delivery: the thighs must come forward off the hip and the knees must bend, so the silhouette is a person sitting, not a short person standing. The standing/seated pairing 06 vs 07 in the reference set is that criterion made visible - the two plates are the same silhouette with shorter legs."
   },
   "notes": [
     "Offending bodies measured on the client build: dev_g2_body_slim_light_seated_v1 and gen-1 dev_body_adult_seated_v1, both upright with shortened legs. The build's candidate bank holds five bodies, all standing-neutral, none seated.",
-    "The council-office consumer uses pose families seated-at-desk and seated-in-guest-chair (src/presentation/visual-integration.ts), so both a desk-seated and a guest-chair-seated body are wanted."
+    "The council-office consumer uses pose families seated-at-desk and seated-in-guest-chair (src/presentation/visual-integration.ts), so both a desk-seated and a guest-chair-seated body are wanted. Triage confirmed a single desk pose would leave the guest chair failing.",
+    "Before-evidence, verified against the actual frames in the project's shared character-triage folder:",
+    "  /mnt/project-files/character-triage/03-nobody-sits-today.png - the council office, four people, two assigned to chairs, all four drawn standing. The defect in one frame.",
+    "  /mnt/project-files/character-triage/04-seat-contacts-overlay.png - the same frame with contacts on. Mara Rice's seated-pelvis marker lands on the primary-desk-chair seat plane (70.8%) and her feet on the floor line (90.01%), so every assertion passes while she still reads as standing. This is why the posture cues are an acceptance criterion. (Darius Giles' bare pelvis marker at the left-guest-chair is the separate frozen-gen-1 gap, not part of this request.)",
+    "  /mnt/project-files/character-triage/06-the-standing-body-plate.png + 07-g2-seated-body-is-upright.png - the standing plate (dev_g2_body_slim_light_standing_v1) and the 'seated' plate (dev_g2_body_broad_deep_rich_seated_v1) side by side: the same upright silhouette, the 'seated' one with shortened legs. The acceptance criterion made visible; the most useful pairing to attach.",
+    "  /mnt/project-files/character-triage/08-gen1-seated-body-is-upright.png - dev_body_adult_seated_v1, upright (frozen; do not revise).",
+    "Fold these four frames (03, 04, 06+07, 08) into the reference set when this is promoted to a bench request."
   ]
 }
