@@ -6,27 +6,27 @@ behind the claim. Nothing here was consolidated; this pass counts.
 
 ## The count
 
-| Band | How many | What it means |
-|---|---|---|
-| A. Two producers, and they **disagree today** | **6** | A live defect a player can meet |
-| B. One correct helper that callers may **decline to use** | **6** | The optional-correctness shape |
-| C. Duplicate implementations that currently **agree** | **18 module pairs** | Consolidation debt, not a defect yet |
-| D. Built, ships to the player, **no producer in play** | **7 functions** | Reader wired to the fixture, not the game |
-| E. Exported into the play bundle, **never called by production code** | **606 symbols across 253 modules** | The outer bound of the same problem |
+| Band                                                                  | How many                           | What it means                             |
+| --------------------------------------------------------------------- | ---------------------------------- | ----------------------------------------- |
+| A. Two producers, and they **disagree today**                         | **6**                              | A live defect a player can meet           |
+| B. One correct helper that callers may **decline to use**             | **6**                              | The optional-correctness shape            |
+| C. Duplicate implementations that currently **agree**                 | **18 module pairs**                | Consolidation debt, not a defect yet      |
+| D. Built, ships to the player, **no producer in play**                | **7 functions**                    | Reader wired to the fixture, not the game |
+| E. Exported into the play bundle, **never called by production code** | **606 symbols across 253 modules** | The outer bound of the same problem       |
 
 Band E is the honest outer number and is not 606 separate bugs — it is the
 size of the surface the other four bands are drawn from.
 
 ## A. Two producers that disagree today
 
-| # | The two sites | Which one play reaches | Do they disagree |
-|---|---|---|---|
-| A1 | `simulation/character-history.ts:2218/2231/2242` draws a name with `drawCanonicalName` and a gender separately, vs `presentation/production-world.ts` (6 sites) using `drawCanonicalNameForGender` | **Both.** `production-world.ts:924` calls `generateQuickCharacterHistory` | **Yes.** See measurement below |
-| A2 | `simulation/governing/program-families.ts` (13 families) vs `simulation/legislation-program-families.ts` (20) | Both, on different screens | **Yes.** 7 families |
-| A3 | `simulation/municipal-election-rule-packs.ts` (1222 lines, 51 jurisdictions, asOf 2026-09-05) vs `municipalRulePackFor` in `simulation/municipal-government.ts` | **Only the second.** The corpus is imported by its own test and nothing else | **Yes.** 51 jurisdictions of sourced rules reach no player |
-| A4 | Given-name generation **version**: `presentation/new-game.ts:211` passes `given-name-v2`; `presentation/production-world.ts:222` defaults to `given-name-v1` | Both, by route | **Yes.** Two name algorithms by entry point |
-| A5 | Two populations that never touch, and no electorate | carried from the people-and-life lane | Yes |
-| A6 | Two economic surfaces: real BLS/BEA `economic-context.ts` vs authored `macro-conditions.ts` | Both, different panels | Yes |
+| #   | The two sites                                                                                                                                                                                      | Which one play reaches                                                       | Do they disagree                                           |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| A1  | `simulation/character-history.ts:2218/2231/2242` draws a name with `drawCanonicalName` and a gender separately, vs `presentation/production-world.ts` (6 sites) using `drawCanonicalNameForGender` | **Both.** `production-world.ts:924` calls `generateQuickCharacterHistory`    | **Yes.** See measurement below                             |
+| A2  | `simulation/governing/program-families.ts` (13 families) vs `simulation/legislation-program-families.ts` (20)                                                                                      | Both, on different screens                                                   | **Yes.** 7 families                                        |
+| A3  | `simulation/municipal-election-rule-packs.ts` (1222 lines, 51 jurisdictions, asOf 2026-09-05) vs `municipalRulePackFor` in `simulation/municipal-government.ts`                                    | **Only the second.** The corpus is imported by its own test and nothing else | **Yes.** 51 jurisdictions of sourced rules reach no player |
+| A4  | Given-name generation **version**: `presentation/new-game.ts:211` passes `given-name-v2`; `presentation/production-world.ts:222` defaults to `given-name-v1`                                       | Both, by route                                                               | **Yes.** Two name algorithms by entry point                |
+| A5  | Two populations that never touch, and no electorate                                                                                                                                                | carried from the people-and-life lane                                        | Yes                                                        |
+| A6  | Two economic surfaces: real BLS/BEA `economic-context.ts` vs authored `macro-conditions.ts`                                                                                                        | Both, different panels                                                       | Yes                                                        |
 
 A5 and A6 are **carried, not re-measured here** — A5 from the people-and-life
 lane via the connectivity map, A6 from the world-divergence lane. They are in
@@ -99,14 +99,14 @@ implementations, but a safe variant exported beside a looser one, where using
 the safe one is optional. Swept mechanically for exported pairs where one name
 is the other plus a qualifier and both are called in production:
 
-| Loose variant | Refs | Strict variant | Refs |
-|---|---|---|---|
-| `drawCanonicalName` | 47 | `drawCanonicalNameForGender` | 13 |
-| `stateName` | 109 | `stateNameForUsps` | 6 |
-| `legislativeScenarioKeys` | 7 | `legislativeScenarioKeysForPlace` | 6 |
-| `stateExecutiveIdentity` | 6 | `stateExecutiveIdentityForOfficeKey` | 12 |
-| `fileDraft` | 2 | `fileDraftFromOffice` | 3 |
-| `bargainingSubjectFacts` | 2 | `bargainingSubjectFactsForDraft` | 2 |
+| Loose variant             | Refs | Strict variant                       | Refs |
+| ------------------------- | ---- | ------------------------------------ | ---- |
+| `drawCanonicalName`       | 47   | `drawCanonicalNameForGender`         | 13   |
+| `stateName`               | 109  | `stateNameForUsps`                   | 6    |
+| `legislativeScenarioKeys` | 7    | `legislativeScenarioKeysForPlace`    | 6    |
+| `stateExecutiveIdentity`  | 6    | `stateExecutiveIdentityForOfficeKey` | 12   |
+| `fileDraft`               | 2    | `fileDraftFromOffice`                | 3    |
+| `bargainingSubjectFacts`  | 2    | `bargainingSubjectFactsForDraft`     | 2    |
 
 Reference counts are textual occurrences across files, not distinct call sites;
 they show the ratio, not a caller list. `legislativeScenarioKeys()` returning
