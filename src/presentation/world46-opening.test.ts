@@ -121,10 +121,23 @@ const sha256 = (text: string) =>
  *
  * 0 identities changed and `worldId` is unchanged. A move here for any other
  * reason is still a regression.
+ *
+ * RE-ACCEPTED AGAIN the same day, for the shared-name rule
+ * (`GIVEN_NAME_POOL_REACH_V1`): a stated man or woman can now also be given
+ * one of the 36 names both sexes carried. Measured the same way, against the
+ * hashes this replaced: same people and ids, identical leaf paths, 0
+ * identities changed. Kentucky: 6 given names and 18 summaries, each made
+ * identical by one renamed person's old given name, plus `snapshotId`.
+ * Peebles: 3 given names and 9 summaries, plus `snapshotId`. 0 unexplained.
+ *
+ * RE-ACCEPTED 2026-09-22 for the American English sweep: the policy catalog's
+ * authored text now spells labor, defense and program the American way.
+ * LEGACY_OPENING_SHAPE passed unchanged on the run that moved these hashes, so
+ * only the stripped catalog field moved.
  */
 const FED321F7_LEGACY = {
-  kentucky: "be46a2596f2bb4af4003a11641e66280dd024e9467337fcb139c6359db103f2e",
-  peebles: "823371a31413d036082559278af1558bd7238513aa1afde327b1394fa2eed3bc",
+  kentucky: "706f7d7781627c691f3016ab4bbeec5bec6f9e22ce1396b44a5ac1c952a6359d",
+  peebles: "48b86a048c3a3b1b4792c1d059c4c869e00bc48fdcdadbe10bb98a8aa695d9e8",
 } as const;
 
 /**
@@ -136,8 +149,8 @@ const FED321F7_LEGACY = {
  * test above was reaching for and could not hold on its own.
  */
 const LEGACY_OPENING_SHAPE = {
-  kentucky: "0245935171dd00c8a8304679a94428f1fd87dcccceeb5b2f9792c775d3cdc6e8",
-  peebles: "fb58196c5d6d23094e56bc21d48b98e14fbcedc9bb876df57dfc1557e26d27b9",
+  kentucky: "039d5fc55cc85c1f3a1a1487f101faa56d0158be229af007b0878edf2b431ec2",
+  peebles: "f50d53595074667a4183212edc0eeb00d4286079b1060635b884949cd737fdd8",
 } as const;
 
 /**

@@ -1673,7 +1673,7 @@ export function eligibleEpisodeBeats(
  * Age-bounded role requirements are satisfied by *a* binding that meets the
  * bound, and the copy has to be about that same person — the documented claim
  * of `role-age-at-least`, which the plain by-role lookup here quietly did not
- * honour. In a household holding both a teenager and a toddler, a stage that
+ * honor. In a household holding both a teenager and a toddler, a stage that
  * asked for a household peer over thirteen was satisfied by the teenager and
  * then narrated about whichever peer the bindings happened to list first. The
  * mirror kind makes the same gap worse, because a scene written for a small
@@ -1991,7 +1991,7 @@ function stageAnchor(
 /**
  * Slots that resolve against a bound person's pronouns.
  *
- * Deliberately no capitalised forms. A sentence that starts with a pronoun
+ * Deliberately no capitalized forms. A sentence that starts with a pronoun
  * would need one, and authored copy is expected to start with a name instead —
  * which reads better anyway, and keeps the substitution from having to know
  * about sentence position.

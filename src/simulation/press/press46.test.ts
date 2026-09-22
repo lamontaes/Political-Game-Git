@@ -281,6 +281,21 @@ describe("PRESS46 false public allegation", () => {
     expect(claim.relationshipToTruth).toBe("contradicts");
   });
 
+  it("treats the accuser as the source of the story, never its subject", () => {
+    const leads = storyLeads(later).filter((lead) => lead.matterId !== null);
+    expect(leads.length).toBeGreaterThan(0);
+    for (const lead of leads)
+      expect(lead.subjectPersonIds).not.toContain(fixture.rivalId);
+    // The accuser is never asked to answer, so never disputes their own claim.
+    expect(
+      later.history.decisionTraces.some(
+        (trace) =>
+          trace.stableKey.includes(`:npc-response:${fixture.rivalId}:`) &&
+          leads.some((lead) => trace.stableKey.includes(lead.stableKey)),
+      ),
+    ).toBe(false);
+  });
+
   it("routes a Kentucky General Assembly candidate to KLEC and dismisses it", () => {
     const [proceeding] = pressRecordsOfKind(later, "matter-proceeding");
     expect(proceeding!.procedureKey).toBe("ky-legislative-ethics");

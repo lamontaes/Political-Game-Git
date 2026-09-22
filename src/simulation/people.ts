@@ -9,7 +9,7 @@ import { createStableId } from "./ids";
 import {
   DEFAULT_CORPUS_VERSION,
   DEMO_NAMES_V4,
-  GIVEN_NAME_GENERATION_POOLS_V1,
+  givenNamePoolForStatedGender,
   getNameCorpus,
 } from "./names-data";
 import { derivePersonAppearance } from "./person-appearance";
@@ -586,12 +586,7 @@ function statedGenderGivenName(
   gender: GenderIdentityKey | undefined,
 ): string | null {
   if (gender === undefined || gender === "unstated") return null;
-  const pool =
-    gender === "male"
-      ? GIVEN_NAME_GENERATION_POOLS_V1.male
-      : gender === "female"
-        ? GIVEN_NAME_GENERATION_POOLS_V1.female
-        : GIVEN_NAME_GENERATION_POOLS_V1.neutral;
+  const pool = givenNamePoolForStatedGender(gender);
   return new SeededRng(worldSeed)
     .fork(`${generationKey}:stated-gender-given-name`)
     .pick(pool);
@@ -613,7 +608,7 @@ export function createStartingPerson(input: StartingPersonInput): Person {
   const drawnFamilyName = rng.pick(corpus.familyNames);
   // A player who states a gender and leaves the name blank is asking for a name
   // that goes with what they just said. That draw runs on its own forked
-  // stream, so honouring it cannot move the birthday, the appearance, or any
+  // stream, so honoring it cannot move the birthday, the appearance, or any
   // other person in the world by a single value.
   const statedGivenName = statedGenderGivenName(
     input.worldSeed,
@@ -716,7 +711,7 @@ export function createStartingPerson(input: StartingPersonInput): Person {
  *
  * Deliberately off the module's surface. It was on it, and that is most of why a man came out
  * named Maria: a writer that wanted a name reached for the loose draw, got one
- * with no argument to fill in, and never learnt that a gendered draw existed
+ * with no argument to fill in, and never learned that a gendered draw existed
  * two functions down. Sixteen routes did exactly that. Correcting sixteen
  * callers while leaving the loose draw on the module's surface only waits for
  * the seventeenth, so the surface is now `drawCanonicalNameForGender`, whose
@@ -765,7 +760,7 @@ export type GivenNameGenerationVersion =
  *
  * OCD-UI-003 settles the direction: gender is the input to name generation, and
  * a name is never read backwards to decide a gender. `createStartingPerson`
- * already honours that for the player. Every other generated person — a
+ * already honors that for the player. Every other generated person — a
  * guardian, a sibling, a housemate, a fictional governor — was getting an
  * identity from one stream and a name from the whole corpus on another, with
  * nothing joining them, which is how a household ended up introducing "Moses
@@ -789,7 +784,7 @@ export type GivenNameGenerationVersion =
  * parent stream still advances by exactly two values.
  *
  * `takenGivenNames` is for a group the player meets under one roof, where two
- * people sharing a first name is not colour but an unanswerable scene: the
+ * people sharing a first name is not color but an unanswerable scene: the
  * household passes the names it has already handed out and the draw steps on
  * through the same pool. It is a preference, not a guarantee — a pool smaller
  * than the group keeps the drawn name rather than inventing one outside it.
@@ -803,12 +798,7 @@ export function drawCanonicalNameForGender(
 ): { readonly givenName: string; readonly familyName: string } {
   const drawn = drawUnrestrictedName(rng, corpusVersion);
   if (gender === "unstated") return drawn;
-  const pool =
-    gender === "male"
-      ? GIVEN_NAME_GENERATION_POOLS_V1.male
-      : gender === "female"
-        ? GIVEN_NAME_GENERATION_POOLS_V1.female
-        : GIVEN_NAME_GENERATION_POOLS_V1.neutral;
+  const pool = givenNamePoolForStatedGender(gender);
   if (generationVersion === LEGACY_GIVEN_NAME_GENERATION_VERSION) {
     return {
       givenName: rng.fork("canonical-name:gendered-given-name").pick(pool),
@@ -832,7 +822,7 @@ export function drawCanonicalNameForGender(
  * A name and the identity it agrees with, drawn as one act.
  *
  * `drawCanonicalNameForGender` has existed since OCD-UI-003 and is correct.
- * The defect it was written for kept happening anyway, because honouring it is
+ * The defect it was written for kept happening anyway, because honoring it is
  * opt-in: a writer that draws a name on one stream and an identity on another
  * gets a person whose two halves were never introduced, and nothing complains.
  * Measured on this branch before the repair, an adult start in Lexington gave

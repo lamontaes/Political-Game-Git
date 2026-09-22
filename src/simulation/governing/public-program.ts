@@ -343,7 +343,7 @@ export function programPosition(
 // Declarations
 // ---------------------------------------------------------------------------
 
-/** Declares what a service has to work with. Labelled by its basis. */
+/** Declares what a service has to work with. Labeled by its basis. */
 export function declareProgramCapacity(
   world: World,
   input: Omit<

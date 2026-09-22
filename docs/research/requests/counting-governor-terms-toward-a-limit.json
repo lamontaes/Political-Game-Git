@@ -1,0 +1,34 @@
+{
+  "filedAt": "2026-09-22T22:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "nationwide government",
+  "notes": [
+    "Code carrying these placeholders is on PR #443 (claude/project-thread-ymgote). Each is replaced by the answer when it comes back; none is presented to the player as law."
+  ],
+  "priority": "P1",
+  "question": "When a state's governor term limit is applied, how are terms already served counted? FIRST, consecutive limits: what counts as a break between terms? Is it a full term out of office, a single day, or something else, per state? SECOND, partial terms: does a partial term served after succeeding to a vacancy count as a term? If so, is that only past some share of the term (for example more than two years of a four-year term), per state and with the provision? THIRD, changed limits: when a state has changed its limit (lengthened, tightened, repealed or added one), did terms already served count under the new limit? Did the change reach the sitting governor? Where the measure was silent, what did courts or attorneys general decide? FOURTH, term-length changes: when a state lengthened or shortened the term (for example two years to four), did the change apply to the sitting term or only from the next election? How was the first election under the new cycle chosen?",
+  "questionId": "counting-governor-terms-toward-a-limit",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Nationwide government thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/nationwide-world/executive-term-limits.ts, CONSECUTIVE_GAP_DAYS = 90 and the header's NOT MODELED partial-term rule",
+      "whatItDidNotSettle": "90 days and 'any partial term counts' are game placeholders, not law."
+    },
+    {
+      "source": "src/simulation/nationwide-world/executive-term-limits.ts, executiveTermLimitInWorld (countsPriorService ?? true)",
+      "whatItDidNotSettle": "A changing law that is silent on prior service is read as counting it. That is a game default, not a reading of how states have resolved it."
+    },
+    {
+      "source": "src/simulation/nationwide-world/executive-term-rules-in-world.ts, deferredFromImmediate",
+      "whatItDidNotSettle": "A term-length change aimed at the sitting term is applied from the next term, because moving a sitting term's end is not modelled."
+    },
+    {
+      "source": "docs/research/requests/executive-terms-and-incumbency-turnover.json and changing-governor-term-limits.json",
+      "whatItDidNotSettle": "They ask what each state's limit is and how states changed limits. They do not ask how terms are counted against a limit, or whether a change reached prior service."
+    }
+  ],
+  "title": "How a governor's served terms are counted against a term limit",
+  "usableAnswer": "Per state, where it differs: the definition of a break for consecutive limits; whether and when a partial term counts, with the provision; and for each real change to a limit or term length, whether prior service counted and whether the sitting governor was reached, with the measure and any ruling. A general rule with named exceptions is fine where most states agree.",
+  "whyItMatters": "The owner asked that a bill giving a governor three terms instead of two be playable, and ruled that depth must not be invented. The game now enforces term limits and lets a law in play change them. But four counting rules are the game's own placeholders, each marked in the code: a break of more than 90 days ends a consecutive run; any partial term counts in full; a changing law that says nothing counts terms already served; and a law that asks to change the sitting term's length is applied from the next term instead."
+}

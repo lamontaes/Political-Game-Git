@@ -1,9 +1,9 @@
-# Dormant pull requests, read and closed — 22 September 2026
+# Dormant pull requests, read and closed — September 22, 2026
 
-lamontae, 22 September 2026: "Yes, close them. Port or Frankenstein anything
+lamontae, September 22, 2026: "Yes, close them. Port or Frankenstein anything
 from them that's usable, but then close them. I don't want stuff sitting there."
 
-Thirty-seven pull requests had gone untouched between 9 and 19 September. This
+Thirty-seven pull requests had gone untouched between 9 and September 19. This
 page is what each one was measured to still carry, written before any of them
 was closed, so that closing them loses nothing. **Every branch named here still
 exists.** Nothing below was deleted and any of it can be recovered by name.
@@ -40,8 +40,8 @@ Every code file each of these adds is already on main.
 | #202 | 2026-09-12   | `cursor/weekend19-c-scene-presence-0de6`      | WEEKEND19 C: school scenes stay at school, home presence stays household                   |
 | #205 | 2026-09-12   | `cursor/ordinary-work-routine-646a`           | WEEKEND19 E: drop mandatory work reports and resolve ordinary shifts on the clock          |
 | #229 | 2026-09-14   | `cursor/delivery28-x-executive-repair-e989`   | DELIVERY28 X: structured executive choices, then incident inbox                            |
-| #231 | 2026-09-14   | `cursor/p29-c-talk-focus-layout-a942`         | P29-C: Talk/menu/Escape focus and bottom-centre conversation                               |
-| #236 | 2026-09-14   | `codex/a-playable29-c-receiver`               | PLAYABLE29 A: current C focus and bottom-centre dialogue adapter                           |
+| #231 | 2026-09-14   | `cursor/p29-c-talk-focus-layout-a942`         | P29-C: Talk/menu/Escape focus and bottom-center conversation                               |
+| #236 | 2026-09-14   | `codex/a-playable29-c-receiver`               | PLAYABLE29 A: current C focus and bottom-center dialogue adapter                           |
 | #237 | 2026-09-14   | `cursor/staff-office-onboarding-28c4`         | Staff-guided office onboarding for seated members                                          |
 | #245 | 2026-09-14   | `cursor/playtest34-c-quiet-sketch-1498`       | PLAYTEST34 C: quiet rest, sketch talk, calendar time, viewport clip                        |
 | #247 | 2026-09-14   | `codex/playtest34-life`                       | Preserve saved life favors and NPC activity proposals                                      |

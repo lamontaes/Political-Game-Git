@@ -23,5 +23,5 @@ combination is the one nothing else catches: a subject named in shipped
 content with nothing behind the name, which loads, resolves and accepts a bill
 about it while there is nothing there to affect.
 
-No player-facing behaviour changes: both are authoring documents, and nothing
+No player-facing behavior changes: both are authoring documents, and nothing
 in a running game reads either.

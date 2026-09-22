@@ -45,7 +45,7 @@ not read this state's elected offices yet". Bringing Puerto Rico in before that
 is fixed adds a jurisdiction to the set that fails, rather than one that plays.
 Whatever fixes the three should cover Puerto Rico by construction — and the
 other half of that rule has to survive the fix: a range is drawn nationally
-from the spread the read states span, never borrowed from one neighbouring
+from the spread the read states span, never borrowed from one neighboring
 state's rules.
 
 ## Not in #283

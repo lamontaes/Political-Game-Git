@@ -1,4 +1,4 @@
-import { candidacyPackForJurisdiction } from "../../src/simulation";
+import { addDays, candidacyPackForJurisdiction } from "../../src/simulation";
 import type {
   DistrictSeatBinding,
   EntityId,
@@ -31,11 +31,14 @@ export function fileForOffice(
           ) === binding.chamber,
       )
     : offices.at(0);
+  // A short authored race, as these scenarios were written against. Play
+  // files on the office's own election calendar; see campaign-calendar tests.
   return fileSelectedOffice(
     world,
     personId,
     binding,
     option?.officeKey ?? "fixture:no-supported-office",
+    addDays(world.currentDate, 28),
   );
 }
 

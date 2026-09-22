@@ -509,7 +509,7 @@ function assertCampaignActionResults(
 
     // Support has to move for everybody in the contest, not only the filer:
     // a campaign that recorded its own rise without recording whose it came
-    // from would be keeping a score rather than modelling an electorate.
+    // from would be keeping a score rather than modeling an electorate.
     const supportStates = result.supportStateIds.map((id) =>
       world.history.metricStates.find(
         (state) => state.id === id && state.sequence < result.sequence,

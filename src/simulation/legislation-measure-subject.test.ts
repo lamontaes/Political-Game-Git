@@ -25,7 +25,7 @@ function measureByKey(world: World, stableKey: string) {
 }
 
 /**
- * A world whose catalogue holds one question, which is what a loaded policy
+ * A world whose catalog holds one question, which is what a loaded policy
  * pack will put there. Spliced rather than loaded, because what is under test
  * is the measure's link and not the loader.
  */
@@ -109,7 +109,7 @@ describe("what a bill says it is about", () => {
     expect(about.map((p) => p.name)).toEqual(["Fund rural transit"]);
   });
 
-  it("refuses a question this world's catalogue does not hold", () => {
+  it("refuses a question this world's catalog does not hold", () => {
     const scenario = createLegislativeScenario("kentucky");
     expect(() =>
       introduce(scenario.world, "invented", [
@@ -153,7 +153,7 @@ describe("what a bill says it is about", () => {
    *
    * Every test above builds its own proposition, which proves the link and
    * says nothing about whether anything real is on the other end of it. When
-   * this join was first written the production catalogue held zero
+   * this join was first written the production catalog held zero
    * propositions, so a bill could name a policy question and there was no
    * question in the game to name. This is the assertion that would have said
    * so, and that will say so again if the pack ever empties.
@@ -165,15 +165,15 @@ describe("what a bill says it is about", () => {
     const propositionId = shipped.propositionOrder[0]!;
     const proposition = shipped.propositions[propositionId]!;
     // The position hangs off a real issue in a real domain, so what the bill
-    // ends up naming is the vocabulary a player would recognise and not a
+    // ends up naming is the vocabulary a player would recognize and not a
     // loose string.
     const issue = shipped.issues[proposition.issueId];
     expect(issue).toBeDefined();
     expect(shipped.domains[issue!.domainId]).toBeDefined();
 
-    // Added to the scenario's catalogue rather than replacing it: the
+    // Added to the scenario's catalog rather than replacing it: the
     // scenario's own records already point at what is in there, and swapping
-    // the whole catalogue would strand those references.
+    // the whole catalog would strand those references.
     const scenario = createLegislativeScenario("kentucky");
     const base = scenario.world.policyCatalog;
     const world = introduce(

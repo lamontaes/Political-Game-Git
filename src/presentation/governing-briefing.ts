@@ -7,7 +7,8 @@ import {
   staffAssessment,
   staffRecommendation,
   STATE_EXECUTIVE_GAME_PROFILE,
-  stateExecutiveTermRule,
+  stateExecutiveTermRuleForElectionYear,
+  stateExecutiveTermRuleInWorld,
   type EntityId,
   type GoverningMatter,
   type World,
@@ -131,7 +132,19 @@ export function projectGoverningBriefing(
       ? `Your term runs until ${americanDate(office.termEndsAt)}.`
       : "Your term's end date is not established.",
     calendarNote: describeStateExecutiveTerm(
-      stateExecutiveTermRule(office.stateUsps) ?? STATE_EXECUTIVE_GAME_PROFILE,
+      // The rule of the term being served, not of the next one: a law that
+      // lengthens terms from the next election does not change this one.
+      (office.termStartedAt
+        ? stateExecutiveTermRuleForElectionYear(
+            world,
+            office.stateUsps,
+            Number(office.termStartedAt.slice(0, 4)) - 1,
+          )
+        : stateExecutiveTermRuleInWorld(
+            world,
+            office.stateUsps,
+            world.currentDate,
+          )) ?? STATE_EXECUTIVE_GAME_PROFILE,
     ),
     chiefOfStaff:
       chief && chiefPerson

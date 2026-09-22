@@ -65,5 +65,5 @@
       "selectionWeight": 4
     }
   ],
-  "withinFamily": "Use explicit descriptor meaning and compatibility; extreme disruptive descriptors get separately labelled lower candidate weights, not demographic inference. Full per-descriptor weights remain owner-implementer calibration, not supplied as measured rates here."
+  "withinFamily": "Use explicit descriptor meaning and compatibility; extreme disruptive descriptors get separately labeled lower candidate weights, not demographic inference. Full per-descriptor weights remain owner-implementer calibration, not supplied as measured rates here."
 }

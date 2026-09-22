@@ -204,7 +204,7 @@ export interface ContentProvenance {
    * Every instrument the item was compiled from, where it was compiled at all.
    *
    * Empty for an authored bank, which cites nothing because it describes
-   * nowhere real. A sourced bank fills it, and the fields above summarise its
+   * nowhere real. A sourced bank fills it, and the fields above summarize its
    * first entry.
    */
   readonly sources: readonly ContentSourceRef[];

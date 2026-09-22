@@ -559,14 +559,14 @@ describe("garment fit — deriving from measured anchors", () => {
     rows: { shoulder: 0.162, waist: 0.393, hip: 0.542 },
   };
 
-  it("derives one scale that minimises the worst anchor error", () => {
+  it("derives one scale that minimizes the worst anchor error", () => {
     const derived = deriveAffineFit(source, target, "top");
     expect(derived.anchors).toEqual(["shoulder", "waist", "hip"]);
     const values = Object.values(derived.ratios);
     const minimax = Math.sqrt(Math.min(...values) * Math.max(...values));
     expect(derived.transform.scaleX).toBeCloseTo(minimax, 5);
     // The chosen scale sits between the smallest and largest required ratio,
-    // which is what "minimise the worst" means and what an average does not
+    // which is what "minimize the worst" means and what an average does not
     // guarantee.
     expect(derived.transform.scaleX).toBeGreaterThan(Math.min(...values));
     expect(derived.transform.scaleX).toBeLessThan(Math.max(...values));
