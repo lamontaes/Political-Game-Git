@@ -104,6 +104,15 @@ export interface ConnectivityEntry {
    */
   readonly reMeasuredByPublisher: boolean;
   readonly recordedAt: string;
+  /**
+   * Why this subject opens the document, when it does.
+   *
+   * At most one entry has it. It is for the finding every other one turns on:
+   * the map is read start to finish by somebody deciding what to build, and
+   * burying that in a band costs it the reading it needs. The entry is shown
+   * in full at the top and left out of its band, so nothing is said twice.
+   */
+  readonly opensTheDocument?: string;
   /** Anything a reader needs that does not fit above. */
   readonly notes?: readonly string[];
 }
@@ -418,6 +427,50 @@ function partLine(name: string, part: ConnectivityPart): string {
   return `**${name}.** ${part.present ? "Yes" : "No"} — ${part.detail}`;
 }
 
+function renderEntry(entry: ConnectivityEntry): readonly string[] {
+  const lines: string[] = [
+    `### ${entry.title}`,
+    "",
+    `measured by ${entry.measuredBy} · recorded ${entry.recordedAt.slice(0, 10)} · \`${entry.entryId}\``,
+    "",
+    partLine("A system underneath", entry.system),
+    "",
+    partLine("Something to see", entry.surface),
+    "",
+    partLine("A control that moves it", entry.control),
+    "",
+  ];
+  if (entry.declaredInContent) {
+    lines.push(
+      `**Named in shipped content.** ${entry.declaredDetail ?? ""}`.trim(),
+      "",
+    );
+  }
+  lines.push(
+    `**A player.** ${PLAYER_REACH_SENTENCE[entry.playerReach]} ${entry.playerReachDetail}`,
+    "",
+  );
+  if (!entry.reMeasuredByPublisher) {
+    lines.push(
+      "**Carried, not re-measured here.** This is the filing lane's",
+      "reading, passed on intact.",
+      "",
+    );
+  }
+  lines.push("**Measured.**", "");
+  for (const measurement of entry.measurements) {
+    lines.push(
+      `- ${measurement.what} — at ${measurement.at}.`,
+      `  ${measurement.found}`,
+    );
+  }
+  lines.push("");
+  for (const note of entry.notes ?? []) {
+    lines.push(`> ${note}`, "");
+  }
+  return lines;
+}
+
 /** The whole map as one document. */
 export function renderConnectivityMap(
   entries: readonly ConnectivityEntry[],
@@ -426,6 +479,7 @@ export function renderConnectivityMap(
   renderedFromBranch?: string,
 ): string {
   const ordered = sortForReading(entries);
+  const opener = ordered.find((entry) => entry.opensTheDocument !== undefined);
   const named = ordered.filter(
     (entry) => combinationOf(entry) === "named-only",
   ).length;
@@ -448,6 +502,19 @@ export function renderConnectivityMap(
     ...renderManifest(ordered),
   ];
 
+  if (opener !== undefined) {
+    lines.push(
+      "## Start here",
+      "",
+      opener.opensTheDocument ?? "",
+      "",
+      `It belongs in the band headed "${COMBINATION_HEADINGS[combinationOf(opener)]}",`,
+      "and is left out of it below rather than being said twice.",
+      "",
+      ...renderEntry(opener),
+    );
+  }
+
   if (ordered.length === 0) {
     lines.push("Nothing is recorded yet.", "", ...FOR_THE_READER);
     return lines.join("\n");
@@ -455,7 +522,7 @@ export function renderConnectivityMap(
 
   for (const combination of COMBINATIONS) {
     const band = ordered.filter(
-      (entry) => combinationOf(entry) === combination,
+      (entry) => combinationOf(entry) === combination && entry !== opener,
     );
     if (band.length === 0) continue;
     lines.push(
@@ -464,48 +531,7 @@ export function renderConnectivityMap(
       COMBINATION_GLOSS[combination],
       "",
     );
-    for (const entry of band) {
-      lines.push(
-        `### ${entry.title}`,
-        "",
-        `measured by ${entry.measuredBy} · recorded ${entry.recordedAt.slice(0, 10)} · \`${entry.entryId}\``,
-        "",
-        partLine("A system underneath", entry.system),
-        "",
-        partLine("Something to see", entry.surface),
-        "",
-        partLine("A control that moves it", entry.control),
-        "",
-      );
-      if (entry.declaredInContent) {
-        lines.push(
-          `**Named in shipped content.** ${entry.declaredDetail ?? ""}`.trim(),
-          "",
-        );
-      }
-      lines.push(
-        `**A player.** ${PLAYER_REACH_SENTENCE[entry.playerReach]} ${entry.playerReachDetail}`,
-        "",
-      );
-      if (!entry.reMeasuredByPublisher) {
-        lines.push(
-          "**Carried, not re-measured here.** This is the filing lane's",
-          "reading, passed on intact.",
-          "",
-        );
-      }
-      lines.push("**Measured.**", "");
-      for (const measurement of entry.measurements) {
-        lines.push(
-          `- ${measurement.what} — at ${measurement.at}.`,
-          `  ${measurement.found}`,
-        );
-      }
-      lines.push("");
-      for (const note of entry.notes ?? []) {
-        lines.push(`> ${note}`, "");
-      }
-    }
+    for (const entry of band) lines.push(...renderEntry(entry));
   }
 
   lines.push(...FOR_THE_READER);
