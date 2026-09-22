@@ -248,6 +248,7 @@ export * from "./national-election-geography";
 export * from "./national-election-offices";
 
 export * from "./legislative-office-terms";
+export * from "./office-transition";
 export * from "./constitutional-process";
 export type * from "./constitutional-types";
 export * from "./tax-policy";
