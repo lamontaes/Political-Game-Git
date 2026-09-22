@@ -224,6 +224,24 @@ here. The alternative — a condition over situation state inside the lean — i
 rejected: it is the door to arbitrary logic in data, and a pack language with
 conditionals is a programming language nobody validated.
 
+#### Two declarations, when the situation is which decision it is
+
+The rule as first written assumed the option keys were the place to put the
+situation. The legislation lane found the case it did not anticipate, and their
+reading is the right one. A room may answer a request and answer an offer with
+keys that already exist and are already right for the player — `hold-off` in
+both — where the difference is not which answer is being given but which
+question is being asked. Declining to say where you stand is not refusing a
+version on the table.
+
+There the answer is two `DecisionDeclaration`s for one piece of code, not a
+rename of a player-facing option to satisfy a declaration. It serves the same
+principle: what the rule prevents is one option key meaning opposite things
+depending on state a lean cannot see, and two declarations prevent exactly
+that, because `hold-off` in one room is a different key from `hold-off` in the
+other and a lean has to name which. Renaming options the player reads, so that
+a declaration can be tidy, is the wrong trade.
+
 Stating the rule matters because without it the seam _looks_ like it can
 express a relational trait and cannot. Better a constraint decision authors can
 check than a limit the second consumer discovers.
