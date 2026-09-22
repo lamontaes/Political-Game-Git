@@ -300,6 +300,79 @@ standard the effect-vocabulary work has to meet** — it is what lets a pack
 written for a later vocabulary keep working on an older build instead of
 bouncing.
 
+### Can a mod pack supply policy propositions? No, and the lock is threefold
+
+Asked by the playtest lane after a Springfield, Illinois walk found the policy
+catalogue built but unreachable. Measured here 2026-09-22 against
+`claude/project-thread-4y594d` at `7e52b6b6`, whose `src/simulation/` is
+unchanged from main at `273fd2b8`. Run, not read.
+
+The short answer: **a pack cannot supply a proposition, and removing the
+production boundary alone would not let it.** There are three separate locks and
+each one is sufficient by itself.
+
+**Lock 1 — the pack vocabulary has no room for one.** `assertRuntimeContentPack`
+admits exactly nine top-level keys, of which `scenes` and `durations` are the
+only content. Measured refusals, all with the same message
+`Content pack has missing or unsupported fields.`:
+
+- a pack carrying a top-level `propositions` array;
+- a pack carrying a top-level `policyCatalog` object;
+- a valid scene carrying a nested `propositions` array.
+
+The same pack without them was accepted. This is the empty-effect-vocabulary
+finding above in a second place: the seam admits prose, not facts.
+
+**Lock 2 — nothing reads a pack into a catalogue.** `runtimeLifeScenes` is the
+only consumer of installed pack content in the whole tree. Measured: after
+installing a valid one-scene pack into a world holding
+`createProductionPolicyCatalog()`, `runtimeLifeScenes` returned 1 scene and
+`policyCatalog.propositionOrder` was still length 0. A pack lands on
+`world.contentPacks` and goes nowhere else. Even a pack permitted to carry a
+proposition would deposit it where no reader looks.
+
+**Lock 3 — the production boundary counts, and it counts more than
+propositions.** `assertProductionCatalogBoundary` throws when any of nine
+catalogue lists is non-empty. Measured with one authored proposition in an
+otherwise production world:
+`A production world carries no policy domain definitions until sourced ones
+exist; found 1.`
+
+Note which label that names. It refuses at `domain`, not at `proposition` —
+because a proposition cannot stand alone. `assertPolicyCatalogIntegrity` requires
+every proposition to reference an issue in the same catalogue, and every issue a
+domain. Measured: a catalogue holding one proposition and no issues was refused
+with `Policy proposition references a missing issue`. So the catalogue is a
+connected graph, and "unlock propositions" is really "unlock domains, issues and
+propositions together". The empty production catalogue itself passes the
+boundary, as it should.
+
+**What this costs, and why it is worth naming.** The three writers the playtest
+lane identified — `evaluatePoliticalBeliefFormation`
+(`src/simulation/political-belief-formation.ts:80`), `recordPublicPosition`
+(`src/simulation/politics.ts:137`) and `recordCampaignCommitment`
+(`src/simulation/politics.ts:174`) — were re-checked here: outside tests, the
+only file in the tree that calls any of them is `src/simulation/demo.ts`. That
+half of the finding holds.
+
+So the shortest route is **not** a small check. It is three changes that have to
+land together: an extension to the pack vocabulary that can carry a policy
+graph; a reader that installs pack-supplied definitions into the world's
+catalogues; and a deliberate relaxation of `assertProductionCatalogBoundary`
+that distinguishes _authored fiction a player chose to install_ from _synthetic
+fixture substrate_, which is the distinction the boundary was written to
+enforce and the one that makes the relaxation safe rather than a hole. The
+boundary's own comment already anticipates being "relaxed deliberately in the
+same change rather than drifting open".
+
+That third change is where the owner's standing rule does real work. Pack
+identities are already forced into the `mod.` namespace, and packs already
+declare `authority: "authored-fiction"`. A boundary that counted
+`authority: "authored-fiction"` definitions separately from unattributed ones
+would let installed content populate the catalogue without ever letting a
+synthetic corpus back into a save — content as data, discovered not imported,
+with provenance kept in the record and off the player's screen.
+
 ### The two personality systems, confirmed independently
 
 This was established by another lane tonight; it was re-measured here and holds.
@@ -451,14 +524,15 @@ Against "modder-friendly like RimWorld and The Sims", the position is:
 
 Recorded, not fixed — this was an audit.
 
-| Finding                                                                                                                                                                | Evidence                                                                                                             | Suggested owner                          |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| Traits never change, and resistance is not modelled at all — now an owner requirement, not a finding                                                                   | Measured: `recordTraitChange` referenced only by 3 test files; no resistance concept in the tree                     | People and life                          |
-| The played character has no trait records — now an owner requirement; `mind.ts:851` already permits it under `player-choice` provenance                                | Measured: all five `recordId: null` after `ensurePeopleTraits`                                                       | People and life                          |
-| No legislative module produces a `mind:personality` consideration, and `TraitLean` is typed to the five hardwired traits so wiring one today would hardwire those five | Measured: 12 of the 23 production `evaluateDecision` callers read no trait, the engine aside; `people-traits.ts:235` | Modular legislation with people and life |
-| Content packs refuse an unknown field instead of skipping it with a stated reason — the owner has decided it should fail soft                                          | Measured: `Content pack has missing or unsupported fields.`                                                          | Whoever owns the pack API                |
-| The content registry indexes content no gameplay path reads                                                                                                            | Read: 2 consumers, both review surfaces                                                                              | Hardcoded-content audit                  |
-| Registry composition resolves a duplicate key first-match-wins with no detection, and drops every routine but the first                                                | Read: `src/simulation/future-transitions.ts:137-148`                                                                 | Fix main                                 |
+| Finding                                                                                                                                                                | Evidence                                                                                                                                               | Suggested owner                                    |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------- |
+| Traits never change, and resistance is not modelled at all — now an owner requirement, not a finding                                                                   | Measured: `recordTraitChange` referenced only by 3 test files; no resistance concept in the tree                                                       | People and life                                    |
+| The played character has no trait records — now an owner requirement; `mind.ts:851` already permits it under `player-choice` provenance                                | Measured: all five `recordId: null` after `ensurePeopleTraits`                                                                                         | People and life                                    |
+| No legislative module produces a `mind:personality` consideration, and `TraitLean` is typed to the five hardwired traits so wiring one today would hardwire those five | Measured: 12 of the 23 production `evaluateDecision` callers read no trait, the engine aside; `people-traits.ts:235`                                   | Modular legislation with people and life           |
+| Content packs refuse an unknown field instead of skipping it with a stated reason — the owner has decided it should fail soft                                          | Measured: `Content pack has missing or unsupported fields.`                                                                                            | Whoever owns the pack API                          |
+| Policy propositions cannot be supplied by a mod pack, and three separate locks each prevent it on their own                                                            | Measured: pack shape refuses `propositions`; `runtimeLifeScenes` is the only pack reader; `assertProductionCatalogBoundary` refuses at `policy domain` | Whoever owns the pack API with modular legislation |
+| The content registry indexes content no gameplay path reads                                                                                                            | Read: 2 consumers, both review surfaces                                                                                                                | Hardcoded-content audit                            |
+| Registry composition resolves a duplicate key first-match-wins with no detection, and drops every routine but the first                                                | Read: `src/simulation/future-transitions.ts:137-148`                                                                                                   | Fix main                                           |
 
 ## Corrections, including this audit's own
 
