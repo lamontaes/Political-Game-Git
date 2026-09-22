@@ -280,16 +280,39 @@ here rather than a flake excuse**: the difference is that it produces a
 specific reportable fact — passes alone, fails in company — instead of a
 second opinion.
 
-## The release is parked, on purpose, and here is the trade
+## The release was not parked. It was un-mergeable, which is not the same thing
 
-A branch that re-merges `main` and regenerates `docs/prose-inventory/coverage-report.md`
-on every move of the base **can never hold still long enough to be verified**.
-Each push supersedes its own pending run, so the release had a run and lost it
-three times without one ever starting. Keeping the branch perpetually current
-had become the thing preventing the verdict we made an exception to obtain.
+**This section said "parked, on purpose" for most of the night, and that was
+wrong in a way worth keeping rather than overwriting.** The branch was not
+holding still by choice. It could not be tested at all, and nothing visible
+from the outside told the difference.
 
-**So it is parked at its current head and left to run.** It will be re-merged
-only if GitHub reports it un-mergeable.
+What was true, and is still true: a branch that re-merges `main` and
+regenerates `docs/prose-inventory/coverage-report.md` on every move of the base
+**can never hold still long enough to be verified**, because each push
+supersedes its own pending run. That is why the release lost a run three times
+without one ever starting, and why it was left alone afterwards.
+
+What was not true is the word _parked_. Measured at 10:45Z: `08a999f2`, the
+release head pushed at 08:54:53Z, merges cleanly with `4595878e` — the `main`
+it was built on at 08:49:53Z — and **conflicts with `a08d2eef`, the next
+`main`, 08:53:27Z.** Three and a half minutes. GitHub builds no merge ref for a
+conflicted pull request and therefore **creates no workflow run at all**, so
+there is no run on `08a999f2` and there never was one. The branch spent the
+morning un-testable rather than resting.
+
+The general rule this produced is **D-089**, measured independently by the
+research-audit lane across twenty successive mains: a generated file that is
+also committed makes a whole class of branches un-mergeable within minutes of
+every merge to `main`, on a file no human wrote. The behavioural half of it
+belongs in this document too, because two lanes paid for it tonight:
+
+> **CI silence is a reason to check mergeability first, not to wait longer.**
+> An empty queue and an un-mergeable head look identical from the outside, and
+> only one of them gets better by waiting.
+
+It will be re-merged whenever GitHub reports it un-mergeable, which now means
+roughly whenever anything merges.
 
 **The trade, stated so nobody has to infer it:** a verdict that ran on a head
 one or two `main` commits behind is a better artefact than a perpetually
@@ -297,7 +320,11 @@ current branch with no verdict at all. When the verdict arrives, the head it
 ran on is named beside it, and that head is the claim — not `main` as it
 stands when someone reads the report.
 
-**The trade paid off, and the verdict is partial.** Run
+**The verdict the run did produce is partial, and it is worth having.** The
+trade above still holds — a verdict on a head one or two `main` commits behind
+beats none — but it was never the reason this run survived. It survived because
+the branch could not be pushed to usefully, which is luck wearing a decision's
+clothes. Run
 [35706104688](https://github.com/lamontaes/Political-Game-Git/actions/runs/35706104688)
 on **`eb0abea1`** was created 08:40Z, allocated its fifteen jobs at 09:01Z and
 started executing at 09:37Z — **fifty-seven minutes queued.** It survived
