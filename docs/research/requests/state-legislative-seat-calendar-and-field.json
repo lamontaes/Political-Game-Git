@@ -1,0 +1,38 @@
+{
+  "filedAt": "2026-09-22T14:15:00.000Z",
+  "impact": "shapes-design",
+  "lane": "playtest",
+  "notes": [
+    "Measured in the browser on 2026-09-22, eleven towns in five states: every legislative candidacy produced exactly one generated opponent and an election exactly 28 days after filing, for a House seat and an Assembly seat alike. The two lines are `count: 1` and `addDays(world.currentDate, 28)` in `fileForOffice`, src/presentation/campaign-projection.ts.",
+    "The game is not short of a calendar. On the same screen, The state's top office reads 'The next regular election is November 3, 2026. The winner takes office January 4, 2027' in every one of those towns. One route uses a real calendar and the other does not, and the legislative route says so in its own words: 'Upcoming election timing is not established in this save.'",
+    "The 28 days carries a comment defending it as pacing — long enough to have to choose what to spend the weeks on, short enough that the election is a thing this life reaches. That is a real argument and the answer should engage with it rather than assume a real calendar is simply better. A four-year wait for a Senate seat is a different game.",
+    "The single opponent carries no comment at all and is the part most likely to be a placeholder. There is no primary, no three-way race, no unopposed seat and no incumbent; the opponent is generated at the moment of filing and did not exist before.",
+    "Consequence worth stating: the player won eleven of eleven races, 71.3 to 90.5 percent. The outcome curve is tabled by the owner and this question is not an attempt to reopen it — but the curve is currently being asked to work against one generated opponent with no incumbency, no party standing and no record, which is a different question from how steep it should be."
+  ],
+  "priority": "P1",
+  "question": "When is the next election for a state legislative seat, and who is in the race? Specifically: do state legislative elections run on the state's own regular calendar (and if so, what is that calendar state by state — which chambers, which years, what term length, and is there a primary the player has to get through first), and what should the field look like — is there an incumbent, how many challengers are realistic for a seat in a state house versus a state senate, and how often is a seat unopposed?",
+  "questionId": "state-legislative-seat-calendar-and-field",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "playtest thread",
+  "sourcesChecked": [
+    {
+      "source": "src/presentation/campaign-projection.ts, fileForOffice as built",
+      "whatItDidNotSettle": "Establishes exactly what the game does today: one opponent, 28 days, every state. It cannot say what it should do, and its own comment defends the 28 days on pacing grounds rather than on any claim about American elections."
+    },
+    {
+      "source": "The governor's route on the same screen, read in eleven towns",
+      "whatItDidNotSettle": "Proves the game can carry a real election date and a real date of taking office, and does so nationally for the state executive. It says nothing about whether every state's legislative chambers share that date, which they do not, or about primaries, which the governor's route does not model either."
+    },
+    {
+      "source": "The shipped legislature packs (us-il-general-assembly-v1, us-ky-general-assembly-v1, us-nv-legislature-v1, us-mo-general-assembly-v1, us-md-general-assembly-v1, us-ak-legislature-v1)",
+      "whatItDidNotSettle": "Carries who may stand and the chambers each state has, which is why these six states offer seats at all. Nothing in them was read by the filing route for when the seat is next contested."
+    },
+    {
+      "source": "docs/playtest/running-for-office-across-america-2026-09-22.md, this walk",
+      "whatItDidNotSettle": "Records the behaviour in fifteen towns with screenshots. It measures what the game does; it has no standing to say what an American state legislative election looks like."
+    }
+  ],
+  "title": "When a state legislative seat is next contested, and who else is running",
+  "usableAnswer": "Two things. First, the legislative election calendar: for each state, which chambers are up in which years, the term length, and whether a partisan primary stands between filing and the general — a table is ideal, but a rule with the exceptions named is enough. Second, the shape of a field: how often a seat in a state house has an incumbent running, how many challengers a contested seat typically draws, and roughly how often a seat goes unopposed. Approximate is fine for the second; the first needs to be right, because a wrong date is a wrong game year.",
+  "whyItMatters": "Running for office is the thing the game is about, and today every legislative race in every state is the same race: one opponent, 28 days, no primary, no incumbent. A player who runs twice has seen everything the system does. It also puts the game in the position of contradicting itself on one screen, where the governorship names a real November date and the seat below it says the timing is not established. Getting it wrong is expensive in both directions: a real four-year calendar could put an election out of reach of a life the player is actually living, and the current 28 days makes every seat interchangeable."
+}
