@@ -53,15 +53,13 @@ Fitted figure height spans 16.1% to 135.6% of the plate.
 ### Candidate review libraries (development preview only)
 
 - placements measured: 148
-- placements where some layer drew: 96
-- of those, COMPLETE recipes (compositor reported nothing): 32
-- partial draws (drew, but a slot or pose was reported): 64
-- by output class: {"candidate-review":96,"refused":52}
+- placements where some layer drew: 0
+- of those, COMPLETE recipes (compositor reported nothing): 0
+- partial draws (drew, but a slot or pose was reported): 0
+- by output class: {"refused":148}
 - feet off the declared contact line by more than 0.5% of the plate: 0
-- figures escaping the plate: 24
+- figures escaping the plate: 0
 - unfitted components not landing on their declared anchor: 0
-
-Fitted figure height spans 27.4% to 135.6% of the plate.
 
 ## Rooms that declare no floor calibration
 
@@ -82,18 +80,4 @@ not to copy an estimate out of this report into the scene data.
 Taken from the compositor's own refusals rather than from inspection, so
 this list says what the pipeline will actually reject, in its own words.
 
-- facing-not-permitted-at-anchor: Anchor 'clerk-desk-chair' permits facings away; pose 'seated-at-desk' faces 'front'.
-- facing-not-permitted-at-anchor: Anchor 'club-chair-seated' permits facings three-quarter-right; pose 'seated-guest-neutral' faces 'front'.
-- facing-not-permitted-at-anchor: Anchor 'counsel-chair-left' permits facings away; pose 'seated-at-desk' faces 'front'.
-- facing-not-permitted-at-anchor: Anchor 'left-task-chair' permits facings away; pose 'seated-at-desk' faces 'front'.
-- facing-not-permitted-at-anchor: Anchor 'left-task-chair' permits facings away; pose 'seated-guest-neutral' faces 'front'.
-- pose-not-permitted-at-anchor: Anchor 'visitor-left-seated' offers a seat plane, so it needs a seated pose; 'standing-listening' is standing.
-- pose-not-permitted-at-anchor: Anchor 'visitor-right-seated' offers a seat plane, so it needs a seated pose; 'standing-listening' is standing.
-- required-slot-empty: Required slot 'bottom' cannot resolve because no body resolved for pose 'seated-at-desk'.
-- required-slot-empty: Required slot 'bottom' cannot resolve because no body resolved for pose 'seated-guest-neutral'.
-- required-slot-empty: Required slot 'footwear' cannot resolve because no body resolved for pose 'seated-at-desk'.
-- required-slot-empty: Required slot 'footwear' cannot resolve because no body resolved for pose 'seated-guest-neutral'.
-- required-slot-empty: Required slot 'head' cannot resolve because no body resolved for pose 'seated-at-desk'.
-- required-slot-empty: Required slot 'head' cannot resolve because no body resolved for pose 'seated-guest-neutral'.
-- required-slot-empty: Required slot 'top' cannot resolve because no body resolved for pose 'seated-at-desk'.
-- required-slot-empty: Required slot 'top' cannot resolve because no body resolved for pose 'seated-guest-neutral'.
+Nothing was refused in this pass.

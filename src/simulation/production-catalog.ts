@@ -5,8 +5,10 @@ import {
   createLifeMindCatalog,
 } from "./life-mind-content";
 import { createPolicyCatalog } from "./policy";
+import { loadedPolicyRegistry } from "./policy-pack-registry";
 import type {
   CausalMechanismCatalog,
+  EntityId,
   IncidentCatalog,
   MindCatalog,
   PolicyCatalog,
@@ -85,14 +87,26 @@ export const SIMULATION_ESTABLISHED_METRIC_STABLE_KEYS: readonly string[] = [
  */
 export const PRODUCTION_POLICY_CATALOG_VERSION = "production-policy-v1";
 
+/**
+ * The policy content a production world starts with, which is whatever the
+ * loaded packs declare and nothing else.
+ *
+ * No pack ships today, so this returns the same empty catalog it always has.
+ * What changed is where content would come from when it exists: a pack that
+ * says where its content came from, loaded through `policy-packs.ts`, rather
+ * than a list compiled in here. The boundary below is what keeps that honest —
+ * a pack's definitions are admitted because the pack declared its provenance,
+ * not because they arrived through a loader.
+ */
 export function createProductionPolicyCatalog(): PolicyCatalog {
+  const registry = loadedPolicyRegistry();
   return createPolicyCatalog({
     catalogVersion: PRODUCTION_POLICY_CATALOG_VERSION,
-    domains: [],
-    issues: [],
-    propositions: [],
-    subjects: [],
-    principles: [],
+    domains: registry.domains,
+    issues: registry.issues,
+    propositions: registry.propositions,
+    subjects: registry.subjects,
+    principles: registry.principles,
   });
 }
 
@@ -165,12 +179,47 @@ export function assertProductionCatalogBoundary(world: {
   // check. Adding sourced content means changing this function on purpose and
   // saying where the content came from.
   assertLifeMindContent(world.mindCatalog);
+  // Policy content is admitted when a loaded pack declares it, and refused
+  // otherwise. This is the deliberate relaxation this file asked for, and it
+  // is narrower than it looks: the boundary was never about the count, it was
+  // about content describing somewhere real that nobody had read. A pack
+  // cannot load at all without saying whether it is an authored fiction or a
+  // reading of named sources, so anything reaching a save through one has
+  // already answered the question the boundary exists to ask. Anything reaching
+  // a save by another route still has not, and is still refused by count.
+  const registry = loadedPolicyRegistry();
+  const declared = {
+    domains: new Set(registry.domains.map((item) => item.id)),
+    issues: new Set(registry.issues.map((item) => item.id)),
+    propositions: new Set(registry.propositions.map((item) => item.id)),
+    subjects: new Set(registry.subjects.map((item) => item.id)),
+    principles: new Set(registry.principles.map((item) => item.id)),
+  };
+  const undeclared = (
+    order: readonly EntityId[],
+    known: ReadonlySet<EntityId>,
+  ): number => order.filter((id) => !known.has(id)).length;
   const populated = [
-    ["policy domain", world.policyCatalog.domainOrder.length],
-    ["policy issue", world.policyCatalog.issueOrder.length],
-    ["policy proposition", world.policyCatalog.propositionOrder.length],
-    ["policy subject", world.policyCatalog.subjectOrder.length],
-    ["policy principle", world.policyCatalog.principleOrder.length],
+    [
+      "unsourced policy domain",
+      undeclared(world.policyCatalog.domainOrder, declared.domains),
+    ],
+    [
+      "unsourced policy issue",
+      undeclared(world.policyCatalog.issueOrder, declared.issues),
+    ],
+    [
+      "unsourced policy proposition",
+      undeclared(world.policyCatalog.propositionOrder, declared.propositions),
+    ],
+    [
+      "unsourced policy subject",
+      undeclared(world.policyCatalog.subjectOrder, declared.subjects),
+    ],
+    [
+      "unsourced policy principle",
+      undeclared(world.policyCatalog.principleOrder, declared.principles),
+    ],
     ["world metric", simulationEstablishedMetricCount(world.metricCatalog)],
     [
       "causal mechanism",
