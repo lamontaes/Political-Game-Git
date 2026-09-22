@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 3139 |
 | INTENTIONALLY_NON_PLAYER_FACING | 7204 |
-| DIAGNOSTIC_OR_TEST | 8149 |
+| DIAGNOSTIC_OR_TEST | 8152 |
 | **NEEDS_CLASSIFICATION** | **10668** |
 
-Scanned 1201 files holding 115191 string
+Scanned 1202 files holding 115206 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
