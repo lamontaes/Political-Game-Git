@@ -387,6 +387,49 @@ describe("Art Asset Factory Foundation", () => {
       }
     });
 
+    it("accepts an unreleased declaration of private Art Desk bytes", () => {
+      // The Art Desk candidate root is git-ignored on purpose, so a row naming
+      // a plate there is a declaration of a plate that exists off-repository.
+      // Demanding the bytes would make the manifest unable to name any of them.
+      const fixture = createSyntheticRuntimeFixture();
+      try {
+        Object.assign(fixture.manifest.assets[0], {
+          generation_status: "approved",
+          qa_status: "pending",
+          runtime_release_status: "unreleased",
+          final_path:
+            "art/generated/candidates/art-desk/playtest65/environment/absent.png",
+        });
+        fs.unlinkSync(fixture.filePath);
+        const result = validateSyntheticFixture(fixture);
+        expect(result.errors).toEqual([]);
+        expect(result.valid).toBe(true);
+        expect(result.runtimeEligibleAssetIds).toEqual([]);
+      } finally {
+        removeSyntheticRuntimeFixture(fixture);
+      }
+    });
+
+    it("still demands the bytes when such a row claims to be released", () => {
+      // The exemption is about unshipped candidates, not about the candidate
+      // directory. Anything the runtime may load must be present and hashable.
+      const fixture = createSyntheticRuntimeFixture();
+      try {
+        Object.assign(fixture.manifest.assets[0], {
+          final_path:
+            "art/generated/candidates/art-desk/playtest65/environment/absent.png",
+        });
+        fs.unlinkSync(fixture.filePath);
+        const result = validateSyntheticFixture(fixture);
+        expect(result.valid).toBe(false);
+        expect(result.errors.join("\n")).toContain(
+          "final_path 'art/generated/candidates/art-desk/playtest65/environment/absent.png' does not exist",
+        );
+      } finally {
+        removeSyntheticRuntimeFixture(fixture);
+      }
+    });
+
     it("rejects parent traversal and paths outside the art root", () => {
       const fixture = createSyntheticRuntimeFixture();
       try {

@@ -5,7 +5,7 @@ import type {
   CharacterCatalogGeneration,
   CharacterComponentManifestRecord,
 } from "./character-components";
-import { runtimeArt, runtimeArtMetadata } from "./runtime-art";
+import { runtimeArt, runtimeArtSelection } from "./runtime-art";
 
 /**
  * The owner-private candidate people manifests (engine-people29 through 41 and
@@ -43,16 +43,49 @@ export interface Kit41RegistryManifest extends CandidateRegistryManifest {
   readonly generations: readonly CharacterCatalogGeneration[];
 }
 
+/**
+ * One library, never two.
+ *
+ * With a snapshot selected the snapshot answers for every candidate registry,
+ * including by saying it has none. Falling through to the bundled manifest for
+ * a name the snapshot does not carry is what silently composed the retired
+ * Visual4 cast under the selected generation's name: the registries the
+ * snapshot did supply resolved to the new people, the ones it did not resolved
+ * to whatever the checkout still had on disk, and the result was one figure
+ * assembled out of two generations with nothing on screen to say so.
+ */
 function manifest(name: string): object | undefined {
-  return runtimeArtMetadata(
-    `art/manifest/character_candidate_${name}.json`,
-    manifests[`../../art/manifest/character_candidate_${name}.json`],
-  );
+  const key = `art/manifest/character_candidate_${name}.json`;
+  const snapshot = runtimeArt();
+  return snapshot
+    ? (snapshot.metadata[key] as object | undefined)
+    : manifests[`../../${key}`];
 }
 
-/** True only in a checkout that carries the private candidate manifests. */
+/**
+ * Whether THIS page has candidate people art to compose from.
+ *
+ * A snapshot alone is not enough. A snapshot carrying only environments, or a
+ * half-received one, has no candidate registry at all, and treating it as
+ * available is how the preview reached the render path with nothing to draw.
+ * The question is whether some candidate registry actually resolved.
+ */
+const CANDIDATE_REGISTRY_NAMES = [
+  "engine29_registry",
+  "engine34_registry",
+  "engine35_registry",
+  "engine36_registry",
+  "engine40_registry",
+  "engine41_registry",
+  "kit41_registry",
+  "modular41_heads",
+  "modular45_registry",
+] as const;
+
 export const PRIVATE_CANDIDATE_ART_AVAILABLE =
-  Boolean(runtimeArt()) || Object.keys(manifests).length > 0;
+  runtimeArtSelection() === "installed-snapshot"
+    ? CANDIDATE_REGISTRY_NAMES.some((name) => manifest(name) !== undefined)
+    : Object.keys(manifests).length > 0;
 
 export function candidateRegistry(
   engine: CandidateEngine,

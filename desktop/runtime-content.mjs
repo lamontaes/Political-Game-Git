@@ -238,9 +238,16 @@ export function loadContent(snapshot) {
     );
   return { snapshot, manifest };
 }
-export function serveRuntimeContent(loaded, request) {
+/**
+ * `host` is the one origin allowed to ask. The installed client serves the
+ * snapshot at `app://game`, so that stays the default. A browser origin — the
+ * dev server, `vite preview`, the preview Antigravity opens — passes its own
+ * host instead and gets the identical bytes through the identical validation:
+ * one loader, several origins, not a second delivery path.
+ */
+export function serveRuntimeContent(loaded, request, { host = "game" } = {}) {
   const url = new URL(request.url);
-  if (url.host !== "game" || request.method !== "GET")
+  if (url.host !== host || request.method !== "GET")
     return new Response("Not found", { status: 404 });
   if (url.pathname === "/__content/manifest.json")
     return new Response(

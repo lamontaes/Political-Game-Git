@@ -1,4 +1,5 @@
 import { runtimeArtBuild } from "./scripts/dev-lab/runtime-art-build";
+import { runtimeContentOrigin } from "./scripts/dev-lab/runtime-content-origin";
 import { resolve } from "node:path";
 import { sites } from "@openai/sites-vite-plugin";
 import react from "@vitejs/plugin-react";
@@ -26,6 +27,7 @@ export default defineConfig({
     resolve("test-results", "cache", process.env.PG_RUN_ID ?? "dev"),
   plugins: [
     runtimeArtBuild(),
+    runtimeContentOrigin(),
     react(),
     sites(),
     identifiedBuild(),
