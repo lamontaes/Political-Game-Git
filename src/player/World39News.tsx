@@ -74,13 +74,6 @@ export function World39News({
                   The person is a character of this fictional world; the office
                   itself is real.
                 </p>
-                {holder.sources.map((source, index) => (
-                  <p key={source}>
-                    <a href={source} target="_blank" rel="noreferrer">
-                      Institutional source {index + 1}
-                    </a>
-                  </p>
-                ))}
               </details>
             </article>
           ))

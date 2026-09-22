@@ -148,27 +148,11 @@ export function OpeningStateVoting({
               <p>This breakdown is unavailable.</p>
             )}
             <p>
-              ± shows the margin of error in percentage points at 90%
-              confidence. Census Current Population Survey, civilian
-              noninstitutionalized adults aged 18 and over. Answers may come
-              from the person or another household member. Citizenship does not
-              establish legal voting eligibility. Administrative registration
-              and party registration are not available here.
+              ± shows the margin of error in percentage points. These are
+              estimates for adults aged 18 and over rather than a count, and
+              being a citizen is not the same as being eligible to vote.
+              Registration figures are not available here.
             </p>
-            <ul>
-              {(ready?.sources ?? [])
-                .filter((source) =>
-                  source.artifactId.startsWith("cps-2024-vote"),
-                )
-                .map((source) => (
-                  <li key={source.artifactId}>
-                    <a href={source.url} target="_blank" rel="noreferrer">
-                      U.S. Census Bureau · Table{" "}
-                      {source.artifactId.replace("cps-2024-vote0", "")}
-                    </a>
-                  </li>
-                ))}
-            </ul>
           </details>
         </>
       )}

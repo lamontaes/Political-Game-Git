@@ -203,7 +203,10 @@ export function TaxWorkWorkspace({
          */
         <details>
           <summary>Prepare an authored tax proposal</summary>
-          <p>Your current office has a sourced state tax-power baseline.</p>
+          <p>
+            Your current office can propose a change to this state's taxing
+            power.
+          </p>
           <fieldset className="tax-work-step">
             <legend>1. Objective: what the tax is for</legend>
             <label>
@@ -284,10 +287,8 @@ export function TaxWorkWorkspace({
           <fieldset className="tax-work-step">
             <legend>3. Commitment: file it</legend>
             <p>
-              Legal wording acquired {power.asOf}.{" "}
-              <a href={power.sourceUrl}>Alaska Constitution</a>. This proposal
-              carries that wording forward as a game assumption; it does not
-              verify future real law.
+              This proposal is written against the taxing power as this game
+              records it for Alaska.
             </p>
             <p>
               This route uses the ninety-day default after enactment, exact

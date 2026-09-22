@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 3404 |
-| INTENTIONALLY_NON_PLAYER_FACING | 7172 |
-| DIAGNOSTIC_OR_TEST | 8072 |
-| **NEEDS_CLASSIFICATION** | **10727** |
+| INTENTIONALLY_NON_PLAYER_FACING | 7170 |
+| DIAGNOSTIC_OR_TEST | 8112 |
+| **NEEDS_CLASSIFICATION** | **10747** |
 
-Scanned 1245 files holding 117539 string
+Scanned 1246 files holding 117648 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -41,11 +41,11 @@ literals in total; the table counts only those that read like a sentence.
 | 214 | `src/simulation/executive-authority-rule-packs.ts` |
 | 199 | `src/simulation/legislation-service-families.ts` |
 | 162 | `src/ui/ArtDeskView.tsx` |
-| 153 | `src/player/PlayerGame.tsx` |
+| 152 | `src/player/PlayerGame.tsx` |
 | 128 | `src/simulation/legislation.ts` |
+| 124 | `src/presentation/guide-terms.ts` |
 | 119 | `src/simulation/opening-life-content.ts` |
 | 117 | `src/simulation/civil-personnel-actions.ts` |
-| 111 | `src/presentation/guide-terms.ts` |
 | 101 | `src/simulation/adult-situations.ts` |
 | 99 | `src/simulation/governing/state-governing.ts` |
 | 87 | `src/simulation/policy.ts` |
@@ -156,6 +156,7 @@ literals in total; the table counts only those that read like a sentence.
 | 22 | `src/player/PreparedAppearanceControls.tsx` |
 | 22 | `src/presentation/press-request.ts` |
 | 22 | `src/simulation/crisis/disaster.ts` |
+| 22 | `src/simulation/office-qualification-rules.ts` |
 | 21 | `src/player/LifePathsPanel.tsx` |
 | 21 | `src/presentation/civic-glossary.ts` |
 | 21 | `src/presentation/macro-conditions.ts` |
@@ -198,12 +199,12 @@ literals in total; the table counts only those that read like a sentence.
 | 17 | `src/simulation/people-family-plan.ts` |
 | 17 | `src/simulation/people-trait-definitions.ts` |
 | 17 | `src/ui/CharacterProofView.tsx` |
+| 16 | `src/player/CampaignWorkspace.tsx` |
 | 16 | `src/player/PersonCard.tsx` |
 | 16 | `src/player/WorkingDocumentWorkspace.tsx` |
 | 16 | `src/presentation/run-a-projection.ts` |
 | 16 | `src/simulation/governing/institution-authority.ts` |
 | 16 | `src/simulation/living-world/opening.ts` |
-| 16 | `src/simulation/office-qualification-rules.ts` |
 | 16 | `src/simulation/policy-semantics.ts` |
 | 16 | `src/simulation/transit-funding.ts` |
 | 16 | `src/ui/EventHistory.tsx` |
@@ -215,7 +216,6 @@ literals in total; the table counts only those that read like a sentence.
 | 15 | `src/simulation/narrative-threads.ts` |
 | 15 | `src/simulation/nationwide-world/state-executive-candidacy-packs.ts` |
 | 15 | `src/simulation/people-study.ts` |
-| 14 | `src/player/CampaignWorkspace.tsx` |
 | 14 | `src/player/CivilPersonnelPanel.tsx` |
 | 14 | `src/player/EducationOptionsPanel.tsx` |
 | 14 | `src/player/TransitWorkspace.tsx` |
