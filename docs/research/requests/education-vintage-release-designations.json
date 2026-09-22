@@ -18,5 +18,14 @@
   ],
   "title": "The federal release designation for each education data vintage",
   "usableAnswer": "For each academic year, one string per collection kind — postsecondary, school and district — written exactly as the agency designates that release, with the source page it was read from.",
-  "whyItMatters": "An institution's record shows the reader which federal release the fact came from, and that label is a hand-kept table with two vintages in it. Adding a third year of data will throw rather than mislabel, which is the right failure, but it stops the vintage from being added at all until somebody supplies the string."
+  "whyItMatters": "An institution's record shows the reader which federal release the fact came from, and that label is a hand-kept table with two vintages in it. Adding a third year of data will throw rather than mislabel, which is the right failure, but it stops the vintage from being added at all until somebody supplies the string.",
+  "answer": {
+    "summary": "Closed as reuse-delivered-answer in the 2026-09-22 stress-test batch: the dataset, component and source-byte provenance answer has already been delivered. The instruction is to request only a specifically unidentified import rather than repeat the survey.",
+    "sources": [
+      "ChatGPT stress-test connection answers, 2026-09-22, at source head 1c4992e8: /mnt/project-files/chatgpt-stress-test-answers-2026-09-22/STRESS-TEST-CONNECTION-ANSWERS.md"
+    ],
+    "answeredBy": "ChatGPT (technical director), stress-test connection answers batch",
+    "answeredAt": "2026-09-22T15:57:02.000Z",
+    "stillOpen": "If a particular education import still cannot be identified, that one import is worth asking about by name; the general survey is not."
+  }
 }
