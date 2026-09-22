@@ -712,12 +712,19 @@ export function createStartingPerson(input: StartingPersonInput): Person {
 }
 
 /**
- * A canonical name for someone the world needs in a supporting role — a
- * guardian, a classmate, a teacher. It goes through the same versioned corpus
- * and seeded generator every other name does, so no module keeps a private
- * list of three first names to choose between.
+ * A name off the whole corpus, with nothing said about who is carrying it.
+ *
+ * Deliberately not exported. It was, and that is most of why a man came out
+ * named Maria: a writer that wanted a name reached for the loose draw, got one
+ * with no argument to fill in, and never learnt that a gendered draw existed
+ * two functions down. Sixteen routes did exactly that. Correcting sixteen
+ * callers while leaving the loose draw on the module's surface only waits for
+ * the seventeenth, so the surface is now `drawCanonicalNameForGender`, whose
+ * gender argument is required. A route that genuinely knows nothing passes
+ * `"unstated"` and lands back here, which is the same draw and a declaration
+ * instead of an omission.
  */
-export function drawCanonicalName(
+function drawUnrestrictedName(
   rng: SeededRng,
   corpusVersion: string = DEFAULT_CORPUS_VERSION,
 ): { readonly givenName: string; readonly familyName: string } {
@@ -770,13 +777,13 @@ export type GivenNameGenerationVersion =
  */
 export function drawCanonicalNameForGender(
   rng: SeededRng,
-  gender: GenderIdentityKey | undefined,
+  gender: GenderIdentityKey,
   corpusVersion: string = DEFAULT_CORPUS_VERSION,
   generationVersion: GivenNameGenerationVersion = LEGACY_GIVEN_NAME_GENERATION_VERSION,
   takenGivenNames: readonly string[] = [],
 ): { readonly givenName: string; readonly familyName: string } {
-  const drawn = drawCanonicalName(rng, corpusVersion);
-  if (gender === undefined || gender === "unstated") return drawn;
+  const drawn = drawUnrestrictedName(rng, corpusVersion);
+  if (gender === "unstated") return drawn;
   const pool =
     gender === "male"
       ? GIVEN_NAME_GENERATION_POOLS_V1.male

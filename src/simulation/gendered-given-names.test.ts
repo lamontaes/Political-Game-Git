@@ -82,6 +82,32 @@ describe("no route draws a name apart from the identity it belongs to", () => {
    * `drawCanonicalName` spread into the same object literal that then draws an
    * `identity`. `drawCanonicalNamedIdentity` exists so the pairing is one call.
    */
+  it("keeps the unrestricted draw off the module's surface", () => {
+    /*
+     * The class, not the instance. Correcting sixteen callers while the loose
+     * draw stayed exported only waited for the seventeenth: a writer that
+     * wants a name reaches for the function that asks for nothing. So
+     * `drawUnrestrictedName` is module-private and `drawCanonicalNameForGender`
+     * requires its gender — a route that genuinely knows nothing says
+     * "unstated" and gets the same draw, as a declaration rather than an
+     * omission.
+     */
+    const people = readFileSync(
+      join(SOURCE_ROOT, "simulation/people.ts"),
+      "utf8",
+    );
+    expect(people).toContain("function drawUnrestrictedName(");
+    expect(people).not.toContain("export function drawUnrestrictedName(");
+    const elsewhere = productionSources()
+      .filter((path) => !path.endsWith(join("simulation", "people.ts")))
+      .filter((path) =>
+        readFileSync(path, "utf8").includes("drawUnrestrictedName"),
+      );
+    expect(elsewhere.map((path) => relative(SOURCE_ROOT, path))).toStrictEqual(
+      [],
+    );
+  });
+
   function splitDraws(source: string): boolean {
     const lines = source.split("\n");
     return lines.some((line, index) => {

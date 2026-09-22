@@ -4,7 +4,7 @@ import {
   currentMeasureProvisions,
   createStableId,
   createWorkItem,
-  drawCanonicalName,
+  drawCanonicalNameForGender,
   introduceMeasure,
   legislativeBlueprint,
   makeIsoDate,
@@ -320,7 +320,7 @@ export function fileBundleDraft(
     const rng = new SeededRng(next.seed).fork(
       `legislative-member:${input.scenarioKey}`,
     );
-    const name = drawCanonicalName(rng);
+    const name = drawCanonicalNameForGender(rng, "unstated");
     next = applyCharacterHistoryPlan(next, {
       stableKey: sponsorKey,
       mode: "quick-generated",

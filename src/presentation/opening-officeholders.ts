@@ -5,7 +5,7 @@ import {
   characterHistoryContextPersonId,
   createStableId,
   SeededRng,
-  drawCanonicalName,
+  drawCanonicalNameForGender,
   makeIsoDate,
   personName,
   recordWorldEvent,
@@ -103,7 +103,7 @@ export function establishOpeningOfficeholders(
         kind: "context-person",
         input: {
           stableKey: personKey,
-          ...drawCanonicalName(rng),
+          ...drawCanonicalNameForGender(rng, "unstated"),
           birthDate: makeIsoDate(`${startYear - rng.integer(45, 70)}-01-01`),
           ...(geography
             ? {
