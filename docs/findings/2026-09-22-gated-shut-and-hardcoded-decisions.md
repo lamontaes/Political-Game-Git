@@ -157,6 +157,74 @@ up in #389, and two lanes should not author the same explanation. The
 player-facing half — the sentence, and whether the control should be offered
 at all — comes back here once their account lands.
 
+## 5. Built producers with no player entry point
+
+The enacted-law lane's read-only sweep returned fourteen leads outside its
+scope and handed them over explicitly unverified. Each of the following was
+re-measured here on `1c4992e8`. **Two of the fourteen did not survive
+measurement and are recorded as corrections rather than findings.**
+
+### Verified
+
+**A sink the type system forbids filling.** `living-world-orientation.ts:57`
+declares `readonly publicMatters: readonly never[]`, commented "Filled by W3
+producers; empty until then". `never[]` cannot hold any value, so the field
+cannot be populated without changing the type. Its producer,
+`projectPublicMatters` at `living-world/developments.ts:607`, is fully
+implemented — and every caller is a test, across
+`world-recap-matters.test.ts` and `living-world-developments.test.ts`. A
+finished producer and a sink the compiler forbids filling is the
+empty-surface pattern in its purest form.
+
+**The officeholder's matters surface has no importer at all.**
+`src/presentation/office-response.ts` exports `projectOfficeMatters` (line
+184), the surface that would show an officeholder the matters against them.
+Searching for any import of that module across `src/` returns nothing. Its
+only internal caller is line 262 of the same file. Nothing a player touches
+reaches it.
+
+**The scandal subsystem's readers are wired and its writers are not.**
+`src/simulation/press/matters.ts` is not test-only — `press/index.ts`
+re-exports it, `press/views.ts` and `press/transitions.ts` import from it,
+and `office-response.ts`, `press-disclosure.ts` and `PressSourceDesk.tsx`
+import from `simulation/press`. But the acts that would _create_ a matter —
+`recordAllegation`, `fileComplaint` and `fileRivalComplaint` — have **zero
+callers anywhere outside their own module**. The machinery that would show a
+scandal is connected; nothing can start one.
+
+**One place has economic context; the other fifty-one have none.**
+`economic-context-bindings.ts:39` builds `BINDINGS_BY_PLACE` from a single
+entry, `LEXINGTON_ECONOMIC_BINDING`, so `economicContextBindingForPlace`
+returns `null` for every other place. Against a 52-jurisdiction goal, and
+against the standing rule that Kentucky and Lexington are one scenario rather
+than the normal start.
+
+**A transcribed civic-venue corpus nothing imports.**
+`src/environment/reference/` holds a large catalog of real transcribed civic
+venues with a query engine beside it. No file outside that directory imports
+anything from it.
+
+### Corrections to the handed-over leads
+
+**"press/matters.ts is test-only" is false**, as measured above: three
+non-test modules import it. The true finding is narrower and sharper — the
+writers have no callers.
+
+**"projectOfficeMatters has no non-test importer" understated it.** It has a
+non-test caller inside its own file. The true finding is stronger: the module
+has no importer at all.
+
+**Seventeen room surfaces, not eighteen.** Section 2 above says seventeen and
+that is correct; a count of `consumerId:` occurrences returns eighteen because
+line 53 is the interface's own field declaration. Seven carry
+`wiredThrough: null`, which both counts agree on.
+
+Also carried across, from that lane's own correction rather than measured
+here: the earlier claim that this game has no unemployment or inflation figure
+a law could move **was wrong and is struck**. `src/simulation/macro-economy`
+runs a real monthly national economy in every ordinary save. Nothing in this
+document depends on the withdrawn claim.
+
 ## What this sweep did not establish
 
 `PARTY_BODY_CADENCE.repeatedDisputes` still reads 2 on `1c4992e8`. The
