@@ -1,0 +1,23 @@
+{
+  "filedAt": "2026-09-22T15:27:00.000Z",
+  "impact": "shapes-design",
+  "lane": "world divergence",
+  "notes": [
+    "A no is a complete answer here and costs nothing to act on.",
+    "If the answer is yes, the frequency matters more than the mechanism: a game that stages an assassination every few years is making a claim about the United States that is not true."
+  ],
+  "priority": "P1",
+  "question": "The game has a complete record type for an attempt of violence against a public figure, with an outcome, and nothing in play can write one. Before any rate is discussed: (1) should this occur in the game at all, and to whom — a president in the background, a governor, a member of a state legislature, the player; (2) if it should, what is a defensible frequency, given that the honest real-world figure for an American officeholder is very small and a game that fires it often is asserting something false about the country; (3) what should the world do afterwards, given that a succession-at-death path already exists and works; (4) should the player ever be the subject, and should the game let a player be the actor, which is a product and content decision rather than an empirical one; and (5) what should a player be shown — the game's press surface would carry it, and the tone of that coverage is a decision somebody has to make on purpose.",
+  "questionId": "can-a-public-figure-be-attacked",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "world divergence thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/crisis/international.ts and the officeholder-death path measured over two years of one save",
+      "whatItDidNotSettle": "Establishes that the writer exists, is unreachable, and that the consequences of a public figure dying are already built and exercised — 17 officeholders died in office in one two-year run. It settles that the aftermath is not the hard part. It says nothing about whether this should happen or how often."
+    }
+  ],
+  "title": "Whether political violence should happen in this game at all, and on what terms",
+  "usableAnswer": "First a yes or no with reasoning. If yes: who may be a subject, a frequency with a source, what happens to the world afterwards, and a clear line on the player as subject and as actor. If no: say so, and the record retires rather than waits.",
+  "whyItMatters": "Measured 2026-09-22 at main 62368c1e. WHAT EXISTS: recordViolenceAttempt in crisis/international.ts, and a working succession path off the SSA 2023 life table that already handles an officeholder dying. THE ONE MISSING LINK: recordViolenceAttempt has zero callers outside tests. THE SMALLEST HONEST CHANGE: whatever the answer is, it is small — either delete the writer, or call it from one producer at an authored rate. WHAT A PLAYER WOULD SEE: depends entirely on the answer, which is why this is a decision and not an engineering task. The owner named assassination himself as something he wanted to understand, which is why it is asked rather than quietly dropped."
+}

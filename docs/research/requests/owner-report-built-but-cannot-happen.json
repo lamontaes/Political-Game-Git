@@ -5,6 +5,7 @@
   "notes": [
     "Filed from lamontae's own ten-year playtest report of 2026-09-22, at his instruction: 'these small things like things being hardcoded or not being able to happen or the machinery being built is exactly what needs to be sent to ChatGPT to confirm and then instruct because those seem like relatively small changes that can do a lot for the game'. He is the requester; this lane only carried it onto the queue.",
     "Items 1 and 2 were re-measured on claude/project-thread-k8w14s before filing and are recorded below as measurements. Items 3 to 6 are his report's findings, carried unverified by this lane and marked as such in the question so a researcher does not mistake them for our measurement.",
+    "Four of the six are broken out as their own records by the world divergence lane, each written to be acted on — what exists, the one missing link, the smallest honest change, and what a player would see: when-should-an-international-crisis-begin, can-a-public-figure-be-attacked, how-does-a-party-get-on-a-ballot, should-partisan-geography-move, and what-opens-a-scandal-about-somebody-else beside them. Answer those and this record is mostly answered; what it adds is his own ordering across them and the two items nobody has broken out, the belief apparatus and the unread federal programme names.",
     "Deliberately does not restate what is already open. The scandal writers and the wider 'built producer, no player entry' question belong to built-producers-with-no-player-entry, filed by the hardcoded-content audit lane; the numbers that decide outcomes belong to decision-thresholds-are-constants-in-code. This record is the owner's own list and the confirm-then-instruct ask he attached to it."
   ],
   "priority": "P0",
@@ -19,7 +20,7 @@
     },
     {
       "source": "grep of recordAllegation and fileComplaint across src, same head",
-      "whatItDidNotSettle": "Both are defined in src/simulation/press/matters.ts and called only from inside that same module (:813, :826), so a scandal has no starter either, matching the audit lane's finding. It confirms the pattern spans three separate systems; it does not say which of the three should be connected first, which is what the instruction is for."
+      "whatItDidNotSettle": "Both are defined in src/simulation/press/matters.ts and called only from inside that same module, from fileRivalComplaint (:813, :826), which itself has no caller outside its own tests. That is the measurement. An inference drawn from it here and now withdrawn — that a scandal therefore cannot start at all — is wrong: a matter DOES open in ordinary play through a scheduled handler at :635, whose subjects are an occurrence's own actors, so the allegation-and-complaint route is what is unreached rather than scandal as such. The world divergence lane established this and owns the question; theirs is what-opens-a-scandal-about-somebody-else. It does not say which of these systems should be connected first, which is what the instruction is for."
     },
     {
       "source": "lamontae's ten-year Kentucky playtest report, 2026-09-22, delivered in the project timeline",
