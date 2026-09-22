@@ -432,12 +432,20 @@ function packReaders(): readonly string[] {
 }
 
 describe("the lane boundary", () => {
-  it("is not yet consumed by candidacy, election or player-facing code", () => {
-    // This wave builds source authority. Wiring it into a surface is a later,
-    // separately authorised step that must clear the audit gate first, so this
-    // test is the only thing in the tree that reads the compiled packs. When a
-    // consumer is authorised, it lands here deliberately rather than by drift.
+  it("is consumed only by the authorised ballot-rule resolver", () => {
+    // This wave builds source authority. Wiring it into a surface is a
+    // separately authorised step, so every reader of the compiled packs is
+    // listed here and a new one lands deliberately rather than by drift.
+    //
+    // Authorised 2026-09-22: the owner asked that local races follow each
+    // state's ballot rules and that a place with no researched rule draw from
+    // a national range. `municipal-ballot-rules.ts` honours the audit gate by
+    // labelling every value it returns with its basis (`state-law-unverified`
+    // and so on), never as settled law. Candidacy, campaign and player-facing
+    // code still read the packs only through it.
     expect(packReaders()).toEqual([
+      "src/simulation/municipal-ballot-rules.test.ts",
+      "src/simulation/municipal-ballot-rules.ts",
       "src/simulation/municipal-election-rule-packs-matrix.test.ts",
     ]);
   });
