@@ -103,8 +103,12 @@ them knows about.
 
 ## What this walk did not establish
 
-- **Whether committing a week changes any of it.** The planner was read, not
-  used. That is the obvious next walk and it is a short one.
+- ~~**Whether committing a week changes any of it.**~~ Walked immediately
+  after, and it does something much worse than nothing: committing a week
+  stops the clock permanently, on the life's first morning, with no legal
+  move left. See
+  `committing-a-campaign-week-stops-time-2026-09-22.md`. So the ten weeks
+  above were only reachable because this walk never pressed Commit.
 - **Whether the race resolves.** 232 days remained; the election is 3
   November 2026.
 - **Whether the opponent is inert or merely silent.** Nothing on any screen
