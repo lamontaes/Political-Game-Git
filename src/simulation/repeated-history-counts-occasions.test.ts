@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { distinctOccasions } from "./character-history";
+import { makeIsoDate } from "./dates";
 import type { EntityId, RelationshipInteraction } from "./types";
 
 /*
@@ -28,13 +29,13 @@ function interaction(
     sequence: 0,
     personIds: ["one" as EntityId, "two" as EntityId],
     eventId,
-    occurredAt: "2026-01-01",
-    kind: "conversation",
-    change: "none",
-    significance: "ordinary",
+    occurredAt: makeIsoDate("2026-01-01"),
+    kind: "other:lunch-table",
+    change: "maintained",
+    significance: "minor",
     summary: "",
     tags: ["formative.lunch-table"],
-  } as RelationshipInteraction;
+  };
 }
 
 describe("repeated history", () => {
