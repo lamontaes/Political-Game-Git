@@ -1,6 +1,6 @@
-import { loadContent, serveRuntimeContent } from "../runtime-content.mjs";
+import { loadContentAsync, serveRuntimeContent } from "../runtime-content.mjs";
 import { watch as watchReceived } from "node:fs";
-import { channelPath, verifyReceivedBuild } from "./received-channel.mjs";
+import { channelPath, verifyReceivedBuildAsync } from "./received-channel.mjs";
 import {
   hasSavableLife,
   saveOpenLife,
@@ -681,8 +681,10 @@ async function openPlay(id, stillWanted = () => true) {
     };
   let loadedContent = null;
   try {
+    // Every blob is verified (~1 GB); asynchronously, so the hub, the Art
+    // Desk and any open game stay responsive while it runs.
     if (track.current.content)
-      loadedContent = loadContent(track.current.content);
+      loadedContent = await verifyContent(track.current.content);
   } catch (error) {
     return {
       ok: false,
@@ -691,6 +693,14 @@ async function openPlay(id, stillWanted = () => true) {
         error.message,
     };
   }
+  if (!stillWanted()) return superseded();
+  // Another open of this track, or an activation, may have finished while
+  // the artwork was being verified: start again from the current state.
+  if (
+    hub.play.has(id) ||
+    readState()?.tracks[id]?.current?.revision !== track.current.revision
+  )
+    return openPlay(id, stillWanted);
   const view = new WebContentsView({
     webPreferences: {
       session: sessionForTrack(id),
@@ -1221,30 +1231,93 @@ function onWorkerEvent(track, event) {
     // only when the owner presses Install update (or at the next start).
     if (event.outcome === "pending" && !hub.play.has(track)) {
       // Never swapped under a running game: this track has no open view.
-      outcome = activateVerifiedPending(track) ? "ready" : "failed";
+      // Verifying the artwork takes seconds; the hub stays responsive.
       hub.phase[track] = {
-        phase: "ready",
-        message: `Ready: ${event.revision.slice(0, 12)} is now the ${track === MAIN_TRACK ? "main" : "preview"} build.`,
+        phase: "verifying",
+        message: "Verifying the artwork before switching builds.",
       };
+      void activateVerifiedPending(track).then((activated) => {
+        if (activated === true)
+          hub.phase[track] = {
+            phase: "ready",
+            message: `Ready: ${event.revision.slice(0, 12)} is now the ${track === MAIN_TRACK ? "main" : "preview"} build.`,
+          };
+        else if (activated === "retained")
+          hub.phase[track] = { phase: "ready", message: event.message };
+        noteCheck(
+          track,
+          activated === true
+            ? "ready"
+            : activated === "retained"
+              ? "waiting"
+              : "failed",
+          event.message,
+          event.revision,
+        );
+        afterComplete(track);
+      });
+      broadcast();
+      return;
     }
     noteCheck(track, outcome, event.message, event.revision);
-    if (readState()?.selectedTrack === track && hub.activeTab === "play")
-      void openPlay(track).then(() => {
-        layout();
-        broadcast();
-      });
+    afterComplete(track);
   }
   broadcast();
 }
 
-function activateVerifiedPending(id) {
-  const state = readState();
-  const pending = state?.tracks[id]?.pending;
+function afterComplete(track) {
+  if (readState()?.selectedTrack === track && hub.activeTab === "play")
+    void openPlay(track).then(() => {
+      layout();
+      broadcast();
+    });
+  broadcast();
+}
+
+/**
+ * Full artwork verification, shared: one Install update asks up to three
+ * times within seconds (before closing the game, at activation, at open), and
+ * a snapshot is content-addressed, so one pass serves them all. Blobs are
+ * verified again whenever they are served.
+ */
+const recentVerifications = new Map();
+function verifyContent(snapshot) {
+  const key = `${snapshot?.cacheRoot}\n${snapshot?.id}`;
+  const known = recentVerifications.get(key);
+  if (known && Date.now() - known.at < 60_000) return known.promise;
+  const promise = loadContentAsync(snapshot);
+  recentVerifications.set(key, { at: Date.now(), promise });
+  promise.catch(() => {
+    if (recentVerifications.get(key)?.promise === promise)
+      recentVerifications.delete(key);
+  });
+  return promise;
+}
+
+/**
+ * true: activated. "retained": still waiting, because the update or an open
+ * game changed while the artwork was verified. false: refused (logged).
+ */
+async function activateVerifiedPending(id) {
+  const pending = readState()?.tracks[id]?.pending;
   if (!pending) return false;
   try {
-    if (pending.content) verifyReceivedBuild(pending, dataRoot);
+    if (pending.content)
+      await verifyReceivedBuildAsync(pending, dataRoot, verifyContent);
     else if (!buildPresentOnDisk(pending).ok)
       throw new Error("Waiting game is incomplete");
+    // Verification yields to the event loop: act only on what was verified,
+    // and never swap a build under a game that opened meanwhile.
+    const state = readState();
+    const now = state?.tracks[id]?.pending;
+    if (
+      !now ||
+      now.revision !== pending.revision ||
+      now.clientTreeSha256 !== pending.clientTreeSha256 ||
+      now.content?.id !== pending.content?.id ||
+      hub.play.has(id)
+    )
+      return "retained";
     atomicWrite(statePath, activatePending(state, id));
     return true;
   } catch (error) {
@@ -1264,7 +1337,11 @@ async function applyPending(id) {
     return { ok: false, message: "Nothing is waiting." };
   try {
     if (state.tracks[id].pending.content)
-      verifyReceivedBuild(state.tracks[id].pending, dataRoot);
+      await verifyReceivedBuildAsync(
+        state.tracks[id].pending,
+        dataRoot,
+        verifyContent,
+      );
     else if (!buildPresentOnDisk(state.tracks[id].pending).ok)
       throw new Error("Waiting game is incomplete");
   } catch {
@@ -1279,7 +1356,7 @@ async function applyPending(id) {
       ok: false,
       message: "The game kept its unsaved life; nothing changed.",
     };
-  if (!activateVerifiedPending(id)) {
+  if ((await activateVerifiedPending(id)) !== true) {
     await openPlay(id);
     return {
       ok: false,
@@ -2092,7 +2169,7 @@ if (!app.requestSingleInstanceLock()) {
     // previous Play session to close can take over now.
     for (const [id, track] of Object.entries(readState().tracks))
       if (track.pending) {
-        if (activateVerifiedPending(id))
+        if ((await activateVerifiedPending(id)) === true)
           logLine(
             `Activated the waiting ${id} build ${track.pending.revision.slice(0, 12)}.`,
           );

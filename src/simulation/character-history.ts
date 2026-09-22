@@ -3244,9 +3244,16 @@ function moderateTimeDemand(
 }
 
 function yearsBefore(date: IsoDate, years: number): IsoDate {
-  return makeIsoDate(
-    `${(Number(date.slice(0, 4)) - years).toString().padStart(4, "0")}${date.slice(4)}`,
-  );
+  const year = (Number(date.slice(0, 4)) - years).toString().padStart(4, "0");
+  // Somebody born on the 29th of February has a parent and a teacher born in
+  // years that mostly have no such day. The 28th, as dateAtAge does, rather
+  // than a date the calendar refuses; every other date is unchanged.
+  try {
+    return makeIsoDate(`${year}${date.slice(4)}`);
+  } catch (error) {
+    if (date.slice(5) !== "02-29") throw error;
+    return makeIsoDate(`${year}-02-28`);
+  }
 }
 
 function assertNonEmpty(value: string, label: string): void {

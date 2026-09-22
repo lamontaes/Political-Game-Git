@@ -91,6 +91,17 @@ export function channelPath(dataRoot, track) {
   return path.join(dataRoot, "received", branchSlug(track.slice(7)) + ".json");
 }
 export function verifyReceivedBuild(build, dataRoot) {
+  if (receivedCodeNeedsContent(build, dataRoot)) loadContent(build.content);
+  return build;
+}
+/** The same checks; the ~1 GB of artwork is verified by `verifyContent`
+ * (asynchronously in the hub, so its window never freezes). */
+export async function verifyReceivedBuildAsync(build, dataRoot, verifyContent) {
+  if (receivedCodeNeedsContent(build, dataRoot))
+    await verifyContent(build.content);
+  return build;
+}
+function receivedCodeNeedsContent(build, dataRoot) {
   if (!buildPresentOnDisk(build).ok)
     throw new Error("Received game is incomplete");
   const client = path.join(build.appPath, "Contents/Resources/client");
@@ -120,9 +131,9 @@ export function verifyReceivedBuild(build, dataRoot) {
       throw new Error("Content cache has the wrong root");
     if (provenance.runtimeArtCapability !== CONTENT_CAPABILITY)
       throw new Error("This game does not support the received content");
-    loadContent(build.content);
+    return true;
   }
-  return build;
+  return false;
 }
 export function reconcileReceivedChannel(dataRoot, track) {
   const file = channelPath(dataRoot, track);
