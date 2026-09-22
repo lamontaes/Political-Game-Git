@@ -262,56 +262,42 @@ repository is not, and a peer session's go-ahead is not the owner's word for it.
 They cannot come through the Drive connector, which fails above roughly 7 MB
 per file — see L1 — so any trip that carries them is a trip to the Mac.
 
-## L10 — The win-x64 packaging failure needs a Windows or Mac run to diagnose
+## L10 — WITHDRAWN: the packaging failure was not Windows-specific
 
-`Desktop packaging (read only)` is red on the client line on all three
-platforms. Two of the three are explained and fixed: `desktop/scripts/
-transfer-test.mjs` clicked "Return to title" and waited for the title screen,
-while this branch's `ShellNav.tsx` now routes every return through the
-confirmation panel, so the proof sat behind a dialog until Playwright timed
-out. That is `7f74a2b9` on `codex/client-content-delivery`, and it accounts for
-the mac-arm64 and mac-arm64-art-review jobs exactly.
+**This entry asked for something that turned out not to be needed. Nothing
+here is owed. It is kept only so the wrong reasoning is visible.**
 
-**win-x64 is not explained by it.** That job fails earlier, at
-`transfer-test.mjs` line 88, on the first `getByTestId("shell-nav-cluster")`
-click, with `play-screen` already visible and the smoke checks passed:
+It claimed the mac-arm64 and mac-arm64-art-review packaging failures were
+explained by `7f74a2b9`, that win-x64 was a separate, Windows-only defect, and
+that diagnosing it needed a Windows or Mac run because a cloud container has
+no Electron and no Windows runner.
 
-```
-locator.click: Timeout 30000ms exceeded.
-  - waiting for getByTestId('shell-nav-cluster')
-```
+All three claims were wrong, and a macOS log settled it. On 2026-09-22 the
+mac-arm64 **production** job failed identically to win-x64: every smoke check
+passing, then `transfer-test.mjs` timing out on
+`getByTestId('shell-nav-cluster')`. A failure reproducing on macOS is not a
+Windows defect, and it is readable from any checkout.
 
-So the play screen renders and the shell navigation does not, on Windows only.
-`ShellNav.tsx` is eighty-one lines different from main on this branch, and the
-changes include a closing animation that marks the flyout `inert` and
-`aria-hidden` for 220 ms and a focus effect that runs while it closes. That is
-the first place to look; it is a suspicion, not a measurement.
+The cause is the same on all three platforms. A new, unsaved life opens on the
+world introduction, which the shell's nav is deliberately not drawn behind. The
+smoke test was taught to dismiss it; `transfer-test.mjs` and
+`hub-continuity-test.mjs` were not, so both sat on a control that is not on
+screen yet until Playwright's thirty-second timeout.
 
-**Why it cannot be finished here.** A cloud container has no Electron, no
-Windows and no macOS runner, and the storage guard refuses Playwright locally
-("Refused e2e-capture: needs 2.0 GiB, but only 402 MiB is usable"). The job
-cannot be reproduced, only read.
+`768f0dfa` fixed it and said so in its own message. The reason it looked
+unfixed is that `768f0dfa` was committed onto `claude/current-art-source`
+while the failing branch was `codex/client-content-delivery`, so the branch
+the fix was written for was the one branch that never received it. Its desktop
+portion is now applied there unchanged.
 
-**What would settle it,** on a machine that can run the packaged client:
+**What the wrong entry cost:** it named the platform in its title, which made
+"needs a Windows machine" look like the finding rather than an assumption. The
+check that would have caught it was cheap — read one macOS log before
+concluding a failure is Windows-only.
 
-```
-npm ci
-node desktop/scripts/package.mjs --win --x64        # or --mac --arm64
-node desktop/scripts/transfer-test.mjs
-```
-
-Watch whether `shell-nav-cluster` ever appears after the play screen, and
-capture the page HTML at that moment. If it renders on macOS and not on
-Windows with the same commit, the difference is in the shell's open/close
-animation path rather than in the proof.
-
-A cheaper first step, if the Mac is not free: re-run the win-x64 job once from
-the Actions page. The last green packaging run was 2026-09-19 on a main-based
-branch, and every client-line run since has failed, so a one-off runner fault
-is unlikely — but one re-run rules it out before anyone spends an evening on
-it.
-
----
+**Retirement condition:** already met, unless the packaging jobs fail again at
+a head that carries the ported fix, in which case this becomes a new entry
+with a new diagnosis rather than a revival of this one.
 
 ## L12 — Seated male bodies need to exist drawn free of furniture
 
