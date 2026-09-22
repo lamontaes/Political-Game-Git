@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 3166 |
 | INTENTIONALLY_NON_PLAYER_FACING | 7100 |
-| DIAGNOSTIC_OR_TEST | 7724 |
-| **NEEDS_CLASSIFICATION** | **10350** |
+| DIAGNOSTIC_OR_TEST | 7731 |
+| **NEEDS_CLASSIFICATION** | **10359** |
 
-Scanned 1160 files holding 112570 string
+Scanned 1160 files holding 112622 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -62,9 +62,9 @@ literals in total; the table counts only those that read like a sentence.
 | 62 | `src/simulation/people-study-plan.ts` |
 | 61 | `src/simulation/press-interviews.ts` |
 | 59 | `src/presentation/legislative-dialogue-motifs.ts` |
+| 59 | `src/presentation/politics-government.ts` |
 | 54 | `src/presentation/run-c-working-document.ts` |
 | 53 | `src/simulation/civil-personnel.ts` |
-| 52 | `src/presentation/politics-government.ts` |
 | 51 | `src/simulation/campaigns.ts` |
 | 51 | `src/simulation/resources.ts` |
 | 50 | `src/player/DocketWorkspace.tsx` |
@@ -346,6 +346,7 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/player/TitleScreen.tsx` |
 | 6 | `src/player/VenueActivityPanel.tsx` |
 | 6 | `src/player/opening-life/OpeningLifePanel.tsx` |
+| 6 | `src/player/politics/GovernmentBrowser.tsx` |
 | 6 | `src/presentation/calendar-time-control.ts` |
 | 6 | `src/presentation/campaign-office-discovery.ts` |
 | 6 | `src/presentation/component-masters.ts` |
@@ -401,7 +402,6 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/player/GuideWorkspace.tsx` |
 | 4 | `src/player/WardrobeFigure.tsx` |
 | 4 | `src/player/WorldOrientationPanel.tsx` |
-| 4 | `src/player/politics/GovernmentBrowser.tsx` |
 | 4 | `src/player/politics/PublicServicePanel.tsx` |
 | 4 | `src/presentation/browser-shell-state.ts` |
 | 4 | `src/presentation/complete-outfit.ts` |
