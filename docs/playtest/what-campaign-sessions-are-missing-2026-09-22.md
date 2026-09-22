@@ -5,6 +5,52 @@ that head. This locates the cause behind the deadlock, the guard and the empty
 treasury in one place, and it stops at the point where the next step is
 lamontae's rather than mine.
 
+## The nine blanks, with a recommendation beside each
+
+Answer these nine and campaign sessions become performable. Everything else is
+already built and already works. Recommendations are drawn from what the game
+already does elsewhere; the constraint that produced each one is named so a
+different answer can be given knowingly.
+
+**A field shift — `campaign-doors`, "Somebody's street"**
+
+| Blank           | Recommendation          | The constraint behind it                                                                                                                                                                                         |
+| --------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Journey key     | `campaign:to-the-doors` | Matches the naming of `ordinary-life:to-meeting-room`, the only other journey to a meeting place                                                                                                                 |
+| Journey minutes | 20                      | The party route's local journeys run 20–30; a canvass starts in the neighbourhood you live in                                                                                                                    |
+| Scene row       | **no room, and say so** | Canvassing is outdoors. Every released scene in the game is an interior and no environment family describes an outdoor space, which is the reason `campaign-doors` itself already gives. See the art note below. |
+
+**A fundraising call session — `campaign-call-desk`**
+
+| Blank           | Recommendation                       | The constraint behind it                                                                                                                              |
+| --------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Journey key     | `campaign:to-the-call-desk`          | Same naming                                                                                                                                           |
+| Journey minutes | 25                                   | Travelling to the campaign's own storefront, not a neighbour's street                                                                                 |
+| Scene row       | no room (journeys never resolve one) | `SCENE_VENUES` states a journey never resolves a room even when both endpoints have one. The desk itself already resolves to the campaign storefront. |
+
+**Signing off an advertising buy — `campaign-office`**
+
+| Blank           | Recommendation                       | The constraint behind it                                         |
+| --------------- | ------------------------------------ | ---------------------------------------------------------------- |
+| Journey key     | `campaign:to-the-campaign-office`    | Same naming                                                      |
+| Journey minutes | 25                                   | Same building as the call desk                                   |
+| Scene row       | no room (journeys never resolve one) | As above; the office already resolves to the campaign storefront |
+
+A one-line answer is enough: "yes to all nine", or name the ones to change.
+
+**An art note, and the art is already asked for.** A field shift happens
+outdoors and the game owns no outdoor scene, which is why `campaign-doors`
+resolves to no room today. Checked before filing anything: the request already
+exists — **`env-neighborhood-doorstep-generic`, "A generic neighborhood
+doorstep and sidewalk", P1, queued** in `art/requests/asset-requests.json`.
+Nothing new needs filing, and no duplicate has been added.
+
+So the first row's recommendation costs nothing either way: ship with no room
+and the reason attached, which is what the game already does everywhere else,
+and bind the doorstep plate to `campaign-doors` when it lands. The journey
+itself resolves no room regardless, since `SCENE_VENUES` states a journey
+never resolves one even when both its endpoints do.
+
 ## Venue activities work. Measured, not inferred.
 
 In Springfield, Illinois — an ordinary life, no campaign — the Campaigns
