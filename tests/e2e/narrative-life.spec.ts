@@ -350,13 +350,12 @@ test.describe("Setting up a life reads like a game, not a form", () => {
       /Richmond, Virginia/,
     );
     await expect(page.getByTestId("place-population")).toContainText(/people/);
-    await expect(page.getByTestId("place-population")).toContainText(/2024/);
     await expect(page.getByTestId("place-population")).not.toContainText(
       /^0 people/,
     );
-    await expect(page.getByTestId("place-population-source")).toContainText(
-      /BEA/,
-    );
+    // Player screens carry no source label or observation date now.
+    await expect(page.getByTestId("place-population")).not.toContainText(/BEA/);
+    await expect(page.getByTestId("place-population-source")).toHaveCount(0);
 
     await page.getByTestId("creator-continue-place").press("Enter");
     await page.getByTestId("whoareyou-play").press("Enter");

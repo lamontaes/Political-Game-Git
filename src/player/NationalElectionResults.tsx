@@ -85,14 +85,11 @@ export function NationalElectionResults({
         </ul>
       ) : null}
       <details>
-        <summary>Rules and sources</summary>
+        <summary>How the electors are counted</summary>
         <p>
           Allocation version: {view.ruleVersion}. Supported cycles: 2024 and
           2028.
         </p>
-        <a href={view.sources.allocation}>National Archives allocation</a>
-        {" · "}
-        <a href={view.sources.constitution}>Constitutional amendments</a>
       </details>
     </section>
   );

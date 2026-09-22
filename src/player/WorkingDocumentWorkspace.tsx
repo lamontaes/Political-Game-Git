@@ -328,7 +328,6 @@ function AnalysisPanel({
               <strong>{analysis.modeledChange}</strong>
               <p>{analysis.scopeLabel}</p>
               <small>{analysis.authorLabel}</small>
-              <small>{analysis.provenanceLabel}</small>
               <em>{analysis.qualification}</em>
             </article>
           ))}

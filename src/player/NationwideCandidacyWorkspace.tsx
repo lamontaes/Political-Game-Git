@@ -170,18 +170,6 @@ export function NationwideCandidacyWorkspace({
             >
               <summary>How this office's calendar works</summary>
               <p>{calendar.note}</p>
-              {calendar.sources.length > 0 ? (
-                <ul>
-                  {calendar.sources.map((source) => (
-                    <li key={source.citation}>
-                      <a href={source.url} target="_blank" rel="noreferrer">
-                        {source.citation}
-                      </a>
-                      : “{source.excerpt}”
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
             </details>
           ) : null}
           {status.kind === "won-off-cycle" ? (
@@ -253,22 +241,9 @@ export function NationwideCandidacyWorkspace({
 
 function BlockList({ blocks }: { blocks: readonly CandidacyBlock[] }) {
   if (blocks.length === 0) return null;
-  const citations = [
-    ...new Set(blocks.flatMap((block) => block.citation ?? [])),
-  ];
   return (
     <div className="game-note" data-testid="state-executive-blocks">
       <p>{blocks.map((block) => block.reason).join(" ")}</p>
-      {citations.length > 0 ? (
-        <details className="game-campaign-detail">
-          <summary>Sources and detail</summary>
-          <ul>
-            {citations.map((citation) => (
-              <li key={citation}>{citation}</li>
-            ))}
-          </ul>
-        </details>
-      ) : null}
     </div>
   );
 }
