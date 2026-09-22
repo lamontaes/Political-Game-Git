@@ -1,0 +1,31 @@
+{
+  "requestVersion": "research-request/v1",
+  "questionId": "person-starting-trait-count",
+  "title": "How many traits a person should start with, and how the count should vary",
+  "question": "When a person is generated, how many temperament traits should they carry at the start — a fixed number, a range, or a distribution that varies by age and by how much of their life the game has already recorded? And should the player's own starting count differ from an NPC's?",
+  "whyItMatters": "The trait pack seam is built, so generation is about to start writing traits onto every generated person and the count is a parameter that has to be chosen now. Too many and everyone reads as a caricature and the person card becomes a list; too few and personality never reaches conversation or decisions often enough to be felt. lamontae gave a starting answer of one or two on 2026-09-22 and said in the same breath that it will be adjusted, so the number is provisional and the shape behind it — whether it is flat, age-weighted, or grows as a life accumulates recorded history — has not been decided at all.",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "usableAnswer": "A recommended starting count or distribution, stated as something generation can implement directly (for example: one trait at generation, a second added at a named life stage, at most N ever held); whether it varies with age or recorded history; whether the player differs from an NPC; and the reasoning, with reference to how comparable simulation games handle trait counts at character creation and over a lifetime.",
+  "sourcesChecked": [
+    {
+      "source": "lamontae's own messages, 2026-09-22 03:36 and 04:11 (owner record 01, section A)",
+      "whatItDidNotSettle": "Gives 'one or two' as a starting answer and says explicitly that it will be adjusted. Settles that the number is small; settles nothing about how it varies, how it grows, or whether the player differs."
+    },
+    {
+      "source": "docs/systems/traits.md on origin/claude/people-and-life-4qpuwb (PROPOSED)",
+      "whatItDidNotSettle": "Specifies what a trait is, how a pack declares movability and how resistance is read from the record chain. It does not specify how many traits a generated person starts holding."
+    },
+    {
+      "source": "The personality catalogue in docs/reports/2026-09-22-transcripts-audit-and-personality-catalogue.md",
+      "whatItDidNotSettle": "Measures what the game has against what the transcripts proposed. It identified the count as an open question rather than answering it."
+    }
+  ],
+  "requestedBy": "thread lead, project thread tnj1os",
+  "filedAt": "2026-09-22T04:50:00.000Z",
+  "priority": "P1",
+  "notes": [
+    "Filed under the rule lamontae set on 2026-09-22: a judgement about how the simulated world should feel goes to ChatGPT as a brief, and ChatGPT comes back to him. It is not a question to put to him directly again.",
+    "His starting answer of one or two is the working default until this is answered; generation should not block on it."
+  ]
+}
