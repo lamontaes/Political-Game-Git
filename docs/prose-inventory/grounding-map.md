@@ -24,8 +24,8 @@ declare is reported as undeclared rather than filled in from a guess.
 | `governing/municipal-work-and-session` | 7 | 0 | 0 | activity-evidence, work-standing |
 | `governing/municipal-workspace` | 77 | 0 | 0 | — |
 | `legislative/measure-briefing` | 94 | 0 | 0 | measure |
-| `life/adult` | 384 | 287 | 0 | colleague-identity, household-kinship, persistent-cast |
-| `life/callback` | 41 | 0 | 0 | — |
+| `life/adult` | 358 | 248 | 0 | colleague-identity, household-kinship, persistent-cast |
+| `life/callback` | 39 | 0 | 0 | — |
 | `life/episode` | 1020 | 71 | 0 | activity-evidence, age, colleague-identity, elapsed-time, enrollment, household-kinship, incident-locality, persistent-cast, work-standing |
 | `life/formative` | 177 | 0 | 0 | persistent-cast |
 | `life/introduction` | 12 | 0 | 0 | — |
@@ -33,7 +33,7 @@ declare is reported as undeclared rather than filled in from a guess.
 | `life/office-answer` | 17 | 0 | 0 | candidacy |
 | `life/opening-conversation-intents` | 16 | 0 | 0 | — |
 | `life/opening-conversation-replies` | 59 | 0 | 0 | — |
-| `life/personal-aims` | 18 | 0 | 0 | — |
+| `life/personal-aims` | 19 | 0 | 0 | — |
 | `life/press-disclosure` | 5 | 0 | 0 | — |
 | `life/recall-cards` | 10 | 0 | 0 | — |
 | `narration/connective` | 43 | 0 | 0 | elapsed-time |
@@ -64,7 +64,7 @@ count is how many families' declared grounding touches each one.
 
 ## Withheld scenes and the evidence each one is missing
 
-358 templates across 33 distinct
+319 templates across 30 distinct
 missing-evidence reasons. Each reason is the bank's own, read from the stage's
 `withheld` requirement rather than restated here.
 
@@ -77,11 +77,8 @@ missing-evidence reasons. Each reason is the bank's own, read from the stage's
 - **adult.incident-neighbour-help** — An active incident and another household do not establish comparative damage or a request for help. The impact, request and player knowledge are missing.
 - **adult.incident-aftermath** — An active incident anywhere in the World does not establish local impact, recovery, or player knowledge. The affected household, recovery state and acquired knowledge are missing.
 - **adult.promise-comes-due** — An active player commitment does not establish that it is due or conflicts with something else. The due terms and actual conflict are missing.
-- **adult.old-favour-returns** — An earlier favour-family choice may be a refusal. It does not establish help given, a new larger request or a recurrence count. The actual prior action and new request are missing.
-- **adult.help-with-strings** — Dependency does not establish an offer of help or the concrete problem it would solve. The offer and terms are missing.
 - **adult.work-rule-pressure** — Employment and a colleague do not establish a conflicting work rule or a senior request. The rule, conflict and request are missing.
 - **adult.work-good-week** — Employment does not establish a successful week, completed work or available time. The achievements and circumstances are missing.
-- **adult.work-offer-elsewhere** — Employment does not establish another offer, better terms or coworkers being unaware. An actual offer and the player knowledge of it are missing.
 - **adult.community-building** — Group participation does not establish a building closure, an expiring charge or who pays. The building decision and payment terms are missing.
 - **adult.petition-ask** — Group participation does not establish a petition or a request to sign. The petition, request and disclosure terms are missing.
 - **adult.care-request** — Kinship and no current care responsibility do not establish a care need or a discussion. A named recipient and actual care request are missing; a commitment written after choosing cannot establish them.

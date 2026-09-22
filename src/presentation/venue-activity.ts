@@ -20,7 +20,10 @@ import { recordDomainAttendance } from "./activity-attendance";
 import { openingLifeLocation } from "./life-scene-flow";
 import { completedActivityHere } from "./scene-venues";
 
-export { declineVenueActivity } from "./scheduled-activity-choice";
+export {
+  declineVenueActivity,
+  lapseVenueActivity,
+} from "./scheduled-activity-choice";
 
 export interface DisclosedJourney {
   readonly activity: ScheduledActivityRecord;
@@ -120,6 +123,10 @@ export function venueActivities(
     .map((activity) => {
       let refusal: string | null = null;
       let elapsedMinutes: number | null = null;
+      // Set only where the game itself has no way to let this be carried out,
+      // which is what makes it safe to offer giving it up. A commitment the
+      // player could keep and simply does not want to is not this.
+      let unperformable = false;
       const journey =
         activity.kind === "travel"
           ? null
@@ -153,8 +160,10 @@ export function venueActivities(
             const origin = openingLifeLocation(world, personId);
             if (!origin) {
               refusal = `The current location is not recorded, so the game cannot establish a journey to ${activity.location.label}.`;
+              unperformable = true;
             } else if (origin.label !== activity.location.label) {
               refusal = `No authored journey connects ${origin.label} to ${activity.location.label}. The supported office-to-East-End route does not establish this distance, time, or cost.`;
+              unperformable = true;
             }
           }
         } catch (error) {
@@ -174,9 +183,24 @@ export function venueActivities(
           world.control.kind === "person" &&
           world.control.personId === personId &&
           activity.participantPersonIds.includes(personId) &&
+          // Kept from the client line: the offer to decline is shown only to
+          // whoever owes the answer. See `declineVenueActivity`.
           (activity.responsiblePersonId === personId ||
             (activity.responsiblePersonId === null &&
               activity.participantPersonIds.length === 1)),
+        /**
+         * A commitment the game cannot let this player carry out, which they
+         * may therefore give up. Time will not step over a confirmed
+         * commitment, so without this a life that books one has no legal move
+         * left. See `abandonUnperformableCommitment`.
+         */
+        abandonable:
+          unperformable &&
+          activity.kind !== "tentative" &&
+          activity.kind !== "travel" &&
+          world.control.kind === "person" &&
+          world.control.personId === personId &&
+          activity.responsiblePersonId === personId,
       };
     });
 }

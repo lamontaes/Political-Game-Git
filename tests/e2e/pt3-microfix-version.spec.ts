@@ -102,7 +102,23 @@ for (const viewport of [
     await expect(page.getByTestId("questionnaire-screen")).toBeVisible();
     await expectCornerVersion(page, viewport);
 
+    /*
+     * `questionnaire-finish` does not finish anything. Its button reads
+     * "Review appearance" and its handler is `onFinishEarly`, which returns
+     * the player to the creator's appearance step with Begin still to press.
+     * This walk pressed it and waited for `play-screen`, so it timed out on a
+     * screen the game had every intention of showing.
+     *
+     * The test id outlived the button's meaning, and the id is what a test
+     * author reads. Nothing about the version stamp was ever wrong here: the
+     * two failures this spec reported were both this navigation, two steps
+     * before the first assertion the spec exists to make.
+     */
     await page.getByTestId("questionnaire-finish").click();
+    await expect(page.getByTestId("begin")).toBeEnabled();
+    await expectCornerVersion(page, viewport);
+
+    await page.getByTestId("begin").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);
     await expectCornerVersion(page, viewport);

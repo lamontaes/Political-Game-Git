@@ -1,5 +1,11 @@
 import { expect, test } from "@playwright/test";
-import { enterLife, openMoment, saveLife, startLife } from "./support/creator";
+import {
+  beginAfterCalibration,
+  enterLife,
+  openMoment,
+  saveLife,
+  startLife,
+} from "./support/creator";
 
 test("P2R1 retained adult choices activate by pointer and keyboard on the player surface", async ({
   page,
@@ -81,6 +87,9 @@ test("P2R1 preserves and reloads the old age-32 calibrated fixture when its next
       .click();
   }
   await expect(page.getByTestId("questionnaire-screen")).toHaveCount(0);
+  // The questions hand back to the creator's appearance step rather than to
+  // the life; Begin is the player's next act and the walk takes it.
+  await beginAfterCalibration(page);
   await enterLife(page);
   await openMoment(page);
   let reachedQuiet = false;

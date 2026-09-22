@@ -11,14 +11,19 @@ interface SkillContract {
   readonly trigger: RegExp;
   readonly nontrigger: RegExp;
   readonly links: readonly string[];
+  /**
+   * The heading under which the skill states where it stops. Most entrypoints
+   * use "## Stop condition"; SKILLS1 entrypoints that scope the halt to the
+   * dependent change name it differently, so each contract declares its own.
+   */
+  readonly boundary?: RegExp;
 }
 
 const contracts: readonly SkillContract[] = [
   {
     name: "project-operations",
-    trigger: /preflight, resume, recover, take over, or hand off/i,
-    nontrigger:
-      /do not use as a substitute for an implementation plan or routine Git status/i,
+    trigger: /preflight, resume, recover, take over, receive or hand off/i,
+    nontrigger: /not a replacement for a feature brief/i,
     links: [
       ".agents/workflows/pg-preflight.md",
       ".agents/workflows/pg-resume.md",
@@ -73,6 +78,50 @@ const contracts: readonly SkillContract[] = [
       "docs/systems/garment-morphology-fit.md",
       "docs/systems/scene-authoring-pipeline.md",
       "docs/systems/scene-and-person-presentation.md",
+    ],
+  },
+  {
+    name: "worldbound-gameplay",
+    trigger:
+      /replacing fixed scenarios, named background Acts or name-swapped\s+templates/i,
+    nontrigger:
+      /Not for unrelated bug fixes, free-text legal advice or new art/i,
+    boundary: /## Stop only the dependent part/,
+    links: [
+      "src/simulation/legislation-content-contracts.ts",
+      "src/simulation/legislation-program-families.ts",
+      "src/simulation/legislation-drafting.ts",
+      "src/simulation/life-opportunities.ts",
+      "src/simulation/people-study-plan.ts",
+      "src/simulation/decisions.ts",
+      "src/presentation/contextual-scene-producers.ts",
+    ],
+  },
+  {
+    name: "jurisdiction-profile-compilation",
+    trigger: /Use for nationwide rules and coverage/i,
+    nontrigger: /not real-person legal advice/i,
+    boundary: /## Validation and return/,
+    links: [
+      "src/simulation/rule-capability-resolver.ts",
+      "src/simulation/legislature-rule-packs.ts",
+      "src/simulation/executive-authority-rule-packs.ts",
+      "src/simulation/civil-personnel-contract.ts",
+      "src/simulation/municipal-government.ts",
+      "src/simulation/government-units.ts",
+    ],
+  },
+  {
+    name: "scene-led-ui-theme",
+    trigger: /Use for coherent controls, fitting and\s+hover\/focus behavior/i,
+    nontrigger: /not new simulation rules or unrelated UI frameworks/i,
+    boundary: /## Completion evidence/,
+    links: [
+      "src/player/ShellNav.tsx",
+      "src/player/ShellWorkspaces.tsx",
+      "src/player/PlayerGame.tsx",
+      "src/player/controls/GameSelect.tsx",
+      "src/player/controls/controls.css",
     ],
   },
   {
@@ -140,7 +189,9 @@ describe("SKILL-OPS1 repository skill discovery contracts", () => {
       for (const link of contract.links) {
         expect(existsSync(join(REPO_ROOT, link)), link).toBe(true);
       }
-      expect(skillText(contract.name)).toContain("## Stop condition");
+      expect(skillText(contract.name)).toMatch(
+        contract.boundary ?? /## Stop condition/,
+      );
       expect(
         readdirSync(join(SKILL_ROOT, contract.name)).sort(),
         "entrypoint reuses implementation instead of adding a validator",

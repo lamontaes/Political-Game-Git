@@ -60,8 +60,13 @@ export interface PatchNoteSection {
  * character of the text is left alone. Anything it cannot classify stays in the
  * body rather than being dropped — silently losing a line of release history to
  * a parser is worse than showing it plainly.
+ *
+ * Exported so a proof can apply the rule to a heading of its own. The notes
+ * file holds a reserved candidate only between a proposal and its acceptance,
+ * so a test that demanded one in `PATCH_NOTES.md` would be asserting that the
+ * project never finishes accepting anything.
  */
-function parseSections(markdown: string): readonly PatchNoteSection[] {
+export function parseSections(markdown: string): readonly PatchNoteSection[] {
   const sections: PatchNoteSection[] = [];
   let heading: string | null = null;
   let buffer: string[] = [];

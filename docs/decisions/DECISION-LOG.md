@@ -1583,7 +1583,7 @@ Nothing in this repository enlarged anything.
 measured from that master. The room's tiled floor is its own ruler: a 12-inch
 commercial tile measured near and far gives the apparent size of a known length
 at two depths, which solves the horizon at 39.9% of plate height and yields
-one metre ~= 0.585 * (floor_y - 39.9)% of plate height. The floor calibration,
+one metre ~= 0.585 \* (floor_y - 39.9)% of plate height. The floor calibration,
 the 18.42% standard body width and the cross-check on the one measurable seat
 all come out of that single relation. Nothing was transplanted from prompt30;
 a test asserts the two scenes share no plate, no ramp, no body width and no
@@ -2633,64 +2633,6 @@ bounded six-jurisdiction substrate, all six shipped executive packs, every
 jurisdiction fact, and every accepted sourced row are unchanged by this
 documentation reconciliation.
 
-## D-085 — A bill records the configuration that wrote it, and that record pins the version
-
-- Date: 2026-09-08
-- Status: ACCEPTED
-- Supersedes: none
-- Reconciled: numbered D-085 rather than D-084, which the current packet
-  reserves for PR #90. Main's D-079/D-080/D-083 and PR79's D-081/D-082 are
-  preserved unchanged.
-
-Bills in this game were authored one at a time. Three legislative scenarios
-existed and all three were the same mechanism — a transit subsidy — with the
-state, the bill number and the beneficiary changed, so a player choosing among
-them was choosing a label. Making bills composable means a bill's text is
-produced from a declared programme family and a set of parameter values rather
-than written out by hand.
-
-That creates a fact nothing in the store could express.
-
-A measure record says what a bill is called, which jurisdiction and rule pack
-it belongs to, and who sponsored it. Provision records say what its operative
-text currently reads and what it used to read, append-only, with amendment
-authority behind every revision. Between them they describe the bill
-completely — and neither of them can say that the text was compiled from a
-named family, at a named version of that family, from a named set of parameter
-values. Without that, reopening a saved bill cannot say which programme it
-belongs to, which amendment its politics are about, or whether the content
-bank has moved underneath it since.
-
-So one canonical shape is added: `legislativeDraftLineages`, an optional
-append-only `HistoryStore` family, wired into world integrity and history
-aggregation exactly as provisions are. Three things about it are the decision.
-
-It is written once, when the bill is filed, and never rewritten. An amended
-bill's text moves through the accepted provision writers; its lineage still
-records where it started. One measure may carry only one lineage, because two
-would mean two answers to "which configuration wrote this" and the later one
-would win by accident.
-
-It pins `familyVersion`, and that is the point of the record rather than a
-detail of it. The filed text is authoritative and lives in provisions, so
-editing a family in the bank — widening a bound, rewording a clause, retiring a
-configuration — changes what a _new_ bill would say and cannot restate a bill a
-player already filed. A saved bill whose family version no longer matches the
-bank is read back as what it is: its filed text stands, and the re-reading is
-reported unavailable with the reason, rather than silently recompiled into
-something else.
-
-Parameter values are stored as typed discriminated records, sorted by key, not
-as a JSON blob or an encoded identifier. A serialized world stays inspectable,
-two saves of the same configuration are byte-identical regardless of the order
-the player moved the controls in, and no value can arrive as a string that
-something downstream parses back into a number.
-
-Consequence: a docket can hold three unrelated bills in one life, each one
-still knowing what it is; and the content bank can grow, change or retire
-configurations without any of it reaching backwards into bills that are already
-filed.
-
 ## D-084 — An arm is measured from the alpha that contains it, and the part the alpha does not contain is reported occluded rather than estimated
 
 - Date: 2026-09-04
@@ -2823,3 +2765,283 @@ Consequence: a docket can hold three unrelated bills in one life, each one
 still knowing what it is; and the content bank can grow, change or retire
 configurations without any of it reaching backwards into bills that are already
 filed.
+
+## D-086 — Evidence named at an exact head is a merge standard, and a claim carries what was measured
+
+- Date: 2026-09-22
+- Status: ACCEPTED
+- Supersedes: none
+
+On the night of 21–22 September the repository could not produce a CI verdict
+for any branch, and roughly thirty pull requests needed to reach `main` by
+morning. Every lane faced the same question independently: what may be merged
+when the gate cannot report.
+
+The answer adopted, and the reason it is not a licence.
+
+**A merge requires evidence named at an exact head.** Not "the tests pass" but
+which commands were run, on which commit, with what output, and what was not
+run. A pull request merged this way says so in its own body and in the merge
+commit, so the record shows the standard that was applied rather than implying
+a verdict that never existed. Documents merged on local evidence; code required
+the gates a contributor runs locally — format, lint, typecheck, the affected
+tests and the release declaration range — each named at the head it ran on.
+
+**The reason this is safe is the naming, not the running.** A local run that
+nobody can locate afterwards is worth less than no claim at all, because it
+invites a reader to assume more than was done. Five separate claims that night
+outran their measurement and each was caught by someone asking which head, or
+which shard, or which browser.
+
+**So a claim carries what was measured.** Three habits, each paid for:
+
+- **Name the ref.** "The formatter is clean" was true on one branch and false
+  on another.
+- **Prefer the measurement to the conclusion, especially in anything durable.**
+  "Two of six unit shards reported green at 08:09Z" survives being wrong later;
+  "the unit suite is clean" has nothing in it to check. Two of the five wrong
+  claims travelled through project memory rather than a conversation, which
+  reaches every later reader stripped of the context that would let them judge
+  it.
+- **Retract in place, and say whose it was.** A correction that hides its
+  author teaches nobody, and the reader cannot tell which other claims from the
+  same source to re-examine.
+
+**A corollary, from the one finding that turned out not to be one: a test
+helper route is not a player route.** A walk reported that three menu
+destinations all opened the same page. They were keys in a Playwright helper,
+and the helper skipped silently when the control did not exist, so the walk sat
+on one page three times and read the same text three times. Confirm a
+destination exists on the rendered page before writing down a navigation
+defect. This is the same rule as the rest of the entry seen from the
+instrument's side: a measurement carries what it actually reached, and a
+helper that fails by doing nothing reports agreement where there was no
+observation.
+
+**What this does not license.** It is not permission to skip a gate that is
+available, to call a failing test an infrastructure flake, or to merge code
+whose behaviour nobody exercised. Where a verdict is obtainable it is obtained.
+The standard exists for the case where it is not, and the honest report of that
+case says which parts were measured and which were merely argued.
+
+Consequence: the morning report distinguishes what was measured from what was
+inferred, and a reader who checks any individual claim finds the head it was
+measured on rather than a bare assertion.
+
+## D-087 — A merge with no conflict is not a merge with no consequence
+
+- Date: 2026-09-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Twice in one night a clean automatic merge produced a tree that did not
+compile, and neither instance was visible in the merge itself. Git reports a
+conflict when two sides edit the same hunk. It reports nothing when one side
+adds a caller and the other removes the callee, because those live in
+different files, or in different hunks of the same file.
+
+**The instances.**
+
+- `#283` against `main` at `1c4a2d85`: main added
+  `src/presentation/legislation-bundle-docket.ts` in `bcee3aed`, which imports
+  `designationPrefix`; the branch removed that export from
+  `src/simulation/legislation-drafting.ts`, having relocated the prefix onto
+  the chamber record. Neither file conflicts. `npm run typecheck` fails with
+  `TS2305`.
+- The release branch, earlier the same night: a base merge that read as a
+  clean reversal of an export until the history was checked.
+
+**The rule.** A base merge that reports no conflict has not been validated.
+Run typecheck on the merged tree before the merge is treated as done, and name
+the head it ran on, exactly as D-086 requires of any other evidence. This is
+cheap — typecheck is the fastest gate the repository has — and it is the only
+one of the gates that catches this class at all. Lint, format and a unit shard
+that does not import the broken module all pass a tree that will not build.
+
+**What it does not license.** It is not an argument for skipping the other
+gates, and it is not a reason to avoid base merges. A branch that is behind
+main is a worse risk than one that is current; the point is that merging main
+in is a change like any other and needs a check run after it, not before.
+
+Consequence: "merged cleanly" stops being reported as a result on its own. The
+result is the gate that ran on the merged tree.
+
+## D-088 — An instrument that can fail by measuring nothing will report that as a pass
+
+- Date: 2026-09-22
+- Status: ACCEPTED
+- Supersedes: none
+
+**Every instrument needs a check that it engaged at all.**
+
+On the night of 21–22 September this shape appeared six times, in four
+unrelated lanes, in tools with nothing to do with each other. Each time it
+produced a confident report of agreement where nothing had been observed, and
+each time the resulting claim travelled before anyone checked it. It is the
+common root of most of that night's retractions.
+
+**The instances.** Two are verified in this repository at the lines named; the
+other four were reported by the lanes that hit them and are recorded as such.
+
+Verified in the tree:
+
+- `src/simulation/no-citations-on-player-surfaces.test.ts:211` — the first
+  version of that block called `resolveCapability` with `officeKey: null`
+  only, and the resolver takes a whole branch, with its own sentences, only
+  when it is given an office key. In the file's own words: "the producer was
+  missed once by not being called at all, and missed again by being called
+  down one path."
+- `tests/e2e/civil-authority-normal-route.spec.ts:33` — a loop pressed
+  `pass-day` sixty times on the Calendar, which does not draw that control.
+  The arithmetic was wrong underneath it too: two hundred and forty-four days
+  could never be reached by sixty single-day presses.
+
+Reported by their lanes:
+
+- A walk helper that did a bare `continue` past a missing sub-control, so
+  three destinations were measured as one page three times — producing a
+  defect report about a screen that was fine.
+- A citation sweep that passed against an unfixed file, because its fixture
+  never reached a rule carrying a citation.
+- A `vitest` invocation naming three test files where two exist; the missing
+  path was ignored silently, so a passing count covered two files.
+- A probe matching whole-page text against `/found|new party|formed/i`, loose
+  enough to agree with almost anything. It cost two retractions on its own.
+
+**The corollary, added 2026-09-22 09:45Z after it caught the author of this
+entry.** _An instrument that reports nothing invites a guessed explanation,
+and the guess inherits the same false confidence._
+
+Three lanes in ninety minutes looked at the same time control and each wrote
+down a different confident reason a locator could not find it; none was
+checked against the file until the fourth reading. One said the label is
+screen-reader-only. The second — written into an earlier version of this
+entry — said the string does not exist, on the strength of a
+`git grep "Skip to Monday"` that returned nothing. The string is composed:
+`skipToLabel` at `src/presentation/time-target-label.ts:18` returns
+`` `Skip to ${describeTimeTarget(moment)}` ``, so a literal search cannot find
+it however often it reaches the screen. That is the fourth instance above,
+committed while writing the list of instances.
+
+The measured reason, on `main` at `b8f8702f`: the string is on that button in
+the `title` at `src/player/ShellNav.tsx:515`, in an `sr-only` span at `:542`,
+and via the `aria-describedby` at `:514`. The button's text content is `Week`
+with an `aria-hidden` chevron, so its accessible **name** is "Week", and
+`aria-describedby` contributes to an accessible _description_, never to a
+name. A role-and-name locator therefore cannot match it, and the fix is the
+`data-testid` or the accessible name. Both wrong diagnoses pointed at other
+fixes entirely.
+
+**The mirror image, added 2026-09-22 10:30Z.** An instrument that fails to
+start can report it as a **failure**. The research-audit lane's first attempt
+at a browser check printed `1 failed` when the browser had never started, so a
+harness that ran no test body produced the line a genuine assertion failure
+produces. That manufactures a defect rather than hiding one. Same root, same
+defence: the instrument must show it engaged before its verdict means
+anything.
+
+**A consequence for this repository specifically.** Three independent lanes
+found tests whose result depends on what else runs alongside them: one that
+passes alone on both `main` and a branch and fails only in a full shard, and
+two that answer differently depending on their neighbours. So **some of this
+suite's results depend on what else is running**, which weakens every
+same-tree attribution in both directions, including matches used to call a
+failure inherited. Re-running a case **on its own** is therefore a real
+diagnostic here — it produces a specific reportable fact, "passes alone, fails
+in company", rather than a second opinion — and it is not covered by the
+prohibition on re-running to dismiss a flake.
+
+**The rule.** An assertion that cannot fail is worse than no assertion,
+because it manufactures confidence rather than merely withholding it. So an
+instrument asserts its own reach before it asserts its result: a non-empty
+count of what it examined, a control it proves it found, a file list it proves
+it loaded. A walk that measures zero weeks fails loudly rather than agreeing
+quietly.
+
+**What it does not license.** It is not a reason to loosen an assertion so it
+stops being brittle — a loose matcher is instance four, not a fix for it. Nor
+is it a demand that every test carry a meta-assertion: it applies where the
+instrument can silently reach nothing, which is any sweep, walk, glob, grep or
+loop over a collection that may be empty.
+
+Consequence: a report that an instrument passed is incomplete without what it
+covered. "Green" on its own stops being a result, exactly as "merged cleanly"
+does under D-087.
+
+## D-089 — A generated file that is committed makes a branch un-mergeable, and an un-mergeable branch gets no CI at all
+
+- Date: 2026-09-22
+- Status: ACCEPTED
+- Supersedes: none
+
+**CI silence is a reason to check mergeability first, not to wait longer.**
+
+Two lanes lost hours on the night of 21–22 September watching an empty queue
+for a run that was never going to be created. The reason is structural rather
+than incidental, and it is worth stating as a rule because nothing visible
+from the outside distinguishes it from a busy queue.
+
+**The mechanism, in three steps.**
+
+1. `docs/prose-inventory/README.md` and `docs/prose-inventory/coverage-report.md`
+   are generated output that is also committed, and the repository requires any
+   branch touching `src/` to regenerate them. `docs/dehardwire/census.json` is
+   the same shape.
+2. `main` therefore rewrites those files on essentially every source merge. So
+   does every branch. Two branches that touch no common source file still
+   collide there.
+3. GitHub builds no merge ref for a conflicted pull request, so it creates **no
+   `pull_request` workflow run at all.** Not a queued run, not a cancelled run —
+   nothing to read, and nothing to cancel.
+
+Put together: on a night merging every two or three minutes, any branch
+touching `src/` becomes un-mergeable, and therefore un-testable, within minutes
+of every merge to `main` — **on a file no human wrote.**
+
+**Measured twice, independently.**
+
+The research-audit lane ran `git merge-tree --write-tree` for #305's head
+against every `main` in a three-hour window: clean against the two mains
+current at push time, **dirty against all twenty mains from `a08d2eef`
+(08:53:27Z) through `a610ea3f` (10:28Z)**, and the conflict is always the same
+two prose-inventory files.
+
+This lane's own instance, measured here rather than relayed. `08a999f2`, the
+0.4.0 release head, was pushed at 08:54:53Z having merged `main` at
+`4595878e` (08:49:53Z):
+
+| Merged against         | Result    |
+| ---------------------- | --------- |
+| `4595878e` — 08:49:53Z | clean     |
+| `a08d2eef` — 08:53:27Z | **dirty** |
+| `c659f256` — later     | **dirty** |
+
+It went un-mergeable **three and a half minutes after the merge it was built
+on**, and has stayed so. There is no workflow run on `08a999f2` and there never
+was one: the only run the release branch has ever had a verdict from is
+`35706104688`, on the earlier head `eb0abea1`. What had been written down in
+this lane's own documents as a branch deliberately _parked_ was in fact a
+branch that could not be _tested_, and that correction is the point of
+recording this.
+
+**The caveat, which must travel with the finding.** This explains 2h57m of the
+three hours, not all of it: at push time the head was clean and there were
+already zero checks three minutes later. **Mostly explained, not solved.** It
+also retires two earlier explanations of that lane's — a queue cap and a
+concurrency-group reading — both of which fitted everything visible at the
+time, which is the ordinary way a wrong explanation survives.
+
+**Three narrow options, none of which anyone should pick tonight.** They are
+recorded for the owner because each trades something real:
+
+- Stop committing `docs/prose-inventory/`, which removes the collision and
+  also removes the reviewable diff.
+- Have the gate regenerate and compare rather than diff a committed artifact,
+  which costs gate time on every run.
+- Give those files a merge driver, which keeps the diff and the gate and adds
+  a piece of git configuration every checkout must have.
+
+Consequence, and the part that changes behaviour immediately: **when a branch
+has no checks, read its mergeability before reading the queue.** An empty
+queue and an un-mergeable head look identical from the outside, and only one of
+them gets better by waiting.

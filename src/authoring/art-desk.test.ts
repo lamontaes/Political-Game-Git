@@ -27,7 +27,10 @@ import {
   projectArtDesk,
   type ArtDeskReconciliation,
 } from "./art-desk";
-import type { AssetRequest } from "./asset-request";
+import {
+  TERMINAL_ASSET_REQUEST_STATUSES,
+  type AssetRequest,
+} from "./asset-request";
 import reconciliationData from "../../art/requests/art-desk-reconciliation.json";
 import generationBatch from "../../art/requests/art-desk-generation-batch.json";
 import assetRequestDocument from "../../art/requests/asset-requests.json";
@@ -263,10 +266,30 @@ describe("Art Desk projection and briefs", () => {
     expect(byId.get("env-campaign-storefront")?.lane).toBe("covered-history");
     expect(desk.privatePack.status).toBe("unknown");
     const eligible = desk.items.filter((item) => item.generationEligible);
-    expect(eligible.map((item) => item.request.requestId).sort()).toEqual([
-      "env-neighborhood-doorstep-generic",
-      "env-park-community-pavilion-winter-variant",
-    ]);
+    // This used to assert the eligible set by exact id. It was changed after
+    // the frozen list turned red three times in one night for three correct
+    // reasons — a held request whose ask was rewritten, ten capitols, three
+    // interface graphics — and would have turned red for every future kind of
+    // art too. A list that is edited every time it fires stops being read.
+    //
+    // What actually needs guarding is one direction only: nothing may be
+    // offered for generation that is held, terminal, closed by a preserved
+    // asset, already covered by art we own, or a person request. A new
+    // uncovered request BECOMING eligible is the system working. So the rule
+    // is asserted against every eligible item, which cannot go stale, and the
+    // specific ineligible cases stay pinned by id above.
+    expect(eligible.length).toBeGreaterThan(0);
+    for (const item of eligible) {
+      expect(item.request.generationHold).toBeUndefined();
+      expect(TERMINAL_ASSET_REQUEST_STATUSES).not.toContain(
+        item.request.status,
+      );
+      expect(item.coverage.disposition).not.toBe("candidate");
+      expect(item.coverage.disposition).not.toBe("public-released");
+      expect(item.coverage.disposition).not.toBe("private-usable");
+      expect(item.lane).not.toBe("covered-history");
+      expect(item.request.requestId.startsWith("person-")).toBe(false);
+    }
   });
 
   it("puts hashed generation candidates in Needs your review without calling them production", () => {

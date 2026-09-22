@@ -7,6 +7,11 @@ import {
   projectOrientationView,
   type OrientationView,
 } from "../presentation/world-orientation";
+import {
+  regionalOpeningPlateFor,
+  regionalPlaceQuery,
+  type RegionalOpeningResult,
+} from "../presentation/regional-opening-plate";
 
 const STATE_NAMES: Readonly<Record<string, string>> = US_STATE_NAMES;
 
@@ -24,12 +29,30 @@ export function stateNameForUsps(usps: string): string | null {
 export function useWorldOrientation(
   world: World,
   personId: EntityId,
-): { readonly view: OrientationView; readonly homeStateUsps: string | null } {
+): {
+  readonly view: OrientationView;
+  readonly homeStateUsps: string | null;
+  /**
+   * The regional plate for this life's place, or the reason there is none.
+   *
+   * Resolved here rather than inside the orientation projection, which is a
+   * pure reading of the saved World and must not learn about bundled files.
+   */
+  readonly regionalPlate: RegionalOpeningResult;
+} {
   return useMemo(() => {
     const orientation = projectWorldOrientation(world, personId);
+    const homeStateUsps = orientation.homeState?.stateUsps ?? null;
     return {
       view: projectOrientationView(orientation, stateNameForUsps),
-      homeStateUsps: orientation.homeState?.stateUsps ?? null,
+      homeStateUsps,
+      regionalPlate: regionalOpeningPlateFor(
+        regionalPlaceQuery(
+          world,
+          homeStateUsps,
+          orientation.locality?.jurisdictionId ?? null,
+        ),
+      ),
     };
   }, [world, personId]);
 }

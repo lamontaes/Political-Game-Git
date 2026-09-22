@@ -20,7 +20,10 @@ export function WorldOrientationEntry({
   readonly onOpenPerson: (personId: EntityId) => void;
 }) {
   const [open, setOpen] = useState(false);
-  const { view, homeStateUsps } = useWorldOrientation(world, personId);
+  const { view, homeStateUsps, regionalPlate } = useWorldOrientation(
+    world,
+    personId,
+  );
   if (!open) {
     return (
       <button
@@ -39,6 +42,7 @@ export function WorldOrientationEntry({
       personId={personId}
       view={view}
       homeStateUsps={homeStateUsps}
+      regionalPlate={regionalPlate}
       mode="revisit"
       onClose={() => setOpen(false)}
       onOpenPerson={onOpenPerson}

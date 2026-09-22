@@ -196,13 +196,13 @@ export function peerStudyApproach(
       {
         optionKey: "outline-first",
         trait: "deliberation",
-        pole: "high",
+        pole: "low",
         explanation: "They would rather know the shape before starting.",
       },
       {
         optionKey: "evidence-first",
         trait: "deliberation",
-        pole: "high",
+        pole: "low",
         explanation: "They would rather read everything before deciding.",
       },
       {
@@ -524,7 +524,7 @@ export function decideStudyPlanOutcome(
           {
             optionKey: "agrees",
             trait: "deliberation",
-            pole: "high",
+            pole: "low",
             explanation:
               "A worked-out revision is the kind of thing they take.",
           },
@@ -543,6 +543,11 @@ export function decideStudyPlanOutcome(
           {
             optionKey: "unresolved",
             trait: "deliberation",
+            // Deliberation argues for both "take the worked-out revision"
+            // and "not yet" here, and that is the honest shape of it: a
+            // careful person either accepts something already thought
+            // through or wants longer. What it must not do is make the
+            // person who acts on impulse the one who defers.
             pole: "low",
             explanation: "They have not thought about it enough to say yes.",
           },
@@ -563,7 +568,7 @@ export function decideStudyPlanOutcome(
           {
             optionKey: "counterproposes",
             trait: "deliberation",
-            pole: "high",
+            pole: "low",
             explanation: "They can see a part of it they would keep.",
           },
         ],

@@ -96,12 +96,51 @@ export type AssetTargetClass =
   | "environment-plate"
   /** A title/menu tableau background. */
   | "title-plate"
+  /**
+   * A part of a person the modular composer assembles — a body, a head, a
+   * garment. Shipped, and measured differently from a plate, because a
+   * component is judged on its attachment anchors as well as its pixels.
+   *
+   * This is recorded rather than introduced. Six entries in
+   * `art/requests/asset-requests.json` already declare it — among them
+   * `person-production-seated-body` and `person-adult-lectern-pose` — and the
+   * request validator never checked `targetClass` against this list, so the
+   * shipped vocabulary and the type had drifted apart without anything
+   * failing. A figure request could be filed and could not be promoted,
+   * because the only class left for it was `reference`, which says never
+   * shipped and would have been false.
+   */
+  | "character-component"
+  /**
+   * Shipped artwork that is part of the interface rather than part of the
+   * world: a newspaper's page furniture, an icon standing for a kind of thing
+   * the shell can point at, the visual language of a chart.
+   *
+   * Unlike `character-component`, this one is INTRODUCED rather than recorded.
+   * Nothing in `art/requests/asset-requests.json` used it before it was added
+   * here, and it is added because lamontae asked on 2026-09-22 for art requests
+   * for "not just backgrounds - but things like newspapers or certain ui things
+   * or graphs", which the four existing classes cannot express: a masthead
+   * ornament is not a room the compositor paints, not a menu tableau, not a
+   * part of a person, and emphatically not `reference`, which means never
+   * shipped.
+   *
+   * The boundary that matters: an interface graphic is drawn once and reused
+   * wherever that interface element appears, and it never asserts a fact about
+   * the world. An icon for "measure" stands for the idea of a measure; it does
+   * not depict any particular bill. Anything that depicts a real, identified
+   * subject belongs in one of the other classes, where the likeness and
+   * provenance rules apply to it.
+   */
+  | "interface-graphic"
   /** Evidence and authoring reference; never shipped. */
   | "reference";
 
 export const ASSET_TARGET_CLASSES: readonly AssetTargetClass[] = [
   "environment-plate",
   "title-plate",
+  "character-component",
+  "interface-graphic",
   "reference",
 ];
 
@@ -263,6 +302,29 @@ export function targetClassShips(targetClass: AssetTargetClass): boolean {
 }
 
 /**
+ * Whether the ENVIRONMENT MASTER width floor is the right ruler for this class.
+ *
+ * It is the right ruler for exactly the two classes it was written for,
+ * `environment-plate` and `title-plate`: art that fills a screen, where 4608px
+ * is what survives a crop and a tier ladder. It is the wrong ruler for the two
+ * shipping classes that are not full-bleed. An `interface-graphic` — a masthead
+ * nameplate, a popover card ground, a chart's plotting ground — and a
+ * `character-component` are a few hundred pixels wide by design, and measuring
+ * one against a full-bleed room plate's floor would reject correct art for
+ * being the size it is supposed to be.
+ *
+ * Those classes are not unmeasured. Their floor is the `minimumWidth` their own
+ * request declares in `art/requests/asset-requests.json`, which is where a
+ * per-asset floor belongs — one number per picture, set by the surface that
+ * will paint it, rather than one constant standing in for all of them.
+ */
+export function targetClassUsesEnvironmentMasterFloor(
+  targetClass: AssetTargetClass,
+): boolean {
+  return targetClass === "environment-plate" || targetClass === "title-plate";
+}
+
+/**
  * The whole intake judgement for one candidate, as a value.
  *
  * Nothing here reads a filename to decide anything that matters. Naming
@@ -385,38 +447,40 @@ export function evaluateEnvironmentMasterIntake(
 
   const nativeDetailWidth = effectiveNativeDetailWidth(detail, measured.width);
 
-  // --- Size contract, applied to plates only -------------------------------
+  // --- Size contract, applied to full-bleed plates only --------------------
   const ships = targetClassShips(candidate.targetClass);
   if (ships) {
-    if (measured.width < ENVIRONMENT_MASTER_MINIMUM_WIDTH) {
-      findings.push(
-        finding(
-          "master-width-below-minimum",
-          "error",
-          `Width ${measured.width}px is below the ${ENVIRONMENT_MASTER_MINIMUM_WIDTH}px absolute minimum for an environment master.`,
-        ),
-      );
-    } else if (measured.width < ENVIRONMENT_MASTER_RECOMMENDED_WIDTH) {
-      findings.push(
-        finding(
-          "master-width-below-recommendation",
-          "warning",
-          `Width ${measured.width}px clears the absolute minimum but is below the ${ENVIRONMENT_MASTER_RECOMMENDED_WIDTH}px recommendation; a 4096 tier will not survive a crop.`,
-        ),
-      );
-    }
+    if (targetClassUsesEnvironmentMasterFloor(candidate.targetClass)) {
+      if (measured.width < ENVIRONMENT_MASTER_MINIMUM_WIDTH) {
+        findings.push(
+          finding(
+            "master-width-below-minimum",
+            "error",
+            `Width ${measured.width}px is below the ${ENVIRONMENT_MASTER_MINIMUM_WIDTH}px absolute minimum for an environment master.`,
+          ),
+        );
+      } else if (measured.width < ENVIRONMENT_MASTER_RECOMMENDED_WIDTH) {
+        findings.push(
+          finding(
+            "master-width-below-recommendation",
+            "warning",
+            `Width ${measured.width}px clears the absolute minimum but is below the ${ENVIRONMENT_MASTER_RECOMMENDED_WIDTH}px recommendation; a 4096 tier will not survive a crop.`,
+          ),
+        );
+      }
 
-    if (
-      nativeDetailWidth !== null &&
-      nativeDetailWidth < ENVIRONMENT_MASTER_MINIMUM_WIDTH
-    ) {
-      findings.push(
-        finding(
-          "native-detail-below-minimum",
-          "warning",
-          `Real detail stops at ${nativeDetailWidth}px, below the ${ENVIRONMENT_MASTER_MINIMUM_WIDTH}px master minimum, even though the file is ${measured.width}px. This master is admissible with its lineage declared, but its top tiers will carry interpolated pixels and will say so.`,
-        ),
-      );
+      if (
+        nativeDetailWidth !== null &&
+        nativeDetailWidth < ENVIRONMENT_MASTER_MINIMUM_WIDTH
+      ) {
+        findings.push(
+          finding(
+            "native-detail-below-minimum",
+            "warning",
+            `Real detail stops at ${nativeDetailWidth}px, below the ${ENVIRONMENT_MASTER_MINIMUM_WIDTH}px master minimum, even though the file is ${measured.width}px. This master is admissible with its lineage declared, but its top tiers will carry interpolated pixels and will say so.`,
+          ),
+        );
+      }
     }
     if (detail.state === "unverified") {
       findings.push(

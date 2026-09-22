@@ -1804,6 +1804,22 @@ export function liftCandidatesForReview(
       published.reduce((n, g) => n + g.component_ids.length, 0)
   )
     throw new Error("Duplicate published candidate membership.");
+  /*
+   * The generation a candidate joins when no published generation claims it.
+   *
+   * An empty `published` array is not the same as an absent one. It is truthy,
+   * so the published branch below is taken, and `Math.max()` of nothing is
+   * -Infinity — which would have stamped every lifted candidate with a
+   * `catalog_generation` of -Infinity rather than a number, silently matching
+   * nothing downstream instead of failing. An empty list means nothing has
+   * been published yet, so the first unclaimed candidate joins the first
+   * review generation, which is exactly what the unpublished path already
+   * does.
+   */
+  const unpublishedGeneration =
+    published && published.length > 0
+      ? Math.max(...published.map((g) => g.generation)) + 1
+      : CANDIDATE_REVIEW_GENERATION;
   const lifted = records
     .filter(
       (record) =>
@@ -1829,8 +1845,7 @@ export function liftCandidatesForReview(
       // Found 2026-09-22 while auditing the compiled-art path for places where
       // an ABSENCE of material was being reported as a failed verification.
       const generation = published
-        ? (membership.get(record.asset_id) ??
-          Math.max(...published.map((g) => g.generation)) + 1)
+        ? (membership.get(record.asset_id) ?? unpublishedGeneration)
         : useFrozen && !frozen.has(record.asset_id)
           ? CANDIDATE_REVIEW_GENERATION + 1
           : CANDIDATE_REVIEW_GENERATION;

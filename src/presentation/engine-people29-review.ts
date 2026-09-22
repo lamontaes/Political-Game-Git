@@ -1,5 +1,6 @@
 import { componentUrls as urls } from "./bundled-art";
-import fit from "../../art/manifest/character_candidate_visual4_fit.json";
+import catalog from "../../art/manifest/character_catalog.json";
+import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json";
 import {
   KIT41_REGISTRY as kit,
   MODULAR41_HEADS_REGISTRY as headRepair,
@@ -7,12 +8,7 @@ import {
   candidateGenerations,
   candidateRegistry,
 } from "./private-candidate-manifests";
-import {
-  eligible,
-  lifted as frozen,
-  PEOPLE_VISUAL4_CHARACTER_LIBRARY,
-  PEOPLE_VISUAL4_VISUAL_LIBRARY,
-} from "./people-visual4-review";
+import type { CharacterCatalogData } from "./character-components";
 import {
   createCharacterComponentLibrary,
   liftCandidatesForReview,
@@ -33,11 +29,16 @@ const standing41 = candidateRegistry("engine41");
 // Input manifests remain draft/pending/unreleased; the production registry is untouched.
 // Invalid candidate input refuses candidate people while keeping saves and the
 // shell available. Never substitute another catalog's person after validation fails.
+//
+// The retired Visual4 cast used to supply the slots, the fit bank's base and a
+// skin-tone table. It is permanently removed, so the slots come from the
+// production catalog they were always read from, the base fit comes from the
+// production garment profiles, and there is no skin-tone table — production
+// composes without one too. MODULAR45 is unaffected by that removal and stays.
 const loaded = (() => {
   try {
     const review = liftCandidatesForReview(
       [
-        ...eligible,
         ...(headRepair.assets as unknown as readonly CharacterComponentManifestRecord[]),
         ...(modular45.assets as unknown as readonly CharacterComponentManifestRecord[]),
         ...(kit.assets as unknown as readonly CharacterComponentManifestRecord[]),
@@ -48,10 +49,9 @@ const loaded = (() => {
         ...(audience40.assets as unknown as readonly CharacterComponentManifestRecord[]),
         ...(standing41.assets as unknown as readonly CharacterComponentManifestRecord[]),
       ],
-      frozen.catalog.slots,
+      (catalog as CharacterCatalogData).slots,
       {
         frozenGenerations: [
-          ...frozen.catalog.generations,
           ...candidateGenerations("engine41"),
           ...headRepair.generations,
           ...modular45.generations,
@@ -74,9 +74,8 @@ const loaded = (() => {
         profile_layer_changes: modular45.profileLayerChanges,
       },
       createGarmentFitBank({
-        ...fit,
+        ...garmentFitProfiles,
         garments: [
-          ...fit.garments,
           ...kit.garments,
           ...data.garments,
           ...refinement.garments,
@@ -87,13 +86,12 @@ const loaded = (() => {
           ...modular45.garments,
         ],
       } as GarmentFitBankData),
-      PEOPLE_VISUAL4_CHARACTER_LIBRARY.skinTone,
     );
     return { review, library, inputError: null };
   } catch (error) {
     const library: CharacterComponentLibrary = {
       catalogGeneration: 0,
-      slots: frozen.catalog.slots,
+      slots: (catalog as CharacterCatalogData).slots,
       generations: [],
       components: new Map(),
       fit: null,
@@ -111,7 +109,6 @@ export const ENGINE_PEOPLE29_CHARACTER_LIBRARY = loaded.library;
 export const ENGINE_PEOPLE29_INPUT_ERROR = loaded.inputError;
 
 export const ENGINE_PEOPLE29_VISUAL_LIBRARY = new Map([
-  ...PEOPLE_VISUAL4_VISUAL_LIBRARY,
   ...createRuntimeVisualLibrary(
     review.records.filter(
       (r) =>

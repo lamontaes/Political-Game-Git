@@ -15,6 +15,8 @@ import type {
   OrientationView,
   OrientationStep,
 } from "../presentation/world-orientation";
+import type { RegionalSceneKind } from "../authoring/regional-scene-coverage";
+import type { RegionalOpeningResult } from "../presentation/regional-opening-plate";
 import type { EntityId, World } from "../simulation";
 import { GameSelect } from "./controls/GameSelect";
 import { OpeningStatePopulation } from "./OpeningStatePopulation";
@@ -45,6 +47,7 @@ import {
 export function WorldOrientationPanel({
   view,
   homeStateUsps,
+  regionalPlate,
   mode,
   onClose,
   onOpenPerson,
@@ -56,6 +59,12 @@ export function WorldOrientationPanel({
 }: {
   readonly view: OrientationView;
   readonly homeStateUsps: string | null;
+  /**
+   * The regional plate for this life's place. A miss renders no picture at
+   * all: a player shown the wrong landscape has been told the game does not
+   * know where they live, which is worse than a panel with no picture on it.
+   */
+  readonly regionalPlate?: RegionalOpeningResult;
   /** "first" follows a new life; "revisit" is reopened from the menu. */
   readonly mode: "first" | "revisit";
   readonly onClose: () => void;
@@ -185,7 +194,9 @@ export function WorldOrientationPanel({
     0,
     regionalPlates.findIndex((candidate) => candidate.assetId === chosenRegion),
   );
-  const regionalPlate = regionalPlates[regionIndex] ?? null;
+  // The state step's own scene picker, distinct from the locality plate the
+  // caller supplies as `regionalPlate`: this one the player can page through.
+  const regionScene = regionalPlates[regionIndex] ?? null;
 
   return (
     <section
@@ -210,6 +221,30 @@ export function WorldOrientationPanel({
         <p className="pg-orientation-kicker">
           {index + 1} of {steps.length} · {view.dateLabel}
         </p>
+
+        {step.key === "locality" &&
+        regionalPlate &&
+        regionalPlate.kind === "plate" ? (
+          <figure
+            className="pg-orientation-region"
+            data-testid="orientation-region-plate"
+            data-region={regionalPlate.plate.regionKey}
+            data-matched-by={regionalPlate.plate.matchedBy}
+          >
+            <img
+              className="pg-orientation-region-plate"
+              src={regionalPlate.plate.url}
+              width={regionalPlate.plate.width}
+              height={regionalPlate.plate.height}
+              alt={`${SCENE_ALT[regionalPlate.plate.sceneKind]}: ${regionalPlate.plate.displayName.toLowerCase()}.`}
+            />
+            <figcaption className="pg-orientation-region-caption">
+              {SCENE_CAPTION[regionalPlate.plate.sceneKind]} Illustration, not
+              this address.
+            </figcaption>
+          </figure>
+        ) : null}
+
         <h2
           id={`pg-orientation-title-${step.key}`}
           ref={heading}
@@ -241,21 +276,21 @@ export function WorldOrientationPanel({
             <div
               className="pg-regional-opening-scene"
               data-testid="opening-regional-scene"
-              data-has-background={Boolean(regionalPlate)}
+              data-has-background={Boolean(regionScene)}
             >
-              {regionalPlate ? (
+              {regionScene ? (
                 <img
                   className="pg-regional-opening-backdrop"
-                  src={regionalPlate.url}
-                  width={regionalPlate.width}
-                  height={regionalPlate.height}
+                  src={regionScene.url}
+                  width={regionScene.width}
+                  height={regionScene.height}
                   alt="Illustrated setting from your home region"
-                  data-asset-id={regionalPlate.assetId}
+                  data-asset-id={regionScene.assetId}
                   data-testid="opening-regional-plate"
                 />
               ) : null}
               <div className="pg-regional-state-information">
-                {regionalPlate ? (
+                {regionScene ? (
                   <p className="pg-regional-context">
                     Your home region · Illustration
                   </p>
@@ -512,6 +547,26 @@ export function WorldOrientationPanel({
     </section>
   );
 }
+
+/**
+ * The caption follows what the picture is of.
+ *
+ * "Typical countryside near here" over a main street is a small lie the player
+ * can see, and a caption that overclaims costs more than the picture gains.
+ * Every one of them says the same last thing: this is an illustration of the
+ * area, not a photograph of where the character lives.
+ */
+const SCENE_CAPTION: Readonly<Record<RegionalSceneKind, string>> = {
+  "open-landscape": "Typical countryside near here.",
+  street: "A street of the kind common near here.",
+  shoreline: "Shoreline of the kind found near here.",
+};
+
+const SCENE_ALT: Readonly<Record<RegionalSceneKind, string>> = {
+  "open-landscape": "Illustrated landscape typical of this area",
+  street: "Illustrated street of a kind common in this area",
+  shoreline: "Illustrated shoreline typical of this area",
+};
 
 function PersonButton({
   person,

@@ -18,6 +18,7 @@ import {
 import type { DistrictChamber } from "../districts/types";
 import type { ElectiveOfficeOption } from "./candidacy-packs";
 import { makeIsoDate } from "./dates";
+import { homeJurisdictionResidenceSince } from "./nationwide-world/residence-duration";
 import { createStableId } from "./ids";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { factsForPerson } from "./people";
@@ -169,6 +170,103 @@ export function districtResidenceSince(
     )
     .sort((left, right) => left.startedOn.localeCompare(right.startedOn));
   return covering[0]?.startedOn ?? null;
+}
+
+/**
+ * Start of a proved membership in whichever district of `chamber` this person
+ * actually lives in, when no seat has been bound yet.
+ *
+ * Before a candidacy is filed there is no bound seat to ask about, but the
+ * world has already written where this person lives: `syncDistrictMembershipFromCanonicalHome`
+ * records a whole-place join at world creation. Reading that interval is the
+ * difference between "the game has not recorded when this character came to
+ * live here" and the truth, which is that it recorded it on day one.
+ *
+ * It stays as strict as `districtResidenceSince` about what counts. Seat
+ * intent, self-certification and unknown provenance are still not membership,
+ * and a place the join could not resolve — a city split across districts —
+ * still answers null rather than guessing which district its resident is in.
+ */
+export function recordedDistrictResidenceSince(
+  world: World,
+  personId: EntityId,
+  chamber: DistrictChamber,
+  onDate: IsoDate,
+): IsoDate | null {
+  const membership = recordedDistrictMembership(
+    world,
+    personId,
+    chamber,
+    onDate,
+  );
+  if (membership === null) return null;
+  /*
+   * The interval says WHICH district; the household records say SINCE WHEN.
+   *
+   * The join is written once, at world creation, so its `startedOn` is the day
+   * the world was written rather than the day this life came to live there. A
+   * forty-year-old who has never moved was therefore resident in their state
+   * since childhood and in their own house district for no time at all, and a
+   * residence requirement measured against that refused a lifelong resident.
+   * Absence read as a confident zero, which is the unknown-is-not-zero rule
+   * crossed from the other side.
+   *
+   * Answering it here rather than at the join is deliberate, and it is the
+   * second attempt: writing the corrected date INTO the interval changed the
+   * recorded bytes, and a replay descriptor is a promise that replaying it
+   * rebuilds the same world — `world46-opening` holds the game to that hash by
+   * hash, and it caught the change. Reading it instead records nothing new, so
+   * old saves keep their bytes AND get the corrected answer, which a
+   * write-time repair could never reach.
+   *
+   * Where the two disagree the household record wins, because it is the only
+   * one of them that is evidence of when somebody came to live somewhere; the
+   * interval's own start is evidence of when the join was written. The
+   * interval remains the answer whenever the household records say nothing.
+   * What this dates is residence in the TERRITORY: district lines stay the
+   * catalog's vintage, and nothing here claims where a boundary ran in an
+   * earlier year.
+   */
+  const person = world.people[personId];
+  if (!person) return membership.startedOn;
+  const livedHereSince = homeJurisdictionResidenceSince(
+    world,
+    personId,
+    person.homeJurisdictionId,
+    onDate,
+  );
+  if (livedHereSince === null) return membership.startedOn;
+  return livedHereSince < membership.startedOn
+    ? livedHereSince
+    : membership.startedOn;
+}
+
+/**
+ * The recorded membership itself, for a screen that has to say WHICH district
+ * a filing would be for. A seat is filed against a Gazetteer identity, so the
+ * interval's own binding is the only honest candidate to offer; everything
+ * else on the list is a district this person has not been recorded in.
+ */
+export function recordedDistrictMembership(
+  world: World,
+  personId: EntityId,
+  chamber: DistrictChamber,
+  onDate: IsoDate,
+): DistrictResidenceInterval | null {
+  return (
+    districtResidenceIntervals(world)
+      .filter(
+        (interval) =>
+          isSupportedDistrictMembership(interval) &&
+          interval.personId === personId &&
+          interval.binding.chamber === chamber &&
+          interval.startedOn <= onDate &&
+          (interval.endedOn === null || interval.endedOn > onDate),
+      )
+      .sort((left, right) =>
+        left.startedOn.localeCompare(right.startedOn),
+      )[0] ?? null
+  );
 }
 
 export function selectDesiredDistrict(
@@ -358,6 +456,34 @@ function canonicalHomePlaceGeoid(
   return place.sourceGeoid;
 }
 
+/**
+ * What the world knows about which district of `chamber` a person's home lies
+ * in, for a screen or a rule that has to explain why it will not decide.
+ *
+ * A city split across several districts is not the same thing as a life whose
+ * homes were never recorded. Both leave the duration unknown, but only the
+ * second is the game failing to remember; the first is the join honestly
+ * declining to pick one of several districts a resident might be in.
+ */
+export type CanonicalHomeDistrictKnowledge = "known" | "split" | "unknown";
+
+export function canonicalHomeDistrictKnowledge(
+  world: World,
+  personId: EntityId,
+  chamber: DistrictChamber,
+): CanonicalHomeDistrictKnowledge {
+  const person = world.people[personId];
+  if (!person) return "unknown";
+  const join = districtMembershipFromCanonicalHome({
+    homeJurisdictionId: person.homeJurisdictionId,
+    catalog: districtIdentityCatalog(),
+    placeGeoid: canonicalHomePlaceGeoid(world, personId),
+    chamber,
+  });
+  if (join.kind === "known") return "known";
+  return join.kind === "conflicting" ? "split" : "unknown";
+}
+
 function confirmCanonicalHomeJoin(
   world: World,
   personId: EntityId,
@@ -420,6 +546,18 @@ function confirmCanonicalHomeJoin(
  * Called when a life is first placed. Old saves are not backfilled: this only
  * runs on a live world write, never on deserialize. Statewide and split homes
  * stay unknown. Authored intervals are not closed by a later unknown join.
+ *
+ * The interval starts when this life actually came to live in the place, read
+ * from the same household records the state-residence clock reads — not from
+ * the day the residence fact happened to be written. A life the world records
+ * in one town since 1985 was in that town's district since 1985 too; starting
+ * the interval today would have the game assert a duration of zero against
+ * records that say otherwise, which is the state clock and the district clock
+ * disagreeing about one home.
+ *
+ * What that dates is residence in the territory. The district lines are the
+ * catalog's own vintage, named in the interval's note, and this claims nothing
+ * about where a boundary ran in an earlier year.
  */
 export function syncDistrictMembershipFromCanonicalHome(
   world: World,
@@ -432,6 +570,7 @@ export function syncDistrictMembershipFromCanonicalHome(
   );
   if (!residence) return world;
   const placeGeoid = canonicalHomePlaceGeoid(world, personId);
+  const startedOn = residence.occurredAt;
   let next = world;
   for (const chamber of HOME_JOIN_CHAMBERS) {
     const join = districtMembershipFromCanonicalHome({
@@ -474,7 +613,7 @@ export function syncDistrictMembershipFromCanonicalHome(
     const recorded = establishDistrictResidence(next, {
       personId,
       binding: join.binding,
-      startedOn: residence.occurredAt,
+      startedOn,
       provenance: {
         method: "canonical-home-join",
         sourceEventId: residence.id,

@@ -67,6 +67,25 @@ export const ART_PREVIEW_LABEL =
 export const INTERNAL_ART_REVIEW_LABEL =
   "Private preview · Some artwork is still awaiting review";
 
+/**
+ * What the banner says when the mode is on and the art is not there.
+ *
+ * The private candidate bank is owner-private and in no checkout a machine can
+ * make, so in every runner and every public clone `setupForArtPreview` and
+ * `prepareCandidateOpeningWorld` hand back what they were given and the
+ * ordinary appearance path is what draws. Until this label existed the banner
+ * went on saying "unreleased candidate art" over production art: not silence,
+ * which would already be against the rule that unknown content is skipped with
+ * a stated reason, but an assertion about itself that was false.
+ *
+ * The distinction this preserves is the one the banner exists for. Somebody
+ * screenshotting this screen must not be able to mistake it for approved art,
+ * and must equally not be able to mistake ordinary art for candidate art. The
+ * first risk is why the banner is there; the second is what this line fixes.
+ */
+export const ART_PREVIEW_UNAVAILABLE_LABEL =
+  "Development art preview — the candidate art bank is not in this checkout, so the ordinary appearance is what is drawn";
+
 export interface ArtPreviewLibraries {
   readonly unavailableReason?: string;
   readonly characters: CharacterComponentLibrary;
@@ -114,35 +133,15 @@ export function artPreviewMode(
  * default it was. Handing back the production libraries explicitly would make
  * every call site look like an override even when nothing is overridden.
  *
- * ## Which provider, and why this one
+ * ## Which provider
  *
- * These are the Visual4 libraries — the corrected registry, its compatible
- * hair, and the measured per-body garment fit bank. They were NOT what this
- * function returned when the preview was built: it returned the older
- * `CANDIDATE_REVIEW_*` lift, whose own comment states plainly that candidates
- * there are reviewed UNFITTED and that no candidate has a fit profile at all.
- *
- * So there were two candidate providers, and the better one was reachable only
- * from the developer proof route at `?view=character-proof&set=visual4`, which
- * saves to a demo World in localStorage. The life path — room, dossier,
- * wardrobe, conversation portrait, save and reload — ran on the other one. The
- * fitted figures being reviewed and the figures actually being played were
- * never the same figures.
- *
- * Measured across 48 seeded people at `standing-neutral`, the difference is
- * not cosmetic:
- *
- *   older lift   24/24 resolved, but from 2 distinct bodies, with NO fit bank
- *   Visual4      48/48 resolved, from 5 distinct bodies, fitted
- *
- * Two bodies for every generated person in the game is the coverage ceiling
- * this work exists to lift, and an unfitted garment is a garment sitting where
- * it was drawn rather than on the body wearing it.
- *
- * One provider, one answer: the proof route and the life path now compose from
- * the same library, so the gallery can no longer disagree with the game about
- * what the bank contains. The separation that matters is untouched — this is
- * still development-only, still outside every catalog generation, still in its
+ * The banked candidate review library (engine29 through 41 and KIT41),
+ * composed so a developer can look at unreleased people. The proof route and
+ * the life path compose from this same library, so the gallery cannot disagree
+ * with the game about what the bank contains. The separation that matters is
+ * untouched: development-only, outside every catalog generation, and never a
+ * player-facing surface. The retired candidate cast that this once also drew
+ * from was permanently removed; nothing here composed from it survives.
  */
 export function artPreviewLibraries(
   mode: ArtPreviewMode,
@@ -245,9 +244,25 @@ export function previewDatabaseName(
 
 export function artPreviewBanner(mode: ArtPreviewMode): string | null {
   if (mode !== "candidate-review") return null;
+  // Asked before the build profile, because a review build with no bank is
+  // still a review build looking at production art, and saying "internal art
+  // review — unreleased candidate art" over it would be the same false claim
+  // in a more authoritative voice.
+  if (!PRIVATE_CANDIDATE_ART_AVAILABLE) return ART_PREVIEW_UNAVAILABLE_LABEL;
   return gameBuildProfile() === "internal-art-review"
     ? INTERNAL_ART_REVIEW_LABEL
     : ART_PREVIEW_LABEL;
+}
+
+/**
+ * Whether the preview is showing what it claims to.
+ *
+ * Exported separately from the sentence so a caller can mark the surface
+ * without matching prose. A test that asserted the wording would pin the
+ * wording; what matters is the state.
+ */
+export function artPreviewIsShowingCandidateArt(mode: ArtPreviewMode): boolean {
+  return mode === "candidate-review" && PRIVATE_CANDIDATE_ART_AVAILABLE;
 }
 
 /** Fresh setup initialization ONLY. Unpinned legacy replays and loaded Worlds must bypass this helper. Existing explicit pins win. */

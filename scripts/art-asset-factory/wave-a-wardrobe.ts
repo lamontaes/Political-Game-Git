@@ -214,6 +214,21 @@ function centralWidth(bitmap: Bitmap, y: number, centerX: number): number {
  *
  * Fractions of the body canvas, so the result is comparable between bodies of
  * different canvases without either one being read at the other's framing.
+ *
+ * BOTH DERIVED ROWS ASSUME THE FIGURE PARTS INTO TWO LEGS, and both of them
+ * refuse rather than guess when it does not. The hip is the widest midline row
+ * between the waist and the crotch, and the ankle is the narrowest row in the
+ * bottom third below the crotch. A turned seated body never parts at the hip:
+ * `measureBodyRig` then leaves `crotchRow` at the waist, or finds its first
+ * split at the ankles, and the two bands collapse to nothing and to one row
+ * respectively. The old code took whatever came out — a hip pinned to the waist
+ * and an ankle pinned to the top of a one-row band — and produced garment fit
+ * landmarks that looked ordinary and were wrong. Nothing downstream could tell.
+ *
+ * So this throws. A body that cannot be measured this way needs a measurement
+ * that suits it, of the kind the seating work uses — the lowest point of the
+ * hip mass on the side away from the knees — not a fallback that reads as an
+ * answer.
  */
 export function measureCandidateBodyLandmarks(
   bitmap: Bitmap,
@@ -221,6 +236,15 @@ export function measureCandidateBodyLandmarks(
 ): CandidateBodyLandmarks {
   const H = bitmap.height;
   const widths = rowWidths(bitmap);
+
+  if (!rig.crotchSplit)
+    throw new Error(
+      "Body landmarks need a measured leg split; this silhouette never parts at the midline, so its hip and ankle rows cannot be derived from the crotch.",
+    );
+  if (rig.crotchRow <= rig.waistRow)
+    throw new Error(
+      `Body landmarks need a hip band between the waist and the crotch; this body measured waist ${rig.waistRow} and crotch ${rig.crotchRow}.`,
+    );
 
   let hipRow = rig.waistRow;
   for (let y = rig.waistRow; y < rig.crotchRow; y += 1) {
@@ -236,6 +260,13 @@ export function measureCandidateBodyLandmarks(
     rig.crotchRow + 0.7 * (rig.soleRow - rig.crotchRow),
   );
   const legTo = Math.max(legFrom, rig.soleRow - Math.round(H * 0.01));
+  // The band's own sole guard is the smallest span worth searching: fewer rows
+  // than that and the narrowest row is whichever row the search started on.
+  const ankleBandFloor = Math.round(H * 0.01);
+  if (legTo - legFrom + 1 < ankleBandFloor)
+    throw new Error(
+      `Body landmarks need an ankle band to search; this body left ${legTo - legFrom + 1} row(s) between the lower leg and the sole, under the ${ankleBandFloor} the canvas requires.`,
+    );
   let ankleRow = legFrom;
   for (let y = legFrom; y <= legTo; y += 1) {
     if (widths[y]! > 0 && widths[y]! < widths[ankleRow]!) ankleRow = y;

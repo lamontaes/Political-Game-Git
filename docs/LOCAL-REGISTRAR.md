@@ -7,66 +7,243 @@ whoever is at the Mac — Lamontae, a local Claude, Codex, or ChatGPT reading it
 back — can execute an entry without asking what was meant.
 
 Each entry says what is blocked, the exact commands to run, and what to check
-afterwards. L8 and L11 are the art bench lane's; numbers are claimed as entries are
-written, so a gap means an entry was finished and removed. An entry is deleted
-when it is done. This file is not an archive of
-resolved items; if it is still here, it is still outstanding.
+afterwards. Numbers are claimed as entries are written, so a gap means an entry
+was finished and removed. An entry is deleted when it is done. This file is not
+an archive of resolved items; if it is still here, it is still outstanding.
 
-Last reconciled: 2026-09-22, from the `claude/current-art-source` thread.
+Several lanes write here, and each entry names its owner. Add your entry at the
+end; do not edit someone else's except to correct a fact you have measured, and
+say so in the entry when you do.
+
+Last reconciled: 2026-09-22, from the people and life thread — the union of
+`claude/current-art-source` (L1 to L7, L9) and
+`claude/art-bench-requests-sbi892` (L8), with L1 expanded into runnable steps
+and corrected.
 
 ---
 
-## L1 — The private art pack cannot be received into a cloud container
+## L1 — Assemble the private art pack, and commit it
 
-**Blocked, for two independent reasons.** Generation 16, pack
-`modular47-gen16-postmerge-65f7704b6f35`, 18,138 assets. The payload is 16
-Drive parts totalling about 1.89 GB plus a 10,057,140-byte metadata archive.
+**Owned by the art, client and release lane; the step-by-step below was
+supplied by the people and life lane on 2026-09-22.** Generation 16, pack
+`modular47-gen16-postmerge-65f7704b6f35`, 18,138 assets, about 1.89 GB.
 
-1. A cloud session's writable disk is a fixed per-session allowance and the
-   transfer does not fit, so the pack cannot be extracted, verified or served
-   from here.
-2. The Drive connector itself fails reproducibly above roughly 7 MB per file.
-   The art bench lane measured it on this exact connector: plates under 5.3 MB
-   came through, and three at 7.14, 7.86 and 7.88 MB failed on every retry,
-   while the catalogue and smaller files were fine. It is a per-file ceiling,
-   not an access problem, so no cloud session can pull these parts however much
-   disk it has. Any plan that assumes a large single file arrives through Drive
-   is wrong.
+**Why no cloud session can do it.** The payload is sixteen Drive parts plus a
+10,057,140-byte metadata archive. The Drive connector fails reproducibly above
+roughly 7 MB per file — the art bench lane measured it on this exact connector:
+plates under 5.3 MB came through, three at 7.14, 7.86 and 7.88 MB failed on
+every retry. It is a per-file ceiling, not an access problem, so no amount of
+container disk helps. Any plan that assumes a large single file arrives through
+Drive is wrong.
 
-**This is what blocks the retired-cast deletion.** The retired Visual4 records
-are not merely a fallback: `src/presentation/engine-people29-review.ts` builds
-the character library the player's own figure is drawn from out of Visual4's
-catalogue slots, generations, garment fit and skin tone, and
-`src/presentation/bundled-art.ts` bundles every PNG under
-`art/generated/candidates/`, which includes the Visual4 pixels. Deleting them
-before the generation-16 kit supplies those same four things would leave the
-figure renderer resolving to nothing. The deletion is written and waiting; it
-runs once the pack is in, which is this entry.
+**Correction to an earlier version of this entry.** This was previously written
+up as the thing blocking the retired-cast deletion, on the reading that the
+player's own figure is drawn out of Visual4's catalogue. Measured at main
+`7869561e`, that is not so: `PRODUCTION_CHARACTER_LIBRARY`
+(`src/presentation/visual-integration.ts:784`) is built from
+`art/manifest/asset_manifest.json`, whose 126 assets resolve to zero paths
+under `people-visual4*` or `wave-a-*`; `WardrobeFigure` takes its libraries as
+a prop and `CreatorAppearanceStep` renders it only when
+`artPreviewLibraries(mode)` is non-null, which it is only in `candidate-review`
+mode. `engine-people29-review.ts` is itself one of the three review-only
+modules. The retired cast can therefore be deleted without this entry being
+done first; the two jobs are independent.
 
-**Run, at the Mac:**
+**The decision on committing it.** Asked whether 1.9 GB should go into
+permanent repository history, the owner answered "commit". Step 6 does that.
+Read the cost note at the end before running it.
+
+### What you need first
+
+- Python 3.9 or newer (`python3 --version`).
+- About **8 GB free disk**: 1.5 GB of chunks, 1.5 GB of reassembled archive,
+  1.9 GB extracted base, 1.9 GB assembled output, plus the repository.
+- A clone of `lamontaes/Political-Game-Git` containing main `7869561e`.
+
+### Step 1 — Download the sixteen chunks
+
+All sixteen into one directory, exact names kept:
 
 ```sh
-# 1. Fetch and verify the existing 16-part payload per its own instructions.
-#    Drive 1n0sKy378xpBDV-Y3pQAN6XP3dw34mxaI
-#    Concatenated archive SHA-256:
-#    0c179f907899a5b956440d5d2cc6d4a1244f4bd10d7b33233f85bbcb3d1e45b9
-#
-# 2. Fetch the corrected metadata and assembler.
-#    Drive 1XPXN--QSVwa356lENWlhV4mCtSlRmjps, 10,057,140 bytes, SHA-256:
-#    22a17b92e19fdf3ba59569821d8b5591db6aa3f708c430b311def0008a10a0e3
-#    Verify the hash, then extract into its own directory.
-#
-# 3. Assemble the new pack (Python 3.9+), from that directory:
-python3 assemble-private-pack.py \
-  --base   /absolute/path/to/old-extracted/private-candidate \
-  --output /absolute/path/to/new/private-candidate-65f7704b
+export PACK="$HOME/civic-pack"
+mkdir -p "$PACK" && cd "$PACK"
 ```
 
-**Verify:** the assembler reports 18,138 assets; Python manifest SHA-256
-`51d54a72ec27cd0fd5e64f0420f82b91d2ba80432e542781b328695fae8972a0`; hub asset
-manifest SHA-256
-`6ac6ad0bddd06eb50425a6267bdf7817b69f86dcf0c2fd56ca64ed22ca530254`. It refuses
-an existing output directory and does not modify the base.
+| #   | File                                        | Bytes     | Drive                                                                  |
+| --- | ------------------------------------------- | --------- | ---------------------------------------------------------------------- |
+| 01  | `private-candidate-3eaa20fe.tar.gz.chunk01` | 100663296 | https://drive.google.com/file/d/1rMHo1cKndEhL8dRiPctxzLbn9yRIswh-/view |
+| 02  | `private-candidate-3eaa20fe.tar.gz.chunk02` | 100663296 | https://drive.google.com/file/d/1af21YymUMikBo8ZzgfoKhboTDhK6PRg4/view |
+| 03  | `private-candidate-3eaa20fe.tar.gz.chunk03` | 100663296 | https://drive.google.com/file/d/1gb9WrYR1jZaRtTQEr6TGrgnLwBetF1wf/view |
+| 04  | `private-candidate-3eaa20fe.tar.gz.chunk04` | 100663296 | https://drive.google.com/file/d/1J9e-EXnE38-z1syYXyxiJHZiK2jQJZRA/view |
+| 05  | `private-candidate-3eaa20fe.tar.gz.chunk05` | 100663296 | https://drive.google.com/file/d/1A9Q0fB2F2kMwv7IcVBiOp3FpQshiPshW/view |
+| 06  | `private-candidate-3eaa20fe.tar.gz.chunk06` | 100663296 | https://drive.google.com/file/d/1k7UWFJAJpY8DcQP5oiVzyKHgnIKnUlu6/view |
+| 07  | `private-candidate-3eaa20fe.tar.gz.chunk07` | 100663296 | https://drive.google.com/file/d/1U7XyGpFsCPBickzlLbnofMEnhbwVFtz2/view |
+| 08  | `private-candidate-3eaa20fe.tar.gz.chunk08` | 100663296 | https://drive.google.com/file/d/1qAmaI8zfYM1m8XAbS6dfRLtH9PgfaXZf/view |
+| 09  | `private-candidate-3eaa20fe.tar.gz.chunk09` | 100663296 | https://drive.google.com/file/d/1Q3Ia4pq7AM-tUknJ56EbiLpdKlz1txSE/view |
+| 10  | `private-candidate-3eaa20fe.tar.gz.chunk10` | 100663296 | https://drive.google.com/file/d/1oS0SMK5XP1WiQQMdws7zsw8fZ547_KKy/view |
+| 11  | `private-candidate-3eaa20fe.tar.gz.chunk11` | 100663296 | https://drive.google.com/file/d/1enGPij8hFcJIo6T7cB0bLk5P8ktt2XRo/view |
+| 12  | `private-candidate-3eaa20fe.tar.gz.chunk12` | 100663296 | https://drive.google.com/file/d/1WmsiP5Ime4fRDl_mDOPrJ2MQm3obd5hR/view |
+| 13  | `private-candidate-3eaa20fe.tar.gz.chunk13` | 100663296 | https://drive.google.com/file/d/1wjflKX1O8cvN-bbwZaSDDylU5pA7RdzT/view |
+| 14  | `private-candidate-3eaa20fe.tar.gz.chunk14` | 100663296 | https://drive.google.com/file/d/1y8D2q8efk3-duvN3fMQqNkwG59fwSEBT/view |
+| 15  | `private-candidate-3eaa20fe.tar.gz.chunk15` | 100663296 | https://drive.google.com/file/d/1oCX8udiq2fmQ3929vxsogRx5b2WnS3nU/view |
+| 16  | `private-candidate-3eaa20fe.tar.gz.chunk16` | 11839157  | https://drive.google.com/file/d/1JyqJ5pS4LNzbN1fNoof_NbGBv6nstNQ9/view |
+
+Into the same directory, also:
+
+- `MODULAR-3eaa20fe-PRIVATE-PACK-TRANSPORT.json` —
+  https://drive.google.com/file/d/1eH3Hyq37hgchGkyaSPBfD6GE5fWU2lSL/view
+  (4.6 KB; it holds the per-chunk SHA-256s, so no hash has to be retyped)
+- `modular65-pack-metadata.tar.gz` —
+  https://drive.google.com/file/d/1XPXN--QSVwa356lENWlhV4mCtSlRmjps/view
+  (10,057,140 bytes)
+
+### Step 2 — Verify every chunk before joining anything
+
+```sh
+cd "$PACK"
+python3 - <<'PY'
+import hashlib, json, os, sys
+m = json.load(open("MODULAR-3eaa20fe-PRIVATE-PACK-TRANSPORT.json"))
+bad = []
+for p in m["parts"]:
+    n = p["name"]
+    if not os.path.exists(n):
+        bad.append(f"{n}: missing"); continue
+    if os.path.getsize(n) != p["bytes"]:
+        bad.append(f"{n}: wrong size, re-download"); continue
+    h = hashlib.sha256()
+    with open(n, "rb") as f:
+        for b in iter(lambda: f.read(1 << 20), b""):
+            h.update(b)
+    if h.hexdigest() != p["sha256"]:
+        bad.append(f"{n}: wrong hash, re-download")
+    else:
+        print(f"{n}: ok")
+print("\n".join(bad) if bad else "all 16 chunks ok")
+sys.exit(1 if bad else 0)
+PY
+```
+
+Re-download only the chunks it names, and do not continue while any line says
+`re-download`. A truncated Drive download is the usual failure here, and it
+leaves a file of plausible size.
+
+### Step 3 — Join and extract
+
+```sh
+cd "$PACK"
+cat private-candidate-3eaa20fe.tar.gz.chunk{01..16} > private-candidate-3eaa20fe.tar.gz
+shasum -a 256 private-candidate-3eaa20fe.tar.gz
+stat -f %z private-candidate-3eaa20fe.tar.gz
+```
+
+Expect exactly
+
+```
+0c179f907899a5b956440d5d2cc6d4a1244f4bd10d7b33233f85bbcb3d1e45b9
+```
+
+and `1521788597` bytes. Then:
+
+```sh
+mkdir -p "$PACK/old-extracted"
+tar -xzf private-candidate-3eaa20fe.tar.gz -C "$PACK/old-extracted"
+ls -d "$PACK/old-extracted/private-candidate"
+
+shasum -a 256 modular65-pack-metadata.tar.gz
+# expect 22a17b92e19fdf3ba59569821d8b5591db6aa3f708c430b311def0008a10a0e3
+mkdir -p "$PACK/meta"
+tar -xzf modular65-pack-metadata.tar.gz -C "$PACK/meta"
+```
+
+Once the archive has extracted cleanly the sixteen chunks can be deleted; they
+are recoverable from Drive.
+
+### Step 4 — Build generation 16
+
+`assemble-private-pack.py` ships inside the metadata archive. It verifies all
+18,138 assets, refuses to write into a directory that already exists, and does
+not modify the base it reads.
+
+```sh
+cd "$PACK/meta"
+python3 assemble-private-pack.py \
+  --base   "$PACK/old-extracted/private-candidate" \
+  --output "$PACK/private-candidate-65f7704b"
+```
+
+**Verify:** it reports pack `modular47-gen16-postmerge-65f7704b6f35`,
+generation 16, 18,138 assets, all 38 source hashes matching the received
+`65f7704b` tree, and all 2,730 old-generation files preserved. Then the two
+manifests:
+
+```
+51d54a72ec27cd0fd5e64f0420f82b91d2ba80432e542781b328695fae8972a0   Python pack manifest
+6ac6ad0bddd06eb50425a6267bdf7817b69f86dcf0c2fd56ca64ed22ca530254   hub asset manifest
+```
+
+If either differs, stop and say so rather than staging it. A pack that is not
+the one the engine side was built against would connect the creator to artwork
+nobody has verified.
+
+### Step 5 — Stage into the checkout
+
+The pack ships its own staging script; use it rather than copying by hand,
+because it places each file where `private-candidate-manifests.ts` resolves it
+by glob.
+
+```sh
+cd /absolute/path/to/your/Political-Game-Git
+git fetch origin && git status --short      # must be clean before staging
+"$PACK/private-candidate-65f7704b/stage-into-worktree.sh" "$PWD"
+```
+
+It needs the matching source checkout — the branch carrying PR #273's 102
+source files. If it reports a source mismatch, check that branch out and run it
+again.
+
+### Step 6 — Commit
+
+These paths are ignored today, so committing them is deliberate:
+
+```sh
+git checkout -b registrar/gen16-pack
+git add -f art/generated/candidates art/manifest
+git status --short | wc -l          # sanity: expect roughly 18,000 lines
+git commit -m "art: stage the generation-16 private candidate pack"
+git push -u origin registrar/gen16-pack
+```
+
+Its own branch, not main and not a lane branch, so the size change lands in one
+reviewable place.
+
+### What committing 1.9 GB costs, in measured numbers
+
+Measured in a full checkout on 2026-09-22, so this is chosen rather than
+discovered later:
+
+- `.git` today is **881 MB** (`size-pack` 879.19 MiB). The working tree, not
+  counting `.git` or `node_modules`, is **1.5 GB**.
+- The pack adds roughly **1.5 GB of already-compressed blobs to history** and
+  about **1.89 GB to the checkout**. These are PNG and SVG bytes that are
+  already compressed, so Git will not shrink them, and delta compression
+  between generations will save little.
+- A fresh `git clone` therefore goes from about **0.9 GB downloaded** to about
+  **2.4 GB**, and from about **2.4 GB on disk** to about **3.4 GB**.
+- That is paid by **every future clone, every CI job that clones, and every
+  worktree**, permanently — not only by whoever wants the artwork.
+- **Deleting the files later does not undo it.** The blobs stay in history.
+  Taking them out means another force-pushing history rewrite across every ref,
+  and this pack is about **five times the size** of what the Visual4 purge
+  removes.
+- The alternative, if you would rather: leave the pack out of Git and keep
+  staging it into the worktree as today.
+  `src/presentation/private-candidate-manifests.ts` resolves private manifests
+  by _optional_ glob precisely so a checkout without the bytes composes only the
+  published libraries and does not break. No code needs this commit.
+
+You said commit, so the steps above commit. This note is here so the number is
+in front of you at step 6 rather than afterwards.
 
 ---
 
@@ -222,6 +399,69 @@ with its Drive id until it is gone.
 
 ---
 
+## L8 — Three approved regional plates are too large for the Drive connector
+
+**Blocked:** five regional scenes are owner-approved and integration-ready on
+the Art Bench. Two were fetched into the repository and committed byte-exact.
+Three could not be: the Google Drive connector available to a cloud session
+fails with `MCP server "Google_Drive" session expired` on every file above
+roughly 7 MB, reproducibly, across retries. The two that succeeded are 4.99 MB
+and 5.29 MB; the three that fail are 7.14 MB, 7.86 MB and 7.88 MB.
+
+This is a transport ceiling, not a permissions problem. The bench catalog, the
+events index and the two smaller plates all came through the same connector.
+
+**Effect on play:** `art/regions/regional-scene-places.json` records those three
+regions with `"plate": null`, so the resolver reports
+`matched-region-has-no-plate` and the introduction shows no picture for them
+rather than a wrong one. Nothing is broken; three approved pictures are absent.
+
+**Run, at the Mac:** the files are already in the Drive mirror.
+
+```sh
+cd /absolute/path/to/your/checkout
+git fetch origin claude/art-bench-requests-sbi892
+git checkout claude/art-bench-requests-sbi892
+
+MIRROR=~/Library/CloudStorage/GoogleDrive-lamontaebilling@gmail.com/"My Drive"/00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/80_ARTBENCH_EXCHANGE/02_CATALOG/candidates
+DEST=art/families/regional-opening
+
+cp "$MIRROR"/7c46ac03d9f7fa3e545caf26a675cba1d2e710ceaa5573dd38be256b3c83bfcd.png \
+   "$DEST"/env_regional_socal_inland_bungalow_neighborhood_v1.png
+cp "$MIRROR"/0a82edbe6dbf9d0ef8c88f4ddb32917133ea57e4e823cb0a9c6e72a7c230ff0e.png \
+   "$DEST"/env_regional_pacific_temperate_rainforest_v1.png
+cp "$MIRROR"/c3cc8800440d77db4b63d563d7d48357629392f0db474b9c1526bae72fb0e818.png \
+   "$DEST"/env_regional_norcal_oak_woodland_v1.png
+
+shasum -a 256 "$DEST"/env_regional_socal_inland_bungalow_neighborhood_v1.png
+shasum -a 256 "$DEST"/env_regional_pacific_temperate_rainforest_v1.png
+shasum -a 256 "$DEST"/env_regional_norcal_oak_woodland_v1.png
+```
+
+Each hash must equal the source filename it was copied from. Then record the
+three in the coverage document: each entry's `plate` goes from `null` to the
+four facts the gate checks — the path, that sha256, the real pixel dimensions,
+and the bench candidate id.
+
+| region key                           | candidate id                                | pixels      |
+| ------------------------------------ | ------------------------------------------- | ----------- |
+| `socal-inland-bungalow-neighborhood` | `cand-8fd6953d-04f9-f787-19de-9b770bff7b96` | 2576 x 1616 |
+| `pacific-temperate-rainforest`       | `cand-4163d8ca-7ad4-4853-86ce-ccd8e30aa889` | 2512 x 1664 |
+| `norcal-oak-woodland`                | `cand-dee5a58b-5a28-e810-a8a6-fbe319f2f67b` | 2352 x 1760 |
+
+```sh
+npm run validate:regional-scenes -- --check
+npx vitest run src/authoring/regional-scene-coverage.test.ts
+git add art/families/regional-opening art/regions/regional-scene-places.json
+git commit -m "regional-opening: receive the three remaining approved plates"
+```
+
+**Verify:** the coverage gate exits 0 and reports five regions with a delivered
+plate. Do not re-encode, downscale or optimise these PNGs — approval is of
+those exact bytes and the gate re-hashes them.
+
+---
+
 ## L9 — Eight Art Desk plates the manifest names but Git does not carry
 
 **No longer blocking CI.** The gate used to demand the bytes of every row,
@@ -262,98 +502,46 @@ repository is not, and a peer session's go-ahead is not the owner's word for it.
 They cannot come through the Drive connector, which fails above roughly 7 MB
 per file — see L1 — so any trip that carries them is a trip to the Mac.
 
-## L12 — Seated male bodies need to exist drawn free of furniture
+---
 
-This is a requirement, not a repair, and there are two ways to satisfy it.
-Pick whichever is cheaper; nothing here is owed.
+## L11 — Three regional scene records the Art Bench catalogue cannot settle
 
-**The requirement.** No man in the bank can currently sit, because every
-seated male crop has furniture drawn into the same raster as the person. The
-compositor has no way to separate them, so it refuses the pose rather than
-seating a man in a chair he is welded to. What unblocks seated men is the
-existence of at least one seated male body drawn with no furniture in it.
+**Blocked:** three of the twenty-three regional scenes carry a catalogue defect
+recorded as a `sourceNote` in `art/regions/regional-scene-places.json`. None of
+them can be settled from a cloud thread, because each needs a look at the
+source bank behind the bench rather than at the catalogue row.
 
-**Route A, the cheap one: generate them.** A new seated male plate drawn
-without a chair satisfies this outright, and lamontae has said plainly that
-new people are fine — the goal is that modular generation works, not that
-these particular figures are rescued. This is the preferred route.
+- `appalachian-town-january` selects the same sha256 as
+  `playtest65-region-pikeville-valley-street`. One of the two records is not
+  what it claims. The question is what that shared file actually is: the parent
+  both rows derive from, a reference image, or a finished winter output that
+  one row is mislabelling.
+- `subtropical-mangrove-wetland` selects a record that is 640x432.
+- `lower-mississippi-delta-marsh` selects a record that is 688x456.
 
-**Route B, the expensive one: repair these four.** Four existing plates carry
-a baked chair:
+The last two are preview or reference sizes, not delivered plates. The other
+approved regional originals are 2208 to 2576 px. **No enlargement**: scaling
+these up and recording the result as native detail is not an option, and the
+sizes above are measurements of the selected records, not of any original.
 
-```
-art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_front_neutral_v1.png
-art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_front_chair_v1.png
-art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_front_chair_v1.png
-art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_front_neutral_v1.png
-```
+**Effect on play:** all three regions carry `"plate": null`, so the resolver
+reports `matched-region-has-no-plate` and the introduction shows no picture for
+them. Nothing renders wrongly; three scenes are absent. They are also among the
+eighteen regions with no place selectors, so even a correct plate would reach
+no player until the place IDs come back (`regional-scene-place-ids` in the
+research queue).
 
-Separating the chair in the layered source, or painting it off by hand, would
-also satisfy the requirement. Only what touches the body remains — a sliver of
-seat between the thighs and a stub of chair leg against each shin. Everything
-floating free is already removed by `npm run derive:seated-chairless`, whose
-derivatives land in `art/generated/candidates/wave-a-chairless` and stay on
-disk as ordinary candidates whether or not anyone acts on this entry.
+**What is needed, at the Mac or from whoever can read the source bank:** for
+each of the three, either the larger original with its sha256, or a statement
+that the request was never finished and the row should stay without a plate.
+For the Appalachian row, what the shared file is, in those three terms.
 
-**Why code cannot do Route B.** Both numbers were measured off these plates.
-Chair touching a thigh is inside the protection band by definition, so
-connectivity cannot reach it. And the chair's mid-tones run 96–150 while the
-figure's own sub-knee edge pixels run 64–240, so every value the chair uses the
-figure uses too. Raising the body-tone floor to 160 takes the feet and shreds
-the older woman's shins — that was tried, rendered and reverted. The wave-a
-source sheets are in no cloud checkout, only the ocd sheet, so the
-higher-resolution route is unavailable to a cloud session either way.
+**Then, in a checkout:**
 
-**Retirement condition:** a seated male body exists in the bank with no
-furniture in its raster, by either route.
-
-## L13 — The art-review build's pack-present behaviour needs a Mac run
-
-`configuredArtConsumers(true)` — the audit that the `internal-art-review`
-build profile runs inside `npm run build:steps`, via
-`scripts/stamp-client-provenance.mjs` — used to throw whenever it found no
-prepared standing body. That is the ordinary case on a public runner, which
-is forbidden to contain a private character pack, so the build lamontae uses
-to look at artwork was red everywhere except his own Mac, for having no art
-rather than for anything being wrong with it.
-
-`src/presentation/compiled-art-consumers.ts` now separates the two: no
-prepared body at all records a gap and returns, and a composition that cannot
-be completed when material IS present still throws, because there the
-renderer's inability to use the material is exactly what the audit is for.
-
-```
-if (!bodies.length) {
-  gaps.push(
-    "No prepared standing body in the candidate library: this checkout has no private character pack, so no creator composition was verified here.",
-  );
-  return { consumers, gaps, generation, completePlans: 0 };
-}
+```sh
+npm run validate:regional-scenes -- --check
+npx vitest run src/authoring/regional-scene-coverage.test.ts
 ```
 
-**Why code cannot finish it.** Only the absent-pack half is testable here.
-`src/presentation/compiled-art-consumers.test.ts` covers it — the gap is
-recorded, `completePlans` is 0, and the consumers already collected are not
-discarded by the early return. The other half, that the throw at
-`"No complete configured creator compositions could be verified."` still
-fires when a pack IS present and a composition genuinely fails, cannot be
-proved in a cloud container, because no cloud checkout has a pack to put in
-front of it (see L1).
-
-**What would settle it,** on the Mac, with the private pack installed:
-
-```
-VITE_OCD_BUILD_PROFILE=internal-art-review npm run build
-```
-
-Then, to prove the throw is still live rather than merely unreached, make one
-prepared body fail to compose — the cheapest way is to move a single garment
-file listed in the newest generation out of the pack directory — and run the
-same command again.
-
-**Acceptance condition:** the first run completes and its recorded gaps do
-NOT contain "no private character pack" (the pack was seen). The second run
-fails with "No complete configured creator compositions could be verified."
-Put the moved file back afterwards. If the first run reports the
-no-pack gap, the pack was not visible to the build and nothing about the
-throw has been established either way.
+Record the answer by replacing that region's `sourceNote` with the finding, and
+adding a `plate` only where a real original was found.

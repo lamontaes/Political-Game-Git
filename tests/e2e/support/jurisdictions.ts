@@ -55,14 +55,36 @@ export interface TestJurisdiction {
  * state whose refusal changes shape fails rather than passing on the old
  * wording, and a state that starts working fails too and can be promoted to
  * `stands`.
+ *
+ * It is a LIST of fragments, all of which must appear, and each fragment is
+ * chosen to be the part of the sentence that carries the meaning rather than
+ * the part that carries the voice.
+ *
+ * That distinction was paid for. These rows held whole sentences, and two
+ * separate pieces of work then rewrote those sentences without changing a
+ * single verdict: the sweep that took statute citations off player screens,
+ * and the change that made a town split across several districts say so. Both
+ * were improvements to prose, and both turned this file red, which held a
+ * correct branch out of main as a manual click. A row that pins a whole
+ * sentence is a veto over the wording of a screen this file does not own.
+ *
+ * So a fragment here must survive an honest rewording and must not survive a
+ * changed answer. "The district-residence rule requires 1 year" holds through
+ * every rewrite of why the year cannot be counted, and disappears the moment
+ * the rule stops being asked about. A fragment that merely names the state, or
+ * the word "cannot", would pass on a blank refusal and is not good enough.
+ *
+ * What still catches a state that starts working is `kind`, checked first and
+ * separately: a jurisdiction that begins offering seats fails on the office
+ * browser being present, before any sentence is read.
  */
 export type CandidacyToday =
   /** Seats on offer, and the lower chamber can be filed for. */
   | { readonly kind: "stands" }
   /** No office browser at all; the surface says why, or should. */
-  | { readonly kind: "no-seats"; readonly because: string }
+  | { readonly kind: "no-seats"; readonly because: readonly string[] }
   /** Seats on offer, but filing is not available; the surface says why. */
-  | { readonly kind: "cannot-file"; readonly because: string };
+  | { readonly kind: "cannot-file"; readonly because: readonly string[] };
 
 export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
   {
@@ -86,8 +108,23 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
     municipal: false,
     candidacy: {
       kind: "no-seats",
-      because:
-        "was observed in current source text on 2026-09-09; that later observation does not establish the rule on 2026-01-05",
+      /*
+       * This used to assert the citation, the observation date and the play
+       * date in one sentence. The citation sweep replaced the sentence
+       * outright rather than trimming a prefix, because those dates were
+       * provenance sitting in the body of a player-facing line.
+       *
+       * What is kept is the refusal's two loads: that the rules exist and that
+       * the game will not place them in this time. What is dropped is every
+       * date. One thing the row can no longer do is vary with the play date —
+       * the same rows at 1900 and at 2026 produce this character for
+       * character. Written down rather than left to be found later as a test
+       * that quietly stopped discriminating.
+       */
+      because: [
+        "The game knows Nebraska's rules for who may stand",
+        "not whether they were already in force this far back",
+      ],
     },
     note: "The one unicameral state legislature. A route that assumes a lower and an upper chamber cannot run here at all.",
   },
@@ -112,8 +149,32 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
     municipal: true,
     candidacy: {
       kind: "no-seats",
-      because:
-        "was observed in the acquired source on 2026-09-06; that later observation does not establish minimum age on 2026-01-05",
+      /*
+       * Alaska still refuses. What changed is the reason, not the answer.
+       *
+       * Measured in the browser on this head: the refusal a player reads is
+       * now the district-residence one — the rule asks for a year and the
+       * world holds no proved start date for the interval, so the question
+       * cannot be answered either way. It used to be the observation-date
+       * refusal about minimum age. Why it moved is not established here and
+       * this comment does not guess: the office-qualification corpus carries
+       * no Alaska rows at all (69 rows, MA MN MO NE NJ NV OH), so Alaska's
+       * requirements come from its legislature pack rather than from the
+       * sourced-row path, and the two paths refuse for different reasons.
+       *
+       * The flip to "stands" that was expected here does not happen. An
+       * ordinary browser start records no proved residence interval, and this
+       * branch's candidacy work is reached through lives that do. Nebraska and
+       * Minnesota do not flip either: their rows are still CURRENT_OBSERVATION
+       * on this head, 13 and 6, so they refuse exactly as recorded below.
+       */
+      /*
+       * Only the rule and its length. The clause explaining why the year
+       * cannot be counted has been rewritten once already — from "the world
+       * has no proved start date for that residence interval" to the
+       * split-district explanation — with the verdict unmoved both times.
+       */
+      because: ["The district-residence rule requires 1 year"],
     },
     note: "A unified municipality, and a state with boroughs rather than counties.",
   },
@@ -127,7 +188,7 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
     municipal: false,
     candidacy: {
       kind: "cannot-file",
-      because: "Upcoming election timing is not established in this save",
+      because: ["Upcoming election timing is not established in this save"],
     },
     note: "A large city the municipal corpus does not carry, so the place has a state legislature but no city government record.",
   },
@@ -152,8 +213,14 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
     municipal: true,
     candidacy: {
       kind: "no-seats",
-      because:
-        "The game has not recorded when this character came to live here, so it will not guess whether they qualify",
+      /*
+       * The requirement, not the reason it cannot be answered. Ohio comes
+       * through the sourced-row path and Anchorage through the legislature
+       * pack, and the two produce different sentences for the same underlying
+       * refusal; the branch that makes a split town say so changes this one's
+       * second half and not its first.
+       */
+      because: ["This office requires 1 year of residence"],
     },
     note: "An ordinary city inside an ordinary county, which is what most of the country looks like.",
   },

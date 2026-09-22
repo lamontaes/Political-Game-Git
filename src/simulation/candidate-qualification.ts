@@ -143,13 +143,14 @@ export function ruleSetApplicableOn(
   //
   // Each set is gated on ITS OWN instrument. Reading one state's dates against
   // another state's rows would either hide a stale rule or refuse a sound one.
-  const { legalLocator, observedCurrentOn, provisionEffectiveOn } =
-    rules.source;
+  // legalLocator is deliberately not read here: it stays on the record and
+  // must not reach the sentences below.
+  const { observedCurrentOn, provisionEffectiveOn } = rules.source;
   if (provisionEffectiveOn !== null) {
     if (onDate >= provisionEffectiveOn) return rules;
     const unknownBefore = (field: string): QualificationValue<number> => ({
       state: "UNKNOWN",
-      reason: `${legalLocator} took effect on ${provisionEffectiveOn}; it does not establish ${field} on the earlier date ${onDate}.`,
+      reason: `The game knows this office's ${field} rule, but that rule did not yet apply this early, and it won't apply a rule to a time it can't place it in. A life that starts later may be able to run here.`,
     });
     return {
       ...rules,
@@ -162,7 +163,7 @@ export function ruleSetApplicableOn(
   if (onDate >= observedCurrentOn) return rules;
   const unavailable = (field: string): QualificationValue<number> => ({
     state: "UNKNOWN",
-    reason: `${legalLocator} was observed in the acquired source on ${observedCurrentOn}; that later observation does not establish ${field} on ${onDate}.`,
+    reason: `The game knows this office's ${field} rule as it stands now, but not whether it was already in force this far back, and it won't apply a rule to a time it can't place it in. A life that starts later may be able to run here.`,
   });
   return {
     ...rules,
@@ -197,6 +198,12 @@ export interface CandidateQualificationAssessmentInput {
   readonly stateResidenceSince: IsoDate | null;
   /** Start of the proved, uninterrupted residence in the exact seat district. */
   readonly districtResidenceSince: IsoDate | null;
+  /**
+   * Set when the world knows where this life lives but cannot say which
+   * district that is, because the town is split across several. The refusal
+   * then names that, rather than reporting an interval the world never had.
+   */
+  readonly districtIsUnknown?: boolean;
 }
 
 function durationRefusal(
@@ -206,6 +213,7 @@ function durationRefusal(
   value: QualificationValue<number>,
   since: IsoDate | null,
   onDate: IsoDate,
+  districtIsUnknown = false,
 ): CandidateQualificationRefusal | null {
   if (
     value.state === "NOT_APPLICABLE" ||
@@ -225,7 +233,9 @@ function durationRefusal(
     return {
       kind,
       field,
-      reason: `The ${label} rule requires ${value.value} year${value.value === 1 ? "" : "s"}, but the world has no proved start date for that residence interval.`,
+      reason: districtIsUnknown
+        ? `The ${label} rule requires ${value.value} year${value.value === 1 ? "" : "s"}. This character's town lies across more than one district, so the world cannot say which district they live in.`
+        : `The ${label} rule requires ${value.value} year${value.value === 1 ? "" : "s"}, but the world has no proved start date for that residence interval.`,
       source: value.source,
     };
   }
@@ -279,6 +289,7 @@ export function assessCandidateQualification(
     rules.districtResidenceYears,
     input.districtResidenceSince,
     input.onDate,
+    input.districtIsUnknown === true,
   );
   if (district) refusals.push(district);
   return {

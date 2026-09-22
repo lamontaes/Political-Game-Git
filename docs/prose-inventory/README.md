@@ -27,11 +27,11 @@ than a derivative. `check` compares whichever of them is present on disk.
 
 ## Current state
 
-- **3269** inventoried templates.
-- Reachability: 395 CURRENTLY_UNREACHABLE, 110 DEV_FIXTURE_ONLY, 90 LEGACY_OR_WITHDRAWN, 2247 PLAYER_REACHABLE, 69 UNKNOWN, 358 WITHHELD_BY_GROUNDING.
-- **10727** coverage candidates still need a
+- **3242** inventoried templates.
+- Reachability: 396 CURRENTLY_UNREACHABLE, 110 DEV_FIXTURE_ONLY, 90 LEGACY_OR_WITHDRAWN, 2258 PLAYER_REACHABLE, 69 UNKNOWN, 319 WITHHELD_BY_GROUNDING.
+- **11063** coverage candidates still need a
   person's classification. 100% coverage is *not* claimed.
-- **0** hard errors, **277** review warnings.
+- **0** hard errors, **274** review warnings.
 
 ## Semantic IDs
 
@@ -84,7 +84,7 @@ emitted as server-rendered HTML, so reading and printing do not depend on script
 running first. `reviewPacketStats` asserts what the file actually contains, and
 the regression test in `review-packet.test.ts` holds it:
 
-- 3269 rendered items for 3269 inventory records;
+- 3242 rendered items for 3242 inventory records;
 - 5415 bytes after the last item, of which the empty
   portion is small.
 

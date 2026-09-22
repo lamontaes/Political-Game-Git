@@ -243,6 +243,18 @@ export interface BodyRigMeasurement {
   readonly shoulderRow: number;
   readonly waistRow: number;
   readonly crotchRow: number;
+  /**
+   * Whether `crotchRow` is a measured leg split or the waist standing in for one.
+   *
+   * The search walks down from the waist for the first row with no silhouette
+   * through the midline and two or more runs — the point where the figure parts
+   * into two legs. A silhouette that never parts, which is what a turned seated
+   * body is, leaves `crotchRow` at `waistRow`, and a body whose legs first part
+   * at the ankles puts it there instead. Both read as a plausible number, so a
+   * consumer that derives a band from `crotchRow` has to ask whether it means
+   * anything before trusting it.
+   */
+  readonly crotchSplit: boolean;
   readonly soleRow: number;
   readonly headWidth: number;
   readonly headHeight: number;
@@ -288,9 +300,11 @@ export function measureBodyRig(body: Bitmap): BodyRigMeasurement {
     Math.round(H * 0.5),
   );
   let crotchRow = waistRow;
+  let crotchSplit = false;
   for (let y = waistRow; y < H; y += 1) {
     if (!centralRun(body, y, centerX) && rowRuns(body, y).length >= 2) {
       crotchRow = y;
+      crotchSplit = true;
       break;
     }
   }
@@ -307,6 +321,7 @@ export function measureBodyRig(body: Bitmap): BodyRigMeasurement {
     shoulderRow,
     waistRow,
     crotchRow,
+    crotchSplit,
     soleRow,
     headWidth,
     headHeight: neckRow - headTop,

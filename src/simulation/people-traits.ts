@@ -151,6 +151,27 @@ export function personTraits(
 }
 
 /**
+ * The pole words for the traits this person has actually been observed to
+ * have, for a reader that shows a temperament.
+ *
+ * A trait with no record has never been observed. `personTrait` still reports
+ * what the seed would make it, because a writer about to establish the trait
+ * needs that number — but a reader must not treat it as a fact about the
+ * person, and one did: the person card rendered a word for every unbalanced
+ * seed value, so a character nobody had ever decided anything with was shown
+ * as "Reserved" or "Confrontational" on the strength of a number the game had
+ * not written down. Absence is not a middling reading and it is not a lean.
+ */
+export function observedTraitLabels(
+  world: World,
+  personId: EntityId,
+): readonly string[] {
+  return personTraits(world, personId).flatMap((trait) =>
+    trait.recordId === null || trait.label === null ? [] : [trait.label],
+  );
+}
+
+/**
  * Writes the seeded traits of these people, once, so decisions can cite them.
  * People who already hold a record keep it. The controlled character is
  * skipped: their temperament never decides anything for them, and the mind

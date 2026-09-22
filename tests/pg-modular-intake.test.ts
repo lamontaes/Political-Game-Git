@@ -290,6 +290,31 @@ describe("PG modular asset intake", () => {
       );
     }
 
+    // An empty publication is not the same as no publication, and the
+    // difference used to be a number nobody could read. `frozenGenerations: []`
+    // is truthy, so the published branch is taken, and the highest published
+    // generation of nothing was -Infinity — so every candidate lifted through
+    // an empty publication declared a catalog_generation of -Infinity and
+    // silently matched nothing downstream instead of failing. Nothing has been
+    // published in that state, so the first review generation is the honest
+    // answer, and it is the same one the unpublished path already gives.
+    const emptyPublication = liftCandidatesForReview(
+      candidates,
+      catalog.slots,
+      {
+        frozenGenerations: [],
+      },
+    );
+    expect(emptyPublication.records).toHaveLength(35);
+    for (const record of emptyPublication.records) {
+      expect(record.component!.catalog_generation).toBe(
+        CANDIDATE_REVIEW_GENERATION,
+      );
+    }
+    expect(emptyPublication.catalog.catalog_generation).toBe(
+      CANDIDATE_REVIEW_GENERATION,
+    );
+
     // Promotion is where a generation is assigned, and it is the only place.
     const promoted = promoteCandidateComponent(candidates[0], 3);
     expect(promoted.asset_type).toBe("character-component");

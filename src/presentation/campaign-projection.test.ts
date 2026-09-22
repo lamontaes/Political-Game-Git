@@ -122,7 +122,17 @@ describe("what the game will and will not offer", () => {
     )!.offices[0]!.seats;
     expect(seats.kind).toBe("unknown");
     if (seats.kind !== "unknown") throw new Error("Expected unknown seats");
-    expect(seats.note).toMatch(/no instrument fixing it was separately read/i);
+    /*
+     * The note's wording follows the producer, which is where it is decided.
+     * It used to say the count "was carried from compiled research, but no
+     * instrument fixing it was separately read" — research vocabulary that the
+     * campaign screen then recited at a candidate. The producer in
+     * legislature-rule-packs.ts now says the same refusal in the game's own
+     * voice, so this asserts the refusal rather than re-pinning the sentence
+     * that was deliberately retired.
+     */
+    expect(seats.note).toMatch(/will not guess a number/i);
+    expect(seats.note).not.toMatch(/compiled research|numeric fallback/i);
     expect(view.openQuestions.join(" ")).toMatch(
       /no instrument establishing the size of the chamber/i,
     );
@@ -575,7 +585,7 @@ describe("the day a campaign runs out of, and the morning after it", () => {
     ).toBe(projectCampaign(tomorrow, played.personId).phase);
   }, 60_000);
 
-  it("records a decline when passing beyond an optional hold", () => {
+  it("records a lapse, not a decline, when passing beyond an optional hold", () => {
     const life = adultLife("player-commitment", "kentucky");
     const world = fileForOffice(life.world, life.personId);
     const openBefore = world.history.scheduledActivities
@@ -587,11 +597,12 @@ describe("the day a campaign runs out of, and the morning after it", () => {
       .filter((state) => state.status === "scheduled");
     expect(openBefore.length).toBeGreaterThan(0);
 
-    // Getting on with the day is an explicit choice not to attend this
-    // tentative opt-in. The activity remains in history with a cancellation
-    // state and an ordinary decision event; it is not silently discarded.
-    // Newly authored meetings are on the following evening, so cross that
-    // actual hold rather than expecting tomorrow morning to decline it early.
+    // Getting on with the day is not a choice not to attend. The activity
+    // remains in history with a cancellation state and an ordinary event
+    // saying the time came and went; it is not silently discarded, and it is
+    // not recorded as the player having turned it down, which is what this
+    // used to assert. Newly authored meetings are on the following evening, so
+    // cross that actual hold rather than expecting tomorrow morning.
     const later = passOrdinaryDays(world, 2);
     for (const state of openBefore) {
       const still = later.history.scheduledActivities.find(
@@ -604,9 +615,15 @@ describe("the day a campaign runs out of, and the morning after it", () => {
     }
     expect(
       later.history.events.some(
-        (event) => event.type === "life.scheduled-activity-declined",
+        (event) => event.type === "life.scheduled-activity-lapsed",
       ),
     ).toBe(true);
+    // Nothing was refused: the player was never shown this and never answered.
+    expect(
+      later.history.events.some(
+        (event) => event.type === "life.scheduled-activity-declined",
+      ),
+    ).toBe(false);
     expect(later.currentDate).toBe(addDays(world.currentDate, 2));
     expect(later.currentMoment.minuteOfDay).toBe(ORDINARY_DAY_START_MINUTE);
   }, 60_000);
