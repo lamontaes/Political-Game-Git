@@ -113,10 +113,11 @@ describe("ECON-CONTEXT2 — exact, dated economic context", () => {
       period: "2024",
       interpretationBoundary: "observation-not-forecast",
       vintage: {
-        publisherReleaseDate: null,
+        // The locked table states its own edition: released 2026-02-05.
+        publisherReleaseDate: "2026-02-05",
         sourceRetrievedAt: "2026-09-03T04:21:17.858Z",
-        knownAvailableOn: "2026-09-03",
-        knownAvailableOnBasis: "retrieval-date-fallback",
+        knownAvailableOn: "2026-02-05",
+        knownAvailableOnBasis: "publisher-release-date",
         validityPeriod: null,
         validityBasis: "not-established-by-locked-product",
       },
