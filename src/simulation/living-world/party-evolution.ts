@@ -1295,7 +1295,12 @@ export function adoptPartyInitiative(
       }
       next = seedPlatform(next, initiative, created.organizationId);
       next = evolutionRecord(next, initiative, "founded", {
-        fromOrganizationIds: [],
+        // Where they came from, which the founders have just walked out of a
+        // few lines above. Writing [] here said a party organized out of
+        // dissent came from nowhere, discarding the parentage at the moment it
+        // was established. A founding proposed from nothing carries no subject
+        // organizations, so this is still empty for one of those.
+        fromOrganizationIds: initiative.subjectOrganizationIds,
         toOrganizationIds: [created.organizationId],
         movedPersonIds: founders,
         name,

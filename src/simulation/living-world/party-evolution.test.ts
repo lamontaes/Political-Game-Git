@@ -258,6 +258,58 @@ describe("WORLD46 party organizations", () => {
     expect(remaining).not.toContain(bystander);
   });
 
+  it("a party organized out of a body records the body it came from", () => {
+    // The founders are walked out of every subject organization during
+    // adoption, so the record has the parentage in hand at the moment it
+    // writes it. It used to write an empty list, and a party that people had
+    // just left read as having come from nowhere.
+    const chapter = homePartyChapters(base)[0]!;
+    const body = partyBodyMembers(base, chapter.organizationId);
+    // The chapter's recorded organizer is nullable, so fall back to whoever
+    // sits on its body rather than asserting one exists.
+    const organizer = chapter.organizerPersonId ?? body[0]!;
+    const coOrganizer = body.find((id) => id !== organizer)!;
+    const proposed = proposePartyInitiative(base, {
+      initiativeKind: "founding",
+      proposerPersonId: organizer,
+      subjectOrganizationIds: [chapter.organizationId],
+      proposedName: "League for Local Positions",
+      level: "local",
+      jurisdictionId: chapter.jurisdictionId,
+      reasonKeys: ["test:founding-out-of-a-body"],
+      stableKey: "test:founding-parentage",
+    });
+    const consented = respondToPartyInitiative(proposed.world, {
+      initiativeId: proposed.initiativeId,
+      personId: coOrganizer,
+      response: "consent",
+      authority: "co-organizer",
+    });
+    const founded = adoptPartyInitiative(consented, proposed.initiativeId);
+    expect(founded.kind).toBe("adopted");
+    const evolution = partyEvolutionRecords(founded.world).at(-1)!;
+    expect(evolution.change).toBe("founded");
+    expect(evolution.fromOrganizationIds).toEqual([chapter.organizationId]);
+    // They really did leave, which is what makes the parentage true rather
+    // than decorative.
+    const remaining = partyBodyMembers(founded.world, chapter.organizationId);
+    expect(remaining).not.toContain(organizer);
+
+    // A founding proposed from nothing still records no parent, so this is
+    // not a blanket copy of whatever the initiative was pointed at.
+    const scratch = foundParty(
+      base,
+      firstHouseMember(base),
+      coOrganizer,
+      "Party From Nothing",
+      "test:founding-no-parent",
+    );
+    if (scratch.kind !== "adopted") throw new Error("setup");
+    expect(
+      partyEvolutionRecords(scratch.world).at(-1)!.fromOrganizationIds,
+    ).toEqual([]);
+  });
+
   it("a merger needs every side's authorized leader; a rename and a dissolution are dated", () => {
     const member = firstHouseMember(base);
     const chapter = homePartyChapters(base)[0]!;
