@@ -70,6 +70,10 @@ only compiled law is read, which is right for a question about real law.
 ## Consumers
 
 Anything reading rules through the resolver or the nationwide port with the
-World picks a change up. Consumers that read compiled tables directly (for
-example candidacy qualification rows) do not yet; routing them through the
-resolver is how they join.
+World picks a change up. Candidacy (`candidacyEligibility`) reads the three
+`qualification.*` fields through `enactedRuleChangeAt` for a legislative
+office: a change in force replaces the compiled rule for its field, from
+either compiled source (the pack's rule set or the per-state rows), and its
+refusal names the act. Whether a seat must be named by district
+(`districtSeatMustBeNamed`) still reads compiled rules only, since it takes no
+World. Other consumers that read compiled tables directly do not yet.

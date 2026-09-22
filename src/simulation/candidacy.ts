@@ -4,7 +4,8 @@ import {
   GAME_ADULT_CANDIDACY_AGE,
 } from "./candidacy-packs";
 import type { CandidacyPack, ElectiveOfficeOption } from "./candidacy-packs";
-import { ageOnDate } from "./dates";
+import { ageOnDate, completedMonthsBetween } from "./dates";
+import { enactedRuleChangeAt } from "./enacted-rule-changes";
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
@@ -295,6 +296,114 @@ export function districtSeatMustBeNamed(
   ).some((row) => row.field === "DISTRICT_RESIDENCE");
 }
 
+const ENACTED_QUALIFICATION_FIELDS = [
+  {
+    field: "qualification.minimumAge",
+    ruleSetField: "minimumAge",
+    assessmentField: "MINIMUM_AGE",
+  },
+  {
+    field: "qualification.stateResidenceYears",
+    ruleSetField: "stateResidenceYears",
+    assessmentField: "STATE_RESIDENCE",
+  },
+  {
+    field: "qualification.districtResidenceYears",
+    ruleSetField: "districtResidenceYears",
+    assessmentField: "DISTRICT_RESIDENCE",
+  },
+] as const;
+
+type EnactedQualificationField = (typeof ENACTED_QUALIFICATION_FIELDS)[number];
+
+interface EnactedQualification {
+  readonly field: EnactedQualificationField["field"];
+  readonly ruleSetField: EnactedQualificationField["ruleSetField"];
+  readonly assessmentField: EnactedQualificationField["assessmentField"];
+  readonly value: number;
+  readonly designation: string;
+}
+
+/** The qualification rules a law passed in this world has set for an office, in force today. */
+function enactedQualifications(
+  world: World,
+  stateJurisdictionKey: string | null,
+  officeKey: string | null,
+): readonly EnactedQualification[] {
+  if (!stateJurisdictionKey || !officeKey) return [];
+  return ENACTED_QUALIFICATION_FIELDS.flatMap((entry) => {
+    const change = enactedRuleChangeAt(world, {
+      stateUsps: stateJurisdictionKey.replace(/^US-/, ""),
+      officeKey,
+      field: entry.field,
+      onDate: world.currentDate,
+    });
+    return change && typeof change.value === "number"
+      ? [{ ...entry, value: change.value, designation: change.designation }]
+      : [];
+  });
+}
+
+function plural(count: number, unit: string): string {
+  return `${count} ${unit}${count === 1 ? "" : "s"}`;
+}
+
+function assessEnactedQualification(
+  change: EnactedQualification,
+  person: {
+    readonly age: number;
+    readonly since: IsoDate | null;
+    readonly districtIsUnknown: boolean;
+    readonly onDate: IsoDate;
+  },
+): QualificationAssessment {
+  const law = `under ${change.designation}, passed in this state,`;
+  if (change.field === "qualification.minimumAge") {
+    const meets = person.age >= change.value;
+    return {
+      field: change.assessmentField,
+      verdict: meets ? "meets" : "fails",
+      reason: meets
+        ? `Old enough: ${law} this office has a minimum age of ${change.value}.`
+        : `Too young to stand: ${law} this office has a minimum age of ${change.value}, and this character is ${person.age}.`,
+      source: null,
+    };
+  }
+  const place =
+    change.field === "qualification.stateResidenceYears"
+      ? "the state"
+      : "the district";
+  const required = plural(change.value, "year");
+  if (change.value === 0)
+    return {
+      field: change.assessmentField,
+      verdict: "meets",
+      reason: `No residence period: ${law} this office asks for none in ${place}.`,
+      source: null,
+    };
+  if (person.since === null)
+    return {
+      field: change.assessmentField,
+      verdict: "not-evaluated",
+      reason:
+        change.field === "qualification.districtResidenceYears" &&
+        person.districtIsUnknown
+          ? `This office requires ${required} of residence in the district, ${law.slice(0, -1)}. This character's town lies across more than one district, so the game cannot say which one they live in, and it will not pick one to answer for them.`
+          : `This office requires ${required} of residence in ${place}, ${law.slice(0, -1)}. The game has not recorded when this character came to live here, so it will not guess whether they qualify.`,
+      source: null,
+    };
+  const held = completedMonthsBetween(person.since, person.onDate);
+  const meets = held >= change.value * 12;
+  return {
+    field: change.assessmentField,
+    verdict: meets ? "meets" : "fails",
+    reason: meets
+      ? `Resident long enough: ${law} this office requires ${required} of residence in ${place}.`
+      : `Not resident long enough: ${law} this office requires ${required} of residence in ${place}, and this character has lived there ${plural(Math.floor(held / 12), "year")} and ${plural(held % 12, "month")}.`,
+    source: null,
+  };
+}
+
 export function candidacyEligibility(
   world: World,
   input: CandidacyEligibilityInput,
@@ -358,7 +467,15 @@ export function candidacyEligibility(
     );
   }
   const age = ageOnDate(person.birthDate, world.currentDate);
-  const qualificationRules =
+  // A law passed in this world can change who may stand for this office. One
+  // in force replaces the compiled rule for its field outright, whichever
+  // source that rule came from, and is assessed below on its own.
+  const enacted = enactedQualifications(
+    world,
+    stateJurisdictionKey,
+    option?.officeKey ?? null,
+  );
+  const compiledRules =
     pack && option
       ? candidateQualificationRuleSet(
           pack.packId,
@@ -366,6 +483,21 @@ export function candidacyEligibility(
           world.currentDate,
         )
       : null;
+  const qualificationRules =
+    compiledRules === null
+      ? null
+      : {
+          ...compiledRules,
+          ...Object.fromEntries(
+            enacted.map((change) => [
+              change.ruleSetField,
+              {
+                state: "NOT_APPLICABLE",
+                reason: "Replaced by a law passed in this state.",
+              } as const,
+            ]),
+          ),
+        };
   // Continuous residence in this state, read from the recorded homes and
   // residence facts this life already carries; never backdated.
   const stateResidenceStart =
@@ -421,7 +553,7 @@ export function candidacyEligibility(
           ) === "split"
         ? ("district-unknown" as const)
         : ("unrecorded" as const);
-  const qualificationAssessments =
+  const compiledAssessments =
     qualificationRules !== null || officeFamily === null
       ? []
       : assessOfficeQualifications({
@@ -438,6 +570,38 @@ export function candidacyEligibility(
             ? recordedTermsInOffice(world, input.personId, option.officeKey)
             : null,
         });
+  const enactedAssessments = enacted.map((change) =>
+    assessEnactedQualification(change, {
+      age,
+      since:
+        change.field === "qualification.minimumAge"
+          ? null
+          : change.field === "qualification.stateResidenceYears"
+            ? stateResidenceStart
+            : districtSince,
+      districtIsUnknown: districtGap === "district-unknown",
+      onDate: world.currentDate,
+    }),
+  );
+  const qualificationAssessments: readonly QualificationAssessment[] = [
+    ...compiledAssessments.filter(
+      (assessment) =>
+        !enacted.some((change) => change.assessmentField === assessment.field),
+    ),
+    ...enactedAssessments,
+  ];
+  for (const assessment of enactedAssessments) {
+    if (assessment.verdict === "meets") continue;
+    blocks.push({
+      kind:
+        assessment.field === "MINIMUM_AGE"
+          ? "sourced-minimum-age"
+          : assessment.field === "STATE_RESIDENCE"
+            ? "sourced-state-residence"
+            : "unproved-district-residence",
+      reason: assessment.reason,
+    });
+  }
   if (qualificationRules) {
     const assessment = assessCandidateQualification(qualificationRules, {
       birthDate: person.birthDate,
@@ -460,6 +624,7 @@ export function candidacyEligibility(
   } else {
     for (const assessment of qualificationAssessments) {
       if (assessment.verdict === "meets") continue;
+      if (enactedAssessments.includes(assessment)) continue;
       blocks.push({
         kind:
           // Only a failed existence reading says the office does not exist;
