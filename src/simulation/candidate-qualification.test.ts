@@ -8,6 +8,23 @@ import {
 } from "./candidate-qualification";
 import { makeIsoDate } from "./dates";
 
+/**
+ * A rule set whose instrument states no commencement date.
+ *
+ * Built here rather than borrowed from a shipped set. These tests used to lean
+ * on Alaska's `provisionEffectiveOn` being null, which made them quietly
+ * dependent on a gap in the data: the moment the date was supplied they failed,
+ * though the behaviour they check had not changed at all. The observation
+ * fallback has to keep being exercised after every state has a date.
+ */
+function undatedRuleSet() {
+  const set = CANDIDATE_QUALIFICATION_RULE_SETS[0]!;
+  return {
+    ...set,
+    source: { ...set.source, provisionEffectiveOn: null },
+  };
+}
+
 describe("candidate qualification rules", () => {
   const rules = candidateQualificationRuleSet(
     "us-ak-legislature-v1:candidacy",
@@ -81,14 +98,8 @@ describe("a second state's rules cite their own instrument", () => {
   });
 
   it("a set observed later than the save's date is unknown, on its own date", () => {
-    const set = CANDIDATE_QUALIFICATION_RULE_SETS[0]!;
-    const before = makeIsoDate("2020-01-01");
-    const gated = candidateQualificationRuleSet(
-      set.candidacyPackId,
-      set.officeKey,
-      before,
-    );
-    if (!gated) throw new Error("Missing the rule set under test.");
+    const set = undatedRuleSet();
+    const gated = ruleSetApplicableOn(set, makeIsoDate("2020-01-01"));
     expect(gated.minimumAge.state).toBe("UNKNOWN");
     if (gated.minimumAge.state !== "UNKNOWN") return;
     // Its own locator and its own observation date, not another state's.
@@ -97,13 +108,8 @@ describe("a second state's rules cite their own instrument", () => {
   });
 
   it("an unread rule refuses rather than passing, and a sourced absence does not refuse", () => {
-    const set = CANDIDATE_QUALIFICATION_RULE_SETS[0]!;
-    const unread = candidateQualificationRuleSet(
-      set.candidacyPackId,
-      set.officeKey,
-      makeIsoDate("2020-01-01"),
-    );
-    if (!unread) throw new Error("Missing the rule set under test.");
+    const set = undatedRuleSet();
+    const unread = ruleSetApplicableOn(set, makeIsoDate("2020-01-01"));
     const assessment = assessCandidateQualification(unread, {
       birthDate: makeIsoDate("1970-01-01"),
       onDate: makeIsoDate("2020-01-01"),
@@ -148,6 +154,28 @@ describe("a second state's rules cite their own instrument", () => {
 describe("a rule that states when it took effect is governed by that date", () => {
   const set = CANDIDATE_QUALIFICATION_RULE_SETS[0]!;
 
+  it("opens Alaska on an ordinary start date, which is what this unblocked", () => {
+    // The whole point of the commencement fix, stated as the outcome a player
+    // would see: a lifelong Sitka resident filing on 2026-01-05, eight months
+    // before the constitution was read, is assessed rather than refused.
+    const onDate = makeIsoDate("2026-01-05");
+    const gated = candidateQualificationRuleSet(
+      set.candidacyPackId,
+      set.officeKey,
+      onDate,
+    );
+    if (!gated) throw new Error("Missing the rule set under test.");
+    expect(gated.minimumAge.state).toBe("KNOWN");
+    expect(
+      assessCandidateQualification(gated, {
+        birthDate: makeIsoDate("1980-04-12"),
+        onDate,
+        stateResidenceSince: makeIsoDate("1980-04-12"),
+        districtResidenceSince: makeIsoDate("1980-04-12"),
+      }).qualifies,
+    ).toBe(true);
+  });
+
   it("applies on a date before the instrument was read, once commencement is known", () => {
     const dated = {
       ...set,
@@ -183,6 +211,7 @@ describe("a rule that states when it took effect is governed by that date", () =
   });
 
   it("falls back to the retrieval date only while commencement is unknown", () => {
+    const set = undatedRuleSet();
     expect(set.source.provisionEffectiveOn).toBeNull();
     const before = ruleSetApplicableOn(set, makeIsoDate("2020-01-01"));
     expect(before.minimumAge.state).toBe("UNKNOWN");

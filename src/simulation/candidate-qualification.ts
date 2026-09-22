@@ -53,7 +53,21 @@ const AK_CONSTITUTION: QualificationSourceRef = {
   sourceUrl: "https://ltgov.alaska.gov/information/alaskas-constitution/",
   legalLocator: "Alaska Const. art. II, §§ 2–3",
   retrievedAt: "2026-09-06T18:45:27.267Z",
-  provisionEffectiveOn: null,
+  // The constitution "became operative with the formal Proclamation of
+  // Statehood on January 3, 1959", in the publisher's own words, on the page
+  // already held at data/source/state-legislatures/raw/ak-constitution.html.
+  //
+  // That date governs THESE TWO SECTIONS only because their present words are
+  // the original ones, and the evidence for that is the publisher's own
+  // convention rather than an absence we are reading hopefully: the edition
+  // marks an amended section with a bracketed year, and Article II's body
+  // carries three such markers — 1984 on § 5 and 1976 twice — while §§ 2 and 3
+  // carry none. A convention that is demonstrably applied inside this very
+  // article, and applied to neighbours of these sections, makes its silence
+  // here evidence. Without that check the date would be convenient rather than
+  // honest, and a convenient date is exactly what ruleSetApplicableOn exists to
+  // keep out.
+  provisionEffectiveOn: "1959-01-03" as IsoDate,
   observedCurrentOn: "2026-09-06" as IsoDate,
   researchLineage: "31A Alaska legislative-office qualification rows",
 };
