@@ -110,6 +110,28 @@ describe("a town's governing body, across the country", () => {
       expect(gap).not.toMatch(/census|listing|gus2025|http/i);
   });
 
+  // Three states with no legislature pack, where a candidate used to be told
+  // there was nothing below governor to stand for.
+  it.each([
+    ["Augusta", "ME", "City of Augusta"],
+    ["Atlanta", "GA", "City of Atlanta"],
+    ["Phoenix", "AZ", "City of Phoenix"],
+  ])(
+    "%s, %s: the town's own body is the office on offer",
+    (town, usps, government) => {
+      const place = searchLifePlaces(town, 5, {
+        stateJurisdictionKey: `US-${usps}`,
+        scope: "locality",
+      }).find((candidate) => candidate.displayName.startsWith(`${town},`))!;
+      const offices = electiveOfficesForJurisdiction(
+        place.context.jurisdiction.id,
+      );
+      expect(offices.map((office) => office.recordedBy.packName)).toEqual([
+        government,
+      ]);
+    },
+  );
+
   it("gives a place with no government of its own nothing to run for locally", () => {
     const cdp = searchLifePlaces("", 400, {
       stateJurisdictionKey: "US-KY",
