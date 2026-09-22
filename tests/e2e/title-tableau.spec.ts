@@ -3,6 +3,7 @@ import {
   enterLife,
   expectNoDestination,
   goTo,
+  leaveGame,
   startLife as walkCreator,
 } from "./support/creator";
 
@@ -66,7 +67,7 @@ async function startAndKeepALife(page: Page, age: number) {
   await enterLife(page);
   await goTo(page, "keep-world");
   await expectNoDestination(page, "keep-world");
-  await goTo(page, "leave-game");
+  await leaveGame(page);
   await expect(page.getByTestId("title-screen")).toBeVisible();
 }
 

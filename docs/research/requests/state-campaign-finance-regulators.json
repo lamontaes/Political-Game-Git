@@ -1,0 +1,24 @@
+{
+  "filedAt": "2026-09-22T21:25:00.000Z",
+  "impact": "shapes-design",
+  "lane": "consequences for corruption and laws",
+  "notes": [
+    "The game has read only legislative ethics bodies (24, in src/simulation/press/state-ethics-bodies.ts). None of them hears a governor's, mayor's or county candidate's campaign money, and 28 jurisdictions have no body read at all.",
+    "Until this is answered every state gets a generated body (src/simulation/press/generated-state-oversight.ts, UNRESEARCHED_STATE_OVERSIGHT): a realistic name, step intervals of 7-21, 14-30, 21-60 and 30-120 days, a report-review period of 45-120 days, and a civil penalty of $500-$5,000 per payment found, each drawn once per state and stable across saves.",
+    "A researched row replaces the generated body for its state."
+  ],
+  "priority": "P1",
+  "question": "For each of the 50 states, D.C. and Puerto Rico: which body enforces campaign-finance law for state and local candidates (including personal use of campaign funds), what it can do on its own initiative from filed reports, its complaint steps with their statutory deadlines, and the civil penalties it may impose for personal use? Separately, for the 28 jurisdictions with no researched legislative ethics body, which body hears ethics complaints against legislators?",
+  "questionId": "state-campaign-finance-regulators",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Consequences for corruption and laws thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/press/state-ethics-bodies.ts (24 researched legislative ethics bodies, 2026-09-22)",
+      "whatItDidNotSettle": "Covers legislative ethics routing only; no timelines, no sanction powers, and no campaign-finance regulator for non-legislative offices."
+    }
+  ],
+  "title": "Who enforces campaign-finance law in each state, and what can they do",
+  "usableAnswer": "One row per jurisdiction: regulator name; whether it reviews filed reports on its own initiative and how soon; complaint steps with statutory deadlines where they exist; civil penalty range for personal use of campaign funds; and, for the 28 unread jurisdictions, the legislative ethics body's name and proceeding term. Official sources per row.",
+  "whyItMatters": "A candidate who took campaign money every week for a whole race in Nome, Alaska was never noticed or punished. Every state now has a regulator that can catch and fine that, but its name, calendar and fines are generated, not real."
+}

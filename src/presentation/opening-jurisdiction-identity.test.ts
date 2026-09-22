@@ -110,10 +110,15 @@ describe("opening jurisdiction identity", () => {
       game.playerPersonId,
     );
     const home = game.world.people[game.playerPersonId]!.homeJurisdictionId;
+    // The District's chief executive is its own Mayor, never a governor. The
+    // orientation carries it in the slot a state's governor fills.
     expect(snapshot.orientation.homeState).toMatchObject({
       stateUsps: "DC",
       jurisdictionId: home,
-      governor: null,
+      governor: {
+        officeKey: "dc-mayor",
+        title: "Mayor of the District of Columbia",
+      },
     });
     expect(
       snapshot.beats.find((beat) => beat.key === "district")!.jurisdictionId,
