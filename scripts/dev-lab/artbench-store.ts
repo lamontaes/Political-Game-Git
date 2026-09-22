@@ -49,6 +49,7 @@ import {
   type ArtbenchEvent,
   type ArtbenchEventSource,
   type ArtbenchProjection,
+  type ArtbenchMessagePayload,
   type BatchCompletedPayload,
   type CandidateIngestedPayload,
   type CandidateProvenance,
@@ -61,7 +62,13 @@ import {
   type TagSet,
 } from "../../src/authoring/artbench";
 import type { AssetRequest } from "../../src/authoring/asset-request";
+import {
+  requestDisplayCode,
+  codedGenerationPrompt,
+} from "../../src/authoring/art-desk-request-code";
+import { requestArtworkCategory } from "../../src/authoring/art-desk-cards";
 import type { AssetReviewDecision } from "../../src/authoring/asset-review";
+import { artDeskNotifications } from "../../src/authoring/art-desk-notifications";
 import { hashBytes } from "./art-desk-inputs";
 import { decodeRaster, type DecodedRaster } from "./raster-decode";
 
@@ -150,6 +157,20 @@ function realFileInside(root: string, relative: string): string | null {
     if (lstatSync(cursor).isSymbolicLink()) return null;
   }
   return absolute;
+}
+
+/**
+ * Errors that say "not now" rather than "not ever". A Drive-backed inbox is a
+ * network filesystem, so a read can time out or be refused while the file is
+ * still being written; recording that as a permanent rejection is the same
+ * mistake absence used to be. Anything not on this list is treated as final,
+ * because a retry forever is only right when the condition can actually clear.
+ */
+const TRANSIENT_READ_ERROR =
+  /\b(ETIMEDOUT|ECONNRESET|ECONNABORTED|EAGAIN|EBUSY|ENOENT|EMFILE|ENFILE|EHOSTUNREACH|ENETUNREACH|ENOTCONN)\b/;
+
+function isTransientReadError(reason: string): boolean {
+  return TRANSIENT_READ_ERROR.test(reason);
 }
 
 export interface IntakeMeta {
@@ -245,6 +266,7 @@ export class ArtbenchStore {
   private readonly now: () => string;
   private readonly newId: () => string;
   private events: ArtbenchEvent[] = [];
+  private eventLogStamp = "";
   private readonly known = new Set<string>();
   private readonly bytesCache = new Map<string, BytesState>();
   private syncState: SyncState;
@@ -290,6 +312,7 @@ export class ArtbenchStore {
     };
     this.loadEvents();
     this.migrateLegacy();
+    this.ensureRequestCodes();
   }
 
   /* ---------------------------------------------------------------- */
@@ -302,6 +325,9 @@ export class ArtbenchStore {
 
   private loadEvents(): void {
     if (!existsSync(this.logPath)) return;
+    const stat = statSync(this.logPath, { bigint: true });
+    const stamp = `${stat.dev}:${stat.ino}:${stat.size}:${stat.mtimeNs}:${stat.ctimeNs}`;
+    if (stamp === this.eventLogStamp) return;
     const lines = readFileSync(this.logPath, "utf8")
       .split("\n")
       .filter(Boolean);
@@ -316,14 +342,19 @@ export class ArtbenchStore {
         // A torn final line from a crash is ignored; everything before it stands.
       }
     }
+    this.eventLogStamp = stamp;
   }
 
   allEvents(sinceSeq = 0): readonly ArtbenchEvent[] {
+    this.loadEvents();
     return this.events.filter((event) => event.seq > sinceSeq);
   }
 
   private nextSeq(): number {
-    return (this.events.at(-1)?.seq ?? 0) + 1;
+    return (
+      this.events.reduce((maximum, event) => Math.max(maximum, event.seq), 0) +
+      1
+    );
   }
 
   private persist(event: ArtbenchEvent, toOutbox: boolean): void {
@@ -351,6 +382,7 @@ export class ArtbenchStore {
     source: ArtbenchEventSource,
     eventId = this.newId(),
   ): Extract<ArtbenchEvent, { type: T }> {
+    this.loadEvents();
     if (this.known.has(eventId)) {
       throw new ArtbenchError(
         409,
@@ -463,12 +495,110 @@ export class ArtbenchStore {
   }
 
   projection(): ArtbenchProjection {
+    this.loadEvents();
     return projectArtbench({
       registryRequests: this.registryRequests(),
       qaRequests: this.qaRequests(),
       events: this.events,
       generatorAvailable: false,
     });
+  }
+
+  /** One allocator in the existing store. Reopening never re-numbers a brief. */
+  ensureRequestCodes(): void {
+    let projection = this.projection();
+    let next = Math.max(
+      0,
+      ...Object.values(projection.assets).flatMap((asset) =>
+        (asset.tags.requestCode ?? []).map((value) =>
+          Number(value.match(/:A(\d+)$/)?.[1] ?? 0),
+        ),
+      ),
+    );
+    const requests = Object.values(projection.requests).filter(
+      (row) =>
+        !row.qa &&
+        row.request.requestId !== INBOX_REQUEST_ID &&
+        requestArtworkCategory(row.request) !== "clothing" &&
+        Boolean(row.request.generatorParameters?.fireflyPrompt),
+    );
+    for (const row of requests) {
+      if (requestDisplayCode(projection, row.request.requestId)) continue;
+      const asset = projection.assets[row.assetId]!;
+      const author = { kind: "system" as const, id: "art-desk-request-codes" };
+      this.append(
+        "tags.set",
+        {
+          entity: "asset",
+          entityId: row.assetId,
+          tags: {
+            ...asset.tags,
+            requestCode: [
+              ...(asset.tags.requestCode ?? []),
+              `${row.request.requestId}:A${String(++next).padStart(2, "0")}`,
+            ],
+          },
+          baseVersion: asset.tagsVersion,
+          author,
+        },
+        author,
+        "bench",
+      );
+      projection = this.projection();
+    }
+  }
+
+  /** Persistent local UI preferences, outside disposable cache and art history. */
+  notificationReadEventIds(): string[] {
+    const saved = readJson<{ readEventIds?: unknown }>(
+      join(this.dataRoot, "preferences", "notifications.json"),
+    );
+    return Array.isArray(saved?.readEventIds)
+      ? saved.readEventIds.filter((id): id is string => typeof id === "string")
+      : [];
+  }
+
+  markNotificationsRead(
+    eventIds: unknown,
+    authority: ReviewAuthority | null,
+  ): string[] {
+    if (!authority)
+      throw new ArtbenchError(
+        403,
+        "not-the-bench",
+        "Open notifications in the Art Desk to mark them read.",
+      );
+    if (
+      !Array.isArray(eventIds) ||
+      eventIds.length > 10000 ||
+      eventIds.some((id) => typeof id !== "string" || id.length > 256)
+    )
+      throw new ArtbenchError(
+        400,
+        "invalid-notifications",
+        "Choose the replies you want to mark read.",
+      );
+    const allowed = new Set(
+      artDeskNotifications(this.projection()).map((item) => item.eventId),
+    );
+    if (eventIds.some((id) => !allowed.has(id)))
+      throw new ArtbenchError(
+        400,
+        "unknown-notification",
+        "One of these replies is no longer available. Refresh and try again.",
+      );
+    // Read immediately before a synchronous atomic merge: another tab's earlier
+    // acknowledgment cannot be lost, and future event IDs cannot be pre-read.
+    const merged = [
+      ...new Set([...this.notificationReadEventIds(), ...eventIds]),
+    ];
+    const directory = join(this.dataRoot, "preferences");
+    mkdirSync(directory, { recursive: true });
+    writeAtomic(
+      join(directory, "notifications.json"),
+      JSON.stringify({ readEventIds: merged }, null, 2),
+    );
+    return merged;
   }
 
   /* ---------------------------------------------------------------- */
@@ -681,6 +811,18 @@ export class ArtbenchStore {
       inheritedTags: parent ? parent.tags : meta.tags,
     };
     const event = this.append("candidate.ingested", payload, actor, source);
+    // Keep the inherited-at-intake record intact. Prepared children can have
+    // their own roles (paint, material map, reference); explicit intake facets
+    // override only those parent facets and remain attributed in history.
+    if (parent && meta.tags) {
+      this.setTags({
+        entity: "candidate",
+        entityId: payload.candidateId,
+        tags: { ...parent.tags, ...meta.tags },
+        baseVersion: 0,
+        author: actor,
+      });
+    }
     const candidate = this.projection().candidates[payload.candidateId]!;
     return { candidate, duplicate: false, event };
   }
@@ -886,13 +1028,63 @@ export class ArtbenchStore {
       {
         entity: input.entity,
         entityId: input.entityId,
-        tags: input.tags,
+        tags:
+          input.entity === "asset" && target.tags.requestCode
+            ? { ...input.tags, requestCode: target.tags.requestCode }
+            : input.tags,
         baseVersion: input.baseVersion,
         author: input.author,
         suggestion: input.suggestion,
       },
       input.author,
       "bench",
+    );
+  }
+
+  postMessage(
+    payload: ArtbenchMessagePayload,
+    actor: ArtbenchActor,
+    authority: ReviewAuthority | null = null,
+  ): ArtbenchEvent {
+    if (actor.kind === "owner" && (!authority || actor.id !== this.ownerId))
+      throw new ArtbenchError(
+        403,
+        "owner-capability-required",
+        "Please send your message from the Art Desk.",
+      );
+    const projection = this.projection();
+    const draft: ArtbenchEvent = {
+      contractVersion: ARTBENCH_CONTRACT_VERSION,
+      eventId: this.newId(),
+      seq: this.nextSeq(),
+      at: this.now(),
+      actor,
+      source: "bench",
+      origin: this.storeId,
+      type: "message.posted",
+      payload: { ...payload, text: payload.text.trim() },
+    };
+    const checked = projectArtbench({
+      registryRequests: Object.values(projection.requests).map(
+        (row) => row.request,
+      ),
+      events: [
+        ...this.events.filter((event) => event.type !== "request.created"),
+        draft,
+      ],
+    });
+    if (!checked.messages?.some((message) => message.eventId === draft.eventId))
+      throw new ArtbenchError(
+        422,
+        "invalid-message",
+        "Choose an existing item and enter a message. Replies must name a question on that item.",
+      );
+    return this.append(
+      "message.posted",
+      draft.payload,
+      actor,
+      "bench",
+      draft.eventId,
     );
   }
 
@@ -942,7 +1134,7 @@ export class ArtbenchStore {
         "Parent candidate does not exist.",
       );
     }
-    return this.append(
+    const created = this.append(
       "request.created",
       {
         request,
@@ -956,6 +1148,51 @@ export class ArtbenchStore {
         qa: input.qa === true,
       },
       input.actor,
+      "bench",
+    );
+    this.ensureRequestCodes();
+    return created;
+  }
+
+  /** Append a brief correction without replacing its history or candidates. */
+  reviseRequest(input: {
+    readonly request: AssetRequest;
+    readonly baseVersion: number;
+    readonly actor: ArtbenchActor;
+  }): ArtbenchEvent {
+    const { request, baseVersion, actor } = input;
+    const existing = request && this.projection().requests[request.requestId];
+    if (!existing)
+      throw new ArtbenchError(
+        404,
+        "unknown-request",
+        "Request does not exist.",
+      );
+    if (
+      !Number.isInteger(baseVersion) ||
+      existing.request.requestVersion !== baseVersion ||
+      request.requestVersion !== baseVersion + 1
+    )
+      throw new ArtbenchError(
+        409,
+        "stale-request",
+        "Request changed. Reload before revising it.",
+      );
+    if (
+      !request.title?.trim() ||
+      !request.consumer?.consumerId ||
+      !request.target?.targetClass ||
+      !Array.isArray(request.generationRecipe)
+    )
+      throw new ArtbenchError(
+        400,
+        "invalid-request",
+        "A request needs a title, use, target and instructions.",
+      );
+    return this.append(
+      "request.revised",
+      { request, baseVersion },
+      actor,
       "bench",
     );
   }
@@ -1062,12 +1299,33 @@ export class ArtbenchStore {
     const inboxHint = this.driveRoot
       ? `Drive › 00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE › ${EXCHANGE_FOLDER} › ${EXCHANGE_INBOX} › <batchId>/ (or the bench's local inbox folder)`
       : "the bench's local inbox folder (Drive exchange not configured on this machine)";
-    return producerBrief(request.request, {
-      inboxHint,
-      parentCandidate: candidateId
-        ? projection.candidates[candidateId]
-        : undefined,
-    });
+    const code = requestDisplayCode(projection, requestId);
+    const prompt = request.request.generatorParameters?.fireflyPrompt;
+    const prefix = [
+      code
+        ? `# ${code}-R${request.request.requestVersion} · ${request.request.title}`
+        : `# ${request.request.title}`,
+      "",
+      ...(prompt
+        ? [
+            "## Copy this prompt",
+            "",
+            codedGenerationPrompt(request.request, code, prompt),
+            "",
+          ]
+        : []),
+      "Return the original image to this request. Keep earlier versions.",
+      "",
+    ].join("\n");
+    return (
+      prefix +
+      producerBrief(request.request, {
+        inboxHint,
+        parentCandidate: candidateId
+          ? projection.candidates[candidateId]
+          : undefined,
+      })
+    );
   }
 
   /* ---------------------------------------------------------------- */
@@ -1294,21 +1552,59 @@ export class ArtbenchStore {
     };
   }
 
+  /**
+   * Pending means the bench is still waiting on something, which is not the
+   * same question as whether the sender has finished uploading. Folder shape
+   * answers the second: manifest.json or COMPLETE says the sender is done. It
+   * used to answer both, and the two parted company the moment an item could
+   * be deferred — a batch whose manifest arrived before its image is complete
+   * by folder shape and unfinished in fact. So a complete batch is pending
+   * while any item it declares has not reached an end state in the same
+   * accumulated record that decides when batch.completed may be appended.
+   */
   private pendingBatchIds(inbox: string): string[] {
     if (!existsSync(inbox)) return [];
     const pending: string[] = [];
     for (const entry of readdirSync(inbox, { withFileTypes: true })) {
       if (entry.isSymbolicLink()) continue;
-      if (entry.isDirectory()) {
-        const folder = join(inbox, entry.name);
-        const complete =
-          existsSync(join(folder, "manifest.json")) ||
-          existsSync(join(folder, "COMPLETE"));
-        const processed = this.syncState.batches[entry.name];
-        if (!complete && !processed) pending.push(entry.name);
+      if (!entry.isDirectory()) continue;
+      const folder = join(inbox, entry.name);
+      const complete =
+        existsSync(join(folder, "manifest.json")) ||
+        existsSync(join(folder, "COMPLETE"));
+      if (!complete) {
+        // The sender has not said it is finished. A batch already processed
+        // under an earlier shape is not re-announced.
+        if (!this.syncState.batches[entry.name]) pending.push(entry.name);
+        continue;
+      }
+      const done = this.syncState.batches[entry.name] ?? {};
+      if (this.declaredItemIds(folder).some((itemId) => !done[itemId])) {
+        pending.push(entry.name);
       }
     }
     return pending;
+  }
+
+  /**
+   * The item ids a batch folder declares, read the same way the import reads
+   * them so the two cannot disagree about what the batch contains.
+   */
+  private declaredItemIds(folder: string): string[] {
+    const manifest = readJson<{ batchId?: string; items?: IntakeItem[] }>(
+      join(folder, "manifest.json"),
+    );
+    const items: readonly IntakeItem[] = manifest?.items?.length
+      ? manifest.items
+      : readdirSync(folder)
+          .filter((name) => IMAGE_EXT.test(name))
+          .map((name) => ({ itemId: name, file: name }));
+    const ids: string[] = [];
+    for (const item of items) {
+      const itemId = item.itemId ?? item.file;
+      if (itemId) ids.push(itemId);
+    }
+    return ids;
   }
 
   /** One pass: import complete batches, export outbox, admit foreign events, publish catalog. */
@@ -1408,15 +1704,23 @@ export class ArtbenchStore {
   ): void {
     const done = this.syncState.batches[batchId] ?? {};
     let changed = false;
-    const ingested: string[] = [];
-    const rejected: { item: string; reason: string }[] = [];
+    // An item whose file has not arrived yet. It gets no `done` entry, so the
+    // next pass tries it again; a file that is present and unusable does get
+    // one, because that will never become true on its own.
+    const deferred: string[] = [];
     for (const item of items) {
       const itemId = item.itemId ?? item.file;
       if (!itemId || done[itemId]) continue;
       const file = realFileInside(folder, item.file ?? "");
-      if (!file || !existsSync(file) || !IMAGE_EXT.test(file)) {
-        done[itemId] = "rejected:missing-or-not-image";
-        rejected.push({ item: itemId, reason: "missing or not an image file" });
+      if (file && !existsSync(file)) {
+        // The manifest names it and it is not here yet. A sender that writes
+        // its manifest before its payload announces a batch that is still
+        // uploading, and the only honest reading of that is "not yet".
+        deferred.push(itemId);
+        continue;
+      }
+      if (!file || !IMAGE_EXT.test(file)) {
+        done[itemId] = file ? "rejected:not-an-image" : "rejected:unsafe-path";
         changed = true;
         continue;
       }
@@ -1451,30 +1755,61 @@ export class ArtbenchStore {
           actor,
           source === "drive-inbox" ? "drive" : "inbox",
         );
-        done[itemId] = result.candidate.candidateId;
-        if (!result.duplicate) ingested.push(result.candidate.candidateId);
+        done[itemId] = result.duplicate
+          ? `duplicate:${result.candidate.candidateId}`
+          : result.candidate.candidateId;
       } catch (error) {
         const reason = error instanceof Error ? error.message : String(error);
+        if (isTransientReadError(reason)) {
+          // Same reasoning as absence: this one can come right on its own.
+          deferred.push(itemId);
+          continue;
+        }
         done[itemId] = `rejected:${reason.slice(0, 80)}`;
-        rejected.push({ item: itemId, reason });
       }
       changed = true;
     }
-    if (changed) {
-      this.syncState.batches[batchId] = done;
-      this.append(
-        "batch.completed",
-        {
-          batchId,
-          source,
-          itemCount: items.length,
-          ingestedCandidateIds: ingested,
-          rejected,
-        },
-        { kind: "system", id: "artbench-sync" },
-        "bench",
-      );
+    if (changed) this.syncState.batches[batchId] = done;
+    // A batch is completed when every item it declared has reached an end
+    // state. Saying so while files are still arriving is what made a batch
+    // that ingested nothing read to its sender exactly like a batch that
+    // worked, with nothing left to look at.
+    if (!changed || deferred.length > 0) return;
+    const ingested: string[] = [];
+    const duplicates: string[] = [];
+    const rejected: { item: string; reason: string }[] = [];
+    for (const item of items) {
+      const itemId = item.itemId ?? item.file;
+      if (!itemId) continue;
+      const outcome = done[itemId];
+      if (!outcome) continue;
+      if (outcome.startsWith("rejected:")) {
+        rejected.push({
+          item: itemId,
+          reason: outcome.slice("rejected:".length),
+        });
+      } else if (outcome.startsWith("duplicate:")) {
+        // Named rather than dropped. An item that was neither ingested nor
+        // rejected is how a batch came to report six of eight with nothing
+        // said about the other two, which reads as an unexplained hole.
+        duplicates.push(outcome.slice("duplicate:".length));
+      } else {
+        ingested.push(outcome);
+      }
     }
+    this.append(
+      "batch.completed",
+      {
+        batchId,
+        source,
+        itemCount: items.length,
+        ingestedCandidateIds: ingested,
+        duplicateCandidateIds: duplicates,
+        rejected,
+      },
+      { kind: "system", id: "artbench-sync" },
+      "bench",
+    );
   }
 
   /**
@@ -1518,15 +1853,12 @@ export class ArtbenchStore {
   /** Rebuildable views. Originals of decided candidates are copied once per hash. */
   private publishCatalog(catalogDir: string): void {
     mkdirSync(catalogDir, { recursive: true });
+    this.ensureRequestCodes();
     const projection = this.projection();
     const candidates = Object.values(projection.candidates).map((candidate) => {
       const bytes = this.bytesState(candidate);
       let exchangePath: string | null = null;
-      if (
-        bytes.state === "verified" &&
-        candidate.decisions.length > 0 &&
-        this.driveRoot
-      ) {
+      if (bytes.state === "verified" && this.driveRoot) {
         const name = `${candidate.sha256}.${candidate.container}`;
         const target = join(catalogDir, "candidates", name);
         if (!existsSync(target)) {
@@ -1558,6 +1890,7 @@ export class ArtbenchStore {
       conflicts: projection.conflicts,
       rejectedEvents: projection.rejectedEvents,
       importedReviews: projection.importedReviews,
+      messages: projection.messages ?? [],
     };
     writeAtomic(
       join(catalogDir, "catalog.json"),

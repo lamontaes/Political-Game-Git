@@ -12,6 +12,11 @@ import { createNewGameWorld } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
 import { projectPersonContact, travelTowardsPerson } from "./person-contact";
 import { openConversationWith } from "./person-conversation-entry";
+import {
+  currentPublicOfficeholders,
+  establishOpeningOfficeholders,
+} from "./opening-officeholders";
+import { projectContacts } from "./people-contacts";
 import { DEFAULT_INTERRUPTIONS } from "./shell-navigation";
 
 /**
@@ -121,8 +126,19 @@ describe("interruption preferences", () => {
 
 describe("the person card's actions", () => {
   it("takes presence from the room, not from a pin or the authored scene", () => {
-    const { world, personId } = ordinaryAdult("ui36-presence");
-    const other = world.personOrder.find((id) => id !== personId)!;
+    const opened = ordinaryAdult("ui36-presence");
+    const personId = opened.personId;
+    const world = establishOpeningOfficeholders(opened.world, personId);
+    const chiefJustice = currentPublicOfficeholders(world).find(
+      (holder) => holder.officeKey === "us-chief-justice",
+    );
+    expect(chiefJustice).toBeDefined();
+    const other = chiefJustice!.personId;
+    expect(
+      projectContacts(world, personId).contacts.some(
+        (contact) => contact.personId === other,
+      ),
+    ).toBe(false);
     const here = projectPersonContact(world, personId, other, {
       presentPersonIds: [personId, other],
     });
@@ -139,7 +155,7 @@ describe("the person card's actions", () => {
     if (entry.kind === "unavailable")
       expect(away.talk.reason).toBe(entry.reason);
     expect(away.contact.available).toBe(false);
-    expect(away.contact.reason).toMatch(/No phone, mail or message channel/);
+    expect(away.contact.reason).toMatch(/No way to contact/);
     expect(away.meet.available).toBe(false);
   });
 

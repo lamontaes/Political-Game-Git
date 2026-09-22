@@ -1,5 +1,8 @@
+import { ensureOpeningPriorLocalRecords } from "../simulation/living-world/developments";
 import {
   canonicalJson,
+  householdMembershipsAt,
+  recordWorldEvent,
   ensureHomePartyChapters,
   ensureLivingWorldDevelopments,
   ensureLivingWorldOpening,
@@ -63,9 +66,18 @@ export function generateOpeningLife(
   );
   // A legacy replay descriptor keeps its prior construction exactly: its
   // opening governor holds a recorded tenure, not GOVERNING's dated term.
-  const staffed = establishOpeningOfficeholders(economic, game.playerPersonId, {
+  const placed =
+    session.setup.openingDataVersion === "playtest65-v1"
+      ? establishOpeningLocation(economic, game.playerPersonId)
+      : economic;
+  const staffed = establishOpeningOfficeholders(placed, game.playerPersonId, {
     datedTerms: session.setup.worldOpeningVersion !== undefined,
+    includeVicePresident: session.setup.openingDataVersion === "playtest65-v1",
   });
+  const withPriorRecords =
+    session.setup.openingDataVersion === "playtest65-v1"
+      ? ensureOpeningPriorLocalRecords(staffed, game.playerPersonId)
+      : staffed;
   return {
     ...session,
     phase: "world",
@@ -90,7 +102,11 @@ export function generateOpeningLife(
               // Standing chapter committees exist only in current openings.
               ensurePartyGoverningBodies(
                 ensureHomePartyChapters(
-                  ensureLivingWorldOpening(staffed, game.playerPersonId),
+                  ensureLivingWorldOpening(
+                    withPriorRecords,
+                    game.playerPersonId,
+                    session.setup.livingWorldMemberNameVersion,
+                  ),
                   game.playerPersonId,
                 ),
                 game.playerPersonId,
@@ -197,4 +213,51 @@ export function createOpeningLifeController(setup: NewGameSetup) {
       return current;
     },
   };
+}
+
+/** Canonical initial placement; orientation itself never opens an encounter. */
+function establishOpeningLocation(world: World, personId: EntityId): World {
+  if (
+    world.history.events.some(
+      (event) =>
+        event.type === "life.scene.arrived" &&
+        event.involvedEntityIds.includes(personId),
+    )
+  )
+    return world;
+  const membership = householdMembershipsAt(world, personId).find(
+    (item) => item.state.residenceRole === "primary",
+  );
+  if (!membership?.location) return world;
+  return recordWorldEvent(world, {
+    stableKey: `playtest65:starting-location:${personId}`,
+    type: "life.scene.arrived",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: world.people[personId]!.homeJurisdictionId,
+    involvedEntityIds: [personId, membership.household.id],
+    participants: [
+      {
+        personId,
+        role: "presence:participant",
+        detail: "At home when play begins",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: ["playtest65:initial-placement"],
+    summary: "You are at home.",
+    context: {
+      location: {
+        setting: "home",
+        label: "Home",
+        jurisdictionId: world.people[personId]!.homeJurisdictionId,
+      },
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
 }

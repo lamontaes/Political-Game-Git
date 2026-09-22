@@ -190,6 +190,13 @@ async function createAndKeepLife(page) {
     /* no household introduction */
   }
   await page.getByTestId("play-screen").waitFor();
+  // A new, unsaved life opens on the world introduction, which the shell's nav
+  // is deliberately not drawn behind. Dismiss it first, as the smoke test does.
+  const orientation = page.getByTestId("world-orientation");
+  if (await orientation.isVisible()) {
+    await page.getByTestId("orientation-skip").click();
+    await orientation.waitFor({ state: "hidden" });
+  }
   await page.getByTestId("shell-nav-cluster").click();
   await page.getByTestId("shell-nav-flyout").waitFor();
   await page.getByTestId("keep-world").click();
@@ -348,13 +355,13 @@ let expected;
   };
   writeFileSync(statePath, `${JSON.stringify(state, null, 2)}\n`);
   const { app, chrome, pageFor } = await launchHub();
-  const combo = chrome.getByRole("combobox", { name: "Game build" });
+  const combo = chrome.getByRole("combobox", { name: "Game version" });
   // A build made here with no branch on the remote is a technical entry, so
   // the owner asks for those first; this proves it is still reachable.
   await waitFor(
     async () =>
       (await combo.locator("option").allTextContents()).some((t) =>
-        /technical branches/i.test(t),
+        /More versions/i.test(t),
       ),
     "technical toggle",
   );

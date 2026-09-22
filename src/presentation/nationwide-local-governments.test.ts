@@ -19,6 +19,7 @@ import {
 } from "../simulation/government-units";
 import { NATIONAL_PLACES_ROWS } from "../simulation/national-places.generated";
 import { municipalGovernmentForUnit } from "../simulation/rule-capability-resolver";
+import { municipalWorkspaceFor } from "./municipal-workspace";
 import { DEFAULT_NEW_GAME_SETUP, createNewGameWorld } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { establishOpeningOfficeholders } from "./opening-officeholders";
@@ -128,6 +129,54 @@ describe("NATIONWIDE local governments at the opening", () => {
     (usps) => {
       const unit = uncompiledMunicipality(usps);
       if (!unit) {
+        // Every city here that a life can open in already has a compiled
+        // government read from a source — the District of Columbia's
+        // Washington is the case — so there is no generated city government to
+        // prove. The state is proven through the compiled one instead, without
+        // the "no members invented" assertion below, which is about a body
+        // RULES has not admitted and says nothing about a sourced one.
+        const compiled = governmentUnitsForState(usps).find(
+          (candidate) =>
+            candidate.unitType === "municipality" &&
+            candidate.functionalActive &&
+            candidate.placeGeoid !== null &&
+            lifePlaceByKey(candidate.placeGeoid) !== null &&
+            municipalGovernmentForUnit(candidate) !== null,
+        );
+        if (compiled) {
+          const { world, playerPersonId } = openAt(
+            compiled.placeGeoid!,
+            `local-compiled-city-${usps}`,
+          ).game;
+          const status = homeLocalGovernmentStatus(world, playerPersonId);
+          expect(status.units.municipal.map((u) => u.id)).toContain(
+            compiled.id,
+          );
+          const city = status.governments.find(
+            (g) => g.unitId === compiled.id,
+          )!;
+          expect(city.compiledGovernmentKey).not.toBeNull();
+          // A compiled government is installed by the municipal workspace under
+          // its own key, so `ensureHomeLocalGovernments` deliberately records
+          // no second organization for it and this row carries no id. What the
+          // life must have instead is the workspace itself: that is the route
+          // by which a person living here reaches their own city government.
+          expect(city.organizationId).toBeNull();
+          const workspace = municipalWorkspaceFor(world);
+          expect(workspace, city.compiledGovernmentKey!).not.toBeNull();
+          expect(workspace!.government.key).toBe(city.compiledGovernmentKey);
+          expect(establishOpeningOfficeholders(world, playerPersonId)).toBe(
+            world,
+          );
+          expect(ensureHomeLocalGovernments(world, playerPersonId)).toBe(world);
+          expect(
+            homeLocalGovernmentStatus(
+              deserializeWorld(serializeWorld(world)),
+              playerPersonId,
+            ),
+          ).toEqual(status);
+          return;
+        }
         // No city here can be started from a Census place (Hawaii's only city
         // unit is the consolidated City and County of Honolulu), so the state
         // is proven through a county life instead of being skipped.

@@ -1,0 +1,54 @@
+{
+  "scope": "Research evidence for reviewed authored illustrative associations only; not a legal pack, current economic state, image-reuse license, or World fact producer.",
+  "totalBytes": 660882,
+  "artifacts": [
+    {
+      "localPath": "docs/reference/regional-opening/raw/nps-fort-pierre.html",
+      "requestedUrl": "https://www.nps.gov/places/fort-pierre.htm",
+      "effectiveUrl": "https://www.nps.gov/places/fort-pierre.htm",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T04:06:26.527559+00:00",
+      "bytes": 38270,
+      "sha256": "05283133242175e024f8068a828312e37b39c8fe76a61a56e1dc003ac7737f7b",
+      "role": "supporting-geographical-research",
+      "simulationSourceAdmitted": false,
+      "artReuseAuthorized": false
+    },
+    {
+      "localPath": "docs/reference/regional-opening/raw/kgs-eastern-coal-field-index.html",
+      "requestedUrl": "https://kgs.uky.edu/kgsweb/download/Terrain/EKYPDFS/EASTERNCOALFIELD.HTM",
+      "effectiveUrl": "https://kgs.uky.edu/kgsweb/download/Terrain/EKYPDFS/EASTERNCOALFIELD.HTM",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T04:06:27.161098+00:00",
+      "bytes": 17712,
+      "sha256": "2da240ba5d786cee5241937c4f80324600bee9c9e2cdae75da7f0bad40f079f1",
+      "role": "supporting-geographical-research",
+      "simulationSourceAdmitted": false,
+      "artReuseAuthorized": false
+    },
+    {
+      "localPath": "docs/reference/regional-opening/raw/kgs-hazard-map.html",
+      "requestedUrl": "https://www.uky.edu/KGS/announce/map_e.htm",
+      "effectiveUrl": "https://www.uky.edu/KGS/announce/map_e.htm",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T04:06:27.771772+00:00",
+      "bytes": 9135,
+      "sha256": "0ad57f025c0372aece46a0f13567517ceca7da7424aab85b5a00f3e599707a80",
+      "role": "supporting-geographical-research",
+      "simulationSourceAdmitted": false,
+      "artReuseAuthorized": false
+    },
+    {
+      "localPath": "docs/reference/regional-opening/raw/usda-nebraska-grasslands-plan.pdf",
+      "requestedUrl": "https://www.fs.usda.gov/media/234813",
+      "effectiveUrl": "https://www.fs.usda.gov/sites/nfs/files/r02/nebraska/publication/2002%20LRMP%20NNF%20ch1_2_3.pdf",
+      "httpStatus": 200,
+      "retrievedAt": "2026-09-20T04:06:30.053119+00:00",
+      "bytes": 595765,
+      "sha256": "7bb5ce2032007bc8cd9542b2a3ca981156b68b6c7aa825383ac78a1bc9c3f9bb",
+      "role": "supporting-geographical-research",
+      "simulationSourceAdmitted": false,
+      "artReuseAuthorized": false
+    }
+  ]
+}

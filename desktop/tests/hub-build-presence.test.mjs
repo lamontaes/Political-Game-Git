@@ -135,6 +135,18 @@ test("the worker asks the disk before calling a build up to date or waiting", ()
   assert.ok(!source.includes("existsSync(existing.pending.appPath)"));
 });
 
+test("a linear cloud successor reuses the verified runtime-content pair", () => {
+  const source = read("private-update-worker.mjs");
+  assert.match(
+    source,
+    /existing\?\.current\?\.preparedLocally === true[\s\S]*?currentIsAncestor[\s\S]*?prepareRuntimeContentSuccessor/,
+  );
+  assert.match(source, /VITE_RUNTIME_CONTENT: "1"/);
+  assert.match(source, /stageReceivedCode\(\{/);
+  assert.match(source, /publishReceivedChannel\(\{[\s\S]*?base: \{/);
+  assert.match(source, /received\?\.outcome !== "pending"/);
+});
+
 test("the hub state reports a missing payload instead of a verified label", () => {
   const source = read("main.mjs");
   assert.match(source, /const present = buildPresentOnDisk\(track\.current\)/);

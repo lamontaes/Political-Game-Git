@@ -293,12 +293,19 @@ export interface LegislativeProcedure {
   readonly introductionToPassage: Sourced<IntroductionToPassageRule>;
 }
 
-export interface IntroductionToPassageRule {
-  /** Whole days that must fall between the day of introduction and passage. */
-  readonly minimumInterveningDays: number;
-  /** The instrument's own words for passing sooner, where it gives any. */
+/** Omitted basis preserves the original whole-intervening-day contract. */
+export type IntroductionToPassageRule = (
+  | {
+      readonly basis?: "WHOLE_INTERVENING_DAYS";
+      readonly minimumInterveningDays: number;
+    }
+  | {
+      readonly basis: "ELAPSED_DAYS";
+      readonly minimumElapsedDays: number;
+    }
+) & {
   readonly sameDayException: string | null;
-}
+};
 
 export interface FiscalYearRule {
   readonly beginsMonthDay: string;

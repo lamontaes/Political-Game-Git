@@ -1,3 +1,8 @@
+import {
+  publishReceivedChannel,
+  reconcileReceivedChannel,
+  stageReceivedCode,
+} from "./received-channel.mjs";
 /* global process */
 
 import { spawn } from "node:child_process";
@@ -9,13 +14,13 @@ import {
   realpathSync,
   renameSync,
   rmSync,
-  statSync,
   writeFileSync,
 } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { createHash } from "node:crypto";
+import { assertProvenanceMatches } from "../../scripts/client-provenance.mjs";
 
 import {
   MAIN_TRACK,
@@ -29,6 +34,7 @@ import {
   buildRecord,
   controllerPaths,
   repositoryIsExpected,
+  privateInputIgnoreRules,
 } from "./private-update.mjs";
 
 const EXPECTED_PACKAGE_NAME = "political-life-rpg";
@@ -53,8 +59,8 @@ const HARNESS_FILES = [
   "game-launch-environment.mjs",
   "drawn-appearance-proof.mjs",
   "saved-identity-proof.mjs",
+  "creator-drive.mjs",
 ];
-const APP_NAME = "Our Civic Duty.app";
 
 const args = process.argv.slice(2);
 const valueAfter = (name) => {
@@ -65,6 +71,8 @@ const dataRoot = valueAfter("--data-root");
 const requestedRepository = valueAfter("--repo");
 const requestedTrack = valueAfter("--track") ?? MAIN_TRACK;
 const requestedPack = valueAfter("--pack");
+const receivedFirst = args.includes("--received-first");
+const hubExecutable = valueAfter("--hub-executable") ?? process.execPath;
 
 let activeChild = null;
 let cancelled = false;
@@ -99,13 +107,29 @@ if (!dataRoot || !path.isAbsolute(dataRoot)) {
   )
 ) {
   fail("The selected branch name is not valid.", "invalid-branch");
-} else if (!requestedPack || !path.isAbsolute(requestedPack)) {
-  fail(
-    "No private art pack is configured. A public-only build is not a private Play build.",
-    "missing-private-pack",
-  );
 } else {
-  await main();
+  try {
+    const received = receivedFirst
+      ? reconcileReceivedChannel(dataRoot, requestedTrack)
+      : null;
+    // A waiting or explicitly pinned local delivery owns this check.  An
+    // up-to-date received pair still proceeds to Git discovery so a newer
+    // cloud commit can be prepared automatically with the same verified
+    // runtime-content snapshot.
+    if (received && received.outcome !== "up-to-date")
+      emit(
+        "complete",
+        received.outcome === "pending"
+          ? "An update is ready. It will open when your current work is safely closed."
+          : received.outcome === "superseded"
+            ? "A newer local version took over while this update was prepared. It has been kept."
+            : "Your local version has been kept.",
+        { ...received, track: requestedTrack },
+      );
+    else await main(received);
+  } catch (error) {
+    fail(error.message, "invalid-received-content");
+  }
 }
 
 async function run(command, commandArgs, options = {}) {
@@ -193,10 +217,22 @@ function verifyPrivatePack(packRoot) {
     throw new Error("The private art pack manifest does not match its record.");
   if (!existsSync(path.join(packRoot, "stage-into-worktree.sh")))
     throw new Error("The private art pack has no installer.");
+  /*
+   * `generation` is optional and additive. A pack that states which kit
+   * generation it was composed from says so here, so the activated record can
+   * name it instead of a reader taking the number out of DELIVERY.md prose. A
+   * pack without it — every pack built before the field existed — verifies and
+   * records exactly what it always did.
+   */
+  const generation =
+    Number.isInteger(pack.generation) && pack.generation >= 0
+      ? pack.generation
+      : null;
   return {
     packId: String(pack.packId),
     manifestSha256: actual,
     fileCount: pack.fileCount ?? null,
+    generation,
   };
 }
 
@@ -261,7 +297,133 @@ async function removeOwnedStaging(paths, repositoryPath) {
   rmSync(paths.stagingRoot, { recursive: true, force: true });
 }
 
-async function main() {
+/** Build a cloud successor without re-embedding a private art bank. */
+async function prepareRuntimeContentSuccessor({
+  branch,
+  existing,
+  id,
+  label,
+  repositoryPath,
+  statePath,
+  targetRevision,
+}) {
+  const content = existing.current.content;
+  const paths = controllerPaths(
+    dataRoot,
+    targetRevision,
+    content.id.slice(0, 12),
+  );
+  await removeOwnedStaging(paths, repositoryPath);
+  mkdirSync(paths.stagingRoot, { recursive: true });
+  writeFileSync(
+    path.join(paths.stagingRoot, ".ocd-private-controller-staging"),
+    "1\n",
+  );
+  await run(
+    "/usr/bin/git",
+    ["worktree", "add", "--detach", paths.sourcePath, targetRevision],
+    {
+      cwd: repositoryPath,
+      label: "Creating a clean runtime-content build workspace",
+    },
+  );
+  const exactHead = await capture("/usr/bin/git", ["rev-parse", "HEAD"], {
+    cwd: paths.sourcePath,
+    label: "Verifying the build revision",
+  });
+  const dirty = await capture(
+    "/usr/bin/git",
+    ["status", "--porcelain", "--untracked-files=all"],
+    {
+      cwd: paths.sourcePath,
+      label: "Verifying the clean build workspace",
+    },
+  );
+  if (exactHead !== targetRevision || dirty)
+    throw new Error(
+      "The runtime-content build workspace is not exact and clean.",
+    );
+
+  const buildEnvironment = {
+    VITE_OCD_BUILD_PROFILE: "internal-art-review",
+    VITE_RUNTIME_CONTENT: "1",
+  };
+  await run("/usr/bin/env", ["npm", "ci", "--no-audit", "--no-fund"], {
+    cwd: paths.sourcePath,
+    label: "Installing pinned game dependencies",
+    phase: "preparing",
+  });
+  await run("/usr/bin/env", ["npm", "run", "build"], {
+    cwd: paths.sourcePath,
+    env: buildEnvironment,
+    label: "Compiling the verified cloud update",
+    phase: "preparing",
+  });
+  const desktopPath = path.join(paths.sourcePath, "desktop");
+  await run(
+    process.execPath,
+    [
+      "scripts/stage.mjs",
+      "--composition",
+      `branch-preview:${branch}@${targetRevision.slice(0, 12)}`,
+    ],
+    {
+      cwd: desktopPath,
+      env: buildEnvironment,
+      label: "Verifying and staging the cloud update",
+      phase: "verifying",
+    },
+  );
+  const stagedRoot = path.join(desktopPath, "staged");
+  const identity = JSON.parse(
+    readFileSync(path.join(stagedRoot, "build-identity.json"), "utf8"),
+  );
+  if (
+    identity.revision !== targetRevision ||
+    identity.profile !== "internal-art-review" ||
+    identity.dirty !== false
+  )
+    throw new Error("The cloud update does not match its source revision.");
+
+  const build = stageReceivedCode({
+    clientDir: path.join(stagedRoot, "client"),
+    dataRoot,
+    revision: targetRevision,
+    version: identity.version,
+    content,
+  });
+  publishReceivedChannel({
+    dataRoot,
+    track: id,
+    build,
+    base: {
+      revision: existing.current.revision,
+      clientTreeSha256: existing.current.clientTreeSha256,
+      contentId: existing.current.content?.id ?? null,
+    },
+  });
+  const received = reconcileReceivedChannel(dataRoot, id);
+  if (received?.outcome !== "pending")
+    throw new Error(
+      "The cloud update did not enter the verified waiting state.",
+    );
+  // The receiver changed only this track.  Confirm its current record did not
+  // move while compilation ran; reconcileReceivedChannel already refuses a
+  // concurrent file write, and this read gives the worker a precise message.
+  const finalState = readState(statePath);
+  if (
+    finalState?.tracks[id]?.current?.revision !== existing.current.revision ||
+    finalState.tracks[id].pending?.revision !== targetRevision
+  )
+    throw new Error("The selected preview changed while its update was built.");
+  return emit(
+    "complete",
+    `The ${label} build ${targetRevision.slice(0, 12)} is verified and waiting to be activated.`,
+    { outcome: "pending", track: id, revision: targetRevision },
+  );
+}
+
+async function main(received = null) {
   const statePath = path.join(path.resolve(dataRoot), "state.json");
   const initialState = readState(statePath);
   if (!initialState)
@@ -273,10 +435,6 @@ async function main() {
   const remoteRef = `refs/remotes/origin/${branch}`;
 
   try {
-    const pack = verifyPrivatePack(requestedPack);
-    emit("progress", `Private art pack ${pack.packId} verified.`, {
-      phase: "verifying",
-    });
     const repositoryPath = await verifyRepository(requestedRepository);
     emit("progress", `Fetching ${label} from GitHub…`, { phase: "fetching" });
     try {
@@ -360,7 +518,66 @@ async function main() {
       currentRevision,
       targetRevision,
       // A branch preview may be rewritten; only main refuses non-descendants.
-      currentIsAncestor: isMain ? currentIsAncestor : true,
+      currentIsAncestor:
+        isMain || existing?.current?.preparedLocally === true
+          ? currentIsAncestor
+          : true,
+    });
+    if (
+      (received?.outcome === "up-to-date" ||
+        (existing?.current?.preparedLocally === true &&
+          existing.current.content)) &&
+      currentRevision === targetRevision &&
+      buildPresentOnDisk(existing?.current).ok
+    ) {
+      writeState(statePath, { ...state, repositoryPath });
+      return emit("complete", `This is already the current ${label} build.`, {
+        outcome: "up-to-date",
+        track: id,
+        revision: targetRevision,
+      });
+    }
+
+    // A receiver-prepared build carries a verified runtime-content snapshot
+    // rather than a staged private pack.  When its cloud branch advances
+    // linearly, compile the new code in runtime-content mode and pair it with
+    // that exact snapshot.  Divergence is retained; no merge, rebase or
+    // downgrade occurs in the updater.
+    if (
+      existing?.current?.preparedLocally === true &&
+      currentRevision !== targetRevision
+    ) {
+      if (!currentIsAncestor)
+        return emit(
+          "complete",
+          "Your private preview contains work outside the selected GitHub version. It has been kept.",
+          { outcome: "kept-local", track: id, revision: targetRevision },
+        );
+      if (existing.current.content)
+        return prepareRuntimeContentSuccessor({
+          branch,
+          existing,
+          id,
+          label,
+          repositoryPath,
+          statePath,
+          targetRevision,
+        });
+      return emit(
+        "complete",
+        "A newer version is on GitHub. It is awaiting preparation for this console; your current game is ready to play.",
+        { outcome: "source-available", track: id, revision: targetRevision },
+      );
+    }
+
+    if (!requestedPack || !path.isAbsolute(requestedPack))
+      return fail(
+        "No private art pack is configured. A public-only build is not a private Play build.",
+        "missing-private-pack",
+      );
+    const pack = verifyPrivatePack(requestedPack);
+    emit("progress", `Private art pack ${pack.packId} verified.`, {
+      phase: "verifying",
     });
     const samePack =
       existing?.current?.privatePack?.manifestSha256 === pack.manifestSha256;
@@ -394,11 +611,17 @@ async function main() {
     if (assessment.action === "refuse") {
       return fail(
         assessment.reason === "unsupported-downgrade-or-fork"
-          ? "Accepted main is not a descendant of the installed build. Refusing an unsupported downgrade or fork; the current build is unchanged."
+          ? "The installed game contains work that is not on the selected GitHub branch. Your current version has been kept."
           : "The update target could not be verified.",
         assessment.reason,
       );
     }
+
+    if (existing?.current?.preparedLocally === true)
+      return fail(
+        "The prepared game needs repair. Your saves have been kept; a verified replacement must be installed in this console.",
+        "failed",
+      );
 
     const paths = controllerPaths(
       dataRoot,
@@ -446,6 +669,48 @@ async function main() {
     if (trackedAfterPack)
       throw new Error("Staging the private pack changed tracked source.");
 
+    // Older revisions predate the private-art ignore rules. Exclude only
+    // checksummed, verified inputs for this build; unknown files still fail.
+    const packMetadata = JSON.parse(
+      readFileSync(path.join(requestedPack, "pack.json"), "utf8"),
+    );
+    const inputs = privateInputIgnoreRules(
+      readFileSync(
+        path.join(requestedPack, packMetadata.manifest ?? "sha256.txt"),
+        "utf8",
+      ),
+    );
+    for (const input of inputs)
+      if (sha256File(path.join(paths.sourcePath, input.path)) !== input.sha256)
+        throw new Error(`The staged private input changed: ${input.path}`);
+    const excludesPath = path.join(
+      paths.stagingRoot,
+      "verified-private-inputs.ignore",
+    );
+    writeFileSync(
+      excludesPath,
+      `${inputs.map((input) => input.rule).join("\n")}\n`,
+    );
+    const configIndex = Number(process.env.GIT_CONFIG_COUNT ?? 0);
+    const buildEnvironment = {
+      GIT_CONFIG_COUNT: String(configIndex + 1),
+      [`GIT_CONFIG_KEY_${configIndex}`]: "core.excludesFile",
+      [`GIT_CONFIG_VALUE_${configIndex}`]: excludesPath,
+      VITE_OCD_BUILD_PROFILE: "internal-art-review",
+    };
+    const unexpectedFiles = await capture(
+      "/usr/bin/git",
+      ["status", "--porcelain", "--untracked-files=all"],
+      {
+        cwd: paths.sourcePath,
+        env: buildEnvironment,
+      },
+    );
+    if (unexpectedFiles)
+      throw new Error(
+        "The build workspace contains changes beyond its verified private inputs.",
+      );
+
     await run("/usr/bin/env", ["npm", "ci", "--no-audit", "--no-fund"], {
       cwd: paths.sourcePath,
       label: "Installing pinned game dependencies",
@@ -453,15 +718,11 @@ async function main() {
     });
     await run("/usr/bin/env", ["npm", "run", "build"], {
       cwd: paths.sourcePath,
-      env: { VITE_OCD_BUILD_PROFILE: "internal-art-review" },
+      env: buildEnvironment,
       label: "Compiling the internal art-review game",
       phase: "preparing",
     });
     const desktopPath = path.join(paths.sourcePath, "desktop");
-    await run("/usr/bin/env", ["npm", "ci", "--no-audit", "--no-fund"], {
-      cwd: desktopPath,
-      label: "Installing pinned desktop dependencies",
-    });
     await run(
       process.execPath,
       [
@@ -471,44 +732,45 @@ async function main() {
           ? "accepted-main"
           : `branch-preview:${branch}@${targetRevision.slice(0, 12)}`,
       ],
-      { cwd: desktopPath, label: "Verifying and staging the compiled game" },
-    );
-    await run(
-      process.execPath,
-      ["scripts/package.mjs", "--mac", "--arm64", "--dir", "-c.mac.target=dir"],
       {
         cwd: desktopPath,
-        env: { CSC_IDENTITY_AUTO_DISCOVERY: "false" },
-        label: "Packaging the versioned Mac application",
+        env: buildEnvironment,
+        label: "Verifying and staging the compiled game",
       },
     );
     const builtApp = path.join(
-      desktopPath,
-      "release-artifacts",
-      "mac-arm64",
-      APP_NAME,
+      paths.stagingRoot,
+      "prepared",
+      "Our Civic Duty.app",
     );
-    if (!existsSync(builtApp) || !statSync(builtApp).isDirectory())
-      throw new Error("The Mac application was not produced.");
+    const resources = path.join(builtApp, "Contents", "Resources");
+    mkdirSync(resources, { recursive: true });
+    cpSync(
+      path.join(desktopPath, "staged", "client"),
+      path.join(resources, "client"),
+      { recursive: true },
+    );
+    cpSync(
+      path.join(desktopPath, "staged", "build-identity.json"),
+      path.join(resources, "build-identity.json"),
+    );
     const identity = JSON.parse(
-      readFileSync(
-        path.join(builtApp, "Contents", "Resources", "build-identity.json"),
-        "utf8",
-      ),
+      readFileSync(path.join(resources, "build-identity.json"), "utf8"),
     );
-    if (identity.revision !== targetRevision)
-      throw new Error(`The application identity does not match ${label}.`);
-    const executable = path.join(
-      builtApp,
-      "Contents",
-      "MacOS",
-      APP_NAME.slice(0, -4),
-    );
-    const architecture = await capture("/usr/bin/file", ["-b", executable], {
-      label: "Checking the application architecture",
+    const verified = assertProvenanceMatches({
+      clientDir: path.join(resources, "client"),
+      expectedRevision: targetRevision,
+      expectedDirty: false,
     });
-    if (!architecture.includes("arm64"))
-      throw new Error("The application is not an Apple Silicon build.");
+    if (
+      identity.revision !== targetRevision ||
+      identity.profile !== "internal-art-review" ||
+      identity.clientTreeSha256 !== verified.treeSha256
+    )
+      throw new Error("The prepared game does not match the requested update.");
+    const architecture = process.arch;
+    if (architecture !== "arm64")
+      throw new Error("This update requires Apple Silicon.");
 
     const harness = path.join(
       paths.sourcePath,
@@ -521,7 +783,13 @@ async function main() {
       cpSync(path.join(HARNESS_ROOT, file), path.join(harness, file));
     await run(
       process.execPath,
-      [path.join(harness, "smoke-test.mjs"), "--app", executable],
+      [
+        path.join(harness, "smoke-test.mjs"),
+        "--hub",
+        hubExecutable,
+        "--payload",
+        builtApp,
+      ],
       {
         cwd: desktopPath,
         env: { OCD_EXPECT_ART_PREVIEW: "1" },
@@ -541,6 +809,7 @@ async function main() {
     rmSync(paths.appPath, { recursive: true, force: true });
     renameSync(temporaryApp, paths.appPath);
     const record = {
+      delivery: "console-client-payload",
       ...buildRecord(
         identity,
         paths.appPath,
