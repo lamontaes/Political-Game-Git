@@ -110,7 +110,7 @@ describe("a town's governing body, across the country", () => {
       expect(gap).not.toMatch(/census|listing|gus2025|http/i);
   });
 
-  // Three states with no legislature pack, where a candidate used to be told
+  // Three states that had no legislature pack, where a candidate was told
   // there was nothing below governor to stand for.
   it.each([
     ["Augusta", "ME", "City of Augusta"],
@@ -126,9 +126,15 @@ describe("a town's governing body, across the country", () => {
       const offices = electiveOfficesForJurisdiction(
         place.context.jurisdiction.id,
       );
-      expect(offices.map((office) => office.recordedBy.packName)).toEqual([
+      // The city's own body is on offer whatever the state above it has read;
+      // a state legislature, where one is added, sits before it, never instead.
+      const local = offices.filter((office) =>
+        localGoverningBodyIdentityForOfficeKey(office.officeKey),
+      );
+      expect(local.map((office) => office.recordedBy.packName)).toEqual([
         government,
       ]);
+      expect(offices.at(-1)).toBe(local[0]);
     },
   );
 
