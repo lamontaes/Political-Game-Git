@@ -584,15 +584,29 @@ function synthesizeNationwidePlace(
     ? createStableId("jurisdiction", `national-county:${geoid}`)
     : nationwideJurisdictionId(geoid);
   const provenance = county ? NATIONAL_COUNTIES_META : NATIONAL_PLACES_META;
+  // What the formal label is depends on which kind of place this is, and the
+  // two answers were sharing one expression.
+  //
+  // A county's is the corpus row's own string. Its state is already carried on
+  // `withinName`, so appending it duplicates the state and stops the field
+  // being the exact string the source filed — which is the whole reason a
+  // county row keeps one. "Baltimore city" is the record; "Baltimore city,
+  // Maryland" is a sentence about it.
+  //
+  // A locality's keeps the state, as it has since towns were given the names
+  // their residents use (`dabd9f5a`): there the formal label stands in for a
+  // full postal identity a player may not recognize from the short name, and
+  // `nationwide-places`, `dehardwire-place-binding` and `resident-place-name`
+  // each pin it that way.
+  const formal = county
+    ? displayName
+    : resident === displayName
+      ? displayName
+      : `${displayName}, ${stateName(usps)}`;
   return {
     key: county ? `county:${geoid}` : geoid,
     displayName: named,
-    formalName:
-      resident === displayName
-        ? displayName === named
-          ? null
-          : displayName
-        : `${displayName}, ${stateName(usps)}`,
+    formalName: formal === named ? null : formal,
     withinName: stateName(usps),
     context: {
       jurisdiction: {
