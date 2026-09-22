@@ -98,6 +98,57 @@ export interface CampaignReading {
 export interface CampaignTallyLine extends CandidateTally {
   readonly candidateName: string;
   readonly isThisCandidate: boolean;
+  /**
+   * The share as election night prints it, to one decimal place.
+   *
+   * Not `voteShare` rounded on its own. Rounding each share by itself let a
+   * two-way race print 100.1 percent — walked in Chicago, where 71.95 and
+   * 28.05 came out as 72.0 and 28.1, and again in Hannibal. Nothing is wrong
+   * with the count; the game allocates whole basis points and they sum. It is
+   * the last step, where a reader does the addition.
+   */
+  readonly displayedSharePercent: string;
+}
+
+/**
+ * Rounds shares for display so that what is printed still adds up.
+ *
+ * Largest remainder: round every share down, then hand the leftover tenths to
+ * whoever was cut by the most. That is the ordinary way an election night
+ * table is made to total, and it moves at most one tenth on one candidate.
+ */
+export function displayedSharePercents(
+  shares: readonly number[],
+  decimals = 1,
+): readonly string[] {
+  const scale = 10 ** decimals;
+  const exact = shares.map((share) => share * 100 * scale);
+  const floors = exact.map((value) => Math.floor(value));
+  const total = Math.round(exact.reduce((sum, value) => sum + value, 0));
+  let remaining = total - floors.reduce((sum, value) => sum + value, 0);
+  // Ties are real: a two-way race lands on exactly half a tenth each, which
+  // is how Chicago produced 71.95 and 28.05. Break toward the larger share, so
+  // the extra tenth goes to the leader and the same race always prints the
+  // same table rather than depending on the sort's own order.
+  const order = exact
+    .map((value, index) => ({
+      index,
+      remainder: value - floors[index]!,
+      value,
+    }))
+    .sort(
+      (left, right) =>
+        right.remainder - left.remainder ||
+        right.value - left.value ||
+        left.index - right.index,
+    );
+  const adjusted = [...floors];
+  for (const entry of order) {
+    if (remaining <= 0) break;
+    adjusted[entry.index] = adjusted[entry.index]! + 1;
+    remaining -= 1;
+  }
+  return adjusted.map((value) => (value / scale).toFixed(decimals));
 }
 
 export interface CampaignView {
@@ -336,11 +387,16 @@ export function projectCampaign(
       state.status === "active" ? offersFor(world, campaign, treasury) : [],
     sessions: sessionsFor(world, campaign),
     reading: latestReading(world, campaign),
-    tallies: (result?.tallies ?? []).map((tally) => ({
-      ...tally,
-      candidateName: displayName(world, tally.candidatePersonId),
-      isThisCandidate: tally.candidatePersonId === personId,
-    })),
+    tallies: (() => {
+      const rows = result?.tallies ?? [];
+      const printed = displayedSharePercents(rows.map((row) => row.voteShare));
+      return rows.map((tally, index) => ({
+        ...tally,
+        candidateName: displayName(world, tally.candidatePersonId),
+        isThisCandidate: tally.candidatePersonId === personId,
+        displayedSharePercent: printed[index]!,
+      }));
+    })(),
     afterword:
       state.status === "won"
         ? supportedLegislativeTermDates(

@@ -398,6 +398,93 @@ let rowsByGeoid: ReadonlyMap<string, NationwideRow> | null = null;
 let countyRows: readonly NationwideRow[] | null = null;
 let countyPlaces: ReadonlyMap<string, LifePlace> | null = null;
 
+const CENSUS_UNIT_TYPES =
+  /\s+(?:city|town|village|borough|municipality|metro government|metropolitan government|consolidated government|unified government|urban county government)$/;
+
+let countyNamesByUsps: ReadonlyMap<string, ReadonlySet<string>> | null = null;
+
+function countyNamesFor(usps: string): ReadonlySet<string> {
+  if (!countyNamesByUsps) {
+    countyRows ??= JSON.parse(
+      NATIONAL_COUNTIES_ROWS,
+    ) as readonly NationwideRow[];
+    const grouped = new Map<string, Set<string>>();
+    for (const [, name, code] of countyRows) {
+      const set = grouped.get(code) ?? new Set<string>();
+      // The generated rows carry "Davidson County"; a merged place name
+      // carries "Davidson". Store both so either spelling matches.
+      set.add(name);
+      set.add(name.replace(/\s+County$/, ""));
+      grouped.set(code, set);
+    }
+    countyNamesByUsps = grouped;
+  }
+  return countyNamesByUsps.get(usps) ?? new Set<string>();
+}
+
+/**
+ * The name a resident uses, derived from the Census label rather than a list.
+ *
+ * The Gazetteer already strips the unit type from ordinary places, but the
+ * eight consolidated city-county rows keep theirs, so a player in Tennessee
+ * read "Nashville-Davidson metropolitan government (balance), Tennessee" on
+ * the home screen, on the parties screen, and inside the sentence that opens
+ * their day. The same problem Lexington was fixed for by hand:
+ * "Nobody who lives there calls it Lexington-Fayette."
+ *
+ * Three steps, each reversing a Census convention rather than guessing:
+ * drop the "(balance)" bookkeeping tag; drop a trailing lowercase unit-type
+ * phrase, which the Gazetteer writes in lower case so that "Kansas City" and
+ * "New York city" stay distinguishable; and drop a merged county's name when
+ * the counties corpus confirms it is a county of this same state. The formal
+ * label is kept on `formalName`, so a legal or data view loses nothing and
+ * search still matches it.
+ */
+export function residentPlaceName(censusName: string, usps: string): string {
+  const withoutBalance = censusName.replace(/\s*\(balance\)\s*$/, "");
+  const withoutUnit = withoutBalance.replace(CENSUS_UNIT_TYPES, "");
+  const merged = /^(.*?)[-/](.+)$/.exec(withoutUnit);
+  const head = merged?.[1];
+  const suffix = merged?.[2];
+  if (head === undefined || suffix === undefined) return withoutUnit;
+  const tail = suffix.replace(/\s+County$/, "").trim();
+  return countyNamesFor(usps).has(tail) ? head.trim() : withoutUnit;
+}
+
+let uspsByStateName: ReadonlyMap<string, string> | null = null;
+
+/**
+ * The town name inside a jurisdiction record, as a resident says it.
+ *
+ * A jurisdiction is the government, so its `name` is allowed to be the filing
+ * name — the Lexington-Fayette Urban County Government is a real body with
+ * that real name, and `run-a` asserts it. But a generated school, a household
+ * label or anything else naming the place a person is FROM wants the
+ * resident's name, and got "South Lexington-Fayette High School" from the
+ * government's. Same three-step rule as `residentPlaceName`; the state comes
+ * from the record's own parent.
+ */
+export function residentNameForJurisdiction(
+  jurisdictionName: string,
+  parentName: string | null,
+): string {
+  const suffix = parentName === null ? "" : `, ${parentName}`;
+  const stem =
+    suffix.length > 0 && jurisdictionName.endsWith(suffix)
+      ? jurisdictionName.slice(0, jurisdictionName.length - suffix.length)
+      : jurisdictionName;
+  if (!uspsByStateName) {
+    uspsByStateName = new Map(
+      Object.entries(STATES).map(([code, state]) => [state.name, code]),
+    );
+  }
+  const usps =
+    parentName === null ? undefined : uspsByStateName.get(parentName);
+  return usps === undefined
+    ? stem.trim()
+    : residentPlaceName(stem.trim(), usps).trim();
+}
+
 function nationwideCounties(): ReadonlyMap<string, LifePlace> {
   countyRows ??= JSON.parse(NATIONAL_COUNTIES_ROWS) as readonly NationwideRow[];
   countyPlaces ??= new Map(
@@ -489,16 +576,37 @@ function synthesizeNationwidePlace(
 ): LifePlace {
   const [geoid, displayName, usps] = row;
   const state = STATES[usps];
-  const named = `${displayName}, ${stateName(usps)}`;
+  // What a resident says, not what the Gazetteer files it under.
+  const resident = residentPlaceName(displayName, usps);
+  const named = `${resident}, ${stateName(usps)}`;
   const county = scope === "county";
   const jurisdictionId = county
     ? createStableId("jurisdiction", `national-county:${geoid}`)
     : nationwideJurisdictionId(geoid);
   const provenance = county ? NATIONAL_COUNTIES_META : NATIONAL_PLACES_META;
+  // What the formal label is depends on which kind of place this is, and the
+  // two answers were sharing one expression.
+  //
+  // A county's is the corpus row's own string. Its state is already carried on
+  // `withinName`, so appending it duplicates the state and stops the field
+  // being the exact string the source filed — which is the whole reason a
+  // county row keeps one. "Baltimore city" is the record; "Baltimore city,
+  // Maryland" is a sentence about it.
+  //
+  // A locality's keeps the state, as it has since towns were given the names
+  // their residents use (`dabd9f5a`): there the formal label stands in for a
+  // full postal identity a player may not recognize from the short name, and
+  // `nationwide-places`, `dehardwire-place-binding` and `resident-place-name`
+  // each pin it that way.
+  const formal = county
+    ? displayName
+    : resident === displayName
+      ? displayName
+      : `${displayName}, ${stateName(usps)}`;
   return {
     key: county ? `county:${geoid}` : geoid,
     displayName: named,
-    formalName: displayName === named ? null : displayName,
+    formalName: formal === named ? null : formal,
     withinName: stateName(usps),
     context: {
       jurisdiction: {
