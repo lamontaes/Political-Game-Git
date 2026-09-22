@@ -453,14 +453,14 @@ Recorded, not fixed — this was an audit.
 
 | Finding                                                                                                                                                                | Evidence                                                                                                             | Suggested owner                          |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| `recordTraitChange` has no production caller; traits never change during play                                                                                          | Measured: only 3 test files reference it                                                                             | People and life                          |
-| The played character has no trait records, so their temperament never enters any decision                                                                              | Measured: all five `recordId: null` after `ensurePeopleTraits`                                                       | People and life                          |
+| Traits never change, and resistance is not modelled at all — now an owner requirement, not a finding                                                                   | Measured: `recordTraitChange` referenced only by 3 test files; no resistance concept in the tree                     | People and life                          |
+| The played character has no trait records — now an owner requirement; `mind.ts:851` already permits it under `player-choice` provenance                                | Measured: all five `recordId: null` after `ensurePeopleTraits`                                                       | People and life                          |
 | No legislative module produces a `mind:personality` consideration, and `TraitLean` is typed to the five hardwired traits so wiring one today would hardwire those five | Measured: 12 of the 23 production `evaluateDecision` callers read no trait, the engine aside; `people-traits.ts:235` | Modular legislation with people and life |
-| Content packs refuse unknown fields rather than ignoring them with a reason                                                                                            | Measured: `Content pack has missing or unsupported fields.`                                                          | Product decision for the owner           |
+| Content packs refuse an unknown field instead of skipping it with a stated reason — the owner has decided it should fail soft                                          | Measured: `Content pack has missing or unsupported fields.`                                                          | Whoever owns the pack API                |
 | The content registry indexes content no gameplay path reads                                                                                                            | Read: 2 consumers, both review surfaces                                                                              | Hardcoded-content audit                  |
 | Registry composition resolves a duplicate key first-match-wins with no detection, and drops every routine but the first                                                | Read: `src/simulation/future-transitions.ts:137-148`                                                                 | Fix main                                 |
 
-## Corrections to previously relayed claims
+## Corrections, including this audit's own
 
 - The mind catalog allow-list does **not** block a sixth people trait. Measured.
 - `PREPARED_FAMILIES` is a glob, not a static-import spread; the cost is ~7 edit
@@ -478,3 +478,19 @@ Recorded, not fixed — this was an audit.
   and `composeFutureTransitionHandlerRegistries` is exported and used from five
   other modules. Caught by the fix-main lane; the better finding underneath it
   is the silent resolution of duplicate keys.
+- **This document drifted from its own published copy, twice, within minutes.**
+  The fail-soft boundary and three rows of the table above were written straight
+  into a Drive render and never back into this file, so the two disagreed until
+  they were reconciled at c8c96e72. That is precisely the failure this document
+  reports against the content registry — an index that quietly stops describing
+  what it indexes — committed here by its own author, and it went unnoticed
+  because a silent no-op replaced nothing rather than failing loudly. **The rule
+  taken from it: write the repository copy first and render from it, never edit
+  during the upload. A render is a copy, not the source.**
+
+Three of this audit's four own errors were the same kind: a claim established by
+reading rather than by running the path — the exact failure it was commissioned
+to avoid. The fourth was the same shape one level up: a change made to the
+published copy without running it back through the source. All four are recorded
+here rather than edited away, because a document whose method claim is "measured,
+not inferred" is worth nothing if its exceptions are invisible.
