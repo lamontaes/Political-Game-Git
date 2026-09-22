@@ -1,4 +1,5 @@
 import { WardrobeFigure } from "./WardrobeFigure";
+import { PersonPortrait } from "./PersonPortrait";
 import {
   createPersonRenderSnapshot,
   type PersonRenderSnapshot,
@@ -18,9 +19,9 @@ import {
 import { gameBuildProfile } from "../presentation/build-profile";
 import { PRODUCTION_CHARACTER_LIBRARY } from "../presentation/visual-integration";
 import type { CharacterComponentLibrary } from "../presentation/character-components";
-import { catalogFamilyLabels } from "../presentation/catalog-family-label";
 import {
   PersonAppearanceControls,
+  appearanceFamilyLabel,
   type PersonAppearanceControlsProps,
 } from "./PersonAppearanceControls";
 
@@ -130,10 +131,20 @@ export function SavedAppearanceControls(
   const library = preview
     ? wearableChoicesIn(preview.characters)
     : NORMAL_APPEARANCE_LIBRARY;
-  const familyLabels = catalogFamilyLabels(
-    [...library.components.values()].map(
-      (component) => component.definition.family,
+  const families = [
+    ...new Set(
+      [...library.components.values()].map(
+        (component) => component.definition.family,
+      ),
     ),
+  ];
+  // Labels come from authored metadata. Unknown families remain identifiable
+  // choices without exposing or inventing words from internal catalog ids.
+  const familyLabels = Object.fromEntries(
+    families.map((family, index) => [
+      family,
+      appearanceFamilyLabel(family, `Appearance choice ${index + 1}`),
+    ]),
   );
   return (
     <details
@@ -163,6 +174,18 @@ export function SavedAppearanceControls(
                       appearance,
                     }}
                     libraries={preview}
+                  />
+                )
+              : undefined
+          }
+          renderHairThumbnail={
+            preview
+              ? (appearance) => (
+                  <PersonPortrait
+                    world={props.world}
+                    personId={props.world.people[props.personId]!.id}
+                    visualLibraries={preview}
+                    previewAppearance={appearance}
                   />
                 )
               : undefined

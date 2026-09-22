@@ -1002,7 +1002,7 @@ export function regionLabel(
     }
     case "state-upper":
     case "state-lower":
-      return feature.name || `${state} district ${feature.geoid.slice(2)}`;
+      return `${state} · ${feature.name || `district ${feature.geoid.slice(2)}`}`;
     default:
       return feature.name;
   }

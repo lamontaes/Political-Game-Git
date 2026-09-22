@@ -339,3 +339,45 @@ test("the hub resolves the pill and marks a superseded selection", () => {
   // The renderer paints the pill it was given; it does not re-derive one.
   assert.ok(!/pill needs-rebuild/.test(chrome));
 });
+
+test("a checked newer source is not advertised as an installed update", () => {
+  const checks = recordCheck({}, "preview", {
+    outcome: "source-available",
+    at: "2026-09-20T17:00:00Z",
+    revision: SHA_B,
+    message: "Awaiting verified preparation.",
+  });
+  const status = updateStatus({
+    check: checks.preview,
+    build: build(SHA_A),
+    building: false,
+  });
+  assert.equal(status.text, "New version available · awaiting preparation");
+  assert.equal(status.kind, "waiting");
+  assert.equal(checks.preview.lastSuccessRevision, SHA_B);
+});
+
+test("the private hub checks the selected cloud branch without a button", () => {
+  const source = readFileSync(
+    fileURLToPath(new URL("../private-controller/main.mjs", import.meta.url)),
+    "utf8",
+  );
+  assert.match(source, /AUTO_UPDATE_INTERVAL_MS/);
+  assert.match(source, /scheduleAutomaticUpdateCheck\(\)/);
+  assert.match(
+    source,
+    /const selected = readState\(\)\?\.selectedTrack;[\s\S]*?startWorker\(selected\);[\s\S]*?scheduleAutomaticUpdateCheck\(\);/,
+  );
+  const foreground = source.slice(
+    source.indexOf("function reconcileOnForeground()"),
+    source.indexOf("function createWindow()"),
+  );
+  assert.match(foreground, /startWorker\(selected, false, true\)/);
+  assert.ok(!foreground.includes("existsSync(received)"));
+  // The timer is a cheap Git comparison. Full content verification runs for
+  // startup, foreground, manual and receiver-triggered checks.
+  assert.match(source, /receivedFirst \? \["--received-first"\] : \[\]/);
+  // A verified runtime-content build does not need an obsolete private pack
+  // merely to discover and compile a code-only successor.
+  assert.match(source, /!packPath && !usesRuntimeContent/);
+});

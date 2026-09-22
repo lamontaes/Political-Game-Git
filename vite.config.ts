@@ -1,3 +1,5 @@
+import { runtimeArtBuild } from "./scripts/dev-lab/runtime-art-build";
+import { runtimeContentOrigin } from "./scripts/dev-lab/runtime-content-origin";
 import { resolve } from "node:path";
 import { sites } from "@openai/sites-vite-plugin";
 import react from "@vitejs/plugin-react";
@@ -24,6 +26,8 @@ export default defineConfig({
     process.env.PG_CACHE_DIR ??
     resolve("test-results", "cache", process.env.PG_RUN_ID ?? "dev"),
   plugins: [
+    runtimeArtBuild(),
+    runtimeContentOrigin(),
     react(),
     sites(),
     identifiedBuild(),
@@ -31,6 +35,21 @@ export default defineConfig({
     artbenchBridge({ workspace: process.cwd() }),
   ],
   define: buildIdentityDefines(buildIdentity),
+  // This repository has thousands of source modules and several HTML entry
+  // points, but its browser-facing third-party graph is deliberately tiny.
+  // Listing that graph avoids a full cold-start dependency crawl every time
+  // the owner opens the Art Desk from the private hub.
+  optimizeDeps: {
+    noDiscovery: true,
+    holdUntilCrawlEnd: false,
+    include: [
+      "react",
+      "react-dom",
+      "react-dom/client",
+      "react/jsx-runtime",
+      "react/jsx-dev-runtime",
+    ],
+  },
   build: {
     outDir: "dist/client",
     rolldownOptions: { input: { app: "index.html", review: "review.html" } },
@@ -48,6 +67,9 @@ export default defineConfig({
       // The desktop shell has its own Node test runner (`cd desktop && npm test`).
       // Those files use `node:test`, not Vitest.
       "desktop/**",
+      // Immutable private pack authoring snapshots also use node:test.
+      // Their original validators run with Node, not through Vitest discovery.
+      "art/authoring/**",
     ],
   },
 });

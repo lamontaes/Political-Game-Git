@@ -127,6 +127,12 @@ export interface NewGameSetup {
    * date of birth against the place's simulation start; they are not a second
    * age clock.
    */
+  /** Explicit creator year; retained while month/day are unresolved. */
+  readonly birthYear?: number;
+  /** Additive initialization policy; absent descriptors preserve older construction. */
+  readonly openingDataVersion?: "playtest65-v1";
+  /** New descriptors opt in; absent preserves the original member-name draw. */
+  readonly livingWorldMemberNameVersion?: "identity-v1";
   readonly birthMonth?: number;
   readonly birthDay?: number;
   /**
@@ -164,6 +170,9 @@ export interface NewGameSetup {
   readonly appearanceRecipeVersion?: string;
   /** Absent keeps every replay written before the distinct-name repair. */
   readonly givenNameGenerationVersion?: GivenNameGenerationVersion;
+  /** New lives use contextual history; missing preserves legacy replays. */
+  readonly earlierLifeGenerationVersion?: "context-v2";
+  readonly questionnaireCopyVersion?: "playtest65-v2";
   /** Explicit creation lineage, preserved in replays; absent keeps historical defaults. */
   readonly appearanceCatalogGeneration?: number;
   /** Explicit fresh-candidate complete-recipe initialization; absent replays keep old behavior. */
@@ -209,7 +218,24 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   gender: "unstated",
   appearanceRecipeVersion: COHERENT_APPEARANCE_RECIPE_VERSION,
   givenNameGenerationVersion: DISTINCT_GIVEN_NAME_GENERATION_VERSION,
+  // OFF, deliberately, and not removed. `context-v2` declines to write a
+  // school or a job into a grown character's summarized past on the grounds
+  // that the game should not invent a biography nobody chose. Measured cost of
+  // that on an ordinary forty-year-old: no schooling, no work history, and one
+  // fewer person in the world — the teacher from their earlier life, who is
+  // the only person who ever reaches out to them on an ordinary day. Four
+  // seeds, one incoming contact each without it and none with it, which is
+  // also what stopped `people-trait-occasions` from ever firing.
+  //
+  // The owner's decision, 2026-09-22: a person's history is generated up to
+  // their age and the state of the world being loaded into. A blank past is
+  // further from that than a generated one, so new games use the generator
+  // that writes one until a properly sourced history replaces it. The version
+  // and its tests stay so a replay written under it still rebuilds.
+  questionnaireCopyVersion: "playtest65-v2",
   worldOpeningVersion: CRUNCH46_WORLD_OPENING_VERSION,
+  openingDataVersion: "playtest65-v1",
+  livingWorldMemberNameVersion: "identity-v1",
   questionnaire: "short",
   priors: [],
 };
@@ -423,6 +449,7 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     appearanceRecipeVersion:
       setup.appearanceRecipeVersion ?? LEGACY_APPEARANCE_RECIPE_VERSION,
     givenNameGenerationVersion: setup.givenNameGenerationVersion,
+    earlierLifeGenerationVersion: setup.earlierLifeGenerationVersion,
     ...(setup.appearanceCatalogGeneration === undefined
       ? {}
       : { appearanceCatalogGeneration: setup.appearanceCatalogGeneration }),

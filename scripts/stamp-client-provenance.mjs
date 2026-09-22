@@ -31,18 +31,29 @@ function git(args) {
 }
 
 const revision = git(["rev-parse", "HEAD"]) ?? "unknown";
-const status = git(["status", "--porcelain"]);
+const status = git(["status", "--porcelain", "--untracked-files=no"]);
 const profile =
   process.env.VITE_OCD_BUILD_PROFILE === "internal-art-review"
     ? "internal-art-review"
     : "production";
 
+execFileSync(
+  process.execPath,
+  ["--import", "tsx", "scripts/dev-lab/compiled-art-usage.ts"],
+  {
+    cwd: repoRoot,
+    stdio: "inherit",
+  },
+);
 const treeSha256 = hashClientTree(clientDir);
 const provenance = {
   sourceRevision: revision,
   dirty: status !== null && status !== "",
   profile,
   treeSha256,
+  ...(process.env.VITE_RUNTIME_CONTENT === "1"
+    ? { runtimeArtCapability: "runtime-art-v1" }
+    : {}),
   stampedAt: new Date().toISOString(),
 };
 

@@ -113,7 +113,20 @@ export function declineVenueActivity(
   activityId: EntityId,
 ): World {
   const activity = releasableHold(world, personId, activityId);
-  if (!activity) return world;
+  // Only the person who owes the answer can give it. A guest on somebody
+  // else's hold declining it would be answering for them, which is the same
+  // mistake as a lapse wearing a refusal's clothes. Time passing is not
+  // subject to this: `lapseVenueActivity` releases the hold whoever owns it,
+  // because nobody answered and nobody is claimed to have.
+  if (
+    !activity ||
+    (activity.responsiblePersonId !== personId &&
+      !(
+        activity.responsiblePersonId === null &&
+        activity.participantPersonIds.length === 1
+      ))
+  )
+    return world;
   const recorded = recordWorldEvent(world, {
     stableKey: `venue-activity:declined:${activityId}`,
     type: ACTIVITY_DECLINED_EVENT,

@@ -346,19 +346,7 @@ export function MunicipalWorkspace({
                   <summary>Election rule and remaining actions</summary>
                   <p>
                     {managerRule.label}, with the body's{" "}
-                    <GuideTerm semanticKey="quorum">quorum</GuideTerm> required.{" "}
-                    {managerRule.source.sourceUrl ? (
-                      <a
-                        href={managerRule.source.sourceUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        {managerRule.source.citation}
-                      </a>
-                    ) : (
-                      managerRule.source.citation
-                    )}
-                    .
+                    <GuideTerm semanticKey="quorum">quorum</GuideTerm> required.
                   </p>
                   <p>
                     Recording a new council election through ordinary play still

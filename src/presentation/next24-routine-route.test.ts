@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { projectLifeRecord } from "./life-record";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 import {
@@ -12,6 +13,7 @@ import {
 } from "./venue-activity";
 import { enterLifePath, changeLifePathStatus } from "../simulation/life-paths2";
 import {
+  ACTIVITY_LAPSED_EVENT,
   deserializeWorld,
   serializeWorld,
   scheduledActivityState,
@@ -255,4 +257,37 @@ describe("NEXT24 combined private-citizen routine route", () => {
     ).world;
     expect(deserializeWorld(serializeWorld(paused))).toEqual(paused);
   });
+});
+
+it("records an unanswered hold as lapsed and exposes its released calendar consequence", () => {
+  const { world, personId } = life("w65-hold-lapse");
+  const entry = venueActivities(world, personId).find(
+    (e) => e.activity.title === "Posted public meeting",
+  )!;
+  const next = passOrdinaryDays(world, 2, { stopForTentativeHolds: false });
+  // A lapse has its own event type. It used to share the refusal's, which is
+  // what made a hold nobody was shown read downstream as one the player turned
+  // down. See `src/simulation/scheduled-activity-answer.ts`.
+  const lapse = next.history.events.find(
+    (e) =>
+      e.type === ACTIVITY_LAPSED_EVENT &&
+      e.involvedEntityIds.includes(entry.activity.id),
+  );
+  expect(lapse?.tags).toContain("lapsed");
+  expect(lapse?.context?.choice).toBeNull();
+  expect(scheduledActivityState(next, entry.activity.id).status).toBe(
+    "cancelled",
+  );
+  expect(scheduledActivityState(next, entry.journey!.activity.id).status).toBe(
+    "cancelled",
+  );
+  const record = projectLifeRecord(next, personId);
+  expect(
+    record.chapters
+      .flatMap((c) => c.entries)
+      .some((e) => e.sentence === lapse?.summary),
+  ).toBe(true);
+  expect(
+    projectLifeRecord(deserializeWorld(serializeWorld(next)), personId),
+  ).toEqual(record);
 });
