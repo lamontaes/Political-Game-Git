@@ -1,5 +1,10 @@
 import { peopleTraitPack } from "./people-trait-pack";
+import { legislatureTraitPack } from "./legislature-trait-pack";
 import { CONTACT_ANSWER_DECISION } from "./people-contact-decisions";
+import {
+  BARGAINING_ANSWER_OFFER_DECISION,
+  BARGAINING_ANSWER_REQUEST_DECISION,
+} from "./legislative-bargaining-decisions";
 import { loadTraitPacks, type TraitRegistry } from "./trait-packs";
 
 /**
@@ -13,13 +18,20 @@ import { loadTraitPacks, type TraitRegistry } from "./trait-packs";
  * defined here: a decision that does not know its own options is a decision
  * whose published options will drift from what it actually offers.
  */
-const DECISIONS = [CONTACT_ANSWER_DECISION];
+const DECISIONS = [
+  CONTACT_ANSWER_DECISION,
+  BARGAINING_ANSWER_REQUEST_DECISION,
+  BARGAINING_ANSWER_OFFER_DECISION,
+];
 
 let cached: TraitRegistry | null = null;
 
 /** Loaded once. Pure from the caller's side: the same registry every time. */
 export function loadedTraitRegistry(): TraitRegistry {
-  cached ??= loadTraitPacks([peopleTraitPack()], DECISIONS);
+  cached ??= loadTraitPacks(
+    [peopleTraitPack(), legislatureTraitPack()],
+    DECISIONS,
+  );
   return cached;
 }
 

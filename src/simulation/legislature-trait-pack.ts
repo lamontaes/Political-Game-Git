@@ -1,0 +1,114 @@
+import type { TraitPack, TraitScale } from "./trait-packs";
+
+/**
+ * The legislature's own trait pack.
+ *
+ * It exists because the five ordinary-life traits declare `life:ordinary` and
+ * only that, on purpose: whether reliability at a bargaining table is the same
+ * trait as reliability in ordinary life is a real question, and the answer is
+ * not for a legislative module to assume by quietly widening somebody else's
+ * scope. So the legislature declares what it means in its own namespace, and
+ * a person can be dependable with their friends and hard to pin down in a
+ * chamber without either reading being evidence for the other.
+ *
+ * **Nothing is conferred yet, and that is deliberate.** The trait below is
+ * `conferred-only`, so no person is born with it and no existing save gains
+ * anything from this pack being loaded. Until a writer confers it, every
+ * reading is `unrecorded` and every sitting decides exactly as it does today.
+ * What ought to confer it — a member's own record of how they have negotiated
+ * before — is modelling work with its own provenance question, and it is not
+ * smuggled in here.
+ */
+
+/**
+ * Two steps, matching the mind store's `moderate` and `strong`.
+ *
+ * `defining` is not declared, so a record carrying it reads as unrecorded and
+ * says so rather than decoding as though it were `strong`. The keys are the
+ * legislature's own; nothing here is shared with the people pack, because two
+ * packs sharing an expression key would be two packs able to disagree about
+ * what a stored expression means.
+ */
+export const LEGISLATURE_TRAIT_SCALE: TraitScale = {
+  balancedKey: "bargains-without-a-settled-manner",
+  balancedLabel: "No settled manner",
+  balancedDescription: "Nothing consistent in how they answer at a table.",
+  steps: [
+    { magnitude: 1, strength: "moderate" },
+    { magnitude: 2, strength: "strong" },
+  ],
+};
+
+export const LEGISLATURE_PACK = "legislature-v1";
+
+export function legislatureTraitPack(): TraitPack {
+  return {
+    pack: LEGISLATURE_PACK,
+    traits: [
+      {
+        key: "showing-their-hand",
+        label: "Showing their hand",
+        description:
+          "Whether this member answers early on a bill still being written, or waits for the text to settle before saying anything that can be held against them.",
+        poles: {
+          low: {
+            key: "keeps-it-open",
+            label: "Keeps it open",
+            description:
+              "Will not say where they will be until the language stops moving.",
+          },
+          high: {
+            key: "says-where-they-stand",
+            label: "Says where they stand",
+            description:
+              "Gives an answer while the bill is still being written, and names the condition attached to it.",
+          },
+        },
+        scopes: ["government:bargaining"],
+        conferredBy: "conferred-only",
+        scale: LEGISLATURE_TRAIT_SCALE,
+        seed: null,
+      },
+    ],
+    effects: [
+      {
+        decision: "legislation.bargaining.answer-request",
+        leans: [
+          {
+            option: "commit",
+            trait: `${LEGISLATURE_PACK}:showing-their-hand`,
+            pole: "high",
+            explanation:
+              "This member has answered before while a bill was still moving, and is willing to again.",
+          },
+          {
+            option: "hold-off",
+            trait: `${LEGISLATURE_PACK}:showing-their-hand`,
+            pole: "low",
+            explanation:
+              "This member does not say where they will be until the text stops changing.",
+          },
+        ],
+      },
+      {
+        decision: "legislation.bargaining.answer-offer",
+        leans: [
+          {
+            option: "take-the-offer",
+            trait: `${LEGISLATURE_PACK}:showing-their-hand`,
+            pole: "high",
+            explanation:
+              "This member would rather work with language on the table than keep the question open.",
+          },
+          {
+            option: "hold-off",
+            trait: `${LEGISLATURE_PACK}:showing-their-hand`,
+            pole: "low",
+            explanation:
+              "This member holds out rather than settle while there is still room to ask.",
+          },
+        ],
+      },
+    ],
+  };
+}

@@ -1,4 +1,10 @@
 import {
+  BARGAINING_ANSWER_OFFER_DECISION,
+  BARGAINING_ANSWER_REQUEST_DECISION,
+} from "../simulation/legislative-bargaining-decisions";
+import { loadedTraitRegistry } from "../simulation/trait-registry";
+import { registeredTraitConsiderations } from "../simulation/trait-readings";
+import {
   assertNpcAutonomousApplication,
   assessCommitment,
   commitmentsHeldBy,
@@ -1003,6 +1009,56 @@ function shortName(world: World, personId: EntityId): string {
 // The decision itself
 // ---------------------------------------------------------------------------
 
+/**
+ * What the member is choosing between, by what was just said to them.
+ *
+ * Exported so the trait declarations in
+ * `simulation/legislative-bargaining-decisions.ts` can be held against the
+ * keys this actually builds. A declaration whose options drift from the real
+ * ones is worse than none: a lean would attach to a key no option carries, and
+ * the loader would accept it because the declaration said the key exists.
+ */
+export function bargainingAnswerOptions(
+  intent:
+    | "request-support"
+    | "offer-targeted-provision"
+    | "counter-with-cap"
+    | "refuse-request",
+): readonly {
+  readonly key: string;
+  readonly label: string;
+  readonly description: string;
+}[] {
+  return intent === "request-support"
+    ? [
+        {
+          key: "commit",
+          label: "Say where they will be",
+          description:
+            "Give a conditional answer on final passage and name the condition.",
+        },
+        {
+          key: "hold-off",
+          label: "Stay uncommitted",
+          description: "Decline to say until the bill's text settles.",
+        },
+      ]
+    : [
+        {
+          key: "take-the-offer",
+          label: "Take the offer",
+          description:
+            "Treat the offered language as enough to work with, conditionally.",
+        },
+        {
+          key: "hold-off",
+          label: "Hold out",
+          description:
+            "Refuse the version on the table and keep asking for the original.",
+        },
+      ];
+}
+
 function evaluateBargainingDecision(
   world: World,
   input: {
@@ -1019,35 +1075,7 @@ function evaluateBargainingDecision(
   },
 ): DecisionEvaluation {
   const facts = input.progress.subjectFacts;
-  const options =
-    input.intent === "request-support"
-      ? [
-          {
-            key: "commit",
-            label: "Say where they will be",
-            description:
-              "Give a conditional answer on final passage and name the condition.",
-          },
-          {
-            key: "hold-off",
-            label: "Stay uncommitted",
-            description: "Decline to say until the bill's text settles.",
-          },
-        ]
-      : [
-          {
-            key: "take-the-offer",
-            label: "Take the offer",
-            description:
-              "Treat the offered language as enough to work with, conditionally.",
-          },
-          {
-            key: "hold-off",
-            label: "Hold out",
-            description:
-              "Refuse the version on the table and keep asking for the original.",
-          },
-        ];
+  const options = bargainingAnswerOptions(input.intent);
 
   return evaluateDecision(world, {
     stableKey: `${input.turnKey}:bargaining-decision`,
@@ -1242,6 +1270,23 @@ function bargainingConsiderations(
       ],
     });
   }
+
+  // Whatever the loaded trait packs say bears on this answer. The decision
+  // names no trait: it names the situation it is in, and the packs decide what
+  // argues about it. A trait nothing has conferred contributes nothing, so a
+  // sitting in a world where no member has a recorded manner decides exactly
+  // as it did before this call existed.
+  considerations.push(
+    ...registeredTraitConsiderations(
+      world,
+      loadedTraitRegistry(),
+      input.speakerPersonId,
+      "bargaining",
+      input.intent === "request-support"
+        ? BARGAINING_ANSWER_REQUEST_DECISION.id
+        : BARGAINING_ANSWER_OFFER_DECISION.id,
+    ),
+  );
 
   return considerations;
 }
