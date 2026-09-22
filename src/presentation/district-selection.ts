@@ -18,6 +18,7 @@ import { candidacyPackForJurisdiction } from "../simulation/candidacy";
 import {
   desiredDistrictBinding,
   districtResidenceSince,
+  recordedDistrictMembership,
   selectDesiredDistrict,
 } from "../simulation/district-residence";
 import type { EntityId, World } from "../simulation/types";
@@ -77,4 +78,37 @@ export function currentDistrictResidenceStart(
   binding: DistrictSeatBinding,
 ) {
   return districtResidenceSince(world, personId, binding, world.currentDate);
+}
+
+export interface RecordedDistrictForOffice {
+  readonly binding: DistrictSeatBinding;
+  readonly startedOn: string;
+}
+
+/**
+ * The district this person is already recorded as living in, for the chamber
+ * this office sits in. Null where the world never wrote one — a city split
+ * across districts, or a save from before the join existed — and null is the
+ * right answer there rather than a district picked for them.
+ */
+export function recordedDistrictForOffice(
+  world: World,
+  personId: EntityId,
+  officeKey: string | null,
+): RecordedDistrictForOffice | null {
+  const chamberKey = officeKey?.split(":").at(-1) ?? null;
+  const chamber =
+    chamberKey === null
+      ? null
+      : gazetteerChamberForOfficeChamberKey(chamberKey);
+  if (!chamber) return null;
+  const interval = recordedDistrictMembership(
+    world,
+    personId,
+    chamber,
+    world.currentDate,
+  );
+  return interval
+    ? { binding: interval.binding, startedOn: interval.startedOn }
+    : null;
 }
