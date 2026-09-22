@@ -1,4 +1,4 @@
-import type { IsoDate } from "../types";
+import type { IsoDate, World } from "../types";
 import type { NationwideGovernmentScope } from "./government-jurisdiction";
 import { rulesCapabilityResolver } from "./rules-capability-binding";
 
@@ -66,6 +66,8 @@ export interface RuleCapabilityRequest {
   readonly action: RuleCapabilityAction;
   readonly onDate: IsoDate;
   readonly fields: readonly RuleFieldKey[];
+  /** The World whose enacted laws apply; omit to read compiled law only. */
+  readonly world?: World;
 }
 
 export interface RuleCapabilityResolution {
