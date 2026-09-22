@@ -59,6 +59,19 @@ Anything filed here and published there is treated as picked up for research.
 That is the reason the validator refuses an incomplete record: a question that
 reaches Drive is a question somebody is about to spend time on.
 
+## What belongs here
+
+The test is not "can we reach it". Every source is approved, so a thread can go
+and read almost anything itself, and a question that only needs one page read
+is ordinary work — go and read it.
+
+The test is whether a researcher can **finish it and hand it back whole**. A
+fifty-one row survey with a citation per row has a clear finish line and takes
+real time; a thread doing it between other work would do it worse and slower,
+and would leave it half done. That is what this queue is for. Something
+genuinely out of reach — a person's decision, a private source, a document only
+lamontae has — belongs here too, but it is the smaller case, not the rule.
+
 ## What a record must answer
 
 Five things, because they are what somebody who hit the question actually
