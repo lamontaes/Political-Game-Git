@@ -137,7 +137,7 @@ Updated 2026-09-22. The packs have one consumer,
 majority trigger a town's local races are counted under. It was added at the
 owner's request that local races follow each state's ballot rules and that a
 place with no researched rule draw from a realistic national range rather than
-refuse. It honours the gate by labelling, not by refusing: every value it
+refuse. It honors the gate by labeling, not by refusing: every value it
 returns carries a `basis` of `state-law-unverified`, `local-choice-drawn` or
 `national-range-drawn`, so no consumer can present a pack value as settled
 law. It has no candidacy, campaign or player-facing caller of its own; the

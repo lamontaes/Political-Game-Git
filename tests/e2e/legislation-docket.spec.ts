@@ -174,7 +174,7 @@ test.describe("the docket, from the ordinary route", () => {
       "Bridge and culvert maintenance",
     );
     await expect(page.getByTestId("docket-filed-on")).not.toBeEmpty();
-    // A repair programme for standing structures bears on the catalogue's
+    // A repair program for standing structures bears on the catalog's
     // upkeep-before-new-construction question, and the docket says so.
     await expect(page.getByTestId("docket-questions")).toHaveText(
       "Should maintenance of existing infrastructure be funded before new construction?",

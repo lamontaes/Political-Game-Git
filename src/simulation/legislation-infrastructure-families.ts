@@ -402,7 +402,7 @@ const BRIDGE_MAINTENANCE: ProgramFamily = {
   variants: [
     {
       variantKey: "worst-first-condition",
-      // A repair programme for structures already standing is a bill about
+      // A repair program for structures already standing is a bill about
       // funding upkeep ahead of new construction.
       propositionKeys: [
         "us-policy-positions:transportation-infrastructure.fix-it-first",
@@ -569,7 +569,7 @@ const BRIDGE_MAINTENANCE: ProgramFamily = {
     },
     {
       variantKey: "preventive-cycle",
-      // A repair programme for structures already standing is a bill about
+      // A repair program for structures already standing is a bill about
       // funding upkeep ahead of new construction.
       propositionKeys: [
         "us-policy-positions:transportation-infrastructure.fix-it-first",

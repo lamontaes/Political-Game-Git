@@ -612,7 +612,7 @@ export interface ProgramVariant {
   /** What this configuration does NOT do, said plainly. */
   readonly declaredLimits: readonly string[];
   /**
-   * The catalogue questions a bill of this configuration is about, as
+   * The catalog questions a bill of this configuration is about, as
    * qualified policy keys (`pack:key`).
    *
    * Per variant, not per family: the transit family's fare relief is a bill

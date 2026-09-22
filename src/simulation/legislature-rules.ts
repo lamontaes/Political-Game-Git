@@ -562,7 +562,7 @@ export interface LegislativeRulePack {
    * why forty-two states had no legislature at all rather than a provisional
    * one. Such a pack is playable and disclosed: its rules are drawn from the
    * spread the researched packs span, they are stable for that state forever,
-   * and they are labelled `game-profile` at every source ref so nothing can
+   * and they are labeled `game-profile` at every source ref so nothing can
    * quote one back as that state's law. Reading the state's own instruments
    * replaces the whole pack.
    */
@@ -1167,7 +1167,7 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
  * because nothing has been read; the moment something IS read for one of its
  * rules, the read value belongs there and the drawn one must give way. Real law
  * always overrides a generated value, and a check that refused a constitution
- * inside a generated pack would have made honouring that impossible. The pack
+ * inside a generated pack would have made honoring that impossible. The pack
  * still declares itself `game-profile`, because most of it still is, and each
  * rule's own source ref says which kind it is.
  *

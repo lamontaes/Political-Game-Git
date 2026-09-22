@@ -115,9 +115,9 @@ export interface CompiledBillDraft {
   readonly summary: string;
   readonly subjectClass: "appropriation" | "general-policy";
   /**
-   * The catalogue questions this configuration is about, as qualified keys.
+   * The catalog questions this configuration is about, as qualified keys.
    * Keys, not ids: a draft is compiled without a world, and which of these a
-   * particular world's catalogue holds is decided where the bill is filed.
+   * particular world's catalog holds is decided where the bill is filed.
    */
   readonly propositionKeys: readonly string[];
   readonly scenarioKey: string;

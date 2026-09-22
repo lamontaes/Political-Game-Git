@@ -716,7 +716,7 @@ export function createStartingPerson(input: StartingPersonInput): Person {
  *
  * Deliberately off the module's surface. It was on it, and that is most of why a man came out
  * named Maria: a writer that wanted a name reached for the loose draw, got one
- * with no argument to fill in, and never learnt that a gendered draw existed
+ * with no argument to fill in, and never learned that a gendered draw existed
  * two functions down. Sixteen routes did exactly that. Correcting sixteen
  * callers while leaving the loose draw on the module's surface only waits for
  * the seventeenth, so the surface is now `drawCanonicalNameForGender`, whose
@@ -832,7 +832,7 @@ export function drawCanonicalNameForGender(
  * A name and the identity it agrees with, drawn as one act.
  *
  * `drawCanonicalNameForGender` has existed since OCD-UI-003 and is correct.
- * The defect it was written for kept happening anyway, because honouring it is
+ * The defect it was written for kept happening anyway, because honoring it is
  * opt-in: a writer that draws a name on one stream and an identity on another
  * gets a person whose two halves were never introduced, and nothing complains.
  * Measured on this branch before the repair, an adult start in Lexington gave

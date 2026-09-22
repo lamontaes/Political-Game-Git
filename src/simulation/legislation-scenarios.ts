@@ -332,7 +332,7 @@ interface ScenarioBlueprint {
   readonly governorAction: "signed" | "vetoed";
   readonly governorRationale: string;
   /**
-   * Qualified catalogue keys for the questions this bill is about. Omitted
+   * Qualified catalog keys for the questions this bill is about. Omitted
    * where no shipped question fits — see `ProgramVariant.propositionKeys`.
    */
   readonly propositionKeys?: readonly string[];
@@ -663,7 +663,7 @@ export interface LegislativeBlueprint {
   readonly votePlan: Readonly<Record<string, AuthoredVoteCounts>>;
   readonly governorAction: "signed" | "vetoed" | null;
   readonly governorRationale: string;
-  /** Qualified catalogue keys for the questions this bill is about. */
+  /** Qualified catalog keys for the questions this bill is about. */
   readonly propositionKeys: readonly string[];
 }
 
@@ -826,7 +826,7 @@ function institutionalWorkBlueprint(workKey: string): LegislativeBlueprint {
     governorAction: null,
     governorRationale:
       "No executive disposition supplied; signature, veto and inaction remain separate unresolved outcomes.",
-    // A placeholder proposal is about nothing the catalogue asks.
+    // A placeholder proposal is about nothing the catalog asks.
     propositionKeys: [],
   };
 }

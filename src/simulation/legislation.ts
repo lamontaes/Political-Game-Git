@@ -2617,10 +2617,10 @@ export function measurePropositions(
 }
 
 /**
- * The ids this world's catalogue holds for some qualified question keys.
+ * The ids this world's catalog holds for some qualified question keys.
  *
- * Keys the catalogue does not hold are left out rather than refused. A world's
- * catalogue is fixed when the world is made, so a save opened before a
+ * Keys the catalog does not hold are left out rather than refused. A world's
+ * catalog is fixed when the world is made, so a save opened before a
  * question shipped honestly has no such question, and a bill filed there is a
  * bill nobody linked — which is what every measure was before measures could
  * say. Refusing the bill instead would stop an old save from legislating at
