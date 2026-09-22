@@ -44,7 +44,7 @@ function currentBaselineSummary(
   asOfDate: string,
 ): string {
   if (authority.state === "IN_FORCE") {
-    return `Current authority as of ${asOfDate}: ${currentTaxPermission(authority)}. ${authority.record.source.citation}.`;
+    return `Current authority as of ${asOfDate}: ${currentTaxPermission(authority)}.`;
   }
   if (
     authority.state === "NOT_YET_EFFECTIVE" ||
