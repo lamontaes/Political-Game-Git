@@ -36,6 +36,16 @@ function legacySetup(placeKey: string, seed: string): NewGameSetup {
   const legacy: Omit<NewGameSetup, "seed"> = { ...DEFAULT_NEW_GAME_SETUP };
   delete (legacy as { worldOpeningVersion?: unknown }).worldOpeningVersion;
   delete (legacy as { openingDataVersion?: unknown }).openingDataVersion;
+  // Every versioned field the current default stamps has to come off, not just
+  // the opening one. A descriptor written before a field existed decodes with
+  // it undefined, so a helper that leaves one on is not building an old save:
+  // it builds a hybrid that never existed, and the hash it produces reports a
+  // difference nobody made. Leaving `earlierLifeGenerationVersion` on is what
+  // made this gate look like the client line had lost a character's schooling.
+  delete (legacy as { earlierLifeGenerationVersion?: unknown })
+    .earlierLifeGenerationVersion;
+  delete (legacy as { livingWorldMemberNameVersion?: unknown })
+    .livingWorldMemberNameVersion;
   return {
     ...legacy,
     seed,
@@ -72,6 +82,16 @@ describe("WORLD46 opening version gate", () => {
     ).toBe(CRUNCH46_WORLD_OPENING_VERSION);
     const old = legacySetup("kentucky", "gate");
     expect(old.openingDataVersion).toBeUndefined();
+    expect(old.earlierLifeGenerationVersion).toBeUndefined();
+    expect(old.livingWorldMemberNameVersion).toBeUndefined();
+    expect(
+      decodeReplayDescriptor(encodeReplayDescriptor(old))
+        ?.earlierLifeGenerationVersion,
+    ).toBeUndefined();
+    expect(
+      decodeReplayDescriptor(encodeReplayDescriptor(old))
+        ?.livingWorldMemberNameVersion,
+    ).toBeUndefined();
     expect(
       decodeReplayDescriptor(encodeReplayDescriptor(old))?.openingDataVersion,
     ).toBeUndefined();
