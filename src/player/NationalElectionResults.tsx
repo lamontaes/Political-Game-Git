@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { projectNationalElectionResults } from "../presentation/national-election-results";
 import type { EntityId, World } from "../simulation";
+import { DIAGNOSTICS } from "./diagnostics-profile";
 
 /** Feature-local, read-only surface; shared Politics adapter is handed to A. */
 export function NationalElectionResults({
@@ -84,16 +85,26 @@ export function NationalElectionResults({
           ))}
         </ul>
       ) : null}
-      <details>
-        <summary>Rules and sources</summary>
-        <p>
-          Allocation version: {view.ruleVersion}. Supported cycles: 2024 and
-          2028.
-        </p>
-        <a href={view.sources.allocation}>National Archives allocation</a>
-        {" · "}
-        <a href={view.sources.constitution}>Constitutional amendments</a>
-      </details>
+      {/*
+        The same separation as the World overview: the allocation version and
+        the two institutional sources stay renderable for a developer and stay
+        out of ordinary play. Unlike that surface this one is latent rather
+        than live — nothing in production records a national election, so the
+        list above it is empty in an ordinary life — but the gate belongs here
+        before something does.
+      */}
+      {DIAGNOSTICS ? (
+        <details>
+          <summary>Rules and sources</summary>
+          <p>
+            Allocation version: {view.ruleVersion}. Supported cycles: 2024 and
+            2028.
+          </p>
+          <a href={view.sources.allocation}>National Archives allocation</a>
+          {" · "}
+          <a href={view.sources.constitution}>Constitutional amendments</a>
+        </details>
+      ) : null}
     </section>
   );
 }
