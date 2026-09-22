@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  LEGISLATIVE_RULE_PACKS,
   candidacyAuthority,
   candidacyPackForJurisdiction,
   candidacyPacks,
+  legislatureForState,
   lifePlaceByKey,
   requireLifePlace,
   searchLifePlaces,
@@ -33,10 +35,15 @@ function localityIn(query: string, displayName: string): LifePlace {
   return place;
 }
 
+/** The states whose own law has actually been compiled. */
+function compiledPackJurisdictions(): ReadonlySet<string> {
+  return new Set(LEGISLATIVE_RULE_PACKS.map((pack) => pack.jurisdictionKey));
+}
+
 function unsupportedLocality(): LifePlace {
-  const supported = new Set(
-    candidacyPacks().map((pack) => pack.jurisdictionKey),
-  );
+  // "Unsupported" means the state's own law has not been COMPILED. It no
+  // longer means the state has nothing: every state has a legislature now.
+  const supported = compiledPackJurisdictions();
   const place = searchLifePlaces("a", 500).find(
     (candidate) =>
       candidate.scope === "locality" &&
@@ -94,14 +101,30 @@ describe("a locality reaches its own state, and no other", () => {
     expect(authority.scope).toBe("state");
   });
 
-  it("gives a place in a state with no accepted pack nothing at all", () => {
+  it("gives a place in a state with no compiled pack the game's own, never another state's", () => {
+    // This used to assert nothing at all, and "nothing at all" was the bug: a
+    // state whose law had not been compiled had no office anybody could stand
+    // for, so the absence of research read as the absence of government. It
+    // now gets a legislature and offices of the game's own, and what this test
+    // protects is the thing that must still never happen — the pack being some
+    // OTHER state's.
     const unsupported = unsupportedLocality();
     const authority = candidacyAuthority(unsupported.context.jurisdiction.id);
-    expect(authority.pack).toBeNull();
-    expect(authority.scope).toBeNull();
+    expect(authority.pack).not.toBeNull();
+    expect(authority.scope).toBe("state");
+    expect(authority.pack!.jurisdictionKey).toBe(
+      unsupported.stateJurisdictionKey,
+    );
     expect(
       candidacyPackForJurisdiction(unsupported.context.jurisdiction.id),
-    ).toBeNull();
+    ).not.toBeNull();
+
+    // And it is visibly the game's own rather than a reading of this state.
+    const generated = legislatureForState(unsupported.stateJurisdictionKey!)!;
+    expect(generated.basis).toBe("game-profile");
+    expect(
+      compiledPackJurisdictions().has(unsupported.stateJurisdictionKey!),
+    ).toBe(false);
   });
 
   it("never resolves a place to a different state's pack", () => {
@@ -127,13 +150,19 @@ describe("a locality reaches its own state, and no other", () => {
     expect(lexington.pack).not.toBeNull();
     expect(lexington.localOfficesUnsourced).toBe(true);
 
-    // A city in a currently unsupported state: neither answers, and the two
-    // facts are still distinct.
+    // A city in a state with no compiled pack: the state answers with the
+    // game's own rules, and the city still does not answer at all. The two
+    // facts stay distinct, which is the whole point of this test — a state
+    // supplying an office has never said anything about a city's council.
+    const unsupportedPlace = unsupportedLocality();
     const unsupported = candidacyAuthority(
-      unsupportedLocality().context.jurisdiction.id,
+      unsupportedPlace.context.jurisdiction.id,
     );
-    expect(unsupported.pack).toBeNull();
+    expect(unsupported.pack).not.toBeNull();
     expect(unsupported.localOfficesUnsourced).toBe(true);
+    expect(
+      legislatureForState(unsupportedPlace.stateJurisdictionKey!)!.basis,
+    ).toBe("game-profile");
   });
 
   it("keeps an authored state entry a state, not a hometown", () => {

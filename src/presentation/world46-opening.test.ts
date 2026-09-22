@@ -101,14 +101,30 @@ const sha256 = (text: string) =>
  * PASSED unchanged on the run that moved these. That is the whole point of
  * having both: the field these hashes moved on is the one the shape strips.
  *
- * RE-ACCEPTED 2026-09-22 for the American English sweep: the policy catalog's
- * authored text now spells labor, defense and program the American way. Same
- * evidence again — LEGACY_OPENING_SHAPE passed unchanged on the run that moved
- * these two hashes.
+ * RE-ACCEPTED AGAIN 2026-09-22, and this time LEGACY_OPENING_SHAPE moves too,
+ * which by the paragraph above means the opening path really is behaving
+ * differently. It is, deliberately: a generated person's given name is now
+ * drawn from the pool that agrees with the gender the world already gave them,
+ * so a generated name can move whether or not it was previously wrong — the
+ * draw is over a smaller pool, not only a corrected one.
+ *
+ * Measured rather than assumed. Both legacy openings were serialized on
+ * `origin/main` at e468700f and on this head and compared leaf by leaf. In
+ * each of Kentucky (544 people) and Peebles (542), the same people and ids,
+ * and exactly 21 leaves differ:
+ *
+ *   - 5 `givenName` values;
+ *   - 15 `establishedFacts[].summary` strings, every one of which becomes
+ *     identical after substituting that person's old given name for their new
+ *     one — 0 summaries are unexplained by the name alone;
+ *   - `snapshotId`, which is a digest of the world and moves with it.
+ *
+ * 0 identities changed and `worldId` is unchanged. A move here for any other
+ * reason is still a regression.
  */
 const FED321F7_LEGACY = {
-  kentucky: "759ece99fbfadfe94f0b8fc0634e0dec712abef10f5df59ae728de938133aa24",
-  peebles: "95a13a002e7f2484b4044a243ef4ebf1275dfe552dd720be3d5777d79aea7872",
+  kentucky: "be46a2596f2bb4af4003a11641e66280dd024e9467337fcb139c6359db103f2e",
+  peebles: "823371a31413d036082559278af1558bd7238513aa1afde327b1394fa2eed3bc",
 } as const;
 
 /**
@@ -120,8 +136,8 @@ const FED321F7_LEGACY = {
  * test above was reaching for and could not hold on its own.
  */
 const LEGACY_OPENING_SHAPE = {
-  kentucky: "11b9c3a70029aeaf79fb2a78b43e2bba14185fab2c6c7e496f26ed57350a3534",
-  peebles: "f936aaf182ccc43581bc87856f87fa404c0ebff3eb869ff5984a3e447828712b",
+  kentucky: "0245935171dd00c8a8304679a94428f1fd87dcccceeb5b2f9792c775d3cdc6e8",
+  peebles: "fb58196c5d6d23094e56bc21d48b98e14fbcedc9bb876df57dfc1557e26d27b9",
 } as const;
 
 /**

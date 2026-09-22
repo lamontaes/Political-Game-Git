@@ -1,6 +1,6 @@
 import { programConfigurations } from "../../src/simulation/legislation-program-families";
 import { shotPath } from "./support/shot-path";
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "./fixtures";
 import { enterRecordedMemberTerm } from "./support/legislative-entry";
 import { chosenValue } from "./support/controls";
 
@@ -174,6 +174,11 @@ test.describe("the docket, from the ordinary route", () => {
       "Bridge and culvert maintenance",
     );
     await expect(page.getByTestId("docket-filed-on")).not.toBeEmpty();
+    // A repair programme for standing structures bears on the catalogue's
+    // upkeep-before-new-construction question, and the docket says so.
+    await expect(page.getByTestId("docket-questions")).toHaveText(
+      "Should maintenance of existing infrastructure be funded before new construction?",
+    );
 
     // The filed sections are the ones that were configured, read back from the
     // bill rather than from the drafting table.

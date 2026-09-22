@@ -132,10 +132,21 @@ percentage. New Hampshire's signer-count warrant path remains
 
 ## Consumption gate
 
-The packs have no candidacy, election-engine, campaign, or player-facing
-consumer. A boundary test scans the source tree and fails if a new consumer is
-introduced without a separately authorized integration. PR #85 is outside this
-lane and remains untouched.
+Updated 2026-09-22. The packs have one consumer,
+`src/simulation/municipal-ballot-rules.ts`, which resolves the runoff rule and
+majority trigger a town's local races are counted under. It was added at the
+owner's request that local races follow each state's ballot rules and that a
+place with no researched rule draw from a realistic national range rather than
+refuse. It honours the gate by labelling, not by refusing: every value it
+returns carries a `basis` of `state-law-unverified`, `local-choice-drawn` or
+`national-range-drawn`, so no consumer can present a pack value as settled
+law. It has no candidacy, campaign or player-facing caller of its own; the
+local-race work that calls it owns how the basis is shown.
+
+The boundary test in `municipal-election-rule-packs-matrix.test.ts` ("the lane
+boundary") lists every reader of the compiled packs and was updated in the same
+change to name this one.
+PR #85 is outside this lane and remains untouched.
 
 Any later source audit that promotes a value must update this page, the source
 reference, and the matrix assertions in the same change.

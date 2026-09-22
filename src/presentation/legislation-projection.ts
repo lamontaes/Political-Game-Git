@@ -4,6 +4,7 @@ import {
   measureEnactment,
   measureGate,
   measurePosition,
+  measurePropositions,
   measureVotes,
   requireMeasure,
   rulePackForMeasure,
@@ -70,6 +71,14 @@ export interface MeasureBriefing {
   readonly designation: string;
   readonly shortTitle: string;
   readonly summary: string;
+  /**
+   * The questions the bill is about, as the catalogue asks them.
+   *
+   * Empty for a bill nobody linked, which is most bills: that means the record
+   * does not say, not that the bill is about nothing, so a surface shows
+   * nothing rather than a line claiming the absence.
+   */
+  readonly questions: readonly string[];
   readonly legislatureName: string;
   readonly sponsorName: string | null;
   /** Whether the controlled character is the bill's own sponsor. */
@@ -506,6 +515,9 @@ export function projectMeasureBriefing(
     designation: measure.designation,
     shortTitle: measure.shortTitle,
     summary: measure.summary,
+    questions: measurePropositions(world, measureId).map(
+      (proposition) => proposition.question,
+    ),
     legislatureName: pack.displayName,
     sponsorName: sponsor ? personName(sponsor) : null,
     sponsoredByPlayer:

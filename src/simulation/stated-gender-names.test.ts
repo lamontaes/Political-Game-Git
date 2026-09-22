@@ -5,7 +5,6 @@ import { GIVEN_NAME_GENERATION_POOLS_V1, NAMES_STARTER_V1 } from "./names-data";
 import {
   createStartingPerson,
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
-  drawCanonicalName,
   drawCanonicalNameForGender,
   LEGACY_GIVEN_NAME_GENERATION_VERSION,
 } from "./people";
@@ -165,11 +164,22 @@ describe("two people drawn off one stream are two people", () => {
   });
 
   it("leaves a person the world says nothing about on the unrestricted draw", () => {
-    const rng = new SeededRng("unstated").fork("household");
-    const plain = new SeededRng("unstated").fork("household");
-    expect(drawCanonicalNameForGender(rng, "unstated")).toStrictEqual(
-      drawCanonicalName(plain),
+    // "unstated" is now said rather than omitted — the loose draw is no longer
+    // on the module's surface — and it still means the whole corpus, not a
+    // pool. The name it returns is a corpus name and is not the one a male
+    // draw off the same stream would have produced.
+    const unstated = drawCanonicalNameForGender(
+      new SeededRng("unstated").fork("household"),
+      "unstated",
     );
+    expect(NAMES_STARTER_V1.givenNames).toContain(unstated.givenName);
+    expect(NAMES_STARTER_V1.familyNames).toContain(unstated.familyName);
+    expect(
+      drawCanonicalNameForGender(
+        new SeededRng("unstated").fork("household"),
+        "male",
+      ).givenName,
+    ).not.toBe(unstated.givenName);
   });
 
   it("keeps the original fork when a replay does not declare version 2", () => {

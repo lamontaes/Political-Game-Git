@@ -2,7 +2,7 @@ import fs from "fs";
 import { captureDirectory } from "./support/evidence-path";
 import path from "path";
 
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
 
 const REVIEW_URL = "/?view=character-proof&set=wave-a";
 

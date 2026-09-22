@@ -74,7 +74,9 @@ export type MacroShockKind =
   | "trade-disruption"
   | "disaster-reconstruction"
   | "public-health-disruption"
-  | "international-conflict-spillover";
+  | "international-conflict-spillover"
+  | "public-spending-paid"
+  | "tax-collections-paid";
 
 export const MACRO_SHOCK_KINDS: readonly MacroShockKind[] = [
   "energy-input-cost-disruption",
@@ -88,6 +90,8 @@ export const MACRO_SHOCK_KINDS: readonly MacroShockKind[] = [
   "disaster-reconstruction",
   "public-health-disruption",
   "international-conflict-spillover",
+  "public-spending-paid",
+  "tax-collections-paid",
 ];
 
 export interface ShockImpulseProfile {
@@ -178,7 +182,38 @@ export const CHANGE_AUTHORED_IMPULSES: Readonly<
     monthlyRetention: 0.8,
     sectors: ["energy-resources", "manufacturing"],
   },
+  /*
+   * UNRESEARCHED blanket rule, added so an enacted law can reach the economy
+   * at all. Money a government actually paid out under a law adds demand in
+   * that jurisdiction; tax it actually collected takes demand out. These are
+   * the realized-money channels ChatGPT's C02 answer calls for, not enactment:
+   * an appropriation is authority, not spending, and a tax rise is not a
+   * windfall. The signs follow that accounting; the sizes are not estimates
+   * and are filed as `realized-public-money-macro-magnitudes`.
+   */
+  "public-spending-paid": {
+    growthPp: 0.1,
+    laborPp: -0.02,
+    pricePp: 0.01,
+    monthlyRetention: 0.6,
+    sectors: ["health-education-public-services", "construction-housing"],
+  },
+  "tax-collections-paid": {
+    growthPp: -0.1,
+    laborPp: 0.02,
+    pricePp: 0,
+    monthlyRetention: 0.6,
+    sectors: ["trade-transport-consumer"],
+  },
 };
+
+/**
+ * UNRESEARCHED. Realized public money in one jurisdiction in one month that
+ * counts as a full-intensity shock; smaller amounts scale linearly below it.
+ * One figure for every jurisdiction regardless of size, which is exactly the
+ * kind of simplification the research request asks to replace.
+ */
+export const UNRESEARCHED_FULL_INTENSITY_MONTHLY_MINOR_UNITS = 5_000_000_000; // $50 million
 
 /**
  * ALIVE44 chunk 2: seven gameplay sectors, an authored aggregation of

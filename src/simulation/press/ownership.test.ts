@@ -9,6 +9,8 @@ import {
 } from "../index";
 import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
 import type { EntityId, World } from "../types";
+import { resourcePositionAt } from "../resource-queries";
+import { createResourcePosition, makeCurrencyCode, money } from "../resources";
 import { assertWorldIntegrity } from "../world";
 import {
   DEFAULT_MEDIA_OWNERSHIP_PACK,
@@ -24,7 +26,10 @@ import {
   outletOwner,
   outletsHeldBy,
   ownerDirectives,
+  outletPurchaseTerms,
   pressOwnerReviewHandler,
+  projectPressDesk,
+  purchaseOutlet,
   reporterIsCurrent,
   reporterRoles,
   type OwnershipPack,
@@ -393,6 +398,159 @@ describe("media owners", () => {
       mediaOutlets(loaded).map((outlet) => outletOwner(loaded, outlet.id)?.id),
     ).toEqual(
       mediaOutlets(after).map((outlet) => outletOwner(after, outlet.id)?.id),
+    );
+  });
+});
+
+describe("a person buying an outlet", () => {
+  const USD = makeCurrencyCode("USD");
+  const pack: OwnershipPack = {
+    id: "test.market",
+    provenance: PROVENANCE,
+    askingPriceDollars: {
+      small: 100_000,
+      standard: 1_000_000,
+      major: 50_000_000,
+    },
+    owners: [
+      {
+        key: "owner.independent",
+        ownerKind: "independent",
+        names: ["{outlet} Publishing Company"],
+        perOutlet: true,
+        holds: { products: ["general-newspaper", "state-newsroom"] },
+        foundingWeight: 1,
+        reviewEveryDays: 365,
+        sellsOutlets: true,
+        practices: [],
+      },
+      {
+        key: "owner.keeper",
+        ownerKind: "private-equity",
+        names: ["Never Sells Capital"],
+        holds: {
+          products: ["public-affairs-broadcaster", "politics-publication"],
+        },
+        foundingWeight: 1,
+        reviewEveryDays: 91,
+        sellsOutlets: false,
+        practices: [],
+      },
+    ],
+  };
+  const registry = loadOwnershipPacks([pack]);
+
+  function market(savingsDollars: number | null) {
+    const { world, playerId } = withOutlets("ownership-purchase");
+    let next = ensureMediaOwnership(world, registry);
+    if (savingsDollars !== null) {
+      next = createResourcePosition(next, {
+        stableKey: "test:savings",
+        owner: { kind: "person", personId: playerId },
+        openedAt: next.currentDate,
+        openingBalance: money(savingsDollars * 100, USD),
+        provenance: { kind: "authored", note: "Test savings." },
+      });
+    }
+    const forSale = mediaOutlets(next).find(
+      (outlet) => outlet.product === "state-newsroom",
+    )!;
+    const kept = mediaOutlets(next).find(
+      (outlet) => outlet.product === "politics-publication",
+    )!;
+    return { world: next, playerId, forSale, kept };
+  }
+
+  it("pays the seller from the buyer's savings and makes the buyer the owner", () => {
+    const { world, playerId, forSale } = market(2_000_000);
+    const terms = outletPurchaseTerms(world, playerId, forSale.id, registry);
+    expect(terms).toMatchObject({
+      status: "available",
+      priceMinorUnits: 100_000_000,
+    });
+    const seller = outletOwner(world, forSale.id)!;
+    const after = purchaseOutlet(
+      world,
+      { stableKey: "test:buy", buyerPersonId: playerId, outletId: forSale.id },
+      registry,
+    );
+    assertWorldIntegrity(after);
+    const owner = outletOwner(after, forSale.id)!;
+    expect(owner.principalPersonId).toBe(playerId);
+    expect(owner.ownerKind).toBe("individual");
+    expect(currentOutletOwnership(after, forSale.id)).toMatchObject({
+      basis: "acquisition",
+      supersedesOwnershipId: currentOutletOwnership(world, forSale.id)!.id,
+    });
+    expect(
+      resourcePositionAt(after, { kind: "person", personId: playerId }, USD)!
+        .liquidBalance.minorUnits,
+    ).toBe(100_000_000);
+    const paid = after.history.resourceFlows.at(-1)!;
+    expect(paid.recipient).toEqual({
+      kind: "organization",
+      organizationId: seller.organizationId,
+    });
+    expect(
+      outletPurchaseTerms(after, playerId, forSale.id, registry).status,
+    ).toBe("already-yours");
+    // Nobody else can buy it from the player: a person's outlet is not for sale.
+    const rival = after.personOrder.find((id) => id !== playerId)!;
+    expect(outletPurchaseTerms(after, rival, forSale.id, registry).status).toBe(
+      "not-for-sale",
+    );
+    const loaded = deserializeWorld(serializeWorld(after));
+    assertWorldIntegrity(loaded);
+    expect(outletOwner(loaded, forSale.id)!.principalPersonId).toBe(playerId);
+  });
+
+  it("refuses, and changes nothing, where the owner keeps it or the money is short or unknown", () => {
+    const rich = market(2_000_000);
+    expect(
+      outletPurchaseTerms(rich.world, rich.playerId, rich.kept.id, registry),
+    ).toMatchObject({
+      status: "not-for-sale",
+      reason: expect.stringContaining("Never Sells Capital is not selling"),
+    });
+
+    const poor = market(50_000);
+    expect(
+      outletPurchaseTerms(poor.world, poor.playerId, poor.forSale.id, registry)
+        .status,
+    ).toBe("cannot-afford");
+
+    const unknown = market(null);
+    expect(
+      outletPurchaseTerms(
+        unknown.world,
+        unknown.playerId,
+        unknown.forSale.id,
+        registry,
+      ).status,
+    ).toBe("savings-not-on-record");
+    expect(() =>
+      purchaseOutlet(
+        unknown.world,
+        {
+          stableKey: "test:buy",
+          buyerPersonId: unknown.playerId,
+          outletId: unknown.forSale.id,
+        },
+        registry,
+      ),
+    ).toThrow("Your savings are not on record");
+  });
+
+  it("shows the viewer on the press desk what an outlet would cost", () => {
+    const { world, playerId, forSale } = market(2_000_000);
+    const desk = projectPressDesk(world, playerId);
+    // The desk reads the build's own pack, so this checks the wiring, not a
+    // price: every outlet carries purchase terms for the viewer.
+    for (const outlet of desk.outlets) {
+      expect(outlet.purchase.outletId).toBe(outlet.outletId);
+    }
+    expect(desk.outlets.some((outlet) => outlet.outletId === forSale.id)).toBe(
+      true,
     );
   });
 });

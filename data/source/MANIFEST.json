@@ -2021,12 +2021,12 @@
       ],
       "asOf": "2026-09-09",
       "boundedSampleReason": "A bounded set of states, not a national corpus. The other forty-odd states are absent because their authorities were not retrieved in this pass, which is a fact about this repository and never a fact about those states. docs/research/qualification-source-ledger.md accounts for every research row.",
-      "canonicalSha256": "1b0f25b083927c4733a28f5ea292ec52b8c4f43722355541fea0ed73714896fd",
+      "canonicalSha256": "68f8fea97605c104194a9fa9a35dff11baea6bc2e4ee9ff3ddc248e6841df0df",
       "compiler": {
         "name": "state-office-qualifications",
         "version": "2.1.1"
       },
-      "corpusFileSha256": "1b0f25b083927c4733a28f5ea292ec52b8c4f43722355541fea0ed73714896fd",
+      "corpusFileSha256": "68f8fea97605c104194a9fa9a35dff11baea6bc2e4ee9ff3ddc248e6841df0df",
       "corpusId": "state-office-qualifications",
       "domain": "state-office-qualifications",
       "isCompleteUniverse": false,

@@ -529,7 +529,7 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 #### Beat 8 — 2026-03-24, age 34 (episode, civic.the-thing-nobody-else-turned-up-for/you-said-something)
 
 > A couple of months on.
-> You and Devon Lewis were in and out of each other's business more than once.
+> You and Jade Lewis were in and out of each other's business more than once.
 > Things came up at home with Caleb Terrell more than once in that time.
 
 The group has settled into eight people and one of them keeps looking at you when a decision needs making. There is a position going that nobody wants and that somebody has to hold.
@@ -544,13 +544,13 @@ _Grounded by: At the-meeting they chose go, on 2026-01-05.; civic.participation:
 
 
 
-Edward Todd, your dad: “I agreed to organize the family picnic, and now I need to back out. I have not told the guests. Please keep this between us for now.”
+Victor Todd, your dad: “I agreed to organize the family picnic, and now I need to back out. I have not told the guests. Please keep this between us for now.”
 
 - **Agree to keep this conversation private** ← chosen
 - Ask them to tell the picnic guests
 - Say you cannot help with the picnic
 
-_Present: Edward Todd, your dad_
+_Present: Victor Todd, your dad_
 
 #### Beat 10 — 2026-03-24, age 34 (adult)
 
@@ -567,24 +567,24 @@ _Present: Caleb Terrell, who you live with_
 
 
 
-Edward Todd, your dad: “Could you look over my invitation to the family picnic? Just two paragraphs. I want to make sure the wording is clear.” Proofreading takes 20 minutes; answering takes no time.
+Victor Todd, your dad: “Could you look over my invitation to the family picnic? Just two paragraphs. I want to make sure the wording is clear.” Proofreading takes 20 minutes; answering takes no time.
 
 - **Agree to proofread the two-paragraph picnic invitation** ← chosen
 - Agree: Wording only; I will not contact the guests
 - Decline the proofreading request
 
-_Present: Edward Todd, your dad_
+_Present: Victor Todd, your dad_
 
 #### Beat 12 — 2026-03-24, age 34 (adult)
 
 
 
-Edward Todd, your dad: Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.
+Victor Todd, your dad: Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.
 
 - **Say you will come** ← chosen
 - Decline the invitation
 
-_Present: Edward Todd, your dad_
+_Present: Victor Todd, your dad_
 
 #### Beat 13 — 2026-03-24, age 34 (episode, opening.adult.home.free-time/moment)
 
@@ -620,8 +620,8 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 #### Beat 16 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/moment)
 
 > A couple of months on, and you're 35 now.
-> Devon Lewis tried to reach you.
-> You and Joel Miles were in and out of each other's business more than once.
+> Jade Lewis tried to reach you.
+> You and Wesley Miles were in and out of each other's business more than once.
 
 You're at home with fifteen minutes free.
 
@@ -646,12 +646,12 @@ _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requir
 
 
 
-Edward Todd, your dad: Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.
+Victor Todd, your dad: Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.
 
 - **Say you will come** ← chosen
 - Decline the invitation
 
-_Present: Edward Todd, your dad_
+_Present: Victor Todd, your dad_
 
 #### Beat 19 — 2026-05-10, age 35 (adult)
 

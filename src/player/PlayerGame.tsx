@@ -244,6 +244,8 @@ import { NationwideCandidacyWorkspace } from "./NationwideCandidacyWorkspace";
 import { projectTransitWork } from "../presentation/transit-work";
 import { DocketWorkspace } from "./DocketWorkspace";
 import { OfficeOnboardingWorkspace } from "./OfficeOnboardingWorkspace";
+import { OfficeTransitionPanel } from "./OfficeTransitionPanel";
+import { projectOfficeTransition } from "../presentation/office-transition";
 import {
   docketBill,
   type DocketBill,
@@ -3450,8 +3452,12 @@ function PlayingScreen({
                       onOpenPerson={(personId) =>
                         openEntity({ kind: "person", id: personId })
                       }
-                      onGoTo={(surface) =>
-                        dispatch({ type: "go-to-surface", surface })
+                      onGoTo={(surface, section) =>
+                        dispatch({
+                          type: "go-to-surface",
+                          surface,
+                          ...(section ? { section } : {}),
+                        })
                       }
                     />
                   ),
@@ -4431,7 +4437,13 @@ function renderWorkspace({
                 from the Calendar's Today — and a life with no office got the
                 empty half, with its jobs and hiring hidden behind a tab.
               */
-              onGoTo={(surface) => dispatch({ type: "go-to-surface", surface })}
+              onGoTo={(surface, section) =>
+                dispatch({
+                  type: "go-to-surface",
+                  surface,
+                  ...(section ? { section } : {}),
+                })
+              }
             />
           }
         />,
@@ -5197,6 +5209,28 @@ function renderWorkspace({
       const sections: WorkSection[] = [];
       const officeHalf = half === "office" || half === "all";
       /*
+       * Won and not yet in office: the transition between the result and the
+       * term. Without it a Kentucky winner read "You hold no office in this
+       * life yet" for the eleven months until the seat began.
+       */
+      const transition = officeHalf
+        ? projectOfficeTransition(session.world, session.personId)
+        : null;
+      if (transition) {
+        sections.push({
+          key: "transition",
+          title: "Before you take office",
+          body: (
+            <OfficeTransitionPanel
+              world={session.world}
+              personId={session.personId}
+              transition={transition}
+              onWorldChange={onWorldChange}
+            />
+          ),
+        });
+      }
+      /*
        * A disaster request or an international choice belongs to whoever
        * actually holds the office being asked, so the section exists only
        * while one is pending. A resident reads the same emergency as a public
@@ -5258,8 +5292,8 @@ function renderWorkspace({
                 <ExecutiveWorkWorkspace
                   world={session.world}
                   onWorldChange={onWorldChange}
-                  onClose={close}
                   handlers={createCampaignElectionTransitionRegistry()}
+                  placement="inline"
                 />
               ) : null}
             </>
@@ -5798,7 +5832,10 @@ function TodayView({
   readonly workHint: string;
   readonly onOpenCommitment: (activityId: EntityId) => void;
   readonly onOpenPerson: (personId: EntityId) => void;
-  readonly onGoTo: (surface: "work" | "calendar" | "places") => void;
+  readonly onGoTo: (
+    surface: "work" | "calendar" | "places",
+    section?: "campaign",
+  ) => void;
   /** Inside the Calendar, which carries its own day controls and entries. */
   readonly embedded?: boolean;
 }) {
@@ -5882,8 +5919,12 @@ function TodayView({
                       }
                     : destination.kind === "surface"
                       ? {
-                          hint: "Answer it where work is",
-                          go: () => onGoTo(destination.surface),
+                          hint:
+                            destination.section === "campaign"
+                              ? "Qualify for it under Campaigns"
+                              : "Answer it where work is",
+                          go: () =>
+                            onGoTo(destination.surface, destination.section),
                         }
                       : null;
               return (
@@ -6044,7 +6085,13 @@ function PassDayControl({
 
 interface WorkSection {
   readonly key:
-    "office" | "campaign" | "statewide" | "paths" | "personnel" | "crisis";
+    | "office"
+    | "campaign"
+    | "statewide"
+    | "paths"
+    | "personnel"
+    | "crisis"
+    | "transition";
   readonly title: string;
   readonly body: ReactNode;
 }

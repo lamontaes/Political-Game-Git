@@ -26,29 +26,38 @@ interface PracticeDraft {
 }
 
 /** UI-CORE-RELEASE adapter: mount inside the ordinary Work destination and
- * replace its existing World only after this feature returns a successful act. */
+ * replace its existing World only after this feature returns a successful act.
+ *
+ * "overlay" is the opened workspace a button raises and Return dismisses.
+ * "inline" sits in the page among the office's other sections: it takes no
+ * focus, has no Return, and does not float over the decisions beside it,
+ * which is how the governor's Your office section mounts it. */
 export function ExecutiveWorkWorkspace({
   world,
   onWorldChange,
   onClose,
   handlers,
+  placement = "overlay",
 }: {
   readonly world: World;
   readonly onWorldChange: (world: World) => void;
-  readonly onClose: () => void;
+  readonly onClose?: () => void;
   readonly handlers?: FutureTransitionHandlerRegistry;
+  readonly placement?: "overlay" | "inline";
 }) {
+  const inline = placement === "inline";
   const projection = projectExecutiveWork(world);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [drafts, setDrafts] = useState<Record<string, PracticeDraft>>({});
   const close = useRef<HTMLButtonElement>(null);
   useEffect(() => {
+    if (inline) return;
     const previous = document.activeElement;
     close.current?.focus();
     return () => {
       if (previous instanceof HTMLElement) previous.focus();
     };
-  }, []);
+  }, [inline]);
 
   function draftFor(
     itemId: EntityId,
@@ -109,17 +118,19 @@ export function ExecutiveWorkWorkspace({
 
   return (
     <section
-      className="planning-workspace work-pending-workspace"
+      className={
+        inline ? "office-work" : "planning-workspace work-pending-workspace"
+      }
       aria-label="Executive work"
       onKeyDown={(event) => {
-        if (event.key === "Escape") {
+        if (!inline && onClose && event.key === "Escape") {
           event.stopPropagation();
           onClose();
         }
       }}
     >
-      <header className="planning-workspace-header">
-        <h2>Office work</h2>
+      <header className={inline ? undefined : "planning-workspace-header"}>
+        {inline ? <h4>Office work</h4> : <h2>Office work</h2>}
         {projection.available && (
           <button
             onClick={() => {
@@ -133,9 +144,11 @@ export function ExecutiveWorkWorkspace({
             Work for 30 minutes
           </button>
         )}
-        <button ref={close} onClick={onClose}>
-          Return
-        </button>
+        {!inline && onClose && (
+          <button ref={close} onClick={onClose}>
+            Return
+          </button>
+        )}
       </header>
       {feedback && <p role="status">{feedback}</p>}
       <IncidentResponsePanel world={world} onWorldChange={onWorldChange} />
