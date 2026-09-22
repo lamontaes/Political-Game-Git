@@ -14,6 +14,15 @@ this container, **Chromium 141** (the container's build 1194 aliased over the
 pinned 1234; see section 3 of the floor document), 2 workers, `CI=1`, 3 hours
 6 minutes. 93 failed, 11 flaky, 474 passed, 10 skipped.
 
+**What this list cannot tell you.** At least two cases in this suite answer
+differently depending on what runs alongside them, measured independently by
+the nationwide lane. So a case absent from this list can still be real in
+another run, and a case present here can pass in isolation. That weakens
+same-tree attribution in both directions, including the nine-for-nine match
+recorded in the floor document: matching titles across two runs is good
+evidence and it is not proof that the two runs met the same defect. Treat a
+match as a strong prior and a non-match as no information at all.
+
 **How to use it.** Match on spec file plus test title. Shard numbers are not
 stable across runs and matching on them will lie to you. A case here that your
 run also fails was already failing at `445441a5`, which means nothing merged
