@@ -22,7 +22,13 @@ import {
 
 export const GOVERNOR_TURNOVER_VERSION = "governor-turnover/v1";
 
-/** PROPOSED balance parameters, pending the director's confirmation. */
+/**
+ * PROVISIONAL, and awaiting SOURCED RULES rather than anyone's sign-off.
+ * incumbentStepsDownAfterTerms is the defect to watch: term limits are real law
+ * that differs by state, and some states have none, so one universal rule here
+ * stops a player standing again where their state would allow it. Filed as
+ * executive-terms-and-incumbency-turnover.
+ */
 export const GOVERNOR_TURNOVER_PROFILE = {
   id: "ocd-governor-turnover-game-profile/v1",
   /** The candidate field closes this many days before the general election. */

@@ -1,0 +1,35 @@
+{
+  "filedAt": "2026-09-22T16:12:00.000Z",
+  "impact": "shapes-design",
+  "lane": "modular legislation",
+  "notes": [
+    "Filed after lamontae ruled on 2026-09-22 that these are not his numbers to confirm: 'no hardcoding. defer to chatgpt same wit all questions.' The term-limit constant is the clearest case — it is real law that differs by state and some states have none, applied today as one universal game rule.",
+    "Distinct from state-legislative-seat-calendar-and-field, which asks when a LEGISLATIVE seat is next contested and who is in that race. This one is about executive terms and about whether an incumbent stands at all."
+  ],
+  "priority": "P1",
+  "question": "Three things we currently model as national constants. FIRST, gubernatorial term length and limits: what is the term in each state, and what is the limit — none, two consecutive, two lifetime, or something else — with the constitutional or statutory provision that establishes it? Name the states that impose no limit and the ones whose limit is consecutive rather than lifetime, since those behave differently when an incumbent sits out a term. SECOND, when the candidate field closes: what is the filing deadline for a gubernatorial general election relative to election day, state by state, and is it set in days before the primary rather than the general? THIRD, incumbency: how often does a sitting governor who is eligible actually stand again, how often does a sitting member of the US House and Senate, and at what age do incumbents in practice stop standing? Where retirement is a decision rather than a rule, say what drives it rather than giving an age.",
+  "questionId": "executive-terms-and-incumbency-turnover",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "modular legislation thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/nationwide-world/state-executive-turnover-calendar.ts:26, GOVERNOR_TURNOVER_PROFILE",
+      "whatItDidNotSettle": "Applies incumbentStepsDownAfterTerms: 2 as a universal rule, which is real law that varies by state and does not exist in some. Also fixes fieldClosesDaysBefore: 60, retirementAge: 78 and incumbentRunsPermille: 800 nationally."
+    },
+    {
+      "source": "src/simulation/nationwide-world/state-executive-term-rules.ts:84, STATE_EXECUTIVE_GAME_PROFILE",
+      "whatItDidNotSettle": "Fixes a four-year term and a four-year cycle for every state. Two states run two-year gubernatorial terms, so this is wrong for them by construction. Marked PROPOSED and never checked against law."
+    },
+    {
+      "source": "src/simulation/living-world/congress-turnover.ts:53, CONGRESS_TURNOVER_PROFILE",
+      "whatItDidNotSettle": "Carries incumbentReturnPermille of 850 House and 800 Senate, retirementAge: 82 and samePartyPermille: 750. The election DAY beside it is properly sourced to 2 U.S.C. section 7; none of these four is sourced to anything."
+    },
+    {
+      "source": "The office-qualification corpus, src/simulation/office-qualifications.generated.ts",
+      "whatItDidNotSettle": "69 rows across seven states, covering who may stand. It carries no term length, no term limit and no filing deadline, and forty-three states and D.C. have no rows at all."
+    }
+  ],
+  "title": "Governor terms and limits, filing deadlines, and how often an incumbent stands again",
+  "usableAnswer": "A row per state for term length, term limit with its kind (none, consecutive, lifetime) and its citation, and the filing deadline with what it is measured from. For incumbency, the observed rate at which eligible incumbents stand again for governor and for each chamber of Congress, with a statement of what drives retirement rather than an age threshold, so the code can decide from the person and the seat instead of from a constant.",
+  "whyItMatters": "A player who sits out a term in a state with a consecutive-only limit should be able to stand again, and today cannot, because one universal rule stands in for fifty different ones. Two states get a term length that is simply wrong. These decide whether the world's offices turn over believably across the multi-generation play the owner has said must ship, and he has ruled that they are to be sourced rather than chosen."
+}
