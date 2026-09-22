@@ -131,8 +131,8 @@ const sha256 = (text: string) =>
  * Peebles: 3 given names and 9 summaries, plus `snapshotId`. 0 unexplained.
  */
 const FED321F7_LEGACY = {
-  kentucky: "be46a2596f2bb4af4003a11641e66280dd024e9467337fcb139c6359db103f2e",
-  peebles: "823371a31413d036082559278af1558bd7238513aa1afde327b1394fa2eed3bc",
+  kentucky: "a4d19ef685a0643fc15f9aca4e20c9de683d01971037a943a8368a9eb86ce103",
+  peebles: "947bc8b8c44a75adee7273a890545377fdf7c1f3b38487cadfa618932f3331c2",
 } as const;
 
 /**
