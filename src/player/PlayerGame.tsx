@@ -2816,7 +2816,30 @@ function PlayingScreen({
             surface: "work",
             section: holdsOffice ? "office" : "campaign",
             label: "Politics",
-            hint: workHint,
+            /*
+             * The hint names what is behind this entry, not only the part of
+             * it this character has reached yet.
+             *
+             * It used to be `workHint`, which is composed from the office, the
+             * campaign and jobs, and drops the parts a character has no
+             * capability for. A new player holds no office and has no
+             * campaign, so it collapsed to its last part alone and the entry
+             * read "Politics — Jobs and study", one press from the actual
+             * "Jobs and study" entry, while being the only route to parties,
+             * government, campaigns, local records, candidacy and the budget.
+             * Found by walking an ordinary first day, not by reading the code.
+             *
+             * `workHint` still subtitles the "Your office and campaigns"
+             * button on Today, where the label already names its subject, so
+             * that one is left alone and this entry carries its own hint.
+             */
+            hint: [
+              holdsOffice ? "your office" : null,
+              capabilities.campaign ? "running for office" : null,
+              "who governs, parties and the budget",
+            ]
+              .filter((part): part is string => part !== null)
+              .join(", "),
             testid: "nav-politics",
             open:
               politicsSurfaces.includes(openSurface ?? "") ||
