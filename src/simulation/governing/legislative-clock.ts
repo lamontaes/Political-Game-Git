@@ -712,21 +712,21 @@ export function fileLegislatureMeasure(
     },
   ]);
   const sponsorPersonId = characterHistoryContextPersonId(next, sponsorKey);
-  const originChamberKey = defaultOriginChamber(pack).chamberKey;
+  const originChamber = defaultOriginChamber(pack);
   next = introduceMeasure(next, {
     stableKey,
     jurisdictionId: input.jurisdictionId,
     rulePackId: pack.packId,
     designation: nextMeasureDesignation(next, {
       jurisdictionId: input.jurisdictionId,
-      originChamberKey,
+      originChamber,
     }),
     shortTitle: blueprint.shortTitle,
     summary: blueprint.summary,
     origin: "member-introduction",
     subjectClass: blueprint.subjectClass,
     sponsorPersonId,
-    originChamberKey,
+    originChamberKey: originChamber.chamberKey,
     propositionIds: catalogPropositionIds(next, blueprint.propositionKeys),
   });
   const measure = next.history.legislativeMeasures!.at(-1)!;
