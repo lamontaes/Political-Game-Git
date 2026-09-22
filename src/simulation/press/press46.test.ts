@@ -26,6 +26,9 @@ import { recordEventKnowledge } from "../records";
 import type { CampaignRecord, EntityId, World } from "../types";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import {
+  CANDIDATE_PAYMENTS_REPORTED_EVENT,
+  candidatePaymentsMatterKey,
+  pressRecordByKey,
   answerPressRequest,
   appendPressRecord,
   assignedReporter,
@@ -387,12 +390,28 @@ describe("PRESS46 true hidden misuse", () => {
     expect(act.visibility).toBe("private");
   });
 
-  it("stays unknown when nobody who keeps the books exists", () => {
+  // With nobody keeping the books, nobody inside the campaign finds the
+  // ledger entry. The payment still reaches the committee's public report
+  // (what outsiders can notice, since the Nome playtest of 2026-09-22), but
+  // the private purpose and the act itself stay the player's alone.
+  it("leaves the books unread when nobody keeps them", () => {
     expect(
-      pressRecordsOfKind(later, "matter").filter(
-        (m) => m.occurrenceId === misused.occurrence.id,
+      pressRecordByKey(
+        later,
+        "matter",
+        `press46:matter:${misused.occurrence.id}`,
       ),
-    ).toHaveLength(0);
+    ).toBeNull();
+    expect(
+      later.history.events.some(
+        (event) =>
+          event.type === CANDIDATE_PAYMENTS_REPORTED_EVENT &&
+          event.visibility === "public" &&
+          misused.occurrence.resourceFlowIds.every((flowId) =>
+            event.involvedEntityIds.includes(flowId),
+          ),
+      ),
+    ).toBe(true);
     expect(
       (later.history.publications ?? []).some((p) =>
         p.body.includes("family dinner"),
@@ -558,6 +577,50 @@ describe("PRESS46 established finding, leak and ground rules", () => {
         e.tags.includes(`press46.matter:${opened.matter.id}`),
     );
     expect(delegated).toHaveLength(1);
+  });
+
+  it("makes the finding order the misused money repaid, and costs no decided race", () => {
+    const proceeding = pressRecordsOfKind(concluded, "matter-proceeding").find(
+      (p) => p.matterId === opened.matter.id,
+    )!;
+    const finding = proceedingSteps(concluded, proceeding.id).at(-1)!;
+    // The race was decided on the day the final order landed, before it, so
+    // no open race is left for the finding to cost support in.
+    expect(
+      (concluded.history.campaignStates ?? []).some(
+        (state) =>
+          state.campaignId === fixture.campaign.id &&
+          state.status === "lost" &&
+          state.effectiveAt <= finding.at,
+      ),
+    ).toBe(true);
+    expect(
+      concluded.history.metricStates.some((state) =>
+        state.stableKey.startsWith(`${finding.stableKey}:finding-support:`),
+      ),
+    ).toBe(false);
+    const order = concluded.history.events.find(
+      (event) => event.type === "matter.restitution-ordered",
+    )!;
+    expect(order.summary).toContain("$25.00");
+    const flow = concluded.history.resourceFlows.find(
+      (row) => row.basisKind === "custom:ethics-restitution",
+    )!;
+    expect(flow.recipient).toEqual({
+      kind: "organization",
+      organizationId: fixture.campaign.organizationId,
+    });
+    const outcome = concluded.history.resourceTransferOutcomes.find(
+      (row) => row.resourceFlowId === flow.id,
+    )!;
+    // Repaid in full, or refused with nothing moved and the reason recorded.
+    expect(
+      (outcome.status === "completed" &&
+        outcome.transferredAmount.minorUnits === 2_500) ||
+        (outcome.status === "blocked" &&
+          outcome.transferredAmount.minorUnits === 0 &&
+          order.summary.includes("did not have it")),
+    ).toBe(true);
   });
 
   it("surfaces no removal or censure without researched authority", () => {
@@ -897,4 +960,63 @@ describe("PRESS46 CRISIS events reach the desk", () => {
     );
     expect(lead?.family).toBe("breaking-crisis");
   }, 120_000);
+});
+
+describe("PRESS46 a bookkeeper who was ignored", () => {
+  const seeds = [
+    "press46-escalate",
+    "press46-escalate-2",
+    "press46-escalate-3",
+  ];
+  // The bookkeeper's first choice is theirs to make; take the first seed in
+  // which they did raise it, and fail outright if none did.
+  const run = seeds
+    .map((seed) => {
+      const fixture = pressFixture(seed, 1);
+      const first = spendCampaignFundsPersonally(fixture.world, {
+        stableKey: `${seed}:misuse:1`,
+        amountMinorUnits: 2_000,
+        purpose: "a family dinner",
+      });
+      // A day apart, so both ledger reviews come before the report that
+      // would let a rival open the matter first.
+      const second = spendCampaignFundsPersonally(days(first.world, 1), {
+        stableKey: `${seed}:misuse:2`,
+        amountMinorUnits: 2_000,
+        purpose: "another family dinner",
+      });
+      return { fixture, later: days(second.world, 31) };
+    })
+    .find(({ later }) =>
+      later.history.events.some(
+        (event) => event.type === "matter.internal-concern-raised",
+      ),
+    );
+
+  it("raised it inside the campaign in at least one seed", () => {
+    expect(run).toBeDefined();
+  });
+
+  it("decides whether to go outside the campaign on finding the next one", () => {
+    const { fixture, later } = run!;
+    const bookkeeper = fixture.staffIds[0]!;
+    const decision = later.history.decisionTraces.find((trace) =>
+      trace.stableKey.endsWith(":report-decision:trace"),
+    );
+    expect(decision).toBeDefined();
+    const matter = pressRecordByKey(
+      later,
+      "matter",
+      candidatePaymentsMatterKey(fixture.campaign.id),
+    );
+    const staffComplaint = pressRecordsOfKind(later, "matter-proceeding").find(
+      (proceeding) => proceeding.complainantPersonId === bookkeeper,
+    );
+    if (decision!.selectedOptionKey === "report-outside") {
+      expect(matter).not.toBeNull();
+      expect(staffComplaint?.matterId).toBe(matter!.id);
+    } else {
+      expect(staffComplaint).toBeUndefined();
+    }
+  });
 });

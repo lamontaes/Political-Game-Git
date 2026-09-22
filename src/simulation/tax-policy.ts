@@ -44,7 +44,7 @@ import type {
 export const TAX_COLLECTION_TRANSITION_KEY = "tax:collect-assessment" as const;
 export const TAX_MODEL_NOTE =
   "Authored game model: the declared taxable occurrence and allowance are assumptions. Tax settlement is compressed into one payer-to-public transfer on the declared due event; no merchant cash, real tax return, interest, penalty, behavioral response or observed forecast is inferred.";
-const publicOrganizationKey = (jurisdictionId: EntityId) =>
+export const publicOrganizationKey = (jurisdictionId: EntityId) =>
   `public-government:${jurisdictionId}`;
 
 export function taxPowerEvidenceFor(

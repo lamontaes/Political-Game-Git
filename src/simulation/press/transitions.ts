@@ -16,9 +16,14 @@ import {
 import {
   PRESS_LEDGER_REVIEW_TRANSITION_KEY,
   pressLedgerReviewHandler,
-  produceRivalComplaints,
+  produceCampaignFinanceScrutiny,
 } from "./matters";
 import { ensurePressLocalCoverage, ensurePressMediaOpening } from "./outlets";
+import {
+  ensureMediaOwnership,
+  PRESS_OWNER_REVIEW_TRANSITION_KEY,
+  pressOwnerReviewHandler,
+} from "./ownership";
 import { ensurePressExposureCoverage } from "./views";
 import {
   PRESS_PROCEEDING_TRANSITION_KEY,
@@ -27,14 +32,17 @@ import {
 
 /**
  * The weekly desk sweep also lets a rival decide about a complaint and
- * materializes coverage for newly exposed state politics, before the outlets
- * look at the week's public record.
+ * materializes coverage for newly exposed state politics, and gives any new
+ * outlet its founding owner, before the outlets look at the week's public
+ * record.
  */
 function pressWeeklyHandler(
   world: World,
   dueItem: FutureDueItem,
 ): FutureTransitionHandlerResult {
-  const prepared = ensurePressExposureCoverage(produceRivalComplaints(world));
+  const prepared = ensureMediaOwnership(
+    ensurePressExposureCoverage(produceCampaignFinanceScrutiny(world)),
+  );
   return pressDeskSweepHandler(prepared, dueItem);
 }
 
@@ -44,21 +52,28 @@ export function createPressTransitionRegistry(): FutureTransitionHandlerRegistry
     [PRESS_STORY_STEP_TRANSITION_KEY, pressStoryStepHandler],
     [PRESS_PROCEEDING_TRANSITION_KEY, pressProceedingStepHandler],
     [PRESS_LEDGER_REVIEW_TRANSITION_KEY, pressLedgerReviewHandler],
+    [
+      PRESS_OWNER_REVIEW_TRANSITION_KEY,
+      (world, dueItem) => pressOwnerReviewHandler(world, dueItem),
+    ],
   ]);
 }
 
 /**
  * New-life opening only: the national seed pack, local coverage for the
- * player's home, and the first weekly desk sweep. Never run on load.
+ * player's home, each outlet's founding owner, and the first weekly desk
+ * sweep. Never run on load.
  */
 export function ensurePressOpening(
   world: World,
   playerPersonId: EntityId,
 ): World {
   return ensurePressDeskSchedule(
-    ensurePressLocalCoverage(
-      ensurePressMediaOpening(world, playerPersonId),
-      playerPersonId,
+    ensureMediaOwnership(
+      ensurePressLocalCoverage(
+        ensurePressMediaOpening(world, playerPersonId),
+        playerPersonId,
+      ),
     ),
   );
 }

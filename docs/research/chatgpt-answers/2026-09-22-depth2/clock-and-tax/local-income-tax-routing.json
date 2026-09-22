@@ -1,0 +1,59 @@
+{
+  "schema": "ocd-research-local-tax-routing/1",
+  "preparedAt": "2026-09-22T20:15:13.778830+00:00",
+  "relatedScope": "Owner-approved distinct federal/state/county/municipal laws; policy-level routing follow-through",
+  "sourceHead": "d10dd525731bcd7bded20d165d74b9e0bae38ad8",
+  "currentSource": {
+    "path": "src/simulation/policy-pack-us-state-and-local.ts",
+    "blob": "a51034f630acb7f30bd8259dcc486480c1ec181e",
+    "issue": "us-state-and-local:fiscal.income-tax",
+    "levels": [
+      "state"
+    ]
+  },
+  "sources": {
+    "ohTax": {
+      "url": "https://codes.ohio.gov/ohio-revised-code/section-718.04",
+      "locator": "Ohio Revised Code 718.04(A), (D), (F), effective September 29, 2015",
+      "read": "2026-09-22",
+      "kind": "official-statute"
+    },
+    "phlTax": {
+      "url": "https://www.phila.gov/services/payments-assistance-taxes/taxes/income-taxes/earnings-tax-employees/",
+      "locator": "Who pays the tax; tax-rate table; Did you know",
+      "read": "2026-09-22",
+      "kind": "official-city-revenue-guidance"
+    }
+  },
+  "findings": [
+    {
+      "sourceId": "ohTax",
+      "finding": "Ohio municipal corporations may levy income/withholding taxes subject to chapter limits. The enactment specifies income base, rate, credit, purpose and administration. Resident credits for tax paid elsewhere can be partial.",
+      "limit": "Not a complete tax profile; additional restrictions, exemptions and current local ordinance must be applied. Does not establish county authority."
+    },
+    {
+      "sourceId": "phlTax",
+      "finding": "Philadelphia describes its Earnings Tax and employer-withheld Wage Tax as the same tax with different collection treatment. Resident/nonresident applicability and dated rate changes are separately stated.",
+      "rateVersionExamples": [
+        {
+          "from": "2025-07-01",
+          "residentPercent": "3.74",
+          "nonresidentPercent": "3.43"
+        },
+        {
+          "from": "2026-07-01",
+          "residentPercent": "3.735",
+          "nonresidentPercent": "3.425"
+        }
+      ],
+      "limit": "These are rate-table entries, not universal effective law elsewhere or every exception; January 2026 must not consume the July 2026 rate without a fictional-law record."
+    }
+  ],
+  "receiving": [
+    "Permit municipal income-tax subject discovery where an actual authority profile supports it. Preserve existing namespace/issue and authored-position references. Do not globally mark every local government competent.",
+    "Bind the particular government, taxpayer, income-source/residence nexus, period, taxable base, rate/exemptions/credits, collector and receiving treasury.",
+    "Withholding and direct remittance settle the same liability; a wage label plus an earnings label must not collect twice.",
+    "An intergovernmental remittance is not another receipt from the household, and one jurisdiction changing its levy cannot overwrite federal/state/other-local instruments.",
+    "Topic grouping is not power, passage is not collection, liability is not payment, and observed publication date is not operative date."
+  ]
+}

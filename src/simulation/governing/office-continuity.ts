@@ -33,7 +33,7 @@ import {
 } from "../living-world/opening";
 import { nationalOfficeHolder } from "../national-election-consumer";
 import { appendNationalRecord, nationalRecords } from "../national-elections";
-import { drawCanonicalName, personName } from "../people";
+import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
@@ -341,8 +341,10 @@ export function houseSpecialElectionHandler(
   let next = createCharacterHistoryContextPeople(world, [
     {
       stableKey: memberKey,
-      ...drawCanonicalName(rng.fork("name")),
-      identity: generatePersonIdentity(rng.fork("identity")),
+      ...drawCanonicalNamedIdentity(
+        rng.fork("name"),
+        generatePersonIdentity(rng.fork("identity")),
+      ),
       birthDate: makeIsoDate(
         `${year - age}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
       ),

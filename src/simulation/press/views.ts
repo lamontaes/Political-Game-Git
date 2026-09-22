@@ -15,6 +15,11 @@ import {
   reporterRoles,
   stateOfJurisdiction,
 } from "./outlets";
+import {
+  outletOwner,
+  outletPurchaseTerms,
+  type OutletPurchaseTerms,
+} from "./ownership";
 import { proceedingSteps } from "./procedures";
 import {
   MISCONDUCT_FAMILY_LABELS,
@@ -39,6 +44,10 @@ export interface PressOutletSummary {
   readonly name: string;
   readonly scope: MediaScope;
   readonly beats: readonly MediaBeat[];
+  /** Who owns the outlet today; null where no owner is recorded. */
+  readonly ownerName: string | null;
+  /** Whether the viewer could buy this outlet today, and for how much. */
+  readonly purchase: OutletPurchaseTerms;
   readonly reporters: readonly {
     readonly personId: EntityId;
     readonly name: string;
@@ -138,6 +147,8 @@ export function projectPressDesk(
     name: outlet.name,
     scope: outlet.scope,
     beats: outlet.beats,
+    ownerName: outletOwner(world, outlet.id)?.name ?? null,
+    purchase: outletPurchaseTerms(world, personId, outlet.id),
     // Only people who could actually take a call. A journalism role outlives
     // the person who held it, and since a current opening now carries the
     // mortality model from the moment it is built, a desk that listed every

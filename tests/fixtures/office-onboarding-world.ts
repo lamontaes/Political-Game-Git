@@ -3,7 +3,7 @@ import {
   characterHistoryContextPersonId,
   createCampaignElectionTransitionRegistry,
   createWorkRelationship,
-  drawCanonicalName,
+  drawCanonicalNameForGender,
   makeIsoDate,
   recordFiledProvision,
   SeededRng,
@@ -133,7 +133,7 @@ export function hireOfficeStaff(
   if (membership.kind !== "seated") throw new Error(membership.reason);
   const stableKey = `office-onboarding:staff:${organizationId}`;
   const rng = new SeededRng(world.seed).fork(stableKey);
-  const name = drawCanonicalName(rng);
+  const name = drawCanonicalNameForGender(rng, "unstated");
   let next = applyCharacterHistoryPlan(world, {
     stableKey,
     mode: "quick-generated",

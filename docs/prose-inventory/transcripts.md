@@ -34,7 +34,7 @@ While you play together, a wheel snaps off Marcus Villegas's toy truck in your h
 - Try putting it back
 - Put the truck aside
 
-_Present: Marcus Villegas, who is in your class_
+_Present: Marcus Villegas, your classmate_
 
 _Grounded by: Age 6; needs at least 6.; Age 6; needs to be under 8.; school-peer is Marcus Villegas: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
@@ -47,7 +47,7 @@ You showed Marcus Villegas the broken wheel and apologized. The toy is still bro
 - **Ask if they want help fixing it** ← chosen
 - Give back the truck and wheel
 
-_Present: Marcus Villegas, who is in your class_
+_Present: Marcus Villegas, your classmate_
 
 _Grounded by: Age 6; needs at least 6.; Age 6; needs to be under 8.; school-peer is Marcus Villegas: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose show, on 2026-01-05._
 
@@ -61,7 +61,7 @@ Marcus Villegas says the two of you are best friends, and it should be just the 
 - Ask about the third child
 - Don't answer either way
 
-_Present: Marcus Villegas, who is in your class_
+_Present: Marcus Villegas, your classmate_
 
 _Grounded by: familiar is Marcus Villegas: 4 record(s) name the two of them, none of them family or household; the most recent is 2026-01-05.; familiar is Marcus Villegas, 7, old enough (needs 5).; familiar is Marcus Villegas, 7, young enough (under 9).; answers-for-themselves does not hold, as required.; Age 6; needs at least 6.; Age 6; needs to be under 8._
 
@@ -75,7 +75,7 @@ You and Marcus Villegas have spent most of this year in each other's houses. Thi
 - Stay where you said you'd be
 - Ask them to come with you instead
 
-_Present: Marcus Villegas, who is in your class_
+_Present: Marcus Villegas, your classmate_
 
 _Grounded by: familiar is Marcus Villegas: 6 record(s) name the two of them, none of them family or household; the most recent is 2026-01-05.; Age 6; needs to be under 18._
 
@@ -214,7 +214,7 @@ During the school break, Marcus Villegas drops a snack into a puddle and starts 
 - Stay and comfort them
 - Move away quietly
 
-_Present: Marcus Villegas, who is in your class_
+_Present: Marcus Villegas, your classmate_
 
 _Grounded by: Age 6; needs at least 5.; Age 6; needs to be under 8.; school-peer is Marcus Villegas: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
@@ -240,13 +240,13 @@ Seed `corpus-adolescence`, start age 15, Dawn Merritt.
 > You live with Haley Merritt and Alina Merritt.
 > You're enrolled at Lexington, Kentucky public school.
 
-The fire-alarm cover by the stairs is broken at school, and the office has your name for it. You were standing next to it when it happened, and so was Monique Wells, who is in your class. She broke it. She has not said so, and nobody has asked you what you saw.
+The fire-alarm cover by the stairs is broken at school, and the office has your name for it. You were standing next to it when it happened, and so was Monique Wells, your classmate. She broke it. She has not said so, and nobody has asked you what you saw.
 
 - **Say it was Monique Wells** ← chosen
 - Take the blame
 - Say only that it wasn't you
 
-_Present: Monique Wells, who is in your class_
+_Present: Monique Wells, your classmate_
 
 _Grounded by: school.enrolled: An active education enrollment.; Age 15; needs to be under 18.; school-peer is Monique Wells: Active enrollment in the same school._
 
@@ -260,7 +260,7 @@ You and Monique Wells have spent most of this year in each other's houses. This 
 - Stay where you said you'd be
 - Ask them to come with you instead
 
-_Present: Monique Wells, who is in your class_
+_Present: Monique Wells, your classmate_
 
 _Grounded by: familiar is Monique Wells: 2 record(s) name the two of them, none of them family or household; the most recent is 2026-01-05.; Age 15; needs to be under 18._
 
@@ -442,7 +442,7 @@ Caleb Terrell says, not for the first time but for the first time out loud, that
 - Offer to pay someone
 - Say you'll sort it at the weekend
 
-_Present: Caleb Terrell, who you live with_
+_Present: Caleb Terrell, your housemate_
 
 _Grounded by: household-peer is Caleb Terrell: Resident on the same household record, with no authority either way between them.; answers-for-themselves: No active parental authority over them.; Age 34; needs at least 18.; household.shared: Somebody else is on the household record._
 
@@ -450,13 +450,13 @@ _Grounded by: household-peer is Caleb Terrell: Resident on the same household re
 
 
 
-You're home, and so is Caleb Terrell, who you live with.
+You're home, and so is Caleb Terrell, your housemate.
 
 - **Ask about their day** ← chosen
 - Let them pick the topic
 - Ask for some quiet
 
-_Present: Caleb Terrell, who you live with_
+_Present: Caleb Terrell, your housemate_
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; household-companion is Caleb Terrell: Resident on the same household record._
 
@@ -529,7 +529,7 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 #### Beat 8 — 2026-03-24, age 34 (episode, civic.the-thing-nobody-else-turned-up-for/you-said-something)
 
 > A couple of months on.
-> You and Devon Lewis were in and out of each other's business more than once.
+> You and Jade Lewis were in and out of each other's business more than once.
 > Things came up at home with Caleb Terrell more than once in that time.
 
 The group has settled into eight people and one of them keeps looking at you when a decision needs making. There is a position going that nobody wants and that somebody has to hold.
@@ -544,47 +544,47 @@ _Grounded by: At the-meeting they chose go, on 2026-01-05.; civic.participation:
 
 
 
-Edward Todd, your dad: “I agreed to organize the family picnic, and now I need to back out. I have not told the guests. Please keep this between us for now.”
+Victor Todd, your dad: “I agreed to organize the family picnic, and now I need to back out. I have not told the guests. Please keep this between us for now.”
 
 - **Agree to keep this conversation private** ← chosen
 - Ask them to tell the picnic guests
 - Say you cannot help with the picnic
 
-_Present: Edward Todd, your dad_
+_Present: Victor Todd, your dad_
 
 #### Beat 10 — 2026-03-24, age 34 (adult)
 
 
 
-Caleb Terrell, who you live with: “I will be home this evening. Would you like to sit and talk?”
+Caleb Terrell, your housemate: “I will be home this evening. Would you like to sit and talk?”
 
 - **Agree to sit and talk this evening** ← chosen
 - Decline; keep the evening to yourself
 
-_Present: Caleb Terrell, who you live with_
+_Present: Caleb Terrell, your housemate_
 
 #### Beat 11 — 2026-03-24, age 34 (adult)
 
 
 
-Edward Todd, your dad: “Could you look over my invitation to the family picnic? Just two paragraphs. I want to make sure the wording is clear.” Proofreading takes 20 minutes; answering takes no time.
+Victor Todd, your dad: “Could you look over my invitation to the family picnic? Just two paragraphs. I want to make sure the wording is clear.” Proofreading takes 20 minutes; answering takes no time.
 
 - **Agree to proofread the two-paragraph picnic invitation** ← chosen
 - Agree: Wording only; I will not contact the guests
 - Decline the proofreading request
 
-_Present: Edward Todd, your dad_
+_Present: Victor Todd, your dad_
 
 #### Beat 12 — 2026-03-24, age 34 (adult)
 
 
 
-Edward Todd, your dad: Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.
+Victor Todd, your dad: Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.
 
 - **Say you will come** ← chosen
 - Decline the invitation
 
-_Present: Edward Todd, your dad_
+_Present: Victor Todd, your dad_
 
 #### Beat 13 — 2026-03-24, age 34 (episode, opening.adult.home.free-time/moment)
 
@@ -620,8 +620,8 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 #### Beat 16 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/moment)
 
 > A couple of months on, and you're 35 now.
-> Devon Lewis tried to reach you.
-> You and Joel Miles were in and out of each other's business more than once.
+> Jade Lewis tried to reach you.
+> You and Wesley Miles were in and out of each other's business more than once.
 
 You're at home with fifteen minutes free.
 
@@ -646,23 +646,23 @@ _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requir
 
 
 
-Edward Todd, your dad: Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.
+Victor Todd, your dad: Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.
 
 - **Say you will come** ← chosen
 - Decline the invitation
 
-_Present: Edward Todd, your dad_
+_Present: Victor Todd, your dad_
 
 #### Beat 19 — 2026-05-10, age 35 (adult)
 
 
 
-Caleb Terrell, who you live with: “I will be home this evening. Would you like to sit and talk?”
+Caleb Terrell, your housemate: “I will be home this evening. Would you like to sit and talk?”
 
 - **Agree to sit and talk this evening** ← chosen
 - Decline; keep the evening to yourself
 
-_Present: Caleb Terrell, who you live with_
+_Present: Caleb Terrell, your housemate_
 
 
 ---
@@ -692,7 +692,7 @@ During the school break, Sofia Hunter drops a snack into a puddle and starts cry
 - Stay and comfort them
 - Move away quietly
 
-_Present: Sofia Hunter, who is in your class_
+_Present: Sofia Hunter, your classmate_
 
 _Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
@@ -706,7 +706,7 @@ Sofia Hunter says the two of you are best friends, and it should be just the two
 - Ask about the third child
 - Don't answer either way
 
-_Present: Sofia Hunter, who is in your class_
+_Present: Sofia Hunter, your classmate_
 
 _Grounded by: familiar is Sofia Hunter: 2 record(s) name the two of them, none of them family or household; the most recent is 2026-01-05.; familiar is Sofia Hunter, 8, old enough (needs 5).; familiar is Sofia Hunter, 8, young enough (under 9).; answers-for-themselves does not hold, as required.; Age 7; needs at least 6.; Age 7; needs to be under 8._
 
@@ -720,7 +720,7 @@ You and Sofia Hunter have spent most of this year in each other's houses. This a
 - Stay where you said you'd be
 - Ask them to come with you instead
 
-_Present: Sofia Hunter, who is in your class_
+_Present: Sofia Hunter, your classmate_
 
 _Grounded by: familiar is Sofia Hunter: 4 record(s) name the two of them, none of them family or household; the most recent is 2026-01-05.; Age 7; needs to be under 18._
 
@@ -850,13 +850,13 @@ _Grounded by: school.enrolled: An active education enrollment.; answers-for-them
 
 
 
-The fire-alarm cover by the stairs is broken at school, and the office has your name for it. You were standing next to it when it happened, and so was Sofia Hunter, who is in your class. She broke it. She has not said so, and nobody has asked you what you saw.
+The fire-alarm cover by the stairs is broken at school, and the office has your name for it. You were standing next to it when it happened, and so was Sofia Hunter, your classmate. She broke it. She has not said so, and nobody has asked you what you saw.
 
 - **Say it was Sofia Hunter** ← chosen
 - Take the blame
 - Say only that it wasn't you
 
-_Present: Sofia Hunter, who is in your class_
+_Present: Sofia Hunter, your classmate_
 
 _Grounded by: school.enrolled: An active education enrollment.; Age 7; needs to be under 18.; school-peer is Sofia Hunter: Active enrollment in the same school._
 
@@ -894,7 +894,7 @@ Your elbow knocks a cup of paint water across Sofia Hunter's drawing.
 - Explain it was an accident
 - Stand still
 
-_Present: Sofia Hunter, who is in your class_
+_Present: Sofia Hunter, your classmate_
 
 _Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
@@ -907,7 +907,7 @@ The drawing is still wet after you blot it.
 - **Offer a fresh sheet of paper** ← chosen
 - Ask what you can do to help
 
-_Present: Sofia Hunter, who is in your class_
+_Present: Sofia Hunter, your classmate_
 
 _Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose apologize, on 2026-01-05._
 
@@ -921,7 +921,7 @@ Sofia Hunter knocks you over during tag. You sit up on the grass.
 - Stop playing for now
 - Get up and keep playing
 
-_Present: Sofia Hunter, who is in your class_
+_Present: Sofia Hunter, your classmate_
 
 _Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
@@ -934,7 +934,7 @@ You’ve told Sofia Hunter not to push you. Do you want to keep playing?
 - **Play again, but say no pushing** ← chosen
 - Stop playing tag
 
-_Present: Sofia Hunter, who is in your class_
+_Present: Sofia Hunter, your classmate_
 
 _Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose state-boundary, on 2026-01-05._
 
@@ -948,7 +948,7 @@ You're drawing with the blue crayon. Sofia Hunter asks for it to draw water.
 - Ask to finish coloring first
 - Keep using it
 
-_Present: Sofia Hunter, who is in your class_
+_Present: Sofia Hunter, your classmate_
 
 _Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
@@ -961,7 +961,7 @@ You handed the blue crayon to Sofia Hunter and chose another color. Your drawing
 - **Keep drawing** ← chosen
 - Ask for the blue crayon when they finish
 
-_Present: Sofia Hunter, who is in your class_
+_Present: Sofia Hunter, your classmate_
 
 _Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose hand-over, on 2026-01-05._
 
@@ -975,7 +975,7 @@ During story time, Sofia Hunter whispers an embarrassing story about another chi
 - Keep it to yourself
 - Ask how they know
 
-_Present: Sofia Hunter, who is in your class_
+_Present: Sofia Hunter, your classmate_
 
 _Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
@@ -989,7 +989,7 @@ Sofia Hunter is on a swing. You're waiting for a turn.
 - Wait beside the swing
 - Choose another game
 
-_Present: Sofia Hunter, who is in your class_
+_Present: Sofia Hunter, your classmate_
 
 _Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
@@ -1002,7 +1002,7 @@ Sofia Hunter is still on the swing after you asked for a turn.
 - **Wait for a turn** ← chosen
 - Go and play somewhere else
 
-_Present: Sofia Hunter, who is in your class_
+_Present: Sofia Hunter, your classmate_
 
 _Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose ask-turn, on 2026-01-05._
 
@@ -1016,7 +1016,7 @@ You and Sofia Hunter have drawn a chalk game in the schoolyard. Sofia Hunter wan
 - Ask to keep the rules you agreed
 - Try their rule
 
-_Present: Sofia Hunter, who is in your class_
+_Present: Sofia Hunter, your classmate_
 
 _Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
@@ -1029,7 +1029,7 @@ You suggested trying the new rule for one round. Do you want to try it?
 - **Try one round** ← chosen
 - Ask to use the original rules
 
-_Present: Sofia Hunter, who is in your class_
+_Present: Sofia Hunter, your classmate_
 
 _Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose compromise-rule, on 2026-01-05._
 
@@ -1043,7 +1043,7 @@ While you play together, a wheel snaps off Sofia Hunter's toy truck in your hand
 - Try putting it back
 - Put the truck aside
 
-_Present: Sofia Hunter, who is in your class_
+_Present: Sofia Hunter, your classmate_
 
 _Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
@@ -1056,7 +1056,7 @@ You showed Sofia Hunter the broken wheel and apologized. The toy is still broken
 - **Ask if they want help fixing it** ← chosen
 - Give back the truck and wheel
 
-_Present: Sofia Hunter, who is in your class_
+_Present: Sofia Hunter, your classmate_
 
 _Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose show, on 2026-01-05._
 
@@ -1070,7 +1070,7 @@ At lunch, Sofia Hunter offers to swap snacks. The lunch monitor has just said to
 - Say trading isn't allowed
 - Keep the snack you brought
 
-_Present: Sofia Hunter, who is in your class_
+_Present: Sofia Hunter, your classmate_
 
 _Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
@@ -1083,7 +1083,7 @@ You traded snacks with Sofia Hunter despite the lunch rule. The exchanged snack 
 - **Offer to undo the snack trade** ← chosen
 - Keep the exchanged snack
 
-_Present: Sofia Hunter, who is in your class_
+_Present: Sofia Hunter, your classmate_
 
 _Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Sofia Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose make-secret-swap, on 2026-01-05._
 
@@ -1176,7 +1176,7 @@ Sofia Hunter has not spoken to you since you said it, and has been telling peopl
 - **Tell it again** ← chosen
 - Say it's over
 
-_Present: Sofia Hunter, who is in your class_
+_Present: Sofia Hunter, your classmate_
 
 _Grounded by: At blamed they chose name-them, on 2026-01-05.; 248 day(s) since blamed; needs 200.; school-peer is Sofia Hunter: Active enrollment in the same school._
 
@@ -1237,7 +1237,7 @@ Warren Mullins says, not for the first time but for the first time out loud, tha
 - Offer to pay someone
 - Say you'll sort it at the weekend
 
-_Present: Warren Mullins, who you live with_
+_Present: Warren Mullins, your housemate_
 
 _Grounded by: household-peer is Warren Mullins: Resident on the same household record, with no authority either way between them.; answers-for-themselves: No active parental authority over them.; Age 34; needs at least 18.; household.shared: Somebody else is on the household record._
 
@@ -1245,13 +1245,13 @@ _Grounded by: household-peer is Warren Mullins: Resident on the same household r
 
 
 
-You're home, and so is Warren Mullins, who you live with.
+You're home, and so is Warren Mullins, your housemate.
 
 - **Ask about their day** ← chosen
 - Let them pick the topic
 - Ask for some quiet
 
-_Present: Warren Mullins, who you live with_
+_Present: Warren Mullins, your housemate_
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; household-companion is Warren Mullins: Resident on the same household record._
 
@@ -1439,7 +1439,7 @@ Warren Mullins says, not for the first time but for the first time out loud, tha
 - Offer to pay someone
 - Say you'll sort it at the weekend
 
-_Present: Warren Mullins, who you live with_
+_Present: Warren Mullins, your housemate_
 
 _Grounded by: household-peer is Warren Mullins: Resident on the same household record, with no authority either way between them.; answers-for-themselves: No active parental authority over them.; Age 34; needs at least 18.; household.shared: Somebody else is on the household record._
 
@@ -1447,13 +1447,13 @@ _Grounded by: household-peer is Warren Mullins: Resident on the same household r
 
 
 
-You're home, and so is Warren Mullins, who you live with.
+You're home, and so is Warren Mullins, your housemate.
 
 - **Ask about their day** ← chosen
 - Let them pick the topic
 - Ask for some quiet
 
-_Present: Warren Mullins, who you live with_
+_Present: Warren Mullins, your housemate_
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; household-companion is Warren Mullins: Resident on the same household record._
 

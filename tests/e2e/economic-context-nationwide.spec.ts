@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "./fixtures";
 import { enterLife, fillCreator, goTo } from "./support/creator";
 
 /**
@@ -11,15 +11,20 @@ import { enterLife, fillCreator, goTo } from "./support/creator";
  * already on disk: 3,597 BEA geographies and 4,934 HUD geographies ship in
  * `public/data/economic-context`.
  *
- * So this walks two ordinary towns that have never had a binding, in two
- * states, and reads the screen. Neither is Lexington and neither is in a state
- * that ships a legislature pack, which is the point: how the local economy is
- * doing should not wait on whether the legislature has been researched.
+ * So this walks four ordinary towns that have never had a binding, in four
+ * states, and reads the screen. None is Lexington, which is the point: how the
+ * local economy is doing should not wait on a hand-reviewed crosswalk.
  */
 
+// Small and middling towns in four states, none of them Lexington's.
+// `rents` is whether HUD's rent benchmark reaches the town today: in New
+// England HUD files rents by town rather than by county, and the game does not
+// yet hold which town-level area a place sits in, so Presque Isle has none.
 const TOWNS = [
-  { town: "Bowling Green", state: "Kentucky" },
-  { town: "Boise City", state: "Idaho" },
+  { town: "Boise City", state: "Idaho", rents: true },
+  { town: "Sioux Center", state: "Iowa", rents: true },
+  { town: "Presque Isle", state: "Maine", rents: false },
+  { town: "Truth or Consequences", state: "New Mexico", rents: true },
 ] as const;
 
 async function readPlaceSection(page: Page): Promise<string> {
@@ -29,7 +34,7 @@ async function readPlaceSection(page: Page): Promise<string> {
   return (await section.innerText()).replace(/\s+/g, " ").trim();
 }
 
-for (const { town, state } of TOWNS) {
+for (const { town, state, rents } of TOWNS) {
   test(`${town}, ${state} says how the place is doing`, async ({ page }) => {
     await page.goto("/");
     await expect(page.getByTestId("new-game")).toBeVisible({ timeout: 60_000 });
@@ -54,22 +59,20 @@ for (const { town, state } of TOWNS) {
     expect(panelText).not.toContain("Lexington");
 
     /*
-     * What the panel says today is that it is holding figures back.
-     *
-     * Every one of the three locked corpora was fetched on 2026-09-03 and none
-     * of them establishes a publisher release date, so each observation falls
-     * back to the fetch date and an ordinary life opening on 2026-01-05 is
-     * eight months too early to see any of it. That is true in Lexington too,
-     * which is why the single-entry registry hid it for so long.
-     *
-     * So the assertion is on the honest sentence rather than on a number: the
-     * screen must say figures exist and are being withheld, not that nothing
-     * has been published. When the availability basis is fixed, this is the
-     * test that should start failing.
+     * A life opens on January 5, 2026. The only locked edition published by
+     * then is HUD's FY2025 Fair Market Rents (August 14, 2024), so that is
+     * what shows; county income (February 5) and price levels (February 19)
+     * are held back, however old the years they describe.
      */
-    expect(panelText).toMatch(
-      /recorded for this place, and the game cannot establish/,
-    );
+    if (rents) {
+      expect(panelText).toContain("Two-bedroom Fair Market Rent");
+      expect(panelText).toContain("2024-08-14");
+    } else {
+      expect(panelText).toMatch(
+        /recorded for this place, and the game cannot establish/,
+      );
+    }
+    expect(panelText).not.toContain("personal income");
     expect(panelText).not.toContain("Nothing has been published");
 
     // The screen never shows the old contradiction: an "unavailable" sentence

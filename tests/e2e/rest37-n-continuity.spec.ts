@@ -45,9 +45,11 @@ test("recorded result enters its supported term through ordinary Work and files/
     "2027-01-01",
   );
   await expect(page.getByTestId("open-legislation")).toHaveCount(0);
-  await page.getByTestId("pass-day").focus();
+  // Time moves from the shell's own Day control: Work and Campaigns stopped
+  // carrying a second pass-day button of their own with the client line.
+  await page.getByTestId("shell-pass-day").focus();
   await page.keyboard.press("Space");
-  await expect(page.getByTestId("day-date")).toContainText("January 1, 2027");
+  await expect(page.getByTestId("story-when")).toContainText("January 1, 2027");
   // The day was passed on Campaigns, and Campaigns is where the player stays.
   // The office opens the way a player opens it: the "Your office" tab.
   await page.getByTestId("politics-tab-office").click();

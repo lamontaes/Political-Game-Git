@@ -3151,3 +3151,129 @@ slow again for no visible reason, read branch protection before reading code.
 > the entry above claimed D-090 first and had already landed on main. Two lanes
 > appended the next number at the same time; nothing in the log or the gates
 > catches that. Both decisions stand unchanged.
+
+## D-092 — Being somewhere exposes you to people; conduct and temperament make the relationship
+
+**Decided by the owner, 2026-09-22.** His words: a friendship should not
+automatically be permanent — "it would be more accurate to say it exposes you
+to possibly like minded people and your actions/personality should drive
+interpersonal relationships".
+
+**What this settles.** Proximity produces candidates, not bonds. Sharing a
+school, a college, a workplace, a party chapter or a neighbourhood puts people
+within reach of each other and does nothing else by itself. What turns a
+candidate into somebody who matters is what the two of them actually do, and
+who they are. It follows directly that a relationship can go the other way:
+anything conduct can build, conduct can damage, and nothing driven by conduct
+is permanent by construction.
+
+**The instance this was decided against, measured at `de6a71cc`.** Agreeing to
+work on coursework together writes one relationship interaction of kind
+`work:shared-coursework` with `change: "formed"`
+(`src/simulation/people-study.ts:270-284`). Being turned down writes nothing at
+all — the comment says "Being turned down is not a grievance", so a refusal
+leaves no trace. That interaction is then read by `deriveRelationshipSummary`
+(`src/simulation/queries.ts:230-263`), which sums a signed magnitude over every
+interaction ever recorded and buckets the total: below zero is estranged, three
+or more is close.
+
+Two consequences, both now decided against:
+
+- **The sum is monotonic in time.** Only an explicitly negative interaction
+  lowers it, and no amount of elapsed time does. So three ordinary agreeable
+  exchanges make two people close, and they remain close for the rest of both
+  lives whatever either of them does or does not do afterwards.
+- **Proximity alone is doing the work.** Nothing in that path reads either
+  person's temperament, their conduct toward each other, or anything they chose.
+  Co-enrollment plus one agreement is the whole mechanism.
+
+**What this does not settle, and is filed for research rather than assumed.**
+Which conduct should move a relationship and in which direction, which traits
+should bear on it and how much, and at what pace a relationship should fade
+when nothing happens. The pace question is the same shape as the one he already
+answered for personality, where how hard something is to move depends on how
+strongly it is held (see the personality-change work of the same day), and the
+answer here should be consistent with that rather than invented separately.
+
+**Not to be read as.** Not a decision that college should have no cohort. The
+opposite: putting people in a college is the half that is missing, since there
+is currently nobody there at all. What is refused is the bond arriving with
+them.
+
+## D-093 — People decide their own positions, positions change, and a party does not decide for its members
+
+**Decided by the owner, 2026-09-22**, on being shown that no ordinary person in
+the game has a party and that a person's position inside a party is a seeded
+draw reading nothing about them. His words: "people need to decide themselves.
+and that can change. and their party doesnt solely define their decisions. just
+like real life".
+
+**What this rules out.** Three designs are now out of scope, and none of them
+needs proposing again:
+
+- **Deriving a position from a party.** The causation runs the other way, or at
+  least not only that way. A party may follow from what somebody holds; what
+  somebody holds does not follow from their party.
+- **A position decided once and never revisited.** He said explicitly that it
+  can change, which is the same shape he already settled for personality, where
+  how hard something is to move depends on how strongly it is held.
+- **Party membership as a predictor** that decides how a member votes or acts.
+  A party is not a proxy for its members' convictions.
+
+**What it does not settle**, and is filed for research as
+`where-a-persons-politics-comes-from` rather than assumed: what a person draws
+on to decide a position, what weight each thing carries, and at what pace a
+position moves.
+
+**The requirement this joins.** Three things previously read as separate gaps
+are one requirement, and answering them separately would produce three
+unrelated mechanisms:
+
+> A person's own character and history decide their positions; their positions
+> and their conduct decide their relationships; and their party follows from
+> those rather than preceding them.
+
+The three faces, measured at `1eb5e30e`: no ordinary person holds a party at
+all, because affiliation is written only for seated executives, chapter
+organizers, and the consequences of party evolution
+(`living-world/opening.ts:390`, `party-chapters.ts:195`, `party-evolution.ts:308`);
+a person's position inside a party is a coin flip, because `partyActorStance`
+(`party-evolution.ts:161-175`) forks the world seed on the person and the
+question and reads no trait, value, goal, life event or relationship; and a
+private belief cannot be recorded at all, because every writer requires a
+policy proposition and the loaded pack declares none. See also D-092, which
+settles the relationship half of the same requirement.
+
+> Numbering note: appended as D-093 at 15:50Z on `claude/people-and-life-4qpuwb`.
+> If another lane claimed the number first, renumber this entry rather than the
+> one already on main, as the note under D-091 records.
+
+## D-094 — No source or provenance reference on any player-facing surface; amends principle 31
+
+**Decided by the owner, 2026-09-22 21:42Z.** Principle 31 of
+`docs/GAME-CONSTITUTION.md` said "Explanations and sources should be available
+on demand", while his standing rule is that no source or provenance reference
+appears anywhere a player can see. Asked which should win, he answered "yeha
+amend it".
+
+**The amendment.** Principle 31 now reads that explanations may be available on
+demand, but source and provenance references never appear on any player-facing
+surface, on demand or otherwise. The earlier wording is kept inline in the
+principle, marked as amended by this entry, so the change can be audited from
+either document.
+
+**What this settles.**
+
+- An on-demand disclosure panel is still a player-facing surface. A "Sources"
+  triangle, a citation printed under a refusal, and a link out to a statute are
+  all ruled out, whatever the panel is labelled.
+- Provenance is not deleted. It stays on the records, where a reviewer, an
+  auditor or the diagnostics-gated developer view reads it.
+- An explanation of how a rule works is still allowed and encouraged. What goes
+  is where the rule came from: "a term here lasts four years" is an
+  explanation; "compiled from RCW 43.01.010" is a source.
+
+**How it is held.** `src/player/no-source-panel-on-a-player-screen.test.ts`
+(landed with #394) refuses any `src/player` line outside a diagnostics gate
+that offers a sources or citations panel, reads a citation field, or links off
+the game.
