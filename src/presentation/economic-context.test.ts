@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { playerEconomicContextLines } from "./economic-context";
+import {
+  economicContextPlaceKeys,
+  playerEconomicContextLines,
+} from "./economic-context";
+import lexington from "./generated/economic-context-lexington.json";
 
 describe("player economic context projection", () => {
   it("provides dated, bounded Lexington context on a normal-player seam", () => {
@@ -65,5 +69,37 @@ describe("player economic context projection", () => {
     );
     expect(second).toEqual(first);
     expect(second).not.toBe(first);
+  });
+
+  /**
+   * The sentences used to name Fayette County, Kentucky and Lexington-Fayette
+   * as literals, so a second registered city would have been described with
+   * this one's geography. These hold the words to the generated file.
+   */
+  it("names the geography its own generated file names", () => {
+    const observations = (
+      lexington as unknown as {
+        observations: readonly {
+          sourceSeriesKey: string;
+          geography: { providerName: string };
+        }[];
+      }
+    ).observations;
+    const nameFor = (key: string) =>
+      observations.find((o) => o.sourceSeriesKey === key)!.geography
+        .providerName;
+    const lines = playerEconomicContextLines("lexington-fayette", "2026-09-09");
+    for (const line of lines) {
+      expect(line.text).toContain(nameFor(line.key));
+    }
+    expect(lines.map((line) => line.key)).toEqual([
+      "bea.cainc1.3",
+      "bls.laus.lasst210000000000003",
+      "hud.fmr.2-bedroom",
+    ]);
+  });
+
+  it("says which places this build can speak about at all", () => {
+    expect(economicContextPlaceKeys()).toEqual(["lexington-fayette"]);
   });
 });

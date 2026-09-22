@@ -28,14 +28,27 @@ export type RunBPendingContribution =
   | "reed-offer-verification"
   | "collins-respond-to-reed";
 
+/**
+ * The facts the office briefing is about.
+ *
+ * Every field was a string-literal type naming the one authored sitting's own
+ * words, so a second constituent-services packet could not be written even
+ * though the shape was already right — and the briefing renderer restated the
+ * same words as literals anyway rather than reading them. The values that
+ * ship are unchanged; what changed is that they are now data the renderer
+ * reads, and a second packet is a second object rather than a type edit.
+ */
 export interface RunBConversationSubjectFacts {
-  readonly constituentDescription: "three Lexington tenants";
-  readonly officeRole: "constituent-services referral";
-  readonly referralDestination: "county emergency-rent program";
-  readonly requiredDocument: "proof-of-income form";
-  readonly knownAffectedReferralCount: 2;
-  readonly unresolvedReferralOrdinal: 3;
-  readonly proposedOfficeProcedure: "pre-referral document checklist";
+  /** Who came to the office, as the briefing would say it: "three X tenants". */
+  readonly constituentDescription: string;
+  readonly officeRole: string;
+  readonly referralDestination: string;
+  readonly requiredDocument: string;
+  /** How many referrals are known to have been blocked. */
+  readonly knownAffectedReferralCount: number;
+  /** Which referral is still unresolved, counting from one. */
+  readonly unresolvedReferralOrdinal: number;
+  readonly proposedOfficeProcedure: string;
 }
 
 /**

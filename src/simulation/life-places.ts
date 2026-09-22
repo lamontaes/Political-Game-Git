@@ -616,10 +616,38 @@ function authoredPlaceMatchesQuery(
   );
 }
 
+/** Whether a place is the one whose name was typed, rather than one containing it. */
+function namesExactly(place: LifePlace, needle: string): boolean {
+  if (needle.length === 0) return false;
+  const name = place.displayName.toLowerCase();
+  return (
+    name === needle ||
+    name.startsWith(`${needle},`) ||
+    (place.formalName ?? "").toLowerCase() === needle
+  );
+}
+
+/**
+ * Search order: the place actually named first, then everything else by name.
+ *
+ * Ordering by display name alone is the reason a player who typed "Columbus"
+ * in Ohio was offered Columbus Grove above Columbus — a space sorts before a
+ * comma, so every longer name beginning with the query came first. Worse, the
+ * limit is applied after the sort, so on a common name the place the player
+ * typed could be cut from the page entirely.
+ *
+ * This only moves an exact name to the front. It does not pin an authored
+ * hometown, and with no query (a state's whole list) nothing matches exactly,
+ * so that listing stays alphabetical as before.
+ */
 function compareLifePlaceSearchOrder(
   left: LifePlace,
   right: LifePlace,
+  needle: string,
 ): number {
+  const leftExact = namesExactly(left, needle);
+  const rightExact = namesExactly(right, needle);
+  if (leftExact !== rightExact) return leftExact ? -1 : 1;
   const byName = left.displayName.localeCompare(right.displayName, "en", {
     sensitivity: "base",
   });
@@ -687,7 +715,9 @@ export function searchLifePlaces(
     }
   }
 
-  matches.sort(compareLifePlaceSearchOrder);
+  matches.sort((left, right) =>
+    compareLifePlaceSearchOrder(left, right, needle),
+  );
   return matches.slice(0, limit);
 }
 
@@ -791,6 +821,56 @@ export function stateJurisdictionForKey(key: string): Jurisdiction | null {
       status: "placeholder",
     },
   };
+}
+
+/**
+ * State jurisdiction slugs minted before this module owned the shape.
+ *
+ * The same state can arrive in a World along two paths that mint different
+ * stable ids for it: the places corpus builds `state-us-ky-placeholder`, while
+ * an authored legislative scenario builds `us-ky-commonwealth-placeholder`.
+ * Both are correct records of the state; neither can be renamed, because the
+ * id is derived from the slug and saved worlds carry it.
+ *
+ * So the two are reconciled by declaration rather than by changing either. Any
+ * consumer asking "which state is this jurisdiction?" reads the slug and gets
+ * the same answer for both, which is what lets a nationwide feature cross the
+ * two paths without comparing display names — a name test silently fails the
+ * moment two jurisdictions share one, and says nothing about identity.
+ *
+ * A new state jurisdiction does not belong here. It takes the corpus form.
+ */
+const AUTHORED_STATE_JURISDICTION_SLUGS: Readonly<Record<string, string>> = {
+  "us-ky-commonwealth-placeholder": "US-KY",
+  "us-ne-state-placeholder": "US-NE",
+  "us-ak-state-placeholder": "US-AK",
+};
+
+/** The corpus form: `state-us-ky-placeholder`. */
+const CORPUS_STATE_SLUG = /^state-(us-[a-z]{2})-placeholder$/;
+
+/**
+ * The state key a jurisdiction slug names, or null if the slug does not name a
+ * state. A slug this module does not recognise is not a state by default:
+ * unknown is unknown, never a guess at the nearest state.
+ */
+export function stateKeyForJurisdictionSlug(slug: string): string | null {
+  const authored = AUTHORED_STATE_JURISDICTION_SLUGS[slug];
+  if (authored) return authored;
+  const corpus = CORPUS_STATE_SLUG.exec(slug);
+  if (!corpus) return null;
+  const key = corpus[1]!.toUpperCase();
+  return STATES[key.slice(3)] ? key : null;
+}
+
+/**
+ * The state key a jurisdiction record belongs to, whichever path minted it.
+ * A locality is not its state, so a city record answers null.
+ */
+export function stateKeyForJurisdiction(
+  jurisdiction: Pick<Jurisdiction, "slug">,
+): string | null {
+  return stateKeyForJurisdictionSlug(jurisdiction.slug);
 }
 
 export function lifePlaceByKey(key: string): LifePlace | null {

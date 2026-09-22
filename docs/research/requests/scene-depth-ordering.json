@@ -1,0 +1,37 @@
+{
+  "filedAt": "2026-09-22T04:45:00.000Z",
+  "impact": "blocks-work",
+  "lane": "hardcoded-content audit",
+  "notes": [
+    "Filed from the owner's own words on 2026-09-22: the game cannot figure out the z space, the depth, and that is an assumption. The second half is the precise part. There is a depth model; what is authored rather than computed is the ordering.",
+    "It is worth saying plainly that the question is narrower than 'how does 2.5D depth work', because the repository already implements the usual answer and an answer that re-derives it would cost a round trip. What is wanted is the rule that turns a figure's own position into its place in the order, and what has to be recorded for that rule to be applicable.",
+    "The honest failure today is not visible breakage in the shipped rooms — one author places each anchor and gets it right. It appears the moment a figure moves within a room, or a room is authored by somebody who did not also place every figure in it.",
+    "An answer that says the authored order is correct and should stay, with the condition under which it stops being correct, is a real answer and would close this."
+  ],
+  "priority": "P1",
+  "question": "In a layered 2D scene where figures stand on a floor drawn in perspective, what rule should decide which figure or object paints in front of which — and what must a scene and a figure each record for that rule to be computable rather than asserted by whoever authored the room?",
+  "questionId": "scene-depth-ordering",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "hardcoded-content audit thread",
+  "sourcesChecked": [
+    {
+      "source": "src/presentation/scene-registry.ts, the runtime scene contract, read on main 273fd2b8",
+      "whatItDidNotSettle": "The depth model exists and is more complete than the question implies, which is why the question is narrow. Each anchor carries a zOrder, described in the file's own comment as paint order, with the note that perspective depth is derived from contacts rather than from it. Each anchor also carries contactFloorYPercent, the floor line it stands or sits on, and that is what perspective scale is interpolated from. Occluders are first-class, with their own zOrder, a region and a plate clip. What it does not establish is where a figure belongs in the order when it is not standing at an authored anchor: zOrder is a number the author of the room wrote down."
+    },
+    {
+      "source": "src/presentation/scene-placement.ts, which places a body at an anchor",
+      "whatItDidNotSettle": "Computes scale from the contact floor line, checks the sprite against the anchor's footprint and foot spread, and returns the placement carrying the anchor's zOrder through unchanged. So scale is computed from geometry and order is copied from authoring. That asymmetry is the whole of this question. It cannot say what the order should be, because nothing asks it to."
+    },
+    {
+      "source": "src/presentation/scene-occlusion.ts and the seat-contact work in the character rendering triage lane",
+      "whatItDidNotSettle": "Occluders can be released and plate clips applied, and seat contact is recorded per anchor, so a seated figure meets its chair at a known line. That is the nearest measured ground the project has and it is cited as context, not as an answer: it establishes that the game knows where a figure touches the world, and says nothing about ordering two figures against each other."
+    },
+    {
+      "source": "The shipped rooms themselves",
+      "whatItDidNotSettle": "They look right, which is evidence that the authored orders are correct for the figures currently placed in them. It is not evidence that the rule generalises, and it is why this reads as an assumption rather than a bug."
+    }
+  ],
+  "title": "What should decide which figure paints in front of which",
+  "usableAnswer": "A rule stated so it could be implemented, plus what it needs recorded. For example, and only as an example of the shape: order by the y of the contact point with the floor, tie-broken by something named, with objects that a figure can stand behind carrying their own contact line so they enter the same order. Where the rule breaks — a figure partly behind and partly in front of a long object, something hung on a wall, a figure lying down — say what the scene has to declare instead. Saying that some cases cannot be ordered by a rule and must stay authored is useful, if it names which.",
+  "whyItMatters": "The owner wants a graphics skeleton in this release, and the part he has named as an assumption is depth. The pieces are built — contact lines, perspective scale, occluders, hitboxes — and the ordering on top of them is a number an author writes per anchor. That holds while one person places every figure in a room and stops holding the moment a figure moves within a scene or a room is reused, which is exactly what an interactive environment requires. Getting this wrong is not subtle on screen: a person stands inside the furniture."
+}
