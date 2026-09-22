@@ -203,7 +203,10 @@ export function TaxWorkWorkspace({
          */
         <details>
           <summary>Prepare an authored tax proposal</summary>
-          <p>Your current office has a sourced state tax-power baseline.</p>
+          <p>
+            Your current office can propose a change to this state's taxing
+            power.
+          </p>
           <fieldset className="tax-work-step">
             <legend>1. Objective: what the tax is for</legend>
             <label>

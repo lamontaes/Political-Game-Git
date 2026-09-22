@@ -278,16 +278,6 @@ export function EducationOptionsPanel({
                 </li>
               ))}
           </ul>
-          <details>
-            <summary>Source evidence</summary>
-            <ul>
-              {institution.evidence.map((e) => (
-                <li key={e.artifactId}>
-                  {e.artifactId}, {e.member}, row {e.row}; SHA-256 {e.sha256}
-                </li>
-              ))}
-            </ul>
-          </details>
         </section>
       )}
       {pendingEducationOffers(world).map((offer) => {
