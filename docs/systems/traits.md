@@ -111,8 +111,36 @@ consulted inside a legislature until whoever owns the trait widens it, and that
 widening is a visible edit to the trait's own declaration rather than an
 invisible read somewhere else.
 
+This is **not** the existing `scopeTags` on a record, and the two must not
+blur. A record's `scopeTags` says where a reading _came from_ — what the writer
+was doing when it established this. The declaration's `scopes` says where the
+trait _may be read_. Both are needed and they answer different questions: one
+is provenance, the other is permission. Note also that the five people traits
+do not tag `life:ordinary` — they write `people-mind-v1.seed` and
+`people-mind-v1.change`; it is the separate `life-personality.ts` tendency set
+that writes `life:ordinary`. And `assertTags` checks only that a tag is
+non-empty and not duplicated, so nothing today validates that a tag names
+anything real, and nothing enforces either question.
+
 `conferredBy` is `"seeded"`, `"player"` or `"conferred-only"`. The five are
 `"seeded"`. See "The player's own temperament" below.
+
+#### The value scale belongs to the pack, not to the store
+
+A trait's value round-trips through the mind store as an `expressionKey` plus a
+`MindStrength`. Today `encode`/`decode` in `people-traits.ts` hardcode one
+mapping — balanced to `subtle`, ±1 to `moderate`, ±2 to `strong` — and that
+mapping is a property of _these five traits_, not of the store. A pack declares
+its own, and the framework owns the round-trip contract rather than assuming
+five-point symmetry.
+
+This closes a live asymmetry worth naming. `MindStrength` has four values and
+`encode` never writes `defining`, but `decode` reads `defining` as 2, the same
+as `strong`. So a record carrying `defining` — hand-authored, migrated, or
+written by a pack that thought it meant something — decodes to a value
+indistinguishable from `strong`, silently, with nothing anywhere saying so. A
+pack declaring its own scale must declare every strength it uses, and a record
+whose strength the pack does not declare is rejected at load, naming the row.
 
 ### An effect is authored as data, against a decision that publishes itself
 
@@ -232,6 +260,25 @@ a player picks for their own character is a real thing to want and this is the
 field it would arrive through, but it needs an answer to "what consults it, and
 when does a trait decide something for the player" that nobody has given yet.
 Declaring the field and not implementing it is deliberate.
+
+### Why this does not reuse `RuleValue<T>`
+
+`legislature-rules.ts` already carries the project's three-way — known,
+unknown-with-a-note, not-applicable — and a second vocabulary for absence is a
+fair objection. Not adopting the type, for a stated reason.
+
+`RuleValue`'s known arm carries a `RuleSourceRef`: a citation to an external
+published rule. A trait reading's citation is a `tendencyRecordId` inside this
+world's own history, which is not that kind of thing. And not-applicable and
+unrecorded are genuinely different states: a chamber with no conference
+procedure is not a chamber whose conference procedure nobody looked up. One
+type over both would make the trait side carry a source kind it cannot fill and
+an arm it cannot mean.
+
+What is taken is the discipline rather than the type: a note is mandatory, no
+reader may collapse two states into one, and `requireKnown`'s rule — that the
+two absent states throw _different_ errors so a caller can never silently treat
+one as the other — is the pattern the trait reader follows.
 
 ## What this deliberately does not do
 
