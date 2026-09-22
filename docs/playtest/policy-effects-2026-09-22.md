@@ -306,9 +306,18 @@ Named concretely, in the order they block each other.
 1. **A bill has to be about something.** `introduceMeasure` already takes
    `policyAlternativeIds`; no caller passes it. A policy alternative already
    carries a `propositionId` and quantitative metric operations (set-level,
-   absolute-change, relative-change, share-of-baseline, cap, floor). The six
-   sites that introduce measures would have to attach the bill's policy content
-   at filing. Until then a bill has nothing an effect could read.
+   absolute-change, relative-change, share-of-baseline, cap, floor). **Seven**
+   sites call `introduceMeasure` and not one passes the field:
+   `presentation/legislation-bundle-docket.ts:343`,
+   `presentation/legislation-docket.ts:951`,
+   `presentation/legislation-world.ts:434`, `presentation/tax-work.ts:47`,
+   `simulation/governing/legislative-clock.ts:706`,
+   `simulation/legislation-scenarios.ts:732` and
+   `simulation/municipal-public-work.ts:1673`. Each would have to attach the
+   bill's policy content at filing. Until then a bill has nothing an effect
+   could read. (An earlier count of six, carried in project memory, was short by
+   one and named a stale line number; the seven above were re-grepped at this
+   head.)
 2. **The world has to keep the figure the law would move.** That means a world
    metric definition in a player's save — `labor.employed-count` or a cost level
    or a jurisdiction's own revenue — which today the production boundary refuses
