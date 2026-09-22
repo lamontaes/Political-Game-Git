@@ -33,17 +33,9 @@
   "targetClass": "environment-plate",
   "title": "The Tennessee State Capitol, seen from outside",
   "visualContext": {
-    "builtForm": [
-      "state-capitol",
-      "masonry-civic"
-    ],
+    "builtForm": ["state-capitol", "masonry-civic"],
     "note": "Leaf-on months only. A winter view is a separate request wherever snow on the building is normal, because one plate cannot honestly stand for both and a bare-branch capitol shown in July is the same error as a summer canopy shown in January.",
-    "seasons": [
-      "spring",
-      "summer",
-      "autumn"
-    ]
+    "seasons": ["spring", "summer", "autumn"]
   },
   "whyNeeded": "The state step is one of four steps in the opening and the only one with no artwork behind it, so every life in every state begins on an unillustrated screen naming a government the player has never seen. Tennessee's capitol is already a recorded building identity in the reference corpus, so this asks for a picture of something the project has already established rather than for a new invention."
 }
-

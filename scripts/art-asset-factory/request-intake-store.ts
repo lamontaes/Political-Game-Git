@@ -9,7 +9,7 @@
 import fs from "fs";
 import path from "path";
 
-import { toCanonicalJson } from "../../src/authoring/canonical-json";
+import { writeFormatted } from "./write-formatted";
 import {
   ART_REQUEST_INTAKE_DIRECTORY,
   type ArtRequestIntakeRecord,
@@ -80,11 +80,18 @@ export class IntakeFileExistsError extends Error {}
 /**
  * Write one record. Refuses to overwrite: a second ask about the same gap is
  * either the same request (leave it) or a different one (give it its own id).
+ *
+ * The record goes out through `writeFormatted` rather than canonical JSON
+ * because `art/requests/incoming/` is checked in and `npm run format` checks
+ * it. Canonical JSON expands every array one entry per line; Prettier collapses
+ * a short one. The two disagree on every record carrying a `seasons` or
+ * `builtForm` list, so filing a request used to leave the formatter red for
+ * whoever pushed next.
  */
-export function writeIntakeRecord(
+export async function writeIntakeRecord(
   repositoryRoot: string,
   record: ArtRequestIntakeRecord,
-): string {
+): Promise<string> {
   const directory = intakeDirectory(repositoryRoot);
   fs.mkdirSync(directory, { recursive: true });
   const filePath = path.join(directory, `${record.requestId}.json`);
@@ -93,6 +100,6 @@ export function writeIntakeRecord(
       `'${record.requestId}' is already filed at ${filePath}. Read it first: if it is the same gap, nothing more is needed; if it is a different one, give it its own id.`,
     );
   }
-  fs.writeFileSync(filePath, `${toCanonicalJson(record)}\n`);
+  await writeFormatted(filePath, `${JSON.stringify(record, null, 2)}\n`);
   return filePath;
 }

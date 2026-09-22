@@ -256,9 +256,25 @@ describe("Art Desk projection and briefs", () => {
     // repair — a seated body free of furniture, reached by drawing a new one OR
     // by repairing the old ones — so offering it for generation is now correct,
     // and holding it would suppress the cheaper of the two routes.
+    // The ten state capitol exteriors are listed one by one rather than
+    // matched by prefix. This assertion exists so that nothing becomes
+    // offerable for generation without someone writing it down, and a prefix
+    // would hand that back: the eleventh capitol would appear on the Desk with
+    // no test changing. They are eligible because they are queued, uncovered
+    // and unheld, which is what a request with no artwork yet should be.
     expect(eligible.map((item) => item.request.requestId).sort()).toEqual([
       "env-neighborhood-doorstep-generic",
       "env-park-community-pavilion-winter-variant",
+      "env-state-capitol-california",
+      "env-state-capitol-kentucky",
+      "env-state-capitol-minnesota",
+      "env-state-capitol-nebraska",
+      "env-state-capitol-new-mexico",
+      "env-state-capitol-new-york",
+      "env-state-capitol-north-dakota",
+      "env-state-capitol-tennessee",
+      "env-state-capitol-texas",
+      "env-state-capitol-virginia",
       "seated-chair-separation-hand-pass",
     ]);
   });

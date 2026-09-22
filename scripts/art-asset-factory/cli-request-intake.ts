@@ -57,7 +57,6 @@ import {
   loadIntakeRecords,
   writeIntakeRecord,
 } from "./request-intake-store";
-import { toCanonicalJson } from "../../src/authoring/canonical-json";
 import { writeFormatted } from "./write-formatted";
 
 /** The registry the Art Desk reads. Committing to it is how a request is sent. */
@@ -111,7 +110,7 @@ if (command === "file") {
     process.exit(1);
   }
   try {
-    const written = writeIntakeRecord(repositoryRoot, record);
+    const written = await writeIntakeRecord(repositoryRoot, record);
     console.log(
       `Filed ${record.requestId} at ${path.relative(repositoryRoot, written)}`,
     );
@@ -261,9 +260,9 @@ if (command === "file") {
       repositoryRoot,
       `${ART_REQUEST_INTAKE_DIRECTORY}/${argument}.json`,
     );
-    fs.writeFileSync(
+    await writeFormatted(
       recordPath,
-      `${toCanonicalJson({ ...record, promotedToRequestId: entry.requestId })}\n`,
+      `${JSON.stringify({ ...record, promotedToRequestId: entry.requestId }, null, 2)}\n`,
     );
     console.log(
       `Closed the intake record: it now names the bench request it became, so the open queue stops offering it again.`,
