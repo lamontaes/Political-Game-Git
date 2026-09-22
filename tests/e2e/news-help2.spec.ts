@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
 
 test("inline civic help supports keyboard focus, Escape, and read purity", async ({
   page,

@@ -63,7 +63,7 @@ import {
   homePartyChapters,
   type HomePartyChapter,
 } from "./living-world/party-chapters";
-import { drawCanonicalName, personName } from "./people";
+import { drawCanonicalNamedIdentity, personName } from "./people";
 import { generatePersonIdentity } from "./person-identity";
 import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
 import { positionOwnerEndpoint, resourcePositionAt } from "./resource-queries";
@@ -1075,8 +1075,10 @@ function ensureContactPerson(
     rng.integer(LIFE.contactAgeYears[0], LIFE.contactAgeYears[1] + 1);
   const next = createCharacterHistoryContextPerson(world, {
     stableKey,
-    ...drawCanonicalName(rng.fork("name")),
-    identity: generatePersonIdentity(rng.fork("identity")),
+    ...drawCanonicalNamedIdentity(
+      rng.fork("name"),
+      generatePersonIdentity(rng.fork("identity")),
+    ),
     birthDate: makeIsoDate(
       `${year}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
     ),

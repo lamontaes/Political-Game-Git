@@ -259,28 +259,13 @@ test("the human Art Desk: named cards, lineage, small filters, brief copy and do
     "Is this an image to review or a request?",
   );
 
+  // Style references, rejected and removed art are off the desk: no tab
+  // lists or loads them (their history stays in the store).
+  for (const offDesk of ["references", "archived", "rejected", "library"])
+    await expect(page.getByTestId(`art-desk-tab-${offDesk}`)).toHaveCount(0);
+
   // A failed write keeps this exact review visible. A successful canonical
   // decision removes it immediately, without a browser reload or history loss.
-  for (const [action, destination] of [
-    ["Use as style reference", "references"],
-    ["Remove from review", "archived"],
-  ] as const) {
-    await page
-      .getByTestId("art-desk-detail")
-      .getByRole("button", { name: action, exact: true })
-      .click();
-    await expect(card).toHaveCount(0);
-    await page.getByTestId(`art-desk-tab-${destination}`).click();
-    await expect(card).toBeVisible();
-    await card.click();
-    await page
-      .getByRole("button", { name: "Return to review queue", exact: true })
-      .click();
-    await expect(card).toHaveCount(0);
-    await page.getByTestId("art-desk-tab-needs-review").click();
-    await expect(card).toBeVisible();
-    await card.click();
-  }
   const eventsRoute = "**/__dev/artbench/events";
   await page.route(eventsRoute, async (route) => {
     if (route.request().postDataJSON()?.type === "review.decided") {
@@ -336,11 +321,16 @@ test("the human Art Desk: named cards, lineage, small filters, brief copy and do
   await expect(page.getByTestId("art-desk-status")).toContainText(
     "Rejected. Moved",
   );
+  // Rejected art leaves the desk; the store keeps its decision history.
   await expect(card).toHaveCount(0);
-  await page.getByTestId("art-desk-tab-rejected").click();
-  await expect(card).toBeVisible();
-  await expect(card).toContainText("Rejected");
-  await page.screenshot({ path: info.outputPath("rejected-with-history.png") });
+  const afterReject = await page.evaluate(async () => {
+    const response = await fetch("/__dev/artbench/state");
+    if (!response.ok)
+      throw new Error(`State fetch failed (${response.status})`);
+    return response.json();
+  });
+  expect(afterReject.projection.candidates[repair].status).toBe("rejected");
+  await page.screenshot({ path: info.outputPath("rejected-off-desk.png") });
 });
 
 test("returned images keep the exact original reference accessible", async ({

@@ -59,6 +59,11 @@ const TRANSIT_ACCESS: ProgramFamily = {
   variants: [
     {
       variantKey: "enrollment-fare-relief",
+      // Free rides for enrollees is a bill about whether transit should be
+      // free to ride. The formula extension below is not, and says nothing.
+      propositionKeys: [
+        "us-policy-positions:transportation-infrastructure.fare-free-transit",
+      ],
       instrument: "programme-authorization",
       label: "Fare relief for assistance enrollees",
       synopsis:
@@ -397,6 +402,11 @@ const BRIDGE_MAINTENANCE: ProgramFamily = {
   variants: [
     {
       variantKey: "worst-first-condition",
+      // A repair programme for structures already standing is a bill about
+      // funding upkeep ahead of new construction.
+      propositionKeys: [
+        "us-policy-positions:transportation-infrastructure.fix-it-first",
+      ],
       instrument: "programme-authorization",
       label: "Worst-first repair",
       synopsis:
@@ -559,6 +569,11 @@ const BRIDGE_MAINTENANCE: ProgramFamily = {
     },
     {
       variantKey: "preventive-cycle",
+      // A repair programme for structures already standing is a bill about
+      // funding upkeep ahead of new construction.
+      propositionKeys: [
+        "us-policy-positions:transportation-infrastructure.fix-it-first",
+      ],
       instrument: "programme-authorization",
       label: "Preventive treatment cycle",
       synopsis:
