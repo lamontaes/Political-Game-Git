@@ -61,11 +61,8 @@ function withoutShippedContent(serialized: string): string {
   };
   delete parsed.snapshotId;
   delete parsed.world.policyCatalog;
-  parsed.world.history.organizationProfiles =
-    parsed.world.history.organizationProfiles.map((profile) => {
-      const { name: _name, ...rest } = profile;
-      return rest;
-    });
+  for (const profile of parsed.world.history.organizationProfiles)
+    delete profile.name;
   return JSON.stringify(parsed);
 }
 describe("versioned canonical earlier life", () => {
