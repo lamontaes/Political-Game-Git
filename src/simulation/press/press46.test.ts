@@ -316,6 +316,21 @@ describe("PRESS46 false public allegation", () => {
     );
   });
 
+  it("asks only the accused to answer, never the rival who made the allegation", () => {
+    const lead = storyLeads(later).find(
+      (l) => l.matterId === pressRecordsOfKind(later, "matter")[0]!.id,
+    )!;
+    expect(lead.subjectPersonIds).toContain(fixture.rivalId);
+    expect(
+      later.history.events.some(
+        (e) =>
+          e.type === "press.subject-responded" &&
+          e.stableKey.startsWith(`${lead.stableKey}:`) &&
+          e.participants.some((p) => p.personId === fixture.rivalId),
+      ),
+    ).toBe(false);
+  });
+
   it("a correction is appended, and the original stays exactly as published", () => {
     const stories = (later.history.publications ?? []).filter((p) =>
       p.outletKey.startsWith("media:"),
