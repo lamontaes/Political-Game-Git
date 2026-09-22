@@ -551,6 +551,7 @@ export function renderOpenQuestions(
     lines.push(
       "Nothing is open. Every filed question has an answer on it.",
       "",
+      ...FOR_THE_READER,
     );
     return lines.join("\n");
   }
@@ -593,8 +594,45 @@ export function renderOpenQuestions(
     }
   }
 
+  lines.push(...FOR_THE_READER);
   return lines.join("\n");
 }
+
+/**
+ * The closing note every render carries, addressed to whoever answers these.
+ *
+ * It lives here rather than being typed into the upload, because the copy that
+ * travels to Drive is a render and a render is a copy. A sentence written
+ * straight into the upload never reaches this repository, and the next render
+ * drops it without saying so — which is exactly how a published document and
+ * its source diverge inside an hour.
+ */
+const FOR_THE_READER: readonly string[] = [
+  "-----",
+  "",
+  "## For whoever is answering these",
+  "",
+  "A question belongs here if no explicit research has been done on it. That is",
+  "the owner's instruction and it is wider than the test this queue used to",
+  "apply, which asked whether a question was bulky enough to be worth handing",
+  "over. So expect this document to grow, and expect more of it to be judgement",
+  "than citation: design questions belong here too, not only factual surveys.",
+  "",
+  'Two kinds of answer are worth as much as a filled-in table. "It depends, and',
+  'here is what it depends on" is a real answer to a design question. So is "I',
+  'checked and could not establish this", with what was checked — which beats a',
+  "plausible guess, because a guess silently disables the refusal that would",
+  "otherwise have told somebody the fact was missing.",
+  "",
+  "Replies go in **CHATGPT REPLIES TO CLAUDE — CURRENT**, or the Art Bench",
+  "exchange when the subject is art. A reply left as a comment on this document",
+  "never arrives: our Drive connector cannot read comments at all, on any",
+  "document, so the channel reads as silent while you are answering.",
+  "",
+  "Superseded renders of this document are renamed and archived rather than",
+  "binned, so anything left on an older copy survives.",
+  "",
+];
 
 /** One line per open question, for a terminal. */
 export function summarizeOpenQuestions(
