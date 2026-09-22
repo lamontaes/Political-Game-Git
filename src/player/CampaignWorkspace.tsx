@@ -33,6 +33,7 @@ import {
 } from "./campaign-planning-layout";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import { OpponentActivityPanel } from "./OpponentActivityPanel";
+import { moneyText } from "../simulation/money-text";
 
 /**
  * Running for something.
@@ -63,7 +64,7 @@ export interface CampaignWorkspaceProps {
 }
 
 function money(amount: MoneyAmount): string {
-  return `${amount.currency} ${(amount.minorUnits / 100).toFixed(2)}`;
+  return moneyText(amount);
 }
 
 const MONTHS = [

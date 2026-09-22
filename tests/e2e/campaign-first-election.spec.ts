@@ -314,15 +314,13 @@ test.describe("A life can stand for something", () => {
     await expect(page.getByTestId("campaign-band")).toContainText(
       /for the House of Representatives/i,
     );
-    await expect(page.getByTestId("campaign-treasury")).toContainText(
-      "USD 0.00",
-    );
+    await expect(page.getByTestId("campaign-treasury")).toContainText("$0.00");
     await expect(page.getByTestId("campaign-no-memo")).toBeVisible();
 
     // An afternoon on the phones puts money in the committee's account.
     await page.getByTestId("campaign-fundraising").click();
     await expect(page.getByTestId("campaign-treasury")).not.toContainText(
-      "USD 0.00",
+      "$0.00",
     );
 
     // An afternoon on the doors produces a memo, and the memo admits a margin.
@@ -381,7 +379,7 @@ test.describe("A life can stand for something", () => {
     const report = page.getByTestId("campaign-strategy-report");
     await expect(report).toBeVisible();
     await expect(report).toContainText(/player chose/i);
-    await expect(report).toContainText(/with a ceiling of USD 0\.00/i);
+    await expect(report).toContainText(/with a ceiling of \$0\.00/i);
     await expect(report).toContainText(/Kentucky/i);
     await expect(page.getByTestId("campaign-memo")).toBeVisible();
     expect(errors).toEqual([]);

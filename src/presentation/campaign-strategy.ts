@@ -19,6 +19,7 @@ import {
   projectCampaign,
   spendPlannedCampaignAction,
 } from "./campaign-projection";
+import { moneyText } from "../simulation/money-text";
 
 /**
  * Feature-local campaign conversation contract.
@@ -86,7 +87,7 @@ export interface CampaignStrategyReport {
 }
 
 function money(amount: MoneyAmount): string {
-  return `${amount.currency} ${(amount.minorUnits / 100).toFixed(2)}`;
+  return moneyText(amount);
 }
 
 function zero(currency: CurrencyCode): MoneyAmount {

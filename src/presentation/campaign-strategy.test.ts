@@ -24,6 +24,7 @@ import {
   projectLatestCampaignStrategyReport,
 } from "./campaign-strategy";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
+import { moneyText } from "../simulation/money-text";
 
 function soloCampaign(seed: string) {
   const built = buildProductionWorld({
@@ -134,7 +135,7 @@ describe("the first staff-strategy campaign interaction", () => {
     expect(advertising.spendingChoices.length).toBeGreaterThan(1);
     expect(
       advertising.spendingChoices.every((choice) =>
-        choice.label.includes(choice.amount.currency),
+        choice.label.includes(moneyText(choice.amount)),
       ),
     ).toBe(true);
 
