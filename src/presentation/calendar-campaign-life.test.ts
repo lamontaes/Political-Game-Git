@@ -116,7 +116,7 @@ describe(
       ).toBeNull();
     });
 
-    it("recognises an accepted remote phone shift, and says the venue route cannot play it", () => {
+    it("routes an accepted remote phone shift to its campaign writer", () => {
       const shift = acceptedPhoneShift("calendar-bridge-a");
       const entry = calendarCampaignLifeEntry(
         shift.world,
@@ -126,8 +126,8 @@ describe(
       );
       expect(entry).not.toBeNull();
       expect(entry!.lifeActivityId).toBe(shift.lifeActivityId);
-      // The phone shift is worked from home; there is no scene venue to travel
-      // to, so only the lane's own route can complete it.
+      // Remote shifts have no journey. The campaign writer resolves their
+      // routine holds without requiring a physical venue.
       expect(entry!.needsLaneRoute).toBe(true);
       expect(entry!.blockedReason).toBeNull();
       expect(entry!.completed).toBe(false);

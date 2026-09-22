@@ -6,6 +6,28 @@ export const CONTROLLER_STATE_SCHEMA = 1;
 export const EXPECTED_BUILD_PROFILE = "internal-art-review";
 export const EXPECTED_REPOSITORY = "github.com/lamontaes/Political-Game-Git";
 
+/** Exact private inputs are build dependencies, never source changes. */
+export function privateInputIgnoreRules(manifest) {
+  return manifest
+    .trim()
+    .split(/\r?\n/)
+    .map((line) => {
+      const match = /^([a-f0-9]{64}) {2}(art\/[^\r\n]+)$/.exec(line);
+      if (
+        !match ||
+        match[2]
+          .split("/")
+          .some((part) => !part || part === "." || part === "..")
+      )
+        throw new Error("The private input manifest contains an invalid path.");
+      return {
+        sha256: match[1],
+        path: match[2],
+        rule: `/${match[2].replace(/[\\*?[\] !#]/g, "\\$&")}`,
+      };
+    });
+}
+
 export function canonicalRepository(value) {
   const raw = String(value ?? "").trim();
   if (!raw) return null;
@@ -182,4 +204,23 @@ export function buildRecord(identity, appPath, architecture, installedAt) {
     architecture,
     installedAt,
   };
+}
+
+/**
+ * The runtime-content snapshot a track's next build should pair with: its
+ * own when it has one, otherwise the most recently installed snapshot any
+ * other track already plays with. Art then travels independently of code,
+ * so a code change can never make a track's artwork "incompatible".
+ */
+export function runtimeContentFor(state, id) {
+  const own = state?.tracks?.[id]?.current?.content;
+  if (own) return own;
+  let chosen = null;
+  for (const track of Object.values(state?.tracks ?? {})) {
+    const build = track?.current;
+    if (!build?.content) continue;
+    if (!chosen || String(build.installedAt) > String(chosen.installedAt))
+      chosen = build;
+  }
+  return chosen?.content ?? null;
 }

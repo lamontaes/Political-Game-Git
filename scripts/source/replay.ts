@@ -12,7 +12,13 @@
  * notes the shallow-fetch defect that an ancestry-dependent check would inherit.
  */
 
-import { mkdtempSync, readFileSync, rmSync, existsSync } from "node:fs";
+import {
+  mkdtempSync,
+  readFileSync,
+  readdirSync,
+  rmSync,
+  existsSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 import { toCanonicalJson, writeText } from "../../src/source/core/index";
@@ -25,6 +31,7 @@ import {
   FISCAL_DISPOSITION_OUTPUT,
 } from "./fiscal-authority-inventory";
 import { exportEconomicContext } from "./export-economic-context";
+import { exportStateVotingContext } from "./export-state-voting-context";
 import { buildManifest } from "./manifest";
 
 export interface ReplayDifference {
@@ -96,6 +103,7 @@ export async function replay(): Promise<readonly ReplayDifference[]> {
     }
 
     differences.push(...replayEconomicContextArtifact());
+    differences.push(...replayStateVotingContextArtifacts());
   } finally {
     rmSync(scratch, { recursive: true, force: true });
   }
@@ -104,6 +112,36 @@ export async function replay(): Promise<readonly ReplayDifference[]> {
 
 const ECONOMIC_CONTEXT_ARTIFACT =
   "src/presentation/generated/economic-context-lexington.json";
+
+/** Every delivered state shard and its manifest must match the locked corpus. */
+export function replayStateVotingContextArtifacts(
+  trackedRoot = resolve(REPO_ROOT, "public/data/state-voting/v1"),
+): readonly ReplayDifference[] {
+  const scratch = mkdtempSync(resolve(tmpdir(), "state-voting-replay-"));
+  try {
+    exportStateVotingContext(scratch);
+    const files = new Set([
+      ...readdirSync(scratch),
+      ...(existsSync(trackedRoot) ? readdirSync(trackedRoot) : []),
+    ]);
+    return [...files].sort().flatMap((file) => {
+      const path = `public/data/state-voting/v1/${file}`;
+      const tracked = resolve(trackedRoot, file);
+      const generated = resolve(scratch, file);
+      if (!existsSync(tracked))
+        return [{ path, reason: "is not tracked but was generated" }];
+      if (!existsSync(generated))
+        return [{ path, reason: "is tracked but was not generated" }];
+      const before = readFileSync(tracked, "utf8");
+      const after = readFileSync(generated, "utf8");
+      return before === after
+        ? []
+        : [{ path, reason: describeDifference(before, after) }];
+    });
+  } finally {
+    rmSync(scratch, { recursive: true, force: true });
+  }
+}
 
 /** Regenerate the compact Lexington projection through its accepted producer. */
 export function replayEconomicContextArtifact(

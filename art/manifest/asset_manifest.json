@@ -4933,6 +4933,221 @@
           "width": 2752
         }
       ]
+    },
+    {
+      "asset_id": "env_playtest65_white_house_north_wide_r1",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_env_playtest65_white_house_north_wide_r1"],
+      "rights_note": "Owner-supplied Firefly candidate; native corrections generated under the authorized included allowance. External reuse rights not independently assessed.",
+      "fixed_or_modular": "fixed",
+      "availability": "production-candidate",
+      "variant_rules": "Firefly return expanded and repainted using the included native OpenAI image tool; preserve architecture, add clear foreground and wide composition.",
+      "negative_constraints": [
+        "Candidate-only until focused runtime review; do not change saved person appearance or catalogue generations.",
+        "No baked people, labels, controls, biography or simulation state."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/art-desk/playtest65/environment/white-house-wide-r1.png",
+      "hash": "e5d40a772b35b191d0d4d43647c71a9492b72ef743d7e0f3fb7d79f0ab477bc4",
+      "requires_transparency": false,
+      "raster_tiers": [
+        {
+          "width": 1672,
+          "height": 941,
+          "path": "art/generated/candidates/art-desk/playtest65/environment/white-house-wide-r1.png",
+          "hash": "e5d40a772b35b191d0d4d43647c71a9492b72ef743d7e0f3fb7d79f0ab477bc4",
+          "derivation": "native-master"
+        }
+      ]
+    },
+    {
+      "asset_id": "env_playtest65_resolute_desk_r1",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_env_playtest65_resolute_desk_r1"],
+      "rights_note": "Owner-supplied Firefly candidate; native corrections generated under the authorized included allowance. External reuse rights not independently assessed.",
+      "fixed_or_modular": "fixed",
+      "availability": "production-candidate",
+      "variant_rules": "Firefly return repainted using the included native OpenAI image tool; ornate oak double-pedestal Resolute-style desk with carved eagle relief and solid rectangular leather-inset top. Seated contact and furniture occlusion acceptance remains pending.",
+      "negative_constraints": [
+        "Candidate-only until focused runtime review; do not change saved person appearance or catalogue generations.",
+        "No baked people, labels, controls, biography or simulation state."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/art-desk/playtest65/environment/resolute-desk-r1.png",
+      "hash": "b3d97968a56523379d8f3fdaf722ec17caf757d569850d8d97b771159642dec6",
+      "requires_transparency": false,
+      "raster_tiers": [
+        {
+          "width": 1672,
+          "height": 941,
+          "path": "art/generated/candidates/art-desk/playtest65/environment/resolute-desk-r1.png",
+          "hash": "b3d97968a56523379d8f3fdaf722ec17caf757d569850d8d97b771159642dec6",
+          "derivation": "native-master"
+        }
+      ]
+    },
+    {
+      "asset_id": "env_playtest65_civic_generic_r1",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_env_playtest65_civic_generic_r1"],
+      "rights_note": "Owner-supplied Firefly candidate; native corrections generated under the authorized included allowance. External reuse rights not independently assessed.",
+      "fixed_or_modular": "fixed",
+      "availability": "production-candidate",
+      "variant_rules": "Byte-identical selected Firefly return. Generic illustrative civic building, never a sourced jurisdiction-specific building.",
+      "negative_constraints": [
+        "Candidate-only until focused runtime review; do not change saved person appearance or catalogue generations.",
+        "No baked people, labels, controls, biography or simulation state."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/art-desk/playtest65/environment/civic-generic-r1.png",
+      "hash": "a41d0c33bca67ea1c530317ce829da9c5d037ecd430e0cb7a072cd5665d86c85",
+      "requires_transparency": false,
+      "raster_tiers": [
+        {
+          "width": 1600,
+          "height": 896,
+          "path": "art/generated/candidates/art-desk/playtest65/environment/civic-generic-r1.png",
+          "hash": "a41d0c33bca67ea1c530317ce829da9c5d037ecd430e0cb7a072cd5665d86c85",
+          "derivation": "native-master"
+        }
+      ]
+    },
+    {
+      "asset_id": "env_playtest65_white_house_north_wide_r6",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_env_playtest65_white_house_north_wide_r6"],
+      "rights_note": "Owner-supplied external upscale/repaint, approved in private Art Bench. Prior source chain preserved.",
+      "fixed_or_modular": "fixed",
+      "availability": "production-candidate",
+      "variant_rules": "Exact owner-approved Art Bench revision6; external upscale/repaint of r1, with slightly changed aspect. Derived detail, not native 4K. Preserve the source layout coordinate frame; focused opening integration QA pending.",
+      "negative_constraints": [
+        "Candidate-only until focused runtime review; do not change saved person appearance or catalogue generations.",
+        "No baked people, labels, controls, biography or simulation state."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/art-desk/playtest65/environment/white-house-wide-r6.png",
+      "hash": "d160ee6a08e708b9f0fef68b1a0488c81fad23d426fa548adc59364804808835",
+      "requires_transparency": false,
+      "raster_tiers": [
+        {
+          "width": 5504,
+          "height": 3072,
+          "path": "art/generated/candidates/art-desk/playtest65/environment/white-house-wide-r6.png",
+          "hash": "d160ee6a08e708b9f0fef68b1a0488c81fad23d426fa548adc59364804808835",
+          "derivation": "external-upscale-derivative",
+          "native_detail_width": 1672
+        }
+      ]
+    },
+    {
+      "asset_id": "env_playtest65_pikeville_valley_street_434644_r1",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_env_playtest65_pikeville_valley_street_434644_r1"],
+      "rights_note": "Owner-uploaded candidate. External reuse rights and executed model are unverified.",
+      "fixed_or_modular": "fixed",
+      "availability": "production-candidate",
+      "variant_rules": "Candidate-review opening illustration for Pikeville place 2160852 only, May–September. Preserve complete 3:2 image with contain, maximum 280px display height. Encoded 2496x1664 pixels; native detail unverified.",
+      "negative_constraints": [
+        "No statewide or neighboring-place coverage; no actual travel location, weather, building or presence claims.",
+        "No owner visual approval or runtime release inferred. No enlargement, resampling or unreviewed crop."
+      ],
+      "generation_status": "pending",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/art-desk/playtest65/regional/pikeville-valley-street-firefly-434644-r1.png",
+      "hash": "2cfa09f644d30749d8a129d7441f9bbde46b0b5875c1e9e8c6a253cd85e5377f",
+      "requires_transparency": false
+    },
+    {
+      "asset_id": "env_playtest65_wooded_valley_town_street_cleanup_r2",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": [
+        "prov_env_playtest65_wooded_valley_town_street_cleanup_r2"
+      ],
+      "rights_note": "Private review candidate. Source reuse rights remain unverified.",
+      "fixed_or_modular": "fixed",
+      "availability": "production-candidate",
+      "variant_rules": "Reusable appalachian-coal-region-town illustration only where explicitly supported by reviewed saved-home geography, May–September. Contain the complete 3:2 image behind the state information cards as a representative home-region backdrop, never statewide uniform coverage. Encoded 1536x1024 is sufficient for the current 975x650 CSS display; exact 2x target 1950x1300 remains unresolved.",
+      "negative_constraints": [
+        "Illustration of surrounding regional context, never a claim about the saved home, current location, people, weather, business or industry.",
+        "Candidate review only; no owner approval or production runtime release inferred. No raster enlargement or unreviewed crop."
+      ],
+      "generation_status": "pending",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/art-desk/playtest65/regional/wooded-valley-street-cleanup-r2.png",
+      "hash": "85720edf325911f8bbc741c2c88fa8b23cb40ba237e455390f6e4e1341515af0",
+      "requires_transparency": false
+    },
+    {
+      "asset_id": "env_playtest65_great_plains_pond_r1",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_env_playtest65_great_plains_pond_r1"],
+      "rights_note": "Private review candidate. Source reuse rights remain unverified.",
+      "fixed_or_modular": "fixed",
+      "availability": "production-candidate",
+      "variant_rules": "Reusable great-plains-grassland illustration only where explicitly supported by reviewed saved-home geography, May–September. Contain the complete 3:2 image behind the state information cards as a representative home-region backdrop, never statewide uniform coverage. Encoded 2496x1664; no upscale required.",
+      "negative_constraints": [
+        "Illustration of surrounding regional context, never a claim about the saved home, current location, people, weather, business or industry.",
+        "Candidate review only; no owner approval or production runtime release inferred. No raster enlargement or unreviewed crop."
+      ],
+      "generation_status": "pending",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/art-desk/playtest65/regional/great-plains-pond-r1.png",
+      "hash": "0df680c304a6ae6d0d7a1e7d8dfe43f35a8236ef19f696e191ba3207e98d5814",
+      "requires_transparency": false
+    },
+    {
+      "asset_id": "env_playtest65_civic_generic_r3",
+      "asset_type": "environment-plate",
+      "art_class": "production",
+      "hero_asset": false,
+      "reuse_allowed": true,
+      "source_refs": ["prov_env_playtest65_civic_generic_r3"],
+      "rights_note": "Owner-approved private Art Desk return; external reuse rights remain unverified.",
+      "fixed_or_modular": "fixed",
+      "availability": "production-candidate",
+      "variant_rules": "Exact owner-approved revision 3. Generic civic-government illustration only; never a named landmark or evidence of a visit. Encoded dimensions 5504x3072; native detail unverified.",
+      "negative_constraints": [
+        "Candidate-only until focused runtime review; do not change saved person appearance or catalogue generations.",
+        "No baked people, labels, controls, biography or simulation state."
+      ],
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/art-desk/playtest65/environment/civic-generic-r3.png",
+      "hash": "1bd1af90f54e7a4764e543e2a503008ad3b2a6ce1b315debcfd0797045c338a1",
+      "requires_transparency": false
     }
   ]
 }

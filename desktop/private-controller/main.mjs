@@ -1,4 +1,14 @@
-/* global AbortSignal, Response, URL, fetch, process, setTimeout */
+import { loadContent, serveRuntimeContent } from "../runtime-content.mjs";
+import { watch as watchReceived } from "node:fs";
+import { channelPath, verifyReceivedBuild } from "./received-channel.mjs";
+import {
+  hasSavableLife,
+  saveOpenLife,
+  prepareQuit,
+  hasUnsavedEdits,
+  suspendInteraction,
+} from "./game-session.mjs";
+/* global AbortSignal, Response, URL, fetch, process, setTimeout, clearTimeout */
 /**
  * Our Civic Duty Private — the owner's private development hub.
  *
@@ -31,6 +41,8 @@ import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 
 import electron from "electron";
+import { selectedArtUsage } from "./art-usage.mjs";
+import { ArtDeskExports } from "./artdesk-export.mjs";
 
 import {
   APP_ORIGIN,
@@ -44,6 +56,7 @@ import {
   ART_DESK_TOKEN_HEADER,
   ArtDeskHost,
   artDeskDownloadPath,
+  artDeskSourcePlan,
 } from "./artdesk-host.mjs";
 import {
   chooserLabel,
@@ -53,6 +66,7 @@ import {
 } from "./build-catalog.mjs";
 import {
   configuredExchangeFolders,
+  discoverExchangeRoot,
   exchangeFolderIdOverride,
   exchangeSummary,
   resolveExchangeFolders,
@@ -65,6 +79,7 @@ import {
   cleanHubState,
   createGeneration,
   emptyHubState,
+  hubViewLayout,
   playLabel,
   prunedQueue,
   recordCheck,
@@ -93,6 +108,7 @@ const {
   clipboard,
   dialog,
   ipcMain,
+  Menu,
   protocol,
   session,
   shell,
@@ -190,6 +206,7 @@ function readSettings() {
         : "main",
     // Optional exact bench source on that branch; unset follows its head.
     artDeskPin: validRevision(value.artDeskPin) ? value.artDeskPin : null,
+    artDeskSource: value.artDeskSource === "local" ? "local" : "published",
     // Drive-for-desktop exchange folder for the bench; unset leaves the
     // bench's own default discovery in charge.
     artbenchDriveRoot:
@@ -485,6 +502,7 @@ function publicState() {
     repositoryPath: state?.repositoryPath ?? null,
     privatePackPath: state?.privatePackPath ?? null,
     artDeskBranch: settings.artDeskBranch,
+    artDeskSource: settings.artDeskSource,
     identities: {
       hub: {
         revision: hubBuild.revision,
@@ -498,6 +516,7 @@ function publicState() {
               track: selected,
               revision: build.revision,
               clientTreeSha256: build.clientTreeSha256,
+              contentId: build.content?.id ?? null,
               architecture: build.architecture,
             }
           : null;
@@ -509,6 +528,7 @@ function publicState() {
             track: shown,
             title: shown === MAIN_TRACK ? "Main game" : shown.slice(7),
             revision: hub.play.get(shown)?.revision ?? null,
+            contentId: runtimeSnapshots.get(shown)?.snapshot.id ?? null,
             selectedBuildRevision:
               state?.tracks[shown]?.current?.revision ?? null,
           }
@@ -569,6 +589,7 @@ const SUPERSEDED = "A newer choice replaced this one; nothing was changed.";
 /** A refusal the owner never needs to see: it is marked, logged, not painted. */
 const superseded = () => ({ ok: false, superseded: true, message: SUPERSEDED });
 
+const runtimeSnapshots = new Map();
 const contentRoots = new Map(); // track id -> client directory
 const configuredSessions = new Set();
 
@@ -586,6 +607,12 @@ function sessionForTrack(id) {
   ses.protocol.handle(APP_SCHEME, (request) => {
     const root = contentRoots.get(id);
     if (!root) return new Response("Not found", { status: 404 });
+    if (new URL(request.url).pathname.startsWith("/__content/")) {
+      const loaded = runtimeSnapshots.get(id);
+      return loaded
+        ? serveRuntimeContent(loaded, request)
+        : new Response("Not found", { status: 404 });
+    }
     return serveAppRequest(root, request);
   });
   ses.setPermissionRequestHandler((_wc, _permission, callback) =>
@@ -652,9 +679,22 @@ async function openPlay(id, stillWanted = () => true) {
       ok: false,
       message: `The cached build is not usable (${present.reason}); rebuild this track.`,
     };
+  let loadedContent = null;
+  try {
+    if (track.current.content)
+      loadedContent = loadContent(track.current.content);
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        "The artwork could not be verified. Your current game is unchanged. " +
+        error.message,
+    };
+  }
   const view = new WebContentsView({
     webPreferences: {
       session: sessionForTrack(id),
+      preload: path.join(appRoot, "game-preload.cjs"),
       nodeIntegration: false,
       contextIsolation: true,
       sandbox: true,
@@ -672,6 +712,10 @@ async function openPlay(id, stillWanted = () => true) {
     return { action: "deny" };
   });
   contents.on("will-prevent-unload", (event) => {
+    if (quitApproved.has(contents.id)) {
+      event.preventDefault();
+      return;
+    }
     const choice = dialog.showMessageBoxSync(hub.window, {
       type: "warning",
       buttons: ["Keep Playing", "Leave Without Saving"],
@@ -700,6 +744,8 @@ async function openPlay(id, stillWanted = () => true) {
     return superseded();
   }
   contentRoots.set(id, clientRoot);
+  if (loadedContent) runtimeSnapshots.set(id, loadedContent);
+  else runtimeSnapshots.delete(id);
   hub.play.set(id, { view, revision: track.current.revision });
   contents.once("destroyed", () => {
     if (hub.play.get(id)?.view === view) hub.play.delete(id);
@@ -714,7 +760,7 @@ async function openPlay(id, stillWanted = () => true) {
 }
 
 /** Close a Play view through the page's own unload guard. */
-function closePlay(id) {
+function closePlay(id, { force = false } = {}) {
   const entry = hub.play.get(id);
   if (!entry) return Promise.resolve(true);
   return new Promise((resolve) => {
@@ -731,7 +777,9 @@ function closePlay(id) {
       resolve(closed);
     };
     contents.once("destroyed", () => finish(true));
-    contents.close({ waitForBeforeUnload: true });
+    // A hung page never runs beforeunload; force is only for a page the
+    // owner already chose to quit without saving.
+    contents.close({ waitForBeforeUnload: !force });
     // A prevented unload leaves the page alive.
     setTimeout(() => finish(contents.isDestroyed()), 2500);
   });
@@ -757,12 +805,90 @@ function localView(file, query = null) {
 }
 
 let artDeskDownloadsConfigured = false;
+const artDeskExports = new ArtDeskExports(
+  path.join(dataRoot, "art-records", "ocd", "cache", "native-exports"),
+);
+const benchViewPath = path.join(
+  dataRoot,
+  "art-records",
+  "ocd",
+  "cache",
+  "view.json",
+);
+ipcMain.handle("artbench:view-state", (event) => {
+  if (!trustedArtBench(event)) throw new Error("Untrusted Art Bench sender.");
+  try {
+    return JSON.parse(readFileSync(benchViewPath, "utf8"));
+  } catch {
+    return null;
+  }
+});
+ipcMain.handle("artbench:selected-build", (event) => {
+  if (!trustedArtBench(event)) throw new Error("Untrusted Art Bench sender.");
+  const state = readState();
+  const build = state?.tracks[state.selectedTrack]?.current;
+  return selectedArtUsage(
+    build,
+    path.join(dataRoot, "art-records", "ocd", "cache", "art-usage"),
+  );
+});
+ipcMain.on("artbench:remember-view", (event, value) => {
+  if (!trustedArtBench(event) || !value || typeof value !== "object") return;
+  const cleaned = {};
+  for (const key of ["candidateId", "cardKey", "requestId", "tab"])
+    if (typeof value[key] === "string" && value[key].length <= 256)
+      cleaned[key] = value[key];
+  mkdirSync(path.dirname(benchViewPath), { recursive: true });
+  atomicWrite(benchViewPath, cleaned);
+});
+
+function trustedArtBench(event) {
+  const contents = hub.views.get("artdesk")?.webContents;
+  return (
+    contents &&
+    !contents.isDestroyed() &&
+    event.sender === contents &&
+    event.senderFrame === contents.mainFrame &&
+    hub.artdesk.url &&
+    event.senderFrame.url === hub.artdesk.url
+  );
+}
+ipcMain.handle("artbench:prepare", async (event, subject) => {
+  if (!trustedArtBench(event)) throw new Error("Untrusted Art Bench sender.");
+  const item = await artDeskExports.prepare(
+    subject,
+    hub.artdesk.url,
+    hub.artdesk.token,
+  );
+  return { ready: true, sha256: item.sha256, byteLength: item.byteLength };
+});
+ipcMain.on("artbench:drag", (event, subject) => {
+  if (!trustedArtBench(event)) return;
+  try {
+    const item = artDeskExports.resolve(subject);
+    const icon = electron.nativeImage
+      .createFromPath(item.file)
+      .resize({ width: 96 });
+    if (icon.isEmpty()) throw new Error("No usable drag icon.");
+    event.sender.startDrag({ file: item.file, icon });
+  } catch (error) {
+    logLine(`Art Bench drag refused: ${error.message}`);
+  }
+});
+ipcMain.handle("artbench:reveal-download", (event) => {
+  if (!trustedArtBench(event)) throw new Error("Untrusted Art Bench sender.");
+  const target = hub.lastDownload?.path;
+  if (!target || !existsSync(target)) return { ok: false };
+  shell.showItemInFolder(target);
+  return { ok: true };
+});
 
 function artDeskView(url) {
   const origin = new URL(url).origin;
   const view = new WebContentsView({
     webPreferences: {
       partition: "persist:art-desk",
+      preload: path.join(appRoot, "artdesk-preload.cjs"),
       nodeIntegration: false,
       contextIsolation: true,
       sandbox: true,
@@ -770,6 +896,22 @@ function artDeskView(url) {
     },
   });
   const contents = view.webContents;
+  contents.on("will-prevent-unload", (event) => {
+    if (quitApproved.has(contents.id)) {
+      event.preventDefault();
+      return;
+    }
+    const choice = dialog.showMessageBoxSync(hub.window, {
+      type: "warning",
+      buttons: ["Keep Editing", "Discard Drafts"],
+      defaultId: 0,
+      cancelId: 0,
+      message: "Keep your unfinished Art Desk notes?",
+      detail:
+        "Questions and notes you have not sent will be lost if you leave.",
+    });
+    if (choice === 1) event.preventDefault();
+  });
   // Only one permission: writing text to the clipboard (Copy brief), and only
   // from the bench origin. Everything else stays refused.
   const benchPage = (candidate) =>
@@ -803,10 +945,24 @@ function artDeskView(url) {
     if (!target.startsWith(`${origin}/`)) event.preventDefault();
   });
   contents.setWindowOpenHandler(() => ({ action: "deny" }));
+  // A brief authoring-server restart must not strand the embedded desk on
+  // Chromium's error page. Only retry this exact trusted desk, finitely.
+  let reconnectAttempts = 0;
+  contents.on(
+    "did-fail-load",
+    (_event, code, _description, _url, mainFrame) => {
+      if (!mainFrame || code === -3 || reconnectAttempts >= 3) return;
+      const delay = [1000, 2500, 5000][reconnectAttempts++];
+      setTimeout(() => {
+        if (!contents.isDestroyed() && hub.artdesk?.url === url)
+          void contents.loadURL(url).catch(() => {});
+      }, delay);
+    },
+  );
   if (!artDeskDownloadsConfigured) {
     artDeskDownloadsConfigured = true;
     contents.session.on("will-download", (event, item) => {
-      const dest = artDeskDownloadPath({
+      let dest = artDeskDownloadPath({
         filename: item.getFilename(),
         url: item.getURL(),
         benchOrigin: hub.artdesk?.url ? new URL(hub.artdesk.url).origin : null,
@@ -831,6 +987,11 @@ function artDeskView(url) {
         return;
       }
       mkdirSync(path.dirname(dest), { recursive: true });
+      const requestedDest = dest;
+      for (let copy = 2; existsSync(dest); copy += 1) {
+        const extension = path.extname(requestedDest);
+        dest = `${requestedDest.slice(0, -extension.length)}-${copy}${extension}`;
+      }
       item.setSavePath(dest);
       item.once("done", (_event, state) => {
         logLine(`Art Desk download ${state}: ${dest}`);
@@ -886,61 +1047,65 @@ function contentForTab() {
 
 function layout() {
   if (!hub.window || hub.window.isDestroyed()) return;
-  const { width, height } = hub.window.getContentBounds();
-  hub.chrome.setBounds({ x: 0, y: 0, width, height: CHROME_HEIGHT });
+  const bounds = hubViewLayout(hub.window.getContentBounds(), CHROME_HEIGHT);
+  hub.chrome.setBounds(bounds.chrome);
   const visible = contentForTab();
-  const bounds = {
-    x: 0,
-    y: CHROME_HEIGHT,
-    width,
-    height: Math.max(0, height - CHROME_HEIGHT),
-  };
   const all = [
     ...hub.views.values(),
     ...[...hub.play.values()].map((entry) => entry.view),
   ];
   for (const view of all) {
-    view.setBounds(bounds);
+    view.setBounds(bounds.content);
     view.setVisible(view === visible);
   }
 }
 
 /* --------------------------------------------------------------- builds */
 
-function startWorker(track) {
+const receiveRetries = new Map();
+const receiveAgain = new Set();
+function startWorker(track, retry = false, receivedFirst = false) {
+  if (!retry) receiveRetries.set(track, 0);
   if (process.env.OCD_HUB_NO_BUILDS === "1")
     return { ok: false, message: "Builds are disabled for this test run." };
   const state = readState();
   if (!state?.repositoryPath)
     return { ok: false, message: "Choose the project folder in Settings." };
-  if (!state.privatePackPath)
+  const selectedBuild = state.tracks[track]?.current;
+  const usesRuntimeContent = Boolean(
+    selectedBuild?.preparedLocally === true && selectedBuild.content,
+  );
+  const packPath =
+    state.tracks[track]?.privatePackPath ?? state.privatePackPath;
+  if (!packPath && !usesRuntimeContent)
     return { ok: false, message: "Choose the private art pack in Settings." };
   if (hub.worker) {
     // At most one build per requested target: a repeat click is a no-op.
-    if (hub.workerTrack === track)
+    if (hub.workerTrack === track) {
+      if (receivedFirst) receiveAgain.add(track);
       return { ok: true, message: "Already checking this build." };
-    if (!hub.queue.some((q) => q.track === track)) hub.queue.push({ track });
+    }
+    const queued = hub.queue.find((q) => q.track === track);
+    if (queued) queued.receivedFirst ||= receivedFirst;
+    else hub.queue.push({ track, receivedFirst });
     return { ok: true, message: "Queued after the current build." };
   }
   hub.phase[track] = { phase: "fetching", message: "Fetching…" };
-  const child = spawn(
-    process.execPath,
-    [
-      workerPath,
-      "--data-root",
-      dataRoot,
-      "--repo",
-      state.repositoryPath,
-      "--track",
-      track,
-      "--pack",
-      state.privatePackPath,
-    ],
-    {
-      env: { ...toolEnvironment(), ELECTRON_RUN_AS_NODE: "1" },
-      stdio: ["ignore", "pipe", "pipe"],
-    },
-  );
+  const workerArguments = [
+    workerPath,
+    "--data-root",
+    dataRoot,
+    "--repo",
+    state.repositoryPath,
+    "--track",
+    track,
+    ...(receivedFirst ? ["--received-first"] : []),
+    ...(packPath ? ["--pack", packPath] : []),
+  ];
+  const child = spawn(process.execPath, workerArguments, {
+    env: { ...toolEnvironment(), ELECTRON_RUN_AS_NODE: "1" },
+    stdio: ["ignore", "pipe", "pipe"],
+  });
   hub.worker = child;
   hub.workerTrack = track;
   const watch = createSilenceWatch({
@@ -991,7 +1156,25 @@ function startWorker(track) {
       };
     broadcast();
     const next = hub.queue.shift();
-    if (next) startWorker(next.track);
+    if (next) startWorker(next.track, false, next.receivedFirst);
+    else if (receiveAgain.delete(track)) startWorker(track, false, true);
+    else if (
+      code !== 0 &&
+      channelPath(dataRoot, track) &&
+      existsSync(channelPath(dataRoot, track))
+    ) {
+      const attempt = receiveRetries.get(track) ?? 0;
+      if (attempt < 2) {
+        receiveRetries.set(track, attempt + 1);
+        const timer = setTimeout(
+          () => {
+            if (!hub.worker && !hub.quitting) startWorker(track, true, true);
+          },
+          attempt === 0 ? 2000 : 10000,
+        );
+        timer.unref();
+      }
+    }
   });
   broadcast();
   return { ok: true, message: "Preparing." };
@@ -1027,16 +1210,18 @@ function onWorkerEvent(track, event) {
   } else if (event.kind === "complete") {
     logLine(event.message);
     hub.phase[track] = { phase: "ready", message: event.message };
-    let outcome =
-      event.outcome === "up-to-date"
+    let outcome = ["source-available", "kept-local"].includes(event.outcome)
+      ? event.outcome
+      : event.outcome === "up-to-date"
         ? "up-to-date"
         : event.outcome === "pending"
           ? "waiting"
           : "ready";
+    // An open game keeps playing its build; the waiting update is installed
+    // only when the owner presses Install update (or at the next start).
     if (event.outcome === "pending" && !hub.play.has(track)) {
       // Never swapped under a running game: this track has no open view.
-      atomicWrite(statePath, activatePending(readState(), track));
-      outcome = "ready";
+      outcome = activateVerifiedPending(track) ? "ready" : "failed";
       hub.phase[track] = {
         phase: "ready",
         message: `Ready: ${event.revision.slice(0, 12)} is now the ${track === MAIN_TRACK ? "main" : "preview"} build.`,
@@ -1052,16 +1237,56 @@ function onWorkerEvent(track, event) {
   broadcast();
 }
 
+function activateVerifiedPending(id) {
+  const state = readState();
+  const pending = state?.tracks[id]?.pending;
+  if (!pending) return false;
+  try {
+    if (pending.content) verifyReceivedBuild(pending, dataRoot);
+    else if (!buildPresentOnDisk(pending).ok)
+      throw new Error("Waiting game is incomplete");
+    atomicWrite(statePath, activatePending(state, id));
+    return true;
+  } catch (error) {
+    logLine(`Waiting update was retained without activation: ${error.message}`);
+    hub.phase[id] = {
+      phase: "failed",
+      message:
+        "The update could not be verified. Your current game is unchanged.",
+    };
+    return false;
+  }
+}
+
 async function applyPending(id) {
   const state = readState();
   if (!state?.tracks[id]?.pending)
     return { ok: false, message: "Nothing is waiting." };
+  try {
+    if (state.tracks[id].pending.content)
+      verifyReceivedBuild(state.tracks[id].pending, dataRoot);
+    else if (!buildPresentOnDisk(state.tracks[id].pending).ok)
+      throw new Error("Waiting game is incomplete");
+  } catch {
+    return {
+      ok: false,
+      message:
+        "The update could not be verified. Your current game is unchanged.",
+    };
+  }
   if (!(await closePlay(id)))
     return {
       ok: false,
       message: "The game kept its unsaved life; nothing changed.",
     };
-  atomicWrite(statePath, activatePending(readState(), id));
+  if (!activateVerifiedPending(id)) {
+    await openPlay(id);
+    return {
+      ok: false,
+      message:
+        "The update changed while opening. Your previous game was retained.",
+    };
+  }
   const opened = await openPlay(id);
   layout();
   broadcast();
@@ -1116,7 +1341,7 @@ async function selectTrack(branch) {
     if (!opened.ok) logLine(opened.message);
   }
   // Explicitly selecting an owner-repository branch authorizes preparing it.
-  const result = startWorker(id);
+  const result = startWorker(id, false, true);
   layout();
   broadcast();
   return result;
@@ -1162,11 +1387,14 @@ async function openPullRequests(repositoryPath) {
 }
 
 async function buildChooser() {
-  const repositoryPath = await verifiedRepository();
-  const branches = await listBranches(repositoryPath);
+  const repositoryPath = await verifiedRepository().catch(() => null);
+  const branches = repositoryPath
+    ? await listBranches(repositoryPath).catch(() => [])
+    : [];
   const commitTimes = {};
   const merged = new Set();
   try {
+    if (!repositoryPath) throw new Error("No repository is configured.");
     const refs = await git(
       [
         "for-each-ref",
@@ -1201,7 +1429,7 @@ async function buildChooser() {
   const view = projectBuildChooser({
     branches: branches.map((b) => ({ name: b.name, sha: b.revision })),
     catalog,
-    pullRequests: await openPullRequests(repositoryPath),
+    pullRequests: repositoryPath ? await openPullRequests(repositoryPath) : [],
     commitTimes,
     merged,
     unsupported,
@@ -1252,7 +1480,7 @@ function artbenchExchange() {
   const folders = configuredExchangeFolders(
     exchangeFolderIdOverride(settings.artbenchExchangeFolderIds),
   );
-  const root = settings.artbenchDriveRoot;
+  const root = settings.artbenchDriveRoot ?? discoverExchangeRoot();
   try {
     if (root) {
       const resolved = resolveExchangeFolders(root, { folders });
@@ -1288,23 +1516,23 @@ async function startArtDesk() {
     const exchange = artbenchExchange();
     const repositoryPath = await verifiedRepository();
     const branch = settings.artDeskBranch;
-    await git(
-      [
-        "fetch",
-        "--quiet",
-        "--no-tags",
-        "origin",
-        `+refs/heads/${branch}:refs/remotes/origin/${branch}`,
-      ],
-      repositoryPath,
-    );
+    const sourcePlan = artDeskSourcePlan(settings.artDeskSource, branch);
+    // A ready-runtime record proves the shared workspace is usable; it is not
+    // an update lock. Re-resolve the selected branch on every start so a newer
+    // published commit becomes the Art Desk source automatically.
+    if (sourcePlan.fetch)
+      await git(
+        [
+          "fetch",
+          "--quiet",
+          "--no-tags",
+          "origin",
+          `+refs/heads/${branch}:refs/remotes/origin/${branch}`,
+        ],
+        repositoryPath,
+      );
     const head = await git(
-      [
-        "rev-parse",
-        "--verify",
-        "--end-of-options",
-        `refs/remotes/origin/${branch}^{commit}`,
-      ],
+      ["rev-parse", "--verify", "--end-of-options", sourcePlan.ref],
       repositoryPath,
     );
     let revision = head;
@@ -1327,6 +1555,7 @@ async function startArtDesk() {
       packPath: state.privatePackPath,
       driveRoot: exchange?.root ?? null,
       exchangeFolders: exchange?.paths ?? null,
+      localSource: settings.artDeskSource === "local",
     });
     const existing = hub.views.get("artdesk");
     if (
@@ -1383,6 +1612,21 @@ function handle(channel, fn) {
   });
 }
 
+// Only the main frame of an actual managed game receives this capability.
+ipcMain.handle("game:request-quit", (event) => {
+  const game = [...hub.play.values()].some(
+    ({ view }) => view.webContents === event.sender,
+  );
+  if (
+    !game ||
+    event.senderFrame !== event.sender.mainFrame ||
+    !event.senderFrame.url.startsWith(`${APP_ORIGIN}/`)
+  ) {
+    throw new Error("Refused: untrusted game sender.");
+  }
+  return requestQuit();
+});
+
 const TABS = new Set(["play", "artdesk", "agents", "settings"]);
 const trackArg = (id) =>
   id === MAIN_TRACK ||
@@ -1422,7 +1666,7 @@ handle("hub:branches", async () => {
 });
 handle("hub:check-updates", () => {
   const track = readState()?.selectedTrack ?? MAIN_TRACK;
-  return startWorker(track);
+  return startWorker(track, false, true);
 });
 handle("hub:return-to-title", async () => {
   const id = shownPlayTrack(readState());
@@ -1461,7 +1705,9 @@ handle("hub:copy-text", (text) => {
 handle("hub:select-track", (branch) => selectTrack(String(branch ?? "")));
 handle("hub:check", (id) => {
   const track = trackArg(id);
-  return track ? startWorker(track) : { ok: false, message: "Unknown track." };
+  return track
+    ? startWorker(track, false, true)
+    : { ok: false, message: "Unknown track." };
 });
 handle("hub:apply", (id) => {
   const track = trackArg(id);
@@ -1507,17 +1753,41 @@ handle("hub:choose-pack", async () => {
   return { ok: true };
 });
 handle("hub:artdesk-branch", async (branch) => {
-  const value = String(branch ?? "");
+  const value = String(
+    typeof branch === "object" ? branch?.branch : (branch ?? ""),
+  );
   if (!validBranchName(value)) return { ok: false, message: "Invalid branch." };
-  settings = { ...settings, artDeskBranch: value };
+  settings = {
+    ...settings,
+    artDeskBranch: value,
+    artDeskSource: branch?.source === "local" ? "local" : "published",
+    artDeskPin: null,
+  };
   atomicWrite(settingsPath, settings);
   broadcast();
   return { ok: true, message: "Restart the Art Desk to use this source." };
 });
 handle("hub:artdesk-start", () => startArtDesk().finally(broadcast));
 handle("hub:artdesk-restart", async () => {
-  hub.artdesk.stop();
   const old = hub.views.get("artdesk");
+  if (
+    old &&
+    !old.webContents.isDestroyed() &&
+    (await hasUnsavedEdits(old.webContents)) !== false
+  ) {
+    const choice = dialog.showMessageBoxSync(hub.window, {
+      type: "warning",
+      buttons: ["Keep Editing", "Discard Drafts and Restart"],
+      defaultId: 0,
+      cancelId: 0,
+      message: "The Art Desk has unfinished notes.",
+      detail:
+        "Sent questions and saved artwork are already kept. Unsent drafts will be lost on restart.",
+    });
+    if (choice === 0)
+      return { ok: false, message: "Your Art Desk was kept open." };
+  }
+  hub.artdesk.stop();
   if (old) {
     hub.window.contentView.removeChildView(old);
     old.webContents.close();
@@ -1583,6 +1853,10 @@ handle("hub:reveal-token", (file) => {
 
 /* -------------------------------------------------------------- lifecycle */
 
+// Updates are checked like a normal game's: once when the hub opens and when
+// the owner presses Check for updates. There is no timer and no check on
+// focus — each check can compile a whole build, which stalls the game.
+
 function createWindow() {
   const win = new BaseWindow({
     width: 1440,
@@ -1604,15 +1878,59 @@ function createWindow() {
   win.on("close", (event) => {
     if (hub.quitting) return;
     event.preventDefault();
-    void requestQuit();
+    // Closing the window keeps the current life and drafts in memory.
+    win.hide();
   });
   layout();
 }
 
+function installNativeMenu() {
+  Menu.setApplicationMenu(
+    Menu.buildFromTemplate([
+      {
+        label: app.getName(),
+        submenu: [
+          { role: "about" },
+          { type: "separator" },
+          { role: "hide" },
+          { role: "hideOthers" },
+          { role: "unhide" },
+          { type: "separator" },
+          {
+            label: "Quit",
+            accelerator: "CmdOrCtrl+Q",
+            click: () => void requestQuit(),
+          },
+        ],
+      },
+      {
+        label: "File",
+        submenu: [
+          {
+            label: "Save",
+            accelerator: "CmdOrCtrl+S",
+            click: async () => {
+              if (quitInProgress || hub.activeTab !== "play") return;
+              const id = shownPlayTrack(readState());
+              const contents = id ? hub.play.get(id)?.view.webContents : null;
+              if (await hasSavableLife(contents)) await saveOpenLife(contents);
+            },
+          },
+        ],
+      },
+      { role: "editMenu" },
+      { role: "viewMenu" },
+      { role: "windowMenu" },
+    ]),
+  );
+}
+
+const quitApproved = new Set();
 let quitInProgress = false;
 async function requestQuit() {
   if (quitInProgress || hub.quitting) return;
   quitInProgress = true;
+  const suspended = [];
   try {
     const jobs = hub.agents?.runningJobs() ?? 0;
     if (jobs > 0 || hub.worker) {
@@ -1626,9 +1944,83 @@ async function requestQuit() {
       });
       if (choice === 0) return;
     }
-    for (const id of [...hub.play.keys()]) {
-      if (!(await closePlay(id))) return; // the game kept its unsaved life
+    // Ask every participant before tearing down any view. A bench Cancel
+    // must retain even a life for which the owner had chosen discard.
+    const participants = [...hub.play.values()].map(({ view }) => ({
+      contents: view.webContents,
+      game: true,
+    }));
+    const bench = hub.views.get("artdesk")?.webContents;
+    if (bench && !bench.isDestroyed())
+      participants.push({ contents: bench, game: false });
+    for (const participant of participants) {
+      const answer = await suspendInteraction(participant.contents, true);
+      if (answer === false) return;
+      // A page that did not answer may still apply the freeze later, so it is
+      // restored too; the restore is bounded like every other question.
+      if (answer === null) {
+        participant.unresponsive = true;
+        logLine(
+          `Quit: ${participant.game ? "a game view" : "the Art Desk"} did not respond.`,
+        );
+      }
+      suspended.push(participant.contents);
     }
+    if (
+      !(await prepareQuit(participants, {
+        save: () =>
+          dialog.showMessageBoxSync(hub.window, {
+            type: "question",
+            buttons: ["Save and Quit", "Quit Without Saving", "Cancel"],
+            defaultId: 0,
+            cancelId: 2,
+            message: "Save your life before quitting?",
+            detail:
+              "Save and Quit keeps your current life and display preferences.",
+          }),
+        failed: () =>
+          dialog.showMessageBoxSync(hub.window, {
+            type: "error",
+            buttons: ["Keep Open"],
+            message: "Your life could not be fully saved.",
+            detail:
+              "The app is still open. You can try saving again or cancel quitting.",
+          }),
+        unresponsive: () =>
+          dialog.showMessageBoxSync(hub.window, {
+            type: "warning",
+            buttons: ["Keep Open", "Quit Without Saving"],
+            defaultId: 0,
+            cancelId: 0,
+            message: "The game is not responding.",
+            detail:
+              "It may hold a life that has not been saved. Quitting now discards anything unsaved.",
+          }),
+        discard: (game) =>
+          dialog.showMessageBoxSync(hub.window, {
+            type: "warning",
+            buttons: ["Keep Open", "Discard and Quit"],
+            defaultId: 0,
+            cancelId: 0,
+            message: game
+              ? "This game may have unsaved changes."
+              : "You have unfinished Art Desk notes.",
+            detail:
+              "Quitting discards changes that have not been saved or sent.",
+          }),
+      }))
+    )
+      return;
+    for (const { contents } of participants) quitApproved.add(contents.id);
+    const unresponsive = new Set(
+      participants.filter((p) => p.unresponsive).map((p) => p.contents.id),
+    );
+    for (const [id, { view }] of [...hub.play.entries()]) {
+      const force = unresponsive.has(view.webContents.id);
+      if (!(await closePlay(id, { force }))) return;
+    }
+    if (bench && !bench.isDestroyed())
+      bench.close({ waitForBeforeUnload: !unresponsive.has(bench.id) });
     hub.quitting = true;
     hub.worker?.kill("SIGTERM");
     hub.artdesk?.stop();
@@ -1636,7 +2028,14 @@ async function requestQuit() {
     if (hub.window && !hub.window.isDestroyed()) hub.window.destroy();
     app.quit();
   } finally {
-    quitInProgress = false;
+    quitApproved.clear();
+    try {
+      // Bounded: a hung page cannot hold the restore, and so cannot hold quit.
+      for (const contents of suspended)
+        await suspendInteraction(contents, false);
+    } finally {
+      quitInProgress = false;
+    }
   }
 }
 
@@ -1652,6 +2051,7 @@ if (!app.requestSingleInstanceLock()) {
   });
 
   app.whenReady().then(async () => {
+    installNativeMenu();
     try {
       installBootstrapIfNeeded();
     } catch (error) {
@@ -1692,11 +2092,25 @@ if (!app.requestSingleInstanceLock()) {
     // previous Play session to close can take over now.
     for (const [id, track] of Object.entries(readState().tracks))
       if (track.pending) {
-        atomicWrite(statePath, activatePending(readState(), id));
-        logLine(
-          `Activated the waiting ${id} build ${track.pending.revision.slice(0, 12)}.`,
-        );
+        if (activateVerifiedPending(id))
+          logLine(
+            `Activated the waiting ${id} build ${track.pending.revision.slice(0, 12)}.`,
+          );
       }
+    const receivedRoot = path.join(dataRoot, "received");
+    mkdirSync(receivedRoot, { recursive: true });
+    let receivedTimer;
+    const receivedWatcher = watchReceived(receivedRoot, () => {
+      clearTimeout(receivedTimer);
+      receivedTimer = setTimeout(() => {
+        const selected = readState().selectedTrack;
+        startWorker(selected, false, true);
+      }, 500);
+    });
+    app.once("will-quit", () => {
+      clearTimeout(receivedTimer);
+      receivedWatcher.close();
+    });
     createWindow();
     const startSelection = readState().selectedTrack;
     const opened = await openPlay(startSelection);
@@ -1725,12 +2139,18 @@ if (!app.requestSingleInstanceLock()) {
     // without rebuilding.
     if (process.env.OCD_HUB_SKIP_STARTUP_CHECK !== "1") {
       const selected = readState().selectedTrack;
-      startWorker(MAIN_TRACK);
-      if (selected !== MAIN_TRACK) startWorker(selected);
+      startWorker(MAIN_TRACK, false, true);
+      if (selected !== MAIN_TRACK) startWorker(selected, false, true);
     }
     broadcast();
   });
 
+  app.on("activate", () => {
+    if (hub.window && !hub.window.isDestroyed()) {
+      hub.window.show();
+      hub.window.focus();
+    }
+  });
   app.on("window-all-closed", () => {
     if (!hub.quitting) void requestQuit();
   });

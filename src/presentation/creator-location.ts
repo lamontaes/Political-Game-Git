@@ -1,5 +1,6 @@
 import {
   lifePlaceByKey,
+  searchLifePlaces,
   type LifePlace,
   type LifePlaceScope,
 } from "../simulation";
@@ -43,7 +44,9 @@ export function selectCreatorState(
     place !== null && place.stateJurisdictionKey === stateJurisdictionKey;
   return {
     stateJurisdictionKey,
-    placeKey: keep ? draft.placeKey : null,
+    placeKey: keep
+      ? draft.placeKey
+      : soleDistrictLocality(stateJurisdictionKey),
   };
 }
 
@@ -125,4 +128,13 @@ export function creatorPlaceListOpen(
   replacing: boolean,
 ): boolean {
   return selectedPlaceKey === null || replacing;
+}
+
+function soleDistrictLocality(stateJurisdictionKey: string): string | null {
+  if (stateJurisdictionKey !== "US-DC") return null;
+  const places = searchLifePlaces("", 2, {
+    stateJurisdictionKey,
+    scope: "locality",
+  });
+  return places.length === 1 ? places[0]!.key : null;
 }

@@ -55,16 +55,17 @@
         >
           Return to title
         </button>
-        <button id="apply" class="primary" hidden>
-          Restart Play on update
+        <button id="switch-version" class="primary" hidden>
+          Play this version
         </button>
+        <button id="apply" class="primary" hidden>Install update</button>
         <button id="return-main" class="ghost" hidden>Back to main game</button>
         <button id="cancel-build" class="ghost" hidden>Cancel</button>
       </div>
     </div>
     <div class="bar sub">
       <div class="track">
-        <label for="track">Game build</label>
+        <label for="track">Game version</label>
         <select id="track">
           <option value="main">Main game (recommended)</option>
         </select>
@@ -73,13 +74,13 @@
           class="ghost icon"
           aria-expanded="false"
           aria-controls="status"
-          title="Show the exact branch and revision"
+          title="Version information"
         >
           ⓘ
         </button>
       </div>
       <div id="status" class="status" role="status" aria-live="polite">
-        Reading the installed build…
+        Opening your game…
       </div>
     </div>
     <script src="chrome.mjs" type="module"></script>

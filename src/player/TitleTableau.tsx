@@ -123,94 +123,100 @@ function TitleStage({
           } satisfies CSSProperties
         }
       >
-        {tier.paintedUrl ? (
-          <img
-            className="scene-environment-art"
-            src={tier.paintedUrl}
-            alt=""
-            draggable="false"
-            data-testid="title-tableau-plate"
-          />
-        ) : null}
-        {tier.paintedUrl && hero && presentation.kind === "hero-in-tableau" ? (
-          <div
-            style={{ position: "absolute", inset: 0 }}
-            data-testid="title-hero"
-            data-person-id={hero.personId}
-            data-pose-id={hero.sourcePoseId}
-          >
-            {[false, true].map((front) => {
-              const masks = scenePlateClips(scene).map((clip) => clip.maskUrl);
-              return (
-                <div
-                  key={String(front)}
-                  className="title-hero-layers"
-                  data-contact-layer={String(front)}
-                  style={
-                    !front && masks.length
-                      ? {
-                          maskImage: [
-                            "linear-gradient(black, black)",
-                            ...masks.map((url) => `url("${url}")`),
-                          ].join(", "),
-                          maskComposite: [
-                            "subtract",
-                            ...masks.map(() => "add"),
-                          ].join(", "),
-                          maskSize: "100% 100%",
-                          maskRepeat: "no-repeat",
-                        }
-                      : {}
-                  }
-                >
-                  {hero.layers
-                    .filter((layer) =>
-                      layer.kind === "accessory" ? front : !front,
-                    )
-                    .map((layer) => (
-                      <MaterialImage
-                        key={layer.assetId}
-                        assetId={layer.assetId ?? ""}
-                        drawnIds={hero.layers.flatMap((l) =>
-                          l.assetId ? [l.assetId] : [],
-                        )}
-                        className="title-hero-art"
-                        data-kind={layer.kind}
-                        data-asset-id={layer.assetId}
-                        src={layer.url}
-                        alt=""
-                        draggable={false}
-                        style={{
-                          position: "absolute",
-                          left: `${layer.leftPercent}%`,
-                          top: `${layer.topPercent}%`,
-                          width: `${layer.widthPercent}%`,
-                          height: `${layer.heightPercent}%`,
-                        }}
-                      />
-                    ))}
-                </div>
-              );
-            })}
-          </div>
-        ) : null}
-        {outline ? (
-          /**
-           * Deliberately not a person. It is a soft column standing on the
-           * anchor's own floor line, marking that somebody would be here if
-           * there were art of them. The copy beside it says so in words.
-           */
-          <div
-            className="title-tableau-outline"
-            data-testid="title-tableau-outline"
-            style={
-              {
-                left: `${outline.leftPercent}%`,
-                top: `${outline.floorPercent}%`,
-              } satisfies CSSProperties
-            }
-          />
-        ) : null}
+        <div className="title-tableau-motion">
+          {tier.paintedUrl ? (
+            <img
+              className="scene-environment-art"
+              src={tier.paintedUrl}
+              alt=""
+              draggable="false"
+              data-testid="title-tableau-plate"
+            />
+          ) : null}
+          {tier.paintedUrl &&
+          hero &&
+          presentation.kind === "hero-in-tableau" ? (
+            <div
+              style={{ position: "absolute", inset: 0 }}
+              data-testid="title-hero"
+              data-person-id={hero.personId}
+              data-pose-id={hero.sourcePoseId}
+            >
+              {[false, true].map((front) => {
+                const masks = scenePlateClips(scene).map(
+                  (clip) => clip.maskUrl,
+                );
+                return (
+                  <div
+                    key={String(front)}
+                    className="title-hero-layers"
+                    data-contact-layer={String(front)}
+                    style={
+                      !front && masks.length
+                        ? {
+                            maskImage: [
+                              "linear-gradient(black, black)",
+                              ...masks.map((url) => `url("${url}")`),
+                            ].join(", "),
+                            maskComposite: [
+                              "subtract",
+                              ...masks.map(() => "add"),
+                            ].join(", "),
+                            maskSize: "100% 100%",
+                            maskRepeat: "no-repeat",
+                          }
+                        : {}
+                    }
+                  >
+                    {hero.layers
+                      .filter((layer) =>
+                        layer.kind === "accessory" ? front : !front,
+                      )
+                      .map((layer) => (
+                        <MaterialImage
+                          key={layer.assetId}
+                          assetId={layer.assetId ?? ""}
+                          drawnIds={hero.layers.flatMap((l) =>
+                            l.assetId ? [l.assetId] : [],
+                          )}
+                          className="title-hero-art"
+                          data-kind={layer.kind}
+                          data-asset-id={layer.assetId}
+                          src={layer.url}
+                          alt=""
+                          draggable={false}
+                          style={{
+                            position: "absolute",
+                            left: `${layer.leftPercent}%`,
+                            top: `${layer.topPercent}%`,
+                            width: `${layer.widthPercent}%`,
+                            height: `${layer.heightPercent}%`,
+                          }}
+                        />
+                      ))}
+                  </div>
+                );
+              })}
+            </div>
+          ) : null}
+          {outline ? (
+            /**
+             * Deliberately not a person. It is a soft column standing on the
+             * anchor's own floor line, marking that somebody would be here if
+             * there were art of them. The copy beside it says so in words.
+             */
+            <div
+              className="title-tableau-outline"
+              data-testid="title-tableau-outline"
+              style={
+                {
+                  left: `${outline.leftPercent}%`,
+                  top: `${outline.floorPercent}%`,
+                } satisfies CSSProperties
+              }
+            />
+          ) : null}
+        </div>
       </div>
     </div>
   );
@@ -236,9 +242,16 @@ export function TitleTableau({
   cycleKey = "still",
   leavingCycleKey = null,
   hero = null,
+  illustration = null,
   visualLibrary = PRODUCTION_VISUAL_LIBRARY,
 }: {
   readonly hero?: PlacedScenePerson | null;
+  readonly illustration?: {
+    readonly url: string;
+    readonly width: number;
+    readonly height: number;
+    readonly assetId: string;
+  } | null;
   readonly visualLibrary?: RuntimeVisualLibrary;
   readonly presentation: TitlePresentation;
   readonly children: ReactNode;
@@ -253,9 +266,10 @@ export function TitleTableau({
   readonly leavingCycleKey?: string | null;
 }) {
   const hasPlate =
-    !NO_PLATE_KINDS.has(presentation.kind) &&
-    presentation.scene?.raster !== null &&
-    presentation.scene?.raster !== undefined;
+    Boolean(illustration) ||
+    (!NO_PLATE_KINDS.has(presentation.kind) &&
+      presentation.scene?.raster !== null &&
+      presentation.scene?.raster !== undefined);
 
   return (
     <div
@@ -269,7 +283,25 @@ export function TitleTableau({
       data-title-kind={presentation.kind}
       data-motion={drifting ? "drift" : "reduced"}
     >
-      {leaving && !NO_PLATE_KINDS.has(leaving.kind) ? (
+      {illustration ? (
+        <div
+          className="title-tableau-stage title-tableau-stage--showing"
+          aria-hidden="true"
+        >
+          <div className="title-tableau-motion">
+            <img
+              className="pg-title-establishing"
+              src={illustration.url}
+              width={illustration.width}
+              height={illustration.height}
+              alt=""
+              data-asset-id={illustration.assetId}
+              data-testid="title-establishing-plate"
+            />
+          </div>
+        </div>
+      ) : null}
+      {!illustration && leaving && !NO_PLATE_KINDS.has(leaving.kind) ? (
         <TitleStage
           key={leavingCycleKey ?? `leaving:${cycleKey}`}
           visualLibrary={visualLibrary}
@@ -278,7 +310,7 @@ export function TitleTableau({
           drifting={titleStageDrifts("leaving", drifting)}
         />
       ) : null}
-      {NO_PLATE_KINDS.has(presentation.kind) ? null : (
+      {illustration || NO_PLATE_KINDS.has(presentation.kind) ? null : (
         <TitleStage
           key={cycleKey}
           visualLibrary={visualLibrary}

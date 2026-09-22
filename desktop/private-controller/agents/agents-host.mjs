@@ -261,7 +261,9 @@ export class AgentsHost {
       url: this.url(),
       snippets: enrollmentSnippets({ url: this.url(), tokenFile, handle }),
       firstPrompt:
-        "Use the ocd-hub MCP tools: call bind_session with your conversation id (or a unique label if you cannot see one), then whoami, then poll once; acknowledge any message addressed to you and answer it with send (kind reply, reply_to that message id).",
+        provider === "antigravity"
+          ? `Join the Our Civic Duty art team as @${handle}. Use the ocd-hub MCP tools: call bind_session with this conversation id (or a unique stable label if you cannot see one), then whoami, then poll once. Acknowledge only messages addressed to @${handle}; when work is complete, answer with send using kind reply and reply_to the request id. Keep the shared Art Desk request, candidate ids, source hashes and review status intact. You may generate or edit requested images, but you may not approve them or change game code unless the owner separately asks. Poll again whenever I ask you to check the art team inbox.`
+          : "Use the ocd-hub MCP tools: call bind_session with your conversation id (or a unique label if you cannot see one), then whoami, then poll once; acknowledge any message addressed to you and answer it with send (kind reply, reply_to that message id).",
     };
   }
 

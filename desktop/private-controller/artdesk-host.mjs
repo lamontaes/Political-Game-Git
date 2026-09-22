@@ -37,13 +37,15 @@ import {
   existsSync,
   mkdirSync,
   readFileSync,
+  renameSync,
+  rmdirSync,
   statSync,
   writeFileSync,
 } from "node:fs";
 import { createServer } from "node:net";
 import path from "node:path";
 
-import { branchSlug, validBranchName, validRevision } from "./hub-model.mjs";
+import { validBranchName, validRevision } from "./hub-model.mjs";
 
 export function freePort() {
   return new Promise((resolve, reject) => {
@@ -114,10 +116,28 @@ export function artDeskDownloadPath({
   return resolved;
 }
 
+/**
+ * Describe how the controller resolves the requested Art Desk revision.
+ * Published branches are fetched on every start, even when a prepared shared
+ * runtime already exists, so that the runtime record cannot pin the desk to an
+ * older Git head. Local branches use the owner's checkout directly and rely on
+ * Vite's file watcher for live edits.
+ */
+export function artDeskSourcePlan(source, branch) {
+  const local = source === "local";
+  return {
+    fetch: !local,
+    ref: `${local ? "refs/heads" : "refs/remotes/origin"}/${branch}^{commit}`,
+  };
+}
+
 export class ArtDeskHost {
   constructor({ dataRoot, env, onStatus }) {
     this.root = path.join(dataRoot, "artdesk");
-    this.recordRoot = path.join(dataRoot, "art-records", ART_DESK_PROJECT);
+    this.recordRoot =
+      env.PG_ARTBENCH_DATA_ROOT && path.isAbsolute(env.PG_ARTBENCH_DATA_ROOT)
+        ? env.PG_ARTBENCH_DATA_ROOT
+        : path.join(dataRoot, "art-records", ART_DESK_PROJECT);
     this.token = null;
     this.env = env;
     this.onStatus = onStatus ?? (() => {});
@@ -146,8 +166,99 @@ export class ArtDeskHost {
     this.onStatus(this.status);
   }
 
-  worktreeFor(branch) {
-    return path.join(this.root, branchSlug(branch), "source");
+  registeredRuntime(branch) {
+    try {
+      const record = JSON.parse(
+        readFileSync(path.join(this.root, "ready-runtime.json"), "utf8"),
+      );
+      if (
+        record.branch !== branch ||
+        !validRevision(record.revision) ||
+        record.worktree !== this.worktreeFor(branch)
+      )
+        return null;
+      const lock = readFileSync(
+        path.join(record.worktree, "package-lock.json"),
+      );
+      if (
+        createHash("sha256").update(lock).digest("hex") !== record.lockHash ||
+        !existsSync(path.join(record.worktree, "node_modules", "vite"))
+      )
+        return null;
+      return record;
+    } catch {
+      return null;
+    }
+  }
+
+  worktreeFor() {
+    return path.join(this.root, "shared", "source");
+  }
+
+  legacyRuntimeWorktree() {
+    try {
+      const record = JSON.parse(
+        readFileSync(path.join(this.root, "ready-runtime.json"), "utf8"),
+      );
+      const candidate = path.resolve(String(record.worktree ?? ""));
+      const relative = path.relative(path.resolve(this.root), candidate);
+      if (
+        !validRevision(record.revision) ||
+        !relative ||
+        relative.startsWith(`..${path.sep}`) ||
+        path.isAbsolute(relative) ||
+        path.basename(candidate) !== "source" ||
+        candidate === this.worktreeFor() ||
+        !existsSync(candidate)
+      )
+        return null;
+      return candidate;
+    } catch {
+      return null;
+    }
+  }
+
+  /**
+   * Move the one older branch-named Art Desk checkout into the shared slot.
+   * `git worktree move` updates Git's own registration while preserving the
+   * installed dependencies and private staged inputs in place. Tracked edits
+   * always stop the migration so another writer's work cannot be overwritten.
+   */
+  async adoptSharedRuntime(repositoryPath) {
+    const shared = this.worktreeFor();
+    if (existsSync(shared)) return null;
+    const legacy = this.legacyRuntimeWorktree();
+    if (!legacy) return null;
+    const trackedChanges = await runQuiet(
+      "/usr/bin/git",
+      ["status", "--porcelain", "--untracked-files=no"],
+      { cwd: legacy, env: this.env, label: "git status" },
+    );
+    if (trackedChanges)
+      throw new Error(
+        "The existing Art Desk workspace has tracked edits, so it was preserved in its current location. Commit or hand off those edits before moving it to the shared art-team workspace.",
+      );
+
+    const oldParent = path.dirname(legacy);
+    const sharedParent = path.dirname(shared);
+    mkdirSync(sharedParent, { recursive: true });
+    await runQuiet("/usr/bin/git", ["worktree", "move", legacy, shared], {
+      cwd: repositoryPath,
+      env: this.env,
+      label: "git worktree move",
+    });
+    for (const marker of [".ocd-hub-artdesk", ".ocd-hub-lock-sha"]) {
+      const oldMarker = path.join(oldParent, marker);
+      const sharedMarker = path.join(sharedParent, marker);
+      if (existsSync(oldMarker) && !existsSync(sharedMarker))
+        renameSync(oldMarker, sharedMarker);
+    }
+    try {
+      rmdirSync(oldParent);
+    } catch {
+      // Leave an old folder alone if it contains anything besides our markers.
+    }
+    return { from: legacy, to: shared };
   }
 
   /**
@@ -172,16 +283,37 @@ export class ArtDeskHost {
     packPath,
     driveRoot = null,
     exchangeFolders = null,
+    localSource = false,
   }) {
     if (!validBranchName(branch) || !validRevision(revision))
       throw new Error(
         "Art Desk source must be a valid branch at an exact SHA.",
       );
-    const worktree = this.worktreeFor(branch);
-    const git = (args, label) =>
-      runQuiet("/usr/bin/git", args, { cwd: worktree, env: this.env, label });
+    const worktree = localSource ? repositoryPath : this.worktreeFor();
     try {
-      if (!existsSync(worktree)) {
+      if (!localSource && !existsSync(worktree)) {
+        this.#set("preparing", "Moving Art Desk into the shared workspace…");
+        await this.adoptSharedRuntime(repositoryPath);
+      }
+      const git = (args, label) =>
+        runQuiet("/usr/bin/git", args, {
+          cwd: worktree,
+          env: this.env,
+          label,
+        });
+      if (localSource) {
+        const current = await git(["rev-parse", "HEAD"], "git rev-parse");
+        const dirty = await git(
+          ["status", "--porcelain", "--untracked-files=no"],
+          "git status",
+        );
+        if (current !== revision || dirty)
+          throw new Error(
+            "Local Art Bench requires the selected committed branch to be checked out with no tracked edits. Existing work is preserved.",
+          );
+      }
+      const creatingWorkspace = !existsSync(worktree);
+      if (creatingWorkspace) {
         this.#set(
           "preparing",
           `Creating the Art Desk workspace at ${revision.slice(0, 12)}…`,
@@ -195,6 +327,12 @@ export class ArtDeskHost {
           "/usr/bin/git",
           ["worktree", "add", "--detach", worktree, revision],
           { cwd: repositoryPath, env: this.env, label: "git worktree add" },
+        );
+      }
+      if (!localSource) {
+        writeFileSync(
+          path.join(path.dirname(worktree), ".ocd-hub-artdesk"),
+          `${branch}\n`,
         );
       }
       const head = await git(["rev-parse", "HEAD"], "git rev-parse");
@@ -215,15 +353,17 @@ export class ArtDeskHost {
         }
       }
       const activeHead = await git(["rev-parse", "HEAD"], "git rev-parse");
-      this.#set("preparing", "Staging private art inputs for the Art Desk…");
-      await runQuiet(
-        "/bin/sh",
-        [path.join(packPath, "stage-into-worktree.sh"), worktree],
-        {
-          env: this.env,
-          label: "private pack installer",
-        },
-      );
+      if (!localSource && creatingWorkspace) {
+        this.#set("preparing", "Staging private art inputs for the Art Desk…");
+        await runQuiet(
+          "/bin/sh",
+          [path.join(packPath, "stage-into-worktree.sh"), worktree],
+          {
+            env: this.env,
+            label: "private pack installer",
+          },
+        );
+      }
       // Reinstall when the source's lockfile differs from the installed one.
       const lockFile = path.join(worktree, "package-lock.json");
       const lockHash = existsSync(lockFile)
@@ -235,7 +375,7 @@ export class ArtDeskHost {
         : null;
       if (
         !existsSync(path.join(worktree, "node_modules", "vite")) ||
-        installedLock !== lockHash
+        (!localSource && installedLock !== lockHash)
       ) {
         this.#set(
           "preparing",
@@ -306,6 +446,13 @@ export class ArtDeskHost {
       });
       const base = `http://127.0.0.1:${port}`;
       const identity = await this.#waitReady(base, 120000);
+      mkdirSync(this.root, { recursive: true, mode: 0o700 });
+      writeFileSync(
+        path.join(this.root, "ready-runtime.json"),
+        JSON.stringify({ branch, revision: activeHead, worktree, lockHash }) +
+          "\n",
+        { mode: 0o600 },
+      );
       this.url = `${base}/art-desk.html`;
       this.#set("ready", "Art Desk ready.", {
         url: this.url,

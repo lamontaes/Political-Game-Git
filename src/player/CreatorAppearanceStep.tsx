@@ -3,6 +3,7 @@ import type { World } from "../simulation";
 import type { NewGameSetup } from "../presentation/new-game";
 import {
   creatorAppearanceDraft,
+  creatorBodyAllowed,
   type CreatorAppearanceChoice,
 } from "../presentation/creator-appearance-preview";
 import {
@@ -37,9 +38,11 @@ export function CreatorAppearanceStep({
     () => creatorAppearanceDraft(setup, library),
     [setup, library],
   );
-  const [edited, setEdited] = useState<{ source: World; world: World } | null>(
-    null,
-  );
+  const [edited, setEdited] = useState<{
+    source: World;
+    world: World;
+    previous: World[];
+  } | null>(null);
   const draft = edited?.source === initial ? edited.world : initial;
   const person = draft?.people[draft.personOrder[0]!];
   const refusal =
@@ -47,16 +50,15 @@ export function CreatorAppearanceStep({
   const ready = Boolean(
     person?.appearance && !refusal && library.components.size,
   );
+  const bodyUnavailable = Boolean(
+    person?.appearance?.selection?.bodyFamily &&
+    !creatorBodyAllowed(setup, person.appearance.selection.bodyFamily),
+  );
   return (
     <section
       className="creator-stage-panel kit41-creator"
       data-testid="creator-stage-appearance"
     >
-      <h2>How you look</h2>
-      <p>
-        Choose your appearance before beginning. These changes affect only your
-        preview.
-      </p>
       {person && draft ? (
         <div className="kit41-creator-layout">
           <div className="kit41-creator-preview">
@@ -71,14 +73,34 @@ export function CreatorAppearanceStep({
             ) : null}
           </div>
           <div>
+            <h2>How you look</h2>
+            <p className="creator-preview-note">
+              Choose your appearance before beginning. These changes affect only
+              your preview.
+            </p>
+            {bodyUnavailable ? (
+              <p role="alert">
+                No compatible masculine body and outfit is available for this
+                preview. Choose a supported body before beginning.
+              </p>
+            ) : null}
             {ready ? (
               <PersonAppearanceControls
+                unsavedCreator
+                bodyAllowed={(body) => creatorBodyAllowed(setup, body)}
                 world={draft}
                 personId={person.id}
                 library={library}
                 poseFamily="standing-neutral"
                 onWorldChange={(world) =>
-                  setEdited({ source: initial!, world })
+                  setEdited((current) => ({
+                    source: initial!,
+                    world,
+                    previous: [
+                      ...(current?.source === initial ? current.previous : []),
+                      draft,
+                    ].slice(-20),
+                  }))
                 }
                 onPreferenceChange={() => {}}
                 renderPreview={
@@ -92,12 +114,32 @@ export function CreatorAppearanceStep({
                       )
                     : undefined
                 }
+                renderHairThumbnail={
+                  libraries
+                    ? (appearance) => (
+                        <PersonPortrait
+                          world={draft}
+                          personId={person.id}
+                          visualLibraries={libraries}
+                          previewAppearance={appearance}
+                        />
+                      )
+                    : undefined
+                }
               />
             ) : (
-              <p role="status">
-                {refusal
-                  ? "This age has no supported portrait artwork yet. Your character can still begin."
-                  : "No compatible artwork is available in this catalog."}
+              <p
+                role="status"
+                data-testid={
+                  libraries?.unavailableReason
+                    ? "creator-invalid-pack"
+                    : "creator-artwork-status"
+                }
+              >
+                {libraries?.unavailableReason ??
+                  (refusal
+                    ? "This age has no supported portrait artwork yet. Your character can still begin."
+                    : "No compatible artwork is available in this catalog.")}
               </p>
             )}
           </div>
@@ -108,15 +150,57 @@ export function CreatorAppearanceStep({
       <div className="game-setup-actions">
         <button
           type="button"
-          onClick={() => setEdited(null)}
-          disabled={!edited}
+          data-testid="creator-reset-appearance"
+          onClick={() =>
+            setEdited((current) => ({
+              source: initial!,
+              world: initial!,
+              previous: [
+                ...(current?.source === initial ? current.previous : []),
+                draft!,
+              ].slice(-20),
+            }))
+          }
+          disabled={draft === initial}
         >
           Reset appearance
         </button>
         <button
           type="button"
+          data-testid="creator-undo-appearance"
+          disabled={edited?.source !== initial || !edited?.previous.length}
+          onClick={() =>
+            setEdited((current) => {
+              if (
+                !current ||
+                current.source !== initial ||
+                !current.previous.length
+              )
+                return current;
+              return {
+                source: current.source,
+                world: current.previous.at(-1)!,
+                previous: current.previous.slice(0, -1),
+              };
+            })
+          }
+        >
+          Undo
+        </button>
+        <button
+          type="button"
           data-testid="begin"
-          disabled={!person}
+          disabled={
+            !person ||
+            Boolean(libraries?.unavailableReason) ||
+            Boolean(
+              person.appearance?.selection?.bodyFamily &&
+              !creatorBodyAllowed(
+                setup,
+                person.appearance.selection.bodyFamily,
+              ),
+            )
+          }
           onClick={() =>
             onBegin(
               ready && person?.appearance

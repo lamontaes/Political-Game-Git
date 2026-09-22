@@ -1,0 +1,45 @@
+{
+  "filedAt": "2026-09-22T16:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "playtest",
+  "notes": [
+    "Measured in the browser on 2026-09-22 on main at 1c4992e8. Two lives won a seat in the state house on the same simulated day, 2 February 2026, one in Galena, Illinois and one in Lexington, Kentucky, both at 81 percent after twenty-seven door-knocking sessions.",
+    "Illinois seats the winner immediately. The office screen reads 'Dawn works for the Illinois legislature, so what is in front of the chamber is in front of them too', with a voting workflow, a casework policy and a bill docket.",
+    "Kentucky does not. The result reads 'Jasmine Carlson won. The supported term begins 2027-01-01; the result itself grants no current office authority.' Her office screen still reads 'You hold no office in this life yet. Running for one is under Campaigns when the game supports it here.' Ten weeks later it still reads that.",
+    "So one of the two is wrong and the game does not know which. Kentucky's eleven-month gap is the closer match to how American legislatures actually work; Illinois seating a winner the same afternoon is not. But an eleven-month gap in which the player holds nothing and the screen tells them they have never run for anything is not the right answer either.",
+    "This is separate from state-legislative-seat-calendar-and-field, which asks when the election is. This asks what happens between winning one and taking the seat.",
+    "The 2027-01-01 date Kentucky prints is itself worth checking against real law; it reads like a generic new-year default rather than a sourced commencement."
+  ],
+  "priority": "P1",
+  "question": "Between winning a state legislative election and being able to act as a legislator, what actually happens, and when? Specifically: how long is the gap between election day and the start of the term, state by state (a rule with exceptions named is enough); what, if anything, does a winner hold in that gap — is there a status such as member-elect, and what can a member-elect actually do; what marks the transition (a swearing-in, the chamber convening, a fixed calendar date); and how does a seat filled at a special election differ, since a special-election winner is usually seated at once?",
+  "questionId": "legislative-winner-between-election-and-seat",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "playtest thread",
+  "sourcesChecked": [
+    {
+      "source": "Galena, Illinois and Lexington, Kentucky, walked in the browser to a win and ten weeks past it, main at 1c4992e8",
+      "whatItDidNotSettle": "Establishes that the game does two contradictory things and that one of them leaves the player holding nothing with no explanation. It has no standing to say which is right."
+    },
+    {
+      "source": "The shipped legislature packs us-il-general-assembly-v1 and us-ky-general-assembly-v1",
+      "whatItDidNotSettle": "Carry the chambers and who may stand. Neither was read for when a winner is seated, which is why the two states diverge."
+    },
+    {
+      "source": "The result sentence Kentucky prints, 'The supported term begins 2027-01-01'",
+      "whatItDidNotSettle": "Shows the engine can already carry a term-start date and say so. Whether 2027-01-01 is Kentucky's real commencement, or a generic default, is not established anywhere this walk could read."
+    }
+  ],
+  "title": "What a winner holds between election night and taking the seat",
+  "usableAnswer": "The gap between election day and the start of a state legislative term, as a rule with its exceptions named rather than fifty entries; what a member-elect is and what they can do in that window (office setup, caucus votes for leadership, pre-filing bills — whatever is real); what event actually seats them; and how a special election differs. Approximate durations are fine. What is needed precisely is whether there is a real, named status in the gap, because the game currently has no word for it and prints 'you hold no office in this life yet' to somebody who just won.",
+  "whyItMatters": "Winning is the payoff the whole campaign builds to, and in one of the two states measured the payoff is a sentence and then nothing, for months, on a screen that says the player has never run for anything. The owner has asked for lives carried past a first election into what follows; today, in Kentucky, nothing follows. Getting this right is also what makes multi-generation and long-life play coherent, because a term that starts on a date is the first thing in this game that puts a player's own future on the calendar.",
+  "answer": {
+    "summary": "## A08 — Election victory has a transition, not a hidden job-acceptance trap\n\n**Question:** `legislative-winner-between-election-and-seat`; new governor report.\n\nThe expanded ordinary-browser report corrects the earlier blanket assumption that winners cannot become governors. In Reno and Springfield, the worker pressed **Qualify for the term** on November9 and the clock entered office on January4. The corresponding earlier life had omitted that one button. Those are worker-reported walks at4965f63c; not director reruns or verification of every displayed date against law.\n\nThe required connection is the actual result and mandate → transition status and actionable requirements → valid qualification/entry → the real institution and its powers. Do not describe a won public office as an ordinary employer offer with an accept action missing from Jobs. Show the required step where the result is encountered, retain it in the transition/office view, and make long time advances handle impending player decisions consistently with the existing time system.\n\nPublic authority starts when the applicable rule says it starts, not on election night. Transition planning does not permit spending the office's regular budget or exercising the incumbent's powers early. Conversely, failure to find a UI button is not evidence of refusing the mandate. Where a legal deadline is actually missed, show that rule, consequence and any supported remedy; do not invent universal late qualification or silently discard the whole term.\n\nA genuinely vacant or newly held office must reach ongoing business, staff/agency relationships, accounts, duties and inherited commitments. The report's working entry is an important improvement; its empty first-day offices still need the separately requested governing-depth connections.",
+    "sources": [
+      "ChatGPT DEPTH2 package, Drive packages folder 1baN6DcYsLRKqOqceu3xuJ5FVZkZpZYLF, DEPTH2_Research_and_Content_Inputs.zip (1fm5p3K6hGzVpq2jUUoAsU32Xb3F7wjdo, 18:27Z), DEPTH2-ANSWERS.md section A08; request-dispositions.json row 'legislative-winner-between-election-and-seat'. Kept verbatim in docs/research/chatgpt-answers/2026-09-22-depth2/ with its SHA256SUMS (11 of 11 verified).",
+      "Primary sources ChatGPT cites are listed in that file's 'Source and evidence register' section."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T18:27:00.000Z",
+    "stillOpen": "Disposition 'answered-integration-with-factual-limits'. Remaining, in ChatGPT's words: Retain new governor entry proof; exact jurisdictional late qualification/remedy remains profile-specific. Not implemented or tested by this director batch; existing source owner receives and verifies.\n\nScope limits of the whole DEPTH2 batch, in its own words: \"These are 17 dispositions, not 17 completed implementations or 17 fully closed research questions.\" It read source at main 4965f63c and the 17:57Z render; \"no whole repository execution, game test, browser walk, merge or installed-client check was performed\". Its 31 passing checks are data-structure and date-order checks only (validation.json lists as not tested: the repository loader, a production world, browser, native client, new factual validation of every row, real human behaviour). Calibration it offers is labelled private-playtest calibration; exact factual dates remain evidence."
+  }
+}

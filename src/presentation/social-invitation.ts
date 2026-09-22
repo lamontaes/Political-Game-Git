@@ -21,7 +21,14 @@ export function socialInvitationsFor(world: World, personId: EntityId) {
     if (
       !invitation ||
       activity.kind !== "tentative" ||
-      activity.responsiblePersonId !== null ||
+      // The hold belongs to the person who was asked, and to nobody else.
+      // It may name them as the one responsible for it — an invitation they
+      // mean to keep is theirs to walk to, and `performScheduledActivity`
+      // refuses an activity with nobody responsible — or it may name nobody,
+      // which is the same thing when they are its only participant. What must
+      // not pass is a hold somebody else owes an answer for.
+      (activity.responsiblePersonId !== null &&
+        activity.responsiblePersonId !== personId) ||
       activity.participantPersonIds.length !== 1 ||
       activity.participantPersonIds[0] !== personId
     )

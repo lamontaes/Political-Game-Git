@@ -1,3 +1,4 @@
+import { playtest65QuestionnaireItem } from "../simulation/setup-playtest65-copy";
 import { TEXT39_UI_COPY } from "./text39-ui-copy";
 import {
   nextQuestionnaireStep,
@@ -114,7 +115,7 @@ function personKeyFor(setup: NewGameSetup): string {
 
 /** The question this setup is up to, or null when the path is finished. */
 export function questionnaireScreenFor(
-  setup: NewGameSetup,
+  setup: NewGameSetup & { readonly questionnaireCopyVersion?: "playtest65-v2" },
 ): QuestionnaireScreen | null {
   const path = setup.questionnaire ?? "skipped";
   if (path === "skipped") return null;
@@ -126,12 +127,16 @@ export function questionnaireScreenFor(
     life: lifeContextFor(setup),
   });
   if (!step) return null;
+  const item =
+    setup.questionnaireCopyVersion === "playtest65-v2"
+      ? playtest65QuestionnaireItem(step.item)
+      : step.item;
   return {
     ordinal: step.ordinal,
     phase: step.phase,
-    questionKey: step.item.key,
-    prompt: step.item.prompt,
-    options: step.item.options.map((option) => ({
+    questionKey: item.key,
+    prompt: item.prompt,
+    options: item.options.map((option) => ({
       key: option.key,
       text: option.text,
     })),

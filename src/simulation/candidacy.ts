@@ -10,6 +10,13 @@ import {
   stateJurisdictionForKey,
 } from "./life-places";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
+import {
+  localGoverningBodyCandidacyPack,
+  localGoverningBodyIdentity,
+  localGoverningBodyIdentityForOfficeKey,
+} from "./nationwide-world/local-governing-body-candidacy-packs";
+import type { LocalGoverningBodyIdentity } from "./nationwide-world/local-governing-body-candidacy-packs";
+import { governmentUnitsForPlace } from "./government-units";
 import { stateResidenceSince } from "./nationwide-world/residence-duration";
 import { recordedTermsInOffice } from "./nationwide-world/prior-terms";
 import {
@@ -59,6 +66,54 @@ export function candidacyPackForJurisdiction(
   jurisdictionId: EntityId,
 ): CandidacyPack | null {
   return candidacyAuthority(jurisdictionId).pack;
+}
+
+/**
+ * The governing bodies of the town governments this place has, as the Census
+ * Government Units listing joins them to it. A place with no government of its
+ * own (a census-designated place) has none and is never given one.
+ *
+ * A town the game has read in depth is offered the same way: what it read
+ * about the body still governs seating, and nothing here contradicts it.
+ */
+export function localGoverningBodiesForJurisdiction(
+  jurisdictionId: EntityId,
+): readonly LocalGoverningBodyIdentity[] {
+  const place = lifePlaceByJurisdictionId(jurisdictionId);
+  if (!place || place.scope !== "locality" || !place.sourceGeoid) return [];
+  return governmentUnitsForPlace(place.sourceGeoid)
+    .map(localGoverningBodyIdentity)
+    .filter((identity) => identity !== null);
+}
+
+/**
+ * Every office a person living here could stand for, in the order a ballot
+ * reads upward: the state's offices the place reaches, then the town's own
+ * governing body. The governorship is offered on its own screen, as before.
+ */
+export function electiveOfficesForJurisdiction(
+  jurisdictionId: EntityId,
+): readonly ElectiveOfficeOption[] {
+  return [
+    ...(candidacyAuthority(jurisdictionId).pack?.offices ?? []),
+    ...localGoverningBodiesForJurisdiction(jurisdictionId).flatMap(
+      (identity) => localGoverningBodyCandidacyPack(identity).offices,
+    ),
+  ];
+}
+
+/** The town governing body this office names, if this place has it. */
+function localGoverningBodyHere(
+  jurisdictionId: EntityId,
+  officeKey: string,
+): LocalGoverningBodyIdentity | null {
+  const identity = localGoverningBodyIdentityForOfficeKey(officeKey);
+  if (!identity) return null;
+  return localGoverningBodiesForJurisdiction(jurisdictionId).some(
+    (candidate) => candidate.officeKey === identity.officeKey,
+  )
+    ? identity
+    : null;
 }
 
 /** Whose authority an office here rests on, and how far it reaches. */
@@ -211,6 +266,8 @@ export function districtSeatMustBeNamed(
 ): boolean {
   const executive = stateExecutiveIdentityForOfficeKey(officeKey);
   if (executive) return false;
+  // A town's governing body has no districts the game has read.
+  if (localGoverningBodyIdentityForOfficeKey(officeKey)) return false;
   const authority = candidacyAuthority(jurisdictionId);
   // Two rule sources carry a district requirement and either one makes the
   // seat district-identified: the pack's own sourced rule set, and the
@@ -247,9 +304,16 @@ export function candidacyEligibility(
   // A state's executive office is the state's own, whatever legislature pack
   // governs the place: it is filed for statewide, against its own pack.
   const executive = stateExecutiveIdentityForOfficeKey(input.officeKey);
+  // A town's governing body is the town's own, whatever the state above it
+  // has, and only somebody living in that town can stand for it.
+  const local = executive
+    ? null
+    : localGoverningBodyHere(input.jurisdictionId, input.officeKey);
   const pack = executive
     ? candidacyPackById(executive.candidacyPackId)
-    : authority.pack;
+    : local
+      ? localGoverningBodyCandidacyPack(local)
+      : authority.pack;
   const stateJurisdictionKey = executive
     ? executive.jurisdictionKey
     : authority.stateJurisdictionKey;

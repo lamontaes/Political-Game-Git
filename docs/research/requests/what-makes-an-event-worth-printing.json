@@ -1,0 +1,37 @@
+{
+  "filedAt": "2026-09-22T16:58:00.000Z",
+  "impact": "shapes-design",
+  "lane": "world divergence",
+  "notes": [
+    "Measured, not inferred: two years of an ordinary Kentucky save produced 169 story leads — 107 routine beat items, 56 economy releases, 6 campaign items and zero allegations.",
+    "ChatGPT's C29 already settled the editorial-variation half. This is the other half: what an outlet considers worth printing in the first place."
+  ],
+  "priority": "P1",
+  "question": "An outlet picks its stories by scoring every public event once a week: four points if it is an ethics matter, two if it names a person, one if it is on that outlet's beat. Nothing scores as good news, so wrongdoing outweighs everything else four to one and an achievement has no counterweight at all. In two years of an ordinary save this produced 169 stories and zero allegations, because nothing had happened to allege — meaning the press spends an ordinary life printing routine beat items and economy releases. So: (1) what should make an event worth printing besides wrongdoing — is there a defensible notion of public significance that covers an achievement, a decision that affects people, or a consequence arriving; (2) should the weighting differ by outlet, given a national politics outlet, a state capitol paper and a town community report plainly have different thresholds; (3) what should a local outlet with three beats do in a week where nothing on its beats happened, since today it prints routine items; and (4) is a four-to-one advantage for an allegation over everything else defensible as an editorial claim, or is it the game asserting that American local news is mostly scandal.",
+  "questionId": "what-makes-an-event-worth-printing",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "world divergence thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/press/desk.ts:1261-1290 (eventIsNewsCandidate) and :1371-1381 (leadPriority), read on claude/project-thread-usbkkb at 4dbd9887",
+      "whatItDidNotSettle": "Establishes the exact scoring — matter 4, names a person 2, on beat 1 — and that there is no positive term. It settles the mechanism. It says nothing about what the weights should be."
+    },
+    {
+      "source": "A measured two-year Kentucky save: 4 outlets (3 national, 1 local at the start, a state paper appearing by year two) and 169 leads split 107 scheduled-beat, 56 economy-release, 6 campaign-activity, 0 allegation.",
+      "whatItDidNotSettle": "Establishes what the current weights actually produce over an ordinary life. It does not establish what a reader should see instead."
+    }
+  ],
+  "title": "What should make an event worth printing, besides wrongdoing",
+  "usableAnswer": "A stated list of what counts as public significance beyond an allegation, with weights or at least an ordering; a position on whether the weighting should vary by outlet scope; and a clear answer on what a small local outlet should do in an empty week. A ruling that the current four-to-one is defensible is also a complete answer.",
+  "whyItMatters": "The newspaper is one of the few surfaces a player reads every day, and lamontae asked directly whether papers print good things or bad things. Today the answer is that they cannot print good things, because nothing good scores. That is a claim the game makes about American journalism every single save, and it was never decided on purpose — it fell out of three numbers.",
+  "answer": {
+    "summary": "## A07 — Newsworthiness is about public consequence, not merely negativity\n\n**Question:** `what-makes-an-event-worth-printing`.\n\nThe inspected `press/desk.ts` does not prohibit good news. Its public/source/coverage gates are independent of positivity. It currently gives a lead +4 for a matter, +2 for naming people, and +1 for matching a beat. Those numbers alone are not an empirical four-to-one overall publication ratio. The queue's own ordinary-life run found no allegation leads among169; do not respond by claiming the game demonstrably prints only scandals.\n\nKeep the existing newsroom and improve the comparison of actual candidates: public impact (including gains), novelty or a changed outcome, responsibility/authority, proximity to this outlet's audience, evidence and available reporting capacity. Service restoration, a significant improvement, a law with an actual consequence, an important appointment, employer expansion and recovery can all merit coverage when they really happen. A new raw internal record is not automatically news.\n\nOutlets differ in scope, beat, audience and sources. An incident in one town may matter nationally because its recorded scale or institutional implications reach farther, not because its geography was incorrectly changed to null. A local paper may appropriately cover a modest improvement that a national outlet ignores.\n\nAn empty week does not require a fabricated scandal or a positive-news quota. Retain the last edition with its date, publish actual known scheduled/public-service information, or pursue a real queued follow-up. No invisible event generator should manufacture a story solely to fill a layout. Common underlying facts remain common; different outlets can select their actual relevant participants and known angles rather than all copying an internal summary string.\n\n**Acceptance:** matched positive/negative outcomes with comparable real impact are both eligible; a private fact stays private without a source; a small local event does not automatically appear nationally; different outlets remain factual without identical prose; no new story when nothing new is known.",
+    "sources": [
+      "ChatGPT DEPTH2 package, Drive packages folder 1baN6DcYsLRKqOqceu3xuJ5FVZkZpZYLF, DEPTH2_Research_and_Content_Inputs.zip (1fm5p3K6hGzVpq2jUUoAsU32Xb3F7wjdo, 18:27Z), DEPTH2-ANSWERS.md section A07; request-dispositions.json row 'what-makes-an-event-worth-printing'. Kept verbatim in docs/research/chatgpt-answers/2026-09-22-depth2/ with its SHA256SUMS (11 of 11 verified).",
+      "Primary sources ChatGPT cites are listed in that file's 'Source and evidence register' section."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T18:27:00.000Z",
+    "stillOpen": "Disposition 'answered-design-and-source-correction'. Remaining, in ChatGPT's words: Selection/presentation implemented by existing press owner. Positive events were not prohibited by inspected code. Not implemented or tested by this director batch; existing source owner receives and verifies.\n\nScope limits of the whole DEPTH2 batch, in its own words: \"These are 17 dispositions, not 17 completed implementations or 17 fully closed research questions.\" It read source at main 4965f63c and the 17:57Z render; \"no whole repository execution, game test, browser walk, merge or installed-client check was performed\". Its 31 passing checks are data-structure and date-order checks only (validation.json lists as not tested: the repository loader, a production world, browser, native client, new factual validation of every row, real human behaviour). Calibration it offers is labelled private-playtest calibration; exact factual dates remain evidence."
+  }
+}

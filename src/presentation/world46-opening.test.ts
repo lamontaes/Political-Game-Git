@@ -35,6 +35,17 @@ const peebles = lifePlaceSearch("Peebles", 20, {
 function legacySetup(placeKey: string, seed: string): NewGameSetup {
   const legacy: Omit<NewGameSetup, "seed"> = { ...DEFAULT_NEW_GAME_SETUP };
   delete (legacy as { worldOpeningVersion?: unknown }).worldOpeningVersion;
+  delete (legacy as { openingDataVersion?: unknown }).openingDataVersion;
+  // Every versioned field the current default stamps has to come off, not just
+  // the opening one. A descriptor written before a field existed decodes with
+  // it undefined, so a helper that leaves one on is not building an old save:
+  // it builds a hybrid that never existed, and the hash it produces reports a
+  // difference nobody made. Leaving `earlierLifeGenerationVersion` on is what
+  // made this gate look like the client line had lost a character's schooling.
+  delete (legacy as { earlierLifeGenerationVersion?: unknown })
+    .earlierLifeGenerationVersion;
+  delete (legacy as { livingWorldMemberNameVersion?: unknown })
+    .livingWorldMemberNameVersion;
   return {
     ...legacy,
     seed,
@@ -81,10 +92,18 @@ const sha256 = (text: string) =>
  * without an opening version, not a save written by an old build. It gates the
  * legacy opening PATH, not save compatibility, and it moves whenever shipped
  * content does. LEGACY_OPENING_SHAPE below is the part that should not move.
+ *
+ * RE-ACCEPTED AGAIN 2026-09-22, for the policy positions pack: sixty-six
+ * propositions and fourteen principles where the catalog had questions nobody
+ * could take a side on. This is the predicted movement, not a new one — the
+ * note above says these hashes move whenever shipped content does — and it is
+ * a decision on the same evidence as before, because LEGACY_OPENING_SHAPE
+ * PASSED unchanged on the run that moved these. That is the whole point of
+ * having both: the field these hashes moved on is the one the shape strips.
  */
 const FED321F7_LEGACY = {
-  kentucky: "8c715a8939d979c09a542894d421492542fbc821c57f1757d3390556f1891e3f",
-  peebles: "edc4ae31adf37db239bf41d6e9ebc9d07bacabb42307a7f5abcccb2513f4560b",
+  kentucky: "375cd5fb89e7b62a399365e3ad07c7b0f78eb909aac6b81747d7779c65a09ad7",
+  peebles: "99ebe80d1b29f387bf4cb1b277a6206f8d115dccfd44f7759c838ae2fbc19b37",
 } as const;
 
 /**
@@ -124,6 +143,20 @@ describe("WORLD46 opening version gate", () => {
         ?.worldOpeningVersion,
     ).toBe(CRUNCH46_WORLD_OPENING_VERSION);
     const old = legacySetup("kentucky", "gate");
+    expect(old.openingDataVersion).toBeUndefined();
+    expect(old.earlierLifeGenerationVersion).toBeUndefined();
+    expect(old.livingWorldMemberNameVersion).toBeUndefined();
+    expect(
+      decodeReplayDescriptor(encodeReplayDescriptor(old))
+        ?.earlierLifeGenerationVersion,
+    ).toBeUndefined();
+    expect(
+      decodeReplayDescriptor(encodeReplayDescriptor(old))
+        ?.livingWorldMemberNameVersion,
+    ).toBeUndefined();
+    expect(
+      decodeReplayDescriptor(encodeReplayDescriptor(old))?.openingDataVersion,
+    ).toBeUndefined();
     expect(
       decodeReplayDescriptor(encodeReplayDescriptor(old))?.worldOpeningVersion,
     ).toBeUndefined();

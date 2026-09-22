@@ -104,7 +104,7 @@ describe("ShellNav portrait hub", () => {
     const html = render(sub);
     expect(html).toContain('data-level="submenu"');
     expect(html).toMatch(
-      /data-testid="nav-submenu-back" style="--fan-x:0px;--fan-y:-170px/,
+      /data-testid="nav-submenu-back" style="--fan-x:0px;--fan-y:-140px/,
     );
     expect(html).toContain('data-testid="nav-finances"');
   });
@@ -114,7 +114,7 @@ describe("fanLayout", () => {
   it("fills the inner ring first, straight up, then opens a further ring", () => {
     const layout = fanLayout(10);
     expect(layout).toHaveLength(10);
-    expect(layout[0]).toEqual({ x: 0, y: -170, ring: 0 });
+    expect(layout[0]).toEqual({ x: 0, y: -140, ring: 0 });
     expect(layout.filter((at) => at.ring === 0)).toHaveLength(3);
     expect(layout.filter((at) => at.ring === 1)).toHaveLength(5);
     expect(layout.filter((at) => at.ring === 2)).toHaveLength(2);

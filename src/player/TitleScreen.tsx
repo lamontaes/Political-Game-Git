@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
-import type { BrowserWorldSummary } from "../presentation/browser-world-repository";
+import type {
+  BrowserWorldSummary,
+  QuarantinedSave,
+} from "../presentation/browser-world-repository";
 import { SCENE_REGISTRY } from "../presentation/scene-registry";
 import {
   ambientPresentation,
@@ -18,9 +21,28 @@ import {
   TITLE_TABLEAU_REGISTRY,
   type TitlePresentation,
 } from "../presentation/title-tableau";
-import { PRODUCTION_VISUAL_LIBRARY } from "../presentation/visual-integration";
+import {
+  PRODUCTION_CHARACTER_LIBRARY,
+  PRODUCTION_VISUAL_LIBRARY,
+  type RuntimeVisualLibrary,
+} from "../presentation/visual-integration";
+import {
+  resolveTitleLecternHero,
+  type TitleLecternHero,
+} from "../presentation/title-lectern-hero";
+import {
+  artPreviewLibraries,
+  artPreviewMode,
+} from "../presentation/art-preview";
+import { gameBuildProfile } from "../presentation/build-profile";
 import { PlayerVersion } from "./PlayerVersion";
+import {
+  nativeQuitAvailable,
+  requestNativeQuit,
+} from "./native-session-bridge";
 import { TitleTableau } from "./TitleTableau";
+import { candidateEstablishingPlate } from "./candidate-establishing-plate";
+import { PLAYTEST65_WHITE_HOUSE_LAYOUT } from "../presentation/playtest65-visual-layout";
 
 /**
  * The title screen.
@@ -117,10 +139,19 @@ function useAmbientStep(active: boolean): number {
  */
 export function AmbientTableau({
   resolved = null,
+  hero = null,
   still = false,
   children,
 }: {
   readonly resolved?: TitlePresentation | null;
+  /**
+   * The composed lectern speaker for a returning player, when one resolves.
+   * Null is the ordinary state — no save, no private lectern art, or no pack
+   * variant for this player — and leaves the ambient cycle exactly as it was.
+   * When present, the returning player arrives at their own portrait, held
+   * still, rather than in the empty-room cycle.
+   */
+  readonly hero?: TitleLecternHero | null;
   /**
    * Hold the room. The creator and the transition stand in front of one
    * stable backdrop rather than a cycling one: a room crossfading behind a
@@ -179,8 +210,36 @@ export function AmbientTableau({
       ? `${(frame.index - 1 + cycle.length) % cycle.length}:${step - 1}`
       : null;
 
+  // A returning player whose art resolves at the lectern arrives at their own
+  // portrait, held still, rather than in the empty-room cycle. The plate is
+  // private art no production catalog holds, so its own visual library is
+  // merged over the production one; every other room still finds its plate.
+  if (hero) {
+    const heroVisuals: RuntimeVisualLibrary = new Map([
+      ...PRODUCTION_VISUAL_LIBRARY,
+      ...hero.visuals,
+    ]);
+    return (
+      <TitleTableau
+        presentation={hero.presentation}
+        hero={hero.hero}
+        visualLibrary={heroVisuals}
+        drifting={!reducedMotion && !still}
+        cycleKey="title-hero"
+      >
+        {children(hero.presentation.description)}
+        <PlayerVersion />
+      </TitleTableau>
+    );
+  }
+
   return (
     <TitleTableau
+      illustration={
+        !resolved?.heroName
+          ? candidateEstablishingPlate(PLAYTEST65_WHITE_HOUSE_LAYOUT.assetId)
+          : null
+      }
       presentation={presentation}
       leaving={leaving}
       drifting={!reducedMotion}
@@ -222,6 +281,27 @@ export function resolvedTitlePresentation(
   });
 }
 
+/**
+ * The composed lectern hero for the most recent save, or null.
+ *
+ * The player is drawn from the same library the rest of the game draws them
+ * from: the candidate-review bank when this build is in the art preview, the
+ * production catalog otherwise. Either way the hero appears only when the
+ * private title art and a matching pack variant are present, and resolves to
+ * null — today's behaviour — everywhere else.
+ */
+export function resolvedTitleLecternHero(
+  saves: readonly BrowserWorldSummary[],
+): TitleLecternHero | null {
+  const mode = artPreviewMode(
+    typeof window === "undefined" ? "" : window.location.search,
+    { development: import.meta.env.DEV, profile: gameBuildProfile() },
+  );
+  const library =
+    artPreviewLibraries(mode)?.characters ?? PRODUCTION_CHARACTER_LIBRARY;
+  return resolveTitleLecternHero(saves[0], library);
+}
+
 export function TitleScreen({
   saves,
   savesUnavailable,
@@ -231,8 +311,21 @@ export function TitleScreen({
   onOpenSaves,
   onOpenOptions,
   onOpenPatchNotes,
+  damaged,
 }: {
   readonly saves: readonly BrowserWorldSummary[];
+  /**
+   * Saves the store kept but could not open, which the title screen used not
+   * to be told about at all.
+   *
+   * Without it this screen could not tell a set-aside life from no life. A
+   * player whose only save was written by a newer build saw "None yet · import
+   * one" and a dead Continue, on the screen meant to be the last word — an
+   * invitation to start over on top of a save the store had deliberately kept
+   * and said so about. The store's own words are "nothing was thrown away";
+   * the title said the opposite.
+   */
+  readonly damaged?: readonly QuarantinedSave[];
   readonly savesUnavailable: boolean;
   readonly problem: string | null;
   readonly onNewGame: () => void;
@@ -242,6 +335,7 @@ export function TitleScreen({
   readonly onOpenPatchNotes?: () => void;
 }) {
   const recent = saves[0];
+  const setAside = damaged?.length ?? 0;
 
   // The room behind this screen is painted by the persistent ambient shell in
   // `PlayerGame`, not here. Mounting a second tableau was what made New Game
@@ -271,6 +365,14 @@ export function TitleScreen({
               {recent.playerName}, {recent.playerAge}
               {recent.residence ? ` \u00b7 ${recent.residence.name}` : ""}
             </small>
+          ) : setAside > 0 ? (
+            // A disabled button with no reason is the same silence one layer
+            // down, so it says why it cannot be pressed and where to go.
+            <small data-testid="continue-set-aside">
+              {setAside === 1
+                ? "Your saved game needs attention"
+                : "Your saved games need attention"}
+            </small>
           ) : null}
         </button>
         <button
@@ -282,8 +384,14 @@ export function TitleScreen({
           Saved games
           <small>
             {saves.length > 0
-              ? `${saves.length} saved`
-              : "None yet \u00b7 import one"}
+              ? setAside > 0
+                ? `${saves.length} saved \u00b7 ${setAside} needs attention`
+                : `${saves.length} saved`
+              : setAside > 0
+                ? setAside === 1
+                  ? "1 saved game needs attention"
+                  : `${setAside} saved games need attention`
+                : "None yet \u00b7 import one"}
           </small>
         </button>
         <button
@@ -302,9 +410,16 @@ export function TitleScreen({
             Patch notes
           </button>
         ) : null}
-        <button type="button" data-testid="quit" disabled>
+        <button
+          type="button"
+          data-testid="quit"
+          disabled={!nativeQuitAvailable()}
+          onClick={requestNativeQuit}
+        >
           Quit
-          <small>Not available in this build.</small>
+          {!nativeQuitAvailable() ? (
+            <small>Not available in this build.</small>
+          ) : null}
         </button>
       </div>
       {savesUnavailable ? (

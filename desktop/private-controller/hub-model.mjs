@@ -15,6 +15,23 @@ export const MAIN_TRACK = "main";
 const SHA = /^[0-9a-f]{40}$/;
 
 /**
+ * Electron can briefly report negative content dimensions while macOS restores
+ * a window. AppKit rejects those bounds and leaves every view blank, so the
+ * hub clamps that transient state and lays out normally on the next resize.
+ */
+export function hubViewLayout(bounds, chromeHeight = 92) {
+  const finite = (value) =>
+    Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0;
+  const width = finite(bounds?.width);
+  const height = finite(bounds?.height);
+  const chrome = Math.min(finite(chromeHeight), height);
+  return {
+    chrome: { x: 0, y: 0, width, height: chrome },
+    content: { x: 0, y: chrome, width, height: height - chrome },
+  };
+}
+
+/**
  * Conservative subset of git-check-ref-format: printable ASCII path
  * segments, no traversal, no revision syntax, no leading dash. Git itself
  * validates again; this only keeps hostile labels out of argument arrays and
@@ -92,6 +109,11 @@ function cleanBuild(build) {
       ? {
           packId: String(build.privatePack.packId ?? "unknown"),
           manifestSha256: String(build.privatePack.manifestSha256 ?? "unknown"),
+          // Carried only when the pack stated it; a pack that does not is
+          // recorded exactly as it was before the field existed.
+          ...(Number.isInteger(build.privatePack.generation)
+            ? { generation: build.privatePack.generation }
+            : {}),
         }
       : null;
   return {
@@ -107,7 +129,23 @@ function cleanBuild(build) {
       typeof build.clientTreeSha256 === "string"
         ? build.clientTreeSha256
         : "unknown",
+    ...(build.delivery === "console-client-payload"
+      ? { delivery: "console-client-payload" }
+      : {}),
+    ...(build.preparedLocally === true ? { preparedLocally: true } : {}),
     privatePack: pack,
+    ...(build.content?.schema === "ocd-runtime-art/v1" &&
+    /^[a-f0-9]{64}$/.test(build.content.id) &&
+    typeof build.content.cacheRoot === "string" &&
+    path.isAbsolute(build.content.cacheRoot)
+      ? {
+          content: {
+            schema: build.content.schema,
+            id: build.content.id,
+            cacheRoot: build.content.cacheRoot,
+          },
+        }
+      : {}),
   };
 }
 
@@ -117,6 +155,11 @@ function cleanTrack(value) {
   if (!current) return null;
   return {
     branch: typeof value.branch === "string" ? value.branch : MAIN_TRACK,
+    ...(typeof value.privatePackPath === "string" &&
+    path.isAbsolute(value.privatePackPath)
+      ? { privatePackPath: value.privatePackPath }
+      : {}),
+    ...(value.pinned === true ? { pinned: true } : {}),
     current,
     pending: cleanBuild(value.pending),
     previous: cleanBuild(value.previous),
@@ -279,6 +322,8 @@ export function playLabel({
 /* --------------------------------------------------------- update checks */
 
 export const CHECK_OUTCOMES = new Set([
+  "source-available",
+  "kept-local",
   "up-to-date",
   "ready",
   "waiting",
@@ -329,7 +374,13 @@ export function cleanChecks(value) {
  */
 export function recordCheck(checks, id, { outcome, at, revision, message }) {
   const previous = checks[id] ?? null;
-  const success = ["up-to-date", "ready", "waiting"].includes(outcome);
+  const success = [
+    "up-to-date",
+    "ready",
+    "waiting",
+    "source-available",
+    "kept-local",
+  ].includes(outcome);
   return {
     ...checks,
     [id]: cleanCheck({
@@ -378,10 +429,14 @@ export function updateStatus({ phase, check, build, building }) {
       return build && check.revision === build.revision
         ? at("current", "Up to date")
         : at("ready", "Ready to use");
+    case "source-available":
+      return at("waiting", "New version available · awaiting preparation");
+    case "kept-local":
+      return at("current", "Private preview kept");
     case "ready":
       return at("ready", "Ready to use");
     case "waiting":
-      return at("waiting", "Update ready — restart Play to use it");
+      return at("waiting", "Update ready — press Install update");
     case "offline":
       return at(
         "offline",

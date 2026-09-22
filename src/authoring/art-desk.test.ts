@@ -21,14 +21,28 @@ import {
   emptyReviewDocument,
   recordReview,
 } from "./asset-review";
-import { decisionBlocker, filterDeskItems, projectArtDesk } from "./art-desk";
+import {
+  decisionBlocker,
+  filterDeskItems,
+  projectArtDesk,
+  type ArtDeskReconciliation,
+} from "./art-desk";
 import {
   TERMINAL_ASSET_REQUEST_STATUSES,
   type AssetRequest,
 } from "./asset-request";
-import reconciliation from "../../art/requests/art-desk-reconciliation.json";
+import reconciliationData from "../../art/requests/art-desk-reconciliation.json";
 import generationBatch from "../../art/requests/art-desk-generation-batch.json";
 import assetRequestDocument from "../../art/requests/asset-requests.json";
+
+const reconciliation = reconciliationData as ArtDeskReconciliation;
+
+function present<T>(value: T | undefined): T {
+  expect(value).toBeDefined();
+  if (value === undefined)
+    throw new Error("Expected an existing fixture entry.");
+  return value;
+}
 
 const now = "2026-09-15T20:00:00.000Z";
 const later = "2026-09-16T20:00:00.000Z";
@@ -309,7 +323,11 @@ describe("Art Desk projection and briefs", () => {
   it("records the bounded generation proof below the environment master floor", () => {
     expect(generationBatch.allowance.paidOverage).toBe(false);
     expect(generationBatch.allowance.requestsAttempted).toHaveLength(2);
-    for (const record of generationBatch.records) {
+    const environmentProof = generationBatch.records.filter((record) =>
+      generationBatch.allowance.requestsAttempted.includes(record.requestId),
+    );
+    expect(environmentProof).toHaveLength(2);
+    for (const record of environmentProof) {
       expect(record.meetsEnvironmentMasterFloor).toBe(false);
       expect(record.width).toBeLessThan(4608);
       expect(record.outputSha256).toMatch(/^[a-f0-9]{64}$/);
@@ -317,7 +335,7 @@ describe("Art Desk projection and briefs", () => {
     }
   });
 
-  it("defaults the needs-your-review lane to genuine missing work", () => {
+  it("puts open person requests in the lane and submitted modular candidates in review", () => {
     const desk = projectArtDesk({
       requests: assetRequestDocument.requests as AssetRequest[],
       claims: emptyClaimDocument(),
@@ -332,9 +350,63 @@ describe("Art Desk projection and briefs", () => {
           item.request.requestId === "env-neighborhood-doorstep-generic",
       ),
     ).toBe(true);
-    expect(
-      needs.some((item) => item.request.requestId.startsWith("person-")),
-    ).toBe(false);
+    /**
+     * This used to assert that no request whose id starts with "person-"
+     * reaches the lane, which read as a rule about people art and was not
+     * one. What kept them out was the d-held-people flag: a lane-ownership
+     * note from the Art Desk's own plan, written into data on 2026-09-15 and
+     * left reading like a product decision nobody made. The flag is gone, so
+     * the rule it enforced is gone with it, and a person request is now an
+     * open ask like any other.
+     *
+     * Not a weakening. Each of the six was checked against the preserved
+     * bank first and every one is still required: the banked morphologies,
+     * seated poses and lectern cells are all under the production floor or
+     * carry a baked prop, and nothing child or adolescent exists at all. So
+     * none of them re-commissions art the project already holds.
+     */
+    expect(Object.values(reconciliation.holds)).not.toContain("d-held-people");
+    for (const requestId of [
+      "person-adult-body-silhouette-reexport",
+      "person-child-body-morphology",
+      "person-adult-lectern-pose",
+      "person-seated-three-quarter-right-body",
+    ]) {
+      expect(
+        needs.some((item) => item.request.requestId === requestId),
+        requestId,
+      ).toBe(true);
+    }
+    /**
+     * The two production body requests do not appear here, and that is the
+     * lane working rather than the flag surviving: both are
+     * revision-requested, so they sort to "revision". Asserted rather than
+     * assumed, because "it is not in this lane" was exactly the shape that
+     * hid all six for a week.
+     */
+    const revision = filterDeskItems(desk.items, "revision", "");
+    for (const requestId of [
+      "person-production-standing-body",
+      "person-production-seated-body",
+    ]) {
+      expect(
+        revision.some((item) => item.request.requestId === requestId),
+        requestId,
+      ).toBe(true);
+    }
+    const modularRequests = assetRequestDocument.requests.filter((request) =>
+      request.requestId.startsWith("person-modular47-"),
+    );
+    expect(modularRequests.length).toBeGreaterThan(0);
+    for (const request of modularRequests) {
+      const item = needs.find(
+        (candidate) => candidate.request.requestId === request.requestId,
+      );
+      expect(item, request.requestId).toBeDefined();
+      expect(item!.generationEligible, request.requestId).toBe(false);
+      expect(item!.request.status).toBe("candidate-submitted");
+      expect(item!.request.generationHold).toBe("awaiting-assessment");
+    }
   });
 
   it("compiles a brief that leaves unresolved geometry unresolved", () => {
@@ -362,7 +434,7 @@ describe("candidate byte states, pack receipts and disposable QA requests", () =
     reviews: emptyReviewDocument(),
     now,
   };
-  const recorded = generationBatch.records[0];
+  const recorded = present(generationBatch.records[0]);
 
   it("keeps a recorded hash as history when bytes are missing and blocks decisions", () => {
     const desk = projectArtDesk({
@@ -376,7 +448,7 @@ describe("candidate byte states, pack receipts and disposable QA requests", () =
         },
       },
     });
-    const item = desk.items[0];
+    const item = present(desk.items[0]);
     expect(item.candidateSha256).toBe(recorded.outputSha256);
     expect(item.candidateVerified).toBe(false);
     expect(item.coverage.note).toContain("not in this checkout");
@@ -394,8 +466,10 @@ describe("candidate byte states, pack receipts and disposable QA requests", () =
         },
       },
     });
-    expect(desk.items[0].candidateBytes).toBe("unchecked");
-    expect(decisionBlocker(desk.items[0])).toContain("not verified yet");
+    expect(present(desk.items[0]).candidateBytes).toBe("unchecked");
+    expect(decisionBlocker(present(desk.items[0]))).toContain(
+      "not verified yet",
+    );
   });
 
   it("reports verified bytes with decoded size, and a mismatch as a warning", () => {
@@ -412,9 +486,9 @@ describe("candidate byte states, pack receipts and disposable QA requests", () =
         },
       },
     });
-    expect(verified.items[0].candidateVerified).toBe(true);
-    expect(verified.items[0].coverage.note).toContain("1280×720 jpg");
-    expect(decisionBlocker(verified.items[0])).toBeNull();
+    expect(present(verified.items[0]).candidateVerified).toBe(true);
+    expect(present(verified.items[0]).coverage.note).toContain("1280×720 jpg");
+    expect(decisionBlocker(present(verified.items[0]))).toBeNull();
     const mismatch = projectArtDesk({
       ...baseInputs,
       candidateByRequest: {
@@ -425,10 +499,12 @@ describe("candidate byte states, pack receipts and disposable QA requests", () =
         },
       },
     });
-    expect(mismatch.items[0].warnings.join(" ")).toContain(
+    expect(present(mismatch.items[0]).warnings.join(" ")).toContain(
       "not the recorded candidate",
     );
-    expect(decisionBlocker(mismatch.items[0])).toContain("hash-mismatch");
+    expect(decisionBlocker(present(mismatch.items[0]))).toContain(
+      "hash-mismatch",
+    );
   });
 
   it("marks sidecar QA requests disposable and never generation-eligible", () => {
@@ -441,17 +517,19 @@ describe("candidate byte states, pack receipts and disposable QA requests", () =
       requests: [qa],
       disposableRequestIds: new Set([qa.requestId]),
     });
-    expect(desk.items[0].disposable).toBe(true);
-    expect(desk.items[0].generationEligible).toBe(false);
-    expect(desk.items[0].warnings.join(" ")).toContain("Disposable QA");
+    expect(present(desk.items[0]).disposable).toBe(true);
+    expect(present(desk.items[0]).generationEligible).toBe(false);
+    expect(present(desk.items[0]).warnings.join(" ")).toContain(
+      "Disposable QA",
+    );
   });
 
   it("gives environment requests their own style authority and people requests the pack state", () => {
     const missing = { status: "not-configured", note: "unset" };
     const env = styleReferencesFor(doorstep, missing);
     expect(env).toHaveLength(1);
-    expect(env[0].role).toBe("style-authority");
-    expect(env[0].pathOrDriveId).toContain("OCD_SCENE_MASTER");
+    expect(present(env[0]).role).toBe("style-authority");
+    expect(present(env[0]).pathOrDriveId).toContain("OCD_SCENE_MASTER");
     const person = request({ requestId: "person-qa" });
     const withoutPack = styleReferencesFor(person, missing);
     expect(withoutPack[1]).toMatchObject({
@@ -469,6 +547,6 @@ describe("candidate byte states, pack receipts and disposable QA requests", () =
       pathOrDriveId: "modular41-current-0a044d183ad7",
       sha256: "a".repeat(64),
     });
-    expect(withPack[1].missingReason).toBeUndefined();
+    expect(present(withPack[1]).missingReason).toBeUndefined();
   });
 });

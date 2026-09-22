@@ -167,6 +167,22 @@ export function parseDeclaration(
     );
   }
 
+  // The renderer folds a body into a bullet under its section heading, so a
+  // Markdown heading inside one lands mid-list-item. Prettier then rewrites the
+  // generated PATCH_NOTES.md, and `npm run format` — the first step of
+  // `npm run validate` — fails the release job on a file the release machinery
+  // itself just wrote. Measured 2026-09-22: every Release run on main died this
+  // way, so the version sat at 0.4.0 while seven unreleased sections stacked up.
+  const heading = body.split("\n").find((line) => /^ {0,3}#{1,6}\s/.test(line));
+  if (heading !== undefined) {
+    throw new DeclarationError(
+      `${where}: the body carries a Markdown heading (${heading.trim()}). ` +
+        `A declaration's body is rendered as a bullet under its section, so a ` +
+        `heading inside it breaks the generated patch notes. The 'title' header ` +
+        `is where a heading belongs.`,
+    );
+  }
+
   if (impact === "none") {
     if (section !== undefined || title !== undefined) {
       throw new DeclarationError(
