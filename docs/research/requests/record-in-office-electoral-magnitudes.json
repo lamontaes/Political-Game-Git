@@ -23,5 +23,15 @@
   ],
   "title": "How much a governor's economic record moves their vote",
   "usableAnswer": "The change in vote share (percentage points) per percentage point change in state unemployment over the term, and per point of real income growth, with the study it comes from; whether voters weigh the last year more than the whole term; and the typical incumbency advantage in points for governors and for state legislators.",
-  "whyItMatters": "Nothing an officeholder did counted when they ran again. Now the economy on their watch does, at a placeholder size. Too small and governing doesn't matter to reelection; too large and one bad draw ends a career."
+  "whyItMatters": "Nothing an officeholder did counted when they ran again. Now the economy on their watch does, at a placeholder size. Too small and governing doesn't matter to reelection; too large and one bad draw ends a career.",
+  "answer": {
+    "summary": "Warshaw 2017 (preliminary; governor races 1969 to 2016): about +1.4 points of the governor's party's two-party share per 1 point better average annual wage and employment growth statewide; within a state-year at county level about 0.1 to 0.2; do not stack across indicators or months. Ebeid and Rodden 2006 (1950 to 1998): one-year unemployment change and real per-capita income, much weaker where farming or natural resources dominate. Rutgers: 498 of 668 incumbent governors who ran from 1948 to 2023 won (74.55%), a success rate, not a vote-share bonus. Uppal (lower houses in 45 states, 1968 to 1989, close races): about +5.3 points next-election share and about +30 points win probability (8.7 by the conventional method). The game's UNRESEARCHED_RECORD_IN_OFFICE values (60 support weight per point of unemployment change, capped at 150, on an 850 to 1150 draw) have no research validation and are not vote-share points. A calibration must keep four things apart: the officeholder's actions versus conditions during the term; party share versus personal incumbency; near-election versus whole-term record; election share versus starting-support weight.",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-22-nationwide-2315/OCD-RECORD-IN-OFFICE-ELECTORAL-MAGNITUDES--2026-09-22.md (Drive 1CFKVqWjpneeosbixpy8ScV3Va9f4f0Y9, SHA-256 a6ef35beb4861a1a46d100c07641777cfdf40beb98a79e259351884083d1218e)",
+      "docs/research/chatgpt-answers/2026-09-22-nationwide-2315/OCD-CTO-INTAKE--INVENTED-DEPTH-AUDIT-AND-2300Z-QUEUE--2026-09-22.md (Drive 1wYReCweJLIHRCP6y8GaWp8RhKxOrdtzw, SHA-256 905ba31340bd8d1f72bc89a09e3156e4f28cda1eae7985cf95a7624f30ed9848)"
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T23:15:00.000Z",
+    "stillOpen": "Whole-term unemployment coefficient, a transferable income coefficient, inflation, last-year versus whole-term weighting, and governor incumbency in vote-share points are all UNKNOWN. No game coefficient was selected."
+  }
 }

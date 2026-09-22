@@ -7,6 +7,7 @@
 - Use **descriptors and scales together**. A person may hold multiple meaningful descriptors at once. Personality behavior must be tied to recorded context.
 - An adult may have a rich underlying personality while the People card initially shows the strongest, established descriptors and reveals more through recorded behavior and relationships. For a younger person, traits may be intense, tentative, malleable, or not yet established. A timid 16-year-old may become confident or may remain timid. Do not force a fixed youth personality count.
 - Earlier owner guidance allowed one or two starting traits, while the newer request rejects a world limited to five scales and one legislator trait. Interpret one or two as an initial **visible/high-confidence selection**, not a hard cap on the person’s underlying personality or lifetime growth. This interpretation needs owner/decision-log reconciliation before implementation.
+- The owner clarified the shame example on 2026-09-22: **shame/feeling ashamed is an event-linked feeling; shamelessness can be a lasting trait**. Do not add `ashamed` as a fixed personality descriptor merely because a character feels it once. `Shameless` is a new candidate outside the 121-source list and needs a separate definition and evidence boundary; it is not automatically identical to `brazen` or low inhibition.
 
 ## Classification rule
 
@@ -27,7 +28,7 @@
 - **Adult start:** seed a coherent deeper profile, show only one or two well-established descriptors if that is what the recorded/generated history supports, and make further descriptors inspectable or discoverable through actual behavior. The card should not imply the person has only those one or two.
 - **Youth start:** allow zero, one, or several visible descriptors according to the character’s history and strength of evidence; some may be explicitly tentative. Do not tie a fixed count to age or make every youth blank. A later event can strengthen, weaken, or replace `timid` with a more confident pattern, but a single scene should not instantly rewrite a stable trait.
 - **Lifetime:** no arbitrary fixed descriptor slot cap. Add, retire, or revise descriptors when recorded life warrants it. UI can foreground the few most salient ones and let the player open detail. This is a display limit, not a simulation cap. No rates or thresholds have been approved.
-- **Catalogue gaps:** the owner’s examples `lustful` and `ashamed`/`shameful` are not IDs in this 121-candidate source. Treat those as new candidate concepts to define with owner-approved wording and boundaries; do not pretend this roster covers them. `ashamed` may be a temporary state rather than a stable descriptor, so its classification needs a separate decision.
+- **Catalogue gaps:** the owner’s examples `lustful` and `ashamed`/`shameful` are not IDs in this 121-candidate source. The owner has now classified shame/ashamed as a feeling and shameless as a possible lasting trait. `Lustful` and `shameless` remain candidate descriptors requiring separate definitions and evidence boundaries; do not pretend this roster covers them. Shame belongs to an event-linked feeling model.
 
 ## All 121 source IDs
 
