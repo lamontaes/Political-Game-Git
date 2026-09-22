@@ -145,6 +145,41 @@
       "preservedUnits": [],
       "evidencePaths": [],
       "reason": "The preserved packet contains the warm-leaf parent pavilion only. It contains no same-geometry leafless winter variant, and the separate private Art Desk attempt remains unapproved and is not evidence in this reconciliation."
+    },
+    {
+      "requestId": "news-masthead-nameplate-bands",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this ask. The preserved evidence is people families, wardrobe components and room plates; no newspaper, nameplate or printed-matter art exists anywhere in art/. art/shared/documents_desk_props/ holds only a .gitkeep, and the one filename in the tree containing 'news' is a coarse desk-supplies region showing a mug, keys and writing, which is neither a nameplate nor a page."
+    },
+    {
+      "requestId": "news-page-newsprint-ground",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this ask. No paper or newsprint texture exists in art/, and art/style/material_tokens.json carries no paper material. The preserved units are character families and room plates, none of which contains a tileable sheet."
+    },
+    {
+      "requestId": "economic-graph-panel-ground",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this ask. No chart, graph, grid or plotting-paper asset exists in art/, and src/player/economic-context-panel.css draws the whole figure from colour values with no image reference. No preserved unit is a panel ground."
+    },
+    {
+      "requestId": "guide-popover-card-ground",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this ask. No shell chrome, card, frame or panel art exists in art/; src/player/guide.css defines the popover entirely from the --pg-radius and --pg-shadow tokens. The preserved units are people and rooms, neither of which yields a nine-slice card ground."
+    },
+    {
+      "requestId": "politics-hub-tab-band",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this ask. No navigation chrome art exists in art/, and src/player/politics/politics-hub.css contains no url() or image reference of any kind. No preserved unit is a tab band."
     }
   ],
   "unlinkedPreservedAssets": [
