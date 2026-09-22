@@ -20,4 +20,12 @@ other again is not reconciliation. The person who asked to meet and never heard
 back feels the gap before the other does. People who share a home are never
 apart, and opening someone's card is not contact.
 
+Talking to somebody now counts as seeing them. Before, a whole afternoon of
+conversation and a game left the person card saying the two of them last spoke
+months ago. Each day's conversation goes on the shared record once, however
+many turns it took, and half an hour spent together is recorded as time
+together. A childhood scene played with somebody counts as seeing them too.
+None of these changes how anyone feels about the player on its own, since
+saying hello is not a friendship.
+
 The person card says all of this in words, never as a meter.

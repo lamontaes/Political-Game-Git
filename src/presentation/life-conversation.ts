@@ -16,6 +16,7 @@ import {
   describePersonContext,
   personName,
   recordEventKnowledge,
+  recordRelationshipInteraction,
   recordWorldEvent,
   advanceWorldMinutes,
   kinshipRelationshipsAt,
@@ -31,6 +32,9 @@ import {
 } from "../simulation/queries";
 import type {
   EntityId,
+  IsoDate,
+  RelationshipChange,
+  RelationshipInteractionKind,
   World,
   FutureTransitionHandlerRegistry,
 } from "../simulation";
@@ -675,6 +679,15 @@ export function commitLifeConversation(
       confidence: "high",
       source: { kind: "direct" },
     });
+  next = recordConversationContact(next, {
+    playerPersonId: input.playerPersonId,
+    personId: input.personId,
+    eventId: event.id,
+    occurredAt: advanced.currentDate,
+    // Agreeing to a game is a plan; the half hour is the time together.
+    timeTogether: input.intent === "spendTime",
+    date: input.intent === "date" && answer === "date-accepted",
+  });
   if (input.intent === "spendTime") {
     next = completeOrdinaryGoal(
       next,
@@ -683,6 +696,87 @@ export function commitLifeConversation(
       event.id,
     );
     next = completeOrdinaryGoal(next, input.personId, "connection", event.id);
+  }
+  return next;
+}
+
+/**
+ * Put a conversation on the two people's shared record.
+ *
+ * Before this, talking to somebody wrote an event and what each person heard,
+ * and nothing between the two of them: after an afternoon of talk and a game,
+ * the person card still said they last spoke months ago, and time apart could
+ * not be measured because time together was never recorded.
+ *
+ * One day's talk is one episode, whatever the number of turns, so the record
+ * says the two of them spoke that day and not that they spoke eleven times; the
+ * conduct rubric for `what-moves-a-relationship` asks for exactly this, and a
+ * routine conversation moves none of the five lines on its own. Time spent
+ * together and an accepted date are their own episodes on the same day,
+ * because they are shared experience rather than contact. A refusal writes no
+ * extra record: it is the other person's answer, not a mark against anyone.
+ */
+function recordConversationContact(
+  world: World,
+  input: {
+    readonly playerPersonId: EntityId;
+    readonly personId: EntityId;
+    readonly eventId: EntityId;
+    readonly occurredAt: IsoDate;
+    readonly timeTogether: boolean;
+    readonly date: boolean;
+  },
+): World {
+  const base = `life-talk:${input.occurredAt}:${input.playerPersonId}:${input.personId}`;
+  const episodes: {
+    key: string;
+    kind: RelationshipInteractionKind;
+    change: RelationshipChange;
+    summary: string;
+  }[] = [
+    {
+      key: `${base}:spoke`,
+      kind: "contact:conversation",
+      change: "maintained",
+      summary: "Spoke together.",
+    },
+  ];
+  if (input.timeTogether) {
+    episodes.push({
+      key: `${base}:time-together`,
+      kind: "experience:time-together",
+      change: "maintained",
+      summary: "Spent time together.",
+    });
+  }
+  if (input.date) {
+    episodes.push({
+      key: `${base}:date`,
+      kind: "experience:date",
+      change: "strengthened",
+      summary: "Agreed this was a date.",
+    });
+  }
+  let next = world;
+  for (const episode of episodes) {
+    if (
+      next.history.relationshipInteractions.some(
+        (interaction) => interaction.stableKey === episode.key,
+      )
+    ) {
+      continue;
+    }
+    next = recordRelationshipInteraction(next, {
+      stableKey: episode.key,
+      personIds: [input.playerPersonId, input.personId],
+      eventId: input.eventId,
+      occurredAt: input.occurredAt,
+      kind: episode.kind,
+      change: episode.change,
+      significance: "meaningful",
+      summary: episode.summary,
+      tags: ["life.conversation"],
+    });
   }
   return next;
 }
