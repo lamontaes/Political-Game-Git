@@ -89,6 +89,22 @@ export function configuredArtConsumers(privateReview: boolean) {
       part.definition.pose_family === "standing-neutral" &&
       preparedFamily(part.definition.family),
   );
+  // No prepared body at all means this checkout has no private candidate pack
+  // to compose from — the ordinary case on a public runner, which is forbidden
+  // to contain one. That is an absence of material, not a failed verification,
+  // and the two must not share an outcome: reporting it as a failure made the
+  // art-review build red everywhere the pack is missing, which is everywhere
+  // except the owner's Mac. Where a pack IS present, a composition that cannot
+  // be completed still throws below, because there the material exists and the
+  // renderer's inability to use it is exactly what this audit is for.
+  if (!bodies.length) {
+    gaps.push(
+      "No prepared standing body in the candidate library: this checkout has no private character pack, so no creator composition was verified here.",
+    );
+    return { consumers, gaps, generation, completePlans: 0 };
+  }
+  // Math.max of an empty list is -Infinity, which would match no generation and
+  // leave every later step silently empty rather than saying why.
   const newestBodyGeneration = Math.max(
     ...bodies.map((part) => part.definition.catalog_generation),
   );
