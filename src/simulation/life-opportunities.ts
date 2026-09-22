@@ -23,6 +23,7 @@ import {
   workPendingEntriesFor,
 } from "./time-work";
 import { settleLivingCosts } from "./cost-of-living";
+import { settleOfficeSalaries } from "./office-salary";
 import { recordWorldEvent } from "./world";
 import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
 
@@ -503,6 +504,7 @@ export function refreshLifeOpportunities(
   if (formativeIntervalAt(world, personId) !== null) return world;
 
   let next = replenishHouseholdWeek(world, personId);
+  next = settleOfficeSalaries(next, personId);
   next = settleLivingCosts(next, personId);
   next = writeNextOpportunity(next, personId);
   return next;
@@ -594,16 +596,26 @@ function writeNextOpportunity(world: World, personId: EntityId): World {
   // and in the long playthrough that was the wall: one request that never
   // expired held the life still, and Fatima Erickson in Eastport, Maine was
   // offered the same five moments for three years. The cap still stops a
-  // quiet stretch from turning into an inbox; one per transition stops it from
+  // quiet stretch from turning into an inbox; one a day stops it from
   // arriving all at once.
   //
   // PLACEHOLDER(research: what-an-ordinary-adult-year-contains): how often an
   // ordinary adult is asked something is unresearched. The cap and the
-  // one-per-transition pace are pacing rules, not rates.
-  const budget =
-    lifeOpportunitiesFor(world, personId).length === 0
-      ? OPEN_LIFE_OPPORTUNITY_LIMIT
-      : 1;
+  // one-a-day pace are pacing rules, not rates.
+  //
+  // "Per transition" is kept idempotent by the day: a life that already has
+  // something open gets nothing more on a day something was already written
+  // for it, so reopening a save, or a screen change, writes nothing new.
+  const open = lifeOpportunitiesFor(world, personId);
+  const writtenToday = `life-opportunity:${personId}:${world.currentDate}:`;
+  if (
+    open.length > 0 &&
+    world.history.events.some((event) =>
+      event.stableKey.startsWith(writtenToday),
+    )
+  )
+    return world;
+  const budget = open.length === 0 ? OPEN_LIFE_OPPORTUNITY_LIMIT : 1;
 
   let next = world;
   for (let attempt = 0; attempt < budget; attempt += 1) {

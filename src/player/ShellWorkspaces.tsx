@@ -1,3 +1,4 @@
+import { dollars } from "../presentation/campaign-life-surface";
 import { UX39CalendarGrid, useCalendarDateOrder } from "./UX39CalendarGrid";
 import {
   clampWorkspace,
@@ -1335,11 +1336,7 @@ export function MeasureSurface({
 /* ---------------------------------------------------------------- personal */
 
 function formatMoney(amount: MoneyAmount): string {
-  const whole = (amount.minorUnits / 100).toLocaleString("en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return `${whole} ${amount.currency}`;
+  return dollars(amount);
 }
 
 export function PersonalWorkspace({
