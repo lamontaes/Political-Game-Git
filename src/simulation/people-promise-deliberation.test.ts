@@ -29,28 +29,39 @@ import type { EntityId, World } from "./types";
  * arm depends on the tie-breaking jitter.
  */
 describe("a promise renegotiation reads deliberation the way its own words read", () => {
-  const life = generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed: "deliberation-poles",
-      startAge: 34,
-    }),
-  ).game!;
-  const player = life.playerPersonId;
-  const counterpart = life.world.personOrder.find(
-    (id) =>
-      id !== player &&
-      life.world.history.events.some((event) =>
-        event.involvedEntityIds.includes(id),
-      ),
-  )!;
-  const requestEventId = [...life.world.history.events]
-    .reverse()
-    .find((event) => event.involvedEntityIds.includes(counterpart))!.id;
+  /**
+   * Five worlds rather than one. A single consideration at full strength and
+   * nothing else standing against it decides on its own; with nothing at all
+   * standing, every option ties and the seeded jitter picks. One world could
+   * therefore pass through the inversion by luck of the draw, and across five
+   * seeds it cannot.
+   */
+  const seeds = ["a", "b", "c", "d", "e"].map((suffix) => {
+    const life = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: `deliberation-poles-${suffix}`,
+        startAge: 34,
+      }),
+    ).game!;
+    const player = life.playerPersonId;
+    const counterpart = life.world.personOrder.find(
+      (id) =>
+        id !== player &&
+        life.world.history.events.some((event) =>
+          event.involvedEntityIds.includes(id),
+        ),
+    )!;
+    const requestEventId = [...life.world.history.events]
+      .reverse()
+      .find((event) => event.involvedEntityIds.includes(counterpart))!.id;
+    return { world: life.world, player, counterpart, requestEventId };
+  });
 
   function temperament(
     world: World,
     personId: EntityId,
+    eventId: EntityId,
     values: Partial<Record<PeopleTrait, TraitValue>>,
   ): World {
     let next = world;
@@ -59,36 +70,44 @@ describe("a promise renegotiation reads deliberation the way its own words read"
         personId,
         trait,
         value: values[trait] ?? 0,
-        eventId: requestEventId,
+        eventId,
         reason: "Set for this test, so one trait argues at a time.",
       });
     }
     return next;
   }
 
-  function answer(world: World): string {
+  function answerIn(
+    seed: (typeof seeds)[number],
+    values: Partial<Record<PeopleTrait, TraitValue>>,
+  ): string {
+    const world = temperament(
+      seed.world,
+      seed.counterpart,
+      seed.requestEventId,
+      values,
+    );
     return decidePromiseRenegotiation(world, {
-      personId: player,
-      counterpartPersonId: counterpart,
-      requestEventId,
+      personId: seed.player,
+      counterpartPersonId: seed.counterpart,
+      requestEventId: seed.requestEventId,
       revisionId: "more-time",
     }).outcome;
   }
 
   it("somebody who thinks things through wants an answer before agreeing", () => {
-    const world = temperament(life.world, counterpart, { deliberation: -2 });
-    expect(answer(world)).toBe("needs-answer");
+    expect(seeds.map((seed) => answerIn(seed, { deliberation: -2 }))).toEqual(
+      seeds.map(() => "needs-answer"),
+    );
   });
 
   it("somebody who acts on impulse is not the one asking to leave it open", () => {
     // Impulsiveness argues for no option here, so the only trait with
     // anything to say is the dependable one, and it says hold the
-    // arrangement. Before the fix this arm was a tie, because impulsiveness
-    // was the thing asking for an answer first.
-    const world = temperament(life.world, counterpart, {
-      deliberation: 2,
-      reliability: 2,
-    });
-    expect(answer(world)).toBe("holds-boundary");
+    // arrangement. Before the fix this was a tie, because impulsiveness was
+    // the thing asking for an answer first.
+    expect(
+      seeds.map((seed) => answerIn(seed, { deliberation: 2, reliability: 2 })),
+    ).toEqual(seeds.map(() => "holds-boundary"));
   });
 });
