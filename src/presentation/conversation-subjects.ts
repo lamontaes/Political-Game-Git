@@ -701,7 +701,10 @@ const lifeTalkSubject: ConversationSubjectPresentation<LifeTalkConversationProgr
       return view.intents.map((intent) => ({
         key: intent.key,
         label: intent.label,
-        description: LIFE_TALK_INTENTS[intent.key],
+        description:
+          intent.key in LIFE_TALK_INTENTS
+            ? LIFE_TALK_INTENTS[intent.key as keyof typeof LIFE_TALK_INTENTS]
+            : intent.label,
       }));
     },
     openingBeat(world, room, addressee) {
