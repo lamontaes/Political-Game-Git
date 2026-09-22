@@ -1,0 +1,57 @@
+{
+  "control": {
+    "detail": "In Augusta, Atlanta and Phoenix there is no city office to stand for and no municipal election to take part in.",
+    "present": false
+  },
+  "declaredInContent": false,
+  "duplication": {
+    "kind": "coverage",
+    "playerVisible": true,
+    "producers": [
+      {
+        "at": "main at 7e011a42",
+        "path": "src/simulation/municipal-government.ts",
+        "reachDetail": "Walked: Augusta ME, Atlanta GA, Phoenix AZ, age 40, first morning. Augusta and Atlanta: 'Your town's own government is not in this build yet.' Phoenix: represented, with no manager election recorded.",
+        "reachedByPlay": "reaches"
+      },
+      {
+        "at": "main at 7e011a42",
+        "path": "src/simulation/municipal-election-rule-packs.ts",
+        "reachDetail": "Imported by its own matrix test and nothing else in src/ or scripts/, so no route can reach it; the walk above confirmed none of its ME, GA or AZ rules appear.",
+        "reachedByPlay": "does-not-reach"
+      }
+    ],
+    "visibilityDetail": "The screen says there is nothing, and a sourced answer exists for the same state."
+  },
+  "entryId": "how-cities-elect",
+  "mapVersion": "connectivity-map/v1",
+  "measuredBy": "dual-systems count",
+  "measurements": [
+    {
+      "at": "main at 4965f63c, walked 2026-09-22 ~17:45-18:05Z in Chromium 141 through the ordinary creator",
+      "found": "Identical refusal on Campaigns; no city office offered anywhere. The corpus rows for ME, GA and AZ carry ballot, timing, runoff, seat, administration, vacancy, recall, initiative and referendum rules with citations.",
+      "what": "Campaigns and Local government screens in three towns"
+    },
+    {
+      "at": "main at d5c707f4",
+      "found": "municipal-election-rule-packs-matrix.test.ts and a path string in scripts/prose-corpus/coverage.ts; nothing in play.",
+      "what": "Every importer of municipal-election-rule-packs.ts"
+    }
+  ],
+  "notes": [
+    "The corpus is state baseline law and play asks a per-city question, so wiring it in is a design choice (a baseline where no charter was read), not a repair."
+  ],
+  "playerReach": "does-not-reach",
+  "playerReachDetail": "A candidate in Maine, Georgia or Arizona is told there is nothing to stand for below governor, while the compiled state law on how their cities elect sits unread.",
+  "reMeasuredByPublisher": true,
+  "recordedAt": "2026-09-22T20:40:00.000Z",
+  "surface": {
+    "detail": "Politics > Government > Local meetings and records, and the Campaigns screen.",
+    "present": true
+  },
+  "system": {
+    "detail": "Two. Play reads per-government charter readings through municipalRulePackFor in src/simulation/municipal-government.ts. A second, same-named municipalRulePackFor in src/simulation/municipal-election-rule-packs.ts compiles 51 jurisdictions of state baseline municipal election law with statute citations, and only its own test imports it.",
+    "present": true
+  },
+  "title": "How a city elects its government"
+}
