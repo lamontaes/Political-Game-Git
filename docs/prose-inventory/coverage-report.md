@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 3166 |
-| INTENTIONALLY_NON_PLAYER_FACING | 7074 |
-| DIAGNOSTIC_OR_TEST | 7603 |
-| **NEEDS_CLASSIFICATION** | **10277** |
+| INTENTIONALLY_NON_PLAYER_FACING | 7073 |
+| DIAGNOSTIC_OR_TEST | 7634 |
+| **NEEDS_CLASSIFICATION** | **10288** |
 
-Scanned 1151 files holding 111799 string
+Scanned 1154 files holding 111974 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -188,6 +188,7 @@ literals in total; the table counts only those that read like a sentence.
 | 17 | `src/simulation/executive-governing-kernels.ts` |
 | 17 | `src/simulation/incident-response.ts` |
 | 17 | `src/simulation/life-places.ts` |
+| 17 | `src/simulation/office-qualification-rules.ts` |
 | 17 | `src/simulation/people-family-plan.ts` |
 | 17 | `src/simulation/people-trait-definitions.ts` |
 | 17 | `src/ui/CharacterProofView.tsx` |
@@ -270,7 +271,6 @@ literals in total; the table counts only those that read like a sentence.
 | 10 | `src/simulation/governing/legislative-clock.ts` |
 | 10 | `src/simulation/living-world/congress-turnover.ts` |
 | 10 | `src/simulation/nationwide-world/state-executive-turnover.ts` |
-| 10 | `src/simulation/office-qualification-rules.ts` |
 | 10 | `src/simulation/people-continuation.ts` |
 | 10 | `src/simulation/press-reach.ts` |
 | 10 | `src/simulation/setup-questionnaire-bank.ts` |
@@ -285,6 +285,7 @@ literals in total; the table counts only those that read like a sentence.
 | 9 | `src/presentation/relationship-web.ts` |
 | 9 | `src/presentation/surface-binding.ts` |
 | 9 | `src/simulation/campaign-compliance.ts` |
+| 9 | `src/simulation/candidate-qualification.ts` |
 | 9 | `src/simulation/constitutional-process.ts` |
 | 9 | `src/simulation/governing/office-staffing.ts` |
 | 9 | `src/simulation/national-election-consumer.ts` |
@@ -327,7 +328,6 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/presentation/player-conversation.ts` |
 | 7 | `src/presentation/tax-work.ts` |
 | 7 | `src/presentation/time-target-label.ts` |
-| 7 | `src/simulation/candidate-qualification.ts` |
 | 7 | `src/simulation/governing/office-consequence.ts` |
 | 7 | `src/simulation/judicial-office-start.ts` |
 | 7 | `src/simulation/legislative-office-terms.ts` |
@@ -476,6 +476,7 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/presentation/scene-proof.ts` |
 | 2 | `src/presentation/surface-review.ts` |
 | 2 | `src/simulation/civil-personnel-integrity.ts` |
+| 2 | `src/simulation/district-residence.ts` |
 | 2 | `src/simulation/evidence-integrity.ts` |
 | 2 | `src/simulation/executive-work-context.ts` |
 | 2 | `src/simulation/governing/repair-funding.ts` |
