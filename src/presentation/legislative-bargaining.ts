@@ -2,6 +2,7 @@ import {
   BARGAINING_ANSWER_OFFER_DECISION,
   BARGAINING_ANSWER_REQUEST_DECISION,
 } from "../simulation/legislative-bargaining-decisions";
+import { conferBargainingManner } from "../simulation/legislature-manner";
 import { loadedTraitRegistry } from "../simulation/trait-registry";
 import { registeredTraitConsiderations } from "../simulation/trait-readings";
 import {
@@ -790,6 +791,11 @@ export function recordBargainingConsequences(
       heardByPersonIds: input.listenerPersonIds,
       statement: input.statement,
     });
+    // The commitment just written is itself the evidence. A member's manner is
+    // re-read from their own record here, where they acted, rather than when a
+    // screen opened: looking at a room should not create a fact about the
+    // people in it.
+    next = conferBargainingManner(next, commitment.holderPersonId);
   }
   return next;
 }
