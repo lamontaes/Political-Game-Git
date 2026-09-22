@@ -1,0 +1,27 @@
+{
+  "filedAt": "2026-09-22T22:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "long playthrough",
+  "notes": [
+    "economic-earlier-editions-and-new-england-rents asks about rent figures for the economy; this asks what a person pays, which the life simulation needs."
+  ],
+  "priority": "P1",
+  "question": "What does a single adult or a small household realistically spend each month on rent or a mortgage, food, utilities, transportation, insurance and other necessities, and how does that change between a small town and a city, and across states? What does a shop assistant or stock clerk's pay leave after that?",
+  "questionId": "what-a-person-spends-to-live",
+  "relatedQuestionIds": ["economic-earlier-editions-and-new-england-rents"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "long playthrough thread (Fatima Erickson and Seth Woodward)",
+  "sourcesChecked": [
+    {
+      "source": "Long playthrough in the browser, September 22, 2026: Fatima Erickson's Money screen after three years",
+      "whatItDidNotSettle": "Shows income arriving and no spending at all. Says nothing about what real spending should be."
+    },
+    {
+      "source": "The pay and household code as built",
+      "whatItDidNotSettle": "Pay is recorded per shift; a housing cost basis exists only as a type with no writer. Nothing charges a person to live."
+    }
+  ],
+  "title": "What an ordinary person spends to live each month, by place",
+  "usableAnswer": "Monthly spending bands by category for a single adult and for a small household, with how they vary by place size and by state or region, and a named public source for each so the game can refresh it. Say which items are fixed monthly bills and which vary with how a person lives.",
+  "whyItMatters": "Nobody in the game pays for anything. Fatima worked a part-time shop job in Eastport, Maine for three years and saved $87,984 because rent, food and bills do not exist. Money never forces a choice, so a job, a raise or a campaign donation means nothing."
+}

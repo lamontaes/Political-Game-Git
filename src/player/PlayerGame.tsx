@@ -76,7 +76,10 @@ import {
 import { travelTowardsPerson } from "../presentation/person-contact";
 import { interruptionHandlers } from "../presentation/interruption-policy";
 import { MunicipalWorkspace } from "./MunicipalWorkspace";
-import { localGoverningSeatFor } from "../presentation/local-governing-seat";
+import {
+  localGoverningSeatFor,
+  townSeatRulesSentence,
+} from "../presentation/local-governing-seat";
 import { World39News } from "./World39News";
 import { World39Journal } from "./World39Journal";
 import { PlacesWorkspace } from "./PlacesWorkspace";
@@ -5440,8 +5443,13 @@ function renderWorkspace({
             <div data-testid="town-seat">
               <p>
                 You sit on the {townSeat.bodyName} of {townSeat.governmentName},
-                since {townSeat.since}.
+                since {proseDate(townSeat.since)}.
               </p>
+              {townSeatRulesSentence(townSeat) ? (
+                <p data-testid="town-seat-rules">
+                  {townSeatRulesSentence(townSeat)}
+                </p>
+              ) : null}
               <p className="game-note">
                 {townSeat.hasCityScreen
                   ? "Its meetings and business are under Government, in Local meetings and records."

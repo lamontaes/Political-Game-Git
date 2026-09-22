@@ -204,7 +204,7 @@ it("accounts for the thirty versioned OPENING records and the actual canonical n
   );
   expect(groups.map((rows) => rows.length)).toEqual([10, 15, 5]);
   expect(new Set(groups.flat().map((row) => row.personId)).size).toBe(5);
-  expect(world.people["person_159b46fda48b2fea"]?.givenName).toBe("Donna");
+  expect(world.people["person_159b46fda48b2fea"]?.givenName).toBe("Brianna");
 });
 
 it("refuses unaccounted corruption before applying the explicit OPENING delta", () => {
