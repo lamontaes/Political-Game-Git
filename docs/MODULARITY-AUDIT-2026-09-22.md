@@ -7,8 +7,10 @@ running the path in this container: `vitest`, `tsc --noEmit`, and small probe
 scripts written against the real modules and deleted afterwards. Claims that are
 a reading of source and not a run are labelled **read, not run**.
 
-No result here is CI-verified. CI is backed up and nothing was pushed to trigger
-a run.
+No result here is CI-verified. Every run above was local, in this container. The
+branch carrying this document is pushed, but its validation runs were cancelled
+deliberately: CI has two job slots repo-wide and main needs both, so a
+documents-only run was not worth starving it.
 
 ---
 
