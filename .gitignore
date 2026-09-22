@@ -38,3 +38,19 @@ docs/prose-inventory/coverage-candidates.json
 docs/prose-inventory/prose-inventory.json
 docs/prose-inventory/prose-inventory.csv
 docs/prose-inventory/review-packet.html
+# The coverage report and the README are generated too, and they conflicted on
+# essentially every base merge: both are mostly per-file lists that move when
+# anybody adds a file under `src/`, so two branches adding a source file
+# collide by construction. The guarantee the report carried — a stale report
+# fails the build — now lives in the five numbers of the tracked
+# `coverage-counts.json`, which conflicts only if two branches change the
+# totals.
+docs/prose-inventory/coverage-report.md
+docs/prose-inventory/README.md
+
+# The dehardwire census is generated the same way and conflicted the same way,
+# and unlike the coverage report it guarded nothing: the `--check` case
+# recomputes in memory and never opens the file, and the other case regenerates
+# it before reading it back. Both pass identically with it untracked.
+# `classification.json` beside it is written by a person and stays tracked.
+docs/dehardwire/census.json

@@ -1,0 +1,44 @@
+{
+  "answer": {
+    "answeredAt": "2026-09-22T13:18:00.000Z",
+    "answeredBy": "the owner, with the shape built by the people and life lane",
+    "sources": [
+      "The owner's own words, 2026-09-22 13:18Z in the research-triage thread: \"it should just depend on how strongly that trait is to them.\"",
+      "The technical director's review of src/simulation/trait-resistance.ts, which named the unbounded failed-attempt pressure and the permanent per-move hardening.",
+      "src/simulation/trait-resistance.ts and src/simulation/people-trait-change.ts as they stood on main at d956b92a, read directly to confirm both defects before anything was changed.",
+      "src/simulation/people-trait-occasions.test.ts, which walks the live occasion through proposeContact and answerContact rather than inferring the pace from unit tests."
+    ],
+    "stillOpen": "The bands themselves, which are now filed separately as personality-change-bands. Every number is in TraitMovability, per pack, per trait, and each remains authored rather than researched.",
+    "summary": "The owner, 2026-09-22: \"it should just depend on how strongly that trait is to them.\" Built. Resistance reads the strength already carried on the person's own tendency record against a resistance the declaring pack names for each of the four strengths, so a faint lean shifts sooner than a defining one in the same life on the same day, and nothing new is stored about anybody. Two defects were found and fixed alongside it. Repeated attempts no longer count as repeated evidence: what accumulates is separate experiences spread over time, capped by the pack, so persistence alone cannot wear anybody down. And having already changed no longer adds permanent hardening, which had made a person who had lived through things progressively unreachable. The third note filed with this question asked for exactly that contradiction to be challenged, and it was the one that mattered."
+  },
+  "filedAt": "2026-09-22T04:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "The mechanism is built and is not in question: resistance is read from the person's own chain of records, and failed attempts are recorded so pressure accumulates rather than each attempt being an independent roll. How it is computed is engineering and stays in the code.",
+    "What is deferred is only the numbers, which decide how a life feels. They are authored placeholders and are labelled as such in the file, so an answer replaces three numbers per trait and touches no code.",
+    "The build currently asserts both directions at once and that is the part most worth challenging: somebody recently shaken is easier to shift again, while every change already made adds a permanent cost, so each shift leaves them harder to move than the last time they settled."
+  ],
+  "priority": "P1",
+  "question": "How much has to happen to somebody before a disposition actually shifts? Specifically: how much should a single formative event be able to do on its own against how much accumulated repetition should be needed, roughly how long a value has to have stood before it counts as settled, and whether a person who has already changed once becomes easier or harder to change again.",
+  "questionId": "personality-change-pace",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "people and life thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/people-trait-pack.ts, the movability numbers currently shipped",
+      "whatItDidNotSettle": "Each trait declares what a settled value resists, how long it takes to settle, and what each prior change adds. Deliberation settles hardest over fifteen years, reliability soonest over eight, the rest between. Every one of those numbers was chosen to be plausible rather than researched, and nothing checks them against anything."
+    },
+    {
+      "source": "src/simulation/trait-resistance.ts and its tests",
+      "whatItDidNotSettle": "Establishes that resistance can be read from records alone, that an unobserved person is not movable at all, and that repeated pressure eventually carries where one attempt does not. It proves the mechanism behaves; it has nothing to say about whether the pace it produces resembles a life."
+    },
+    {
+      "source": "The owner's instruction of 2026-09-22: 'every character should be able to change with varying levels of resistance.'",
+      "whatItDidNotSettle": "Settles that resistance must vary between people, which the record-chain reading delivers. It gives no sense of scale \u2014 whether a disposition should shift once in a decade or several times in a year."
+    }
+  ],
+  "title": "What a believable pace of personality change looks like",
+  "usableAnswer": "Rough scales rather than exact numbers: how many significant events, over how long, before a disposition plausibly moves; whether one severe event should ever be enough on its own; and a position on whether prior change makes the next change easier, harder, or both depending on how recent it was. Worked against any of the five current traits would be ideal, since they differ and should.",
+  "whyItMatters": "These numbers are what a player actually feels. Set too loose, characters reinvent themselves every few months and stop being people. Set too tight, nothing anyone does to anyone ever matters and the system is decoration. Both failures look identical in tests, which all pass either way, so nothing in the repository will ever catch a wrong answer here."
+}

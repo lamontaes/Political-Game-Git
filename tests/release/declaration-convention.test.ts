@@ -73,6 +73,16 @@ describe("a malformed declaration is refused", () => {
       /still needs a one-line reason/,
     ],
     [
+      "a Markdown heading in the body",
+      `---\nid: example\nimpact: patch\nsection: Changed\ntitle: A change.\n---\n\n# A change\n\nBody.\n`,
+      /carries a Markdown heading/,
+    ],
+    [
+      "a heading in an impact:none body, which is rendered nowhere but is still wrong",
+      `---\nid: example\nimpact: none\n---\n\n## Notes\n\nBody.\n`,
+      /carries a Markdown heading/,
+    ],
+    [
       "an unknown header key",
       `---\nid: example\nimpact: none\nurgency: high\n---\n\nBody.\n`,
       /unknown header key 'urgency'/,
@@ -85,6 +95,31 @@ describe("a malformed declaration is refused", () => {
       expect(() => parse(text)).toThrow(message);
     });
   }
+});
+
+/**
+ * The failure this guards is not hypothetical. On 2026-09-22 one declaration
+ * carried a heading that duplicated its own title, the renderer folded it into
+ * a bullet, Prettier rewrote the generated PATCH_NOTES.md, and `npm run format`
+ * failed the Release job's validation step on every push to main. The version
+ * stayed at 0.4.0 with seven unreleased sections stacked behind it, and the
+ * cause read as an ordinary formatting failure rather than as a declaration.
+ */
+describe("a heading in a body is refused before it reaches the patch notes", () => {
+  it("accepts the prose that carries emphasis, lists and links instead", () => {
+    const declaration = parse(
+      `---\nid: example\nimpact: patch\nsection: Changed\ntitle: A change.\n---\n\n**For the player.** A sentence, and then:\n\n- one item\n- another\n`,
+    );
+    expect(declaration.body).toContain("**For the player.**");
+    expect(declaration.body).toContain("- one item");
+  });
+
+  it("does not mistake a hash that is not a heading for one", () => {
+    const declaration = parse(
+      `---\nid: example\nimpact: none\n---\n\nA C# style name, and a #tag mid-sentence, neither of which opens a line.\n`,
+    );
+    expect(declaration.impact).toBe("none");
+  });
 });
 
 describe("repository bookkeeping never reaches player prose", () => {

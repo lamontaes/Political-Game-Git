@@ -19,7 +19,10 @@ import { recordDomainAttendance } from "./activity-attendance";
 import { openingLifeLocation } from "./life-scene-flow";
 import { sceneVenueForLocationKey } from "./scene-venues";
 
-export { declineVenueActivity } from "./scheduled-activity-choice";
+export {
+  declineVenueActivity,
+  lapseVenueActivity,
+} from "./scheduled-activity-choice";
 
 interface DisclosedJourney {
   readonly activity: ScheduledActivityRecord;
@@ -92,6 +95,85 @@ function disclosedJourneyFor(
   };
 }
 
+/**
+ * Presence, recorded the same way whichever control the player pressed.
+ *
+ * The destination's own button performs the journey and the destination
+ * together. The journey's own row is a separate control that performs only the
+ * travel — and without this, that press left a completed journey behind with
+ * no recorded arrival, so `openingLifeLocation` could not place the player and
+ * the destination refused forever. Measured in Springfield, Illinois: a party
+ * organizing meeting asked for, travelled to, and then permanently unkeepable.
+ */
+function recordJourneyArrival(
+  world: World,
+  travel: ScheduledActivityRecord,
+  destination: ScheduledActivityRecord,
+  destinationSetting: string,
+): World {
+  return recordWorldEvent(world, {
+    stableKey: `attend-journey:${travel.id}:arrival`,
+    type: "life.scene.arrived",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: destination.location.jurisdictionId,
+    involvedEntityIds: [
+      travel.id,
+      destination.id,
+      ...travel.participantPersonIds,
+    ],
+    participants: travel.participantPersonIds.map((id) => ({
+      personId: id,
+      role: "presence:participant",
+      detail: `Arrived at ${destination.location.label}`,
+    })),
+    personFactConstraints: [],
+    visibility: destination.access.kind === "office" ? "limited" : "private",
+    tags: [
+      "attend-journey-v1",
+      `route:${travel.location.locationKey}`,
+      `place:${destination.location.locationKey}`,
+      "cost:not-represented",
+    ],
+    summary: `Arrived at ${destination.location.label}.`,
+    context: {
+      location: {
+        jurisdictionId: destination.location.jurisdictionId,
+        label: destination.location.label,
+        setting: destinationSetting,
+      },
+      socialContext: null,
+      pressure: null,
+      choice: `Attend ${destination.title}`,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+}
+
+/**
+ * The destination a journey was booked for, when that journey has been made on
+ * its own. Same adapter table, read from the travel side.
+ */
+function arrivedDestinationFor(
+  world: World,
+  personId: EntityId,
+  travel: ScheduledActivityRecord,
+) {
+  const adapter = ATTEND_JOURNEYS.find(
+    (candidate) => candidate.journeyLocationKey === travel.location.locationKey,
+  );
+  if (!adapter) return null;
+  const destination = scheduledActivitiesVisibleTo(world, personId).find(
+    (candidate) =>
+      travel.sourceEntityIds.includes(candidate.id) &&
+      candidate.location.locationKey === adapter.destinationLocationKey &&
+      scheduledActivityState(world, candidate.id).status === "scheduled",
+  );
+  if (!destination) return null;
+  return { destination, destinationSetting: adapter.destinationSetting };
+}
+
 /** A player action over existing scheduled activity truth; no separate clock. */
 export function venueActivities(
   world: World,
@@ -109,6 +191,10 @@ export function venueActivities(
     .map((activity) => {
       let refusal: string | null = null;
       let elapsedMinutes: number | null = null;
+      // Set only where the game itself has no way to let this be carried out,
+      // which is what makes it safe to offer giving it up. A commitment the
+      // player could keep and simply does not want to is not this.
+      let unperformable = false;
       const journey =
         activity.kind === "travel"
           ? null
@@ -139,8 +225,10 @@ export function venueActivities(
             const origin = openingLifeLocation(world, personId);
             if (!origin) {
               refusal = `The current location is not recorded, so the game cannot establish a journey to ${activity.location.label}.`;
+              unperformable = true;
             } else if (origin.label !== activity.location.label) {
               refusal = `No authored journey connects ${origin.label} to ${activity.location.label}. The supported office-to-East-End route does not establish this distance, time, or cost.`;
+              unperformable = true;
             }
           }
         } catch (error) {
@@ -160,6 +248,19 @@ export function venueActivities(
           world.control.kind === "person" &&
           world.control.personId === personId &&
           activity.participantPersonIds.includes(personId),
+        /**
+         * A commitment the game cannot let this player carry out, which they
+         * may therefore give up. Time will not step over a confirmed
+         * commitment, so without this a life that books one has no legal move
+         * left. See `abandonUnperformableCommitment`.
+         */
+        abandonable:
+          unperformable &&
+          activity.kind !== "tentative" &&
+          activity.kind !== "travel" &&
+          world.control.kind === "person" &&
+          world.control.personId === personId &&
+          activity.responsiblePersonId === personId,
       };
     });
 }
@@ -201,11 +302,22 @@ export function performVenueActivity(
       return waited;
     // Domain hook: a completed party/campaign activity records its outcome;
     // every other activity (including a bare journey) comes back unchanged.
-    return recordDomainAttendance(
+    const performed = recordDomainAttendance(
       performScheduledActivity(waited, activityId, transitionHandlers),
       personId,
       activityId,
       attendance,
+    );
+    if (entry.activity.kind !== "travel") return performed;
+    if (scheduledActivityState(performed, activityId).status !== "completed")
+      return performed;
+    const arrived = arrivedDestinationFor(performed, personId, entry.activity);
+    if (!arrived) return performed;
+    return recordJourneyArrival(
+      performed,
+      entry.activity,
+      arrived.destination,
+      arrived.destinationSetting,
     );
   }
 
@@ -234,44 +346,12 @@ export function performVenueActivity(
   )
     return travelled;
 
-  const arrived = recordWorldEvent(travelled, {
-    stableKey: `attend-journey:${journey.activity.id}:arrival`,
-    type: "life.scene.arrived",
-    occurredAt: travelled.currentDate,
-    recordedAt: travelled.currentDate,
-    jurisdictionId: entry.activity.location.jurisdictionId,
-    involvedEntityIds: [
-      journey.activity.id,
-      entry.activity.id,
-      ...journey.activity.participantPersonIds,
-    ],
-    participants: journey.activity.participantPersonIds.map((id) => ({
-      personId: id,
-      role: "presence:participant",
-      detail: `Arrived at ${entry.activity.location.label}`,
-    })),
-    personFactConstraints: [],
-    visibility: entry.activity.access.kind === "office" ? "limited" : "private",
-    tags: [
-      "attend-journey-v1",
-      `route:${journey.activity.location.locationKey}`,
-      `place:${entry.activity.location.locationKey}`,
-      "cost:not-represented",
-    ],
-    summary: `Arrived at ${entry.activity.location.label}.`,
-    context: {
-      location: {
-        jurisdictionId: entry.activity.location.jurisdictionId,
-        label: entry.activity.location.label,
-        setting: journey.destinationSetting,
-      },
-      socialContext: null,
-      pressure: null,
-      choice: `Attend ${entry.activity.title}`,
-      motivation: null,
-      immediateReaction: null,
-    },
-  });
+  const arrived = recordJourneyArrival(
+    travelled,
+    journey.activity,
+    entry.activity,
+    journey.destinationSetting,
+  );
 
   const refreshed = venueActivities(arrived, personId).find(
     ({ activity }) => activity.id === activityId,

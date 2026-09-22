@@ -2,11 +2,14 @@ import { describe, expect, it } from "vitest";
 
 import {
   ART_PREVIEW_LABEL,
+  ART_PREVIEW_UNAVAILABLE_LABEL,
   artPreviewBanner,
+  artPreviewIsShowingCandidateArt,
   artPreviewMode,
   candidatePreviewAllowed,
   previewDatabaseName,
 } from "./art-preview";
+import { PRIVATE_CANDIDATE_ART_AVAILABLE } from "./private-candidate-manifests";
 
 describe("art preview gating", () => {
   it("cannot be selected from a URL in a production package", () => {
@@ -47,6 +50,41 @@ describe("art preview gating", () => {
 
   it("is silent in production mode", () => {
     expect(artPreviewBanner("production")).toBeNull();
-    expect(artPreviewBanner("candidate-review")).toBe(ART_PREVIEW_LABEL);
+    expect(artPreviewBanner("candidate-review")).toBe(
+      PRIVATE_CANDIDATE_ART_AVAILABLE
+        ? ART_PREVIEW_LABEL
+        : ART_PREVIEW_UNAVAILABLE_LABEL,
+    );
+  });
+
+  /*
+   * The banner used to say "unreleased candidate art" whether or not any was
+   * there. The owner-private bank is in no checkout a machine can make, so in
+   * every runner and every public clone the game drew production art under a
+   * sentence claiming otherwise.
+   *
+   * These two cases are written to hold in BOTH kinds of checkout rather than
+   * skipped in one, because a skip here would be a test that stops existing in
+   * exactly the checkout where the defect was.
+   */
+  it("says the bank is missing rather than claiming art it does not have", () => {
+    expect(artPreviewIsShowingCandidateArt("production")).toBe(false);
+    expect(artPreviewIsShowingCandidateArt("candidate-review")).toBe(
+      PRIVATE_CANDIDATE_ART_AVAILABLE,
+    );
+    if (PRIVATE_CANDIDATE_ART_AVAILABLE) {
+      expect(artPreviewBanner("candidate-review")).toBe(ART_PREVIEW_LABEL);
+      return;
+    }
+    expect(artPreviewBanner("candidate-review")).toBe(
+      ART_PREVIEW_UNAVAILABLE_LABEL,
+    );
+  });
+
+  it("never claims candidate art while the bank is absent", () => {
+    const banner = artPreviewBanner("candidate-review") ?? "";
+    if (artPreviewIsShowingCandidateArt("candidate-review")) return;
+    expect(banner).not.toContain("unreleased candidate art");
+    expect(banner).toContain("not in this checkout");
   });
 });

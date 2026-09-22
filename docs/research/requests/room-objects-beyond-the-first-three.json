@@ -1,0 +1,40 @@
+{
+  "filedAt": "2026-09-22T13:47:00.000Z",
+  "impact": "shapes-design",
+  "lane": "hardcoded-content audit",
+  "notes": [
+    "Filed because family one is now built and family two would otherwise be chosen by us. The research answer's own words are the reason not to.",
+    "The restraint half may matter more than the list half: a room where three things respond and everything else is quiet reads better than one where everything is a target, and we have no basis for drawing that line ourselves."
+  ],
+  "priority": "P2",
+  "question": "The three object families already answered — papers or a media surface, an exit, a work surface — are explicitly a first delivery rather than a taxonomy. What is the fourth, and the fifth? And the harder half: an object with a real current purpose but no action available may show concise status instead. Which objects in an ordinary American home and in a civic building are those, so that a room reads as attentive rather than as every lamp and chair glowing?",
+  "questionId": "room-objects-beyond-the-first-three",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "hardcoded-content audit thread",
+  "sourcesChecked": [
+    {
+      "source": "The environment-interactivity answer received 2026-09-22",
+      "whatItDidNotSettle": "It names three families in delivery order and says plainly that they are a small initial functional delivery, not an all-object taxonomy. It also states the restraint rule — an object with a meaningful current purpose but no available action may expose concise inspect or status information — without saying which objects those are. Both halves are deliberately left open."
+    },
+    {
+      "source": "src/environment/scenes/residence-apartment-living-production.ts and the other eleven scene specs on main d956b92a",
+      "whatItDidNotSettle": "The specs already declare what is in each room and where: seats, floor-standing objects, a television, a wall frame, a window, the table papers. So the inventory exists and is positioned. What no record says is which of those a player should be able to touch, which should answer and offer nothing, and which should stay painted."
+    },
+    {
+      "source": "src/player/OfficeScene.tsx on main d956b92a",
+      "whatItDidNotSettle": "Shows that an object target costs nothing structurally: the working document and the briefing memo are already positioned buttons on scene anchors with accessible labels. The pattern is proven, so the constraint on the next family is the answer, not the engineering."
+    }
+  ],
+  "title": "What a room needs beyond papers, a door and a desk",
+  "usableAnswer": "Two or three further object families in delivery order, each with what the object has to know for the interaction to be honest, in the same shape as the first three. Then a short list of objects that should be inspectable with no action, for a home and for a civic building, and the rule that separates those from decoration that should not respond at all. An answer that says three families are enough for now, and the effort belongs elsewhere, settles it.",
+  "whyItMatters": "The first family is built, and the next one is a guess unless it is answered. The answer already received warns against exactly the failure mode that guessing produces — glowing every object as though each has gameplay, and meaningless decoration used as a fake action target — so building family four from our own intuition is the specific thing it told us not to do. This is also where a room stops being a menu: the difference between a place and an illustrated list of verbs is mostly the objects that are attentive and offer nothing.",
+  "answer": {
+    "summary": "Answered as C15. After papers, exits and desks: expose a communication object where real messages, calls or contacts exist, and role-relevant work materials where a real task exists. A television or radio can present delivered public information; storage or a work object can expose an actually owned item or task. Decoration need not be interactive. Highlight or focus genuine affordances consistently and then open a contextual action — never turn hovering into agreement, time use or a purchase. A full-screen workspace must not leave a room's headline showing as a global banner above every unrelated screen. The ordering instruction is the one that matters: add sources of action before adding more menu labels. Acceptance to request: pointer and keyboard discover the same supported actions, opening and closing preserves the world, and a decision, appointment or call uses the existing canonical command. Duplicate presentation of news does not count as new evidence.",
+    "sources": [
+      "ChatGPT stress-test connection answers, 2026-09-22, at source head 1c4992e8: /mnt/project-files/chatgpt-stress-test-answers-2026-09-22/STRESS-TEST-CONNECTION-ANSWERS.md"
+    ],
+    "answeredBy": "ChatGPT (technical director), stress-test connection answers batch",
+    "answeredAt": "2026-09-22T15:57:02.000Z",
+    "stillOpen": "No new UI theme, and no universal requirement for a fixed number of interactive objects, so which objects a given room gets is still per-room judgement."
+  }
+}

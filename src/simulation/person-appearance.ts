@@ -42,11 +42,13 @@ export const LEGACY_APPEARANCE_RECIPE_VERSION =
  * The recipe a newly started life declares for the people it creates.
  *
  * v2 keeps a person's face painted in the same skin as the body carrying it.
- * Measured over sixty seeded people, v1 put the chosen head a median of 59 RGB
- * from the chosen body, 43 of 60 more than 40 apart — a face plainly not
- * painted in the same skin. The compatibility metadata cannot prevent that,
- * because every banked head declares every banked body as compatible; the
- * measurement it needs is in `character_candidate_visual4_tone.json`.
+ * Measured over sixty seeded people on the candidate cast this was written
+ * against, v1 put the chosen head a median of 59 RGB from the chosen body, 43
+ * of 60 more than 40 apart — a face plainly not painted in the same skin. The
+ * compatibility metadata cannot prevent that, because every banked head
+ * declares every banked body as compatible; the recipe reads a per-family skin
+ * measurement when the library carries one. The production catalog carries
+ * none, so a shipped v2 person draws as v1 draws and says so.
  *
  * Declared rather than defaulted, so it reaches exactly the people created
  * under it. An appearance is written onto a person when they are created and

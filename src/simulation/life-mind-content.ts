@@ -5,7 +5,12 @@ import {
 } from "./mind-catalog";
 import type { MindCatalog } from "./types";
 import { canonicalJson } from "./canonical-json";
-import { peopleTraitDefinitions } from "./people-trait-definitions";
+import { peopleTraitPack } from "./people-trait-pack";
+import {
+  loadTraitPacks,
+  packOfQualifiedKey,
+  traitDefinitionFromPack,
+} from "./trait-packs";
 
 /** Authored fictional-life content, not a psychometric or empirical model. */
 export const LIFE_MIND_CONTENT_VERSION = "opening-life-mind-v1";
@@ -91,21 +96,67 @@ export function createLifeMindCatalog(): MindCatalog {
 }
 
 /**
- * Exact definitions, not a prefix loophole. Older empty saves remain valid.
- * The PEOPLE traits are admitted too: a world gains them, exactly as defined,
- * the first time one of its people's temperaments is written.
+ * The packs this build loads. A trait reaches a world only through one of
+ * these, and `assertLifeMindContent` below will not admit a definition no pack
+ * declares. Adding a pack here is the seam a mod loader would later fill; see
+ * `docs/systems/traits.md`.
+ */
+export function loadedTraitPacks() {
+  return loadTraitPacks([peopleTraitPack()], []);
+}
+
+/**
+ * Every definition a world carries must be one its owner still declares.
+ *
+ * This used to be an exact allow-list: a definition had to be one of the
+ * built-ins, so any newly registered trait threw `Unsupported production
+ * personality definition` the moment a world recorded it. That made
+ * "register a trait rather than enumerate one" true only until the first save.
+ *
+ * It keeps the guarantee that list existed for — a tampered save cannot
+ * redefine what a stored expression key means, so an old record can never
+ * decode to something it never said — by asking a different question. The
+ * namespace before the first colon of a stable key names the pack that owns
+ * it, and the definition must match what that pack declares, field for field.
+ * Anything any loaded pack declares is admitted; nothing else is.
+ *
+ * A definition whose pack is not loaded is reported as exactly that. Its
+ * records are preserved and simply not consulted, because removing a pack must
+ * not destroy a save's history. Older empty saves remain valid.
  */
 export function assertLifeMindContent(catalog: MindCatalog): void {
   const allowed = createLifeMindCatalog();
-  const people = new Map(
-    peopleTraitDefinitions().map((definition) => [definition.id, definition]),
+  const registry = loadedTraitPacks();
+  const packed = new Map(
+    [...registry.traits.values()].map((trait) => {
+      const definition = traitDefinitionFromPack(trait);
+      return [definition.id, { definition, pack: trait.pack }] as const;
+    }),
   );
   for (const id of catalog.tendencyOrder) {
-    if (
-      canonicalJson(catalog.tendencies[id]) !==
-      canonicalJson(allowed.tendencies[id] ?? people.get(id))
-    ) {
-      throw new Error(`Unsupported production personality definition: ${id}`);
+    const carried = catalog.tendencies[id];
+    const builtIn = allowed.tendencies[id];
+    if (builtIn) {
+      if (canonicalJson(carried) !== canonicalJson(builtIn)) {
+        throw new Error(
+          `Personality definition ${id} does not match the ${LIFE_MIND_CONTENT_VERSION} content that declares it.`,
+        );
+      }
+      continue;
+    }
+    const owner = packed.get(id);
+    if (!owner) {
+      const pack = carried ? packOfQualifiedKey(carried.stableKey) : null;
+      throw new Error(
+        pack === null
+          ? `Unsupported production personality definition: ${id}`
+          : `Personality definition ${id} belongs to the pack "${pack}", which this build does not load. Its records are kept and not consulted; load that pack to read them.`,
+      );
+    }
+    if (canonicalJson(carried) !== canonicalJson(owner.definition)) {
+      throw new Error(
+        `Personality definition ${id} does not match what its pack "${owner.pack}" declares.`,
+      );
     }
   }
   for (const id of catalog.valueOrder) {

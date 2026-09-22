@@ -27,11 +27,21 @@ function inState(
   );
 }
 
-/** A recorded primary home located in the state on this date. */
-function homeInStateOn(
+/**
+ * Whether a jurisdiction is this exact recorded place.
+ *
+ * A district lies inside one locality, so the question a district-residence
+ * rule asks is about the place itself, not the state around it.
+ */
+function isSamePlace(jurisdictionId: EntityId, homeJurisdictionId: EntityId) {
+  return jurisdictionId === homeJurisdictionId;
+}
+
+/** A recorded primary home matching `covers` on this date. */
+function homeCoveredOn(
   world: World,
   personId: EntityId,
-  stateJurisdictionKey: string,
+  covers: (jurisdictionId: EntityId) => boolean,
   date: IsoDate,
   base: Cutoff,
 ): boolean {
@@ -42,7 +52,7 @@ function homeInStateOn(
     (membership) =>
       membership.state.residenceRole === "primary" &&
       membership.location !== null &&
-      inState(membership.location.jurisdictionId, stateJurisdictionKey),
+      covers(membership.location.jurisdictionId),
   );
 }
 
@@ -77,23 +87,24 @@ function homeChangeDates(
 }
 
 /**
- * Since when a person has lived in a state without a break, read only from
- * the World's own records: dated, located household memberships (a
- * childhood home from birth, the home moved into later) and any active
- * residence fact. Nothing is backdated; a person whose records begin today has
- * lived there since today.
+ * Since when a person has lived without a break somewhere `covers` matches,
+ * read only from the World's own records: dated, located household
+ * memberships (a childhood home from birth, the home moved into later) and any
+ * active residence fact. Nothing is backdated; a person whose records begin
+ * today has lived there since today.
  *
  * Recorded homes change only on recorded dates, so the answer walks those
- * dates backward. A stretch with an in-state primary home extends the run; a
+ * dates backward. A stretch with a matching primary home extends the run; a
  * stretch without one breaks it, except a single recorded day between leaving
- * one in-state home and starting the next, which is a move, not a day of
- * living nowhere. A home in another state always breaks the run.
+ * one matching home and starting the next, which is a move, not a day of
+ * living nowhere. A home somewhere `covers` does not match always breaks the
+ * run.
  */
-export function stateResidenceSince(
+function continuousResidenceSince(
   world: World,
   personId: EntityId,
-  stateJurisdictionKey: string,
-  onDate: IsoDate = world.currentDate,
+  covers: (jurisdictionId: EntityId) => boolean,
+  onDate: IsoDate,
 ): IsoDate | null {
   const person = world.people[personId];
   if (!person) return null;
@@ -106,34 +117,28 @@ export function stateResidenceSince(
           fact.kind === "residence" &&
           fact.endedAt === null &&
           fact.occurredAt <= onDate &&
-          inState(fact.jurisdictionId, stateJurisdictionKey),
+          covers(fact.jurisdictionId),
       )
       .map((fact) => fact.occurredAt)
       .sort()[0] ?? null;
 
   let householdStart: IsoDate | null = null;
-  if (homeInStateOn(world, personId, stateJurisdictionKey, onDate, base)) {
+  if (homeCoveredOn(world, personId, covers, onDate, base)) {
     const changes = homeChangeDates(world, personId, base).filter(
       (date) => date < onDate,
     );
     householdStart = onDate;
     for (let index = changes.length - 1; index >= 0; index -= 1) {
       const change = changes[index]!;
-      if (homeInStateOn(world, personId, stateJurisdictionKey, change, base)) {
+      if (homeCoveredOn(world, personId, covers, change, base)) {
         householdStart = change;
         continue;
       }
-      // No in-state home from `change` until `householdStart`. Only a one-day
-      // move between two recorded in-state homes keeps the run going.
+      // No matching home from `change` until `householdStart`. Only a one-day
+      // move between two recorded matching homes keeps the run going.
       const oneDayMove =
         addDays(change, 1) >= householdStart &&
-        homeInStateOn(
-          world,
-          personId,
-          stateJurisdictionKey,
-          addDays(change, -1),
-          base,
-        );
+        homeCoveredOn(world, personId, covers, addDays(change, -1), base);
       if (!oneDayMove) break;
     }
   }
@@ -141,4 +146,46 @@ export function stateResidenceSince(
   if (factStart === null) return householdStart;
   if (householdStart === null) return factStart;
   return householdStart < factStart ? householdStart : factStart;
+}
+
+/**
+ * Since when a person has lived in a state without a break. See
+ * `continuousResidenceSince` for what counts as a record and what breaks a run.
+ */
+export function stateResidenceSince(
+  world: World,
+  personId: EntityId,
+  stateJurisdictionKey: string,
+  onDate: IsoDate = world.currentDate,
+): IsoDate | null {
+  return continuousResidenceSince(
+    world,
+    personId,
+    (jurisdictionId) => inState(jurisdictionId, stateJurisdictionKey),
+    onDate,
+  );
+}
+
+/**
+ * Since when a person has lived in one exact recorded place without a break.
+ *
+ * This is the clock a district-residence rule needs. A district lies inside a
+ * locality, so a life that has been recorded in the same town since childhood
+ * has been in that town's district for just as long, and the world already
+ * knows it — from the very same household records the state clock reads.
+ * Dating the district interval from anything later says a life has lived
+ * nowhere, which the world's own records contradict.
+ */
+export function homeJurisdictionResidenceSince(
+  world: World,
+  personId: EntityId,
+  homeJurisdictionId: EntityId,
+  onDate: IsoDate = world.currentDate,
+): IsoDate | null {
+  return continuousResidenceSince(
+    world,
+    personId,
+    (jurisdictionId) => isSamePlace(jurisdictionId, homeJurisdictionId),
+    onDate,
+  );
 }

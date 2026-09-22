@@ -18,7 +18,11 @@ import { filterDirectory, projectPeopleDirectory } from "./people-directory";
 
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import { openConversationWith } from "./person-conversation-entry";
-import { CANONICAL_VERSION, PATCH_NOTE_SECTIONS } from "./release-identity";
+import {
+  CANONICAL_VERSION,
+  PATCH_NOTE_SECTIONS,
+  parseSections,
+} from "./release-identity";
 import type { EntityId } from "../simulation";
 
 /**
@@ -347,11 +351,19 @@ describe("release identity", () => {
       if (section.released) expect(section.version).not.toBeNull();
     }
 
-    // The reserved candidate is present in the file and is not a release.
-    const reserved = PATCH_NOTE_SECTIONS.find((section) => section.candidate);
+    // Whether a candidate is currently reserved depends on where the release
+    // cycle stands, so the rule is proven against the parser rather than
+    // against today's file: a CANDIDATE heading is never a release, and never
+    // carries a release date, even when it names a version and a date line.
+    const [reserved] = parseSections(
+      '## PRE-ALPHA 9.9.9 — "Proof" — CANDIDATE, NOT YET ACCEPTED\n' +
+        "\n_Released 1 January 2026._\n",
+    );
     expect(reserved).toBeDefined();
+    expect(reserved!.candidate).toBe(true);
     expect(reserved!.released).toBe(false);
     expect(reserved!.releasedOn).toBeNull();
+    expect(reserved!.version).toBe("9.9.9");
   });
 });
 

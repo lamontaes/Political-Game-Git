@@ -145,6 +145,176 @@
       "preservedUnits": [],
       "evidencePaths": [],
       "reason": "The preserved packet contains the warm-leaf parent pavilion only. It contains no same-geometry leafless winter variant, and the separate private Art Desk attempt remains unapproved and is not evidence in this reconciliation."
+    },
+    {
+      "requestId": "seated-chair-separation-hand-pass",
+      "verdict": "premise-restated-still-required",
+      "preservedUnits": [
+        "family:additional-fat-female-pose",
+        "family:average-man",
+        "family:average-woman",
+        "family:fat-man",
+        "family:older-woman",
+        "family:skinny-man",
+        "family:skinny-woman"
+      ],
+      "evidencePaths": [
+        "art/generated/candidates/recent-drive-sweep/fat-man",
+        "art/generated/candidates/recent-drive-sweep/skinny-man",
+        "art/generated/candidates/wave-a-morphology/average-man",
+        "art/generated/candidates/wave-a-morphology/average-woman",
+        "art/generated/candidates/wave-a-morphology/older-woman",
+        "art/generated/candidates/wave-a-morphology/skinny-woman",
+        "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
+      ],
+      "reason": "The preserved packet is exactly what this request is about. Ten of the nineteen banked seated poses carry baked furniture, four of them a chair, and seventeen components of any pose carry a baked interaction prop. So the ask may not say a seated body free of furniture is simply missing: what exists is seated art with the chair painted into it. It is still required, and deliberately worded as the requirement rather than the repair, because a seated body with no furniture attached is reachable either by drawing a new one or by separating the chair out of these; every one of them is under the seated floor of 1530x2048 and reports eligibleAsProductionCharacterBody false, and the pipeline never enlarges a raster."
+    },
+    {
+      "requestId": "env-state-capitol-kentucky",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this. All 126 records of art/manifest/asset_manifest.json were read: eleven are environment plates and the civic exteriors among them are a campaign storefront, a park pavilion and a neighbourhood doorstep. No capitol or statehouse of any state exists in the packet, so there is no preserved art that could answer or restate an ask for the Kentucky State Capitol."
+    },
+    {
+      "requestId": "env-state-capitol-virginia",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this. All 126 records of art/manifest/asset_manifest.json were read: eleven are environment plates and the civic exteriors among them are a campaign storefront, a park pavilion and a neighbourhood doorstep. No capitol or statehouse of any state exists in the packet, so there is no preserved art that could answer or restate an ask for the Virginia State Capitol."
+    },
+    {
+      "requestId": "env-state-capitol-tennessee",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this. All 126 records of art/manifest/asset_manifest.json were read: eleven are environment plates and the civic exteriors among them are a campaign storefront, a park pavilion and a neighbourhood doorstep. No capitol or statehouse of any state exists in the packet, so there is no preserved art that could answer or restate an ask for the Tennessee State Capitol."
+    },
+    {
+      "requestId": "env-state-capitol-california",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this. All 126 records of art/manifest/asset_manifest.json were read: eleven are environment plates and the civic exteriors among them are a campaign storefront, a park pavilion and a neighbourhood doorstep. No capitol or statehouse of any state exists in the packet, so there is no preserved art that could answer or restate an ask for the California State Capitol."
+    },
+    {
+      "requestId": "env-state-capitol-minnesota",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this. All 126 records of art/manifest/asset_manifest.json were read: eleven are environment plates and the civic exteriors among them are a campaign storefront, a park pavilion and a neighbourhood doorstep. No capitol or statehouse of any state exists in the packet, so there is no preserved art that could answer or restate an ask for the Minnesota State Capitol."
+    },
+    {
+      "requestId": "env-state-capitol-texas",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this. All 126 records of art/manifest/asset_manifest.json were read: eleven are environment plates and the civic exteriors among them are a campaign storefront, a park pavilion and a neighbourhood doorstep. No capitol or statehouse of any state exists in the packet, so there is no preserved art that could answer or restate an ask for the Texas State Capitol."
+    },
+    {
+      "requestId": "env-state-capitol-new-york",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this. All 126 records of art/manifest/asset_manifest.json were read: eleven are environment plates and the civic exteriors among them are a campaign storefront, a park pavilion and a neighbourhood doorstep. No capitol or statehouse of any state exists in the packet, so there is no preserved art that could answer or restate an ask for the New York State Capitol."
+    },
+    {
+      "requestId": "env-state-capitol-north-dakota",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this. All 126 records of art/manifest/asset_manifest.json were read: eleven are environment plates and the civic exteriors among them are a campaign storefront, a park pavilion and a neighbourhood doorstep. No capitol or statehouse of any state exists in the packet, so there is no preserved art that could answer or restate an ask for the North Dakota State Capitol."
+    },
+    {
+      "requestId": "env-state-capitol-nebraska",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this. All 126 records of art/manifest/asset_manifest.json were read: eleven are environment plates and the civic exteriors among them are a campaign storefront, a park pavilion and a neighbourhood doorstep. No capitol or statehouse of any state exists in the packet, so there is no preserved art that could answer or restate an ask for the Nebraska State Capitol."
+    },
+    {
+      "requestId": "env-state-capitol-new-mexico",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this. All 126 records of art/manifest/asset_manifest.json were read: eleven are environment plates and the civic exteriors among them are a campaign storefront, a park pavilion and a neighbourhood doorstep. No capitol or statehouse of any state exists in the packet, so there is no preserved art that could answer or restate an ask for the New Mexico State Capitol."
+    },
+    {
+      "requestId": "ui-newspaper-page-furniture",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this. The preserved packet is character components and a small number of environment plates; it contains no interface artwork of any kind, and a find across art/ and public/ returns only pose control plates and arm-measurement QA overlays, which are authoring evidence rather than shipped art. So no preserved asset could answer or restate an ask for page furniture for the newspaper."
+    },
+    {
+      "requestId": "ui-masthead-ornaments-four-families",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this. The preserved packet is character components and a small number of environment plates; it contains no interface artwork of any kind, and a find across art/ and public/ returns only pose control plates and arm-measurement QA overlays, which are authoring evidence rather than shipped art. So no preserved asset could answer or restate an ask for ornaments for the four masthead families."
+    },
+    {
+      "requestId": "ui-shell-reference-icons",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this. The preserved packet is character components and a small number of environment plates; it contains no interface artwork of any kind, and a find across art/ and public/ returns only pose control plates and arm-measurement QA overlays, which are authoring evidence rather than shipped art. So no preserved asset could answer or restate an ask for icons for the five ShellRef kinds."
+    },
+    {
+      "requestId": "economic-graph-panel-ground",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this ask. No chart, graph, grid or plotting-paper asset exists in art/, and src/player/economic-context-panel.css draws the whole figure from colour values with no image reference. No preserved unit is a panel ground."
+    },
+    {
+      "requestId": "guide-popover-card-ground",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this ask. No shell chrome, card, frame or panel art exists in art/; src/player/guide.css defines the popover entirely from the --pg-radius and --pg-shadow tokens. The preserved units are people and rooms, neither of which yields a nine-slice card ground."
+    },
+    {
+      "requestId": "politics-hub-tab-band",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this ask. No navigation chrome art exists in art/, and src/player/politics/politics-hub.css contains no url() or image reference of any kind. No preserved unit is a tab band."
+    },
+    {
+      "requestId": "ui-no-candidacy-refusal-panel",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this. The preserved packet is character components and a small number of environment plates; the manifest's 126 assets contain no interface artwork of any kind, and a find across art/ and public/ returns only pose control plates and arm-measurement QA overlays, which are authoring evidence rather than shipped art. So no preserved asset could answer or restate this ask."
+    },
+    {
+      "requestId": "ui-chamber-vote-margin-graph",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this. The preserved packet is character components and a small number of environment plates; the manifest's 126 assets contain no interface artwork of any kind, and a find across art/ and public/ returns only pose control plates and arm-measurement QA overlays, which are authoring evidence rather than shipped art. So no preserved asset could answer or restate this ask."
+    },
+    {
+      "requestId": "room-papers-on-a-table",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "The preserved cargo is character components and environment plates. There is no prop in it, and no prop anywhere in the manifest: the only asset whose id matches a prop word is a seated character pose. The residence plate paints a folded newspaper on this table as its own decoration, which is the fallback this object would sit over rather than a preserved unit that could close the request."
+    },
+    {
+      "requestId": "ui-ordinary-day-page-furniture",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this. Read at this head rather than copied from the neighbouring interface verdicts: the reconciliation resolves 20 preserved units, twelve character and morphology families and eight swept source photographs, and none of them is interface artwork. The manifest's 126 assets are environment plates and modular character components; a scan of every string in it for an interface word returns only prose sentences and garment filenames. So no preserved asset could answer or restate this ask."
+    },
+    {
+      "requestId": "ui-standing-thing-state-marks",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this, for the same measured reason as the page-furniture request above: none of the 20 preserved units is interface artwork, and the manifest holds none either. These are three state marks on the player's own list, which no character component or environment plate could stand in for."
     }
   ],
   "unlinkedPreservedAssets": [

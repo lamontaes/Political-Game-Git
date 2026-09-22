@@ -38,7 +38,8 @@
  * nothing.
  */
 
-import { ageOnDate } from "./dates";
+import { ageOnDate, completedMonthsBetween } from "./dates";
+import { US_STATE_NAMES } from "./nationwide-world/state-executive-candidacy-packs";
 import {
   OFFICE_QUALIFICATIONS_META,
   OFFICE_QUALIFICATION_ROWS,
@@ -129,9 +130,66 @@ const ROWS: readonly SourcedQualification[] = JSON.parse(
 
 export { OFFICE_QUALIFICATIONS_META };
 
+/**
+ * The state's own name, for a sentence a player reads.
+ *
+ * A refusal that says "this state" when the game knows perfectly well which
+ * state it is reads like a form letter. The names are the canonical fifty;
+ * anything outside them keeps the neutral phrase rather than inventing a name.
+ */
+export function qualificationStateLabel(row: SourcedQualification): string {
+  return stateName(row.stateUsps);
+}
+
+/**
+ * The state's own name, for a sentence a player reads. Accepts either the
+ * bare USPS code a row carries or the `US-XX` jurisdiction key, because the
+ * two are used interchangeably across the callers and neither belongs in
+ * prose.
+ */
+export function stateName(usps: string): string {
+  const bare = usps.startsWith("US-") ? usps.slice(3) : usps;
+  return (
+    (US_STATE_NAMES as Readonly<Record<string, string>>)[bare] ?? "this state"
+  );
+}
+
 export type QualificationTemporalApplicability =
   | { readonly state: "SUPPORTED" }
-  | { readonly state: "UNKNOWN"; readonly reason: string };
+  | {
+      readonly state: "UNKNOWN";
+      /**
+       * The sentence a player reads. Whole, plain, and about the game rather
+       * than about the research: which state, why nothing can be granted, and
+       * whether a different life might reach it.
+       */
+      readonly reason: string;
+      /**
+       * Why the evidence does not reach this date, in the researcher's terms,
+       * naming the provision and the dates. Kept so a reviewer can see what
+       * the refusal rests on, and rendered on no player surface.
+       */
+      readonly evidenceNote: string;
+    };
+
+/**
+ * A refusal the player can act on, for a date the evidence does not cover.
+ *
+ * The game has this state's rules for who may stand. What it does not have is
+ * any support for those rules being in force at the moment being asked about,
+ * and it will not apply a rule to a time it cannot place it in. Saying less
+ * than that — "no rules for this state" — would be simpler and untrue, and a
+ * refusal that misdescribes itself is a defect nobody can see.
+ */
+function tooEarlyForEvidence(row: SourcedQualification): string {
+  const state = qualificationStateLabel(row);
+  return `You can't run for office in ${state} this early. The game knows ${state}'s rules for who may stand, but not whether they were already in force this far back, and it won't apply a rule to a time it can't place it in. A life that starts later may be able to run here.`;
+}
+
+function pastEvidence(row: SourcedQualification): string {
+  const state = qualificationStateLabel(row);
+  return `You can't run for office in ${state} at this date. The game knows ${state}'s rules for who may stand, but not whether they were still in force this late, and it won't apply a rule to a time it can't place it in.`;
+}
 
 export interface DateBoundQualification extends SourcedQualification {
   readonly temporalApplicability: QualificationTemporalApplicability;
@@ -147,13 +205,15 @@ export function qualificationTemporalApplicability(
     if (onDate < validity.validFrom) {
       return {
         state: "UNKNOWN",
-        reason: `${row.citation} is supported from ${validity.validFrom}; its applicability on ${onDate} is not established by the acquired evidence.`,
+        reason: tooEarlyForEvidence(row),
+        evidenceNote: `${row.citation} is supported from ${validity.validFrom}; its applicability on ${onDate} is not established by the acquired evidence.`,
       };
     }
     if (validity.validThrough !== null && onDate > validity.validThrough) {
       return {
         state: "UNKNOWN",
-        reason: `${row.citation} is supported only through ${validity.validThrough}; its applicability on ${onDate} is not established by the acquired evidence.`,
+        reason: pastEvidence(row),
+        evidenceNote: `${row.citation} is supported only through ${validity.validThrough}; its applicability on ${onDate} is not established by the acquired evidence.`,
       };
     }
     return { state: "SUPPORTED" };
@@ -162,12 +222,17 @@ export function qualificationTemporalApplicability(
     if (onDate < validity.observedOn) {
       return {
         state: "UNKNOWN",
-        reason: `${row.citation} was observed in current source text on ${validity.observedOn}; that later observation does not establish the rule on ${onDate}.`,
+        reason: tooEarlyForEvidence(row),
+        evidenceNote: `${row.citation} was observed in current source text on ${validity.observedOn}; that later observation does not establish the rule on ${onDate}.`,
       };
     }
     return { state: "SUPPORTED" };
   }
-  return { state: "UNKNOWN", reason: validity.reason };
+  return {
+    state: "UNKNOWN",
+    reason: `The game can't tell whether ${qualificationStateLabel(row)}'s rule on this applies, so it won't grant or refuse on it.`,
+    evidenceNote: validity.reason,
+  };
 }
 
 /** Every state whose authorities this repository has read, as `US-XX`. */
@@ -276,16 +341,16 @@ export function qualificationRuleValue(
   }
   if (row.sourceState === "NO_REQUIREMENT_FOUND") {
     return notApplicableRule(
-      `${row.citation} was read and imposes no such requirement.`,
+      `${qualificationStateLabel(row)} imposes no such requirement for this office.`,
     );
   }
   if (row.sourceState === "NOT_APPLICABLE") {
     return notApplicableRule(
-      `${row.citation} does not reach this office for this requirement.`,
+      `This requirement does not apply to this office in ${qualificationStateLabel(row)}.`,
     );
   }
   return unknownRule(
-    `${row.citation} was read but left this unresolved (${row.sourceState}).`,
+    `${qualificationStateLabel(row)}'s rule on this is not settled, so the game will not grant or refuse on it.`,
   );
 }
 
@@ -298,7 +363,11 @@ export type QualificationVerdict = "meets" | "fails" | "not-evaluated";
 export interface QualificationAssessment {
   readonly field: QualificationFieldName;
   readonly verdict: QualificationVerdict;
-  /** The sentence a player should read. Whole, plain, and citing the law. */
+  /**
+   * The sentence a player should read. Whole, plain, and about the office and
+   * the character. The law behind it is on `source`, which no play surface
+   * renders: a citation in the middle of a refusal is an author's note.
+   */
   readonly reason: string;
   /** The rule this came from, where one was read. */
   readonly source: SourcedQualification | null;
@@ -314,14 +383,110 @@ function ageInYears(row: SourcedQualification): number | null {
   return null;
 }
 
-/** A duration in whole years, or null. Months are not rounded into years. */
-function durationYears(row: SourcedQualification): number | null {
-  if (typeof row.value === "number") return row.value;
+/**
+ * A residence requirement as a whole number of months, or null where the row
+ * does not state one.
+ *
+ * This replaces a years-only reader. Months were never rounded into years --
+ * correctly, because both roundings are wrong: six months as nought years
+ * admits everybody who has just arrived, and as one year refuses people the
+ * law admits. So the row was simply left unevaluated, which is honest but
+ * means Minnesota's six-month district requirement could not be expressed at
+ * all, and a Minnesota House candidate was refused a seat their own Senate
+ * accepted. Months are the smaller unit, so months are the representation; a
+ * requirement in years is the same requirement stated more coarsely.
+ *
+ * `label` is the requirement in the source's own words, so a sentence shown to
+ * a player says "6 months" where the law says six months, rather than
+ * translating it into a half year nobody wrote.
+ */
+function durationMonths(
+  row: SourcedQualification,
+): { readonly months: number; readonly label: string } | null {
+  if (typeof row.value === "number") {
+    return {
+      months: row.value * 12,
+      label: `${row.value} year${row.value === 1 ? "" : "s"}`,
+    };
+  }
   if (typeof row.value === "string") {
-    const match = /^(\d+)\s*years?$/i.exec(row.value.trim());
-    if (match) return Number(match[1]);
+    const text = row.value.trim();
+    const years = /^(\d+)\s*years?$/i.exec(text);
+    if (years) {
+      const count = Number(years[1]);
+      return {
+        months: count * 12,
+        label: `${count} year${count === 1 ? "" : "s"}`,
+      };
+    }
+    const months = /^(\d+)\s*months?$/i.exec(text);
+    if (months) {
+      const count = Number(months[1]);
+      return {
+        months: count,
+        label: `${count} month${count === 1 ? "" : "s"}`,
+      };
+    }
+    // The research transport does not agree with itself about how to write a
+    // duration. Ohio's two chambers carry a compiler token rather than a
+    // phrase, and both were read from a real provision, so both are read here.
+    // Found by the playtesting lane; before this the token parsed as nothing,
+    // the row stayed unevaluated, and an unevaluated row is a block -- so Ohio
+    // refused every candidate on district residence for a reason that was
+    // about our transport rather than about them. The same shape as Nebraska
+    // and Minnesota, in a third place.
+    const token = /^RESIDENT_(\d+)_YEARS?$/i.exec(text);
+    if (token) {
+      const count = Number(token[1]);
+      return {
+        months: count * 12,
+        label: `${count} year${count === 1 ? "" : "s"}`,
+      };
+    }
   }
   return null;
+}
+
+/**
+ * What a requirement asks for, in words, for a rule the game reports without
+ * deciding.
+ *
+ * The raw cell is a transport value — `true` for Ohio's elector requirement,
+ * `MEMBER_STATE_BAR_OF_NEVADA` for Nevada's Attorney General, a bare number
+ * for a citizenship term — and printing it put "requires true" on the player's
+ * screen. A player is owed the requirement, not our storage for it.
+ */
+function requirementPhrase(row: SourcedQualification): string {
+  switch (row.field) {
+    case "US_CITIZENSHIP": {
+      const term = durationMonths(row);
+      return term === null
+        ? "United States citizenship"
+        : `United States citizenship for ${term.label}`;
+    }
+    case "ELECTOR_REQUIREMENT":
+      return "that the candidate is a qualified elector";
+    case "PROFESSIONAL_QUALIFICATION":
+      return typeof row.value === "string"
+        ? row.value.toLowerCase().replace(/_/g, " ")
+        : "a professional qualification";
+    default:
+      return typeof row.value === "string"
+        ? row.value.toLowerCase().replace(/_/g, " ")
+        : String(row.value);
+  }
+}
+
+/** What is missing when a district-residence duration cannot be measured. */
+export type DistrictResidenceGap = "unrecorded" | "district-unknown";
+
+/** The elapsed side of the same comparison, in the same unit. */
+function residedLabel(months: number): string {
+  if (months >= 12 && months % 12 === 0) {
+    const years = months / 12;
+    return `${years} year${years === 1 ? "" : "s"}`;
+  }
+  return `${months} month${months === 1 ? "" : "s"}`;
 }
 
 export interface QualificationAssessmentInput {
@@ -332,6 +497,14 @@ export interface QualificationAssessmentInput {
   readonly stateResidenceSince: IsoDate | null;
   /** Earliest active residence in this exact district, or null when unproved. */
   readonly districtResidenceSince: IsoDate | null;
+  /**
+   * Why `districtResidenceSince` is null, when it is. Absent means the
+   * ordinary case: nothing recorded. Say `district-unknown` when the world
+   * does know where this life lives but cannot say which district that is —
+   * a city split across several of them — so the refusal names the real gap
+   * instead of blaming a memory that is not missing.
+   */
+  readonly districtResidenceGap?: DistrictResidenceGap;
   readonly onDate: IsoDate;
   /**
    * Terms this person has recorded in this exact office, from the World's
@@ -379,7 +552,7 @@ export function assessOfficeQualifications(
         assessments.push({
           field: row.field,
           verdict: "fails",
-          reason: `${row.citation} establishes no such office in this state, so there is no seat to stand for.`,
+          reason: `There is no such office in ${qualificationStateLabel(row)}, so there is no seat to stand for.`,
           source: row,
         });
       }
@@ -390,7 +563,7 @@ export function assessOfficeQualifications(
       assessments.push({
         field: row.field,
         verdict: "meets",
-        reason: `${row.citation} imposes no such requirement here.`,
+        reason: `${qualificationStateLabel(row)} imposes no such requirement for this office.`,
         source: row,
       });
       continue;
@@ -400,7 +573,7 @@ export function assessOfficeQualifications(
       assessments.push({
         field: row.field,
         verdict: "meets",
-        reason: `${row.citation} does not apply this requirement to the office.`,
+        reason: `This requirement does not apply to this office in ${qualificationStateLabel(row)}.`,
         source: row,
       });
       continue;
@@ -410,7 +583,7 @@ export function assessOfficeQualifications(
       assessments.push({
         field: row.field,
         verdict: "not-evaluated",
-        reason: `${row.citation} was read but leaves this unresolved.`,
+        reason: `${qualificationStateLabel(row)}'s rule on this is not settled, so the game will not grant or refuse on it.`,
         source: row,
       });
       continue;
@@ -422,7 +595,7 @@ export function assessOfficeQualifications(
         assessments.push({
           field: row.field,
           verdict: "not-evaluated",
-          reason: `${row.citation} states a minimum age the game cannot read as a number.`,
+          reason: `The minimum age for this office is not a figure the game can compare an age against, so it will not decide on age.`,
           source: row,
         });
         continue;
@@ -433,15 +606,15 @@ export function assessOfficeQualifications(
         verdict: age >= required ? "meets" : "fails",
         reason:
           age >= required
-            ? `Old enough: ${row.citation} sets the minimum at ${required}.`
-            : `Too young to stand: ${row.citation} sets the minimum at ${required}, and this character is ${age}.`,
+            ? `Old enough: this office has a minimum age of ${required}.`
+            : `Too young to stand: this office has a minimum age of ${required}, and this character is ${age}.`,
         source: row,
       });
       continue;
     }
 
     if (row.field === "STATE_RESIDENCE" || row.field === "DISTRICT_RESIDENCE") {
-      const required = durationYears(row);
+      const required = durationMonths(row);
       const residenceSince =
         row.field === "STATE_RESIDENCE"
           ? input.stateResidenceSince
@@ -449,26 +622,29 @@ export function assessOfficeQualifications(
       const held =
         residenceSince === null
           ? null
-          : ageOnDate(residenceSince, input.onDate);
+          : completedMonthsBetween(residenceSince, input.onDate);
       if (required === null || held === null) {
         assessments.push({
           field: row.field,
           verdict: "not-evaluated",
           reason:
-            held === null
-              ? `${row.citation} requires ${String(row.value)} of residence. The game has not recorded when this character came to live here, so it will not guess whether they qualify.`
-              : `${row.citation} states a residence requirement the game cannot read as a number of years.`,
+            held !== null
+              ? `The residence requirement for this office is not a length of time the game can compare against, so it will not decide on residence.`
+              : row.field === "DISTRICT_RESIDENCE" &&
+                  input.districtResidenceGap === "district-unknown"
+                ? `${required === null ? "This office sets a residence requirement" : `This office requires ${required.label} of residence`} for the district. This character's town lies across more than one district, so the game cannot say which one they live in, and it will not pick one to answer for them.`
+                : `${required === null ? "This office sets a residence requirement" : `This office requires ${required.label} of residence`}. The game has not recorded when this character came to live here, so it will not guess whether they qualify.`,
           source: row,
         });
         continue;
       }
       assessments.push({
         field: row.field,
-        verdict: held >= required ? "meets" : "fails",
+        verdict: held >= required.months ? "meets" : "fails",
         reason:
-          held >= required
-            ? `Resident long enough: ${row.citation} requires ${required} year${required === 1 ? "" : "s"}.`
-            : `Not resident long enough: ${row.citation} requires ${required} year${required === 1 ? "" : "s"}, and this character has lived here ${held}.`,
+          held >= required.months
+            ? `Resident long enough: this office requires ${required.label} of residence.`
+            : `Not resident long enough: this office requires ${required.label} of residence, and this character has lived here ${residedLabel(held)}.`,
         source: row,
       });
       continue;
@@ -481,7 +657,7 @@ export function assessOfficeQualifications(
       assessments.push({
         field: row.field,
         verdict: "meets",
-        reason: `No recorded term in this office, so the term limit in ${row.citation} does not apply.`,
+        reason: `No recorded term in this office, so its term limit does not apply.`,
         source: row,
       });
       continue;
@@ -498,7 +674,7 @@ export function assessOfficeQualifications(
     assessments.push({
       field: row.field,
       verdict: "not-evaluated",
-      reason: `${row.citation} requires ${String(row.value)}. The game does not record that about a character, so it neither grants nor refuses on it.`,
+      reason: `This office requires ${requirementPhrase(row)}. The game does not record that about a character, so it neither grants nor refuses on it.`,
       source: row,
     });
   }

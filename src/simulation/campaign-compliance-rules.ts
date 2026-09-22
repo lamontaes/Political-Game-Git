@@ -263,7 +263,8 @@ export function assessContribution(
     ) {
       return {
         decision: "refused",
-        reason: `${organizedCommitteeRule.legalLocator} bars this committee from accepting a contribution until its statement of organization is filed and it has a treasurer who is recorded as a qualified elector. The game will not treat campaign creation as filing approval or guess the treasurer's qualification.`,
+        reason:
+          "This committee cannot accept a contribution until its statement of organization is filed and it has a treasurer recorded as a qualified elector. Starting a campaign is not the same as filing, and the game will not guess whether the treasurer qualifies.",
         citation: organizedCommitteeRule.legalLocator,
         authorityUrl: organizedCommitteeRule.authorityUrl,
         obligation: organizedCommitteeRule.obligation,
@@ -271,7 +272,8 @@ export function assessContribution(
     }
     return {
       decision: "allowed",
-      reason: `${organizedCommitteeRule.legalLocator}'s recorded organization-filing and qualified-treasurer prerequisites are satisfied. This is permission to record the contribution, not approval of a filing or of the campaign.`,
+      reason:
+        "The statement of organization is filed and the treasurer is recorded as a qualified elector. That clears this contribution to be recorded; it does not approve the filing or the campaign.",
       citation: organizedCommitteeRule.legalLocator,
       authorityUrl: organizedCommitteeRule.authorityUrl,
       obligation: organizedCommitteeRule.obligation,
@@ -306,7 +308,7 @@ export function assessContribution(
   if (fromCandidate) {
     return {
       decision: "allowed",
-      reason: `${rule.legalLocator} excludes the candidate's own contribution from this $${(rule.thresholdMinorUnits / 100).toFixed(0)} aggregate threshold; the money still belongs to the campaign committee after it is recorded.`,
+      reason: `A candidate's own money does not count toward the $${(rule.thresholdMinorUnits / 100).toFixed(0)} limit. It still belongs to the campaign committee once it is recorded.`,
       citation: rule.legalLocator,
       authorityUrl: rule.authorityUrl,
       obligation: rule.obligation,
@@ -315,7 +317,7 @@ export function assessContribution(
   if (after <= rule.thresholdMinorUnits) {
     return {
       decision: "allowed",
-      reason: `Under the threshold: ${rule.legalLocator} bites above $${(rule.thresholdMinorUnits / 100).toFixed(0)} in aggregate from sources other than the candidate, and this campaign would be at $${(after / 100).toFixed(2)}.`,
+      reason: `Under the limit. The rule applies above $${(rule.thresholdMinorUnits / 100).toFixed(0)} in total from anyone but the candidate, and this campaign would be at $${(after / 100).toFixed(2)}.`,
       citation: rule.legalLocator,
       authorityUrl: rule.authorityUrl,
       obligation: rule.obligation,
@@ -337,7 +339,7 @@ export function assessContribution(
   if (!committee) {
     return {
       decision: "refused",
-      reason: `${rule.legalLocator} does not let a candidate accept more than $${(rule.thresholdMinorUnits / 100).toFixed(0)} in aggregate from anyone but themselves until they have designated a principal campaign committee, and this campaign has none.`,
+      reason: `A candidate cannot accept more than $${(rule.thresholdMinorUnits / 100).toFixed(0)} in total from anyone but themselves until they have designated a principal campaign committee, and this campaign has none.`,
       citation: rule.legalLocator,
       authorityUrl: rule.authorityUrl,
       obligation: rule.obligation,
@@ -346,7 +348,7 @@ export function assessContribution(
 
   return {
     decision: "allowed",
-    reason: `Above the $${(rule.thresholdMinorUnits / 100).toFixed(0)} threshold in ${rule.legalLocator}, which is permitted because this campaign has designated a principal campaign committee.`,
+    reason: `Above the $${(rule.thresholdMinorUnits / 100).toFixed(0)} limit, which is allowed here because this campaign has designated a principal campaign committee.`,
     citation: rule.legalLocator,
     authorityUrl: rule.authorityUrl,
     obligation: rule.obligation,
@@ -407,7 +409,8 @@ export function assessSecondCommittee(
   if (!existing) {
     return {
       decision: "allowed",
-      reason: `${rule.legalLocator} permits a single principal campaign committee for each office sought, and this character has none.`,
+      reason:
+        "A candidate may have one principal campaign committee for each office sought, and this character has none yet.",
       citation: rule.legalLocator,
       authorityUrl: rule.authorityUrl,
       obligation: rule.obligation,
@@ -415,7 +418,8 @@ export function assessSecondCommittee(
   }
   return {
     decision: "refused",
-    reason: `${rule.legalLocator} does not let a candidate cause a second committee to be formed, and this character already has one running.`,
+    reason:
+      "A candidate cannot cause a second committee to be formed, and this character already has one running.",
     citation: rule.legalLocator,
     authorityUrl: rule.authorityUrl,
     obligation: rule.obligation,

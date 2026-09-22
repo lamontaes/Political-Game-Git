@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  ASSET_TARGET_CLASSES,
   buildEnvironmentIntakeReport,
   effectiveNativeDetailWidth,
   evaluateEnvironmentMasterIntake,
+  targetClassShips,
   type AssetLineageDeclaration,
   type EnvironmentMasterCandidate,
   type MeasuredCandidate,
@@ -280,5 +282,75 @@ describe("intake report determinism", () => {
       "env_z",
     ]);
     expect(report.productionCount).toBe(2);
+  });
+});
+
+/**
+ * The vocabulary itself is checked on main: `validateAssetRequests` rejects an
+ * `unknown-target-class` and `tests/asset-requests.test.ts` runs it over the
+ * real `art/requests/asset-requests.json`. What is NOT checked there is the
+ * ruler each class is measured with, which is what this suite is for.
+ *
+ * Widening the vocabulary put classes into the shipping set whose art is small
+ * by design. The environment master floor is 4608px because a room plate has to
+ * survive a crop and a tier ladder; a masthead nameplate does not, and holding
+ * one to that number would reject correct art for being its intended size.
+ */
+describe("the environment master width floor", () => {
+  /**
+   * `reference` is the one class that is catalogued and never painted. Every
+   * other class ships, and adding one must not quietly create a second
+   * non-shipping state — the floor below is scoped on top of this.
+   */
+  it("ships every class except reference", () => {
+    for (const targetClass of ASSET_TARGET_CLASSES) {
+      expect(targetClassShips(targetClass), targetClass).toBe(
+        targetClass !== "reference",
+      );
+    }
+  });
+
+  it("still rejects an undersized room plate", () => {
+    const record = evaluateEnvironmentMasterIntake(
+      candidate(NATIVE_LINEAGE, { targetClass: "environment-plate" }),
+      measured(1_024),
+    );
+    expect(record.findings.map((f) => f.code)).toContain(
+      "master-width-below-minimum",
+    );
+    expect(record.disposition).toBe("reject");
+  });
+
+  it("does not measure an interface graphic against a room plate's floor", () => {
+    for (const targetClass of [
+      "character-component",
+      "interface-graphic",
+    ] as const) {
+      const record = evaluateEnvironmentMasterIntake(
+        candidate(NATIVE_LINEAGE, { targetClass }),
+        measured(1_024),
+      );
+      expect(
+        record.findings.map((f) => f.code),
+        targetClass,
+      ).not.toContain("master-width-below-minimum");
+      // It ships, so it is NOT catalogued away as reference-only.
+      expect(
+        record.findings.map((f) => f.code),
+        targetClass,
+      ).not.toContain("reference-only-cannot-ship");
+      expect(record.disposition, targetClass).toBe("production");
+    }
+  });
+
+  it("keeps reference the one class that is catalogued and never painted", () => {
+    const record = evaluateEnvironmentMasterIntake(
+      candidate(NATIVE_LINEAGE, { targetClass: "reference" }),
+      measured(1_024),
+    );
+    expect(record.findings.map((f) => f.code)).toContain(
+      "reference-only-cannot-ship",
+    );
+    expect(record.disposition).toBe("reference");
   });
 });

@@ -5,6 +5,7 @@ import type {
   KnowledgeSubjectScope,
   PolicyCatalog,
   PolicyDomainDefinition,
+  PolicyGovernmentLevel,
   PolicyIssueDefinition,
   PolicyPropositionDefinition,
   PoliticalPrincipleDefinition,
@@ -40,6 +41,7 @@ export function createPolicyIssueDefinition(
   domainId: EntityId,
   name: string,
   description: string,
+  levels: readonly PolicyGovernmentLevel[] = [],
 ): PolicyIssueDefinition {
   return {
     id: createStableId("policy-issue", `definition:${stableKey}`),
@@ -47,6 +49,10 @@ export function createPolicyIssueDefinition(
     domainId,
     name,
     description,
+    // Omitted rather than empty: an issue nobody routed must serialise as it
+    // did before levels existed, so the accepted bytes of a world carrying
+    // unrouted issues stay true and an older save stays readable.
+    ...(levels.length > 0 ? { levels: [...levels] } : {}),
   };
 }
 

@@ -56,6 +56,8 @@ import {
   recordRelationshipInteraction,
 } from "./records";
 import { drawCanonicalName } from "./people";
+import { residentNameForJurisdiction } from "./life-places";
+import { generateSchoolNames } from "./school-names";
 import {
   appearanceLineageFromPeople,
   derivePersonAppearance,
@@ -2171,6 +2173,18 @@ export function generateQuickCharacterHistory(
     generatorKey: `character-history-v1:${input.stableKey}`,
   };
   const key = (suffix: string) => `${input.stableKey}:${suffix}`;
+  // A generated childhood still happened somewhere. The schools are named for
+  // the town this character actually grew up in, through the same seeded
+  // stream every other generated name goes through, so they are the same
+  // schools in every save of this world.
+  const homeJurisdiction = world.jurisdictions[input.jurisdictionId];
+  const schoolNames = generateSchoolNames(
+    rng.fork("schools"),
+    residentNameForJurisdiction(
+      homeJurisdiction?.name ?? "",
+      homeJurisdiction?.parentName ?? null,
+    ),
+  );
   const parentKey = key("parent");
   const peerKey = key("peer");
   const teacherKey = key("teacher");
@@ -2246,7 +2260,7 @@ export function generateQuickCharacterHistory(
           formedAt: age(0),
           provenance: generated,
           initialProfile: {
-            name: "Local Elementary School",
+            name: schoolNames.elementary,
             classification: "service:school",
             locationJurisdictionId: input.jurisdictionId,
           },
@@ -2259,7 +2273,7 @@ export function generateQuickCharacterHistory(
           formedAt: age(0),
           provenance: generated,
           initialProfile: {
-            name: "Local Middle School",
+            name: schoolNames.middle,
             classification: "service:school",
             locationJurisdictionId: input.jurisdictionId,
           },
@@ -2272,7 +2286,7 @@ export function generateQuickCharacterHistory(
           formedAt: age(0),
           provenance: generated,
           initialProfile: {
-            name: "Local High School",
+            name: schoolNames.high,
             classification: "service:school",
             locationJurisdictionId: input.jurisdictionId,
           },

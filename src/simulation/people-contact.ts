@@ -13,6 +13,9 @@ import {
 } from "./life-queries";
 import { personName } from "./people";
 import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
+import { loadedTraitRegistry } from "./trait-registry";
+import { registeredTraitConsiderations } from "./trait-readings";
+import { CONTACT_ANSWER_DECISION } from "./people-contact-decisions";
 import { recordEventKnowledge } from "./records";
 import { assessRelationshipContinuity } from "./relationship-integration";
 import { simulationMomentAtLocalTime } from "./dates";
@@ -646,34 +649,31 @@ export function npcContactAnswer(
       sourceRefs: [],
     });
   }
+  // The answerer's own temperament is established here, because they are the
+  // one deciding and a decision may rest on who they are.
+  //
+  // The asker's is not, and deliberately. Rows declared `about: "subject"`
+  // read whatever this world has already recorded about the person asking,
+  // which is an observation rather than a fact waiting to be established —
+  // seeding it at the moment somebody needs it would manufacture the
+  // observation exactly when it is convenient. It also broke: this scheduled
+  // answer is evaluated against the world as of the moment it was scheduled,
+  // so a record written now is not available to it and the decision refused
+  // its own citation. An unrecorded asker contributes nothing, which is the
+  // same answer the player gets before they have said who they are.
   const withTraits = ensurePeopleTraits(world, [to]);
+  // Registered effects first: whatever the loaded packs say bears on
+  // `contact.answer`. This decision names no trait, and a pack adding one
+  // reaches it without this file changing.
   considerations.push(
-    ...traitConsiderations(withTraits, to, `contact:${proposalEventId}`, [
-      {
-        optionKey: "accept",
-        trait: "sociability",
-        pole: "high",
-        explanation: "They like seeing people.",
-      },
-      {
-        optionKey: "decline",
-        trait: "sociability",
-        pole: "low",
-        explanation: "They keep to themselves.",
-      },
-      {
-        optionKey: "counter",
-        trait: "deliberation",
-        pole: "low",
-        explanation: "They would rather sort it out now than leave it.",
-      },
-      {
-        optionKey: "accept",
-        trait: "reliability",
-        pole: "high",
-        explanation: "They keep the plans they make.",
-      },
-    ]),
+    ...registeredTraitConsiderations(
+      withTraits,
+      loadedTraitRegistry(),
+      to,
+      `contact:${proposalEventId}`,
+      CONTACT_ANSWER_DECISION.id,
+      from,
+    ),
   );
   const evaluation = evaluateDecision(withTraits, {
     stableKey: `contact:${proposalEventId}:answer`,

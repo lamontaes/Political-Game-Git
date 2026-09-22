@@ -397,3 +397,97 @@ describe("PEOPLE P2 private aims", () => {
     ).toThrow();
   });
 });
+
+describe("PEOPLE P2 aims tell the truth about what they offer", () => {
+  function placeLife(placeKey: string, seed: string) {
+    return generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        placeKey,
+        seed,
+        startAge: 34,
+      }),
+    ).game!;
+  }
+
+  it("an aim with nothing under it says why, in the candidacy rules' own words", () => {
+    // Ohio has an accepted pack, so the aim is a coherent thing to mean to do.
+    // Filing is refused on residence the world has not recorded, and before
+    // this the player was shown an empty list with no explanation at all,
+    // which is the aim that is offered and then cannot be taken.
+    const life = placeLife("state:US-OH", "aims-ohio");
+    const set = startPersonalGoal(life.world, {
+      personId: life.playerPersonId,
+      family: "seek-office",
+      targetEntityId: null,
+    });
+    const goal = projectPersonalGoals(set, life.playerPersonId).goals[0]!;
+    expect(goal.opportunities).toEqual([]);
+    expect(goal.obstacles.length).toBeGreaterThan(0);
+    // Not a restatement: these come back from candidacyEligibility.
+    expect(goal.obstacles.join(" ")).toMatch(/residence|record/i);
+    // An empty list is never silently empty.
+    expect(goal.obstacles.every((line) => line.trim().length > 0)).toBe(true);
+  });
+
+  it("an aim that can be acted on carries offers and no obstacles", () => {
+    const life = placeLife("kentucky", "aims-kentucky");
+    const set = startPersonalGoal(life.world, {
+      personId: life.playerPersonId,
+      family: "seek-office",
+      targetEntityId: null,
+    });
+    const goal = projectPersonalGoals(set, life.playerPersonId).goals[0]!;
+    expect(goal.opportunities.length).toBeGreaterThan(0);
+    expect(goal.obstacles).toEqual([]);
+  });
+
+  it("never blames the player's age when age is not the reason", () => {
+    for (const placeKey of ["kentucky", "state:US-OH", "nebraska"]) {
+      const life = placeLife(placeKey, `aims-age-${placeKey}`);
+      const choice = projectPersonalGoals(
+        life.world,
+        life.playerPersonId,
+      ).choices.find((entry) => entry.family === "seek-office")!;
+      if (choice.unavailableReason) {
+        // The character is 34. Age cannot be the reason anywhere here.
+        expect(choice.unavailableReason).not.toMatch(/adult|age/i);
+      }
+    }
+  });
+
+  it("no two aim families are offered about the same person", () => {
+    for (const placeKey of ["kentucky", "state:US-OH", "nebraska", "alaska"]) {
+      const life = placeLife(placeKey, `aims-overlap-${placeKey}`);
+      const { choices } = projectPersonalGoals(life.world, life.playerPersonId);
+      const seen = new Map<string, string>();
+      for (const choice of choices) {
+        for (const target of choice.targets) {
+          if (target.targetEntityId === null) continue;
+          const already = seen.get(target.targetEntityId);
+          expect(
+            already,
+            `${placeKey}: ${target.label} offered under both ${already} and ${choice.family}`,
+          ).toBeUndefined();
+          seen.set(target.targetEntityId, choice.family);
+        }
+      }
+    }
+  });
+
+  it("says contact has lapsed rather than claiming there is nobody", () => {
+    // The seeded acquaintances are all out of touch on the first day, so the
+    // relationship family offers nothing — but "there is nobody" would be
+    // untrue, because there is somebody and the reason is the lapse.
+    const life = placeLife("kentucky", "aims-lapsed");
+    const { choices } = projectPersonalGoals(life.world, life.playerPersonId);
+    const reconnect = choices.find((entry) => entry.family === "reconnect")!;
+    const relationship = choices.find(
+      (entry) => entry.family === "adult-relationship",
+    )!;
+    expect(reconnect.targets.length).toBeGreaterThan(0);
+    expect(relationship.targets).toEqual([]);
+    expect(relationship.unavailableReason).toMatch(/over a year|get back in/i);
+    expect(relationship.unavailableReason).not.toMatch(/nobody you have met/i);
+  });
+});

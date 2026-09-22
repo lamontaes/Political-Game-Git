@@ -5,6 +5,8 @@ import {
   GOVERNMENT_SCOPES,
   governmentScopeLabel,
   projectGovernmentBrowser,
+  type ChamberStanding,
+  type ChamberStandings,
   type GovernmentEntry,
   type GovernmentPlace,
   type GovernmentScope,
@@ -197,6 +199,102 @@ export function GovernmentBrowser({
   );
 }
 
+/**
+ * How a chamber divides, and who sits against their own party.
+ *
+ * Two breakdowns and then the interesting part. The party bar and the caucus
+ * bar usually say the same thing, and a player who has read one has read the
+ * other; the members whose caucus is not their party are what a caucus
+ * breakdown is actually for, so they are named here rather than left as the
+ * difference between two totals nobody subtracts. Each name opens that person.
+ *
+ * A chamber whose save records no caucus keeps its party bar and says so.
+ */
+function Standings({
+  standings,
+  safeKey,
+  onOpenPerson,
+}: {
+  readonly standings: ChamberStandings;
+  readonly safeKey: string;
+  readonly onOpenPerson: (personId: EntityId) => void;
+}) {
+  return (
+    <>
+      <span className="pg-government-subhead">By party</span>
+      <Breakdown
+        rows={standings.parties}
+        testid={`government-parties-${safeKey}`}
+      />
+      <span className="pg-government-subhead">By caucus</span>
+      {standings.caucusNote ? (
+        <span className="pg-government-seat-status">
+          {standings.caucusNote}
+        </span>
+      ) : (
+        <Breakdown
+          rows={standings.caucuses}
+          testid={`government-caucuses-${safeKey}`}
+        />
+      )}
+      {standings.crossings.length > 0 ? (
+        <>
+          <span className="pg-government-subhead">
+            Caucusing with another party ({standings.crossings.length})
+          </span>
+          <ul
+            className="pg-government-crossings"
+            data-testid={`government-crossings-${safeKey}`}
+          >
+            {standings.crossings.map((crossing) => (
+              <li key={crossing.key}>
+                <button
+                  type="button"
+                  className="pg-government-holder"
+                  data-testid={`government-crossing-${crossing.personId}`}
+                  onClick={() => onOpenPerson(crossing.personId)}
+                >
+                  {crossing.name}
+                </button>
+                <span className="pg-government-seat">{crossing.seatLabel}</span>
+                <span className="pg-government-crossing-move">
+                  {crossing.partyLabel
+                    ? `${crossing.partyLabel}, sits with the ${crossing.caucusLabel}`
+                    : `No party, sits with the ${crossing.caucusLabel}`}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : null}
+      {standings.crossingNote ? (
+        <span className="pg-government-seat-status">
+          {standings.crossingNote}
+        </span>
+      ) : null}
+    </>
+  );
+}
+
+function Breakdown({
+  rows,
+  testid,
+}: {
+  readonly rows: readonly ChamberStanding[];
+  readonly testid: string;
+}) {
+  return (
+    <dl className="pg-government-counts" data-testid={testid}>
+      {rows.map((row) => (
+        <div key={row.key}>
+          <dt>{row.label}</dt>
+          <dd>{row.members}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
 function SeatHolder({
   status,
   name,
@@ -321,6 +419,13 @@ function EntryBody({
             <dd>{entry.counts.noCurrentRecord}</dd>
           </div>
         </dl>
+      ) : null}
+      {entry.standings ? (
+        <Standings
+          standings={entry.standings}
+          safeKey={safeKey}
+          onOpenPerson={onOpenPerson}
+        />
       ) : null}
       {state && delegation.length > 0 ? (
         <>

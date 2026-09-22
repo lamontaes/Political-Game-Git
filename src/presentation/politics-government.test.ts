@@ -244,3 +244,119 @@ describe("Government rosters, representation and the Issues place", () => {
     });
   });
 });
+
+describe("How a chamber divides, and who sits against their own party", () => {
+  const life = openingLife("ui46-chamber-standings");
+
+  function chambers(world: World, personId: string) {
+    return projectGovernmentBrowser(world, personId, { scope: "federal" })
+      .branches.find((branch) => branch.branch === "legislative")!
+      .entries.filter((entry) => entry.standings);
+  }
+
+  it("counts every current member exactly once by party and once by caucus", () => {
+    for (const chamber of chambers(life.world, life.personId)) {
+      const standings = chamber.standings!;
+      const members = chamber.counts!.members;
+      const byParty = standings.parties.reduce(
+        (sum, row) => sum + row.members,
+        0,
+      );
+      const byCaucus = standings.caucuses.reduce(
+        (sum, row) => sum + row.members,
+        0,
+      );
+      expect(byParty).toBe(members);
+      expect(byCaucus).toBe(members);
+      // A vacant seat and a seat with no current record belong to nobody.
+      expect(byParty).toBeLessThan(chamber.counts!.seats);
+    }
+  });
+
+  it("names the members whose caucus is not their party, rather than leaving a difference between totals", () => {
+    const crossings = chambers(life.world, life.personId).flatMap(
+      (chamber) => chamber.standings!.crossings,
+    );
+    // The opening seats independents, and an independent's caucus is drawn.
+    expect(crossings.length).toBeGreaterThan(0);
+    for (const crossing of crossings) {
+      expect(life.world.people[crossing.personId]).toBeDefined();
+      expect(crossing.name).not.toBe("");
+      expect(crossing.seatLabel).not.toBe("");
+      expect(crossing.caucusLabel).toMatch(/Caucus|Conference/);
+      // Null is the honest reading for a member with no recorded party;
+      // it must never be rendered as a party named "null" or "none".
+      if (crossing.partyLabel !== null)
+        expect(crossing.partyLabel).not.toBe(crossing.caucusLabel);
+    }
+  });
+
+  it("does not count a party organization and a caucus organization as a crossing", () => {
+    for (const chamber of chambers(life.world, life.personId)) {
+      const standings = chamber.standings!;
+      const affiliated = standings.parties
+        .filter((row) => row.key !== "none")
+        .reduce((sum, row) => sum + row.members, 0);
+      // Every member of a party would read as crossing if the two
+      // organization ids were compared directly, because a party and its
+      // chamber caucus are different organizations.
+      expect(standings.crossings.length).toBeLessThan(affiliated);
+    }
+  });
+
+  it("shows the chamber and says so when the save records no caucus for anyone", () => {
+    const stripped: World = {
+      ...life.world,
+      history: {
+        ...life.world.history,
+        organizationParticipations:
+          life.world.history.organizationParticipations.filter(
+            (participation) =>
+              participation.kind !== "membership:legislative-caucus",
+          ),
+        events: life.world.history.events.map((event) =>
+          event.tags.some((tag) => tag.startsWith("caucus:"))
+            ? {
+                ...event,
+                tags: event.tags.map((tag) =>
+                  tag.startsWith("caucus:") ? "caucus:none" : tag,
+                ),
+              }
+            : event,
+        ),
+      },
+    };
+    const entries = chambers(stripped, life.personId);
+    expect(entries.length).toBe(2);
+    for (const chamber of entries) {
+      const standings = chamber.standings!;
+      expect(chamber.counts!.members).toBeGreaterThan(0);
+      expect(standings.parties.length).toBeGreaterThan(0);
+      expect(standings.caucuses).toEqual([]);
+      expect(standings.caucusNote).toBe(
+        "No caucus is recorded for anyone in this chamber.",
+      );
+      expect(standings.crossings).toEqual([]);
+      expect(standings.crossingNote).toBeNull();
+    }
+  });
+
+  it("carries no source, citation or record identifier onto the screen", () => {
+    for (const chamber of chambers(life.world, life.personId)) {
+      const standings = chamber.standings!;
+      const text = [
+        ...standings.parties.map((row) => row.label),
+        ...standings.caucuses.map((row) => row.label),
+        ...standings.crossings.flatMap((row) => [
+          row.name,
+          row.seatLabel,
+          row.partyLabel ?? "",
+          row.caucusLabel,
+        ]),
+        standings.caucusNote ?? "",
+        standings.crossingNote ?? "",
+      ].join(" ");
+      expect(text).not.toMatch(/https?:|organization:|person:|seed|stableKey/i);
+    }
+  });
+});

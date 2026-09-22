@@ -318,3 +318,22 @@
 .pg-public-services-facts dd {
   margin: 0;
 }
+
+.pg-government-crossings {
+  margin: 0.25rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.pg-government-crossings li {
+  display: grid;
+  gap: 0.05rem;
+}
+
+.pg-government-crossing-move {
+  display: block;
+  color: rgba(225, 232, 238, 0.76);
+  font-size: 0.86rem;
+}

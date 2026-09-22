@@ -28,6 +28,11 @@ import {
   pressRecordsOfKind,
   requirePressRecord,
 } from "./store";
+import {
+  ethicsInstitutionKey,
+  STATE_LEGISLATIVE_ETHICS_BODIES,
+  type StateLegislativeEthicsBody,
+} from "./state-ethics-bodies";
 
 /**
  * Jurisdiction-specific procedure adapters (ALIVE44 chunk 4). There is no
@@ -362,11 +367,133 @@ const SIMULATED: ProcedureDefinition = {
   },
 };
 
-const DEFINITIONS: Readonly<Record<ProcedureKey, ProcedureDefinition>> = {
-  "fec-enforcement": FEC,
-  "ky-legislative-ethics": KLEC,
-  "simulated-inquiry": SIMULATED,
-};
+/**
+ * Steps for a state whose ethics body is researched but whose timeline is not.
+ *
+ * The 2026-09-22 routing research read each state's own sources for who hears
+ * a complaint, what the state calls the proceeding and which instrument says
+ * so. It deliberately did not read answer periods, inquiry deadlines or
+ * sanction powers, and it warned in as many words that filing, investigation,
+ * findings, publicity and sanctions are not the same event.
+ *
+ * So every interval below is `authored` and none is `rule`: the body is real
+ * and named, the calendar is the game's. The last step stops at findings and
+ * says the sanction is decided elsewhere, because for most of these states it
+ * is — the chamber, not the commission, does the punishing — and nothing in
+ * the research establishes how.
+ *
+ * Borrowing Kentucky's ten-day service and twenty-day answer period for the
+ * other twenty-three would have read as researched law and been false.
+ */
+function stateLegislativeEthicsDefinition(
+  body: StateLegislativeEthicsBody,
+): ProcedureDefinition {
+  const proceeding = body.proceedingTerm.split(" / ")[0]!.toLowerCase();
+  return {
+    key: body.procedureKey,
+    institutionLabel: body.intakeBody,
+    institution: ethicsInstitutionKey(body),
+    confidentialWhilePending: true,
+    sourceRefs: body.sourceRefs,
+    after(previous, supported) {
+      switch (previous?.step ?? null) {
+        case null:
+          return {
+            step: "complaint-received",
+            summary: (c) =>
+              `The ${c.institution} received a ${proceeding} naming ${c.respondents}. A complaint is an allegation, not a finding.`,
+            publicStep: false,
+            outcome: null,
+            closes: false,
+            next: { days: 14, basis: "authored" },
+            respondentsNotified: false,
+            action: "receive-complaint",
+          };
+        case "complaint-received":
+          return {
+            step: "respondent-notified",
+            summary: (c) =>
+              `The ${c.institution} notified ${c.respondents} of the complaint and of the opportunity to answer it.`,
+            publicStep: false,
+            outcome: null,
+            closes: false,
+            next: { days: 21, basis: "authored" },
+            respondentsNotified: true,
+            action: null,
+          };
+        case "respondent-notified":
+          return {
+            step: "response-period-closed",
+            summary: (c) => `The answer period for ${c.respondents} closed.`,
+            publicStep: false,
+            outcome: null,
+            closes: false,
+            next: { days: 45, basis: "authored" },
+            respondentsNotified: true,
+            action: null,
+          };
+        case "response-period-closed":
+          return supported
+            ? {
+                step: "preliminary-inquiry",
+                summary: (c) =>
+                  `The ${c.institution} found reason to believe further inquiry is warranted and opened one. This is not a finding.`,
+                publicStep: false,
+                outcome: "reason-to-believe",
+                closes: false,
+                next: { days: 60, basis: "authored" },
+                respondentsNotified: true,
+                action: "open-inquiry",
+              }
+            : {
+                step: "dismissed",
+                summary: (c) =>
+                  `The ${c.institution} dismissed the complaint against ${c.respondents}.`,
+                publicStep: false,
+                outcome: "dismissed",
+                closes: true,
+                next: null,
+                respondentsNotified: true,
+                action: "dismiss",
+              };
+        case "preliminary-inquiry":
+          return supported
+            ? {
+                step: "findings-issued",
+                summary: (c) =>
+                  `The ${c.institution} completed its inquiry into ${c.respondents} and issued its findings. Whether anyone is disciplined is decided separately, and this game does not model that step.`,
+                publicStep: true,
+                outcome: "finding",
+                closes: true,
+                next: null,
+                respondentsNotified: true,
+                action: "issue-finding",
+              }
+            : {
+                step: "dismissed",
+                summary: (c) =>
+                  `The ${c.institution} ended its inquiry and dismissed the complaint against ${c.respondents}.`,
+                publicStep: false,
+                outcome: "dismissed",
+                closes: true,
+                next: null,
+                respondentsNotified: true,
+                action: "dismiss",
+              };
+        default:
+          return null;
+      }
+    },
+  };
+}
+
+const DEFINITIONS = Object.fromEntries([
+  ...[FEC, KLEC, SIMULATED].map((definition) => [definition.key, definition]),
+  ...STATE_LEGISLATIVE_ETHICS_BODIES.map((body) => [
+    body.procedureKey,
+    stateLegislativeEthicsDefinition(body),
+  ]),
+]) as Readonly<Record<ProcedureKey, ProcedureDefinition>>;
 
 export function procedureDefinition(key: ProcedureKey) {
   const definition = DEFINITIONS[key];

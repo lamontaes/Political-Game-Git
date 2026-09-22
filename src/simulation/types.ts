@@ -216,12 +216,36 @@ export interface PolicyDomainDefinition {
   readonly description: string;
 }
 
+/**
+ * A level of government an issue can be decided at.
+ *
+ * Deliberately the vocabulary a player would use, and deliberately not a
+ * claim about any particular jurisdiction: that a question is ordinarily
+ * municipal says nothing about whether *this* city was given the power. The
+ * jurisdiction's own capability record decides that, and this list only says
+ * which levels are worth asking.
+ */
+export type PolicyGovernmentLevel =
+  "state" | "county" | "municipality" | "school-district";
+
 export interface PolicyIssueDefinition {
   readonly id: EntityId;
   readonly stableKey: string;
   readonly domainId: EntityId;
   readonly name: string;
   readonly description: string;
+  /**
+   * The levels this question is ordinarily decided at, where a source says so.
+   *
+   * Absent means nobody has established it, which is not the same as every
+   * level: an unknown fact is not permission, so a consumer filtering by level
+   * must treat its absence as "do not know" and say so, never as "anywhere".
+   *
+   * Optional, and omitted rather than written empty, so a world holding issues
+   * nobody routed serialises exactly as it did before this field existed and
+   * a save written then stays readable.
+   */
+  readonly levels?: readonly PolicyGovernmentLevel[];
 }
 
 export interface PropositionParameter {
@@ -2477,6 +2501,61 @@ export interface LegislativeDraftLineageRecord {
    */
   readonly authorityKey?: string;
   readonly authorityMeasureId?: EntityId;
+  /**
+   * Which part of a multi-subject measure this lineage belongs to.
+   *
+   * Absent on every bill written from a single family, which is every bill
+   * filed before measures could carry more than one — so an old save reads
+   * back unchanged and still means "this measure, one configuration". Present
+   * once per component on a measure compiled from a bundle, where the key is
+   * the component's own name and is also the namespace its provision keys
+   * carry, so a lineage and the provisions it produced can be matched up
+   * without a second index.
+   */
+  readonly componentKey?: string;
+  /**
+   * The subject this component was declared to belong to.
+   *
+   * Recorded, not computed. It is the label the drafter declared at filing, so
+   * a measure can still say what it was held to be about under the profile in
+   * force when it was filed. It is not a judicial classification and nothing
+   * re-derives it later.
+   */
+  readonly componentSubject?: string;
+  /** Component keys this one was filed as taking effect after. */
+  readonly componentDependsOn?: readonly string[];
+  /**
+   * What this component did to existing law, where it did anything to it.
+   *
+   * Absent means an insertion, which is what a component creating a new
+   * programme does and what every component filed before amendments were
+   * modelled did — so an old save reads back unchanged. Present on a component
+   * that amended or repealed, with the provisions it acted on and the exact
+   * revision of each it was written against, so the measure can still say what
+   * text its author actually had in front of them.
+   */
+  readonly componentOperation?: {
+    readonly kind: "replace" | "repeal";
+    readonly targets: readonly {
+      readonly provisionKey: string;
+      readonly expectedRevisionId: EntityId;
+    }[];
+  };
+  /** References this component declared, as filed. */
+  readonly componentCrossReferences?: readonly {
+    readonly fromProvisionKey: string;
+    readonly toProvisionKey: string;
+    readonly toComponentKey?: string;
+    readonly toAuthorityKey?: string;
+  }[];
+  /**
+   * What the jurisdiction's saved profile allowed this measure to carry.
+   *
+   * Written identically on each of a bundle's component lineages, because the
+   * rule is a fact about the measure rather than about any one part of it, and
+   * a rule that changed later must not restate what was already filed.
+   */
+  readonly bundleSubjectRule?: "unrestricted" | "single-subject";
   /** Said plainly in the save: this configuration is authored fiction. */
   readonly provenanceNote: string;
 }
@@ -3808,6 +3887,27 @@ export interface LegislativeMeasureRecord {
   readonly sourceDocumentKey: string | null;
   /** Optional links to existing quantitative policy alternatives. */
   readonly policyAlternativeIds: readonly EntityId[];
+  /**
+   * The policy questions this measure is about.
+   *
+   * Separate from `policyAlternativeIds` rather than reached through one,
+   * because an alternative carries a quantitative operation — set a level, cap
+   * it, raise it by a share — and most of what a legislature does is not a
+   * number. Who may do what, who must be told, what counts as an offence and
+   * who is eligible are all bills about a question that change no quantity, and
+   * routing them through a quantitative alternative so the link exists would
+   * pass every test while lying about the domain.
+   *
+   * So this says only "this bill is about this question" and claims nothing
+   * about what it would do to anything. Saying what a bill DOES, in terms other
+   * than a quantity, is a larger piece of work that belongs with the content
+   * pack effect vocabulary rather than here.
+   *
+   * Optional so snapshots written before it existed remain structurally
+   * readable; a measure without it is a measure nobody linked, which is every
+   * measure in every save written so far.
+   */
+  readonly propositionIds?: readonly EntityId[];
 }
 
 export type LegislativeActionKind =
@@ -4488,7 +4588,6 @@ export type AdultLifeSituationKey =
   | "adult.work-extra-hours"
   | "adult.work-credit"
   | "adult.work-colleague-struggling"
-  | "adult.work-offer-elsewhere"
   | "adult.work-good-week"
   | "adult.housing-cost-change"
   | "adult.housing-repair-standoff"
@@ -4496,7 +4595,6 @@ export type AdultLifeSituationKey =
   | "adult.unexpected-expense"
   | "adult.small-windfall"
   | "adult.friend-favour"
-  | "adult.help-with-strings"
   | "adult.friend-in-difficulty"
   | "adult.friend-good-news"
   | "adult.local-dispute"

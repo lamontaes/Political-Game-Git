@@ -74,7 +74,12 @@ describe("Nevada legislator qualifications through ordinary discovery and filing
     expect(serializeWorld(worldAtArrival)).toBe(before);
     const opening = eligibilityOn(worldAtArrival, personId);
     expect(opening.blocks.map((block) => block.reason)).toEqual([
-      "Not resident long enough: NRS 218A.200 requires 1 year, and this character has lived here 0.",
+      // The elapsed side used to carry no unit at all -- "has lived here 0" --
+      // because it was always years and the sentence relied on the reader to
+      // supply the word. It names its unit now, which it has to once the
+      // requirement can be months. The citation in front of it is gone; the
+      // unit is main's and is kept.
+      "Not resident long enough: this office requires 1 year of residence, and this character has lived here 0 months.",
     ]);
 
     // A year of this same life later, the recorded residence satisfies it.
@@ -105,7 +110,7 @@ describe("Nevada legislator qualifications through ordinary discovery and filing
     expect(serializeWorld(reloaded)).toBe(serializeWorld(filed));
   });
 
-  it("keeps refusing on a date before chapter 323 took effect, naming the date", () => {
+  it("keeps refusing on a date before chapter 323 took effect, without naming it", () => {
     const { world, personId } = alamoLife("rules-to-play-nv-alamo");
     const earlier = eligibilityOn(
       { ...world, currentDate: makeIsoDate("2025-09-30") },
@@ -113,9 +118,12 @@ describe("Nevada legislator qualifications through ordinary discovery and filing
     );
     expect(earlier.eligible).toBe(false);
     const reasons = earlier.blocks.map((block) => block.reason).join(" ");
+    // The refusal still fires, and now says so in the game's own terms: which
+    // state, why nothing can be granted, and that a later life may reach it.
+    expect(reasons).toContain("You can't run for office in Nevada this early.");
     expect(reasons).toContain(
-      "NRS 218A.200 is supported from 2025-10-01; its applicability on 2025-09-30 is not established by the acquired evidence.",
+      "A life that starts later may be able to run here.",
     );
-    expect(reasons).not.toMatch(/observed/);
+    expect(reasons).not.toMatch(/NRS|observed|2025-10-01|acquired evidence/);
   });
 });
