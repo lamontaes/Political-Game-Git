@@ -8,6 +8,29 @@ on:
 permissions:
   contents: read
 
+# A new commit supersedes its own predecessor, so the predecessor's run stops.
+# Without this, every push left fifteen more jobs in a queue that runs two at a
+# time, and on 2026-09-22 that grew to roughly two thousand queued jobs and
+# several hours in which no branch could get a verdict at all.
+#
+# NOT on main. Cancel-in-progress is deliberately false there, because main's
+# run is the base verdict every lane reads to tell a failure it inherited from
+# one it caused. That is not academic: two browser shards were failing on main
+# the night this was written, and if pushes to main had been cancelling each
+# other's runs, nobody could have established that.
+#
+# The key separates the push run from the pull_request run of the same ref.
+# Branch protection may read either, and cancelling one to save the other would
+# be guessing which.
+#
+# A cancelled required job reads as red to the aggregate `validate` job, which
+# exits 1 with nothing to aggregate. That only ever happens on a commit that is
+# no longer the branch's head, so it cannot block a merge — but a cancelled run
+# on an older commit is a superseded run, not a verdict.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 jobs:
   repository:
     name: repository

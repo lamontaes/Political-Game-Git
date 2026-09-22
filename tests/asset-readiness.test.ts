@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import fs from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
@@ -142,6 +143,33 @@ describe("the current preserved universe", () => {
       const isUnlinked = unlinked.has(unit.unitKey);
       expect(isLinked || isUnlinked, unit.unitKey).toBe(true);
       expect(isLinked && isUnlinked, unit.unitKey).toBe(false);
+    }
+  });
+
+  /**
+   * Every file a unit names is a file that is here, at the bytes recorded.
+   *
+   * The unit count alone said nothing about this. Five wave-a families had
+   * their source sheets banked under `wave-a-morphology/source-sheets` while
+   * the derivation named one fixed sweep directory, so the recorded lineage
+   * for those five pointed at no file at all and the reconciliation still
+   * passed twenty units — a source sheet is only opened when a verdict happens
+   * to cite it. Lineage is evidence, and evidence that resolves to nothing is
+   * worse than none, because it reads as checked.
+   */
+  it("names only files that exist, at the hashes recorded", () => {
+    for (const unit of inputs.preservedUnits) {
+      for (const file of unit.files) {
+        const absolute = path.join(ROOT, file.path);
+        expect(fs.existsSync(absolute), `${unit.unitKey}: ${file.path}`).toBe(
+          true,
+        );
+        const actual = crypto
+          .createHash("sha256")
+          .update(fs.readFileSync(absolute))
+          .digest("hex");
+        expect(actual, `${unit.unitKey}: ${file.path}`).toBe(file.sha256);
+      }
     }
   });
 
@@ -501,7 +529,7 @@ describe("the reconciliation fails closed when", () => {
         },
       ],
     };
-    const units = preservedUnitsOf(review, widened);
+    const units = preservedUnitsOf(review, widened, ROOT);
     expect(units.map((unit) => unit.unitKey)).toContain("source:IMG_9999.JPG");
     expect(codesOf(inputs.declaration, units)).toContain(
       "preserved-unit-unreconciled",
