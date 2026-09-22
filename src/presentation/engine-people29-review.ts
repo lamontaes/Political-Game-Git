@@ -1,16 +1,12 @@
-import fit from "../../art/manifest/character_candidate_visual4_fit.json";
+import catalog from "../../art/manifest/character_catalog.json";
+import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json";
 import {
   KIT41_REGISTRY as kit,
   MODULAR41_HEADS_REGISTRY as headRepair,
   candidateGenerations,
   candidateRegistry,
 } from "./private-candidate-manifests";
-import {
-  eligible,
-  lifted as frozen,
-  PEOPLE_VISUAL4_CHARACTER_LIBRARY,
-  PEOPLE_VISUAL4_VISUAL_LIBRARY,
-} from "./people-visual4-review";
+import type { CharacterCatalogData } from "./character-components";
 import {
   createCharacterComponentLibrary,
   liftCandidatesForReview,
@@ -30,7 +26,6 @@ const standing41 = candidateRegistry("engine41");
 // Input manifests remain draft/pending/unreleased; the production registry is untouched.
 const review = liftCandidatesForReview(
   [
-    ...eligible,
     ...(headRepair.assets as unknown as readonly CharacterComponentManifestRecord[]),
     ...(kit.assets as unknown as readonly CharacterComponentManifestRecord[]),
     ...(data.assets as unknown as readonly CharacterComponentManifestRecord[]),
@@ -40,10 +35,12 @@ const review = liftCandidatesForReview(
     ...(audience40.assets as unknown as readonly CharacterComponentManifestRecord[]),
     ...(standing41.assets as unknown as readonly CharacterComponentManifestRecord[]),
   ],
-  frozen.catalog.slots,
+  // The slots came through the retired cast's lift, but they were never its
+  // own: that lift read them straight from the production catalog, which is
+  // where they are read from now.
+  (catalog as CharacterCatalogData).slots,
   {
     frozenGenerations: [
-      ...frozen.catalog.generations,
       ...candidateGenerations("engine41"),
       ...headRepair.generations,
       ...kit.generations,
@@ -61,10 +58,12 @@ export const ENGINE_PEOPLE29_CHARACTER_LIBRARY =
   createCharacterComponentLibrary(
     review.records,
     review.catalog,
+    // The fit bank was based on the retired cast's own garment measurements.
+    // Those garments went with the cast, so the surviving candidate
+    // generations supply the whole bank on the production schema.
     createGarmentFitBank({
-      ...fit,
+      ...garmentFitProfiles,
       garments: [
-        ...fit.garments,
         ...kit.garments,
         ...data.garments,
         ...refinement.garments,
@@ -74,7 +73,9 @@ export const ENGINE_PEOPLE29_CHARACTER_LIBRARY =
         ...standing41.garments,
       ],
     } as GarmentFitBankData),
-    PEOPLE_VISUAL4_CHARACTER_LIBRARY.skinTone,
+    // No skin-tone table: the only one there ever was measured the retired
+    // cast's own rasters, family by family, so nothing it described still
+    // exists. Production composes its library without one too.
   );
 const urls = optionalGlob(() =>
   import.meta.glob<string>(
@@ -91,7 +92,6 @@ const urls = optionalGlob(() =>
   ),
 );
 export const ENGINE_PEOPLE29_VISUAL_LIBRARY = new Map([
-  ...PEOPLE_VISUAL4_VISUAL_LIBRARY,
   ...createRuntimeVisualLibrary(
     review.records.filter(
       (r) =>

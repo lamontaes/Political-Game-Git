@@ -1,4 +1,3 @@
-import { PeopleVisual4Review } from "./PeopleVisual4Review";
 import { frameCharacterReview } from "../presentation/character-review-framing";
 import { useReviewEnvironment, useReviewStorage } from "./review-context";
 import {
@@ -34,7 +33,6 @@ import {
   PRODUCTION_VISUAL_LIBRARY,
 } from "../presentation/visual-integration";
 import { PersonPortrait } from "../player/PersonPortrait";
-import { CandidateAdmissionReview } from "./CandidateAdmissionReview";
 import { ModularCharacter } from "../player/ModularCharacter";
 import { useSceneTransform } from "../player/useSceneTransform";
 import type { EntityId, World } from "../simulation/types";
@@ -57,26 +55,11 @@ function proofSetFromUrl(): CharacterProofSetId {
   return value === "dev" ? "dev" : "real";
 }
 
-/**
- * `?set=wave-a` is a THIRD review surface, not a third proof set.
- *
- * The two proof sets each compose four generated people, which needs a library
- * that can finish a person. The admitted Wave A bodies deliberately cannot: no
- * face and no wardrobe has been drawn for them yet. Giving them their own
- * surface keeps that distinction visible instead of showing four broken people
- * and calling it a set.
- */
-function waveAReviewRequested(): boolean {
-  return new URLSearchParams(window.location.search).get("set") === "wave-a";
-}
-
 const SET_LINKS = (
   <p>
     Sets:{" "}
-    <a href="?view=character-proof&set=visual4">Corrected selectable people</a>{" "}
-    · <a href="?view=character-proof&set=real">real production candidates</a> ·{" "}
-    <a href="?view=character-proof&set=dev">DEV fixtures</a> ·{" "}
-    <a href="?view=character-proof&set=wave-a">Wave A candidate admission</a>
+    <a href="?view=character-proof&set=real">real production candidates</a> ·{" "}
+    <a href="?view=character-proof&set=dev">DEV fixtures</a>
   </p>
 );
 
@@ -325,28 +308,6 @@ function OfficePathTable() {
 }
 
 export function CharacterProofView() {
-  if (new URLSearchParams(window.location.search).get("set") === "visual4")
-    return <PeopleVisual4Review />;
-  if (waveAReviewRequested()) {
-    return (
-      <main
-        className="character-proof"
-        data-testid="character-proof"
-        data-proof-set="wave-a"
-      >
-        <header className="character-proof-header">
-          <div>
-            <p className="character-proof-eyebrow">
-              Developer proof · Wave A candidate admission — NOT IN ANY CATALOG
-            </p>
-            <h1>Modular character runtime proof</h1>
-            {SET_LINKS}
-          </div>
-        </header>
-        <CandidateAdmissionReview />
-      </main>
-    );
-  }
   return <CharacterProofWorldView />;
 }
 

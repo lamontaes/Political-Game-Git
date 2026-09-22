@@ -13,12 +13,6 @@ import {
   PRODUCTION_CHARACTER_LIBRARY as library,
   PRODUCTION_VISUAL_LIBRARY as visuals,
 } from "./visual-integration";
-import {
-  WAVE_A_REVIEW_CHARACTER_LIBRARY,
-  WAVE_A_REVIEW_VISUAL_LIBRARY,
-  WAVE_A_WARDROBE_RECORDS,
-  composeCandidateReviewSubject,
-} from "./candidate-review";
 import { resolveCharacterRecipe } from "./character-components";
 import { createRunBFixture } from "./run-b-fixture";
 import { resolvePersonPortrait } from "./person-visual";
@@ -136,37 +130,6 @@ describe("PEOPLE1-R1 consumers", () => {
     ).toBe(true);
   });
 
-  it("honours baked heads in render plans and retains seated garment gaps", () => {
-    for (const record of WAVE_A_WARDROBE_RECORDS.filter(
-      (r) => r.candidate_component?.kind === "body",
-    )) {
-      const subject = composeCandidateReviewSubject({
-        library: WAVE_A_REVIEW_CHARACTER_LIBRARY,
-        visualLibrary: WAVE_A_REVIEW_VISUAL_LIBRARY,
-        bodyAssetId: record.asset_id,
-        plate: CHARACTER_PROOF_SCENE.plate,
-      })!;
-      expect(subject.plan.missing).not.toContain("slot:head");
-      expect(subject.plan.layers.some((layer) => layer.kind === "head")).toBe(
-        false,
-      );
-      expect(
-        subject.plan.diagnostics.some((d) => d.code === "slot-painted-by-body"),
-      ).toBe(true);
-      if (record.candidate_component!.pose_family!.startsWith("seated")) {
-        expect(subject.plan.complete).toBe(false);
-        expect(subject.plan.missing).toContain("slot:bottom");
-      }
-      for (const component of subject.recipe.context.components) {
-        const families = WAVE_A_REVIEW_CHARACTER_LIBRARY.components.get(
-          component.assetId,
-        )!.definition.compatible_body_families;
-        if (families)
-          expect(families).toContain(subject.recipe.identity.bodyFamily);
-      }
-    }
-  });
-
   it("uses an authored likeness only for its saved appearance and refuses a future catalog", () => {
     const fixture = createRunBFixture();
     for (const entry of fixture.scenePeople) {
@@ -194,7 +157,5 @@ describe("PEOPLE1-R1 consumers", () => {
     const world = createCharacterProofWorld(library);
     for (const person of Object.values(world.people))
       expect(resolvePersonPortrait(person).kind).toBe("placeholder");
-    for (const record of WAVE_A_WARDROBE_RECORDS)
-      expect(library.components.has(record.asset_id)).toBe(false);
   });
 });

@@ -246,7 +246,7 @@ describe("the reconciliation fails closed when", () => {
       unitKey: "family:average-man-rejects",
       files: [
         {
-          path: "art/generated/candidates/wave-a-morphology/average-man-rejects/reject.png",
+          path: "art/generated/candidates/proof-morphology/average-man-rejects/reject.png",
           sha256: "1".repeat(64),
         },
       ],
