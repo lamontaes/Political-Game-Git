@@ -122,7 +122,15 @@ export const RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE: EnvironmentSceneSpec
         x_percent: 33,
         z_order: 2,
         footprint_percent: 13,
-        allowed_pose_families: ["seated-guest-neutral"],
+        // The chair has always permitted a three-quarter-right figure and no
+        // pose family faced that way, so nothing could ever sit in it. The
+        // turned guest family is the same guest-seat posture at this chair's
+        // own angle; `seated-guest-neutral` stays listed because the anchor's
+        // facing list is what refuses a square figure, not this list.
+        allowed_pose_families: [
+          "seated-guest-three-quarter-right",
+          "seated-guest-neutral",
+        ],
         permitted_facings: ["three-quarter-right"],
         seat_contact: {
           seat_plane_y_percent: 61.5,
