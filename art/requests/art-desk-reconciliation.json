@@ -2,11 +2,6 @@
   "documentVersion": 1,
   "generatedFrom": "ALIVE43 Role A reconciliation against main 70d76fb940c8b4a81ebdd1ec5834f96b8cb288bd. Packet 68/71 queue reread against current registry, AX-92B1 park/press intake, campaign storefront candidate, and D-held people. Private MODULAR41 pack was not supplied to this worktree.",
   "holds": {
-    "person-production-standing-body": "d-held-people",
-    "person-production-seated-body": "d-held-people",
-    "person-child-body-morphology": "d-held-people",
-    "person-adult-body-silhouette-reexport": "d-held-people",
-    "person-adult-lectern-pose": "d-held-people",
     "env-executive-office-4k-master": "awaiting-assessment",
     "env-campaign-storefront": "already-covered-candidate",
     "mask-hearing-room-public-seating": "awaiting-assessment"

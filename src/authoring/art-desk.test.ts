@@ -333,26 +333,49 @@ describe("Art Desk projection and briefs", () => {
       ),
     ).toBe(true);
     /**
-     * Person requests used to be excluded from this lane by name, which read
-     * as a rule about people and was not one: what keeps them out is the
-     * d-held-people flag, a lane-ownership line from the Art Desk's own plan
-     * that ended up in data. So the assertion is the flag, not the prefix.
-     * A person request without it belongs here like any other open ask, and
-     * the seated three-quarter pose is one by the owner's decision.
+     * This used to assert that no request whose id starts with "person-"
+     * reaches the lane, which read as a rule about people art and was not
+     * one. What kept them out was the d-held-people flag: a lane-ownership
+     * note from the Art Desk's own plan, written into data on 2026-09-15 and
+     * left reading like a product decision nobody made. The flag is gone, so
+     * the rule it enforced is gone with it, and a person request is now an
+     * open ask like any other.
+     *
+     * Not a weakening. Each of the six was checked against the preserved
+     * bank first and every one is still required: the banked morphologies,
+     * seated poses and lectern cells are all under the production floor or
+     * carry a baked prop, and nothing child or adolescent exists at all. So
+     * none of them re-commissions art the project already holds.
      */
-    const held = new Set(
-      Object.entries(reconciliation.holds)
-        .filter(([, hold]) => hold === "d-held-people")
-        .map(([requestId]) => requestId),
-    );
-    expect(held.size).toBeGreaterThan(0);
-    expect(needs.some((item) => held.has(item.request.requestId))).toBe(false);
-    expect(
-      needs.some(
-        (item) =>
-          item.request.requestId === "person-seated-three-quarter-right-body",
-      ),
-    ).toBe(true);
+    expect(Object.values(reconciliation.holds)).not.toContain("d-held-people");
+    for (const requestId of [
+      "person-adult-body-silhouette-reexport",
+      "person-child-body-morphology",
+      "person-adult-lectern-pose",
+      "person-seated-three-quarter-right-body",
+    ]) {
+      expect(
+        needs.some((item) => item.request.requestId === requestId),
+        requestId,
+      ).toBe(true);
+    }
+    /**
+     * The two production body requests do not appear here, and that is the
+     * lane working rather than the flag surviving: both are
+     * revision-requested, so they sort to "revision". Asserted rather than
+     * assumed, because "it is not in this lane" was exactly the shape that
+     * hid all six for a week.
+     */
+    const revision = filterDeskItems(desk.items, "revision", "");
+    for (const requestId of [
+      "person-production-standing-body",
+      "person-production-seated-body",
+    ]) {
+      expect(
+        revision.some((item) => item.request.requestId === requestId),
+        requestId,
+      ).toBe(true);
+    }
   });
 
   it("compiles a brief that leaves unresolved geometry unresolved", () => {
