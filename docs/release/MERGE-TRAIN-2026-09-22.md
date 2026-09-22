@@ -18,9 +18,36 @@ trust the rest should read those first: they are the evidence that the
 standard in **D-086** was applied to this document too, and not only
 recommended in it.
 
-## The list to click through
+## The click list is RETIRED, 14:55Z
 
-**REFRESHED 14:45Z against `origin/main` at `1c4992e8`.** Everything under the
+**Do not maintain this list by hand again, and do not read the sections below
+as current.** Everything from here down is kept as evidence of what was
+measured when, and nothing in it is a live instruction — including any sentence
+that reads like "do not merge".
+
+It went stale three times in eight hours, each time within the hour of being
+written, and the last refresh below was superseded ten minutes after it was
+made. That is not carelessness being repeated; it is the instrument being
+wrong. A hand-written list of what to click cannot track lanes that merge their
+own work under the owner's standing authority, and while it is wrong it is
+worse than nothing: a stale do-not-merge banner on it parked #283 in at least
+one lane's reading for hours.
+
+**What replaces it.** There is no standing list. Lanes merge their own work, so
+what is clickable at any moment is whatever pull request is open and not a
+draft — one API read, taken when the question is asked, never written down
+here. As of 14:45Z that was exactly one, #381, with every other open pull
+request a draft that only its own thread can release. That sentence is the
+whole document this section used to be.
+
+**What this document is still for**, and why it is not deleted: it is the
+record of _why_ work merged on local evidence during the night of 2026-09-22,
+with its own wrong claims struck in place. That part does not go stale, and it
+is what a morning report needs.
+
+### Superseded ten minutes after it was written: the 14:45Z list
+
+**Measured 14:45Z against `origin/main` at `1c4992e8`.** Everything under the
 12:50Z heading below is **superseded and kept as evidence**, and so is the
 08:40Z list under that. The 12:50Z list named five clicks; four of them have
 since merged, so a reader who worked it top to bottom at 14:00Z would have
