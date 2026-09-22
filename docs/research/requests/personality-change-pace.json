@@ -1,17 +1,20 @@
 {
   "answer": {
-    "answeredAt": "2026-09-22T13:30:00.000Z",
-    "answeredBy": "ChatGPT (research director), overnight 2026-09-22, with the band decided by lamontae",
+    "answeredAt": "2026-09-22T13:18:00.000Z",
+    "answeredBy": "the owner, with the shape built by the people and life lane",
     "sources": [
+      "The owner's own words, 2026-09-22 13:18Z in the research-triage thread: \"it should just depend on how strongly that trait is to them.\"",
+      "The technical director's review of src/simulation/trait-resistance.ts, which named the unbounded failed-attempt pressure and the permanent per-move hardening.",
+      "src/simulation/trait-resistance.ts and src/simulation/people-trait-change.ts as they stood on main at d956b92a, read directly to confirm both defects before anything was changed.",
+      "src/simulation/people-trait-occasions.test.ts, which walks the live occasion through proposeContact and answerContact rather than inferring the pace from unit tests.",
       "ALIVE44 — LIVING WORLD EXPANSION RESEARCH — CURRENT, Google Drive 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section LIVING PLAY — PERSONALITY CHANGE PACE RESEARCH",
       "CHATGPT REPLIES TO CLAUDE — CURRENT, Google Drive 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, section OVERNIGHT LIVING-PLAY RESEARCH — PERSONALITY CHANGE PACE",
       "Roberts et al., adult trait-change intervention review, https://pubmed.ncbi.nlm.nih.gov/28054797/",
       "Frequent-assessment life-event trajectory study, https://pubmed.ncbi.nlm.nih.gov/37041673/",
-      "Between-person variability in event effects, https://pubmed.ncbi.nlm.nih.gov/37956070/",
-      "lamontae, project thread, 2026-09-22 13:18 UTC"
+      "Between-person variability in event effects, https://pubmed.ncbi.nlm.nih.gov/37956070/"
     ],
-    "stillOpen": "The shape is decided; no numeric coefficient is. How strength-of-holding is derived from the record, and what it scales to, is implementation for the people and life owner. The requested test — spam one low-stakes interaction ten times in a day and prove it cannot edit a trait, against several independent reliability-relevant events over real game time — has not been run.",
-    "summary": "Answered, and lamontae has since decided the shape. ChatGPT's contract: a passing event does not directly change a core trait; a notable event contributes only if it is a genuinely distinct experience; a formative event can make a trait more movable and exceptionally support one step when durable later behaviour corroborates it. Repeated clicks, reopening a screen or asking the same thing ten times are not ten pieces of evidence, and reading a screen creates no pressure at all. Ordinary adult movement should emerge from independent evidence across months to years and, for broad traits, more than one context. Trait-specific reading: reliability can move fastest from repeated kept or broken commitments; sociability needs voluntary patterns rather than mere opportunity; conflict needs evidence beyond one grievance or relationship; risk must not globalise from one domain; deliberation is slowest and needs sustained cross-context decision behaviour. It also found two live defects: people-trait-pack.ts still carries 8 to 15 year settlesOver values labelled first-playable judgements, and trait-resistance.ts makes effective force equal event force plus a failed-attempt pressure count, so repeated attempts can eventually move a trait that independent experience never touched, while every successful prior move adds permanent future resistance. lamontae, 2026-09-22, agreed with the recommendation to replace both, and decided the band: 'it should just depend on how strongly that trait is to them' — resistance scales per person per trait with how deeply held that trait is in that individual, rather than a fixed band per trait name or one global curve."
+    "stillOpen": "The bands themselves, which are now filed separately as personality-change-bands. Every number is in TraitMovability, per pack, per trait, and each remains authored rather than researched.",
+    "summary": "The owner, 2026-09-22: \"it should just depend on how strongly that trait is to them.\" Built. Resistance reads the strength already carried on the person's own tendency record against a resistance the declaring pack names for each of the four strengths, so a faint lean shifts sooner than a defining one in the same life on the same day, and nothing new is stored about anybody. Two defects were found and fixed alongside it. Repeated attempts no longer count as repeated evidence: what accumulates is separate experiences spread over time, capped by the pack, so persistence alone cannot wear anybody down. And having already changed no longer adds permanent hardening, which had made a person who had lived through things progressively unreachable. The third note filed with this question asked for exactly that contradiction to be challenged, and it was the one that mattered."
   },
   "filedAt": "2026-09-22T04:40:00.000Z",
   "impact": "shapes-design",

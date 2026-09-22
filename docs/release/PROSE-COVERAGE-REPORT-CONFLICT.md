@@ -1,6 +1,13 @@
 # The one tracked prose artifact, and what it costs
 
-A proposal for the morning, not a change. Nothing here was applied.
+**Applied 2026-09-22.** This was written as a proposal; the owner chose it and
+its recommendation — shrink what is tracked to the assertion surface — is now
+the repository's behaviour. `coverage-report.md` and `README.md` are ignored
+alongside their four siblings, the tripwire reads the tracked
+`coverage-counts.json`, and the on-disk comparison defect described at the end
+is fixed. The analysis below is kept as written, as the reasoning behind the
+change rather than a pending decision. `docs/dehardwire/census.json` is
+untouched and is still the easier case it is described as here.
 
 `docs/prose-inventory/coverage-report.md` conflicted on essentially every base
 merge on the night of 2026-09-22 — three times on #307 alone, twelve separate

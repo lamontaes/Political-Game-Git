@@ -59,6 +59,18 @@ export interface TraitScale {
   }[];
 }
 
+/**
+ * The strengths a record may carry, in order. Declared here because
+ * `TraitMovability` names a resistance for each one and a pack that forgot a
+ * strength has to be refused by name.
+ */
+export const MIND_STRENGTHS: readonly MindStrength[] = [
+  "subtle",
+  "moderate",
+  "strong",
+  "defining",
+];
+
 /** How a person comes to have this trait at all. */
 export type TraitConferral = "seeded" | "conferred-only" | "player";
 
@@ -86,23 +98,61 @@ export interface TraitDeclaration {
  * judgement rather than the engine's. A pack adding a nearly immovable
  * disposition does it here, without touching code.
  *
+ * Every number a change is weighed against lives in this shape. The engine
+ * holds none of them, so a pack that wants a temperament which settles over a
+ * lifetime and one that wants a manner which settles over a term are both
+ * authored here rather than argued about in `trait-resistance.ts`.
+ *
  * Resistance is otherwise read from the person's own record chain, so these
- * three numbers say only what is true of the trait for everybody who has one.
+ * numbers say only what is true of the trait for everybody who has one.
  */
 export interface TraitMovability {
   /**
-   * What a value resists once it has stood for `settlesOver` years and has
-   * never moved. The floor of a settled life.
+   * What a settled value resists, per how strongly the person holds it.
+   *
+   * This is the shape the owner asked for: how hard somebody is to change
+   * depends on how strongly the trait is theirs, and nothing else about them
+   * is invented to say so. The strength is already on the record — it is what
+   * the store writes to say whether a lean is subtle or defining — so a
+   * strongly held value resists more than a faint one on the same day of the
+   * same life, read from the record rather than from a hidden stubbornness
+   * number. Every entry is at or above zero.
    */
-  readonly settled: number;
-  /**
-   * Added for every move already made. Must be above zero: each change makes
-   * the next one cost more, which is what stops a character oscillating
-   * between two poles as events push them back and forth.
-   */
-  readonly perMove: number;
+  readonly settledByStrength: Readonly<Record<MindStrength, number>>;
   /** Years a freshly written value takes to settle fully. Above zero. */
   readonly settlesOver: number;
+  /**
+   * The share of its settled resistance a value carries the day it is written,
+   * between zero and one.
+   *
+   * Above zero on purpose. A value that resisted nothing while it was fresh
+   * would let a character swing back the week after they moved, and the old
+   * guard against that — a permanent cost added for every move ever made —
+   * was retired, because it made a person who had lived through things
+   * progressively unreachable, which is the opposite of the owner's
+   * requirement that everybody can change.
+   */
+  readonly unsettledFloor: number;
+  /**
+   * Days that must separate two experiences before the second one counts as a
+   * second experience. Above zero.
+   *
+   * This is what makes repetition mean something rather than mean everything.
+   * The same argument twice in an afternoon is one argument; the same argument
+   * a season later is a second one.
+   */
+  readonly experienceSpacingDays: number;
+  /**
+   * The most that accumulated experience can ever add to a force. At or above
+   * zero.
+   *
+   * Bounded on purpose, and it is the part that decides whether a player can
+   * grind somebody down by repeating themselves. With a cap, a settled value
+   * whose resistance is above the strongest single force plus this number
+   * cannot be moved by persistence at all — only by something that argues
+   * harder.
+   */
+  readonly pressureCap: number;
 }
 
 /** One way a trait bears on one option of one decision. */
@@ -298,15 +348,34 @@ function checkTrait(trait: TraitDeclaration, seen: Set<string>): string | null {
   } else if (trait.seed) {
     return `trait "${trait.key}" is ${trait.conferredBy} but declares a seed spread; only a seeded trait is drawn`;
   }
-  const { settled, perMove, settlesOver } = trait.movability;
-  if (!Number.isFinite(settled) || settled < 0) {
-    return `trait "${trait.key}" declares a settled resistance of ${settled}; it is a number at or above zero`;
-  }
-  if (!Number.isFinite(perMove) || perMove <= 0) {
-    return `trait "${trait.key}" declares a per-move cost of ${perMove}; it is above zero, because a trait that never gets harder to move oscillates`;
+  const {
+    settledByStrength,
+    settlesOver,
+    unsettledFloor,
+    experienceSpacingDays,
+    pressureCap,
+  } = trait.movability;
+  for (const strength of MIND_STRENGTHS) {
+    const declared = settledByStrength[strength];
+    if (!Number.isFinite(declared) || declared < 0) {
+      return `trait "${trait.key}" declares a settled resistance of ${declared} for a ${strength} hold; every strength is a number at or above zero`;
+    }
   }
   if (!Number.isFinite(settlesOver) || settlesOver <= 0) {
     return `trait "${trait.key}" declares that it settles over ${settlesOver} years; it is above zero`;
+  }
+  if (
+    !Number.isFinite(unsettledFloor) ||
+    unsettledFloor <= 0 ||
+    unsettledFloor > 1
+  ) {
+    return `trait "${trait.key}" declares an unsettled floor of ${unsettledFloor}; it is above zero and at most one, because a value that resists nothing the week it is written swings straight back`;
+  }
+  if (!Number.isFinite(experienceSpacingDays) || experienceSpacingDays <= 0) {
+    return `trait "${trait.key}" declares that experiences count ${experienceSpacingDays} days apart; it is above zero, because otherwise the same afternoon counts twice`;
+  }
+  if (!Number.isFinite(pressureCap) || pressureCap < 0) {
+    return `trait "${trait.key}" declares a pressure cap of ${pressureCap}; it is a number at or above zero, because unbounded pressure means persistence alone eventually moves anybody`;
   }
   return null;
 }
