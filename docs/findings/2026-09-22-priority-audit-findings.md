@@ -172,6 +172,18 @@ is not researched twice.
 - **CI capacity is two concurrent jobs for the whole repository**, and one
   validate run is fifteen jobs with eight browser shards. A queued check is not
   a red one, and a local run is not a CI verdict.
+- **Neither heavy workflow declared a `concurrency:` group, so every push left
+  its predecessor's fifteen jobs queued forever.** Measured by the CI lane at
+  05:19Z: 100 queued runs, 79 of them on commits that were no longer their
+  branch's head. Its fix is commit `64f09e33`, which had been correct since
+  03:58 on a branch that does not reach `main`; cherry-picked as PR #303 and
+  merged to `main` at 05:41:18Z, so a commit now cancels its own predecessor's
+  run everywhere except on `main`, whose run is the base verdict other lanes
+  read. That closes the leak but not the backlog already in front of it: at
+  05:42 the queue still held 105 runs across 31 branch-and-workflow groups, 74
+  of them superseded. Those were cancelled by hand. Until the queue is short,
+  the sweep has to be repeated, because the group only governs runs created
+  after it landed.
 
 ---
 
