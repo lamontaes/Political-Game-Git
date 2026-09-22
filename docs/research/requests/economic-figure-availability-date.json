@@ -1,4 +1,13 @@
 {
+  "answer": {
+    "answeredAt": "2026-09-22T18:27:57.000Z",
+    "answeredBy": "ChatGPT (technical director), DEPTH2 A11",
+    "sources": [
+      "DEPTH2-ANSWERS.md, section A11, and economic-availability-receiving.json in DEPTH2_Research_and_Content_Inputs.zip (sha256 c256e91f...), Drive, 2026-09-22"
+    ],
+    "stillOpen": "Earlier editions, LAUS monthly release dates, the income limits posting date and New England rents are filed as economic-earlier-editions-and-new-england-rents.",
+    "summary": "The publisher's release of the particular edition establishes availability; period, effective date, retrieval and learned date are separate fields. Implemented on claude/project-thread-l04zry: CAINC1 2026-02-05, SARPP and MARPP 2026-02-19 (each read from the table's own Last updated line), original FY2025 Fair Market Rents 2024-08-14. Undated editions keep the conservative retrieval fallback."
+  },
   "candidateAnswers": [
     {
       "argumentAgainst": "It is a per-product research job with a maintenance tail: three publishers, each with its own calendar, and a vintage rule that has to be re-read whenever a corpus is refreshed. It also cannot be settled from inside the repository, because none of the three locked products carries a release date at all.",

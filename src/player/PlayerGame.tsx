@@ -244,6 +244,8 @@ import { NationwideCandidacyWorkspace } from "./NationwideCandidacyWorkspace";
 import { projectTransitWork } from "../presentation/transit-work";
 import { DocketWorkspace } from "./DocketWorkspace";
 import { OfficeOnboardingWorkspace } from "./OfficeOnboardingWorkspace";
+import { OfficeTransitionPanel } from "./OfficeTransitionPanel";
+import { projectOfficeTransition } from "../presentation/office-transition";
 import {
   docketBill,
   type DocketBill,
@@ -2947,14 +2949,6 @@ function PlayingScreen({
           },
     );
     entries.push({
-      surface: "government-map",
-      label: "Map",
-      hint: "Places and government",
-      testid: "nav-government-map",
-      open: openSurface === "government-map",
-      group: "politics",
-    });
-    entries.push({
       surface: "news",
       label: "News",
       hint: "Published public records",
@@ -5215,6 +5209,28 @@ function renderWorkspace({
       const sections: WorkSection[] = [];
       const officeHalf = half === "office" || half === "all";
       /*
+       * Won and not yet in office: the transition between the result and the
+       * term. Without it a Kentucky winner read "You hold no office in this
+       * life yet" for the eleven months until the seat began.
+       */
+      const transition = officeHalf
+        ? projectOfficeTransition(session.world, session.personId)
+        : null;
+      if (transition) {
+        sections.push({
+          key: "transition",
+          title: "Before you take office",
+          body: (
+            <OfficeTransitionPanel
+              world={session.world}
+              personId={session.personId}
+              transition={transition}
+              onWorldChange={onWorldChange}
+            />
+          ),
+        });
+      }
+      /*
        * A disaster request or an international choice belongs to whoever
        * actually holds the office being asked, so the section exists only
        * while one is pending. A resident reads the same emergency as a public
@@ -5276,8 +5292,8 @@ function renderWorkspace({
                 <ExecutiveWorkWorkspace
                   world={session.world}
                   onWorldChange={onWorldChange}
-                  onClose={close}
                   handlers={createCampaignElectionTransitionRegistry()}
+                  placement="inline"
                 />
               ) : null}
             </>
@@ -6069,7 +6085,13 @@ function PassDayControl({
 
 interface WorkSection {
   readonly key:
-    "office" | "campaign" | "statewide" | "paths" | "personnel" | "crisis";
+    | "office"
+    | "campaign"
+    | "statewide"
+    | "paths"
+    | "personnel"
+    | "crisis"
+    | "transition";
   readonly title: string;
   readonly body: ReactNode;
 }
