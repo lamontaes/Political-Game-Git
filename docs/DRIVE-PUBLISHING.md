@@ -59,6 +59,15 @@ The rule is the same one this project applies to generated code: do not hand-edi
 the output. If a sentence is worth publishing it is worth being in the source,
 and if it is only in the render, it is already lost.
 
+The property underneath it: **no text may exist only where the next render will
+not look.** A document with no repository home satisfies that a second way —
+read the live document back through the connector immediately before composing
+the next one, and build the new render from what came back. That is not a
+loophole for editing in flight; it is the same guarantee reached from the other
+side, and it is the only workable shape when the published document is the only
+copy. Where a repository source exists, it wins, and bypassing it is the failure
+this section is about.
+
 ## A trash is a one-way door, and recreating the document is not the repair
 
 This connector has `trash_file` and no untrash. Once a document is trashed,
