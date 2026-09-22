@@ -9,7 +9,7 @@
  *
  * Every level has a profile and every profile behaves: its services open and
  * close on dated windows measured from the election and the term start, a
- * winner can attend one while its window is open, and a window that closes
+ * winner can attend one while its span is open, and a span that closes
  * unattended is recorded as missed rather than silently forgotten. What they
  * do not share is output — Congress, a state legislature, a governor's office
  * and a local body offer different services on different calendars.
@@ -54,7 +54,7 @@ export type OfficeTransitionCoverage = "public-practice" | "blanket";
  * transition: never before the day after the election, never on or after the
  * first day of the term.
  */
-export interface TransitionWindow {
+export interface TransitionSpan {
   readonly opens:
     | { readonly daysAfterElection: number }
     | { readonly daysBeforeStart: number };
@@ -69,7 +69,7 @@ export interface OfficeTransitionService {
   readonly title: string;
   /** Player-facing: what happens there, in the institution's own terms. */
   readonly description: string;
-  readonly window: TransitionWindow;
+  readonly span: TransitionSpan;
 }
 
 export interface OfficeTransitionProfile {
@@ -116,7 +116,7 @@ const FEDERAL_HOUSE: OfficeTransitionProfile = {
       title: "New Member Orientation",
       description:
         "A week in Washington run by the House's own administrators: the chamber's rules, ethics obligations, how an office is funded and run, and what the office allowance may and may not pay for.",
-      window: {
+      span: {
         opens: { daysAfterElection: 7 },
         closes: { daysAfterElection: 21 },
       },
@@ -126,7 +126,7 @@ const FEDERAL_HOUSE: OfficeTransitionProfile = {
       title: "Party organizing meetings",
       description:
         "Each party's members and members-elect meet to adopt their rules and elect their leaders for the new Congress.",
-      window: {
+      span: {
         opens: { daysAfterElection: 7 },
         closes: { daysAfterElection: 21 },
       },
@@ -136,7 +136,7 @@ const FEDERAL_HOUSE: OfficeTransitionProfile = {
       title: "Office lottery",
       description:
         "New members draw numbers, and choose their office suites in that order.",
-      window: {
+      span: {
         opens: { daysAfterElection: 18 },
         closes: { daysAfterElection: 22 },
       },
@@ -146,7 +146,7 @@ const FEDERAL_HOUSE: OfficeTransitionProfile = {
       title: "Staff interviews",
       description:
         "Meet people for the Washington and district offices. Nobody is paid by the House before you are sworn in.",
-      window: {
+      span: {
         opens: { daysAfterElection: 1 },
         closes: { daysBeforeStart: 1 },
       },
@@ -179,7 +179,7 @@ const FEDERAL_SENATE: OfficeTransitionProfile = {
       title: "Senate orientation",
       description:
         "Sessions with the Senate's own officers on its rules, ethics obligations, office budgets and how a Senate office is staffed.",
-      window: {
+      span: {
         opens: { daysAfterElection: 7 },
         closes: { daysAfterElection: 21 },
       },
@@ -189,7 +189,7 @@ const FEDERAL_SENATE: OfficeTransitionProfile = {
       title: "Party conference meetings",
       description:
         "Each party's senators and senators-elect meet to choose their leaders for the new Congress.",
-      window: {
+      span: {
         opens: { daysAfterElection: 7 },
         closes: { daysAfterElection: 21 },
       },
@@ -199,7 +199,7 @@ const FEDERAL_SENATE: OfficeTransitionProfile = {
       title: "Staff interviews",
       description:
         "Meet people for the Washington and state offices. Nobody is paid by the Senate before you are sworn in.",
-      window: {
+      span: {
         opens: { daysAfterElection: 1 },
         closes: { daysBeforeStart: 1 },
       },
@@ -233,7 +233,7 @@ const STATE_LEGISLATURE_BLANKET: OfficeTransitionProfile = {
       title: "New legislator orientation",
       description:
         "The legislature's own staff walk new members through the chamber's rules, how a bill moves, ethics and disclosure obligations, and what the office provides.",
-      window: {
+      span: {
         opens: { daysBeforeStart: 60 },
         closes: { daysBeforeStart: 7 },
       },
@@ -243,7 +243,7 @@ const STATE_LEGISLATURE_BLANKET: OfficeTransitionProfile = {
       title: "Caucus meeting",
       description:
         "Your party's members and members-elect meet to choose who will lead them in the new session.",
-      window: {
+      span: {
         opens: { daysBeforeStart: 56 },
         closes: { daysBeforeStart: 1 },
       },
@@ -253,7 +253,7 @@ const STATE_LEGISLATURE_BLANKET: OfficeTransitionProfile = {
       title: "Committee requests",
       description:
         "Tell your caucus leaders which committees you want to sit on, and why.",
-      window: {
+      span: {
         opens: { daysBeforeStart: 45 },
         closes: { daysBeforeStart: 14 },
       },
@@ -284,7 +284,7 @@ const STATE_EXECUTIVE_BLANKET: OfficeTransitionProfile = {
       title: "Assemble a transition team",
       description:
         "Pick the people who will plan the first months: who to keep, who to appoint, what to do first. Planning is not governing; the office's budget and powers stay with the incumbent until the term begins.",
-      window: {
+      span: {
         opens: { daysAfterElection: 1 },
         closes: { daysBeforeStart: 1 },
       },
@@ -294,7 +294,7 @@ const STATE_EXECUTIVE_BLANKET: OfficeTransitionProfile = {
       title: "Briefing from the outgoing administration",
       description:
         "The departing office walks your team through what is pending: the budget in progress, open matters and the agencies' own reports.",
-      window: {
+      span: {
         opens: { daysAfterElection: 7 },
         closes: { daysBeforeStart: 7 },
       },
@@ -323,7 +323,7 @@ const LOCAL_BLANKET: OfficeTransitionProfile = {
       title: "Orientation with the clerk",
       description:
         "The clerk and senior staff explain meetings, public records, open-meeting obligations and how the budget is adopted.",
-      window: {
+      span: {
         opens: { daysAfterElection: 7 },
         closes: { daysBeforeStart: 1 },
       },
@@ -358,7 +358,7 @@ export interface DatedTransitionService extends OfficeTransitionService {
 }
 
 function windowDate(
-  bound: TransitionWindow["opens"],
+  bound: TransitionSpan["opens"],
   electionDate: IsoDate,
   startsAt: IsoDate,
 ): IsoDate {
@@ -369,7 +369,7 @@ function windowDate(
 
 /**
  * The profile's services on this transition's calendar. A service whose
- * window does not fit between the day after the election and the day before
+ * span does not fit between the day after the election and the day before
  * the term begins is left out: a short transition offers less, it does not
  * push a service into office time.
  */
@@ -382,8 +382,8 @@ export function datedTransitionServices(
   const last = addDays(startsAt, -1);
   if (last < first) return [];
   return profile.services.flatMap((service) => {
-    const opens = windowDate(service.window.opens, electionDate, startsAt);
-    const closes = windowDate(service.window.closes, electionDate, startsAt);
+    const opens = windowDate(service.span.opens, electionDate, startsAt);
+    const closes = windowDate(service.span.closes, electionDate, startsAt);
     const opensOn = opens < first ? first : opens;
     const closesOn = closes > last ? last : closes;
     return closesOn < opensOn ? [] : [{ ...service, opensOn, closesOn }];
@@ -431,9 +431,9 @@ export function transitionServiceStatus(
 }
 
 /**
- * The winner attends a service while its window is open. Records the
+ * The winner attends a service while its span is open. Records the
  * attendance and nothing else; refuses without changing the World when the
- * window is not open, and is a no-op once attended.
+ * span is not open, and is a no-op once attended.
  */
 export function attendTransitionService(
   world: World,
