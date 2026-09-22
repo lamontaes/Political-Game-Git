@@ -7,6 +7,7 @@ import {
   expectNoDestination,
   fillCreator,
   goTo,
+  leaveGame,
   openCreator,
   openElsewhere,
   openMoment,
@@ -90,7 +91,28 @@ async function openSetup(
   if (calibration === "skip") await enterLife(page);
 }
 
-/** Answers the whole calibration, taking the option at `index` each time. */
+/**
+ * Answers the whole calibration, taking the option at `index` each time, and
+ * then starts the life.
+ *
+ * The questions no longer end in the life. The creator gained an appearance
+ * step — "How you look", with its own Begin — and the calibration now returns
+ * to it rather than dropping the player straight into a room. Every caller
+ * here asserted `play-screen` immediately after answering, so every one of
+ * them stopped on the creator with Begin sitting unpressed in front of it,
+ * and read as the calibration failing to start a life.
+ *
+ * A stale walk, not a defect. `walkCreator` says in its own comment that it
+ * deliberately leaves Begin unpressed because pressing it is one line in the
+ * caller; on the calibrated route that line had nowhere to live, because the
+ * questions come between the creator and Begin. It lives here now, so the
+ * callers keep reading the way they did.
+ *
+ * Tolerant about the button on purpose. A caller that declines the
+ * calibration, or stops part way, is not necessarily looking at a creator
+ * with an enabled Begin, and this helper is not the place to decide what that
+ * caller wanted.
+ */
 async function answerCalibration(page: Page, index: number, limit = 60) {
   const prompts: string[] = [];
   for (let asked = 0; asked < limit; asked += 1) {
@@ -101,6 +123,10 @@ async function answerCalibration(page: Page, index: number, limit = 60) {
       .getByRole("button");
     const count = await options.count();
     await options.nth(Math.min(index, count - 1)).click();
+  }
+  const begin = page.getByTestId("begin");
+  if ((await begin.count()) > 0 && (await begin.isEnabled())) {
+    await begin.click();
   }
   return prompts;
 }
@@ -199,7 +225,7 @@ test.describe("The calibration is a set of situations, not a quiz", () => {
     // Declining goes straight into the life.
     await expect(page.getByTestId("play-screen")).toBeVisible();
 
-    await goTo(page, "leave-game");
+    await leaveGame(page);
     await openSetup(page, 40, "deep");
     await expect(page.getByTestId("questionnaire-screen")).toBeVisible();
     // There is no per-question decline any more. The authority removed it: a
@@ -208,8 +234,13 @@ test.describe("The calibration is a set of situations, not a quiz", () => {
     await expect(page.getByTestId("questionnaire-skip")).toHaveCount(0);
     const screen = await page.getByTestId("questionnaire-screen").innerText();
     expect(screen).not.toMatch(/rather not say/i);
-    // And the life can be started at any point.
+    // And the questions can be left at any point. "Finish" ends the questions
+    // rather than starting the life: the creator's appearance step comes after
+    // them, so the player lands back on Begin with whatever they answered so
+    // far. That is the same one honest act, one screen later, and the walk
+    // takes it the way a player would.
     await page.getByTestId("questionnaire-finish").click();
+    await page.getByTestId("begin").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
   });
 
@@ -408,20 +439,41 @@ test.describe("A life is kept, and comes back adapting the same way", () => {
     expect(replay).toContain("replay=");
 
     await page.getByTestId("begin").click();
-    await expect(page.getByTestId("play-screen")).toBeVisible();
     /*
-     * Who the life is, read from the introduction itself. The first two lines
-     * of the whole play screen were whatever happened to render first — a
-     * housemate's name plate once the room's picture had decoded, the
-     * introduction before it had — so the same life could read differently.
+     * enterLife rather than a bare play-screen assertion, in both places.
+     * A new life opens with the skippable world introduction standing in
+     * front of the room, so the introduction panel this case reads is behind
+     * it and never arrives; the case spent the full two-minute budget waiting
+     * on an element that was one dismissal away. A player skips it, and both
+     * halves of a comparison have to skip it the same way or they are not
+     * comparing the same screen.
      */
-    const kicker = page
-      .getByTestId("opening-life-panel")
-      .locator(".life-exposition-kicker");
+    await enterLife(page);
+    /*
+     * Who the life is, read from the shell's own identity line.
+     *
+     * This used to read `.life-exposition-kicker` inside an
+     * `opening-life-panel`. That panel no longer exists anywhere in `src` —
+     * only its stylesheet rule survives — so the case spent the full
+     * two-minute budget waiting for an element the game stopped rendering,
+     * and reported as a hang rather than as the stale reference it was.
+     *
+     * The reason the original was written still holds and is why the
+     * replacement is this element and not the top of the play screen: the
+     * first lines of the screen were whatever happened to render first, a
+     * housemate's name plate once the room's picture had decoded and the
+     * introduction before it had, so the same life could read differently
+     * between two loads. `shell-nav-identity` is the name and the saved
+     * state, rendered from the session rather than from whatever the room
+     * finished painting, which is the deterministic read this comparison
+     * needs.
+     */
+    const kicker = page.getByTestId("shell-nav-identity");
     const identity = (await kicker.textContent()) ?? "";
+    expect(identity.trim().length).toBeGreaterThan(0);
 
     await page.goto(replay);
-    await expect(page.getByTestId("play-screen")).toBeVisible();
+    await enterLife(page);
     await expect(kicker).toHaveText(identity);
   });
 });

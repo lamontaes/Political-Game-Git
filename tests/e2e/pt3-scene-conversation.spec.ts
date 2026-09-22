@@ -1,10 +1,5 @@
 import { expect, test, type Locator, type Page } from "./fixtures";
-import {
-  enterLife,
-  openElsewhere,
-  openMoment,
-  startLife,
-} from "./support/creator";
+import { enterLife, goTo, openElsewhere, startLife } from "./support/creator";
 
 /**
  * PT3: one conversation box, in the room, that never needs a scrollbar.
@@ -25,17 +20,36 @@ import {
  * then takes the introduction panel's two steps when the life opens on one.
  * The old third branch pressed "pending-life-open", a control that exists
  * nowhere in the game, so it could only ever have failed.
+ *
+ * It then called openMoment, and that is what these four cases had been dying
+ * on. The moment is not a thing that sits on the room; it REPLACES it.
+ * `OpeningLifeFlow` returns the moment surface alone while `pendingOpen` is
+ * set, for a stated reason — a panel docked permanently over a full room
+ * covers whoever is standing where it lands, and the people are how a life is
+ * played. So a helper that opened the moment and then waited for the room was
+ * asking for two surfaces that the game deliberately never shows at once, and
+ * all four cases timed out on a scene that was working correctly.
+ *
+ * A stale expectation, not a defect: nothing here is a screen behaving badly,
+ * it is a walk describing a shape the game stopped having. The walk now does
+ * what a player does — dismisses the introduction and is in the room. If a
+ * moment happens to be standing open, it takes the room's own way back rather
+ * than assuming which of the two surfaces it landed on.
  */
 async function stepIntoTheScene(page: Page) {
   await enterLife(page);
-  await openMoment(page);
   const opening = page.getByTestId("opening-life-panel");
-  const scene = page.getByTestId("opening-life-scene");
   if ((await opening.count()) > 0) {
     await opening.getByRole("button", { name: "Meet your household" }).click();
     await opening.getByRole("button", { name: "Step inside" }).click();
   }
-  await expect(scene).toBeVisible();
+  await goTo(page, "nav-group-personal");
+  await page.getByTestId("nav-personal").click();
+  await page
+    .getByTestId("personal-life-choices")
+    .locator(":scope > summary")
+    .click();
+  await expect(page.getByTestId("opening-life-scene")).toBeVisible();
 }
 
 /*

@@ -76,9 +76,17 @@ for (const jurisdiction of TEST_JURISDICTIONS) {
         `${jurisdiction.name} now offers seats; record it as "stands"`,
       ).toHaveCount(0);
       // A refusal has to say why. A blank surface would be the worse bug.
-      await expect(
-        withheld.or(page.getByTestId("campaign-unavailable")).first(),
-      ).toContainText(jurisdiction.candidacy.because);
+      // Every fragment, so a refusal that keeps one and loses the other still
+      // fails; see the note on CandidacyToday for why these are fragments.
+      const surface = withheld
+        .or(page.getByTestId("campaign-unavailable"))
+        .first();
+      for (const fragment of jurisdiction.candidacy.because) {
+        await expect(
+          surface,
+          `${jurisdiction.name}'s refusal no longer says "${fragment}"`,
+        ).toContainText(fragment);
+      }
       return;
     }
 
@@ -122,7 +130,12 @@ for (const jurisdiction of TEST_JURISDICTIONS) {
         page.getByTestId("file-candidacy"),
         `${jurisdiction.name} can file now; record it as "stands"`,
       ).toHaveCount(0);
-      await expect(browser).toContainText(jurisdiction.candidacy.because);
+      for (const fragment of jurisdiction.candidacy.because) {
+        await expect(
+          browser,
+          `${jurisdiction.name}'s refusal no longer says "${fragment}"`,
+        ).toContainText(fragment);
+      }
       return;
     }
 
