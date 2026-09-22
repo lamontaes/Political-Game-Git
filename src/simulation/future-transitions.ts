@@ -37,7 +37,7 @@ import {
   worldMetricEntityAvailableAt,
   worldMetricEntityExists,
 } from "./world-metrics";
-import { assertWorldIntegrity } from "./world";
+import { assertWorldIntegrity, withWorldIntegrityDeferred } from "./world";
 import {
   vitalityEntityAvailableAt,
   vitalityEntityExists,
@@ -372,6 +372,35 @@ function handlerFor(
   return registry.get(transitionKey) ?? crisisAmbientHandler(transitionKey);
 }
 
+/*
+ * Serializing the whole World before and after every handler proves no
+ * handler mutated its input, at the price of two passes over the entire save
+ * per scheduled item. Tests and development keep that proof. The shipped
+ * client turns it off and keeps the cheap shape check below, which still
+ * catches a record pushed onto, or a field reassigned on, the input.
+ */
+let deepTransitionInputGuard = true;
+
+export function setDeepTransitionInputGuard(enabled: boolean): void {
+  deepTransitionInputGuard = enabled;
+}
+
+function shallowWorldShape(world: World): string {
+  const history = world.history as unknown as Record<string, unknown>;
+  const top = world as unknown as Record<string, unknown>;
+  const describe = (record: Record<string, unknown>): string =>
+    Object.keys(record)
+      .sort()
+      .map((key) => {
+        const value = record[key];
+        return Array.isArray(value)
+          ? `${key}[${value.length}]`
+          : `${key}:${typeof value === "object" && value !== null ? Object.keys(value).length : String(value)}`;
+      })
+      .join(",");
+  return `${describe(top)}|${describe(history)}`;
+}
+
 export function resolveFutureDueItemsThrough(
   world: World,
   throughDate: IsoDate,
@@ -442,11 +471,19 @@ export function resolveFutureDueItemsThrough(
         preferredUtcOffsetMinutes: working.currentMoment.utcOffsetMinutes,
       }),
     };
-    const unchangedInput = JSON.stringify(atDueDate);
+    const unchangedInput = deepTransitionInputGuard
+      ? JSON.stringify(atDueDate)
+      : null;
+    const shallowInput = shallowWorldShape(atDueDate);
     const dueItemsBefore = atDueDate.history.futureDueItems;
     const dueStatesBefore = atDueDate.history.futureDueItemStates;
-    const result = handler(atDueDate, item);
-    if (JSON.stringify(atDueDate) !== unchangedInput) {
+    // The handler's writers skip their per-write whole-world check; what it
+    // returns is validated once, in full, below, before it is kept.
+    const result = withWorldIntegrityDeferred(() => handler(atDueDate, item));
+    if (
+      shallowWorldShape(atDueDate) !== shallowInput ||
+      (unchangedInput !== null && JSON.stringify(atDueDate) !== unchangedInput)
+    ) {
       throw new Error("Future-transition handler mutated its input world.");
     }
     if (
@@ -496,16 +533,20 @@ export function resolveFutureDueItemsThrough(
         "Future-transition handlers may only schedule new future due items.",
       );
     }
-    assertWorldIntegrity(result.world);
-    working = setFutureDueItemTerminalState(result.world, {
-      stableKey: `${item.stableKey}:state:${result.status}:${item.dueAt}`,
-      dueItemId: item.id,
-      effectiveAt: item.dueAt,
-      status: result.status,
-      reasonKey: result.reasonKey,
-      context: result.context,
-      outcomeEventId: result.outcomeEventId,
-    });
+    // Recording the item's terminal state only appends to the due history, so
+    // the handler's result and that record are validated together, once.
+    working = withWorldIntegrityDeferred(() =>
+      setFutureDueItemTerminalState(result.world, {
+        stableKey: `${item.stableKey}:state:${result.status}:${item.dueAt}`,
+        dueItemId: item.id,
+        effectiveAt: item.dueAt,
+        status: result.status,
+        reasonKey: result.reasonKey,
+        context: result.context,
+        outcomeEventId: result.outcomeEventId,
+      }),
+    );
+    assertWorldIntegrity(working);
   }
 }
 

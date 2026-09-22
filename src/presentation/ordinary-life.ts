@@ -1,3 +1,4 @@
+import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { scheduledActivityAnswer } from "../simulation/scheduled-activity-answer";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import { refreshContextualScenes } from "./contextual-scene-producers";
@@ -330,6 +331,16 @@ export function passOrdinaryDays(
   world: World,
   days = 1,
   supplied: PassOrdinaryDaysOptions | FutureTransitionHandlerRegistry = {},
+): World {
+  return advanceWithWorldIntegrityAtEnd(() =>
+    passOrdinaryDaysUnchecked(world, days, supplied),
+  );
+}
+
+function passOrdinaryDaysUnchecked(
+  world: World,
+  days: number,
+  supplied: PassOrdinaryDaysOptions | FutureTransitionHandlerRegistry,
 ): World {
   const advanced = advanceOrdinaryDays(world, days, supplied);
   // A stretch that actually passed is a transition at which the world may bind
