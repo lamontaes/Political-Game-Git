@@ -31,6 +31,7 @@ import {
   seasonOfIsoDate,
 } from "../authoring/regional-scene-coverage";
 import type { EntityId, World } from "../simulation";
+import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { optionalGlob } from "./optional-glob";
 
 export const REGIONAL_SCENE_COVERAGE: RegionalSceneCoverageDocument =
@@ -95,11 +96,25 @@ export function geoidsFromJurisdiction(
 ): { placeGeoid?: string; countyGeoids?: readonly string[] } {
   if (!jurisdictionId) return {};
   const slug = world.jurisdictions?.[jurisdictionId]?.slug;
-  if (!slug) return {};
-  const place = /^us-place-(\d{7})$/.exec(slug);
-  if (place) return { placeGeoid: place[1]! };
-  const county = /^us-county-(\d{5})$/.exec(slug);
-  if (county) return { countyGeoids: [county[1]!] };
+  if (slug) {
+    const place = /^us-place-(\d{7})$/.exec(slug);
+    if (place) return { placeGeoid: place[1]! };
+    const county = /^us-county-(\d{5})$/.exec(slug);
+    if (county) return { countyGeoids: [county[1]!] };
+  }
+  /**
+   * An authored place carries its GEOID beside its own slug.
+   *
+   * Lexington is the case: its jurisdiction slug is
+   * `us-ky-lexington-fayette-placeholder` and its `sourceGeoid` is "2146027",
+   * the same jurisdiction the Gazetteer lists. Matching on the slug alone
+   * threw that away and resolved an authored town by state at best, which is
+   * a weaker answer than the data actually supports.
+   */
+  const authored = lifePlaceByJurisdictionId(jurisdictionId);
+  if (authored?.sourceGeoid && /^\d{7}$/.test(authored.sourceGeoid)) {
+    return { placeGeoid: authored.sourceGeoid };
+  }
   return {};
 }
 

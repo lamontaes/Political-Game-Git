@@ -22,12 +22,18 @@
  * reason for every miss, never a nearest guess, and an ambiguous match resolves
  * to nothing rather than to whichever region sorted first.
  *
- * PRECEDENCE, most specific first. An excluded place beats everything; then an
- * included place; then excluded county, included county, excluded state,
- * included state. Below all of that sits one coarse tier: the census division
- * from `asset-compatibility.ts`, used only when exactly one region's
- * `allowedReuseRegions` covers the player's division. Two regions claiming the
- * same division is not a tie to break, it is an unanswered question.
+ * PRECEDENCE. Place, then county, then state, most specific winning. An
+ * exclusion at ANY level disqualifies a region outright, including over a
+ * finer inclusion: a place listed inside an excluded county does not get the
+ * plate. That is one rule rather than two, it is the conservative direction
+ * when the two disagree, and mixed country is better handled by naming the
+ * towns that do fit than by excluding a county and re-including parts of it.
+ *
+ * THERE IS NO COARSER TIER. A census division was tried and removed: `pacific`
+ * is Alaska, Hawaii, California, Oregon and Washington, and a division-wide
+ * fallback would let the Olympic rainforest plate stand in for Honolulu. A
+ * specific regional scene needs positive geographic eligibility, not a bucket
+ * that happens to contain it.
  *
  * Browser-safe: no Node imports, no filesystem, no network.
  */
@@ -287,11 +293,23 @@ export type RegionalPlateResolution =
       readonly regionKeys: readonly string[];
     };
 
-export type RegionalMatchLevel =
-  "place" | "county" | "state" | "census-division";
+export type RegionalMatchLevel = "place" | "county" | "state";
 
 /** Most specific first. Exclusion at a level removes the region entirely. */
 const MATCH_ORDER: readonly RegionalMatchLevel[] = ["place", "county", "state"];
+
+/**
+ * Whether a county list can be reached from an ordinary town.
+ *
+ * It cannot, today, and the honest place for that fact is here rather than in
+ * a report. A place GEOID is state plus place, not a county nesting code, so a
+ * town's county cannot be derived from its identifier, and the runtime corpus
+ * carries no place-to-county crosswalk. County selectors still work for a life
+ * started at county scope, whose jurisdiction slug is `us-county-<geoid>`.
+ * Until a crosswalk exists, a county list is coverage for fewer players than
+ * it looks like, and the validator says so out loud.
+ */
+export const COUNTY_SELECTORS_REACH_TOWN_QUERIES = false;
 
 /**
  * Census divisions, as the Census Bureau draws them.
@@ -541,14 +559,6 @@ export function resolveRegionalPlate(
     return settle(matched, level, query);
   }
 
-  const division = censusDivisionOf(query.stateKey);
-  if (division) {
-    const claiming = fits.filter((entry) =>
-      entry.compatibility?.allowedReuseRegions.includes(division),
-    );
-    if (claiming.length > 0) return settle(claiming, "census-division", query);
-  }
-
   const wrongContext = notExcluded.filter(
     (entry) =>
       !fitsContext(entry, query) &&
@@ -641,6 +651,7 @@ export type CoverageFindingCode =
   | "unknown-scene-kind"
   | "never-alongside-unknown-region"
   | "contradictory-place-membership"
+  | "county-selector-unreachable-from-a-town"
   | "region-claims-nothing";
 
 export interface CoverageFinding {
@@ -860,16 +871,26 @@ export function validateRegionalSceneCoverage(
       }
     }
 
+    if (
+      !COUNTY_SELECTORS_REACH_TOWN_QUERIES &&
+      (places.includeCounties?.length ?? 0) > 0
+    ) {
+      warn(
+        "county-selector-unreachable-from-a-town",
+        key,
+        `This region claims ${places.includeCounties!.length} county(ies), which only reach a life started at county scope. A town carries a place GEOID, and a county cannot be derived from one. Name the towns that fit until a place-to-county crosswalk exists.`,
+      );
+    }
+
     const claimsSomething =
       (places.includeStates?.length ?? 0) > 0 ||
       (places.includeCounties?.length ?? 0) > 0 ||
-      (places.includePlaces?.length ?? 0) > 0 ||
-      (entry.compatibility?.allowedReuseRegions.length ?? 0) > 0;
+      (places.includePlaces?.length ?? 0) > 0;
     if (!claimsSomething) {
       warn(
         "region-claims-nothing",
         key,
-        `No place, county, state or reuse division names this region, so it can never be shown. Honest for an unresearched scene; a bug for a delivered one.`,
+        `No place, county or state names this region, so it can never be shown. Honest for an unresearched scene; a bug for a delivered one.`,
       );
     }
   }

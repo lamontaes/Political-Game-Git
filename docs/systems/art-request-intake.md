@@ -119,13 +119,28 @@ document validator catches it statically for any place claimed by both.
 
 ### Precedence
 
-Most specific first: an excluded place, then an included place, then excluded
-county, included county, excluded state, included state. **An exclusion at any
-level disqualifies a region outright**, so excluding a county from a
-state-wide plate actually removes it rather than being handed back by the
-state inclusion one tier down. Below all of that sits one coarse tier: the
-census division from `asset-compatibility.ts`, used only when exactly one
-region's `allowedReuseRegions` covers the player's division.
+Place, then county, then state, most specific winning. **An exclusion at any
+level disqualifies a region outright**, including over a finer inclusion: a
+place listed inside an excluded county does not get the plate. That is one
+rule rather than two and the conservative direction when they disagree; mixed
+country is better handled by naming the towns that fit than by excluding a
+county and re-including parts of it.
+
+There is no coarser tier than the state. A census-division fallback was tried
+and removed: `pacific` is Alaska, Hawaii, California, Oregon and Washington,
+and a division-wide fallback would let the Olympic rainforest plate stand in
+for Honolulu. A specific regional scene needs positive geographic eligibility,
+not a bucket that happens to contain it.
+
+**County lists do not yet reach an ordinary town.** A place GEOID is state plus
+place, not a county nesting code, and the runtime corpus carries no
+place-to-county crosswalk, so a town cannot say which county it is in. County
+selectors work for a life started at county scope; for a town they match
+nothing. The validator warns on any county list, and the honest move until a
+crosswalk exists is to name the towns that fit. A researched place identifier
+resolves against the 2025 Gazetteer corpus the game actually starts lives in,
+and an authored place such as Lexington resolves by the GEOID it already
+carries rather than by its slug.
 
 ### Showing nothing is a result
 

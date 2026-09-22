@@ -274,29 +274,21 @@ describe("resolveRegionalPlate", () => {
     });
   });
 
-  it("falls back to a census division only when exactly one region claims it", () => {
-    const one = region(
-      "humid-park",
-      {},
-      { compatibility: GENERIC_HUMID_PARK_TAGS },
-    );
-    expect(
-      resolveRegionalPlate(docOf(one), { stateKey: "US-KY" }).outcome,
-    ).toBe("plate");
-    const two = resolveRegionalPlate(
-      docOf(
-        one,
-        region(
-          "other",
-          {},
-          { compatibility: GENERIC_HUMID_PARK_TAGS, regionKey: "other" },
-        ),
+  it("never reaches a place through a census division", () => {
+    // `pacific` is Alaska, Hawaii, California, Oregon and Washington. A
+    // division-wide fallback would let the Olympic rainforest plate stand in
+    // for Honolulu, so there is no coarser tier than the state at all.
+    const document = docOf(
+      region(
+        "humid-park",
+        {},
+        { compatibility: GENERIC_HUMID_PARK_TAGS, context: ctx() },
       ),
-      { stateKey: "US-KY" },
     );
-    // Two regions claiming one division is coverage, not a tie, so long as
-    // they can both be true of the place.
-    expect(two.outcome).toBe("plate");
+    const resolution = resolveRegionalPlate(document, { stateKey: "US-KY" });
+    expect(resolution.outcome).toBe("none");
+    if (resolution.outcome !== "none") return;
+    expect(resolution.reason).toBe("no-region-covers-this-place");
   });
 
   it("says so when the save names no place at all", () => {
