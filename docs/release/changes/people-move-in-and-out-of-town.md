@@ -20,7 +20,7 @@ exodus after the jobs leave, and a religious revival. The exodus after the jobs
 leave can begin when unemployment runs high, and while it lasts more people
 leave. Each movement begins and ends as a public event the newspapers can report. The other two
 movements are defined but begin only when a scenario starts them, because
-their real causes are not modelled yet.
+their real causes are not modeled yet.
 
 The pace is a placeholder until the historical rates come back from research.
 It applies to lives started from now on; an older save does not change.

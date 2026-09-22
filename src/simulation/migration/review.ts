@@ -27,7 +27,7 @@ import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
 } from "../life-places";
-import { drawCanonicalName } from "../people";
+import { drawCanonicalNamedIdentity } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import type {
@@ -330,8 +330,10 @@ function arrivalInputs(
     const origin = chooseDestination(personRng.fork("origin"), pool);
     inputs.push({
       stableKey: `migration:newcomer:${town}:${index}:${n}`,
-      ...drawCanonicalName(personRng.fork("name")),
-      identity: generatePersonIdentity(personRng.fork("identity")),
+      ...drawCanonicalNamedIdentity(
+        personRng.fork("name"),
+        generatePersonIdentity(personRng.fork("identity")),
+      ),
       birthDate: makeIsoDate(
         `${year - age}-${String(personRng.integer(1, 13)).padStart(2, "0")}-${String(personRng.integer(1, 29)).padStart(2, "0")}`,
       ),

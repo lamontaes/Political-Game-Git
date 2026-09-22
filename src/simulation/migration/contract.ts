@@ -197,7 +197,7 @@ export const MIGRATION_SEAMS: readonly MigrationSeam[] = [
     connects:
       "Which people a wave moves: by income, faith, group, age, household.",
     status: "not-built",
-    rule: "A wave's migration effect scales the flat departure or arrival chance for everyone in its scope alike. It selects nobody by group, which is the part that made historical white flight what it was; that needs research before it is modelled.",
+    rule: "A wave's migration effect scales the flat departure or arrival chance for everyone in its scope alike. It selects nobody by group, which is the part that made historical white flight what it was; that needs research before it is modeled.",
     where: "src/simulation/migration/review.ts",
   },
   {

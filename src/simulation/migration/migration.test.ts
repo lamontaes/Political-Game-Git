@@ -263,13 +263,13 @@ describe("waves", () => {
     expect(began.type).toBe("migration.wave-began");
   });
 
-  it("an unmodelled cause never fires, and says so", () => {
+  it("an unmodeled cause never fires, and says so", () => {
     for (const definition of WAVE_CATALOGUE) {
       for (const cause of definition.causes) {
         if (cause.kind !== "unbuilt") continue;
         expect(evaluateCause(opened.world, cause, town)).toEqual({
           met: false,
-          because: `The cause '${cause.causeKey}' is not modelled yet.`,
+          because: `The cause '${cause.causeKey}' is not modeled yet.`,
         });
       }
     }

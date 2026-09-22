@@ -27,7 +27,7 @@ import { WAVE_BEGAN_EVENT, WAVE_ENDED_EVENT } from "./contract";
  * `unemployment-at-least`, which reads the macro record for the wave's place,
  * falling back to the national record.
  *
- * `unbuilt` is every real cause nobody has modelled yet: a court order, a
+ * `unbuilt` is every real cause nobody has modeled yet: a court order, a
  * highway, federal mortgage rules, a plant closing, a revival preacher, a war.
  * It is kept so the definition says what the historical cause was, and it is
  * never met.
@@ -288,7 +288,7 @@ export function evaluateCause(
     case "unbuilt":
       return {
         met: false,
-        because: `The cause '${cause.causeKey}' is not modelled yet.`,
+        because: `The cause '${cause.causeKey}' is not modeled yet.`,
       };
   }
 }
