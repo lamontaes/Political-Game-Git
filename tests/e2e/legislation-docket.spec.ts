@@ -1,6 +1,6 @@
 import { programConfigurations } from "../../src/simulation/legislation-program-families";
 import { shotPath } from "./support/shot-path";
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "./fixtures";
 import { enterRecordedMemberTerm } from "./support/legislative-entry";
 import { chosenValue } from "./support/controls";
 
