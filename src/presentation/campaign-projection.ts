@@ -673,6 +673,14 @@ export function fileForOffice(
   });
   // Long enough to have to choose what to spend the weeks on, short enough
   // that the election is a thing this life reaches rather than a horizon.
+  //
+  // This is a placeholder and is known to be one. The seat's real calendar is
+  // computed and tested in `legislative-election-rules.ts`, and wiring it in
+  // here fails seven tests that live the weeks to election day, because a
+  // November general can be up to four years out and nothing in this model
+  // lets a player file only when a filing window opens — no pack knows when
+  // filing opens, so the gate that would make a real date playable does not
+  // exist yet. Recorded in `docs/playtest/a-real-election-date-2026-09-22.md`.
   const electionDate = addDays(world.currentDate, 28);
   return fileCampaign(opponents.world, {
     stableKey,
