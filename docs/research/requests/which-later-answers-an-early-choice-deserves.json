@@ -1,0 +1,49 @@
+{
+  "filedAt": "2026-09-22T22:50:00.000Z",
+  "impact": "blocks-work",
+  "lane": "dialogue and choices depth",
+  "notes": [
+    "WHAT IS BUILT: the mechanism, and nothing a player sees. An opening scene can now carry later stages, each gated on the choice actually recorded at its first moment, the same bound person, and a minimum number of days since. Each plays at most once and is only one more opportunity for the scene selector, never scheduled or owed. Shipped play reads an empty table (`OPENING_LIFE_LATER` in src/simulation/opening-life-content.ts, marked PENDING RESEARCH), so nothing changes for a player until this is answered.",
+    "WHY IT IS FILED RATHER THAN SHIPPED: the owner's rule of 2026-09-22 22:38Z, 'i dont want depth to be invented'. The eight entries below were drafted by this lane, passed an independent grounding review against their gates, and are held in a test fixture (src/presentation/opening-life-later.fixture.ts) only to prove the mechanism works.",
+    "THE EIGHT PROPOSALS, each 'scene / earlier choice / minimum days: new moment':\n1. crayon-sharing / kept the blue crayon / 10: drawing again, the classmate has blue and you want it.\n2. crayon-sharing / handed it over / 10: drawing again, the classmate holds blue out to you before you ask.\n3. broken-mug / did not answer / 3: the parent asks again what happened to the mug.\n4. roughhouse-line / said don't push me / 7: tag again, the classmate tags your arm without pushing.\n5. roughhouse-line / got up and kept playing / 7: tag again, the classmate knocks you over again.\n6. toy-damage / put the truck aside / 5: the classmate asks whether you know how the wheel came off.\n7. toy-damage / showed the wheel and apologized / 7: the classmate brings the truck back taped and asks you to play.\n8. adult shared-time / asked for quiet / 14: the housemate asks whether you want quiet again or company.\nFull premise and option text is in the fixture file.",
+    "WHAT A PLAYER WOULD SEE if these were approved: a child who answered a moment one way meets a different later moment, with the same person, days or weeks on, than a child who answered it the other way. Measured on main dc0155a4 in the browser: the same six-year-old pressing the first option every time versus the last saw 28 of the first 40 scenes identical, only reordered."
+  ],
+  "priority": "P1",
+  "question": "Which early-life choices should come back later, with the same person, after how long, and as what moment? Are the eight proposed here acceptable as written, and which other opening scenes deserve a later answer?",
+  "questionId": "which-later-answers-an-early-choice-deserves",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "dialogue and choices depth lane",
+  "sourcesChecked": [
+    {
+      "source": "ChatGPT's 20:45Z directive (congress, prose and press), asking for causal opportunities in the Martin/projector 'history, then later response' shape",
+      "whatItDidNotSettle": "It sets the shape and forbids quotas and filler, and names no specific scenes, choices, people or intervals."
+    },
+    {
+      "source": "src/simulation/opening-life-content.ts, the 26 opening scenes and their single follow-through stages, at main 1324f148",
+      "whatItDidNotSettle": "Each follow-through answers one choice within minutes. Nothing records which choices deserve an answer weeks later, or what that answer is."
+    },
+    {
+      "source": "src/simulation/episode-bank.ts:856 and :914, the projector cart and Martin McLeod callbacks",
+      "whatItDidNotSettle": "Two examples of the shape, not a list of where else it belongs."
+    }
+  ],
+  "title": "Which early choices come back later, and as what",
+  "usableAnswer": "A list of rows, each naming an opening scene key, the earlier choice key, a minimum number of days, and the later moment's premise and two or three options with their one-sentence aftermaths, in the register of the existing opening scenes. Approving, amending or rejecting each of the eight proposals by number is enough on its own. 'None for this scene' is a real answer.",
+  "whyItMatters": "The playtest of 2026-09-22 found that most childhood choices only change which scene comes next, and the authored bank for each age runs out on the first day. A choice that comes back later, differently for a different answer, is the smallest honest step toward choices that matter, and the mechanism for it is now built and tested. What it lacks is authored content the owner does not want this lane to invent.",
+  "candidateAnswers": [
+    {
+      "label": "Approve the eight, then extend",
+      "position": "Accept the eight proposals (with any wording changes) and name further opening scenes that deserve a later answer.",
+      "recommended": true,
+      "argumentFor": "Each proposal only builds on the recorded choice and the same person; a grounding review found no claim its gates do not guarantee. Opposite answers lead to different later moments, which is the measured gap.",
+      "argumentAgainst": "They are small, childhood-scale moments. They deepen the early game without touching relationships, work or public life, which need their own records first."
+    },
+    {
+      "label": "Reject and author from scratch",
+      "position": "Discard the proposals and supply a list chosen by the director.",
+      "recommended": false,
+      "argumentFor": "Every later moment comes from the design authority rather than an engineering lane.",
+      "argumentAgainst": "Slower, and the mechanism sits unused until the new list arrives."
+    }
+  ]
+}
