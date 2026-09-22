@@ -172,3 +172,53 @@ count — so they fail rather than pass if they ever stop reaching a rule. Each
 was run against the broken file first and the number recorded: 39 offending
 sentences before the campaign-finance fix, 21 before the candidacy fix, none
 after either.
+
+## Process findings from doing this work
+
+Three that generalise beyond this defect, recorded because the method was
+worth more than the sentences.
+
+### A watch should be a notification, not an action
+
+A watch was set on this branch to merge it the moment #320 landed. That was
+correct when it was set. Then main was frozen, and "#320 is on main" stopped
+being a reason to merge, so the watch was cancelled rather than trusted to be
+remembered at five in the morning. Twenty minutes later #320 was excepted from
+the freeze and landed, and acting on that same trigger became correct again.
+
+The trigger was never wrong. The conditions around it changed twice, in both
+directions, inside half an hour. What caught it was doing the work by hand and
+looking, not remembering.
+
+**So a standing automation should tell you something happened and stop there.**
+An automation that acts carries the conditions of the moment it was written,
+and those conditions are exactly what nobody re-checks. This one would have
+merged into a frozen main.
+
+### Merge up eagerly, gate once at the end
+
+A merge-up is cheap enough to repeat; a gate run is not. During one stretch
+main moved three times (`fececf25`, `7fc33c85`) while this branch was being
+prepared, and each full gate run is minutes.
+
+The practical rule: take main as often as it moves, and run the gates once,
+last. Running them each time means running them against a head that is already
+stale before the run finishes.
+
+This is the small form of what closed main that night — the nationwide lane
+had three merge refusals in an hour because main took eight commits while
+their six-minute gates ran. Not a slow-gate problem; a moving-target problem.
+Two lanes reached it independently, which is what made it a decision rather
+than an opinion.
+
+### A stale explanation is worse than none
+
+This PR carried a comment saying its CI would fail by design until #320
+landed. Once #320 landed and it went green, that comment became a false
+warning that a reader would believe. It was superseded explicitly rather than
+left to be contradicted by the check result.
+
+The same applied to the PR body, which still named the head the checks had
+been run at three heads earlier, and to the PR itself, which was still a
+draft — an unclickable item on a click list is the same as a missing one, and
+the person clicking would have found a greyed-out button with no explanation.
