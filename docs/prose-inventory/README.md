@@ -29,7 +29,7 @@ than a derivative. `check` compares whichever of them is present on disk.
 
 - **3269** inventoried templates.
 - Reachability: 395 CURRENTLY_UNREACHABLE, 110 DEV_FIXTURE_ONLY, 90 LEGACY_OR_WITHDRAWN, 2247 PLAYER_REACHABLE, 69 UNKNOWN, 358 WITHHELD_BY_GROUNDING.
-- **10648** coverage candidates still need a
+- **10744** coverage candidates still need a
   person's classification. 100% coverage is *not* claimed.
 - **0** hard errors, **277** review warnings.
 
