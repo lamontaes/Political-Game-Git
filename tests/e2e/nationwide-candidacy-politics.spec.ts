@@ -91,7 +91,7 @@ test("a place without a city government keeps its county and candidacy distinct"
   const home = page.getByTestId("home-governments");
   await expect(home.getByTestId("home-no-municipal")).toBeVisible();
   await expect(home.getByTestId("home-counties")).toContainText(
-    "County of Lincoln",
+    "Lincoln County",
   );
   await expect(home.locator('[data-unit-id="gus2025:108905"]')).toBeVisible();
   await expect(page.getByTestId("state-executive-candidacy")).toHaveAttribute(
