@@ -195,15 +195,40 @@ in a list.
    were pressed. **A walk that measures zero weeks should fail loudly, not
    agree quietly.**
 
-**One detail corrected.** Instance 6 reached this lane described as a control
-whose "Skip to Monday…" text is screen-reader-only, so a role-and-name locator
-finds nothing. The tree does not support that reading: the string
-"Skip to Monday" appears nowhere in the repository, and the control at
-`src/player/ShellNav.tsx:509` renders the visible text "Week" with an
-`aria-hidden` chevron. A name locator for "Skip to Monday" would indeed find
-nothing — because the text does not exist, not because it is hidden. The
-instance is real and its mechanism is the wrong surface, which is why it is
-written that way above.
+**A seventh instance, and it is the sharpest one, because the diagnosis is
+what failed.** Three lanes in ninety minutes looked at the same time control,
+and each wrote down a different confident reason a locator could not find it.
+None of the three was checked against the file until the fourth reading.
+
+- "Its `Skip to Monday…` text is screen-reader-only." Vague, and it points at
+  the wrong fix.
+- "The string does not exist." **Mine, and false.** I ran
+  `git grep "Skip to Monday"`, got nothing, and believed it. The string is
+  _composed_ — `skipToLabel` at `src/presentation/time-target-label.ts:18`
+  returns `` `Skip to ${describeTimeTarget(moment)}` `` — so a literal search
+  for it finds nothing however many times it reaches the screen. **That is
+  instance 4 of this very list, committed while writing the list.**
+- The measured reason: on `main` at `b8f8702f` the string is on that button
+  three ways — the `title` attribute at `src/player/ShellNav.tsx:515`, an
+  `sr-only` span at `:542`, and the `aria-describedby` at `:514` that points
+  at it. The button's text content is `Week` with an `aria-hidden` chevron, so
+  its accessible **name** is "Week". **`aria-describedby` contributes to an
+  element's accessible _description_, not its accessible _name_**, and neither
+  does `title` when a name is already present. So
+  `getByRole("button", { name: /Skip to/ })` cannot match it however visible
+  the string is. The fix is the `data-testid` or the real accessible name.
+
+  (On `claude/player-facing-text-client` at `f010bff7` the same string reaches
+  the screen through a `pg-nav-days-target` hint with the prefix stripped
+  rather than through the `sr-only` span. Different tree, same conclusion.)
+
+**The clause that earns its place:** _an instrument that reports nothing
+invites a guessed explanation, and the guess inherits the same false
+confidence._ The two wrong diagnoses pointed at opposite fixes — one says add
+a string that is already there twice, the other says reveal something that is
+already a tooltip — and neither leads to the locator. A rule about instruments
+that measure nothing is best served by an instance where the **diagnosis**
+failed the same way.
 
 **Why this family is worth a name.** A tool that fails loudly costs one cycle.
 A tool that fails by doing nothing costs a wrong belief, and the wrong belief
