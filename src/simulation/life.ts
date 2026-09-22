@@ -607,6 +607,26 @@ export function createOrganizationParticipation(
   world: World,
   input: CreateOrganizationParticipationInput,
 ): World {
+  return commit(world, appendOrganizationParticipation(world, input).history);
+}
+
+/** Several participations, validated one by one, integrity-checked once. */
+export function createOrganizationParticipations(
+  world: World,
+  inputs: readonly CreateOrganizationParticipationInput[],
+): World {
+  if (inputs.length === 0) return world;
+  let probe = world;
+  for (const input of inputs) {
+    probe = appendOrganizationParticipation(probe, input);
+  }
+  return commit(world, probe.history);
+}
+
+function appendOrganizationParticipation(
+  world: World,
+  input: CreateOrganizationParticipationInput,
+): World {
   assertUniqueStableKey(
     world.history.organizationParticipations,
     input.stableKey,
@@ -672,18 +692,21 @@ export function createOrganizationParticipation(
     provenance: cloneLifeProvenance(input.provenance),
     supersedesStateId: null,
   };
-  return commit(world, {
-    ...world.history,
-    nextSequence: world.history.nextSequence + 2,
-    organizationParticipations: [
-      ...world.history.organizationParticipations,
-      participation,
-    ],
-    organizationParticipationStates: [
-      ...world.history.organizationParticipationStates,
-      state,
-    ],
-  });
+  return {
+    ...world,
+    history: {
+      ...world.history,
+      nextSequence: world.history.nextSequence + 2,
+      organizationParticipations: [
+        ...world.history.organizationParticipations,
+        participation,
+      ],
+      organizationParticipationStates: [
+        ...world.history.organizationParticipationStates,
+        state,
+      ],
+    },
+  };
 }
 
 export function recordOrganizationParticipationState(
@@ -853,6 +876,29 @@ export function createWorkRelationship(
   world: World,
   input: CreateWorkRelationshipInput,
 ): World {
+  return commit(world, appendWorkRelationship(world, input).history);
+}
+
+/**
+ * Several work relationships through the same validation as one, checked for
+ * whole-world integrity once at the end rather than once per record. For a
+ * producer seating a whole body at once, where per-record integrity turned a
+ * chamber of two hundred into seconds of repeated full-world validation.
+ */
+export function createWorkRelationships(
+  world: World,
+  inputs: readonly CreateWorkRelationshipInput[],
+): World {
+  if (inputs.length === 0) return world;
+  let probe = world;
+  for (const input of inputs) probe = appendWorkRelationship(probe, input);
+  return commit(world, probe.history);
+}
+
+function appendWorkRelationship(
+  world: World,
+  input: CreateWorkRelationshipInput,
+): World {
   assertUniqueStableKey(
     world.history.workRelationships,
     input.stableKey,
@@ -932,13 +978,16 @@ export function createWorkRelationship(
     provenance: cloneLifeProvenance(input.provenance),
     supersedesRoleId: null,
   };
-  return commit(world, {
-    ...world.history,
-    nextSequence: world.history.nextSequence + 3,
-    workRelationships: [...world.history.workRelationships, relationship],
-    workStatuses: [...world.history.workStatuses, status],
-    workRoles: [...world.history.workRoles, role],
-  });
+  return {
+    ...world,
+    history: {
+      ...world.history,
+      nextSequence: world.history.nextSequence + 3,
+      workRelationships: [...world.history.workRelationships, relationship],
+      workStatuses: [...world.history.workStatuses, status],
+      workRoles: [...world.history.workRoles, role],
+    },
+  };
 }
 
 export function recordWorkStatus(
