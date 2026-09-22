@@ -184,6 +184,29 @@ export function verifyCandidate(
       note: "Candidate hash is recorded. Its private bytes are not in this checkout.",
     };
   }
+  // Hashing and fully decoding every candidate took seconds on each request
+  // and stalled the whole Art Desk server. The same record over the same
+  // bytes (size, mtime, ctime and inode unchanged) has the same receipt.
+  const stat = statSync(absolute, { bigint: true });
+  const key = `${absolute}\n${JSON.stringify(record)}`;
+  const stamp = `${stat.size}:${stat.mtimeNs}:${stat.ctimeNs}:${stat.ino}`;
+  const known = candidateReceipts.get(key);
+  if (known?.stamp === stamp) return known.receipt;
+  const receipt = checkCandidateBytes(base, absolute);
+  candidateReceipts.set(key, { stamp, receipt });
+  return receipt;
+}
+
+const candidateReceipts = new Map<
+  string,
+  { readonly stamp: string; readonly receipt: CandidateReceipt }
+>();
+
+function checkCandidateBytes(
+  base: CandidateRecordInput,
+  absolute: string,
+): CandidateReceipt {
+  const record = base;
   const bytes = readFileSync(absolute);
   const actualSha256 = hashBytes(bytes);
   if (actualSha256 !== record.sha256) {
@@ -298,6 +321,60 @@ interface PackJson {
  * operator sets; the receipt never invents one. Machine paths stay on the
  * server: the receipt carries identity, not locations.
  */
+/**
+ * The pack check stats every pack file and hashes a sample (seconds on a
+ * real pack). The Art Desk asks on every load, so a receipt is reused for a
+ * minute unless pack.json or its manifest changes; it keeps its own
+ * `checkedAt`, so it never claims to be newer than it is.
+ */
+export const PACK_RECEIPT_TTL_MS = 60_000;
+const packReceipts = new Map<
+  string,
+  {
+    readonly stamp: string;
+    readonly at: number;
+    readonly receipt: PrivatePackReceipt;
+  }
+>();
+function fileStamp(file: string): string {
+  try {
+    const stat = statSync(file, { bigint: true });
+    return `${stat.size}:${stat.mtimeNs}:${stat.ctimeNs}:${stat.ino}`;
+  } catch {
+    return "absent";
+  }
+}
+
+export function cachedPrivatePack(
+  workspace: string,
+  packDirectory: string | undefined,
+  now: string,
+  clock: () => number = Date.now,
+): PrivatePackReceipt {
+  if (!packDirectory) return inspectPrivatePack(workspace, packDirectory, now);
+  const key = `${workspace}\n${packDirectory}`;
+  const packJson = join(packDirectory, "pack.json");
+  let manifestName = "sha256.txt";
+  try {
+    manifestName =
+      (JSON.parse(readFileSync(packJson, "utf8")) as PackJson).manifest ??
+      manifestName;
+  } catch {
+    /* inspectPrivatePack reports it */
+  }
+  const stamp = `${fileStamp(packJson)}|${fileStamp(join(packDirectory, manifestName))}`;
+  const known = packReceipts.get(key);
+  if (
+    known &&
+    known.stamp === stamp &&
+    clock() - known.at < PACK_RECEIPT_TTL_MS
+  )
+    return known.receipt;
+  const receipt = inspectPrivatePack(workspace, packDirectory, now);
+  packReceipts.set(key, { stamp, at: clock(), receipt });
+  return receipt;
+}
+
 export function inspectPrivatePack(
   workspace: string,
   packDirectory: string | undefined,
@@ -443,7 +520,7 @@ export function collectArtDeskInputs(
   return {
     contractVersion: "alive43-art-desk-v1",
     checkedAt: now,
-    privatePack: inspectPrivatePack(workspace, packDirectory, now),
+    privatePack: cachedPrivatePack(workspace, packDirectory, now),
     candidates: listCandidateRecords(workspace).map((record) =>
       verifyCandidate(workspace, record),
     ),

@@ -114,6 +114,12 @@ export interface CompiledBillDraft {
   readonly shortTitle: string;
   readonly summary: string;
   readonly subjectClass: "appropriation" | "general-policy";
+  /**
+   * The catalogue questions this configuration is about, as qualified keys.
+   * Keys, not ids: a draft is compiled without a world, and which of these a
+   * particular world's catalogue holds is decided where the bill is filed.
+   */
+  readonly propositionKeys: readonly string[];
   readonly scenarioKey: string;
   readonly jurisdictionId: EntityId;
   readonly rulePackId: string;
@@ -585,6 +591,7 @@ export function compileBillDraft(
     shortTitle: variant.shortTitle,
     summary: variant.synopsis,
     subjectClass: variant.subjectClass,
+    propositionKeys: [...(variant.propositionKeys ?? [])],
     scenarioKey: input.scenarioKey,
     jurisdictionId: input.jurisdictionId,
     rulePackId: input.rulePackId,
