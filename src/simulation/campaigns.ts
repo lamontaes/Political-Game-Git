@@ -19,7 +19,7 @@ import { createCrisisTransitionRegistry } from "./crisis";
 import { composeExecutiveWorkHandlers } from "./executive-work";
 import { LIFE_PATHS2_HANDLERS } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
-import { candidacyEligibility } from "./candidacy";
+import { candidacyEligibility, districtSeatMustBeNamed } from "./candidacy";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import { planOrdinaryStateExecutiveTerm } from "./nationwide-world/state-executive-terms";
 import {
@@ -141,6 +141,7 @@ import { CAMPAIGN_LIFE_HANDLERS } from "./campaign-life-handlers";
 import { ensureCampaignWeeklyEvaluation } from "./campaign-opponents";
 import {
   SUPPORT_DENOMINATOR,
+  SUPPORT_FLOOR_BASIS_POINTS,
   latestSupportState,
   quantityBasisPoints,
   recordSupportShift,
@@ -545,6 +546,23 @@ export function fileCampaign(
   if (!eligibility.eligible || !eligibility.office || !eligibility.pack) {
     throw new Error(
       eligibility.blocks[0]?.reason ?? "This character cannot file here.",
+    );
+  }
+
+  // A district seat is recorded against a Gazetteer identity, so a filing for
+  // one has to name which. This sits after the honesty gate on purpose: a
+  // world that cannot say which district somebody lives in has a better
+  // sentence for them than this one, and should get to say it first.
+  if (
+    (input.districtBinding ?? null) === null &&
+    districtSeatMustBeNamed(
+      input.jurisdictionId,
+      input.officeKey,
+      inputWorld.currentDate,
+    )
+  ) {
+    throw new Error(
+      "This seat is filled by district, and the filing named none. The sourced district-residence rule needs the seat's own Gazetteer identity before a contest can be recorded against it.",
     );
   }
   const option = eligibility.office;
@@ -1468,9 +1486,15 @@ export function evaluateCampaignAwareOutcome(
         `campaign-election-uncertainty:${contest.id}:${scope.candidatePersonId}`,
       )
       .integer(-350, 351);
+    // The swing is wider than the support floor, so clamping at one basis
+    // point let election night print a share the support model forbids: a
+    // candidate held at the one-percent floor all campaign, drawing the worst
+    // swing, came out on 0.01 percent — one vote in ten thousand, which is not
+    // a result any real contest produces and read on screen as 0.0%. The floor
+    // is the floor at both ends of the day.
     return {
       id: scope.candidatePersonId,
-      weight: Math.max(1, support + swing),
+      weight: Math.max(SUPPORT_FLOOR_BASIS_POINTS, support + swing),
     };
   });
   const votes = allocateBasisPoints(scores);
