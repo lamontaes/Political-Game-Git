@@ -151,9 +151,17 @@ the report rather than on this list.
 
 ## An instrument that fails by doing nothing is indistinguishable from a pass
 
-**The most transferable thing measured tonight.** It appeared four times, in
-four unrelated tools, and each time it produced a confident report of agreement
-where nothing had been observed.
+**If this report carries one line, make it this one.** Recorded as D-087's
+companion, **D-088**, in `docs/decisions/DECISION-LOG.md`.
+
+> A measurement that can fail by measuring nothing will report that as a pass.
+> Every instrument needs a check that it engaged at all.
+
+It appeared **six times tonight, across four lanes**, in tools that have
+nothing to do with each other, and each time it produced a confident report of
+agreement where nothing had been observed. It is also the common root of most
+of tonight's retractions, which is the reason it leads rather than sits sixth
+in a list.
 
 1. **A Playwright helper skipped a missing control.** `openPoliticsHub` does a
    bare `continue` when a sub-control is not on the page, so a walk visiting
@@ -169,6 +177,33 @@ where nothing had been observed.
 4. **A grep-driven sweep updated only what it could spell.** It rewrote a
    sentence and updated every consumer that spelled it the same way, silently
    missing one that lived elsewhere.
+5. **An invariant test called one producer down one branch.**
+   `src/simulation/no-citations-on-player-surfaces.test.ts:211` carries its own
+   account: the first version called `resolveCapability` with `officeKey: null`
+   only, and the resolver takes a whole branch, with its own sentences, only
+   when it **is** given an office key. "So the producer was missed once by not
+   being called at all, and missed again by being called down one path."
+   Widening a net is not the same as widening it in the right dimension.
+6. **A walk pressed a control that was not on the surface it had reached.**
+   `tests/e2e/civil-authority-normal-route.spec.ts:33` records it: a loop
+   pressed `pass-day` sixty times on the Calendar, which does not draw that
+   control — the Calendar's own time controls are `shell-pass-day` and
+   `shell-pass-week`. The arithmetic was wrong underneath it as well, and
+   would have bitten the moment the control was fixed: the life starts
+   2026-01-05 and the observation is 2026-09-06, two hundred and forty-four
+   days, so sixty single days could never have arrived however reliably they
+   were pressed. **A walk that measures zero weeks should fail loudly, not
+   agree quietly.**
+
+**One detail corrected.** Instance 6 reached this lane described as a control
+whose "Skip to Monday…" text is screen-reader-only, so a role-and-name locator
+finds nothing. The tree does not support that reading: the string
+"Skip to Monday" appears nowhere in the repository, and the control at
+`src/player/ShellNav.tsx:509` renders the visible text "Week" with an
+`aria-hidden` chevron. A name locator for "Skip to Monday" would indeed find
+nothing — because the text does not exist, not because it is hidden. The
+instance is real and its mechanism is the wrong surface, which is why it is
+written that way above.
 
 **Why this family is worth a name.** A tool that fails loudly costs one cycle.
 A tool that fails by doing nothing costs a wrong belief, and the wrong belief
@@ -179,6 +214,10 @@ these produced a green result, a matching string, or a plausible finding.
 that was fixed now checks a non-empty block count before it checks any wording.
 That is the general shape: make the instrument prove it arrived somewhere
 before you believe what it says about the place.
+
+**An assertion that cannot fail is worse than no assertion**, because it
+manufactures confidence rather than merely withholding it. Every one of these
+six produced a claim, and every one of those claims then travelled.
 
 ## The release is parked, on purpose, and here is the trade
 
