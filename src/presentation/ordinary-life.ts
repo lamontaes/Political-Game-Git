@@ -56,11 +56,52 @@ export const PUBLIC_MEETING_KEY = "ordinary-life:public-meeting";
 export { ORDINARY_LIFE_WORK_ITEMS };
 export type { OrdinaryLifeWorkItemDefinition };
 
+function daysBetween(from: string, to: string): number {
+  const start = Date.parse(`${from}T00:00:00Z`);
+  const end = Date.parse(`${to}T00:00:00Z`);
+  if (Number.isNaN(start) || Number.isNaN(end)) return 0;
+  return Math.max(0, Math.round((end - start) / 86_400_000));
+}
+
+/**
+ * How long this has been sitting there, said only once it is worth saying.
+ *
+ * Nothing is added in the first week, because a thing written on Monday and
+ * still open on Wednesday is not a fact about the character's life. After that
+ * it is: the same errands and the same posted meeting read identically on the
+ * fifth of January and the thirtieth of March, and a player who had let three
+ * months go by was shown a first morning. The count is derived from the
+ * record's own creation day, so it can only say what actually happened, and no
+ * claim is made about why — whether an errand nobody does should eventually
+ * lapse is a question about the world, not about this sentence.
+ */
+function standingClause(days: number, waitingOnSomeoneElse: boolean): string {
+  if (days < 7) return "";
+  const weeks = Math.floor(days / 7);
+  const howLong = weeks === 1 ? "a week" : `${weeks} weeks`;
+  return waitingOnSomeoneElse
+    ? ` Still waiting, ${howLong} on.`
+    : ` Still not done, ${howLong} on.`;
+}
+
 export interface PendingThing {
   readonly key: string;
   /** One sentence, in the character's own life, not a work-tracker row. */
   readonly sentence: string;
   readonly waitingOnSomeoneElse: boolean;
+  /** The day this was written. Never moves. */
+  readonly openedOn: string;
+  /**
+   * How long it has been standing, in days.
+   *
+   * Carried on the record rather than worked out inside one sentence, so
+   * anything else that lists these inherits the judgement. The authored
+   * summary is fixed text: on its own it read word for word the same on the
+   * first day of a life and three months later, which is how a life that had
+   * stopped going anywhere still looked exactly like a life on its first
+   * morning.
+   */
+  readonly daysStanding: number;
 }
 
 export interface OrdinaryDay {
@@ -141,11 +182,20 @@ export function projectOrdinaryDay(
     : undefined;
   const pending = workPendingEntriesFor(world, personId)
     .filter((entry) => entry.state.status !== "completed")
-    .map((entry) => ({
-      key: entry.item.stableKey,
-      sentence: entry.item.summary,
-      waitingOnSomeoneElse: entry.state.waitingOnPersonIds.length > 0,
-    }));
+    .map((entry) => {
+      const waitingOnSomeoneElse = entry.state.waitingOnPersonIds.length > 0;
+      const daysStanding = daysBetween(
+        entry.item.createdAt.date,
+        world.currentDate,
+      );
+      return {
+        key: entry.item.stableKey,
+        sentence: `${entry.item.summary}${standingClause(daysStanding, waitingOnSomeoneElse)}`,
+        waitingOnSomeoneElse,
+        openedOn: entry.item.createdAt.date,
+        daysStanding,
+      };
+    });
 
   return {
     personName: personName(person),

@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 3139 |
 | INTENTIONALLY_NON_PLAYER_FACING | 7074 |
-| DIAGNOSTIC_OR_TEST | 7619 |
-| **NEEDS_CLASSIFICATION** | **10280** |
+| DIAGNOSTIC_OR_TEST | 7623 |
+| **NEEDS_CLASSIFICATION** | **10284** |
 
-Scanned 1152 files holding 111818 string
+Scanned 1153 files holding 111844 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -236,6 +236,7 @@ literals in total; the table counts only those that read like a sentence.
 | 12 | `src/player/PermanentShell.tsx` |
 | 12 | `src/presentation/legislative-routine-plan.ts` |
 | 12 | `src/presentation/life-scene-flow.ts` |
+| 12 | `src/presentation/ordinary-life.ts` |
 | 12 | `src/presentation/routine-outcome.ts` |
 | 12 | `src/presentation/run-b-conversation-progress.ts` |
 | 12 | `src/presentation/venue-activity.ts` |
@@ -299,7 +300,6 @@ literals in total; the table counts only those that read like a sentence.
 | 8 | `src/presentation/housing-conditions.ts` |
 | 8 | `src/presentation/legislative-bargaining-world.ts` |
 | 8 | `src/presentation/legislative-office-context.ts` |
-| 8 | `src/presentation/ordinary-life.ts` |
 | 8 | `src/presentation/party-chapter-actions.ts` |
 | 8 | `src/presentation/player-capabilities.ts` |
 | 8 | `src/presentation/scene-composition.ts` |
