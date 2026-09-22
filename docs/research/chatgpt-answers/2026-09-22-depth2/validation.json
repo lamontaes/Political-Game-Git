@@ -1,0 +1,139 @@
+{
+  "kind": "research-data-structure-and-date-order-checks",
+  "not_tested": [
+    "actualrepositoryloader",
+    "productionWorld",
+    "browser",
+    "nativeclient",
+    "newfactualvalidationofeveryrow",
+    "realhumanbehavior"
+  ],
+  "passed": 31,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "all121candidate IDs unique",
+      "passed": true
+    },
+    {
+      "name": "all102scale keys unique",
+      "passed": true
+    },
+    {
+      "name": "eighteen bipolar and84one-sided",
+      "passed": true
+    },
+    {
+      "name": "one explicit composite rather than hidden omission",
+      "passed": true
+    },
+    {
+      "name": "each pole target exists and points back to candidate",
+      "passed": true
+    },
+    {
+      "name": "every original meaning and boundary retained",
+      "passed": true
+    },
+    {
+      "name": "seven tuning profiles and allreferences resolve",
+      "passed": true
+    },
+    {
+      "name": "one-sided low is unmarked not another catalogue id",
+      "passed": true
+    },
+    {
+      "name": "twentyrequested formativekeys unique",
+      "passed": true
+    },
+    {
+      "name": "nineteen exactsourcekeys and oneexplicitlyunlocated",
+      "passed": true
+    },
+    {
+      "name": "no automatic defaultcoretrait target",
+      "passed": true
+    },
+    {
+      "name": "conditional links name actualoptions",
+      "passed": true
+    },
+    {
+      "name": "conditional expressions match inspectedlegacy definitions",
+      "passed": true
+    },
+    {
+      "name": "federal20domains60issues60subjects",
+      "passed": true
+    },
+    {
+      "name": "federalnamedrowkeysunique",
+      "passed": true
+    },
+    {
+      "name": "issue-domainlinksresolve",
+      "passed": true
+    },
+    {
+      "name": "knowledgeissueaboutlinksresolve",
+      "passed": true
+    },
+    {
+      "name": "newfederalnamespaceandleveldistinct",
+      "passed": true
+    },
+    {
+      "name": "sourceprovenancedeclared",
+      "passed": true
+    },
+    {
+      "name": "no inventedpropositionsorfrequencies",
+      "passed": true
+    },
+    {
+      "name": "all60federalbindingspresent",
+      "passed": true
+    },
+    {
+      "name": "fiveindependentabsencemeanings",
+      "passed": true
+    },
+    {
+      "name": "newownerquoteandconsequencesdocumented",
+      "passed": true
+    },
+    {
+      "name": "sixscopeddateentries",
+      "passed": true
+    },
+    {
+      "name": "allsourcedeconomicdatesparse",
+      "passed": true
+    },
+    {
+      "name": "economicreferencesresolve",
+      "passed": true
+    },
+    {
+      "name": "releaserecorddoesnotturnJanuaryintoFebruaryknowledge",
+      "passed": true
+    },
+    {
+      "name": "FMRannouncementprecedesnormalapplication",
+      "passed": true
+    },
+    {
+      "name": "HUDILunknowninitialpostingnotinvented",
+      "passed": true
+    },
+    {
+      "name": "NHVTtwo-yearcorrectionnotnationalfouryears",
+      "passed": true
+    },
+    {
+      "name": "seventeendispositionsunique",
+      "passed": true
+    }
+  ]
+}

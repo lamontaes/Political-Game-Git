@@ -15,8 +15,23 @@ export interface BrowserEconomicGeographyBinding {
   readonly beaAreas: readonly {
     readonly geographyLevel: BrowserBeaGeographyLevel;
     readonly geoFips: string;
+    /**
+     * How this provider geography stands to the place, in the place's words.
+     *
+     * `containing-county` exists because most towns in America are not their
+     * own county, and until it did there was no true thing this type could say
+     * about them. Lexington is a consolidated city-county, so its county row is
+     * honestly `same-jurisdiction`; Easton, Connecticut sits inside Fairfield
+     * County and is not Fairfield County. Calling that `same-jurisdiction` to
+     * reuse the vocabulary would tell a player their town's economy is the
+     * county's, which is the kind of quiet untruth this whole module is built
+     * to refuse.
+     */
     readonly relationship:
-      "same-jurisdiction" | "containing-state" | "containing-metro";
+      | "same-jurisdiction"
+      | "containing-county"
+      | "containing-state"
+      | "containing-metro";
   }[];
   readonly lausAreaCodes: readonly {
     readonly areaCode: string;

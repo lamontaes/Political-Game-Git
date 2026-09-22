@@ -1,0 +1,27 @@
+{
+  "filedAt": "2026-09-22T19:58:00.000Z",
+  "impact": "shapes-design",
+  "lane": "research intake",
+  "notes": [
+    "The owner's words: \"I want to know the newsworthiness test and whether or not um, local and state and federal stuff all follow the same thing.\""
+  ],
+  "priority": "P1",
+  "question": "ChatGPT's A07 answer set out what makes an event worth printing and said outlets differ in scope, beat, audience and sources. The owner asks the narrower follow-up directly: should local, state and federal coverage follow the same newsworthiness test, or does the test itself differ by level of government? Specifically: (1) which criteria are shared across levels and which change (for example, does a town council vote clear a local paper's bar on a lower threshold of affected people than a state capitol paper uses); (2) whether the same event should be scored separately at each level it touches, so a local story can escalate to state or national coverage; and (3) what real editorial practice at local, state-capitol and national outlets says about the difference.",
+  "questionId": "newsworthiness-by-government-level",
+  "relatedQuestionIds": ["what-makes-an-event-worth-printing"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "research intake thread, from lamontae's message of 2026-09-22T19:50Z",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests/what-makes-an-event-worth-printing.json, ChatGPT's A07 answer (DEPTH2, 2026-09-22T18:27Z)",
+      "whatItDidNotSettle": "It says outlets differ in scope and that a small local event does not automatically appear nationally, but not whether the test itself differs by level of government or how escalation works."
+    },
+    {
+      "source": "src/simulation/press/outlets.ts:36-45, read on claude/project-thread-b8c05w at e4afc629",
+      "whatItDidNotSettle": "Confirms three national products, a state newsroom and conditional local coverage exist; says nothing about per-level criteria."
+    }
+  ],
+  "title": "Does one newsworthiness test apply to local, state and federal news",
+  "usableAnswer": "A per-level statement of the newsworthiness criteria (local, state, federal), saying which are shared and which differ, with an escalation rule for when an event at one level becomes a story at another. A ruling that one test with outlet-specific thresholds is enough is also a complete answer.",
+  "whyItMatters": "The press desk scores every public event with one weekly formula across all outlets. If the test should differ by level, that is a structural change to how stories are picked, not a tuning of weights, and it decides whether a player's local actions ever reach a state or national paper."
+}
