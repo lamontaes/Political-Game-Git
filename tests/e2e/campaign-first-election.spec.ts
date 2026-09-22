@@ -25,7 +25,7 @@ import {
  * unit test, because they are claims about what a person sees:
  *
  * - a state the game has not read gets a legislature of its own, never a
- *   neighbour's, and keeps its life;
+ *   neighbor's, and keeps its life;
  * - the only support number on the screen is a memo with a margin on it;
  * - election day arrives because the player got on with their weeks;
  * - losing leaves the game running, with the same day screen it started with.
@@ -153,6 +153,12 @@ async function liveUntilDecided(page: Page, maxDays = 45) {
     if (await page.getByTestId("campaign-result").isVisible()) return true;
     await pressTime(page, "shell-pass-day");
   }
+  // A legislative seat is decided on the state's election day, which can be
+  // most of a year off; the rest of the wait goes a week at a time.
+  for (let week = 0; week < 110; week += 1) {
+    if (await page.getByTestId("campaign-result").isVisible()) return true;
+    await pressTime(page, "shell-pass-week");
+  }
   return page.getByTestId("campaign-result").isVisible();
 }
 
@@ -245,7 +251,7 @@ test.describe("A life can stand for something", () => {
    * every unread state a disclosed, generated legislature is what replaced
    * that refusal, so the negative control became a positive one. What it
    * still guards is the half that never changes: the seats on offer belong
-   * to the state the life is in, and borrowing a neighbour's is a failure.
+   * to the state the life is in, and borrowing a neighbor's is a failure.
    */
   test("gives a state the game has not read a legislature of its own, and leaves the life alone", async ({
     page,

@@ -14,7 +14,7 @@
  *   "generate something", and it is the minority.
  * - `banked-here` — a candidate is in this repository, hashed and reproducible,
  *   waiting on a person to accept how it looks. Generating a replacement before
- *   that judgement is made is doing the work twice.
+ *   that judgment is made is doing the work twice.
  * - `in-drive-usable` — the file exists outside the repository and passes the
  *   intake's own measurement. It needs collecting, not creating.
  * - `in-drive-below-standard` — the file exists and fails a specific,

@@ -642,7 +642,7 @@ describe("no adapter reports a concept its source does not declare", () => {
 
   it("does not claim a sponsor role a measure blueprint never declares", () => {
     // ScenarioBlueprint has no sponsor field; the scenario builder introduces a
-    // sponsor at construction time. That is runtime behaviour, not a declared
+    // sponsor at construction time. That is runtime behavior, not a declared
     // role, so roles is undeclared and no role key mentions a sponsor.
     for (const key of legislativeScenarioKeys()) {
       const item = itemOf(`content.legislative-measures/${key}`);
@@ -703,7 +703,7 @@ describe("no adapter reports a concept its source does not declare", () => {
     // part (peer, teacher, household-adult) comes from a presentation-layer
     // runtime mapping, not from lifeSituationCatalog, which the item names as its
     // source. So the adapter file imports nothing from formative-context, and no
-    // indexed life-situation role carries a specialised key.
+    // indexed life-situation role carries a specialized key.
     const adapterSource = readFileSync(
       fileURLToPath(new URL("./life-situations.ts", import.meta.url)),
       "utf8",
@@ -754,8 +754,8 @@ describe("no adapter reports a concept its source does not declare", () => {
   });
 
   it("leaves the formative runtime companion mapping untouched", () => {
-    // The specific casting is still valid runtime behaviour where it belongs:
-    // companionRoleFor keeps returning the specialised roles. The repair only
+    // The specific casting is still valid runtime behavior where it belongs:
+    // companionRoleFor keeps returning the specialized roles. The repair only
     // stops the declarative bank from surfacing them.
     expect(companionRoleFor("formative.lunch-table")).toBe("peer");
     expect(companionRoleFor("formative.teacher-mentor")).toBe("teacher");

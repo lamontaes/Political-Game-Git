@@ -76,7 +76,10 @@ import {
 import { travelTowardsPerson } from "../presentation/person-contact";
 import { interruptionHandlers } from "../presentation/interruption-policy";
 import { MunicipalWorkspace } from "./MunicipalWorkspace";
-import { localGoverningSeatFor } from "../presentation/local-governing-seat";
+import {
+  localGoverningSeatFor,
+  townSeatRulesSentence,
+} from "../presentation/local-governing-seat";
 import { World39News } from "./World39News";
 import { World39Journal } from "./World39Journal";
 import { PlacesWorkspace } from "./PlacesWorkspace";
@@ -440,7 +443,7 @@ export function PlayerGame() {
       return null;
     }
   }, [previewMode]);
-  // A replay seed is honoured for the whole session; otherwise every trip to
+  // A replay seed is honored for the whole session; otherwise every trip to
   // the setup screen draws a new one, so starting a second life does not
   // quietly rebuild the first.
   const replaySeed = useMemo(() => readReplaySeed(window.location.search), []);
@@ -5393,8 +5396,13 @@ function renderWorkspace({
             <div data-testid="town-seat">
               <p>
                 You sit on the {townSeat.bodyName} of {townSeat.governmentName},
-                since {townSeat.since}.
+                since {proseDate(townSeat.since)}.
               </p>
+              {townSeatRulesSentence(townSeat) ? (
+                <p data-testid="town-seat-rules">
+                  {townSeatRulesSentence(townSeat)}
+                </p>
+              ) : null}
               <p className="game-note">
                 {townSeat.hasCityScreen
                   ? "Its meetings and business are under Government, in Local meetings and records."
@@ -5481,8 +5489,8 @@ function renderWorkspace({
  * Who is in this moment and who has been through the life recently, kept on the
  * right of the room rather than hidden behind a button. Selecting anybody opens
  * the anchored action menu FOR THAT PERSON — the id travels, which is the
- * defect this rail was at the centre of, and the pin beside them is the shell's
- * real saved reference rather than a star that only changes its own colour.
+ * defect this rail was at the center of, and the pin beside them is the shell's
+ * real saved reference rather than a star that only changes its own color.
  */
 
 /* -------------------------------------------------------------------------- */
@@ -5500,8 +5508,8 @@ function renderWorkspace({
  * record rather than written for the occasion.
  *
  * The scene below it may be a composed episode beat, a formative situation or
- * an adult one. Which is not signalled: they are the same kind of thing to a
- * player, and labelling them would tell somebody which moments the game thinks
+ * an adult one. Which is not signaled: they are the same kind of thing to a
+ * player, and labeling them would tell somebody which moments the game thinks
  * are important.
  *
  * What this life is carrying is shown as sentences about people and problems,
@@ -5788,7 +5796,7 @@ function JournalView({
  *
  * Present because the main menu names it and a menu entry that goes nowhere is
  * worse than one that says what it has. What it has today is the accessibility
- * setting the title art actually honours and an honest note about the rest.
+ * setting the title art actually honors and an honest note about the rest.
  */
 function OptionsScreen({ onBack }: { readonly onBack: () => void }) {
   return (

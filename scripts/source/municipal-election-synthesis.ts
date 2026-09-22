@@ -242,7 +242,7 @@ function parseSourceFrontiers(source: string) {
   const section = requiredMatch(
     source,
     /## 7\. CATALOG OF UNRESOLVED SOURCE CONFLICTS & FRONTIER FIELDS\n\n([\s\S]*?)\n\n---\n\n## 8\./,
-    "section 7 frontier catalogue",
+    "section 7 frontier catalog",
   )[1]!;
   const items = [
     ...section.matchAll(/^(\d+)\. \*\*(.+):\*\*\n {3}- ([^\n]+)$/gm),

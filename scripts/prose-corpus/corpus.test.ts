@@ -730,7 +730,7 @@ describe("computed-anchor allocation history is intact", () => {
       live: liveBindingsOf(loadAnchorFile().anchors),
     });
     // A failure here means a retired id could be re-issued to unrelated prose,
-    // carrying an owner's recorded judgement onto text nobody reviewed.
+    // carrying an owner's recorded judgment onto text nobody reviewed.
     expect(problems.length === 0 ? "" : describeHistoryProblems(problems)).toBe(
       "",
     );

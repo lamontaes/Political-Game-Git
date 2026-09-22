@@ -13,7 +13,7 @@
  * - An authority answer names a possible procedure and its source. It is never
  *   a finding, never guilt and never a sanction; `unknown` still means nothing
  *   happens, not permission.
- * - Public money moves only through GOVERNING's own labelled writer, once per
+ * - Public money moves only through GOVERNING's own labeled writer, once per
  *   appropriation and operation, and only where the payer actually has access
  *   to that account. The press domain records what happened; it never moves
  *   money itself.

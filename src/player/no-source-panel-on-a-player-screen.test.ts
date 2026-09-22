@@ -109,7 +109,7 @@ describe("player screens", () => {
     expect(seen.filter(Boolean).length).toBeGreaterThan(5);
   });
 
-  it("recognises a gate only when it encloses the line", () => {
+  it("recognizes a gate only when it encloses the line", () => {
     expect(DIAGNOSTICS_GATE.test("      {diagnostics ? (")).toBe(true);
     expect(DIAGNOSTICS_GATE.test("      {DIAGNOSTICS ? (")).toBe(true);
     expect(DIAGNOSTICS_GATE.test("      {view.sources ? (")).toBe(false);

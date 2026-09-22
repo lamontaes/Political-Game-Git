@@ -384,7 +384,7 @@ function establishAgeEligibleState(
     // An adult gets their earlier life written down whichever depth was
     // chosen, because for an adult there is nothing left to play: the depth
     // option decides whether a *child* plays their formative years, and
-    // honouring it literally here left a thirty-six-year-old alone in an
+    // honoring it literally here left a thirty-six-year-old alone in an
     // otherwise empty world, with no history and nobody to talk to.
     //
     // The childhood comes first, so the household they live in today is the

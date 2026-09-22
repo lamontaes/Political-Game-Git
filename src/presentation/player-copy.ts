@@ -9,7 +9,7 @@
  * narrating its own epistemology at them.
  *
  * So the rule is a separation, not a deletion. Knowledge, authority, access and
- * visibility keep gating behaviour exactly as before — silently, in the
+ * visibility keep gating behavior exactly as before — silently, in the
  * resolver. When the player genuinely needs to be told why something is not
  * available, they get an in-world reason a person could say to them ("You
  * haven't been introduced"), never a ledger line ("no record establishes...").

@@ -986,7 +986,7 @@ concept, as with a second chamber in Nebraska. Reading an unknown rule and
 reading a not-applicable rule raise different errors, so no caller can silently
 treat one as the other, and the player surface says which is which.
 
-Those states fail closed. Only a rule that is `known` and says yes authorises
+Those states fail closed. Only a rule that is `known` and says yes authorizes
 an act: unknown and not-applicable both refuse, and a known negative refuses
 too. That holds at the writer, in the steps the player is offered, and in
 integrity checking alike, so a rule the research did not settle cannot be shown
@@ -1014,7 +1014,7 @@ save, reload and replay.
 That replay is a state machine, not a reducer over the last action. Each action
 must be legal from the state immediately before it; the chamber, committee and
 floor stage it names must be the ones the measure is actually in; the rule that
-authorises it must be `known`; and nothing at all may follow a terminal action.
+authorizes it must be `known`; and nothing at all may follow a terminal action.
 `assertLegislationIntegrity` refuses a history that breaks any of those, so a
 save cannot carry an impossible order of events, a bill cannot be both dead and
 law, and a measure resolves exactly once. Being signed at some point in the
@@ -1023,9 +1023,9 @@ from the position where enactment is the next step.
 
 Two chambers cannot send different texts to a governor. Where a second chamber
 adopts an amendment, the measure returns to the chamber it started in for a
-recorded vote on accepting that change; agreement leads to enrolment and
+recorded vote on accepting that change; agreement leads to enrollment and
 refusal ends the bill. A second chamber that passes the text unchanged goes
-straight to enrolment. Conference between two chambers that will not agree
+straight to enrollment. Conference between two chambers that will not agree
 remains unimplemented.
 
 Identity belongs to the saved world. Stable keys for new legislative records
@@ -1048,7 +1048,7 @@ dispositions, so a snapshot cannot claim an outcome its members did not
 produce.
 
 How a member decides is out of scope. This slice authors member decisions per
-scenario rather than inventing a legislator-behaviour model, and leaves a clean
+scenario rather than inventing a legislator-behavior model, and leaves a clean
 seam for the researched relationship, bargaining and lobbying systems. No
 step applies an unexplained numeric modifier to any tally.
 
@@ -1056,7 +1056,7 @@ Legislative activity runs on the world's own clock. A committee hearing is
 scheduled through the existing future-due substrate and fires through the
 ordinary time advance; there is no second legislative calendar. A rule that
 requires a chamber's floor stages to fall on separate legislative days is
-behaviour, not decoration: the next stage cannot be reached before its earliest
+behavior, not decoration: the next stage cannot be reached before its earliest
 eligible date, and waiting for that day is a step the player takes on the same
 clock as the rest of their life. One executive act carries one date — the
 disposition, the action and the event all agree, and none of them may precede
@@ -1115,7 +1115,7 @@ seat and backrest z-orders; a body declares its own soles and, for a seated
 pose, its seated pelvis. Standing puts the sole line on the floor; seated puts
 the pelvis on the seat plane and then checks the resulting soles against the
 floor the chair stands on, because a seated person's feet are on the floor and
-modelling only the pelvis is exactly why hand-placed seated sprites floated.
+modeling only the pelvis is exactly why hand-placed seated sprites floated.
 A body that predates the contract still places, by its pelvis root, and the
 runtime records that its contact is unverified rather than implying it was
 checked.
@@ -1161,7 +1161,7 @@ master is rejected rather than enlarged, with the enlargement it would have
 needed stated. `art_class` separates production components from frozen
 development fixture art, and fixture art is never promoted. Complexion is
 source art on bodies and heads in named art-direction bands, never a runtime
-recolour, never demographic truth, and never inferred from a person's name or
+recolor, never demographic truth, and never inferred from a person's name or
 any other property; one head family is one complexion and a head must reach a
 body of the same complexion in every body family it claims. Required slots are
 enforced at resolve time, so a person with an empty required slot is not
@@ -1236,7 +1236,7 @@ eligibility tags are a search key for future progression work, and passage is
 decided from roles the World records.
 
 Baked decor is not information. Production art may be lived-in — artwork, books,
-plants, coloured paper shapes, a clock-shaped block — and must not be legible.
+plants, colored paper shapes, a clock-shaped block — and must not be legible.
 Anything the simulation owns goes in a declared dynamic surface slot, because
 readable words baked into a plate are either wrong or are asserting something
 the simulation never decided, and they are frozen either way.
@@ -1421,7 +1421,7 @@ the absence out loud.
 
 **Civic symbols are identities with citations.** 188 flags, seals and arms
 across 65 jurisdictions are recorded with their statutory authority, their
-restriction statutes and their colours, and every one is `not-acquired`: this
+restriction statutes and their colors, and every one is `not-acquired`: this
 repository holds no symbol artwork. Three rules are structural rather than
 advisory. There is no asset status meaning "generated", so an AI-drawn seal is
 unrepresentable rather than discouraged. A symbol that has not been acquired
@@ -1429,10 +1429,10 @@ cannot carry an asset path. `symbolUsePermitted` refuses campaign and commercial
 contexts without reference to which symbol is being asked for, because the
 prohibition is about the use.
 
-**A downloaded pack answers two questions, not one.** What the licence permits
+**A downloaded pack answers two questions, not one.** What the license permits
 and whether the files are the kind of thing this renderer draws are independent,
 and answering only the second is how unlicensed art gets shipped. `use-now`
-requires a licence stated in a document inside the archive AND at least one file
+requires a license stated in a document inside the archive AND at least one file
 of finished 2D art; anything else is archived or rejected with a reason from a
 closed vocabulary.
 
@@ -1444,7 +1444,7 @@ of a stated measurement, 2 exist and pass, 35 are banked here, and 7 are
 fixtures standing in silently.
 
 Consequence: adding a room is authoring data. What is still missing to ship one
-is bytes and two human judgements — a camera, and whether the art is good enough
+is bytes and two human judgments — a camera, and whether the art is good enough
 — and the records say which is which rather than blurring them.
 
 ## D-065 — A banked candidate is in no generation, and says so
@@ -1522,7 +1522,7 @@ depths and cannot share a floor line: the desk chair's base meets the carpet
 near 91%, the guest chair's legs near 75%.
 
 **The placement point was the wrong point.** `composeOfficeVisuals` placed each
-recipe's `root` — the pelvis-hip-CENTRE, a joint inside the body — on the seat
+recipe's `root` — the pelvis-hip-CENTER, a joint inside the body — on the seat
 plane. The thing that rests on a cushion is not that joint but the buttock and
 thigh surface a couple of percent of raster height below it. The recipes had
 declared a `seatedContact` all along and the compositor ignored it, while the
@@ -1539,7 +1539,7 @@ against one another. `standard_body_width_percent` moved from 21.5% to 19.48%
 because it is solved against those lines and the lines moved.
 
 Two consequences worth recording. The desk anchor returns from 79.2% to the
-measured cushion centre at 77.2%: the 79.2% was a staging offset that existed
+measured cushion center at 77.2%: the 79.2% was a staging offset that existed
 only because the body was placed by its hip joint, which pushed its visible
 mass right until it threatened the safe area. And the working-document and
 briefing-memo affordances move above the scene-person hitboxes, where the civic
@@ -1583,7 +1583,7 @@ Nothing in this repository enlarged anything.
 measured from that master. The room's tiled floor is its own ruler: a 12-inch
 commercial tile measured near and far gives the apparent size of a known length
 at two depths, which solves the horizon at 39.9% of plate height and yields
-one metre ~= 0.585 \* (floor_y - 39.9)% of plate height. The floor calibration,
+one meter ~= 0.585 \* (floor_y - 39.9)% of plate height. The floor calibration,
 the 18.42% standard body width and the cross-check on the one measurable seat
 all come out of that single relation. Nothing was transplanted from prompt30;
 a test asserts the two scenes share no plate, no ramp, no body width and no
@@ -1608,7 +1608,7 @@ happens, and it states its scene id, environment asset id, raster tier and
 derivation, production status and per-anchor rendering path on the page. A
 screenshot of it cannot be confused with a screenshot of the fixture, which is
 the confusion that cost three review cycles. `?view=office-fixture` survives,
-unchanged and clearly labelled, as regression evidence.
+unchanged and clearly labeled, as regression evidence.
 
 ## D-068 — A body root is not a garment attachment, and the banked bodies' anchors are not authoritative
 
@@ -1623,8 +1623,8 @@ numbers confirm it: `pg_body_ml_standing_v1` puts its pelvis root at y 0.5396
 and its `hips` anchor at y 0.3479 — the garment hip line is authored roughly a
 fifth of body height ABOVE the hip joint it is named after.
 
-This is not a labelling nit. Bottoms attach to `hips`, so every trouser, skirt
-and pair of jeans in the bank hangs from the wrong line, and any fit judgement
+This is not a labeling nit. Bottoms attach to `hips`, so every trouser, skirt
+and pair of jeans in the bank hangs from the wrong line, and any fit judgment
 made against those garments was made against a contaminated placement.
 
 The repair is NOT to move the numbers. These bodies are rejected for production
@@ -1649,7 +1649,7 @@ from a DEV fixture or normalizing them by eye, and shows them over that raster
 on a debug proof before any wardrobe family is accepted against it.
 
 Consequence: the distinction between placement and attachment is now written
-down and checkable, the contaminated coordinates are labelled where someone
+down and checkable, the contaminated coordinates are labeled where someone
 reading the record will see them, and no rejected art moved a pixel closer to
 production.
 
@@ -1662,7 +1662,7 @@ production.
 The title screen was plain markup on a pale page while `title-tableau.ts`,
 `scene-registry.ts` and `raster-tiers.ts` all existed and all passed their own
 tests. The resolver was correct and unreachable, which no unit test on the
-resolver could detect, so the first artefact of this decision is a browser test
+resolver could detect, so the first artifact of this decision is a browser test
 that fails when the front door paints nothing.
 
 The tableau an ordinary adult resolved to was the Lexington council staff
@@ -1754,7 +1754,7 @@ seed-shaped or digest-shaped request id.
 The return path is deliberately NOT reimplemented. `asset-lineage.ts` already
 measures a candidate and issues a disposition; `asset-bank.ts` already records
 the verification with hash, container, dimensions, transparency, style-family
-judgement and artifact flags. A second verification record would give the
+judgment and artifact flags. A second verification record would give the
 project two answers to "was this accepted".
 
 Consequence: a gap is a record with an id that survives being solved, a stale
@@ -1822,7 +1822,7 @@ see the size of is a cleanup nobody can check.
 The second rule is the one that matters more. Twenty of the 32 cells chopped
 perfectly and are still not usable. Eight adult bodies carry a green silhouette
 contour on 67-80% of their soft-edge pixels — the approved character style
-authority has no silhouette stroke of any colour, and at the ~250 plate pixels a
+authority has no silhouette stroke of any color, and at the ~250 plate pixels a
 body actually paints at, the rim is plainly visible. Twelve footwear pairs are
 drawn as bonded three-quarter product views while the body family stands
 front-on with its feet apart. Neither is a quality fault and neither is fixable
@@ -1963,7 +1963,7 @@ about it. Later narrative and Pennywise trace sources register through this
 seam and require no change to the walker, index, export or UI.
 
 Absence of a record is never by itself evidence of absence in the world. The
-observer projection answers "who did not hear this" in two separately labelled
+observer projection answers "who did not hear this" in two separately labeled
 ways: a person the event record lists as a participant who has no knowledge
 record citing the claim, and a person some caller's presence set names whom the
 event record does not list at all. The caller must state where that presence
@@ -2297,7 +2297,7 @@ different facts, and one of them is a guess.
 
 The bank is derived rather than authored. `npm run derive:garment-fit` measures
 both silhouettes, takes the geometric mean of the smallest and largest required
-span ratio at the category's anchors — minimising the worst row rather than the
+span ratio at the category's anchors — minimizing the worst row rather than the
 average one — and writes the transform. Classification comes afterwards, from
 what that transform achieved when the real compositor placed the real rasters.
 Nothing is claimed and then confirmed.
@@ -2378,7 +2378,7 @@ clipping compresses it. Each band now records where the whole raster would sit
 so its own rows land in the slice, and the recipe is withdrawn.
 
 Consequence: the affine path — the only one the production bank uses — is
-unchanged in behaviour and every measured example still improves. What changed
+unchanged in behavior and every measured example still improves. What changed
 is that nothing downstream can draw a fit it cannot draw, nothing can widen a
 bound by misspelling it, and nothing is called a fit for want of pixels.
 
@@ -2386,7 +2386,7 @@ bound by misspelling it, and nothing is called a fit for want of pixels.
 
 The merged legislation core could move a bill and count a vote. It could not
 say what was in the bill, what anyone had promised about it, or what had been
-asked for in return, so every negotiation in the game was flavour text over a
+asked for in return, so every negotiation in the game was flavor text over a
 fixed tally. This adds the smallest layer that makes those three things
 canonical, and refuses three tempting shortcuts while doing it.
 
@@ -2419,7 +2419,7 @@ and personal inducement. Only the last means personal benefit to the
 officeholder; it is offerable, always refused, and never confused with asking
 for a road.
 
-Vote behaviour is extended for the members this world actually models and no
+Vote behavior is extended for the members this world actually models and no
 further. One member's disposition on one question is derived through the
 existing decision evaluator over what is in the bill, what they have said, and
 who they have worked with — and, on an amendment, over what the amendment would
@@ -2658,14 +2658,14 @@ Where an arm hangs clear of the torso the row carries a separate opaque run,
 both edges are silhouette edges, and the segment's axis, wrist and
 cross-sections come from pixels. Where the arm lies against the torso the row
 is one run; its outer edge is a silhouette edge and its inner edge is a painted
-line, which is colour, and this contract does not read colour. Those rows are
+line, which is color, and this contract does not read color. Those rows are
 fused, and every inner measurement over them is `occluded` — not estimated
 from proportion, not borrowed from the other side, not borrowed from the pose
 registry.
 
 Every value carries one of five statuses and an evidence class. `measured` is
 a reading; `partially-measured` locates a region and not a joint — an elbow on
-the outer contour is on the skin, not at the joint centre, and says so;
+the outer contour is on the skin, not at the joint center, and says so;
 `ambiguous` means the silhouette was read and did not decide; `occluded` and
 `unavailable` carry no value at all. Sides are image sides, measured
 independently and never mirrored. Pose is part of the key, and the sleeve
@@ -2691,7 +2691,7 @@ Reconciling onto accepted main re-derived all of this rather than copying it,
 and the regenerated report is byte-identical. Accepted main does now carry a
 heavy and a lean body in the same apparent poses, among 51 Wave A morphology
 candidates, and it also carries a despilled copy of all eight Packet 71 bodies.
-Neither is arm evidence here. The despill writes colour and never alpha —
+Neither is arm evidence here. The despill writes color and never alpha —
 verified, all eight alpha channels byte-identical to their sources — so the
 despilled copies are the same silhouette. The Wave A candidates are
 `CANDIDATE_REFERENCE_ONLY`, none is production-eligible, none is in the asset
@@ -2721,7 +2721,7 @@ Bills in this game were authored one at a time. Three legislative scenarios
 existed and all three were the same mechanism — a transit subsidy — with the
 state, the bill number and the beneficiary changed, so a player choosing among
 them was choosing a label. Making bills composable means a bill's text is
-produced from a declared programme family and a set of parameter values rather
+produced from a declared program family and a set of parameter values rather
 than written out by hand.
 
 That creates a fact nothing in the store could express.
@@ -2732,7 +2732,7 @@ text currently reads and what it used to read, append-only, with amendment
 authority behind every revision. Between them they describe the bill
 completely — and neither of them can say that the text was compiled from a
 named family, at a named version of that family, from a named set of parameter
-values. Without that, reopening a saved bill cannot say which programme it
+values. Without that, reopening a saved bill cannot say which program it
 belongs to, which amendment its politics are about, or whether the content
 bank has moved underneath it since.
 
@@ -2772,12 +2772,12 @@ filed.
 - Status: ACCEPTED
 - Supersedes: none
 
-On the night of 21–22 September the repository could not produce a CI verdict
+On the night of 21–September 22 the repository could not produce a CI verdict
 for any branch, and roughly thirty pull requests needed to reach `main` by
 morning. Every lane faced the same question independently: what may be merged
 when the gate cannot report.
 
-The answer adopted, and the reason it is not a licence.
+The answer adopted, and the reason it is not a license.
 
 **A merge requires evidence named at an exact head.** Not "the tests pass" but
 which commands were run, on which commit, with what output, and what was not
@@ -2800,7 +2800,7 @@ which shard, or which browser.
 - **Prefer the measurement to the conclusion, especially in anything durable.**
   "Two of six unit shards reported green at 08:09Z" survives being wrong later;
   "the unit suite is clean" has nothing in it to check. Two of the five wrong
-  claims travelled through project memory rather than a conversation, which
+  claims traveled through project memory rather than a conversation, which
   reaches every later reader stripped of the context that would let them judge
   it.
 - **Retract in place, and say whose it was.** A correction that hides its
@@ -2820,7 +2820,7 @@ observation.
 
 **What this does not license.** It is not permission to skip a gate that is
 available, to call a failing test an infrastructure flake, or to merge code
-whose behaviour nobody exercised. Where a verdict is obtainable it is obtained.
+whose behavior nobody exercised. Where a verdict is obtainable it is obtained.
 The standard exists for the case where it is not, and the honest report of that
 case says which parts were measured and which were merely argued.
 
@@ -2874,10 +2874,10 @@ result is the gate that ran on the merged tree.
 
 **Every instrument needs a check that it engaged at all.**
 
-On the night of 21–22 September this shape appeared six times, in four
+On the night of 21–September 22 this shape appeared six times, in four
 unrelated lanes, in tools with nothing to do with each other. Each time it
 produced a confident report of agreement where nothing had been observed, and
-each time the resulting claim travelled before anyone checked it. It is the
+each time the resulting claim traveled before anyone checked it. It is the
 common root of most of that night's retractions.
 
 **The instances.** Two are verified in this repository at the lines named; the
@@ -2937,13 +2937,13 @@ start can report it as a **failure**. The research-audit lane's first attempt
 at a browser check printed `1 failed` when the browser had never started, so a
 harness that ran no test body produced the line a genuine assertion failure
 produces. That manufactures a defect rather than hiding one. Same root, same
-defence: the instrument must show it engaged before its verdict means
+defense: the instrument must show it engaged before its verdict means
 anything.
 
 **A consequence for this repository specifically.** Three independent lanes
 found tests whose result depends on what else runs alongside them: one that
 passes alone on both `main` and a branch and fails only in a full shard, and
-two that answer differently depending on their neighbours. So **some of this
+two that answer differently depending on their neighbors. So **some of this
 suite's results depend on what else is running**, which weakens every
 same-tree attribution in both directions, including matches used to call a
 failure inherited. Re-running a case **on its own** is therefore a real
@@ -2976,7 +2976,7 @@ does under D-087.
 
 **CI silence is a reason to check mergeability first, not to wait longer.**
 
-Two lanes lost hours on the night of 21–22 September watching an empty queue
+Two lanes lost hours on the night of 21–September 22 watching an empty queue
 for a run that was never going to be created. The reason is structural rather
 than incidental, and it is worth stating as a rule because nothing visible
 from the outside distinguishes it from a busy queue.
@@ -2991,7 +2991,7 @@ from the outside distinguishes it from a busy queue.
    does every branch. Two branches that touch no common source file still
    collide there.
 3. GitHub builds no merge ref for a conflicted pull request, so it creates **no
-   `pull_request` workflow run at all.** Not a queued run, not a cancelled run —
+   `pull_request` workflow run at all.** Not a queued run, not a canceled run —
    nothing to read, and nothing to cancel.
 
 Put together: on a night merging every two or three minutes, any branch
@@ -3041,7 +3041,7 @@ recorded for the owner because each trades something real:
 - Give those files a merge driver, which keeps the diff and the gate and adds
   a piece of git configuration every checkout must have.
 
-Consequence, and the part that changes behaviour immediately: **when a branch
+Consequence, and the part that changes behavior immediately: **when a branch
 has no checks, read its mergeability before reading the queue.** An empty
 queue and an un-mergeable head look identical from the outside, and only one of
 them gets better by waiting.
@@ -3052,7 +3052,7 @@ them gets better by waiting.
 - Status: ACCEPTED
 - Supersedes: none
 
-When a returned contract proposes a tighter condition on some behaviour, read
+When a returned contract proposes a tighter condition on some behavior, read
 what actually calls the producer before building the condition. A rule that no
 live caller can ever satisfy does not make the system more careful. It makes
 that part of the system inert, and it does so silently, because a producer that
@@ -3160,7 +3160,7 @@ to possibly like minded people and your actions/personality should drive
 interpersonal relationships".
 
 **What this settles.** Proximity produces candidates, not bonds. Sharing a
-school, a college, a workplace, a party chapter or a neighbourhood puts people
+school, a college, a workplace, a party chapter or a neighborhood puts people
 within reach of each other and does nothing else by itself. What turns a
 candidate into somebody who matters is what the two of them actually do, and
 who they are. It follows directly that a relationship can go the other way:
@@ -3266,7 +3266,7 @@ either document.
 
 - An on-demand disclosure panel is still a player-facing surface. A "Sources"
   triangle, a citation printed under a refusal, and a link out to a statute are
-  all ruled out, whatever the panel is labelled.
+  all ruled out, whatever the panel is labeled.
 - Provenance is not deleted. It stays on the records, where a reviewer, an
   auditor or the diagnostics-gated developer view reads it.
 - An explanation of how a rule works is still allowed and encouraged. What goes

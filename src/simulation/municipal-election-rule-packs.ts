@@ -25,7 +25,7 @@
  * out of its prose:
  *
  * 1. **Whether citizen initiative and protest referendum exist at all under
- *    general law.** The corpus serialises a flat `Authorized` boolean, and for
+ *    general law.** The corpus serializes a flat `Authorized` boolean, and for
  *    fourteen jurisdictions that boolean is `true` while the same row's prose
  *    says the right exists *only* in some municipal forms — Kentucky's
  *    Commission and City Manager cities, Tennessee's Manager-Commission
@@ -945,7 +945,7 @@ function compileRecall(row: CorpusRow) {
 
   // Both of these doctrines mean there is no recall *election*, so every rule
   // that only exists inside one is not-applicable rather than unknown. The
-  // corpus serialises a grounds requirement and, for Iowa and Virginia, a
+  // corpus serializes a grounds requirement and, for Iowa and Virginia, a
   // percentage even here; neither survives, and the conflict register records
   // the numbers so nothing is lost.
   const noRecallElection =
@@ -953,7 +953,7 @@ function compileRecall(row: CorpusRow) {
   if (noRecallElection) {
     const why =
       doctrine === "prohibited"
-        ? "State general law authorises no municipal recall."
+        ? "State general law authorizes no municipal recall."
         : `Removal runs through a court rather than a recall election. The corpus's ${row.recallPetitionPercent ?? "unstated"}% figure gates a judicial removal petition, not a recall election.`;
     return {
       doctrine: knownMunicipalRule(doctrine, source),
@@ -1026,7 +1026,7 @@ function compileInitiative(row: CorpusRow, reading: StateReading) {
     return {
       form: knownMunicipalRule(form, source),
       threshold: notApplicableMunicipalRule<PetitionThreshold>(
-        "State general law authorises no citizen ordinance initiative, so there is no petition to sign.",
+        "State general law authorizes no citizen ordinance initiative, so there is no petition to sign.",
       ),
       exempt,
     };

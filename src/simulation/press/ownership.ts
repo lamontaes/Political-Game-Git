@@ -53,7 +53,7 @@ import {
  * the blanket rule records against every outlet it holds without changing
  * anything else.
  *
- * NOT MODELLED YET, with the blanket rule standing in:
+ * NOT MODELED YET, with the blanket rule standing in:
  * - Why an owner decides. There is no media revenue, debt or audience model,
  *   so every decision is the pack's `likelihoodPerReview` draw.
  * - Whether a decision is news. Owner events use the `press.` prefix, which
@@ -624,7 +624,7 @@ export type OutletPurchaseTerms =
  * Whether this person can buy this outlet today, and for how much. Reads
  * only; the purchase itself is `purchaseOutlet`.
  *
- * NOT MODELLED YET, with the blanket rule standing in: an outlet's price is
+ * NOT MODELED YET, with the blanket rule standing in: an outlet's price is
  * the loaded pack's asking price for its size, not a valuation, and there is
  * no negotiation, financing or seller's refusal. Money is only what the
  * record holds: a person whose savings are not on record cannot buy, rather

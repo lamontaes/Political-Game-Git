@@ -15,7 +15,7 @@ import type {
 import { recordWorldEvent } from "../world";
 
 /**
- * GOVERNING's labelled writer for public money spent outside its mandate.
+ * GOVERNING's labeled writer for public money spent outside its mandate.
  *
  * PRESS investigates misuse; it never invents one. When a story needs a
  * deliberate misuse to exist, this writer moves real money out of an existing

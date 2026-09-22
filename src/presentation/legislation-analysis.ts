@@ -26,7 +26,7 @@ import { resolveAuthority, type DocketBill } from "./legislation-docket";
  * provisions rather than from the configuration the bill was filed with.
  *
  * The second is a forecast, and in almost every world the honest answer is
- * that nobody can make one. Estimating what a programme does needs a measured
+ * that nobody can make one. Estimating what a program does needs a measured
  * series to move and a baseline to move it from. A new game carries neither:
  * the production catalogs are deliberately empty until sourced content exists.
  * So this module names the exact series that is missing rather than inventing
@@ -281,7 +281,7 @@ export type BillEstimateAvailability =
  * Whether anybody in this world could estimate what this bill would do.
  *
  * Read-only. It asks two questions in order — is there a definition of the
- * thing this programme is meant to change, and has anybody measured it — and
+ * thing this program is meant to change, and has anybody measured it — and
  * reports the first missing answer. A player is told what is absent rather
  * than handed a number nobody produced.
  */

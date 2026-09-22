@@ -6,7 +6,7 @@ unmoved at task start.
 The first implementation task of the prose/language reset. It builds the
 measuring and review system the migration will use; it rewrites **no**
 production prose, changes no simulation semantics, eligibility, life, campaign,
-election or governing behaviour, no schema, and adds no runtime dependency.
+election or governing behavior, no schema, and adds no runtime dependency.
 
 ## What it is
 
@@ -103,7 +103,7 @@ With `A = "You meet with your old friend again after work."` and
   kept standing over text that had changed underneath it.
 
 Both were driven through `computedProseRecords`, not a reimplementation of the
-key function, using a labelled synthetic fixture that is restored after each run.
+key function, using a labeled synthetic fixture that is restored after each run.
 
 ### Repaired
 

@@ -460,7 +460,7 @@ export function ageOnDate(birthDate: IsoDate, comparisonDate: IsoDate): number {
  *
  * `ageOnDate` answers the same question in years and is the model here: the
  * count advances on the day-of-month anniversary, and a shorter target month
- * clamps to its last day, so 31 January to 28 February is one completed month
+ * clamps to its last day, so January 31 to February 28 is one completed month
  * rather than nought. Written because a residence requirement stated in months
  * had no way to be expressed at all, and years cannot hold one -- six months
  * rounds to nought years, which would pass everybody, or to one, which would

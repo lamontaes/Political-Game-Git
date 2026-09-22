@@ -37,7 +37,7 @@
     },
     {
       "source": "The shipped rooms themselves",
-      "whatItDidNotSettle": "They look right, which is evidence that the authored orders are correct for the figures currently placed in them. It is not evidence that the rule generalises, and it is why this reads as an assumption rather than a bug."
+      "whatItDidNotSettle": "They look right, which is evidence that the authored orders are correct for the figures currently placed in them. It is not evidence that the rule generalizes, and it is why this reads as an assumption rather than a bug."
     }
   ],
   "title": "What should decide which figure paints in front of which",

@@ -130,6 +130,11 @@ const sha256 = (text: string) =>
  * identical by one renamed person's old given name, plus `snapshotId`.
  * Peebles: 3 given names and 9 summaries, plus `snapshotId`. 0 unexplained.
  *
+ * RE-ACCEPTED 2026-09-22 for the American English sweep: the policy catalog's
+ * authored text now spells labor, defense and program the American way.
+ * LEGACY_OPENING_SHAPE passed unchanged on the run that moved these hashes, so
+ * only the stripped catalog field moved.
+ *
  * RE-ACCEPTED AGAIN the same day, for the childhood repair
  * (`childhoodGenerationVersion`), which today's new game declares: the
  * parent, classmate and teacher of the summarized past get birthdays of their
@@ -141,10 +146,14 @@ const sha256 = (text: string) =>
  * "County of Adams Democrats" / "Republicans" to "Adams County ...", which is
  * the chapter-name fix; the shape strips organization profiles, so that one
  * moves only the whole hash. 0 other leaves differ.
+ *
+ * The two were measured on separate lines and combined at the merge: the
+ * shape hash is the childhood repair's, the whole hash re-measured on the
+ * merged tree.
  */
 const FED321F7_LEGACY = {
-  kentucky: "f4bf85736ab9ff52b067beaa331008924990ec1d97b6c12f83c44c983e3c6d92",
-  peebles: "71abdc72bf8011ebff20e0a1ed0f1d27cbd18cd8b06ff98f3009930cfc9d0d27",
+  kentucky: "7bbc64caa4a7d4c01784b6834e94be07cacb67f2cc4fd31ae2ef46bd3d30d9e5",
+  peebles: "08ed3e7e0be7c30bd26a83c95ede01f4232b03591621752cbf5f7a799f84055f",
 } as const;
 
 /**

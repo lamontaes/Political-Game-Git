@@ -59,7 +59,7 @@ carry a verdict that ranks them behind everything that passed.
 
 `setup-questionnaire.ts` implements the settled selection semantics: three
 fixed openers in a fixed order; then the item that covers what the model knows
-least, penalised 0.25 per dimension shared with the previous item, credited for
+least, penalized 0.25 per dimension shared with the previous item, credited for
 separating explanations that are still level, and tie-broken by a SHA-256 over
 world seed, person, bank, encoding version, ordinal and candidate. It consumes
 no simulation randomness.

@@ -10,7 +10,7 @@ A39 source32be6a1c plus B historical36/40, six-family41 and G standing correctio
 
 Six standing body families: masculine/feminine average, lean and heavy. Two completed average people preserved; four independently generated adults. Each family has trousers, footwear, head/hair and actual short-/long-sleeve garments. Seventy-eight registered modular components, generation10 signature `csig_a775b44da481cca6`. No flattened person in the runtime registry.
 
-Provider: actual OpenAI built-in `image_gen`; model identifier not exposed. Fourteen successful calls for the four new adults, sleeve alternatives, skin/scalp inputs, repaired polo and average female long sleeve. Exact calls in `generation-receipts.json`. All18 raw source PNGs remain1024×1536 full-colour. Current primary style1SBz4LrIX2XSJrsDprorQ7P8tjNZMCYY0 only; source1672×941, native audiencecrop supplied as actual image reference. Body references provide structure only. Old tableaux were not recovered for generation.
+Provider: actual OpenAI built-in `image_gen`; model identifier not exposed. Fourteen successful calls for the four new adults, sleeve alternatives, skin/scalp inputs, repaired polo and average female long sleeve. Exact calls in `generation-receipts.json`. All18 raw source PNGs remain1024×1536 full-color. Current primary style1SBz4LrIX2XSJrsDprorQ7P8tjNZMCYY0 only; source1672×941, native audiencecrop supplied as actual image reference. Body references provide structure only. Old tableaux were not recovered for generation.
 
 `raw/` holds unmodified masters; `extracted/` genuine RGBA; `families/` individual compatible PNG/SVG parts. `comparison.html` compares current style, raw and imported output, actual game-size swaps and portraits. `game-fit-matrix.png` is assembled from actual browser captures. `source-fit-matrix.png` shows the authored modular assemblies.
 
@@ -18,7 +18,7 @@ Provider: actual OpenAI built-in `image_gen`; model identifier not exposed. Four
 
 The fitted blue polo fixes the front cuff/waist mismatch. Sleeve extraction no longer stops at the old waist crop. Same-canvas collar partition, head-only masks, minimal painted-edge overlap and jaw-relative skin overlap preserve hands, arms, neck and waist. No body shrinking, heavy-ink processing, palette reduction, save rewrite, new renderer, paid API or runtime AI.
 
-Three independent painted identities per presentation are compatible with each structural body. Face and matching hair remain separate components; body selection retains their identity suffix. Eighteen head/body pairs pass a direct neck-alpha continuity guard. Painted complexion is fixed source colour, with no parametric face/iris/complexion promise. Matching hairstyle compatibility is explicit; broader consumer controls belong to KIT.
+Three independent painted identities per presentation are compatible with each structural body. Face and matching hair remain separate components; body selection retains their identity suffix. Eighteen head/body pairs pass a direct neck-alpha continuity guard. Painted complexion is fixed source color, with no parametric face/iris/complexion promise. Matching hairstyle compatibility is explicit; broader consumer controls belong to KIT.
 
 Average body/head/hair/trousers/shoes PNGs remain byte-identical to PEOPLE40; original average shirt unions also match exactly. Generation7/8 runtime source and components are unchanged, and generation9 ledger is frozen. `freeze-receipt.json` records protected paths and signatures. Existing local3dfc5dcf source was read-only.
 
