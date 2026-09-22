@@ -129,10 +129,22 @@ const sha256 = (text: string) =>
  * identities changed. Kentucky: 6 given names and 18 summaries, each made
  * identical by one renamed person's old given name, plus `snapshotId`.
  * Peebles: 3 given names and 9 summaries, plus `snapshotId`. 0 unexplained.
+ *
+ * RE-ACCEPTED AGAIN the same day, for the childhood repair
+ * (`childhoodGenerationVersion`), which today's new game declares: the
+ * parent, classmate and teacher of the summarized past get birthdays of their
+ * own instead of the player's day of the year. Measured the same way against
+ * `origin/main` after #408: same people and ids, identical leaf paths. In each
+ * opening exactly three `birthDate` values move, plus the two
+ * `establishedFacts[].occurredAt` per person that are that same birth date,
+ * plus `snapshotId`. Peebles also renames its two home party chapters from
+ * "County of Adams Democrats" / "Republicans" to "Adams County ...", which is
+ * the chapter-name fix; the shape strips organization profiles, so that one
+ * moves only the whole hash. 0 other leaves differ.
  */
 const FED321F7_LEGACY = {
-  kentucky: "a4d19ef685a0643fc15f9aca4e20c9de683d01971037a943a8368a9eb86ce103",
-  peebles: "947bc8b8c44a75adee7273a890545377fdf7c1f3b38487cadfa618932f3331c2",
+  kentucky: "f4bf85736ab9ff52b067beaa331008924990ec1d97b6c12f83c44c983e3c6d92",
+  peebles: "71abdc72bf8011ebff20e0a1ed0f1d27cbd18cd8b06ff98f3009930cfc9d0d27",
 } as const;
 
 /**
@@ -144,8 +156,8 @@ const FED321F7_LEGACY = {
  * test above was reaching for and could not hold on its own.
  */
 const LEGACY_OPENING_SHAPE = {
-  kentucky: "039d5fc55cc85c1f3a1a1487f101faa56d0158be229af007b0878edf2b431ec2",
-  peebles: "f50d53595074667a4183212edc0eeb00d4286079b1060635b884949cd737fdd8",
+  kentucky: "b27cece86898e85d1ff163522b852a2de94045868dbab2099202ea76386cada4",
+  peebles: "ff836724204c7f09a3958fb5a6678564abb30b413c2eb86b79a2242d26184d8d",
 } as const;
 
 /**

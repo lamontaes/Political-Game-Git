@@ -26,7 +26,7 @@ Seed `corpus-early-childhood`, start age 6, Gabriela Lawrence.
 
 > You're 6, and you live in Lexington, Kentucky.
 > You live with Austin Lawrence and Allison Lawrence.
-> You're enrolled at Lexington, Kentucky public school.
+> You're enrolled at Greenwood Elementary School.
 
 While you play together, a wheel snaps off Felix Villegas's toy truck in your hands.
 
@@ -238,7 +238,7 @@ Seed `corpus-adolescence`, start age 15, Dawn Merritt.
 
 > You're 15, and you live in Lexington, Kentucky.
 > You live with Sabrina Merritt and Diana Merritt.
-> You're enrolled at Lexington, Kentucky public school.
+> You're enrolled at Lexington High School.
 
 The fire-alarm cover by the stairs is broken at school, and the office has your name for it. You were standing next to it when it happened, and so was Kaitlyn Wells, your classmate. She broke it. She has not said so, and nobody has asked you what you saw.
 
@@ -684,7 +684,7 @@ Seed `corpus-long-tail`, start age 7, Peter Fleming.
 
 > You're 7, and you live in Lexington, Kentucky.
 > You live with Katelyn Fleming and Mira Fleming.
-> You're enrolled at Lexington, Kentucky public school.
+> You're enrolled at West Lexington Elementary School.
 
 During the school break, Vanessa Hunter drops a snack into a puddle and starts crying. You still have your own snack.
 
