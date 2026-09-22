@@ -308,3 +308,33 @@
     border: 1px solid CanvasText;
   }
 }
+
+/*
+ * The regional plate on the locality step.
+ *
+ * Bounded by viewport height as well as width so a 2500px-wide landscape
+ * cannot push the place's own facts below the fold on a laptop. The caption is
+ * not decoration: the plate is a regional illustration and a player who reads
+ * it as a photograph of their street has been misled by us, not by the artist.
+ */
+.pg-orientation-region {
+  margin: 0 0 0.75rem;
+}
+
+.pg-orientation-region-plate {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(38vh, 16rem);
+  object-fit: cover;
+  object-position: 30% 50%;
+  border: 1px solid var(--run-a-line);
+  border-radius: 4px;
+  background: rgb(11 19 32 / 60%);
+}
+
+.pg-orientation-region-caption {
+  margin: 0.35rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--pg-party-none);
+}

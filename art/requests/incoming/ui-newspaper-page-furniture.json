@@ -1,0 +1,35 @@
+{
+  "intakeVersion": "art-request-intake/v1",
+  "requestId": "ui-newspaper-page-furniture",
+  "title": "Page furniture for the in-game newspaper",
+  "missing": "The newspaper front page is drawn entirely in CSS and system fonts. There is no paper ground, no column rule, no folio ornament, no dateline device — nothing that makes it read as a printed page rather than as a web panel using a serif font.",
+  "consumerSite": {
+    "consumerId": "no-declared-consumer",
+    "playerVisibleUse": "The news front page, in both its mixed-front-page mode and its single-publication mode. It is reached from the public information surface and shows the stories the world has actually published.",
+    "runtimeComponent": "src/player/news/NewsDesk.tsx"
+  },
+  "jurisdiction": {
+    "scope": "jurisdiction-independent",
+    "reason": "Page furniture is the paper's physical presentation and is the same wherever the player lives. The outlet names printed on it are generated per world; the furniture is not."
+  },
+  "whyNeeded": "This is the cheapest surface in the game to make look right, because it is already finished. It works, it has two modes, it handles corrections, and nobody has to fix it first — the only thing it lacks is that it does not look like a newspaper. Every other surface needing art also needs engineering; this one needs only the art.",
+  "origin": "inspection",
+  "requestedBy": "art bench and regional scenes thread",
+  "filedAt": "2026-09-22T05:45:00.000Z",
+  "priority": "P1",
+  "targetClass": "interface-graphic",
+  "alreadySearched": [
+    "art/manifest/asset_manifest.json — all 126 assets read. 11 environment-plate, 2 environment-master, 1 foreground mask, 1 reference master, the rest character components. Nothing in it is an interface graphic of any kind.",
+    "art/requests/asset-requests.json — 29 requests read, including the ten capitols filed tonight. None asks for interface artwork.",
+    "art/requests/incoming/ — 15 filed records read. All are environments or figures.",
+    "art/regions/regional-scene-places.json — all 23 regions carry a benchRequestId from his Art Bench, so the Bench's own regional asks are accounted for and none of them is this.",
+    "find over art/ and public/ for icon or SVG assets — the only SVGs in the project are pose control plates and arm-measurement QA overlays, which are authoring evidence, not shipped interface art.",
+    "src/player/news/news.css read in full — the entire visual treatment is font-family, letter-spacing and text-transform. There is no image reference anywhere in it."
+  ],
+  "notes": [
+    "Outlet names are generated per world and are not known when the art is drawn, so nothing in this request may contain a printed outlet name. The furniture has to work behind a name it has never seen, of a length it cannot predict.",
+    "Tileable or stretchable pieces, not one fixed page image: the page is as long as the stories the world published that day, which varies.",
+    "No headlines, no body text and no dates baked into the artwork. Every word on that page comes from the simulation, and a word painted into the art would be a fact the game did not record."
+  ],
+  "promotedToRequestId": "ui-newspaper-page-furniture"
+}
