@@ -181,7 +181,23 @@ describe("the content index", () => {
     expect(bank).toBeDefined();
     expect(bank?.authority).toBe("authored");
     expect(createProductionMindCatalog().tendencyOrder).toHaveLength(2);
-    expect(bank?.items).toHaveLength(5);
+    // The mind definitions, by family rather than by a count of the whole
+    // bank. This assertion used to read `bank?.items` had length 5, which was
+    // true only while every other production catalog was empty: the first
+    // sourced policy vocabulary to ship turned it into 145 and the failure
+    // said nothing about mind definitions, which is what the test is named
+    // for. The bank's own module states the rule this now follows — sourced
+    // content "appears in this bank on its own, with no threshold to update".
+    const mind = (bank?.items ?? []).filter(
+      (item) =>
+        item.family === "personality-tendency" ||
+        item.family === "personal-value",
+    );
+    expect(mind).toHaveLength(5);
+    for (const item of mind) {
+      expect(item.authority).toBe("authored");
+      expect(item.status).toBe("production");
+    }
   });
 
   it("keeps synthetic fixture content marked as unreachable in play", () => {
