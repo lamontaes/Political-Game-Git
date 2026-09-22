@@ -1,0 +1,64 @@
+{
+  "answer": {
+    "summary": "person-with-no-artwork-on-screen: retain true identity/role/actions and a neutral clearly non-specific placeholder; never show another or retired person as this character. Expose diagnostic cause without flooding ordinary play with hashes. Latest supplied report corrected one supposed silent fallback to an explicit missing-input case; do not repeat its earlier diagnosis.",
+    "sources": [
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C22, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:58:00.000Z",
+    "stillOpen": "\"Latest supplied report corrected one supposed silent fallback to an explicit missing-input case; do not repeat its earlier diagnosis.\"\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
+  },
+  "candidateAnswers": [
+    {
+      "argumentAgainst": "It is indistinguishable from a character the game intends to look like a monogram, so an absence is silently presented as a choice.",
+      "argumentFor": "It keeps the player in the fiction, carries no provenance, and reads as a deliberate design rather than a fault.",
+      "label": "Initials, in silence",
+      "position": "A monogram in place of the portrait, with nothing said. The person is still present, named and interactable; only their likeness is absent.",
+      "recommended": false
+    },
+    {
+      "argumentAgainst": "It needs artwork that does not exist, and a stand-in that appears often enough starts reading as a character in its own right.",
+      "argumentFor": "It says 'not drawn yet' without a word of provenance, which satisfies both rules at once.",
+      "label": "A generic figure that is plainly a stand-in",
+      "position": "Draw an unmistakably neutral body or face that no real character would have, so the player reads it as a placeholder without being told anything.",
+      "recommended": false
+    },
+    {
+      "argumentAgainst": "A room is first person and meant to be populated; removing people to avoid an imperfect likeness empties the very surface this is all for.",
+      "argumentFor": "Nothing false is shown, and a room with fewer people is honest about what it can render.",
+      "label": "Omit the person from the visual entirely",
+      "position": "If a person cannot be drawn, do not place them in the scene; they remain in the fiction through text.",
+      "recommended": false
+    }
+  ],
+  "filedAt": "2026-09-22T13:54:00Z",
+  "impact": "shapes-design",
+  "lane": "character art and scenes",
+  "notes": [
+    "This is a product judgement, so every candidate is filed unrecommended on purpose. The engineering is already able to do any of them.",
+    "The situation is not hypothetical: a set of people whose images were deliberately deleted still have records that several live surfaces are built on, so they render as initials today."
+  ],
+  "priority": "P2",
+  "question": "When the game knows who somebody is but cannot draw them, because the artwork for their body or face is not present in this build, what should occupy their place on screen — and how, if at all, should the game convey that this is an absence rather than how that character looks?",
+  "questionId": "person-with-no-artwork-on-screen",
+  "relatedQuestionIds": ["missing-fact-refuse-assert-rederive"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "character rendering triage thread",
+  "sourcesChecked": [
+    {
+      "source": "The portrait resolution path and the component that renders it, read directly",
+      "whatItDidNotSettle": "It establishes what happens today and that the reason is preserved rather than discarded: the refusal names which layers are missing and reaches the rendered markup, where a developer can read it. It does not establish what a player ought to see, which no amount of reading the code can decide."
+    },
+    {
+      "source": "The two standing rules themselves, that content is skipped with a stated reason and never silently, and that player-facing surfaces carry no provenance",
+      "whatItDidNotSettle": "Each is clear on its own and they were written for different situations. Neither says what to do when the stated reason is itself provenance, which is precisely the portrait case."
+    },
+    {
+      "source": "The current behaviour in the game, where a person with no artwork appears as their initials",
+      "whatItDidNotSettle": "It is a reasonable default and it is not obviously wrong, but it was never chosen. It is what the component did before anybody asked the question."
+    }
+  ],
+  "title": "What a player should see in place of a person whose picture cannot be drawn",
+  "usableAnswer": "A decision about what a player sees and whether they are told anything — for example initials in silence, a plain unmistakably generic figure, a marked placeholder that reads as deliberately empty, or the person being omitted from the scene entirely — with the reasoning that makes it consistent with skipping unknown content out loud rather than in silence.",
+  "whyItMatters": "Two standing rules pull in opposite directions here and a portrait is where they meet. Unknown content is supposed to be skipped with a stated reason and never silently, which argues for the player being told something. Player-facing surfaces are supposed to carry no source or provenance references, which forbids the only thing the game actually knows to say, since the reason it has is the name of a missing asset. Today the game draws the person's initials and says nothing, which satisfies the second rule and arguably fails the first. Until this is settled, every surface that composes a person is guessing."
+}

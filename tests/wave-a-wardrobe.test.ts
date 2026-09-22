@@ -24,8 +24,21 @@ import type { CharacterComponentManifestRecord } from "../src/presentation/chara
 const root = path.resolve(import.meta.dirname, "..");
 
 describe("Wave A wardrobe derivation", () => {
-  it("reproduces a normalized body's bytes and refuses a new enlarged garment", async () => {
-    const admitted = registry.assets[0] as CharacterComponentManifestRecord;
+  /**
+   * Named rather than taken by index. This used to read `registry.assets[0]`,
+   * and admitting ten more bodies moved a different body into that slot — one
+   * whose legs part at the shins, so the case failed on a body it was never
+   * about. An index into a generated file is not a subject.
+   */
+  const bodyNamed = (assetId: string) =>
+    registry.assets.find(
+      (record) => record.asset_id === assetId,
+    ) as CharacterComponentManifestRecord;
+
+  it("reproduces a normalized body's bytes without touching its source", async () => {
+    const admitted = bodyNamed(
+      "wave_a_average_man_standing_neutral_front_a_v1",
+    );
     const source = path.join(root, admitted.final_path!);
     const before = hashArtFile(source);
     const a = await deriveRuntimeBody(root, admitted, undefined, true);
@@ -35,12 +48,54 @@ describe("Wave A wardrobe derivation", () => {
       runtimeBodyRecord(a, hashArtFile(path.join(root, a.repositoryPath))),
     ).toEqual(wardrobe.assets.find((r) => r.asset_id === a.assetId));
     expect(hashArtFile(source)).toBe(before);
-    const spec = PG_COMPONENT_SPECS.find(
-      (spec) => spec.idStem === "pg_top_001_short_sleeve_crew_tee",
-    )!;
-    await expect(deriveGarment(root, spec, a, 1)).rejects.toThrow(
-      "requires enlargement",
+  });
+
+  /**
+   * The two halves of the enlargement rule, which are easy to confuse.
+   *
+   * Nothing is ever enlarged. But a pairing that WOULD need enlarging can
+   * already exist in the bank as a retained historical output, and for those
+   * the writer verifies the banked hash instead of making new pixels. So the
+   * same garment on the same-sized body is a pass on one body and a refusal on
+   * another, and the discriminator is whether a retained output exists — not
+   * the size. Both halves are asserted, because an unconditional refusal here
+   * is what stopped this pipeline from being runnable at all.
+   */
+  const crewTee = PG_COMPONENT_SPECS.find(
+    (spec) => spec.idStem === "pg_top_001_short_sleeve_crew_tee",
+  )!;
+
+  it("verifies a retained enlarged garment rather than remaking it", async () => {
+    const body = await deriveRuntimeBody(
+      root,
+      bodyNamed("wave_a_average_man_standing_neutral_front_a_v1"),
+      undefined,
+      true,
     );
+    const garment = await deriveGarment(
+      root,
+      crewTee,
+      body,
+      1,
+      undefined,
+      true,
+    );
+    expect(garment.scaleX > 1 || garment.scaleY > 1).toBe(true);
+    expect(
+      wardrobe.assets.some((record) => record.asset_id === garment.assetId),
+    ).toBe(true);
+  });
+
+  it("refuses an enlarged garment that was never banked", async () => {
+    const body = await deriveRuntimeBody(
+      root,
+      bodyNamed("ocd_body_adult_fem_standing_neutral_a_v1"),
+      undefined,
+      true,
+    );
+    await expect(
+      deriveGarment(root, crewTee, body, 1, undefined, true),
+    ).rejects.toThrow("does not enlarge a raster");
   });
 
   it("check mode rejects corrupt or missing output without rewriting it", async () => {
@@ -65,7 +120,7 @@ describe("Wave A wardrobe derivation", () => {
   });
 
   it("retains all derivatives as candidates and refuses cross-viewpoint lower garments", () => {
-    expect(wardrobe.assets).toHaveLength(80);
+    expect(wardrobe.assets).toHaveLength(89);
     for (const asset of wardrobe.assets) {
       expect(asset.runtime_release_status).toBe("unreleased");
       expect(asset.asset_type).toBe("character-component-candidate");
@@ -78,6 +133,19 @@ describe("Wave A wardrobe derivation", () => {
     expect(
       kindsForPose("seated-guest-neutral").refused.map((r) => r.kind),
     ).toEqual(["bottom", "footwear"]);
+    // A seated body turned away from square keeps its shirt off too: a flat
+    // lay drawn for a torso square to camera has no side seam to give a torso
+    // that shows one. Asserted as the contract, because the turned bodies are
+    // separately blocked by size today and a larger master must not quietly
+    // start fitting square clothes to turned people.
+    expect(kindsForPose("seated-guest-three-quarter-right").allowed).toEqual(
+      [],
+    );
+    expect(
+      kindsForPose("seated-guest-three-quarter-right").refused.map(
+        (r) => r.kind,
+      ),
+    ).toEqual(["top", "bottom", "footwear"]);
     expect(report.summary.within_bound).toBe(0);
     expect(report.max_edge_error_fraction).toBe(0.03);
     // Recovered defect, not a waived generation bound: 49 retained historical
@@ -87,6 +155,37 @@ describe("Wave A wardrobe derivation", () => {
         (garment) => garment.scale_x > 1 || garment.scale_y > 1,
       ),
     ).toHaveLength(49);
+  });
+
+  /**
+   * Every admitted body is accounted for, either derived or named as not.
+   *
+   * The point is the arithmetic rather than the four. A body that produced no
+   * runtime form used to abort the whole run; it now does not, and the hazard
+   * that replaces the crash is a body quietly going missing. So the two lists
+   * are required to cover the registry exactly: a body in neither would be one
+   * that disappeared, and this is the assertion that would catch it.
+   */
+  it("accounts for every admitted body, derived or refused by name", () => {
+    const derived = new Set(
+      report.bodies.map((body) => body.admitted_asset_id),
+    );
+    const underived = new Set(
+      report.bodies_underived.map((body) => body.assetId),
+    );
+    for (const record of registry.assets) {
+      expect(
+        derived.has(record.asset_id) || underived.has(record.asset_id),
+        record.asset_id,
+      ).toBe(true);
+    }
+    expect(derived.size + underived.size).toBe(registry.assets.length);
+    // Stated, so the loop below cannot pass by having nothing to iterate.
+    expect(derived.size).toBe(18);
+    expect(underived.size).toBe(4);
+    for (const body of report.bodies_underived) {
+      expect(body.reason).toMatch(/ankle band|leg split|hip band/);
+    }
   });
 });
 

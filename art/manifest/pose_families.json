@@ -376,6 +376,133 @@
       }
     },
     {
+      "pose_family_id": "seated-guest-three-quarter-right",
+      "label": "Seated, guest chair, three-quarter right",
+      "intent": "Ordinary chair seating for meetings and interviews, the figure turned toward the viewer's right, hands resting naturally on the thighs, supported by an invisible chair. No furniture in the body art. This is seated-guest-neutral seen from a turned viewpoint, not a different posture.",
+      "priority": "P1",
+      "posture_class": "seated",
+      "facing": "three-quarter-right",
+      "nominal_canvas": {
+        "width": 1530,
+        "height": 2048
+      },
+      "master_minimum": {
+        "width": 1530,
+        "height": 2048
+      },
+      "root": {
+        "x": 0.5,
+        "y": 0.62
+      },
+      "contacts": {
+        "seatedPelvis": {
+          "x": 0.5,
+          "y": 0.62
+        },
+        "leftFoot": {
+          "x": 0.393,
+          "y": 0.975
+        },
+        "rightFoot": {
+          "x": 0.607,
+          "y": 0.975
+        }
+      },
+      "contact_tolerance": 0.035,
+      "landmarks": {
+        "head": {
+          "x": 0.5,
+          "y": 0.145
+        },
+        "neck": {
+          "x": 0.5,
+          "y": 0.2
+        },
+        "chest": {
+          "x": 0.5,
+          "y": 0.303
+        },
+        "shoulder-left": {
+          "x": 0.275,
+          "y": 0.197
+        },
+        "shoulder-right": {
+          "x": 0.725,
+          "y": 0.197
+        },
+        "elbow-left": {
+          "x": 0.258,
+          "y": 0.44
+        },
+        "elbow-right": {
+          "x": 0.742,
+          "y": 0.44
+        },
+        "wrist-left": {
+          "x": 0.336,
+          "y": 0.61
+        },
+        "wrist-right": {
+          "x": 0.664,
+          "y": 0.61
+        },
+        "hand-left": {
+          "x": 0.373,
+          "y": 0.645
+        },
+        "hand-right": {
+          "x": 0.627,
+          "y": 0.645
+        },
+        "pelvis": {
+          "x": 0.5,
+          "y": 0.62
+        },
+        "hip-left": {
+          "x": 0.325,
+          "y": 0.612
+        },
+        "hip-right": {
+          "x": 0.675,
+          "y": 0.612
+        },
+        "knee-left": {
+          "x": 0.401,
+          "y": 0.736
+        },
+        "knee-right": {
+          "x": 0.599,
+          "y": 0.736
+        },
+        "ankle-left": {
+          "x": 0.401,
+          "y": 0.939
+        },
+        "ankle-right": {
+          "x": 0.599,
+          "y": 0.939
+        }
+      },
+      "compatible_body_families": [],
+      "garment_pose_family": "seated-guest-three-quarter-right",
+      "required_footwear_state": "shoes-visible",
+      "prop_attachment_slots": ["hand-left", "hand-right"],
+      "production_status": "pending-generation",
+      "human_qa": "pending",
+      "contact_verification": {
+        "status": "declared-unverified",
+        "reason": "The seat plane and floor line are held unchanged from seated-guest-neutral because a turn about the vertical axis does not move them. The lateral positions are a declared derivation, not a measurement, and become measured-from-art only after intake measures a real three-quarter raster."
+      },
+      "provenance": {
+        "derived_from": "Derived from seated-guest-neutral by turning the figure about its vertical axis toward the viewer's right. Every landmark and foot contact keeps its height and has its horizontal offset from the midline multiplied by 0.82, the lateral foreshortening of an approximately 35 degree turn; the seated pelvis, the seat plane and the floor line are held fixed so both seated guest poses share one seat height. No landmark here is measured from art.",
+        "generation_authority": "PG_PEOPLE_FACTORY_v4_PRODUCTION.json (Drive 1Uf6MaQg6YFsuFKNhZjIulvJy0e2fhdjJ), RUN - 4 Clean Pose Sprites"
+      },
+      "control_plate": {
+        "path": "art/pose-control-plates/seated-guest-three-quarter-right__three-quarter-right.svg",
+        "hash": "67ca29c3f8400b2fafb2884895335b6cb8f20132589302cb98fdc431ad825ee3"
+      }
+    },
+    {
       "pose_family_id": "seated-at-desk",
       "label": "Seated, desk work",
       "intent": "Office and desk posture with the forearms carried forward for work at an invisible desk. Hands in a neutral work or rest state; no desk and no chair in the body art.",
@@ -747,5 +874,6 @@
         "hash": "b3975a3477b8dc38d75b59f556db89bb9b298d525563f00acb37b1cca4ea3023"
       }
     }
-  ]
+  ],
+  "facing_convention": "Facings name the direction the figure is turned, and the direction is fixed by the project's own prior usage rather than asserted here: art/qa/p71/source_intake_dispositions.json calls ocd_body_adult_fem_seated_guest_three_quarter_v1 'three-quarter right' and ocd_body_adult_fem_seated_conversational_left_v1 'three-quarter left', and those two plates are mirror images of each other. Any new plate is labelled by matching one of those two, not by reasoning about left and right from scratch. The wave-a turned seated crops match the 'right' one."
 }

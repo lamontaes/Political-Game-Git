@@ -1,12 +1,26 @@
 {
-  "requestVersion": "research-request/v1",
-  "questionId": "legislative-caucus-and-coalition-formation",
-  "title": "How caucuses and voting blocs form and hold inside an American legislature",
-  "question": "Inside a chamber, what makes a group of legislators become a named standing caucus or a durable voting bloc rather than a one-bill alliance — who convenes it, what holds it together between votes, what makes a member leave, and how often does a bloc vote against its own party?",
-  "whyItMatters": "The owner asked specifically for a chamber view where he could pick out the Squad and the Tea Party. Party membership and chamber caucus organizations exist and are counted, and party splits and foundings are modelled, but there is no standing group inside a chamber at all and no bloc or wing concept anywhere in the code. Without one there is nothing for that view to show beyond two party totals, and a chamber of several hundred members reads as two blocks of identical people.",
+  "answer": {
+    "summary": "legislative-caucus-and-coalition-formation: formal caucus, issue coalition, committee membership and a one-bill agreement are distinct. A cross-party agreement need not change party affiliation. Record real interests/conditions/commitments and revisit affected commitments after amendment. No fixed agreeable-reply count creates a faction; no new frequency study required for the basic connection.",
+    "sources": [
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C17, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:58:00.000Z",
+    "stillOpen": "\"no new frequency study required for the basic connection.\"\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
+  },
+  "filedAt": "2026-09-22T05:00:06.000Z",
   "impact": "shapes-design",
   "lane": "governing and legislative",
-  "usableAnswer": "An account of how such a group comes into being and what sustains it, in terms the simulation can observe — repeated shared positions, a convening member, a public statement of purpose, a shared constituency type. Plus roughly how many such groups a chamber carries at once, how large they run, and how long they last.",
+  "notes": [
+    "State legislatures are the case that matters most here and are the less documented one. Where the answer is drawn from Congress because the state evidence is thin, say so.",
+    "Real named groups are useful as the shape to aim at, but the game generates its own people and parties, so what is wanted is how such a group comes about rather than a roster of existing ones."
+  ],
+  "priority": "P1",
+  "question": "Inside a chamber, what makes a group of legislators become a named standing caucus or a durable voting bloc rather than a one-bill alliance — who convenes it, what holds it together between votes, what makes a member leave, and how often does a bloc vote against its own party?",
+  "questionId": "legislative-caucus-and-coalition-formation",
+  "relatedQuestionIds": ["policy-issue-taxonomy-state-and-local"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "research audit thread (technical team lead)",
   "sourcesChecked": [
     {
       "source": "src/simulation/living-world/congress.ts lines 104-112 and 339-378 on main at 273fd2b8",
@@ -25,12 +39,7 @@
       "whatItDidNotSettle": "Finds no module for any of them. Cross-party agreement is modelled per bill in the bargaining code and does not persist past the vote."
     }
   ],
-  "requestedBy": "research audit thread (technical team lead)",
-  "filedAt": "2026-09-22T05:00:06.000Z",
-  "priority": "P1",
-  "notes": [
-    "State legislatures are the case that matters most here and are the less documented one. Where the answer is drawn from Congress because the state evidence is thin, say so.",
-    "Real named groups are useful as the shape to aim at, but the game generates its own people and parties, so what is wanted is how such a group comes about rather than a roster of existing ones."
-  ],
-  "relatedQuestionIds": ["policy-issue-taxonomy-state-and-local"]
+  "title": "How caucuses and voting blocs form and hold inside an American legislature",
+  "usableAnswer": "An account of how such a group comes into being and what sustains it, in terms the simulation can observe — repeated shared positions, a convening member, a public statement of purpose, a shared constituency type. Plus roughly how many such groups a chamber carries at once, how large they run, and how long they last.",
+  "whyItMatters": "The owner asked specifically for a chamber view where he could pick out the Squad and the Tea Party. Party membership and chamber caucus organizations exist and are counted, and party splits and foundings are modelled, but there is no standing group inside a chamber at all and no bloc or wing concept anywhere in the code. Without one there is nothing for that view to show beyond two party totals, and a chamber of several hundred members reads as two blocks of identical people."
 }

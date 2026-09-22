@@ -93,34 +93,34 @@ const sha256 = (text: string) =>
  * legacy opening PATH, not save compatibility, and it moves whenever shipped
  * content does. LEGACY_OPENING_SHAPE below is the part that should not move.
  *
+ * RE-ACCEPTED AGAIN 2026-09-22, for the policy positions pack: sixty-six
+ * propositions and fourteen principles where the catalog had questions nobody
+ * could take a side on. This is the predicted movement, not a new one — the
+ * note above says these hashes move whenever shipped content does — and it is
+ * a decision on the same evidence as before, because LEGACY_OPENING_SHAPE
+ * PASSED unchanged on the run that moved these. That is the whole point of
+ * having both: the field these hashes moved on is the one the shape strips.
+ *
  * RE-ACCEPTED AGAIN 2026-09-22, and this time LEGACY_OPENING_SHAPE moves too,
  * which by the paragraph above means the opening path really is behaving
  * differently. It is, deliberately: a generated person's given name is now
  * drawn from the pool that agrees with the gender the world already gave them,
  * so a generated name can move whether or not it was previously wrong — the
- * draw is over a smaller pool, not only a corrected one. `legacySetup` spreads
- * today's defaults and deletes the versioned fields that exist to make an old
- * descriptor replay; `givenNameGenerationVersion` is deliberately NOT one of
- * them here, because this fixture is today's new game minus an opening
- * version, and today's new game declares the repair.
+ * draw is over a smaller pool, not only a corrected one.
  *
- * Measured rather than assumed. The legacy Kentucky opening was serialized on
- * `origin/main` at 55183d37 and on this head and compared leaf by leaf: 21
- * leaves differ in the whole world and no others.
+ * Measured rather than assumed. Both legacy openings were serialized on
+ * `origin/main` at e468700f and on this head and compared leaf by leaf. In
+ * each of Kentucky (544 people) and Peebles (542), the same people and ids,
+ * and exactly 21 leaves differ:
  *
- *   - 5 `givenName` values, of 544 people;
+ *   - 5 `givenName` values;
  *   - 15 `establishedFacts[].summary` strings, every one of which becomes
  *     identical after substituting that person's old given name for their new
  *     one — 0 summaries are unexplained by the name alone;
  *   - `snapshotId`, which is a digest of the world and moves with it.
  *
- * Four of the five were the defect itself: a "Jeremiah" and an "Austin" both
- * recorded female, now Monique and Jenna, and two more alongside them. The
- * fifth, Mason to Gage, was male and stayed male; it moved because the pool
- * narrowed. Nothing else differs — no person id, birth date, family name,
- * identity, jurisdiction, organization, event or history structure, and
- * `worldId` is unchanged. A move here for any other reason is still a
- * regression.
+ * 0 identities changed and `worldId` is unchanged. A move here for any other
+ * reason is still a regression.
  *
  * RE-ACCEPTED AGAIN the same day, for the shared-name rule
  * (`GIVEN_NAME_POOL_REACH_V1`): a stated man or woman can now also be given
@@ -131,8 +131,8 @@ const sha256 = (text: string) =>
  * Peebles: 3 given names and 9 summaries, plus `snapshotId`. 0 unexplained.
  */
 const FED321F7_LEGACY = {
-  kentucky: "7ecf6924fb6a9451f63be38669c06c9e9a598b16f199739b344c403b8a59e3e2",
-  peebles: "1dc306e0694eec4e8f4fbdf5da3a8c4e781e7ff869a73eec57d6650bc2e7789c",
+  kentucky: "be46a2596f2bb4af4003a11641e66280dd024e9467337fcb139c6359db103f2e",
+  peebles: "823371a31413d036082559278af1558bd7238513aa1afde327b1394fa2eed3bc",
 } as const;
 
 /**

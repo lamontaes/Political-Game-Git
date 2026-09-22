@@ -74,6 +74,7 @@ export function recordGovernorCandidacyIntent(
       readonly displayName: string;
     };
     readonly year: number;
+    readonly stateJurisdictionId: EntityId;
     readonly incumbentPersonId: EntityId | null;
     readonly seeking: boolean;
     readonly reason: string;
@@ -87,8 +88,13 @@ export function recordGovernorCandidacyIntent(
     type: GOVERNOR_INTENT_EVENT,
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
-    jurisdictionId: null,
-    involvedEntityIds: input.incumbentPersonId ? [input.incumbentPersonId] : [],
+    jurisdictionId: input.stateJurisdictionId,
+    // An office with nobody in it still has a state whose office it is. Naming
+    // the jurisdiction keeps the record about something when the seat is
+    // vacant, which is exactly when the reason below is worth recording.
+    involvedEntityIds: input.incumbentPersonId
+      ? [input.incumbentPersonId]
+      : [input.stateJurisdictionId],
     participants: input.incumbentPersonId
       ? [
           {
@@ -157,9 +163,15 @@ function openRegularContest(
   const challengers = incumbentRuns ? 1 : 2;
   // Standing again is a decision of its own, recorded before the contest and
   // separate from both its result and taking office.
-  let next = recordGovernorCandidacyIntent(world, {
+  // The state jurisdiction is established before the intent is recorded: a
+  // vacant office has no person to name, and the record still has to be about
+  // the state whose office it is.
+  const withState = ensureStateJurisdiction(world, stateUsps);
+  const stateId = stateJurisdictionForKey(`US-${stateUsps}`)!.id;
+  let next = recordGovernorCandidacyIntent(withState, {
     office,
     year,
+    stateJurisdictionId: stateId,
     incumbentPersonId: incumbent?.id ?? null,
     seeking: incumbentRuns,
     reason:
@@ -169,8 +181,6 @@ function openRegularContest(
           ? "they cannot or will not stand again under this game profile."
           : "they are standing down.",
   });
-  next = ensureStateJurisdiction(next, stateUsps);
-  const stateId = stateJurisdictionForKey(`US-${stateUsps}`)!.id;
   const inputs = Array.from({ length: challengers }, (_, index) => {
     const stableKey = `${key}:candidate:${index}`;
     const personRng = rng.fork(stableKey);

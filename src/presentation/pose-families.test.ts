@@ -16,6 +16,7 @@ import {
 import {
   createPoseFamilyRegistry,
   indexPoseArt,
+  NEAR_TERM_POSE_FACINGS,
   reportPoseCoverage,
   requirePoseFamily,
   resolvePoseForRequest,
@@ -55,7 +56,7 @@ describe("pose family registry", () => {
     expect(validatePoseFamilyRegistry(data, records)).toEqual([]);
   });
 
-  it("registers the four P0 families and no unfinished vocabulary", () => {
+  it("registers the four P0 families and only near-term facings", () => {
     const p0 = [...registry.families.values()]
       .filter((family) => family.priority === "P0")
       .map((family) => family.pose_family_id)
@@ -66,8 +67,14 @@ describe("pose family registry", () => {
       "standing-conversational",
       "standing-neutral",
     ]);
+    // Facing is part of a family's identity, not something the registry is
+    // allowed to assume. Every family here used to be front-facing, and that
+    // unwritten assumption is what stranded six propless seated three-quarter
+    // crops with no family to be admitted under. What the registry actually
+    // owes is that a declared facing is one the project has committed to
+    // producing; the registry is otherwise free to carry a turned family.
     for (const family of registry.families.values()) {
-      expect(family.facing).toBe("front");
+      expect(NEAR_TERM_POSE_FACINGS).toContain(family.facing);
     }
   });
 

@@ -1,0 +1,244 @@
+{
+  "version": "depth1-receiving-v1",
+  "sourceHead": "4965f63c41fe69621c72f47725c0d2914257f3ea",
+  "evidenceStatus": "read-source-and-research-not-production-test",
+  "answers": [
+    {
+      "requestId": "what-the-simulated-people-are-a-sample-of",
+      "title": "One population, two resolutions",
+      "status": "resolved-design-implementation-needed",
+      "receivingOwner": "existing world/population + people + economy/elections owners",
+      "answer": "Use one population with two levels of detail, not a weighted cast versus decorative scenery. Named residents are individually tracked members; aggregate cohorts carry the remaining residents. For each non-overlapping geographical cell, total residents = tracked residents + residual residents. Detailing an existing resident transfers one from residual to tracked, without changing total, employment, money, household demand or possible ballots. A genuine birth, death or move changes the appropriate totals once. A named institutional appointment is not a birth. Apply subgroup attributes consistently when materializing, so selecting a worker also removes that worker from the residual worker count.\n\nThe cast may include independently continuing neighbours, coworkers and community members, not just political vacancies or the player's acquaintances. Store a compact stable individual before deeper elaboration when needed. Population size does not prescribe a linear number of full biographies; select detail by causal relevance and measured performance, with no permanent per-town character cap. Decisions by aggregates must not manufacture a second set of named-person consequences.\n\nStart regional cohorts from sourced compatible reference-period totals and distributions, reconcile correlated attributes rather than multiplying unrelated percentages. PUMS weights concern the sample's statistical representation, not a named fictional character's power. PUMA data is not an exact town address. Keep sourced baseline, simulated current state and published in-game estimates separate. Country/state/county/town totals must avoid overlap: use a canonical disjoint population base and derive views, rather than separately owning the same people at each level.\n\nA contest should eventually use its actual represented electorate: eligible pool under game rules, participation, candidate choices and valid totals. Do not relabel existing basis points as counted people. Cohort counts may implement ballots without simulating each voter, while a tracked person's participation is included only once. Do not calculate national opinion from a convenience sample of senators and acquaintances. The existing campaign-curve hold is not reopened by this population answer; record its bridge as a separate integration dependency.",
+      "acceptance": "Materialize 100 pre-existing residents: totals and control-world output remain unchanged. Move one resident: origin -1 and destination +1, national net zero. Birth/death change exactly one count. Named voter extracted from a cohort is not an additional ballot. Cross-place comparison uses fixed geography/version.",
+      "sourceIds": [
+        "current-queue",
+        "census-weights",
+        "census-puma",
+        "census-docs"
+      ]
+    },
+    {
+      "requestId": "nobody-is-changed-by-what-happens",
+      "title": "Connect the full belief input, not an empty function call",
+      "status": "resolved-connection-implementation-needed",
+      "receivingOwner": "existing policy + people/beliefs + news/event owners",
+      "answer": "(1) Put fictional policy propositions in the existing authored-fiction pack form, referring to existing sourced issue keys. A policy vocabulary source is not evidence that a fictional proposal was enacted. Do not import the synthetic demo as production content or disable the production boundary. Preserve the current useful issue IDs while the earlier 14-domain/13-domain crosswalk is received.\n\n(2) First live occasion: a person legitimately encounters a concrete proposal through a conversation, a report, an office briefing or their experience of a supported operative policy. Record what they actually learned; connect relevant existing goals, values, appraisals, expertise and earlier views to the proposal. The evaluator receives these source-linked factors. Current source defaults to a moderate no-opinion consideration: an empty scheduled call does not supply personally meaningful reasons. A scheduler and one proposition row alone are insufficient for depth.\n\n(3) Go THROUGH evaluatePoliticalBeliefFormation and applyNpcPoliticalBeliefFormation for NPCs. They already validate sources and persist a decision trace. The outcome can be no-opinion, defer, conflicted, tentative or settled support/opposition. Initial weak/secondhand evidence should normally be capable of tentative or unresolved results, not require a position. Conviction is not salience and neither is inflexibility.\n\nUse a stable actor + proposition/selected proposal revision + new-evidence identity. Duplicate headlines and opening the Journal are not new evidence. Reconsider when new relevant facts, commitments or experience arrive; do not repeatedly reroll an unchanged issue until support appears. Private belief stays private; public declaration, promise and vote each have their own existing act. Never apply the NPC writer to the controlled player; give the player an explicit view/statement choice. Broad proposition-family preference is not unconditional agreement to every amount, target or exemption in a specific bill. Version/bind the actual proposal context before a consumer uses it to infer a bill-level position.",
+      "acceptance": "In an ordinary generated world, two differently situated NPCs encounter the same valid proposal and receive inspectable different factors; either may remain uncertain. An unexposed control knows nothing new. Re-reading the same article adds no second persuasion event. A change of material bill terms causes explicit reassessment, not reuse of an unrelated broad view.",
+      "sourceIds": [
+        "code-beliefs",
+        "code-policy-pack",
+        "code-policy",
+        "code-vocabulary",
+        "current-queue"
+      ]
+    },
+    {
+      "requestId": "where-a-persons-politics-comes-from",
+      "title": "People have reasons before the party label",
+      "status": "resolved-design-implementation-needed",
+      "receivingOwner": "existing people/beliefs + party/electorate owners",
+      "answer": "Do not target or repair the reported 48% unaffiliated figure by assigning everyone a party. Separate unknown affiliation, deliberate independence, party sympathy, organizational membership and any jurisdiction-specific registration. Missing producer coverage is a defect; a genuine independent is not.\n\nActual goals, values, relevant information and lived consequences are primary inputs to a person's issue positions. Family and social history can supply known cues and identification, but not compulsory inherited beliefs. Temperament chiefly influences attention, confidence, openness, approach and expression, not a left/right lookup. Parties offer current platform positions, leadership and activity that people can know and evaluate; party labels must not directly overwrite an individual's views.\n\nFor generated adults, produce a coherent prior social/political history where supported rather than wait until their profile is opened. People can remain disengaged; awareness and affiliations can develop at different life stages. For changes, distinguish an issue disagreement, a changed leaning, a formal departure and joining a rival. New parties grow when people actually hear of them, see a reason to engage and choose to join or help; no automatic recruits per elapsed week. Shared workplace or local conditions can create different appraisals, not demographic unanimity.\n\nExample is a test situation, not a fixed character: a thirty-year-old worker hears a colleague's proposal after their schedule changes. Their income needs, existing views, trust in the source and knowledge of the terms are relevant. They might support the proposal while staying with their current party, change their party leaning, or reject the claim. The result must be traceable to those inputs rather than a seeded stance selected solely from their ID.",
+      "acceptance": "Hold party fixed and vary meaningful knowledge/goals: an actor can differ on a proposal. Hold actor/state fixed and reopen the screen: no reroll. A known new party can recruit through a real invitation and consent while an unexposed control does not silently join. Independent remains an allowed explicit state.",
+      "sourceIds": [
+        "code-beliefs",
+        "current-queue"
+      ]
+    },
+    {
+      "requestId": "what-moves-a-relationship",
+      "title": "Conduct changes the relationship; no click counter",
+      "status": "resolved-design-with-labelled-test-rubric",
+      "receivingOwner": "existing people/relationships + ordinary work/content owners",
+      "answer": "Replace the single closeness sum as the authoritative interpretation with the already approved actor-specific warmth, trust, respect, commitment and unresolved tension over the existing interaction/appraisal history. The current source treats most maintained interactions as positive, adds 1/2/3 and declares close at 3; conflict-prefixed records are negative regardless of a more nuanced outcome. These rules also feed whether a person is close to someone affected by an event. This is a consequential reader connection, not cosmetic labeling.\n\nRecord intent, attempt and fulfillment separately. Agreeing to help creates a commitment and may affect anticipation; delivering meaningful help supplies evidence about reliance. A competent result can increase respect without friendship. A disagreement can preserve affection, a breach can reduce trust without destroying shared history, and an apology need not restore what it acknowledges. Do not use the namespace alone to decide direction: a successful conflict resolution is not automatically harm.\n\nA normal refusal is a recorded response, not automatically a grievance or punishment. A witnessed contemptuous rejection or refusal violating an actual duty can be appraised differently. Reserved people may prefer different encounter forms or initiate less often; they are not assigned worse relationship quality. Conciliatory people can choose repair without consenting to abuse; confrontational people can maintain loyal friendships. A long gap changes context and possible expectations, not an automatic affection tax. End contact/partnership with a real action or event; do not erase knowing someone.\n\nThe supplied conduct rubric gives qualitative direction and illustrative bounded contribution ranges for private test only. These are weights of evidence on separate interpretations, not emotional measurements or thresholds that promise friendship after N actions. Evidence deduplicates by the underlying encounter/obligation and acknowledges magnitude, stakes, consent, alternatives and actor interpretation. Test whether ordinary interactions can sustain an actual friendship over time without grinding.",
+      "acceptance": "Three greetings do not establish enduring trust or closeness. One significant fulfilled obligation is distinguishable from three promises. A recorded refusal survives as a response without a compulsory penalty. A repair interaction can reduce tension without erasing the breach. Ten idle years do not apply an affection tax.",
+      "sourceIds": [
+        "code-relationships",
+        "code-trait-pack",
+        "current-queue",
+        "prior-personality"
+      ]
+    },
+    {
+      "requestId": "ordinary-life-trait-set",
+      "title": "Use the researched breadth across settings",
+      "status": "resolved-reuse-and-connection",
+      "receivingOwner": "existing people/trait and legislative decision owners",
+      "answer": "Retain the five underlying temperament dimensions. The previously delivered 121-candidate, 14-family catalogue is the research vocabulary; do not replace it with another arbitrary ceiling or silently make all 121 separate latent axes. Several named descriptors can be meaningful combinations or distinct additional tendencies. Skills, interests, temporary feelings and goals remain separately meaningful attributes of the same person.\n\nImplement families in complete behavioral groups rather than all labels before any effect. Every added descriptor needs at least a clear meaning and nearest-neighbor distinction, a supported decision effect, an expression effect, a context where it should not matter, and interaction with other traits. 'Studious' is effort in acquiring knowledge, not knowledge granted at generation; 'cocky' is not competence; 'brazen' is not every kind of risk.\n\nThe inspected people-mind pack explicitly admits only life:ordinary scope. Extend the appropriate shared trait registration and existing decision adapters so the same person's traits can inform workplace, civic and governing contexts. Do not create a second legislative personality to replace their ordinary identity or bypass scoped admission accidentally. Scope controls relevance, not the existence of a different person in each room. No trait guarantees another person's agreement.",
+      "acceptance": "Follow one person from a work conversation to a public-role negotiation: identity and trait evidence stay the same, with context-specific goals/authority and different relevant considerations. A trait without a supported consumer is reported as unconnected, not counted as finished depth.",
+      "sourceIds": [
+        "code-trait-pack",
+        "prior-personality",
+        "code-beliefs"
+      ]
+    },
+    {
+      "requestId": "person-starting-trait-count",
+      "title": "Small visible starting profile, not a small personality",
+      "status": "resolved-labelled-private-baseline",
+      "receivingOwner": "existing people/character setup owners",
+      "answer": "Keep the owner's one-or-two salient starting descriptors as the working adult baseline. For the first private comparison use a 50/50 one-versus-two draw; this is explicitly authored calibration, not a measured human distribution or an owner-selected exact percentage. It applies to salient descriptors, not deletion/zeroing of the five underlying dimensions. Existing meaningful generated traits are not discarded to satisfy a display budget.\n\nUse the same underlying generation policy for NPCs and the player. The player can confirm/change/skip their suggested profile; observers see only justified impressions about others. Age informs plausible experiences and the evidence behind a disposition, not a fixed birthday that awards another trait. No automatic lifelong maximum, no count that rises every time another memory is written. Adding later nuance can mean clearer recognition of existing character as well as actual development. Strong adult moral/role labels should not be assigned to young children simply to fill two slots.",
+      "acceptance": "Generate adults with one/two salient descriptors while other represented dimensions remain available; verify same seed and version repeat. No automatic extra trait after a birthday or ten events. Observer card does not show unknown latent descriptors.",
+      "sourceIds": [
+        "code-trait-pack",
+        "prior-personality",
+        "current-queue"
+      ]
+    },
+    {
+      "requestId": "trait-prevalence-across-a-population",
+      "title": "Separate authored sampling from human prevalence",
+      "status": "resolved-private-calibration-not-empirical",
+      "receivingOwner": "existing people/trait generation owner",
+      "answer": "No source in the existing game/mod research measures real-world prevalence of these 121 authored labels. Do not pretend that it does. The accompanying family sampling profile is a versioned private-playtest baseline, with a seed-repeatable one/two-descriptor experiment and its measured artificial output.\n\nSelect eligible descriptor families by the supplied weights for each initial slot, then choose distinct, genuinely distinguishable supported descriptors. Two compatible traits in the same family remain possible; organizational families are not exclusion rules. This prevents families with more synonyms from gaining frequency merely because they have more rows. Family selection and trait intensity are different. Extreme disruptive traits may have explicit lower authored weights within their family; do not infer crime, competence, honesty or politics from demographic identity. Circumstances may affect exposure, role selection and the expression of traits, not retroactively rewrite a person's personality to match a job title.\n\nThese are not neighbourhood quotas. Do not ensure exactly N vindictive people in every town. A different seed can yield a different mixture, and particular social networks can be nonrepresentative. Compare the cast a player meets with the larger simulated cohort before concluding that a cluster is a nationwide prevalence claim. The 14 families are organizational categories, not mutually exclusive kinds of human.",
+      "acceptance": "Adding ten prose variants/synonyms does not change family frequency. Artificial sample counts are labelled as simulated sampling results. Same configuration/seed repeats; unsupported descriptors are excluded visibly without silently making all others equivalent.",
+      "sourceIds": [
+        "prior-personality",
+        "code-trait-pack",
+        "current-queue"
+      ]
+    },
+    {
+      "requestId": "personality-change-bands",
+      "title": "Calibrate with evidence and time, not more permission gates",
+      "status": "resolved-private-test-comparison",
+      "receivingOwner": "existing people/trait-change + playtest owners",
+      "answer": "The old repeated-pressure/permanent-perMove defect is not assumed current: the inspected pack already has bounded pressure, spacing and an unsettled floor. Keep the valid repair. Current settle periods of 8\u201315 years remain authored baseline values, not established psychology. The ordinary trait scale admits moderate and strong; do not silently feed a defining value merely because a movability table has a defining column.\n\nUse two explicit private profiles in a controlled comparison. A is the current pack unchanged. B retains its settledByStrength, floor and pressure cap, but tests 2 years for reliability, 3 for sociability/conflict/risk, and 5 for deliberation; retain existing spacing initially to isolate the change. Settling here is the time for a changed tendency to become established, not the interval until its next change. These alternative years are authored exploration, not empirical rates, not a claim every person changes on a timer, and not an approval to force a fixed hierarchy forever. The owner approved this labelled experiment, not these exact numbers as final production truth.\n\nDo not interpret an episode count as independent evidence: repeated phases/headlines of the same incident share provenance, while distinct events can happen on the same date. Spacing can limit correlated influence; it must not erase the fact that a distinct incident occurred. Immediate grief, confidence, grievance or a changed goal may precede any lasting trait shift. Many everyday situations should change those nearer states instead of rewriting temperament.\n\nRetain persistence/reachability invariants already in the trait tests. Show a faint tendency under sustained evidence and a strong tendency under minor versus genuinely formative experiences. A whole lifetime is not expected to fill a quota of personality changes. Compare what the player experiences, not only whether either profile can pass a test that forces movement.",
+      "acceptance": "Baseline A versus B on the same events/randomness: report when a trait changes, when it does not, and intermediate temporary/relationship/goal consequences. Repeated retries with the same source add no evidence. No automatic change caused solely by a timer completing.",
+      "sourceIds": [
+        "code-trait-pack",
+        "prior-personality",
+        "current-queue"
+      ]
+    },
+    {
+      "requestId": "planning-words-that-became-product-rules",
+      "title": "Assignment history cannot prohibit a game feature",
+      "status": "resolved-authority-existing-owner-to-verify-current-source",
+      "receivingOwner": "existing art/client and coordination owners",
+      "answer": "A work allocation is not a creative prohibition. Distinguish an explicit owner product restriction (with decision reference), a concrete missing dependency, and a temporary live work lease (owner/checkpoint). They cannot share one unexplained string that hides content as history. Old assignment initials, a missing worker plan or a stale worktree do not justify permanent feature gating.\n\nThe queue reports five d-held-people requests hidden by a September 15 allocation. This batch has not independently re-read their current source, so the existing owner verifies the exact current entries before touching them. Generation is not generally closed under current approved art scope. Remove an obsolete assignment hold when confirmed, reconcile each request against already delivered/currently needed work, then return needed work to its real queue; delete genuinely obsolete duplicate requests by existing policy. Do not resurrect completed work or self-approve images. Unknown lease ownership needs explicit coordination, not an automatic product ban or deletion of active work.\n\nApply the same distinction to 'awaiting researched coefficient' after DEPTH1: an adjustable labelled private assumption is now authorized inside settled behavior. The historical lack of a per-number approval cannot keep the whole system disabled. A true creative hold remains meaningful and must not be released by an expired engineering lease.",
+      "acceptance": "Expired/missing assignment owner is distinguishable from a current owner restriction and an actual dependency. Current completed art is not regenerated; still-needed requests are visible. No change to exact human review decisions.",
+      "sourceIds": [
+        "current-queue"
+      ]
+    },
+    {
+      "requestId": "temperament-marks-on-a-person-card",
+      "title": "Readable observed character before eleven symbols",
+      "status": "resolved-design-art-approval-separate",
+      "receivingOwner": "existing people-card/UI and art owners",
+      "answer": "Use plain, prominent, short observed descriptors first. Optional small symbols may reinforce those words, but are not required for the behavior or card to ship and must not become an eleven-icon neutral/pole checklist. Keep the five underlying dimensions, and surface relevant known named traits as breadth arrives. 'Neither, much' need not occupy a dedicated symbol slot; balanced is not unknown, and unknown must not be displayed as balanced.\n\nShow another person's descriptor only when justified by observation or legitimate information, using the existing observed/actual distinction. An early impression can be qualified and later revised. No meter/star/rating that suggests measured reliability. No universal green good/red bad moral classification. However, the text may honestly explain that unreliable follow-through matters for a specific commitment; a no-good-end art constraint does not abolish consequences.\n\nThe requested symbols remain optional candidates for existing art review, not automatic approval or an excuse to delay people depth. Do not put letters/numbers into generated image assets to encode facts; text is rendered by the interface, independent of the asset. These choices change presentation only, not personality-change intensity or the person's underlying traits.",
+      "acceptance": "A new acquaintance shows only an appropriately tentative known impression; repeated card opens reveal nothing new. A later contradiction can revise the impression. Plain text remains fully understandable with symbols absent.",
+      "sourceIds": [
+        "current-queue",
+        "prior-personality"
+      ]
+    },
+    {
+      "requestId": "cheating-covers-all-three",
+      "title": "Three different acts, not one misconduct button",
+      "status": "resolved-abstract-connection-contract",
+      "receivingOwner": "existing life/relationships, education and oversight/election owners",
+      "answer": "Academic cheating: a particular represented assessment or submission breaches its applicable academic rules. An assessor, participant or evidence can expose it; an institution then applies its actual process and disposition. If undiscovered, any recorded result remains a result, but competence/knowledge is not magically created. No requirement to make the player perform routine homework or a how-to cheating minigame.\n\nRomantic infidelity: conduct breaches the relationship's actual agreement, not merely the existence of another friend or a universal marriage flag. Discovery follows witnesses, disclosure or available evidence. Partners may disagree, end or attempt repair; no automatic breakup, omniscient partner, violence or universal reputation penalty. Consent and relationship terms remain specific to the people. This fits broader relationship scope but is not made a prerequisite for the current friendship/career milestone.\n\nElection misconduct: record an abstract prohibited act by a responsible actor under the contest's rules, its evidence and any legitimate inquiry/remedy. Do not supply real-world methods, vulnerabilities or concealment instructions. Suspicion is not guilt; wrongdoing does not automatically reverse an election without the supported adjudication and result-correction route. If unobserved, actors without knowledge do not punish it; actual affected records/resources still follow the underlying act. Use existing history, evidence, press and institutional powers rather than a single 'cheating score'.\n\nAll three separate underlying act, belief about it, allegation, investigation and consequences. An unsuccessful attempt and a successful act differ. A label never becomes proof, and a character trait alone never declares someone guilty.",
+      "acceptance": "For each kind, contrast observed/unobserved and substantiated/unsubstantiated cases. Private consequences do not become universal public knowledge. Same episode cannot apply a penalty once per reader.",
+      "sourceIds": [
+        "current-queue"
+      ]
+    },
+    {
+      "requestId": "how-a-life-begins-and-grows-up",
+      "title": "Family continuity supports the world; friendship/career comes first",
+      "status": "partial-answer-scope-and-core-continuity",
+      "receivingOwner": "existing people/family + population owners",
+      "answer": "Live population growth must include births, deaths and migration, not just new named candidates. That is part of the approved two-level population. Reuse existing family-addition, kinship, household and authority writers for named cases; aggregate demographic events must account for tracked individuals once. Election turnover should preferentially use coherent existing/revealed residents, not make demographic growth a side effect of needing a challenger.\n\nA partnership, household membership, parenthood, caregiving and child authority are different relationships. Parent absence needs a reason where known (nonresident, separated, died, unknown), not a missing row interpreted as abandonment. Ending an adult partnership does not automatically end parenthood, erase contact or assign a child's care to nobody. Unknown is not immoral. Children need age-appropriate available choices and care/education context; sharing the scheduling/history machinery with adults is fine, while adult job/campaign permissions and adult-only content are not.\n\nMutual decision and 'not now' in the existing family-plan shape are compatible with agency. Do not require every birth to come from a formal partnership, nor interpret agreement as an immediate guaranteed child. Broader casual-dating, pregnancy/adoption and parenting content needs the specific implementation scope taken back to the owner when it materially changes the next milestone. This approval prioritizes FRIENDSHIPS and CAREER CHANGES; do not delay those behind a full fertility/courtship model or assume the owner just approved every detailed family design in the queue. Earlier broader accepted scope is not revoked.",
+      "acceptance": "A named person\u2019s move changes household/place, not identity or prior friends. A child retains represented parents/known circumstances through household changes. Population growth does not depend on how many offices/screens are opened. Current priority work can ship without full family simulation.",
+      "sourceIds": [
+        "current-queue",
+        "census-weights"
+      ]
+    },
+    {
+      "requestId": "cross-gender-given-name-rate",
+      "title": "Use name-specific source counts, not a universal crossing percentage",
+      "status": "method-answer-data-compilation-still-needed",
+      "receivingOwner": "existing naming/source owner",
+      "answer": "A single crossing percentage is not supported. Use the source's per-name, birth-year and recorded-sex counts as the factual naming evidence; a name may occur in multiple categories with different frequencies. Names shared across categories are not reserved for nonbinary characters. Never infer a person's gender from their generated or chosen name.\n\nSSA records sex on applications, not a present-day gender-identity distribution; errors and naming changes mean rare cross-category entries cannot be equated automatically to transgender/nonbinary prevalence. Character identity stays an independently recorded input. Any mapping from historical naming evidence to current generated identity is an explicitly authored, editable game rule, with player-name override preserved. Do not call it a measured identity rate.\n\nSuppressed counts below five are not observed zeros. Keep the published record's scope: national files exclude territory births, which have separate products. This batch answers the method, not a compiled numeric table; the data owner should receive actual source counts through the established data path before claiming factual frequency weights.",
+      "acceptance": "A genuinely shared name can be generated for more than one applicable identity; no name read-back changes gender. A suppressed cell is not treated as proven impossibility. Current named characters are not renamed after an importer update.",
+      "sourceIds": [
+        "ssa-names",
+        "current-queue"
+      ]
+    },
+    {
+      "requestId": "given-name-fashion-by-birth-year",
+      "title": "Birth cohorts, not one timeless curated list",
+      "status": "method-answer-data-compilation-still-needed",
+      "receivingOwner": "existing naming/source owner",
+      "answer": "Use a documented release of annual SSA counts to draw plausible birth-cohort names, not a hand-written list of supposedly permissible decades. Adjacent-year smoothing, where chosen to reduce sparsity, is an authored sampling choice and must not invent data or hard-ban a known uncommon historical name. Extend the corpus with actually represented older names rather than merely filtering today's 346-name list. Historical rarity is not an impossibility claim.\n\nSSA states the underlying U.S. births begin after 1879 and coverage before 1937 is incomplete. That limits historical certainty; record it rather than claiming complete 1880-era census coverage. Future birth years use an explicit projected game distribution, not fabricated future SSA observations. Preserve source spellings/normalization notes and the right territory scope. No existing person's name changes as they age, upon a new data release, or when their record becomes more detailed.\n\nThe two naming questions should share one acquisition/compilation rather than two surveys. This is not permission to delay present people/career connections while an exhaustive historical naming catalogue is built.",
+      "acceptance": "Older and younger sampled birth cohorts differ when supported by source counts, without hard decade discontinuities. Same saved person retains their name. No inferred age or gender is read from a name.",
+      "sourceIds": [
+        "ssa-names",
+        "current-queue"
+      ]
+    },
+    {
+      "requestId": "national-range-instrument-for-non-states",
+      "title": "Distinct jurisdiction profiles, shared execution",
+      "status": "resolved-architecture-factual-rows-remain",
+      "receivingOwner": "existing nationwide/government owner",
+      "answer": "Do not infer D.C. or Puerto Rico's institutional topology from a range of states. Use their own recorded structural profiles with the same shared office/term/authority/legislature machinery; a separate profile is not a separate engine. Reuse the banked D.C. evidence. Puerto Rico scope is already approved, but its factual offices/qualification rows still require the separately queued compilation.\n\nAn approved authored game assumption may fill a compatible unresolved parameter inside an accurately identified institution; it cannot manufacture a state governor or a second chamber where there is none. A present-day source-observation timestamp is also not automatically the rule's historical commencement date. Do not let a source-fetch timestamp ban an otherwise approved contemporary game profile. Broader exact PR rules remain unresolved and are not fabricated by this connection answer.",
+      "acceptance": "Topology and action permissions derive from the jurisdiction profile, not membership in a hardcoded 50-state list. Known distinct offices remain distinct. Unsupported factual fields are explicit, while unrelated supported life/government actions continue.",
+      "sourceIds": [
+        "current-queue"
+      ]
+    },
+    {
+      "requestId": "example-county-treasurer-selection",
+      "title": "Remove the schema example from production intake",
+      "status": "not-a-research-assignment",
+      "receivingOwner": "existing source-owned research queue publisher",
+      "answer": "The record explicitly labels itself a worked example for the request schema. Do not commission a 50-state treasurer survey from it. The queue owner should keep examples in example/test documentation rather than publish them as live asks, and remove this example from the active generated queue. If a real implementation later needs a specific selection rule, file that real need with its actual institution and field.",
+      "acceptance": "Generated live queue excludes a clearly marked schema example; genuine current requests remain present.",
+      "sourceIds": [
+        "current-queue"
+      ]
+    }
+  ],
+  "ownerQuestion": {
+    "requestId": "political-violence-what-to-ask-the-owner",
+    "status": "owner-question-prepared-not-resolved",
+    "question": "Should the player be able to initiate or order political violence, or only encounter it and decide how to respond?",
+    "boundary": "Either branch stays abstract and causally grounded. Existing permission for severe world events remains; this question does not decide graphic presentation, exact rates or detailed response powers. No real-world methods are provided."
+  },
+  "remaining": [
+    {
+      "requestId": "political-violence-what-to-ask-the-owner",
+      "status": "owner-question-prepared",
+      "reason": "Player-as-initiator scope still needs the requested owner choice; no new violence-design survey."
+    },
+    {
+      "requestId": "federal-policy-vocabulary-pack",
+      "status": "extensive-input-not-completed-this-batch",
+      "reason": "Federal pack scope remains approved; this batch expands cross-system content specifications, not a sourced complete federal vocabulary."
+    },
+    {
+      "requestId": "puerto-rico-government-and-municipios",
+      "status": "factual-compilation-pending",
+      "reason": "Profile topology answer does not replace actual office/qualification/source rows."
+    },
+    {
+      "requestId": "regional-scene-place-ids",
+      "status": "prior-delivery-recovery-pending",
+      "reason": "Earlier asserted remaining-18 JSON was absent from verified package. No new ID-list completion claimed."
+    },
+    {
+      "requestId": "school-name-plausibility-by-state-and-era",
+      "status": "extensive-distribution-survey-parked",
+      "reason": "No new nationwide proportions/era compilation; not a blocker for substantive life/governing connections."
+    },
+    {
+      "requestId": "ethics-procedure-unread-detail-wy-id-ut",
+      "status": "narrow-procedural-research-parked",
+      "reason": "51-jurisdiction institution survey remains complete at its stated scope; these three details are not certified."
+    }
+  ]
+}

@@ -87,7 +87,14 @@ export const LEGISLATIVE_CLOCK_VERSION = "legislative-clock/v1";
 export const LEGISLATIVE_INSTITUTION_STEP =
   "legislature:institution-step" as const;
 
-/** PROPOSED balance parameter, pending the director's confirmation. */
+/**
+ * PROVISIONAL, and awaiting SOURCED RULES rather than anyone's sign-off.
+ * lamontae declined to confirm these as game numbers on 2026-09-22 — "defer to
+ * realistic rules", "no hardcoding" — so the question is what actually governs
+ * the interval between steps and where it varies, filed as
+ * legislative-step-pacing-and-veto-override. A better constant does not settle
+ * it; a rule the code can read per jurisdiction does.
+ */
 export const LEGISLATIVE_CADENCE_PROFILE = {
   id: "ocd-legislative-cadence/v1",
   /** Days between one institutional step and the next. */

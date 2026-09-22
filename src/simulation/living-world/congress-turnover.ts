@@ -49,7 +49,11 @@ import {
 
 export const CONGRESS_TURNOVER_VERSION = "congress-turnover/v1";
 
-/** PROPOSED balance parameters, pending the director's confirmation. */
+/**
+ * PROVISIONAL, and awaiting SOURCED RATES rather than anyone's sign-off. The
+ * election day below is sourced to 2 U.S.C. section 7; none of these four is
+ * sourced to anything. Filed as executive-terms-and-incumbency-turnover.
+ */
 export const CONGRESS_TURNOVER_PROFILE = {
   id: "ocd-congress-turnover-game-profile/v1",
   /** Chance an incumbent runs again and wins, per mille. */
