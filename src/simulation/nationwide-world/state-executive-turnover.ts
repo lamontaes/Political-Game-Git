@@ -74,6 +74,8 @@ export function recordGovernorCandidacyIntent(
       readonly displayName: string;
     };
     readonly year: number;
+    /** The state the office belongs to; the record's subject when the seat is empty. */
+    readonly jurisdictionId: EntityId;
     readonly incumbentPersonId: EntityId | null;
     readonly seeking: boolean;
     readonly reason: string;
@@ -87,8 +89,12 @@ export function recordGovernorCandidacyIntent(
     type: GOVERNOR_INTENT_EVENT,
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
-    jurisdictionId: null,
-    involvedEntityIds: input.incumbentPersonId ? [input.incumbentPersonId] : [],
+    jurisdictionId: input.jurisdictionId,
+    // A seat nobody holds still belongs to a state, and that state is who the
+    // decision not to stand is about.
+    involvedEntityIds: input.incumbentPersonId
+      ? [input.incumbentPersonId]
+      : [input.jurisdictionId],
     participants: input.incumbentPersonId
       ? [
           {
@@ -155,11 +161,14 @@ function openRegularContest(
     eligible &&
     rng.integer(0, 1000) < GOVERNOR_TURNOVER_PROFILE.incumbentRunsPermille;
   const challengers = incumbentRuns ? 1 : 2;
+  let next = ensureStateJurisdiction(world, stateUsps);
+  const stateId = stateJurisdictionForKey(`US-${stateUsps}`)!.id;
   // Standing again is a decision of its own, recorded before the contest and
   // separate from both its result and taking office.
-  let next = recordGovernorCandidacyIntent(world, {
+  next = recordGovernorCandidacyIntent(next, {
     office,
     year,
+    jurisdictionId: stateId,
     incumbentPersonId: incumbent?.id ?? null,
     seeking: incumbentRuns,
     reason:
@@ -169,8 +178,6 @@ function openRegularContest(
           ? "they cannot or will not stand again under this game profile."
           : "they are standing down.",
   });
-  next = ensureStateJurisdiction(next, stateUsps);
-  const stateId = stateJurisdictionForKey(`US-${stateUsps}`)!.id;
   const inputs = Array.from({ length: challengers }, (_, index) => {
     const stableKey = `${key}:candidate:${index}`;
     const personRng = rng.fork(stableKey);
