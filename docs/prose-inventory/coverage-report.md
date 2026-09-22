@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 3139 |
-| INTENTIONALLY_NON_PLAYER_FACING | 7108 |
-| DIAGNOSTIC_OR_TEST | 7723 |
-| **NEEDS_CLASSIFICATION** | **10311** |
+| INTENTIONALLY_NON_PLAYER_FACING | 7131 |
+| DIAGNOSTIC_OR_TEST | 7840 |
+| **NEEDS_CLASSIFICATION** | **10375** |
 
-Scanned 1169 files holding 112476 string
+Scanned 1176 files holding 113122 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -69,6 +69,7 @@ literals in total; the table counts only those that read like a sentence.
 | 51 | `src/simulation/campaigns.ts` |
 | 51 | `src/simulation/resources.ts` |
 | 50 | `src/player/DocketWorkspace.tsx` |
+| 50 | `src/research/research-request.ts` |
 | 50 | `src/simulation/judicial-office-content.ts` |
 | 50 | `src/simulation/life.ts` |
 | 48 | `src/simulation/legislation-scenarios.ts` |
@@ -195,6 +196,7 @@ literals in total; the table counts only those that read like a sentence.
 | 16 | `src/presentation/run-a-projection.ts` |
 | 16 | `src/simulation/governing/institution-authority.ts` |
 | 16 | `src/simulation/living-world/opening.ts` |
+| 16 | `src/simulation/office-qualification-rules.ts` |
 | 16 | `src/simulation/policy-semantics.ts` |
 | 16 | `src/simulation/transit-funding.ts` |
 | 16 | `src/ui/EventHistory.tsx` |
@@ -254,6 +256,7 @@ literals in total; the table counts only those that read like a sentence.
 | 11 | `src/presentation/modeled-account-history.ts` |
 | 11 | `src/presentation/person-dossier.ts` |
 | 11 | `src/presentation/scene-placement.ts` |
+| 11 | `src/simulation/candidate-qualification.ts` |
 | 11 | `src/simulation/crisis/health.ts` |
 | 11 | `src/simulation/political-belief-formation.ts` |
 | 11 | `src/simulation/tax-policy.ts` |
@@ -272,7 +275,6 @@ literals in total; the table counts only those that read like a sentence.
 | 10 | `src/simulation/governing/legislative-clock.ts` |
 | 10 | `src/simulation/living-world/congress-turnover.ts` |
 | 10 | `src/simulation/nationwide-world/state-executive-turnover.ts` |
-| 10 | `src/simulation/office-qualification-rules.ts` |
 | 10 | `src/simulation/people-continuation.ts` |
 | 10 | `src/simulation/people-trait-pack.ts` |
 | 10 | `src/simulation/press-reach.ts` |
@@ -330,7 +332,6 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/presentation/player-conversation.ts` |
 | 7 | `src/presentation/tax-work.ts` |
 | 7 | `src/presentation/time-target-label.ts` |
-| 7 | `src/simulation/candidate-qualification.ts` |
 | 7 | `src/simulation/governing/office-consequence.ts` |
 | 7 | `src/simulation/judicial-office-start.ts` |
 | 7 | `src/simulation/legislative-office-terms.ts` |
@@ -350,6 +351,7 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/presentation/calendar-time-control.ts` |
 | 6 | `src/presentation/campaign-office-discovery.ts` |
 | 6 | `src/presentation/component-masters.ts` |
+| 6 | `src/presentation/economic-context.ts` |
 | 6 | `src/presentation/formative-context.ts` |
 | 6 | `src/presentation/formative-play.ts` |
 | 6 | `src/presentation/interruption-policy.ts` |
@@ -394,6 +396,7 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/ui/ScenePresentationProofView.tsx` |
 | 4 | `src/districts/query.ts` |
 | 4 | `src/education/catalog.ts` |
+| 4 | `src/education/vintage.ts` |
 | 4 | `src/maps/projection.ts` |
 | 4 | `src/persistence/sqlite-world-repository.ts` |
 | 4 | `src/player/ContactsPanel.tsx` |
@@ -422,7 +425,6 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/simulation/relationship-integration.ts` |
 | 4 | `src/simulation/resource-pressure.ts` |
 | 4 | `src/simulation/vitality-catalog.ts` |
-| 3 | `src/education/compact.ts` |
 | 3 | `src/player/ContentPackWorkspace.tsx` |
 | 3 | `src/player/CreatorAppearanceStep.tsx` |
 | 3 | `src/player/ExecutiveWorkWorkspace.tsx` |
@@ -431,7 +433,6 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/presentation/art-preview.ts` |
 | 3 | `src/presentation/calendar-campaign-life.ts` |
 | 3 | `src/presentation/campaign-life-actions.ts` |
-| 3 | `src/presentation/economic-context.ts` |
 | 3 | `src/presentation/legislation-composition.ts` |
 | 3 | `src/presentation/legislation-world.ts` |
 | 3 | `src/presentation/life-introduction.ts` |

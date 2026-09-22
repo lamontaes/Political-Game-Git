@@ -19,7 +19,10 @@ import { recordDomainAttendance } from "./activity-attendance";
 import { openingLifeLocation } from "./life-scene-flow";
 import { sceneVenueForLocationKey } from "./scene-venues";
 
-export { declineVenueActivity } from "./scheduled-activity-choice";
+export {
+  declineVenueActivity,
+  lapseVenueActivity,
+} from "./scheduled-activity-choice";
 
 interface DisclosedJourney {
   readonly activity: ScheduledActivityRecord;
