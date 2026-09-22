@@ -1,6 +1,7 @@
 import { RegularSessionUnavailableError } from "../../src/presentation/legislative-session-window";
 import { createHash } from "node:crypto";
 import {
+  addDays,
   campaignForCandidate,
   createCampaignElectionTransitionRegistry,
   electionContestResult,
@@ -350,11 +351,16 @@ function runCampaign(
 ): { world: World; transcript: CampaignTranscript } {
   const lines: string[] = [];
   // These transcript lanes deliberately exercise the established House scenario.
+  // The prose, not the calendar, is what these transcripts read, so the race
+  // is dated four weeks out as the scenario was written rather than on the
+  // state's November election.
+  const opened = openOrdinaryLife(world, personId);
   let current = fileForOffice(
-    openOrdinaryLife(world, personId),
+    opened,
     personId,
     null,
     "us-ky-general-assembly-v1:house",
+    addDays(opened.currentDate, 28),
   );
   const campaign = campaignForCandidate(current, personId);
   if (!campaign) {
