@@ -6,7 +6,9 @@ import { describe, expect, it } from "vitest";
 
 import {
   ART_DESK_CANDIDATE_SIDECAR,
+  cachedPrivatePack,
   collectArtDeskInputs,
+  PACK_RECEIPT_TTL_MS,
   detectRaster,
   hashBytes,
   inspectPrivatePack,
@@ -420,5 +422,54 @@ describe("review write boundary", () => {
         [{ ...verified, bytes: "hash-mismatch" }],
       )[0]?.reason,
     ).toContain("hash-mismatch");
+  });
+});
+
+describe("receipts the Art Desk asks for on every load", () => {
+  it("re-verifies a candidate only when its bytes change", () => {
+    const workspace = mkdtempSync(join(tmpdir(), "art-desk-inputs-cache-"));
+    const png = tinyPng();
+    const record = {
+      requestId: "cached",
+      sha256: hashBytes(png),
+      path: `art/generated/candidates/cached/${hashBytes(png)}.png`,
+      source: "upload-sidecar" as const,
+    };
+    mkdirSync(dirname(join(workspace, record.path)), { recursive: true });
+    writeFileSync(join(workspace, record.path), png);
+    const first = verifyCandidate(workspace, record);
+    expect(first.bytes).toBe("verified");
+    expect(verifyCandidate(workspace, record)).toBe(first);
+    writeFileSync(join(workspace, record.path), "replaced bytes");
+    expect(verifyCandidate(workspace, record).bytes).toBe("hash-mismatch");
+  });
+
+  it("reuses a pack receipt for a minute unless the pack itself changes", () => {
+    const workspace = mkdtempSync(join(tmpdir(), "art-desk-pack-cache-ws-"));
+    const packDir = mkdtempSync(join(tmpdir(), "art-desk-pack-cache-"));
+    const relative = "art/authoring/x/a.svg";
+    const manifest = `${hashBytes("<svg a/>")}  ${relative}\n`;
+    writeFileSync(join(packDir, "sha256.txt"), manifest);
+    writeFileSync(
+      join(packDir, "pack.json"),
+      JSON.stringify({ packId: "p", manifestSha256: hashBytes(manifest) }),
+    );
+    let now = 1_000;
+    const clock = () => now;
+    const missing = cachedPrivatePack(workspace, packDir, "t1", clock);
+    expect(missing.status).toBe("incomplete");
+    mkdirSync(dirname(join(workspace, relative)), { recursive: true });
+    writeFileSync(join(workspace, relative), "<svg a/>");
+    // Within the minute the earlier receipt, with its own checkedAt, stands.
+    expect(cachedPrivatePack(workspace, packDir, "t2", clock)).toBe(missing);
+    now += PACK_RECEIPT_TTL_MS;
+    const fresh = cachedPrivatePack(workspace, packDir, "t3", clock);
+    expect(fresh.status).toBe("verified");
+    expect(fresh.checkedAt).toBe("t3");
+    // A changed pack.json is noticed at once.
+    writeFileSync(join(packDir, "pack.json"), JSON.stringify({ packId: "p" }));
+    expect(cachedPrivatePack(workspace, packDir, "t4", clock).status).toBe(
+      "invalid",
+    );
   });
 });

@@ -691,7 +691,7 @@ export function cancelTransitImplementation(
       effectiveAt: next.currentDate,
       reasonKey: "transit:sponsor-cancelled",
       context:
-        "Cancelled undelivered service only; prior payments and delivered hours stand.",
+        "Canceled undelivered service only; prior payments and delivered hours stand.",
     });
   next = recordWorldEvent(next, {
     stableKey: `${requestKey(measure.id)}:cancel`,
@@ -708,14 +708,14 @@ export function cancelTransitImplementation(
       {
         personId: input.personId,
         role: "agency:transit-cancellation",
-        detail: "Cancelled undelivered periods.",
+        detail: "Canceled undelivered periods.",
       },
     ],
     personFactConstraints: [],
     visibility: "private",
     tags: ["transit.cancellation"],
     summary:
-      "Undelivered transit service was cancelled. Prior completed payments and vehicle-service hours remain in history.",
+      "Undelivered transit service was canceled. Prior completed payments and vehicle-service hours remain in history.",
     context: {
       location: null,
       socialContext: "Transit cancellation",

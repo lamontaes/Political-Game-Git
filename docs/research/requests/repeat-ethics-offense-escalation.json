@@ -1,0 +1,23 @@
+{
+  "filedAt": "2026-09-22T23:20:00.000Z",
+  "impact": "shapes-design",
+  "lane": "consequences for corruption and laws",
+  "notes": [
+    "Placeholder in src/simulation/press/findings.ts (UNRESEARCHED_REPEAT_OFFENSE): each earlier finding adds 0.5 to the vote-loss multiplier and 1 to the fine multiplier, capped at 3. These are the values to replace.",
+    "Payments taken after a finding now open a new matter (a second round) and are repaid and fined; before this, 27 later withdrawals in a replay were never charged."
+  ],
+  "priority": "P1",
+  "question": "When an ethics or campaign-finance body finds against the same candidate or official a second or later time, how do real bodies escalate the sanction (larger civil penalties per violation, referral to prosecutors, debarment from office or from holding a committee), and how much more vote share does a repeat finding cost than a first one?",
+  "questionId": "repeat-ethics-offense-escalation",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Consequences for corruption and laws thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/press/state-ethics-bodies.ts and docs/research/chatgpt-answers/2026-09-22-campaign-finance-regulators",
+      "whatItDidNotSettle": "Names the bodies; says nothing about how sanctions escalate for a repeat respondent."
+    }
+  ],
+  "title": "How much harder a second ethics finding lands than the first",
+  "usableAnswer": "Per researched body (or as a national pattern where bodies do not publish schedules): how penalties change for a repeat violator, whether referral or disqualification follows, and any evidence on the electoral cost of a second finding relative to a first.",
+  "whyItMatters": "The owner asked on 2026-09-22 that getting caught more than once cost more. The game now charges payments made after a finding in a second round and raises the second fine and vote loss by a placeholder, so every repeat offender in every state escalates by the same invented step."
+}

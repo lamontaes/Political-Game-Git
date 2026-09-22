@@ -8,6 +8,7 @@ import { dateAtAge } from "./dates";
 import {
   drawCanonicalNameForGender,
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
+  type GivenNameGenerationVersion,
 } from "./people";
 import { SeededRng } from "./rng";
 import type { EntityId, World } from "./types";
@@ -26,6 +27,10 @@ export function generateContextualCharacterHistory(
     readonly stableKey: string;
     readonly personId: EntityId;
     readonly jurisdictionId: EntityId;
+    // Forwarded untouched to the legacy constructor below, which is where the
+    // parent, peer and teacher names are actually drawn. The contextual pass
+    // re-draws them from each person's own recorded gender regardless.
+    readonly givenNameGenerationVersion?: GivenNameGenerationVersion;
   },
 ): CharacterHistoryPlan {
   // Existing canonical background wins, including older school/work records.

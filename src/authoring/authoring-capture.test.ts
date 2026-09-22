@@ -22,7 +22,7 @@ const PROJECTION: CameraProjection = {
 };
 
 describe("pointer to plate coordinates", () => {
-  it("maps the centre of the painted camera to the centre of the plate", () => {
+  it("maps the center of the painted camera to the center of the plate", () => {
     const point = platePointFromPointer(500, 275, PROJECTION);
     expect(point.xPercent).toBeCloseTo(50, 3);
     expect(point.yPercent).toBeCloseTo(50, 3);

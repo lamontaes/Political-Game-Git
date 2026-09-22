@@ -3,6 +3,13 @@ import { scheduleFutureDueItem } from "../future-transitions";
 import { createOrganization, recordWorkStatus } from "../life";
 import { workStatusAt } from "../life-queries";
 import { personName } from "../people";
+import { currentResourceCutoff, resourcePositionAt } from "../resource-queries";
+import {
+  createResourceFlow,
+  makeCurrencyCode,
+  money,
+  recordResourceTransferOutcome,
+} from "../resources";
 import { SeededRng } from "../rng";
 import type {
   EntityId,
@@ -46,7 +53,7 @@ import {
  * the blanket rule records against every outlet it holds without changing
  * anything else.
  *
- * NOT MODELLED YET, with the blanket rule standing in:
+ * NOT MODELED YET, with the blanket rule standing in:
  * - Why an owner decides. There is no media revenue, debt or audience model,
  *   so every decision is the pack's `likelihoodPerReview` draw.
  * - Whether a decision is news. Owner events use the `press.` prefix, which
@@ -423,6 +430,8 @@ function reduceNewsroomStaff(
   held: readonly MediaOutletRecord[],
   rng: SeededRng,
 ): { readonly world: World; readonly eventId: EntityId | null } {
+  // Placeholder fallbacks for a practice that names neither value; see the
+  // research questions named in ownership-pack-default.ts.
   const share = practice.parameters?.shareOfPositions ?? 0.25;
   const kept = practice.parameters?.minimumPositionsKept ?? 1;
   const staff = new Map<EntityId, ReporterRoleRecord[]>(
@@ -582,4 +591,248 @@ function acquireOutlet(
     ownershipId: ownership.record.id,
   }).world;
   return { world: next, eventId: event.eventId };
+}
+
+/* -------------------------------------------------------------------------- */
+/* A person buying an outlet                                                   */
+/* -------------------------------------------------------------------------- */
+
+const USD = makeCurrencyCode("USD");
+
+export type OutletPurchaseTerms =
+  | {
+      readonly status: "available";
+      readonly outletId: EntityId;
+      readonly sellerName: string;
+      readonly priceMinorUnits: number;
+    }
+  | {
+      readonly status:
+        | "already-yours"
+        | "no-recorded-owner"
+        | "not-for-sale"
+        | "no-price"
+        | "savings-not-on-record"
+        | "cannot-afford";
+      readonly outletId: EntityId;
+      /** A sentence the player reads. */
+      readonly reason: string;
+      readonly priceMinorUnits: number | null;
+    };
+
+/**
+ * Whether this person can buy this outlet today, and for how much. Reads
+ * only; the purchase itself is `purchaseOutlet`.
+ *
+ * NOT MODELED YET, with the blanket rule standing in: an outlet's price is
+ * the loaded pack's asking price for its size, not a valuation, and there is
+ * no negotiation, financing or seller's refusal. Money is only what the
+ * record holds: a person whose savings are not on record cannot buy, rather
+ * than being assumed to have none or enough.
+ */
+export function outletPurchaseTerms(
+  world: World,
+  buyerPersonId: EntityId,
+  outletId: EntityId,
+  registry: OwnershipRegistry = loadedOwnershipRegistry(),
+): OutletPurchaseTerms {
+  const outlet = mediaOutlets(world).find((entry) => entry.id === outletId);
+  if (!outlet) throw new Error(`No such outlet: ${outletId}`);
+  const owner = outletOwner(world, outletId);
+  const dollars = registry.askingPriceDollars[outlet.resourceTier];
+  const price = dollars === undefined ? null : dollars * 100;
+  const refuse = (
+    status: Exclude<OutletPurchaseTerms["status"], "available">,
+    reason: string,
+  ): OutletPurchaseTerms => ({
+    status,
+    outletId,
+    reason,
+    priceMinorUnits: price,
+  });
+  if (!owner) {
+    return refuse(
+      "no-recorded-owner",
+      `Nobody is on record as owning ${outlet.name}, so there is no one to buy it from.`,
+    );
+  }
+  if (owner.principalPersonId === buyerPersonId) {
+    return refuse("already-yours", `You already own ${outlet.name}.`);
+  }
+  if (!ownerRowOf(registry, owner)?.sellsOutlets) {
+    return refuse(
+      "not-for-sale",
+      `${owner.name} is not selling ${outlet.name}.`,
+    );
+  }
+  if (price === null) {
+    return refuse(
+      "no-price",
+      `No asking price is set for an outlet the size of ${outlet.name}.`,
+    );
+  }
+  const savings = resourcePositionAt(
+    world,
+    { kind: "person", personId: buyerPersonId },
+    USD,
+    currentResourceCutoff(world),
+  );
+  if (!savings) {
+    return refuse(
+      "savings-not-on-record",
+      "Your savings are not on record, so there is nothing to pay from.",
+    );
+  }
+  if (savings.liquidBalance.minorUnits < price) {
+    return refuse(
+      "cannot-afford",
+      `${owner.name} is asking more than you have.`,
+    );
+  }
+  return {
+    status: "available",
+    outletId,
+    sellerName: owner.name,
+    priceMinorUnits: price,
+  };
+}
+
+/**
+ * A person buys an outlet outright: the money goes from their savings to the
+ * seller, and the outlet's holding passes to an owner that is that person.
+ * Refuses, and changes nothing, unless `outletPurchaseTerms` is available.
+ */
+export function purchaseOutlet(
+  world: World,
+  input: {
+    readonly stableKey: string;
+    readonly buyerPersonId: EntityId;
+    readonly outletId: EntityId;
+  },
+  registry: OwnershipRegistry = loadedOwnershipRegistry(),
+): World {
+  const terms = outletPurchaseTerms(
+    world,
+    input.buyerPersonId,
+    input.outletId,
+    registry,
+  );
+  if (terms.status !== "available") throw new Error(terms.reason);
+  const buyer = world.people[input.buyerPersonId];
+  if (!buyer) throw new Error(`No such person: ${input.buyerPersonId}`);
+  const outlet = mediaOutlets(world).find(
+    (entry) => entry.id === input.outletId,
+  )!;
+  const holding = currentOutletOwnership(world, outlet.id)!;
+  const seller = outletOwner(world, outlet.id)!;
+  const buyerName = personName(buyer);
+
+  let next = world;
+  const ownerKey = `${OWNER_KEY}person:${buyer.id}`;
+  let owner = pressRecordByKey(next, "media-owner", ownerKey);
+  if (!owner) {
+    next = createOrganization(next, {
+      stableKey: `${ownerKey}:organization`,
+      formedAt: next.currentDate,
+      detailLevel: "detailed",
+      provenance: {
+        kind: "authored",
+        note: "The holding through which a person owns news outlets outright.",
+      },
+      initialProfile: {
+        name: buyerName,
+        classification: "enterprise:media-ownership",
+        locationJurisdictionId: buyer.homeJurisdictionId,
+      },
+    });
+    const appended = appendPressRecord(next, "media-owner", {
+      stableKey: ownerKey,
+      organizationId: next.history.organizations.at(-1)!.id,
+      packId: "person",
+      rowKey: "owner.person",
+      name: buyerName,
+      ownerKind: "individual",
+      establishedAt: next.currentDate,
+      principalPersonId: buyer.id,
+    });
+    next = appended.world;
+    owner = appended.record;
+  }
+
+  next = recordWorldEvent(next, {
+    stableKey: `${input.stableKey}:event`,
+    type: "press.owner.acquisition",
+    occurredAt: next.currentDate,
+    recordedAt: next.currentDate,
+    jurisdictionId: outlet.primaryJurisdictionIds[0] ?? null,
+    involvedEntityIds: [
+      buyer.id,
+      owner.organizationId,
+      seller.organizationId,
+      outlet.organizationId,
+    ].sort(),
+    participants: [
+      {
+        personId: buyer.id,
+        role: "agency:actor",
+        detail: `Bought ${outlet.name} from ${seller.name}`,
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      PRESS_CONTRACT_VERSION,
+      `press.owner:${owner.id}`,
+      `press.outlet:${outlet.id}`,
+      "provenance:player-choice",
+    ],
+    summary: `${buyerName} bought ${outlet.name} from ${seller.name}.`,
+    context: {
+      location: null,
+      socialContext: outlet.name,
+      pressure: null,
+      choice: "acquire-outlet",
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const event = next.history.events.at(-1)!;
+  const amount = money(terms.priceMinorUnits, USD);
+  next = createResourceFlow(next, {
+    stableKey: `${input.stableKey}:payment`,
+    source: { kind: "person", personId: buyer.id },
+    recipient: { kind: "organization", organizationId: seller.organizationId },
+    startsAt: next.currentDate,
+    initialStatus: "active",
+    amount,
+    cadenceKind: "schedule:one-time",
+    basisKind: "custom:outlet-purchase",
+    basisReference: { kind: "general" },
+    restrictionKind: null,
+    jurisdictionId: outlet.primaryJurisdictionIds[0] ?? null,
+    provenance: { kind: "simulated-event", eventId: event.id },
+  });
+  const flow = next.history.resourceFlows.at(-1)!;
+  next = recordResourceTransferOutcome(next, {
+    stableKey: `${input.stableKey}:paid`,
+    resourceFlowId: flow.id,
+    periodStartsAt: next.currentDate,
+    periodEndsAt: next.currentDate,
+    occurredAt: next.currentDate,
+    status: "completed",
+    attemptedAmount: amount,
+    transferredAmount: amount,
+    reasonKind: null,
+    note: `Paid to ${seller.name} for ${outlet.name}.`,
+    provenance: { kind: "simulated-event", eventId: event.id },
+  });
+  return appendPressRecord(next, "outlet-ownership", {
+    stableKey: `${HOLDING_KEY}${outlet.id}:${holding.sequence}`,
+    outletId: outlet.id,
+    ownerId: owner.id,
+    basis: "acquisition",
+    effectiveAt: next.currentDate,
+    eventId: event.id,
+    supersedesOwnershipId: holding.id,
+  }).world;
 }

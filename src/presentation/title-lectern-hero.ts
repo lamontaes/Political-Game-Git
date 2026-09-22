@@ -29,7 +29,7 @@ import {
  * It resolves to null in exactly the states where there is honestly no hero to
  * draw: no save, no private lectern plate in this checkout, an appearance the
  * catalog cannot dress, or a recipe the title41 pack has no matching variant
- * for. Null is today's behaviour, so a checkout without the private art — every
+ * for. Null is today's behavior, so a checkout without the private art — every
  * public one, and this cloud one — is unchanged, and the hero lights up only
  * where the art it needs is actually present.
  *
@@ -37,7 +37,7 @@ import {
  * person id, which is the same seed every other render site falls back to when
  * a person carries no explicit appearance; it is not a load of the saved
  * world, which the title cannot do. Whether the composed portrait is the right
- * likeness, and whether it reads well against the private plate, is a judgement
+ * likeness, and whether it reads well against the private plate, is a judgment
  * only the owner can make on a build that has the art — this file settles the
  * wiring, not the pixels.
  */

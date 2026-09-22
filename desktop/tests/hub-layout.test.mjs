@@ -1,7 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { hubViewLayout } from "../private-controller/hub-model.mjs";
+import {
+  hubChromeHeight,
+  hubViewLayout,
+} from "../private-controller/hub-model.mjs";
 
 test("hub layout divides an ordinary window between chrome and content", () => {
   assert.deepEqual(hubViewLayout({ width: 1440, height: 900 }), {
@@ -22,4 +25,26 @@ test("a temporarily short window keeps every view inside its content bounds", ()
     chrome: { x: 0, y: 0, width: 1000, height: 40 },
     content: { x: 0, y: 40, width: 1000, height: 0 },
   });
+});
+
+test("playing full screen gives the game the whole screen; nothing else does", () => {
+  assert.equal(hubChromeHeight({ fullScreen: true, activeTab: "play" }, 92), 0);
+  assert.equal(
+    hubChromeHeight({ fullScreen: false, activeTab: "play" }, 92),
+    92,
+  );
+  assert.equal(
+    hubChromeHeight({ fullScreen: true, activeTab: "artdesk" }, 92),
+    92,
+  );
+  assert.deepEqual(
+    hubViewLayout(
+      { width: 1440, height: 900 },
+      hubChromeHeight({ fullScreen: true, activeTab: "play" }),
+    ),
+    {
+      chrome: { x: 0, y: 0, width: 1440, height: 0 },
+      content: { x: 0, y: 0, width: 1440, height: 900 },
+    },
+  );
 });

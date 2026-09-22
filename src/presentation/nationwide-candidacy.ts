@@ -1,17 +1,13 @@
 import {
-  addDays,
   candidacyEligibility,
   ensureCampaignOpponents,
   ensureStateJurisdiction,
   fileCampaign,
   homeStateUsps,
   makeCurrencyCode,
-  nextRegularElection,
-  regularFieldClosed,
+  nextFilableStateExecutiveTerm,
   stateExecutiveIdentity,
-  stateExecutiveTermRule,
-  stateJurisdictionForKey,
-  termDatesAfterElection,
+  chiefExecutiveJurisdiction,
 } from "../simulation";
 import { describeStateExecutiveTerm } from "./state-executive-term-description";
 import type {
@@ -49,7 +45,7 @@ export function stateExecutiveCandidacyForPerson(
   const usps = homeStateUsps(world, personId);
   const identity = usps ? stateExecutiveIdentity(usps) : null;
   const jurisdiction = identity
-    ? stateJurisdictionForKey(identity.jurisdictionKey)
+    ? chiefExecutiveJurisdiction(identity.stateUsps)
     : null;
   if (!identity || !jurisdiction) return null;
   const eligibility = candidacyEligibility(world, {
@@ -85,14 +81,12 @@ export function stateExecutiveOfficeCalendar(
   world: World,
   stateUsps: string,
 ): StateExecutiveOfficeCalendar | null {
-  const rule = stateExecutiveTermRule(stateUsps);
-  if (!rule) return null;
   // A filing stands in the next regular election whose candidate field is
-  // still open; once a field closes, the office's next cycle is the one.
-  let nextElection = nextRegularElection(rule, addDays(world.currentDate, 1));
-  if (regularFieldClosed(world, nextElection))
-    nextElection = nextRegularElection(rule, addDays(nextElection, 1));
-  const term = termDatesAfterElection(rule, nextElection);
+  // still open, on the calendar this World's law sets; once a field closes,
+  // the office's next cycle is the one.
+  const term = nextFilableStateExecutiveTerm(world, stateUsps);
+  if (!term) return null;
+  const { rule, electionDay: nextElection } = term;
   const bases = Object.values(rule.basis);
   const basis = bases.every((b) => b === "verified")
     ? "verified"

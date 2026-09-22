@@ -39,7 +39,7 @@ import type {
  * stakes tiers and why a situation looked interesting. None of that appears in
  * any type in this file, and none of it can: what is passed here is what
  * happened — which situation, which option, who else was involved, when — and
- * the world as it stands. A moment the selector found agonising and a moment it
+ * the world as it stands. A moment the selector found agonizing and a moment it
  * offered because nothing else was available reach this code as the same shape
  * of thing, so the second cannot be quietly made less consequential than the
  * first. If it could, a player would learn to read importance off the
@@ -49,7 +49,7 @@ import type {
  * world*. Not a die that nullifies. The person who would have carried the
  * grievance is no longer anywhere the player is; the commitment the promise was
  * about has ended; the position was taken where nobody was listening. Each of
- * those is a real fact, recorded as the reason a scheduled thing was cancelled,
+ * those is a real fact, recorded as the reason a scheduled thing was canceled,
  * and each is answerable afterwards.
  */
 
@@ -87,7 +87,7 @@ export const RETURN_SUMMARY: Readonly<Record<string, string>> = {
   // way the player answered is not knowable here, so this says what was asked
   // rather than what was given.
   "adult.care-request": "The help that was asked of you was raised again.",
-  "adult.friend-favour": "The favour was put to you once more.",
+  "adult.friend-favour": "The favor was put to you once more.",
   // A private disclosure, raised by the person who made it. It does not say
   // that no one else has heard since; nothing in the world records that.
   "adult.friend-in-difficulty":
@@ -111,9 +111,9 @@ export const RETURN_SUMMARY: Readonly<Record<string, string>> = {
     "What you did after the incident was brought up with you.",
   // No incident kind is claimed: the incident engine decides what happened,
   // and "the flooding" was an invention on top of it.
-  "adult.incident-neighbour-help": "Helping the neighbours came back to you.",
+  "adult.incident-neighbour-help": "Helping the neighbors came back to you.",
   "adult.promise-comes-due": "The promise came back round to you.",
-  "adult.old-favour-returns": "The old favour got a mention.",
+  "adult.old-favour-returns": "The old favor got a mention.",
   "adult.household-standing": "Who covers what at home is being asked again.",
   "adult.household-quiet-evening": "That evening came up between you again.",
   "adult.partner-plan": "The plans were put in front of you again.",
@@ -133,7 +133,7 @@ export const RETURN_SUMMARY: Readonly<Record<string, string>> = {
   "conversation.subject.household-obligation":
     "What was said at home about it was raised again.",
   "conversation.subject.neighborhood-meeting":
-    "The neighbourhood meeting came up again.",
+    "The neighborhood meeting came up again.",
   "conversation.subject.school-project":
     "The school project was brought up with you again.",
 };
@@ -162,8 +162,8 @@ export type LifeCallbackReason =
 /**
  * How long these take to come round, in days.
  *
- * Presentation pacing, and labelled as such. There is no survey that says how
- * long a favour stays owed, and the research is explicit that inventing one
+ * Presentation pacing, and labeled as such. There is no survey that says how
+ * long a favor stays owed, and the research is explicit that inventing one
  * would be worse than admitting the gap. What these numbers do is stop
  * everything landing in the same month.
  */

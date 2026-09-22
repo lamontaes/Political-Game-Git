@@ -16,7 +16,7 @@ import {
  * The import/export seam an external QA pass writes through.
  *
  * `normalize` re-serializes a manifest into canonical form — sorted keys,
- * sorted entries, unrecognised judgements degraded to `unassessed`. Running it
+ * sorted entries, unrecognized judgments degraded to `unassessed`. Running it
  * on a file a person or an external tool edited produces a diff that shows only
  * what actually changed, rather than a reordering.
  *

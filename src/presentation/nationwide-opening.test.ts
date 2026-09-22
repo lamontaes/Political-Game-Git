@@ -46,13 +46,20 @@ function openIn(placeKey: string, seed: string) {
 afterEach(() => bindRuleCapabilityResolver(unadmittedRuleCapabilityResolver));
 
 describe("NATIONWIDE opening state executive", () => {
-  it("names exactly the fifty states, not DC or Puerto Rico", () => {
+  it("names exactly the fifty states, and gives the District its own office", () => {
     const corpusStates = lifePlaceStateIdentities()
       .map((state) => state.usps)
       .filter((usps) => usps !== "DC" && usps !== "PR")
       .sort();
     expect([...US_STATE_USPS].sort()).toEqual(corpusStates);
-    expect(stateExecutiveOffice("DC")).toBeNull();
+    // NATIONWIDE1 asks for the District separately from the states: it is not
+    // in the fifty, and it is not empty either. Its chief executive is a
+    // Mayor, never a governor. Puerto Rico's own Governor is real and is not
+    // compiled yet, so nothing is offered for it — an absence, not a claim
+    // that the office does not exist.
+    const district = stateExecutiveOffice("DC")!;
+    expect(district.displayName).toBe("Mayor of the District of Columbia");
+    expect(district.displayName).not.toContain("Governor");
     expect(stateExecutiveOffice("PR")).toBeNull();
   });
 
@@ -73,7 +80,7 @@ describe("NATIONWIDE opening state executive", () => {
       expect(world.people[holder!.personId]).toBeDefined();
       expect(holder!.personId).not.toBe(playerPersonId);
       // No admitted law in this composition: the term is dated by the office
-      // calendar (verified for Washington, the labelled game profile
+      // calendar (verified for Washington, the labeled game profile
       // elsewhere), never guessed per state.
       const window = regularTermWindowOn(
         stateExecutiveTermRule(usps)!,
@@ -119,7 +126,11 @@ describe("NATIONWIDE opening state executive", () => {
     },
   );
 
-  it("DC and Puerto Rico lives open without inventing a state governor", () => {
+  it("opens a District or Puerto Rico life without inventing a state governor", () => {
+    // The invariant is that no US-state governorship is manufactured for a
+    // jurisdiction that is not a state. Puerto Rico seating nothing is this
+    // branch not having compiled its real Governor, not a statement about
+    // Puerto Rico.
     for (const usps of ["DC", "PR"]) {
       const place = searchLifePlaces("", 1, {
         stateJurisdictionKey: `US-${usps}`,
@@ -127,9 +138,18 @@ describe("NATIONWIDE opening state executive", () => {
       })[0];
       if (!place) continue;
       const { world } = openIn(place.key, `nationwide-${usps}`);
-      expect(
-        currentPublicOfficeholders(world).map((holder) => holder.officeKey),
-      ).toEqual(["us-president", "us-chief-justice", "us-vice-president"]);
+      const officeKeys = currentPublicOfficeholders(world).map(
+        (holder) => holder.officeKey,
+      );
+      expect(officeKeys).not.toContain(`us-${usps.toLowerCase()}-governor`);
+      expect(officeKeys.slice(0, 3)).toEqual([
+        "us-president",
+        "us-chief-justice",
+        "us-vice-president",
+      ]);
+      // The District's own office opens with the life. Puerto Rico's is not
+      // compiled, so nothing opens with it yet.
+      expect(officeKeys.slice(3)).toEqual(usps === "DC" ? ["dc-mayor"] : []);
     }
   });
 

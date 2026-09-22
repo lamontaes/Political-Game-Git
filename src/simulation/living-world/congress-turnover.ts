@@ -6,7 +6,7 @@ import type { CharacterHistoryContextPersonInput } from "../character-history";
 import { makeIsoDate } from "../dates";
 import { electionContestResult } from "../election-contests";
 import { stateJurisdictionForKey } from "../life-places";
-import { drawCanonicalName, personName } from "../people";
+import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
@@ -424,8 +424,10 @@ function holdCongressElection(world: World, year: number): World {
       return [
         {
           stableKey: outcome.successorKey,
-          ...drawCanonicalName(rng.fork("name")),
-          identity: generatePersonIdentity(rng.fork("identity")),
+          ...drawCanonicalNamedIdentity(
+            rng.fork("name"),
+            generatePersonIdentity(rng.fork("identity")),
+          ),
           birthDate: makeIsoDate(
             `${year - age}-${pad(rng.integer(1, 13))}-${pad(rng.integer(1, 29))}`,
           ),

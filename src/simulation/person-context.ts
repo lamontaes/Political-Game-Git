@@ -8,6 +8,7 @@ import {
   activeWorkRelationshipsAt,
   currentLifeCutoff,
   didPeopleShareEducationOrganization,
+  educationEnrollmentHistoryForPerson,
   householdMembershipsAt,
   kinshipRelationshipsAt,
   organizationProfileAt,
@@ -58,8 +59,10 @@ export interface PersonContext {
   /** "Maya" — what a person in the room would call them. */
   readonly shortName: string;
   /**
-   * "your mom", "your older sister", "in your class" — or null when the
-   * record does not establish one.
+   * "your mom", "your housemate", "your former teacher" — or null when the
+   * record does not establish one. Always a noun phrase from the viewer's
+   * side, so it reads the same after a name ("Dean Campos, your housemate")
+   * as it does on its own, on every screen that names people.
    */
   readonly relationship: string | null;
   /** Why this label, read off the record. Never shown to a player. */
@@ -138,7 +141,7 @@ export function referToPerson(context: PersonContext): string {
 }
 
 /**
- * The relation on its own, capitalised for the start of a sentence.
+ * The relation on its own, capitalized for the start of a sentence.
  *
  * Returns the name when there is no relation, so a caller never has to
  * assemble a sentence around an empty string.
@@ -172,10 +175,12 @@ const RESOLVERS: readonly Resolver[] = [
   resolveGuardian,
   resolveDependent,
   resolveParentByKinship,
+  resolveGrandparent,
   resolveSibling,
   resolvePartner,
   resolveOtherKin,
   resolveHousehold,
+  resolveMentorship,
   resolveSchool,
   resolveWork,
   resolveOrganization,
@@ -287,7 +292,7 @@ function resolveDependent(
   )) {
     if (responsibility.recipientPersonId !== subjectId) continue;
     return {
-      relationship: "who you look after",
+      relationship: "someone you look after",
       basis: `A ${responsibility.kind} care record naming the player as caregiver.`,
       anchors: [
         {
@@ -327,6 +332,40 @@ function resolveParentByKinship(
     const subjectIsOlder = subject.birthDate < viewer.birthDate;
     return {
       relationship: subjectIsOlder ? parentWord(subject) : childWord(subject),
+      basis: `A ${kinship.kind} kinship record; birth dates decide which of them is which.`,
+      anchors: [kinshipAnchor(kinship)],
+    };
+  }
+  return null;
+}
+
+function resolveGrandparent(
+  world: World,
+  viewerId: EntityId,
+  subjectId: EntityId,
+): Resolved | null {
+  const cutoff = currentLifeCutoff(world);
+  const viewer = world.people[viewerId];
+  const subject = world.people[subjectId];
+  if (!viewer || !subject) return null;
+  for (const kinship of kinshipRelationshipsAt(world, viewerId, cutoff)) {
+    if (kinship.kind !== "lineal:grandparent-grandchild") continue;
+    if (!kinship.personIds.includes(subjectId)) continue;
+    const key = subject.identity?.pronouns;
+    const subjectIsOlder = subject.birthDate < viewer.birthDate;
+    const noun = subjectIsOlder
+      ? key === "she-her"
+        ? "grandmother"
+        : key === "he-him"
+          ? "grandfather"
+          : "grandparent"
+      : key === "she-her"
+        ? "granddaughter"
+        : key === "he-him"
+          ? "grandson"
+          : "grandchild";
+    return {
+      relationship: `your ${noun}`,
       basis: `A ${kinship.kind} kinship record; birth dates decide which of them is which.`,
       anchors: [kinshipAnchor(kinship)],
     };
@@ -390,7 +429,7 @@ function resolvePartner(
  * Kin the record names without saying how.
  *
  * `extended:` and `custom:` kinship kinds exist and the game has no vocabulary
- * for most of them, so this says "family" rather than picking a cousin, an
+ * for most of them, so this says "your relative" rather than picking a cousin, an
  * aunt or a stepfather out of a record that says none of those things.
  */
 function resolveOtherKin(
@@ -402,7 +441,7 @@ function resolveOtherKin(
   for (const kinship of kinshipRelationshipsAt(world, viewerId, cutoff)) {
     if (!kinship.personIds.includes(subjectId)) continue;
     return {
-      relationship: "family",
+      relationship: "your relative",
       basis: `A ${kinship.kind} kinship record, of a kind the game has no more specific word for.`,
       anchors: [kinshipAnchor(kinship)],
     };
@@ -424,7 +463,7 @@ function resolveHousehold(
     );
     if (!residents.includes(subjectId)) continue;
     return {
-      relationship: "who you live with",
+      relationship: "your housemate",
       basis:
         "Resident on the same household record, with no kinship record between them.",
       anchors: [
@@ -443,6 +482,67 @@ function resolveHousehold(
   return null;
 }
 
+/**
+ * A teacher, mentor or apprentice, read off a mentorship record.
+ *
+ * The record cannot say who taught whom by position: the history writer sorts
+ * the two ids (`appendRelationshipInteraction`). Every mentorship the game
+ * writes is an older person guiding a younger one, a teacher at twelve or an
+ * apprenticeship, so the elder is the mentor. A pair born the same day is
+ * left unnamed rather than guessed. A teacher who guided somebody at twelve is
+ * their former teacher once they are grown.
+ */
+function resolveMentorship(
+  world: World,
+  viewerId: EntityId,
+  subjectId: EntityId,
+  asOfDate: IsoDate,
+): Resolved | null {
+  const viewer = world.people[viewerId];
+  const subject = world.people[subjectId];
+  if (!viewer || !subject || viewer.birthDate === subject.birthDate) {
+    return null;
+  }
+  const grown = ageOnDate(viewer.birthDate, asOfDate) >= 18;
+  const viewerWasTaught = subject.birthDate < viewer.birthDate;
+  for (const interaction of world.history.relationshipInteractions) {
+    if (!interaction.kind.startsWith("mentorship:")) continue;
+    if (interaction.occurredAt > asOfDate) continue;
+    if (
+      !interaction.personIds.includes(viewerId) ||
+      !interaction.personIds.includes(subjectId)
+    ) {
+      continue;
+    }
+    const teacher = interaction.kind === "mentorship:guidance";
+    const relationship = viewerWasTaught
+      ? teacher
+        ? grown
+          ? "your former teacher"
+          : "your teacher"
+        : "your mentor"
+      : teacher
+        ? "a former student of yours"
+        : "someone you mentored";
+    return {
+      relationship,
+      basis: `A ${interaction.kind} relationship interaction; the elder of the two is the mentor.`,
+      anchors: [
+        {
+          store: "relationshipInteractions",
+          recordId: interaction.id,
+          stableKey: interaction.stableKey,
+          at: interaction.occurredAt,
+          sequence: interaction.sequence,
+          role: "context",
+          note: "The mentorship record.",
+        },
+      ],
+    };
+  }
+  return null;
+}
+
 function resolveSchool(
   world: World,
   viewerId: EntityId,
@@ -450,12 +550,56 @@ function resolveSchool(
   asOfDate: IsoDate,
 ): Resolved | null {
   const cutoff = currentLifeCutoff(world);
-  const mine = activeEducationEnrollmentsAt(world, viewerId, cutoff);
-  if (mine.length === 0) return null;
   if (
     !didPeopleShareEducationOrganization(world, viewerId, subjectId, cutoff)
   ) {
     return null;
+  }
+  const mine = activeEducationEnrollmentsAt(world, viewerId, cutoff);
+  if (mine.length === 0) {
+    // Out of school now: somebody the same age who went to the same school is
+    // a former classmate. Anyone else who shared a school is not named, since
+    // passing in a corridor years apart is not a relationship.
+    const viewer = world.people[viewerId];
+    const subject = world.people[subjectId];
+    if (
+      !viewer ||
+      !subject ||
+      Math.abs(
+        ageOnDate(viewer.birthDate, asOfDate) -
+          ageOnDate(subject.birthDate, asOfDate),
+      ) > 1
+    ) {
+      return null;
+    }
+    const theirs = new Set(
+      educationEnrollmentHistoryForPerson(world, subjectId, cutoff).map(
+        (enrollment) => enrollment.organizationId,
+      ),
+    );
+    const shared = educationEnrollmentHistoryForPerson(
+      world,
+      viewerId,
+      cutoff,
+    ).find((enrollment) => theirs.has(enrollment.organizationId));
+    return {
+      relationship: "your former classmate",
+      basis:
+        "Enrolled at the same school over an overlapping period, and within a year of age.",
+      anchors: shared
+        ? [
+            {
+              store: "educationEnrollments",
+              recordId: shared.id,
+              stableKey: shared.stableKey,
+              at: shared.startedAt,
+              sequence: shared.sequence,
+              role: "context",
+              note: "An enrollment at the school they shared.",
+            },
+          ]
+        : [],
+    };
   }
   const viewer = world.people[viewerId];
   const subject = world.people[subjectId];
@@ -471,7 +615,7 @@ function resolveSchool(
     // A register records who attends, not who sits where. "In your class" is
     // what a child would call somebody the same age at the same school; an
     // older or younger pupil is honestly just from school.
-    relationship: sameYear ? "who is in your class" : "from your school",
+    relationship: sameYear ? "your classmate" : "from your school",
     basis: "Both enrolled at the same school over an overlapping period.",
     anchors: [
       {
@@ -503,7 +647,7 @@ function resolveWork(
     );
     if (!shared) continue;
     return {
-      relationship: "who you work with",
+      relationship: "your coworker",
       basis: "Active work relationships at the same organization.",
       anchors: [
         {

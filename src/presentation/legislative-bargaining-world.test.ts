@@ -330,7 +330,7 @@ describe("proof A — win, govern, bargain, from the production route", () => {
      * into history, not display sugar.
      *
      * So they are carried on the facts now, and this asserts the exact
-     * accepted values rather than describing them. Anything that generalises
+     * accepted values rather than describing them. Anything that generalizes
      * one of these sentences again fails here with the old string in the
      * message.
      */

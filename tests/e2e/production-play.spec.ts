@@ -4,6 +4,7 @@ import {
   expectNoDestination,
   fillCreator,
   goTo,
+  leaveGame,
   openElsewhere,
   openMoment,
   saveLife,
@@ -99,7 +100,9 @@ function watchForErrors(page: Page): string[] {
 async function readJournal(page: Page): Promise<string> {
   await goTo(page, "nav-journal-entry");
   await expect(page.getByTestId("journal")).toBeVisible();
-  const text = await page.getByTestId("journal-entries").innerText();
+  // The shell's Journal is the life biography (World39Journal), which has no
+  // journal-entries list; that list belongs to the older in-scene reader.
+  const text = await page.getByTestId("world39-biography").innerText();
   await page
     .getByTestId("journal")
     .getByRole("button", { name: "Close", exact: true })
@@ -294,11 +297,11 @@ test.describe("A life is kept, and comes back", () => {
     await freshBrowser(page);
     await startLife(page, { age: 22, place: "Lexington", state: "Kentucky" });
     await keepAndWait(page);
-    await goTo(page, "leave-game");
+    await leaveGame(page);
 
     await startLife(page, { age: 55, place: "Anchorage", state: "Alaska" });
     await keepAndWait(page);
-    await goTo(page, "leave-game");
+    await leaveGame(page);
 
     await page.getByTestId("open-saves").click();
     await expect(page.getByTestId("save-entry")).toHaveCount(2);
@@ -308,7 +311,7 @@ test.describe("A life is kept, and comes back", () => {
     await freshBrowser(page);
     await startLife(page, { place: "Lexington", state: "Kentucky", age: 31 });
     await keepAndWait(page);
-    await goTo(page, "leave-game");
+    await leaveGame(page);
 
     await page.getByTestId("open-saves").click();
     await expect(page.getByTestId("save-entry")).toHaveCount(1);
@@ -328,7 +331,7 @@ test.describe("A life is kept, and comes back", () => {
     await freshBrowser(page);
     await startLife(page, { place: "Lexington", state: "Kentucky", age: 29 });
     await keepAndWait(page);
-    await goTo(page, "leave-game");
+    await leaveGame(page);
 
     // A record this build cannot read, written straight into storage.
     await page.evaluate(async () => {
@@ -411,8 +414,10 @@ test.describe("What is written to disk is a player's world", () => {
     expect(written).not.toMatch(/validation-only/i);
     expect(written).not.toMatch(/demo-world/i);
     expect(written).toContain("production-world-v1");
-    expect(written).not.toMatch(/The week's errands/i);
-    expect(written).not.toMatch(/Whether to go to the meeting/i);
+    // By stable key, not title: the titles have been reworded twice, and a
+    // title check passes silently the moment the wording moves.
+    expect(written).not.toContain("ordinary-life:household-errands");
+    expect(written).not.toContain("ordinary-life:public-meeting");
   });
 
   test("keeps the newest revision when the player leaves straight after acting", async ({
@@ -428,7 +433,7 @@ test.describe("What is written to disk is a player's world", () => {
     await page.getByTestId("story-options").getByRole("button").first().click();
     const remembered = await readJournal(page);
 
-    await goTo(page, "leave-game");
+    await leaveGame(page);
     await expect(page.getByTestId("title-screen")).toBeVisible();
     await page.reload();
     await page.getByTestId("continue").click();
@@ -555,7 +560,7 @@ test.describe("Nothing on screen is developer vocabulary", () => {
     expect(screen).not.toMatch(/synthetic|lorem|TODO|placeholder/i);
 
     await keepAndWait(page);
-    await goTo(page, "leave-game");
+    await leaveGame(page);
     await page.getByTestId("open-saves").click();
     expect(await page.getByTestId("saves-screen").innerText()).not.toMatch(
       DEVELOPER_WORDS,

@@ -2,9 +2,19 @@ import { executiveRulePackForJurisdiction } from "../executive-authority-rule-pa
 import { knownRule, unknownRule } from "../legislature-rules";
 import type { RuleSourceRef } from "../legislature-rules";
 import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
+import {
+  DISTRICT_OF_COLUMBIA_JURISDICTION_KEY,
+  DISTRICT_OF_COLUMBIA_OFFICE_DISPLAY_NAME,
+  DISTRICT_OF_COLUMBIA_OFFICE_KEY,
+  DISTRICT_OF_COLUMBIA_OFFICE_TITLE,
+  DISTRICT_OF_COLUMBIA_STRUCTURE_SOURCE,
+  DISTRICT_OF_COLUMBIA_USPS,
+  isDistrictOfColumbia,
+} from "./district-of-columbia-identity";
 
 /**
- * State executive offices as candidacy packs, for all fifty states.
+ * Chief executive offices as candidacy packs: the fifty states, and the
+ * District of Columbia separately.
  *
  * A leaf, like `candidacy-packs.ts` it composes into: no places, no World. It
  * says only that each state has one chief executive office a person can stand
@@ -14,7 +24,12 @@ import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
  * behavior with no edit to this file.
  */
 
-/** The fifty states. DC and Puerto Rico are places, not states with governors. */
+/**
+ * The fifty states, and only those. The District of Columbia has a chief
+ * executive — a Mayor, not a governor — and is carried separately below, so
+ * that everything counting states (congressional seats, electors, statewide
+ * contests) keeps counting fifty. Puerto Rico is not in either list.
+ */
 export const US_STATE_NAMES = {
   AL: "Alabama",
   AK: "Alaska",
@@ -79,6 +94,26 @@ export function isUsState(stateUsps: string): stateUsps is UsStateUsps {
 }
 
 /**
+ * Every jurisdiction with a chief executive of its own: the fifty states and
+ * the District. Producers that mean "each government's own executive" read
+ * this; producers that mean "the states" keep reading `US_STATE_USPS`.
+ */
+export const CHIEF_EXECUTIVE_JURISDICTIONS: readonly string[] = [
+  ...US_STATE_USPS,
+  DISTRICT_OF_COLUMBIA_USPS,
+];
+
+export function isChiefExecutiveJurisdiction(key: string): boolean {
+  return isUsState(key) || isDistrictOfColumbia(key);
+}
+
+/** The jurisdiction's own name, for a state or for the District. */
+export function chiefExecutiveJurisdictionName(key: string): string {
+  if (isDistrictOfColumbia(key)) return "District of Columbia";
+  return isUsState(key) ? US_STATE_NAMES[key] : key;
+}
+
+/**
  * Structural index for "every state government has a governor as its chief
  * executive": an index to each state's constitution, not a term, power,
  * qualification or selection rule.
@@ -97,7 +132,8 @@ const STRUCTURE_SOURCE: RuleSourceRef = {
 };
 
 export interface StateExecutiveIdentity {
-  readonly stateUsps: UsStateUsps;
+  /** A state's USPS code, or `DC` for the District. */
+  readonly stateUsps: string;
   readonly jurisdictionKey: string;
   /** The accepted executive pack's own key where one exists; else `us-xx-governor`. */
   readonly officeKey: string;
@@ -108,9 +144,17 @@ export interface StateExecutiveIdentity {
   readonly candidacyPackId: string;
 }
 
+/**
+ * The chief executive office of a state or of the District.
+ *
+ * The District's row is written out rather than derived from the governor
+ * template: a different title, a different display name and its own Home Rule
+ * Act citation, so nothing downstream renders a Governor of the District.
+ */
 export function stateExecutiveIdentity(
   stateUsps: string,
 ): StateExecutiveIdentity | null {
+  if (isDistrictOfColumbia(stateUsps)) return DISTRICT_OF_COLUMBIA_IDENTITY;
   if (!isUsState(stateUsps)) return null;
   const jurisdictionKey = `US-${stateUsps}`;
   const pack = executiveRulePackForJurisdiction(jurisdictionKey);
@@ -128,11 +172,21 @@ export function stateExecutiveIdentity(
   };
 }
 
-/** The state whose executive office this key names, or null. */
+const DISTRICT_OF_COLUMBIA_IDENTITY: StateExecutiveIdentity = {
+  stateUsps: DISTRICT_OF_COLUMBIA_USPS,
+  jurisdictionKey: DISTRICT_OF_COLUMBIA_JURISDICTION_KEY,
+  officeKey: DISTRICT_OF_COLUMBIA_OFFICE_KEY,
+  title: DISTRICT_OF_COLUMBIA_OFFICE_TITLE,
+  displayName: DISTRICT_OF_COLUMBIA_OFFICE_DISPLAY_NAME,
+  executivePackId: null,
+  candidacyPackId: `${DISTRICT_OF_COLUMBIA_OFFICE_KEY}:candidacy`,
+};
+
+/** The jurisdiction whose executive office this key names, or null. */
 export function stateExecutiveIdentityForOfficeKey(
   officeKey: string,
 ): StateExecutiveIdentity | null {
-  for (const usps of US_STATE_USPS) {
+  for (const usps of CHIEF_EXECUTIVE_JURISDICTIONS) {
     const identity = stateExecutiveIdentity(usps);
     if (identity?.officeKey === officeKey) return identity;
   }
@@ -144,7 +198,21 @@ const QUALIFICATION_AT_FILING =
 const NO_FILING_PROCEDURE =
   "No filing deadline, filing officer, primary, nomination, or ballot-access procedure has been read for this office.";
 
+const DISTRICT_STRUCTURE_SOURCE: RuleSourceRef = {
+  authority: "research-reference",
+  citation: "D.C. Code § 1-204.01",
+  sourceTitle:
+    "District of Columbia Home Rule Act, as the official Code carries it",
+  sourceUrl: DISTRICT_OF_COLUMBIA_STRUCTURE_SOURCE,
+  retrievedAt: null,
+  verification: "partial",
+  note: "Cited for the existence of a single elected Mayor and a Council. The section was not retrieved word for word here, and nothing about selection, term or powers is taken from it.",
+};
+
 function candidacyPackFor(identity: StateExecutiveIdentity): CandidacyPack {
+  const structure = isDistrictOfColumbia(identity.stateUsps)
+    ? DISTRICT_STRUCTURE_SOURCE
+    : STRUCTURE_SOURCE;
   const option: ElectiveOfficeOption = {
     officeKey: identity.officeKey,
     chamberName: identity.displayName,
@@ -154,7 +222,7 @@ function candidacyPackFor(identity: StateExecutiveIdentity): CandidacyPack {
       seatKey: null,
       occupationClassification: `service:${identity.officeKey}`,
     },
-    seats: knownRule(1, STRUCTURE_SOURCE),
+    seats: knownRule(1, structure),
     recordedBy: {
       packId: identity.candidacyPackId,
       packName: identity.displayName,
@@ -183,7 +251,7 @@ function candidacyPackFor(identity: StateExecutiveIdentity): CandidacyPack {
 let packs: readonly CandidacyPack[] | null = null;
 
 export function stateExecutiveCandidacyPacks(): readonly CandidacyPack[] {
-  packs ??= US_STATE_USPS.map((usps) =>
+  packs ??= CHIEF_EXECUTIVE_JURISDICTIONS.map((usps) =>
     candidacyPackFor(stateExecutiveIdentity(usps)!),
   );
   return packs;

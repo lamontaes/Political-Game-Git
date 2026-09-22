@@ -26,7 +26,7 @@
     {
       "path": ["household", "records", "relationship", 0, "summary"],
       "before": "Joy Villanueva said out loud to Evelyn Newman what neither of them had been saying about the week.",
-      "after": "Joy Villanueva asked Donna Newman how to divide the errands."
+      "after": "Joy Villanueva asked Brianna Newman how to divide the errands."
     },
     {
       "path": ["household", "records", "relationship", 0, "id"],
@@ -51,7 +51,7 @@
     {
       "path": ["household", "records", "relationship", 1, "summary"],
       "before": "Joy Villanueva took the week off Evelyn Newman without being asked to.",
-      "after": "Joy Villanueva offered to handle the errands, and Donna Newman accepted."
+      "after": "Joy Villanueva offered to handle the errands, and Brianna Newman accepted."
     },
     {
       "path": ["household", "records", "relationship", 1, "id"],
@@ -113,7 +113,7 @@
     {
       "path": ["household", "records", "landed", 0, "summary"],
       "before": "Joy Villanueva brought up the week's errands with Newman. Evelyn Newman said they had been avoiding it too.",
-      "after": "Joy Villanueva brought up the week's errands with Newman. Donna Newman was willing to discuss the errands."
+      "after": "Joy Villanueva brought up the week's errands with Newman. Brianna Newman was willing to discuss the errands."
     },
     {
       "path": ["household", "records", "landed", 1, "id"],
@@ -138,7 +138,7 @@
     {
       "path": ["household", "records", "landed", 1, "summary"],
       "before": "Joy Villanueva offered to cover the week themselves. Evelyn Newman let them take it.",
-      "after": "Joy Villanueva offered to cover the week themselves. Donna Newman let them take it."
+      "after": "Joy Villanueva offered to cover the week themselves. Brianna Newman let them take it."
     },
     {
       "path": ["household", "records", "turns", 0, "semantic", "turnKey"],
@@ -156,7 +156,7 @@
         "speakerName"
       ],
       "before": "Evelyn Newman",
-      "after": "Donna Newman"
+      "after": "Brianna Newman"
     },
     {
       "path": ["household", "records", "turns", 1, "semantic", "turnKey"],
@@ -192,7 +192,7 @@
         "speakerName"
       ],
       "before": "Evelyn Newman",
-      "after": "Donna Newman"
+      "after": "Brianna Newman"
     },
     {
       "path": ["householdCallback", "initialNextSequence"],
@@ -217,7 +217,7 @@
     {
       "path": ["householdCallback", "records", "relationship", 0, "summary"],
       "before": "Joy Villanueva said out loud to Evelyn Newman what neither of them had been saying about the week.",
-      "after": "Joy Villanueva asked Donna Newman how to divide the errands."
+      "after": "Joy Villanueva asked Brianna Newman how to divide the errands."
     },
     {
       "path": ["householdCallback", "records", "relationship", 0, "id"],
@@ -242,7 +242,7 @@
     {
       "path": ["householdCallback", "records", "relationship", 1, "summary"],
       "before": "Joy Villanueva put the week onto Evelyn Newman, who took it and said it was not every week.",
-      "after": "Joy Villanueva put the week onto Donna Newman, who took it and said it was not every week."
+      "after": "Joy Villanueva put the week onto Brianna Newman, who took it and said it was not every week."
     },
     {
       "path": ["householdCallback", "records", "relationship", 1, "id"],
@@ -337,7 +337,7 @@
     {
       "path": ["householdCallback", "records", "landed", 0, "summary"],
       "before": "Joy Villanueva brought up the week's errands with Newman. Evelyn Newman said they had been avoiding it too.",
-      "after": "Joy Villanueva brought up the week's errands with Newman. Donna Newman was willing to discuss the errands."
+      "after": "Joy Villanueva brought up the week's errands with Newman. Brianna Newman was willing to discuss the errands."
     },
     {
       "path": ["householdCallback", "records", "landed", 1, "id"],
@@ -362,7 +362,7 @@
     {
       "path": ["householdCallback", "records", "landed", 1, "summary"],
       "before": "Joy Villanueva asked Newman to take the week this time. Evelyn Newman took it on.",
-      "after": "Joy Villanueva asked Newman to take the week this time. Donna Newman took it on."
+      "after": "Joy Villanueva asked Newman to take the week this time. Brianna Newman took it on."
     },
     {
       "path": [
@@ -387,7 +387,7 @@
         "speakerName"
       ],
       "before": "Evelyn Newman",
-      "after": "Donna Newman"
+      "after": "Brianna Newman"
     },
     {
       "path": [
@@ -437,7 +437,7 @@
         "speakerName"
       ],
       "before": "Evelyn Newman",
-      "after": "Donna Newman"
+      "after": "Brianna Newman"
     },
     {
       "path": [
@@ -449,7 +449,7 @@
         "immediateReaction"
       ],
       "before": "“Right,” Newman says, and puts the cup down. “Go on, then.”",
-      "after": "“Okay. How do you want to divide it?” Donna says."
+      "after": "“Okay. How do you want to divide it?” Brianna says."
     },
     {
       "path": [
@@ -461,7 +461,7 @@
         "immediateReaction"
       ],
       "before": "“All right,” Newman says. “If you are offering.”",
-      "after": "“All right. Thanks,” Donna says."
+      "after": "“All right. Thanks,” Brianna says."
     },
     {
       "path": [
@@ -474,7 +474,7 @@
         "dialogue"
       ],
       "before": "“Right,” Newman says, and puts the cup down. “Go on, then.”",
-      "after": "“Okay. How do you want to divide it?” Donna says."
+      "after": "“Okay. How do you want to divide it?” Brianna says."
     },
     {
       "path": [
@@ -524,7 +524,7 @@
         "dialogue"
       ],
       "before": "“All right,” Newman says. “If you are offering.”",
-      "after": "“All right. Thanks,” Donna says."
+      "after": "“All right. Thanks,” Brianna says."
     },
     {
       "path": [
@@ -560,7 +560,7 @@
         "immediateReaction"
       ],
       "before": "“Right,” Newman says, and puts the cup down. “Go on, then.”",
-      "after": "“Okay. How do you want to divide it?” Donna says."
+      "after": "“Okay. How do you want to divide it?” Brianna says."
     },
     {
       "path": [
@@ -572,7 +572,7 @@
         "immediateReaction"
       ],
       "before": "“This week,” Newman says. “Not as a standing arrangement.”",
-      "after": "“Okay, I’ll handle these errands,” Donna says."
+      "after": "“Okay, I’ll handle these errands,” Brianna says."
     },
     {
       "path": [
@@ -585,7 +585,7 @@
         "dialogue"
       ],
       "before": "“Right,” Newman says, and puts the cup down. “Go on, then.”",
-      "after": "“Okay. How do you want to divide it?” Donna says."
+      "after": "“Okay. How do you want to divide it?” Brianna says."
     },
     {
       "path": [
@@ -635,7 +635,7 @@
         "dialogue"
       ],
       "before": "“This week,” Newman says. “Not as a standing arrangement.”",
-      "after": "“Okay, I’ll handle these errands,” Donna says."
+      "after": "“Okay, I’ll handle these errands,” Brianna says."
     }
   ]
 }

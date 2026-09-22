@@ -1,0 +1,25 @@
+{
+  "filedAt": "2026-09-22T23:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "a corrupt life in power",
+  "priority": "P1",
+  "question": "For each of the 50 states, plus D.C. and Puerto Rico, answered as one set: when campaign-finance misconduct from before taking office is found against a sitting governor, which routes can act on it and how? (1) Impeachment: the standard (is pre-office conduct impeachable?), which body impeaches and which tries, and the vote thresholds. (2) Recall: whether the state allows recall of a governor, the grounds, the signature threshold and timing. (3) Criminal referral: who prosecutes a sitting governor for state campaign-finance crimes, and whether any immunity or delay applies. (4) Removal or disqualification: any court-ordered removal, forfeiture of office or bar from future office. Then, from real cases, which routes were actually used against governors or other statewide officials for campaign-fund misuse, and what scale of misuse triggered each. Mark anything not found as UNKNOWN.",
+  "questionId": "sitting-governor-and-earlier-campaign-finance-misuse",
+  "relatedQuestionIds": [
+    "campaign-misconduct-detection-routes",
+    "state-campaign-finance-regulators",
+    "ethics-finding-electoral-magnitudes",
+    "approval-ratings-for-officeholders"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "A corrupt life in power playtest thread, filed by the research intake thread",
+  "sourcesChecked": [
+    {
+      "source": "campaign-misconduct-detection-routes, answered by ChatGPT at 22:31Z",
+      "whatItDidNotSettle": "It covers how misconduct is detected federally, not what happens to someone already in office."
+    }
+  ],
+  "title": "What can happen to a sitting governor found to have misused campaign funds before taking office",
+  "usableAnswer": "A 52-row table of impeachment standard, bodies and thresholds; recall availability, grounds and threshold; prosecutor and any immunity; removal or disqualification; with citations and evidence status; plus a short list of real cases with the route used and the amount involved.",
+  "whyItMatters": "In play, Lucia Moran became Governor of Alaska after taking about $154,000 from her campaign in 43 withdrawals over ten months. The game now fines her and orders repayment during the campaign, but nothing follows her into office: no impeachment, recall, prosecution or removal route exists for a sitting governor. lamontae asked how the scandal played out and whether she could avoid getting caught."
+}

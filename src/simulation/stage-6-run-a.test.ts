@@ -1066,7 +1066,7 @@ describe("Stage 6 Run A future due items and authoritative time", () => {
     ).toHaveLength(3);
   });
 
-  it("treats cancelled and blocked items as terminal without reruns", () => {
+  it("treats canceled and blocked items as terminal without reruns", () => {
     let cancelled = bareWorld("stage-6-due-cancelled");
     cancelled = schedule(cancelled, "due:cancelled", "2026-01-15");
     const cancelledItem = cancelled.history.futureDueItems.at(-1)!;

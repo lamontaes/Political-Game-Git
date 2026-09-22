@@ -185,7 +185,7 @@ export interface OfferAwaitingAnswer {
   /**
    * Whether that date is still ahead of today.
    *
-   * The judgement lives here rather than in one sentence somewhere, so the
+   * The judgment lives here rather than in one sentence somewhere, so the
    * next thing that renders an offer inherits it instead of having to
    * rediscover that `startsOn` goes stale. See "Values whose meaning decays
    * with time" in `docs/systems/player-presentation.md`.

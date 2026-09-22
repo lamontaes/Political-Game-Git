@@ -5,7 +5,7 @@
  * come from the Commission's separately published header CSV, so the schema is
  * evidence rather than an assumption. A row whose width disagrees with the
  * header is a named defect: the alternative is every field after the mismatch
- * silently holding its neighbour's value.
+ * silently holding its neighbor's value.
  */
 
 import { parseDelimited } from "../../core/index";

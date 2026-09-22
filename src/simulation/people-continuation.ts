@@ -9,6 +9,7 @@ import {
   householdMembershipStateHistory,
   householdMembershipsAt,
   kinshipRelationshipsAt,
+  peopleInHouseholdAt,
 } from "./life-queries";
 import { childrenOf, grandchildrenOf, parentsOf } from "./people-family";
 import { personName } from "./people";
@@ -40,7 +41,7 @@ import { recordWorldEvent } from "./world";
  * temperament, relationships, aims, office or money. A person who owned
  * property individually leaves it in a pending estate; household and joint
  * holdings keep their existing shares; campaign and public money was never
- * theirs to leave. Probate is not modelled and not claimed.
+ * theirs to leave. Probate is not modeled and not claimed.
  *
  * Retiring a character from play is not their death and does not end any job
  * or office they hold. They simply stop being played.
@@ -228,7 +229,10 @@ export type SuccessorRelation =
   | "grandchild"
   | "sibling"
   | "partner"
+  | "parent"
+  | "household"
   | "protege"
+  | "mentor"
   | "close-associate"
   | "other";
 
@@ -306,12 +310,32 @@ export function successorCandidates(
       "partner",
     );
   }
+  // A parent is family the record already names; leaving one to the wider
+  // list offered a player's own father as "no connection on record".
+  for (const id of parentsOf(world, predecessorId)) add(id, "parent");
+  // Somebody under the same roof today is not a stranger either, whether or
+  // not any kinship record joins them.
+  for (const entry of householdMembershipsAt(world, predecessorId)) {
+    for (const id of peopleInHouseholdAt(world, entry.membership.householdId)) {
+      add(id, "household");
+    }
+  }
   // Somebody they taught, or somebody they kept up with for years. Not family,
   // but not a stranger either, and the owner asked for both to be offered.
   for (const interaction of meaningfulBonds(world, predecessorId)) {
     const other = interaction.personIds.find((id) => id !== predecessorId)!;
+    // Which of them taught is not in the record's order: the history writer
+    // sorts the ids. Every mentorship the game writes is an elder guiding a
+    // younger person, so the elder is the mentor. Reading every mentorship as
+    // "someone they taught" offered a 34-year-old her own middle-school
+    // teacher as her pupil.
     const mentorship = interaction.kind.startsWith("mentorship:");
-    add(other, mentorship ? "protege" : "close-associate", interaction.summary);
+    const relation: SuccessorRelation = !mentorship
+      ? "close-associate"
+      : world.people[other]!.birthDate < world.people[predecessorId]!.birthDate
+        ? "mentor"
+        : "protege";
+    add(other, relation, interaction.summary);
   }
   // And anybody else alive and old enough. Offered plainly as what it is: a
   // life this one did not touch, which the player may take up anyway.

@@ -47,7 +47,7 @@ export type TraitForce = "passing" | "notable" | "formative";
 /**
  * What each force is worth. These stay in code, unlike every number in
  * `TraitMovability`, because they are the meaning of the vocabulary rather
- * than a judgement about a particular trait: "formative" has to mean the same
+ * than a judgment about a particular trait: "formative" has to mean the same
  * thing to every pack or the word is worth nothing.
  */
 const FORCE_WEIGHT: Readonly<Record<TraitForce, number>> = {

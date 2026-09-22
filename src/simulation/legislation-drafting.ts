@@ -114,6 +114,12 @@ export interface CompiledBillDraft {
   readonly shortTitle: string;
   readonly summary: string;
   readonly subjectClass: "appropriation" | "general-policy";
+  /**
+   * The catalog questions this configuration is about, as qualified keys.
+   * Keys, not ids: a draft is compiled without a world, and which of these a
+   * particular world's catalog holds is decided where the bill is filed.
+   */
+  readonly propositionKeys: readonly string[];
   readonly scenarioKey: string;
   readonly jurisdictionId: EntityId;
   readonly rulePackId: string;
@@ -368,7 +374,7 @@ function checkInstrumentShape(
  * with a default; it is the sentence that makes the Act do anything, missing.
  * Equally, an authorization handed an authority is being asked to amend
  * something it does not amend, and that is refused rather than ignored, because
- * ignoring it would tell the caller their bill was about a programme when it
+ * ignoring it would tell the caller their bill was about a program when it
  * was not.
  */
 function checkPredicateAuthority(
@@ -401,7 +407,7 @@ function checkPredicateAuthority(
  * An appropriation may not exceed the ceiling the authority it names set.
  *
  * Checked against the authority's own recorded ceiling rather than against a
- * bound in the bank, because the limit is a fact about that programme, not a
+ * bound in the bank, because the limit is a fact about that program, not a
  * design choice about this bill — and it moves when the player appropriates
  * against a bigger bill of their own. Refused rather than clamped, on the same
  * ground as every other bound here.
@@ -585,6 +591,7 @@ export function compileBillDraft(
     shortTitle: variant.shortTitle,
     summary: variant.synopsis,
     subjectClass: variant.subjectClass,
+    propositionKeys: [...(variant.propositionKeys ?? [])],
     scenarioKey: input.scenarioKey,
     jurisdictionId: input.jurisdictionId,
     rulePackId: input.rulePackId,
@@ -619,13 +626,13 @@ export function compileBillDraft(
 }
 
 /**
- * When the programme runs.
+ * When the program runs.
  *
  * A configuration with no timing parameter starts when it is filed and does not
  * end — which is a real thing for a formula change and would be a lie for a
  * pilot, so the variants that are pilots declare a term. An end before a start
  * is refused here rather than rendered, because a sunset clause that closes the
- * programme before it opens is a contradiction the text cannot express
+ * program before it opens is a contradiction the text cannot express
  * honestly.
  */
 function resolveTiming(
@@ -815,32 +822,16 @@ export function compareDrafts(
 /* Designations                                                                */
 /* -------------------------------------------------------------------------- */
 
-/**
- * What the chamber calls a bill it has just received.
- *
- * Derived from the originating chamber's own key rather than from the state, so
- * a unicameral legislature gets its own prefix instead of a House number it
- * does not issue.
+/*
+ * A bill's designation prefix used to be decided here, by a switch over four
+ * chamber keys that raised on anything else. It now lives on the chamber
+ * record the rule pack carries (`ChamberRule.billDesignationPrefix`), read
+ * through `chamberDesignationPrefix`, because what a chamber calls its bills
+ * is a fact about that chamber. The switch had already been patched once for
+ * Nevada's Assembly, and would have had to be patched again for every
+ * legislature whose chambers are named differently — and it knew nothing at
+ * all about a municipal council.
  */
-export function designationPrefix(chamberKey: string): string {
-  switch (chamberKey) {
-    case "house":
-      return "HB";
-    case "senate":
-      return "SB";
-    case "legislature":
-      return "LB";
-    // Nevada's lower chamber is an Assembly and issues Assembly Bills. Its
-    // registered pack has been reachable since the nationwide packs landed;
-    // without this, filing in it raises rather than numbering the bill.
-    case "assembly":
-      return "AB";
-    default:
-      throw new BillConfigurationError(
-        `No bill designation is defined for a '${chamberKey}' chamber.`,
-      );
-  }
-}
 
 export function draftScope(draft: CompiledBillDraft): MetricScope {
   return { jurisdictionId: draft.jurisdictionId, segmentKey: null };

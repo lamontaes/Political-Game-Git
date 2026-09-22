@@ -42,13 +42,18 @@ test("Calais normal start, combined introduction and return-to-title preserve th
     page.locator('.pg-opening-officials [data-figure-status="ready"]'),
   ).toHaveCount(2);
   const camera = page.locator(".pg-white-house-presentation .pg-scene-camera");
-  await expect(camera).toHaveCSS("animation-name", "pg-chapter-drift");
-  await page.getByRole("button", { name: "Pause motion", exact: true }).click();
-  await expect(camera).toHaveCSS("animation-play-state", "paused");
-  await page
-    .getByRole("button", { name: "Resume motion", exact: true })
-    .click();
-  await expect(camera).toHaveCSS("animation-play-state", "running");
+  // The cards hold still: no camera drift, so no motion control either.
+  await expect(camera).toHaveCSS("animation-name", "none");
+  await expect(
+    page.getByRole("button", { name: "Pause motion", exact: true }),
+  ).toHaveCount(0);
+  // The introduction fills the window and is opaque, not a card over the room.
+  const layer = await page.getByTestId("world-orientation").boundingBox();
+  expect(layer).toEqual({ x: 0, y: 0, width: 853, height: 650 });
+  await expect(page.getByTestId("world-orientation")).toHaveCSS(
+    "background-color",
+    "rgb(11, 19, 32)",
+  );
   await page.screenshot({
     path: info.outputPath("calais-two-officials-853.png"),
   });
@@ -85,7 +90,7 @@ test("Calais normal start, combined introduction and return-to-title preserve th
       .locator(".pg-scene-chapter:not([aria-hidden]) .pg-orientation-kicker")
       .textContent(),
   ).toBe(openingDate);
-  // Rapid changes coalesce to the last requested chapter. A cancelled image
+  // Rapid changes coalesce to the last requested chapter. A canceled image
   // decode cannot reveal an earlier target or leave duplicate active groups.
   await page.getByTestId("orientation-next").click();
   await page.getByTestId("orientation-next").click();

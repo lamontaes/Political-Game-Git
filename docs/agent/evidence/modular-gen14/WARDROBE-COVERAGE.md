@@ -62,7 +62,7 @@ anybody. This is layer separation, not silhouette.
 **The mask is built.** `npm run derive:visual4-arm-mask` writes an additive
 candidate beside the original. The separation is measured, not guessed: fabric
 at rgb(112,53,62), baked skin at rgb(223,179,155), nowhere near each other in
-any channel. Skin is classified by colour, grown 4px to take the outline and
+any channel. Skin is classified by color, grown 4px to take the outline and
 anti-aliased fringe, and cleared in RGB as well as alpha.
 
 ```
@@ -100,7 +100,7 @@ about a garment, and it is the owner's. Overlay: `polo-arm-mask-overlay.png`
 (cleared pixels render black). A test pins the block so removing it has to be
 deliberate.
 
-## The instrument, repaired and characterised
+## The instrument, repaired and characterized
 
 The first version reported `insufficient-coverage` for every pair it measured —
 including the banked reference, the one case that must always measure — and I

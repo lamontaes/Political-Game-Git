@@ -10,7 +10,7 @@ KNOWN WORLD FACTS:
   CHARACTER KNOWLEDGE: you remember agreeing. Nothing establishes what {role:relative} thinks the arrangement is.
   ESTABLISHED TRAITS: none.
   EARLIER CHOICES: you agreed to the weekends.
-  UNKNOWN / DO NOT ASSUME: any weekday, calendar date, month or clock time; any name beyond the role slots named above; any sum of money, wage, price, rent or debt figure; the name of any employer, school, college, programme or organisation; whether the character attends a four-year college, lives on a campus, or lives away from family; any consequence that follows the choice.
+  UNKNOWN / DO NOT ASSUME: any weekday, calendar date, month or clock time; any name beyond the role slots named above; any sum of money, wage, price, rent or debt figure; the name of any employer, school, college, program or organization; whether the character attends a four-year college, lives on a campus, or lives away from family; any consequence that follows the choice.
   ALLOWED INTERPRETATION: none beyond the facts above.
   Additionally: do not establish resentment, gratitude, or any state of feeling on either side. Do not establish the state of the business.
   PURPOSE: An arrangement with no end in it, at least sixty days in. Whether to say so is the whole of the moment.

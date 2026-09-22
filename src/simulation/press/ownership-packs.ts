@@ -1,7 +1,9 @@
 import {
   MEDIA_PRODUCTS,
+  MEDIA_RESOURCE_TIERS,
   MEDIA_SCOPES,
   type MediaProduct,
+  type MediaResourceTier,
   type MediaScope,
 } from "./records";
 
@@ -80,6 +82,12 @@ export interface OwnershipPack {
   readonly provenance: OwnershipPackProvenance;
   readonly practices?: readonly OwnershipPracticeRow[];
   readonly owners?: readonly OwnershipOwnerRow[];
+  /**
+   * What an outlet of each size costs a buyer, in whole US dollars. A later
+   * pack's price for a size replaces an earlier one. A size no loaded pack
+   * prices cannot be bought, and the purchase route says so.
+   */
+  readonly askingPriceDollars?: Partial<Record<MediaResourceTier, number>>;
 }
 
 /**
@@ -141,6 +149,9 @@ export interface LoadedOwnershipOwner extends OwnershipOwnerRow {
 export interface OwnershipRegistry {
   readonly owners: readonly LoadedOwnershipOwner[];
   readonly practices: ReadonlyMap<string, OwnershipPracticeRow>;
+  readonly askingPriceDollars: Readonly<
+    Partial<Record<MediaResourceTier, number>>
+  >;
   readonly report: OwnershipLoadReport;
 }
 
@@ -210,6 +221,7 @@ export function loadOwnershipPacks(
   const replaced: { key: string; by: string }[] = [];
   const rejections: OwnershipLoadRejection[] = [];
   const reports: OwnershipLoadReport["packs"][number][] = [];
+  const askingPriceDollars: Partial<Record<MediaResourceTier, number>> = {};
 
   for (const pack of packs) {
     const provenance = pack.provenance;
@@ -271,6 +283,23 @@ export function loadOwnershipPacks(
       ownerSource.set(row.key, pack.id);
       loadedOwners.push(row.key);
     }
+    for (const [tier, price] of Object.entries(pack.askingPriceDollars ?? {})) {
+      if (!(MEDIA_RESOURCE_TIERS as readonly string[]).includes(tier)) {
+        rejections.push({
+          pack: pack.id,
+          where: `askingPriceDollars.${tier}`,
+          reason: "prices an outlet size the game does not have",
+        });
+      } else if (!(Number.isSafeInteger(price) && price > 0)) {
+        rejections.push({
+          pack: pack.id,
+          where: `askingPriceDollars.${tier}`,
+          reason: "is not a positive whole number of dollars",
+        });
+      } else {
+        askingPriceDollars[tier as MediaResourceTier] = price;
+      }
+    }
     reports.push({
       pack: pack.id,
       provenance: provenance.kind,
@@ -285,6 +314,7 @@ export function loadOwnershipPacks(
   return {
     owners: [...owners.values()],
     practices,
+    askingPriceDollars,
     report: { packs: reports, replaced, notYetSimulated, rejections },
   };
 }

@@ -28,7 +28,7 @@ import type { ScannedLiteral } from "./scan";
  * ids to genuinely new sentences: `nextAnchorId` reserved only the ids present
  * in the current sidecar, so retiring `threadMovementSentence-0002` returned
  * that number to the pool and the next new site in that symbol took it. An
- * owner's recorded judgement on the retired line then reads as judgement on
+ * owner's recorded judgment on the retired line then reads as judgment on
  * prose nobody reviewed. The writer caught two of those by hand; a third would
  * not have been caught.
  *
@@ -167,7 +167,7 @@ describe("a retired id is burned, not recycled", () => {
       historyOf(first.issued),
     );
 
-    // Exactly the pre-ledger behaviour: reserve the live sidecar alone. The
+    // Exactly the pre-ledger behavior: reserve the live sidecar alone. The
     // new sentence is handed the retired sentence's number.
     const withoutLedger = mintAnchors(
       sites(FIRST, THIRD),
@@ -229,7 +229,7 @@ describe("a retired id is burned, not recycled", () => {
   });
 });
 
-describe("the ledger does not change settled behaviour", () => {
+describe("the ledger does not change settled behavior", () => {
   it("keeps a reworded site's id and issues nothing new", () => {
     const first = mintAnchors(sites(FIRST, SECOND), [], historyOf([]));
     const reworded = mintAnchors(
