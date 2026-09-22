@@ -41,6 +41,11 @@ export const AMERICAN_ENGLISH_EXEMPT: readonly {
     reason: "research ledgers quoting their sources",
   },
   {
+    pattern: /^docs\/research\/chatgpt-answers\//,
+    reason:
+      "ChatGPT's answers kept byte for byte as downloaded; each folder's SHA256SUMS checks them",
+  },
+  {
     pattern: /^art\/qa\//,
     reason: "generated art QA reports bound to the images they measured",
   },

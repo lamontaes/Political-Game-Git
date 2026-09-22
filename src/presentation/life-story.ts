@@ -1,6 +1,6 @@
 import {
   OPENING_LIFE_ADDITIONS,
-  OPENING_LIFE_FOLLOWUPS,
+  openingLifeSceneAtStage,
   openingChoiceMinutes,
 } from "../simulation/opening-life-content";
 import { scheduleAgreedCoverShift } from "../simulation/life-circumstances";
@@ -717,13 +717,7 @@ export function chooseStoryOption(
         (entry) => `opening.${entry.key}` === scene.beat.episodeKey,
       );
       const ordinaryDefinition = ordinaryScene
-        ? scene.beat.stageKey === "follow-through"
-          ? {
-              ...ordinaryScene,
-              minutes: 5,
-              choices: OPENING_LIFE_FOLLOWUPS[ordinaryScene.key]?.choices ?? [],
-            }
-          : ordinaryScene
+        ? openingLifeSceneAtStage(ordinaryScene, scene.beat.stageKey)
         : undefined;
       const ordinaryChoice = ordinaryDefinition?.choices.find(
         (choice) => choice.key === input.optionKey,

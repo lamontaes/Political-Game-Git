@@ -35,7 +35,7 @@ import {
   OPENING_LIFE_ADDITIONS,
   OPENING_LIFE_FAMILIES,
   openingLifeFamily,
-  OPENING_LIFE_FOLLOWUPS,
+  openingLifeSceneAtStage,
 } from "../simulation/opening-life-content";
 import {
   eligibleEpisodeBeats,
@@ -147,16 +147,9 @@ function definitionAtStage(
   definition: LifeSceneDefinition,
   stageKey: string,
 ): LifeSceneDefinition {
-  if (stageKey === "moment") return definition;
-  const followup = OPENING_LIFE_FOLLOWUPS[definition.key];
-  if (stageKey !== "follow-through" || !followup)
-    throw new Error("Unknown opening stage.");
-  return {
-    ...definition,
-    minutes: 5,
-    premise: followup.premise,
-    choices: followup.choices,
-  };
+  const atStage = openingLifeSceneAtStage(definition, stageKey);
+  if (!atStage) throw new Error("Unknown opening stage.");
+  return atStage;
 }
 
 /** All eligible definitions are inspectable without creating a person or event. */
