@@ -67,7 +67,7 @@ bounds it.
 `no-campaign-session-can-be-carried-out-2026-09-22.md`. The section below read
 an empty treasury as the campaign system sitting still while the player
 worked. The arithmetic in this same walk gives it away: twelve committed
-weeks, forty-eight sessions, forty-eight cleared by *giving up*. Every booking
+weeks, forty-eight sessions, forty-eight cleared by _giving up_. Every booking
 that life held was one it could not carry out, so it never campaigned at all.
 
 No campaign session is performable: a committed week holds six bookings and
