@@ -1,0 +1,27 @@
+{
+  "filedAt": "2026-09-22T16:55:00.000Z",
+  "impact": "shapes-design",
+  "lane": "world divergence",
+  "notes": [
+    "This is the smallest change with the largest reach found so far: the deciding machinery already exists and is sound, and only the roster it is handed is wrong.",
+    "lamontae asked whether what Congress does is decided by the actual members. The honest answer today is that turnover is drawn on dice and the only real votes are cast by three hardcoded people."
+  ],
+  "priority": "P0",
+  "question": "A member's vote is a genuine weighed decision with no randomness: deriveMemberDisposition weighs commitments the member made, whether the bill names a beneficiary in their own district, a spending ceiling they stated publicly, what the question is about, and their working relationship with the asker. The machinery is sound. What it is handed is not. Its only non-test caller is the player's bargaining action, and the chamber it polls is a hardcoded array of three: an advocate, a guardian, and the player, with the guardian's fiscal ceiling written in as the literal 860000000. The other roughly 530 members of Congress never vote on anything. So: (1) what should the voting roster actually be for a question before a chamber, given a save holds 431-435 House members and 99 senators who already exist as people with parties and caucuses; (2) what should stand in for the considerations those members do not have, given nobody in the game can yet hold a conviction and the current considerations are all situational; (3) should a chamber ever resolve a question the player is not in the room for, and if so what makes such a vote legitimate rather than drawn; (4) what is a defensible stated fiscal ceiling per member, since 860000000 is one literal standing in for every guardian in every save; and (5) should party or caucus bear on a vote at all before beliefs exist, or would that be a fake conviction.",
+  "questionId": "who-actually-votes-in-a-chamber",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "world divergence thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/legislative-member-decisions.ts:110-137 and src/presentation/legislative-bargaining-actions.ts:386-404, read on claude/project-thread-usbkkb at 4dbd9887",
+      "whatItDidNotSettle": "Establishes that the decision evaluator is real, deterministic and reason-bearing, and that its seated array is literally three entries with one hardcoded ceiling. It settles that the deciding half is built. It says nothing about who should be in the room or what should move them."
+    },
+    {
+      "source": "src/simulation/living-world/congress-turnover.ts:53-61 and 275-320, same tree",
+      "whatItDidNotSettle": "Establishes that turnover is drawn from CONGRESS_TURNOVER_PROFILE (incumbent returns 850 per mille in the House and 800 in the Senate, an open seat keeps the departing party 750 per mille, a new member's party is rng.pick of the two majors), and that seatCandidacyIntent already overrides the dice where a recorded decision exists. It settles where a real decision could enter. It does not say what should decide a contest."
+    }
+  ],
+  "title": "Who should actually vote when a question reaches a chamber",
+  "usableAnswer": "A stated roster rule for a question before a chamber (who is polled, and on what basis they are eligible), a stated position on whether a chamber may resolve anything outside the player's room and what makes that legitimate, a defensible way to source each member's fiscal ceiling rather than one literal, and a clear yes or no on whether party or caucus may bear on a vote before beliefs exist. A no on the last point is a complete answer and costs nothing.",
+  "whyItMatters": "Congress is the institution the game is named for and the one lamontae rates 8-9 out of 10 in importance. Today a save holds 530-odd members who exist, have parties and caucuses, are replaced on dice, and never cast a vote. The evaluator that would make their votes real is already written, deterministic and reason-bearing; it is simply handed three people. An answer here turns an existing, sound piece of machinery on for the whole chamber, which is the cheapest large change identified in this lane."
+}
