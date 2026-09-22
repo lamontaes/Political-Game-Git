@@ -453,6 +453,23 @@ is not researched twice.
 
 ## 6. Process findings, each paid for once
 
+- **Main did get a verdict, at 07:46:10Z, and it is the first of the night.**
+  Once the merges stopped, the run on `7fc33c85` executed: the `repository`
+  job completed **success** with twelve steps, and a `unit` shard was running
+  behind it. That job is the remote check standing behind every "format, lint,
+  typecheck and release declarations are clean" claim the lanes made locally
+  all night — until then those were all local runs and none of them was the
+  gate.
+- **And a refinement, because this session got it wrong in the same hour it
+  documented the rule.** Asked whether main's run had started, this lane read
+  the run-level status, saw `queued`, and said so — while the `repository` job
+  had already run to green. The run-level aggregate stays un-green while
+  thirteen of fifteen jobs are pending, so it answers a different question than
+  the one asked. Worse, the obvious discriminator does not work: a queued job
+  reports `started_at` **equal to** `created_at` rather than null, so a
+  timestamp is not evidence that anything ran. **The `steps` array is the
+  test** — a job that executed has steps, and a queued one has zero. Read the
+  job, not the roll-up, and read its steps, not its clock.
 - **A freeze on merges is not a freeze on capacity.** The freeze was called to
   stop merges killing main's pending run, and it left untouched the thing that
   starves it: a push to any branch starts its own fifteen-job run, and there
