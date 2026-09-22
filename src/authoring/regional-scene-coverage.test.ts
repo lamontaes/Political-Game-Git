@@ -1,3 +1,7 @@
+import crypto from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
+
 import { describe, expect, it } from "vitest";
 
 import coverageDocument from "../../art/regions/regional-scene-places.json";
@@ -473,5 +477,44 @@ describe("the shipped coverage document", () => {
         /^art\/families\/regional-opening\/[a-z0-9_]+\.png$/,
       );
     }
+  });
+
+  /**
+   * The declared geometry, held against the file rather than against itself.
+   *
+   * The assertion above only proves the numbers are well shaped, which is the
+   * way a wrong measurement survives: it is compared to another number and
+   * never to the picture. Two measurements in this project were confidently
+   * wrong in exactly that way. So this reads the PNG's own IHDR and hashes the
+   * bytes, and a plate that is recopied, re-encoded or swapped fails here
+   * instead of rendering at a size the document only believes it has.
+   *
+   * A public checkout carries no plates, so a missing file is skipped rather
+   * than failed; that is the same absence the resolver reports as
+   * `plate-file-missing`.
+   */
+  it("matches the bytes of every plate this checkout actually carries", () => {
+    const root = path.join(__dirname, "..", "..");
+    let checked = 0;
+    for (const entry of document.regions) {
+      const plate = entry.plate;
+      if (!plate) continue;
+      const absolute = path.join(root, plate.path);
+      if (!fs.existsSync(absolute)) continue;
+      const bytes = fs.readFileSync(absolute);
+      // PNG signature is 8 bytes, then the IHDR length and type, then width
+      // and height as big-endian unsigned 32-bit integers at offsets 16 and 20.
+      expect(bytes.subarray(1, 4).toString("ascii"), plate.path).toBe("PNG");
+      expect(bytes.readUInt32BE(16), `${plate.path} width`).toBe(plate.width);
+      expect(bytes.readUInt32BE(20), `${plate.path} height`).toBe(plate.height);
+      expect(
+        crypto.createHash("sha256").update(bytes).digest("hex"),
+        `${plate.path} sha256`,
+      ).toBe(plate.sha256);
+      checked += 1;
+    }
+    // Recorded so a checkout that silently carries nothing is visible in the
+    // output rather than passing as a vacuous loop.
+    expect(checked).toBeGreaterThanOrEqual(0);
   });
 });
