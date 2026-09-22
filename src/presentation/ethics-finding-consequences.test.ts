@@ -24,6 +24,7 @@ import {
   UNRESEARCHED_STATE_OVERSIGHT,
 } from "../simulation/press";
 import { canonicalSupportBasisPoints } from "../simulation/campaigns";
+import { resourcePositionAt } from "../simulation/resource-queries";
 import { supportAfterLoss } from "../simulation/campaign-support";
 import { spendAnAfternoon } from "./campaign-projection";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -114,11 +115,16 @@ function washingtonFinding() {
   const proceeding = pressRecordsOfKind(after, "matter-proceeding").find(
     (row) => row.id === step.proceedingId,
   )!;
+  const own = (w: World) =>
+    resourcePositionAt(w, { kind: "person", personId }, makeCurrencyCode("USD"))
+      ?.liquidBalance.minorUnits ?? null;
   return {
     after,
     personId,
     rivalId,
     campaign,
+    ownBefore: own(funded),
+    ownAfterFirst: own(first.world),
     step,
     proceeding,
     occurrences: [first.occurrence, second.occurrence],
@@ -127,6 +133,12 @@ function washingtonFinding() {
 
 describe("a Washington candidate paying themselves is noticed and punished", () => {
   const run = washingtonFinding();
+
+  it("puts the money taken in the candidate's own account", () => {
+    // Before the Nome playtest fix, a life with no tracked personal account
+    // lost the money: the committee paid it and nobody received it.
+    expect(run.ownAfterFirst).toBe((run.ownBefore ?? 0) + 20_000);
+  });
 
   it("puts the payments on a public report, without the private purpose", () => {
     const reports = run.after.history.events.filter(

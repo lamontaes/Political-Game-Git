@@ -1,6 +1,7 @@
 import { campaigns, campaignState } from "../campaign-queries";
 import { recordSupportLoss } from "../campaign-support";
 import { electionContestStatus } from "../election-contests";
+import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
 import { personName } from "../people";
 import { recordEventKnowledge } from "../records";
 import { resourcePositionAt } from "../resource-queries";
@@ -299,7 +300,13 @@ function orderPayment(
   respondentId: EntityId,
   order: PaymentOrder,
 ): World {
-  let next = world;
+  // Money the respondent took is on their own account; a life that has none
+  // tracked yet gets its checkpoint first, carrying what it already received.
+  let next = ensureLifePathPersonalPosition(
+    world,
+    respondentId,
+    order.amount.currency,
+  );
   const payer = { kind: "person" as const, personId: respondentId };
   const position = resourcePositionAt(next, payer, order.amount.currency);
   const paid =

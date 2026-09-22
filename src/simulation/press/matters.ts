@@ -12,6 +12,7 @@ import {
   recordEvidenceDiscovery,
 } from "../evidence";
 import { scheduleFutureDueItem } from "../future-transitions";
+import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
 import { activeWorkRelationshipsAt } from "../life-queries";
 import { personName } from "../people";
 import { currentHistoricalCutoff } from "../queries";
@@ -180,6 +181,12 @@ export function spendCampaignFundsPersonally(
     },
   });
   const act = next.history.events.at(-1)!;
+  // The money lands in the candidate's own account. Without a tracked
+  // personal position a completed transfer reached nobody: the committee lost
+  // it and the candidate never had it (Nome, Alaska playtest, 2026-09-22).
+  // The checkpoint carries any earlier recorded money, so a life that already
+  // took some finds all of it here.
+  next = ensureLifePathPersonalPosition(next, personId, amount.currency);
   next = createResourceFlow(next, {
     stableKey: `${input.stableKey}:flow`,
     source: { kind: "organization", organizationId: campaign.organizationId },
