@@ -1,5 +1,7 @@
 import {
+  constitutionalActions,
   constitutionalPosition,
+  constitutionalProposalRuleForWorld,
   proposeConstitutionalMeasure,
   recordConstitutionalProposalVote,
   recordStatewideRatification,
@@ -61,6 +63,10 @@ import {
  *   simulated elections are, not as ballots cast.
  * - Which ballot a referred measure goes on. The first November general
  *   election day at least `ballotLeadDays` after the last chamber votes.
+ * - Whether a ballot comes before the governor's own election. The ballot is
+ *   not re-checked against its cause, and an extension ratified on the day
+ *   the barred governor's successor is chosen changes the rule only for later
+ *   governors, as a real amendment would.
  * - D.C. and Puerto Rico. D.C. has a charter under the Home Rule Act, not a
  *   state constitution, and Puerto Rico's governor has no term limit; neither
  *   is reviewed.
@@ -232,11 +238,18 @@ export function reformCause(
   return null;
 }
 
+/**
+ * Whether any measure on the governor's term limit in this state, the
+ * player's included, is still before the legislature or the voters.
+ */
 function hasOpenReform(world: World, stateUsps: string): boolean {
-  const prefix = `${CONSTITUTIONAL_REFORM_VERSION}:${stateUsps}:`;
+  const officeKey = stateExecutiveOffice(stateUsps)?.officeKey;
   return (world.history.constitutionalMeasures ?? []).some(
     (measure) =>
-      measure.stableKey.startsWith(prefix) &&
+      measure.jurisdictionKey === `US-${stateUsps}` &&
+      measure.ruleDelta.kind === "rule-field" &&
+      measure.ruleDelta.field === "executive.term.limit" &&
+      measure.ruleDelta.officeKey === officeKey &&
       ["consideration", "ratification"].includes(
         constitutionalPosition(world, measure.id).phase,
       ),
@@ -292,6 +305,14 @@ export function constitutionalReformReviewHandler(
     return done(next, "An amendment on this is already pending.");
   const cause = reformCause(next, stateUsps);
   if (!cause) return done(next, "No cause for an amendment is on the record.");
+  // A route this World cannot use today (California's sourced process before
+  // its observation date) is not attempted: a refusal inside a handler would
+  // stop the clock.
+  const route = constitutionalProposalRuleForWorld(next, {
+    jurisdictionId: chiefExecutiveJurisdictionId(stateUsps)!,
+    processKind: "state-amendment",
+  });
+  if (!route.available) return done(next, route.reason);
   const key = measureKey(stateUsps, year);
   const rng = new SeededRng(next.seed).fork(key);
   if (
@@ -376,7 +397,7 @@ function proposeAndVote(
     addDays(next.currentDate, CONSTITUTIONAL_REFORM_PROFILE.ballotLeadDays),
   );
   return scheduleFutureDueItem(next, {
-    stableKey: `${key}:ballot`,
+    stableKey: `${key}:ballot:${electionDay.slice(0, 4)}`,
     dueAt: electionDay,
     transitionKey: CONSTITUTIONAL_REFORM_BALLOT,
     entityIds: [stateId],
@@ -392,7 +413,7 @@ export function constitutionalReformBallotHandler(
 ): FutureTransitionHandlerResult {
   const found = stateForDue(due);
   const measure = (world.history.constitutionalMeasures ?? []).find(
-    (candidate) => `${candidate.stableKey}:ballot` === due.stableKey,
+    (candidate) => due.stableKey.startsWith(`${candidate.stableKey}:ballot:`),
   );
   if (!found || !measure)
     return done(world, "No amendment matches this ballot.");
@@ -410,6 +431,38 @@ export function constitutionalReformBallotHandler(
   );
   // Shares of 10,000, not ballots: turnout is not modelled.
   const yes = yesPermille * 10;
+  // Two measures changing the same rule cannot both pass at one election
+  // until reconciliation is modelled; if another already has, this one goes
+  // to the next general election instead of stopping the clock.
+  const conflicting = (world.history.constitutionalMeasures ?? []).some(
+    (other) =>
+      other.id !== measure.id &&
+      other.jurisdictionKey === measure.jurisdictionKey &&
+      other.ruleDelta.kind === "rule-field" &&
+      delta.kind === "rule-field" &&
+      other.ruleDelta.field === delta.field &&
+      other.ruleDelta.officeKey === delta.officeKey &&
+      constitutionalActions(world, other.id).some(
+        (action) =>
+          action.detail.kind === "statewide-vote" &&
+          action.detail.electionAt === world.currentDate &&
+          action.detail.yes > action.detail.no,
+      ),
+  );
+  if (conflicting && yes > 5_000) {
+    const nextDay = nextGeneralElectionDay(addDays(world.currentDate, 1));
+    return done(
+      scheduleFutureDueItem(world, {
+        stableKey: `${measure.stableKey}:ballot:${nextDay.slice(0, 4)}`,
+        dueAt: nextDay,
+        transitionKey: CONSTITUTIONAL_REFORM_BALLOT,
+        entityIds: due.entityIds,
+        jurisdictionId: due.jurisdictionId,
+        provenance: { kind: "authored", note: PLACEHOLDER_NOTE },
+      }),
+      `${measure.designation} moved to the next general election; another measure on the same rule passed today.`,
+    );
+  }
   const next = recordStatewideRatification(world, measure.id, {
     kind: "statewide-vote",
     yes,

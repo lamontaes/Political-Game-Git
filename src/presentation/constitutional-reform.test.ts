@@ -225,7 +225,7 @@ describe("a state amending its governor's term limit on its own", () => {
       const ballot = proposed.history.futureDueItems.find(
         (due) =>
           due.transitionKey === CONSTITUTIONAL_REFORM_BALLOT &&
-          due.stableKey === `${measure.stableKey}:ballot`,
+          due.stableKey.startsWith(`${measure.stableKey}:ballot:`),
       )!;
       expect(ballot.dueAt).toBe(nextGeneralElectionDay(ballot.dueAt));
       // Through the ordinary clock to election day and past it.
