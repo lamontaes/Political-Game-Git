@@ -7760,6 +7760,55 @@
         "Does not reduce the contrast of the organizer's name or the controls sitting on it."
       ],
       "dependsOn": []
+    },
+    {
+      "requestId": "ui-temperament-marks-ten-poles",
+      "requestVersion": 1,
+      "priority": "P2",
+      "status": "queued",
+      "title": "A mark for each end of the five temperaments",
+      "consumer": {
+        "consumerId": "person-card-temperament",
+        "runtimeComponent": "src/player/PersonCard.tsx, the temperament line at data-testid=\"person-card-traits\"",
+        "playerVisibleUse": "What another person is like, on their card. The line exists and is reached today: observedTraitLabels() joins the words with a middle dot, so somebody reserved who thinks things through and takes chances reads as \"Reserved \u00b7 Thinks it through \u00b7 Takes chances\". It is shown for other people only \u2014 never for the character being played, whose temperament decides nothing for them."
+      },
+      "whyNeeded": "A person's character is currently five words on a list, in the same type as everything else on the card, so the thing the whole mind layer exists to express is the least visible line on the surface that shows it. A small mark beside each word makes somebody legible at a glance and makes the line survive being skimmed, which is how the card is actually read. The surface is built, tested and reachable; this is art rather than engineering.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json (all 126 assets, by asset_id and asset_type, matching trait, personality, temperament, icon, glyph, badge, symbol, mark)",
+          "art/requests/asset-requests.json (all 37 existing requests)",
+          "art/requests/incoming/ and art/requests/promotions/"
+        ],
+        "driveLocationsSearched": [],
+        "found": "Nothing usable. Every manifest match is a character layer \u2014 bodies, heads, hair, eyewear, garments, the lapel pin \u2014 or one of the two seated candidate renders; there is no interface glyph in the project at all. Of the existing requests, ui-shell-reference-icons is the nearest and is a different set: five navigation icons for the pin rail (person, commitment, measure, government, organization), pointing at what to reopen rather than at what somebody is like.",
+        "shortfall": "No icon set has been delivered yet, so there is no established glyph style to match. ui-shell-reference-icons is declared as the style authority for every icon after it; this set should follow it rather than invent a second construction. Drive was not searched: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
+      },
+      "target": {
+        "targetClass": "interface-graphic",
+        "container": "png",
+        "alphaRequired": true,
+        "minimumWidth": 256,
+        "aspectRatio": "square, one mark per file, eleven files",
+        "styleAuthority": "ui-shell-reference-icons once it lands; until then its construction rules. These sit inline beside words at text size, so they have to hold at a fraction of the pin-rail icons' size."
+      },
+      "generationRecipe": [
+        "Eleven marks, one per pole, at identical size and optical weight: Reserved / Outgoing; Thinks it through / Acts on impulse; Conciliatory / Confrontational; Lets things slip / Follows through; Cautious / Takes chances; and one for \"Neither, much\", which a person genuinely holds and which must not read as an absence or a blank.",
+        "Each pair must read as two ends of one thing rather than as a good one and a bad one. None of these is a fault: somebody conciliatory and somebody confrontational are both whole people, and a player should not be able to tell from the marks alone which the game approves of.",
+        "Nothing that reads as a measurement: no scale, dial, meter, bar, star, tick, cross, filled-versus-empty pair, or anything that implies a number or a score. These are fictional behaviour tendencies and the game never reports them as a quantity.",
+        "No lettering of any kind, no initials and no numerals \u2014 everything written in this game is generated per world.",
+        "No seal, flag, party mark or civic insignia, and no facial expressions: a face here would contradict the portrait beside it.",
+        "Legible at the size of a line of body text on a phone, in one flat colour the interface can tint, since the card is themed and these sit inside a sentence."
+      ],
+      "acceptanceCriteria": [
+        "Eleven files, identical size and registration, each readable at body-text size on a phone.",
+        "Shown the pair without the words, a person can say the two belong to the same question, and cannot say which end the game prefers.",
+        "Nothing in the set reads as a rating, a score or a filled-versus-empty measurement.",
+        "\"Neither, much\" is a mark of its own and does not read as a missing or greyed-out one.",
+        "Contains no text and no numerals. A delivery with any lettering in it is wrong however good it looks.",
+        "Carries no seal, flag or party mark, and no face.",
+        "Sits inline in the temperament line without pushing the card's layout around or out-weighing the person's name."
+      ],
+      "dependsOn": ["ui-shell-reference-icons"]
     }
   ]
 }

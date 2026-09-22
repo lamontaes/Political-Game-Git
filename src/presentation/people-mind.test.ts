@@ -24,6 +24,7 @@ import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { declineVenueActivity } from "./scheduled-activity-choice";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { passOrdinaryDays } from "./ordinary-life";
+import { recordRelationshipInteraction } from "../simulation/records";
 import {
   projectPersonalGoals,
   setPersonalGoalStatus,
@@ -490,4 +491,61 @@ describe("PEOPLE P2 aims tell the truth about what they offer", () => {
     expect(relationship.unavailableReason).toMatch(/over a year|get back in/i);
     expect(relationship.unavailableReason).not.toMatch(/nobody you have met/i);
   });
+});
+
+describe("PEOPLE P2 an aim counts occasions, not rows", () => {
+  const life = adultLife("aims-in-touch");
+  const player = life.playerPersonId;
+
+  it("says how often the player was in touch, not how many turns the conversations ran", () => {
+    const choice = projectPersonalGoals(life.world, player).choices.find(
+      (candidate) =>
+        candidate.family !== "seek-office" &&
+        candidate.family !== "civic-issue" &&
+        candidate.targets.length > 0,
+    );
+    expect(choice).toBeDefined();
+    const target = choice!.targets[0]!.targetEntityId!;
+    let world = startPersonalGoal(life.world, {
+      personId: player,
+      family: choice!.family,
+      targetEntityId: target,
+    });
+    // One conversation of three turns writes three interactions, all on the
+    // day it happened; a second conversation happens a fortnight later.
+    const pair = [player, target].sort() as unknown as readonly [
+      typeof player,
+      typeof target,
+    ];
+    for (const turn of [1, 2, 3]) {
+      world = recordRelationshipInteraction(world, {
+        stableKey: `test:in-touch:first:${turn}`,
+        personIds: pair,
+        eventId: null,
+        occurredAt: world.currentDate,
+        kind: "contact:kept-in-touch",
+        change: "maintained",
+        significance: "minor",
+        summary: "They talked.",
+        tags: [],
+      });
+    }
+    world = passOrdinaryDays(world, 14);
+    world = recordRelationshipInteraction(world, {
+      stableKey: "test:in-touch:second:1",
+      personIds: pair,
+      eventId: null,
+      occurredAt: world.currentDate,
+      kind: "contact:kept-in-touch",
+      change: "maintained",
+      significance: "minor",
+      summary: "They talked again.",
+      tags: [],
+    });
+    const goal = projectPersonalGoals(world, player).goals[0]!;
+    // Two occasions, not four rows.
+    expect(goal.progress).toEqual([
+      "You have been in touch 2 times since you set this.",
+    ]);
+  }, 900_000);
 });
