@@ -414,6 +414,32 @@ is not researched twice.
 
 ## 6. Process findings, each paid for once
 
+- **An amendment to our own rule, and the most useful finding in this section.**
+  Tonight every lane was told: on a red check, first see whether the event's
+  `head_sha` is still the branch head, because a stale sha with cancelled jobs
+  is a supersede that needs no action. That rule saved several rounds and is
+  still the right first check. It would also have hidden a real failure. Two
+  `validate` reds arrived on #292 wearing exactly the supersede shape, on
+  ancestor commits — and the log read `unit=cancelled browser=cancelled` and
+  **`repository=failure`**. One genuine failure underneath two cancellations: a
+  `prettier --check` failure on
+  `src/simulation/office-qualification-rules.ts`, already fixed by later
+  commits, red on a sha nothing points at. The nationwide lane opened the log
+  instead of applying the heuristic, and found it.
+
+  **So: a stale sha tells you the red is not about your current head. It does
+  not tell you nothing failed.** Only opening the jobs distinguishes
+  `cancelled` from `failure`, and a supersede can mask a real failure exactly
+  the way a loud failure masks a quiet one. A rule written at two in the
+  morning to stop lanes chasing false reds would, by five, have had one of them
+  discard a true one. This is the fifth member of the family of checks whose
+  failure mode is silence, and the first we introduced ourselves.
+
+  Applied immediately: the two reds on #305 were re-checked at job level rather
+  than at run level before being called supersedes. All fifteen jobs cancelled
+  in both, only the aggregation job failed. They are supersedes, and now that is
+  measured rather than assumed.
+
 - **The concurrency group protects a run that is already running, and main's
   runs were never running.** `validate.yml` sets
   `cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}`, so on `main` an
