@@ -209,11 +209,48 @@ export interface RegionalSceneEntry {
    */
   readonly sourceNote?: string;
   /**
+   * The owner's geographic research for this region, in his own words.
+   *
+   * Prose on purpose. It is not selectors and it does not become selectors by
+   * being read: turning "the lower, warmer parts of Pima, Pinal and Maricopa"
+   * into place GEOIDs is a judgement with sources behind it, and code that
+   * guessed at it would be inventing coverage. His own research file says the
+   * same thing about itself — its status is
+   * `research-input-not-runtime-admission` and it carries no IDs at all.
+   *
+   * It lives beside the row anyway, because whoever does produce those IDs
+   * needs the envelope, the exclusions and the sources in front of them, and a
+   * separate document is where that gets lost.
+   */
+  readonly research?: RegionalSceneResearch;
+  /**
    * Reuse vocabulary from `asset-compatibility.ts`. Optional while a scene is
-   * still being tagged; without it the region has no census-division fallback,
-   * which is a narrower claim rather than a broken one.
+   * still being tagged; a region without it simply makes a narrower claim.
    */
   readonly compatibility?: AssetCompatibilityTags;
+}
+
+/**
+ * Owner-supplied geography for one region. Every field is prose for a person.
+ *
+ * The resolver never reads this. `doNotAssume` in particular is the field a
+ * reader is most likely to want to act on and the one most dangerous to act on
+ * automatically: "do not extend to the entire California portion of the
+ * Sonoran Desert" is an instruction to whoever draws up the place list, not an
+ * exclusion the code can apply, because no California place is claimed here in
+ * the first place.
+ */
+export interface RegionalSceneResearch {
+  /** The region's geographic envelope, as described rather than enumerated. */
+  readonly envelope?: string;
+  /** How to narrow within a county, where county presence alone is too coarse. */
+  readonly countyRefinement?: string;
+  /** What the approved pixels actually show, and in what season. */
+  readonly appearance?: string;
+  /** Places and readings explicitly ruled out. For a person, not the resolver. */
+  readonly doNotAssume?: string;
+  /** Primary sources behind the envelope. */
+  readonly sources?: readonly string[];
 }
 
 export interface RegionalSceneCoverageDocument {

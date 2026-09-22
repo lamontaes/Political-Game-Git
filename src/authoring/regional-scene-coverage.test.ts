@@ -373,6 +373,40 @@ describe("the shipped coverage document", () => {
     expect(summarizeRegionalSceneCoverage(document).regions).toBe(23);
   });
 
+  /**
+   * His research is prose and stays prose.
+   *
+   * Every region carries his geographic envelope and his exclusions, and only
+   * five carry place IDs. The danger is that the prose reads like coverage:
+   * `doNotAssume` on the Sonoran row says not to extend to the California
+   * portion of the desert, which sounds like an exclusion and is not one —
+   * it is an instruction to whoever draws up the place list. A resolver that
+   * acted on any of it would be inventing coverage from a sentence.
+   */
+  it("never resolves a region on research prose alone", () => {
+    const researched = document.regions.filter((entry) => entry.research);
+    expect(researched.length).toBe(23);
+    const withoutSelectors = researched.filter(
+      (entry) =>
+        entry.places.includePlaces.length === 0 &&
+        entry.places.includeCounties.length === 0 &&
+        entry.places.includeStates.length === 0,
+    );
+    expect(withoutSelectors.length).toBeGreaterThan(0);
+    for (const entry of withoutSelectors) {
+      // Arizona is the state his Sonoran research describes at length; a row
+      // that only talks about a place must still not claim it.
+      for (const stateKey of ["US-AZ", "US-CA", "US-KY", "US-TX"]) {
+        const resolution = resolveRegionalPlate(document, {
+          stateKey,
+          season: "summer",
+        });
+        if (resolution.outcome !== "plate") continue;
+        expect(resolution.regionKey, entry.regionKey).not.toBe(entry.regionKey);
+      }
+    }
+  });
+
   it("tags every scene with a season, a landform and a kind of view", () => {
     for (const entry of document.regions) {
       expect(entry.context, entry.regionKey).toBeDefined();

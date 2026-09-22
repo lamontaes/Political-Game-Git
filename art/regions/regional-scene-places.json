@@ -24,7 +24,16 @@
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
       },
-      "sourceNote": "At the Art Bench catalogue read 2026-09-21T22:30:35Z this request selects the same sha256 as playtest65-region-pikeville-valley-street. Until the bench says whether that record is the parent, a reference or a finished winter output, this row is not a separate seasonal scene and takes no plate."
+      "sourceNote": "At the Art Bench catalogue read 2026-09-21T22:30:35Z this request selects the same sha256 as playtest65-region-pikeville-valley-street. Until the bench says whether that record is the parent, a reference or a finished winter output, this row is not a separate seasonal scene and takes no plate.",
+      "research": {
+        "envelope": "Dormant-season version of a generic wooded Appalachian valley town; appropriate eastern Kentucky/West Virginia and comparable valley settlements.",
+        "countyRefinement": "Use valley relief plus town streetscape. A source town is not an exclusive locality license. Compile separately from broad flat plateau towns.",
+        "appearance": "Request explicitly bare deciduous trees and dormant brown ground, without invented snow. At the inspected catalog it shares the SAME selected byte hash as pikeville-valley-street; inspect role/parent before calling it an independently finished winter scene.",
+        "doNotAssume": "Automatic all-Appalachia/all-Kentucky, leafy summer source labelled January, or forced snowfall.",
+        "sources": [
+          "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states"
+        ]
+      }
     },
     {
       "regionKey": "basalt-coulee-steppe",
@@ -46,6 +55,17 @@
         "includePlaces": [],
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      },
+      "research": {
+        "envelope": "Columbia Plateau/Channeled Scablands coulees of eastern Washington, especially appropriate Grant/Adams-area basalt channel terrain.",
+        "countyRefinement": "Use coulee/escarpment subareas, not every agricultural or flat plateau locality. Drumheller near Othello and Potholes/Quincy landscape references are useful.",
+        "appearance": "Request describes basalt escarpment/talus and dry grass/shrub ground. Pixels uninspected.",
+        "doNotAssume": "Olympic rainforest, all Washington, red sandstone Utah scenery, or every location on the multi-state Ice Age Floods trail.",
+        "sources": [
+          "https://www.nps.gov/places/drumheller-channels-national-natural-landmark.htm",
+          "https://science.nasa.gov/earth/earth-observatory/channeled-scablands-92025/",
+          "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states"
+        ]
       }
     },
     {
@@ -69,6 +89,15 @@
         "includePlaces": [],
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      },
+      "research": {
+        "envelope": "Generic low-rise Great Lakes/Midwestern main street represented by the Buchanan-source composition.",
+        "countyRefinement": "Match low-rise main-street built form and appropriate regional setting; Buchanan Michigan is a reference, not the only allowed place.",
+        "appearance": "Request is leaf-on/nonwinter brick-commercial streetscape; actual current candidate not visually inspected this pass.",
+        "doNotAssume": "A universal city main street, high-rise downtowns, different mountain/desert backdrops, readable named signage contradicting the locality.",
+        "sources": [
+          "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states"
+        ]
       }
     },
     {
@@ -91,6 +120,15 @@
         "includePlaces": [],
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      },
+      "research": {
+        "envelope": "Lake Champlain low-shore surroundings in western Vermont and eastern New York.",
+        "countyRefinement": "Use the lake-facing lowland corridor, not all mountain portions of Chittenden/Addison/Franklin/Grand Isle or Clinton/Essex counties. Neighboring lake views may be compatible only if landform/scale fits.",
+        "appearance": "Request explicitly open water, leafy summer shores and low distant wooded hills. Candidate pixels uninspected.",
+        "doNotAssume": "Mountain-wall fjords, ocean surf, frozen January lake, inland sites with no lake-region connection.",
+        "sources": [
+          "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states"
+        ]
       }
     },
     {
@@ -113,6 +151,15 @@
         "includePlaces": [],
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      },
+      "research": {
+        "envelope": "Red-sandstone country of southern/eastern Utah, northern Arizona and compatible western Colorado/northwestern New Mexico areas.",
+        "countyRefinement": "Use redrock landform subregions; the whole Colorado Plateau also contains wooded highlands and different-colored geology.",
+        "appearance": "Request describes cliffs/fins and sparse vegetation; no exact famous arch. Candidate pixels uninspected.",
+        "doNotAssume": "All of the four states, alpine forest, Great Basin sage flats, or recognizable landmarks not supported by the image.",
+        "sources": [
+          "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states"
+        ]
       }
     },
     {
@@ -150,6 +197,16 @@
         ],
         "excludePlaces": [],
         "note": "Starter regional-introduction eligibility for the central Oklahoma/north-central Texas oak-savanna and prairie mosaic. Leaf-on foliage and dry grass are asset constraints, not a winter plate. Does not describe every block of the named city. Extend through the Cross Timbers corridor, including appropriate Kansas areas, after locality checks; do not use a blanket Dallas-county exclusion or all-West-Texas inclusion."
+      },
+      "research": {
+        "envelope": "The oak-woodland/savanna/prairie transition through central Oklahoma into north-central Texas, with appropriate southeastern Kansas extensions.",
+        "countyRefinement": "Review central Oklahoma localities across Payne/Lincoln/Logan/Pottawatomie and adjacent mapped Cross Timbers areas; in Texas prioritize the Cooke/Montague/Jack/Wise/Parker corridor, using ecoregion/place intersection rather than all land in those counties.",
+        "appearance": "Approved pixels: open broadleaf groves, dry grass and rolling terrain, green leaves.",
+        "doNotAssume": "Do not reuse as southern pine-hardwood, treeless shortgrass or all western Texas. A blanket Dallas-county ban is not an ecological finding; urban scene type and actual habitat location are separate.",
+        "sources": [
+          "https://www.ou.edu/biosurvey/education/posters/cross-timbers",
+          "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states"
+        ]
       }
     },
     {
@@ -172,6 +229,16 @@
         "includePlaces": [],
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      },
+      "research": {
+        "envelope": "Open rolling central/northern Plains grassland with a small pond; Fort Pierre-source terrain as a representative anchor.",
+        "countyRefinement": "Use appropriate grassland and water-feature context across South Dakota and comparable central-Plains sites; cannot assert every resident has this pond nearby.",
+        "appearance": "Nonwinter/open-water grassland image request; pixels uninspected.",
+        "doNotAssume": "Winter no-pond variant, mountain lakes, Great Lakes forest shore or dense crop cover.",
+        "sources": [
+          "https://www.nps.gov/tapr/learn/nature/prairies-and-grasslands.htm",
+          "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states"
+        ]
       }
     },
     {
@@ -194,6 +261,16 @@
         "includePlaces": [],
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      },
+      "research": {
+        "envelope": "Dormant grassland setting in suitable central/northern Plains open country.",
+        "countyRefinement": "Grassland type and relief first, not all Plains state territory; avoid forested hills, cropland and city streets.",
+        "appearance": "Request explicitly dormant straw grass and NO pond, rather than inventing ice conditions. Pixels uninspected.",
+        "doNotAssume": "Using the pond reference unchanged as a January asset, forcing snow or routing all open terrain to this scene.",
+        "sources": [
+          "https://www.nps.gov/tapr/learn/nature/prairies-and-grasslands.htm",
+          "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states"
+        ]
       }
     },
     {
@@ -216,6 +293,16 @@
         "includePlaces": [],
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      },
+      "research": {
+        "envelope": "Rounded forested Green Mountain uplands in Vermont and carefully matched adjacent northern Appalachian uplands.",
+        "countyRefinement": "Keep higher/cooler forested ridges separate from Champlain lowlands. Northern-hardwood versus high spruce/fir distinctions matter to the exact image.",
+        "appearance": "Request explicitly green summer canopy; not peak autumn or snow. Candidate pixels uninspected.",
+        "doNotAssume": "Alpine Rockies, treeless summits, all Vermont lowlands or automatic autumn leaves.",
+        "sources": [
+          "https://www.vtfishandwildlife.com/conserve/conservation-planning/natural-community-fact-sheets/northern-hardwood-forest",
+          "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states"
+        ]
       }
     },
     {
@@ -239,7 +326,17 @@
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
       },
-      "sourceNote": "The catalogue's selected record is 688x456. Same position as the mangrove row: find the larger original or finish the request. No enlargement."
+      "sourceNote": "The catalogue's selected record is 688x456. Same position as the mangrove row: find the larger original or finish the request. No enlargement.",
+      "research": {
+        "envelope": "Low coastal marsh and distributary-channel landscapes at the Mississippi mouth in southeastern Louisiana.",
+        "countyRefinement": "Start with appropriate lower Plaquemines/coastal delta subareas; evaluate adjoining coastal marsh rather than the entire inland Mississippi Delta region.",
+        "appearance": "Request describes flat reed/grassy marsh and channels. Catalogue-selected image688x456; verify larger original or proper output. Pixels uninspected.",
+        "doNotAssume": "Cotton fields in the inland Mississippi Delta, leveed urban centers, upland woods, or all lower Mississippi counties.",
+        "sources": [
+          "https://www.recreation.gov/camping/gateways/1374",
+          "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states"
+        ]
+      }
     },
     {
       "regionKey": "norcal-oak-woodland",
@@ -267,6 +364,17 @@
         ],
         "excludePlaces": [],
         "note": "Starter regional-introduction eligibility in the Sonoma-area oak woodland/valley-foothill mosaic. The approved pixels show green oak canopy over dry golden grass; apply seasonal appearance separately. No whole-California, wet redwood-coast, high-Sierra or desert eligibility. More qualifying North Coast/valley foothill localities should be compiled from habitat/topography, not limited forever to these five."
+      },
+      "research": {
+        "envelope": "Northern/central California oak woodland in suitable low foothills and interior valleys; start around the source-supported Sonoma area.",
+        "countyRefinement": "Sonoma/Glen Ellen/Healdsburg/Windsor/Santa Rosa provide initial regional anchors. Review suitable parts of Napa, inland Mendocino, Lake and Sacramento/Sierra foothill transitions, without treating their whole counties as matching.",
+        "appearance": "Approved pixels: spreading oak canopy, dry golden understory, open grove; distinguish this from wet-season green grass.",
+        "doNotAssume": "Foggy redwood rainforest, high conifer/alpine terrain, desert or a universal California landscape. The regional label does not make every oak woodland farther south biologically impossible; expand only when the exact art fits.",
+        "sources": [
+          "https://jacklondonpark.com/picnic-sites/",
+          "https://www.nps.gov/seki/learn/nature/foothills.htm",
+          "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states"
+        ]
       }
     },
     {
@@ -289,6 +397,13 @@
         "includePlaces": [],
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      },
+      "research": {
+        "envelope": "Rocky Maine/coastal New England sites with granite ledges and sea, including the Acadia/Schoodic/Isle-au-Haut visual family.",
+        "countyRefinement": "Use coastal geology and distance-to-coast; inland portions of coastal counties do not qualify automatically.",
+        "appearance": "Request describes exposed pink/gray granite shoreline and open water, no lighthouse or named skyline. Pixels uninspected.",
+        "doNotAssume": "Sandy barrier beaches, marsh estuaries, inland Maine or all Atlantic coastal counties.",
+        "sources": ["https://home.nps.gov/acad/learn/nature/coasts.htm"]
       }
     },
     {
@@ -311,6 +426,15 @@
         "includePlaces": [],
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      },
+      "research": {
+        "envelope": "Lake-and-forest country of northern Minnesota, northern Wisconsin and Michigan Upper Peninsula; suitable comparable northern Great Lakes settings.",
+        "countyRefinement": "Tie the view to actual lake-country surroundings, not all municipalities in a state. Use a regional establishing interpretation, not an invented lake on the player street.",
+        "appearance": "Request explicitly summer with unfrozen water, forested/rocky shore. Candidate pixels uninspected.",
+        "doNotAssume": "Winter ice, southern agricultural Plains, open Great Lakes surf coast, or every swamp/forest cell.",
+        "sources": [
+          "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states"
+        ]
       }
     },
     {
@@ -333,6 +457,16 @@
         "includePlaces": ["5301780", "5324810", "5332650", "5356905"],
         "excludePlaces": [],
         "note": "Starter regional-introduction eligibility for western Olympic lowland rainforest surroundings. Use the moss/fern/conifer, snow-free lowland asset context, not an exact street or travel event. Do not extend the entire Clallam or Jefferson county across the Olympic rain shadow, or all Washington/Oregon. Expand suitable west-coastal sites through the ecological crosswalk."
+      },
+      "research": {
+        "envelope": "Western Olympic Peninsula lowland valleys and adjacent wet coastal forest.",
+        "countyRefinement": "Prioritize Hoh/Bogachiel surroundings near Forks and Queets/Quinault-Amanda Park/Humptulips corridors. Clallam/Jefferson/Grays Harbor are REVIEW counties, not unconditional whole-county inclusions.",
+        "appearance": "Approved pixels: moss-draped conifers, ferns, shaded damp understory, fallen timber; no snow.",
+        "doNotAssume": "Eastern Olympic rain-shadow communities, Columbia Basin, dry inland Oregon/Washington, high alpine terrain. Other Pacific coastal rainforests require plant/landform fit checks.",
+        "sources": [
+          "https://www.nps.gov/olym/planyourvisit/temperate-rain-forest.htm",
+          "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states"
+        ]
       }
     },
     {
@@ -356,6 +490,15 @@
         "includePlaces": [],
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      },
+      "research": {
+        "envelope": "Ordinary Appalachian wooded-valley town streetscape based on the corrected Pikeville composition.",
+        "countyRefinement": "Allow compatible valley towns beyond Pikeville, with terrain/built-form checks; a particular named landmark/sign would narrow eligibility and must be read visually.",
+        "appearance": "Selected image has road-marking correction notes; candidate pixels not freshly inspected this pass. Treat leaf-on versus dormant request separately.",
+        "doNotAssume": "All Kentucky, flat Bluegrass towns, indiscriminate US main streets, or treating the same bytes as proof of an independently generated winter revision.",
+        "sources": [
+          "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states"
+        ]
       }
     },
     {
@@ -378,6 +521,15 @@
         "includePlaces": [],
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      },
+      "research": {
+        "envelope": "Conifer/meadow montane belts below treeline in appropriate Rocky Mountain settings.",
+        "countyRefinement": "Compile the montane landscape separately from alpine peaks, dry basin floors and plains. Snow state must match or the scene must be explicitly a seasonal illustration.",
+        "appearance": "IMPORTANT: this request is WINTER, tawny meadow plus patchy settled snow and pine/fir; candidate pixels uninspected.",
+        "doNotAssume": "Generic year-round Rockies, summer meadow, snowstorm, ski infrastructure or claiming current snowfall from a static plate.",
+        "sources": [
+          "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states"
+        ]
       }
     },
     {
@@ -401,6 +553,13 @@
         "includePlaces": ["0656000"],
         "excludePlaces": [],
         "note": "Starter regional-introduction eligibility anchored by the documented Pasadena Bungalow Heaven streetscape: modest low-rise bungalows, porches and mature shade trees. This is an architectural district/setting, not a countywide biome. Do not imply that the player owns one of these houses. Expand appropriate inland Southern California neighborhoods after built-form checks; do not copy this plate across all Los Angeles, Riverside or San Bernardino counties."
+      },
+      "research": {
+        "envelope": "Mature low-rise bungalow neighborhoods in inland Southern California; Pasadena is the primary-source starter.",
+        "countyRefinement": "Neighborhood/building form is the operative match. Pasadena Bungalow Heaven is documented; similar districts in South Pasadena, San Gabriel/Pomona valleys, Riverside or Redlands are refinement candidates, not researched blanket admissions.",
+        "appearance": "Approved pixels: wood/Craftsman-like modest houses, front porches, planted gardens, broadleaf street trees and sidewalks; requested spring; no snow.",
+        "doNotAssume": "Beachfront villas, desert subdivisions, high-rise downtowns or all of any large Southern California county. Do not create a player home or infer tenure/wealth from using an introductory plate.",
+        "sources": ["https://ohp.parks.ca.gov/ListedResources/Detail/N2405"]
       }
     },
     {
@@ -446,6 +605,16 @@
         ],
         "excludePlaces": [],
         "note": "Starter eligibility for a representative regional-introduction landscape near saguaro-bearing Sonoran uplands, not a claim that the depicted scene is the player street. Apply the actual snow-free/desert terrain compatibility separately. Do not extend to all Arizona, high mountain enclaves, the Mojave, Texas or New Mexico. Not all of the Sonoran Desert supports saguaros. Broader place coverage should follow the researched corridor, not stop at these starter IDs."
+      },
+      "research": {
+        "envelope": "Saguaro-bearing southern/central Arizona uplands, including Tucson and Phoenix basin foothills and the Ajo vicinity.",
+        "countyRefinement": "Review the lower, warmer parts of Pima, Pinal, Maricopa and appropriate adjacent counties; mountains inside a county need separate exclusions/point tests. County presence alone is insufficient.",
+        "appearance": "Approved pixels: branching saguaros, ocotillo/prickly pear, rocky dry ground and low ridges; no snow.",
+        "doNotAssume": "Mojave/Joshua-tree settings, New Mexico/Texas, Flagstaff/high country, or the entire California portion of the Sonoran Desert.",
+        "sources": [
+          "https://www.nps.gov/articles/saguaro-cactus.htm",
+          "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states"
+        ]
       }
     },
     {
@@ -469,6 +638,16 @@
         "includePlaces": [],
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      },
+      "research": {
+        "envelope": "Llano Estacado and adjoining southern High Plains across the Texas Panhandle/South Plains and eastern New Mexico.",
+        "countyRefinement": "Compile nearly level open shortgrass sites separately from Caprock/canyon edges, irrigated cropland and urban centers.",
+        "appearance": "Request describes broad flat horizon, short grass and sparse brush, with no mountains. Candidate pixels uninspected.",
+        "doNotAssume": "All Plains states, rolling oak country, tallgrass meadows, or assuming every agricultural place is native grassland.",
+        "sources": [
+          "https://www.nps.gov/tapr/learn/nature/prairies-and-grasslands.htm",
+          "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states"
+        ]
       }
     },
     {
@@ -492,6 +671,15 @@
         "includePlaces": [],
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      },
+      "research": {
+        "envelope": "East Texas and adjoining western Louisiana pine/hardwood uplands.",
+        "countyRefinement": "Use upland pine/hardwood subregions; distinguish them from floodplain swamps, coastal marsh and central-Texas oak prairie.",
+        "appearance": "Request has tall pine and broadleaf mixture, gentle terrain and leafy forest floor. Candidate pixels uninspected.",
+        "doNotAssume": "Reusing the approved Cross Timbers image, a mangrove scene, or all of Texas/Louisiana. Check distinct exact candidate hashes and request associations.",
+        "sources": [
+          "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states"
+        ]
       }
     },
     {
@@ -515,7 +703,14 @@
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
       },
-      "sourceNote": "The catalogue's selected record is 640x432. That is a preview or a reference, not a delivered plate. The proper original has to be found or the request finished; enlarging these pixels and calling the result native detail is not an option."
+      "sourceNote": "The catalogue's selected record is 640x432. That is a preview or a reference, not a delivered plate. The proper original has to be found or the request finished; enlarging these pixels and calling the result native detail is not an option.",
+      "research": {
+        "envelope": "Sheltered coastal southern Florida estuaries, especially Everglades/Florida Bay and southwest coast environments matching red-mangrove roots.",
+        "countyRefinement": "Coastal subareas of Monroe, Miami-Dade, Collier and suitable neighboring estuaries require finer bounds than whole counties.",
+        "appearance": "Request describes red-mangrove prop/stilt roots and estuarine water. Selected catalogue preview is only640x432; check for a larger original or needed generation. Pixels uninspected.",
+        "doNotAssume": "Inland freshwater Everglades, pine uplands, all Florida, or extending the same red-root picture to all Gulf black-mangrove habitats.",
+        "sources": ["https://www.nps.gov/ever/learn/nature/mangroves.htm"]
+      }
     },
     {
       "regionKey": "trans-pecos-desert-mountain",
@@ -538,6 +733,15 @@
         "includePlaces": [],
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      },
+      "research": {
+        "envelope": "Desert basins and mountain fronts of far-west Texas in the Trans-Pecos/Chihuahuan landscape.",
+        "countyRefinement": "Review Brewster, Presidio, Jeff Davis, Culberson, Hudspeth and appropriate El Paso areas against terrain. Do not match simply because state is Texas.",
+        "appearance": "Request describes rocky desert mountain forms, sparse shrubs/yucca and quiet daylight. Actual selected candidate pixels not independently inspected this pass.",
+        "doNotAssume": "Sonoran saguaro forests, High Plains flatlands, pine-covered alpine views, or named tourist formations not actually painted.",
+        "sources": [
+          "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states"
+        ]
       }
     },
     {
@@ -561,6 +765,16 @@
         "includePlaces": [],
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+      },
+      "research": {
+        "envelope": "Open tallgrass prairie landscapes in suitable Upper Midwest/eastern Great Plains transition sites.",
+        "countyRefinement": "Use actual prairie remnants/grassland context or a disclosed regional landscape interpretation; a historical tallgrass ecoregion currently cropped is not an automatic present-day flower meadow.",
+        "appearance": "Request describes flowering/tall grasses and open land; seasonal appearance is not winter dormant grass. Candidate pixels uninspected.",
+        "doNotAssume": "Universal Illinois/Iowa farmland, treeless shortgrass arid plains, forested lake shore.",
+        "sources": [
+          "https://www.nps.gov/tapr/learn/nature/prairies-and-grasslands.htm",
+          "https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states"
+        ]
       }
     }
   ]
