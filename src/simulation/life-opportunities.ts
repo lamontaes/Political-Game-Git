@@ -15,6 +15,7 @@ import {
   kinshipRelationshipsAt,
   peopleInHouseholdAt,
 } from "./life-queries";
+import { formatStatutoryDate } from "./legislation-content-contracts";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { recordEventKnowledge } from "./records";
 import {
@@ -706,6 +707,7 @@ function eligibleOpportunities(
     candidates.push(candidate);
   };
 
+  const firstOf = askerChooser(world, personId);
   const householdCompanionId = firstOf(
     world,
     householdCompanionIds(world, personId, cutoff),
@@ -730,7 +732,7 @@ function eligibleOpportunities(
           askerPersonId: householdCompanionId,
           jurisdictionId,
           type: "life.household-evening-proposed",
-          summary: `${personName(world.people[householdCompanionId]!)} said they would be home this evening and invited them to sit and talk.`,
+          summary: `${personName(world.people[householdCompanionId]!)} will be home this evening and asked if you would like to sit and talk.`,
           detail: "Invited them to sit and talk this evening",
           details: {
             version: 1,
@@ -740,8 +742,7 @@ function eligibleOpportunities(
             condition: null,
             minutes: 120,
           },
-          believed:
-            "The evening is free at home and the other person will be in.",
+          believed: `${personName(world.people[householdCompanionId]!)} will be home this evening and asked if you would like to sit and talk.`,
           // A particular evening, and it is tonight. Without the date this is
           // not a free evening at all but a standing offer, and a standing
           // offer would sit unanswered in the life forever while the world
@@ -760,6 +761,8 @@ function eligibleOpportunities(
   }
 
   if (localId) {
+    const asker = personName(world.people[localId]!);
+    const saturday = nextSaturday(world.currentDate);
     push({
       kind: "social-occasion",
       counterpartPersonId: localId,
@@ -771,19 +774,18 @@ function eligibleOpportunities(
           askerPersonId: localId,
           jurisdictionId,
           type: "life.social-occasion-invited",
-          summary:
-            "Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.",
-          detail: "Asked them to come",
-          believed:
-            "There is something on Saturday they were asked to, and nobody needs them there.",
+          // The asker's own home, which is a record: they live in this
+          // place, in a household that is not the player's.
+          summary: `${asker} asked you over on Saturday afternoon. Going is optional.`,
+          detail: "Asked them over on Saturday afternoon",
+          believed: `${asker} asked you over on the afternoon of ${formatStatutoryDate(saturday)}. Going is optional.`,
           occasion: {
-            title: "Something on Saturday",
-            summary:
-              "An occasion somebody local asked them to. Attendance was invited, not required.",
-            date: nextSaturday(world.currentDate),
+            title: `Saturday afternoon at ${asker}'s`,
+            summary: `${asker} asked you over for the afternoon. Going is optional.`,
+            date: saturday,
             startHour: 15,
             endHour: 18,
-            label: place?.displayName ?? "The neighborhood",
+            label: `${asker}'s home`,
           },
         }),
     });
@@ -1399,11 +1401,38 @@ function communityMemberIds(
 }
 
 /** The world's own person order decides, so a replay reaches the same person. */
-function firstOf(world: World, pool: readonly EntityId[]): EntityId | null {
-  for (const candidate of world.personOrder) {
-    if (pool.includes(candidate)) return candidate;
-  }
-  return null;
+/**
+ * Who asks, out of everybody who could.
+ *
+ * It used to be whoever came first in the world's list, so one neighbor asked
+ * every Saturday for a whole life. Now it is whoever has gone longest without
+ * asking this person anything, and somebody who never has goes first; ties go
+ * to the world's order. That is read from the asks already written, so the same
+ * world always picks the same person and the next ask moves on.
+ */
+export function askerChooser(world: World, personId: EntityId) {
+  const lastAsked = new Map<EntityId, number>();
+  world.history.events.forEach((event, index) => {
+    if (!event.involvedEntityIds.includes(personId)) return;
+    if (!event.tags.some((tag) => tag.startsWith(LIFE_OPPORTUNITY_TAG_PREFIX)))
+      return;
+    for (const participant of event.participants)
+      if (participant.role === "agency:asked")
+        lastAsked.set(participant.personId, index);
+  });
+  return (current: World, pool: readonly EntityId[]): EntityId | null => {
+    let chosen: EntityId | null = null;
+    let chosenAt = Infinity;
+    for (const candidate of current.personOrder) {
+      if (!pool.includes(candidate)) continue;
+      const at = lastAsked.get(candidate) ?? -1;
+      if (at < chosenAt) {
+        chosen = candidate;
+        chosenAt = at;
+      }
+    }
+    return chosen;
+  };
 }
 
 function ageOn(birthDate: IsoDate, on: IsoDate): number {

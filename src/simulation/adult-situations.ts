@@ -2550,8 +2550,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     // recorded as holding is a goodwill that quietly goes nowhere.
     companion: "other-household",
     stakes: "ordinary",
-    prose:
-      "Somebody local asked you to something on Saturday. Nobody needs you there.",
+    prose: "You have been asked over on Saturday afternoon. Going is optional.",
     tensions: [],
     available: always,
     options: [

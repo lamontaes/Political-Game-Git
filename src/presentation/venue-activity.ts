@@ -20,6 +20,11 @@ import { CONTACT_LOCATION_KEY } from "../simulation/people-contact";
 import { recordDomainAttendance } from "./activity-attendance";
 import { openingLifeLocation } from "./life-scene-flow";
 import { completedActivityHere } from "./scene-venues";
+import {
+  recordSocialOccasionAttendance,
+  SOCIAL_OCCASION_JOURNEY_KEY,
+  SOCIAL_OCCASION_LOCATION_KEY,
+} from "./social-invitation";
 
 export {
   declineVenueActivity,
@@ -56,6 +61,14 @@ const ATTEND_JOURNEYS = [
     destinationSetting: "community room",
     costDisclosure:
       "Travel cost is not represented for this authored route; no fare will be charged.",
+  },
+  {
+    // An invitation the player accepted: the asker's home, a short trip away.
+    journeyLocationKey: SOCIAL_OCCASION_JOURNEY_KEY,
+    destinationLocationKey: SOCIAL_OCCASION_LOCATION_KEY,
+    destinationSetting: "home",
+    costDisclosure:
+      "Travel cost is not represented for this short local trip; no fare will be charged.",
   },
 ] as const;
 
@@ -350,11 +363,15 @@ export function performVenueActivity(
     // written only after successful completion; bare journeys add neither.
     const performed = recordOrdinaryMeetingPresence(
       waited,
-      recordDomainAttendance(
-        performScheduledActivity(waited, activityId, transitionHandlers),
+      recordSocialOccasionAttendance(
+        recordDomainAttendance(
+          performScheduledActivity(waited, activityId, transitionHandlers),
+          personId,
+          activityId,
+          attendance,
+        ),
         personId,
         activityId,
-        attendance,
       ),
       personId,
       activityId,
@@ -417,11 +434,15 @@ export function performVenueActivity(
   // aftermath. Neither hook adds another interval or creates a read-time fact.
   return recordOrdinaryMeetingPresence(
     arrived,
-    recordDomainAttendance(
-      performScheduledActivity(arrived, activityId, transitionHandlers),
+    recordSocialOccasionAttendance(
+      recordDomainAttendance(
+        performScheduledActivity(arrived, activityId, transitionHandlers),
+        personId,
+        activityId,
+        attendance,
+      ),
       personId,
       activityId,
-      attendance,
     ),
     personId,
     activityId,
