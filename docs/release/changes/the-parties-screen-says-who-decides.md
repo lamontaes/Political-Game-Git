@@ -19,7 +19,7 @@ The last part is the screen describing what it already does: a decided change
 is shown to everybody, involved or not. A fresh world has simply not made one
 yet.
 
-How: the empty-state paragraph in the party initiatives panel. No behaviour
+How: the empty-state paragraph in the party initiatives panel. No behavior
 changed, and a browser test walks to the screen in a varied place and fails if
 the line stops saying who decides, how a player gets in, or that the decided
 half is public.
