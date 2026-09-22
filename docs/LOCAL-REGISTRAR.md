@@ -347,3 +347,54 @@ would help.
 **Retirement condition:** the four derivatives come back with no chair against
 the legs, at which point the plates stop being retained for a baked prop and go
 through ordinary admission.
+
+## L13 — The art-review build's pack-present behaviour needs a Mac run
+
+`configuredArtConsumers(true)` — the audit that the `internal-art-review`
+build profile runs inside `npm run build:steps`, via
+`scripts/stamp-client-provenance.mjs` — used to throw whenever it found no
+prepared standing body. That is the ordinary case on a public runner, which
+is forbidden to contain a private character pack, so the build lamontae uses
+to look at artwork was red everywhere except his own Mac, for having no art
+rather than for anything being wrong with it.
+
+`src/presentation/compiled-art-consumers.ts` now separates the two: no
+prepared body at all records a gap and returns, and a composition that cannot
+be completed when material IS present still throws, because there the
+renderer's inability to use the material is exactly what the audit is for.
+
+```
+if (!bodies.length) {
+  gaps.push(
+    "No prepared standing body in the candidate library: this checkout has no private character pack, so no creator composition was verified here.",
+  );
+  return { consumers, gaps, generation, completePlans: 0 };
+}
+```
+
+**Why code cannot finish it.** Only the absent-pack half is testable here.
+`src/presentation/compiled-art-consumers.test.ts` covers it — the gap is
+recorded, `completePlans` is 0, and the consumers already collected are not
+discarded by the early return. The other half, that the throw at
+`"No complete configured creator compositions could be verified."` still
+fires when a pack IS present and a composition genuinely fails, cannot be
+proved in a cloud container, because no cloud checkout has a pack to put in
+front of it (see L1).
+
+**What would settle it,** on the Mac, with the private pack installed:
+
+```
+VITE_OCD_BUILD_PROFILE=internal-art-review npm run build
+```
+
+Then, to prove the throw is still live rather than merely unreached, make one
+prepared body fail to compose — the cheapest way is to move a single garment
+file listed in the newest generation out of the pack directory — and run the
+same command again.
+
+**Acceptance condition:** the first run completes and its recorded gaps do
+NOT contain "no private character pack" (the pack was seen). The second run
+fails with "No complete configured creator compositions could be verified."
+Put the moved file back afterwards. If the first run reports the
+no-pack gap, the pack was not visible to the build and nothing about the
+throw has been established either way.
