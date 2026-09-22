@@ -551,6 +551,18 @@ export function withWorldIntegrityDeferred<T>(run: () => T): T {
   }
 }
 
+/**
+ * Runs one whole advance of the clock — a press of a time control — with
+ * writers' checks deferred, then validates the World it produced once, in
+ * full. The advance either yields a valid World or throws; nothing between
+ * is ever returned to a caller.
+ */
+export function advanceWithWorldIntegrityAtEnd(run: () => World): World {
+  const result = withWorldIntegrityDeferred(run);
+  assertWorldIntegrity(result);
+  return result;
+}
+
 export function assertWorldIntegrity(world: World): void {
   if (VALIDATED_WORLDS.has(world)) return;
   if (integrityDeferredDepth > 0) return;

@@ -3,9 +3,12 @@ import { describe, expect, it } from "vitest";
 import { addDays, makeIsoDate } from "./dates";
 import {
   createFutureTransitionHandlerRegistry,
+  type FutureTransitionHandlerRegistry,
   scheduleFutureDueItem,
+  setDeepTransitionInputGuard,
 } from "./future-transitions";
 import { requireLifePlace } from "./life-places";
+import { advanceWorldMinutes } from "./time-work";
 import type { EntityId, World } from "./types";
 import {
   advanceWorld,
@@ -78,14 +81,7 @@ describe("deferred world integrity", () => {
   });
 
   it("still refuses a transition whose handler returns an invalid World", () => {
-    const world = scheduleFutureDueItem(base(), {
-      stableKey: "integrity-deferred:due",
-      dueAt: addDays(makeIsoDate("2031-06-01"), 1),
-      transitionKey: "test:integrity-deferred",
-      entityIds: [base().jurisdictionOrder[0]!],
-      jurisdictionId: null,
-      provenance: { kind: "authored", note: "Deferred-integrity test." },
-    });
+    const world = scheduled();
     const registry = createFutureTransitionHandlerRegistry([
       [
         "test:integrity-deferred",
@@ -102,4 +98,88 @@ describe("deferred world integrity", () => {
       /missing involved entity/,
     );
   });
+
+  it("refuses a whole clock advance that produced an invalid World", () => {
+    expect(() =>
+      advanceWorldMinutes(scheduled(), 2 * 24 * 60, brokenRegistry()),
+    ).toThrow(/missing involved entity/);
+  });
+
+  it("still refuses a handler that pushes onto its input with the deep guard off", () => {
+    const registry = createFutureTransitionHandlerRegistry([
+      [
+        "test:integrity-deferred",
+        (current) => {
+          (current.history.events as unknown as unknown[]).push(
+            current.history.events.at(-1),
+          );
+          return {
+            world: current,
+            status: "resolved",
+            reasonKey: null,
+            context: null,
+            outcomeEventId: null,
+          };
+        },
+      ],
+    ]);
+    setDeepTransitionInputGuard(false);
+    try {
+      expect(() =>
+        advanceWorldMinutes(withEvent(scheduled()), 2 * 24 * 60, registry),
+      ).toThrow(/mutated its input world/);
+    } finally {
+      setDeepTransitionInputGuard(true);
+    }
+  });
 });
+
+function withEvent(world: World): World {
+  return recordWorldEvent(world, {
+    stableKey: "integrity-deferred:seed-event",
+    type: "test.integrity-deferred",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: world.jurisdictionOrder[0]!,
+    involvedEntityIds: [world.jurisdictionOrder[0]!],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [],
+    summary: "An event for the input-guard test.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+}
+
+function brokenRegistry(): FutureTransitionHandlerRegistry {
+  return createFutureTransitionHandlerRegistry([
+    [
+      "test:integrity-deferred",
+      (current) => ({
+        world: broken(current),
+        status: "resolved",
+        reasonKey: null,
+        context: null,
+        outcomeEventId: null,
+      }),
+    ],
+  ]);
+}
+
+function scheduled(): World {
+  return scheduleFutureDueItem(base(), {
+    stableKey: "integrity-deferred:due",
+    dueAt: addDays(makeIsoDate("2031-06-01"), 1),
+    transitionKey: "test:integrity-deferred",
+    entityIds: [base().jurisdictionOrder[0]!],
+    jurisdictionId: null,
+    provenance: { kind: "authored", note: "Deferred-integrity test." },
+  });
+}
