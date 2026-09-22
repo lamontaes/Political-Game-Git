@@ -265,6 +265,13 @@ What does belong here is the guard: only a declared conferrer may write a
 `conferred-only` trait, so a record appearing for somebody who should never
 have one is a rejection rather than a silence.
 
+**A consumer establishes applicability before it reads the trait, not after.**
+Because `unrecorded` truthfully means "this world has not written this", a
+consumer that reads first and checks membership second is holding an
+`unrecorded` for somebody the trait never applied to, and may render or reason
+from it as though it were a fact about somebody it does. That is the person
+card's defect in a new place, and the ordering is what prevents it.
+
 ### Loading is validated, row by row, and fails soft
 
 Every rejection names the row and the reason, and is collected into a load
