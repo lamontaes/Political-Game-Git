@@ -17,6 +17,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import path from "node:path";
+import { setPriority } from "node:os";
 import { fileURLToPath } from "node:url";
 
 import { createHash } from "node:crypto";
@@ -27,7 +28,9 @@ import {
   cleanHubState,
   trackId,
   validBranchName,
+  withPending,
 } from "./hub-model.mjs";
+import { loadContent } from "../runtime-content.mjs";
 import {
   assessUpdateTarget,
   buildPresentOnDisk,
@@ -35,6 +38,7 @@ import {
   controllerPaths,
   repositoryIsExpected,
   privateInputIgnoreRules,
+  runtimeContentFor,
 } from "./private-update.mjs";
 
 const EXPECTED_PACKAGE_NAME = "political-life-rpg";
@@ -61,6 +65,15 @@ const HARNESS_FILES = [
   "saved-identity-proof.mjs",
   "creator-drive.mjs",
 ];
+
+// Builds run beside a game the owner may be playing. Low priority (inherited
+// by every npm, tsc and vite child) keeps the game responsive; the build only
+// takes longer.
+try {
+  setPriority(10);
+} catch {
+  // An unprivileged lower priority can fail on some hosts; the build still runs.
+}
 
 const args = process.argv.slice(2);
 const valueAfter = (name) => {
@@ -297,17 +310,53 @@ async function removeOwnedStaging(paths, repositoryPath) {
   rmSync(paths.stagingRoot, { recursive: true, force: true });
 }
 
+/** Whether a revision compiles in runtime-content mode (art loaded at run
+ * time from a snapshot, not staged into the source tree). */
+async function supportsRuntimeContent(repositoryPath, revision) {
+  try {
+    await capture(
+      "/usr/bin/git",
+      [
+        "grep",
+        "--quiet",
+        "--fixed-strings",
+        "runtime-art-v1",
+        revision,
+        "--",
+        "scripts/stamp-client-provenance.mjs",
+      ],
+      { cwd: repositoryPath, label: "Checking runtime artwork support" },
+    );
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 /** Build a cloud successor without re-embedding a private art bank. */
 async function prepareRuntimeContentSuccessor({
   branch,
   existing,
   id,
+  isMain = false,
   label,
   repositoryPath,
   statePath,
   targetRevision,
+  content = existing.current.content,
 }) {
-  const content = existing.current.content;
+  // Refuses a snapshot whose blobs are missing or altered before any build.
+  loadContent(content);
+  if (
+    existing?.pending?.revision === targetRevision &&
+    existing.pending.content?.id === content.id &&
+    buildPresentOnDisk(existing.pending).ok
+  )
+    return emit(
+      "complete",
+      `The ${label} build ${targetRevision.slice(0, 12)} is already verified and waiting to be activated.`,
+      { outcome: "pending", track: id, revision: targetRevision },
+    );
   const paths = controllerPaths(
     dataRoot,
     targetRevision,
@@ -365,7 +414,9 @@ async function prepareRuntimeContentSuccessor({
     [
       "scripts/stage.mjs",
       "--composition",
-      `branch-preview:${branch}@${targetRevision.slice(0, 12)}`,
+      isMain
+        ? "accepted-main"
+        : `branch-preview:${branch}@${targetRevision.slice(0, 12)}`,
     ],
     {
       cwd: desktopPath,
@@ -392,6 +443,27 @@ async function prepareRuntimeContentSuccessor({
     version: identity.version,
     content,
   });
+  if (isMain) {
+    // Main has no received channel: record the verified build as pending,
+    // exactly as the pack path does, unless the track moved meanwhile.
+    const latest = readState(statePath);
+    const prior = latest?.tracks[id];
+    if (
+      prior &&
+      (prior.current.revision !== existing.current.revision ||
+        prior.current.clientTreeSha256 !== existing.current.clientTreeSha256)
+    )
+      throw new Error("Accepted main changed while its update was built.");
+    writeState(statePath, {
+      ...withPending(latest, id, branch, build),
+      repositoryPath,
+    });
+    return emit(
+      "complete",
+      `The ${label} build ${targetRevision.slice(0, 12)} is verified and waiting to be activated.`,
+      { outcome: "pending", track: id, revision: targetRevision },
+    );
+  }
   publishReceivedChannel({
     dataRoot,
     track: id,
@@ -558,6 +630,7 @@ async function main(received = null) {
           branch,
           existing,
           id,
+          isMain,
           label,
           repositoryPath,
           statePath,
@@ -568,6 +641,34 @@ async function main(received = null) {
         "A newer version is on GitHub. It is awaiting preparation for this console; your current game is ready to play.",
         { outcome: "source-available", track: id, revision: targetRevision },
       );
+    }
+
+    // Main moves to runtime content as soon as its code supports it: the
+    // build pairs with a snapshot another track already plays, so accepted
+    // main no longer depends on a pack pinned to one source revision.
+    const runtimeContent = isMain ? runtimeContentFor(state, id) : null;
+    if (
+      existing?.current &&
+      runtimeContent &&
+      assessment.action !== "refuse" &&
+      (await supportsRuntimeContent(repositoryPath, targetRevision))
+    ) {
+      emit(
+        "progress",
+        `Pairing ${label} with runtime artwork ${runtimeContent.id.slice(0, 12)}.`,
+        { phase: "verifying" },
+      );
+      return prepareRuntimeContentSuccessor({
+        branch,
+        existing,
+        id,
+        isMain,
+        label,
+        repositoryPath,
+        statePath,
+        targetRevision,
+        content: runtimeContent,
+      });
     }
 
     if (!requestedPack || !path.isAbsolute(requestedPack))

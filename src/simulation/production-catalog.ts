@@ -1,5 +1,7 @@
 import { createCausalMechanismCatalog } from "./causal-effects";
 import { createIncidentCatalog } from "./incident-catalog";
+import { installedTraitPacks } from "./installed-trait-packs";
+import type { WorldContentPacks } from "./runtime-content-packs";
 import {
   assertLifeMindContent,
   createLifeMindCatalog,
@@ -161,6 +163,7 @@ function simulationEstablishedMetricCount(catalog: WorldMetricCatalog): number {
 }
 
 export function assertProductionCatalogBoundary(world: {
+  readonly contentPacks?: WorldContentPacks;
   readonly policyCatalog: PolicyCatalog;
   readonly mindCatalog: MindCatalog;
   readonly metricCatalog: WorldMetricCatalog;
@@ -178,7 +181,10 @@ export function assertProductionCatalogBoundary(world: {
   // Emptiness is the current honest state of each of these, so it is also the
   // check. Adding sourced content means changing this function on purpose and
   // saying where the content came from.
-  assertLifeMindContent(world.mindCatalog);
+  assertLifeMindContent(
+    world.mindCatalog,
+    installedTraitPacks(world.contentPacks).packs,
+  );
   // Policy content is admitted when a loaded pack declares it, and refused
   // otherwise. This is the deliberate relaxation this file asked for, and it
   // is narrower than it looks: the boundary was never about the count, it was

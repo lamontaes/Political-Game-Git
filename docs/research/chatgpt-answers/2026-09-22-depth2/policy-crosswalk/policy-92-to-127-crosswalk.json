@@ -1,0 +1,3481 @@
+{
+  "format": "research-policy-crosswalk/v1",
+  "status": "director-classification-delivery; not runtime-loaded",
+  "sourceHead": "d10dd525731bcd7bded20d165d74b9e0bae38ad8",
+  "shippedSourceBlob": "a51034f630acb7f30bd8259dcc486480c1ec181e",
+  "sourcePaths": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/d10dd525731bcd7bded20d165d74b9e0bae38ad8/src/simulation/policy-pack-us-state-and-local.ts",
+    "https://github.com/lamontaes/Political-Game-Git/blob/d10dd525731bcd7bded20d165d74b9e0bae38ad8/src/simulation/policy-pack-us-policy-positions.ts"
+  ],
+  "researchInput": {
+    "pack": "us-state-local-core",
+    "sha256": "b8484c5fa961e41fcab416f6e417dbfec3913c8865cbde2fc494463f50088103",
+    "origin": "recovered Policy_and_Bargaining_Research.zip, not a newly invented taxonomy"
+  },
+  "method": "Exact shipped issue keys manually transcribed from connector-read source; relationships individually classified from names/descriptions. Structural checks below do not constitute a repository loader test.",
+  "relationshipDefinitions": {
+    "equivalent-topic": "Same policy topic under another research label; no claim of identical power or effect.",
+    "research-umbrella": "Research umbrella spans separate shipped topics; do not merge their records.",
+    "research-specialization": "Research label specializes a broader shipped subject; do not remove its remaining meaning.",
+    "partial-overlap": "Overlap or adjacent existing machinery with incomplete equivalence; requires operation-specific binding.",
+    "no-explicit-counterpart": "No explicit substantive counterpart supplied by these keys.",
+    "underspecified": "Insufficient semantic definition for a valid mapping."
+  },
+  "canonicalKeyMigration": {},
+  "preserveAllCurrentIssueKeys": true,
+  "preserveAllDependentPropositionKeys": true,
+  "runtimeTestsExecuted": false,
+  "domainMappings": [
+    {
+      "researchDomain": "public-finance-administration",
+      "researchName": "Public finance and administration",
+      "shippedDomains": [
+        "fiscal",
+        "government-operations",
+        "labor-workforce"
+      ],
+      "relationship": "many-to-many-view",
+      "issueRows": [
+        "budget-and-appropriations",
+        "taxes-and-revenue",
+        "debt-and-capital-finance",
+        "public-workforce-and-pensions",
+        "procurement-and-contracting",
+        "intergovernmental-aid",
+        "government-organization"
+      ],
+      "changesCanonicalDomainIds": false,
+      "createsGameplayOccurrence": false
+    },
+    {
+      "researchDomain": "education-workforce",
+      "researchName": "Education and workforce preparation",
+      "shippedDomains": [
+        "education",
+        "labor-workforce"
+      ],
+      "relationship": "many-to-many-view",
+      "issueRows": [
+        "school-finance",
+        "teachers-and-school-workforce",
+        "curriculum-accountability-and-school-governance",
+        "early-childhood",
+        "postsecondary-finance-and-governance",
+        "student-aid",
+        "workforce-training"
+      ],
+      "changesCanonicalDomainIds": false,
+      "createsGameplayOccurrence": false
+    },
+    {
+      "researchDomain": "health-human-services",
+      "researchName": "Health and human services",
+      "shippedDomains": [
+        "civil-family-community",
+        "education",
+        "health-human-services"
+      ],
+      "relationship": "many-to-many-view",
+      "issueRows": [
+        "medicaid-and-coverage",
+        "health-costs-and-provider-regulation",
+        "public-health",
+        "behavioral-health-and-substance-use",
+        "maternal-child-health",
+        "disability-and-aging",
+        "child-welfare-and-family-assistance",
+        "veterans-services",
+        "child-care-access"
+      ],
+      "changesCanonicalDomainIds": false,
+      "createsGameplayOccurrence": false
+    },
+    {
+      "researchDomain": "justice-public-safety",
+      "researchName": "Justice and public safety",
+      "shippedDomains": [
+        "justice-public-safety"
+      ],
+      "relationship": "view-over-subset-or-equivalent-domain",
+      "issueRows": [
+        "policing",
+        "courts-and-pretrial",
+        "sentencing-corrections-and-reentry",
+        "juvenile-justice",
+        "emergency-medical-and-911",
+        "fire-and-emergency-response",
+        "firearm-safety-and-carry"
+      ],
+      "changesCanonicalDomainIds": false,
+      "createsGameplayOccurrence": false
+    },
+    {
+      "researchDomain": "transportation-infrastructure",
+      "researchName": "Transportation and infrastructure",
+      "shippedDomains": [
+        "fiscal",
+        "transportation-infrastructure"
+      ],
+      "relationship": "many-to-many-view",
+      "issueRows": [
+        "roads-and-bridges",
+        "transportation-funding",
+        "traffic-safety",
+        "transit-and-mobility",
+        "airports-ports-and-freight",
+        "water-wastewater-and-public-works"
+      ],
+      "changesCanonicalDomainIds": false,
+      "createsGameplayOccurrence": false
+    },
+    {
+      "researchDomain": "housing-land-use-community-development",
+      "researchName": "Housing, land use and community development",
+      "shippedDomains": [
+        "business-commerce",
+        "health-human-services",
+        "housing-land-use"
+      ],
+      "relationship": "many-to-many-view",
+      "issueRows": [
+        "housing-supply-and-affordability",
+        "zoning-and-land-use",
+        "homelessness",
+        "building-and-safety-codes",
+        "redevelopment-and-neighborhood-investment",
+        "property-maintenance"
+      ],
+      "changesCanonicalDomainIds": false,
+      "createsGameplayOccurrence": false
+    },
+    {
+      "researchDomain": "economic-development-business-regulation",
+      "researchName": "Economic development and business regulation",
+      "shippedDomains": [
+        "business-commerce"
+      ],
+      "relationship": "view-over-subset-or-equivalent-domain",
+      "issueRows": [
+        "business-attraction-and-incentives",
+        "occupational-licensing",
+        "professional-scope",
+        "small-business-and-commerce",
+        "tourism",
+        "regulated-markets",
+        "insurance-market-regulation",
+        "banking-and-credit-regulation"
+      ],
+      "changesCanonicalDomainIds": false,
+      "createsGameplayOccurrence": false
+    },
+    {
+      "researchDomain": "labor-employment-pensions",
+      "researchName": "Labor, employment and pensions",
+      "shippedDomains": [
+        "labor-workforce"
+      ],
+      "relationship": "view-over-subset-or-equivalent-domain",
+      "issueRows": [
+        "minimum-wage-and-hours",
+        "leave-and-workplace-standards",
+        "unemployment-insurance",
+        "workers-compensation",
+        "collective-bargaining",
+        "public-employment"
+      ],
+      "changesCanonicalDomainIds": false,
+      "createsGameplayOccurrence": false
+    },
+    {
+      "researchDomain": "energy-environment-natural-resources",
+      "researchName": "Energy, environment and natural resources",
+      "shippedDomains": [
+        "agriculture-natural-resources",
+        "environment-energy",
+        "transportation-infrastructure"
+      ],
+      "relationship": "many-to-many-view",
+      "issueRows": [
+        "utility-rates-and-grid-reliability",
+        "generation-and-energy-mix",
+        "water-resources",
+        "air-and-water-pollution",
+        "waste-and-recycling",
+        "climate-and-disaster-resilience",
+        "parks-lands-wildlife-and-forestry"
+      ],
+      "changesCanonicalDomainIds": false,
+      "createsGameplayOccurrence": false
+    },
+    {
+      "researchDomain": "elections-democracy-ethics",
+      "researchName": "Elections, democracy and ethics",
+      "shippedDomains": [
+        "government-operations",
+        "housing-land-use"
+      ],
+      "relationship": "many-to-many-view",
+      "issueRows": [
+        "election-administration",
+        "voting-rules-and-access",
+        "redistricting",
+        "campaign-finance",
+        "ethics-and-lobbying",
+        "open-records-and-open-meetings",
+        "local-government-structure",
+        "intergovernmental-powers-and-preemption"
+      ],
+      "changesCanonicalDomainIds": false,
+      "createsGameplayOccurrence": false
+    },
+    {
+      "researchDomain": "technology-communications-cybersecurity",
+      "researchName": "Technology, communications and cybersecurity",
+      "shippedDomains": [
+        "technology-privacy",
+        "transportation-infrastructure"
+      ],
+      "relationship": "many-to-many-view",
+      "issueRows": [
+        "artificial-intelligence",
+        "privacy-and-data-governance",
+        "government-cybersecurity",
+        "broadband-and-digital-access",
+        "government-technology-and-digital-services"
+      ],
+      "changesCanonicalDomainIds": false,
+      "createsGameplayOccurrence": false
+    },
+    {
+      "researchDomain": "agriculture-rural-food",
+      "researchName": "Agriculture, rural development and food",
+      "shippedDomains": [
+        "agriculture-natural-resources",
+        "environment-energy"
+      ],
+      "relationship": "many-to-many-view",
+      "issueRows": [
+        "agriculture-and-farm-policy",
+        "food-systems-and-safety",
+        "rural-development",
+        "forestry-and-working-lands",
+        "conservation"
+      ],
+      "changesCanonicalDomainIds": false,
+      "createsGameplayOccurrence": false
+    },
+    {
+      "researchDomain": "civil-family-consumer",
+      "researchName": "Civil, family and consumer policy",
+      "shippedDomains": [
+        "business-commerce",
+        "civil-family-community"
+      ],
+      "relationship": "many-to-many-view",
+      "issueRows": [
+        "family-law-and-child-support",
+        "civil-rights-and-discrimination",
+        "reproductive-health",
+        "immigration-related",
+        "insurance-and-financial-consumer",
+        "general"
+      ],
+      "changesCanonicalDomainIds": false,
+      "createsGameplayOccurrence": false
+    },
+    {
+      "researchDomain": "parks-culture-community-life",
+      "researchName": "Parks, culture and community life",
+      "shippedDomains": [
+        "civil-family-community",
+        "transportation-infrastructure"
+      ],
+      "relationship": "many-to-many-view",
+      "issueRows": [
+        "parks-and-recreation",
+        "libraries",
+        "arts-and-cultural-services",
+        "historic-preservation",
+        "community-events-and-public-space"
+      ],
+      "changesCanonicalDomainIds": false,
+      "createsGameplayOccurrence": false
+    }
+  ],
+  "researchToShipped": [
+    {
+      "researchIssueKey": "budget-and-appropriations",
+      "researchName": "Budget and appropriations",
+      "researchDomain": "public-finance-administration",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "fiscal.operating-budget",
+        "fiscal.capital-budget",
+        "fiscal.appropriations"
+      ],
+      "note": "Keep operating budget, capital plan and appropriation separate. One umbrella is not one executable operation.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "taxes-and-revenue",
+      "researchName": "Taxes and revenue",
+      "researchDomain": "public-finance-administration",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "fiscal.income-tax",
+        "fiscal.sales-tax",
+        "fiscal.property-tax",
+        "fiscal.excise-taxes",
+        "fiscal.fees-and-charges"
+      ],
+      "note": "Keep independent instruments, bases, liabilities and accounts; fees are not silently converted to taxes. This map does not correct or broaden level authority.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "debt-and-capital-finance",
+      "researchName": "Debt and capital finance",
+      "researchDomain": "public-finance-administration",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "fiscal.debt-and-bonds",
+        "fiscal.capital-budget"
+      ],
+      "note": "Borrowing authority and a capital spending plan are related but different records.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "public-workforce-and-pensions",
+      "researchName": "Public workforce and pension financing",
+      "researchDomain": "public-finance-administration",
+      "relationship": "partial-overlap",
+      "shippedIssueKeys": [
+        "fiscal.public-pensions",
+        "labor-workforce.public-employment",
+        "government-operations.civil-service"
+      ],
+      "note": "Research row focuses on financing; civil service also contains selection and discipline not covered by that financial label.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "procurement-and-contracting",
+      "researchName": "Procurement and contracting",
+      "researchDomain": "public-finance-administration",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "fiscal.procurement",
+        "government-operations.public-contracting"
+      ],
+      "note": "Fiscal controls and award/contract terms remain distinguishable; do not duplicate a procurement.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "intergovernmental-aid",
+      "researchName": "Intergovernmental aid",
+      "researchDomain": "public-finance-administration",
+      "relationship": "partial-overlap",
+      "shippedIssueKeys": [
+        "fiscal.revenue-sharing"
+      ],
+      "note": "Revenue sharing overlaps transfers, but this label alone does not specify categorical grants, conditions or receiving/awarding powers.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "government-organization",
+      "researchName": "Government organization",
+      "researchDomain": "public-finance-administration",
+      "relationship": "research-specialization",
+      "shippedIssueKeys": [
+        "government-operations.agency-organization"
+      ],
+      "note": "Administrative organization, not authority to alter electoral or constitutional structure.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "school-finance",
+      "researchName": "School finance",
+      "researchDomain": "education-workforce",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "education.school-funding"
+      ],
+      "note": "Topic equivalent; retain school-district scope as vocabulary without activating deferred school-board gameplay.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "teachers-and-school-workforce",
+      "researchName": "Teachers and school workforce",
+      "researchDomain": "education-workforce",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "education.teacher-workforce"
+      ],
+      "note": "Retain pay, preparation and licensure distinctions within the existing key.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "curriculum-accountability-and-school-governance",
+      "researchName": "Curriculum accountability and school governance",
+      "researchDomain": "education-workforce",
+      "relationship": "partial-overlap",
+      "shippedIssueKeys": [
+        "education.curriculum-and-standards",
+        "education.school-choice"
+      ],
+      "note": "Standards and accountability overlap; school choice is only part of governance, not a synonym for all school governance.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "early-childhood",
+      "researchName": "Early childhood",
+      "researchDomain": "education-workforce",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "education.early-childhood"
+      ],
+      "note": "Existing description explicitly includes pre-kindergarten and child care.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "postsecondary-finance-and-governance",
+      "researchName": "Postsecondary finance and governance",
+      "researchDomain": "education-workforce",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "education.higher-education-tuition-and-aid",
+        "education.higher-education-governance"
+      ],
+      "note": "Combines two real topics without merging their rules or decision owners.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "student-aid",
+      "researchName": "Student aid",
+      "researchDomain": "education-workforce",
+      "relationship": "research-specialization",
+      "shippedIssueKeys": [
+        "education.higher-education-tuition-and-aid"
+      ],
+      "note": "Aid is narrower than all college costs; do not discard tuition and fee policy.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "workforce-training",
+      "researchName": "Workforce education and training",
+      "researchDomain": "education-workforce",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "labor-workforce.workforce-training",
+        "education.career-and-technical-education"
+      ],
+      "note": "Training and career/technical education can share a learning view without duplicating participation or qualifications.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "medicaid-and-coverage",
+      "researchName": "Medicaid and coverage",
+      "researchDomain": "health-human-services",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "health-human-services.medicaid",
+        "health-human-services.insurance-access"
+      ],
+      "note": "Medicaid and general insurance access remain distinct instruments, programs and beneficiaries.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "health-costs-and-provider-regulation",
+      "researchName": "Health costs and provider regulation",
+      "researchDomain": "health-human-services",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "health-human-services.hospitals-and-providers",
+        "health-human-services.insurance-access"
+      ],
+      "note": "Provider capacity/licensing and coverage/cost rules overlap; the map supplies no payment formula.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "public-health",
+      "researchName": "Public health",
+      "researchDomain": "health-human-services",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "health-human-services.public-health"
+      ],
+      "note": "Equivalent topic only; concrete emergency powers require the relevant profile.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "behavioral-health-and-substance-use",
+      "researchName": "Behavioral health and substance use",
+      "researchDomain": "health-human-services",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "health-human-services.behavioral-health",
+        "health-human-services.substance-use"
+      ],
+      "note": "Do not erase the difference between mental health care and substance-use policy.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "maternal-child-health",
+      "researchName": "Maternal child health",
+      "researchDomain": "health-human-services",
+      "relationship": "partial-overlap",
+      "shippedIssueKeys": [
+        "health-human-services.public-health",
+        "health-human-services.hospitals-and-providers"
+      ],
+      "note": "No explicit maternal/child clinical issue in shipped keys. These are neighboring service subjects, not a complete substitute. Child protection is not maternal health.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "disability-and-aging",
+      "researchName": "Disability and aging",
+      "researchDomain": "health-human-services",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "health-human-services.aging-and-disability"
+      ],
+      "note": "Equivalent topic; individual disability does not infer incapacity or a legal adjudication.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "child-welfare-and-family-assistance",
+      "researchName": "Child welfare and family assistance",
+      "researchDomain": "health-human-services",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "health-human-services.child-and-family-services",
+        "health-human-services.food-and-income-assistance"
+      ],
+      "note": "Child protection and household financial assistance remain separate actions.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "policing",
+      "researchName": "Policing",
+      "researchDomain": "justice-public-safety",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "justice-public-safety.policing"
+      ],
+      "note": "Equivalent topic.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "courts-and-pretrial",
+      "researchName": "Courts and pretrial",
+      "researchDomain": "justice-public-safety",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "justice-public-safety.courts",
+        "justice-public-safety.prosecution-and-defense",
+        "justice-public-safety.jails"
+      ],
+      "note": "Court capacity, counsel, charging and pretrial detention are separate; retain prosecution and defense as more than a court-label alias.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "sentencing-corrections-and-reentry",
+      "researchName": "Sentencing corrections and reentry",
+      "researchDomain": "justice-public-safety",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "justice-public-safety.criminal-law-and-sentencing",
+        "justice-public-safety.corrections-and-prisons",
+        "justice-public-safety.reentry"
+      ],
+      "note": "The researched label does not fully describe defining crimes; preserve that extra shipped meaning.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "juvenile-justice",
+      "researchName": "Juvenile justice",
+      "researchDomain": "justice-public-safety",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "justice-public-safety.juvenile-justice"
+      ],
+      "note": "Equivalent topic.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "emergency-medical-and-911",
+      "researchName": "Emergency medical and 911",
+      "researchDomain": "justice-public-safety",
+      "relationship": "research-specialization",
+      "shippedIssueKeys": [
+        "justice-public-safety.emergency-response"
+      ],
+      "note": "Ambulance and dispatch specialize the shared fire/ambulance/911 topic; no duplicated incident.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "fire-and-emergency-response",
+      "researchName": "Fire and emergency response",
+      "researchDomain": "justice-public-safety",
+      "relationship": "research-specialization",
+      "shippedIssueKeys": [
+        "justice-public-safety.emergency-response"
+      ],
+      "note": "Fire response specializes the same existing topic rather than being another copy of a response event.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "firearm-safety-and-carry",
+      "researchName": "Firearm safety and carry",
+      "researchDomain": "justice-public-safety",
+      "relationship": "research-specialization",
+      "shippedIssueKeys": [
+        "justice-public-safety.firearms"
+      ],
+      "note": "Shipped topic also covers purchase, removal and prohibited possession; do not narrow it to carry alone.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "roads-and-bridges",
+      "researchName": "Roads and bridges",
+      "researchDomain": "transportation-infrastructure",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "transportation-infrastructure.roads-and-bridges"
+      ],
+      "note": "Equivalent topic.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "transportation-funding",
+      "researchName": "Transportation funding",
+      "researchDomain": "transportation-infrastructure",
+      "relationship": "partial-overlap",
+      "shippedIssueKeys": [
+        "fiscal.appropriations",
+        "fiscal.capital-budget",
+        "transportation-infrastructure.capital-construction-and-maintenance"
+      ],
+      "note": "No dedicated funding issue key; bind a fiscal operation to the transportation target rather than invent a second payment.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "traffic-safety",
+      "researchName": "Traffic safety",
+      "researchDomain": "transportation-infrastructure",
+      "relationship": "no-explicit-counterpart",
+      "shippedIssueKeys": [],
+      "note": "No explicit traffic/road-user safety issue in the shipped vocabulary. Roads-and-bridges is adjacent infrastructure, not equivalent substantive safety policy.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "transit-and-mobility",
+      "researchName": "Transit and mobility",
+      "researchDomain": "transportation-infrastructure",
+      "relationship": "research-specialization",
+      "shippedIssueKeys": [
+        "transportation-infrastructure.transit"
+      ],
+      "note": "Existing transit covers routes, frequency and fares; broader mobility/access modes may require explicit future additions.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "airports-ports-and-freight",
+      "researchName": "Airports ports and freight",
+      "researchDomain": "transportation-infrastructure",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "transportation-infrastructure.airports-and-ports",
+        "transportation-infrastructure.rail"
+      ],
+      "note": "Freight links to rail and ports; do not erase intercity passenger rail or infer every freight mode is covered.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "water-wastewater-and-public-works",
+      "researchName": "Water wastewater and public works",
+      "researchDomain": "transportation-infrastructure",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "transportation-infrastructure.water-and-sewer",
+        "transportation-infrastructure.stormwater",
+        "transportation-infrastructure.capital-construction-and-maintenance"
+      ],
+      "note": "Water, sewer, drainage and works delivery remain distinct facilities and obligations.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "housing-supply-and-affordability",
+      "researchName": "Housing supply and affordability",
+      "researchDomain": "housing-land-use-community-development",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "housing-land-use.housing-supply",
+        "housing-land-use.housing-affordability"
+      ],
+      "note": "Sufficient total supply can coexist with an individual affordability problem.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "zoning-and-land-use",
+      "researchName": "Zoning and land use",
+      "researchDomain": "housing-land-use-community-development",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "housing-land-use.zoning",
+        "housing-land-use.permitting",
+        "housing-land-use.neighborhood-planning"
+      ],
+      "note": "Permission, process and planning are not interchangeable legal acts.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "homelessness",
+      "researchName": "Homelessness",
+      "researchDomain": "housing-land-use-community-development",
+      "relationship": "partial-overlap",
+      "shippedIssueKeys": [
+        "housing-land-use.homelessness",
+        "health-human-services.homelessness-services"
+      ],
+      "note": "Condition and services are separate existing keys; maintain both.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "building-and-safety-codes",
+      "researchName": "Building and safety codes",
+      "researchDomain": "housing-land-use-community-development",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "housing-land-use.building-codes"
+      ],
+      "note": "Equivalent building-code subject; not all public-safety laws.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "redevelopment-and-neighborhood-investment",
+      "researchName": "Redevelopment and neighborhood investment",
+      "researchDomain": "housing-land-use-community-development",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "housing-land-use.redevelopment",
+        "housing-land-use.neighborhood-planning",
+        "business-commerce.downtown-and-industrial-development"
+      ],
+      "note": "Related place investment themes; preserve industrial development and actual project identities.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "property-maintenance",
+      "researchName": "Property maintenance",
+      "researchDomain": "housing-land-use-community-development",
+      "relationship": "partial-overlap",
+      "shippedIssueKeys": [
+        "housing-land-use.building-codes",
+        "housing-land-use.tenant-and-landlord-rules"
+      ],
+      "note": "Habitability/maintenance overlaps these, but leases, deposits and eviction are not merely property maintenance.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "business-attraction-and-incentives",
+      "researchName": "Business attraction and incentives",
+      "researchDomain": "economic-development-business-regulation",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "business-commerce.development-incentives"
+      ],
+      "note": "Equivalent attraction/retention incentive topic.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "occupational-licensing",
+      "researchName": "Occupational licensing",
+      "researchDomain": "economic-development-business-regulation",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "business-commerce.occupational-licensing"
+      ],
+      "note": "Equivalent topic.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "professional-scope",
+      "researchName": "Professional scope",
+      "researchDomain": "economic-development-business-regulation",
+      "relationship": "partial-overlap",
+      "shippedIssueKeys": [
+        "business-commerce.occupational-licensing"
+      ],
+      "note": "Permission to enter a profession and permitted work within it differ. No explicit scope-of-practice row; do not claim a complete synonym.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "small-business-and-commerce",
+      "researchName": "Small business and commerce",
+      "researchDomain": "economic-development-business-regulation",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "business-commerce.business-permits",
+        "business-commerce.corporate-regulation"
+      ],
+      "note": "Operating permits and formation/reporting/governance remain distinguishable.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "tourism",
+      "researchName": "Tourism",
+      "researchDomain": "economic-development-business-regulation",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "business-commerce.tourism"
+      ],
+      "note": "Equivalent topic.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "regulated-markets",
+      "researchName": "Regulated markets",
+      "researchDomain": "economic-development-business-regulation",
+      "relationship": "research-specialization",
+      "shippedIssueKeys": [
+        "business-commerce.alcohol-cannabis-gaming"
+      ],
+      "note": "Existing special-market key covers these named markets only; research label is not a blanket adapter for every regulated market.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "minimum-wage-and-hours",
+      "researchName": "Minimum wage and hours",
+      "researchDomain": "labor-employment-pensions",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "labor-workforce.minimum-wage",
+        "labor-workforce.workplace-standards"
+      ],
+      "note": "Pay floor and hours/scheduling have separate units and effects.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "leave-and-workplace-standards",
+      "researchName": "Leave and workplace standards",
+      "researchDomain": "labor-employment-pensions",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "labor-workforce.leave-policy",
+        "labor-workforce.workplace-standards"
+      ],
+      "note": "Leave and safety/classification/hours remain distinguishable; shared standards key is not a duplicate.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "unemployment-insurance",
+      "researchName": "Unemployment insurance",
+      "researchDomain": "labor-employment-pensions",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "labor-workforce.unemployment-insurance"
+      ],
+      "note": "Equivalent topic, not an unemployment-rate variable.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "workers-compensation",
+      "researchName": "Workers compensation",
+      "researchDomain": "labor-employment-pensions",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "labor-workforce.workers-compensation"
+      ],
+      "note": "Equivalent topic.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "collective-bargaining",
+      "researchName": "Collective bargaining",
+      "researchDomain": "labor-employment-pensions",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "labor-workforce.collective-bargaining"
+      ],
+      "note": "Equivalent topic.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "public-employment",
+      "researchName": "Public employment",
+      "researchDomain": "labor-employment-pensions",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "labor-workforce.public-employment"
+      ],
+      "note": "Equivalent employer topic; not automatically civil-service adjudication or pension funding.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "utility-rates-and-grid-reliability",
+      "researchName": "Utility rates and grid reliability",
+      "researchDomain": "energy-environment-natural-resources",
+      "relationship": "partial-overlap",
+      "shippedIssueKeys": [
+        "transportation-infrastructure.utility-regulation",
+        "environment-energy.energy-generation-and-grid"
+      ],
+      "note": "Utility rates/obligations include electricity, gas and water; grid operation is a specific connected system.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "generation-and-energy-mix",
+      "researchName": "Generation and energy mix",
+      "researchDomain": "energy-environment-natural-resources",
+      "relationship": "research-specialization",
+      "shippedIssueKeys": [
+        "environment-energy.energy-generation-and-grid"
+      ],
+      "note": "Generation/mix is narrower than all grid infrastructure and transmission.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "water-resources",
+      "researchName": "Water resources",
+      "researchDomain": "energy-environment-natural-resources",
+      "relationship": "research-specialization",
+      "shippedIssueKeys": [
+        "agriculture-natural-resources.water-allocation"
+      ],
+      "note": "Allocation of rights overlaps water resources; water quality, utility service and infrastructure remain separate.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "air-and-water-pollution",
+      "researchName": "Air and water pollution",
+      "researchDomain": "energy-environment-natural-resources",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "environment-energy.air-quality",
+        "environment-energy.water-quality",
+        "environment-energy.contaminated-sites"
+      ],
+      "note": "Pollution media and site cleanup are distinct; retain liability and land remediation from the site issue.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "waste-and-recycling",
+      "researchName": "Waste and recycling",
+      "researchDomain": "energy-environment-natural-resources",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "environment-energy.waste-and-recycling"
+      ],
+      "note": "Equivalent topic.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "climate-and-disaster-resilience",
+      "researchName": "Climate and disaster resilience",
+      "researchDomain": "energy-environment-natural-resources",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "environment-energy.climate-resilience",
+        "environment-energy.disaster-mitigation"
+      ],
+      "note": "Adaptation/preparation is not mitigation of greenhouse-gas emissions; preserve the separate emissions issue.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "parks-lands-wildlife-and-forestry",
+      "researchName": "Conservation lands, wildlife and forest stewardship",
+      "researchDomain": "energy-environment-natural-resources",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "environment-energy.conservation",
+        "agriculture-natural-resources.fisheries-and-wildlife",
+        "agriculture-natural-resources.public-lands",
+        "agriculture-natural-resources.forestry"
+      ],
+      "note": "Ecological stewardship umbrella; commercial forestry, fishing rules and recreation retain their narrower identities.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "election-administration",
+      "researchName": "Election administration",
+      "researchDomain": "elections-democracy-ethics",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "government-operations.election-administration"
+      ],
+      "note": "Topic map only, not real voter guidance or an eligibility change.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "voting-rules-and-access",
+      "researchName": "Voting rules and access",
+      "researchDomain": "elections-democracy-ethics",
+      "relationship": "research-specialization",
+      "shippedIssueKeys": [
+        "government-operations.election-rules"
+      ],
+      "note": "Voting rules are one part; preserve candidacy and campaign-finance meaning in the broader existing key.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "redistricting",
+      "researchName": "Redistricting",
+      "researchDomain": "elections-democracy-ethics",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "government-operations.redistricting"
+      ],
+      "note": "Equivalent topic; no new geography or boundaries supplied.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "campaign-finance",
+      "researchName": "Campaign finance",
+      "researchDomain": "elections-democracy-ethics",
+      "relationship": "research-specialization",
+      "shippedIssueKeys": [
+        "government-operations.election-rules"
+      ],
+      "note": "Current broader description includes campaign finance. Do not equate financing with voting eligibility.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "ethics-and-lobbying",
+      "researchName": "Ethics and lobbying",
+      "researchDomain": "elections-democracy-ethics",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "government-operations.ethics-and-disclosure",
+        "government-operations.lobbying-regulation"
+      ],
+      "note": "Two related but different enforcement/registration topics.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "open-records-and-open-meetings",
+      "researchName": "Open records and open meetings",
+      "researchDomain": "elections-democracy-ethics",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "government-operations.open-meetings-and-records"
+      ],
+      "note": "Equivalent topic.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "local-government-structure",
+      "researchName": "Local government structure",
+      "researchDomain": "elections-democracy-ethics",
+      "relationship": "partial-overlap",
+      "shippedIssueKeys": [
+        "government-operations.state-local-powers",
+        "government-operations.agency-organization"
+      ],
+      "note": "Power allocation and administrative structure overlap, but neither key alone enumerates all local government forms or selection rules.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "artificial-intelligence",
+      "researchName": "Artificial intelligence",
+      "researchDomain": "technology-communications-cybersecurity",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "technology-privacy.artificial-intelligence"
+      ],
+      "note": "Equivalent topic.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "privacy-and-data-governance",
+      "researchName": "Privacy and data governance",
+      "researchDomain": "technology-communications-cybersecurity",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "technology-privacy.privacy-and-data-use"
+      ],
+      "note": "Equivalent topic.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "government-cybersecurity",
+      "researchName": "Government cybersecurity",
+      "researchDomain": "technology-communications-cybersecurity",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "technology-privacy.cybersecurity"
+      ],
+      "note": "Equivalent public-system security topic; no operational attack details.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "broadband-and-digital-access",
+      "researchName": "Broadband and digital access",
+      "researchDomain": "technology-communications-cybersecurity",
+      "relationship": "research-specialization",
+      "shippedIssueKeys": [
+        "transportation-infrastructure.broadband"
+      ],
+      "note": "Network/service access overlaps; do not treat it as all platform regulation or telecommunications law.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "government-technology-and-digital-services",
+      "researchName": "Government technology and digital services",
+      "researchDomain": "technology-communications-cybersecurity",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "technology-privacy.digital-government"
+      ],
+      "note": "Equivalent topic.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "agriculture-and-farm-policy",
+      "researchName": "Agriculture and farm policy",
+      "researchDomain": "agriculture-rural-food",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "agriculture-natural-resources.farming-and-ranching",
+        "agriculture-natural-resources.agricultural-markets"
+      ],
+      "note": "Production/support and markets/contracts/prices remain separate.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "food-systems-and-safety",
+      "researchName": "Food systems and safety",
+      "researchDomain": "agriculture-rural-food",
+      "relationship": "partial-overlap",
+      "shippedIssueKeys": [
+        "agriculture-natural-resources.food-safety",
+        "agriculture-natural-resources.agricultural-markets"
+      ],
+      "note": "Safety is not all food production/distribution; keep the actual operation explicit.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "rural-development",
+      "researchName": "Rural development",
+      "researchDomain": "agriculture-rural-food",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "agriculture-natural-resources.rural-development"
+      ],
+      "note": "Equivalent topic.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "forestry-and-working-lands",
+      "researchName": "Forestry and working lands",
+      "researchDomain": "agriculture-rural-food",
+      "relationship": "research-specialization",
+      "shippedIssueKeys": [
+        "agriculture-natural-resources.forestry"
+      ],
+      "note": "Productive forestry emphasis; preserve forest health/fire management too.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "conservation",
+      "researchName": "Agricultural conservation",
+      "researchDomain": "agriculture-rural-food",
+      "relationship": "partial-overlap",
+      "shippedIssueKeys": [
+        "agriculture-natural-resources.farming-and-ranching",
+        "environment-energy.conservation"
+      ],
+      "note": "Research row expressly means agricultural practices; broad habitat/easement conservation does not automatically specify farm programs.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "family-law-and-child-support",
+      "researchName": "Family law and child support",
+      "researchDomain": "civil-family-consumer",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "civil-family-community.family-law"
+      ],
+      "note": "Equivalent family-law umbrella; exact rights/duties still need relevant rules.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "civil-rights-and-discrimination",
+      "researchName": "Civil rights and discrimination",
+      "researchDomain": "civil-family-consumer",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "civil-family-community.civil-rights-and-discrimination"
+      ],
+      "note": "Equivalent topic.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "reproductive-health",
+      "researchName": "Reproductive rights and family law",
+      "researchDomain": "civil-family-consumer",
+      "relationship": "research-specialization",
+      "shippedIssueKeys": [
+        "civil-family-community.reproductive-policy"
+      ],
+      "note": "Research definition is rights/access/family-law emphasis, not equivalent to all clinical maternal care.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "immigration-related",
+      "researchName": "Immigration related",
+      "researchDomain": "civil-family-consumer",
+      "relationship": "no-explicit-counterpart",
+      "shippedIssueKeys": [],
+      "note": "No explicit immigration-related issue among the 127. Federal immigration/naturalization is distinct from supported state/local services and civil policy.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "insurance-and-financial-consumer",
+      "researchName": "Insurance and financial consumer",
+      "researchDomain": "civil-family-consumer",
+      "relationship": "partial-overlap",
+      "shippedIssueKeys": [
+        "business-commerce.consumer-protection",
+        "business-commerce.insurance-regulation",
+        "business-commerce.banking-and-credit"
+      ],
+      "note": "Consumer-facing slice of broader market/solvency/chartering and lending rules; do not absorb those broader functions.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "general",
+      "researchName": "General",
+      "researchDomain": "civil-family-consumer",
+      "relationship": "underspecified",
+      "shippedIssueKeys": [],
+      "note": "The returned label and description identify no substantive operation. Do not use as a catch-all to claim unmatched shipped subjects are covered.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "parks-and-recreation",
+      "researchName": "Parks and recreation",
+      "researchDomain": "parks-culture-community-life",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "civil-family-community.parks-and-recreation"
+      ],
+      "note": "Equivalent topic; not all public-land stewardship.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "libraries",
+      "researchName": "Libraries",
+      "researchDomain": "parks-culture-community-life",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "civil-family-community.libraries"
+      ],
+      "note": "Equivalent topic.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "arts-and-cultural-services",
+      "researchName": "Arts and cultural services",
+      "researchDomain": "parks-culture-community-life",
+      "relationship": "research-specialization",
+      "shippedIssueKeys": [
+        "civil-family-community.arts-and-culture"
+      ],
+      "note": "Cultural-service slice; preserve historic preservation included in the existing broader description.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "historic-preservation",
+      "researchName": "Historic preservation",
+      "researchDomain": "parks-culture-community-life",
+      "relationship": "research-specialization",
+      "shippedIssueKeys": [
+        "civil-family-community.arts-and-culture"
+      ],
+      "note": "Explicitly present in existing arts-and-culture description; not missing merely for lack of separate key.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "community-events-and-public-space",
+      "researchName": "Community events and public space",
+      "researchDomain": "parks-culture-community-life",
+      "relationship": "partial-overlap",
+      "shippedIssueKeys": [
+        "civil-family-community.community-institutions",
+        "civil-family-community.parks-and-recreation",
+        "transportation-infrastructure.public-facilities"
+      ],
+      "note": "Events, spaces, facilities and institutions overlap but do not make every public facility a social event.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "insurance-market-regulation",
+      "researchName": "Insurance markets and regulation",
+      "researchDomain": "economic-development-business-regulation",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "business-commerce.insurance-regulation"
+      ],
+      "note": "Equivalent market-regulation topic; preserve separate health-coverage subjects.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "banking-and-credit-regulation",
+      "researchName": "Banking and credit regulation",
+      "researchDomain": "economic-development-business-regulation",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "business-commerce.banking-and-credit"
+      ],
+      "note": "Equivalent state-market topic, not monetary policy.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "veterans-services",
+      "researchName": "Veterans services",
+      "researchDomain": "health-human-services",
+      "relationship": "equivalent-topic",
+      "shippedIssueKeys": [
+        "civil-family-community.veterans"
+      ],
+      "note": "Equivalent subject moved to a health/services research grouping; same identity should survive.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "child-care-access",
+      "researchName": "Child care access",
+      "researchDomain": "health-human-services",
+      "relationship": "research-specialization",
+      "shippedIssueKeys": [
+        "education.early-childhood"
+      ],
+      "note": "Existing description explicitly includes access/providers/funding of child care; appears in a second research grouping without duplicate service demand.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "intergovernmental-powers-and-preemption",
+      "researchName": "Intergovernmental powers and preemption",
+      "researchDomain": "elections-democracy-ethics",
+      "relationship": "research-umbrella",
+      "shippedIssueKeys": [
+        "government-operations.state-local-powers",
+        "housing-land-use.state-housing-preemption"
+      ],
+      "note": "General power allocation and its explicit housing specialization remain separate; no declaration that a concrete policy is preempted.",
+      "automaticRenameAllowed": false
+    }
+  ],
+  "shippedToResearch": [
+    {
+      "shippedIssueKey": "fiscal.operating-budget",
+      "qualifiedKey": "us-state-and-local:fiscal.operating-budget",
+      "shippedDomain": "fiscal",
+      "researchLinks": [
+        {
+          "researchIssueKey": "budget-and-appropriations",
+          "researchDomain": "public-finance-administration",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "fiscal.capital-budget",
+      "qualifiedKey": "us-state-and-local:fiscal.capital-budget",
+      "shippedDomain": "fiscal",
+      "researchLinks": [
+        {
+          "researchIssueKey": "budget-and-appropriations",
+          "researchDomain": "public-finance-administration",
+          "relationship": "research-umbrella"
+        },
+        {
+          "researchIssueKey": "debt-and-capital-finance",
+          "researchDomain": "public-finance-administration",
+          "relationship": "research-umbrella"
+        },
+        {
+          "researchIssueKey": "transportation-funding",
+          "researchDomain": "transportation-infrastructure",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "fiscal.appropriations",
+      "qualifiedKey": "us-state-and-local:fiscal.appropriations",
+      "shippedDomain": "fiscal",
+      "researchLinks": [
+        {
+          "researchIssueKey": "budget-and-appropriations",
+          "researchDomain": "public-finance-administration",
+          "relationship": "research-umbrella"
+        },
+        {
+          "researchIssueKey": "transportation-funding",
+          "researchDomain": "transportation-infrastructure",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "fiscal.income-tax",
+      "qualifiedKey": "us-state-and-local:fiscal.income-tax",
+      "shippedDomain": "fiscal",
+      "researchLinks": [
+        {
+          "researchIssueKey": "taxes-and-revenue",
+          "researchDomain": "public-finance-administration",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "fiscal.sales-tax",
+      "qualifiedKey": "us-state-and-local:fiscal.sales-tax",
+      "shippedDomain": "fiscal",
+      "researchLinks": [
+        {
+          "researchIssueKey": "taxes-and-revenue",
+          "researchDomain": "public-finance-administration",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "fiscal.property-tax",
+      "qualifiedKey": "us-state-and-local:fiscal.property-tax",
+      "shippedDomain": "fiscal",
+      "researchLinks": [
+        {
+          "researchIssueKey": "taxes-and-revenue",
+          "researchDomain": "public-finance-administration",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "fiscal.excise-taxes",
+      "qualifiedKey": "us-state-and-local:fiscal.excise-taxes",
+      "shippedDomain": "fiscal",
+      "researchLinks": [
+        {
+          "researchIssueKey": "taxes-and-revenue",
+          "researchDomain": "public-finance-administration",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "fiscal.fees-and-charges",
+      "qualifiedKey": "us-state-and-local:fiscal.fees-and-charges",
+      "shippedDomain": "fiscal",
+      "researchLinks": [
+        {
+          "researchIssueKey": "taxes-and-revenue",
+          "researchDomain": "public-finance-administration",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "fiscal.debt-and-bonds",
+      "qualifiedKey": "us-state-and-local:fiscal.debt-and-bonds",
+      "shippedDomain": "fiscal",
+      "researchLinks": [
+        {
+          "researchIssueKey": "debt-and-capital-finance",
+          "researchDomain": "public-finance-administration",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "fiscal.public-pensions",
+      "qualifiedKey": "us-state-and-local:fiscal.public-pensions",
+      "shippedDomain": "fiscal",
+      "researchLinks": [
+        {
+          "researchIssueKey": "public-workforce-and-pensions",
+          "researchDomain": "public-finance-administration",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "fiscal.reserves",
+      "qualifiedKey": "us-state-and-local:fiscal.reserves",
+      "shippedDomain": "fiscal",
+      "researchLinks": [],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-without-research-counterpart"
+    },
+    {
+      "shippedIssueKey": "fiscal.revenue-sharing",
+      "qualifiedKey": "us-state-and-local:fiscal.revenue-sharing",
+      "shippedDomain": "fiscal",
+      "researchLinks": [
+        {
+          "researchIssueKey": "intergovernmental-aid",
+          "researchDomain": "public-finance-administration",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "fiscal.procurement",
+      "qualifiedKey": "us-state-and-local:fiscal.procurement",
+      "shippedDomain": "fiscal",
+      "researchLinks": [
+        {
+          "researchIssueKey": "procurement-and-contracting",
+          "researchDomain": "public-finance-administration",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "government-operations.election-administration",
+      "qualifiedKey": "us-state-and-local:government-operations.election-administration",
+      "shippedDomain": "government-operations",
+      "researchLinks": [
+        {
+          "researchIssueKey": "election-administration",
+          "researchDomain": "elections-democracy-ethics",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "government-operations.election-rules",
+      "qualifiedKey": "us-state-and-local:government-operations.election-rules",
+      "shippedDomain": "government-operations",
+      "researchLinks": [
+        {
+          "researchIssueKey": "voting-rules-and-access",
+          "researchDomain": "elections-democracy-ethics",
+          "relationship": "research-specialization"
+        },
+        {
+          "researchIssueKey": "campaign-finance",
+          "researchDomain": "elections-democracy-ethics",
+          "relationship": "research-specialization"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "government-operations.ethics-and-disclosure",
+      "qualifiedKey": "us-state-and-local:government-operations.ethics-and-disclosure",
+      "shippedDomain": "government-operations",
+      "researchLinks": [
+        {
+          "researchIssueKey": "ethics-and-lobbying",
+          "researchDomain": "elections-democracy-ethics",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "government-operations.lobbying-regulation",
+      "qualifiedKey": "us-state-and-local:government-operations.lobbying-regulation",
+      "shippedDomain": "government-operations",
+      "researchLinks": [
+        {
+          "researchIssueKey": "ethics-and-lobbying",
+          "researchDomain": "elections-democracy-ethics",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "government-operations.open-meetings-and-records",
+      "qualifiedKey": "us-state-and-local:government-operations.open-meetings-and-records",
+      "shippedDomain": "government-operations",
+      "researchLinks": [
+        {
+          "researchIssueKey": "open-records-and-open-meetings",
+          "researchDomain": "elections-democracy-ethics",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "government-operations.civil-service",
+      "qualifiedKey": "us-state-and-local:government-operations.civil-service",
+      "shippedDomain": "government-operations",
+      "researchLinks": [
+        {
+          "researchIssueKey": "public-workforce-and-pensions",
+          "researchDomain": "public-finance-administration",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "government-operations.agency-organization",
+      "qualifiedKey": "us-state-and-local:government-operations.agency-organization",
+      "shippedDomain": "government-operations",
+      "researchLinks": [
+        {
+          "researchIssueKey": "government-organization",
+          "researchDomain": "public-finance-administration",
+          "relationship": "research-specialization"
+        },
+        {
+          "researchIssueKey": "local-government-structure",
+          "researchDomain": "elections-democracy-ethics",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "government-operations.state-local-powers",
+      "qualifiedKey": "us-state-and-local:government-operations.state-local-powers",
+      "shippedDomain": "government-operations",
+      "researchLinks": [
+        {
+          "researchIssueKey": "local-government-structure",
+          "researchDomain": "elections-democracy-ethics",
+          "relationship": "partial-overlap"
+        },
+        {
+          "researchIssueKey": "intergovernmental-powers-and-preemption",
+          "researchDomain": "elections-democracy-ethics",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "government-operations.public-contracting",
+      "qualifiedKey": "us-state-and-local:government-operations.public-contracting",
+      "shippedDomain": "government-operations",
+      "researchLinks": [
+        {
+          "researchIssueKey": "procurement-and-contracting",
+          "researchDomain": "public-finance-administration",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "government-operations.legislative-procedure",
+      "qualifiedKey": "us-state-and-local:government-operations.legislative-procedure",
+      "shippedDomain": "government-operations",
+      "researchLinks": [],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-without-research-counterpart"
+    },
+    {
+      "shippedIssueKey": "government-operations.redistricting",
+      "qualifiedKey": "us-state-and-local:government-operations.redistricting",
+      "shippedDomain": "government-operations",
+      "researchLinks": [
+        {
+          "researchIssueKey": "redistricting",
+          "researchDomain": "elections-democracy-ethics",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "education.school-funding",
+      "qualifiedKey": "us-state-and-local:education.school-funding",
+      "shippedDomain": "education",
+      "researchLinks": [
+        {
+          "researchIssueKey": "school-finance",
+          "researchDomain": "education-workforce",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "education.teacher-workforce",
+      "qualifiedKey": "us-state-and-local:education.teacher-workforce",
+      "shippedDomain": "education",
+      "researchLinks": [
+        {
+          "researchIssueKey": "teachers-and-school-workforce",
+          "researchDomain": "education-workforce",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "education.curriculum-and-standards",
+      "qualifiedKey": "us-state-and-local:education.curriculum-and-standards",
+      "shippedDomain": "education",
+      "researchLinks": [
+        {
+          "researchIssueKey": "curriculum-accountability-and-school-governance",
+          "researchDomain": "education-workforce",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "education.school-safety",
+      "qualifiedKey": "us-state-and-local:education.school-safety",
+      "shippedDomain": "education",
+      "researchLinks": [],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-without-research-counterpart"
+    },
+    {
+      "shippedIssueKey": "education.special-education",
+      "qualifiedKey": "us-state-and-local:education.special-education",
+      "shippedDomain": "education",
+      "researchLinks": [],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-without-research-counterpart"
+    },
+    {
+      "shippedIssueKey": "education.school-choice",
+      "qualifiedKey": "us-state-and-local:education.school-choice",
+      "shippedDomain": "education",
+      "researchLinks": [
+        {
+          "researchIssueKey": "curriculum-accountability-and-school-governance",
+          "researchDomain": "education-workforce",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "education.early-childhood",
+      "qualifiedKey": "us-state-and-local:education.early-childhood",
+      "shippedDomain": "education",
+      "researchLinks": [
+        {
+          "researchIssueKey": "early-childhood",
+          "researchDomain": "education-workforce",
+          "relationship": "equivalent-topic"
+        },
+        {
+          "researchIssueKey": "child-care-access",
+          "researchDomain": "health-human-services",
+          "relationship": "research-specialization"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "education.higher-education-tuition-and-aid",
+      "qualifiedKey": "us-state-and-local:education.higher-education-tuition-and-aid",
+      "shippedDomain": "education",
+      "researchLinks": [
+        {
+          "researchIssueKey": "postsecondary-finance-and-governance",
+          "researchDomain": "education-workforce",
+          "relationship": "research-umbrella"
+        },
+        {
+          "researchIssueKey": "student-aid",
+          "researchDomain": "education-workforce",
+          "relationship": "research-specialization"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "education.higher-education-governance",
+      "qualifiedKey": "us-state-and-local:education.higher-education-governance",
+      "shippedDomain": "education",
+      "researchLinks": [
+        {
+          "researchIssueKey": "postsecondary-finance-and-governance",
+          "researchDomain": "education-workforce",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "education.career-and-technical-education",
+      "qualifiedKey": "us-state-and-local:education.career-and-technical-education",
+      "shippedDomain": "education",
+      "researchLinks": [
+        {
+          "researchIssueKey": "workforce-training",
+          "researchDomain": "education-workforce",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "health-human-services.medicaid",
+      "qualifiedKey": "us-state-and-local:health-human-services.medicaid",
+      "shippedDomain": "health-human-services",
+      "researchLinks": [
+        {
+          "researchIssueKey": "medicaid-and-coverage",
+          "researchDomain": "health-human-services",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "health-human-services.insurance-access",
+      "qualifiedKey": "us-state-and-local:health-human-services.insurance-access",
+      "shippedDomain": "health-human-services",
+      "researchLinks": [
+        {
+          "researchIssueKey": "medicaid-and-coverage",
+          "researchDomain": "health-human-services",
+          "relationship": "research-umbrella"
+        },
+        {
+          "researchIssueKey": "health-costs-and-provider-regulation",
+          "researchDomain": "health-human-services",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "health-human-services.hospitals-and-providers",
+      "qualifiedKey": "us-state-and-local:health-human-services.hospitals-and-providers",
+      "shippedDomain": "health-human-services",
+      "researchLinks": [
+        {
+          "researchIssueKey": "health-costs-and-provider-regulation",
+          "researchDomain": "health-human-services",
+          "relationship": "research-umbrella"
+        },
+        {
+          "researchIssueKey": "maternal-child-health",
+          "researchDomain": "health-human-services",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "health-human-services.public-health",
+      "qualifiedKey": "us-state-and-local:health-human-services.public-health",
+      "shippedDomain": "health-human-services",
+      "researchLinks": [
+        {
+          "researchIssueKey": "public-health",
+          "researchDomain": "health-human-services",
+          "relationship": "equivalent-topic"
+        },
+        {
+          "researchIssueKey": "maternal-child-health",
+          "researchDomain": "health-human-services",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "health-human-services.behavioral-health",
+      "qualifiedKey": "us-state-and-local:health-human-services.behavioral-health",
+      "shippedDomain": "health-human-services",
+      "researchLinks": [
+        {
+          "researchIssueKey": "behavioral-health-and-substance-use",
+          "researchDomain": "health-human-services",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "health-human-services.substance-use",
+      "qualifiedKey": "us-state-and-local:health-human-services.substance-use",
+      "shippedDomain": "health-human-services",
+      "researchLinks": [
+        {
+          "researchIssueKey": "behavioral-health-and-substance-use",
+          "researchDomain": "health-human-services",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "health-human-services.child-and-family-services",
+      "qualifiedKey": "us-state-and-local:health-human-services.child-and-family-services",
+      "shippedDomain": "health-human-services",
+      "researchLinks": [
+        {
+          "researchIssueKey": "child-welfare-and-family-assistance",
+          "researchDomain": "health-human-services",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "health-human-services.aging-and-disability",
+      "qualifiedKey": "us-state-and-local:health-human-services.aging-and-disability",
+      "shippedDomain": "health-human-services",
+      "researchLinks": [
+        {
+          "researchIssueKey": "disability-and-aging",
+          "researchDomain": "health-human-services",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "health-human-services.food-and-income-assistance",
+      "qualifiedKey": "us-state-and-local:health-human-services.food-and-income-assistance",
+      "shippedDomain": "health-human-services",
+      "researchLinks": [
+        {
+          "researchIssueKey": "child-welfare-and-family-assistance",
+          "researchDomain": "health-human-services",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "health-human-services.homelessness-services",
+      "qualifiedKey": "us-state-and-local:health-human-services.homelessness-services",
+      "shippedDomain": "health-human-services",
+      "researchLinks": [
+        {
+          "researchIssueKey": "homelessness",
+          "researchDomain": "housing-land-use-community-development",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "justice-public-safety.criminal-law-and-sentencing",
+      "qualifiedKey": "us-state-and-local:justice-public-safety.criminal-law-and-sentencing",
+      "shippedDomain": "justice-public-safety",
+      "researchLinks": [
+        {
+          "researchIssueKey": "sentencing-corrections-and-reentry",
+          "researchDomain": "justice-public-safety",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "justice-public-safety.policing",
+      "qualifiedKey": "us-state-and-local:justice-public-safety.policing",
+      "shippedDomain": "justice-public-safety",
+      "researchLinks": [
+        {
+          "researchIssueKey": "policing",
+          "researchDomain": "justice-public-safety",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "justice-public-safety.courts",
+      "qualifiedKey": "us-state-and-local:justice-public-safety.courts",
+      "shippedDomain": "justice-public-safety",
+      "researchLinks": [
+        {
+          "researchIssueKey": "courts-and-pretrial",
+          "researchDomain": "justice-public-safety",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "justice-public-safety.prosecution-and-defense",
+      "qualifiedKey": "us-state-and-local:justice-public-safety.prosecution-and-defense",
+      "shippedDomain": "justice-public-safety",
+      "researchLinks": [
+        {
+          "researchIssueKey": "courts-and-pretrial",
+          "researchDomain": "justice-public-safety",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "justice-public-safety.corrections-and-prisons",
+      "qualifiedKey": "us-state-and-local:justice-public-safety.corrections-and-prisons",
+      "shippedDomain": "justice-public-safety",
+      "researchLinks": [
+        {
+          "researchIssueKey": "sentencing-corrections-and-reentry",
+          "researchDomain": "justice-public-safety",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "justice-public-safety.jails",
+      "qualifiedKey": "us-state-and-local:justice-public-safety.jails",
+      "shippedDomain": "justice-public-safety",
+      "researchLinks": [
+        {
+          "researchIssueKey": "courts-and-pretrial",
+          "researchDomain": "justice-public-safety",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "justice-public-safety.reentry",
+      "qualifiedKey": "us-state-and-local:justice-public-safety.reentry",
+      "shippedDomain": "justice-public-safety",
+      "researchLinks": [
+        {
+          "researchIssueKey": "sentencing-corrections-and-reentry",
+          "researchDomain": "justice-public-safety",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "justice-public-safety.juvenile-justice",
+      "qualifiedKey": "us-state-and-local:justice-public-safety.juvenile-justice",
+      "shippedDomain": "justice-public-safety",
+      "researchLinks": [
+        {
+          "researchIssueKey": "juvenile-justice",
+          "researchDomain": "justice-public-safety",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "justice-public-safety.victim-services",
+      "qualifiedKey": "us-state-and-local:justice-public-safety.victim-services",
+      "shippedDomain": "justice-public-safety",
+      "researchLinks": [],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-without-research-counterpart"
+    },
+    {
+      "shippedIssueKey": "justice-public-safety.firearms",
+      "qualifiedKey": "us-state-and-local:justice-public-safety.firearms",
+      "shippedDomain": "justice-public-safety",
+      "researchLinks": [
+        {
+          "researchIssueKey": "firearm-safety-and-carry",
+          "researchDomain": "justice-public-safety",
+          "relationship": "research-specialization"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "justice-public-safety.emergency-response",
+      "qualifiedKey": "us-state-and-local:justice-public-safety.emergency-response",
+      "shippedDomain": "justice-public-safety",
+      "researchLinks": [
+        {
+          "researchIssueKey": "emergency-medical-and-911",
+          "researchDomain": "justice-public-safety",
+          "relationship": "research-specialization"
+        },
+        {
+          "researchIssueKey": "fire-and-emergency-response",
+          "researchDomain": "justice-public-safety",
+          "relationship": "research-specialization"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "housing-land-use.zoning",
+      "qualifiedKey": "us-state-and-local:housing-land-use.zoning",
+      "shippedDomain": "housing-land-use",
+      "researchLinks": [
+        {
+          "researchIssueKey": "zoning-and-land-use",
+          "researchDomain": "housing-land-use-community-development",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "housing-land-use.permitting",
+      "qualifiedKey": "us-state-and-local:housing-land-use.permitting",
+      "shippedDomain": "housing-land-use",
+      "researchLinks": [
+        {
+          "researchIssueKey": "zoning-and-land-use",
+          "researchDomain": "housing-land-use-community-development",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "housing-land-use.housing-supply",
+      "qualifiedKey": "us-state-and-local:housing-land-use.housing-supply",
+      "shippedDomain": "housing-land-use",
+      "researchLinks": [
+        {
+          "researchIssueKey": "housing-supply-and-affordability",
+          "researchDomain": "housing-land-use-community-development",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "housing-land-use.housing-affordability",
+      "qualifiedKey": "us-state-and-local:housing-land-use.housing-affordability",
+      "shippedDomain": "housing-land-use",
+      "researchLinks": [
+        {
+          "researchIssueKey": "housing-supply-and-affordability",
+          "researchDomain": "housing-land-use-community-development",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "housing-land-use.tenant-and-landlord-rules",
+      "qualifiedKey": "us-state-and-local:housing-land-use.tenant-and-landlord-rules",
+      "shippedDomain": "housing-land-use",
+      "researchLinks": [
+        {
+          "researchIssueKey": "property-maintenance",
+          "researchDomain": "housing-land-use-community-development",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "housing-land-use.building-codes",
+      "qualifiedKey": "us-state-and-local:housing-land-use.building-codes",
+      "shippedDomain": "housing-land-use",
+      "researchLinks": [
+        {
+          "researchIssueKey": "building-and-safety-codes",
+          "researchDomain": "housing-land-use-community-development",
+          "relationship": "equivalent-topic"
+        },
+        {
+          "researchIssueKey": "property-maintenance",
+          "researchDomain": "housing-land-use-community-development",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "housing-land-use.homelessness",
+      "qualifiedKey": "us-state-and-local:housing-land-use.homelessness",
+      "shippedDomain": "housing-land-use",
+      "researchLinks": [
+        {
+          "researchIssueKey": "homelessness",
+          "researchDomain": "housing-land-use-community-development",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "housing-land-use.redevelopment",
+      "qualifiedKey": "us-state-and-local:housing-land-use.redevelopment",
+      "shippedDomain": "housing-land-use",
+      "researchLinks": [
+        {
+          "researchIssueKey": "redevelopment-and-neighborhood-investment",
+          "researchDomain": "housing-land-use-community-development",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "housing-land-use.neighborhood-planning",
+      "qualifiedKey": "us-state-and-local:housing-land-use.neighborhood-planning",
+      "shippedDomain": "housing-land-use",
+      "researchLinks": [
+        {
+          "researchIssueKey": "zoning-and-land-use",
+          "researchDomain": "housing-land-use-community-development",
+          "relationship": "research-umbrella"
+        },
+        {
+          "researchIssueKey": "redevelopment-and-neighborhood-investment",
+          "researchDomain": "housing-land-use-community-development",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "housing-land-use.state-housing-preemption",
+      "qualifiedKey": "us-state-and-local:housing-land-use.state-housing-preemption",
+      "shippedDomain": "housing-land-use",
+      "researchLinks": [
+        {
+          "researchIssueKey": "intergovernmental-powers-and-preemption",
+          "researchDomain": "elections-democracy-ethics",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "transportation-infrastructure.roads-and-bridges",
+      "qualifiedKey": "us-state-and-local:transportation-infrastructure.roads-and-bridges",
+      "shippedDomain": "transportation-infrastructure",
+      "researchLinks": [
+        {
+          "researchIssueKey": "roads-and-bridges",
+          "researchDomain": "transportation-infrastructure",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "transportation-infrastructure.transit",
+      "qualifiedKey": "us-state-and-local:transportation-infrastructure.transit",
+      "shippedDomain": "transportation-infrastructure",
+      "researchLinks": [
+        {
+          "researchIssueKey": "transit-and-mobility",
+          "researchDomain": "transportation-infrastructure",
+          "relationship": "research-specialization"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "transportation-infrastructure.rail",
+      "qualifiedKey": "us-state-and-local:transportation-infrastructure.rail",
+      "shippedDomain": "transportation-infrastructure",
+      "researchLinks": [
+        {
+          "researchIssueKey": "airports-ports-and-freight",
+          "researchDomain": "transportation-infrastructure",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "transportation-infrastructure.airports-and-ports",
+      "qualifiedKey": "us-state-and-local:transportation-infrastructure.airports-and-ports",
+      "shippedDomain": "transportation-infrastructure",
+      "researchLinks": [
+        {
+          "researchIssueKey": "airports-ports-and-freight",
+          "researchDomain": "transportation-infrastructure",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "transportation-infrastructure.water-and-sewer",
+      "qualifiedKey": "us-state-and-local:transportation-infrastructure.water-and-sewer",
+      "shippedDomain": "transportation-infrastructure",
+      "researchLinks": [
+        {
+          "researchIssueKey": "water-wastewater-and-public-works",
+          "researchDomain": "transportation-infrastructure",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "transportation-infrastructure.stormwater",
+      "qualifiedKey": "us-state-and-local:transportation-infrastructure.stormwater",
+      "shippedDomain": "transportation-infrastructure",
+      "researchLinks": [
+        {
+          "researchIssueKey": "water-wastewater-and-public-works",
+          "researchDomain": "transportation-infrastructure",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "transportation-infrastructure.broadband",
+      "qualifiedKey": "us-state-and-local:transportation-infrastructure.broadband",
+      "shippedDomain": "transportation-infrastructure",
+      "researchLinks": [
+        {
+          "researchIssueKey": "broadband-and-digital-access",
+          "researchDomain": "technology-communications-cybersecurity",
+          "relationship": "research-specialization"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "transportation-infrastructure.utility-regulation",
+      "qualifiedKey": "us-state-and-local:transportation-infrastructure.utility-regulation",
+      "shippedDomain": "transportation-infrastructure",
+      "researchLinks": [
+        {
+          "researchIssueKey": "utility-rates-and-grid-reliability",
+          "researchDomain": "energy-environment-natural-resources",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "transportation-infrastructure.public-facilities",
+      "qualifiedKey": "us-state-and-local:transportation-infrastructure.public-facilities",
+      "shippedDomain": "transportation-infrastructure",
+      "researchLinks": [
+        {
+          "researchIssueKey": "community-events-and-public-space",
+          "researchDomain": "parks-culture-community-life",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "transportation-infrastructure.capital-construction-and-maintenance",
+      "qualifiedKey": "us-state-and-local:transportation-infrastructure.capital-construction-and-maintenance",
+      "shippedDomain": "transportation-infrastructure",
+      "researchLinks": [
+        {
+          "researchIssueKey": "transportation-funding",
+          "researchDomain": "transportation-infrastructure",
+          "relationship": "partial-overlap"
+        },
+        {
+          "researchIssueKey": "water-wastewater-and-public-works",
+          "researchDomain": "transportation-infrastructure",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "business-commerce.occupational-licensing",
+      "qualifiedKey": "us-state-and-local:business-commerce.occupational-licensing",
+      "shippedDomain": "business-commerce",
+      "researchLinks": [
+        {
+          "researchIssueKey": "occupational-licensing",
+          "researchDomain": "economic-development-business-regulation",
+          "relationship": "equivalent-topic"
+        },
+        {
+          "researchIssueKey": "professional-scope",
+          "researchDomain": "economic-development-business-regulation",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "business-commerce.business-permits",
+      "qualifiedKey": "us-state-and-local:business-commerce.business-permits",
+      "shippedDomain": "business-commerce",
+      "researchLinks": [
+        {
+          "researchIssueKey": "small-business-and-commerce",
+          "researchDomain": "economic-development-business-regulation",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "business-commerce.corporate-regulation",
+      "qualifiedKey": "us-state-and-local:business-commerce.corporate-regulation",
+      "shippedDomain": "business-commerce",
+      "researchLinks": [
+        {
+          "researchIssueKey": "small-business-and-commerce",
+          "researchDomain": "economic-development-business-regulation",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "business-commerce.consumer-protection",
+      "qualifiedKey": "us-state-and-local:business-commerce.consumer-protection",
+      "shippedDomain": "business-commerce",
+      "researchLinks": [
+        {
+          "researchIssueKey": "insurance-and-financial-consumer",
+          "researchDomain": "civil-family-consumer",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "business-commerce.insurance-regulation",
+      "qualifiedKey": "us-state-and-local:business-commerce.insurance-regulation",
+      "shippedDomain": "business-commerce",
+      "researchLinks": [
+        {
+          "researchIssueKey": "insurance-and-financial-consumer",
+          "researchDomain": "civil-family-consumer",
+          "relationship": "partial-overlap"
+        },
+        {
+          "researchIssueKey": "insurance-market-regulation",
+          "researchDomain": "economic-development-business-regulation",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "business-commerce.banking-and-credit",
+      "qualifiedKey": "us-state-and-local:business-commerce.banking-and-credit",
+      "shippedDomain": "business-commerce",
+      "researchLinks": [
+        {
+          "researchIssueKey": "insurance-and-financial-consumer",
+          "researchDomain": "civil-family-consumer",
+          "relationship": "partial-overlap"
+        },
+        {
+          "researchIssueKey": "banking-and-credit-regulation",
+          "researchDomain": "economic-development-business-regulation",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "business-commerce.alcohol-cannabis-gaming",
+      "qualifiedKey": "us-state-and-local:business-commerce.alcohol-cannabis-gaming",
+      "shippedDomain": "business-commerce",
+      "researchLinks": [
+        {
+          "researchIssueKey": "regulated-markets",
+          "researchDomain": "economic-development-business-regulation",
+          "relationship": "research-specialization"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "business-commerce.tourism",
+      "qualifiedKey": "us-state-and-local:business-commerce.tourism",
+      "shippedDomain": "business-commerce",
+      "researchLinks": [
+        {
+          "researchIssueKey": "tourism",
+          "researchDomain": "economic-development-business-regulation",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "business-commerce.development-incentives",
+      "qualifiedKey": "us-state-and-local:business-commerce.development-incentives",
+      "shippedDomain": "business-commerce",
+      "researchLinks": [
+        {
+          "researchIssueKey": "business-attraction-and-incentives",
+          "researchDomain": "economic-development-business-regulation",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "business-commerce.downtown-and-industrial-development",
+      "qualifiedKey": "us-state-and-local:business-commerce.downtown-and-industrial-development",
+      "shippedDomain": "business-commerce",
+      "researchLinks": [
+        {
+          "researchIssueKey": "redevelopment-and-neighborhood-investment",
+          "researchDomain": "housing-land-use-community-development",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "labor-workforce.minimum-wage",
+      "qualifiedKey": "us-state-and-local:labor-workforce.minimum-wage",
+      "shippedDomain": "labor-workforce",
+      "researchLinks": [
+        {
+          "researchIssueKey": "minimum-wage-and-hours",
+          "researchDomain": "labor-employment-pensions",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "labor-workforce.leave-policy",
+      "qualifiedKey": "us-state-and-local:labor-workforce.leave-policy",
+      "shippedDomain": "labor-workforce",
+      "researchLinks": [
+        {
+          "researchIssueKey": "leave-and-workplace-standards",
+          "researchDomain": "labor-employment-pensions",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "labor-workforce.unemployment-insurance",
+      "qualifiedKey": "us-state-and-local:labor-workforce.unemployment-insurance",
+      "shippedDomain": "labor-workforce",
+      "researchLinks": [
+        {
+          "researchIssueKey": "unemployment-insurance",
+          "researchDomain": "labor-employment-pensions",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "labor-workforce.workers-compensation",
+      "qualifiedKey": "us-state-and-local:labor-workforce.workers-compensation",
+      "shippedDomain": "labor-workforce",
+      "researchLinks": [
+        {
+          "researchIssueKey": "workers-compensation",
+          "researchDomain": "labor-employment-pensions",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "labor-workforce.workplace-standards",
+      "qualifiedKey": "us-state-and-local:labor-workforce.workplace-standards",
+      "shippedDomain": "labor-workforce",
+      "researchLinks": [
+        {
+          "researchIssueKey": "minimum-wage-and-hours",
+          "researchDomain": "labor-employment-pensions",
+          "relationship": "research-umbrella"
+        },
+        {
+          "researchIssueKey": "leave-and-workplace-standards",
+          "researchDomain": "labor-employment-pensions",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "labor-workforce.collective-bargaining",
+      "qualifiedKey": "us-state-and-local:labor-workforce.collective-bargaining",
+      "shippedDomain": "labor-workforce",
+      "researchLinks": [
+        {
+          "researchIssueKey": "collective-bargaining",
+          "researchDomain": "labor-employment-pensions",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "labor-workforce.public-employment",
+      "qualifiedKey": "us-state-and-local:labor-workforce.public-employment",
+      "shippedDomain": "labor-workforce",
+      "researchLinks": [
+        {
+          "researchIssueKey": "public-workforce-and-pensions",
+          "researchDomain": "public-finance-administration",
+          "relationship": "partial-overlap"
+        },
+        {
+          "researchIssueKey": "public-employment",
+          "researchDomain": "labor-employment-pensions",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "labor-workforce.workforce-training",
+      "qualifiedKey": "us-state-and-local:labor-workforce.workforce-training",
+      "shippedDomain": "labor-workforce",
+      "researchLinks": [
+        {
+          "researchIssueKey": "workforce-training",
+          "researchDomain": "education-workforce",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "environment-energy.air-quality",
+      "qualifiedKey": "us-state-and-local:environment-energy.air-quality",
+      "shippedDomain": "environment-energy",
+      "researchLinks": [
+        {
+          "researchIssueKey": "air-and-water-pollution",
+          "researchDomain": "energy-environment-natural-resources",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "environment-energy.water-quality",
+      "qualifiedKey": "us-state-and-local:environment-energy.water-quality",
+      "shippedDomain": "environment-energy",
+      "researchLinks": [
+        {
+          "researchIssueKey": "air-and-water-pollution",
+          "researchDomain": "energy-environment-natural-resources",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "environment-energy.waste-and-recycling",
+      "qualifiedKey": "us-state-and-local:environment-energy.waste-and-recycling",
+      "shippedDomain": "environment-energy",
+      "researchLinks": [
+        {
+          "researchIssueKey": "waste-and-recycling",
+          "researchDomain": "energy-environment-natural-resources",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "environment-energy.contaminated-sites",
+      "qualifiedKey": "us-state-and-local:environment-energy.contaminated-sites",
+      "shippedDomain": "environment-energy",
+      "researchLinks": [
+        {
+          "researchIssueKey": "air-and-water-pollution",
+          "researchDomain": "energy-environment-natural-resources",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "environment-energy.conservation",
+      "qualifiedKey": "us-state-and-local:environment-energy.conservation",
+      "shippedDomain": "environment-energy",
+      "researchLinks": [
+        {
+          "researchIssueKey": "parks-lands-wildlife-and-forestry",
+          "researchDomain": "energy-environment-natural-resources",
+          "relationship": "research-umbrella"
+        },
+        {
+          "researchIssueKey": "conservation",
+          "researchDomain": "agriculture-rural-food",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "environment-energy.energy-generation-and-grid",
+      "qualifiedKey": "us-state-and-local:environment-energy.energy-generation-and-grid",
+      "shippedDomain": "environment-energy",
+      "researchLinks": [
+        {
+          "researchIssueKey": "utility-rates-and-grid-reliability",
+          "researchDomain": "energy-environment-natural-resources",
+          "relationship": "partial-overlap"
+        },
+        {
+          "researchIssueKey": "generation-and-energy-mix",
+          "researchDomain": "energy-environment-natural-resources",
+          "relationship": "research-specialization"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "environment-energy.energy-efficiency",
+      "qualifiedKey": "us-state-and-local:environment-energy.energy-efficiency",
+      "shippedDomain": "environment-energy",
+      "researchLinks": [],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-without-research-counterpart"
+    },
+    {
+      "shippedIssueKey": "environment-energy.climate-mitigation",
+      "qualifiedKey": "us-state-and-local:environment-energy.climate-mitigation",
+      "shippedDomain": "environment-energy",
+      "researchLinks": [],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-without-research-counterpart"
+    },
+    {
+      "shippedIssueKey": "environment-energy.climate-resilience",
+      "qualifiedKey": "us-state-and-local:environment-energy.climate-resilience",
+      "shippedDomain": "environment-energy",
+      "researchLinks": [
+        {
+          "researchIssueKey": "climate-and-disaster-resilience",
+          "researchDomain": "energy-environment-natural-resources",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "environment-energy.disaster-mitigation",
+      "qualifiedKey": "us-state-and-local:environment-energy.disaster-mitigation",
+      "shippedDomain": "environment-energy",
+      "researchLinks": [
+        {
+          "researchIssueKey": "climate-and-disaster-resilience",
+          "researchDomain": "energy-environment-natural-resources",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "environment-energy.environmental-permitting",
+      "qualifiedKey": "us-state-and-local:environment-energy.environmental-permitting",
+      "shippedDomain": "environment-energy",
+      "researchLinks": [],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-without-research-counterpart"
+    },
+    {
+      "shippedIssueKey": "agriculture-natural-resources.farming-and-ranching",
+      "qualifiedKey": "us-state-and-local:agriculture-natural-resources.farming-and-ranching",
+      "shippedDomain": "agriculture-natural-resources",
+      "researchLinks": [
+        {
+          "researchIssueKey": "agriculture-and-farm-policy",
+          "researchDomain": "agriculture-rural-food",
+          "relationship": "research-umbrella"
+        },
+        {
+          "researchIssueKey": "conservation",
+          "researchDomain": "agriculture-rural-food",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "agriculture-natural-resources.forestry",
+      "qualifiedKey": "us-state-and-local:agriculture-natural-resources.forestry",
+      "shippedDomain": "agriculture-natural-resources",
+      "researchLinks": [
+        {
+          "researchIssueKey": "parks-lands-wildlife-and-forestry",
+          "researchDomain": "energy-environment-natural-resources",
+          "relationship": "research-umbrella"
+        },
+        {
+          "researchIssueKey": "forestry-and-working-lands",
+          "researchDomain": "agriculture-rural-food",
+          "relationship": "research-specialization"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "agriculture-natural-resources.water-allocation",
+      "qualifiedKey": "us-state-and-local:agriculture-natural-resources.water-allocation",
+      "shippedDomain": "agriculture-natural-resources",
+      "researchLinks": [
+        {
+          "researchIssueKey": "water-resources",
+          "researchDomain": "energy-environment-natural-resources",
+          "relationship": "research-specialization"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "agriculture-natural-resources.fisheries-and-wildlife",
+      "qualifiedKey": "us-state-and-local:agriculture-natural-resources.fisheries-and-wildlife",
+      "shippedDomain": "agriculture-natural-resources",
+      "researchLinks": [
+        {
+          "researchIssueKey": "parks-lands-wildlife-and-forestry",
+          "researchDomain": "energy-environment-natural-resources",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "agriculture-natural-resources.public-lands",
+      "qualifiedKey": "us-state-and-local:agriculture-natural-resources.public-lands",
+      "shippedDomain": "agriculture-natural-resources",
+      "researchLinks": [
+        {
+          "researchIssueKey": "parks-lands-wildlife-and-forestry",
+          "researchDomain": "energy-environment-natural-resources",
+          "relationship": "research-umbrella"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "agriculture-natural-resources.food-safety",
+      "qualifiedKey": "us-state-and-local:agriculture-natural-resources.food-safety",
+      "shippedDomain": "agriculture-natural-resources",
+      "researchLinks": [
+        {
+          "researchIssueKey": "food-systems-and-safety",
+          "researchDomain": "agriculture-rural-food",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "agriculture-natural-resources.agricultural-markets",
+      "qualifiedKey": "us-state-and-local:agriculture-natural-resources.agricultural-markets",
+      "shippedDomain": "agriculture-natural-resources",
+      "researchLinks": [
+        {
+          "researchIssueKey": "agriculture-and-farm-policy",
+          "researchDomain": "agriculture-rural-food",
+          "relationship": "research-umbrella"
+        },
+        {
+          "researchIssueKey": "food-systems-and-safety",
+          "researchDomain": "agriculture-rural-food",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "agriculture-natural-resources.rural-development",
+      "qualifiedKey": "us-state-and-local:agriculture-natural-resources.rural-development",
+      "shippedDomain": "agriculture-natural-resources",
+      "researchLinks": [
+        {
+          "researchIssueKey": "rural-development",
+          "researchDomain": "agriculture-rural-food",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "civil-family-community.civil-rights-and-discrimination",
+      "qualifiedKey": "us-state-and-local:civil-family-community.civil-rights-and-discrimination",
+      "shippedDomain": "civil-family-community",
+      "researchLinks": [
+        {
+          "researchIssueKey": "civil-rights-and-discrimination",
+          "researchDomain": "civil-family-consumer",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "civil-family-community.family-law",
+      "qualifiedKey": "us-state-and-local:civil-family-community.family-law",
+      "shippedDomain": "civil-family-community",
+      "researchLinks": [
+        {
+          "researchIssueKey": "family-law-and-child-support",
+          "researchDomain": "civil-family-consumer",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "civil-family-community.reproductive-policy",
+      "qualifiedKey": "us-state-and-local:civil-family-community.reproductive-policy",
+      "shippedDomain": "civil-family-community",
+      "researchLinks": [
+        {
+          "researchIssueKey": "reproductive-health",
+          "researchDomain": "civil-family-consumer",
+          "relationship": "research-specialization"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "civil-family-community.children-and-youth",
+      "qualifiedKey": "us-state-and-local:civil-family-community.children-and-youth",
+      "shippedDomain": "civil-family-community",
+      "researchLinks": [],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-without-research-counterpart"
+    },
+    {
+      "shippedIssueKey": "civil-family-community.libraries",
+      "qualifiedKey": "us-state-and-local:civil-family-community.libraries",
+      "shippedDomain": "civil-family-community",
+      "researchLinks": [
+        {
+          "researchIssueKey": "libraries",
+          "researchDomain": "parks-culture-community-life",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "civil-family-community.arts-and-culture",
+      "qualifiedKey": "us-state-and-local:civil-family-community.arts-and-culture",
+      "shippedDomain": "civil-family-community",
+      "researchLinks": [
+        {
+          "researchIssueKey": "arts-and-cultural-services",
+          "researchDomain": "parks-culture-community-life",
+          "relationship": "research-specialization"
+        },
+        {
+          "researchIssueKey": "historic-preservation",
+          "researchDomain": "parks-culture-community-life",
+          "relationship": "research-specialization"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "civil-family-community.parks-and-recreation",
+      "qualifiedKey": "us-state-and-local:civil-family-community.parks-and-recreation",
+      "shippedDomain": "civil-family-community",
+      "researchLinks": [
+        {
+          "researchIssueKey": "parks-and-recreation",
+          "researchDomain": "parks-culture-community-life",
+          "relationship": "equivalent-topic"
+        },
+        {
+          "researchIssueKey": "community-events-and-public-space",
+          "researchDomain": "parks-culture-community-life",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "civil-family-community.veterans",
+      "qualifiedKey": "us-state-and-local:civil-family-community.veterans",
+      "shippedDomain": "civil-family-community",
+      "researchLinks": [
+        {
+          "researchIssueKey": "veterans-services",
+          "researchDomain": "health-human-services",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "civil-family-community.community-institutions",
+      "qualifiedKey": "us-state-and-local:civil-family-community.community-institutions",
+      "shippedDomain": "civil-family-community",
+      "researchLinks": [
+        {
+          "researchIssueKey": "community-events-and-public-space",
+          "researchDomain": "parks-culture-community-life",
+          "relationship": "partial-overlap"
+        }
+      ],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "technology-privacy.privacy-and-data-use",
+      "qualifiedKey": "us-state-and-local:technology-privacy.privacy-and-data-use",
+      "shippedDomain": "technology-privacy",
+      "researchLinks": [
+        {
+          "researchIssueKey": "privacy-and-data-governance",
+          "researchDomain": "technology-communications-cybersecurity",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "technology-privacy.artificial-intelligence",
+      "qualifiedKey": "us-state-and-local:technology-privacy.artificial-intelligence",
+      "shippedDomain": "technology-privacy",
+      "researchLinks": [
+        {
+          "researchIssueKey": "artificial-intelligence",
+          "researchDomain": "technology-communications-cybersecurity",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "technology-privacy.cybersecurity",
+      "qualifiedKey": "us-state-and-local:technology-privacy.cybersecurity",
+      "shippedDomain": "technology-privacy",
+      "researchLinks": [
+        {
+          "researchIssueKey": "government-cybersecurity",
+          "researchDomain": "technology-communications-cybersecurity",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    },
+    {
+      "shippedIssueKey": "technology-privacy.platforms-and-social-media",
+      "qualifiedKey": "us-state-and-local:technology-privacy.platforms-and-social-media",
+      "shippedDomain": "technology-privacy",
+      "researchLinks": [],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-without-research-counterpart"
+    },
+    {
+      "shippedIssueKey": "technology-privacy.telecommunications",
+      "qualifiedKey": "us-state-and-local:technology-privacy.telecommunications",
+      "shippedDomain": "technology-privacy",
+      "researchLinks": [],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-without-research-counterpart"
+    },
+    {
+      "shippedIssueKey": "technology-privacy.digital-government",
+      "qualifiedKey": "us-state-and-local:technology-privacy.digital-government",
+      "shippedDomain": "technology-privacy",
+      "researchLinks": [
+        {
+          "researchIssueKey": "government-technology-and-digital-services",
+          "researchDomain": "technology-communications-cybersecurity",
+          "relationship": "equivalent-topic"
+        }
+      ],
+      "hasDirectResearchCounterpart": true,
+      "preserve": true,
+      "disposition": "retained-current-key"
+    }
+  ],
+  "researchWithoutAnyTarget": [
+    {
+      "researchIssueKey": "traffic-safety",
+      "researchName": "Traffic safety",
+      "researchDomain": "transportation-infrastructure",
+      "relationship": "no-explicit-counterpart",
+      "shippedIssueKeys": [],
+      "note": "No explicit traffic/road-user safety issue in the shipped vocabulary. Roads-and-bridges is adjacent infrastructure, not equivalent substantive safety policy.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "immigration-related",
+      "researchName": "Immigration related",
+      "researchDomain": "civil-family-consumer",
+      "relationship": "no-explicit-counterpart",
+      "shippedIssueKeys": [],
+      "note": "No explicit immigration-related issue among the 127. Federal immigration/naturalization is distinct from supported state/local services and civil policy.",
+      "automaticRenameAllowed": false
+    },
+    {
+      "researchIssueKey": "general",
+      "researchName": "General",
+      "researchDomain": "civil-family-consumer",
+      "relationship": "underspecified",
+      "shippedIssueKeys": [],
+      "note": "The returned label and description identify no substantive operation. Do not use as a catch-all to claim unmatched shipped subjects are covered.",
+      "automaticRenameAllowed": false
+    }
+  ],
+  "shippedWithoutAnyResearchTarget": [
+    {
+      "shippedIssueKey": "fiscal.reserves",
+      "qualifiedKey": "us-state-and-local:fiscal.reserves",
+      "shippedDomain": "fiscal",
+      "researchLinks": [],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-without-research-counterpart"
+    },
+    {
+      "shippedIssueKey": "government-operations.legislative-procedure",
+      "qualifiedKey": "us-state-and-local:government-operations.legislative-procedure",
+      "shippedDomain": "government-operations",
+      "researchLinks": [],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-without-research-counterpart"
+    },
+    {
+      "shippedIssueKey": "education.school-safety",
+      "qualifiedKey": "us-state-and-local:education.school-safety",
+      "shippedDomain": "education",
+      "researchLinks": [],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-without-research-counterpart"
+    },
+    {
+      "shippedIssueKey": "education.special-education",
+      "qualifiedKey": "us-state-and-local:education.special-education",
+      "shippedDomain": "education",
+      "researchLinks": [],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-without-research-counterpart"
+    },
+    {
+      "shippedIssueKey": "justice-public-safety.victim-services",
+      "qualifiedKey": "us-state-and-local:justice-public-safety.victim-services",
+      "shippedDomain": "justice-public-safety",
+      "researchLinks": [],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-without-research-counterpart"
+    },
+    {
+      "shippedIssueKey": "environment-energy.energy-efficiency",
+      "qualifiedKey": "us-state-and-local:environment-energy.energy-efficiency",
+      "shippedDomain": "environment-energy",
+      "researchLinks": [],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-without-research-counterpart"
+    },
+    {
+      "shippedIssueKey": "environment-energy.climate-mitigation",
+      "qualifiedKey": "us-state-and-local:environment-energy.climate-mitigation",
+      "shippedDomain": "environment-energy",
+      "researchLinks": [],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-without-research-counterpart"
+    },
+    {
+      "shippedIssueKey": "environment-energy.environmental-permitting",
+      "qualifiedKey": "us-state-and-local:environment-energy.environmental-permitting",
+      "shippedDomain": "environment-energy",
+      "researchLinks": [],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-without-research-counterpart"
+    },
+    {
+      "shippedIssueKey": "civil-family-community.children-and-youth",
+      "qualifiedKey": "us-state-and-local:civil-family-community.children-and-youth",
+      "shippedDomain": "civil-family-community",
+      "researchLinks": [],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-without-research-counterpart"
+    },
+    {
+      "shippedIssueKey": "technology-privacy.platforms-and-social-media",
+      "qualifiedKey": "us-state-and-local:technology-privacy.platforms-and-social-media",
+      "shippedDomain": "technology-privacy",
+      "researchLinks": [],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-without-research-counterpart"
+    },
+    {
+      "shippedIssueKey": "technology-privacy.telecommunications",
+      "qualifiedKey": "us-state-and-local:technology-privacy.telecommunications",
+      "shippedDomain": "technology-privacy",
+      "researchLinks": [],
+      "hasDirectResearchCounterpart": false,
+      "preserve": true,
+      "disposition": "retained-without-research-counterpart"
+    }
+  ],
+  "acceptanceTestsForOwner": [
+    "Load current sourced pack and dependent us-policy-positions pack before/after view registration; same proposition/issue IDs and rejection report, not merely unchanged total count.",
+    "Verify all 127 current keys survive; reported 66 proposition count must be measured at actual receiving head, not assumed unchanged.",
+    "Load/save a held belief and a filed provision referencing current qualified issue keys; references retain meaning and reach the same proposal.",
+    "One issue shown under two research headings creates no extra docket occurrence, effect, participant or probability weight.",
+    "Unknown/underspecified research rows remain explicit gaps; no general catch-all claims full coverage.",
+    "Level permissions and instruments are unchanged by this classification; separate authority validation still applies."
+  ]
+}

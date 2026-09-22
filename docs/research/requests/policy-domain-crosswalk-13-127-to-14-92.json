@@ -1,0 +1,49 @@
+{
+  "filedAt": "2026-09-22T16:22:00.000Z",
+  "impact": "shapes-design",
+  "lane": "modular legislation",
+  "notes": [
+    "C01's own instruction, read from /mnt/project-files/chatgpt-stress-test-answers-2026-09-22/connection-answers.json: 'Do not migrate a working 13/127 pack back wholesale merely because the research grouping used 14/92; reconcile subjects/IDs with the existing crosswalk and keep useful content.' So this is a reconciliation, not an append and not a replacement.",
+    "THE HAZARD THAT MAKES THIS BIGGER THAN IT LOOKS. Two packs now key into this vocabulary, not one. us-state-and-local declares the domains and issues; us-policy-positions declares 66 authored positions that reference those issues by qualified stable key. Renaming or splitting a domain changes the domainId on its issues, and re-keying an issue strands every position pointing at it. A crosswalk that accounts for only the sourced pack will silently orphan authored content, and because the loader rejects an unresolvable reference by name rather than throwing, it will look like a clean load with fewer positions in it. Any crosswalk has to be checked against BOTH packs and against the loaded proposition count.",
+    "Not urgent in the sense that nothing is broken: the shipped 13/127 vocabulary loads with zero rejections and carries positions in every domain. This is about doing the reconciliation correctly whenever it is taken."
+  ],
+  "priority": "P2",
+  "question": "The returned policy taxonomy groups state and local policy into fourteen domains across ninety-two items; the vocabulary shipped and loading today is thirteen domains across a hundred and twenty-seven issues, chosen because only that grouping carried issue rows and its groupings matched referral practice. For each of the fourteen domains, which of the thirteen does it correspond to — the same thing renamed, a split of one, a merge of several, or genuinely absent from the thirteen? And for the ninety-two items, which of the hundred and twenty-seven does each map to, naming the items that have no counterpart and the issues that would be lost if the ninety-two replaced them? A rename, a split and an addition have different consequences for identifiers already in use, so say which each one is rather than giving a list.",
+  "questionId": "policy-domain-crosswalk-13-127-to-14-92",
+  "relatedQuestions": ["policy-issue-taxonomy-state-and-local"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "modular legislation thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/policy-pack-us-state-and-local.ts",
+      "whatItDidNotSettle": "Carries the thirteen domains and a hundred and twenty-seven issues as shipped, each issue with the levels that ordinarily decide it. It records the reasoning for choosing thirteen over fourteen at the time, but predates the returned answer and maps nothing onto it."
+    },
+    {
+      "source": "docs/systems/policy-vocabulary.md",
+      "whatItDidNotSettle": "States the thirteen-versus-fourteen reconciliation and the hedge taken at the time — elections, ethics, libraries, arts and parks were given their own issue keys so a later split would not need to invent them. It names the hedge; it does not establish what the fourteenth domain is."
+    },
+    {
+      "source": "src/simulation/policy-pack-us-policy-positions.ts",
+      "whatItDidNotSettle": "Sixty-six authored positions keyed to the sourced issues by qualified stable key. It is the reason a crosswalk cannot be applied to the sourced pack alone, and it says nothing about which mapping is right."
+    },
+    {
+      "source": "The C01 answer in the returned batch",
+      "whatItDidNotSettle": "Rules that the working pack must not be migrated back wholesale and that the reconciliation goes through a crosswalk. It does not supply the crosswalk."
+    }
+  ],
+  "title": "Crosswalk the shipped thirteen-domain vocabulary against the returned fourteen",
+  "usableAnswer": "A row per returned domain naming its counterpart among the thirteen and the KIND of relationship — identical, renamed, split from, merged into, or new — and the same for items against issues, with both directions of unmatched entries listed explicitly. Enough that the mapping can be applied as a rename table rather than as a judgement call, and enough that every currently shipped issue key can be checked for whether it survives.",
+  "whyItMatters": "The vocabulary is the thing every bill, every position and eventually every conviction is keyed to, so its identifiers are load-bearing in a way most content is not. Getting the reconciliation wrong does not produce an error; it produces a quieter game, with positions that no longer attach to anything and a loader that reports a clean load. Doing it once, from a mapping rather than from a reading, is the difference.",
+  "answer": {
+    "summary": "## A13 — Complete row-level crosswalk: retain the 127 shipped issues\n\n**Question:** `policy-domain-crosswalk-13-127-to-14-92` — mapping now delivered in `policy-crosswalk/`.\n\nThe continuation inspected the current sourced pack at main `d10dd525731bcd7bded20d165d74b9e0bae38ad8`, blob `a51034f630acb7f30bd8259dcc486480c1ec181e`, and the authored-position pack header plus actual qualified reference examples, blob `dfc81629b089ddaa4737f358329ed0b32736b0bb`. Its key inventory was manually transcribed from connector-returned source, not silently fetched or executed in the runtime.\n\nThe crosswalk accounts for **all 92 returned research items, all 127 existing issue keys in the inverse direction, and all 14 research groups**. Relationship kinds distinguish equivalent topics, broader umbrellas, specializations, partial overlap, no explicit counterpart and underspecified labels. No domain/issue rename is authorized. **Keep the shipped 127 and its dependent positions; use the fourteen groups as an optional cross-classification view.** A single issue appearing in multiple views does not gain extra probability or duplicate its consequences.\n\nTwo researched items have no explicit matching shipped subject: traffic safety and immigration-related policy. The research's `general` row is underspecified, not a license to declare everything matched. Eleven shipped issues have no explicit link from these research items: reserves; legislative/administrative procedure; school safety; special education; victim services; energy efficiency; climate mitigation; environmental permitting; children/youth; platforms/social media; telecommunications. Preserve them all. A possible broader heading is not an actual issue-level substitute.\n\nOther matches are deliberately partial. Maternal/child clinical health is not child protection; professional scope is not just licensing entry; market solvency is not the same as individual consumer protection. The shipped state-housing-preemption row links to the broader intergovernmental-power research heading without losing its specific identity.\n\n**Receiving proof required:** compare exact issue and proposition ID sets and rejection reports before/after; verify saved belief and filed-measure references survive; test multi-heading rendering without extra agenda occurrences; preserve actual level authority. The queue's 66-proposition count is prior reported evidence, not a fresh runtime count. Twelve crosswalk-data consistency checks ran and passed; the repository loader, TypeScript and gameplay were not executed here.\n\nFull readable mapping, JSON, CSV, exact-key inventory, generator and validation are in `policy-crosswalk/`. This completes the missing mapping input, not its implementation. The 60-issue federal candidate remains byte-identical; the screenshot's later 94-issue expansion remains unverified.",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-22-depth2/DEPTH2-ANSWERS.md (A13)",
+      "docs/research/chatgpt-answers/2026-09-22-depth2/policy-crosswalk/POLICY-CROSSWALK-92-127.md",
+      "docs/research/chatgpt-answers/2026-09-22-depth2/policy-crosswalk/policy-92-to-127-crosswalk.json",
+      "Drive package 1fm5p3K6hGzVpq2jUUoAsU32Xb3F7wjdo, 129,494 bytes, SHA-256 9e1464572bb8135e573e536377a692427830814875aacd0cd7a7f30b3da1a1da, updated 20:15:51Z"
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T20:15:00.000Z",
+    "stillOpen": "Disposition 'answered-with-complete-row-mapping'. Remaining: Existing policy owner validates actual loader/ID sets, saved references and view consumers; no destructive replacement or issue rekeying. Implementation: Not implemented or tested by this director batch; existing source owner receives and verifies.\n\nThis supersedes the 18:27Z A13, which said not to migrate until the row-level crosswalk existed; the crosswalk now exists.\n\nBatch limits in its own words: the crosswalk is 'not implemented or tested by this director batch; existing source owner receives and verifies'; its data checks are research-data checks, and the repository loader, TypeScript and gameplay were not executed."
+  }
+}

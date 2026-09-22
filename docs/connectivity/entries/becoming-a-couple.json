@@ -1,0 +1,35 @@
+{
+  "control": {
+    "detail": "The people and life lane's reading is that the only code making two people partners is fed by a bridge nothing calls, that nobody is ever born in a running game, and that the birth writer is reached only by a test. There is no dating, attraction or one-night stand of any kind. A deadbeat parent is unrepresentable rather than merely missing, because nothing can end a partnership and nothing can change a child's authority record once it is written.",
+    "present": false
+  },
+  "declaredInContent": false,
+  "entryId": "becoming-a-couple",
+  "mapVersion": "connectivity-map/v1",
+  "measuredBy": "people and life, with one measurement re-taken here",
+  "measurements": [
+    {
+      "at": "claude/project-thread-k8w14s at 2349466f, measured 2026-09-22",
+      "found": "createPartnership is called once outside its own definition, at src/simulation/character-history.ts:655. recordPartnershipState has no caller at all outside its definition. Whether the character-history path runs in an ordinary save is the people and life lane's reading and was not traced here.",
+      "what": "Every non-test reference to createPartnership and recordPartnershipState across src"
+    },
+    {
+      "at": "reported by the people and life lane on 2026-09-22; that report named no tree, so this reading is carried and not anchored here",
+      "found": "Nobody is ever born in a running game; no couple ever forms; twelve consumers of partnership state are all starved.",
+      "what": "The people and life lane's finding, filed as how-a-life-begins-and-grows-up"
+    }
+  ],
+  "playerReach": "does-not-reach",
+  "playerReachDetail": "Nothing a player does forms a relationship, ends one, or produces a child.",
+  "reMeasuredByPublisher": false,
+  "recordedAt": "2026-09-22T16:00:00.000Z",
+  "surface": {
+    "detail": "Twelve systems ask whether a person is partnered, and all twelve are starved.",
+    "present": false
+  },
+  "system": {
+    "detail": "The writers exist. createPartnership is at src/simulation/life.ts:1230 and recordPartnershipState at :1271, and a birth writer exists too.",
+    "present": true
+  },
+  "title": "Two people becoming a couple, and a child being born"
+}

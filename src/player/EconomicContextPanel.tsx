@@ -204,7 +204,24 @@ export function EconomicContextView({
           ))}
         </div>
       ) : (
-        <p role="status">Nothing has been published for this date yet.</p>
+        <p role="status">
+          {context.withheldFutureObservationCount > 0
+            ? /*
+               * "Nothing has been published for this date yet" was false, and
+               * falsely reassuring: figures for this place are recorded and
+               * are being held back, because the only date the locked products
+               * establish for them is the day the game fetched them, not the
+               * day their publisher released them. So on an ordinary opening
+               * day every real number sits behind that date and the screen
+               * said there was nothing. Say what is actually happening.
+               */
+              `${context.withheldFutureObservationCount} ${
+                context.withheldFutureObservationCount === 1
+                  ? "figure is"
+                  : "figures are"
+              } recorded for this place, and the game cannot establish that any had been published by this date, so it is not showing you numbers nobody here could have seen yet.`
+            : "Nothing has been published for this date yet."}
+        </p>
       )}
 
       {diagnostics && unavailable.length > 0 ? (
