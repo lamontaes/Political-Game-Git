@@ -24,7 +24,7 @@ export function ordinaryMeetingLeaveOffer(
   return meetingDepartureRoute(world, personId);
 }
 
-/** An explicit alternative to staying through the meeting. Cancelled activity
+/** An explicit alternative to staying through the meeting. Canceled activity
  * carries no completion credit. A blocked return commits none of this action. */
 export function leaveOrdinaryMeeting(
   world: World,

@@ -8,7 +8,7 @@
  * be built yet, which is what stops a later reader from mistaking "we have not
  * done this" for "this is easy and somebody forgot".
  *
- * This file is data. The compiler that consumes it, and every judgement about
+ * This file is data. The compiler that consumes it, and every judgment about
  * what a plan may and may not contain, lives in
  * `./executive-governing-kernels`. The split follows the one already drawn
  * between `legislature-rules.ts` and `legislature-rule-packs.ts`, and for the
@@ -56,7 +56,7 @@ export const NINETY_TWO_H_INVENTORY_PROVENANCE = {
   },
 } as const;
 
-/** Every kernel 92H catalogued, in inventory order. */
+/** Every kernel 92H cataloged, in inventory order. */
 export const EXECUTIVE_GOVERNING_KERNEL_ROWS: readonly ExecutiveKernelRow[] = [
   {
     id: "92H-K-001",
@@ -1056,7 +1056,7 @@ export const EXECUTIVE_GOVERNING_KERNELS: readonly ExecutiveKernelDefinition[] =
           stage: "staff-analysis",
           kind: "omitted",
           reason: "kernel-carries-no-such-stage",
-          note: "The gate routes matters; it does not analyse them. Analysis belongs to whichever kernel the matter is routed into.",
+          note: "The gate routes matters; it does not analyze them. Analysis belongs to whichever kernel the matter is routed into.",
         },
         {
           stage: "counsel-fiscal-review",
@@ -1718,7 +1718,7 @@ export const EXECUTIVE_GOVERNING_KERNELS: readonly ExecutiveKernelDefinition[] =
           stage: "communication",
           kind: "deferred",
           toKernelId: "92H-K-171",
-          note: "Announcing the administration's programme is a communications decision.",
+          note: "Announcing the administration's program is a communications decision.",
         },
         {
           stage: "implementation-work",
@@ -1835,7 +1835,7 @@ export const EXECUTIVE_GOVERNING_KERNELS: readonly ExecutiveKernelDefinition[] =
         },
       ],
       declaredLimitations: [
-        "How reliable a sponsor turns out to be is withheld by the research and is not modelled here.",
+        "How reliable a sponsor turns out to be is withheld by the research and is not modeled here.",
         "No bargaining posture is created; 92H assigns bargaining to a separate lane.",
       ],
     },
@@ -2436,7 +2436,7 @@ export const EXECUTIVE_GOVERNING_KERNELS: readonly ExecutiveKernelDefinition[] =
           stage: "communication",
           kind: "omitted",
           reason: "kernel-carries-no-such-stage",
-          note: "A flagged programme is an internal finding until the office decides to speak about it.",
+          note: "A flagged program is an internal finding until the office decides to speak about it.",
         },
         {
           stage: "implementation-work",
@@ -2616,7 +2616,7 @@ export const EXECUTIVE_GOVERNING_KERNELS: readonly ExecutiveKernelDefinition[] =
           stage: "decision-memorandum",
           kind: "omitted",
           reason: "kernel-carries-no-such-stage",
-          note: "A service case is logged, not memorialised for decision.",
+          note: "A service case is logged, not memorialized for decision.",
         },
         {
           stage: "chief-of-staff-gate",

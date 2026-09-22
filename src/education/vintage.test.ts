@@ -58,7 +58,7 @@ describe("academic-year windows are arithmetic, not a table", () => {
 describe("the preferred vintage follows the data, not a hardcoded rollover", () => {
   const shipped = ["2024-25", "2025-26"];
 
-  it("keeps the behaviour the hardcoded rollover had", () => {
+  it("keeps the behavior the hardcoded rollover had", () => {
     expect(preferredAcademicYear(shipped, "2025-06-30")).toBe("2024-25");
     expect(preferredAcademicYear(shipped, "2025-07-01")).toBe("2025-26");
   });

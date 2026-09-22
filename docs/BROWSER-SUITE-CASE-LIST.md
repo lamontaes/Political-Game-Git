@@ -188,7 +188,7 @@ since these assertions are about apartment geometry and not about jurisdiction
 the candidate banner on the page reading "the candidate art bank is not in this
 checkout". So the family is right after all and **the floor stays at 23**.
 
-What moved is the account of why, and the lesson generalises: a failure's
+What moved is the account of why, and the lesson generalizes: a failure's
 recorded family describes the line it died on, which is not the same as its
 cause. This is the third instance tonight. A case in the floor is the worst
 place for that error to land, because a floor item is one nobody looks at
@@ -275,8 +275,8 @@ again — which is exactly what happened here.
 
 ### `playtest34-life.spec.ts`
 
-- `playtest34-life.spec.ts:162:3` — ordinary child talks to canonically labelled mom: lines/browsing zero 1200 _(timeout)_
-- `playtest34-life.spec.ts:162:3` — ordinary child talks to canonically labelled mom: lines/browsing zero 1440 _(timeout)_
+- `playtest34-life.spec.ts:162:3` — ordinary child talks to canonically labeled mom: lines/browsing zero 1200 _(timeout)_
+- `playtest34-life.spec.ts:162:3` — ordinary child talks to canonically labeled mom: lines/browsing zero 1440 _(timeout)_
 
 ### `playtest34-ordinary-people.spec.ts`
 
@@ -297,7 +297,7 @@ again — which is exactly what happened here.
 
 - `pt3-scene-conversation.spec.ts:191:1` — turning to a second classmate keeps the last exchange and says who heard it _(assertion)_
 - `pt3-scene-conversation.spec.ts:231:1` — at the smaller 1280 x 720 window the box still needs no scrollbar _(assertion)_
-- `pt3-scene-conversation.spec.ts:254:1` — at 1200 x 720 the conversation stays bottom-centre without a scrollbar _(assertion)_
+- `pt3-scene-conversation.spec.ts:254:1` — at 1200 x 720 the conversation stays bottom-center without a scrollbar _(assertion)_
 - `pt3-scene-conversation.spec.ts:92:1` — the owner's age-22 conversation is one bounded box with paged history and Back _(assertion)_
 
 ### `pt3-school-scene.spec.ts`

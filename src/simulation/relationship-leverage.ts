@@ -170,7 +170,7 @@ export function relationshipLeverage(
  * Whether asking this person for something would be uncomfortable.
  *
  * True when the asker is meaningfully the more dependent of the two — which is
- * the situation a favour changes, and the reason "just ask them" is not always
+ * the situation a favor changes, and the reason "just ask them" is not always
  * the free option it looks like.
  */
 export function askingWouldCost(

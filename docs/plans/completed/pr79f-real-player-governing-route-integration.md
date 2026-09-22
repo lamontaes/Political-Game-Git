@@ -105,7 +105,7 @@ semantics were changed.
 - **A — win → govern → bargain** (`legislative-bargaining-world.test.ts`,
   proof A; `tests/e2e/pr79f-production-floor.spec.ts`): a deterministic
   character (`p85c-owner-0`) wins through the accepted PR85 route, residence
-  unchanged, enters the members' room from normal play, talks to a modelled
+  unchanged, enters the members' room from normal play, talks to a modeled
   member, inspects the bill and fiscal note, offers/decides the amendment
   through the existing mechanics, calls the floor vote, and the resulting
   records are the accepted #79 families in the player's own history.
@@ -131,7 +131,7 @@ semantics were changed.
   dev wrapper) is unreachable from the production spine.
 - **F — 79C semantics survive**: the entire pre-existing #79 suites run
   unchanged (talking never legislates, amendment-only revision, support-if /
-  oppose-unless polarity, obligation-before-fulfilment, question identity,
+  oppose-unless polarity, obligation-before-fulfillment, question identity,
   later-vote matching, `provision-removed` impossibility, deterministic
   dialogue, audience/knowledge boundaries), and proof A pins
   talking-never-legislates plus word-for-word dialogue determinism on the

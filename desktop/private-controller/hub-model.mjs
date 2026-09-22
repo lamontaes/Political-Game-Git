@@ -19,6 +19,14 @@ const SHA = /^[0-9a-f]{40}$/;
  * a window. AppKit rejects those bounds and leaves every view blank, so the
  * hub clamps that transient state and lays out normally on the next resize.
  */
+/**
+ * How tall the hub's bar is. Playing full screen gives the game the whole
+ * screen, so the bar steps aside; every other tab, and a windowed game, keep it.
+ */
+export function hubChromeHeight({ fullScreen, activeTab }, chromeHeight = 92) {
+  return fullScreen && activeTab === "play" ? 0 : chromeHeight;
+}
+
 export function hubViewLayout(bounds, chromeHeight = 92) {
   const finite = (value) =>
     Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0;
@@ -282,7 +290,7 @@ export function rollback(state, id) {
  * The label shown beside Play. A cached build is only "latest" when it equals
  * the freshly resolved remote SHA; otherwise it is the last known-good build.
  * `present` is the caller's disk evidence for the recorded build: a record
- * whose payload is gone is never labelled verified.
+ * whose payload is gone is never labeled verified.
  */
 export function playLabel({
   track,
@@ -448,7 +456,7 @@ export function updateStatus({ phase, check, build, building }) {
         "This build can't be previewed in the desktop app",
       );
     case "cancelled":
-      return at("unchecked", "Check cancelled");
+      return at("unchecked", "Check canceled");
     default:
       return at("failed", "Could not check");
   }

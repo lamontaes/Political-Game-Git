@@ -1610,7 +1610,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       ),
     ],
     available: (context) => context.familiarPersonIds.length > 0,
-    // An easy favour is easier when nothing is owed either way, and heavier
+    // An easy favor is easier when nothing is owed either way, and heavier
     // when it is not.
     relevance: (context) => Math.min(1, 0.5 + context.strongestDependency / 2),
     options: [
@@ -1618,7 +1618,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "do-it",
         label: "Say yes and do it",
         description: "Say yes and get on with it.",
-        memory: "You said yes to the favour and got on with it.",
+        memory: "You said yes to the favor and got on with it.",
         witnessed: "They said yes straight away.",
         stance: "engaged",
         relationalChange: "strengthened",
@@ -2421,10 +2421,10 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
   },
   {
     key: "adult.old-favour-returns",
-    // Was withheld: "An earlier favour-family choice may be a refusal. It does
+    // Was withheld: "An earlier favor-family choice may be a refusal. It does
     // not establish help given, a new larger request or a recurrence count."
     // All three now exist as records. Help given is `life.favour-performed`,
-    // which the world writes only when a favour was agreed to, scheduled and
+    // which the world writes only when a favor was agreed to, scheduled and
     // actually carried out — a refusal never produces one. The new larger
     // request is the `returning-favour` opportunity, written by the same
     // person who was helped. The recurrence count is a count of performances

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { GameSelect } from "./controls/GameSelect";
 import {
-  CPS_STATE_NAMES,
   queryStateVotingContext,
   type CpsVotingCell,
   type StateVotingContext,
@@ -80,10 +79,6 @@ export function OpeningStateVoting({
               totals.metrics.votedCitizenMoe,
             )}{" "}
             reported voting.
-          </p>
-          <p>
-            {stateUsps ? CPS_STATE_NAMES[stateUsps] : totals.geographyName} ·
-            Survey estimates, rounded to the nearest 1,000 people.
           </p>
           <details>
             <summary>Voting by age and other groups</summary>

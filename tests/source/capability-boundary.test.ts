@@ -3,7 +3,7 @@
  *
  * 13B M2 called an exported compiler directly with an unmarked synthetic
  * payload and got a production corpus containing a bill that does not exist.
- * These are that probe and its neighbours, promoted to permanent tests.
+ * These are that probe and its neighbors, promoted to permanent tests.
  */
 
 import { describe, expect, it } from "vitest";

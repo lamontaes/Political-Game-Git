@@ -480,7 +480,7 @@ describe("Art Desk viewed version", () => {
         parent: "cand-street",
         family: street,
         at: "2026-09-17T10:00:00.000Z",
-        note: "TITLE: Main street B - kerb repair. CHANGES: kerb.",
+        note: "TITLE: Main street B - curb repair. CHANGES: kerb.",
       }),
     ]);
     const card = artDeskCards(view)[0]!;
@@ -489,9 +489,9 @@ describe("Art Desk viewed version", () => {
     expect(viewed.candidateId).toBe("cand-street-a");
     expect(viewed.title).toBe("Main street — road markings");
     expect(viewed.newer?.candidateId).toBe("cand-street-b");
-    expect(viewed.newer?.title).toBe("Main street — kerb repair");
+    expect(viewed.newer?.title).toBe("Main street — curb repair");
     const onLead = viewedCandidateView(card, view, "cand-street-b");
-    expect(onLead.title).toBe("Main street — kerb repair");
+    expect(onLead.title).toBe("Main street — curb repair");
     expect(onLead.newer).toBeNull();
   });
 

@@ -10,8 +10,8 @@
     {
       "argumentAgainst": "Relaxes an accepted gate by exception, and a wrong month read from a summary would be shown as the state's rule.",
       "argumentFor": "Every town gets a believable calendar immediately.",
-      "label": "Labelled calendar-only use now",
-      "position": "Use the synthesis for the election month and cycle in every state now, labelled on screen as the game's reading of state law, not the law, while the audit proceeds.",
+      "label": "Labeled calendar-only use now",
+      "position": "Use the synthesis for the election month and cycle in every state now, labeled on screen as the game's reading of state law, not the law, while the audit proceeds.",
       "recommended": false
     }
   ],
@@ -23,7 +23,7 @@
     "Whether a town elects its mayor separately is also not in the corpus as an operable value; it is the town's form of government, which is a charter fact."
   ],
   "priority": "P1",
-  "question": "A life can now run for its town's governing body in 19,462 towns, but the race is decided 28 days after filing, the same fuse every legislative race uses, because no town's election calendar is established. The game already holds a 51-jurisdiction corpus of state general municipal election law (timing, ballot structure, runoff), including Maine, Georgia and Arizona, but every value is a secondary synthesis and the repository's own audit gate forbids candidacy and player surfaces from reading it as settled. Two questions. First, for Maine, Georgia and Arizona to start with, what does each state's general municipal law actually provide for when a town's regular election falls, whether it is partisan, and whether a runoff follows, read from the statute itself? Second, until the full audit is done, may the game use the synthesis for the calendar only, labelled as the game's reading rather than the law, or must town races keep the flat fuse?",
+  "question": "A life can now run for its town's governing body in 19,462 towns, but the race is decided 28 days after filing, the same fuse every legislative race uses, because no town's election calendar is established. The game already holds a 51-jurisdiction corpus of state general municipal election law (timing, ballot structure, runoff), including Maine, Georgia and Arizona, but every value is a secondary synthesis and the repository's own audit gate forbids candidacy and player surfaces from reading it as settled. Two questions. First, for Maine, Georgia and Arizona to start with, what does each state's general municipal law actually provide for when a town's regular election falls, whether it is partisan, and whether a runoff follows, read from the statute itself? Second, until the full audit is done, may the game use the synthesis for the calendar only, labeled as the game's reading rather than the law, or must town races keep the flat fuse?",
   "questionId": "town-election-calendar-from-state-municipal-law",
   "requestVersion": "research-request/v1",
   "requestedBy": "every town in America thread",
@@ -34,7 +34,7 @@
     },
     {
       "source": "MUNICIPAL_RULES_AUDIT_GATE, src/simulation/municipal-election-rules.ts:485",
-      "whatItDidNotSettle": "States that candidacy, election and player-facing surfaces must not read the corpus as settled until an independent source audit promotes values to primary-text-read. It says what must happen before use; it does not perform the audit or say whether a labelled calendar-only use is acceptable in the meantime."
+      "whatItDidNotSettle": "States that candidacy, election and player-facing surfaces must not read the corpus as settled until an independent source audit promotes values to primary-text-read. It says what must happen before use; it does not perform the audit or say whether a labeled calendar-only use is acceptable in the meantime."
     },
     {
       "source": "PR #411, the town governing-body race as built",

@@ -32,7 +32,7 @@ export interface SchoolNameCorpus {
   readonly version: string;
   /** Historical figures in wide use on American public schools. */
   readonly figures: readonly string[];
-  /** Landscape and neighbourhood stems, the other half of the convention. */
+  /** Landscape and neighborhood stems, the other half of the convention. */
   readonly features: readonly string[];
   readonly directions: readonly string[];
 }

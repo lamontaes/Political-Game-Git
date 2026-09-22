@@ -367,7 +367,7 @@ export interface ChooseAdultOptionInput {
  * the ordinary situation writer that the formative years already use. Only
  * then is the aftermath question asked — of world state, with no knowledge of
  * why this situation was offered — and only then does time pass, which is when
- * anything already scheduled gets its chance to come round or to be cancelled.
+ * anything already scheduled gets its chance to come round or to be canceled.
  */
 export function chooseAdultOption(
   world: World,

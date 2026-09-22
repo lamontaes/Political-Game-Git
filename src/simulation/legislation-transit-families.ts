@@ -148,7 +148,7 @@ export const TRANSIT_SERVICE_VARIANT: ProgramVariant = {
     },
   ],
   declaredLimits: [
-    "All programme labels and contract prices are authored fiction.",
+    "All program labels and contract prices are authored fiction.",
     "A passed appropriation supplies authority, not collected cash.",
     "No ridership, access, effectiveness or electoral consequence is inferred.",
   ],

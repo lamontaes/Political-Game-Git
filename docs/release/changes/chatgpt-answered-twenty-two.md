@@ -15,14 +15,14 @@ bands, trait prevalence and school naming.
 The whole batch is kept verbatim at
 `docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json`, because
 five of its thirty-one answers are about things no question on our queue asks
-and would otherwise be lost: the scenario and history binding, the catalogue
+and would otherwise be lost: the scenario and history binding, the catalog
 boundary, the vacancy and clock repair, press projection, and constitutional
 change.
 
 One correction of ours travels with it. ChatGPT read `crisis/disaster.ts`
 itself and reports that federal assistance already raises repair capacity
-after a federal declaration, so it is not inert. Only the programme labels
+after a federal declaration, so it is not inert. Only the program labels
 move no money. Our earlier reading was wider than the evidence.
 
-No player-facing behaviour changes: this is the authoring queue, and nothing
+No player-facing behavior changes: this is the authoring queue, and nothing
 in a running game reads it.

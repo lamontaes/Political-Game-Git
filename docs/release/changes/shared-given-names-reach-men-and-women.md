@@ -14,7 +14,7 @@ shared name is not reserved for non-binary people.
 
 A stated man or woman now draws from their own list and the 36 shared names
 together; a non-binary character draws from the shared names, as before. The
-rule is written as data, labelled as an authored game rule rather than a
+rule is written as data, labeled as an authored game rule rather than a
 measured rate, so it can be read and changed by hand. A name is still never
 read back to decide anyone's gender, and a name the player types always wins.
 

@@ -24,5 +24,14 @@
   ],
   "title": "How far money a state actually spends or collects moves its own economy",
   "usableAnswer": "Per channel (purchases paid; transfers paid; taxes collected): the response of state output growth (percentage points, annualized) and of the unemployment rate (percentage points) per dollar relative to state GDP, with a monthly decay rate or a quarter-by-quarter profile; and the reference that scales it, such as state GDP or personal income, so a $50 million outlay moves Wyoming more than California. Cite local fiscal multiplier studies where they exist, and say plainly where no estimate exists.",
-  "whyItMatters": "A passed law can now move the live economy for the first time, but at one flat size for every state and every channel. Without researched values a program in a small state and one in a large state look the same, and the player's record in office is judged against numbers nobody chose."
+  "whyItMatters": "A passed law can now move the live economy for the first time, but at one flat size for every state and every channel. Without researched values a program in a small state and one in a large state look the same, and the player's record in office is judged against numbers nobody chose.",
+  "answer": {
+    "summary": "No single study covers purchases, transfers and taxes against both output and unemployment with a monthly decay, and scaling by GDP sizes a shock without making the response linear. Evidence: Nakamura and Steinsson 2014, military procurement, relative state output multiplier about 1.5 (variants 1.3 plus or minus 0.5 and 2.0 plus or minus 0.4); Clemens and Miran 2012, own-financed state spending, on-impact multiplier below 1; Chodorow-Reich and others 2012, Recovery Act Medicaid aid, 3.8 job-years per $100,000 (3.2 outside government), about $26,316 per job-year; Monacelli, Perotti and Trigari 2010, spending of 1% of GDP gives about 1.2 at one year and 1.5 at two, unemployment down about 0.6 points at peak; a 2015 county panel (3,141 counties, 2001 to 2012), federal about 1.5, state and local below 1; Chodorow-Reich's 2019 review, cross-sectional multiplier 1.8. Definitions follow BEA, Census and BLS. The game's 0.10 and 0.02 point steps, the $50m unit and the 0.6 monthly retention are unverified placeholders. No game coefficient is recommended; any numeric rule should be owner-approved as a design abstraction.",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-22-nationwide-2315/OCD-PUBLIC-MONEY-MACRO-MAGNITUDES--2026-09-22.md (Drive 1-lU1NYmJqIBwHA9zkxA5RvXzSXux4AMQ, SHA-256 2c8f8ceb11b8d0e55c0e5d0742b85a4cf12835821b5de09187c7b1f28f99c852)"
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T23:15:00.000Z",
+    "stillOpen": "Household transfers, taxes collected, city and county channels, and monthly decay are all UNKNOWN. Keep UNKNOWN rather than converting a multiplier silently."
+  }
 }

@@ -5,9 +5,9 @@
  * This module describes what a *state's general municipal law* says about how
  * local officers are elected and how citizens may legislate, recall or veto by
  * petition. It contains no jurisdiction-specific facts: those live in packs
- * compiled from a cited corpus. Nothing here models political behaviour — who
- * is likely to win, which slate a labour council endorses, or whether a recall
- * would succeed. Formal rule and observed political behaviour stay separate
+ * compiled from a cited corpus. Nothing here models political behavior — who
+ * is likely to win, which slate a labor council endorses, or whether a recall
+ * would succeed. Formal rule and observed political behavior stay separate
  * concepts by construction.
  *
  * It deliberately mirrors the epistemics already accepted for legislatures in
@@ -38,7 +38,7 @@
  * - `locally-selectable` state law resolves an option set, not a value.
  *
  * A rule that genuinely says "there is none" is a `known` value carrying the
- * negative fact — a state whose general law authorises no citizen initiative
+ * negative fact — a state whose general law authorizes no citizen initiative
  * has a `known` initiative form of `prohibited`, not an `unknown` one.
  */
 
@@ -328,7 +328,7 @@ export type MunicipalRecallDoctrine =
   | "yes-no-retention"
   /** No recall election exists; removal runs through a court. */
   | "judicial-cause-removal-trial"
-  /** State general law authorises no municipal recall at all. */
+  /** State general law authorizes no municipal recall at all. */
   | "prohibited";
 
 /** How, or whether, citizens may legislate a municipal ordinance directly. */
@@ -339,7 +339,7 @@ export type MunicipalInitiativeForm =
   | "direct-to-ballot"
   /** Articles are placed on a town meeting warrant by a count of signers. */
   | "town-meeting-warrant"
-  /** State general law authorises no citizen ordinance initiative. */
+  /** State general law authorizes no citizen ordinance initiative. */
   | "prohibited";
 
 /** Whether citizens may suspend and put an enacted ordinance to a vote. */
