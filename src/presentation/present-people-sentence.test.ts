@@ -24,8 +24,8 @@ function person(name: string, relationship: string | null): ScenePerson {
 describe("who is in the room, as a sentence", () => {
   it("closes the appositive before going on", () => {
     expect(
-      presentPeopleSentence([person("Phoebe Akhtar", "who is in your class")]),
-    ).toBe("Phoebe Akhtar, who is in your class, is here.");
+      presentPeopleSentence([person("Phoebe Akhtar", "your classmate")]),
+    ).toBe("Phoebe Akhtar, your classmate, is here.");
   });
 
   it("leaves a bare name alone", () => {
@@ -38,10 +38,10 @@ describe("who is in the room, as a sentence", () => {
     expect(
       presentPeopleSentence([
         person("Maya Pittman", "your mom"),
-        person("Phoebe Akhtar", "who is in your class"),
+        person("Phoebe Akhtar", "your classmate"),
       ]),
     ).toBe(
-      "Maya Pittman, your mom, and Phoebe Akhtar, who is in your class, are here.",
+      "Maya Pittman, your mom, and Phoebe Akhtar, your classmate, are here.",
     );
   });
 

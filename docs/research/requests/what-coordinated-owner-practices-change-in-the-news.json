@@ -1,0 +1,32 @@
+{
+  "filedAt": "2026-09-22T21:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "media ownership",
+  "notes": [
+    "lamontae asked for this directly: shared stories, editorial lines and the rest are to go to ChatGPT.",
+    "No invented interviews or quotes: whatever a shared or must-run piece becomes must be built from facts the game already records.",
+    "lamontae, 21:29Z: all of the media-owner mechanics, and how they should work, go to ChatGPT."
+  ],
+  "priority": "P1",
+  "question": "The game now has media owners (merged as #426) that make one decision covering every outlet they hold. Three of those decisions are recorded but have no effect yet, because nobody has said what they change on the page: (1) sharing stories across outlets: when a chain shares content, which stories do sibling outlets run, is the original outlet credited, how quickly, and do local outlets still cover their own town; (2) a common editorial line: what must-run segments and group-level endorsements look like in practice, how often they are sent, whether a local outlet can decline, and what share of a local outlet's output they take up; (3) merging newsrooms: when desks are consolidated into a regional desk, what happens to beats and the area covered, whether an outlet keeps its own name and masthead, and when a merger becomes a closure. Also, what really moves an owner to act, since the game rolls dice for now: what circumstances (debt, falling circulation, a new acquisition, an election season) precede layoffs, sales, content sharing and closures, and how often each happens per year for each owner type. Also, for each owner kind the game has (private equity or hedge fund chain, family newspaper chain, broadcast group, nonprofit trust, independent publisher), what does it characteristically do with its outlets that the others do not, and how often it reviews or restructures them. Also, how ownership is really designated: is the owner of record a person, a company, a fund or a trust, how are the people behind it identified publicly, and when does a named person count as the owner. Finally, can a private individual buy a local outlet, and what does a small, mid-sized and large outlet sell for relative to its size?",
+  "questionId": "what-coordinated-owner-practices-change-in-the-news",
+  "relatedQuestionIds": [
+    "media-owners-coordinating-their-outlets",
+    "newsworthiness-by-government-level"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Media ownership foundation thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/press/ownership-pack-default.ts and ownership.ts on main at 89f0645f",
+      "whatItDidNotSettle": "Shows that the three practices are recorded against every outlet the owner holds and change nothing else, and that every trigger is a per-review chance written as a placeholder (for example a 30% chance per quarter for a private equity chain to cut a third of its newsroom jobs). It settles what is built, not what any of it should be."
+    },
+    {
+      "source": "docs/research/requests/media-owners-coordinating-their-outlets.json",
+      "whatItDidNotSettle": "The broader question about ownership types, market share and datasets. This record asks the narrower, implementation-facing follow-up and does not repeat it."
+    }
+  ],
+  "title": "How media owners should behave in the game: owner kinds, decisions, shared stories, editorial lines, merged newsrooms and purchases",
+  "usableAnswer": "A behavior profile for each of the five owner kinds (what it does, how often, what it never does). For each of the three coordinated practices, a short statement of what observably changes in the outlets' output (which stories, credited how, what share of output), with at least one documented example. For owner decisions, the circumstances (revenue, debt, audience, acquisitions, elections) that precede cuts, purchases, sales and closures, with a rough annual frequency per owner kind. For designation, who the owner of record is and when a named person is treated as the owner. For purchases, whether individuals can and do buy local outlets, and a rough price range by outlet size, with the source of each figure.",
+  "whyItMatters": "Each practice already fires in play and is written to the record, but it changes nothing a player can see. An answer turns each one into a rule for what sibling outlets publish, lets owner decisions follow circumstances instead of fixed odds, and gives the player purchase route a defensible price instead of a placeholder."
+}

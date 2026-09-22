@@ -100,10 +100,39 @@ const sha256 = (text: string) =>
  * a decision on the same evidence as before, because LEGACY_OPENING_SHAPE
  * PASSED unchanged on the run that moved these. That is the whole point of
  * having both: the field these hashes moved on is the one the shape strips.
+ *
+ * RE-ACCEPTED AGAIN 2026-09-22, and this time LEGACY_OPENING_SHAPE moves too,
+ * which by the paragraph above means the opening path really is behaving
+ * differently. It is, deliberately: a generated person's given name is now
+ * drawn from the pool that agrees with the gender the world already gave them,
+ * so a generated name can move whether or not it was previously wrong — the
+ * draw is over a smaller pool, not only a corrected one.
+ *
+ * Measured rather than assumed. Both legacy openings were serialized on
+ * `origin/main` at e468700f and on this head and compared leaf by leaf. In
+ * each of Kentucky (544 people) and Peebles (542), the same people and ids,
+ * and exactly 21 leaves differ:
+ *
+ *   - 5 `givenName` values;
+ *   - 15 `establishedFacts[].summary` strings, every one of which becomes
+ *     identical after substituting that person's old given name for their new
+ *     one — 0 summaries are unexplained by the name alone;
+ *   - `snapshotId`, which is a digest of the world and moves with it.
+ *
+ * 0 identities changed and `worldId` is unchanged. A move here for any other
+ * reason is still a regression.
+ *
+ * RE-ACCEPTED AGAIN the same day, for the shared-name rule
+ * (`GIVEN_NAME_POOL_REACH_V1`): a stated man or woman can now also be given
+ * one of the 36 names both sexes carried. Measured the same way, against the
+ * hashes this replaced: same people and ids, identical leaf paths, 0
+ * identities changed. Kentucky: 6 given names and 18 summaries, each made
+ * identical by one renamed person's old given name, plus `snapshotId`.
+ * Peebles: 3 given names and 9 summaries, plus `snapshotId`. 0 unexplained.
  */
 const FED321F7_LEGACY = {
-  kentucky: "375cd5fb89e7b62a399365e3ad07c7b0f78eb909aac6b81747d7779c65a09ad7",
-  peebles: "99ebe80d1b29f387bf4cb1b277a6206f8d115dccfd44f7759c838ae2fbc19b37",
+  kentucky: "a4d19ef685a0643fc15f9aca4e20c9de683d01971037a943a8368a9eb86ce103",
+  peebles: "947bc8b8c44a75adee7273a890545377fdf7c1f3b38487cadfa618932f3331c2",
 } as const;
 
 /**
@@ -115,8 +144,8 @@ const FED321F7_LEGACY = {
  * test above was reaching for and could not hold on its own.
  */
 const LEGACY_OPENING_SHAPE = {
-  kentucky: "11b9c3a70029aeaf79fb2a78b43e2bba14185fab2c6c7e496f26ed57350a3534",
-  peebles: "f936aaf182ccc43581bc87856f87fa404c0ebff3eb869ff5984a3e447828712b",
+  kentucky: "039d5fc55cc85c1f3a1a1487f101faa56d0158be229af007b0878edf2b431ec2",
+  peebles: "f50d53595074667a4183212edc0eeb00d4286079b1060635b884949cd737fdd8",
 } as const;
 
 /**

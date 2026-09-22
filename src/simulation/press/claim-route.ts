@@ -48,6 +48,15 @@ const REMAINING_DAYS = Object.fromEntries([
       "adjudicatory-hearing-ordered": 60,
     },
     "simulated-inquiry": { "": 30, "inquiry-opened": 30 },
+    // The upper ends of the generated body's authored ranges.
+    "generated-state-oversight": {
+      "": 231,
+      "complaint-received": 210,
+      "review-opened": 210,
+      "respondent-notified": 180,
+      "response-period-closed": 120,
+      "preliminary-inquiry": 120,
+    },
   }),
   // Researched state ethics bodies share one authored timeline, so they share
   // one remaining-days map. The numbers come from the step intervals in

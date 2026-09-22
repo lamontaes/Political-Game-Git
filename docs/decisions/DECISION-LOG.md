@@ -3247,3 +3247,33 @@ settles the relationship half of the same requirement.
 > Numbering note: appended as D-093 at 15:50Z on `claude/people-and-life-4qpuwb`.
 > If another lane claimed the number first, renumber this entry rather than the
 > one already on main, as the note under D-091 records.
+
+## D-094 — No source or provenance reference on any player-facing surface; amends principle 31
+
+**Decided by the owner, 2026-09-22 21:42Z.** Principle 31 of
+`docs/GAME-CONSTITUTION.md` said "Explanations and sources should be available
+on demand", while his standing rule is that no source or provenance reference
+appears anywhere a player can see. Asked which should win, he answered "yeha
+amend it".
+
+**The amendment.** Principle 31 now reads that explanations may be available on
+demand, but source and provenance references never appear on any player-facing
+surface, on demand or otherwise. The earlier wording is kept inline in the
+principle, marked as amended by this entry, so the change can be audited from
+either document.
+
+**What this settles.**
+
+- An on-demand disclosure panel is still a player-facing surface. A "Sources"
+  triangle, a citation printed under a refusal, and a link out to a statute are
+  all ruled out, whatever the panel is labelled.
+- Provenance is not deleted. It stays on the records, where a reviewer, an
+  auditor or the diagnostics-gated developer view reads it.
+- An explanation of how a rule works is still allowed and encouraged. What goes
+  is where the rule came from: "a term here lasts four years" is an
+  explanation; "compiled from RCW 43.01.010" is a source.
+
+**How it is held.** `src/player/no-source-panel-on-a-player-screen.test.ts`
+(landed with #394) refuses any `src/player` line outside a diagnostics gate
+that offers a sources or citations panel, reads a citation field, or links off
+the game.

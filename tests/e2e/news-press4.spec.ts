@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
 import { expectChosen } from "./support/controls";
 
 test("keyboard route preserves condensed intent and exact confirmed wording", async ({
