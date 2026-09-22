@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  ageOnDate,
   educationEnrollmentHistoryForPerson,
+  educationEnrollmentStateAt,
   lifePlaceSearch,
   organizationProfileAt,
 } from "../simulation";
@@ -58,5 +60,43 @@ describe("a child who starts in school goes to a school with a name", () => {
     expect(schoolOf(start(17, "child-school-legacy", false))).toMatch(
       /public school$/,
     );
+  });
+
+  // The 17-year-old had no earlier life at all: one school, attended since
+  // five. Their history is written up to their age.
+  it("records the schools a teenager finished before this one", () => {
+    const game = generateOpeningLife(
+      prepareOpeningLife(start(17, "child-school-ladder")),
+    ).game!;
+    const world = game.world;
+    const player = world.people[game.playerPersonId]!;
+    const rows = educationEnrollmentHistoryForPerson(world, player.id).map(
+      (enrollment) => ({
+        school: organizationProfileAt(world, enrollment.organizationId)!.name,
+        from: ageOnDate(player.birthDate, enrollment.startedAt),
+        status: educationEnrollmentStateAt(world, enrollment.id)?.status,
+      }),
+    );
+    expect(rows.map((row) => [row.from, row.status])).toStrictEqual([
+      [5, "completed"],
+      [11, "completed"],
+      [14, "active"],
+    ]);
+    expect(rows[0]!.school).toMatch(/Elementary/);
+    expect(rows[1]!.school).toMatch(/Middle/);
+    expect(rows[2]!.school).toMatch(/High School$/);
+  });
+
+  it("an eight-year-old has only the school they are in", () => {
+    const game = generateOpeningLife(
+      prepareOpeningLife(start(8, "child-school-ladder-8")),
+    ).game!;
+    const player = game.world.people[game.playerPersonId]!;
+    const enrollments = educationEnrollmentHistoryForPerson(
+      game.world,
+      player.id,
+    );
+    expect(enrollments).toHaveLength(1);
+    expect(ageOnDate(player.birthDate, enrollments[0]!.startedAt)).toBe(5);
   });
 });
