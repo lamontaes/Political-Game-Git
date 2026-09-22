@@ -10,46 +10,113 @@ disagree with.
 
 ## The list to click through
 
-Kept current as things land, so it can be read in thirty seconds rather than
-assembled at the end. Last refreshed against `origin/main` at `e5cc5501`,
-07:20Z. The sections below give the evidence behind each entry; this is the
-index.
+Refreshed against `origin/main` at `7fc33c85`, 07:35Z. The sections below give
+the evidence behind each entry; this is the index.
 
-**Order matters in exactly one place.** Everything unnumbered below can be
-clicked in any order. Where two entries are numbered, click them in that order.
+**The headline, which you can check yourself before you finish your coffee.**
+Three things are wrong in the first two minutes of play, and all three are
+sentences rather than systems. Four lanes reached that same conclusion tonight
+from different directions — a playtest walk, the capacity arithmetic below, the
+research audit and the citation sweep. It is the cheapest good news in the
+report: the first things you will notice are also the fastest to fix.
 
-1. **#320** — a refusal tells you the rule, not where we read it.
-2. **#325** — proves the refusal arrives at the screen clean.
+**Click these in this order.**
 
-   #325 carries **no sentence fixes of its own**. It is the screen-path check,
-   red on main and green on #320's head. Clicked first it would land a gate
-   against code that is not there yet.
+1. **#304 — say what is behind the Politics entry.** The menu reads
+   "Politics — Jobs and study" while behind it are your office, campaigns, the
+   government where you live, parties and the budget. Most visible thing in the
+   game's first two minutes, and the cheapest click here.
+2. **#325 — prove the refusal a player reads arrives at the screen clean.** It
+   carries no sentence fixes of its own; it is the gate. It needed #320 first,
+   and **#320 is now merged**, so the dependency is satisfied.
+3. **#292 — a life that has always lived somewhere has always lived in its
+   district too.** The nationwide lane is holding it behind a browser fixture
+   patch; its body names the dependency.
+4. **#283 — every state has a legislature, the District governs itself, and
+   read law beats the draw.** Also the nationwide lane's, with its unattributed
+   failures named in its body.
 
-**Already in main — nothing to do.** Twenty-eight pull requests merged between
-22:00Z and this refresh, read from `git log --merges` on `origin/main` at
-`e5cc5501`: #275, #279, #280, #281, #284, #285, #286, #287, #290, #297, #299,
-#300, #301, #302, #303, #306, #308, #309, #312, #315, #316, #317, #318, #319,
-#321, #322, #323, #324. The ones that change what a player gets or what the project
-can do: the retired Visual4 cast permanently deleted (#290), a trait system in
-place of five hardwired traits (#280), the CI concurrency group (#303), the
-prose gate repaired (#301), and the Alaska candidacy note retitled to what the
-change actually did (#275).
+Then **#277**, the 0.4.0 release, this lane's, whenever the freeze lifts.
 
-**Waiting on a click.** #305, #311 and #320 from other lanes, all out of draft
-against recent main — see "Ready to click, not merged" below for what each
-rests on. #277, the 0.4.0 release, this lane's, at `9d7ec442` with main merged
-in: format, lint, typecheck and `release:check` clean at that head, still draft
-until its unit run reports.
+**One thing to know before you start clicking.** GitHub will not let you merge
+a pull request that is still a draft, and several of the above are. Ready to
+merge right now: **#292**, **#305**, **#311**. Still draft at this refresh:
+**#304**, **#325**, **#277**, **#283**. Each of those needs its "Ready for
+review" button pressed first — one extra click, not a problem, but worth
+knowing rather than discovering.
 
-**Still draft, wanted on the list.** #325, which follows #320 above.
+**Already in main — nothing to do.** Thirty-four pull requests merged between
+22:00Z and this refresh, read from `git log` on `origin/main` at `7fc33c85`:
+#275, #279, #280, #281, #282, #284, #285, #286, #287, #290, #297, #299, #300,
+#301, #302, #303, #306, #308, #309, #312, #315, #316, #317, #318, #319, #320,
+#321, #322, #323, #324, #326, #327, #328, #329. The ones that change what a
+player gets or what the project can do: a refusal now tells you the rule
+instead of where we read it (#320), the retired Visual4 cast permanently
+deleted (#290), a trait system in place of five hardwired traits (#280),
+multi-subject legislation inside the existing compiler (#282), the CI
+concurrency group (#303) and the prose gate repaired (#301).
 
-**Still moving.** #282, #283, #292, #294, #295, #304 and #307 are drafts their
-lanes are working.
+**Still moving.** #293, #294, #295, #305, #307 and #311 are their lanes' to
+finish.
 
 **Not for tonight.** #278, the client line, is assembled at `70fa13a7` with
-#276 inside it and has never had a verdict: its run has had zero jobs allocated
-for over an hour. #296 sits on top of it. Everything numbered below #262
-predates this night and is not part of this train.
+#276 inside it and has never had a verdict. #296 sits on top of it. Everything
+numbered below #262 predates this night and is not part of this train.
+
+**Not in any pull request, and it should be.** The playtest walk found a
+world-event line pinned to the top of six different screens. Nobody had
+reported it and nothing fixes it tonight. It is a real bug and it belongs in
+the report rather than on this list.
+
+## Why main could not get a verdict, which is not what we thought
+
+This is the night's most reusable finding and it is not about capacity.
+
+`validate.yml` sets `cancel-in-progress` to false when the ref is `main`, and
+the comment above it explains why: main's run is the base verdict every lane
+reads to tell an inherited failure from a caused one. That reasoning is sound
+and the setting does what it says.
+
+**It protects nothing, because main's runs never start.** `cancel-in-progress`
+governs whether a run that is _already executing_ survives a newer one entering
+its concurrency group. A run still waiting for a slot is not executing, and it
+is cancelled outright. Every merge to main therefore destroyed its
+predecessor's pending run before that run had allocated a single job.
+
+Measured directly, three in a row, 2026-09-22:
+
+| Main commit | Run created | Jobs allocated | Cancelled          |
+| ----------- | ----------- | -------------- | ------------------ |
+| `fececf25`  | 07:26:57Z   | 0              | 07:30:21Z, by #329 |
+| `02913aa9`  | 07:30:19Z   | 0              | 07:30:32Z, by #320 |
+| `7fc33c85`  | 07:30:31Z   | 0 at 07:35Z    | still alive        |
+
+So main has not lacked a verdict because its runs were slow. It has lacked one
+because each merge killed the run before it. The protection was written for a
+repository whose runs start promptly, and this one's do not — which means the
+freeze is not a nicety. It is the only condition under which main can ever
+report at all.
+
+## The sweep read only half the problem
+
+A second procedure error, measured the same hour, and the one piece of
+tonight's capacity story that is our mistake rather than a constraint.
+
+The sweep grouped runs with `status: queued` and cancelled the superseded ones.
+That is correct as far as it goes and it cannot free a slot, because a slot is
+by definition held by something that is **not** queued. At 07:30Z both of the
+repository's two slots were held by `in_progress` runs, and both were
+superseded: `claude/release-0-3-0` at `a900c987` with the branch on `9d7ec442`,
+and `claude/fix-main-w9xyzd` at `29b67bf1` with the branch on `3213895f`.
+Neither appeared in any queued listing.
+
+A superseded run that is already executing is strictly worse than a superseded
+one waiting, because it is consuming the capacity rather than queuing for it.
+**The sweep must group `queued` and `in_progress` together**, keep the newest
+per `(ref, workflow)` across both, and cancel the rest. The test is unchanged:
+compare each run's `head_sha` against the branch's current head, by fetch
+rather than from memory. A run on its branch's current head is live work and is
+left alone.
 
 ## The sweep, and why it does not end on its own
 
