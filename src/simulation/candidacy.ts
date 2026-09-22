@@ -17,6 +17,8 @@ import type { LocalGoverningBodyIdentity } from "./nationwide-world/local-govern
 import { governmentUnitsForPlace } from "./government-units";
 import { stateResidenceSince } from "./nationwide-world/residence-duration";
 import { recordedTermsInOffice } from "./nationwide-world/prior-terms";
+import { checkExecutiveTermLimit } from "./nationwide-world/executive-term-limits";
+import { nextFilableStateExecutiveTerm } from "./nationwide-world/state-executive-turnover-calendar";
 import {
   assessCandidateQualification,
   candidateQualificationRuleSet,
@@ -213,6 +215,7 @@ export type CandidacyBlockKind =
   | "unusable-district-binding"
   | "office-does-not-exist"
   | "unproved-sourced-qualification"
+  | "term-limit"
   | "lives-elsewhere"
   | "already-a-candidate";
 
@@ -485,6 +488,9 @@ export function candidacyEligibility(
   } else {
     for (const assessment of qualificationAssessments) {
       if (assessment.verdict === "meets") continue;
+      // A chief executive's term limit is decided below, against the term the
+      // filing would win and under this World's own law, which can change it.
+      if (executive && assessment.field === "TERM_LIMIT") continue;
       blocks.push({
         kind:
           // Only a failed existence reading says the office does not exist;
@@ -531,6 +537,23 @@ export function candidacyEligibility(
       kind: "below-game-adult-age",
       reason: `The game has not read this state's minimum age for the office, so it holds to its own adult rule and will not put anyone under ${GAME_ADULT_CANDIDACY_AGE} on a ballot.`,
     });
+  }
+  // Every chief executive's office has a term limit in one of three states:
+  // read from the state, changed by a law passed in this World, or the game's
+  // disclosed draw for a state it has not read. It is measured against the
+  // term the filing would win, so a law already passed that takes effect by
+  // then is the law that decides.
+  if (executive) {
+    const term = nextFilableStateExecutiveTerm(world, executive.stateUsps);
+    const limit = term
+      ? checkExecutiveTermLimit(world, {
+          stateUsps: executive.stateUsps,
+          personId: input.personId,
+          termStartsAt: term.startsAt,
+        })
+      : null;
+    if (limit?.barredReason)
+      blocks.push({ kind: "term-limit", reason: limit.barredReason });
   }
   const livesElsewhere = executive
     ? lifePlaceByJurisdictionId(person.homeJurisdictionId)

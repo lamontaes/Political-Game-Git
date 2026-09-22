@@ -6,11 +6,11 @@
  * present in the enacted text cut from the retrieved bytes. A statute whose wording changes
  * under the compiler stops the build rather than silently continuing to impose
  * the rule it used to impose — which for a rule that refuses a player an action
- * is the behaviour that matters.
+ * is the behavior that matters.
  *
  * The threshold is carried as the statute states it: $750, in aggregate, from a
  * source other than the candidate. It is not rounded, not converted, and not
- * generalised to any other state. The second obligation carries NOT_APPLICABLE
+ * generalized to any other state. The second obligation carries NOT_APPLICABLE
  * for its threshold because the statute sets none, and a zero there would read
  * as "any second committee above nothing", which is a different rule from "no
  * second committee at all" only by accident of arithmetic.
@@ -182,7 +182,7 @@ export function compileCampaignCompliance(
               [evidence],
               obligation === "single-principal-campaign-committee"
                 ? "The statute sets no amount for this obligation: a candidate may not form a second committee at any level of receipts."
-                : "The statute sets no amount for this obligation: an unorganised committee without a treasurer may accept nothing and spend nothing.",
+                : "The statute sets no amount for this obligation: an unorganized committee without a treasurer may accept nothing and spend nothing.",
             );
 
       records.push({

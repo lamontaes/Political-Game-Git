@@ -704,7 +704,7 @@ describe("one state's unresolved value cannot leak into another", () => {
  * matters is not that four packs exist but that each one is its own
  * institution: sourced to a pinpoint provision of its own state's instruments,
  * silent where its sources are silent, and unable to lend a rule to a
- * neighbour. These tests read the wave the way an auditor would.
+ * neighbor. These tests read the wave the way an auditor would.
  */
 const WAVE_TWO_PACKS = [
   MARYLAND_RULE_PACK,
@@ -942,9 +942,9 @@ describe("a rule the schema cannot hold stays a gap, not a coercion", () => {
 });
 
 describe("the wave proves the packs are data, not a shared template", () => {
-  it("gives Missouri a referral rule its neighbours do not have", () => {
+  it("gives Missouri a referral rule its neighbors do not have", () => {
     // Missouri's constitution requires referral itself; everyone else leaves it
-    // to chamber rules nobody read. If referral were engine behaviour rather
+    // to chamber rules nobody read. If referral were engine behavior rather
     // than pack data, these could not differ.
     expect(MISSOURI_RULE_PACK.chambers[0]!.referral.source.citation).toBe(
       "Mo. Const. art. III, § 22",

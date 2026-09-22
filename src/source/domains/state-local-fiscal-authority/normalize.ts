@@ -22,7 +22,7 @@
  * artifact read two ways is a parser defect rather than a conflict in the
  * world. One matrix is one artifact, so a row marked CONFLICTING becomes
  * UNKNOWN with a reason saying exactly that, and the validator reports it. The
- * alternative — synthesising a second claim so the state becomes expressible —
+ * alternative — synthesizing a second claim so the state becomes expressible —
  * would manufacture the disagreement it claims to record.
  */
 

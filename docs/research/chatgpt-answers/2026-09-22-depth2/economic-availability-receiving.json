@@ -73,7 +73,7 @@
       "sources": [
         "hud-il"
       ],
-      "limit": "Do not borrow FMR release dates or substitute MTSP/ESG products. The effective date supports programme validity, not an asserted exact publication timestamp. Match official notice/bytes for a defensible known-by date."
+      "limit": "Do not borrow FMR release dates or substitute MTSP/ESG products. The effective date supports program validity, not an asserted exact publication timestamp. Match official notice/bytes for a defensible known-by date."
     },
     {
       "product": "BLS model-based LAUS January 2026 initial monthly release and annual revision",
@@ -102,7 +102,7 @@
   "fallback": [
     "Prefer the latest demonstrably available older edition for that geography/measure/cutoff. Display its date and scope.",
     "An unknown publisher timestamp stays unknown; do not relabel retrieval or observation period as release. Keep that exact agency edition out of historical public-news/certification use until a release or defensible known-by bound is established.",
-    "The player can still see appropriately labelled generated-world conditions and historical reference context where already authorized. That is an explicit simulation/baseline channel, not a false claim that a future agency release was known.",
+    "The player can still see appropriately labeled generated-world conditions and historical reference context where already authorized. That is an explicit simulation/baseline channel, not a false claim that a future agency release was known.",
     "Retrospective calibration of a fictional 2026 world using subsequently estimated historical conditions is different from a simulated person reading a 2026 publication early. Preserve that distinction and the owner's bounded fictional-world variation.",
     "No date computation, profile read or external reference refresh mutates actual simulated prices, payments or beliefs. Official reference data is not the simulation itself."
   ],
@@ -117,9 +117,9 @@
     "A September download of an already released original FY2025 FMR does not hide it until September.",
     "A February2026 BEA release is not available as that release on January5,2026 despite describing2024.",
     "A 2026-revised 2023 value is not backdated to the first2023 release.",
-    "An announced but not yet effective FMR may be reported as forthcoming, not charged as an active programme rule.",
+    "An announced but not yet effective FMR may be reported as forthcoming, not charged as an active program rule.",
     "Refreshing a retrieval timestamp does not remove previously established availability.",
-    "Missing LAUS local coverage uses correctly labelled wider geography or absence, never pretends a state figure is measured at every town.",
+    "Missing LAUS local coverage uses correctly labeled wider geography or absence, never pretends a state figure is measured at every town.",
     "Source publication and actual in-world knowledge remain separate."
   ]
 }

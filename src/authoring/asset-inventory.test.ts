@@ -63,7 +63,7 @@ describe("the approved environment library, as a bank", () => {
     expect(withPeople[0]!.notes?.join(" ")).toContain("FRONTDOOR44");
   });
 
-  it("leaves the style judgement unassessed for every plate nobody has seen", () => {
+  it("leaves the style judgment unassessed for every plate nobody has seen", () => {
     for (const entry of PRODUCTION_PLATE_ASSET_BANK.entries) {
       if (entry.entryId === "office-council-staff-lexington") {
         // The one plate whose bytes are in this repository.

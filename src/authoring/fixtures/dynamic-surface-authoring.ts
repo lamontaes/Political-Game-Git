@@ -5,7 +5,7 @@
  * Thirteen visible frames and screens were inspected across the six rooms. Four
  * became runtime surfaces. Nine stayed decor, and the reason is always the same
  * one: they are too small to be told something true. A 43-by-61 pixel frame on a
- * bookshelf at 1080p can hold a smudge of colour or an illegible face, and the
+ * bookshelf at 1080p can hold a smudge of color or an illegible face, and the
  * second of those is worse than the first because it asserts a person nobody
  * chose.
  *
@@ -113,7 +113,7 @@ export const APARTMENT_STARTER_01_SURFACES: SceneDynamicSurfaceAuthoring = {
         height_percent: 8,
       },
       bakedText: "none",
-      note: "A stylised geometric print in a shelf grouping. Non-semantic, and at 4% by 8% far too small to carry anything else.",
+      note: "A stylized geometric print in a shelf grouping. Non-semantic, and at 4% by 8% far too small to carry anything else.",
     },
     {
       decorId: "wall-edge-frame-right",
@@ -437,7 +437,7 @@ export const PRODUCTION_SLOT_COMPONENT_BINDINGS: Readonly<
       surfaceKind: "monitor-or-screen",
       componentFamilies: ["RESULT_BOARD", "KPI_CARD"],
       fallbackDecor: "furniture-detail",
-      note: "The smallest of the three sets. A trend line with two labelled axes does not fit; a result board and a single indicator do.",
+      note: "The smallest of the three sets. A trend line with two labeled axes does not fit; a result board and a single indicator do.",
     },
   ],
   "apartment-ordinary-02": [
@@ -504,7 +504,7 @@ export const PRODUCTION_SLOT_COMPONENT_BINDINGS: Readonly<
         "RESULT_BOARD",
       ],
       fallbackDecor: "furniture-detail",
-      note: "The wide monitor is the only surface in the room big enough for a labelled chart, so it carries the charts. A result board is here because a staffer watches returns on the same screen they work on.",
+      note: "The wide monitor is the only surface in the room big enough for a labeled chart, so it carries the charts. A result board is here because a staffer watches returns on the same screen they work on.",
     },
     {
       slotId: "monitor-secondary-portrait",

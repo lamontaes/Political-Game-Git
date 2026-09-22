@@ -9,7 +9,7 @@ were diagnosed separately, cost hours separately, and have a single cause.
 Several files in this repository are **produced by a script and also committed
 to git**: `docs/prose-inventory/README.md` and `coverage-report.md`,
 `docs/dehardwire/census.json`, `src/simulation/municipal-rule-registry.generated.ts`
-and its neighbours. Git treats them as ordinary source. They are not: their
+and its neighbors. Git treats them as ordinary source. They are not: their
 content is a function of other files, so any change to those inputs makes the
 committed copy wrong without touching it.
 
@@ -22,7 +22,7 @@ every open branch conflicts with `main` on those same two files.
 
 **A conflicted pull request gets no CI run at all.** GitHub never builds the
 merge ref, so it creates no `pull_request` run — not a queued one, not a
-cancelled one. Nothing to read and nothing to cancel. The branch looks like it
+canceled one. Nothing to read and nothing to cancel. The branch looks like it
 is waiting in a queue.
 
 Measured on this lane's two branches: `#283` and `#292` both showed zero check
@@ -35,7 +35,7 @@ already and needed a fourth.
 Filed independently by another lane as D-089, with its own measurement across
 twenty successive mains.
 
-**The behavioural rule:** CI silence is a reason to check mergeability first,
+**The behavioral rule:** CI silence is a reason to check mergeability first,
 not to wait longer.
 
 ## Symptom 2 — a committed artifact quietly stops describing its sources

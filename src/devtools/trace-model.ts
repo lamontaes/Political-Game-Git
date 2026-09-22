@@ -165,7 +165,7 @@ export interface TraceEntityRef {
  * reading the record, and dressing it up as narration hides which field the
  * claim came from. Where the record carries its own recorded text — an event
  * summary, a claim statement, a perception assertion — that text is carried
- * verbatim in `recordText`, labelled as the record's rather than the tool's.
+ * verbatim in `recordText`, labeled as the record's rather than the tool's.
  */
 export interface TraceNode {
   readonly id: EntityId;

@@ -1,17 +1,17 @@
 {
   "candidateAnswers": [
     {
-      "argumentAgainst": "It needs a local price and wage model the simulation does not have: there is no rent, price level or inflation anywhere in src/simulation today, so this is new modelling, and DEPTH2 already warns that official reference data is not the simulation itself.",
+      "argumentAgainst": "It needs a local price and wage model the simulation does not have: there is no rent, price level or inflation anywhere in src/simulation today, so this is new modeling, and DEPTH2 already warns that official reference data is not the simulation itself.",
       "argumentFor": "A town's rent and income then keep moving after the last real edition, driven by what happens in that world (jobs, population, disasters, policy), and a player in 2031 is not reading 2025 rents as if they were current.",
       "label": "Carry the figures forward with the world's own economy",
-      "position": "After the last real edition, each town's rent and income continue as simulated-world conditions, labelled as the world's own and never as an agency release, starting from the real figures.",
+      "position": "After the last real edition, each town's rent and income continue as simulated-world conditions, labeled as the world's own and never as an agency release, starting from the real figures.",
       "recommended": true
     },
     {
       "argumentAgainst": "A life lasting decades reads the same FY2025 rent and 2024 income for its whole length.",
       "argumentFor": "Nothing invented: only real published editions are ever shown, each with its period.",
       "label": "Show only real editions",
-      "position": "Keep today's behaviour: the panel shows the latest real edition, dated by its period, and never changes after it.",
+      "position": "Keep today's behavior: the panel shows the latest real edition, dated by its period, and never changes after it.",
       "recommended": false
     }
   ],

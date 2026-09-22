@@ -36,7 +36,7 @@ function life(seed: string) {
 }
 
 describe("a trait is read through whatever pack declares it", () => {
-  it("agrees with the reader it generalises, person for person", () => {
+  it("agrees with the reader it generalizes, person for person", () => {
     const { world, personId } = life("reading-agrees");
     const others = world.personOrder.filter((id) => id !== personId);
     const written = ensurePeopleTraits(ensurePeopleTraitCatalog(world), others);

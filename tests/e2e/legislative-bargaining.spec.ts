@@ -132,12 +132,12 @@ test("the room, the bill, the bargain, and the vote", async ({ page }) => {
   await expect(section4).toContainText("$600,000");
   await expect(section4).toHaveAttribute("data-beneficiary", "particularized");
   await expect(section4).toContainText("Stated ground");
-  // A named section is not labelled corrupt anywhere on the page.
+  // A named section is not labeled corrupt anywhere on the page.
   await expect(page.locator("body")).not.toContainText(
     /corrupt|bribe|kickback|pork/i,
   );
 
-  // The vote, and what each modelled member says they did and why.
+  // The vote, and what each modeled member says they did and why.
   await page.getByTestId("call-the-vote").click();
   const result = page.getByTestId("floor-result");
   await expect(result).toContainText("voted");

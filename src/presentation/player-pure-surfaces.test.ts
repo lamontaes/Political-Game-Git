@@ -138,7 +138,7 @@ describe("the person card in ordinary play", () => {
     const playerName = `${player.givenName} ${player.familyName}`;
     expect(html).toContain(playerName);
     expect(html).not.toMatch(
-      new RegExp(`${playerName}\\s+your (?:dad|mum|mom|mother|father)`),
+      new RegExp(`${playerName}\\s+your (?:dad|mom|mother|father)`),
     );
   });
 
