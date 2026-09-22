@@ -73,6 +73,20 @@ test("the Politics entry says what is behind it", async ({ page }) => {
   expect(entry.toLowerCase()).toMatch(/govern|part(y|ies)|budget|office/);
 });
 
+/*
+ * The keyword lines below are INDICATORS, not measurements.
+ *
+ * Each one tests a whole page's text against a loose regex, so `/part(y|ies)/i`
+ * reports that the Guide "mentions party evolution" when what it found is the
+ * word "party" inside the Caucus entry, and `/found|new party|formed/i` reports
+ * a founding on the parties screen from any word containing "found". Both
+ * produced a wrong finding on 2026-09-22 that had to be retracted after the
+ * screen was read directly.
+ *
+ * Read the captured page text that each section prints alongside them, and
+ * settle anything load-bearing against the data — GUIDE_TERMS, the projection
+ * the screen reads — before writing it down.
+ */
 test.describe("the exploratory walk", () => {
   test.skip(
     process.env.GITHUB_ACTIONS === "true",
