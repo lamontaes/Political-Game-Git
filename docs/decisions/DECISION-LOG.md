@@ -2823,3 +2823,68 @@ Consequence: a docket can hold three unrelated bills in one life, each one
 still knowing what it is; and the content bank can grow, change or retire
 configurations without any of it reaching backwards into bills that are already
 filed.
+
+## D-086 — A pose family declares which way its figure is turned, and the direction is read by matching a reference plate rather than by reasoning
+
+- Date: 2026-09-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Nobody sat down in this game, and the reason was not missing art. Nineteen
+seated crops came out of the wave-a pipeline. Two were admitted. Eleven were
+refused for a chair or a desk drawn into the artwork, which is correct, because
+the room supplies the furniture and a baked chair renders a chair on top of a
+chair. The remaining six were propless, complete figures, and they were refused
+for a reason nothing had written down: every registered pose family declared
+`facing: "front"`, and those six are drawn turned.
+
+That was an assumption, not a rule. The registry had a facing field and a
+vocabulary for it, and no family had ever used anything but one value, so the
+admission collapsed "turned" into "front" and then discarded what it had
+collapsed. The same collapse had already happened independently in
+`art/qa/p71/source_intake_dispositions.json`, where turned seated figures are
+filed under the front family with the turn recorded only in prose. Two records
+made the same mistake separately, which makes it the vocabulary's fault rather
+than either record's.
+
+So facing becomes part of a family's identity. `seated-guest-three-quarter-right`
+is registered as its own family alongside `seated-guest-neutral`, the admission
+reads a crop's turn direction, and the presentation test now asserts only that a
+family's facing is one of the near-term facings rather than that it is front.
+A crop nobody has read for direction is still not admitted: an unread direction
+is not a guess, and filing a figure under the mirror of its own turn would seat
+it backwards in its chair.
+
+The direction itself is the part worth recording, because the first use of the
+new vocabulary got it wrong within the hour. The label was chosen by reasoning
+from first principles about whose left, and it came out inverted. What caught it
+was rendering the candidate beside the only two plates in the repository that
+carry a directional label from before this change:
+`ocd_body_adult_fem_seated_guest_three_quarter_v1`, which p71 calls three-quarter
+right, and `ocd_body_adult_fem_seated_conversational_left_v1`, which it calls
+three-quarter left. The two are mirror images of each other, and the wave-a
+turned crops match the one called right.
+
+Those two plates are therefore the tie-breaker, and the convention is anchored to
+them in `art/manifest/pose_families.json` rather than stated as a rule about
+viewers and subjects. A new plate is labelled by being held up against them. A
+convention you can match a crop against does not drift; a sentence about left and
+right invites the next reader to re-derive it and get a different answer, which
+is exactly what happened here.
+
+Rejected: keeping one seated family and letting turned crops in under it. That
+would have admitted the six, and each of them would have been placed by a seat
+whose permitted facings say front, so a figure would sit turned in a chair that
+declared it square. The refusal was doing real work; the vocabulary was what was
+too small.
+
+Consequence: admitted bodies go from twelve to sixteen, with a seated man among
+them for the first time. Eligibility under the declared vocabulary is not the
+same as drawability — `indexPoseArt` still counts only records that are approved
+and released, which is the candidate boundary doing its job. The apartment club
+chair has always permitted a three-quarter-right figure and until now no family
+faced that way, so nothing could ever occupy it; it now lists a family it can
+accept. Whether a figure turned that way reads correctly in that particular
+chair is a judgement about the room, and it belongs to the owner rather than to
+this decision. Two ocd three-quarter-left plates have no consumer at all; that is
+recorded here and no seat is invented for them.
