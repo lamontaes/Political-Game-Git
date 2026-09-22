@@ -106,6 +106,54 @@ world-event line pinned to the top of six different screens. Nobody had
 reported it and nothing fixes it tonight. It is a real bug and it belongs in
 the report rather than on this list.
 
+## An instrument that fails by doing nothing is indistinguishable from a pass
+
+**The most transferable thing measured tonight.** It appeared four times, in
+four unrelated tools, and each time it produced a confident report of agreement
+where nothing had been observed.
+
+1. **A Playwright helper skipped a missing control.** `openPoliticsHub` does a
+   bare `continue` when a sub-control is not on the page, so a walk visiting
+   three destinations sat on one page three times and read the same text three
+   times. It was written down as three menu entries opening the same screen —
+   a defect that did not exist.
+2. **A sweep's fixture reached no citation.** The first check written for the
+   statute-citation defect passed against an unfixed file, because its Kentucky
+   fixture never reached a rule that had a citation in it.
+3. **A vitest path did not exist.** Three test files were named on a command
+   line; two existed. Vitest ran the two and said nothing about the third, and
+   the passing count read as though it covered all three.
+4. **A grep-driven sweep updated only what it could spell.** It rewrote a
+   sentence and updated every consumer that spelled it the same way, silently
+   missing one that lived elsewhere.
+
+**Why this family is worth a name.** A tool that fails loudly costs one cycle.
+A tool that fails by doing nothing costs a wrong belief, and the wrong belief
+is _indistinguishable from the true one_ at the point of reading. Every one of
+these produced a green result, a matching string, or a plausible finding.
+
+**The defence is asserting the reach before asserting the result.** The sweep
+that was fixed now checks a non-empty block count before it checks any wording.
+That is the general shape: make the instrument prove it arrived somewhere
+before you believe what it says about the place.
+
+## The release is parked, on purpose, and here is the trade
+
+A branch that re-merges `main` and regenerates `docs/prose-inventory/coverage-report.md`
+on every move of the base **can never hold still long enough to be verified**.
+Each push supersedes its own pending run, so the release had a run and lost it
+three times without one ever starting. Keeping the branch perpetually current
+had become the thing preventing the verdict we made an exception to obtain.
+
+**So it is parked at its current head and left to run.** It will be re-merged
+only if GitHub reports it un-mergeable.
+
+**The trade, stated so nobody has to infer it:** a verdict that ran on a head
+one or two `main` commits behind is a better artefact than a perpetually
+current branch with no verdict at all. When the verdict arrives, the head it
+ran on is named beside it, and that head is the claim — not `main` as it
+stands when someone reads the report.
+
 ## Withdrawn: the three-menu-destinations claim, which is in a merge commit
 
 **If you came here from git history, read this before believing a commit
