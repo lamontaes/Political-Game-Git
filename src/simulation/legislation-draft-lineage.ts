@@ -30,6 +30,22 @@ import type {
  */
 
 export interface RecordDraftLineageInput {
+  /**
+   * The component of a multi-subject measure this lineage records.
+   *
+   * Omitted for a bill written from one family, which keeps the original rule
+   * exactly as it was: one measure, one lineage. Supplied once per component
+   * when a measure was compiled from a bundle, and then the rule becomes one
+   * measure, one lineage per component — still no second answer to "which
+   * configuration wrote this section", because each section is namespaced
+   * under the component key that produced it.
+   */
+  readonly componentKey?: string;
+  readonly componentSubject?: string;
+  readonly componentDependsOn?: readonly string[];
+  readonly componentOperation?: LegislativeDraftLineageRecord["componentOperation"];
+  readonly componentCrossReferences?: LegislativeDraftLineageRecord["componentCrossReferences"];
+  readonly bundleSubjectRule?: "unrestricted" | "single-subject";
   /** A standing authority's key, where the bill was written against one. */
   readonly authorityKey?: string;
   /** A measure on the same docket, where the bill was written against one. */
@@ -96,15 +112,41 @@ export function recordDraftLineage(
   ) {
     throw new Error(`Duplicate legislative draft lineage: ${input.stableKey}`);
   }
-  if (
-    (world.history.legislativeDraftLineages ?? []).some(
-      (record) => record.measureId === measure.id,
-    )
-  ) {
-    // One bill, one lineage. A second one would mean two answers to "which
-    // configuration wrote this", and the later answer would win by accident.
+  const existingForMeasure = (
+    world.history.legislativeDraftLineages ?? []
+  ).filter((record) => record.measureId === measure.id);
+  if (existingForMeasure.length > 0) {
+    // One bill, one lineage — still, for a bill written from one family. A
+    // second one would mean two answers to "which configuration wrote this",
+    // and the later answer would win by accident. A measure compiled from a
+    // bundle answers that question once per component instead, so the rule
+    // there is one lineage per component key, and mixing the two shapes on
+    // one measure is refused rather than resolved.
+    if (input.componentKey === undefined) {
+      throw new Error(
+        `${measure.designation} already records the configuration it was drafted from.`,
+      );
+    }
+    if (
+      existingForMeasure.some((record) => record.componentKey === undefined)
+    ) {
+      throw new Error(
+        `${measure.designation} was filed from a single configuration, so a component cannot be added to it.`,
+      );
+    }
+    if (
+      existingForMeasure.some(
+        (record) => record.componentKey === input.componentKey,
+      )
+    ) {
+      throw new Error(
+        `${measure.designation} already records a '${input.componentKey}' component.`,
+      );
+    }
+  }
+  if (input.componentKey !== undefined && !input.componentKey.trim()) {
     throw new Error(
-      `${measure.designation} already records the configuration it was drafted from.`,
+      "A component lineage names the component whose sections it wrote.",
     );
   }
   if (!input.familyKey.trim() || !input.variantKey.trim()) {
@@ -130,6 +172,24 @@ export function recordDraftLineage(
     compiledAt: input.compiledAt,
     recordedAt: world.currentDate,
     parameters: toParameterRecords(input.parameterValues),
+    ...(input.componentKey !== undefined
+      ? { componentKey: input.componentKey }
+      : {}),
+    ...(input.componentSubject !== undefined
+      ? { componentSubject: input.componentSubject }
+      : {}),
+    ...(input.componentDependsOn !== undefined
+      ? { componentDependsOn: [...input.componentDependsOn] }
+      : {}),
+    ...(input.componentOperation !== undefined
+      ? { componentOperation: input.componentOperation }
+      : {}),
+    ...(input.componentCrossReferences !== undefined
+      ? { componentCrossReferences: input.componentCrossReferences }
+      : {}),
+    ...(input.bundleSubjectRule !== undefined
+      ? { bundleSubjectRule: input.bundleSubjectRule }
+      : {}),
     ...(input.authorityKey !== undefined
       ? { authorityKey: input.authorityKey }
       : {}),
@@ -152,14 +212,47 @@ export function recordDraftLineage(
   };
 }
 
+/**
+ * The one configuration a single-family bill was written from.
+ *
+ * Null for a measure compiled from a bundle, deliberately: such a measure was
+ * written from several configurations and naming one of them would be a wrong
+ * answer rather than a partial one. Callers that can carry a multi-part
+ * measure read {@link draftLineageComponents} instead.
+ */
 export function draftLineageForMeasure(
   world: World,
   measureId: EntityId,
 ): LegislativeDraftLineageRecord | null {
-  return (
-    (world.history.legislativeDraftLineages ?? []).find(
-      (record) => record.measureId === measureId,
-    ) ?? null
+  const records = (world.history.legislativeDraftLineages ?? []).filter(
+    (record) => record.measureId === measureId,
+  );
+  const single = records.find((record) => record.componentKey === undefined);
+  return single ?? null;
+}
+
+/**
+ * Every configuration a measure was written from, in the order they were
+ * filed — which, for a bundle, is the dependency order it was compiled in.
+ *
+ * A single-family bill returns its one lineage, so a caller that wants "the
+ * parts of this measure" does not have to ask whether it has parts.
+ */
+export function draftLineageComponents(
+  world: World,
+  measureId: EntityId,
+): readonly LegislativeDraftLineageRecord[] {
+  return (world.history.legislativeDraftLineages ?? [])
+    .filter((record) => record.measureId === measureId)
+    .slice()
+    .sort((left, right) => left.sequence - right.sequence);
+}
+
+/** Whether this measure was filed as a multi-component bundle. */
+export function isBundleMeasure(world: World, measureId: EntityId): boolean {
+  return (world.history.legislativeDraftLineages ?? []).some(
+    (record) =>
+      record.measureId === measureId && record.componentKey !== undefined,
   );
 }
 
@@ -224,18 +317,62 @@ export function assertDraftLineageIntegrity(world: World): void {
   const records = world.history.legislativeDraftLineages ?? [];
   const measures = world.history.legislativeMeasures ?? [];
   const seenMeasures = new Set<EntityId>();
+  const seenComponents = new Set<string>();
   for (const record of records) {
     if (!measures.some((measure) => measure.id === record.measureId)) {
       throw new Error(
         `Draft lineage ${record.stableKey} names a measure this world does not contain.`,
       );
     }
-    if (seenMeasures.has(record.measureId)) {
-      throw new Error(
-        `Two draft lineages claim the same measure: ${record.stableKey}.`,
-      );
+    if (record.componentKey === undefined) {
+      if (seenMeasures.has(record.measureId)) {
+        throw new Error(
+          `Two draft lineages claim the same measure: ${record.stableKey}.`,
+        );
+      }
+      if (
+        records.some(
+          (other) =>
+            other.measureId === record.measureId &&
+            other.componentKey !== undefined,
+        )
+      ) {
+        throw new Error(
+          `Draft lineage ${record.stableKey} claims a whole measure that is also filed in components.`,
+        );
+      }
+      seenMeasures.add(record.measureId);
+    } else {
+      // A component measure is allowed several lineages and exactly one per
+      // component key, because that key is also the namespace its provisions
+      // carry: two lineages under one key would leave a section with two
+      // configurations claiming to have written it.
+      if (seenMeasures.has(record.measureId)) {
+        throw new Error(
+          `Draft lineage ${record.stableKey} adds a component to a measure already filed from a single configuration.`,
+        );
+      }
+      const componentId = `${record.measureId}:${record.componentKey}`;
+      if (seenComponents.has(componentId)) {
+        throw new Error(
+          `Two draft lineages claim the '${record.componentKey}' component of the same measure: ${record.stableKey}.`,
+        );
+      }
+      seenComponents.add(componentId);
+      for (const dependency of record.componentDependsOn ?? []) {
+        if (
+          !records.some(
+            (other) =>
+              other.measureId === record.measureId &&
+              other.componentKey === dependency,
+          )
+        ) {
+          throw new Error(
+            `Draft lineage ${record.stableKey} waits on a '${dependency}' component its measure does not carry.`,
+          );
+        }
+      }
     }
-    seenMeasures.add(record.measureId);
     if (!record.familyVersion.trim()) {
       throw new Error(
         `Draft lineage ${record.stableKey} records no family version, so the bank could move under it.`,
