@@ -87,6 +87,32 @@ world-event line pinned to the top of six different screens. Nobody had
 reported it and nothing fixes it tonight. It is a real bug and it belongs in
 the report rather than on this list.
 
+## The correction to our own finding: pending dies, executing does not
+
+This document said earlier that every merge to main destroys its predecessor's
+run. That is true of a run that has not started, and false of one that has, and
+the difference decided whether tonight's train could move at all.
+
+`cancel-in-progress: false` on main means a newer run **queues behind** an
+executing run rather than replacing it. What GitHub does not keep is more than
+one _pending_ run per concurrency group: a newer pending run supersedes the
+older pending one. Every cancellation measured earlier tonight was of that
+second kind — `fececf25` and `02913aa9` each died with **zero jobs allocated**,
+never having started.
+
+**Tested rather than reasoned.** Main's run on `7fc33c85` had jobs executing
+when #333 was merged at 08:12Z. Immediately afterwards the run was still alive:
+`browser (3, 8)` and `browser (7, 8)` in progress, `unit (4, 6)` and
+`unit (5, 6)` still queued and intact. The merge queued behind it, exactly as
+the corrected reading predicts.
+
+**Why this was worth getting right.** Under the original reading, no merge
+could happen until main's run finished, which would have been well past nine
+o'clock. Under the corrected one, merging is safe the moment main's run has
+actually started — and the freeze only ever needed to last until then. The
+run-level `status` field is no help in telling those apart, since it reads
+`queued` while jobs execute; the job list is the only honest instrument.
+
 ## What to say about main, and what not to say
 
 **The sentence for the report is: main is merged and its unit suite is clean.
@@ -109,14 +135,23 @@ returned **9 failed, 54 passed** in fourteen minutes:
 Seven of the eight browser shards had not run when this was written, so the
 real count is higher than nine.
 
-**These are main's, not any pull request's.** Six of the nine cluster in the
-PT3 scene and conversation specs, which suggests one cause rather than six.
-Main's browser shards were already red earlier tonight at `273fd2b8`, so these
-are very probably pre-existing — **but that is not proved here.** Proving it
-means comparing against that earlier run by spec file and test title, never by
-shard number, because the shards are assigned per run and shard 6 tonight is
-not shard 6 an hour ago. The fix-main lane holds the `273fd2b8` measurement and
-has the nine names.
+**These are main's, not any pull request's, and that is now measured rather
+than assumed.** Six of the nine cluster in the PT3 scene and conversation
+specs, which suggests one cause rather than six. The fix-main lane ran the
+whole suite locally against `445441a5` — main plus the timeout budget, from
+before this train started — and **all nine fail there too, matched by spec file
+and test title, nine for nine.**
+
+That matching is the part that matters. Comparing by shard number would have
+proved nothing, because shards are assigned per run and shard 6 tonight is not
+shard 6 an hour ago. Matching by spec and title also happened to cross Chromium
+versions, since the local run is not CI's, so two different browsers agree on
+the same nine titles.
+
+**So: the browser failures on main are the ones main already had, present at
+`445441a5`, and no merge tonight added to them.** That is the whole claim. It
+does not date them further back than `445441a5`, and nobody should say it
+does.
 
 **This is not a reason to hold the merge train.** A browser failure that
 predates tonight is not evidence against a pull request whose own evidence is
