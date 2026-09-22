@@ -77,8 +77,13 @@ things it deliberately does not do:
 - **It does not flatten a rule the schema cannot hold.** An each-chamber forum
   carries one fraction against one denominator, so Virginia's second condition
   and West Virginia's separate appropriations bar are recorded in the pack's
-  unresolved gaps in the instrument's own terms. Dropping Virginia's would make
-  the override easier in play than the constitution allows.
+  unresolved gaps in the instrument's own terms. This is the thing most likely
+  to be found later and read as a bug, so it is stated here rather than only in
+  the pack: **for Virginia and West Virginia the override is easier in play
+  than the instrument allows.** Virginia's second condition and West Virginia's
+  two-thirds appropriations bar are both real and neither is enforced, because
+  the schema cannot hold them and approximating them would have been a quiet
+  invention. The gap is recorded, not closed.
 
 **Two schema limits worth a decision.** `OverrideForum` in its each-chamber
 form carries one threshold, so it cannot express a rule with two simultaneous
@@ -170,3 +175,38 @@ corrected answer.
 
 Every chamber in the country now has a seat count, which is what a seated world
 needs.
+
+## Alaska opens — measured, and a correction to how it was attributed
+
+Measured on `claude/district-residence-clock` at `9c3cefab`, by running
+`src/presentation/playtest-candidacy-residence.test.ts`: 16 of 16 pass,
+including the day-one case. A forty-year-old created at Sitka
+(`placeKey 0200650`, `startAge: 40`, `startKind: "normal"`) with **no months
+let pass** gets an empty block list and `eligible: true` for
+`us-ak-legislature-v1:house`.
+
+Two things that were muddled when this was first reported, both stated plainly
+here because a report will repeat them:
+
+**Which path decides Alaska.** Not the sourced qualification corpus. That
+corpus is 69 rows and none of them are Alaska, which is true and is not the
+mechanism. Alaska is decided by `CANDIDATE_QUALIFICATION_RULE_SETS` in
+`src/simulation/candidate-qualification.ts` — rule set
+`us-ak-house-qualifications-v1`, cited to Alaska Const. art. II, §§ 2–3, and
+gated on the date by `ruleSetApplicableOn`. Two lanes measuring different
+paths is why the same state looked both open and shut.
+
+**Where the dating fix came from.** Not #284. It is commits `d140776e` ("Let a
+rule's own commencement date outrank the day we read it") and `b53f137d`
+("Date Alaska's legislator qualifications from the constitution's own
+commencement"), both already on `main`. The reasoning in `b53f137d` is the
+Nebraska shape again: the publisher's edition marks an amended section with a
+bracketed year, Article II carries three such markers and §§ 2 and 3 carry
+none, so the present words are the original ones and take the constitution's
+own 1959 commencement rather than the September 2026 retrieval date. #284 is
+only the branch #292 happens to sit on top of.
+
+**What was measured and what was not.** The eligibility verdict was measured.
+The screen was not. A browser measurement of the filing screen on this head
+has not been run, so "Alaska opens" is a claim about
+`candidacyEligibility`, not about every surface a player passes through.
