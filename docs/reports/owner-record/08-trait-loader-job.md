@@ -61,9 +61,15 @@ legislatureTraitPack()], DECISIONS)`. Two packs, written into the code.
 
 ## Whose lane
 
-**People and life.** It wrote `trait-packs.ts`, `trait-registry.ts`,
-`people-traits.ts` and the whole trait seam on 2026-09-22, so it holds the
-knowledge and the tests. The content-pack format has had no active owner since
-the 2026-09-14 composition landing (`810c1939`), so the field addition travels
-with this job rather than waiting for one. The hardcoded-content audit lane,
-whose remit is content as data, is the natural reviewer.
+**People and life**, on scope: people, their traits and the person card are
+that lane's surface. It did not build the trait system. It read the trait
+code and recorded what is missing, which is the gap this job closes, so it
+is starting from a reading of the code rather than from authorship of it.
+The three locations above were confirmed on `origin/main` at `b8a620ed`:
+`PEOPLE_TRAITS` in `src/simulation/people-trait-definitions.ts`, and
+`cached ??= loadTraitPacks([peopleTraitPack(), legislatureTraitPack()], DECISIONS)`
+in `src/simulation/trait-registry.ts`. The content-pack format has had no
+active owner since the 2026-09-14 composition landing (`810c1939`), so the
+field addition travels with this job rather than waiting for one. The
+hardcoded-content audit lane, whose remit is content as data, is the natural
+reviewer.
