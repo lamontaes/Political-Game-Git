@@ -6,6 +6,26 @@ ingests it. It does not describe the bench's own storage, review or release
 rules; those are `docs/systems/art-desk.md` and
 `scripts/dev-lab/artbench-store.ts`.
 
+## Which direction you are going
+
+The two halves of the art pipeline travel by completely different routes, and
+confusing them wastes a lot of time.
+
+**A request goes out through the repository.** It reaches the owner by being
+committed to `art/requests/asset-requests.json` and pushed.
+`ArtbenchStore.registryRequests()` reads that file from its workspace
+checkout, applying holds from `art/requests/art-desk-reconciliation.json`, and
+the Art Desk workspace tracks the published head and re-pulls every minute. No
+Drive, no inbox, no connector.
+
+**Finished artwork comes back through the exchange**, which is what the rest of
+this document is about. A batch in `01_INBOX` is images plus a manifest. A
+request has no image, so a request put there is rejected as "missing or not an
+image".
+
+Filing a record under `art/requests/incoming/` does neither. See the last
+section.
+
 ## The one thing to get right
 
 A batch folder must never be visible in the inbox before all of its files are
@@ -92,6 +112,7 @@ note, the tags and the provenance, so it is not a substitute for a manifest.
 
 A record written under `art/requests/incoming/` with `npm run intake:request`
 is a file in the repository. That command writes, lists and validates; it has
-no delivery step and nothing else reads the directory and forwards it. A
-request is not in front of the owner until a batch reaches the exchange. Say
-"filed on branch X" for the former and keep "sent" for the latter.
+no delivery step and nothing else reads the directory and forwards it. The
+record becomes a request the owner can see only once it is promoted into
+`art/requests/asset-requests.json` and pushed. Say "filed on branch X" until
+then, and keep "sent" for something that actually moved.
