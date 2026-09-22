@@ -101,15 +101,15 @@ section 0, on `main` at `d4dca882`.
 
 ## 0b. A second decision: the game ships with nothing to legislate about
 
-Executed rather than read, on `claude/congress-factions-cg1u98` at `6b5a5724`.
-`createProductionPolicyCatalog()` returns **zero domains, zero issues, zero
-propositions, zero subjects and zero principles**, because it loads from the
-pack registry and no pack ships content. `assertProductionCatalogBoundary`
-(`src/simulation/production-catalog.ts:163`) is what keeps the fixture
-definitions built to exercise the engine out of a player's world, and it works.
+Section 2 below measures this; this section is the decision it leads to, put to
+you rather than left as a finding.
 
-So the 2,742-line bill lifecycle (`src/simulation/legislation.ts`) is finished
-and has nothing to be about.
+Re-measured by execution on `claude/congress-factions-cg1u98` at `3902b456`,
+after the merges of tonight: `createProductionPolicyCatalog()` returns **zero
+domains, zero issues, zero propositions, zero subjects and zero principles**. It
+loads from the pack registry and no pack ships content. So the 2,742-line bill
+lifecycle (`src/simulation/legislation.ts`) is finished and has nothing to be
+about.
 
 The legislation lane landed both halves of the join tonight — #300, policy
 content as provenance-declaring packs, and #306, a bill naming its policy
@@ -194,8 +194,9 @@ read by no interface. It is now on the Government screen — PR #305, branch
 
 A new player world ships with **no policy domains, issues, propositions,
 subjects or principles**. `createProductionPolicyCatalog()` returns five empty
-arrays (`src/simulation/production-catalog.ts:88-97`) and
-`assertProductionCatalogBoundary` (`:146-190`) throws if anything unestablished
+arrays (`src/simulation/production-catalog.ts:101-111`), confirmed by executing
+it rather than by reading it and
+`assertProductionCatalogBoundary` (`:163` after tonight's merges) throws if anything unestablished
 is added. World metrics, causal mechanisms, incidents and mortality tables are
 empty and guarded the same way, with two named carve-outs at `:74-78`.
 
