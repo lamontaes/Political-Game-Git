@@ -4,6 +4,7 @@
   "title": "A community meeting room a resident would recognize",
   "missing": "The neighborhood meeting opens on a named room with no plate behind it.",
   "consumerSite": {
+    "consumerId": "no-declared-consumer",
     "runtimeComponent": "none",
     "playerVisibleUse": "Attending a neighborhood meeting on a weekday evening."
   },

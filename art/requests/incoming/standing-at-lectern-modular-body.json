@@ -1,35 +1,38 @@
 {
-  "intakeVersion": "art-request-intake/v1",
-  "requestId": "standing-at-lectern-modular-body",
-  "title": "A modular body standing at a lectern, hands forward at reading height",
-  "missing": "No modular body stands at a lectern. The `standing-podium-or-lectern` pose family is declared in art/manifest/pose_families.json and no art fills it.",
   "consumerSite": {
-    "runtimeComponent": "ModularCharacter",
-    "playerVisibleUse": "Speaking at a lectern in a speech, a hearing, a press event or a campaign appearance."
+    "consumerId": "serves-many-consumers",
+    "playerVisibleUse": "Speaking at a lectern in a speech, a hearing, a press event or a campaign appearance.",
+    "runtimeComponent": "ModularCharacter"
   },
-  "jurisdiction": {
-    "scope": "jurisdiction-independent",
-    "reason": "A body is a body. The lectern is scene furniture and the room is supplied separately."
-  },
-  "whyNeeded": "Speaking from a lectern is the picture of the game's own subject. The pose family and its control plate already exist so a scene can consume it the moment art lands.",
-  "origin": "inspection",
-  "requestedBy": "art bench thread",
-  "filedAt": "2026-09-22T02:00:00.000Z",
-  "priority": "P2",
   "figureContext": {
+    "facing": "front",
+    "note": "The contacts stay on the standing floor line, unchanged from standing-neutral, so the two are interchangeable at one anchor. Canvas follows the body family's own standing plates.",
     "postureClass": "podium-or-lectern",
     "postureCues": [
       "forearms-carried-forward-to-lectern-reading-height",
       "slightly-narrower-stance-than-neutral",
       "feet-on-the-standing-floor-line"
-    ],
-    "facing": "front",
-    "note": "The contacts stay on the standing floor line, unchanged from standing-neutral, so the two are interchangeable at one anchor. Canvas follows the body family's own standing plates."
+    ]
   },
+  "filedAt": "2026-09-22T02:00:00.000Z",
+  "intakeVersion": "art-request-intake/v1",
+  "jurisdiction": {
+    "reason": "A body is a body. The lectern is scene furniture and the room is supplied separately.",
+    "scope": "jurisdiction-independent"
+  },
+  "missing": "No modular body stands at a lectern. The `standing-podium-or-lectern` pose family is declared in art/manifest/pose_families.json and no art fills it.",
   "notes": [
     "No lectern and no podium drawn. The scene supplies it; the body carries only the forward hand placement that reading from one requires.",
     "art/qa/p71/source_intake_dispositions.json marks this family MISSING for the ocd sheet in its own words: no cell stands at a lectern or rests hands on a raised surface, this is the one adult pose the sheet does not provide, and it is still needed.",
     "art/pose-control-plates/standing-podium-or-lectern__front.svg is the existing control plate for this family.",
-    "Filed P2 rather than P1 because no scene anchor consumes it yet, unlike the desk posture, where 42 seats are waiting."
-  ]
+    "Filed P2 rather than P1 because no scene anchor consumes it yet, unlike the desk posture, where 42 seats are waiting.",
+    "Not promoted as a new request: 'person-adult-lectern-pose' is already in art/requests/asset-requests.json and asks for the same picture, so this record names it rather than adding a second ask for it. Checked 2026-09-22 against the registry the Art Desk reads."
+  ],
+  "origin": "inspection",
+  "priority": "P2",
+  "promotedToRequestId": "person-adult-lectern-pose",
+  "requestId": "standing-at-lectern-modular-body",
+  "requestedBy": "art bench thread",
+  "title": "A modular body standing at a lectern, hands forward at reading height",
+  "whyNeeded": "Speaking from a lectern is the picture of the game's own subject. The pose family and its control plate already exist so a scene can consume it the moment art lands."
 }

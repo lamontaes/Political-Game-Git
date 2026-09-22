@@ -1,0 +1,33 @@
+{
+  "repositoryPathsSearched": [
+    "art/generated/candidates/wave-a-morphology/average-man/",
+    "art/generated/candidates/wave-a-morphology/older-woman/",
+    "art/generated/candidates/recent-drive-sweep/fat-man/",
+    "art/generated/candidates/recent-drive-sweep/skinny-man/",
+    "art/generated/candidates/wave-a-chairless/ (on claude/character-rendering-triage-19kvvz, where the automatic pass writes)"
+  ],
+  "driveLocationsSearched": [],
+  "found": "All four seated source plates are present in this checkout and were measured here: average-man 710x1653, fat-man 747x1607, skinny-man 697x1658, older-woman 669x1720, every one 8-bit RGBA. The automatic separation has already been run against them \u2014 `npm run derive:seated-chairless` on claude/character-rendering-triage-19kvvz produces all four derivatives \u2014 and it removes everything floating free of the body and stops.",
+  "shortfall": "What the automatic pass leaves is exactly what it cannot take: the seat sliver between the thighs and the chair-leg stub against each shin. Two measurements say why, and both were made rather than assumed. Chair touching a thigh is inside the protection band by definition, so a connectivity-based separation has nothing to cut. And no threshold divides them: the chair's mid-tones run 96 to 150 while the figure's own sub-knee edge pixels run 64 to 240, overlapping across the whole contested region. Raising the body-tone floor to 160 was tried, rendered and reverted \u2014 it takes the feet entirely and shreds the older woman's shins. Drive was not searched for this one: the wave-a source sheets are in no cloud checkout, so a higher-resolution re-derivation cannot be attempted from here either.",
+  "generationRecipe": [
+    "Take each of the four seated plates as it stands. The figure, the posture, the wardrobe and the framing are already correct and are not being redrawn.",
+    "Remove the chair pixels that touch the figure: the sliver of seat visible between the thighs, and the stub of chair leg against each shin.",
+    "Restore the leg and foot contour underneath the removed pixels rather than cutting around them. An earlier automatic attempt removed about a pixel of the figure's own outline and the whole foot outline, which is what a threshold does to a contour and what a hand does not.",
+    "Return each plate at its own source dimensions, 8-bit RGBA, with transparency where the chair was."
+  ],
+  "acceptanceCriteria": [
+    "No chair pixel remains anywhere against the legs, between the thighs, or beside the shins.",
+    "The leg and foot outline is continuous and unbroken. A plate that has lost its foot outline, or a pixel of its own contour, is a failed delivery even if every chair pixel is gone.",
+    "Each returned plate is at least 669 pixels wide \u2014 the narrowest of the four sources \u2014 and carries real per-pixel transparency where the chair was removed.",
+    "The posture is unchanged. A redraw in a different seated posture does not satisfy this request, because the posture was never what was wrong."
+  ],
+  "target": {
+    "targetClass": "character-component",
+    "minimumWidth": 669,
+    "aspectRatio": "as-delivered: each plate returns at its own source dimensions (710x1653, 747x1607, 697x1658, 669x1720), because a hand pass returns the plate it was given",
+    "alphaRequired": true,
+    "container": "png",
+    "styleAuthority": "Each plate's own source file, listed in the record's notes. A hand pass is judged against the original it was cut from, not against a separate reference."
+  },
+  "generationHold": "already-covered-candidate"
+}

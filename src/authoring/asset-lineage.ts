@@ -96,12 +96,28 @@ export type AssetTargetClass =
   | "environment-plate"
   /** A title/menu tableau background. */
   | "title-plate"
+  /**
+   * A part of a person the modular composer assembles — a body, a head, a
+   * garment. Shipped, and measured differently from a plate, because a
+   * component is judged on its attachment anchors as well as its pixels.
+   *
+   * This is recorded rather than introduced. Six entries in
+   * `art/requests/asset-requests.json` already declare it — among them
+   * `person-production-seated-body` and `person-adult-lectern-pose` — and the
+   * request validator never checked `targetClass` against this list, so the
+   * shipped vocabulary and the type had drifted apart without anything
+   * failing. A figure request could be filed and could not be promoted,
+   * because the only class left for it was `reference`, which says never
+   * shipped and would have been false.
+   */
+  | "character-component"
   /** Evidence and authoring reference; never shipped. */
   | "reference";
 
 export const ASSET_TARGET_CLASSES: readonly AssetTargetClass[] = [
   "environment-plate",
   "title-plate",
+  "character-component",
   "reference",
 ];
 

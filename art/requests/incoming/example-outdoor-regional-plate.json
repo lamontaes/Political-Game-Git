@@ -4,6 +4,7 @@
   "title": "A winter opening view of the northern Rockies foothills",
   "missing": "A life begun in January in the Colorado foothills reaches the intro with no plate for its region.",
   "consumerSite": {
+    "consumerId": "no-declared-consumer",
     "runtimeComponent": "src/player/WorldOrientationPanel.tsx",
     "playerVisibleUse": "The world introduction, on the panel about the player's own town."
   },

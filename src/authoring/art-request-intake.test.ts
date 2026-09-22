@@ -3,6 +3,9 @@ import { describe, expect, it } from "vitest";
 import {
   ART_REQUEST_INTAKE_VERSION,
   IntakePromotionError,
+  NO_DECLARED_CONSUMER,
+  SERVES_MANY_CONSUMERS,
+  unfilledPromotionFields,
   intakeRecordPath,
   openIntakeRecords,
   promoteToAssetRequest,
@@ -21,6 +24,7 @@ function record(
     title: "A community meeting room a resident would recognize",
     missing: "No plate exists for the community room the meeting happens in.",
     consumerSite: {
+      consumerId: "ordinary-public-meeting",
       runtimeComponent: "src/player/PlayerGame.tsx",
       playerVisibleUse:
         "Attending a neighborhood meeting on a weekday evening.",
@@ -364,6 +368,143 @@ describe("the queue", () => {
   it("gives every record its own file, so two threads never collide", () => {
     expect(intakeRecordPath("community-room-interior")).toBe(
       "art/requests/incoming/community-room-interior.json",
+    );
+  });
+});
+
+describe("unfilledPromotionFields", () => {
+  /**
+   * The test that stops somebody later "finishing" the command.
+   *
+   * `inventoryCheck` records which paths and Drive locations were actually
+   * searched. A plausible one is a search nobody ran, written into the one file
+   * the Art Desk trusts, and he would then be deciding against a fabricated
+   * provenance. The same is true of a geometry floor nobody measured. So the
+   * only correct output for a record that carries neither is to emit nothing
+   * and say so.
+   */
+  it("emits no inventory check and no target geometry for a record carrying neither", () => {
+    const unfilled = unfilledPromotionFields(record(), {});
+    const joined = unfilled.join("\n");
+    expect(joined).toContain("inventoryCheck.repositoryPathsSearched");
+    expect(joined).toContain("inventoryCheck.found");
+    expect(joined).toContain("inventoryCheck.shortfall");
+    expect(joined).toContain("target.minimumWidth");
+    expect(joined).toContain("target.aspectRatio");
+    expect(joined).toContain("target.alphaRequired");
+    expect(joined).toContain("target.container");
+    expect(joined).toContain("target.styleAuthority");
+    expect(joined).toContain("generationRecipe");
+    expect(joined).toContain("acceptanceCriteria");
+  });
+
+  it("does not treat the record's own prose search as the registry's path list", () => {
+    const withProse = record({
+      alreadySearched: [
+        "art/generated/candidates/wave-a-chairless — the automatic pass already ran",
+      ],
+    });
+    const unfilled = unfilledPromotionFields(withProse, {});
+    expect(unfilled.join("\n")).toContain("alreadySearched");
+    expect(
+      unfilled.some((field) =>
+        field.startsWith("inventoryCheck.repositoryPathsSearched"),
+      ),
+    ).toBe(true);
+  });
+
+  it("takes the target class from the record when the record carries one", () => {
+    const unfilled = unfilledPromotionFields(
+      record({
+        targetClass: "environment-plate",
+        environmentClass: "civic-interior",
+      }),
+      {},
+    );
+    expect(
+      unfilled.some((field) => field.startsWith("target.targetClass")),
+    ).toBe(false);
+  });
+
+  it("reports nothing unfilled once every answer is supplied", () => {
+    expect(unfilledPromotionFields(record(), PROMOTION)).toEqual([]);
+  });
+});
+
+describe("consumerId is a required answer", () => {
+  it("refuses a record with no consumer named", () => {
+    const codes = validateArtRequestIntake([
+      record({
+        consumerSite: {
+          consumerId: "",
+          runtimeComponent: "src/player/PlayerGame.tsx",
+          playerVisibleUse: "Attending a neighborhood meeting.",
+        },
+      }),
+    ]).findings.map((finding) => finding.code);
+    expect(codes).toContain("missing-consumer-id");
+  });
+
+  it("refuses a consumer id nobody declares, so a typo fails here and not at integration", () => {
+    const codes = validateArtRequestIntake([
+      record({
+        consumerSite: {
+          consumerId: "ordinary-public-meetings",
+          runtimeComponent: "src/player/PlayerGame.tsx",
+          playerVisibleUse: "Attending a neighborhood meeting.",
+        },
+      }),
+    ]).findings.map((finding) => finding.code);
+    expect(codes).toContain("unknown-consumer-id");
+  });
+
+  it("accepts the two answers that are true without naming one consumer", () => {
+    for (const answer of [SERVES_MANY_CONSUMERS, NO_DECLARED_CONSUMER]) {
+      expect(
+        validateArtRequestIntake([
+          record({
+            consumerSite: {
+              consumerId: answer,
+              runtimeComponent: "ModularCharacter",
+              playerVisibleUse: "Wherever a pose anchor asks for it.",
+            },
+          }),
+        ]).valid,
+      ).toBe(true);
+    }
+  });
+
+  it("no longer invents 'unassigned' on the way into the bench", () => {
+    const request = promoteToAssetRequest(
+      record({
+        consumerSite: {
+          consumerId: SERVES_MANY_CONSUMERS,
+          runtimeComponent: "ModularCharacter",
+          playerVisibleUse: "Wherever a pose anchor asks for it.",
+        },
+      }),
+      PROMOTION,
+    );
+    expect(request.consumer.consumerId).toBe(SERVES_MANY_CONSUMERS);
+    expect(request.consumer.consumerId).not.toBe("unassigned");
+  });
+});
+
+describe("a promotion declares whether it is a generation job", () => {
+  /**
+   * The Art Desk offers every request without a hold for generation. A hand
+   * pass over plates that already exist must therefore say so on the way in,
+   * or the Desk asks somebody to draw a picture that is already drawn.
+   */
+  it("carries a declared hold and invents none when the promotion is silent", () => {
+    expect(
+      promoteToAssetRequest(record(), {
+        ...PROMOTION,
+        generationHold: "already-covered-candidate",
+      }).generationHold,
+    ).toBe("already-covered-candidate");
+    expect(promoteToAssetRequest(record(), PROMOTION).generationHold).toBe(
+      undefined,
     );
   });
 });

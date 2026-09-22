@@ -4,6 +4,7 @@
     "The wave-a source sheets, for a higher-resolution route — they are in no cloud checkout. Only the ocd sheet is present, so re-deriving from a larger original cannot be attempted from a cloud thread."
   ],
   "consumerSite": {
+    "consumerId": "serves-many-consumers",
     "playerVisibleUse": "Any seat anchor a scene supplies its own chair for. A body with a chair baked into it draws a second chair on top of the room's.",
     "runtimeComponent": "ModularCharacter"
   },
@@ -37,6 +38,7 @@
   ],
   "origin": "inspection",
   "priority": "P1",
+  "promotedToRequestId": "seated-chair-separation-hand-pass",
   "requestId": "seated-chair-separation-hand-pass",
   "requestedBy": "art and client delivery lane, filed by the art bench thread",
   "title": "Four seated plates need the last of the chair drawn off the legs by hand",

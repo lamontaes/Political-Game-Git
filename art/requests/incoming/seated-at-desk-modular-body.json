@@ -1,22 +1,12 @@
 {
-  "intakeVersion": "art-request-intake/v1",
-  "requestId": "seated-at-desk-modular-body",
-  "title": "A modular body seated at a desk, forearms at an unseen work surface",
-  "missing": "No furniture-free modular body in the project is seated in the desk posture. The `seated-at-desk` pose family is what office, hearing, committee and executive chairs ask for, and nothing can fill it.",
   "consumerSite": {
-    "runtimeComponent": "ModularCharacter",
-    "playerVisibleUse": "Sitting at a desk in an office, or in a hearing or committee seat, wherever a chair anchor asks for the seated-at-desk pose family."
+    "consumerId": "serves-many-consumers",
+    "playerVisibleUse": "Sitting at a desk in an office, or in a hearing or committee seat, wherever a chair anchor asks for the seated-at-desk pose family.",
+    "runtimeComponent": "ModularCharacter"
   },
-  "jurisdiction": {
-    "scope": "jurisdiction-independent",
-    "reason": "A body is a body. Desks and rooms are supplied by the scene, and the regional look is carried by environment plates rather than by a figure."
-  },
-  "whyNeeded": "Office and hearing scenes are where the game seats people, and every one of those chairs currently has nobody who can sit in it in that posture.",
-  "origin": "inspection",
-  "requestedBy": "art bench thread",
-  "filedAt": "2026-09-22T02:00:00.000Z",
-  "priority": "P1",
   "figureContext": {
+    "facing": "front",
+    "note": "The contacts are the contract and they are normalized, so no pixel canvas is specified here: seatedPelvis at x 0.50 and y 0.62, left and right foot at x 0.37 and 0.63 and y 0.975, tolerance 0.035, feet below the pelvis, and one consistent seat-to-sole span across the set because the runtime scales the whole figure to each chair. Canvas follows whatever the body family's own plates use.",
     "postureClass": "seated",
     "postureCues": [
       "bent-knees",
@@ -24,10 +14,15 @@
       "thighs-coming-forward",
       "shins-vertical-to-floor",
       "forearms-carried-forward-to-an-unseen-work-surface"
-    ],
-    "facing": "front",
-    "note": "The contacts are the contract and they are normalized, so no pixel canvas is specified here: seatedPelvis at x 0.50 and y 0.62, left and right foot at x 0.37 and 0.63 and y 0.975, tolerance 0.035, feet below the pelvis, and one consistent seat-to-sole span across the set because the runtime scales the whole figure to each chair. Canvas follows whatever the body family's own plates use."
+    ]
   },
+  "filedAt": "2026-09-22T02:00:00.000Z",
+  "intakeVersion": "art-request-intake/v1",
+  "jurisdiction": {
+    "reason": "A body is a body. Desks and rooms are supplied by the scene, and the regional look is carried by environment plates rather than by a figure.",
+    "scope": "jurisdiction-independent"
+  },
+  "missing": "No furniture-free modular body in the project is seated in the desk posture. The `seated-at-desk` pose family is what office, hearing, committee and executive chairs ask for, and nothing can fill it.",
   "notes": [
     "No desk and no chair drawn. The room supplies the furniture, and a desk in the body art renders on top of the room's own desk. That is the defect that rules out every existing candidate below.",
     "Every wave-a desk-posture plate has a desk painted across the lap and forearms. Those cannot be machine-separated, because recovering the body underneath would mean inventing it.",
@@ -36,6 +31,14 @@
     "That disagreement does not gate this request. The whole ocd set is female adult (ocd_body_adult_fem_*), so even on the reading most favourable to it, the desk posture is uncovered for men.",
     "art/generated/approved/human_candidate_A01_primary_desk_seated_v1.png is genuinely desk-seated and furniture-free, but it is a finished clothed character rather than a modular body, so it is proof the posture is achievable rather than a plate that can be registered.",
     "Guest seating is NOT part of this request; that posture is covered.",
-    "Both sexes are needed. Front facing first, since 38 of the 42 seat anchors declare front."
-  ]
+    "Both sexes are needed. Front facing first, since 38 of the 42 seat anchors declare front.",
+    "Not promoted as a new request: 'person-production-seated-body' is already in art/requests/asset-requests.json and asks for the same picture, so this record names it rather than adding a second ask for it. Checked 2026-09-22 against the registry the Art Desk reads."
+  ],
+  "origin": "inspection",
+  "priority": "P1",
+  "promotedToRequestId": "person-production-seated-body",
+  "requestId": "seated-at-desk-modular-body",
+  "requestedBy": "art bench thread",
+  "title": "A modular body seated at a desk, forearms at an unseen work surface",
+  "whyNeeded": "Office and hearing scenes are where the game seats people, and every one of those chairs currently has nobody who can sit in it in that posture."
 }

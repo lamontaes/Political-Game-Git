@@ -52,6 +52,7 @@ import {
 } from "./regional-scene-coverage";
 import type { PosePostureClass } from "../presentation/pose-families";
 import { POSE_POSTURE_CLASSES } from "../presentation/pose-families";
+import { SCENE_CONSUMERS } from "../presentation/scene-consumers";
 
 export const ART_REQUEST_INTAKE_VERSION = "art-request-intake/v1" as const;
 
@@ -195,9 +196,46 @@ export interface ArtRequestFigureContext {
 export const NON_STANDING_POSTURES: readonly PosePostureClass[] =
   POSE_POSTURE_CLASSES.filter((posture) => posture !== "standing");
 
+/**
+ * The literal answer for an asset whose consumer is genuinely not one scene.
+ *
+ * A modular body is the case: it paints wherever a pose anchor asks for it, so
+ * naming one consumer would be false and leaving the field blank would be
+ * unknown. This is the same shape as `jurisdiction-independent` — a real answer
+ * to the question, not a way of declining it.
+ */
+export const SERVES_MANY_CONSUMERS = "serves-many-consumers" as const;
+
+/**
+ * The literal answer when the surface exists but is not a declared consumer.
+ *
+ * `SCENE_CONSUMERS` is what anything can be installed against automatically.
+ * A panel that paints a picture without being declared there is a real place
+ * in the game and not an installable target, and saying so is different from
+ * leaving the question open.
+ */
+export const NO_DECLARED_CONSUMER = "no-declared-consumer" as const;
+
+/** The two answers that are true without naming a declared consumer. */
+export const CONSUMER_ID_NON_SCENE_ANSWERS: readonly string[] = [
+  SERVES_MANY_CONSUMERS,
+  NO_DECLARED_CONSUMER,
+];
+
 export interface ArtRequestConsumerSite {
-  /** Matches an `AssetRequestConsumer.consumerId` when the consumer has one. */
-  readonly consumerId?: string;
+  /**
+   * Which consumer this is for: a declared `SceneConsumerDeclaration.consumerId`,
+   * `SERVES_MANY_CONSUMERS` when the asset genuinely serves many, or
+   * `NO_DECLARED_CONSUMER` when the surface exists but is not declared.
+   *
+   * Required, and required to be one of those. It was optional, and promotion
+   * filled the gap with the string "unassigned", which then travelled into the
+   * integration payload and told integration to install the asset at a consumer
+   * that does not exist. A plausible value standing in for an unknown one is
+   * the failure this project keeps paying for; the question is cheap to answer
+   * at the moment of filing and impossible to answer later.
+   */
+  readonly consumerId: string;
   /** A repository path, or "none" when nothing consumes this yet. */
   readonly runtimeComponent: string;
   /** What the player was doing when the gap showed. */
@@ -261,6 +299,8 @@ export type ArtRequestIntakeFindingCode =
   | "missing-why-needed"
   | "why-needed-restates-missing"
   | "missing-consumer-site"
+  | "missing-consumer-id"
+  | "unknown-consumer-id"
   | "missing-player-visible-use"
   | "missing-jurisdiction-reason"
   | "blank-jurisdiction-display-name"
@@ -298,6 +338,11 @@ export interface ArtRequestIntakeValidation {
 
 const SEED_SHAPED = /^(?:seed[-_]?)?\d{4,}$/i;
 const DIGEST_SHAPED = /^[0-9a-f]{16,}$/i;
+
+/** The consumer ids anything can actually be installed against. */
+const DECLARED_CONSUMER_IDS = new Set(
+  SCENE_CONSUMERS.map((consumer) => consumer.consumerId),
+);
 const SEMANTIC_SLUG = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)+$/;
 const PRIORITIES: readonly AssetRequestPriority[] = ["P0", "P1", "P2"];
 const SEASONS: readonly RegionalSeason[] = [
@@ -472,6 +517,23 @@ export function validateArtRequestIntake(
         "missing-player-visible-use",
         requestId,
         `Say what the player would be doing when they saw it.`,
+      );
+    }
+    const consumerId = site?.consumerId?.trim();
+    if (!consumerId) {
+      error(
+        "missing-consumer-id",
+        requestId,
+        `Name the consumer this is for — a declared consumer id, "${SERVES_MANY_CONSUMERS}" when the asset genuinely serves many, or "${NO_DECLARED_CONSUMER}" when the surface is not a declared consumer. Promotion used to fill this in as "unassigned", which then told integration to install the asset at a consumer that does not exist.`,
+      );
+    } else if (
+      !CONSUMER_ID_NON_SCENE_ANSWERS.includes(consumerId) &&
+      !DECLARED_CONSUMER_IDS.has(consumerId)
+    ) {
+      error(
+        "unknown-consumer-id",
+        requestId,
+        `'${consumerId}' is not a declared consumer and is not one of ${CONSUMER_ID_NON_SCENE_ANSWERS.join(" or ")}. A consumer id nobody declares cannot be installed against, and a typo here fails at integration rather than here.`,
       );
     }
 
@@ -764,6 +826,84 @@ export interface PromotionInputs {
     readonly container: "png" | "jpeg" | "either";
     readonly styleAuthority: string;
   };
+  /**
+   * Declared, never inferred: why this must not be picked up as a live
+   * generation job. Absent means it is one.
+   *
+   * The case that proves it is a hand pass over plates that already exist. The
+   * Art Desk offers every request without a hold for generation, so promoting
+   * one of those without saying so puts "draw this" in front of a request whose
+   * whole point is that the picture is already drawn and only needs correcting.
+   */
+  readonly generationHold?: AssetRequest["generationHold"];
+}
+
+/**
+ * The fields promotion cannot derive, each with what answering it means.
+ *
+ * Reported rather than defaulted. Every one of these is a judgement somebody
+ * has to make and sign for; a default here would read to the Desk as an answer.
+ */
+export function unfilledPromotionFields(
+  record: ArtRequestIntakeRecord,
+  inputs: Partial<PromotionInputs>,
+): readonly string[] {
+  const unfilled: string[] = [];
+  const repository = inputs.repositoryPathsSearched ?? [];
+  const drive = inputs.driveLocationsSearched ?? [];
+  if (repository.length === 0 && drive.length === 0) {
+    unfilled.push(
+      record.alreadySearched?.length
+        ? "inventoryCheck.repositoryPathsSearched / driveLocationsSearched — the paths and Drive locations you actually opened. The record's own `alreadySearched` is the material, but it is prose and the registry wants the locations themselves, so it is not carried across automatically"
+        : "inventoryCheck.repositoryPathsSearched / driveLocationsSearched — the paths and Drive locations you actually opened before asking for new art",
+    );
+  }
+  if (!inputs.found?.trim()) {
+    unfilled.push(
+      'inventoryCheck.found — what the search turned up, including "nothing"',
+    );
+  }
+  if (!inputs.shortfall?.trim()) {
+    unfilled.push(
+      "inventoryCheck.shortfall — why what you found does not answer this request",
+    );
+  }
+  if (!inputs.generationRecipe?.length) {
+    unfilled.push(
+      "generationRecipe — what must be in the picture, in words any tool could be driven by",
+    );
+  }
+  if (!inputs.acceptanceCriteria?.length) {
+    unfilled.push(
+      "acceptanceCriteria — what a reviewer could fail a delivery on, beyond the ones the record's own tags already supply",
+    );
+  }
+  const target = inputs.target ?? ({} as Partial<PromotionInputs["target"]>);
+  if (!(target.targetClass ?? record.targetClass)) {
+    unfilled.push(
+      "target.targetClass — the class the delivery is measured as; the record carries none",
+    );
+  }
+  if (typeof target.minimumWidth !== "number" || target.minimumWidth <= 0) {
+    unfilled.push(
+      "target.minimumWidth — the real pixel width a delivery must clear, measured from the consumer rather than assumed",
+    );
+  }
+  if (!target.aspectRatio?.trim()) unfilled.push("target.aspectRatio");
+  if (typeof target.alphaRequired !== "boolean") {
+    unfilled.push(
+      "target.alphaRequired — whether the delivery must carry real per-pixel transparency",
+    );
+  }
+  if (!target.container) {
+    unfilled.push('target.container — "png", "jpeg" or "either"');
+  }
+  if (!target.styleAuthority?.trim()) {
+    unfilled.push(
+      "target.styleAuthority — the approved reference the delivery is judged against",
+    );
+  }
+  return unfilled;
 }
 
 export class IntakePromotionError extends Error {}
@@ -817,7 +957,7 @@ export function promoteToAssetRequest(
     status: "queued",
     title: record.title.trim(),
     consumer: {
-      consumerId: record.consumerSite.consumerId?.trim() || "unassigned",
+      consumerId: record.consumerSite.consumerId.trim(),
       runtimeComponent: record.consumerSite.runtimeComponent.trim(),
       playerVisibleUse: record.consumerSite.playerVisibleUse.trim(),
     },
@@ -836,6 +976,7 @@ export function promoteToAssetRequest(
       ...inputs.acceptanceCriteria,
     ],
     dependsOn: [],
+    ...(inputs.generationHold ? { generationHold: inputs.generationHold } : {}),
   };
 }
 
