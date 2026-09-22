@@ -1,8 +1,10 @@
 # Reachable, empty, and silent about why
 
 Written 2026-09-22 08:50Z on `main` at `d6090983`. This is one sentence with
-four pieces of evidence under it, gathered by three lanes walking different
-parts of the game on the same night and finding the same shape each time.
+evidence under it, gathered by three lanes walking different parts of the
+game on the same night and finding the same shape more than once. One of the
+four it opened with has since been struck, and the striking is recorded
+rather than removed.
 
 ## The pattern
 
@@ -23,24 +25,47 @@ balance." Transit and tax say what opens them. A portrait that cannot be
 drawn names the five layers it is missing. So this is not a missing idea. It
 is a rule applied on some surfaces and not on others.
 
-## The four surfaces
+## The surfaces
 
 Each was measured by walking to it, not by reading for it. Heads named.
 
-### Party evolution shows nothing on a first day
+### Party evolution: the screen is not empty, and the claim was too strong
 
-Measured on `claude/playtest-politics-label` walking an ordinary first day.
-Foundings, splits, mergers and platform drift reach the player through
-`projectPartyInitiatives`, which yields nothing to a player who is not
-already a proposer, a party-body member, a unit leader or a prior responder.
-On a new character the screen is therefore blank. Nothing on it says that
-what it holds is the part of party business you are involved in, so a player
-reads "parties do nothing" from a screen that means "you are not in any of
-this yet".
+**Corrected 2026-09-22 08:55Z**, re-measured in Chromium by walking a first
+day in Augusta, Maine on `claude/playtest-politics-label` at `c54aa487`,
+which is `main` plus that branch's menu-hint change.
 
-The public half does exist: a decided change is yielded to everybody. A fresh
-world simply has none yet, which is honest — and is exactly the case that
-needs a sentence.
+The first version of this section said the parties screen is blank on a new
+character and that nothing on it says why. Both halves are wrong, and it is
+worth saying what the screen actually holds:
+
+> Party and community work. Coming to any of this is not joining, endorsing
+> or voting. Nothing is on your calendar from a party or campaign yet.
+
+Under that, two real chapters with named organizers — County of Kennebec
+Democrats with Haris Carter, County of Kennebec Republicans with Cora Bishop
+— each offering an organizing meeting, a door canvass, a phone shift, a talk
+about running for office and a community town hall, with an explanation that
+asking puts it on the first free evening in the next two weeks and that no
+time passes now.
+
+That is a populated screen that states its own emptiness where it is empty.
+It does not belong in this document's pattern.
+
+What does survive is narrower and unmeasured here. `projectPartyInitiatives`
+yields an **open** proposal only to a player already involved as a proposer,
+a party-body member, a unit leader or a prior responder, while a **decided**
+change is yielded to everybody; a fresh world has no decided changes yet. So
+whether splits, mergers and platform drift ever become visible to an
+uninvolved player is a question about a world old enough to have had one,
+which this walk did not reach.
+
+**On the instrument.** The keyword probe that produced the original reading
+tests the whole page text against regexes as loose as `/found|new party|
+formed/i` and `/platform|position|stance/i`. Those are indicators for a
+reader, not measurements, and a claim about what a screen shows should not
+rest on one. That is the same lesson as the helper-route retraction earlier
+tonight.
 
 ### The Issues and budget tab has no issues
 
@@ -70,6 +95,15 @@ procedure — quorum, roll call, three readings, concurrence, enrollment,
 presentment, veto, fiscal note, adjournment. Nothing about parties, nothing
 about the press, nothing about what happens when your character dies.
 
+**On the instrument, again:** the same walk reported that the Guide "mentions
+party evolution" and "mentions continuing as someone". Both came from a
+regex against the whole page — `/part(y|ies)/i` matches the word "party"
+inside the Caucus entry — and neither is evidence of an entry on the
+subject. Read from `GUIDE_TERMS` instead, the 28 entries are the ones listed
+above and there is no entry about parties as organisations, about the press,
+or about what happens when a character dies. The claim stands; the probe did
+not establish it.
+
 **Corrected here:** an earlier version of this finding said nothing in the
 game points to the Guide. That is no longer true on this head. `GuideTerm`
 inline help is mounted in `DocketWorkspace`, `MunicipalWorkspace`,
@@ -80,7 +114,7 @@ entries are procedure.
 
 ## Two more from the same walk, carried here so they are not lost in a draft
 
-These were measured on `claude/playtest-politics-label` alongside the four
+These were measured on `claude/playtest-politics-label` alongside the ones
 above and lived only in a pull request description, which is not a place a
 report can read.
 
@@ -107,8 +141,8 @@ It still sits one press from the real "Jobs and study" under Personal.
 
 ## What this is worth, and what it is not
 
-Three of the four are one sentence each on a screen that already exists. The
-journal is a code change of a few lines. None needs a system built.
+Two of the three that stand are one sentence each on a screen that already
+exists. The journal is a code change of a few lines. None needs a system built.
 
 It is not a rename. The Issues tab could be relabelled "Budget" tomorrow and
 the player would be no closer to having a politics to have opinions about,
@@ -120,6 +154,8 @@ empty for a reason, say the reason.
 
 - **Whether a player reads these as unfinished.** That is a question about
   people, not code, and nobody has watched anyone play.
-- **Whether a sentence is the right answer on each of the four.** Party
-  evolution in particular may want a route in rather than an explanation of
-  why there is none.
+- **Whether a sentence is the right answer on each of the three.** It is the
+  cheapest answer, not necessarily the right one.
+- **Whether splits, mergers and platform drift ever reach an uninvolved
+  player.** That needs a world old enough to have had one, which no walk
+  tonight reached.
