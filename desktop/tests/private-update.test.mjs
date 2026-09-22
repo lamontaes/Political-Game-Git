@@ -11,10 +11,29 @@ import {
   controllerPaths,
   repositoryIsExpected,
   withPendingBuild,
+  privateInputIgnoreRules,
 } from "../private-controller/private-update.mjs";
 
 const A = "a".repeat(40);
 const B = "b".repeat(40);
+
+test("private build exclusions name only exact manifest inputs", () => {
+  const hash = "a".repeat(64);
+  assert.deepEqual(privateInputIgnoreRules(`${hash}  art/a [1]*?.png\n`), [
+    {
+      sha256: hash,
+      path: "art/a [1]*?.png",
+      rule: "/art/a\\ [1]*?.png".replace("[1]*?", "\\[1\\]\\*\\?"),
+    },
+  ]);
+  for (const file of [
+    "src/unknown.ts",
+    "art/../source.ts",
+    "art//x.png",
+    "art/./x.png",
+  ])
+    assert.throws(() => privateInputIgnoreRules(`${hash}  ${file}\n`));
+});
 
 function build(
   revision,

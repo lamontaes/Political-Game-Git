@@ -328,6 +328,17 @@ function AnalysisPanel({
               <strong>{analysis.modeledChange}</strong>
               <p>{analysis.scopeLabel}</p>
               <small>{analysis.authorLabel}</small>
+              {/*
+               * `provenanceLabel` is named for a research source and is not
+               * one. It reads "Known through an explicit policy-analysis
+               * review", which is the game telling the player how they came
+               * to know this: the panel appears only after they press "Read
+               * staff note", and that press costs four history events. It
+               * names no instrument, no citation and no date. This branch's
+               * sweep took it out on the strength of the field's name, and
+               * `run-c.spec.ts:159` — the test that exists to protect the
+               * knowledge gate — caught it. Leave it rendered.
+               */}
               <small>{analysis.provenanceLabel}</small>
               <em>{analysis.qualification}</em>
             </article>

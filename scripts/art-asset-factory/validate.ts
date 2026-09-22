@@ -131,6 +131,29 @@ function isPathInside(root: string, candidate: string): boolean {
   );
 }
 
+/**
+ * `.gitignore` excludes this root by design: it holds private Art Desk bytes
+ * that the repository is never meant to carry. A manifest row may name a plate
+ * living there, and that row is a declaration — asset id, recorded hash, tier
+ * ladder, lineage — not a promise that the bytes are checked in.
+ */
+const PRIVATE_CANDIDATE_ROOT = "art/generated/candidates/art-desk/";
+
+/**
+ * An unreleased row under the private candidate root is absent on purpose, so
+ * its missing file is not a defect. Released art is held to the old rule
+ * without exception: nothing the runtime can load is allowed to be a promise.
+ */
+function isPrivateCandidateDeclaration(
+  asset: AssetManifestEntry,
+  declaredPath: string,
+): boolean {
+  return (
+    asset.runtime_release_status !== "released" &&
+    declaredPath.startsWith(PRIVATE_CANDIDATE_ROOT)
+  );
+}
+
 function resolveValidFinalPath(
   asset: AssetManifestEntry,
   repositoryRoot: string,
@@ -173,6 +196,7 @@ function resolveValidFinalPath(
   }
 
   if (!fs.existsSync(resolvedPath)) {
+    if (isPrivateCandidateDeclaration(asset, declaredPath)) return undefined;
     errors.push(
       `Asset '${asset.asset_id}' final_path '${declaredPath}' does not exist.`,
     );
@@ -747,6 +771,18 @@ function validateRasterTierLadders(
         continue;
       }
 
+      // Recorded before the file is resolved: the ladder either names the
+      // asset's own final_path or it does not, and that stays true of a plate
+      // whose bytes are deliberately absent.
+      if (asset.final_path === tier.path) {
+        matchesFinalPath = true;
+        if (asset.hash && asset.hash !== tier.hash) {
+          errors.push(
+            `${label} shares the asset's final_path but declares a different hash.`,
+          );
+        }
+      }
+
       const tierAsset: AssetManifestEntry = {
         ...asset,
         final_path: tier.path,
@@ -765,14 +801,6 @@ function validateRasterTierLadders(
         }
       } catch {
         errors.push(`${label} file could not be measured.`);
-      }
-      if (asset.final_path === tier.path) {
-        matchesFinalPath = true;
-        if (asset.hash && asset.hash !== tier.hash) {
-          errors.push(
-            `${label} shares the asset's final_path but declares a different hash.`,
-          );
-        }
       }
     }
 

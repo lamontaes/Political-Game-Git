@@ -18,5 +18,201 @@
       "length": 211,
       "sha256": "1cc4484c111e0c427f877ceba6262d89a9bffdb07e4621aa569657e85af093e3"
     }
+  },
+  {
+    "artifactId": "or-portland-charter-2-1",
+    "url": "https://www.portland.gov/charter/2/1",
+    "provider": "City of Portland",
+    "jurisdictionKey": "US-OR",
+    "enactingBody": "City of Portland electorate",
+    "instrumentKind": "charter",
+    "instrumentTitle": "Portland City Charter, Article 1 The Council",
+    "localPath": "data/source/municipal-governance/raw/or-portland-charter-2-1.html",
+    "enacted": {
+      "regions": [
+        {
+          "beginsWith": "The City Council of the City of Portland consists of twelve (12) Councilors. There are four (4) City Council districts. Each district is represented by three (3) Councilors. The Mayor is not a member of Council.",
+          "endsWith": "The City Council of the City of Portland consists of twelve (12) Councilors. There are four (4) City Council districts. Each district is represented by three (3) Councilors. The Mayor is not a member of Council."
+        },
+        {
+          "beginsWith": "All regular and special meetings of the Council shall be public. The Council meets the first week of January following each general election and thereafter meets at the time and place fixed by ordinance. The Council shall keep a journal of its proceedings which shall be a public record.",
+          "endsWith": "All regular and special meetings of the Council shall be public. The Council meets the first week of January following each general election and thereafter meets at the time and place fixed by ordinance. The Council shall keep a journal of its proceedings which shall be a public record."
+        },
+        {
+          "beginsWith": "At any meeting of the Council seven (7) Councilors constitute a quorum, but a lesser number may adjourn or recess from time to time, and may compel the attendance of absent members.",
+          "endsWith": "At any meeting of the Council seven (7) Councilors constitute a quorum, but a lesser number may adjourn or recess from time to time, and may compel the attendance of absent members."
+        }
+      ],
+      "length": 681,
+      "sha256": "06199526669ae0fc957a2b000024147fc69ce001d605c7b4ae27b1603be3d65a"
+    }
+  },
+  {
+    "artifactId": "or-portland-charter-1-101",
+    "url": "https://www.portland.gov/charter/1/all-articles",
+    "provider": "City of Portland",
+    "jurisdictionKey": "US-OR",
+    "enactingBody": "City of Portland electorate",
+    "instrumentKind": "charter",
+    "instrumentTitle": "Portland City Charter, Section 1-101 corporate identity",
+    "localPath": "data/source/municipal-governance/raw/or-portland-charter-1-101.html",
+    "enacted": {
+      "regions": [
+        {
+          "beginsWith": "The municipal corporation now existing and known as the City of Portland shall remain and continue a body politic and corporate by the name of the City of Portland,",
+          "endsWith": "The municipal corporation now existing and known as the City of Portland shall remain and continue a body politic and corporate by the name of the City of Portland,"
+        }
+      ],
+      "length": 164,
+      "sha256": "757c2354e1a1574c6fcce99eb587e02a054ec9036c7ef4531d1fb95af1121648"
+    }
+  },
+  {
+    "artifactId": "or-portland-charter-2-101",
+    "url": "https://www.portland.gov/charter/2/1/101",
+    "provider": "City of Portland",
+    "jurisdictionKey": "US-OR",
+    "enactingBody": "City of Portland electorate",
+    "instrumentKind": "charter",
+    "instrumentTitle": "Portland City Charter, Section 2-101 Municipal Powers Allocation",
+    "localPath": "data/source/municipal-governance/raw/or-portland-charter-2-101.html",
+    "enacted": {
+      "regions": [
+        {
+          "beginsWith": "The municipal powers and authority of the City are vested as follows: legislative and quasi-judicial authority is vested in the City Council and executive and administrative authority is vested in the Mayor, subject to the initiative and referendum and other powers reserved to the people by the constitution of the State of Oregon as defined and prescribed by the provisions of the constitution and general laws relating thereto, and by any more specific allocation set forth in this Charter.",
+          "endsWith": "The municipal powers and authority of the City are vested as follows: legislative and quasi-judicial authority is vested in the City Council and executive and administrative authority is vested in the Mayor, subject to the initiative and referendum and other powers reserved to the people by the constitution of the State of Oregon as defined and prescribed by the provisions of the constitution and general laws relating thereto, and by any more specific allocation set forth in this Charter."
+        }
+      ],
+      "length": 493,
+      "sha256": "33b8616eafa2cef63464035c6fc2f5acbc0bc4bb2965a6722b28c747c8cce914"
+    }
+  },
+  {
+    "artifactId": "or-portland-charter-2-110",
+    "url": "https://www.portland.gov/charter/2/1/110",
+    "provider": "City of Portland",
+    "jurisdictionKey": "US-OR",
+    "enactingBody": "City of Portland electorate",
+    "instrumentKind": "charter",
+    "instrumentTitle": "Portland City Charter, Section 2-110 Organization",
+    "localPath": "data/source/municipal-governance/raw/or-portland-charter-2-110.html",
+    "enacted": {
+      "regions": [
+        {
+          "beginsWith": "At its first regular meeting each calendar year, or oftener at its option, the Council shall elect a President and Vice President by majority vote of those present. The President shall preside at all meetings of the Council. In the President's absence or incapacity, the Vice President of the Council shall perform the duties of the President.",
+          "endsWith": "At its first regular meeting each calendar year, or oftener at its option, the Council shall elect a President and Vice President by majority vote of those present. The President shall preside at all meetings of the Council. In the President's absence or incapacity, the Vice President of the Council shall perform the duties of the President."
+        }
+      ],
+      "length": 343,
+      "sha256": "d0aeb933b9ab0eec155b9c3d25d37694d4be7e0a1c842ccd44713023f339b7bd"
+    }
+  },
+  {
+    "artifactId": "dc-code-1-102",
+    "url": "https://code.dccouncil.gov/us/dc/council/code/sections/1-102",
+    "provider": "Council of the District of Columbia, D.C. Law Library",
+    "jurisdictionKey": "US-DC",
+    "enactingBody": "United States Congress",
+    "instrumentKind": "statute",
+    "instrumentTitle": "D.C. Code § 1-102 District created body corporate for municipal purposes",
+    "localPath": "data/source/municipal-governance/raw/dc-code-1-102.html",
+    "enacted": {
+      "regions": [
+        {
+          "beginsWith": "The District is created a government by the name of the “District of Columbia,” by which name it is constituted a body corporate for municipal purposes,",
+          "endsWith": "The District is created a government by the name of the “District of Columbia,” by which name it is constituted a body corporate for municipal purposes,"
+        }
+      ],
+      "length": 156,
+      "sha256": "4e375ff3aa0e3803f3c96de8714e313049ccf7994b789bba2ded236857980e9d"
+    }
+  },
+  {
+    "artifactId": "dc-code-1-204-01",
+    "url": "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.01",
+    "provider": "Council of the District of Columbia, D.C. Law Library",
+    "jurisdictionKey": "US-DC",
+    "enactingBody": "United States Congress",
+    "instrumentKind": "statute",
+    "instrumentTitle": "D.C. Code § 1-204.01 Creation and membership",
+    "localPath": "data/source/municipal-governance/raw/dc-code-1-204-01.html",
+    "enacted": {
+      "regions": [
+        {
+          "beginsWith": "There is established a Council of the District of Columbia; and the members of the Council shall be elected by the registered qualified electors of the District.",
+          "endsWith": "There is established a Council of the District of Columbia; and the members of the Council shall be elected by the registered qualified electors of the District."
+        },
+        {
+          "beginsWith": "The Council established under subsection (a) of this section shall consist of 13 members elected on a partisan basis. The Chairman and 4 members shall be elected at large in the District, and 8 members shall be elected 1 each from the 8 election wards established, from time to time, under Chapter 10 of this title .",
+          "endsWith": "The Council established under subsection (a) of this section shall consist of 13 members elected on a partisan basis. The Chairman and 4 members shall be elected at large in the District, and 8 members shall be elected 1 each from the 8 election wards established, from time to time, under Chapter 10 of this title ."
+        }
+      ],
+      "length": 478,
+      "sha256": "bf39cba487f5a8be86a9c144a707954f5bfd59db76c03743807cfd21fb6c03e5"
+    }
+  },
+  {
+    "artifactId": "dc-code-1-204-21",
+    "url": "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.21",
+    "provider": "Council of the District of Columbia, D.C. Law Library",
+    "jurisdictionKey": "US-DC",
+    "enactingBody": "United States Congress",
+    "instrumentKind": "statute",
+    "instrumentTitle": "D.C. Code § 1-204.21 Office of Mayor",
+    "localPath": "data/source/municipal-governance/raw/dc-code-1-204-21.html",
+    "enacted": {
+      "regions": [
+        {
+          "beginsWith": "There is established the Office of Mayor of the District of Columbia; and the Mayor shall be elected by the registered qualified electors of the District.",
+          "endsWith": "There is established the Office of Mayor of the District of Columbia; and the Mayor shall be elected by the registered qualified electors of the District."
+        }
+      ],
+      "length": 154,
+      "sha256": "d58ad4936e953efe6fb61db2f96cd45fb3c2a21530471ce555b46473a4dc9eb3"
+    }
+  },
+  {
+    "artifactId": "dc-code-1-204-22",
+    "url": "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.22",
+    "provider": "Council of the District of Columbia, D.C. Law Library",
+    "jurisdictionKey": "US-DC",
+    "enactingBody": "United States Congress",
+    "instrumentKind": "statute",
+    "instrumentTitle": "D.C. Code § 1-204.22 Executive identity",
+    "localPath": "data/source/municipal-governance/raw/dc-code-1-204-22.html",
+    "enacted": {
+      "regions": [
+        {
+          "beginsWith": "The executive power of the District shall be vested in the Mayor who shall be the chief executive officer of the District government.",
+          "endsWith": "The executive power of the District shall be vested in the Mayor who shall be the chief executive officer of the District government."
+        }
+      ],
+      "length": 133,
+      "sha256": "1622254f3f114fb99862035b29eb6527d2925ed48ad9467dbb9e47496e010418"
+    }
+  },
+  {
+    "artifactId": "dc-code-1-207-71",
+    "url": "https://code.dccouncil.gov/us/dc/council/code/sections/1-207.71",
+    "provider": "Council of the District of Columbia, D.C. Law Library",
+    "jurisdictionKey": "US-DC",
+    "enactingBody": "United States Congress",
+    "instrumentKind": "statute",
+    "instrumentTitle": "D.C. Code § 1-207.71 Effective dates",
+    "localPath": "data/source/municipal-governance/raw/dc-code-1-207-71.html",
+    "enacted": {
+      "regions": [
+        {
+          "beginsWith": "Sections 1-207.12, 1-207.13, 1-207.14, and 1-207.15 of subchapter VII, and section 1-204.01(b) of subchapter IV, and subchapter II shall take effect July 1, 1974, except that any provision thereof which in effect transfer authority to appoint any citizen member of the National Capital Planning Commission of the District of Columbia Redevelopment Land Agency shall take effect January 2, 1975.",
+          "endsWith": "Sections 1-207.12, 1-207.13, 1-207.14, and 1-207.15 of subchapter VII, and section 1-204.01(b) of subchapter IV, and subchapter II shall take effect July 1, 1974, except that any provision thereof which in effect transfer authority to appoint any citizen member of the National Capital Planning Commission of the District of Columbia Redevelopment Land Agency shall take effect January 2, 1975."
+        },
+        {
+          "beginsWith": "Subchapter III and IV, except § 1-204.01(b) of subchapter IV, shall take effect January 2, 1975, if subchapter IV is accepted by a majority of the registered qualified electors in the District of Columbia voting on the charter issue in the charter referendum.",
+          "endsWith": "Subchapter III and IV, except § 1-204.01(b) of subchapter IV, shall take effect January 2, 1975, if subchapter IV is accepted by a majority of the registered qualified electors in the District of Columbia voting on the charter issue in the charter referendum."
+        }
+      ],
+      "length": 655,
+      "sha256": "5a4fded6574f954107281cfc851e6f5473dc0667ee3c2620f2b3d91481564359"
+    }
   }
 ]

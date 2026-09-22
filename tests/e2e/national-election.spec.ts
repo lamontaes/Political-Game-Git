@@ -32,12 +32,15 @@ await import('/tests/e2e/national-election-browser-entry.tsx');
   await units.focus();
   await page.keyboard.press("Enter");
   await expect(units).toHaveAttribute("aria-expanded", "false");
-  const summary = view.getByText("Rules and sources", { exact: true });
+  const summary = view.getByText("How the electors are counted", {
+    exact: true,
+  });
   await summary.focus();
   await page.keyboard.press("Enter");
+  await expect(view).toContainText("Allocation version");
   await expect(
     view.getByRole("link", { name: "National Archives allocation" }),
-  ).toBeVisible();
+  ).toHaveCount(0);
   const pure = await page.evaluate(() => {
     const state = window as unknown as {
       __s30Before: string;

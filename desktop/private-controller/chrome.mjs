@@ -58,16 +58,13 @@ function renderChooser(state) {
     ...previews.map((item) => item.branch),
     ...(showTechnical ? technical.map((item) => item.branch) : []),
   ]);
-  if (previews.length) children.push(group("Feature previews", previews));
+  if (previews.length) children.push(group("Previews", previews));
   if (showTechnical && technical.length)
-    children.push(group("Technical branches", technical));
+    children.push(group("Other versions", technical));
   // A selection outside the visible groups is still shown, never dropped.
   if (!listed.has(want)) children.push(option(want, `Selected · ${want}`));
   children.push(
-    option(
-      TECHNICAL,
-      showTechnical ? "Hide technical branches" : "Show technical branches…",
-    ),
+    option(TECHNICAL, showTechnical ? "Hide older versions" : "More versions…"),
   );
   track.replaceChildren(...children);
   track.value = want;
@@ -120,7 +117,8 @@ function render(state) {
   } else if (!state.selectedBuilt) {
     // The choice stays; what is on screen is named until the first build lands.
     html += `<strong>Preparing ${esc(item.title)}</strong>`;
-    if (state.phase?.message) html += ` · ${esc(state.phase.message)}`;
+    if (state.phase?.message && showDetails)
+      html += ` · ${esc(state.phase.message)}`;
     if (state.loaded)
       html += ` · still showing ${esc(state.loaded.title)}${
         state.loaded.revision
@@ -138,7 +136,17 @@ function render(state) {
     // message is what actually happened, so it stays visible.
     // A stale "already the current build" message must not sit beside a
     // missing payload; the reason above is the only true reading then.
-    const note = state.phase?.message ?? update.detail ?? update.message;
+    const detail = state.phase?.message ?? update.detail ?? update.message;
+    const note = showDetails
+      ? detail
+      : update.kind === "failed" &&
+          /private art pack|incompatible source/i.test(detail ?? "")
+        ? "The update needs matching artwork. Your current game is still available."
+        : update.kind === "failed"
+          ? "The update could not finish. Your current game is still available."
+          : update.kind === "offline"
+            ? "Could not reach GitHub. Try again when connected."
+            : null;
     if (note && !missing && update.kind !== "current")
       html += ` · ${esc(note)}`;
   }
