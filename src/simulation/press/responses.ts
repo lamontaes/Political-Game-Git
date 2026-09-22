@@ -264,11 +264,14 @@ function respond(
     considerations: [
       {
         stableKey: "press:what-they-learned",
+        // Each role leans toward an option it actually has: staff keep
+        // working, the party and the family ask. ("maintain-support" is a
+        // staff option only; offering it to a relative threw.)
         optionKey: input.publicFinding
           ? "distance"
-          : input.role === "party"
-            ? "request-explanation"
-            : "maintain-support",
+          : input.role === "staff"
+            ? "maintain-support"
+            : "request-explanation",
         sourceType: "context:own-knowledge",
         direction: "supports",
         importance: "moderate",
