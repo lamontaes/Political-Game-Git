@@ -3,7 +3,7 @@ import {
   generateQuickCharacterHistory,
   type CharacterHistoryPlan,
   type CharacterHistoryTransition,
-  type ContextBirthDateVersion,
+  type ChildhoodGenerationVersion,
 } from "./character-history";
 import { dateAtAge } from "./dates";
 import {
@@ -34,7 +34,7 @@ export function generateContextualCharacterHistory(
     readonly givenNameGenerationVersion?: GivenNameGenerationVersion;
     // Forwarded the same way: the parent, peer and teacher keep the birth
     // dates the legacy constructor gives them.
-    readonly contextBirthDateVersion?: ContextBirthDateVersion;
+    readonly childhoodGenerationVersion?: ChildhoodGenerationVersion;
   },
 ): CharacterHistoryPlan {
   // Existing canonical background wins, including older school/work records.

@@ -31,8 +31,8 @@ function grownStart(seed: string, withSpread: boolean) {
       DEFAULT_NEW_GAME_SETUP.givenNameGenerationVersion,
     ...(withSpread
       ? {
-          contextBirthDateVersion:
-            DEFAULT_NEW_GAME_SETUP.contextBirthDateVersion,
+          childhoodGenerationVersion:
+            DEFAULT_NEW_GAME_SETUP.childhoodGenerationVersion,
         }
       : {}),
   });
@@ -58,7 +58,7 @@ const yearsOlder = (older: IsoDate, younger: IsoDate) =>
 
 describe("the people a summarized childhood meets have birthdays of their own", () => {
   it("a new game declares the spread", () => {
-    expect(DEFAULT_NEW_GAME_SETUP.contextBirthDateVersion).toBeDefined();
+    expect(DEFAULT_NEW_GAME_SETUP.childhoodGenerationVersion).toBeDefined();
   });
 
   it("puts nobody on the player's birthday, and keeps each in their role", () => {

@@ -7,7 +7,7 @@ import {
 import {
   defaultPronounsForGender,
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
-  SPREAD_CONTEXT_BIRTH_DATE_VERSION,
+  CHILDHOOD_GENERATION_V2,
   generationInputsFor,
   lifePlaceByKey,
   questionnaireLength,
@@ -174,10 +174,11 @@ export interface NewGameSetup {
   /** New lives use contextual history; missing preserves legacy replays. */
   readonly earlierLifeGenerationVersion?: "context-v2";
   /**
-   * Absent keeps the fixed birth dates a summarized childhood gave its parent,
-   * classmate and teacher before the repair; New Game stamps the spread.
+   * Absent keeps the childhood a replay was written under: fixed birth dates
+   * for the parent, classmate and teacher, and "<town> public school" for a
+   * child who starts in school. New Game stamps the repair.
    */
-  readonly contextBirthDateVersion?: typeof SPREAD_CONTEXT_BIRTH_DATE_VERSION;
+  readonly childhoodGenerationVersion?: typeof CHILDHOOD_GENERATION_V2;
   readonly questionnaireCopyVersion?: "playtest65-v2";
   /** Explicit creation lineage, preserved in replays; absent keeps historical defaults. */
   readonly appearanceCatalogGeneration?: number;
@@ -226,7 +227,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   givenNameGenerationVersion: DISTINCT_GIVEN_NAME_GENERATION_VERSION,
   // A classmate born on the player's own birthday, in every save, was the
   // fixed offset this replaces.
-  contextBirthDateVersion: SPREAD_CONTEXT_BIRTH_DATE_VERSION,
+  childhoodGenerationVersion: CHILDHOOD_GENERATION_V2,
   // OFF, deliberately, and not removed. `context-v2` declines to write a
   // school or a job into a grown character's summarized past on the grounds
   // that the game should not invent a biography nobody chose. Measured cost of
@@ -459,9 +460,9 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
       setup.appearanceRecipeVersion ?? LEGACY_APPEARANCE_RECIPE_VERSION,
     givenNameGenerationVersion: setup.givenNameGenerationVersion,
     earlierLifeGenerationVersion: setup.earlierLifeGenerationVersion,
-    ...(setup.contextBirthDateVersion === undefined
+    ...(setup.childhoodGenerationVersion === undefined
       ? {}
-      : { contextBirthDateVersion: setup.contextBirthDateVersion }),
+      : { childhoodGenerationVersion: setup.childhoodGenerationVersion }),
     ...(setup.appearanceCatalogGeneration === undefined
       ? {}
       : { appearanceCatalogGeneration: setup.appearanceCatalogGeneration }),

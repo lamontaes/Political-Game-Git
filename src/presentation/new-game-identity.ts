@@ -9,7 +9,7 @@ import {
   SETUP_BANK_VERSION,
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
   LEGACY_GIVEN_NAME_GENERATION_VERSION,
-  SPREAD_CONTEXT_BIRTH_DATE_VERSION,
+  CHILDHOOD_GENERATION_V2,
 } from "../simulation";
 import type {
   GenderIdentityKey,
@@ -220,9 +220,9 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
     ...(setup.earlierLifeGenerationVersion === undefined
       ? {}
       : { earlierLifeGenerationVersion: setup.earlierLifeGenerationVersion }),
-    ...(setup.contextBirthDateVersion === undefined
+    ...(setup.childhoodGenerationVersion === undefined
       ? {}
-      : { contextBirthDateVersion: setup.contextBirthDateVersion }),
+      : { childhoodGenerationVersion: setup.childhoodGenerationVersion }),
     ...(setup.birthYear === undefined ? {} : { birthYear: setup.birthYear }),
     ...(setup.openingDataVersion === undefined
       ? {}
@@ -363,8 +363,8 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   )
     return null;
   if (
-    record.contextBirthDateVersion !== undefined &&
-    record.contextBirthDateVersion !== SPREAD_CONTEXT_BIRTH_DATE_VERSION
+    record.childhoodGenerationVersion !== undefined &&
+    record.childhoodGenerationVersion !== CHILDHOOD_GENERATION_V2
   )
     return null;
   if (
@@ -439,9 +439,9 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     ...(record.earlierLifeGenerationVersion === undefined
       ? {}
       : { earlierLifeGenerationVersion: "context-v2" as const }),
-    ...(record.contextBirthDateVersion === undefined
+    ...(record.childhoodGenerationVersion === undefined
       ? {}
-      : { contextBirthDateVersion: SPREAD_CONTEXT_BIRTH_DATE_VERSION }),
+      : { childhoodGenerationVersion: CHILDHOOD_GENERATION_V2 }),
     ...(appearanceRecipeVersion === undefined
       ? {}
       : { appearanceRecipeVersion: appearanceRecipeVersion as string }),

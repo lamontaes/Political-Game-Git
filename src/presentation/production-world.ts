@@ -2,7 +2,12 @@ import {
   generateContextualCharacterHistory,
   type EarlierLifeGenerationVersion,
 } from "../simulation/contextual-character-history";
-import type { ContextBirthDateVersion } from "../simulation/character-history";
+import {
+  CHILDHOOD_GENERATION_V2,
+  type ChildhoodGenerationVersion,
+} from "../simulation/character-history";
+import { residentNameForJurisdiction } from "../simulation/life-places";
+import { generateSchoolNames } from "../simulation/school-names";
 import { LEGACY_COHERENT_CATALOG_GENERATION } from "../simulation/person-appearance";
 import {
   guardianAgeBand,
@@ -129,8 +134,8 @@ export interface ProductionWorldInput {
   readonly givenNameGenerationVersion?: GivenNameGenerationVersion;
   /** Absent preserves the original school/work history in replay descriptors. */
   readonly earlierLifeGenerationVersion?: EarlierLifeGenerationVersion;
-  /** Absent keeps the fixed childhood birth-date offsets in old replays. */
-  readonly contextBirthDateVersion?: ContextBirthDateVersion;
+  /** Absent keeps an old replay's childhood birth dates and school name. */
+  readonly childhoodGenerationVersion?: ChildhoodGenerationVersion;
 }
 
 export interface ProductionWorld {
@@ -230,7 +235,7 @@ export function buildProductionWorld(
     input.familyStructureSeed ?? input.seed,
     input.givenNameGenerationVersion ?? LEGACY_GIVEN_NAME_GENERATION_VERSION,
     input.earlierLifeGenerationVersion,
-    input.contextBirthDateVersion,
+    input.childhoodGenerationVersion,
   );
   if (input.startingLife === "legislative-office") {
     world = employInLegislativeOffice(world, player.id, place);
@@ -328,7 +333,7 @@ function establishAgeEligibleState(
   familyStructureSeed: string,
   givenNameGenerationVersion: GivenNameGenerationVersion,
   earlierLifeGenerationVersion?: EarlierLifeGenerationVersion,
-  contextBirthDateVersion?: ContextBirthDateVersion,
+  childhoodGenerationVersion?: ChildhoodGenerationVersion,
 ): World {
   const jurisdictionId = place.context.jurisdiction.id;
   const age = ageOnDate(player.birthDate, world.currentDate);
@@ -394,7 +399,7 @@ function establishAgeEligibleState(
       jurisdictionId,
       givenNameGenerationVersion,
       earlierLifeGenerationVersion,
-      contextBirthDateVersion,
+      childhoodGenerationVersion,
     );
     transitions.push({
       kind: "household-membership",
@@ -811,7 +816,13 @@ function establishAgeEligibleState(
           formedAt: enrolledOn,
           provenance: PROVENANCE,
           initialProfile: {
-            name: `${place.displayName} public school`,
+            name: childSchoolName(
+              world,
+              place,
+              jurisdictionId,
+              age,
+              childhoodGenerationVersion,
+            ),
             classification: "sector:education",
             locationJurisdictionId: jurisdictionId,
           },
@@ -980,7 +991,7 @@ function summarizeEarlierLife(
   jurisdictionId: EntityId,
   givenNameGenerationVersion: GivenNameGenerationVersion,
   version?: EarlierLifeGenerationVersion,
-  contextBirthDateVersion?: ContextBirthDateVersion,
+  childhoodGenerationVersion?: ChildhoodGenerationVersion,
 ): World {
   const stableKey = "production:earlier-life";
   const generateHistory =
@@ -994,9 +1005,9 @@ function summarizeEarlierLife(
       personId: player.id,
       jurisdictionId,
       givenNameGenerationVersion,
-      ...(contextBirthDateVersion === undefined
+      ...(childhoodGenerationVersion === undefined
         ? {}
-        : { contextBirthDateVersion }),
+        : { childhoodGenerationVersion }),
     }),
   ).world;
   return applyCharacterHistoryPlan(next, {
@@ -1049,6 +1060,36 @@ function summarizeEarlierLife(
  * silently pointing at nothing.
  */
 /** The same calendar year arithmetic the character-history writer uses. */
+/**
+ * The school a child who starts in school attends. The legacy name was the
+ * place with "public school" after it ("Ely, Nevada public school"), which is
+ * not what anybody calls a school. Under the childhood repair it is a generated
+ * name for the level the child is at now, drawn through the same generator and
+ * stem the summarized adult history uses, so a town's schools read alike.
+ */
+function childSchoolName(
+  world: World,
+  place: LifePlace,
+  jurisdictionId: EntityId,
+  age: number,
+  version: ChildhoodGenerationVersion | undefined,
+): string {
+  if (version !== CHILDHOOD_GENERATION_V2) {
+    return `${place.displayName} public school`;
+  }
+  const jurisdiction = world.jurisdictions[jurisdictionId];
+  const names = generateSchoolNames(
+    new SeededRng(world.seed).fork("production-world-v1:child-school"),
+    residentNameForJurisdiction(
+      jurisdiction?.name ?? place.displayName,
+      jurisdiction?.parentName ?? null,
+    ),
+  );
+  // The ages the summarized history enrolls at: middle school from eleven,
+  // high school from fourteen.
+  return age >= 14 ? names.high : age >= 11 ? names.middle : names.elementary;
+}
+
 function yearsBefore(date: IsoDate, years: number): IsoDate {
   return `${(Number(date.slice(0, 4)) - years).toString().padStart(4, "0")}${date.slice(4)}` as IsoDate;
 }

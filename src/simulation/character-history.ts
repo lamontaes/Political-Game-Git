@@ -2214,7 +2214,7 @@ export function generateQuickCharacterHistory(
      * written under: a classmate born on the player's own birthday, a parent
      * exactly 28 years older to the day and a teacher exactly 30.
      */
-    readonly contextBirthDateVersion?: ContextBirthDateVersion;
+    readonly childhoodGenerationVersion?: ChildhoodGenerationVersion;
   },
 ): CharacterHistoryPlan {
   const person = requirePerson(world, input.personId);
@@ -2286,7 +2286,7 @@ export function generateQuickCharacterHistory(
   const bornBefore = contextBirthDates(
     person.birthDate,
     rng,
-    input.contextBirthDateVersion,
+    input.childhoodGenerationVersion,
   );
   const contextPeople: readonly {
     readonly kind: "context-person";
@@ -3255,12 +3255,13 @@ function moderateTimeDemand(
 }
 
 /**
- * The version that gives the parent, classmate and teacher of a summarized
- * childhood birthdays of their own. Declared by a new game; a replay that never
- * named it keeps the fixed offsets it was written under.
+ * The childhood repair a new game declares. Under it the parent, classmate and
+ * teacher of a summarized childhood get birthdays of their own, and a child who
+ * starts in school attends a school with a generated name rather than "<town>
+ * public school". A replay that never named it keeps what it was written under.
  */
-export const SPREAD_CONTEXT_BIRTH_DATE_VERSION = "context-birth-dates-v2";
-export type ContextBirthDateVersion = typeof SPREAD_CONTEXT_BIRTH_DATE_VERSION;
+export const CHILDHOOD_GENERATION_V2 = "childhood-v2";
+export type ChildhoodGenerationVersion = typeof CHILDHOOD_GENERATION_V2;
 
 /**
  * Birth dates for the three people a summarized childhood meets.
@@ -3275,13 +3276,13 @@ export type ContextBirthDateVersion = typeof SPREAD_CONTEXT_BIRTH_DATE_VERSION;
 function contextBirthDates(
   birthDate: IsoDate,
   rng: SeededRng,
-  version: ContextBirthDateVersion | undefined,
+  version: ChildhoodGenerationVersion | undefined,
 ): {
   readonly parent: IsoDate;
   readonly peer: IsoDate;
   readonly teacher: IsoDate;
 } {
-  if (version !== SPREAD_CONTEXT_BIRTH_DATE_VERSION) {
+  if (version !== CHILDHOOD_GENERATION_V2) {
     return {
       parent: yearsBefore(birthDate, 28),
       peer: birthDate,
