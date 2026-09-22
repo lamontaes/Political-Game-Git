@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 
 /** Feature-leaf proof on the identified repository server; A owns ordinary Politics mounting. */
 test("national supplied-results view separates stages and activates controls by pointer and keyboard", async ({

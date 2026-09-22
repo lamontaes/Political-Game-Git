@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
 import { enterLife, openMoment, saveLife, startLife } from "./support/creator";
 
 /**
