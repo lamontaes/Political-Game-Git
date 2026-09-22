@@ -33,7 +33,7 @@ import { createOrganization, createOrganizationParticipation } from "./life";
 import { publicPartyAffiliation } from "./living-world/congress";
 import { homePartyChapters } from "./living-world/party-chapters";
 import type { HomePartyChapter } from "./living-world/party-chapters";
-import { drawCanonicalName, personName } from "./people";
+import { drawCanonicalNamedIdentity, personName } from "./people";
 import { generatePersonIdentity } from "./person-identity";
 import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
 import { positionOwnerEndpoint, resourcePositionAt } from "./resource-queries";
@@ -354,12 +354,15 @@ function ensureOpponent(
   const leadRng = new SeededRng(world.seed).fork(
     `campaign-opponent-field-lead:${leadKey}`,
   );
-  const leadName = drawCanonicalName(leadRng.fork("name"));
+  const lead = drawCanonicalNamedIdentity(
+    leadRng.fork("name"),
+    generatePersonIdentity(leadRng.fork("identity")),
+  );
   next = createCharacterHistoryContextPerson(next, {
     stableKey: leadKey,
-    givenName: leadName.givenName,
-    familyName: leadName.familyName,
-    identity: generatePersonIdentity(leadRng.fork("identity")),
+    givenName: lead.givenName,
+    familyName: lead.familyName,
+    identity: lead.identity,
     birthDate: makeIsoDate(
       `${Number(date.slice(0, 4)) - leadRng.integer(24, 61)}-${String(leadRng.integer(1, 13)).padStart(2, "0")}-${String(leadRng.integer(1, 29)).padStart(2, "0")}`,
     ),
