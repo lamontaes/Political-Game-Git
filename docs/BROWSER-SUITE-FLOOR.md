@@ -298,6 +298,64 @@ that the two are deliberately asserted separately in
 collapsing them would let one path silently adopt the other's sentence without
 a test noticing.
 
+### Two ways this repository's run data lies, and one claim of mine it cost
+
+Measured 2026-09-22 11:32Z, at the job level, on main's run `35711551223`
+(head `35e7b81a`). Recorded here because this document is the closest thing
+the lanes have to a manual for reading this repository's CI.
+
+**A retraction first.** At 11:30Z I wrote, and told the coordinator, that main
+had had no CI verdict at all since `7fc33c85` — nine merges, nine runs, every
+one cancelled with zero jobs allocated. A merge hold went out across every lane
+on the strength of it. The three runs I opened were accurately measured and
+the conclusion did not follow: I listed eight runs, all from 10:48Z onward, and
+generalised to all of main. The run that carries main's verdict was created at
+09:38Z, older than the page I looked at. The hold has been lifted.
+
+What that run actually says about main at `35e7b81a`: **unit shards 1, 2, 3, 5
+and 6 green**, unit 4 executing, `repository` red for the declaration defect
+#370 fixed, browser 8, 1 and 2 red and finished, browser 5 and 4 executing,
+browser 6, 7 and 3 still queued. Unit shard 2 is the shard that had been red on
+main, so that is the campaign-projection fix passing on main rather than on a
+local run or a release tree.
+
+**The run-level `status` field lies in both directions.** That executing run,
+with six completed jobs, reads `queued`. A run whose every job was cancelled
+reads `queued`. A completed run reads `queued` and then refuses cancellation
+with a 409. So "N runs are queued" counts nothing, and no number taken from
+that field belongs in a report.
+
+**`get_workflow_run_usage` returns `total_ms: 0` for every job here**,
+thirty-minute ones included. It is tempting as a cheap "has anything executed
+in this run" probe, and it would have said main's live verdict was safe to
+cancel. It must not appear in the sweep procedure.
+
+### A gate that was silent for a reason unrelated to what it checks
+
+Relayed from the art/client lane through the coordinator, 2026-09-22; recorded
+here because it is the same lesson as this suite's order-dependence, in a
+different system.
+
+"Documents only, so no release declaration" is not a valid exemption.
+`scripts/release/transition.ts:238` treats every changed path outside
+`docs/release/changes/` as eligible, with no source-versus-documentation
+distinction, so past the legacy cutoff any range that changes anything and
+carries no declaration fails `release:check`. Main's `repository` job went red
+for exactly that, on a range holding two documentation files and nothing else.
+
+The part worth keeping is why it had not bitten sooner. Merges making that
+claim passed because their ranges happened to contain **another lane's**
+declaration. The gate agreed for a reason that had nothing to do with what it
+was checking — which is the shape of every order-dependent result in this
+suite, where a case passes or fails on what else happened to be running beside
+it. A green that depends on a neighbour is not a green about you. Fixed in
+#370; the one line when it happens is
+`npm run release:declare -- <id> --impact none` with a one-line internal
+reason.
+
+Two things this lane's own merges do not rest on: both #365 and #368 carried
+their own declaration, checked against their merge ranges rather than assumed.
+
 ## 7. The browser failures on main were already on main
 
 Measured 2026-09-22. CI's `browser (6, 8)` shard on main at `7fc33c85`, the
