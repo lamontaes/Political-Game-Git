@@ -15,12 +15,15 @@ import {
 } from "../presentation/campaign-strategy";
 import type {
   CampaignActionKind,
+  DistrictSeatBinding,
   EntityId,
   FutureTransitionHandlerRegistry,
   MoneyAmount,
   World,
 } from "../simulation";
+import { districtSeatMustBeNamed } from "../simulation";
 import { CampaignLifePanel } from "./CampaignLifePanel";
+import { DistrictResidencePanel } from "./DistrictResidencePanel";
 import { CampaignWeekPanel } from "./CampaignWeekPanel";
 import { projectCampaignWeekPanel } from "../presentation/campaign-life-surface";
 import {
@@ -162,6 +165,20 @@ export function CampaignWorkspace({
     null,
   );
   const [selectedSpending, setSelectedSpending] = useState<string | null>(null);
+  // Which numbered seat the player has named. A seat whose rules ask where the
+  // candidate lives cannot be filed for from a state-wide choice alone, so the
+  // filing button waits for this rather than sending null and being refused.
+  const [districtBinding, setDistrictBinding] =
+    useState<DistrictSeatBinding | null>(null);
+  const person = world.people[personId] ?? null;
+  const needsDistrict =
+    person !== null &&
+    selectedOffice !== null &&
+    districtSeatMustBeNamed(
+      person.homeJurisdictionId,
+      selectedOffice.officeKey,
+      world.currentDate,
+    );
 
   function run<T>(work: () => T, apply: (value: T) => void) {
     try {
@@ -174,7 +191,13 @@ export function CampaignWorkspace({
 
   function file() {
     run(
-      () => fileForOffice(world, personId, null, selectedOfficeKey),
+      () =>
+        fileForOffice(
+          world,
+          personId,
+          needsDistrict ? districtBinding : null,
+          selectedOfficeKey,
+        ),
       (next) => onWorldChange(next),
     );
   }
@@ -321,6 +344,7 @@ export function CampaignWorkspace({
                           checked={selectedOfficeKey === office.officeKey}
                           onChange={() => {
                             setSelectedOfficeKey(office.officeKey);
+                            setDistrictBinding(null);
                             setProblem(null);
                           }}
                         />
@@ -411,11 +435,22 @@ export function CampaignWorkspace({
               ? `There is a ${selectedOffice.title} to be filled${view.placeName ? ` in ${view.placeName}` : ""}. Nobody has asked ${view.candidateName} to stand for it. That is not usually how it starts.`
               : "Choose one of the offices above to see whether you can file for it."}
           </p>
+          {needsDistrict && selectedOffice ? (
+            <DistrictResidencePanel
+              world={world}
+              personId={personId}
+              officeKey={selectedOffice.officeKey}
+              onWorldChange={onWorldChange}
+              onBindingChange={setDistrictBinding}
+            />
+          ) : null}
           <button
             type="button"
             data-testid="file-candidacy"
             className="game-campaign-action"
-            disabled={!selectedOffice?.eligible}
+            disabled={
+              !selectedOffice?.eligible || (needsDistrict && !districtBinding)
+            }
             onClick={file}
           >
             <span className="game-campaign-action-label">Put your name in</span>

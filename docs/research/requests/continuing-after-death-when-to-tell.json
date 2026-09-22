@@ -1,4 +1,13 @@
 {
+  "answer": {
+    "answeredAt": "2026-09-22T05:35:39.000Z",
+    "answeredBy": "lamontae",
+    "finding": "Settled by the owner, and none of the three shapes is the answer. He decided that succession will be explained at the beginning, in a tutorial that does not exist yet: 'the death/succession thing will be explained in the beginning in a still to be made tutorial.' That removes the question from research — it is not a thing to go and find out, it is a decision he has made — and turns it into future work on a tutorial that has not been built. This record is withdrawn rather than answered by a researcher, and is kept so the same question is not filed again in six weeks. Nothing was built toward it.",
+    "sources": [
+      "lamontae, in the project timeline, 2026-09-22T05:35:39Z: 'the death/succession thing will be explained in the beginning in a still to be made tutorial.'"
+    ],
+    "stillOpen": "What the tutorial says, and when it gets built. That is work, not research, and belongs on a board rather than in this queue."
+  },
   "filedAt": "2026-09-22T05:35:00.000Z",
   "impact": "shapes-design",
   "lane": "playtest",
