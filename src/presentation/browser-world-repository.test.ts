@@ -1815,3 +1815,55 @@ describe("MORNING23 durable appearance migration", () => {
     expect((await store.list()).saves).toHaveLength(2);
   });
 });
+
+it("discards a queued autosave without deleting the earlier saved life", async () => {
+  const factory = new FakeIndexedDbFactory();
+  const store = new BrowserSaveStore({
+    indexedDB: factory.asFactory(),
+    databaseName: "discard-queued",
+  });
+  const world = playerWorld("discard-queued");
+  const saveId = store.newSaveId(world);
+  await store.save(world, saveId);
+  const changed = withRecordedEvent(world, "discard-queued:unsaved");
+  const pending = store.autosave(changed, saveId);
+  await store.discardPending(saveId);
+  await pending;
+  expect(store.unsavedWork()).toEqual([]);
+  expect(await store.load(saveId)).toEqual(world);
+  expect((await store.list()).saves).toHaveLength(1);
+});
+
+it("discards a failed autosave while its retry is waiting, without resurrecting it", async () => {
+  const factory = new FakeIndexedDbFactory();
+  let retryReached!: () => void;
+  let releaseRetry!: () => void;
+  const waiting = new Promise<void>((resolve) => {
+    retryReached = resolve;
+  });
+  const retry = new Promise<void>((resolve) => {
+    releaseRetry = resolve;
+  });
+  const store = new BrowserSaveStore({
+    indexedDB: factory.asFactory(),
+    databaseName: "discard-retry",
+    delay: () => {
+      retryReached();
+      return retry;
+    },
+  });
+  const world = playerWorld("discard-retry");
+  const saveId = store.newSaveId(world);
+  await store.save(world, saveId);
+  factory.control.failNext("put");
+  const pending = store.autosave(
+    withRecordedEvent(world, "discard-retry:unsaved"),
+    saveId,
+  );
+  await waiting;
+  const discarded = store.discardPending(saveId);
+  releaseRetry();
+  await Promise.all([pending, discarded]);
+  expect(await store.load(saveId)).toEqual(world);
+  expect(store.unsavedWork()).toEqual([]);
+});

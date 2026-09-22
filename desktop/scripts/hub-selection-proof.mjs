@@ -179,7 +179,7 @@ let s = await hub.state();
 check("main plays first", s.loaded?.track === "main", JSON.stringify(s.loaded));
 const chooser = await hub.chrome.evaluate(() => window.ocdHub.branches());
 check(
-  "Game build chooser lists Main game first with feature previews",
+  "Game version chooser lists Main game first with feature previews",
   chooser.ok &&
     chooser.chooser.main.title === "Main game (recommended)" &&
     chooser.chooser.previews.some(

@@ -1,21 +1,57 @@
 {
   "asOf": "2026-09-08",
-  "canonicalSha256": "21a77a8bd5d0c5c4f1e9008ca770c8c67f9dcc4d9986be4cb2ec6fcd32b924d9",
+  "canonicalSha256": "034c648a8846406bffca13c52df1daf4e9238ce6f48d645fcafa22265c71b205",
   "compiler": {
     "name": "municipal-governance",
     "version": "3.0.0"
   },
   "corpusId": "municipal-governance",
   "coverage": {
-    "boundedSampleReason": "The tranche is bounded by publication, not by government. Virginia and Nevada publish municipal charters themselves as enacted acts in retrievable first-party HTML; most states do not, and their charters sit on city sites as PDFs or behind commercial code publishers that refuse a non-browser client. The wider national institutional corpus stays a fixture for exactly that reason.",
+    "boundedSampleReason": "Coverage is limited to reviewed, acquired and compiled enacted provisions for these named governments. Uncompiled fields remain unresolved; national research transcriptions remain separate and this is not nationwide coverage.",
     "isCompleteUniverse": false,
-    "universeDescription": "Three municipal governments — Charlottesville and Richmond in Virginia and Carson City in Nevada — compiled from the enacted text of their own charters and, where the charter delegates the rule, the Code of Virginia sections that carry it. Chosen for structural difference: a manager plan whose council elects its own mayor, an elected chief-executive mayor with a veto, and a consolidated municipality whose board contains its mayor."
+    "universeDescription": "Five scoped local-government records: Charlottesville and Richmond, Virginia; Carson City, Nevada; Portland, Oregon; and the District of Columbia. Compiled from locked enacted-text excerpts; supported fields differ by record and do not imply complete operative profiles."
   },
   "inputClass": "production",
   "inputs": [
     {
       "artifactId": "or-portland-charter-2-102",
       "sha256": "981cd6eda56b4c315a5cba11da35a32bc0b53c0259e4806a1ec56a57ae3d6b88"
+    },
+    {
+      "artifactId": "or-portland-charter-2-1",
+      "sha256": "2ca428f3fb524d4ae85ab98fefebe4eb49f1ee53572a1de19058979429071e32"
+    },
+    {
+      "artifactId": "or-portland-charter-1-101",
+      "sha256": "dadc1c84397ba5202fb011d1be46ce044ec3e319ee61583c87892e910ee0a049"
+    },
+    {
+      "artifactId": "or-portland-charter-2-101",
+      "sha256": "4ae6a6fbbe480a5b6c0b50e0518f3cd6114ab4c5eee2395bc2daf4fd2ddfb325"
+    },
+    {
+      "artifactId": "or-portland-charter-2-110",
+      "sha256": "afb4508f368aa5727044dacf719f92b81d71060c64fe64e43e77014edc853c31"
+    },
+    {
+      "artifactId": "dc-code-1-102",
+      "sha256": "5a3a02f6db287fa9b17526fb4cc750b7dac68b23112ae0c2aaf64f7fbbf40ade"
+    },
+    {
+      "artifactId": "dc-code-1-204-01",
+      "sha256": "94bd904f583bc748165f5f28a00b73cf2c089e0621c61f3e7ce65002bd5634df"
+    },
+    {
+      "artifactId": "dc-code-1-204-21",
+      "sha256": "8f0917bf9d7453a634978c0e1216a7a2b1ca5e9d2a9d22d00369f5c87e462a95"
+    },
+    {
+      "artifactId": "dc-code-1-204-22",
+      "sha256": "94b0b108229b7bc7cce0f77f4f7124aef1e0ba8c941738814e466f153aa0b9a3"
+    },
+    {
+      "artifactId": "dc-code-1-207-71",
+      "sha256": "39f50dc3171bac97daac328ea64b04159cb9560bd15babc8a205daff4ced6623"
     },
     {
       "artifactId": "va-charlottesville-charter",
@@ -50,5 +86,5 @@
     "name": "municipal-governance-enacted-text",
     "version": "1.0.0"
   },
-  "recordCount": 4
+  "recordCount": 5
 }

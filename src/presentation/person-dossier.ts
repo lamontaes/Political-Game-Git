@@ -1,3 +1,4 @@
+import { proseDate } from "./prose-dates";
 import { organizationRefLabel } from "./organization-ref";
 import {
   ageOnDate,
@@ -11,6 +12,7 @@ import {
   peopleInHouseholdAt,
   personName,
   scheduledActivitiesVisibleTo,
+  type PersonAppearance,
   type EntityId,
   type World,
 } from "../simulation";
@@ -60,6 +62,20 @@ export interface PersonDossier {
   readonly relationship: string | null;
   /** The record that established it. Developer-facing. */
   readonly relationshipBasis: string;
+  readonly howYouKnowThem: string | null;
+  readonly appearance: PersonAppearance | null;
+  readonly sharedHistory: readonly {
+    readonly id: EntityId;
+    readonly date: string;
+    readonly dateLabel: string;
+    readonly summary: string;
+  }[];
+  readonly publicCareer: readonly {
+    readonly eventId: EntityId;
+    readonly date: string;
+    readonly dateLabel: string;
+    readonly summary: string;
+  }[];
   readonly age: number | null;
   /** True only when this moment's scene puts them in the room. */
   readonly presentNow: boolean;
@@ -91,29 +107,7 @@ function describeInteraction(
     ? summary.interactionCount === 1
       ? "You have spoken once."
       : `You have spoken ${summary.interactionCount} times.`
-    : `You last spoke on ${readableRecordDate(when)}.`;
-}
-
-const RECORD_MONTHS = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
-/** "2001-01-28" as "January 28, 2001"; the stored date stays ISO. */
-function readableRecordDate(date: string): string {
-  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date);
-  const month = match ? RECORD_MONTHS[Number(match[2]) - 1] : undefined;
-  return match && month ? `${month} ${Number(match[3])}, ${match[1]}` : date;
+    : `You last spoke on ${proseDate(when)}.`;
 }
 
 /**
@@ -337,6 +331,49 @@ export function projectPersonDossier(
     relationship: context?.relationship ?? null,
     relationshipBasis:
       context?.basis ?? "No record establishes a relationship.",
+    howYouKnowThem: context?.relationship ?? null,
+    appearance: subject.appearance ?? null,
+    sharedHistory: world.history.relationshipInteractions
+      .filter(
+        (record) =>
+          record.personIds.includes(playerId) &&
+          record.personIds.includes(personId) &&
+          record.occurredAt <= world.currentDate,
+      )
+      .map((record) => ({
+        id: record.id,
+        date: record.occurredAt,
+        dateLabel: proseDate(record.occurredAt),
+        summary: record.summary,
+      })),
+    publicCareer: world.history.events
+      .filter(
+        (event) =>
+          event.visibility === "public" &&
+          (event.type === "world.office-tenure" ||
+            event.type === "world.legislative-seat-tenure") &&
+          event.occurredAt <= world.currentDate &&
+          event.participants.some(
+            (participant) =>
+              participant.personId === personId &&
+              participant.role === "focus:subject",
+          ),
+      )
+      .map((event) => ({
+        eventId: event.id,
+        date: event.occurredAt,
+        dateLabel: proseDate(event.occurredAt),
+        summary: (() => {
+          const office = event.participants.find(
+            (participant) =>
+              participant.personId === personId &&
+              participant.role === "focus:subject",
+          )?.detail;
+          return office
+            ? `Took office as ${office}.`
+            : event.summary.replace(/ in this fictional world\./g, ".");
+        })(),
+      })),
     age: ageOnDate(subject.birthDate, world.currentDate),
     presentNow: options.presentNow ?? false,
     rightNow: options.rightNow ?? null,
