@@ -215,6 +215,21 @@ jobs:
       - name: Enumerate this browser shard
         run: node --import tsx scripts/dev-lab/write-e2e-shard-inventory.ts ${{ matrix.shard }} ${{ matrix.total }}
 
+      # The packet is generated output and is no longer committed, and its
+      # spec skips itself when the file is absent. Without this the assertion
+      # would quietly stop running in CI, so the shard that carries the spec
+      # builds the packet first. Every other shard skips the work.
+      - name: Generate the prose review packet when this shard carries its spec
+        shell: bash
+        run: |
+          set -euo pipefail
+          inventory="test-results/runs/${PG_RUN_ID:?}/shard-inventory.json"
+          if grep -q 'prose-review-packet.spec.ts' "$inventory"; then
+            npm run corpus:prose
+          else
+            echo "This shard does not carry the packet spec; nothing to build."
+          fi
+
       - name: Run Run A and Run B browser proofs
         run: npx playwright test --shard=${{ matrix.shard }}/${{ matrix.total }}
 
