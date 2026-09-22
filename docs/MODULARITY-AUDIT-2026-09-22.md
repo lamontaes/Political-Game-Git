@@ -347,6 +347,13 @@ connected graph, and "unlock propositions" is really "unlock domains, issues and
 propositions together". The empty production catalogue itself passes the
 boundary, as it should.
 
+Confirmed from a second direction by the playtest lane, and re-checked here:
+the boundary is not a construction-time check. `world.ts:549` calls it from
+`validateWorldIntegrity` whenever the world's lineage is `production`, so a
+production world carrying a proposition fails validation however it arrived —
+built, edited later, or deserialized from a tampered save. There is no route
+that sneaks one past by loading rather than creating.
+
 **What this costs, and why it is worth naming.** The three writers the playtest
 lane identified — `evaluatePoliticalBeliefFormation`
 (`src/simulation/political-belief-formation.ts:80`), `recordPublicPosition`
@@ -489,10 +496,25 @@ live code; the type and the counts above were re-verified here on main.)_
   silently fighting over election day is failing **silently**, which is the thing
   his rule forbids. A collision here has to be said out loud, not absorbed.
 
-  **Open, with the owner as of 2026-09-22:** when two packs claim the same
-  transition key, does the game skip the second and report it, or refuse the
-  second pack outright? Both satisfy "say so"; they differ in whether a partly
-  working pack loads. _(Corrected 2026-09-22 after the fix-main lane re-measured
+  **Answered 2026-09-22 — skip the second and say so; do not refuse the second
+  pack.** Recorded as a decision with its reasoning rather than as settled fact:
+  it was taken by the coordinating session applying the owner's standing rule
+  ("Ignore it and say so. That shouldn't hold the game back."), and he has not
+  confirmed it himself yet. The reasoning: a collision on one key is exactly the
+  unknown-content case, so the piece is skipped, the reason is stated, and
+  everything else that pack brought keeps working. Refusing the whole pack makes
+  one overlap cost the player every other thing in it, which is the failure
+  shape ruled against each time it has come up, and it is not the RimWorld
+  behaviour named as the target.
+
+  Two conditions carried with it, both of which this audit endorses on its own
+  evidence. The skip must be **visible** — named on a surface a player or modder
+  can read, carrying both pack names and the key, not silently logged; a
+  silent skip is precisely the defect shape recorded elsewhere in this document.
+  And the resolution **order must be stated and stable** rather than incidental,
+  so the same two packs resolve the same way on every load and a modder can
+  predict which one wins. Today the order is argument order at one composition
+  root, which is stable only because one author controls it. _(Corrected 2026-09-22 after the fix-main lane re-measured
   an earlier, wrong version of this finding; every claim above was re-verified
   here.)_
 
