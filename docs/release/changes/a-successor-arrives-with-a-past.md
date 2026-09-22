@@ -17,3 +17,7 @@ was.
 Nothing is added for someone whose childhood is already on record, such as the
 character's own children, for anyone under eighteen, or for anyone older than
 the oldest age a new character can start at.
+
+A new character born on the 29th of February could not have an earlier life
+written for them, and starting such a life failed. It now works, with their
+parent's and teacher's birthdays falling on the 28th in years without a 29th.

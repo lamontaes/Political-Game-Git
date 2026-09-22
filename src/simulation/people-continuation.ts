@@ -621,11 +621,11 @@ export function establishSuccessorBackground(
   const memberships = world.history.householdMemberships.filter(
     (membership) => membership.personId === personId,
   );
-  const firstState = (membershipId: EntityId) =>
-    householdMembershipStateHistory(world, membershipId)[0];
+  const states = (membershipId: EntityId) =>
+    householdMembershipStateHistory(world, membershipId);
   if (
-    memberships.some(
-      (membership) => firstState(membership.id)?.kind === "resident:child",
+    memberships.some((membership) =>
+      states(membership.id).some((state) => state.kind === "resident:child"),
     )
   ) {
     return world;
@@ -635,8 +635,8 @@ export function establishSuccessorBackground(
   const jurisdictionId = person.homeJurisdictionId;
   const adulthood = dateAtAge(person.birthDate, 18);
   const earliestHome = memberships
-    .filter(
-      (membership) => firstState(membership.id)?.residenceRole === "primary",
+    .filter((membership) =>
+      states(membership.id).some((state) => state.residenceRole === "primary"),
     )
     .map((membership) => membership.startedAt)
     .sort()[0];
@@ -659,17 +659,41 @@ export function establishSuccessorBackground(
     personId,
     jurisdictionId,
   });
+  // Schooling already on record stays the only record of that stage: a
+  // classmate written into somebody else's childhood is already enrolled in
+  // that high school, and is not also enrolled in a second one the same day.
+  const schooled = new Set(
+    world.history.educationEnrollments
+      .filter((enrollment) => enrollment.personId === personId)
+      .map((enrollment) => enrollment.programKind),
+  );
+  const alreadySchooled = new Set(
+    generatedPlan.transitions.flatMap((transition) =>
+      transition.kind === "education" &&
+      transition.input.personId === personId &&
+      schooled.has(transition.input.programKind)
+        ? [transition.input.stableKey]
+        : [],
+    ),
+  );
   let next = applyCharacterHistoryPlan(world, {
     ...generatedPlan,
-    transitions: childhoodHome
-      ? generatedPlan.transitions
-      : generatedPlan.transitions.filter(
-          (transition) =>
-            !(
-              transition.kind === "household-membership" &&
-              transition.input.stableKey === `${stableKey}:household:child`
-            ),
-        ),
+    transitions: generatedPlan.transitions.filter((transition) => {
+      if (
+        !childhoodHome &&
+        transition.kind === "household-membership" &&
+        transition.input.stableKey === `${stableKey}:household:child`
+      ) {
+        return false;
+      }
+      if (transition.kind === "education") {
+        return !alreadySchooled.has(transition.input.stableKey);
+      }
+      if (transition.kind === "education-state") {
+        return !alreadySchooled.has(transition.input.enrollmentStableKey);
+      }
+      return true;
+    }),
   }).world;
   const ownHome = `${stableKey}:own-household`;
   next = applyCharacterHistoryPlan(next, {

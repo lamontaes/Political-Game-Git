@@ -2,7 +2,12 @@ import { describe, expect, it } from "vitest";
 
 import {
   assertWorldIntegrity,
+  createCharacterHistoryContextPerson,
   deserializeWorld,
+  drawCanonicalName,
+  generatePersonIdentity,
+  makeIsoDate,
+  SeededRng,
   serializeWorld,
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
@@ -145,6 +150,50 @@ describe("a successor taken up from somebody else's history", () => {
         k.personIds.includes(playerId),
       ),
     ).toBe(true);
+    assertWorldIntegrity(next);
+  });
+
+  it("keeps a classmate's schooling as the only schooling on record", () => {
+    const { world, playerId } = retiredAdult();
+    const peerId = contextPerson(world, "peer");
+    const secondary = (w: World) =>
+      w.history.educationEnrollments.filter(
+        (e) => e.personId === peerId && e.programKind === "schooling:secondary",
+      );
+    expect(secondary(world)).toHaveLength(1);
+    const next = continueAs(world, playerId, peerId);
+    expect(parentsOf(next, peerId)).toHaveLength(1);
+    // Still one high school, the one they shared with the player.
+    expect(secondary(next).map((e) => e.id)).toEqual(
+      secondary(world).map((e) => e.id),
+    );
+    // The stages nobody had written are there.
+    expect(
+      next.history.educationEnrollments.filter(
+        (e) =>
+          e.personId === peerId && e.programKind === "schooling:elementary",
+      ),
+    ).toHaveLength(1);
+    assertWorldIntegrity(next);
+  });
+
+  it("gives somebody born on the 29th of February a past too", () => {
+    // Their generated teacher is thirty years older, in a year with no 29th of
+    // February; before, that date was refused and the hand-off threw.
+    const { world } = retiredAdult();
+    const stableKey = "successor-background:leap-born";
+    const rng = new SeededRng(stableKey);
+    const withLeapBorn = createCharacterHistoryContextPerson(world, {
+      stableKey,
+      ...drawCanonicalName(rng.fork("name")),
+      identity: generatePersonIdentity(rng.fork("identity")),
+      birthDate: makeIsoDate("1976-02-29"),
+      homeJurisdictionId:
+        world.people[world.personOrder[0]!]!.homeJurisdictionId,
+    });
+    const personId = characterHistoryContextPersonId(withLeapBorn, stableKey);
+    const next = establishSuccessorBackground(withLeapBorn, personId);
+    expect(parentsOf(next, personId)).toHaveLength(1);
     assertWorldIntegrity(next);
   });
 
