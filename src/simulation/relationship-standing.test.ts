@@ -62,13 +62,16 @@ function log(
 }
 
 describe("relationship standing", () => {
-  it("does not fade with time, because absence is not a choice either person made", () => {
+  it("applies no fading of its own, since the pace is not answered yet", () => {
     /*
-     * The ruling this asserts is explicit in the 2026-09-22 research return,
-     * section 11: "No passive relationship decay is introduced. Actual repeated
-     * choices can matter; the absence of a required screen visit is not one of
-     * those choices." Two worlds with the same conduct and thirty years between
-     * them must read identically.
+     * THIS TEST IS EXPECTED TO CHANGE. lamontae ruled on 2026-09-22 that
+     * relationships should fade with absence and that the fading must not read
+     * as a number; the shape is with ChatGPT as
+     * `relationship-fading-with-absence`. Until that answer lands, this file
+     * must not invent a pace of its own, and two worlds with the same conduct
+     * and thirty-odd years between them read identically. When the answer
+     * arrives this becomes a test of the fading it specifies, per line, rather
+     * than a test that there is none.
      */
     let recent = bareWorld("standing-no-decay");
     let distant = bareWorld("standing-no-decay");

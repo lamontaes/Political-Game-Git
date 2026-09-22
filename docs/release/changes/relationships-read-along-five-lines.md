@@ -19,6 +19,8 @@ them do something about it, and being owed something survives falling out.
 The person card now says where the player stands in a sentence of plain words,
 where before it said only when they last spoke.
 
-Nothing fades with time, which is the standing rule and not an omission: a
+Nothing fades with absence yet. The owner ruled on 2026-09-22 that it should,
+and that it must not read as a number; the shape of that fading is with ChatGPT
+and lands on top of these five lines rather than replacing them. Until then a
 friendship that has not been in view for thirty years reads exactly as it did,
 and what changes a relationship is what the two people do.

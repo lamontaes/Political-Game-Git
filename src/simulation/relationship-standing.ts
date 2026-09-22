@@ -22,15 +22,24 @@ import type {
  * standings. Deleting this file would remove a reading, not a system, and any
  * save written before it existed reads correctly through it.
  *
- * NOTHING HERE FADES WITH TIME. That is not an omission. The research return of
- * 2026-09-22, section 11, states it directly: "No passive relationship decay is
- * introduced. Actual repeated choices can matter; the absence of a required
- * screen visit is not one of those choices." `people-contact.ts` says the same
- * thing in its own words. A friendship that has not been in view for thirty
- * years is still a friendship; what changes it is what the two of them do, and
- * a gap is a fact the other person may weigh rather than a number counting
- * down. Relationships are nonetheless neither automatic nor permanent, because
- * every line below moves on recorded conduct in both directions.
+ * NOTHING HERE FADES WITH TIME YET, AND THAT IS A GAP RATHER THAN THE RULE.
+ *
+ * The research return of 2026-09-22 section 11 ruled passive decay out — "No
+ * passive relationship decay is introduced. Actual repeated choices can matter;
+ * the absence of a required screen visit is not one of those choices" — and
+ * `people-contact.ts` was written on that. lamontae reversed it the same day:
+ * he does want relationships to fade with absence, and it must not read as a
+ * number. The shape is with ChatGPT as `relationship-fading-with-absence`.
+ *
+ * So this file applies no fading because the pace has not been answered, not
+ * because fading is wrong. Do not invent one here. When the answer lands it
+ * lands as a rule per line — it is entirely plausible that warmth fades, that
+ * what is owed does not, and that an unsettled quarrel does neither — and the
+ * one thing worth carrying over from the old rule is its reasoning: a player
+ * not opening a screen is not a choice their character made.
+ *
+ * Relationships are already neither automatic nor permanent, because every line
+ * below moves on recorded conduct in both directions.
  */
 
 /** The five lines a relationship is read along. */
