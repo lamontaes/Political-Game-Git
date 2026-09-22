@@ -52,6 +52,7 @@ import {
   type StoryFamily,
   type StoryLeadRecord,
 } from "./records";
+import { editorialHeadline, editorialParagraphs } from "./editorial";
 import {
   appendPressRecord,
   pressRecordsOfKind,
@@ -1097,10 +1098,10 @@ export function composeStory(
   const paragraphs: string[] = [];
   let unattributedAssertion = false;
   for (const event of publicBasis) {
-    // The body keeps the record's sentence. Only the headline is written for a
-    // reader, because a paragraph the record wrote is still the record's words
-    // and rewriting every one of them is where invention starts.
-    paragraphs.push(event.summary);
+    // The record's own sentence, placed and dated for this outlet's readers,
+    // then what the World holds that puts it in context (editorial.ts). No
+    // quote, reaction or cause is written for it.
+    paragraphs.push(...editorialParagraphs(world, event, outlet));
   }
   for (const contribution of contributions) {
     const agreement = requirePressRecord(
@@ -1167,7 +1168,9 @@ export function composeStory(
     : null;
   if (status) paragraphs.push(status);
   const leadEvent = publicBasis[0] ?? basis[0]!;
-  const lead0 = headlineFor(world, leadEvent, outlet);
+  const lead0 =
+    editorialHeadline(world, leadEvent) ??
+    headlineFor(world, leadEvent, outlet);
   const headline =
     lead.family === "follow-up"
       ? `Update: ${lead0}`
