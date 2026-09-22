@@ -1,0 +1,28 @@
+{
+  "filedAt": "2026-09-22T20:55:00.000Z",
+  "impact": "shapes-design",
+  "lane": "consequences for corruption and laws",
+  "notes": [
+    "The game now applies placeholder values, marked unresearched in src/simulation/press/findings.ts (UNRESEARCHED_FINDING_EFFECTS): 300 basis points (3 points of a two-way share) lost at a finding or conciliation, 150 at a supported report from a review with no sanction power, and a smaller starting position in any race filed within six years. These are the values to replace.",
+    "Money is already grounded: a finding or conciliation about campaign money taken for personal use orders that exact amount repaid. What is missing is civil penalty schedules; none is applied because none is researched.",
+    "ChatGPT's C04 answer (stress-test connection answers) settled the procedure side: separate act, allegation, evidence, finding and consequence, and no fixed conviction odds. This asks only for the size of the electoral consequence once a finding is public."
+  ],
+  "priority": "P1",
+  "question": "When an official ethics body makes a public adverse finding against a candidate for state or federal office (a finding of violation, a conciliation agreement, or a published report substantiating the complaint), how much vote share does that candidate typically lose in the race under way, how long does the effect persist into later races, and what civil penalties do the FEC and the twenty-four researched state ethics bodies actually impose for personal use of campaign funds?",
+  "questionId": "ethics-finding-electoral-magnitudes",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Consequences for corruption and laws thread",
+  "sourcesChecked": [
+    {
+      "source": "chatgpt-stress-test-answers-2026-09-22, C04 (scandals) and C27 (production boundary)",
+      "whatItDidNotSettle": "Settles who can bring a matter and how it proceeds, and explicitly leaves rates and disposition percentages open. Says nothing about the vote-share cost of a finding or its persistence."
+    },
+    {
+      "source": "src/simulation/press/state-ethics-bodies.ts (24 researched bodies)",
+      "whatItDidNotSettle": "Names each body and its proceeding. Several rows note that no penalty magnitude is selected ('No administrative penalty magnitude is selected for game balancing'), so no fine can be applied."
+    }
+  ],
+  "title": "How much a public ethics finding costs a candidate, and what fines apply",
+  "usableAnswer": "Three numbers with sources: (1) typical vote-share loss, in percentage points, for a candidate with a public adverse ethics finding during the race, ideally split between a formal finding and a substantiating report; (2) how that effect decays over later elections, as a half-life or a window in years; (3) per researched body, the civil penalty range for personal use of campaign funds, or a statement that the body has no fining power.",
+  "whyItMatters": "Until 2026-09-22 a finding against the player moved no vote, cost no money and changed no relationship. It now does, at placeholder sizes. Without researched sizes the consequence is either trivial or crushing, and every finding in every state costs the same."
+}

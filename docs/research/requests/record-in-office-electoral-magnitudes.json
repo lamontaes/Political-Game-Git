@@ -1,0 +1,27 @@
+{
+  "filedAt": "2026-09-22T20:55:00.000Z",
+  "impact": "shapes-design",
+  "lane": "consequences for corruption and laws",
+  "notes": [
+    "The game now starts a sitting governor ahead or behind in a new race by 60 weight per percentage point that unemployment fell or rose during their term, capped at 150 on a starting draw of 850 to 1150 (UNRESEARCHED_RECORD_IN_OFFICE in src/simulation/record-in-office.ts). These are the values to replace.",
+    "The owner asked, 2026-09-22 ~20:22Z, whether a fantastic governor can win people over and a bad one lose votes. This is the first piece of that; issue-by-issue voting against the policy catalogue is a separate, larger piece."
+  ],
+  "priority": "P1",
+  "question": "How strongly does the state economy during a governor's term (unemployment change, income growth, inflation) predict the governor's or their party's vote share when they next stand, and which measure do voters respond to most? Separately, how large is the incumbency advantage for governors and state legislators, before economic conditions are considered?",
+  "questionId": "record-in-office-electoral-magnitudes",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Consequences for corruption and laws thread",
+  "sourcesChecked": [
+    {
+      "source": "chatgpt-stress-test-answers-2026-09-22, C05 (performance, opinion and partisan aggregation)",
+      "whatItDidNotSettle": "Says aggregation should come from people and participation rather than a painted map. Gives no size for economic voting or incumbency."
+    },
+    {
+      "source": "src/simulation/campaigns.ts recordInitialSupport",
+      "whatItDidNotSettle": "Before this change it read nothing about a candidate's record: a seeded draw plus a first-time filer handicap."
+    }
+  ],
+  "title": "How much a governor's economic record moves their vote",
+  "usableAnswer": "The change in vote share (percentage points) per percentage point change in state unemployment over the term, and per point of real income growth, with the study it comes from; whether voters weigh the last year more than the whole term; and the typical incumbency advantage in points for governors and for state legislators.",
+  "whyItMatters": "Nothing an officeholder did counted when they ran again. Now the economy on their watch does, at a placeholder size. Too small and governing doesn't matter to reelection; too large and one bad draw ends a career."
+}
