@@ -358,6 +358,22 @@ function durationMonths(
         label: `${count} month${count === 1 ? "" : "s"}`,
       };
     }
+    // The research transport does not agree with itself about how to write a
+    // duration. Ohio's two chambers carry a compiler token rather than a
+    // phrase, and both were read from a real provision, so both are read here.
+    // Found by the playtesting lane; before this the token parsed as nothing,
+    // the row stayed unevaluated, and an unevaluated row is a block -- so Ohio
+    // refused every candidate on district residence for a reason that was
+    // about our transport rather than about them. The same shape as Nebraska
+    // and Minnesota, in a third place.
+    const token = /^RESIDENT_(\d+)_YEARS?$/i.exec(text);
+    if (token) {
+      const count = Number(token[1]);
+      return {
+        months: count * 12,
+        label: `${count} year${count === 1 ? "" : "s"}`,
+      };
+    }
   }
   return null;
 }

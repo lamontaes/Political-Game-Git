@@ -280,6 +280,35 @@ describe("production-compiled office qualification rules", () => {
     }
   });
 
+  it("reads a residence requirement written as a compiler token", () => {
+    // Ohio's two chambers carry "RESIDENT_1_YEAR" rather than a phrase. Before
+    // this was read, the row was unevaluated -- and an unevaluated row is a
+    // block, so Ohio refused every candidate on district residence for a
+    // reason about our transport rather than about them.
+    const world = createScenarioWorld(
+      "qualification-token",
+      LEXINGTON_DEMO_CONTEXT,
+      { peopleCount: 3 },
+    );
+    const person = world.people[world.personOrder[0]!]!;
+    const onDate = makeIsoDate("2026-11-03");
+    const district = (districtResidenceSince: string) =>
+      assessOfficeQualifications({
+        person,
+        stateJurisdictionKey: "US-OH",
+        officeFamily: "LOWER_CHAMBER" as const,
+        stateResidenceSince: makeIsoDate("2000-01-01"),
+        districtResidenceSince: makeIsoDate(districtResidenceSince),
+        onDate,
+      }).find((assessment) => assessment.field === "DISTRICT_RESIDENCE");
+
+    expect(district("2000-01-01")?.verdict).toBe("meets");
+    expect(district("2026-10-01")?.verdict).toBe("fails");
+    // The token is not shown to a player; the duration it stands for is.
+    expect(district("2026-10-01")?.reason).toContain("1 year");
+    expect(district("2026-10-01")?.reason).not.toContain("RESIDENT_1_YEAR");
+  });
+
   it("does not apply a later current-source observation to an earlier life", () => {
     const earlier = officeQualifications(
       "US-NE",
