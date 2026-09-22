@@ -22,6 +22,7 @@ import {
   createWorkItem,
   workPendingEntriesFor,
 } from "./time-work";
+import { settleLivingCosts } from "./cost-of-living";
 import { recordWorldEvent } from "./world";
 import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
 
@@ -72,6 +73,7 @@ export const LIFE_OPPORTUNITY_KINDS = [
   "meeting-agenda-item",
   "candidacy-approach",
   "returning-favour",
+  "household-shortfall",
 ] as const;
 
 export type LifeOpportunityKind = (typeof LIFE_OPPORTUNITY_KINDS)[number];
@@ -88,6 +90,9 @@ export const LIFE_OPPORTUNITY_ANSWERING_KEY: Readonly<
   "meeting-agenda-item": "adult.local-issue-position",
   "candidacy-approach": "adult.candidacy-approach",
   "returning-favour": "adult.old-favour-returns",
+  // Written by the weekly living costs in `cost-of-living.ts`, not by the
+  // candidate writer below: the first week a life cannot cover.
+  "household-shortfall": "adult.household-money-shortfall",
 };
 
 /**
@@ -115,6 +120,7 @@ export const LIFE_OPPORTUNITY_REPEATABLE: Readonly<
   "meeting-agenda-item": false,
   "candidacy-approach": false,
   "returning-favour": false,
+  "household-shortfall": false,
 };
 
 export const LIFE_OPPORTUNITY_TAG_PREFIX = "life.opportunity:";
@@ -497,6 +503,7 @@ export function refreshLifeOpportunities(
   if (formativeIntervalAt(world, personId) !== null) return world;
 
   let next = replenishHouseholdWeek(world, personId);
+  next = settleLivingCosts(next, personId);
   next = writeNextOpportunity(next, personId);
   return next;
 }
