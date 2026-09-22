@@ -248,10 +248,22 @@ export function checkDeclarationTransition(
     eligiblePaths.length > 0 &&
     declarationPaths.length === 0
   ) {
+    // Name the files. A count tells a lane that something is undeclared and
+    // leaves it to go and find what; the list tells it what to write the
+    // declaration about. Measured 2026-09-22: this refusal fired on #392
+    // before the merge and again on the post-merge release run, and the
+    // merge commit still recorded that a declaration was not required —
+    // a reading the count alone did nothing to correct.
+    const shown = eligiblePaths.slice(0, 10);
+    const rest =
+      eligiblePaths.length > shown.length
+        ? ` and ${eligiblePaths.length - shown.length} more`
+        : "";
     problems.push(
       `Post-rollout eligible change ${comparisonBase}..${head} modifies ` +
         `${eligiblePaths.length} non-declaration path(s) but adds or changes no declaration in ${CHANGES_DIR}. ` +
-        `Declare impact: patch, minor, or explicit none.`,
+        `Declare impact: patch, minor, or explicit none. ` +
+        `The undeclared path(s): ${shown.join(", ")}${rest}.`,
     );
   }
 
