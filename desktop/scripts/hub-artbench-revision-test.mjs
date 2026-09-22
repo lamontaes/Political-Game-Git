@@ -159,6 +159,26 @@ const view = async (desk, id) => {
   );
   await desk.getByTestId("art-desk-candidate-preview").scrollIntoViewIfNeeded();
 };
+const openCard = async (desk, requestId) => {
+  for (const tab of [
+    "needs-review",
+    "in-progress",
+    "approved",
+    "in-game",
+    "rejected",
+    "requests",
+    "discussion",
+    "archived",
+  ]) {
+    await desk.getByTestId(`art-desk-tab-${tab}`).click();
+    const row = desk.getByTestId(`art-desk-row-${requestId}`);
+    if ((await row.count()) > 0) {
+      await row.click();
+      return;
+    }
+  }
+  throw new Error(`No visible Art Desk section contains ${requestId}`);
+};
 try {
   let { chrome, desk } = await launch();
   await chrome.getByRole("tab", { name: "Play", exact: true }).click();
@@ -172,11 +192,13 @@ try {
   );
   report.checks.push("Play and build selector remain available");
   await chrome.getByRole("tab", { name: "Art Desk", exact: true }).click();
-  await desk.getByTestId("art-desk-tab-library").click();
-  await desk.getByTestId("art-desk-row-playtest65-resolute-desk").click();
+  assert.equal(await desk.getByTestId("art-desk-tab-library").count(), 0);
+  assert.equal(await desk.getByTestId("art-desk-tab-references").count(), 0);
+  report.checks.push("Library and Style references tabs are absent");
+  await openCard(desk, "playtest65-resolute-desk");
   await view(desk, deskId);
   await desk.screenshot({ path: path.join(root, "desk.png") });
-  await desk.getByTestId("art-desk-row-playtest65-white-house-opening").click();
+  await openCard(desk, "playtest65-white-house-opening");
   await view(desk, originalId);
   await desk.screenshot({ path: path.join(root, "original.png") });
   await view(desk, parentId);

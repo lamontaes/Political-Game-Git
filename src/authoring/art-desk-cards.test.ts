@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { candidateUsage, type SelectedArtBuild } from "./art-desk-usage";
 
 import {
+  ART_DESK_NAV_TABS,
   artDeskCards,
   generationRequestReady,
   candidateNotes,
@@ -22,6 +23,11 @@ import {
   type EditKind,
   type TagSet,
 } from "./artbench";
+
+it("owner navigation omits the library and style-reference buckets", () => {
+  expect(ART_DESK_NAV_TABS.map((tab) => tab.key)).not.toContain("library");
+  expect(ART_DESK_NAV_TABS.map((tab) => tab.key)).not.toContain("references");
+});
 
 let seq = 0;
 function ingest(
@@ -393,6 +399,16 @@ describe("Art Desk cards", () => {
     expect(card.change.length).toBeLessThanOrEqual(140);
     expect(card.change.startsWith("UPSCALE")).toBe(false);
     expect(conciseChange(undefined)).toBe("No version delivered yet.");
+  });
+
+  it("labels imported rows that predate edit-kind recording as versions", () => {
+    const legacy = ingest("cand-legacy-stage", "other");
+    delete (legacy.payload as { editKind?: unknown }).editKind;
+    const view = projection([legacy]);
+    const card = artDeskCards(view)[0]!;
+    expect(card.title).toContain("version");
+    expect(card.title).not.toContain("undefined");
+    expect(viewedCandidateView(card, view, null).stage).toBe("version");
   });
 });
 
