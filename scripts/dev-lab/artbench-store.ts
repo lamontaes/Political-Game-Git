@@ -1652,15 +1652,23 @@ export class ArtbenchStore {
   ): void {
     const done = this.syncState.batches[batchId] ?? {};
     let changed = false;
-    const ingested: string[] = [];
-    const rejected: { item: string; reason: string }[] = [];
+    // An item whose file has not arrived yet. It gets no `done` entry, so the
+    // next pass tries it again; a file that is present and unusable does get
+    // one, because that will never become true on its own.
+    const deferred: string[] = [];
     for (const item of items) {
       const itemId = item.itemId ?? item.file;
       if (!itemId || done[itemId]) continue;
       const file = realFileInside(folder, item.file ?? "");
-      if (!file || !existsSync(file) || !IMAGE_EXT.test(file)) {
-        done[itemId] = "rejected:missing-or-not-image";
-        rejected.push({ item: itemId, reason: "missing or not an image file" });
+      if (file && !existsSync(file)) {
+        // The manifest names it and it is not here yet. A sender that writes
+        // its manifest before its payload announces a batch that is still
+        // uploading, and the only honest reading of that is "not yet".
+        deferred.push(itemId);
+        continue;
+      }
+      if (!file || !IMAGE_EXT.test(file)) {
+        done[itemId] = file ? "rejected:not-an-image" : "rejected:unsafe-path";
         changed = true;
         continue;
       }
@@ -1695,30 +1703,49 @@ export class ArtbenchStore {
           actor,
           source === "drive-inbox" ? "drive" : "inbox",
         );
-        done[itemId] = result.candidate.candidateId;
-        if (!result.duplicate) ingested.push(result.candidate.candidateId);
+        done[itemId] = result.duplicate
+          ? `duplicate:${result.candidate.candidateId}`
+          : result.candidate.candidateId;
       } catch (error) {
         const reason = error instanceof Error ? error.message : String(error);
         done[itemId] = `rejected:${reason.slice(0, 80)}`;
-        rejected.push({ item: itemId, reason });
       }
       changed = true;
     }
-    if (changed) {
-      this.syncState.batches[batchId] = done;
-      this.append(
-        "batch.completed",
-        {
-          batchId,
-          source,
-          itemCount: items.length,
-          ingestedCandidateIds: ingested,
-          rejected,
-        },
-        { kind: "system", id: "artbench-sync" },
-        "bench",
-      );
+    if (changed) this.syncState.batches[batchId] = done;
+    // A batch is completed when every item it declared has reached an end
+    // state. Saying so while files are still arriving is what made a batch
+    // that ingested nothing read to its sender exactly like a batch that
+    // worked, with nothing left to look at.
+    if (!changed || deferred.length > 0) return;
+    const ingested: string[] = [];
+    const rejected: { item: string; reason: string }[] = [];
+    for (const item of items) {
+      const itemId = item.itemId ?? item.file;
+      if (!itemId) continue;
+      const outcome = done[itemId];
+      if (!outcome) continue;
+      if (outcome.startsWith("rejected:")) {
+        rejected.push({
+          item: itemId,
+          reason: outcome.slice("rejected:".length),
+        });
+      } else if (!outcome.startsWith("duplicate:")) {
+        ingested.push(outcome);
+      }
     }
+    this.append(
+      "batch.completed",
+      {
+        batchId,
+        source,
+        itemCount: items.length,
+        ingestedCandidateIds: ingested,
+        rejected,
+      },
+      { kind: "system", id: "artbench-sync" },
+      "bench",
+    );
   }
 
   /**
