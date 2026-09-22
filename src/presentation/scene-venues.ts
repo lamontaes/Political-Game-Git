@@ -178,6 +178,17 @@ export function completedActivityHere(
   personId: EntityId,
   activityId?: EntityId,
 ): ScheduledActivityRecord | null {
+  const latestPlaceSequence =
+    world.history.events
+      .filter(
+        (event) =>
+          (event.type === "life.scene.arrived" ||
+            event.type === "life.scene.opened") &&
+          event.context.location !== null &&
+          event.occurredAt <= world.currentDate &&
+          event.participants.some((entry) => entry.personId === personId),
+      )
+      .at(-1)?.sequence ?? -1;
   const completed = world.history.scheduledActivities
     .filter((activity) => !activityId || activity.id === activityId)
     .filter((activity) => activity.participantPersonIds.includes(personId))
@@ -186,6 +197,7 @@ export function completedActivityHere(
       const state = scheduledActivityState(world, activity.id);
       if (
         state.status !== "completed" ||
+        state.sequence < latestPlaceSequence ||
         compareSimulationMoments(state.recordedAt, world.currentMoment) !== 0 ||
         compareSimulationMoments(state.end, world.currentMoment) !== 0
       )

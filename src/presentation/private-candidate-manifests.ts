@@ -1,8 +1,11 @@
+import { candidateManifests as manifests } from "./bundled-art";
 import type {
+  PreparedProfileRecord,
+  ProfileLayerChange,
   CharacterCatalogGeneration,
   CharacterComponentManifestRecord,
 } from "./character-components";
-import { optionalGlob } from "./optional-glob";
+import { runtimeArt, runtimeArtSelection } from "./runtime-art";
 
 /**
  * The owner-private candidate people manifests (engine-people29 through 41 and
@@ -40,23 +43,49 @@ export interface Kit41RegistryManifest extends CandidateRegistryManifest {
   readonly generations: readonly CharacterCatalogGeneration[];
 }
 
-const manifests = optionalGlob(() =>
-  import.meta.glob<object>(
-    [
-      "../../art/manifest/character_candidate_{engine29,engine34,engine35,engine36,engine40,engine41,kit41}_{registry,generation}.json",
-      "../../art/manifest/character_candidate_modular41_heads.json",
-    ],
-    { eager: true, import: "default" },
-  ),
-);
-
+/**
+ * One library, never two.
+ *
+ * With a snapshot selected the snapshot answers for every candidate registry,
+ * including by saying it has none. Falling through to the bundled manifest for
+ * a name the snapshot does not carry is what silently composed the retired
+ * Visual4 cast under the selected generation's name: the registries the
+ * snapshot did supply resolved to the new people, the ones it did not resolved
+ * to whatever the checkout still had on disk, and the result was one figure
+ * assembled out of two generations with nothing on screen to say so.
+ */
 function manifest(name: string): object | undefined {
-  return manifests[`../../art/manifest/character_candidate_${name}.json`];
+  const key = `art/manifest/character_candidate_${name}.json`;
+  const snapshot = runtimeArt();
+  return snapshot
+    ? (snapshot.metadata[key] as object | undefined)
+    : manifests[`../../${key}`];
 }
 
-/** True only in a checkout that carries the private candidate manifests. */
+/**
+ * Whether THIS page has candidate people art to compose from.
+ *
+ * A snapshot alone is not enough. A snapshot carrying only environments, or a
+ * half-received one, has no candidate registry at all, and treating it as
+ * available is how the preview reached the render path with nothing to draw.
+ * The question is whether some candidate registry actually resolved.
+ */
+const CANDIDATE_REGISTRY_NAMES = [
+  "engine29_registry",
+  "engine34_registry",
+  "engine35_registry",
+  "engine36_registry",
+  "engine40_registry",
+  "engine41_registry",
+  "kit41_registry",
+  "modular41_heads",
+  "modular45_registry",
+] as const;
+
 export const PRIVATE_CANDIDATE_ART_AVAILABLE =
-  Object.keys(manifests).length > 0;
+  runtimeArtSelection() === "installed-snapshot"
+    ? CANDIDATE_REGISTRY_NAMES.some((name) => manifest(name) !== undefined)
+    : Object.keys(manifests).length > 0;
 
 export function candidateRegistry(
   engine: CandidateEngine,
@@ -101,4 +130,27 @@ export const MODULAR41_HEADS_REGISTRY: Kit41RegistryManifest = {
   familyAdditions: {},
   generations: [],
   ...manifest("modular41_heads"),
+};
+
+/**
+ * MODULAR45 corrected standing generation (13): fitted head/hair derivatives,
+ * cleaned garment edges and prepared skin maps. Older generations stay exact.
+ */
+export interface Modular45RegistryManifest extends Kit41RegistryManifest {
+  readonly preparedProfiles?: readonly PreparedProfileRecord[];
+  readonly profileLayerChanges?: readonly ProfileLayerChange[];
+  /** Authored light-to-dark skin ramp ids, in display order. */
+  readonly skinRamps: readonly string[];
+}
+
+export const MODULAR45_REGISTRY: Modular45RegistryManifest = {
+  assets: [],
+  garments: [],
+  families: [],
+  templates: {},
+  labels: {},
+  familyAdditions: {},
+  generations: [],
+  skinRamps: [],
+  ...manifest("modular45_registry"),
 };

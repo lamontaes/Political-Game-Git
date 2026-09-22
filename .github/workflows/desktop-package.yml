@@ -121,8 +121,12 @@ jobs:
         # banner, keep/relaunch, and portable transfer on an isolated profile.
         # Public CI intentionally has no private candidate pack, so it verifies
         # any saved material exactly when present but does not require material
-        # that the reviewed source is forbidden to contain. Window chrome is
-        # already covered by production Mac.
+        # that the reviewed source is forbidden to contain. That is why
+        # OCD_EXPECT_CANDIDATE_FIGURE is deliberately NOT set here: without it
+        # the proof accepts either a drawn candidate body or the surface's own
+        # stated reason for not drawing one, and reports which it found. Set it
+        # to 1 only where a pack is actually installed, which is the owner's
+        # Mac. Window chrome is already covered by production Mac.
         run: |
           app="release-artifacts/mac-arm64/Our Civic Duty.app/Contents/MacOS/Our Civic Duty"
           if [ "${{ matrix.profile }}" = "internal-art-review" ]; then

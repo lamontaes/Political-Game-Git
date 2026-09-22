@@ -1,3 +1,5 @@
+import { preparedSources as sources } from "../presentation/bundled-art";
+import { remapRasterMaterial } from "./raster-material";
 import type { AppearanceMaterial } from "../simulation/appearance-material";
 import {
   PREPARED_FAMILIES,
@@ -5,23 +7,15 @@ import {
   type PreparedPart,
   type FeatureKind,
 } from "../presentation/engine-people29-data";
-import { optionalGlob } from "../presentation/optional-glob";
-const sources = optionalGlob(() =>
-  import.meta.glob<string>(
-    [
-      "../../art/authoring/kit41/families/*/*.svg",
-      "../../art/authoring/engine-people29/families/*/*.svg",
-      "../../art/authoring/engine-people34/families/*/*.svg",
-      "../../art/authoring/engine-people35/families/*/*.svg",
-      "../../art/authoring/engine-people36/families/*/*.svg",
-      "../../art/authoring/engine-people40/families/*/*.svg",
-      "../../art/authoring/engine-people41/families/*/*.svg",
-      "../../art/authoring/modular41-head-v2/*.svg",
-    ],
-    { query: "?raw", import: "default" },
-  ),
-);
+import { runtimeArtUrls } from "../presentation/runtime-art";
+
 async function source(path: string) {
+  const url = runtimeArtUrls()[path];
+  if (url) {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Prepared artwork unavailable.");
+    return response.text();
+  }
   const load = sources[`../../${path}`];
   if (!load) throw new Error("Prepared source is unavailable.");
   return load();
@@ -54,16 +48,155 @@ function parse(svg: string): XMLDocument {
       throw new Error("Prepared image must embed its pixels.");
   return document;
 }
-function materialize(
+function writeSkinTable(document: XMLDocument, stops: readonly string[]) {
+  const channels = [
+    ...document.querySelectorAll(
+      "feComponentTransfer[data-skin-map] > [data-skin-channel]",
+    ),
+  ];
+  if (channels.length !== 3 || stops.length < 2)
+    throw new Error("Incomplete prepared skin map.");
+  const rgb = stops.map((stop) => {
+    const match = /^#([0-9a-f]{6})$/i.exec(stop);
+    if (!match) throw new Error("Invalid skin map stop.");
+    const value = Number.parseInt(match[1]!, 16);
+    return [value >> 16, (value >> 8) & 255, value & 255];
+  });
+  for (const element of channels) {
+    const index = Number(element.getAttribute("data-skin-channel"));
+    if (index !== 0 && index !== 1 && index !== 2)
+      throw new Error("Invalid skin map channel.");
+    element.setAttribute(
+      "tableValues",
+      rgb.map((c) => (c[index]! / 255).toFixed(4)).join(" "),
+    );
+  }
+}
+const decodedRasters = new Map<string, ImageData>();
+const decodingRasters = new Map<string, Promise<ImageData>>();
+const DECODED_RASTER_BYTES = 32 * 1024 * 1024;
+let decodedRasterBytes = 0;
+let rasterDecodeCount = 0;
+export function preparedRasterDiagnostics() {
+  return {
+    decodedBytes: decodedRasterBytes,
+    retainedImages: decodedRasters.size,
+    pendingImages: decodingRasters.size,
+    decodeCount: rasterDecodeCount,
+  };
+}
+async function decodeRaster(uri: string): Promise<ImageData> {
+  const cached = decodedRasters.get(uri);
+  if (cached) {
+    decodedRasters.delete(uri);
+    decodedRasters.set(uri, cached);
+    return cached;
+  }
+  const pending = decodingRasters.get(uri);
+  if (pending) return pending;
+  const task = decodeRasterUncached(uri)
+    .then((pixels) => {
+      if (pixels.data.byteLength <= DECODED_RASTER_BYTES) {
+        while (
+          decodedRasterBytes + pixels.data.byteLength >
+          DECODED_RASTER_BYTES
+        ) {
+          const oldest = decodedRasters.keys().next().value!;
+          decodedRasterBytes -= decodedRasters.get(oldest)!.data.byteLength;
+          decodedRasters.delete(oldest);
+        }
+        decodedRasters.set(uri, pixels);
+        decodedRasterBytes += pixels.data.byteLength;
+      }
+      return pixels;
+    })
+    .finally(() => decodingRasters.delete(uri));
+  decodingRasters.set(uri, task);
+  return task;
+}
+async function decodeRasterUncached(uri: string): Promise<ImageData> {
+  rasterDecodeCount++;
+  const image = new Image();
+  image.src = uri;
+  await image.decode();
+  const canvas = document.createElement("canvas");
+  canvas.width = image.naturalWidth;
+  canvas.height = image.naturalHeight;
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+  if (!context) throw new Error("Raster material canvas unavailable.");
+  context.drawImage(image, 0, 0);
+  return context.getImageData(0, 0, canvas.width, canvas.height);
+}
+async function materializeRaster(
   document: XMLDocument,
   part: PreparedPart,
   material: AppearanceMaterial,
 ) {
-  for (const m of part.materials) {
+  const paint = document.querySelector("image[data-raster-paint]");
+  if (!paint) return false;
+  const original = await decodeRaster(paint.getAttribute("href")!);
+  let pixels: Uint8ClampedArray = original.data;
+  for (const region of part.materials) {
+    const ramp = region.ramps.find(
+      (r) => r.id === material.palettes[region.channel],
+    );
+    if (!ramp) throw new Error("Unsupported raster material ramp.");
+    // Historical packs explicitly offered an unmapped source-color choice.
+    // Preserve that saved choice; every declared recoloring ramp requires stops.
+    if (
+      !ramp.stops &&
+      ramp.id === "source-colour" &&
+      (part.introducedGeneration ?? 0) <= 15
+    )
+      continue;
+    if (!ramp.stops) throw new Error("Raster material ramp has no stops.");
+    const map = document.querySelector(
+      `image[data-material-map="${region.mapId ?? region.channel}"]`,
+    );
+    if (!map) throw new Error("Missing raster material map.");
+    const decoded = await decodeRaster(map.getAttribute("href")!);
+    if (decoded.width !== original.width || decoded.height !== original.height)
+      throw new Error("Raster material map dimensions differ.");
+    pixels = remapRasterMaterial(pixels, decoded.data, ramp.stops);
+  }
+  const canvas = window.document.createElement("canvas");
+  canvas.width = original.width;
+  canvas.height = original.height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Raster material canvas unavailable.");
+  ctx.putImageData(
+    new ImageData(
+      new Uint8ClampedArray(pixels),
+      original.width,
+      original.height,
+    ),
+    0,
+    0,
+  );
+  paint.setAttribute("href", canvas.toDataURL("image/png"));
+  for (const map of document.querySelectorAll("image[data-material-map]"))
+    map.remove();
+  return true;
+}
+async function materialize(
+  document: XMLDocument,
+  part: PreparedPart,
+  material: AppearanceMaterial,
+) {
+  const raster = await materializeRaster(document, part, material);
+  for (const m of raster ? [] : part.materials) {
     const ramp = m.ramps.find((r) => r.id === material.palettes[m.channel]);
     if (!ramp) throw new Error("Unsupported tone ramp.");
     if (!document.getElementById(m.maskId))
       throw new Error("Missing prepared material mask.");
+    // Prepared skin map (MODULAR45): an authored ramp writes the gradient
+    // table; the unmapped painting removes the overlay so its pixels are exact.
+    // A garment carrying painted skin has the skin map as its second region.
+    const overlays = [...document.querySelectorAll("image[data-skin-overlay]")];
+    if (m.channel === "skin" && overlays.length) {
+      if (!ramp.stops) for (const overlay of overlays) overlay.remove();
+      else writeSkinTable(document, ramp.stops);
+    } else if (ramp.stops) throw new Error("Part has no prepared skin map.");
     for (const e of document.querySelectorAll("stop[data-tone]")) {
       const tone = e.getAttribute("data-tone") as
         "neutral" | "shadow" | "light";
@@ -81,6 +214,11 @@ function materialize(
         e.setAttribute("fill", ramp[tone]);
     }
   }
+  if (
+    document.querySelector("image[data-skin-overlay]") &&
+    !part.materials.some((m) => m.channel === "skin")
+  )
+    throw new Error("Skin map without a skin region.");
   for (const f of part.features ?? []) {
     const kind = f.id.split("-")[0] as FeatureKind;
     const p = material.features[kind];
@@ -104,6 +242,7 @@ export async function renderPreparedSvg(
   assetId: string,
   material: AppearanceMaterial,
   drawnIds: readonly string[],
+  expression: "neutral" | "smile" = "neutral",
 ): Promise<string> {
   const template = ENGINE_PEOPLE29_TEMPLATES[assetId];
   const family = PREPARED_FAMILIES.find((f) => f.id === material.familyId);
@@ -111,6 +250,23 @@ export async function renderPreparedSvg(
     throw new Error("Prepared family does not match this component.");
   let ids = [...template.partIds];
   const original = family.parts.find((p) => p.id === ids[0])!;
+  if (original.kind === "body") {
+    const overrides = [
+      ...new Set(
+        drawnIds.flatMap(
+          (id) => family.parts.find((p) => p.id === id)?.anatomyOverride ?? [],
+        ),
+      ),
+    ];
+    if (overrides.length > 1)
+      throw new Error("Conflicting anatomy correctives.");
+    if (overrides[0]) {
+      const corrective = family.parts.find((p) => p.id === overrides[0]);
+      if (corrective?.kind !== "body-corrective")
+        throw new Error("Invalid anatomy corrective.");
+      ids = [corrective.id];
+    }
+  }
   if (original.kind === "head")
     ids = [
       original.id,
@@ -122,12 +278,17 @@ export async function renderPreparedSvg(
   for (const id of ids) {
     const p = family.parts.find((p) => p.id === id);
     if (!p) throw new Error("Unknown prepared part.");
-    const d = parse(await source(p.svgPath));
-    materialize(d, p, material);
+    const variant =
+      expression === "neutral" ? undefined : p.expressionVariants?.[expression];
+    const d = parse(await source(variant?.svgPath ?? p.svgPath));
+    await materialize(d, p, material);
     for (const child of [...d.documentElement.children])
       result.documentElement.appendChild(result.importNode(child, true));
   }
-  if (original.kind === "body") {
+  if (
+    original.kind === "body" ||
+    (original.kind === "head" && original.introducedGeneration !== undefined)
+  ) {
     const ns = "http://www.w3.org/2000/svg";
     const defs = result.createElementNS(ns, "defs");
     const mask = result.createElementNS(ns, "mask");
@@ -163,49 +324,124 @@ export async function renderPreparedSvg(
   return new XMLSerializer().serializeToString(result);
 }
 
-const MAX_VARIANTS = 64;
 interface Entry {
   key: string;
   refs: number;
   url: Promise<string>;
   touched: number;
+  bytes: number;
+  ready: boolean;
 }
 const cache = new Map<string, Entry>();
 let sequence = 0;
+const IDLE_VARIANT_BYTES = 24 * 1024 * 1024;
+const IDLE_VARIANT_COUNT = 24;
 function revoke(entry: Entry) {
   void entry.url.then(
     (url) => URL.revokeObjectURL(url),
     () => {},
   );
 }
+function trimIdleVariants() {
+  const idle = [...cache.values()]
+    .filter((e) => e.refs === 0 && e.ready)
+    .sort((a, b) => a.touched - b.touched);
+  let bytes = idle.reduce((sum, e) => sum + e.bytes, 0);
+  while (idle.length > IDLE_VARIANT_COUNT || bytes > IDLE_VARIANT_BYTES) {
+    const oldest = idle.shift()!;
+    bytes -= oldest.bytes;
+    if (cache.get(oldest.key) === oldest) cache.delete(oldest.key);
+    revoke(oldest);
+  }
+}
+/** Key the inputs consumed by this layer. A hair color change must not
+ * invalidate pants, and a new head must not invalidate the shirt. */
+export function preparedVariantKey(
+  assetId: string,
+  material: AppearanceMaterial,
+  drawnIds: readonly string[],
+  expression: "neutral" | "smile" = "neutral",
+) {
+  const template = ENGINE_PEOPLE29_TEMPLATES[assetId];
+  const family = PREPARED_FAMILIES.find((f) => f.id === material.familyId);
+  if (!template || !family || family.id !== template.familyId)
+    return JSON.stringify([
+      assetId,
+      material,
+      [...drawnIds].sort(),
+      expression,
+    ]);
+  const original = family.parts.find((p) => p.id === template.partIds[0]);
+  const drawn = drawnIds.flatMap(
+    (id) => ENGINE_PEOPLE29_TEMPLATES[id]?.partIds ?? [id],
+  );
+  const dependencies = family.parts.filter(
+    (p) =>
+      drawn.includes(p.id) &&
+      ((original?.kind === "body" && p.anatomyOverride) ||
+        ((original?.kind === "body" || original?.kind === "head") &&
+          p.coverageMaskPath)),
+  );
+  const ids = new Set([
+    ...template.partIds,
+    ...(original?.kind === "head"
+      ? Object.values(material.features).map((f) => f.variant)
+      : []),
+    ...dependencies.flatMap((p) => p.anatomyOverride ?? []),
+  ]);
+  const parts = family.parts.filter((p) => ids.has(p.id));
+  const channels = [
+    ...new Set(parts.flatMap((p) => p.materials.map((m) => m.channel))),
+  ].sort();
+  return JSON.stringify([
+    "prepared-variant-v3",
+    assetId,
+    template.sourceSha256,
+    family.id,
+    parts.map((p) => [
+      p.id,
+      p.sha256,
+      p.expressionVariants?.[expression]?.sha256,
+    ]),
+    channels.map((c) => [c, material.palettes[c]]),
+    parts.some((p) => p.features?.length) || original?.kind === "head"
+      ? material.features
+      : null,
+    dependencies.map((p) => [p.id, p.coverageMaskPath, p.anatomyOverride]),
+  ]);
+}
+export function preparedVariantDiagnostics() {
+  const idle = [...cache.values()].filter((e) => e.refs === 0);
+  return {
+    entries: cache.size,
+    active: cache.size - idle.length,
+    idleBytes: idle.reduce((n, e) => n + e.bytes, 0),
+    idleEntries: idle.length,
+  };
+}
 export function acquirePreparedVariant(
   assetId: string,
   material: AppearanceMaterial,
   drawnIds: readonly string[],
+  expression: "neutral" | "smile" = "neutral",
 ) {
-  const key = JSON.stringify([
-    "engine-people29-v1",
-    assetId,
-    ENGINE_PEOPLE29_TEMPLATES[assetId]?.sourceSha256,
-    material,
-    [...drawnIds].sort(),
-  ]);
+  const key = preparedVariantKey(assetId, material, drawnIds, expression);
   let entry = cache.get(key);
   if (!entry) {
-    while (cache.size >= MAX_VARIANTS) {
-      const idle = [...cache.values()]
-        .filter((e) => e.refs === 0)
-        .sort((a, b) => a.touched - b.touched)[0];
-      if (!idle) throw new Error("Prepared variant cache is full.");
-      cache.delete(idle.key);
-      revoke(idle);
-    }
+    // Mounted demand is never evicted. Only completed idle entries are bounded.
     entry = {
       key,
       refs: 0,
       touched: ++sequence,
-      url: renderPreparedSvg(assetId, material, drawnIds).then((svg) =>
-        URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" })),
+      bytes: 0,
+      ready: false,
+      url: renderPreparedSvg(assetId, material, drawnIds, expression).then(
+        (svg) => {
+          const blob = new Blob([svg], { type: "image/svg+xml" });
+          entry!.bytes = blob.size;
+          entry!.ready = true;
+          return URL.createObjectURL(blob);
+        },
       ),
     };
     cache.set(key, entry);
@@ -226,8 +462,10 @@ export function acquirePreparedVariant(
       owned.refs--;
       owned.touched = ++sequence;
       if (owned.refs === 0) {
-        cache.delete(key);
-        revoke(owned);
+        if (!owned.ready || cache.get(key) !== owned) {
+          if (cache.get(key) === owned) cache.delete(key);
+          revoke(owned);
+        } else trimIdleVariants();
       }
     },
   };

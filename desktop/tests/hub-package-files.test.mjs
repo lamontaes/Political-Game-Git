@@ -13,17 +13,17 @@ test("every controller file the hub loads is packaged", () => {
   const packaged = new Set(
     [...list[1].matchAll(/"([^"]+)"/g)].map((match) => match[1]),
   );
-  for (const script of [
-    "main.mjs",
-    "build-catalog.mjs",
-    "chrome.mjs",
-    "agents.mjs",
-    "agents-view.mjs",
-  ]) {
+  for (const script of [...packaged].filter((name) =>
+    /\.[cm]?js$/.test(name),
+  )) {
     const source = read(`../private-controller/${script}`);
     const local = [
-      ...source.matchAll(/from "\.\/([^"/]+\.m?js)"/g),
-      ...source.matchAll(/path\.join\(appRoot, "([a-z-]+\.json)"\)/g),
+      ...source.matchAll(
+        /(?:from\s*|import\s*\(|require\s*\()\s*["']\.\/([^"'/]+\.[cm]?js)["']/g,
+      ),
+      ...source.matchAll(
+        /path\.join\(\s*appRoot,\s*["']([^"'/]+\.(?:json|html|[cm]?js))["']\s*\)/g,
+      ),
     ].map((match) => match[1]);
     for (const name of local)
       assert.ok(packaged.has(name), `${script} needs ${name} packaged`);

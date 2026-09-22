@@ -1,3 +1,4 @@
+import { runtimeArtMetadata } from "./runtime-art";
 import { PRESS_BRIEFING_ROOM_CANDIDATE_SCENE } from "../environment/scenes/press-briefing-room-candidate";
 import {
   validateEnvironmentSceneSpec,
@@ -314,7 +315,7 @@ export function requireSceneAnchor(
  * The public-meeting room keeps its authored mechanics without a raster after
  * FRONTDOOR44 retired the baked-audience plate from every runtime path.
  */
-export const SCENE_REGISTRY: SceneRegistry = createSceneRegistry([
+const bundledSceneSpecs: readonly EnvironmentSceneSpec[] = [
   SHARED_WORKROOM_OFFICE_PRODUCTION_SCENE,
   CIVIC_HEARING_ROOM_PRODUCTION_SCENE,
   LEGISLATIVE_CHAMBER_PRODUCTION_SCENE,
@@ -328,6 +329,18 @@ export const SCENE_REGISTRY: SceneRegistry = createSceneRegistry([
   PRESS_BRIEFING_ROOM_CANDIDATE_SCENE,
   OFFICE_COUNCIL_STAFF_FIXTURE_SCENE,
   COMMITTEE_ROOM_FIXTURE_SCENE,
+];
+const receivedSceneSpecs = runtimeArtMetadata<{
+  scenes: readonly EnvironmentSceneSpec[];
+}>("art/manifest/runtime_scenes.json", { scenes: [] }).scenes;
+export const SCENE_REGISTRY: SceneRegistry = createSceneRegistry([
+  ...bundledSceneSpecs.filter(
+    (scene) =>
+      !receivedSceneSpecs.some(
+        (incoming) => incoming.scene_id === scene.scene_id,
+      ),
+  ),
+  ...receivedSceneSpecs,
 ]);
 
 /**

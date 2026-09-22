@@ -84,7 +84,12 @@ describe("NATIONWIDE opening state executive", () => {
       expect(holder!.termFactsUnknown).toEqual([]);
       expect(
         openingOfficeholders(world).map((record) => record.officeKey),
-      ).toEqual(["us-president", "us-chief-justice", office.officeKey]);
+      ).toEqual([
+        "us-president",
+        "us-chief-justice",
+        "us-vice-president",
+        office.officeKey,
+      ]);
 
       const profile = organizationProfileAt(world, holder!.organizationId);
       expect(profile?.classification).toBe(`service:${office.officeKey}`);
@@ -124,7 +129,7 @@ describe("NATIONWIDE opening state executive", () => {
       const { world } = openIn(place.key, `nationwide-${usps}`);
       expect(
         currentPublicOfficeholders(world).map((holder) => holder.officeKey),
-      ).toEqual(["us-president", "us-chief-justice"]);
+      ).toEqual(["us-president", "us-chief-justice", "us-vice-president"]);
     }
   });
 

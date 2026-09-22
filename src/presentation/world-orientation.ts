@@ -1,9 +1,9 @@
+import type { OrientationHolderDisplay } from "./municipal-orientation-holder";
 import type { EntityId } from "../simulation";
 import { proseDate } from "./prose-dates";
 import type {
   ChamberView,
   PartyView,
-  PublicHolderView,
   SeatView,
   WorldOrientation,
 } from "./world-orientation-contract";
@@ -298,9 +298,16 @@ function districtOfColumbiaStep(
       ? [seat.occupant.member]
       : [],
   );
-  const mayor = localHolders.find((holder) => /mayor/i.test(holder.title));
+  const mayor = localHolders.find((holder) =>
+    "source" in holder
+      ? holder.source.role === "mayor"
+      : /mayor/i.test(holder.title),
+  );
   const council = localHolders.filter((holder) =>
-    /council/i.test(holder.title),
+    "source" in holder
+      ? holder.source.role === "member" ||
+        holder.source.role === "presiding-member"
+      : /council/i.test(holder.title),
   );
   const delegate = delegates[0] ?? null;
   const parts = [
@@ -356,7 +363,7 @@ function localityStep(
 }
 
 function personFor(
-  holder: PublicHolderView,
+  holder: OrientationHolderDisplay,
   parties: ReadonlyMap<EntityId, PartyView>,
 ): OrientationPerson {
   const facts: string[] = [];
