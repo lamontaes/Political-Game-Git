@@ -11,24 +11,40 @@ disagree with.
 ## The list to click through
 
 Kept current as things land, so it can be read in thirty seconds rather than
-assembled at the end. Last refreshed against `origin/main` at `effad80f`. The
-sections below give the evidence behind each entry; this is the index.
+assembled at the end. Last refreshed against `origin/main` at `e5cc5501`,
+07:20Z. The sections below give the evidence behind each entry; this is the
+index.
 
-**Already in main — nothing to do.** Twenty-five pull requests merged between
-22:00Z and this refresh: #275, #279, #280, #281, #284, #285, #286, #287, #290,
-#297, #299, #300, #301, #302, #303, #308, #309, #312, #315, #316, #317, #318,
-#319, #321, #322. The ones that change what a player gets or what the project
+**Order matters in exactly one place.** Everything unnumbered below can be
+clicked in any order. Where two entries are numbered, click them in that order.
+
+1. **#320** — a refusal tells you the rule, not where we read it.
+2. **#325** — proves the refusal arrives at the screen clean.
+
+   #325 carries **no sentence fixes of its own**. It is the screen-path check,
+   red on main and green on #320's head. Clicked first it would land a gate
+   against code that is not there yet.
+
+**Already in main — nothing to do.** Twenty-eight pull requests merged between
+22:00Z and this refresh, read from `git log --merges` on `origin/main` at
+`e5cc5501`: #275, #279, #280, #281, #284, #285, #286, #287, #290, #297, #299,
+#300, #301, #302, #303, #306, #308, #309, #312, #315, #316, #317, #318, #319,
+#321, #322, #323, #324. The ones that change what a player gets or what the project
 can do: the retired Visual4 cast permanently deleted (#290), a trait system in
 place of five hardwired traits (#280), the CI concurrency group (#303), the
 prose gate repaired (#301), and the Alaska candidacy note retitled to what the
 change actually did (#275).
 
-**Waiting on a click.** #277, the 0.4.0 release, this lane's, at `9d7ec442`
-with main merged in. #305, #311 and #320 from other lanes, out of draft against
-recent main — see "Ready to click, not merged" below for what each rests on.
+**Waiting on a click.** #305, #311 and #320 from other lanes, all out of draft
+against recent main — see "Ready to click, not merged" below for what each
+rests on. #277, the 0.4.0 release, this lane's, at `9d7ec442` with main merged
+in: format, lint, typecheck and `release:check` clean at that head, still draft
+until its unit run reports.
 
-**Still moving.** #282, #283, #292, #294, #295, #304, #306, #307 are drafts
-their lanes are working.
+**Still draft, wanted on the list.** #325, which follows #320 above.
+
+**Still moving.** #282, #283, #292, #294, #295, #304 and #307 are drafts their
+lanes are working.
 
 **Not for tonight.** #278, the client line, is assembled at `70fa13a7` with
 #276 inside it and has never had a verdict: its run has had zero jobs allocated
@@ -149,7 +165,10 @@ different things, and the second one is the one that governs the action.
 
 ## Ready to click, not merged
 
-Both are out of draft and synced to main. Each says what it rests on.
+Out of draft against recent main. Each says what it rests on. Heads below are
+read from the pull request listing at 07:20Z; the gate evidence under each is
+what its own lane reported at the head named in its entry, which for #305 and
+#311 is **older than the head the pull request now carries**.
 
 - **#305 — the Congress faction view.** Branch
   `claude/congress-factions-cg1u98`, head `615c552f`, synced to main
@@ -161,14 +180,27 @@ Both are out of draft and synced to main. Each says what it rests on.
   with both captures reviewed by eye. The unit tests were **not** re-run at
   `615c552f` — the guardrail refused that command — so the newest evidence on
   this head is static analysis plus the merge itself, which touched only
-  generated prose inventory.
+  generated prose inventory. The pull request now reads `ba980755`; the
+  evidence above is at `615c552f`.
 - **#311 — art requests for newspaper, chart and interface surfaces.** Branch
   `claude/art-requests-non-background-cg1u98`, head `9907f11b`. **Contains
   code**: it widens `AssetTargetClass` and scopes an intake width floor.
   Reported clean on `typecheck`, `lint`, `format`, `release:check`,
   `validate:art` and `corpus:prose`, with 114 tests passing across six
   asset-related files. Its base is main `7da3d6c5` and main has moved since, so
-  it will need a base merge before it can go in.
+  it will need a base merge before it can go in. The pull request now reads
+  `edde21c9`; the evidence above is at `9907f11b`.
+
+- **#320 — a refusal tells you the rule, not where we read it.** Branch
+  `claude/no-citations-on-player-surfaces`, head `ec62a2e7`, base main
+  `93ed2fa5`. Removes source and provenance references from the text a player
+  reads on a refusal, which is lamontae's standing rule for player-facing
+  surfaces. Its lane owns the evidence. **Click this before #325.**
+- **#325 — prove the refusal arrives at the screen clean.** Branch
+  `claude/candidacy-refusal-screen-sweep`, head `a8fe8671`, base main
+  `0cf12d00`, **still draft at 07:20Z**. It is a screen-path check and changes
+  no sentences: red on main, green on #320's head. **Click it after #320, not
+  before.**
 
 ## What a reader should take from this
 
