@@ -447,9 +447,9 @@ from outside: see below.
 
 ## The player's own temperament
 
-**PROPOSED, and a correction to the strict reading above.** The owner: the
-played character needs their own traits, because "it's how you are portrayed to
-people."
+**BUILT**, in `people-player-traits.ts`, and a correction to the strict reading
+above. The owner: the played character needs their own traits, because "it's
+how you are portrayed to people."
 
 The store's existing guard is right and stays. `validateMindProvenance` refuses
 a record for the controlled person whose provenance is not `player-choice` — so
@@ -469,6 +469,37 @@ always allowed:
   other characters perceive it. The player's own trait never argues for the
   player's own option — they choose — but it is available to everybody
   deciding what they think of them.
+
+Both are built. `recordPlayerTraitChoice` writes with `player-choice`
+provenance and refuses anybody but the controlled person, because saying who
+somebody else is on the player's behalf is the thing the guard exists to
+prevent.
+
+The consumer side needed one addition to the seam. A lean row may declare
+`about: "subject"`, meaning it reads the traits of the person being decided
+about rather than the person deciding, and `contact.answer` now carries two
+such rows: somebody weighing an ask reads whether the person asking keeps the
+plans they make. A decision that names no subject drops those rows rather than
+falling back to the actor, which would put one person's temperament in another
+person's mouth.
+
+### Ignoring it, and saying so
+
+"Ignore it and say so. That shouldn't hold the game back." `playerTemperament`
+returns `said` and `unsaid` rather than a value per trait, so a screen can tell
+the player which parts of themselves they have never decided instead of showing
+a seeded value they never picked or implying a middle they never chose. A
+player who says nothing is simply somebody nobody has anything recorded about,
+which every consumer already handles, because that is the same `unrecorded`
+state as for anyone else the world has not observed. Nothing is blocked and
+nothing is invented.
+
+### What is deferred rather than decided
+
+Whether the setup questionnaire's answers should also become the player's
+temperament is a question about what a life looks like, not about what the code
+can hold, so it is filed in `docs/research/TRAITS-OPEN-QUESTIONS.md` along with
+the trait set itself and the pace of personality change.
 
 ## What this deliberately does not do
 

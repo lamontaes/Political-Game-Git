@@ -113,6 +113,18 @@ export interface TraitLeanRow {
   readonly trait: string;
   readonly pole: "low" | "high";
   readonly explanation: string;
+  /**
+   * Whose trait this is: the person deciding, or the person they are deciding
+   * about. Defaults to the decider.
+   *
+   * `subject` is how a character is portrayed to other people. Somebody
+   * weighing an ask from a person who has let plans slide before is reading
+   * that person's temperament, not their own, and that reading is the only way
+   * the played character's own traits ever reach anybody — the player's
+   * temperament never decides anything for them, and this is not that. A
+   * decision that names no subject simply drops these rows.
+   */
+  readonly about?: "actor" | "subject";
 }
 
 export interface TraitEffectDeclaration {

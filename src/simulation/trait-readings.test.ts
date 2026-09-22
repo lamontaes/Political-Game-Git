@@ -131,8 +131,11 @@ describe("a decision receives what packs declared, naming no trait itself", () =
       expect(consideration.explanation.trim()).not.toBe("");
     }
     // Every consideration corresponds to a lean whose pole this person is on.
+    // Rows about a subject are excluded: no subject was named, so they are
+    // dropped rather than read off the actor.
     const expected = loaded.leans
       .get(CONTACT_ANSWER_DECISION.id)!
+      .filter((lean) => lean.about !== "subject")
       .filter((lean) => {
         const reading = readTrait(
           written,

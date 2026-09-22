@@ -148,6 +148,26 @@ export function peopleTraitPack(): TraitPack {
             pole: "high",
             explanation: "They keep the plans they make.",
           },
+          // The two rows about the asker rather than the answerer. This is how
+          // a character is portrayed to other people: whoever is deciding
+          // weighs what this world has actually recorded about the person
+          // asking, which for the played character is whatever they have
+          // chosen to be. Someone nobody has observed contributes nothing,
+          // here as everywhere.
+          {
+            option: "accept",
+            about: "subject",
+            trait: `${PEOPLE_MIND_VERSION}:reliability`,
+            pole: "high",
+            explanation: "The person asking keeps the plans they make.",
+          },
+          {
+            option: "counter",
+            about: "subject",
+            trait: `${PEOPLE_MIND_VERSION}:reliability`,
+            pole: "low",
+            explanation: "The person asking has let plans slide before.",
+          },
         ],
       },
     ],

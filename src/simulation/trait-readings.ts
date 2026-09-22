@@ -118,11 +118,22 @@ export function registeredTraitConsiderations(
   actorPersonId: EntityId,
   keyPrefix: string,
   decisionId: string,
+  /**
+   * The person being decided about, when there is one. Rows declared `about:
+   * "subject"` read this person's traits instead of the actor's, which is how
+   * somebody's temperament reaches the people who deal with them. Null means
+   * this decision has no subject, and those rows are dropped rather than
+   * quietly falling back to the actor.
+   */
+  subjectPersonId: EntityId | null = null,
 ): readonly DecisionConsideration[] {
   return leansForDecision(registry, decisionId).flatMap((lean, index) => {
     const trait = registry.traits.get(lean.trait);
     if (!trait) return [];
-    const reading = readTrait(world, actorPersonId, trait);
+    const aboutSubject = lean.about === "subject";
+    const personId = aboutSubject ? subjectPersonId : actorPersonId;
+    if (personId === null) return [];
+    const reading = readTrait(world, personId, trait);
     if (reading.state === "unrecorded" || reading.value === 0) return [];
     const onPole =
       (lean.pole === "low" && reading.value < 0) ||

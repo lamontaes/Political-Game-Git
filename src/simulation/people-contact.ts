@@ -649,7 +649,11 @@ export function npcContactAnswer(
       sourceRefs: [],
     });
   }
-  const withTraits = ensurePeopleTraits(world, [to]);
+  // Both sides: the answerer's own temperament, and whatever this world has
+  // recorded about the person asking, which the rows declared `about:
+  // "subject"` read. The played character is never seeded, so they contribute
+  // nothing here until they have chosen who they are.
+  const withTraits = ensurePeopleTraits(world, [to, from]);
   // Registered effects first: whatever the loaded packs say bears on
   // `contact.answer`. This decision names no trait, and a pack adding one
   // reaches it without this file changing.
@@ -660,6 +664,7 @@ export function npcContactAnswer(
       to,
       `contact:${proposalEventId}`,
       CONTACT_ANSWER_DECISION.id,
+      from,
     ),
   );
   const evaluation = evaluateDecision(withTraits, {
