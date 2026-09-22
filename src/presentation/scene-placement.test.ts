@@ -97,7 +97,7 @@ describe("standing placement from foot contacts", () => {
     expect(placement.diagnostics).toEqual([]);
   });
 
-  it("centres the stance on the anchor's x", () => {
+  it("centers the stance on the anchor's x", () => {
     const placement = placeSubjectAtAnchor(
       OFFICE,
       anchor,

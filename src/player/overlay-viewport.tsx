@@ -50,7 +50,7 @@ export function useClampedConversation(
   useLayoutEffect(() => {
     const node = ref.current;
     if (!node) return;
-    // The scene owns docking beside its actors. A second fixed-centre layout
+    // The scene owns docking beside its actors. A second fixed-center layout
     // freezes the old rectangle before the scene narrows the panel.
     if (node.closest(".scene-backdrop-content")) {
       node.style.maxHeight = `min(var(--pg-conversation-max-height, 100dvh), calc(var(--pg-vv-height, 100dvh) - ${reservedBottom + 16}px))`;

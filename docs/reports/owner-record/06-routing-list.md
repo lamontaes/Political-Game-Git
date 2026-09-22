@@ -24,7 +24,7 @@ four current heads and more about making the current system fully work."_
 not become universal 'shrink this head by 15%' rules."_ Any plan scaling a head
 by 13/15/8/3.5% is built on a withdrawn measurement.
 
-**NOW · Skin recolour is blocked below the material layer.** overnight [107]:
+**NOW · Skin recolor is blocked below the material layer.** overnight [107]:
 _"The current artwork is a painted PNG inside an SVG wrapper. In a fresh
 browser test, changing the declared color changed zero pixels."_ Adding the
 twelve missing material declarations will not unblock it; that theory was
@@ -72,13 +72,13 @@ prepped with like fifty to a hundred different things."_
 images of the stuff it's trying to replace it with or fix, so that way it has a
 reference... It needs real stuff."_
 
-**Plausible, not recognisable, and tagged for reuse.** merge263 [34]: one
+**Plausible, not recognizable, and tagged for reuse.** merge263 [34]: one
 Midwestern park serving 80% of the country, twenty more for Texas, Kansas,
 California and New Mexico. _"I just want stuff to be not recognizable, but
 plausible."_
 
 **The workflow he described end to end.** overnight [73]: generate → he marks
-what is wrong → labelled revision → an agent revises, upscales, rescales to 16:9
+what is wrong → labeled revision → an agent revises, upscales, rescales to 16:9
 and 4K → final review batch → he approves → it goes in the game, tagged.
 
 ---
@@ -92,7 +92,7 @@ missing. AUD JUR-003 permits it. Full chain in `01`, section A4.
 
 **NOW · No source references on screen.** Project chat 2026-09-22 00:36:
 _"there should be NO references to sources in the game. just display the info.
-this is player facing."_ A generated rule is not labelled as generated.
+this is player facing."_ A generated rule is not labeled as generated.
 
 **NOW · The corresponding legislation mirrors the same range.** Same message:
 _"just make the corrosponding legislation mirrior that."_ A rule and the bills
@@ -131,7 +131,7 @@ not demand another copy of the same funding slider."_
 
 **Two wording tensions to version rather than silently rewrite.** AUD LAW-007:
 the older transit text says "There is appropriated" while its instrument is a
-program authorisation; and several bank limitation sentences claim a global
+program authorization; and several bank limitation sentences claim a global
 absence of records that newer systems do carry.
 
 ---
@@ -160,7 +160,7 @@ a character need your own. it's how you are portayed to people."_
 `src/presentation/person-contact.ts:81` on `origin/main` `273fd2b8`. Named in
 overnight [86] and still there.
 
-**The catalogue's concrete finding.** Leisure preference conflates what the
+**The catalog's concrete finding.** Leisure preference conflates what the
 activity is with who is present, and should stop standing in for personality.
 
 **Never started · The succession choice.** overnight [87]: _"Do you be your vice
@@ -226,7 +226,7 @@ relationship, event, knowledge, identity and history state."_
 
 **Merge-first has one stated limit.** AUD OPS-002 and QA-004: save corruption,
 private-data exposure, loss of source or history, unusable startup and unsafe
-updater behaviour block; copy, aesthetics, an optional screen and a stale
+updater behavior block; copy, aesthetics, an optional screen and a stale
 locator do not. _"A failing required check remains failing; do not erase tests
 or label an unrun check passed."_
 
@@ -244,7 +244,7 @@ governing and legislative at eight or nine out of ten; ordinary life low; party
 evolution and multi-generation play core and must-ship.
 
 **Where questions go.** Project chat 2026-09-22 04:11 and 04:13, set out in `01`
-section B. Design-judgement questions become ChatGPT research briefs. Questions
+section B. Design-judgment questions become ChatGPT research briefs. Questions
 whose answer is already in his messages are ours to find.
 
 **Briefs must be explicit.** overnight [81], the PB&J rule, and merge263 [36]:

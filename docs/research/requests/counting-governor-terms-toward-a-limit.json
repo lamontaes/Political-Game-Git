@@ -12,7 +12,7 @@
   "requestedBy": "Nationwide government thread",
   "sourcesChecked": [
     {
-      "source": "src/simulation/nationwide-world/executive-term-limits.ts, CONSECUTIVE_GAP_DAYS = 90 and the header's NOT MODELLED partial-term rule",
+      "source": "src/simulation/nationwide-world/executive-term-limits.ts, CONSECUTIVE_GAP_DAYS = 90 and the header's NOT MODELED partial-term rule",
       "whatItDidNotSettle": "90 days and 'any partial term counts' are game placeholders, not law."
     },
     {

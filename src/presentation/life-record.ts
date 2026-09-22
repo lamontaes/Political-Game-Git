@@ -23,7 +23,7 @@ import { openThreadRecaps, recurringPeople } from "./life-narration";
  * the playtest read it as one.
  *
  * The change is presentational and only presentational. Nothing is stored
- * here, nothing is summarised into a second record, and every line is derived
+ * here, nothing is summarized into a second record, and every line is derived
  * from the same canonical history the play surface reads. What is added is
  * shape: chapters by age rather than one flat run, people as people rather
  * than as names inside sentences, and open questions listed as open questions.
@@ -298,7 +298,7 @@ function conversationSentence(
  * the shape it belongs to is broader: a line with no subject, no other person
  * and no place, that reads as a restatement of the option label. Rather than
  * pattern-match phrasings one at a time, this suppresses what cannot be
- * recognised as an account of something: too short to be a sentence about
+ * recognized as an account of something: too short to be a sentence about
  * anything, or empty.
  *
  * Suppressing rather than rewriting is deliberate. A generated replacement

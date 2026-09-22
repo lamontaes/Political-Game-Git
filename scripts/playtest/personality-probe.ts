@@ -177,7 +177,7 @@ for (const value of [-2, 2] as const) {
   );
 }
 
-console.log("\n=== Spread of temperaments across 30 neighbours ===");
+console.log("\n=== Spread of temperaments across 30 neighbors ===");
 const others = life.world.personOrder
   .filter((id) => id !== player)
   .slice(0, 30);

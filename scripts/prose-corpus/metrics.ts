@@ -7,7 +7,7 @@ import type { ProseRecord } from "./types";
  * Every number here is deterministic and derived only from the inventory, so
  * two runs on the same tree produce the same metrics and a differential
  * against a later branch means what it looks like it means. Nothing in here is
- * a judgement: a scaffold appearing forty times may be forty correct
+ * a judgment: a scaffold appearing forty times may be forty correct
  * sentences. The point is that the count is visible before and after.
  */
 

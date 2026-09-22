@@ -82,7 +82,7 @@ export type BridgeResult =
       readonly revision: string;
       readonly body?: Buffer;
       readonly contentType?: string;
-      /** Extra JSON fields for a write acknowledgement (e.g. decoded raster facts). */
+      /** Extra JSON fields for a write acknowledgment (e.g. decoded raster facts). */
       readonly payload?: Record<string, unknown>;
     }
   | {

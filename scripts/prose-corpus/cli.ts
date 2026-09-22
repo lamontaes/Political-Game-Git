@@ -182,7 +182,7 @@ function coverageMarkdown(report: CoverageReport): string {
 This does not ask the adapters what they found. It walks the production source,
 pulls every string literal out of the syntax tree, and asks of each one whether
 the inventory has it. **100% is not claimed** — the number below that still
-needs a person's judgement is the honest state of the check.
+needs a person's judgment is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
@@ -502,7 +502,7 @@ function verifiedHistory(live: ReturnType<typeof liveBindingsOf>): {
  *
  * Every caller passes the state it read, and the monotonic guard runs here
  * rather than in each command. A command is not trusted to preserve history
- * merely because it intends to: `-- ledger` intended to synchronise and was
+ * merely because it intends to: `-- ledger` intended to synchronize and was
  * reproduced re-basing trust downward.
  */
 function persistHistory(
@@ -634,7 +634,7 @@ function syncLedger(): void {
   );
   if (blocking.length > 0) {
     throw new Error(
-      `Refusing to absorb: this is a synchronisation step, not a repair. Allocation history must already be sound before new live ids are added to it, and it is not. Nothing was written to the ledger, the checkpoint, or the sidecar.\n${describeHistoryProblems(blocking)}`,
+      `Refusing to absorb: this is a synchronization step, not a repair. Allocation history must already be sound before new live ids are added to it, and it is not. Nothing was written to the ledger, the checkpoint, or the sidecar.\n${describeHistoryProblems(blocking)}`,
     );
   }
   // Only `unreserved-live-id` survives, and that finding is never produced
@@ -654,7 +654,7 @@ function syncLedger(): void {
 
   if (absorbed.length === 0) {
     process.stdout.write(
-      `${LEDGER_FILE}: ${next.length} ids ever issued (+0 absorbed from ${ANCHOR_FILE}); already synchronised, nothing written.\n`,
+      `${LEDGER_FILE}: ${next.length} ids ever issued (+0 absorbed from ${ANCHOR_FILE}); already synchronized, nothing written.\n`,
     );
     return;
   }
@@ -1102,7 +1102,7 @@ function main(): void {
     const historyProblems = anchorHistoryProblems();
     if (historyProblems.length > 0) {
       throw new Error(
-        `Computed-anchor allocation history is not intact. This is a hard error: without it a retired id can be re-issued to unrelated prose, carrying an owner's recorded judgement onto text nobody reviewed.\n${historyProblems
+        `Computed-anchor allocation history is not intact. This is a hard error: without it a retired id can be re-issued to unrelated prose, carrying an owner's recorded judgment onto text nobody reviewed.\n${historyProblems
           .map((problem) => `  ${problem}`)
           .join("\n")}`,
       );
@@ -1237,7 +1237,7 @@ function main(): void {
     stableJson(coverageCounts(coverage)),
   );
   // Only the candidates a person still has to judge are listed in full. The
-  // excluded ones are summarised by file and reason: 3.8MB of "this is a key"
+  // excluded ones are summarized by file and reason: 3.8MB of "this is a key"
   // is not evidence anybody reads, and the reason is the part that is
   // reviewable.
   const excludedSummary = new Map<string, { reason: string; count: number }>();

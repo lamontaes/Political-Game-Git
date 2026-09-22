@@ -22,7 +22,7 @@ import { GameSelect } from "./controls/GameSelect";
  *
  * Each program reads objective, then what has been put to the office, then
  * what the office has actually committed — never a parameter form. A draft or
- * comparison is labelled as one; a commitment names who made it and under
+ * comparison is labeled as one; a commitment names who made it and under
  * what authority. A refused command says why in a status note and leaves the
  * World alone.
  */

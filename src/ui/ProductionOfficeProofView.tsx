@@ -218,7 +218,7 @@ export function ProductionOfficeProofView() {
 }
 
 /**
- * A visible, labelled gap.
+ * A visible, labeled gap.
  *
  * A missing person is drawn as an explicit marker rather than left blank,
  * because an empty room and a room whose people failed to resolve look

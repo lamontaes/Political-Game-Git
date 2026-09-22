@@ -44,7 +44,7 @@ proof that now holds it.
 | #   | Finding                                                                 | Answered by                                                                               | Proof                                                                                                                        |
 | --- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | 1   | Title text printed on top of other title text                           | `player.css` — the negative margin a removed tagline left behind                          | `packet77-presentation.spec.ts` "puts no text on top of other text at desktop / at narrow"                                   |
-| 2   | The menu covered the environment                                        | Compact right-biased translucent panel, smaller controls                                  | "leaves the room the larger part of a desktop frame" (< 34% of 1440, centre right of midline)                                |
+| 2   | The menu covered the environment                                        | Compact right-biased translucent panel, smaller controls                                  | "leaves the room the larger part of a desktop frame" (< 34% of 1440, center right of midline)                                |
 | 3   | The title was a still picture, not a place                              | `title-ambient.ts` — ordered cycle of released character-free plates, drift and crossfade | "changes room on the fifteen-second beat, and paints only released art"; `title-ambient.test.ts` (15)                        |
 | 4   | Nothing said the movement was safe                                      | The cycle reads registries only; it never touches the world                               | "consumes no world and no randomness while it drifts"                                                                        |
 | 5   | Motion with no accommodation                                            | `usePrefersReducedMotion`, `data-motion` / `data-drifting`                                | "holds still for a viewer who asked for less motion"                                                                         |
@@ -276,7 +276,7 @@ These cannot be settled by a test, and are the whole of what is outstanding:
    distance are CSS custom properties on one keyframe block.
 3. **Do the two leans shape the family in a way that reads as yours?** The
    proof shows the household _changes_ with the answers. Whether the change
-   feels like it followed from what you said is a judgement only play makes.
+   feels like it followed from what you said is a judgment only play makes.
 4. **Is the introduction the right length?** It is one line per household
    member. A larger generated family makes it longer, and there is currently no
    cap.
