@@ -192,3 +192,84 @@ const shapes = new Set(
 console.log(
   `  ${shapes.size} distinct temperaments among ${others.length} people`,
 );
+
+console.log("\n=== The study-plan compromise branch ===");
+// The exact lean table decideStudyPlanOutcome uses when the answer is
+// "compromise", scored through the real engine. Only the proposal lookup that
+// precedes it is skipped, so this measures the decision, not the plumbing.
+const COMPROMISE_LEANS = [
+  {
+    optionKey: "agrees",
+    trait: "deliberation" as const,
+    pole: "low" as const,
+    explanation: "A worked-out revision is the kind of thing they take.",
+  },
+  {
+    optionKey: "counterproposes",
+    trait: "conflict" as const,
+    pole: "high" as const,
+    explanation: "They would rather say what still bothers them.",
+  },
+  {
+    optionKey: "agrees",
+    trait: "reliability" as const,
+    pole: "high" as const,
+    explanation: "They would rather have something settled to keep to.",
+  },
+  {
+    optionKey: "unresolved",
+    trait: "deliberation" as const,
+    pole: "low" as const,
+    explanation: "They have not thought about it enough to say yes.",
+  },
+];
+const COMPROMISE_OPTIONS = [
+  { key: "agrees", label: "Take it", description: "Accept it." },
+  { key: "counterproposes", label: "Part of it", description: "Part." },
+  { key: "unresolved", label: "Not yet", description: "Leave it open." },
+];
+
+function rankCompromise(world: World, personId: EntityId, tag: string) {
+  return evaluateDecision(world, {
+    stableKey: `probe-study:${tag}:${world.currentDate}`,
+    decisionType: "people.study-plan-answer",
+    actorPersonId: personId,
+    cutoff: {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+    subject: { kind: "context:life", key: "study-plan", entityId: null },
+    options: COMPROMISE_OPTIONS,
+    constraints: [],
+    considerations: traitConsiderations(
+      world,
+      personId,
+      `probe-study:${tag}`,
+      COMPROMISE_LEANS,
+    ),
+    perceptionIds: [],
+    randomness: "close-choices",
+    retention: "ephemeral",
+  } as never) as never as {
+    selectedOptionKey: string | null;
+    optionEvaluations: readonly {
+      optionKey: string;
+      finalRank: number | null;
+      considerationKeys: readonly string[];
+    }[];
+  };
+}
+
+for (const value of [-2, 2] as const) {
+  const world = withTrait(life.world, npc, "deliberation", value);
+  const shown = personTrait(world, npc, "deliberation");
+  const evaluation = rankCompromise(world, npc, `delib-${value}`);
+  console.log(
+    `  value ${value}: label "${shown.label}" -> answers "${evaluation.selectedOptionKey}"`,
+  );
+  for (const option of evaluation.optionEvaluations) {
+    console.log(
+      `      ${option.optionKey}: rank ${option.finalRank}, considerations ${option.considerationKeys.length}`,
+    );
+  }
+}

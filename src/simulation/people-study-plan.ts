@@ -543,7 +543,12 @@ export function decideStudyPlanOutcome(
           {
             optionKey: "unresolved",
             trait: "deliberation",
-            pole: "high",
+            // Deliberation argues for both "take the worked-out revision"
+            // and "not yet" here, and that is the honest shape of it: a
+            // careful person either accepts something already thought
+            // through or wants longer. What it must not do is make the
+            // person who acts on impulse the one who defers.
+            pole: "low",
             explanation: "They have not thought about it enough to say yes.",
           },
         ]
