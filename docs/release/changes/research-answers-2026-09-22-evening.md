@@ -13,3 +13,7 @@ The American English sweep had rewritten eighteen of ChatGPT's verbatim answer
 files, breaking the checksums the records cite. Their original bytes are
 restored, the answer folders are exempt from the sweep, and a test now fails if
 any answer file stops matching its recorded SHA-256.
+
+A research note written over several lines now stays inside its quote in the
+rendered queue, and the rendered queue is left to its generator rather than the
+formatter.
