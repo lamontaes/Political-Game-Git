@@ -1,3 +1,4 @@
+import { wasRefused } from "./scheduled-activity-answer";
 import {
   CAMPAIGN_LIFE_CATALOG,
   CAMPAIGN_LIFE_TRAVEL_COST_DISCLOSURE,
@@ -80,7 +81,6 @@ import type {
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
-  HistoricalEvent,
   IsoDate,
   MoneyAmount,
   ScheduledActivityRecord,
@@ -2094,13 +2094,15 @@ export interface CampaignLifeActivityView {
   } | null;
 }
 
+/**
+ * Whether the player actually refused this, as against time having passed over
+ * it. A hold the clock ran past used to be indistinguishable from one they
+ * turned down, and counting the first as the second told the player they had
+ * declined something they were never shown. A record too old to tell apart
+ * reads as neither.
+ */
 function declinedHold(world: World, holdIds: readonly EntityId[]): boolean {
-  return world.history.events.some(
-    (event: HistoricalEvent) =>
-      (event.type === "life.scheduled-activity-declined" ||
-        event.type === "life.social-invitation-declined") &&
-      holdIds.some((id) => event.involvedEntityIds.includes(id)),
-  );
+  return wasRefused(world, holdIds);
 }
 
 /** This person's party and campaign activities, oldest first. Pure. */

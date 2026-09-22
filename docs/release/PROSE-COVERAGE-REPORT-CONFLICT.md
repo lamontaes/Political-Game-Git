@@ -69,6 +69,33 @@ test reading a file that may be absent or — see below — may belong to anothe
 branch entirely, so the "a stale report still fails" guarantee becomes a
 coin flip nobody would notice losing.
 
+## The same disease, and the easier case: `docs/dehardwire/census.json`
+
+`coverage-report.md` is not alone. `docs/dehardwire/census.json` conflicted on
+three of one lane's six merges on the same night, and this lane hit it too. The
+recommendation above should be read as covering the class rather than the one
+file — but the two are not the same case, and the difference decides how
+confidently to act.
+
+The census has **no tripwire at all**. `src/presentation/dehardwire-census.test.ts`
+touches it twice and neither case reads the committed bytes:
+
+- the first runs `scripts/dehardwire-census.mjs --check`, which recomputes the
+  census in memory and never opens the file — the only write is guarded by
+  `if (!checkOnly)` and there is no corresponding read;
+- the second runs the generator to write the file _first_, then reads it back
+  and asserts on what it has just produced.
+
+Both cases pass identically if the file is not tracked. So where
+`coverage-report.md` genuinely reads committed bytes and earns its place at the
+cost of conflicts, the census is 138 lines of conflict cost protecting nothing.
+Untracking it is unconditional rather than a trade, and it does not need the
+assertion-surface split that the coverage report does.
+
+Stating the difference is the point. "Both files conflict a lot, untrack both"
+would have been right by accident here and wrong on the coverage report, whose
+committed copy is the whole mechanism.
+
 ## The defect underneath, which is worth fixing on its own
 
 `check` compares each artifact against "whichever copies are actually on disk",

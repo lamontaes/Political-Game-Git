@@ -385,20 +385,6 @@
     "evidence": "Somebody"
   },
   {
-    "id": "prose:life:adult:adult.help-with-strings#prose",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "Somebody"
-  },
-  {
-    "id": "prose:life:adult:adult.help-with-strings#prose",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"the thing\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "the thing"
-  },
-  {
     "id": "prose:life:adult:adult.household-money-shortfall#option:take-the-work:description",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
@@ -705,13 +691,6 @@
     "family": "rather-than-scaffold",
     "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
     "evidence": "rather than"
-  },
-  {
-    "id": "prose:life:adult:adult.work-offer-elsewhere#option:stay:description",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"the thing\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "the thing"
   },
   {
     "id": "prose:life:adult:adult.work-rule-pressure#option:raise-it:description",

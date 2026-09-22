@@ -150,6 +150,16 @@ export function assertLegislationIntegrity(
         );
       }
     }
+    // A measure may say what question it is about, and the catalogue is what
+    // decides which questions exist. A link to one the catalogue does not hold
+    // would make a save claim a bill is about something nothing defines.
+    for (const propositionId of measure.propositionIds ?? []) {
+      if (!world.policyCatalog.propositions[propositionId]) {
+        throw new Error(
+          `Legislative measure references a missing policy proposition: ${propositionId}`,
+        );
+      }
+    }
   }
 
   const voteById = new Map<EntityId, LegislativeVoteRecord>();
