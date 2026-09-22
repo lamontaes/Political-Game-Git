@@ -138,9 +138,19 @@ export { OFFICE_QUALIFICATIONS_META };
  * anything outside them keeps the neutral phrase rather than inventing a name.
  */
 export function qualificationStateLabel(row: SourcedQualification): string {
+  return stateName(row.stateUsps);
+}
+
+/**
+ * The state's own name, for a sentence a player reads. Accepts either the
+ * bare USPS code a row carries or the `US-XX` jurisdiction key, because the
+ * two are used interchangeably across the callers and neither belongs in
+ * prose.
+ */
+export function stateName(usps: string): string {
+  const bare = usps.startsWith("US-") ? usps.slice(3) : usps;
   return (
-    (US_STATE_NAMES as Readonly<Record<string, string>>)[row.stateUsps] ??
-    "this state"
+    (US_STATE_NAMES as Readonly<Record<string, string>>)[bare] ?? "this state"
   );
 }
 
