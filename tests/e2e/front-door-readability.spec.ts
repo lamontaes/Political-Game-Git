@@ -157,8 +157,9 @@ test.describe("The front door stays compact and readable over the room", () => {
     const titleBox = await page.getByTestId("title-screen").boundingBox();
     await page.getByTestId("new-game").click();
 
-    const heading = await computed(page, "setup-screen", "h1");
-    expect(relativeLuminance(heading.color)).toBeGreaterThan(0.7);
+    // fe8a69de retired the creator's own "Our Civic Duty" wordmark, so the
+    // step heading below is the creator's leading heading now.
+    await expect(page.getByTestId("setup-screen").locator("h1")).toHaveCount(0);
     const stage = await computed(page, "creator-stage-route", "h2");
     expect(relativeLuminance(stage.color)).toBeGreaterThan(0.7);
     expect(stage.fontFamily).toMatch(/Palatino|Georgia|serif/i);

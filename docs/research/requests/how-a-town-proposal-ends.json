@@ -1,0 +1,24 @@
+{
+  "filedAt": "2026-09-22T22:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "long playthrough",
+  "priority": "P2",
+  "question": "When a small town or city posts a proposal, such as a park shelter repair or a road repair schedule, and opens public comment, what share are adopted, amended, tabled or withdrawn, and how long does each take? Who decides, and how does public comment change the outcome?",
+  "questionId": "how-a-town-proposal-ends",
+  "relatedQuestionIds": ["local-executive-and-council-rules"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "long playthrough thread (Fatima Erickson and Seth Woodward)",
+  "sourcesChecked": [
+    {
+      "source": "Long playthrough in the browser, September 22, 2026: Eastport, Maine news, 2026 to 2029",
+      "whatItDidNotSettle": "Measures the loop. Says nothing about real town outcomes."
+    },
+    {
+      "source": "The local development code as built",
+      "whatItDidNotSettle": "Local stages run posted, comment and withdrawn; there is no adoption stage to reach."
+    }
+  ],
+  "title": "How a town or city proposal actually ends: adopted, amended, tabled or withdrawn",
+  "usableAnswer": "Typical outcome shares and timelines for routine municipal proposals in small towns and in cities, the body that decides at each stage, and whether public comment commonly changes a proposal. Bands and a named source are fine.",
+  "whyItMatters": "In Eastport, Maine over three game years the same park shelter proposal was posted fourteen times and withdrawn thirteen, and no proposal was ever adopted. The local stages in the game have no adopted stage at all, so a town never decides anything and a council seat has nothing to vote on."
+}

@@ -1504,12 +1504,29 @@ function publishedStoryOnMatter(
   return null;
 }
 
+/**
+ * People who bring or carry an account rather than being its subject. A story
+ * about an allegation is about the accused: the accuser is its source, and
+ * asking the accuser to respond had them dispute their own claim (Eastport,
+ * Maine playthrough, 2026-09-22).
+ */
+const ACCOUNT_BEARER_ROLES: ReadonlySet<string> = new Set([
+  "agency:alleger",
+  "agency:complainant",
+  "agency:concerned-staff",
+  "agency:press-source",
+  "agency:reporter",
+  "agency:witness",
+]);
+
 function subjectsOf(world: World, event: HistoricalEvent): EntityId[] {
   return sortedUnique(
     event.participants
       .filter(
         (entry) =>
-          entry.role.startsWith("agency:") || entry.role.startsWith("focus:"),
+          (entry.role.startsWith("agency:") ||
+            entry.role.startsWith("focus:")) &&
+          !ACCOUNT_BEARER_ROLES.has(entry.role),
       )
       .map((entry) => entry.personId)
       .filter((personId) => world.people[personId])

@@ -6262,9 +6262,9 @@
       "anchor": "projectCampaign-0003",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} won. The supported term begins {supportedLegislativeTermDates(contest.office.officeKey,contest.electionDate)!.startsAt}; the result itself grants no current office authority.",
+      "text": "{candidateName} won. The term begins {proseDate(term.startsAt)}; until then the office is not theirs.",
       "occurrence": 0,
-      "textRevision": "fdcd60cba88c"
+      "textRevision": "17d4e131512b"
     },
     {
       "anchor": "projectDisclosure-0001",
