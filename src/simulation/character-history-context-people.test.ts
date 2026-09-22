@@ -7,7 +7,7 @@ import {
   canonicalJson,
   createCharacterHistoryContextPeople,
   createCharacterHistoryContextPerson,
-  drawCanonicalName,
+  drawCanonicalNameForGender,
   generatePersonIdentity,
   makeIsoDate,
   SeededRng,
@@ -26,7 +26,7 @@ describe("batched context-person writer", () => {
     { length: 40 },
     (_, index) => ({
       stableKey: `context-people-batch:${index}`,
-      ...drawCanonicalName(rng.fork(`name:${index}`)),
+      ...drawCanonicalNameForGender(rng.fork(`name:${index}`), "unstated"),
       identity: generatePersonIdentity(rng.fork(`identity:${index}`)),
       birthDate: makeIsoDate("1968-06-15"),
       homeJurisdictionId: home,

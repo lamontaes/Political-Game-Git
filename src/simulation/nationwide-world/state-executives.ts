@@ -8,7 +8,7 @@ import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
 } from "../life-places";
-import { drawCanonicalName, personName } from "../people";
+import { drawCanonicalNameForGender, personName } from "../people";
 import { SeededRng } from "../rng";
 import type { EntityId, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
@@ -269,7 +269,7 @@ export function ensureStateExecutiveIncumbent(
       kind: "context-person",
       input: {
         stableKey: holderKey,
-        ...drawCanonicalName(rng),
+        ...drawCanonicalNameForGender(rng, "unstated"),
         birthDate: makeIsoDate(`${anchorYear - rng.integer(45, 70)}-01-01`),
         homeJurisdictionId: office.jurisdictionId,
       },
