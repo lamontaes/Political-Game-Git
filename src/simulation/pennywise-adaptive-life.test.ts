@@ -1139,22 +1139,4 @@ describe("Scope E — one commitment vocabulary, and leverage that is not a mete
     expect(serializeWorld(world)).not.toContain("leverage");
     expect(serializeWorld(world)).not.toContain("reliance");
   });
-
-  it("only offers the uncomfortable-help situation when somebody is actually relied on", () => {
-    const world = createDemoWorld();
-    const context = buildAdultLifeContext(world, world.personOrder[0]!);
-    const situation = adultSituationBank().find(
-      (candidate) => candidate.key === "adult.help-with-strings",
-    )!;
-    expect(situation.available({ ...context, strongestDependency: 0 })).toBe(
-      false,
-    );
-    expect(situation.available({ ...context, strongestDependency: 0.5 })).toBe(
-      true,
-    );
-    // And it is more relevant the more lopsided the relationship is.
-    expect(situation.relevance!({ ...context, strongestDependency: 0.6 })).toBe(
-      1,
-    );
-  });
 });

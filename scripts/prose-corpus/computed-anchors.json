@@ -2123,14 +2123,6 @@
       "textRevision": "026243ad24a8"
     },
     {
-      "anchor": "RETURN_SUMMARY-0017",
-      "sourcePath": "src/simulation/life-callbacks.ts",
-      "symbol": "RETURN_SUMMARY",
-      "text": "The other job is on the table again.",
-      "occurrence": 0,
-      "textRevision": "54f3f70357eb"
-    },
-    {
       "anchor": "RETURN_SUMMARY-0018",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
@@ -2217,14 +2209,6 @@
       "text": "What happened to the money got mentioned.",
       "occurrence": 0,
       "textRevision": "5a2a58ae5b52"
-    },
-    {
-      "anchor": "RETURN_SUMMARY-0029",
-      "sourcePath": "src/simulation/life-callbacks.ts",
-      "symbol": "RETURN_SUMMARY",
-      "text": "The offer of help was put to you once more.",
-      "occurrence": 0,
-      "textRevision": "467e6e5ae4e5"
     },
     {
       "anchor": "RETURN_SUMMARY-0030",
