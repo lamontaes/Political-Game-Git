@@ -2,7 +2,10 @@ import { UX39CalendarGrid, useCalendarDateOrder } from "./UX39CalendarGrid";
 import { PinToggle } from "./controls/PinToggle";
 import { calendarDisplayDate } from "./ux39-calendar-dates";
 import { EconomicContextPanel } from "./EconomicContextPanel";
-import { economicContextBindingForPlace } from "../presentation/economic-context-bindings";
+import {
+  economicContextBindingForPlace,
+  economicContextUnavailableReason,
+} from "../presentation/economic-context-bindings";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import { playerEconomicContextLines } from "../presentation/economic-context";
 import { buildIdentity } from "../release/build-identity";
@@ -1298,18 +1301,28 @@ export function PersonalWorkspace({
           {economicPlace?.displayName ?? "Home place not recorded"} ·{" "}
           {world.currentDate}
         </p>
-        {economicLines.length ? (
-          economicLines.map((line) => <p key={line.key}>{line.text}</p>)
-        ) : (
-          <p className="game-note">
-            No supported economic observations are available for this place and
-            date.
-          </p>
-        )}
+        {/*
+          The compact lines come from a generated file committed per place, and
+          only Lexington has one. Saying "no supported economic observations
+          are available for this place" was true of that file and false of the
+          screen: the panel below now fetches real figures for the same town
+          from the shipped corpus, so the sentence contradicted the numbers
+          printed underneath it. Where the panel can speak, it speaks; where
+          nothing can, the panel's own reason says why.
+        */}
+        {economicLines.length
+          ? economicLines.map((line) => <p key={line.key}>{line.text}</p>)
+          : null}
         {/*
           The binding registry decides whether this place has one, not a
-          comparison against one named city. A second reviewed crosswalk shows
-          up here by being registered.
+          comparison against one named city. Most places now derive one from
+          the county areas the Census records them in; a reviewed crosswalk
+          still wins where somebody read one.
+
+          When there is none, the reason is said. Rendering null here meant
+          that every town in America showed a "Money and property" section with
+          this panel simply missing from it, which reads as a broken screen
+          rather than as an honest gap.
         */}
         {economicBinding ? (
           <EconomicContextPanel
@@ -1317,6 +1330,10 @@ export function PersonalWorkspace({
             simulationDate={world.currentDate}
             diagnostics={DIAGNOSTICS}
           />
+        ) : economicPlace ? (
+          <p className="game-note" data-testid="economic-context-unavailable">
+            {economicContextUnavailableReason(economicPlace.key)}
+          </p>
         ) : null}
       </section>
     </>

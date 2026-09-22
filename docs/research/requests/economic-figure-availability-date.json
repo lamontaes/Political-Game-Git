@@ -1,0 +1,59 @@
+{
+  "candidateAnswers": [
+    {
+      "argumentAgainst": "It is a per-product research job with a maintenance tail: three publishers, each with its own calendar, and a vintage rule that has to be re-read whenever a corpus is refreshed. It also cannot be settled from inside the repository, because none of the three locked products carries a release date at all.",
+      "argumentFor": "It is the only answer that is true. BEA publishes CAINC1 on a known annual schedule, HUD publishes Fair Market Rents effective on a stated date each fiscal year, and BLS publishes LAUS monthly on a publicly documented calendar. Reading those three schedules once turns every figure in the corpus into something the game can prove a person could have seen, and it keeps working as the corpus is refreshed.",
+      "label": "Read each publisher's real release calendar",
+      "position": "For each of the three products, establish the publisher's actual release rule and derive the availability date from the observation's own period, rather than from when the game fetched the file.",
+      "recommended": true
+    },
+    {
+      "argumentAgainst": "It is a guess dressed as a rule, and it would be wrong in the permissive direction: a 2019 annual estimate was not available on 2019-12-31. It would show a player figures nobody could have seen, which is the same failure as the current one with the sign reversed.",
+      "argumentFor": "It needs no research and no external source, and it is derivable today from a field every record already carries.",
+      "label": "Use the observation's own period end",
+      "position": "Treat a figure as available from its `asOf` date — the end of the period it describes.",
+      "recommended": false
+    },
+    {
+      "argumentAgainst": "It leaves the surface empty for the first eight months of every life, and it makes a fetch date — an accident of when a lane happened to run a script — into a fact about the world the player lives in. Refreshing the corpus would push the date later and take figures away from saves that already showed them.",
+      "argumentFor": "It is conservative and it never shows a player something they could not have seen. It is also the current behaviour, so it costs nothing.",
+      "label": "Keep the retrieval-date fallback",
+      "position": "Nothing changes. A figure becomes visible on the day the game fetched the file it came from.",
+      "recommended": false
+    }
+  ],
+  "filedAt": "2026-09-22T17:15:00.000Z",
+  "impact": "shapes-design",
+  "lane": "nationwide coverage",
+  "notes": [
+    "Measured rather than assumed, in a browser on this branch off main 4965f63c. A life opening in Bowling Green, Kentucky reaches 249 recorded figures and is shown none of them. The same is true in Boise City, Idaho, and — this is the part that matters — the same is true in Lexington, the one place with a hand-reviewed crosswalk. So this is not a coverage gap in the binding registry. It is the whole surface, everywhere, for the first eight months of every save.",
+    "The mechanism is one line: `economic-context-browser.ts:194` keeps an observation only where `knownAvailableOn <= simulationDate`. `knownAvailableOn` carries basis `retrieval-date-fallback`, and all three locked artifacts were fetched on 2026-09-03 (BEA CAINC1, HUD FY25 FMRs, BLS LAUS, per the manifest's own retrieval blocks). An ordinary life opens 2026-01-05.",
+    "The design intent behind the filter is right and should survive whatever answers this: a player should not read a figure that had not been published in their world yet. What is wrong is the basis. The date the game downloaded a file is not a fact about the world; it is a fact about our build, and it is currently doing the work of a publication date for figures published years earlier.",
+    "This was hidden for as long as the registry held one entry, because a surface that is empty in the only place it is wired reads as a coverage problem. Wiring the rest of the country is what made it visible.",
+    "Filed as research rather than fixed in place because picking an availability rule decides what the player is allowed to know and when, and the honest version needs three publishers' real calendars, which the locked products do not carry. The type already admits this: `sourceReleaseDate` is documented as null because none of the three products establishes one.",
+    "Separable and not waiting on this: the panel now says what it is doing. It used to print \"Nothing has been published for this date yet\", which was false — the figures are there and are being withheld — and it now says how many are held and why."
+  ],
+  "priority": "P1",
+  "question": "The game will not show a player an economic figure it cannot prove had been published by the current in-world date, which is right. But it establishes that date by falling back to the day the game downloaded the file, because none of the three locked products carries a publisher release date. All three were fetched on 2026-09-03 and an ordinary life opens on 2026-01-05, so every figure in a 39 MB corpus is withheld from every player in every town for the first eight months of every save, Lexington included. What should establish when a published figure became available to a person living in the world: the publisher's real release calendar for each product, the period the observation describes, or something else? And where a product's calendar cannot be established, should the fallback stay conservative and hide the figure, or should the game show it and say plainly that it cannot date it?",
+  "questionId": "economic-figure-availability-date",
+  "relatedQuestionIds": [],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "every-town-in-america thread (technical team lead)",
+  "sourcesChecked": [
+    {
+      "source": "public/data/economic-context/v1/manifest.json, locks.{bea,hud,laus}.artifacts[0].retrieval.retrievedAt, read on claude/project-thread-mpmten at 4965f63c",
+      "whatItDidNotSettle": "All three read 2026-09-03. Establishes that the fallback date is a single build-time accident shared by every observation in the corpus. Says nothing about when any publisher actually released any of it."
+    },
+    {
+      "source": "A browser walk of Bowling Green KY, Boise City ID and Lexington KY through the ordinary creator, tests/e2e/economic-context-nationwide.spec.ts",
+      "whatItDidNotSettle": "Establishes that all three towns reach the corpus and all three are shown nothing on 2026-01-05. Says nothing about which date any of those figures should have carried."
+    },
+    {
+      "source": "src/presentation/economic-context-browser.ts:73-76, the `knownAvailableOnBasis` union",
+      "whatItDidNotSettle": "Establishes that the code already anticipates a `publisher-release-date` basis and that nothing currently produces one. Does not say what that date should be for any product."
+    }
+  ],
+  "title": "What establishes when a published economic figure became available in the world",
+  "usableAnswer": "For each of the three products — BEA regional (CAINC1), HUD Fair Market Rents, BLS LAUS — the publisher's actual release rule, stated as something derivable from an observation's own period: for example 'CAINC1 annual county estimates for year Y are released in November of Y+1'. Plus one decision covering the general case: where no release rule can be established for a product, whether the game withholds the figure or shows it while saying plainly that it cannot date it. A usable answer does not need exact historical release dates per record; it needs a rule per product and a stated fallback.",
+  "whyItMatters": "It decides whether the economic surface exists at all for an ordinary player. A 39 MB corpus of real BEA, HUD and BLS figures ships with the game and covers the whole country, and today not one number from it reaches any player in any town during the first eight months of a save, because the only date the game can prove is the day a lane ran the fetch script. Answering it turns a shipped, paid-for dataset into something a person in Bowling Green or Boise actually reads, and it settles the general rule for every future dated real-world product, not just these three."
+}
