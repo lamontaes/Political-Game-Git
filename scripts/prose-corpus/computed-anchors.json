@@ -8395,6 +8395,14 @@
       "textRevision": "1067680294ef"
     },
     {
+      "anchor": "unavailableReason-0005",
+      "sourcePath": "src/presentation/people-goals.ts",
+      "symbol": "unavailableReason",
+      "text": "The people this could be about are ones you have not spoken to in over a year. Get back in touch first.",
+      "occurrence": 0,
+      "textRevision": "4d4439db1c88"
+    },
+    {
       "anchor": "uncertaintiesFor-0001",
       "sourcePath": "src/presentation/legislation-projection.ts",
       "symbol": "uncertaintiesFor",

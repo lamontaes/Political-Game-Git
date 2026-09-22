@@ -1,7 +1,7 @@
 {
-  "digest": "f241441490683438",
-  "totalRecords": 3239,
-  "distinctTexts": 3022,
+  "digest": "75262d0bc0ccbc72",
+  "totalRecords": 3240,
+  "distinctTexts": 3023,
   "exactDuplicateGroups": 84,
   "normalizedDuplicateGroups": 94,
   "nearDuplicateClusters": 37,
@@ -14,7 +14,7 @@
     "vague-referent": 191
   },
   "reachability": {
-    "CURRENTLY_UNREACHABLE": 395,
+    "CURRENTLY_UNREACHABLE": 396,
     "DEV_FIXTURE_ONLY": 110,
     "LEGACY_OR_WITHDRAWN": 90,
     "PLAYER_REACHABLE": 2243,
@@ -2508,6 +2508,7 @@
     "prose:life:personal-aims:unavailableReason-0002#text": "8d131924ec40",
     "prose:life:personal-aims:unavailableReason-0003#text": "e420797fb424",
     "prose:life:personal-aims:unavailableReason-0004#text": "1067680294ef",
+    "prose:life:personal-aims:unavailableReason-0005#text": "4d4439db1c88",
     "prose:life:press-disclosure:TERM_LABEL-0001#text": "9121669c0f5c",
     "prose:life:press-disclosure:TERM_LABEL-0002#text": "d5b8e01ff0c6",
     "prose:life:press-disclosure:TERM_LABEL-0003#text": "cf2984558c63",
@@ -5749,6 +5750,7 @@
     "prose:life:personal-aims:unavailableReason-0002#text": "e1c104310c89",
     "prose:life:personal-aims:unavailableReason-0003#text": "e1c104310c89",
     "prose:life:personal-aims:unavailableReason-0004#text": "e1c104310c89",
+    "prose:life:personal-aims:unavailableReason-0005#text": "e1c104310c89",
     "prose:life:press-disclosure:TERM_LABEL-0001#text": "b3c51cdf7636",
     "prose:life:press-disclosure:TERM_LABEL-0002#text": "b3c51cdf7636",
     "prose:life:press-disclosure:TERM_LABEL-0003#text": "b3c51cdf7636",

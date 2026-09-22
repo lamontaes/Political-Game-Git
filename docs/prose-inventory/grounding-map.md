@@ -33,7 +33,7 @@ declare is reported as undeclared rather than filled in from a guess.
 | `life/office-answer` | 17 | 0 | 0 | candidacy |
 | `life/opening-conversation-intents` | 16 | 0 | 0 | — |
 | `life/opening-conversation-replies` | 59 | 0 | 0 | — |
-| `life/personal-aims` | 18 | 0 | 0 | — |
+| `life/personal-aims` | 19 | 0 | 0 | — |
 | `life/press-disclosure` | 5 | 0 | 0 | — |
 | `life/recall-cards` | 10 | 0 | 0 | — |
 | `narration/connective` | 43 | 0 | 0 | elapsed-time |
