@@ -1,13 +1,21 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  addDays,
+  advanceWorld,
   ageOnDate,
+  createCampaignElectionTransitionRegistry,
   createScenarioWorld,
   GAME_ADULT_CANDIDACY_AGE,
 } from "../index";
 import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
 import { personName } from "../people";
 import type { EntityId, HistoricalEvent, World } from "../types";
+import {
+  resolveElectionContest,
+  scheduleElectionContest,
+} from "../election-contests";
+import { recordGovernorCandidacyIntent } from "../nationwide-world/state-executive-turnover";
 import { recordWorldEvent } from "../world";
 import {
   editorialHeadline,
@@ -194,5 +202,93 @@ describe("editorial copy", () => {
     expect(copy[1]).toBe(
       "It is the second storm recorded in Kentucky this year.",
     );
+  });
+
+  it("reports who won an election and whom they beat, with no tally", () => {
+    const { world } = fixture();
+    const [winnerId, loserId] = world.personOrder;
+    const scheduled = scheduleElectionContest(world, {
+      stableKey: "editorial-test:contest",
+      jurisdictionId: KY,
+      office: {
+        officeKey: "governor",
+        title: "Governor of Kentucky",
+        seatKey: null,
+        occupationClassification: "service:governor",
+      },
+      electionDate: addDays(world.currentDate, 1),
+      candidatePersonIds: [winnerId!, loserId!],
+      provenance: { method: "simulated", sourceEntityIds: [], note: null },
+    });
+    const contest = scheduled.history.electionContests!.at(-1)!;
+    const moved = advanceWorld(
+      scheduled,
+      1,
+      createCampaignElectionTransitionRegistry(),
+    );
+    const resolved = (moved.history.electionContestResults ?? []).some(
+      (entry) => entry.contestId === contest.id,
+    )
+      ? moved
+      : resolveElectionContest(moved, { contestId: contest.id });
+    const result = resolved.history.electionContestResults!.at(-1)!;
+    const event = resolved.history.events.find(
+      (candidate) => candidate.id === result.outcomeEventId,
+    )!;
+    const winner = personName(resolved.people[result.winnerPersonId]!);
+    const loser = personName(
+      resolved.people[
+        result.winnerPersonId === winnerId ? loserId! : winnerId!
+      ]!,
+    );
+    expect(editorialHeadline(resolved, event)).toBe(
+      `${winner} wins election for Governor of Kentucky`,
+    );
+    const [lede] = editorialParagraphs(resolved, event, stateOutlet(resolved));
+    expect(lede).toContain(
+      `${winner} won the election for Governor of Kentucky on `,
+    );
+    expect(lede).toContain(`defeating ${loser}.`);
+    expect(lede).not.toMatch(/Winner:|resolved|votes|percent/);
+  });
+
+  it("says who is standing for governor without the game's own reason", () => {
+    const { world, personId } = fixture();
+    const office = {
+      officeKey: "governor",
+      displayName: "Governor of Kentucky",
+    };
+    const open = recordGovernorCandidacyIntent(world, {
+      office,
+      year: 2027,
+      stateJurisdictionId: KY,
+      incumbentPersonId: null,
+      seeking: false,
+      reason: "no sitting governor is on record.",
+    });
+    const vacant = open.history.events.at(-1)!;
+    expect(editorialHeadline(open, vacant)).toBe(
+      "No incumbent in the 2027 race for Governor of Kentucky",
+    );
+    const standing = recordGovernorCandidacyIntent(open, {
+      office,
+      year: 2031,
+      stateJurisdictionId: KY,
+      incumbentPersonId: personId,
+      seeking: false,
+      reason: "they cannot or will not stand again under this game profile.",
+    });
+    const event = standing.history.events.at(-1)!;
+    const name = personName(standing.people[personId]!);
+    const copy = [
+      editorialHeadline(standing, event),
+      ...editorialParagraphs(standing, event, stateOutlet(standing)),
+      ...editorialParagraphs(open, vacant, stateOutlet(open)),
+    ].join("\n");
+    expect(copy).toContain(`${name} will not seek another term`);
+    expect(copy).toContain(
+      "No sitting Governor of Kentucky is a candidate in the 2027 election.",
+    );
+    expect(copy).not.toMatch(/on record|game profile|not on the ballot/);
   });
 });

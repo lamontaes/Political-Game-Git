@@ -421,6 +421,103 @@ function isContinuity(event: HistoricalEvent): boolean {
 }
 
 /**
+ * An election result as a reporter writes it: who won, what, when and whom
+ * they beat, from the contest and its result record.
+ *
+ * PLACEHOLDER: vote counts and shares are not printed. The tallies a contest
+ * records today are drawn as a stand-in (every contested race lands between
+ * 1,000 and 10,000 votes a candidate), not a turnout model, so printing them
+ * would publish a number nobody decided. The research question
+ * `how-an-election-night-should-come-out` owns what a result should look
+ * like; print margins here once its answer is built.
+ */
+function contestResult(world: World, event: HistoricalEvent) {
+  const result = (world.history.electionContestResults ?? []).find(
+    (record) => record.outcomeEventId === event.id,
+  );
+  if (!result) return null;
+  const contest = (world.history.electionContests ?? []).find(
+    (record) => record.id === result.contestId,
+  );
+  const winner = world.people[result.winnerPersonId];
+  if (!contest || !winner) return null;
+  const place = world.jurisdictions[contest.jurisdictionId]?.name ?? null;
+  const title = contest.office.title;
+  const office =
+    place && !title.includes(place) ? `${title} in ${place}` : title;
+  const losers = contest.candidatePersonIds
+    .filter((id) => id !== result.winnerPersonId)
+    .map((id) => world.people[id])
+    .filter((person) => person !== undefined)
+    .map((person) => personName(person));
+  return { winner: personName(winner), office, losers };
+}
+
+function contestHeadline(world: World, event: HistoricalEvent): string | null {
+  const result = contestResult(world, event);
+  if (!result) return null;
+  return `${result.winner} wins election for ${result.office}`;
+}
+
+function contestLede(world: World, event: HistoricalEvent): string | null {
+  const result = contestResult(world, event);
+  if (!result) return null;
+  const when = readableDate(event.occurredAt, event.occurredAt);
+  const opening = `${result.winner} won the election for ${result.office} on ${when}`;
+  return result.losers.length === 0
+    ? `${opening}, with no other candidate on the ballot.`
+    : `${opening}, defeating ${joinAnd(result.losers)}.`;
+}
+
+/**
+ * A governor's decision to stand again, or not. The record's own sentence
+ * carries the game's internal reason for a decision, which is not something
+ * a newsroom knows, so the story says only what was decided.
+ */
+function governorIntent(world: World, event: HistoricalEvent) {
+  const officeKey = tagValue(event, "office:");
+  const year = event.stableKey.split(":").at(-1);
+  const person = event.participants[0]
+    ? world.people[event.participants[0].personId]
+    : undefined;
+  const title = event.summary.match(/^The (.+?) (?:is seeking|is not on)/)?.[1];
+  if (!officeKey || !year || !/^\d{4}$/.test(year) || !title) return null;
+  return {
+    title,
+    year,
+    name: person ? personName(person) : null,
+    seeking: event.tags.includes("intent:seeking"),
+  };
+}
+
+function governorIntentHeadline(
+  world: World,
+  event: HistoricalEvent,
+): string | null {
+  const intent = governorIntent(world, event);
+  if (!intent) return null;
+  if (!intent.name)
+    return `No incumbent in the ${intent.year} race for ${intent.title}`;
+  return intent.seeking
+    ? `${intent.name} to seek another term`
+    : `${intent.name} will not seek another term`;
+}
+
+function governorIntentLede(
+  world: World,
+  event: HistoricalEvent,
+): string | null {
+  const intent = governorIntent(world, event);
+  if (!intent) return null;
+  if (!intent.name) {
+    return `No sitting ${intent.title} is a candidate in the ${intent.year} election.`;
+  }
+  return intent.seeking
+    ? `${intent.name}, ${intent.title}, is seeking another term in the ${intent.year} election.`
+    : `${intent.name}, ${intent.title}, will not be a candidate in the ${intent.year} election.`;
+}
+
+/**
  * A headline written for the reader, where the record holds enough to write
  * one: a measure and its previous reading, or a hazard's kind, size and
  * place. Null means the caller keeps the recorded sentence.
@@ -436,6 +533,12 @@ export function editorialHeadline(
     return hazardHeadline(world, event);
   }
   if (isContinuity(event)) return continuityHeadline(world, event);
+  if (event.type === "election.contest-resolved") {
+    return contestHeadline(world, event);
+  }
+  if (event.type === "election.governor-candidacy-intent") {
+    return governorIntentHeadline(world, event);
+  }
   return null;
 }
 
@@ -453,6 +556,9 @@ export function editorialParagraphs(
   const sentence =
     (event.type === "crisis.hazard-occurred" && hazardLede(world, event)) ||
     (isContinuity(event) && continuityLede(world, event)) ||
+    (event.type === "election.contest-resolved" && contestLede(world, event)) ||
+    (event.type === "election.governor-candidacy-intent" &&
+      governorIntentLede(world, event)) ||
     event.summary;
   const lede = line ? `${line} — ${sentence}` : sentence;
   const context =
