@@ -163,5 +163,5 @@ describe("DEPTH2 A07 newsworthiness", () => {
           lead.basisEventIds.includes(member.event.id),
       ),
     ).toBe(true);
-  }, 120_000);
+  });
 });

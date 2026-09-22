@@ -1307,8 +1307,10 @@ function sweepOutlet(
       return {
         event,
         priority: judged.score,
-        routine: !judged.reasons.some((reason) =>
-          SUBSTANTIVE_REASONS.has(reason.key),
+        routine: !judged.reasons.some(
+          (reason) =>
+            SUBSTANTIVE_REASONS.has(reason.key) &&
+            (reason.key !== "scale" || reason.weight >= SUBSTANTIVE_SCALE),
         ),
       };
     })
@@ -1323,8 +1325,8 @@ function sweepOutlet(
     capacity - activeAssignments(next, outlet.id).length,
   );
   // Authored editorial attention: one routine item per weekly review; items
-  // with a substantive reason (a matter, named people, a recorded scale, a
-  // public office) may use the rest of the free capacity. Being on the beat or
+  // with a substantive reason (a matter, named people, a recorded scale above
+  // minor, a public office) may use the rest of the free capacity. Being on the beat or
   // in the outlet's own town does not by itself make an item more than routine.
   let routineTaken = 0;
   const chosen = routed.slice(0, free).filter(({ routine }) => {
@@ -1469,6 +1471,9 @@ export function newsworthiness(
     reasons,
   };
 }
+
+/** A recorded scale this large is more than routine; `minor` is not. */
+const SUBSTANTIVE_SCALE = 2;
 
 const SUBSTANTIVE_REASONS: ReadonlySet<string> = new Set([
   "matter",
