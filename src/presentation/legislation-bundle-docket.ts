@@ -1,6 +1,7 @@
 import {
   applyCharacterHistoryPlan,
   characterHistoryContextPersonId,
+  currentMeasureProvisions,
   createStableId,
   createWorkItem,
   drawCanonicalName,
@@ -27,6 +28,8 @@ import {
   MeasureBundleError,
   type CompiledMeasureBundle,
   type MeasureComponentInput,
+  type MeasureCrossReference,
+  type MeasureOperation,
   type SubjectRule,
 } from "../simulation/legislation-bundle";
 import {
@@ -86,6 +89,10 @@ export interface FileBundleComponentInput {
   readonly parameterValues?: Readonly<Record<string, ProgramParameterValue>>;
   readonly subject: string;
   readonly dependsOn?: readonly string[];
+  /** What this component does to existing law. An insertion where omitted. */
+  readonly operation?: MeasureOperation;
+  /** References this component declares, checked when the measure compiles. */
+  readonly crossReferences?: readonly MeasureCrossReference[];
   /**
    * The authority key this component acts upon, where its instrument takes one.
    *
@@ -198,6 +205,54 @@ export function fileBundleDraft(
     authorities.set(component.componentKey, authority);
   }
 
+  // The exact target revision, checked against the text actually in force.
+  //
+  // This is the one check the compiler cannot make, because it is pure and
+  // holds no World. A component that amends or repeals names the provision
+  // record its author was reading; if that provision has since been amended by
+  // somebody else, or repealed, or never existed, the measure is refused with
+  // the provision named. Applying it to whatever is there now would silently
+  // rewrite text its author never saw.
+  for (const component of input.components) {
+    const operation = component.operation;
+    if (operation === undefined || operation.kind === "insert") continue;
+    const verb = operation.kind === "replace" ? "amend" : "repeal";
+    const authority = authorities.get(component.componentKey);
+    if (authority === undefined) {
+      throw new BillConfigurationError(
+        `Component '${component.componentKey}' sets out to ${verb} existing law but names no authority to ${verb}.`,
+      );
+    }
+    if (authority.kind !== "docket-measure") {
+      // A standing statute in the content bank has no provision records in
+      // this world, so there is no revision to check a draft against. Saying
+      // so is the honest answer; pretending to have verified one would be the
+      // dishonest one.
+      throw new BillConfigurationError(
+        `Component '${component.componentKey}' sets out to ${verb} ${authority.citationLabel}, whose text this world does not record as provisions, so the version it was written against cannot be checked.`,
+      );
+    }
+    const inForce = currentMeasureProvisions(
+      world,
+      authority.measureId as EntityId,
+    );
+    for (const target of operation.targets) {
+      const current = inForce.find(
+        (provision) => provision.provisionKey === target.provisionKey,
+      );
+      if (!current) {
+        throw new BillConfigurationError(
+          `Component '${component.componentKey}' sets out to ${verb} the '${target.provisionKey}' provision of ${authority.citationLabel}, which that measure does not currently carry.`,
+        );
+      }
+      if (current.id !== target.expectedRevisionId) {
+        throw new BillConfigurationError(
+          `Component '${component.componentKey}' was written against an earlier version of the '${target.provisionKey}' provision of ${authority.citationLabel}. That text has been amended since, so this component must be rewritten against the version now in force.`,
+        );
+      }
+    }
+  }
+
   const sequence = nextDocketSequence(world, input.scenarioKey);
   const docketKey = docketKeyOf(input.scenarioKey, sequence);
   const measureStableKey = docketMeasureStableKey(input.scenarioKey, sequence);
@@ -222,6 +277,12 @@ export function fileBundleDraft(
         : {}),
       ...(component.dependsOn !== undefined
         ? { dependsOn: component.dependsOn }
+        : {}),
+      ...(component.operation !== undefined
+        ? { operation: component.operation }
+        : {}),
+      ...(component.crossReferences !== undefined
+        ? { crossReferences: component.crossReferences }
         : {}),
       ...(authorities.has(component.componentKey)
         ? { predicateAuthority: authorities.get(component.componentKey)! }
@@ -336,6 +397,33 @@ export function fileBundleDraft(
       componentKey: component.componentKey,
       componentSubject: component.subject,
       componentDependsOn: component.dependsOn,
+      ...(component.operation.kind !== "insert"
+        ? {
+            componentOperation: {
+              kind: component.operation.kind,
+              targets: component.operation.targets.map((target) => ({
+                provisionKey: target.provisionKey,
+                expectedRevisionId: target.expectedRevisionId,
+              })),
+            },
+          }
+        : {}),
+      ...(component.crossReferences.length > 0
+        ? {
+            componentCrossReferences: component.crossReferences.map(
+              (reference) => ({
+                fromProvisionKey: reference.fromProvisionKey,
+                toProvisionKey: reference.toProvisionKey,
+                ...(reference.toComponentKey !== null
+                  ? { toComponentKey: reference.toComponentKey }
+                  : {}),
+                ...(reference.toAuthorityKey !== null
+                  ? { toAuthorityKey: reference.toAuthorityKey }
+                  : {}),
+              }),
+            ),
+          }
+        : {}),
       bundleSubjectRule: bundle.subjectRule,
       familyKey: component.draft.familyKey,
       familyVersion: component.draft.familyVersion,
@@ -443,6 +531,12 @@ export function recompileSavedBundle(
       subject: lineage.componentSubject ?? lineage.familyKey,
       ...(lineage.componentDependsOn !== undefined
         ? { dependsOn: lineage.componentDependsOn }
+        : {}),
+      ...(lineage.componentOperation !== undefined
+        ? { operation: lineage.componentOperation }
+        : {}),
+      ...(lineage.componentCrossReferences !== undefined
+        ? { crossReferences: lineage.componentCrossReferences }
         : {}),
       ...(authority !== null ? { predicateAuthority: authority } : {}),
     });

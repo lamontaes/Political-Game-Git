@@ -2501,6 +2501,30 @@ export interface LegislativeDraftLineageRecord {
   /** Component keys this one was filed as taking effect after. */
   readonly componentDependsOn?: readonly string[];
   /**
+   * What this component did to existing law, where it did anything to it.
+   *
+   * Absent means an insertion, which is what a component creating a new
+   * programme does and what every component filed before amendments were
+   * modelled did — so an old save reads back unchanged. Present on a component
+   * that amended or repealed, with the provisions it acted on and the exact
+   * revision of each it was written against, so the measure can still say what
+   * text its author actually had in front of them.
+   */
+  readonly componentOperation?: {
+    readonly kind: "replace" | "repeal";
+    readonly targets: readonly {
+      readonly provisionKey: string;
+      readonly expectedRevisionId: EntityId;
+    }[];
+  };
+  /** References this component declared, as filed. */
+  readonly componentCrossReferences?: readonly {
+    readonly fromProvisionKey: string;
+    readonly toProvisionKey: string;
+    readonly toComponentKey?: string;
+    readonly toAuthorityKey?: string;
+  }[];
+  /**
    * What the jurisdiction's saved profile allowed this measure to carry.
    *
    * Written identically on each of a bundle's component lineages, because the

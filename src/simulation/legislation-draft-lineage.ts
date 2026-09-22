@@ -43,6 +43,8 @@ export interface RecordDraftLineageInput {
   readonly componentKey?: string;
   readonly componentSubject?: string;
   readonly componentDependsOn?: readonly string[];
+  readonly componentOperation?: LegislativeDraftLineageRecord["componentOperation"];
+  readonly componentCrossReferences?: LegislativeDraftLineageRecord["componentCrossReferences"];
   readonly bundleSubjectRule?: "unrestricted" | "single-subject";
   /** A standing authority's key, where the bill was written against one. */
   readonly authorityKey?: string;
@@ -178,6 +180,12 @@ export function recordDraftLineage(
       : {}),
     ...(input.componentDependsOn !== undefined
       ? { componentDependsOn: [...input.componentDependsOn] }
+      : {}),
+    ...(input.componentOperation !== undefined
+      ? { componentOperation: input.componentOperation }
+      : {}),
+    ...(input.componentCrossReferences !== undefined
+      ? { componentCrossReferences: input.componentCrossReferences }
       : {}),
     ...(input.bundleSubjectRule !== undefined
       ? { bundleSubjectRule: input.bundleSubjectRule }

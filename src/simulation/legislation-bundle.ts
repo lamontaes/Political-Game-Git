@@ -87,6 +87,82 @@ export interface MeasureComponentInput {
    * caller happened to list them in.
    */
   readonly dependsOn?: readonly string[];
+  /**
+   * What this component does to the law it acts on.
+   *
+   * Omitted means `insert`, which is what every component did before this
+   * existed and what a component creating a new programme still does — so an
+   * existing caller keeps its meaning exactly. A component that amends or
+   * repeals says so, and names the provisions it acts on together with the
+   * revision of each it was written against.
+   */
+  readonly operation?: MeasureOperation;
+  /**
+   * References from this component's own text to a provision elsewhere.
+   *
+   * Declared, not parsed: the compiler does not read clause prose looking for
+   * section numbers, because a reference found that way would be a guess about
+   * language rather than a statement about law. Every reference is checked to
+   * resolve, and one that does not is a refusal naming both ends.
+   */
+  readonly crossReferences?: readonly MeasureCrossReference[];
+}
+
+/**
+ * A provision this component acts on, at the exact version it was written
+ * against.
+ *
+ * `expectedRevisionId` is the identity of the provision record the drafter had
+ * in front of them. It is carried rather than resolved here because this module
+ * is pure and holds no World; the caller that reads the saved measure supplies
+ * it, and the filing route checks it against what the measure currently says.
+ * That is the whole point of carrying it: an amendment written against text
+ * that has since been amended by somebody else must be refused rather than
+ * applied to whatever is there now.
+ */
+export interface MeasureTargetProvision {
+  readonly provisionKey: string;
+  readonly expectedRevisionId: EntityId;
+}
+
+/**
+ * What a component does to existing law.
+ *
+ * Three operations, kept apart because they are three different acts and the
+ * refusals differ. An insertion adds text and claims no existing provision. A
+ * replacement supersedes named provisions, so it must say which and at which
+ * revision. A repeal removes them, so it must say the same and states no
+ * replacement text of its own.
+ */
+export type MeasureOperation =
+  | { readonly kind: "insert" }
+  | {
+      readonly kind: "replace";
+      readonly targets: readonly MeasureTargetProvision[];
+    }
+  | {
+      readonly kind: "repeal";
+      readonly targets: readonly MeasureTargetProvision[];
+    };
+
+/**
+ * One declared reference from a component's provision to another provision.
+ *
+ * `toComponentKey` names a component of this same measure; a reference to
+ * something outside the measure names the authority instead, because "the Act
+ * this measure amends" and "section 4 of this measure" are different claims and
+ * collapsing them would let a dangling internal reference pass as an external
+ * one.
+ */
+export interface MeasureCrossReference {
+  /** The provision in this component that makes the reference. */
+  readonly fromProvisionKey: string;
+  /** A component of this measure, when the reference points inside it. */
+  readonly toComponentKey?: string;
+  /** The provision referred to, in the target's own un-namespaced key. */
+  readonly toProvisionKey: string;
+  /** The authority referred to, when the reference points outside the measure. */
+  readonly toAuthorityKey?: string;
 }
 
 /**
@@ -122,6 +198,25 @@ export interface CompiledMeasureComponent {
   /** This component's clauses, renumbered and namespaced within the measure. */
   readonly clauses: readonly CompiledClause[];
   readonly dependsOn: readonly string[];
+  /** What this component does to existing law. `insert` where none was given. */
+  readonly operation: MeasureOperation;
+  /**
+   * This component's references, with each namespaced to the provision key the
+   * compiled measure actually carries, so a renderer can link one without
+   * re-deriving the namespace.
+   */
+  readonly crossReferences: readonly ResolvedCrossReference[];
+}
+
+/** A checked reference, with both ends named as the measure numbers them. */
+export interface ResolvedCrossReference {
+  /** The referring provision, namespaced within the measure. */
+  readonly fromProvisionKey: string;
+  /** The referred provision, namespaced when it is inside this measure. */
+  readonly toProvisionKey: string;
+  /** Null when the reference points outside this measure. */
+  readonly toComponentKey: string | null;
+  readonly toAuthorityKey: string | null;
 }
 
 /**
@@ -249,6 +344,86 @@ function addMoney(
 }
 
 /**
+ * Checks every declared reference and names it as the measure numbers it.
+ *
+ * A reference inside the measure must name a component this measure carries and
+ * a provision that component actually compiled; a reference outside it must
+ * name the authority the referring component acts on, because a component
+ * cannot cite an Act it was not written against without the measure saying so
+ * somewhere else. Either way a reference that does not resolve is a refusal
+ * naming both ends, never a link quietly dropped from the rendered text.
+ */
+function resolveCrossReferences(
+  input: MeasureComponentInput,
+  compiled: readonly CompiledMeasureComponent[],
+): readonly ResolvedCrossReference[] {
+  const own = compiled.find(
+    (entry) => entry.componentKey === input.componentKey,
+  )!;
+  const resolved: ResolvedCrossReference[] = [];
+  for (const reference of input.crossReferences ?? []) {
+    const fromKey = bundleProvisionKey(
+      input.componentKey,
+      reference.fromProvisionKey,
+    );
+    if (!own.clauses.some((clause) => clause.provisionKey === fromKey)) {
+      throw new MeasureBundleError(
+        `Component '${input.componentKey}' states a reference from its '${reference.fromProvisionKey}' provision, which it does not carry.`,
+      );
+    }
+    if (reference.toComponentKey !== undefined) {
+      if (reference.toAuthorityKey !== undefined) {
+        throw new MeasureBundleError(
+          `Component '${input.componentKey}' refers to both a part of this measure and an outside authority at once, so the reference does not say which it means.`,
+        );
+      }
+      const target = compiled.find(
+        (entry) => entry.componentKey === reference.toComponentKey,
+      );
+      if (!target) {
+        throw new MeasureBundleError(
+          `Component '${input.componentKey}' refers to component '${reference.toComponentKey}', which this measure does not carry.`,
+        );
+      }
+      const toKey = bundleProvisionKey(
+        reference.toComponentKey,
+        reference.toProvisionKey,
+      );
+      if (!target.clauses.some((clause) => clause.provisionKey === toKey)) {
+        throw new MeasureBundleError(
+          `Component '${input.componentKey}' refers to the '${reference.toProvisionKey}' provision of component '${reference.toComponentKey}', which that component does not state.`,
+        );
+      }
+      resolved.push({
+        fromProvisionKey: fromKey,
+        toProvisionKey: toKey,
+        toComponentKey: reference.toComponentKey,
+        toAuthorityKey: null,
+      });
+      continue;
+    }
+    const authorityKey = reference.toAuthorityKey;
+    if (authorityKey === undefined) {
+      throw new MeasureBundleError(
+        `Component '${input.componentKey}' states a reference to the '${reference.toProvisionKey}' provision without saying whether it means a part of this measure or an outside authority.`,
+      );
+    }
+    if (input.predicateAuthority?.authorityKey !== authorityKey) {
+      throw new MeasureBundleError(
+        `Component '${input.componentKey}' refers to '${authorityKey}', which is not the authority it was written against.`,
+      );
+    }
+    resolved.push({
+      fromProvisionKey: fromKey,
+      toProvisionKey: reference.toProvisionKey,
+      toComponentKey: null,
+      toAuthorityKey: authorityKey,
+    });
+  }
+  return resolved;
+}
+
+/**
  * Compiles an ordered, multi-part measure from already-supported components.
  *
  * Pure: it reads the content bank and nothing else, and a caller holding the
@@ -308,10 +483,55 @@ export function compileMeasureBundle(
     );
   }
 
+  // An amendment or a repeal has to have something to act on, and has to say
+  // which text it was written against. Checked before anything compiles, so a
+  // measure that cannot state its own targets never reaches the bank.
+  for (const component of input.components) {
+    const operation = component.operation ?? { kind: "insert" };
+    if (operation.kind === "insert") continue;
+    const verb = operation.kind === "replace" ? "amend" : "repeal";
+    if (component.predicateAuthority === undefined) {
+      throw new MeasureBundleError(
+        `Component '${component.componentKey}' sets out to ${verb} existing law but names no authority to ${verb}.`,
+      );
+    }
+    if (operation.targets.length === 0) {
+      throw new MeasureBundleError(
+        `Component '${component.componentKey}' sets out to ${verb} ${component.predicateAuthority.citationLabel} without naming a provision of it.`,
+      );
+    }
+    const seenTargets = new Set<string>();
+    for (const target of operation.targets) {
+      if (!target.provisionKey.trim()) {
+        throw new MeasureBundleError(
+          `Component '${component.componentKey}' names a provision with no key, so there is nothing to ${verb}.`,
+        );
+      }
+      if (seenTargets.has(target.provisionKey)) {
+        throw new MeasureBundleError(
+          `Component '${component.componentKey}' names the '${target.provisionKey}' provision of ${component.predicateAuthority.citationLabel} twice.`,
+        );
+      }
+      seenTargets.add(target.provisionKey);
+      if (!String(target.expectedRevisionId).trim()) {
+        throw new MeasureBundleError(
+          `Component '${component.componentKey}' does not say which version of the '${target.provisionKey}' provision it was written against, so it cannot be checked against the text in force.`,
+        );
+      }
+    }
+  }
+
   const ordered = orderByDependency(input.components);
 
   const compiled: CompiledMeasureComponent[] = [];
   const claimedProvisions = new Map<string, string>();
+  // Targets are claimed separately from compiled clauses: two components may
+  // each add a section called "purpose" and be fine, but two components acting
+  // on the *same existing provision* is the case where one would have to lose.
+  const claimedTargets = new Map<
+    string,
+    { readonly componentKey: string; readonly verb: string }
+  >();
   const authorizedCeilingMinorUnits: Record<string, number> = {};
   const appropriatedMinorUnits: Record<string, number> = {};
   const revenueMinorUnits: Record<string, number> = {};
@@ -338,6 +558,28 @@ export function compileMeasureBundle(
         );
       }
       throw error;
+    }
+
+    // Two components acting on one existing provision is refused whichever
+    // pair of acts it is: amend-and-amend, repeal-and-repeal, and above all
+    // amend-and-repeal, where the measure would be saying both "this text now
+    // reads as follows" and "this text is gone" about the same section.
+    const operation = component.operation ?? { kind: "insert" };
+    if (operation.kind !== "insert") {
+      const verb = operation.kind === "replace" ? "amends" : "repeals";
+      for (const target of operation.targets) {
+        const claimKey = `${component.jurisdictionId}:${component.predicateAuthority!.authorityKey}:${target.provisionKey}`;
+        const claimedBy = claimedTargets.get(claimKey);
+        if (claimedBy !== undefined) {
+          throw new MeasureBundleError(
+            `Component '${claimedBy.componentKey}' ${claimedBy.verb} the '${target.provisionKey}' provision of ${component.predicateAuthority!.citationLabel} and component '${component.componentKey}' ${verb} it, so the measure does not say what becomes of that text.`,
+          );
+        }
+        claimedTargets.set(claimKey, {
+          componentKey: component.componentKey,
+          verb,
+        });
+      }
     }
 
     const clauses: CompiledClause[] = [];
@@ -399,8 +641,23 @@ export function compileMeasureBundle(
       draft,
       clauses,
       dependsOn: [...(component.dependsOn ?? [])],
+      operation,
+      crossReferences: [],
     });
   }
+
+  // Resolved once every component has compiled, because a reference may point
+  // forward as easily as back and checking it earlier would refuse a valid
+  // measure for the order its parts happen to take effect in.
+  const withReferences = compiled.map((component) => ({
+    ...component,
+    crossReferences: resolveCrossReferences(
+      input.components.find(
+        (entry) => entry.componentKey === component.componentKey,
+      )!,
+      compiled,
+    ),
+  }));
 
   const jurisdictionIds: EntityId[] = [];
   for (const component of compiled) {
@@ -416,7 +673,7 @@ export function compileMeasureBundle(
     subjectRule: input.subjectRule,
     subjects,
     jurisdictionIds,
-    components: compiled,
+    components: withReferences,
     totals: {
       authorizedCeilingMinorUnits,
       appropriatedMinorUnits,
