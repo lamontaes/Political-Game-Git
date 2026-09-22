@@ -59,10 +59,11 @@ export async function campaignUntilDecided(
  * timed out.
  */
 export async function workOfferedOutreach(page: Page) {
-  await expect(page.getByTestId("pass-day")).not.toHaveAttribute(
-    "aria-busy",
-    "true",
-  );
+  // The shell's own day control when the Today page is not on screen (a
+  // Politics window covers it), the Today page's otherwise.
+  await expect(
+    page.getByTestId("shell-pass-day").or(page.getByTestId("pass-day")).first(),
+  ).not.toHaveAttribute("aria-busy", "true");
   const outreach = page.getByTestId("campaign-outreach");
   // isEnabled() waits for the control to exist; on a day the campaign offers
   // nothing there is none, and that is a day to pass, not a wait.
