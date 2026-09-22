@@ -259,3 +259,52 @@ its repair is #301.
 Worth knowing for the future: this class of break is invisible to whoever causes
 it, because it only fires on the next regeneration, which is usually somebody
 else's branch.
+
+## 7. Art this lane needs, and why the requests are not in the queue yet
+
+lamontae asked for art requests covering everything, not just backgrounds —
+newspapers, graphs, interface pieces — and explicitly not clothing. Two things
+stop this lane from filing them directly, and both are worth him knowing at 9am
+because they are short fixes somebody else owns.
+
+**The request document has no class for interface art.** `AssetTargetClass` in
+`src/authoring/asset-lineage.ts:94` is exactly three values:
+`environment-plate`, `title-plate`, `reference`. A newspaper page, a chart, a
+panel frame is none of those. The queue already carries `character-component`
+entries that the union does not name, so the JSON is not typechecked against it
+at rest — which means filing an interface request under `environment-plate`
+would be a lie recorded in the one place the Art Desk reads, rather than a gap
+somebody can see. The fix is one member on that union and whatever the Desk
+does with it, and it belongs to the lane that owns the Desk.
+
+**Adding any queued request breaks an owned assertion.**
+`src/authoring/art-desk.test.ts:252` asserts the generation-eligible set is
+exactly `env-neighborhood-doorstep-generic` and
+`env-park-community-pavilion-winter-variant`. A new `queued` request joins that
+set and turns the test red for every branch, not only this one. That assertion
+is the art lane's to update alongside whatever it admits.
+
+What this lane would ask for, once there is a class to ask under. None of it is
+clothing.
+
+- **The day's own page.** The ordinary-life day view is the surface a player
+  spends the most time on and it is entirely typography. It needs a frame: a
+  heading treatment, a rule between what happened and what is waiting, and a
+  distinct mark for a thing that has stood a long time. It has none.
+- **A standing thing that has aged.** Section 1 of this document made a hold
+  that lapsed different from one that was refused, and made a thing that has
+  stood twelve weeks say so. All three states read as the same paragraph of
+  plain text. They want three visibly different marks, not three sentences.
+- **A person's temperament, shown rather than listed.** Traits are now rows in
+  loaded packs and a pack may add a sixth. Anything drawn per-trait would be
+  wrong on the day somebody mods one in, so this wants a _pole_ treatment —
+  something that reads as "far toward this end" and "unrecorded" — applied to
+  whatever rows the pack happens to carry. Unrecorded needs its own mark and
+  must not look like a middle, which is the whole point of that system.
+- **The contact list.** Getting back in touch, an ask waiting on an answer, an
+  ask that was turned down, and somebody there is no recorded way to reach are
+  four different states rendered as four similar lines.
+
+Filed here rather than in the queue deliberately. A request recorded under the
+wrong class is worse than a request not yet recorded, because the Desk acts on
+the first and nobody ever rereads it.
