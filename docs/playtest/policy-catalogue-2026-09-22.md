@@ -115,8 +115,16 @@ they decline to name a town.
 
 ## What the empty catalogue actually costs
 
-This is the part that is bigger than "the bill lifecycle has nothing to be
-about", and it is a built-but-unreachable finding rather than a broken one.
+It is a built-but-unreachable finding rather than a broken one, and it is
+narrower than the sentence that has been carried between lanes.
+
+**"The bill lifecycle has nothing to be about" is retired.** Measured
+afterwards by opening the drafting table from a Legislative staff start in
+Nebraska and written up in `drafting-table-2026-09-22.md`: a bill has more
+than forty templates across eighteen subject families to be about, and
+choosing one produces drafted statutory sections with editable parameters.
+The legislation layer is not filed under propositions and does not need them.
+What the empty catalogue locks is the conviction layer, below.
 
 `assertProductionCatalogBoundary` in `src/simulation/production-catalog.ts`
 refuses to build a production world whose policy catalogue holds anything at
@@ -234,5 +242,7 @@ the same commit as this one.
   above for a life with no office and for a legislative-staff start, in both
   cases no. A seated member needs an election won, which is a year of play and
   not a creator choice, so it stays unmeasured.
-- **What the bill lifecycle does with an empty catalogue.** Unreached; neither
-  of the two lives walked here could open it.
+- **What happens after a bill is filed.** The drafting table was reached
+  later, from a Legislative staff start, and is written up in
+  `drafting-table-2026-09-22.md`. Filing itself needs a seated member, so
+  referral, readings, committee and the vote are all still unreached.
