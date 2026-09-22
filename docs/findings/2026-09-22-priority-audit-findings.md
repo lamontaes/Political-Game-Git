@@ -366,9 +366,19 @@ rule reaching the UI layer, and it costs nothing to honour now.
 ## 5. Exactly one jurisdiction is seated
 
 **The number underneath it.** `docs/systems/nationwide-rule-coverage.json`
-counts **38,704 general-purpose local governments**. Three of them carry any
-admitted ordinance route at all, and exactly one carries an admitted
-pass-ordinance rule. The playtest walk of 2026-09-22 (`453b6893`,
+counts **38,704 general-purpose local governments**, and there are two
+thresholds worth stating rather than one, because they give different numbers.
+
+- **Three can introduce an ordinance.** Charlottesville and Richmond in
+  Virginia, and Carson City in Nevada — the only three units with a compiled
+  enacted instrument. So 38,701 have no admitted ordinance route at all.
+- **One can pass one.** Charlottesville alone carries an admitted
+  pass-ordinance rule. Two can pass an appropriation.
+- Everything else is 38,381 units known by identity only and 320 carrying an
+  inherited default.
+
+The 38,701 figure and the "one in 38,704" figure are both correct and they
+answer different questions. Quote the threshold with the number. The playtest walk of 2026-09-22 (`453b6893`,
 `docs/playtest/walk-2026-09-22-0711.md`) reports the same thing from the other
 end — that nobody is sitting on them — and puts it better than we did: **the
 rules are further along than the world is.**
