@@ -1,0 +1,36 @@
+{
+  "requestVersion": "research-request/v1",
+  "questionId": "legislative-caucus-and-coalition-formation",
+  "title": "How caucuses and voting blocs form and hold inside an American legislature",
+  "question": "Inside a chamber, what makes a group of legislators become a named standing caucus or a durable voting bloc rather than a one-bill alliance — who convenes it, what holds it together between votes, what makes a member leave, and how often does a bloc vote against its own party?",
+  "whyItMatters": "The owner asked specifically for a chamber view where he could pick out the Squad and the Tea Party. Party membership and chamber caucus organizations exist and are counted, and party splits and foundings are modelled, but there is no standing group inside a chamber at all and no bloc or wing concept anywhere in the code. Without one there is nothing for that view to show beyond two party totals, and a chamber of several hundred members reads as two blocks of identical people.",
+  "impact": "shapes-design",
+  "lane": "governing and legislative",
+  "usableAnswer": "An account of how such a group comes into being and what sustains it, in terms the simulation can observe — repeated shared positions, a convening member, a public statement of purpose, a shared constituency type. Plus roughly how many such groups a chamber carries at once, how large they run, and how long they last.",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/living-world/congress.ts lines 104-112 and 339-378 on main at 273fd2b8",
+      "whatItDidNotSettle": "Tracks caucus membership separately from party affiliation and computes a byCaucus breakdown for each chamber. The only caucuses that exist are the four chamber party caucuses, so the breakdown reproduces the party split and no UI reads it."
+    },
+    {
+      "source": "src/simulation/living-world/party-evolution.ts, the faction handling around lines 647-751 and 1293-1321",
+      "whatItDidNotSettle": "Models a member leading a faction out of a party into a new one, from recorded repeated disagreement and whether allies share it. It is about leaving a party, not about a group that stays inside one, which is what a caucus is."
+    },
+    {
+      "source": "src/presentation/guide-terms.ts line 222, the Guide's own definition of caucus",
+      "whatItDidNotSettle": "Defines the word for the player. Nothing in the simulation produces the thing it defines."
+    },
+    {
+      "source": "A repository-wide search for bloc, wing and coalition across src/",
+      "whatItDidNotSettle": "Finds no module for any of them. Cross-party agreement is modelled per bill in the bargaining code and does not persist past the vote."
+    }
+  ],
+  "requestedBy": "research audit thread (technical team lead)",
+  "filedAt": "2026-09-22T05:00:06.000Z",
+  "priority": "P1",
+  "notes": [
+    "State legislatures are the case that matters most here and are the less documented one. Where the answer is drawn from Congress because the state evidence is thin, say so.",
+    "Real named groups are useful as the shape to aim at, but the game generates its own people and parties, so what is wanted is how such a group comes about rather than a roster of existing ones."
+  ],
+  "relatedQuestionIds": ["policy-issue-taxonomy-state-and-local"]
+}

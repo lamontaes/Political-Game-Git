@@ -30,6 +30,7 @@ import {
   produceMatterResponses,
 } from "./responses";
 import { PRESS_MATTER_TAG, sortedUnique } from "./shared";
+import { headlineFor } from "./story-voice";
 
 export { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import {
@@ -1095,7 +1096,12 @@ export function composeStory(
   const publicBasis = basis.filter((event) => event.visibility === "public");
   const paragraphs: string[] = [];
   let unattributedAssertion = false;
-  for (const event of publicBasis) paragraphs.push(event.summary);
+  for (const event of publicBasis) {
+    // The body keeps the record's sentence. Only the headline is written for a
+    // reader, because a paragraph the record wrote is still the record's words
+    // and rewriting every one of them is where invention starts.
+    paragraphs.push(event.summary);
+  }
   for (const contribution of contributions) {
     const agreement = requirePressRecord(
       world,
@@ -1160,7 +1166,8 @@ export function composeStory(
     ? procedureStatusSentence(world, lead.matterId)
     : null;
   if (status) paragraphs.push(status);
-  const lead0 = publicBasis[0]?.summary ?? basis[0]!.summary;
+  const leadEvent = publicBasis[0] ?? basis[0]!;
+  const lead0 = headlineFor(world, leadEvent, outlet);
   const headline =
     lead.family === "follow-up"
       ? `Update: ${lead0}`

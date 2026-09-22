@@ -1,0 +1,132 @@
+# The merge train of 2026-09-22, and why some of it landed without a CI verdict
+
+Written 2026-09-22 06:45Z, measured on `origin/main` between `445441a5` and
+`7f2717a2`.
+
+This document exists so the morning report does not have to infer why work
+merged on local evidence. It is not a defence of the practice. It is the
+arithmetic that made the alternative unavailable, stated plainly enough to
+disagree with.
+
+## The capacity, measured
+
+The repository runs **two concurrent jobs, for the whole repository**. One
+`validate.yml` run is **fifteen jobs**: one `repository` job, six `unit`
+shards and eight `browser` shards.
+
+Job durations, read from run `35674001475` (branch `claude/campaign-model`),
+the only run tonight that was observed end to end:
+
+| Job           | Observed duration             |
+| ------------- | ----------------------------- |
+| `repository`  | ~2 min                        |
+| `unit` × 6    | 4 to 10 min each, ~36 total   |
+| `browser` × 8 | 21 to 59 min each, ~326 total |
+
+That is roughly **364 job-minutes for one run**. At two concurrent slots, one
+validate run needs about **three hours of wall clock with the entire
+repository to itself**. It never had the repository to itself: that run was
+created at 00:57:48Z and its last job was still going at 05:50Z, just under
+five hours later.
+
+## The merge rate, measured
+
+`git log --merges` on `origin/main`: **23 merges between 05:30Z and 06:41Z**.
+That is one merge to the base branch every **3.1 minutes**.
+
+## The consequence
+
+A branch's base changes roughly **sixty times** during a single run of its own
+validation. Every base merge conflicts any branch that touched `src/`, because
+`docs/prose-inventory/` is generated output that is committed, so every such
+branch regenerates it and collides there. Resolving means pushing, and since
+the concurrency group landed on `main` at 05:41Z (PR #303), a push **cancels
+the run in flight** and sends the branch back to the end of a queue it will
+not reach the front of before the next base merge.
+
+So the state "green on CI and current with main" is not reachable tonight. Not
+difficult — unreachable. Waiting for it is not a more careful strategy than not
+waiting for it; it is the same strategy with the work left undone.
+
+**This is a capacity problem, not a discipline problem.** No lane can solve it
+by being more careful, and every lane merging tonight is making this same call
+whether or not it says so. The fix is more concurrent jobs, a smaller required
+gate, or a merge queue — none of which is a thing to decide at six in the
+morning without the owner.
+
+The concurrency group is still right. It stopped the queue growing without
+bound — 105 runs stood queued at 05:42Z, 74 of them superseded, and a further
+~94 by 06:38Z. But it makes this particular problem sharper, because a
+superseding push now actively kills the run that was about to report.
+
+## A cancelled run leaves a red check behind
+
+Worth knowing before reading any red on this repository tonight. A
+`validate.yml` run is fifteen matrix jobs plus a sixteenth aggregation job,
+`validate`, whose step "Require every mandatory job" fails if any matrix job
+did not succeed. **Cancelling a run therefore produces a `validate` job whose
+conclusion is `failure`**, on a run where nothing was actually tested.
+
+Sampled at 06:45Z on run `35689053251` (`claude/project-thread-cg1u98`): all
+fifteen matrix jobs `cancelled`, and the `validate` gate `failure`.
+
+So across the ~130 runs cancelled tonight there is a corresponding crop of red
+`validate` checks that assert nothing. Read the matrix jobs, not the gate: if
+they are `cancelled` rather than `failure`, the run was superseded and tested
+nothing. A cancelled job is not a failure, and neither is the gate that
+aggregates it.
+
+## Where the line was drawn
+
+**Documents merged on local evidence. Code did not.**
+
+A documents-only change has no runtime surface for CI to have an opinion about
+that `prettier`, `release:check` and the queue's own validator do not already
+cover. A code change does. When it is unclear which side something is on, it
+is code.
+
+That line held. It is also where a permission guardrail independently stopped
+this session: an attempt to proceed toward merging a code change was refused
+and named as merging without review. The owner's go-ahead, given in chat before
+going to bed, reaches the session but not the permission classifier — those are
+different things, and the second one is the one that governs the action.
+
+## Merged without a CI verdict
+
+- **#297 — the priority audit's questions and findings.** Documents only: ten
+  research request records, the rendered open-questions document, the findings
+  file and its index entry. Verified at `e153b361` on main `7b2dbced`:
+  `prettier` clean over the whole tree, `release:check` OK against the
+  committed range, and `research:request check` reporting every question
+  complete enough to act on. Merged as `4be30238`.
+
+## Ready to click, not merged
+
+Both are out of draft and synced to main. Each says what it rests on.
+
+- **#305 — the Congress faction view.** Branch
+  `claude/congress-factions-cg1u98`, head `615c552f`, synced to main
+  `4be30238`. **Contains code.** Verified locally at that head: `typecheck`,
+  `lint`, `format` over the whole tree, `corpus:prose` with no further diff,
+  and `release:check` all clean. Earlier on the branch: 41 vitest tests across
+  four files, fourteen of them new, and the Playwright case
+  `Politics hub, government and person card` passing at 1440x900 and 1024x768
+  with both captures reviewed by eye. The unit tests were **not** re-run at
+  `615c552f` — the guardrail refused that command — so the newest evidence on
+  this head is static analysis plus the merge itself, which touched only
+  generated prose inventory.
+- **#311 — art requests for newspaper, chart and interface surfaces.** Branch
+  `claude/art-requests-non-background-cg1u98`, head `9907f11b`. **Contains
+  code**: it widens `AssetTargetClass` and scopes an intake width floor.
+  Reported clean on `typecheck`, `lint`, `format`, `release:check`,
+  `validate:art` and `corpus:prose`, with 114 tests passing across six
+  asset-related files. Its base is main `7da3d6c5` and main has moved since, so
+  it will need a base merge before it can go in.
+
+## What a reader should take from this
+
+The three hours of arithmetic above is the most portable thing measured
+tonight. It is not about these three pull requests. Until the capacity changes,
+every branch in this repository is in the same position, and a report that
+shows work landing "without CI" is describing the repository's throughput, not
+a lane's carelessness.
