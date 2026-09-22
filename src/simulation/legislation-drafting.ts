@@ -815,32 +815,16 @@ export function compareDrafts(
 /* Designations                                                                */
 /* -------------------------------------------------------------------------- */
 
-/**
- * What the chamber calls a bill it has just received.
- *
- * Derived from the originating chamber's own key rather than from the state, so
- * a unicameral legislature gets its own prefix instead of a House number it
- * does not issue.
+/*
+ * A bill's designation prefix used to be decided here, by a switch over four
+ * chamber keys that raised on anything else. It now lives on the chamber
+ * record the rule pack carries (`ChamberRule.billDesignationPrefix`), read
+ * through `chamberDesignationPrefix`, because what a chamber calls its bills
+ * is a fact about that chamber. The switch had already been patched once for
+ * Nevada's Assembly, and would have had to be patched again for every
+ * legislature whose chambers are named differently — and it knew nothing at
+ * all about a municipal council.
  */
-export function designationPrefix(chamberKey: string): string {
-  switch (chamberKey) {
-    case "house":
-      return "HB";
-    case "senate":
-      return "SB";
-    case "legislature":
-      return "LB";
-    // Nevada's lower chamber is an Assembly and issues Assembly Bills. Its
-    // registered pack has been reachable since the nationwide packs landed;
-    // without this, filing in it raises rather than numbering the bill.
-    case "assembly":
-      return "AB";
-    default:
-      throw new BillConfigurationError(
-        `No bill designation is defined for a '${chamberKey}' chamber.`,
-      );
-  }
-}
 
 export function draftScope(draft: CompiledBillDraft): MetricScope {
   return { jurisdictionId: draft.jurisdictionId, segmentKey: null };

@@ -335,12 +335,14 @@ const KY_SENATE_RULES: KentuckyChamberRules = {
 function kentuckyChamber(
   chamberKey: string,
   name: string,
+  billDesignationPrefix: string,
   introductionAllowed: boolean,
   chamberRules: KentuckyChamberRules,
 ): ChamberRule {
   return {
     chamberKey,
     name,
+    billDesignationPrefix,
     seats: unknownRule(
       "Kentucky's formal chamber seat count was carried from compiled research, but no instrument fixing it was separately read for this pack. The unresolved formal count carries no numeric fallback.",
     ),
@@ -420,8 +422,14 @@ export const KENTUCKY_RULE_PACK: LegislativeRulePack = {
   displayName: "Kentucky General Assembly",
   structure: "bicameral",
   chambers: [
-    kentuckyChamber("house", "House of Representatives", true, KY_HOUSE_RULES),
-    kentuckyChamber("senate", "Senate", true, KY_SENATE_RULES),
+    kentuckyChamber(
+      "house",
+      "House of Representatives",
+      "HB",
+      true,
+      KY_HOUSE_RULES,
+    ),
+    kentuckyChamber("senate", "Senate", "SB", true, KY_SENATE_RULES),
   ],
   chamberOrder: ["house", "senate"],
   origination: {
@@ -604,6 +612,7 @@ export const NEBRASKA_RULE_PACK: LegislativeRulePack = {
     {
       chamberKey: "legislature",
       name: "Legislature",
+      billDesignationPrefix: "LB",
       seats: unknownRule(
         "Nebraska's formal chamber seat count was carried from compiled research, but no instrument fixing the exact number was separately read for this pack. The unresolved formal count carries no numeric fallback.",
       ),
@@ -879,11 +888,13 @@ const AK_PROCESS = source(
 function alaskaChamber(
   chamberKey: string,
   name: string,
+  billDesignationPrefix: string,
   seats: number,
 ): ChamberRule {
   return {
     chamberKey,
     name,
+    billDesignationPrefix,
     seats: knownRule(seats, AK_ART2_SEC1),
     quorum: unknownRule(
       "Alaska's quorum fraction was not resolved for this pack.",
@@ -956,8 +967,8 @@ export const ALASKA_RULE_PACK: LegislativeRulePack = {
   displayName: "Alaska State Legislature",
   structure: "bicameral",
   chambers: [
-    alaskaChamber("house", "House of Representatives", 40),
-    alaskaChamber("senate", "Senate", 20),
+    alaskaChamber("house", "House of Representatives", "HB", 40),
+    alaskaChamber("senate", "Senate", "SB", 20),
   ],
   chamberOrder: ["house", "senate"],
   origination: {
@@ -1176,11 +1187,13 @@ const MN_ART4_SEC7 = constitutionSource(
 function minnesotaChamber(
   chamberKey: string,
   name: string,
+  billDesignationPrefix: string,
   seats: number,
 ): ChamberRule {
   return {
     chamberKey,
     name,
+    billDesignationPrefix,
     // Not the constitution: art. IV, § 2 prescribes the number "by law", and
     // Minn. Stat. § 2.021 is the law that does it.
     seats: knownRule(seats, MN_STAT_2_021),
@@ -1277,8 +1290,8 @@ export const MINNESOTA_RULE_PACK: LegislativeRulePack = {
   displayName: "Minnesota Legislature",
   structure: "bicameral",
   chambers: [
-    minnesotaChamber("house", "House of Representatives", 134),
-    minnesotaChamber("senate", "Senate", 67),
+    minnesotaChamber("house", "House of Representatives", "HB", 134),
+    minnesotaChamber("senate", "Senate", "SB", 67),
   ],
   chamberOrder: ["house", "senate"],
   origination: {
@@ -1418,11 +1431,13 @@ const IL_ART4_SEC6 = constitutionSource(
 function illinoisChamber(
   chamberKey: string,
   name: string,
+  billDesignationPrefix: string,
   seats: number,
 ): ChamberRule {
   return {
     chamberKey,
     name,
+    billDesignationPrefix,
     // Illinois names the district counts in the constitution itself.
     seats: knownRule(seats, IL_ART4_SEC1),
     quorum: knownRule(
@@ -1486,8 +1501,8 @@ export const ILLINOIS_RULE_PACK: LegislativeRulePack = {
   displayName: "Illinois General Assembly",
   structure: "bicameral",
   chambers: [
-    illinoisChamber("house", "House of Representatives", 118),
-    illinoisChamber("senate", "Senate", 59),
+    illinoisChamber("house", "House of Representatives", "HB", 118),
+    illinoisChamber("senate", "Senate", "SB", 59),
   ],
   chamberOrder: ["house", "senate"],
   origination: {
@@ -1718,11 +1733,13 @@ const MD_ART2_SEC17 = waveTwoSource(
 function marylandChamber(
   chamberKey: string,
   name: string,
+  billDesignationPrefix: string,
   seats: number,
 ): ChamberRule {
   return {
     chamberKey,
     name,
+    billDesignationPrefix,
     seats: knownRule(seats, MD_ART3_SEC2),
     quorum: knownRule(
       majorityOf(
@@ -1783,8 +1800,8 @@ export const MARYLAND_RULE_PACK: LegislativeRulePack = {
   displayName: "Maryland General Assembly",
   structure: "bicameral",
   chambers: [
-    marylandChamber("house", "House of Delegates", 141),
-    marylandChamber("senate", "Senate", 47),
+    marylandChamber("house", "House of Delegates", "HB", 141),
+    marylandChamber("senate", "Senate", "SB", 47),
   ],
   chamberOrder: ["house", "senate"],
   origination: {
@@ -1957,12 +1974,14 @@ const MO_ART4_SEC26 = missouriSource(
 function missouriChamber(
   chamberKey: string,
   name: string,
+  billDesignationPrefix: string,
   seats: number,
   seatsSource: RuleSourceRef,
 ): ChamberRule {
   return {
     chamberKey,
     name,
+    billDesignationPrefix,
     seats: knownRule(seats, seatsSource),
     quorum: knownRule(
       majorityOf(
@@ -2026,8 +2045,14 @@ export const MISSOURI_RULE_PACK: LegislativeRulePack = {
   displayName: "Missouri General Assembly",
   structure: "bicameral",
   chambers: [
-    missouriChamber("house", "House of Representatives", 163, MO_ART3_SEC3),
-    missouriChamber("senate", "Senate", 34, MO_ART3_SEC5),
+    missouriChamber(
+      "house",
+      "House of Representatives",
+      "HB",
+      163,
+      MO_ART3_SEC3,
+    ),
+    missouriChamber("senate", "Senate", "SB", 34, MO_ART3_SEC5),
   ],
   chamberOrder: ["house", "senate"],
   origination: {
@@ -2162,10 +2187,15 @@ const NV_ART4_SEC35 = nevadaSource(
 );
 
 /** A Nevada chamber. The constitution delegates the seat counts, so none is cited. */
-function nevadaChamber(chamberKey: string, name: string): ChamberRule {
+function nevadaChamber(
+  chamberKey: string,
+  name: string,
+  billDesignationPrefix: string,
+): ChamberRule {
   return {
     chamberKey,
     name,
+    billDesignationPrefix,
     seats: unknownRule(
       "Nevada's formal chamber seat count is unresolved. Nev. Const. art. 4, § 5 delegates the number to law, and the retrieved NRS route adopts district shapefiles without textually stating 21 or 42; no qualifying operative source read for this pack fixes a numeric count.",
     ),
@@ -2224,8 +2254,8 @@ export const NEVADA_RULE_PACK: LegislativeRulePack = {
   displayName: "Nevada Legislature",
   structure: "bicameral",
   chambers: [
-    nevadaChamber("assembly", "Assembly"),
-    nevadaChamber("senate", "Senate"),
+    nevadaChamber("assembly", "Assembly", "AB"),
+    nevadaChamber("senate", "Senate", "SB"),
   ],
   chamberOrder: ["assembly", "senate"],
   origination: {
@@ -2384,11 +2414,13 @@ const OH_ART11_SEC3 = ohioSource(
 function ohioChamber(
   chamberKey: string,
   name: string,
+  billDesignationPrefix: string,
   seats: number,
 ): ChamberRule {
   return {
     chamberKey,
     name,
+    billDesignationPrefix,
     // The instrument that fixes the count is the redistricting article, not the
     // legislative one: art. XI, § 3(A) sets ninety-nine and thirty-three
     // districts and art. XI, § 2 gives each district a single member.
@@ -2448,8 +2480,8 @@ export const OHIO_RULE_PACK: LegislativeRulePack = {
   displayName: "Ohio General Assembly",
   structure: "bicameral",
   chambers: [
-    ohioChamber("house", "House of Representatives", 99),
-    ohioChamber("senate", "Senate", 33),
+    ohioChamber("house", "House of Representatives", "HB", 99),
+    ohioChamber("senate", "Senate", "SB", 33),
   ],
   chamberOrder: ["house", "senate"],
   origination: {

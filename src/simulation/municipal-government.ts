@@ -713,6 +713,12 @@ export function municipalRulePackFor(
       {
         chamberKey: "council",
         name: bodyName,
+        // A council passes ordinances rather than bills, and no city's own
+        // numbering has been read for this pack, so this is the game's own
+        // label for the measure and not a claim about how this city numbers
+        // one. Before, a council measure reached a four-case switch that
+        // knew no "council" and raised.
+        billDesignationPrefix: "ORD",
         seats: knownRule(
           bodySize,
           municipalRuleSourceRef(reading, `${bodyName} membership`),

@@ -340,6 +340,20 @@ export interface ChamberRule {
   readonly chamberKey: string;
   readonly name: string;
   /**
+   * What this chamber calls a bill it has just received: "HB", "SB", "LB",
+   * "AB".
+   *
+   * It lives on the chamber record, and is required, because it is a fact
+   * about this chamber rather than a convention some consumer can infer. A
+   * chamber key is not enough: Maryland's lower house is a House of Delegates
+   * and Nevada's is an Assembly, and the only reason a switch over four keys
+   * worked is that every packed legislature happened to use one of them. A
+   * required field means a legislature cannot be added without saying what its
+   * chamber numbers its bills, instead of a consumer discovering it by
+   * throwing.
+   */
+  readonly billDesignationPrefix: string;
+  /**
    * Formally authorized seats in the chamber.
    *
    * A seat count is not automatically constitutional: Minnesota's constitution
@@ -547,6 +561,14 @@ export interface LegislativeRulePack {
 // ---------------------------------------------------------------------------
 // Pack access and validation
 // ---------------------------------------------------------------------------
+
+/** What a bill introduced in this chamber is called, from the chamber itself. */
+export function chamberDesignationPrefix(
+  pack: LegislativeRulePack,
+  chamberKey: string,
+): string {
+  return chamberByKey(pack, chamberKey).billDesignationPrefix;
+}
 
 export function chamberByKey(
   pack: LegislativeRulePack,
