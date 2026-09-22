@@ -3,13 +3,12 @@ import { describe, expect, it } from "vitest";
 import { addDays, makeIsoDate } from "./dates";
 import {
   createFutureTransitionHandlerRegistry,
-  type FutureTransitionHandlerRegistry,
   scheduleFutureDueItem,
   setDeepTransitionInputGuard,
 } from "./future-transitions";
 import { requireLifePlace } from "./life-places";
 import { advanceWorldMinutes } from "./time-work";
-import type { EntityId, World } from "./types";
+import type { EntityId, FutureTransitionHandlerRegistry, World } from "./types";
 import {
   advanceWorld,
   assertWorldIntegrity,
