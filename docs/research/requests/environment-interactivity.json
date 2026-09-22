@@ -1,0 +1,38 @@
+{
+  "filedAt": "2026-09-22T04:46:00.000Z",
+  "impact": "blocks-work",
+  "lane": "hardcoded-content audit",
+  "notes": [
+    "Filed from the owner's own words on 2026-09-22: he does not know how to make his environments interactive. This is design direction and is his to set rather than ours to infer.",
+    "The measured floor is stated in the checked list rather than described vaguely, because the gap is narrower than 'nothing is interactive'. People in a room are already clickable and already lead somewhere. Objects are not.",
+    "The most useful answer is probably not a list of verbs. It is what a room is for: whether the environment is where actions are chosen, or the backdrop to actions chosen elsewhere, because that decides whether any of this is worth building.",
+    "Naming three things a player should be able to do to a room, in order, would be worth more than a complete taxonomy. The machinery for the first one already exists.",
+    "An answer that says environments should stay a backdrop and the effort belongs elsewhere is a real answer and would save the work."
+  ],
+  "priority": "P1",
+  "question": "What makes a place in a life simulation feel like somewhere you can act rather than a backdrop you are standing in front of? Given that people in a room are already clickable and lead to real actions, and that nothing else in a room is, what should a player be able to do with the room itself — and what has to be true of an object before it is worth making a target?",
+  "questionId": "environment-interactivity",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "hardcoded-content audit thread",
+  "sourcesChecked": [
+    {
+      "source": "src/player/OfficeScene.tsx, read on main 273fd2b8",
+      "whatItDidNotSettle": "Establishes that scene interactivity is half built rather than absent, which is why this question is about objects rather than about interaction in general. A person in a room renders as a real button, positioned on its computed hitbox, with an accessible label naming who they are and their title, and clicking it selects them and opens a person-actions overlay. So the pattern for making something in a scene a target already exists and works. Nothing but a person uses it."
+    },
+    {
+      "source": "src/presentation/scene-registry.ts and scene-placement.ts",
+      "whatItDidNotSettle": "Every scene anchor can already declare a hitbox, and placement computes it in plate coordinates for whatever is placed there. So an object anchor could be a target today without new geometry. What is missing is not the ability to click a chair; it is any answer to what clicking it should do."
+    },
+    {
+      "source": "The regional introduction scenes and where they are shown",
+      "whatItDidNotSettle": "They render on the locality step, as a picture of where a life is starting. That is presentation rather than a place the player acts in, and it is worth knowing the distinction is currently sharp: one set of images is a room you stand in, the other is a view you are shown."
+    },
+    {
+      "source": "The owner's stated intent that this be modder-friendly in the way RimWorld and The Sims are",
+      "whatItDidNotSettle": "Both games answer this question, and answer it very differently — one treats objects as the primary source of actions, the other as a set of needs to be satisfied. Neither answer can be assumed as the one he wants, and the difference between them is most of this question."
+    }
+  ],
+  "title": "What makes an environment somewhere you can act",
+  "usableAnswer": "A position on what a room is for, then two or three things a player should be able to do with one, in the order they would matter. For each, what it would take from the object's side — does a chair need to know it can be sat on, does a door need to know where it leads, does a desk need to know what work happens at it — and what should happen when a player clicks something with nothing to offer. Saying which of these should wait, or that none of them should be built, is as useful as saying which should come first.",
+  "whyItMatters": "The owner raised this himself as something he does not know how to do, and it is in the way of the graphics skeleton he wants in this release. It is also close to free to start: a person in a room is already a positioned, labelled, clickable target that opens an actions overlay, so the first interactive object costs an answer to what it does rather than an engine. Without that answer, rooms stay pictures with people in them, which is the difference between a life simulation and an illustrated menu."
+}

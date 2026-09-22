@@ -455,6 +455,36 @@ export function ageOnDate(birthDate: IsoDate, comparisonDate: IsoDate): number {
   return age;
 }
 
+/**
+ * Whole months completed between two dates, never rounded up.
+ *
+ * `ageOnDate` answers the same question in years and is the model here: the
+ * count advances on the day-of-month anniversary, and a shorter target month
+ * clamps to its last day, so 31 January to 28 February is one completed month
+ * rather than nought. Written because a residence requirement stated in months
+ * had no way to be expressed at all, and years cannot hold one -- six months
+ * rounds to nought years, which would pass everybody, or to one, which would
+ * refuse people the law admits. Both are wrong in a way a player would feel.
+ */
+export function completedMonthsBetween(start: IsoDate, end: IsoDate): number {
+  const from = makeIsoDate(start);
+  const to = makeIsoDate(end);
+  let months =
+    (yearOf(to) - yearOf(from)) * 12 +
+    (Number(to.slice(5, 7)) - Number(from.slice(5, 7)));
+  const startDay = Number(from.slice(8, 10));
+  const endDay = Number(to.slice(8, 10));
+  if (endDay < startDay) {
+    // Not yet the anniversary day -- unless the target month has no such day,
+    // in which case its last day is the anniversary.
+    const daysInEndMonth = new Date(
+      Date.UTC(yearOf(to), Number(to.slice(5, 7)), 0),
+    ).getUTCDate();
+    if (startDay <= daysInEndMonth) months -= 1;
+  }
+  return months;
+}
+
 export function dateAtAge(birthDate: IsoDate, age: number): IsoDate {
   if (!Number.isSafeInteger(age) || age < 0) {
     throw new Error("Age must be a non-negative safe integer.");

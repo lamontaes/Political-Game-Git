@@ -1,20 +1,34 @@
 import { expect, type Page } from "@playwright/test";
 import { workOfferedOutreach } from "./campaign";
 import { enterLife, goTo } from "./creator";
+import {
+  chooseStateLegislativeOffice,
+  type ChamberChoice,
+} from "./jurisdictions";
 import { resolveActiveMemberSeat } from "../../../src/presentation/legislative-member-seat";
 import type { World } from "../../../src/simulation";
 
-/** Replay the banked ordinary entry; never inject a World, seat or result. */
-export async function reachMemberOffice(page: Page) {
+/**
+ * Replay the banked ordinary entry; never inject a World, seat or result.
+ *
+ * Works in whatever jurisdiction the caller's life was started in: the seat
+ * comes out of the player's own office browser, so a Nebraska life stands for
+ * the unicameral Legislature and a Nevada life for the Assembly without this
+ * helper knowing either name. Returns the office key it actually stood for.
+ */
+export async function reachMemberOffice(
+  page: Page,
+  chamber: ChamberChoice = "lower",
+): Promise<string> {
   // Running for office lives in Politics → Campaigns, beside the time control.
   await goTo(page, "elsewhere-campaign");
-  // E's office browser requires a deliberate choice; preserve the original
-  // House scenario rather than relying on the former implicit default.
-  const house = page
-    .getByTestId("campaign-office-browser")
-    .locator('input[value="us-ky-general-assembly-v1:house"]');
-  await house.press("Space");
-  await expect(house).toBeChecked();
+  // The office browser requires a deliberate choice, and the choice is read
+  // out of the browser the player is looking at rather than named here. This
+  // used to name `us-ky-general-assembly-v1:house` as a literal, which meant
+  // the ordinary route into a seat could only ever be proved in Kentucky:
+  // Nevada's lower chamber is an Assembly and Nebraska has one chamber called
+  // the Legislature, so the same helper silently could not run there.
+  const officeKey = await chooseStateLegislativeOffice(page, chamber);
   await expect(page.getByTestId("file-candidacy")).toBeEnabled();
   await page.getByTestId("file-candidacy").press("Enter");
   await page.getByTestId("campaign-fundraising").click();
@@ -49,6 +63,7 @@ export async function reachMemberOffice(page: Page) {
   }
   await expect(page.getByTestId("office-section")).toBeVisible();
   await expect(page.getByTestId("docket")).toBeVisible();
+  return officeKey;
 }
 
 /**
