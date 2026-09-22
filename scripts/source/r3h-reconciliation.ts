@@ -4,7 +4,7 @@
  * The reconciliation itself lives in
  * `scripts/source/executive-authority-r3h-reconciliation.ts`, next to the packs
  * it accounts for, and its test checks every claim against the live runtime.
- * This script only serialises it, so the checked-in evidence file can never
+ * This script only serializes it, so the checked-in evidence file can never
  * assert something the module and its test do not already hold.
  *
  * Deterministic: same input, same bytes. Run `npm run reconcile:r3h`.

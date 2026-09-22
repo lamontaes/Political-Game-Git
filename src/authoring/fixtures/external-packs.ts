@@ -1,22 +1,22 @@
 /**
  * EXTERNAL CARGO — the three free/CC0 packs downloaded for this project.
  *
- * Every count below was read off the archive with `unzip`, every licence off a
+ * Every count below was read off the archive with `unzip`, every license off a
  * document inside it, and the two body renders were opened and looked at. The
  * archives themselves are NOT in this repository and are not going to be: a
  * record is a statement about a download, identified by that download's hash,
  * and nothing here copies a byte.
  *
  * All three come back the same way, for two different reasons, and the split is
- * worth stating plainly because it is the whole argument for keeping licence
+ * worth stating plainly because it is the whole argument for keeping license
  * and usability as separate questions:
  *
- * - Both Quaternius packs are CC0 1.0, stated in a licence file inside the
+ * - Both Quaternius packs are CC0 1.0, stated in a license file inside the
  *   archive. There is no rights problem at all. They are rigged 3D meshes and
  *   skeletal animation, and this project has no rigging step, no Blender, and
  *   no 3D renderer — so they are ARCHIVE, and would be even if they were
  *   perfect.
- * - The office set is the mirror image. It has no licence document anywhere in
+ * - The office set is the mirror image. It has no license document anywhere in
  *   the archive, so its rights are unknown and stay unknown. It is also a
  *   Blender/Substance source project, so it would be unusable regardless.
  *   REJECT on the first ground alone.
@@ -34,7 +34,7 @@ const REVIEWED_BY = "graphics-convergence intake";
 /**
  * Quaternius, "Universal Base Characters [Standard]".
  *
- * CC0 1.0, stated in `License_Standard.txt`. Six stylised superhero-proportion
+ * CC0 1.0, stated in `License_Standard.txt`. Six stylized superhero-proportion
  * base meshes in FBX and glTF, eight hair/eyebrow meshes in two rigging
  * variants, and their PBR maps. `Preview.png` is a marketing composite of the
  * characters in underwear.
@@ -70,7 +70,7 @@ export const PACK_UNIVERSAL_BASE_CHARACTERS: ExternalPackRecord = {
       extensions: ["png"],
       examplePath:
         "Universal Base Characters[Standard]/Base Characters/Textures/T_Superhero_Male_Dark.png",
-      note: "2048x2048 base-colour, normal and roughness atlases. They are UV unwraps of the meshes above, not pictures of a person.",
+      note: "2048x2048 base-color, normal and roughness atlases. They are UV unwraps of the meshes above, not pictures of a person.",
     },
     {
       kind: "promotional-render",
@@ -96,7 +96,7 @@ export const PACK_UNIVERSAL_BASE_CHARACTERS: ExternalPackRecord = {
   licence: {
     spdxId: "CC0-1.0",
     statement:
-      "CC0 1.0 Universal Public Domain Dedication, stated in the archive's own licence file. Models by @Quaternius.",
+      "CC0 1.0 Universal Public Domain Dedication, stated in the archive's own license file. Models by @Quaternius.",
     evidence: "archive-document",
     evidencePath: "Universal Base Characters[Standard]/License_Standard.txt",
     attributionRequired: false,
@@ -167,7 +167,7 @@ export const PACK_UNIVERSAL_ANIMATION_LIBRARY: ExternalPackRecord = {
   licence: {
     spdxId: "CC0-1.0",
     statement:
-      "CC0 1.0 Universal Public Domain Dedication, stated in the archive's own licence file. Models by @Quaternius.",
+      "CC0 1.0 Universal Public Domain Dedication, stated in the archive's own license file. Models by @Quaternius.",
     evidence: "archive-document",
     evidencePath: "Universal Animation Library[Standard]/License.txt",
     attributionRequired: false,
@@ -194,7 +194,7 @@ export const PACK_UNIVERSAL_ANIMATION_LIBRARY: ExternalPackRecord = {
  * 2048x2048 PBR maps, plus the `.blend` and `.spp` authoring files and eighty
  * turntable frames.
  *
- * There is no licence document anywhere in the archive. Under the repository's
+ * There is no license document anywhere in the archive. Under the repository's
  * rights rule that is the end of it — unknown rights stay unknown, and being
  * free to download is not evidence of a grant. Independently, it is a 3D source
  * project and the render it ships is flat-shaded low-poly, which is not the
@@ -222,7 +222,7 @@ export const PACK_OFFICE_CUBICLE_SET: ExternalPackRecord = {
       extensions: ["png"],
       examplePath:
         "Office Cubicle/DeskSetup/Textures/Mat_DeskSetup_BaseColor.png",
-      note: "2048x2048 base-colour, displacement, metallic, normal and roughness atlases for four material sets.",
+      note: "2048x2048 base-color, displacement, metallic, normal and roughness atlases for four material sets.",
     },
     {
       kind: "promotional-render",
@@ -241,7 +241,7 @@ export const PACK_OFFICE_CUBICLE_SET: ExternalPackRecord = {
   ],
   licence: {
     statement:
-      "No licence document of any kind exists in the archive: no LICENSE, no README, no terms in any folder. The rights position is unknown, and free availability is not evidence of a grant.",
+      "No license document of any kind exists in the archive: no LICENSE, no README, no terms in any folder. The rights position is unknown, and free availability is not evidence of a grant.",
     evidence: "none",
     attributionRequired: false,
   },
@@ -253,7 +253,7 @@ export const PACK_OFFICE_CUBICLE_SET: ExternalPackRecord = {
     "style-mismatch",
   ],
   rationale:
-    "Rejected on rights first: the archive contains no licence, so nothing in it may be shipped, and no amount of technical suitability would change that. It also happens to be a Blender and Substance Painter source project whose only 2D files are PBR atlases and turntable frames, and the render it ships is flat-shaded low-poly against the environment library's grounded semi-realistic illustration. Not archived either — archiving implies a future in which it becomes usable, and unverified rights do not resolve themselves.",
+    "Rejected on rights first: the archive contains no license, so nothing in it may be shipped, and no amount of technical suitability would change that. It also happens to be a Blender and Substance Painter source project whose only 2D files are PBR atlases and turntable frames, and the render it ships is flat-shaded low-poly against the environment library's grounded semi-realistic illustration. Not archived either — archiving implies a future in which it becomes usable, and unverified rights do not resolve themselves.",
   harvested: [],
   reviewedOn: REVIEWED_ON,
   reviewedBy: REVIEWED_BY,

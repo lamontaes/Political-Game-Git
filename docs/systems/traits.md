@@ -4,7 +4,7 @@
 built. Nothing described here exists yet. The five traits that exist today are
 described as they are, and the proposal is marked as such throughout.
 
-A trait is a fictional behaviour tendency: a recurring pattern in how a
+A trait is a fictional behavior tendency: a recurring pattern in how a
 character tends to act. It is not a measurement of a real person, not inferred
 from anybody's name or place, and never shown to the player as a number. That
 statement is unchanged and not up for negotiation by anything below.
@@ -345,7 +345,7 @@ Today the game refuses to author the controlled character's traits —
 own choices as a change to that person. That refusal is correct and stays.
 
 But today the seed still exists for them and `PersonCard` hides it with a
-separate check, so the current behaviour is "present, never written, never
+separate check, so the current behavior is "present, never written, never
 consulted, hidden by hand" — which is a side effect rather than a design.
 Making it explicit: **the player has no trait records and no seed is drawn for
 them.** `personTrait` returns unrecorded for the played character, always, and
@@ -380,7 +380,7 @@ one as the other — is the pattern the trait reader follows.
 
 **BUILT**, in `trait-resistance.ts` and `people-trait-change.ts`. The owner's
 requirement: "every character should be able to change with varying levels of
-resistance." Nothing modelled resistance before — `recordTraitChange` took an
+resistance." Nothing modeled resistance before — `recordTraitChange` took an
 event and a reason and applied the new value outright, so the same event would
 move every person by the same amount, and it had no production caller at all,
 so nobody's temperament had ever moved.
@@ -409,7 +409,7 @@ chain:
   nothing the week it was written would let a character swing straight back.
 - **What the pack says about the trait.** A pack declares how movable a trait
   is at all, because some dispositions are more fundamental than others, and
-  that is the pack author's judgement rather than the engine's. Every number a
+  that is the pack author's judgment rather than the engine's. Every number a
   change is weighed against lives in `TraitMovability`; the engine holds none
   of them.
 
@@ -485,7 +485,7 @@ so does anything that has settled the question elsewhere.
 `attemptTraitChange` is the play path and the one anything in the running game
 should use. It weighs a force against the resistance, applies the change when
 the force wins, and records the attempt when it does not. Keeping both is
-deliberate: a test arranging a person's temperament is not modelling a change,
+deliberate: a test arranging a person's temperament is not modeling a change,
 and making it pretend to be one would have every fixture inventing a force it
 does not mean.
 

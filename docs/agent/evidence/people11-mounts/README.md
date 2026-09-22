@@ -51,7 +51,7 @@ y 28-71; button x 20-212, y 17-56.
 clear of the panel and of the identity cluster.
 
 A second defect surfaced while checking and is fixed with it: `elementFromPoint`
-at the note's centre returned `DIV.life-hud`, so the fixed panel was the hit
+at the note's center returned `DIV.life-hud`, so the fixed panel was the hit
 target at **every** width and took presses meant for whatever sat behind it. It
 holds nothing but `role="status"` sentences, so it no longer accepts pointer
 events. After the fix the same probe returns the scene, and a plain, non-forced

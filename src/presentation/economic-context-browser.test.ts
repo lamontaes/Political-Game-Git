@@ -143,7 +143,7 @@ describe("browser economic context provider", () => {
       parities(await provider.query(LEXINGTON, "2026-02-19")).length,
     ).toBeGreaterThan(0);
 
-    // Undated editions: withheld until the retrieval date, and labelled so.
+    // Undated editions: withheld until the retrieval date, and labeled so.
     const lastUndated = await provider.query(LEXINGTON, "2026-09-02");
     expect(
       lastUndated.observations.some(

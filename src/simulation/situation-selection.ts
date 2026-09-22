@@ -171,9 +171,9 @@ export const NOVELTY_WINDOW = 3;
  * What the pacing guard is protecting.
  *
  * Two things at once. A run of hard moments makes the next hard moment cost
- * nothing, so a demanding situation is penalised when the recent run has been
+ * nothing, so a demanding situation is penalized when the recent run has been
  * demanding. And a long run of nothing makes a life feel like it is not
- * happening, so an ordinary situation is penalised — much more gently — when
+ * happening, so an ordinary situation is penalized — much more gently — when
  * everything recent has already been ordinary.
  *
  * This is why the stakes tier exists at all. It says how much a moment asks of

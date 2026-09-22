@@ -165,7 +165,7 @@ scene the player is inside into a dossier they are reading about someone else.
 
 The trap: a fact packet's CHARACTER line frequently carries a role noun
 ("state representative", "circuit judge"). That line says who the player is.
-It is never a licence to narrate them by that noun.
+It is never a license to narrate them by that noun.
 
 - Rejected: "The judge reviews the motion before the hearing."
 - Rejected: "He arrives at the office ahead of his staff."
@@ -294,6 +294,18 @@ institution terms against the canonical role, jurisdiction and date; do not
 replace "minister" globally or reject legitimate "ministerial" actions,
 "administration", clergy, foreign offices or quoted official names. Missing
 role context requires a question or omission, never an invented replacement.
+
+**Spelling, units and dates are American everywhere** — not only in player
+copy but in content data, tests, docs, and these skill and instruction files.
+Write color, center, labor, behavior, organize, canceled, catalog, judgment,
+defense, license (noun and verb), gray. Measure the world for a player in miles,
+feet, inches, pounds and ounces; internal art calibration may keep metric, but
+spells it meter and centimeter. Write dates month first: September 22, 2026,
+or 9/22/2026 — never `22 September` or `22/09/2026`. ISO dates (2026-09-22) stay
+as they are in records and file names. `tests/american-english-sweep.test.ts`
+enforces this over every tracked file; to name a British form on purpose (a
+quotation, an old save a migration must read), put it in a code span or mark
+the line `british-spelling-ok:` with the reason.
 
 Use `scripts/prose-eval/american-english.ts` for scoped literal and data-field
 checks. Semantic terminology review remains a separate read-only review of

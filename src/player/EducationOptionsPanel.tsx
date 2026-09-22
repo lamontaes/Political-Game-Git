@@ -159,7 +159,7 @@ export function EducationOptionsPanel({
         </GameSelect>
       </label>
       <p>
-        {result.total.toLocaleString()} matching institutions
+        {result.total.toLocaleString("en-US")} matching institutions
         {!wide && !query.trim()
           ? " in your home state or district"
           : " across the directory"}

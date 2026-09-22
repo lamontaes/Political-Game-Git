@@ -15,15 +15,15 @@ game.**
 3. Press **Commit this week**.
 4. Press the week control.
 
-The clock moves from 9:10 AM to 10:00 AM on Monday 5 January 2026 and then
+The clock moves from 9:10 AM to 10:00 AM on Monday January 5, 2026 and then
 never moves again. Pressing the week control a second, third and fourth time
 changes nothing. Neither does the day control, "Get on with the day", or any
 item under "Waiting on you". The life is over at 10:00 AM on its first
 morning.
 
 **The control run.** The same life, filed for governor, week control pressed
-three times **without** committing: Monday 12 January, Monday 19 January,
-Monday 26 January. One press of "Commit this week" is the whole difference.
+three times **without** committing: Monday January 12, Monday January 19,
+Monday January 26. One press of "Commit this week" is the whole difference.
 
 ## Why, in one chain
 

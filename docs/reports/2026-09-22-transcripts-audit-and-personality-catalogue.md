@@ -147,8 +147,8 @@ chat, 2026-09-22 00:36 UTC:
 > "there should be NO references to sources in the game. just display the
 > info. this is player facing."
 
-So a generated rule is not labelled on screen as generated, any more than a
-sourced one is labelled as sourced. The distinction lives in the record.
+So a generated rule is not labeled on screen as generated, any more than a
+sourced one is labeled as sourced. The distinction lives in the record.
 
 ### 1.2 PERMANENT REMOVAL versus "rename and archive"
 
@@ -306,7 +306,7 @@ bundle that no surface consumes.
 
 ## 2. The Drive sources
 
-Read in full and summarised above: the 63-page audit and the original product
+Read in full and summarized above: the 63-page audit and the original product
 vision invariants. The invariants document is the one worth re-reading before
 any scope argument; invariant 14 speaks directly to the averaging question:
 
@@ -331,21 +331,21 @@ PDF, but the CSVs are the working form of the jurisdiction matrix.
 
 ---
 
-## 3. The personality catalogue against what the game has
+## 3. The personality catalog against what the game has
 
 ### 3.1 The live state has moved
 
-The catalogue was to be measured against a trait framework with three open
+The catalog was to be measured against a trait framework with three open
 questions: how a trait declares what it argues for, how a decision declares
-what it accepts, and how resistance to change is modelled. Two of those, and a
+what it accepts, and how resistance to change is modeled. Two of those, and a
 design for the third, are already written on
 `origin/claude/people-and-life-4qpuwb` — commit `aeaa88d8` ("let a trait
 declare its argument and a decision its options") and `1eed9ba8` ("design
 resistance, and the played character's own temperament"), both in
 `docs/systems/traits.md`, marked **PROPOSED** and awaiting the owner. So the
-catalogue is not filling a vacuum; it is being read against a written proposal.
+catalog is not filling a vacuum; it is being read against a written proposal.
 
-### 3.2 What the catalogue answers
+### 3.2 What the catalog answers
 
 **Breadth.** 121 candidate traits in 14 families, each with a meaning, two
 worked examples and an explicit Boundary saying what it is not. That is a
@@ -356,7 +356,7 @@ describes.
 values, goals, moods and states, relationship states, skills, identity,
 appearance, clinical labels, roles, out-of-setting material. This is the more
 useful half. It says what must _not_ become a trait row, which is the failure
-mode a 121-entry catalogue would otherwise invite.
+mode a 121-entry catalog would otherwise invite.
 
 **The coherent-person separation**: Temperament / Values / Goals and
 commitments / Interests / Knowledge and abilities / Current state /
@@ -364,28 +364,28 @@ Relationships and impressions. This matches the vision document's invariant 4
 ("history is the character sheet") and the proposal's insistence that a trait
 argues rather than decides.
 
-**Leisure preference.** The catalogue's clearest concrete finding: the
+**Leisure preference.** The catalog's clearest concrete finding: the
 existing three-way switch conflates _what activity_ with _who is present_, and
 should stop standing in for personality.
 
 **The five that exist map cleanly in.** Entries 040 Deliberate, 041 Impulsive,
 050 Dependable, 051 Unreliable, 088 Confrontational, 089 Conciliatory, 098
 Cautious, 099 Risk-taking are marked `[PROJECT]` — they are the current five
-poles. The first pack is a subset of the catalogue, not something the
-catalogue supersedes.
+poles. The first pack is a subset of the catalog, not something the
+catalog supersedes.
 
-### 3.3 What the catalogue does not answer
+### 3.3 What the catalog does not answer
 
 **It gives no declaration of what a trait argues for.** Every entry describes
-behaviour. None names a decision or an option. The proposal's `leans` row —
+behavior. None names a decision or an option. The proposal's `leans` row —
 `{option, trait, pole, explanation}` against a decision that publishes its own
-option keys — is not derivable from a catalogue entry; somebody has to author
+option keys — is not derivable from a catalog entry; somebody has to author
 the mapping per decision.
 
 **It gives no per-person resistance quantity, and that agrees with the
 proposal.** The nearest entries are 084 Stubborn, 085 Flexible, 086 Fickle,
 016 Slow to warm up and 115 Brooding, plus the roBurky emotional-inertia
-precedent in the source register. All describe behaviour. The proposal rejects
+precedent in the source register. All describe behavior. The proposal rejects
 the obvious reading of them explicitly:
 
 > "The tempting design is a second seeded number per person: how stubborn they
@@ -394,7 +394,7 @@ the obvious reading of them explicitly:
 
 — and reads resistance from the record chain instead: how long the current
 value has stood, how often it has already moved, and how movable the pack says
-the trait is at all. The catalogue supports that choice by omission: it never
+the trait is at all. The catalog supports that choice by omission: it never
 proposes stubbornness as a measurable quantity either. That is a convergence
 worth noting rather than a gap.
 
@@ -406,7 +406,7 @@ common any of the 121 should be. Those remain the owner's.
 pole argues for opposite options depending on who holds what (the
 legislation lane's "whose commitment binds") cannot be expressed as a lean,
 and the fix is for the decision to publish the asymmetry as separate options.
-The catalogue has entries of exactly this relational shape and offers no
+The catalog has entries of exactly this relational shape and offers no
 guidance on them.
 
 Nothing here was wired. This is a reading, not a change.

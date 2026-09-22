@@ -25,7 +25,7 @@ import { localGoverningBodyIdentity } from "./local-governing-body-candidacy-pac
  * the typical band ignores town size, and the councils read so far are mostly
  * cities. It is replaced by a draw by population band when that is answered.
  *
- * A typical value is labelled as typical wherever it is shown, and it never
+ * A typical value is labeled as typical wherever it is shown, and it never
  * enters the town's candidacy pack as though the town recorded it. Reading a
  * town's charter later replaces the typical value with the read one.
  */

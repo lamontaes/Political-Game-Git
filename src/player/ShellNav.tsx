@@ -134,7 +134,7 @@ const GROUP_ORDER: readonly ShellDestinationGroup[] = [
  * portrait, from straight up to a shallow angle that stays clear of the name
  * label and the day controls. Each ring holds only as many entries as fit
  * without touching, so a longer list opens a further ring rather than
- * crowding the first. Offsets are in pixels from the portrait's centre, y
+ * crowding the first. Offsets are in pixels from the portrait's center, y
  * negative upwards.
  */
 export const FAN_RINGS: readonly { radius: number; capacity: number }[] = [

@@ -148,7 +148,7 @@ describe("the fixed-width parser", () => {
     },
   ];
 
-  it("reads declared spans and honours per-field trailing-space semantics", () => {
+  it("reads declared spans and honors per-field trailing-space semantics", () => {
     const result = parseFixedWidth(bytes("ABC Alpha    \n"), { fields });
     expect(result.rows[0]?.values.code).toBe("ABC");
     expect(result.rows[0]?.values.name).toBe("Alpha    ");

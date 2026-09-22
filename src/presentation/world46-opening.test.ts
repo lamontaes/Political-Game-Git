@@ -129,10 +129,15 @@ const sha256 = (text: string) =>
  * identities changed. Kentucky: 6 given names and 18 summaries, each made
  * identical by one renamed person's old given name, plus `snapshotId`.
  * Peebles: 3 given names and 9 summaries, plus `snapshotId`. 0 unexplained.
+ *
+ * RE-ACCEPTED 2026-09-22 for the American English sweep: the policy catalog's
+ * authored text now spells labor, defense and program the American way.
+ * LEGACY_OPENING_SHAPE passed unchanged on the run that moved these hashes, so
+ * only the stripped catalog field moved.
  */
 const FED321F7_LEGACY = {
-  kentucky: "a4d19ef685a0643fc15f9aca4e20c9de683d01971037a943a8368a9eb86ce103",
-  peebles: "947bc8b8c44a75adee7273a890545377fdf7c1f3b38487cadfa618932f3331c2",
+  kentucky: "706f7d7781627c691f3016ab4bbeec5bec6f9e22ce1396b44a5ac1c952a6359d",
+  peebles: "48b86a048c3a3b1b4792c1d059c4c869e00bc48fdcdadbe10bb98a8aa695d9e8",
 } as const;
 
 /**

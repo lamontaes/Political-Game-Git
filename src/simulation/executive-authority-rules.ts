@@ -25,7 +25,7 @@
  * become a claim about the law. Until this subsystem has a source-bearing
  * representation for inapplicability, such a field stays `unknown`.
  *
- * Nothing here models political behaviour, and nothing here scores an office.
+ * Nothing here models political behavior, and nothing here scores an office.
  * There is deliberately no veto-deterrence, legal-risk, morale, competence,
  * loyalty, confirmability or "strong executive" number: those were product
  * ideas in the 92H research, not accepted canonical primitives, and encoding

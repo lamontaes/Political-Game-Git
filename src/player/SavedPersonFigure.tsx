@@ -52,7 +52,7 @@ export function SavedPersonFigure({
     (preview && !previewRefusal
       ? { characters: preview.characters, visuals: preview.visuals }
       : undefined);
-  // Saved snapshots are bound to production, never to a candidate catalogue.
+  // Saved snapshots are bound to production, never to a candidate catalog.
   const usingReviewLibraries = Boolean(explicitLibraries) || Boolean(preview);
   const name = personName(person);
   let reason: string | undefined;

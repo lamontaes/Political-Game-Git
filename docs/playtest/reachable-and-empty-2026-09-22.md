@@ -80,7 +80,7 @@ missing half is deliberate and recorded.
 ### The journal drops what it cannot name
 
 `src/presentation/world39-journal.ts` is the only presentation consumer of
-the policy catalogue. For a belief, a public position or a campaign
+the policy catalog. For a belief, a public position or a campaign
 commitment whose proposition the world does not hold, it does `continue`.
 Not a sentence — a skip. A recorded fact about the player's own convictions
 disappears from the one screen that would show it, silently. This is the
@@ -100,7 +100,7 @@ party evolution" and "mentions continuing as someone". Both came from a
 regex against the whole page — `/part(y|ies)/i` matches the word "party"
 inside the Caucus entry — and neither is evidence of an entry on the
 subject. Read from `GUIDE_TERMS` instead, the 28 entries are the ones listed
-above and there is no entry about parties as organisations, about the press,
+above and there is no entry about parties as organizations, about the press,
 or about what happens when a character dies. The claim stands; the probe did
 not establish it.
 

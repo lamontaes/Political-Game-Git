@@ -785,7 +785,7 @@ describe("a docket that has grown can still be worked", () => {
 });
 
 describe("a bill can be written against another bill", () => {
-  it("appropriates against a programme the player authorized earlier", () => {
+  it("appropriates against a program the player authorized earlier", () => {
     const fixture = kentucky();
     const authorized = file(
       fixture,

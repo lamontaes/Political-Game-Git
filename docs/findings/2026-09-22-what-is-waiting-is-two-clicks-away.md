@@ -69,7 +69,7 @@ take, because two of the files it needs are being written by another lane.
 
 Whether the table should show _everything_ waiting or only what physically
 arrived is filed as `household-paper-surface-contents`: an offer made in a
-shop and a favour asked in a kitchen are both waiting and neither is a piece
+shop and a favor asked in a kitchen are both waiting and neither is a piece
 of paper. Answering that decides whether the room surface is the whole list or
 a filtered one, and until it is answered a mount should show the whole list
 and say so, rather than inventing a filter.
