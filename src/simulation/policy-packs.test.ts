@@ -77,6 +77,22 @@ describe("what a build ships with", () => {
     expect(text).not.toMatch(/\d+%/);
   });
 
+  it("omits the level entirely where a pack routed nothing, so older bytes stay true", () => {
+    const unrouted = loadPolicyPacks([
+      pack({
+        pack: "unrouted",
+        domains: [{ key: "d", name: "D", description: "A domain." }],
+        issues: [
+          { key: "i", domain: "d", name: "I", description: "A question." },
+        ],
+      }),
+    ]);
+    const issue = unrouted.issues[0];
+    expect(issue).toBeDefined();
+    expect("levels" in (issue as object)).toBe(false);
+    expect(JSON.stringify(issue)).not.toContain("levels");
+  });
+
   it("says what it loaded rather than saying nothing", () => {
     expect(describePolicyLoad(registry.report)).toContain("us-state-and-local");
   });

@@ -72,10 +72,17 @@ Two things this is not:
   zoning power. The jurisdiction's own capability record decides that. A
   county without zoning authority must not generate zoning fights because a
   national list has a land-use bucket.
-- **An empty list means nobody established it**, and a consumer must not read
+- **An absent list means nobody established it**, and a consumer must not read
   that as "every level". An unknown fact is not permission. Every issue in
   this pack names at least one level, so nothing is currently relying on that
   rule, but the rule is what the type means.
+
+The field is optional and is omitted rather than written empty. That is not
+tidiness: five accepted-bytes fixtures failed when it was written
+unconditionally, because the synthetic catalogue's issues carry no levels and
+suddenly serialised an extra key. Omitting it means a world holding unrouted
+issues produces exactly the bytes it did before the field existed, and a save
+written before it stays readable. A test pins that.
 
 ## What is deliberately absent
 

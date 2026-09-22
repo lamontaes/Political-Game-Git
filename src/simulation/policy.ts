@@ -49,7 +49,10 @@ export function createPolicyIssueDefinition(
     domainId,
     name,
     description,
-    levels: [...levels],
+    // Omitted rather than empty: an issue nobody routed must serialise as it
+    // did before levels existed, so the accepted bytes of a world carrying
+    // unrouted issues stay true and an older save stays readable.
+    ...(levels.length > 0 ? { levels: [...levels] } : {}),
   };
 }
 
