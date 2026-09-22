@@ -15,6 +15,23 @@ export const MAIN_TRACK = "main";
 const SHA = /^[0-9a-f]{40}$/;
 
 /**
+ * Electron can briefly report negative content dimensions while macOS restores
+ * a window. AppKit rejects those bounds and leaves every view blank, so the
+ * hub clamps that transient state and lays out normally on the next resize.
+ */
+export function hubViewLayout(bounds, chromeHeight = 92) {
+  const finite = (value) =>
+    Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0;
+  const width = finite(bounds?.width);
+  const height = finite(bounds?.height);
+  const chrome = Math.min(finite(chromeHeight), height);
+  return {
+    chrome: { x: 0, y: 0, width, height: chrome },
+    content: { x: 0, y: chrome, width, height: height - chrome },
+  };
+}
+
+/**
  * Conservative subset of git-check-ref-format: printable ASCII path
  * segments, no traversal, no revision syntax, no leading dash. Git itself
  * validates again; this only keeps hostile labels out of argument arrays and

@@ -686,6 +686,86 @@ describe("artbench store: inbox batches and the exchange", () => {
     ).toHaveLength(1);
   });
 
+  it("defers an item whose file has not arrived yet, and says nothing about the batch until it has", () => {
+    // The sender's contract is manifest.json last. A sender that writes it
+    // first announces a batch whose payload is still uploading, and this is
+    // the case that used to be eaten: the missing file took a permanent
+    // "rejected" marker, the next pass skipped it for having one, and the
+    // batch reported completed with nothing in it.
+    const batch = join(drive, "01_INBOX", "batch-2026-09-22-late-upload");
+    mkdirSync(batch, { recursive: true });
+    const items = [
+      { itemId: "early", file: "early.png", requestId: "env-c" },
+      { itemId: "late", file: "late.png", requestId: "env-c" },
+    ];
+    writeFileSync(join(batch, "early.png"), tinyPng(21, 4));
+    writeFileSync(
+      join(batch, "manifest.json"),
+      JSON.stringify({ batchId: "batch-2026-09-22-late-upload", items }),
+    );
+
+    const before = store
+      .allEvents()
+      .filter((e) => e.type === "batch.completed").length;
+    store.syncOnce();
+    // The one file that is here is taken, and the batch stays quiet.
+    expect(
+      store.allEvents().filter((e) => e.type === "batch.completed"),
+    ).toHaveLength(before);
+
+    // The upload finishes.
+    writeFileSync(join(batch, "late.png"), tinyPng(22, 4));
+    store.syncOnce();
+    const completed = store
+      .allEvents()
+      .filter((e) => e.type === "batch.completed");
+    expect(completed).toHaveLength(before + 1);
+    const last = completed[completed.length - 1];
+    expect(
+      last.type === "batch.completed" && last.payload.ingestedCandidateIds,
+    ).toHaveLength(2);
+    expect(
+      last.type === "batch.completed" && last.payload.rejected,
+    ).toHaveLength(0);
+
+    // And it is not re-announced once it is done.
+    store.syncOnce();
+    expect(
+      store.allEvents().filter((e) => e.type === "batch.completed"),
+    ).toHaveLength(before + 1);
+  });
+
+  it("keeps rejecting a file that is present and is not an image", () => {
+    // The other half of the split: this one never becomes true on its own,
+    // so it keeps its permanent marker and is not retried for ever.
+    const batch = join(drive, "01_INBOX", "batch-2026-09-22-not-an-image");
+    mkdirSync(batch, { recursive: true });
+    writeFileSync(join(batch, "note.txt"), "not an image");
+    writeFileSync(
+      join(batch, "manifest.json"),
+      JSON.stringify({
+        batchId: "batch-2026-09-22-not-an-image",
+        items: [{ itemId: "note", file: "note.txt", requestId: "env-c" }],
+      }),
+    );
+    const before = store
+      .allEvents()
+      .filter((e) => e.type === "batch.completed").length;
+    store.syncOnce();
+    const completed = store
+      .allEvents()
+      .filter((e) => e.type === "batch.completed");
+    expect(completed).toHaveLength(before + 1);
+    const last = completed[completed.length - 1];
+    expect(
+      last.type === "batch.completed" && last.payload.rejected,
+    ).toHaveLength(1);
+    store.syncOnce();
+    expect(
+      store.allEvents().filter((e) => e.type === "batch.completed"),
+    ).toHaveLength(before + 1);
+  });
+
   it("exports decisions as immutable event files and a readable catalog, and admits foreign events", () => {
     const projection = store.projection();
     const candidateId = projection.requests["env-c"].candidateIds[0];

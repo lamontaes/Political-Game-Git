@@ -57,6 +57,7 @@ import {
   ART_DESK_TOKEN_HEADER,
   ArtDeskHost,
   artDeskDownloadPath,
+  artDeskSourcePlan,
 } from "./artdesk-host.mjs";
 import {
   chooserLabel,
@@ -79,6 +80,7 @@ import {
   cleanHubState,
   createGeneration,
   emptyHubState,
+  hubViewLayout,
   playLabel,
   prunedQueue,
   recordCheck,
@@ -1049,21 +1051,15 @@ function contentForTab() {
 
 function layout() {
   if (!hub.window || hub.window.isDestroyed()) return;
-  const { width, height } = hub.window.getContentBounds();
-  hub.chrome.setBounds({ x: 0, y: 0, width, height: CHROME_HEIGHT });
+  const bounds = hubViewLayout(hub.window.getContentBounds(), CHROME_HEIGHT);
+  hub.chrome.setBounds(bounds.chrome);
   const visible = contentForTab();
-  const bounds = {
-    x: 0,
-    y: CHROME_HEIGHT,
-    width,
-    height: Math.max(0, height - CHROME_HEIGHT),
-  };
   const all = [
     ...hub.views.values(),
     ...[...hub.play.values()].map((entry) => entry.view),
   ];
   for (const view of all) {
-    view.setBounds(bounds);
+    view.setBounds(bounds.content);
     view.setVisible(view === visible);
   }
 }
@@ -1560,8 +1556,11 @@ async function startArtDesk() {
     const exchange = artbenchExchange();
     const repositoryPath = await verifiedRepository();
     const branch = settings.artDeskBranch;
-    const registered = hub.artdesk.registeredRuntime(branch);
-    if (settings.artDeskSource !== "local" && !registered)
+    const sourcePlan = artDeskSourcePlan(settings.artDeskSource, branch);
+    // A ready-runtime record proves the shared workspace is usable; it is not
+    // an update lock. Re-resolve the selected branch on every start so a newer
+    // published commit becomes the Art Desk source automatically.
+    if (sourcePlan.fetch)
       await git(
         [
           "fetch",
@@ -1572,17 +1571,10 @@ async function startArtDesk() {
         ],
         repositoryPath,
       );
-    const head =
-      registered?.revision ??
-      (await git(
-        [
-          "rev-parse",
-          "--verify",
-          "--end-of-options",
-          `${settings.artDeskSource === "local" ? "refs/heads" : "refs/remotes/origin"}/${branch}^{commit}`,
-        ],
-        repositoryPath,
-      ));
+    const head = await git(
+      ["rev-parse", "--verify", "--end-of-options", sourcePlan.ref],
+      repositoryPath,
+    );
     let revision = head;
     if (settings.artDeskPin) {
       // A pin must be part of the selected owner-repository branch.
