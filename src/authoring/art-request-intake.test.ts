@@ -148,7 +148,100 @@ describe("validateArtRequestIntake", () => {
   });
 });
 
+describe("what an outdoor plate has to declare", () => {
+  const outdoor = (
+    visualContext?: ArtRequestIntakeRecord["visualContext"],
+  ): ArtRequestIntakeRecord =>
+    record({
+      targetClass: "environment-plate",
+      environmentClass: "park-exterior",
+      visualContext,
+    });
+
+  const codes = (records: ArtRequestIntakeRecord[]) =>
+    validateArtRequestIntake(records).findings.map((finding) => finding.code);
+
+  it("refuses an outdoor plate whose season lives only in the prose", () => {
+    const found = codes([outdoor()]);
+    expect(found).toContain("outdoor-plate-without-seasons");
+    expect(found).toContain("outdoor-plate-without-landform");
+    expect(found).toContain("outdoor-plate-without-scene-kind");
+    expect(validateArtRequestIntake([outdoor()]).valid).toBe(false);
+  });
+
+  it("accepts one that declares them", () => {
+    const result = validateArtRequestIntake([
+      outdoor({
+        seasons: ["winter"],
+        landform: "montane-slope",
+        vegetation: ["tawny-meadow", "pine-fir"],
+        sceneKind: "open-landscape",
+      }),
+    ]);
+    expect(result.valid).toBe(true);
+  });
+
+  it("asks an interior none of it", () => {
+    // The case that has to stay easy: a playtesting thread reporting that a
+    // community room has no art does not classify vegetation to be heard.
+    const result = validateArtRequestIntake([
+      record({
+        targetClass: "environment-plate",
+        environmentClass: "civic-interior",
+      }),
+    ]);
+    expect(result.valid).toBe(true);
+    expect(result.findings.map((finding) => finding.code)).not.toContain(
+      "outdoor-plate-without-seasons",
+    );
+  });
+
+  it("makes an environment plate say which kind of environment it is", () => {
+    expect(codes([record({ targetClass: "environment-plate" })])).toContain(
+      "environment-plate-without-environment-class",
+    );
+  });
+
+  it("rejects a season or a landform outside the shared vocabulary", () => {
+    const found = codes([
+      outdoor({
+        seasons: ["monsoon" as never],
+        landform: "tundra" as never,
+        sceneKind: "aerial" as never,
+      }),
+    ]);
+    expect(found).toContain("unknown-season");
+    expect(found).toContain("unknown-landform");
+    expect(found).toContain("unknown-scene-kind");
+  });
+});
+
 describe("promoteToAssetRequest", () => {
+  it("carries the declared look into criteria a delivery can fail", () => {
+    const request = promoteToAssetRequest(
+      record({
+        targetClass: "environment-plate",
+        environmentClass: "park-exterior",
+        visualContext: {
+          seasons: ["winter"],
+          landform: "montane-slope",
+          vegetation: ["tawny-meadow"],
+          sceneKind: "open-landscape",
+        },
+      }),
+      PROMOTION,
+    );
+    expect(request.acceptanceCriteria[0]).toContain("Shows winter");
+    expect(request.acceptanceCriteria[0]).toContain("wrong");
+    expect(request.acceptanceCriteria.join(" ")).toContain("montane-slope");
+    expect(request.acceptanceCriteria.join(" ")).toContain("tawny-meadow");
+    // The author's own criteria survive, after the ones anyone can check.
+    expect(request.acceptanceCriteria).toContain(
+      "Reads as a community room, not a courtroom.",
+    );
+    expect(validateAssetRequests([request]).valid).toBe(true);
+  });
+
   it("produces a request the bench's own validator accepts", () => {
     const request = promoteToAssetRequest(record(), PROMOTION);
     expect(validateAssetRequests([request]).valid).toBe(true);

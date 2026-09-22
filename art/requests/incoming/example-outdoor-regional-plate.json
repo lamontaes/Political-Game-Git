@@ -1,0 +1,32 @@
+{
+  "intakeVersion": "art-request-intake/v1",
+  "requestId": "example-outdoor-regional-plate",
+  "title": "A winter opening view of the northern Rockies foothills",
+  "missing": "A life begun in January in the Colorado foothills reaches the intro with no plate for its region.",
+  "consumerSite": {
+    "runtimeComponent": "src/player/WorldOrientationPanel.tsx",
+    "playerVisibleUse": "The world introduction, on the panel about the player's own town."
+  },
+  "jurisdiction": {
+    "scope": "specific",
+    "displayName": "Larimer County, Colorado",
+    "stateCode": "CO"
+  },
+  "whyNeeded": "The region resolver has a winter row for the montane slope and no bytes behind it, so the panel is blank for every January life there.",
+  "origin": "runtime-gap",
+  "requestedBy": "art bench thread",
+  "filedAt": "2026-09-22T00:30:00.000Z",
+  "priority": "P1",
+  "targetClass": "environment-plate",
+  "environmentClass": "park-exterior",
+  "visualContext": {
+    "seasons": ["winter"],
+    "landform": "montane-slope",
+    "vegetation": ["tawny-meadow", "pine-fir", "patchy-settled-snow"],
+    "sceneKind": "open-landscape",
+    "note": "Settled patchy snow, not falling snow and not a storm. No ski infrastructure and no named peak."
+  },
+  "notes": [
+    "Worked example of an outdoor plate. The season is a tag the validator enforces and the promotion carries into the acceptance criteria, not a sentence somebody has to remember reading."
+  ]
+}

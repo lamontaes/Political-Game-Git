@@ -41,6 +41,15 @@ import type { AssetTargetClass } from "./asset-lineage";
 import { ASSET_TARGET_CLASSES } from "./asset-lineage";
 import type { EnvironmentClass } from "./asset-compatibility";
 import { ENVIRONMENT_CLASSES } from "./asset-compatibility";
+import type {
+  RegionalLandform,
+  RegionalSceneKind,
+  RegionalSeason,
+} from "./regional-scene-coverage";
+import {
+  REGIONAL_LANDFORMS,
+  REGIONAL_SCENE_KINDS,
+} from "./regional-scene-coverage";
 
 export const ART_REQUEST_INTAKE_VERSION = "art-request-intake/v1" as const;
 
@@ -104,6 +113,49 @@ export type ArtRequestJurisdiction =
  * means the consumer does not exist yet, which is a different fact from a
  * consumer that exists and paints nothing.
  */
+/**
+ * What the picture has to show, asked for at the point of asking.
+ *
+ * The regional scenes are the case that proves the need. Three of them were
+ * requested with a season in the prose — "explicitly winter", "green summer
+ * canopy" — and nothing in the record a tool could act on, so the constraint
+ * survived only as long as somebody remembered reading it. A picture's season
+ * belongs in the request, in the same vocabulary the resolver uses, so it can
+ * become an acceptance criterion a delivery can fail rather than a sentence in
+ * a brief.
+ *
+ * Every field is optional in the type and required by context: an outdoor plate
+ * must declare its seasons, landform and kind of view, and a community room
+ * must not be made to classify vegetation to report that it has no art. The
+ * validator, not the type, knows which request is which.
+ */
+export interface ArtRequestVisualContext {
+  /** The times of year the delivered picture may show. */
+  readonly seasons?: readonly RegionalSeason[];
+  readonly landform?: RegionalLandform;
+  /** Slugs: `dry-grass`, `moss-draped-conifer`. */
+  readonly vegetation?: readonly string[];
+  /** Slugs: `brick-commercial-main-street`, `craftsman-bungalow-street`. */
+  readonly builtForm?: readonly string[];
+  readonly sceneKind?: RegionalSceneKind;
+  /** Anything else about the look that a delivery could get wrong. */
+  readonly note?: string;
+}
+
+/**
+ * The environment classes that are outdoors, and so have weather and a season.
+ *
+ * A civic interior has neither, and asking a playtesting thread to classify the
+ * landform of a community room would be the sort of paperwork that stops gaps
+ * being reported at all.
+ */
+export const OUTDOOR_ENVIRONMENT_CLASSES: readonly EnvironmentClass[] = [
+  "park-exterior",
+  "street-exterior",
+  "threshold-exterior",
+  "landmark-exterior",
+];
+
 export interface ArtRequestConsumerSite {
   /** Matches an `AssetRequestConsumer.consumerId` when the consumer has one. */
   readonly consumerId?: string;
@@ -134,6 +186,11 @@ export interface ArtRequestIntakeRecord {
   /** What the noticer believes is wanted. The bench may correct it. */
   readonly targetClass?: AssetTargetClass;
   readonly environmentClass?: EnvironmentClass;
+  /**
+   * What the picture must show. Required for an outdoor environment plate,
+   * optional everywhere else.
+   */
+  readonly visualContext?: ArtRequestVisualContext;
   /**
    * Anything already looked at. Optional here, unlike on a bench request: a
    * noticer is not expected to sweep the catalog, and a promotion that carries
@@ -169,6 +226,14 @@ export type ArtRequestIntakeFindingCode =
   | "unknown-priority"
   | "unknown-target-class"
   | "unknown-environment-class"
+  | "environment-plate-without-environment-class"
+  | "outdoor-plate-without-seasons"
+  | "outdoor-plate-without-landform"
+  | "outdoor-plate-without-scene-kind"
+  | "outdoor-plate-without-vegetation-or-built-form"
+  | "unknown-season"
+  | "unknown-landform"
+  | "unknown-scene-kind"
   | "promoted-record-still-open";
 
 export interface ArtRequestIntakeFinding {
@@ -187,6 +252,12 @@ const SEED_SHAPED = /^(?:seed[-_]?)?\d{4,}$/i;
 const DIGEST_SHAPED = /^[0-9a-f]{16,}$/i;
 const SEMANTIC_SLUG = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)+$/;
 const PRIORITIES: readonly AssetRequestPriority[] = ["P0", "P1", "P2"];
+const SEASONS: readonly RegionalSeason[] = [
+  "spring",
+  "summer",
+  "autumn",
+  "winter",
+];
 
 /** USPS codes for the fifty states, D.C. and the five inhabited territories. */
 const STATE_CODES = new Set([
@@ -451,6 +522,82 @@ export function validateArtRequestIntake(
       );
     }
 
+    /**
+     * An outdoor plate has to say what it shows, here and not later.
+     *
+     * This is the gap that let three regional scenes be requested with their
+     * season only in the prose. Indoors none of it applies, and a thread
+     * reporting that a community room has no art is not asked to classify
+     * vegetation to be taken seriously.
+     */
+    const context = record.visualContext;
+    for (const season of context?.seasons ?? []) {
+      if (!SEASONS.includes(season)) {
+        error("unknown-season", requestId, `'${season}' is not a season.`);
+      }
+    }
+    if (context?.landform && !REGIONAL_LANDFORMS.includes(context.landform)) {
+      error(
+        "unknown-landform",
+        requestId,
+        `'${context.landform}' is not a landform in the shared vocabulary.`,
+      );
+    }
+    if (
+      context?.sceneKind &&
+      !REGIONAL_SCENE_KINDS.includes(context.sceneKind)
+    ) {
+      error(
+        "unknown-scene-kind",
+        requestId,
+        `'${context.sceneKind}' is not a kind of view.`,
+      );
+    }
+
+    if (record.targetClass === "environment-plate") {
+      if (!record.environmentClass) {
+        error(
+          "environment-plate-without-environment-class",
+          requestId,
+          `An environment plate must say which kind of environment it is. Indoors and outdoors are asked different questions, and the answer decides which.`,
+        );
+      } else if (
+        OUTDOOR_ENVIRONMENT_CLASSES.includes(record.environmentClass)
+      ) {
+        if (!context?.seasons?.length) {
+          error(
+            "outdoor-plate-without-seasons",
+            requestId,
+            `An outdoor plate must name the seasons it may show. A season written only in prose is how a winter scene ends up standing in for July: nothing can act on it.`,
+          );
+        }
+        if (!context?.landform) {
+          error(
+            "outdoor-plate-without-landform",
+            requestId,
+            `An outdoor plate must name its landform. It is what tells two pictures of one place apart from two pictures of different places.`,
+          );
+        }
+        if (!context?.sceneKind) {
+          error(
+            "outdoor-plate-without-scene-kind",
+            requestId,
+            `An outdoor plate must say whether it is an open landscape, a street or a shoreline, because that decides how it may be captioned.`,
+          );
+        }
+        if (
+          !(context?.vegetation?.length ?? 0) &&
+          !(context?.builtForm?.length ?? 0)
+        ) {
+          warn(
+            "outdoor-plate-without-vegetation-or-built-form",
+            requestId,
+            `Neither vegetation nor built form is named, so nothing in this record says what the picture should actually contain. Honest if the noticer could not tell; a thin brief either way.`,
+          );
+        }
+      }
+    }
+
     if (record.promotedToRequestId !== undefined) {
       if (!record.promotedToRequestId.trim()) {
         error(
@@ -599,7 +746,46 @@ export function promoteToAssetRequest(
     },
     target: { ...inputs.target },
     generationRecipe: [...inputs.generationRecipe],
-    acceptanceCriteria: [...inputs.acceptanceCriteria],
+    acceptanceCriteria: [
+      ...visualCriteria(record.visualContext),
+      ...inputs.acceptanceCriteria,
+    ],
     dependsOn: [],
   };
+}
+
+/**
+ * Turn the declared look into criteria a delivery can fail.
+ *
+ * This is the whole point of carrying the tags. "Explicitly winter" in a brief
+ * is a hope; "a delivery showing any other time of year is wrong" at the top of
+ * the acceptance criteria is a test. They are stated first because they are the
+ * ones a reviewer can check without opening anything else.
+ */
+function visualCriteria(
+  context: ArtRequestVisualContext | undefined,
+): readonly string[] {
+  if (!context) return [];
+  const criteria: string[] = [];
+  if (context.seasons?.length) {
+    criteria.push(
+      `Shows ${context.seasons.join(" or ")}. A delivery showing any other time of year is wrong, whatever else is right about it.`,
+    );
+  }
+  if (context.landform) {
+    criteria.push(`The land reads as ${context.landform}.`);
+  }
+  if (context.vegetation?.length) {
+    criteria.push(`Vegetation shows ${context.vegetation.join(", ")}.`);
+  }
+  if (context.builtForm?.length) {
+    criteria.push(`Built form shows ${context.builtForm.join(", ")}.`);
+  }
+  if (context.sceneKind) {
+    criteria.push(
+      `The view is ${context.sceneKind.replace(/-/g, " ")}, not another kind of view of the same place.`,
+    );
+  }
+  if (context.note?.trim()) criteria.push(context.note.trim());
+  return criteria;
 }

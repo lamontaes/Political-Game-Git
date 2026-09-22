@@ -36,6 +36,18 @@ Four things, because they are what somebody who saw the gap actually knows:
   because a blank one reads later as nationwide.
 - `whyNeeded` — why it matters for play, so it can be ranked against other gaps.
 
+## One more thing, outdoors only
+
+If the request is for an **outdoor** environment plate, it must also say what
+the picture shows: `visualContext.seasons`, `landform` and `sceneKind`. A
+season written only in a note is how a winter scene ends up standing in for
+July — nothing can act on prose. At promotion those tags become the first
+acceptance criteria on the bench request, so a delivery in the wrong season can
+be failed rather than argued about.
+
+Interiors are asked none of this. Reporting that a community room has no art
+should not require classifying vegetation.
+
 You are not expected to search the whole catalog before filing. That happens at
 promotion, when `promoteToAssetRequest` carries the record into the Art Bench's
 own `AssetRequest` shape and demands the inventory check, the recipe and the
@@ -43,4 +55,6 @@ acceptance criteria.
 
 ## Example
 
-See `example-community-room-interior.json` in this directory.
+`example-community-room-interior.json` is an interior, asked the four
+questions. `example-outdoor-regional-plate.json` is an outdoor plate, asked
+those and the look as well.

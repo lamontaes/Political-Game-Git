@@ -35,6 +35,23 @@ existing `AssetRequest` shape in `src/authoring/asset-request.ts`. There is no
 second lifecycle and no second answer to whether an asset was accepted;
 `asset-lineage.ts` and `asset-bank.ts` still own that.
 
+### What an outdoor plate has to declare
+
+A request for an **outdoor** environment plate must also say what the picture
+shows: `visualContext.seasons`, `landform` and `sceneKind`, in the same
+vocabulary the resolver uses. This is the gap that let three regional scenes be
+requested with their season only in the prose — "explicitly winter", "green
+summer canopy" — where nothing could act on it and the constraint survived only
+as long as somebody remembered reading it. At promotion those tags become the
+first acceptance criteria on the bench request, so a delivery showing the wrong
+time of year can be failed rather than argued about.
+
+Indoors none of it is asked. A thread reporting that a community room has no
+art does not classify vegetation to be taken seriously, and paperwork that
+makes gaps go unreported costs more than it saves. `targetClass:
+"environment-plate"` must name an `environmentClass`, and that answer is what
+decides which of the two questions the record is asked.
+
 `jurisdiction` has two honest shapes. `specific` names the place the player was
 in. `jurisdiction-independent` is a claim and must carry its reason: a blank
 answer would be read later as nationwide, which is exactly the kind of silent
