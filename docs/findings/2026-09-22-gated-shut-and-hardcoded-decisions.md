@@ -262,6 +262,41 @@ to live in a `.ts` file rather than constants standing in for a world
 decision. They belong in the modding question — whether a pack can reach
 them — not in this one.
 
+## 7. Walk up the chain before saying nothing can start it
+
+A zero-caller result on the innermost writer is not the claim "nothing can
+start this", and this sweep proved that on itself.
+
+The divergence lane reported that nothing in the game could open a scandal,
+having checked the two functions that write an allegation and found no
+callers. That was wrong: the chain is entered two levels further up, on the
+weekly press sweep, where a rival decides whether to file over a campaign
+expenditure. The true finding was narrower and better — a scandal can only
+ever be about the player, at most one per campaign, and only if they spent
+campaign money personally, though the machinery does not care who the subject
+is. A widening job, not a building job.
+
+Warned of that, this lane re-walked its own belief finding and **found the
+same mistake in it.** The first version named four recorders whose only caller
+is `demo.ts`. It missed `recordPrivateBelief` entirely, and above that an
+entire exported routine: `political-belief-formation.ts` carries
+`evaluatePoliticalBeliefFormation` (line 80), which proposes a belief, and
+`applyNpcPoliticalBeliefFormation` (line 233), which validates the proposal
+against its own decision trace and records it. Both are re-exported from
+`src/simulation/index.ts`, so they are public API rather than internal
+helpers.
+
+Walked one level higher again, the chain does terminate at the demo: the only
+non-test importer is `demo.ts`, and no scheduled step registers it. But the
+corrected finding is smaller and more actionable than the one it replaces.
+**What is missing is a scheduler, not an author.** The routine already exists
+and already decides; nothing calls it on any tick.
+
+The rule this sweep now follows, and states in each record: walk up until you
+reach something a player or the clock actually drives, and say where you
+stopped looking. Both corrections went the same direction — the thing was
+more built than the first reading said.
+
 ## What this sweep did not establish
 
 `PARTY_BODY_CADENCE.repeatedDisputes` still reads 2 on `1c4992e8`. The
