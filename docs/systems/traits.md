@@ -224,6 +224,24 @@ here. The alternative — a condition over situation state inside the lean — i
 rejected: it is the door to arbitrary logic in data, and a pack language with
 conditionals is a programming language nobody validated.
 
+#### Two declarations, when the situation is which decision it is
+
+The rule as first written assumed the option keys were the place to put the
+situation. The legislation lane found the case it did not anticipate, and their
+reading is the right one. A room may answer a request and answer an offer with
+keys that already exist and are already right for the player — `hold-off` in
+both — where the difference is not which answer is being given but which
+question is being asked. Declining to say where you stand is not refusing a
+version on the table.
+
+There the answer is two `DecisionDeclaration`s for one piece of code, not a
+rename of a player-facing option to satisfy a declaration. It serves the same
+principle: what the rule prevents is one option key meaning opposite things
+depending on state a lean cannot see, and two declarations prevent exactly
+that, because `hold-off` in one room is a different key from `hold-off` in the
+other and a lean has to name which. Renaming options the player reads, so that
+a declaration can be tidy, is the wrong trade.
+
 Stating the rule matters because without it the seam _looks_ like it can
 express a relational trait and cannot. Better a constraint decision authors can
 check than a limit the second consumer discovers.
@@ -357,6 +375,149 @@ What is taken is the discipline rather than the type: a note is mandatory, no
 reader may collapse two states into one, and `requireKnown`'s rule — that the
 two absent states throw _different_ errors so a caller can never silently treat
 one as the other — is the pattern the trait reader follows.
+
+## Resistance: everybody changes, and not everybody equally
+
+**BUILT**, in `trait-resistance.ts` and `people-trait-change.ts`. The owner's
+requirement: "every character should be able to change with varying levels of
+resistance." Nothing modelled resistance before — `recordTraitChange` took an
+event and a reason and applied the new value outright, so the same event would
+move every person by the same amount, and it had no production caller at all,
+so nobody's temperament had ever moved.
+
+### Resistance is read from a life, not stored as a hidden number
+
+The tempting design is a second seeded number per person: how stubborn they
+are. It is rejected. It would be one more fact the game asserts about somebody
+without having observed it, which is the error this whole document keeps
+circling, and it would explain nothing to a player.
+
+`PersonalityTendencyRecord` already carries `supersedesTendencyId` and
+`recordedAt`, so the chain of records for one person on one trait _is_ that
+person's history on it. Resistance is read from that chain:
+
+- **How long the current value has stood.** Somebody who has been this way for
+  nine years is not moved by one afternoon. Somebody whose value was written
+  last month is.
+- **How often it has already moved.** A person whose temperament has shifted
+  twice is more movable than one whose never has, which is both true to life
+  and self-limiting: a character does not oscillate, because each move makes
+  the next one need more.
+- **What the pack says about the trait.** A pack declares how movable a trait
+  is at all, because some dispositions are more fundamental than others, and
+  that is the pack author's judgement rather than the engine's.
+
+Two people who have lived differently therefore resist differently, from
+records that already exist. Nothing is invented, and the reason is always
+sayable: _she has been like this for as long as anyone has known her._
+
+### A change is a force meeting a resistance, and the failure is a fact
+
+`recordTraitChange` gains a force: how strongly the event argues for the
+change. If force exceeds resistance the value moves, as now. If it does not,
+**the attempt is recorded rather than discarded** — an ordinary world event
+saying this happened and did not change them.
+
+That record is the point, not bookkeeping. It makes accumulated pressure the
+thing that moves people: one argument does not change somebody, and the same
+argument for the tenth time does. It also keeps the game honest about what it
+knows, because "this kept happening to her and she did not budge" is a fact
+about a life, and a system that dropped the failures could never say it.
+
+### Two write paths, and which one play uses
+
+`recordTraitChange` stays as it was: the authoring write, which applies a value
+because something has already decided the change happened. Fixtures use it, and
+so does anything that has settled the question elsewhere.
+
+`attemptTraitChange` is the play path and the one anything in the running game
+should use. It weighs a force against the resistance, applies the change when
+the force wins, and records the attempt when it does not. Keeping both is
+deliberate: a test arranging a person's temperament is not modelling a change,
+and making it pretend to be one would have every fixture inventing a force it
+does not mean.
+
+### An unestablished trait does not move
+
+`traitResistance` returns `unestablished` for a person with no record, and
+`weighTraitChange` refuses to move one whatever force is brought. This is the
+three-state discipline again, in the place it would have been easiest to miss:
+a two-state answer would have made somebody nobody has observed maximally
+movable, which is the softest possible reading of a life. Establishing a
+temperament is authoring it, not changing it.
+
+### A lifelong value is counted from a life, not from the write
+
+The five people traits are seeded lazily — the record appears the first time a
+decision needs it — so the record's own `recordedAt` is the day the game got
+around to it, not the day the value started. Reading that date would make a
+forty-year-old's lifelong temperament look written this morning, and one
+passing argument would move anybody. So a value that has never been superseded
+is counted from the person's birth. A value that superseded another is counted
+from the day it was written, because that is genuinely when it started.
+
+### What this does not do
+
+It does not decide for anybody. A trait that moves changes what a person
+_argues for_, never what they are allowed to do, and the additive, never-vetoing
+contract above is untouched. And it does not move the played character's traits
+from outside: see below.
+
+## The player's own temperament
+
+**BUILT**, in `people-player-traits.ts`, and a correction to the strict reading
+above. The owner: the played character needs their own traits, because "it's
+how you are portrayed to people."
+
+The store's existing guard is right and stays. `validateMindProvenance` refuses
+a record for the controlled person whose provenance is not `player-choice` — so
+the game declines to _author_ who the player is. It never declined to let the
+player _have_ a temperament. The seeding path writes `authored`, which is why
+the played character comes back empty, and that emptiness was a side effect
+rather than a decision.
+
+What is missing is therefore not a weakening of that guard but two things it
+always allowed:
+
+- **A path that records the player's traits from the player's own choices**,
+  written with `player-choice` provenance, citing the choice that established
+  it. `conferredBy: "player"` is the pack field for this.
+- **Consumers that read them when other people size the player up.** This is
+  the owner's sentence almost word for word: a temperament matters because
+  other characters perceive it. The player's own trait never argues for the
+  player's own option — they choose — but it is available to everybody
+  deciding what they think of them.
+
+Both are built. `recordPlayerTraitChoice` writes with `player-choice`
+provenance and refuses anybody but the controlled person, because saying who
+somebody else is on the player's behalf is the thing the guard exists to
+prevent.
+
+The consumer side needed one addition to the seam. A lean row may declare
+`about: "subject"`, meaning it reads the traits of the person being decided
+about rather than the person deciding, and `contact.answer` now carries two
+such rows: somebody weighing an ask reads whether the person asking keeps the
+plans they make. A decision that names no subject drops those rows rather than
+falling back to the actor, which would put one person's temperament in another
+person's mouth.
+
+### Ignoring it, and saying so
+
+"Ignore it and say so. That shouldn't hold the game back." `playerTemperament`
+returns `said` and `unsaid` rather than a value per trait, so a screen can tell
+the player which parts of themselves they have never decided instead of showing
+a seeded value they never picked or implying a middle they never chose. A
+player who says nothing is simply somebody nobody has anything recorded about,
+which every consumer already handles, because that is the same `unrecorded`
+state as for anyone else the world has not observed. Nothing is blocked and
+nothing is invented.
+
+### What is deferred rather than decided
+
+Whether the setup questionnaire's answers should also become the player's
+temperament is a question about what a life looks like, not about what the code
+can hold, so it is filed in `docs/research/TRAITS-OPEN-QUESTIONS.md` along with
+the trait set itself and the pace of personality change.
 
 ## What this deliberately does not do
 

@@ -77,6 +77,32 @@ export interface TraitDeclaration {
    * trait nobody is born with has nothing to draw.
    */
   readonly seed: { readonly spread: readonly number[] } | null;
+  /** How movable this kind of trait is at all. See `TraitMovability`. */
+  readonly movability: TraitMovability;
+}
+
+/**
+ * How movable a kind of trait is at all, which is the declaring pack's
+ * judgement rather than the engine's. A pack adding a nearly immovable
+ * disposition does it here, without touching code.
+ *
+ * Resistance is otherwise read from the person's own record chain, so these
+ * three numbers say only what is true of the trait for everybody who has one.
+ */
+export interface TraitMovability {
+  /**
+   * What a value resists once it has stood for `settlesOver` years and has
+   * never moved. The floor of a settled life.
+   */
+  readonly settled: number;
+  /**
+   * Added for every move already made. Must be above zero: each change makes
+   * the next one cost more, which is what stops a character oscillating
+   * between two poles as events push them back and forth.
+   */
+  readonly perMove: number;
+  /** Years a freshly written value takes to settle fully. Above zero. */
+  readonly settlesOver: number;
 }
 
 /** One way a trait bears on one option of one decision. */
@@ -87,6 +113,18 @@ export interface TraitLeanRow {
   readonly trait: string;
   readonly pole: "low" | "high";
   readonly explanation: string;
+  /**
+   * Whose trait this is: the person deciding, or the person they are deciding
+   * about. Defaults to the decider.
+   *
+   * `subject` is how a character is portrayed to other people. Somebody
+   * weighing an ask from a person who has let plans slide before is reading
+   * that person's temperament, not their own, and that reading is the only way
+   * the played character's own traits ever reach anybody — the player's
+   * temperament never decides anything for them, and this is not that. A
+   * decision that names no subject simply drops these rows.
+   */
+  readonly about?: "actor" | "subject";
 }
 
 export interface TraitEffectDeclaration {
@@ -259,6 +297,16 @@ function checkTrait(trait: TraitDeclaration, seen: Set<string>): string | null {
     }
   } else if (trait.seed) {
     return `trait "${trait.key}" is ${trait.conferredBy} but declares a seed spread; only a seeded trait is drawn`;
+  }
+  const { settled, perMove, settlesOver } = trait.movability;
+  if (!Number.isFinite(settled) || settled < 0) {
+    return `trait "${trait.key}" declares a settled resistance of ${settled}; it is a number at or above zero`;
+  }
+  if (!Number.isFinite(perMove) || perMove <= 0) {
+    return `trait "${trait.key}" declares a per-move cost of ${perMove}; it is above zero, because a trait that never gets harder to move oscillates`;
+  }
+  if (!Number.isFinite(settlesOver) || settlesOver <= 0) {
+    return `trait "${trait.key}" declares that it settles over ${settlesOver} years; it is above zero`;
   }
   return null;
 }

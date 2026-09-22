@@ -50,7 +50,7 @@ describe("a trait pack is loaded, not imported", () => {
     const registry = loadTraitPacks([peopleTraitPack()], [ORDINARY]);
     const report = registry.report.packs[0]!;
     expect(report.traitsRegistered).toHaveLength(5);
-    expect(report.leansRegistered).toBe(4);
+    expect(report.leansRegistered).toBe(6);
     // The report says which decision reads each trait, not merely that the
     // pack parsed. Two of the five are declared and read by nothing yet, and
     // being able to see that is the point.
@@ -164,9 +164,9 @@ describe("every reference resolves at load, or is rejected by name", () => {
       expect(mine).toHaveLength(1);
       expect(mine[0]!.reason).toMatch(reason);
       // The rest of the load survives: a bad row is not a dead pack, and the
-      // people pack's own four leans are untouched by a stranger's bad row.
+      // people pack's own six leans are untouched by a stranger's bad row.
       expect(registry.traits.size).toBe(5);
-      expect(leansForDecision(registry, "contact.answer")).toHaveLength(4);
+      expect(leansForDecision(registry, "contact.answer")).toHaveLength(6);
     });
   }
 
@@ -227,8 +227,8 @@ describe("every reference resolves at load, or is rejected by name", () => {
     expect(
       registry.report.rejections.filter((r) => r.pack === "test-pack"),
     ).toHaveLength(1);
-    // Four from the people pack, plus the one good row of this one.
-    expect(leansForDecision(registry, "contact.answer")).toHaveLength(5);
+    // Six from the people pack, plus the one good row of this one.
+    expect(leansForDecision(registry, "contact.answer")).toHaveLength(7);
     const people = registry.report.packs[0]!;
     expect(people.consumedBy["people-mind-v1:sociability"]).toEqual([
       "contact.answer",

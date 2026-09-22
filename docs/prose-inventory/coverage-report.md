@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 3139 |
-| INTENTIONALLY_NON_PLAYER_FACING | 7152 |
-| DIAGNOSTIC_OR_TEST | 7795 |
-| **NEEDS_CLASSIFICATION** | **10326** |
+| INTENTIONALLY_NON_PLAYER_FACING | 7159 |
+| DIAGNOSTIC_OR_TEST | 7833 |
+| **NEEDS_CLASSIFICATION** | **10335** |
 
-Scanned 1174 files holding 112998 string
+Scanned 1179 files holding 113227 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -275,6 +275,7 @@ literals in total; the table counts only those that read like a sentence.
 | 10 | `src/simulation/nationwide-world/state-executive-turnover.ts` |
 | 10 | `src/simulation/office-qualification-rules.ts` |
 | 10 | `src/simulation/people-continuation.ts` |
+| 10 | `src/simulation/people-trait-pack.ts` |
 | 10 | `src/simulation/press-reach.ts` |
 | 10 | `src/simulation/setup-questionnaire-bank.ts` |
 | 10 | `src/simulation/trait-packs.ts` |
@@ -312,7 +313,6 @@ literals in total; the table counts only those that read like a sentence.
 | 8 | `src/simulation/incident-catalog.ts` |
 | 8 | `src/simulation/life-callbacks.ts` |
 | 8 | `src/simulation/nationwide-world/state-executive-terms.ts` |
-| 8 | `src/simulation/people-trait-pack.ts` |
 | 8 | `src/simulation/production-catalog.ts` |
 | 8 | `src/simulation/public-information.ts` |
 | 8 | `src/ui/DeveloperViewer.tsx` |
@@ -391,6 +391,7 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/simulation/incident-response.fixture.ts` |
 | 5 | `src/simulation/municipal-election-rules.ts` |
 | 5 | `src/simulation/service-delivery-response.ts` |
+| 5 | `src/simulation/trait-resistance.ts` |
 | 5 | `src/ui/ScenePresentationProofView.tsx` |
 | 4 | `src/districts/query.ts` |
 | 4 | `src/education/catalog.ts` |
@@ -493,6 +494,7 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/simulation/nationwide-world/rules-capability-binding.ts` |
 | 2 | `src/simulation/office-qualifications.generated.ts` |
 | 2 | `src/simulation/people-request-route.ts` |
+| 2 | `src/simulation/people-trait-change.ts` |
 | 2 | `src/simulation/place-county-relations.generated.ts` |
 | 2 | `src/simulation/press/claim-route.ts` |
 | 2 | `src/simulation/press/integrity.ts` |
