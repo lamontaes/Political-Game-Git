@@ -1,0 +1,36 @@
+{
+  "answer": {
+    "summary": "how-does-a-party-get-on-a-ballot: party existence, membership, recognized nomination route, candidate filing and contest/date ballot status are distinct. Use saved applicable procedures and actual qualifying activity; incumbent parties' prior qualification comes from coherent generated history, not hardcoded names. Independent candidacy is separate. Recruitment must continue after founding. Exact state thresholds/dates remain factual inputs, not supplied by this paragraph; consume compatible existing approved profiles while that broader compilation is queued.",
+    "sources": [
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C06, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:58:00.000Z",
+    "stillOpen": "\"Exact state thresholds/dates remain factual inputs, not supplied by this paragraph; consume compatible existing approved profiles while that broader compilation is queued.\"\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
+  },
+  "filedAt": "2026-09-22T15:28:00.000Z",
+  "impact": "shapes-design",
+  "lane": "world divergence",
+  "notes": [
+    "A partial answer is useful: the single most common qualifying route with a national range would let the whole path be built and measured.",
+    "The two major parties are equally unrepresented here, so an answer must cover why they are always on the ballot without hardcoding their names."
+  ],
+  "priority": "P1",
+  "question": "A new party founds itself in an ordinary save, with members and a platform, and can never appear on a ballot, because ballot access is not represented for any party including the two major ones. So: (1) what are the qualifying routes a party actually has in American states — petition signatures, a share of a previous statewide vote, registered affiliates, a filing fee — and which of these is worth representing; (2) what are the thresholds, in the shape of a rule that can be expressed per state and drawn nationally where a state has not been read, which is how this repository already handles unresearched jurisdictions; (3) what does a party lose access for, and how long does access last once earned; (4) should access be per office, per state, or both; and (5) what should a player be able to do about it — is founding or qualifying a party something a player acts on, or something they watch happen?",
+  "questionId": "how-does-a-party-get-on-a-ballot",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "world divergence thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/living-world/party-evolution.ts read in full, and two ordinary saves run forward",
+      "whatItDidNotSettle": "Establishes that party founding occurs unprompted and that ballot status is a stub with no callers. Settles that this is a content question, not a systems one. Contains no threshold, because none was ever authored."
+    },
+    {
+      "source": "The repository's existing rule that unresearched jurisdictions get a realistic range drawn nationally, stable per state, with real law overriding",
+      "whatItDidNotSettle": "Gives the shape any answer must take. Does not supply the national spread for ballot access, which nobody has read."
+    }
+  ],
+  "title": "How a party earns ballot access, so the third party the game already founds can matter",
+  "usableAnswer": "The qualifying routes worth representing, with thresholds expressible per state. A retention and loss rule. A position on per-office versus per-state. And a clear statement of which of these is a rule the game may assert nationally and which must be read state by state, since this repository does not let a generated default stand in for real law where real law is known.",
+  "whyItMatters": "Measured 2026-09-22 at main 62368c1e. WHAT EXISTS: a full party-evolution system, 1969 lines, with founding, splits, mergers, renames, platform changes and dissolution — and it runs on its own: a brand new party founded itself inside two years of one Kentucky save with no player involvement. THE ONE MISSING LINK: partyBallotStatusAt() takes no arguments and returns the literal string not-represented, with a comment saying no registered committee or ballot access is represented; it has zero callers. So the founding is real and can never reach a voter. THE SMALLEST HONEST CHANGE: give that function a party and a state, and one rule to answer with. WHAT A PLAYER WOULD SEE: the new party in their county on a ballot line, or a stated reason it is not there — which is the owner's third-party question, and half of it already happens."
+}

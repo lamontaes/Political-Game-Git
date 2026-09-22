@@ -9,6 +9,8 @@
 import fs from "fs";
 import path from "path";
 
+import * as prettier from "prettier";
+
 import { toCanonicalJson } from "../../src/authoring/canonical-json";
 import {
   RESEARCH_REQUEST_DIRECTORY,
@@ -86,10 +88,10 @@ export class ResearchRequestExistsError extends Error {}
  * is either the same question (leave it) or a different one (give it its own
  * id). Answering an existing question is an edit to its file, not a new file.
  */
-export function writeResearchRequest(
+export async function writeResearchRequest(
   repositoryRoot: string,
   record: ResearchRequestRecord,
-): string {
+): Promise<string> {
   const directory = researchRequestDirectory(repositoryRoot);
   fs.mkdirSync(directory, { recursive: true });
   const filePath = path.join(directory, `${record.questionId}.json`);
@@ -98,6 +100,18 @@ export function writeResearchRequest(
       `'${record.questionId}' is already filed at ${filePath}. Read it first: if it is the same question, nothing more is needed; if it is a different one, give it its own id.`,
     );
   }
-  fs.writeFileSync(filePath, toCanonicalJson(record));
+  // Canonical order, then Prettier's layout. Canonical ordering is what makes
+  // two filings of the same record identical; Prettier's layout is what the
+  // repository's format gate demands, and the two disagree about a short array
+  // — canonical writes one entry across three lines, Prettier collapses it.
+  // Writing canonical alone filed records that failed CI on whitespace, which
+  // is a filing tool handing its user a broken branch.
+  fs.writeFileSync(
+    filePath,
+    await prettier.format(toCanonicalJson(record), {
+      ...(await prettier.resolveConfig(filePath)),
+      filepath: filePath,
+    }),
+  );
   return filePath;
 }

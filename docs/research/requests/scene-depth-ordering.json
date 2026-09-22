@@ -1,4 +1,13 @@
 {
+  "answer": {
+    "summary": "scene-depth-ordering: same ground plane, back-to-front ground-contactY, stable ID tie-break; explicit backdrop/foreground bands and plane distinctions. Sort neither heads nor alpha centroids. Seated root belongs to the chair's ground reference, not whichever foot projects forward. Split long furniture/occluders when a person belongs partly behind and in front. Draw order and hit testing remain separately correct. Existing renderer, not a new engine.",
+    "sources": [
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C19, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:58:00.000Z",
+    "stillOpen": "\"Existing renderer, not a new engine.\"\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
+  },
   "filedAt": "2026-09-22T04:45:00.000Z",
   "impact": "blocks-work",
   "lane": "hardcoded-content audit",
