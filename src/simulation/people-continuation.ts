@@ -324,14 +324,15 @@ export function successorCandidates(
   // but not a stranger either, and the owner asked for both to be offered.
   for (const interaction of meaningfulBonds(world, predecessorId)) {
     const other = interaction.personIds.find((id) => id !== predecessorId)!;
-    // A mentorship record names the person mentored first and the mentor
-    // second (the teacher-mentor and apprenticeship writers in
-    // character-history both do). Reading every mentorship as "someone they
-    // taught" offered a 34-year-old her own middle-school teacher as her pupil.
+    // Which of them taught is not in the record's order: the history writer
+    // sorts the ids. Every mentorship the game writes is an elder guiding a
+    // younger person, so the elder is the mentor. Reading every mentorship as
+    // "someone they taught" offered a 34-year-old her own middle-school
+    // teacher as her pupil.
     const mentorship = interaction.kind.startsWith("mentorship:");
     const relation: SuccessorRelation = !mentorship
       ? "close-associate"
-      : interaction.personIds[0] === predecessorId
+      : world.people[other]!.birthDate < world.people[predecessorId]!.birthDate
         ? "mentor"
         : "protege";
     add(other, relation, interaction.summary);

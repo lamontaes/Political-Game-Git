@@ -484,8 +484,11 @@ function resolveHousehold(
 /**
  * A teacher, mentor or apprentice, read off a mentorship record.
  *
- * Every mentorship writer records the person mentored first and the mentor
- * second (`character-history.ts`). A teacher who guided somebody at twelve is
+ * The record cannot say who taught whom by position: the history writer sorts
+ * the two ids (`appendRelationshipInteraction`). Every mentorship the game
+ * writes is an older person guiding a younger one, a teacher at twelve or an
+ * apprenticeship, so the elder is the mentor. A pair born the same day is
+ * left unnamed rather than guessed. A teacher who guided somebody at twelve is
  * their former teacher once they are grown.
  */
 function resolveMentorship(
@@ -495,15 +498,21 @@ function resolveMentorship(
   asOfDate: IsoDate,
 ): Resolved | null {
   const viewer = world.people[viewerId];
-  if (!viewer) return null;
+  const subject = world.people[subjectId];
+  if (!viewer || !subject || viewer.birthDate === subject.birthDate) {
+    return null;
+  }
   const grown = ageOnDate(viewer.birthDate, asOfDate) >= 18;
+  const viewerWasTaught = subject.birthDate < viewer.birthDate;
   for (const interaction of world.history.relationshipInteractions) {
     if (!interaction.kind.startsWith("mentorship:")) continue;
     if (interaction.occurredAt > asOfDate) continue;
-    const [mentee, mentor] = interaction.personIds;
-    const viewerWasTaught = mentee === viewerId && mentor === subjectId;
-    const viewerTaught = mentor === viewerId && mentee === subjectId;
-    if (!viewerWasTaught && !viewerTaught) continue;
+    if (
+      !interaction.personIds.includes(viewerId) ||
+      !interaction.personIds.includes(subjectId)
+    ) {
+      continue;
+    }
     const teacher = interaction.kind === "mentorship:guidance";
     const relationship = viewerWasTaught
       ? teacher
@@ -516,7 +525,7 @@ function resolveMentorship(
         : "someone you mentored";
     return {
       relationship,
-      basis: `A ${interaction.kind} relationship interaction, mentored person first.`,
+      basis: `A ${interaction.kind} relationship interaction; the elder of the two is the mentor.`,
       anchors: [
         {
           store: "relationshipInteractions",

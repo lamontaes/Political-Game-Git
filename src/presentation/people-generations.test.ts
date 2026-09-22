@@ -652,10 +652,13 @@ describe("a retired life's own parents and housemates are not strangers", () => 
       const view = projectLifeContinuation(retired, me)!;
       for (const interaction of retired.history.relationshipInteractions) {
         if (!interaction.kind.startsWith("mentorship:")) continue;
-        if (interaction.personIds[0] !== me) continue;
-        const choice = view.choices.find(
-          (entry) => entry.personId === interaction.personIds[1],
-        );
+        if (!interaction.personIds.includes(me)) continue;
+        const other = interaction.personIds.find((id) => id !== me)!;
+        // The elder is the teacher; the record's order is sorted, not meaningful.
+        if (retired.people[other]!.birthDate > retired.people[me]!.birthDate) {
+          continue;
+        }
+        const choice = view.choices.find((entry) => entry.personId === other);
         if (!choice) continue;
         teachersSeen += 1;
         expect(choice.relation).toBe("your former teacher");
