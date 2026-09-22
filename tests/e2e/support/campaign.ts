@@ -1,15 +1,31 @@
 import { expect, type Page } from "../fixtures";
+import { chooseStateLegislativeOffice } from "./jurisdictions";
 
-/** Deliberate office selection in the existing Kentucky campaign scenarios. */
+/**
+ * Deliberate office selection, in whatever state the life was started in.
+ *
+ * A caller that cares which seat still names one. A caller that just wants
+ * "the seat in the legislature here" leaves it out and gets the lower chamber
+ * the player's own browser offers — which used to default to
+ * `us-ky-general-assembly-v1:house`, a Kentucky literal that quietly made
+ * every journey through this helper a Kentucky journey. Returns the office key
+ * actually filed for.
+ */
 export async function fileCandidacy(
   page: Page,
-  officeKey = "us-ky-general-assembly-v1:house",
-) {
-  await page
-    .getByTestId("campaign-office-browser")
-    .locator(`input[value="${officeKey}"]`)
-    .check();
+  officeKey?: string,
+): Promise<string> {
+  let filed = officeKey;
+  if (filed === undefined) {
+    filed = await chooseStateLegislativeOffice(page, "lower");
+  } else {
+    await page
+      .getByTestId("campaign-office-browser")
+      .locator(`input[value="${filed}"]`)
+      .check();
+  }
   await page.getByTestId("file-candidacy").click();
+  return filed;
 }
 
 /**

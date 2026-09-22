@@ -1,36 +1,38 @@
 {
-  "requestVersion": "research-request/v1",
+  "filedAt": "2026-09-22T04:36:00.000Z",
+  "impact": "blocks-work",
+  "lane": "hardcoded-content audit",
+  "notes": [
+    "This is design direction, not a factual survey. It is filed here because no explicit research has been done on it and the owner's instruction is to defer such things rather than hold them until he is back.",
+    "The measurements below are the starting point, deliberately, so the answer can be concrete rather than a restatement of the question. Disagreeing with the framing is a useful answer.",
+    "A ranked short list beats an exhaustive one. Naming the five things a pack must be able to do for modders to bother, and saying which of them should wait, is more use than fifty candidates with no order.",
+    "The collision case is already decided and is not being asked: a second pack claiming a key loads, its colliding handler does not take effect, and the report names the pack, the key and which handler is in force. That was settled by the project's technical lead on 2026-09-22, not by the owner.",
+    "A verb the game cannot already do is out of scope here. This asks which of the things the simulation already supports a pack should be allowed to reach, and it is a smaller question than it sounds."
+  ],
+  "priority": "P1",
+  "question": "What should a content pack's choice be allowed to do? Given a shipped loader whose effect vocabulary is empty, which effects must a modder be able to write for packs to matter the way they do in RimWorld and the Sims, and in what order should they arrive?",
   "questionId": "content-pack-effect-vocabulary",
-  "title": "What a content pack should be allowed to change about the world",
-  "question": "Taking RimWorld and The Sims as the standard the owner has set, what kinds of change does a modder of a life-and-politics game actually reach for first, and what is the smallest set of declarable effects that would cover most of them without letting a pack write arbitrary code?",
-  "whyItMatters": "The pack loader ships and works, but a pack may declare only scenes and activity durations: there is no effects field, no effect kind vocabulary and no apply step anywhere in the codebase. So a modder can add a conversation and cannot change a single thing about the world through it, which is the whole distance between what ships and the modding standard the owner named as governing every system.",
-  "impact": "shapes-design",
-  "lane": "content packs and modding",
-  "usableAnswer": "A ranked list of effect kinds a pack should be able to declare, each with what it reads, what it writes and a worked example of a mod somebody would actually publish. Plus the line the researcher would draw between an effect the loader validates and applies itself and a change that has to stay in the game's own code, with the reason for the line.",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "hardcoded-content audit thread",
   "sourcesChecked": [
     {
-      "source": "src/simulation/runtime-content-packs.ts lines 6-27 on main at 273fd2b8",
-      "whatItDidNotSettle": "Defines the whole pack surface: the ordinary-scenes-v1 api, a 128 KiB ceiling, authored-fiction authority, and exactly three declarable keys — dependencies, durations and scenes. It establishes the limit and offers no view on what should be added."
+      "source": "src/simulation/runtime-content-packs.ts, the pack loader and its validator, read on main 273fd2b8",
+      "whatItDidNotSettle": "The loader is real and finished: JSON packs installed from the Options screen, namespaced so they cannot overwrite built-ins, validated at load, surviving a save and reload. It settles that the hard parts are done and that nothing here is blocked on plumbing. It cannot say what the vocabulary should contain, because it has none to inspect."
     },
     {
-      "source": "examples/content-packs/, the two shipped example packs",
-      "whatItDidNotSettle": "Shows a working encounter and a timing pack. Neither changes world state, because nothing in the format can."
+      "source": "The LifeSceneChoice and LifeSceneDefinition types in src/simulation/opening-life-content.ts, read on main 273fd2b8",
+      "whatItDidNotSettle": "Establishes exactly what a pack can say today, which is the floor this question builds from. A choice carries a key, a label, aftermath prose, elapsed minutes and optionally one of three approaches — ask, listen or direct. A scene's setting is a closed union of three: home, school, neighborhood. The validator refuses any field not on that list. So a modder can write prose, spend time and pick one of three tones in one of three rooms, and nothing they write can change anything. It does not say which of the absent effects matter most."
     },
     {
-      "source": "A repository-wide search for an effect vocabulary — effectKind, EffectKind, applyEffect",
-      "whatItDidNotSettle": "Returns nothing. The three types named Effect in the tree are read-only projections of consequences that already happened, not a vocabulary a pack could declare into."
+      "source": "The modularity audit, 2026-09-22, which installed a pack and round-tripped it through the save",
+      "whatItDidNotSettle": "Proves the pack reached play and survived serializeWorld and deserializeWorld, and that the same pack carrying an effect on a choice was refused with 'Content pack has missing or unsupported fields.' That is the measurement this question rests on. It reports the gap rather than choosing what fills it."
     },
     {
-      "source": "src/simulation/production-catalog.ts lines 146-190, the production catalogue boundary",
-      "whatItDidNotSettle": "Shows that a new world ships with empty policy, metric, causal-mechanism, incident and mortality catalogues and throws if unestablished content is added. It constrains where pack content could land without saying what a pack should carry."
+      "source": "The owner's stated intent, twice: that this should be modder-friendly in the way RimWorld and the Sims are",
+      "whatItDidNotSettle": "Sets the bar and the comparison. It does not name a single verb, and the two games it names differ sharply in what a mod may touch, so the comparison needs unpacking rather than quoting."
     }
   ],
-  "requestedBy": "research audit thread (technical team lead)",
-  "filedAt": "2026-09-22T05:00:05.000Z",
-  "priority": "P1",
-  "notes": [
-    "The owner's standard is explicit and is not negotiable here: content is data, discovered rather than imported, modder-friendly in the way RimWorld and The Sims are. The question is what that means concretely for this game, not whether to do it.",
-    "An effect a pack declares has to leave the same kind of record a first-party action leaves, because the history store is what the save and every later reading are built on. An effect that writes nothing readable is not worth admitting.",
-    "No proprietary material from those games. What is wanted is the shape of what modders reach for, not their content."
-  ]
+  "title": "What a content pack's choice should be allowed to do",
+  "usableAnswer": "A ranked list of effects a choice may carry, each with the shape of its data and what it must not be able to reach. For example — and only as an example of the shape — 'change money by an amount, signed, bounded by what the character has' or 'record that this happened, under a key another pack can read'. For each, one line on why a modder needs it early or why it can wait. Also worth saying: which effects should be refused outright because a pack that could do them could break a save or tell a lie about the real world, since the game's own rule is that unknown facts refuse rather than default.",
+  "whyItMatters": "The game already ships a real, player-reachable mod loader and its effect vocabulary is empty. Everything expensive is already built — installation from the Options screen, namespacing, load-time validation, saves that carry packs across a reload — and a modder who installs one can write prose that changes nothing. This is the shortest distance between where the game is and the modding the owner has twice said he wants, and it is blocked on a design decision rather than on engineering."
 }

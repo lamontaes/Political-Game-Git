@@ -23,14 +23,23 @@
     {
       "source": "The owner's own answer in the project chat 2026-09-22, that a person should start with one or two traits",
       "whatItDidNotSettle": "Gives a starting figure and says in the same breath that it will be adjusted. It does not say how the number varies across a population, and it says nothing about prevalence per family."
+    },
+    {
+      "source": "docs/research/requests/ordinary-life-trait-set.json, filed by the people and life lane 2026-09-22",
+      "whatItDidNotSettle": "Asks which dispositions are worth modelling and how large the vocabulary should be before entries stop being distinguishable. It is about the size of the list, and says nothing about how many entries a given person carries or how common any of them should be."
     }
   ],
   "requestedBy": "research audit thread (technical team lead)",
   "filedAt": "2026-09-22T05:00:00.000Z",
   "priority": "P1",
   "notes": [
+    "This is a different question from ordinary-life-trait-set, which the people and life lane filed the same day. That one asks how many distinct traits should exist in the vocabulary at all. This one asks how many of them any one person should be marked with, and how common each should be across a town. Either can be answered without the other.",
     "The count and the prevalence are separable. An answer to one alone is worth having and should be sent rather than held.",
     "A trait row is data, not code, so any number here is a pack value a modder can change. The answer sets the shipped default, not a permanent rule.",
     "This does not ask what a trait argues for in a given decision. That mapping is authored per decision and is the personality lane's work, not research."
+  ],
+  "relatedQuestionIds": [
+    "ordinary-life-trait-set",
+    "personality-change-pace"
   ]
 }

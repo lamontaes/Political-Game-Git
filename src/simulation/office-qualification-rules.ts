@@ -38,7 +38,7 @@
  * nothing.
  */
 
-import { ageOnDate } from "./dates";
+import { ageOnDate, completedMonthsBetween } from "./dates";
 import {
   OFFICE_QUALIFICATIONS_META,
   OFFICE_QUALIFICATION_ROWS,
@@ -314,14 +314,77 @@ function ageInYears(row: SourcedQualification): number | null {
   return null;
 }
 
-/** A duration in whole years, or null. Months are not rounded into years. */
-function durationYears(row: SourcedQualification): number | null {
-  if (typeof row.value === "number") return row.value;
+/**
+ * A residence requirement as a whole number of months, or null where the row
+ * does not state one.
+ *
+ * This replaces a years-only reader. Months were never rounded into years --
+ * correctly, because both roundings are wrong: six months as nought years
+ * admits everybody who has just arrived, and as one year refuses people the
+ * law admits. So the row was simply left unevaluated, which is honest but
+ * means Minnesota's six-month district requirement could not be expressed at
+ * all, and a Minnesota House candidate was refused a seat their own Senate
+ * accepted. Months are the smaller unit, so months are the representation; a
+ * requirement in years is the same requirement stated more coarsely.
+ *
+ * `label` is the requirement in the source's own words, so a sentence shown to
+ * a player says "6 months" where the law says six months, rather than
+ * translating it into a half year nobody wrote.
+ */
+function durationMonths(
+  row: SourcedQualification,
+): { readonly months: number; readonly label: string } | null {
+  if (typeof row.value === "number") {
+    return {
+      months: row.value * 12,
+      label: `${row.value} year${row.value === 1 ? "" : "s"}`,
+    };
+  }
   if (typeof row.value === "string") {
-    const match = /^(\d+)\s*years?$/i.exec(row.value.trim());
-    if (match) return Number(match[1]);
+    const text = row.value.trim();
+    const years = /^(\d+)\s*years?$/i.exec(text);
+    if (years) {
+      const count = Number(years[1]);
+      return {
+        months: count * 12,
+        label: `${count} year${count === 1 ? "" : "s"}`,
+      };
+    }
+    const months = /^(\d+)\s*months?$/i.exec(text);
+    if (months) {
+      const count = Number(months[1]);
+      return {
+        months: count,
+        label: `${count} month${count === 1 ? "" : "s"}`,
+      };
+    }
+    // The research transport does not agree with itself about how to write a
+    // duration. Ohio's two chambers carry a compiler token rather than a
+    // phrase, and both were read from a real provision, so both are read here.
+    // Found by the playtesting lane; before this the token parsed as nothing,
+    // the row stayed unevaluated, and an unevaluated row is a block -- so Ohio
+    // refused every candidate on district residence for a reason that was
+    // about our transport rather than about them. The same shape as Nebraska
+    // and Minnesota, in a third place.
+    const token = /^RESIDENT_(\d+)_YEARS?$/i.exec(text);
+    if (token) {
+      const count = Number(token[1]);
+      return {
+        months: count * 12,
+        label: `${count} year${count === 1 ? "" : "s"}`,
+      };
+    }
   }
   return null;
+}
+
+/** The elapsed side of the same comparison, in the same unit. */
+function residedLabel(months: number): string {
+  if (months >= 12 && months % 12 === 0) {
+    const years = months / 12;
+    return `${years} year${years === 1 ? "" : "s"}`;
+  }
+  return `${months} month${months === 1 ? "" : "s"}`;
 }
 
 export interface QualificationAssessmentInput {
@@ -441,7 +504,7 @@ export function assessOfficeQualifications(
     }
 
     if (row.field === "STATE_RESIDENCE" || row.field === "DISTRICT_RESIDENCE") {
-      const required = durationYears(row);
+      const required = durationMonths(row);
       const residenceSince =
         row.field === "STATE_RESIDENCE"
           ? input.stateResidenceSince
@@ -449,7 +512,7 @@ export function assessOfficeQualifications(
       const held =
         residenceSince === null
           ? null
-          : ageOnDate(residenceSince, input.onDate);
+          : completedMonthsBetween(residenceSince, input.onDate);
       if (required === null || held === null) {
         assessments.push({
           field: row.field,
@@ -457,18 +520,18 @@ export function assessOfficeQualifications(
           reason:
             held === null
               ? `${row.citation} requires ${String(row.value)} of residence. The game has not recorded when this character came to live here, so it will not guess whether they qualify.`
-              : `${row.citation} states a residence requirement the game cannot read as a number of years.`,
+              : `${row.citation} states a residence requirement the game cannot read as a length of time.`,
           source: row,
         });
         continue;
       }
       assessments.push({
         field: row.field,
-        verdict: held >= required ? "meets" : "fails",
+        verdict: held >= required.months ? "meets" : "fails",
         reason:
-          held >= required
-            ? `Resident long enough: ${row.citation} requires ${required} year${required === 1 ? "" : "s"}.`
-            : `Not resident long enough: ${row.citation} requires ${required} year${required === 1 ? "" : "s"}, and this character has lived here ${held}.`,
+          held >= required.months
+            ? `Resident long enough: ${row.citation} requires ${required.label}.`
+            : `Not resident long enough: ${row.citation} requires ${required.label}, and this character has lived here ${residedLabel(held)}.`,
         source: row,
       });
       continue;
