@@ -1,5 +1,6 @@
 import { latestPersonalityTendency } from "./queries";
 import {
+  isOneSided,
   leansForDecision,
   magnitudeForStrength,
   traitDefinitionFromPack,
@@ -77,7 +78,11 @@ export function readTrait(
       : record.expressionKey === trait.poles.high.key
         ? trait.poles.high
         : null;
-  if (magnitude === null || pole === null) {
+  if (
+    magnitude === null ||
+    pole === null ||
+    (pole === trait.poles.low && isOneSided(trait))
+  ) {
     // A record whose expression or strength this pack no longer declares. Not
     // a value of zero and not a guess: the pack changed under a save, and a
     // reading that split the difference would be inventing one.

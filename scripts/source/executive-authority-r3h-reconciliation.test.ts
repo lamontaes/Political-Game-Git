@@ -17,8 +17,8 @@ import {
 import {
   assertExecutiveAuthorityPackIntegrity,
   resolvePresentmentAuthority,
-} from "./executive-authority-rules";
-import { rulePackById } from "./legislature-rule-packs";
+} from "../../src/simulation/executive-authority-rules";
+import { rulePackById } from "../../src/simulation/legislature-rule-packs";
 
 const RESOLVING_DISPOSITIONS = new Set([
   "newly-compiled",
