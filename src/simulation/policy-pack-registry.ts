@@ -24,8 +24,9 @@ import { US_POLICY_POSITIONS_PACK } from "./policy-pack-us-policy-positions";
 export const POLICY_PACKS: readonly PolicyPack[] = [
   // Order matters: the positions pack references this one's issues by
   // qualified key, and the loader resolves domains, then issues, then
-  // propositions, so the vocabulary has to be registered before the stances
-  // that point at it.
+  // principles, then propositions, so the vocabulary has to be registered
+  // before the stances that point at it. The positions pack declares its own
+  // principles, so it resolves those against itself in the same pass.
   US_STATE_AND_LOCAL_POLICY_PACK,
   US_POLICY_POSITIONS_PACK,
 ];

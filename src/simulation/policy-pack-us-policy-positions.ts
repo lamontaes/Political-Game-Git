@@ -43,6 +43,104 @@ const NOTE =
 export const US_POLICY_POSITIONS_PACK: PolicyPack = {
   pack: "us-policy-positions",
   provenance: { kind: "authored-fiction", note: NOTE },
+  /**
+   * What a person can believe in, above any one question.
+   *
+   * Fourteen, deliberately, and not one per issue. A principle that only ever
+   * turns up on a single question is a restatement of that question, and tells
+   * a reader nothing they could not have got from the question itself. These
+   * are chosen so that each is engaged by positions in several domains, which
+   * is what makes a recorded conviction reach further than the argument it was
+   * formed in.
+   *
+   * They are authored, like the positions, and are a vocabulary for holding a
+   * view rather than a claim about what anyone in fact believes.
+   */
+  principles: [
+    {
+      key: "limited-government",
+      name: "Limited government",
+      description:
+        "A government should do as little as the job requires, and what it does not need to do it should leave alone.",
+    },
+    {
+      key: "collective-provision",
+      name: "Collective provision",
+      description:
+        "Some things are met better by everyone together than by each household on its own.",
+    },
+    {
+      key: "local-control",
+      name: "Local control",
+      description:
+        "A decision belongs as close as possible to the people who live with it.",
+    },
+    {
+      key: "fiscal-restraint",
+      name: "Fiscal restraint",
+      description:
+        "A government should not promise money it has not got, and should keep what it has put by.",
+    },
+    {
+      key: "equal-treatment",
+      name: "Equal treatment",
+      description: "The law should fall the same way on everyone it reaches.",
+    },
+    {
+      key: "personal-liberty",
+      name: "Personal liberty",
+      description:
+        "A person should be left to run their own life where it is theirs to run.",
+    },
+    {
+      key: "public-safety",
+      name: "Public safety",
+      description:
+        "Keeping people from harm is the first thing a government is for.",
+    },
+    {
+      key: "property-rights",
+      name: "Property rights",
+      description:
+        "What a person owns is theirs to use, and taking or restricting it needs a strong reason.",
+    },
+    {
+      key: "environmental-stewardship",
+      name: "Environmental stewardship",
+      description:
+        "What is handed on to the people who come next counts as much as what is used now.",
+    },
+    {
+      key: "equal-opportunity",
+      name: "Equal opportunity",
+      description:
+        "Where a person starts should not settle where they can get to.",
+    },
+    {
+      key: "tradition",
+      name: "Tradition",
+      description:
+        "An arrangement that has held for a long time has earned the benefit of the doubt.",
+    },
+    {
+      key: "transparency",
+      name: "Transparency",
+      description:
+        "The public is entitled to see how a decision was reached and by whom.",
+    },
+    {
+      key: "worker-protection",
+      name: "Protection for working people",
+      description:
+        "Someone who works for a living should have the law on their side when bargaining alone would not be enough.",
+    },
+    {
+      key: "market-competition",
+      name: "Open competition",
+      description:
+        "Open competition sorts things out better than direction from above does.",
+    },
+  ],
   propositions: [
     {
       key: "fiscal.adopt-income-tax",
@@ -50,6 +148,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Adopt a state income tax",
       question: "Should the state levy a personal income tax?",
       tags: ["revenue", "contested"],
+      principles: [
+        { principle: "collective-provision", bearing: "consistent-with" },
+        { principle: "limited-government", bearing: "against" },
+      ],
     },
     {
       key: "fiscal.graduated-income-tax",
@@ -58,6 +160,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should the personal income tax rise in steps with income rather than apply one flat rate?",
       tags: ["revenue", "contested"],
+      principles: [
+        { principle: "equal-opportunity", bearing: "consistent-with" },
+        { principle: "equal-treatment", bearing: "against" },
+      ],
     },
     {
       key: "fiscal.cap-property-tax-growth",
@@ -66,12 +172,21 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question: "Should annual growth in a property tax bill be capped by law?",
       parameters: [{ key: "cap", value: "annual-percentage" }],
       tags: ["contested"],
+      principles: [
+        { principle: "property-rights", bearing: "consistent-with" },
+        { principle: "limited-government", bearing: "consistent-with" },
+        { principle: "collective-provision", bearing: "against" },
+      ],
     },
     {
       key: "fiscal.exempt-groceries-from-sales-tax",
       issue: "us-state-and-local:fiscal.sales-tax",
       name: "Exempt groceries from sales tax",
       question: "Should groceries be exempt from the general sales tax?",
+      principles: [
+        { principle: "equal-opportunity", bearing: "consistent-with" },
+        { principle: "fiscal-restraint", bearing: "against" },
+      ],
     },
     {
       key: "fiscal.balanced-operating-budget",
@@ -79,6 +194,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Require a balanced operating budget",
       question:
         "Should the operating budget be required by law to balance each year?",
+      principles: [
+        { principle: "fiscal-restraint", bearing: "consistent-with" },
+        { principle: "collective-provision", bearing: "against" },
+      ],
     },
     {
       key: "fiscal.fund-pensions-to-schedule",
@@ -87,6 +206,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should the government be required to pay the full actuarial contribution to public pensions each year?",
       tags: ["fiscal-discipline"],
+      principles: [
+        { principle: "fiscal-restraint", bearing: "consistent-with" },
+        { principle: "worker-protection", bearing: "consistent-with" },
+      ],
     },
     {
       key: "fiscal.minimum-reserve-balance",
@@ -95,6 +218,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should the government be required to hold a reserve equal to a set share of annual spending?",
       parameters: [{ key: "floor", value: "share-of-annual-spending" }],
+      principles: [
+        { principle: "fiscal-restraint", bearing: "consistent-with" },
+        { principle: "collective-provision", bearing: "against" },
+      ],
     },
     {
       key: "government-operations.independent-redistricting",
@@ -103,6 +230,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should district lines be drawn by an independent commission rather than by the legislature?",
       tags: ["contested"],
+      principles: [
+        { principle: "equal-treatment", bearing: "consistent-with" },
+        { principle: "transparency", bearing: "consistent-with" },
+        { principle: "tradition", bearing: "against" },
+      ],
     },
     {
       key: "government-operations.require-photo-id-to-vote",
@@ -111,6 +243,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should a voter be required to present photo identification at the polls?",
       tags: ["contested"],
+      principles: [
+        { principle: "public-safety", bearing: "consistent-with" },
+        { principle: "equal-treatment", bearing: "against" },
+      ],
     },
     {
       key: "government-operations.automatic-voter-registration",
@@ -119,6 +255,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should eligible residents be registered to vote automatically when they deal with a state agency?",
       tags: ["contested"],
+      principles: [
+        { principle: "equal-opportunity", bearing: "consistent-with" },
+        { principle: "limited-government", bearing: "against" },
+      ],
     },
     {
       key: "government-operations.legislative-term-limits",
@@ -128,6 +268,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should legislators be limited in how many terms they may serve?",
       parameters: [{ key: "limit", value: "consecutive-terms" }],
       tags: ["contested"],
+      principles: [
+        { principle: "limited-government", bearing: "consistent-with" },
+        { principle: "tradition", bearing: "against" },
+      ],
     },
     {
       key: "government-operations.ban-lobbying-after-office",
@@ -136,6 +280,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should former officials be barred from lobbying their old body for a set period?",
       parameters: [{ key: "period", value: "years-after-leaving" }],
+      principles: [
+        { principle: "transparency", bearing: "consistent-with" },
+        { principle: "personal-liberty", bearing: "against" },
+      ],
     },
     {
       key: "government-operations.broaden-local-authority",
@@ -144,6 +292,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should localities be free to act on matters the state has not expressly reserved to itself?",
       tags: ["home-rule", "contested"],
+      principles: [
+        { principle: "local-control", bearing: "consistent-with" },
+        { principle: "equal-treatment", bearing: "against" },
+      ],
     },
     {
       key: "education.equalize-school-funding",
@@ -152,6 +304,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should the state equalize per-student funding so that a district's wealth does not determine what its schools spend?",
       tags: ["contested"],
+      principles: [
+        { principle: "equal-opportunity", bearing: "consistent-with" },
+        { principle: "local-control", bearing: "against" },
+      ],
     },
     {
       key: "education.public-funds-for-private-schooling",
@@ -160,6 +316,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should public money follow a student to a private school their family chooses?",
       tags: ["contested"],
+      principles: [
+        { principle: "personal-liberty", bearing: "consistent-with" },
+        { principle: "market-competition", bearing: "consistent-with" },
+        { principle: "collective-provision", bearing: "against" },
+      ],
     },
     {
       key: "education.raise-teacher-minimum-salary",
@@ -167,6 +328,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Raise the teacher salary floor",
       question:
         "Should the state set a minimum salary for teachers above the current floor?",
+      principles: [
+        { principle: "worker-protection", bearing: "consistent-with" },
+        { principle: "local-control", bearing: "against" },
+      ],
     },
     {
       key: "education.universal-preschool",
@@ -175,12 +340,21 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should the state fund preschool for every child whose family wants a place?",
       tags: ["contested"],
+      principles: [
+        { principle: "collective-provision", bearing: "consistent-with" },
+        { principle: "equal-opportunity", bearing: "consistent-with" },
+        { principle: "fiscal-restraint", bearing: "against" },
+      ],
     },
     {
       key: "education.freeze-public-tuition",
       issue: "us-state-and-local:education.higher-education-tuition-and-aid",
       name: "Freeze public college tuition",
       question: "Should tuition at public colleges be frozen?",
+      principles: [
+        { principle: "equal-opportunity", bearing: "consistent-with" },
+        { principle: "fiscal-restraint", bearing: "against" },
+      ],
     },
     {
       key: "education.state-curriculum-standards",
@@ -189,6 +363,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should the state set curriculum standards that every district must follow?",
       tags: ["contested"],
+      principles: [
+        { principle: "equal-treatment", bearing: "consistent-with" },
+        { principle: "local-control", bearing: "against" },
+      ],
     },
     {
       key: "health-human-services.expand-medicaid-eligibility",
@@ -197,6 +375,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should Medicaid eligibility be expanded to more low-income adults?",
       tags: ["contested"],
+      principles: [
+        { principle: "collective-provision", bearing: "consistent-with" },
+        { principle: "fiscal-restraint", bearing: "against" },
+      ],
     },
     {
       key: "health-human-services.work-requirement-for-assistance",
@@ -206,6 +388,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should able adults be required to work or train to keep income and food assistance?",
       tags: ["contested"],
+      principles: [
+        { principle: "limited-government", bearing: "consistent-with" },
+        { principle: "tradition", bearing: "consistent-with" },
+        { principle: "collective-provision", bearing: "against" },
+      ],
     },
     {
       key: "health-human-services.fund-behavioral-health-crisis-response",
@@ -213,6 +400,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Fund a behavioral health crisis response",
       question:
         "Should the state fund a crisis response for mental health emergencies separate from police?",
+      principles: [
+        { principle: "public-safety", bearing: "consistent-with" },
+        { principle: "collective-provision", bearing: "consistent-with" },
+        { principle: "fiscal-restraint", bearing: "against" },
+      ],
     },
     {
       key: "health-human-services.harm-reduction-services",
@@ -221,6 +413,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should the state fund needle exchange and overdose reversal distribution?",
       tags: ["contested"],
+      principles: [
+        { principle: "collective-provision", bearing: "consistent-with" },
+        { principle: "tradition", bearing: "against" },
+      ],
     },
     {
       key: "health-human-services.housing-first-homelessness",
@@ -229,6 +425,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should homelessness services place people in housing before requiring treatment or sobriety?",
       tags: ["contested"],
+      principles: [
+        { principle: "collective-provision", bearing: "consistent-with" },
+        { principle: "tradition", bearing: "against" },
+      ],
     },
     {
       key: "justice-public-safety.end-cash-bail",
@@ -236,6 +436,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "End cash bail",
       question: "Should release before trial be decided without money bail?",
       tags: ["contested"],
+      principles: [
+        { principle: "equal-treatment", bearing: "consistent-with" },
+        { principle: "personal-liberty", bearing: "consistent-with" },
+        { principle: "public-safety", bearing: "against" },
+      ],
     },
     {
       key: "justice-public-safety.mandatory-minimum-sentences",
@@ -245,6 +450,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should the law set minimum sentences that a judge may not go below?",
       tags: ["contested"],
+      principles: [
+        { principle: "public-safety", bearing: "consistent-with" },
+        { principle: "equal-treatment", bearing: "consistent-with" },
+        { principle: "personal-liberty", bearing: "against" },
+      ],
     },
     {
       key: "justice-public-safety.civilian-oversight-of-police",
@@ -253,6 +463,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should a civilian board have authority to investigate complaints against police?",
       tags: ["contested"],
+      principles: [
+        { principle: "transparency", bearing: "consistent-with" },
+        { principle: "public-safety", bearing: "against" },
+      ],
     },
     {
       key: "justice-public-safety.permit-to-carry-concealed",
@@ -260,6 +474,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Require a permit to carry concealed",
       question: "Should carrying a concealed firearm require a permit?",
       tags: ["contested"],
+      principles: [
+        { principle: "public-safety", bearing: "consistent-with" },
+        { principle: "personal-liberty", bearing: "against" },
+      ],
     },
     {
       key: "justice-public-safety.raise-juvenile-court-age",
@@ -268,6 +486,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should older teenagers be handled in juvenile rather than adult court?",
       parameters: [{ key: "age", value: "upper-age-of-juvenile-jurisdiction" }],
+      principles: [
+        { principle: "equal-opportunity", bearing: "consistent-with" },
+        { principle: "public-safety", bearing: "against" },
+      ],
     },
     {
       key: "justice-public-safety.restore-voting-after-sentence",
@@ -276,6 +498,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should voting rights be restored automatically once a sentence is complete?",
       tags: ["contested"],
+      principles: [
+        { principle: "equal-treatment", bearing: "consistent-with" },
+        { principle: "tradition", bearing: "against" },
+      ],
     },
     {
       key: "housing-land-use.allow-multifamily-in-single-family-zones",
@@ -284,6 +510,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should small multifamily housing be allowed by right in areas zoned for single-family homes?",
       tags: ["contested"],
+      principles: [
+        { principle: "property-rights", bearing: "consistent-with" },
+        { principle: "market-competition", bearing: "consistent-with" },
+        { principle: "tradition", bearing: "against" },
+      ],
     },
     {
       key: "housing-land-use.rent-stabilization",
@@ -292,6 +523,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should annual rent increases on existing tenancies be limited by law?",
       tags: ["contested"],
+      principles: [
+        { principle: "worker-protection", bearing: "consistent-with" },
+        { principle: "property-rights", bearing: "against" },
+        { principle: "market-competition", bearing: "against" },
+      ],
     },
     {
       key: "housing-land-use.by-right-permitting",
@@ -299,6 +535,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "By-right permitting",
       question:
         "Should housing that meets the zoning code be approved without discretionary review?",
+      principles: [
+        { principle: "property-rights", bearing: "consistent-with" },
+        { principle: "local-control", bearing: "against" },
+      ],
     },
     {
       key: "housing-land-use.inclusionary-requirement",
@@ -307,6 +547,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should new developments be required to include below-market homes?",
       tags: ["contested"],
+      principles: [
+        { principle: "equal-opportunity", bearing: "consistent-with" },
+        { principle: "property-rights", bearing: "against" },
+      ],
     },
     {
       key: "housing-land-use.preempt-local-housing-limits",
@@ -314,12 +558,20 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Preempt local housing limits",
       question: "Should the state override local rules that block housing?",
       tags: ["contested"],
+      principles: [
+        { principle: "market-competition", bearing: "consistent-with" },
+        { principle: "local-control", bearing: "against" },
+      ],
     },
     {
       key: "housing-land-use.right-to-counsel-in-eviction",
       issue: "us-state-and-local:housing-land-use.tenant-and-landlord-rules",
       name: "Right to counsel in eviction",
       question: "Should a tenant facing eviction be provided a lawyer?",
+      principles: [
+        { principle: "equal-treatment", bearing: "consistent-with" },
+        { principle: "fiscal-restraint", bearing: "against" },
+      ],
     },
     {
       key: "transportation-infrastructure.shift-highway-funds-to-transit",
@@ -328,6 +580,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should money currently dedicated to highways be available for transit?",
       tags: ["contested"],
+      principles: [
+        { principle: "environmental-stewardship", bearing: "consistent-with" },
+        { principle: "tradition", bearing: "against" },
+      ],
     },
     {
       key: "transportation-infrastructure.fare-free-transit",
@@ -335,6 +591,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Fare-free transit",
       question: "Should local transit be free to ride?",
       tags: ["contested"],
+      principles: [
+        { principle: "collective-provision", bearing: "consistent-with" },
+        { principle: "fiscal-restraint", bearing: "against" },
+      ],
     },
     {
       key: "transportation-infrastructure.mileage-fee-replaces-fuel-tax",
@@ -343,6 +603,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Mileage fee instead of fuel tax",
       question: "Should a per-mile road charge replace the fuel tax?",
       tags: ["contested"],
+      principles: [
+        { principle: "fiscal-restraint", bearing: "consistent-with" },
+        { principle: "personal-liberty", bearing: "against" },
+      ],
     },
     {
       key: "transportation-infrastructure.public-broadband",
@@ -351,6 +615,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should local governments be allowed to build and sell broadband service?",
       tags: ["contested"],
+      principles: [
+        { principle: "collective-provision", bearing: "consistent-with" },
+        { principle: "market-competition", bearing: "against" },
+      ],
     },
     {
       key: "transportation-infrastructure.fix-it-first",
@@ -359,6 +627,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Fix it first",
       question:
         "Should maintenance of existing infrastructure be funded before new construction?",
+      principles: [
+        { principle: "fiscal-restraint", bearing: "consistent-with" },
+        { principle: "environmental-stewardship", bearing: "consistent-with" },
+      ],
     },
     {
       key: "business-commerce.reduce-occupational-licensing",
@@ -367,6 +639,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should the state remove licensing requirements from occupations that do not need them for safety?",
       tags: ["contested"],
+      principles: [
+        { principle: "market-competition", bearing: "consistent-with" },
+        { principle: "limited-government", bearing: "consistent-with" },
+        { principle: "public-safety", bearing: "against" },
+      ],
     },
     {
       key: "business-commerce.legalize-cannabis-sales",
@@ -374,6 +651,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Legalize cannabis sales",
       question: "Should the sale of cannabis to adults be legal and regulated?",
       tags: ["contested"],
+      principles: [
+        { principle: "personal-liberty", bearing: "consistent-with" },
+        { principle: "tradition", bearing: "against" },
+      ],
     },
     {
       key: "business-commerce.cap-development-incentives",
@@ -381,6 +662,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Cap development incentives",
       question:
         "Should tax incentives offered to attract employers be capped and disclosed?",
+      principles: [
+        { principle: "transparency", bearing: "consistent-with" },
+        { principle: "fiscal-restraint", bearing: "consistent-with" },
+        { principle: "market-competition", bearing: "against" },
+      ],
     },
     {
       key: "business-commerce.cap-consumer-loan-rates",
@@ -389,6 +675,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question: "Should interest on small consumer loans be capped?",
       parameters: [{ key: "cap", value: "annual-percentage-rate" }],
       tags: ["contested"],
+      principles: [
+        { principle: "worker-protection", bearing: "consistent-with" },
+        { principle: "market-competition", bearing: "against" },
+      ],
     },
     {
       key: "labor-workforce.raise-minimum-wage",
@@ -398,6 +688,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should the state minimum wage be raised above the federal floor?",
       parameters: [{ key: "target", value: "hourly-rate" }],
       tags: ["contested"],
+      principles: [
+        { principle: "worker-protection", bearing: "consistent-with" },
+        { principle: "market-competition", bearing: "against" },
+      ],
     },
     {
       key: "labor-workforce.local-minimum-wage-authority",
@@ -406,6 +700,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should a city be allowed to set a minimum wage higher than the state's?",
       tags: ["contested"],
+      principles: [
+        { principle: "local-control", bearing: "consistent-with" },
+        { principle: "market-competition", bearing: "against" },
+      ],
     },
     {
       key: "labor-workforce.paid-family-leave",
@@ -413,6 +711,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Paid family and medical leave",
       question: "Should the state run a paid family and medical leave program?",
       tags: ["contested"],
+      principles: [
+        { principle: "worker-protection", bearing: "consistent-with" },
+        { principle: "collective-provision", bearing: "consistent-with" },
+        { principle: "limited-government", bearing: "against" },
+      ],
     },
     {
       key: "labor-workforce.public-sector-collective-bargaining",
@@ -421,6 +724,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should public employees have the right to bargain collectively?",
       tags: ["contested"],
+      principles: [
+        { principle: "worker-protection", bearing: "consistent-with" },
+        { principle: "limited-government", bearing: "against" },
+      ],
     },
     {
       key: "labor-workforce.right-to-work",
@@ -429,6 +736,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should workers be barred from having to pay union fees as a condition of employment?",
       tags: ["contested"],
+      principles: [
+        { principle: "personal-liberty", bearing: "consistent-with" },
+        { principle: "worker-protection", bearing: "against" },
+      ],
     },
     {
       key: "environment-energy.clean-electricity-standard",
@@ -438,6 +749,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should electricity providers be required to meet a rising clean-generation standard?",
       parameters: [{ key: "target", value: "share-by-year" }],
       tags: ["contested"],
+      principles: [
+        { principle: "environmental-stewardship", bearing: "consistent-with" },
+        { principle: "market-competition", bearing: "against" },
+      ],
     },
     {
       key: "environment-energy.price-carbon",
@@ -445,6 +760,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Price carbon emissions",
       question: "Should the state put a price on carbon emissions?",
       tags: ["contested"],
+      principles: [
+        { principle: "environmental-stewardship", bearing: "consistent-with" },
+        { principle: "limited-government", bearing: "against" },
+      ],
     },
     {
       key: "environment-energy.ban-new-gas-hookups",
@@ -453,6 +772,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should new buildings be barred from connecting to natural gas?",
       tags: ["contested"],
+      principles: [
+        { principle: "environmental-stewardship", bearing: "consistent-with" },
+        { principle: "personal-liberty", bearing: "against" },
+      ],
     },
     {
       key: "environment-energy.restrict-building-in-flood-zones",
@@ -460,12 +783,21 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Restrict building in flood zones",
       question:
         "Should new construction be restricted in areas at high risk of flooding?",
+      principles: [
+        { principle: "public-safety", bearing: "consistent-with" },
+        { principle: "environmental-stewardship", bearing: "consistent-with" },
+        { principle: "property-rights", bearing: "against" },
+      ],
     },
     {
       key: "environment-energy.bottle-deposit",
       issue: "us-state-and-local:environment-energy.waste-and-recycling",
       name: "Container deposit",
       question: "Should beverage containers carry a refundable deposit?",
+      principles: [
+        { principle: "environmental-stewardship", bearing: "consistent-with" },
+        { principle: "limited-government", bearing: "against" },
+      ],
     },
     {
       key: "agriculture-natural-resources.limit-groundwater-withdrawal",
@@ -474,6 +806,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Limit groundwater withdrawal",
       question: "Should groundwater withdrawals be metered and limited?",
       tags: ["contested"],
+      principles: [
+        { principle: "environmental-stewardship", bearing: "consistent-with" },
+        { principle: "property-rights", bearing: "against" },
+      ],
     },
     {
       key: "agriculture-natural-resources.protect-farmland-from-development",
@@ -481,12 +817,21 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "us-state-and-local:agriculture-natural-resources.farming-and-ranching",
       name: "Protect farmland from development",
       question: "Should the state pay to keep farmland from being developed?",
+      principles: [
+        { principle: "tradition", bearing: "consistent-with" },
+        { principle: "environmental-stewardship", bearing: "consistent-with" },
+        { principle: "property-rights", bearing: "against" },
+      ],
     },
     {
       key: "agriculture-natural-resources.expand-public-land-access",
       issue: "us-state-and-local:agriculture-natural-resources.public-lands",
       name: "Expand public land access",
       question: "Should public land be opened to more recreational access?",
+      principles: [
+        { principle: "personal-liberty", bearing: "consistent-with" },
+        { principle: "property-rights", bearing: "against" },
+      ],
     },
     {
       key: "civil-family-community.ban-discrimination-in-housing-and-work",
@@ -496,6 +841,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should state law bar discrimination in housing and employment on grounds it does not currently cover?",
       tags: ["contested"],
+      principles: [
+        { principle: "equal-treatment", bearing: "consistent-with" },
+        { principle: "property-rights", bearing: "against" },
+      ],
     },
     {
       key: "civil-family-community.restrict-abortion",
@@ -505,6 +854,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
         "Should abortion be prohibited after a set point in pregnancy, subject to listed exceptions?",
       parameters: [{ key: "general-limit", value: "weeks-of-pregnancy" }],
       tags: ["contested"],
+      principles: [
+        { principle: "tradition", bearing: "consistent-with" },
+        { principle: "personal-liberty", bearing: "against" },
+      ],
     },
     {
       key: "civil-family-community.fund-public-libraries",
@@ -512,6 +865,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Fund public libraries",
       question:
         "Should the state guarantee a funding floor for public libraries?",
+      principles: [
+        { principle: "collective-provision", bearing: "consistent-with" },
+        { principle: "fiscal-restraint", bearing: "against" },
+      ],
     },
     {
       key: "civil-family-community.local-control-of-library-materials",
@@ -520,6 +877,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should decisions about which materials a library carries rest with local boards?",
       tags: ["contested"],
+      principles: [
+        { principle: "local-control", bearing: "consistent-with" },
+        { principle: "personal-liberty", bearing: "against" },
+      ],
     },
     {
       key: "civil-family-community.dedicated-parks-funding",
@@ -527,6 +888,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Dedicated parks funding",
       question:
         "Should a fixed share of revenue be dedicated to parks and recreation?",
+      principles: [
+        { principle: "collective-provision", bearing: "consistent-with" },
+        { principle: "fiscal-restraint", bearing: "against" },
+      ],
     },
     {
       key: "technology-privacy.consumer-data-privacy-law",
@@ -535,6 +900,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should residents have a legal right to see, correct and delete data companies hold about them?",
       tags: ["contested"],
+      principles: [
+        { principle: "personal-liberty", bearing: "consistent-with" },
+        { principle: "market-competition", bearing: "against" },
+      ],
     },
     {
       key: "technology-privacy.restrict-government-facial-recognition",
@@ -542,6 +911,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       name: "Restrict government facial recognition",
       question: "Should government use of facial recognition be restricted?",
       tags: ["contested"],
+      principles: [
+        { principle: "personal-liberty", bearing: "consistent-with" },
+        { principle: "public-safety", bearing: "against" },
+      ],
     },
     {
       key: "technology-privacy.age-verification-for-social-media",
@@ -550,6 +923,10 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should social media platforms be required to verify a user's age?",
       tags: ["contested"],
+      principles: [
+        { principle: "public-safety", bearing: "consistent-with" },
+        { principle: "personal-liberty", bearing: "against" },
+      ],
     },
   ],
 };

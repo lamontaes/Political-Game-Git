@@ -81,10 +81,18 @@ const sha256 = (text: string) =>
  * without an opening version, not a save written by an old build. It gates the
  * legacy opening PATH, not save compatibility, and it moves whenever shipped
  * content does. LEGACY_OPENING_SHAPE below is the part that should not move.
+ *
+ * RE-ACCEPTED AGAIN 2026-09-22, for the policy positions pack: sixty-six
+ * propositions and fourteen principles where the catalog had questions nobody
+ * could take a side on. This is the predicted movement, not a new one — the
+ * note above says these hashes move whenever shipped content does — and it is
+ * a decision on the same evidence as before, because LEGACY_OPENING_SHAPE
+ * PASSED unchanged on the run that moved these. That is the whole point of
+ * having both: the field these hashes moved on is the one the shape strips.
  */
 const FED321F7_LEGACY = {
-  kentucky: "8c715a8939d979c09a542894d421492542fbc821c57f1757d3390556f1891e3f",
-  peebles: "edc4ae31adf37db239bf41d6e9ebc9d07bacabb42307a7f5abcccb2513f4560b",
+  kentucky: "1a9db20c7fa9cc010481a3fbda6fba7906b9cbe30f6af703f661236307e93e15",
+  peebles: "db959f3046df06b3ad50eabeb9b0e36f3470a5c8524d1592ec77aa7461ddc2d5",
 } as const;
 
 /**
