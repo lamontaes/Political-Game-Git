@@ -216,12 +216,36 @@ export interface PolicyDomainDefinition {
   readonly description: string;
 }
 
+/**
+ * A level of government an issue can be decided at.
+ *
+ * Deliberately the vocabulary a player would use, and deliberately not a
+ * claim about any particular jurisdiction: that a question is ordinarily
+ * municipal says nothing about whether *this* city was given the power. The
+ * jurisdiction's own capability record decides that, and this list only says
+ * which levels are worth asking.
+ */
+export type PolicyGovernmentLevel =
+  "state" | "county" | "municipality" | "school-district";
+
 export interface PolicyIssueDefinition {
   readonly id: EntityId;
   readonly stableKey: string;
   readonly domainId: EntityId;
   readonly name: string;
   readonly description: string;
+  /**
+   * The levels this question is ordinarily decided at, where a source says so.
+   *
+   * Absent means nobody has established it, which is not the same as every
+   * level: an unknown fact is not permission, so a consumer filtering by level
+   * must treat its absence as "do not know" and say so, never as "anywhere".
+   *
+   * Optional, and omitted rather than written empty, so a world holding issues
+   * nobody routed serialises exactly as it did before this field existed and
+   * a save written then stays readable.
+   */
+  readonly levels?: readonly PolicyGovernmentLevel[];
 }
 
 export interface PropositionParameter {
