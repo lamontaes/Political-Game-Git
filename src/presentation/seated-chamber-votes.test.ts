@@ -25,7 +25,9 @@ import { resolvePlayerCapabilities } from "./player-capabilities";
  *
  * Nebraska's one-house legislature and Alaska's two chambers with a joint
  * override session: the two legislatures outside Kentucky that a staffer's
- * job opens in today.
+ * job opens in today. Kentucky is here too, on purpose and not as a default:
+ * an audit found its transit bill always passing the House 58 to 40 on
+ * counts copied from a developer fixture, and this is where that stops.
  */
 
 function staffer(placeKey: string) {
@@ -77,69 +79,80 @@ function votesOn(world: World, measureId: string) {
   );
 }
 
-describe.each(["nebraska", "alaska"])("a staffer's bill in %s", (place) => {
-  const { world, assignment } = staffer(place);
-  const pack = assignment.procedure.pack;
-  const members = stateLegislators(world, `${pack.packId}:candidacy`);
-  const floor = advance(world, assignment, (w) =>
-    votesOn(w, assignment.measureId).some((v) => v.purpose === "floor-stage"),
-  );
-
-  it("works for a legislator who actually holds a seat", () => {
-    expect(assignment.procedure.memberDecisions).toBeDefined();
-    const sponsor = members.find(
-      (member) => member.personId === assignment.sponsorPersonId,
-    );
-    expect(sponsor).toBeDefined();
-    expect(sponsor!.officeKey.endsWith(`:${pack.chamberOrder[0]}`)).toBe(true);
-  });
-
-  it("puts the state's seated members in the chambers, and nobody else", () => {
-    for (const body of assignment.procedure.bodies) {
-      const seated = members.filter(
-        (member) => member.officeKey === `${pack.packId}:${body.chamberKey}`,
-      );
-      expect(body.members.map((m) => m.personId).sort()).toEqual(
-        seated.map((m) => m.personId).sort(),
-      );
-    }
-  });
-
-  it("records every member's own decision, with the reason that decided it", () => {
-    const votes = votesOn(floor, assignment.measureId);
-    const committee = votes.find((vote) => vote.purpose === "committee-report");
-    expect(committee).toBeDefined();
-    // A committee that will not report the bill ends it there; one that does
-    // sends it to a floor where every seated member answers.
-    const onFloor = votes.find((vote) => vote.purpose === "floor-stage");
-    expect(Boolean(onFloor)).toBe(committee!.outcome === "passed");
-    for (const vote of votes) {
-      expect(vote.provenance.method).toBe("member-decisions");
-      for (const entry of vote.dispositions) {
-        expect(entry.personId).not.toBeNull();
-        expect(entry.reason).toMatch(/^member:/);
-        if (entry.personId === assignment.sponsorPersonId)
-          expect(entry.reason).toBe("member:own-bill");
-      }
-    }
-    if (onFloor) {
-      const origin = assignment.procedure.bodies.find(
-        (body) => body.chamberKey === pack.chamberOrder[0],
-      )!;
-      expect(onFloor.dispositions.length).toBe(origin.members.length);
-    }
-  });
-
-  it("gives the same votes after Save and Continue", () => {
-    const restored = deserializeWorld(serializeWorld(world));
-    const again = advance(restored, assignment, (w) =>
+describe.each(["nebraska", "alaska", "kentucky"])(
+  "a staffer's bill in %s",
+  (place) => {
+    const { world, assignment } = staffer(place);
+    const pack = assignment.procedure.pack;
+    const members = stateLegislators(world, `${pack.packId}:candidacy`);
+    const floor = advance(world, assignment, (w) =>
       votesOn(w, assignment.measureId).some((v) => v.purpose === "floor-stage"),
     );
-    expect(
-      votesOn(again, assignment.measureId).map((v) => v.dispositions),
-    ).toEqual(votesOn(floor, assignment.measureId).map((v) => v.dispositions));
-  });
-});
+
+    it("works for a legislator who actually holds a seat", () => {
+      expect(assignment.procedure.memberDecisions).toBeDefined();
+      const sponsor = members.find(
+        (member) => member.personId === assignment.sponsorPersonId,
+      );
+      expect(sponsor).toBeDefined();
+      expect(sponsor!.officeKey.endsWith(`:${pack.chamberOrder[0]}`)).toBe(
+        true,
+      );
+    });
+
+    it("puts the state's seated members in the chambers, and nobody else", () => {
+      for (const body of assignment.procedure.bodies) {
+        const seated = members.filter(
+          (member) => member.officeKey === `${pack.packId}:${body.chamberKey}`,
+        );
+        expect(body.members.map((m) => m.personId).sort()).toEqual(
+          seated.map((m) => m.personId).sort(),
+        );
+      }
+    });
+
+    it("records every member's own decision, with the reason that decided it", () => {
+      const votes = votesOn(floor, assignment.measureId);
+      const committee = votes.find(
+        (vote) => vote.purpose === "committee-report",
+      );
+      expect(committee).toBeDefined();
+      // A committee that will not report the bill ends it there; one that does
+      // sends it to a floor where every seated member answers.
+      const onFloor = votes.find((vote) => vote.purpose === "floor-stage");
+      expect(Boolean(onFloor)).toBe(committee!.outcome === "passed");
+      for (const vote of votes) {
+        expect(vote.provenance.method).toBe("member-decisions");
+        for (const entry of vote.dispositions) {
+          expect(entry.personId).not.toBeNull();
+          expect(entry.reason).toMatch(/^member:/);
+          if (entry.personId === assignment.sponsorPersonId)
+            expect(entry.reason).toBe("member:own-bill");
+        }
+      }
+      if (onFloor) {
+        const origin = assignment.procedure.bodies.find(
+          (body) => body.chamberKey === pack.chamberOrder[0],
+        )!;
+        expect(onFloor.dispositions.length).toBe(origin.members.length);
+      }
+    });
+
+    it("gives the same votes after Save and Continue", () => {
+      const restored = deserializeWorld(serializeWorld(world));
+      const again = advance(restored, assignment, (w) =>
+        votesOn(w, assignment.measureId).some(
+          (v) => v.purpose === "floor-stage",
+        ),
+      );
+      expect(
+        votesOn(again, assignment.measureId).map((v) => v.dispositions),
+      ).toEqual(
+        votesOn(floor, assignment.measureId).map((v) => v.dispositions),
+      );
+    });
+  },
+);
 
 describe("a seated chamber deciding one question", () => {
   const { world, assignment } = staffer("alaska");
