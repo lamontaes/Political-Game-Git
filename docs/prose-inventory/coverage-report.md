@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 3166 |
-| INTENTIONALLY_NON_PLAYER_FACING | 7108 |
-| DIAGNOSTIC_OR_TEST | 7815 |
-| **NEEDS_CLASSIFICATION** | **10402** |
+| INTENTIONALLY_NON_PLAYER_FACING | 7111 |
+| DIAGNOSTIC_OR_TEST | 7825 |
+| **NEEDS_CLASSIFICATION** | **10417** |
 
-Scanned 1169 files holding 113014 string
+Scanned 1171 files holding 113188 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -99,6 +99,7 @@ literals in total; the table counts only those that read like a sentence.
 | 39 | `src/simulation/voice-bands.ts` |
 | 38 | `src/simulation/claim-contradictions.ts` |
 | 38 | `src/simulation/living-world/party-chapters.ts` |
+| 37 | `src/simulation/legislature-game-profile.ts` |
 | 37 | `src/simulation/setup-opening-bank.ts` |
 | 36 | `src/simulation/world-metrics.ts` |
 | 35 | `src/presentation/governing-office-desk.ts` |
@@ -117,7 +118,6 @@ literals in total; the table counts only those that read like a sentence.
 | 32 | `src/simulation/municipal-ordinance-procedure.ts` |
 | 32 | `src/simulation/person-context.ts` |
 | 31 | `src/simulation/career-path7.ts` |
-| 31 | `src/simulation/legislature-game-profile.ts` |
 | 31 | `src/simulation/politics.ts` |
 | 31 | `src/simulation/press/procedures.ts` |
 | 30 | `src/presentation/office-onboarding.ts` |
@@ -293,6 +293,7 @@ literals in total; the table counts only those that read like a sentence.
 | 9 | `src/simulation/governing/office-staffing.ts` |
 | 9 | `src/simulation/national-election-consumer.ts` |
 | 9 | `src/simulation/people-bereavement.ts` |
+| 9 | `src/simulation/veto-override-source-readings.ts` |
 | 9 | `src/ui/LocationCompositionReview.tsx` |
 | 8 | `src/player/CampaignLifePanel.tsx` |
 | 8 | `src/player/PeopleRelationshipWeb.tsx` |

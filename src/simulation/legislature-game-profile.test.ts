@@ -13,10 +13,12 @@ import {
   legislatureProfilePackById,
   researchedChamberSpread,
   researchedExecutiveSpread,
+  overrideThresholdFor,
   seatsForChamber,
 } from "./legislature-game-profile";
 import { LEGISLATIVE_RULE_PACKS, rulePackById } from "./legislature-rule-packs";
 import { stateCandidacyPack } from "./candidacy-packs";
+import { vetoOverrideReadingFor } from "./veto-override-source-readings";
 import {
   assertRulePackIntegrity,
   chamberByKey,
@@ -181,16 +183,22 @@ describe("nothing generated claims to be law", () => {
     expect(pack.unresolvedGaps[0]).toMatch(/has not been compiled/i);
   });
 
-  it("refuses a generated pack that carries a read source", () => {
+  it("allows a generated pack to carry a read source, because that is the point", () => {
+    // This used to assert the opposite, and the opposite was wrong. A game
+    // profile exists because nothing has been read; the moment something IS
+    // read for one of its rules, the read value belongs there and the drawn one
+    // must give way. Four states' override thresholds are exactly that case. A
+    // check that refused a constitution inside a generated pack would have made
+    // "real law overrides the draw" impossible to honour.
     const honest = legislatureForState("US-TX")!;
     const compiled = LEGISLATIVE_RULE_PACKS[0]!;
     const blended = {
       ...honest,
       session: { ...honest.session, source: compiled.sources[0]! },
     };
-    expect(() => assertRulePackIntegrity(blended)).toThrow(
-      /may not claim a read source/i,
-    );
+    expect(() => assertRulePackIntegrity(blended)).not.toThrow();
+    // The pack still says what it mostly is, so nothing reads as researched.
+    expect(blended.basis).toBe("game-profile");
   });
 
   it("refuses a compiled pack that carries a generated rule", () => {
@@ -402,5 +410,100 @@ describe("a compile gap is not a research gap", () => {
       (house.minimumAge as { source: { verification: string } }).source
         .verification,
     ).toBe("game-profile");
+  });
+});
+
+describe("real law overrides the draw", () => {
+  it("uses each read constitution's own override fraction, not a drawn one", () => {
+    // Four states proved this matters in a way a player feels. The draw gave
+    // Tennessee two thirds where its constitution sets a simple majority,
+    // turning one of the easiest override bars in the country into one of the
+    // hardest; North Carolina three fifths of those PRESENT AND VOTING, which
+    // is the whole reason an override there is politically live.
+    const expected: Record<string, readonly [number, number]> = {
+      "US-TN": [1, 2],
+      "US-NC": [3, 5],
+      "US-VA": [1, 2],
+      "US-WV": [1, 2],
+    };
+    for (const [key, [numerator, denominator]] of Object.entries(expected)) {
+      const pack = legislatureForState(key)!;
+      expect(pack.basis).toBe("game-profile");
+      const forum = pack.executive.override;
+      expect(forum.kind).toBe("each-chamber");
+      const threshold = (
+        forum as {
+          threshold: {
+            numerator: number;
+            denominatorParts: number;
+            source: { verification: string };
+          };
+        }
+      ).threshold;
+      expect([threshold.numerator, threshold.denominatorParts]).toEqual([
+        numerator,
+        denominator,
+      ]);
+      // And it cites the instrument rather than the game's own profile.
+      expect(threshold.source.verification).not.toBe("game-profile");
+    }
+  });
+
+  it("still draws where no constitution has been read", () => {
+    const texas = legislatureForState("US-TX")!;
+    const forum = texas.executive.override as {
+      threshold: { source: { verification: string } };
+    };
+    expect(forum.threshold.source.verification).toBe("game-profile");
+    expect(vetoOverrideReadingFor("TX")).toBeNull();
+  });
+
+  it("records what the schema cannot carry instead of flattening it", () => {
+    // Virginia requires two thirds of those present AND a majority of the
+    // elected members. An each-chamber forum carries one fraction against one
+    // denominator, so the second condition has nowhere to live — and dropping
+    // it silently would make the override easier in play than the instrument
+    // allows, which is the sort of thing nobody notices until it decides a
+    // vote.
+    const virginia = legislatureForState("US-VA")!;
+    expect(virginia.unresolvedGaps.join(" ")).toMatch(
+      /Virginia also requires 2 of 3 of "members-present"/,
+    );
+    // West Virginia's higher bar is per measure class, which the schema has no
+    // field for on an each-chamber forum.
+    const westVirginia = legislatureForState("US-WV")!;
+    expect(westVirginia.unresolvedGaps.join(" ")).toMatch(
+      /separate bar for override-budget/,
+    );
+    // And where the instrument's own basis maps to nothing this project names,
+    // the fraction is kept and the mapping is disclosed rather than invented.
+    const northCarolina = legislatureForState("US-NC")!;
+    expect(northCarolina.unresolvedGaps.join(" ")).toMatch(
+      /not the same set as anything this schema names/,
+    );
+  });
+
+  it("picks the override action, not a neighbouring one that merely names money", () => {
+    // Virginia states one rule for "override-whole-or-item-veto" — the "item"
+    // there is half a combined operation, not a money-only bar — and a picker
+    // that excluded it selected Virginia's rule for ACCEPTING a governor's
+    // recommendation, which is not an override at all. West Virginia names its
+    // ordinary rule "override-ordinary-nonappropriation-bill", which a match on
+    // "appropriation" excludes outright.
+    expect(overrideThresholdFor("US-VA", [2, 3]).readBasis).toBe(
+      "members-elected",
+    );
+    expect(overrideThresholdFor("US-WV", [2, 3]).numerator).toBe(1);
+    expect(overrideThresholdFor("US-WV", [2, 3]).denominatorParts).toBe(2);
+  });
+
+  it("leaves a generated pack passing the integrity check while holding read law", () => {
+    // A game-profile pack carrying a constitution is the goal, not a blend to
+    // refuse. The refusal runs the other way only.
+    for (const key of ["US-TN", "US-NC", "US-VA", "US-WV"]) {
+      expect(() =>
+        assertRulePackIntegrity(legislatureForState(key)!),
+      ).not.toThrow();
+    }
   });
 });

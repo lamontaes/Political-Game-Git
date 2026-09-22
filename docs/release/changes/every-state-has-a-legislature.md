@@ -29,3 +29,10 @@ legislature entirely.
 The District of Columbia is the exception and keeps none: it is legislated for
 by a single Council rather than by a House and a Senate, and a generated
 bicameral legislature would be a shape the District has never had.
+
+Where a state's own constitution has been read for its veto override, that is
+the threshold the game uses, even in a state whose legislature is otherwise the
+game's own. Tennessee overrides on a simple majority, not the two thirds the
+game would otherwise have picked; North Carolina on three fifths of those
+present and voting; West Virginia on a simple majority for an ordinary bill.
+Real law always wins over a generated figure.

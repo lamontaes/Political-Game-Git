@@ -1157,21 +1157,28 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
 }
 
 /**
- * The two kinds of pack may not be blended.
+ * The blend that is forbidden runs one way only.
  *
  * A researched pack that carried one generated rule would be the worst of both:
- * everything about it says "this is the law of this state" and one field would
- * not be. A game profile that carried one verified rule is the same failure
- * read the other way — it would let a reader conclude the rest was checked too.
+ * everything about it says "this is the law of this state", and one field would
+ * not be. That is refused, at any depth.
  *
- * So the check is total rather than field-by-field: every source ref anywhere
- * in the pack must agree with the pack's own declared basis. It walks the whole
- * object because a source ref can sit at any depth — on a threshold, inside a
- * floor stage, under a committee — and a check that only looked at the places
- * someone remembered would pass the one they forgot.
+ * The other direction is not a failure, it is the goal. A game profile exists
+ * because nothing has been read; the moment something IS read for one of its
+ * rules, the read value belongs there and the drawn one must give way. Real law
+ * always overrides a generated value, and a check that refused a constitution
+ * inside a generated pack would have made honouring that impossible. The pack
+ * still declares itself `game-profile`, because most of it still is, and each
+ * rule's own source ref says which kind it is.
+ *
+ * The walk is total rather than field-by-field because a source ref can sit at
+ * any depth — on a threshold, inside a floor stage, under a committee — and a
+ * check that only looked where someone remembered would pass the one they
+ * forgot.
  */
 function assertBasisIsHonest(pack: LegislativeRulePack): void {
-  const wanted = pack.basis === "game-profile" ? "game-profile" : null;
+  if (pack.basis === "game-profile") return;
+  const wanted = null;
   const seen = new Set<object>();
   const walk = (node: unknown, path: string): void => {
     if (node === null || typeof node !== "object") return;
@@ -1188,11 +1195,6 @@ function assertBasisIsHonest(pack: LegislativeRulePack): void {
       typeof record.citation === "string"
     ) {
       const isProfile = record.verification === "game-profile";
-      if (wanted === "game-profile" && !isProfile) {
-        throw new Error(
-          `Game-profile pack '${pack.packId}' carries a non-profile source at ${path}: ${record.citation}. A generated legislature may not claim a read source.`,
-        );
-      }
       if (wanted === null && isProfile) {
         throw new Error(
           `Researched pack '${pack.packId}' carries a game-profile source at ${path}: ${record.citation}. A researched legislature may not carry a generated rule.`,

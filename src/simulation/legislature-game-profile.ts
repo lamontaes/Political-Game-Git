@@ -49,10 +49,12 @@ import {
   type ChamberRule,
   type LegislativeRulePack,
   type RuleSourceRef,
+  type VoteDenominator,
   type VoteThresholdRule,
 } from "./legislature-rules";
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import { STATES } from "./state-reference";
+import { vetoOverrideReadingFor } from "./veto-override-source-readings";
 
 /**
  * The version of the generated ruleset.
@@ -393,10 +395,22 @@ export function legislatureProfilePack(
 ): LegislativeRulePack | null {
   const profile = legislatureProfileFor(stateJurisdictionKey);
   if (profile === null) return null;
+  const override = overrideThresholdFor(
+    stateJurisdictionKey,
+    profile.overrideFraction,
+  );
   const overrideSource = profileSource(
     "Veto and override",
-    `The governor has ${profile.vetoWindowDaysInSession} days to act on a measure during session and ${profile.vetoWindowDaysAfterAdjournment} after adjournment, and each chamber overrides a veto on ${profile.overrideFraction[0]} of ${profile.overrideFraction[1]} of its elected members. Each figure is one a compiled state actually enacted, fixed for this state.`,
+    `The governor has ${profile.vetoWindowDaysInSession} days to act on a measure during session and ${profile.vetoWindowDaysAfterAdjournment} after adjournment. Each figure is one a compiled state actually enacted, fixed for this state.`,
   );
+  // The override is the one rule here that may rest on real law. Where a
+  // constitution has been read for this state, the read threshold wins and
+  // carries that instrument's own citation; a generated pack is allowed to hold
+  // a read rule precisely so this can happen.
+  const overrideThresholdSource: RuleSourceRef =
+    override.basis === "read" && readingCitation(stateJurisdictionKey) !== null
+      ? readingCitation(stateJurisdictionKey)!
+      : overrideSource;
   return {
     packId: legislatureProfilePackId(stateJurisdictionKey),
     jurisdictionKey: stateJurisdictionKey,
@@ -451,11 +465,13 @@ export function legislatureProfilePack(
       override: {
         kind: "each-chamber",
         threshold: fractionOf(
-          profile.overrideFraction[0],
-          profile.overrideFraction[1],
-          "members-elected",
-          `${profile.overrideFraction[0]} of ${profile.overrideFraction[1]} of the members elected to each chamber`,
-          overrideSource,
+          override.numerator,
+          override.denominatorParts,
+          override.countedAgainst,
+          override.readBasis === null
+            ? `${override.numerator} of ${override.denominatorParts} of the members elected to each chamber`
+            : `${override.numerator} of ${override.denominatorParts} of ${override.readBasis}`,
+          overrideThresholdSource,
         ),
       },
       source: overrideSource,
@@ -478,19 +494,30 @@ export function legislatureProfilePack(
       measuresDieAtAdjournment: knownRule(true, SESSION_SOURCE),
       source: SESSION_SOURCE,
     },
-    sources: [
-      QUORUM_SOURCE,
-      PASSAGE_SOURCE,
-      ORIGINATION_SOURCE,
-      SESSION_SOURCE,
-      overrideSource,
-    ],
+    sources:
+      overrideThresholdSource === overrideSource
+        ? [
+            QUORUM_SOURCE,
+            PASSAGE_SOURCE,
+            ORIGINATION_SOURCE,
+            SESSION_SOURCE,
+            overrideSource,
+          ]
+        : [
+            QUORUM_SOURCE,
+            PASSAGE_SOURCE,
+            ORIGINATION_SOURCE,
+            SESSION_SOURCE,
+            overrideSource,
+            overrideThresholdSource,
+          ],
     unresolvedGaps: [
       "This legislature has not been compiled from its state's own constitution or rules. Its structure, seat counts, veto windows and override threshold are the game's own, drawn from the range the compiled states span, and none of them is a claim about this state's law.",
       "The chamber names and bill prefixes are the ordinary American ones. A state whose lower chamber is an Assembly or a House of Delegates will say so once its instruments are compiled.",
       "Committee structure, referral among committees, hearing guarantees and report thresholds come from chamber rules that have not been read.",
       "Conference between the chambers is not modelled.",
       "Whether this state overrides a veto in joint session rather than chamber by chamber has not been read; the generated pack uses the chamber-by-chamber form every compiled state but one uses.",
+      ...override.unexpressed,
     ],
   };
 }
@@ -624,5 +651,155 @@ export function seatsForChamber(
   return {
     seats: drawWithin(key, "chamber-seats", lowest, highest),
     basis: "game-profile",
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Real law overrides the draw
+// ---------------------------------------------------------------------------
+
+/** What a generated pack ended up using for its override, and where from. */
+export interface OverrideThresholdChoice {
+  readonly numerator: number;
+  readonly denominatorParts: number;
+  readonly countedAgainst: VoteDenominator;
+  readonly basis: "read" | "game-profile";
+  /** The instrument's own words, where a reading supplied them. */
+  readonly readBasis: string | null;
+  /** Everything the schema could not carry, in the instrument's own terms. */
+  readonly unexpressed: readonly string[];
+}
+
+/**
+ * The override threshold for a state, preferring what was actually read.
+ *
+ * A drawn threshold that contradicts a constitution we hold is worse than no
+ * generator at all, and four states proved it: Tennessee's constitution sets a
+ * simple majority where the draw gave two thirds, turning one of the easiest
+ * override bars in the country into one of the hardest; North Carolina's is
+ * three fifths of those present and voting, which is the whole reason an
+ * override there is politically live; Virginia's is two conditions at once;
+ * West Virginia's differs between an ordinary bill and an appropriation. So
+ * the readings are consulted first and the draw only fills a silence.
+ *
+ * Two things this deliberately does NOT do.
+ *
+ * It does not invent a denominator. Where the reading says the instrument
+ * counts against "members present and voting" or "the membership entitled
+ * under the constitution", it records that those are not the same set as
+ * anything `VoteDenominator` names and declines to map. This function keeps the
+ * read FRACTION, which is what a player feels — a half and two thirds are the
+ * difference between a live override and a dead one — carries the instrument's
+ * own words forward in `readBasis`, and says in `unexpressed` that the
+ * denominator is the game's nearest rather than the instrument's.
+ *
+ * And it does not flatten a rule the schema cannot hold. `OverrideForum` in the
+ * each-chamber form carries ONE fraction against ONE denominator, so Virginia's
+ * second condition and West Virginia's separate appropriations bar have nowhere
+ * to live. They are recorded in `unexpressed` and surface in the pack's
+ * `unresolvedGaps` rather than being quietly dropped or averaged. Flattening
+ * them would be the same failure as promoting a summary into law.
+ */
+export function overrideThresholdFor(
+  stateJurisdictionKey: string,
+  drawn: readonly [number, number],
+): OverrideThresholdChoice {
+  const usps = /^US-([A-Z]{2})$/.exec(stateJurisdictionKey)?.[1] ?? "";
+  const reading = vetoOverrideReadingFor(usps);
+  const fallback: OverrideThresholdChoice = {
+    numerator: drawn[0],
+    denominatorParts: drawn[1],
+    countedAgainst: "members-elected",
+    basis: "game-profile",
+    readBasis: null,
+    unexpressed: [],
+  };
+  if (reading === null || reading.actions.length === 0) return fallback;
+
+  // The ordinary-bill override, where the reading distinguishes one.
+  //
+  // Picking this by excluding any operation whose name mentions money was the
+  // obvious approach and it was wrong twice over. Virginia states one rule for
+  // "override-whole-or-item-veto" — the word "item" there is half of a combined
+  // operation, not a money-only bar — and excluding it selected Virginia's
+  // rule for ACCEPTING a governor's recommendation, which is not an override at
+  // all. West Virginia states its ordinary rule as
+  // "override-ordinary-nonappropriation-bill", and a match on "appropriation"
+  // excludes the very action it names.
+  //
+  // So the choice is made in two steps: only actions that are overrides at all,
+  // then, among those, prefer one the reading does not confine to money.
+  const overrides = reading.actions.filter((action) =>
+    /override|restore/i.test(action.operation),
+  );
+  const candidates = overrides.length > 0 ? overrides : reading.actions;
+  const ordinary =
+    candidates.find(
+      (action) =>
+        !/^(?!.*non)(?=.*(appropriation|budget|revenue)).*$/i.test(
+          action.operation,
+        ),
+    ) ?? candidates[0]!;
+  const chosen = ordinary.thresholds.find(
+    (threshold) => threshold.countedAgainst !== null,
+  );
+  const primary = chosen ?? ordinary.thresholds[0];
+  if (!primary) return fallback;
+
+  const unexpressed: string[] = [];
+  if (primary.countedAgainst === null) {
+    unexpressed.push(
+      `${reading.name} counts its override against "${primary.readBasis}" (${reading.locator}), which is not the same set as anything this schema names. The fraction is the instrument's; the denominator is the game's nearest.`,
+    );
+  }
+  for (const other of ordinary.thresholds) {
+    if (other === primary) continue;
+    unexpressed.push(
+      `${reading.name} also requires ${other.numerator} of ${other.denominatorParts} of "${other.readBasis}" for the same override (${reading.locator}). This schema carries one threshold per forum, so that condition is recorded here rather than enforced, and the override is easier in play than the instrument allows.`,
+    );
+  }
+  for (const action of reading.actions) {
+    if (action === ordinary) continue;
+    const stated = action.thresholds
+      .map(
+        (threshold) =>
+          `${threshold.numerator} of ${threshold.denominatorParts} of "${threshold.readBasis}"`,
+      )
+      .join(" and ");
+    unexpressed.push(
+      `${reading.name} sets a separate bar for ${action.operation}: ${stated} (${reading.locator}). An each-chamber forum in this schema carries no per-measure-class threshold, so that is recorded rather than applied.`,
+    );
+  }
+
+  return {
+    numerator: primary.numerator,
+    denominatorParts: primary.denominatorParts,
+    countedAgainst: primary.countedAgainst ?? "members-elected",
+    basis: "read",
+    readBasis: primary.readBasis,
+    unexpressed,
+  };
+}
+
+/**
+ * The instrument's own citation for a state whose override was read.
+ *
+ * This is the one place a generated pack points at a real source, and it points
+ * at the reading's own locator and URL rather than restating them. Verification
+ * is `partial` on purpose: the threshold was read from the instrument, and the
+ * rest of the pack around it was not.
+ */
+function readingCitation(stateJurisdictionKey: string): RuleSourceRef | null {
+  const usps = /^US-([A-Z]{2})$/.exec(stateJurisdictionKey)?.[1] ?? "";
+  const reading = vetoOverrideReadingFor(usps);
+  if (reading === null) return null;
+  return {
+    authority: "constitution",
+    citation: reading.locator,
+    sourceTitle: `${reading.name} — veto override, read from the instrument`,
+    sourceUrl: reading.url,
+    retrievedAt: null,
+    verification: "partial",
+    note: `Read for the override threshold only (${reading.researchStatus}). The rest of this legislature is the game's own.`,
   };
 }
