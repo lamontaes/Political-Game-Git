@@ -118,7 +118,9 @@ describe("A conversation writes down what it was actually about", () => {
     let after = say(world, personId, "raise-obligation");
     after = say(after, personId, "offer-to-cover");
     const interactions = after.history.relationshipInteractions;
-    if (interactions.length === 0) return;
+    // Not `if empty, return`: a route that records nothing would have passed
+    // this silently, which is the same as not testing it.
+    expect(interactions.length).toBeGreaterThan(0);
     for (const interaction of interactions) {
       expect(interaction.tags).not.toContain("conversation.office");
       expect(interaction.kind).not.toBe("work:reassurance");
