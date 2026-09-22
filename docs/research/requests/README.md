@@ -44,16 +44,23 @@ After the queue changes:
 npm run research:request -- render --write
 ```
 
-then replace the body of this one Drive document with the file it wrote:
+then publish the file it wrote into this Drive **folder**:
 
-<https://docs.google.com/document/d/188eBtB0N61zZ_2xTjZ3bvfZKtFKfwo8jdrttK66f7Pc/edit>
+<https://drive.google.com/drive/folders/1YKUgzXCRog97z5VMcA2vlZZP0jjbeCd6>
 
-("OUR CIVIC DUTY — OPEN RESEARCH QUESTIONS (live queue)", in the
-`CLAUDE_MEGA_WAVE_STAGING` folder beside the Staging Index.) Update that
-document in place rather than adding a new one, so there is never a second copy
-to choose between. The document names the commit and the moment it was rendered in
-its own first lines, so a reader can tell whether they are looking at something
-current.
+("OPEN RESEARCH QUESTIONS — live", inside `CLAUDE_MEGA_WAVE_STAGING` beside the
+Staging Index.)
+
+**The link is the folder, never a document id.** The Drive connector cannot
+rewrite the body of an existing Google Doc, so each refresh creates a new dated
+document and trashes the previous one. A document id written down anywhere is
+therefore guaranteed to die at the next refresh — which has already happened
+once, and sent a lane to a document that no longer existed. The folder holds
+exactly one document at rest, so whatever is in it is current, and its title
+carries the render time and the commit so you can tell without opening it.
+
+Render at a committed head. The stamp reads `(working tree modified)` otherwise,
+which is the tool being honest but not something to publish.
 
 Anything filed here and published there is treated as picked up for research.
 That is the reason the validator refuses an incomplete record: a question that

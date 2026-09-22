@@ -1,0 +1,32 @@
+{
+  "filedAt": "2026-09-22T02:35:00.000Z",
+  "impact": "blocks-work",
+  "lane": "hardcoded-content audit",
+  "notes": [
+    "The machinery is now ready for the answer. Until 2026-09-22 the gate read only the retrieval date, so supplying a commencement date would have changed nothing — the refusal would have survived the answer. It now prefers a known commencement and falls back to retrieval only while one is unknown, so this fact lands the moment it arrives.",
+    "Look first at how Nebraska and Minnesota were settled: not by outside research at all, but by reading the amendment history printed on the publisher page already in the locked artifacts. Alaska's constitution is published by the Lieutenant Governor's office at the URL below and may carry the same kind of note. If it does, say so and quote it, and this becomes a repository fix rather than a research errand.",
+    "A year without a day is a usable answer if that is what the source proves. Nebraska's were recorded as the January 1 after ratification, a bound the page establishes rather than a precise effective day it does not state. Do the same rather than inventing a day."
+  ],
+  "priority": "P2",
+  "question": "On what date did the present words of Alaska Const. art. II, sections 2 and 3 take effect, and what primary or publisher material establishes that date?",
+  "questionId": "ak-constitution-provision-commencement",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "hardcoded-content audit thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/candidate-qualification.ts, the AK_CONSTITUTION source reference",
+      "whatItDidNotSettle": "It records retrievedAt 2026-09-06 and observedCurrentOn 2026-09-06, and declares provisionEffectiveOn as null with the note that retrieval is not substituted for legal commencement. The null is the honest gap this asks to fill."
+    },
+    {
+      "source": "https://ltgov.alaska.gov/information/alaskas-constitution/, as already acquired",
+      "whatItDidNotSettle": "It presents the constitution as it currently stands. As acquired, it was not established whether the page carries a per-section amendment or ratification note of the kind Nebraska's publisher prints."
+    },
+    {
+      "source": "The office-qualifications corpus and its temporal-review map",
+      "whatItDidNotSettle": "It settles this for seven states including Nebraska and Minnesota, but Alaska's legislator qualifications live in a separate hand-written module and are outside that corpus, so its reviews do not reach them."
+    }
+  ],
+  "title": "When the present words of Alaska Const. art. II, sections 2-3 took effect",
+  "usableAnswer": "One row: the date the current language of each section took effect, whether that is a ratification date, a statehood date or a later stated effective date, and the material that establishes it. If the sections have never been amended since the constitution took effect, say that explicitly with the source, because that is the answer rather than an absence. If no material establishes it, say so with what you checked; the present refusal is the safe outcome and is much better than a guessed date.",
+  "whyItMatters": "Alaska's legislator qualifications are refused on an ordinary 5 January 2026 start because the constitution was read on 6 September 2026 and nothing records when its words actually took effect. This is the same defect that kept anyone from standing for office in Nebraska, in a second file. Alaska is one of two states with authored candidacy rules at all, so the refusal removes a large part of what can be played."
+}

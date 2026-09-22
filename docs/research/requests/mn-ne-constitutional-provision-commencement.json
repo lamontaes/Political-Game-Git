@@ -1,4 +1,15 @@
 {
+  "answer": {
+    "answeredAt": "2026-09-22T02:25:00.000Z",
+    "answeredBy": "nationwide government lane (b55c0564); verified by the hardcoded-content audit lane",
+    "sources": [
+      "lamontaes/Political-Game-Git commit b55c0564 on origin/claude/nationwide-government-mqcw7p, 'nationwide: date Nebraska's and Minnesota's provisions from their own amendment history'",
+      "src/simulation/office-qualifications.generated.ts at b55c0564, read directly: 69 rows, all EXACT_INTERVAL",
+      "The locked publisher artifacts already in the corpus: the Nebraska Legislature constitution pages' per-section amendment histories, and revisor.mn.gov/constitution's general-revision label"
+    ],
+    "stillOpen": "Nothing for Minnesota or Nebraska. The same defect survives for Alaska in src/simulation/candidate-qualification.ts, whose QualificationSourceRef carries provisionEffectiveOn as null for Alaska Const. art. II sections 2-3; that is filed separately as ak-constitution-provision-commencement. Note also that the Minnesota House can still refuse a filing in split cities such as Duluth for an unrelated reason — no whole-place district join — so this answer does not close that.",
+    "summary": "Answered inside the repository, not by outside research. The nationwide-government lane found the dating evidence already present in the locked artifacts: each Nebraska section prints its own amendment history and Minnesota's page prints its general-revision date. Those provisions were added to the compiler's temporal-review map — the same mechanism Missouri, Nevada, Ohio, New Jersey and Massachusetts already used — and each review names the exact bytes on the locked page that date the words, so the compiler refuses to promote unless it finds them. Minnesota reads its revision date verbatim: 1974-11-05, one label for the whole restructured constitution. Nebraska's labels give a year rather than a day, so validFrom is the January 1 after ratification, a bound the page proves rather than a precise effective day it does not state: art. III sections 1 and 12 and art. IV section 1 from 2001-01-01, art. III section 7 from 1989-01-01, art. III section 8 from 1995-01-01, art. IV section 2 from 1967-01-01. Verified independently here by reading the generated corpus at that commit: all 69 rows are now EXACT_INTERVAL and none is CURRENT_OBSERVATION. Both states open on an ordinary start, and a life reaching a seat before those words took effect is still told the rule is unknown."
+  },
   "filedAt": "2026-09-22T02:20:00.000Z",
   "impact": "blocks-work",
   "lane": "hardcoded-content audit",
