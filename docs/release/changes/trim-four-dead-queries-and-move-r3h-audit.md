@@ -12,6 +12,7 @@ that the simulation never consults it, out of `src/simulation` and into
 regenerates byte for byte.
 
 An audit counted many more exports as unused. They were deliberately kept:
+
 - The other exports that no production code calls are tested query and
   derivation functions for beliefs, knowledge, goals, incidents and the
   economy. They are the unwired half of systems that are being connected now,
