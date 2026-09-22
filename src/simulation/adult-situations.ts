@@ -1288,89 +1288,6 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     ],
   },
   {
-    key: "adult.work-offer-elsewhere",
-    withheld:
-      "Employment does not establish another offer, better terms or coworkers being unaware. An actual offer and the player knowledge of it are missing.",
-    companion: null,
-    stakes: "pressing",
-    prose:
-      "A better-paid job somewhere else has been mentioned to you, and nobody at work knows it was.",
-    tensions: [
-      tension(
-        "achievement-ambition",
-        1,
-        "security-stability",
-        1,
-        "The move, against the ground you are standing on.",
-      ),
-      tension(
-        "achievement-ambition",
-        1,
-        "personal-ties",
-        1,
-        "What it would do for you, against what it would do to everyone arranged around you.",
-      ),
-    ],
-    available: (context) => context.workCount > 0,
-    options: [
-      {
-        key: "go-for-it",
-        label: "Go after it",
-        description: "Follow it up properly.",
-        memory: "You followed up on the other job offer.",
-        stance: "engaged",
-        nudges: [
-          nudge("achievement-ambition", 0.6),
-          nudge("risk-appetite", 0.45),
-          nudge("security-stability", -0.35),
-        ],
-        aftermath: "standing",
-      },
-      {
-        key: "stay",
-        label: "Keep the job you have",
-        description: "Keep the thing that already works.",
-        memory: "You kept the job you had, and let the other thing pass.",
-        stance: "engaged",
-        nudges: [
-          nudge("security-stability", 0.5),
-          nudge("risk-appetite", -0.45),
-          nudge("personal-ties", 0.25),
-        ],
-        aftermath: null,
-      },
-      {
-        key: "use-it",
-        label: "Use it where you are",
-        description: "Take the offer to the people you already work for.",
-        memory: "You brought up the other offer with your current employer.",
-        stance: "engaged",
-        nudges: [
-          nudge("decision-style", 0.5),
-          nudge("achievement-ambition", 0.4),
-          nudge("risk-appetite", 0.25),
-        ],
-        aftermath: "standing",
-      },
-      {
-        key: "say-nothing",
-        label: "Say nothing to anyone",
-        description: "Let it pass without it becoming a conversation.",
-        memory: "You let it pass without telling anybody it had happened.",
-        stance: "withdrawn",
-        nudges: [
-          nudge("privacy-preference", 0.6),
-          nudge("risk-appetite", -0.3),
-        ],
-        hypotheses: [
-          { hypothesisKey: "style.avoids-confrontation", support: 0.7 },
-          { hypothesisKey: "image.manage-exposure", support: 0.5 },
-        ],
-        aftermath: null,
-      },
-    ],
-  },
-  {
     key: "adult.work-good-week",
     withheld:
       "Employment does not establish a successful week, completed work or available time. The achievements and circumstances are missing.",
@@ -1733,90 +1650,6 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         nudges: [
           nudge("personal-ties", -0.4),
           nudge("privacy-preference", 0.35),
-        ],
-        aftermath: "grievance",
-      },
-    ],
-  },
-  {
-    key: "adult.help-with-strings",
-    withheld:
-      "Dependency does not establish an offer of help or the concrete problem it would solve. The offer and terms are missing.",
-    companion: "community-member",
-    stakes: "pressing",
-    prose:
-      "Somebody who already has a good deal of say over how your week goes has offered to sort out the thing you have been unable to sort out. They have not asked for anything.",
-    tensions: [
-      tension(
-        "security-stability",
-        1,
-        "privacy-preference",
-        1,
-        "Having the problem gone, against owing it to somebody who is already owed.",
-      ),
-      tension(
-        "personal-ties",
-        1,
-        "achievement-ambition",
-        1,
-        "Taking the help, against being somebody who took the help.",
-      ),
-    ],
-    // Only when the world already says this person is meaningfully relied on.
-    // There is no leverage score anywhere; this reads roof, income, care,
-    // belonging and money owed, on the spot, and asks which way they run.
-    available: (context) => context.strongestDependency >= 0.3,
-    relevance: (context) => Math.min(1, 0.5 + context.strongestDependency),
-    options: [
-      {
-        key: "take-it",
-        label: "Take the help",
-        description: "Let them sort it out.",
-        memory: "You accepted the offer of help.",
-        witnessed: "They accepted the offer.",
-        stance: "engaged",
-        relationalChange: "strengthened",
-        interactionKind: "support:community",
-        nudges: [
-          nudge("security-stability", 0.45),
-          nudge("personal-ties", 0.3),
-          nudge("privacy-preference", -0.35),
-        ],
-        aftermath: "obligation",
-      },
-      {
-        key: "pay-for-it",
-        label: "Take it, and settle up",
-        description: "Accept, and insist on paying your way.",
-        memory: "You accepted the help and insisted on paying for it.",
-        witnessed: "They accepted, and insisted on paying their way.",
-        stance: "engaged",
-        relationalChange: "maintained",
-        interactionKind: "exchange:community",
-        nudges: [
-          nudge("privacy-preference", 0.4),
-          nudge("decision-style", 0.35),
-          nudge("personal-ties", -0.15),
-        ],
-        aftermath: null,
-      },
-      {
-        key: "decline",
-        label: "Refuse the help",
-        description: "Keep the problem, and keep the ledger clear.",
-        memory: "You turned the help down and kept the problem.",
-        witnessed: "They turned the offer down.",
-        stance: "engaged",
-        relationalChange: "strained",
-        interactionKind: "experience:community",
-        nudges: [
-          nudge("privacy-preference", 0.55),
-          nudge("security-stability", -0.35),
-          nudge("personal-ties", -0.3),
-        ],
-        hypotheses: [
-          { hypothesisKey: "image.manage-exposure", support: 0.5 },
-          { hypothesisKey: "style.avoids-confrontation", support: 0.2 },
         ],
         aftermath: "grievance",
       },
@@ -2585,8 +2418,16 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
   },
   {
     key: "adult.old-favour-returns",
-    withheld:
-      "An earlier favour-family choice may be a refusal. It does not establish help given, a new larger request or a recurrence count. The actual prior action and new request are missing.",
+    // Was withheld: "An earlier favour-family choice may be a refusal. It does
+    // not establish help given, a new larger request or a recurrence count."
+    // All three now exist as records. Help given is `life.favour-performed`,
+    // which the world writes only when a favour was agreed to, scheduled and
+    // actually carried out — a refusal never produces one. The new larger
+    // request is the `returning-favour` opportunity, written by the same
+    // person who was helped. The recurrence count is a count of performances
+    // rather than of asks, so somebody who asked three times and was helped
+    // once returns on the strength of the one.
+    opportunity: "returning-favour",
     companion: "community-member",
     stakes: "notable",
     prose:

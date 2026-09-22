@@ -117,6 +117,18 @@ export interface DocketBill {
   readonly authorityKey: string | null;
   readonly authorityMeasureId: EntityId | null;
   readonly parameterValues: Readonly<Record<string, ProgramParameterValue>>;
+  /**
+   * The parts this measure carries, where it carries more than one.
+   *
+   * Empty for a bill written from a single configuration, which is every bill
+   * the single-family route files. Non-empty for a measure filed as a bundle,
+   * and then the family, variant, authority and parameter fields above
+   * describe its *first* component only — the measure as a whole has no one
+   * family, and a surface that shows one of these fields for a bundle without
+   * saying so would be presenting a part as the whole. Such a surface reads
+   * `recompileSavedBundle` instead.
+   */
+  readonly componentKeys: readonly string[];
   readonly sponsorPersonId: EntityId | null;
   /** Whose bill this is, said exactly. */
   readonly playerRole: DocketPlayerRole;
@@ -152,7 +164,8 @@ export function docketMeasureStableKey(
   return `${DOCKET_KEY_PREFIX}:${scenarioKey}:bill-${String(sequence).padStart(3, "0")}:measure`;
 }
 
-function docketKeyOf(scenarioKey: string, sequence: number): string {
+/** The docket entry's own key. Shared with the multi-component filing route. */
+export function docketKeyOf(scenarioKey: string, sequence: number): string {
   return `${DOCKET_KEY_PREFIX}:${scenarioKey}:bill-${String(sequence).padStart(3, "0")}`;
 }
 
@@ -261,9 +274,15 @@ export function readDocket(
   // forty lineages is sixteen hundred comparisons the other way round, and the
   // docket is read on every render.
   const lineagesByMeasure = new Map<EntityId, LegislativeDraftLineageRecord>();
+  const componentsByMeasure = new Map<EntityId, string[]>();
   for (const lineage of world.history.legislativeDraftLineages ?? []) {
     if (!lineagesByMeasure.has(lineage.measureId)) {
       lineagesByMeasure.set(lineage.measureId, lineage);
+    }
+    if (lineage.componentKey !== undefined) {
+      const keys = componentsByMeasure.get(lineage.measureId) ?? [];
+      keys.push(lineage.componentKey);
+      componentsByMeasure.set(lineage.measureId, keys);
     }
   }
   const bills: DocketBill[] = [];
@@ -325,6 +344,7 @@ export function readDocket(
       authorityKey: lineage.authorityKey ?? null,
       authorityMeasureId: lineage.authorityMeasureId ?? null,
       parameterValues: draftParameterValues(lineage),
+      componentKeys: componentsByMeasure.get(measure.id) ?? [],
       sponsorPersonId: measure.sponsorPersonId,
       playerRole:
         measure.sponsorPersonId === null
@@ -360,7 +380,8 @@ export function docketBill(
 }
 
 /** The next free sequence, so a new bill never lands on an existing one. */
-function nextDocketSequence(world: World, scenarioKey: string): number {
+/** The next free number on this legislature's docket. */
+export function nextDocketSequence(world: World, scenarioKey: string): number {
   const used = (world.history.legislativeMeasures ?? [])
     .filter(
       (measure) =>
@@ -1082,7 +1103,12 @@ export function recompileSavedBill(
 ): CompiledBillDraft | { readonly unavailable: string } {
   const lineage = draftLineageForMeasure(world, bill.measureId);
   if (!lineage) {
-    return { unavailable: "This bill records no drafting configuration." };
+    return {
+      unavailable:
+        bill.componentKeys.length > 0
+          ? "This measure was filed in parts, so it cannot be read as a single configuration."
+          : "This bill records no drafting configuration.",
+    };
   }
   let family;
   try {

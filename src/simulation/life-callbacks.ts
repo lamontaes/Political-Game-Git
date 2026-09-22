@@ -117,10 +117,8 @@ export const RETURN_SUMMARY: Readonly<Record<string, string>> = {
   "adult.household-standing": "Who covers what at home is being asked again.",
   "adult.household-quiet-evening": "That evening came up between you again.",
   "adult.partner-plan": "The plans were put in front of you again.",
-  "adult.work-offer-elsewhere": "The other job is on the table again.",
   "adult.debt-call": "Repayment came up between you again.",
   "adult.housing-cost-change": "What it costs to stay came round again.",
-  "adult.help-with-strings": "The offer of help was put to you once more.",
   "adult.volunteer-ask": "You were asked to help out again.",
   "adult.weekend-invitation": "You were asked along again.",
   // These four situations are withheld from new play, but a save made before

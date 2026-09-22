@@ -1,0 +1,36 @@
+{
+  "intakeVersion": "art-request-intake/v1",
+  "requestId": "ui-masthead-ornaments-four-families",
+  "title": "Masthead ornaments for the four newspaper style families",
+  "missing": "The code already sorts every outlet into one of four masthead styles and the only thing that distinguishes them is a font stack. Four outlets on the same page are told apart by typeface alone, which is close to not being told apart at all.",
+  "consumerSite": {
+    "consumerId": "no-declared-consumer",
+    "playerVisibleUse": "The masthead above each outlet's stories on the news front page, and the nameplate at the top of a single publication's page.",
+    "runtimeComponent": "src/player/news/NewsDesk.tsx"
+  },
+  "jurisdiction": {
+    "scope": "jurisdiction-independent",
+    "reason": "The style a given outlet gets is derived from a hash of its key, not from where it publishes. The same four families serve every jurisdiction."
+  },
+  "whyNeeded": "Four is a measured number, not a guess: `MASTHEAD_STYLES = 4` in src/presentation/news-front-page.ts, and `styleFor` assigns every outlet to one of them by hashing its key. The consumer already exists and already asks for four distinct looks; it just has nothing to show for them.",
+  "origin": "inspection",
+  "requestedBy": "art bench and regional scenes thread",
+  "filedAt": "2026-09-22T05:45:00.000Z",
+  "priority": "P2",
+  "targetClass": "interface-graphic",
+  "alreadySearched": [
+    "art/manifest/asset_manifest.json — all 126 assets read. 11 environment-plate, 2 environment-master, 1 foreground mask, 1 reference master, the rest character components. Nothing in it is an interface graphic of any kind.",
+    "art/requests/asset-requests.json — 29 requests read, including the ten capitols filed tonight. None asks for interface artwork.",
+    "art/requests/incoming/ — 15 filed records read. All are environments or figures.",
+    "art/regions/regional-scene-places.json — all 23 regions carry a benchRequestId from his Art Bench, so the Bench's own regional asks are accounted for and none of them is this.",
+    "find over art/ and public/ for icon or SVG assets — the only SVGs in the project are pose control plates and arm-measurement QA overlays, which are authoring evidence, not shipped interface art.",
+    "src/presentation/news-front-page.ts — MASTHEAD_STYLES is 4 and styleFor() hashes the outlet key into that range. The four are real and already assigned.",
+    "src/player/news/news.css — the four .pg-news-masthead--0..3 rules exist and each sets only a font-family, one of them adding italic."
+  ],
+  "notes": [
+    "Four ornaments, one per existing style family, designed to sit beside a typeset name rather than to contain one. The name is generated and cannot be drawn.",
+    "They should read as four different kinds of paper — something plain and local, something broadsheet and formal, something tabloid, something older — so that a player learns to recognise an outlet by sight.",
+    "No real newspaper's mark, wordmark or identifying device. These are fictional outlets and must not borrow a real one's identity."
+  ],
+  "promotedToRequestId": "ui-masthead-ornaments-four-families"
+}

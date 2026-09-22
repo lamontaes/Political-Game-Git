@@ -1,5 +1,8 @@
 import { addDays } from "../dates";
-import { draftLineageForMeasure } from "../legislation-draft-lineage";
+import {
+  draftLineageComponents,
+  draftLineageForMeasure,
+} from "../legislation-draft-lineage";
 import { currentMeasureProvisions } from "../legislative-politics";
 import { stateJurisdictionForKey } from "../life-places";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
@@ -113,28 +116,63 @@ export function appropriationFromEnactedMeasure(
     (row) => row.measureId === measureId && row.outcome === "enacted",
   );
   if (!measure || !enactment) return world;
-  const amount = currentMeasureProvisions(world, measureId).find(
-    (provision) => provision.provisionKey === "amount-provided",
-  )?.fiscalExposureMinorUnits;
-  if (amount === null || amount === undefined || amount <= 0) return world;
   const state = US_STATE_USPS.find(
     (usps) =>
       stateJurisdictionForKey(`US-${usps}`)?.id === measure.jurisdictionId,
   );
   if (!state) return world;
-  const lineage = draftLineageForMeasure(world, measureId);
-  const familyKey = lineage?.familyKey ?? "appropriations";
+  const provisions = currentMeasureProvisions(world, measureId);
   const adoptedOn =
     enactment.effectiveAt && enactment.effectiveAt > world.currentDate
       ? enactment.effectiveAt
       : world.currentDate;
+  const editionBase = `measure-${measure.designation.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`;
+
+  // A measure that carries parts is applied part by part. Each component's
+  // own appropriation clause becomes its own spending authority, under its own
+  // family and its own edition key, so two appropriating components of one
+  // measure do not collapse into one record and neither is applied twice —
+  // the edition is what `recordAdoptedAppropriation` already dedupes on, so a
+  // measure enacted, saved and reloaded writes the same authority once.
+  const components = draftLineageComponents(world, measureId).filter(
+    (lineage) => lineage.componentKey !== undefined,
+  );
+  if (components.length > 0) {
+    let next = world;
+    for (const lineage of components) {
+      const amount = provisions.find(
+        (provision) =>
+          provision.provisionKey === `${lineage.componentKey}:amount-provided`,
+      )?.fiscalExposureMinorUnits;
+      if (amount === null || amount === undefined || amount <= 0) continue;
+      const written = recordAdoptedAppropriation(next, {
+        familyKey: lineage.familyKey,
+        stateUsps: state,
+        jurisdictionId: measure.jurisdictionId,
+        amountMinorUnits: amount,
+        adoptedOn,
+        edition: `${editionBase}-${lineage.componentKey}`,
+        basisNote: `${PROGRAM_GOVERNING_VERSION}: adopted by the '${lineage.componentKey}' part of ${measure.designation}, ${measure.shortTitle}. The amount is that part's own enacted clause.`,
+        sourceMeasureId: measureId,
+      });
+      next = written?.world ?? next;
+    }
+    return next;
+  }
+
+  const amount = provisions.find(
+    (provision) => provision.provisionKey === "amount-provided",
+  )?.fiscalExposureMinorUnits;
+  if (amount === null || amount === undefined || amount <= 0) return world;
+  const lineage = draftLineageForMeasure(world, measureId);
+  const familyKey = lineage?.familyKey ?? "appropriations";
   const written = recordAdoptedAppropriation(world, {
     familyKey,
     stateUsps: state,
     jurisdictionId: measure.jurisdictionId,
     amountMinorUnits: amount,
     adoptedOn,
-    edition: `measure-${measure.designation.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`,
+    edition: editionBase,
     basisNote: `${PROGRAM_GOVERNING_VERSION}: adopted by ${measure.designation}, ${measure.shortTitle}. The amount is the enacted clause's own figure.`,
     sourceMeasureId: measureId,
   });

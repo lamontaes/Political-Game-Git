@@ -428,6 +428,27 @@ export function candidacyEligibility(
     pack,
     office: boundOption,
     qualificationAssessments,
-    blocks,
+    blocks: distinctBlocks(blocks),
   };
+}
+
+/**
+ * One block per thing that is actually in the way.
+ *
+ * Several requirements can be blocked for the same reason — a state whose
+ * rules cannot be placed in time blocks every one of them — and the surfaces
+ * join the reasons into a paragraph. Repeating one sentence five times told
+ * the player nothing the first sentence had not, so a sentence already said is
+ * dropped. The first block keeps its place and its `kind`, because callers
+ * read the kind to decide what to offer instead.
+ */
+function distinctBlocks(
+  blocks: readonly CandidacyBlock[],
+): readonly CandidacyBlock[] {
+  const seen = new Set<string>();
+  return blocks.filter((block) => {
+    if (seen.has(block.reason)) return false;
+    seen.add(block.reason);
+    return true;
+  });
 }

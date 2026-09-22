@@ -1,4 +1,3 @@
-import { PeopleVisual4Review } from "./PeopleVisual4Review";
 import { frameCharacterReview } from "../presentation/character-review-framing";
 import { useReviewEnvironment, useReviewStorage } from "./review-context";
 import {
@@ -73,8 +72,7 @@ function waveAReviewRequested(): boolean {
 const SET_LINKS = (
   <p>
     Sets:{" "}
-    <a href="?view=character-proof&set=visual4">Corrected selectable people</a>{" "}
-    · <a href="?view=character-proof&set=real">real production candidates</a> ·{" "}
+    <a href="?view=character-proof&set=real">real production candidates</a> ·{" "}
     <a href="?view=character-proof&set=dev">DEV fixtures</a> ·{" "}
     <a href="?view=character-proof&set=wave-a">Wave A candidate admission</a>
   </p>
@@ -325,8 +323,6 @@ function OfficePathTable() {
 }
 
 export function CharacterProofView() {
-  if (new URLSearchParams(window.location.search).get("set") === "visual4")
-    return <PeopleVisual4Review />;
   if (waveAReviewRequested()) {
     return (
       <main

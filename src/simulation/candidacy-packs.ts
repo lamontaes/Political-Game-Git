@@ -23,6 +23,7 @@ import {
   officeQualification as compiledOfficeQualification,
   officeQualifications as compiledOfficeQualifications,
   qualificationSourceRef,
+  qualificationStateLabel,
 } from "./office-qualification-rules";
 import type {
   QualificationOfficeFamily,
@@ -128,10 +129,10 @@ export interface CandidacyCoverage {
 }
 
 const NO_QUALIFICATION_CORPUS =
-  "No accepted source in this repository states this office's candidate qualifications. The legislative rule pack describes how a measure moves through the chamber, not who may stand for a seat in it.";
+  "The game does not have this office's rules for who may stand, so it will not say whether you qualify. What it has for this chamber is how a measure moves through it, which is a different thing.";
 
 const NO_FILING_CORPUS =
-  "No filing deadline, filing officer, primary, nomination, or ballot-access procedure has been read for this office.";
+  "The game does not have this office's filing process — no deadline, no filing officer, no primary or nomination route — so it cannot open one here.";
 
 const NO_MEMBERSHIP_INSTRUMENT =
   "The seat count is the accepted rule pack's own recorded value. No instrument establishing the size of the chamber, or who may sit in it, has been read into this repository.";
@@ -218,17 +219,17 @@ function officeQualification(
       if (row === null) return unknownRule(NO_QUALIFICATION_CORPUS);
       if (row.sourceState === "NO_REQUIREMENT_FOUND") {
         return notApplicableRule(
-          `${row.citation} was read and imposes no such requirement.`,
+          `${qualificationStateLabel(row)} imposes no such requirement for this office.`,
         );
       }
       if (row.sourceState === "NOT_APPLICABLE") {
         return notApplicableRule(
-          `${row.citation} does not reach this office for this requirement.`,
+          `This requirement does not apply to this office in ${qualificationStateLabel(row)}.`,
         );
       }
       if (row.sourceState !== "KNOWN" || typeof row.value !== "number") {
         return unknownRule(
-          `${row.citation} was read but does not provide a whole-number value the game can apply.`,
+          `${qualificationStateLabel(row)}'s rule on this is not a figure the game can apply, so it will not grant or refuse on it.`,
         );
       }
       return knownRule(row.value, qualificationSourceRef(row));
@@ -237,17 +238,17 @@ function officeQualification(
       if (row === null) return unknownRule(NO_QUALIFICATION_CORPUS);
       if (row.sourceState === "NO_REQUIREMENT_FOUND") {
         return notApplicableRule(
-          `${row.citation} was read and imposes no such requirement.`,
+          `${qualificationStateLabel(row)} imposes no such requirement for this office.`,
         );
       }
       if (row.sourceState === "NOT_APPLICABLE") {
         return notApplicableRule(
-          `${row.citation} does not reach this office for this requirement.`,
+          `This requirement does not apply to this office in ${qualificationStateLabel(row)}.`,
         );
       }
       if (row.sourceState !== "KNOWN" || row.value === null) {
         return unknownRule(
-          `${row.citation} was read but left this requirement unresolved.`,
+          `${qualificationStateLabel(row)}'s rule on this is not settled, so the game will not grant or refuse on it.`,
         );
       }
       return knownRule(String(row.value), qualificationSourceRef(row));
@@ -517,7 +518,7 @@ export function candidacyCoverage(): CandidacyCoverage {
     qualificationsAreSourced: sourcedOfficeCount > 0,
     sourcedOfficeCount,
     outstandingDependency: NO_QUALIFICATION_CORPUS,
-    playerNote: `${sourcedOfficeCount} offered legislative offices carry at least one source-verified qualification. Every other field remains explicitly unresolved; no jurisdiction borrows another's rule.`,
+    playerNote: `${sourcedOfficeCount} of the legislative offices on offer have at least one rule the game knows for certain. Everything else is left open rather than guessed, and no state borrows another's rule.`,
   };
 }
 

@@ -165,3 +165,23 @@ twice.
 ## Example
 
 See `example-county-treasurer-selection.json` in this directory.
+
+## A defect worth knowing about, fixed 2026-09-22
+
+The writer used to end every record it filed with a blank line, because
+`toCanonicalJson` already terminates its output and `writeResearchRequest`
+added a second newline on top of it. The record read the same either way, so
+nothing caught it until a branch failed the repository format job over a file
+whose real change was somewhere else — twice, on two lanes, each repaired by
+hand.
+
+It is fixed in the writer, and `tests/research-request-store.test.ts` holds it
+there. Recorded because the symptom pointed at the wrong thing both times: the
+file looked wrong, and the file was fine.
+
+The same double-newline pattern is still in
+`scripts/source/export-district-identities.ts` and
+`scripts/source/export-place-district-membership.ts`. Left alone deliberately —
+their outputs are already committed carrying the extra line, so fixing the
+writer without regenerating them leaves a latent diff for whoever owns those
+exports.

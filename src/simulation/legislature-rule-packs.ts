@@ -345,10 +345,10 @@ function kentuckyChamber(
     name,
     billDesignationPrefix,
     seats: unknownRule(
-      "Kentucky's formal chamber seat count was carried from compiled research, but no instrument fixing it was separately read for this pack. The unresolved formal count carries no numeric fallback.",
+      "The game does not know how many seats Kentucky's chamber formally has, and it will not guess a number.",
     ),
     quorum: unknownRule(
-      "Kentucky's constitutional quorum fraction was not resolved for this pack.",
+      "The game does not know what fraction of Kentucky's chamber makes a quorum.",
     ),
     introductionAllowed,
     referral: {
@@ -617,7 +617,7 @@ export const NEBRASKA_RULE_PACK: LegislativeRulePack = {
       name: "Legislature",
       billDesignationPrefix: "LB",
       seats: unknownRule(
-        "Nebraska's formal chamber seat count was carried from compiled research, but no instrument fixing the exact number was separately read for this pack. The unresolved formal count carries no numeric fallback.",
+        "The game does not know how many seats Nebraska's chamber formally has, and it will not guess a number.",
       ),
       quorum: unknownRule(
         "Nebraska's quorum fraction was not resolved for this pack.",
@@ -2205,7 +2205,7 @@ function nevadaChamber(
     name,
     billDesignationPrefix,
     seats: unknownRule(
-      "Nevada's formal chamber seat count is unresolved. Nev. Const. art. 4, § 5 delegates the number to law, and the retrieved NRS route adopts district shapefiles without textually stating 21 or 42; no qualifying operative source read for this pack fixes a numeric count.",
+      "The game does not know how many seats Nevada's chamber formally has: Nevada leaves the number to ordinary law, which draws the districts rather than stating a count. The game will not guess one.",
     ),
     quorum: knownRule(
       majorityOf(

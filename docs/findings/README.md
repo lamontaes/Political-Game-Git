@@ -25,6 +25,14 @@ questions in `docs/research/requests/`, and binding product choices in
 - [Four states whose generated veto override contradicted their constitution](2026-09-22-generated-overrides-contradicting-constitutions.md)
   — Tennessee, North Carolina, Virginia and West Virginia, measured, reported
   and fixed the same night, with two gaps still declared.
+- [The front page read like machinery, and only half of that was the renderer](2026-09-22-news-front-page-reads-like-machinery.md)
+  — the headline was the simulation's note to itself, three papers printed one
+  sentence, and the repetition turns out to be six authored subjects in a
+  source file rather than a rendering defect.
 - [The prose gate was failing on clean main, and it blocked everything](2026-09-22-prose-gate-red-on-main.md)
   — one stale sentence anchor, measured both ways, blocking every branch that
   added a file.
+- [What the priority audit measured](2026-09-22-priority-audit-findings.md)
+  — four systems recorded as never started are built and reachable, a finished
+  bill lifecycle with an empty policy catalogue to be about, research already
+  paid for and not yet read by anything, and why the CI queue could not drain.

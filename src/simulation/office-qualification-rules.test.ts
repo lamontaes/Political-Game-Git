@@ -179,7 +179,9 @@ describe("production-compiled office qualification rules", () => {
     for (const row of dayBefore) {
       expect(row.temporalApplicability).toEqual({
         state: "UNKNOWN",
-        reason: `NRS 218A.200 is supported from 2025-10-01; its applicability on 2025-09-30 is not established by the acquired evidence.`,
+        // The player sentence, and the provenance kept beside it unrendered.
+        reason: `You can't run for office in Nevada this early. The game knows Nevada's rules for who may stand, but not whether they were already in force this far back, and it won't apply a rule to a time it can't place it in. A life that starts later may be able to run here.`,
+        evidenceNote: `NRS 218A.200 is supported from 2025-10-01; its applicability on 2025-09-30 is not established by the acquired evidence.`,
       });
     }
     expect(

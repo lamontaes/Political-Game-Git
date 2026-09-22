@@ -123,8 +123,20 @@ function outOfTouch(world: World, personId: EntityId): readonly EntityId[] {
     .sort();
 }
 
-/** Adults the character has actually met, outside the family, both unpartnered. */
-function possiblePartners(
+/**
+ * Adults the character has actually met, outside the family, both unpartnered.
+ *
+ * Somebody the character has not spoken to in over a year is deliberately not
+ * here. They are a `reconnect` target instead, and they were appearing under
+ * both families at once — "Get back in touch with them" and "Pursue a
+ * relationship with them" offered side by side about a person the character has
+ * not seen in years. That reads as the game not knowing who these people are,
+ * and it is most visible on the first day, when every seeded acquaintance is
+ * out of touch by construction. The precedence is the honest one rather than a
+ * tie-break: getting back in touch is what comes first, and the relationship
+ * aim becomes offerable once contact has actually resumed.
+ */
+function metUnpartneredAdults(
   world: World,
   personId: EntityId,
 ): readonly EntityId[] {
@@ -153,6 +165,28 @@ function possiblePartners(
     .sort();
 }
 
+/** Of those, the ones a relationship aim may actually be set about today. */
+function possiblePartners(
+  world: World,
+  personId: EntityId,
+): readonly EntityId[] {
+  const stale = new Set(outOfTouch(world, personId));
+  return metUnpartneredAdults(world, personId).filter(
+    (other) => !stale.has(other),
+  );
+}
+
+/** And the ones held back only because contact has lapsed. Said, not hidden. */
+function partnersOutOfTouch(
+  world: World,
+  personId: EntityId,
+): readonly EntityId[] {
+  const stale = new Set(outOfTouch(world, personId));
+  return metUnpartneredAdults(world, personId).filter((other) =>
+    stale.has(other),
+  );
+}
+
 /** Public matters this person actually knows about. */
 function knownPublicMatters(
   world: World,
@@ -172,6 +206,57 @@ function knownPublicMatters(
     )
     .map((event) => event.id)
     .slice(-12);
+}
+
+/**
+ * The offices the game actually knows about where this character lives.
+ *
+ * Read at call time rather than captured, because which jurisdictions have an
+ * accepted pack changes as sourced research lands, and an aim that baked in
+ * today's coverage would go stale silently.
+ */
+function officesKnownHere(world: World, personId: EntityId) {
+  const person = world.people[personId]!;
+  return candidacyPackForJurisdiction(person.homeJurisdictionId)?.offices ?? [];
+}
+
+/**
+ * Why this character cannot stand for anything here, in the candidacy rules'
+ * own words. Empty means at least one office here is open to them today.
+ *
+ * The sentences are not written here. They come back from `candidacyEligibility`
+ * as `CandidacyBlock` reasons, which already distinguish a state the game has
+ * never read from a city whose council it has never read from the game's own
+ * adult rule — and already refuse to borrow another jurisdiction's rules to
+ * cover the gap. Asking with an empty office key is how that module is asked
+ * "is there anything at all to stand for here", and it is the same question the
+ * campaign surface asks when it has no offices to assess.
+ */
+function seekOfficeRefusals(
+  world: World,
+  personId: EntityId,
+): readonly string[] {
+  const person = world.people[personId]!;
+  const jurisdictionId = person.homeJurisdictionId;
+  const offices = officesKnownHere(world, personId);
+  const assessments = (
+    offices.length > 0 ? offices.map((office) => office.officeKey) : [""]
+  ).map((officeKey) =>
+    candidacyEligibility(world, {
+      personId,
+      jurisdictionId,
+      officeKey,
+      alreadyACandidate: false,
+    }),
+  );
+  if (assessments.some((assessment) => assessment.eligible)) return [];
+  return [
+    ...new Set(
+      assessments.flatMap((assessment) =>
+        assessment.blocks.map((block) => block.reason),
+      ),
+    ),
+  ];
 }
 
 function alive(world: World, personId: EntityId): boolean {
@@ -218,6 +303,16 @@ export interface PersonalGoalView {
   readonly targetEntityId: EntityId | null;
   /** What the world offers toward it now. Empty is a real answer. */
   readonly opportunities: readonly GoalOpportunity[];
+  /**
+   * Why it offers nothing, when it offers nothing. Empty otherwise.
+   *
+   * An empty opportunity list is a real answer, and an unexplained one is not:
+   * a player holding "Run for office" with nothing under it cannot tell whether
+   * they are too young, have not lived here long enough, or live somewhere the
+   * game has read no elected office at all. These are the candidacy rules' own
+   * sentences, not a restatement of them.
+   */
+  readonly obstacles: readonly string[];
   /** Records that show progress, e.g. a filing. */
   readonly progress: readonly string[];
 }
@@ -237,6 +332,10 @@ export function projectPersonalGoals(
   );
   const goals = records.map((record): PersonalGoalView => {
     const family = familyOf(record)!;
+    const opportunities =
+      record.status === "active"
+        ? opportunitiesFor(world, personId, family, record.targetEntityId)
+        : [];
     return {
       goalId: record.goalId,
       family,
@@ -245,9 +344,10 @@ export function projectPersonalGoals(
       status: statusOf(record),
       since: record.createdAt,
       targetEntityId: record.targetEntityId,
-      opportunities:
-        record.status === "active"
-          ? opportunitiesFor(world, personId, family, record.targetEntityId)
+      opportunities,
+      obstacles:
+        opportunities.length === 0 && record.status === "active"
+          ? obstaclesFor(world, personId, family)
           : [],
       progress: progressFor(world, personId, family, record),
     };
@@ -265,7 +365,8 @@ export function projectPersonalGoals(
       family,
       label: FAMILY_LABEL[family],
       targets,
-      unavailableReason: targets.length > 0 ? null : unavailableReason(family),
+      unavailableReason:
+        targets.length > 0 ? null : unavailableReason(world, personId, family),
     };
   });
   return { goals, choices };
@@ -278,8 +379,14 @@ function targetsFor(
 ): readonly GoalTargetChoice[] {
   switch (family) {
     case "seek-office":
+      // Offered when the game knows of an office here to mean to stand for —
+      // not when the character could file today. Meaning to run before you are
+      // old enough, or before you have lived here long enough, is an ordinary
+      // private aim and the game should let it be held. What it must not do is
+      // offer the aim where it knows of no elected office at all, because the
+      // offers list is built from the same packs and would stay empty forever.
       return ageOnDate(world.people[personId]!.birthDate, world.currentDate) >=
-        18
+        18 && officesKnownHere(world, personId).length > 0
         ? [{ targetEntityId: null, label: "Any office you can run for" }]
         : [];
     case "reconnect":
@@ -300,14 +407,34 @@ function targetsFor(
   }
 }
 
-function unavailableReason(family: PersonalGoalFamily): string {
+/**
+ * Why a family offers nothing right now.
+ *
+ * `seek-office` needs the world, because the old sentence blamed the player's
+ * age in every case — including for an adult living somewhere the game has
+ * never read an elected office, where age had nothing to do with it. Telling a
+ * player something untrue about why they cannot do a thing is worse than
+ * telling them nothing, so the real reason is asked for and passed through.
+ */
+function unavailableReason(
+  world: World,
+  personId: EntityId,
+  family: PersonalGoalFamily,
+): string {
   switch (family) {
-    case "seek-office":
+    case "seek-office": {
+      if (officesKnownHere(world, personId).length === 0) {
+        const refusals = seekOfficeRefusals(world, personId);
+        if (refusals.length > 0) return refusals.join(" ");
+      }
       return "You need to be an adult to run for office.";
+    }
     case "reconnect":
       return "Nobody you know has been out of touch for a year.";
     case "adult-relationship":
-      return "There is nobody you have met who is an adult, outside your family, and not already partnered — or you are partnered yourself.";
+      return partnersOutOfTouch(world, personId).length > 0
+        ? "The people this could be about are ones you have not spoken to in over a year. Get back in touch first."
+        : "There is nobody you have met who is an adult, outside your family, and not already partnered — or you are partnered yourself.";
     case "civic-issue":
       return "You don’t know of any public matter yet. Reading the news helps.";
   }
@@ -380,6 +507,15 @@ function opportunitiesFor(
       officeKey: null,
       subject: entry.subject,
     }));
+}
+
+/** Why a held aim has nothing under it. Only seek-office can say so far. */
+function obstaclesFor(
+  world: World,
+  personId: EntityId,
+  family: PersonalGoalFamily,
+): readonly string[] {
+  return family === "seek-office" ? seekOfficeRefusals(world, personId) : [];
 }
 
 function progressFor(
