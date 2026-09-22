@@ -7,7 +7,7 @@ import {
   staffAssessment,
   staffRecommendation,
   STATE_EXECUTIVE_GAME_PROFILE,
-  stateExecutiveTermRule,
+  stateExecutiveTermRuleInWorld,
   type EntityId,
   type GoverningMatter,
   type World,
@@ -131,7 +131,11 @@ export function projectGoverningBriefing(
       ? `Your term runs until ${americanDate(office.termEndsAt)}.`
       : "Your term's end date is not established.",
     calendarNote: describeStateExecutiveTerm(
-      stateExecutiveTermRule(office.stateUsps) ?? STATE_EXECUTIVE_GAME_PROFILE,
+      stateExecutiveTermRuleInWorld(
+        world,
+        office.stateUsps,
+        world.currentDate,
+      ) ?? STATE_EXECUTIVE_GAME_PROFILE,
     ),
     chiefOfStaff:
       chief && chiefPerson

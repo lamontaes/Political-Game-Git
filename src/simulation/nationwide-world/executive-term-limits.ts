@@ -109,8 +109,8 @@ function governorLimitRows(): readonly SourcedQualification[] {
  * only a single state has.
  */
 export function researchedExecutiveTermLimits(): readonly TermLimitRule[] {
-  return governorLimitRows().map(
-    (row) => parseTermLimitCode(String(row.value))!,
+  return governorLimitRows().map((row) =>
+    parseTermLimitCode(String(row.value))!,
   );
 }
 

@@ -188,6 +188,16 @@ function segmentForElectionYear(
   );
 }
 
+/** The rule that governs the office's election, if any, in `year`. */
+export function stateExecutiveTermRuleForElectionYear(
+  world: World,
+  stateUsps: string,
+  year: number,
+): StateExecutiveTermRuleInWorld | null {
+  const segments = termSegments(world, stateUsps);
+  return segments ? segmentForElectionYear(segments, year).rule : null;
+}
+
 /** Whether `year` holds a regular election for the office under this World's law. */
 export function isStateExecutiveElectionYearInWorld(
   world: World,
@@ -248,8 +258,7 @@ export function termDatesAfterElectionInWorld(
   stateUsps: string,
   electionDate: IsoDate,
 ):
-  | (PlannedTermDates & { readonly rule: StateExecutiveTermRuleInWorld })
-  | null {
+  (PlannedTermDates & { readonly rule: StateExecutiveTermRuleInWorld }) | null {
   const segments = termSegments(world, stateUsps);
   if (!segments) return null;
   const { rule } = segmentForElectionYear(
