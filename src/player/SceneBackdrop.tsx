@@ -72,6 +72,13 @@ const DOCK_RIGHT_INSET = 20;
  * or unreleased art renders the children on the ordinary page, with nothing
  * behind them and no apology.
  */
+export interface SceneObjectMount {
+  /** The `slot_id` declared on the scene, e.g. `coffee-table-papers`. */
+  readonly slotId: string;
+  /** Rendered inside a box positioned on that slot. */
+  readonly node: ReactNode;
+}
+
 export function SceneBackdrop({
   sceneId,
   visualLibrary = PRODUCTION_VISUAL_LIBRARY,
@@ -81,6 +88,7 @@ export function SceneBackdrop({
   onOpenSurfaceEntity,
   onSelectPerson,
   selectedPersonId = null,
+  objects,
   children,
 }: {
   readonly sceneId: string | null;
@@ -120,6 +128,24 @@ export function SceneBackdrop({
   readonly onSelectPerson?: (personId: string) => void;
   /** The person whose action menu is open, so the button can say so. */
   readonly selectedPersonId?: string | null;
+  /**
+   * Things in the room a player can act on, each pinned to a declared surface
+   * slot of the scene.
+   *
+   * They are NOT children. Children render in the dock below the room, and an
+   * object has to sit on the thing it is: the camera carries the plate's size
+   * and cover transform, so an object is positioned from the slot's own
+   * percentages through that same transform, the way the people already are.
+   *
+   * They are also not drawn inside the camera, which is `aria-hidden` because
+   * everything in it is scenery. An object is a control, so it lives in its
+   * own layer beside the people, where assistive technology can reach it.
+   *
+   * A mount whose slot this scene does not declare renders nothing. That is
+   * the fail-closed direction: a room that does not have a table does not grow
+   * one because a caller asked for papers on it.
+   */
+  readonly objects?: readonly SceneObjectMount[];
   readonly children: ReactNode;
 }) {
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -396,6 +422,34 @@ export function SceneBackdrop({
           ) : null}
         </div>
       </div>
+      {painted && objects && objects.length > 0 ? (
+        <div className="scene-backdrop-objects" data-testid="scene-objects">
+          {objects.map((mount) => {
+            const slot = scene?.surfaceSlots.find(
+              (candidate) => candidate.slot_id === mount.slotId,
+            );
+            // Fail closed. A scene that does not declare this slot does not
+            // get the object floating over whatever is at those coordinates.
+            if (!slot) return null;
+            const rect = slot.rect_percent;
+            return (
+              <div
+                key={mount.slotId}
+                className="scene-backdrop-object"
+                data-slot-id={mount.slotId}
+                style={{
+                  left: `${transform.xOffset + (rect.x_percent / 100) * plate.width * transform.uniformScale}px`,
+                  top: `${transform.yOffset + (rect.y_percent / 100) * plate.height * transform.uniformScale}px`,
+                  width: `${(rect.width_percent / 100) * plate.width * transform.uniformScale}px`,
+                  height: `${(rect.height_percent / 100) * plate.height * transform.uniformScale}px`,
+                }}
+              >
+                {mount.node}
+              </div>
+            );
+          })}
+        </div>
+      ) : null}
       {painted && people.length > 0 ? (
         <div
           className="scene-backdrop-people"

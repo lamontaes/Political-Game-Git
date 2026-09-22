@@ -203,6 +203,7 @@ import { projectLivingSceneSurface } from "../presentation/living-scene-surfaces
 import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
 import { PUBLIC_MEETING_ROOM_SCENE_ID } from "../presentation/scene-registry";
 import { OrdinaryMeetingPanel } from "./OrdinaryMeetingPanel";
+import { RoomPapers } from "./RoomPapers";
 import {
   AmbientTableau,
   TitleScreen,
@@ -2702,6 +2703,16 @@ function PlayingScreen({
     return records;
   }, [session.world, session.personId]);
 
+  /*
+    What is waiting on this character, with the route that answers each thing.
+    Read here because the room's papers show it; the Calendar's Today reads
+    the same projection, so the two cannot drift.
+  */
+  const papers = useMemo(
+    () => projectHouseholdPapers(session.world, session.personId),
+    [session.world, session.personId],
+  );
+
   const surfaceProjection = useMemo(
     () =>
       projectLocationSurfaces(
@@ -3424,6 +3435,31 @@ function PlayingScreen({
                   ),
                 ),
               }}
+              /*
+                The papers on the table. The residence scene declares the slot
+                and has painted a newspaper there all along; this is the first
+                thing in a room that does something. A scene without that slot
+                gets nothing, so the office and the chamber are unaffected.
+              */
+              objects={[
+                {
+                  slotId: "coffee-table-papers",
+                  node: (
+                    <RoomPapers
+                      papers={papers}
+                      onOpenCommitment={(activityId) =>
+                        openEntity({ kind: "commitment", id: activityId })
+                      }
+                      onOpenPerson={(personId) =>
+                        openEntity({ kind: "person", id: personId })
+                      }
+                      onGoTo={(surface) =>
+                        dispatch({ type: "go-to-surface", surface })
+                      }
+                    />
+                  ),
+                },
+              ]}
               /*
                * UI9-03. The people in the room ARE the selection surface now.
                * The rail that used to sit above them filled itself from whoever
