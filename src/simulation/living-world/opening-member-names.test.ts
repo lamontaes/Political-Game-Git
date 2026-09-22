@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
 import { createDemoWorld } from "../demo";
 import { drawCanonicalName } from "../people";
-import { GIVEN_NAME_GENERATION_POOLS_V1 } from "../names-data";
+import { givenNamePoolForStatedGender } from "../names-data";
 import { SeededRng } from "../rng";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import type { EntityId, World } from "../types";
@@ -72,15 +72,7 @@ describe("versioned legislative member names", () => {
       ).toEqual(oldFacts.map((fact) => ({ ...fact, summary: "" })));
       const gender = person.identity!.gender;
       if (gender !== "unstated")
-        expect(
-          GIVEN_NAME_GENERATION_POOLS_V1[
-            gender === "male"
-              ? "male"
-              : gender === "female"
-                ? "female"
-                : "neutral"
-          ],
-        ).toContain(givenName);
+        expect(givenNamePoolForStatedGender(gender)).toContain(givenName);
       else expect(givenName).toBe(oldName);
       if (givenName !== oldName) changed += 1;
     }
@@ -99,7 +91,8 @@ describe("versioned legislative member names", () => {
     )!.person;
     expect([old.givenName, fixed.givenName, fixed.familyName]).toEqual([
       "Allison",
-      "Christopher",
+      // A shared name: GIVEN_NAME_POOL_REACH_V1 lets a stated man draw one.
+      "Riley",
       "Roach",
     ]);
     expect(fixed.identity).toEqual({ gender: "male", pronouns: "he-him" });

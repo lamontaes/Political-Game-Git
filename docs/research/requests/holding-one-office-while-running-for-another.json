@@ -1,0 +1,23 @@
+{
+  "filedAt": "2026-09-22T21:35:00.000Z",
+  "impact": "shapes-design",
+  "lane": "climbing from council to president",
+  "priority": "P1",
+  "question": "Which states require an office-holder to resign to run for another office (resign-to-run laws), and which bar holding two offices at once, for example a city council seat and a state legislative seat, or a state legislative seat and a run for Congress? When a person wins the higher office, what happens to the lower seat: automatic vacancy, a required resignation by a date, or allowed dual holding? And how is the vacated local seat filled?",
+  "questionId": "holding-one-office-while-running-for-another",
+  "relatedQuestionIds": [
+    "local-executive-and-council-rules",
+    "running-for-congress-and-president-as-data"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Climbing from council to president playtest thread, filed by the research intake thread",
+  "sourcesChecked": [
+    {
+      "source": "Climbing from council to president playtest (2026-09-22)",
+      "whatItDidNotSettle": "Found that no code ends a council seat when its holder wins higher office; does not say what real law requires."
+    }
+  ],
+  "title": "Holding one office while running for another",
+  "usableAnswer": "Per state: whether a resign-to-run law exists and which offices it covers, the dual-office-holding or incompatibility rules between local, state and federal offices with citations, what happens to the lower seat on winning, and how that vacancy is filled.",
+  "whyItMatters": "The climbing playtest found nothing that ends a council seat when its holder moves up, so a player can hold every rung at once. Resign-to-run and incompatibility rules decide whether climbing costs anything."
+}

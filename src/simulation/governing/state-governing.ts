@@ -3,7 +3,6 @@ import { addDays, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { createStableId } from "../ids";
 import { createWorkRelationship } from "../life";
-import { stateJurisdictionForKey } from "../life-places";
 import { activeWorkRelationshipsAt } from "../life-queries";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
@@ -28,7 +27,11 @@ import {
   currentStateExecutiveHolders,
   type StateExecutiveHolderRecord,
 } from "../nationwide-world/state-executives";
-import { stateExecutiveTermRule } from "../nationwide-world/state-executive-term-rules";
+import {
+  stateExecutiveTermRule,
+  stateExecutiveTermRuleNote,
+} from "../nationwide-world/state-executive-term-rules";
+import { governingJurisdictionIdFor } from "../nationwide-world/government-jurisdiction";
 import {
   LEGISLATIVE_INSTITUTION_STEP,
   authoredMeasuresForJurisdiction,
@@ -106,6 +109,8 @@ export interface GoverningOffice {
   readonly controlledByPlayer: boolean;
   /** Whether the office's calendar is compiled law or the game's profile. */
   readonly calendarBasis: "verified" | "game-profile" | "mixed";
+  /** What to tell the holder about the rule dating this term. */
+  readonly calendarNote: string | null;
 }
 
 function controlledPersonId(world: World): EntityId | null {
@@ -116,8 +121,12 @@ function officeFromHolder(
   world: World,
   holder: StateExecutiveHolderRecord,
 ): GoverningOffice | null {
-  const jurisdictionId =
-    stateJurisdictionForKey(`US-${holder.stateUsps}`)?.id ?? null;
+  // The one canonical identity for this government; for the District that is
+  // its single consolidated jurisdiction, not a second district-wide one.
+  const jurisdictionId = governingJurisdictionIdFor({
+    kind: "state",
+    stateUsps: holder.stateUsps,
+  });
   if (!jurisdictionId) return null;
   const rule = stateExecutiveTermRule(holder.stateUsps);
   const bases = rule ? Object.values(rule.basis) : ["game-profile"];
@@ -137,6 +146,7 @@ function officeFromHolder(
       : bases.every((b) => b === "game-profile")
         ? "game-profile"
         : "mixed",
+    calendarNote: rule ? stateExecutiveTermRuleNote(rule) : null,
   };
 }
 

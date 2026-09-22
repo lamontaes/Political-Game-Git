@@ -31,5 +31,15 @@
     "words": "Um, the mayor and stuff needs to uh, yeah, add that to ChatGPT as well.",
     "saidBy": "lamontae",
     "saidAt": "2026-09-22T20:02:15Z"
+  },
+  "answer": {
+    "summary": "National distributions, not state law. ICMA 2018 survey (published July 2019): 12,761 governments surveyed, 4,109 or 4,115 responses (the report gives both), 32.2% response. Form: council-manager 48.2%, mayor-council 38.2%, commission 3.2%, town meeting 8.1%, representative town meeting 2.3%; mayor-council is the most common form under 5,000 residents. Chief official directly elected 75.6%, chosen by the council 21.3%, by rotation 1.6%; chief terms 4 years 49.4%, 2 years 28.6%; term limits 8.6%. Councils: 5 seats 39.3%; at-large 68.0%; about 64% four-year terms; 80.8% staggered; term limits 8.7%. Party labels on council ballots 30.1% overall, 14.9% for cities. Form set by charter 47.3%, by state law 26.1%. Counties (NACo): about 700 elected executives and about 1,300 appointed administrators, 83 with both; 97% of elected executives serve four-year terms; 8% have term limits; boards elected by district 53%, at-large 29%, mixed 18%.",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-22-nationwide-2235/OCD-LOCAL-OFFICES--NATIONWIDE-DISTRIBUTION-AND-50-STATE-STATUS--2026-09-22.md (Drive 1u1MhfpHMTpN3FjKvSrb1IU6M7AZcbVkW, SHA-256 366e75b6e7bb5c8281a5eaa2f31cb7b839e0b24eea36870bb8875981951df9a5)",
+      "ChatGPT reply document 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, 'CTO RESEARCH RECEIPT — 6:27 P.M. EASTERN', read 22:40Z"
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T22:24:00.000Z",
+    "stillOpen": "Its 52-row state-law register marks all 50 states 'Unknown — not exhaustively audited'; D.C. and Puerto Rico need their own profiles. Also unknown: the local election calendar ('Unknown nationally from this source'), candidate qualifications ('Never make 18, voter registration, or a one-year residency period a universal legal fact'), and exact size-band percentages (the ICMA 2011 attachment could not be retrieved). It does not answer town-election-calendar-from-state-municipal-law. 'This is not an approved game profile or a verified census of current local law.'"
   }
 }

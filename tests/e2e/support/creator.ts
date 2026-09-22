@@ -90,18 +90,19 @@ export async function beginAfterCalibration(page: Page): Promise<void> {
 }
 
 /**
- * Quits to the title screen, answering the unsaved-life confirmation.
+ * Quits to the title screen, answering the return-to-title confirmation.
  *
- * `goTo(page, "leave-game")` alone is not enough and has not been for a while:
- * quitting a life that has never been saved opens an alertdialog asking
- * whether to save first, so the click leaves the player exactly where they
- * were and the next step waits on a title screen that never comes. Measured
- * as a two-minute timeout rather than a failed assertion, which is why it
- * reads like a hang.
+ * `goTo(page, "leave-game")` alone is not enough: returning to the title opens
+ * an alertdialog asking whether to save first, and since the client line
+ * (#278) it asks every time, not only for a life that was never saved. The
+ * click leaves the player exactly where they were, and the next step waits on
+ * a title screen that never comes. Measured as a two-minute timeout rather
+ * than a failed assertion, which is why it reads like a hang.
  *
- * "Quit without saving" is what a walk that quits and starts another life
- * means. A walk that wants the save keeps it before quitting, and then this
- * helper finds no dialog and does nothing.
+ * "Return without saving" is what a walk that quits and starts another life
+ * means. A walk that wants the save keeps it before quitting; returning
+ * without saving then leaves that kept save, and any autosave already in
+ * flight, exactly as they are.
  */
 export async function leaveGame(page: Page): Promise<void> {
   await goTo(page, "leave-game");
