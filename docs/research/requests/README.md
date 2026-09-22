@@ -44,10 +44,14 @@ After the queue changes:
 npm run research:request -- render --write
 ```
 
-then replace the body of **OUR CIVIC DUTY — OPEN RESEARCH QUESTIONS** in the
-`CLAUDE_MEGA_WAVE_STAGING` Drive folder with the file it wrote. Update that one
-document rather than adding a new one, so there is never a second copy to
-choose between. The document names the commit and the moment it was rendered in
+then replace the body of this one Drive document with the file it wrote:
+
+<https://docs.google.com/document/d/188eBtB0N61zZ_2xTjZ3bvfZKtFKfwo8jdrttK66f7Pc/edit>
+
+("OUR CIVIC DUTY — OPEN RESEARCH QUESTIONS (live queue)", in the
+`CLAUDE_MEGA_WAVE_STAGING` folder beside the Staging Index.) Update that
+document in place rather than adding a new one, so there is never a second copy
+to choose between. The document names the commit and the moment it was rendered in
 its own first lines, so a reader can tell whether they are looking at something
 current.
 
