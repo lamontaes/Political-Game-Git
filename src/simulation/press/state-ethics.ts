@@ -1,4 +1,4 @@
-import { stateJurisdictionForKey } from "../life-places";
+import { stateKeyForJurisdiction } from "../life-places";
 import type { EntityId, World } from "../types";
 import type { ProcedureKey } from "./records";
 
@@ -39,23 +39,23 @@ export const STATE_LEGISLATIVE_ETHICS_PROCEDURES: readonly StateLegislativeEthic
  * The World's own jurisdiction record for a state key, when it holds one.
  *
  * Worlds do not all build their state jurisdictions the same way — a scenario
- * placeholder and a corpus place produce different stable ids for the same
- * state — so this accepts either the canonical id or the state's canonical
- * name, and takes the name from the places corpus rather than from a literal.
+ * placeholder and a corpus place mint different stable ids for the same state
+ * — so this asks each record which state it names rather than comparing ids.
+ *
+ * It asks by slug, not by display name. A name comparison was what this
+ * replaced: it works only while no two jurisdictions share a name, it breaks
+ * the moment a record is renamed, and a matching name is not evidence of
+ * identity in the first place.
  */
 export function stateJurisdictionIdForKey(
   world: World,
   stateJurisdictionKey: string,
 ): EntityId | null {
-  const canonical = stateJurisdictionForKey(stateJurisdictionKey);
-  if (!canonical) return null;
   return (
-    world.jurisdictionOrder.find((id) => {
-      const candidate = world.jurisdictions[id]!;
-      return (
-        candidate.kind.startsWith("state") &&
-        (candidate.id === canonical.id || candidate.name === canonical.name)
-      );
-    }) ?? null
+    world.jurisdictionOrder.find(
+      (id) =>
+        stateKeyForJurisdiction(world.jurisdictions[id]!) ===
+        stateJurisdictionKey,
+    ) ?? null
   );
 }
