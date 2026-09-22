@@ -616,10 +616,38 @@ function authoredPlaceMatchesQuery(
   );
 }
 
+/** Whether a place is the one whose name was typed, rather than one containing it. */
+function namesExactly(place: LifePlace, needle: string): boolean {
+  if (needle.length === 0) return false;
+  const name = place.displayName.toLowerCase();
+  return (
+    name === needle ||
+    name.startsWith(`${needle},`) ||
+    (place.formalName ?? "").toLowerCase() === needle
+  );
+}
+
+/**
+ * Search order: the place actually named first, then everything else by name.
+ *
+ * Ordering by display name alone is the reason a player who typed "Columbus"
+ * in Ohio was offered Columbus Grove above Columbus — a space sorts before a
+ * comma, so every longer name beginning with the query came first. Worse, the
+ * limit is applied after the sort, so on a common name the place the player
+ * typed could be cut from the page entirely.
+ *
+ * This only moves an exact name to the front. It does not pin an authored
+ * hometown, and with no query (a state's whole list) nothing matches exactly,
+ * so that listing stays alphabetical as before.
+ */
 function compareLifePlaceSearchOrder(
   left: LifePlace,
   right: LifePlace,
+  needle: string,
 ): number {
+  const leftExact = namesExactly(left, needle);
+  const rightExact = namesExactly(right, needle);
+  if (leftExact !== rightExact) return leftExact ? -1 : 1;
   const byName = left.displayName.localeCompare(right.displayName, "en", {
     sensitivity: "base",
   });
@@ -687,7 +715,9 @@ export function searchLifePlaces(
     }
   }
 
-  matches.sort(compareLifePlaceSearchOrder);
+  matches.sort((left, right) =>
+    compareLifePlaceSearchOrder(left, right, needle),
+  );
   return matches.slice(0, limit);
 }
 

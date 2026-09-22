@@ -112,8 +112,26 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
     municipal: true,
     candidacy: {
       kind: "no-seats",
-      because:
-        "was observed in the acquired source on 2026-09-06; that later observation does not establish minimum age on 2026-01-05",
+      /*
+       * Alaska still refuses. What changed is the reason, not the answer.
+       *
+       * Measured in the browser on this head: the refusal a player reads is
+       * now the district-residence one — the rule asks for a year and the
+       * world holds no proved start date for the interval, so the question
+       * cannot be answered either way. It used to be the observation-date
+       * refusal about minimum age. Why it moved is not established here and
+       * this comment does not guess: the office-qualification corpus carries
+       * no Alaska rows at all (69 rows, MA MN MO NE NJ NV OH), so Alaska's
+       * requirements come from its legislature pack rather than from the
+       * sourced-row path, and the two paths refuse for different reasons.
+       *
+       * The flip to "stands" that was expected here does not happen. An
+       * ordinary browser start records no proved residence interval, and this
+       * branch's candidacy work is reached through lives that do. Nebraska and
+       * Minnesota do not flip either: their rows are still CURRENT_OBSERVATION
+       * on this head, 13 and 6, so they refuse exactly as recorded below.
+       */
+      because: "the world has no proved start date for that residence interval",
     },
     note: "A unified municipality, and a state with boroughs rather than counties.",
   },

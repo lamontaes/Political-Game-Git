@@ -171,6 +171,61 @@ export function districtResidenceSince(
   return covering[0]?.startedOn ?? null;
 }
 
+/**
+ * Start of a proved membership in whichever district of `chamber` this person
+ * actually lives in, when no seat has been bound yet.
+ *
+ * Before a candidacy is filed there is no bound seat to ask about, but the
+ * world has already written where this person lives: `syncDistrictMembershipFromCanonicalHome`
+ * records a whole-place join at world creation. Reading that interval is the
+ * difference between "the game has not recorded when this character came to
+ * live here" and the truth, which is that it recorded it on day one.
+ *
+ * It stays as strict as `districtResidenceSince` about what counts. Seat
+ * intent, self-certification and unknown provenance are still not membership,
+ * and a place the join could not resolve — a city split across districts —
+ * still answers null rather than guessing which district its resident is in.
+ */
+export function recordedDistrictResidenceSince(
+  world: World,
+  personId: EntityId,
+  chamber: DistrictChamber,
+  onDate: IsoDate,
+): IsoDate | null {
+  return (
+    recordedDistrictMembership(world, personId, chamber, onDate)?.startedOn ??
+    null
+  );
+}
+
+/**
+ * The recorded membership itself, for a screen that has to say WHICH district
+ * a filing would be for. A seat is filed against a Gazetteer identity, so the
+ * interval's own binding is the only honest candidate to offer; everything
+ * else on the list is a district this person has not been recorded in.
+ */
+export function recordedDistrictMembership(
+  world: World,
+  personId: EntityId,
+  chamber: DistrictChamber,
+  onDate: IsoDate,
+): DistrictResidenceInterval | null {
+  return (
+    districtResidenceIntervals(world)
+      .filter(
+        (interval) =>
+          isSupportedDistrictMembership(interval) &&
+          interval.personId === personId &&
+          interval.binding.chamber === chamber &&
+          interval.startedOn <= onDate &&
+          (interval.endedOn === null || interval.endedOn > onDate),
+      )
+      .sort((left, right) =>
+        left.startedOn.localeCompare(right.startedOn),
+      )[0] ?? null
+  );
+}
+
 export function selectDesiredDistrict(
   world: World,
   personId: EntityId,
