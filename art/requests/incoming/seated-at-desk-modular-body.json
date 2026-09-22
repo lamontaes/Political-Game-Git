@@ -1,0 +1,39 @@
+{
+  "intakeVersion": "art-request-intake/v1",
+  "requestId": "seated-at-desk-modular-body",
+  "title": "A modular body seated at a desk, forearms at an unseen work surface",
+  "missing": "No furniture-free modular body in the project is seated in the desk posture. The `seated-at-desk` pose family is what office, hearing, committee and executive chairs ask for, and nothing can fill it.",
+  "consumerSite": {
+    "runtimeComponent": "ModularCharacter",
+    "playerVisibleUse": "Sitting at a desk in an office, or in a hearing or committee seat, wherever a chair anchor asks for the seated-at-desk pose family."
+  },
+  "jurisdiction": {
+    "scope": "jurisdiction-independent",
+    "reason": "A body is a body. Desks and rooms are supplied by the scene, and the regional look is carried by environment plates rather than by a figure."
+  },
+  "whyNeeded": "Office and hearing scenes are where the game seats people, and every one of those chairs currently has nobody who can sit in it in that posture.",
+  "origin": "inspection",
+  "requestedBy": "art bench thread",
+  "filedAt": "2026-09-22T02:00:00.000Z",
+  "priority": "P1",
+  "figureContext": {
+    "postureClass": "seated",
+    "postureCues": [
+      "bent-knees",
+      "horizontal-thighs",
+      "thighs-coming-forward",
+      "shins-vertical-to-floor",
+      "forearms-carried-forward-to-an-unseen-work-surface"
+    ],
+    "facing": "front",
+    "note": "The contacts are the contract and they are normalized, so no pixel canvas is specified here: seatedPelvis at x 0.50 and y 0.62, left and right foot at x 0.37 and 0.63 and y 0.975, tolerance 0.035, feet below the pelvis, and one consistent seat-to-sole span across the set because the runtime scales the whole figure to each chair. Canvas follows whatever the body family's own plates use."
+  },
+  "notes": [
+    "No desk and no chair drawn. The room supplies the furniture, and a desk in the body art renders on top of the room's own desk. That is the defect that rules out every existing candidate below.",
+    "Every wave-a desk-posture plate has a desk painted across the lap and forearms. Those cannot be machine-separated, because recovering the body underneath would mean inventing it.",
+    "The ocd-p71/p76 seated set does not answer this. art/qa/p71/source_intake_dispositions.json rates seated-at-desk PARTIAL in its own words: the seated cells rest their hands on lap, knees or forward in a gesture, none places the forearms at a work surface, so a desk pose would be a reinterpretation rather than a match. ocd_body_adult_fem_seated_gesture_forward_v1 is recorded there as a low forward gesture, not forearms at a surface.",
+    "art/generated/approved/human_candidate_A01_primary_desk_seated_v1.png is genuinely desk-seated and furniture-free, but it is a finished clothed character rather than a modular body, so it is proof the posture is achievable rather than a plate that can be registered.",
+    "Guest seating is NOT part of this request; that posture is covered.",
+    "Both sexes are needed. Front facing first, since 38 of the 42 seat anchors declare front."
+  ]
+}
