@@ -8,7 +8,9 @@ on ethics findings, public money, record in office, campaign finance
 regulators and misconduct detection; two on the climb from council to
 Congress and president; the first playtest's request to rebuild the "Who are
 you?" setup questions; and what vote shares real elections produce, after a
-playtest candidate won with 93 percent.
+playtest candidate won with 93 percent; and the long-playthrough
+lane's four, on campaign persuasion, the cost of living, an ordinary adult
+year and how a town proposal ends.
 
 ChatGPT's 21:34Z to 21:58Z answers are written back: a campaign finance
 regulator map for all 52 jurisdictions, kept byte-identical, and the
