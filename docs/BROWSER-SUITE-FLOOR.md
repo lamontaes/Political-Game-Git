@@ -255,9 +255,23 @@ The fix is not to delete the case — the fixture path is worth testing — but 
 have a second case walk an ordinary creator start with no injection, and to let
 each title say which of the two it covers. That case is being written.
 
-Until it reports, the honest state of Alaska is: two independent measurements
-at the engine say the rule admits a candidacy, and zero measurements say what
-the filing screen renders.
+**Superseded, and the resolution is better than either half.** This said the
+honest state of Alaska was two engine measurements admitting a candidacy and
+zero measurements of the screen. There are now measurements of the screen, and
+they do not contradict the engine: **Alaska is not one answer, it is one answer
+per town.** Sitka is a single state house district and a lifelong resident
+stands there on day one; Anchorage spans several, so the whole-place join
+declines to pick one and the district-residence rule cannot be answered either
+way. Measured independently in two lanes, at the engine and in the browser.
+
+"Alaska refuses" and "Alaska opens" are both true with the town dropped, which
+is how one fact got claimed and retracted twice in one night. The lesson is
+narrower than it looked: nothing was wrong with either measurement, and the
+name of the jurisdiction was doing work the town should have been doing.
+
+What is still worth writing is the second case this section asked for — an
+ordinary creator start in Sitka with no fixture injection, so the suite covers
+the town that opens as well as the town that refuses.
 
 ### Two refusals that mean the same thing and do not say so
 
