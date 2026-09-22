@@ -1,0 +1,24 @@
+{
+  "filedAt": "2026-09-22T23:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "invented-depth audit",
+  "notes": [],
+  "priority": "P2",
+  "question": "How often does an adult typically hear from a friend or acquaintance they have not seen in a while, how many unanswered attempts do people make before giving up, when in the week do people meet socially, and how soon and how often does a local party committee contact a new or prospective member?",
+  "questionId": "how-often-people-and-groups-get-in-touch",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "invented-depth audit lane",
+  "sourcesChecked": [
+    {
+      "source": "The source files above at main 9f42ba19",
+      "whatItDidNotSettle": "Rationale comments only; no source and no question id."
+    },
+    {
+      "source": "relationship-fading-with-absence.json, what-moves-a-relationship.json (answered)",
+      "whatItDidNotSettle": "Answer the model, not these cadences."
+    }
+  ],
+  "title": "How often old friends, acquaintances and a local party chapter reach out, and when people meet",
+  "usableAnswer": "Survey-based ranges (time-use and social-contact studies are fine) for contact frequency by tie strength, typical meeting times, and published descriptions of how local party committees recruit and how often they meet.",
+  "whyItMatters": "These cadences decide how alive the people around the player feel, and all are invented. At main 9f42ba19: src/simulation/people-contact.ts:844-862 — any NPC may reach out every 45 days, the same NPC every 240, gives up after 2 unanswered, suggests meeting 9 days out; :79-83 — every meeting is at 6 p.m. for 90 minutes. src/simulation/living-world/party-chapters.ts:71-82 — a chapter invites the player 3-11 days after the start, follows up every 14-29 days, meets Tuesdays 6:30-8 p.m. src/simulation/relationship-integration.ts:263-266 — a 'long gap' is two calendar years. The answered relationship questions (what-moves-a-relationship, relationship-dimensions-and-fading) say what to model but not these cadences, and the owner ruled for passive decay at 12:27 p.m. Eastern the same day, which no code implements yet."
+}

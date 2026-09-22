@@ -114,7 +114,7 @@ export interface LegislativeBargainingSubjectFacts {
   /** The next procedural step, in the words the chamber uses. */
   readonly nextStepLabel: string;
 
-  /** The broadly applicable programme section the bill already carries. */
+  /** The broadly applicable program section the bill already carries. */
   readonly programProvisionKey: string;
   readonly programSectionLabel: string;
   readonly programHeading: string;
@@ -143,7 +143,7 @@ export interface LegislativeBargainingSubjectFacts {
    * Three phrases rather than three sentences, because the sentences around
    * them are the accepted #79 wording and the point is to keep them. The
    * fiscal exposure label, the question the chamber votes on and the
-   * amendment's own description are all persisted records; generalising them
+   * amendment's own description are all persisted records; generalizing them
    * by rebuilding the sentence changed what a legacy sitting writes into
    * history. Carrying the phrase instead means the authored sitting writes
    * exactly what it always wrote, and a family supplies its own.
@@ -274,7 +274,7 @@ export interface SchoolProjectConversationProgress {
 }
 
 /**
- * A meeting has been posted, and a neighbour mentions it.
+ * A meeting has been posted, and a neighbor mentions it.
  *
  * The fifth family. Nothing in it is anyone's job, and nobody has authority
  * over anybody: it is two people on a doorstep deciding whether a thing is

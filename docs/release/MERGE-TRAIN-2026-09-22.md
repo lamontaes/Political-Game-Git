@@ -5,7 +5,7 @@ final state at 08:40Z against `origin/main` at `af6b379b`**, after the train
 ran.
 
 This document exists so the morning report does not have to infer why work
-merged on local evidence. It is not a defence of the practice. It is the
+merged on local evidence. It is not a defense of the practice. It is the
 arithmetic that made the alternative unavailable, stated plainly enough to
 disagree with.
 
@@ -55,7 +55,7 @@ spent their time on already-merged work. That is the failure this refresh
 exists to stop, and it is the second time this document has had it.
 
 **Read from GitHub's live pull-request state at 14:45Z**, not from a check
-colour and not from memory.
+color and not from memory.
 
 ### There is exactly one click
 
@@ -132,7 +132,7 @@ constraint among them.
    attributed by name.
 4. **#369** — making the journey no longer strands the meeting it was booked
    for. Head `16f1362e`. Carries its own release declaration, confirmed here at
-   `9a06fd9f` by reading the merge range rather than the check colour.
+   `9a06fd9f` by reading the merge range rather than the check color.
 5. **#283** — every state has a legislature and the District governs itself.
    Head `02a0b058`, **still a draft**, so no merge button until someone presses
    "Ready for review".
@@ -217,7 +217,7 @@ run.
 
 - **#277 — the 0.4.0 release.** This lane's, out of draft, current with main,
   and **the only branch tonight with a real CI run going** rather than a
-  cancelled one. Everything else about it is local evidence: its full unit
+  canceled one. Everything else about it is local evidence: its full unit
   suite passed at `9d7ec442` with 6411 tests and one failure, a directory we
   make unwritable staying writable for root in a container, which is red on
   main too and is not the release's.
@@ -406,14 +406,14 @@ A tool that fails by doing nothing costs a wrong belief, and the wrong belief
 is _indistinguishable from the true one_ at the point of reading. Every one of
 these produced a green result, a matching string, or a plausible finding.
 
-**The defence is asserting the reach before asserting the result.** The sweep
+**The defense is asserting the reach before asserting the result.** The sweep
 that was fixed now checks a non-empty block count before it checks any wording.
 That is the general shape: make the instrument prove it arrived somewhere
 before you believe what it says about the place.
 
 **An assertion that cannot fail is worse than no assertion**, because it
 manufactures confidence rather than merely withholding it. Every one of these
-six produced a claim, and every one of those claims then travelled.
+six produced a claim, and every one of those claims then traveled.
 
 **The mirror image, from the research-audit lane, and it is the same root.**
 Checking whether a browser failure was new, its first attempt printed
@@ -423,7 +423,7 @@ instrument that fails by measuring nothing reports it as a pass" there is:
 **an instrument that fails to start can report it as a failure.** That one
 manufactures a defect rather than hiding one, and between them the two explain
 why one night produced both phantom findings and phantom clean results. The
-defence is identical either way: the instrument must show it engaged before
+defense is identical either way: the instrument must show it engaged before
 its verdict means anything.
 
 **And a substantive finding that qualifies several of tonight's claims,
@@ -469,7 +469,7 @@ morning un-testable rather than resting.
 The general rule this produced is **D-089**, measured independently by the
 research-audit lane across twenty successive mains: a generated file that is
 also committed makes a whole class of branches un-mergeable within minutes of
-every merge to `main`, on a file no human wrote. The behavioural half of it
+every merge to `main`, on a file no human wrote. The behavioral half of it
 belongs in this document too, because two lanes paid for it tonight:
 
 > **CI silence is a reason to check mergeability first, not to wait longer.**
@@ -480,7 +480,7 @@ It will be re-merged whenever GitHub reports it un-mergeable, which now means
 roughly whenever anything merges.
 
 **The trade, stated so nobody has to infer it:** a verdict that ran on a head
-one or two `main` commits behind is a better artefact than a perpetually
+one or two `main` commits behind is a better artifact than a perpetually
 current branch with no verdict at all. When the verdict arrives, the head it
 ran on is named beside it, and that head is the claim — not `main` as it
 stands when someone reads the report.
@@ -496,7 +496,7 @@ started executing at 09:37Z — **fifty-seven minutes queued.** It survived
 because nothing pushed to the branch in that hour. Every earlier attempt died
 pending because something did.
 
-Shard by shard, final, on `eb0abea1`. The run was cancelled at 11:10Z by the
+Shard by shard, final, on `eb0abea1`. The run was canceled at 11:10Z by the
 base-merge push described below, with **nine of fifteen jobs reported**:
 
 | Job                                                          | Result                                | When                     |
@@ -512,7 +512,7 @@ base-merge push described below, with **nine of fifteen jobs reported**:
 
 **Four of six unit shards green, and no red belonging to this branch.**
 
-`unit (2, 6)` is worth more than its colour. It is the shard that is **red on
+`unit (2, 6)` is worth more than its color. It is the shard that is **red on
 `main`**, and its green here is the first CI evidence for the
 campaign-projection fix, which until 10:34Z rested on local evidence only. The
 whole point of buying this run was to stop saying "it passes locally".
@@ -572,7 +572,7 @@ shards at 18 to 40 minutes each against roughly three slots does not fit in
 the time. At 11:10Z the choice was between letting the remaining six jobs run
 on a head that **is not this pull request's head and never will be merged**,
 and making the pull request clickable, which is what the owner actually asked
-for. The base merge went in, and it cancelled the run.
+for. The base merge went in, and it canceled the run.
 
 **The honest sentence for the report:** the 0.4.0 release has **four of six
 unit shards green and three red browser shards on `eb0abea1`, every red of
@@ -668,7 +668,7 @@ Tonight's sharpest operational finding is not that the repository has three
 job slots instead of two. It is what happened to the unit shards: four of
 them, each about four minutes of work, sat queued for over forty minutes
 behind browser shards that run 21 to 59 minutes each — in the _same run_,
-competing for the same slots, with no way to prioritise between them. Main
+competing for the same slots, with no way to prioritize between them. Main
 ended the night with two of six unit shards reported.
 
 **The shape is the problem.** `validate.yml` is one run of fifteen jobs mixing
@@ -697,7 +697,7 @@ why it is written down here rather than done.
 
 ## When a wrong claim travels through memory instead of a message
 
-Four claims tonight outran their measurement. Two of those four travelled
+Four claims tonight outran their measurement. Two of those four traveled
 through project memory rather than through a conversation, and that difference
 is worth naming on its own.
 
@@ -741,7 +741,7 @@ the corrected reading predicts.
 **Confirmed again at 09:00Z, four merges later.** Main's run on `7fc33c85`
 has now survived the merges of #304, #336, #341 and #342, and is still
 running its browser shards. Each of those four merges created a main run that
-died with zero jobs allocated — `4595878e`, `a08d2eef`, `d9753c87` cancelled,
+died with zero jobs allocated — `4595878e`, `a08d2eef`, `d9753c87` canceled,
 `0f1db2d3` pending as this was written. So the practical shape on a busy
 morning is that main gets one executing run and every merge after it inherits
 a run that never starts. The verdict a lane reads for main is the one from
@@ -799,7 +799,7 @@ before repeating any line of this section.
 
 So **no CI run has ever reported a green `unit (2, 6)` on main.** #333's fix
 rests on local evidence: the failure reproduced first, then the same test
-passing, with the neighbouring suites green. That is good evidence and it is
+passing, with the neighboring suites green. That is good evidence and it is
 not a CI verdict, and the report should not let the two blur together.
 
 The difference is not pedantry and it is not modesty. It is the difference
@@ -880,7 +880,7 @@ above it says why, so the next reader does not re-pin a sentence.
 
 **What this cost, and what it would have cost.** It was caught at 07:52Z
 because main finally had two job slots to itself and could run a unit shard
-end to end. Every earlier attempt tonight was cancelled before a test body
+end to end. Every earlier attempt tonight was canceled before a test body
 executed. Had the freeze not happened, this would have reached nine o'clock
 undetected, and the first thing anyone saw would have been a red main with no
 obvious owner — a single assertion inside a merged, reviewed, deliberate
@@ -905,12 +905,12 @@ and the setting does what it says.
 **It protects nothing, because main's runs never start.** `cancel-in-progress`
 governs whether a run that is _already executing_ survives a newer one entering
 its concurrency group. A run still waiting for a slot is not executing, and it
-is cancelled outright. Every merge to main therefore destroyed its
+is canceled outright. Every merge to main therefore destroyed its
 predecessor's pending run before that run had allocated a single job.
 
 Measured directly, three in a row, 2026-09-22:
 
-| Main commit | Run created | Jobs allocated | Cancelled          |
+| Main commit | Run created | Jobs allocated | Canceled           |
 | ----------- | ----------- | -------------- | ------------------ |
 | `fececf25`  | 07:26:57Z   | 0              | 07:30:21Z, by #329 |
 | `02913aa9`  | 07:30:19Z   | 0              | 07:30:32Z, by #320 |
@@ -955,10 +955,10 @@ zero hides exactly the thing worth knowing.
 In one batch at 07:45Z this lane received fifteen GitHub notifications. Twelve
 were failing `validate` checks across four pull requests. None was a defect.
 
-Every one was the **cancelled-supersede**: `validate` is an aggregate job that
-exits 1 unless every required job reports `success`, so a cancelled run
+Every one was the **canceled-supersede**: `validate` is an aggregate job that
+exits 1 unless every required job reports `success`, so a canceled run
 produces a failing gate on a commit where **nothing was tested**. All twelve
-sat on heads whose runs this lane had itself cancelled minutes earlier during
+sat on heads whose runs this lane had itself canceled minutes earlier during
 the sweep. Our own action came back as twelve failures.
 
 Eleven were on plainly stale heads. One was not: #278's was on `70fa13a7`,
@@ -1068,7 +1068,7 @@ At 07:34Z the decision was taken to cancel every queued run standing ahead of
 main's, and at 07:38Z main's run allocated all fifteen of its jobs for the
 first time tonight. It had been created at 07:30:31Z and had sat at zero.
 
-**Seventy-two runs were cancelled to buy it**, across thirty-two branches. Two
+**Seventy-two runs were canceled to buy it**, across thirty-two branches. Two
 had already completed. The branches are named here rather than counted, because
 a lane that finds a missing verdict and diagnoses it from scratch is the exact
 waste this document exists to remove:
@@ -1108,7 +1108,7 @@ at half past eight would have described a frozen branch that a human was going
 to merge anyway. The verdict on main's head was the one thing asked for that we
 did not have, and the only one whose value expired at nine.
 
-Two runs were deliberately not cancelled: main's own `release.yml` run created
+Two runs were deliberately not canceled: main's own `release.yml` run created
 at 07:10Z, and main's superseded `validate.yml` run from 05:41Z, both left
 alone under "do not cancel main's". The second of those is superseded and the
 standing sweep rule would ordinarily take it; it was kept because the
@@ -1119,7 +1119,7 @@ instruction was about main and the cost of being wrong ran the wrong way.
 A second procedure error, measured the same hour, and the one piece of
 tonight's capacity story that is our mistake rather than a constraint.
 
-The sweep grouped runs with `status: queued` and cancelled the superseded ones.
+The sweep grouped runs with `status: queued` and canceled the superseded ones.
 That is correct as far as it goes and it cannot free a slot, because a slot is
 by definition held by something that is **not** queued. At 07:30Z both of the
 repository's two slots were held by `in_progress` runs, and both were
@@ -1138,7 +1138,7 @@ left alone.
 ## The sweep, and why it does not end on its own
 
 The rounds shrink sharply as branches take main. Round one: **87 of 94**
-cancelled runs were on commits that did not carry the concurrency group. Round
+canceled runs were on commits that did not carry the concurrency group. Round
 two, ninety minutes later: **9 of 19**. The group is doing most of the work.
 
 But 6 of the 10 group-carrying superseded runs in round two were untouched —
@@ -1190,7 +1190,7 @@ twenty-four minutes tonight. Eight of those in one run means a run takes most
 of an hour at best no matter how many slots exist. Adding a fourth slot makes
 a run somewhat faster; it does not make a sixteen-job run complete quickly.
 **That is a different problem with a different fix** — shorter or better
-parallelised browser specs, not more runners.
+parallelized browser specs, not more runners.
 
 The observed history is unchanged either way: the run created at 00:57:48Z had
 its last job still going at 05:50Z, just under five hours later.
@@ -1225,21 +1225,21 @@ bound — 105 runs stood queued at 05:42Z, 74 of them superseded, and a further
 ~94 by 06:38Z. But it makes this particular problem sharper, because a
 superseding push now actively kills the run that was about to report.
 
-## A cancelled run leaves a red check behind
+## A canceled run leaves a red check behind
 
 Worth knowing before reading any red on this repository tonight. A
 `validate.yml` run is fifteen matrix jobs plus a sixteenth aggregation job,
 `validate`, whose step "Require every mandatory job" fails if any matrix job
-did not succeed. **Cancelling a run therefore produces a `validate` job whose
+did not succeed. **Canceling a run therefore produces a `validate` job whose
 conclusion is `failure`**, on a run where nothing was actually tested.
 
 Sampled at 06:45Z on run `35689053251` (`claude/project-thread-cg1u98`): all
 fifteen matrix jobs `cancelled`, and the `validate` gate `failure`.
 
-So across the ~130 runs cancelled tonight there is a corresponding crop of red
+So across the ~130 runs canceled tonight there is a corresponding crop of red
 `validate` checks that assert nothing. Read the matrix jobs, not the gate: if
 they are `cancelled` rather than `failure`, the run was superseded and tested
-nothing. A cancelled job is not a failure, and neither is the gate that
+nothing. A canceled job is not a failure, and neither is the gate that
 aggregates it.
 
 ## Where the line was drawn

@@ -12,7 +12,7 @@ Asked for by lamontae: "do playtests. test all this stuff. all these events.
 being running for office in big and small towns all over america."
 
 Each state appears twice where it could — a large place and a small one —
-because a refusal read in one town is not the state's behaviour until a second
+because a refusal read in one town is not the state's behavior until a second
 town in the same state says the same thing.
 
 ## What happened, in one table
@@ -126,7 +126,7 @@ lamontae's own standing rule is that an unresearched jurisdiction gets a
 realistic range rather than a refusal, drawn nationally, varying per state and
 stable per state across saves — and that the second half of the rule, never
 borrowing another state's rules, must survive any fix. The sentence above
-honours the second half and breaks the first. **The nationwide lane owns the
+honors the second half and breaks the first. **The nationwide lane owns the
 fix**; this record only adds three states to its count and confirms the wording
 has not changed.
 
@@ -145,7 +145,7 @@ Anchorage, read on screen:
 
 That is specific, true, and tells the player which fact is missing. Sitka, in
 the same state on the same day, offers both chambers and files. So the Alaska
-behaviour is a property of Anchorage, not of Alaska — which is exactly the
+behavior is a property of Anchorage, not of Alaska — which is exactly the
 distinction that made "Alaska opens" and "Alaska refuses" both true earlier
 today.
 

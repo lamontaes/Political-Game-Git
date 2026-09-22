@@ -96,7 +96,7 @@ each is answered by a different owner:
    terminal is fed by the body's own systems.
 3. **May the player-facing presentation reveal it?**
    `src/presentation/surface-projection.ts` answers. Every fact it can produce
-   is enumerated there, carries the **disclosure channel** it travelled down
+   is enumerated there, carries the **disclosure channel** it traveled down
    (`published`, `public-record`, `institutional-working`), and is derived from
    projections that were already written for a player to read —
    `projectMeasureBriefing` and the open working document. Nothing reads a
@@ -179,7 +179,7 @@ decides that such a thing exists — the simulation owns that.
   fixture art. Fixtures are exempt from the dimension floor, say so in the
   manifest, and are never promoted into the production library.
 - **Complexion** is SOURCE ART on bodies and heads, in named art-direction
-  bands. It is never a runtime recolour, never demographic truth, and never
+  bands. It is never a runtime recolor, never demographic truth, and never
   inferred from a person's name or any other property. One head family is one
   complexion; a head must be able to reach a body of the same complexion in
   every body family it claims.
@@ -242,7 +242,7 @@ Three rules make an admission evidence rather than a claim:
   recorded beside it and the disagreements are reported, not resolved silently.
 - **The registry declares only what the silhouette carries.** Anchors come from
   the accepted `measureBodyRig`. A landmark the raster cannot show — a `brow` on
-  a blank face, the interior hip joint centre — stays unresolved, and the
+  a blank face, the interior hip joint center — stays unresolved, and the
   candidate is correctly rejected by `validateProductionBodyAnchors`.
 - **A facing or posture with no registered pose family is a missing contract**,
   not a body to be filed under the nearest family that exists.
@@ -314,7 +314,7 @@ placeholders. Candidate libraries are not accepted by this adapter. Full person
 illustrations in the compact portrait are not claims of a newly authored face.
 
 `baked_slots` states component kinds already painted by every body in a family.
-The context resolver must honour the selected body's declaration too; no duplicate
+The context resolver must honor the selected body's declaration too; no duplicate
 head layer and no false empty-head diagnostic. A baked head's geometry is not
 proof of facial features or human acceptance. Candidate review labels structural
 completion, fit evidence, native-resolution limits and missing faces separately.

@@ -16,7 +16,7 @@ Drive copy: <https://docs.google.com/document/d/1dOOUdVQZNvSiclGiykqlLM0DNymq0iE
 | 3   | Record the exact new accepted main SHA | **`5f735da209c59647e4b877717a40fe6cc045fc24`** — the merge commit for PR #86 (`claude/total-graphics-runtime-integration`). Its first parent, `a35da54`, was #86's frozen head. |
 | 4   | Start from merged main                 | The working branch was cut from `5f735da`, not from the merged #86 branch.                                                                                                      |
 | 5   | Inspect PR #87 READ-ONLY               | Read only. **No commit, no push, no comment, no label change on #87.**                                                                                                          |
-| 6   | Do not modify PR #87                   | Honoured.                                                                                                                                                                       |
+| 6   | Do not modify PR #87                   | Honored.                                                                                                                                                                        |
 | 7   | Fresh Drive asset scan                 | Performed. Result and its one hard limit in section 7.                                                                                                                          |
 
 **New branch:** `claude/post86-mass-visual-generation-command-center`, cut from
@@ -62,9 +62,9 @@ and the regenerated art QA reports.
 
 | Path                                                  | What it is                                                                                                                                                                                                                                                                               |
 | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `scripts/art-asset-factory/edge-despill.ts`           | The salvage. Green-edge despill that never writes alpha, reconstructs RGB from interior neighbours, and gates on measured interior green so a genuinely green garment is protected. Emits SHA-256 digests of the alpha plane and the interior RGB as proof.                              |
+| `scripts/art-asset-factory/edge-despill.ts`           | The salvage. Green-edge despill that never writes alpha, reconstructs RGB from interior neighbors, and gates on measured interior green so a genuinely green garment is protected. Emits SHA-256 digests of the alpha plane and the interior RGB as proof.                               |
 | `scripts/art-asset-factory/cli-edge-despill.ts`       | `npm run despill:edges`.                                                                                                                                                                                                                                                                 |
-| `scripts/art-asset-factory/measure-reference.ts`      | Measurement Cards. Container detection by magic bytes, PNG and JPEG decode, scene cards and figure cards, every field confidence-labelled.                                                                                                                                               |
+| `scripts/art-asset-factory/measure-reference.ts`      | Measurement Cards. Container detection by magic bytes, PNG and JPEG decode, scene cards and figure cards, every field confidence-labeled.                                                                                                                                                |
 | `scripts/art-asset-factory/cli-measure-references.ts` | `npm run measure:references`.                                                                                                                                                                                                                                                            |
 | `tests/edge-despill.test.ts`                          | Five tests. Digest equality with no tolerance; the defect measurably cleared; the report reproduces its own output from the source it names; a synthetic green-garment torso engages the gate and keeps its interior; the classifier refuses to call a run salvaged when a digest moved. |
 | `art/qa/p76/edge_despill_report.json`                 | Machine-readable salvage record, 8 entries.                                                                                                                                                                                                                                              |
@@ -72,7 +72,7 @@ and the regenerated art QA reports.
 | `art/generated/candidates/ocd-p76/bodies-despilled/`  | The eight repaired rasters, 9.7 MB.                                                                                                                                                                                                                                                      |
 | `package.json`                                        | Two scripts: `despill:edges`, `measure:references`.                                                                                                                                                                                                                                      |
 
-Nothing in `src/` changed. No runtime behaviour changed. No manifest entry
+Nothing in `src/` changed. No runtime behavior changed. No manifest entry
 changed. This run added tooling, evidence and repaired candidate art — it did not
 alter what the game does.
 
@@ -127,7 +127,7 @@ at any time; scenes and bodies do not depend on each other.
 
 Build (lean / ordinary / heavy) × life stage (child / adolescent / adult / older
 adult), crossed with presentation lean. **Race and ethnicity are never a
-body-geometry category** — complexion is a separate art property already modelled
+body-geometry category** — complexion is a separate art property already modeled
 on bodies and heads, and head shape is its own family axis.
 
 Two named failure modes the prompts refuse: not every masculine body is athletic,
@@ -257,12 +257,12 @@ Recorded in 76A section 7 and deliberately **not** implemented as raster art.
   path, not a thing a player reads.
 - **Buttons, menus, tabs, focus rings and icons stay CSS and SVG.** No raster
   button art was generated, and the pack says so explicitly in its closing
-  section. A raster control has no focus state, no forced-colours response, no
+  section. A raster control has no focus state, no forced-colors response, no
   text scaling, no accessible name, and it bakes labels that change with life
   stage and pronouns.
 - The flat dark-green prototype control language is rejected as a _CSS_
   direction: every state (rest, hover, active, focus-visible, disabled, selected)
-  must differ in more than one channel, so state is legible without colour
+  must differ in more than one channel, so state is legible without color
   discrimination. The civic palette stays; the uniform slab goes.
 - **PR #87's shell was not rebuilt.** It was read, and left alone.
 
@@ -304,7 +304,7 @@ In order, as sheets come back:
 1. **Wave A sheets** — chop each 4×2 sheet into eight pose rasters, measure every
    one (`npm run measure:references`), despill only if the intake metric says so
    (`npm run despill:edges`), and propose D-068 anchors from the shipping raster
-   for human review. The anchor recommendations this run produced are labelled
+   for human review. The anchor recommendations this run produced are labeled
    _STARTING POINT ONLY_ for exactly that reason.
 2. **B2 footwear** — chop to front-on strips against the 400×60 / 420×64 contract
    and register the first wearable family that is measurably fitted rather than

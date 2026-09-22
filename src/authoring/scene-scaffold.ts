@@ -20,7 +20,7 @@
  *
  * The two dimensions the scaffold DOES fill in are the plate size and the
  * raster ladder, because those are measured facts about the file rather than
- * judgements about the picture.
+ * judgments about the picture.
  */
 
 import type { CIVIC_SYMBOL_POLICY } from "../environment/environment-scene-spec";
@@ -51,7 +51,7 @@ import type { TierPlan } from "./tier-plan";
  * How much weight a value carries.
  *
  * - `VERIFIED` — measured, or taken from a source that states it.
- * - `ESTIMATED` — an author's considered judgement from the picture. Honest,
+ * - `ESTIMATED` — an author's considered judgment from the picture. Honest,
  *   defensible, and explicitly not a measurement.
  * - `UNKNOWN` — nobody has decided yet.
  * - `UNVERIFIED` — a value exists somewhere upstream but nobody has checked it
@@ -235,7 +235,7 @@ export interface SceneScaffoldInput {
 const NEEDS_MEASUREMENT =
   "Nobody has measured this against the plate yet. Set it from the authoring overlay or from measured-geometry evidence.";
 const NEEDS_JUDGEMENT =
-  "Nobody has made this judgement yet. It is an author's call about this picture, not a number with a default.";
+  "Nobody has made this judgment yet. It is an author's call about this picture, not a number with a default.";
 
 /**
  * Builds a scaffold in which everything a person must decide is UNRESOLVED.

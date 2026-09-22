@@ -4,7 +4,7 @@ import type { MindStrength, PersonalityTendencyDefinition } from "./types";
 /**
  * Traits as loaded data.
  *
- * A trait is a fictional behaviour tendency: a recurring pattern in how a
+ * A trait is a fictional behavior tendency: a recurring pattern in how a
  * character tends to act. It is not a measurement of a real person, not
  * inferred from anybody's name or place, and never shown to the player as a
  * number. Nothing here changes that.
@@ -111,7 +111,7 @@ export function isOneSided(trait: TraitDeclaration): boolean {
 
 /**
  * How movable a kind of trait is at all, which is the declaring pack's
- * judgement rather than the engine's. A pack adding a nearly immovable
+ * judgment rather than the engine's. A pack adding a nearly immovable
  * disposition does it here, without touching code.
  *
  * Every number a change is weighed against lives in this shape. The engine

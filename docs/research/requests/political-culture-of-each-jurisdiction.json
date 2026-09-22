@@ -1,0 +1,34 @@
+{
+  "filedAt": "2026-09-22T23:05:00.000Z",
+  "impact": "shapes-design",
+  "lane": "nationwide government",
+  "notes": [
+    "The owner's words, 2026-09-22: 'be sure that there are, for lack of a better term, cultural things in every state, right? So you would assume a southern state is very fiscally hawkish, while D.C. and Massachusetts, well, they're always super liberal.' His examples are the direction he expects, not values to encode; the answer decides."
+  ],
+  "priority": "P1",
+  "question": "For each of the 56 jurisdictions (the fifty states, the District of Columbia, Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands), what is its political culture today? Express it against the principles the game's policy catalog already uses where you can: limited government, collective provision, local control, fiscal restraint, and any others the catalog names. For each principle, say which way the jurisdiction leans, how strongly, and on what evidence (survey measures such as ideology self-identification, recent statewide votes on ballot measures, the tenor of its legislation). Name where a state's culture is regional (the owner's examples are that Southern states lean fiscally hawkish, and that the District and Massachusetts lean strongly liberal) and where a state breaks from its region. Distinguish culture from partisanship: a state can lean fiscally conservative and still elect the other party. Say how much variation there is inside a jurisdiction, for example between its cities and its rural counties, so the game does not make everyone in a state alike. For the territories, where mainland left/right categories fit poorly, say what the live political divides actually are (status, for example).",
+  "questionId": "political-culture-of-each-jurisdiction",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Nationwide government thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/world-setup/political-start.ts and electoral-calibration.generated.json",
+      "whatItDidNotSettle": "Carries a Democratic two-party share per contest and a drawn swing by census region and state. That is partisanship at the ballot box, not culture, and it says nothing about principles or issues."
+    },
+    {
+      "source": "src/simulation/policy-pack-us-policy-positions.ts, principles and each proposition's principle bearings",
+      "whatItDidNotSettle": "Defines the principles a culture could be expressed against, and which way each proposition bears on them. Says nothing about where any place stands."
+    },
+    {
+      "source": "docs/research/requests/where-a-persons-politics-comes-from.json (answered) and should-partisan-geography-move.json (answered)",
+      "whatItDidNotSettle": "Settle that place shapes appraisal without unanimity and whether partisan lean should move. Neither supplies any jurisdiction's culture."
+    },
+    {
+      "source": "docs/research/requests/inhabited-territories-government-and-statehood.json",
+      "whatItDidNotSettle": "Covers the territories' governments and statehood, not their political culture."
+    }
+  ],
+  "title": "The political culture of every state, the District and the five inhabited territories",
+  "usableAnswer": "A row per jurisdiction: for each catalog principle, a direction (toward or against), a strength on a small stated scale, and the evidence. Add a note on regional grouping, internal variation (urban and rural, or by region of the state) and how fast the culture has moved in recent decades. For the territories, the divides that matter there, expressed as principles if the catalog lacks them.",
+  "whyItMatters": "The owner asked that every state have its own political culture feeding what people there tend to believe, and ruled that depth must not be invented. The game has the place for it (a per-jurisdiction record read when a person forms a view on a question), but every value is empty and marked as awaiting this research. Research already answered (where-a-persons-politics-comes-from) says local conditions shape appraisals without making a place unanimous, so the answer needs to say how strong a pull a culture exerts, not just its direction."
+}

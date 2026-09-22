@@ -87,7 +87,7 @@ record is a mechanics lane, recorded here as the exact DEFER boundary.
 
 - Two invented facts removed from `RETURN_SUMMARY`: the "customer" in the
   work-rule callback (the adult scene has no customer; that detail was the
-  formative bank's) and "the flooding" in the neighbour-help callback (the
+  formative bank's) and "the flooding" in the neighbor-help callback (the
   incident engine decides what happened; no kind is claimed).
 - Eleven missing family summaries added, so every situation able to schedule
   an aftermath returns as itself; previously `adult.debt-call`,

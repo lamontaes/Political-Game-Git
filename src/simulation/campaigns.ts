@@ -100,7 +100,11 @@ import {
   PARTY_BODY_REVIEW_TRANSITION_KEY,
   partyBodyReviewTransitionHandler,
 } from "./living-world/party-evolution";
-import { workStatusAt, workStatusHistory } from "./life-queries";
+import {
+  activeOrganizationParticipationsAt,
+  workStatusAt,
+  workStatusHistory,
+} from "./life-queries";
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
@@ -196,7 +200,7 @@ export const CAMPAIGN_SUPPORT_METRIC_STABLE_KEY =
 /**
  * What the campaign's field memo claims about its own precision. Four points is
  * a claim, not a guarantee: the error below is drawn from a wider range and
- * sometimes lands outside it, which is what makes reading it a judgement.
+ * sometimes lands outside it, which is what makes reading it a judgment.
  */
 const OBSERVATION_MARGIN_BASIS_POINTS = 400;
 
@@ -1029,7 +1033,7 @@ export function scheduleCampaignAction(
  * A fundraising session moves nothing. An afternoon on the phones converts the
  * candidate's time into the committee's money, and money persuades nobody until
  * it is spent — which is what an advertising buy is for. Asking somebody who
- * already supports you for a cheque is not the same act as changing a mind, and
+ * already supports you for a check is not the same act as changing a mind, and
  * paying the campaign twice for one afternoon would make the phones strictly
  * better than the doors.
  */
@@ -1725,6 +1729,23 @@ function seatOnLocalGoverningBody(
     throw new Error(
       `The town government ${unit.id} cannot be placed in this world, so nobody can be seated on it.`,
     );
+  // Re-elected: a member who still sits on the body keeps the seat they hold.
+  // Writing a second seat for the same person used to refuse the whole result.
+  if (
+    activeOrganizationParticipationsAt(next, winnerPersonId).some(
+      (active) =>
+        active.participation.organizationId === organizationId &&
+        active.state.roleKind === "leader:municipal-member",
+    )
+  )
+    return next;
+  // Returning after time away: a new seat, so the earlier one stays as it was.
+  if (
+    next.history.organizationParticipations.some(
+      (participation) => participation.stableKey === stableKey,
+    )
+  )
+    stableKey = `${stableKey}:${contest.id}`;
   next = createOrganizationParticipation(next, {
     stableKey,
     personId: winnerPersonId,

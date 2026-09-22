@@ -310,7 +310,7 @@ function shortDate(iso: string | null): string {
   const date = new Date(iso);
   return Number.isNaN(date.getTime())
     ? ""
-    : date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+    : date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
 function historyStageLabel(stage: string | null | undefined): string {
@@ -1354,7 +1354,7 @@ export function ArtDeskView() {
                     {item.unread ? "New message" : "Art team update"}
                   </strong>
                   <time dateTime={item.at}>
-                    {new Date(item.at).toLocaleString(undefined, {
+                    {new Date(item.at).toLocaleString("en-US", {
                       month: "short",
                       day: "numeric",
                       hour: "numeric",
@@ -2000,7 +2000,7 @@ function RequestDetail({
       anchor.remove();
       setTimeout(() => URL.revokeObjectURL(url), 30_000);
       report(
-        `${originalName}: ${bytes.byteLength.toLocaleString()} bytes, hash verified, and handed to the browser as a download. Whether a file reached disk is not confirmed here — check your downloads.`,
+        `${originalName}: ${bytes.byteLength.toLocaleString("en-US")} bytes, hash verified, and handed to the browser as a download. Whether a file reached disk is not confirmed here — check your downloads.`,
       );
     } catch (error) {
       report(
@@ -2202,7 +2202,7 @@ function RequestDetail({
                   throw new Error("this window has no clipboard access");
                 await navigator.clipboard.writeText(text);
                 setBriefNote(
-                  `Copied the brief (${text.length.toLocaleString()} characters).`,
+                  `Copied the brief (${text.length.toLocaleString("en-US")} characters).`,
                 );
               } catch (error) {
                 setBriefNote(

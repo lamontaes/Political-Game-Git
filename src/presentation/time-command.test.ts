@@ -81,7 +81,7 @@ describe("the canonical time command", () => {
       fixedClock,
     );
     expect(long.receipt.status).toBe("accepted");
-    // A deliberate long skip is still honoured; it can only stop early for a
+    // A deliberate long skip is still honored; it can only stop early for a
     // real commitment, and then it says so.
     expect(long.world.currentDate > week.world.currentDate).toBe(true);
     if (!long.receipt.stoppedEarly)

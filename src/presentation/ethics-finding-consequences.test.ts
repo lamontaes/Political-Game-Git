@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   addDays,
   campaignForCandidate,
+  campaignState,
   ensureCampaignOpponents,
   ensureStateJurisdiction,
   fileCampaign,
@@ -21,6 +22,7 @@ import {
   publicAdverseFindingsAgainst,
   spendCampaignFundsPersonally,
   UNRESEARCHED_FINDING_EFFECTS,
+  UNRESEARCHED_REPEAT_OFFENSE,
   UNRESEARCHED_STATE_OVERSIGHT,
 } from "../simulation/press";
 import { canonicalSupportBasisPoints } from "../simulation/campaigns";
@@ -282,6 +284,128 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
     expect(publicAdverseFindingsAgainst(reopened, run.personId)).toEqual(
       publicAdverseFindingsAgainst(run.after, run.personId),
     );
+  });
+});
+
+/**
+ * The replay that found three holes: payments after a finding were never
+ * charged, money taken late in a campaign was never reviewed once the
+ * campaign ended, and the candidate's hometown paper never covered the case.
+ * The same Washington candidate keeps paying themselves after the finding,
+ * once more just before the election, and the world runs on past it.
+ */
+describe("a Washington candidate who keeps taking after a finding", () => {
+  const run = washingtonFinding();
+  const rent = (w: World, key: string) =>
+    spendCampaignFundsPersonally(w, {
+      stableKey: `ethics-consequences:after:${key}`,
+      amountMinorUnits: 10_000,
+      purpose: "rent",
+    });
+  let world = run.after;
+  const later: string[] = [];
+  for (let month = 0; month < 3; month += 1) {
+    const paid = rent(world, `${month}`);
+    later.push(...paid.occurrence.resourceFlowIds);
+    world = passOrdinaryDays(paid.world, 30);
+  }
+  const second = () =>
+    pressRecordsOfKind(world, "proceeding-step").filter(
+      (step) => step.outcome === "finding",
+    );
+  for (let chunk = 0; chunk < 14 && second().length < 2; chunk += 1) {
+    world = passOrdinaryDays(world, 30);
+  }
+  const findings = second();
+  // One more payment in the campaign's last weeks, then past election day.
+  const electionDate = addDays(run.campaign.filedAt, 480);
+  while (addDays(world.currentDate, 21) < electionDate) {
+    world = passOrdinaryDays(world, 7);
+  }
+  const lastWeeks = rent(world, "last-weeks");
+  world = lastWeeks.world;
+  const afterElection = addDays(electionDate, 60);
+  while (world.currentDate < afterElection) {
+    world = passOrdinaryDays(world, 30);
+  }
+
+  it("opens a new round for each batch taken after a finding", () => {
+    const matters = pressRecordsOfKind(world, "matter").filter((matter) =>
+      matter.stableKey.startsWith(
+        `press46:candidate-payments:${run.campaign.id}`,
+      ),
+    );
+    // The first case; the three rent payments after its finding; and the
+    // last-weeks payment, taken after the second finding.
+    expect(matters.map((matter) => matter.stableKey.split(":").at(-1))).toEqual(
+      [run.campaign.id, "2", "3"],
+    );
+    expect(findings).toHaveLength(2);
+  });
+
+  it("orders the later payments repaid, and only those", () => {
+    const repaid = world.history.resourceFlows
+      .filter((row) => row.basisKind === "custom:ethics-restitution")
+      .map(
+        (flow) =>
+          world.history.resourceTransferOutcomes.find(
+            (row) => row.resourceFlowId === flow.id,
+          )!.attemptedAmount.minorUnits,
+      );
+    expect(repaid).toEqual([40_000, 30_000]);
+  });
+
+  it("fines a repeat finding more heavily, and says why", () => {
+    const body = generatedStateOversightBody(
+      world,
+      run.campaign.jurisdictionId,
+    )!;
+    const fines = world.history.resourceFlows
+      .filter((row) => row.basisKind === "custom:civil-penalty")
+      .map(
+        (flow) =>
+          world.history.resourceTransferOutcomes.find(
+            (row) => row.resourceFlowId === flow.id,
+          )!.attemptedAmount.minorUnits,
+      );
+    expect(fines).toEqual([
+      body.civilPenaltyPerPaymentMinorUnits * 2,
+      body.civilPenaltyPerPaymentMinorUnits *
+        3 *
+        (1 + UNRESEARCHED_REPEAT_OFFENSE.civilPenaltyStepPerPriorFinding),
+    ]);
+    const notices = world.history.events.filter(
+      (event) => event.type === "matter.civil-penalty-imposed",
+    );
+    expect(notices[0]!.summary).not.toContain("found against before");
+    expect(notices[1]!.summary).toContain("found against before");
+  });
+
+  it("still reports money taken in the campaign's last weeks after it ends", () => {
+    expect(campaignState(world, run.campaign.id).status).not.toBe("active");
+    const reported = new Set(
+      world.history.events
+        .filter((event) => event.type === CANDIDATE_PAYMENTS_REPORTED_EVENT)
+        .flatMap((event) => event.involvedEntityIds),
+    );
+    for (const flowId of [...later, ...lastWeeks.occurrence.resourceFlowIds])
+      expect(reported.has(flowId)).toBe(true);
+  });
+
+  it("is covered by the candidate's hometown paper", () => {
+    const home = world.people[run.personId]!.homeJurisdictionId;
+    const hometown = pressRecordsOfKind(world, "media-outlet").filter(
+      (outlet) =>
+        outlet.scope === "local" &&
+        outlet.primaryJurisdictionIds.includes(home),
+    );
+    expect(hometown.length).toBeGreaterThan(0);
+    const leads = pressRecordsOfKind(world, "story-lead").filter(
+      (lead) =>
+        hometown.some((outlet) => outlet.id === lead.outletId) &&
+        lead.matterId !== null,
+    );
+    expect(leads.length).toBeGreaterThan(0);
   });
 });
 

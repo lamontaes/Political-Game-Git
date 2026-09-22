@@ -35,10 +35,10 @@ review remains required on the open unmerged PR.
 ## Research inputs
 
 The audit brief's constraints were followed as research input, not
-specification. No canvas size, padding, layer count, affine threshold, colour
+specification. No canvas size, padding, layer count, affine threshold, color
 tolerance, recoloring, atlas, or off-screen rendering assumption was encoded.
 PR #7's family-versus-asset identity split was reused conceptually; its
-independent FNV/modulo selection was rejected in favour of `SeededRng` forks
+independent FNV/modulo selection was rejected in favor of `SeededRng` forks
 and generation pinning.
 
 ## Verification

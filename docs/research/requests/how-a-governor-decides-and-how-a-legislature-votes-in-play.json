@@ -1,0 +1,24 @@
+{
+  "filedAt": "2026-09-22T23:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "invented-depth audit",
+  "notes": [],
+  "priority": "P1",
+  "question": "What actually drives a governor's decision to sign or veto a bill, and whether the legislature grants a governor's budget request, well enough that a computer-run governor can decide from the bill, the governor's party and priorities, and the legislature's makeup instead of a dice roll?",
+  "questionId": "how-a-governor-decides-and-how-a-legislature-votes-in-play",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "invented-depth audit lane",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/governing/state-governing.ts and legislative-clock.ts at main 9f42ba19",
+      "whatItDidNotSettle": "Unmarked random draws with no source."
+    },
+    {
+      "source": "docs/research/requests/who-actually-votes-in-a-chamber.json and legislative-step-pacing-and-veto-override.json (answered)",
+      "whatItDidNotSettle": "Cover how members vote and how overrides work, not what drives a governor's own decision or a budget's passage."
+    }
+  ],
+  "title": "What decides a computer-run governor's signature or veto, and whether a budget request passes",
+  "usableAnswer": "Published evidence on veto rates (overall and under divided versus unified government), what predicts a veto, how often governors' budget requests pass largely intact, and each state's bill-signing window. Rates by state where they vary; say where a national figure is all that exists.",
+  "whyItMatters": "A computer-run governor's decisions are unmarked dice. At main 9f42ba19: src/simulation/governing/state-governing.ts:671 — the chief of staff recommends signing on rng.integer(0, 3) > 0; :1529 — the governor follows the recommendation on rng.integer(0, 4) > 0 and otherwise picks at random; :1612 — a budget request passes if a d10 (plus 3 for a skilled chief) is at least 5; :1574-1581 — whether a priority 'progresses' is another d10. :522-529 sets decision deadlines of 21/30/30/10/45 days in every state although real veto windows differ by state. Separately, the live legislative clock copies committee and floor tallies from authored developer-scenario vote plans (src/simulation/legislation-scenarios.ts, read at legislative-clock.ts:293) and always reports a committee as favorable (:421), which the answered who-actually-votes-in-a-chamber already rejects; that half needs implementing, not researching."
+}
