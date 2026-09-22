@@ -6,7 +6,10 @@ import {
   observedTraitLabels,
   personTraits,
 } from "../simulation/people-traits";
+import { SHOWING_THEIR_HAND } from "../simulation/legislature-manner";
+import { assertProductionCatalogBoundary } from "../simulation/production-catalog";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
+import { traitDefinitionFromPack } from "../simulation/trait-packs";
 import { readTrait } from "../simulation/trait-readings";
 import {
   loadedTraitRegistry,
@@ -147,5 +150,58 @@ describe("traits from an installed content pack", () => {
         five,
       );
     }
+  });
+
+  it("skip a row whose words or keys carry control characters", () => {
+    const pack = JSON.parse(patienceText);
+    pack.id = "mod.example.control";
+    const good = pack.traits.traits[0];
+    pack.traits.traits = [
+      { ...good, key: "c\u0000\n" },
+      { ...good, key: "bell", label: "\u0007bell" },
+      { ...good, key: "long", label: "x".repeat(161) },
+    ];
+    pack.traits.effects = [];
+    const { world } = life();
+    const registry = traitRegistryFor(
+      importContentPack(world, JSON.stringify(pack)),
+    );
+    expect(
+      [...registry.traits.keys()].filter((key) =>
+        key.startsWith("mod.example.control:"),
+      ),
+    ).toEqual([]);
+    expect(
+      registry.report.rejections
+        .filter((rejection) => rejection.pack === "mod.example.control")
+        .map(({ where, reason }) => [where, reason]),
+    ).toEqual([
+      ["trait 1", "it needs a plain key"],
+      ['trait "bell"', "it needs a label"],
+      ['trait "long"', "it needs a label"],
+    ]);
+  });
+});
+
+describe("a trait the build writes is one the save check admits", () => {
+  it("keeps a life savable once a legislator's manner is recorded", () => {
+    // conferBargainingManner adds this definition to the catalog when a
+    // member's commitments establish a manner. The save check once loaded the
+    // people pack alone and refused it, so the life could not be saved again.
+    const { world } = life();
+    const trait = traitRegistryFor(world).traits.get(SHOWING_THEIR_HAND)!;
+    const definition = traitDefinitionFromPack(trait);
+    const withManner = {
+      ...world,
+      mindCatalog: {
+        ...world.mindCatalog,
+        tendencies: {
+          ...world.mindCatalog.tendencies,
+          [definition.id]: definition,
+        },
+        tendencyOrder: [...world.mindCatalog.tendencyOrder, definition.id],
+      },
+    };
+    expect(() => assertProductionCatalogBoundary(withManner)).not.toThrow();
   });
 });

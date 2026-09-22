@@ -33,9 +33,36 @@ function isRow(value: unknown): value is Row {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
 
-function isText(value: unknown): value is string {
-  return typeof value === "string" && value.trim().length > 0;
+/**
+ * Prose a player may read: a label or a description. The same limits the
+ * pack's scene text meets — not empty, not overlong, and no control
+ * characters except tab and line breaks, which a label may not carry either.
+ */
+function isText(value: unknown, maximum = 2000): value is string {
+  if (typeof value !== "string" || !value.trim() || value.length > maximum) {
+    return false;
+  }
+  const lineBreaks = maximum > 160;
+  return ![...value].some((character) => {
+    const code = character.charCodeAt(0);
+    const allowed = lineBreaks && (code === 9 || code === 10 || code === 13);
+    return (code < 32 || code === 127) && !allowed;
+  });
 }
+
+/**
+ * An identifier: a trait, pole, scope, decision or option key. These become
+ * stable keys, seeded-stream names and record ids, so they are plain.
+ */
+function isKey(value: unknown): value is string {
+  return (
+    typeof value === "string" &&
+    value.length <= 160 &&
+    /^[A-Za-z0-9][A-Za-z0-9._:-]*$/u.test(value)
+  );
+}
+
+const LABEL = 160;
 
 function isNumber(value: unknown): value is number {
   return typeof value === "number" && Number.isFinite(value);
@@ -44,17 +71,19 @@ function isNumber(value: unknown): value is number {
 /** What is wrong with a pole, or null when it has the shape of one. */
 function poleProblem(value: unknown, which: string): string | null {
   if (!isRow(value)) return `its ${which} pole is not an object`;
-  for (const field of ["key", "label", "description"]) {
-    if (!isText(value[field])) return `its ${which} pole needs a ${field}`;
+  if (!isKey(value.key)) return `its ${which} pole needs a plain key`;
+  if (!isText(value.label, LABEL)) return `its ${which} pole needs a label`;
+  if (!isText(value.description)) {
+    return `its ${which} pole needs a description`;
   }
   return null;
 }
 
 /** What is wrong with a trait row's shape, or null when it has one. */
 function traitShapeProblem(value: Row): string | null {
-  for (const field of ["key", "label", "description"]) {
-    if (!isText(value[field])) return `it needs a ${field}`;
-  }
+  if (!isKey(value.key)) return "it needs a plain key";
+  if (!isText(value.label, LABEL)) return "it needs a label";
+  if (!isText(value.description)) return "it needs a description";
   if (!isRow(value.poles)) return "it needs low and high poles";
   const low = poleProblem(value.poles.low, "low");
   if (low) return low;
@@ -62,7 +91,7 @@ function traitShapeProblem(value: Row): string | null {
   if (high) return high;
   if (
     !Array.isArray(value.scopes) ||
-    value.scopes.some((scope) => !isText(scope))
+    value.scopes.some((scope) => !isKey(scope))
   ) {
     return "its scopes must be a list of names";
   }
@@ -75,8 +104,12 @@ function traitShapeProblem(value: Row): string | null {
   }
   const scale = value.scale;
   if (!isRow(scale)) return "it needs a scale";
-  for (const field of ["balancedKey", "balancedLabel", "balancedDescription"]) {
-    if (!isText(scale[field])) return `its scale needs a ${field}`;
+  if (!isKey(scale.balancedKey)) return "its scale needs a plain balancedKey";
+  if (!isText(scale.balancedLabel, LABEL)) {
+    return "its scale needs a balancedLabel";
+  }
+  if (!isText(scale.balancedDescription)) {
+    return "its scale needs a balancedDescription";
   }
   if (
     !Array.isArray(scale.steps) ||
@@ -122,14 +155,14 @@ function traitShapeProblem(value: Row): string | null {
 
 /** What is wrong with an effect row's shape, or null when it has one. */
 function effectShapeProblem(value: Row): string | null {
-  if (!isText(value.decision)) return "it needs the decision it bears on";
+  if (!isKey(value.decision)) return "it needs the decision it bears on";
   if (!Array.isArray(value.leans)) return "its leans must be a list";
   for (const [index, lean] of value.leans.entries()) {
     const which = `lean ${index + 1}`;
     if (!isRow(lean)) return `${which} is not an object`;
-    for (const field of ["option", "trait", "explanation"]) {
-      if (!isText(lean[field])) return `${which} needs a ${field}`;
-    }
+    if (!isKey(lean.option)) return `${which} needs a plain option key`;
+    if (!isKey(lean.trait)) return `${which} needs a plain trait key`;
+    if (!isText(lean.explanation)) return `${which} needs an explanation`;
     if (lean.pole !== "low" && lean.pole !== "high") {
       return `${which} must lean on the "low" or "high" pole`;
     }
@@ -150,9 +183,7 @@ function where(value: unknown, noun: string, index: number): string {
       ? value.key
       : value.decision
     : undefined;
-  return typeof named === "string" && named.trim()
-    ? `${noun} "${named}"`
-    : `${noun} ${index + 1}`;
+  return isKey(named) ? `${noun} "${named}"` : `${noun} ${index + 1}`;
 }
 
 export interface InstalledTraitPacks {

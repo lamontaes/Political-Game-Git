@@ -91,8 +91,8 @@ export function ContentPackWorkspace({
         <>
           <p>Left out of this life, and why:</p>
           <ul data-testid="content-pack-skipped">
-            {skipped.map((rejection) => (
-              <li key={`${rejection.pack} ${rejection.where}`}>
+            {skipped.map((rejection, index) => (
+              <li key={`${index} ${rejection.pack} ${rejection.where}`}>
                 {rejection.pack}, {rejection.where}: {rejection.reason}
               </li>
             ))}

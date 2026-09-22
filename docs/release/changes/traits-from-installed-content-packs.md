@@ -13,4 +13,4 @@ lets traits argue about, such as how somebody answers when you ask to meet. A
 trait row that is malformed is left out, and the content pack screen lists what
 was left out and why; the rest of the pack still loads. A member of a legislature whose manner the
 game has read now shows it on their card too, as the built-in five already did.
-Nobody else's card changes in a life with no content packs.
+Nobody else's card changes in a life with no content packs. A life in which a legislator's manner had been recorded could no longer be saved; it can now.

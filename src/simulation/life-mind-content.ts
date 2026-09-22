@@ -5,6 +5,7 @@ import {
 } from "./mind-catalog";
 import type { MindCatalog } from "./types";
 import { canonicalJson } from "./canonical-json";
+import { legislatureTraitPack } from "./legislature-trait-pack";
 import { peopleTraitPack } from "./people-trait-pack";
 import {
   loadTraitPacks,
@@ -97,13 +98,24 @@ export function createLifeMindCatalog(): MindCatalog {
 }
 
 /**
- * The packs this build loads. A trait reaches a world only through one of
- * these, and `assertLifeMindContent` below will not admit a definition no pack
- * declares. Adding a pack here is the seam a mod loader would later fill; see
- * `docs/systems/traits.md`.
+ * The packs this build compiles in, in load order. One list: the trait
+ * registry and the save check below both read it, because when they read two
+ * lists that disagreed — this one once named the people pack alone — a
+ * legislator's recorded manner was a trait the game wrote and the save check
+ * then refused, so the life could not be saved again.
+ */
+export function compiledTraitPacks(): readonly TraitPack[] {
+  return [peopleTraitPack(), legislatureTraitPack()];
+}
+
+/**
+ * The packs this life loads: the build's own and whatever its content packs
+ * install. A trait reaches a world only through one of these, and
+ * `assertLifeMindContent` below will not admit a definition no pack declares.
+ * See `docs/systems/traits.md`.
  */
 export function loadedTraitPacks(installed: readonly TraitPack[] = []) {
-  return loadTraitPacks([peopleTraitPack(), ...installed], []);
+  return loadTraitPacks([...compiledTraitPacks(), ...installed], []);
 }
 
 /**

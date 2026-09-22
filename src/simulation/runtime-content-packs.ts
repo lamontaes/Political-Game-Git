@@ -149,8 +149,10 @@ export function assertRuntimeContentPack(
   if (value.traits !== undefined) {
     record(value.traits);
     shape(value.traits, ["traits", "effects"]);
-    list(value.traits.traits, 64);
-    list(value.traits.effects, 64);
+    // Every seeded trait is written for each person a decision touches, so
+    // the count bounds how much one pack can add to a save.
+    list(value.traits.traits, 16);
+    list(value.traits.effects, 32);
   }
   for (const dependency of value.dependencies) {
     record(dependency);

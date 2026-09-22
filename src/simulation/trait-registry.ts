@@ -1,5 +1,4 @@
-import { peopleTraitPack } from "./people-trait-pack";
-import { legislatureTraitPack } from "./legislature-trait-pack";
+import { compiledTraitPacks } from "./life-mind-content";
 import { CONTACT_ANSWER_DECISION } from "./people-contact-decisions";
 import {
   BARGAINING_ANSWER_OFFER_DECISION,
@@ -28,10 +27,6 @@ const DECISIONS = [
 ];
 
 let cached: TraitRegistry | null = null;
-
-function compiledTraitPacks() {
-  return [peopleTraitPack(), legislatureTraitPack()];
-}
 
 /**
  * The build's own packs, loaded once. Pure from the caller's side: the same
