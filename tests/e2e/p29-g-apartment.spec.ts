@@ -1,6 +1,10 @@
 import { writeFileSync } from "node:fs";
 import { test, expect } from "./fixtures";
-import { startLife, enterLife } from "./support/creator";
+import {
+  KENTUCKY_LEXINGTON_REGRESSION,
+  startLife,
+  enterLife,
+} from "./support/creator";
 
 for (const room of [
   {
@@ -27,7 +31,16 @@ for (const room of [
     }, info) => {
       await page.setViewportSize(viewport);
       await page.goto(`/?seed=${room.seed}&art-preview=candidate`);
-      await startLife(page, { age: 34, household: "shares-a-home" });
+      // These two rooms were calibrated against a Lexington start, back when the
+      // creator inferred one. It no longer does, so the walk threw in the creator
+      // and none of the geometry below was ever reached. The regression hometown
+      // is named here rather than inferred; the assertions are about apartment
+      // geometry, not about jurisdiction.
+      await startLife(page, {
+        age: 34,
+        household: "shares-a-home",
+        ...KENTUCKY_LEXINGTON_REGRESSION,
+      });
       await enterLife(page);
       await expect(page.getByTestId("scene-backdrop")).toHaveAttribute(
         "data-has-plate",

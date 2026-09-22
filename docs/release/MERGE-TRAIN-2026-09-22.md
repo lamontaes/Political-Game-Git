@@ -280,16 +280,39 @@ here rather than a flake excuse**: the difference is that it produces a
 specific reportable fact — passes alone, fails in company — instead of a
 second opinion.
 
-## The release is parked, on purpose, and here is the trade
+## The release was not parked. It was un-mergeable, which is not the same thing
 
-A branch that re-merges `main` and regenerates `docs/prose-inventory/coverage-report.md`
-on every move of the base **can never hold still long enough to be verified**.
-Each push supersedes its own pending run, so the release had a run and lost it
-three times without one ever starting. Keeping the branch perpetually current
-had become the thing preventing the verdict we made an exception to obtain.
+**This section said "parked, on purpose" for most of the night, and that was
+wrong in a way worth keeping rather than overwriting.** The branch was not
+holding still by choice. It could not be tested at all, and nothing visible
+from the outside told the difference.
 
-**So it is parked at its current head and left to run.** It will be re-merged
-only if GitHub reports it un-mergeable.
+What was true, and is still true: a branch that re-merges `main` and
+regenerates `docs/prose-inventory/coverage-report.md` on every move of the base
+**can never hold still long enough to be verified**, because each push
+supersedes its own pending run. That is why the release lost a run three times
+without one ever starting, and why it was left alone afterwards.
+
+What was not true is the word _parked_. Measured at 10:45Z: `08a999f2`, the
+release head pushed at 08:54:53Z, merges cleanly with `4595878e` — the `main`
+it was built on at 08:49:53Z — and **conflicts with `a08d2eef`, the next
+`main`, 08:53:27Z.** Three and a half minutes. GitHub builds no merge ref for a
+conflicted pull request and therefore **creates no workflow run at all**, so
+there is no run on `08a999f2` and there never was one. The branch spent the
+morning un-testable rather than resting.
+
+The general rule this produced is **D-089**, measured independently by the
+research-audit lane across twenty successive mains: a generated file that is
+also committed makes a whole class of branches un-mergeable within minutes of
+every merge to `main`, on a file no human wrote. The behavioural half of it
+belongs in this document too, because two lanes paid for it tonight:
+
+> **CI silence is a reason to check mergeability first, not to wait longer.**
+> An empty queue and an un-mergeable head look identical from the outside, and
+> only one of them gets better by waiting.
+
+It will be re-merged whenever GitHub reports it un-mergeable, which now means
+roughly whenever anything merges.
 
 **The trade, stated so nobody has to infer it:** a verdict that ran on a head
 one or two `main` commits behind is a better artefact than a perpetually
@@ -297,35 +320,75 @@ current branch with no verdict at all. When the verdict arrives, the head it
 ran on is named beside it, and that head is the claim — not `main` as it
 stands when someone reads the report.
 
-**The trade paid off, and the verdict is partial.** Run
+**The verdict the run did produce is partial, and it is worth having.** The
+trade above still holds — a verdict on a head one or two `main` commits behind
+beats none — but it was never the reason this run survived. It survived because
+the branch could not be pushed to usefully, which is luck wearing a decision's
+clothes. Run
 [35706104688](https://github.com/lamontaes/Political-Game-Git/actions/runs/35706104688)
 on **`eb0abea1`** was created 08:40Z, allocated its fifteen jobs at 09:01Z and
 started executing at 09:37Z — **fifty-seven minutes queued.** It survived
 because nothing pushed to the branch in that hour. Every earlier attempt died
 pending because something did.
 
-Shard by shard, read at 10:20Z, on `eb0abea1`:
+Shard by shard, final, on `eb0abea1`. The run was cancelled at 11:10Z by the
+base-merge push described below, with **nine of fifteen jobs reported**:
 
-| Job              | Result                      | When                     |
-| ---------------- | --------------------------- | ------------------------ |
-| `unit (5, 6)`    | **green**                   | 09:38:32–09:43:48, 5m16s |
-| `browser (6, 8)` | **red**, 9 failed 54 passed | 09:46:55–10:04:29, 17.6m |
-| `browser (4, 8)` | running                     | since 10:06:06           |
-| `browser (2, 8)` | running                     | since 10:15:32           |
-| the other eleven | **still queued**            | —                        |
+| Job                                                          | Result                                | When                     |
+| ------------------------------------------------------------ | ------------------------------------- | ------------------------ |
+| `unit (1, 6)`                                                | **green**                             | 10:40:46–10:46:17, 5m31s |
+| `unit (2, 6)`                                                | **green**                             | 10:29:51–10:34:27, 4m36s |
+| `unit (5, 6)`                                                | **green**                             | 09:38:32–09:43:48, 5m16s |
+| `unit (6, 6)`                                                | **green**                             | 10:40:50–10:45:54, 5m04s |
+| `browser (6, 8)`                                             | **red**, 9 failed 54 passed           | 09:46:55–10:04:29, 17.6m |
+| `browser (2, 8)`                                             | **red**, 1 failed 74 passed           | 10:15:32–10:32:17, 16.7m |
+| `browser (4, 8)`                                             | **red**, 7 failed 1 skipped 50 passed | 10:06:06–10:36:09, 30.0m |
+| `unit (3, 6)`, `unit (4, 6)`, `repository`, 5 browser shards | never ran                             | —                        |
 
-**Two of fifteen have reported.** `repository`, five of the six unit shards and
-five browser shards had not started at 10:20Z.
+**Four of six unit shards green, and no red belonging to this branch.**
 
-**The one red is main's, established by title rather than by shard number.**
-`browser (6, 8)` failed with exactly the nine spec-and-title pairs main's own
-`browser (6, 8)` failed at `7fc33c85`, and with the same 9-failed / 54-passed
-split. The fix-main lane independently reproduced all nine at `445441a5` the
-same way. The release adds nothing to them. It was not re-run: an identical
-match against the base branch is stronger than a second run of the same shard,
-and a re-run would cost 17.6 minutes out of the queue the other eleven shards
-are still sitting in. Recorded on the pull request as
-[a comment](https://github.com/lamontaes/Political-Game-Git/pull/277#issuecomment-5774630845).
+`unit (2, 6)` is worth more than its colour. It is the shard that is **red on
+`main`**, and its green here is the first CI evidence for the
+campaign-projection fix, which until 10:34Z rested on local evidence only. The
+whole point of buying this run was to stop saying "it passes locally".
+
+**All seventeen browser failures are `main`'s**, and sixteen of them were
+established without spending a single re-run: they are named by spec file,
+line and test title in `docs/BROWSER-SUITE-CASE-LIST.md`, the inventory of
+`main`'s 104 not-passing cases. That inventory was built to describe `main`
+and answered a question about a different branch, which is the best thing that
+happened to it.
+
+The seventeenth, `national-election.spec.ts:4:1`, is **not** in that list — so
+it was run by hand rather than assumed, on this merged tree and on `main`'s
+tree in the same container. **Flaky on both**: the first attempt fails at the
+`national-election-results` locator, the retry passes. The same tree without
+the release's changes fails it the same way, so it is not the release's. It
+had simply never failed twice on `main` before.
+
+**One finding handed back rather than acted on.** Four of `browser (4, 8)`'s
+seven are `p29-g-apartment.spec.ts:25:5` cases, classified in the case list as
+_(artwork)_ — among the 23 that "need owner-private artwork and can never pass
+on a runner". At least one of them is not failing for that reason. The runner's
+error is `Name the state, then a town. Lexington and Kentucky are not assumed.`
+at `src/presentation/new-game-geography.ts:312`, reached from
+`chooseCreatorLocation` at `tests/e2e/support/creator.ts:78`. That is the
+production guard working correctly and a test helper failing to name a state —
+a fixable test-side defect, not a missing private asset. Not reclassified here:
+it is not this lane's file, and the error was confirmed for one of the four
+rather than all four.
+
+**How `browser (6, 8)`'s nine were established.** It failed with exactly the
+nine spec-and-title pairs main's own `browser (6, 8)` failed at `7fc33c85`,
+with the same 9-failed / 54-passed split, and the fix-main lane independently
+reproduced all nine at `445441a5`. Not re-run: an identical match against the
+base branch is stronger than a second run of the same shard, and 17.6 minutes
+were worth more to the shards still queued. Recorded on the pull request as
+[a comment](https://github.com/lamontaes/Political-Game-Git/pull/277#issuecomment-5774630845),
+with the other two shards' stand-downs
+[here](https://github.com/lamontaes/Political-Game-Git/pull/277#issuecomment-5775000316)
+and
+[here](https://github.com/lamontaes/Political-Game-Git/pull/277#issuecomment-5775130916).
 
 **Two of those nine were this lane's and are now fixed on `main` as #351** —
 and they were not what they were filed as. `pt3-microfix-version.spec.ts:81`
@@ -338,12 +401,63 @@ split CI reported here; after the change all three pass in 56.2s. The fix went
 to `main` rather than to this branch, because pushing here would have killed
 the run above.
 
-**What this means for the morning report.** At the rate the queue is moving —
-eight browser shards at 18 to 40 minutes each against roughly three slots — the
-release will not have a complete verdict by nine o'clock. **The honest sentence
-is that the 0.4.0 release has one green unit shard and one inherited red
-browser shard on `eb0abea1`, and thirteen jobs outstanding.** Not "the release
-is verified", and not "the release is failing" either.
+**What this means for the morning report, and what was traded for it.** The
+release was never going to have a complete verdict by nine: eight browser
+shards at 18 to 40 minutes each against roughly three slots does not fit in
+the time. At 11:10Z the choice was between letting the remaining six jobs run
+on a head that **is not this pull request's head and never will be merged**,
+and making the pull request clickable, which is what the owner actually asked
+for. The base merge went in, and it cancelled the run.
+
+**The honest sentence for the report:** the 0.4.0 release has **four of six
+unit shards green and three red browser shards on `eb0abea1`, every red of
+them inherited from `main`, with six jobs never run** — and #277 is
+`mergeable_state: clean` at `f20381f1`, gated locally on format, typecheck and
+`release:check`. Not "the release is verified". Not "the release is failing".
+And not, any longer, "the release cannot be merged".
+
+## "Documentation only, so no release declaration" is wrong, and it turned main's gate red
+
+**Measured 2026-09-22 11:25Z.** Main's `repository` job failed on `35e7b81a`
+([job 106698937271](https://github.com/lamontaes/Political-Game-Git/actions/runs/35711551223/job/106698937271),
+10:37:09–10:40:03Z):
+
+```
+release:check — Post-rollout eligible change b8f8702f..35e7b81a modifies
+2 non-declaration path(s) but adds or changes no declaration in
+docs/release/changes. Declare impact: patch, minor, or explicit none.
+```
+
+**The two paths are `docs/decisions/DECISION-LOG.md` and this file.** They are
+this lane's own, from this lane's own merges. The gate was red on `main` because
+of documentation this lane landed while asserting documentation needed no
+declaration.
+
+**The rule, read from the source rather than assumed.**
+`scripts/release/transition.ts:238` computes `eligiblePaths` as _every_ changed
+path that is not under `docs/release/changes/`. There is no `src/` versus
+`docs/` distinction anywhere in it. Past the legacy cutoff, **a comparison range
+that changes anything at all and contains no declaration fails.**
+
+**Why nobody noticed for hours.** A doc-only merge whose comparison range also
+contains some other lane's declaration passes — on that lane's declaration, not
+on its own merit. The gate only bites when a range happens to be _entirely_
+documentation. At least four pull requests tonight, across two lanes, carry the
+sentence "documents only … so no release declaration" in their own merge
+commits. Every one of them was riding someone else's paperwork.
+
+**This lane knew and forgot.** `docs/release/changes/merge-train-2026-09-22.md`
+and `merge-train-document-2026-09-22.md` already exist, both `impact: none`,
+both written for this same document earlier the same night. The practice was
+right and then quietly lapsed, which is worse than never having had it, because
+the lapse looked like a settled convention.
+
+**The correction is one line of practice:** documentation is not exempt, it is
+`impact: none`. `npm run release:declare -- <id> --impact none`, with a
+one-line internal reason. It costs nothing and it is the difference between
+main's gate being green and being red.
+
+Filed as `merge-train-and-decision-log-2026-09-22`.
 
 ## Withdrawn: the three-menu-destinations claim, which is in a merge commit
 

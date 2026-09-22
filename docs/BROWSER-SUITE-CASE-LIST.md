@@ -16,12 +16,27 @@ pinned 1234; see section 3 of the floor document), 2 workers, `CI=1`, 3 hours
 
 **What this list cannot tell you.** At least two cases in this suite answer
 differently depending on what runs alongside them, measured independently by
-the nationwide lane. So a case absent from this list can still be real in
+the nationwide lane, and there have since been two more sightings — the
+research-audit lane's national-election case, and the seventeenth failure on
+the release tree described below. So a case absent from this list can still be real in
 another run, and a case present here can pass in isolation. That weakens
 same-tree attribution in both directions, including the nine-for-nine match
 recorded in the floor document: matching titles across two runs is good
 evidence and it is not proof that the two runs met the same defect. Treat a
 match as a strong prior and a non-match as no information at all.
+
+**Two findings from the release tree, relayed rather than measured here.**
+Reported by the art/client lane through the coordinator on 2026-09-22; recorded
+because they bear on this list, not because this lane ran them.
+
+- `unit (2, 6)` came back green on the release tree. That is the shard that is
+  red on main, so it is the first CI evidence for the campaign-projection fix,
+  which until then rested on a local run only.
+- Of seventeen browser failures on that run, sixteen matched this list by spec
+  file, line and title. The seventeenth was not in the list, was run by hand on
+  both trees, and is flaky on both — so it is neither the release's nor new.
+  Three lanes have now used the "strong prior, not proof" rule in the paragraph
+  above and none has been burned by it.
 
 **How to use it.** Match on spec file plus test title. Shard numbers are not
 stable across runs and matching on them will lie to you. A case here that your
@@ -147,10 +162,37 @@ is worth reading closely.
 
 ### `p29-g-apartment.spec.ts`
 
-- `p29-g-apartment.spec.ts:25:5` — apartment residence-apartment-living-canonical-03 on ordinary controls at 1200 _(artwork)_
-- `p29-g-apartment.spec.ts:25:5` — apartment residence-apartment-living-canonical-03 on ordinary controls at 1440 _(artwork)_
-- `p29-g-apartment.spec.ts:25:5` — apartment residence-apartment-living-ordinary-02 on ordinary controls at 1200 _(artwork)_
-- `p29-g-apartment.spec.ts:25:5` — apartment residence-apartment-living-ordinary-02 on ordinary controls at 1440 _(artwork)_
+- `p29-g-apartment.spec.ts:29:5` — apartment residence-apartment-living-canonical-03 on ordinary controls at 1200 _(artwork, and a harness defect that was hiding behind it)_
+- `p29-g-apartment.spec.ts:29:5` — apartment residence-apartment-living-canonical-03 on ordinary controls at 1440 _(artwork, and a harness defect that was hiding behind it)_
+- `p29-g-apartment.spec.ts:29:5` — apartment residence-apartment-living-ordinary-02 on ordinary controls at 1200 _(artwork, and a harness defect that was hiding behind it)_
+- `p29-g-apartment.spec.ts:29:5` — apartment residence-apartment-living-ordinary-02 on ordinary controls at 1440 _(artwork, and a harness defect that was hiding behind it)_
+
+**These four were filed `artwork` for a reason that was not true, and checking
+it found a second defect.** Measured 2026-09-22, local, Chromium 141, on
+`4d092083`. The art/client lane read them as not artwork cases and asked for
+the reading to be checked; that was the right challenge, and it was half right.
+
+Run as they stood, all four threw in the character creator, at
+`src/presentation/new-game-geography.ts:312` — "Name the state, then a town.
+Lexington and Kentucky are not assumed." They never reached a single art
+assertion. The rooms were calibrated when the creator still inferred a
+hometown; it no longer does, so the walk died three steps before the geometry
+it exists to measure. That is a harness defect, and the only reason nobody
+found it is that the case was already sitting in the floor, and nobody opens a
+floor item twice.
+
+With the hometown named — explicitly, through `KENTUCKY_LEXINGTON_REGRESSION`,
+since these assertions are about apartment geometry and not about jurisdiction
+— all four reach their first art assertion and fail there:
+`[data-has-art="true"]` expected 1, received 0, with the room plate drawn and
+the candidate banner on the page reading "the candidate art bank is not in this
+checkout". So the family is right after all and **the floor stays at 23**.
+
+What moved is the account of why, and the lesson generalises: a failure's
+recorded family describes the line it died on, which is not the same as its
+cause. This is the third instance tonight. A case in the floor is the worst
+place for that error to land, because a floor item is one nobody looks at
+again — which is exactly what happened here.
 
 ### `p2r1-editorial.spec.ts`
 
@@ -310,6 +352,85 @@ is worth reading closely.
 ### `world39-news-journal.spec.ts`
 
 - `world39-news-journal.spec.ts:24:1` — News speaks about the place and the Journal tells the life through save (Aurora, Colorado) _(assertion, flaky)_
+
+## Ten of the 86 now pass, and they were one cause
+
+Worked 2026-09-22 after this list was first written. Measured locally on main,
+Chromium 141, `CI=1`, two workers.
+
+    narrative-life.spec.ts:556           runs the questions and ends into the life
+    p2r1-editorial.spec.ts:54            the old age-32 calibrated fixture
+    pennywise-adaptive-life.spec.ts:143  asks the short path, answers it
+    pennywise-adaptive-life.spec.ts:174  never tells the player what it concluded
+    pennywise-adaptive-life.spec.ts:248  plays a run of adult situations
+    pennywise-adaptive-life.spec.ts:324  writes no tier and no selection reason
+    pennywise-adaptive-life.spec.ts:359  keeps a calibrated life and reloads it
+
+Three more, which this list had filed under **timeout** rather than assertion,
+are the same cause and pass with them:
+
+    pennywise-adaptive-life.spec.ts:194  lets a player decline the whole thing
+    pennywise-adaptive-life.spec.ts:307  shows no tier, no meter and no forecast
+    pennywise-adaptive-life.spec.ts:390  rebuilds the life its replay address came from
+
+That is **ten of the 86 live cases**, leaving 76: 23 private-artwork,
+35 assertion, 17 timeout, 1 unknown. The seven-and-three split is itself the
+point — the same stale walk was counted in two different families, because a
+missing element is waited for and a wrong one is not.
+
+**The creator gained an appearance step.** "How you look", with its own Begin,
+now comes _after_ the questions, so answering the calibration returns the
+player to the creator rather than dropping them in a room. Every one of these
+asserted `play-screen` immediately and stopped on a creator with Begin sitting
+unpressed in front of it. A stale walk in seven places, not seven defects, and
+now one shared `beginAfterCalibration` helper.
+
+Running `pennywise-adaptive-life.spec.ts` by itself surfaced **eight**
+failures where the whole-suite run recorded five, which is a second instance of
+the order-dependence this list warns about above. Three more stale references
+came out of that file with them: quitting a life that has never been saved
+opens a confirmation, so `goTo(page, "leave-game")` leaves the player where
+they were; the replay case waited for an `opening-life-panel` that exists
+nowhere in `src` any more; and it was reading behind the skippable world
+introduction. That file is now 11 passed, 0 failed, from 8 failed.
+
+**Eight other specs call `leave-game` directly, and that is a hazard rather
+than a prediction.** Measured afterwards rather than assumed:
+`title-tableau.spec.ts` and `frontdoor44.spec.ts` both pass, so their quits do
+not meet the confirmation — they are not quitting an unsaved life. The claim
+that all eight would hang was too strong and is withdrawn. What holds is that
+the pattern is unsafe: `goTo(page, "leave-game")` is only reliable on a life
+that has been saved, and the shared `leaveGame` helper is what makes it
+reliable either way. `production-play.spec.ts` has six call sites and has not
+been checked one by one.
+
+**And a note on the timeout family.** Three of these four stale references
+presented as two-minute timeouts rather than failed assertions, because a
+missing element is waited for and a wrong one is not — which is exactly why
+three of the ten recovered cases sit in the timeout row of the table below and
+seven in the assertion row, for one cause. So some of the remaining 17 live
+timeouts are stale references rather than slow walks, and the two families are
+not as separate as the table makes them look. The table below is left as
+measured, with this section as its correction, rather than rewritten to hide
+that the families crossed.
+
+## The creator has no `h1`
+
+`front-door-readability.spec.ts:152` waits for
+`getByTestId('setup-screen').locator('h1')` and spends the full budget on it.
+Measured on main: there is no `h1` inside the creator. The wordmark is an
+`h1` on the title screen; the creator's own headings are the `h2` stage
+titles, which the same case reads successfully one line later.
+
+Not classified here, because it is two different findings depending on an
+answer this lane does not own. If the creator is meant to carry a heading of
+its own, a `main` landmark with no `h1` is an accessibility gap and the test
+is right. If the collapsed-summary creator is meant to be a continuation of
+the title screen rather than a page in its own right, the test is pinning a
+heading the design removed and should read the `h2` it already reads.
+
+Either way the case is currently a two-minute wait on a missing element rather
+than a statement about contrast, which is what it was written to measure.
 
 ## Totals
 
