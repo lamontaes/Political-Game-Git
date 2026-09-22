@@ -1,4 +1,13 @@
 {
+  "answer": {
+    "summary": "Both halves answered. Broad modding of content AND rules is already approved, along with skip-and-report. Through existing registration a pack may carry scenes and actions, traits, people and names, work and institutions, policy and effects, geography, roles and rules, news, and compatible artwork. The refusal rule is graded rather than all-or-nothing: an independent unknown contribution is skipped and reported while the valid independent content is kept; unknown OPTIONAL metadata can be ignored with a precise warning when semantics and dependencies are unaffected; a bad semantic value or an unknown REQUIRED condition or effect disables the smallest dependent record or action — explicitly not the cost or condition alone while the reward is retained; and only an uninterpretable root or API, or a genuine security or integrity failure, can require rejecting the whole pack. An intentional override is to be distinguished from an accidental collision. ChatGPT offers a sample player-facing line, marked as illustration: installed usable parts, one job skipped for invalid pay, two others available.",
+    "sources": [
+      "ChatGPT reply document 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, entry 'COUPLED WORLD — LIVE AUDIT PRIORITY AND ECONOMY CORRECTION', read 2026-09-22, paragraph 'MOD ANSWER'"
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:23:07.677Z",
+    "stillOpen": "Two gaps against what our record asked. It gives the eight registration categories but not the priority order, so which to build first is still ours or lamontae's to decide. And no unsandboxed host or raw-save permission is granted, which bounds the 'rules' half. Note also that nothing in either document addresses this record's own framing that the pack vocabulary is two fields — that is our measurement of the current code, not something ChatGPT confirmed or disputed."
+  },
   "filedAt": "2026-09-22T14:55:00.000Z",
   "impact": "blocks-work",
   "lane": "hardcoded-content audit",

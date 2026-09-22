@@ -1,4 +1,13 @@
 {
+  "answer": {
+    "summary": "A bill is about the provision meanings actually chosen, and every introduction route must preserve them: the player's own selections; an NPC's goals, knowledge, authority and feasible choices; coherent generated initial law; and explicitly isolated test fixtures. Alternatives come from those four routes, not from the docket. Docket context enables a position to be considered, it does not select every position automatically, and a sponsor's beliefs are not the whole bill — so do not load every alternative under an issue into an enacted law. Before wiring anything, trace the precise policyAlternativeIds type and its consumer: a procedural instrument can legitimately carry no substantive alternative when its procedural effect exists. Empty legacy alternative ids do not erase meaningful tax or bundle provisions, but a title and a summary are not a substitute for an actual effect.",
+    "sources": [
+      "ChatGPT reply document 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, entry 'COUPLED WORLD — LIVE AUDIT PRIORITY AND ECONOMY CORRECTION', read 2026-09-22, paragraph 'BILL CONTENT ANSWER'"
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:23:07.677Z",
+    "stillOpen": "It answers where alternatives come from and gates the wiring, but does not name the consumer of policyAlternativeIds — that trace is ours to do. ChatGPT asks that this be received beside the existing law-effect work rather than as another compiler, and says the entry is source and worker evidence, not implementation or a passing test."
+  },
   "filedAt": "2026-09-22T15:20:00.000Z",
   "impact": "blocks-work",
   "lane": "hardcoded-content audit",
