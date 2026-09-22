@@ -1,0 +1,34 @@
+{
+  "filedAt": "2026-09-22T20:05:00.000Z",
+  "impact": "shapes-design",
+  "lane": "playtest",
+  "notes": [
+    "Asked by the owner on 2026-09-22 at 19:50Z: 'what are the rules for calling election night results?'",
+    "What the game does today, read on main at bf29ced4: every race is decided in one step on election day. campaignElectionTransitionHandler (src/simulation/campaigns.ts:1759) records a resolved result at once. There is no count coming in, no share of precincts reporting, no projection or media call, and no certification for any state, local or Congressional race. Only the presidential Electoral College records carry certification (src/simulation/national-elections.ts:201).",
+    "An exact tie goes to whichever candidate's internal id sorts first (src/simulation/campaigns.ts:1513, src/simulation/election-contests.ts:184). There is no recount, runoff or lot-drawing. A Galena, Illinois walk printed 50.0% to 50.0% and declared a winner with no explanation.",
+    "Each state's municipal ballot rules (plurality, majority with runoff, top-two, ranked choice, majority share) are already declared in src/simulation/municipal-election-rules.ts:301-304 and 413-421, but nothing that decides a race reads them.",
+    "DEPTH2 A08 rules that authority starts when the applicable rule says, not on election night, and A09 rules that campaign outcomes come from the candidate and participation model, not a tuned target share. Neither addresses calling, recounts, ties or runoffs. The transition between winning and the seat is asked separately in legislative-winner-between-election-and-seat and is not part of this question."
+  ],
+  "priority": "P1",
+  "question": "When an American election is held, what actually decides who has won, and when, for state legislative, statewide executive, local and Congressional races? Specifically: how results are reported on election night and after (unofficial returns, canvass, certification), and who certifies and on roughly what timetable; what 'calling' a race means (a media projection with no legal force, versus the official result) and whether a game should model it; what happens on an exact or near tie — the recount triggers (automatic margin thresholds and requested recounts) and the tie-breaking rule (lot, coin toss, runoff, legislature decides), stated as a national rule with the main state variations named; and where a majority rather than a plurality is required, what triggers a runoff and when it is held.",
+  "questionId": "election-results-calling-recounts-and-ties",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "playtest thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/campaigns.ts and src/simulation/election-contests.ts on main at bf29ced4",
+      "whatItDidNotSettle": "Show the game decides every race instantly and breaks ties by id order. They carry no law about canvass, certification, recounts or ties."
+    },
+    {
+      "source": "src/simulation/municipal-election-rules.ts",
+      "whatItDidNotSettle": "Declares municipal ballot types and runoff rules per state, which the resolver never reads. Says nothing about state, Congressional, recount or tie rules."
+    },
+    {
+      "source": "DEPTH2-ANSWERS.md, sections A08 and A09",
+      "whatItDidNotSettle": "Rule that authority starts on the legal date and that outcomes come from the campaign model. Neither addresses calling, recounts, ties or runoffs."
+    }
+  ],
+  "title": "How an election is called, recounted and tie-broken",
+  "usableAnswer": "A national rule with its main state variations named, not fifty entries: the stages from election night to a certified result and roughly how long each takes; whether a media call should appear in the game and how it differs from the official result; the automatic recount margin (commonly stated as a percentage) and who may request one; the legal tie-breaker used where a tie survives a recount; and the runoff trigger and timing where a majority is required. Approximate timetables are fine; the tie-breaker and recount triggers are what the game needs precisely, because today it silently picks a winner by an internal identifier.",
+  "whyItMatters": "The election is the payoff of every campaign, and today a tie is decided by an identifier the player never sees, with no recount and no explanation. A close race with a recount, a canvass and a certified result is also news, which gives the player's own race a reason to appear in the papers — something the playtests found it never does."
+}

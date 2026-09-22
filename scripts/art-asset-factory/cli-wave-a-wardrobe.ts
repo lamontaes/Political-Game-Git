@@ -80,6 +80,7 @@ async function main(): Promise<void> {
       ).length,
       heads_baked_in: result.bodies.filter((body) => body.headBaked).length,
       refused_by_pose: result.skipped.length,
+      bodies_underived: result.underivedBodies.length,
     },
     bodies: result.bodies.map((body) => ({
       asset_id: body.assetId,
@@ -118,6 +119,7 @@ async function main(): Promise<void> {
       note: m.note,
     })),
     refused_by_pose: result.skipped,
+    bodies_underived: result.underivedBodies,
   };
 
   const registryPath = path.join(
