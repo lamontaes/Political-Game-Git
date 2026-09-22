@@ -31,8 +31,10 @@ export const SHOWING_THEIR_HAND = `${LEGISLATURE_PACK}:showing-their-hand`;
 /**
  * One answer is not a manner.
  *
- * Below this, a member has answered rather than shown a pattern, and the
- * honest reading is still that this world does not know how they bargain.
+ * Below this many *sittings*, a member has answered rather than shown a
+ * pattern, and the honest reading is still that this world does not know how
+ * they bargain. Counted in occasions rather than commitment rows, because a
+ * member who states three clauses at one sitting has appeared once.
  */
 const ENOUGH_TO_READ = 3;
 
@@ -69,7 +71,14 @@ export function bargainingMannerFromRecord(
   const mine = (world.history.legislativeCommitments ?? []).filter(
     (record) => record.holderPersonId === personId,
   );
-  if (mine.length < ENOUGH_TO_READ) return { state: "unknown" };
+  // Sittings, not clauses. Several commitments can be stated at one sitting,
+  // and three clauses in a single answer is one occasion however many rows it
+  // wrote: counting rows here would read a whole manner off one appearance,
+  // which is exactly what ENOUGH_TO_READ exists to refuse. The share below
+  // stays over rows, because within those sittings what was said is what is
+  // being weighed.
+  const occasions = new Set(mine.map((record) => record.eventId));
+  if (occasions.size < ENOUGH_TO_READ) return { state: "unknown" };
   const plain = mine.filter((record) => record.firmness === "explicit");
   const guarded = mine.filter(
     (record) =>
@@ -82,7 +91,7 @@ export function bargainingMannerFromRecord(
       value: 0,
       plain: plain.length,
       guarded: guarded.length,
-      eventIds: [...new Set(mine.map((record) => record.eventId))],
+      eventIds: [...occasions],
     };
   }
   const share = Math.max(plain.length, guarded.length) / mine.length;
@@ -92,9 +101,9 @@ export function bargainingMannerFromRecord(
     value: (leaning > 0 ? magnitude : -magnitude) as -2 | -1 | 1 | 2,
     plain: plain.length,
     guarded: guarded.length,
-    // Distinct, because several commitments can be stated at one sitting and
-    // the mind layer rejects a provenance that cites the same source twice.
-    eventIds: [...new Set(mine.map((record) => record.eventId))],
+    // The same distinct sittings the threshold counted; the mind layer rejects
+    // a provenance that cites the same source twice.
+    eventIds: [...occasions],
   };
 }
 
