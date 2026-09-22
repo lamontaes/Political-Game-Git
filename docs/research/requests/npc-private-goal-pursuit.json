@@ -1,16 +1,32 @@
 {
-  "requestVersion": "research-request/v1",
-  "questionId": "npc-private-goal-pursuit",
-  "title": "What a person privately wants, and how they pursue it when the player is not watching",
-  "question": "What kinds of private aim should an ordinary simulated adult hold across a life — and for each kind, what does pursuing it consist of week to week, what does the person do when it is blocked, and what makes them abandon it or replace it with another?",
-  "whyItMatters": "Every generated person is already given a private goal at world build, and no simulated person ever acts on one: the only consumers of those goals decide what the player may say in a scene. The player is therefore the only character in the world with an agenda, which is the opposite of the world acting independently. The store, the writer and the status vocabulary already exist, so what is missing is the content of pursuit rather than the machinery.",
+  "answer": {
+    "answeredAt": "2026-09-22T05:05:00.000Z",
+    "answeredBy": "ChatGPT, the technical director",
+    "sources": [
+      "ALIVE44, section \"LIVING PLAY \u2014 NPC PRIVATE GOAL PURSUIT RESEARCH\", 2026-09-22, read in full.",
+      "Named research basis: the US BLS American Time Use Survey 2025 for observable activity families, used as action surfaces rather than as a claim that time spent equals what somebody values; self-determination and goal-content research separating relationships, growth, community and health from wealth, fame and status, with neither family treated as morally correct; Wrosch et al. 2003 on disengagement and reengagement both being adaptive when a goal becomes unattainable; and socioemotional-selectivity work plus a 2024 study of 6,688 adults aged 18 to 90, used as weak context priors and explicitly not as age stereotypes.",
+      "Current source, which already stores goal objective, domain, priority, deadline and outcome along with failed, abandoned and superseded statuses, while generated-person life goals remain inert except as conversation-option inputs."
+    ],
+    "stillOpen": "Prevalence and selection. No per-family probability, no automatic political ambition, no maximum number of simultaneous goals and no new trait coefficients are approved; those are module-level choices if the current source cannot derive them. The build is also still open \u2014 this closes the question only.",
+    "summary": "Eleven private aim families as a first content bank, and a pursuit contract over the canonical goal path rather than a second goal engine. The families: livelihood and work stability or advancement; learning and mastery; relationship formation; relationship and family maintenance and care; health and function; housing and financial security; autonomy, privacy and boundaries; community, contribution, faith and civic service; creative and recreational projects; status, recognition, wealth and enterprise; and political or public ambition, which is explicitly a specialist aim and not a default \u2014 no prevalence is established and office-seeking must not be handed out broadly merely because this game can represent it.\n\nThe contract: a goal proposes eligible actions and never directly mutates money, employment, relationships, credentials, health, office or world state. At existing day, week or event boundaries a person may take zero or one meaningful next step, and only if time, access, money, relationship consent, authority and prerequisites permit \u2014 no weekly ritual action simply because a goal exists. Progress is evidence from canonical actions that actually happened, never a hidden progress bar. Blockers are explicit facts with named kinds, not a failure counter, and no single fixed failure count abandons a goal; abandonment comes from explicit rejection or a consent boundary, a closed or expired opportunity, an impossible prerequisite, a major life-state change, or persistent represented barriers plus a chosen alternative \u2014 with the original goal and its history preserved and the replacement linked as superseding. Private means private: discovery happens through behaviour, absence, conversation, introduction or public outcome, never an omniscient card. And explicit rejection ends pursuit of that specific person; no persistence mechanic may override consent."
+  },
+  "filedAt": "2026-09-22T05:00:02.000Z",
   "impact": "shapes-design",
-  "lane": "personality and relationships",
-  "usableAnswer": "A set of private aim families for an ordinary adult life, each with the observable steps a person takes toward it, what obstruction looks like, the condition under which the person gives it up, and what typically replaces it. Where an aim only makes sense at a stage of life, say which stage.",
+  "lane": "people and life",
+  "notes": [
+    "Political ambition is the interesting case and is the one most likely to be over-supplied. Most people in a town should want something entirely unpolitical, and the answer should say roughly how many want office at all.",
+    "A pursued goal has to be visible to the player through behaviour rather than through a label. Where a step would only ever be a line of text, say so."
+  ],
+  "priority": "P1",
+  "question": "What kinds of private aim should an ordinary simulated adult hold across a life \u2014 and for each kind, what does pursuing it consist of week to week, what does the person do when it is blocked, and what makes them abandon it or replace it with another?",
+  "questionId": "npc-private-goal-pursuit",
+  "relatedQuestionIds": ["ordinary-life-trait-set", "personality-change-pace"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "research audit thread (technical team lead)",
   "sourcesChecked": [
     {
       "source": "src/simulation/life-personality.ts lines 170-174 and its writer establishLifePersonality, on main at 273fd2b8",
-      "whatItDidNotSettle": "Shows the three ordinary-life goals every generated person receives — learning, connection and privacy — and that they are assigned at world build. It carries no notion of pursuit; the goal is read only to vary the player's conversation options."
+      "whatItDidNotSettle": "Shows the three ordinary-life goals every generated person receives \u2014 learning, connection and privacy \u2014 and that they are assigned at world build. It carries no notion of pursuit; the goal is read only to vary the player's conversation options."
     },
     {
       "source": "src/presentation/people-goals.ts lines 36-41 and 418-462",
@@ -21,12 +37,7 @@
       "whatItDidNotSettle": "Provides objective, domain, scope, priority, deadline, outcome and six statuses including failed, abandoned and superseded. The shape for abandonment is already there; nothing says what causes one."
     }
   ],
-  "requestedBy": "research audit thread (technical team lead)",
-  "filedAt": "2026-09-22T05:00:02.000Z",
-  "priority": "P1",
-  "notes": [
-    "Political ambition is the interesting case and is the one most likely to be over-supplied. Most people in a town should want something entirely unpolitical, and the answer should say roughly how many want office at all.",
-    "A pursued goal has to be visible to the player through behaviour rather than through a label. Where a step would only ever be a line of text, say so."
-  ],
-  "relatedQuestionIds": ["ordinary-life-trait-set", "personality-change-pace"]
+  "title": "What a person privately wants, and how they pursue it when the player is not watching",
+  "usableAnswer": "A set of private aim families for an ordinary adult life, each with the observable steps a person takes toward it, what obstruction looks like, the condition under which the person gives it up, and what typically replaces it. Where an aim only makes sense at a stage of life, say which stage.",
+  "whyItMatters": "Every generated person is already given a private goal at world build, and no simulated person ever acts on one: the only consumers of those goals decide what the player may say in a scene. The player is therefore the only character in the world with an agenda, which is the opposite of the world acting independently. The store, the writer and the status vocabulary already exist, so what is missing is the content of pursuit rather than the machinery."
 }

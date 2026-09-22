@@ -1,12 +1,29 @@
 {
-  "requestVersion": "research-request/v1",
-  "questionId": "relationship-dimensions-and-fading",
-  "title": "What a relationship between two people should be made of, and whether it fades",
-  "question": "Which distinct dimensions should a relationship between two simulated people carry — affection, trust, respect, obligation, rivalry and whatever else earns a place — how do they move independently of one another, and what happens to each across years of no contact?",
-  "whyItMatters": "Every interaction between two people is already logged with a namespace, a direction and a significance, but the only reading of that log collapses it to a single hidden sum and four buckets, and the code states outright that nothing decays. So a friend who has not been seen in thirty years reads exactly as close as one seen yesterday, and a person cannot be trusted professionally while disliked personally. A player who spends a long life with these people will notice that before anything else in the game.",
+  "answer": {
+    "answeredAt": "2026-09-22T13:00:00.000Z",
+    "answeredBy": "ChatGPT, the technical director",
+    "sources": [
+      "ALIVE44, section \"LIVING PLAY \u2014 RELATIONSHIP DIMENSIONS WITHOUT PASSIVE DECAY\", 2026-09-22, read in full.",
+      "The owner's decision of 2026-09-22, as recorded in the director's reply document: warmth, trust, respect, commitment and unresolved tension as asymmetric history-grounded meanings, with no five-bar upkeep UI and no passive contact-decay penalty.",
+      "Named research basis, with the director's own limits attached: Joel et al. 2020 PNAS on relationship-specific actor perceptions; Roberts & Dunbar 2011 on friendship versus kin maintenance; Navarro et al. 2017 on interaction rhythm and tie persistence, whose finding is explicitly not a game coefficient; Frei & Shaver 2002 on respect as distinct from liking; Tomlinson et al. 2020 on trust dimensions; Prager et al. 2015 and McCullough et al. 2010 on post-conflict recovery without automatic reconciliation."
+    ],
+    "stillOpen": "Every number. No decay rate, trust penalty, cadence multiplier or player-facing relationship bar is approved, and the two-year long-gap check now in the tree is named as a bounded placeholder rather than a chosen threshold. The work itself is also still open: this closes the question, not the build.",
+    "summary": "Five actor-specific standing interpretations, read from evidence that already exists, and no passive decay. Warmth, trust, respect, commitment and unresolved tension move independently and are asymmetric \u2014 A may trust B more than B trusts A \u2014 and closeness becomes a projection of them rather than the canonical fact. Trust stays domain-specific where the evidence is: professional reliability does not become personal trust. Unresolved tension is not merely negative affection, and a severe unresolved breach stays important after day-to-day anger cools. On time: nothing stored moves downward because time passed. A gap changes how current context reads, compared against that relationship's own established cadence rather than one universal friendship timer, and elapsed time is never forgiveness or reconciliation. No reciprocity, debt or rivalry meters; favours, promises and recurring competition stay concrete in history. Spouse, kin, colleague and mentor are relationship kinds, not quality dimensions.\n\nIt corrected its own premise from current source, which matters for scoping: `relationship-integration.ts` already records participant-specific memory and appraisal and already separates recent-contact, long-gap, reconnected and tension-context, and `people-contact.ts` says outright that nothing there decays. What is lossy is the consumer \u2014 `queries.ts` still compresses every interaction into one signed hidden score and four closeness buckets. So this is richer interpretation of records that exist, not a second relationship engine."
+  },
+  "filedAt": "2026-09-22T05:00:01.000Z",
   "impact": "shapes-design",
-  "lane": "personality and relationships",
-  "usableAnswer": "A named set of dimensions with a one-line definition of each and what raises and lowers it; for each, whether it fades with absence, is preserved, or hardens, and at roughly what pace; the precedent behind each choice, naming the game or the finding it comes from; and an explicit statement of which dimensions the researcher considered and rejected, with the reason.",
+  "lane": "people and life",
+  "notes": [
+    "Fading and forgetting are different. A person can remember someone perfectly and still feel less about them, and the memory record and the relationship state are stored separately here, so the answer can treat them separately too.",
+    "Asymmetry is wanted where it is real: A may rely on B while B barely notices A. Say whether each dimension is held per person or shared between the pair.",
+    "Keep the dimension count to what a player could actually perceive through behaviour. A dimension nothing can show is a number in a file."
+  ],
+  "priority": "P1",
+  "question": "Which distinct dimensions should a relationship between two simulated people carry \u2014 affection, trust, respect, obligation, rivalry and whatever else earns a place \u2014 how do they move independently of one another, and what happens to each across years of no contact?",
+  "questionId": "relationship-dimensions-and-fading",
+  "relatedQuestionIds": ["ordinary-life-trait-set"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "research audit thread (technical team lead)",
   "sourcesChecked": [
     {
       "source": "src/simulation/queries.ts lines 221-263, deriveRelationshipSummary on main at 273fd2b8",
@@ -25,13 +42,7 @@
       "whatItDidNotSettle": "Separates relationships from temperament and says relationships belong in their own layer. It does not say what that layer holds."
     }
   ],
-  "requestedBy": "research audit thread (technical team lead)",
-  "filedAt": "2026-09-22T05:00:01.000Z",
-  "priority": "P1",
-  "notes": [
-    "Fading and forgetting are different. A person can remember someone perfectly and still feel less about them, and the memory record and the relationship state are stored separately here, so the answer can treat them separately too.",
-    "Asymmetry is wanted where it is real: A may rely on B while B barely notices A. Say whether each dimension is held per person or shared between the pair.",
-    "Keep the dimension count to what a player could actually perceive through behaviour. A dimension nothing can show is a number in a file."
-  ],
-  "relatedQuestionIds": ["ordinary-life-trait-set"]
+  "title": "What a relationship between two people should be made of, and whether it fades",
+  "usableAnswer": "A named set of dimensions with a one-line definition of each and what raises and lowers it; for each, whether it fades with absence, is preserved, or hardens, and at roughly what pace; the precedent behind each choice, naming the game or the finding it comes from; and an explicit statement of which dimensions the researcher considered and rejected, with the reason.",
+  "whyItMatters": "Every interaction between two people is already logged with a namespace, a direction and a significance, but the only reading of that log collapses it to a single hidden sum and four buckets, and the code states outright that nothing decays. So a friend who has not been seen in thirty years reads exactly as close as one seen yesterday, and a person cannot be trusted professionally while disliked personally. A player who spends a long life with these people will notice that before anything else in the game."
 }
