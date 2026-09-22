@@ -347,6 +347,20 @@
         "art/generated/candidates/wave-a-morphology/additional-fat-female-pose"
       ],
       "reason": "The preserved cargo is bodies. Every unit in it is a whole figure with its head painted into the same raster, which is what the eighteen derived records mean when they declare baked_slots [\"head\"], and not one preserved unit is a head or a hair piece on its own. So the request may not be answered from this cargo at any resolution: there is nothing here to separate, and a head cannot be recovered from a plate that never drew one apart. The eleven heads and fifteen hair pieces that do exist elsewhere are the D-063 set, refused by eye in September as untextured grey mannequins, and re-proposing them would re-propose the thing that was already looked at and declined. Still required, and the premise is narrower than absence: the art exists as figures and is needed as layers."
+    },
+    {
+      "requestId": "ui-ordinary-day-page-furniture",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this. Read at this head rather than copied from the neighbouring interface verdicts: the reconciliation resolves 20 preserved units, twelve character and morphology families and eight swept source photographs, and none of them is interface artwork. The manifest's 126 assets are environment plates and modular character components; a scan of every string in it for an interface word returns only prose sentences and garment filenames. So no preserved asset could answer or restate this ask."
+    },
+    {
+      "requestId": "ui-standing-thing-state-marks",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this, for the same measured reason as the page-furniture request above: none of the 20 preserved units is interface artwork, and the manifest holds none either. These are three state marks on the player's own list, which no character component or environment plate could stand in for."
     }
   ],
   "unlinkedPreservedAssets": [
