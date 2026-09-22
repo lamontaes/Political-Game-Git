@@ -54,6 +54,7 @@ import {
 } from "./records";
 import {
   appendPressRecord,
+  pressDispositionsForLead,
   pressRecordsOfKind,
   requirePressRecord,
 } from "./store";
@@ -106,9 +107,7 @@ export function dispositionsForLead(
   world: World,
   leadId: EntityId,
 ): readonly StoryDispositionRecord[] {
-  return pressRecordsOfKind(world, "story-disposition").filter(
-    (record) => record.leadId === leadId,
-  );
+  return pressDispositionsForLead(world, leadId);
 }
 
 export function latestDisposition(

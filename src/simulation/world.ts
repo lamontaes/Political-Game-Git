@@ -542,6 +542,11 @@ const VALIDATED_WORLDS = new WeakSet<World>();
  */
 let integrityDeferredDepth = 0;
 
+/** True inside a scope whose result will be validated whole before it is kept. */
+export function worldIntegrityDeferred(): boolean {
+  return integrityDeferredDepth > 0;
+}
+
 export function withWorldIntegrityDeferred<T>(run: () => T): T {
   integrityDeferredDepth += 1;
   try {
