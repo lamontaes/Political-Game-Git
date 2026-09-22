@@ -11,6 +11,7 @@ import {
   stageReceivedCode,
   publishReceivedChannel,
 } from "../../desktop/private-controller/received-channel.mjs";
+import { publishSourceRef } from "./source-ref.mjs";
 const file = process.argv[2];
 if (!file) throw new Error("Usage: publish-received DELIVERY.json [--publish]");
 const delivery = JSON.parse(readFileSync(file, "utf8"));
@@ -41,7 +42,19 @@ const content = delivery.contentInput
 const build = delivery.clientDir
   ? stageReceivedCode({ ...delivery, content })
   : { ...delivery.build, content };
-const channel = process.argv.includes("--publish")
+const publishing = process.argv.includes("--publish");
+// New local code becomes selectable only after its exact source is reachable
+// from the matching cloud branch.  Content-only updates reuse an already
+// published code revision and therefore do not move a source ref.
+const source =
+  publishing && delivery.clientDir
+    ? publishSourceRef({
+        repositoryPath: delivery.repositoryPath ?? process.cwd(),
+        track: delivery.track,
+        revision: build.revision,
+      })
+    : null;
+const channel = publishing
   ? publishReceivedChannel({ ...delivery, build })
   : null;
-console.log(JSON.stringify({ build, content, channel }, null, 2));
+console.log(JSON.stringify({ build, content, source, channel }, null, 2));
