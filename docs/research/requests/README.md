@@ -53,11 +53,33 @@ Staging Index.)
 
 **The link is the folder, never a document id.** The Drive connector cannot
 rewrite the body of an existing Google Doc, so each refresh creates a new dated
-document and trashes the previous one. A document id written down anywhere is
-therefore guaranteed to die at the next refresh — which has already happened
-once, and sent a lane to a document that no longer existed. The folder holds
-exactly one document at rest, so whatever is in it is current, and its title
-carries the render time and the commit so you can tell without opening it.
+document. A document id written down anywhere is therefore guaranteed to go
+stale at the next refresh — which has already happened once, and sent a lane to
+a document that was no longer current. The live folder holds exactly one
+document at rest, so whatever is in it is current, and its title carries the
+render time and the commit so you can tell without opening it.
+
+**Never trash the previous render. Rename it and move it.** Prefix its title
+with `SUPERSEDED — `, keeping the rest of the stamped title exactly as it was,
+and move it to the sibling archive folder, "OPEN RESEARCH QUESTIONS —
+superseded renders (kept for comments)". Renaming and moving preserve the
+document id, so every link already pointing at it and every comment left on it
+keep working; trashing destroys both, and a trash through this connector is a
+one-way door — there is no untrash, and afterwards no session can even read the
+file's metadata. Only lamontae can restore one, from the Drive browser, within
+thirty days.
+
+Recreating a document you trashed is not a repair. The restore is what brings
+back the original id, and the id is the thing every pointer and every comment
+was attached to; a new document with the same title fixes nothing and makes the
+folder look tidy while the pointer is still broken. So a trash becomes one line
+in lamontae's pooled list asking him to restore it, and the archive folder holds
+only documents we still have.
+
+This queue renders more often than anything else published to Drive, so it runs
+this risk on every single refresh. The reasoning behind the rule, and the two
+failures that produced it, are in `docs/DRIVE-PUBLISHING.md`, which arrives with the hardcoded-content
+audit branch.
 
 Render at a committed head. The stamp reads `(working tree modified)` otherwise,
 which is the tool being honest but not something to publish.
