@@ -2827,3 +2827,41 @@ case says which parts were measured and which were merely argued.
 Consequence: the morning report distinguishes what was measured from what was
 inferred, and a reader who checks any individual claim finds the head it was
 measured on rather than a bare assertion.
+
+## D-087 — A merge with no conflict is not a merge with no consequence
+
+- Date: 2026-09-22
+- Status: ACCEPTED
+- Supersedes: none
+
+Twice in one night a clean automatic merge produced a tree that did not
+compile, and neither instance was visible in the merge itself. Git reports a
+conflict when two sides edit the same hunk. It reports nothing when one side
+adds a caller and the other removes the callee, because those live in
+different files, or in different hunks of the same file.
+
+**The instances.**
+
+- `#283` against `main` at `1c4a2d85`: main added
+  `src/presentation/legislation-bundle-docket.ts` in `bcee3aed`, which imports
+  `designationPrefix`; the branch removed that export from
+  `src/simulation/legislation-drafting.ts`, having relocated the prefix onto
+  the chamber record. Neither file conflicts. `npm run typecheck` fails with
+  `TS2305`.
+- The release branch, earlier the same night: a base merge that read as a
+  clean reversal of an export until the history was checked.
+
+**The rule.** A base merge that reports no conflict has not been validated.
+Run typecheck on the merged tree before the merge is treated as done, and name
+the head it ran on, exactly as D-086 requires of any other evidence. This is
+cheap — typecheck is the fastest gate the repository has — and it is the only
+one of the gates that catches this class at all. Lint, format and a unit shard
+that does not import the broken module all pass a tree that will not build.
+
+**What it does not license.** It is not an argument for skipping the other
+gates, and it is not a reason to avoid base merges. A branch that is behind
+main is a worse risk than one that is current; the point is that merging main
+in is a change like any other and needs a check run after it, not before.
+
+Consequence: "merged cleanly" stops being reported as a result on its own. The
+result is the gate that ran on the merged tree.

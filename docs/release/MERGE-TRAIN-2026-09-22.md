@@ -20,6 +20,12 @@ recommended in it.
 
 ## The list to click through
 
+> **Read this before you click anything: do not merge #283.** The version
+> GitHub has breaks main's typecheck, and the version that is green exists
+> only inside another session's container. It is a draft and currently
+> conflicted, so the button is not live — but if you make it live, it lands
+> broken. The full reproduction is in its entry below.
+
 **Final state, refreshed against `origin/main` at `af6b379b`, 08:40Z.** The
 train has run. This section is what is left, not what was planned — where the
 two differ, the difference is stated rather than tidied away.
@@ -64,9 +70,43 @@ run.
   because that fixture asserts the _sentence_, not the verdict. Checked on
   `af6b379b` rather than taken from the hold note. It needs the fix-main lane's
   fixture patch first.
-- **#283 — every state has a legislature, the District governs itself.** Held
-  by its own lane with seven unattributed test failures and a merge conflict,
-  and being put back to the nationwide lane rather than assumed ready.
+- **#283 — DO NOT MERGE. Not "held". Do not click it.** Every state has a
+  legislature, the District governs itself — and **merging the version GitHub
+  has breaks main's typecheck.** Reproduced at 09:20Z rather than relayed:
+  merge `origin/main` at `1c4a2d85` into this pull request's pushed head
+  `eb80bbc1`, resolve the conflicts, and `npm run typecheck` fails with
+
+  ```
+  src/presentation/legislation-bundle-docket.ts(17,3): error TS2305:
+  Module '"../simulation/legislation-drafting"' has no exported member
+  'designationPrefix'.
+  ```
+
+  Main added `src/presentation/legislation-bundle-docket.ts` in `bcee3aed`
+  and that file does not exist on `eb80bbc1`. `designationPrefix` is exported
+  at `src/simulation/legislation-drafting.ts:825` on main, and `eb80bbc1`
+  removes that export, because this branch relocated the prefix onto the
+  chamber record. Neither file conflicts: one is new to main, the deletion is
+  in a different hunk of the other. **Git merges them cleanly and only
+  typecheck catches it.**
+
+  The green the nationwide lane reports — 4,229 tests, zero failures, twice
+  over — is real and is **on a commit that only exists inside its container.**
+  That session's permission classifier refuses `git push`, so the green
+  version and the clickable version are different commits, and only the broken
+  one is reachable from the button.
+
+  Two things currently stand between this and a broken main, and neither is
+  load-bearing on its own: it is a **draft**, and GitHub reports it
+  `mergeable_state: dirty`, so the merge button is not live at 09:20Z. Both
+  of those go away the moment somebody resolves the conflict and marks it
+  ready.
+
+  **What it needs:** the push gate opened in the nationwide lane's session, by
+  an approval prompt there or a Bash rule in settings, so the commit that is
+  actually green can reach GitHub. That is lamontae's to clear and nobody
+  else's.
+
 - **#305** and **#311** were reported ready earlier on heads that have since
   moved. Their evidence is older than the head each now carries, so they are
   clicks rather than merges.
@@ -83,7 +123,8 @@ run.
   reading and was not overridden.
 
 **A draft cannot be merged.** #304 and #283 are drafts; each needs its "Ready
-for review" button pressed before the merge button appears.
+for review" button pressed before the merge button appears. For #283 that is
+a guardrail rather than an obstacle — read its entry above before touching it.
 
 **Already in main — nothing to do.** Thirty-four pull requests merged between
 22:00Z and this refresh, read from `git log` on `origin/main` at `7fc33c85`:
