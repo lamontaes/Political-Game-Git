@@ -55,6 +55,11 @@ export const ART_DESK_TABS: readonly {
   { key: "archived", label: "Removed from review" },
 ];
 
+/** Owner-facing sections; archive/library classifications remain in history. */
+export const ART_DESK_NAV_TABS = ART_DESK_TABS.filter(
+  ({ key }) => key !== "library" && key !== "references",
+);
+
 /**
  * Display names from the delivery receipts (CRUNCH46 H5). Keyed by exact
  * candidate id; ids and history stay untouched.
@@ -87,6 +92,11 @@ const STAGE_LABELS: Readonly<Record<EditKind, string>> = {
   "canvas-change": "canvas change",
   other: "review copy",
 };
+
+/** Old imported review rows can predate edit-kind recording. */
+function editStage(candidate: Pick<ProjectedCandidate, "editKind">): string {
+  return STAGE_LABELS[candidate.editKind] ?? "version";
+}
 
 export const CARD_STATUS_LABELS: Readonly<Record<CandidateStatus, string>> = {
   "awaiting-review": "Awaiting your review",
@@ -307,7 +317,7 @@ export function conciseChange(
   const first = note.split(/(?<=\.)\s/)[0] ?? "";
   const text = first.length > 140 ? `${first.slice(0, 137)}…` : first;
   if (text) return text;
-  return `${humanize(STAGE_LABELS[candidate.editKind])}, ${candidate.width}×${candidate.height}.`;
+  return `${humanize(editStage(candidate))}, ${candidate.width}×${candidate.height}.`;
 }
 
 function lineageOf(
@@ -321,7 +331,7 @@ function lineageOf(
     seen.add(current.candidateId);
     steps.push({
       candidateId: current.candidateId,
-      stage: STAGE_LABELS[current.editKind],
+      stage: editStage(current),
       width: current.width,
       height: current.height,
       at: current.ingestedAt,
@@ -435,7 +445,7 @@ export function unlabelledDeliveryTitle(
 
 function stageTitle(base: string, lead: ProjectedCandidate | undefined) {
   if (!lead) return base;
-  return `${base} — ${deliveryPurpose(lead) ?? STAGE_LABELS[lead.editKind]}`;
+  return `${base} — ${deliveryPurpose(lead) ?? editStage(lead)}`;
 }
 
 /** Disposable proof requests: flagged, or named as QA by convention. */
@@ -814,7 +824,7 @@ export function candidateDisplayName(
       ?.find((value) => value.startsWith(`${candidate.candidateId}:`))
       ?.slice(candidate.candidateId.length + 1) ??
     DELIVERY_DISPLAY_NAMES[candidate.candidateId] ??
-    `${card.baseTitle} — ${deliveryPurpose(candidate) ?? STAGE_LABELS[candidate.editKind]}`
+    `${card.baseTitle} — ${deliveryPurpose(candidate) ?? editStage(candidate)}`
   );
 }
 
@@ -871,7 +881,7 @@ export function viewedCandidateView(
   return {
     title: viewed ? candidateDisplayName(card, viewed) : card.title,
     candidateId: viewed?.candidateId ?? null,
-    stage: viewed ? STAGE_LABELS[viewed.editKind] : null,
+    stage: viewed ? editStage(viewed) : null,
     status: viewed?.status ?? null,
     newer: newest
       ? {
@@ -920,7 +930,7 @@ export function candidateNotes(
     if (parent.note?.trim())
       inherited.push({
         candidateId: parent.candidateId,
-        stage: STAGE_LABELS[parent.editKind],
+        stage: editStage(parent),
         note: parent.note.trim(),
       });
     parent = parent.parentCandidateId

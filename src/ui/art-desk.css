@@ -65,6 +65,10 @@
   max-height: min(70vh, 720px);
   overflow: auto;
 }
+.art-desk-cards > li {
+  content-visibility: auto;
+  contain-intrinsic-size: 80px;
+}
 /* Every row keeps the same two-column shape whether or not bytes exist, so a
    missing thumbnail leaves an empty slot instead of pushing the copy into the
    72px column. */

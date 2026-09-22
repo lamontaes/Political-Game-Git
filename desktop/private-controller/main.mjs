@@ -66,6 +66,7 @@ import {
 } from "./build-catalog.mjs";
 import {
   configuredExchangeFolders,
+  discoverExchangeRoot,
   exchangeFolderIdOverride,
   exchangeSummary,
   resolveExchangeFolders,
@@ -1523,7 +1524,7 @@ function artbenchExchange() {
   const folders = configuredExchangeFolders(
     exchangeFolderIdOverride(settings.artbenchExchangeFolderIds),
   );
-  const root = settings.artbenchDriveRoot;
+  const root = settings.artbenchDriveRoot ?? discoverExchangeRoot();
   try {
     if (root) {
       const resolved = resolveExchangeFolders(root, { folders });

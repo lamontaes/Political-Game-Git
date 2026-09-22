@@ -52,7 +52,7 @@ import {
 } from "../authoring/art-desk-request-code";
 import { ART_DESK_CONTRACT_ID } from "../authoring/asset-review";
 import {
-  ART_DESK_TABS,
+  ART_DESK_NAV_TABS,
   artDeskCards,
   artworkCategoryLabel,
   requestArtworkCategory,
@@ -116,6 +116,30 @@ interface BenchState {
 interface InputsReceipt {
   readonly checkedAt: string;
   readonly privatePack: ArtDeskPrivatePackReceipt;
+}
+
+/** Fields that can change what the desk renders, without serializing the art. */
+function benchSnapshotSignature(state: BenchState): string {
+  const byteStates = Object.entries(state.bytes)
+    .map(([id, bytes]) => `${id}:${bytes.state}`)
+    .join("|");
+  const read = [...(state.notificationReadEventIds ?? [])].sort().join(",");
+  const sync = state.sync;
+  return [
+    state.store.storeId,
+    state.projection.lastSeq,
+    byteStates,
+    read,
+    sync.status,
+    sync.driveRoot,
+    sync.lastSuccessAt,
+    sync.lastError,
+    sync.pendingOutbox,
+    sync.pendingBatches.join(","),
+    sync.processedBatches,
+    sync.exportedEvents,
+    sync.importedEvents,
+  ].join("\n");
 }
 
 async function sha256Hex(data: BufferSource | string): Promise<string> {
@@ -219,6 +243,9 @@ function Thumb({
         data-testid={testId}
         src={originalUrl(candidate.candidateId, candidate.sha256)}
         alt=""
+        loading="lazy"
+        decoding="async"
+        fetchPriority="low"
       />
     );
   }
@@ -239,7 +266,7 @@ const TAB_STORAGE_KEY = "ocd-art-desk-tab";
 type ArtDeskSection = ArtDeskTab | "notifications";
 const ART_DESK_SECTIONS: readonly { key: ArtDeskSection; label: string }[] = [
   { key: "notifications", label: "Notifications" },
-  ...ART_DESK_TABS,
+  ...ART_DESK_NAV_TABS,
 ];
 
 function storedTab(): ArtDeskSection {
@@ -265,6 +292,11 @@ function shortDate(iso: string | null): string {
   return Number.isNaN(date.getTime())
     ? ""
     : date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+}
+
+function historyStageLabel(stage: string | null | undefined): string {
+  const label = stage?.trim() ?? "";
+  return label ? label[0]!.toUpperCase() + label.slice(1) : "Version";
 }
 
 const MORE_FILTER_FACETS = ["region", "season", "family", "custom"] as const;
@@ -296,7 +328,7 @@ export function ArtDeskView() {
   );
   const [tab, setTabState] = useState<ArtDeskSection>(storedTab);
   const lastArtworkTab = useRef<ArtDeskTab>(
-    tab === "notifications" ? "library" : tab,
+    tab === "notifications" ? "needs-review" : tab,
   );
   const [detailHasDraft, setDetailHasDraft] = useState(false);
   const [selectedCardKey, setSelectedCardKey] = useState<string | null>(null);
@@ -340,21 +372,29 @@ export function ArtDeskView() {
     const [state] = await Promise.all([
       getJson<BenchState>(`${BENCH}/state`).then((state) => {
         if (state && ticket === reloadTicket.current)
-          setBench((previous) =>
-            previous && previous.projection.lastSeq > state.projection.lastSeq
+          setBench((previous) => {
+            if (
+              previous &&
+              previous.projection.lastSeq > state.projection.lastSeq
+            )
+              return previous;
+            const merged = {
+              ...state,
+              notificationReadEventIds: [
+                ...new Set([
+                  ...(previous?.store.storeId === state.store.storeId
+                    ? (previous.notificationReadEventIds ?? [])
+                    : []),
+                  ...(state.notificationReadEventIds ?? []),
+                ]),
+              ],
+            };
+            return previous &&
+              benchSnapshotSignature(previous) ===
+                benchSnapshotSignature(merged)
               ? previous
-              : {
-                  ...state,
-                  notificationReadEventIds: [
-                    ...new Set([
-                      ...(previous?.store.storeId === state.store.storeId
-                        ? (previous.notificationReadEventIds ?? [])
-                        : []),
-                      ...(state.notificationReadEventIds ?? []),
-                    ]),
-                  ],
-                },
-          );
+              : merged;
+          });
         return state;
       }),
       (inputsRequest.current ??= getJson<InputsReceipt>(INPUTS_ROUTE).then(
@@ -600,7 +640,7 @@ export function ArtDeskView() {
     }
     clearFilters();
     setAdvancedOpen(false);
-    setTab("library");
+    setTab("discussion");
     setSelectedCardKey(item.cardKey);
     setSelectedRequestId(item.requestId);
     setViewedCandidateId(
@@ -863,13 +903,13 @@ export function ArtDeskView() {
 
   const syncLine = sync
     ? sync.status === "ok"
-      ? `Saved to Drive${sync.lastSuccessAt ? ` ${shortDate(sync.lastSuccessAt)}` : ""}`
+      ? `Shared with the art team${sync.lastSuccessAt ? ` ${shortDate(sync.lastSuccessAt)}` : ""}`
       : sync.status === "needs-mirror"
-        ? "Drive not connected"
+        ? "Shared art-team exchange not connected"
         : sync.status === "error"
-          ? "Could not sync with Drive"
-          : "Waiting to sync with Drive"
-    : "Drive exchange —";
+          ? "Could not sync with the art team"
+          : "Waiting to sync with the art team"
+    : "Shared art-team exchange —";
   const packLine =
     pack.status === "verified"
       ? "Artwork ready"
@@ -1183,7 +1223,7 @@ export function ArtDeskView() {
               setShowNewRequest(null);
               await reload();
               if (created) {
-                setTab("library");
+                setTab("requests");
                 setSelectedCardKey(`request:${created}`);
                 setSelectedRequestId(created);
               }
@@ -1383,8 +1423,8 @@ export function ArtDeskView() {
                         aria-pressed={viewedCandidateId === step.candidateId}
                         onClick={() => setViewedCandidateId(step.candidateId)}
                       >
-                        {step.stage[0]!.toUpperCase() + step.stage.slice(1)} ·{" "}
-                        {step.width}×{step.height} · {shortDate(step.at)}
+                        {historyStageLabel(step.stage)} · {step.width}×
+                        {step.height} · {shortDate(step.at)}
                       </button>
                     </li>
                   ))}
@@ -1447,7 +1487,7 @@ export function ArtDeskView() {
                 data-testid="art-desk-sync"
                 data-sync-status={sync.status}
               >
-                <strong>Drive exchange: {sync.status}.</strong>{" "}
+                <strong>Shared art-team exchange: {sync.status}.</strong>{" "}
                 {sync.driveRootPresent
                   ? `Mirror ${sync.driveRoot} present.`
                   : "No Drive-for-desktop mirror of 80_ARTBENCH_EXCHANGE on this machine; decisions queue durably in the outbox."}{" "}
