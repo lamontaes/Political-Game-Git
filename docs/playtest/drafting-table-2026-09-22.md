@@ -115,10 +115,14 @@ let the character run:
 > that starts later may be able to run here.
 
 The refusal is well written and honest about its own reasoning. What it means
-for play is that a life beginning on the game's ordinary start date cannot
-stand for office in this state, because the game cannot date its own rule.
-Whether that holds across other states is **not established here** and is the
-obvious next measurement.
+for play is that this life, beginning on the game's ordinary start date,
+cannot stand for a Nebraska seat because the game cannot date its own rule.
+
+**Settled since, and it is not general.** Six town starts across six states,
+written up in `what-you-can-run-for-2026-09-22.md`, give four different
+answers and none of them is this one. Every one of the six could stand for
+governor. The rule-dating refusal is its own narrow case, and this walk did
+not isolate whether it belongs to Nebraska or to the statewide start.
 
 ## What this walk did not establish
 
@@ -126,5 +130,6 @@ obvious next measurement.
   needs an election won.
 - **What happens after filing** — referral, readings, committee, vote. None
   of it was reached.
-- **Whether the date refusal on Campaigns is general.** One state, one start
-  date.
+- **Whether the date refusal on Campaigns belongs to the state or to the
+  statewide start.** Settled as not general; the remaining two variables were
+  not isolated.
