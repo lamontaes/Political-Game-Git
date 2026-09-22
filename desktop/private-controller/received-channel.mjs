@@ -149,6 +149,14 @@ export function reconcileReceivedChannel(dataRoot, track) {
       outcome: "kept-local",
       revision: state.tracks[track].current.revision,
     };
+  const current = state.tracks[track].current;
+  if (
+    channel.base &&
+    (current.revision !== channel.base.revision ||
+      current.clientTreeSha256 !== channel.base.clientTreeSha256 ||
+      (current.content?.id ?? null) !== channel.base.contentId)
+  )
+    return { outcome: "superseded", revision: current.revision };
   const build = verifyReceivedBuild(channel.build, dataRoot);
   const same = (b) =>
     b?.revision === build.revision &&
@@ -169,7 +177,7 @@ export function reconcileReceivedChannel(dataRoot, track) {
   renameSync(temporary, statePath);
   return { outcome: "pending", revision: build.revision };
 }
-export function publishReceivedChannel({ dataRoot, track, build }) {
+export function publishReceivedChannel({ dataRoot, track, build, base }) {
   verifyReceivedBuild(build, dataRoot);
   const file = channelPath(dataRoot, track);
   if (!file) throw new Error("Private receiving cannot publish main");
@@ -178,7 +186,13 @@ export function publishReceivedChannel({ dataRoot, track, build }) {
   writeFileSync(
     temporary,
     JSON.stringify(
-      { schema: CHANNEL_SCHEMA, track, ready: true, build },
+      {
+        schema: CHANNEL_SCHEMA,
+        track,
+        ready: true,
+        build,
+        ...(base ? { base } : {}),
+      },
       null,
       2,
     ) + "\n",

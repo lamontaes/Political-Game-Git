@@ -195,3 +195,28 @@ test("code-only successor reuses the exact content snapshot", (t) => {
   assert.equal(f.read().tracks[f.track].pending.content.id, content.id);
   assert.equal(f.content().changedBytes, 0);
 });
+test("code-only successor cannot replace a concurrently changed current build", (t) => {
+  const f = fixture(t),
+    content = f.content();
+  publishReceivedChannel({
+    ...f,
+    build: { ...f.build, content },
+    base: {
+      revision: f.build.revision,
+      clientTreeSha256: f.build.clientTreeSha256,
+      contentId: null,
+    },
+  });
+  const changed = f.read();
+  changed.tracks[f.track].current = {
+    ...changed.tracks[f.track].current,
+    revision: "c".repeat(40),
+  };
+  f.save(changed);
+  const before = readFileSync(f.dataRoot + "/state.json");
+  assert.equal(
+    reconcileReceivedChannel(f.dataRoot, f.track).outcome,
+    "superseded",
+  );
+  assert.ok(readFileSync(f.dataRoot + "/state.json").equals(before));
+});
