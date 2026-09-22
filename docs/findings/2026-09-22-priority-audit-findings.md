@@ -129,6 +129,19 @@ domains and issues is a product call, not an engineering one. Their write-up is
   content-as-data rule, and it means a fresh install has a legislature that can
   pass bills about nothing until somebody loads a pack.
 
+**And the number to read beside it.** The whole living world — everything that
+happens in the background of a life, outside the player's own actions — is
+**twenty-two authored sentences**. Counted in
+`src/simulation/living-world/developments.ts`: four local subjects across four
+stages each, which is sixteen, plus two international storylines at three
+stages each, which is six. That is the entire bank.
+
+So the pair is this. The bill lifecycle is 2,742 lines, finished, and has
+nothing to be about. The living world is twenty-two sentences. **Neither is
+broken. Both are starving.** The structural breakdown matters more than the
+total here, because it is what tells an authoring lane what shape the missing
+content is: subjects and stages, not prose.
+
 There is a third answer nobody has costed: generate the catalogue the way the
 rest of the world is generated. We have not measured what that would take and
 are not recommending it blind.
@@ -364,6 +377,12 @@ is not researched twice.
 
 ## 6. Process findings, each paid for once
 
+- **A cancelled run's aggregation job reports `failure`.** `validate.yml` ends
+  in a sixteenth job that gates on the other fifteen, and when the concurrency
+  group cancels a superseded run that job concludes failed rather than
+  cancelled. So every superseded push leaves a red check asserting nothing, on
+  a head nobody is looking at. A red check has to be opened and its run's
+  conclusion read before it means anything.
 - **A render replaces a published document wholesale, so it must come from a
   head that carries every record.** The open-questions queue is filed
   one-file-per-record across many branches. A sweep of every pushed branch, run
@@ -426,12 +445,6 @@ is not researched twice.
   once, cite it once, and re-read the line rather than carrying a number
   forward. This document will be quoted back, which is exactly why it cannot
   carry two answers to the same question.
-- **A cancelled run's aggregation job reports `failure`.** `validate.yml` ends
-  in a sixteenth job that gates on the other fifteen, and when the concurrency
-  group cancels a superseded run that job concludes failed rather than
-  cancelled. So every superseded push leaves a red check asserting nothing, on
-  a head nobody is looking at. A red check has to be opened and its run's
-  conclusion read before it means anything.
 - **An enumerated pattern is the wrong instrument for proving absence**, because
   it only finds the names you already thought of. The claim that no player
   screen reads a trait came from a grep over a list of identifiers that did not
