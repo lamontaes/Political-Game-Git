@@ -2,6 +2,11 @@ import {
   activeEducationEnrollmentsAt,
   activeWorkRelationshipsAt,
 } from "../simulation";
+import {
+  workRelationshipHistoryForPerson,
+  workRoleAt,
+  workStatusAt,
+} from "../simulation/life-queries";
 import type { EntityId, World } from "../simulation";
 import { currentOpeningLifeScene } from "./life-scene-flow";
 import { formatMinute, projectPlayerCalendar } from "./player-calendar";
@@ -91,10 +96,18 @@ export function projectToday(world: World, personId: EntityId): TodayOverview {
           locationLabel: upcoming.locationLabel,
         }
       : null,
-    waiting: day.pending.map((entry) => ({
-      key: entry.key,
-      sentence: entry.sentence,
-    })),
+    waiting: [
+      ...day.pending.map((entry) => ({
+        key: entry.key,
+        sentence: entry.sentence,
+      })),
+      // "What is waiting on me?" is one of the four questions this surface
+      // exists to answer, and an unanswered offer of work is exactly that.
+      ...offersAwaitingAnswer(world, personId).map((offer) => ({
+        key: `work-offer:${offer.relationshipId}`,
+        sentence: `${offer.roleTitle}: an offer of work is waiting for your answer, to start on ${proseDate(offer.startsOn)}.`,
+      })),
+    ],
   };
 }
 
@@ -113,8 +126,58 @@ export interface WorkRole {
   readonly roles: readonly string[];
   /** How many programs of study are active. */
   readonly studying: number;
+  /** Offers made and not yet answered. Not roles, and never counted as ones. */
+  readonly awaitingAnswer: readonly OfferAwaitingAnswer[];
   /** One sentence for the top of Work. */
   readonly sentence: string;
+}
+
+/**
+ * Offers this character has been made and has not answered.
+ *
+ * A work relationship is written the moment an offer is sought, at status
+ * `expected` and with a start date of the following day, and it stays there
+ * until the character accepts or refuses. Only the panel that created it said
+ * so. A player who asked for a job on the first day and then let twelve weeks
+ * pass read "You do not hold a job or an office right now" at every check and
+ * concluded that no offer had ever come, when the offer had been on the table
+ * the whole time waiting for an answer. Nothing was missing from the world;
+ * the day simply never mentioned it.
+ */
+export interface OfferAwaitingAnswer {
+  readonly relationshipId: EntityId;
+  readonly roleTitle: string;
+  readonly startsOn: string;
+}
+
+export function offersAwaitingAnswer(
+  world: World,
+  personId: EntityId,
+): readonly OfferAwaitingAnswer[] {
+  return workRelationshipHistoryForPerson(world, personId).flatMap(
+    (relationship) => {
+      const role = workRoleAt(world, relationship.id);
+      return workStatusAt(world, relationship.id)?.status === "expected" && role
+        ? [
+            {
+              relationshipId: relationship.id,
+              roleTitle: role.title,
+              startsOn: relationship.startedAt,
+            },
+          ]
+        : [];
+    },
+  );
+}
+
+function offerSentence(offers: readonly OfferAwaitingAnswer[]): string {
+  if (offers.length === 0) return "";
+  if (offers.length === 1) {
+    return `An offer of work as ${offers[0]!.roleTitle} is waiting for your answer.`;
+  }
+  return `${offers.length} offers of work are waiting for your answer: ${offers
+    .map((offer) => offer.roleTitle)
+    .join("; ")}.`;
 }
 
 export function projectWorkRole(world: World, personId: EntityId): WorkRole {
@@ -132,9 +195,20 @@ export function projectWorkRole(world: World, personId: EntityId): WorkRole {
       : studying === 1
         ? "You are a student."
         : `You are enrolled in ${studying} programs.`;
-  const sentence =
+  // An unanswered offer is not a role and is never reported as one. It is
+  // added to the same sentence because that sentence is the only thing this
+  // character reads about their working life, and leaving it out is what made
+  // a waiting decision invisible for three months.
+  const offers = offersAwaitingAnswer(world, personId);
+  const offer = offerSentence(offers);
+  const sentence = [
     roles.length === 0
-      ? `You do not hold a job or an office right now.${study ? ` ${study}` : ""}`
-      : `${roles.length === 1 ? "Your role" : "Your roles"}: ${roles.join("; ")}.${study ? ` ${study}` : ""}`;
-  return { roles, studying, sentence };
+      ? "You do not hold a job or an office right now."
+      : `${roles.length === 1 ? "Your role" : "Your roles"}: ${roles.join("; ")}.`,
+    offer,
+    study,
+  ]
+    .filter((part) => part.length > 0)
+    .join(" ");
+  return { roles, studying, awaitingAnswer: offers, sentence };
 }

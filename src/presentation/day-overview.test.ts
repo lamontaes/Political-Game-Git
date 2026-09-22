@@ -6,6 +6,8 @@ import { currentOpeningLifeScene, openNextLifeScene } from "./life-scene-flow";
 import { createNewGameWorld, type NewGameSetup } from "./new-game";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 import { calendarEntryFor } from "./player-calendar";
+import { CAREER_PROVIDERS } from "./career-path7-provider";
+import { seekCareerOffer } from "../simulation/career-path7";
 
 function adultLife(overrides: Partial<NewGameSetup> = {}, seed = "pt3-today") {
   const game = createNewGameWorld({
@@ -90,5 +92,60 @@ describe("PT3 — Today answers what is happening, next, waiting and time", () =
     const role = projectWorkRole(world, personId);
     expect(role.roles.length).toBeGreaterThan(0);
     expect(role.sentence).toContain(role.roles[0]!);
+  });
+});
+
+describe("PT3 an offer of work that has not been answered", () => {
+  function lifeWithAnOfferSought() {
+    const { world, personId } = adultLife({ startAge: 34 }, "pt3-offer");
+    const provider = CAREER_PROVIDERS.find((entry) =>
+      String(entry.pathId).includes("shop"),
+    )!;
+    const sought = seekCareerOffer(world, provider);
+    expect(sought.ok).toBe(true);
+    return { world: sought.world, personId };
+  }
+
+  it("is named in the day's own sentence rather than left to one panel", () => {
+    const { world, personId } = lifeWithAnOfferSought();
+    const role = projectWorkRole(world, personId);
+    // Still not a job. The offer is not counted as a role.
+    expect(role.roles).toEqual([]);
+    expect(role.sentence).toMatch(/^You do not hold a job or an office/);
+    expect(role.awaitingAnswer).toHaveLength(1);
+    expect(role.sentence).toContain(role.awaitingAnswer[0]!.roleTitle);
+    expect(role.sentence).toMatch(/waiting for your answer/);
+  });
+
+  it("is waiting on the player, and still is twelve weeks later", () => {
+    // The reported session: an offer sought on the first day, then twelve
+    // weeks passed with nothing on screen ever mentioning it again.
+    const { world, personId } = lifeWithAnOfferSought();
+    const waitingNow = projectToday(world, personId).waiting;
+    expect(
+      waitingNow.some((entry) => entry.key.startsWith("work-offer:")),
+    ).toBe(true);
+    const later = passOrdinaryDays(world, 84);
+    expect(later.currentDate > world.currentDate).toBe(true);
+    const waitingLater = projectToday(later, personId).waiting;
+    const offer = waitingLater.find((entry) =>
+      entry.key.startsWith("work-offer:"),
+    );
+    expect(offer).toBeDefined();
+    expect(offer!.sentence).toMatch(/waiting for your answer/);
+    // The world wrote it once and it has not moved on its own.
+    expect(projectWorkRole(later, personId).awaitingAnswer).toHaveLength(1);
+  });
+
+  it("says nothing about offers when none is outstanding", () => {
+    const { world, personId } = adultLife({ startAge: 34 }, "pt3-no-offer");
+    const role = projectWorkRole(world, personId);
+    expect(role.awaitingAnswer).toEqual([]);
+    expect(role.sentence).not.toMatch(/waiting for your answer/);
+    expect(
+      projectToday(world, personId).waiting.some((entry) =>
+        entry.key.startsWith("work-offer:"),
+      ),
+    ).toBe(false);
   });
 });

@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 3139 |
 | INTENTIONALLY_NON_PLAYER_FACING | 7074 |
-| DIAGNOSTIC_OR_TEST | 7609 |
-| **NEEDS_CLASSIFICATION** | **10271** |
+| DIAGNOSTIC_OR_TEST | 7613 |
+| **NEEDS_CLASSIFICATION** | **10274** |
 
-Scanned 1151 files holding 111731 string
+Scanned 1151 files holding 111751 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -280,6 +280,7 @@ literals in total; the table counts only those that read like a sentence.
 | 9 | `src/player/NationalElectionResults.tsx` |
 | 9 | `src/player/PressWorkspace.tsx` |
 | 9 | `src/player/ShellPinRail.tsx` |
+| 9 | `src/presentation/day-overview.ts` |
 | 9 | `src/presentation/fiscal-authority-work.ts` |
 | 9 | `src/presentation/new-game.ts` |
 | 9 | `src/presentation/relationship-web.ts` |
@@ -347,7 +348,6 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/presentation/calendar-time-control.ts` |
 | 6 | `src/presentation/campaign-office-discovery.ts` |
 | 6 | `src/presentation/component-masters.ts` |
-| 6 | `src/presentation/day-overview.ts` |
 | 6 | `src/presentation/formative-context.ts` |
 | 6 | `src/presentation/formative-play.ts` |
 | 6 | `src/presentation/interruption-policy.ts` |
