@@ -202,6 +202,80 @@ const EXACT_TEMPORAL_REVIEWS: Readonly<Record<string, ExactTemporalReview>> = {
       "Only terms beginning on or after January 1, 1995 shall be considered",
     ],
   },
+  // Minnesota's revisor prints one effective-date label for the whole
+  // constitution, because the 1974 revision re-adopted it entire. Every
+  // Minnesota provision compiled here cites that one page, so this one review
+  // dates them all, from a date read verbatim off the page.
+  "mn-constitution": {
+    validFrom: "1974-11-05",
+    validThrough: null,
+    basisArtifactId: "mn-constitution",
+    basisLocator: "publisher revision-date label",
+    basisExcerpt: "Generally Revised November 5, 1974",
+    expectedArtifactText: "Generally Revised November 5, 1974",
+  },
+  // Nebraska. Each section's publisher page ends with its amendment history —
+  // the origin year and every later amendment, as the Legislature prints them.
+  // Those lines are primary material in the locked page, so the current words
+  // are datable rather than a bare observation. The label gives a YEAR, not a
+  // day: an amendment ratified at a November general election is in force no
+  // later than the start of the following year, so `validFrom` is that
+  // January 1. It is a conservative bound the page proves, never a claim to a
+  // precise effective day the page does not state.
+  "ne-constitution-art-3-sec-1": {
+    validFrom: "2001-01-01",
+    validThrough: null,
+    basisArtifactId: "ne-constitution-art-3-sec-1",
+    basisLocator:
+      "publisher amendment history; in force by the January 1 after the 2000 amendment",
+    basisExcerpt: "Amended 2000, Laws 1999, LR 18CA, sec. 3",
+    expectedArtifactText: "Amended 2000, Laws 1999, LR 18CA, sec. 3",
+  },
+  "ne-constitution-art-3-sec-7": {
+    validFrom: "1989-01-01",
+    validThrough: null,
+    basisArtifactId: "ne-constitution-art-3-sec-7",
+    basisLocator:
+      "publisher amendment history; in force by the January 1 after the 1988 amendment",
+    basisExcerpt: "Amended 1988, Laws 1988, LR 7, sec. 1.",
+    expectedArtifactText: "Amended 1988, Laws 1988, LR 7, sec. 1.",
+  },
+  "ne-constitution-art-3-sec-8": {
+    validFrom: "1995-01-01",
+    validThrough: null,
+    basisArtifactId: "ne-constitution-art-3-sec-8",
+    basisLocator:
+      "publisher amendment history; in force by the January 1 after the 1994 amendment",
+    basisExcerpt: "Amended 1994, Initiative Measure No. 408",
+    expectedArtifactText: "Amended 1994, Initiative Measure No. 408",
+  },
+  "ne-constitution-art-3-sec-12": {
+    validFrom: "2001-01-01",
+    validThrough: null,
+    basisArtifactId: "ne-constitution-art-3-sec-12",
+    basisLocator:
+      "publisher origin note; adopted 2000, in force by the following January 1",
+    basisExcerpt: "sec. 12 (2000)",
+    expectedArtifactText: "sec. 12 (2000)",
+  },
+  "ne-constitution-art-4-sec-1": {
+    validFrom: "2001-01-01",
+    validThrough: null,
+    basisArtifactId: "ne-constitution-art-4-sec-1",
+    basisLocator:
+      "publisher amendment history; in force by the January 1 after the 2000 amendment",
+    basisExcerpt: "Laws 1999, LR 14CA, sec. 1.",
+    expectedArtifactText: "Laws 1999, LR 14CA, sec. 1.",
+  },
+  "ne-constitution-art-4-sec-2": {
+    validFrom: "1967-01-01",
+    validThrough: null,
+    basisArtifactId: "ne-constitution-art-4-sec-2",
+    basisLocator:
+      "publisher amendment history; in force by the January 1 after the 1966 amendment",
+    basisExcerpt: "1965, c. 291, sec. 1, p. 832.",
+    expectedArtifactText: "1965, c. 291, sec. 1, p. 832.",
+  },
 };
 
 /**

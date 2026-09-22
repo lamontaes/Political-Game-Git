@@ -1,7 +1,11 @@
 import { crisisEnvelopesBetween, type CrisisEnvelope } from "../crisis/notices";
 import { addDays, makeIsoDate } from "../dates";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
-import type { MacroShockKind } from "./policy";
+import {
+  UNRESEARCHED_FULL_INTENSITY_MONTHLY_MINOR_UNITS,
+  type MacroShockKind,
+} from "./policy";
+import { monthKeyOf } from "./store";
 import type { MacroScopeKey } from "./types";
 import { MACRO_ECONOMY_CONTRACT_VERSION } from "./types";
 
@@ -203,7 +207,115 @@ export const CRISIS_ORIGIN_READER: MacroOriginReader = {
     }),
 };
 
+/** Money a government actually paid out under a law or an appropriation. */
+const PUBLIC_SPENDING_BASES: ReadonlySet<string> = new Set([
+  "custom:public-program-commitment",
+  "custom:authorized-public-payment",
+  "custom:outside-mandate-payment",
+]);
+/** Tax a government actually collected under an enacted levy. */
+const TAX_COLLECTION_BASES: ReadonlySet<string> = new Set([
+  "custom:tax-collection",
+]);
+
+/**
+ * Realized public money (ChatGPT C02): an enacted law reaches the economy
+ * only through what it actually moves. A levy moves nothing until tax is
+ * collected, and an appropriation moves nothing until a payment is made, so
+ * this reads completed transfers, never enactment. Each jurisdiction's
+ * payments and collections in one month become at most one shock per
+ * channel, on that jurisdiction's own layer; a state's budget is not a share
+ * of the national economy. Intensity is the month's total against an
+ * UNRESEARCHED full-intensity amount; below one millionth of it, nothing.
+ */
+export const PUBLIC_MONEY_ORIGIN_READER: MacroOriginReader = {
+  key: "realized-public-money",
+  origins: (world, throughDate) => {
+    const flows = new Map(
+      world.history.resourceFlows.map((flow) => [flow.id, flow]),
+    );
+    const groups = new Map<
+      string,
+      {
+        readonly kind: MacroShockKind;
+        readonly jurisdictionId: EntityId;
+        minorUnits: number;
+        beginsAt: IsoDate;
+        originEventId: EntityId;
+        readonly eventIds: Set<EntityId>;
+      }
+    >();
+    for (const outcome of world.history.resourceTransferOutcomes) {
+      if (outcome.status !== "completed" || outcome.occurredAt > throughDate)
+        continue;
+      const flow = flows.get(outcome.resourceFlowId);
+      if (!flow?.jurisdictionId) continue;
+      const kind: MacroShockKind | null = PUBLIC_SPENDING_BASES.has(
+        flow.basisKind,
+      )
+        ? "public-spending-paid"
+        : TAX_COLLECTION_BASES.has(flow.basisKind)
+          ? "tax-collections-paid"
+          : null;
+      if (!kind || outcome.transferredAmount.currency !== "USD") continue;
+      const eventId =
+        outcome.provenance.kind === "simulated-event"
+          ? outcome.provenance.eventId
+          : flow.provenance.kind === "simulated-event"
+            ? flow.provenance.eventId
+            : null;
+      if (!eventId) continue;
+      const key = `${kind}:${flow.jurisdictionId}:${monthKeyOf(outcome.occurredAt)}`;
+      const group = groups.get(key);
+      if (!group) {
+        groups.set(key, {
+          kind,
+          jurisdictionId: flow.jurisdictionId,
+          minorUnits: outcome.transferredAmount.minorUnits,
+          beginsAt: outcome.occurredAt,
+          originEventId: eventId,
+          eventIds: new Set([eventId]),
+        });
+        continue;
+      }
+      group.minorUnits += outcome.transferredAmount.minorUnits;
+      group.eventIds.add(eventId);
+      if (outcome.occurredAt < group.beginsAt) {
+        group.beginsAt = outcome.occurredAt;
+        group.originEventId = eventId;
+      }
+    }
+    return [...groups.entries()]
+      .sort(([left], [right]) => left.localeCompare(right))
+      .flatMap(([key, group]): readonly MacroShockOrigin[] => {
+        const intensity = Math.min(
+          1,
+          group.minorUnits / UNRESEARCHED_FULL_INTENSITY_MONTHLY_MINOR_UNITS,
+        );
+        if (intensity < 1e-6) return [];
+        return [
+          {
+            dedupeKey: `${MACRO_ECONOMY_CONTRACT_VERSION}:public-money:${key}`,
+            kind: group.kind,
+            originEventId: group.originEventId,
+            geographyIds: [group.jurisdictionId],
+            scope: `jurisdiction:${group.jurisdictionId}` as const,
+            intensity,
+            beginsAt: group.beginsAt,
+            persistence: "geometric" as const,
+            observedState: "public" as const,
+            causalParents: [...group.eventIds].sort(),
+          },
+        ];
+      });
+  },
+  // A payment or a collection is complete when it happens; its effect then
+  // fades geometrically rather than waiting for an end.
+  ends: () => [],
+};
+
 export const MACRO_ORIGIN_READERS: readonly MacroOriginReader[] = [
   W3_INTERNATIONAL_ORIGIN_READER,
   CRISIS_ORIGIN_READER,
+  PUBLIC_MONEY_ORIGIN_READER,
 ];

@@ -1,5 +1,7 @@
 import { createPressTransitionRegistry } from "./press/transitions";
+import { startingSupportAdjustment } from "./record-in-office";
 import {
+  legislativeTermDates,
   supportedLegislativeTermDates,
   scheduleLegislativeTerm,
   createLegislativeTermTransitionRegistry,
@@ -368,12 +370,21 @@ function recordInitialSupport(world: World, campaign: CampaignRecord): World {
   );
   // A first-time filer starts behind somebody who is already known. Nothing
   // here is a handicap the player can read; it is a starting position.
+  // A candidate's past moves where they start: a remembered ethics finding,
+  // or a sitting governor's record on the economy (`record-in-office.ts`).
   const weights = campaign.candidateSupportScopes.map((scope) => ({
     id: scope.candidatePersonId,
-    weight:
+    weight: Math.max(
+      1,
       850 +
-      rng.fork(scope.candidatePersonId).integer(0, 301) +
-      (scope.candidatePersonId === campaign.candidatePersonId ? -60 : 0),
+        rng.fork(scope.candidatePersonId).integer(0, 301) +
+        (scope.candidatePersonId === campaign.candidatePersonId ? -60 : 0) +
+        startingSupportAdjustment(
+          world,
+          scope.candidatePersonId,
+          campaign.filedAt,
+        ),
+    ),
   }));
   const basisPoints = allocateBasisPoints(weights);
   let next = world;
@@ -1617,7 +1628,7 @@ function seatTheWinner(
       (organization) => organization.stableKey === bodyKey,
     )!.id;
 
-  const timing = supportedLegislativeTermDates(
+  const timing = legislativeTermDates(
     contest.office.officeKey,
     contest.electionDate,
   );

@@ -16,8 +16,10 @@ export type { Page, Locator, Download } from "@playwright/test";
  * This puts it back inside the navigation: every goto and reload waits until
  * the page has replaced its loading line with the game or with the reason it
  * could not start. A page with no game root (a review page) is ready at once.
+ * A page made outside this fixture (`browser.newContext().newPage()`) is not
+ * wrapped; call `gameMounted` after its navigations.
  */
-async function gameMounted(page: Page): Promise<void> {
+export async function gameMounted(page: Page): Promise<void> {
   await page.waitForFunction(
     () => {
       const root = document.getElementById("root");
