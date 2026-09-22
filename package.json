@@ -100,11 +100,6 @@
     "fixture:municipal-governance": "node --import tsx scripts/source/municipal-governance-fixture.ts",
     "export:municipal-governments": "node --import tsx scripts/source/export-municipal-governments.ts",
     "check:municipal-generated": "node --import tsx scripts/source/export-municipal-governments.ts --check && node --import tsx scripts/source/export-municipal-capacity.ts --check",
-    "derive:visual4-arm-mask": "node --import tsx scripts/art-asset-factory/cli-people-visual4-arm-mask.ts",
-    "measure:visual4-tone": "node --import tsx scripts/art-asset-factory/cli-people-visual4-tone.ts",
-    "measure:appearance-v2": "PG_CAPTURE_EVIDENCE=1 vitest run scripts/dev-lab/appearance-recipe-v2-proof.test.ts",
-    "measure:visual4-wardrobe": "node --import tsx scripts/art-asset-factory/cli-people-visual4-wardrobe.ts",
-    "derive:people-visual4": "node --import tsx scripts/art-asset-factory/people-visual4.ts",
     "kit:art": "node --import tsx scripts/art-asset-factory/cli-kit41.ts",
     "validate:ci-sharded": "npm run format && npm run lint && npm run typecheck && npm run release:check && npm run source:validate && npm run source:check-fiscal-disposition && npm run source:replay && npm run education:check && npm run check:municipal-generated && npm run build && npm run demo -- validation-seed && npm run validate:art && npm run admit:wave-a-candidates -- --check && npm run derive:wave-a-wardrobe -- --check"
   },
