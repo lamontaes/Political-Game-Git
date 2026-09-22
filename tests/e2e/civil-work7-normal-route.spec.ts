@@ -42,7 +42,9 @@ test("ordinary Day and Work expose private personnel preparation", async ({
     name: "Accept Shop assistant",
     exact: true,
   });
-  await expect(accept).toBeEnabled();
+  // First read of a freshly opened surface after a full creator walk: under
+  // shard load it has arrived after the five-second default. Budget only.
+  await expect(accept).toBeEnabled({ timeout: 15_000 });
   await accept.click();
   const panel = page.getByRole("region", {
     name: "Public employment preparation",
