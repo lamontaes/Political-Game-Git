@@ -6,11 +6,14 @@ their interface mount points rather than by reading earlier reports. Where a
 finding came from another lane it says so and is not restated as ours.
 
 Findings only. Nothing here is a task list, and nothing here changes code. The
-one exception is section 0a, which is a decision nobody should make for you.
+exceptions are sections 0a and 0b, which are decisions nobody should make for
+you, and 0c, which is our reading rather than a measurement.
 
-**If you read two things, read section 0 and section 0a.** The first retires a
-number that has been quoted all night, including in our own notes. The second
-is a yes-or-no about how the game plays.
+**If you read three things, read sections 0, 0a and 0b.** The first retires a
+number that has been quoted all night, including in our own notes. The other two
+are yes-or-no decisions about how the game plays, and neither should be made for
+you. Section 0c says what we think all of it adds up to, and is the one part of
+this report that is opinion.
 
 ---
 
@@ -93,6 +96,66 @@ else. It is still your call, and nobody will make it for you.
 
 The full working detail is in `docs/handoffs/people-and-life-2026-09-22.md`
 section 0, on `main` at `d4dca882`.
+
+---
+
+## 0b. A second decision: the game ships with nothing to legislate about
+
+Executed rather than read, on `claude/congress-factions-cg1u98` at `6b5a5724`.
+`createProductionPolicyCatalog()` returns **zero domains, zero issues, zero
+propositions, zero subjects and zero principles**, because it loads from the
+pack registry and no pack ships content. `assertProductionCatalogBoundary`
+(`src/simulation/production-catalog.ts:163`) is what keeps the fixture
+definitions built to exercise the engine out of a player's world, and it works.
+
+So the 2,742-line bill lifecycle (`src/simulation/legislation.ts`) is finished
+and has nothing to be about.
+
+The legislation lane landed both halves of the join tonight — #300, policy
+content as provenance-declaring packs, and #306, a bill naming its policy
+question directly. Neither ships content on purpose, because authoring the first
+domains and issues is a product call, not an engineering one. Their write-up is
+`docs/handoffs/modular-legislation-2026-09-22.md` on `main` at `d12eb75f`.
+
+**The question:** should we author a starting catalogue?
+
+- **Yes** — somebody writes the first domains, issues and propositions, and
+  bills in a new world are about schools, roads, policing and taxes out of the
+  box. The cost is that whatever is authored becomes the default political
+  vocabulary of every save, and a first draft of that is hard to walk back once
+  people have played against it.
+- **No** — the game ships with an empty catalogue and the content arrives as
+  packs, ours or a modder's. That is the purest version of the
+  content-as-data rule, and it means a fresh install has a legislature that can
+  pass bills about nothing until somebody loads a pack.
+
+There is a third answer nobody has costed: generate the catalogue the way the
+rest of the world is generated. We have not measured what that would take and
+are not recommending it blind.
+
+---
+
+## 0c. Our reading, across the three findings above
+
+This one is a judgement, not a measurement, and it is marked as such because you
+may disagree with it.
+
+Three of the largest things measured tonight turn out to be the same shape.
+
+- **The realistic range** (section 0): agreed and never built. The machinery
+  refuses in exactly the places it was meant to generate.
+- **The policy catalogue** (section 0b): a finished bill lifecycle with no
+  subject matter.
+- **Traits** (section 4): the pack system works, and the one screen showing
+  temperament walks five values written into the source.
+
+In each case the engineering is done or nearly done, and what is missing is
+content or a surface. **Our reading is that this project's gap is not depth.**
+
+That is a different diagnosis from the one the work has been running on, and if
+it is right it changes what the next stretch should be spent on. It is three
+measured instances rather than a slogan, and it is still a reading: one of them
+was claimed on a single instance earlier tonight and had to be retracted.
 
 ---
 
