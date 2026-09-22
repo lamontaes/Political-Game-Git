@@ -143,7 +143,7 @@ export function decideStudyPeerOutcome(
         {
           optionKey: "counterproposes",
           trait: "deliberation",
-          pole: "high",
+          pole: "low",
           explanation: "They would rather settle the smaller part first.",
         },
         {

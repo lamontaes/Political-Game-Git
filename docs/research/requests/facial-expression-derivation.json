@@ -1,0 +1,36 @@
+{
+  "requestVersion": "research-request/v1",
+  "questionId": "facial-expression-derivation",
+  "title": "Which expressions a generated face needs, and what in the record should drive them",
+  "question": "For a character whose face is assembled from modular parts, which small set of expressions carries most of what a player needs to read from somebody across a conversation, and which facts already recorded about a person — how the exchange has gone, what they think of the player, what they want from it — should decide which one is shown?",
+  "whyItMatters": "Every head in the art contract is specified as neutral and the component vocabulary has no expression kind at all, so every person in every scene wears the same face whatever is happening between them and the player. The owner named derived facial expressions as something never started, and it sits directly under the prose and interface work he places above the priority list, because the scene is where a relationship is actually read.",
+  "impact": "shapes-design",
+  "lane": "character art and scenes",
+  "usableAnswer": "A short list of expressions worth drawing, each with what it reads as to a viewer and which recorded condition should select it, ordered so the first two or three could ship alone and still be worth having. Plus a statement of which expressions were considered and left out, and why they do not earn a drawn variant.",
+  "sourcesChecked": [
+    {
+      "source": "src/presentation/character-components.ts lines 35-46 on main at 273fd2b8",
+      "whatItDidNotSettle": "Lists all ten component kinds a character is assembled from. None is an expression or a face layer; facial-hair is a beard."
+    },
+    {
+      "source": "src/presentation/component-masters.ts line 68, the head master requirement",
+      "whatItDidNotSettle": "Requires every head master to be drawn with a neutral expression. It fixes the current state deliberately and says nothing about what a second variant should be."
+    },
+    {
+      "source": "src/presentation/pose-families.ts, the pose vocabulary",
+      "whatItDidNotSettle": "Carries posture classes, facings, landmarks and two prop slots, all of them body-level. There are no face landmarks, so nothing in the pose system could place an expression."
+    },
+    {
+      "source": "src/simulation/types.ts lines 276-288, PersonalityExpressionDefinition",
+      "whatItDidNotSettle": "Despite the name this describes how a personality tendency expresses itself in behaviour. It is not visual and carries nothing a renderer could use."
+    }
+  ],
+  "requestedBy": "research audit thread (technical team lead)",
+  "filedAt": "2026-09-22T05:00:07.000Z",
+  "priority": "P2",
+  "notes": [
+    "Every expression is a drawn variant of an approved head, so the cost is real and a short list is the useful answer. A list of twenty would not be acted on.",
+    "The selecting condition has to be something the game already records about the exchange. An expression that would need a new feeling invented for the person is outside what can be built.",
+    "Nothing about the derivation reaches the player as text. The face is the only output."
+  ]
+}
