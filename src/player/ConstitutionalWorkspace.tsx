@@ -229,12 +229,7 @@ export function ConstitutionalWorkspace({
           <p className="constitutional-text">{measure.text}</p>
           <p>Process: {p.phase.replaceAll("-", " ")}</p>
           {measure.proposalRule && (
-            <p>
-              Proposal threshold: {measure.proposalRule.label} ·{" "}
-              <a href={measure.proposalRule.source.sourceUrl ?? undefined}>
-                Proposal rule source
-              </a>
-            </p>
+            <p>Proposal threshold: {measure.proposalRule.label}</p>
           )}
           <p>Ratification: {measure.ratificationMode.replaceAll("-", " ")}</p>
           <p>Deadline: {measure.deadlineAt ?? "No deadline recorded"}</p>

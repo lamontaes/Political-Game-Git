@@ -166,19 +166,8 @@ function DocketWorkspaceBody({
 
       {sessionWindow.kind === "past-outer-limit" ? (
         <p data-testid="docket-session-limit">
-          The configured regular-session deadline was {sessionWindow.deadline}.
-          No exceptional-session record is available for procedural work.{" "}
-          {sessionWindow.source.sourceUrl ? (
-            <a
-              href={sessionWindow.source.sourceUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {sessionWindow.source.citation}
-            </a>
-          ) : (
-            sessionWindow.source.citation
-          )}
+          The regular session's deadline was {sessionWindow.deadline}. No
+          special session has been called, so there is no procedural work to do.
         </p>
       ) : null}
 

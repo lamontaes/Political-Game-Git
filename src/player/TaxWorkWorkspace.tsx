@@ -287,12 +287,6 @@ export function TaxWorkWorkspace({
           <fieldset className="tax-work-step">
             <legend>3. Commitment: file it</legend>
             <p>
-              Legal wording acquired {power.asOf}.{" "}
-              <a href={power.sourceUrl}>Alaska Constitution</a>. This proposal
-              carries that wording forward as a game assumption; it does not
-              verify future real law.
-            </p>
-            <p>
               This route uses the ninety-day default after enactment, exact
               half-up cent rounding and general public receipts. It models no
               dedication exception or early effective-date vote.

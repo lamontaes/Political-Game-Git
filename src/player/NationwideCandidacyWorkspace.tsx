@@ -4,7 +4,10 @@ import {
   localGovernmentDisplayName,
 } from "../simulation";
 import type { CandidacyBlock, EntityId, World } from "../simulation";
-import { projectCampaign } from "../presentation/campaign-projection";
+import {
+  displayedSharePercents,
+  projectCampaign,
+} from "../presentation/campaign-projection";
 import {
   fileForStateExecutiveOffice,
   qualifyForStateExecutiveTerm,
@@ -46,9 +49,23 @@ export function NationwideCandidacyWorkspace({
   const calendar = candidacy
     ? stateExecutiveOfficeCalendar(world, candidacy.identity.stateUsps)
     : null;
-  const share = (unitId: string) =>
-    home.countyShares?.find((entry) => entry.unitId === unitId)
-      ?.landAreaShare ?? null;
+  // Rounded together, not one by one: Columbus's three counties printed
+  // 98 + 2 + 1 = 101 percent when each share was rounded on its own.
+  const measured = home.counties.flatMap((unit) => {
+    const landAreaShare = home.countyShares?.find(
+      (entry) => entry.unitId === unit.id,
+    )?.landAreaShare;
+    return landAreaShare === undefined
+      ? []
+      : [{ unitId: unit.id, landAreaShare }];
+  });
+  const printed = displayedSharePercents(
+    measured.map((entry) => entry.landAreaShare),
+    0,
+  );
+  const landPercents = new Map(
+    measured.map((entry, index) => [entry.unitId, printed[index]!]),
+  );
   const act = (change: () => World) => {
     try {
       onWorldChange(change());
@@ -90,12 +107,12 @@ export function NationwideCandidacyWorkspace({
         {home.counties.length > 0 ? (
           <ul data-testid="home-counties">
             {home.counties.map((unit) => {
-              const landShare = share(unit.id);
+              const landShare = landPercents.get(unit.id) ?? null;
               return (
                 <li key={unit.id} data-unit-id={unit.id}>
                   {localGovernmentDisplayName(unit)}
                   {landShare !== null && home.counties.length > 1
-                    ? ` — ${Math.round(landShare * 100)} percent of this place's land`
+                    ? ` — ${landShare} percent of this place's land`
                     : null}
                 </li>
               );
@@ -166,18 +183,6 @@ export function NationwideCandidacyWorkspace({
             >
               <summary>How this office's calendar works</summary>
               <p>{calendar.note}</p>
-              {calendar.sources.length > 0 ? (
-                <ul>
-                  {calendar.sources.map((source) => (
-                    <li key={source.citation}>
-                      <a href={source.url} target="_blank" rel="noreferrer">
-                        {source.citation}
-                      </a>
-                      : “{source.excerpt}”
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
             </details>
           ) : null}
           {status.kind === "won-off-cycle" ? (
