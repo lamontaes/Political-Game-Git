@@ -1872,6 +1872,62 @@
         "Sits on the residence living-room plate without reading as pasted on, at phone width as well as full size."
       ],
       "dependsOn": []
+    },
+    {
+      "requestId": "person-head-and-hair-layers-for-banked-morphologies",
+      "requestVersion": 1,
+      "priority": "P0",
+      "status": "draft",
+      "title": "Heads and hair as separate layers, drawn to match the twenty-two banked bodies",
+      "consumer": {
+        "consumerId": "character-component-catalog",
+        "runtimeComponent": "src/presentation/character-components.ts",
+        "playerVisibleUse": "The face and hair of every person the player meets: family, colleagues, opponents, the figure at the lectern on the title screen, and the player's own character."
+      },
+      "whyNeeded": "Counted across all three banks on 2026-09-22, the project holds no head and no hair component outside the thirty-five pieces D-063 refused by eye for being untextured grey mannequins. The twenty-two banked bodies have no head to go with them; what they have instead is a head painted into the body raster, bald and featureless, recorded as baked_slots [\"head\"] on all eighteen derived bodies. The compositor handles a baked slot correctly, so this is not a rendering defect. The consequence is that approving every body in the bank would still put nobody new on screen, and forcing them in would give every person in the game one shared bald head with nothing variable above the neck. This is the single art gap between the banked bodies and people who look like people.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/manifest/character_candidate_registry.json",
+          "art/manifest/character_candidate_wardrobe_registry.json",
+          "art/generated/candidates/ocd-p76/",
+          "art/generated/candidates/wave-a-morphology/",
+          "art/generated/approved/pg-modular/"
+        ],
+        "driveLocationsSearched": [
+          "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/30_CHARACTER_CANDIDATES",
+          "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS"
+        ],
+        "found": "Heads: five candidates and six released, every one of the eleven either a D-063 grey mannequin or a dev_ fixture drawn by a repository script. Hair: eight candidates and seven released, on the same footing. The wave-a and ocd banks, which hold the twenty-two bodies and all eighty-nine wardrobe derivatives, hold zero of either kind.",
+        "shortfall": "There is nothing to search further. No head or hair drawn for the current body direction exists anywhere in the repository or the Drive exchange, and no recovery pass produces one, because the bodies carry their heads baked into the same raster rather than as a layer that could be separated."
+      },
+      "target": {
+        "targetClass": "character-component",
+        "minimumWidth": 600,
+        "aspectRatio": "square head canvas, hair drawn on the same canvas so the two register without a fit step",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "Owner-approved illustrated direction, matching the twenty-two banked bodies in art/manifest/character_candidate_registry.json"
+      },
+      "generationRecipe": [
+        "Heads drawn as their own layer on transparent ground, with a face: eyes, brows, nose and mouth, in the same illustrated direction as the banked bodies.",
+        "The neck drawn to meet the body at its neck anchor, so a head sits on any of the twenty-two rather than on one of them.",
+        "A spread of ages and features wide enough that a street does not read as siblings. The exact count is the art desk's call; the constraint is variation, not a number.",
+        "Hair drawn as its own layer over the head, front and back separated where the direction needs both, never painted onto the head.",
+        "Heads drawn for each facing the bodies carry: square to camera, and turned three-quarter right to match the seated bank.",
+        "NO CLOTHING and nothing below the neck."
+      ],
+      "acceptanceCriteria": [
+        "A head layer composites onto a banked body at its neck anchor with no seam and no overlap, checked on at least one standing and one seated body from each family.",
+        "A hair layer composites onto a head without covering the face it belongs to, and reads correctly on the turned heads as well as the square ones.",
+        "No delivered head carries hair baked into it, and no delivered head carries a body.",
+        "Human visual approval remains separate and pending. Nothing here releases a pixel, and no approval is recorded by any script."
+      ],
+      "dependsOn": [],
+      "scope": {
+        "familyId": "character-head-and-hair",
+        "intendedContext": "every person the compositor draws, in every scene"
+      }
     }
   ]
 }
