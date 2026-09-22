@@ -1,0 +1,34 @@
+{
+  "filedAt": "2026-09-22T16:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "personality and relationships",
+  "notes": [
+    "'Not a number' is the owner's constraint and the hardest part of the question. A relationship that visibly ticks down is the thing he has ruled against elsewhere in this game repeatedly. An answer that is a decay rate with a different name does not satisfy it.",
+    "Fading and forgetting are different, and the game stores them separately. A person can remember somebody perfectly and feel less about them.",
+    "Asymmetry is real here: one of the two may be the one who stopped calling. Say whether fading is held per person.",
+    "The five lines already exist and are independent, so an answer may differ per line — it is entirely plausible that warmth fades, what is owed does not, and an unsettled quarrel neither fades nor hardens."
+  ],
+  "priority": "P1",
+  "question": "The owner has ruled that relationships DO fade with absence, and that the fading must not be a number. So: which parts of a relationship fade when two people stop seeing each other and which do not, what does fading look like in how a person behaves rather than as a quantity, at roughly what pace, and what halts or reverses it?",
+  "questionId": "relationship-fading-with-absence",
+  "relatedQuestionIds": ["relationship-dimensions-and-fading"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "lamontae, directly, 2026-09-22 16:27Z",
+  "sourcesChecked": [
+    {
+      "source": "The 2026-09-22 research return, section 11, in research/LIVE-RESEARCH-EXCHANGE.txt",
+      "whatItDidNotSettle": "Ruled out passive decay entirely, three times, which the owner has now reversed. It gives no account of fading because it held that there should be none."
+    },
+    {
+      "source": "src/simulation/people-contact.ts lines 46 and 837",
+      "whatItDidNotSettle": "Carries the no-decay rule in code and draws a useful distinction that should survive: somebody who stops being the one who rings has not thereby cooled toward the other person. It says what fading is not, never what it is."
+    },
+    {
+      "source": "src/simulation/relationship-standing.ts, the five-line reading built 2026-09-22",
+      "whatItDidNotSettle": "Reads warmth, trust, respect, commitment and tension from the interaction log and applies no fading at all, pending this answer. It establishes the lines an answer can be given per line; it chooses no pace."
+    }
+  ],
+  "title": "How a relationship should fade when the two people stop seeing each other",
+  "usableAnswer": "For each of the five lines, whether it fades with absence, is preserved, or hardens, and what the pace depends on (how long the relationship ran, how it was built, what stage of life, whether either person tried to reach the other). The original concern that must be honoured: 'not a number' — so say what fading looks like from inside the game, in what a person does and what the player sees, rather than as a rate. Also what halts it: whether a single meeting restores what years of silence took, or only partly. And what should NOT fade, since the earlier return's reasoning that a player's failure to open a screen is not a choice they made is still sound and should survive in whatever replaces it.",
+  "whyItMatters": "This reverses a standing rule. The 2026-09-22 research return, section 11, said 'No passive relationship decay is introduced. Actual repeated choices can matter; the absence of a required screen visit is not one of those choices', and src/simulation/people-contact.ts was built on it in so many words. lamontae ruled the opposite on 2026-09-22 at 16:27: 'i do want passive decay. not a number. defer to chatgpt'. His ruling governs, and the shape is yours. Until it is answered the game reads a thirty-year silence exactly as it reads yesterday, which he has now said is wrong. The relationship model itself is built and merged-pending: five lines (warmth, trust, respect, commitment, tension) read from the interaction log in src/simulation/relationship-standing.ts, so an answer lands as a rule per line rather than as a rebuild."
+}
