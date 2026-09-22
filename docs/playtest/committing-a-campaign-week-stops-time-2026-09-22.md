@@ -89,6 +89,20 @@ the journey question is answered, and it is separate from it: a commitment
 the player cannot perform, decline, or outlive is a trap, and time
 advancement should not be able to deadlock on one.
 
+## A way out exists now, and it is not the fix
+
+Landed on `claude/playtest-cwpd3o` at `be7d0c3d`: a commitment the game will
+not let the player carry out can be given up. It takes no time and spends
+nothing, and it clears the commitment and any journey booked for it.
+
+Measured in `giving-up-a-stuck-commitment-2026-09-22.md`: **four presses**,
+one per booked session, each offered on the calendar with nothing to hunt for,
+and after the fourth the life is on an ordinary seven-day rhythm. So the clock
+is unstuck; the life is not free until the week is cleared.
+
+That is a guard, not an answer to the question below, and its cost scales with
+how much the player campaigns.
+
 ## The decision this needs, which is not mine
 
 Three ways out, and choosing between them is a product call:
