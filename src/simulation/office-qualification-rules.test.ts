@@ -280,6 +280,44 @@ describe("production-compiled office qualification rules", () => {
     }
   });
 
+  /*
+   * The band is the only place the arithmetic is observable.
+   *
+   * Every other residence figure in play is either nothing at all or something
+   * like 700 days, and 700 days clears six months and a year alike however it
+   * is rounded. Ten months is the one duration that separates them: it satisfies
+   * a six-month rule and not a one-year rule, so rounding six months up to a
+   * year would refuse this character and rounding it down to nothing would admit
+   * somebody who arrived yesterday. Ported from the playtesting lane's
+   * candidacy-level case so it sits against this implementation too.
+   */
+  it("admits somebody past a six-month cutoff but short of a year", () => {
+    const world = createScenarioWorld(
+      "qualification-band",
+      LEXINGTON_DEMO_CONTEXT,
+      { peopleCount: 3 },
+    );
+    const person = world.people[world.personOrder[0]!]!;
+    const onDate = makeIsoDate("2026-11-03");
+    // One character, one residence interval of ten completed months, read
+    // against two states whose requirements differ only in unit.
+    const tenMonthsAgo = makeIsoDate("2026-01-03");
+    const districtIn = (stateJurisdictionKey: string) =>
+      assessOfficeQualifications({
+        person,
+        stateJurisdictionKey,
+        officeFamily: "LOWER_CHAMBER" as const,
+        stateResidenceSince: makeIsoDate("2000-01-01"),
+        districtResidenceSince: tenMonthsAgo,
+        onDate,
+      }).find((assessment) => assessment.field === "DISTRICT_RESIDENCE");
+
+    // Minnesota asks six months: ten months is past it.
+    expect(districtIn("US-MN")?.verdict).toBe("meets");
+    // Ohio asks a year: the same ten months is short of it.
+    expect(districtIn("US-OH")?.verdict).toBe("fails");
+  });
+
   it("reads a residence requirement written as a compiler token", () => {
     // Ohio's two chambers carry "RESIDENT_1_YEAR" rather than a phrase. Before
     // this was read, the row was unevaluated -- and an unevaluated row is a
