@@ -829,3 +829,90 @@ export function summarizeOpenQuestions(
       `${record.priority} ${record.impact} ${record.questionId} — ${record.title} (${record.lane})`,
   );
 }
+
+/**
+ * Where a just-filed record actually is, as far as anybody else is concerned.
+ *
+ * `pullRequest` is deliberately three-valued. We cannot always ask GitHub — no
+ * `gh`, no token, no network — and "we did not check" must never render as
+ * "there is none", because a warning that cries wolf is one people learn to
+ * scroll past.
+ */
+export interface FiledRecordPlacement {
+  /** The branch it was written on, or undefined outside a checkout. */
+  readonly branch?: string;
+  /** Whether that branch is the one the published render is built from. */
+  readonly isDefaultBranch: boolean;
+  /** Whether the branch exists on the remote at all. */
+  readonly pushed: boolean;
+  /** Commits this branch carries that the default branch does not. */
+  readonly commitsAhead?: number;
+  readonly pullRequest: "open" | "none" | "unknown";
+}
+
+/**
+ * What to print after filing, so nobody leaves a question sitting on a branch.
+ *
+ * This exists because of a measurement, not a hunch: on 2026-09-22 two sweeps
+ * an hour apart found nine filed records stranded on four different branches,
+ * none of which had ever appeared in a published document. Every one of them
+ * had been written carefully by somebody who believed they had asked a
+ * question. The queue's whole premise is that filing commissions the research,
+ * and that premise is false for a record that never reaches the branch the
+ * render is built from.
+ *
+ * It warns rather than refuses on purpose. Filing early on a branch whose pull
+ * request is about to open is a reasonable thing to do, and a tool that
+ * refuses there teaches people to write the JSON by hand instead — which loses
+ * the validator, which is the part that actually protects the researcher.
+ */
+export function filedRecordNotice(
+  questionId: string,
+  placement: FiledRecordPlacement,
+): readonly string[] {
+  const rule = "─".repeat(72);
+  if (placement.isDefaultBranch) {
+    return [
+      `${questionId} is on the default branch, so the next render carries it.`,
+    ];
+  }
+  const lines = [
+    rule,
+    `  FILED, AND NOT YET ASKED.`,
+    "",
+    `  ${questionId} is`,
+    placement.branch
+      ? `  on branch ${placement.branch},`
+      : `  in this checkout,`,
+    `  and the document the researchers read is built from whichever`,
+    `  branch renders it. Until this reaches the default branch it has`,
+    `  asked nobody anything.`,
+    "",
+  ];
+  if (!placement.pushed) {
+    lines.push(`  This branch is not on the remote at all.`);
+  } else if (placement.pullRequest === "none") {
+    lines.push(`  This branch is pushed and has no open pull request.`);
+  } else if (placement.pullRequest === "open") {
+    lines.push(
+      `  This branch has an open pull request, so merging it is enough.`,
+    );
+  } else {
+    lines.push(
+      `  Whether this branch has an open pull request could not be`,
+      `  checked from here, so check it yourself.`,
+    );
+  }
+  if (placement.commitsAhead !== undefined && placement.commitsAhead > 0) {
+    lines.push(
+      `  It is ${placement.commitsAhead} commit(s) ahead of the default branch.`,
+    );
+  }
+  lines.push(
+    "",
+    `  Before you stop: get this branch merged, or tell the research`,
+    `  queue lane the record is here so the next publish carries it.`,
+    rule,
+  );
+  return lines;
+}

@@ -4,6 +4,7 @@ import {
   RESEARCH_REQUEST_VERSION,
   answeredRequests,
   droppedQuestionIds,
+  filedRecordNotice,
   openRequests,
   renderOpenQuestions,
   renderedQuestionIds,
@@ -216,6 +217,57 @@ describe("reading the queue", () => {
   it("summarizes one open question per line", () => {
     expect(summarizeOpenQuestions(all)).toHaveLength(3);
     expect(summarizeOpenQuestions(all)[0]).toContain("one-blocking");
+  });
+});
+
+describe("what filing tells the asker about where the record is", () => {
+  const notice = (
+    over: Partial<Parameters<typeof filedRecordNotice>[1]> = {},
+  ) =>
+    filedRecordNotice("county-treasurer-selection", {
+      branch: "claude/a-lane",
+      isDefaultBranch: false,
+      pushed: true,
+      pullRequest: "none",
+      ...over,
+    }).join("\n");
+
+  it("says nothing alarming when the record is on the branch the render is built from", () => {
+    const quiet = notice({ branch: "main", isDefaultBranch: true });
+    expect(quiet).toContain("the next render carries it");
+    expect(quiet).not.toContain("NOT YET ASKED");
+  });
+
+  it("says plainly that a record on an unmerged branch has asked nobody", () => {
+    // Nine records were found stranded this way on 2026-09-22, each written by
+    // somebody who believed they had asked a question.
+    const warned = notice();
+    expect(warned).toContain("FILED, AND NOT YET ASKED");
+    expect(warned).toContain("claude/a-lane");
+    expect(warned).toContain("asked nobody anything");
+    expect(warned).toContain("no open pull request");
+  });
+
+  it("does not report an unchecked pull request as a missing one", () => {
+    // We cannot always reach GitHub. A warning that overstates what it knows
+    // is one people learn to scroll past, which costs the real ones.
+    const unsure = notice({ pullRequest: "unknown" });
+    expect(unsure).toContain("could not be");
+    expect(unsure).not.toContain("no open pull request");
+  });
+
+  it("says when the branch is not on the remote at all", () => {
+    expect(notice({ pushed: false })).toContain("not on the remote at all");
+  });
+
+  it("still warns when it cannot name the branch", () => {
+    const detached = filedRecordNotice("county-treasurer-selection", {
+      isDefaultBranch: false,
+      pushed: false,
+      pullRequest: "unknown",
+    }).join("\n");
+    expect(detached).toContain("FILED, AND NOT YET ASKED");
+    expect(detached).toContain("in this checkout,");
   });
 });
 

@@ -30,9 +30,11 @@ import path from "path";
 
 import {
   droppedQuestionIds,
+  filedRecordNotice,
   renderOpenQuestions,
   summarizeOpenQuestions,
   validateResearchRequests,
+  type FiledRecordPlacement,
   type ResearchRequestRecord,
 } from "../../src/research/research-request";
 import {
@@ -93,6 +95,83 @@ function currentBranch(): string | undefined {
   }
 }
 
+function git(...args: readonly string[]): string | undefined {
+  try {
+    return execFileSync("git", [...args], {
+      cwd: repositoryRoot,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * The default branch this repository publishes from, read rather than assumed:
+ * a fork or a rename should not make the warning lie.
+ */
+function defaultBranch(): string {
+  const head = git(
+    "symbolic-ref",
+    "--quiet",
+    "--short",
+    "refs/remotes/origin/HEAD",
+  );
+  return head?.replace(/^origin\//, "") ?? "main";
+}
+
+/**
+ * Where the record just written can actually be seen from. The pull-request
+ * half needs the network, so it is allowed to come back unknown; see
+ * `filedRecordNotice` for why that must not read as "there is none".
+ */
+function placeFiledRecord(): FiledRecordPlacement {
+  const base = defaultBranch();
+  const branch = currentBranch();
+  if (branch === undefined) {
+    return { isDefaultBranch: false, pushed: false, pullRequest: "unknown" };
+  }
+  if (branch === base) {
+    return { branch, isDefaultBranch: true, pushed: true, pullRequest: "none" };
+  }
+  const pushed =
+    git("rev-parse", "--verify", `refs/remotes/origin/${branch}`) !== undefined;
+  const aheadCount = git("rev-list", "--count", `origin/${base}..HEAD`);
+  const ahead = aheadCount === undefined ? undefined : Number(aheadCount);
+  return {
+    branch,
+    isDefaultBranch: false,
+    pushed,
+    commitsAhead: Number.isFinite(ahead) ? ahead : undefined,
+    pullRequest: pushed ? openPullRequest(branch) : "none",
+  };
+}
+
+/**
+ * Whether the branch has an open pull request, when that can be established
+ * without a network call we may not be able to make. `gh` is the only probe
+ * tried: a missing binary, no credentials or no network all mean unknown, and
+ * unknown is reported as unknown.
+ */
+function openPullRequest(branch: string): "open" | "none" | "unknown" {
+  try {
+    const found = execFileSync(
+      "gh",
+      ["pr", "list", "--head", branch, "--state", "open", "--json", "number"],
+      {
+        cwd: repositoryRoot,
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "ignore"],
+      },
+    ).trim();
+    const parsed: unknown = JSON.parse(found);
+    return Array.isArray(parsed) && parsed.length > 0 ? "open" : "none";
+  } catch {
+    return "unknown";
+  }
+}
+
 function loadAll(): readonly ResearchRequestRecord[] {
   const loaded = loadResearchRequests(repositoryRoot);
   for (const bad of loaded.unreadable) {
@@ -121,6 +200,16 @@ if (command === "file") {
     console.log(
       `Filed ${record.questionId} at ${path.relative(repositoryRoot, written)}`,
     );
+    // A filed record that never reaches the branch the render is built from
+    // has asked nobody anything. Two sweeps an hour apart on 2026-09-22 found
+    // nine of them stranded across four branches, every one written by
+    // somebody who thought the question had been asked.
+    for (const line of filedRecordNotice(
+      record.questionId,
+      placeFiledRecord(),
+    )) {
+      console.warn(line);
+    }
   } catch (cause) {
     if (cause instanceof ResearchRequestExistsError) {
       console.error(cause.message);
