@@ -263,6 +263,7 @@ export * from "./nationwide-world/district-of-columbia";
 export * from "./nationwide-world/government-jurisdiction";
 export * from "./nationwide-world/rule-capability-port";
 export * from "./nationwide-world/state-executive-candidacy-packs";
+export * from "./nationwide-world/local-governing-body-candidacy-packs";
 export * from "./nationwide-world/state-executives";
 export * from "./nationwide-world/state-executive-terms";
 export * from "./nationwide-world/state-executive-term-rules";
