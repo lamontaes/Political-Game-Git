@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 3166 |
-| INTENTIONALLY_NON_PLAYER_FACING | 7126 |
-| DIAGNOSTIC_OR_TEST | 7677 |
-| **NEEDS_CLASSIFICATION** | **10290** |
+| INTENTIONALLY_NON_PLAYER_FACING | 7125 |
+| DIAGNOSTIC_OR_TEST | 7702 |
+| **NEEDS_CLASSIFICATION** | **10293** |
 
-Scanned 1158 files holding 112466 string
+Scanned 1159 files holding 112505 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -76,6 +76,7 @@ literals in total; the table counts only those that read like a sentence.
 | 48 | `src/simulation/life-sources.ts` |
 | 48 | `src/simulation/living-world/party-evolution.ts` |
 | 48 | `src/simulation/people-contact.ts` |
+| 46 | `src/presentation/legislative-bargaining-brief.ts` |
 | 45 | `src/content/content-export.ts` |
 | 45 | `src/simulation/legislative-politics.ts` |
 | 45 | `src/simulation/time-work.ts` |
@@ -83,7 +84,6 @@ literals in total; the table counts only those that read like a sentence.
 | 44 | `src/presentation/campaign-life-surface.ts` |
 | 44 | `src/presentation/crisis-shell.ts` |
 | 43 | `src/presentation/funded-service-capability.ts` |
-| 43 | `src/presentation/legislative-bargaining-brief.ts` |
 | 43 | `src/presentation/scene-consumers.ts` |
 | 43 | `src/simulation/episode-bank.ts` |
 | 42 | `src/maps/PoliticalMap.tsx` |
