@@ -47,3 +47,10 @@ docs/prose-inventory/review-packet.html
 # totals.
 docs/prose-inventory/coverage-report.md
 docs/prose-inventory/README.md
+
+# The dehardwire census is generated the same way and conflicted the same way,
+# and unlike the coverage report it guarded nothing: the `--check` case
+# recomputes in memory and never opens the file, and the other case regenerates
+# it before reading it back. Both pass identically with it untracked.
+# `classification.json` beside it is written by a person and stays tracked.
+docs/dehardwire/census.json

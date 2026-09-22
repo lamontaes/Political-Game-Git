@@ -75,11 +75,16 @@ system is not broken, and "An earlier commitment must be resolved first" is a
 _time-ordering_ refusal rather than a wall — the entry became performable when
 its hour came.
 
-**Not established, deliberately:** whether the meeting at the far end can then
-be attended. That is a second claim and the walk stalled before reaching it,
-twice, on an instrument fault I did not isolate. "A journey can be made" and
-"the activity at its far end can be performed" are different sentences and
-tonight has been a long lesson in not letting one stand for the other.
+**Now established, and it was a defect.** The meeting at the far end could
+_not_ be attended. This very press — finishing the journey on its own row —
+completed the travel and recorded no arrival, so the meeting refused "The
+current location is not recorded" for the rest of the life. Walked again in
+Springfield, Illinois and reproduced twice in one walk; written up in
+`making-the-journey-stranded-the-meeting-2026-09-22.md` and fixed in PR #369,
+which records the arrival whichever control the player pressed. So the
+sentence above stands corrected: a journey can be made, and now the activity
+at its far end can be performed too. They were different sentences, and the
+gap between them was the bug.
 
 ## The difference, at the type level
 

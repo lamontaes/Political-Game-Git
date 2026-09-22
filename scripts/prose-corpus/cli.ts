@@ -1119,29 +1119,38 @@ function main(): void {
     // eleven was the overstatement this check replaces.
     const drift: string[] = [];
     /**
-     * The COMMITTED bytes, from git rather than from the working tree.
+     * The artifact this branch OWNS, or nothing.
      *
-     * Reading the working tree was unsound for an artifact this repository
-     * does not track: `git checkout` never touches an ignored file, so a clone
-     * that switches branches keeps the previous branch's regeneration on disk
+     * Reading whatever sat on disk was unsound for an artifact the repository
+     * does not track. `git checkout` never touches an ignored file, so a clone
+     * that switches branches keeps the previous branch's regeneration in place
      * and this check would compare the new branch's source against the old
      * branch's output. It could report drift that is not this branch's, and —
      * worse, because nothing prompts anybody to look — it could report a match
      * for a reason unrelated to the code. An artifact the branch does not own
      * is not weaker evidence; it is different evidence spelled the same way.
      *
-     * So: tracked artifacts are compared against what is committed, untracked
-     * ones are skipped outright, and a missing file stays normal rather than a
-     * fault.
+     * So the file is read only when git tracks it. A tracked artifact is the
+     * branch's own, because switching branches rewrites it; an untracked one
+     * is skipped, whatever happens to be lying there. The comparison stays
+     * against the working tree, so regenerating and re-checking still works
+     * without committing first.
      */
+    const tracked = (path: string): boolean => {
+      try {
+        execFileSync("git", ["ls-files", "--error-unmatch", "--", path], {
+          stdio: "ignore",
+        });
+        return true;
+      } catch {
+        return false;
+      }
+    };
     const committed = (name: string): string | null => {
       const path = `${OUT_DIR}/${name}`;
+      if (!tracked(path)) return null;
       try {
-        return execFileSync("git", ["show", `HEAD:${path}`], {
-          encoding: "utf8",
-          stdio: ["ignore", "pipe", "ignore"],
-          maxBuffer: 256 * 1024 * 1024,
-        });
+        return readFileSync(path, "utf8");
       } catch {
         return null;
       }
