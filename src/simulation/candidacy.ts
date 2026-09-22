@@ -23,6 +23,7 @@ import type { QualificationAssessment } from "./office-qualification-rules";
 import type { DistrictSeatBinding, EntityId, IsoDate, World } from "./types";
 import {
   bindOfficeToDistrict,
+  canonicalHomeDistrictKnowledge,
   districtResidenceSince,
   recordedDistrictResidenceSince,
 } from "./district-residence";
@@ -340,6 +341,20 @@ export function candidacyEligibility(
           boundDistrict,
           world.currentDate,
         );
+  // A missing district duration has two very different causes, and the
+  // refusal should say which. A split town is the world declining to pick one
+  // of several districts its resident might be in; anything else is the world
+  // simply not having the record.
+  const districtGap =
+    districtSince !== null || gazetteerChamber === null
+      ? undefined
+      : canonicalHomeDistrictKnowledge(
+            world,
+            input.personId,
+            gazetteerChamber,
+          ) === "split"
+        ? ("district-unknown" as const)
+        : ("unrecorded" as const);
   const qualificationAssessments =
     qualificationRules !== null || officeFamily === null
       ? []
@@ -349,6 +364,7 @@ export function candidacyEligibility(
           officeFamily,
           stateResidenceSince: stateResidenceStart,
           districtResidenceSince: districtSince,
+          ...(districtGap ? { districtResidenceGap: districtGap } : {}),
           onDate: world.currentDate,
           // The World's own office records for this exact office. A term limit
           // cannot bar someone these records show has never held it.
@@ -362,6 +378,7 @@ export function candidacyEligibility(
       onDate: world.currentDate,
       stateResidenceSince: stateResidenceStart,
       districtResidenceSince: districtSince,
+      districtIsUnknown: districtGap === "district-unknown",
     });
     for (const refusal of assessment.refusals) {
       blocks.push({

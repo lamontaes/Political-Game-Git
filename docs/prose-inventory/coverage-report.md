@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 3139 |
-| INTENTIONALLY_NON_PLAYER_FACING | 7215 |
-| DIAGNOSTIC_OR_TEST | 8263 |
-| **NEEDS_CLASSIFICATION** | **10743** |
+| INTENTIONALLY_NON_PLAYER_FACING | 7214 |
+| DIAGNOSTIC_OR_TEST | 8270 |
+| **NEEDS_CLASSIFICATION** | **10746** |
 
-Scanned 1214 files holding 115896 string
+Scanned 1214 files holding 115937 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -135,9 +135,9 @@ literals in total; the table counts only those that read like a sentence.
 | 27 | `src/presentation/garment-fit.ts` |
 | 27 | `src/presentation/player-copy.ts` |
 | 27 | `src/simulation/governing/staff-evidence.ts` |
+| 27 | `src/simulation/office-qualification-rules.ts` |
 | 27 | `src/simulation/transit-service.ts` |
 | 26 | `src/simulation/life-content-92c.ts` |
-| 26 | `src/simulation/office-qualification-rules.ts` |
 | 26 | `src/ui/DeveloperReviewHub.tsx` |
 | 25 | `src/player/SceneConversation.tsx` |
 | 25 | `src/presentation/economic-graphs.ts` |
@@ -236,6 +236,7 @@ literals in total; the table counts only those that read like a sentence.
 | 13 | `src/presentation/campaign-compliance-projection.ts` |
 | 13 | `src/presentation/executive-work.ts` |
 | 13 | `src/presentation/person-contact.ts` |
+| 13 | `src/simulation/candidate-qualification.ts` |
 | 13 | `src/simulation/civil-personnel-start.ts` |
 | 13 | `src/simulation/election-contests.ts` |
 | 13 | `src/simulation/press/views.ts` |
@@ -262,7 +263,6 @@ literals in total; the table counts only those that read like a sentence.
 | 11 | `src/presentation/modeled-account-history.ts` |
 | 11 | `src/presentation/person-dossier.ts` |
 | 11 | `src/presentation/scene-placement.ts` |
-| 11 | `src/simulation/candidate-qualification.ts` |
 | 11 | `src/simulation/crisis/health.ts` |
 | 11 | `src/simulation/political-belief-formation.ts` |
 | 11 | `src/simulation/tax-policy.ts` |

@@ -261,6 +261,27 @@
       "reason": "Nothing preserved bears on this. The preserved packet is character components and a small number of environment plates; it contains no interface artwork of any kind, and a find across art/ and public/ returns only pose control plates and arm-measurement QA overlays, which are authoring evidence rather than shipped art. So no preserved asset could answer or restate an ask for icons for the five ShellRef kinds."
     },
     {
+      "requestId": "economic-graph-panel-ground",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this ask. No chart, graph, grid or plotting-paper asset exists in art/, and src/player/economic-context-panel.css draws the whole figure from colour values with no image reference. No preserved unit is a panel ground."
+    },
+    {
+      "requestId": "guide-popover-card-ground",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this ask. No shell chrome, card, frame or panel art exists in art/; src/player/guide.css defines the popover entirely from the --pg-radius and --pg-shadow tokens. The preserved units are people and rooms, neither of which yields a nine-slice card ground."
+    },
+    {
+      "requestId": "politics-hub-tab-band",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this ask. No navigation chrome art exists in art/, and src/player/politics/politics-hub.css contains no url() or image reference of any kind. No preserved unit is a tab band."
+    },
+    {
       "requestId": "ui-no-candidacy-refusal-panel",
       "verdict": "unaffected-still-required",
       "preservedUnits": [],
