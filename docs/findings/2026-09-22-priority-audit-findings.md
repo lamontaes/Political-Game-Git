@@ -89,6 +89,28 @@ unanswered jurisdictions, naming them, with the 24-jurisdiction answer cited as
 its first checked source so it is visible as already in hand. The integration
 work is engineering and belongs to the lanes that own each consumer.
 
+**Since written, two rows have moved. Read them as current, not the table.**
+
+- **Ethics is integrated.** PR #299 merged to `main` at 05:49:51Z. The 24
+  researched jurisdictions are now a data table,
+  `src/simulation/press/state-ethics-bodies.ts`, that the press routing reads,
+  so a complaint reaches the state's own body rather than reading identically in
+  fifty states. The table is deliberately narrower than it could be: it carries
+  the body, the state's own term for the proceeding, the chamber arrangement and
+  the citations, and it carries **no timeline**, because the research recorded
+  none — a procedure built from it names the real body and declares its
+  intervals as authored rather than borrowing Kentucky's statutory deadlines.
+  Kentucky stays hand-written for exactly that reason. Fifteen of the 24 route a
+  seated legislator but not a candidate, because those states have no
+  legislative rule pack yet; that is a gap in the packs, not in the table. The
+  27 unresearched jurisdictions remain the open question.
+- **Veto and override rules are partly admitted.** PR #302 merged to `main`
+  before that. That lane's measurement, including the thresholds it found wrong,
+  is its own and is not restated here.
+
+This is what section 3 is for: the gap was never the research, it was the
+absence of a consumer. Two consumers appeared in one night.
+
 ---
 
 ## 4. Personality, relationships, goals and memory are thinner than the type definitions suggest
