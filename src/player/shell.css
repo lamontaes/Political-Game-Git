@@ -896,17 +896,6 @@
   pointer-events: none;
 }
 
-.pg-build {
-  position: fixed;
-  right: 0.85rem;
-  bottom: 1.3rem;
-  z-index: 30;
-  margin: 0;
-  font-size: 0.66rem;
-  color: rgba(200, 185, 151, 0.7);
-  pointer-events: none;
-}
-
 /* ---------------------------------------------------- narrow desktop sizes */
 
 /*
