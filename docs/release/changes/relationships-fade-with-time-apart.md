@@ -18,7 +18,12 @@ so one evening together does not prove reliability. What is owed does not fade.
 A quarrel left alone goes quiet without ever being settled, and seeing each
 other again is not reconciliation. The person who asked to meet and never heard
 back feels the gap before the other does. People who share a home are never
-apart, and opening someone's card is not contact.
+apart, and neither are people who work in the same place. Family takes far
+longer to drift than anyone else. Opening someone's card is not contact. A known
+reason for being apart, such as illness or travel, is not recorded anywhere yet,
+so every gap is read as unexplained. A quarrel that was followed only by the
+two of them seeing each other again now reads as unsettled, where before any
+friendly contact settled it.
 
 Talking to somebody now counts as seeing them. Before, a whole afternoon of
 conversation and a game left the person card saying the two of them last spoke

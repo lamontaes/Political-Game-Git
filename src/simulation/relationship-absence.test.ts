@@ -301,4 +301,54 @@ describe("relationship absence", () => {
       expect(far.readings[dimension]).toEqual(near.readings[dimension]);
     }
   });
+
+  it("reads a day's conversation and the half hour after it as one day of contact", () => {
+    // Independent review: two records on one reunion day used to make the
+    // reunion read as ordinary, and restore trust after a single afternoon.
+    let world = bareWorld("absence-same-day");
+    const pair = pairOf(world);
+    world = longFriendship(world, pair, 10, 12 * 365);
+    for (const kind of [
+      "contact:conversation",
+      "contact:time-together",
+    ] as const) {
+      world = log(
+        world,
+        pair,
+        kind,
+        "maintained",
+        "meaningful",
+        daysAgo(world, 2),
+      );
+    }
+    expect(readRelationshipAbsence(world, pair[0], pair[1]).currency).toBe(
+      "reconnecting",
+    );
+  });
+
+  it("counts a slight contact as keeping in touch, while it moves nothing", () => {
+    let world = bareWorld("absence-slight");
+    const pair = pairOf(world);
+    world = longFriendship(world, pair, 3, 3 * 365);
+    expect(readRelationshipAbsence(world, pair[0], pair[1]).currency).not.toBe(
+      "current",
+    );
+    const before = readRelationshipStanding(world, pair[0], pair[1]).readings;
+    // A run of ordinary chats every month through the last year.
+    for (let month = 12; month >= 0; month -= 1) {
+      world = log(
+        world,
+        pair,
+        "contact:conversation",
+        "maintained",
+        "minor",
+        daysAgo(world, month * 30 + 1),
+      );
+    }
+    const after = readRelationshipStanding(world, pair[0], pair[1]);
+    expect(after.absence.currency).toBe("current");
+    for (const dimension of RELATIONSHIP_DIMENSIONS) {
+      expect(after.readings[dimension].band).toBe(before[dimension].band);
+    }
+  });
 });

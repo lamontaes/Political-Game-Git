@@ -1,13 +1,12 @@
 import { daysBetween } from "./dates";
-import { householdMembershipsAt } from "./life-queries";
+import {
+  activeWorkRelationshipsAt,
+  householdMembershipsAt,
+  kinshipRelationshipsAt,
+} from "./life-queries";
 import { CONTACT_PROPOSED_EVENT } from "./people-contact";
 import { relationshipHistory } from "./queries";
-import type {
-  EntityId,
-  IsoDate,
-  RelationshipInteraction,
-  World,
-} from "./types";
+import type { EntityId, IsoDate, World } from "./types";
 
 /**
  * How current a relationship is, from one side, after time apart.
@@ -23,11 +22,21 @@ import type {
  * - The pace is the pair's own. It follows how often the two of them usually
  *   met and how long they have known each other, so a busy month away from a
  *   lifelong friend reads nothing like a decade after a single meeting.
- * - Only a real lack of meaningful contact counts. Two people sharing a home
- *   are not apart. Opening someone's card, or not opening it, changes nothing,
- *   because nothing here reads what the player looked at.
+ * - Only a real lack of contact counts. Any recorded interaction keeps the
+ *   pair in touch, however slight, since a chat is contact even though it
+ *   moves nothing between them. Two people sharing a home or a workplace now
+ *   see each other and are not apart. Opening someone's card, or not opening
+ *   it, changes nothing, because nothing here reads what the player looked at.
+ * - Family does not share a stranger's timeout: kin take far longer to go
+ *   dormant, and what they owe each other never fades at all.
  * - Two people can read the same gap differently. The person who reached out
  *   and was never answered has felt the silence; the other has not.
+ *
+ * NOT YET REPRESENTED, and so not read: a known reason for being apart —
+ * illness, travel, a posting, an agreed break. DEPTH2 says that changes how a
+ * gap is read, and nothing in the world records it yet, so every gap is read
+ * as unexplained. A workplace keeps colleagues in touch but is not intimacy;
+ * it only stops the bond fading, it adds nothing to any line.
  *
  * What the state does to each of the five lines lives in
  * `relationship-standing.ts`, where the lines are read. Absence never erases a
@@ -51,6 +60,8 @@ export interface RelationshipAbsence {
   readonly lastMeaningfulContactOn: IsoDate | null;
   /** Whether they share a home now, which is never absence. */
   readonly sharesHome: boolean;
+  /** Whether they work at the same place now, which is not absence either. */
+  readonly sharesWork: boolean;
   /** Whether this side asked to meet since then and was never answered. */
   readonly unansweredAttempt: boolean;
 }
@@ -79,10 +90,11 @@ const DORMANT_FLOOR_DAYS = 365;
  */
 const HISTORY_SHARE_BEFORE_DORMANT = 1 / 3;
 
-/** A meaningful interaction: anything recorded above the passing kind. */
-function meaningful(interaction: RelationshipInteraction): boolean {
-  return interaction.significance !== "minor";
-}
+/**
+ * How many times longer kin take to go dormant than anyone else with the same
+ * rhythm. Calibration, like the bands above.
+ */
+const KIN_DORMANCY_FACTOR = 3;
 
 function median(values: readonly number[]): number {
   const sorted = [...values].sort((left, right) => left - right);
@@ -98,7 +110,7 @@ interface Thresholds {
 }
 
 /** When a gap stops being usual for this pair, from their contacts so far. */
-function thresholdsFor(contacts: readonly IsoDate[]): Thresholds {
+function thresholdsFor(contacts: readonly IsoDate[], kin: boolean): Thresholds {
   const gaps: number[] = [];
   for (let index = 1; index < contacts.length; index += 1) {
     gaps.push(daysBetween(contacts[index - 1]!, contacts[index]!));
@@ -110,11 +122,12 @@ function thresholdsFor(contacts: readonly IsoDate[]): Thresholds {
   );
   const known =
     contacts.length < 2 ? 0 : daysBetween(contacts[0]!, contacts.at(-1)!);
-  const dormantAfter = Math.max(
-    DORMANT_FLOOR_DAYS,
-    LESS_CURRENT_SPANS_BEFORE_DORMANT * lessCurrentAfter,
-    known * HISTORY_SHARE_BEFORE_DORMANT,
-  );
+  const dormantAfter =
+    Math.max(
+      DORMANT_FLOOR_DAYS,
+      LESS_CURRENT_SPANS_BEFORE_DORMANT * lessCurrentAfter,
+      known * HISTORY_SHARE_BEFORE_DORMANT,
+    ) * (kin ? KIN_DORMANCY_FACTOR : 1);
   return { lessCurrentAfter, dormantAfter };
 }
 
@@ -133,6 +146,34 @@ function sharesHomeNow(
   );
 }
 
+function sharesWorkNow(
+  world: World,
+  viewerId: EntityId,
+  subjectId: EntityId,
+): boolean {
+  if (!world.people[viewerId] || !world.people[subjectId]) return false;
+  const mine = new Set(
+    activeWorkRelationshipsAt(world, viewerId).map(
+      (entry) => entry.relationship.organizationId,
+    ),
+  );
+  if (mine.size === 0) return false;
+  return activeWorkRelationshipsAt(world, subjectId).some((entry) =>
+    mine.has(entry.relationship.organizationId),
+  );
+}
+
+function areKin(
+  world: World,
+  viewerId: EntityId,
+  subjectId: EntityId,
+): boolean {
+  if (!world.people[viewerId]) return false;
+  return kinshipRelationshipsAt(world, viewerId).some((record) =>
+    record.personIds.includes(subjectId),
+  );
+}
+
 /**
  * Whether this side asked to meet after their last contact and heard nothing.
  *
@@ -146,18 +187,20 @@ function askedAndUnanswered(
   subjectId: EntityId,
   since: IsoDate | null,
 ): boolean {
-  return world.history.events.some(
+  // A request made the same day as the last contact still counts: asking to
+  // meet again and never hearing back is felt whenever it happens.
+  const asked = world.history.events.filter(
     (event) =>
       event.type === CONTACT_PROPOSED_EVENT &&
-      (since === null || event.occurredAt > since) &&
+      (since === null || event.occurredAt >= since) &&
+      event.involvedEntityIds.includes(subjectId) &&
       event.participants.some(
         (entry) => entry.role === "agency:asked" && entry.personId === viewerId,
-      ) &&
-      event.involvedEntityIds.includes(subjectId) &&
-      world.history.events.some(
-        (lapse) => lapse.stableKey === `contact:${event.id}:lapsed`,
       ),
   );
+  if (asked.length === 0) return false;
+  const lapsed = new Set(asked.map((event) => `contact:${event.id}:lapsed`));
+  return world.history.events.some((event) => lapsed.has(event.stableKey));
 }
 
 /**
@@ -171,14 +214,23 @@ export function readRelationshipAbsence(
   viewerId: EntityId,
   subjectId: EntityId,
 ): RelationshipAbsence {
+  // One entry per day the two of them were in touch. A conversation and the
+  // half hour after it are one day's contact, not two, and counting them twice
+  // would make a reunion read as ordinary and halve the pair's rhythm.
   const contacts =
     viewerId === subjectId
       ? []
-      : relationshipHistory(world, viewerId, subjectId)
-          .filter(meaningful)
-          .map((interaction) => interaction.occurredAt);
+      : [
+          ...new Set(
+            relationshipHistory(world, viewerId, subjectId).map(
+              (interaction) => interaction.occurredAt,
+            ),
+          ),
+        ];
   const last = contacts.at(-1) ?? null;
   const sharesHome = sharesHomeNow(world, viewerId, subjectId);
+  const sharesWork = sharesWorkNow(world, viewerId, subjectId);
+  const kin = areKin(world, viewerId, subjectId);
   const unansweredAttempt = askedAndUnanswered(
     world,
     viewerId,
@@ -190,11 +242,14 @@ export function readRelationshipAbsence(
     subjectId,
     lastMeaningfulContactOn: last,
     sharesHome,
+    sharesWork,
     unansweredAttempt,
   };
-  if (last === null || sharesHome) return { ...base, currency: "current" };
+  if (last === null || sharesHome || sharesWork) {
+    return { ...base, currency: "current" };
+  }
 
-  const now = thresholdsFor(contacts);
+  const now = thresholdsFor(contacts, kin);
   const gap = daysBetween(last, world.currentDate);
   if (gap > now.dormantAfter) return { ...base, currency: "dormant" };
   if (gap > now.lessCurrentAfter) return { ...base, currency: "less-current" };
@@ -207,7 +262,7 @@ export function readRelationshipAbsence(
   // against the rhythm they had before this contact, not after it, so a
   // reunion does not redefine its own gap as ordinary.
   if (contacts.length >= 2) {
-    const before = thresholdsFor(contacts.slice(0, -1));
+    const before = thresholdsFor(contacts.slice(0, -1), kin);
     const reunionGap = daysBetween(contacts.at(-2)!, last);
     if (reunionGap > before.lessCurrentAfter) {
       return { ...base, currency: "reconnecting" };

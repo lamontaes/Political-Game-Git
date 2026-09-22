@@ -261,12 +261,15 @@ export function deriveRelationshipSummary(
 
   // Time apart, per DEPTH2: warmth goes dormant rather than hostile and comes
   // back quickly at a reunion; reliance needs current evidence; what is owed
-  // does not fade; a quarrel left alone long enough goes quiet without being
-  // settled, which is distance rather than estrangement.
+  // does not fade; a quarrel left alone goes quiet without being settled,
+  // which is distance rather than estrangement.
   const currency = standing.absence.currency;
   const warmthCurrent = currency === "current" || currency === "reconnecting";
   const trustCurrent = currency === "current";
-  const tensionLive = currency !== "dormant";
+  // A quarrel is live while they are in the usual way of seeing each other. A
+  // reunion brings it back into view without making them estranged again:
+  // civil but reluctant, until something new happens between them.
+  const tensionLive = currency === "current";
 
   const estranged =
     (marked("tension") && tensionLive) ||

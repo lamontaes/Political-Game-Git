@@ -33,7 +33,7 @@ import {
 import type {
   EntityId,
   IsoDate,
-  RelationshipChange,
+  RelationshipSignificance,
   RelationshipInteractionKind,
   World,
   FutureTransitionHandlerRegistry,
@@ -709,12 +709,13 @@ export function commitLifeConversation(
  * not be measured because time together was never recorded.
  *
  * One day's talk is one episode, whatever the number of turns, so the record
- * says the two of them spoke that day and not that they spoke eleven times; the
- * conduct rubric for `what-moves-a-relationship` asks for exactly this, and a
- * routine conversation moves none of the five lines on its own. Time spent
- * together and an accepted date are their own episodes on the same day,
- * because they are shared experience rather than contact. A refusal writes no
- * extra record: it is the other person's answer, not a mark against anyone.
+ * says the two of them spoke that day and not that they spoke eleven times, as
+ * the conduct rubric for `what-moves-a-relationship` asks. All of it is contact
+ * that keeps the two of them in touch and moves none of the five lines on its
+ * own: a chat is slight, half an hour together or an agreed date is more, and
+ * none of it is affection earned by repetition. What either of them does with
+ * that time is its own conduct. A refusal writes no extra record: it is the
+ * other person's answer, not a mark against anyone.
  */
 function recordConversationContact(
   world: World,
@@ -731,29 +732,29 @@ function recordConversationContact(
   const episodes: {
     key: string;
     kind: RelationshipInteractionKind;
-    change: RelationshipChange;
+    significance: RelationshipSignificance;
     summary: string;
   }[] = [
     {
       key: `${base}:spoke`,
       kind: "contact:conversation",
-      change: "maintained",
+      significance: "minor",
       summary: "Spoke together.",
     },
   ];
   if (input.timeTogether) {
     episodes.push({
       key: `${base}:time-together`,
-      kind: "experience:time-together",
-      change: "maintained",
+      kind: "contact:time-together",
+      significance: "meaningful",
       summary: "Spent time together.",
     });
   }
   if (input.date) {
     episodes.push({
       key: `${base}:date`,
-      kind: "experience:date",
-      change: "strengthened",
+      kind: "contact:date",
+      significance: "meaningful",
       summary: "Agreed this was a date.",
     });
   }
@@ -772,8 +773,8 @@ function recordConversationContact(
       eventId: input.eventId,
       occurredAt: input.occurredAt,
       kind: episode.kind,
-      change: episode.change,
-      significance: "meaningful",
+      change: "maintained",
+      significance: episode.significance,
       summary: episode.summary,
       tags: ["life.conversation"],
     });

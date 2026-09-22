@@ -122,7 +122,7 @@ describe("talking to somebody", () => {
         playerPersonId,
         parentId,
       ).map((interaction) => interaction.kind);
-      expect(kindsAfterPlan).not.toContain("experience:time-together");
+      expect(kindsAfterPlan).not.toContain("contact:time-together");
       if (!offered?.intents.some((option) => option.key === "spendTime")) {
         continue;
       }
@@ -132,7 +132,7 @@ describe("talking to somebody", () => {
         (interaction) => interaction.kind,
       );
       expect(
-        kinds.filter((kind) => kind === "experience:time-together"),
+        kinds.filter((kind) => kind === "contact:time-together"),
       ).toHaveLength(1);
     }
     // At least one of these parents agreed to play, or this case measured
