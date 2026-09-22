@@ -1,5 +1,8 @@
 import { createScenarioWorld } from "../simulation/demo";
-import { requireLifePlace } from "../simulation/life-places";
+import {
+  lifePlaceByJurisdictionId,
+  requireLifePlace,
+} from "../simulation/life-places";
 import { municipalGovernmentForLifePlace } from "../simulation/municipal-government";
 import {
   installMunicipalGovernment,
@@ -352,6 +355,12 @@ describe("Government rosters, representation and the Issues place", () => {
     });
     const base = projectGovernmentBrowser(world, personId);
     expect(here.label.startsWith("Here: ")).toBe(true);
+    // Here names the place, not the setting the life opens in: a character
+    // at home was shown public finances for "Here: Home".
+    expect(base.here.jurisdictionId).not.toBeNull();
+    const herePlace = lifePlaceByJurisdictionId(base.here.jurisdictionId!);
+    expect(herePlace).toBeDefined();
+    expect(here.label).toBe(`Here: ${herePlace!.displayName}`);
     if (here.jurisdictionId !== null)
       expect(here.jurisdictionId).toBe(base.here.jurisdictionId);
     const federal = issuesPlaceForSelection(world, personId, {

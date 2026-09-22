@@ -8781,7 +8781,7 @@
           "provider": "U.S. Bureau of Economic Analysis, Regional Economic Accounts",
           "publisher": {
             "documentationUrl": "https://apps.bea.gov/regional/downloadzip.htm",
-            "releaseDate": null,
+            "releaseDate": "2026-02-05",
             "schemaVersion": "BEA regional table CAINC1",
             "statedVintage": null
           },
@@ -8815,7 +8815,7 @@
           "provider": "U.S. Bureau of Economic Analysis, Regional Economic Accounts",
           "publisher": {
             "documentationUrl": "https://apps.bea.gov/regional/downloadzip.htm",
-            "releaseDate": null,
+            "releaseDate": "2026-02-19",
             "schemaVersion": "BEA regional table SARPP",
             "statedVintage": null
           },
@@ -8849,7 +8849,7 @@
           "provider": "U.S. Bureau of Economic Analysis, Regional Economic Accounts",
           "publisher": {
             "documentationUrl": "https://apps.bea.gov/regional/downloadzip.htm",
-            "releaseDate": null,
+            "releaseDate": "2026-02-19",
             "schemaVersion": "BEA regional table MARPP",
             "statedVintage": null
           },
@@ -8883,7 +8883,7 @@
           "provider": "U.S. Department of Housing and Urban Development, HUD User",
           "publisher": {
             "documentationUrl": "https://www.huduser.gov/portal/datasets/fmr.html",
-            "releaseDate": null,
+            "releaseDate": "2024-08-14",
             "schemaVersion": "FY2025 Fair Market Rents, county level",
             "statedVintage": "FY2025"
           },
