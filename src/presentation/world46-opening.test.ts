@@ -101,16 +101,37 @@ const sha256 = (text: string) =>
  * PASSED unchanged on the run that moved these. That is the whole point of
  * having both: the field these hashes moved on is the one the shape strips.
  *
- * RE-ACCEPTED A FOURTH TIME 2026-09-22, for the federal policy pack: twenty
+ * RE-ACCEPTED AGAIN 2026-09-22, and this time LEGACY_OPENING_SHAPE moves too,
+ * which by the paragraph above means the opening path really is behaving
+ * differently. It is, deliberately: a generated person's given name is now
+ * drawn from the pool that agrees with the gender the world already gave them,
+ * so a generated name can move whether or not it was previously wrong — the
+ * draw is over a smaller pool, not only a corrected one.
+ *
+ * Measured rather than assumed. Both legacy openings were serialized on
+ * `origin/main` at e468700f and on this head and compared leaf by leaf. In
+ * each of Kentucky (544 people) and Peebles (542), the same people and ids,
+ * and exactly 21 leaves differ:
+ *
+ *   - 5 `givenName` values;
+ *   - 15 `establishedFacts[].summary` strings, every one of which becomes
+ *     identical after substituting that person's old given name for their new
+ *     one — 0 summaries are unexplained by the name alone;
+ *   - `snapshotId`, which is a digest of the world and moves with it.
+ *
+ * 0 identities changed and `worldId` is unchanged. A move here for any other
+ * reason is still a regression.
+ *
+ * AND RE-ACCEPTED ON TOP OF THAT 2026-09-22, for the federal policy pack: twenty
  * federal domains, sixty federal issues and sixty knowledge subjects, all in
  * `world.policyCatalog` under the `us-federal:` namespace. Same predicted
- * movement, same evidence: LEGACY_OPENING_SHAPE PASSED unchanged on the run
- * that moved these, and the pack's own test proves every id and record the
+ * movement, same evidence: LEGACY_OPENING_SHAPE, as re-set above, PASSED
+ * unchanged on the run that moved these, and the pack's own test proves every id and record the
  * catalogue already had is untouched and in its old place.
  */
 const FED321F7_LEGACY = {
-  kentucky: "6c8df66f70eb51276ca23e066755943fd5fdd4501ea93358ed3edc8fff828e8d",
-  peebles: "a224f13759e667ed0e2dec4a663f5a981fae712681056cdb2db86ade63f8885c",
+  kentucky: "5e2fc4806d6626660f0e7606285753c53e4c68ea4c145926e9c12f152714b599",
+  peebles: "617b6879acc9764d6848019f5817548f10bc934cae0003e4843e28ff5700a0c7",
 } as const;
 
 /**
@@ -122,8 +143,8 @@ const FED321F7_LEGACY = {
  * test above was reaching for and could not hold on its own.
  */
 const LEGACY_OPENING_SHAPE = {
-  kentucky: "11b9c3a70029aeaf79fb2a78b43e2bba14185fab2c6c7e496f26ed57350a3534",
-  peebles: "f936aaf182ccc43581bc87856f87fa404c0ebff3eb869ff5984a3e447828712b",
+  kentucky: "0245935171dd00c8a8304679a94428f1fd87dcccceeb5b2f9792c775d3cdc6e8",
+  peebles: "fb58196c5d6d23094e56bc21d48b98e14fbcedc9bb876df57dfc1557e26d27b9",
 } as const;
 
 /**

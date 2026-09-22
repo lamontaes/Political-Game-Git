@@ -135,7 +135,14 @@ export function planStateChambers(pack: CandidacyPack): {
       : [];
     let size: number;
     let basis: ChamberSizeBasis;
-    if (office.seats.kind === "known") {
+    // A size read from law wins. A size the game drew for an unresearched
+    // state's profile gives way to the state's own Census districts, which
+    // are a record of that state rather than a range across others; the draw
+    // seats a chamber only where the Census has no districts for it.
+    const drawn =
+      office.seats.kind === "known" &&
+      office.seats.source?.authority === "game-profile";
+    if (office.seats.kind === "known" && !(drawn && districts.length > 0)) {
       size = office.seats.value;
       basis = "rule-pack";
     } else if (districts.length > 0) {

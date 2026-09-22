@@ -387,6 +387,7 @@ function establishAgeEligibleState(
       world,
       player,
       jurisdictionId,
+      givenNameGenerationVersion,
       earlierLifeGenerationVersion,
     );
     transitions.push({
@@ -971,6 +972,7 @@ function summarizeEarlierLife(
   world: World,
   player: Person,
   jurisdictionId: EntityId,
+  givenNameGenerationVersion: GivenNameGenerationVersion,
   version?: EarlierLifeGenerationVersion,
 ): World {
   const stableKey = "production:earlier-life";
@@ -984,6 +986,7 @@ function summarizeEarlierLife(
       stableKey,
       personId: player.id,
       jurisdictionId,
+      givenNameGenerationVersion,
     }),
   ).world;
   return applyCharacterHistoryPlan(next, {

@@ -21,8 +21,9 @@ import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
  *
  * Spread across the states on purpose, and across small places: a village in
  * Nebraska's one-house legislature, a Nevada town whose pack does not know its
- * chamber sizes, small towns in Minnesota and Missouri, and a Wyoming town in
- * a state that has no legislature pack at all yet.
+ * chamber sizes, small towns in Minnesota and Missouri, and towns in Wyoming,
+ * Maine and Georgia, whose legislatures the game has not researched and
+ * describes from a generated profile.
  */
 function placeKey(name: string, state: string): string {
   const found = lifePlaceSearch(name, 20).find(
@@ -47,6 +48,9 @@ const SEATED = [
   ["Ely", "Minnesota"],
   ["Hermann", "Missouri"],
   ["Tonopah", "Nevada"],
+  ["Ten Sleep", "Wyoming"],
+  ["Eastport", "Maine"],
+  ["Hahira", "Georgia"],
 ] as const;
 
 describe.each(SEATED)("a life opened in %s, %s", (name, state) => {
@@ -77,10 +81,14 @@ describe.each(SEATED)("a life opened in %s, %s", (name, state) => {
       const office = pack.offices.find(
         (o) => o.officeKey === chamber.officeKey,
       )!;
-      if (office.seats.kind === "known") {
+      const drawn =
+        office.seats.kind === "known" &&
+        office.seats.source?.authority === "game-profile";
+      if (office.seats.kind === "known" && !drawn) {
         expect(chamber.basis).toBe("rule-pack");
         expect(chamber.size).toBe(office.seats.value);
       } else {
+        // A size the profile drew gives way to the state's own districts.
         expect(chamber.basis).toBe("one-member-per-district");
         expect(
           chamber.districts.every(
@@ -113,14 +121,14 @@ describe.each(SEATED)("a life opened in %s, %s", (name, state) => {
   });
 });
 
-describe("a state with no legislature pack yet", () => {
-  it("seats nobody rather than borrowing another state's chamber", () => {
-    const { world } = openLife("Ten Sleep", "Wyoming");
-    expect(stateCandidacyPack("US-WY")).toBeNull();
-    expect(
-      world.history.workRelationships.filter(
-        (work) => work.kind === "employment:legislative-member",
-      ),
-    ).toEqual([]);
+describe("Puerto Rico's Legislative Assembly", () => {
+  it("is seated, and nobody in it is given a national party", () => {
+    const { world, playerPersonId } = openLife("Culebra", "Puerto Rico");
+    const pack = stateCandidacyPack(
+      `US-${homeStateUsps(world, playerPersonId)!}`,
+    )!;
+    const members = stateLegislators(world, pack.packId);
+    expect(members.length).toBeGreaterThan(0);
+    expect(members.every((member) => member.party === null)).toBe(true);
   });
 });

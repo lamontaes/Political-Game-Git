@@ -246,10 +246,11 @@ function partyCue(
         sourceRefs: [],
       },
     ];
-  if (!sponsorPersonId || !sponsorParty) return [];
   const party = publicPartyOf(world, personId);
-  if (!party) return [];
-  const same = party === sponsorParty;
+  // A member with no national party, as in Puerto Rico's chambers, or a bill
+  // whose sponsor has none, carries no party cue either way.
+  const same = party !== null && party === sponsorParty;
+  if (contested && (!party || !sponsorParty)) return [];
   // Most bills pass by wide margins: a member of the other party with no
   // conviction about a bill has no reason to vote it down. Party lines hold
   // where the question is a contest between the parties, an override of the
@@ -263,8 +264,7 @@ function partyCue(
         direction: "supports",
         importance: "slight",
         confidence: "medium",
-        explanation:
-          "The bill is carried by the other party, and the member has no reason to oppose it.",
+        explanation: "The member has no reason to oppose the bill.",
         sourceRefs: [],
       },
     ];

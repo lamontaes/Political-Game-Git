@@ -1,0 +1,28 @@
+{
+  "filedAt": "2026-09-22T20:55:00.000Z",
+  "impact": "shapes-design",
+  "lane": "consequences for corruption and laws",
+  "notes": [
+    "Built per ChatGPT C02: completed payments and completed tax collections, not enactment, become shocks on that jurisdiction's own economic layer. See PUBLIC_MONEY_ORIGIN_READER in src/simulation/macro-economy/sources.ts.",
+    "Placeholder values, marked unresearched in src/simulation/macro-economy/policy.ts: public spending paid gives growth +0.10pp, unemployment -0.02pp, prices +0.01pp at full intensity; tax collected gives growth -0.10pp, unemployment +0.02pp; both have monthly retention 0.6. Full intensity is $50 million in one jurisdiction-month, the same figure for every jurisdiction regardless of size (UNRESEARCHED_FULL_INTENSITY_MONTHLY_MINOR_UNITS).",
+    "This supplements policy-effect-model-state-and-local, which C02 answered qualitatively and left calibration open."
+  ],
+  "priority": "P1",
+  "question": "For a US state (and separately for a large city or county), what is the short-run effect on that jurisdiction's own output growth and unemployment rate of an additional dollar of state or local government purchases actually paid, and of an additional dollar of state or local tax actually collected, how quickly does the effect fade, and how should the size of the jurisdiction's economy scale it?",
+  "questionId": "realized-public-money-macro-magnitudes",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Consequences for corruption and laws thread",
+  "sourcesChecked": [
+    {
+      "source": "chatgpt-stress-test-answers-2026-09-22, C02 (connect law to execution before macro shocks)",
+      "whatItDidNotSettle": "Sets the accounting (realized money, purchases versus transfers, local before national, no windfall bonus for a tax rise) and explicitly declines to approve magnitudes, geographic exposure, lag or persistence."
+    },
+    {
+      "source": "src/simulation/macro-economy/policy.ts CHANGE_AUTHORED_IMPULSES",
+      "whatItDidNotSettle": "Its own comment says the existing profiles are placeholders reported for confirmation, not estimates."
+    }
+  ],
+  "title": "How far money a state actually spends or collects moves its own economy",
+  "usableAnswer": "Per channel (purchases paid; transfers paid; taxes collected): the response of state output growth (percentage points, annualized) and of the unemployment rate (percentage points) per dollar relative to state GDP, with a monthly decay rate or a quarter-by-quarter profile; and the reference that scales it, such as state GDP or personal income, so a $50 million outlay moves Wyoming more than California. Cite local fiscal multiplier studies where they exist, and say plainly where no estimate exists.",
+  "whyItMatters": "A passed law can now move the live economy for the first time, but at one flat size for every state and every channel. Without researched values a program in a small state and one in a large state look the same, and the player's record in office is judged against numbers nobody chose."
+}

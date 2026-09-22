@@ -136,7 +136,10 @@ describe("PLAYTEST65 real opening and practical-life readers", () => {
     expect(opening.life.age).toBe(age);
     if (place === "1150000") {
       expect(opening.beats.some((item) => item.key === "district")).toBe(true);
-      expect(opening.orientation.homeState?.governor).toBeNull();
+      // The District's chief executive is its Mayor, never a governor.
+      expect(opening.orientation.homeState?.governor?.officeKey).toBe(
+        "dc-mayor",
+      );
     }
     const opportunities = projectPracticalOpportunities(world, playerPersonId);
     if (age < 18)
