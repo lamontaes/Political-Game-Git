@@ -214,6 +214,15 @@ read by no interface. It is now on the Government screen — PR #305, branch
 
 ---
 
+**One of the four is bounded more tightly than "built".** The same playtest
+walk found that the newspaper's per-outlet composition works for party stories
+as designed, and every other story family still prints the record's own
+sentence identically — five exact duplicates on a thirteen-story page. The
+mechanism is proven and wired to one story family. That is a real distinction
+between a system that exists and a system that is finished.
+
+---
+
 ## 2. The largest empty vocabulary in the game
 
 A new player world ships with **no policy domains, issues, propositions,
@@ -356,9 +365,76 @@ rule reaching the UI layer, and it costs nothing to honour now.
 
 ## 5. Exactly one jurisdiction is seated
 
-The United States Congress is seated with 535 real generated people, 435 House
-and 100 Senate, built at a new life's opening
-(`src/simulation/living-world/opening.ts:160`).
+**The number underneath it.** `docs/systems/nationwide-rule-coverage.json`
+counts **38,704 general-purpose local governments**, and there are two
+thresholds worth stating rather than one, because they give different numbers.
+
+- **Three can introduce an ordinance.** Charlottesville and Richmond in
+  Virginia, and Carson City in Nevada — the only three units with a compiled
+  enacted instrument. So 38,701 have no admitted ordinance route at all.
+- **One can pass one.** Charlottesville alone carries an admitted
+  pass-ordinance rule. Two can pass an appropriation.
+- Everything else is 38,381 units known by identity only and 320 carrying an
+  inherited default.
+
+The 38,701 figure and the "one in 38,704" figure are both correct and they
+answer different questions. Quote the threshold with the number. The playtest walk of 2026-09-22 (`453b6893`,
+`docs/playtest/walk-2026-09-22-0711.md`) reports the same thing from the other
+end — that nobody is sitting on them — and puts it better than we did: **the
+rules are further along than the world is.**
+
+Those two measures are not the same measure, and the distinction is the point
+of the process finding below about reading a generated document's own header.
+Rule admission says a compiled rule exists for the resolver to apply. Seating
+says somebody holds the office. A jurisdiction can fail either independently.
+
+**And one small thing sitting on top of it.** The same walk found the
+Government screen in Columbus reading "U.S. House District not recorded".
+Congress is the only body in the game that is actually seated, and it is the
+one body the player is shown no connection to. That is specific and fixable,
+and it is a worse first impression than the seating gap it sits on.
+The United States Congress is seated, 435 House seats and 100 Senate, built at
+a new life's opening (`src/simulation/living-world/opening.ts:160`).
+
+**Correcting a figure of ours: "535 generated people" is wrong, and 535 is a
+seat count.** The seating lane built five lives through the ordinary creator —
+Augusta AR, Columbus GA, Tucson AZ, Billings MO, Sitka AK — reading Congress
+through the game's own `projectCongress` and everything else from each save's
+organisation records, with no fixtures and no coverage-report rows (#331 at
+`7b5647a1`). Every seat carries a person or an explicitly recorded vacancy. The
+headcount came out 432, 435, 433, 433 and 435 in the House and 99 in the Senate
+every time — one to four short depending on seed, with which seats are vacant
+varying. That is the right shape for a real chamber, and it is a better fact
+than the round number it replaces.
+
+**And the number to put beside the 38,701.** Total population of a new world is
+**555 to 559 people**. Subtract Congress and twenty to twenty-five remain: the
+player, their household, the four or five people they know, three officeholders
+— the Presidency, the Supreme Court and the state's governor, one each — and a
+handful of press bylines. A save holds 23 or 24 organisations, of which the city
+government, the county government, three schools, a youth club and a market all
+read zero people. **No state legislature organisation exists in any save at
+all** — absent rather than empty, which is a stronger statement than "no
+compiled pack" and consistent with it.
+
+That is the entire world outside the one seated building.
+
+One limit of that method, carried from the lane that ran it: party chapters read
+zero people by this count while the playtest walk saw named organizers on the
+chapters screen, so chapters record people by a route the count does not
+follow. That zero is a limit of the measurement, not a finding. The Congress
+figures do not depend on that path.
+
+**Why a new game keeps starting in Lexington.** `DEFAULT_NEW_GAME_SETUP`
+(`src/presentation/new-game.ts:193-198`) carries `placeKey: "kentucky"`, and its
+own comment says what it is for: "Compatibility default for old callers and
+encoded replays. A fresh creator uses an empty placeKey (`freshNewGameSetup`);
+gameplay helpers must pass `explicitNewGameSetup`. This is not a player
+recommendation." So every helper, test or caller that does not name a place
+starts in Lexington, by design rather than by accident. It is the answer to "it
+always defaults to Lexington", and it is not the bug it looks like — though it
+does mean anything that forgets to name a place quietly inherits the one
+explicit scenario.
 
 **Every state chamber and every municipal body returns `holderName: null`** with
 the note "No current record of this chamber's members is kept in this save"
@@ -377,12 +453,151 @@ is not researched twice.
 
 ## 6. Process findings, each paid for once
 
+- **A browser walk through `?art-preview=candidate` is not evidence about the
+  art it appears to show, and this lane's own evidence was affected.** The
+  private candidate manifests are owner-private and not in git, so
+  `PRIVATE_CANDIDATE_ART_AVAILABLE` is false in every checkout a runner can
+  make. When they are absent the game does not say so: `setupForArtPreview`
+  returns the setup unchanged and the player is quietly put back on the
+  ordinary appearance path with no message, no marker and no test id — while
+  the preview banner still shows. **The screen claims to be showing unreleased
+  candidate art while showing production art.** That is the one place found so
+  far where the game fails hard instead of failing soft with a stated reason,
+  against the standing rule that unknown content is skipped with a reason and
+  never silently. The unit suite already handles the same condition honestly
+  with `describe.skipIf`. Twenty-two spec files open this way, and one of them
+  is this lane's own `ui-decision-politics.spec.ts`: its assertions about the
+  chamber breakdown are text and counts and stand, but any claim made from its
+  captures about how the screen _looked_ was a claim about production art
+  behind a banner that said otherwise. Documented by the fix-main lane in
+  `docs/BROWSER-SUITE-FLOOR.md`; the correction to this lane's own evidence is
+  ours.
+- **Name what is scarce, not what is dangerous.** This is the line to take
+  from the whole night, and everything else in this section follows from it.
+  "Be careful about merging" is unactionable. "Two job slots for the whole
+  repository, a validate run is fifteen jobs, and one shard takes twenty-four
+  minutes" is something anybody can reason about. Every correct decision the
+  freeze eventually reached follows from those three numbers, and all three
+  were available all night and none of them was the thing being said.
+- **The third leg: a fifteen-job run cannot fit between pushes at two slots,
+  even with nobody merging.** Measured at job level on run `35692915930`: one
+  `browser` shard had been running **twenty-four minutes** when it was
+  cancelled, and was not finished. The cancellation is the mechanism; a shard
+  outliving the window between pushes is why there was never anything to cancel
+  into. Those two facts together are the whole of it, and neither alone
+  explains a night without a verdict.
+- **The first verdict on main came back red, and the red was already fixed.**
+  On `7fc33c85`, `unit (2, 6)` failed: `campaign-projection.test.ts:125`
+  expected the Kentucky seat-count note to match
+  `/no instrument fixing it was separately read/i` and got "The game does not
+  know how many seats Kentucky's chamber formally has, and it will not guess a
+  number." 1 failed, 1,189 passed. The producer in
+  `legislature-rule-packs.ts:345` had been rewritten to say the refusal in the
+  game's own voice instead of reciting research vocabulary at a candidate, and
+  the test was still pinned to the retired sentence. Commit `62ee25b7` fixed
+  the test to follow its producer — and **`62ee25b7` is not an ancestor of
+  `7fc33c85`, but is on current `main`**. So the night's first verdict is red
+  on a commit whose failure the branch had already repaired before the verdict
+  arrived. That is the merge-train problem stated as a test result rather than
+  as a queue: the verdict is for a state of the world that no longer exists by
+  the time anybody reads it.
+- **Main did get a verdict, at 07:46:10Z, and it is the first of the night.**
+  Once the merges stopped, the run on `7fc33c85` executed: the `repository`
+  job completed **success** with twelve steps, and a `unit` shard was running
+  behind it. That job is the remote check standing behind every "format, lint,
+  typecheck and release declarations are clean" claim the lanes made locally
+  all night — until then those were all local runs and none of them was the
+  gate.
+- **And a refinement, because this session got it wrong in the same hour it
+  documented the rule.** Asked whether main's run had started, this lane read
+  the run-level status, saw `queued`, and said so — while the `repository` job
+  had already run to green. The run-level aggregate stays un-green while
+  thirteen of fifteen jobs are pending, so it answers a different question than
+  the one asked. Worse, the obvious discriminator does not work: a queued job
+  reports `started_at` **equal to** `created_at` rather than null, so a
+  timestamp is not evidence that anything ran. **The `steps` array is the
+  test** — a job that executed has steps, and a queued one has zero. Read the
+  job, not the roll-up, and read its steps, not its clock.
+- **A freeze on merges is not a freeze on capacity.** The freeze was called to
+  stop merges killing main's pending run, and it left untouched the thing that
+  starves it: a push to any branch starts its own fifteen-job run, and there
+  are two job slots for the whole repository. So while main's run was finally
+  executing, ordinary branch pushes — including this document's — were taking a
+  slot from it and had to be cancelled. Two different scarcities wearing one
+  name. Freezing the one that was visible left the one that was not.
+- **An amendment to our own rule, and the most useful finding in this section.**
+  Tonight every lane was told: on a red check, first see whether the event's
+  `head_sha` is still the branch head, because a stale sha with cancelled jobs
+  is a supersede that needs no action. That rule saved several rounds and is
+  still the right first check. It would also have hidden a real failure. Two
+  `validate` reds arrived on #292 wearing exactly the supersede shape, on
+  ancestor commits — and the log read `unit=cancelled browser=cancelled` and
+  **`repository=failure`**. One genuine failure underneath two cancellations: a
+  `prettier --check` failure on
+  `src/simulation/office-qualification-rules.ts`, already fixed by later
+  commits, red on a sha nothing points at. The nationwide lane opened the log
+  instead of applying the heuristic, and found it.
+
+  **So: a stale sha tells you the red is not about your current head. It does
+  not tell you nothing failed.** Only opening the jobs distinguishes
+  `cancelled` from `failure`, and a supersede can mask a real failure exactly
+  the way a loud failure masks a quiet one. A rule written at two in the
+  morning to stop lanes chasing false reds would, by five, have had one of them
+  discard a true one. This is the fifth member of the family of checks whose
+  failure mode is silence, and the first we introduced ourselves.
+
+  Applied immediately: the two reds on #305 were re-checked at job level rather
+  than at run level before being called supersedes. All fifteen jobs cancelled
+  in both, only the aggregation job failed. They are supersedes, and now that is
+  measured rather than assumed.
+
+- **The concurrency group protects a run that is already running, and main's
+  runs were never running.** `validate.yml` sets
+  `cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}`, so on `main` an
+  in-progress run is shielded — which is what it was written for. But a group
+  holds only one _waiting_ run, and with two concurrent job slots for the whole
+  repository, main's fifteen-job run waits rather than runs. So each merge to
+  `main` superseded the previous merge's run before it executed a single test.
+  Three in a row tonight, including two report merges an hour apart. **That is
+  why there was no verdict on main all night, and it was not capacity.** The
+  merge freeze had been called to stop lanes racing each other; the actual
+  mechanism was worse than the race it was called for, and nobody would have
+  found it by reading the file, because the line is correct and the behaviour
+  it produces at two slots is not what it looks like.
 - **A cancelled run's aggregation job reports `failure`.** `validate.yml` ends
   in a sixteenth job that gates on the other fifteen, and when the concurrency
   group cancels a superseded run that job concludes failed rather than
   cancelled. So every superseded push leaves a red check asserting nothing, on
   a head nobody is looking at. A red check has to be opened and its run's
   conclusion read before it means anything.
+- **A generated document usually tells you what it does not mean, and reading
+  that takes thirty seconds.** The nationwide coverage report's fourth line
+  says it outright: "Rule admission only. An admitted field is a compiled,
+  dated rule the resolver will apply; it is not proof that a player can reach
+  the action, that an office or contest exists in a save, or that every clause
+  of local law was read." Three retractions this week came from claims built on
+  top of that report by people who never read its header — the screen and the
+  report had never disagreed with each other. Read the header before you build
+  on the numbers.
+- **Three from the audit lane, written up in full rather than restated here.**
+  `docs/findings/2026-09-22-statute-citations-on-player-screens.md`, under
+  "Process findings from doing this work". In short: **a watch should be a
+  notification, not an action**, because an automation that acts carries the
+  conditions of the moment it was written and those are exactly what nobody
+  re-checks — theirs would have merged into a frozen main, and the conditions
+  around its trigger reversed twice inside half an hour. **Merge up eagerly and
+  gate once at the end**, because a merge-up is cheap to repeat and a gate run
+  is not; two lanes reached that independently, which is what made it a
+  decision rather than an opinion. And **a stale explanation is worse than
+  none, because the reader believes it** — it covered a superseded CI warning
+  left standing, a PR body naming a head three heads old, and a draft state
+  nobody had noticed. Their document is the copy; this is the pointer, for the
+  reason two bullets down.
+- **A click list is a scarce resource and each item on it costs a decision.**
+  The same lane had three findings to deliver during a merge freeze and added
+  them to a document already on a PR the owner was going to click, rather than
+  opening a third PR. One more commit on an item he is already clicking costs
+  him nothing; a new PR costs him a choice about whether to click it.
 - **A render replaces a published document wholesale, so it must come from a
   head that carries every record.** The open-questions queue is filed
   one-file-per-record across many branches. A sweep of every pushed branch, run
