@@ -99,7 +99,8 @@ export interface PendingThing {
    * summary is fixed text: on its own it read word for word the same on the
    * first day of a life and three months later, which is how a life that had
    * stopped going anywhere still looked exactly like a life on its first
-   * morning.
+   * morning. See "Values whose meaning decays with time" in
+   * `docs/systems/player-presentation.md`.
    */
   readonly daysStanding: number;
 }
