@@ -30,6 +30,15 @@ export interface QualificationSourceRef {
 
 export interface CandidateQualificationRuleSet {
   readonly ruleSetId: string;
+  /**
+   * The instrument this set's rules were read from.
+   *
+   * Declared per rule set rather than shared, because provenance is the one
+   * thing that must never be inherited from whichever state happened to be
+   * researched first. A second state's rows attributed to Alaska's
+   * constitution would be a sourcing error the game states as fact.
+   */
+  readonly source: QualificationSourceRef;
   readonly candidacyPackId: string;
   readonly officeKey: string;
   readonly jurisdictionKey: string;
@@ -49,31 +58,36 @@ const AK_CONSTITUTION: QualificationSourceRef = {
   researchLineage: "31A Alaska legislative-office qualification rows",
 };
 
-function known<T>(value: T): QualificationValue<T> {
-  return { state: "KNOWN", value, source: AK_CONSTITUTION };
+function known<T>(
+  value: T,
+  source: QualificationSourceRef,
+): QualificationValue<T> {
+  return { state: "KNOWN", value, source };
 }
 
 export const CANDIDATE_QUALIFICATION_RULE_SETS: readonly CandidateQualificationRuleSet[] =
   [
     {
       ruleSetId: "us-ak-house-qualifications-v1",
+      source: AK_CONSTITUTION,
       candidacyPackId: "us-ak-legislature-v1:candidacy",
       officeKey: "us-ak-legislature-v1:house",
       jurisdictionKey: "US-AK",
-      minimumAge: known(21),
-      stateResidenceYears: known(3),
-      districtResidenceYears: known(1),
-      termYears: known(2),
+      minimumAge: known(21, AK_CONSTITUTION),
+      stateResidenceYears: known(3, AK_CONSTITUTION),
+      districtResidenceYears: known(1, AK_CONSTITUTION),
+      termYears: known(2, AK_CONSTITUTION),
     },
     {
       ruleSetId: "us-ak-senate-qualifications-v1",
+      source: AK_CONSTITUTION,
       candidacyPackId: "us-ak-legislature-v1:candidacy",
       officeKey: "us-ak-legislature-v1:senate",
       jurisdictionKey: "US-AK",
-      minimumAge: known(25),
-      stateResidenceYears: known(3),
-      districtResidenceYears: known(1),
-      termYears: known(4),
+      minimumAge: known(25, AK_CONSTITUTION),
+      stateResidenceYears: known(3, AK_CONSTITUTION),
+      districtResidenceYears: known(1, AK_CONSTITUTION),
+      termYears: known(4, AK_CONSTITUTION),
     },
   ];
 
@@ -88,10 +102,14 @@ export function candidateQualificationRuleSet(
         rules.candidacyPackId === candidacyPackId &&
         rules.officeKey === officeKey,
     ) ?? null;
-  if (!rules || onDate >= AK_CONSTITUTION.observedCurrentOn) return rules;
+  // Each set is gated on when ITS OWN instrument was observed. Reading one
+  // state's retrieval date against another state's rows would either hide a
+  // stale rule or refuse a sound one.
+  if (!rules || onDate >= rules.source.observedCurrentOn) return rules;
+  const { legalLocator, observedCurrentOn } = rules.source;
   const unavailable = (field: string): QualificationValue<number> => ({
     state: "UNKNOWN",
-    reason: `${AK_CONSTITUTION.legalLocator} was observed in the acquired source on ${AK_CONSTITUTION.observedCurrentOn}; that later observation does not establish ${field} on ${onDate}.`,
+    reason: `${legalLocator} was observed in the acquired source on ${observedCurrentOn}; that later observation does not establish ${field} on ${onDate}.`,
   });
   return {
     ...rules,
