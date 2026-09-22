@@ -77,3 +77,35 @@ describe("the title screen distinguishes a set-aside save from none", () => {
     expect(markup).toContain("1 needs attention");
   });
 });
+
+describe("Observer Mode on the title screen", () => {
+  it("offers watching the world in one press", () => {
+    const markup = renderToStaticMarkup(
+      <TitleScreen
+        saves={[]}
+        savesUnavailable={false}
+        problem={null}
+        onNewGame={() => {}}
+        onWatch={() => {}}
+        onContinue={() => {}}
+        onOpenSaves={() => {}}
+        onOpenOptions={() => {}}
+      />,
+    );
+    expect(markup).toContain('data-testid="watch-world"');
+    expect(markup).toContain("Watch the world");
+  });
+
+  it("does not present a watched world's resident as a played life", () => {
+    const watched = {
+      saveId: "save-3",
+      playerName: "Dana Reyes",
+      playerAge: 41,
+      observing: true,
+      residence: { jurisdictionId: "j", name: "Webster Groves" },
+    } as unknown as BrowserWorldSummary;
+    const markup = render([watched], []);
+    expect(markup).toContain("Watching the world");
+    expect(markup).not.toContain("Dana Reyes");
+  });
+});
