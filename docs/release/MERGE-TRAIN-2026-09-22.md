@@ -87,6 +87,43 @@ world-event line pinned to the top of six different screens. Nobody had
 reported it and nothing fixes it tonight. It is a real bug and it belongs in
 the report rather than on this list.
 
+## What to say about main, and what not to say
+
+**The sentence for the report is: main is merged and its unit suite is clean.
+Not "main is green."** The difference is not pedantry and it is not modesty.
+It is the difference between a claim that survives being checked and one that
+does not, and anyone can check this one by opening the Actions tab.
+
+Main's own browser suite is failing. Measured on `7fc33c85`, `browser (6, 8)`
+returned **9 failed, 54 passed** in fourteen minutes:
+
+- `pt3-scene-conversation.spec.ts` — four cases: the age-22 conversation as one
+  bounded box, turning to a second classmate, and the same box at 1280x720 and
+  at 1200x720.
+- `pt3-school-scene.spec.ts:149` — two, the child and the teen corridor routes.
+- `pt3-microfix-version.spec.ts:81` — two, the canonical version stamp at
+  desktop and at narrow.
+- `raster-readiness.spec.ts:340` — one, a decoded title staying visible while a
+  resized response is held. It failed its retry as well.
+
+Seven of the eight browser shards had not run when this was written, so the
+real count is higher than nine.
+
+**These are main's, not any pull request's.** Six of the nine cluster in the
+PT3 scene and conversation specs, which suggests one cause rather than six.
+Main's browser shards were already red earlier tonight at `273fd2b8`, so these
+are very probably pre-existing — **but that is not proved here.** Proving it
+means comparing against that earlier run by spec file and test title, never by
+shard number, because the shards are assigned per run and shard 6 tonight is
+not shard 6 an hour ago. The fix-main lane holds the `273fd2b8` measurement and
+has the nine names.
+
+**This is not a reason to hold the merge train.** A browser failure that
+predates tonight is not evidence against a pull request whose own evidence is
+good. It is a reason to say so plainly next to the claim rather than to leave
+the claim unqualified. A merge held on someone else's old red buys nothing and
+costs the morning.
+
 ## The one real red, and who it belonged to
 
 Main's first genuine verdict of the night, on `7fc33c85` at 07:52Z, came back
