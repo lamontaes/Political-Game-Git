@@ -3,7 +3,7 @@
  *
  * The Commission leaves optional fields empty rather than absent, and an empty
  * field stays `null` here rather than becoming `""` or `"UNKNOWN"`. A committee
- * with no connected organisation has no connected organisation; writing a
+ * with no connected organization has no connected organization; writing a
  * placeholder there would make "not stated" indistinguishable from a filer who
  * wrote the word.
  */

@@ -19,7 +19,7 @@ import {
  * - New Jersey and Virginia elect theirs in odd-numbered years, and Louisiana
  *   and Mississippi every four years in odd-numbered years (2023, 2027).
  *
- * Marked as not modelled, with the blanket rule applied:
+ * Marked as not modeled, with the blanket rule applied:
  * - Staggered senate terms. Most state senates elect about half their seats at
  *   each election, and which seats are up is set by district. Blanket rule:
  *   every seat in a chamber is on the ballot at the state's next regular

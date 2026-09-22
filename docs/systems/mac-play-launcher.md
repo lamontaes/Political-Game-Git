@@ -12,7 +12,7 @@ it, or run it from a terminal.
    outright.
 3. Resolves the chosen source from the remote to an exact commit, and prints
    both the source and the commit. A failed fetch stops unless
-   `PG_OFFLINE_CACHED=1` explicitly opts into a labelled cached build.
+   `PG_OFFLINE_CACHED=1` explicitly opts into a labeled cached build.
 4. Verifies a reused play copy's actual repository, `HEAD`, and source
    cleanliness. A stale or dirty copy is preserved and a fresh **separate
    detached worktree** is created instead. Your own checkout is never checked

@@ -60,7 +60,7 @@ Both actions then use the reconciled `chamberKey`, never a defaulted one.
 Refusal is a throw through the existing refusal contract, before any write.
 
 The developer fixture path (no `memberSeatStableKey`) keeps its banked
-behaviour exactly; the import-graph firewall is untouched.
+behavior exactly; the import-graph firewall is untouched.
 
 ### Regressions — `src/presentation/legislative-action-authority.test.ts`
 

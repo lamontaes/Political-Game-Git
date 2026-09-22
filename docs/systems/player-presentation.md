@@ -404,7 +404,7 @@ top-right status tray are gone.
 ## Values whose meaning decays with time
 
 A projected field that is true when it is written and becomes untrue as time
-passes carries its own decay, on the record, rather than having the judgement
+passes carries its own decay, on the record, rather than having the judgment
 written into one rendered sentence.
 
 The failure this rule exists for came twice in one evening and looked different
@@ -418,7 +418,7 @@ and a player who had let a season go by was shown a first morning.
 
 Both were first fixed inside the sentence that rendered them. That is not
 enough: the raw field is still there, still stale, and the next thing that
-renders from it reintroduces the defect, having no way to know the judgement
+renders from it reintroduces the defect, having no way to know the judgment
 existed. So the projection states it.
 
 - `OfferAwaitingAnswer` carries `startIsAhead` beside `startsOn`

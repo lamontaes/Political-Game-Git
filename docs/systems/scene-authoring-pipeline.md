@@ -104,7 +104,7 @@ fixtures. Integration is a separate decision.
 ## Lived-in, not legible
 
 A room should look like somewhere people work: art on the walls, books that
-lean, a plant, a few coloured papers, a clock-shaped thing near the door. None of
+lean, a plant, a few colored papers, a clock-shaped thing near the door. None of
 it should be readable.
 
 Anything the simulation owns — a jurisdiction name or seal, a campaign name, a
@@ -171,7 +171,7 @@ an illegible dashboard is worse than a painted rectangle because it asserts
 something nobody can check. `slotIsPromotable` refuses them, and the refusals are
 recorded as ambient decor so a later pass cannot quietly reverse one.
 
-Two exceptions are built in, and both are about geometry rather than judgement:
+Two exceptions are built in, and both are about geometry rather than judgment:
 
 - A **foreshortened** surface — a document on a desk, notes on a lectern — is a
   large physical page presenting a short rectangle to the camera. Its height
@@ -217,12 +217,12 @@ and commercial contexts outright, which is the misuse state statutes name.
 
 ## External packs
 
-A downloaded pack has to survive two independent questions: what the licence
+A downloaded pack has to survive two independent questions: what the license
 permits, and whether the files are the kind of thing this renderer draws. A CC0
 pack of rigged meshes is perfectly licensed and unusable; a set of finished
-plates with no licence file is usable and unavailable.
+plates with no license file is usable and unavailable.
 
-`use-now` requires both a licence stated in a document inside the archive and at
+`use-now` requires both a license stated in a document inside the archive and at
 least one file of finished 2D art. Everything else is `archive` or `reject` with
 a reason from a closed vocabulary, and `needs-rigging-or-render` is the standing
 operating rule: no rigging, no Blender, no manual posing, and no time spent

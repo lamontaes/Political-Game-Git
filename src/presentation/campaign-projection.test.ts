@@ -210,7 +210,7 @@ describe("what the game will and will not offer", () => {
     // defect: an adult in a state nobody had researched could not stand for
     // anything, so the absence of research read as the absence of an election.
     // The offer is now the game's own rule for that state. What still has to
-    // hold is that it is THAT state's and not a neighbour's.
+    // hold is that it is THAT state's and not a neighbor's.
     const place = unsupportedLocality();
     const life = adultLifeInPlace("offer-unsupported", place);
     const view = projectCampaign(life.world, life.personId);

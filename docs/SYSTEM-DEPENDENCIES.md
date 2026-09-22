@@ -956,7 +956,7 @@ Real-world civic records retain enough dated provenance to inspect a concept, ex
 - **Time and consequence:** conversation writes ordinary same-date history and
   no legislative action. Only `offerFloorAmendment` and `takeFloorVote` move the
   measure, through the existing state machine and vote arithmetic.
-- **Vote-behaviour seam:** `deriveMemberDisposition` extends only to seats held
+- **Vote-behavior seam:** `deriveMemberDisposition` extends only to seats held
   by simulated people. Unmodelled seats keep authored scenario dispositions.
   There is no whip count, certainty meter, or vote-purchase path.
 - **Temporary scaffolding:** one synthetic Kentucky HB 214 bargaining scenario

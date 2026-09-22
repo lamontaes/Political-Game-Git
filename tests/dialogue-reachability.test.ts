@@ -41,7 +41,7 @@ function start(overrides: Partial<NewGameSetup> = {}) {
   const game = createNewGameWorld({
     // These fixtures pin the household on purpose — who is or is not at home is
     // the whole point of a conversation-reachability test — so they take the
-    // custom route that honours it. A normal start (Task E) generates it.
+    // custom route that honors it. A normal start (Task E) generates it.
     startKind: "custom",
     seed: "packet-70",
     placeKey: "kentucky",
@@ -185,7 +185,7 @@ describe("A player can say how loudly, and to whom", () => {
     expect(heardLoudly).toBeGreaterThan(heardQuietly);
   });
 
-  it("says why a private word is not possible, rather than greying out a control", () => {
+  it("says why a private word is not possible, rather than graying out a control", () => {
     const { world, personId } = startAtSchool();
     const view = projectPlayerConversation(
       world,

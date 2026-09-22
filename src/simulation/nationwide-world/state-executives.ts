@@ -370,7 +370,7 @@ export interface StateExecutiveHolderRecord {
  */
 /**
  * The office-consequence record that vacates an office, named here so the
- * holder reader can honour a resignation without importing the governing
+ * holder reader can honor a resignation without importing the governing
  * writer that produces one.
  */
 export const OFFICE_CONSEQUENCE_EVENT_TYPE = "governing.office-consequence";

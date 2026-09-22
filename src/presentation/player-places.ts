@@ -243,7 +243,7 @@ function projectVenueOffer(
               .activityMinutes
           : null;
       durationLabel = journey
-        ? `${elapsedMinutes} minutes total: ${journey.waitMinutes} waiting, ${journey.journeyMinutes} travelling, and ${activityMinutes} at the activity.`
+        ? `${elapsedMinutes} minutes total: ${journey.waitMinutes} waiting, ${journey.journeyMinutes} traveling, and ${activityMinutes} at the activity.`
         : `${elapsedMinutes} minutes, including any wait before it begins.`;
     } catch {
       durationLabel = null;

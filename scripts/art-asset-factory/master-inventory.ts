@@ -84,7 +84,7 @@ export function readPngHeader(buffer: Buffer): PngHeader | null {
   };
 }
 
-/** PNG colour types 4 and 6 carry an alpha channel; 0, 2 and 3 do not. */
+/** PNG color types 4 and 6 carry an alpha channel; 0, 2 and 3 do not. */
 export function pngHasAlphaChannel(colorType: number): boolean {
   return colorType === 4 || colorType === 6;
 }
@@ -205,7 +205,7 @@ export function pngHasVaryingAlpha(
 
 /**
  * Guesses the component class from a filename, so a folder of candidates can be
- * judged without a hand-written manifest. A name that says nothing recognisable
+ * judged without a hand-written manifest. A name that says nothing recognizable
  * is reported UNMEASURED rather than assigned a class it may not belong to.
  */
 export function inferKindFromName(

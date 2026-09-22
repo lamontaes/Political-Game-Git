@@ -6,7 +6,7 @@ the work is verification and it stays here. Where no source has been identified
 at all, the question is research and it goes out.
 
 Everything below is a question, not a decision. Nothing here is settled by
-judgement in the meantime, and nothing generated for play is an answer to any
+judgment in the meantime, and nothing generated for play is an answer to any
 of it.
 
 ## Ours to verify — the source is already named
@@ -54,5 +54,5 @@ publisher is on the same footing. It needs a machine that can reach them.
 6. **Whether the District of Columbia Council belongs in this lane at all.**
    The District is legislated for by one thirteen-member Council, so it has no
    state legislature and is deliberately left without a generated one. Whether
-   the Council should be modelled here or as a municipal body is a product
+   the Council should be modeled here or as a municipal body is a product
    question, not a research one.

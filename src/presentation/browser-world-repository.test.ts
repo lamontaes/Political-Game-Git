@@ -568,7 +568,7 @@ describe("One damaged save does not hide the healthy ones", () => {
   });
 });
 
-describe("Ordering, fencing and acknowledgement", () => {
+describe("Ordering, fencing and acknowledgment", () => {
   it("cannot bring a deleted save back from an autosave already in flight", async () => {
     const { store, factory } = storeWith();
     const world = playerWorld("resurrect");
@@ -724,7 +724,7 @@ describe("Autosave is answerable for the newest world, not the first one", () =>
     factory.control.failNext("put", 20);
     const result = await store.autosave(advanceDemoWorld(world, 4), saveId);
     expect(result.status).toBe("failed");
-    // The acknowledgement stays where it was, so nothing downstream believes
+    // The acknowledgment stays where it was, so nothing downstream believes
     // the newer world is durable.
     expect(store.durableContentId(saveId)).toBe(contentId(world));
   });
@@ -968,7 +968,7 @@ describe("Durability is content identity and request order, not actionSequence",
   });
 
   // D. Exact duplicate.
-  it("recognises an exact duplicate as already durable without writing again", async () => {
+  it("recognizes an exact duplicate as already durable without writing again", async () => {
     const { store, factory } = autosaveStore();
     const world = playerWorld("duplicate");
     const saveId = store.newSaveId(world);
@@ -1069,7 +1069,7 @@ describe("A player's conversation survives leaving", () => {
       intent: "listen",
     }).world;
 
-    // The behaviour this test is guarding against: a real player turn that
+    // The behavior this test is guarding against: a real player turn that
     // leaves the action sequence exactly where it was.
     expect(spoken.actionSequence).toBe(opened.actionSequence);
     expect(contentId(spoken)).not.toBe(contentId(opened));

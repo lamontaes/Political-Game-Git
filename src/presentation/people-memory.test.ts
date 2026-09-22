@@ -221,7 +221,7 @@ describe("PEOPLE P4: a request raised again", () => {
     expect(variantOf(agreed.later, agreed.player)).toBe("recalled");
     const view = openView(agreed.later, agreed.player, "scene-favor")!;
     // Nobody is offered a lie about a promise they actually made; the guess
-    // stays, because remembering wrongly in your own favour is still possible.
+    // stays, because remembering wrongly in your own favor is still possible.
     expect(view.intents.map((intent) => intent.key)).toEqual([
       "said-yes",
       "think-so",

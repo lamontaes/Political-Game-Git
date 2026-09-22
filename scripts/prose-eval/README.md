@@ -133,7 +133,7 @@ valid `GROUNDING: PASS`. An `UNSUPPORTED`, malformed, partial, extra-text,
 ambiguous, or empty reply exits non-zero. It never rewrites prose, never scores
 style, and never treats the mere presence of reviewer output as a pass.
 
-Model pinning is verified, not assumed. `model:` frontmatter is honoured;
+Model pinning is verified, not assumed. `model:` frontmatter is honored;
 **`effort:` is not** — launching by frontmatter alone runs the writer at effort
 `high` rather than the specified `low`, so `--effort low` must be passed on the
 command line and the served configuration confirmed in the session transcript.

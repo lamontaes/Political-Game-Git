@@ -63,7 +63,7 @@ const AK_CONSTITUTION: QualificationSourceRef = {
   // marks an amended section with a bracketed year, and Article II's body
   // carries three such markers — 1984 on § 5 and 1976 twice — while §§ 2 and 3
   // carry none. A convention that is demonstrably applied inside this very
-  // article, and applied to neighbours of these sections, makes its silence
+  // article, and applied to neighbors of these sections, makes its silence
   // here evidence. Without that check the date would be convenient rather than
   // honest, and a convenient date is exactly what ruleSetApplicableOn exists to
   // keep out.
@@ -125,7 +125,7 @@ export function candidateQualificationRuleSet(
  *
  * Separated from the lookup above so the dating rule can be exercised on a set
  * this build does not ship. Otherwise it could only ever be tested against
- * Alaska's two, and the behaviour that matters is what happens to the next
+ * Alaska's two, and the behavior that matters is what happens to the next
  * state's.
  */
 export function ruleSetApplicableOn(

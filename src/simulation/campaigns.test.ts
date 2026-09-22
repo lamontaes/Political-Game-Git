@@ -873,7 +873,7 @@ describe("support truth and what the campaign is told about it", () => {
     expect(observation.uncertainty?.kind).toBe("margin-of-error");
   });
 
-  it("is wrong often enough that reading it is a judgement", () => {
+  it("is wrong often enough that reading it is a judgment", () => {
     let disagreements = 0;
     for (let index = 0; index < 12; index += 1) {
       const filed = fileKentuckyCampaign(`observation-error-${index}`);
@@ -937,7 +937,7 @@ function playToElection(seed: string, outreachSessions: number) {
     world = doOneSession(world, filed.campaign, "outreach", 1, null);
   }
   // Election day arrives because the world moved, not because anybody pressed
-  // a button labelled "hold the election".
+  // a button labeled "hold the election".
   world = advanceWorld(world, 25, createCampaignElectionTransitionRegistry());
   return { ...filed, world };
 }

@@ -3,11 +3,11 @@ CHARACTER: You are five years old. This is your first year of school.
 RELATIONSHIPS: none supplied for this scene.
 KNOWN WORLD FACTS:
 
-- The world holds an active education enrolment for you. That is the only school fact established.
+- The world holds an active education enrollment for you. That is the only school fact established.
 - The room has other children in it and a row of hooks, and one of the hooks has your name on it.
 - Another child in the room has put their own coat on the hook with your name on it.
   PLAYER KNOWLEDGE: what the character sees in the room.
-  CHARACTER KNOWLEDGE: you can recognise your own name written down. You have been in this room before.
+  CHARACTER KNOWLEDGE: you can recognize your own name written down. You have been in this room before.
   ESTABLISHED TRAITS: none.
   EARLIER CHOICES: none.
   UNKNOWN / DO NOT ASSUME: any weekday, calendar date, month, season or clock time; any adult's or child's name beyond the role slots named above; any household finances, lease, medical, custody, school-placement or employment fact; what any other person is thinking, intending or feeling; any consequence that follows the choice.

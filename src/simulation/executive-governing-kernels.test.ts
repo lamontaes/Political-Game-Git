@@ -993,7 +993,7 @@ describe("determinism", () => {
  * 10. Provenance and developer-only text
  * ------------------------------------------------------------------ */
 
-describe("provenance and labelling", () => {
+describe("provenance and labeling", () => {
   it("stamps the kernel id and 92H sources on everything it writes", () => {
     const world = createLegislativeScenario("kentucky").world;
     for (const definition of EXECUTIVE_GOVERNING_KERNELS) {

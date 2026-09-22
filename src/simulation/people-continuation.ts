@@ -41,7 +41,7 @@ import { recordWorldEvent } from "./world";
  * temperament, relationships, aims, office or money. A person who owned
  * property individually leaves it in a pending estate; household and joint
  * holdings keep their existing shares; campaign and public money was never
- * theirs to leave. Probate is not modelled and not claimed.
+ * theirs to leave. Probate is not modeled and not claimed.
  *
  * Retiring a character from play is not their death and does not end any job
  * or office they hold. They simply stop being played.
