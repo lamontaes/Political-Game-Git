@@ -115,7 +115,7 @@ describe("raster fidelity across the supported viewport and DPR matrix", () => {
           expect(tierDetailWidth(selection.tier)).toBe(selection.tier.width);
         } else {
           // Above the envelope the top tier is used and the shortfall is
-          // reported. That is the documented behaviour, not a silent failure.
+          // reported. That is the documented behavior, not a silent failure.
           expect(selection.tier.width).toBe(4_096);
           expect(
             selection.warnings.some(

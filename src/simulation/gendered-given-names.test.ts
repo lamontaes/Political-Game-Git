@@ -76,7 +76,7 @@ function disagreements(people: readonly Person[]): string[] {
 
 describe("no route draws a name apart from the identity it belongs to", () => {
   /*
-   * The structural half. A behavioural check can only cover the routes a test
+   * The structural half. A behavioral check can only cover the routes a test
    * happens to walk, and the routes that produced this defect were reached on
    * the second day of an ordinary life rather than by any suite. The shape is
    * mechanical and was mechanical in all sixteen places: an ungendered

@@ -15,7 +15,7 @@ For each region below, the counties and places whose residents should see that s
 - `includePlaces` — 7-digit place GEOIDs, for where a whole county is too coarse. A county with a mountain range in it is the usual case.
 - `excludePlaces` — 7-digit place GEOIDs to remove for the same reason.
 
-**An empty list is a real answer.** A region whose honest answer is "no county can be named without more work" should come back with empty lists, not with a guess. It costs nothing: a region nothing matches shows no picture, which is the current behaviour.
+**An empty list is a real answer.** A region whose honest answer is "no county can be named without more work" should come back with empty lists, not with a guess. It costs nothing: a region nothing matches shows no picture, which is the current behavior.
 
 ## The rules the answer has to satisfy
 
@@ -84,7 +84,7 @@ And the answer that text produced was:
 }
 ```
 
-Note what it did with the refinement: rather than naming Pima, Pinal and Maricopa as counties, it named places inside them, because the counties contain high country the scene does not describe. That judgement is the work being asked for.
+Note what it did with the refinement: rather than naming Pima, Pinal and Maricopa as counties, it named places inside them, because the counties contain high country the scene does not describe. That judgment is the work being asked for.
 
 ## The regions
 
@@ -97,7 +97,7 @@ Each region's own research text follows, in the owner's words. Convert it; do no
 - **Envelope.** Dormant-season version of a generic wooded Appalachian valley town; appropriate eastern Kentucky/West Virginia and comparable valley settlements.
 - **County and locality refinement.** Use valley relief plus town streetscape. A source town is not an exclusive locality license. Compile separately from broad flat plateau towns.
 - **What the picture shows.** Request explicitly bare deciduous trees and dormant brown ground, without invented snow. At the inspected catalog it shares the SAME selected byte hash as pikeville-valley-street; inspect role/parent before calling it an independently finished winter scene.
-- **Do not assume.** Automatic all-Appalachia/all-Kentucky, leafy summer source labelled January, or forced snowfall.
+- **Do not assume.** Automatic all-Appalachia/all-Kentucky, leafy summer source labeled January, or forced snowfall.
 - **Tagged as.** winter, valley-and-ridge, street.
 - **Sources.** https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states
 
@@ -184,7 +184,7 @@ Each region's own research text follows, in the owner's words. Convert it; do no
 
 - **Envelope.** Low coastal marsh and distributary-channel landscapes at the Mississippi mouth in southeastern Louisiana.
 - **County and locality refinement.** Start with appropriate lower Plaquemines/coastal delta subareas; evaluate adjoining coastal marsh rather than the entire inland Mississippi Delta region.
-- **What the picture shows.** Request describes flat reed/grassy marsh and channels. Catalogue-selected image688x456; verify larger original or proper output. Pixels uninspected.
+- **What the picture shows.** Request describes flat reed/grassy marsh and channels. Catalog-selected image688x456; verify larger original or proper output. Pixels uninspected.
 - **Do not assume.** Cotton fields in the inland Mississippi Delta, leveed urban centers, upland woods, or all lower Mississippi counties.
 - **Tagged as.** spring/summer/autumn, coastal-lowland, open-landscape.
 - **Sources.** https://www.recreation.gov/camping/gateways/1374 · https://www.epa.gov/eco-research/level-iii-and-iv-ecoregions-continental-united-states
@@ -261,7 +261,7 @@ Each region's own research text follows, in the owner's words. Convert it; do no
 
 - **Envelope.** Sheltered coastal southern Florida estuaries, especially Everglades/Florida Bay and southwest coast environments matching red-mangrove roots.
 - **County and locality refinement.** Coastal subareas of Monroe, Miami-Dade, Collier and suitable neighboring estuaries require finer bounds than whole counties.
-- **What the picture shows.** Request describes red-mangrove prop/stilt roots and estuarine water. Selected catalogue preview is only640x432; check for a larger original or needed generation. Pixels uninspected.
+- **What the picture shows.** Request describes red-mangrove prop/stilt roots and estuarine water. Selected catalog preview is only640x432; check for a larger original or needed generation. Pixels uninspected.
 - **Do not assume.** Inland freshwater Everglades, pine uplands, all Florida, or extending the same red-root picture to all Gulf black-mangrove habitats.
 - **Tagged as.** spring/summer/autumn/winter, coastal-lowland, shoreline.
 - **Sources.** https://www.nps.gov/ever/learn/nature/mangroves.htm

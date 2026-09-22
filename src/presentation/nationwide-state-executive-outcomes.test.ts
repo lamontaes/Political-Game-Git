@@ -65,7 +65,7 @@ function wonKentuckyCampaign() {
   next = passUntil(next, addDays(contest.electionDate, -90));
   next = spendAnAfternoon(next, personId, "fundraising");
   // Work every remaining day rather than stopping the moment the projection
-  // turns favourable. Stopping early leaves a gap for support to move back —
+  // turns favorable. Stopping early leaves a gap for support to move back —
   // the first version of this stopped 45 days out with the projection saying
   // "winner" and lost the election, because the opponent kept running while
   // the player did not.

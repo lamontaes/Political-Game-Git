@@ -643,7 +643,7 @@ export function composeOfficeVisuals(
           (scene.plate.width / scene.plate.height);
         // Place the point that actually touches the chair, not the rig root.
         //
-        // `root` is the pelvis-hip-CENTRE: a joint inside the body, a couple of
+        // `root` is the pelvis-hip-CENTER: a joint inside the body, a couple of
         // percent of raster height above the surface the sitter rests on. Putting
         // that joint on the seat plane hangs the body's contact surface below the
         // cushion and its visible mass above it, which is why the authored sitters

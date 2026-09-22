@@ -41,7 +41,7 @@ export const COUNTY_COMPILER_VERSION = "1.0.0";
 export const COUNTY_PARSER_VERSION = "1.0.0";
 
 /**
- * The 2025 Gazetteer describes geography as of 1 January 2025. That date is an
+ * The 2025 Gazetteer describes geography as of January 1, 2025. That date is an
  * input declared by the product, never a clock read at build time.
  */
 export const COUNTY_CORPUS_AS_OF = "2025-01-01";

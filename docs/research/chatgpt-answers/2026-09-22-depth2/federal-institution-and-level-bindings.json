@@ -255,7 +255,7 @@
       "congress_policy_area_crosswalk": [
         "International Affairs"
       ],
-      "federal_question": "Which overseas programmes receive support and on what terms?",
+      "federal_question": "Which overseas programs receive support and on what terms?",
       "distinction_from_state_local": "International federal assistance is distinct from domestic intergovernmental transfers and local charitable activity.",
       "institutional_route": [
         "statute",
@@ -311,7 +311,7 @@
         "Foreign Trade and International Finance"
       ],
       "federal_question": "What international trade commitments and domestic adjustment support should be adopted?",
-      "distinction_from_state_local": "A national trade agreement is not a local business licence or a state's workforce programme.",
+      "distinction_from_state_local": "A national trade agreement is not a local business license or a state's workforce programme.",
       "institutional_route": [
         "statute",
         "executive negotiation",
@@ -399,7 +399,7 @@
         "Health"
       ],
       "federal_question": "What covered benefits, payment arrangements and federal financing should Medicare use?",
-      "distinction_from_state_local": "Medicare is a federal programme, distinct from state insurance regulation and state Medicaid choices.",
+      "distinction_from_state_local": "Medicare is a federal program, distinct from state insurance regulation and state Medicaid choices.",
       "institutional_route": [
         "statute",
         "CMS administration"
@@ -416,7 +416,7 @@
       "congress_policy_area_crosswalk": [
         "Health"
       ],
-      "federal_question": "What federal requirements, matching and permitted programme options apply to Medicaid?",
+      "federal_question": "What federal requirements, matching and permitted program options apply to Medicaid?",
       "distinction_from_state_local": "The federal framework and financing are not the state's own administration and supported choices within that framework.",
       "institutional_route": [
         "statute",
@@ -452,11 +452,11 @@
       "congress_policy_area_crosswalk": [
         "Social Welfare"
       ],
-      "federal_question": "How should the federal retirement and survivors programme define benefits and financing?",
+      "federal_question": "How should the federal retirement and survivors program define benefits and financing?",
       "distinction_from_state_local": "It is not a state public-employee pension or a local relief payment.",
       "institutional_route": [
         "statute",
-        "federal programme administration"
+        "federal program administration"
       ],
       "source_ids": [
         "congress-areas",
@@ -474,7 +474,7 @@
       "distinction_from_state_local": "An income-support decision is different from a clinical condition, functional capacity or a state disability service.",
       "institutional_route": [
         "statute",
-        "federal programme administration"
+        "federal program administration"
       ],
       "source_ids": [
         "congress-areas",
@@ -488,8 +488,8 @@
       "congress_policy_area_crosswalk": [
         "Social Welfare"
       ],
-      "federal_question": "What federal funding, eligibility framework and administration govern supported assistance programmes?",
-      "distinction_from_state_local": "National programme rules, state administration and local delivery are linked but not the same government decision.",
+      "federal_question": "What federal funding, eligibility framework and administration govern supported assistance programs?",
+      "distinction_from_state_local": "National program rules, state administration and local delivery are linked but not the same government decision.",
       "institutional_route": [
         "statute",
         "appropriation",
@@ -545,7 +545,7 @@
         "Education"
       ],
       "federal_question": "What federal research, evaluation and education information should be supported?",
-      "distinction_from_state_local": "A national evidence programme does not itself decide a local school's teaching or fabricate an individual's credentials.",
+      "distinction_from_state_local": "A national evidence program does not itself decide a local school's teaching or fabricate an individual's credentials.",
       "institutional_route": [
         "statute",
         "appropriation",
@@ -602,7 +602,7 @@
         "Commerce"
       ],
       "federal_question": "What federal finance, procurement opportunities or development support should enterprises receive?",
-      "distinction_from_state_local": "A federal programme supplies its own terms and funds, not a guaranteed viable business or automatic local hiring.",
+      "distinction_from_state_local": "A federal program supplies its own terms and funds, not a guaranteed viable business or automatic local hiring.",
       "institutional_route": [
         "statute",
         "appropriation",
@@ -676,8 +676,8 @@
         "Transportation and Public Works",
         "Water Resources Development"
       ],
-      "federal_question": "What federal programme funding, conditions and safety framework support surface transport?",
-      "distinction_from_state_local": "The federal programme and allocation differ from a state or locality choosing and delivering its particular road or transit work.",
+      "federal_question": "What federal program funding, conditions and safety framework support surface transport?",
+      "distinction_from_state_local": "The federal program and allocation differ from a state or locality choosing and delivering its particular road or transit work.",
       "institutional_route": [
         "statute",
         "appropriation",
@@ -792,7 +792,7 @@
         "Agriculture and Food"
       ],
       "federal_question": "Which national agricultural support and risk-management arrangements should be offered?",
-      "distinction_from_state_local": "Federal programme terms differ from local land use and a farm's actual production, costs and decisions.",
+      "distinction_from_state_local": "Federal program terms differ from local land use and a farm's actual production, costs and decisions.",
       "institutional_route": [
         "statute",
         "appropriation",
@@ -827,7 +827,7 @@
         "Agriculture and Food"
       ],
       "federal_question": "What federal investment and assistance should support rural places?",
-      "distinction_from_state_local": "Federal programme eligibility is separate from a particular county's project choice, service need and delivery.",
+      "distinction_from_state_local": "Federal program eligibility is separate from a particular county's project choice, service need and delivery.",
       "institutional_route": [
         "statute",
         "appropriation",
@@ -885,7 +885,7 @@
         "Emergency Management"
       ],
       "federal_question": "What federal support should reduce future exposure and improve resilience?",
-      "distinction_from_state_local": "Federal programme support is not a guarantee of local preparedness or a cancellation of hazards.",
+      "distinction_from_state_local": "Federal program support is not a guarantee of local preparedness or a cancellation of hazards.",
       "institutional_route": [
         "statute",
         "appropriation",
@@ -904,7 +904,7 @@
         "Civil Rights and Liberties, Minority Issues",
         "Law"
       ],
-      "federal_question": "What federal offences, procedures, judicial capacity and correctional responsibilities should apply?",
+      "federal_question": "What federal offenses, procedures, judicial capacity and correctional responsibilities should apply?",
       "distinction_from_state_local": "Federal jurisdiction is distinct from state criminal law and local policing; an allegation does not grant jurisdiction or establish guilt.",
       "institutional_route": [
         "statute",
@@ -1021,8 +1021,8 @@
       "congress_policy_area_crosswalk": [
         "Science, Technology, Communications"
       ],
-      "federal_question": "Which national research and space programmes are authorized and funded?",
-      "distinction_from_state_local": "Federal programme support is not a local university's internal decision or an automatic scientific discovery.",
+      "federal_question": "Which national research and space programs are authorized and funded?",
+      "distinction_from_state_local": "Federal program support is not a local university's internal decision or an automatic scientific discovery.",
       "institutional_route": [
         "statute",
         "appropriation",
@@ -1096,7 +1096,7 @@
         "Arts, Culture, Religion",
         "Government Operations and Politics"
       ],
-      "federal_question": "What federal relationships, powers and programme treatment apply to territories and D.C.?",
+      "federal_question": "What federal relationships, powers and program treatment apply to territories and D.C.?",
       "distinction_from_state_local": "D.C. and Puerto Rico are not ordinary states or municipalities; their separate profiles still determine local authority.",
       "institutional_route": [
         "statute",
@@ -1135,11 +1135,11 @@
     "United States citizenship/naturalization and national admission status",
     "United States armed-forces and national foreign relations",
     "The federal treasury, federal debt and specifically federal taxes",
-    "Federal programme entitlements as specifically defined",
+    "Federal program entitlements as specifically defined",
     "Rules/appointments for federal institutions"
   ],
   "exclusive_scope_warning": "These are distinct instruments/authorities, not a claim that every related broad subject has no state/local aspect. Do not label all health, education, disaster response, energy, immigration-related services or financial regulation exclusively federal.",
-  "coverage_limit": "This is an extensible first hierarchy of recurring federal questions, not every CRS subject, all federal law, full programme entitlements or a set of probabilities. Exact current rates, coverage rules, delegation and treaty procedures are separate profiles. Historical SSA and FEMA references establish programme distinctions, not unverified 2026 amounts or eligibility.",
+  "coverage_limit": "This is an extensible first hierarchy of recurring federal questions, not every CRS subject, all federal law, full program entitlements or a set of probabilities. Exact current rates, coverage rules, delegation and treaty procedures are separate profiles. Historical SSA and FEMA references establish program distinctions, not unverified 2026 amounts or eligibility.",
   "catalogue_boundary": "Use the existing pack namespace and registration/reporting. Preserve the loaded state/local 13-domain/127-issue identity; the earlier proposed 14/92 crosswalk remains nonblocking. Do not switch to a third state/local taxonomy.",
   "implementation_input": "No propositions are invented by this research to force a count. Existing modular provision/position definitions may reference these issues; generate actual terms through existing supported mechanisms and bind belief/effects to those actual terms."
 }

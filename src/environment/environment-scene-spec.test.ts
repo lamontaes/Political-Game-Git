@@ -501,7 +501,7 @@ describe("raster tier lineage", () => {
     );
   });
 
-  it("rejects an unrecognised derivation", () => {
+  it("rejects an unrecognized derivation", () => {
     expectInvalid(
       withTiers([tier(2_048, { derivation: "vibes" })]),
       "derivation has invalid value",

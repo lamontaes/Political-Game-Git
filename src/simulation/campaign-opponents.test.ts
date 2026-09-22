@@ -343,7 +343,7 @@ describe("CRUNCH46 opponent campaigns", () => {
   );
 
   it("scores a field event like a player's canvass and strengthens only a repeat contact", () => {
-    // Pinned seed: this rival favours field work and holds several events.
+    // Pinned seed: this rival favors field work and holds several events.
     const filed = fileRace("opponents-money-b", { electionInDays: 60 });
     const world = advance(filed.world, 59);
     const opponent = campaignOpponentRecords(world)[0]!;

@@ -63,7 +63,7 @@ describe("an international crisis persists until something resolves it", () => {
       expect(midway.cycle).toBeGreaterThanOrEqual(
         PROVISIONAL_INTERNATIONAL_POLICY.maxCycles,
       );
-      // The old behaviour ended it at the cap. It is still running.
+      // The old behavior ended it at the cap. It is still running.
       expect(midway.ended).toBe(false);
       expect(
         later.history.futureDueItems.some(

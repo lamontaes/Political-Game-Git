@@ -18,7 +18,7 @@ import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
  * worlds carry them; what has to agree is the answer to "which state is this?"
  */
 
-describe("a state is recognised whichever path minted it", () => {
+describe("a state is recognized whichever path minted it", () => {
   it("reads the corpus form and the authored form as the same state", () => {
     const corpus = stateJurisdictionForKey("US-KY")!;
     const authored = KENTUCKY_CONTEXT.jurisdiction;
@@ -84,7 +84,7 @@ describe("what is not a state stays not a state", () => {
     );
   });
 
-  it("an unrecognised slug is unknown, never the nearest guess", () => {
+  it("an unrecognized slug is unknown, never the nearest guess", () => {
     expect(
       stateKeyForJurisdictionSlug("run-a-open-territory-placeholder"),
     ).toBe(null);

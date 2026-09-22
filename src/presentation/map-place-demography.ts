@@ -11,6 +11,9 @@ import type {
   BrowserEconomicShard,
 } from "./economic-context-browser-types";
 
+/** One international mile is exactly 1,609.344 meters. */
+const SQUARE_METERS_PER_SQUARE_MILE = 1_609.344 ** 2;
+
 export interface MapDemographySource {
   readonly artifactId: string;
   readonly sha256: string;
@@ -250,13 +253,15 @@ export async function queryMapPlaceDemography(
     /^[a-f0-9]{64}$/.test(area.source.sha256) &&
     /^https?:\/\//.test(area.source.url)
   ) {
-    const value = population.value / (area.squareMeters / 1_000_000);
+    // Players read density per square mile; the source measures square meters.
+    const value =
+      population.value / (area.squareMeters / SQUARE_METERS_PER_SQUARE_MILE);
     if (Number.isFinite(value))
       density = {
         ...population,
         label: "Population density",
         value,
-        unit: "people per square kilometer",
+        unit: "people per square mile",
         landAreaSource: area.source,
       };
   }

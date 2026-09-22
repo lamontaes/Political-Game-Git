@@ -15,7 +15,7 @@
  * - an ordinary statute, through a rule-change provision filed on the measure
  *   before it is enacted (`fileRuleChangeProvision`), operative from the
  *   enactment's effective date, or the blanket default where the state's
- *   effective-date rule is not modelled;
+ *   effective-date rule is not modeled;
  * - a constitutional amendment carrying a `rule-field` delta
  *   (`ConstitutionalRuleDelta`), operative from its ratified operative date.
  *
@@ -108,7 +108,7 @@ export type AmendableRuleField = keyof typeof AMENDABLE_RULE_FIELDS;
  */
 export const NOT_YET_AMENDABLE_RULE_FIELDS: Readonly<Record<string, string>> = {
   "term.start":
-    "A term's commencement is a date rule with several shapes; enacting a new one is not modelled yet.",
+    "A term's commencement is a date rule with several shapes; enacting a new one is not modeled yet.",
   "term.expiry":
     "A term's end follows from its length and start; change the length instead.",
   "election.date":
@@ -116,7 +116,7 @@ export const NOT_YET_AMENDABLE_RULE_FIELDS: Readonly<Record<string, string>> = {
   "election.cycle":
     "The game has no compiled state election calendar to amend; elections run on the game's own calendar.",
   "institution.form":
-    "Changing the form of a legislature (for example to unicameral) is not modelled yet.",
+    "Changing the form of a legislature (for example to unicameral) is not modeled yet.",
   "ordinance.passage":
     "Local ordinance procedure is changed by charter, and charter changes are not routed here yet.",
   "ordinance.introductionToPassage":
@@ -166,7 +166,7 @@ export function amendableRuleFieldLabel(field: AmendableRuleField): string {
 
 /**
  * The blanket effective date for a statute whose state's effective-date rule is
- * not modelled: ninety days after the act is recorded. Ninety days is the most
+ * not modeled: ninety days after the act is recorded. Ninety days is the most
  * common default among the states the game has read (Alaska, Missouri, Ohio);
  * it is a game profile, not a claim about any other state's law.
  */
@@ -206,7 +206,7 @@ export interface EnactedRuleChange {
   readonly operativeAt: IsoDate;
   /**
    * `enacted-date` when the law's own record dates it; `game-default` when the
-   * state's effective-date rule is not modelled and the blanket rule applied.
+   * state's effective-date rule is not modeled and the blanket rule applied.
    */
   readonly operativeBasis: "enacted-date" | "game-default";
   readonly instrument: "statute" | "constitutional-amendment";
@@ -291,7 +291,7 @@ export function assertAmendableRuleValue(
 
 /**
  * Whether an office key belongs to this state. A legislative rule names a
- * chamber of the state's own rule pack. NOT MODELLED: a registry of executive
+ * chamber of the state's own rule pack. NOT MODELED: a registry of executive
  * offices this module can check against without depending on the executive
  * consumer. Blanket rule meanwhile: an executive office key must carry the
  * state's own prefix (`us-nh-governor`, `dc-mayor`).
@@ -313,7 +313,7 @@ function officeBelongsToState(
       )
     );
   }
-  // NOT MODELLED: a registry of every state's offices (a state with no
+  // NOT MODELED: a registry of every state's offices (a state with no
   // compiled legislature has no chamber list to check). Blanket rule: the
   // key must carry the state's own prefix, so no law reaches another state.
   return (
@@ -328,7 +328,7 @@ function stateUspsForPack(rulePackId: string): string | null {
 
 /**
  * The first recorded vote of a whole chamber or joint session on a bill. A
- * committee vote does not close the text; a floor vote does. NOT MODELLED: a
+ * committee vote does not close the text; a floor vote does. NOT MODELED: a
  * rule-change clause offered as a floor amendment. Blanket rule meanwhile:
  * clauses are filed before the first floor vote or not at all.
  */
@@ -444,7 +444,7 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       (row) => row.measureId === provision.measureId,
     );
     if (!enactment || enactment.outcome !== "enacted") continue;
-    // NOT MODELLED: a state's own default effective-date rule. The rule packs
+    // NOT MODELED: a state's own default effective-date rule. The rule packs
     // hold it as prose, nothing computes a date from it, and no caller in play
     // passes one, so every enactment carries a null effective date. A null
     // date is not "effective now". Blanket rule meanwhile: the change operates
@@ -525,7 +525,7 @@ export function enactedRuleChangeAt(
       change.operativeAt <= query.onDate,
   );
   // A statute cannot override the state's constitution: once an amendment
-  // fixes a rule, only a later amendment changes it. NOT MODELLED: which
+  // fixes a rule, only a later amendment changes it. NOT MODELED: which
   // constitutions delegate a rule to statute. Blanket rule meanwhile: an
   // amendment always outranks a statute, whenever each took effect.
   return ruleChangeInForce(inForce);

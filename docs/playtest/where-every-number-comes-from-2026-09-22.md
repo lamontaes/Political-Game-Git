@@ -76,7 +76,7 @@ enacted law emits one.
 
 The honest sentence for each is different. For Economic context it is _"this is
 real and a law may not touch it."_ For Macro conditions it is _"this is
-authored calibration, labelled provisional in its own file, and nothing in play
+authored calibration, labeled provisional in its own file, and nothing in play
 reaches it."_ The first is a design decision to defend. The second is a wire
 that does not exist.
 
@@ -207,7 +207,7 @@ law they passed. Everything else on this list moves on its own or does not move
 at all.
 
 That is not a complaint about the economy being wrong. The economy is carefully
-built, its constants are labelled honestly as provisional calibration examples
+built, its constants are labeled honestly as provisional calibration examples
 in their own source file, and it refuses to infer effects it cannot source.
 The finding is narrower and more useful: **the most prominent numbers in the
 game are authored placeholders, and no route in play reaches them.**

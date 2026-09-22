@@ -12,7 +12,7 @@
   "rows": [
     {
       "namespace": "contact",
-      "conduct": "A greeting or routine acknowledgement",
+      "conduct": "A greeting or routine acknowledgment",
       "proposedContributionRanges": {},
       "boundary": "Record contact and any temporary appraisal, not default standing warmth/trust points merely from repetition."
     },
@@ -126,7 +126,7 @@
     },
     {
       "namespace": "conflict",
-      "conduct": "Acknowledgement plus accepted concrete repair",
+      "conduct": "Acknowledgment plus accepted concrete repair",
       "proposedContributionRanges": {
         "tension": [
           -1.5,

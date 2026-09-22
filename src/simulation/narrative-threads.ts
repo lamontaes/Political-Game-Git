@@ -620,7 +620,7 @@ function civicThreads(
         key: `civic:${participation.id}`,
         title:
           organizationLabel(world, participation.organizationId) ??
-          "Something in the neighbourhood",
+          "Something in the neighborhood",
         withPersonIds: [],
         organizationId: participation.organizationId,
         linkBasis: {
