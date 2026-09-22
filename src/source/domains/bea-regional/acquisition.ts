@@ -27,9 +27,23 @@ export const STATE_RPP_DEFINITION = "SARPP__definition.xml";
 export const MSA_RPP_MEMBER = "MARPP_MSA_2008_2024.csv";
 export const MSA_RPP_DEFINITION = "MARPP__definition.xml";
 
+/**
+ * The edition each locked table is. Every BEA regional CSV ends with a line
+ * such as "Last updated: February 5, 2026-- new statistics for 2024", and the
+ * compiler refuses a table whose line disagrees with the date recorded here,
+ * so a re-retrieval that picks up a newer edition cannot keep an old date.
+ * The dates are the Bureau's release dates for these editions (county personal
+ * income 2024; regional price parities 2024).
+ */
+export const BEA_EDITION_RELEASE_DATES = {
+  CAINC1: "2026-02-05",
+  SARPP: "2026-02-19",
+  MARPP: "2026-02-19",
+} as const;
+
 function beaRequest(
   artifactId: string,
-  table: string,
+  table: keyof typeof BEA_EDITION_RELEASE_DATES,
   member: string,
 ): AcquisitionRequest {
   return {
@@ -41,7 +55,7 @@ function beaRequest(
     containerMemberPath: member,
     publisher: {
       statedVintage: null,
-      releaseDate: null,
+      releaseDate: BEA_EDITION_RELEASE_DATES[table],
       schemaVersion: `BEA regional table ${table}`,
       documentationUrl: "https://apps.bea.gov/regional/downloadzip.htm",
     },

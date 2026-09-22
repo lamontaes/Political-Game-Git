@@ -154,6 +154,23 @@ test("a Colorado life wins the governorship, takes office and governs", async ({
   await expect(briefing).toContainText("Governor of Colorado");
   const matters = briefing.getByTestId("governing-matter");
   await expect(matters).toHaveCount(2);
+  // The office's other sections sit in the page beside the decisions, never
+  // over them. The desk once shared a class name with a room scene's floating
+  // desk, and the office work was mounted as a raised workspace; either one
+  // drew a card over every decision a governor is meant to make.
+  const briefingBox = (await briefing.boundingBox())!;
+  for (const other of [
+    page.getByTestId("office-desk"),
+    page.getByRole("region", { name: "Executive work" }),
+  ]) {
+    if ((await other.count()) === 0) continue;
+    const box = (await other.boundingBox())!;
+    expect(
+      box.y >= briefingBox.y + briefingBox.height ||
+        box.y + box.height <= briefingBox.y,
+      "An office section is drawn over the governing briefing.",
+    ).toBe(true);
+  }
   await page.screenshot({
     path: testInfo.outputPath("governing-briefing-first-day.png"),
   });
