@@ -1,3 +1,7 @@
+import {
+  describeRelationshipStanding,
+  readRelationshipStanding,
+} from "../simulation/relationship-standing";
 import { organizationRefLabel } from "./organization-ref";
 import {
   ageOnDate,
@@ -71,6 +75,14 @@ export interface PersonDossier {
   readonly rightNow: string | null;
   readonly details: readonly DossierFact[];
   readonly lastInteraction: string;
+  /**
+   * Where the two of them stand, in the player's own words.
+   *
+   * Null when the record holds nothing that bears on it, which is not the same
+   * as reading flat: a person the player has only ever passed in a corridor has
+   * nothing to say here and should say nothing rather than "acquainted".
+   */
+  readonly standing: string | null;
   /** Canonical entities this dossier can route to. */
   readonly links: readonly ShellRef[];
 }
@@ -342,6 +354,13 @@ export function projectPersonDossier(
     rightNow: options.rightNow ?? null,
     details,
     lastInteraction: describeInteraction(world, playerId, personId),
+    standing:
+      personId === playerId
+        ? null
+        : describeRelationshipStanding(
+            readRelationshipStanding(world, playerId, personId),
+            subject.givenName,
+          ),
     links: buildLinks(world, playerId, personId),
   };
 }

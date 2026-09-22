@@ -218,6 +218,11 @@ export function didPeoplePreviouslyWorkTogether(
   );
 }
 
+import {
+  readRelationshipStanding,
+  type RelationshipDimension,
+} from "./relationship-standing";
+
 export type RelationshipCloseness =
   "none" | "acquainted" | "close" | "estranged";
 
@@ -227,38 +232,53 @@ export interface DerivedRelationshipSummary {
   readonly lastInteractionAt: IsoDate | null;
 }
 
+/**
+ * The old four-bucket reading, now expressed on top of the five lines.
+ *
+ * Kept because callers ask this question and a player-facing sentence needs a
+ * short answer, but it is no longer its own model: `relationship-standing.ts`
+ * holds the rules and this collapses them. "close" now needs affection or
+ * reliance rather than any interaction at all, and "estranged" needs live
+ * friction or an adverse line rather than a negative sum, so a quarrel that was
+ * made up is no longer permanent and a run of work meetings is no longer a
+ * friendship. Nothing here fades with time; see that file for why.
+ */
 export function deriveRelationshipSummary(
   world: World,
   firstPersonId: EntityId,
   secondPersonId: EntityId,
 ): DerivedRelationshipSummary {
-  const history = relationshipHistory(world, firstPersonId, secondPersonId);
-  let hiddenScore = 0;
-  for (const interaction of history) {
-    const magnitude =
-      interaction.significance === "major"
-        ? 3
-        : interaction.significance === "meaningful"
-          ? 2
-          : 1;
-    hiddenScore +=
-      interaction.change === "ended" ||
-      interaction.change === "strained" ||
-      interaction.kind.startsWith("conflict:")
-        ? -magnitude
-        : magnitude;
-  }
+  const standing = readRelationshipStanding(
+    world,
+    firstPersonId,
+    secondPersonId,
+  );
+  const { readings } = standing;
+  const marked = (dimension: RelationshipDimension): boolean =>
+    readings[dimension].band === "marked" ||
+    readings[dimension].band === "strong";
+
+  const estranged =
+    marked("tension") ||
+    (marked("warmth") && readings.warmth.adverse) ||
+    (marked("trust") && readings.trust.adverse);
+  const close =
+    !estranged &&
+    ((marked("warmth") && !readings.warmth.adverse) ||
+      (marked("trust") && !readings.trust.adverse) ||
+      marked("commitment"));
+
   return {
     closeness:
-      history.length === 0
+      standing.interactionCount === 0
         ? "none"
-        : hiddenScore < 0
+        : estranged
           ? "estranged"
-          : hiddenScore >= 3
+          : close
             ? "close"
             : "acquainted",
-    interactionCount: history.length,
-    lastInteractionAt: history.at(-1)?.occurredAt ?? null,
+    interactionCount: standing.interactionCount,
+    lastInteractionAt: standing.lastInteractionAt,
   };
 }
 
