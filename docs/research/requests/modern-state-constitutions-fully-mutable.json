@@ -1,0 +1,23 @@
+{
+  "filedAt": "2026-09-22T19:58:00.000Z",
+  "impact": "shapes-design",
+  "lane": "research intake",
+  "notes": [
+    "The owner's words: \"State constitutions, I think those should uh, be uh, correct to modern day. Um, and then every part of them should be mutable or mutatable, I guess. And that adds more legislative stuff.\"",
+    "52 jurisdictions: the 50 states, D.C. and Puerto Rico."
+  ],
+  "priority": "P1",
+  "question": "The owner wants state constitutions correct to the present day, and every part of them mutable in play. For all 50 states, D.C. and Puerto Rico: (1) the current constitution (or D.C.'s Home Rule Act charter and Puerto Rico's constitution), with its article structure as currently amended; (2) the amendment procedures each one actually uses (legislative referral, citizen initiative, convention, commission) with their vote thresholds and timing; (3) any parts that are entrenched or harder to change than the rest, and anything a state cannot change because federal law overrides it; and (4) a structure the game can represent so any provision can be amended, added or repealed through those real procedures.",
+  "questionId": "modern-state-constitutions-fully-mutable",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "research intake thread, from lamontae's message of 2026-09-22T19:50Z",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/constitutional-sources.generated.ts and docs/research/requests/ak-constitution-provision-commencement.json, on claude/project-thread-b8c05w at e4afc629",
+      "whatItDidNotSettle": "The game holds constitutional source references and some provision-level research; this intake lane did not audit how complete or current they are across 52 jurisdictions, nor whether provisions can be mutated in play."
+    }
+  ],
+  "title": "Current state constitutions for all 52 jurisdictions, with every part amendable",
+  "usableAnswer": "Per jurisdiction: a pointer to the current official text with its last-amended date, the article outline, every amendment route with its thresholds, and any entrenched or federally overridden provisions. A representation scheme for provisions that supports amend, add and repeal is part of a complete answer.",
+  "whyItMatters": "Constitutional provisions set offices, term limits, legislative sessions and more. If they are correct and mutable, a whole class of legislation (amending the constitution) becomes playable, and other systems can read their rules from the constitution rather than from hard-coded values."
+}

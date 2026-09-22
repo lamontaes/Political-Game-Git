@@ -89,6 +89,9 @@ art/manifest/character_candidate_modular45_registry.json
 src/maps/geometry
 src/maps/data/*.generated.json
 
+# ChatGPT's DEPTH1 package, kept byte-identical so its own SHA256SUMS verifies.
+docs/research/chatgpt-answers/2026-09-22-depth1
+
 # Byte-identical first-party captures. docs/reference/regional-opening/README.md
 # states plainly that the originals remain unchanged under raw/, and
 # retrieval-receipt.json records each one's exact byte length and SHA-256.
@@ -102,3 +105,4 @@ docs/reference/regional-opening/raw/
 # npm run build:steps. Fifty per-state files of about 8,250 lines each;
 # regenerate rather than hand-format.
 public/data/state-voting
+docs/research/chatgpt-answers/2026-09-22-depth2

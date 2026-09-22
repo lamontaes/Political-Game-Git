@@ -36,20 +36,16 @@ async function expectCornerVersion(
   const version = page.getByTestId("shell-version");
   await expect(version).toHaveCount(1);
   await expect(version).toHaveText(/^v\d+\.\d+\.\d+$/);
-  const build = page.getByTestId("shell-build");
-  await expect(build).toHaveCount(1);
+  // The build hash is not shown to the player; it stays in the tooltip.
+  await expect(page.getByTestId("shell-build")).toHaveCount(0);
   const response = await page.request.get("/__dev/identity");
   expect(response.ok()).toBe(true);
   const identity = await response.json();
-  await expect(build).toHaveAttribute("title", identity.head);
-  await expect(build).toHaveText(
-    `Build ${identity.head.slice(0, 7)}${identity.dirty ? " · uncommitted" : ""}`,
+  await expect(version).toHaveAttribute(
+    "title",
+    identity.dirty ? `${identity.head} (uncommitted changes)` : identity.head,
   );
-  const buildBox = await build.boundingBox();
-  expect(buildBox).not.toBeNull();
-  expect(buildBox!.x).toBeGreaterThanOrEqual(0);
-  expect(buildBox!.x + buildBox!.width).toBeLessThanOrEqual(viewport.width);
-  expect(buildBox!.y + buildBox!.height).toBeLessThanOrEqual(viewport.height);
+  await expect(version).not.toContainText(identity.head.slice(0, 7));
 
   const geometry = await version.evaluate((element) => {
     const style = window.getComputedStyle(element);

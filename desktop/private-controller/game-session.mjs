@@ -1,3 +1,4 @@
+/* global setTimeout, clearTimeout */
 /** Unknown/old payloads retain the existing unload guard. */
 export async function hasSavableLife(contents) {
   if (!contents || contents.isDestroyed()) return null;
@@ -52,12 +53,34 @@ export async function hasUnsavedEdits(contents) {
     .catch(() => null);
 }
 
-/** Freeze user edits across the save acknowledgment; restore on any refusal. */
-export async function suspendInteraction(contents, suspended) {
+/** How long quit waits for any one page to answer before calling it unresponsive. */
+export const QUIT_ANSWER_MS = 5000;
+const UNANSWERED = Symbol("unanswered");
+
+/** A hung renderer never settles executeJavaScript; quit must not wait on it. */
+function bounded(promise, ms) {
+  let timer;
+  return Promise.race([
+    promise,
+    new Promise((resolve) => {
+      timer = setTimeout(() => resolve(UNANSWERED), ms);
+    }),
+  ]).finally(() => clearTimeout(timer));
+}
+
+/** Freeze user edits across the save acknowledgment; restore on any refusal.
+ * Resolves true when applied, false when the page is gone or refused, and
+ * null when the page did not answer within `timeoutMs`. */
+export async function suspendInteraction(
+  contents,
+  suspended,
+  timeoutMs = QUIT_ANSWER_MS,
+) {
   if (!contents || contents.isDestroyed()) return false;
-  return contents
-    .executeJavaScript(
-      `(() => {
+  const answer = await bounded(
+    contents
+      .executeJavaScript(
+        `(() => {
     const root = document.documentElement;
     const key = "ocdQuitPreviousInert";
     if (${suspended === true}) {
@@ -69,19 +92,48 @@ export async function suspendInteraction(contents, suspended) {
     }
     return true;
   })()`,
-    )
-    .catch(() => false);
+      )
+      .catch(() => false),
+    timeoutMs,
+  );
+  return answer === UNANSWERED ? null : answer;
 }
 
-/** Consent and persistence only: this function never tears down a view. */
-export async function prepareQuit(participants, prompts) {
-  for (const { contents, game } of participants) {
-    const active = game ? await hasSavableLife(contents) : false;
-    const dirty = await hasUnsavedEdits(contents);
+/** Consent and persistence only: this function never tears down a view.
+ * A participant marked `unresponsive`, or one that stops answering, cannot
+ * block quit: a game still asks the owner before its life is discarded; a
+ * non-game page (the bench) that cannot answer has nothing it can hand over. */
+export async function prepareQuit(
+  participants,
+  prompts,
+  // The page bounds its own save at 30s; allow for that before giving up.
+  { timeoutMs = QUIT_ANSWER_MS, saveTimeoutMs = timeoutMs + 30000 } = {},
+) {
+  for (const participant of participants) {
+    const { contents, game } = participant;
+    let active = false;
+    let dirty = null;
+    if (!participant.unresponsive) {
+      if (game) {
+        active = await bounded(hasSavableLife(contents), timeoutMs);
+        if (active === UNANSWERED) participant.unresponsive = true;
+      }
+      if (!participant.unresponsive) {
+        dirty = await bounded(hasUnsavedEdits(contents), timeoutMs);
+        if (dirty === UNANSWERED) participant.unresponsive = true;
+      }
+    }
+    if (participant.unresponsive) {
+      if (game && (await prompts.unresponsive()) === 0) return false;
+      continue;
+    }
     if (active === true) {
       const choice = await prompts.save();
       if (choice === 2) return false;
-      if (choice === 0 && !(await saveOpenLife(contents))) {
+      if (
+        choice === 0 &&
+        (await bounded(saveOpenLife(contents), saveTimeoutMs)) !== true
+      ) {
         await prompts.failed();
         return false;
       }
