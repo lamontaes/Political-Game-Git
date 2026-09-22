@@ -10,10 +10,14 @@ import {
   deriveRuntimeBody,
   deriveGarment,
   kindsForPose,
+  measureCandidateBodyLandmarks,
   runtimeBodyRecord,
   writeOrCheckWardrobePng,
 } from "../scripts/art-asset-factory/wave-a-wardrobe";
-import { PG_COMPONENT_SPECS } from "../scripts/art-asset-factory/pg-modular-intake";
+import {
+  measureBodyRig,
+  PG_COMPONENT_SPECS,
+} from "../scripts/art-asset-factory/pg-modular-intake";
 import { hashArtFile } from "../scripts/art-asset-factory/content-hash";
 import type { CharacterComponentManifestRecord } from "../src/presentation/character-components";
 
@@ -83,5 +87,84 @@ describe("Wave A wardrobe derivation", () => {
         (garment) => garment.scale_x > 1 || garment.scale_y > 1,
       ),
     ).toHaveLength(49);
+  });
+});
+
+/**
+ * Silhouettes drawn row by row, so a body that never parts into two legs can be
+ * measured without a plate that does not exist in this checkout.
+ */
+function silhouette(runsForRow: (y: number) => readonly [number, number][]) {
+  const bitmap = PImage.make(200, 960);
+  const data = bitmap.data as unknown as Uint8Array;
+  data.fill(0); // PImage.make starts fully opaque; the silhouette is what we draw.
+  for (let y = 0; y < 960; y += 1)
+    for (const [from, to] of runsForRow(y))
+      for (let x = from; x <= to; x += 1) {
+        const i = (y * 200 + x) * 4;
+        data[i] = 20;
+        data[i + 1] = 20;
+        data[i + 2] = 20;
+        data[i + 3] = 255;
+      }
+  return bitmap;
+}
+
+/** The trunk every case shares: head, neck, shoulders, waist, hips. */
+function trunk(y: number): readonly [number, number][] {
+  if (y < 100) return [[80, 119]];
+  if (y < 130) return [[88, 111]];
+  if (y < 301) return [[40, 159]];
+  if (y < 401) return [[65, 134]];
+  return [[50, 149]];
+}
+
+describe("body landmarks refuse a silhouette they cannot measure", () => {
+  it("measures a body whose legs part below the hips", () => {
+    const bitmap = silhouette((y) =>
+      y < 520
+        ? trunk(y)
+        : [
+            [40, 73],
+            [127, 160],
+          ],
+    );
+    const rig = measureBodyRig(bitmap as never);
+    expect(rig.crotchSplit).toBe(true);
+    const landmarks = measureCandidateBodyLandmarks(bitmap as never, rig);
+    expect(landmarks.hip).toBeGreaterThan(landmarks.waist);
+    expect(landmarks.hip).toBeLessThan(landmarks.crotch);
+    expect(landmarks.ankle).toBeGreaterThan(landmarks.crotch);
+    expect(landmarks.ankle).toBeLessThan(landmarks.sole);
+  });
+
+  it("refuses a body that never parts at the midline", () => {
+    const bitmap = silhouette((y) => (y < 520 ? trunk(y) : [[60, 139]]));
+    const rig = measureBodyRig(bitmap as never);
+    expect(rig.crotchSplit).toBe(false);
+    // The old fallback: the crotch stands at the waist and the hip pins to it.
+    expect(rig.crotchRow).toBe(rig.waistRow);
+    expect(() => measureCandidateBodyLandmarks(bitmap as never, rig)).toThrow(
+      "never parts at the midline",
+    );
+  });
+
+  it("refuses a body whose legs part only at the ankles", () => {
+    const bitmap = silhouette((y) =>
+      y < 941
+        ? y < 520
+          ? trunk(y)
+          : [[60, 139]]
+        : [
+            [60, 89],
+            [110, 139],
+          ],
+    );
+    const rig = measureBodyRig(bitmap as never);
+    expect(rig.crotchSplit).toBe(true);
+    expect(rig.crotchRow).toBe(941);
+    expect(() => measureCandidateBodyLandmarks(bitmap as never, rig)).toThrow(
+      "ankle band to search",
+    );
   });
 });
