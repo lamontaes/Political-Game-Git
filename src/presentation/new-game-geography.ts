@@ -1,6 +1,6 @@
 import {
-  LEGISLATIVE_RULE_PACKS,
   candidacyAuthority,
+  legislatureForState,
   lifePlaceByKey,
   lifePlaceStateIdentities,
   requireLifePlace,
@@ -130,15 +130,21 @@ export function geographyWorldOriginForPlaceKey(
   return "explicit-creator";
 }
 
+/**
+ * The legislature a state plays with.
+ *
+ * This used to search the compiled packs alone, which answers a different
+ * question — "has this state been researched" — and returning null for the
+ * forty-two that have not meant those states had no legislature at all. A
+ * player in Texas could not sit in a chamber or carry a bill. `legislatureForState`
+ * gives a compiled pack where one exists and the game's own disclosed profile
+ * where one does not.
+ */
 export function legislativeRulePackForState(
   stateJurisdictionKey: string | null,
 ) {
   if (!stateJurisdictionKey) return null;
-  return (
-    LEGISLATIVE_RULE_PACKS.find(
-      (pack) => pack.jurisdictionKey === stateJurisdictionKey,
-    ) ?? null
-  );
+  return legislatureForState(stateJurisdictionKey);
 }
 
 export function resolvePlayGeography(

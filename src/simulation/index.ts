@@ -176,6 +176,7 @@ export * from "./legislative-member-decisions";
 export * from "./legislature-rules";
 export * from "./measure-numbering";
 export * from "./legislature-rule-packs";
+export * from "./legislature-game-profile";
 export * from "./executive-authority-rules";
 export * from "./executive-authority-rule-packs";
 export * from "./evidence";
@@ -260,6 +261,8 @@ export * from "./public-fiscal";
 
 export * from "./legislation-tax-identity";
 
+export * from "./nationwide-world/chief-executive-baseline";
+export * from "./nationwide-world/district-of-columbia";
 export * from "./nationwide-world/government-jurisdiction";
 export * from "./nationwide-world/rule-capability-port";
 export * from "./nationwide-world/state-executive-candidacy-packs";

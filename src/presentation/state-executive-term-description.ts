@@ -43,6 +43,8 @@ function yearsWord(value: number): string {
 function commencement(rule: TermCommencementRule): string {
   if (rule.kind === "january-first-following-election")
     return "on January 1 after the election";
+  if (rule.kind === "january-fixed-day-following-election")
+    return `on January ${rule.day} after the election`;
   const anchor = `the ${ORDINALS[rule.ordinal]} ${WEEKDAYS[rule.weekday]} of January`;
   if (rule.offsetDays === 0) return `on ${anchor} after the election`;
   const later = (rule.weekday + rule.offsetDays) % 7;

@@ -109,22 +109,22 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
     candidacy: {
       kind: "no-seats",
       /*
-       * This used to assert the citation, the observation date and the play
-       * date in one sentence. The citation sweep replaced the sentence
-       * outright rather than trimming a prefix, because those dates were
-       * provenance sitting in the body of a player-facing line.
+       * Nebraska still refuses. What changed is the reason, not the answer.
        *
-       * What is kept is the refusal's two loads: that the rules exist and that
-       * the game will not place them in this time. What is dropped is every
-       * date. One thing the row can no longer do is vary with the play date —
-       * the same rows at 1900 and at 2026 produce this character for
-       * character. Written down rather than left to be found later as a test
-       * that quietly stopped discriminating.
+       * This used to be the refusal for a date the evidence could not place:
+       * Nebraska's rows were a bare September 2026 observation, so a January
+       * 2026 life fell before the reading. b55c0564 dated each provision from
+       * the amendment history printed on its own locked page, so the rules
+       * now apply on an ordinary start, and the next true refusal reaches the
+       * screen: the seat asks for a year in the district, and Omaha lies
+       * across more than one district. Bisected in the browser: this case
+       * passes on main at 4965f63c and fails on this branch merged with it.
+       *
+       * Only the rule and its length, as for Columbus and Anchorage. The
+       * clause explaining why the year cannot be counted has already been
+       * rewritten once elsewhere with the verdict unmoved.
        */
-      because: [
-        "The game knows Nebraska's rules for who may stand",
-        "not whether they were already in force this far back",
-      ],
+      because: ["This office requires 1 year of residence"],
     },
     note: "The one unicameral state legislature. A route that assumes a lower and an upper chamber cannot run here at all.",
   },
@@ -165,8 +165,9 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
        * The flip to "stands" that was expected here does not happen. An
        * ordinary browser start records no proved residence interval, and this
        * branch's candidacy work is reached through lives that do. Nebraska and
-       * Minnesota do not flip either: their rows are still CURRENT_OBSERVATION
-       * on this head, 13 and 6, so they refuse exactly as recorded below.
+       * Minnesota do not flip either, though their rows are now dated
+       * intervals rather than bare observations: each refuses for its own
+       * reason, recorded on its own row.
        */
       /*
        * Only the rule and its length. The clause explaining why the year

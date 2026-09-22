@@ -21,7 +21,7 @@ import {
   homeLocalGovernmentUnits,
   localGovernmentDisplayName,
 } from "../nationwide-world/local-governments";
-import { drawCanonicalName, personName } from "../people";
+import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { recordEventKnowledge } from "../records";
 import { SeededRng } from "../rng";
@@ -41,6 +41,7 @@ import type {
   SimulationMoment,
   World,
 } from "../types";
+import { formatStatutoryDate } from "../legislation-content-contracts";
 import { recordWorldEvent } from "../world";
 import type { MajorPartyKey } from "./contract";
 import { activePartyUnitsAt, partyUnits } from "./party-registry";
@@ -154,8 +155,10 @@ export function ensureHomePartyChapters(
       const personRng = rng.fork(chapterOrganizerKey(party.partyKey));
       return {
         stableKey: chapterOrganizerKey(party.partyKey),
-        ...drawCanonicalName(personRng.fork("name")),
-        identity: generatePersonIdentity(personRng.fork("identity")),
+        ...drawCanonicalNamedIdentity(
+          personRng.fork("name"),
+          generatePersonIdentity(personRng.fork("identity")),
+        ),
         birthDate: makeIsoDate(
           `${Number(date.slice(0, 4)) - personRng.integer(28, 72)}-${String(personRng.integer(1, 13)).padStart(2, "0")}-${String(personRng.integer(1, 29)).padStart(2, "0")}`,
         ),
@@ -575,6 +578,7 @@ function tryWriteInvitation(
 ): { world: World; invitationId: EntityId; meetingDate: IsoDate } | null {
   const meetingDate = nextMeetingDate(world.currentDate, weeksLater);
   const organizer = world.people[organizerId]!;
+  const invitee = world.people[personId]!;
   const stableKey = `${dueItem.stableKey}:invitation`;
   try {
     let next = recordWorldEvent(world, {
@@ -588,7 +592,7 @@ function tryWriteInvitation(
         {
           personId: organizerId,
           role: "agency:asked",
-          detail: `Invited them to the next ${chapter.name} meeting`,
+          detail: `Invited ${personName(invitee)} to the next ${chapter.name} meeting`,
         },
         { personId, role: "focus:asked-of", detail: "Was invited" },
       ],
@@ -599,7 +603,7 @@ function tryWriteInvitation(
         `chapter:${chapter.organizationId}`,
         `meeting-date:${meetingDate}`,
       ],
-      summary: `${personName(organizer)} invited them to the ${chapter.name} open meeting.`,
+      summary: `${personName(organizer)} invited ${personName(invitee)} to the ${chapter.name} open meeting.`,
       context: {
         location: {
           jurisdictionId: chapter.jurisdictionId,
@@ -628,7 +632,9 @@ function tryWriteInvitation(
       personId,
       eventId: invitation.id,
       learnedAt: world.currentDate,
-      believedSummary: `${personName(organizer)} invited them to the ${chapter.name} open meeting on ${meetingDate}. Coming is optional.`,
+      // What the invitee knows, so it is said to them: the journal shows it as
+      // written, and "invited them" read in their own journal as somebody else.
+      believedSummary: `${personName(organizer)} invited you to the ${chapter.name} open meeting on ${formatStatutoryDate(meetingDate)}. Going is optional.`,
       accuracy: "accurate",
       confidence: "high",
       source: { kind: "told-by", sourcePersonId: organizerId, claimId: null },
