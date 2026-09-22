@@ -14,7 +14,7 @@ import {
 } from "./life-queries";
 import { personName } from "./people";
 import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
-import { loadedTraitRegistry } from "./trait-registry";
+import { traitRegistryFor } from "./trait-registry";
 import { registeredTraitConsiderations } from "./trait-readings";
 import { CONTACT_ANSWER_DECISION } from "./people-contact-decisions";
 import { recordEventKnowledge } from "./records";
@@ -692,7 +692,7 @@ export function npcContactAnswer(
   considerations.push(
     ...registeredTraitConsiderations(
       withTraits,
-      loadedTraitRegistry(),
+      traitRegistryFor(withTraits),
       to,
       `contact:${proposalEventId}`,
       CONTACT_ANSWER_DECISION.id,

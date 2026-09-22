@@ -575,9 +575,15 @@ the trait set itself and the pace of personality change.
 
 Said plainly, with what the next step would be.
 
-**No file discovery.** Packs are loaded from a list the build provides. There
-is no mod directory and nothing scans the disk. Next step: a loader that reads
-a directory and appends to that list. The seam does not need rebuilding for it.
+**No file discovery.** Nothing scans the disk. The build's own packs are a list
+in `trait-registry.ts`; a life's installed content packs may each carry a
+`traits` block in this same shape, imported through the content pack screen and
+saved with the life (`installed-trait-packs.ts`, `traitRegistryFor`). A mod's
+traits are qualified by its content pack id, a malformed row is skipped and
+listed on that screen with its reason, and the person card reads every loaded
+trait rather than a fixed five. See `examples/content-packs/patience-trait.json`.
+A mod directory would append to the same list; the seam does not need
+rebuilding for it.
 
 **A pack cannot invent a decision.** It can lean on decisions the game
 declares; it cannot add one. A new decision needs authored options, prose and a
