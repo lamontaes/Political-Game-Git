@@ -2616,6 +2616,32 @@ export function measurePropositions(
   });
 }
 
+/**
+ * The ids this world's catalogue holds for some qualified question keys.
+ *
+ * Keys the catalogue does not hold are left out rather than refused. A world's
+ * catalogue is fixed when the world is made, so a save opened before a
+ * question shipped honestly has no such question, and a bill filed there is a
+ * bill nobody linked — which is what every measure was before measures could
+ * say. Refusing the bill instead would stop an old save from legislating at
+ * all over a link it never had.
+ */
+export function catalogPropositionIds(
+  world: World,
+  qualifiedKeys: readonly string[],
+): readonly EntityId[] {
+  if (qualifiedKeys.length === 0) return [];
+  const wanted = new Set(qualifiedKeys);
+  return Object.values(world.policyCatalog.propositions)
+    .filter((definition) => wanted.has(definition.stableKey))
+    .sort(
+      (left, right) =>
+        qualifiedKeys.indexOf(left.stableKey) -
+        qualifiedKeys.indexOf(right.stableKey),
+    )
+    .map((definition) => definition.id);
+}
+
 export function measureById(
   world: World,
   measureId: EntityId,

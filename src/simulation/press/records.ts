@@ -147,6 +147,10 @@ export const PROCEDURE_KEYS = [
   "fec-enforcement",
   "ky-legislative-ethics",
   "simulated-inquiry",
+  // A body generated per state from an UNRESEARCHED range, for campaign money
+  // and for legislators whose state's own body has not been read
+  // (`generated-state-oversight.ts`).
+  "generated-state-oversight",
   // Researched state legislative ethics bodies. Each key names one state's
   // body; the table behind them is `state-ethics-bodies.ts`, and a key here
   // with no row there (or the reverse) is a type error rather than a silent
@@ -422,6 +426,11 @@ export interface MediaOwnerRecord extends PressRecordBase {
   /** Descriptive only; behavior comes from the row's practices. */
   readonly ownerKind: string;
   readonly establishedAt: IsoDate;
+  /**
+   * The person who owns outright, when the owner is a person rather than a
+   * company from a pack. Absent on owners recorded before people could buy.
+   */
+  readonly principalPersonId?: EntityId | null;
 }
 
 export interface OutletOwnershipRecord extends PressRecordBase {

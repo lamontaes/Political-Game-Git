@@ -1,4 +1,5 @@
 import { wasRefused } from "./scheduled-activity-answer";
+import { rememberedAdverseFindingsAgainst } from "./press/findings";
 import {
   CAMPAIGN_LIFE_CATALOG,
   CAMPAIGN_LIFE_TRAVEL_COST_DISCLOSURE,
@@ -63,7 +64,7 @@ import {
   homePartyChapters,
   type HomePartyChapter,
 } from "./living-world/party-chapters";
-import { drawCanonicalName, personName } from "./people";
+import { drawCanonicalNamedIdentity, personName } from "./people";
 import { generatePersonIdentity } from "./person-identity";
 import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
 import { positionOwnerEndpoint, resourcePositionAt } from "./resource-queries";
@@ -1075,8 +1076,10 @@ function ensureContactPerson(
     rng.integer(LIFE.contactAgeYears[0], LIFE.contactAgeYears[1] + 1);
   const next = createCharacterHistoryContextPerson(world, {
     stableKey,
-    ...drawCanonicalName(rng.fork("name")),
-    identity: generatePersonIdentity(rng.fork("identity")),
+    ...drawCanonicalNamedIdentity(
+      rng.fork("name"),
+      generatePersonIdentity(rng.fork("identity")),
+    ),
     birthDate: makeIsoDate(
       `${year}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
     ),
@@ -1149,6 +1152,21 @@ function supportRequestDecision(
       confidence: "high",
       explanation: "Nothing on record says they share the chapter's party.",
       sourceRefs: [],
+    });
+  }
+  for (const finding of rememberedAdverseFindingsAgainst(
+    world,
+    record.subjectPersonId,
+  )) {
+    considerations.push({
+      stableKey: `${decisionKey}:public-finding:${finding.step.id}`,
+      optionKey: "decline",
+      sourceType: "context:public-ethics-finding",
+      direction: "supports",
+      importance: "strong",
+      confidence: "high",
+      explanation: `The ${finding.proceeding.institutionLabel} has made a public finding against them.`,
+      sourceRefs: [{ kind: "historical-event", eventId: finding.step.eventId }],
     });
   }
   const evaluation = evaluateDecision(world, {

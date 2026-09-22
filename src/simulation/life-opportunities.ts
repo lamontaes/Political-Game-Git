@@ -157,14 +157,20 @@ export const ORDINARY_LIFE_WORK_ITEMS: readonly OrdinaryLifeWorkItemDefinition[]
   [
     {
       key: HOUSEHOLD_ERRANDS_KEY,
-      title: "Groceries and appointment calls",
-      summary:
-        "Buy groceries, arrange a clothing fitting for yourself, and arrange a visit to fix the kitchen cupboard hinge. Neither appointment has a time yet.",
+      title: "The week's groceries",
+      // Only what the world can back. The grocery trip is a real route; the
+      // fitting and the cupboard hinge this used to name were never anything,
+      // and every new life was handed the same three errands.
+      summary: "The household needs groceries for the week.",
     },
     {
       key: PUBLIC_MEETING_KEY,
-      title: "Whether to go to the meeting",
-      summary: "The agenda is posted. Decide whether to attend.",
+      title: "Whether to go to the public meeting",
+      // No council or board stands behind this meeting, so the line names
+      // what is true of it in any life — where it is posted, when it is,
+      // and that nobody has asked — rather than inventing who called it.
+      summary:
+        "A public meeting is on the local calendar for 6:30 in the evening, with its agenda posted. Anyone may go, and nobody has asked you to.",
     },
   ];
 
@@ -396,8 +402,7 @@ export function openOrdinaryLifeRecords(
   next = createScheduledActivity(next, {
     stableKey: `${PUBLIC_MEETING_KEY}:journey`,
     title: "Journey to the public meeting",
-    summary:
-      "A game-authored 20-minute local journey included in Attend. Travel cost is not represented; no fare is charged.",
+    summary: "About twenty minutes to get to the meeting room.",
     kind: "travel",
     start: momentAt(world, 18, 10, addDays(world.currentDate, 1)),
     end: momentAt(world, 18, 30, addDays(world.currentDate, 1)),

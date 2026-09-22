@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 import { chooseOption } from "./support/controls";
 
 test.describe("municipal feature pointer, keyboard and saved state", () => {
