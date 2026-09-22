@@ -179,9 +179,12 @@ function openQuestionFor(
  * `where-a-persons-politics-comes-from` for everything below a principle.
  */
 function factorsFor(
-  _world: World,
-  _personId: EntityId,
-  _exposure: PropositionExposureRecord,
+  world: World,
+  personId: EntityId,
+  exposure: PropositionExposureRecord,
 ): readonly PoliticalBeliefFormationFactor[] {
+  void world;
+  void personId;
+  void exposure;
   return [];
 }
