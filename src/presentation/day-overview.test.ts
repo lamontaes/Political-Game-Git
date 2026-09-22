@@ -137,6 +137,31 @@ describe("PT3 an offer of work that has not been answered", () => {
     expect(projectWorkRole(later, personId).awaitingAnswer).toHaveLength(1);
   });
 
+  it("stops quoting a start date once that date has gone by", () => {
+    const { world, personId } = lifeWithAnOfferSought();
+    const startsOn = projectWorkRole(world, personId).awaitingAnswer[0]!
+      .startsOn;
+    // While it is still ahead, saying when it would begin is useful.
+    expect(startsOn > world.currentDate).toBe(true);
+    const offerNow = projectToday(world, personId).waiting.find((entry) =>
+      entry.key.startsWith("work-offer:"),
+    )!;
+    expect(offerNow.sentence).toMatch(/to start on/);
+
+    // Twelve weeks later that date is eleven weeks in the past. Repeating it
+    // tells the player something untrue, which is worse than the silence this
+    // replaced, so it is not repeated.
+    const later = passOrdinaryDays(world, 84);
+    expect(startsOn < later.currentDate).toBe(true);
+    const offerLater = projectToday(later, personId).waiting.find((entry) =>
+      entry.key.startsWith("work-offer:"),
+    )!;
+    expect(offerLater.sentence).toMatch(/waiting for your answer/);
+    expect(offerLater.sentence).not.toMatch(/to start on/);
+    expect(offerLater.sentence).not.toContain("2026-01");
+    expect(offerLater.sentence).not.toContain("January");
+  });
+
   it("says nothing about offers when none is outstanding", () => {
     const { world, personId } = adultLife({ startAge: 34 }, "pt3-no-offer");
     const role = projectWorkRole(world, personId);

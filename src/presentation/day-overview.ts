@@ -105,7 +105,18 @@ export function projectToday(world: World, personId: EntityId): TodayOverview {
       // exists to answer, and an unanswered offer of work is exactly that.
       ...offersAwaitingAnswer(world, personId).map((offer) => ({
         key: `work-offer:${offer.relationshipId}`,
-        sentence: `${offer.roleTitle}: an offer of work is waiting for your answer, to start on ${proseDate(offer.startsOn)}.`,
+        // The start date is quoted only while it is still ahead. An offer
+        // written on the first day carries a start date of the next one, and
+        // an unanswered offer keeps that date as time passes: eleven weeks
+        // later the day was reading "to start on January 6" about a date long
+        // gone, which is worse than saying nothing, because a start date in
+        // the past reads as a broken game rather than an open decision. The
+        // date is not re-stated as something acceptance would settle, because
+        // nothing here moves it.
+        sentence:
+          offer.startsOn > world.currentDate
+            ? `${offer.roleTitle}: an offer of work is waiting for your answer, to start on ${proseDate(offer.startsOn)}.`
+            : `${offer.roleTitle}: an offer of work is waiting for your answer.`,
       })),
     ],
   };

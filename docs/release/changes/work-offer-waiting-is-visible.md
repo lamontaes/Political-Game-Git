@@ -16,3 +16,7 @@ The day's own summary now names an offer that has not been answered, and it
 appears under what is waiting on you alongside everything else that needs a
 decision. It is still not a job, and it is not counted as one until you accept
 it.
+
+While the start date is still ahead the day says when the work would begin. Once
+that date has gone by it is not repeated, because an offer that has sat
+unanswered for weeks should not keep naming a start date in the past.
