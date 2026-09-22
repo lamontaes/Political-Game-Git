@@ -375,7 +375,12 @@ function establishAgeEligibleState(
     // accept, and it should not: that would be a false biography, not a
     // bookkeeping quirk.
     void depth;
-    const withEarlierLife = summarizeEarlierLife(world, player, jurisdictionId);
+    const withEarlierLife = summarizeEarlierLife(
+      world,
+      player,
+      jurisdictionId,
+      givenNameGenerationVersion,
+    );
     transitions.push({
       kind: "household-membership",
       input: {
@@ -917,6 +922,7 @@ function summarizeEarlierLife(
   world: World,
   player: Person,
   jurisdictionId: EntityId,
+  givenNameGenerationVersion: GivenNameGenerationVersion,
 ): World {
   const stableKey = "production:earlier-life";
   const next = applyCharacterHistoryPlan(
@@ -925,6 +931,7 @@ function summarizeEarlierLife(
       stableKey,
       personId: player.id,
       jurisdictionId,
+      givenNameGenerationVersion,
     }),
   ).world;
   return applyCharacterHistoryPlan(next, {

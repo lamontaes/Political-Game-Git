@@ -18,7 +18,7 @@ import {
   recordOrganizationProfile,
 } from "../life";
 import { organizationParticipationStateAt } from "../life-queries";
-import { drawCanonicalName } from "../people";
+import { drawCanonicalNamedIdentity } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import type {
@@ -269,8 +269,10 @@ export function ensurePartyLeadership(
       const personRng = rng.fork(memberKey(index));
       return {
         stableKey: memberKey(index),
-        ...drawCanonicalName(personRng.fork("name")),
-        identity: generatePersonIdentity(personRng.fork("identity")),
+        ...drawCanonicalNamedIdentity(
+          personRng.fork("name"),
+          generatePersonIdentity(personRng.fork("identity")),
+        ),
         // Adults only: an officer must have been able to hold the role.
         birthDate: makeIsoDate(
           `${Number(date.slice(0, 4)) - personRng.integer(30, 76)}-${String(personRng.integer(1, 13)).padStart(2, "0")}-${String(personRng.integer(1, 29)).padStart(2, "0")}`,
@@ -1766,8 +1768,10 @@ export function ensurePartyGoverningBodies(
           const personRng = rng.fork(memberKey(chapter.organizationId, index));
           return {
             stableKey: memberKey(chapter.organizationId, index),
-            ...drawCanonicalName(personRng.fork("name")),
-            identity: generatePersonIdentity(personRng.fork("identity")),
+            ...drawCanonicalNamedIdentity(
+              personRng.fork("name"),
+              generatePersonIdentity(personRng.fork("identity")),
+            ),
             birthDate: makeIsoDate(
               `${Number(date.slice(0, 4)) - personRng.integer(21, 78)}-${String(personRng.integer(1, 13)).padStart(2, "0")}-${String(personRng.integer(1, 29)).padStart(2, "0")}`,
             ),

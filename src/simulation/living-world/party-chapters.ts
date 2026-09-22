@@ -21,7 +21,7 @@ import {
   homeLocalGovernmentUnits,
   localGovernmentDisplayName,
 } from "../nationwide-world/local-governments";
-import { drawCanonicalName, personName } from "../people";
+import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { recordEventKnowledge } from "../records";
 import { SeededRng } from "../rng";
@@ -154,8 +154,10 @@ export function ensureHomePartyChapters(
       const personRng = rng.fork(chapterOrganizerKey(party.partyKey));
       return {
         stableKey: chapterOrganizerKey(party.partyKey),
-        ...drawCanonicalName(personRng.fork("name")),
-        identity: generatePersonIdentity(personRng.fork("identity")),
+        ...drawCanonicalNamedIdentity(
+          personRng.fork("name"),
+          generatePersonIdentity(personRng.fork("identity")),
+        ),
         birthDate: makeIsoDate(
           `${Number(date.slice(0, 4)) - personRng.integer(28, 72)}-${String(personRng.integer(1, 13)).padStart(2, "0")}-${String(personRng.integer(1, 29)).padStart(2, "0")}`,
         ),

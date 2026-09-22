@@ -12,7 +12,7 @@ import { createStableId } from "../ids";
 import { stateJurisdictionForKey } from "../life-places";
 import { US_STATE_NAMES } from "../nationwide-world/state-executive-candidacy-packs";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
-import { drawCanonicalName, personName } from "../people";
+import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng, pickDistinct } from "../rng";
 import type { EntityId, IsoDate, LifeRecordProvenance, World } from "../types";
@@ -379,8 +379,10 @@ export function ensureLivingWorldOpening(
     const seatRng = rng.fork(`seat:${plan.seat.seatKey}`);
     memberInputs.push({
       stableKey: plan.memberKey,
-      ...drawCanonicalName(seatRng.fork("name")),
-      identity: generatePersonIdentity(seatRng.fork("identity")),
+      ...drawCanonicalNamedIdentity(
+        seatRng.fork("name"),
+        generatePersonIdentity(seatRng.fork("identity")),
+      ),
       birthDate: plan.birthDate,
       homeJurisdictionId: stateJurisdictionForKey(`US-${plan.seat.stateUsps}`)!
         .id,

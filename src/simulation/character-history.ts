@@ -55,7 +55,11 @@ import {
   recordMemory,
   recordRelationshipInteraction,
 } from "./records";
-import { drawCanonicalName } from "./people";
+import {
+  drawCanonicalNamedIdentity,
+  LEGACY_GIVEN_NAME_GENERATION_VERSION,
+  type GivenNameGenerationVersion,
+} from "./people";
 import { residentNameForJurisdiction } from "./life-places";
 import { generateSchoolNames } from "./school-names";
 import {
@@ -2162,9 +2166,17 @@ export function generateQuickCharacterHistory(
     readonly stableKey: string;
     readonly personId: EntityId;
     readonly jurisdictionId: EntityId;
+    /**
+     * Versioned independently, like every other naming change, so an old
+     * replay descriptor that never named a version keeps the draw it was
+     * written under rather than being quietly renamed.
+     */
+    readonly givenNameGenerationVersion?: GivenNameGenerationVersion;
   },
 ): CharacterHistoryPlan {
   const person = requirePerson(world, input.personId);
+  const givenNameGenerationVersion =
+    input.givenNameGenerationVersion ?? LEGACY_GIVEN_NAME_GENERATION_VERSION;
   const rng = new SeededRng(world.seed).fork(
     `character-history-v1:${input.personId}:${input.stableKey}`,
   );
@@ -2191,6 +2203,25 @@ export function generateQuickCharacterHistory(
   const parentId = characterHistoryContextPersonId(world, parentKey);
   const peerId = characterHistoryContextPersonId(world, peerKey);
   const teacherId = characterHistoryContextPersonId(world, teacherKey);
+  // The parent, the peer and the teacher are the three people an adult start
+  // actually meets, and the player meets them on the second day. Each draws
+  // its identity on its own forked stream, exactly as before, so no generated
+  // gender moves; the name is then drawn to agree with it. The names already
+  // handed out are passed along so the three cannot collide — a household that
+  // offers "Tell Charles Rush" about Charles Rush is an unanswerable scene.
+  const spokenFor: string[] = [];
+  const named = (suffix: string) => {
+    const drawn = drawCanonicalNamedIdentity(
+      rng.fork(suffix),
+      generatePersonIdentity(rng.fork(`${suffix}:identity`)),
+      {
+        generationVersion: givenNameGenerationVersion,
+        takenGivenNames: spokenFor,
+      },
+    );
+    spokenFor.push(drawn.givenName);
+    return drawn;
+  };
   const home = key("household");
   const elementary = key("elementary-school");
   const middleSchool = key("middle-school");
@@ -2215,8 +2246,12 @@ export function generateQuickCharacterHistory(
         // Every canonical name comes from the versioned corpus through the
         // seeded generator. A module keeping a private list of three first
         // names is how a whole cast ends up sharing them.
-        ...drawCanonicalName(rng.fork("parent")),
-        identity: generatePersonIdentity(rng.fork("parent:identity")),
+        //
+        // Name and identity are drawn together, because drawing them apart is
+        // what gave the owner a father called Maria: the pronouns came off one
+        // stream and the name off the whole corpus on another, with nothing
+        // joining them.
+        ...named("parent"),
         // A child usually shares a name with whoever raised them. A household
         // convention, and no claim about either of them beyond that.
         familyName: person.familyName,
@@ -2228,8 +2263,7 @@ export function generateQuickCharacterHistory(
       kind: "context-person",
       input: {
         stableKey: peerKey,
-        ...drawCanonicalName(rng.fork("peer")),
-        identity: generatePersonIdentity(rng.fork("peer:identity")),
+        ...named("peer"),
         // Born the same year, because a peer has to actually be one.
         birthDate: age(0),
         homeJurisdictionId: input.jurisdictionId,
@@ -2239,8 +2273,7 @@ export function generateQuickCharacterHistory(
       kind: "context-person",
       input: {
         stableKey: teacherKey,
-        ...drawCanonicalName(rng.fork("teacher")),
-        identity: generatePersonIdentity(rng.fork("teacher:identity")),
+        ...named("teacher"),
         // An adult, because the role requires one.
         birthDate: yearsBefore(person.birthDate, 30),
         homeJurisdictionId: input.jurisdictionId,

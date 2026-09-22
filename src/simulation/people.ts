@@ -801,3 +801,49 @@ export function drawCanonicalNameForGender(
   }
   return { givenName, familyName: drawn.familyName };
 }
+
+/**
+ * A name and the identity it agrees with, drawn as one act.
+ *
+ * `drawCanonicalNameForGender` has existed since OCD-UI-003 and is correct.
+ * The defect it was written for kept happening anyway, because honouring it is
+ * opt-in: a writer that draws a name on one stream and an identity on another
+ * gets a person whose two halves were never introduced, and nothing complains.
+ * Measured on this branch before the repair, an adult start in Lexington gave
+ * 29 of 72 generated people a given name from the opposite pool — the owner
+ * met a man called Maria and correctly called him "your dad".
+ *
+ * So the pairing is the unit. A route passes the identity it already draws —
+ * on its own stream, under its own key, so no generated gender moves — and
+ * gets back the name together with it. There is one call, one spread, and no
+ * way to take the name without the identity that shaped it.
+ *
+ * The direction is still OCD-UI-003's: gender is the input, and no name is
+ * ever read backwards to decide one. An `unstated` identity keeps the
+ * unrestricted draw, because a person the world says nothing about must not be
+ * given a name that implies something.
+ */
+export function drawCanonicalNamedIdentity(
+  rng: SeededRng,
+  identity: PersonIdentity,
+  options: {
+    readonly corpusVersion?: string;
+    readonly generationVersion?: GivenNameGenerationVersion;
+    readonly takenGivenNames?: readonly string[];
+  } = {},
+): {
+  readonly givenName: string;
+  readonly familyName: string;
+  readonly identity: PersonIdentity;
+} {
+  return {
+    ...drawCanonicalNameForGender(
+      rng,
+      identity.gender,
+      options.corpusVersion,
+      options.generationVersion ?? LEGACY_GIVEN_NAME_GENERATION_VERSION,
+      options.takenGivenNames ?? [],
+    ),
+    identity,
+  };
+}

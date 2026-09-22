@@ -1,0 +1,38 @@
+{
+  "filedAt": "2026-09-22T16:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "The direction is settled and this does not reopen it. A crossing rate is applied when the generator draws a name for a gender it already holds; no name is ever read to infer a gender.",
+    "A band per direction is more useful than a figure. A rate the game can defend as roughly right is actionable; a decimal would read as a measurement the game never made.",
+    "The neutral pool is thirty-six names sorted by hand and is currently reachable only by people recorded non-binary. Whether those names belong to everyone at some rate is part of the same question, not a separate one.",
+    "This is a generation rule, never an observation: it must never be read back as a claim about any particular person, real or generated."
+  ],
+  "priority": "P2",
+  "question": "In the United States, how often is a given name that most people read as belonging to one gender actually carried by someone of another gender, and how does that rate vary — by the name itself, by the decade somebody was born in, and by whether the name is a long-established one or a recent arrival? Which names are genuinely shared rather than read one way with exceptions?",
+  "questionId": "cross-gender-given-name-rate",
+  "relatedQuestionIds": [],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "gendered given names thread (technical team lead)",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/names-data.ts, GIVEN_NAME_GENERATION_POOLS_V1, on claude/project-thread-1wv2e2",
+      "whatItDidNotSettle": "Carries the partition in use — 171 male, 139 female, 36 neutral, covering all 346 corpus names exactly once — and nothing recorded says how the three were sorted, on what evidence, or how often the sorting should be crossed. The header states the corpus deliberately carries no demographic attribute, so the partition sits beside the corpus rather than in it."
+    },
+    {
+      "source": "src/simulation/people.ts, drawCanonicalNameForGender and drawCanonicalNamedIdentity, on claude/project-thread-1wv2e2",
+      "whatItDidNotSettle": "Shows the draw: a stated or generated gender selects one of three pools and the name comes from inside it, with no crossing at all. The place a rate would be applied is one function; the rate itself is not recorded anywhere."
+    },
+    {
+      "source": "U.S. Social Security Administration National Data on the Relative Frequency of Given Names, cited as the corpus provenance in names-data.ts",
+      "whatItDidNotSettle": "The published tables report counts by sex per name per year, which is exactly the shape an answer needs, but the repository holds only the curated name list drawn from them and not the counts. Nothing here has read the underlying frequencies, and the egress proxy blocks the publisher."
+    },
+    {
+      "source": "docs/decisions/DECISION-LOG.md, OCD-UI-003",
+      "whatItDidNotSettle": "Settles the direction — gender is the input to name generation and a name is never read backwards to decide a gender — which this question does not disturb. It says nothing about how tightly the input should constrain the draw."
+    }
+  ],
+  "title": "How often an American given name is carried by someone of another gender",
+  "usableAnswer": "A crossing rate the generator can apply, expressed as a band rather than a figure: roughly what share of people carrying a name read as male are not male, and the same the other way, with the reasoning behind it. A line on whether that share moves with birth decade and in which direction. A list of the given names that are genuinely shared in American use rather than read one way with exceptions, so the neutral pool can be drawn from real usage rather than from a hand-sorted list. If the honest answer is that the rate is too name-specific to give as one band, say so and say what the generator should key on instead.",
+  "whyItMatters": "The generator now draws a given name from the pool that matches the gender the world recorded, which is what stops a man being named Maria. Drawn strictly, it can never produce a woman called Michael or a man called Ashley, and those people exist. A partition with no crossing rate is a national constant standing in for something that varies by name and by generation, which is the same defect in the other direction: believable at every single person and wrong across a population. The game already has the birth year of every person it generates, so a rate that moves by decade is usable rather than decorative."
+}
