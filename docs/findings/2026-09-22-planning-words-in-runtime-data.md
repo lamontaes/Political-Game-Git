@@ -111,3 +111,56 @@ exception.
 
 Not fixed here. `CampaignWorkspace.tsx` is a live surface with other lanes in
 it, and this is one line of render to remove once somebody says which way.
+
+## 5. A fifth species: a number that was never confirmed, and one national constant for fifty states
+
+Added after the first pass, on two patterns named by the coordinator: a single
+national constant standing in for something that really varies is itself the
+defect, and "pending the director's confirmation" in source is a smell rather
+than a status, because a number waiting for approval is a number nobody
+researched.
+
+Five blocks carry that exact marker at main `1c4992e8`. No confirmation is
+recorded anywhere, and all five have been live in play the whole time.
+
+| Where                                                      | What it fixes nationally                                                                                                                                                                                                                                                               |
+| ---------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `living-world/congress-turnover.ts:52`                     | Incumbent returns 850/1000 in the House, 800 in the Senate; retirement at 82; an open seat holds for the departing member's party 750/1000. One pair of numbers for every district and both parties.                                                                                   |
+| `nationwide-world/state-executive-turnover-calendar.ts:25` | Candidate field closes 60 days before the general; incumbent steps down after 2 consecutive terms; retirement at 78; an eligible incumbent runs again 800/1000. Filing deadlines and gubernatorial term limits both vary by state, and Virginia's rule is not a count of terms at all. |
+| `nationwide-world/state-executive-term-rules.ts:75`        | A four-year term and a January commencement, for every state that is not verified.                                                                                                                                                                                                     |
+| `governing/governing-calendar.ts:13`                       | Budget season opens 12-01; the legislature sends the governor a bill on exactly 02-15, 03-15 and 04-15; a veto is overridden 25% of the time. One session calendar for fifty legislatures, several of which do not meet every year.                                                    |
+| `governing/legislative-clock.ts:90`                        | 3 days between institutional steps; 7 days from referral to a scheduled hearing.                                                                                                                                                                                                       |
+
+Filed as `proposed-balance-parameters-nobody-confirmed` (P1).
+
+### The one that is wrong as a matter of law
+
+`stateExecutiveTermRule` holds a `VERIFIED` map with **exactly one entry,
+Washington**, cited to RCW 43.01.010 and RCW 29A.04.321. Every other state
+falls through to the proposed profile. Executed against the real function:
+
+```
+NH termYears= 4 basis= game-profile sources= 0
+VT termYears= 4 basis= game-profile sources= 0
+WA termYears= 4 basis= verified    sources= 3
+KY termYears= 4 basis= game-profile sources= 0
+TX termYears= 4 basis= game-profile sources= 0
+```
+
+**New Hampshire and Vermont governors serve two-year terms.** The game gives
+them four. That is not a balance parameter standing in for a spread; it is a
+fact the game has wrong about two states, and it has been wrong since the
+profile was written.
+
+The mechanism is already right — `VERIFIED` overrides per state and records
+`basis: "verified"` with its sources — so each answered state is one entry in
+that map and nothing needs building. What blocks it here is retrieval: the
+egress proxy returns 403 for every state publisher from this container, so the
+instruments cannot be fetched to cite. Filed as
+`governor-term-length-outside-washington` (P0), with NH and VT named as the two
+rows worth doing first.
+
+**The reusable line:** a marker saying a number is awaiting confirmation is not
+a status, it is an unanswered question with a value shipping in the meantime.
+Grep for it — `pending the director's confirmation` finds all five — and treat
+each hit as a filed question rather than a note.
