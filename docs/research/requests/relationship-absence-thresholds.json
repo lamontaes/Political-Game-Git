@@ -5,10 +5,11 @@
   "notes": [
     "The shape follows DEPTH2 A03: fading is a state (current, less current, dormant, reconnecting), read from dated history, never a number shown or stored. Only the thresholds between states are open.",
     "The thresholds are relative to each pair: a relationship stops being current after three of the pair's usual gaps between meetings (at least 60 days); it goes dormant after four times that, or a third of how long they have known each other, whichever is longer (at least a year); kin take three times as long; a single meeting is treated as a 90-day rhythm. Sharing a home or a workplace is never absence.",
-    "A03 says no universal pace is established and allows labelled private-playtest calibration. These are that calibration, labelled in the code. This asks whether any better evidence exists, or whether they should be judged in a playtest."
+    "A03 says no universal pace is established and allows labelled private-playtest calibration. These are that calibration, labelled in the code. This asks whether any better evidence exists, or whether they should be judged in a playtest.",
+    "The same question covers how the five lines are read at all. The old single score (minor 1, meaningful 2, major 3, summed, close at 3) is gone. Each line now reads its own evidence: an interaction bears only on the lines its kind names, weighted minor 1, meaningful 2, major 3 and by direction (formed or strengthened 2, maintained 1, strained -2, ended -3), and a line is marked at 4 and strong at 9. Nothing of this is ever shown as a number, but the weights and cutoffs are ours and unresearched."
   ],
   "priority": "P2",
-  "question": "Are the calibrated thresholds at which a relationship stops being current and goes dormant reasonable, and is there evidence to set them better, including for kin, for colleagues who no longer work together, and for childhood friends?",
+  "question": "Are the calibrated thresholds at which a relationship stops being current and goes dormant, and at which each of the five lines reads as marked or strong, reasonable, and is there evidence to set them better, including for kin, for colleagues who no longer work together, and for childhood friends?",
   "questionId": "relationship-absence-thresholds",
   "relatedQuestionIds": ["relationship-fading-with-absence"],
   "requestVersion": "research-request/v1",
