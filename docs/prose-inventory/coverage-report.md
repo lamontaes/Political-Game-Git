@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 3166 |
 | INTENTIONALLY_NON_PLAYER_FACING | 7074 |
-| DIAGNOSTIC_OR_TEST | 7613 |
-| **NEEDS_CLASSIFICATION** | **10286** |
+| DIAGNOSTIC_OR_TEST | 7603 |
+| **NEEDS_CLASSIFICATION** | **10277** |
 
-Scanned 1151 files holding 111882 string
+Scanned 1151 files holding 111799 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -46,7 +46,7 @@ literals in total; the table counts only those that read like a sentence.
 | 119 | `src/simulation/opening-life-content.ts` |
 | 117 | `src/simulation/civil-personnel-actions.ts` |
 | 111 | `src/presentation/guide-terms.ts` |
-| 99 | `src/simulation/adult-situations.ts` |
+| 101 | `src/simulation/adult-situations.ts` |
 | 99 | `src/simulation/governing/state-governing.ts` |
 | 87 | `src/simulation/policy.ts` |
 | 84 | `src/maps/political-map-model.ts` |
@@ -60,7 +60,6 @@ literals in total; the table counts only those that read like a sentence.
 | 65 | `src/simulation/campaign-opponents.ts` |
 | 64 | `src/simulation/press/desk.ts` |
 | 62 | `src/simulation/people-study-plan.ts` |
-| 61 | `src/simulation/life-opportunities.ts` |
 | 61 | `src/simulation/press-interviews.ts` |
 | 59 | `src/presentation/legislative-dialogue-motifs.ts` |
 | 54 | `src/presentation/run-c-working-document.ts` |
@@ -70,6 +69,7 @@ literals in total; the table counts only those that read like a sentence.
 | 51 | `src/simulation/resources.ts` |
 | 50 | `src/player/DocketWorkspace.tsx` |
 | 50 | `src/simulation/judicial-office-content.ts` |
+| 50 | `src/simulation/life-opportunities.ts` |
 | 50 | `src/simulation/life.ts` |
 | 48 | `src/simulation/legislation-scenarios.ts` |
 | 48 | `src/simulation/life-episodes.ts` |
