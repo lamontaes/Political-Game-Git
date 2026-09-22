@@ -72,7 +72,10 @@ export interface StateExecutiveTermRule {
 /**
  * The game's disclosed state-executive profile.
  *
- * PROPOSED PARAMETERS, pending the director's confirmation: a four-year term,
+ * PROVISIONAL PARAMETERS, awaiting SOURCED RULES rather than anyone's sign-off
+ * (filed as executive-terms-and-incumbency-turnover). Two states run two-year
+ * gubernatorial terms, so a universal four years is already wrong for them:
+ * a four-year term,
  * regular elections in the cycle that contains 2026, a November general
  * election on the first Tuesday after the first Monday, and a term that begins
  * on the first Monday of January after the election. Changing any value means
