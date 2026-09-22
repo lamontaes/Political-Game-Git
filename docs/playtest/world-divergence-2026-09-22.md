@@ -31,6 +31,17 @@ downstream reads the record.
 One Kentucky save, one seed, run forward with the ordinary transition registry
 and sampled as it went.
 
+**A scope caveat added 15:45Z, and it is not a small one.** That save's place
+is `kentucky`, whose `scope` is `"state"`, confirmed by reading the record
+rather than assuming it. The playtest lane swept all 51 states and found that
+every one of the 35,582 town-scope places carries
+`legislativeScenarioKey: null` — the legislative start opens in **no town in
+America**, only in nine whole states, Kentucky among them. So this save is the
+state-scope arm, and it seats a legislature that a save in a town cannot. Every
+figure below is measured in a world of that shape. Where the same figure is
+measured again in a town save it may differ, and the party-record counts are
+the ones most likely to.
+
 **Year two, from a standing start:**
 
 |                             | at birth of the world | after two years       |
