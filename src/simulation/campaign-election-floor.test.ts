@@ -29,7 +29,7 @@ describe("the result respects the floor the campaign respected", () => {
       seed: "election-floor",
       startAge: 40,
       startKind: "normal",
-      depth: "begin-adult-life",
+      depth: "summarize-earlier-life",
     });
     let world = fileForOffice(
       created.game.world,
@@ -45,7 +45,7 @@ describe("the result respects the floor the campaign respected", () => {
       if (projectCampaign(world, personId).phase !== "active") break;
       for (let slot = 0; slot < 6; slot += 1) {
         const offers = projectCampaign(world, personId).offers.filter(
-          (offer) => offer.available !== false,
+          (offer) => offer.unavailable === null,
         );
         if (offers.length === 0) break;
         try {
