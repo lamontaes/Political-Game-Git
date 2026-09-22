@@ -48,6 +48,47 @@ section 0, on `main` at `d4dca882`.
 
 ---
 
+## 0b. The realistic range was agreed and never built
+
+Checked directly on `claude/congress-factions-cg1u98` at `055bc5ac`, by
+searching for the instrument under every name it might carry rather than the
+one expected, and by asking what provenance a generated rule actually records.
+
+The project record says seven states were read and forty-three plus DC are
+generated from the national range. **The second half of that sentence describes
+an intention, not the game.** No module, constant or document in `src/`, in
+`scripts/` or in `docs/` implements a range, and none names one.
+
+What exists instead is `STATE_EXECUTIVE_GAME_PROFILE`
+(`src/simulation/nationwide-world/state-executive-term-rules.ts:84-100`): a
+single frozen constant — four-year terms, a November election every four years,
+a term beginning the first Monday of January — applied identically to every
+state whose real rule has not been compiled, and honestly labelled
+`game-profile` wherever a player inspects the office. It is a disclosed default,
+which is the right shape for a default. It is not a range: it does not vary
+state to state, it is not drawn from the span the read states cover, and it is
+the same value everywhere, which is the single national average the range rule
+was written to rule out.
+
+The legislature side has no default at all.
+`LEGISLATIVE_RULE_PACKS` (`legislature-rule-packs.ts:2534`) is nine hand-written
+states. Every other jurisdiction resolves through `unknownRule`
+(`legislature-rules.ts:77`), which is a refusal carrying a note.
+
+So the corrected figure for the report is: **seven states read; the rest not
+generated but unhandled** — a uniform disclosed default for the governor's term
+and clock, and a refusal for everything about a legislature. DC refuses
+candidacy outright for a missing minimum age, and Puerto Rico is absent from the
+coverage report entirely.
+
+That makes the realistic-range rule a different conversation from the one it has
+been having all night. It is not something built and being tuned. It was agreed
+and never started, and the 719-claim ledger with 649 claims rejected for want of
+a fetched authority is what stands in its place: a design that refuses rather
+than generates, exactly the behaviour the rule was written to abolish.
+
+---
+
 ## 1. Four systems recorded as never started are built and reachable in play
 
 The project record listed seven areas as never touched. Four of them ship today
