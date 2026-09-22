@@ -3199,3 +3199,51 @@ answer here should be consistent with that rather than invented separately.
 opposite: putting people in a college is the half that is missing, since there
 is currently nobody there at all. What is refused is the bond arriving with
 them.
+
+## D-093 — People decide their own positions, positions change, and a party does not decide for its members
+
+**Decided by the owner, 2026-09-22**, on being shown that no ordinary person in
+the game has a party and that a person's position inside a party is a seeded
+draw reading nothing about them. His words: "people need to decide themselves.
+and that can change. and their party doesnt solely define their decisions. just
+like real life".
+
+**What this rules out.** Three designs are now out of scope, and none of them
+needs proposing again:
+
+- **Deriving a position from a party.** The causation runs the other way, or at
+  least not only that way. A party may follow from what somebody holds; what
+  somebody holds does not follow from their party.
+- **A position decided once and never revisited.** He said explicitly that it
+  can change, which is the same shape he already settled for personality, where
+  how hard something is to move depends on how strongly it is held.
+- **Party membership as a predictor** that decides how a member votes or acts.
+  A party is not a proxy for its members' convictions.
+
+**What it does not settle**, and is filed for research as
+`where-a-persons-politics-comes-from` rather than assumed: what a person draws
+on to decide a position, what weight each thing carries, and at what pace a
+position moves.
+
+**The requirement this joins.** Three things previously read as separate gaps
+are one requirement, and answering them separately would produce three
+unrelated mechanisms:
+
+> A person's own character and history decide their positions; their positions
+> and their conduct decide their relationships; and their party follows from
+> those rather than preceding them.
+
+The three faces, measured at `1eb5e30e`: no ordinary person holds a party at
+all, because affiliation is written only for seated executives, chapter
+organizers, and the consequences of party evolution
+(`living-world/opening.ts:390`, `party-chapters.ts:195`, `party-evolution.ts:308`);
+a person's position inside a party is a coin flip, because `partyActorStance`
+(`party-evolution.ts:161-175`) forks the world seed on the person and the
+question and reads no trait, value, goal, life event or relationship; and a
+private belief cannot be recorded at all, because every writer requires a
+policy proposition and the loaded pack declares none. See also D-092, which
+settles the relationship half of the same requirement.
+
+> Numbering note: appended as D-093 at 15:50Z on `claude/people-and-life-4qpuwb`.
+> If another lane claimed the number first, renumber this entry rather than the
+> one already on main, as the note under D-091 records.
