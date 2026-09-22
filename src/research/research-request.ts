@@ -608,7 +608,9 @@ export function renderOpenQuestions(
  * its source diverge inside an hour.
  */
 const FOR_THE_READER: readonly string[] = [
-  "-----",
+  // Three dashes, not more: prettier normalises a longer rule and the rendered
+  // document is format-checked like any other file in this repository.
+  "---",
   "",
   "## For whoever is answering these",
   "",
