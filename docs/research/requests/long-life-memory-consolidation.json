@@ -22,9 +22,7 @@
   "priority": "P1",
   "question": "Across a played lifetime of decades, which moments should a person still be able to recall unprompted, which should survive only as a general impression of a period or a person, and which should be gone entirely — and what makes the difference between the three?",
   "questionId": "long-life-memory-consolidation",
-  "relatedQuestionIds": [
-    "relationship-dimensions-and-fading"
-  ],
+  "relatedQuestionIds": ["relationship-dimensions-and-fading"],
   "requestVersion": "research-request/v1",
   "requestedBy": "research audit thread (technical team lead)",
   "sourcesChecked": [

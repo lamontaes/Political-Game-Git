@@ -21,9 +21,7 @@
   "priority": "P1",
   "question": "Which distinct dimensions should a relationship between two simulated people carry — affection, trust, respect, obligation, rivalry and whatever else earns a place — how do they move independently of one another, and what happens to each across years of no contact?",
   "questionId": "relationship-dimensions-and-fading",
-  "relatedQuestionIds": [
-    "ordinary-life-trait-set"
-  ],
+  "relatedQuestionIds": ["ordinary-life-trait-set"],
   "requestVersion": "research-request/v1",
   "requestedBy": "research audit thread (technical team lead)",
   "sourcesChecked": [

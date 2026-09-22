@@ -19,10 +19,7 @@
   "priority": "P1",
   "question": "What kinds of private aim should an ordinary simulated adult hold across a life — and for each kind, what does pursuing it consist of week to week, what does the person do when it is blocked, and what makes them abandon it or replace it with another?",
   "questionId": "npc-private-goal-pursuit",
-  "relatedQuestionIds": [
-    "ordinary-life-trait-set",
-    "personality-change-pace"
-  ],
+  "relatedQuestionIds": ["ordinary-life-trait-set", "personality-change-pace"],
   "requestVersion": "research-request/v1",
   "requestedBy": "research audit thread (technical team lead)",
   "sourcesChecked": [
