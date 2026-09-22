@@ -4,6 +4,7 @@ import {
   DEFAULT_AUTHORED_TUITION_GRACE_DAYS,
 } from "../simulation/education-study-terms";
 import { loadEducationCatalog } from "../education/catalog-load";
+import { preferredAcademicYear } from "../education/vintage";
 import { useEffect, useMemo, useState } from "react";
 import type { World } from "../simulation/types";
 import type { EducationInstitution } from "../education/types";
@@ -59,11 +60,16 @@ export function EducationOptionsPanel({
     };
   }, [kind]);
   const availableCatalog = useMemo(() => {
+    // One row per institution, from the newest directory vintage that has
+    // already begun at this save's date. Which vintages exist is the shipped
+    // catalog's business, not this panel's.
+    const expected = preferredAcademicYear(
+      catalog.map((r) => r.sourceYear),
+      world.currentDate,
+    );
     const byId = new Map<string, EducationInstitution>();
     for (const r of catalog) {
       const prior = byId.get(r.id);
-      const expected =
-        world.currentDate >= "2025-07-01" ? "2025-26" : "2024-25";
       if (!prior || r.sourceYear === expected) byId.set(r.id, r);
     }
     return [...byId.values()];

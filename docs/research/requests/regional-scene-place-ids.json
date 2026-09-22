@@ -1,0 +1,37 @@
+{
+  "filedAt": "2026-09-22T02:30:00.000Z",
+  "impact": "blocks-work",
+  "lane": "art bench and regional scenes",
+  "notes": [
+    "Counties are the cheaper answer and they now work. A saved town carries the counties it lies in, from the 2020 place-within-county crosswalk, so naming a county covers everybody in it without enumerating its towns. Reach for place identifiers only where a county is genuinely too coarse — a county with a mountain range in it is the usual case.",
+    "Every identifier must be a quoted string: \"04019\", not 4019. A county is exactly 5 characters and a place exactly 7. Numbers destroy leading zeros, and 21 of the 32 identifiers already in the file begin with one.",
+    "An empty list is a real answer. A region whose honest answer is that no county can be named without more work should come back with empty lists rather than a guess; a region nothing matches shows no picture, which is the current behaviour and costs nothing.",
+    "The full request, with each region's own research text quoted back and a worked example, is generated in the repository at art/regions/regional-place-id-request.md and published to Drive at https://drive.google.com/file/d/14nwVTqOozVSlzjZzhmhOU0_kVgsRQjRl/view"
+  ],
+  "priority": "P1",
+  "question": "For each of the eighteen regional introduction scenes that no place, county or state currently names, which 5-digit county GEOIDs and 7-digit place GEOIDs, at 2020 Census vintage, identify the residents who should see that scene?",
+  "questionId": "regional-scene-place-ids",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "art bench and regional scenes thread",
+  "sourcesChecked": [
+    {
+      "source": "art/regions/regional-scene-places.json, the coverage document itself",
+      "whatItDidNotSettle": "Carries all 23 regions with the owner's geographic prose attached as a research block, but only 5 of them have selectors. The other 18 have empty includeStates, includeCounties and includePlaces, which is why they match nobody."
+    },
+    {
+      "source": "The previous research round's own text, carried as the research block on each region in art/regions/regional-scene-places.json",
+      "whatItDidNotSettle": "It came back as geographic prose rather than identifiers — 'the lower, warmer parts of Pima, Pinal and Maricopa' — which is the input to this question rather than its output. The resolver never reads those blocks and cannot; they are quoted back to the researcher in the full request so the question is not restated in somebody else's words."
+    },
+    {
+      "source": "src/simulation/place-county-relations.generated.ts, the 2020 redistricting place-within-county parts",
+      "whatItDidNotSettle": "Establishes which counties a place lies in, which is what makes a county answer usable at all, and is now wired into the resolver. It cannot say which counties belong to a described landscape; that judgement is the work being asked for."
+    },
+    {
+      "source": "src/simulation/life-places.ts, the 2025 Gazetteer corpus the game starts lives in",
+      "whatItDidNotSettle": "Confirms that the 32 place identifiers already in the file name places a life can start in, so the format is proven. It holds no landform, biome or scene classification, so nothing in it can be selected on."
+    }
+  ],
+  "title": "Which counties and places each of eighteen regional introduction scenes covers",
+  "usableAnswer": "A JSON array, one object per region, with regionKey exactly as the coverage document writes it and a places object carrying includeStates, includeCounties, excludeCounties, includePlaces and excludePlaces as quoted Census strings, plus a note saying what the list claims and what it deliberately does not. Regions may be answered in any order and one may be left out entirely if it is not being answered.",
+  "whyItMatters": "Eighteen of the twenty-three regional scenes are shown to no player at all today, because the resolver matches on state, county and place identifiers and those eighteen regions declare none. This is coverage a player would see on the opening step, not tidying. The pictures are drawn and the resolver works; the identifiers are the only missing part."
+}

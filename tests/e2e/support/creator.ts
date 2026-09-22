@@ -98,13 +98,38 @@ export async function chooseCreatorLocation(
   }
 
   await page.getByTestId("place-search").fill(hometown.townQuery ?? "");
-  await page
-    .getByTestId("place-choices")
-    .getByRole("button")
-    .filter({ hasText: new RegExp(hometown.townMatch ?? "^$", "i") })
-    .first()
-    .click();
+  const choices = page.getByTestId("place-choices").getByRole("button");
+  // The list is counted below rather than clicked straight through, so wait
+  // for it the way a click would have.
+  await expect(choices.first()).toBeVisible();
+  /*
+   * Take the town that was asked for, not the first one whose name contains
+   * it.
+   *
+   * The search is a prefix of the name, so asking for Baltimore in Maryland
+   * offers Baltimore Highlands first and this used to click it: the life
+   * started in a different place from the one the spec named, and the spec
+   * only noticed if it later read the place back. Every choice's own label is
+   * "<Town>, <State>", so anchoring on that picks the town itself when it is
+   * on offer. The looser contains-match stays as the fallback for a caller
+   * naming a town whose label is spelled differently from its query.
+   */
+  const exact = choices.filter({
+    hasText: new RegExp(
+      `^${escapeForRegExp(`${hometown.townMatch ?? ""}, ${hometown.stateName}`)}`,
+    ),
+  });
+  if ((await exact.count()) > 0) await exact.first().click();
+  else
+    await choices
+      .filter({ hasText: new RegExp(hometown.townMatch ?? "^$", "i") })
+      .first()
+      .click();
   await page.getByTestId("creator-continue-place").click();
+}
+
+function escapeForRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 /**
