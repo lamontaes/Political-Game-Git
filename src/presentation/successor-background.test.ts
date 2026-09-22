@@ -31,12 +31,12 @@ import { projectPeopleDirectory } from "./people-directory";
  * as a player he knew one person and had nobody at home. These are the same
  * three people, measured from where the player stands.
  */
-function retiredAdult() {
+function retiredAdult(startAge = 34) {
   const game = generateOpeningLife(
     prepareOpeningLife({
       ...DEFAULT_NEW_GAME_SETUP,
       seed: "successor-background",
-      startAge: 34,
+      startAge,
     }),
   ).game!;
   return {
@@ -125,7 +125,9 @@ describe("a successor taken up from somebody else's history", () => {
   });
 
   it("keeps the home somebody was already recorded in as their only one", () => {
-    const { world, playerId } = retiredAdult();
+    // A childhood parent is 22 to 38 years older than the player; at 30 the
+    // parent is at most 69, inside the oldest age a background is written for.
+    const { world, playerId } = retiredAdult(30);
     // The parent written for the player's own childhood: no parents of their
     // own on record, but living in that household since the player was born.
     const parentId = contextPerson(world, "parent");

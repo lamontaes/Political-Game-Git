@@ -603,8 +603,8 @@ export function continueAsRelative(
 
 /**
  * The oldest a new character can start at, and so the oldest age the summary
- * has ever been written for. Its generated parent is twenty-eight years older
- * and still alive; past this, that claim stops being plausible, so an older
+ * has ever been written for. Its generated parent is decades older and still
+ * alive; past this, that claim stops being plausible, so an older
  * successor keeps only what the world already records of them.
  */
 const SUMMARIZED_EARLIER_LIFE_MAXIMUM_AGE = 70;
