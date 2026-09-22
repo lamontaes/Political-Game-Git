@@ -1,11 +1,12 @@
 {
   "answer": {
-    "summary": "The medium comes from how the thing actually arrived — delivered, printed, or written as a note — and never from its topic. A job offer or a school contact can be digital, paper or spoken, so the subject does not decide where it appears. Real paper goes on a table, messages go to the appropriate device or conversation, and private aims belong in recall and planning rather than on a surface. Where the medium is unknown, the item can sit in a general accessible correspondence view rather than having an envelope invented for it. ChatGPT adds that no national mail-frequency survey is needed for this filter.",
+    "summary": "The medium comes from how the thing actually arrived — delivered, printed, or written as a note — and never from its topic. A job offer or a school contact can be digital, paper or spoken, so the subject does not decide where it appears. Real paper goes on a table, messages go to the appropriate device or conversation, and private aims belong in recall and planning rather than on a surface. Where the medium is unknown, the item can sit in a general accessible correspondence view rather than having an envelope invented for it. ChatGPT adds that no national mail-frequency survey is needed for this filter.\n\nExtended 2026-09-22 15:58Z, answer C13 of ChatGPT's stress-test batch: household-paper-surface-contents: show actual delivered correspondence/objects appropriate to the recipient and channel; a phone call is not automatically paper. Same offer/request identity across table/phone/person/job. Reading is not signing, paying or accepting. No fabricated bills, private rival dossiers or universal daily mail chores.",
     "sources": [
-      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'LIVING PLAY — CURRENT DELIVERY: FROM INTENTIONS TO CONSEQUENCES', read 2026-09-22, sub-heading 'SHORT QUEUE ANSWERS'"
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'LIVING PLAY — CURRENT DELIVERY: FROM INTENTIONS TO CONSEQUENCES', read 2026-09-22, sub-heading 'SHORT QUEUE ANSWERS'",
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C13, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
     ],
     "answeredBy": "ChatGPT",
-    "answeredAt": "2026-09-22T15:23:07.677Z",
+    "answeredAt": "2026-09-22T15:58:00.000Z",
     "stillOpen": "A rule rather than a list: it settles what decides the medium and leaves the actual contents of a given household's table to follow from whatever the world has recorded as delivered or printed. Same delivery-wide caveat as the block it sits in."
   },
   "filedAt": "2026-09-22T13:45:00.000Z",

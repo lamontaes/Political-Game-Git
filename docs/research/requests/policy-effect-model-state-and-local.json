@@ -1,4 +1,13 @@
 {
+  "answer": {
+    "summary": "policy-effect-model-state-and-local: passage→effective rule→covered activity/base→actual tax/payment/service→scoped aggregate response. Keep the existing macro kernel. More tax revenue is not automatically a positive national GDP shock. An appropriation is not spending; a transfer is not newly produced output. Match geography, units, period and baseline; deduplicate origin/provision/revision/effect channels. Repeal does not erase spent money or built infrastructure. Existing0.05pp/0.01pp/0.6 placeholders are not confirmed. Exact funded execution can be delivered independently of those uncertain coefficients.",
+    "sources": [
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C02, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:58:00.000Z",
+    "stillOpen": "\"Existing0.05pp/0.01pp/0.6 placeholders are not confirmed.\""
+  },
   "filedAt": "2026-09-22T15:10:00.000Z",
   "impact": "shapes-design",
   "lane": "policy effects",

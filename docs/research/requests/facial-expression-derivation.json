@@ -1,12 +1,26 @@
 {
-  "requestVersion": "research-request/v1",
-  "questionId": "facial-expression-derivation",
-  "title": "Which expressions a generated face needs, and what in the record should drive them",
-  "question": "For a character whose face is assembled from modular parts, which small set of expressions carries most of what a player needs to read from somebody across a conversation, and which facts already recorded about a person — how the exchange has gone, what they think of the player, what they want from it — should decide which one is shown?",
-  "whyItMatters": "Every head in the art contract is specified as neutral and the component vocabulary has no expression kind at all, so every person in every scene wears the same face whatever is happening between them and the player. The owner named derived facial expressions as something never started, and it sits directly under the prose and interface work he places above the priority list, because the scene is where a relationship is actually read.",
+  "answer": {
+    "summary": "facial-expression-derivation: situational appraisal and intended presentation, not a permanent trait grimace or a lie detector. Same person, current supported cues, no extra emotion event from redraw. Exact new artwork remains owner acceptance.",
+    "sources": [
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C23, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:58:00.000Z",
+    "stillOpen": "\"Exact new artwork remains owner acceptance.\""
+  },
+  "filedAt": "2026-09-22T05:00:07.000Z",
   "impact": "shapes-design",
   "lane": "character art and scenes",
-  "usableAnswer": "A short list of expressions worth drawing, each with what it reads as to a viewer and which recorded condition should select it, ordered so the first two or three could ship alone and still be worth having. Plus a statement of which expressions were considered and left out, and why they do not earn a drawn variant.",
+  "notes": [
+    "Every expression is a drawn variant of an approved head, so the cost is real and a short list is the useful answer. A list of twenty would not be acted on.",
+    "The selecting condition has to be something the game already records about the exchange. An expression that would need a new feeling invented for the person is outside what can be built.",
+    "Nothing about the derivation reaches the player as text. The face is the only output."
+  ],
+  "priority": "P2",
+  "question": "For a character whose face is assembled from modular parts, which small set of expressions carries most of what a player needs to read from somebody across a conversation, and which facts already recorded about a person — how the exchange has gone, what they think of the player, what they want from it — should decide which one is shown?",
+  "questionId": "facial-expression-derivation",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "research audit thread (technical team lead)",
   "sourcesChecked": [
     {
       "source": "src/presentation/character-components.ts lines 35-46 on main at 273fd2b8",
@@ -25,12 +39,7 @@
       "whatItDidNotSettle": "Despite the name this describes how a personality tendency expresses itself in behaviour. It is not visual and carries nothing a renderer could use."
     }
   ],
-  "requestedBy": "research audit thread (technical team lead)",
-  "filedAt": "2026-09-22T05:00:07.000Z",
-  "priority": "P2",
-  "notes": [
-    "Every expression is a drawn variant of an approved head, so the cost is real and a short list is the useful answer. A list of twenty would not be acted on.",
-    "The selecting condition has to be something the game already records about the exchange. An expression that would need a new feeling invented for the person is outside what can be built.",
-    "Nothing about the derivation reaches the player as text. The face is the only output."
-  ]
+  "title": "Which expressions a generated face needs, and what in the record should drive them",
+  "usableAnswer": "A short list of expressions worth drawing, each with what it reads as to a viewer and which recorded condition should select it, ordered so the first two or three could ship alone and still be worth having. Plus a statement of which expressions were considered and left out, and why they do not earn a drawn variant.",
+  "whyItMatters": "Every head in the art contract is specified as neutral and the component vocabulary has no expression kind at all, so every person in every scene wears the same face whatever is happening between them and the player. The owner named derived facial expressions as something never started, and it sits directly under the prose and interface work he places above the priority list, because the scene is where a relationship is actually read."
 }

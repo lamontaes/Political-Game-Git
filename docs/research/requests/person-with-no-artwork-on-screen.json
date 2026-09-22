@@ -1,4 +1,13 @@
 {
+  "answer": {
+    "summary": "person-with-no-artwork-on-screen: retain true identity/role/actions and a neutral clearly non-specific placeholder; never show another or retired person as this character. Expose diagnostic cause without flooding ordinary play with hashes. Latest supplied report corrected one supposed silent fallback to an explicit missing-input case; do not repeat its earlier diagnosis.",
+    "sources": [
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C22, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:58:00.000Z",
+    "stillOpen": "\"Latest supplied report corrected one supposed silent fallback to an explicit missing-input case; do not repeat its earlier diagnosis.\""
+  },
   "candidateAnswers": [
     {
       "argumentAgainst": "It is indistinguishable from a character the game intends to look like a monogram, so an absence is silently presented as a choice.",

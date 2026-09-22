@@ -1,4 +1,13 @@
 {
+  "answer": {
+    "summary": "COLLEGE→FRIEND→STAFF: maintain the same acquaintance across school, moves and later recruitment. Actual skills, role requirements, availability, terms and consent still matter; friendship enables opportunity, not guaranteed hiring or qualifications. Keep education compact. The unspecified 'cheating' example needs its intended meaning before that content is added, without holding the unrelated relationship chain.",
+    "sources": [
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C26, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:58:00.000Z",
+    "stillOpen": "\"The unspecified 'cheating' example needs its intended meaning before that content is added, without holding the unrelated relationship chain.\""
+  },
   "filedAt": "2026-09-22T15:40:00.000Z",
   "impact": "shapes-design",
   "lane": "people and life",

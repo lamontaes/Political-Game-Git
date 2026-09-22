@@ -1,4 +1,13 @@
 {
+  "answer": {
+    "summary": "what-should-the-world-do-to-a-person: event→known exposure→memory/appraisal→relevance to an actual proposition→existing belief evaluator. Retain no-opinion/defer/conflicted outcomes. Same hurricane can motivate different policy interpretations or no opinion. Public stance, promise and vote are separate. No auto-belief change for the controlled player, no magical knowledge, no new age cutoff or numeric response schedule.",
+    "sources": [
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C03, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:58:00.000Z",
+    "stillOpen": "\"No auto-belief change for the controlled player, no magical knowledge, no new age cutoff or numeric response schedule.\""
+  },
   "filedAt": "2026-09-22T15:12:00.000Z",
   "impact": "shapes-design",
   "lane": "world divergence",

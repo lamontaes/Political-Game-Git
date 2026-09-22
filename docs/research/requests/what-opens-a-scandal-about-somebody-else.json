@@ -1,4 +1,13 @@
 {
+  "answer": {
+    "summary": "what-opens-a-scandal-about-somebody-else: the weekly rival-complaint path already exists. Broaden eligible actors and distinct incidents, not one-per-player-campaign or a scandal quota. Separate allegation/evidence/finding. Unfounded or deceptive allegations need a real claimant's mistake/intent; do not fabricate the accused person's crime. Matter deduplication follows incident/claim, not campaign lifetime. Rate and disposition percentages remain unselected.",
+    "sources": [
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C04, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:58:00.000Z",
+    "stillOpen": "\"Rate and disposition percentages remain unselected.\""
+  },
   "filedAt": "2026-09-22T15:25:00.000Z",
   "impact": "shapes-design",
   "lane": "world divergence",
