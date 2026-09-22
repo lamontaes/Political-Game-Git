@@ -36,6 +36,11 @@ town — and then carries lives past the result into what follows.
 8. **Columbus's home screen adds up to 101 percent** — the same rounding defect
    fixed on election night this morning, in a second place.
 
+9. **A won governorship seats you, if you press "Qualify for the term".**
+   Walked later the same day on `4965f63c` in Reno and Springfield: qualify
+   in November and you are Governor on 4 January 2027. Skip it and the term
+   is lost for good. See section 10.
+
 ---
 
 ## 1. What happens after you win depends on which state you are in
@@ -351,6 +356,86 @@ residence on top of that. What is left is **seven jurisdictions out of
 fifty-two** where a player can stand for a legislative seat at all — and the
 states most likely to refuse are the ones that have been researched most
 carefully.
+
+## 10. Winning a governorship, walked to the office (added 17:50Z)
+
+Walked 2026-09-22 between 17:25Z and 17:50Z on `main` at **`4965f63c`**, the
+same container browser as the rest of this record. Three lives, ordinary
+creator, normal start, age 40, a drawn name. The question left open earlier in
+the day was whether a player who wins a governorship can ever hold it. An
+earlier Reno life, Ariana Moore, had won and then read "The term that ran from
+January 4, 2027 to January 6, 2031 is over or was never entered". **The answer
+is yes, and that earlier life had skipped one button.**
+
+**Ariana Moore, Reno, Nevada** (seed `gov-reno-nv`). She filed with "Put your
+name in" under *The state's top office* on Campaigns, then did one session on
+the doors and pressed Week, every week. The Campaigns screen ran through three
+states:
+
+> You are on the ballot. The campaign itself is run from your office and campaigns.
+
+and then, the week after the 3 November election:
+
+> You won. The term runs from January 4, 2027 to January 6, 2031, and you must
+> qualify before it begins.
+
+Under that sentence is **one enabled button, "Qualify for the term"**
+(`qualify-state-executive`). The top of the same screen says "You do not hold a
+job or an office right now. An offer of work as Governor is waiting for your
+answer." The answer to that offer is this button, on Campaigns. The offer line
+does not say so, and the Jobs screen has no Accept for Governor. Pressing it on
+Monday 9 November 2026 changed the status at once to:
+
+> You have qualified. The term begins January 4, 2027.
+
+On **Monday 4 January 2027**, with nothing else pressed, the status read "You
+hold this office until January 6, 2031", and the Office tab opened a working
+governorship: "Your role: Governor", "Governor of Nevada — Your term runs until
+January 6, 2031. No chief of staff yet."
+
+**Emma Villanueva, Springfield, Illinois** (seed `gov-springfield-il`), did the
+same things and got the same result on the same dates: qualified on 9 November,
+Governor of Illinois on 4 January 2027. **So in Illinois a governorship seats
+you the same way the legislature does, and Nevada now behaves like Illinois,
+not like Kentucky.** That was the question in the handoff, and the difference
+between the states is not in the governorship.
+
+Of the three things the code needs before it seats a governor
+(`activeElectedExecutiveTermEvidence`, `src/simulation/executive-work-context.ts:262`),
+**none refused**. The qualification is the button. The work status and the
+term's entry step are handled by the clock on the start date
+(`electedExecutiveTermTransitionHandler`, `src/simulation/executive-work-entry.ts`),
+with no second press. "Term over or never entered" happens only when the start
+date passes without a qualification, and `stateExecutiveEntryStatus` documents
+that as intended.
+
+**What a new governor finds is empty.** Both offices say, on the first
+morning:
+
+> Needs you — Nothing is waiting on you right now.
+> No bill reached Governor of Nevada this session: the game has not compiled
+> NV's legislature, so it files no measures.
+> What this office is answerable for — No program of this government has a
+> record here yet — no service capacity, no appropriation and no commitment.
+> Who works here — Nobody is recorded as working for this office.
+
+The Illinois office reads the same, with "the game has not compiled IL's
+legislature", and it has an "Office work — Work for 30 minutes" control.
+The only recent entry under "What came of it" is the outgoing governor's
+December budget request.
+The same shape as the empty legislature in section 1:
+**you can reach the office, but on day one there is nothing to do in it.**
+
+**The legislative seat, rechecked on `4965f63c`.** Paola Evans, Reno (seed
+`leg-reno-nv`), filed for the Assembly, did one session on the doors and pressed
+Day, 27 sessions in all. The election was decided on 2 February 2026; the
+field memo put her "somewhere around 74 percent". On election day the Office tab
+already read "Paola works for the Nevada legislature, so what is in front of the
+chamber is in front of them too", with the voting-workflow and casework
+choices. **Same-day seating still holds on current main.** A second run of the
+same seed, pressing Week (four sessions), had no office on 23 February. This
+walk did not capture that race's result line. It fits the dose curve in
+section 2 but proves nothing about it.
 
 ## What this walk did not establish
 
