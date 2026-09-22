@@ -489,6 +489,12 @@ deliberate: a test arranging a person's temperament is not modelling a change,
 and making it pretend to be one would have every fixture inventing a force it
 does not mean.
 
+`attemptTraitChange` takes one of the five by its bare name or any loaded trait
+by its qualified key (`pack:key`). The five keep their own reader and writer, so
+every record they have produced is produced identically; any other trait is
+read and written on its own pack's scale, and a value the scale declares no step
+for is refused rather than rounded.
+
 ### An unestablished trait does not move
 
 `traitResistance` returns `unestablished` for a person with no record, and
@@ -576,7 +582,10 @@ the trait set itself and the pace of personality change.
 Said plainly, with what the next step would be.
 
 **No file discovery.** Nothing scans the disk. The build's own packs are a list
-in `trait-registry.ts`; a life's installed content packs may each carry a
+in `compiled-trait-packs.ts`, the one place a new one is added: a pack listed
+there is seeded for everybody when it says it is seeded, shown on the person
+card once written, argues in the decisions its effects name and can be moved by
+events, with no other code naming it; a life's installed content packs may each carry a
 `traits` block in this same shape, imported through the content pack screen and
 saved with the life (`installed-trait-packs.ts`, `traitRegistryFor`). A mod's
 traits are qualified by its content pack id, a malformed row is skipped and

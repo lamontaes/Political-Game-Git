@@ -187,47 +187,76 @@ export function observedTraitLabels(
 }
 
 /**
- * The seeded traits this life's installed content packs declare. The build's
- * own five are not here: they keep their own stream and their own writer
- * below, so a life with nothing installed is written exactly as before.
+ * Every seeded trait this life has loaded beyond the build's own five: the
+ * build's other packs and whatever its content packs install. The five are not
+ * here: they keep their own stream and their own writer below, so a life is
+ * written exactly as before for them. A catalogue added as a pack is seeded
+ * here without a line of code naming it.
  */
-function installedSeededTraits(world: World): readonly RegisteredTrait[] {
-  const installed = new Set(
-    world.contentPacks?.installed.map(({ pack }) => pack.id) ?? [],
-  );
-  if (installed.size === 0) return [];
+function registeredSeededTraits(world: World): readonly RegisteredTrait[] {
   return [...traitRegistryFor(world).traits.values()].filter(
     (trait) =>
-      installed.has(trait.pack) &&
+      trait.pack !== PEOPLE_MIND_VERSION &&
       trait.conferredBy === "seeded" &&
       trait.seed !== null,
   );
 }
 
 /**
- * Writes one installed trait's seeded value for one person, from their own
+ * Writes one registered trait's seeded value for one person, from their own
  * stream under the trait's qualified key, in the magnitudes its pack declares.
  */
-function seedInstalledTrait(
+/** Adds a registered trait's definition to a world that does not carry it. */
+export function ensureTraitDefinition(
+  world: World,
+  trait: RegisteredTrait,
+): World {
+  const definition = traitDefinitionFromPack(trait);
+  if (world.mindCatalog.tendencies[definition.id]) return world;
+  return {
+    ...world,
+    mindCatalog: {
+      ...world.mindCatalog,
+      tendencies: {
+        ...world.mindCatalog.tendencies,
+        [definition.id]: definition,
+      },
+      tendencyOrder: [...world.mindCatalog.tendencyOrder, definition.id],
+    },
+  };
+}
+
+/**
+ * A signed value on a registered trait's own scale, as the record stores it.
+ * Refuses a magnitude the scale does not declare rather than rounding it to
+ * one it does: a value nobody declared is not a value.
+ */
+export function encodeRegisteredTrait(trait: RegisteredTrait, value: number) {
+  if (value === 0) {
+    return {
+      expressionKey: trait.scale.balancedKey,
+      strength: "subtle" as const,
+    };
+  }
+  const strength = strengthForMagnitude(trait.scale, Math.abs(value));
+  if (strength === null) {
+    throw new Error(
+      `The trait "${trait.qualifiedKey}" declares no step of magnitude ${Math.abs(value)}.`,
+    );
+  }
+  return {
+    expressionKey: value < 0 ? trait.poles.low.key : trait.poles.high.key,
+    strength,
+  };
+}
+
+function seedRegisteredTrait(
   world: World,
   personId: EntityId,
   trait: RegisteredTrait,
 ): World {
   const definition = traitDefinitionFromPack(trait);
-  let next = world;
-  if (!next.mindCatalog.tendencies[definition.id]) {
-    next = {
-      ...next,
-      mindCatalog: {
-        ...next.mindCatalog,
-        tendencies: {
-          ...next.mindCatalog.tendencies,
-          [definition.id]: definition,
-        },
-        tendencyOrder: [...next.mindCatalog.tendencyOrder, definition.id],
-      },
-    };
-  }
+  const next = ensureTraitDefinition(world, trait);
   if (readTrait(next, personId, trait).state === "recorded") return next;
   const spread = trait.seed!.spread;
   const value =
@@ -238,23 +267,16 @@ function seedInstalledTrait(
     ]!;
   // The loader refused any spread value the scale does not declare, so a
   // nonzero value always has a strength here.
-  const encoded =
-    value === 0
-      ? { expressionKey: trait.scale.balancedKey, strength: "subtle" as const }
-      : {
-          expressionKey: value < 0 ? trait.poles.low.key : trait.poles.high.key,
-          strength: strengthForMagnitude(trait.scale, Math.abs(value))!,
-        };
   return recordPersonalityTendency(next, {
     stableKey: `${trait.qualifiedKey}:${personId}:seed`,
     personId,
     tendencyId: definition.id,
     recordedAt: laterOf(next.people[personId]!.birthDate, next.currentDate),
-    ...encoded,
+    ...encodeRegisteredTrait(trait, value),
     confidence: "medium",
     scopeTags: [`${PEOPLE_MIND_VERSION}.seed`],
     provenance: createMindProvenance("authored", {
-      note: `Seeded once from this person's own stream, as the installed pack ${trait.pack} declares.`,
+      note: `Seeded once from this person's own stream, as the pack ${trait.pack} declares.`,
     }),
     supersedesTendencyId: null,
   });
@@ -294,8 +316,8 @@ export function ensurePeopleTraits(
         supersedesTendencyId: null,
       });
     }
-    for (const trait of installedSeededTraits(next)) {
-      next = seedInstalledTrait(next, personId, trait);
+    for (const trait of registeredSeededTraits(next)) {
+      next = seedRegisteredTrait(next, personId, trait);
     }
   }
   return next;

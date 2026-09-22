@@ -1,16 +1,21 @@
+import { createMindProvenance, recordPersonalityTendency } from "./mind";
 import { personName } from "./people";
 import {
   PEOPLE_MIND_VERSION,
+  PEOPLE_TRAITS,
   peopleTraitId,
   type PeopleTrait,
   type TraitValue,
 } from "./people-trait-definitions";
 import {
+  encodeRegisteredTrait,
   ensurePeopleTraits,
   personTrait,
   recordTraitChange,
 } from "./people-traits";
-import { loadedTraitRegistry } from "./trait-registry";
+import { traitDefinitionFromPack, type RegisteredTrait } from "./trait-packs";
+import { readTrait } from "./trait-readings";
+import { loadedTraitRegistry, traitRegistryFor } from "./trait-registry";
 import {
   describeTraitResistance,
   traitResistance,
@@ -48,12 +53,97 @@ const UNMOVED_EVENT = "people-mind-v1.trait-unmoved";
 const UNMOVED_TAG = "trait-change.unmoved";
 const CONTEXT_TAG_PREFIX = "trait-change.context:";
 
-function directionTag(from: TraitValue, to: TraitValue): string {
+function directionTag(from: number, to: number): string {
   return `trait-change.direction:${to > from ? "up" : "down"}`;
 }
 
-function traitTag(trait: PeopleTrait): string {
-  return `trait-change.trait:${PEOPLE_MIND_VERSION}:${trait}`;
+function traitTag(qualifiedKey: string): string {
+  return `trait-change.trait:${qualifiedKey}`;
+}
+
+/**
+ * Which trait an attempt names: one of the build's five by its bare name, or
+ * any loaded trait by its qualified key. The five keep their own reader and
+ * writer, so every record they have ever produced is produced identically;
+ * every other trait is read and written on its own pack's scale.
+ */
+export type TraitChangeTarget = PeopleTrait | (string & {});
+
+interface TraitHandle {
+  readonly registered: RegisteredTrait;
+  readonly tendencyId: EntityId;
+  /** The current value, or null when this person has none on record. */
+  readonly read: (world: World) => {
+    readonly value: number;
+    readonly recordId: EntityId | null;
+  } | null;
+  readonly write: (
+    world: World,
+    value: number,
+    eventId: EntityId,
+    reason: string,
+  ) => World;
+}
+
+function isPeopleTrait(target: string): target is PeopleTrait {
+  return (PEOPLE_TRAITS as readonly string[]).includes(target);
+}
+
+function handleFor(
+  world: World,
+  personId: EntityId,
+  target: TraitChangeTarget,
+): TraitHandle | null {
+  if (isPeopleTrait(target)) {
+    const registered = loadedTraitRegistry().traits.get(
+      `${PEOPLE_MIND_VERSION}:${target}`,
+    );
+    if (!registered) return null;
+    return {
+      registered,
+      tendencyId: peopleTraitId(target),
+      read: (w) => personTrait(w, personId, target),
+      write: (w, value, eventId, reason) =>
+        recordTraitChange(w, {
+          personId,
+          trait: target,
+          value: value as TraitValue,
+          eventId,
+          reason,
+        }),
+    };
+  }
+  const registered = traitRegistryFor(world).traits.get(target);
+  if (!registered) return null;
+  const tendencyId = traitDefinitionFromPack(registered).id;
+  return {
+    registered,
+    tendencyId,
+    read: (w) => {
+      const reading = readTrait(w, personId, registered);
+      return reading.state === "recorded"
+        ? { value: reading.value, recordId: reading.recordId }
+        : null;
+    },
+    write: (w, value, eventId, reason) => {
+      const reading = readTrait(w, personId, registered);
+      const from = reading.state === "recorded" ? reading.recordId : null;
+      return recordPersonalityTendency(w, {
+        stableKey: `${registered.qualifiedKey}:${personId}:after:${eventId}:from:${from ?? "none"}`,
+        personId,
+        tendencyId,
+        recordedAt: w.currentDate,
+        ...encodeRegisteredTrait(registered, value),
+        confidence: "medium",
+        scopeTags: [`${PEOPLE_MIND_VERSION}.change`],
+        provenance: createMindProvenance("reflection", {
+          sourceRefs: [{ kind: "historical-event", eventId }],
+          note: reason,
+        }),
+        supersedesTendencyId: from,
+      });
+    },
+  };
 }
 
 function contextTag(context: string): string {
@@ -108,21 +198,18 @@ function contextOf(tags: readonly string[]): string | null {
 export function traitChangePressure(
   world: World,
   personId: EntityId,
-  trait: PeopleTrait,
-  toward: TraitValue,
+  trait: TraitChangeTarget,
+  toward: number,
 ): number {
-  const registered = loadedTraitRegistry().traits.get(
-    `${PEOPLE_MIND_VERSION}:${trait}`,
-  );
-  if (!registered) return 0;
-  const { experienceSpacingDays, pressureCap } = registered.movability;
+  const handle = handleFor(world, personId, trait);
+  if (!handle) return 0;
+  const { experienceSpacingDays, pressureCap } = handle.registered.movability;
 
-  const current = personTrait(world, personId, trait);
-  const record = latestPersonalityTendency(
-    world,
-    personId,
-    peopleTraitId(trait),
-  );
+  const current = handle.read(world);
+  if (!current) return 0;
+  const record = world.mindCatalog.tendencies[handle.tendencyId]
+    ? latestPersonalityTendency(world, personId, handle.tendencyId)
+    : undefined;
   const since = record?.sequence ?? -1;
   const wanted = directionTag(current.value, toward);
   const arguing = world.history.events
@@ -131,7 +218,7 @@ export function traitChangePressure(
         event.type === UNMOVED_EVENT &&
         event.sequence > since &&
         event.involvedEntityIds.includes(personId) &&
-        event.tags.includes(traitTag(trait)) &&
+        event.tags.includes(traitTag(handle.registered.qualifiedKey)) &&
         event.tags.includes(wanted),
     )
     .slice()
@@ -173,8 +260,10 @@ export function traitChangePressure(
 
 export interface AttemptTraitChangeInput {
   readonly personId: EntityId;
-  readonly trait: PeopleTrait;
-  readonly value: TraitValue;
+  /** One of the five by name, or any loaded trait by its qualified key. */
+  readonly trait: TraitChangeTarget;
+  /** Signed, in the magnitudes the trait's own scale declares. */
+  readonly value: number;
   /** The event that argues for the change. Required: traits never drift. */
   readonly eventId: EntityId;
   readonly reason: string;
@@ -222,32 +311,29 @@ export function attemptTraitChange(
       "A trait change needs a context, so repetition can be told from experience.",
     );
   }
-  const registry = loadedTraitRegistry();
-  const registered = registry.traits.get(
-    `${PEOPLE_MIND_VERSION}:${input.trait}`,
-  );
-  if (!registered) {
-    throw new Error(
-      `No loaded pack declares the trait "${PEOPLE_MIND_VERSION}:${input.trait}".`,
-    );
+  const handle = handleFor(world, input.personId, input.trait);
+  if (!handle) {
+    throw new Error(`No loaded pack declares the trait "${input.trait}".`);
   }
 
   // Establishing a temperament is authoring it, not changing it, so it happens
   // before anything is weighed. A person the world had never written a value
   // for reads as unestablished, and an unestablished trait does not move.
   let next = ensurePeopleTraits(world, [input.personId]);
-  const current = personTrait(next, input.personId, input.trait);
+  const current = handle.read(next);
   const person = next.people[input.personId];
   const name = person ? personName(person) : "They";
   const resistance = traitResistance(
     next,
     input.personId,
-    registered,
-    peopleTraitId(input.trait),
+    handle.registered,
+    handle.tendencyId,
   );
   const explanation = describeTraitResistance(name, resistance);
 
-  if (current.value === input.value) {
+  // Nothing on record, as for a trait only ever conferred: there is no value
+  // to move and nothing for a force to meet, so nothing is written either.
+  if (current === null || current.value === input.value) {
     return {
       world: next,
       moved: false,
@@ -270,13 +356,7 @@ export function attemptTraitChange(
   });
 
   if (verdict.moves) {
-    next = recordTraitChange(next, {
-      personId: input.personId,
-      trait: input.trait,
-      value: input.value,
-      eventId: input.eventId,
-      reason: input.reason,
-    });
+    next = handle.write(next, input.value, input.eventId, input.reason);
     return {
       world: next,
       moved: true,
@@ -306,7 +386,7 @@ export function attemptTraitChange(
     visibility: "private",
     tags: [
       UNMOVED_TAG,
-      traitTag(input.trait),
+      traitTag(handle.registered.qualifiedKey),
       directionTag(current.value, input.value),
       contextTag(input.context.trim()),
     ],
