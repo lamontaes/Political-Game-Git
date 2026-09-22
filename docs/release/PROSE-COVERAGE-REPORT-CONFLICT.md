@@ -87,6 +87,27 @@ and the gate passes on somebody else's files. A gate that can report green for a
 reason unrelated to the code is a worse failure than tonight's false reds,
 because nothing prompts anybody to look.
 
+### What this mechanism does not explain
+
+Stated plainly, because a mechanism stretched one case too far is the shape of
+error this night has been spent removing. **This accounts for local
+reproductions in a clone that switches branches. It does not account for a
+hosted-runner failure.** A GitHub runner does `actions/checkout` into an empty
+workspace, so there is no previous branch's `prose-inventory.json` on that disk
+to compare against and this trap cannot fire there.
+
+The hosted failure on the client line that night had a different and equally
+real cause, and it is the branch rule once more. `72261fe6` reworded
+`describeBriefing` without re-minting its anchor; `74970f85` is the repair.
+Checked here rather than taken on report: `74970f85` is **not** an ancestor of
+`6113f0ea`, the base of the head that actually failed, while `72261fe6` **is**
+— so that tree genuinely carried the break and not the fix. `74970f85` became
+an ancestor of `70fa13a7`, the base now, through the #276 merge. Two true
+measurements of two trees twenty minutes apart, reading as a contradiction.
+
+So the night produced **two** false-red mechanisms from different causes, and
+they should be reported as two.
+
 The fix is small and independent of the tracking question: for a tracked
 artifact compare against `git show HEAD:<path>` rather than the working tree,
 and for an ignored one skip it outright instead of comparing a copy whose
