@@ -360,3 +360,45 @@ shard are not a shared cause.
 
 **Two are not this lane's.** `pt3-microfix-version.spec.ts:81` asserts the
 version stamp, which the release machinery owns.
+
+## The conversation box overflows by eighteen pixels
+
+Measured 2026-09-22 on main, local, Chromium 141, at 1440 x 900, in the
+school-project conversation with two addressees, after turning to the second:
+
+    scrollHeight   432
+    clientHeight   414
+    max-height     416px  (26rem)
+
+    pg-talk-head                129
+    conversation-briefing        30
+    conversation-addressees      30
+    conversation-beat            96
+    conversation-intents         34
+    pg-talk-foot                 30
+    pg-talk-hearing              15
+    ---------------------------------
+    children                    364
+    six 0.5rem gaps              48
+    padding                      20
+    ---------------------------------
+    total                       432
+
+So the content is **16 pixels over the 26rem cap**, and `overflow: auto` turns
+that into the scrollbar the Run B rule forbids. The head is the largest single
+part at 129px; the briefing, the addressee row and the hearing line are the
+three rows that only appear in a multi-addressee conversation, and together
+they are 75px.
+
+**This is not fixed and should not be fixed by picking a number.** The obvious
+change — raise the cap to 27rem — is exactly 432px, the measured content of
+this one conversation, with no headroom; the next added row breaks it again.
+The next obvious change, 28rem, is 448px against a separate rule in the same
+file that the box stay under half the viewport, which is 450px at this size.
+Two pixels is not a margin.
+
+What it actually needs is a decision about the box: whether it may be taller
+when a conversation has more than one addressee, or whether something comes
+out of the head. That is a look at the screen and an owner's call, not a
+number chosen to make a measurement pass. Recorded here at full precision so
+whoever takes it does not have to measure it again.
