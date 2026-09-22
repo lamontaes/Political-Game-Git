@@ -219,6 +219,25 @@ function registerStateJurisdiction(
 }
 
 /**
+ * Registers a state's or territory's jurisdiction identity by its key
+ * (`US-KY`, `US-PR`, `US-DC`), once. It carries identity only: no office, no
+ * government and no rules come with it. Unknown keys change nothing.
+ */
+export function ensureStateJurisdictionForKey(
+  world: World,
+  jurisdictionKey: string,
+): World {
+  const match = /^US-([A-Z]{2})$/.exec(jurisdictionKey);
+  const jurisdiction = match ? chiefExecutiveJurisdiction(match[1]!) : null;
+  if (!jurisdiction || world.jurisdictions[jurisdiction.id]) return world;
+  return {
+    ...world,
+    jurisdictions: { ...world.jurisdictions, [jurisdiction.id]: jurisdiction },
+    jurisdictionOrder: [...world.jurisdictionOrder, jurisdiction.id],
+  };
+}
+
+/**
  * Establishes the fictional governor a state's World opens with, exactly once.
  *
  * Canonical and lazy: the opening writer calls this for the player's own
