@@ -311,6 +311,40 @@ describe("the handed-over document", () => {
     expect(document).toContain("branch claude/project-thread-k8w14s");
   });
 
+  it("points at the owner's own questions before the bands", () => {
+    // Three dozen questions bury the handful he measured himself and asked to
+    // have confirmed first. The pointer moves nothing: the question stays in
+    // the band its impact puts it in.
+    const document = renderOpenQuestions(
+      [
+        record({ questionId: "somebody-elses", requestedBy: "audit thread" }),
+        record({
+          questionId: "his-own",
+          title: "Six built systems that cannot happen",
+          requestedBy: "lamontae",
+          impact: "shapes-design",
+        }),
+      ],
+      "2026-09-22T00:00:00.000Z",
+    );
+    expect(document).toContain("## Read these first");
+    expect(document).toContain(
+      "- **Six built systems that cannot happen** — `his-own`",
+    );
+    expect(document).not.toContain("- **How a county treasurer takes office**");
+    // Still in its own band, with everything it carries.
+    expect(document.indexOf("## Read these first")).toBeLessThan(
+      document.indexOf("## Shaping a design decision"),
+    );
+    expect(document).toContain("**The question.**");
+  });
+
+  it("says nothing about reading first when he filed none of them", () => {
+    expect(
+      renderOpenQuestions([record()], "2026-09-22T00:00:00.000Z"),
+    ).not.toContain("Read these first");
+  });
+
   it("lists every question id it contains, answered ones included", () => {
     // The header is a count, and a render produced on a branch holding half
     // the queue carries an authoritative-looking one. Ids are what let a

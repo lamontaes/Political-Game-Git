@@ -1,0 +1,32 @@
+{
+  "filedAt": "2026-09-22T15:24:00.000Z",
+  "impact": "shapes-design",
+  "lane": "research triage",
+  "notes": [
+    "Filed from lamontae's own ten-year playtest report of 2026-09-22, at his instruction: 'these small things like things being hardcoded or not being able to happen or the machinery being built is exactly what needs to be sent to ChatGPT to confirm and then instruct because those seem like relatively small changes that can do a lot for the game'. He is the requester; this lane only carried it onto the queue.",
+    "Items 1 and 2 were re-measured on claude/project-thread-k8w14s before filing and are recorded below as measurements. Items 3 to 6 are his report's findings, carried unverified by this lane and marked as such in the question so a researcher does not mistake them for our measurement.",
+    "Deliberately does not restate what is already open. The scandal writers and the wider 'built producer, no player entry' question belong to built-producers-with-no-player-entry, filed by the hardcoded-content audit lane; the numbers that decide outcomes belong to decision-thresholds-are-constants-in-code. This record is the owner's own list and the confirm-then-instruct ask he attached to it."
+  ],
+  "priority": "P0",
+  "question": "Six things in the game are built and cannot happen, or are fixed at birth and never move. For each: confirm it from the code, then instruct — what act, office or world event should start it, what shape the first version takes, and which one is worth doing first. (1) An international crisis, and therefore any war, has no producer: declareInternationalCrisis and recordViolenceAttempt are referenced only by tests, while the player's side is connected. (2) An assassination or attempt on anyone has the same shape. (3) There is no presidential popularity of any kind, a region's political lean is drawn once when the world is born and never touched again, and seats carry no lean at all, the code saying state partisan geography is deliberately not modelled rather than guessed at. (4) Ballot access is not represented for anybody, so a party that founds itself in play — which happened unprompted inside two years — can never appear on a ballot. (5) The apparatus for what a person privately believes, says publicly and has changed their mind about is built at both ends and connected at neither. (6) Federal disaster programme types are named and nothing reads the names. Items 3 to 6 are from lamontae's playtest report and have not been re-measured by this lane; items 1 and 2 have.",
+  "questionId": "owner-report-built-but-cannot-happen",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "lamontae",
+  "sourcesChecked": [
+    {
+      "source": "grep of every reference to declareInternationalCrisis, recordViolenceAttempt and decideInternationalCrisis across src on claude/project-thread-k8w14s, 2026-09-22",
+      "whatItDidNotSettle": "Confirms the asymmetry exactly as reported. declareInternationalCrisis (src/simulation/crisis/international.ts:221) is referenced by three test files and nothing else; recordViolenceAttempt (:876) by one test file and nothing else; decideInternationalCrisis (:355) likewise. Meanwhile pendingInternationalDecisions (:844) is read by src/presentation/crisis-shell.ts:304 and src/simulation/crisis/notices.ts:642, so the player can be shown a crisis and decide it. It establishes that the producer is missing rather than broken; it says nothing about what should legitimately start a crisis in a game about American domestic politics, which is the decision."
+    },
+    {
+      "source": "grep of recordAllegation and fileComplaint across src, same head",
+      "whatItDidNotSettle": "Both are defined in src/simulation/press/matters.ts and called only from inside that same module (:813, :826), so a scandal has no starter either, matching the audit lane's finding. It confirms the pattern spans three separate systems; it does not say which of the three should be connected first, which is what the instruction is for."
+    },
+    {
+      "source": "lamontae's ten-year Kentucky playtest report, 2026-09-22, delivered in the project timeline",
+      "whatItDidNotSettle": "The source of items 3 to 6, and of the one correction he attached: disasters are not singled out as blocked from affecting politics — a shipped save is forbidden from carrying any cause-and-effect link at all, with one exception for tax, and that guard was put there deliberately because the game once shipped an invented outbreak model dressed as real. So the question is not 'unblock disasters'. It does not settle what the first honest effect should be, or how it should say where its numbers came from."
+    }
+  ],
+  "title": "Six built systems that cannot happen, and what should start each",
+  "usableAnswer": "Per item: confirmed or not, then one instruction naming what starts it and the smallest first version. Plus an order across the six. An item he should not have yet is an equally good answer, because then the silence is intended and can be recorded rather than re-reported at the next playtest.",
+  "whyItMatters": "This is the owner's own reading of his game after running an ordinary save forward ten years, and his stated reason for sending it is that each looks like a small change with a large return. His summary sentence is the thing to answer against: the world diverges richly, and nobody in it is changed by what happens. Guessing any of these wrong means building a producer that fires the wrong thing in a game whose credibility rests on saying where its facts came from."
+}

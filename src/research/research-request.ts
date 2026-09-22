@@ -617,6 +617,36 @@ function renderContentsManifest(
   ];
 }
 
+/** The owner of the project, whose own questions lead the document. */
+const OWNER_REQUESTER = "lamontae";
+
+/**
+ * A pointer to the questions the owner filed himself, if any are open.
+ *
+ * Not a reordering. The bands below are sorted by what an answer would change
+ * and nothing about who asked should quietly move a question out of the band
+ * it belongs to. But a document of three dozen questions buries the handful he
+ * measured himself and asked to have confirmed first, so it says where they
+ * are and leaves them where they are.
+ */
+function renderOwnerLead(
+  open: readonly ResearchRequestRecord[],
+): readonly string[] {
+  const his = open.filter((record) => record.requestedBy === OWNER_REQUESTER);
+  if (his.length === 0) return [];
+  return [
+    "## Read these first",
+    "",
+    `${OWNER_REQUESTER} filed these himself, from his own play, and asked that`,
+    "each one be confirmed against the code and then instructed on before the",
+    "rest of the queue. They are listed again in their own band below with",
+    "everything they carry.",
+    "",
+    ...his.map((record) => `- **${record.title}** — \`${record.questionId}\``),
+    "",
+  ];
+}
+
 /**
  * The question ids a rendered document says it contains.
  *
@@ -705,6 +735,7 @@ export function renderOpenQuestions(
       (renderedFromCommit ? ` · rendered from ${renderedFromCommit}` : ""),
     "",
     ...renderContentsManifest(records),
+    ...renderOwnerLead(open),
   ];
 
   if (open.length === 0) {
