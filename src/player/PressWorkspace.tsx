@@ -476,7 +476,7 @@ export function PressWorkspace({
                     terms,
                     backgroundAttribution:
                       terms === "on-background" ? selectedAttribution : null,
-                    pitch: `The reporter asked for comment on “${topic.summary}”.`,
+                    pitch: `The reporter asked for comment on this development: ${topic.summary}`,
                     primaryQuestion: reporterQuestion.statement,
                     questionBasisEventIds: [topic.eventId],
                   });
