@@ -54,6 +54,9 @@ describe("state executive term rules", () => {
     // own rule, for its own office, asserted in
     // `nationwide-chief-executives.test.ts`.
     expect(stateExecutiveTermRule("DC")).not.toBeNull();
+    // Puerto Rico's Governor is real and is not compiled yet, so this is a
+    // gap rather than a finding. See
+    // `nationwide-chief-executives.test.ts`.
     expect(stateExecutiveTermRule("PR")).toBeNull();
   });
 

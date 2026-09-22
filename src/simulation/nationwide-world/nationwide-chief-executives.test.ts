@@ -145,7 +145,13 @@ describe("the game profile, calibrated by that research", () => {
     expect(vt.election.cycleYears).toBe(2);
   });
 
-  it("has no rule for a jurisdiction that is neither a state nor the District", () => {
+  it("has not compiled Puerto Rico's Governor, and invents nothing in its place", () => {
+    // Puerto Rico elects a Governor. Nothing here says otherwise: this branch
+    // has not compiled that office, so the rule is absent, and an absent
+    // answer is not the claim that the office does not exist. The factual
+    // compilation is parked and approved; when it lands it replaces this
+    // absence outright. What must keep holding until then is that a territory
+    // is never handed a manufactured US-state governorship to fill the hole.
     expect(stateExecutiveTermRule("PR")).toBeNull();
   });
 });

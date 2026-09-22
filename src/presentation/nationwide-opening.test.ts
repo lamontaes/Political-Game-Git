@@ -54,7 +54,9 @@ describe("NATIONWIDE opening state executive", () => {
     expect([...US_STATE_USPS].sort()).toEqual(corpusStates);
     // NATIONWIDE1 asks for the District separately from the states: it is not
     // in the fifty, and it is not empty either. Its chief executive is a
-    // Mayor, never a governor. Puerto Rico still has no office here.
+    // Mayor, never a governor. Puerto Rico's own Governor is real and is not
+    // compiled yet, so nothing is offered for it — an absence, not a claim
+    // that the office does not exist.
     const district = stateExecutiveOffice("DC")!;
     expect(district.displayName).toBe("Mayor of the District of Columbia");
     expect(district.displayName).not.toContain("Governor");
@@ -120,6 +122,10 @@ describe("NATIONWIDE opening state executive", () => {
   );
 
   it("opens a District or Puerto Rico life without inventing a state governor", () => {
+    // The invariant is that no US-state governorship is manufactured for a
+    // jurisdiction that is not a state. Puerto Rico seating nothing is this
+    // branch not having compiled its real Governor, not a statement about
+    // Puerto Rico.
     for (const usps of ["DC", "PR"]) {
       const place = searchLifePlaces("", 1, {
         stateJurisdictionKey: `US-${usps}`,
@@ -135,7 +141,8 @@ describe("NATIONWIDE opening state executive", () => {
         "us-president",
         "us-chief-justice",
       ]);
-      // The District's own office opens with the life; Puerto Rico has none.
+      // The District's own office opens with the life. Puerto Rico's is not
+      // compiled, so nothing opens with it yet.
       expect(officeKeys.slice(2)).toEqual(usps === "DC" ? ["dc-mayor"] : []);
     }
   });
