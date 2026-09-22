@@ -81,6 +81,66 @@ world-event line pinned to the top of six different screens. Nobody had
 reported it and nothing fixes it tonight. It is a real bug and it belongs in
 the report rather than on this list.
 
+## A proposal: the unit suite and the browser suite should not be one run
+
+**Named here so it can be decided rather than rediscovered.** This is not
+tonight's work and nothing below was done.
+
+Tonight's sharpest operational finding is not that the repository has three
+job slots instead of two. It is what happened to the unit shards: four of
+them, each about four minutes of work, sat queued for over forty minutes
+behind browser shards that run 21 to 59 minutes each — in the _same run_,
+competing for the same slots, with no way to prioritise between them. Main
+ended the night with two of six unit shards reported.
+
+**The shape is the problem.** `validate.yml` is one run of fifteen jobs mixing
+two suites with completely different time constants. A run cannot report until
+all of it reports, so the fast, cheap, high-signal half is held hostage by the
+slow half every single time.
+
+**The proposal: split them into two workflows.**
+
+- A unit workflow — `repository` plus the six unit shards, roughly 38
+  job-minutes. At three slots that is a verdict in well under fifteen minutes,
+  on every push, every time.
+- A browser workflow — the eight browser shards, roughly 326 job-minutes,
+  taking as long as it takes.
+
+**What it would have bought tonight.** Every branch on the click list, and
+main itself, would have had a real unit verdict hours ago. The entire argument
+in this document about merging on local evidence exists because no verdict was
+obtainable; a unit-only verdict was obtainable the whole time and was simply
+bundled with one that was not.
+
+**What it costs.** The required-check configuration changes, and someone must
+decide whether the browser workflow gates merging or only reports. That is a
+product decision about how much the browser suite is trusted, which is exactly
+why it is written down here rather than done.
+
+## When a wrong claim travels through memory instead of a message
+
+Four claims tonight outran their measurement. Two of those four travelled
+through project memory rather than through a conversation, and that difference
+is worth naming on its own.
+
+The most recent: "main is merged and its unit suite is clean" was written into
+memory at 08:17Z as the sentence for the morning report, when two of six unit
+shards had reported. Any lane reading memory afterwards would have repeated it
+in good faith, with no way to see that it stood on a third of the evidence it
+implied.
+
+**Memory carries further than a thread and corrects slower.** A wrong sentence
+in a conversation reaches the people in that conversation and dies when the
+conversation does. A wrong sentence in memory reaches every lane that starts
+afterwards, arrives stripped of the context that would let a reader judge it,
+and stays until someone notices and goes back for it.
+
+**So the rule is about what may be written there, not about being careful.** A
+claim goes into memory with what was measured and when, or it goes in as the
+measurement rather than as the conclusion. "Two of six unit shards reported
+green at 08:09Z" survives being wrong later. "The unit suite is clean" does
+not, because there is nothing in it to check.
+
 ## The correction to our own finding: pending dies, executing does not
 
 This document said earlier that every merge to main destroys its predecessor's
