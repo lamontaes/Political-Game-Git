@@ -14,6 +14,8 @@ import type {
   PolicyPropositionDefinition,
   PoliticalPrincipleDefinition,
   PropositionParameter,
+  PrincipleBearing,
+  PropositionPrincipleBearing,
 } from "./types";
 
 /**
@@ -21,11 +23,11 @@ import type {
  *
  * The bill lifecycle underneath this is the deepest thing in the repository —
  * committee, floor, crossing, veto and override are all genuinely enforced —
- * and a new world ships with nothing for it to be about: no domains, no
- * issues, no propositions, no subjects, no principles. That emptiness is
- * deliberate and correct (`production-catalog.ts` explains why an empty catalog
- * is the honest state), but it means the content, when it arrives, must arrive
- * as something that can be dropped in rather than compiled in.
+ * and for a long time a new world shipped with nothing for it to be about: no
+ * domains, no issues, no propositions, no subjects, no principles. That
+ * emptiness was deliberate and correct (`production-catalog.ts` explains why an
+ * empty catalog is the honest state), and it meant the content, when it
+ * arrived, had to arrive as something dropped in rather than compiled in.
  *
  * This is the schema and the loader for dropping it in. It is deliberately the
  * same shape as `trait-packs.ts`, because a modder who has written one should
@@ -34,10 +36,13 @@ import type {
  * not resolve rejected by name with its reason rather than ignored at play
  * time, where a row matching nothing looks exactly like a row doing its job.
  *
- * **Nothing here is content.** No pack ships in this change. A build that loads
- * no packs produces the empty catalog it produces today, which is what keeps
- * this safe to land before anybody has decided what the game's politics are
- * about.
+ * **Nothing here is content**, and that is still true of this file: it is the
+ * schema and the loader, and a build that loads no packs still produces the
+ * empty catalog. Content now exists and arrives through it —
+ * `us-state-and-local` carries the sourced issue vocabulary and
+ * `us-policy-positions` the authored stances on it — but it lives in packs,
+ * which is the whole point. Removing them from the registry empties the
+ * catalog again without touching a line here.
  */
 
 /* -------------------------------------------------------------------------- */
@@ -96,6 +101,14 @@ export interface PolicyIssueRow {
   readonly levels?: readonly PolicyGovernmentLevel[];
 }
 
+/** One principle a proposition engages, as a pack writes it. */
+export interface PropositionPrincipleRow {
+  /** Qualified `pack:key`, or a bare key meaning this pack's own. */
+  readonly principle: string;
+  /** Which way AGREEING with the question cuts. */
+  readonly bearing: PrincipleBearing;
+}
+
 /** A specific thing that could be done about an issue. */
 export interface PolicyPropositionRow {
   readonly key: string;
@@ -105,6 +118,17 @@ export interface PolicyPropositionRow {
   readonly question: string;
   readonly parameters?: readonly PropositionParameter[];
   readonly tags?: readonly string[];
+  /**
+   * The principles this question engages, where the pack is willing to say.
+   *
+   * Left out means the pack has not said, which is not "engages none" — see
+   * `PolicyPropositionDefinition.principles`. A row naming a principle no
+   * pack loaded before it declares is rejected by name with a reason, the
+   * same way an unknown issue is, rather than being silently dropped to an
+   * empty list: a relation that quietly disappears is indistinguishable
+   * from one nobody wrote.
+   */
+  readonly principles?: readonly PropositionPrincipleRow[];
 }
 
 /** Something a person can know about. */
@@ -251,8 +275,11 @@ function checkNamed(
  * pack loads. It throws only for a caller error — two packs claiming one name —
  * because that is this build's mistake rather than a pack author's.
  *
- * Order matters and is fixed: domains, then issues, then propositions, so a
- * reference always resolves against something already registered. Across packs
+ * Order matters and is fixed: domains, then issues, then principles, then
+ * propositions, so a reference always resolves against something already
+ * registered. Principles come before propositions because a proposition may
+ * name the principles it engages, and a proposition may not be named by a
+ * principle — the relation only points one way. Across packs
  * the list order decides, which means a pack extending another must be loaded
  * after it — and a row that reaches forward is rejected by name rather than
  * quietly dropped, so the fix is legible.
@@ -369,6 +396,29 @@ export function loadPolicyPacks(packs: readonly PolicyPack[]): PolicyRegistry {
       mine.issues.push(qualified);
     }
 
+    for (const row of pack.principles ?? []) {
+      const problem = checkNamed(row, seenPrinciples, "principle");
+      if (problem) {
+        rejections.push({
+          pack: pack.pack,
+          where: `principle "${row.key}"`,
+          reason: problem,
+        });
+        continue;
+      }
+      seenPrinciples.add(row.key);
+      const qualified = qualifiedPolicyKey(pack.pack, row.key);
+      principles.set(
+        qualified,
+        createPoliticalPrincipleDefinition(
+          qualified,
+          row.name,
+          row.description,
+        ),
+      );
+      mine.principles.push(qualified);
+    }
+
     for (const row of pack.propositions ?? []) {
       const problem = checkNamed(
         { key: row.key, name: row.name },
@@ -402,6 +452,31 @@ export function loadPolicyPacks(packs: readonly PolicyPack[]): PolicyRegistry {
         });
         continue;
       }
+      // Resolved before the proposition is admitted, so a row naming a
+      // principle nobody declares is rejected whole rather than admitted
+      // with the relation quietly missing.
+      const bearings: PropositionPrincipleBearing[] = [];
+      let unknownPrinciple: string | null = null;
+      for (const relation of row.principles ?? []) {
+        const principleKey = resolveReference(pack.pack, relation.principle);
+        const principle = principles.get(principleKey);
+        if (!principle) {
+          unknownPrinciple = principleKey;
+          break;
+        }
+        bearings.push({
+          principleId: principle.id,
+          bearing: relation.bearing,
+        });
+      }
+      if (unknownPrinciple !== null) {
+        rejections.push({
+          pack: pack.pack,
+          where: `proposition "${row.key}"`,
+          reason: `engages the principle "${unknownPrinciple}", which no pack loaded before it declares`,
+        });
+        continue;
+      }
       seenPropositions.add(row.key);
       const qualified = qualifiedPolicyKey(pack.pack, row.key);
       propositions.set(
@@ -413,6 +488,7 @@ export function loadPolicyPacks(packs: readonly PolicyPack[]): PolicyRegistry {
           row.question,
           row.parameters ?? [],
           row.tags ?? [],
+          bearings,
         ),
       );
       propositionsByIssue.set(
@@ -420,29 +496,6 @@ export function loadPolicyPacks(packs: readonly PolicyPack[]): PolicyRegistry {
         (propositionsByIssue.get(issueKey) ?? 0) + 1,
       );
       mine.propositions.push(qualified);
-    }
-
-    for (const row of pack.principles ?? []) {
-      const problem = checkNamed(row, seenPrinciples, "principle");
-      if (problem) {
-        rejections.push({
-          pack: pack.pack,
-          where: `principle "${row.key}"`,
-          reason: problem,
-        });
-        continue;
-      }
-      seenPrinciples.add(row.key);
-      const qualified = qualifiedPolicyKey(pack.pack, row.key);
-      principles.set(
-        qualified,
-        createPoliticalPrincipleDefinition(
-          qualified,
-          row.name,
-          row.description,
-        ),
-      );
-      mine.principles.push(qualified);
     }
 
     for (const row of pack.subjects ?? []) {

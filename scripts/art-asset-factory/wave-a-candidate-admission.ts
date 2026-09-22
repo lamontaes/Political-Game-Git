@@ -10,6 +10,11 @@ import type {
 } from "../../src/presentation/character-components";
 import { hashArtFile } from "./content-hash";
 import { measureBodyRig, opaqueBounds } from "./pg-modular-intake";
+import {
+  measureSeatedContact,
+  turnOffsetFraction,
+  type SeatedContactMeasurement,
+} from "./seated-contact";
 
 /**
  * Wave A candidate ADMISSION.
@@ -134,6 +139,21 @@ export interface WaveAVisualObservation {
   readonly extent: ObservedExtent;
   /** `high` when the reading is unambiguous at review scale. */
   readonly confidence: "high" | "ambiguous";
+  /**
+   * Which way a three-quarter figure is turned. The direction is read by
+   * MATCHING one of the project's two reference plates rather than by reasoning
+   * about left and right from scratch: `art/qa/p71/source_intake_dispositions.json`
+   * calls `ocd_body_adult_fem_seated_guest_three_quarter_v1` three-quarter right
+   * and `ocd_body_adult_fem_seated_conversational_left_v1` three-quarter left,
+   * and the two are mirror images. Every wave-a turned seated crop matches the
+   * first, so they are `right`.
+   *
+   * Absent on a row nobody has read for direction, and an absent direction is
+   * not a guess — a three-quarter crop without one stays unadmitted, because a
+   * registered pose family declares one facing and filing a figure under the
+   * mirror of its own turn would seat it backwards in its chair.
+   */
+  readonly facingDirection?: "left" | "right";
   readonly note?: string;
 }
 
@@ -188,6 +208,7 @@ export const WAVE_A_VISUAL_OBSERVATIONS: Readonly<
       bakedProp: "none",
       extent: "complete-figure",
       confidence: "high",
+      facingDirection: "right",
     },
   "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_front_neutral_v1.png":
     {
@@ -258,6 +279,7 @@ export const WAVE_A_VISUAL_OBSERVATIONS: Readonly<
       bakedProp: "none",
       extent: "complete-figure",
       confidence: "high",
+      facingDirection: "right",
     },
   "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_seated_front_neutral_v1.png":
     {
@@ -327,6 +349,7 @@ export const WAVE_A_VISUAL_OBSERVATIONS: Readonly<
       bakedProp: "none",
       extent: "complete-figure",
       confidence: "high",
+      facingDirection: "right",
     },
   "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_front_chair_v1.png":
     {
@@ -395,6 +418,7 @@ export const WAVE_A_VISUAL_OBSERVATIONS: Readonly<
       bakedProp: "none",
       extent: "complete-figure",
       confidence: "high",
+      facingDirection: "right",
     },
   "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_front_neutral_v1.png":
     {
@@ -463,6 +487,7 @@ export const WAVE_A_VISUAL_OBSERVATIONS: Readonly<
       bakedProp: "none",
       extent: "complete-figure",
       confidence: "high",
+      facingDirection: "right",
     },
   "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_front_chair_v1.png":
     {
@@ -531,6 +556,7 @@ export const WAVE_A_VISUAL_OBSERVATIONS: Readonly<
       bakedProp: "none",
       extent: "complete-figure",
       confidence: "high",
+      facingDirection: "right",
     },
   "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_seated_front_neutral_v1.png":
     {
@@ -599,25 +625,38 @@ export const WAVE_A_VISUAL_OBSERVATIONS: Readonly<
  * The registered pose family a reviewed observation maps onto, or null when
  * the registry has nothing that matches it.
  *
- * Every registered family in `art/manifest/pose_families.json` declares
- * `facing: "front"`, so a three-quarter, profile or back figure has no family
- * to be admitted to. That is a missing pose contract, and saying so is the
- * point: quietly filing a back view under `standing-neutral` would make the
- * registry claim a facing it does not have.
+ * A facing no registered family declares is a missing pose contract, not a
+ * defective crop, and saying so is the point: quietly filing a back view under
+ * `standing-neutral` would make the registry claim a facing it does not have.
+ * Every standing family still declares `facing: "front"`, so a turned standing
+ * figure has nowhere to go; the seated families declare front and
+ * three-quarter-right, so a turned seated figure does.
  */
 export function registeredPoseFamilyFor(
   observation: WaveAVisualObservation,
   apparentPoseCategory: string,
 ): string | null {
-  if (observation.facing !== "front") return null;
   if (observation.bakedProp !== "none") return null;
   if (observation.extent !== "complete-figure") return null;
   if (observation.posture === "seated") {
     // A propless seated figure sits in a seat the SCENE owns; that is exactly
     // the guest seat contract. `seated-at-desk` additionally implies a working
     // surface, which no propless seated crop in this wave presents.
-    return "seated-guest-neutral";
+    if (observation.facing === "front") return "seated-guest-neutral";
+    // A turned seated figure is the SAME posture from a turned viewpoint, so
+    // it belongs to the guest seat contract too — but only under the family
+    // that declares its own direction. A three-quarter crop nobody has read
+    // for direction stays unadmitted rather than defaulting to one, because
+    // filing a figure under the mirror of its turn seats it backwards in its
+    // own chair.
+    if (observation.facing === "three-quarter") {
+      if (observation.facingDirection === "right")
+        return "seated-guest-three-quarter-right";
+      return null;
+    }
+    return null;
   }
+  if (observation.facing !== "front") return null;
   if (apparentPoseCategory.startsWith("standing_neutral")) {
     return "standing-neutral";
   }
@@ -887,29 +926,62 @@ export function anchorsFromMeasurement(
   ];
 }
 
+/**
+ * The contacts the silhouette carries, and only those.
+ *
+ * Feet and seat are measured independently, and each is emitted only if its own
+ * measurement resolved. Two sole runs are two feet on a floor line; one run is
+ * two feet the silhouette cannot tell apart, which is common in a turned pose
+ * where the near foot occludes the far one, and it is reported unresolved
+ * rather than split down the middle.
+ *
+ * The seat contact comes from `measureSeatedContact`, which measures where the
+ * figure meets a chair rather than where its legs part. See that module for why
+ * the difference matters; in short, the old number was a leg-gap row that ran
+ * to the shin on every turned figure and was inside every plausibility band
+ * while doing it. A seat contact that could not be measured is absent, and an
+ * absent one is why a body cannot be placed in a chair — never a reason to
+ * supply one from proportions.
+ */
 export function contactsFromMeasurement(
   measurement: WaveAMeasurement,
   posture: ObservedPosture,
+  seatedContact?: SeatedContactMeasurement,
 ): CharacterBodyContacts | undefined {
-  if (measurement.soleRunCount !== 2) return undefined;
   const [left, right] = measurement.soleRunCentersFraction;
-  if (left === undefined || right === undefined) return undefined;
-  const soles = {
-    leftFoot: { x: left, y: measurement.rig.soleYFraction },
-    rightFoot: { x: right, y: measurement.rig.soleYFraction },
-  };
-  if (posture === "standing") return soles;
-  return {
-    ...soles,
-    seatedPelvis: {
-      x: measurement.rig.centerXFraction,
-      y: measurement.rig.crotchYFraction,
-    },
-  };
+  const solesResolved =
+    measurement.soleRunCount === 2 && left !== undefined && right !== undefined;
+  const soles = solesResolved
+    ? {
+        leftFoot: { x: left, y: measurement.rig.soleYFraction },
+        rightFoot: { x: right, y: measurement.rig.soleYFraction },
+      }
+    : {};
+  if (posture === "standing") return solesResolved ? soles : undefined;
+  const seat =
+    seatedContact && seatedContact.x !== null && seatedContact.y !== null
+      ? { seatedPelvis: { x: seatedContact.x, y: seatedContact.y } }
+      : {};
+  const contacts = { ...soles, ...seat };
+  return Object.keys(contacts).length > 0 ? contacts : undefined;
 }
 
 /** Body draw order, matching the banked pg candidates. */
 export const WAVE_A_BODY_LAYER = 20;
+
+/**
+ * The head orientation a reviewed observation presents, in the component
+ * vocabulary. Derived from the same reading that chose the pose family, so the
+ * two can never disagree.
+ */
+export function headOrientationFor(
+  observation: WaveAVisualObservation,
+): string {
+  if (observation.facing === "three-quarter" && observation.facingDirection) {
+    return `three-quarter-${observation.facingDirection}`;
+  }
+  return "front";
+}
 
 export function buildCandidateRecord(
   sweep: SweepComponentRecord,
@@ -917,16 +989,24 @@ export function buildCandidateRecord(
   measurement: WaveAMeasurement,
   poseFamily: string,
   fileHash: string,
+  seatedContact?: SeatedContactMeasurement,
 ): CharacterComponentManifestRecord {
   const assetId = waveAAssetId(sweep.choppedOutputPath);
-  const contacts = contactsFromMeasurement(measurement, observation.posture);
+  const contacts = contactsFromMeasurement(
+    measurement,
+    observation.posture,
+    seatedContact,
+  );
   const candidate: CharacterComponentCandidateDefinition = {
     kind: "body",
     family: waveAFamilyId(sweep.family),
     layer: WAVE_A_BODY_LAYER,
     canvas: { width: measurement.cropWidth, height: measurement.cropHeight },
     pose_family: poseFamily,
-    head_orientation: "front",
+    // The head orientation IS the pose family's facing: a component whose head
+    // faces one way under a family that declares another is rejected by the
+    // pose registry, and rightly.
+    head_orientation: headOrientationFor(observation),
     root: {
       convention: "pelvis-hip-center",
       x: measurement.rig.centerXFraction,
@@ -977,6 +1057,8 @@ export interface WaveAAdmissionRow {
   readonly observation: WaveAVisualObservation;
   readonly measurement: WaveAMeasurement;
   readonly rigPlausible: boolean;
+  readonly turnOffsetFraction: number;
+  readonly seatedContact: SeatedContactMeasurement | null;
   readonly registeredPoseFamily: string | null;
   readonly disposition: WaveADisposition;
   readonly priorClaimDisagreements: readonly string[];
@@ -998,6 +1080,7 @@ export interface WaveAAdmissionResult {
 export function unresolvedFor(
   observation: WaveAVisualObservation,
   measurement: WaveAMeasurement,
+  seatedContact?: SeatedContactMeasurement,
 ): readonly string[] {
   const unresolved: string[] = [
     "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
@@ -1012,9 +1095,15 @@ export function unresolvedFor(
     );
   }
   if (observation.posture === "seated") {
-    unresolved.push(
-      "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against.",
-    );
+    if (!seatedContact || seatedContact.basis === "unmeasured") {
+      unresolved.push(
+        `seat contact: ${seatedContact?.reason ?? "not measured"}. No seat contact is declared, and without one this body cannot be placed in a chair by anything. It is not supplied from proportions.`,
+      );
+    } else {
+      unresolved.push(
+        `seat plane: the seat contact is measured from the silhouette (${seatedContact.basis}); the true seat plane still needs a scene seat to calibrate against.`,
+      );
+    }
   }
   return unresolved;
 }
@@ -1082,6 +1171,16 @@ export async function runWaveAAdmission(
     const bitmap = await readPng(absolute);
     const measurement = measureWaveACrop(bitmap);
     const plausible = rigIsPlausible(measurement);
+    const turnOffset = turnOffsetFraction(bitmap);
+    const seatedContact =
+      observation.posture === "seated"
+        ? measureSeatedContact(
+            bitmap,
+            measureBodyRig(bitmap),
+            turnOffset,
+            measurement.soleRunCount,
+          )
+        : null;
     const poseFamily = registeredPoseFamilyFor(
       observation,
       sweep.apparentPoseCategory,
@@ -1109,10 +1208,16 @@ export async function runWaveAAdmission(
       observation,
       measurement,
       rigPlausible: plausible,
+      turnOffsetFraction: turnOffset,
+      seatedContact,
       registeredPoseFamily: poseFamily,
       disposition,
       priorClaimDisagreements: disagreementsWithPriorClaim(sweep, observation),
-      unresolved: unresolvedFor(observation, measurement),
+      unresolved: unresolvedFor(
+        observation,
+        measurement,
+        seatedContact ?? undefined,
+      ),
     });
 
     if (disposition === "admitted-candidate-body" && poseFamily) {
@@ -1123,6 +1228,7 @@ export async function runWaveAAdmission(
           measurement,
           poseFamily,
           fileHash,
+          seatedContact ?? undefined,
         ),
       );
     }

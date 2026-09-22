@@ -1,0 +1,51 @@
+{
+  "candidateAnswers": [
+    {
+      "argumentAgainst": "It would mean our gate measures the least informative part of the figure, and we would need a way to measure head orientation from pixels, which we currently take from a written label.",
+      "argumentFor": "It would explain the three plates that measure turned and read straight, since their heads and shoulders are close to square while their legs are angled.",
+      "label": "The face and shoulders dominate",
+      "position": "Perceived facing is carried mostly by the head's orientation and the apparent width of the shoulders, and outline asymmetry below the waist contributes little.",
+      "recommended": false
+    },
+    {
+      "argumentAgainst": "It asks us to discount the one direct observation we have, on the grounds that the viewing conditions were wrong, without testing the better conditions.",
+      "argumentFor": "It is what we already measure, and an isolated figure on a white field is not the condition under which anyone will see it.",
+      "label": "The outline is a sound proxy",
+      "position": "Outline asymmetry does track perceived facing well enough to gate on, and the three plates in question are genuinely turned in a way a viewer would accept once the figure is in a chair rather than isolated on a sheet.",
+      "recommended": false
+    }
+  ],
+  "filedAt": "2026-09-22T13:52:00Z",
+  "impact": "shapes-design",
+  "lane": "character art and scenes",
+  "notes": [
+    "We can measure anything an answer asks us to measure from our own plates, including per-region centroids, shoulder spans and limb crossings.",
+    "The direction convention itself is settled and recorded as a decision; this question is about whether the quantity it is built on is the right quantity, not about which sign means which way."
+  ],
+  "priority": "P1",
+  "question": "For a flat drawn human figure, which cues actually tell a viewer which way the body is facing — the asymmetry of the outline, the direction of the face, the foreshortening of the shoulders, the crossing of the limbs — and in what order of strength, such that a figure whose outline is measurably lopsided can still read as facing straight ahead and the reverse?",
+  "questionId": "apparent-turn-versus-silhouette-turn",
+  "relatedQuestionIds": [
+    "seated-figure-reads-as-in-the-seat",
+    "facial-expression-derivation"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "character rendering triage thread",
+  "sourcesChecked": [
+    {
+      "source": "Our own measurement across twelve seated plates: centroid of the lower quarter minus centroid of the upper sixth, as a fraction of canvas width",
+      "whatItDidNotSettle": "It is internally consistent and reproduces exactly, and it correctly separates plates that are obviously turned from plates that are obviously square. It cannot tell us whether what it measures is what a viewer uses, because agreement with a viewer was never tested."
+    },
+    {
+      "source": "art/qa/p71/source_intake_dispositions.json, the written descriptions of the same plates",
+      "whatItDidNotSettle": "It disagrees with the measurement on two of its four seated plates, calling one close to square that measures strongly turned and calling another turned the opposite way. Two disagreeing judgements do not establish which is right; they establish that the question is real."
+    },
+    {
+      "source": "The contact sheet of all twenty-two candidate bodies, looked at directly",
+      "whatItDidNotSettle": "Four plates read clearly turned and three read close to straight-on, while all seven measure turned in the same direction. One person's impression of seven pictures is not evidence about perception, which is why this is a research question rather than a second opinion."
+    }
+  ],
+  "title": "Which cues make a drawn figure read as turned, when its outline says otherwise",
+  "usableAnswer": "A ranking of the cues by how strongly each one determines perceived facing in a flat illustrated figure, with enough detail to tell us whether a silhouette-only measurement is a sound proxy or a weak one — and, if it is weak, which cue we should be measuring instead and whether it can be measured from the pixels we have rather than from a description somebody writes.",
+  "whyItMatters": "Our admission gate decides which way a seated figure is turned by measuring its silhouette, comparing the horizontal centre of the lower body against the upper. That number is stable and repeatable, and it is the only evidence the pipeline has. But three plates it calls clearly turned read close to straight-on when a person looks at them, and the prose written by whoever first catalogued those same plates disagrees with the measurement on two of four. If the outline is a weak cue, then the gate is confidently filing figures under a facing they do not appear to have, which puts them in the wrong seats and is exactly the kind of wrong-but-plausible number that nothing downstream can catch."
+}

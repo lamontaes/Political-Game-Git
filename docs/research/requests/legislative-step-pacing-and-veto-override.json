@@ -1,0 +1,35 @@
+{
+  "filedAt": "2026-09-22T16:10:00.000Z",
+  "impact": "shapes-design",
+  "lane": "modular legislation",
+  "notes": [
+    "Filed after lamontae declined to confirm these as game numbers on 2026-09-22: 'defer to realistic rules' and 'no hardcoding'. So this asks what the rule IS and where it varies, not whether our constants are well chosen. An answer that proposes better constants does not settle it.",
+    "The 'pending the director's confirmation' marks on these values are being replaced with a note that they await sourced rules, so they stop reading as settled."
+  ],
+  "priority": "P1",
+  "question": "Two things about how legislation actually moves, both of which we currently model with one national constant. FIRST, pacing: between the ordinary procedural steps of a bill in a state legislature — introduction, referral, committee hearing, committee report, floor — how much time actually elapses, and what governs it? Is it chamber rule, constitutional layover requirement, statute, or simply practice? Where a state imposes a mandatory waiting period (a reading-on-separate-days rule, a minimum days-on-desk before a floor vote, a notice period before a committee hearing), name it and its authority. Which states impose such a requirement and which leave it to the presiding officer's discretion? SECOND, veto override: when a governor returns a bill, what fraction of returned bills are actually passed again over the objection, and what drives that — the override threshold (two-thirds of elected members, three-fifths, majority), whether the legislature is still in session, and whether the same party holds the chamber? We want the rule and the drivers, not an average.",
+  "questionId": "legislative-step-pacing-and-veto-override",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "modular legislation thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/governing/legislative-clock.ts:91, LEGISLATIVE_CADENCE_PROFILE",
+      "whatItDidNotSettle": "Carries daysBetweenSteps: 3 and daysToHearing: 7 as a single national pair, marked PROPOSED. It encodes no layover rule, no notice period and no per-state variation, and nothing in the repository establishes where the 3 and the 7 came from."
+    },
+    {
+      "source": "src/simulation/governing/governing-calendar.ts:16, STATE_GOVERNING_CALENDAR",
+      "whatItDidNotSettle": "Carries overrideSucceedsPercent: 25 as one national chance, applied without reference to the override threshold, the session calendar or who holds the chamber. Also fixes budget season at 1 December and bill days at 15 February, 15 March and 15 April for every state alike."
+    },
+    {
+      "source": "The legislative rule packs under src/simulation/legislature",
+      "whatItDidNotSettle": "Describe chamber composition and the sequence a measure moves through. They carry no timing between steps and no override mechanics."
+    },
+    {
+      "source": "The generated veto-threshold rows, after the correction that made read law override a drawn value",
+      "whatItDidNotSettle": "Establish the threshold a state requires in the states read, which is the input to an override, but say nothing about how often an override is attempted or succeeds, and Virginia's rule is two conditions where the data shape carries one."
+    }
+  ],
+  "title": "How fast a bill actually moves, and what makes a veto override succeed",
+  "usableAnswer": "For pacing: a statement of what governs the interval between steps, with the states that impose a mandatory minimum named alongside the rule and its authority, and a statement of what the interval looks like in practice where nothing mandates one. A shape the code can read per jurisdiction — a named rule with a value and a citation — rather than a single better number. For override: the threshold per state with its authority, and a statement of which factors actually determine whether a returned bill is passed again, so the chance can be computed from the legislature we have rather than asserted.",
+  "whyItMatters": "Every bill in the game moves at the same speed in every state, and every returned bill has the same one-in-four chance of being passed again regardless of who holds the chamber or what the state's threshold is. Governing is the part of this game the owner rates eight or nine out of ten, and both of these are the difference between a legislature that behaves like a real one and a timer. The owner has ruled explicitly against picking better constants, so the answer has to be rules the code can read per jurisdiction."
+}
