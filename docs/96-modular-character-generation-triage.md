@@ -174,26 +174,60 @@ than treating the one visible failure as the finding. And when a test is
 corrected, expect the next assertion to fail too, and treat that as the
 correction working rather than as a new regression.
 
-## The pv4 records are load-bearing, so they stay
+## Decide by who points at a record, not by what it is about
 
-The images for the pv4 people were deleted at the owner's request and the
-component records describing them stayed. That reads at first like our own
-stale content, which the standing rule says to remove permanently. It is not,
-and the check that settles it is who points at it rather than what it
-describes.
+A rule in its own right, because it generalises past the case that produced it.
 
-`people-visual4-review.ts` is imported by fifteen files. Two of them are not
-tests: `engine-people29-review.ts`, which `art-preview.ts`, `WardrobeFigure.tsx`
-and `scripts/content/validate-art-snapshot.ts` all build on, and
-`PeopleVisual4Review.tsx`, which `CharacterProofView.tsx` renders. A whole
-family of `scripts/art-asset-factory/people-visual4-*` modules — lineage,
-instrument, arm mask, hair — reads them as well.
+The project's standing instruction is to delete our own unused assets, code and
+stale entries permanently, with one exception: never delete something another
+party holds a live pointer into. Applying that well turns entirely on how
+"unused" is established, and the tempting method is the wrong one. A record
+whose _subject_ has gone reads as stale by its own description — the thing it
+describes is not there, so what could it be for — and that reading is available
+without opening a single other file. It is also worthless as evidence. What a
+record is about says nothing about whether anything depends on it.
 
-So the records are not a description of absent artwork; they are the morphology
-and wardrobe vocabulary that several live surfaces are written against,
-including a player-facing wardrobe figure. Deleting them removes working code's
-foundation to tidy away a reference. They stay, and the refusal they produce is
-correct and already states its reason.
+**The test is the importers.** Grep for who reads the record, follow the chain
+out at least two levels, and ask whether any non-test file is on it. A record
+with live importers stays, whatever its subject. A record with none can go,
+however current its subject looks.
+
+Two levels matters. A direct importer list is often all tests, which reads as
+safe to remove; the file that matters is usually one hop further out, where a
+test-looking module turns out to be what a real screen is built on.
+
+### The worked example
+
+The pv4 images were deleted at the owner's request and the component records
+describing them stayed. By subject this is the textbook stale entry: records for
+artwork that no longer exists, sitting in a retired review library, produced by
+a provider nobody is supposed to reintroduce. Everything about the description
+says remove it.
+
+By importers it is the opposite. `people-visual4-review.ts` is read by fifteen
+files, and two are not tests:
+
+- `engine-people29-review.ts`, which `art-preview.ts`,
+  `src/player/WardrobeFigure.tsx` and
+  `scripts/content/validate-art-snapshot.ts` all build on.
+- `PeopleVisual4Review.tsx`, which `CharacterProofView.tsx` renders.
+
+A family of `scripts/art-asset-factory/people-visual4-*` modules — lineage,
+instrument, arm mask, hair — reads them as well. `engine-people29-review.ts` is
+the second-level case exactly: its own importer list is mostly tests, and the
+two that are not reach a player-facing wardrobe figure.
+
+So the records are not a description of absent artwork. They are the morphology
+and wardrobe vocabulary several live surfaces are written against. Deleting them
+would remove working code's foundation in order to tidy away a reference.
+
+They stay, and what they produce is correct: the compositor assembles all six
+layers, names the five it cannot find, and the portrait refuses with a stated
+reason rather than quietly drawing initials. That reason reaches the rendered
+markup, where a developer can read it, and stops there. It is deliberately not
+shown to the player, because a player-facing surface carries no provenance.
+Stated where it belongs and withheld where it does not — not silent, and not
+visible.
 
 ## What is still genuinely missing
 
