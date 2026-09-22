@@ -4,7 +4,7 @@ import type { MouseEventHandler } from "react";
  * The one pin control.
  *
  * A pin is a saved reference, so the control says "Pin" or "Unpin" in words
- * beside a pin icon rather than borrowing a favourite star. `aria-pressed`
+ * beside a pin icon rather than borrowing a favorite star. `aria-pressed`
  * carries the state and `name` completes the accessible label.
  */
 export function PinIcon() {

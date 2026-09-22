@@ -114,7 +114,7 @@ function disclosedJourneyFor(
  * travel — and without this, that press left a completed journey behind with
  * no recorded arrival, so `openingLifeLocation` could not place the player and
  * the destination refused forever. Measured in Springfield, Illinois: a party
- * organizing meeting asked for, travelled to, and then permanently unkeepable.
+ * organizing meeting asked for, traveled to, and then permanently unkeepable.
  */
 /**
  * `choice` is a parameter, from the client line, and must stay one. A journey

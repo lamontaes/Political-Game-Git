@@ -97,7 +97,7 @@ describe("player-places projection", () => {
       priors: [],
     });
     const opened = openOrdinaryLife(created.world, created.playerPersonId);
-    // A cancelled leg (like an older life without one) grants no arrival.
+    // A canceled leg (like an older life without one) grants no arrival.
     const journey = opened.history.scheduledActivities.find(
       (a) => a.location.locationKey === "ordinary-life:to-meeting-room",
     )!;
@@ -150,7 +150,7 @@ describe("player-places projection", () => {
       /Attend includes the disclosed 20-minute journey/,
     );
     expect(meeting.detail).toMatch(/cost is not represented/i);
-    expect(meeting.durationLabel).toMatch(/20 travelling/);
+    expect(meeting.durationLabel).toMatch(/20 traveling/);
     expect(
       model.offers.some(
         (offer) => offer.activityId === fixture.dLite.travelActivityId,

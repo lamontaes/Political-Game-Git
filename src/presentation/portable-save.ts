@@ -31,7 +31,7 @@ import {
  *
  * Import always creates a new local slot. The person inside the World stays
  * themselves; a new save id is not a new fictional life. Existing slots are
- * not overwritten. Candidate-preview provenance stays labelled and does not
+ * not overwritten. Candidate-preview provenance stays labeled and does not
  * make unreleased art available in a production profile.
  */
 

@@ -479,7 +479,7 @@ export function createStorageGuard(options = {}) {
   const freeBytes =
     options.freeBytes ??
     ((target) => {
-      // Fixture-only: honoured solely beside an explicit fixture state
+      // Fixture-only: honored solely beside an explicit fixture state
       // directory, so it can never loosen the limits on the real registry.
       if (
         process.env.OCD_STORAGE_STATE_DIR &&

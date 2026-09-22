@@ -79,8 +79,8 @@ Two things this is not:
 
 The field is optional and is omitted rather than written empty. That is not
 tidiness: five accepted-bytes fixtures failed when it was written
-unconditionally, because the synthetic catalogue's issues carry no levels and
-suddenly serialised an extra key. Omitting it means a world holding unrouted
+unconditionally, because the synthetic catalog's issues carry no levels and
+suddenly serialized an extra key. Omitting it means a world holding unrouted
 issues produces exactly the bytes it did before the field existed, and a save
 written before it stays readable. A test pins that.
 
@@ -101,7 +101,7 @@ housing should produce routine zoning and building-code work and no housing
 emergency. What is salient should come from the world's own conditions,
 standing programs, budget calendars and the goals NPCs actually hold.
 
-**The synthetic catalogue is not a baseline.** `createSyntheticPolicyCatalog`
+**The synthetic catalog is not a baseline.** `createSyntheticPolicyCatalog`
 in `policy.ts` carries foreign policy and monetary policy. Those are federal,
 it exists for demos and tests, and nothing in this pack inherits from it.
 

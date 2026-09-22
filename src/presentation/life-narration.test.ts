@@ -196,7 +196,7 @@ describe("A recap names its subject or does not exist", () => {
         // The old fallback titles mark a subject the record could not name.
         expect(thread!.title).not.toBe("Work");
         expect(thread!.title).not.toBe("School");
-        expect(thread!.title).not.toBe("Something in the neighbourhood");
+        expect(thread!.title).not.toBe("Something in the neighborhood");
         expect(thread!.title).not.toBe("Something decided earlier");
         expect(thread!.title).not.toBe("What happened here");
       }

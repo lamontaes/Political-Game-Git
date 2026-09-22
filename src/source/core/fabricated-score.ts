@@ -5,8 +5,8 @@
  * named revenue item, a headcount for a named government function. It does not
  * publish a verdict. The moment a corpus carries a "fiscal health index", an
  * "agency efficiency score" or an "overall capacity rating", it has stopped
- * transcribing a source and started asserting a judgement the source never
- * made — and because that judgement arrives wearing a number, nothing
+ * transcribing a source and started asserting a judgment the source never
+ * made — and because that judgment arrives wearing a number, nothing
  * downstream can tell it apart from a measurement.
  *
  * The type systems of the finance and employment domains already make a score
@@ -25,7 +25,7 @@
  *   - METRIC tokens name a measurement *shape* — score, rating, index,
  *     percentile. No Census revenue item, expenditure function or government
  *     function is called any of these. Their presence is decisive on its own.
- *   - JUDGEMENT tokens name an evaluative quality — efficiency, competence,
+ *   - JUDGMENT tokens name an evaluative quality — efficiency, competence,
  *     solvency. Likewise never a published item name, likewise decisive.
  *   - DOMAIN tokens are the ambiguous middle — health, quality, capacity,
  *     performance. These are, or could plausibly be, the Bureau's own words,
@@ -135,7 +135,7 @@ export const SCORE_DOMAIN_TOKENS: readonly string[] = [
 ];
 
 /**
- * Qualifiers that mark a value as summarised, derived or rolled up.
+ * Qualifiers that mark a value as summarized, derived or rolled up.
  *
  * These are what convert a `SCORE_DOMAIN_TOKENS` subject into a claim about
  * that subject as a whole.
@@ -231,7 +231,7 @@ export function findFabricatedScore(text: string): FabricatedScoreMatch | null {
     if (containsWord(delimited, token)) {
       return {
         token,
-        reason: `names "${token}", which is an evaluative judgement rather than anything the source collects.`,
+        reason: `names "${token}", which is an evaluative judgment rather than anything the source collects.`,
       };
     }
   }

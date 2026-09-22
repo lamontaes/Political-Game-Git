@@ -47,7 +47,7 @@ act as its citation), and may establish a rule the game had no compiled value
 for. A changed term length carries into the derived term end. Without a World,
 only compiled law is read, which is right for a question about real law.
 
-## Marked as not modelled, with the blanket rule applied
+## Marked as not modeled, with the blanket rule applied
 
 - **Effective dates.** The rule packs hold each state's effective-date rule as
   prose; nothing computes a date from it and no caller in play passes one, so
@@ -59,7 +59,7 @@ only compiled law is read, which is right for a question about real law.
   change any amendable field, the record keeps which one did, and an amendment
   always outranks a statute.
 - **Floor amendments.** A rule-change clause offered on the floor is not
-  modelled. Blanket rule: clauses are filed before the first floor vote, and
+  modeled. Blanket rule: clauses are filed before the first floor vote, and
   integrity refuses one filed after.
 - **An office registry.** A statute's legislative clause must name a chamber
   of its own rule pack. Elsewhere the office key must carry the state's own

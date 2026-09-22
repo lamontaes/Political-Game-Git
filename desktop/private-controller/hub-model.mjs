@@ -290,7 +290,7 @@ export function rollback(state, id) {
  * The label shown beside Play. A cached build is only "latest" when it equals
  * the freshly resolved remote SHA; otherwise it is the last known-good build.
  * `present` is the caller's disk evidence for the recorded build: a record
- * whose payload is gone is never labelled verified.
+ * whose payload is gone is never labeled verified.
  */
 export function playLabel({
   track,
@@ -456,7 +456,7 @@ export function updateStatus({ phase, check, build, building }) {
         "This build can't be previewed in the desktop app",
       );
     case "cancelled":
-      return at("unchecked", "Check cancelled");
+      return at("unchecked", "Check canceled");
     default:
       return at("failed", "Could not check");
   }

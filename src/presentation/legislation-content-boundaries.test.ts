@@ -131,7 +131,7 @@ describe("expanded content keeps proposed law and fiscal meanings separate", () 
     );
   });
 
-  it("preserves annual caps through filing/save and refuses a whole-programme comparison", () => {
+  it("preserves annual caps through filing/save and refuses a whole-program comparison", () => {
     const staged = setup("public-workforce", "authorize-positions");
     const world = deserializeWorld(serializeWorld(staged.world));
     const cap = currentMeasureProvisions(world, staged.bill.measureId).find(
@@ -178,7 +178,7 @@ describe("expanded content keeps proposed law and fiscal meanings separate", () 
       text: "A one-time setup ceiling of $100.",
       beneficiary: {
         kind: "general-application",
-        appliesToLabel: "the proposed programme",
+        appliesToLabel: "the proposed program",
       },
       applicationScope: {
         jurisdictionId: staged.input.jurisdictionId,

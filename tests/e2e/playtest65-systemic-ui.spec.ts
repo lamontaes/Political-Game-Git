@@ -90,7 +90,7 @@ test("Calais normal start, combined introduction and return-to-title preserve th
       .locator(".pg-scene-chapter:not([aria-hidden]) .pg-orientation-kicker")
       .textContent(),
   ).toBe(openingDate);
-  // Rapid changes coalesce to the last requested chapter. A cancelled image
+  // Rapid changes coalesce to the last requested chapter. A canceled image
   // decode cannot reveal an earlier target or leave duplicate active groups.
   await page.getByTestId("orientation-next").click();
   await page.getByTestId("orientation-next").click();

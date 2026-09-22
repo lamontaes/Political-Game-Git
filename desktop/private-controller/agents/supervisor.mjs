@@ -188,7 +188,7 @@ export class Supervisor {
       return;
     }
     const reply = parsed.value;
-    // The worker's own echoed message id is its acknowledgement.
+    // The worker's own echoed message id is its acknowledgment.
     store.transition(envelope.id, "acknowledged", worker.handle);
     if (reply.status === "completed" && reply.evidence.trim()) {
       const verified = worker.verify

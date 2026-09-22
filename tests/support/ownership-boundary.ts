@@ -146,7 +146,7 @@ export const PERMITTED_EXCEPTIONS: ReadonlyMap<string, string> = new Map([
   ],
   [
     "src/simulation/character-history.ts",
-    "Packet 67 adds one accessor, lifeSituationCatalog(), so the content index can read the formative bank without constructing a world. No situation, key or behaviour is changed.",
+    "Packet 67 adds one accessor, lifeSituationCatalog(), so the content index can read the formative bank without constructing a world. No situation, key or behavior is changed.",
   ],
 ]);
 
@@ -274,7 +274,7 @@ export function changedFilesSince(
     .filter(Boolean);
 }
 
-/** Changed paths owned by another branch, each labelled with its owner. */
+/** Changed paths owned by another branch, each labeled with its owner. */
 export function ownershipViolations(
   files: readonly string[],
 ): readonly string[] {

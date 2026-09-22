@@ -27,7 +27,7 @@ import type { EnvironmentSceneSpec } from "../environment-scene-spec";
  *
  * WHAT THE ROOM CONTAINS, read off the plate: a long judicial bench across the
  * left half with six high-backed chairs behind it, a second lower bench right
- * of centre with a further row of chairs behind it, two counsel tables each
+ * of center with a further row of chairs behind it, two counsel tables each
  * with a microphone, a bar rail, and a public gallery of wooden pews filling
  * the right and the foreground. Tall arched windows on the left wall, a
  * panelled surround behind the bench, one framed landscape painting, and blank
@@ -48,7 +48,7 @@ export const COURTROOM_EMPTY_PRODUCTION_SCENE: EnvironmentSceneSpec = {
   plate: { width: 1376, height: 768 },
 
   /**
-   * Horizontal focus sits left of centre because the subject is the judicial
+   * Horizontal focus sits left of center because the subject is the judicial
    * bench, which occupies x 1%-50%; the right third is gallery pews and blank
    * wall. Vertical focus is low: the top fifth is cornice and empty wall and is
    * the first band worth losing on a narrow crop.
@@ -215,7 +215,7 @@ export const COURTROOM_EMPTY_PRODUCTION_SCENE: EnvironmentSceneSpec = {
       },
     },
     {
-      /** The lower bench right of centre, and the chairs behind it. */
+      /** The lower bench right of center, and the chairs behind it. */
       id: "secondary-bench-front",
       type: "furniture-foreground",
       z_order: 1,
@@ -249,7 +249,7 @@ export const COURTROOM_EMPTY_PRODUCTION_SCENE: EnvironmentSceneSpec = {
       fallback_decoration: "a bare table top",
     },
     {
-      /** The centre counsel table top, seen further away and more edge-on. */
+      /** The center counsel table top, seen further away and more edge-on. */
       slot_id: "counsel-table-centre-papers",
       kind: "desk-document",
       rect_percent: {

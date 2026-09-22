@@ -240,7 +240,7 @@ CANONICAL PACKET:
 }
 ],
 "scene": {
-"key": "adult.friend-favour",
+"key": "adult.friend-favor",
 "opportunity": "favour-request",
 "companion": "other-household",
 "stakes": "notable",
@@ -379,7 +379,7 @@ CANONICAL PACKET:
 "label": "Nearby",
 "setting": null
 },
-"socialContext": "adult.friend-favour",
+"socialContext": "adult.friend-favor",
 "pressure": "proofread the two-paragraph picnic invitation",
 "choice": "Agree: Wording only; I will not contact the guests",
 "motivation": null,
@@ -422,7 +422,7 @@ CANONICAL PACKET:
 "summary": "You proofread Samantha Kemp's two-paragraph picnic invitation and sent the wording feedback. You kept the agreed limit: Wording only; I will not contact the guests.",
 "context": {
 "location": null,
-"socialContext": "adult.friend-favour",
+"socialContext": "adult.friend-favor",
 "pressure": "proofread the two-paragraph picnic invitation",
 "choice": "Carry out the proofreading",
 "motivation": null,
@@ -460,7 +460,7 @@ CANONICAL PACKET:
 "personFactConstraints": [],
 "visibility": "limited",
 "tags": [
-"adult.friend-favour",
+"adult.friend-favor",
 "life.callback",
 "life.favour-request:event_1a35c88ae5022eb3",
 "life.request.v1:{\"version\":1,\"task\":\"proofread the two-paragraph picnic invitation\",\"opening\":\"Could you look over my invitation to the family picnic? Just two paragraphs. I want to make sure the wording is clear.\",\"condition\":\"Wording only; I will not contact the guests\",\"minutes\":20}",
@@ -469,7 +469,7 @@ CANONICAL PACKET:
 "summary": "Samantha Kemp brings up the request to proofread the two-paragraph picnic invitation again. You agreed, but have not finished the proofreading.",
 "context": {
 "location": null,
-"socialContext": "adult.friend-favour",
+"socialContext": "adult.friend-favor",
 "pressure": null,
 "choice": null,
 "motivation": null,
@@ -492,11 +492,11 @@ CANONICAL PACKET:
 },
 {
 "id": "future-due-item-state_b01315d2d4f2466c",
-"stableKey": "life-favor:event_1a35c88ae5022eb3:response:callback:state:cancelled:2026-04-11",
+"stableKey": "life-favor:event_1a35c88ae5022eb3:response:callback:state:canceled:2026-04-11",
 "sequence": 143,
 "dueItemId": "future-due-item_0b0e64c3c6914c52",
 "effectiveAt": "2026-04-11",
-"status": "cancelled",
+"status": "canceled",
 "reasonKey": "life:attention-moved",
 "context": "It was still there to be raised, and the person who could have raised it did not.",
 "outcomeEventId": null,
@@ -1432,7 +1432,7 @@ CANONICAL GAME PACKET:
 "immediateReaction": "All right. We won't start that activity."
 }
 },
-"status": "cancelled",
+"status": "canceled",
 "label": "try a new game together"
 },
 "repeatRejected": true,

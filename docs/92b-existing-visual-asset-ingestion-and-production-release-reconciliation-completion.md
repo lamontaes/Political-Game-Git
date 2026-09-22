@@ -5,7 +5,7 @@ Packet: `92B_CLAUDE_EXISTING_VISUAL_ASSET_INGESTION_AND_PRODUCTION_RELEASE_RECON
 
 - **Accepted main at packet creation:** `1d05923e549981af22b46026f26b65ab8dda7b2f` (#91 merged).
 - **Branch:** `claude/new-session-4owtvv`, cut from `1d05923`. **Not merged.**
-- **Mode:** evidence-first audit + safe, additive reconciliation. No runtime behaviour,
+- **Mode:** evidence-first audit + safe, additive reconciliation. No runtime behavior,
   no manifest, and no character catalog changed. No pixel was promoted or released.
 
 This run did **not** begin by declaring the production art missing. It proved the

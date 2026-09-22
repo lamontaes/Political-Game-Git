@@ -1006,7 +1006,7 @@ function artDeskView(url) {
       item.setSavePath(dest);
       item.once("done", (_event, state) => {
         logLine(`Art Desk download ${state}: ${dest}`);
-        // completed | cancelled | interrupted — cancel is not a failure.
+        // completed | canceled | interrupted — cancel is not a failure.
         hub.lastDownload = {
           state,
           name: path.basename(dest),
@@ -1812,7 +1812,7 @@ handle("hub:cancel-build", () => {
   hub.worker?.kill("SIGTERM");
   return {
     ok: true,
-    message: "Cancelling. The last verified build stays active.",
+    message: "Canceling. The last verified build stays active.",
   };
 });
 handle("hub:choose-repository", async () => {

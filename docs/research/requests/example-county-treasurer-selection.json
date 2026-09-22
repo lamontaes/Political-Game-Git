@@ -2,7 +2,7 @@
   "requestVersion": "research-request/v1",
   "questionId": "example-county-treasurer-selection",
   "title": "How a county treasurer takes office, state by state",
-  "question": "For each state that has county treasurers, is the office elected by county voters, appointed by the county's governing body, appointed by a professional administrator, or abolished in favour of a combined finance office — and which instrument establishes that?",
+  "question": "For each state that has county treasurers, is the office elected by county voters, appointed by the county's governing body, appointed by a professional administrator, or abolished in favor of a combined finance office — and which instrument establishes that?",
   "whyItMatters": "County offices are seated from the government-unit corpus, which records that a treasurer exists but not how the seat is filled. Without the selection mechanism a county office cannot be put on a ballot or filled by appointment, so the whole county layer stays unreachable in play rather than merely thin.",
   "impact": "blocks-work",
   "lane": "nationwide government",
@@ -32,6 +32,6 @@
     ],
     "answeredBy": "ChatGPT",
     "answeredAt": "2026-09-22T17:39:00.000Z",
-    "stillOpen": "Status 'not-a-research-assignment'; receiver: existing source-owned research queue publisher. Not a research question: a schema example. It should leave the live queue.\n\nScope limits of the whole DEPTH1 batch, in its own words: evidenceStatus \"read-source-and-research-not-production-test\"; its 12 passing tests are \"research structure and isolated arithmetic only; NOT repository/game tests\"; it read source at main 4965f63c and the 16:34Z render (22 open), not the 15 questions filed since. Any number in it is \"labelled, adjustable private-playtest calibration\", not an empirical fact or an exact number chosen by lamontae. The Acceptance paragraph is a test somebody still has to write, not one that ran."
+    "stillOpen": "Status 'not-a-research-assignment'; receiver: existing source-owned research queue publisher. Not a research question: a schema example. It should leave the live queue.\n\nScope limits of the whole DEPTH1 batch, in its own words: evidenceStatus \"read-source-and-research-not-production-test\"; its 12 passing tests are \"research structure and isolated arithmetic only; NOT repository/game tests\"; it read source at main 4965f63c and the 16:34Z render (22 open), not the 15 questions filed since. Any number in it is \"labeled, adjustable private-playtest calibration\", not an empirical fact or an exact number chosen by lamontae. The Acceptance paragraph is a test somebody still has to write, not one that ran."
   }
 }
