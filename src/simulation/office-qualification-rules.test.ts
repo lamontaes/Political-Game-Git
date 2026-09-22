@@ -227,6 +227,126 @@ describe("production-compiled office qualification rules", () => {
     expect(limit(0)?.reason).toMatch(/No recorded term in this office/);
   });
 
+  /*
+   * Minnesota's House asks for six months in the district, and six months is
+   * not a number of years. The reader used to accept whole years only, so this
+   * row could not be expressed at all and was reported as unevaluated --
+   * honest, but it meant a Minnesota House candidate was refused a seat their
+   * own Senate would have given them, for a reason that was about our units
+   * rather than about them.
+   */
+  it("assesses a residence requirement the law states in months", () => {
+    const world = createScenarioWorld(
+      "qualification-months",
+      LEXINGTON_DEMO_CONTEXT,
+      { peopleCount: 3 },
+    );
+    const person = world.people[world.personOrder[0]!]!;
+    // After the Minnesota rows' own observation date, so this test is about
+    // the unit and nothing else.
+    const onDate = makeIsoDate("2026-11-03");
+    const district = (districtResidenceSince: string) =>
+      assessOfficeQualifications({
+        person,
+        stateJurisdictionKey: "US-MN",
+        officeFamily: "LOWER_CHAMBER" as const,
+        stateResidenceSince: makeIsoDate("2000-01-01"),
+        districtResidenceSince: makeIsoDate(districtResidenceSince),
+        onDate,
+      }).find((assessment) => assessment.field === "DISTRICT_RESIDENCE");
+
+    // Exactly six months is enough; one day short is not. Neither answer is
+    // reachable if six months is rounded to a year or to nothing.
+    expect(district("2026-05-03")?.verdict).toBe("meets");
+    expect(district("2026-05-04")?.verdict).toBe("fails");
+
+    // The sentence quotes the law's own unit rather than translating it into
+    // a half year nobody wrote.
+    expect(district("2026-05-04")?.reason).toContain("6 months");
+    expect(district("2026-05-04")?.reason).not.toContain("0.5");
+    expect(district("2026-05-04")?.reason).not.toContain("year");
+
+    // A requirement stated in years still reads as years on both sides.
+    const stateSide = assessOfficeQualifications({
+      person,
+      stateJurisdictionKey: "US-MN",
+      officeFamily: "LOWER_CHAMBER" as const,
+      stateResidenceSince: makeIsoDate("2026-10-01"),
+      districtResidenceSince: makeIsoDate("2026-05-03"),
+      onDate,
+    }).find((assessment) => assessment.field === "STATE_RESIDENCE");
+    if (stateSide && stateSide.verdict === "fails") {
+      expect(stateSide.reason).toMatch(/requires 1 year|requires \d+ years/);
+    }
+  });
+
+  /*
+   * The band is the only place the arithmetic is observable.
+   *
+   * Every other residence figure in play is either nothing at all or something
+   * like 700 days, and 700 days clears six months and a year alike however it
+   * is rounded. Ten months is the one duration that separates them: it satisfies
+   * a six-month rule and not a one-year rule, so rounding six months up to a
+   * year would refuse this character and rounding it down to nothing would admit
+   * somebody who arrived yesterday. Ported from the playtesting lane's
+   * candidacy-level case so it sits against this implementation too.
+   */
+  it("admits somebody past a six-month cutoff but short of a year", () => {
+    const world = createScenarioWorld(
+      "qualification-band",
+      LEXINGTON_DEMO_CONTEXT,
+      { peopleCount: 3 },
+    );
+    const person = world.people[world.personOrder[0]!]!;
+    const onDate = makeIsoDate("2026-11-03");
+    // One character, one residence interval of ten completed months, read
+    // against two states whose requirements differ only in unit.
+    const tenMonthsAgo = makeIsoDate("2026-01-03");
+    const districtIn = (stateJurisdictionKey: string) =>
+      assessOfficeQualifications({
+        person,
+        stateJurisdictionKey,
+        officeFamily: "LOWER_CHAMBER" as const,
+        stateResidenceSince: makeIsoDate("2000-01-01"),
+        districtResidenceSince: tenMonthsAgo,
+        onDate,
+      }).find((assessment) => assessment.field === "DISTRICT_RESIDENCE");
+
+    // Minnesota asks six months: ten months is past it.
+    expect(districtIn("US-MN")?.verdict).toBe("meets");
+    // Ohio asks a year: the same ten months is short of it.
+    expect(districtIn("US-OH")?.verdict).toBe("fails");
+  });
+
+  it("reads a residence requirement written as a compiler token", () => {
+    // Ohio's two chambers carry "RESIDENT_1_YEAR" rather than a phrase. Before
+    // this was read, the row was unevaluated -- and an unevaluated row is a
+    // block, so Ohio refused every candidate on district residence for a
+    // reason about our transport rather than about them.
+    const world = createScenarioWorld(
+      "qualification-token",
+      LEXINGTON_DEMO_CONTEXT,
+      { peopleCount: 3 },
+    );
+    const person = world.people[world.personOrder[0]!]!;
+    const onDate = makeIsoDate("2026-11-03");
+    const district = (districtResidenceSince: string) =>
+      assessOfficeQualifications({
+        person,
+        stateJurisdictionKey: "US-OH",
+        officeFamily: "LOWER_CHAMBER" as const,
+        stateResidenceSince: makeIsoDate("2000-01-01"),
+        districtResidenceSince: makeIsoDate(districtResidenceSince),
+        onDate,
+      }).find((assessment) => assessment.field === "DISTRICT_RESIDENCE");
+
+    expect(district("2000-01-01")?.verdict).toBe("meets");
+    expect(district("2026-10-01")?.verdict).toBe("fails");
+    // The token is not shown to a player; the duration it stands for is.
+    expect(district("2026-10-01")?.reason).toContain("1 year");
+    expect(district("2026-10-01")?.reason).not.toContain("RESIDENT_1_YEAR");
+  });
+
   it("does not apply a later current-source observation to an earlier life", () => {
     const earlier = officeQualifications(
       "US-NE",

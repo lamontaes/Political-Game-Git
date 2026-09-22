@@ -42,7 +42,11 @@ export const TRANSIT_SERVICE_VARIANT: ProgramVariant = {
   instrument: "appropriation",
   synopsis:
     "Provide money for two periods of added service; expenditure still requires collected public cash.",
-  shortTitle: "Additional Transit Service Act",
+  // A template's short title is the kind of measure, never a proper name: the
+  // same variant is filed in any chamber, by any sponsor, for any program, so
+  // a fixed named Act would give every one of them the same statute. Its
+  // thirty-one siblings across the other families already read this way.
+  shortTitle: "Additional Service Hours",
   subjectClass: "appropriation",
   authorizesAppropriation: true,
   defaults: {
