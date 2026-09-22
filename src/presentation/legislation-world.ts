@@ -19,6 +19,7 @@ import {
   authoredScenarioSeatCount,
   characterHistoryContextPersonId,
   createStableId,
+  chamberByKey,
   defaultOriginChamber,
   drawCanonicalNameForGender,
   catalogPropositionIds,
@@ -428,9 +429,9 @@ export function openLegislativeWork(
   // institutional route already established; the authored route keeps the
   // pack's own default origin. Naming it explicitly on both paths is what lets
   // the number come from the same chamber the bill is actually filed in.
-  const originChamberKey = institutional
-    ? seat!.chamberKey
-    : defaultOriginChamber(content.pack).chamberKey;
+  const originChamber = institutional
+    ? chamberByKey(content.pack, seat!.chamberKey)
+    : defaultOriginChamber(content.pack);
 
   next = introduceMeasure(next, {
     stableKey: measureStableKey,
@@ -439,14 +440,14 @@ export function openLegislativeWork(
     // This jurisdiction's numbering, in this world — never the bank's literal.
     designation: nextMeasureDesignation(next, {
       jurisdictionId: input.jurisdictionId,
-      originChamberKey,
+      originChamber,
     }),
     shortTitle: content.shortTitle,
     summary: content.summary,
     origin: "member-introduction",
     subjectClass: content.subjectClass,
     sponsorPersonId,
-    originChamberKey,
+    originChamberKey: originChamber.chamberKey,
     propositionIds: catalogPropositionIds(next, content.propositionKeys),
   });
 
