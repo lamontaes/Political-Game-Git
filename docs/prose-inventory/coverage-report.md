@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 3166 |
 | INTENTIONALLY_NON_PLAYER_FACING | 7074 |
-| DIAGNOSTIC_OR_TEST | 7603 |
-| **NEEDS_CLASSIFICATION** | **10277** |
+| DIAGNOSTIC_OR_TEST | 7623 |
+| **NEEDS_CLASSIFICATION** | **10284** |
 
-Scanned 1151 files holding 111799 string
+Scanned 1154 files holding 111909 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -248,6 +248,7 @@ literals in total; the table counts only those that read like a sentence.
 | 11 | `src/player/NationwideCandidacyWorkspace.tsx` |
 | 11 | `src/player/PlacesWorkspace.tsx` |
 | 11 | `src/player/PublicInformationPanel.tsx` |
+| 11 | `src/player/WorldOrientationPanel.tsx` |
 | 11 | `src/player/news/NewsDesk.tsx` |
 | 11 | `src/player/politics/PartyInitiativesPanel.tsx` |
 | 11 | `src/presentation/modeled-account-history.ts` |
@@ -396,7 +397,6 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/player/CreatorBirthdayFields.tsx` |
 | 4 | `src/player/GuideWorkspace.tsx` |
 | 4 | `src/player/WardrobeFigure.tsx` |
-| 4 | `src/player/WorldOrientationPanel.tsx` |
 | 4 | `src/player/politics/GovernmentBrowser.tsx` |
 | 4 | `src/player/politics/PublicServicePanel.tsx` |
 | 4 | `src/presentation/browser-shell-state.ts` |
