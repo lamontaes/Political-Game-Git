@@ -239,7 +239,7 @@
       "key": "foreign-affairs.foreign-assistance",
       "domain": "foreign-affairs",
       "name": "Foreign assistance and humanitarian support",
-      "description": "Which overseas programs receive support and on what terms? International federal assistance is distinct from domestic intergovernmental transfers and local charitable activity.",
+      "description": "Which overseas programmes receive support and on what terms? International federal assistance is distinct from domestic intergovernmental transfers and local charitable activity.",
       "levels": [
         "federal"
       ]
@@ -266,7 +266,7 @@
       "key": "trade.trade-agreements",
       "domain": "trade",
       "name": "Trade agreements and trade adjustment",
-      "description": "What international trade commitments and domestic adjustment support should be adopted? A national trade agreement is not a local business license or a state's workforce programme.",
+      "description": "What international trade commitments and domestic adjustment support should be adopted? A national trade agreement is not a local business licence or a state's workforce programme.",
       "levels": [
         "federal"
       ]
@@ -311,7 +311,7 @@
       "key": "health.medicare",
       "domain": "health",
       "name": "Medicare coverage and payment",
-      "description": "What covered benefits, payment arrangements and federal financing should Medicare use? Medicare is a federal program, distinct from state insurance regulation and state Medicaid choices.",
+      "description": "What covered benefits, payment arrangements and federal financing should Medicare use? Medicare is a federal programme, distinct from state insurance regulation and state Medicaid choices.",
       "levels": [
         "federal"
       ]
@@ -320,7 +320,7 @@
       "key": "health.medicaid-framework",
       "domain": "health",
       "name": "Medicaid federal requirements and financing",
-      "description": "What federal requirements, matching and permitted program options apply to Medicaid? The federal framework and financing are not the state's own administration and supported choices within that framework.",
+      "description": "What federal requirements, matching and permitted programme options apply to Medicaid? The federal framework and financing are not the state's own administration and supported choices within that framework.",
       "levels": [
         "federal"
       ]
@@ -338,7 +338,7 @@
       "key": "social-insurance.retirement-survivors",
       "domain": "social-insurance",
       "name": "Social Security retirement and survivors benefits",
-      "description": "How should the federal retirement and survivors program define benefits and financing? It is not a state public-employee pension or a local relief payment.",
+      "description": "How should the federal retirement and survivors programme define benefits and financing? It is not a state public-employee pension or a local relief payment.",
       "levels": [
         "federal"
       ]
@@ -356,7 +356,7 @@
       "key": "social-insurance.means-tested-support",
       "domain": "social-insurance",
       "name": "Federal income and nutrition assistance",
-      "description": "What federal funding, eligibility framework and administration govern supported assistance programs? National program rules, state administration and local delivery are linked but not the same government decision.",
+      "description": "What federal funding, eligibility framework and administration govern supported assistance programmes? National programme rules, state administration and local delivery are linked but not the same government decision.",
       "levels": [
         "federal"
       ]
@@ -383,7 +383,7 @@
       "key": "education.education-research",
       "domain": "education",
       "name": "Education research and national information",
-      "description": "What federal research, evaluation and education information should be supported? A national evidence program does not itself decide a local school's teaching or fabricate an individual's credentials.",
+      "description": "What federal research, evaluation and education information should be supported? A national evidence programme does not itself decide a local school's teaching or fabricate an individual's credentials.",
       "levels": [
         "federal"
       ]
@@ -410,7 +410,7 @@
       "key": "labor-commerce.business-support",
       "domain": "labor-commerce",
       "name": "Small-business and industrial support",
-      "description": "What federal finance, procurement opportunities or development support should enterprises receive? A federal program supplies its own terms and funds, not a guaranteed viable business or automatic local hiring.",
+      "description": "What federal finance, procurement opportunities or development support should enterprises receive? A federal programme supplies its own terms and funds, not a guaranteed viable business or automatic local hiring.",
       "levels": [
         "federal"
       ]
@@ -445,8 +445,8 @@
     {
       "key": "transport-water.surface-transport",
       "domain": "transport-water",
-      "name": "Federal surface transportation programs",
-      "description": "What federal program funding, conditions and safety framework support surface transport? The federal program and allocation differ from a state or locality choosing and delivering its particular road or transit work.",
+      "name": "Federal surface transportation programmes",
+      "description": "What federal programme funding, conditions and safety framework support surface transport? The federal programme and allocation differ from a state or locality choosing and delivering its particular road or transit work.",
       "levels": [
         "federal"
       ]
@@ -499,8 +499,8 @@
     {
       "key": "agriculture.producer-support",
       "domain": "agriculture",
-      "name": "Agricultural support and risk programs",
-      "description": "Which national agricultural support and risk-management arrangements should be offered? Federal program terms differ from local land use and a farm's actual production, costs and decisions.",
+      "name": "Agricultural support and risk programmes",
+      "description": "Which national agricultural support and risk-management arrangements should be offered? Federal programme terms differ from local land use and a farm's actual production, costs and decisions.",
       "levels": [
         "federal"
       ]
@@ -518,7 +518,7 @@
       "key": "agriculture.rural-development",
       "domain": "agriculture",
       "name": "Rural development assistance",
-      "description": "What federal investment and assistance should support rural places? Federal program eligibility is separate from a particular county's project choice, service need and delivery.",
+      "description": "What federal investment and assistance should support rural places? Federal programme eligibility is separate from a particular county's project choice, service need and delivery.",
       "levels": [
         "federal"
       ]
@@ -545,7 +545,7 @@
       "key": "emergencies.mitigation",
       "domain": "emergencies",
       "name": "Disaster mitigation and preparedness",
-      "description": "What federal support should reduce future exposure and improve resilience? Federal program support is not a guarantee of local preparedness or a cancellation of hazards.",
+      "description": "What federal support should reduce future exposure and improve resilience? Federal programme support is not a guarantee of local preparedness or a cancellation of hazards.",
       "levels": [
         "federal"
       ]
@@ -553,8 +553,8 @@
     {
       "key": "justice-rights.federal-justice",
       "domain": "justice-rights",
-      "name": "Federal offenses, courts and corrections",
-      "description": "What federal offenses, procedures, judicial capacity and correctional responsibilities should apply? Federal jurisdiction is distinct from state criminal law and local policing; an allegation does not grant jurisdiction or establish guilt.",
+      "name": "Federal offences, courts and corrections",
+      "description": "What federal offences, procedures, judicial capacity and correctional responsibilities should apply? Federal jurisdiction is distinct from state criminal law and local policing; an allegation does not grant jurisdiction or establish guilt.",
       "levels": [
         "federal"
       ]
@@ -607,8 +607,8 @@
     {
       "key": "science-communications.research-space",
       "domain": "science-communications",
-      "name": "Federal research and space programs",
-      "description": "Which national research and space programs are authorized and funded? Federal program support is not a local university's internal decision or an automatic scientific discovery.",
+      "name": "Federal research and space programmes",
+      "description": "Which national research and space programmes are authorized and funded? Federal programme support is not a local university's internal decision or an automatic scientific discovery.",
       "levels": [
         "federal"
       ]
@@ -644,7 +644,7 @@
       "key": "territories-culture.territories-district",
       "domain": "territories-culture",
       "name": "Territories and the District of Columbia",
-      "description": "What federal relationships, powers and program treatment apply to territories and D.C.? D.C. and Puerto Rico are not ordinary states or municipalities; their separate profiles still determine local authority.",
+      "description": "What federal relationships, powers and programme treatment apply to territories and D.C.? D.C. and Puerto Rico are not ordinary states or municipalities; their separate profiles still determine local authority.",
       "levels": [
         "federal"
       ]
@@ -914,8 +914,8 @@
     },
     {
       "key": "knowledge.transport-water.surface-transport",
-      "name": "Federal surface transportation programs",
-      "description": "Understanding the federal question: Federal surface transportation programs. Registration does not give anybody this knowledge.",
+      "name": "Federal surface transportation programmes",
+      "description": "Understanding the federal question: Federal surface transportation programmes. Registration does not give anybody this knowledge.",
       "scope": "issue",
       "about": "transport-water.surface-transport"
     },
@@ -956,8 +956,8 @@
     },
     {
       "key": "knowledge.agriculture.producer-support",
-      "name": "Agricultural support and risk programs",
-      "description": "Understanding the federal question: Agricultural support and risk programs. Registration does not give anybody this knowledge.",
+      "name": "Agricultural support and risk programmes",
+      "description": "Understanding the federal question: Agricultural support and risk programmes. Registration does not give anybody this knowledge.",
       "scope": "issue",
       "about": "agriculture.producer-support"
     },
@@ -998,8 +998,8 @@
     },
     {
       "key": "knowledge.justice-rights.federal-justice",
-      "name": "Federal offenses, courts and corrections",
-      "description": "Understanding the federal question: Federal offenses, courts and corrections. Registration does not give anybody this knowledge.",
+      "name": "Federal offences, courts and corrections",
+      "description": "Understanding the federal question: Federal offences, courts and corrections. Registration does not give anybody this knowledge.",
       "scope": "issue",
       "about": "justice-rights.federal-justice"
     },
@@ -1040,8 +1040,8 @@
     },
     {
       "key": "knowledge.science-communications.research-space",
-      "name": "Federal research and space programs",
-      "description": "Understanding the federal question: Federal research and space programs. Registration does not give anybody this knowledge.",
+      "name": "Federal research and space programmes",
+      "description": "Understanding the federal question: Federal research and space programmes. Registration does not give anybody this knowledge.",
       "scope": "issue",
       "about": "science-communications.research-space"
     },
