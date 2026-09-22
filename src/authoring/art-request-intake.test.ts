@@ -14,6 +14,7 @@ import {
   type ArtRequestIntakeRecord,
 } from "./art-request-intake";
 import { validateAssetRequests } from "./asset-request";
+import { ASSET_TARGET_CLASSES } from "./asset-lineage";
 
 function record(
   overrides: Partial<ArtRequestIntakeRecord> = {},
@@ -506,5 +507,40 @@ describe("a promotion declares whether it is a generation job", () => {
     expect(promoteToAssetRequest(record(), PROMOTION).generationHold).toBe(
       undefined,
     );
+  });
+});
+
+describe("the registry checks its own target vocabulary", () => {
+  /**
+   * The drift this exists to stop already happened. "character-component"
+   * shipped in six entries of art/requests/asset-requests.json while
+   * `AssetTargetClass` did not list it, and nothing failed, so a figure could
+   * be filed and could not be promoted — the only class left for it said never
+   * shipped. The type and the data had diverged with no check between them.
+   */
+  it("rejects a target class the lineage vocabulary does not define", () => {
+    const promoted = promoteToAssetRequest(record(), PROMOTION);
+    const bent = {
+      ...promoted,
+      target: {
+        ...promoted.target,
+        targetClass: "charcter-component" as never,
+      },
+    };
+    const validation = validateAssetRequests([bent]);
+    expect(validation.valid).toBe(false);
+    expect(validation.findings.map((finding) => finding.code)).toContain(
+      "unknown-target-class",
+    );
+  });
+
+  it("accepts every class the vocabulary does define", () => {
+    for (const targetClass of ASSET_TARGET_CLASSES) {
+      const request = promoteToAssetRequest(record(), {
+        ...PROMOTION,
+        target: { ...PROMOTION.target, targetClass },
+      });
+      expect(validateAssetRequests([request]).valid).toBe(true);
+    }
   });
 });
