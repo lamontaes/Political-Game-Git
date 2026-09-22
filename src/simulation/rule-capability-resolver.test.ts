@@ -49,8 +49,9 @@ describe("rules-capability/v1 at state scope", () => {
       onDate: makeIsoDate("2025-09-30"),
     });
     expect(before.refusal).toMatch(
-      /^qualification\.minimumAge is not established: NRS 218A\.200 is supported from 2025-10-01/,
+      /^qualification\.minimumAge is not established: You can't run for office in Nevada this early\./,
     );
+    expect(before.refusal).not.toMatch(/NRS|2025-10-01|acquired evidence/);
   });
 
   it("refuses Nevada's Senate on its own missing row without borrowing the Assembly's", () => {
