@@ -1,0 +1,34 @@
+{
+  "control": {
+    "detail": "Nothing a player or an NPC does adds a person for their own sake. A person is minted when a named role or a screen needs one — election turnover, or a scene short of somebody — and never otherwise. There is no in-migration, which is also why nothing assigns anyone a party.",
+    "present": false
+  },
+  "declaredInContent": false,
+  "entryId": "who-lives-in-the-world",
+  "mapVersion": "connectivity-map/v1",
+  "measuredBy": "people and life",
+  "measurements": [
+    {
+      "at": "reported by the people and life lane on 2026-09-22; that report named no tree, so this reading is carried and not anchored here",
+      "found": "Two populations that never touch; no weight, no sample declaration, no scaling; an election computed from a support score and a random swing rather than from any electorate.",
+      "what": "The people and life lane's finding, filed as what-the-simulated-people-are-a-sample-of"
+    }
+  ],
+  "notes": [
+    "lamontae read this and said: \"wow. put this at the top of the list\", 2026-09-22 15:49Z. It is first here for the same reason it is first on the question queue: every other entry turns on it. A person's politics coming from who they are, a friendship that lasts, a life that starts somewhere — all of them need people who exist for their own sake."
+  ],
+  "opensTheDocument": "This is the finding every other entry turns on, and lamontae asked for it first: he read it and said \"wow. put this at the top of the list\", 2026-09-22 15:49Z. A person's politics coming from who they are, a friendship that lasts, a life that starts somewhere — every one of them needs people who exist for their own sake, and this game makes a person only when a named role or a screen needs one.",
+  "playerReach": "does-not-reach",
+  "playerReachDetail": "A player can see a population number and can never meet the people it counts, or affect how many there are.",
+  "reMeasuredByPublisher": false,
+  "recordedAt": "2026-09-22T16:00:00.000Z",
+  "surface": {
+    "detail": "A place's population is shown, but it is the sourced headcount, not a count of anybody the game simulates. Nothing on any screen reports that the world's population has changed, or that the people in it are not what the number counts.",
+    "present": false
+  },
+  "system": {
+    "detail": "Two populations, and they never touch. A few hundred simulated people are the entire cast, and a real sourced headcount is carried for each place. The simulated people are not declared a sample of the sourced one, carry no weight, and nothing scales anything by the ratio between them. Economic readings come off the real series; social and political life comes off the few hundred records. An election is computed from neither: the result is a campaign support score plus a random swing, spread so the shares total a hundred, with no electorate anywhere in the game.",
+    "present": true
+  },
+  "title": "Who lives in the world, and who the numbers are about"
+}

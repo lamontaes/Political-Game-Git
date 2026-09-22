@@ -1,0 +1,57 @@
+{
+  "filedAt": "2026-09-22T15:10:00.000Z",
+  "impact": "shapes-design",
+  "lane": "policy effects",
+  "notes": [
+    "Nothing is blocked on this answer in the sense of being unable to proceed: the connection from a bill to its policy content, and from an enactment to an effect activation, can be built with a single authored contract in the way transit already is. What the answer decides is what content that connection is allowed to carry.",
+    "A partial answer is useful. Even one quantity, with one response shape and one magnitude, would let the whole path be built end to end and measured, with everything else following the same pattern.",
+    "Worth challenging: the assumption that a law's effect should be on an aggregate figure at all. The tax route's effect is on one named account and it reads as consequential because the player can spend it. It may be that the right effects at state and local level are all of that kind — specific, named, spendable — and that aggregate figures are the wrong ambition.",
+    "If only one derivation can be answered, make it the fiscal one. Its two inputs, revenue and outlays, are the only quantities in this game that an enacted law already moves for real, so it is the shortest path from where the build is to a law moving a figure a player can see. A law's effect on unemployment is the hardest of the three, because a law does not hire or fire anyone and the game has no intermediate between a statute and a job.",
+    "The Docket page already shows what a bill's sections say they cost, which is arithmetic on the bill's own text and available in every world. The conditional forecast is the part that refuses. So the question is not 'can a player see a number about a bill' but 'can a number about the world respond to the bill'.",
+    "This supersedes the first framing of this question, which asked what quantities a law could defensibly move at all. That framing was written before the macro kernel was found; the quantities exist and already move. The question is now narrower and much more answerable: confirm a table of magnitudes that is already written down, and say which law maps to which of its rows.",
+    "The answer attached here was written to this record's earlier, broader wording (which quantities a state or local law may move at all). The question above narrowed it afterwards to the existing macro kernel's magnitudes and which law emits which shock. Read the answer against the earlier wording; the narrowed parts may still be open."
+  ],
+  "priority": "P1",
+  "question": "The game already models a national economy that moves month to month, and it moves through shocks. Eleven shock kinds carry authored impulse profiles — percentage points added to growth, unemployment and inflation at full intensity, decaying geometrically by a monthly retention factor — and the file says plainly that these magnitudes are placeholders awaiting the director's confirmation. Two questions follow. (1) Are those magnitudes right, and if not what should they be? The two that matter most for legislation are revenue-shortfall (growth -0.05pp, unemployment +0.01pp, retention 0.6) and revenue-windfall (growth +0.05pp, unemployment -0.01pp, retention 0.6), with credit-tightening, productivity-improvement, energy-input-cost-disruption, regional-industry-downturn, regional-industry-boom and public-health-disruption also authored and currently unreachable. (2) Which laws should emit which shock, and at what intensity? The impulse is scaled by an intensity between 0 and 1, so the question is what in a bill sets that — the size of the appropriation relative to the jurisdiction, the share of the tax base a levy touches, something else. And should a STATE law move a NATIONAL series at all, or only that jurisdiction's local layer? A worked example of one ordinary state law, the shock kind it should emit, the intensity it should carry and why, would settle the pattern for the rest.",
+  "questionId": "policy-effect-model-state-and-local",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "policy effects thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/causal-effects.ts, the built effects engine",
+      "whatItDidNotSettle": "Establishes that the machinery exists and takes thresholds, magnitudes, response curves, contributions and aggregate metric evaluation. It is a mechanism with no values: it will faithfully apply whatever magnitude and curve it is handed, and has nothing to say about which are right."
+    },
+    {
+      "source": "src/simulation/production-catalog.ts, assertProductionCatalogBoundary",
+      "whatItDidNotSettle": "Settles that a player's save carries no world metric and no causal mechanism until a sourced or declared one exists, and that relaxing it must say where the content came from. It defines the bar an answer has to clear; it does not supply content that clears it."
+    },
+    {
+      "source": "src/presentation/economic-graphs.ts and economic-context-browser.ts",
+      "whatItDidNotSettle": "Settles that unemployment and price figures on screen are published BLS and BEA observations carried with their vintage, and that the build deliberately infers no GDP response or policy elasticity from them. It establishes that those particular figures are not a law's to move; it does not say what is."
+    },
+    {
+      "source": "src/simulation/tax-policy.ts and the funded-service route, the one working example",
+      "whatItDidNotSettle": "Shows the shape of an effect that works: an enacted levy becomes operative on a date read off the enactment, collects into a named account, and an appropriation spends from that same account so the two laws interact. It is exact arithmetic on declared amounts, which is why it is defensible — and it is exactly why it cannot be the template for an effect on a population-level figure, where nothing is declared."
+    },
+    {
+      "source": "src/simulation/economy.ts, the three derivations, named exactly",
+      "whatItDidNotSettle": "deriveLaborMarketAt needs population.resident-count, labor.force-count and labor.employed-count as exact people counts and produces an unemployment rate; derivePurchasingPowerAt needs income.aggregate-personal and a prices.cost-level index; deriveFiscalBalanceAt needs government.revenue and government.outlays over a matching interval. None of the three has a caller outside tests, and every input metric is one the production boundary refuses by name. This settles what the machinery would accept and in what units. It does not say what a law should put into those slots, which is the whole question: of the three, only the fiscal-balance pair maps onto anything a law already moves, because the tax route collects real money into a named public account and an appropriation spends from it."
+    },
+    {
+      "source": "src/simulation/macro-economy/policy.ts and sources.ts, read and then measured by running two lives forward two years",
+      "whatItDidNotSettle": "Settles that the economy is real, runs in an ordinary save, differs per seed (opening unemployment 3.57% against 4.23% on two seeds, drifting to 3.85% and 4.82% two years later) and moves only on shocks; that eleven kinds are authored with signed impulses and a decay factor; and that only trade-disruption, disaster-reconstruction and international-conflict-spillover have a reader that can emit them. It cannot say whether the authored magnitudes are defensible, since the file states in its own words that they are CHANGE-authored placeholders reported to the director for confirmation and not estimates. Nor can it say which law should emit which kind, because nothing in the build connects a bill to a subject at all."
+    }
+  ],
+  "title": "Whether the authored macro shock magnitudes are right, and which laws emit which shock",
+  "usableAnswer": "For (1): a confirmed impulse table, or a correction to the placeholder one, in the same units the kernel already uses — percentage points on growth, unemployment and inflation at full intensity, plus a monthly retention factor between 0 and 1. If the honest answer for some kinds is that no defensible magnitude exists, say which, and those stay unreachable rather than being given invented numbers. For (2): a mapping from kinds of legislation to shock kinds, and a rule for intensity expressed in terms the game already knows (an appropriation's amount, a levy's rate and base, the population of the jurisdiction). Plus a position on scope: whether a state law moves the national series, the jurisdiction's local layer, or both. A partial answer covering only the revenue shortfall and windfall pair would be enough to build and measure the whole path end to end.",
+  "whyItMatters": "Measured 2026-09-22 at main 62368c1e. The game has a live modelled national economy in every save: real output growth, an unemployment rate and a 12-month inflation rate, stepped monthly, visibly different between saves and drifting over time, shown on the Macro conditions panel. It moves only through shocks, and only two origin readers exist — disasters and one authored sentence about international shipping — so three of the eleven authored shock kinds can ever fire. Nothing a government does can emit any of them. So the gap between 'passing a law changes nothing' and 'passing a law moves the economy' is one origin reader, beside two that already exist, against a kernel that already handles persistence and decay. That is small. What is NOT small is the two questions above, and getting them wrong is worse than the current silence: a confidently wrong elasticity would give every player an economy that responds and misleads, and no test would catch it, because the kernel works with any numbers it is handed. The file itself asks for this confirmation by name.",
+  "answer": {
+    "summary": "policy-effect-model-state-and-local: passage→effective rule→covered activity/base→actual tax/payment/service→scoped aggregate response. Keep the existing macro kernel. More tax revenue is not automatically a positive national GDP shock. An appropriation is not spending; a transfer is not newly produced output. Match geography, units, period and baseline; deduplicate origin/provision/revision/effect channels. Repeal does not erase spent money or built infrastructure. Existing0.05pp/0.01pp/0.6 placeholders are not confirmed. Exact funded execution can be delivered independently of those uncertain coefficients.",
+    "sources": [
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C02, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:58:00.000Z",
+    "stillOpen": "\"Existing0.05pp/0.01pp/0.6 placeholders are not confirmed.\"\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
+  }
+}
