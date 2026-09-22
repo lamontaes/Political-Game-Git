@@ -1,6 +1,7 @@
 import { stateKeyForJurisdiction } from "../life-places";
 import type { EntityId, World } from "../types";
 import type { ProcedureKey } from "./records";
+import { STATE_LEGISLATIVE_ETHICS_BODIES } from "./state-ethics-bodies";
 
 /**
  * Which state's legislative ethics procedure applies, by state rather than by
@@ -33,6 +34,16 @@ export const STATE_LEGISLATIVE_ETHICS_PROCEDURES: readonly StateLegislativeEthic
       procedureKey: "ky-legislative-ethics",
       candidacyPackPrefixes: ["us-ky-general-assembly"],
     },
+    // The twenty-three other states whose ethics body was read from its own
+    // sources on 2026-09-22. Kentucky stays above because its entry predates
+    // the table and its procedure carries statutory deadlines the table does
+    // not. Everything here is an entry in `state-ethics-bodies.ts`; adding a
+    // state is adding a row, not editing this file.
+    ...STATE_LEGISLATIVE_ETHICS_BODIES.map((body) => ({
+      stateJurisdictionKey: body.stateJurisdictionKey,
+      procedureKey: body.procedureKey,
+      candidacyPackPrefixes: body.candidacyPackPrefixes,
+    })),
   ];
 
 /**
