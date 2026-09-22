@@ -3,7 +3,7 @@ import {
   applyCharacterHistoryPlan,
   characterHistoryContextPersonId,
   createStableId,
-  drawCanonicalName,
+  drawCanonicalNameForGender,
   makeIsoDate,
   SeededRng,
   recordWorldEvent,
@@ -63,7 +63,7 @@ export function joinOrdinaryGroup(world: World, personId: EntityId): World {
           kind: "context-person",
           input: {
             stableKey: memberKey,
-            ...drawCanonicalName(rng),
+            ...drawCanonicalNameForGender(rng, "unstated"),
             birthDate: makeIsoDate(
               `${Number(world.currentDate.slice(0, 4)) - 35}-01-01`,
             ),

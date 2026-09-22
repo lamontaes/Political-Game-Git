@@ -1371,6 +1371,11 @@ export function MeasureSurface({
           : "You did not file it. Your part in it is whatever the chamber gives you."}
       </p>
       <p>{briefing.summary}</p>
+      {briefing.questions.length > 0 ? (
+        <p data-testid="measure-questions">
+          {`${briefing.questions.length === 1 ? "The question it bears on" : "The questions it bears on"}: ${briefing.questions.join(" ")}`}
+        </p>
+      ) : null}
       <p data-testid="measure-standing">{briefing.whereItStands}</p>
       {briefing.votes.length > 0 ? (
         <section className="pg-personal-section">
