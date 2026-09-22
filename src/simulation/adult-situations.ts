@@ -298,8 +298,12 @@ export function buildAdultLifeContext(
   ];
 
   const work = activeWorkRelationshipsAt(world, personId, lifeCutoff);
-  const employerIds = new Set(
-    work.map((entry) => entry.relationship.organizationId),
+  // Work with no employer on record is nobody's workplace: two people who
+  // each have such work do not share one.
+  const employerIds = new Set<EntityId | null>(
+    work
+      .map((entry) => entry.relationship.organizationId)
+      .filter((id): id is EntityId => id !== null),
   );
   const colleagueIds = [
     ...new Set(

@@ -1365,10 +1365,12 @@ function colleagueIds(
   personId: EntityId,
   cutoff: HistoricalCutoff,
 ): readonly EntityId[] {
-  const employerIds = new Set(
-    activeWorkRelationshipsAt(world, personId, cutoff).map(
-      (entry) => entry.relationship.organizationId,
-    ),
+  // Work with no employer on record is nobody's workplace: two people who
+  // each have such work do not share one.
+  const employerIds = new Set<EntityId | null>(
+    activeWorkRelationshipsAt(world, personId, cutoff)
+      .map((entry) => entry.relationship.organizationId)
+      .filter((id): id is EntityId => id !== null),
   );
   if (employerIds.size === 0) return [];
   return world.personOrder.filter(
