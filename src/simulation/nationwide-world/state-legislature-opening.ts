@@ -78,7 +78,8 @@ import type { DistrictIdentity } from "../../districts/types";
  * conditions: centred on this state's House seats as the save generated them,
  * and spread by how far House districts inside one state differ from each
  * other across the whole save. A state whose House seats carry no two-party
- * share seats its members without a party rather than guessing one.
+ * share is centred on its own statewide Senate contests; one with neither
+ * seats its members without a party rather than guessing one.
  *
  * Only a current opening calls this, for the player's home state, once.
  */
@@ -250,7 +251,26 @@ export function ensureStateLegislatureOpening(
   const mean = (values: readonly number[]) =>
     values.reduce((sum, value) => sum + value, 0) / values.length;
   const home = houseShares.get(stateUsps) ?? [];
-  const centre = home.length > 0 ? mean(home) : null;
+  // A state whose House seats carry no two-party margin (an at-large seat
+  // decided another way) is centred on its own statewide Senate contests
+  // instead, generated from the same conditions. Never a neighbour's.
+  const statewide = congressSeats()
+    .filter(
+      (seat) => seat.chamberKey === "us-senate" && seat.stateUsps === stateUsps,
+    )
+    .map(
+      (seat) =>
+        political.seats.find((row) => row.seatKey === seat.seatKey)
+          ?.generatedShare ?? null,
+    )
+    .filter((share): share is number => share !== null)
+    .map((share) => logit(clampShare(share, 1e-6)));
+  const centre =
+    home.length > 0
+      ? mean(home)
+      : statewide.length > 0
+        ? mean(statewide)
+        : null;
   let squares = 0;
   let freedom = 0;
   for (const values of houseShares.values()) {
