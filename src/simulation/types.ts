@@ -3808,6 +3808,27 @@ export interface LegislativeMeasureRecord {
   readonly sourceDocumentKey: string | null;
   /** Optional links to existing quantitative policy alternatives. */
   readonly policyAlternativeIds: readonly EntityId[];
+  /**
+   * The policy questions this measure is about.
+   *
+   * Separate from `policyAlternativeIds` rather than reached through one,
+   * because an alternative carries a quantitative operation — set a level, cap
+   * it, raise it by a share — and most of what a legislature does is not a
+   * number. Who may do what, who must be told, what counts as an offence and
+   * who is eligible are all bills about a question that change no quantity, and
+   * routing them through a quantitative alternative so the link exists would
+   * pass every test while lying about the domain.
+   *
+   * So this says only "this bill is about this question" and claims nothing
+   * about what it would do to anything. Saying what a bill DOES, in terms other
+   * than a quantity, is a larger piece of work that belongs with the content
+   * pack effect vocabulary rather than here.
+   *
+   * Optional so snapshots written before it existed remain structurally
+   * readable; a measure without it is a measure nobody linked, which is every
+   * measure in every save written so far.
+   */
+  readonly propositionIds?: readonly EntityId[];
 }
 
 export type LegislativeActionKind =
