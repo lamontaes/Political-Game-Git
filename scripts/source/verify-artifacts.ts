@@ -1,7 +1,7 @@
 /**
  * `npm run source:verify-artifacts` — re-hash every locally present artifact.
  *
- * This is the behavioural check that makes a hash mean something. A provenance
+ * This is the behavioral check that makes a hash mean something. A provenance
  * record whose digest was of a URL string, of a normalized object, or simply
  * hand-typed (13B B2, M5, M6) fails here the first time anybody runs it,
  * because the bytes on disk are hashed and compared rather than trusted.

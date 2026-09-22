@@ -264,7 +264,7 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
   // Only what somebody told this person, or what reached them through a
   // record, an outlet or a rumor, about something that has happened. Knowledge
   // the opportunity producer writes about a standing offer (a proposed
-  // evening, an invitation, a favour asked, a confidence shared) is the state
+  // evening, an invitation, a favor asked, a confidence shared) is the state
   // of an offer, which the record's open items carry, not a lived account.
   const eventsById = new Map(
     world.history.events.map((event) => [event.id, event]),

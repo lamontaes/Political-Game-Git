@@ -142,7 +142,7 @@ project is actually short of, and every new sheet supplies all three.
 >
 > It must be the same man in every cell — same face, same hair, same skin tone, same clothing, same proportions. Consistency across the eight cells is the single most important requirement.
 >
-> His build is ordinary and average. He is not athletic, not muscular, not broad-shouldered, and not a heroic figure. His shoulders are only slightly wider than his hips, his midsection is soft, and his arms are unremarkable. Draw a man of about forty who has a desk job. Do not idealise him.
+> His build is ordinary and average. He is not athletic, not muscular, not broad-shouldered, and not a heroic figure. His shoulders are only slightly wider than his hips, his midsection is soft, and his arms are unremarkable. Draw a man of about forty who has a desk job. Do not idealize him.
 >
 > He is about 7 heads tall standing. He wears plain everyday clothes — a long-sleeved shirt and ordinary trousers and plain shoes. Nothing branded, nothing with readable text, no logos, no lanyard, no badge.
 >
@@ -159,7 +159,7 @@ project is actually short of, and every new sheet supplies all three.
   - [ ] Recognisably the same man in all 8 cells.
   - [ ] Build reads as ordinary, **not** athletic — check the shoulder-to-hip ratio and the midsection specifically.
   - [ ] Cell 4 shows hands on a lectern edge; cell 6 shows forearms on a desk edge.
-  - [ ] Fully transparent background — no white, no colour, no ground shadow.
+  - [ ] Fully transparent background — no white, no color, no ground shadow.
   - [ ] No text, no logos, no cell borders, no labels.
 - **After it returns:** upload to `people-pose` as `OCD_CANDIDATE_PEOPLE_POSE_ADULT_MASC_AVERAGE_8POSE_5056x3392_01.png`. **Upscale:** only if it comes back under 5056 px wide. **Remove background:** no — it should already be transparent; if it is not, that is a failure, re-run. **Claude processes after return:** YES — chop, measure, despill if needed, and propose D-068 anchors.
 
@@ -240,7 +240,7 @@ project is actually short of, and every new sheet supplies all three.
 >
 > Her build is lean and narrow — slight through the shoulders, chest, waist and hips, with long limbs. Her waist is not dramatically narrower than her hips: do not draw an hourglass. She is a thin woman with a fairly straight silhouette, which is an ordinary way for a woman to be built. She is about 7 and a half heads tall standing.
 >
-> She wears plain everyday clothes — a long-sleeved top and ordinary trousers and flat shoes. Nothing branded, no readable text, no jewellery that reads as a specific object.
+> She wears plain everyday clothes — a long-sleeved top and ordinary trousers and flat shoes. Nothing branded, no readable text, no jewelry that reads as a specific object.
 >
 > The eight poses, in reading order:
 > Row 1: (1) standing straight, arms at sides, facing viewer. (2) standing, quarter turn, one hand in a small explaining gesture. (3) standing still and attentive, listening, hands quiet. (4) standing at a lectern with both hands on its top edge — only a suggestion of the lectern top.
@@ -289,7 +289,7 @@ project is actually short of, and every new sheet supplies all three.
 
 - **Status:** GENERATE
 - **Reference to attach:** the returned **A1 sheet** for style.
-- **For:** an older-adult morphology authority. Requested because age changes body structure — stance, shoulder carriage and spine — in ways a younger body cannot be recoloured into. One sheet, not two: the sex-linked distinction at this age is carried adequately by the head and wardrobe layers.
+- **For:** an older-adult morphology authority. Requested because age changes body structure — stance, shoulder carriage and spine — in ways a younger body cannot be recolored into. One sheet, not two: the sex-linked distinction at this age is carried adequately by the head and wardrobe layers.
 - **Target:** 5056 x 3392 PNG, transparent, 4 x 2 grid.
 
 > **PASTE THIS INTO GEMINI:**
@@ -363,7 +363,7 @@ project is actually short of, and every new sheet supplies all three.
 >
 > The attached image shows twelve pairs of shoes drawn as three-quarter product views with the two shoes of each pair overlapping.
 >
-> Create a NEW sheet on a fully transparent background showing THE SAME TWELVE PAIRS of shoes — same styles, same colours, same materials, same drawing style — but redrawn from a completely different viewpoint, arranged in a 3-column by 4-row grid on a 3584 by 4800 canvas, in the same order as the attached sheet.
+> Create a NEW sheet on a fully transparent background showing THE SAME TWELVE PAIRS of shoes — same styles, same colors, same materials, same drawing style — but redrawn from a completely different viewpoint, arranged in a 3-column by 4-row grid on a 3584 by 4800 canvas, in the same order as the attached sheet.
 >
 > The new viewpoint, and this is the entire point of the task: each pair must be drawn STRAIGHT ON FROM THE FRONT, as if you are standing directly in front of someone and looking at their feet at floor level. The two shoes of each pair must be SEPARATED with a gap between them, positioned as a person's feet are when they stand naturally — roughly hip width apart. Both shoes point directly toward the viewer, so you see the toe of each shoe face-on. You should see almost none of the side of either shoe and none of the sole.
 >
@@ -375,7 +375,7 @@ project is actually short of, and every new sheet supplies all three.
   - [ ] All twelve pairs are front-on, toes toward the viewer.
   - [ ] The two shoes of each pair are **separated**, not overlapping or bonded.
   - [ ] Both shoes of a pair sit level; the floor line is consistent across all twelve.
-  - [ ] Styles and colours match the attached sheet pair for pair.
+  - [ ] Styles and colors match the attached sheet pair for pair.
   - [ ] Fully transparent, including the gap between each pair's shoes.
   - [ ] No shadows, no base, no labels, no borders.
 - **After it returns:** `wardrobe` as `OCD_CANDIDATE_WARDROBE_FOOTWEAR_FRONT_ON_12UP_3584x4800_01.png`. Claude processes after return: YES — chop, and measure the foot-contact edge.
@@ -401,7 +401,7 @@ project is actually short of, and every new sheet supplies all three.
 >
 > The twelve garments: (1) plain crew-neck t-shirt, (2) long-sleeved button shirt, (3) knitted pullover sweater, (4) structured blazer, (5) zip-up hooded sweatshirt, (6) polo shirt, (7) open flannel shirt over a plain t-shirt, (8) work shirt with two chest pockets, (9) light rain jacket, (10) cardigan, (11) sleeveless vest over a long-sleeved shirt, (12) heavy winter coat.
 >
-> Use plain, muted, ordinary colours. No logos, no printed graphics, no readable text of any kind on any garment.
+> Use plain, muted, ordinary colors. No logos, no printed graphics, no readable text of any kind on any garment.
 >
 > Fully transparent background. No hangers, no mannequins, no shadows, no base, no labels, no numbers, no cell borders.
 
@@ -434,7 +434,7 @@ project is actually short of, and every new sheet supplies all three.
 >
 > The twelve garments: (1) straight-leg jeans, (2) dress trousers, (3) chinos, (4) work trousers with side pockets, (5) corduroy trousers, (6) knee-length shorts, (7) track trousers, (8) heavy canvas work trousers, (9) pleated dress trousers, (10) slim jeans, (11) cargo trousers, (12) lightweight summer trousers.
 >
-> Plain, muted, ordinary colours. No logos, no printed graphics, no readable text.
+> Plain, muted, ordinary colors. No logos, no printed graphics, no readable text.
 >
 > Fully transparent background. No hangers, no mannequins, no shadows, no base, no labels, no numbers, no cell borders.
 
@@ -541,7 +541,7 @@ which comes from the existing released plates:
 >
 > EDIT THIS EXACT ATTACHED IMAGE. Do not generate a new image. Do not reinterpret the scene. Return the attached image with specific corrections applied and everything else pixel-for-pixel as it was. **Returning the unchanged input is a failure.**
 >
-> PRESERVE EXACTLY, DO NOT ALTER: the walls, the windows and the light coming through them, the ceiling, the floor surface and its colour, the overall camera angle and framing, the teacher's desk area at the front, the wall colour, and the general warm daylight mood.
+> PRESERVE EXACTLY, DO NOT ALTER: the walls, the windows and the light coming through them, the ceiling, the floor surface and its color, the overall camera angle and framing, the teacher's desk area at the front, the wall color, and the general warm daylight mood.
 >
 > REPLACE AND CORRECT, and these are the only changes to make:
 >
@@ -555,7 +555,7 @@ which comes from the existing released plates:
 >
 > ALSO CLEAR THESE SURFACES, leaving them blank: the whiteboard or blackboard at the front must be completely blank with nothing written on it; any bulletin board must be an empty board with no papers, no notices and no text; any wall clock must have a blank face with no numbers and no hands; remove any posters, charts, alphabet strips, number lines or signs that carry readable text or symbols.
 >
-> Do not add people. Do not add bags, coats or clutter. Do not change the camera. Do not change the colour grade.
+> Do not add people. Do not add bags, coats or clutter. Do not change the camera. Do not change the color grade.
 
 - **Acceptance checklist:**
   - [ ] The returned image is **visibly different** from the input. If it is identical, the prompt failed — re-run it.
@@ -641,7 +641,7 @@ which comes from the existing released plates:
 >
 > Completely empty of people and empty of shopping trolleys.
 >
-> This is the important part: every package, box, tin, bottle and carton on the shelves must be a plain, blank, unbranded shape in a solid colour. No labels, no logos, no brand names, no product names, no prices, no barcodes, no shelf-edge tickets, no aisle signs, no readable text or numbers of any kind anywhere in the image. The shelves should read as full of groceries at a glance and carry no information at all on inspection.
+> This is the important part: every package, box, tin, bottle and carton on the shelves must be a plain, blank, unbranded shape in a solid color. No labels, no logos, no brand names, no product names, no prices, no barcodes, no shelf-edge tickets, no aisle signs, no readable text or numbers of any kind anywhere in the image. The shelves should read as full of groceries at a glance and carry no information at all on inspection.
 >
 > Even, bright, ordinary supermarket lighting.
 
@@ -659,7 +659,7 @@ which comes from the existing released plates:
 >
 > Create a wide illustration of an ordinary American residential street with a bus stop, 5504 by 3072 pixels, flat clean illustration style with soft shading, in the look of a modern narrative video game background.
 >
-> The scene: a pavement running across the frame in the foreground, a bus shelter with a bench on the left, a row of modest two-storey houses with porches and small front yards behind it, parked cars along the kerb, a couple of street trees, overhead power lines, and a trash can. Late afternoon light.
+> The scene: a pavement running across the frame in the foreground, a bus shelter with a bench on the left, a row of modest two-story houses with porches and small front yards behind it, parked cars along the curb, a couple of street trees, overhead power lines, and a trash can. Late afternoon light.
 >
 > Camera at standing eye level on the pavement, looking along the street so the pavement reads clearly from the bottom of the frame into the distance. Keep the bottom quarter reasonably open so a figure can stand near the camera.
 >
@@ -706,7 +706,7 @@ fill the bracketed parts from Claude's defect list:
 > PRESERVE EXACTLY: [the room, walls, windows, camera, light — whatever the intake found correct].
 > REPLACE AND CORRECT: [the exact chairs/tables/objects the intake named, with the intended counts and layout].
 > CLEAR TO BLANK: [every surface the intake found carrying readable text].
-> Do not add people. Do not change the camera or the colour grade.
+> Do not add people. Do not change the camera or the color grade.
 
 ---
 
@@ -846,11 +846,11 @@ arrive. Every one uses the shared camera and framing brief at the head of
 Wave D, and every one is **empty of people** with **every informational surface
 blank**.
 
-### PROMPT F1 — Emergency operations centre
+### PROMPT F1 — Emergency operations center
 
 > **PASTE THIS INTO GEMINI:**
 >
-> Create a wide illustration of an empty emergency operations centre, 5504 by 3072 pixels, flat clean illustration style with soft shading, in the look of a modern narrative video game background.
+> Create a wide illustration of an empty emergency operations center, 5504 by 3072 pixels, flat clean illustration style with soft shading, in the look of a modern narrative video game background.
 >
 > The scene: rows of desks facing a wall of large wall-mounted screens, each desk with a chair and two monitors, telephone handsets, a long table at the back, a whiteboard on a side wall, cable trays overhead, a windowless room lit by ceiling panels.
 >
@@ -892,7 +892,7 @@ blank**.
 >
 > The scene: a wide institutional corridor with a closed double door on the right, a cluster of empty camera tripods without cameras standing to one side, a lighting stand, a coil of cable taped to the floor, a bench against the far wall, marble-effect floor.
 >
-> Camera at standing eye level a few metres from the door, looking along the corridor. Floor reads clearly from the bottom of the frame. Keep the bottom quarter reasonably open. Completely empty of people.
+> Camera at standing eye level a few meters from the door, looking along the corridor. Floor reads clearly from the bottom of the frame. Keep the bottom quarter reasonably open. Completely empty of people.
 >
 > Furniture and equipment physically correct: each tripod has three legs all reaching the floor and is a separate complete object; nothing shares a leg; nothing floats.
 >
@@ -915,11 +915,11 @@ blank**.
 >
 > Furniture and equipment physically correct: each armchair is complete and stands on the floor; each camera pedestal has a complete base with all wheels touching the floor; each light stand has three legs all reaching the floor; nothing floats and nothing shares a leg.
 >
-> The backdrop must be a plain blank colour or an abstract non-representational pattern — no programme name, no channel logo, no city skyline that reads as a specific place, no text. No monitors showing anything. No readable text or numbers anywhere in the image.
+> The backdrop must be a plain blank color or an abstract non-representational pattern — no program name, no channel logo, no city skyline that reads as a specific place, no text. No monitors showing anything. No readable text or numbers anywhere in the image.
 >
 > Bright key lighting on the set, dark surroundings.
 
-- **Acceptance:** empty of people · **backdrop blank or abstract, no logo or programme name** · monitors dark · equipment topology correct · no readable text.
+- **Acceptance:** empty of people · **backdrop blank or abstract, no logo or program name** · monitors dark · equipment topology correct · no readable text.
 - **Upload as** `OCD_SCENE_MASTER_TV_INTERVIEW_STUDIO_5504x3072_01.jpg`.
 
 ### PROMPT F5 — Diplomatic bilateral room
@@ -928,7 +928,7 @@ blank**.
 >
 > Create a wide illustration of an empty formal room set up for a bilateral meeting between two delegations, 5504 by 3072 pixels, flat clean illustration style with soft shading, in the look of a modern narrative video game background.
 >
-> The scene: two facing rows of armchairs with small side tables between them, a long low table down the centre with water glasses, an ornate but restrained interior with panelled walls and a patterned carpet, tall windows with heavy curtains, a fireplace or a large plain mirror on the end wall.
+> The scene: two facing rows of armchairs with small side tables between them, a long low table down the center with water glasses, an ornate but restrained interior with panelled walls and a patterned carpet, tall windows with heavy curtains, a fireplace or a large plain mirror on the end wall.
 >
 > Camera at standing eye level from one end of the seating looking down between the two rows. Floor reads clearly from the bottom of the frame to the far wall. Keep the bottom quarter reasonably open. Completely empty of people.
 >
@@ -1004,7 +1004,7 @@ blank**.
 >
 > Create a wide illustration of an ordinary residential front path and doorstep seen from the street, 5504 by 3072 pixels, flat clean illustration style with soft shading, in the look of a modern narrative video game background.
 >
-> The scene: the front of a modest two-storey house with a porch, a short path from the pavement to the front door, a low fence, a small front yard with a patch of grass and a shrub, a trash can beside the path, neighbouring houses receding on either side.
+> The scene: the front of a modest two-story house with a porch, a short path from the pavement to the front door, a low fence, a small front yard with a patch of grass and a shrub, a trash can beside the path, neighboring houses receding on either side.
 >
 > Camera at standing eye level from the pavement at the end of the path, looking up the path at the front door. Path and pavement read clearly from the bottom of the frame to the door. Keep the bottom quarter reasonably open. Completely empty of people.
 >
@@ -1019,7 +1019,7 @@ blank**.
 
 > **PASTE THIS INTO GEMINI:**
 >
-> Create a wide illustration of an empty room set up for a public town hall meeting in a community centre, 5504 by 3072 pixels, flat clean illustration style with soft shading, in the look of a modern narrative video game background.
+> Create a wide illustration of an empty room set up for a public town hall meeting in a community center, 5504 by 3072 pixels, flat clean illustration style with soft shading, in the look of a modern narrative video game background.
 >
 > The scene: about forty folding chairs in rows facing a small table at the front with three chairs behind it and a standing microphone on a stand in the aisle for public comment. A plain hall with a stage curtain at one end, a hard floor, a serving hatch at the back.
 >

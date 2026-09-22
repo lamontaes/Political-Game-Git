@@ -142,7 +142,7 @@ export function exerciseSceneVenues(): readonly VenueExercise[] {
   const travelling = createScheduledActivity(life.world, {
     stableKey: "gallery-exercise:journey",
     title: "On the way",
-    summary: "Travelling to the meeting room.",
+    summary: "Traveling to the meeting room.",
     kind: "travel",
     start: { ...life.world.currentMoment },
     end: {
@@ -163,7 +163,7 @@ export function exerciseSceneVenues(): readonly VenueExercise[] {
   results.push(
     record(
       "travelling-there",
-      "While travelling to it — naming the room's own location key — they are still not in it. Changing a backdrop is not travel.",
+      "While traveling to it — naming the room's own location key — they are still not in it. Changing a backdrop is not travel.",
       null,
       travelling,
       life.personId,

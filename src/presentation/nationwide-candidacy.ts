@@ -1,21 +1,15 @@
 import {
   incumbentGovernorStandingAgain,
-  recordedTermsInOffice,
-  GOVERNOR_TURNOVER_PROFILE,
   stateExecutiveEntryStatus,
-  addDays,
   candidacyEligibility,
   ensureCampaignOpponents,
   ensureStateJurisdiction,
   fileCampaign,
   homeStateUsps,
   makeCurrencyCode,
-  nextRegularElection,
-  regularFieldClosed,
+  nextFilableStateExecutiveTerm,
   stateExecutiveIdentity,
-  stateExecutiveTermRule,
   chiefExecutiveJurisdiction,
-  termDatesAfterElection,
 } from "../simulation";
 import { describeStateExecutiveTerm } from "./state-executive-term-description";
 import type {
@@ -89,14 +83,12 @@ export function stateExecutiveOfficeCalendar(
   world: World,
   stateUsps: string,
 ): StateExecutiveOfficeCalendar | null {
-  const rule = stateExecutiveTermRule(stateUsps);
-  if (!rule) return null;
   // A filing stands in the next regular election whose candidate field is
-  // still open; once a field closes, the office's next cycle is the one.
-  let nextElection = nextRegularElection(rule, addDays(world.currentDate, 1));
-  if (regularFieldClosed(world, nextElection))
-    nextElection = nextRegularElection(rule, addDays(nextElection, 1));
-  const term = termDatesAfterElection(rule, nextElection);
+  // still open, on the calendar this World's law sets; once a field closes,
+  // the office's next cycle is the one.
+  const term = nextFilableStateExecutiveTerm(world, stateUsps);
+  if (!term) return null;
+  const { rule, electionDay: nextElection } = term;
   const bases = Object.values(rule.basis);
   const basis = bases.every((b) => b === "verified")
     ? "verified"
@@ -115,34 +107,24 @@ export function stateExecutiveOfficeCalendar(
 }
 
 /**
- * Whether a sitting governor may stand for the next term.
- *
- * BLANKET RULE: a governor may serve two terms in a row, the limit most states
- * set and the one the game already applies to governors it runs itself
- * (`GOVERNOR_TURNOVER_PROFILE.incumbentStepsDownAfterTerms`). Some states set
- * none and some count differently; each state's own limit is filed with
- * ChatGPT as `governor-term-limits-by-state` and replaces this when answered.
- * Null when this person does not hold the office now.
+ * Whether a sitting governor may stand for the next term: the same candidacy
+ * rules anyone filing meets, which include the state's term limit for the term
+ * the election fills. Null when this person does not hold the office now.
  */
 export function stateExecutiveReelection(
   world: World,
   personId: EntityId,
 ): { readonly canStand: boolean; readonly reason: string | null } | null {
-  const status = stateExecutiveEntryStatus(world, personId);
-  if (status.kind !== "in-office") return null;
+  if (stateExecutiveEntryStatus(world, personId).kind !== "in-office")
+    return null;
   const candidacy = stateExecutiveCandidacyForPerson(world, personId);
   if (!candidacy) return null;
-  const served = recordedTermsInOffice(
-    world,
-    personId,
-    candidacy.identity.officeKey,
-  );
-  if (served >= GOVERNOR_TURNOVER_PROFILE.incumbentStepsDownAfterTerms)
-    return {
-      canStand: false,
-      reason: `You are serving your ${served === 2 ? "second" : `${served}th`} term in a row. Governors in this game may serve two terms in a row, so you cannot stand for a third.`,
-    };
-  return { canStand: true, reason: null };
+  return candidacy.eligible
+    ? { canStand: true, reason: null }
+    : {
+        canStand: false,
+        reason: candidacy.blocks.map((block) => block.reason).join(" "),
+      };
 }
 
 /**

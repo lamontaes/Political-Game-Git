@@ -632,7 +632,7 @@ What genuinely needs a human, rather than another check:
   a pale page.
 - **Scene and person legibility together.** `ScenePerson` carries the id, name,
   relationship and introduction for everybody in a scene, which is the join #86
-  needs; whether a face beside a name reads correctly is a visual judgement.
+  needs; whether a face beside a name reads correctly is a visual judgment.
 - **The two known gaps §11 records** are unchanged by this merge and still
   stand: two cold starts share a life shape, and generated first names carry no
   gender.

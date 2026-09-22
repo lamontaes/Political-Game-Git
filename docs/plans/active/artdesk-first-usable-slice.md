@@ -46,7 +46,7 @@ intake, events, original, brief, sync}` on the identified loopback server;
 
 Real bounded decode at upload and decision time; review history append-only
 (changed/deleted/duplicate ids refused); empty/malformed/undeclared pack
-manifests invalid; sampled hashes labelled sampled.
+manifests invalid; sampled hashes labeled sampled.
 
 ## Proof
 

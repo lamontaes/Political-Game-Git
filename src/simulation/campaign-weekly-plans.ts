@@ -1266,7 +1266,7 @@ export function runCondensedCampaignWeek(
  *
  * A booked session is a confirmed commitment, so ordinary time stops at its
  * start rather than stepping over it. Not doing it is the player's choice to
- * make, and it is made explicitly: the hold is cancelled and a limited
+ * make, and it is made explicitly: the hold is canceled and a limited
  * campaign event records that the session was let go. Nothing is spent,
  * nobody's support moves and nobody is met. Works before the session, at its
  * start, or after its start has gone by.

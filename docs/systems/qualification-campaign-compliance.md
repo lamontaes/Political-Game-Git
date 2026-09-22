@@ -71,7 +71,7 @@ later law backward into the character's life.
 The accepted Alaska rules are attached only to
 `us-ak-legislature-v1:house` and `us-ak-legislature-v1:senate`. Recovered rules
 attach only where an accepted legislative pack exposes an explicit matching
-state and chamber key. Missing fields retain the labelled game fallback or an
+state and chamber key. Missing fields retain the labeled game fallback or an
 explicit unknown; a sourced requirement the world cannot prove becomes a
 refusal, never eligibility.
 

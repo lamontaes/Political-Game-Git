@@ -135,7 +135,7 @@ list or layout code was touched, and no repair was smuggled in.
 Disclosure: `tests/e2e/pose-proof.spec.ts` rewrites
 `docs/agent/evidence/pose-proof-{coverage,person}.png` as a side effect of running it.
 Both parents hold identical bytes for those files, so both were restored by explicit
-path and are **not** part of this merge. That side effect is pre-existing behaviour of
+path and are **not** part of this merge. That side effect is pre-existing behavior of
 that spec on this host, not a landing change.
 
 ## Not done here

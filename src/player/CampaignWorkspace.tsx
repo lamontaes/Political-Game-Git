@@ -401,7 +401,7 @@ export function CampaignWorkspace({
                 A state legislative seat is elected at the state's next regular
                 legislative election under the game's calendar profile, not a
                 sourced per-state calendar; staggered senate seats and primaries
-                are not modelled. A town's own body still uses a 28-day authored
+                are not modeled. A town's own body still uses a 28-day authored
                 schedule.
               </p>
             </details>

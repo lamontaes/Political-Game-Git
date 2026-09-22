@@ -1263,7 +1263,7 @@ const POLICY_LIVED: readonly DraftItem[] = [
   item(
     "the_licence",
     "policy-lived",
-    "Policy — the licence at the corner",
+    "Policy — the license at the corner",
     0.95,
     "The shop on the corner has applied to sell alcohol until two. It is the only shop within half a mile that opens late. The three residents who objected all live above it.",
     [

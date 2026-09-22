@@ -20,17 +20,19 @@ import type {
   World,
 } from "../types";
 import { chiefExecutiveJurisdictionId } from "./government-jurisdiction";
-import { recordedTermsInOffice } from "./prior-terms";
+import { checkExecutiveTermLimit } from "./executive-term-limits";
+import {
+  isStateExecutiveElectionYearInWorld,
+  stateExecutiveTermRuleForElectionYear,
+  termDatesAfterElectionInWorld,
+} from "./executive-term-rules-in-world";
 import { CHIEF_EXECUTIVE_JURISDICTIONS } from "./state-executive-candidacy-packs";
 import {
   ensureStateJurisdiction,
   currentStateExecutiveHolders,
   stateExecutiveOffice,
 } from "./state-executives";
-import {
-  generalElectionDay,
-  stateExecutiveTermRule,
-} from "./state-executive-term-rules";
+import { generalElectionDay } from "./state-executive-term-rules";
 import { planOrdinaryStateExecutiveTerm } from "./state-executive-terms";
 
 import {
@@ -147,14 +149,32 @@ function decideIncumbentGovernor(
     (record) => record.officeKey === office.officeKey,
   );
   const incumbent = holder ? world.people[holder.personId] : undefined;
+  // Whether the incumbent MAY stand is the state's term limit for the term
+  // this election fills, under this World's law; whether they WANT to is the
+  // profile's age and chance below.
+  const termStartsAt = termDatesAfterElectionInWorld(
+    world,
+    stateUsps,
+    electionDay,
+  )?.startsAt;
+  const barredByLimit =
+    incumbent !== undefined && termStartsAt !== undefined
+      ? (checkExecutiveTermLimit(world, {
+          stateUsps,
+          personId: incumbent.id,
+          termStartsAt,
+        })?.barredReason ?? null)
+      : null;
+  const tooOld =
+    incumbent !== undefined &&
+    ageOn(incumbent.birthDate, electionDay) >=
+      GOVERNOR_TURNOVER_PROFILE.retirementAge;
   const eligible =
     incumbent !== undefined &&
     world.control.kind === "person" &&
     world.control.personId !== incumbent.id &&
-    ageOn(incumbent.birthDate, electionDay) <
-      GOVERNOR_TURNOVER_PROFILE.retirementAge &&
-    recordedTermsInOffice(world, incumbent.id, office.officeKey) <
-      GOVERNOR_TURNOVER_PROFILE.incumbentStepsDownAfterTerms;
+    !tooOld &&
+    barredByLimit === null;
   const seeking =
     eligible &&
     rng.integer(0, 1000) < GOVERNOR_TURNOVER_PROFILE.incumbentRunsPermille;
@@ -174,9 +194,11 @@ function decideIncumbentGovernor(
     reason:
       incumbent === undefined
         ? "no sitting governor is on record."
-        : !eligible
-          ? "they cannot or will not stand again under this game profile."
-          : "they are standing down.",
+        : barredByLimit !== null
+          ? "they have served the terms the state allows."
+          : tooOld
+            ? "they are retiring."
+            : "they are standing down.",
   });
   return { world: next, incumbentPersonId: incumbent?.id ?? null, seeking };
 }
@@ -312,8 +334,27 @@ export function governorFieldCloseHandler(
 ): FutureTransitionHandlerResult {
   const found = officeForDue(due);
   if (!found) return done(world, "No office matches this field closing.");
-  const rule = stateExecutiveTermRule(found.office.stateUsps)!;
+  const rule = stateExecutiveTermRuleForElectionYear(
+    world,
+    found.office.stateUsps,
+    found.year,
+  );
+  if (!rule) return done(world, "No office matches this field closing.");
   const electionDay = generalElectionDay(rule.election, found.year);
+  // A law passed after this closing was scheduled can move the office's
+  // elections to other years. The closing then has nothing to open; the next
+  // one on the new calendar is scheduled instead.
+  if (
+    !isStateExecutiveElectionYearInWorld(
+      world,
+      found.office.stateUsps,
+      found.year,
+    )
+  )
+    return done(
+      scheduleNextFieldClose(world, found.office.stateUsps, due.dueAt),
+      `A law moved ${found.office.displayName}'s ${found.year} election; the next field closing is on the calendar.`,
+    );
   let next = openRegularContest(
     world,
     found.office.stateUsps,
@@ -345,7 +386,12 @@ export function governorTermPlanHandler(
 ): FutureTransitionHandlerResult {
   const found = officeForDue(due);
   if (!found) return done(world, "No office matches this election.");
-  const rule = stateExecutiveTermRule(found.office.stateUsps)!;
+  const rule = stateExecutiveTermRuleForElectionYear(
+    world,
+    found.office.stateUsps,
+    found.year,
+  );
+  if (!rule) return done(world, "No office matches this election.");
   const electionDay = generalElectionDay(rule.election, found.year);
   const contest = (world.history.electionContests ?? []).find(
     (candidate) =>

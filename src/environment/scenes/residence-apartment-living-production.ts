@@ -96,7 +96,7 @@ export const RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE: EnvironmentSceneSpec
 
     anchors: [
       {
-        /** The grey sofa on the right. Cushion back edge 58%, front lip 63%. */
+        /** The gray sofa on the right. Cushion back edge 58%, front lip 63%. */
         id: "sofa-seated",
         type: "seated-person",
         kind: "seat",
@@ -295,7 +295,7 @@ export const RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE: EnvironmentSceneSpec
     ],
 
     explicit_unknowns: [
-      "P29-G standing calibration is authored image-space visual-estimate, not surveyed dimensions or inferred body height in metres. Only canonical-03 standing is calibrated; no newly accepted seated family is asserted.",
+      "P29-G standing calibration is authored image-space visual-estimate, not surveyed dimensions or inferred body height in meters. Only canonical-03 standing is calibrated; no newly accepted seated family is asserted.",
       "Foreground floor anchor paints in front of the coffee table; lower-depth anchors use its authored silhouette, not its coarse rectangular debug bounds.",
       ...DOMESTIC_UNKNOWNS.slice(1).filter(
         (note) => !note.startsWith("The coffee-table"),

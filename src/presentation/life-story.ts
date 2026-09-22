@@ -1,6 +1,6 @@
 import {
   OPENING_LIFE_ADDITIONS,
-  OPENING_LIFE_FOLLOWUPS,
+  openingLifeSceneAtStage,
   openingChoiceMinutes,
 } from "../simulation/opening-life-content";
 import { nextOwnElection } from "./own-election";
@@ -70,7 +70,7 @@ import {
  * The three sources a moment can come from — the formative bank, the adult
  * bank and the composed episode families — used to be three surfaces, each
  * choosing independently and each rendering its own card. That is the shape
- * the playtest recognised as "a browser-like sequence of disconnected cards",
+ * the playtest recognized as "a browser-like sequence of disconnected cards",
  * and no amount of better copy inside a card fixes it.
  *
  * What this module does is put them in ONE ranking and wrap the result in the
@@ -719,13 +719,7 @@ export function chooseStoryOption(
         (entry) => `opening.${entry.key}` === scene.beat.episodeKey,
       );
       const ordinaryDefinition = ordinaryScene
-        ? scene.beat.stageKey === "follow-through"
-          ? {
-              ...ordinaryScene,
-              minutes: 5,
-              choices: OPENING_LIFE_FOLLOWUPS[ordinaryScene.key]?.choices ?? [],
-            }
-          : ordinaryScene
+        ? openingLifeSceneAtStage(ordinaryScene, scene.beat.stageKey)
         : undefined;
       const ordinaryChoice = ordinaryDefinition?.choices.find(
         (choice) => choice.key === input.optionKey,
@@ -799,7 +793,7 @@ export function chooseStoryOption(
  * same paragraph four times. Which length a gap gets is derived from the date
  * it starts on, so it is stable under replay and different between gaps.
  *
- * These are presentation pacing and are labelled as such. Nothing here is a
+ * These are presentation pacing and are labeled as such. Nothing here is a
  * claim about how often anything happens to anybody.
  */
 export const QUIET_ADULT_STEPS: readonly number[] = [31, 47, 78, 124];

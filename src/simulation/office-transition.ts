@@ -3,7 +3,7 @@
  *
  * A won election grants no authority on election night (DEPTH2 A08): public
  * authority begins when the applicable rule says the term begins. What a
- * winner has in between is a transition — orientation, organising meetings,
+ * winner has in between is a transition — orientation, organizing meetings,
  * office and staff arrangements — and that is what this module describes and
  * records.
  *
@@ -95,11 +95,11 @@ const COMMON_NOT_CODED = [
 ] as const;
 
 /**
- * The United States House. The term begins at noon on 3 January (Twentieth
+ * The United States House. The term begins at noon on January 3 (Twentieth
  * Amendment §1). The Committee on House Administration runs New Member
  * Orientation in Washington in the weeks after the election, with the Clerk,
  * the Chief Administrative Officer and the Sergeant at Arms; the party
- * organising meetings that elect leadership fall in the same weeks, and the
+ * organizing meetings that elect leadership fall in the same weeks, and the
  * office-selection lottery closes orientation. Staff may be recruited during
  * the transition but go on the payroll only once the member is sworn in.
  */
@@ -160,10 +160,10 @@ const FEDERAL_HOUSE: OfficeTransitionProfile = {
 };
 
 /**
- * The United States Senate. The term begins at noon on 3 January (Twentieth
+ * The United States Senate. The term begins at noon on January 3 (Twentieth
  * Amendment §1). The Secretary of the Senate and the Sergeant at Arms hold
  * orientation for senators-elect after the election, the party conferences
- * organise in the same weeks, and a new senator is sworn in by the presiding
+ * organize in the same weeks, and a new senator is sworn in by the presiding
  * officer, escorted by the state's other senator by custom.
  */
 const FEDERAL_SENATE: OfficeTransitionProfile = {

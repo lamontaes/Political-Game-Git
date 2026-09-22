@@ -65,7 +65,7 @@ claims to be showing unreleased candidate art while showing production art.
 That is the one place found so far where the game fails hard instead of failing
 soft with a stated reason, against the standing rule that unknown content is
 skipped with a reason and never silently. It is why these cases read as
-ordinary assertion failures rather than as a recognisable refusal.
+ordinary assertion failures rather than as a recognizable refusal.
 
 Fixing it is a small change on an art surface — say, on screen, that the private
 bank is not in this checkout and the ordinary appearance is what is drawn — and
@@ -117,7 +117,7 @@ directory, invalidates a run that may already be an hour old. Put scratch work
 outside the repository and commit new files after the run reports.
 
 It is a ten-Chrome-version skew, so any local count measured this way runs on
-Chromium 141 rather than the version CI uses, and must be labelled that way. A
+Chromium 141 rather than the version CI uses, and must be labeled that way. A
 local browser count from one container is not comparable with one from another
 without checking which build ran.
 
@@ -306,10 +306,10 @@ the lanes have to a manual for reading this repository's CI.
 
 **A retraction first.** At 11:30Z I wrote, and told the coordinator, that main
 had had no CI verdict at all since `7fc33c85` — nine merges, nine runs, every
-one cancelled with zero jobs allocated. A merge hold went out across every lane
+one canceled with zero jobs allocated. A merge hold went out across every lane
 on the strength of it. The three runs I opened were accurately measured and
 the conclusion did not follow: I listed eight runs, all from 10:48Z onward, and
-generalised to all of main. The run that carries main's verdict was created at
+generalized to all of main. The run that carries main's verdict was created at
 09:38Z, older than the page I looked at. The hold has been lifted.
 
 What that run actually says about main at `35e7b81a`: **unit shards 1, 2, 3, 5
@@ -320,7 +320,7 @@ main, so that is the campaign-projection fix passing on main rather than on a
 local run or a release tree.
 
 **The run-level `status` field lies in both directions.** That executing run,
-with six completed jobs, reads `queued`. A run whose every job was cancelled
+with six completed jobs, reads `queued`. A run whose every job was canceled
 reads `queued`. A completed run reads `queued` and then refuses cancellation
 with a 409. So "N runs are queued" counts nothing, and no number taken from
 that field belongs in a report.
@@ -348,7 +348,7 @@ claim passed because their ranges happened to contain **another lane's**
 declaration. The gate agreed for a reason that had nothing to do with what it
 was checking — which is the shape of every order-dependent result in this
 suite, where a case passes or fails on what else happened to be running beside
-it. A green that depends on a neighbour is not a green about you. Fixed in
+it. A green that depends on a neighbor is not a green about you. Fixed in
 #370; the one line when it happens is
 `npm run release:declare -- <id> --impact none` with a one-line internal
 reason.

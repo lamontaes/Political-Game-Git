@@ -12,9 +12,9 @@ a life begins is partial. One record, the county treasurer example, is
 answered as a schema example that should not be a live question.
 
 Every answer keeps the batch's own limits in `stillOpen`: it read source and
-research but ran no game tests, and any number in it is labelled private
+research but ran no game tests, and any number in it is labeled private
 calibration rather than a measured or owner-chosen value.
 
 The whole package is kept verbatim, with its checksums, at
 `docs/research/chatgpt-answers/2026-09-22-depth1/`. Nothing in a running game
-reads the queue, so no player-facing behaviour changes.
+reads the queue, so no player-facing behavior changes.

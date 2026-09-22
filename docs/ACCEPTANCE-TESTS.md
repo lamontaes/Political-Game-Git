@@ -1601,11 +1601,11 @@ earlier is not standing authority to be enacted later.
 
 Where the second chamber adopts an amendment and then passes the measure, the
 measure returns to the chamber it started in for a recorded vote on accepting
-that change; agreement leads to enrolment and refusal ends the measure. Where
+that change; agreement leads to enrollment and refusal ends the measure. Where
 the second chamber passes the text unchanged, the measure goes straight to
-enrolment with no agreement vote.
+enrollment with no agreement vote.
 
-### LEG-012 — Unresolved and inapplicable rules never authorise an act
+### LEG-012 — Unresolved and inapplicable rules never authorize an act
 
 Amendment permission, presentment, adjournment death and a money-bill override
 threshold are all refused unless the controlling rule is known and permits it.
@@ -1615,7 +1615,7 @@ is unresolved is never shown or validated against the ordinary threshold.
 
 ### LEG-013 — Reporting and refusing to report are different events
 
-A committee report carrying an unfavourable recommendation, or none at all,
+A committee report carrying an unfavorable recommendation, or none at all,
 still reaches the floor when the motion to report carries. A motion to report
 that fails is recorded as the committee not reporting, and the measure ends
 there.

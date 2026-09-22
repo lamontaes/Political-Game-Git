@@ -205,7 +205,7 @@ test.describe("Setting up a life reads like a game, not a form", () => {
   test("keeps the seed behind Advanced", async ({ page }) => {
     await freshBrowser(page);
     await openCreator(page);
-    // The reproducibility details are a collapsed disclosure labelled Advanced,
+    // The reproducibility details are a collapsed disclosure labeled Advanced,
     // not a paragraph of seed on the New Game screen.
     const advanced = page.getByTestId("setup-advanced");
     await expect(advanced).toBeVisible();
