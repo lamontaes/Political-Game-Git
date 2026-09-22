@@ -10,7 +10,8 @@ disagree with.
 
 ## The list to click through
 
-Refreshed against `origin/main` at `7fc33c85`, 07:42Z. The sections below give
+Refreshed against `origin/main` at `de030bff`, 08:17Z. #333 and #331 have
+merged since the previous refresh and have been taken off the list. The sections below give
 the evidence behind each entry; this is the index.
 
 **The headline, which you can check yourself before you finish your coffee.**
@@ -22,33 +23,26 @@ report: the first things you will notice are also the fastest to fix.
 
 **Click these in this order.**
 
-1. **#333 — main is red on a test, and this is the fix.** New, and first
-   because nothing else on this list can make main green. One test file. The
-   full reasoning is under "The one real red, and who it belonged to" below;
-   the short version is that two commits from the same sweep merged together
-   and disagree with each other about a sentence. This is the only entry here
-   that has no CI verdict of its own **on purpose** — starting its sixteen-job
-   run would have taken the two slots main's own run is using.
-2. **#304 — say what is behind the Politics entry.** The menu reads
+1. **#304 — say what is behind the Politics entry.** The menu reads
    "Politics — Jobs and study" while behind it are your office, campaigns, the
    government where you live, parties and the budget. Most visible thing in the
    game's first two minutes, and the cheapest click here.
-3. **#325 — prove the refusal a player reads arrives at the screen clean.** It
+2. **#325 — prove the refusal a player reads arrives at the screen clean.** It
    carries no sentence fixes of its own; it is the gate. It needed #320 first,
    and **#320 is now merged**, so nothing blocks it. Its checks read red until
    it lands, which its own body explains.
-4. **The documents — #330, #331, #294 — in any order, and safe to clear
-   first.** #330 is the report updates, #331 the playtest walk at 324 lines
-   under `docs/playtest/`, #294 the artbench-exchange write-up at 131 lines.
-   None touches source or a shipped path. This is the part of the list you can
-   clear without thinking about it.
-5. **#292 — a life that has always lived somewhere has always lived in its
+3. **The documents — #330 and #294 — in either order, and safe to clear
+   first.** #330 is the report updates, #294 the artbench-exchange write-up at
+   131 lines. Neither touches source or a shipped path. This is the part of
+   the list you can clear without thinking about it. (#331, the playtest walk,
+   was here and has merged.)
+4. **#292 — a life that has always lived somewhere has always lived in its
    district too**, and **#283 — every state has a legislature, the District
    governs itself, and read law beats the draw.** Both the nationwide lane's,
    both with their dependencies and their unattributed failures named in their
    own bodies.
 
-Then **#277**, the 0.4.0 release, this lane's, whenever the freeze lifts. Its
+Then **#277**, the 0.4.0 release, this lane's. The freeze has lifted. Its
 full unit suite passed at `9d7ec442`: 6411 tests, 52 skipped, one failure —
 a directory we make unwritable stays writable for root in a container, which is
 red on main too and is not the release's.
@@ -60,7 +54,7 @@ most visible thing fixed first.
 **One thing to know before you start clicking.** GitHub will not let you merge
 a pull request that is still a draft, and several of the above are. Ready to
 merge right now: **#292**, **#305**, **#311**. Still draft at this refresh:
-**#304**, **#325**, **#277**, **#283**, **#333**. Each of those needs its "Ready for
+**#304**, **#325**, **#277**, **#283**. Each of those needs its "Ready for
 review" button pressed first — one extra click, not a problem, but worth
 knowing rather than discovering.
 
@@ -105,6 +99,15 @@ when #333 was merged at 08:12Z. Immediately afterwards the run was still alive:
 `browser (3, 8)` and `browser (7, 8)` in progress, `unit (4, 6)` and
 `unit (5, 6)` still queued and intact. The merge queued behind it, exactly as
 the corrected reading predicts.
+
+**Three lanes reached the same instrument independently.** The playtest lane
+measured run `35699947412` reading `queued` at run level while browser shards
+3, 5 and 7 were all `in_progress` at that same moment. A lane deciding whether
+a merge was safe by reading the run's status field would have concluded main's
+run had not started when it had, and held the freeze for nothing. This is the
+third finding tonight whose answer is the same sentence: **read the jobs, never
+the run.** The pending-versus-executing distinction that made tonight's merge
+safe is only visible at job level, and so is the slot count.
 
 **Why this was worth getting right.** Under the original reading, no merge
 could happen until main's run finished, which would have been well past nine
@@ -404,9 +407,14 @@ waste this document exists to remove:
 `veto-assertion-hardening-hf3e0n`, `veto-override-readings-hf3e0n`,
 `codex/build-6146df3-source`, `codex/client-content-delivery`.
 
-**This is the capacity argument, not an illustration of it.** At two concurrent
-jobs a verdict on main and verdicts on the branches were not competing
-priorities, they were mutually exclusive. One run is fifteen jobs; the queue
+**This is the capacity argument, not an illustration of it.** At the two
+concurrent jobs we believed we had — see the correction under "The capacity,
+measured"; the real figure is at least three — a verdict on main and verdicts
+on the branches were not competing priorities, they were mutually exclusive.
+At three or four slots that is overstated: they compete rather than exclude.
+The choice made tonight would have been the same, because browser shard
+duration rather than slot count is what stops a run finishing, but the reason
+given for it was stronger than the facts supported. One run is fifteen jobs; the queue
 held seventy-two. There was never an arrangement in which both happened, and
 choosing was the only available act.
 
@@ -464,9 +472,17 @@ something that ends. **What would confirm it:** check whether every untouched
 group-carrying run belongs to a PR that has since closed. That has not been
 done.
 
-## The capacity, measured
+## The capacity, measured — and the number that was wrong
 
-The repository runs **two concurrent jobs, for the whole repository**. One
+> **Correction, 08:15Z.** This section said the repository runs two concurrent
+> jobs. It does not. Three of main's own jobs were observed executing together
+> at 07:59Z, and three browser shards again at 08:05Z after `repository` and
+> two unit shards had finished — so the limit is **at least three, probably
+> four**. The original figure is left visible below rather than edited out,
+> because the arithmetic further down was built on it and so were decisions
+> made tonight. What follows the strikethrough is the corrected reading.
+
+~~The repository runs two concurrent jobs, for the whole repository.~~ One
 `validate.yml` run is **fifteen jobs**: one `repository` job, six `unit`
 shards and eight `browser` shards.
 
@@ -479,11 +495,22 @@ the only run tonight that was observed end to end:
 | `unit` × 6    | 4 to 10 min each, ~36 total   |
 | `browser` × 8 | 21 to 59 min each, ~326 total |
 
-That is roughly **364 job-minutes for one run**. At two concurrent slots, one
-validate run needs about **three hours of wall clock with the entire
-repository to itself**. It never had the repository to itself: that run was
-created at 00:57:48Z and its last job was still going at 05:50Z, just under
-five hours later.
+That is roughly **364 job-minutes for one run**. The wall-clock figure this
+section originally derived — about three hours with the entire repository to
+itself — assumed two slots and is therefore too pessimistic; at three or four
+it is shorter.
+
+**But the conclusion does not move, because the binding constraint was never
+the slot count.** It is browser shard duration. A single shard runs 21 to 59
+minutes, they cannot be subdivided, and one was still going unfinished after
+twenty-four minutes tonight. Eight of those in one run means a run takes most
+of an hour at best no matter how many slots exist. Adding a fourth slot makes
+a run somewhat faster; it does not make a sixteen-job run complete quickly.
+**That is a different problem with a different fix** — shorter or better
+parallelised browser specs, not more runners.
+
+The observed history is unchanged either way: the run created at 00:57:48Z had
+its last job still going at 05:50Z, just under five hours later.
 
 ## The merge rate, measured
 
