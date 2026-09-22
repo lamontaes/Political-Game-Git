@@ -1,4 +1,5 @@
 import {
+  incumbentGovernorStandingAgain,
   addDays,
   candidacyEligibility,
   ensureCampaignOpponents,
@@ -129,27 +130,37 @@ export function fileForStateExecutiveOffice(
     world,
     candidacy.identity.stateUsps,
   );
-  const opponents = ensureCampaignOpponents(registered, {
-    stableKey,
-    // Rivals for a statewide office live in the state: in the candidate's own
-    // home place, so a rival who wins can qualify like anyone else.
-    jurisdictionId: person.homeJurisdictionId,
-    count: 1,
-    excludePersonIds: [personId],
-  });
+  // The office's own regular election: verified where the state's law is
+  // compiled, otherwise the game's disclosed calendar. Never a fixed number of
+  // days after filing.
+  const electionDate = stateExecutiveOfficeCalendar(
+    world,
+    candidacy.identity.stateUsps,
+  )!.nextElection;
+  // A sitting governor who stands again is the opponent. Only an open seat
+  // draws a new rival, who lives in the state: in the candidate's own home
+  // place, so a rival who wins can qualify like anyone else.
+  const incumbent = incumbentGovernorStandingAgain(
+    registered,
+    candidacy.identity.stateUsps,
+    electionDate,
+  );
+  const opponents =
+    incumbent.incumbentPersonId && incumbent.incumbentPersonId !== personId
+      ? { world: incumbent.world, personIds: [incumbent.incumbentPersonId] }
+      : ensureCampaignOpponents(incumbent.world, {
+          stableKey,
+          jurisdictionId: person.homeJurisdictionId,
+          count: 1,
+          excludePersonIds: [personId],
+        });
   return fileCampaign(opponents.world, {
     stableKey,
     candidatePersonId: personId,
     jurisdictionId: candidacy.jurisdictionId,
     officeKey: candidacy.identity.officeKey,
     districtBinding: null,
-    // The office's own regular election: verified where the state's law is
-    // compiled, otherwise the game's disclosed calendar. Never a fixed
-    // number of days after filing.
-    electionDate: stateExecutiveOfficeCalendar(
-      world,
-      candidacy.identity.stateUsps,
-    )!.nextElection,
+    electionDate,
     rivalPersonIds: opponents.personIds,
     existingContestId: null,
     committeeName: `${person.familyName} for ${candidacy.identity.displayName}`,

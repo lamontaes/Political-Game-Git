@@ -125,6 +125,91 @@ export function recordGovernorCandidacyIntent(
   });
 }
 
+/**
+ * Whether the sitting governor stands again for the term decided on
+ * `electionDay`, recorded once as the intent event. The regular contest and a
+ * player's own filing both ask this, so a governor who runs is in the race the
+ * player enters instead of disappearing from it.
+ */
+function decideIncumbentGovernor(
+  world: World,
+  stateUsps: string,
+  year: number,
+  electionDay: IsoDate,
+  rng: SeededRng,
+): {
+  readonly world: World;
+  readonly incumbentPersonId: EntityId | null;
+  readonly seeking: boolean;
+} {
+  const office = stateExecutiveOffice(stateUsps)!;
+  const holder = currentStateExecutiveHolders(world).find(
+    (record) => record.officeKey === office.officeKey,
+  );
+  const incumbent = holder ? world.people[holder.personId] : undefined;
+  const eligible =
+    incumbent !== undefined &&
+    world.control.kind === "person" &&
+    world.control.personId !== incumbent.id &&
+    ageOn(incumbent.birthDate, electionDay) <
+      GOVERNOR_TURNOVER_PROFILE.retirementAge &&
+    recordedTermsInOffice(world, incumbent.id, office.officeKey) <
+      GOVERNOR_TURNOVER_PROFILE.incumbentStepsDownAfterTerms;
+  const seeking =
+    eligible &&
+    rng.integer(0, 1000) < GOVERNOR_TURNOVER_PROFILE.incumbentRunsPermille;
+  // Standing again is a decision of its own, recorded before the contest and
+  // separate from both its result and taking office.
+  // The state jurisdiction is established before the intent is recorded: a
+  // vacant office has no person to name, and the record still has to be about
+  // the state whose office it is.
+  const withState = ensureStateJurisdiction(world, stateUsps);
+  const stateId = chiefExecutiveJurisdictionId(stateUsps)!;
+  const next = recordGovernorCandidacyIntent(withState, {
+    office,
+    year,
+    stateJurisdictionId: stateId,
+    incumbentPersonId: incumbent?.id ?? null,
+    seeking,
+    reason:
+      incumbent === undefined
+        ? "no sitting governor is on record."
+        : !eligible
+          ? "they cannot or will not stand again under this game profile."
+          : "they are standing down.",
+  });
+  return { world: next, incumbentPersonId: incumbent?.id ?? null, seeking };
+}
+
+/**
+ * The sitting governor, when they stand again at the election the player is
+ * filing for; null when the seat is open. Uses the same seeded decision the
+ * regular contest makes, and records it.
+ */
+export function incumbentGovernorStandingAgain(
+  world: World,
+  stateUsps: string,
+  electionDay: IsoDate,
+): { readonly world: World; readonly incumbentPersonId: EntityId | null } {
+  const office = stateExecutiveOffice(stateUsps);
+  if (!office) return { world, incumbentPersonId: null };
+  const year = Number(electionDay.slice(0, 4));
+  const rng = new SeededRng(world.seed).fork(
+    turnoverContestKey(office.officeKey, year),
+  );
+  const decided = decideIncumbentGovernor(
+    world,
+    stateUsps,
+    year,
+    electionDay,
+    rng,
+  );
+  return {
+    world: decided.world,
+    incumbentPersonId: decided.seeking ? decided.incumbentPersonId : null,
+  };
+}
+
 /** Opens the regular contest for one office, once, when its field closes. */
 function openRegularContest(
   world: World,
@@ -145,42 +230,20 @@ function openRegularContest(
   )
     return world;
   const rng = new SeededRng(world.seed).fork(key);
-  const holder = currentStateExecutiveHolders(world).find(
-    (record) => record.officeKey === office.officeKey,
-  );
-  const incumbent = holder ? world.people[holder.personId] : undefined;
-  const eligible =
-    incumbent !== undefined &&
-    world.control.kind === "person" &&
-    world.control.personId !== incumbent.id &&
-    ageOn(incumbent.birthDate, electionDay) <
-      GOVERNOR_TURNOVER_PROFILE.retirementAge &&
-    recordedTermsInOffice(world, incumbent.id, office.officeKey) <
-      GOVERNOR_TURNOVER_PROFILE.incumbentStepsDownAfterTerms;
-  const incumbentRuns =
-    eligible &&
-    rng.integer(0, 1000) < GOVERNOR_TURNOVER_PROFILE.incumbentRunsPermille;
-  const challengers = incumbentRuns ? 1 : 2;
-  // Standing again is a decision of its own, recorded before the contest and
-  // separate from both its result and taking office.
-  // The state jurisdiction is established before the intent is recorded: a
-  // vacant office has no person to name, and the record still has to be about
-  // the state whose office it is.
-  const withState = ensureStateJurisdiction(world, stateUsps);
-  const stateId = chiefExecutiveJurisdictionId(stateUsps)!;
-  let next = recordGovernorCandidacyIntent(withState, {
-    office,
+  const decided = decideIncumbentGovernor(
+    world,
+    stateUsps,
     year,
-    stateJurisdictionId: stateId,
-    incumbentPersonId: incumbent?.id ?? null,
-    seeking: incumbentRuns,
-    reason:
-      incumbent === undefined
-        ? "no sitting governor is on record."
-        : !eligible
-          ? "they cannot or will not stand again under this game profile."
-          : "they are standing down.",
-  });
+    electionDay,
+    rng,
+  );
+  const incumbent = decided.incumbentPersonId
+    ? world.people[decided.incumbentPersonId]
+    : undefined;
+  const incumbentRuns = decided.seeking;
+  const challengers = incumbentRuns ? 1 : 2;
+  const stateId = chiefExecutiveJurisdictionId(stateUsps)!;
+  let next = decided.world;
   const inputs = Array.from({ length: challengers }, (_, index) => {
     const stableKey = `${key}:candidate:${index}`;
     const personRng = rng.fork(stableKey);
