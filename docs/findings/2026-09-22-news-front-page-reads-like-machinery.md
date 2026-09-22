@@ -66,13 +66,38 @@ Ten of twelve stories being one of three sentences is not a rendering defect.
 `src/simulation/living-world/developments.ts` holds the whole bank of things
 that can happen in the wider world as two `const` arrays in the source file:
 
-- `INTERNATIONAL_SUBJECTS` — **two** entries, each with three phases.
-- `LOCAL_SUBJECTS` — **four** entries.
+- `INTERNATIONAL_SUBJECTS` — **two** storylines, each carrying three staged
+  sentences: `reported`, `persisted`, `eased`. Shipping delays are reported,
+  continue, then return closer to usual; fishing-rights talks open, continue
+  without agreement, then reach an interim arrangement. Six sentences across
+  two storylines.
+- `LOCAL_SUBJECTS` — **four** bare subject phrases (public facility hours, a
+  local road repair schedule, park shelter reservation rules, a recycling
+  drop-off location), each fed into four stage templates: the proposal and
+  comment period opening, a revised proposal, a withdrawal, an extended
+  comment period. Sixteen sentence shapes from four subjects.
 
-Six authored subjects for every world, forever, baked into logic. The press
-desk is faithfully reporting the only things there are to report. No headline
-writer can fix that, and a modder cannot add a seventh without editing
-TypeScript, which is the opposite of the stated goal for this project.
+**Corrected 2026-09-22 after the coordinator's measurement.** This section
+first said "six authored subjects, forever" — a flat count. The count was not
+wrong about how little there is, but it was the wrong shape to hand an
+authoring lane: "two storylines with three stages each, plus four subjects
+with four stages each" says what shape the missing content is, where a flat
+six only says how little of it exists. It also explains the playtesting lane's
+own reading better — they saw "opened talks" and "announced an interim
+arrangement" as two repetitions of one subject, and it is one storyline at two
+of its stages.
+
+The coordinator asked that the local subjects' staging be recorded as
+unchecked. It has since been checked, on `main` at `e908f446`, in the
+`family === "local-matter"` branch of `developments.ts`: they do have stages,
+four of them, listed above. So the corrected shape is two staged storylines
+and four staged local subjects, not four flat ones.
+
+Twenty-two sentence shapes for every world, forever, baked into logic. The
+press desk is faithfully reporting the only things there are to report. No
+headline writer can fix that, and a modder cannot add a third storyline or a
+fifth local subject without editing TypeScript, which is the opposite of the
+stated goal for this project.
 
 This is the same defect class as the hardcoded-content audit: content living in
 code instead of in data the game discovers. The fix is to read these from a
