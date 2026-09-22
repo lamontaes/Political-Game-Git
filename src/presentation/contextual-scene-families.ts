@@ -1116,7 +1116,7 @@ const favor: SceneFamilyDefinition = {
       const last = context.has("lastContactOn")
         ? ` You have not seen each other since ${proseDate(context.fact("lastContactOn") as never)}.`
         : "";
-      return `${who} is asking whether you want to meet on ${proseDate(context.binding.date!)}.${last} Answering takes no time.`;
+      return `${who} is asking whether you want to meet on ${proseDate(context.binding.date!)}.${last}`;
     }
     if (context.binding.variant === "claim-came-back") {
       return `${context.fullName} has gone back over ${context.fact("evidenceLabel")} and it does not match what you told them.`;
@@ -1140,12 +1140,14 @@ const favor: SceneFamilyDefinition = {
       return `${who} is asking whether you can ${context.fact("task")}. Pay and the date are not settled.`;
     }
     if (context.binding.variant === "household-evening") {
-      return `${who} will be home this evening and is asking whether you would like to sit and talk, from ${context.fact("startTime")}. Answering takes no time; the evening itself is on your calendar.`;
+      return `${who} will be home this evening and is asking whether you would like to sit and talk, from ${context.fact("startTime")}.`;
     }
-    const minutes = context.has("minutes")
-      ? ` It would take about ${context.fact("minutes")} minutes, done separately; answering takes no time.`
-      : "";
-    return `${who} is asking you to ${context.fact("task")}.${minutes}`;
+    /*
+     * How long it would take is something the player can ask, in the
+     * conversation, and hear the answer to ("Ask how long it will take"). It
+     * is not a rules note on the briefing.
+     */
+    return `${who} is asking you to ${context.fact("task")}.`;
   },
   opening(context) {
     if (context.binding.variant === "meet-up") {

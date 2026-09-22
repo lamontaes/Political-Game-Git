@@ -63,11 +63,12 @@ for (const place of places) {
     ]) {
       await page.setViewportSize(size);
       const rect = await plate.boundingBox();
-      expect(rect!.height).toBeGreaterThan(300);
-      await expect(plate).toHaveCSS("object-fit", "contain");
+      // The state's scene is the full-bleed backdrop of the whole window.
+      await expect(plate).toHaveCSS("object-fit", "cover");
       const scene = await page
         .getByTestId("opening-regional-scene")
         .boundingBox();
+      expect(scene).toEqual({ x: 0, y: 0, ...size });
       expect(rect!.width).toBeCloseTo(scene!.width, 0);
       expect(rect!.height).toBeCloseTo(scene!.height, 0);
       const reading = await page
@@ -76,16 +77,16 @@ for (const place of places) {
       const card = await page
         .locator(".pg-regional-state-information")
         .boundingBox();
-      expect(scene!.y + scene!.height).toBeLessThanOrEqual(
-        reading!.y + reading!.height + 1,
+      // The words sit on their scrim inside the scene, above Back/Next.
+      expect(reading!.y).toBeGreaterThanOrEqual(scene!.y);
+      expect(reading!.y + reading!.height).toBeLessThanOrEqual(
+        scene!.y + scene!.height,
       );
-      expect(card!.y + card!.height).toBeLessThanOrEqual(
-        reading!.y + reading!.height,
-      );
-      const paintedWidth = Math.min(rect!.width, rect!.height * 1.5);
+      expect(card!.x).toBeGreaterThanOrEqual(reading!.x);
+      // Cover never paints the raster wider than its own pixels here.
+      const naturalRatio = place.width / (place.width === 1536 ? 1024 : 1664);
+      const paintedWidth = Math.max(rect!.width, rect!.height * naturalRatio);
       expect(paintedWidth).toBeLessThanOrEqual(place.width);
-      expect(rect!.x).toBeGreaterThanOrEqual(0);
-      expect(rect!.x + rect!.width).toBeLessThanOrEqual(size.width);
       await page.screenshot({
         path: info.outputPath(`regional-${size.width}.png`),
       });
@@ -96,7 +97,11 @@ for (const place of places) {
     ).toBeVisible();
     await expect(page.getByTestId("opening-state-voting")).toBeVisible();
     await expect(page.getByTestId("opening-state-population")).toBeVisible();
-    await expect(page.getByText(/All ages · 20/)).toBeVisible();
+    await expect(
+      page.getByText(
+        new RegExp(`^Residents of ${place.stateName}, all ages, 20\\d\\d$`),
+      ),
+    ).toBeVisible();
     await page.screenshot({
       path: info.outputPath("regional-population-1024.png"),
     });
@@ -300,9 +305,8 @@ test("state voting card shows dated survey counts and readable group tables with
   );
   await expect(source).toHaveCSS("color", "rgb(234, 208, 148)");
   await source.scrollIntoViewIfNeeded();
-  const card = await page
-    .locator(".pg-regional-state-information")
-    .boundingBox();
+  // The reading surface scrolls inside the full-screen scene.
+  const card = await page.locator(".pg-orientation-reading").boundingBox();
   const scene = await page.getByTestId("opening-regional-scene").boundingBox();
   expect(card!.y).toBeGreaterThanOrEqual(scene!.y);
   expect(card!.y + card!.height).toBeLessThanOrEqual(scene!.y + scene!.height);

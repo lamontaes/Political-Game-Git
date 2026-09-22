@@ -53,12 +53,17 @@ export function OpeningStatePopulation({
         {stateUsps === "DC" ? "People in the District" : "People in your state"}
       </h3>
       {population ? (
-        <>
+        <figure className="pg-state-population-figure">
           <p className="pg-state-population-number">
-            {population.value.toLocaleString("en-US")} people
+            <span className="pg-state-population-value">
+              {population.value.toLocaleString("en-US")}
+            </span>{" "}
+            <span className="pg-state-population-unit">people</span>
           </p>
-          <p>{population.geography.name} · All ages</p>
-        </>
+          <figcaption className="pg-state-population-caption">
+            {populationCaption(population.geography.name, population.period)}
+          </figcaption>
+        </figure>
       ) : (
         <p>
           {!stateUsps || !geoid || ready || failed === key
@@ -68,4 +73,16 @@ export function OpeningStatePopulation({
       )}
     </section>
   );
+}
+
+/**
+ * The line under the figure reads as a caption, not a record label: who is
+ * counted and when. The year is the figure's own reference year.
+ */
+export function populationCaption(placeName: string, period: string): string {
+  const year = /^\d{4}$/.test(period) ? period : null;
+  const place = /^District of /.test(placeName)
+    ? `the ${placeName}`
+    : placeName;
+  return `Residents of ${place}, all ages${year ? `, ${year}` : ""}`;
 }
