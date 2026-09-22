@@ -5,6 +5,7 @@ import {
 } from "./policy-packs";
 import { US_STATE_AND_LOCAL_POLICY_PACK } from "./policy-pack-us-state-and-local";
 import { US_POLICY_POSITIONS_PACK } from "./policy-pack-us-policy-positions";
+import { US_FEDERAL_POLICY_PACK } from "./policy-pack-us-federal";
 
 /**
  * The policy packs this build loads.
@@ -29,6 +30,11 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
   // principles, so it resolves those against itself in the same pass.
   US_STATE_AND_LOCAL_POLICY_PACK,
   US_POLICY_POSITIONS_PACK,
+  // Federal government, in its own namespace. It references nothing in the
+  // packs above and nothing above references it, so its place here decides
+  // only where its rows sit in the catalogue order: after, so every id the
+  // state and local catalogue already had keeps its position.
+  US_FEDERAL_POLICY_PACK,
 ];
 
 let cached: PolicyRegistry | null = null;

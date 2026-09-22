@@ -227,8 +227,15 @@ export interface PolicyDomainDefinition {
  * jurisdiction's own capability record decides that, and this list only says
  * which levels are worth asking.
  */
-export type PolicyGovernmentLevel =
-  "state" | "county" | "municipality" | "school-district";
+export const POLICY_GOVERNMENT_LEVELS = [
+  "federal",
+  "state",
+  "county",
+  "municipality",
+  "school-district",
+] as const;
+
+export type PolicyGovernmentLevel = (typeof POLICY_GOVERNMENT_LEVELS)[number];
 
 export interface PolicyIssueDefinition {
   readonly id: EntityId;

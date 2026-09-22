@@ -57,6 +57,26 @@ export function createPolicyIssueDefinition(
   };
 }
 
+/**
+ * The issues a catalogue says are ordinarily decided at one level.
+ *
+ * An issue that names no level is left out, not included: nobody established
+ * where it is decided, and an unknown is not permission to raise it anywhere.
+ * Being listed here grants no office the power to decide it either; that is
+ * the jurisdiction's own capability record.
+ */
+export function policyIssuesDecidedAt(
+  catalog: PolicyCatalog,
+  level: PolicyGovernmentLevel,
+): readonly PolicyIssueDefinition[] {
+  return catalog.issueOrder
+    .map((id) => catalog.issues[id])
+    .filter(
+      (issue): issue is PolicyIssueDefinition =>
+        issue !== undefined && (issue.levels ?? []).includes(level),
+    );
+}
+
 export function createPolicyPropositionDefinition(
   stableKey: string,
   issueId: EntityId,

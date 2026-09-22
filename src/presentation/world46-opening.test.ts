@@ -100,10 +100,17 @@ const sha256 = (text: string) =>
  * a decision on the same evidence as before, because LEGACY_OPENING_SHAPE
  * PASSED unchanged on the run that moved these. That is the whole point of
  * having both: the field these hashes moved on is the one the shape strips.
+ *
+ * RE-ACCEPTED A FOURTH TIME 2026-09-22, for the federal policy pack: twenty
+ * federal domains, sixty federal issues and sixty knowledge subjects, all in
+ * `world.policyCatalog` under the `us-federal:` namespace. Same predicted
+ * movement, same evidence: LEGACY_OPENING_SHAPE PASSED unchanged on the run
+ * that moved these, and the pack's own test proves every id and record the
+ * catalogue already had is untouched and in its old place.
  */
 const FED321F7_LEGACY = {
-  kentucky: "375cd5fb89e7b62a399365e3ad07c7b0f78eb909aac6b81747d7779c65a09ad7",
-  peebles: "99ebe80d1b29f387bf4cb1b277a6206f8d115dccfd44f7759c838ae2fbc19b37",
+  kentucky: "6c8df66f70eb51276ca23e066755943fd5fdd4501ea93358ed3edc8fff828e8d",
+  peebles: "a224f13759e667ed0e2dec4a663f5a981fae712681056cdb2db86ade63f8885c",
 } as const;
 
 /**
