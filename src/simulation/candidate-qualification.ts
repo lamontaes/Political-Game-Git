@@ -102,11 +102,50 @@ export function candidateQualificationRuleSet(
         rules.candidacyPackId === candidacyPackId &&
         rules.officeKey === officeKey,
     ) ?? null;
-  // Each set is gated on when ITS OWN instrument was observed. Reading one
-  // state's retrieval date against another state's rows would either hide a
-  // stale rule or refuse a sound one.
-  if (!rules || onDate >= rules.source.observedCurrentOn) return rules;
-  const { legalLocator, observedCurrentOn } = rules.source;
+  return rules === null ? null : ruleSetApplicableOn(rules, onDate);
+}
+
+/**
+ * The same rule set, with any field the evidence cannot place on `onDate`
+ * turned to UNKNOWN.
+ *
+ * Separated from the lookup above so the dating rule can be exercised on a set
+ * this build does not ship. Otherwise it could only ever be tested against
+ * Alaska's two, and the behaviour that matters is what happens to the next
+ * state's.
+ */
+export function ruleSetApplicableOn(
+  rules: CandidateQualificationRuleSet,
+  onDate: IsoDate,
+): CandidateQualificationRuleSet {
+  // Two different questions, asked in the right order.
+  //
+  // If the instrument's own commencement is known, that is the fact: the words
+  // applied from that day, whenever we happened to read them. Only when it is
+  // unknown do we fall back to the weaker claim, that we can vouch for the text
+  // no earlier than the day we saw it. The same distinction the sourced
+  // qualification corpus draws between an EXACT_INTERVAL and a bare
+  // CURRENT_OBSERVATION — one discipline, kept the same in both files.
+  //
+  // Each set is gated on ITS OWN instrument. Reading one state's dates against
+  // another state's rows would either hide a stale rule or refuse a sound one.
+  const { legalLocator, observedCurrentOn, provisionEffectiveOn } =
+    rules.source;
+  if (provisionEffectiveOn !== null) {
+    if (onDate >= provisionEffectiveOn) return rules;
+    const unknownBefore = (field: string): QualificationValue<number> => ({
+      state: "UNKNOWN",
+      reason: `${legalLocator} took effect on ${provisionEffectiveOn}; it does not establish ${field} on the earlier date ${onDate}.`,
+    });
+    return {
+      ...rules,
+      minimumAge: unknownBefore("minimum age"),
+      stateResidenceYears: unknownBefore("state residence"),
+      districtResidenceYears: unknownBefore("district residence"),
+      termYears: unknownBefore("term length"),
+    };
+  }
+  if (onDate >= observedCurrentOn) return rules;
   const unavailable = (field: string): QualificationValue<number> => ({
     state: "UNKNOWN",
     reason: `${legalLocator} was observed in the acquired source on ${observedCurrentOn}; that later observation does not establish ${field} on ${onDate}.`,

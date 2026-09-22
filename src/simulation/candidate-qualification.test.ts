@@ -4,6 +4,7 @@ import {
   CANDIDATE_QUALIFICATION_RULE_SETS,
   assessCandidateQualification,
   candidateQualificationRuleSet,
+  ruleSetApplicableOn,
 } from "./candidate-qualification";
 import { makeIsoDate } from "./dates";
 
@@ -136,5 +137,58 @@ describe("a second state's rules cite their own instrument", () => {
     // "Sourced: no such requirement" is an answer, so it raises no refusal
     // even with no district residence proved.
     expect(sourcedAbsence.qualifies).toBe(true);
+  });
+});
+
+/**
+ * A known commencement date is a stronger fact than a retrieval date, and the
+ * gate has to prefer it — otherwise researching one is pointless, because the
+ * refusal would survive the answer.
+ */
+describe("a rule that states when it took effect is governed by that date", () => {
+  const set = CANDIDATE_QUALIFICATION_RULE_SETS[0]!;
+
+  it("applies on a date before the instrument was read, once commencement is known", () => {
+    const dated = {
+      ...set,
+      source: {
+        ...set.source,
+        provisionEffectiveOn: makeIsoDate("1959-01-03"),
+      },
+    };
+    // 2026-01-05 is long before the 2026-09-06 retrieval, and would be refused
+    // on observation alone. With a commencement in 1959 it is simply in force.
+    expect(
+      ruleSetApplicableOn(dated, makeIsoDate("2026-01-05")).minimumAge.state,
+    ).toBe("KNOWN");
+  });
+
+  it("still refuses a date before the instrument itself took effect", () => {
+    const dated = {
+      ...set,
+      source: {
+        ...set.source,
+        provisionEffectiveOn: makeIsoDate("1959-01-03"),
+      },
+    };
+    const before = ruleSetApplicableOn(dated, makeIsoDate("1958-06-01"));
+    expect(before.minimumAge.state).toBe("UNKNOWN");
+    if (before.minimumAge.state !== "UNKNOWN") return;
+    expect(before.minimumAge.reason).toContain("1959-01-03");
+    // The weaker observation sentence must not be the one shown when the
+    // stronger fact is what decided it.
+    expect(before.minimumAge.reason).not.toContain(
+      "observed in the acquired source",
+    );
+  });
+
+  it("falls back to the retrieval date only while commencement is unknown", () => {
+    expect(set.source.provisionEffectiveOn).toBeNull();
+    const before = ruleSetApplicableOn(set, makeIsoDate("2020-01-01"));
+    expect(before.minimumAge.state).toBe("UNKNOWN");
+    if (before.minimumAge.state !== "UNKNOWN") return;
+    expect(before.minimumAge.reason).toContain(
+      "observed in the acquired source",
+    );
   });
 });
