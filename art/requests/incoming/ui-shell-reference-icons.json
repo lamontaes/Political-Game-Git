@@ -1,0 +1,38 @@
+{
+  "intakeVersion": "art-request-intake/v1",
+  "requestId": "ui-shell-reference-icons",
+  "title": "Icons for the five things the shell can point at",
+  "missing": "The game has no icon set at all. Player surfaces label everything in words or fall back to whatever glyph the font supplies, and a pinned item is distinguishable from another pinned item only by reading it.",
+  "consumerSite": {
+    "consumerId": "no-declared-consumer",
+    "playerVisibleUse": "The pin rail and every link or shortcut that reopens something: a person, a commitment in the player's calendar, a measure before a chamber, a government, or an organization such as a local party chapter.",
+    "runtimeComponent": "src/player/PinRail.tsx"
+  },
+  "jurisdiction": {
+    "scope": "jurisdiction-independent",
+    "reason": "These stand for kinds of thing rather than for any particular thing, so they are the same in every jurisdiction and in every save."
+  },
+  "whyNeeded": "Five is measured, not invented: `ShellRef` in src/presentation/shell-navigation.ts is a closed union of exactly five kinds — person, commitment, measure, government, organization — and that file is explicit that a sixth was deliberately not added because it would have had nothing to resolve to. So the set is complete and will not quietly grow.",
+  "origin": "inspection",
+  "requestedBy": "art bench and regional scenes thread",
+  "filedAt": "2026-09-22T05:45:00.000Z",
+  "priority": "P2",
+  "targetClass": "interface-graphic",
+  "alreadySearched": [
+    "art/manifest/asset_manifest.json — all 126 assets read. 11 environment-plate, 2 environment-master, 1 foreground mask, 1 reference master, the rest character components. Nothing in it is an interface graphic of any kind.",
+    "art/requests/asset-requests.json — 29 requests read, including the ten capitols filed tonight. None asks for interface artwork.",
+    "art/requests/incoming/ — 15 filed records read. All are environments or figures.",
+    "art/regions/regional-scene-places.json — all 23 regions carry a benchRequestId from his Art Bench, so the Bench's own regional asks are accounted for and none of them is this.",
+    "find over art/ and public/ for icon or SVG assets — the only SVGs in the project are pose control plates and arm-measurement QA overlays, which are authoring evidence, not shipped interface art.",
+    "src/presentation/shell-navigation.ts — ShellRef is exactly five kinds and the file states why a geographic place pin was deliberately excluded.",
+    "grep for icon or SVG references across src/player — none. The interface uses text and font glyphs throughout."
+  ],
+  "notes": [
+    "Five icons, one per ShellRef kind, and no more: person, commitment, measure, government, organization.",
+    "Government and organization are deliberately separate, and the distinction must survive at icon size. The navigation code is emphatic that a city and the government of that city are different things and that blurring them is the first step toward implying where the player lives.",
+    "A commitment is a scheduled activity in the player's own calendar, not an obligation to somebody — it should not read as a debt or a promise.",
+    "Legible at small size in a dense rail, and readable against both light and dark surfaces, because the shell is used at both.",
+    "No party emblems, no donkey, no elephant, no real seal of any government. The game generates its own parties and a borrowed emblem would contradict them."
+  ],
+  "promotedToRequestId": "ui-shell-reference-icons"
+}

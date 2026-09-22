@@ -55,9 +55,40 @@ const NOT_A_PRESERVED_UNIT = new Set([
   "REFERENCE_ONLY",
 ]);
 
-/** Where a swept source sheet is kept once it is in the repository. */
-const SOURCE_IMAGE_DIRECTORY =
-  "art/references/candidates/recent-drive-sweep/source-images";
+/**
+ * Where a swept source sheet is kept once it is in the repository.
+ *
+ * There is more than one bank because there has been more than one sweep, and
+ * a single constant here silently produced lineage that pointed at nothing:
+ * the five wave-a morphology families record their sheets by filename, and
+ * those sheets were banked under `wave-a-morphology/source-sheets` rather than
+ * with the drive sweep. The declared paths resolved to no file, and nothing
+ * failed, because a source sheet is only opened when a verdict cites it.
+ *
+ * The first entry stays the default so an unresolvable filename still reports
+ * where it was expected rather than disappearing.
+ */
+const SOURCE_IMAGE_DIRECTORIES = [
+  "art/references/candidates/recent-drive-sweep/source-images",
+  "art/references/candidates/wave-a-morphology/source-sheets",
+] as const;
+
+/**
+ * The bank a source sheet is actually in, proven by its recorded hash.
+ *
+ * Existence alone would let a same-named file in the wrong bank stand in for
+ * the real source, which is exactly the confusion this is fixing, so the bytes
+ * have to match the hash the review recorded.
+ */
+function sourceImagePath(root: string, filename: string, sha: string): string {
+  for (const directory of SOURCE_IMAGE_DIRECTORIES) {
+    const absolute = path.join(root, directory, filename);
+    if (!fs.existsSync(absolute)) continue;
+    if (sha256(absolute) !== sha) continue;
+    return `${directory}/${filename}`;
+  }
+  return `${SOURCE_IMAGE_DIRECTORIES[0]}/${filename}`;
+}
 
 export interface AssetReadinessInputs {
   readonly requests: AssetRequestDocument;
@@ -93,6 +124,7 @@ function sha256(absolute: string): string {
 export function preservedUnits(
   review: ComponentReview,
   inventory: DriveInventory,
+  root: string,
 ): PreservedUnit[] {
   const units: PreservedUnit[] = [];
 
@@ -131,7 +163,7 @@ export function preservedUnits(
       // hash checked rather than the family's.
       files: [
         ...[...family.sources].map(([filename, hash]) => ({
-          path: `${SOURCE_IMAGE_DIRECTORY}/${filename}`,
+          path: sourceImagePath(root, filename, hash),
           sha256: hash,
         })),
         ...family.members,
@@ -172,7 +204,7 @@ export function preservedUnits(
   )) {
     units.push({
       unitKey: `source:${filename}`,
-      files: [{ path: `${SOURCE_IMAGE_DIRECTORY}/${filename}`, sha256: hash }],
+      files: [{ path: sourceImagePath(root, filename, hash), sha256: hash }],
       directories: [],
     });
   }
@@ -239,7 +271,7 @@ export function readAssetReadinessInputs(root: string): AssetReadinessInputs {
   return {
     requests,
     declaration,
-    preservedUnits: preservedUnits(review, inventory),
+    preservedUnits: preservedUnits(review, inventory, root),
     probe: probeRepository(root),
   };
 }
