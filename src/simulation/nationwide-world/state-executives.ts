@@ -205,8 +205,20 @@ function registerStateJurisdiction(
   world: World,
   office: StateExecutiveOffice,
 ): World {
-  if (world.jurisdictions[office.jurisdictionId]) return world;
-  const jurisdiction = stateJurisdictionForKey(office.jurisdictionKey)!;
+  return ensureStateJurisdictionForKey(world, office.jurisdictionKey);
+}
+
+/**
+ * Registers a state's or territory's jurisdiction identity by its key
+ * (`US-KY`, `US-PR`), once. It carries identity only: no office, no
+ * government and no rules come with it. Unknown keys change nothing.
+ */
+export function ensureStateJurisdictionForKey(
+  world: World,
+  jurisdictionKey: string,
+): World {
+  const jurisdiction = stateJurisdictionForKey(jurisdictionKey);
+  if (!jurisdiction || world.jurisdictions[jurisdiction.id]) return world;
   return {
     ...world,
     jurisdictions: { ...world.jurisdictions, [jurisdiction.id]: jurisdiction },

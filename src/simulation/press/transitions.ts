@@ -18,7 +18,11 @@ import {
   pressLedgerReviewHandler,
   produceRivalComplaints,
 } from "./matters";
-import { ensurePressLocalCoverage, ensurePressMediaOpening } from "./outlets";
+import {
+  ensurePressHomeCoverage,
+  ensurePressLocalCoverage,
+  ensurePressMediaOpening,
+} from "./outlets";
 import {
   ensureMediaOwnership,
   PRESS_OWNER_REVIEW_TRANSITION_KEY,
@@ -32,7 +36,8 @@ import {
 
 /**
  * The weekly desk sweep also lets a rival decide about a complaint and
- * materializes coverage for newly exposed state politics, and gives any new
+ * keeps the player's own town and state covered, materializes coverage for
+ * newly exposed state politics, and gives any new
  * outlet its founding owner, before the outlets look at the week's public
  * record.
  */
@@ -41,7 +46,9 @@ function pressWeeklyHandler(
   dueItem: FutureDueItem,
 ): FutureTransitionHandlerResult {
   const prepared = ensureMediaOwnership(
-    ensurePressExposureCoverage(produceRivalComplaints(world)),
+    ensurePressExposureCoverage(
+      ensurePressHomeCoverage(produceRivalComplaints(world)),
+    ),
   );
   return pressDeskSweepHandler(prepared, dueItem);
 }
