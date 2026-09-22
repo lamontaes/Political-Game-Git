@@ -4,6 +4,7 @@ import type { RegisteredTrait } from "./trait-packs";
 import type {
   EntityId,
   IsoDate,
+  MindStrength,
   PersonalityTendencyRecord,
   World,
 } from "./types";
@@ -12,24 +13,43 @@ import type {
  * How hard it is to change somebody, read from their own life.
  *
  * The owner's requirement is that every character can change, with varying
- * levels of resistance. The tempting design is a second seeded number per
- * person saying how stubborn they are; it is rejected in
+ * levels of resistance, and his answer to what the variation should depend on
+ * is: how strongly the trait is theirs. The tempting design is a second seeded
+ * number per person saying how stubborn they are; it is rejected in
  * `docs/systems/traits.md`, because it is one more fact the game would assert
  * about somebody without having observed it, and because it explains nothing
  * to a player.
  *
- * `PersonalityTendencyRecord` already carries `supersedesTendencyId` and
+ * Nothing new had to be stored to do it his way. `PersonalityTendencyRecord`
+ * already carries a `strength` — it is what the store writes to say whether a
+ * lean is subtle or defining — along with `supersedesTendencyId` and
  * `recordedAt`, so the chain of records for one person on one trait is that
- * person's history on it. Resistance is read from that chain — how long the
- * current value has stood, how often it has already moved — together with what
- * the declaring pack says about how movable the trait is at all. Two people
- * who have lived differently therefore resist differently, from records that
- * already exist, and the reason is always sayable out loud.
+ * person's history on it. Resistance is read from that chain: how strongly the
+ * current value is held, and how long it has stood, against what the declaring
+ * pack says about how movable the trait is at all. Two people who have lived
+ * differently therefore resist differently, from records that already exist,
+ * and the reason is always sayable out loud.
+ *
+ * What was removed, and why. An earlier shape added a permanent cost for every
+ * move a person had ever made. It was there to stop oscillation, and it did,
+ * but it also meant somebody who had already been through things became
+ * progressively unreachable — a life made of events ended in a character no
+ * event could touch, which is the opposite of the requirement. Oscillation is
+ * now held off by the settling clock alone: a value carries most of its
+ * resistance the day it is written, so there is no week-after swing back, and
+ * prior moves are still counted and still said out loud because they are true
+ * about the person. They just no longer harden them.
  */
 
 /** How strongly one event argues for a change. */
 export type TraitForce = "passing" | "notable" | "formative";
 
+/**
+ * What each force is worth. These stay in code, unlike every number in
+ * `TraitMovability`, because they are the meaning of the vocabulary rather
+ * than a judgement about a particular trait: "formative" has to mean the same
+ * thing to every pack or the word is worth nothing.
+ */
 const FORCE_WEIGHT: Readonly<Record<TraitForce, number>> = {
   passing: 1,
   notable: 2,
@@ -41,6 +61,9 @@ export const TRAIT_FORCES: readonly TraitForce[] = [
   "notable",
   "formative",
 ];
+
+/** The strongest a single event can ever argue. */
+export const STRONGEST_FORCE = FORCE_WEIGHT.formative;
 
 const DAYS_IN_YEAR = 365.2425;
 
@@ -65,7 +88,11 @@ export type TraitResistance =
       readonly state: "established";
       /** The force that must be exceeded. */
       readonly resistance: number;
-      /** Moves already made. Each one costs the next more. */
+      /** How strongly this person holds the value, from the record itself. */
+      readonly heldAs: MindStrength;
+      /** What a value held this strongly resists once it has settled. */
+      readonly settledResistance: number;
+      /** Moves already made. Reported and said out loud; costs nothing. */
       readonly priorMoves: number;
       readonly heldForYears: number;
       /** Whether the current value has stood long enough to settle. */
@@ -85,11 +112,13 @@ function chain(
  * The resistance this person's history gives this trait. Pure; reads only
  * records that exist.
  *
- * Two clocks pull opposite ways, deliberately. A value freshly written has not
- * settled, so somebody recently shaken is easier to shift again — which is
- * true to life. But every move made adds `perMove` for good, so each shift
- * leaves them harder to move than the last time they settled, which is what
- * stops a character oscillating between two poles.
+ * Two readings combine. How strongly the value is held is the pack's declared
+ * resistance for the strength on the record, and it is the part the owner
+ * asked for: a faint lean and a defining one are not equally hard to shift.
+ * How long it has stood scales that between the pack's unsettled floor and the
+ * whole of it, so a value written last month is genuinely easier than the same
+ * value held for twenty years — without ever being free, which is what keeps a
+ * character from swinging back and forth.
  */
 export function traitResistance(
   world: World,
@@ -120,16 +149,29 @@ export function traitResistance(
     0,
     daysBetween(heldSince, world.currentDate) / DAYS_IN_YEAR,
   );
-  const { settled, perMove, settlesOver } = trait.movability;
+  const { settledByStrength, settlesOver, unsettledFloor } = trait.movability;
+  const settledResistance = settledByStrength[current.strength];
   const settledFraction = Math.min(1, heldForYears / settlesOver);
   return {
     state: "established",
-    resistance: settled * settledFraction + perMove * priorMoves,
+    resistance:
+      settledResistance *
+      (unsettledFloor + (1 - unsettledFloor) * settledFraction),
+    heldAs: current.strength,
+    settledResistance,
     priorMoves,
     heldForYears,
     settled: settledFraction >= 1,
   };
 }
+
+/** How strongly a value is held, in a word a player would use. */
+const HELD_AS_WORD: Readonly<Record<MindStrength, string>> = {
+  subtle: "barely",
+  moderate: "somewhat",
+  strong: "strongly",
+  defining: "as much as anything about them",
+};
 
 /**
  * The resistance, said out loud.
@@ -150,22 +192,25 @@ export function describeTraitResistance(
     resistance.settled && years >= 1
       ? `${name} has been this way for ${years} ${years === 1 ? "year" : "years"}`
       : `${name} came to this recently enough that it has not settled`;
+  const strength = `, and holds it ${HELD_AS_WORD[resistance.heldAs]}`;
   const moves =
     resistance.priorMoves === 0
-      ? ", and has never been otherwise."
+      ? ", having never been otherwise."
       : `, having already changed ${resistance.priorMoves === 1 ? "once" : `${resistance.priorMoves} times`}.`;
-  return `${held}${moves}`;
+  return `${held}${strength}${moves}`;
 }
 
 /**
- * Whether a force overcomes a resistance, once the pressure already on this
- * person is counted.
+ * Whether a force overcomes a resistance, once the experience already behind
+ * this person is counted.
  *
- * `pressure` is how many attempts have already been made and failed since the
- * last time this trait moved. Counting them is the point rather than
- * bookkeeping: one argument does not change somebody, and the same argument
- * for the tenth time does. A system that dropped its failures would have ten
- * independent coin flips instead of a life.
+ * `pressure` is how much independent experience has already argued this way
+ * and failed since the last time this trait moved. Counting it is the point
+ * rather than bookkeeping: one argument does not change somebody, and a year
+ * of the same thing happening in different corners of a life does. What it is
+ * emphatically not is a click counter — the producer decides what counts as a
+ * separate experience, and the pack caps how much it can ever add, so somebody
+ * repeating themselves gets nowhere no matter how long they keep at it.
  */
 export interface TraitChangeAttempt {
   readonly force: TraitForce;

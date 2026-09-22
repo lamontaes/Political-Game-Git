@@ -53,31 +53,77 @@ const ORDINARY_LIFE_SCOPES = ["life:ordinary"] as const;
  * How movable each of the five is, which is this pack's judgement and not the
  * engine's.
  *
- * `settled` is what a value resists once it has stood for `settlesOver` years
- * and never moved; `perMove` is added for every move already made, so each
- * change leaves somebody harder to shift than the last time they settled.
+ * `settledByStrength` is what a value resists once it has stood for
+ * `settlesOver` years, read against how strongly the person holds it. That is
+ * the owner's answer to how personality change should be paced: it depends on
+ * how strongly the trait is theirs. Somebody with no lean at all is a `subtle`
+ * hold and the easiest to move; somebody the whole town would name by this
+ * trait is `strong` and takes a great deal.
+ *
+ * `unsettledFloor` is what a value carries the day after it moved, so nobody
+ * swings back the following week. It replaced a cost added for every move ever
+ * made, which had the effect that a person who had already been through things
+ * became progressively unreachable — the opposite of the requirement that
+ * every character can change.
+ *
+ * `experienceSpacingDays` and `pressureCap` are the two that stop repetition
+ * from being a lever. Two of the same thing inside a season are one thing, and
+ * what accumulates can never add more than the cap, so persistence alone does
+ * not eventually move anybody.
  *
  * The differences between the rows are authored on purpose. How somebody
  * thinks a decision through is more fundamental than how much they like
  * company, so deliberation settles harder and over longer. Whether somebody
  * keeps what they said is the one most obviously moved by what happens to
- * them, so reliability settles soonest. These are a first playable set, and
- * changing them is an edit to this file — no code reads a trait name to decide
- * how movable it is.
+ * them, so reliability settles soonest and counts experience on a shorter
+ * spacing. These are a first playable set, and changing them is an edit to
+ * this file — no code reads a trait name to decide how movable it is.
  */
 const PEOPLE_TRAIT_MOVABILITY: Readonly<Record<string, TraitMovability>> = {
-  sociability: { settled: 2, perMove: 1, settlesOver: 10 },
-  deliberation: { settled: 3, perMove: 1.5, settlesOver: 15 },
-  reliability: { settled: 2, perMove: 1, settlesOver: 8 },
-  conflict: { settled: 3, perMove: 1, settlesOver: 12 },
-  risk: { settled: 2, perMove: 1, settlesOver: 10 },
+  sociability: {
+    settledByStrength: { subtle: 1.5, moderate: 2.5, strong: 4, defining: 5 },
+    settlesOver: 10,
+    unsettledFloor: 0.5,
+    experienceSpacingDays: 90,
+    pressureCap: 3,
+  },
+  deliberation: {
+    settledByStrength: { subtle: 2, moderate: 3.5, strong: 5, defining: 5.75 },
+    settlesOver: 15,
+    unsettledFloor: 0.6,
+    experienceSpacingDays: 180,
+    pressureCap: 3,
+  },
+  reliability: {
+    settledByStrength: { subtle: 1.5, moderate: 2.5, strong: 4, defining: 5 },
+    settlesOver: 8,
+    unsettledFloor: 0.5,
+    experienceSpacingDays: 60,
+    pressureCap: 3,
+  },
+  conflict: {
+    settledByStrength: { subtle: 2, moderate: 3, strong: 4.5, defining: 5.5 },
+    settlesOver: 12,
+    unsettledFloor: 0.5,
+    experienceSpacingDays: 120,
+    pressureCap: 3,
+  },
+  risk: {
+    settledByStrength: { subtle: 1.5, moderate: 2.5, strong: 4, defining: 5 },
+    settlesOver: 10,
+    unsettledFloor: 0.5,
+    experienceSpacingDays: 90,
+    pressureCap: 3,
+  },
 };
 
 /** The floor a trait this pack forgot to judge falls back to: hard to move. */
 const UNJUDGED_MOVABILITY: TraitMovability = {
-  settled: 3,
-  perMove: 1,
+  settledByStrength: { subtle: 2, moderate: 3.5, strong: 5, defining: 5.75 },
   settlesOver: 15,
+  unsettledFloor: 0.6,
+  experienceSpacingDays: 180,
+  pressureCap: 3,
 };
 
 export function peopleTraitPack(): TraitPack {
