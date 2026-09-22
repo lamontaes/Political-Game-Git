@@ -3452,8 +3452,12 @@ function PlayingScreen({
                       onOpenPerson={(personId) =>
                         openEntity({ kind: "person", id: personId })
                       }
-                      onGoTo={(surface) =>
-                        dispatch({ type: "go-to-surface", surface })
+                      onGoTo={(surface, section) =>
+                        dispatch({
+                          type: "go-to-surface",
+                          surface,
+                          ...(section ? { section } : {}),
+                        })
                       }
                     />
                   ),
@@ -4433,7 +4437,13 @@ function renderWorkspace({
                 from the Calendar's Today — and a life with no office got the
                 empty half, with its jobs and hiring hidden behind a tab.
               */
-              onGoTo={(surface) => dispatch({ type: "go-to-surface", surface })}
+              onGoTo={(surface, section) =>
+                dispatch({
+                  type: "go-to-surface",
+                  surface,
+                  ...(section ? { section } : {}),
+                })
+              }
             />
           }
         />,
@@ -5822,7 +5832,10 @@ function TodayView({
   readonly workHint: string;
   readonly onOpenCommitment: (activityId: EntityId) => void;
   readonly onOpenPerson: (personId: EntityId) => void;
-  readonly onGoTo: (surface: "work" | "calendar" | "places") => void;
+  readonly onGoTo: (
+    surface: "work" | "calendar" | "places",
+    section?: "campaign",
+  ) => void;
   /** Inside the Calendar, which carries its own day controls and entries. */
   readonly embedded?: boolean;
 }) {
@@ -5906,8 +5919,12 @@ function TodayView({
                       }
                     : destination.kind === "surface"
                       ? {
-                          hint: "Answer it where work is",
-                          go: () => onGoTo(destination.surface),
+                          hint:
+                            destination.section === "campaign"
+                              ? "Qualify for it under Campaigns"
+                              : "Answer it where work is",
+                          go: () =>
+                            onGoTo(destination.surface, destination.section),
                         }
                       : null;
               return (
