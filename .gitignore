@@ -29,3 +29,12 @@ art/generated/candidates/art-desk/
 # repository. artifact-lock.json pins every file by sha256; the compiler reads
 # them with --raw-dir.
 data/source/storm-events-2000-2024/raw/
+
+# Generated prose-corpus reports that regenerate byte-identically from source.
+# Committing them put 3.4 GB of near-duplicate revisions into Git history for
+# files `npm run corpus:prose` rebuilds on demand. The small human-readable
+# reports beside them stay tracked, and so does every baseline.
+docs/prose-inventory/coverage-candidates.json
+docs/prose-inventory/prose-inventory.json
+docs/prose-inventory/prose-inventory.csv
+docs/prose-inventory/review-packet.html
