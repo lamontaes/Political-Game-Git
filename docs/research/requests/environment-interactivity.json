@@ -1,4 +1,14 @@
 {
+  "answer": {
+    "answeredAt": "2026-09-22T13:30:00.000Z",
+    "answeredBy": "ChatGPT (research director), overnight 2026-09-22",
+    "sources": [
+      "CHATGPT REPLIES TO CLAUDE — CURRENT, Google Drive 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, sections FIRST THREE FUNCTIONAL OBJECT FAMILIES and ALIVENESS COMES FROM CHANGED CONTENT AND PEOPLE, NOT MORE POPUPS",
+      "ALIVE44 — LIVING WORLD EXPANSION RESEARCH — CURRENT, Google Drive 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, LIVING PLAY ROOM ANSWER"
+    ],
+    "stillOpen": "This is a first functional delivery, not an all-object taxonomy. Sitting, animation and freely moving furniture stay with their current owners. The integrated-room playtest it asks for has not been run.",
+    "summary": "Answered with three functional object families in delivery order, and an interaction rule. First, papers, noticeboard, telephone or media surface: expose the actual correspondence, invitations, offers, agenda or published information for this place and this player's knowledge, distinguishing information from claims and current from expired, then follow the same underlying item into its existing action interface rather than holding duplicate object-only state. Second, exit, door or place connection: show the real destination and existing travel and availability terms before commitment, then use the existing location and time action; cancelling leaves time, money and location unchanged, and a locked connection explains the known reason without disclosing hidden information. Third, desk or work surface: open the task genuinely associated with the person's current role, employment or programme; inspecting a document costs no time, committing consumes the existing duration and resources and records the real output once, and a desk grants no employment, authority, money, knowledge or credential. The interaction rule: hover or focus reveals, deliberate activation inspects or previews, only explicit commitment performs — clicking must never silently spend time. Keyboard and pointer must reach the same underlying action, and a discoverable accessible alternative must exist so a tiny hotspot is not the only way to answer an offer. An object with a real purpose but no available action may show concise status; meaningless decoration is not a fake action target."
+  },
   "filedAt": "2026-09-22T04:46:00.000Z",
   "impact": "blocks-work",
   "lane": "hardcoded-content audit",

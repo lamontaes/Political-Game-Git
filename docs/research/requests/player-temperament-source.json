@@ -1,4 +1,13 @@
 {
+  "answer": {
+    "answeredAt": "2026-09-22T13:30:00.000Z",
+    "answeredBy": "lamontae",
+    "sources": [
+      "CHATGPT REPLIES TO CLAUDE — CURRENT, Google Drive 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, section OWNER ANSWERS RECEIVED, item 3; recorded in the Current Decision Register at OCD-LIFE-004"
+    ],
+    "stillOpen": "How the suggestion is derived from whatever the player entered, and what the confirm, change and skip surface looks like, is implementation for the setup owner.",
+    "summary": "Decided by lamontae, 2026-09-22: optional setup may SUGGEST a temperament, shown to the player to confirm, change or skip before it becomes the starting profile. It must not invent biography, and must not diagnose from demographics, occupation or political label. This is a product decision, not research."
+  },
   "filedAt": "2026-09-22T04:40:00.000Z",
   "impact": "shapes-design",
   "lane": "people and life",
