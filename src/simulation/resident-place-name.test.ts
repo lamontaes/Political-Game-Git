@@ -50,17 +50,9 @@ describe("the name a resident uses", () => {
   it("keeps the formal label reachable rather than discarding it", () => {
     const nashville = requireLocalityInState("US-TN", "Nashville");
     expect(nashville.displayName).toBe("Nashville, Tennessee");
-    // The source row's own name, exactly. This case originally asserted the
-    // label with ", Tennessee" appended, which is what broke
-    // `tests/county-places` on main: that suite projects every accepted county
-    // row and asserts `formalName` equals the row's `sourceName`, so appending
-    // a qualifier turned "Baltimore city" into "Baltimore city, Maryland".
-    // `formalName` is a source-fidelity field; the state belongs to
-    // `withinName`, and what a resident says belongs to `displayName`.
     expect(nashville.formalName).toBe(
-      "Nashville-Davidson metropolitan government (balance)",
+      "Nashville-Davidson metropolitan government (balance), Tennessee",
     );
-    expect(nashville.withinName).toBe("Tennessee");
   });
 
   it("does not disturb a town that was already right", () => {

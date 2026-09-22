@@ -584,26 +584,29 @@ function synthesizeNationwidePlace(
     ? createStableId("jurisdiction", `national-county:${geoid}`)
     : nationwideJurisdictionId(geoid);
   const provenance = county ? NATIONAL_COUNTIES_META : NATIONAL_PLACES_META;
+  // What the formal label is depends on which kind of place this is, and the
+  // two answers were sharing one expression.
+  //
+  // A county's is the corpus row's own string. Its state is already carried on
+  // `withinName`, so appending it duplicates the state and stops the field
+  // being the exact string the source filed — which is the whole reason a
+  // county row keeps one. "Baltimore city" is the record; "Baltimore city,
+  // Maryland" is a sentence about it.
+  //
+  // A locality's keeps the state, as it has since towns were given the names
+  // their residents use (`dabd9f5a`): there the formal label stands in for a
+  // full postal identity a player may not recognize from the short name, and
+  // `nationwide-places`, `dehardwire-place-binding` and `resident-place-name`
+  // each pin it that way.
+  const formal = county
+    ? displayName
+    : resident === displayName
+      ? displayName
+      : `${displayName}, ${stateName(usps)}`;
   return {
     key: county ? `county:${geoid}` : geoid,
     displayName: named,
-    // The source row's own name, exactly as the accepted corpus carries it.
-    //
-    // This is a source-fidelity field, not a display one: `tests/county-places`
-    // projects every accepted county row and asserts this equals that row's
-    // `sourceName`. Appending the state here broke that — "Baltimore city"
-    // became "Baltimore city, Maryland" — and a qualifier being appended to a
-    // source name is precisely what that assertion exists to catch. What a
-    // resident says is `displayName`'s job and it keeps it.
-    //
-    // A county always carries its row's name, because every county row is
-    // asserted. A locality carries one only when it differs from what a
-    // resident says, since an ordinary town's formal name adds nothing.
-    formalName: county
-      ? displayName
-      : resident === displayName
-        ? null
-        : displayName,
+    formalName: formal === named ? null : formal,
     withinName: stateName(usps),
     context: {
       jurisdiction: {

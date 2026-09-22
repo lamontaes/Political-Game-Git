@@ -1,0 +1,44 @@
+{
+  "filedAt": "2026-09-22T14:55:00.000Z",
+  "impact": "blocks-work",
+  "lane": "hardcoded-content audit",
+  "notes": [
+    "SMALLEST HONEST CHANGE. Exists: a validated, versioned pack format with dependency ordering, namespacing and size limits — real infrastructure, not a stub. Missing link: the format admits two content fields, scenes and durations, and `shape()` refuses any other key outright. Smallest honest change: make the refusal soft before widening the vocabulary — skip an unknown top-level field, name it, and install the rest. That is one function and it is lamontae's own \"ignore it and say so\" rule, and it turns every future field from a breaking change into an additive one. What a player would then see: nothing yet. What a MODDER sees is the difference between \"Content pack has missing or unsupported fields\" and a pack that loads with a line saying which field was skipped and why. Widening the vocabulary is the second change and needs his answer on which systems.",
+    "PLAYER-FACING INPUT: the content-pack import surface (src/player/ContentPackWorkspace.tsx, via importContentPack). A player CAN press something here — it is one of the reachable ones. What they get for a pack carrying anything but scenes and durations is a whole-pack refusal naming no field.",
+    "This is filed as a design question, not a bug report. The narrow API is coherent and well validated for what it claims to be; the question is what lamontae wants it to become, and his 'not a small whitelisted vocabulary' instruction cannot be satisfied by adding a few more fields to the same whitelist.",
+    "The hard/soft refusal half may be answerable without him. It is a direct application of a rule he has already given, and the only real question is what the player is shown.",
+    "Related but deliberately NOT asked here: a mod cannot add a trait for a second, independent reason in the trait registry itself. That is a separate record, so an answer to this one does not read as unblocking traits.",
+    "The audit line: everything downstream of an enacted law — the production catalogue boundary, the causal-effects engine, the economy derivations — belongs to the 'What passing a law actually does' lane and is deliberately absent from this record."
+  ],
+  "priority": "P0",
+  "question": "A content pack may today declare exactly two kinds of thing: scenes and durations. What should the pack vocabulary be instead — which systems must a mod be able to add to for this to count as modder-friendly — and when a pack carries a field the engine does not know, should the engine skip that field with a stated reason and install the rest, or keep refusing the pack whole?",
+  "questionId": "mod-api-vocabulary-is-two-fields",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "hardcoded-content audit thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/runtime-content-packs.ts on origin/main at 1c4992e8, RuntimeContentPack and assertRuntimeContentPack",
+      "whatItDidNotSettle": "It establishes the present state beyond doubt but decides nothing about intent. The interface carries kind, api, id, version, title, authority, dependencies, durations and scenes — no other field exists. shape() throws when any key is present that is not in the required or optional list, so the whitelist is enforced rather than merely documented. Measured by feeding the validator packs identical but for one added field: a pack adding a trait, a given name, a job, a policy issue or a place is each REFUSED with 'Content pack has missing or unsupported fields.', while the same pack carrying only scenes and durations is ACCEPTED. The message names no field, so a modder is not told which one was wrong."
+    },
+    {
+      "source": "src/presentation/content-pack-import.ts, the only import path",
+      "whatItDidNotSettle": "It confirms there is no soft-fail layer anywhere above the validator: importContentPack calls parseRuntimeContentPack directly and lets the throw escape, so one unknown field loses the whole pack. It does not say what the fail-soft behaviour should be."
+    },
+    {
+      "source": "The API version string CONTENT_PACK_API = 'ordinary-scenes-v1'",
+      "whatItDidNotSettle": "The name is honest about the scope — this API is for ordinary scenes — which suggests the narrowness was a deliberate first step rather than an oversight. It does not say what the second step is, or whether the vocabulary grows field by field or moves to an open shape."
+    }
+  ],
+  "title": "What a content pack should be allowed to carry, and how it should refuse the rest",
+  "usableAnswer": "Two things. First, the list of systems a pack must be able to contribute to for this to be modder-friendly, in priority order, with the ones that can wait named as such — traits, given and family names, jobs, places, policy issues and school names are the candidates the repository's own gaps point at. Second, the refusal rule: for each of an unknown top-level field, an unknown field inside a known record, and a known field carrying a bad value, say whether the engine skips it and installs the rest, or refuses the whole pack, and what the player is told either way. A worked example of the message a player should see would settle it faster than a rule.",
+  "whyItMatters": "lamontae's standing direction is that the game should be modder-friendly in the way RimWorld and The Sims are, that modders may change content AND rules, and explicitly NOT through a small whitelisted vocabulary. Measured on origin/main at 1c4992e8, the vocabulary is a small whitelist of two field kinds, and the refusal is hard rather than soft. His other standing rule — 'ignore it and say so', unknown content skipped with a stated reason, never refused whole, never silent — is contradicted by the same function. These are the two rules that decide whether the modding story works at all, so the shape has to be decided before anyone extends the format.",
+  "answer": {
+    "summary": "Answered as C12. Owner authorization is broad content AND rules, excluding essential engine integrity and security — explicitly not a permanently tiny effect whitelist. The route is to extend the current loader to supported trait, policy, scenario, institutional-rule, presentation and effect declarations, not to build a second mod engine. Valid extensions use stable names and declared dependencies, and an explicit override target is a different thing from an accidental collision, with different explicit results. Bad content is handled at the smallest coherent boundary: skip a broken independent handler or definition, report it, and keep the independent good content. A choice's preconditions, cost and benefit are one transaction, so an unrecognized payment effect must never be dropped while its reward is kept. An unavailable required target disables that choice with a useful report rather than generating fake entities, and a stale target, version or authority is revalidated before commit. No arbitrary host filesystem access, credentials or unchecked raw-save execution through an ordinary content pack.",
+    "sources": [
+      "ChatGPT stress-test connection answers, 2026-09-22, at source head 1c4992e8: /mnt/project-files/chatgpt-stress-test-answers-2026-09-22/STRESS-TEST-CONNECTION-ANSWERS.md"
+    ],
+    "answeredBy": "ChatGPT (technical director), stress-test connection answers batch",
+    "answeredAt": "2026-09-22T15:57:02.000Z",
+    "stillOpen": "This resolves the semantics, not the claim that every desired extension handler already exists. Missing handler families are to be implemented incrementally without misrepresenting how broad pack support currently is."
+  }
+}
