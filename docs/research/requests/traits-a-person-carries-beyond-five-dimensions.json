@@ -1,0 +1,33 @@
+{
+  "filedAt": "2026-09-22T20:40:00.000Z",
+  "impact": "blocks-work",
+  "lane": "people and life",
+  "priority": "P0",
+  "question": "The game has five temperament dimensions (deliberation, sociability, conflict, reliability, risk) and nothing else a person carries as a trait. ChatGPT's earlier answers (ordinary-life-trait-set, A01) said to retain the five dimensions and implement the 121-word catalogue in complete behavioural families. The owner has now said five is unacceptable: he wants people to carry many distinct, combinable traits in the Crusader Kings manner, so someone can be industrious and also shameless and lustful. So: (1) from the 121 dispositions, which should ship as distinct carried traits in the first set, and which stay as combinations or facets of the five; (2) how traits combine on one person, including which are mutually exclusive and which commonly co-occur; (3) what each carried trait concretely changes in play (choices offered, NPC reactions, relationship movement, political behaviour) so no trait is a label only; and (4) how the one-or-two salient starting traits interacts with carrying more traits over a lifetime.",
+  "questionId": "traits-a-person-carries-beyond-five-dimensions",
+  "readFirst": {
+    "saidAt": "2026-09-22T20:02:15Z",
+    "saidBy": "lamontae",
+    "words": "First, five core traits plus one for legislators is unacceptable. I need personality traits and, and stuff. That's why I used uh, Crusader Kings as, as, as an example, because someone can be industrious, but also shameful and lustful or something. [...] there needs to be more than five traits. That's ridiculous. Uh, but if ChatGPT is going to take care of that, that's fine."
+  },
+  "relatedQuestionIds": [
+    "ordinary-life-trait-set",
+    "trait-catalogue-poles-and-tuning-rules",
+    "person-starting-trait-count"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "research intake thread, from lamontae's message of 2026-09-22T20:02Z",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests/ordinary-life-trait-set.json and trait-catalogue-poles-and-tuning-rules.json (ChatGPT DEPTH1 17:39Z and DEPTH2 A01 18:27Z)",
+      "whatItDidNotSettle": "They give dispositions for all 121 and say to retain five dimensions and implement complete families; they do not name a first shipping set of carried traits, their combinations or their effects, and the owner has rejected five-only."
+    },
+    {
+      "source": "src/simulation/people-trait-definitions.ts:12-22 on main bf29ced4",
+      "whatItDidNotSettle": "Confirms the five traits stored as -2..+2; nothing else a person carries."
+    }
+  ],
+  "title": "Which of the 121 become traits a person actually carries, Crusader Kings style",
+  "usableAnswer": "A named first shipping set (trait id, meaning, exclusive-with list, typical co-occurrences) with at least one concrete in-play effect per trait, plus a rule for how many traits a person accumulates over a life. A statement of which of the 121 are deliberately left as facets of the five dimensions is part of a complete answer.",
+  "whyItMatters": "The owner ranks relationships and personality first among his priorities. Today every person is five numbers, so people feel alike; he said directly that five traits is ridiculous. The engineering lane needs a first shipping set with concrete effects, or it will either build 121 inert labels or keep five."
+}
