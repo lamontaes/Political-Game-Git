@@ -323,13 +323,40 @@ is worth reading closely.
 
 ## Two clusters worth naming
 
-**Six cases are one cause.** The four in `pt3-scene-conversation.spec.ts` and
-the two in `pt3-school-scene.spec.ts:149` are the same PT3 scene surface met
-from six directions across two spec files and four viewport sizes. CI names the
-same six on its own browser, on main at `7fc33c85`. Re-measured directly on
-2026-09-22 at main `0e0cebe8`: all four conversation cases fail in the same
-place, `stepIntoTheScene` waiting on `opening-life-scene`, which is never
-found. That is one missing scene, counted six times.
+**Four cases were one cause. The other two are not — that earlier claim was
+wrong.** All four in `pt3-scene-conversation.spec.ts` died in the same place,
+`stepIntoTheScene` waiting on `opening-life-scene`. The two in
+`pt3-school-scene.spec.ts:149` die somewhere else entirely, on
+`data-scene-purpose` reading `home` where the walk wants `school`. They were
+grouped together because CI names all six in one shard and they share a
+prefix, which is not evidence. Opening them was.
+
+_The four, resolved as a stale walk._ The moment does not sit on the room; it
+**replaces** it. `OpeningLifeFlow` returns the moment surface alone while
+`pendingOpen` is set, for a stated reason — a panel docked permanently over a
+full room covers whoever is standing where it lands, and the people are how a
+life is played. The helper opened the moment and then waited for the room, so
+it asked for two surfaces the game deliberately never shows at once. The scene
+panel for an ordinary start is reached through Personal → "Your day, choices
+and pending favors", which is the route `playtest34-life.spec.ts` already uses
+and which passes.
+
+_What the repaired walk then exposed_, measured 2026-09-22 on main `8d0f0629`,
+local, Chromium 141. These are new findings, not new breakage — the cases
+never got far enough to report them before:
+
+- `turning to a second classmate` fails `expectBounded`: the conversation box's
+  `scrollHeight` is 432 against a smaller `clientHeight`, so the box overflows
+  and needs a scrollbar. That is the PT3 Run B rule the file exists to hold,
+  failing for real.
+- `the owner's age-22 conversation` and `at the smaller 1280 x 720 window` both
+  run out of the full 120-second budget inside the conversation, on
+  `locator.innerText` and `locator.click` respectively.
+
+So of the six, one is now a named layout defect, two are timeouts deep inside a
+working walk, one is unmeasured, and two were never the same problem. The
+lesson is the one this file keeps paying for: a shared prefix and a shared
+shard are not a shared cause.
 
 **Two are not this lane's.** `pt3-microfix-version.spec.ts:81` asserts the
 version stamp, which the release machinery owns.
