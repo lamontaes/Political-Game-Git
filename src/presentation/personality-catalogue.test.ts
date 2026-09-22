@@ -28,7 +28,10 @@ import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
 
 const received = JSON.parse(
-  readFileSync("docs/research/chatgpt-answers/2026-09-22-depth2/personality-scale-dispositions.json", "utf8"),
+  readFileSync(
+    "docs/research/chatgpt-answers/2026-09-22-depth2/personality-scale-dispositions.json",
+    "utf8",
+  ),
 ) as {
   scales: { key: string; kind: string }[];
 };
