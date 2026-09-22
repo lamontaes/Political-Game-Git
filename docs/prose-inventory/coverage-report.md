@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 3166 |
-| INTENTIONALLY_NON_PLAYER_FACING | 7074 |
-| DIAGNOSTIC_OR_TEST | 7603 |
-| **NEEDS_CLASSIFICATION** | **10277** |
+| INTENTIONALLY_NON_PLAYER_FACING | 7075 |
+| DIAGNOSTIC_OR_TEST | 7639 |
+| **NEEDS_CLASSIFICATION** | **10283** |
 
-Scanned 1151 files holding 111799 string
+Scanned 1156 files holding 111999 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -195,6 +195,7 @@ literals in total; the table counts only those that read like a sentence.
 | 16 | `src/presentation/run-a-projection.ts` |
 | 16 | `src/simulation/governing/institution-authority.ts` |
 | 16 | `src/simulation/living-world/opening.ts` |
+| 16 | `src/simulation/office-qualification-rules.ts` |
 | 16 | `src/simulation/policy-semantics.ts` |
 | 16 | `src/simulation/transit-funding.ts` |
 | 16 | `src/ui/EventHistory.tsx` |
@@ -270,7 +271,6 @@ literals in total; the table counts only those that read like a sentence.
 | 10 | `src/simulation/governing/legislative-clock.ts` |
 | 10 | `src/simulation/living-world/congress-turnover.ts` |
 | 10 | `src/simulation/nationwide-world/state-executive-turnover.ts` |
-| 10 | `src/simulation/office-qualification-rules.ts` |
 | 10 | `src/simulation/people-continuation.ts` |
 | 10 | `src/simulation/press-reach.ts` |
 | 10 | `src/simulation/setup-questionnaire-bank.ts` |

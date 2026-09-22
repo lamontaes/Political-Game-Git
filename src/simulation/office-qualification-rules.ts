@@ -342,11 +342,28 @@ function residenceRequirementMonths(row: SourcedQualification): number | null {
 }
 
 /** Whole months between two dates, counting only months actually completed. */
+/**
+ * Whole months completed, never rounded up.
+ *
+ * This is the same question `completedMonthsBetween` in `dates.ts` answers,
+ * written here first and independently. `dates.ts`, beside `ageOnDate`, is the
+ * right home for it: when that one reaches this branch's base, this private
+ * copy goes and the call below imports it. Two month counts inside one
+ * qualification path would be a wrong-eligibility bug, not untidiness.
+ *
+ * The clamp matters and the first version of this function did not have it: a
+ * month shorter than the start day has no anniversary day, so its last day is
+ * the anniversary. Without that, 31 January to 28 February counted as nought
+ * months completed and a character short of a cutoff by nothing at all was
+ * refused a ballot.
+ */
 function monthsBetween(start: IsoDate, end: IsoDate): number {
   const [startYear, startMonth, startDay] = start.split("-").map(Number);
   const [endYear, endMonth, endDay] = end.split("-").map(Number);
   const months = (endYear! - startYear!) * 12 + (endMonth! - startMonth!);
-  return endDay! < startDay! ? months - 1 : months;
+  if (endDay! >= startDay!) return months;
+  const daysInEndMonth = new Date(Date.UTC(endYear!, endMonth!, 0)).getUTCDate();
+  return startDay! <= daysInEndMonth ? months - 1 : months;
 }
 
 /** A duration said the way a person says it. */
