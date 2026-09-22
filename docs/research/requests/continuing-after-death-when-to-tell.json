@@ -1,0 +1,31 @@
+{
+  "filedAt": "2026-09-22T05:35:00.000Z",
+  "impact": "shapes-design",
+  "lane": "playtest",
+  "notes": [
+    "The playtester's own view, offered as a playtester's rather than a designer's: shape two. Shape one turns a life simulation into a dynasty planner before the player has a family to plan with; shape three is what ships today and reads as an omission. This is the owner's call about what the game is, and nothing is being built for this question while it is open."
+  ],
+  "priority": "P1",
+  "question": "When, and in what voice, should the game tell a player that play continues after their character dies? The mechanism is built and works: a dead character can be continued as a living child, grandchild, sibling or partner, and the screen offering it reads 'Nobody is being played, so nothing can be done in the world. Choose who to continue as, or keep browsing.' It appears only once the played character is dead. Three shapes, which are genuinely different games. One, from the start: a line on 'Who you are' from the first day naming who could carry on, which makes succession something a player plans around from hour one. Two, when it becomes true: nothing until a real candidate exists (a child born, a partner recorded) and then a quiet line on 'Who you are' naming them. Three, only at the end, as now, but with the ending screen carrying more so the discovery is a moment rather than a gap.",
+  "questionId": "continuing-after-death-when-to-tell",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "playtest thread",
+  "sourcesChecked": [
+    {
+      "source": "The continuation screen itself, walked in the browser from a cold start on main 445441a5",
+      "whatItDidNotSettle": "Confirms the feature exists, works off real relatives, and is reached only after death. Says nothing about when a player ought to hear of it."
+    },
+    {
+      "source": "'Who you are', the Journal, the People screen and the 28-term civics Guide, each read in the browser on the same head",
+      "whatItDidNotSettle": "None of the four mentions continuing as somebody, a successor, or anything happening after death. Establishes the gap; does not establish what should fill it."
+    },
+    {
+      "source": "The owner's own priority ranking, which places multi-generation play and choosing a successor among the things that need to ship",
+      "whatItDidNotSettle": "Settles that it matters. Gives no position on whether a player should be planning for it from the first day or only meeting it when it arrives."
+    }
+  ],
+  "title": "When a player should learn that the game continues after they die",
+  "usableAnswer": "Which of the three shapes, stated plainly. If shape two, what the line actually says, and whether it names the specific people who could carry on or only says that the game goes on. If shape three, what the ending screen should carry that it does not carry now.",
+  "whyItMatters": "A player can currently play an entire life believing it ends when they do, because nothing anywhere says otherwise until the moment it is already over. Multi-generation play is something the owner has called a core part of what needs to ship, and it is presently invisible for the whole of the only life most players will ever finish. The choice is not a detail of wording: shape one changes how a player treats their family from the first day, shape two changes it only once they have one, and shape three leaves the current behaviour and reads as the game forgetting to mention something. Guessing wrong means building the wrong relationship between the player and their own household, and nothing in the repository can catch that."
+}
+

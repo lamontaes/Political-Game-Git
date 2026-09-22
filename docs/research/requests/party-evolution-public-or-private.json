@@ -1,0 +1,31 @@
+{
+  "filedAt": "2026-09-22T05:35:00.000Z",
+  "impact": "shapes-design",
+  "lane": "playtest",
+  "notes": [
+    "Shape one is a line of prose that stops the screen reading as broken, and the playtest lane is building it now on a small branch while this question is open. Nothing is being built for shape two, which is the part the answer decides."
+  ],
+  "priority": "P1",
+  "question": "Party evolution is gated on already being inside a party, and the screen never says so. Parties found, split, merge and drift in their platforms, and it runs. A player reaches the screen in three presses. On an ordinary first day that screen shows local chapters and things to ask for, and none of the evolution at all, because an item is yielded only where the player is already involved: the proposer, a member of a party body, a unit leader, or somebody who already responded. Nothing on the screen says that is the rule, and nothing says how a player would come to be any of those. Three shapes. One, say the rule: the screen stays as it is and adds a line saying these are decisions the people in a party make, and how a player comes to be one of them. Two, show the public half: a party splitting or merging is public even when the argument inside it was not, so a player who reads the news could learn a party split without having been in the room. Nothing currently carries it, because the news does not render the evolution event. Three, leave it and say nothing, on the grounds that a player who has not joined a party should not be thinking about party bodies at all.",
+  "questionId": "party-evolution-public-or-private",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "playtest thread",
+  "sourcesChecked": [
+    {
+      "source": "The parties screen walked in the browser from an ordinary cold start, main 445441a5",
+      "whatItDidNotSettle": "Confirms the screen shows local chapters and asks, and no evolution at all, in three presses from the menu. Does not establish what it ought to show instead."
+    },
+    {
+      "source": "src/presentation/party-initiatives.ts, which reads the party evolution records",
+      "whatItDidNotSettle": "Establishes the gate precisely: an item appears only for a proposer, a member of a party body, a unit leader, or somebody who already responded. Says nothing about whether the gate should be explained or partly opened."
+    },
+    {
+      "source": "The news front page, read on the same head",
+      "whatItDidNotSettle": "It renders and has two modes, and it does not render party evolution events. Establishes that shape two is unbuilt rather than broken; does not establish whether it should be built."
+    }
+  ],
+  "title": "Whether a party splitting is a public fact a non-member should hear about",
+  "usableAnswer": "Whether a party splitting or merging is a public fact a non-member should hear about. If it is, whether the news front page is where it belongs, or somewhere else. A position on whether the player should be told how to come to be inside a party, or left to discover it.",
+  "whyItMatters": "The gate itself is defensible: a party's internal decisions are not public, and a player who has never been to a meeting has no business voting in one. What is not defensible is that the screen is silent about it, so a system of some nineteen hundred lines looks empty rather than closed, and a player concludes it was never built. That is the same misreading that put four built and reachable systems on this project's 'never started' list. Shapes one and two are not alternatives and the answer decides how much is worth building: shape two is the larger piece of work and the more interesting game, the country changing around a player whether or not they are in it, and it needs the news surface to carry an event it does not carry today."
+}
+
