@@ -208,6 +208,7 @@ import {
   AmbientTableau,
   TitleScreen,
   resolvedTitlePresentation,
+  resolvedTitleLecternHero,
 } from "./TitleScreen";
 import {
   readReplaySeed,
@@ -807,7 +808,10 @@ export function PlayerGame() {
    */
   if (screen.kind === "title") {
     return (
-      <AmbientTableau resolved={resolvedTitlePresentation(saves)}>
+      <AmbientTableau
+        resolved={resolvedTitlePresentation(saves)}
+        hero={resolvedTitleLecternHero(saves)}
+      >
         {() => (
           <TitleScreen
             saves={saves}
