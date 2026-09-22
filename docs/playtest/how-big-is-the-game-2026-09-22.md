@@ -105,15 +105,39 @@ deciding an international crisis is connected and nothing can start one.
 Found first by the divergence lane from the law side; verified here
 independently from the crisis side.
 
+**Re-verified 2026-09-22 at the level the method below demands**, after the
+divergence lane paid for the same class of mistake on the scandal chain: every
+top-level export of `crisis/international.ts` was checked for callers outside
+that file, its tests and the registry, not only the two writers. Fourteen
+exports; exactly three have any outside reference —
+`internationalCrisisState` (2), `decideInternationalCrisis` (2) and
+`pendingInternationalDecisions` (4). All three read or decide. Neither writer
+has one, and every scheduling of `crisis:international-decision`,
+`crisis:international-response` and `crisis:war-powers` happens inside
+`international.ts` itself, reachable only from those dead writers. So the chain
+has no entry point anywhere in the game.
+
 ### A correction on my own method, recorded because it nearly went in
 
 My first pass grepped for exported writer functions and reported zero callers
 for `recordDisasterAssessment` and `recordDisasterResponse` too. That was
 wrong: those records are written inline inside `disaster.ts` rather than
 through an exported writer, and the divergence lane has **measured** 12
-assessments and 36 responses in two years of one save. A name-based grep is not
-a reachability instrument. The three international zeros survive because their
-kinds are written in exactly one place each and that place is the dead export.
+assessments and 36 responses in two years of one save. A name-based grep on a
+writer is not a reachability instrument.
+
+The divergence lane hit the same class of error from the other side and it is
+worth stating as a rule, because it has now cost two lanes: they reported that
+a scandal cannot start, having checked `recordAllegation` and `fileComplaint`
+for callers, when the chain is entered two functions above them at
+`pressWeeklyHandler` → `produceRivalComplaints`. **A caller check starts at a
+file's top-level exports, never at the writer.** The three international zeros
+survive because that check was redone that way, above.
+
+Also settled by the divergence lane's measurement, which my reading could not
+answer: an ordinary new save **does** schedule hazard samples with no player
+action — 12 hazard episodes by year 2, 20 by year 4, 26 by year 6 in one
+Kentucky life. The hazard system runs.
 
 ## Parties
 
