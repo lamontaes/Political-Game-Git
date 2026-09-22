@@ -1,0 +1,40 @@
+{
+  "filedAt": "2026-09-22T15:25:00.000Z",
+  "impact": "blocks-work",
+  "lane": "hardcoded-content audit",
+  "notes": [
+    "SMALLEST HONEST CHANGE, corrected twice and now smaller in effort but longer in sequence. Exists: a complete exported NPC belief-formation routine (evaluatePoliticalBeliefFormation and applyNpcPoliticalBeliefFormation, re-exported from simulation/index.ts) that proposes a belief, validates it against its own decision trace and records it; a finished journal rendering beliefs, public statements and commitments; a loaded pack of 13 domains and 127 issues. Missing links, in order: (a) NOT ONE POLICY PROPOSITION IS DECLARED anywhere, and every belief writer requires one; (b) nothing schedules the formation routine — its only caller outside tests is the demo. Smallest honest change: ONE proposition row in a pack, then one call to the routine that already exists. Content first, then a scheduler. What a player would then see: people who have come to think something, and a journal with a line in it.",
+    "QUESTION 1 IS A REAL FORK, not a formality. The loader already distinguishes sourced from authored-fiction packs, and the sourced pack's provenance carries named sources, so a proposition added to it is a claim about somewhere real, while the authored-fiction route makes no such claim. That is exactly the distinction assertProductionCatalogBoundary was built to protect, so the choice should be made rather than defaulted into. Raised by the coordinator session, and recorded as their reading rather than as an answer.",
+    "QUESTION 3 CHANGES THE SIZE OF THE JOB. political-belief-formation.ts is not a thin wrapper: it is a formation machine with factors, conviction, salience, flexibility and supersession, and its only caller is also the demo. Going through it makes the first caller a substantially bigger piece than one record; going around it means writing a belief the machine did not form, which may be the wrong precedent. Raised by the people-and-life lane.",
+    "METHOD NOTE, and the reason this record was corrected. A zero-caller result on the innermost writer is NOT the claim 'nothing can start this'. The divergence lane reported that nothing could open a scandal, having stopped at the two functions that write an allegation; the chain is in fact entered two levels further up on the weekly press sweep, and the true finding was narrower and better. Warned of that, this lane re-walked its own chain and found the same mistake in it: the first version of this record named four recorders whose only caller is the demo, and missed recordPrivateBelief entirely, and above it a whole exported NPC formation routine. The corrected finding is smaller and more actionable. Where this walk stopped: at applyNpcPoliticalBeliefFormation's importers, having confirmed the only non-test one is demo.ts and that no scheduled step registers it.",
+    "This is lamontae's headline stated as a repository fact, and it is smaller than his summary suggests. He described the apparatus as built at both ends and connected at neither, which is exactly right, and one of the three obstacles has already gone: the catalogue can now carry the propositions a belief would point at.",
+    "Deliberately NOT asked here: what a belief should then DO — whether it moves a vote, a campaign or a relationship. That is downstream of an enacted law's effects machinery and belongs to the 'What passing a law actually does' lane. This record asks only what creates the record, not what reads it.",
+    "One of seven records from this sweep, and the one to answer first if only one is answered."
+  ],
+  "priority": "P0",
+  "question": "Three questions, in the order they block each other. (1) Does a policy proposition belong in the sourced us-state-and-local pack, or in a second pack declared as authored fiction? (2) What act in an ordinary life should record that a person now holds a view about one — and what supplies the occasion: a news story, a disaster in their state, a conversation, a vote, or holding office through an event? (3) Should the first version go THROUGH the existing belief-formation machine, or around it?",
+  "questionId": "nobody-is-changed-by-what-happens",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "hardcoded-content audit thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/political-belief-formation.ts, found by walking UP the call chain rather than stopping at the innermost writer",
+      "whatItDidNotSettle": "This corrects this record's own first version and makes the gap smaller again. There is a built, exported NPC belief-formation routine: evaluatePoliticalBeliefFormation at line 80 proposes a belief, and applyNpcPoliticalBeliefFormation at line 233 validates the proposal against its decision trace and records the belief through recordPrivateBelief. It is re-exported from src/simulation/index.ts, so it is public API, not an internal helper. Walked one level higher again: its only caller anywhere outside tests is src/simulation/demo.ts, and nothing registers it on any scheduled step. So the chain does terminate at the demo — but the thing that is missing is a SCHEDULER, not an author. The routine already exists and already decides."
+    },
+    {
+      "source": "The four recorders in src/simulation/politics.ts, at origin/main 1c4992e8",
+      "whatItDidNotSettle": "recordPublicPosition, recordPrinciple, recordPropositionExposure and recordSubjectKnowledge each have exactly ONE caller outside their own tests, and it is src/simulation/demo.ts. Nothing a player reaches records what anyone believes, says publicly, or knows. The writers exist and work; nothing calls them in a life."
+    },
+    {
+      "source": "src/presentation/world39-journal.ts, the reading end",
+      "whatItDidNotSettle": "The consumer is complete. It walks privateBeliefHistory and renders a sentence per proposition, walks publicPositionHistory and renders 'In public you said: ...', and walks campaignCommitments alongside them, all ordered and dated. It is ready for records that never arrive. It does not say what should create one."
+    },
+    {
+      "source": "The catalogue, re-measured after the people-and-life lane challenged this record's claim — they were right and this record was wrong",
+      "whatItDidNotSettle": "This record previously said the catalogue had stopped being a blocker. It has not. The boundary IS genuinely open — it refuses only what no loaded pack declares, across five sets — but POLICY_PACKS (src/simulation/policy-pack-registry.ts:23) loads one pack, `propositions` is an OPTIONAL field on PolicyPack (policy-packs.ts:138), and that pack does not carry it: `grep -c proposition` on src/simulation/policy-pack-us-state-and-local.ts returns 0. So the registry declares 13 domains, 127 issues and NO propositions. And all four belief writers in politics.ts call requireProposition before doing anything (lines 73, 98, 142, 179). So the first piece is one row of CONTENT, not one function call, and no scheduler can help until a proposition exists to hold a belief about."
+    }
+  ],
+  "title": "What makes a person in the game form a view, and when",
+  "usableAnswer": "For (1), which pack, and if the sourced one, what a proposition's provenance would name. For (2), one occasion is enough: which act records a view, about which proposition, at what strength, and whether it is private belief, public statement or both. For (3), a yes or no plus a sentence of why, because it decides whether this is one caller or a much larger piece of work.",
+  "whyItMatters": "lamontae's own summary of his ten-year playtest is that the world diverges richly and nobody in it is changed by what happens. This is that sentence as a wiring gap. Both ends are built and neither is connected: nothing in ordinary play records a belief, and the surface that would show one is finished and waiting. It is the difference between a simulation of events and a game about people, and he rates relationships, personality and private goals his first priority."
+}

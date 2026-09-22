@@ -1,0 +1,44 @@
+{
+  "filedAt": "2026-09-22T15:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "Measured at de6a71cc, and prompted by a ten-year Kentucky run with nobody doing anything, in which the population nearly doubled from 555 to 1,053 while the share of living people belonging to no party went from 2% to 48%.",
+    "WHY THAT HAPPENS, read from source. Party affiliation is written in exactly three places: seated executives at world opening (living-world/opening.ts:390-414), the organizer of a local chapter (party-chapters.ts:195-204), and the consequences of party evolution itself (party-evolution.ts:308, :1056). publicPartyAffiliation otherwise falls back to the party label on a congressional seat roll and returns null when there is none (congress.ts:67-100). So nobody who is not an officeholder or a chapter organizer has ever had a party, and nobody ever acquires one. The 48% is not political drift the simulation modelled; it is the absence of any route.",
+    "AND THE SAME GAP ONE LAYER DOWN. Where a person does act politically inside a party, their position is a coin flip. partyActorStance (party-evolution.ts:161-175) forks the world seed on the person id and the question key and picks an option and a strength at random. It reads nothing about the person: no trait, no value, no goal, no life event, no relationship. Stable per person per question across saves, and unconnected to who they are.",
+    "THIS IS THE THIRD FACE OF ONE MISSING THING. The conviction layer has three writers whose only caller is the demo, and a belief needs a policy proposition, of which the loaded pack declares none. A person's stance inside a party is a dice roll. A person's party is nothing at all. Each is the same absence: nothing joins a person to a political position.",
+    "TWO CONSEQUENCES WORTH NAMING. Party evolution fired once in ten simulated years, and its gate requires both a defining stance and an ally holding the same option who also dissented — three independent coin flips lining up. And a third party founded in year 2 still had two members in year 10, because nothing gives anybody a party, so nothing can give anybody that one.",
+    "THE OWNER HAS ALREADY SETTLED THE ADJACENT SHAPE. D-092: being somewhere exposes you to possibly like-minded people, and your actions and personality drive the relationship. An answer here should be consistent with that — a person's politics coming from who they are and what has happened to them, not from a draw."
+  ],
+  "priority": "P0",
+  "question": "Where should an ordinary person's politics come from? (1) Should most adults have a party at all, and what share should have none — is an unaffiliated 48% wrong, or is the wrong part only that nobody chose it? (2) What should decide which party a person belongs to: their temperament, their values, where they live, what their family holds, what has happened to them, or some combination — and how much should each weigh? (3) When should it be decided: at adulthood, on first voting, on being asked, or gradually? (4) Should it be able to change, and what should change it? (5) Inside a party, where should a person's position on a question come from, given that today it is a seeded coin flip per person per question that reads nothing about them? (6) How does a new party ever grow past its founders — what makes somebody leave a party they belong to for one that is new?",
+  "questionId": "where-a-persons-politics-comes-from",
+  "relatedQuestionIds": [
+    "party-body-dispute-cadence",
+    "personality-change-bands",
+    "what-moves-a-relationship"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "people and life thread",
+  "sourcesChecked": [
+    {
+      "source": "The ten-year Kentucky run with no player action, 2026-09-22",
+      "whatItDidNotSettle": "Establishes the size of the gap: 48% of a doubled population with no party, both major parties unchanged for ten years, party evolution firing once. Says nothing about what the right answer is."
+    },
+    {
+      "source": "living-world/opening.ts, party-chapters.ts and congress.ts, the three affiliation writers and the reader",
+      "whatItDidNotSettle": "Establishes that only officeholders and chapter organizers ever hold a party and that no route grants one to anybody else. Does not say who should have one."
+    },
+    {
+      "source": "party-evolution.ts partyActorStance",
+      "whatItDidNotSettle": "Establishes that a person's position inside a party is a seeded draw reading nothing about them. Does not say what it should read."
+    },
+    {
+      "source": "The owner's decision D-092 of 2026-09-22",
+      "whatItDidNotSettle": "Settles that character and conduct should drive interpersonal relationships. Strongly suggests the same for politics but does not say so, and settles no weight or mechanism."
+    }
+  ],
+  "title": "Where an ordinary person's party and political position come from",
+  "usableAnswer": "A position on each of the six, in plain terms, worked against one example: a thirty-year-old in a mid-sized town with a given temperament and a given upbringing — what party do they hold, why that one, and what would change it. Rough weights rather than exact numbers. Any answer lands on person records, traits and life events that already exist.",
+  "whyItMatters": "The game is a political simulation in which no ordinary person has any politics. Without an answer here the world becomes less politically readable the longer it runs, a new party can never grow, and the whole conviction layer has nobody to hold a conviction. It is also the owner's stated priority read from the other side: a person's character deciding what happens to them."
+}
