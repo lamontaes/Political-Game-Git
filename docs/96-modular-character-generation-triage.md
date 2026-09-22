@@ -141,6 +141,60 @@ path had the same root defect as the seat contact. When the candidate bodies get
 fit profiles, the turned seated ones will refuse rather than produce garments
 fitted to a shin. That is the correct outcome.
 
+## The loud failure hides the quiet ones
+
+Three instances of one pattern turned up in a single night, in three different
+parts of the project, and none of them was recognised as the same thing until
+the third.
+
+1. **Nineteen HTML parse errors hid six unformatted documents.** The formatter
+   reports an unparseable file as an error and an unformatted one as a warning,
+   and the error count is what anyone reads. The six were never mentioned.
+2. **A failing format check stopped every later check from running.** `format`
+   is the first link in `validate:ci-sharded`'s `&&` chain. The branch had not
+   been failing one check; it had been failing the first and never reaching the
+   rest, so whatever else was wrong with it was unmeasured while looking
+   measured.
+3. **A failing assertion at line 88 of 148 killed the eight below it.** In
+   `person-render-snapshot.test.ts` those eight had not run since the day the
+   pv4 images were deleted. One of them is the check that composing a person
+   does not mutate the person. Correcting the stale assertion revived them, and
+   one immediately failed honestly, for the same missing-art reason.
+
+The shape is always the same: a stop-on-first-failure mechanism, a failure loud
+enough to explain the whole result, and behind it a set of checks that are not
+passing but simply not running. The dangerous part is that the output looks
+like one problem. Nobody reading "19 errors" or "format failed" or "expected
+modular, got placeholder" has any reason to suspect there is a second set of
+findings underneath, because nothing in the output says how much did not run.
+
+What to do about it, concretely: when a gate stops early, fix the stopper and
+then **run the whole thing again before believing anything about it**, rather
+than treating the one visible failure as the finding. And when a test is
+corrected, expect the next assertion to fail too, and treat that as the
+correction working rather than as a new regression.
+
+## The pv4 records are load-bearing, so they stay
+
+The images for the pv4 people were deleted at the owner's request and the
+component records describing them stayed. That reads at first like our own
+stale content, which the standing rule says to remove permanently. It is not,
+and the check that settles it is who points at it rather than what it
+describes.
+
+`people-visual4-review.ts` is imported by fifteen files. Two of them are not
+tests: `engine-people29-review.ts`, which `art-preview.ts`, `WardrobeFigure.tsx`
+and `scripts/content/validate-art-snapshot.ts` all build on, and
+`PeopleVisual4Review.tsx`, which `CharacterProofView.tsx` renders. A whole
+family of `scripts/art-asset-factory/people-visual4-*` modules — lineage,
+instrument, arm mask, hair — reads them as well.
+
+So the records are not a description of absent artwork; they are the morphology
+and wardrobe vocabulary that several live surfaces are written against,
+including a player-facing wardrobe figure. Deleting them removes working code's
+foundation to tidy away a reference. They stay, and the refusal they produce is
+correct and already states its reason.
+
 ## What is still genuinely missing
 
 - **Seated bodies drawn free of furniture**, for the body families that have
