@@ -90,16 +90,38 @@ reaches Drive is a question somebody is about to spend time on.
 
 ## What belongs here
 
-The test is not "can we reach it". Every source is approved, so a thread can go
-and read almost anything itself, and a question that only needs one page read
-is ordinary work — go and read it.
+**If explicit research has not been done on it, file it.** That is the owner's
+own instruction, on 2026-09-22: "for everything that doesnt have explicit
+research done go ahead and defer to chatgpt. it will get returned soon enough
+and from there you can distill."
 
-The test is whether a researcher can **finish it and hand it back whole**. A
-fifty-one row survey with a citation per row has a clear finish line and takes
-real time; a thread doing it between other work would do it worse and slower,
-and would leave it half done. That is what this queue is for. Something
-genuinely out of reach — a person's decision, a private source, a document only
-lamontae has — belongs here too, but it is the smaller case, not the rule.
+This is wider than the test this file used to carry, deliberately. The old one
+asked whether a researcher could finish it and hand it back whole, which was
+about bulk and a clear finish line — a fifty-one row survey with a citation per
+row, yes; one page to read, no. That test keeps out questions he wants asked, so
+it is no longer the gate. It survives only as a note on shape: a question with a
+clear finish line comes back better than a vague one, so write it that way. It
+is not a reason to withhold one.
+
+Three things follow.
+
+- **A question you could answer yourself still goes**, if nobody has actually
+  answered it. Being able to read the page is not the same as having read it,
+  and the answer arrives while the thread does other work.
+- **Design questions go too**, not only factual ones. "How many traits should a
+  person have" is a question for the owner, and it reaches him through the
+  researcher rather than from us.
+- **Something genuinely out of reach** — a person's decision, a private source,
+  a document only lamontae has — still belongs here. It was never the rule and
+  is even less so now.
+
+What does not belong is a question already answered. Check the closed records
+first; a queue that re-asks a settled thing spends somebody's time on nothing
+and the answer comes back contradicting a fact we already hold.
+
+**File and publish in the same sitting.** A record that exists only in this
+directory has not been asked. The publish step is below and it is part of
+filing, not a follow-up.
 
 ## What a record must answer
 
