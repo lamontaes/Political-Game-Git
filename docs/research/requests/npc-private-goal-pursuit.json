@@ -1,0 +1,32 @@
+{
+  "requestVersion": "research-request/v1",
+  "questionId": "npc-private-goal-pursuit",
+  "title": "What a person privately wants, and how they pursue it when the player is not watching",
+  "question": "What kinds of private aim should an ordinary simulated adult hold across a life — and for each kind, what does pursuing it consist of week to week, what does the person do when it is blocked, and what makes them abandon it or replace it with another?",
+  "whyItMatters": "Every generated person is already given a private goal at world build, and no simulated person ever acts on one: the only consumers of those goals decide what the player may say in a scene. The player is therefore the only character in the world with an agenda, which is the opposite of the world acting independently. The store, the writer and the status vocabulary already exist, so what is missing is the content of pursuit rather than the machinery.",
+  "impact": "shapes-design",
+  "lane": "personality and relationships",
+  "usableAnswer": "A set of private aim families for an ordinary adult life, each with the observable steps a person takes toward it, what obstruction looks like, the condition under which the person gives it up, and what typically replaces it. Where an aim only makes sense at a stage of life, say which stage.",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/life-personality.ts lines 170-174 and its writer establishLifePersonality, on main at 273fd2b8",
+      "whatItDidNotSettle": "Shows the three ordinary-life goals every generated person receives — learning, connection and privacy — and that they are assigned at world build. It carries no notion of pursuit; the goal is read only to vary the player's conversation options."
+    },
+    {
+      "source": "src/presentation/people-goals.ts lines 36-41 and 418-462",
+      "whatItDidNotSettle": "Carries the four private aim families a player may hold and hard-fails for any person who is not the controlled character, so it is explicitly a player-only system and says nothing about what an NPC wants."
+    },
+    {
+      "source": "src/simulation/types.ts lines 947-970, GoalStateRecord and GoalStatus",
+      "whatItDidNotSettle": "Provides objective, domain, scope, priority, deadline, outcome and six statuses including failed, abandoned and superseded. The shape for abandonment is already there; nothing says what causes one."
+    }
+  ],
+  "requestedBy": "research audit thread (technical team lead)",
+  "filedAt": "2026-09-22T05:00:02.000Z",
+  "priority": "P1",
+  "notes": [
+    "Political ambition is the interesting case and is the one most likely to be over-supplied. Most people in a town should want something entirely unpolitical, and the answer should say roughly how many want office at all.",
+    "A pursued goal has to be visible to the player through behaviour rather than through a label. Where a step would only ever be a line of text, say so."
+  ],
+  "relatedQuestionIds": ["trait-prevalence-and-per-person-count"]
+}

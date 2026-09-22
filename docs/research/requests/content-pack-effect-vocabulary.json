@@ -1,0 +1,36 @@
+{
+  "requestVersion": "research-request/v1",
+  "questionId": "content-pack-effect-vocabulary",
+  "title": "What a content pack should be allowed to change about the world",
+  "question": "Taking RimWorld and The Sims as the standard the owner has set, what kinds of change does a modder of a life-and-politics game actually reach for first, and what is the smallest set of declarable effects that would cover most of them without letting a pack write arbitrary code?",
+  "whyItMatters": "The pack loader ships and works, but a pack may declare only scenes and activity durations: there is no effects field, no effect kind vocabulary and no apply step anywhere in the codebase. So a modder can add a conversation and cannot change a single thing about the world through it, which is the whole distance between what ships and the modding standard the owner named as governing every system.",
+  "impact": "shapes-design",
+  "lane": "content packs and modding",
+  "usableAnswer": "A ranked list of effect kinds a pack should be able to declare, each with what it reads, what it writes and a worked example of a mod somebody would actually publish. Plus the line the researcher would draw between an effect the loader validates and applies itself and a change that has to stay in the game's own code, with the reason for the line.",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/runtime-content-packs.ts lines 6-27 on main at 273fd2b8",
+      "whatItDidNotSettle": "Defines the whole pack surface: the ordinary-scenes-v1 api, a 128 KiB ceiling, authored-fiction authority, and exactly three declarable keys — dependencies, durations and scenes. It establishes the limit and offers no view on what should be added."
+    },
+    {
+      "source": "examples/content-packs/, the two shipped example packs",
+      "whatItDidNotSettle": "Shows a working encounter and a timing pack. Neither changes world state, because nothing in the format can."
+    },
+    {
+      "source": "A repository-wide search for an effect vocabulary — effectKind, EffectKind, applyEffect",
+      "whatItDidNotSettle": "Returns nothing. The three types named Effect in the tree are read-only projections of consequences that already happened, not a vocabulary a pack could declare into."
+    },
+    {
+      "source": "src/simulation/production-catalog.ts lines 146-190, the production catalogue boundary",
+      "whatItDidNotSettle": "Shows that a new world ships with empty policy, metric, causal-mechanism, incident and mortality catalogues and throws if unestablished content is added. It constrains where pack content could land without saying what a pack should carry."
+    }
+  ],
+  "requestedBy": "research audit thread (technical team lead)",
+  "filedAt": "2026-09-22T05:00:05.000Z",
+  "priority": "P1",
+  "notes": [
+    "The owner's standard is explicit and is not negotiable here: content is data, discovered rather than imported, modder-friendly in the way RimWorld and The Sims are. The question is what that means concretely for this game, not whether to do it.",
+    "An effect a pack declares has to leave the same kind of record a first-party action leaves, because the history store is what the save and every later reading are built on. An effect that writes nothing readable is not worth admitting.",
+    "No proprietary material from those games. What is wanted is the shape of what modders reach for, not their content."
+  ]
+}
