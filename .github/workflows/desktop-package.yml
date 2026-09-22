@@ -17,6 +17,16 @@ on:
 permissions:
   contents: read
 
+# A new commit supersedes its own predecessor, so the predecessor's run stops.
+# This workflow runs on pull_request only, and a superseded PR commit's packaging
+# jobs are worth nothing; they were part of the repository-wide backlog on
+# 2026-09-22 that left every branch without a verdict for hours. The ref test
+# matches validate.yml so both workflows behave the same way, and so a later
+# push trigger here would inherit the same protection for main.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 jobs:
   package:
     strategy:

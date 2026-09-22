@@ -3542,9 +3542,9 @@
       "anchor": "describeBriefing-0005",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "describeBriefing",
-      "text": "Three Lexington tenants asked this office for emergency-rent help. The county could not process two referrals because each lacked a required {facts.requiredDocument}. {shortPersonName(world,conversationRole(room,\"referral-verifier\"))} is checking the third. Decide whether {shortPersonName(world,conversationRole(room,\"briefing-lead\"))} should back a document checklist before future referrals.",
+      "text": "{sentenceCase(facts.constituentDescription)} asked this office for emergency-rent help. The county could not process {countWord(facts.knownAffectedReferralCount)} referrals because each lacked a required {facts.requiredDocument}. {shortPersonName(world,conversationRole(room,\"referral-verifier\"))} is checking the {ordinalWord(facts.unresolvedReferralOrdinal)}. Decide whether {shortPersonName(world,conversationRole(room,\"briefing-lead\"))} should back a document checklist before future referrals.",
       "occurrence": 0,
-      "textRevision": "37c0cf10f400"
+      "textRevision": "231e1f0312e3"
     },
     {
       "anchor": "describeBriefing-0006",
