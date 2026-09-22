@@ -4,6 +4,17 @@ import { test, expect } from "./fixtures";
 import { chooseOption } from "./support/controls";
 import { enterLife, goTo, startLife } from "./support/creator";
 
+/*
+ * This walks the whole creator, enters a life, opens a moment and crosses two
+ * surfaces. Measured headlessly and alone it takes about twenty-five seconds,
+ * which fits inside Playwright's thirty-second default only while nothing
+ * else is running; on a loaded shard it died on the clock and reported a
+ * control that never appeared, which reads like a broken screen rather than a
+ * budget. Nothing is skipped or loosened: the assertions are unchanged and
+ * the walk is the same one.
+ */
+test.setTimeout(120_000);
+
 test("ordinary Day and Work expose private personnel preparation", async ({
   page,
 }) => {
