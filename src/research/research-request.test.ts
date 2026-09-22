@@ -260,4 +260,20 @@ describe("the handed-over document", () => {
     );
     expect(document).toContain("**Already checked.** Nothing yet.");
   });
+
+  it("refuses a malformed answer source instead of throwing on it", () => {
+    // A source written as an object rather than a string used to crash the
+    // validator on source.trim, so the filer got a stack trace instead of the
+    // one sentence this queue exists to give them.
+    const malformed = {
+      ...record(),
+      answer: {
+        answeredAt: "2026-09-22T03:05:00.000Z",
+        answeredBy: "somebody",
+        summary: "An answer.",
+        sources: [{ source: "a page", establishes: "a fact" }],
+      },
+    } as unknown as ResearchRequestRecord;
+    expect(codes([malformed])).toContain("answer-without-sources");
+  });
 });

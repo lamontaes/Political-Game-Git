@@ -1,4 +1,15 @@
 {
+  "answer": {
+    "answeredAt": "2026-09-22T03:05:00.000Z",
+    "answeredBy": "hardcoded-content audit thread, from the locked artifact",
+    "sources": [
+      "data/source/state-legislatures/raw/ak-constitution.html, the acquired Lieutenant Governor edition already in this repository: \"The people of Alaska ratified it on April 24, 1956 and it became operative with the formal Proclamation of Statehood on January 3, 1959.\"",
+      "The same file's bracketed amendment markers: Article II's body carries [Amended 1984] and [Amended 1976] twice, on sections other than 2 and 3, which is what makes the silence on 2 and 3 evidence rather than an absence.",
+      "lamontaes/Political-Game-Git commit b53f137d on claude/hardcoded-content-audit-hf3e0n, where the date is recorded with that reasoning."
+    ],
+    "stillOpen": "Nothing for this question. The general point it proved is worth carrying: the first instruction on this record was to check whether the publisher page already in hand prints an amendment note before treating the question as outside research. It did, and the answer took minutes. That instruction is now standard on any provision-dating question.",
+    "summary": "3 January 1959, for both sections. The Lieutenant Governor's edition states that the constitution \"became operative with the formal Proclamation of Statehood on January 3, 1959\". That date governs sections 2 and 3 because their present words are the original ones, and the evidence for that is the publisher's own convention rather than an absence read hopefully: the edition marks an amended section with a bracketed year, and Article II's body carries three such markers - 1984 on section 5 and 1976 twice - while sections 2 and 3 carry none. A convention demonstrably applied to these sections' own neighbours makes its silence here evidence. Recorded at b53f137d; Alaska now opens on an ordinary 2026-01-05 start."
+  },
   "filedAt": "2026-09-22T02:35:00.000Z",
   "impact": "blocks-work",
   "lane": "hardcoded-content audit",

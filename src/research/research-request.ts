@@ -435,12 +435,17 @@ export function validateResearchRequests(
     if (record.answer) {
       if (
         !Array.isArray(record.answer.sources) ||
-        record.answer.sources.filter((source) => source?.trim()).length === 0
+        // A source that is not a string is refused rather than thrown on: a
+        // malformed record should get the message this queue exists to give,
+        // not a stack trace that tells the filer nothing about what to fix.
+        record.answer.sources.filter(
+          (source) => typeof source === "string" && source.trim() !== "",
+        ).length === 0
       ) {
         error(
           "answer-without-sources",
           questionId,
-          "An answer with no sources is a guess, and this queue exists so nobody has to guess twice.",
+          "An answer with no usable sources is a guess, and this queue exists so nobody has to guess twice. Each source is a string saying what establishes the answer.",
         );
       }
       if (!isIsoInstant(record.answer.answeredAt)) {
