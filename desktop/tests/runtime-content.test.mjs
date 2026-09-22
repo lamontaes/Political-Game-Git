@@ -1,4 +1,4 @@
-/* global Buffer, Request */
+/* global Buffer, Request, setInterval, clearInterval */
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -16,6 +16,8 @@ import {
   contentHash,
   receiveContent,
   loadContent,
+  loadContentAsync,
+  loadContentManifest,
   serveRuntimeContent,
 } from "../runtime-content.mjs";
 const png = Buffer.from(
@@ -161,4 +163,45 @@ test("embedded PNG SVG allowed, active or external SVG refused", (t) => {
     set(svg);
     assert.throws(() => receiveContent(f.args), /SVG/);
   }
+});
+
+test("the manifest alone is read without hashing blobs; full loads still verify", async (t) => {
+  const f = fixture(t),
+    first = receiveContent(f.args);
+  const blob = path.join(f.args.cacheRoot, "blobs", contentHash(png));
+  writeFileSync(blob, Buffer.concat([png, Buffer.from("tampered")]));
+  // Usage lookups need only metadata: a changed blob does not cost them a
+  // full pass (it is refused when served instead).
+  assert.equal(loadContentManifest(first).manifest.files.length, 1);
+  assert.throws(() => loadContent(first), /bytes do not match/);
+  await assert.rejects(loadContentAsync(first), /bytes do not match/);
+  writeFileSync(blob, png);
+  assert.equal((await loadContentAsync(first)).snapshot.id, first.id);
+  // The manifest itself is still bound to its content-addressed id.
+  writeFileSync(
+    path.join(f.args.cacheRoot, "snapshots", first.id + ".json"),
+    "{}",
+  );
+  assert.throws(() => loadContentManifest(first), /manifest changed/);
+});
+
+test("asynchronous verification lets the event loop run between blobs", async (t) => {
+  const f = fixture(t);
+  for (let i = 0; i < 20; i++) {
+    const bytes = Buffer.concat([png, Buffer.from([i])]);
+    writeFileSync(`${f.root}/input/art/b${i}.png`, bytes);
+    f.manifest.files.push({
+      path: `art/b${i}.png`,
+      sha256: contentHash(bytes),
+      bytes: bytes.length,
+      mime: "image/png",
+    });
+  }
+  f.save();
+  const snapshot = receiveContent(f.args);
+  let turns = 0;
+  const timer = setInterval(() => turns++, 0);
+  await loadContentAsync(snapshot);
+  clearInterval(timer);
+  assert.ok(turns > 0, "timers ran while blobs were verified");
 });
