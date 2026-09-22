@@ -158,6 +158,16 @@ ordinary packaged client still have no preload, IPC, filesystem, repository,
 credential, or process surface. No repository token is stored or packaged.
 Public signed in-place updating remains a separate external service boundary.
 
+For the selected private branch, the controller checks GitHub on foreground
+and every minute while it remains open. A linear successor is compiled from an
+exact detached revision and, for receiver-prepared previews, reuses the exact
+verified runtime-content snapshot. It becomes pending first and activates only
+at an idle title screen; active play and unfinished Art Desk notes block the
+swap. A local received code delivery publishes its exact source revision to
+the matching branch before the received channel advances. Publication is
+fast-forward only: a newer or divergent cloud ref stops the handoff without a
+merge, rebase, force-push, save write or content replacement.
+
 ## Security posture
 
 Renderer: `nodeIntegration` off; `contextIsolation`, `sandbox`,

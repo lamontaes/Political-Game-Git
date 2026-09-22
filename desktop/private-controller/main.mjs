@@ -145,6 +145,11 @@ const DEFAULT_PACK = path.join(
   "modular41-current",
 );
 const CHROME_HEIGHT = 92;
+const requestedAutoCheck = Number(process.env.OCD_HUB_AUTO_UPDATE_INTERVAL_MS);
+const AUTO_UPDATE_INTERVAL_MS =
+  Number.isFinite(requestedAutoCheck) && requestedAutoCheck >= 5_000
+    ? requestedAutoCheck
+    : 60_000;
 
 protocol.registerSchemesAsPrivileged([APP_SCHEME_PRIVILEGES]);
 
@@ -1066,43 +1071,48 @@ function layout() {
 
 const receiveRetries = new Map();
 const receiveAgain = new Set();
-function startWorker(track, retry = false) {
+function startWorker(track, retry = false, receivedFirst = false) {
   if (!retry) receiveRetries.set(track, 0);
   if (process.env.OCD_HUB_NO_BUILDS === "1")
     return { ok: false, message: "Builds are disabled for this test run." };
   const state = readState();
   if (!state?.repositoryPath)
     return { ok: false, message: "Choose the project folder in Settings." };
+  const selectedBuild = state.tracks[track]?.current;
+  const usesRuntimeContent = Boolean(
+    selectedBuild?.preparedLocally === true && selectedBuild.content,
+  );
   const packPath =
     state.tracks[track]?.privatePackPath ?? state.privatePackPath;
-  if (!packPath)
+  if (!packPath && !usesRuntimeContent)
     return { ok: false, message: "Choose the private art pack in Settings." };
   if (hub.worker) {
     // At most one build per requested target: a repeat click is a no-op.
-    if (hub.workerTrack === track)
+    if (hub.workerTrack === track) {
+      if (receivedFirst) receiveAgain.add(track);
       return { ok: true, message: "Already checking this build." };
-    if (!hub.queue.some((q) => q.track === track)) hub.queue.push({ track });
+    }
+    const queued = hub.queue.find((q) => q.track === track);
+    if (queued) queued.receivedFirst ||= receivedFirst;
+    else hub.queue.push({ track, receivedFirst });
     return { ok: true, message: "Queued after the current build." };
   }
   hub.phase[track] = { phase: "fetching", message: "Fetching…" };
-  const child = spawn(
-    process.execPath,
-    [
-      workerPath,
-      "--data-root",
-      dataRoot,
-      "--repo",
-      state.repositoryPath,
-      "--track",
-      track,
-      "--pack",
-      packPath,
-    ],
-    {
-      env: { ...toolEnvironment(), ELECTRON_RUN_AS_NODE: "1" },
-      stdio: ["ignore", "pipe", "pipe"],
-    },
-  );
+  const workerArguments = [
+    workerPath,
+    "--data-root",
+    dataRoot,
+    "--repo",
+    state.repositoryPath,
+    "--track",
+    track,
+    ...(receivedFirst ? ["--received-first"] : []),
+    ...(packPath ? ["--pack", packPath] : []),
+  ];
+  const child = spawn(process.execPath, workerArguments, {
+    env: { ...toolEnvironment(), ELECTRON_RUN_AS_NODE: "1" },
+    stdio: ["ignore", "pipe", "pipe"],
+  });
   hub.worker = child;
   hub.workerTrack = track;
   const watch = createSilenceWatch({
@@ -1153,8 +1163,8 @@ function startWorker(track, retry = false) {
       };
     broadcast();
     const next = hub.queue.shift();
-    if (next) startWorker(next.track);
-    else if (receiveAgain.delete(track)) startWorker(track);
+    if (next) startWorker(next.track, false, next.receivedFirst);
+    else if (receiveAgain.delete(track)) startWorker(track, false, true);
     else if (
       code !== 0 &&
       channelPath(dataRoot, track) &&
@@ -1165,7 +1175,7 @@ function startWorker(track, retry = false) {
         receiveRetries.set(track, attempt + 1);
         const timer = setTimeout(
           () => {
-            if (!hub.worker && !hub.quitting) startWorker(track, true);
+            if (!hub.worker && !hub.quitting) startWorker(track, true, true);
           },
           attempt === 0 ? 2000 : 10000,
         );
@@ -1374,7 +1384,7 @@ async function selectTrack(branch) {
     if (!opened.ok) logLine(opened.message);
   }
   // Explicitly selecting an owner-repository branch authorizes preparing it.
-  const result = startWorker(id);
+  const result = startWorker(id, false, true);
   layout();
   broadcast();
   return result;
@@ -1715,7 +1725,7 @@ handle("hub:branches", async () => {
 });
 handle("hub:check-updates", () => {
   const track = readState()?.selectedTrack ?? MAIN_TRACK;
-  return startWorker(track);
+  return startWorker(track, false, true);
 });
 handle("hub:return-to-title", async () => {
   const id = shownPlayTrack(readState());
@@ -1754,7 +1764,9 @@ handle("hub:copy-text", (text) => {
 handle("hub:select-track", (branch) => selectTrack(String(branch ?? "")));
 handle("hub:check", (id) => {
   const track = trackArg(id);
-  return track ? startWorker(track) : { ok: false, message: "Unknown track." };
+  return track
+    ? startWorker(track, false, true)
+    : { ok: false, message: "Unknown track." };
 });
 handle("hub:apply", (id) => {
   const track = trackArg(id);
@@ -1901,18 +1913,28 @@ handle("hub:reveal-token", (file) => {
 /* -------------------------------------------------------------- lifecycle */
 
 let lastForegroundCheck = 0;
+let automaticCheckTimer = null;
+function scheduleAutomaticUpdateCheck() {
+  clearTimeout(automaticCheckTimer);
+  automaticCheckTimer = setTimeout(() => {
+    automaticCheckTimer = null;
+    if (hub.quitting) return;
+    const selected = readState()?.selectedTrack;
+    if (selected) startWorker(selected);
+    scheduleAutomaticUpdateCheck();
+  }, AUTO_UPDATE_INTERVAL_MS);
+  automaticCheckTimer.unref();
+}
+
 function reconcileOnForeground() {
   if (hub.quitting) return;
   const selected = readState()?.selectedTrack;
   if (!selected) return;
   void activateAtIdleTitle(selected);
-  const received = channelPath(dataRoot, selected);
-  if (!received || !existsSync(received)) return;
   // macOS may emit both application activation and window focus together.
   if (Date.now() - lastForegroundCheck < 2000) return;
   lastForegroundCheck = Date.now();
-  if (hub.workerTrack === selected) receiveAgain.add(selected);
-  else startWorker(selected);
+  startWorker(selected, false, true);
 }
 
 function createWindow() {
@@ -2134,12 +2156,12 @@ if (!app.requestSingleInstanceLock()) {
       clearTimeout(receivedTimer);
       receivedTimer = setTimeout(() => {
         const selected = readState().selectedTrack;
-        if (hub.workerTrack === selected) receiveAgain.add(selected);
-        else startWorker(selected);
+        startWorker(selected, false, true);
       }, 500);
     });
     app.once("will-quit", () => {
       clearTimeout(receivedTimer);
+      clearTimeout(automaticCheckTimer);
       receivedWatcher.close();
     });
     createWindow();
@@ -2170,9 +2192,11 @@ if (!app.requestSingleInstanceLock()) {
     // without rebuilding.
     if (process.env.OCD_HUB_SKIP_STARTUP_CHECK !== "1") {
       const selected = readState().selectedTrack;
-      startWorker(MAIN_TRACK);
-      if (selected !== MAIN_TRACK) startWorker(selected);
+      startWorker(MAIN_TRACK, false, true);
+      if (selected !== MAIN_TRACK) startWorker(selected, false, true);
     }
+    if (process.env.OCD_HUB_SKIP_AUTOMATIC_CHECKS !== "1")
+      scheduleAutomaticUpdateCheck();
     broadcast();
   });
 
