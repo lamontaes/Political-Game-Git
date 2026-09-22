@@ -68,11 +68,10 @@ function episodeScene(beat: EpisodeBeat): StoryScene {
     presentPeople: beat.bindings.map((binding) => ({
       personId: binding.personId,
       name: binding.personName,
-      relationship:
-        binding.role === "school-peer" ? "who is in your class" : null,
+      relationship: binding.role === "school-peer" ? "your classmate" : null,
       introduction:
         binding.role === "school-peer"
-          ? `${binding.personName}, who is in your class`
+          ? `${binding.personName}, your classmate`
           : binding.personName,
     })),
     beat,

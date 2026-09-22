@@ -256,7 +256,10 @@ export function PartyInitiativesPanel({
         </ul>
       ) : (
         <p className="game-note" data-testid="party-initiatives-none">
-          No party proposals involve you yet.
+          No party proposals involve you yet. Parties settle these among their
+          own officers and committee people, so one reaches you when you are one
+          of them, or when you have put it forward yourself. A change a party
+          has already made is public, and shows up here either way.
         </p>
       )}
 
