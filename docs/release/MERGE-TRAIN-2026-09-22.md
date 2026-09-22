@@ -10,7 +10,7 @@ disagree with.
 
 ## The list to click through
 
-Refreshed against `origin/main` at `7fc33c85`, 07:35Z. The sections below give
+Refreshed against `origin/main` at `7fc33c85`, 07:42Z. The sections below give
 the evidence behind each entry; this is the index.
 
 **The headline, which you can check yourself before you finish your coffee.**
@@ -28,15 +28,27 @@ report: the first things you will notice are also the fastest to fix.
    game's first two minutes, and the cheapest click here.
 2. **#325 — prove the refusal a player reads arrives at the screen clean.** It
    carries no sentence fixes of its own; it is the gate. It needed #320 first,
-   and **#320 is now merged**, so the dependency is satisfied.
-3. **#292 — a life that has always lived somewhere has always lived in its
-   district too.** The nationwide lane is holding it behind a browser fixture
-   patch; its body names the dependency.
-4. **#283 — every state has a legislature, the District governs itself, and
-   read law beats the draw.** Also the nationwide lane's, with its unattributed
-   failures named in its body.
+   and **#320 is now merged**, so nothing blocks it. Its checks read red until
+   it lands, which its own body explains.
+3. **The documents — #330, #331, #294 — in any order, and safe to clear
+   first.** #330 is the report updates, #331 the playtest walk at 324 lines
+   under `docs/playtest/`, #294 the artbench-exchange write-up at 131 lines.
+   None touches source or a shipped path. This is the part of the list you can
+   clear without thinking about it.
+4. **#292 — a life that has always lived somewhere has always lived in its
+   district too**, and **#283 — every state has a legislature, the District
+   governs itself, and read law beats the draw.** Both the nationwide lane's,
+   both with their dependencies and their unattributed failures named in their
+   own bodies.
 
-Then **#277**, the 0.4.0 release, this lane's, whenever the freeze lifts.
+Then **#277**, the 0.4.0 release, this lane's, whenever the freeze lifts. Its
+full unit suite passed at `9d7ec442`: 6411 tests, 52 skipped, one failure —
+a directory we make unwritable stays writable for root in a container, which is
+red on main too and is not the release's.
+
+**#320 → #325 is the only ordered pair on the whole list, and #320 is done.**
+The numbering above is priority, not dependency: it is the order that gets the
+most visible thing fixed first.
 
 **One thing to know before you start clicking.** GitHub will not let you merge
 a pull request that is still a draft, and several of the above are. Ready to
@@ -96,6 +108,53 @@ because each merge killed the run before it. The protection was written for a
 repository whose runs start promptly, and this one's do not — which means the
 freeze is not a nicety. It is the only condition under which main can ever
 report at all.
+
+## What one verdict on main cost, exactly
+
+At 07:34Z the decision was taken to cancel every queued run standing ahead of
+main's, and at 07:38Z main's run allocated all fifteen of its jobs for the
+first time tonight. It had been created at 07:30:31Z and had sat at zero.
+
+**Seventy-two runs were cancelled to buy it**, across thirty-two branches. Two
+had already completed. The branches are named here rather than counted, because
+a lane that finds a missing verdict and diagnoses it from scratch is the exact
+waste this document exists to remove:
+
+`art-bench-requests-sbi892`, `art-requests-non-background-cg1u98`,
+`bill-names-its-proposition`, `candidacy-refusal-screen-sweep`,
+`character-rendering-triage-19kvvz`, `ci-concurrency-on-main`,
+`compliance-prose-citations`, `congress-factions-cg1u98`, `current-art-source`,
+`delete-retired-visual4`, `district-residence-clock`,
+`findings-event-bank-correction`, `findings-writeup-hf3e0n`, `fix-main-w9xyzd`,
+`hardcoded-content-audit-hf3e0n`, `modular-legislation-f1m37h`,
+`nationwide-government-mqcw7p`, `news-headline-voice-hf3e0n`,
+`no-citations-on-player-surfaces`, `people-and-life-4qpuwb`, `playtest-cwpd3o`,
+`playtest-party-screen-says-so`, `playtest-politics-label`,
+`player-facing-text-client`, `policy-catalogue-as-packs`,
+`priority-audit-report-cg1u98`, `project-thread-4y594d`, `project-thread-56hmrw`,
+`project-thread-cg1u98`, `project-thread-tnj1os`, `project-thread-w3zsrg`,
+`prose-gate-reanchor-hf3e0n`, `release-0-3-0`, `research-admission-hf3e0n`,
+`veto-assertion-hardening-hf3e0n`, `veto-override-readings-hf3e0n`,
+`codex/build-6146df3-source`, `codex/client-content-delivery`.
+
+**This is the capacity argument, not an illustration of it.** At two concurrent
+jobs a verdict on main and verdicts on the branches were not competing
+priorities, they were mutually exclusive. One run is fifteen jobs; the queue
+held seventy-two. There was never an arrangement in which both happened, and
+choosing was the only available act.
+
+It was affordable only because of something decided hours earlier: tonight's
+standard is gates run and named on an exact head, so nothing on the click list
+was waiting on a branch verdict to become mergeable. A branch verdict arriving
+at half past eight would have described a frozen branch that a human was going
+to merge anyway. The verdict on main's head was the one thing asked for that we
+did not have, and the only one whose value expired at nine.
+
+Two runs were deliberately not cancelled: main's own `release.yml` run created
+at 07:10Z, and main's superseded `validate.yml` run from 05:41Z, both left
+alone under "do not cancel main's". The second of those is superseded and the
+standing sweep rule would ordinarily take it; it was kept because the
+instruction was about main and the cost of being wrong ran the wrong way.
 
 ## The sweep read only half the problem
 
