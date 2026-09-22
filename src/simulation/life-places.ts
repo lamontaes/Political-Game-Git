@@ -398,6 +398,59 @@ let rowsByGeoid: ReadonlyMap<string, NationwideRow> | null = null;
 let countyRows: readonly NationwideRow[] | null = null;
 let countyPlaces: ReadonlyMap<string, LifePlace> | null = null;
 
+const CENSUS_UNIT_TYPES =
+  /\s+(?:city|town|village|borough|municipality|metro government|metropolitan government|consolidated government|unified government|urban county government)$/;
+
+let countyNamesByUsps: ReadonlyMap<string, ReadonlySet<string>> | null = null;
+
+function countyNamesFor(usps: string): ReadonlySet<string> {
+  if (!countyNamesByUsps) {
+    countyRows ??= JSON.parse(
+      NATIONAL_COUNTIES_ROWS,
+    ) as readonly NationwideRow[];
+    const grouped = new Map<string, Set<string>>();
+    for (const [, name, code] of countyRows) {
+      const set = grouped.get(code) ?? new Set<string>();
+      // The generated rows carry "Davidson County"; a merged place name
+      // carries "Davidson". Store both so either spelling matches.
+      set.add(name);
+      set.add(name.replace(/\s+County$/, ""));
+      grouped.set(code, set);
+    }
+    countyNamesByUsps = grouped;
+  }
+  return countyNamesByUsps.get(usps) ?? new Set<string>();
+}
+
+/**
+ * The name a resident uses, derived from the Census label rather than a list.
+ *
+ * The Gazetteer already strips the unit type from ordinary places, but the
+ * eight consolidated city-county rows keep theirs, so a player in Tennessee
+ * read "Nashville-Davidson metropolitan government (balance), Tennessee" on
+ * the home screen, on the parties screen, and inside the sentence that opens
+ * their day. The same problem Lexington was fixed for by hand:
+ * "Nobody who lives there calls it Lexington-Fayette."
+ *
+ * Three steps, each reversing a Census convention rather than guessing:
+ * drop the "(balance)" bookkeeping tag; drop a trailing lowercase unit-type
+ * phrase, which the Gazetteer writes in lower case so that "Kansas City" and
+ * "New York city" stay distinguishable; and drop a merged county's name when
+ * the counties corpus confirms it is a county of this same state. The formal
+ * label is kept on `formalName`, so a legal or data view loses nothing and
+ * search still matches it.
+ */
+export function residentPlaceName(censusName: string, usps: string): string {
+  const withoutBalance = censusName.replace(/\s*\(balance\)\s*$/, "");
+  const withoutUnit = withoutBalance.replace(CENSUS_UNIT_TYPES, "");
+  const merged = /^(.*?)[-/](.+)$/.exec(withoutUnit);
+  const head = merged?.[1];
+  const suffix = merged?.[2];
+  if (head === undefined || suffix === undefined) return withoutUnit;
+  const tail = suffix.replace(/\s+County$/, "").trim();
+  return countyNamesFor(usps).has(tail) ? head.trim() : withoutUnit;
+}
+
 function nationwideCounties(): ReadonlyMap<string, LifePlace> {
   countyRows ??= JSON.parse(NATIONAL_COUNTIES_ROWS) as readonly NationwideRow[];
   countyPlaces ??= new Map(
@@ -489,7 +542,9 @@ function synthesizeNationwidePlace(
 ): LifePlace {
   const [geoid, displayName, usps] = row;
   const state = STATES[usps];
-  const named = `${displayName}, ${stateName(usps)}`;
+  // What a resident says, not what the Gazetteer files it under.
+  const resident = residentPlaceName(displayName, usps);
+  const named = `${resident}, ${stateName(usps)}`;
   const county = scope === "county";
   const jurisdictionId = county
     ? createStableId("jurisdiction", `national-county:${geoid}`)
@@ -498,7 +553,12 @@ function synthesizeNationwidePlace(
   return {
     key: county ? `county:${geoid}` : geoid,
     displayName: named,
-    formalName: displayName === named ? null : displayName,
+    formalName:
+      resident === displayName
+        ? displayName === named
+          ? null
+          : displayName
+        : `${displayName}, ${stateName(usps)}`,
     withinName: stateName(usps),
     context: {
       jurisdiction: {
