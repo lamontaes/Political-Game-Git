@@ -21,6 +21,10 @@ import { localGoverningBodyIdentity } from "./local-governing-body-candidacy-pac
  *   consolidated city's thirty seats, and a term from the terms read anywhere. The draw is
  *   stable per town, so a town keeps its council across saves and reloads.
  *
+ * PLACEHOLDER, pending research question `town-council-size-by-town-size`:
+ * the typical band ignores town size, and the councils read so far are mostly
+ * cities. It is replaced by a draw by population band when that is answered.
+ *
  * A typical value is labelled as typical wherever it is shown, and it never
  * enters the town's candidacy pack as though the town recorded it. Reading a
  * town's charter later replaces the typical value with the read one.
