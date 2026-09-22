@@ -1,5 +1,6 @@
 import type { EntityId, World } from "../simulation";
 import { projectWorld39News } from "../presentation/world39-news";
+import { DIAGNOSTICS } from "./diagnostics-profile";
 import "./world39-readers.css";
 
 /** Mount before the existing PressWorkspace and publication search/follow reader. */
@@ -74,13 +75,22 @@ export function World39News({
                   The person is a character of this fictional world; the office
                   itself is real.
                 </p>
-                {holder.sources.map((source, index) => (
-                  <p key={source}>
-                    <a href={source} target="_blank" rel="noreferrer">
-                      Institutional source {index + 1}
-                    </a>
-                  </p>
-                ))}
+                {/*
+                  A separation, not a deletion. The institutional sources stay
+                  on the record and stay renderable, but a player is never
+                  shown where a fact came from — this surface is mounted for
+                  every life, so ungated they were the one place ordinary play
+                  named a source.
+                */}
+                {DIAGNOSTICS
+                  ? holder.sources.map((source, index) => (
+                      <p key={source}>
+                        <a href={source} target="_blank" rel="noreferrer">
+                          Institutional source {index + 1}
+                        </a>
+                      </p>
+                    ))
+                  : null}
               </details>
             </article>
           ))
