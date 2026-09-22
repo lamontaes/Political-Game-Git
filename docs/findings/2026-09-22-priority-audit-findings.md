@@ -453,6 +453,13 @@ is not researched twice.
 
 ## 6. Process findings, each paid for once
 
+- **Name what is scarce, not what is dangerous.** This is the line to take
+  from the whole night, and everything else in this section follows from it.
+  "Be careful about merging" is unactionable. "Two job slots for the whole
+  repository, a validate run is fifteen jobs, and one shard takes twenty-four
+  minutes" is something anybody can reason about. Every correct decision the
+  freeze eventually reached follows from those three numbers, and all three
+  were available all night and none of them was the thing being said.
 - **The third leg: a fifteen-job run cannot fit between pushes at two slots,
   even with nobody merging.** Measured at job level on run `35692915930`: one
   `browser` shard had been running **twenty-four minutes** when it was
@@ -460,12 +467,6 @@ is not researched twice.
   outliving the window between pushes is why there was never anything to cancel
   into. Those two facts together are the whole of it, and neither alone
   explains a night without a verdict.
-- **The rule that generalises: name what is scarce, not what is dangerous.**
-  "Be careful about merging" is unactionable. "Two job slots for the whole
-  repository, and a validate run is fifteen jobs, one shard of which takes
-  twenty-four minutes" is something anybody can reason about, and everything
-  the freeze eventually got right follows from it. The number was known all
-  night and was never the thing being said.
 - **Main did get a verdict, at 07:46:10Z, and it is the first of the night.**
   Once the merges stopped, the run on `7fc33c85` executed: the `repository`
   job completed **success** with twelve steps, and a `unit` shard was running
