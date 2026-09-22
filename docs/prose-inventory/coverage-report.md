@@ -10,9 +10,9 @@ needs a person's judgement is the honest state of the check.
 | INVENTORIED | 3404 |
 | INTENTIONALLY_NON_PLAYER_FACING | 7170 |
 | DIAGNOSTIC_OR_TEST | 8112 |
-| **NEEDS_CLASSIFICATION** | **10745** |
+| **NEEDS_CLASSIFICATION** | **10747** |
 
-Scanned 1246 files holding 117646 string
+Scanned 1246 files holding 117648 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -199,6 +199,7 @@ literals in total; the table counts only those that read like a sentence.
 | 17 | `src/simulation/people-family-plan.ts` |
 | 17 | `src/simulation/people-trait-definitions.ts` |
 | 17 | `src/ui/CharacterProofView.tsx` |
+| 16 | `src/player/CampaignWorkspace.tsx` |
 | 16 | `src/player/PersonCard.tsx` |
 | 16 | `src/player/WorkingDocumentWorkspace.tsx` |
 | 16 | `src/presentation/run-a-projection.ts` |
@@ -215,7 +216,6 @@ literals in total; the table counts only those that read like a sentence.
 | 15 | `src/simulation/narrative-threads.ts` |
 | 15 | `src/simulation/nationwide-world/state-executive-candidacy-packs.ts` |
 | 15 | `src/simulation/people-study.ts` |
-| 14 | `src/player/CampaignWorkspace.tsx` |
 | 14 | `src/player/CivilPersonnelPanel.tsx` |
 | 14 | `src/player/EducationOptionsPanel.tsx` |
 | 14 | `src/player/TransitWorkspace.tsx` |

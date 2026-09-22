@@ -151,8 +151,16 @@ export function NationwideCandidacyWorkspace({
                   act(() => fileForStateExecutiveOffice(world, personId))
                 }
               >
+                {/*
+                 * The office is named on the button, not only in the
+                 * paragraph above it. This screen carries a second control
+                 * with the same verb for a legislative seat, and a player
+                 * deciding between them should not have to work out which
+                 * section they are looking at to know what they are filing
+                 * for.
+                 */}
                 <span className="game-campaign-action-label">
-                  Put your name in
+                  Put your name in for {candidacy.identity.title}
                 </span>
                 <span className="game-campaign-action-note">
                   {calendar
