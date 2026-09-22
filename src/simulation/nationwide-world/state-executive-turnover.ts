@@ -20,7 +20,7 @@ import type {
   World,
 } from "../types";
 import { chiefExecutiveJurisdictionId } from "./government-jurisdiction";
-import { recordedTermsInOffice } from "./prior-terms";
+import { governorTermLimitReached } from "./governor-term-limit";
 import { CHIEF_EXECUTIVE_JURISDICTIONS } from "./state-executive-candidacy-packs";
 import {
   ensureStateJurisdiction,
@@ -155,8 +155,9 @@ function openRegularContest(
     world.control.personId !== incumbent.id &&
     ageOn(incumbent.birthDate, electionDay) <
       GOVERNOR_TURNOVER_PROFILE.retirementAge &&
-    recordedTermsInOffice(world, incumbent.id, office.officeKey) <
-      GOVERNOR_TURNOVER_PROFILE.incumbentStepsDownAfterTerms;
+    // The limit in force on election day: an enacted amendment or statute
+    // where one governs, the game profile otherwise.
+    !governorTermLimitReached(world, incumbent.id, stateUsps, electionDay);
   const incumbentRuns =
     eligible &&
     rng.integer(0, 1000) < GOVERNOR_TURNOVER_PROFILE.incumbentRunsPermille;

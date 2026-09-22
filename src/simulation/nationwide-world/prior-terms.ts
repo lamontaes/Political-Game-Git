@@ -1,6 +1,6 @@
 import { electedExecutiveTermForRelationship } from "../executive-work-context";
 import { legislativeTermForRelationship } from "../legislative-office-terms";
-import type { EntityId, World } from "../types";
+import type { EntityId, IsoDate, World } from "../types";
 
 /**
  * How many terms in one exact office the World records this person as having
@@ -16,7 +16,11 @@ export function recordedTermsInOffice(
   world: World,
   personId: EntityId,
   officeKey: string,
+  /** Count only terms that began on or after this date (a limit that does not count prior service). */
+  since: IsoDate | null = null,
 ): number {
+  const counts = (startedAt: IsoDate) =>
+    startedAt <= world.currentDate && (since === null || startedAt >= since);
   let count = 0;
   for (const relationship of world.history.workRelationships) {
     if (relationship.personId !== personId) continue;
@@ -25,7 +29,7 @@ export function recordedTermsInOffice(
       if (
         term &&
         term.contest.office.officeKey === officeKey &&
-        term.startsAt <= world.currentDate
+        counts(term.startsAt)
       )
         count += 1;
     } else if (relationship.kind === "employment:legislative-member") {
@@ -33,7 +37,7 @@ export function recordedTermsInOffice(
       if (
         term &&
         term.contest.office.officeKey === officeKey &&
-        term.startsAt <= world.currentDate
+        counts(term.startsAt)
       )
         count += 1;
     }
@@ -42,7 +46,7 @@ export function recordedTermsInOffice(
     if (
       event.type === "world.office-tenure" &&
       event.tags.includes(`office:${officeKey}`) &&
-      event.occurredAt <= world.currentDate &&
+      counts(event.occurredAt) &&
       event.participants.some(
         (participant) =>
           participant.personId === personId &&

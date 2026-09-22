@@ -73,3 +73,52 @@ Anything reading rules through the resolver or the nationwide port with the
 World picks a change up. Consumers that read compiled tables directly (for
 example candidacy qualification rows) do not yet; routing them through the
 resolver is how they join.
+
+## The levels of law (added 2026-09-22)
+
+`src/simulation/law-hierarchy.ts` ranks six levels: federal constitution,
+federal statute, state constitution, state statute, local charter, local
+ordinance. Every enacted change carries its `level`, and `ruleChangeInForce`
+takes the highest level in force, then the latest law at that level. Today's
+producers are state statutes and state amendments; the other levels are
+declared so a later producer lands in the right place.
+
+Not modelled, each with its blanket rule and each asked in
+`constitutional-hierarchy-and-intergovernmental-relations`:
+
+- **Home rule versus Dillon's rule**, per state and class of local
+  government. Blanket: Dillon's rule, and no state grants a locality any rule
+  the game reads, so `localInstrumentMayChange` always refuses, with the reason.
+- **Floor preemption.** Blanket: every conflict is field preemption, resolved
+  by rank.
+- **Compacts, full faith and credit and extradition.** No compact exists and
+  no rule the game reads is set by one.
+- **D.C. and Puerto Rico.** Treated as states for the levels below federal
+  law.
+
+## Amendments in every state (added 2026-09-22)
+
+`stateAmendmentProfile` gives each of the fifty states an amendment route
+through its own legislature (`legislatureForState`, `seatsForChamber`).
+California keeps its sourced thresholds. Every other state proposes by
+two-thirds of each chamber's membership and ratifies by a statewide majority,
+marked as the game profile and carrying no source digest. Real procedures are
+asked in `modern-state-constitutions-fully-mutable`.
+
+## Amendments with no player (added 2026-09-22)
+
+`src/simulation/living-world/constitutional-reform.ts` reviews each
+materialized governorship once a year on the ordinary clock. It considers an
+amendment to the governor's term limit only when a cause is on the record
+(the sitting governor is barred from another term, or has served three or
+more), rarely, and puts it through the legislature and then the voters by the
+same route a player's amendment takes. A ratified change is what the next
+governor election reads, through `governor-term-limit.ts`.
+
+Every cause, rate and margin there is a **placeholder**, not research: the
+owner has ruled out invented depth. They wait on
+`governor-term-limit-amendment-causes` and `constitutional-amendment-frequency`.
+Chamber votes are drawn and recorded by seat, since members' own positions
+are not modelled; the statewide result is in shares of 10,000, since turnout
+is not modelled; only the governor's term limit is reviewed; D.C. and Puerto
+Rico are not.

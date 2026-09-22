@@ -3,6 +3,7 @@ import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { applyNationalTermTransitions } from "./national-election-consumer";
 import { applyCongressTurnover } from "./living-world/congress-turnover";
 import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
+import { applyConstitutionalReform } from "./living-world/constitutional-reform";
 import { workStatusAt } from "./life-queries";
 import {
   addDays,
@@ -1645,9 +1646,12 @@ function setCurrentMoment(
   // office the day it happens. The consumer applies each notice once.
   return applyCrisisRepairFunding(
     applyCrisisOfficeContinuity(
-      applyGovernorTurnover(
+      applyConstitutionalReform(
         crossedFrom,
-        applyCongressTurnover(crossedFrom, moved),
+        applyGovernorTurnover(
+          crossedFrom,
+          applyCongressTurnover(crossedFrom, moved),
+        ),
       ),
     ),
   );
