@@ -143,8 +143,9 @@ export function ruleSetApplicableOn(
   //
   // Each set is gated on ITS OWN instrument. Reading one state's dates against
   // another state's rows would either hide a stale rule or refuse a sound one.
-  const { legalLocator, observedCurrentOn, provisionEffectiveOn } =
-    rules.source;
+  // legalLocator is deliberately not read here: it stays on the record and
+  // must not reach the sentences below.
+  const { observedCurrentOn, provisionEffectiveOn } = rules.source;
   if (provisionEffectiveOn !== null) {
     if (onDate >= provisionEffectiveOn) return rules;
     const unknownBefore = (field: string): QualificationValue<number> => ({
