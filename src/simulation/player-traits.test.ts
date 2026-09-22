@@ -38,6 +38,32 @@ function life(seed: string) {
   };
 }
 
+/** A world where these two have had at least one recorded dealing. */
+function withDealings(
+  world: World,
+  observerPersonId: EntityId,
+  subjectPersonId: EntityId,
+): World {
+  const existing = world.history.relationshipInteractions.find(
+    (record) =>
+      record.personIds.includes(observerPersonId) &&
+      record.personIds.includes(subjectPersonId),
+  );
+  if (existing) return world;
+  const template = world.history.relationshipInteractions[0];
+  if (!template) throw new Error("This life records no dealings at all.");
+  return {
+    ...world,
+    history: {
+      ...world.history,
+      relationshipInteractions: [
+        ...world.history.relationshipInteractions,
+        { ...template, personIds: [observerPersonId, subjectPersonId] },
+      ],
+    },
+  };
+}
+
 function somebodyElse(world: World, playerId: EntityId): EntityId {
   return (Object.keys(world.people) as EntityId[]).find(
     (id) => id !== playerId,
@@ -155,7 +181,8 @@ describe("how a character is portrayed to the people who deal with them", () => 
       ),
     ).toBe(false);
 
-    // Once the player has said who they are, the same decision hears it.
+    // Once the player has said who they are, somebody who has actually had
+    // dealings with them hears it.
     const said = recordPlayerTraitChoice(world, {
       personId: playerId,
       trait: "reliability",
@@ -164,7 +191,7 @@ describe("how a character is portrayed to the people who deal with them", () => 
       stableKey: "portrayal",
     });
     const heard = registeredTraitConsiderations(
-      said,
+      withDealings(said, other, playerId),
       registry,
       other,
       "test",
@@ -174,6 +201,42 @@ describe("how a character is portrayed to the people who deal with them", () => 
     expect(heard.map((consideration) => consideration.explanation)).toContain(
       "The person asking keeps the plans they make.",
     );
+    // And it rests on their own dealings with the player, not on a private
+    // record about them this person could not possibly have read.
+    const subjectRow = heard.find((consideration) =>
+      consideration.explanation.startsWith("The person asking"),
+    )!;
+    expect(subjectRow.sourceRefs[0]!.kind).toBe("relationship-interaction");
+  });
+
+  it("says nothing about a stranger, however much the world knows", () => {
+    // The gate is the feature. Being read by people who know you is not the
+    // same as being read by anybody who happens to be deciding.
+    const { world, playerId } = life("subject-c");
+    const other = somebodyElse(world, playerId);
+    const said = recordPlayerTraitChoice(world, {
+      personId: playerId,
+      trait: "reliability",
+      value: 2,
+      choice: "Kept every plan made this year.",
+      stableKey: "portrayal",
+    });
+    const strangers: World = {
+      ...said,
+      history: { ...said.history, relationshipInteractions: [] },
+    };
+    expect(
+      registeredTraitConsiderations(
+        strangers,
+        loadedTraitRegistry(),
+        other,
+        "test",
+        "contact.answer",
+        playerId,
+      ).some((consideration) =>
+        consideration.explanation.startsWith("The person asking"),
+      ),
+    ).toBe(false);
   });
 
   it("drops the rows about a subject when a decision names none", () => {

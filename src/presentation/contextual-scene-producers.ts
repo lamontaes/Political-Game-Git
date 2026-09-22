@@ -1,3 +1,4 @@
+import { produceRebuffedAskEffects } from "../simulation/people-trait-occasions";
 import { wasRefused } from "../simulation/scheduled-activity-answer";
 import {
   ensurePeopleTraits,
@@ -528,7 +529,13 @@ function produceRecalledRequest(world: World, personId: EntityId): World {
  * the conversation it deserves.
  */
 function produceMeetUp(world: World, personId: EntityId): World {
-  const reached = produceReachingOut(world, personId);
+  // Before asking again, weigh what came of asking before. Somebody who
+  // reached out and never heard back is changed by that, and this is the
+  // moment the world already has the facts in front of it.
+  const reached = produceReachingOut(
+    produceRebuffedAskEffects(world, personId),
+    personId,
+  );
   const open = contactProposals(reached, personId).find(
     (proposal) => !proposal.answered && proposal.toPersonId === personId,
   );

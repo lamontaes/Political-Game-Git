@@ -93,6 +93,27 @@ export function readTrait(
 }
 
 /**
+ * The most recent dealings between two people, as something the first of them
+ * can cite. Null when they have no recorded history together.
+ */
+function dealingsBetween(
+  world: World,
+  observerPersonId: EntityId,
+  subjectPersonId: EntityId,
+): MindSourceReference | null {
+  const interaction = [...world.history.relationshipInteractions]
+    .reverse()
+    .find(
+      (record) =>
+        record.personIds.includes(observerPersonId) &&
+        record.personIds.includes(subjectPersonId),
+    );
+  return interaction
+    ? { kind: "relationship-interaction", interactionId: interaction.id }
+    : null;
+}
+
+/**
  * How strongly a reading argues. The top of a trait's own scale is its
  * strongest, so a pack with three steps is not quietly rescaled to two.
  */
@@ -139,10 +160,25 @@ export function registeredTraitConsiderations(
       (lean.pole === "low" && reading.value < 0) ||
       (lean.pole === "high" && reading.value > 0);
     if (!onPole) return [];
-    const ref: MindSourceReference = {
-      kind: "personality-tendency",
-      tendencyRecordId: reading.recordId,
-    };
+    // What a consideration rests on has to be something the person deciding
+    // actually holds. The mind store enforces it — a record cited as a source
+    // must belong to the person whose decision it is — and the rule is right:
+    // somebody's reasoning cites their own mind, not a private note about
+    // another person that they could not possibly have read.
+    //
+    // So a row about the subject cites the dealings the two have had, which is
+    // how one person comes to have an impression of another. Somebody with no
+    // history with this person has no grounds, and the row contributes
+    // nothing rather than borrowing a reason it cannot support. That gate is
+    // the feature: being read by people who know you is not the same as being
+    // read by strangers.
+    const ref = aboutSubject
+      ? dealingsBetween(world, actorPersonId, personId)
+      : ({
+          kind: "personality-tendency",
+          tendencyRecordId: reading.recordId,
+        } satisfies MindSourceReference);
+    if (ref === null) return [];
     return [
       {
         stableKey: `${keyPrefix}:trait:${lean.trait}:${lean.option}:${index}`,
