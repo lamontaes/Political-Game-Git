@@ -16,6 +16,7 @@ import {
   seatsForChamber,
 } from "./legislature-game-profile";
 import { LEGISLATIVE_RULE_PACKS, rulePackById } from "./legislature-rule-packs";
+import { stateCandidacyPack } from "./candidacy-packs";
 import {
   assertRulePackIntegrity,
   chamberByKey,
@@ -364,5 +365,42 @@ describe("every chamber in the country can be seated", () => {
     )!;
     seatsForChamber(nevada, "assembly");
     expect(chamberByKey(nevada, "assembly").seats.kind).toBe("unknown");
+  });
+});
+
+describe("a compile gap is not a research gap", () => {
+  it("never hands a drawn qualification to a state whose law has been read", () => {
+    // Kentucky's constitution HAS been read — that is why it has a compiled
+    // legislature. Its § 32 states an age and a residence, and the reason
+    // those are not in the qualification corpus is that the corpus has not
+    // caught up, not that nobody knows. A drawn number there would put a
+    // figure in front of a player that Kentucky's own instrument contradicts,
+    // and would make a compile gap look answered.
+    for (const pack of LEGISLATIVE_RULE_PACKS) {
+      const candidacy = stateCandidacyPack(pack.jurisdictionKey);
+      if (candidacy === null) continue;
+      for (const office of candidacy.offices) {
+        const qualification = office.qualification;
+        for (const rule of [
+          qualification.minimumAge,
+          qualification.residency,
+          qualification.termYears,
+        ]) {
+          if (rule.kind !== "known") continue;
+          expect(rule.source.verification).not.toBe("game-profile");
+        }
+      }
+    }
+  });
+
+  it("does hand one to a state nobody has read", () => {
+    const texas = stateCandidacyPack("US-TX")!;
+    expect(texas.offices.length).toBeGreaterThan(0);
+    const house = texas.offices[0]!.qualification;
+    expect(house.minimumAge.kind).toBe("known");
+    expect(
+      (house.minimumAge as { source: { verification: string } }).source
+        .verification,
+    ).toBe("game-profile");
   });
 });

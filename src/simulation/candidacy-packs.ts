@@ -139,6 +139,19 @@ const NO_MEMBERSHIP_INSTRUMENT =
 const NO_DISTRICT_GEOGRAPHY =
   "A numbered district is an explicit Gazetteer identity bound on the seat. Interior points are not boundaries, and a coarse home does not prove district membership.";
 
+/**
+ * Whether this state's own instruments have been read at all.
+ *
+ * A compiled legislature pack is the evidence: it exists only because somebody
+ * retrieved and read that state's constitution. It is a coarse signal on
+ * purpose — it says research happened, not that every field was captured.
+ */
+function stateLawHasBeenRead(stateJurisdictionKey: string): boolean {
+  return LEGISLATIVE_RULE_PACKS.some(
+    (pack) => pack.jurisdictionKey === stateJurisdictionKey,
+  );
+}
+
 function officeQualification(
   packId: string,
   jurisdictionKey: string,
@@ -281,13 +294,20 @@ function officeQualification(
       };
     }
   }
-  // Nothing has been read for this state. That used to end here, with every
+  // Nothing has been compiled for this state. That used to end here, with every
   // requirement unknown, and an office nobody can be shown to qualify for is an
   // office nobody can stand for — which is how forty-two states ended up closed.
-  // A generated rule is offered instead: drawn from the spread the read states
-  // set, fixed for this state, and labelled `game-profile` so it can never be
-  // quoted back as this state's law.
-  if (officeFamily !== null) {
+  //
+  // A generated rule is offered instead, but ONLY where the state has not been
+  // researched at all. A state whose legislature is compiled has had its
+  // constitution read: Kentucky's § 32 states an age and a residence, and the
+  // reason those are not here is that the qualification corpus has not caught
+  // up, not that nobody knows. Handing that state a drawn number would put a
+  // figure in front of a player that the state's own instrument contradicts,
+  // and would hide a compile gap by making it look answered. A compile gap and
+  // a research gap are different, and only the second one is what the drawn
+  // rule is for.
+  if (officeFamily !== null && !stateLawHasBeenRead(jurisdictionKey)) {
     const standIn = (
       field: Parameters<typeof standInQualification>[1],
     ): RuleValue<number> => {

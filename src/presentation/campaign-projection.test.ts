@@ -5,6 +5,8 @@ import {
   addDays,
   campaignForCandidate,
   campaignState,
+  LEGISLATIVE_RULE_PACKS,
+  candidacyAuthority,
   candidacyPacks,
   deserializeWorld,
   daysBetween,
@@ -80,9 +82,17 @@ function passCampaignDays(world: World, personId: EntityId, days: number) {
 }
 
 /** A locality whose own state is not in the accepted candidacy pack set. */
+/**
+ * A locality in a state whose own law has NOT been compiled.
+ *
+ * Derived from the compiled pack set rather than named, so compiling a new
+ * state cannot silently turn this fixture into a researched place. It no
+ * longer means the state has nothing to offer: every state has a legislature
+ * now, and this one's is the game's own.
+ */
 function unsupportedLocality(): LifePlace {
   const supported = new Set(
-    candidacyPacks().map((pack) => pack.jurisdictionKey),
+    LEGISLATIVE_RULE_PACKS.map((pack) => pack.jurisdictionKey),
   );
   const place = searchLifePlaces("a", 500).find(
     (candidate) =>
@@ -185,20 +195,35 @@ describe("what the game will and will not offer", () => {
     ).toBe(true);
   });
 
-  it("still says nothing is on offer where the state has no accepted pack", () => {
-    // The fail-closed rule is unchanged. The negative control is derived from
-    // the accepted pack set so adding a new state's pack cannot silently turn
-    // yesterday's refusal fixture into a supported place.
+  it("offers a ballot where the state's law has not been compiled, and it is that state's own", () => {
+    // This used to assert that nothing was on offer, and that refusal was the
+    // defect: an adult in a state nobody had researched could not stand for
+    // anything, so the absence of research read as the absence of an election.
+    // The offer is now the game's own rule for that state. What still has to
+    // hold is that it is THAT state's and not a neighbour's.
     const place = unsupportedLocality();
     const life = adultLifeInPlace("offer-unsupported", place);
     const view = projectCampaign(life.world, life.personId);
-    expect(view.phase).toBe("unavailable");
-    expect(view.unavailableReason).toMatch(/has not read this state/i);
-    expect(view.officeTitle).toBeNull();
+    expect(view.phase).not.toBe("unavailable");
+    expect(view.officeTitle).not.toBeNull();
+
+    const authority = candidacyAuthority(
+      life.world.jurisdictions[
+        life.world.people[life.personId]!.homeJurisdictionId
+      ]!.id,
+    );
+    expect(authority.pack!.jurisdictionKey).toBe(place.stateJurisdictionKey);
+    for (const office of authority.pack!.offices) {
+      expect(office.officeKey).toMatch(
+        new RegExp(
+          `^us-${place.stateJurisdictionKey!.slice(3).toLowerCase()}-`,
+        ),
+      );
+    }
 
     const capabilities = resolvePlayerCapabilities(life.world);
-    expect(capabilities.campaign).toBe(false);
-    // Losing the ballot does not take the rest of the life away.
+    expect(capabilities.campaign).toBe(true);
+    // Gaining the ballot does not take the rest of the life away either.
     expect(
       compareSimulationMoments(
         passOrdinaryDays(life.world).currentMoment,
