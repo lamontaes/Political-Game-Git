@@ -8,7 +8,7 @@ import {
   saveLife,
 } from "./support/creator";
 import type { World } from "../../src/simulation/types";
-import { GIVEN_NAME_GENERATION_POOLS_V1 } from "../../src/simulation/names-data";
+import { givenNamePoolForStatedGender } from "../../src/simulation/names-data";
 
 /**
  * The 2026-09-06 owner play, repaired, in the browser it failed in.
@@ -257,7 +257,7 @@ test.describe("the life the player asked for is the life they get", () => {
     // cannot satisfy or fail this assertion by accident.
     const shown = await page.getByTestId("shell-nav-identity").innerText();
     const givenName = shown.split(" ")[0];
-    expect(GIVEN_NAME_GENERATION_POOLS_V1.male).toContain(givenName);
+    expect(givenNamePoolForStatedGender("male")).toContain(givenName);
   });
 
   test("grounds the life in its own records before the first choice", async ({

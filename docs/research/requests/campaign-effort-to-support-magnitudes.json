@@ -1,0 +1,26 @@
+{
+  "filedAt": "2026-09-22T23:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "invented-depth audit",
+  "notes": [
+    "Measured by the playtest lane on 2026-09-22: 27 day-pressed sessions won with 81%; zero sessions lost with about 41%. The rival's weekly cadence gives it roughly a twenty-eighth of the player's action budget."
+  ],
+  "priority": "P1",
+  "question": "In a real state legislative or local race, how much does a candidate's own effort (door-knocking hours, volunteers, fundraising, paid advertising) move vote share, how much can a candidate realistically raise per session of call time at each level of office, and how active is a typical opponent over a campaign?",
+  "questionId": "campaign-effort-to-support-magnitudes",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "invented-depth audit lane",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/campaigns.ts, campaign-opponents.ts, campaign-projection.ts at main 9f42ba19",
+      "whatItDidNotSettle": "Constants are unmarked or marked 'authored', with no source."
+    },
+    {
+      "source": "docs/research/requests/how-an-election-night-should-come-out.json and proposed-balance-parameters-nobody-confirmed.json (answered)",
+      "whatItDidNotSettle": "Both give the model's shape and say no coefficients were supplied."
+    }
+  ],
+  "title": "How much a canvassing shift, a dollar or a week of an opponent's work actually moves a local or legislative race",
+  "usableAnswer": "Published estimates (field experiments, campaign-finance data) for: vote-share effect of canvassing contact per hour or per contact, with diminishing returns; fundraising per hour of call time or typical totals by office level (the FEC corpus the game already holds may answer the federal end); effect of advertising spend at local and state level; and how many weeks and what kinds of activity a typical challenger and incumbent run. Ranges are fine; say which are well established and which are thin.",
+  "whyItMatters": "The owner said on 2026-09-22 that a race has to be an actual race: 'you need to be going against people. You can't win every time.' The effort arithmetic is why the player nearly always wins, and none of it is sourced. At main 9f42ba19:\n\n1. src/simulation/campaigns.ts:1055-1059 — a 90-minute field shift gains minutes x workers x 3/2 x a 60-140% swing, 81-189 basis points each; ads gain spend in cents / 500.\n2. src/presentation/campaign-projection.ts:63, :220, :223 — sessions of 90 minutes, back to back until 9 p.m., with no daily cap and no diminishing returns, so about four a day.\n3. src/simulation/campaign-opponents.ts:88-104 and :874 — the opponent acts once every 7 days, starts with $0, raises $600-2,500 a week; 'Authored game defaults; not empirical', no question named.\n4. src/simulation/campaigns.ts:1209 — the player raises $850-1,750 per session whether the race is for a town council or governor.\n5. src/simulation/campaigns.ts:379-381 — starting support 850 + 0..300 per candidate, minus 60 for the player.\n\nThe answered questions how-an-election-night-should-come-out and proposed-balance-parameters-nobody-confirmed (A09) say how the outcome should be modeled but explicitly supply 'no newly researched empirical turnout/persuasion coefficients'. The field size is covered by state-legislative-seat-calendar-and-field; this question is only the magnitudes."
+}
