@@ -1,6 +1,8 @@
 ---
 id: a-private-goal-somebody-acts-on
 impact: minor
+section: Added
+title: People act on private goals of their own
 ---
 
 Before, every generated person in the world was given a private goal when the

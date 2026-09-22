@@ -1,6 +1,8 @@
 ---
 id: relationships-read-along-five-lines
 impact: minor
+section: Changed
+title: A relationship is read along five lines now, not one
 ---
 
 Before, every relationship the player had was one hidden sum of everything that
