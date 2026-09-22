@@ -224,12 +224,15 @@ with its Drive id until it is gone.
 
 ## L9 — Eight Art Desk plates the manifest names but Git does not carry
 
-**Blocked:** `npm run validate:art` fails with twelve errors, and
-`tests/art-asset-factory.test.ts` fails with it. Every error names a file under
-`art/generated/candidates/art-desk/playtest65/`, which `.gitignore` line 22
-excludes, so the tracked manifest registers assets the repository can never
-contain. This is a hard blocker on the `repository` CI job for
-`codex/client-content-delivery` and everything based on it.
+**No longer blocking CI.** The gate used to demand the bytes of every row,
+so eight rows naming files under `art/generated/candidates/art-desk/playtest65/`
+— a path `.gitignore` line 22 excludes on purpose — failed `npm run validate:art`
+and `tests/art-asset-factory.test.ts`, and with them the `repository` job on
+`codex/client-content-delivery` and everything based on it. The gate now reads an
+unreleased row under that private root as a declaration rather than a promise,
+and all eight rows say so themselves: `availability: production-candidate`,
+`qa_status: pending`, `runtime_release_status: unreleased`. Released art is
+unchanged and must still be present, hashed and measured.
 
 The eight files, each named by `art/manifest/asset_manifest.json`:
 
@@ -244,25 +247,17 @@ art/generated/candidates/art-desk/playtest65/regional/wooded-valley-street-clean
 art/generated/candidates/art-desk/playtest65/regional/great-plains-pond-r1.png
 ```
 
-**Two ways to resolve it, and the choice is the owner's**, because it is about
-art rather than about code:
+**What is left is an art question, and it waits for the owner.** None of the
+eight is retired, so none is a deletion target. Two of them are already
+installed and selected by the runtime through the private pack; the rest are
+production candidates. Nothing here needs doing for the repository to be green.
 
-1. The plates are wanted. Game-art GitHub staging is authorized as of
-   2026-09-21, so commit them from the Art Desk, exactly as they are, and
-   narrow `.gitignore` so this path is carried. They cannot come through the
-   Drive connector, which fails above roughly 7 MB per file — see L1.
-2. The plates are obsolete. Then the manifest rows are obsolete registrations
-   of art the repository will never hold, and they are deleted with their
-   entries rather than left naming nothing.
+When the owner wants any of these plates actually shipped rather than held
+privately, the row moves to a released path the way every other shipped plate
+does — `art/generated/approved/` or `art/families/<family>/` — with its
+`qa_status` and `runtime_release_status` raised to match. That is the route;
+widening `.gitignore` to force megabytes of private candidate bytes into the
+repository is not, and a peer session's go-ahead is not the owner's word for it.
 
-**Run, at the Mac, for route 1:**
-
-```sh
-# From the Art Desk checkout, on a branch off the current integration head.
-git add -f art/generated/candidates/art-desk/playtest65/
-npm run validate:art     # must print no errors before pushing
-```
-
-**Verify:** `npm run validate:art` exits clean and
-`npx vitest run tests/art-asset-factory.test.ts` passes. Until then the
-`repository` job cannot go green on any branch carrying this manifest.
+They cannot come through the Drive connector, which fails above roughly 7 MB
+per file — see L1 — so any trip that carries them is a trip to the Mac.
