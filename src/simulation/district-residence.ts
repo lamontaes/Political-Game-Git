@@ -193,6 +193,24 @@ export function recordedDistrictResidenceSince(
   onDate: IsoDate,
 ): IsoDate | null {
   return (
+    recordedDistrictMembership(world, personId, chamber, onDate)?.startedOn ??
+    null
+  );
+}
+
+/**
+ * The recorded membership itself, for a screen that has to say WHICH district
+ * a filing would be for. A seat is filed against a Gazetteer identity, so the
+ * interval's own binding is the only honest candidate to offer; everything
+ * else on the list is a district this person has not been recorded in.
+ */
+export function recordedDistrictMembership(
+  world: World,
+  personId: EntityId,
+  chamber: DistrictChamber,
+  onDate: IsoDate,
+): DistrictResidenceInterval | null {
+  return (
     districtResidenceIntervals(world)
       .filter(
         (interval) =>
@@ -202,8 +220,9 @@ export function recordedDistrictResidenceSince(
           interval.startedOn <= onDate &&
           (interval.endedOn === null || interval.endedOn > onDate),
       )
-      .sort((left, right) => left.startedOn.localeCompare(right.startedOn))[0]
-      ?.startedOn ?? null
+      .sort((left, right) =>
+        left.startedOn.localeCompare(right.startedOn),
+      )[0] ?? null
   );
 }
 
