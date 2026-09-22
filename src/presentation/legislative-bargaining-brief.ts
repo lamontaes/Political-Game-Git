@@ -178,6 +178,27 @@ function advocateHistoryRead(evidence: PriorWorkEvidence): string {
   }
 }
 
+/**
+ * What the advocate is pressing for, when the sitting was generated from a
+ * bill rather than authored.
+ *
+ * The authored reads below name Ashland because that sitting is about Ashland.
+ * A generated sitting is about whichever section the bill's own amendment
+ * invitation offers, and that invitation already carries its own beneficiary
+ * and section. Until this was passed through, every generated sitting in every
+ * state described its advocate as representing Ashland and wanting what
+ * Ashland needs — Kentucky's politics with the labels not even changed, which
+ * is exactly the fabrication this module refuses everywhere else.
+ *
+ * The labels are read, never composed: a beneficiary reads naturally after
+ * "for" in every registered configuration, which
+ * `legislative-bargaining-cast.test.ts` holds for the whole bank.
+ */
+export interface BargainingAdvocateCause {
+  readonly sectionLabel: string;
+  readonly beneficiaryLabel: string;
+}
+
 /** The reads a colleague walks in with, before anybody has said a word. */
 export function bargainingScenePeople(input: {
   readonly chamberName: string;
@@ -190,14 +211,30 @@ export function bargainingScenePeople(input: {
    * having worked with them, and the read never widens the one into the other.
    */
   readonly advocatePriorWork: PriorWorkEvidence;
+  /**
+   * Absent only on the authored Kentucky sitting, which is genuinely about
+   * Ashland. Every generated sitting supplies its own cause, so no sitting
+   * inherits a place its bill never mentions.
+   */
+  readonly cause?: BargainingAdvocateCause;
 }): readonly [RunBScenePersonContext, RunBScenePersonContext] {
+  const cause = input.cause;
   return [
     {
       personId: input.advocatePersonId,
       title: `Member, ${input.chamberName}`,
-      role: `Represents ${PLACE_LABEL} and the counties around it`,
+      role: cause
+        ? `Wants ${cause.sectionLabel} written for ${cause.beneficiaryLabel}`
+        : `Represents ${PLACE_LABEL} and the counties around it`,
       qualitativeRead: advocateHistoryRead(input.advocatePriorWork),
-      inferredRead: `Direct about what ${PLACE_LABEL} needs and unembarrassed about asking. You do not know how far they will go for it.`,
+      // The generated read says what it can stand behind. A place label in the
+      // bank may be a phrase rather than a town ("statewide", "the counties at
+      // the back of the queue"), so the inferred read carries the manner and
+      // leaves the specifics to the role line above, rather than bending a
+      // phrase into a sentence about what a town needs.
+      inferredRead: cause
+        ? "Direct about the ask and unembarrassed about making it. You do not know how far they will go for it."
+        : `Direct about what ${PLACE_LABEL} needs and unembarrassed about asking. You do not know how far they will go for it.`,
       anchorId: "primary-desk-chair",
       visualVariant: "primary",
     },

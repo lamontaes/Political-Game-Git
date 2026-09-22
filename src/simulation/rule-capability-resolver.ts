@@ -44,6 +44,8 @@ import {
 import {
   officeFamilyForChamberKey,
   officeQualification,
+  qualificationStateLabel,
+  stateName,
   type QualificationFieldName,
 } from "./office-qualification-rules";
 import type { IsoDate } from "./types";
@@ -301,7 +303,7 @@ function fromRuleSetValue(
           url: value.source.sourceUrl,
           artifactId: null,
         },
-        reason: `${value.source.legalLocator} was read and imposes no such requirement.`,
+        reason: "This office has no such requirement.",
       };
     default:
       return unknownField(field, value.reason);
@@ -387,12 +389,12 @@ function qualificationField(
       ruleVersion: `office-qualifications:${row.stateUsps}:${row.officeFamily}:${row.field}`,
       ...interval,
       source,
-      reason: `${row.citation} imposes no such requirement for this office.`,
+      reason: `${qualificationStateLabel(row)} imposes no such requirement for this office.`,
     };
   }
   return unknownField(
     field,
-    `${row.citation} was read but leaves this unresolved (${row.sourceState}).`,
+    `The game does not know whether ${qualificationStateLabel(row)} sets this for this office.`,
     { source },
   );
 }
@@ -435,13 +437,13 @@ function resolveStateField(
           }
         : unknownField(
             field,
-            `No accepted legislative rule pack has been compiled for US-${stateUsps}.`,
+            `The game does not have ${stateName(stateUsps)}'s legislative rules.`,
           );
     case "body.seats": {
       if (!pack) {
         return unknownField(
           field,
-          `No accepted legislative rule pack has been compiled for US-${stateUsps}.`,
+          `The game does not have ${stateName(stateUsps)}'s legislative rules.`,
         );
       }
       const chamberKey = officeKey?.split(":").at(-1) ?? null;
@@ -487,7 +489,7 @@ function resolveStateField(
           }
         : unknownField(
             field,
-            `No sourced term rule has been compiled for ${officeKey ?? "this office"}.`,
+            `The game does not know how long a term of this office runs.`,
           );
     }
     case "term.start": {
@@ -510,7 +512,7 @@ function resolveStateField(
           }
         : unknownField(
             field,
-            `No sourced term commencement rule has been compiled for ${officeKey ?? "this office"}.`,
+            `The game does not know when a term of this office begins.`,
           );
     }
     case "term.expiry": {
@@ -533,14 +535,14 @@ function resolveStateField(
           }
         : unknownField(
             field,
-            `A term's end follows from its length and start, and neither is compiled for ${officeKey ?? "this office"}.`,
+            `A term's end follows from its length and its start, and the game knows neither for this office.`,
           );
     }
     case "election.date":
     case "election.cycle":
       return unknownField(
         field,
-        `No regular election calendar for US-${stateUsps} has been compiled from an operative source; election timing in play is the game's authored calendar.`,
+        `The game does not have ${stateName(stateUsps)}'s regular election calendar; elections here run on the game's own calendar.`,
       );
     default:
       return unknownField(field, `${field} is not a state-scope field.`);
@@ -658,8 +660,8 @@ function resolveLocalField(
     unknownField(
       field,
       government
-        ? `${government.displayName}'s ${what} has not been compiled from enacted text.`
-        : `No enacted instrument for ${unit.name} (${unit.id}) has been compiled; its ${what} is not established.`,
+        ? `The game does not know ${government.displayName}'s ${what}.`
+        : `The game does not know ${unit.name}'s ${what}.`,
       inherited ? { inheritedDefault: inherited } : {},
     );
   const cite = (path: string) => {
@@ -808,7 +810,7 @@ export function resolveCapability(input: {
       officeKey,
       unit: null,
       fields: [],
-      refusal: `"${input.scope.governmentUnitId}" is not a general-purpose government in the 2025 Census Government Units listing.`,
+      refusal: `"${input.scope.governmentUnitId}" is not a general-purpose government the game knows.`,
     };
   }
   const fields = LOCAL_FIELDS.map((field) => resolveLocalField(field, unit));
