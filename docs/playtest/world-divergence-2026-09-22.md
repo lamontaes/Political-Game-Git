@@ -149,6 +149,21 @@ does not care who they are. **The missing piece is a producer that can open a
 matter about somebody who is not the player.** Filed as
 `what-opens-a-scandal-about-somebody-else`.
 
+**Narrower still, added 16:05Z.** There are two producers that open a matter,
+not one, and the second can never fire. `pressLedgerReviewHandler`
+(`matters.ts:495`) opens a matter at `:635` when a campaign's bookkeeper raises
+a concern about a ledger entry — but it finds that bookkeeper by walking
+`campaign.staffWorkRelationshipIds`, and **both filing routes in the game pass
+an empty staff list**: `presentation/nationwide-candidacy.ts:161` and
+`presentation/campaign-projection.ts:634` each pass `staffPersonIds: []`, and
+the only code that fills the list is the loop inside `fileCampaign` itself
+(`campaigns.ts:716`) which those empty inputs never enter. So the handler
+always ends on `press:no-one-reviewed-the-books`, for everybody, forever. The
+playtest lane found the staff-list defect from the campaign side and it is
+verified here from the press side. **One live producer remains**, and a scandal
+therefore additionally requires a rival's own decision to come out `file`
+against two considerations of equal weight.
+
 ## His three examples, answered
 
 **"A very popular president turning the South reliably Democratic."** Cannot
@@ -244,6 +259,34 @@ years from day one, no player action at any point. Seed `drift-A`, start
 The crisis figures accumulate steadily and linearly throughout, which is what a
 Poisson process at a fixed rate should look like, and is the strongest evidence
 that the hazard system is genuinely running rather than firing once at setup.
+
+### Reading the economy from the kernel, beside the screen
+
+The playtest lane walked four towns for a year and read the Macro conditions
+panel verbatim. This lane read the same projection from the kernel for the same
+four towns, through `projectMacroConditions`, one year each, seed `four-towns`.
+
+|                             | Bemidji MN | Galena IL | Chicago IL | Houston TX |
+| --------------------------- | ---------: | --------: | ---------: | ---------: |
+| real output growth, 2026-Q4 |      1.690 |     1.911 |      1.898 |      2.023 |
+| unemployment, 2026-12       |      4.894 |     5.979 |      5.543 |      4.580 |
+| housing ratio, 2026-12      |      1.010 |     1.284 |      1.003 |      1.092 |
+| consumer price inflation    |       none |      none |       none |       none |
+
+**What this does and does not establish.** It confirms the shape: every figure
+varies by place, and each is a real per-place series rather than one national
+number repeated. It does **not** confirm the values, because the two runs used
+different seeds, so the two tables are not comparable figure to figure and are
+not presented as agreeing. The cross-check that matters — the same seed read
+from the kernel and from the screen — is still owed, and is the one thing
+neither lane can do alone.
+
+**Confirmed independently from the kernel:** consumer price inflation has no
+value at all through the first year. The twelve-month change needs a month
+twelve months earlier to exist, which is correct arithmetic and the panel says
+so in its own words. The player-facing consequence is the finding: the creator
+tells a player inflation runs about 2.8% a year, and then the game shows them
+no inflation figure for over a year of play.
 
 ## What a divergence report should carry
 
