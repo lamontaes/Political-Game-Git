@@ -14,9 +14,6 @@ goes through each chamber and then to the voters at a November general
 election. If it is ratified, the next governor election follows the new
 limit.
 
-Governor elections now follow whichever term limit is actually in force,
-enacted or default, instead of a fixed two terms.
-
 Law now ranks by level: the federal Constitution, federal law, a state's
 constitution, state law, then local charters and ordinances. A higher level
 governs a lower one on the same rule. What the game does not model yet (home

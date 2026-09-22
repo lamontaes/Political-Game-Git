@@ -113,7 +113,8 @@ amendment to the governor's term limit only when a cause is on the record
 (the sitting governor is barred from another term, or has served three or
 more), rarely, and puts it through the legislature and then the voters by the
 same route a player's amendment takes. A ratified change is what the next
-governor election reads, through `governor-term-limit.ts`.
+governor election reads, through `executive-term-limits.ts`
+(`checkExecutiveTermLimit`), which the Nationwide government lane owns.
 
 Every cause, rate and margin there is a **placeholder**, not research: the
 owner has ruled out invented depth. They wait on

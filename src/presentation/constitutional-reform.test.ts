@@ -24,9 +24,10 @@ import {
 } from "../simulation/living-world/constitutional-reform";
 import { chiefExecutiveJurisdictionId } from "../simulation/nationwide-world/government-jurisdiction";
 import {
-  governorTermLimitInForce,
-  governorTermLimitReached,
-} from "../simulation/nationwide-world/governor-term-limit";
+  checkExecutiveTermLimit,
+  executiveTermLimitInWorld,
+} from "../simulation/nationwide-world/executive-term-limits";
+import { nextFilableStateExecutiveTerm } from "../simulation/nationwide-world/state-executive-turnover-calendar";
 import { currentStateExecutiveHolders } from "../simulation/nationwide-world/state-executives";
 import type { FutureDueItem, World } from "../simulation/types";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -159,21 +160,22 @@ describe("a state amending its governor's term limit on its own", () => {
       )!;
       expect(governor).toBeDefined();
       const limited = ratifyOneTermLimit(opened);
+      const nextTerm = nextFilableStateExecutiveTerm(limited, "NE")!;
+      // Nebraska's own limit before the amendment is its sourced two.
       expect(
-        governorTermLimitInForce(limited, "NE", limited.currentDate),
-      ).toMatchObject({
-        basis: "enacted",
-        limit: { maxConsecutiveTerms: 1 },
-      });
-      // The governor's election now reads the enacted limit, not the profile's two.
+        executiveTermLimitInWorld(opened, "NE", nextTerm.startsAt),
+      ).toMatchObject({ basis: "sourced", limit: { maxConsecutiveTerms: 2 } });
       expect(
-        governorTermLimitReached(
-          limited,
-          governor.personId,
-          "NE",
-          limited.currentDate,
-        ),
-      ).toBe(true);
+        executiveTermLimitInWorld(limited, "NE", nextTerm.startsAt),
+      ).toMatchObject({ basis: "enacted", limit: { maxConsecutiveTerms: 1 } });
+      // The governor's next election now reads the enacted limit.
+      expect(
+        checkExecutiveTermLimit(limited, {
+          stateUsps: "NE",
+          personId: governor.personId,
+          termStartsAt: nextTerm.startsAt,
+        })!.barredReason,
+      ).not.toBeNull();
       expect(reformCause(limited, "NE")).toMatchObject({ direction: "extend" });
 
       // Rare: across two hundred qualifying years, only a few produce a proposal.
@@ -242,7 +244,7 @@ describe("a state amending its governor's term limit on its own", () => {
       expect(["operative", "rejected"]).toContain(outcome);
       if (outcome === "operative")
         expect(
-          governorTermLimitInForce(decided, "NE", ballot.dueAt).limit,
+          executiveTermLimitInWorld(decided, "NE", ballot.dueAt)!.limit,
         ).toMatchObject({ maxConsecutiveTerms: 2 });
       const saved = deserializeWorld(serializeWorld(decided));
       expect(saved.history.constitutionalMeasures).toEqual(

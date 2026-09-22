@@ -13,6 +13,12 @@ import {
 } from "../presentation/economic-graphs";
 export { LEXINGTON_ECONOMIC_BINDING } from "../presentation/economic-context-bindings";
 import { proseDate } from "../presentation/prose-dates";
+import {
+  carriedLocalFigureLine,
+  carriedLocalFigures,
+} from "../presentation/local-economy-carried";
+import type { CarriedLocalFigure } from "../presentation/local-economy-carried";
+import type { World } from "../simulation";
 import "./economic-context-panel.css";
 
 const DEFAULT_PROVIDER = createEconomicContextBrowserProvider();
@@ -35,6 +41,13 @@ interface EconomicContextPanelProps {
    * information and are shown either way.
    */
   readonly diagnostics?: boolean;
+  /**
+   * The world and the home jurisdiction, when the caller has them: after the
+   * last real edition the panel then also shows where the world's own economy
+   * has taken the town's rent, income and unemployment.
+   */
+  readonly world?: World;
+  readonly jurisdictionId?: string;
 }
 
 type LoadState =
@@ -51,6 +64,8 @@ export function EconomicContextPanel({
   provider = DEFAULT_PROVIDER,
   fiscalGraphs = [],
   diagnostics = false,
+  world,
+  jurisdictionId,
 }: EconomicContextPanelProps) {
   const [state, setState] = useState<LoadState>({ status: "loading" });
 
@@ -112,6 +127,11 @@ export function EconomicContextPanel({
       context={state.context}
       fiscalGraphs={fiscalGraphs}
       diagnostics={diagnostics}
+      carried={
+        world && jurisdictionId
+          ? carriedLocalFigures(world, jurisdictionId, state.context)
+          : []
+      }
     />
   );
 }
@@ -120,10 +140,12 @@ export function EconomicContextView({
   context,
   fiscalGraphs = [],
   diagnostics = false,
+  carried = [],
 }: {
   readonly context: BrowserEconomicContextResult;
   readonly fiscalGraphs?: readonly EconomicGraphModel[];
   readonly diagnostics?: boolean;
+  readonly carried?: readonly CarriedLocalFigure[];
 }) {
   const collection = useMemo(
     () => economicObservationGraphs(context),
@@ -192,6 +214,26 @@ export function EconomicContextView({
             </li>
           ))}
       </ul>
+
+      {carried.length > 0 ? (
+        <section
+          className="economic-carried"
+          aria-label="Since the last published figures"
+          data-testid="economic-carried"
+        >
+          <h3>Since the last published figures</h3>
+          <p className="game-note">
+            No newer figures have been published in this world, so these follow
+            its own economy: prices, output and jobs since then. They are this
+            world&apos;s conditions, not an agency&apos;s release.
+          </p>
+          <ul>
+            {carried.map((figure) => (
+              <li key={figure.key}>{carriedLocalFigureLine(figure)}</li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       {graphs.length > 0 ? (
         <div className="economic-graph-grid">

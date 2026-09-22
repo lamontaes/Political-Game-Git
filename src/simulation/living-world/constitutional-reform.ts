@@ -8,7 +8,10 @@ import {
   stateAmendmentProfile,
 } from "../constitutional-process";
 import { addDays, makeIsoDate } from "../dates";
-import type { TermLimitRule } from "../enacted-rule-changes";
+import {
+  describeRuleChangeValue,
+  type TermLimitRule,
+} from "../enacted-rule-changes";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { dispositionsFromCounts } from "../legislation-scenarios";
 import { SeededRng } from "../rng";
@@ -20,11 +23,8 @@ import type {
   World,
 } from "../types";
 import { chiefExecutiveJurisdictionId } from "../nationwide-world/government-jurisdiction";
-import {
-  governorTermLimitInForce,
-  termsAllowed,
-  termsCountingAgainstLimit,
-} from "../nationwide-world/governor-term-limit";
+import { checkExecutiveTermLimit } from "../nationwide-world/executive-term-limits";
+import { nextFilableStateExecutiveTerm } from "../nationwide-world/state-executive-turnover-calendar";
 import { CHIEF_EXECUTIVE_JURISDICTIONS } from "../nationwide-world/state-executive-candidacy-packs";
 import {
   currentStateExecutiveHolders,
@@ -37,7 +37,7 @@ import {
  * governor's term limit on their own, with no player involved, through the
  * same amendment route a player's proposal takes (`constitutional-process.ts`)
  * and the same enacted-rule layer every reader of the rule consults
- * (`enacted-rule-changes.ts`, `governor-term-limit.ts`).
+ * (`enacted-rule-changes.ts`, `executive-term-limits.ts`).
  *
  * Once a year each governorship the World has materialized is reviewed. A
  * proposal is considered only when a cause is on the record; the legislature
@@ -180,7 +180,18 @@ export function applyConstitutionalReform(
   return next;
 }
 
-/** The cause on the record for a proposal this year, if any. Placeholder. */
+function lowestCap(limit: TermLimitRule | null): number | null {
+  const caps = [limit?.maxConsecutiveTerms, limit?.maxLifetimeTerms].filter(
+    (cap): cap is number => typeof cap === "number",
+  );
+  return caps.length ? Math.min(...caps) : null;
+}
+
+/**
+ * The cause on the record for a proposal this year, if any, judged against
+ * the limit that governs the next term the sitting governor could seek.
+ * Placeholder.
+ */
 export function reformCause(
   world: World,
   stateUsps: string,
@@ -196,18 +207,19 @@ export function reformCause(
     world.control.personId === holder.personId
   )
     return null;
-  const today = world.currentDate;
-  const inForce = governorTermLimitInForce(world, stateUsps, today);
-  const allowed = termsAllowed(inForce.limit);
-  const served = termsCountingAgainstLimit(
-    world,
-    holder.personId,
+  const term = nextFilableStateExecutiveTerm(world, stateUsps);
+  if (!term) return null;
+  const check = checkExecutiveTermLimit(world, {
     stateUsps,
-    today,
-  );
+    personId: holder.personId,
+    termStartsAt: term.startsAt,
+  });
+  if (!check) return null;
+  const rule = check.limit.limit;
+  const allowed = lowestCap(rule);
   const profile = CONSTITUTIONAL_REFORM_PROFILE;
   if (
-    served >= profile.longTenureTerms &&
+    check.consecutiveTerms >= profile.longTenureTerms &&
     (allowed === null || allowed > profile.restoredLimit)
   )
     return {
@@ -218,23 +230,27 @@ export function reformCause(
         maxLifetimeTerms: null,
         lookbackYears: null,
       },
-      reason: `the sitting governor has served ${served} terms`,
+      reason: `the sitting governor has served ${check.consecutiveTerms} terms in a row`,
     };
   if (
+    rule !== null &&
     allowed !== null &&
-    served >= allowed &&
+    check.barredReason !== null &&
     allowed < profile.highestExtendedLimit
-  )
+  ) {
+    // Raise whichever cap bars the governor, by one.
+    const consecutiveBars =
+      rule.maxConsecutiveTerms !== null &&
+      check.consecutiveTerms >= rule.maxConsecutiveTerms;
     return {
       direction: "extend",
       holderPersonId: holder.personId,
-      value: {
-        maxConsecutiveTerms: allowed + 1,
-        maxLifetimeTerms: null,
-        lookbackYears: null,
-      },
-      reason: `the sitting governor is barred from another term under the limit of ${allowed}`,
+      value: consecutiveBars
+        ? { ...rule, maxConsecutiveTerms: rule.maxConsecutiveTerms! + 1 }
+        : { ...rule, maxLifetimeTerms: rule.maxLifetimeTerms! + 1 },
+      reason: "the sitting governor is barred from another term",
     };
+  }
   return null;
 }
 
@@ -337,7 +353,6 @@ function proposeAndVote(
   const office = stateExecutiveOffice(stateUsps)!;
   const stateId = chiefExecutiveJurisdictionId(stateUsps)!;
   const stateName = world.jurisdictions[stateId]?.name ?? stateUsps;
-  const terms = cause.value.maxConsecutiveTerms!;
   const key = measureKey(stateUsps, year);
   let next = proposeConstitutionalMeasure(world, {
     stableKey: key,
@@ -346,7 +361,7 @@ function proposeAndVote(
     processKind: "state-amendment",
     designation: `Proposed Amendment (${year})`,
     shortTitle: "The governor's term limit",
-    text: `No person shall be elected Governor of ${stateName} for more than ${terms} consecutive terms.`,
+    text: `The Governor of ${stateName} may serve no more than ${describeRuleChangeValue(cause.value)}.`,
     textVersion: "v1",
     sponsoringAuthority: `The ${stateName} Legislature`,
     sponsorPersonId: null,
