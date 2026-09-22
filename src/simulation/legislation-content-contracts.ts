@@ -611,6 +611,20 @@ export interface ProgramVariant {
   readonly amendmentInvitation: AmendmentInvitation;
   /** What this configuration does NOT do, said plainly. */
   readonly declaredLimits: readonly string[];
+  /**
+   * The catalogue questions a bill of this configuration is about, as
+   * qualified policy keys (`pack:key`).
+   *
+   * Per variant, not per family: the transit family's fare relief is a bill
+   * about whether transit should be free to ride, and its formula extension to
+   * unserved counties is not. Claims only "this bill is about this question",
+   * never which way it answers it — see `LegislativeMeasureRecord.propositionIds`.
+   *
+   * Omitted where no shipped question fits. An honest gap is better than a
+   * link to the nearest-sounding question, which would put a bill in front of
+   * every character holding a view on something the bill does not decide.
+   */
+  readonly propositionKeys?: readonly string[];
 }
 
 export interface ProgramFamily {
