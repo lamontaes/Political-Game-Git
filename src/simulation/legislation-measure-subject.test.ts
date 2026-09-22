@@ -10,6 +10,7 @@ import {
   introduceMeasure,
   measurePropositions,
 } from "./index";
+import { createProductionPolicyCatalog } from "./production-catalog";
 import type { EntityId, World } from "./index";
 
 const JURISDICTION = KENTUCKY_CONTEXT.jurisdiction.id;
@@ -145,5 +146,60 @@ describe("what a bill says it is about", () => {
     };
     expect(measurePropositions(older, measureId)).toEqual([]);
     expect(() => assertWorldIntegrity(older)).not.toThrow();
+  });
+
+  /**
+   * The two halves meeting on shipped content rather than on a splice.
+   *
+   * Every test above builds its own proposition, which proves the link and
+   * says nothing about whether anything real is on the other end of it. When
+   * this join was first written the production catalogue held zero
+   * propositions, so a bill could name a policy question and there was no
+   * question in the game to name. This is the assertion that would have said
+   * so, and that will say so again if the pack ever empties.
+   */
+  it("links a bill to a position the game actually ships", () => {
+    const shipped = createProductionPolicyCatalog();
+    expect(shipped.propositionOrder.length).toBeGreaterThan(0);
+
+    const propositionId = shipped.propositionOrder[0]!;
+    const proposition = shipped.propositions[propositionId]!;
+    // The position hangs off a real issue in a real domain, so what the bill
+    // ends up naming is the vocabulary a player would recognise and not a
+    // loose string.
+    const issue = shipped.issues[proposition.issueId];
+    expect(issue).toBeDefined();
+    expect(shipped.domains[issue!.domainId]).toBeDefined();
+
+    // Added to the scenario's catalogue rather than replacing it: the
+    // scenario's own records already point at what is in there, and swapping
+    // the whole catalogue would strand those references.
+    const scenario = createLegislativeScenario("kentucky");
+    const base = scenario.world.policyCatalog;
+    const world = introduce(
+      {
+        ...scenario.world,
+        policyCatalog: {
+          ...base,
+          domains: {
+            ...base.domains,
+            [issue!.domainId]: shipped.domains[issue!.domainId]!,
+          },
+          domainOrder: [...base.domainOrder, issue!.domainId],
+          issues: { ...base.issues, [issue!.id]: issue! },
+          issueOrder: [...base.issueOrder, issue!.id],
+          propositions: { ...base.propositions, [propositionId]: proposition },
+          propositionOrder: [...base.propositionOrder, propositionId],
+        },
+      },
+      "shipped",
+      [propositionId],
+    );
+    const linked = measurePropositions(
+      world,
+      measureByKey(world, "shipped").id,
+    );
+    expect(linked.map((row) => row.stableKey)).toEqual([proposition.stableKey]);
+    expect(() => assertWorldIntegrity(world)).not.toThrow();
   });
 });

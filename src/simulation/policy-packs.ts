@@ -21,11 +21,11 @@ import type {
  *
  * The bill lifecycle underneath this is the deepest thing in the repository —
  * committee, floor, crossing, veto and override are all genuinely enforced —
- * and a new world ships with nothing for it to be about: no domains, no
- * issues, no propositions, no subjects, no principles. That emptiness is
- * deliberate and correct (`production-catalog.ts` explains why an empty catalog
- * is the honest state), but it means the content, when it arrives, must arrive
- * as something that can be dropped in rather than compiled in.
+ * and for a long time a new world shipped with nothing for it to be about: no
+ * domains, no issues, no propositions, no subjects, no principles. That
+ * emptiness was deliberate and correct (`production-catalog.ts` explains why an
+ * empty catalog is the honest state), and it meant the content, when it
+ * arrived, had to arrive as something dropped in rather than compiled in.
  *
  * This is the schema and the loader for dropping it in. It is deliberately the
  * same shape as `trait-packs.ts`, because a modder who has written one should
@@ -34,10 +34,13 @@ import type {
  * not resolve rejected by name with its reason rather than ignored at play
  * time, where a row matching nothing looks exactly like a row doing its job.
  *
- * **Nothing here is content.** No pack ships in this change. A build that loads
- * no packs produces the empty catalog it produces today, which is what keeps
- * this safe to land before anybody has decided what the game's politics are
- * about.
+ * **Nothing here is content**, and that is still true of this file: it is the
+ * schema and the loader, and a build that loads no packs still produces the
+ * empty catalog. Content now exists and arrives through it —
+ * `us-state-and-local` carries the sourced issue vocabulary and
+ * `us-policy-positions` the authored stances on it — but it lives in packs,
+ * which is the whole point. Removing them from the registry empties the
+ * catalog again without touching a line here.
  */
 
 /* -------------------------------------------------------------------------- */

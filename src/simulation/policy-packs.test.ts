@@ -31,10 +31,34 @@ describe("what a build ships with", () => {
     expect(registry.report.rejections).toEqual([]);
   });
 
-  it("ships no propositions, subjects or principles, because nothing decides those yet", () => {
-    expect(catalog.propositionOrder).toEqual([]);
+  it("ships positions a person can hold, and still no subjects or principles", () => {
+    // Propositions are what a player can actually see. Every player-facing
+    // reader of the catalog reads propositions — the political profile screen
+    // and the journal — and none reads domains or issues, so a vocabulary
+    // without these reaches nobody.
+    expect(catalog.propositionOrder.length).toBeGreaterThan(50);
+    for (const id of catalog.propositionOrder) {
+      const proposition = catalog.propositions[id]!;
+      // A position, put as a question a person can agree or disagree with.
+      // Direction lives in the answer, not in the proposition.
+      expect(proposition.question.endsWith("?")).toBe(true);
+      expect(catalog.issues[proposition.issueId]).toBeDefined();
+    }
+    // Still nothing here, and the emptiness is the honest answer: no
+    // knowledge subject or political principle has been established.
     expect(catalog.subjectOrder).toEqual([]);
     expect(catalog.principleOrder).toEqual([]);
+  });
+
+  it("puts a position in every domain, so no domain is a heading with nothing under it", () => {
+    const domainsWithPropositions = new Set(
+      catalog.propositionOrder.map(
+        (id) => catalog.issues[catalog.propositions[id]!.issueId]!.domainId,
+      ),
+    );
+    for (const domain of registry.domains) {
+      expect(domainsWithPropositions.has(domain.id)).toBe(true);
+    }
   });
 
   it("leaves no domain without a question in it", () => {
@@ -44,8 +68,9 @@ describe("what a build ships with", () => {
     for (const domain of registry.domains) {
       expect(domainsWithIssues.has(domain.id)).toBe(true);
     }
-    // Every issue is reported unused, because this pack ships no
-    // propositions. No domain is, which is the part that would be a defect.
+    // An issue with no proposition on it is reported unused, which is fair:
+    // not every one has a position authored yet. No DOMAIN is, which is the
+    // part that would be a defect.
     const unused = new Set(registry.report.packs[0]?.registeredButUnused ?? []);
     for (const domain of registry.domains) {
       expect(unused.has(domain.stableKey)).toBe(false);
