@@ -1,3 +1,4 @@
+import { governmentUnitDisplayName } from "./government-unit-names";
 import {
   GOVERNMENT_UNITS_META,
   PLACE_COUNTY_RELATIONS_META,
@@ -137,25 +138,11 @@ export function homeLocalGovernmentUnits(
   };
 }
 
-const LOWERCASE_WORDS = new Set(["of", "the", "and", "de", "la", "du"]);
-
-/** The publisher's own name, in ordinary capitals; no words are added or dropped. */
+/** The unit's name as people write it; see `governmentUnitDisplayName`. */
 export function localGovernmentDisplayName(
   unit: GovernmentUnitIdentity,
 ): string {
-  return unit.name
-    .toLowerCase()
-    .split(" ")
-    .map((word, index) =>
-      index > 0 && LOWERCASE_WORDS.has(word)
-        ? word
-        : word.replace(
-            /(^|[-'(])([a-z])/g,
-            (_, lead: string, letter: string) =>
-              `${lead}${letter.toUpperCase()}`,
-          ),
-    )
-    .join(" ");
+  return governmentUnitDisplayName(unit);
 }
 
 export function localGovernmentOrganizationKey(

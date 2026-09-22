@@ -32,7 +32,10 @@ import {
 } from "./campaign-queries";
 import { recordSupportShift } from "./campaign-support";
 import { GAME_ADULT_CANDIDACY_AGE } from "./candidacy-packs";
-import { candidacyAuthority } from "./candidacy";
+import {
+  candidacyAuthority,
+  electiveOfficesForJurisdiction,
+} from "./candidacy";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
@@ -1010,14 +1013,20 @@ export function projectCampaignGuidance(
   const person = world.people[personId];
   if (!person) throw new Error("That person is not in this world.");
   const authority = candidacyAuthority(person.homeJurisdictionId);
-  const offices = (authority.pack?.offices ?? []).map((option) => ({
-    officeKey: option.officeKey,
-    chamberName: option.chamberName,
-    minimumAge: guidanceValue(option.qualification.minimumAge),
-    residency: guidanceValue(option.qualification.residency),
-    termYears: guidanceValue(option.qualification.termYears),
-    filing: guidanceValue(option.qualification.filing),
-  }));
+  // Every office this place offers, the town's own governing body included,
+  // so the advice matches the office list on Campaigns. Reading only the
+  // state's pack told an Eastport, Maine resident no office was known while
+  // the town council was open to file for.
+  const offices = electiveOfficesForJurisdiction(person.homeJurisdictionId).map(
+    (option) => ({
+      officeKey: option.officeKey,
+      chamberName: option.chamberName,
+      minimumAge: guidanceValue(option.qualification.minimumAge),
+      residency: guidanceValue(option.qualification.residency),
+      termYears: guidanceValue(option.qualification.termYears),
+      filing: guidanceValue(option.qualification.filing),
+    }),
+  );
   return {
     personId,
     jurisdictionId: person.homeJurisdictionId,

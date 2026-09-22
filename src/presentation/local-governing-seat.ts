@@ -118,7 +118,7 @@ export function townSeatRulesSentence(
     sentences.push(
       `The game has not read ${
         read.length > 0 ? "the rest" : "how this body is made up"
-      }, so it gives it ${typical.join(" and ")}, as the councils it has read typically have.`,
+      }, so it gives it ${typical.join(" and ")}, as town councils across the country commonly have.`,
     );
   return sentences.length > 0 ? sentences.join(" ") : null;
 }

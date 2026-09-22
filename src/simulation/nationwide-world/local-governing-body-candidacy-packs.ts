@@ -1,3 +1,4 @@
+import { governmentUnitDisplayName } from "./government-unit-names";
 import { governmentUnit } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
 import { unknownRule } from "../legislature-rules";
@@ -46,24 +47,7 @@ export interface LocalGoverningBodyIdentity {
   readonly bodyName: string;
 }
 
-const LOWERCASE_WORDS = new Set(["of", "the", "and", "de", "la", "du"]);
-
-/** Same casing rule as `localGovernmentDisplayName`, kept leaf-local. */
-function displayName(unit: GovernmentUnitIdentity): string {
-  return unit.name
-    .toLowerCase()
-    .split(" ")
-    .map((word, index) =>
-      index > 0 && LOWERCASE_WORDS.has(word)
-        ? word
-        : word.replace(
-            /(^|[-'(])([a-z])/g,
-            (_, lead: string, letter: string) =>
-              `${lead}${letter.toUpperCase()}`,
-          ),
-    )
-    .join(" ");
-}
+const displayName = governmentUnitDisplayName;
 
 /**
  * The governing body of one municipal government, or null for anything that
