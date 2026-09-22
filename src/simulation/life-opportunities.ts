@@ -1411,6 +1411,10 @@ function communityMemberIds(
  * asking this person anything, and somebody who never has goes first; ties go
  * to the world's order. That is read from the asks already written, so the same
  * world always picks the same person and the next ask moves on.
+ *
+ * Nobody who has died asks anything. Every pool here is read from records that
+ * outlast a life — kinship, a household, old interactions — so this is the one
+ * place that sees them all and the one place that says so.
  */
 export function askerChooser(world: World, personId: EntityId) {
   const lastAsked = new Map<EntityId, number>();
@@ -1425,8 +1429,13 @@ export function askerChooser(world: World, personId: EntityId) {
   return (current: World, pool: readonly EntityId[]): EntityId | null => {
     let chosen: EntityId | null = null;
     let chosenAt = Infinity;
+    const dead = new Set(
+      current.history.personDeaths
+        .filter((death) => death.diedAt <= current.currentDate)
+        .map((death) => death.personId),
+    );
     for (const candidate of current.personOrder) {
-      if (!pool.includes(candidate)) continue;
+      if (!pool.includes(candidate) || dead.has(candidate)) continue;
       const at = lastAsked.get(candidate) ?? -1;
       if (at < chosenAt) {
         chosen = candidate;

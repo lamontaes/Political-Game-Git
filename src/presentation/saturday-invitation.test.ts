@@ -7,6 +7,7 @@ import {
   refreshLifeOpportunities,
 } from "../simulation/life-opportunities";
 import { personName } from "../simulation/people";
+import { recordPersonDeath } from "../simulation/vitality";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { scheduledActivityState } from "../simulation/time-work";
 import type { EntityId, World } from "../simulation/types";
@@ -236,5 +237,17 @@ describe("who asks", () => {
     expect(choose(world, [second!, first!])).toBe(first);
     // And the one who asked is still chosen when nobody else could.
     expect(choose(world, [askedLast])).toBe(askedLast);
+    // Unless they have since died, when nobody is.
+    const died = recordPersonDeath(world, {
+      stableKey: `saturday:death:${askedLast}`,
+      personId: askedLast,
+      diedAt: world.currentDate,
+      causeKey: "cause:saturday-fixture",
+      sourceEntityIds: [world.id],
+      summary: "Died; the cause is not recorded.",
+      provenance: { kind: "authored", note: "Saturday invitation fixture." },
+    });
+    expect(choose(died, [askedLast])).toBeNull();
+    expect(choose(died, [askedLast, first!])).toBe(first);
   });
 });
