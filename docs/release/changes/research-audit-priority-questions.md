@@ -3,14 +3,16 @@ id: research-audit-priority-questions
 impact: none
 ---
 
-File seven research questions raised by the priority audit into the research
-queue: trait prevalence and per-person count, relationship dimensions and
-fading, private goal pursuit, long-life memory consolidation, the policy issue
-taxonomy, caucus and coalition formation, and facial expression derivation.
+File the research questions raised by the priority audit into the queue:
+relationship dimensions and fading, private goal pursuit, long-life memory
+consolidation, the policy issue taxonomy, caucus and coalition formation, and
+facial expression derivation. Narrow the legislative ethics question to the 27
+states nobody has answered.
 
-An eighth, the content pack effect vocabulary, was dropped on merge: the
-hardcoded-content audit lane had filed the same question id twenty-four minutes
-earlier from a measured pack round-trip, and its record is kept.
+Two of the eight originally filed were withdrawn in favour of another lane's
+record on the same ground: the content pack effect vocabulary, which the
+hardcoded-content audit lane filed first from a measured pack round-trip, and
+the trait count, which the transcripts lane filed as person-starting-trait-count.
 
 Records only. No runtime, schema, renderer, release version or human-acceptance
 change.
