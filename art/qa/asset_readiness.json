@@ -39,13 +39,34 @@
     "person-adult-body-silhouette-reexport",
     "person-adult-lectern-pose",
     "person-production-seated-body",
-    "person-production-standing-body"
+    "person-production-standing-body",
+    "seated-chair-separation-hand-pass"
   ],
   "stillRequired": [
+    "economic-graph-panel-ground",
     "env-neighborhood-doorstep-generic",
     "env-park-community-pavilion-winter-variant",
+    "env-state-capitol-california",
+    "env-state-capitol-kentucky",
+    "env-state-capitol-minnesota",
+    "env-state-capitol-nebraska",
+    "env-state-capitol-new-mexico",
+    "env-state-capitol-new-york",
+    "env-state-capitol-north-dakota",
+    "env-state-capitol-tennessee",
+    "env-state-capitol-texas",
+    "env-state-capitol-virginia",
+    "guide-popover-card-ground",
     "mask-hearing-room-public-seating",
-    "person-child-body-morphology"
+    "person-child-body-morphology",
+    "politics-hub-tab-band",
+    "room-papers-on-a-table",
+    "ui-chamber-vote-margin-graph",
+    "ui-masthead-ornaments-four-families",
+    "ui-newspaper-page-furniture",
+    "ui-no-candidacy-refusal-panel",
+    "ui-shell-reference-icons",
+    "ui-temperament-marks-ten-poles"
   ],
   "linkedPreservedUnits": [
     "family:additional-fat-female-pose",
