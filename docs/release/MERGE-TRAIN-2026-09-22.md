@@ -118,10 +118,34 @@ run-level `status` field is no help in telling those apart, since it reads
 
 ## What to say about main, and what not to say
 
-**The sentence for the report is: main is merged and its unit suite is clean.
-Not "main is green."** The difference is not pedantry and it is not modesty.
-It is the difference between a claim that survives being checked and one that
-does not, and anyone can check this one by opening the Actions tab.
+**The sentence for the report is: main is merged, and of its unit suite one
+shard of six reported green, one reported the failure that #333 then fixed,
+and four never ran. Not "main is green," and not "its unit suite is clean"
+either.**
+
+That second phrasing was mine, written at 08:09Z, and it was an overclaim. I
+am correcting it here rather than quietly, because it is the same mistake this
+very section exists to prevent, and catching it in my own sentence is the only
+evidence that the rule is doing any work.
+
+What is actually on the record, all on `7fc33c85`:
+
+- `repository` — green.
+- `unit (1, 6)` — green.
+- `unit (2, 6)` — **red**, one test of 1197. That is the failure #333 fixed.
+- `unit (3, 6)` through `unit (6, 6)` — **never started.** Still queued forty
+  minutes after the run was created, because the browser shards took every
+  free slot ahead of them.
+- `browser (6, 8)` — nine failures, all pre-existing (see below).
+
+So **no CI run has ever reported a green `unit (2, 6)` on main.** #333's fix
+rests on local evidence: the failure reproduced first, then the same test
+passing, with the neighbouring suites green. That is good evidence and it is
+not a CI verdict, and the report should not let the two blur together.
+
+The difference is not pedantry and it is not modesty. It is the difference
+between a claim that survives being checked and one that does not, and anyone
+can check this one by opening the Actions tab.
 
 Main's own browser suite is failing. Measured on `7fc33c85`, `browser (6, 8)`
 returned **9 failed, 54 passed** in fourteen minutes:
