@@ -152,6 +152,17 @@ Three of the largest things measured tonight turn out to be the same shape.
 In each case the engineering is done or nearly done, and what is missing is
 content or a surface. **Our reading is that this project's gap is not depth.**
 
+**They are the same shape and not the same fault, and the difference matters.**
+The catalogue is a question genuinely open in both directions:
+`assertProductionCatalogBoundary` enforces the emptiness on purpose, so it is a
+designed state, and nobody has ever agreed what a first catalogue should hold.
+The other two are decisions already made and not carried out — the rule for
+unresearched jurisdictions was stated and never built, and the pack system was
+built and the one screen that shows temperament was never updated to read it.
+So one of the three is an open question and two are unfinished follow-through.
+Flattening them would read as three failures, and that would be wrong about the
+catalogue.
+
 That is a different diagnosis from the one the work has been running on, and if
 it is right it changes what the next stretch should be spent on. It is three
 measured instances rather than a slogan, and it is still a reading: one of them
@@ -396,6 +407,17 @@ is not researched twice.
   this project has made in twenty-four hours: requiring a citation is not
   bookkeeping, it is the step that forces somebody to open the line. Three
   retractions tonight were caught exactly that way and no other.
+- **A gate result is a fact about the tree it ran against, and an edit after it
+  invalidates it.** A lane pushed a commit that failed lint having genuinely run
+  lint — in the background, and then kept editing, so the clean result belonged
+  to a head that was never pushed. The same lane had regenerated the prose
+  report before its last edit rather than after it an hour earlier and did not
+  recognise it as the same mistake. This lane did it too: lint was left running
+  across a merge that changed 1,655 files underneath it, and the run had to be
+  killed and repeated against the committed tree. Run the gates last, after the
+  final edit, never alongside more editing. It is "name the branch in any claim
+  about code" applied to time instead of to branches, and it caught two
+  different gates and three lanes in one night.
 - **Two line numbers for one function is how the wrong one gets quoted back.**
   The empty policy catalogue was measured twice in this document, in two
   sections written hours apart, and the two citations for
