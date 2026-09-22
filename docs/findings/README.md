@@ -32,3 +32,7 @@ questions in `docs/research/requests/`, and binding product choices in
 - [The prose gate was failing on clean main, and it blocked everything](2026-09-22-prose-gate-red-on-main.md)
   — one stale sentence anchor, measured both ways, blocking every branch that
   added a file.
+- [What the priority audit measured](2026-09-22-priority-audit-findings.md)
+  — four systems recorded as never started are built and reachable, a finished
+  bill lifecycle with an empty policy catalogue to be about, research already
+  paid for and not yet read by anything, and why the CI queue could not drain.
