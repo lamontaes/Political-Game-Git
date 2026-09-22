@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 3139 |
 | INTENTIONALLY_NON_PLAYER_FACING | 7203 |
-| DIAGNOSTIC_OR_TEST | 8156 |
-| **NEEDS_CLASSIFICATION** | **10671** |
+| DIAGNOSTIC_OR_TEST | 8163 |
+| **NEEDS_CLASSIFICATION** | **10675** |
 
-Scanned 1201 files holding 115232 string
+Scanned 1202 files holding 115267 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -41,7 +41,7 @@ literals in total; the table counts only those that read like a sentence.
 | 220 | `src/simulation/press/state-ethics-bodies.ts` |
 | 214 | `src/simulation/executive-authority-rule-packs.ts` |
 | 199 | `src/simulation/legislation-service-families.ts` |
-| 148 | `src/player/PlayerGame.tsx` |
+| 151 | `src/player/PlayerGame.tsx` |
 | 128 | `src/simulation/legislation.ts` |
 | 121 | `src/ui/ArtDeskView.tsx` |
 | 119 | `src/simulation/opening-life-content.ts` |
@@ -410,6 +410,7 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/player/WardrobeFigure.tsx` |
 | 4 | `src/player/politics/GovernmentBrowser.tsx` |
 | 4 | `src/player/politics/PublicServicePanel.tsx` |
+| 4 | `src/presentation/art-preview.ts` |
 | 4 | `src/presentation/browser-shell-state.ts` |
 | 4 | `src/presentation/complete-outfit.ts` |
 | 4 | `src/presentation/creator-hometown-page.ts` |
@@ -435,7 +436,6 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/player/ExecutiveWorkWorkspace.tsx` |
 | 3 | `src/player/JudicialOfficeWork.tsx` |
 | 3 | `src/player/PartyChapterSurface.tsx` |
-| 3 | `src/presentation/art-preview.ts` |
 | 3 | `src/presentation/calendar-campaign-life.ts` |
 | 3 | `src/presentation/campaign-life-actions.ts` |
 | 3 | `src/presentation/legislation-bundle-composition.ts` |

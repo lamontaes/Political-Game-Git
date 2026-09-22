@@ -9,8 +9,11 @@ else is settled and built.
 _Written for the owner, in the words it was put to him. Everything below this
 section is the working detail behind it._
 
-Personality is now packs of data rather than five traits written into the code,
-so a sixth can be added without touching TypeScript. Your own character has
+Personality is now packs of data rather than five traits written into the code.
+**A mod still cannot add a trait** — see section 0b, which corrects what an
+earlier version of this line said. What changed is the shape: a trait is a
+validated row rather than a branch in decision code, so the work left to make
+it moddable is a loader and a field, not a redesign. Your own character has
 their own temperament, said by you rather than seeded, and unsaid until you say
 it. People who have actually dealt with somebody can read them; strangers say
 nothing rather than guessing at a middle. And letting a day go by is no longer
@@ -110,6 +113,58 @@ and simply never surfaced.
 **The constraint on whoever does it:** per pole, not per trait. A treatment
 with one entry per named trait is wrong the moment a pack adds a sixth, and
 the sixth trait is the thing this branch exists to make possible.
+
+---
+
+## 0b. CORRECTION: a mod cannot add a trait today
+
+An earlier version of this document's opening line, and PR #280's description,
+said a sixth trait "can be added without touching TypeScript". **That is
+wrong**, and it was put to the owner in his own words, so it is corrected here
+rather than quietly edited. The playtest lane reading `main` raised it; this
+section is the independent measurement.
+
+**What is actually true, measured on `main` at `0e0cebe8`:**
+
+- `loadedTraitRegistry` (`src/simulation/trait-registry.ts:31`) calls
+  `loadTraitPacks([peopleTraitPack(), legislatureTraitPack()], DECISIONS)`.
+  That array is a literal. Nothing can add to it at runtime.
+- `loadTraitPacks` has exactly two non-test callers in the tree, both of them
+  passing compiled packs: the line above and
+  `src/simulation/life-mind-content.ts:105`.
+- Every pack is produced by a TypeScript function. `peopleTraitPack()`
+  (`people-trait-pack.ts:83`) builds its rows by mapping the `PEOPLE_TRAITS`
+  const. There is no JSON loader, no file reader, no directory scan.
+- `RuntimeContentPack` (`src/simulation/runtime-content-packs.ts:9`) is the
+  only type `installRuntimeContentPack` accepts, and it carries `durations`
+  and `scenes`. **It has no field for a trait.** So the one route content has
+  into a running game does not carry traits at all.
+
+So: a trait added to the build works. A trait added by a mod does not exist.
+And even the build case means editing TypeScript — either `people-trait-pack.ts`
+or the literal in `trait-registry.ts` — so the original sentence was wrong
+about the build case too, not only about mods.
+
+**What #280 did deliver, stated honestly.** A trait is now a _row_ — key,
+label, poles, scopes, movability — validated at load, with a bad row rejected
+by name into a report while the rest of the pack still loads. Which option of
+which decision a pole leans toward is a separate row, so a decision names no
+trait and a new trait reaches an existing decision without that decision
+changing. That is the part that had to be designed, and it is done. What is
+missing is plumbing: a loader that builds a `TraitPack` from data on disk, a
+`traits` field on `RuntimeContentPack`, and a way for `loadedTraitRegistry` to
+take the installed packs instead of a literal.
+
+**This is the same shape as the policy catalogue**, and belongs beside it in
+any report: the writers exist, the route in does not. It is not a failure of
+this branch, it is the next piece of work, and it is plumbing rather than
+design.
+
+**And it compounds with section 0a.** Even once a mod can load a trait,
+`personTraits` (`people-traits.ts:150`) walks the hardcoded `PEOPLE_TRAITS`,
+so the trait would be consulted by decisions and invisible on the only screen
+that shows temperament. Both have to be done for "a modder can add a trait"
+to be true end to end.
 
 ---
 
