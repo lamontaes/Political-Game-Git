@@ -4,7 +4,7 @@ import { scheduleFutureDueItem } from "../future-transitions";
 import { createStableId } from "../ids";
 import { createWorkRelationship } from "../life";
 import { activeWorkRelationshipsAt } from "../life-queries";
-import { drawCanonicalName, personName } from "../people";
+import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng, pickDistinct } from "../rng";
 import {
@@ -774,8 +774,10 @@ function createCandidates(
           kind: "context-person",
           input: {
             stableKey,
-            ...drawCanonicalName(rng.fork("name")),
-            identity: generatePersonIdentity(rng.fork("identity")),
+            ...drawCanonicalNamedIdentity(
+              rng.fork("name"),
+              generatePersonIdentity(rng.fork("identity")),
+            ),
             birthDate: makeIsoDate(
               `${anchorYear - rng.integer(34, 62)}-${pad(rng.integer(1, 13))}-${pad(rng.integer(1, 29))}`,
             ),
