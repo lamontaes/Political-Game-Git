@@ -1,0 +1,30 @@
+{
+  "filedAt": "2026-09-22T14:58:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "PARTY_BODY_CADENCE in src/simulation/living-world/party-evolution.ts declares reviewEveryMonths 3, repeatedDisputes 2, and an inactivity finding at 180 days. The comment on repeatedDisputes says 'A dispute must recur at least this often before anyone considers leaving'; the number itself is authored.",
+    "As of 2026-09-22 the count is separate occasions — distinct days the body decided — rather than decision records, because the player's own route writes a fresh record on every press with no date gate. So the number now means 'two meetings', not 'two clicks'.",
+    "Two other gates sit after the count and are not in question here: the member's stance must be held as defining, and at least one other member must have dissented alongside them. On measured seeds the ally requirement, not the count, is what usually stops a split.",
+    "Any answer changes one constant and the review cadence beside it. No code moves."
+  ],
+  "priority": "P2",
+  "question": "How many separate occasions of losing the same question inside a party body, and over how long, before a member with a defining conviction plausibly starts organizing against it — a breakaway faction or a new party? Two meetings is what ships today, with the body reviewing every three months, so two defeats can arrive inside half a year. Is that a person who gives up on an organization too easily? Does the answer depend on the size or level of the body, on whether the member holds office, or on how long they have belonged? And is there an upper end past which somebody who keeps losing simply stops caring rather than leaving?",
+  "questionId": "party-body-dispute-cadence",
+  "relatedQuestionIds": ["personality-change-bands"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "people and life thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/living-world/party-evolution.ts, PARTY_BODY_CADENCE and assessPartyInitiative as shipped",
+      "whatItDidNotSettle": "It is the question. The constants are authored as a plausible cadence for fictional bodies and are explicitly not a claim about any real party; nothing in the repository checks them against anything."
+    },
+    {
+      "source": "Measured reachability across three generated worlds, 2026-09-22",
+      "whatItDidNotSettle": "Establishes that the path fires and that the ally requirement is the usual blocker. Says nothing about whether two occasions is the right threshold for a person, only that the mechanism reaches it."
+    }
+  ],
+  "title": "How often a party body has to overrule somebody before they leave",
+  "usableAnswer": "A range rather than a number, worked against one plain example: somebody who holds a position as firmly as anything about them, on a body that meets quarterly, losing that question repeatedly — after how many defeats, across how long, does organizing against it become the ordinary human response rather than an unusually quick exit? A note on whether belonging longer makes leaving harder or easier would settle a second constant.",
+  "whyItMatters": "This is the only route in the game by which a party splits or a new one is founded, which is the whole of party evolution the owner asked to ship. Too few occasions and organizations shatter constantly and mean nothing; too many and no party ever changes and the system is decoration. Tests pass at either setting, so nothing here will catch a wrong answer."
+}
