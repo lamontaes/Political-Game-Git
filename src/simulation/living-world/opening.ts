@@ -12,7 +12,12 @@ import { createStableId } from "../ids";
 import { stateJurisdictionForKey } from "../life-places";
 import { US_STATE_NAMES } from "../nationwide-world/state-executive-candidacy-packs";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
-import { drawCanonicalName, personName } from "../people";
+import {
+  drawCanonicalName,
+  drawCanonicalNameForGender,
+  DISTINCT_GIVEN_NAME_GENERATION_VERSION,
+  personName,
+} from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng, pickDistinct } from "../rng";
 import type { EntityId, IsoDate, LifeRecordProvenance, World } from "../types";
@@ -147,6 +152,9 @@ function pad(value: number): string {
   return String(value).padStart(2, "0");
 }
 
+/** Additive replay policy; absent means the original unrestricted name draw. */
+export type LivingWorldMemberNameVersion = "identity-v1";
+
 /**
  * Establishes a new save's public national world once: both chambers of
  * Congress with a persistent fictional member or an explicitly represented
@@ -160,6 +168,7 @@ function pad(value: number): string {
 export function ensureLivingWorldOpening(
   world: World,
   subjectPersonId: EntityId,
+  memberNameVersion?: LivingWorldMemberNameVersion,
 ): World {
   if (livingWorldEstablished(world)) return world;
   if (!world.people[subjectPersonId]) {
@@ -377,10 +386,22 @@ export function ensureLivingWorldOpening(
   for (const plan of plans) {
     if (plan.kind !== "member") continue;
     const seatRng = rng.fork(`seat:${plan.seat.seatKey}`);
+    // Identity remains its independent seeded fact. The optional replay policy
+    // changes only the given-name draw; no stream, writer key or person ID moves.
+    const identity = generatePersonIdentity(seatRng.fork("identity"));
+    const name =
+      memberNameVersion === "identity-v1"
+        ? drawCanonicalNameForGender(
+            seatRng.fork("name"),
+            identity.gender,
+            undefined,
+            DISTINCT_GIVEN_NAME_GENERATION_VERSION,
+          )
+        : drawCanonicalName(seatRng.fork("name"));
     memberInputs.push({
       stableKey: plan.memberKey,
-      ...drawCanonicalName(seatRng.fork("name")),
-      identity: generatePersonIdentity(seatRng.fork("identity")),
+      ...name,
+      identity,
       birthDate: plan.birthDate,
       homeJurisdictionId: stateJurisdictionForKey(`US-${plan.seat.stateUsps}`)!
         .id,
@@ -532,6 +553,7 @@ export function ensureLivingWorldOpening(
       V,
       ...(political ? [] : [PROFILE.id]),
       `contract:${LIVING_WORLD_CONTRACT_VERSION}`,
+      ...(memberNameVersion ? [`member-names:${memberNameVersion}`] : []),
       ...scenarioTags,
     ],
     summary: political
@@ -589,7 +611,8 @@ function executiveHoldersNeedingAffiliation(
   for (const event of world.history.events) {
     if (
       event.type !== "world.office-tenure" ||
-      !event.tags.includes("office:us-president") ||
+      (!event.tags.includes("office:us-president") &&
+        !event.tags.includes("office:us-vice-president")) ||
       event.occurredAt > world.currentDate
     )
       continue;

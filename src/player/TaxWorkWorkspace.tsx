@@ -287,6 +287,10 @@ export function TaxWorkWorkspace({
           <fieldset className="tax-work-step">
             <legend>3. Commitment: file it</legend>
             <p>
+              This proposal is written against the taxing power as this game
+              records it for Alaska.
+            </p>
+            <p>
               This route uses the ninety-day default after enactment, exact
               half-up cent rounding and general public receipts. It models no
               dedication exception or early effective-date vote.

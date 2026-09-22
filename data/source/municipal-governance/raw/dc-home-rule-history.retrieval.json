@@ -1,0 +1,14 @@
+{
+  "kind": "official-historical-corroboration",
+  "productionAdmitted": false,
+  "rightsStatus": "not-assessed; not an enacted-text artifact",
+  "requestedUrl": "https://dccouncil.gov/50-years-of-home-rule-for-dc-the-council-begins-a-year-of-celebration/",
+  "effectiveUrl": "https://dccouncil.gov/50-years-of-home-rule-for-dc-the-council-begins-a-year-of-celebration/",
+  "httpStatus": 200,
+  "method": "GET via curl --fail --location --max-filesize 1048576",
+  "receivedAt": "2026-09-20T03:15:11.367213+00:00",
+  "bytes": 39249,
+  "sha256": "9e901d599628058399c61c748d999fb3b054f70f03a6ade75468d84f0370bb65",
+  "localPath": "data/source/municipal-governance/raw/dc-home-rule-history.html",
+  "reviewStatus": "text-read for referendum and start-of-governance dates; not original-clause lineage proof"
+}

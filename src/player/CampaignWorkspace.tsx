@@ -436,7 +436,17 @@ export function CampaignWorkspace({
             }
             onClick={file}
           >
-            <span className="game-campaign-action-label">Put your name in</span>
+            {/*
+             * Named for the same reason as the state-executive control on
+             * this screen: two buttons reading "Put your name in" are two
+             * different filings, and which one a player gets should not
+             * depend on which section they happen to be under.
+             */}
+            <span className="game-campaign-action-label">
+              {selectedOffice
+                ? `Put your name in for the ${selectedOffice.title}`
+                : "Put your name in"}
+            </span>
             <span className="game-campaign-action-note">
               The committee opens with nothing in it.
             </span>

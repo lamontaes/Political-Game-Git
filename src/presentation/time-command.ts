@@ -1,5 +1,11 @@
 import {
+  openingNeighborhoodWalkOffer,
+  walkOpeningNeighborhood,
+} from "./life-scene-flow";
+import { describePlacesOutcome } from "./player-places";
+import {
   addDays,
+  addSimulationMinutes,
   compareSimulationMoments,
   currentLifeCutoff,
   formativeIntervalAt,
@@ -12,15 +18,20 @@ import {
   type SimulationMoment,
   type World,
 } from "../simulation";
+import { venueActivities } from "./venue-activity";
 import { letAdultTimePass } from "./adult-life";
 import {
   advanceCalendarToActivity,
+  playCalendarActivity,
   type CalendarTimeResult,
 } from "./calendar-time-control";
 import { interruptionHandlers } from "./interruption-policy";
 import { letStoryTimePass, quietStepDays } from "./life-story";
 import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
-import { describeRoutineOutcome } from "./routine-outcome";
+import {
+  describeRoutineOutcome,
+  formatRoutineElapsedMinutes,
+} from "./routine-outcome";
 import {
   DEFAULT_INTERRUPTIONS,
   type InterruptionPreferences,
@@ -52,7 +63,9 @@ export type TimeCommand =
    */
   | { readonly kind: "quiet-stretch" }
   /** Wait until a recorded calendar activity begins. */
-  | { readonly kind: "until-activity"; readonly activityId: EntityId };
+  | { readonly kind: "until-activity"; readonly activityId: EntityId }
+  | { readonly kind: "attend-activity"; readonly activityId: EntityId }
+  | { readonly kind: "walk"; readonly destination: "home" | "neighborhood" };
 
 export interface TimeCommandRequest {
   /** Unique per click. Only used to identify the request in receipts. */
@@ -82,6 +95,7 @@ export interface TimeCommandReceipt {
 }
 
 export interface TimeCommandPreview {
+  readonly elapsedMinutes?: number;
   readonly target: SimulationMoment;
   readonly targetDate: IsoDate;
   readonly days: number;
@@ -139,6 +153,36 @@ export function previewTimeCommand(
   personId: EntityId,
   command: TimeCommand,
 ): TimeCommandPreview | null {
+  if (command.kind === "walk") {
+    const offer = openingNeighborhoodWalkOffer(
+      world,
+      personId,
+      command.destination,
+    );
+    if (offer.unavailable) return null;
+    const target = addSimulationMinutes(world.currentMoment, offer.minutes);
+    return {
+      target,
+      elapsedMinutes: simulationMinutesBetween(world.currentMoment, target),
+      targetDate: target.date,
+      days: wholeDaysBetween(world.currentDate, target.date),
+      cappedBy: null,
+    };
+  }
+  if (command.kind === "attend-activity") {
+    const entry = venueActivities(world, personId).find(
+      (item) => item.activity.id === command.activityId,
+    );
+    if (!entry || entry.refusal) return null;
+    const target = scheduledActivityState(world, entry.activity.id).end;
+    return {
+      target,
+      elapsedMinutes: simulationMinutesBetween(world.currentMoment, target),
+      targetDate: target.date,
+      days: wholeDaysBetween(world.currentDate, target.date),
+      cappedBy: null,
+    };
+  }
   if (command.kind === "until-activity") {
     const activity = world.history.scheduledActivities.find(
       (record) => record.id === command.activityId,
@@ -180,6 +224,20 @@ function run(
 ): CalendarTimeResult {
   const interruptions = request.interruptions ?? DEFAULT_INTERRUPTIONS;
   const command = request.command;
+  if (command.kind === "walk") {
+    const next = walkOpeningNeighborhood(
+      world,
+      request.personId,
+      command.destination,
+    );
+    return {
+      world: next,
+      reached: next.currentMoment,
+      outcome: describePlacesOutcome(world, next, request.personId),
+    };
+  }
+  if (command.kind === "attend-activity")
+    return playCalendarActivity(world, request.personId, command.activityId);
   if (command.kind === "until-activity")
     return advanceCalendarToActivity(
       world,
@@ -268,7 +326,7 @@ export function submitTimeCommand(
     world: result.world,
     receipt: remember({
       ...base,
-      status: "accepted",
+      status: result.world === world ? "refused" : "accepted",
       requestedTarget: preview.target,
       reached: result.reached,
       stoppedEarly:
@@ -289,6 +347,12 @@ export function describeTimeCommandPreview(
     year: "numeric",
     timeZone: "UTC",
   }).format(new Date(`${preview.targetDate}T12:00:00Z`));
+  if (preview.elapsedMinutes !== undefined) {
+    const hour = Math.floor(preview.target.minuteOfDay / 60);
+    const minute = preview.target.minuteOfDay % 60;
+    const clock = `${hour % 12 || 12}:${String(minute).padStart(2, "0")} ${hour < 12 ? "AM" : "PM"}`;
+    return `${formatRoutineElapsedMinutes(preview.elapsedMinutes)}, to ${date} at ${clock}`;
+  }
   const span =
     preview.days === 1
       ? "1 day"

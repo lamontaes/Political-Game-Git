@@ -3,6 +3,7 @@ import type {
   PartyChapterView,
 } from "../presentation/party-chapter-surface";
 import type { EntityId } from "../simulation";
+import type { ReactNode } from "react";
 
 const ACTION_LABELS: Readonly<Record<ChapterMeetingAction, string>> = {
   accept: "Say you'll come",
@@ -27,6 +28,7 @@ export function PartyChapterSurface({
   onMeeting,
   onJoin,
   onLeave,
+  contact,
 }: {
   readonly chapter: PartyChapterView;
   readonly pinned: boolean;
@@ -38,6 +40,7 @@ export function PartyChapterSurface({
   ) => void;
   readonly onJoin: () => void;
   readonly onLeave: () => void;
+  readonly contact?: ReactNode;
 }) {
   return (
     <section
@@ -63,6 +66,8 @@ export function PartyChapterSurface({
           </button>
         </p>
       ) : null}
+
+      {contact}
 
       {chapter.meetings.length > 0 ? (
         <ul className="pg-chapter-meetings">

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  annotateGuideTerms,
   GUIDE_TERMS,
   guideTerm,
   guideTermByLabel,
@@ -126,5 +127,60 @@ describe("the Guide's search", () => {
 
   it("returns nothing for a query no entry mentions", () => {
     expect(searchGuideTerms("xyzzy")).toEqual([]);
+  });
+});
+
+describe("recognising a term inside a sentence", () => {
+  it("splits a term out of ordinary prose, keeping the text exact", () => {
+    const segments = annotateGuideTerms("Filed, awaiting referral");
+    expect(segments.map((s) => s.text).join("")).toBe(
+      "Filed, awaiting referral",
+    );
+    const term = segments.find((s) => s.semanticKey !== null);
+    expect(term?.semanticKey).toBe("committee-referral");
+    expect(term?.text).toBe("referral");
+  });
+
+  it("only annotates phrases the catalog has entries for", () => {
+    for (const segment of annotateGuideTerms(
+      "The appropriation went to committee.",
+    )) {
+      if (segment.semanticKey)
+        expect(guideTerm(segment.semanticKey)).not.toBeNull();
+    }
+  });
+
+  it("prefers the longer phrase over a substring of it", () => {
+    const segments = annotateGuideTerms("Sent on committee referral today");
+    const term = segments.find((s) => s.semanticKey !== null);
+    expect(term?.semanticKey).toBe("committee-referral");
+    expect(term?.text).toBe("committee referral");
+  });
+
+  it("matches whole words only, and a trailing plural", () => {
+    expect(
+      annotateGuideTerms("a session of the court").some(
+        (s) => s.semanticKey !== null,
+      ),
+    ).toBe(false);
+    const plural = annotateGuideTerms("Two appropriations were filed");
+    const term = plural.find((s) => s.semanticKey !== null);
+    expect(term?.semanticKey).toBe("appropriation");
+    expect(term?.text).toBe("appropriations");
+  });
+
+  it("annotates a repeated term once", () => {
+    const segments = annotateGuideTerms(
+      "The appropriation is a large appropriation.",
+    );
+    expect(
+      segments.filter((s) => s.semanticKey === "appropriation").length,
+    ).toBe(1);
+  });
+
+  it("returns the sentence unchanged when it holds no term", () => {
+    expect(annotateGuideTerms("Nothing has been filed yet.")).toEqual([
+      { text: "Nothing has been filed yet.", semanticKey: null },
+    ]);
   });
 });

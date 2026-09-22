@@ -33,11 +33,15 @@ import {
   assertProvenanceMatches,
   defaultComposition,
 } from "../../scripts/client-provenance.mjs";
+import { gateEntryPoint } from "../../scripts/storage/storage-guard.mjs";
 
 const desktopRoot = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const repoRoot = path.dirname(desktopRoot);
 const clientSource = path.join(repoRoot, "dist", "client");
 const stagedRoot = path.join(desktopRoot, "staged");
+
+// Staging copies the whole compiled client (3+ GiB with private people).
+gateEntryPoint({ operation: "desktop-stage", target: desktopRoot });
 
 const args = process.argv.slice(2);
 const rebuild = args.includes("--rebuild");
@@ -62,7 +66,7 @@ function git(argsList) {
 }
 
 const revision = git(["rev-parse", "HEAD"]) ?? "unknown";
-const status = git(["status", "--porcelain"]);
+const status = git(["status", "--porcelain", "--untracked-files=no"]);
 const dirty = status !== null && status !== "";
 const main = git(["rev-parse", "refs/remotes/origin/main"]);
 const branch = git(["rev-parse", "--abbrev-ref", "HEAD"]);
@@ -121,7 +125,8 @@ function matchOrRebuild() {
     return assertProvenanceMatches({
       clientDir: clientSource,
       expectedRevision: git(["rev-parse", "HEAD"]) ?? revision,
-      expectedDirty: (git(["status", "--porcelain"]) ?? "") !== "",
+      expectedDirty:
+        (git(["status", "--porcelain", "--untracked-files=no"]) ?? "") !== "",
     });
   }
 }

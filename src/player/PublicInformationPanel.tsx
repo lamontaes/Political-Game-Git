@@ -312,7 +312,6 @@ export function PublicInformationPanel({
             </button>
           </header>
           <p>{activeConcept.fullDefinition}</p>
-          <small>{activeConcept.sourceLabel}</small>
         </aside>
       ) : null}
     </section>

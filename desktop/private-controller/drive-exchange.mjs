@@ -19,10 +19,13 @@
  */
 
 import { execFileSync } from "node:child_process";
-import { readdirSync } from "node:fs";
+import { existsSync, readdirSync, statSync } from "node:fs";
+import { homedir } from "node:os";
 import path from "node:path";
 
 export const DRIVE_ITEM_ID_XATTR = "com.google.drivefs.item-id#S";
+export const EXCHANGE_PARENT = "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE";
+export const EXCHANGE_ROOT = "80_ARTBENCH_EXCHANGE";
 
 /** The owner's exchange folders as configured identities. */
 export const EXCHANGE_FOLDERS = Object.freeze([
@@ -44,6 +47,45 @@ export const EXCHANGE_FOLDERS = Object.freeze([
 ]);
 
 const DRIVE_ID = /^[A-Za-z0-9_-]{10,128}$/;
+
+/**
+ * Find the one local Google Drive mirror that can be the shared Art Desk.
+ *
+ * The mutable Art Desk store stays app-owned and single-writer. Agents trade
+ * through this central exchange instead of writing inside a Codex worktree.
+ * More than one candidate is ambiguous and is refused rather than choosing an
+ * account by directory order.
+ */
+export function discoverExchangeRoot({
+  cloudStorageRoot = path.join(homedir(), "Library", "CloudStorage"),
+} = {}) {
+  if (!existsSync(cloudStorageRoot)) return null;
+  const candidates = readdirSync(cloudStorageRoot, { withFileTypes: true })
+    .filter(
+      (entry) => entry.isDirectory() && entry.name.startsWith("GoogleDrive-"),
+    )
+    .map((entry) =>
+      path.join(
+        cloudStorageRoot,
+        entry.name,
+        "My Drive",
+        EXCHANGE_PARENT,
+        EXCHANGE_ROOT,
+      ),
+    )
+    .filter((candidate) => {
+      try {
+        return statSync(candidate).isDirectory();
+      } catch {
+        return false;
+      }
+    });
+  if (candidates.length > 1)
+    throw new Error(
+      `More than one shared Art Desk exchange is mirrored under ${cloudStorageRoot}; choose one explicitly in Settings.`,
+    );
+  return candidates[0] ?? null;
+}
 
 /** The per-install override, from settings or the environment. */
 export function exchangeFolderIdOverride(settingsValue = null) {

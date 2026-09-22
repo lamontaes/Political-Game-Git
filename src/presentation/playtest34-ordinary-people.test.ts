@@ -7,7 +7,13 @@ import {
 import { searchLifePlaces } from "../simulation/life-places";
 import { serializeWorld, deserializeWorld } from "../simulation/serialization";
 import { ENGINE_PEOPLE29_CHARACTER_LIBRARY as library } from "./engine-people29-review";
-import { preparedFamily, selectPreparedBody } from "./engine-people29-data";
+import {
+  generatedPreparedMaterial,
+  preparedFamily,
+  preparedRampsAt,
+  PREPARED_SKIN_RAMPS,
+  selectPreparedBody,
+} from "./engine-people29-data";
 import {
   initializeFreshCandidateOutfits,
   findCompleteOutfit,
@@ -116,6 +122,26 @@ it.skipIf(needsPrivateArt)(
             )
               femaleParents++;
             expect(person.identity).toEqual(raw.people[id]!.identity);
+            for (const channel of ["skin", "hair", "top", "bottom"] as const) {
+              const ramps = preparedRampsAt(
+                family,
+                channel,
+                appearance.catalogGeneration,
+              ).map((ramp) => ramp.id);
+              if (ramps.length)
+                expect(ramps, `${id}: ${channel}`).toContain(
+                  appearance.material!.palettes[channel],
+                );
+              else
+                expect(appearance.material!.palettes[channel]).toBe(
+                  "source-colour",
+                );
+            }
+            // Historical painted generation 10 retains its source color.
+            expect(
+              generatedPreparedMaterial(family, appearance.seed, 10).palettes
+                .skin,
+            ).toBe("source-colour");
             tones.add(appearance.material!.palettes.skin);
             bodies.add(family.bodyType);
             shirts.add(appearance.outfit!.families.top!);
@@ -151,13 +177,14 @@ it.skipIf(needsPrivateArt)(
     }
     expect(femaleParents).toBeGreaterThan(0);
     expect(oldMismatches).toBeGreaterThan(0);
-    // Current-bank painted rasters carry their tone in the source pixels; the
-    // material token is deliberately singular rather than pretending those
-    // colours are runtime tints.
-    expect(tones).toEqual(new Set(["source-colour"]));
+    expect(tones).toEqual(new Set(PREPARED_SKIN_RAMPS));
     expect(bodies.size).toBeGreaterThan(2);
     expect(shirts.size).toBeGreaterThan(2);
   },
+  // Twelve complete private-bank lives, each recreated from its descriptor,
+  // serialized/reopened and resolved again after renaming. Generation 16's
+  // full bank takes about one minute alone; this bounds the whole journey.
+  120_000,
 );
 
 it.skipIf(needsPrivateArt)(

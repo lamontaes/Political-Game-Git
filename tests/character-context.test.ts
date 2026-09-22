@@ -382,26 +382,44 @@ describe("Standing decides what a life is offered", () => {
 /* -------------------------------------------------------------------------- */
 
 describe("The five-question path is one life at the stage it is opening", () => {
-  function shortPath(startAge: number): readonly string[] {
+  /** The screens a setup actually puts on the glass, in order. */
+  function shortScreens(startAge: number) {
     let current = setup({ startAge, questionnaire: "short", priors: [] });
-    const keys: string[] = [];
+    const screens: NonNullable<ReturnType<typeof questionnaireScreenFor>>[] =
+      [];
     for (let asked = 0; asked < 10; asked += 1) {
       const screen = questionnaireScreenFor(current);
       if (!screen) break;
-      keys.push(screen.questionKey);
+      screens.push(screen);
       current = answerQuestionnaire(current, screen.options[0]!.key);
     }
-    return keys;
+    return screens;
+  }
+
+  function shortPath(startAge: number): readonly string[] {
+    return shortScreens(startAge).map((screen) => screen.questionKey);
+  }
+
+  /**
+   * The authored bank entry behind a screen key, whatever copy version it
+   * carries. Eligibility and the fixed ordinal are properties of the item, not
+   * of its wording: a reworded copy inherits both, so a test about which
+   * questions open a band must not be reading the wording's version number.
+   */
+  function bankItemFor(key: string) {
+    const base = (value: string) =>
+      value.replace(/\.(?:text39-v1|playtest65-v2)$/, "");
+    const item = SETUP_QUESTIONNAIRE_BANK.find(
+      (entry) => base(entry.key) === base(key),
+    );
+    expect(item, key).toBeDefined();
+    return item!;
   }
 
   it("opens a child on the childhood three, then leaves the band", () => {
     const keys = shortPath(10);
     expect(keys).toHaveLength(5);
-    const openers = keys
-      .slice(0, 3)
-      .map((key) =>
-        SETUP_QUESTIONNAIRE_BANK.find((entry) => entry.key === key)!,
-      );
+    const openers = keys.slice(0, 3).map(bankItemFor);
     for (const item of openers) {
       expect(item.fixedOrdinal).not.toBeNull();
       expect(item.eligibility.bands).toEqual(["middle-childhood"]);
@@ -417,8 +435,7 @@ describe("The five-question path is one life at the stage it is opening", () => 
     expect(teenager).toHaveLength(5);
     expect(teenager.slice(0, 3)).not.toEqual(child.slice(0, 3));
     for (const key of teenager.slice(0, 3)) {
-      const item = SETUP_QUESTIONNAIRE_BANK.find((entry) => entry.key === key)!;
-      expect(item.eligibility.bands).toEqual(["adolescence"]);
+      expect(bankItemFor(key).eligibility.bands).toEqual(["adolescence"]);
     }
   });
 
@@ -427,12 +444,11 @@ describe("The five-question path is one life at the stage it is opening", () => 
     // people in them. Packet 77 rejects a recurring cast a player is expected
     // to already know; these are established by the questions themselves,
     // which is the case it allows.
-    const prompts = shortPath(10)
+    // The prompts as the player reads them, at the copy version this setup
+    // actually opens on, rather than the bank's own wording for them.
+    const prompts = shortScreens(10)
       .slice(0, 3)
-      .map(
-        (key) =>
-          SETUP_QUESTIONNAIRE_BANK.find((entry) => entry.key === key)!.prompt,
-      );
+      .map((screen) => screen.prompt);
     const cast = ["Dee", "Bea", "Theo", "Kenny", "Ms. Ruiz"];
     const recurring = cast.filter((name) =>
       prompts.some((prompt) => prompt.includes(name)),
@@ -441,13 +457,18 @@ describe("The five-question path is one life at the stage it is opening", () => 
   });
 
   it("still opens an adult life on the adult openers", () => {
-    // TEXT39 versions the selectable items (`.text39-v1`) because their wording
-    // changed; answers saved under the base keys still resolve through the
-    // full authored list, so the openers are the same scenes under new keys.
+    // The selectable items are versioned whenever their wording changes, and
+    // answers saved under an earlier key still resolve through the full
+    // authored list, so these are the same three scenes under newer keys.
+    // TEXT39 minted `.text39-v1`; PLAYTEST65 reworded them again, and a setup
+    // carrying `questionnaireCopyVersion: "playtest65-v2"` — which the default
+    // now does — opens on `.playtest65-v2`. The older keys are still what
+    // `projectQuestionnaireSequence` returns when no setup names a version,
+    // which is what pennywise-adaptive-life.test.ts pins.
     expect(shortPath(34).slice(0, 3)).toEqual([
-      "kitchen_late.text39-v1",
-      "marcus_and_the_trip_fund.text39-v1",
-      "priya_reference.text39-v1",
+      "kitchen_late.playtest65-v2",
+      "marcus_and_the_trip_fund.playtest65-v2",
+      "priya_reference.playtest65-v2",
     ]);
   });
 

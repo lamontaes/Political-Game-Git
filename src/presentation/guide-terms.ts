@@ -556,3 +556,132 @@ export function searchGuideTerms(
     )
     .map((row) => row.result);
 }
+
+/* ------------------------------------------------- recognising a term in prose */
+
+/**
+ * Which terms may be recognised inside a sentence, and under which words.
+ *
+ * A surface that renders one word can wrap it by key. Most of what a player
+ * actually reads is a whole sentence assembled elsewhere — "Filed, awaiting
+ * referral", "It is written against the Rural Transit Assistance Act" — and
+ * rewriting every producer to emit fragments would be a worse game for the
+ * sake of a tooltip.
+ *
+ * So a term is recognised in prose only where an author has said it may be,
+ * and only under the exact words listed here. Nothing is guessed from the
+ * catalog: a term absent from this table is never annotated inside a sentence,
+ * which is how "session" stays out of "a session of the court" and "reading"
+ * stays out of "reading the paper". The definitions themselves still live in
+ * `GUIDE_TERMS` and nowhere else, so the Guide and the help beside a word
+ * cannot drift.
+ *
+ * Every phrase must belong to a real entry; `guide-terms.test.ts` asserts it.
+ */
+const INLINE_PHRASES: Readonly<Record<string, readonly string[]>> = {
+  quorum: ["quorum"],
+  "roll-call": ["roll call"],
+  "committee-referral": ["committee referral", "referral"],
+  "committee-chair": ["committee chair"],
+  "ranking-member": ["ranking member"],
+  "presiding-officer": ["presiding officer"],
+  "president-pro-tempore": ["president pro tempore"],
+  "majority-leader": ["majority leader"],
+  "minority-leader": ["minority leader"],
+  "majority-whip": ["majority whip"],
+  caucus: ["caucus"],
+  sponsor: ["sponsor"],
+  cosponsor: ["cosponsor", "co-sponsor"],
+  docket: ["docket"],
+  "first-reading": ["first reading"],
+  "second-reading": ["second reading"],
+  "third-reading": ["third reading"],
+  amendment: ["amendment"],
+  concurrence: ["concurrence"],
+  enrollment: ["enrollment"],
+  presentment: ["presentment"],
+  veto: ["veto"],
+  appropriation: ["appropriation"],
+  obligation: ["obligation"],
+  "fiscal-note": ["fiscal note"],
+  adjournment: ["adjournment"],
+};
+
+export interface GuideTextSegment {
+  readonly text: string;
+  /** The entry this run of text explains, or null for ordinary prose. */
+  readonly semanticKey: string | null;
+}
+
+const INLINE_MATCHES: readonly {
+  readonly phrase: string;
+  readonly semanticKey: string;
+}[] = Object.entries(INLINE_PHRASES)
+  .flatMap(([semanticKey, phrases]) =>
+    phrases.map((phrase) => ({ phrase: phrase.toLowerCase(), semanticKey })),
+  )
+  /* Longest first, so "committee referral" wins over "referral". */
+  .sort((left, right) => right.phrase.length - left.phrase.length);
+
+function isWordEdge(character: string | undefined): boolean {
+  return character === undefined || !/[A-Za-z0-9]/.test(character);
+}
+
+/**
+ * Split a sentence into ordinary prose and the terms worth explaining.
+ *
+ * A term is annotated at its first appearance only. Three tooltips on three
+ * repetitions of "appropriation" in one paragraph is noise, and the player has
+ * already been offered the explanation by the time they reach the second one.
+ * Matching is whole-word and case-insensitive, and the segment keeps the text
+ * exactly as it was written, so the sentence a player reads is unchanged.
+ */
+export function annotateGuideTerms(text: string): readonly GuideTextSegment[] {
+  const claimed: { start: number; end: number; semanticKey: string }[] = [];
+  const lower = text.toLowerCase();
+  const used = new Set<string>();
+
+  for (const { phrase, semanticKey } of INLINE_MATCHES) {
+    if (used.has(semanticKey)) continue;
+    let from = 0;
+    for (;;) {
+      const at = lower.indexOf(phrase, from);
+      if (at < 0) break;
+      const end = at + phrase.length;
+      const whole =
+        isWordEdge(text[at - 1]) &&
+        /* A plural or possessive is the same term, so allow a trailing s. */
+        (isWordEdge(text[end]) ||
+          (text[end]?.toLowerCase() === "s" && isWordEdge(text[end + 1])));
+      const free = !claimed.some((span) => at < span.end && end > span.start);
+      if (whole && free) {
+        const grown = text[end]?.toLowerCase() === "s" ? end + 1 : end;
+        claimed.push({ start: at, end: grown, semanticKey });
+        used.add(semanticKey);
+        break;
+      }
+      from = at + 1;
+    }
+  }
+
+  if (claimed.length === 0) return [{ text, semanticKey: null }];
+
+  claimed.sort((left, right) => left.start - right.start);
+  const segments: GuideTextSegment[] = [];
+  let cursor = 0;
+  for (const span of claimed) {
+    if (span.start > cursor)
+      segments.push({
+        text: text.slice(cursor, span.start),
+        semanticKey: null,
+      });
+    segments.push({
+      text: text.slice(span.start, span.end),
+      semanticKey: span.semanticKey,
+    });
+    cursor = span.end;
+  }
+  if (cursor < text.length)
+    segments.push({ text: text.slice(cursor), semanticKey: null });
+  return segments;
+}

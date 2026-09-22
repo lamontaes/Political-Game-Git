@@ -104,7 +104,7 @@ export function ConstitutionalWorkspace({
       <h3 id="constitutional-title">Constitutional &amp; charter changes</h3>
       <p>Public process record · {world.currentDate}</p>
       <details>
-        <summary>How these changes work</summary>
+        <summary>How these procedures work</summary>
         <p>
           Federal amendments: Congress proposes; the designated state
           legislatures or conventions ratify. The President has no approval or
