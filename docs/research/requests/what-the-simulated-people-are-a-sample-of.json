@@ -1,0 +1,57 @@
+{
+  "filedAt": "2026-09-22T15:52:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "Put at the top of the queue on lamontae's own instruction, 2026-09-22 15:49:34Z, in the words carried in readFirst. He read this finding and said to put it first, above everything else on the queue. That is recorded because what the product owner weights is worth more to an instruction than our ordering is. Added by the research queue lane; the people and life lane owns everything above.",
+    "His question: are those total people, what does the game show for population, and if hundreds are generated, are things calculated from those hundreds or from millions. Traced at 211d3529.",
+    "ARE THEY THE TOTAL POPULATION? No. The 556 and the 640 are every Person record the world holds, which is the whole cast of the simulation, and it is not the population of anywhere. A real town's headcount is shown from a different source entirely, so the two numbers never meet.",
+    "WHAT THE GAME SHOWS AS POPULATION. A real sourced figure, joined onto the chosen hometown from a locked BEA series and filtered so the reference period precedes the life's start date (presentation/place-hometown-population.ts). It is a genuine headcount for a genuine place. Missing population is omitted rather than shown as zero, which is the right instinct and also means the player never sees the two numbers side by side.",
+    "SO THERE ARE TWO POPULATIONS WEARING ONE NAME. A sourced headcount in the hundreds of thousands or millions, shown to the player as the population of their town; and a few hundred manufactured adults who are the only people who exist. Nothing in the tree relates them: the simulated people are not declared to be a sample of the real figure, carry no weight, and nothing scales anything by the ratio between them. That absence is itself the finding — the sampling relationship is not wrong, it has never been stated.",
+    "ARE THINGS CALCULATED FROM THE HUNDREDS OR FROM THE MILLIONS? Both, on separate tracks that never meet. The economic reading is computed from sourced metrics — deriveLaborMarketAt reads population.resident-count, labor.force-count and labor.employed-count (simulation/economy.ts:57-80), which are real series. The social and political life is computed from the few hundred Person records. Neither knows about the other.",
+    "AND AN ELECTION IS COMPUTED FROM NEITHER. This is the sharpest part of the answer. Nobody votes. evaluateCampaignAwareOutcome (simulation/campaigns.ts:1468-1512) takes each candidate's campaign support as a number in basis points, adds a seeded swing of plus or minus 350, and allocates the result across candidates to sum to 10,000. The field called `votes` is that share in basis points, not a count of people, and election night prints percentages only (presentation/campaign-projection.ts displayedSharePercents). So no elector exists, in either population. A result is a share derived from a support quantity, and the electorate is not modelled at all.",
+    "HOW THE GAME DECIDES WHO TO GENERATE, AS A RULE. A person is created when, and only when, a named institutional role or a screen needs somebody to be there, and never otherwise. Every new person in a running world goes through one writer (character-history.ts:525-569) and arrives as a ready-made adult with a birth date and a birthplace and nothing else. The demands are of two kinds: the calendar, where every crossed election day mints successors and defeated challengers for congressional and gubernatorial seats; and a surface, where a classmate, a teacher, a campaign opponent, a reporter, a chapter organizer, a legislative colleague or a staff candidate is minted the first time something needs to show one, keyed so it is the same person forever after.",
+    "WHAT THAT RULE DOES NOT DO, which is the important half. It never generates anybody nobody needs. There is no ordinary population of a town, no neighbours, no strangers, nobody who simply lives there. Nobody arrives by moving in — there is no in-migration mechanic of any kind — and nobody is born. Measured over one Kentucky year by the divergence lane: 84 arrivals, ages 29 to 69, median 46, none under 29, of which 82 were election turnover and 2 a newsroom hiring a reporter.",
+    "WHY THIS MATTERS BEYOND ARITHMETIC. Everything the owner has asked for this week — relationships that persist, a person's politics coming from who they are, a life that begins somewhere — needs people who exist for their own sake. A cast generated only to fill institutional roles has nobody available to be a neighbour, a friend from college, a partner, or an ordinary member of a party."
+  ],
+  "priority": "P0",
+  "question": "What are the simulated people a sample of, and what should be calculated over which? (1) Should the few hundred Person records stand for the real population — a sample with a weight, so that a town of 400,000 is represented by N people each standing for many — or should they be understood as only the people this particular life touches, with the real headcount shown as scenery? Each has consequences and the game currently declares neither. (2) If they are a sample, how many people should a town have, and does that scale with the real figure or stay roughly constant so the game stays playable? (3) An election today is a support share plus a seeded swing, with no elector anywhere — should there be an electorate at all, should votes be counted from people, or is a share honest as long as nothing claims to have counted anybody? (4) Should anyone be generated who nobody needs — neighbours, people in a town who are simply there — and if so, how many, and what makes them exist? (5) Should the real sourced figures and the simulated cast ever meet, for example a turnout number derived from the real population, or should they stay on separate tracks as they are now?",
+  "questionId": "what-the-simulated-people-are-a-sample-of",
+  "readFirst": {
+    "words": "wow. put this at the top of the list",
+    "saidBy": "lamontae",
+    "saidAt": "2026-09-22T15:49:34.000Z"
+  },
+  "relatedQuestionIds": [
+    "how-a-life-begins-and-grows-up",
+    "where-a-persons-politics-comes-from",
+    "what-moves-a-relationship"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "people and life thread",
+  "sourcesChecked": [
+    {
+      "source": "presentation/place-hometown-population.ts",
+      "whatItDidNotSettle": "Establishes that the population a player is shown is a real sourced headcount for a real place, filtered by reference period. Says nothing about what it is the population of, in a world holding a few hundred people."
+    },
+    {
+      "source": "simulation/campaigns.ts evaluateCampaignAwareOutcome and campaign-projection displayedSharePercents",
+      "whatItDidNotSettle": "Establishes that an election is a support share in basis points plus a seeded swing, printed as a percentage, with no elector and no count of anybody. Does not say whether that is acceptable or what should replace it."
+    },
+    {
+      "source": "simulation/economy.ts deriveLaborMarketAt",
+      "whatItDidNotSettle": "Establishes that the economic reading runs on real sourced series while social life runs on the simulated cast, and that the two never meet. Does not say whether they should."
+    },
+    {
+      "source": "character-history.ts, the single writer, and its institutional and on-demand callers",
+      "whatItDidNotSettle": "Establishes the generation rule — somebody is made when a role or a screen needs them and never otherwise. Does not say who else ought to exist."
+    },
+    {
+      "source": "The divergence lane's one-year Kentucky count, 2026-09-22",
+      "whatItDidNotSettle": "Establishes that arrivals are 84 adults aged 29 to 69 with none under 29, 82 from election turnover. One save, one year, one state; the ten-year share is not measured."
+    }
+  ],
+  "title": "What the few hundred simulated people are a sample of, and what is calculated over them",
+  "usableAnswer": "A position on each of the five, in plain terms. The first is the one that decides the rest: are these people a weighted sample of a real population, or the cast of one life against real scenery? A number or range for how many people a town should hold, and a yes or no on whether an election should ever count anybody, would settle most of the others.",
+  "whyItMatters": "The game shows a player the real population of their town and then runs their whole life, and every election in it, over a few hundred manufactured adults, with nothing anywhere declaring how the two relate. Whichever answer is right, it should be written down, because everything else the owner has asked for this week depends on there being people who exist for their own sake rather than to fill a seat."
+}

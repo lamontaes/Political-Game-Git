@@ -127,6 +127,25 @@ export interface ResearchCandidateAnswer {
   readonly argumentAgainst?: string;
 }
 
+/**
+ * The product owner asking for a question to be read before the rest.
+ *
+ * His own words and when he said them, not a priority band. The bands are
+ * sorted by what an answer would change, and that ordering should not bend to
+ * who asked — but when he reads a finding and says to put it first, that tells
+ * a researcher what he weights, which is worth more to an instruction than our
+ * ordering is. So it lifts the question into the lead and carries the reason
+ * with it, rather than moving it out of its band.
+ */
+export interface ReadFirst {
+  /** Verbatim. Paraphrasing it here would be putting words in his mouth. */
+  readonly words: string;
+  /** Who said it. */
+  readonly saidBy: string;
+  /** ISO 8601 instant. */
+  readonly saidAt: string;
+}
+
 export interface ResearchRequestRecord {
   readonly requestVersion: typeof RESEARCH_REQUEST_VERSION;
   /** A stable semantic slug. Never a seed, a hash or a single word. */
@@ -169,6 +188,8 @@ export interface ResearchRequestRecord {
   /** ISO 8601 instant the question was filed. */
   readonly filedAt: string;
   readonly priority: ResearchPriority;
+  /** Set when the owner asked for this one to be read before the rest. */
+  readonly readFirst?: ReadFirst;
   /** Anything else worth knowing: constraints, a hunch, a related question. */
   readonly notes?: readonly string[];
   /** Question ids this one depends on or follows from. */
@@ -632,19 +653,35 @@ const OWNER_REQUESTER = "lamontae";
 function renderOwnerLead(
   open: readonly ResearchRequestRecord[],
 ): readonly string[] {
-  const his = open.filter((record) => record.requestedBy === OWNER_REQUESTER);
-  if (his.length === 0) return [];
-  return [
+  // Two ways in, and the order matters: something he read and told us to put
+  // first comes above something he filed himself.
+  const flagged = open.filter((record) => record.readFirst !== undefined);
+  const his = open.filter(
+    (record) =>
+      record.readFirst === undefined && record.requestedBy === OWNER_REQUESTER,
+  );
+  if (flagged.length === 0 && his.length === 0) return [];
+  const lines = [
     "## Read these first",
     "",
-    `${OWNER_REQUESTER} filed these himself, from his own play, and asked that`,
-    "each one be confirmed against the code and then instructed on before the",
-    "rest of the queue. They are listed again in their own band below with",
-    "everything they carry.",
-    "",
-    ...his.map((record) => `- **${record.title}** — \`${record.questionId}\``),
+    `Questions ${OWNER_REQUESTER} either filed himself or read and asked to`,
+    "have put first. They are listed again in their own bands below with",
+    "everything they carry; the bands are ordered by what an answer would",
+    "change, which is not the same thing and does not bend to who asked.",
     "",
   ];
+  for (const record of flagged) {
+    const said = record.readFirst!;
+    lines.push(
+      `- **${record.title}** — \`${record.questionId}\``,
+      `  ${said.saidBy} read this and said: "${said.words}" (${said.saidAt.slice(0, 16).replace("T", " ")}Z)`,
+    );
+  }
+  for (const record of his) {
+    lines.push(`- **${record.title}** — \`${record.questionId}\``);
+  }
+  lines.push("");
+  return lines;
 }
 
 /**

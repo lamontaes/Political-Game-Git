@@ -86,7 +86,9 @@ function loadAll(): readonly ConnectivityEntry[] {
 if (command === "file") {
   const [argument] = rest;
   if (!argument) {
-    console.error("Usage: cli-connectivity-map.ts file <entry.json> [--replace]");
+    console.error(
+      "Usage: cli-connectivity-map.ts file <entry.json> [--replace]",
+    );
     process.exit(2);
   }
   const replace = rest.includes("--replace");

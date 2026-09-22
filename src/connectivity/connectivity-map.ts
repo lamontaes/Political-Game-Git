@@ -271,8 +271,7 @@ export const COMBINATIONS: readonly Combination[] = [
 ];
 
 const COMBINATION_HEADINGS: Readonly<Record<Combination, string>> = {
-  "named-only":
-    "Named in shipped content, with nothing at all behind the name",
+  "named-only": "Named in shipped content, with nothing at all behind the name",
   nothing: "No system, no numbers, no screen",
   "no-system": "Numbers and controls, with nothing underneath them",
   "surface-only": "Numbers on a screen, with nothing underneath and no control",

@@ -339,6 +339,62 @@ describe("the handed-over document", () => {
     expect(document).toContain("**The question.**");
   });
 
+  it("lifts a question he read and asked to be put first, with his words", () => {
+    // The bands are ordered by what an answer would change and must not bend
+    // to who asked. What he says when he reads a finding is different
+    // evidence, so it lifts the question into the lead and carries the reason.
+    const document = renderOpenQuestions(
+      [
+        record({ questionId: "somebody-elses", requestedBy: "audit thread" }),
+        record({
+          questionId: "he-read-this",
+          title: "What the simulated people are a sample of",
+          requestedBy: "people and life thread",
+          readFirst: {
+            words: "wow. put this at the top of the list",
+            saidBy: "lamontae",
+            saidAt: "2026-09-22T15:49:34.000Z",
+          },
+        }),
+      ],
+      "2026-09-22T00:00:00.000Z",
+    );
+    expect(document).toContain("## Read these first");
+    expect(document).toContain(
+      '"wow. put this at the top of the list" (2026-09-22 15:49Z)',
+    );
+    expect(document).toContain(
+      "- **What the simulated people are a sample of**",
+    );
+    expect(document).not.toContain("- **How a county treasurer takes office**");
+  });
+
+  it("puts what he read above what he filed", () => {
+    const document = renderOpenQuestions(
+      [
+        record({
+          questionId: "he-filed-it",
+          title: "Filed by him",
+          requestedBy: "lamontae",
+        }),
+        record({
+          questionId: "he-read-it",
+          title: "Read by him",
+          requestedBy: "people and life thread",
+          readFirst: {
+            words: "put this at the top",
+            saidBy: "lamontae",
+            saidAt: "2026-09-22T15:49:34.000Z",
+          },
+        }),
+      ],
+      "2026-09-22T00:00:00.000Z",
+    );
+    expect(document.indexOf("- **Read by him**")).toBeLessThan(
+      document.indexOf("- **Filed by him**"),
+    );
+  });
+
   it("says nothing about reading first when he filed none of them", () => {
     expect(
       renderOpenQuestions([record()], "2026-09-22T00:00:00.000Z"),
