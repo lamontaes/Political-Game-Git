@@ -2,6 +2,7 @@ import { enterSupportedTerm } from "../../tests/fixtures/recorded-legislative-te
 import { describe, expect, it } from "vitest";
 
 import {
+  addDays,
   createDemoWorld,
   deserializeWorld,
   money,
@@ -59,6 +60,8 @@ function seatedFiscalReader(): {
     built.playerPersonId,
     null,
     "us-ky-general-assembly-v1:house",
+    // A seated legislator is the subject here, not the calendar.
+    addDays(world.currentDate, 28),
   );
   world = spendAnAfternoon(world, built.playerPersonId, "fundraising");
   for (let index = 0; index < 3; index += 1) {

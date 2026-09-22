@@ -273,6 +273,7 @@ export * from "./nationwide-world/executive-term-rules-in-world";
 export * from "./nationwide-world/executive-term-limits";
 export * from "./nationwide-world/state-executive-turnover";
 export * from "./nationwide-world/state-executive-turnover-calendar";
+export * from "./nationwide-world/state-legislative-election-calendar";
 export * from "./governing/state-governing";
 export * from "./governing/state-disposition";
 export * from "./governing/governing-calendar";
