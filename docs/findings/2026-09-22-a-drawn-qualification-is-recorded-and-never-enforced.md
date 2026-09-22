@@ -84,3 +84,40 @@ dishonest part is that the record says 23 and the ballot says 21.
 - **Not a claim about Puerto Rico's real law.** Its constitution has not been
   read into the corpus. Whatever it requires, the game is not reading it, and
   the fix is to make the drawn value bind — not to guess the real one.
+
+## Measured afterwards: Maine, Georgia and Arizona
+
+Asked whether the three states recorded in #342 as refusing outright — "the
+game has not read this state's elected offices yet" — refuse for this same
+reason. They do not. They refuse for the _opposite_ reason, and this branch is
+what ends it.
+
+On `main` at `d956b92a`, Portland ME (`2360545`), Atlanta GA (`1304000`) and
+Phoenix AZ (`0455000`) each resolve to `legislativeRulePackId: null`,
+`candidacyPackId: null` and `discoveredOfficeKeys: []` — nothing to stand for
+at any age.
+
+On this branch at `534c6646`, all three carry
+`us-{me,ga,az}-legislature-profile-v1` with a house and a senate, and a
+21-year-old is eligible with no blocks.
+
+So the two defects are not one. The refusal is an absent pack; this note is
+about a present pack whose numbers do not bind. **This branch fixes the first
+and introduces the second.** A reader comparing the two should not collapse
+them: the fix for the refusal is already here, and the fix for the unenforced
+draw is not.
+
+It does extend the claim this note refused to make earlier. Four generated
+states now show the unenforced shape — PR, ME, GA, AZ — measured, not inferred.
+That is four of forty-two, which is still not all of them.
+
+## The half of his rule that must survive the fix
+
+A drawn minimum age binding is the point. Borrowing a neighbouring state's
+rules never is. The 23 in Puerto Rico's pack is drawn from the national spread
+that MN, MO, NJ and NV happen to span; it is not Minnesota's law, and nothing
+in the fix may let a reader or the code confuse the two. The pack's note
+already says so in words — `"Drawn from 21 to 24, the spread enacted by MN, MO,
+NJ, NV. Not a claim about this state's law."` — and the enforcement path has to
+carry the same distinction rather than quietly resolving a drawn value through
+whatever sourced row it resembles.
