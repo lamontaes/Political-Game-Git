@@ -15,6 +15,7 @@ import {
   stateExecutiveCandidacyForPerson,
   stateExecutiveEntryStatus,
   stateExecutiveOfficeCalendar,
+  stateExecutiveReelection,
 } from "../presentation/nationwide-candidacy";
 import type { StateExecutiveEntryStatus } from "../simulation";
 import { readableCampaignDate } from "./CampaignWorkspace";
@@ -74,11 +75,13 @@ export function NationwideCandidacyWorkspace({
       setProblem(error instanceof Error ? error.message : String(error));
     }
   };
+  const reelection = stateExecutiveReelection(world, personId);
   const canStand =
     campaignPhase !== "active" &&
     (status.kind === "none" ||
       status.kind === "lost" ||
-      status.kind === "term-over-or-not-entered");
+      status.kind === "term-over-or-not-entered" ||
+      reelection?.canStand === true);
 
   return (
     <section className="game-campaign" data-testid="candidacy-section">
@@ -145,6 +148,11 @@ export function NationwideCandidacyWorkspace({
         >
           <h3>{candidacy.identity.displayName}</h3>
           <StatusLine status={status} />
+          {reelection?.reason ? (
+            <p className="game-note" data-testid="state-executive-term-limit">
+              {reelection.reason}
+            </p>
+          ) : null}
           {canStand ? (
             <>
               {candidacy.eligible ? (

@@ -1,5 +1,8 @@
 import {
   incumbentGovernorStandingAgain,
+  recordedTermsInOffice,
+  GOVERNOR_TURNOVER_PROFILE,
+  stateExecutiveEntryStatus,
   addDays,
   candidacyEligibility,
   ensureCampaignOpponents,
@@ -109,6 +112,37 @@ export function stateExecutiveOfficeCalendar(
     sources: rule.sources,
     ruleVersion: rule.ruleVersion,
   };
+}
+
+/**
+ * Whether a sitting governor may stand for the next term.
+ *
+ * BLANKET RULE: a governor may serve two terms in a row, the limit most states
+ * set and the one the game already applies to governors it runs itself
+ * (`GOVERNOR_TURNOVER_PROFILE.incumbentStepsDownAfterTerms`). Some states set
+ * none and some count differently; each state's own limit is filed with
+ * ChatGPT as `governor-term-limits-by-state` and replaces this when answered.
+ * Null when this person does not hold the office now.
+ */
+export function stateExecutiveReelection(
+  world: World,
+  personId: EntityId,
+): { readonly canStand: boolean; readonly reason: string | null } | null {
+  const status = stateExecutiveEntryStatus(world, personId);
+  if (status.kind !== "in-office") return null;
+  const candidacy = stateExecutiveCandidacyForPerson(world, personId);
+  if (!candidacy) return null;
+  const served = recordedTermsInOffice(
+    world,
+    personId,
+    candidacy.identity.officeKey,
+  );
+  if (served >= GOVERNOR_TURNOVER_PROFILE.incumbentStepsDownAfterTerms)
+    return {
+      canStand: false,
+      reason: `You are serving your ${served === 2 ? "second" : `${served}th`} term in a row. Governors in this game may serve two terms in a row, so you cannot stand for a third.`,
+    };
+  return { canStand: true, reason: null };
 }
 
 /**
