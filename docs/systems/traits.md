@@ -360,12 +360,12 @@ one as the other — is the pattern the trait reader follows.
 
 ## Resistance: everybody changes, and not everybody equally
 
-**PROPOSED.** The owner's requirement: "every character should be able to
-change with varying levels of resistance." Nothing in the simulation models
-resistance today — `recordTraitChange` takes an event and a reason and applies
-the new value outright, so the same event would move every person by the same
-amount, and in fact it has no production caller at all, so nobody's temperament
-has ever moved.
+**BUILT**, in `trait-resistance.ts` and `people-trait-change.ts`. The owner's
+requirement: "every character should be able to change with varying levels of
+resistance." Nothing modelled resistance before — `recordTraitChange` took an
+event and a reason and applied the new value outright, so the same event would
+move every person by the same amount, and it had no production caller at all,
+so nobody's temperament had ever moved.
 
 ### Resistance is read from a life, not stored as a hidden number
 
@@ -405,6 +405,38 @@ thing that moves people: one argument does not change somebody, and the same
 argument for the tenth time does. It also keeps the game honest about what it
 knows, because "this kept happening to her and she did not budge" is a fact
 about a life, and a system that dropped the failures could never say it.
+
+### Two write paths, and which one play uses
+
+`recordTraitChange` stays as it was: the authoring write, which applies a value
+because something has already decided the change happened. Fixtures use it, and
+so does anything that has settled the question elsewhere.
+
+`attemptTraitChange` is the play path and the one anything in the running game
+should use. It weighs a force against the resistance, applies the change when
+the force wins, and records the attempt when it does not. Keeping both is
+deliberate: a test arranging a person's temperament is not modelling a change,
+and making it pretend to be one would have every fixture inventing a force it
+does not mean.
+
+### An unestablished trait does not move
+
+`traitResistance` returns `unestablished` for a person with no record, and
+`weighTraitChange` refuses to move one whatever force is brought. This is the
+three-state discipline again, in the place it would have been easiest to miss:
+a two-state answer would have made somebody nobody has observed maximally
+movable, which is the softest possible reading of a life. Establishing a
+temperament is authoring it, not changing it.
+
+### A lifelong value is counted from a life, not from the write
+
+The five people traits are seeded lazily — the record appears the first time a
+decision needs it — so the record's own `recordedAt` is the day the game got
+around to it, not the day the value started. Reading that date would make a
+forty-year-old's lifelong temperament look written this morning, and one
+passing argument would move anybody. So a value that has never been superseded
+is counted from the person's birth. A value that superseded another is counted
+from the day it was written, because that is genuinely when it started.
 
 ### What this does not do
 

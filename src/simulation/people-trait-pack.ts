@@ -4,7 +4,7 @@ import {
   PEOPLE_TRAITS,
   BALANCED_TRAIT,
 } from "./people-trait-definitions";
-import type { TraitPack, TraitScale } from "./trait-packs";
+import type { TraitMovability, TraitPack, TraitScale } from "./trait-packs";
 
 /**
  * The five ordinary-life traits, as the first pack.
@@ -49,6 +49,37 @@ const SEED_SPREAD = [-2, -1, -1, 0, 0, 0, 0, 1, 1, 2] as const;
  */
 const ORDINARY_LIFE_SCOPES = ["life:ordinary"] as const;
 
+/**
+ * How movable each of the five is, which is this pack's judgement and not the
+ * engine's.
+ *
+ * `settled` is what a value resists once it has stood for `settlesOver` years
+ * and never moved; `perMove` is added for every move already made, so each
+ * change leaves somebody harder to shift than the last time they settled.
+ *
+ * The differences between the rows are authored on purpose. How somebody
+ * thinks a decision through is more fundamental than how much they like
+ * company, so deliberation settles harder and over longer. Whether somebody
+ * keeps what they said is the one most obviously moved by what happens to
+ * them, so reliability settles soonest. These are a first playable set, and
+ * changing them is an edit to this file — no code reads a trait name to decide
+ * how movable it is.
+ */
+const PEOPLE_TRAIT_MOVABILITY: Readonly<Record<string, TraitMovability>> = {
+  sociability: { settled: 2, perMove: 1, settlesOver: 10 },
+  deliberation: { settled: 3, perMove: 1.5, settlesOver: 15 },
+  reliability: { settled: 2, perMove: 1, settlesOver: 8 },
+  conflict: { settled: 3, perMove: 1, settlesOver: 12 },
+  risk: { settled: 2, perMove: 1, settlesOver: 10 },
+};
+
+/** The floor a trait this pack forgot to judge falls back to: hard to move. */
+const UNJUDGED_MOVABILITY: TraitMovability = {
+  settled: 3,
+  perMove: 1,
+  settlesOver: 15,
+};
+
 export function peopleTraitPack(): TraitPack {
   return {
     pack: PEOPLE_MIND_VERSION,
@@ -74,6 +105,7 @@ export function peopleTraitPack(): TraitPack {
         conferredBy: "seeded" as const,
         scale: PEOPLE_TRAIT_SCALE,
         seed: { spread: [...SEED_SPREAD] },
+        movability: PEOPLE_TRAIT_MOVABILITY[trait] ?? UNJUDGED_MOVABILITY,
       };
     }),
     /**

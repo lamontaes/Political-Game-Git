@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 3139 |
-| INTENTIONALLY_NON_PLAYER_FACING | 7101 |
-| DIAGNOSTIC_OR_TEST | 7680 |
-| **NEEDS_CLASSIFICATION** | **10298** |
+| INTENTIONALLY_NON_PLAYER_FACING | 7106 |
+| DIAGNOSTIC_OR_TEST | 7700 |
+| **NEEDS_CLASSIFICATION** | **10305** |
 
-Scanned 1162 files holding 112171 string
+Scanned 1165 files holding 112305 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -389,6 +389,7 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/simulation/incident-response.fixture.ts` |
 | 5 | `src/simulation/municipal-election-rules.ts` |
 | 5 | `src/simulation/service-delivery-response.ts` |
+| 5 | `src/simulation/trait-resistance.ts` |
 | 5 | `src/ui/ScenePresentationProofView.tsx` |
 | 4 | `src/districts/query.ts` |
 | 4 | `src/education/catalog.ts` |
@@ -490,6 +491,7 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/simulation/nationwide-world/rules-capability-binding.ts` |
 | 2 | `src/simulation/office-qualifications.generated.ts` |
 | 2 | `src/simulation/people-request-route.ts` |
+| 2 | `src/simulation/people-trait-change.ts` |
 | 2 | `src/simulation/place-county-relations.generated.ts` |
 | 2 | `src/simulation/press/claim-route.ts` |
 | 2 | `src/simulation/press/integrity.ts` |
