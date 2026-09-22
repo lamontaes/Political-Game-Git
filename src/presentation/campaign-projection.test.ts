@@ -115,14 +115,17 @@ describe("what the game will and will not offer", () => {
     expect(view.officeTitle).toMatch(/seat in the/i);
     /*
      * The gap is still carried, and still refuses to invent a number: the pack
-     * says the seat count is unknown and keeps its own note about why.
+     * says the seat count is unknown and keeps its own note about why. The
+     * note reaches a player through the capability resolver, so it says what
+     * the game does not know rather than which instrument was read for it.
      */
     const seats = candidacyPacks().find(
       (pack) => pack.jurisdictionKey === "US-KY",
     )!.offices[0]!.seats;
     expect(seats.kind).toBe("unknown");
     if (seats.kind !== "unknown") throw new Error("Expected unknown seats");
-    expect(seats.note).toMatch(/no instrument fixing it was separately read/i);
+    expect(seats.note).toMatch(/does not know how many seats/i);
+    expect(seats.note).toMatch(/will not guess/i);
     expect(view.openQuestions.join(" ")).toMatch(
       /no instrument establishing the size of the chamber/i,
     );
