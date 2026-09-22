@@ -262,43 +262,6 @@ repository is not, and a peer session's go-ahead is not the owner's word for it.
 They cannot come through the Drive connector, which fails above roughly 7 MB
 per file — see L1 — so any trip that carries them is a trip to the Mac.
 
-## L10 — WITHDRAWN: the packaging failure was not Windows-specific
-
-**This entry asked for something that turned out not to be needed. Nothing
-here is owed. It is kept only so the wrong reasoning is visible.**
-
-It claimed the mac-arm64 and mac-arm64-art-review packaging failures were
-explained by `7f74a2b9`, that win-x64 was a separate, Windows-only defect, and
-that diagnosing it needed a Windows or Mac run because a cloud container has
-no Electron and no Windows runner.
-
-All three claims were wrong, and a macOS log settled it. On 2026-09-22 the
-mac-arm64 **production** job failed identically to win-x64: every smoke check
-passing, then `transfer-test.mjs` timing out on
-`getByTestId('shell-nav-cluster')`. A failure reproducing on macOS is not a
-Windows defect, and it is readable from any checkout.
-
-The cause is the same on all three platforms. A new, unsaved life opens on the
-world introduction, which the shell's nav is deliberately not drawn behind. The
-smoke test was taught to dismiss it; `transfer-test.mjs` and
-`hub-continuity-test.mjs` were not, so both sat on a control that is not on
-screen yet until Playwright's thirty-second timeout.
-
-`768f0dfa` fixed it and said so in its own message. The reason it looked
-unfixed is that `768f0dfa` was committed onto `claude/current-art-source`
-while the failing branch was `codex/client-content-delivery`, so the branch
-the fix was written for was the one branch that never received it. Its desktop
-portion is now applied there unchanged.
-
-**What the wrong entry cost:** it named the platform in its title, which made
-"needs a Windows machine" look like the finding rather than an assumption. The
-check that would have caught it was cheap — read one macOS log before
-concluding a failure is Windows-only.
-
-**Retirement condition:** already met, unless the packaging jobs fail again at
-a head that carries the ported fix, in which case this becomes a new entry
-with a new diagnosis rather than a revival of this one.
-
 ## L12 — Seated male bodies need to exist drawn free of furniture
 
 This is a requirement, not a repair, and there are two ways to satisfy it.

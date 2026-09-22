@@ -46,4 +46,6 @@ Use relevant format/lint/type checks, the actual release declaration range, focu
 
 UI changes need the real interaction and viewport being changed. Prose needs the actual assembled output and saved follow-through, not only row counts. Passing code tests is not human visual approval. Keep captures outside tracked evidence unless performing its explicit refresh workflow.
 
+A fix is not landed until it is on the branch where the failure reproduces. A correct fix with a correct explanation, committed to a sibling branch, leaves the failing branch exactly as red as before and looks from there like an unsolved problem; check the failing branch's own history before diagnosing, and after fixing, before calling it done. Diagnose a failure from a log on every platform that shows it, not from the first one: name an entry or a report after the failure observed, never after the suspected cause, until the cause is measured.
+
 Publish cohesive ready fixes promptly. Minor safe polish is a follow-up, not a hold on unrelated useful work. Preserve unsafe paths behind their proper boundary until fixed. Report the exact published head/build route, what changed for the player, tests executed and specific remaining gaps. A PR, a merge into a feature branch, the build the owner plays, art approval and public release are different states.
