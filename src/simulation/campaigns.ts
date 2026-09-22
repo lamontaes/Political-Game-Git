@@ -141,6 +141,7 @@ import { CAMPAIGN_LIFE_HANDLERS } from "./campaign-life-handlers";
 import { ensureCampaignWeeklyEvaluation } from "./campaign-opponents";
 import {
   SUPPORT_DENOMINATOR,
+  SUPPORT_FLOOR_BASIS_POINTS,
   latestSupportState,
   quantityBasisPoints,
   recordSupportShift,
@@ -1485,9 +1486,15 @@ export function evaluateCampaignAwareOutcome(
         `campaign-election-uncertainty:${contest.id}:${scope.candidatePersonId}`,
       )
       .integer(-350, 351);
+    // The swing is wider than the support floor, so clamping at one basis
+    // point let election night print a share the support model forbids: a
+    // candidate held at the one-percent floor all campaign, drawing the worst
+    // swing, came out on 0.01 percent — one vote in ten thousand, which is not
+    // a result any real contest produces and read on screen as 0.0%. The floor
+    // is the floor at both ends of the day.
     return {
       id: scope.candidatePersonId,
-      weight: Math.max(1, support + swing),
+      weight: Math.max(SUPPORT_FLOOR_BASIS_POINTS, support + swing),
     };
   });
   const votes = allocateBasisPoints(scores);
