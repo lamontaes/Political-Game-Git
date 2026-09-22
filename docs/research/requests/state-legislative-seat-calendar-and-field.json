@@ -1,4 +1,13 @@
 {
+  "answer": {
+    "summary": "state-legislative-seat-calendar-and-field: real dates and multiple candidates/primaries/independents are already approved. A seeded2–4 field is not the completed model; eligible people, incumbency, party nomination, resources and goals should determine entries, including unopposed and crowded races. Persist the field; no re-rolling on refresh. Connect ordinary town to its state government independently of calendar research; candidacy is not years of compulsory daily campaigning.",
+    "sources": [
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C07, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:58:00.000Z",
+    "stillOpen": "\"A seeded2–4 field is not the completed model\"\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
+  },
   "filedAt": "2026-09-22T14:15:00.000Z",
   "impact": "shapes-design",
   "lane": "playtest",
@@ -7,7 +16,8 @@
     "The game is not short of a calendar. On the same screen, The state's top office reads 'The next regular election is November 3, 2026. The winner takes office January 4, 2027' in every one of those towns. One route uses a real calendar and the other does not, and the legislative route says so in its own words: 'Upcoming election timing is not established in this save.'",
     "The 28 days carries a comment defending it as pacing — long enough to have to choose what to spend the weeks on, short enough that the election is a thing this life reaches. That is a real argument and the answer should engage with it rather than assume a real calendar is simply better. A four-year wait for a Senate seat is a different game.",
     "The single opponent carries no comment at all and is the part most likely to be a placeholder. There is no primary, no three-way race, no unopposed seat and no incumbent; the opponent is generated at the moment of filing and did not exist before.",
-    "Consequence worth stating: the player won eleven of eleven races, 71.3 to 90.5 percent. The outcome curve is tabled by the owner and this question is not an attempt to reopen it — but the curve is currently being asked to work against one generated opponent with no incumbency, no party standing and no record, which is a different question from how steep it should be."
+    "Consequence worth stating: the player won eleven of eleven races, 71.3 to 90.5 percent. The outcome curve is tabled by the owner and this question is not an attempt to reopen it — but the curve is currently being asked to work against one generated opponent with no incumbency, no party standing and no record, which is a different question from how steep it should be.",
+    "APPENDED 2026-09-22, and it narrows what a usable answer is. A flat field of two to four opponents was built against this question and withdrawn before it shipped, on lamontae's ruling: \"You should only have more than one opponent in the primary, or if there's an independent, you can also have no opponent.\" So the answer this lane needs is not a distribution of challengers per race. It is the structure: what a primary is and when it sits on the year, what carries from a primary into a general, where an independent joins, and how a seat comes to be unopposed. A number of opponents with no primary behind it is exactly what he rejected, so please do not answer with one."
   ],
   "priority": "P1",
   "question": "When is the next election for a state legislative seat, and who is in the race? Specifically: do state legislative elections run on the state's own regular calendar (and if so, what is that calendar state by state — which chambers, which years, what term length, and is there a primary the player has to get through first), and what should the field look like — is there an incumbent, how many challengers are realistic for a seat in a state house versus a state senate, and how often is a seat unopposed?",

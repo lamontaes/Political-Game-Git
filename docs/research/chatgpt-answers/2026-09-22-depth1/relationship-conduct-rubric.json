@@ -1,0 +1,158 @@
+{
+  "status": "authored-provisional-private-comparison-rubric",
+  "unit": "relative evidence contribution to an actor-specific interpretation; not a psychometric score, gameplay delta API or closeness threshold",
+  "rules": [
+    "Ranges illustrate scale, not random draws to apply blindly.",
+    "0 means no assumed standing change, not absent interaction/memory.",
+    "Commitment is primarily an explicit relationship/obligation record, not a cumulative points bonus.",
+    "Deduplicate by canonical episode and relevant evidence; maintained is not automatically strengthened.",
+    "Allow dispositions/context to change appraisal without making consent or trust compulsory.",
+    "Do not sum all dimensions into one friendship bucket."
+  ],
+  "rows": [
+    {
+      "namespace": "contact",
+      "conduct": "A greeting or routine acknowledgement",
+      "proposedContributionRanges": {},
+      "boundary": "Record contact and any temporary appraisal, not default standing warmth/trust points merely from repetition."
+    },
+    {
+      "namespace": "commitment",
+      "conduct": "Agreeing to a specific feasible request",
+      "proposedContributionRanges": {},
+      "boundary": "Create the commitment; anticipation can be a temporary appraisal, not fulfillment."
+    },
+    {
+      "namespace": "support",
+      "conduct": "Delivered useful voluntary help",
+      "proposedContributionRanges": {
+        "warmth": [
+          0.4,
+          1.2
+        ],
+        "trust": [
+          0.3,
+          1.0
+        ]
+      },
+      "boundary": "Ground recipient interpretation in need, cost and consent; no automatic reciprocal duty."
+    },
+    {
+      "namespace": "work",
+      "conduct": "Demonstrated competent cooperation",
+      "proposedContributionRanges": {
+        "respect": [
+          0.4,
+          1.2
+        ],
+        "trust": [
+          0.2,
+          0.7
+        ]
+      },
+      "boundary": "Domain-specific reliance; competence does not guarantee affection."
+    },
+    {
+      "namespace": "commitment",
+      "conduct": "Kept a significant explicit promise",
+      "proposedContributionRanges": {
+        "trust": [
+          0.5,
+          1.5
+        ],
+        "warmth": [
+          0,
+          0.7
+        ]
+      },
+      "boundary": "Evaluate the actual terms and capacity; same promise counted once."
+    },
+    {
+      "namespace": "conflict",
+      "conduct": "Ordinary honest disagreement",
+      "proposedContributionRanges": {},
+      "boundary": "May change appraisal or issue respect; not universally a strained relationship."
+    },
+    {
+      "namespace": "contact",
+      "conduct": "Respectful refusal without prior duty",
+      "proposedContributionRanges": {},
+      "boundary": "Record the response; disappointment may exist without standing penalty."
+    },
+    {
+      "namespace": "conflict",
+      "conduct": "Known contempt or humiliation",
+      "proposedContributionRanges": {
+        "warmth": [
+          -1.5,
+          -0.4
+        ],
+        "tension": [
+          0.5,
+          1.5
+        ]
+      },
+      "boundary": "Witness/interpretation-specific, not every blunt response."
+    },
+    {
+      "namespace": "commitment",
+      "conduct": "Unexplained avoidable breach of meaningful commitment",
+      "proposedContributionRanges": {
+        "trust": [
+          -2,
+          -0.5
+        ],
+        "tension": [
+          0.3,
+          1.5
+        ]
+      },
+      "boundary": "Causal alternatives/capacity matter; accident or unknowable obligation is not deliberate betrayal."
+    },
+    {
+      "namespace": "exchange",
+      "conduct": "Known deliberate deception or privacy breach",
+      "proposedContributionRanges": {
+        "trust": [
+          -3,
+          -1
+        ],
+        "tension": [
+          0.5,
+          2
+        ]
+      },
+      "boundary": "Undiscovered act does not reveal itself; lie differs from sincere mistake."
+    },
+    {
+      "namespace": "conflict",
+      "conduct": "Acknowledgement plus accepted concrete repair",
+      "proposedContributionRanges": {
+        "tension": [
+          -1.5,
+          -0.3
+        ],
+        "trust": [
+          0,
+          0.5
+        ]
+      },
+      "boundary": "Reduced tension is not erased breach or instantly restored trust."
+    },
+    {
+      "namespace": "care",
+      "conduct": "Ongoing meaningful support under an accepted arrangement",
+      "proposedContributionRanges": {
+        "warmth": [
+          0.5,
+          1.5
+        ],
+        "trust": [
+          0.3,
+          1
+        ]
+      },
+      "boundary": "Aggregate related daily work as one evolving episode rather than 365 independent bonuses."
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "schema": "ocd-relationship-absence-receiving/1",
+  "status": "Director design answer to new owner ruling carried in current source-owned research queue; not an executed simulation.",
+  "owner_instruction": {
+    "quoted": "i do want passive decay. not a number. defer to chatgpt",
+    "reported_at": "2026-09-22T16:27:00Z",
+    "source": "relationship-fading-with-absence in the 17:57Z/ac420858 research queue",
+    "replaces": "Earlier blanket no-passive-decay instruction. Retain the distinction that not opening a screen is not absence."
+  },
+  "lines": [
+    {
+      "line": "warmth",
+      "absence": "May fade in present closeness, spontaneous attention and easy familiarity, without erasing affection or remembered history.",
+      "behavior": "Less likely to initiate intimate plans or assume a place in the other person's everyday life; a previously close bond can become dormant rather than hostile.",
+      "pace": "Relative to the relationship's established rhythm, duration, shared activities, life transitions and known reason for separation. Weeks away from a lifelong friend are not decades after a brief acquaintance.",
+      "return": "A meaningful reunion can restore ease or fondness quickly; familiarity with the other person's changed life needs actual new contact."
+    },
+    {
+      "line": "trust",
+      "absence": "Past evidence of honesty remains. Confidence in current availability, discretion or suitability for a changed task may become less current.",
+      "behavior": "May ask a clarifying question or start with a smaller commitment instead of assuming the person can still do what they did years ago. Does not begin suspecting dishonesty merely because of distance.",
+      "pace": "Changes in role, situation and opportunity matter more than a universal clock.",
+      "return": "New kept commitments restore relevant reliance; one friendly greeting does not prove reliability in every domain."
+    },
+    {
+      "line": "respect",
+      "absence": "Remembered achievements and conduct persist; current familiarity with competence may become dated.",
+      "behavior": "Can still admire someone while no longer consulting them first for a new responsibility.",
+      "pace": "Depends on changes in the activity and the observer's real information.",
+      "return": "Current work or informed conversation can refresh an assessment. No need for a repeated respect-maintenance action."
+    },
+    {
+      "line": "commitment",
+      "absence": "Voluntary relationship priority and assumed availability may loosen; exact promises, debts, care duties, contracts and kinship do not evaporate.",
+      "behavior": "Less automatic inclusion in new plans; explicit duties still require fulfillment, renegotiation, release or a separate valid end.",
+      "pace": "Mutual expectations, shared routines, competing roles and actual attempts to maintain contact.",
+      "return": "Renewed mutual plans can strengthen the ongoing bond, but one meeting does not silently reinstate an old contract or forgive an unpaid obligation."
+    },
+    {
+      "line": "tension",
+      "absence": "Immediate irritation may cool, while an unresolved grievance remains unresolved. Silence may reduce active conflict or, when actually understood as avoidance, sustain distance. No universal hardening or forgiveness.",
+      "behavior": "May be civil but reluctant to revisit an issue; unresolved history can matter again when a related choice arises.",
+      "pace": "Nature of the incident, acknowledged responsibility, subsequent conduct and each person's interpretation.",
+      "return": "Repair, explanation or changed behavior affects the particular grievance. Contact alone is not reconciliation."
+    }
+  ],
+  "implementation": [
+    "Use the existing asymmetric five-line standing and history. Derive a current relationship-context state rather than subtracting a fixed number each day.",
+    "Keep lifecycle states such as active, less-current, dormant and reconnecting as internal descriptive context, not a compulsory four-step ladder. Actors can occupy different states.",
+    "Only actual lack of meaningful interaction/exchange/shared activity counts. Shared workplace or household activity can maintain relevant bonds without the player repeatedly opening a panel. Mere co-location is not proof of intimacy.",
+    "A message that was sent but never received is not knowingly ignored. Distinguish an attempt, delivery, response and actual meeting.",
+    "Known illness, travel, changed schedule or agreed time apart affects interpretation. Distance alone cannot manufacture betrayal.",
+    "No exact global pace or evidence weight is claimed as empirical. Existing owner may test labelled contextual bands under the authorized private-calibration rule."
+  ],
+  "sources": [
+    {
+      "url": "https://onlinelibrary.wiley.com/doi/10.1111/j.1475-6811.2010.01310.x",
+      "support": "Original study: contact/closeness and kin/friend distinctions; not a universal numerical law for all five game meanings."
+    },
+    {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4626528/",
+      "support": "Original longitudinal study of a small student sample through a major life transition; activity/contact and friendship continuity, not universal rates or gender rules."
+    }
+  ],
+  "acceptance": [
+    "Thirty years without meaningful contact differs behaviorally from yesterday while exact shared events remain intact.",
+    "Established friendship, brief acquaintance, kinship and work relationship do not share one universal timeout.",
+    "Two people can interpret the same separation differently.",
+    "Opening/reloading a profile changes nothing; actual contact changes only what occurred.",
+    "A duty or debt persists during absence.",
+    "Reunion restores warmth without automatically restoring every form of trust or settling a grievance."
+  ]
+}
