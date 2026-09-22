@@ -1,3 +1,4 @@
+/* global setTimeout, clearTimeout */
 /** Unknown/old payloads retain the existing unload guard. */
 export async function hasSavableLife(contents) {
   if (!contents || contents.isDestroyed()) return null;

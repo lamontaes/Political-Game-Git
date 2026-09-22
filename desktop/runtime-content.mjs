@@ -1,4 +1,4 @@
-/* global Buffer, process, URL, Response */
+/* global Buffer, process, URL, Response, setImmediate */
 /** Immutable private artwork snapshots. Data only, served on the existing app origin. */
 import { createHash } from "node:crypto";
 import {
@@ -10,6 +10,7 @@ import {
   renameSync,
   existsSync,
 } from "node:fs";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 export const CONTENT_SCHEMA = "ocd-runtime-art/v1";
 export const CONTENT_CAPABILITY = "runtime-art-v1";
@@ -92,7 +93,7 @@ export function validateContentManifest(m) {
     typeof m.metadata !== "object"
   )
     throw new Error("Unsupported runtime content schema");
-  const paths = new Set();
+  const paths = new Map();
   for (const file of m.files) {
     if (
       !file ||
@@ -108,7 +109,7 @@ export function validateContentManifest(m) {
       types[path.extname(file.path).toLowerCase()] !== file.mime
     )
       throw new Error("Invalid or duplicate artwork file");
-    paths.add(file.path);
+    paths.set(file.path, file);
   }
   const walk = (v, key = "") => {
     if (Array.isArray(v)) {
@@ -145,10 +146,7 @@ export function validateContentManifest(m) {
         ids.add(a.asset_id);
         if (a.final_path && !paths.has(a.final_path))
           throw new Error(`Missing asset ${a.asset_id}`);
-        if (
-          a.final_path &&
-          m.files.find((f) => f.path === a.final_path)?.sha256 !== a.hash
-        )
+        if (a.final_path && paths.get(a.final_path)?.sha256 !== a.hash)
           throw new Error(`Asset hash mismatch: ${a.asset_id}`);
       }
     }
@@ -213,7 +211,12 @@ export function receiveContent({
     fileCount: manifest.files.length,
   };
 }
-export function loadContent(snapshot) {
+/**
+ * The content-addressed manifest alone (its id is its hash). Blob bytes are
+ * not read: every blob is verified again whenever it is served, so callers
+ * that only need the manifest's metadata do not pay for ~1 GB of hashing.
+ */
+export function loadContentManifest(snapshot) {
   if (
     snapshot?.schema !== CONTENT_SCHEMA ||
     !sha(snapshot.id) ||
@@ -228,15 +231,33 @@ export function loadContent(snapshot) {
   );
   if (raw.length > 32 * 1024 * 1024 || contentHash(raw) !== snapshot.id)
     throw new Error("Snapshot manifest changed");
-  const manifest = validateContentManifest(JSON.parse(raw));
-  for (const file of manifest.files)
+  return { snapshot, manifest: validateContentManifest(JSON.parse(raw)) };
+}
+export function loadContent(snapshot) {
+  const loaded = loadContentManifest(snapshot);
+  for (const file of loaded.manifest.files)
     verifyContentBytes(
       file,
       readFileSync(
         containedFile(path.join(snapshot.cacheRoot, "blobs"), file.sha256),
       ),
     );
-  return { snapshot, manifest };
+  return loaded;
+}
+/**
+ * The same full verification as `loadContent`, for a process with a UI to
+ * keep alive: blobs are read asynchronously and the event loop gets a turn
+ * between them, so verifying ~1 GB never freezes the hub for seconds.
+ */
+export async function loadContentAsync(snapshot) {
+  const loaded = loadContentManifest(snapshot);
+  const blobs = path.join(snapshot.cacheRoot, "blobs");
+  for (const file of loaded.manifest.files) {
+    const bytes = await readFile(containedFile(blobs, file.sha256));
+    verifyContentBytes(file, bytes);
+    await new Promise((resolve) => setImmediate(resolve));
+  }
+  return loaded;
 }
 /**
  * `host` is the one origin allowed to ask. The installed client serves the
@@ -245,6 +266,17 @@ export function loadContent(snapshot) {
  * host instead and gets the identical bytes through the identical validation:
  * one loader, several origins, not a second delivery path.
  */
+const shaIndexes = new WeakMap();
+function filesBySha(manifest) {
+  let index = shaIndexes.get(manifest);
+  if (!index) {
+    index = new Map();
+    for (const file of manifest.files)
+      if (!index.has(file.sha256)) index.set(file.sha256, file);
+    shaIndexes.set(manifest, index);
+  }
+  return index;
+}
 export function serveRuntimeContent(loaded, request, { host = "game" } = {}) {
   const url = new URL(request.url);
   if (url.host !== host || request.method !== "GET")
@@ -265,7 +297,7 @@ export function serveRuntimeContent(loaded, request, { host = "game" } = {}) {
   );
   if (!match || match[1] !== loaded.snapshot.id)
     return new Response("Not found", { status: 404 });
-  const file = loaded.manifest.files.find((f) => f.sha256 === match[2]);
+  const file = filesBySha(loaded.manifest).get(match[2]);
   if (!file) return new Response("Not found", { status: 404 });
   try {
     const bytes = readFileSync(

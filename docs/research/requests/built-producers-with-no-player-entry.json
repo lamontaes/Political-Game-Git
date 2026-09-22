@@ -1,4 +1,14 @@
 {
+  "answer": {
+    "summary": "built-producers-with-no-player-entry: prioritize town→legislative context, offer/contact response, bills→operative effects; then public-matter/office-response/economic/constitutional entry. Normal actor/place/office routes, not a demo fixture wrapped as a menu. Correct emptiness is distinct from an uncalled producer or unusable join.",
+    "sources": [
+      "ChatGPT stress-test connection answers, 2026-09-22, at source head 1c4992e8: /mnt/project-files/chatgpt-stress-test-answers-2026-09-22/STRESS-TEST-CONNECTION-ANSWERS.md",
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C16, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT (technical director), stress-test connection answers batch",
+    "answeredAt": "2026-09-22T15:57:02.000Z",
+    "stillOpen": "\"Correct emptiness is distinct from an uncalled producer or unusable join.\"\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
+  },
   "filedAt": "2026-09-22T15:40:00.000Z",
   "impact": "shapes-design",
   "lane": "hardcoded-content audit",
@@ -31,14 +41,5 @@
   ],
   "title": "Which finished systems should get a player entry point first",
   "usableAnswer": "An order, and one sentence per system saying what the player does that starts it. Any he does not want connected yet is an equally good answer, because then the emptiness is intended and can be recorded as such rather than read as a defect at the next playtest.",
-  "whyItMatters": "lamontae's report pattern is a surface a player reaches that is empty on an ordinary first day with nothing saying why. These are the other half of it: the producer exists and the surface does not, so the work is already paid for and only the entry point is missing. Deciding the order is his, not ours, and the answers are cheap to implement once given.",
-  "answer": {
-    "summary": "Answered as C16 in the 2026-09-22 stress-test batch. The full text is in the batch document under that heading.",
-    "sources": [
-      "ChatGPT stress-test connection answers, 2026-09-22, at source head 1c4992e8: /mnt/project-files/chatgpt-stress-test-answers-2026-09-22/STRESS-TEST-CONNECTION-ANSWERS.md"
-    ],
-    "answeredBy": "ChatGPT (technical director), stress-test connection answers batch",
-    "answeredAt": "2026-09-22T15:57:02.000Z",
-    "stillOpen": "Recorded here so the queue stops listing this as open. The implementing lane should read C16 in full rather than this line."
-  }
+  "whyItMatters": "lamontae's report pattern is a surface a player reaches that is empty on an ordinary first day with nothing saying why. These are the other half of it: the producer exists and the surface does not, so the work is already paid for and only the entry point is missing. Deciding the order is his, not ours, and the answers are cheap to implement once given."
 }

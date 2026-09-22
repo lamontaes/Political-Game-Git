@@ -1,0 +1,34 @@
+{
+  "control": {
+    "detail": "None, beyond filing a bill about it.",
+    "present": false
+  },
+  "declaredDetail": "The state and local policy pack that shipped today declares a health and human services domain covering Medicaid, insurance, hospitals and behavioural health. So the pack loads, the domain resolves, and a player can file a bill about Medicaid — and there is nothing for that bill to affect.",
+  "declaredInContent": true,
+  "entryId": "healthcare",
+  "mapVersion": "connectivity-map/v1",
+  "measuredBy": "hardcoded-content audit",
+  "measurements": [
+    {
+      "at": "reported by the hardcoded-content audit lane on 2026-09-22; that report named no tree, so this reading is carried and not anchored here",
+      "found": "None of the three parts exists behind the name, while shipped content declares the domain.",
+      "what": "The hardcoded-content audit lane's reading, made while answering a question about healthcare, negotiation and budgets"
+    }
+  ],
+  "notes": [
+    "This is the case the whole document exists for. A subject that looks present because it has been named is invisible to every other check we run — the pack loads, the domain resolves, the bill files, and nothing anywhere reports that there is nothing there."
+  ],
+  "playerReach": "reaches",
+  "playerReachDetail": "A player reaches the name and nothing behind it, which is worse than reaching nothing: they can spend a session on it before finding out.",
+  "reMeasuredByPublisher": false,
+  "recordedAt": "2026-09-22T16:00:00.000Z",
+  "surface": {
+    "detail": "No screen, and no number.",
+    "present": false
+  },
+  "system": {
+    "detail": "No model. Nothing computes coverage, cost, access or outcomes anywhere in the simulation.",
+    "present": false
+  },
+  "title": "Healthcare"
+}

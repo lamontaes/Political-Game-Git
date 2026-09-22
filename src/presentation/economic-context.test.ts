@@ -23,15 +23,17 @@ describe("player economic context projection", () => {
       "ST2100000000000",
       "2106799999",
     ]);
+    // County income and rents carry their publisher's release; the
+    // unemployment series has none established and falls back to retrieval.
     expect(lines.map((line) => line.sourceReleaseDate)).toEqual([
+      "2026-02-05",
       null,
-      null,
-      null,
+      "2024-08-14",
     ]);
     expect(lines.map((line) => line.knownAvailableOn)).toEqual([
+      "2026-02-05",
       "2026-09-03",
-      "2026-09-03",
-      "2026-09-03",
+      "2024-08-14",
     ]);
     expect(lines.map((line) => line.sourceRetrievedAt)).toEqual([
       "2026-09-03T04:21:17.858Z",
@@ -47,18 +49,23 @@ describe("player economic context projection", () => {
   });
 
   it("does not leak future source observations into an earlier simulation", () => {
+    // Before the rents notice nothing is out.
     expect(
       playerEconomicContextLines("lexington-fayette", "2024-06-30"),
     ).toEqual([]);
 
-    const beforeRetrieval = playerEconomicContextLines(
-      "lexington-fayette",
-      "2026-09-02",
-    );
-    expect(beforeRetrieval).toEqual([]);
-    expect(
-      playerEconomicContextLines("lexington-fayette", "2026-09-03"),
-    ).toHaveLength(3);
+    const sources = (date: string) =>
+      playerEconomicContextLines("lexington-fayette", date).map(
+        (line) => line.providerGeographyCode,
+      );
+    // A life opening in January reads the rents published in August 2024,
+    // and not the county income released the following February.
+    expect(sources("2026-01-05")).toEqual(["2106799999"]);
+    expect(sources("2026-02-04")).toEqual(["2106799999"]);
+    expect(sources("2026-02-05")).toEqual(["21067", "2106799999"]);
+    // The undated unemployment series waits for the retrieval date.
+    expect(sources("2026-09-02")).toEqual(["21067", "2106799999"]);
+    expect(sources("2026-09-03")).toHaveLength(3);
   });
 
   it("returns fresh values so reads cannot mutate the generated source", () => {
