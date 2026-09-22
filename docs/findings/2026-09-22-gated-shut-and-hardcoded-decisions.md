@@ -112,6 +112,51 @@ whether something about a person is established or ignored.
 
 Filed as `decision-thresholds-are-constants-in-code` (P1).
 
+## 4. Two handed over by the enacted-law lane, and verified here
+
+The "What passing a law actually does" lane found these outside its own scope
+and handed them over rather than filing them. Both re-measured on `1c4992e8`
+before being written down.
+
+**A bill is not about anything.** `introduceMeasure`
+(`src/simulation/legislation.ts:1341`) accepts `policyAlternativeIds` as an
+optional input defaulting to `[]`. Searching every call site: there are
+**seven**, in `legislation-docket.ts`, `legislation-world.ts`, `tax-work.ts`,
+`legislation-bundle-docket.ts`, `municipal-public-work.ts`,
+`legislation-scenarios.ts` and `governing/legislative-clock.ts`, and **not one
+of them passes it**. Outside the module the field appears only in two test
+files, both passing `[]` explicitly. So every bill in every game carries an
+empty list of the policy alternatives it is supposed to be choosing between.
+
+This is a wiring gap, not a content gap, and it is the same shape as the
+policy catalogue finding: the vocabulary landed in #379, and the thing that
+would connect a bill to it was never called. The lane's count was six; it is
+seven.
+
+**A control offered on the bill and refused on the world.**
+`DocketWorkspace.tsx` enables the fiscal-estimate control from `canEstimate`,
+which tests the bill alone — it states a ceiling, and it authorizes or
+provides money. `legislation-estimate-action.ts:248` then looks for a
+`government.outlays` metric definition and a `mechanism.linear-transition`
+mechanism in the save, finds neither, and refuses with:
+
+> A spending scenario cannot be calculated with the information currently
+> available.
+
+Those two definitions are exactly what the production catalogue boundary
+forbids a production save from carrying, so on any money bill in an ordinary
+game the button is offered and can never succeed. The sentence reads as "not
+right now", which a player will take as something they can change by waiting
+or by gathering more; the truth is "not in this build". That is the
+reachable-and-empty-with-nothing-saying-why pattern, on a control rather than
+a screen.
+
+Deliberately not fixed here. The honest replacement sentence is a statement
+about the catalogue boundary, which the enacted-law lane owns and is writing
+up in #389, and two lanes should not author the same explanation. The
+player-facing half — the sentence, and whether the control should be offered
+at all — comes back here once their account lands.
+
 ## What this sweep did not establish
 
 `PARTY_BODY_CADENCE.repeatedDisputes` still reads 2 on `1c4992e8`. The
