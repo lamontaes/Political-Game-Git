@@ -1,4 +1,9 @@
 import { useMemo, useState, type CSSProperties } from "react";
+import {
+  galleryCandidateUrls,
+  galleryEnvironmentUrls,
+} from "../presentation/bundled-art";
+import { runtimeArtUrls } from "../presentation/runtime-art";
 
 import assetRequestDocument from "../../art/requests/asset-requests.json";
 import intakeDispositions from "../../art/qa/p71/source_intake_dispositions.json";
@@ -388,10 +393,15 @@ function SourceIntakeSection() {
   );
 }
 
-const candidateUrls = import.meta.glob<string>(
-  "../../art/generated/candidates/**/*.png",
-  { eager: true, import: "default", query: "?url" },
-);
+const candidateUrls = {
+  ...galleryCandidateUrls,
+  ...Object.fromEntries(
+    Object.entries(runtimeArtUrls()).map(([name, url]) => [
+      "../../" + name,
+      url,
+    ]),
+  ),
+};
 
 /** Existing coarse crops are inspectable without claiming item separation or release. */
 function PropCandidateSection() {
@@ -465,10 +475,7 @@ function PropCandidateSection() {
  * page whose whole purpose is looking at pictures — is how a candidate sits
  * unadjudicated for another packet.
  */
-const environmentCandidateUrls = import.meta.glob<string>(
-  "../../art/references/candidates/recent-drive-sweep/source-images/*.JPG",
-  { eager: false, import: "default", query: "?url" },
-);
+const environmentCandidateUrls = galleryEnvironmentUrls;
 
 /**
  * NOT EAGER, deliberately.

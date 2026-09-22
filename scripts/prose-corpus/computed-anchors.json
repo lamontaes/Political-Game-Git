@@ -158,9 +158,9 @@
       "anchor": "ART_PREVIEW_LABEL-0001",
       "sourcePath": "src/presentation/art-preview.ts",
       "symbol": "ART_PREVIEW_LABEL",
-      "text": "Development art preview — unreleased candidate art, not approved",
+      "text": "Private preview · Some artwork is still awaiting review",
       "occurrence": 0,
-      "textRevision": "2736f3c5c2b6"
+      "textRevision": "8c47e4c19073"
     },
     {
       "anchor": "COMMIT_CONTRACTS-0001",
@@ -1086,9 +1086,9 @@
       "anchor": "INTERNAL_ART_REVIEW_LABEL-0001",
       "sourcePath": "src/presentation/art-preview.ts",
       "symbol": "INTERNAL_ART_REVIEW_LABEL",
-      "text": "Internal art review — unreleased candidate art, not approved",
+      "text": "Private preview · Some artwork is still awaiting review",
       "occurrence": 0,
-      "textRevision": "503328cde9d8"
+      "textRevision": "8c47e4c19073"
     },
     {
       "anchor": "LIFE_TALK_INTENTS-0002",
@@ -3086,17 +3086,17 @@
       "anchor": "buildGrounding-0006",
       "sourcePath": "src/presentation/life-introduction.ts",
       "symbol": "buildGrounding",
-      "text": "{introducePerson(context)} has died.",
+      "text": "{context.name}, {context.relationship}, has died.",
       "occurrence": 0,
-      "textRevision": "a757f0ab51ac"
+      "textRevision": "10fcfd289d38"
     },
     {
-      "anchor": "buildLifeIntroduction-0001",
+      "anchor": "buildGrounding-0007",
       "sourcePath": "src/presentation/life-introduction.ts",
-      "symbol": "buildLifeIntroduction",
-      "text": "At home with you:",
+      "symbol": "buildGrounding",
+      "text": "{context.name} is {context.relationship}.",
       "occurrence": 0,
-      "textRevision": "6a074258f505"
+      "textRevision": "6ea3ead96fcd"
     },
     {
       "anchor": "buildLifeIntroduction-0003",
@@ -3113,6 +3113,22 @@
       "text": "You're {age}.",
       "occurrence": 0,
       "textRevision": "6eaa9e09f6b0"
+    },
+    {
+      "anchor": "buildLifeIntroduction-0005",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "symbol": "buildLifeIntroduction",
+      "text": "You live alone.",
+      "occurrence": 0,
+      "textRevision": "e7e39a565b12"
+    },
+    {
+      "anchor": "buildLifeIntroduction-0006",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "symbol": "buildLifeIntroduction",
+      "text": "You live with {person.introduction}.",
+      "occurrence": 0,
+      "textRevision": "0b68a3af9ba2"
     },
     {
       "anchor": "cameBackAnswers-0001",

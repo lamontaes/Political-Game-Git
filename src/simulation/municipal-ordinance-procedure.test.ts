@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import * as municipalGovernment from "./municipal-government";
 
 import { createScenarioWorld } from "./demo";
 import { requireLifePlace } from "./life-places";
@@ -22,7 +23,7 @@ import {
 } from "./municipal-ordinance-procedure";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { advanceWorld } from "./world";
-import { makeIsoDate } from "./dates";
+import { addDays, makeIsoDate } from "./dates";
 import type {
   EntityId,
   LegislativeVoteDisposition,
@@ -121,7 +122,7 @@ describe("a Charlottesville general ordinance through the shared measure engine"
     });
     expect(tooSoon.ok).toBe(false);
     if (!tooSoon.ok)
-      expect(tooSoon.reason).toMatch(/at least 3 days intervene/);
+      expect(tooSoon.reason).toMatch(/at least 3 whole intervening days/);
 
     const ready = advanceWorld(onAgenda, 4);
     const noQuorum = passMunicipalOrdinance(ready, {
@@ -228,6 +229,75 @@ describe("a Charlottesville general ordinance through the shared measure engine"
     expect(measurePosition(failed.world, measureId).phase).toBe("failed");
     expect(measureEnactment(failed.world, measureId)).toBeNull();
   }, 60000);
+});
+
+describe("explicit municipal passage interval bases", () => {
+  it.each([
+    { basis: "ELAPSED_DAYS" as const, minimumElapsedDays: 5, offset: 5 },
+    {
+      basis: "WHOLE_INTERVENING_DAYS" as const,
+      minimumInterveningDays: 5,
+      offset: 6,
+    },
+    { minimumInterveningDays: 5, offset: 6 },
+  ])(
+    "preserves saved-measure continuity under the $basis boundary",
+    ({ offset, ...interval }) => {
+      const { world, key, council } = charlottesville();
+      const { world: onAgenda, measureId } = introduced(world, key);
+      const government = municipalGovernmentForLifePlace(
+        requireLifePlace("5114968"),
+      )!;
+      const reading = municipalGovernment.primaryReading(government);
+      // A bounded rule fixture exercises the existing writer; it does not admit Portland.
+      const spy = vi
+        .spyOn(municipalGovernment, "primaryReading")
+        .mockReturnValue({
+          ...reading,
+          procedure: {
+            ...reading.procedure,
+            introductionToPassage: { ...interval, sameDayException: null },
+          },
+        });
+      try {
+        const restored = deserializeWorld(serializeWorld(onAgenda));
+        const expected = addDays(onAgenda.currentDate, offset);
+        expect(
+          municipalOrdinanceStatus(restored, key, measureId)?.earliestPassageOn,
+        ).toBe(expected);
+        const early = advanceWorld(restored, offset - 1);
+        const rejected = passMunicipalOrdinance(early, {
+          governmentKey: key,
+          measureId,
+          dispositions: roll(council, 3, 0),
+          provenance: PROVENANCE,
+        });
+        expect(rejected.ok).toBe(false);
+        if (!rejected.ok) {
+          expect(rejected.reason).toContain(
+            `the earliest valid passage date is ${expected}`,
+          );
+        }
+        expect(rejected.world).toBe(early);
+        const ready = advanceWorld(restored, offset);
+        const result = passMunicipalOrdinance(ready, {
+          governmentKey: key,
+          measureId,
+          dispositions: roll(council, 3, 0),
+          provenance: PROVENANCE,
+        });
+        expect(result.ok).toBe(true);
+        expect(measureEnactment(result.world, measureId)?.effectiveAt).toBe(
+          expected,
+        );
+        expect(deserializeWorld(serializeWorld(result.world))).toEqual(
+          result.world,
+        );
+      } finally {
+        spy.mockRestore();
+      }
+    },
+  );
 });
 
 describe("rules-municipal-authority/v1", () => {

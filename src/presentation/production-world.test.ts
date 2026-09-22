@@ -359,4 +359,33 @@ describe("The production world is not a renamed fixture", () => {
       expect(enrollment.startedAt <= young.world.currentDate).toBe(true);
     }
   });
+
+  it("puts a school-age child in school on every earlier-life version", () => {
+    /*
+     * The regression this pins. `context-v2` declines to assume a school,
+     * employer or credential in an ADULT's summarized past, which is the right
+     * call and is decided on the adult path. The same condition was attached
+     * to the code that enrols a child, where nothing replaces it, so a
+     * twelve-year-old had no enrollment: `in-school` stopped holding, every
+     * early.school and early.peer opening went ineligible, and the child
+     * attended nothing. A child at school today is present circumstance, not
+     * invented biography, so it holds whatever version generated the past.
+     *
+     * The test above shares this file's BASE, which names no version, which is
+     * exactly why it went on passing while the game shipped a schoolless
+     * child. Every supported version is asked here by name.
+     */
+    for (const earlierLifeGenerationVersion of [
+      undefined,
+      "context-v2",
+    ] as const) {
+      const child = start({ startAge: 12, earlierLifeGenerationVersion });
+      const enrollments = child.world.history.educationEnrollments.filter(
+        (enrollment) => enrollment.personId === child.playerPersonId,
+      );
+      expect(enrollments.length, `${earlierLifeGenerationVersion}`).toBe(1);
+      expect(enrollments[0]!.programKind).toBe("schooling:general");
+      expect(enrollments[0]!.endedAt ?? null).toBeNull();
+    }
+  });
 });

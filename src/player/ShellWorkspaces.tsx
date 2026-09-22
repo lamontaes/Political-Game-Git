@@ -1,4 +1,10 @@
 import { UX39CalendarGrid, useCalendarDateOrder } from "./UX39CalendarGrid";
+import {
+  clampWorkspace,
+  defaultWorkspace,
+  type WorkspaceLayout,
+} from "../presentation/workspace-layout";
+import type { PointerEvent as ReactPointerEvent } from "react";
 import { PinToggle } from "./controls/PinToggle";
 import { calendarDisplayDate } from "./ux39-calendar-dates";
 import { EconomicContextPanel } from "./EconomicContextPanel";
@@ -53,13 +59,15 @@ import {
   isPinned,
   type InterruptionPreferences,
 } from "../presentation/shell-navigation";
-import { INTERRUPTION_CATEGORIES } from "../presentation/interruption-policy";
+import {
+  INTERRUPTION_CATEGORIES,
+  interruptionHandlers,
+} from "../presentation/interruption-policy";
 import { PeopleRelationshipWeb } from "./PeopleRelationshipWeb";
 import { PersonPortrait } from "./PersonPortrait";
 import {
   authorizeCalendarSimulation,
   declineCalendarActivity,
-  playCalendarActivity,
   simulateAuthorizedCalendarActivity,
 } from "../presentation/calendar-time-control";
 import {
@@ -109,6 +117,8 @@ export function WorkspaceFrame({
   onBack,
   onClose,
   children,
+  layout,
+  onLayoutChange,
 }: {
   readonly title: string;
   readonly kicker?: string;
@@ -117,19 +127,157 @@ export function WorkspaceFrame({
   readonly onBack: () => void;
   readonly onClose: () => void;
   readonly children: ReactNode;
+  readonly layout?: WorkspaceLayout;
+  readonly onLayoutChange?: (layout: WorkspaceLayout | null) => void;
 }) {
+  const frame = useRef<HTMLElement>(null);
+  const closeButton = useRef<HTMLButtonElement>(null);
+  const [liveLayout, setLiveLayout] = useState<WorkspaceLayout | null>(null);
+  const [viewport, setViewport] = useState(() => ({
+    width: typeof window === "undefined" ? 1280 : window.innerWidth,
+    height: typeof window === "undefined" ? 860 : window.innerHeight,
+  }));
+  const drag = useRef<{
+    mode: "move" | "resize";
+    x: number;
+    y: number;
+    layout: WorkspaceLayout;
+  } | null>(null);
+  useEffect(() => {
+    const invoker =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+    closeButton.current?.focus();
+    return () => {
+      if (invoker?.isConnected) invoker.focus();
+    };
+  }, [testid]);
+  useEffect(() => {
+    const resize = () =>
+      setViewport({ width: window.innerWidth, height: window.innerHeight });
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
+  }, []);
+  const shown =
+    liveLayout ??
+    (layout
+      ? clampWorkspace(layout, viewport.width, viewport.height)
+      : defaultWorkspace(viewport.width, viewport.height));
+  function start(
+    event: ReactPointerEvent<HTMLElement>,
+    mode: "move" | "resize",
+  ) {
+    if (!onLayoutChange || event.button !== 0) return;
+    if (mode === "move" && (event.target as HTMLElement).closest("button"))
+      return;
+    const rect = frame.current?.getBoundingClientRect();
+    if (!rect) return;
+    event.preventDefault();
+    event.currentTarget.setPointerCapture(event.pointerId);
+    drag.current = {
+      mode,
+      x: event.clientX,
+      y: event.clientY,
+      layout: { x: rect.x, y: rect.y, width: rect.width, height: rect.height },
+    };
+  }
+  function move(event: ReactPointerEvent<HTMLElement>) {
+    const current = drag.current;
+    if (!current) return;
+    const dx = event.clientX - current.x,
+      dy = event.clientY - current.y;
+    setLiveLayout(
+      clampWorkspace(
+        {
+          ...current.layout,
+          ...(current.mode === "move"
+            ? { x: current.layout.x + dx, y: current.layout.y + dy }
+            : {
+                width: current.layout.width + dx,
+                height: current.layout.height + dy,
+              }),
+        },
+        viewport.width,
+        viewport.height,
+      ),
+    );
+  }
+  function end() {
+    if (drag.current && liveLayout) onLayoutChange?.(liveLayout);
+    drag.current = null;
+    setLiveLayout(null);
+  }
   return (
     <section
+      ref={frame}
       className="pg-workspace civic-glass"
+      style={
+        shown
+          ? {
+              left: shown.x,
+              top: shown.y,
+              width: shown.width,
+              height: shown.height,
+              maxHeight: viewport.height - 24,
+              transform: "none",
+            }
+          : undefined
+      }
       data-testid={testid}
       aria-label={title}
+      onKeyDown={(event) => {
+        if (event.key === "Escape" && !event.defaultPrevented) {
+          event.preventDefault();
+          event.stopPropagation();
+          onClose();
+        }
+      }}
     >
-      <header className="pg-workspace-head">
+      <header
+        className="pg-workspace-head"
+        data-movable={Boolean(onLayoutChange)}
+        onPointerDown={(event) => start(event, "move")}
+        onPointerMove={move}
+        onPointerUp={end}
+        onPointerCancel={end}
+      >
         <div>
           {kicker ? <p className="pg-kicker">{kicker}</p> : null}
           <h2>{title}</h2>
         </div>
         <div className="pg-workspace-controls">
+          {onLayoutChange ? (
+            <>
+              <button
+                type="button"
+                className="ui-action ui-action--subtle"
+                onClick={() =>
+                  onLayoutChange(
+                    clampWorkspace(
+                      {
+                        x: 12,
+                        y: 12,
+                        width: viewport.width - 24,
+                        height: viewport.height - 110,
+                      },
+                      viewport.width,
+                      viewport.height,
+                    ),
+                  )
+                }
+              >
+                Maximize
+              </button>
+              <button
+                type="button"
+                className="ui-action ui-action--subtle"
+                onClick={() => onLayoutChange(null)}
+              >
+                Reset layout
+              </button>
+            </>
+          ) : null}
           {canGoBack ? (
             <button
               type="button"
@@ -144,6 +292,7 @@ export function WorkspaceFrame({
             type="button"
             className="ui-icon-button"
             aria-label="Close"
+            ref={closeButton}
             data-testid={`${testid}-close`}
             onClick={onClose}
           >
@@ -152,6 +301,54 @@ export function WorkspaceFrame({
         </div>
       </header>
       <div className="pg-workspace-body">{children}</div>
+      {onLayoutChange ? (
+        <button
+          type="button"
+          className="pg-window-resize"
+          aria-label={`Resize ${title}; use arrow keys`}
+          onPointerDown={(event) => start(event, "resize")}
+          onPointerMove={move}
+          onPointerUp={end}
+          onPointerCancel={end}
+          onKeyDown={(event) => {
+            if (
+              !["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(
+                event.key,
+              )
+            )
+              return;
+            event.preventDefault();
+            const rect = frame.current?.getBoundingClientRect();
+            if (rect)
+              onLayoutChange(
+                clampWorkspace(
+                  {
+                    x: rect.x,
+                    y: rect.y,
+                    width:
+                      rect.width +
+                      (event.key === "ArrowRight"
+                        ? 20
+                        : event.key === "ArrowLeft"
+                          ? -20
+                          : 0),
+                    height:
+                      rect.height +
+                      (event.key === "ArrowDown"
+                        ? 20
+                        : event.key === "ArrowUp"
+                          ? -20
+                          : 0),
+                  },
+                  viewport.width,
+                  viewport.height,
+                ),
+              );
+          }}
+        >
+          ◢
+        </button>
+      ) : null}
     </section>
   );
 }
@@ -510,6 +707,10 @@ export function CalendarWorkspaceSurface({
                         world={world}
                         personId={personId}
                         interruptions={interruptions}
+                        onOpenBlockingActivity={(id) => {
+                          setSelectedDate(null);
+                          setSelectedId(id);
+                        }}
                       />
                     ) : null}
                   </div>
@@ -589,7 +790,7 @@ export function CalendarWorkspaceSurface({
       </div>
 
       {tab === "today" ? (
-        <>
+        <div className="pg-calendar-board">
           <UX39CalendarGrid
             today={calendar.today.date}
             days={liveDays}
@@ -684,7 +885,7 @@ export function CalendarWorkspaceSurface({
               )
             )}
           </div>
-        </>
+        </div>
       ) : null}
 
       {tab === "history" ? (
@@ -823,6 +1024,7 @@ function CalendarEventActions({
   world,
   personId,
   interruptions,
+  onOpenBlockingActivity,
 }: {
   readonly selected: CalendarEntry;
   readonly onOpen: (ref: ShellRef) => void;
@@ -835,6 +1037,7 @@ function CalendarEventActions({
   readonly world: World;
   readonly personId: EntityId;
   readonly interruptions: InterruptionPreferences;
+  readonly onOpenBlockingActivity: (id: EntityId) => void;
 }) {
   const simulation = authorizeCalendarSimulation(
     world,
@@ -860,6 +1063,7 @@ function CalendarEventActions({
     world,
     personId,
     selected.activityId,
+    interruptionHandlers(interruptions),
   );
   const laneRoute = campaignLife?.needsLaneRoute ? campaignLife : null;
   const attendNote = laneRoute
@@ -867,9 +1071,15 @@ function CalendarEventActions({
     : venue?.refusal
       ? venue.refusal
       : venue?.journey
-        ? `Includes the ${describeInterval(venue.journey.journeyMinutes)} journey to ${selected.locationLabel}. ${venue.journey.costDisclosure}`
+        ? venue.journey.alreadyCompleted
+          ? `The journey to ${selected.locationLabel} is complete. Attend begins here.`
+          : `Includes the ${describeInterval(venue.journey.journeyMinutes)} journey to ${selected.locationLabel}. ${venue.journey.costDisclosure}`
         : null;
   const busy = runner.pending || undefined;
+  const attendance = previewTimeCommand(world, personId, {
+    kind: "attend-activity",
+    activityId: selected.activityId,
+  });
   return (
     <div
       className="game-choices pg-calendar-actions"
@@ -915,22 +1125,40 @@ function CalendarEventActions({
         data-route={laneRoute ? "campaign-life" : "venue"}
         aria-disabled={busy}
         onClick={() =>
-          runner.perform(
-            (current) =>
-              laneRoute
-                ? attendCalendarCampaignLifeActivity(
+          laneRoute
+            ? runner.perform(
+                (current, handlers) =>
+                  attendCalendarCampaignLifeActivity(
                     current,
                     personId,
                     selected.activityId,
-                  )
-                : playCalendarActivity(current, personId, selected.activityId),
-            onReport,
-          )
+                    "attended",
+                    handlers,
+                  ),
+                onReport,
+              )
+            : runner.submit(
+                { kind: "attend-activity", activityId: selected.activityId },
+                onReport,
+              )
         }
       >
         Attend
+        {attendance
+          ? ` · Until ${attendance.target.date === world.currentDate ? "" : `${proseWeekdayDate(attendance.target.date)}, `}${formatMinute(attendance.target.minuteOfDay)}`
+          : ""}
         {attendNote ? <small>{attendNote}</small> : null}
       </button>
+      {laneRoute?.blockingActivityId ? (
+        <button
+          type="button"
+          className="ui-action"
+          data-testid="calendar-show-blocker"
+          onClick={() => onOpenBlockingActivity(laneRoute.blockingActivityId!)}
+        >
+          Show earlier event
+        </button>
+      ) : null}
       <button
         type="button"
         className="ui-action"
@@ -1129,6 +1357,17 @@ export function PersonalWorkspace({
     () => projectOpeningLife(world, personId),
     [world, personId],
   );
+  const history = useMemo(
+    () => projectLifeRecord(world, personId),
+    [world, personId],
+  );
+  const goals = world.history.goalStates.filter(
+    (goal) =>
+      goal.personId === personId &&
+      !world.history.goalStates.some(
+        (newer) => newer.supersedesGoalStateId === goal.id,
+      ),
+  );
   if (!record) {
     return <p className="game-note">This world has no record of you.</p>;
   }
@@ -1249,6 +1488,34 @@ export function PersonalWorkspace({
           </ul>
         </section>
       ) : null}
+
+      <section className="pg-personal-section" aria-label="Your history">
+        <h3>History</h3>
+        <div className="pg-personal-chronology">
+          {history.chapters.length ? (
+            history.chapters.map((chapter) => (
+              <section key={chapter.key}>
+                <h4>{chapter.heading}</h4>
+                {chapter.entries.map((entry) => (
+                  <p key={entry.key}>
+                    <time>{entry.at}</time> · {entry.sentence}
+                  </p>
+                ))}
+              </section>
+            ))
+          ) : (
+            <p>No remembered milestones are recorded yet.</p>
+          )}
+        </div>
+      </section>
+      <section className="pg-personal-section" aria-label="Your goals">
+        <h3>Goals</h3>
+        {goals.length ? (
+          goals.map((goal) => <p key={goal.id}>{goal.objective}</p>)
+        ) : (
+          <p>No personal goals are recorded yet.</p>
+        )}
+      </section>
 
       {/*
         Three kinds of money, kept apart because the world keeps them apart.
@@ -1511,12 +1778,20 @@ export function PatchNotesWorkspace() {
       <p className="game-band" data-testid="patch-notes-version">
         Version {CANONICAL_VERSION}
       </p>
-      <p className="game-note" data-testid="patch-notes-build">
-        Running source {identity.revision}
-        {identity.dirty ? " · uncommitted changes" : " · clean source"}. This
-        identifies this game bundle, not the installed controller or a different
-        saved life.
-      </p>
+      {/*
+        The build stamp is a revision, which is a fact about where this bundle
+        came from rather than anything in the game. It stays readable on a
+        developer surface and stops being part of the patch notes a player
+        opens.
+      */}
+      {DIAGNOSTICS ? (
+        <p className="game-note" data-testid="patch-notes-build">
+          Running source {identity.revision}
+          {identity.dirty ? " · uncommitted changes" : " · clean source"}. This
+          identifies this game bundle, not the installed controller or a
+          different saved life.
+        </p>
+      ) : null}
       {released.map((section) => (
         <section
           key={section.id}

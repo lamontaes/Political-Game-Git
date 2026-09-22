@@ -119,7 +119,9 @@ export function playCalendarActivity(
   return {
     world: next,
     reached: next.currentMoment,
-    outcome: describeRoutineOutcome(before, next, personId),
+    outcome:
+      activityCompletionOutcome(next, personId, activityId) ??
+      describeRoutineOutcome(before, next, personId),
   };
 }
 
@@ -214,4 +216,19 @@ export function declineCalendarActivity(
     reached: next.currentMoment,
     outcome: "The tentative hold was released. No time passed.",
   };
+}
+
+export function activityCompletionOutcome(
+  world: World,
+  personId: EntityId,
+  activityId: EntityId,
+): string | null {
+  const activity = world.history.scheduledActivities.find(
+    (item) => item.id === activityId,
+  );
+  if (!activity || !activity.participantPersonIds.includes(personId))
+    return null;
+  if (scheduledActivityState(world, activityId).status !== "completed")
+    return null;
+  return `You completed ${activity.title} at ${activity.location.label}.`;
 }
