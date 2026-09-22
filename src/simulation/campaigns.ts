@@ -531,22 +531,6 @@ export function fileCampaign(
     throw new Error("Campaign filing references a missing jurisdiction.");
   }
 
-  // A district seat is recorded against a Gazetteer identity, so a filing for
-  // one has to say which. Eligibility can read the district somebody lives in
-  // and still not know which seat they mean.
-  if (
-    (input.districtBinding ?? null) === null &&
-    districtSeatMustBeNamed(
-      input.jurisdictionId,
-      input.officeKey,
-      inputWorld.currentDate,
-    )
-  ) {
-    throw new Error(
-      "This seat is filled by district, and the filing named none. The sourced district-residence rule needs the seat's own Gazetteer identity before a contest can be recorded against it.",
-    );
-  }
-
   // The honesty gate. A filing that the accepted sources cannot support is
   // refused here, in the same words the player was already shown, rather than
   // quietly succeeding against an office nobody has rules for.
@@ -561,6 +545,23 @@ export function fileCampaign(
   if (!eligibility.eligible || !eligibility.office || !eligibility.pack) {
     throw new Error(
       eligibility.blocks[0]?.reason ?? "This character cannot file here.",
+    );
+  }
+
+  // A district seat is recorded against a Gazetteer identity, so a filing for
+  // one has to name which. This sits after the honesty gate on purpose: a
+  // world that cannot say which district somebody lives in has a better
+  // sentence for them than this one, and should get to say it first.
+  if (
+    (input.districtBinding ?? null) === null &&
+    districtSeatMustBeNamed(
+      input.jurisdictionId,
+      input.officeKey,
+      inputWorld.currentDate,
+    )
+  ) {
+    throw new Error(
+      "This seat is filled by district, and the filing named none. The sourced district-residence rule needs the seat's own Gazetteer identity before a contest can be recorded against it.",
     );
   }
   const option = eligibility.office;
