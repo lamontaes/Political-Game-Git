@@ -52,7 +52,9 @@ describe("a life in the District of Columbia", () => {
     // The player is told the term and its January 2 start, and nothing about
     // which instrument says so: no citation, no host, no observation date.
     expect(calendar.note).toContain("A term here lasts four years.");
-    expect(calendar.note).toContain("takes office on January 2 after the election");
+    expect(calendar.note).toContain(
+      "takes office on January 2 after the election",
+    );
     expect(calendar.note).not.toContain("code.dccouncil.gov");
     expect(calendar.note).not.toMatch(/cited|quoted|Code|law/i);
   });
