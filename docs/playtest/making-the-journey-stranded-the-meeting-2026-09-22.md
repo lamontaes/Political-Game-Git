@@ -66,6 +66,33 @@ and Baltimore. Without the fix both fail on the walk's own sentence, "The
 current location is not recorded"; with it the meeting is performable and
 completes.
 
+## Confirmed on screen, not only in tests
+
+Passing tests is not visual approval, so the same walk was repeated in
+Springfield on the fixed branch at `e717ecbc`, Chromium 141:
+
+1. Press **Make the journey** on the journey's own row — "You have finished
+   Journey to the public meeting at On the way to the public meeting."
+2. The destination now reads **"75 minutes, including any wait before it
+   begins"**, performable, with no refusal. This is the exact state that read
+   "The current location is not recorded" before the fix.
+3. Press **Carry out activity** — "You have finished Posted public meeting at
+   Public meeting room."
+4. The life carries on: the community-room journey and meeting become enabled
+   at 1365 and 1425 minutes.
+
+So the meeting at the far end of a walked journey is attended, on screen, by
+the presses a player would make.
+
+## A separate thing the walk turned up
+
+**Boise, Idaho offers no organizing meeting at all.** Starting the same
+ordinary life there, the Campaigns screen carried no control matching
+"Organizing meeting", where Springfield offers two chapters with named hosts.
+Whether that is a party-chapter data gap in Idaho or a different label on the
+same thing is not established, and it is not being reported as a defect on one
+probe. Recorded so the next walk starts there rather than rediscovering it.
+
 ## What this does not establish
 
 - Whether the meeting produces anything worth attending once attended. This
