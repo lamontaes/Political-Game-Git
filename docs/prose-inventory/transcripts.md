@@ -421,7 +421,7 @@ _Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires
 **Intent.** Ordinary adult life: adult situations, quiet stretches and connective narration between them.
 
 Seed `corpus-ordinary-adult`, start age 34, Zachary Todd.
-20 beats, 78 realized lines, 45 linked back to a template.
+20 beats, 77 realized lines, 43 linked back to a template.
 
 **Actually demonstrated:** age-band:adult, connective-narration, episode:civic.the-thing-nobody-else-turned-up-for, episode:home.the-week-that-does-not-balance, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
 
@@ -579,7 +579,7 @@ _Present: Manuel Todd, your dad_
 
 
 
-Manuel Todd, your dad: Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.
+Manuel Todd, your dad: Manuel Todd asked you over on Saturday afternoon. Going is optional.
 
 - **Say you will come** ← chosen
 - Decline the invitation
@@ -617,11 +617,22 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 
 - **Let the weeks run on** ← chosen
 
-#### Beat 16 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/moment)
+#### Beat 16 — 2026-05-10, age 35 (adult)
 
 > A couple of months on, and you're 35 now.
 > Jaden Lewis tried to reach you.
 > You and Emil Miles were in and out of each other's business more than once.
+
+Gage Terrell, your housemate: “I will be home this evening. Would you like to sit and talk?”
+
+- **Agree to sit and talk this evening** ← chosen
+- Decline; keep the evening to yourself
+
+_Present: Gage Terrell, your housemate_
+
+#### Beat 17 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/moment)
+
+
 
 You're at home with fifteen minutes free.
 
@@ -631,7 +642,7 @@ You're at home with fifteen minutes free.
 
 _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household._
 
-#### Beat 17 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/follow-through)
+#### Beat 18 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/follow-through)
 
 
 
@@ -642,27 +653,13 @@ You've been reading for the last fifteen minutes. You can read for five more, or
 
 _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-05-10._
 
-#### Beat 18 — 2026-05-10, age 35 (adult)
+#### Beat 19 — 2026-05-10, age 35 (ordinary-stretch)
 
 
 
-Manuel Todd, your dad: Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.
-
-- **Say you will come** ← chosen
-- Decline the invitation
-
-_Present: Manuel Todd, your dad_
-
-#### Beat 19 — 2026-05-10, age 35 (adult)
 
 
-
-Gage Terrell, your housemate: “I will be home this evening. Would you like to sit and talk?”
-
-- **Agree to sit and talk this evening** ← chosen
-- Decline; keep the evening to yourself
-
-_Present: Gage Terrell, your housemate_
+- **Let the weeks run on** ← chosen
 
 
 ---
