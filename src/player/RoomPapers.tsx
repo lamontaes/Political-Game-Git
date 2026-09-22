@@ -33,7 +33,10 @@ interface RoomPapersProps {
   readonly papers: readonly HouseholdPaper[];
   readonly onOpenCommitment: (activityId: EntityId) => void;
   readonly onOpenPerson: (personId: EntityId) => void;
-  readonly onGoTo: (surface: "work" | "calendar" | "places") => void;
+  readonly onGoTo: (
+    surface: "work" | "calendar" | "places",
+    section?: "campaign",
+  ) => void;
 }
 
 export function RoomPapers({
@@ -110,7 +113,7 @@ export function RoomPapers({
                   : destination.kind === "person"
                     ? () => onOpenPerson(destination.personId)
                     : destination.kind === "surface"
-                      ? () => onGoTo(destination.surface)
+                      ? () => onGoTo(destination.surface, destination.section)
                       : null;
               return (
                 <li key={paper.key}>

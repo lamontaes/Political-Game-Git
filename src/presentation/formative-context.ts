@@ -6,7 +6,7 @@ import {
   ageOnDate,
   applyCharacterHistoryPlan,
   characterHistoryContextPersonId,
-  drawCanonicalName,
+  drawCanonicalNameForGender,
 } from "../simulation";
 import type {
   CharacterHistoryTransition,
@@ -143,7 +143,7 @@ export function resolveFormativeCompanion(
       kind: "context-person",
       input: {
         stableKey,
-        ...drawCanonicalName(rng),
+        ...drawCanonicalNameForGender(rng, "unstated"),
         birthDate,
         homeJurisdictionId: person.homeJurisdictionId,
       },
