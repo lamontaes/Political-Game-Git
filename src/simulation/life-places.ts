@@ -823,6 +823,56 @@ export function stateJurisdictionForKey(key: string): Jurisdiction | null {
   };
 }
 
+/**
+ * State jurisdiction slugs minted before this module owned the shape.
+ *
+ * The same state can arrive in a World along two paths that mint different
+ * stable ids for it: the places corpus builds `state-us-ky-placeholder`, while
+ * an authored legislative scenario builds `us-ky-commonwealth-placeholder`.
+ * Both are correct records of the state; neither can be renamed, because the
+ * id is derived from the slug and saved worlds carry it.
+ *
+ * So the two are reconciled by declaration rather than by changing either. Any
+ * consumer asking "which state is this jurisdiction?" reads the slug and gets
+ * the same answer for both, which is what lets a nationwide feature cross the
+ * two paths without comparing display names — a name test silently fails the
+ * moment two jurisdictions share one, and says nothing about identity.
+ *
+ * A new state jurisdiction does not belong here. It takes the corpus form.
+ */
+const AUTHORED_STATE_JURISDICTION_SLUGS: Readonly<Record<string, string>> = {
+  "us-ky-commonwealth-placeholder": "US-KY",
+  "us-ne-state-placeholder": "US-NE",
+  "us-ak-state-placeholder": "US-AK",
+};
+
+/** The corpus form: `state-us-ky-placeholder`. */
+const CORPUS_STATE_SLUG = /^state-(us-[a-z]{2})-placeholder$/;
+
+/**
+ * The state key a jurisdiction slug names, or null if the slug does not name a
+ * state. A slug this module does not recognise is not a state by default:
+ * unknown is unknown, never a guess at the nearest state.
+ */
+export function stateKeyForJurisdictionSlug(slug: string): string | null {
+  const authored = AUTHORED_STATE_JURISDICTION_SLUGS[slug];
+  if (authored) return authored;
+  const corpus = CORPUS_STATE_SLUG.exec(slug);
+  if (!corpus) return null;
+  const key = corpus[1]!.toUpperCase();
+  return STATES[key.slice(3)] ? key : null;
+}
+
+/**
+ * The state key a jurisdiction record belongs to, whichever path minted it.
+ * A locality is not its state, so a city record answers null.
+ */
+export function stateKeyForJurisdiction(
+  jurisdiction: Pick<Jurisdiction, "slug">,
+): string | null {
+  return stateKeyForJurisdictionSlug(jurisdiction.slug);
+}
+
 export function lifePlaceByKey(key: string): LifePlace | null {
   return acceptedLifePlaceProvider.byKey(key);
 }

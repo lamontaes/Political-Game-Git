@@ -74,7 +74,11 @@ describe("Nevada legislator qualifications through ordinary discovery and filing
     expect(serializeWorld(worldAtArrival)).toBe(before);
     const opening = eligibilityOn(worldAtArrival, personId);
     expect(opening.blocks.map((block) => block.reason)).toEqual([
-      "Not resident long enough: NRS 218A.200 requires 1 year, and this character has lived here 0 years.",
+      // The elapsed side used to carry no unit at all -- "has lived here 0" --
+      // because it was always years and the sentence relied on the reader to
+      // supply the word. It names its unit now, which it has to once the
+      // requirement can be months.
+      "Not resident long enough: NRS 218A.200 requires 1 year, and this character has lived here 0 months.",
     ]);
 
     // A year of this same life later, the recorded residence satisfies it.

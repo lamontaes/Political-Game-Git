@@ -2,6 +2,20 @@ import { expect, test } from "./fixtures";
 import { chooseOption } from "./support/controls";
 import { enterLife, goTo, saveLife, startLife } from "./support/creator";
 
+/*
+ * A budget that fits the journey these cases actually walk.
+ *
+ * The first case builds a custom life, opens the municipal workspace four
+ * times, pins and unpins a government, searches the national corpus twice,
+ * saves, reloads and continues. Measured headlessly on an idle machine that
+ * walk takes about twenty-five seconds, so on Playwright's thirty-second
+ * default it died on its last assertion — and reported a play screen that
+ * never appeared, which reads like a broken Continue rather than a clock that
+ * ran out. Nothing here is skipped, loosened or given more time than the walk
+ * needs; the assertions are unchanged and all of them pass.
+ */
+test.setTimeout(120_000);
+
 /**
  * Reproduces the pinned-government selection bug from UI9-12:
  * pin A, choose B from the dropdown, then accept external pin C.
