@@ -1,0 +1,53 @@
+{
+  "filedAt": "2026-09-22T16:35:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "lamontae believed on 2026-09-22 that ChatGPT already held SSA research on names over time and by age. The research triage lane searched all four of its surfaces in full at 16:34Z and it does not: the only SSA material anywhere is the 2023 period life table under HEALTH / MORTALITY CALIBRATION, which is what succession at death runs on. The belief was a conflation with that table. Both name questions are genuinely open rather than answered and mislaid.",
+    "THE DECADE DATA IS ALREADY IN HAND — do not commission it again. SSA Top 100 male and Top 100 female given names with counts, every decade from the 1920s to the 2020s, 2,200 rows, at docs/research/evidence/ssa-given-names-by-decade.json on claude/project-thread-k8w14s at a4f30ed0, transcribed from the published decade pages by the research triage lane on 2026-09-22 under lamontae's bounded-research authorisation of 16:47:59Z. What is still missing is the per-name-per-year count files, whose direct download this environment's network policy refuses at CONNECT.",
+    "MEASURED AGAINST THAT DATA: the shipped 346-name corpus covers 26 per cent of the top 200 names of the 1930s, 28 per cent of the 1940s, 31 per cent of the 1950s, 36 per cent of the 1960s, 48 per cent of the 1970s, 58 per cent of the 1980s and 67 per cent of the 1990s, flattening to 57 per cent by the 2020s. Monotonic across sixty years: it is a 1990s name list and every older person in the world draws from it. 240 of the top-100 names of the 1920s through the 1950s are absent from it entirely.",
+    "ORDER MATTERS, and this is the finding under the numbers. Keying the draw on birth year FIXES NOTHING BY ITSELF: at 26 per cent coverage for the 1930s, attaching a decade and filtering would make an older character draw from a smaller wrong pool rather than a right one. The list has to be widened first, and those 240 named absentees are the shape of that work. An answer that supplies an era rule without the widening is an answer that cannot be used.",
+    "DOC84 clause 3 (Drive 1Qg4zfzf8Nz8w8OuD3LUjz9JCqnv842totI29fsaxJTM, 2026-08-28) already specifies SSA national and state baby-name frequency files \"for cohort-aware given names\" alongside Census surname files, with an explicit instruction not to infer race or ethnicity from a surname. So the source family is settled and the constraint is binding on any answer; what is missing is the data and a reading of it. The cohort-aware half was never built — cohort, birthYear and decade all return zero matches across the 1,539 lines of src/simulation/names-data.ts.",
+    "A band is more useful than a year. A name that was current from the 1930s to the 1960s is actionable; a precise peak year would read as a measurement the game never made.",
+    "This is a generation rule, never an observation. It must never be read backwards to infer anybody's age from their name, for the same reason a name is never read to infer a gender.",
+    "The corpus needs widening either way. Even a perfect era rule cannot give a person born in 1945 a name of their time if no such name is in the list."
+  ],
+  "priority": "P2",
+  "question": "How does the set of given names an American is plausibly called change with the year they were born? Which names were common enough in a given decade that somebody born then would realistically carry one, which had effectively not arrived yet, and which had faded? How sharp is the change — is a name's currency a broad band of decades or a narrow peak?",
+  "questionId": "given-name-fashion-by-birth-year",
+  "relatedQuestionIds": ["cross-gender-given-name-rate"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "gendered given names thread (technical team lead)",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/names-data.ts, NAMES_STARTER_V1, on claude/project-thread-1wv2e2",
+      "whatItDidNotSettle": "The corpus is two flat arrays of strings with no year, era or frequency field of any kind, and its header states the names are treated strictly as non-demographic strings. It carries the names in use; nothing records when any of them was in use."
+    },
+    {
+      "source": "src/simulation/people.ts, drawCanonicalName and drawCanonicalNamedIdentity, on claude/project-thread-1wv2e2",
+      "whatItDidNotSettle": "Neither draw takes a birth date or an age, so there is no seam where a year could be honoured even if one were known. The place the answer would be applied does not exist yet; this question is what would justify building it."
+    },
+    {
+      "source": "Measurement run on claude/project-thread-1wv2e2: six seeded worlds with the Congress seated, 3,218 people, bucketed by birth decade",
+      "whatItDidNotSettle": "Establishes that the defect is real and its size, and nothing more. It says the generator does not vary names by birth year; it cannot say what varying them correctly would look like."
+    },
+    {
+      "source": "U.S. Social Security Administration National Data on the Relative Frequency of Given Names, cited as the corpus provenance",
+      "whatItDidNotSettle": "The published tables are per name per year and are exactly the shape this needs, but the repository holds only the curated list drawn from them, not the yearly counts, and the egress proxy blocks the publisher."
+    }
+  ],
+  "title": "Which American given names suit which birth year",
+  "usableAnswer": "Enough to key a draw on birth year. Either a band per name — roughly the decades in which it was current — or a set of era cohorts with the names that belong to each and the overlap between them, whichever the evidence actually supports. A line on how gradual the change is, since a hard cutoff by decade would be its own invention. Names still in use across the whole span should be identified as such rather than assigned to one era. The list also needs names that were current before the 1990s and are not in the corpus now, because the pool cannot produce an era it does not contain.",
+  "whyItMatters": "The generator draws every given name from one flat list of 346 names regardless of age. Measured across 3,218 generated people in six seeded worlds with birth decades from the 1940s to the 1990s, each decade drew 248 to 285 distinct names from that same list: a person born in the 1950s came out named Aiden, and one born in the 1940s came out named Luna. The list is also contemporary by construction — none of eighteen strongly mid-century American given names (Mildred, Gertrude, Harold, Doris, Eugene, Clarence, Agnes, Edna and the rest) appears in it at all, so an eighty-year-old cannot be called any of them either. This is the same shape as the gender defect just repaired: a real distinction the generator does not carry, believable at any single person and wrong across a room. A world where the oldest senator and the newest intern draw from one pool of names reads as a cast rather than as a country.",
+  "answer": {
+    "summary": "Use a documented release of annual SSA counts to draw plausible birth-cohort names, not a hand-written list of supposedly permissible decades. Adjacent-year smoothing, where chosen to reduce sparsity, is an authored sampling choice and must not invent data or hard-ban a known uncommon historical name. Extend the corpus with actually represented older names rather than merely filtering today's 346-name list. Historical rarity is not an impossibility claim.\n\nSSA states the underlying U.S. births begin after 1879 and coverage before 1937 is incomplete. That limits historical certainty; record it rather than claiming complete 1880-era census coverage. Future birth years use an explicit projected game distribution, not fabricated future SSA observations. Preserve source spellings/normalization notes and the right territory scope. No existing person's name changes as they age, upon a new data release, or when their record becomes more detailed.\n\nThe two naming questions should share one acquisition/compilation rather than two surveys. This is not permission to delay present people/career connections while an exhaustive historical naming catalogue is built.\n\nAcceptance ChatGPT requests (not executed): Older and younger sampled birth cohorts differ when supported by source counts, without hard decade discontinuities. Same saved person retains their name. No inferred age or gender is read from a name.",
+    "sources": [
+      "ChatGPT DEPTH1 package, 2026-09-22 (uploaded 17:39Z), answers.json entry 'given-name-fashion-by-birth-year'; kept verbatim in docs/research/chatgpt-answers/2026-09-22-depth1/ with its SHA256SUMS (14 of 14 verified).",
+      "ssa-names: https://www.ssa.gov/oact/babynames/background.html — Birth-year/sex recorded categories, shared names, suppression and pre-1937 coverage limits; not present gender-identity statistics. March 2026 extraction stated.",
+      "current-queue: https://docs.google.com/document/d/1yVVxtG0YNaKsb85O5TF9ZkxGWWU5N9sSoQWM1qa_FVM/edit — Read complete 16:34Z / 22-open / 44-answered render. Worker caller counts beyond independently inspected bodies remain reports."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T17:39:00.000Z",
+    "stillOpen": "Status 'method-answer-data-compilation-still-needed'; receiver: existing naming/source owner. METHOD ONLY, no numbers. The per-name, per-birth-year, per-sex SSA counts still have to be compiled; this environment cannot fetch them (ssa.gov refused at CONNECT). The fix waits on that data, not on a single rate, which ChatGPT says does not exist.\n\nScope limits of the whole DEPTH1 batch, in its own words: evidenceStatus \"read-source-and-research-not-production-test\"; its 12 passing tests are \"research structure and isolated arithmetic only; NOT repository/game tests\"; it read source at main 4965f63c and the 16:34Z render (22 open), not the 15 questions filed since. Any number in it is \"labelled, adjustable private-playtest calibration\", not an empirical fact or an exact number chosen by lamontae. The Acceptance paragraph is a test somebody still has to write, not one that ran."
+  }
+}
