@@ -2141,8 +2141,8 @@ export function resolveLifeSituation(
    *
    * What is NOT fixed here, and is filed as
    * `which-tendency-a-formative-situation-bears-on`: the tendency proposed
-   * below is `tendencyOrder[0]`, the catalogue's first entry, whatever the
-   * occasions were about. In the synthetic catalogue that is `riskApproach`,
+   * below is `tendencyOrder[0]`, the catalog's first entry, whatever the
+   * occasions were about. In the synthetic catalog that is `riskApproach`,
    * so every character development this produces, in every life, is about
    * risk. The evidence decides whether a development is proposed and has no
    * say in which one. Choosing correctly needs an authored link from a

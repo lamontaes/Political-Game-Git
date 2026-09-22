@@ -59,7 +59,7 @@ measured by hardcoded-content audit · recorded 2026-09-22 · `healthcare`
 
 **A control that moves it.** No — None, beyond filing a bill about it.
 
-**Named in shipped content.** The state and local policy pack that shipped today declares a health and human services domain covering Medicaid, insurance, hospitals and behavioural health. So the pack loads, the domain resolves, and a player can file a bill about Medicaid — and there is nothing for that bill to affect.
+**Named in shipped content.** The state and local policy pack that shipped today declares a health and human services domain covering Medicaid, insurance, hospitals and behavioral health. So the pack loads, the domain resolves, and a player can file a bill about Medicaid — and there is nothing for that bill to affect.
 
 **A player.** A player reaches this. A player reaches the name and nothing behind it, which is worse than reaching nothing: they can spend a session on it before finding out.
 

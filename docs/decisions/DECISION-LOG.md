@@ -3160,7 +3160,7 @@ to possibly like minded people and your actions/personality should drive
 interpersonal relationships".
 
 **What this settles.** Proximity produces candidates, not bonds. Sharing a
-school, a college, a workplace, a party chapter or a neighbourhood puts people
+school, a college, a workplace, a party chapter or a neighborhood puts people
 within reach of each other and does nothing else by itself. What turns a
 candidate into somebody who matters is what the two of them actually do, and
 who they are. It follows directly that a relationship can go the other way:

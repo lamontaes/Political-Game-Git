@@ -66,7 +66,26 @@ export function codeProseRanges(source: string, file: string): ProseRange[] {
     ]) {
       if (seenComments.has(comment.pos)) continue;
       seenComments.add(comment.pos);
-      ranges.push({ start: comment.pos, end: comment.end, kind: "comment" });
+      // A backtick span in a comment quotes code, as it does in Markdown.
+      const text = source.slice(comment.pos, comment.end);
+      const code = /`[^`\n]*`/g;
+      let cursor = 0;
+      let span: RegExpExecArray | null;
+      while ((span = code.exec(text)) !== null) {
+        if (span.index > cursor)
+          ranges.push({
+            start: comment.pos + cursor,
+            end: comment.pos + span.index,
+            kind: "comment",
+          });
+        cursor = span.index + span[0].length;
+      }
+      if (cursor < text.length)
+        ranges.push({
+          start: comment.pos + cursor,
+          end: comment.end,
+          kind: "comment",
+        });
     }
   };
   const visit = (node: ts.Node) => {

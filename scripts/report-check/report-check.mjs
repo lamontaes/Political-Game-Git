@@ -3,7 +3,7 @@
  *
  * Reports to the owner were written with no check at all: civic-prose covers
  * player-visible text only, so a playtest write-up that opened with a build
- * hash and a browser stall, spelled "labelled" and printed raw dates was never
+ * hash and a browser stall, spelled "labeled" and printed raw dates was never
  * measured against anything. This catches what a script can catch. Whether the
  * story is worth reading is the reviewer's job (`civic-report-reviewer`), not
  * this file's; passing here is a floor, never an acceptance.

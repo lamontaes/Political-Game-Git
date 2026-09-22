@@ -84,7 +84,7 @@ export interface ConnectivityEntry {
   /**
    * Whether shipped content names this subject although nothing above is
    * there. This is the case the map exists for: a declared policy domain, a
-   * named federal programme, a catalogue row. The name makes it look present
+   * named federal program, a catalog row. The name makes it look present
    * to every check we have.
    */
   readonly declaredInContent: boolean;
@@ -206,7 +206,7 @@ export function validateConnectivityEntries(
     } else if (entry.declaredInContent && !nonEmpty(entry.declaredDetail)) {
       fail(
         "undeclared-declaration",
-        "declaredInContent is true, so declaredDetail must say where it is declared — the pack, the catalogue row, the programme name.",
+        "declaredInContent is true, so declaredDetail must say where it is declared — the pack, the catalog row, the program name.",
       );
     }
 

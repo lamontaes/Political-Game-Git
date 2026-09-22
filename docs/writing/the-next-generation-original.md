@@ -35,7 +35,7 @@ it offers her successors: forty names.
 The first is Russell Ryan, "Rachel Roth's someone they taught, age 64". Next
 is her dad, Heather Roth: "Rachel Roth's no connection on record, age 62".
 Then Vivian Oliver. Then Dean Campos, the man she lives with: "no connection
-on record". Thirty-six strangers follow, each labelled the same way.
+on record". Thirty-six strangers follow, each labeled the same way.
 
 The player picks Russell. He is 64, and his journal is short. He was born in
 Reno on January 1, 1962. In 2003 he began working as a teacher at the local

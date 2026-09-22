@@ -40,7 +40,7 @@ describe("the report that prompted the standard", () => {
       },
     );
     const joined = errors.join("\n");
-    expect(joined).toContain('"labelled" is British');
+    expect(joined).toContain('"labeled" is British');
     expect(joined).toContain('"full stop" is British');
     expect(joined).toContain("lead contains code");
     expect(joined).toContain("lead contains a clock time");
@@ -82,10 +82,10 @@ describe("the mechanical rules", () => {
     ["colour", "color"],
     ["organised", "organized"],
     ["analysed", "analyzed"],
-    ["the town centre", "the town center"],
-    ["the policy catalogue", "the policy catalog"],
+    ["the town center", "the town center"],
+    ["the policy catalog", "the policy catalog"],
     ["no full stop", "no period"],
-    ["a council programme", "a council program"],
+    ["a council program", "a council program"],
   ])("rejects %s and accepts %s", (british, american) => {
     const body = (word: string) =>
       STORY.replace("Nothing needs a decision.", `It was ${word}.`);
@@ -96,7 +96,7 @@ describe("the mechanical rules", () => {
   it("leaves quoted screen text and code alone", () => {
     const quoted = STORY.replace(
       "The race had 2 candidates",
-      'The screen said "the colour of 2026-01-21". A `labelled` key. The race had 2 candidates',
+      'The screen said "the color of 2026-01-21". A `labeled` key. The race had 2 candidates',
     );
     expect(check(quoted).errors).toEqual([]);
     const blockQuoted = STORY.replace(
@@ -118,7 +118,7 @@ describe("the mechanical rules", () => {
     );
     const dmy = STORY.replace(
       "Nothing needs a decision.",
-      "It was 22 September 2026.",
+      "It was September 22, 2026.",
     );
     expect(check(iso).errors.join()).toContain("raw date");
     expect(check(dmy).errors.join()).toContain("day-month-year");
@@ -202,7 +202,7 @@ describe("where the check runs", () => {
       },
     });
     expect(drive.status).toBe(2);
-    expect(drive.stderr).toContain('"labelled" is British');
+    expect(drive.stderr).toContain('"labeled" is British');
   });
 
   it("lets a passing upload through with the reviewer reminder", () => {

@@ -46,7 +46,7 @@ import {
  * the blanket rule records against every outlet it holds without changing
  * anything else.
  *
- * NOT MODELLED YET, with the blanket rule standing in:
+ * NOT MODELED YET, with the blanket rule standing in:
  * - Why an owner decides. There is no media revenue, debt or audience model,
  *   so every decision is the pack's `likelihoodPerReview` draw.
  * - Whether a decision is news. Owner events use the `press.` prefix, which

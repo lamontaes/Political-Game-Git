@@ -32,19 +32,19 @@ change, which is not the same thing and does not bend to who asked.
 
 **P0** · asked by people and life (people and life thread) · filed 2026-09-22 · `traits-held-at-once`
 
-**The question.** lamontae has rejected a personality made of five scales plus one legislator trait. He wants the Crusader Kings shape, where one person can be industrious and also ashamed and lustful at the same time. What should the game's model of a trait be to support that? Specifically: should a catalogue trait be a scale between two opposite ends (what the engine loads today), a descriptor a person either has or does not, or both kinds side by side, and which of the 121 catalogue candidates fall into each kind? Which traits exclude each other (a person cannot be both), which may coexist even though they pull against each other, and which are variants of one another? And how many descriptors can one adult hold at once, both at the start of play and over a lifetime, given his earlier answer that people start with one or two?
+**The question.** lamontae has rejected a personality made of five scales plus one legislator trait. He wants the Crusader Kings shape, where one person can be industrious and also ashamed and lustful at the same time. What should the game's model of a trait be to support that? Specifically: should a catalog trait be a scale between two opposite ends (what the engine loads today), a descriptor a person either has or does not, or both kinds side by side, and which of the 121 catalog candidates fall into each kind? Which traits exclude each other (a person cannot be both), which may coexist even though they pull against each other, and which are variants of one another? And how many descriptors can one adult hold at once, both at the start of play and over a lifetime, given his earlier answer that people start with one or two?
 
-**Why it matters.** The owner ranks personality first and called five traits unacceptable on 2026-09-22 at 20:02Z. The engine can already load any number of traits from a pack and show them on the person card (PR #405), so the size of the catalogue is no longer an engineering limit. The limit is design: today every trait is a two-ended scale with a middle, so 'lustful' has to be one end of something, and nothing in the engine expresses 'these two cannot both be true of one person'. Answering this decides whether the catalogue can land as written or needs a second kind of trait first.
+**Why it matters.** The owner ranks personality first and called five traits unacceptable on 2026-09-22 at 20:02Z. The engine can already load any number of traits from a pack and show them on the person card (PR #405), so the size of the catalog is no longer an engineering limit. The limit is design: today every trait is a two-ended scale with a middle, so 'lustful' has to be one end of something, and nothing in the engine expresses 'these two cannot both be true of one person'. Answering this decides whether the catalog can land as written or needs a second kind of trait first.
 
-**A usable answer.** Three things. First, for each of the 121 catalogue ids, which kind it is (an end of a scale, a has-or-has-not descriptor, or set aside with a reason). Second, the exclusion and variant relationships between them, as rules or a list of pairs and groups. Third, a rule for how many descriptors a person holds at the start and whether that grows with age or recorded life. Rules and groupings, not per-trait numbers; no numbers are approved and the owner does not confirm them.
+**A usable answer.** Three things. First, for each of the 121 catalog ids, which kind it is (an end of a scale, a has-or-has-not descriptor, or set aside with a reason). Second, the exclusion and variant relationships between them, as rules or a list of pairs and groups. Third, a rule for how many descriptors a person holds at the start and whether that grows with age or recorded life. Rules and groupings, not per-trait numbers; no numbers are approved and the owner does not confirm them.
 
 **Already checked.**
 
 - lamontae, project chat 2026-09-22 20:02Z — His words: 'five core traits plus one for legislators is unacceptable. I need personality traits ... someone can be industrious, but also shameful and lustful ... there needs to be more than five traits.' He said ChatGPT taking care of the design is fine. It settles that the vocabulary must be large and that several must be held at once; it does not settle their kinds, exclusions or counts.
 - src/simulation/trait-packs.ts and src/simulation/people-trait-definitions.ts on origin/main — Every loaded trait is a scale with a low end, a balanced middle and a high end, stored per person as a lean plus a strength (subtle to defining). There is no has-or-has-not trait and no way to declare that two traits exclude each other. Traits can be added by pack without code changes.
-- docs/research/requests/trait-catalogue-poles-and-tuning-rules.json (P0, filed 17:05Z) and person-starting-trait-count.json — The first asks how the 121 pair into scales and assumes every trait is a scale; the owner's Crusader Kings example questions that assumption. The second asks how many a person starts with, but predates his statement that many are held at once. This request is the bridge between them, and an answer to it can be folded into either.
+- docs/research/requests/trait-catalog-poles-and-tuning-rules.json (P0, filed 17:05Z) and person-starting-trait-count.json — The first asks how the 121 pair into scales and assumes every trait is a scale; the owner's Crusader Kings example questions that assumption. The second asks how many a person starts with, but predates his statement that many are held at once. This request is the bridge between them, and an answer to it can be folded into either.
 
-> The loader half is engineering and is being done now: traits from content packs reach the registry and the person card (PR #405), and the next step rewires per-person trait reading to the registry so a larger catalogue lands without code changes.
+> The loader half is engineering and is being done now: traits from content packs reach the registry and the person card (PR #405), and the next step rewires per-person trait reading to the registry so a larger catalog lands without code changes.
 
 > Do not answer with a page of per-trait numbers.
 
@@ -184,7 +184,7 @@ Related: `national-range-instrument-for-non-states`
 
 **P1** · asked by every town in America (every town in America thread) · filed 2026-09-22 · `town-election-calendar-from-state-municipal-law`
 
-**The question.** A life can now run for its town's governing body in 19,462 towns, but the race is decided 28 days after filing, the same fuse every legislative race uses, because no town's election calendar is established. The game already holds a 51-jurisdiction corpus of state general municipal election law (timing, ballot structure, runoff), including Maine, Georgia and Arizona, but every value is a secondary synthesis and the repository's own audit gate forbids candidacy and player surfaces from reading it as settled. Two questions. First, for Maine, Georgia and Arizona to start with, what does each state's general municipal law actually provide for when a town's regular election falls, whether it is partisan, and whether a runoff follows, read from the statute itself? Second, until the full audit is done, may the game use the synthesis for the calendar only, labelled as the game's reading rather than the law, or must town races keep the flat fuse?
+**The question.** A life can now run for its town's governing body in 19,462 towns, but the race is decided 28 days after filing, the same fuse every legislative race uses, because no town's election calendar is established. The game already holds a 51-jurisdiction corpus of state general municipal election law (timing, ballot structure, runoff), including Maine, Georgia and Arizona, but every value is a secondary synthesis and the repository's own audit gate forbids candidacy and player surfaces from reading it as settled. Two questions. First, for Maine, Georgia and Arizona to start with, what does each state's general municipal law actually provide for when a town's regular election falls, whether it is partisan, and whether a runoff follows, read from the statute itself? Second, until the full audit is done, may the game use the synthesis for the calendar only, labeled as the game's reading rather than the law, or must town races keep the flat fuse?
 
 **Why it matters.** Filing for a town seat today opens a four-week race on any day of the year, which is not how any American town votes. The corpus that would fix it is in the build and unused, so the difference between keeping the fuse and a believable calendar is an audit decision, not engineering. Getting it wrong in the other direction is worse: reading an unaudited value as law would put a statutory claim on screen that nobody has checked.
 
@@ -195,14 +195,14 @@ Related: `national-range-instrument-for-non-states`
 - **Audit three states first** — _recommended_. Read Maine, Georgia and Arizona's statutes for timing, partisanship and runoff, promote those values to primary-text-read, and let town races in those states run on the real calendar. Other states keep the fuse until audited.
   - For: Respects the gate exactly and gives three states a real calendar quickly; the rest follow state by state.
   - Against: Forty-eight jurisdictions keep a calendar no town uses until their audits land.
-- **Labelled calendar-only use now**. Use the synthesis for the election month and cycle in every state now, labelled on screen as the game's reading of state law, not the law, while the audit proceeds.
+- **Labeled calendar-only use now**. Use the synthesis for the election month and cycle in every state now, labeled on screen as the game's reading of state law, not the law, while the audit proceeds.
   - For: Every town gets a believable calendar immediately.
   - Against: Relaxes an accepted gate by exception, and a wrong month read from a summary would be shown as the state's rule.
 
 **Already checked.**
 
 - src/simulation/municipal-election-rule-packs.ts and data/municipal-elections/92O-national-state-baseline.json, the 51-jurisdiction state-baseline corpus — Carries electionTiming, ballotStructure and runoffRule for every state, but each value is verification secondary-synthesis-only, read from the national synthesis rather than the statute it cites. It also marks many values locally-selectable, which by its own rule no simulation may operate on.
-- MUNICIPAL_RULES_AUDIT_GATE, src/simulation/municipal-election-rules.ts:485 — States that candidacy, election and player-facing surfaces must not read the corpus as settled until an independent source audit promotes values to primary-text-read. It says what must happen before use; it does not perform the audit or say whether a labelled calendar-only use is acceptable in the meantime.
+- MUNICIPAL_RULES_AUDIT_GATE, src/simulation/municipal-election-rules.ts:485 — States that candidacy, election and player-facing surfaces must not read the corpus as settled until an independent source audit promotes values to primary-text-read. It says what must happen before use; it does not perform the audit or say whether a labeled calendar-only use is acceptable in the meantime.
 - PR #411, the town governing-body race as built — Establishes the office in every town that has a government and seats the winner, with every qualification and the calendar left unknown. It uses the existing 28-day fuse because nothing sourced says otherwise.
 
 > The corpus covers timing, ballot structure, runoff, vacancy, recall and initiative. It carries no candidate qualifications, so minimum age and residency for a town seat are a separate question and stay unknown.
@@ -225,7 +225,7 @@ Related: `national-range-instrument-for-non-states`
 
 > The owner's words: "I would like to at least build the foundation to uh, have like media moguls decide to coordinate everything that they own. So, for example, um, a private equity company that owns a bunch of newspapers just laid off a bunch of people across the country."
 
-> Fictional names stay fictional; the research is for realistic behaviour and proportions, not real company names on player surfaces.
+> Fictional names stay fictional; the research is for realistic behavior and proportions, not real company names on player surfaces.
 
 ### Current state constitutions for all 52 jurisdictions, with every part amendable
 
@@ -370,7 +370,7 @@ Related: `governor-term-length-outside-washington`, `executive-terms-and-incumbe
 
 **Already checked.**
 
-- /mnt/project-files/research/ethics-routing-research.json, counted rather than summarised on 2026-09-22 — 51 rows, 51 distinct jurisdiction keys, unresearchedJurisdictionKeys empty, latestIncrement.newCount 13 with priorRowsChanged 0. Its verificationOutstanding array names exactly these three jurisdictions and what could not be read for each. It states the gaps; it does not fill them.
+- /mnt/project-files/research/ethics-routing-research.json, counted rather than summarized on 2026-09-22 — 51 rows, 51 distinct jurisdiction keys, unresearchedJurisdictionKeys empty, latestIncrement.newCount 13 with priorRowsChanged 0. Its verificationOutstanding array names exactly these three jurisdictions and what could not be read for each. It states the gaps; it does not fill them.
 - The package's own validation receipt, ethics-routing-validation.json — Twelve structural checks passed, and its own scope line says data structure and explicit boundary checks only, with no legal completeness certification. It is explicit that it does not answer this.
 - runtimeIntegrated across all 51 rows, read in the same file — False on every row, so nothing in the game reads any of this yet. Sets the priority at P2 rather than P1; does not affect whether the three are answerable.
 
@@ -378,7 +378,7 @@ Related: `governor-term-length-outside-washington`, `executive-terms-and-incumbe
 
 > The package was relayed as having gained 27 rows over 24 previously held. It gained 13 over 38, by its own increment record and its own receipt. That correction is written up separately and is noted here only so a reader of this record does not carry the wrong figure forward.
 
-> No candidate answers offered. This is a reading, not a judgement, and there is nothing here for the owner to decide.
+> No candidate answers offered. This is a reading, not a judgment, and there is nothing here for the owner to decide.
 
 Related: `state-legislative-ethics-procedure`
 
