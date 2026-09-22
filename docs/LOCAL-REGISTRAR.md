@@ -313,10 +313,24 @@ it.
 
 ---
 
-## L12 — Four seated plates need the chair drawn apart from the figure
+## L12 — Seated male bodies need to exist drawn free of furniture
 
-Four seated plates carry a chair baked into the same raster as the person.
-All four are already in the repository; nothing needs fetching.
+This is a requirement, not a repair, and there are two ways to satisfy it.
+Pick whichever is cheaper; nothing here is owed.
+
+**The requirement.** No man in the bank can currently sit, because every
+seated male crop has furniture drawn into the same raster as the person. The
+compositor has no way to separate them, so it refuses the pose rather than
+seating a man in a chair he is welded to. What unblocks seated men is the
+existence of at least one seated male body drawn with no furniture in it.
+
+**Route A, the cheap one: generate them.** A new seated male plate drawn
+without a chair satisfies this outright, and lamontae has said plainly that
+new people are fine — the goal is that modular generation works, not that
+these particular figures are rescued. This is the preferred route.
+
+**Route B, the expensive one: repair these four.** Four existing plates carry
+a baked chair:
 
 ```
 art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_front_neutral_v1.png
@@ -325,28 +339,24 @@ art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_
 art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_front_neutral_v1.png
 ```
 
-**What is needed:** the chair separated from the figure in the layered source,
-or painted off the plate by hand. Only what touches the body remains — a sliver
-of seat between the thighs and a stub of chair leg against each shin.
-Everything floating free is already removed by `npm run derive:seated-chairless`,
-whose derivatives land in `art/generated/candidates/wave-a-chairless`. That
-script and those four derivatives live on `claude/character-rendering-triage-19kvvz`
-(PR #289) until it merges, so check that branch out to see the current state.
+Separating the chair in the layered source, or painting it off by hand, would
+also satisfy the requirement. Only what touches the body remains — a sliver of
+seat between the thighs and a stub of chair leg against each shin. Everything
+floating free is already removed by `npm run derive:seated-chairless`, whose
+derivatives land in `art/generated/candidates/wave-a-chairless` and stay on
+disk as ordinary candidates whether or not anyone acts on this entry.
 
-**Why code cannot finish it.** Both numbers were measured off these plates.
+**Why code cannot do Route B.** Both numbers were measured off these plates.
 Chair touching a thigh is inside the protection band by definition, so
 connectivity cannot reach it. And the chair's mid-tones run 96–150 while the
 figure's own sub-knee edge pixels run 64–240, so every value the chair uses the
 figure uses too. Raising the body-tone floor to 160 takes the feet and shreds
-the older woman's shins — that was tried, rendered and reverted.
+the older woman's shins — that was tried, rendered and reverted. The wave-a
+source sheets are in no cloud checkout, only the ocd sheet, so the
+higher-resolution route is unavailable to a cloud session either way.
 
-The wave-a source sheets are in no cloud checkout, only the ocd sheet, so the
-higher-resolution route is unavailable to a cloud session whether or not it
-would help.
-
-**Retirement condition:** the four derivatives come back with no chair against
-the legs, at which point the plates stop being retained for a baked prop and go
-through ordinary admission.
+**Retirement condition:** a seated male body exists in the bank with no
+furniture in its raster, by either route.
 
 ## L13 — The art-review build's pack-present behaviour needs a Mac run
 
