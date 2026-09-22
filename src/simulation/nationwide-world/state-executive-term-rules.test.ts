@@ -20,13 +20,21 @@ describe("state executive term rules", () => {
       expect(rule.stateUsps).toBe(usps);
       for (const basis of Object.values(rule.basis))
         expect(["verified", "game-profile"]).toContain(basis);
-      if (isFullyVerified(rule)) {
-        // A verified rule always carries its sources and excerpts.
+      // A rule that read ANY field from an instrument carries its sources and
+      // excerpts. Vermont reads its term and its election day but not its
+      // commencement date, so "carries sources" and "fully verified" are two
+      // different questions and this checks them separately.
+      const readSomething = Object.values(rule.basis).some(
+        (basis) => basis === "verified",
+      );
+      if (readSomething) {
         expect(rule.sources.length).toBeGreaterThan(0);
         for (const source of rule.sources) {
           expect(source.url).toMatch(/^https:\/\//);
           expect(source.excerpt.length).toBeGreaterThan(5);
         }
+        // Reading an instrument replaces calibration; it does not sit beside it.
+        expect(rule.calibration).toBeNull();
       } else {
         // A calibrated profile names the profile AND the row that set its
         // term length, so a save can tell two calibrations apart.

@@ -4,8 +4,8 @@ import type { EntityId, Jurisdiction } from "../types";
 import {
   districtOfColumbiaJurisdiction,
   districtOfColumbiaJurisdictionId,
-  isDistrictOfColumbia,
 } from "./district-of-columbia";
+import { isDistrictOfColumbia } from "./district-of-columbia-identity";
 
 /**
  * One government unit as RULES' government-unit index (rules-capability/v1)

@@ -1,3 +1,4 @@
+import { makeIsoDate } from "../dates";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
@@ -30,6 +31,8 @@ import {
 import {
   stateExecutiveTermRule,
   stateExecutiveTermRuleNote,
+  stateExecutiveTermRuleProvenance,
+  termDatesAfterElection,
   termRuleBasis,
 } from "./state-executive-term-rules";
 import { stateExecutiveOffice } from "./state-executives";
@@ -89,11 +92,14 @@ describe("the game profile, calibrated by that research", () => {
     expect(rule.basis.termYears).toBe("game-profile");
     expect(rule.sources).toHaveLength(0);
     expect(rule.calibration?.row.key).toBe("NH");
-    const note = stateExecutiveTermRuleNote(rule);
-    expect(note).toContain("2-year terms");
-    expect(note).toContain(
+    // The research still travels with the rule, and still says what it is.
+    expect(rule.calibration?.disclosure).toContain(
       "not this jurisdiction's law as the game has read it",
     );
+    // What the player reads is the term and nothing about where it came from.
+    const note = stateExecutiveTermRuleNote(rule);
+    expect(note).toContain("2 years");
+    expect(note).not.toMatch(/research|checked on|game's own|law/i);
   });
 
   it("leaves a verified rule alone", () => {
@@ -101,7 +107,42 @@ describe("the game profile, calibrated by that research", () => {
     expect(termRuleBasis(wa)).toBe("verified");
     expect(wa.calibration).toBeNull();
     expect(wa.sources.length).toBeGreaterThan(0);
-    expect(stateExecutiveTermRuleNote(wa)).toContain("RCW 43.01.010");
+    // A citation is a record, not a player-facing sentence. The player is told
+    // Washington's real commencement; they are not told which statute says so.
+    const note = stateExecutiveTermRuleNote(wa);
+    expect(note).toContain("the Wednesday after the second Monday of January");
+    expect(note).not.toContain("RCW");
+    expect(stateExecutiveTermRuleProvenance(wa)).toContain("RCW 43.01.010");
+  });
+
+  it("dates the District's Mayor from the District's own Code, not the profile", () => {
+    const dc = stateExecutiveTermRule("DC")!;
+    expect(termRuleBasis(dc)).toBe("verified");
+    expect(dc.calibration).toBeNull();
+    expect(dc.sources.map((s) => s.citation)).toEqual([
+      "D.C. Code \u00a7 1-204.21(b)",
+    ]);
+    expect(dc.sources[0]!.excerpt).toContain(
+      "beginning at noon on January 2nd of the year following his election",
+    );
+    // The instrument's date, not the game profile's first Monday: a Mayor
+    // elected in November 2026 takes office on January 2nd, 2027.
+    const term = termDatesAfterElection(dc, makeIsoDate("2026-11-03"));
+    expect(term.startsAt).toBe("2027-01-02");
+    expect(term.endsAt).toBe("2031-01-02");
+  });
+
+  it("verifies Vermont per field, leaving the date its constitution does not fix", () => {
+    const vt = stateExecutiveTermRule("VT")!;
+    expect(vt.basis.termYears).toBe("verified");
+    expect(vt.basis.election).toBe("verified");
+    // Chapter II runs the term from when the Governor is "chosen and
+    // qualified" and names no calendar day, so this field stays the profile's
+    // rather than becoming a day nobody read.
+    expect(vt.basis.commencement).toBe("game-profile");
+    expect(termRuleBasis(vt)).toBe("game-profile");
+    expect(vt.termYears).toBe(2);
+    expect(vt.election.cycleYears).toBe(2);
   });
 
   it("has no rule for a jurisdiction that is neither a state nor the District", () => {

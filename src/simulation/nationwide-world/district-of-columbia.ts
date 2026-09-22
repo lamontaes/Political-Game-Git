@@ -27,36 +27,12 @@ import type { EntityId, Jurisdiction } from "../types";
  * read nothing, from the disclosed game profile that says so.
  */
 
-export const DISTRICT_OF_COLUMBIA_USPS = "DC";
+export * from "./district-of-columbia-identity";
 
-export const DISTRICT_OF_COLUMBIA_JURISDICTION_KEY = "US-DC";
-
-/** The Census place the District's one general-purpose government governs. */
-export const DISTRICT_OF_COLUMBIA_PLACE_GEOID = "1150000";
-
-/** The county AREA. The listing records no county government for it. */
-export const DISTRICT_OF_COLUMBIA_COUNTY_GEOID = "11001";
-
-export const DISTRICT_OF_COLUMBIA_OFFICE_KEY = "dc-mayor";
-
-export const DISTRICT_OF_COLUMBIA_OFFICE_TITLE = "Mayor";
-
-export const DISTRICT_OF_COLUMBIA_OFFICE_DISPLAY_NAME =
-  "Mayor of the District of Columbia";
-
-export const DISTRICT_OF_COLUMBIA_CONSOLIDATION_NOTE =
-  "The District of Columbia is one government. Its citywide and district-wide identities are the same authority, so it has one chief executive, one jurisdiction and one public account — not a mayor beside a governor.";
-
-/** The Home Rule Act section the Mayor and Council are established by. */
-export const DISTRICT_OF_COLUMBIA_STRUCTURE_SOURCE =
-  "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.01";
-
-export function isDistrictOfColumbia(jurisdictionKey: string): boolean {
-  return (
-    jurisdictionKey === DISTRICT_OF_COLUMBIA_USPS ||
-    jurisdictionKey === DISTRICT_OF_COLUMBIA_JURISDICTION_KEY
-  );
-}
+import {
+  DISTRICT_OF_COLUMBIA_PLACE_GEOID,
+  DISTRICT_OF_COLUMBIA_USPS,
+} from "./district-of-columbia-identity";
 
 /**
  * The District's single general-purpose government unit, from the listing.

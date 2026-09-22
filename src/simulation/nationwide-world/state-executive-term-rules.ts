@@ -5,7 +5,7 @@ import {
   chiefExecutiveBaselineDisclosure,
 } from "./chief-executive-baseline";
 import type { ChiefExecutiveBaselineRow } from "./chief-executive-baseline";
-import { isDistrictOfColumbia } from "./district-of-columbia";
+import { isDistrictOfColumbia } from "./district-of-columbia-identity";
 import { isUsState } from "./state-executive-candidacy-packs";
 
 /**
@@ -37,6 +37,16 @@ import { isUsState } from "./state-executive-candidacy-packs";
 export type TermCommencementRule =
   /** January 1 of the year after the election. */
   | { readonly kind: "january-first-following-election" }
+  /**
+   * A fixed day of January in the year after the election, whatever weekday it
+   * falls on. The District's Mayor takes office on January 2nd; a rule that
+   * only knew how to count weekdays would have had to round that to something
+   * the instrument does not say.
+   */
+  | {
+      readonly kind: "january-fixed-day-following-election";
+      readonly day: number;
+    }
   /**
    * The `ordinal`-th `weekday` (0 = Sunday) of January in the year after the
    * election, then `offsetDays` later. Washington's "Wednesday after the second
@@ -129,27 +139,156 @@ export const STATE_EXECUTIVE_GAME_PROFILE = {
 export const STATE_EXECUTIVE_GAME_PROFILE_NOTE =
   "This jurisdiction's real term and election rules are not compiled into the game yet, so the office follows the game's own disclosed rule set: a November election on the same cycle as the term, and a term that begins on the first Monday of January.";
 
+const WEEKDAY_NAMES = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+] as const;
+
+const ORDINAL_NAMES = ["first", "second", "third", "fourth"] as const;
+
+function dayOfMonth(day: number): string {
+  if (day === 1) return "January 1st";
+  if (day === 2) return "January 2nd";
+  if (day === 3) return "January 3rd";
+  return `January ${day}th`;
+}
+
+/** When a term begins, said the way a person would say it. */
+export function commencementDescription(rule: TermCommencementRule): string {
+  if (rule.kind === "january-first-following-election") return "January 1st";
+  if (rule.kind === "january-fixed-day-following-election")
+    return dayOfMonth(rule.day);
+  const anchor = `the ${ORDINAL_NAMES[rule.ordinal - 1]} ${WEEKDAY_NAMES[rule.weekday]} of January`;
+  if (rule.offsetDays === 0) return anchor;
+  const shifted = WEEKDAY_NAMES[(rule.weekday + rule.offsetDays) % 7];
+  return `the ${shifted} after ${anchor}`;
+}
+
 /**
- * What a player is told about the rule dating this office: the disclosed
- * profile, plus the research that set its term length where there was some.
+ * What a player is told about this office's term.
+ *
+ * Plainly the information and nothing else. No citation, no instrument name, no
+ * observation date, no word about which values were read and which are the
+ * game's own: the player is playing, not auditing. Every one of those facts is
+ * still recorded — `rule.sources`, `rule.basis` and `rule.calibration` keep
+ * them — and `stateExecutiveTermRuleProvenance` is where an internal surface
+ * reads them. Do not put provenance back on this string.
  */
 export function stateExecutiveTermRuleNote(
   rule: StateExecutiveTermRule,
 ): string {
-  if (termRuleBasis(rule) === "verified")
-    return `This office's term and commencement are compiled from ${rule.sources
-      .map((source) => source.citation)
-      .join(", ")}.`;
-  const cycle = `The game's rule runs ${rule.termYears}-year terms with an election every ${rule.election.cycleYears} years.`;
-  return rule.calibration
-    ? `${STATE_EXECUTIVE_GAME_PROFILE_NOTE} ${cycle} ${rule.calibration.disclosure}`
-    : `${STATE_EXECUTIVE_GAME_PROFILE_NOTE} ${cycle}`;
+  const years = rule.termYears === 1 ? "one year" : `${rule.termYears} years`;
+  const cadence =
+    rule.election.cycleYears === rule.termYears
+      ? `an election every ${rule.election.cycleYears} years in November`
+      : `an election every ${rule.election.cycleYears} years in November, out of step with the term`;
+  return `The term runs ${years}, beginning ${commencementDescription(rule.commencement)}, with ${cadence}.`;
+}
+
+/**
+ * The same rule for an internal surface: where each value came from, with the
+ * instruments named. This never reaches a player screen.
+ */
+export function stateExecutiveTermRuleProvenance(
+  rule: StateExecutiveTermRule,
+): string {
+  const read = rule.sources.map((source) => source.citation).join(", ");
+  const fields = (["termYears", "commencement", "election"] as const).map(
+    (field) => `${field}=${rule.basis[field]}`,
+  );
+  const parts = [`${rule.ruleVersion} (${fields.join(", ")})`];
+  if (read) parts.push(`Read from ${read}.`);
+  else parts.push(STATE_EXECUTIVE_GAME_PROFILE_NOTE);
+  if (rule.calibration) parts.push(rule.calibration.disclosure);
+  return parts.join(" ");
 }
 
 const WA_RETRIEVED = makeIsoDate("2026-09-16");
+const NATIONWIDE_RETRIEVED = makeIsoDate("2026-09-22");
 
 /** Verified rules. Each value cites the instrument it came from. */
 const VERIFIED: Readonly<Record<string, StateExecutiveTermRule>> = {
+  /**
+   * The District's own Code fixes all three values, so nothing here is the
+   * game's guess. It was research-calibrated before the section was read; the
+   * reading changed the commencement, because § 1-204.21(b) names January 2nd
+   * and the game profile would have started the Mayor on the first Monday.
+   */
+  DC: {
+    stateUsps: "DC",
+    ruleVersion: "dc-mayor-term/dc-code-1-204.21/2026-09-22",
+    basis: {
+      termYears: "verified",
+      commencement: "verified",
+      election: "verified",
+    },
+    termYears: 4,
+    commencement: { kind: "january-fixed-day-following-election", day: 2 },
+    election: {
+      cycleYears: 4,
+      referenceYear: 2026,
+      day: "first-tuesday-after-first-monday-in-november",
+    },
+    sources: [
+      {
+        citation: "D.C. Code § 1-204.21(b)",
+        url: "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.21",
+        excerpt:
+          "The Mayor, established by subsection (a) of this section, shall be elected, on a partisan basis, for a term of 4 years beginning at noon on January 2nd of the year following his election.",
+        retrievedAt: NATIONWIDE_RETRIEVED,
+        note: "Term length and commencement. Enacted Dec. 24, 1973 (87 Stat. 789, Pub. L. 93-198); amended through D.C. Law 19-124A.",
+      },
+    ],
+    calibration: null,
+  },
+  /**
+   * Vermont is the case the per-field basis exists for. Chapter II, § 49 fixes
+   * the two-year term in the constitution's own words, and § 47 puts the
+   * choosing on the same day as the General Assembly election. Neither fixes a
+   * commencement DATE — the term runs from when the Governor is "chosen and
+   * qualified" — so that one field stays the game's profile rather than a day
+   * invented to fill the gap.
+   */
+  VT: {
+    stateUsps: "VT",
+    ruleVersion: "vt-governor-term/vt-const-ch-ii-47-49/2026-09-22",
+    basis: {
+      termYears: "verified",
+      commencement: "game-profile",
+      election: "verified",
+    },
+    termYears: 2,
+    commencement: STATE_EXECUTIVE_GAME_PROFILE.commencement,
+    election: {
+      cycleYears: 2,
+      referenceYear: 2026,
+      day: "first-tuesday-after-first-monday-in-november",
+    },
+    sources: [
+      {
+        citation: "Vt. Const. ch. II, § 49",
+        url: "https://legislature.vermont.gov/statutes/constitution-of-the-state-of-vermont/",
+        excerpt:
+          "The term of office of the Governor, Lieutenant-Governor and Treasurer of the State, respectively, shall commence when they shall be chosen and qualified, and shall continue for the term of two years",
+        retrievedAt: NATIONWIDE_RETRIEVED,
+        note: "Two-year term. Fixes no calendar date for commencement, so the commencement field stays on the game profile.",
+      },
+      {
+        citation: "Vt. Const. ch. II, § 47",
+        url: "https://legislature.vermont.gov/statutes/constitution-of-the-state-of-vermont/",
+        excerpt:
+          "The voters of each town shall, on the day of election for choosing Representatives to attend the General Assembly, bring in their votes for Governor, with the name fairly written",
+        retrievedAt: NATIONWIDE_RETRIEVED,
+        note: "Governor chosen at the general election, which with the two-year term falls every second November.",
+      },
+    ],
+    calibration: null,
+  },
   WA: {
     stateUsps: "WA",
     ruleVersion: "wa-governor-term/rcw-43.01.010+rcw-29A.04.321/2026-09-16",
@@ -308,6 +447,8 @@ export function commencementAfter(
   const year = Number(electionDate.slice(0, 4)) + 1;
   if (rule.kind === "january-first-following-election")
     return makeIsoDate(`${year}-01-01`);
+  if (rule.kind === "january-fixed-day-following-election")
+    return iso(utcDate(year, 0, rule.day));
   const first = utcDate(year, 0, 1);
   const toWeekday = (rule.weekday - first.getUTCDay() + 7) % 7;
   const day = 1 + toWeekday + (rule.ordinal - 1) * 7 + rule.offsetDays;

@@ -38,20 +38,23 @@ describe("a life in the District of Columbia", () => {
     expect(candidacy.identity.displayName).not.toContain("Governor");
   });
 
-  it("dates its calendar by the profile the research calibrated, and says so", () => {
+  it("dates its calendar from the District's own Code, told plainly to the player", () => {
     const { world } = residentIn(DISTRICT_OF_COLUMBIA_USPS, "dc-2");
     const calendar = stateExecutiveOfficeCalendar(
       world,
       DISTRICT_OF_COLUMBIA_USPS,
     )!;
     const rule = stateExecutiveTermRule(DISTRICT_OF_COLUMBIA_USPS)!;
-    expect(calendar.basis).toBe("game-profile");
+    // D.C. Code section 1-204.21(b) fixes all three values, so this is not the
+    // game's profile any longer.
+    expect(calendar.basis).toBe("verified");
     expect(calendar.ruleVersion).toBe(rule.ruleVersion);
-    expect(calendar.note).toContain("4-year terms");
-    // The official Code section is cited, and the note does not pretend the
-    // game read it word for word.
-    expect(calendar.note).toContain("code.dccouncil.gov");
-    expect(calendar.note).toContain("cited but not quoted here");
+    // The player is told the term and its January 2nd start, and nothing about
+    // which instrument says so: no citation, no host, no observation date.
+    expect(calendar.note).toContain("4 years");
+    expect(calendar.note).toContain("January 2nd");
+    expect(calendar.note).not.toContain("code.dccouncil.gov");
+    expect(calendar.note).not.toMatch(/cited|quoted|Code|law/i);
   });
 
   it("materializes one office holder, on the District's one jurisdiction", () => {

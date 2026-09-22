@@ -10,7 +10,7 @@ import {
   DISTRICT_OF_COLUMBIA_STRUCTURE_SOURCE,
   DISTRICT_OF_COLUMBIA_USPS,
   isDistrictOfColumbia,
-} from "./district-of-columbia";
+} from "./district-of-columbia-identity";
 
 /**
  * Chief executive offices as candidacy packs: the fifty states, and the

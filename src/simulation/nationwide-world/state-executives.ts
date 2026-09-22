@@ -27,7 +27,7 @@ import {
 import {
   DISTRICT_OF_COLUMBIA_STRUCTURE_SOURCE,
   isDistrictOfColumbia,
-} from "./district-of-columbia";
+} from "./district-of-columbia-identity";
 import { chiefExecutiveJurisdiction } from "./government-jurisdiction";
 
 export const STATE_EXECUTIVE_WRITER_VERSION = "nationwide-state-executive-v1";

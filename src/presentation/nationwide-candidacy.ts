@@ -104,10 +104,10 @@ export function stateExecutiveOfficeCalendar(
     termStartsAt: term.startsAt,
     termEndsAt: term.endsAt,
     basis,
-    note:
-      basis === "verified"
-        ? "This office's election day, term length and start date follow the jurisdiction's own law."
-        : stateExecutiveTermRuleNote(rule),
+    // Plainly what the term is. Which values were read from an instrument and
+    // which are the game's own is recorded on the rule and belongs on an
+    // internal surface, never on the screen a candidate files from.
+    note: stateExecutiveTermRuleNote(rule),
     sources: rule.sources,
     ruleVersion: rule.ruleVersion,
   };
