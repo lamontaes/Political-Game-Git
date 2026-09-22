@@ -122,17 +122,101 @@ export function recordSupportShift(
     readonly gainBasisPoints: number;
     readonly sourceEntityIds: readonly EntityId[];
   },
-): {
+): SupportWrite {
+  return writeSupport(
+    world,
+    campaign,
+    supportAfterGain(
+      world,
+      campaign,
+      input.gainerPersonId,
+      input.gainBasisPoints,
+    ),
+    input,
+  );
+}
+
+/**
+ * Support for every candidate after `loserPersonId` loses up to
+ * `lossBasisPoints`, never below the floor, handed evenly (in sorted-id order)
+ * to the rest of the field. The mirror of `supportAfterGain`: a share lost by
+ * one candidate is a share somebody else now holds.
+ */
+export function supportAfterLoss(
+  world: World,
+  campaign: CampaignRecord,
+  loserPersonId: EntityId,
+  lossBasisPoints: number,
+): Readonly<Record<string, number>> {
+  const current = Object.fromEntries(
+    campaign.candidateSupportScopes.map((scope) => [
+      scope.candidatePersonId,
+      quantityBasisPoints(latestSupportState(world, campaign, scope)),
+    ]),
+  ) as Record<string, number>;
+  if (current[loserPersonId] === undefined) {
+    throw new Error(
+      `That person is not a candidate in this contest: ${loserPersonId}`,
+    );
+  }
+  const others = campaign.candidateSupportScopes
+    .map((scope) => scope.candidatePersonId)
+    .filter((personId) => personId !== loserPersonId)
+    .sort();
+  if (others.length === 0) return current;
+  const lost = Math.min(
+    Math.max(0, Math.floor(lossBasisPoints)),
+    Math.max(0, current[loserPersonId]! - SUPPORT_FLOOR_BASIS_POINTS),
+  );
+  current[loserPersonId] = current[loserPersonId]! - lost;
+  let remaining = lost;
+  for (let index = 0; index < others.length; index += 1) {
+    const share = Math.ceil(remaining / (others.length - index));
+    current[others[index]!] = current[others[index]!]! + share;
+    remaining -= share;
+  }
+  return current;
+}
+
+/** Record support after a loss; stable keys as in `recordSupportShift`. */
+export function recordSupportLoss(
+  world: World,
+  campaign: CampaignRecord,
+  input: {
+    readonly stableKeyBase: string;
+    readonly loserPersonId: EntityId;
+    readonly lossBasisPoints: number;
+    readonly sourceEntityIds: readonly EntityId[];
+  },
+): SupportWrite {
+  return writeSupport(
+    world,
+    campaign,
+    supportAfterLoss(
+      world,
+      campaign,
+      input.loserPersonId,
+      input.lossBasisPoints,
+    ),
+    input,
+  );
+}
+
+interface SupportWrite {
   readonly world: World;
   readonly stateIds: readonly EntityId[];
   readonly stateIdByPerson: Readonly<Record<string, EntityId>>;
-} {
-  const support = supportAfterGain(
-    world,
-    campaign,
-    input.gainerPersonId,
-    input.gainBasisPoints,
-  );
+}
+
+function writeSupport(
+  world: World,
+  campaign: CampaignRecord,
+  support: Readonly<Record<string, number>>,
+  input: {
+    readonly stableKeyBase: string;
+    readonly sourceEntityIds: readonly EntityId[];
+  },
+): SupportWrite {
   let next = world;
   const stateIds: EntityId[] = [];
   const stateIdByPerson: Record<string, EntityId> = {};
