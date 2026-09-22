@@ -60,7 +60,7 @@ export function GoverningOfficeDesk({
   };
 
   return (
-    <section className="office-desk" data-testid="office-desk">
+    <section className="governing-office-desk" data-testid="office-desk">
       <h4>What this office is answerable for</h4>
       {desk.programsNote ? (
         <p className="game-note" data-testid="office-programs-none">

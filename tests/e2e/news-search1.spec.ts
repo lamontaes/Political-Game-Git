@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "./fixtures";
 
 import type { PublicInformationPanelModel } from "../../src/presentation/public-information-adapters";
 import type { NewsSearch1LiveSnapshot } from "./fixtures/news-search1-harness";

@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
 import { shotPath } from "./support/shot-path";
 
 /** Component entry only; primary PlayerGame mount remains A-owned.
