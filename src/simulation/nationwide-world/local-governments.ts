@@ -198,48 +198,61 @@ export function ensureHomeLocalGovernments(
   let next = world;
   for (const unit of [...units.municipal, ...units.counties]) {
     if (municipalGovernmentForUnit(unit)) continue;
-    const stableKey = localGovernmentOrganizationKey(unit);
-    if (next.history.organizations.some((o) => o.stableKey === stableKey))
-      continue;
-    const jurisdiction = jurisdictionForUnit(unit);
-    if (!jurisdiction) continue;
-    if (!next.jurisdictions[jurisdiction.id]) {
-      next = {
-        ...next,
-        jurisdictions: {
-          ...next.jurisdictions,
-          [jurisdiction.id]: jurisdiction,
-        },
-        jurisdictionOrder: [...next.jurisdictionOrder, jurisdiction.id],
-      };
-    }
-    const asOf = unit.asOf as IsoDate;
-    const listed = asOf <= next.currentDate;
-    next = createOrganization(next, {
-      stableKey,
-      formedAt: listed ? asOf : next.currentDate,
-      detailLevel: "lightweight",
-      provenance: listed
-        ? {
-            kind: "source-record",
-            reference: `${GOVERNMENT_UNITS_META.artifactId} ${unit.id} "${unit.name}"`,
-            asOf,
-          }
-        : {
-            kind: "authored",
-            note: `Placed from ${GOVERNMENT_UNITS_META.artifactId} ${unit.id}, which speaks as of ${asOf}, after this world's ${next.currentDate}; not backdated.`,
-          },
-      initialProfile: {
-        name: localGovernmentDisplayName(unit),
-        classification:
-          unit.unitType === "county"
-            ? "service:county-government"
-            : "service:municipal-government",
-        locationJurisdictionId: jurisdiction.id,
-      },
-    });
+    next = ensureLocalGovernmentOrganization(next, unit);
   }
   return next;
+}
+
+/**
+ * One government unit recorded as an organization, once, in the jurisdiction
+ * it governs. Unchanged when that jurisdiction cannot be named, since a
+ * government placed in the wrong jurisdiction is worse than none.
+ */
+export function ensureLocalGovernmentOrganization(
+  world: World,
+  unit: GovernmentUnitIdentity,
+): World {
+  const stableKey = localGovernmentOrganizationKey(unit);
+  if (world.history.organizations.some((o) => o.stableKey === stableKey))
+    return world;
+  const jurisdiction = jurisdictionForUnit(unit);
+  if (!jurisdiction) return world;
+  let next = world;
+  if (!next.jurisdictions[jurisdiction.id]) {
+    next = {
+      ...next,
+      jurisdictions: {
+        ...next.jurisdictions,
+        [jurisdiction.id]: jurisdiction,
+      },
+      jurisdictionOrder: [...next.jurisdictionOrder, jurisdiction.id],
+    };
+  }
+  const asOf = unit.asOf as IsoDate;
+  const listed = asOf <= next.currentDate;
+  return createOrganization(next, {
+    stableKey,
+    formedAt: listed ? asOf : next.currentDate,
+    detailLevel: "lightweight",
+    provenance: listed
+      ? {
+          kind: "source-record",
+          reference: `${GOVERNMENT_UNITS_META.artifactId} ${unit.id} "${unit.name}"`,
+          asOf,
+        }
+      : {
+          kind: "authored",
+          note: `Placed from ${GOVERNMENT_UNITS_META.artifactId} ${unit.id}, which speaks as of ${asOf}, after this world's ${next.currentDate}; not backdated.`,
+        },
+    initialProfile: {
+      name: localGovernmentDisplayName(unit),
+      classification:
+        unit.unitType === "county"
+          ? "service:county-government"
+          : "service:municipal-government",
+      locationJurisdictionId: jurisdiction.id,
+    },
+  });
 }
 
 const MEMBERSHIP_FIELDS: readonly RuleFieldKey[] = [
