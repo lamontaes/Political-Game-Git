@@ -7399,7 +7399,7 @@
         "No words, no numbers, no percentages in the artwork. Every count and name on that screen comes from the simulation."
       ],
       "acceptanceCriteria": [
-        "The seat mark is legible repeated a hundred times at small size, and legible tinted any colour.",
+        "The seat mark is legible repeated a hundred times at small size, and legible tinted any color.",
         "Contains no text and no numerals. A delivery with any lettering in it is wrong however good it looks.",
         "Carries no party iconography and reads as neutral between sides.",
         "The division rule and margin bracket read as belonging to the same set as the seat mark."
@@ -7709,6 +7709,55 @@
         "Sits inline in the temperament line without pushing the card's layout around or out-weighing the person's name."
       ],
       "dependsOn": ["ui-shell-reference-icons"]
+    },
+    {
+      "requestId": "env-domestic-small-town-house-living-room",
+      "requestVersion": 1,
+      "priority": "P1",
+      "status": "queued",
+      "title": "A small-town house living room, for lives that do not start in a city",
+      "consumer": {
+        "consumerId": "ordinary-domestic-life",
+        "runtimeComponent": "src/presentation/life-scene.ts",
+        "playerVisibleUse": "The household room shown behind everyday life at home, which is most of play. Seen on a walk in Presque Isle, Maine (about 9,000 people): the home showed a city apartment with brick blocks outside the window."
+      },
+      "whyNeeded": "Home is where ordinary life happens, so this is the room most small-town and rural players see most often. A city apartment in a town of 9,000 tells the player the game does not know where they live. Jurisdiction-independent: The gap is the kind of settlement, not a state: every life outside a large city gets a city apartment today. One ordinary small-town house interior serves towns across the country; regional look is carried by the opening plate, and a window view should show nothing region-specific (a yard, a street of houses, trees), so it does not claim a climate. Filed by art bench and regional scenes thread on 2026-09-22T23:45:00.000Z (playtest).",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/families/apartment-ordinary/",
+          "art/families/",
+          "art/requests/asset-requests.json",
+          "src/presentation/scene-registry.ts (DOMESTIC_SCENE_IDS)",
+          "src/presentation/life-scene.ts"
+        ],
+        "driveLocationsSearched": [],
+        "found": "Every home interior in the project is an apartment. The manifest's 134 assets hold three domestic records, all in the apartment-ordinary family: canonical 03 and ordinary 02 (released, measured on disk at 1376x768 RGBA PNG, with 5504x3072 masters) and modest 01 (a 1376x768 master, unreleased). No other art family under art/families/ is residential. DOMESTIC_SCENE_IDS lists only canonical 03 and ordinary 02, and resolveLifeScene picks between them by hashing the household id, so where a life is has no bearing on the room.",
+        "shortfall": "An apartment with brick blocks outside the window cannot stand for a house in a town of a few thousand. Drive was not searched: the bench exchange is the return path for delivered artwork, not a store of art nobody has asked for, and no request for a house interior has ever been filed."
+      },
+      "target": {
+        "targetClass": "environment-plate",
+        "minimumWidth": 4608,
+        "aspectRatio": "16:9",
+        "alphaRequired": false,
+        "container": "either",
+        "styleAuthority": "The released apartment living rooms, art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png and env_residence_apartment_living_ordinary_02_v1.png, which are the style reference the existing domestic request (env-domestic-living-room-4k-masters) was judged against."
+      },
+      "generationRecipe": [
+        "The living room of an ordinary detached single-family house in an American small town, seen first person from where a resident would stand, in the same drawn style as the released apartment living rooms.",
+        "Modest and lived-in: a couch, an armchair, a coffee table, a lamp, a television or bookshelf, a rug over wood or carpet. Nothing wealthy and nothing run-down.",
+        "Windows show a yard, a neighboring house or trees, framed so the season is not stated: no snow, no autumn color, no bare branches, or curtains drawn part-way. No apartment blocks, no city skyline, no brick street wall.",
+        "No people and no pets drawn in. Present household members are rendered separately on top.",
+        "No text, flags, party signs or anything that names a state or region."
+      ],
+      "acceptanceCriteria": [
+        "Reads as a house, not an apartment: nothing visible through the window is a multi-story residential block or city street wall.",
+        "The window view states no season: a snowy, bare-branch or autumn-colored view is wrong for this request.",
+        "Empty of people and animals.",
+        "At least 4608 pixels wide at 16:9, measured from the delivered file, not upscaled from a smaller original.",
+        "Matches the drawing style of the released apartment living rooms closely enough to sit in the same game."
+      ],
+      "dependsOn": []
     }
   ]
 }
