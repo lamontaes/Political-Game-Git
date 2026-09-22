@@ -9,9 +9,15 @@ import {
   type TraitValue,
 } from "./people-trait-definitions";
 import { createMindProvenance, recordPersonalityTendency } from "./mind";
-import { latestPersonalityTendency } from "./queries";
+import { ageOnDate } from "./dates";
+import { catalogueFamilies, PERSONALITY_PACK } from "./personality-catalogue";
+import {
+  latestPersonalityTendenciesForPerson,
+  latestPersonalityTendency,
+} from "./queries";
 import { SeededRng } from "./rng";
 import {
+  isOneSided,
   strengthForMagnitude,
   traitDefinitionFromPack,
   type RegisteredTrait,
@@ -238,6 +244,11 @@ export function encodeRegisteredTrait(trait: RegisteredTrait, value: number) {
       strength: "subtle" as const,
     };
   }
+  if (value < 0 && isOneSided(trait)) {
+    throw new Error(
+      `The trait "${trait.qualifiedKey}" is one-sided and has no opposite to lean toward.`,
+    );
+  }
   const strength = strengthForMagnitude(trait.scale, Math.abs(value));
   if (strength === null) {
     throw new Error(
@@ -322,6 +333,84 @@ export function ensurePeopleTraits(
     for (const trait of registeredSeededTraits(next)) {
       next = seedRegisteredTrait(next, personId, trait);
     }
+    next = seedSalientQualities(next, personId);
+  }
+  return next;
+}
+
+/** The age a person is known for qualities of their own rather than a child's. */
+const SALIENT_QUALITIES_FROM_AGE = 18;
+
+/**
+ * Writes the one or two qualities an adult is known for, once, from their own
+ * stream, out of the personality catalogue.
+ *
+ * Sparse on purpose: every other scale in the catalogue stays unrecorded,
+ * which reads as unknown, not as "not like that". The draw picks a family
+ * before a scale inside it, so a family the catalogue holds many words for is
+ * no more common for that, and it reads nothing about the person but who they
+ * are: not their sex, race, income, schooling or party.
+ *
+ * A one-sided quality is only ever written at its marked end; a two-ended one
+ * leans either way with equal odds. How many qualities and how strongly held
+ * are PRIVATE CALIBRATION, not researched: one or two with equal odds, and
+ * strongly held one time in four.
+ *
+ * Anybody holding any catalogue record already has theirs, so this writes
+ * nothing twice and never over a quality a life has since moved. Children are
+ * left until they are adults, because these are adult descriptors, not an
+ * infant's nature.
+ */
+function seedSalientQualities(world: World, personId: EntityId): World {
+  const person = world.people[personId]!;
+  if (
+    ageOnDate(person.birthDate, world.currentDate) < SALIENT_QUALITIES_FROM_AGE
+  ) {
+    return world;
+  }
+  const catalogue = [...traitRegistryFor(world).traits.values()].filter(
+    (trait) => trait.pack === PERSONALITY_PACK,
+  );
+  if (catalogue.length === 0) return world;
+  const definitionIds = new Set(
+    catalogue.map((trait) => traitDefinitionFromPack(trait).id),
+  );
+  if (
+    latestPersonalityTendenciesForPerson(world, personId).some((record) =>
+      definitionIds.has(record.tendencyId),
+    )
+  ) {
+    return world;
+  }
+  const byKey = new Map(catalogue.map((trait) => [trait.key, trait]));
+  const rng = new SeededRng(world.seed).fork(
+    `${PERSONALITY_PACK}:salient:${personId}`,
+  );
+  const families = [...catalogueFamilies()];
+  const count = rng.integer(1, 3);
+  let next = world;
+  for (let index = 0; index < count && families.length > 0; index += 1) {
+    const [family] = families.splice(rng.integer(0, families.length), 1);
+    const row = rng.pick(family!.scales);
+    const trait = byKey.get(row.key);
+    if (!trait) continue;
+    const magnitude = rng.integer(0, 4) === 0 ? 2 : 1;
+    const value =
+      isOneSided(trait) || rng.integer(0, 2) === 1 ? magnitude : -magnitude;
+    next = ensureTraitDefinition(next, trait);
+    next = recordPersonalityTendency(next, {
+      stableKey: `${trait.qualifiedKey}:${personId}:salient`,
+      personId,
+      tendencyId: traitDefinitionFromPack(trait).id,
+      recordedAt: laterOf(person.birthDate, next.currentDate),
+      ...encodeRegisteredTrait(trait, value),
+      confidence: "medium",
+      scopeTags: [`${PERSONALITY_PACK}.salient`],
+      provenance: createMindProvenance("authored", {
+        note: `One of the qualities this person is known for, drawn once from their own stream.`,
+      }),
+      supersedesTendencyId: null,
+    });
   }
   return next;
 }

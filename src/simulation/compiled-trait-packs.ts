@@ -1,5 +1,6 @@
 import { legislatureTraitPack } from "./legislature-trait-pack";
 import { peopleTraitPack } from "./people-trait-pack";
+import { personalityCataloguePack } from "./personality-catalogue";
 import type { TraitPack } from "./trait-packs";
 
 /**
@@ -14,5 +15,9 @@ import type { TraitPack } from "./trait-packs";
  * is moved by what happens to people, with no other code naming it.
  */
 export function compiledTraitPacks(): readonly TraitPack[] {
-  return [peopleTraitPack(), legislatureTraitPack()];
+  return [
+    peopleTraitPack(),
+    legislatureTraitPack(),
+    personalityCataloguePack(),
+  ];
 }

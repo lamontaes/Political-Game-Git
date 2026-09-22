@@ -91,6 +91,22 @@ export interface TraitDeclaration {
   readonly seed: { readonly spread: readonly number[] } | null;
   /** How movable this kind of trait is at all. See `TraitMovability`. */
   readonly movability: TraitMovability;
+  /**
+   * Whether the trait has two ends or one. Two, when left out.
+   *
+   * A two-ended trait runs between opposites: patient and impatient. A
+   * one-sided trait is a marked pattern and its absence: somebody is cocky, or
+   * shows no marked cockiness, and the absence is not humility. Its low pole is
+   * declared only so the store has an expression for it; it is never drawn,
+   * never written as a lean and never read as one, because a negative value on
+   * a one-sided trait would be an invented opposite.
+   */
+  readonly sides?: "one" | "two";
+}
+
+/** Whether a trait is a marked pattern and its absence rather than a scale. */
+export function isOneSided(trait: TraitDeclaration): boolean {
+  return trait.sides === "one";
 }
 
 /**
@@ -341,6 +357,9 @@ function checkTrait(trait: TraitDeclaration, seen: Set<string>): string | null {
     }
     const allowed = new Set(magnitudes);
     for (const value of trait.seed.spread) {
+      if (value < 0 && isOneSided(trait)) {
+        return `trait "${trait.key}" is one-sided but seeds the value ${value}; a one-sided trait has no opposite to draw`;
+      }
       if (value !== 0 && !allowed.has(Math.abs(value))) {
         return `trait "${trait.key}" seeds the value ${value}, which its scale does not declare`;
       }

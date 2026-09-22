@@ -106,3 +106,7 @@ docs/reference/regional-opening/raw/
 # regenerate rather than hand-format.
 public/data/state-voting
 docs/research/chatgpt-answers/2026-09-22-depth2
+
+# The personality catalogue data generated from the received dispositions by
+# scripts/traits/personality-catalogue.ts.
+src/simulation/personality-catalogue.generated.ts
