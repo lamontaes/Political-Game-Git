@@ -1,0 +1,23 @@
+{
+  "filedAt": "2026-09-22T23:15:00.000Z",
+  "impact": "shapes-design",
+  "lane": "How the world changes (press coverage)",
+  "priority": "P1",
+  "question": "How much press does an election result get, and from whom? For a win at each level (town council, state legislature, statewide office, U.S. House and Senate), what decides whether it is covered locally, statewide or nationally, and how heavily: an upset of an incumbent, a first-time or young candidate, the margin, an open seat, a long-serving incumbent's routine re-election, a party change in the seat? Give the rule a newsroom would recognise, not a formula a lane picked.",
+  "questionId": "how-much-coverage-an-election-result-gets",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "How the world changes thread, on lamontae's 2026-09-22 22:52Z direction: a win with no announcement 'should also be in the press… maybe it's national press if it's like AOC and a stunner, but maybe it's just local if it's not. And maybe it's barely covered if it's Chuck Grassley.'",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/press/desk.ts newsworthiness (DEPTH2 A07 answer)",
+      "whatItDidNotSettle": "A07 scores an event by matter, named people, recorded scale, public office, audience and beat. A result carries none of what makes one result bigger news than another: whether an incumbent lost, how long the winner or loser held the seat, whether the seat changed party."
+    },
+    {
+      "source": "src/simulation/election-contests.ts evaluateDeterministicContestOutcome",
+      "whatItDidNotSettle": "The recorded tallies are a stand-in (1,000 to 10,000 votes a candidate) and cannot be used for a margin; `how-an-election-night-should-come-out` owns realistic results."
+    }
+  ],
+  "title": "How much coverage an election result gets, and at what reach",
+  "usableAnswer": "A short table: for each kind of result (upset of an incumbent, open-seat win, routine re-election of a long-serving incumbent, a first-time winner, a party flip, a landslide or a near tie), the reach it typically gets at each office level (local, state, national) and roughly how many stories, with an example per row. Say which of these a newsroom judges from the result alone and which need something the game would have to record, such as a candidate's national profile.",
+  "whyItMatters": "Every election result now reaches the news as an ordinary story, weighted like any other named event about an office. Nothing yet makes a stunning upset national or a routine re-election a brief. Until this is answered the result is covered at the ordinary weight and marked as a placeholder in the code."
+}
