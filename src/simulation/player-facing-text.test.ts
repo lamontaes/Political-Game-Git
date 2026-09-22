@@ -5,6 +5,7 @@ import { createScenarioWorld } from "./demo";
 import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
 import { makeIsoDate } from "./dates";
 import { OFFICE_QUALIFICATION_ROWS } from "./office-qualifications.generated";
+import { resolveCapability } from "./rule-capability-resolver";
 import {
   QUALIFICATION_SOURCED_STATE_KEYS,
   assessOfficeQualifications,
@@ -237,6 +238,47 @@ describe("player-facing text carries no source reference", () => {
                 `${stateKey} ${row.field} on ${onDate}: ${found.join(", ")} — "${note}"`,
               );
             }
+          }
+        }
+      }
+    }
+    expect(failures).toEqual([]);
+  });
+
+  /*
+   * The capability resolver was missed by the first pass and by this test,
+   * which is the reason it is checked separately rather than folded in. It
+   * was found by someone reading the commit stats instead of the change
+   * description, and two of its refusals still named the provision they
+   * rested on after every other producer had been cleaned. A net that has
+   * already let one producer through is worth widening at the producer, not
+   * at the string.
+   */
+  it("keeps the capability resolver's fields and refusals free of it", () => {
+    const failures: string[] = [];
+    for (const stateKey of QUALIFICATION_SOURCED_STATE_KEYS) {
+      for (const onDate of DATES) {
+        const resolution = resolveCapability({
+          // The scope takes the bare USPS code; the sourced keys are `US-XX`.
+          scope: { kind: "state", stateUsps: stateKey.replace(/^US-/, "") },
+          action: "inspect",
+          onDate: makeIsoDate(onDate),
+        });
+        for (const field of resolution.fields) {
+          if (field.reason === null) continue;
+          const found = offences(field.reason, needles);
+          if (found.length > 0) {
+            failures.push(
+              `${stateKey} ${field.field} on ${onDate}: ${found.join(", ")} — "${field.reason}"`,
+            );
+          }
+        }
+        if (resolution.refusal !== null) {
+          const found = offences(resolution.refusal, needles);
+          if (found.length > 0) {
+            failures.push(
+              `${stateKey} refusal on ${onDate}: ${found.join(", ")} — "${resolution.refusal}"`,
+            );
           }
         }
       }
