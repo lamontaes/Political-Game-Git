@@ -373,7 +373,7 @@ export function CampaignWorkspace({
                           ))}
                           {detail.length > 0 ? (
                             <details className="game-campaign-detail">
-                              <summary>Sources and detail</summary>
+                              <summary>More about the timing</summary>
                               <ul>
                                 {[...new Set(detail)].map((line) => (
                                   <li key={line}>{line}</li>

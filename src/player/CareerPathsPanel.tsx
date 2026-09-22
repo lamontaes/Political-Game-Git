@@ -97,25 +97,21 @@ export function CareerPathsPanel({
         Seek an offer
       </button>
       {reason && <p>{reason}</p>}
-      <details>
-        <summary>Occupation source context</summary>
+      {/*
+       * What this work pays nationally is a fact about the job, and a player
+       * choosing between two of them wants it. Where the game read it is not,
+       * so the occupation code, the record id and the publisher attribution
+       * that used to sit above it stay on the record instead of on this
+       * screen.
+       */}
+      {world.currentDate >= "2026-09-09" && source.wage && (
         <p>
-          {source.title} · {source.id} → SOC {source.soc}
+          Nationally, this work pays a median of{" "}
+          {source.wage.hourlyMedian ?? "an unlisted amount"} an hour,{" "}
+          {source.wage.annualMedian ?? "an unlisted amount"} a year. What it
+          pays here, and what anyone would offer you, is another question.
         </p>
-        <p>{source.source.attribution}</p>
-        <p>
-          O*NET 31.0, August 2026; current source context, not a claim about
-          your past. Task durations come from the employer’s authored shift.
-        </p>
-        {world.currentDate >= "2026-09-09" && source.wage && (
-          <p>
-            Nationally, this work pays a median of{" "}
-            {source.wage.hourlyMedian ?? "an unlisted amount"} an hour,{" "}
-            {source.wage.annualMedian ?? "an unlisted amount"} a year. What it
-            pays here, and what anyone would offer you, is another question.
-          </p>
-        )}
-      </details>
+      )}
       {mine.map((r) => {
         const status = workStatusAt(world, r.id)?.status;
         return (

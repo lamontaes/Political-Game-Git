@@ -113,14 +113,10 @@ export function NationwideCandidacyWorkspace({
             government is named.
           </p>
         ) : null}
-        <details className="game-campaign-detail">
-          <summary>Sources and detail</summary>
-          <p>
-            Government names are the Census Bureau's own listing of government
-            units. A place that lies across several counties keeps every one of
-            them; none is chosen for it.
-          </p>
-        </details>
+        <p className="game-note" data-testid="home-county-spread">
+          A place that lies across several counties keeps every one of them;
+          none is chosen for it.
+        </p>
       </section>
 
       {candidacy ? (
@@ -253,22 +249,14 @@ export function NationwideCandidacyWorkspace({
 
 function BlockList({ blocks }: { blocks: readonly CandidacyBlock[] }) {
   if (blocks.length === 0) return null;
-  const citations = [
-    ...new Set(blocks.flatMap((block) => block.citation ?? [])),
-  ];
+  /*
+   * The block's own reason is the whole of what a player is told. The
+   * citations behind it stay on the record, where a reviewer can read them,
+   * and never on this panel.
+   */
   return (
     <div className="game-note" data-testid="state-executive-blocks">
       <p>{blocks.map((block) => block.reason).join(" ")}</p>
-      {citations.length > 0 ? (
-        <details className="game-campaign-detail">
-          <summary>Sources and detail</summary>
-          <ul>
-            {citations.map((citation) => (
-              <li key={citation}>{citation}</li>
-            ))}
-          </ul>
-        </details>
-      ) : null}
     </div>
   );
 }
