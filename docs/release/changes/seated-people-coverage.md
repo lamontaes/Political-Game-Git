@@ -2,7 +2,7 @@
 id: seated-people-coverage
 impact: minor
 section: Improved
-title: More people can sit down properly
+title: More drawn people are recognised as sitting
 ---
 
-Illustrated people can now be seated in more of the rooms that have chairs. Bodies drawn in a turned seated view are recognised as the seated pose they are, rather than being set aside, so more of the supported appearances have a sitting view available instead of standing where a chair was meant to be used. Seated figures still rest on the chair and floor the room provides, and an appearance with no matching seated view keeps its standing one.
+The library of drawn people now recognises a figure seated in a turned view as the sitting pose it is, instead of setting it aside because it is not square to the camera. That brings seven more sitting figures, of several builds, into the set a room can draw from once they are approved for play. A figure still needs a measured point where it meets the seat before a room can place it in a chair, and the turned figures do not have one yet, so they are not yet the people you will see sitting down.

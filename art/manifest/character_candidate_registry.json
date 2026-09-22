@@ -1,10 +1,204 @@
 {
   "schema": "character-candidate-registry-v1",
-  "generator": "wave-a-candidate-admission-v1",
+  "generator": "character-candidate-registry-writer-v1",
+  "admission_passes": [
+    "wave-a-candidate-admission-v1",
+    "ocd-candidate-admission-v1"
+  ],
   "release_status": "CANDIDATE_REFERENCE_ONLY",
   "production_pixels_released": false,
   "note": "Append-only candidate registry. Nothing here is in any catalog generation, nothing here is runtime-released, and no player-facing selection can reach it. It exists so banked evidence can be composed and reviewed. Promotion is a separate authorized act; see promoteCandidateComponent.",
   "assets": [
+    {
+      "asset_id": "ocd_body_adult_fem_seated_gesture_forward_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_gesture_forward_v1.png",
+      "hash": "002d60e76ffd2e86a286c6111eabbe5b3ecde5c85d3a5bed81c2ba026013d76e",
+      "candidate_component": {
+        "kind": "body",
+        "family": "ocd-adult-feminine",
+        "layer": 20,
+        "canvas": { "width": 826, "height": 1630 },
+        "pose_family": "seated-guest-three-quarter-right",
+        "head_orientation": "three-quarter-right",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.503632,
+          "y": 0.463804
+        },
+        "attachment_anchors": [
+          { "id": "crown", "x": 0.503632, "y": 0.042331 },
+          { "id": "head", "x": 0.503632, "y": 0.197546 },
+          { "id": "torso", "x": 0.503632, "y": 0.284049 },
+          { "id": "hips", "x": 0.503632, "y": 0.463804 },
+          { "id": "feet", "x": 0.503632, "y": 0.957669 }
+        ]
+      }
+    },
+    {
+      "asset_id": "ocd_body_adult_fem_seated_guest_front_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_guest_front_v1.png",
+      "hash": "99784955898472f1801124e3dba0911043ddc7e663e6e9397ef5075c737d982b",
+      "candidate_component": {
+        "kind": "body",
+        "family": "ocd-adult-feminine",
+        "layer": 20,
+        "canvas": { "width": 859, "height": 1641 },
+        "pose_family": "seated-guest-three-quarter-right",
+        "head_orientation": "three-quarter-right",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.533178,
+          "y": 0.46496
+        },
+        "attachment_anchors": [
+          { "id": "crown", "x": 0.533178, "y": 0.042048 },
+          { "id": "head", "x": 0.533178, "y": 0.199269 },
+          { "id": "torso", "x": 0.533178, "y": 0.281536 },
+          { "id": "hips", "x": 0.533178, "y": 0.46496 },
+          { "id": "feet", "x": 0.533178, "y": 0.957343 }
+        ]
+      }
+    },
+    {
+      "asset_id": "ocd_body_adult_fem_seated_guest_three_quarter_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_guest_three_quarter_v1.png",
+      "hash": "bc2b3c0750c1f894010bbf5f5fff492c9185989496103dd6712927bcbfa99c79",
+      "candidate_component": {
+        "kind": "body",
+        "family": "ocd-adult-feminine",
+        "layer": 20,
+        "canvas": { "width": 817, "height": 1603 },
+        "pose_family": "seated-guest-three-quarter-right",
+        "head_orientation": "three-quarter-right",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.516524,
+          "y": 0.465377
+        },
+        "attachment_anchors": [
+          { "id": "crown", "x": 0.516524, "y": 0.044916 },
+          { "id": "head", "x": 0.516524, "y": 0.193387 },
+          { "id": "torso", "x": 0.516524, "y": 0.287586 },
+          { "id": "hips", "x": 0.516524, "y": 0.465377 },
+          { "id": "feet", "x": 0.516524, "y": 0.956956 }
+        ]
+      }
+    },
+    {
+      "asset_id": "ocd_body_adult_fem_standing_conversational_b_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_conversational_b_v1.png",
+      "hash": "7f7b653efec871fd25448e79a68bbd4cea67358226a4530432bedd43edfeb371",
+      "candidate_component": {
+        "kind": "body",
+        "family": "ocd-adult-feminine",
+        "layer": 20,
+        "canvas": { "width": 827, "height": 1728 },
+        "pose_family": "standing-conversational",
+        "head_orientation": "front",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.49214,
+          "y": 0.353588
+        },
+        "attachment_anchors": [
+          { "id": "crown", "x": 0.49214, "y": 0.039931 },
+          { "id": "head", "x": 0.49214, "y": 0.168403 },
+          { "id": "torso", "x": 0.49214, "y": 0.269676 },
+          { "id": "hips", "x": 0.49214, "y": 0.353588 },
+          { "id": "feet", "x": 0.49214, "y": 0.960648 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.247884, "y": 0.960648 },
+          "rightFoot": { "x": 0.562273, "y": 0.960648 }
+        }
+      }
+    },
+    {
+      "asset_id": "ocd_body_adult_fem_standing_neutral_a_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_neutral_a_v1.png",
+      "hash": "192820a8fe1fec3b36583a6c87c2e45cbc8ceb1d2fe479960a191f986c6aaa9b",
+      "candidate_component": {
+        "kind": "body",
+        "family": "ocd-adult-feminine",
+        "layer": 20,
+        "canvas": { "width": 892, "height": 1703 },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": { "convention": "pelvis-hip-center", "x": 0.5, "y": 0.357017 },
+        "attachment_anchors": [
+          { "id": "crown", "x": 0.5, "y": 0.03993 },
+          { "id": "head", "x": 0.5, "y": 0.168526 },
+          { "id": "torso", "x": 0.5, "y": 0.279507 },
+          { "id": "hips", "x": 0.5, "y": 0.357017 },
+          { "id": "feet", "x": 0.5, "y": 0.959483 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.356502, "y": 0.959483 },
+          "rightFoot": { "x": 0.642937, "y": 0.959483 }
+        }
+      }
+    },
+    {
+      "asset_id": "ocd_body_adult_fem_standing_neutral_b_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_neutral_b_v1.png",
+      "hash": "01761f913049bb3814b22a87361675e86cd085779fed1a6c7e235b8108bb276b",
+      "candidate_component": {
+        "kind": "body",
+        "family": "ocd-adult-feminine",
+        "layer": 20,
+        "canvas": { "width": 830, "height": 1704 },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": { "convention": "pelvis-hip-center", "x": 0.5, "y": 0.370892 },
+        "attachment_anchors": [
+          { "id": "crown", "x": 0.5, "y": 0.040493 },
+          { "id": "head", "x": 0.5, "y": 0.171948 },
+          { "id": "torso", "x": 0.5, "y": 0.274648 },
+          { "id": "hips", "x": 0.5, "y": 0.370892 },
+          { "id": "feet", "x": 0.5, "y": 0.959507 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.342169, "y": 0.959507 },
+          "rightFoot": { "x": 0.641566, "y": 0.959507 }
+        }
+      }
+    },
     {
       "asset_id": "wave_a_average_man_seated_conversational_open_hand_v1",
       "asset_type": "character-component-candidate",

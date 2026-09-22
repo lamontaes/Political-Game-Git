@@ -31,6 +31,7 @@ import {
   WAVE_A_REVIEW_VISUAL_LIBRARY,
 } from "./candidate-review";
 import { buildCharacterRenderPlan } from "./character-render-plan";
+import { SEATED_PELVIS_Y_RANGE } from "./pose-families";
 import {
   PRODUCTION_CHARACTER_LIBRARY,
   PRODUCTION_VISUAL_LIBRARY,
@@ -183,7 +184,12 @@ describe("Wave A candidate admission", () => {
       (row) => row.disposition !== "admitted-candidate-body",
     );
     expect(rows).toHaveLength(51);
-    expect(retained.length + WAVE_A_CANDIDATE_RECORDS.length).toBe(51);
+    // The registry is written from two admission passes over two different sets
+    // of rasters, so only the Wave A records are accountable to this report.
+    const waveARecords = WAVE_A_CANDIDATE_RECORDS.filter((record) =>
+      record.asset_id.startsWith("wave_a_"),
+    );
+    expect(retained.length + waveARecords.length).toBe(51);
     for (const row of retained) {
       expect(row.disposition, row.assetId).toMatch(/^retained-/);
       // A crop retained for an UNMEASURABLE RIG has a pose family: the pose was
@@ -461,12 +467,49 @@ describe("Wave A review composition", () => {
 
   it("enumerates a stable review set", () => {
     const bodies = admittedCandidateBodies();
-    // Twelve front-facing bodies, plus the four turned seated figures that the
-    // three-quarter-left family made admissible.
+    // Twelve front-facing Wave A bodies, plus the four turned seated figures
+    // the three-quarter-right family made admissible, plus the six adult
+    // feminine bodies chopped in Packet 71 and despilled in Packet 76, which
+    // had been sitting in no manifest at all.
     expect(
       bodies.filter((b) => WAVE_A_ADMITTED_ASSET_IDS.has(b.assetId)),
-    ).toHaveLength(16);
+    ).toHaveLength(22);
     expect(admittedCandidateBodies()).toEqual(bodies);
+  });
+
+  it("declares a seat contact only where one was credibly measured", () => {
+    // `seatedPelvis` is the point that lands on a seat plane. It used to be
+    // emitted only alongside two resolved foot contacts, so a turned seated
+    // body — whose near foot occludes its far one — carried no contacts at all
+    // and could not be placed in a chair by anything.
+    //
+    // Emitting one unconditionally is the opposite error. `measureBodyRig`
+    // finds a crotch where the silhouette opens into two legs, and a turned
+    // seated figure never opens, so the row it returns is down at the ankles.
+    // A pelvis there seats the figure standing on the cushion. So the value is
+    // emitted when it is credible and dropped when it is not, and no seated
+    // body anywhere carries one outside the band the pose registry accepts.
+    const seated = admittedCandidateBodies().filter((body) =>
+      WAVE_A_REVIEW_CHARACTER_LIBRARY.components
+        .get(body.assetId)!
+        .definition.pose_family?.startsWith("seated-"),
+    );
+    expect(seated.length).toBeGreaterThanOrEqual(9);
+    let seatable = 0;
+    for (const body of seated) {
+      const pelvis = WAVE_A_REVIEW_CHARACTER_LIBRARY.components.get(
+        body.assetId,
+      )!.definition.contacts?.seatedPelvis;
+      if (!pelvis) continue;
+      seatable += 1;
+      expect(pelvis.y, body.assetId).toBeGreaterThanOrEqual(
+        SEATED_PELVIS_Y_RANGE.minimum,
+      );
+      expect(pelvis.y, body.assetId).toBeLessThanOrEqual(
+        SEATED_PELVIS_Y_RANGE.maximum,
+      );
+    }
+    expect(seatable).toBeGreaterThan(0);
   });
 });
 

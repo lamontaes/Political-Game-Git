@@ -620,11 +620,12 @@ export const WAVE_A_VISUAL_OBSERVATIONS: Readonly<
  * The registered pose family a reviewed observation maps onto, or null when
  * the registry has nothing that matches it.
  *
- * Every registered family in `art/manifest/pose_families.json` declares
- * `facing: "front"`, so a three-quarter, profile or back figure has no family
- * to be admitted to. That is a missing pose contract, and saying so is the
- * point: quietly filing a back view under `standing-neutral` would make the
- * registry claim a facing it does not have.
+ * A facing no registered family declares is a missing pose contract, not a
+ * defective crop, and saying so is the point: quietly filing a back view under
+ * `standing-neutral` would make the registry claim a facing it does not have.
+ * Every standing family still declares `facing: "front"`, so a turned standing
+ * figure has nowhere to go; the seated families declare front and
+ * three-quarter-right, so a turned seated figure does.
  */
 export function registeredPoseFamilyFor(
   observation: WaveAVisualObservation,
@@ -920,26 +921,80 @@ export function anchorsFromMeasurement(
   ];
 }
 
+/**
+ * The contacts the silhouette carries, and only those.
+ *
+ * Feet and pelvis are measured independently, and each is emitted only if its
+ * own measurement resolved. Two sole runs are two feet on a floor line; one run
+ * is two feet the silhouette cannot tell apart, which is common in a turned
+ * pose where the near foot occludes the far one, and it is reported unresolved
+ * rather than split down the middle.
+ *
+ * The pelvis does not depend on that. It comes from the measured crotch row and
+ * the measured midline, so an unreadable sole band is no reason to withhold it
+ * — and withholding it is not a harmless omission: `seatedPelvis` is the point
+ * that lands on a seat, so a seated body without one cannot be placed in a
+ * chair at all. Every turned seated candidate in this registry was emitted with
+ * no contacts whatsoever for exactly that reason, which made a set of admitted
+ * seated bodies that still could not sit.
+ *
+ * It is emitted only where the measurement behind it means anything.
+ * `measureBodyRig` finds the crotch by the row where the silhouette opens into
+ * two legs, so it is a leg-gap measurement, and a turned seated figure never
+ * opens: the near leg covers the far one all the way down and the row runs on
+ * toward the ankles. The condition under which that row is a pelvis is the
+ * same condition that resolves two feet — a silhouette that separates the legs
+ * — so the soles gate the pelvis, and the accepted 0.45..0.80 band guards it
+ * after. Both are needed: `ocd_body_adult_fem_seated_guest_three_quarter_v1`
+ * measures 0.777, inside the band and plainly at mid-shin.
+ *
+ * The consequence is stated rather than papered over. Every turned seated
+ * candidate here is legal art that still cannot be placed on a seat, because a
+ * seat contact measured AS a seat contact does not exist yet. That is the
+ * missing measurement, and inventing one from proportions is what this
+ * admission exists to refuse.
+ */
 export function contactsFromMeasurement(
   measurement: WaveAMeasurement,
   posture: ObservedPosture,
 ): CharacterBodyContacts | undefined {
-  if (measurement.soleRunCount !== 2) return undefined;
   const [left, right] = measurement.soleRunCentersFraction;
-  if (left === undefined || right === undefined) return undefined;
-  const soles = {
-    leftFoot: { x: left, y: measurement.rig.soleYFraction },
-    rightFoot: { x: right, y: measurement.rig.soleYFraction },
-  };
-  if (posture === "standing") return soles;
-  return {
+  const solesResolved =
+    measurement.soleRunCount === 2 && left !== undefined && right !== undefined;
+  const soles = solesResolved
+    ? {
+        leftFoot: { x: left, y: measurement.rig.soleYFraction },
+        rightFoot: { x: right, y: measurement.rig.soleYFraction },
+      }
+    : {};
+  if (posture === "standing") return solesResolved ? soles : undefined;
+  const pelvisY = measurement.rig.crotchYFraction;
+  const pelvisBelievable =
+    solesResolved &&
+    pelvisY >= SEATED_PELVIS_PLAUSIBLE.minimum &&
+    pelvisY <= SEATED_PELVIS_PLAUSIBLE.maximum;
+  const contacts = {
     ...soles,
-    seatedPelvis: {
-      x: measurement.rig.centerXFraction,
-      y: measurement.rig.crotchYFraction,
-    },
+    ...(pelvisBelievable
+      ? {
+          seatedPelvis: {
+            x: measurement.rig.centerXFraction,
+            y: pelvisY,
+          },
+        }
+      : {}),
   };
+  return Object.keys(contacts).length > 0 ? contacts : undefined;
 }
+
+/**
+ * The band a seated pelvis can credibly fall in, matching
+ * `SEATED_PELVIS_Y_RANGE` in the pose registry. Duplicated as a number here
+ * rather than imported so this factory script stays independent of the runtime
+ * module graph; the pose registry validates the same bound, so a drift between
+ * them fails there.
+ */
+export const SEATED_PELVIS_PLAUSIBLE = { minimum: 0.45, maximum: 0.8 } as const;
 
 /** Body draw order, matching the banked pg candidates. */
 export const WAVE_A_BODY_LAYER = 20;
@@ -1062,9 +1117,20 @@ export function unresolvedFor(
     );
   }
   if (observation.posture === "seated") {
-    unresolved.push(
-      "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against.",
-    );
+    const pelvisY = measurement.rig.crotchYFraction;
+    const pelvisUsable =
+      measurement.soleRunCount === 2 &&
+      pelvisY >= SEATED_PELVIS_PLAUSIBLE.minimum &&
+      pelvisY <= SEATED_PELVIS_PLAUSIBLE.maximum;
+    if (!pelvisUsable) {
+      unresolved.push(
+        `seated pelvis: the crotch row measures ${pelvisY} of canvas height and the sole band resolves ${measurement.soleRunCount} runs. The silhouette finds a crotch where it opens into two legs, so on a figure whose legs never separate that row is not a pelvis; here it is at the shin or the ankle. No seat contact is declared, and this body cannot be placed on a seat until one is measured as a seat contact rather than inferred from a leg gap.`,
+      );
+    } else {
+      unresolved.push(
+        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against.",
+      );
+    }
   }
   return unresolved;
 }
