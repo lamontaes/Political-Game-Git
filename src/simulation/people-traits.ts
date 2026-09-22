@@ -257,7 +257,10 @@ function seedRegisteredTrait(
 ): World {
   const definition = traitDefinitionFromPack(trait);
   const next = ensureTraitDefinition(world, trait);
-  if (readTrait(next, personId, trait).state === "recorded") return next;
+  // Anything already on record, even a record this pack's scale no longer
+  // reads, is theirs: a seed written over it would claim a first value for
+  // somebody who already has a history on this trait.
+  if (latestPersonalityTendency(next, personId, definition.id)) return next;
   const spread = trait.seed!.spread;
   const value =
     spread[

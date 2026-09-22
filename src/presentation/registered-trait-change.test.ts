@@ -121,19 +121,52 @@ describe("a trait from any pack, changed by a life", () => {
     expect(readTrait(reloaded, personId, patience)).toEqual(reading);
   });
 
-  it("refuses a value the trait's scale does not declare", () => {
+  it("refuses a value the trait's scale does not declare, whatever the force", () => {
     const { world, personId, eventId } = balancedOnPatience();
+    for (const force of ["passing", "formative"] as const) {
+      expect(() =>
+        attemptTraitChange(world, {
+          personId,
+          trait: PATIENCE,
+          value: 2,
+          eventId,
+          reason: "A value this scale has no step for.",
+          force,
+          stableKey: `registered-trait-change:undeclared:${force}`,
+          context: "nowhere",
+        }),
+      ).toThrow(/declares no step of magnitude 2/);
+    }
     expect(() =>
       attemptTraitChange(world, {
         personId,
-        trait: PATIENCE,
-        value: 2,
+        trait: "risk",
+        value: 7,
         eventId,
-        reason: "A value this scale has no step for.",
-        force: "formative",
-        stableKey: "registered-trait-change:undeclared",
+        reason: "Off the end of the scale.",
+        force: "passing",
+        stableKey: "registered-trait-change:off-scale",
         context: "nowhere",
       }),
-    ).toThrow(/declares no step of magnitude 2/);
+    ).toThrow(/has no value 7/);
+  });
+
+  it("writes one of the five the same way however it is spelled", () => {
+    const { world, personId, eventId } = balancedOnPatience();
+    const input = {
+      personId,
+      value: 2,
+      eventId,
+      reason: "A life-changing year.",
+      force: "formative" as const,
+      stableKey: "registered-trait-change:spelling",
+      context: "a-year",
+    };
+    const bare = attemptTraitChange(world, { ...input, trait: "risk" });
+    const qualified = attemptTraitChange(world, {
+      ...input,
+      trait: "people-mind-v1:risk",
+    });
+    expect(serializeWorld(qualified.world)).toBe(serializeWorld(bare.world));
   });
 });

@@ -92,8 +92,15 @@ function isPeopleTrait(target: string): target is PeopleTrait {
 function handleFor(
   world: World,
   personId: EntityId,
-  target: TraitChangeTarget,
+  given: TraitChangeTarget,
 ): TraitHandle | null {
+  // One of the five spelled by its qualified key is still one of the five, so
+  // its records keep the one stable-key form they have always had.
+  const prefix = `${PEOPLE_MIND_VERSION}:`;
+  const target =
+    given.startsWith(prefix) && isPeopleTrait(given.slice(prefix.length))
+      ? given.slice(prefix.length)
+      : given;
   if (isPeopleTrait(target)) {
     const registered = loadedTraitRegistry().traits.get(
       `${PEOPLE_MIND_VERSION}:${target}`,
@@ -314,6 +321,21 @@ export function attemptTraitChange(
   const handle = handleFor(world, input.personId, input.trait);
   if (!handle) {
     throw new Error(`No loaded pack declares the trait "${input.trait}".`);
+  }
+
+  // A value the trait's scale has no step for is refused before anything is
+  // weighed, so a failed attempt at it cannot be written down as pressure.
+  if (
+    isPeopleTrait(handle.registered.key) &&
+    handle.registered.pack === PEOPLE_MIND_VERSION
+  ) {
+    if (![-2, -1, 0, 1, 2].includes(input.value)) {
+      throw new Error(
+        `The trait "${handle.registered.qualifiedKey}" has no value ${input.value}.`,
+      );
+    }
+  } else {
+    encodeRegisteredTrait(handle.registered, input.value);
   }
 
   // Establishing a temperament is authoring it, not changing it, so it happens
