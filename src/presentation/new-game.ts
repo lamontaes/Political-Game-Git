@@ -218,7 +218,20 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   gender: "unstated",
   appearanceRecipeVersion: COHERENT_APPEARANCE_RECIPE_VERSION,
   givenNameGenerationVersion: DISTINCT_GIVEN_NAME_GENERATION_VERSION,
-  earlierLifeGenerationVersion: "context-v2",
+  // OFF, deliberately, and not removed. `context-v2` declines to write a
+  // school or a job into a grown character's summarized past on the grounds
+  // that the game should not invent a biography nobody chose. Measured cost of
+  // that on an ordinary forty-year-old: no schooling, no work history, and one
+  // fewer person in the world — the teacher from their earlier life, who is
+  // the only person who ever reaches out to them on an ordinary day. Four
+  // seeds, one incoming contact each without it and none with it, which is
+  // also what stopped `people-trait-occasions` from ever firing.
+  //
+  // The owner's decision, 2026-09-22: a person's history is generated up to
+  // their age and the state of the world being loaded into. A blank past is
+  // further from that than a generated one, so new games use the generator
+  // that writes one until a properly sourced history replaces it. The version
+  // and its tests stay so a replay written under it still rebuilds.
   questionnaireCopyVersion: "playtest65-v2",
   worldOpeningVersion: CRUNCH46_WORLD_OPENING_VERSION,
   openingDataVersion: "playtest65-v1",
