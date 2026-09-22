@@ -154,12 +154,6 @@ export function displayedSharePercents(
 
 export interface CampaignView {
   readonly phase: "unavailable" | "can-file" | CampaignStatus;
-  /**
-   * After a race is decided the view still shows it, and this says whether a
-   * new filing is open beside it. A win or a loss ends one race, not the
-   * candidate's ability to run for the next office.
-   */
-  readonly canFileAgain: boolean;
   /** Said plainly when there is nothing to offer. Never an empty screen. */
   readonly unavailableReason: string | null;
   readonly candidateName: string;
@@ -373,14 +367,9 @@ export function projectCampaign(
       .at(-1)?.name ?? null;
   const result = electionContestResult(world, campaign.contestId);
   const pronouns = personPronouns(person);
-  const canFileAgain =
-    state.status !== "active" &&
-    notYetFiled(world, personId, candidateName, placeName, selectedOfficeKey)
-      .phase === "can-file";
 
   return {
     phase: state.status,
-    canFileAgain,
     unavailableReason: null,
     candidateName,
     placeName,
@@ -477,7 +466,6 @@ function notYetFiled(
     currency: CAMPAIGN_CURRENCY,
   };
   const base = {
-    canFileAgain: false,
     unavailableReason: null as string | null,
     candidateName,
     placeName,

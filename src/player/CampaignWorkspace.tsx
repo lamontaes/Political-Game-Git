@@ -411,7 +411,7 @@ export function CampaignWorkspace({
         </div>
       ) : null}
 
-      {view.phase === "can-file" || view.canFileAgain ? (
+      {view.phase === "can-file" ? (
         <div data-testid="campaign-offer" className="game-campaign-offer">
           <p>
             {selectedOffice
