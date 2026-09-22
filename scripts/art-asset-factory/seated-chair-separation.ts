@@ -42,6 +42,15 @@ import { readPng, writePng } from "./pg-modular-intake";
  *   Connectivity cannot reach them either, since being against the figure is
  *   what puts them inside the protection band. What is left needs the chair
  *   drawn apart from the figure, not a better threshold.
+ *
+ * THE REPAIR IS OPTIONAL, AND THAT IS THE OWNER'S OWN INSTRUCTION. He is not
+ * attached to these figures: generation may produce new ones rather than work
+ * around what already exists. What the game needs is a seated male body drawn
+ * free of furniture, and a fresh generation supplies that as readily as four
+ * plates of hand-painting would. So these derivatives are candidates that cost
+ * nobody anything, not work anyone owes. What keeps earning its place here is
+ * the method: any chop can be checked for a baked prop the same way, and a
+ * subtractive pass is verified by rendering only what it removed.
  * - WHAT THE PROTECTION STRANDS IS STILL CHAIR. The protection band is
  *   absolute, so where the chair runs close to a thigh it cuts the chair's fill
  *   into islands that reach no seed, and those islands were the visible residue
@@ -486,7 +495,7 @@ export async function separateSeatedChairs(
         verification:
           "Each output is read back off disk and checked two ways: no pixel above the seat plane changed, and no opaque region is left that touches nothing else in the plate. Verify any change to this script by rendering ONLY the removed pixels. Looking at the result tells you what survived, not what went, and an earlier version took the whole foot outline without that being visible in the result.",
         known_incomplete:
-          "Registered as L12 in the local registrar. Chair that TOUCHES the figure survives: a sliver of seat between the thighs and a stub of chair leg against each shin. It cannot be taken by colour, and that is measured rather than assumed. On these plates the figure's own edge pixels below the knee run from value 64 to 240, and the chair's mid-tones sit at 96 to 150, inside that range on every plate; raising the body-tone floor to separate them starts eating the feet, which is the failure an earlier version shipped. Connectivity cannot take them either, because they are inside the protection band by definition. Separating them needs the chair drawn apart from the figure, which means either the owner's layered source or his own brush. These derivatives are NOT approvable until that residue is gone.",
+          "Chair that TOUCHES the figure survives: a sliver of seat between the thighs and a stub of chair leg against each shin. It cannot be taken by colour, and that is measured rather than assumed. On these plates the figure's own edge pixels below the knee run from value 64 to 240, and the chair's mid-tones sit at 96 to 150, inside that range on every plate; raising the body-tone floor to separate them starts eating the feet, which is the failure an earlier version shipped. Connectivity cannot take them either, because they are inside the protection band by definition. Separating them needs the chair drawn apart from the figure. Doing so is OPTIONAL: the owner is not attached to these figures and a newly generated seated body drawn free of furniture answers the same need, so this is not work he owes. These derivatives are not approvable while the residue is there, which is a statement about them and not a claim on anyone's time.",
         parameters: {
           alpha_floor: ALPHA_FLOOR,
           body_min_chroma: BODY_MIN_CHROMA,
