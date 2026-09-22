@@ -1757,11 +1757,7 @@ function SetupScreen({
                     className="game-hint"
                     data-testid={`place-${fact.kind}`}
                   >
-                    {fact.kind === "county"
-                      ? fact.asOf
-                        ? `${fact.text} · ${fact.asOf.slice(0, 4)}`
-                        : fact.text
-                      : fact.text}
+                    {fact.text}
                   </p>
                 ))}
               {populationFacts.map((fact) => (
@@ -1770,17 +1766,9 @@ function SetupScreen({
                   className="game-hint"
                   data-testid="place-population"
                 >
-                  {fact.asOf
-                    ? `${fact.text} · ${fact.geography} · ${fact.asOf}`
+                  {fact.geography
+                    ? `${fact.text} · ${fact.geography}`
                     : fact.text}
-                  {fact.attribution ? (
-                    <span
-                      className="creator-place-attribution"
-                      data-testid="place-population-source"
-                    >
-                      {fact.attribution}
-                    </span>
-                  ) : null}
                 </p>
               ))}
               {replacingPlace ? null : (
