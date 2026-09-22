@@ -332,9 +332,27 @@ describe("Art Desk projection and briefs", () => {
           item.request.requestId === "env-neighborhood-doorstep-generic",
       ),
     ).toBe(true);
+    /**
+     * Person requests used to be excluded from this lane by name, which read
+     * as a rule about people and was not one: what keeps them out is the
+     * d-held-people flag, a lane-ownership line from the Art Desk's own plan
+     * that ended up in data. So the assertion is the flag, not the prefix.
+     * A person request without it belongs here like any other open ask, and
+     * the seated three-quarter pose is one by the owner's decision.
+     */
+    const held = new Set(
+      Object.entries(reconciliation.holds)
+        .filter(([, hold]) => hold === "d-held-people")
+        .map(([requestId]) => requestId),
+    );
+    expect(held.size).toBeGreaterThan(0);
+    expect(needs.some((item) => held.has(item.request.requestId))).toBe(false);
     expect(
-      needs.some((item) => item.request.requestId.startsWith("person-")),
-    ).toBe(false);
+      needs.some(
+        (item) =>
+          item.request.requestId === "person-seated-three-quarter-right-body",
+      ),
+    ).toBe(true);
   });
 
   it("compiles a brief that leaves unresolved geometry unresolved", () => {
