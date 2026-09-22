@@ -1,4 +1,8 @@
 import { projectCongress } from "../living-world/congress";
+import {
+  ethicsInstitutionKey,
+  STATE_LEGISLATIVE_ETHICS_BODIES,
+} from "../press/state-ethics-bodies";
 import type { EntityId, IsoDate, World } from "../types";
 
 /**
@@ -135,6 +139,25 @@ export function canInstitutionAct(
       );
     return unknown(
       "Other Kentucky Legislative Ethics Commission sanctions are not compiled.",
+    );
+  }
+
+  const stateEthicsBody = STATE_LEGISLATIVE_ETHICS_BODIES.find(
+    (body) => institution === ethicsInstitutionKey(body),
+  );
+  if (stateEthicsBody) {
+    // The 2026-09-22 ethics routing research established who hears a complaint
+    // and under what instrument. It did not establish what any of these bodies
+    // may do to anyone, so every sanction stays uncompiled rather than being
+    // borrowed from Kentucky.
+    if (PROCEDURE.includes(action))
+      return answer(
+        "available",
+        stateEthicsBody.sourceRefs,
+        `${stateEthicsBody.intakeBody}: ${stateEthicsBody.proceedingTerm}.`,
+      );
+    return unknown(
+      `What the ${stateEthicsBody.intakeBody} may impose is not compiled.`,
     );
   }
 

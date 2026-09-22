@@ -3,6 +3,7 @@ import { addDays, makeIsoDate } from "../dates";
 import { hasPersonDiscoveredEvidence } from "../evidence";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import type { ProcedureKey } from "./records";
+import { STATE_LEGISLATIVE_ETHICS_BODIES } from "./state-ethics-bodies";
 import { pressRecordById, pressRecordsOfKind } from "./store";
 
 /**
@@ -17,28 +18,45 @@ import { pressRecordById, pressRecordsOfKind } from "./store";
 /** Authored fallback when no proceeding is open. */
 const NO_PROCEEDING_CHECK_DAYS = 30;
 
-/** Upper bound, in days, from a step to the adapter's last possible step. */
-const REMAINING_DAYS: Readonly<
-  Record<ProcedureKey, Readonly<Record<string, number>>>
+const STATE_LEGISLATIVE_ETHICS_REMAINING_DAYS: Readonly<
+  Record<string, number>
 > = {
-  "fec-enforcement": {
-    "": 200,
-    "complaint-received": 195,
-    "respondent-notified": 180,
-    "response-period-closed": 120,
-    "reason-to-believe": 30,
-    "no-reason-to-believe": 30,
-  },
-  "ky-legislative-ethics": {
-    "": 195,
-    "complaint-received": 185,
-    "complaint-served": 165,
-    "answer-period-closed": 120,
-    "preliminary-inquiry": 60,
-    "adjudicatory-hearing-ordered": 60,
-  },
-  "simulated-inquiry": { "": 30, "inquiry-opened": 30 },
+  "": 140,
+  "complaint-received": 126,
+  "respondent-notified": 105,
+  "response-period-closed": 60,
+  "preliminary-inquiry": 60,
 };
+
+/** Upper bound, in days, from a step to the adapter's last possible step. */
+const REMAINING_DAYS = Object.fromEntries([
+  ...Object.entries({
+    "fec-enforcement": {
+      "": 200,
+      "complaint-received": 195,
+      "respondent-notified": 180,
+      "response-period-closed": 120,
+      "reason-to-believe": 30,
+      "no-reason-to-believe": 30,
+    },
+    "ky-legislative-ethics": {
+      "": 195,
+      "complaint-received": 185,
+      "complaint-served": 165,
+      "answer-period-closed": 120,
+      "preliminary-inquiry": 60,
+      "adjudicatory-hearing-ordered": 60,
+    },
+    "simulated-inquiry": { "": 30, "inquiry-opened": 30 },
+  }),
+  // Researched state ethics bodies share one authored timeline, so they share
+  // one remaining-days map. The numbers come from the step intervals in
+  // `stateLegislativeEthicsDefinition`, not from any state's law.
+  ...STATE_LEGISLATIVE_ETHICS_BODIES.map((body) => [
+    body.procedureKey,
+    STATE_LEGISLATIVE_ETHICS_REMAINING_DAYS,
+  ]),
+]) as Readonly<Record<ProcedureKey, Readonly<Record<string, number>>>>;
 
 const FINDING_OUTCOMES = new Set(["finding", "conciliation", "report-issued"]);
 

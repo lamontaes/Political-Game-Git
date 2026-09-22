@@ -147,6 +147,33 @@ export const PROCEDURE_KEYS = [
   "fec-enforcement",
   "ky-legislative-ethics",
   "simulated-inquiry",
+  // Researched state legislative ethics bodies. Each key names one state's
+  // body; the table behind them is `state-ethics-bodies.ts`, and a key here
+  // with no row there (or the reverse) is a type error rather than a silent
+  // route to somebody else's commission.
+  "state-legislative-ethics:us-ak",
+  "state-legislative-ethics:us-ne",
+  "state-legislative-ethics:us-mn",
+  "state-legislative-ethics:us-il",
+  "state-legislative-ethics:us-md",
+  "state-legislative-ethics:us-mo",
+  "state-legislative-ethics:us-nv",
+  "state-legislative-ethics:us-oh",
+  "state-legislative-ethics:us-dc",
+  "state-legislative-ethics:us-nc",
+  "state-legislative-ethics:us-wa",
+  "state-legislative-ethics:us-al",
+  "state-legislative-ethics:us-ct",
+  "state-legislative-ethics:us-fl",
+  "state-legislative-ethics:us-hi",
+  "state-legislative-ethics:us-nj",
+  "state-legislative-ethics:us-ny",
+  "state-legislative-ethics:us-pa",
+  "state-legislative-ethics:us-ri",
+  "state-legislative-ethics:us-sc",
+  "state-legislative-ethics:us-or",
+  "state-legislative-ethics:us-wi",
+  "state-legislative-ethics:us-tx",
 ] as const;
 export type ProcedureKey = (typeof PROCEDURE_KEYS)[number];
 
