@@ -217,3 +217,69 @@ contains a private commitment heard by three people cannot be loaded at all.
 
 Lower priority than the rest, and recorded rather than filed, because the
 classification is right even though the boundary is a guess.
+
+## 7. A correction against myself: read the filter before calling something a row count
+
+I filed `party-evolution.ts:708` — `allies.length >= 2 ? "split" : "found"` —
+as a count-of-records defect, in the family where repeated clicking
+accumulates. **That was wrong, and the people-and-life lane caught it.** I have
+since read the filter at `:672-679` on `origin/main` myself:
+
+```ts
+const allies = members.filter(
+  (other) =>
+    other !== personId &&
+    !controlled(world, other) &&
+    partyActorStance(world, other, questionKey).optionKey ===
+      stance.optionKey &&
+    disputed.some((decision) => decision.dissentingPersonIds.includes(other)),
+);
+```
+
+`members` is `partyBodyMembers`, so this is a count of **people**, and
+`disputed.some(...)` means someone who dissented four times in one afternoon
+counts once. The repeat-click accumulation I assumed was already impossible
+there.
+
+**The general rule, which will recur through the rest of this sweep:** a
+`.length >= n` over a filtered collection tells you nothing until you read the
+filter. Rows, occasions and people are three different things, and this one
+looked exactly like the first family and was the third.
+
+The neighbouring `disputed.length >= 3` at `:716` is not corrected — that one
+does count decision records on a single question key, and reads "high"
+confidence off the count.
+
+### The real defect underneath, verified here
+
+The threshold is on the wrong quantity rather than on the wrong kind of thing.
+`:708` decides split versus founding from the set of people who **dissented**,
+at proposal time. Dissenting in a meeting is not walking out of a party.
+
+The split path already knows this. At adoption, `:1304` recomputes the leavers
+from who actually said `elect-to-leave` and returns `not-met: "no-faction"`
+under two, so a wrongly proposed split creates nothing false.
+
+The founding path has no matching recomputation, and I read it to be precise
+about what goes wrong, because it is not quite "founded from nothing": `:1230`
+does require at least one consenting co-organizer. What it fails to do is
+record where those people came from. It calls `leaveBody` for every
+`subjectOrganizationIds` at `:1267-1274` — the founders **do** walk out of
+their party bodies — and then writes
+
+```ts
+evolutionRecord(next, initiative, "founded", {
+  fromOrganizationIds: [],
+  ...
+})
+```
+
+with `newPartyUnit(..., "founded", ...)`. So people leave a party, and the
+history says the new party came from nowhere. That is exactly the parentage
+the disposition asks for, thrown away at the moment it is established.
+
+The repair is the one the lane named: decide split versus founding at adoption
+from the actual leavers, not at proposal from dissent. Owned by
+people-and-life; recorded here because the finding it replaces was mine and
+wrong, and a lane that only ever revises toward good news is not checking its
+work.
