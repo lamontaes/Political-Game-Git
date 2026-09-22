@@ -98,11 +98,28 @@ const RELEASE_LABELS: Readonly<
     district: "CCD preliminary v0a",
   },
   "2025-26": {
+    // IPEDS only. Schools and districts are CCD, a different collection with
+    // its own release identifiers, so they get no entry here: the 2025-26 CCD
+    // release has been observed (preliminary, 14 July 2026, snapshot 1 Oct
+    // 2025) but its version suffix was never established, and last year's
+    // "v0a" is not evidence for this year's. No school or district row is
+    // dated 2025-26 today, so nothing loses wording by this; what it prevents
+    // is the day one is imported and silently inherits a postsecondary
+    // designation. An unwritten vintage is refused, which is what the table
+    // above exists to do.
     postsecondary: "HD2025/IC2025 provisional",
-    school: "HD2025/IC2025 provisional",
-    district: "HD2025/IC2025 provisional",
   },
 };
+
+/**
+ * Every vintage this build has written release wording for.
+ *
+ * Exported so an invariant can be asserted across all of them rather than
+ * against a hand-written list that drifts as vintages are added.
+ */
+export const ACADEMIC_YEARS: readonly AcademicYear[] = Object.freeze(
+  Object.keys(RELEASE_LABELS),
+);
 
 export function releaseLabel(
   year: AcademicYear,

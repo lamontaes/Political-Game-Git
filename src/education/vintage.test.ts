@@ -5,6 +5,7 @@ import { expandInstitution } from "./compact";
 import type { CompactInstitution, EducationDictionary } from "./compact";
 import type { EducationInstitution } from "./types";
 import {
+  ACADEMIC_YEARS,
   academicYearCovers,
   academicYearWindow,
   preferredAcademicYear,
@@ -88,11 +89,42 @@ describe("release wording stays per-vintage and refuses to be guessed", () => {
     expect(releaseLabel("2025-26", "postsecondary")).toBe(
       "HD2025/IC2025 provisional",
     );
-    expect(releaseLabel("2025-26", "school")).toBe("HD2025/IC2025 provisional");
   });
 
   it("refuses a vintage nobody has written wording for", () => {
     expect(() => releaseLabel("2026-27", "postsecondary")).toThrow(
+      /No release wording/,
+    );
+  });
+
+  it("never gives a CCD directory an IPEDS designation", () => {
+    // HD/IC are IPEDS file families and cover postsecondary institutions only.
+    // Schools and districts come from CCD. Borrowing one collection's release
+    // identifier for the other states a provenance the data does not have, and
+    // it happens silently, because the borrowed string is a perfectly ordinary
+    // label. So the rule is checked on every vintage, not just today's.
+    for (const year of ACADEMIC_YEARS) {
+      for (const kind of ["school", "district"] as const) {
+        let label: string | null = null;
+        try {
+          label = releaseLabel(year, kind);
+        } catch {
+          continue; // Refusing is the correct answer for an unwritten vintage.
+        }
+        expect(label).not.toMatch(/\bHD\d{4}\b|\bIC\d{4}\b|IPEDS/);
+      }
+    }
+  });
+
+  it("refuses the 2025-26 school and district directories outright", () => {
+    // The 2025-26 CCD release was observed but its version suffix was never
+    // established, and the preceding year's "v0a" is not evidence for it. An
+    // unknown is refused rather than guessed, so an import that lands before
+    // the suffix is read fails loudly instead of publishing a wrong one.
+    expect(() => releaseLabel("2025-26", "school")).toThrow(
+      /No release wording/,
+    );
+    expect(() => releaseLabel("2025-26", "district")).toThrow(
       /No release wording/,
     );
   });
