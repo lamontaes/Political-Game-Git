@@ -14,6 +14,26 @@ how the world should feel goes to ChatGPT as a brief, not to a lane as a task.
 
 ---
 
+## Correction, 2026-09-22 04:50
+
+Four things this project has been calling "never started" are built and
+reachable on `origin/main` `273fd2b8`, measured rather than assumed: party
+evolution (foundings, splits, mergers, platform drift), choosing who to
+continue as at death, the in-game Guide, and the news front page. P1, C1, U5
+and U4 below are rewritten accordingly, and B6 notes that `byCaucus` is already
+computed for every chamber and read by no interface.
+
+Genuinely untouched: the fifty state-capitol scenes, derived facial
+expressions, and the Congress faction view — and that last one is a screen over
+data that exists, not a system.
+
+The pattern is worth naming on its own: more than once tonight the gap has
+turned out to be between what the game does and what he can find, not between
+what he asked for and what exists. UI sits above his priority list for a
+reason.
+
+---
+
 ## Where "alive" is defined
 
 **ALIVE44**, Drive `1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA`, section
@@ -238,6 +258,10 @@ Independents, like Bernie Sanders, who caucuses with liberal Democrats. I
 should be able to, you know, glean that much... it should go politics and then
 some kind of, like, view total government screen... state, federal, local, and
 then you should be able to choose legislative, judicial, executive."*
+**Half of it is already computed.** `congress.ts:340-374` builds `byCaucus`
+for every chamber and publishes it on the living-world contract; on
+`origin/main` `273fd2b8` the only readers are two test files. No interface
+reads it. This is one screen, not a system.
 **Constraint:** what the player can glean, not simulator truth. Audit CAMP-002
 warns specifically against leaking `canonicalSupportBasisPoints`.
 
@@ -285,6 +309,10 @@ yes; the asset is an art request.
 want it to, like, literally visually look like a newspaper or a magazine... And
 then it needs to have, you know, scripts. So... there needs to be a bunch of
 different titles, kind of like Apple News."*
+**What already ships**, measured on `origin/main` `273fd2b8`:
+`news-front-page.ts`, `NewsDesk.tsx` and `World39News.tsx`. The front page
+exists; his complaint is that it does not look like one. This is presentation,
+not a missing surface.
 **Constraint**, audit PRESS-003: a generated background must not permanently
 paint a fictional poll result or official quote into the scene. The frame is
 art; the headline, date, name and number are runtime content.
@@ -296,6 +324,11 @@ go ahead and start the kind of encyclopedia-ish. Not quite. I don't want it to
 lead to, like, actual sources, but, like, I want it to be explained in the game,
 just using, like, public source things... I want it to read as a part of the
 game... And I think the goal is to Shift-click to mark something as learned."*
+**Correction, measured on `origin/main` `273fd2b8`:** a Guide already ships —
+`GuideWorkspace.tsx`, `GuideTerm.tsx`, `guide-terms.ts` with 29 terms, and
+`civic-glossary.ts`. The task is to establish what it covers, whether
+Shift-click-to-learn is wired, and whether he can reach it from where he reads
+the term, rather than to start an encyclopedia.
 
 ### U6 · It stops looking like a web page
 **Lane:** UI + art bench. **Start now:** partly — this is a theme decision plus
@@ -368,8 +401,15 @@ Do you be your vice president? Do you be the upcoming person? Or do you be a
 child? That's a cool decision to make when you die. It keeps you invested in an
 ever-changing world."* And overnight [85]: *"once the character's dead, it's
 dead. I'm thinking of Crusader Kings."*
-Birth, adoption, control transfer and continuation writers exist (audit
-PEOPLE-008); the choice does not.
+**Correction, measured on `origin/main` `273fd2b8`:** the choice exists.
+`LifeContinuationPanel.tsx` is mounted in `PlayerGame.tsx`,
+`life-continuation-shell.ts` carries the refusal line *"Nobody is being played,
+so nothing can be done in the world. Choose who to continue as, or keep
+browsing."*, and `tests/e2e/ui36-successor.spec.ts` exercises it. Birth,
+adoption, control transfer and continuation writers exist (audit PEOPLE-008).
+The task is therefore to play it and check what the choice actually offers
+against his words — a protege, a vice president, a child, ranked by closeness —
+rather than to build it.
 **Alive criterion:** *save/reopen preserves identities, exposed history,
 beliefs/claims and consequences*.
 
@@ -386,15 +426,31 @@ Re-verify at the current head before changing anything.
 > should be included in the seated generation, and multi-generation play.
 > That's a core part of something that needs to be shipped." — overnight [81]
 
-### P1 · Parties that are not permanent containers
-**Lane:** unassigned — needs an owner. **Depends on:** B1. **Start now:** the
-data shape, yes; the behaviour is a larger piece.
-Vision invariant 13 is the specification and is already accepted: formal party,
-faction or caucus, self-description, actual beliefs, voter coalition, public
-perception, activists, donors, organizations and geographic support are
-**distinct layers**. *"Nobody presses 'BEGIN PARTY REALIGNMENT.'"*
-Nothing implements any of it. This is the largest untouched item in his
-must-ship column.
+### P1 · Party evolution is built — the question is whether he has ever seen it
+**Lane:** UI and surfacing first; unassigned for the rest. **Depends on:** B1.
+**Start now:** yes, as a playtest of what already ships.
+
+**Correction, measured 2026-09-22 on `origin/main` `273fd2b8`.** I had this in
+his must-ship column as untouched. It is not. `src/simulation/living-world/party-evolution.ts`
+is 1,969 lines and its own header states the rules: *"a founding needs a
+founder, a consenting co-organizer and a public organizing decision; a split
+needs a disputed decision and named members who elect to leave; a merger needs
+every side's authorized leader"* and *"No quota, no forced split, no two-party
+rebalancing."* Platform records supersede one another
+(`supersedesPlatformId`), so drift is recorded rather than overwritten. It is
+imported by `campaigns.ts`, `world-setup/integrity.ts` and the living-world
+index, and `PartyChapterSurface.tsx` and `PartyInitiativesPanel.tsx` are both
+mounted in `PlayerGame.tsx`.
+
+**So the task changed shape.** He said this was *"a core part of something that
+needs to be shipped"*, and the honest report is not that we have not started —
+it is that it is built and he may never have found it. That is a surfacing
+problem, and UI sits above the priority list for him. The work is: play the
+party surfaces as a player, establish what a founding, a split and a platform
+change actually look like on screen, and fix the route to them. Vision
+invariant 13's distinct layers — voter coalition, public perception, activists,
+donors, geographic support — are the part to re-measure against the code before
+anyone specifies more of them.
 
 ---
 
