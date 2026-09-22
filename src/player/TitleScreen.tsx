@@ -21,7 +21,20 @@ import {
   TITLE_TABLEAU_REGISTRY,
   type TitlePresentation,
 } from "../presentation/title-tableau";
-import { PRODUCTION_VISUAL_LIBRARY } from "../presentation/visual-integration";
+import {
+  PRODUCTION_CHARACTER_LIBRARY,
+  PRODUCTION_VISUAL_LIBRARY,
+  type RuntimeVisualLibrary,
+} from "../presentation/visual-integration";
+import {
+  resolveTitleLecternHero,
+  type TitleLecternHero,
+} from "../presentation/title-lectern-hero";
+import {
+  artPreviewLibraries,
+  artPreviewMode,
+} from "../presentation/art-preview";
+import { gameBuildProfile } from "../presentation/build-profile";
 import { PlayerVersion } from "./PlayerVersion";
 import {
   nativeQuitAvailable,
@@ -126,10 +139,19 @@ function useAmbientStep(active: boolean): number {
  */
 export function AmbientTableau({
   resolved = null,
+  hero = null,
   still = false,
   children,
 }: {
   readonly resolved?: TitlePresentation | null;
+  /**
+   * The composed lectern speaker for a returning player, when one resolves.
+   * Null is the ordinary state — no save, no private lectern art, or no pack
+   * variant for this player — and leaves the ambient cycle exactly as it was.
+   * When present, the returning player arrives at their own portrait, held
+   * still, rather than in the empty-room cycle.
+   */
+  readonly hero?: TitleLecternHero | null;
   /**
    * Hold the room. The creator and the transition stand in front of one
    * stable backdrop rather than a cycling one: a room crossfading behind a
@@ -188,6 +210,29 @@ export function AmbientTableau({
       ? `${(frame.index - 1 + cycle.length) % cycle.length}:${step - 1}`
       : null;
 
+  // A returning player whose art resolves at the lectern arrives at their own
+  // portrait, held still, rather than in the empty-room cycle. The plate is
+  // private art no production catalog holds, so its own visual library is
+  // merged over the production one; every other room still finds its plate.
+  if (hero) {
+    const heroVisuals: RuntimeVisualLibrary = new Map([
+      ...PRODUCTION_VISUAL_LIBRARY,
+      ...hero.visuals,
+    ]);
+    return (
+      <TitleTableau
+        presentation={hero.presentation}
+        hero={hero.hero}
+        visualLibrary={heroVisuals}
+        drifting={!reducedMotion && !still}
+        cycleKey="title-hero"
+      >
+        {children(hero.presentation.description)}
+        <PlayerVersion />
+      </TitleTableau>
+    );
+  }
+
   return (
     <TitleTableau
       illustration={
@@ -234,6 +279,27 @@ export function resolvedTitlePresentation(
     registry: TITLE_TABLEAU_REGISTRY,
     scenes: SCENE_REGISTRY,
   });
+}
+
+/**
+ * The composed lectern hero for the most recent save, or null.
+ *
+ * The player is drawn from the same library the rest of the game draws them
+ * from: the candidate-review bank when this build is in the art preview, the
+ * production catalog otherwise. Either way the hero appears only when the
+ * private title art and a matching pack variant are present, and resolves to
+ * null — today's behaviour — everywhere else.
+ */
+export function resolvedTitleLecternHero(
+  saves: readonly BrowserWorldSummary[],
+): TitleLecternHero | null {
+  const mode = artPreviewMode(
+    typeof window === "undefined" ? "" : window.location.search,
+    { development: import.meta.env.DEV, profile: gameBuildProfile() },
+  );
+  const library =
+    artPreviewLibraries(mode)?.characters ?? PRODUCTION_CHARACTER_LIBRARY;
+  return resolveTitleLecternHero(saves[0], library);
 }
 
 export function TitleScreen({
