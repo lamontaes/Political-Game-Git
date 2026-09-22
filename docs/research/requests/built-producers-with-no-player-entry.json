@@ -2,16 +2,19 @@
   "answer": {
     "summary": "built-producers-with-no-player-entry: prioritize town→legislative context, offer/contact response, bills→operative effects; then public-matter/office-response/economic/constitutional entry. Normal actor/place/office routes, not a demo fixture wrapped as a menu. Correct emptiness is distinct from an uncalled producer or unusable join.",
     "sources": [
+      "ChatGPT stress-test connection answers, 2026-09-22, at source head 1c4992e8: /mnt/project-files/chatgpt-stress-test-answers-2026-09-22/STRESS-TEST-CONNECTION-ANSWERS.md",
       "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C16, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
     ],
-    "answeredBy": "ChatGPT",
-    "answeredAt": "2026-09-22T15:58:00.000Z",
+    "answeredBy": "ChatGPT (technical director), stress-test connection answers batch",
+    "answeredAt": "2026-09-22T15:57:02.000Z",
     "stillOpen": "\"Correct emptiness is distinct from an uncalled producer or unusable join.\"\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
   },
   "filedAt": "2026-09-22T15:40:00.000Z",
   "impact": "shapes-design",
   "lane": "hardcoded-content audit",
   "notes": [
+    "SMALLEST HONEST CHANGE, per item, since these differ. PUBLIC MATTERS — exists: `projectPublicMatters` fully implemented and tested. Missing link: the field it would fill is typed `readonly never[]`, which the compiler forbids holding anything. Smallest honest change: change the type to the producer's own return type and call it. What a player would then see: the living-world screen showing what is actually happening in the world instead of a permanently empty list. SCANDAL — exists: the whole reading side wired through `press/`. Missing link: `recordAllegation`, `fileComplaint` and `fileRivalComplaint` have no callers. Smallest honest change: one caller, from wherever a rival or a reporter would act. What a player would then see: a scandal that can begin, on machinery already built to carry it. OFFICEHOLDER'S MATTERS — exists: `projectOfficeMatters`. Missing link: `office-response.ts` has no importer at all. Smallest honest change: import it into the office surface. What a player would then see: an officeholder able to see what is alleged against them.",
+    "PLAYER-FACING INPUT, per item: public matters — none, the living-world screen renders a field the type system forbids filling. Scandal — none; the reading side is reachable but no control anywhere calls the three writers. Officeholder's matters — none; office-response.ts has no importer, so no surface renders it. Economic context — none; it answers for Lexington and returns null for the other fifty-one places.",
     "Fourteen leads came from the 'What passing a law actually does' lane's read-only sweep, handed over unverified and explicitly not filed by them. Every item above was re-measured here before being written down, and two of the fourteen did not survive that: 'press/matters.ts is test-only' is false, and 'projectOfficeMatters has no non-test importer' understated a stronger finding. The full account, including the corrections, is in docs/findings/2026-09-22-gated-shut-and-hardcoded-decisions.md.",
     "One withdrawn claim worth not repeating: the game DOES run a real monthly national economy in every ordinary save, in src/simulation/macro-economy. An earlier statement that no unemployment or inflation figure exists was wrong and is struck.",
     "The macro kernel's own coefficients are the enacted-law lane's, filed by them as policy-effect-model-state-and-local, and are deliberately absent here.",
