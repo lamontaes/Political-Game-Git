@@ -1,0 +1,30 @@
+{
+  "control": {
+    "detail": "Twenty-four controls on the bill workspace and two on the floor, reaching real actions.",
+    "present": true
+  },
+  "declaredInContent": false,
+  "entryId": "negotiating-a-bill",
+  "mapVersion": "connectivity-map/v1",
+  "measuredBy": "hardcoded-content audit",
+  "measurements": [
+    {
+      "at": "reported by the hardcoded-content audit lane on 2026-09-22; that report named no tree, so this reading is carried and not anchored here",
+      "found": "Twenty-four and two, reaching real actions.",
+      "what": "The hardcoded-content audit lane's count of controls on the bill workspace and the floor, and what they reach"
+    }
+  ],
+  "playerReach": "reaches",
+  "playerReachDetail": "A player drives this directly. It is the worked example of all three parts being present, and the thing every other entry should be compared against.",
+  "reMeasuredByPublisher": false,
+  "recordedAt": "2026-09-22T16:00:00.000Z",
+  "surface": {
+    "detail": "The bill workspace and the floor.",
+    "present": true
+  },
+  "system": {
+    "detail": "Real actions behind the controls, not a display.",
+    "present": true
+  },
+  "title": "Negotiating a bill"
+}

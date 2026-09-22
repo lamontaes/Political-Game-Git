@@ -1,0 +1,23 @@
+{
+  "filedAt": "2026-09-22T18:15:00.000Z",
+  "impact": "shapes-design",
+  "lane": "world divergence",
+  "notes": [
+    "Measured while proving the dead-governor fix: in an ordinary Kentucky save the open governor's race was held on 2026-11-03, and the natural run's next field closed in 2030. Kentucky actually elects its governor in odd-numbered years (2023, 2027, 2031).",
+    "Kentucky is the default normal-start state, so this is the governor's race most players will see."
+  ],
+  "priority": "P1",
+  "question": "Every state except Washington runs its governor's elections on one game-profile rule in src/simulation/nationwide-world/state-executive-term-rules.ts: a four-year term, elections in the cycle containing 2026, the November general election, and a term beginning the first Monday of January. The file itself marks those values as 'PROPOSED PARAMETERS, pending the director's confirmation'. The rule is wrong at least for the states that elect governors in odd-numbered years (Kentucky, Louisiana, Mississippi, New Jersey and Virginia) and for the states with two-year terms (New Hampshire and Vermont). For each of the fifty states, and for D.C.'s mayor and Puerto Rico's governor if they belong in the same table, what are the term length, the election cycle (a reference year and a cycle length), the general election day, and the rule for when the term begins, each with a citation?",
+  "questionId": "when-each-state-elects-its-governor",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "world divergence thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/nationwide-world/state-executive-term-rules.ts, read on claude/project-thread-ctkbwd at fb30f18e",
+      "whatItDidNotSettle": "Only Washington has a verified row. Every other state falls back to the single game profile, which the file itself says is not a claim about that state's law."
+    }
+  ],
+  "title": "When each state elects its governor, and when the term begins",
+  "usableAnswer": "A table with one row per jurisdiction giving term length, cycle length and reference year, the general election day rule, and the commencement rule, each with a citation. It should be in a shape that can become verified StateExecutiveTermRule rows. A row marked unknown is acceptable and stays on the game profile.",
+  "whyItMatters": "Governor turnover now runs on its own in every save, and Kentucky, the default start, holds its race a year early. A player running for governor in Virginia or New Jersey would find the race in the wrong year, and in New Hampshire or Vermont the term would be twice as long as the real one."
+}

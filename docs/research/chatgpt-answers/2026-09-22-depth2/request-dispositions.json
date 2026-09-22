@@ -1,0 +1,140 @@
+{
+  "schema": "ocd-research-dispositions/1",
+  "date": "2026-09-22",
+  "source_queue": {
+    "file_id": "1vzltILm01-rVKpWgIQMrnOLzs69wwj8k",
+    "rendered_at": "2026-09-22T17:57:15.005Z",
+    "head": "ac420858",
+    "open": 21,
+    "answered": 61
+  },
+  "scope_note": "These are17dispositions, not17completed implementations or17fully closed research questions. No worker-generated queue file was edited.",
+  "rows": [
+    {
+      "request_id": "trait-catalogue-poles-and-tuning-rules",
+      "answer_section": "A01",
+      "disposition": "answered-design-and-data",
+      "remaining": "Map actual registered decision scopes, implement any needed one-sided adapter, apply labelled private tuning and execute real loader/person tests.",
+      "implementation": "Not implemented or tested by this director batch; existing source owner receives and verifies."
+    },
+    {
+      "request_id": "which-tendency-a-formative-situation-bears-on",
+      "answer_section": "A02",
+      "disposition": "answered-with-one-key-unlocated",
+      "remaining": "19 authored situations mapped; bare household producer/key must be resolved. No automatic trait result from the table.",
+      "implementation": "Not implemented or tested by this director batch; existing source owner receives and verifies."
+    },
+    {
+      "request_id": "relationship-fading-with-absence",
+      "answer_section": "A03",
+      "disposition": "answered-design",
+      "remaining": "Apply the new owner ruling to current standing and contact consumers; qualitative pace needs private playtest.",
+      "implementation": "Not implemented or tested by this director batch; existing source owner receives and verifies."
+    },
+    {
+      "request_id": "federal-policy-vocabulary-pack",
+      "answer_section": "A04",
+      "disposition": "candidate-data-delivered",
+      "remaining": "60 questions/subjects prepared, not a complete federal statutory corpus. Load and bind actual powers/effects; no runtime loader execution here.",
+      "implementation": "Not implemented or tested by this director batch; existing source owner receives and verifies."
+    },
+    {
+      "request_id": "who-actually-votes-in-a-chamber",
+      "answer_section": "A05",
+      "disposition": "answered-design",
+      "remaining": "Replace reported sample roster at actual owner seam; validate regular roster, attendance, votes and decisions.",
+      "implementation": "Not implemented or tested by this director batch; existing source owner receives and verifies."
+    },
+    {
+      "request_id": "what-makes-a-party-body-take-up-a-question",
+      "answer_section": "A06",
+      "disposition": "answered-design",
+      "remaining": "Link actual agenda causes/decisions; no empirical universal frequency supplied.",
+      "implementation": "Not implemented or tested by this director batch; existing source owner receives and verifies."
+    },
+    {
+      "request_id": "what-makes-an-event-worth-printing",
+      "answer_section": "A07",
+      "disposition": "answered-design-and-source-correction",
+      "remaining": "Selection/presentation implemented by existing press owner. Positive events were not prohibited by inspected code.",
+      "implementation": "Not implemented or tested by this director batch; existing source owner receives and verifies."
+    },
+    {
+      "request_id": "legislative-winner-between-election-and-seat",
+      "answer_section": "A08",
+      "disposition": "answered-integration-with-factual-limits",
+      "remaining": "Retain new governor entry proof; exact jurisdictional late qualification/remedy remains profile-specific.",
+      "implementation": "Not implemented or tested by this director batch; existing source owner receives and verifies."
+    },
+    {
+      "request_id": "proposed-balance-parameters-nobody-confirmed",
+      "answer_section": "A09",
+      "disposition": "answered-classification-partial-calibration",
+      "remaining": "Wrong-law fallbacks and replacing decisions with dice must be repaired; no full empirical coefficients supplied.",
+      "implementation": "Not implemented or tested by this director batch; existing source owner receives and verifies."
+    },
+    {
+      "request_id": "executive-terms-and-incumbency-turnover",
+      "answer_section": "A09–A10",
+      "disposition": "partial",
+      "remaining": "Own candidacy/retirement decisions distinguished; full per-state legal filing/term-limit inputs not compiled here.",
+      "implementation": "Not implemented or tested by this director batch; existing source owner receives and verifies."
+    },
+    {
+      "request_id": "legislative-step-pacing-and-veto-override",
+      "answer_section": "A09",
+      "disposition": "answered-model-direction",
+      "remaining": "No override coin flip; existing researched threshold/actual member decisions. Complete current local schedules remain with source owner.",
+      "implementation": "Not implemented or tested by this director batch; existing source owner receives and verifies."
+    },
+    {
+      "request_id": "how-an-election-night-should-come-out",
+      "answer_section": "A09",
+      "disposition": "partial",
+      "remaining": "Reuse candidate/organization/finite-audience approach. No empirical win-share or turnout calibration claimed.",
+      "implementation": "Not implemented or tested by this director batch; existing source owner receives and verifies."
+    },
+    {
+      "request_id": "governor-term-length-outside-washington",
+      "answer_section": "A10",
+      "disposition": "partial-factual",
+      "remaining": "NH/VT two-year evidence; VT event-based commencement. Remaining full state matrix incomplete.",
+      "implementation": "Not implemented or tested by this director batch; existing source owner receives and verifies."
+    },
+    {
+      "request_id": "economic-figure-availability-date",
+      "answer_section": "A11",
+      "disposition": "answered-semantics-partial-data",
+      "remaining": "Six scoped edition/date records; match locked bytes and obtain needed prior editions. HUD IL initial posting and full LAUS calendars not compiled.",
+      "implementation": "Not implemented or tested by this director batch; existing source owner receives and verifies."
+    },
+    {
+      "request_id": "what-the-fec-corpus-would-feed",
+      "answer_section": "A12",
+      "disposition": "answered-bounded-consumer",
+      "remaining": "Offline organization/linkage reference; owner verifies minimal derived consumer before removing unused runtime cargo.",
+      "implementation": "Not implemented or tested by this director batch; existing source owner receives and verifies."
+    },
+    {
+      "request_id": "policy-domain-crosswalk-13-127-to-14-92",
+      "answer_section": "A13",
+      "disposition": "exact-data-pending",
+      "remaining": "Preserve working IDs/positions now; the actual bidirectional127/92row map is not delivered by this batch.",
+      "implementation": "Not implemented or tested by this director batch; existing source owner receives and verifies."
+    },
+    {
+      "request_id": "political-violence-what-to-ask-the-owner",
+      "answer_section": "existing DEPTH1 decision",
+      "disposition": "already-acknowledged-in-latest-queue",
+      "remaining": "Agency and initial offscreen presentation are settled. Implementation separate; no re-asking.",
+      "implementation": "Not implemented or tested by this director batch; existing source owner receives and verifies."
+    }
+  ],
+  "still_separate": [
+    "elector-requirement-what-establishes-it",
+    "ethics-procedure-unread-detail-wy-id-ut",
+    "puerto-rico-government-and-municipios",
+    "regional-scene-place-ids",
+    "school-name-plausibility-by-state-and-era"
+  ]
+}
