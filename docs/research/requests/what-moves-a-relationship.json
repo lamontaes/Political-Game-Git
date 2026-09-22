@@ -1,0 +1,44 @@
+{
+  "filedAt": "2026-09-22T15:36:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "The owner settled the shape on 2026-09-22 and it is recorded as D-092: being somewhere exposes you to possibly like-minded people, and your actions and personality drive the relationship from there. Proximity produces candidates, not bonds. This request is the mechanism under that decision, not a re-asking of it.",
+    "WHAT SHIPS TODAY, measured at de6a71cc. deriveRelationshipSummary (src/simulation/queries.ts:230-263) sums one signed magnitude over every interaction ever recorded between two people and buckets the total: below zero estranged, three or more close. Only an explicitly negative interaction lowers it and elapsed time never does, so three ordinary agreeable exchanges make two people close for the rest of both lives. Nothing in that path reads either person's temperament or anything either of them chose.",
+    "AND WHAT IS ALREADY BUILT UNDERNEATH IT. relationship-integration.ts already records participant-specific memory and appraisal, and assessRelationshipContinuity already separates recent-contact, long-gap, reconnected and tension-context. The lossy part is the consumer, not the record. So an answer here lands on seams that exist rather than asking for a second engine.",
+    "THE INTERACTION VOCABULARY. RelationshipInteractionKind is a namespace plus a free content key (types.ts:661-673), the namespaces being contact, work, experience, support, exchange, conflict, commitment, care, mentorship and other. change is formed, strengthened, maintained, strained or ended; significance is minor, meaningful or major. An answer can therefore speak in these terms without inventing a schema.",
+    "THE PACE HAS A PRECEDENT TO MATCH. He has already settled that personality change is paced by how strongly a trait is held, and the numbers under that are themselves out for research as personality-change-bands. A relationship answer that contradicts that pacing would leave the two systems disagreeing about how fast a person changes.",
+    "ONE MEASURED ASYMMETRY WORTH ANSWERING DIRECTLY. Agreeing to work together is recorded; being turned down is recorded nowhere, with a comment saying a refusal is not a grievance (people-study.ts:269). So today a relationship can only ever be built by these paths, never damaged by them."
+  ],
+  "priority": "P1",
+  "question": "Given that conduct and temperament drive relationships rather than proximity: (1) Which conduct should move a relationship, and by how much — is agreeing to help someone once worth the same as keeping a promise, or as turning them down twice? (2) Which traits should bear on it, and in which direction: should somebody conciliatory hold a relationship together through a disagreement that would end one between two confrontational people, and should somebody reserved simply accumulate fewer occasions rather than worse ones? (3) At what pace should a relationship fade when nothing happens — is a year of silence between two people who were close a change in the relationship, or only a change in what the next meeting feels like? (4) Should a refusal ever be recorded as a thing that passed between two people, or is the current position right that being turned down is not a grievance? (5) Can a relationship end, as distinct from decaying to nothing — is there a conduct that makes two people no longer know each other?",
+  "questionId": "what-moves-a-relationship",
+  "relatedQuestionIds": [
+    "relationship-dimensions-and-fading",
+    "personality-change-bands",
+    "college-friendship-and-appointment"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "people and life thread",
+  "sourcesChecked": [
+    {
+      "source": "The owner's decision of 2026-09-22, recorded as D-092",
+      "whatItDidNotSettle": "Settles that conduct and personality drive relationships and that proximity alone does not. Settles no conduct, no trait, no magnitude and no pace."
+    },
+    {
+      "source": "src/simulation/queries.ts deriveRelationshipSummary and its four consumers",
+      "whatItDidNotSettle": "Establishes that what ships is one monotonic signed sum with four buckets, blind to temperament and to elapsed time. Says nothing about what should replace it."
+    },
+    {
+      "source": "src/simulation/relationship-integration.ts",
+      "whatItDidNotSettle": "Establishes that participant-specific memory, appraisal and continuity assessment already exist, so an answer has somewhere to land. Does not supply the weights or the pace."
+    },
+    {
+      "source": "The answered relationship-dimensions-and-fading record",
+      "whatItDidNotSettle": "Settles the five standing interpretations and that elapsed time is never forgiveness, and explicitly settles no number. This request is the numbers and the conduct list under it."
+    }
+  ],
+  "title": "What conduct and which traits should move a relationship, and how fast",
+  "usableAnswer": "A short list of conduct with a direction and a rough weight for each, worked against one example a player would recognize; a position on which of the five ordinary-life traits bear on relationships and how; and a pace for fading, consistent with the personality pacing already settled. Ranges rather than exact numbers are fine. Any answer lands on records that already exist.",
+  "whyItMatters": "This is the owner's first priority stated as a mechanism. Today a relationship is a running total that only goes up, so a person's character decides nothing about who is in their life, and nobody ever drifts apart. Getting the weights wrong is invisible to every test: too generous and everybody is close to everybody, too harsh and nobody ever becomes close to anyone, and both look identical in a passing suite."
+}
