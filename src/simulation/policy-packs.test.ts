@@ -19,20 +19,66 @@ function pack(overrides: Partial<PolicyPack> & { pack: string }): PolicyPack {
 }
 
 describe("what a build ships with", () => {
-  it("loads no policy packs, so a new world's catalogue is still empty", () => {
-    expect(POLICY_PACKS).toEqual([]);
-    const catalog = createProductionPolicyCatalog();
-    expect(catalog.domainOrder).toEqual([]);
-    expect(catalog.issueOrder).toEqual([]);
+  const registry = loadedPolicyRegistry();
+  const catalog = createProductionPolicyCatalog();
+
+  it("loads the American state and local vocabulary, so a world has something to legislate about", () => {
+    expect(POLICY_PACKS.map((entry) => entry.pack)).toEqual([
+      "us-state-and-local",
+    ]);
+    expect(catalog.domainOrder.length).toBe(13);
+    expect(catalog.issueOrder.length).toBeGreaterThan(100);
+    expect(registry.report.rejections).toEqual([]);
+  });
+
+  it("ships no propositions, subjects or principles, because nothing decides those yet", () => {
     expect(catalog.propositionOrder).toEqual([]);
     expect(catalog.subjectOrder).toEqual([]);
     expect(catalog.principleOrder).toEqual([]);
   });
 
-  it("says so rather than saying nothing", () => {
-    expect(describePolicyLoad(loadedPolicyRegistry().report)).toBe(
-      "No policy packs loaded.",
+  it("leaves no domain without a question in it", () => {
+    const domainsWithIssues = new Set(
+      registry.issues.map((issue) => issue.domainId),
     );
+    for (const domain of registry.domains) {
+      expect(domainsWithIssues.has(domain.id)).toBe(true);
+    }
+    // Every issue is reported unused, because this pack ships no
+    // propositions. No domain is, which is the part that would be a defect.
+    const unused = new Set(registry.report.packs[0]?.registeredButUnused ?? []);
+    for (const domain of registry.domains) {
+      expect(unused.has(domain.stableKey)).toBe(false);
+    }
+  });
+
+  it("says which level decides a question, and says nothing where no source did", () => {
+    const jails = registry.issues.find(
+      (issue) =>
+        issue.stableKey === "us-state-and-local:justice-public-safety.jails",
+    );
+    expect(jails?.levels).toEqual(["county"]);
+    const prisons = registry.issues.find(
+      (issue) =>
+        issue.stableKey ===
+        "us-state-and-local:justice-public-safety.corrections-and-prisons",
+    );
+    expect(prisons?.levels).toEqual(["state"]);
+    const zoning = registry.issues.find(
+      (issue) =>
+        issue.stableKey === "us-state-and-local:housing-land-use.zoning",
+    );
+    expect(zoning?.levels).toEqual(["county", "municipality"]);
+  });
+
+  it("claims no frequency, because no source measures attention across the three levels", () => {
+    const text =
+      JSON.stringify(registry.issues) + JSON.stringify(registry.domains);
+    expect(text).not.toMatch(/\d+%/);
+  });
+
+  it("says what it loaded rather than saying nothing", () => {
+    expect(describePolicyLoad(registry.report)).toContain("us-state-and-local");
   });
 });
 

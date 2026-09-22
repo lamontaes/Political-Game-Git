@@ -5,6 +5,7 @@ import type {
   KnowledgeSubjectScope,
   PolicyCatalog,
   PolicyDomainDefinition,
+  PolicyGovernmentLevel,
   PolicyIssueDefinition,
   PolicyPropositionDefinition,
   PoliticalPrincipleDefinition,
@@ -40,6 +41,7 @@ export function createPolicyIssueDefinition(
   domainId: EntityId,
   name: string,
   description: string,
+  levels: readonly PolicyGovernmentLevel[] = [],
 ): PolicyIssueDefinition {
   return {
     id: createStableId("policy-issue", `definition:${stableKey}`),
@@ -47,6 +49,7 @@ export function createPolicyIssueDefinition(
     domainId,
     name,
     description,
+    levels: [...levels],
   };
 }
 
