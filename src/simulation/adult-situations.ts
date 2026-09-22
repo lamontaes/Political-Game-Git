@@ -659,7 +659,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     opportunity: "household-shortfall",
     companion: null,
     stakes: "notable",
-    prose: "This week's money does not cover this week's costs.",
+    prose: "This month's money does not cover this month's costs.",
     tensions: [
       tension(
         "security-stability",
