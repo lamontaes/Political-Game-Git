@@ -1,6 +1,7 @@
 import {
   addDays,
   candidacyEligibility,
+  contestFieldOpponentCount,
   ensureCampaignOpponents,
   ensureStateJurisdiction,
   fileCampaign,
@@ -137,7 +138,7 @@ export function fileForStateExecutiveOffice(
     // Rivals for a statewide office live in the state: in the candidate's own
     // home place, so a rival who wins can qualify like anyone else.
     jurisdictionId: person.homeJurisdictionId,
-    count: 1,
+    count: contestFieldOpponentCount(world.seed, stableKey),
     excludePersonIds: [personId],
   });
   return fileCampaign(opponents.world, {

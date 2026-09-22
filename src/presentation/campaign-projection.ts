@@ -16,6 +16,7 @@ import {
   controlledCommitmentsBlockingActivityPerformance,
   daysUntilElection,
   electionContestResult,
+  contestFieldOpponentCount,
   ensureCampaignOpponents,
   fileCampaign,
   lifePlaceByJurisdictionId,
@@ -667,7 +668,7 @@ export function fileForOffice(
   const opponents = ensureCampaignOpponents(world, {
     stableKey,
     jurisdictionId,
-    count: 1,
+    count: contestFieldOpponentCount(world.seed, stableKey),
     excludePersonIds: [personId],
   });
   // Long enough to have to choose what to spend the weeks on, short enough
