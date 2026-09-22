@@ -36,6 +36,15 @@ All three still report "An earlier commitment must be resolved first", and
 none is offered for give-up, so at that moment the screen offers the player
 nothing to do with any of them.
 
+**That is a statement about buttons, not about time, and the difference
+matters.** Measured immediately afterwards on the same life: with those three
+bookings still sitting on the calendar and no give-up control anywhere, the
+week control moves the clock a full seven days, six presses in a row —
+12, 19, 26 January, 2, 9, 16 February. So the Denver life is **not**
+deadlocked. The remaining bookings refuse to be performed and do not block the
+passage of time, which is a different thing from the four field shifts, and
+the guard holds here after three presses rather than Baltimore's four.
+
 ## What this corrects
 
 `a-year-of-campaigning-2026-09-22.md` recorded that twelve committed weeks
