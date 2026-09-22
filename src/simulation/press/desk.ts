@@ -1133,6 +1133,8 @@ export function composeStory(
       );
     }
   }
+  const declined: string[] = [];
+  const silent: string[] = [];
   for (const subjectId of lead.subjectPersonIds) {
     const subject = world.people[subjectId];
     if (!subject) continue;
@@ -1152,17 +1154,25 @@ export function composeStory(
       (record) => record.decision === "response-requested",
     );
     if (response) {
-      paragraphs.push(
-        response.tags.includes("press.response-kind:decline")
-          ? `${personName(subject)} declined to comment.`
-          : `${personName(subject)} said: “${response.context.immediateReaction}”`,
-      );
+      if (response.tags.includes("press.response-kind:decline"))
+        declined.push(personName(subject));
+      else
+        paragraphs.push(
+          `${personName(subject)} said: “${response.context.immediateReaction}”`,
+        );
     } else if (requested) {
-      paragraphs.push(
-        `${personName(subject)} did not respond by publication time.`,
-      );
+      silent.push(personName(subject));
     }
   }
+  // One sentence for everyone who declined, and one for everyone who did not
+  // answer: three "declined to comment" lines in a row read as machinery
+  // (Houma playthrough, 2026-09-22).
+  if (declined.length > 0)
+    paragraphs.push(`${joinNames(declined)} declined to comment.`);
+  if (silent.length > 0)
+    paragraphs.push(
+      `${joinNames(silent)} did not respond by publication time.`,
+    );
   const status = lead.matterId
     ? procedureStatusSentence(world, lead.matterId)
     : null;
@@ -1622,4 +1632,9 @@ function cancelled(
 
 function capitalize(text: string): string {
   return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+function joinNames(names: readonly string[]): string {
+  if (names.length <= 1) return names[0] ?? "";
+  return `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`;
 }
