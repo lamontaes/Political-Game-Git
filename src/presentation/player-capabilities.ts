@@ -7,7 +7,7 @@ import {
   ageOnDate,
   campaignForCandidate,
   candidacyEligibility,
-  candidacyPackForJurisdiction,
+  electiveOfficesForJurisdiction,
   formativeIntervalAt,
   lifePlaceByJurisdictionId,
 } from "../simulation";
@@ -129,8 +129,7 @@ export function resolvePlayerCapabilities(world: World): PlayerCapabilities {
   // Where they live decides the ballot, so this reads the home jurisdiction
   // rather than the workplace the legislative surface cares about.
   const pastOrPresentCampaign = campaignForCandidate(world, personId);
-  const options =
-    candidacyPackForJurisdiction(person.homeJurisdictionId)?.offices ?? [];
+  const options = electiveOfficesForJurisdiction(person.homeJurisdictionId);
   const candidacies = (options.length ? options : [{ officeKey: "" }]).map(
     (option) =>
       candidacyEligibility(world, {
