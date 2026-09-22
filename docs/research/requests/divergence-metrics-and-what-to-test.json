@@ -1,0 +1,33 @@
+{
+  "filedAt": "2026-09-22T15:55:00.000Z",
+  "impact": "shapes-design",
+  "lane": "hardcoded-content audit",
+  "notes": [
+    "Filed from the hardcoded-content audit lane, but the measures are not this lane's to own. Once ChatGPT answers, the shortlist should go to the playtesting lane, which runs the campaigns these would be measured in, rather than staying here.",
+    "Metric 1 is the one this lane most wants, because it turns its own audit into something measurable: a value that is identical across seeds is a candidate constant, and that reverses the current order where a constant is found by reading and only then confirmed by play.",
+    "Two of lamontae's three examples are about drift compounding upward, from a place or a person to a region. Nothing measured so far speaks to that at all, so an honest answer may be that the game cannot yet produce the phenomenon he is asking to measure. If so, that is the answer worth having early rather than after a measurement programme is built.",
+    "One of six records from this sweep."
+  ],
+  "priority": "P1",
+  "question": "Two questions back to ChatGPT. First: of the metric points proposed below, which are worth reporting every time, which are missing, and which would mislead? Second, and this is lamontae's own ask: is there anything you would like us to test, in metrics or in play, that we are not testing?",
+  "questionId": "divergence-metrics-and-what-to-test",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "hardcoded-content audit thread",
+  "sourcesChecked": [
+    {
+      "source": "The single-opponent defect, found by the playtest lane by walking fifteen towns",
+      "whatItDidNotSettle": "It establishes why measures are needed rather than what they should be. Every race in America had exactly one opponent, from a literal count: 1 at nationwide-candidacy.ts:140 and campaign-projection.ts:670. Nothing about it looks wrong from inside one save; it is only visible as a sameness across saves. A divergence measure would have caught it in one run instead of fifteen towns."
+    },
+    {
+      "source": "The macro economy, measured by the 'What passing a law actually does' lane",
+      "whatItDidNotSettle": "It proves divergence is already measurable and already happening: two lives run forward two years gave unemployment 3.57% to 3.85% on one seed and 4.23% to 4.82% on another, with inflation and a housing ratio alongside. It does not say which of those, at what granularity, belongs in a report, or what size of gap is signal."
+    },
+    {
+      "source": "The proposed metric points, offered for correction rather than as a decision",
+      "whatItDidNotSettle": "These are this lane's proposal and nothing more; no source establishes that they are the right ones. (1) Sameness across seeds: for a fixed route, how many of N saves produce the identical value — opponent count is the worked example, and any measure where N saves agree exactly is a suspected constant. (2) Party system shape: number of organizations winning any seat nationally, and the share held outside the two largest, which is lamontae's third-party question stated as a number. (3) Regional partisan drift: for a named region, the share of its seats held by each party at year 0 and year N, which is his popular-president example stated as a number. (4) Seated-world depth: people in the world, bodies with any member, and jurisdictions with a legislature, against the known floor that only the US Congress is seated. (5) Surface fill: for each player-reachable surface, whether it is non-empty on an ordinary first day, which is the pattern he wants reported. (6) Crisis incidence: how many crises occur in N years and how many a player could act on, which is his open question about the crisis system stated so it can be answered."
+    }
+  ],
+  "title": "What to measure to show two saves diverging, and what ChatGPT wants tested",
+  "usableAnswer": "A shortlist: the measures worth carrying in every report, each with what counts as a meaningful difference rather than noise, and anything proposed below that would mislead and why. Plus whatever ChatGPT wants tested, as concretely as it can put it — a named quantity, or a route through the game and what to look at when you get there.",
+  "whyItMatters": "lamontae asked on 2026-09-22 for divergence to be tracked and for metric points to start appearing in these reports, and he named what he is most interested in: regional or local drift that ends up affecting the larger region. His examples were a very popular president turning the South reliably Democratic, the country developing a true third-party system, and how the crisis system behaves. Without agreed measures, every report says two saves 'felt different', which is exactly the claim-travels-further-than-its-measurement failure this project keeps paying for. He also asked directly that ChatGPT be given the chance to name what it wants tested rather than only answering what we bring."
+}

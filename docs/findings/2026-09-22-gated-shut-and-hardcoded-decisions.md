@@ -225,6 +225,43 @@ a law could move **was wrong and is struck**. `src/simulation/macro-economy`
 runs a real monthly national economy in every ordinary save. Nothing in this
 document depends on the withdrawn claim.
 
+## 6. A constant standing in for something the world should decide
+
+The playtest lane found the sharpest instance of this by walking fifteen
+towns: every race in America had exactly one opponent. The cause is a literal
+`count: 1` passed to `ensureCampaignOpponents`, whose input type
+(`campaigns.ts:407`) accepts a `count: number` that could be drawn from the
+office, the state or the seat, and is instead written in at both filing
+routes — `nationwide-candidacy.ts:140` and `campaign-projection.ts:670`.
+Those are the only two callers outside the module and its tests.
+
+lamontae asked for this to become the audit's search pattern, so it was
+searched rather than assumed. **The result is mostly negative, and that is
+the finding.** Sweeping `src/presentation`, `src/simulation` and
+`src/player` for a numeric literal passed as a count, size, seat, member,
+candidate, party or district quantity into a generator returns exactly those
+two lines and nothing else. The shape the opponent defect has is rare; it is
+not a widespread habit in this codebase.
+
+One candidate was checked and cleared, recorded so nobody re-flags it:
+`opening-officeholders.ts:44` writes `years: 4` for the presidency, which
+looks like the same shape and is not. The four-year term is constitutional,
+the module cites `archives.gov` for it, and the Chief Justice in the same
+list correctly carries `years: null` rather than a number. A fixed value that
+is fixed in the world is not a stand-in.
+
+The distinction worth carrying out of this section: a literal is a defect
+when the thing it describes varies and the generator could have been told,
+and it is correct when the thing it describes does not vary. The opponent
+count varies by office, state and seat and the generator takes a parameter
+for it. The presidential term does not vary at all.
+
+Also worth separating from both: `life-paths2-catalog.ts` holds many literal
+minimum ages, gaps and elapsed days. Those are authored content that happens
+to live in a `.ts` file rather than constants standing in for a world
+decision. They belong in the modding question — whether a pack can reach
+them — not in this one.
+
 ## What this sweep did not establish
 
 `PARTY_BODY_CADENCE.repeatedDisputes` still reads 2 on `1c4992e8`. The
