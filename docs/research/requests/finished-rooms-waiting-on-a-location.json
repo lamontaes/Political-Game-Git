@@ -17,7 +17,7 @@
     "PLAYER-FACING INPUT: none needed and none missing. The room is not a number a player moves; it appears or does not when they attend a floor vote or a hearing. Today it does not, because the activity carries no location.",
     "The repository is honest about this rather than hiding it, which is why the question is answerable in one line. Nothing here is a defect in the venue table or the consumer registry; both are doing their job of refusing to guess.",
     "A caution that cost this project time before: the shared workroom looks reachable and is not. Its venue mapping is declared and proven, but the key lexington-legislative-office is written ONLY by createRunDLiteFixture, a development fixture at ?view=office-fixture, so no ordinary life reaches that room either. Verified by searching every writer of the key on origin/main. Whatever rule answers this question should also say whether an ordinary legislative job is supposed to schedule located staff days, because that third room is one producer away from the same fix.",
-    "Not asked here, and belonging to the 'What passing a law actually does' lane: anything downstream of an enacted law, including the production catalogue boundary and the causal-effects engine."
+    "Not asked here, and belonging to the 'What passing a law actually does' lane: anything downstream of an enacted law, including the production catalog boundary and the causal-effects engine."
   ],
   "priority": "P1",
   "question": "When a legislator attends a floor vote or a committee hearing, which physical place should the completed activity record as its location, and where does that place come from — the jurisdiction's capitol record, the chamber the seat belongs to, or something the scenario authors per jurisdiction?",
@@ -39,6 +39,6 @@
     }
   ],
   "title": "Where a floor vote and a committee hearing physically happen",
-  "usableAnswer": "One rule, plus a worked example for a state legislature and for a city council. Name the record the location is read from, say whether the floor and the committee room are two locations or one, and say what should happen for a jurisdiction where no capitol or chamber place exists yet — the honest fallback is presumably no location and therefore no room, which is the current behaviour and is acceptable as an answer.",
+  "usableAnswer": "One rule, plus a worked example for a state legislature and for a city council. Name the record the location is read from, say whether the floor and the committee room are two locations or one, and say what should happen for a jurisdiction where no capitol or chamber place exists yet — the honest fallback is presumably no location and therefore no room, which is the current behavior and is acceptable as an answer.",
   "whyItMatters": "lamontae rates governing and legislative play 8 to 9 out of 10, and the two rooms where legislating visibly happens are finished and dark. The artwork exists and is registered; the venue table already knows which room each belongs to; the only missing fact is a location key on the activity. Both rooms are gated by one shared, small cause, so one answer lights both. This is the cheapest large gain the environment audit found."
 }

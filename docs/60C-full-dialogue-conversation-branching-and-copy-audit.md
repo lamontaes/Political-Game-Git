@@ -107,7 +107,7 @@ closed union. The module documents why, and the reasoning is sound:
 
 > _"This was a closed union naming every intent in the game, which meant adding a
 > conversation about anything required editing the engine — and made a subject's
-> own vocabulary something the centre had to approve. An intent is now an
+> own vocabulary something the center had to approve. An intent is now an
 > ordinary key, and it is checked at the only point where checking means
 > anything: against the intents the subject in front of the player is actually
 > offering, every turn, before the turn is committed."_
@@ -989,7 +989,7 @@ outcome forecasts).
 
 **FINDING C-04 — abstract nouns "thing"/"something" in 20 of 189. [OPEN-PR #87]**
 Most are legitimate ("Say this is a different thing" is exactly right for a
-favour being re-traded). A handful are lazy: "Change something real",
+favor being re-traded). A handful are lazy: "Change something real",
 "Deal with it". Severity: low. Fix on contact, not as a sweep.
 
 **FINDING C-05 — 15 of 53 calibration items are `policy-docket-flagged`.
@@ -1000,7 +1000,7 @@ favour being re-traded). A handful are lazy: "Change something real",
 > by the research lane."_
 
 That is honest self-assessment carried in the data, which is excellent practice.
-It also means **28% of the calibration can be gamed by a player who recognises
+It also means **28% of the calibration can be gamed by a player who recognizes
 the axis.** The 36 `non-transparent` items are the good ones. Severity: moderate;
 owned by the research lane, not by implementation.
 
@@ -1123,7 +1123,7 @@ given as S (hours), M (a day), L (multi-day).
 | 9   | **Give the household/school/neighborhood responders real decisions** via `evaluateConversationDecision`                | L      | The largest single upgrade to NPC believability. The office path proves the pattern.                                                                    |
 | 10  | **Fix the six "Say no" labels**                                                                                        | S      | Cheapest perceptible quality win in the document.                                                                                                       |
 | 11  | **Add a variant pool to `resolveQuietRoom`**                                                                           | S      | "The room settled briefly; no participant added another claim." is currently the only silence in the game.                                              |
-| 12  | **Add a British-idiom lint over the content banks**                                                                    | S      | Prevents recurrence of C-07 (£, council, councillor, catchment, lorry, till, bin, boiler, mum, whilst, amongst).                                        |
+| 12  | **Add a British-idiom lint over the content banks**                                                                    | S      | Prevents recurrence of C-07 (£, council, councillor, catchment, lorry, till, bin, boiler, `mum`, `whilst`, `amongst`).                                  |
 | 13  | **Ban outcome forecasts in option descriptions in `life-opacity.test.ts`**                                             | S      | Extends the existing guard from mechanism words to prediction. Fixes C-03 permanently.                                                                  |
 | 14  | **Let a conversation turn write a `LifeCommitment`**                                                                   | M      | The `ask-for-time` response literally says "Fine. I will do it… Not every week, though" and nothing is recorded.                                        |
 | 15  | **Project a conversation as one journal entry, not five**                                                              | M      | A five-turn conversation currently reads as five log lines.                                                                                             |
@@ -1199,8 +1199,8 @@ family's options carry an aftermath, the family is over-promising.
 
 ### RULE 8 — American English, always.
 
-No £, councils, councillors, catchment, lorries, tills, bins, boilers, mum,
-whilst, amongst. See improvement #12 for the lint that should enforce it.
+No £, councils, councillors, catchment, lorries, tills, bins, boilers, `mum`,
+`whilst`, `amongst`. See improvement #12 for the lint that should enforce it.
 
 ### RULE 9 — A new subject brings its own vocabulary.
 

@@ -151,7 +151,7 @@ The consumer side is complete and ships to the player.
 `presentation/world39-journal.ts:294-345` reads `privateBeliefs`,
 `publicPositions` and `campaignCommitments` and renders a sentence for each.
 The reader is finished; the writer runs only in `demo.ts`. This is the
-structural form of the catalogue finding already recorded: the game knows what
+structural form of the catalog finding already recorded: the game knows what
 politics is about and no person in it can hold a conviction.
 
 `POLICY_PACKS` in `simulation/policy-pack-registry.ts` has exactly one

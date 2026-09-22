@@ -80,7 +80,7 @@ describe("NATIONWIDE opening state executive", () => {
       expect(world.people[holder!.personId]).toBeDefined();
       expect(holder!.personId).not.toBe(playerPersonId);
       // No admitted law in this composition: the term is dated by the office
-      // calendar (verified for Washington, the labelled game profile
+      // calendar (verified for Washington, the labeled game profile
       // elsewhere), never guessed per state.
       const window = regularTermWindowOn(
         stateExecutiveTermRule(usps)!,

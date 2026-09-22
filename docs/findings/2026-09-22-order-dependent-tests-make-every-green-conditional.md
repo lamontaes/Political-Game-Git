@@ -55,7 +55,7 @@ Run on `main` `7f2717a2` with an untouched worktree, so no branch is involved:
 Stated with its limit, because this is a document about overclaiming from thin
 measurements: **the name of the failing test in the second run was not
 captured** — the run was reduced to its summary lines and the re-run to recover
-the name was cancelled when the machine ran out of capacity. So this pair shows
+the name was canceled when the machine ran out of capacity. So this pair shows
 that a clean `main` does not return the same verdict for every scheduling, and
 it does not by itself prove the failure was `civil-personnel-import-graph`.
 Naming it is a five-minute run for whoever picks this up, and it should be the
@@ -90,7 +90,7 @@ held _in that order_.
 It is not a claim that the eight failures on #283 are therefore excusable. One
 of them, `nationwide-local-governments`, is squarely in that branch's own
 subject matter. Order dependence widens the uncertainty; it does not resolve it
-in anyone's favour. That is precisely the point — an instrument that cannot
+in anyone's favor. That is precisely the point — an instrument that cannot
 convict also cannot acquit.
 
 ## What would fix it
@@ -101,8 +101,8 @@ and not tonight's work:
 1. **Find the shared state.** Both suspect tests read world or registry state
    that a sibling test mutates. A module-level cache, a singleton registry or a
    frozen-then-modified fixture are the usual causes. This is the real fix.
-2. **Make the dependence loud.** Vitest can randomise file order with a
-   recorded seed. A randomised order turns a silent conditional green into a
+2. **Make the dependence loud.** Vitest can randomize file order with a
+   recorded seed. A randomized order turns a silent conditional green into a
    reproducible red, which is the whole difference between a check that fails
    and a check that goes quiet.
 3. **Isolate per file.** Running each test file in its own environment removes

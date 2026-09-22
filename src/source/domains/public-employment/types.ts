@@ -9,7 +9,7 @@
  * staffing-capacity backbone: it calibrates staffing intensity, payroll
  * pressure and service-delivery constraints.
  *
- * What it is not is a productivity judgement. A record here is the staffing and
+ * What it is not is a productivity judgment. A record here is the staffing and
  * payroll the Bureau published for one government's one function in one
  * reference period, in the units it published them in. Nothing in this domain
  * turns headcount into "agency efficiency", "competence" or a capacity score,

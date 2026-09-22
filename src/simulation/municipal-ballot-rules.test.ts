@@ -57,7 +57,7 @@ describe("which counting rule a town uses", () => {
     );
   });
 
-  it("fills a jurisdiction with no read rule from the national range, never a neighbour", () => {
+  it("fills a jurisdiction with no read rule from the national range, never a neighbor", () => {
     // Puerto Rico has no pack; Arkansas's compound rule is unrepresentable.
     for (const usps of ["PR", "AR"]) {
       const resolved = resolveMunicipalBallotRule(usps, "anywhere");
@@ -164,7 +164,7 @@ describe("counting a race", () => {
     expect(three).toMatchObject({ kind: "tie", tiedIds: candidates });
   });
 
-  it("honours a threshold other than half", () => {
+  it("honors a threshold other than half", () => {
     const outcome = tabulateBallot({
       rule: "majority-50-plus-1",
       majorityTriggerPercent: 40,

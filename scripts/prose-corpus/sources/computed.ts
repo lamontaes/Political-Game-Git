@@ -35,7 +35,7 @@ import type { ProseDomain, ProseRecord, ProseSurface } from "../types";
  * a sentence past its eighth word left the ID untouched, so a stale approval
  * kept applying. Anchors are minted once into a sidecar and matched on FULL
  * text inside the site's own (file, symbol) group, and an unresolved match is a
- * visible failure rather than a quiet rematch to the nearest neighbour.
+ * visible failure rather than a quiet rematch to the nearest neighbor.
  */
 
 export interface ComputedSurface {
@@ -105,7 +105,7 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
     surface: "status",
     reachability: "PLAYER_REACHABLE",
     reachabilityReason:
-      "The labelled internal art-review package and the development preview banner.",
+      "The labeled internal art-review package and the development preview banner.",
     grounding: [
       {
         key: "build-profile",

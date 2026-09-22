@@ -4,7 +4,7 @@ Owner-approved consolidation • September 22, 2026
 
 ## Status and authority
 
-The six scope choices are recorded in the existing Decision Register and PROJECT START. The former per-number approval paragraph in LIVE QUESTIONS was replaced in place: labelled, adjustable private-playtest calibration is now allowed inside approved behavior. Friendships and career changes are the immediate personal-life priorities; the same world must support an office term. Compact missing models are authorized, but major new creative choices still return to the owner. Monitoring remains off.
+The six scope choices are recorded in the existing Decision Register and PROJECT START. The former per-number approval paragraph in LIVE QUESTIONS was replaced in place: labeled, adjustable private-playtest calibration is now allowed inside approved behavior. Friendships and career changes are the immediate personal-life priorities; the same world must support an office term. Compact missing models are authorized, but major new creative choices still return to the owner. Monitoring remains off.
 
 This batch supplies research-backed distinctions, current-source findings and authored game specifications. It does not claim source edits, merged work, a compiled national dataset, a running Claude worker, artwork acceptance or installed-game tests. Existing full cloud owners keep their current registered workspace and branch; this document creates no new worker or competing engine.
 
@@ -17,7 +17,7 @@ This batch supplies research-backed distinctions, current-source findings and au
 
 ## Candidate policy-question content
 
-authored-policy-questions.candidate.json supplies 24 actual proposition rows and 24 related knowledge-subject rows in the inspected PolicyPack shape, referencing existing sourced issue IDs. They state general policy directions, not named Acts, quantities or a predetermined outcome. Their authored-fiction provenance is explicit. policy-question-binding-notes.json names the missing specific-measure bindings and effects. These candidates are not loader-tested or installed; the receiver must verify them through the actual loader and preserve the existing live catalogue. Definitions do not confer knowledge on any person.
+authored-policy-questions.candidate.json supplies 24 actual proposition rows and 24 related knowledge-subject rows in the inspected PolicyPack shape, referencing existing sourced issue IDs. They state general policy directions, not named Acts, quantities or a predetermined outcome. Their authored-fiction provenance is explicit. policy-question-binding-notes.json names the missing specific-measure bindings and effects. These candidates are not loader-tested or installed; the receiver must verify them through the actual loader and preserve the existing live catalog. Definitions do not confer knowledge on any person.
 
 ## Queue answers
 
@@ -27,7 +27,7 @@ authored-policy-questions.candidate.json supplies 24 actual proposition rows and
 
 Use one population with two levels of detail, not a weighted cast versus decorative scenery. Named residents are individually tracked members; aggregate cohorts carry the remaining residents. For each non-overlapping geographical cell, total residents = tracked residents + residual residents. Detailing an existing resident transfers one from residual to tracked, without changing total, employment, money, household demand or possible ballots. A genuine birth, death or move changes the appropriate totals once. A named institutional appointment is not a birth. Apply subgroup attributes consistently when materializing, so selecting a worker also removes that worker from the residual worker count.
 
-The cast may include independently continuing neighbours, coworkers and community members, not just political vacancies or the player's acquaintances. Store a compact stable individual before deeper elaboration when needed. Population size does not prescribe a linear number of full biographies; select detail by causal relevance and measured performance, with no permanent per-town character cap. Decisions by aggregates must not manufacture a second set of named-person consequences.
+The cast may include independently continuing neighbors, coworkers and community members, not just political vacancies or the player's acquaintances. Store a compact stable individual before deeper elaboration when needed. Population size does not prescribe a linear number of full biographies; select detail by causal relevance and measured performance, with no permanent per-town character cap. Decisions by aggregates must not manufacture a second set of named-person consequences.
 
 Start regional cohorts from sourced compatible reference-period totals and distributions, reconcile correlated attributes rather than multiplying unrelated percentages. PUMS weights concern the sample's statistical representation, not a named fictional character's power. PUMA data is not an exact town address. Keep sourced baseline, simulated current state and published in-game estimates separate. Country/state/county/town totals must avoid overlap: use a canonical disjoint population base and derive views, rather than separately owning the same people at each level.
 
@@ -71,7 +71,7 @@ Example is a test situation, not a fixed character: a thirty-year-old worker hea
 
 ### what-moves-a-relationship — Conduct changes the relationship; no click counter
 
-**Status:** resolved-design-with-labelled-test-rubric. **Receiver:** existing people/relationships + ordinary work/content owners.
+**Status:** resolved-design-with-labeled-test-rubric. **Receiver:** existing people/relationships + ordinary work/content owners.
 
 Replace the single closeness sum as the authoritative interpretation with the already approved actor-specific warmth, trust, respect, commitment and unresolved tension over the existing interaction/appraisal history. The current source treats most maintained interactions as positive, adds 1/2/3 and declares close at 3; conflict-prefixed records are negative regardless of a more nuanced outcome. These rules also feed whether a person is close to someone affected by an event. This is a consequential reader connection, not cosmetic labeling.
 
@@ -89,7 +89,7 @@ The supplied conduct rubric gives qualitative direction and illustrative bounded
 
 **Status:** resolved-reuse-and-connection. **Receiver:** existing people/trait and legislative decision owners.
 
-Retain the five underlying temperament dimensions. The previously delivered 121-candidate, 14-family catalogue is the research vocabulary; do not replace it with another arbitrary ceiling or silently make all 121 separate latent axes. Several named descriptors can be meaningful combinations or distinct additional tendencies. Skills, interests, temporary feelings and goals remain separately meaningful attributes of the same person.
+Retain the five underlying temperament dimensions. The previously delivered 121-candidate, 14-family catalog is the research vocabulary; do not replace it with another arbitrary ceiling or silently make all 121 separate latent axes. Several named descriptors can be meaningful combinations or distinct additional tendencies. Skills, interests, temporary feelings and goals remain separately meaningful attributes of the same person.
 
 Implement families in complete behavioral groups rather than all labels before any effect. Every added descriptor needs at least a clear meaning and nearest-neighbor distinction, a supported decision effect, an expression effect, a context where it should not matter, and interaction with other traits. 'Studious' is effort in acquiring knowledge, not knowledge granted at generation; 'cocky' is not competence; 'brazen' is not every kind of risk.
 
@@ -101,7 +101,7 @@ The inspected people-mind pack explicitly admits only life:ordinary scope. Exten
 
 ### person-starting-trait-count — Small visible starting profile, not a small personality
 
-**Status:** resolved-labelled-private-baseline. **Receiver:** existing people/character setup owners.
+**Status:** resolved-labeled-private-baseline. **Receiver:** existing people/character setup owners.
 
 Keep the owner's one-or-two salient starting descriptors as the working adult baseline. For the first private comparison use a 50/50 one-versus-two draw; this is explicitly authored calibration, not a measured human distribution or an owner-selected exact percentage. It applies to salient descriptors, not deletion/zeroing of the five underlying dimensions. Existing meaningful generated traits are not discarded to satisfy a display budget.
 
@@ -119,9 +119,9 @@ No source in the existing game/mod research measures real-world prevalence of th
 
 Select eligible descriptor families by the supplied weights for each initial slot, then choose distinct, genuinely distinguishable supported descriptors. Two compatible traits in the same family remain possible; organizational families are not exclusion rules. This prevents families with more synonyms from gaining frequency merely because they have more rows. Family selection and trait intensity are different. Extreme disruptive traits may have explicit lower authored weights within their family; do not infer crime, competence, honesty or politics from demographic identity. Circumstances may affect exposure, role selection and the expression of traits, not retroactively rewrite a person's personality to match a job title.
 
-These are not neighbourhood quotas. Do not ensure exactly N vindictive people in every town. A different seed can yield a different mixture, and particular social networks can be nonrepresentative. Compare the cast a player meets with the larger simulated cohort before concluding that a cluster is a nationwide prevalence claim. The 14 families are organizational categories, not mutually exclusive kinds of human.
+These are not neighborhood quotas. Do not ensure exactly N vindictive people in every town. A different seed can yield a different mixture, and particular social networks can be nonrepresentative. Compare the cast a player meets with the larger simulated cohort before concluding that a cluster is a nationwide prevalence claim. The 14 families are organizational categories, not mutually exclusive kinds of human.
 
-**Acceptance requested, not executed:** Adding ten prose variants/synonyms does not change family frequency. Artificial sample counts are labelled as simulated sampling results. Same configuration/seed repeats; unsupported descriptors are excluded visibly without silently making all others equivalent.
+**Acceptance requested, not executed:** Adding ten prose variants/synonyms does not change family frequency. Artificial sample counts are labeled as simulated sampling results. Same configuration/seed repeats; unsupported descriptors are excluded visibly without silently making all others equivalent.
 
 **Basis:** [prior-personality], [code-trait-pack], [current-queue]
 
@@ -131,7 +131,7 @@ These are not neighbourhood quotas. Do not ensure exactly N vindictive people in
 
 The old repeated-pressure/permanent-perMove defect is not assumed current: the inspected pack already has bounded pressure, spacing and an unsettled floor. Keep the valid repair. Current settle periods of 8–15 years remain authored baseline values, not established psychology. The ordinary trait scale admits moderate and strong; do not silently feed a defining value merely because a movability table has a defining column.
 
-Use two explicit private profiles in a controlled comparison. A is the current pack unchanged. B retains its settledByStrength, floor and pressure cap, but tests 2 years for reliability, 3 for sociability/conflict/risk, and 5 for deliberation; retain existing spacing initially to isolate the change. Settling here is the time for a changed tendency to become established, not the interval until its next change. These alternative years are authored exploration, not empirical rates, not a claim every person changes on a timer, and not an approval to force a fixed hierarchy forever. The owner approved this labelled experiment, not these exact numbers as final production truth.
+Use two explicit private profiles in a controlled comparison. A is the current pack unchanged. B retains its settledByStrength, floor and pressure cap, but tests 2 years for reliability, 3 for sociability/conflict/risk, and 5 for deliberation; retain existing spacing initially to isolate the change. Settling here is the time for a changed tendency to become established, not the interval until its next change. These alternative years are authored exploration, not empirical rates, not a claim every person changes on a timer, and not an approval to force a fixed hierarchy forever. The owner approved this labeled experiment, not these exact numbers as final production truth.
 
 Do not interpret an episode count as independent evidence: repeated phases/headlines of the same incident share provenance, while distinct events can happen on the same date. Spacing can limit correlated influence; it must not erase the fact that a distinct incident occurred. Immediate grief, confidence, grievance or a changed goal may precede any lasting trait shift. Many everyday situations should change those nearer states instead of rewriting temperament.
 
@@ -149,7 +149,7 @@ A work allocation is not a creative prohibition. Distinguish an explicit owner p
 
 The queue reports five d-held-people requests hidden by a September 15 allocation. This batch has not independently re-read their current source, so the existing owner verifies the exact current entries before touching them. Generation is not generally closed under current approved art scope. Remove an obsolete assignment hold when confirmed, reconcile each request against already delivered/currently needed work, then return needed work to its real queue; delete genuinely obsolete duplicate requests by existing policy. Do not resurrect completed work or self-approve images. Unknown lease ownership needs explicit coordination, not an automatic product ban or deletion of active work.
 
-Apply the same distinction to 'awaiting researched coefficient' after DEPTH1: an adjustable labelled private assumption is now authorized inside settled behavior. The historical lack of a per-number approval cannot keep the whole system disabled. A true creative hold remains meaningful and must not be released by an expired engineering lease.
+Apply the same distinction to 'awaiting researched coefficient' after DEPTH1: an adjustable labeled private assumption is now authorized inside settled behavior. The historical lack of a per-number approval cannot keep the whole system disabled. A true creative hold remains meaningful and must not be released by an expired engineering lease.
 
 **Acceptance requested, not executed:** Expired/missing assignment owner is distinguishable from a current owner restriction and an actual dependency. Current completed art is not regenerated; still-needed requests are visible. No change to exact human review decisions.
 
@@ -221,7 +221,7 @@ Use a documented release of annual SSA counts to draw plausible birth-cohort nam
 
 SSA states the underlying U.S. births begin after 1879 and coverage before 1937 is incomplete. That limits historical certainty; record it rather than claiming complete 1880-era census coverage. Future birth years use an explicit projected game distribution, not fabricated future SSA observations. Preserve source spellings/normalization notes and the right territory scope. No existing person's name changes as they age, upon a new data release, or when their record becomes more detailed.
 
-The two naming questions should share one acquisition/compilation rather than two surveys. This is not permission to delay present people/career connections while an exhaustive historical naming catalogue is built.
+The two naming questions should share one acquisition/compilation rather than two surveys. This is not permission to delay present people/career connections while an exhaustive historical naming catalog is built.
 
 **Acceptance requested, not executed:** Older and younger sampled birth cohorts differ when supported by source counts, without hard decade discontinuities. Same saved person retains their name. No inferred age or gender is read from a name.
 
@@ -257,7 +257,7 @@ Keep original causal episode and action identities across all consumers. A munic
 
 For a proposed law, use the same structured operations for starting rules, new proposals, amendments and repeal. Bind institution/power, target/affected group, quantity/rate, funding source, conditions/exemptions, implementation actor and effective period. Text, negotiation, private view, public statement and actual effects must all refer to the correct version/selected terms. General support for a proposition does not authorize every possible amount or beneficiary.
 
-### Mechanism catalogue
+### Mechanism catalog
 
 | Group | Mechanism | Required consequence |
 |---|---|---|
@@ -277,7 +277,7 @@ For a proposed law, use the same structured operations for starting rules, new p
 | career | position-ended-or-layoff | Correct cessation, remaining obligations and possible job search/support opportunities. |
 | career | employee-exit-and-replacement | Organization adjusts its staffing/delivery; replacement is an independently assessed person. |
 | career | small-enterprise-change | Capacity and payroll change through real resources and actors. |
-| legislation | change-tax-base-rate | Effective rule changes actual collections; behavioral response is separately labelled. |
+| legislation | change-tax-base-rate | Effective rule changes actual collections; behavioral response is separately labeled. |
 | legislation | fund-service-capacity | Authority then actual obligation/payment/staffing yields capacity and delivery. |
 | legislation | eligibility-and-benefit-change | Affected people can qualify/apply/receive under implemented terms. |
 | legislation | health-capacity-access | Compact coverage/cost/capacity/access states change before any uncertain health-outcome response. |
@@ -292,7 +292,7 @@ For a proposed law, use the same structured operations for starting rules, new p
 | crisis | wildfire-smoke-and-access | Distinct direct damage, smoke exposure and access effects through their appropriate models. |
 | crisis | drought-and-supply-stress | Resource balance changes service/production with rule-bound responses. |
 | crisis | service-failure-and-repair | Loss/stabilization/restoration followed by identified causes and possible reform. |
-| crisis | public-health-capacity-pressure | Care availability and costs respond before separately modelled outcomes. |
+| crisis | public-health-capacity-pressure | Care availability and costs respond before separately modeled outcomes. |
 | crisis | fiscal-pressure-and-service-tradeoff | Feasible adjustment, borrowing or delivery consequences under the government’s powers. |
 | crisis | institutional-dispute | Supported negotiation/review/decision changes authority or action; work elsewhere continues. |
 | crisis | international-pressure-and-response | Plausible proposals, de-escalation, escalation or unresolved continuation with actual effects. |
@@ -306,7 +306,7 @@ BLS differentiates an available vacancy, a payroll hire, internal promotion and 
 
 EPA describes how energy, water and healthcare systems depend on one another and how lifelines distinguish operational root causes. The game transfer is to represent conditional propagation and useful interventions: backup power or a repaired supply can interrupt a chain. A flood does not have to trigger every downstream crisis. [epa-lifelines, epa-dependencies]
 
-NOAA/NWS document multiple weather families and uneven historical coverage/reporting. Add distinct hazard content against verified source families, local exposure, intensity/duration, vulnerability and response; retain the current catalogue-window limitations. Counts of reports or counties touched are not direct measurements of physical intensity. Heat, winter disruption, fire/smoke and drought need their own effect semantics rather than the flood damage formula. No new nationwide frequency table or condition-specific medical calibration is claimed. [noaa-catalog, nws-reports]
+NOAA/NWS document multiple weather families and uneven historical coverage/reporting. Add distinct hazard content against verified source families, local exposure, intensity/duration, vulnerability and response; retain the current catalog-window limitations. Counts of reports or counties touched are not direct measurements of physical intensity. Heat, winter disruption, fire/smoke and drought need their own effect semantics rather than the flood damage formula. No new nationwide frequency table or condition-specific medical calibration is claimed. [noaa-catalog, nws-reports]
 
 ### A connected example for testing, not a scripted production story
 
@@ -333,7 +333,7 @@ The family profile is authored for a first comparison, NOT measured human preval
 | Emotional outlook | 4 | 6.022 | 4.7–7.1 |
 | Attachment and closeness | 4 | 6.027 | 4.7–7.3 |
 
-These outputs come from the included isolated Python experiment (100 artificial worlds × 1,000 adults). They are neither real-population estimates nor runs of Our Civic Duty. The actual game RNG may produce different samples with the same target distribution. Families with more catalogue entries do not gain selection weight simply from list length.
+These outputs come from the included isolated Python experiment (100 artificial worlds × 1,000 adults). They are neither real-population estimates nor runs of Our Civic Duty. The actual game RNG may produce different samples with the same target distribution. Families with more catalog entries do not gain selection weight simply from list length.
 
 `relationship-conduct-rubric.json` supplies relative direction/magnitude proposals on separate interpretations, not a one-sum closeness rule. The trait-change answer defines an A/B private comparison against actual current pack values, rather than recertifying those values as research. For each enabled configuration, show a compact assumption label in development information and the report, retain configuration identity with saved-world behavior and do not silently mutate an existing life's model on reload.
 
@@ -364,7 +364,7 @@ Names have method answers but no new annual-count compilation. Family life has a
 - **[code-beliefs]** source-inspected: https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/political-belief-formation.ts. Existing evaluator, personally sourced factors, private record, no-opinion and player/NPC boundary.
 - **[code-policy-pack]** source-inspected: https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/policy-packs.ts. Authored-fiction/sourced provenance, cross-pack issue references, optional proposition rows; inspected lines 1–210.
 - **[code-policy]** source-inspected: https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/policy.ts. Definition construction and parameter validation, inspected lines 1–230.
-- **[code-vocabulary]** source-inspected: https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/policy-pack-us-state-and-local.ts. Current 13-domain issue keys, actual issue rows read in lines 1–770. This is not a new count of the entire catalogue.
+- **[code-vocabulary]** source-inspected: https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/policy-pack-us-state-and-local.ts. Current 13-domain issue keys, actual issue rows read in lines 1–770. This is not a new count of the entire catalog.
 - **[code-relationships]** source-inspected: https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/queries.ts. deriveRelationshipSummary and close-person event consumer, lines 210–290.
 - **[code-trait-pack]** source-inspected: https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/people-trait-pack.ts. Five underlying dimensions, scale, ordinary-life-only scope, current movability and contact-answer effects.
 - **[code-hazards]** source-inspected: https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/crisis/hazard-producer.ts. Monthly historical-report sampler and two-family mapping; lines 1–285 inspected.
@@ -375,7 +375,7 @@ Names have method answers but no new annual-count compilation. Family life has a
 - **[bls-jolts]** primary-external: https://www.bls.gov/jlt/jltdef.htm. Vacancy, hiring, internal promotion and separation are different events. The 30-day opening definition is not a required offer-expiry rule. Page states updated May 6, 2026.
 - **[epa-lifelines]** primary-external: https://www.epa.gov/waterresilience/femas-community-lifelines-construct. Operational service functions and root causes; eighth water-systems lifeline. Page states updated June 10, 2026.
 - **[epa-dependencies]** primary-external: https://www.epa.gov/waterresilience/water-sector-interdependencies. Energy/water/healthcare/supply-chain dependencies support a shared-impact graph, not fixed catastrophe escalation. Page states updated May 18, 2026.
-- **[noaa-catalog]** primary-external: https://www.ncei.noaa.gov/metadata/geoportal/rest/metadata/item/gov.noaa.ncdc%3AC00510/html. Weather-event families, damage/injury reports and reporting delay; official catalogue metadata, not newly compiled hazard rates.
+- **[noaa-catalog]** primary-external: https://www.ncei.noaa.gov/metadata/geoportal/rest/metadata/item/gov.noaa.ncdc%3AC00510/html. Weather-event families, damage/injury reports and reporting delay; official catalog metadata, not newly compiled hazard rates.
 - **[nws-reports]** primary-external: https://www.weather.gov/unr/storm_reports. Different coverage periods and reported-event limitations; no probability that an unreported event never happened.
 - **[ssa-names]** primary-external: https://www.ssa.gov/oact/babynames/background.html. Birth-year/sex recorded categories, shared names, suppression and pre-1937 coverage limits; not present gender-identity statistics. March 2026 extraction stated.
 - **[prior-personality]** previous-project-research-reused: Personality_Research_and_Catalogue.md. Existing 121 candidates and 14 families; not a new survey, empirical prevalence dataset or blanket approval of every candidate.

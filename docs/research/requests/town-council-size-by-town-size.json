@@ -19,7 +19,7 @@
   "impact": "shapes-design",
   "lane": "nationwide coverage",
   "notes": [
-    "Measured on branch claude/project-thread-l04zry: 19,462 towns are offered a governing body; 60 have a compiled government and 39 of those state a seat count or term. Every other town is given a PLACEHOLDER: seats drawn from the middle half of the read sizes (7 to 12) and a term from every read term (mostly 2 years, some 3 and 4). The placeholder is marked in code (src/simulation/nationwide-world/local-governing-body-rules.ts) and labelled as typical on the office screen.",
+    "Measured on branch claude/project-thread-l04zry: 19,462 towns are offered a governing body; 60 have a compiled government and 39 of those state a seat count or term. Every other town is given a PLACEHOLDER: seats drawn from the middle half of the read sizes (7 to 12) and a term from every read term (mostly 2 years, some 3 and 4). The placeholder is marked in code (src/simulation/nationwide-world/local-governing-body-rules.ts) and labeled as typical on the office screen.",
     "The read councils are mostly cities, so the placeholder is biased toward city-sized bodies. Presque Isle ME (pop. about 9,000) draws 7 seats and 4-year terms; a village of a few hundred would draw the same range."
   ],
   "priority": "P2",
