@@ -132,7 +132,17 @@ describe("what the game will and will not offer", () => {
     )!.offices[0]!.seats;
     expect(seats.kind).toBe("unknown");
     if (seats.kind !== "unknown") throw new Error("Expected unknown seats");
-    expect(seats.note).toMatch(/no instrument fixing it was separately read/i);
+    /*
+     * The note's wording follows the producer, which is where it is decided.
+     * It used to say the count "was carried from compiled research, but no
+     * instrument fixing it was separately read" — research vocabulary that the
+     * campaign screen then recited at a candidate. The producer in
+     * legislature-rule-packs.ts now says the same refusal in the game's own
+     * voice, so this asserts the refusal rather than re-pinning the sentence
+     * that was deliberately retired.
+     */
+    expect(seats.note).toMatch(/will not guess a number/i);
+    expect(seats.note).not.toMatch(/compiled research|numeric fallback/i);
     expect(view.openQuestions.join(" ")).toMatch(
       /no instrument establishing the size of the chamber/i,
     );
