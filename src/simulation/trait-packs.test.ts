@@ -50,10 +50,17 @@ describe("a trait pack is loaded, not imported", () => {
     const registry = loadTraitPacks([peopleTraitPack()], [ORDINARY]);
     const report = registry.report.packs[0]!;
     expect(report.traitsRegistered).toHaveLength(5);
-    expect(report.leansRegistered).toBe(0);
-    // Five traits nothing leans on: loaded, and affecting nothing. A pack that
-    // validates while reaching no consumer must be visible as exactly that.
-    expect(report.registeredButUnused).toHaveLength(5);
+    expect(report.leansRegistered).toBe(4);
+    // The report says which decision reads each trait, not merely that the
+    // pack parsed. Two of the five are declared and read by nothing yet, and
+    // being able to see that is the point.
+    expect(report.consumedBy["people-mind-v1:sociability"]).toEqual([
+      "contact.answer",
+    ]);
+    expect(report.registeredButUnused).toEqual([
+      "people-mind-v1:conflict",
+      "people-mind-v1:risk",
+    ]);
     expect(describeTraitLoad(registry.report)).toContain("read by nothing");
   });
 
@@ -151,12 +158,15 @@ describe("every reference resolves at load, or is rejected by name", () => {
         [peopleTraitPack(), leaning(effects)],
         [ORDINARY],
       );
-      expect(registry.report.rejections).toHaveLength(1);
-      expect(registry.report.rejections[0]!.reason).toMatch(reason);
-      expect(registry.report.rejections[0]!.pack).toBe("test-pack");
-      // The rest of the load survives: a bad row is not a dead pack.
+      const mine = registry.report.rejections.filter(
+        (rejection) => rejection.pack === "test-pack",
+      );
+      expect(mine).toHaveLength(1);
+      expect(mine[0]!.reason).toMatch(reason);
+      // The rest of the load survives: a bad row is not a dead pack, and the
+      // people pack's own four leans are untouched by a stranger's bad row.
       expect(registry.traits.size).toBe(5);
-      expect(leansForDecision(registry, "contact.answer")).toEqual([]);
+      expect(leansForDecision(registry, "contact.answer")).toHaveLength(4);
     });
   }
 
@@ -214,11 +224,11 @@ describe("every reference resolves at load, or is rejected by name", () => {
       ],
       [ORDINARY],
     );
-    expect(registry.report.rejections).toHaveLength(1);
-    expect(leansForDecision(registry, "contact.answer")).toHaveLength(1);
-    expect(leansForDecision(registry, "contact.answer")[0]!.option).toBe(
-      "accept",
-    );
+    expect(
+      registry.report.rejections.filter((r) => r.pack === "test-pack"),
+    ).toHaveLength(1);
+    // Four from the people pack, plus the one good row of this one.
+    expect(leansForDecision(registry, "contact.answer")).toHaveLength(5);
     const people = registry.report.packs[0]!;
     expect(people.consumedBy["people-mind-v1:sociability"]).toEqual([
       "contact.answer",

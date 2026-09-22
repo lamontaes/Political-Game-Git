@@ -18,7 +18,17 @@ import { loadTraitPacks, traitDefinitionFromPack } from "./trait-packs";
  * says so.
  */
 describe("the pack is the five traits, to the byte", () => {
-  const registry = loadTraitPacks([peopleTraitPack()], []);
+  // With the decision the pack leans on, so its effect rows resolve too.
+  const registry = loadTraitPacks(
+    [peopleTraitPack()],
+    [
+      {
+        id: "contact.answer",
+        scope: "life:ordinary",
+        options: ["accept", "counter", "decline"],
+      },
+    ],
+  );
 
   it("produces the definition each trait already had", () => {
     expect(registry.report.rejections).toEqual([]);
@@ -42,7 +52,7 @@ describe("the pack is the five traits, to the byte", () => {
     }
   });
 
-  it("declares all five as ordinary life, seeded, and read by nothing yet", () => {
+  it("declares all five as ordinary life and seeded", () => {
     for (const trait of PEOPLE_TRAITS) {
       const registered = registry.traits.get(`people-mind-v1:${trait}`)!;
       expect(registered.scopes).toEqual(["life:ordinary"]);

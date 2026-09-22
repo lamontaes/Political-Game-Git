@@ -76,7 +76,48 @@ export function peopleTraitPack(): TraitPack {
         seed: { spread: [...SEED_SPREAD] },
       };
     }),
-    // Effects land here as the eleven decisions start publishing themselves.
-    effects: [],
+    /**
+     * What these traits argue for, as data.
+     *
+     * Each row names a decision by the id that decision publishes, an option
+     * that decision offers, a trait by its qualified key, and which pole
+     * argues for it. Nothing here is code, and nothing in the decision names a
+     * trait — the two meet at load, where a row that resolves to nothing is
+     * rejected rather than quietly doing nothing.
+     *
+     * The explanations are the words a player reads as the reason, so they are
+     * the authored text moved from the call site, not paraphrases of it.
+     */
+    effects: [
+      {
+        decision: "contact.answer",
+        leans: [
+          {
+            option: "accept",
+            trait: `${PEOPLE_MIND_VERSION}:sociability`,
+            pole: "high",
+            explanation: "They like seeing people.",
+          },
+          {
+            option: "decline",
+            trait: `${PEOPLE_MIND_VERSION}:sociability`,
+            pole: "low",
+            explanation: "They keep to themselves.",
+          },
+          {
+            option: "counter",
+            trait: `${PEOPLE_MIND_VERSION}:deliberation`,
+            pole: "low",
+            explanation: "They would rather sort it out now than leave it.",
+          },
+          {
+            option: "accept",
+            trait: `${PEOPLE_MIND_VERSION}:reliability`,
+            pole: "high",
+            explanation: "They keep the plans they make.",
+          },
+        ],
+      },
+    ],
   };
 }

@@ -13,6 +13,9 @@ import {
 } from "./life-queries";
 import { personName } from "./people";
 import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
+import { loadedTraitRegistry } from "./trait-registry";
+import { registeredTraitConsiderations } from "./trait-readings";
+import { CONTACT_ANSWER_DECISION } from "./people-contact-decisions";
 import { recordEventKnowledge } from "./records";
 import { assessRelationshipContinuity } from "./relationship-integration";
 import { simulationMomentAtLocalTime } from "./dates";
@@ -647,33 +650,17 @@ export function npcContactAnswer(
     });
   }
   const withTraits = ensurePeopleTraits(world, [to]);
+  // Registered effects first: whatever the loaded packs say bears on
+  // `contact.answer`. This decision names no trait, and a pack adding one
+  // reaches it without this file changing.
   considerations.push(
-    ...traitConsiderations(withTraits, to, `contact:${proposalEventId}`, [
-      {
-        optionKey: "accept",
-        trait: "sociability",
-        pole: "high",
-        explanation: "They like seeing people.",
-      },
-      {
-        optionKey: "decline",
-        trait: "sociability",
-        pole: "low",
-        explanation: "They keep to themselves.",
-      },
-      {
-        optionKey: "counter",
-        trait: "deliberation",
-        pole: "low",
-        explanation: "They would rather sort it out now than leave it.",
-      },
-      {
-        optionKey: "accept",
-        trait: "reliability",
-        pole: "high",
-        explanation: "They keep the plans they make.",
-      },
-    ]),
+    ...registeredTraitConsiderations(
+      withTraits,
+      loadedTraitRegistry(),
+      to,
+      `contact:${proposalEventId}`,
+      CONTACT_ANSWER_DECISION.id,
+    ),
   );
   const evaluation = evaluateDecision(withTraits, {
     stableKey: `contact:${proposalEventId}:answer`,

@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 3139 |
 | INTENTIONALLY_NON_PLAYER_FACING | 7101 |
-| DIAGNOSTIC_OR_TEST | 7672 |
+| DIAGNOSTIC_OR_TEST | 7680 |
 | **NEEDS_CLASSIFICATION** | **10298** |
 
-Scanned 1158 files holding 112085 string
+Scanned 1162 files holding 112171 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -75,13 +75,13 @@ literals in total; the table counts only those that read like a sentence.
 | 48 | `src/simulation/life-episodes.ts` |
 | 48 | `src/simulation/life-sources.ts` |
 | 48 | `src/simulation/living-world/party-evolution.ts` |
-| 48 | `src/simulation/people-contact.ts` |
 | 45 | `src/content/content-export.ts` |
 | 45 | `src/simulation/legislative-politics.ts` |
 | 45 | `src/simulation/time-work.ts` |
 | 44 | `src/player/ShellWorkspaces.tsx` |
 | 44 | `src/presentation/campaign-life-surface.ts` |
 | 44 | `src/presentation/crisis-shell.ts` |
+| 44 | `src/simulation/people-contact.ts` |
 | 43 | `src/presentation/funded-service-capability.ts` |
 | 43 | `src/presentation/legislative-bargaining-brief.ts` |
 | 43 | `src/presentation/scene-consumers.ts` |
@@ -310,6 +310,7 @@ literals in total; the table counts only those that read like a sentence.
 | 8 | `src/simulation/incident-catalog.ts` |
 | 8 | `src/simulation/life-callbacks.ts` |
 | 8 | `src/simulation/nationwide-world/state-executive-terms.ts` |
+| 8 | `src/simulation/people-trait-pack.ts` |
 | 8 | `src/simulation/production-catalog.ts` |
 | 8 | `src/simulation/public-information.ts` |
 | 8 | `src/ui/DeveloperViewer.tsx` |
@@ -414,7 +415,6 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/simulation/crisis/notices.ts` |
 | 4 | `src/simulation/governing/state-disposition.ts` |
 | 4 | `src/simulation/nationwide-world/state-executive-term-rules.ts` |
-| 4 | `src/simulation/people-trait-pack.ts` |
 | 4 | `src/simulation/person-identity.ts` |
 | 4 | `src/simulation/portability-fixture.ts` |
 | 4 | `src/simulation/relationship-integration.ts` |
