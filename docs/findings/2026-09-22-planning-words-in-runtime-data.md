@@ -164,3 +164,56 @@ rows worth doing first.
 a status, it is an unanswered question with a value shipping in the meantime.
 Grep for it — `pending the director's confirmation` finds all five — and treat
 each hit as a filed question rather than a note.
+
+## 6. Two more counters, one of which does not read its own evidence
+
+Swept `src/simulation` and `src/presentation` for `\.length (>=|>) [2-9]` after
+ChatGPT's C10 dispositions landed. Most hits are not decisions: subject-verb
+agreement (`others.length > 2 ? "are" : "is"`), display limits that stop after
+three links, and genuine integrity constraints such as a person having one or
+two parents. Two are decisions.
+
+### `character-history.ts:2116` — and the development it proposes is always the same one
+
+```ts
+if (interactions.length >= 2 && other) {
+  const tendency =
+    next.mindCatalog.tendencies[
+      next.mindCatalog.tendencyOrder[0] as EntityId
+    ];
+```
+
+This is the "two pieces of personality evidence" counter C10 names, and its
+disposition is clear: two copies of one event are one observation, so a count
+of matching interaction records cannot be what proposes a character
+development.
+
+But the second line is a separate defect nobody has named, and it is the larger
+one. The tendency proposed is `tendencyOrder[0]` — **the first entry in the
+catalogue, every time**, whatever the two interactions were about. The evidence
+decides whether a development is proposed and has no influence at all on which
+development it is. Fixing only the counter would leave a system that reads its
+evidence to decide _whether_ to act and then ignores it entirely in deciding
+_what_ to do.
+
+This is the same shape as the audit's other findings, one level deeper: not a
+missing producer, but a producer whose output does not depend on its input.
+
+### `legislative-politics-integrity.ts:268` — an arbitrary number inside a throw
+
+```ts
+if (commitment.audience === "private" && commitment.heardByPersonIds.length > 2)
+  throw new Error(
+    `A private commitment cannot have a room full of listeners: ...`,
+  );
+```
+
+C10's first instruction is to classify by meaning, and this one classifies as an
+integrity constraint, which is the category that legitimately keeps a number.
+The number itself is still arbitrary: nothing establishes that three listeners
+is a room full and two is private. The cost of being wrong here is higher than
+for the other counters, because this is a `throw` — a save whose history
+contains a private commitment heard by three people cannot be loaded at all.
+
+Lower priority than the rest, and recorded rather than filed, because the
+classification is right even though the boundary is a guess.
