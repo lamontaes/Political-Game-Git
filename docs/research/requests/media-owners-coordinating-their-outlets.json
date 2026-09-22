@@ -1,0 +1,23 @@
+{
+  "filedAt": "2026-09-22T19:58:00.000Z",
+  "impact": "shapes-design",
+  "lane": "research intake",
+  "notes": [
+    "The owner's words: \"I would like to at least build the foundation to uh, have like media moguls decide to coordinate everything that they own. So, for example, um, a private equity company that owns a bunch of newspapers just laid off a bunch of people across the country.\"",
+    "Fictional names stay fictional; the research is for realistic behaviour and proportions, not real company names on player surfaces."
+  ],
+  "priority": "P1",
+  "question": "The owner wants the foundation for media owners who coordinate everything they own, for example a private equity firm that owns many newspapers and lays off staff across the country at once, or an owner that uses its papers in concert. What are the real patterns of group ownership in American news media: (1) the kinds of owners (chains, private equity and hedge funds, broadcast groups, family and nonprofit owners) and roughly how much of the local market each holds; (2) what coordinated actions owners actually take across their outlets (consolidated layoffs, shared or centralised content, must-run editorial segments, print-day cuts, closures and mergers, political endorsements set at the group level); (3) how much editorial independence individual outlets keep under each ownership type; and (4) what public data describes ownership and these actions, so the game can seed owners realistically.",
+  "questionId": "media-owners-coordinating-their-outlets",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "research intake thread, from lamontae's message of 2026-09-22T19:50Z",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/press/outlets.ts:36-45, read on claude/project-thread-b8c05w at e4afc629",
+      "whatItDidNotSettle": "The media seed pack is authored and fictional and explicitly assigns no motive to ownership; there is no owner record that acts across outlets."
+    }
+  ],
+  "title": "How do media owners coordinate the outlets they own",
+  "usableAnswer": "A short typology of owners with their real market share, a list of the coordinated actions each type actually takes with documented examples, a statement of how much independence outlets keep under each, and the named datasets that describe ownership (with what each covers and its date range).",
+  "whyItMatters": "Outlets in the game have no owner with intent today (outlets.ts says ownership implies no motive). An owner that acts across its outlets is a new actor in the political world, and building it without knowing the real patterns risks inventing either a cartoon villain or something inert."
+}
