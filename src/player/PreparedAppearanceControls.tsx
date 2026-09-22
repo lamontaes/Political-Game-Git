@@ -11,7 +11,7 @@ import {
 import { optionAccessibleName } from "./controls/GameSelect";
 import { AppearanceChoice } from "./controls/AppearanceChoice";
 
-/** Light-to-dark display names for the authored swatches. Colour words only. */
+/** Light-to-dark display names for the authored swatches. Color words only. */
 const SKIN_SWATCH_NAMES: readonly string[] = [
   "Very light",
   "Light",

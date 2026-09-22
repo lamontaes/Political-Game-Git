@@ -200,7 +200,7 @@ export const CAMPAIGN_SUPPORT_METRIC_STABLE_KEY =
 /**
  * What the campaign's field memo claims about its own precision. Four points is
  * a claim, not a guarantee: the error below is drawn from a wider range and
- * sometimes lands outside it, which is what makes reading it a judgement.
+ * sometimes lands outside it, which is what makes reading it a judgment.
  */
 const OBSERVATION_MARGIN_BASIS_POINTS = 400;
 
@@ -1023,7 +1023,7 @@ export function scheduleCampaignAction(
  * A fundraising session moves nothing. An afternoon on the phones converts the
  * candidate's time into the committee's money, and money persuades nobody until
  * it is spent — which is what an advertising buy is for. Asking somebody who
- * already supports you for a cheque is not the same act as changing a mind, and
+ * already supports you for a check is not the same act as changing a mind, and
  * paying the campaign twice for one afternoon would make the phones strictly
  * better than the doors.
  */

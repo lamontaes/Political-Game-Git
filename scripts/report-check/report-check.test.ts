@@ -183,10 +183,19 @@ describe("where the check runs", () => {
   });
 
   const hook = (payload: object) =>
-    spawnSync(process.execPath, [join(ROOT, "scripts/report-check/hook.mjs")], {
-      input: JSON.stringify(payload),
-      encoding: "utf8",
-    });
+    // Without type stripping, as on the pinned Node 22.13: the hook must not
+    // import a `.ts` file, or it crashes with exit 1 and checks nothing.
+    spawnSync(
+      process.execPath,
+      [
+        "--no-experimental-strip-types",
+        join(ROOT, "scripts/report-check/hook.mjs"),
+      ],
+      {
+        input: JSON.stringify(payload),
+        encoding: "utf8",
+      },
+    );
 
   it("returns a failing report written for the owner to the session that wrote it", () => {
     const failing = join(ROOT, "docs/writing/the-next-generation-original.md");

@@ -259,7 +259,7 @@ export function recordOfficeConsequence(
     // An elected term is a work relationship and ends through the work
     // writer. An opening incumbent's term is a recorded tenure with no
     // relationship behind it; the office is vacated by this record alone,
-    // which the holder reader honours either way.
+    // which the holder reader honors either way.
     const status = workStatusAt(world, office.termId, currentLifeCutoff(world));
     if (!status || status.status !== "ended") {
       if (status)

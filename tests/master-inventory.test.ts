@@ -62,7 +62,7 @@ describe("PNG measurement", () => {
     expect(readPngHeader(Buffer.alloc(4))).toBeNull();
   });
 
-  it("knows which PNG colour types carry an alpha channel", () => {
+  it("knows which PNG color types carry an alpha channel", () => {
     expect(pngHasAlphaChannel(6)).toBe(true);
     expect(pngHasAlphaChannel(4)).toBe(true);
     expect(pngHasAlphaChannel(2)).toBe(false);
@@ -92,7 +92,7 @@ describe("PNG measurement", () => {
 });
 
 describe("component class inference", () => {
-  it("recognises the classes the queue actually produces", () => {
+  it("recognizes the classes the queue actually produces", () => {
     expect(inferKindFromName("PG-HAIR_SHORT_01_BUZZ_TRUE_ALPHA.png")).toBe(
       "hair-front",
     );
@@ -150,7 +150,7 @@ describe("master inventory", () => {
     expect(small.reasons.join(" ")).toContain("1024px minimum");
   });
 
-  it("reports an unrecognised class as unmeasured rather than assigning one", async () => {
+  it("reports an unrecognized class as unmeasured rather than assigning one", async () => {
     const directory = fs.mkdtempSync(path.join(os.tmpdir(), "master-inv-2-"));
     await writePng(path.join(directory, "output_final_v3.png"), 2_048, 2_048, {
       transparent: true,

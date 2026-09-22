@@ -1,3 +1,4 @@
+import "./contacts.css";
 import { useMemo } from "react";
 import type { EntityId, World } from "../simulation";
 import { projectRecallCards } from "../presentation/people-recall-cards";

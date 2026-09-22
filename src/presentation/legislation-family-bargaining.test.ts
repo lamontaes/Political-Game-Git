@@ -40,7 +40,7 @@ import {
  * The accepted sitting could only ever be about a transit local match: the
  * amendment action reached past its own facts to module constants naming a
  * transit authority in Ashland. The politics were general; only the producer
- * was hard-wired. These tests hold the generalisation to its claim — that a
+ * was hard-wired. These tests hold the generalization to its claim — that a
  * broadband bill is bargained over broadband — through the ordinary player
  * route, with the accepted authority guards intact.
  */

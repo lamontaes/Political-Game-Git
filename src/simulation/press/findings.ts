@@ -99,3 +99,48 @@ export function rememberedAdverseFindingsAgainst(
       addDays(finding.step.at, UNRESEARCHED_FINDING_EFFECTS.memoryDays) >= asOf,
   );
 }
+
+/**
+ * UNRESEARCHED. How much harder a second or later public finding lands than
+ * the first. The owner asked that getting caught more than once cost more
+ * (2026-09-22); how much more, for voters and for a body's fines, has not
+ * been researched. Filed with the research queue as
+ * `repeat-ethics-offense-escalation`; a researched table replaces this one
+ * under a new version, never as a silent edit.
+ */
+export const UNRESEARCHED_REPEAT_OFFENSE = {
+  version: "repeat-offense-unresearched-v1",
+  provenance: "unresearched-blanket-rule",
+  /** Added to the support-loss multiplier for each earlier finding. */
+  supportLossStepPerPriorFinding: 0.5,
+  /** Added to the civil-penalty multiplier for each earlier finding. */
+  civilPenaltyStepPerPriorFinding: 1,
+  maxMultiplier: 3,
+} as const;
+
+/**
+ * Earlier public findings against `personId`, before the one in `step`. Every
+ * earlier finding counts, remembered by voters or not: a regulator's record
+ * does not fade the way a voter's memory does.
+ */
+export function priorAdverseFindings(
+  world: World,
+  personId: EntityId,
+  step: Pick<ProceedingStepRecord, "id" | "at">,
+): readonly AdversePublicFinding[] {
+  return publicAdverseFindingsAgainst(world, personId, step.at).filter(
+    (finding) => finding.step.id !== step.id && finding.step.at <= step.at,
+  );
+}
+
+export function repeatOffenseMultiplier(
+  priorFindings: number,
+  kind: "support-loss" | "civil-penalty",
+): number {
+  const rule = UNRESEARCHED_REPEAT_OFFENSE;
+  const stepSize =
+    kind === "support-loss"
+      ? rule.supportLossStepPerPriorFinding
+      : rule.civilPenaltyStepPerPriorFinding;
+  return Math.min(rule.maxMultiplier, 1 + stepSize * priorFindings);
+}

@@ -136,7 +136,7 @@ The cargo requires a conflict between a study commitment and an employment or
 household commitment, an authorized counterpart, and concrete schedule
 alternatives. Two halves of that do not exist:
 
-- Every study path in the catalogue advances by period, not by session, so no
+- Every study path in the catalog advances by period, not by session, so no
   study hour is ever placed on the calendar. A calendar conflict involving
   study is therefore not representable. A weekly time-demand range exists and
   is disclosed, but it has no time of day.
@@ -175,7 +175,7 @@ speaker now makes of the player and how an answer landed in the family's own
 words; neither is an observable expression and neither is per-onlooker.
 
 `expressionKey` exists in the codebase but is not this. It belongs to the
-personality catalogue — how a tendency expresses itself in conduct — and it is
+personality catalog — how a tendency expresses itself in conduct — and it is
 attached to a trait, not to a turn. Reading a face off it would not be a
 shortcut; it would be a category error, and the saved record would not support
 it.

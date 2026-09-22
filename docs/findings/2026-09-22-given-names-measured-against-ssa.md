@@ -1,7 +1,7 @@
 # What SSA's own data says about the game's given names
 
 Measured 2026-09-22 ~16:56Z on `claude/project-thread-k8w14s`. Bounded research
-authorised by lamontae at 16:47:59Z: "you are allowed to do some bounded
+authorized by lamontae at 16:47:59Z: "you are allowed to do some bounded
 research for that name stuff."
 
 The evidence file is `docs/research/evidence/ssa-given-names-by-decade.json`:
@@ -81,7 +81,7 @@ fetch.
 
 Still the director's, and deliberately not answered here: how strictly the pool
 should track the era, whether regional and ethnic distribution should bear on
-the draw at all, and the crossing rate. Those are judgements about how the
+the draw at all, and the crossing rate. Those are judgments about how the
 world should feel, not facts about American names.
 
 The two open records are `given-name-fashion-by-birth-year` and

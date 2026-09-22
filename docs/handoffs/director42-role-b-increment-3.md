@@ -45,7 +45,7 @@ canonicalName === "Lexington-Fayette, Kentucky"
   : canonicalName;
 ```
 
-One place recognised by literal. A character from Lexington read correctly; a
+One place recognized by literal. A character from Lexington read correctly; a
 character from anywhere else was shown whatever filing name the jurisdiction
 record carried. It reaches five player surfaces: `QuickDossier`,
 `PlayerOffice`, `OfficeScene`, `PinRail`, `MeasureFloorSurface`.
@@ -64,7 +64,7 @@ place is not an unknown one.
 
 Removing that call took `run-a-fixture.ts` **off the ordinary-play runtime
 graph entirely**. The pinned-set test failed on the shrink, which is the
-intended behaviour: the equality is deliberate in both directions, because a
+intended behavior: the equality is deliberate in both directions, because a
 fixture quietly dropping off is a fact about the game worth recording rather
 than absorbing. Six modules, now five.
 
@@ -73,13 +73,13 @@ than absorbing. Six modules, now five.
 Group-pinning replaced with per-module findings in
 `docs/dehardwire/classification.json`:
 
-| Module                            | Finding                                                                                                                                                                                                                                                                                                                                    |
-| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `committee-room-fixture.ts`       | A registered room — scene geometry, names no measure, person or outcome. Renderer scope is ROLE D's.                                                                                                                                                                                                                                       |
-| `office-council-staff-fixture.ts` | A registered room, as above.                                                                                                                                                                                                                                                                                                               |
-| `demo-jurisdiction-context.ts`    | `DEMO_START_DATE` is the game's calendar epoch — every state and corpus place opens on it, so a scenario default, not one world's instance. `LEXINGTON_DEMO_CONTEXT` is the Lexington scenario's own context, used as that place's context. The module's _name_ reads like a fixture leak; its contents are not one.                       |
-| `demo.ts`                         | Needed a real answer. **`createDemoWorld` does default its jurisdiction to Lexington** — which would make Kentucky the universal normal start rather than one explicit scenario. Ordinary New Game never calls it: its only runtime callers are the Run-A fixture and three `src/ui` developer proof routes. Now pinned **behaviourally**. |
-| `portability-fixture.ts`          | No play-path consumer; on the graph only because the barrel re-exports it. Dev/test-only.                                                                                                                                                                                                                                                  |
+| Module                            | Finding                                                                                                                                                                                                                                                                                                                                   |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `committee-room-fixture.ts`       | A registered room — scene geometry, names no measure, person or outcome. Renderer scope is ROLE D's.                                                                                                                                                                                                                                      |
+| `office-council-staff-fixture.ts` | A registered room, as above.                                                                                                                                                                                                                                                                                                              |
+| `demo-jurisdiction-context.ts`    | `DEMO_START_DATE` is the game's calendar epoch — every state and corpus place opens on it, so a scenario default, not one world's instance. `LEXINGTON_DEMO_CONTEXT` is the Lexington scenario's own context, used as that place's context. The module's _name_ reads like a fixture leak; its contents are not one.                      |
+| `demo.ts`                         | Needed a real answer. **`createDemoWorld` does default its jurisdiction to Lexington** — which would make Kentucky the universal normal start rather than one explicit scenario. Ordinary New Game never calls it: its only runtime callers are the Run-A fixture and three `src/ui` developer proof routes. Now pinned **behaviorally**. |
+| `portability-fixture.ts`          | No play-path consumer; on the graph only because the barrel re-exports it. Dev/test-only.                                                                                                                                                                                                                                                 |
 
 ## Proof
 

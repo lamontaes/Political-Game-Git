@@ -86,7 +86,7 @@ export const ART_REQUEST_ORIGINS: readonly ArtRequestOrigin[] = [
  *
  * `scope: "jurisdiction-independent"` is a real answer and the honest one for a
  * generic doorstep or an interior that looks the same in every state. It is not
- * the same as not knowing, and it is not a licence to reuse one plate
+ * the same as not knowing, and it is not a license to reuse one plate
  * everywhere — `asset-compatibility.ts` still decides reuse.
  */
 export type ArtRequestJurisdiction =
@@ -181,7 +181,7 @@ export const LANDSCAPE_FRAMED_OUTDOOR_CLASSES: readonly EnvironmentClass[] =
  * What a figure request has to declare about the body's posture.
  *
  * The case that proves the need: a person assigned to a chair was drawn by a
- * body plate labelled `seated` that is actually an upright figure with shorter
+ * body plate labeled `seated` that is actually an upright figure with shorter
  * legs. Every contact assertion passed — pelvis on the seat plane, soles on
  * the floor — and it still looked like someone standing behind the chair,
  * because "seated" was a filename rather than a checkable claim. So a figure
@@ -247,7 +247,7 @@ export interface ArtRequestConsumerSite {
    * `NO_DECLARED_CONSUMER` when the surface exists but is not declared.
    *
    * Required, and required to be one of those. It was optional, and promotion
-   * filled the gap with the string "unassigned", which then travelled into the
+   * filled the gap with the string "unassigned", which then traveled into the
    * integration payload and told integration to install the asset at a consumer
    * that does not exist. A plausible value standing in for an unknown one is
    * the failure this project keeps paying for; the question is cheap to answer
@@ -733,7 +733,7 @@ export function validateArtRequestIntake(
      * A figure request declares its posture, and a non-standing one says what
      * makes it that posture.
      *
-     * This is the seated-chair case: a plate labelled `seated` that is really
+     * This is the seated-chair case: a plate labeled `seated` that is really
      * a short upright figure passed every geometric contact check. The cues
      * are what a reviewer fails the wrong pose on, so a seated request without
      * them is a filename again.
@@ -862,7 +862,7 @@ export interface PromotionInputs {
 /**
  * The fields promotion cannot derive, each with what answering it means.
  *
- * Reported rather than defaulted. Every one of these is a judgement somebody
+ * Reported rather than defaulted. Every one of these is a judgment somebody
  * has to make and sign for; a default here would read to the Desk as an answer.
  */
 export function unfilledPromotionFields(

@@ -9,7 +9,7 @@ evidence.
 | PR   | merge commit | what a player gets                                                                                                                                                                                                                    |
 | ---- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | #282 | `ff50e872`   | One bill can carry several parts — different families, different subjects, each saying whether it inserts, amends or repeals existing law. Two appropriating parts become two separate spending authorities, never one summed figure. |
-| #300 | `93ed2fa5`   | Policy content arrives as provenance-declaring packs, so a catalogue can be loaded rather than spliced. Nothing ships in the packs yet.                                                                                               |
+| #300 | `93ed2fa5`   | Policy content arrives as provenance-declaring packs, so a catalog can be loaded rather than spliced. Nothing ships in the packs yet.                                                                                                 |
 | #306 | `5448ddf5`   | A bill can name the policy question it is about, directly, instead of only through a quantitative alternative.                                                                                                                        |
 
 All three merged on local gates with CI unreported — the reason is in each
@@ -22,7 +22,7 @@ exact commit. The browser shards were not run and are not claimed.
 propositions, subjects or principles, enforced by
 `assertProductionCatalogBoundary`. The 2704-line bill lifecycle is finished
 and has nothing to be about. #300 and #306 together build the two halves of
-the join that a loaded catalogue will attach to — packs to carry content in,
+the join that a loaded catalog will attach to — packs to carry content in,
 and a measure that can name a proposition once it is there — but neither
 ships content, because content is a product decision, not an engineering one.
 
@@ -49,7 +49,7 @@ regenerating on top — never by picking lines out of a generated file.
 
 The one `validate` conclusion any of these branches got reads
 `repository=cancelled, unit=cancelled, browser=cancelled` — the aggregate job
-reporting that its three mandatory jobs were cancelled, not that a test failed.
+reporting that its three mandatory jobs were canceled, not that a test failed.
 It landed on a head three commits behind what merged. The repository runs two
 concurrent jobs and the queue has been hours deep, so each new head cancels its
 predecessor's queued run before that run reports. Anyone reading the merged

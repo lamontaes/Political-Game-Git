@@ -11,7 +11,7 @@ import type { EducationInstitution } from "./types";
  * preferred vintage by comparing `world.currentDate` against a hardcoded
  * "2025-07-01". A third vintage therefore could not be added by shipping data:
  * it needed an edit in each of those places, and until then a 2026-27 row
- * would have been silently labelled and dated as the older one.
+ * would have been silently labeled and dated as the older one.
  *
  * The window is arithmetic on the label, so any vintage works. The release
  * wording is genuinely per-vintage provenance and stays a table — but an
@@ -100,7 +100,7 @@ const RELEASE_LABELS: Readonly<
   "2025-26": {
     // IPEDS only. Schools and districts are CCD, a different collection with
     // its own release identifiers, so they get no entry here: the 2025-26 CCD
-    // release has been observed (preliminary, 14 July 2026, snapshot 1 Oct
+    // release has been observed (preliminary, July 14, 2026, snapshot 1 Oct
     // 2025) but its version suffix was never established, and last year's
     // "v0a" is not evidence for this year's. No school or district row is
     // dated 2025-26 today, so nothing loses wording by this; what it prevents

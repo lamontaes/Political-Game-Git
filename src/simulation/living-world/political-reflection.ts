@@ -18,7 +18,7 @@ import type {
  * A person comes to hold a political view, in the ordinary course of living.
  *
  * The weighing engine for this has existed since Stage 4 and has had exactly
- * one caller: `demo.ts`. So a world could load a full catalogue of propositions
+ * one caller: `demo.ts`. So a world could load a full catalog of propositions
  * and still contain nobody who held an opinion about any of them, which is the
  * empty-surface pattern — a screen a player reaches that is blank on an
  * ordinary day with nothing saying why.
@@ -160,7 +160,7 @@ function openQuestionFor(
  * What this person has that bears on this question.
  *
  * NOTHING, TODAY, AND THAT IS THE FINDING RATHER THAN A STUB. A factor has to
- * favour one of the engine's outcomes, so supplying one means asserting which
+ * favor one of the engine's outcomes, so supplying one means asserting which
  * way something points. The only recorded thing a person holds that carries
  * its own direction is a `PrincipleRecord` — they endorse or reject a named
  * principle — and no proposition declares which principles it engages, so

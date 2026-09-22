@@ -1869,7 +1869,7 @@ const CARING: EpisodeFamily = {
 };
 
 /* -------------------------------------------------------------------------- */
-/* Adult — the neighbourhood, and where it can lead                            */
+/* Adult — the neighborhood, and where it can lead                            */
 /* -------------------------------------------------------------------------- */
 
 const NEIGHBOURHOOD: EpisodeFamily = {
@@ -2280,7 +2280,7 @@ const POLITICAL_APPROACH: EpisodeFamily = {
         { kind: "days-since-stage", stage: "the-ask", days: 200 },
       ],
       lines: [
-        "The letter worked. Two of the streets came off the list, and the two that stayed on are the ones with nobody organised in them.",
+        "The letter worked. Two of the streets came off the list, and the two that stayed on are the ones with nobody organized in them.",
         "Somebody who lives in one of them stops you outside the shop to ask what happened.",
       ],
       stakes: "pressing",

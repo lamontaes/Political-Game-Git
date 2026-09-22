@@ -1,5 +1,6 @@
 import {
   activeCampaignForCandidate,
+  campaignForCandidate,
   campaignTreasuryPosition,
   campaigns,
 } from "../campaign-queries";
@@ -603,11 +604,7 @@ export function pressLedgerReviewHandler(
   const actor = occurrence.actorPersonIds[0]!;
   if (
     campaign &&
-    !pressRecordByKey(
-      next,
-      "matter",
-      candidatePaymentsMatterKey(campaign.id),
-    ) &&
+    !candidatePaymentsRound(next, campaign).open &&
     next.history.events.some(
       (event) =>
         event.type === "matter.internal-concern-raised" &&
@@ -814,15 +811,22 @@ function bookkeeperGoesOutside(
   if (evaluation.selectedOptionKey !== "report-outside") {
     return status("press:bookkeeper-stayed-silent");
   }
+  const round = candidatePaymentsRound(next, campaign);
+  const occurrences = undecided(
+    candidatePaymentOccurrences(next, campaign, actor, next.currentDate),
+    round,
+  );
+  if (occurrences.length === 0) return status("press:nothing-new-to-report");
   const opened = openCandidatePaymentsMatter(
     next,
     campaign,
     actor,
-    candidatePaymentOccurrences(next, campaign, actor, next.currentDate),
+    occurrences,
     discovery.id,
+    round.key,
   );
   next = fileComplaint(opened.world, {
-    stableKey: `${candidatePaymentsMatterKey(campaign.id)}:staff-complaint`,
+    stableKey: `${round.key}:staff-complaint`,
     matterId: opened.matter.id,
     complainantPersonId: bookkeeper,
     procedureKey: procedureForSubject(opened.world, actor, campaign),
@@ -859,6 +863,83 @@ export const CANDIDATE_PAYMENTS_REPORTED_EVENT =
  */
 export function candidatePaymentsMatterKey(campaignId: EntityId): string {
   return `press46:candidate-payments:${campaignId}`;
+}
+
+interface CandidatePaymentsRound {
+  /** The stable key of the matter now open, or of the next one to open. */
+  readonly key: string;
+  readonly open: MatterRecord | null;
+  /** Payments a closed matter already decided, found or dismissed. */
+  readonly decidedFlowIds: ReadonlySet<EntityId>;
+}
+
+/**
+ * One matter at a time about a campaign paying its candidate. Once it closes,
+ * payments it did not cover start the next one: a finding does not license
+ * what the candidate takes afterwards (Lucia replay, 2026-09-22: 27 payments
+ * after a July finding were never charged). The first round keeps the key it
+ * always had, so existing saves read the same.
+ */
+function candidatePaymentsRound(
+  world: World,
+  campaign: CampaignRecord,
+): CandidatePaymentsRound {
+  const base = candidatePaymentsMatterKey(campaign.id);
+  const matters = pressRecordsOfKind(world, "matter").filter(
+    (matter) =>
+      matter.stableKey === base ||
+      matter.stableKey.startsWith(`${base}:round:`),
+  );
+  const closed = (matter: MatterRecord) => {
+    const proceedings = pressRecordsOfKind(world, "matter-proceeding").filter(
+      (proceeding) => proceeding.matterId === matter.id,
+    );
+    return (
+      proceedings.length > 0 &&
+      proceedings.every((proceeding) =>
+        proceedingSteps(world, proceeding.id).some((step) => step.closes),
+      )
+    );
+  };
+  const decidedFlowIds = new Set<EntityId>();
+  for (const matter of matters.filter(closed)) {
+    const occurrence = pressRecordsOfKind(world, "financial-occurrence").find(
+      (record) => record.id === matter.occurrenceId,
+    );
+    for (const flowId of occurrence?.resourceFlowIds ?? [])
+      decidedFlowIds.add(flowId);
+    for (const link of pressRecordsOfKind(world, "matter-evidence-link")) {
+      if (link.matterId !== matter.id) continue;
+      const artifact = world.history.evidenceArtifacts.find(
+        (row) => row.id === link.evidenceArtifactId,
+      );
+      if (artifact?.stableKey.startsWith(DISBURSEMENT_RECORD_KEY_PREFIX))
+        decidedFlowIds.add(
+          artifact.stableKey.slice(
+            DISBURSEMENT_RECORD_KEY_PREFIX.length,
+          ) as EntityId,
+        );
+    }
+  }
+  const last = matters.at(-1);
+  if (last && !closed(last))
+    return { key: last.stableKey, open: last, decidedFlowIds };
+  return {
+    key: matters.length === 0 ? base : `${base}:round:${matters.length + 1}`,
+    open: null,
+    decidedFlowIds,
+  };
+}
+
+function undecided(
+  occurrences: readonly FinancialOccurrenceRecord[],
+  round: CandidatePaymentsRound,
+): readonly FinancialOccurrenceRecord[] {
+  return occurrences.filter((occurrence) =>
+    occurrence.resourceFlowIds.some(
+      (flowId) => !round.decidedFlowIds.has(flowId),
+    ),
+  );
 }
 
 /** M1 occurrences in which the committee paid `candidateId`, by `through`. */
@@ -899,8 +980,8 @@ function openCandidatePaymentsMatter(
   candidateId: EntityId,
   occurrences: readonly FinancialOccurrenceRecord[],
   originEventId: EntityId,
+  stableKey: string,
 ): { readonly world: World; readonly matter: MatterRecord } {
-  const stableKey = candidatePaymentsMatterKey(campaign.id);
   const opened = openMatter(world, {
     stableKey,
     family: "M1",
@@ -965,22 +1046,16 @@ export function produceCampaignFinanceScrutiny(world: World): World {
 function linkLaterReportedPayments(world: World): World {
   if (world.control.kind !== "person") return world;
   const playerId = world.control.personId;
-  const campaign = activeCampaignForCandidate(world, playerId);
+  const campaign = campaignForCandidate(world, playerId);
   if (!campaign) return world;
-  const matter = pressRecordByKey(
-    world,
-    "matter",
-    candidatePaymentsMatterKey(campaign.id),
-  );
+  const round = candidatePaymentsRound(world, campaign);
+  const matter = round.open;
   if (!matter) return world;
-  const stillOpen = pressRecordsOfKind(world, "matter-proceeding").some(
-    (proceeding) =>
-      proceeding.matterId === matter.id &&
-      !proceedingSteps(world, proceeding.id).some((step) => step.closes),
-  );
-  if (!stillOpen) return world;
-  const reported = reportedCandidatePayments(world, campaign, playerId).map(
-    (row) => row.occurrence,
+  const reported = undecided(
+    reportedCandidatePayments(world, campaign, playerId).map(
+      (row) => row.occurrence,
+    ),
+    round,
   );
   return reported.length === 0
     ? world
@@ -990,13 +1065,14 @@ function linkLaterReportedPayments(world: World): World {
         playerId,
         reported,
         matter.originEventId,
+        round.key,
       ).world;
 }
 
 function produceCandidatePaymentReports(world: World): World {
   if (world.control.kind !== "person") return world;
   const playerId = world.control.personId;
-  const campaign = activeCampaignForCandidate(world, playerId);
+  const campaign = campaignForCandidate(world, playerId);
   if (!campaign) return world;
   const reports = world.history.events.filter(
     (event) =>
@@ -1108,17 +1184,17 @@ function reportedCandidatePayments(
 function produceRegulatorReview(world: World): World {
   if (world.control.kind !== "person") return world;
   const playerId = world.control.personId;
-  const campaign = activeCampaignForCandidate(world, playerId);
+  const campaign = campaignForCandidate(world, playerId);
   if (!campaign) return world;
   if (procedureForSubject(world, playerId, campaign) === "fec-enforcement")
     return world;
-  if (
-    pressRecordByKey(world, "matter", candidatePaymentsMatterKey(campaign.id))
-  )
-    return world;
+  const round = candidatePaymentsRound(world, campaign);
+  if (round.open) return world;
   const body = generatedStateOversightBody(world, campaign.jurisdictionId);
   if (!body) return world;
-  const reported = reportedCandidatePayments(world, campaign, playerId);
+  const reported = reportedCandidatePayments(world, campaign, playerId).filter(
+    (row) => undecided([row.occurrence], round).length > 0,
+  );
   const first = reported[0];
   if (
     !first ||
@@ -1126,7 +1202,10 @@ function produceRegulatorReview(world: World): World {
   )
     return world;
   let next = recordWorldEvent(world, {
-    stableKey: `press46:regulator-review:${campaign.id}`,
+    stableKey:
+      round.key === candidatePaymentsMatterKey(campaign.id)
+        ? `press46:regulator-review:${campaign.id}`
+        : `press46:regulator-review:${round.key}`,
     type: "matter.report-review-flagged",
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
@@ -1159,10 +1238,11 @@ function produceRegulatorReview(world: World): World {
     playerId,
     reported.map((row) => row.occurrence),
     flagged.id,
+    round.key,
   );
   next = opened.world;
   return openProceeding(next, {
-    stableKey: `${candidatePaymentsMatterKey(campaign.id)}:regulator-review`,
+    stableKey: `${round.key}:regulator-review`,
     matterId: opened.matter.id,
     procedureKey: "generated-state-oversight",
     complainantPersonId: null,
@@ -1182,12 +1262,16 @@ function produceRegulatorReview(world: World): World {
 function produceCandidatePaymentComplaint(world: World): World {
   if (world.control.kind !== "person") return world;
   const playerId = world.control.personId;
-  const campaign = activeCampaignForCandidate(world, playerId);
+  const campaign = campaignForCandidate(world, playerId);
   if (!campaign) return world;
-  const stableKey = candidatePaymentsMatterKey(campaign.id);
-  if (pressRecordByKey(world, "matter", stableKey)) return world;
-  const occurrences = reportedCandidatePayments(world, campaign, playerId).map(
-    (row) => row.occurrence,
+  const round = candidatePaymentsRound(world, campaign);
+  if (round.open) return world;
+  const stableKey = round.key;
+  const occurrences = undecided(
+    reportedCandidatePayments(world, campaign, playerId).map(
+      (row) => row.occurrence,
+    ),
+    round,
   );
   if (occurrences.length === 0) return world;
   const decisionKey = `${stableKey}:rival-decision:${occurrences.length}`;
@@ -1273,6 +1357,7 @@ function produceCandidatePaymentComplaint(world: World): World {
     playerId,
     occurrences,
     campaign.filingEventId,
+    round.key,
   );
   next = opened.world;
   const player = personName(next.people[playerId]!);

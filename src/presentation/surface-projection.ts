@@ -23,7 +23,7 @@ import { projectPublicInformationHeadline } from "./public-information-adapters"
  * a screen in a room is a rendering surface with the whole `World` behind it
  * and nothing between them. So there is something between them: every fact a
  * surface can show is enumerated below, is carried with the DISCLOSURE CHANNEL
- * it travelled down, and is derived from a projection that was already written
+ * it traveled down, and is derived from a projection that was already written
  * for a player to read. Nothing here reaches past that into private state.
  *
  * WHAT THIS DELIBERATELY DOES NOT DO. It does not read a person's mind,
@@ -35,7 +35,7 @@ import { projectPublicInformationHeadline } from "./public-information-adapters"
  */
 
 /**
- * How widely a fact has travelled. A total order, smallest audience last.
+ * How widely a fact has traveled. A total order, smallest audience last.
  *
  * A ladder rather than a set of tags, because the question a surface asks is
  * always "is this at least as open as my pipe", and an ordering answers that
