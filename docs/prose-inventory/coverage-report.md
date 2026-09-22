@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 3139 |
 | INTENTIONALLY_NON_PLAYER_FACING | 7204 |
-| DIAGNOSTIC_OR_TEST | 8149 |
-| **NEEDS_CLASSIFICATION** | **10668** |
+| DIAGNOSTIC_OR_TEST | 8153 |
+| **NEEDS_CLASSIFICATION** | **10669** |
 
-Scanned 1201 files holding 115191 string
+Scanned 1201 files holding 115207 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -410,6 +410,7 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/player/WardrobeFigure.tsx` |
 | 4 | `src/player/politics/GovernmentBrowser.tsx` |
 | 4 | `src/player/politics/PublicServicePanel.tsx` |
+| 4 | `src/presentation/art-preview.ts` |
 | 4 | `src/presentation/browser-shell-state.ts` |
 | 4 | `src/presentation/complete-outfit.ts` |
 | 4 | `src/presentation/creator-hometown-page.ts` |
@@ -435,7 +436,6 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/player/ExecutiveWorkWorkspace.tsx` |
 | 3 | `src/player/JudicialOfficeWork.tsx` |
 | 3 | `src/player/PartyChapterSurface.tsx` |
-| 3 | `src/presentation/art-preview.ts` |
 | 3 | `src/presentation/calendar-campaign-life.ts` |
 | 3 | `src/presentation/campaign-life-actions.ts` |
 | 3 | `src/presentation/legislation-bundle-composition.ts` |
