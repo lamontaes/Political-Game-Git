@@ -1375,7 +1375,7 @@ export function openingLifeFamily(
         requires: [...requirements, ...circumstance],
         recordSceneContext: true,
         // `{who}` introduces the person with how the record relates them
-        // to the player ("Sierra Tucker, who you live with"). Authored only
+        // to the player ("Sierra Tucker, your housemate"). Authored only
         // where it ends a clause, because the introduction carries its own
         // comma and no closing one.
         lines: [

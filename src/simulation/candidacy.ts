@@ -5,10 +5,8 @@ import {
 } from "./candidacy-packs";
 import type { CandidacyPack, ElectiveOfficeOption } from "./candidacy-packs";
 import { ageOnDate } from "./dates";
-import {
-  lifePlaceByJurisdictionId,
-  stateJurisdictionForKey,
-} from "./life-places";
+import { lifePlaceByJurisdictionId } from "./life-places";
+import { chiefExecutiveJurisdictionId } from "./nationwide-world/government-jurisdiction";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import {
   localGoverningBodyCandidacyPack,
@@ -176,12 +174,39 @@ export function candidacyAuthority(
 }
 
 /**
+ * The minimum age an unread state's generated pack carries, or null.
+ *
+ * Null for every sourced rule, deliberately. A read value belongs to the
+ * sourced path, which words its refusal in the instrument's terms and carries
+ * its citation; letting it back in through here would hold a candidate to the
+ * same number twice and say the wrong thing about where it came from. The
+ * `game-profile` verification is what distinguishes the two, and it is set by
+ * the one function that draws these values, so a pack cannot present a drawn
+ * number as anything else.
+ *
+ * Reading the pack rather than re-drawing matters: `standInQualification` is
+ * deterministic, so a second call would agree today, and a gate that agrees by
+ * coincidence stops agreeing the moment either side is changed alone. The
+ * value a candidate is held to is the value the record shows, because it is
+ * the same value.
+ */
+function profileDrawnMinimumAge(
+  option: ElectiveOfficeOption | null,
+): number | null {
+  const rule = option?.qualification?.minimumAge;
+  if (!rule || rule.kind !== "known") return null;
+  if (rule.source.verification !== "game-profile") return null;
+  return typeof rule.value === "number" ? rule.value : null;
+}
+
+/**
  * Why a character cannot file. Each carries the sentence a player should read;
  * none of them is a number the player is asked to beat.
  */
 export type CandidacyBlockKind =
   | "no-sourced-office"
   | "below-game-adult-age"
+  | "profile-minimum-age"
   | "sourced-minimum-age"
   | "sourced-state-residence"
   | "unproved-district-residence"
@@ -476,7 +501,28 @@ export function candidacyEligibility(
   const sourcedMinimumAge = qualificationAssessments.some(
     (assessment) => assessment.field === "MINIMUM_AGE",
   );
-  if (
+  // A drawn rule that is recorded and never enforced is not the middle of the
+  // three states a rule can be in — it is the refusal wearing the generated
+  // rule's label. The pack for an unread state already carries a minimum age
+  // drawn from the national spread, disclosed as the game's own; this reads
+  // that same value rather than re-deriving it, so the number the record shows
+  // and the number a candidate is held to cannot drift apart.
+  const profileMinimumAge =
+    qualificationRules === null && !sourcedMinimumAge
+      ? profileDrawnMinimumAge(option)
+      : null;
+  if (profileMinimumAge !== null) {
+    if (age < profileMinimumAge) {
+      blocks.push({
+        kind: "profile-minimum-age",
+        // The requirement, and nothing else. A generated rule is shown exactly
+        // as a sourced one is: the player is not told that this office's rule
+        // was drawn, and the provenance stays in the record where an auditor
+        // looks for it.
+        reason: `This office asks for a candidate to be at least ${profileMinimumAge}.`,
+      });
+    }
+  } else if (
     qualificationRules === null &&
     !sourcedMinimumAge &&
     age < GAME_ADULT_CANDIDACY_AGE
@@ -489,8 +535,7 @@ export function candidacyEligibility(
   const livesElsewhere = executive
     ? lifePlaceByJurisdictionId(person.homeJurisdictionId)
         ?.stateJurisdictionKey !== executive.jurisdictionKey ||
-      input.jurisdictionId !==
-        stateJurisdictionForKey(executive.jurisdictionKey)?.id
+      input.jurisdictionId !== chiefExecutiveJurisdictionId(executive.stateUsps)
     : person.homeJurisdictionId !== input.jurisdictionId;
   if (livesElsewhere) {
     blocks.push({

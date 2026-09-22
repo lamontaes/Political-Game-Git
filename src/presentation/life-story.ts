@@ -110,7 +110,7 @@ export interface StoryOption {
 export interface ScenePerson {
   readonly personId: EntityId;
   readonly name: string;
-  /** "your mom", "who is in your class" — or null when no record says. */
+  /** "your mom", "your classmate" — or null when no record says. */
   readonly relationship: string | null;
   /** "Maya Pittman, your mom" — or just the name when nothing is known. */
   readonly introduction: string;
@@ -120,8 +120,8 @@ export interface ScenePerson {
  * Who is in the room, as one sentence.
  *
  * An introduction that carries a relation is an appositive — "Phoebe Akhtar,
- * who is in your class" — and an appositive has to be closed before the
- * sentence goes on, or the screen reads "Phoebe Akhtar, who is in your class
+ * your classmate" — and an appositive has to be closed before the
+ * sentence goes on, or the screen reads "Phoebe Akhtar, your classmate
  * is here" as one long noun. The comma belongs to the sentence, so it is put
  * in here rather than into the introduction, which other callers show on its
  * own.

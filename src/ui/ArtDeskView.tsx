@@ -62,6 +62,7 @@ import {
   assetFileStem,
   candidateNotes,
   cardIsUntagged,
+  cardOnDesk,
   cardMatchesFacet,
   familyLabel,
   filterCards,
@@ -86,7 +87,9 @@ const INPUTS_ROUTE = "/__dev/art-desk/inputs";
 const BENCH = "/__dev/artbench";
 
 interface BytesInfo {
-  readonly state: "verified" | "missing" | "hash-mismatch" | "not-a-raster";
+  /** "unchecked": the server has not verified these bytes yet (it will). */
+  readonly state:
+    "verified" | "missing" | "hash-mismatch" | "not-a-raster" | "unchecked";
   readonly note: string;
 }
 
@@ -110,6 +113,8 @@ interface BenchState {
   readonly sync: SyncInfo;
   readonly store: { readonly storeId: string; readonly dataRootLabel: string };
   readonly generatorAvailable: boolean;
+  /** Images still being checked in the background; poll sooner meanwhile. */
+  readonly bytesPending?: number;
   readonly notificationReadEventIds?: readonly string[];
 }
 
@@ -153,6 +158,11 @@ async function sha256Hex(data: BufferSource | string): Promise<string> {
 
 function localReviewOn(): boolean {
   return typeof __PG_BUILD_IDENTITY__ !== "undefined";
+}
+
+/** A small cached list image; the full original loads only in the detail. */
+function thumbUrl(candidateId: string, sha: string): string {
+  return `${BENCH}/thumb?candidateId=${encodeURIComponent(candidateId)}&sha256=${sha}`;
 }
 
 function originalUrl(candidateId: string, sha: string): string {
@@ -236,16 +246,25 @@ function Thumb({
   readonly bytes?: BytesInfo;
   readonly testId: string;
 }) {
-  if (candidate && bytes?.state === "verified") {
+  const [failedSha, setFailedSha] = useState<string | null>(null);
+  const failed = candidate !== undefined && failedSha === candidate.sha256;
+  // A row only asks for its own small thumbnail when it scrolls into view;
+  // the server checks that one image on demand if it has not yet.
+  if (
+    candidate &&
+    !failed &&
+    (bytes?.state === "verified" || bytes?.state === "unchecked")
+  ) {
     return (
       <img
         className={`art-desk-thumb${candidate.hasAlpha ? " art-desk-thumb--alpha" : ""}`}
         data-testid={testId}
-        src={originalUrl(candidate.candidateId, candidate.sha256)}
+        src={thumbUrl(candidate.candidateId, candidate.sha256)}
         alt=""
         loading="lazy"
         decoding="async"
         fetchPriority="low"
+        onError={() => setFailedSha(candidate.sha256)}
       />
     );
   }
@@ -367,10 +386,19 @@ export function ArtDeskView() {
 
   const reloadTicket = useRef(0);
   const inputsRequest = useRef<Promise<InputsReceipt | null> | null>(null);
+  // What the page has open, so the server checks those images first.
+  const deskFocus = useRef<{ tab: string; focus: readonly string[] }>({
+    tab: "",
+    focus: [],
+  });
   const reload = useCallback(async () => {
     const ticket = ++reloadTicket.current;
+    const { tab: openTab, focus } = deskFocus.current;
+    const query = new URLSearchParams();
+    if (openTab) query.set("tab", openTab);
+    if (focus.length) query.set("focus", focus.join(","));
     const [state] = await Promise.all([
-      getJson<BenchState>(`${BENCH}/state`).then((state) => {
+      getJson<BenchState>(`${BENCH}/state?${query}`).then((state) => {
         if (state && ticket === reloadTicket.current)
           setBench((previous) => {
             if (
@@ -416,9 +444,25 @@ export function ArtDeskView() {
   useEffect(() => {
     if (!privateAuthoring) return;
     void loadSession();
-    void reload();
-    const timer = setInterval(() => void reload(), 15_000);
-    return () => clearInterval(timer);
+    let live = true;
+    let timer: number | undefined;
+    // The desk updates once here and then only when the owner presses
+    // Sync now (or acts). The one exception is loading: while the server is
+    // still checking images it is asked again every 1.5 s, so they appear.
+    const poll = async () => {
+      let pending = 0;
+      try {
+        pending = (await reload())?.bytesPending ?? 0;
+      } catch {
+        /* Sync now retries */
+      }
+      if (live && pending > 0) timer = window.setTimeout(poll, 1500);
+    };
+    void poll();
+    return () => {
+      live = false;
+      window.clearTimeout(timer);
+    };
   }, [privateAuthoring, reload]);
 
   const projection = bench?.projection;
@@ -471,6 +515,8 @@ export function ArtDeskView() {
   const [selectedBuild, setSelectedBuild] = useState<SelectedArtBuild | null>(
     null,
   );
+  // Asked at startup and on Sync now, never on a timer.
+  const refreshSelectedBuild = useRef<() => void>(() => {});
   useEffect(() => {
     let live = true;
     const refresh = () =>
@@ -488,26 +534,29 @@ export function ArtDeskView() {
           if (live) setSelectedBuild(null);
         });
     refresh();
-    const timer = window.setInterval(refresh, 5000);
-    window.addEventListener("focus", refresh);
+    refreshSelectedBuild.current = refresh;
     return () => {
       live = false;
-      window.clearInterval(timer);
-      window.removeEventListener("focus", refresh);
+      refreshSelectedBuild.current = () => {};
     };
   }, []);
 
   const cards = useMemo(
     () =>
       projection && bench
-        ? artDeskCards(projection, selectedBuild).map((card) => {
-            const request = projection.requests[card.requestId]?.request;
-            return card.tabs.includes("requests") &&
-              request &&
-              !generationRequestReady(request, projection, bench.bytes)
-              ? { ...card, tabs: card.tabs.filter((tab) => tab !== "requests") }
-              : card;
-          })
+        ? artDeskCards(projection, selectedBuild)
+            .filter(cardOnDesk)
+            .map((card) => {
+              const request = projection.requests[card.requestId]?.request;
+              return card.tabs.includes("requests") &&
+                request &&
+                !generationRequestReady(request, projection, bench.bytes)
+                ? {
+                    ...card,
+                    tabs: card.tabs.filter((tab) => tab !== "requests"),
+                  }
+                : card;
+            })
         : [],
     [projection, bench, selectedBuild],
   );
@@ -601,6 +650,21 @@ export function ArtDeskView() {
     visibleCards.find((card) => card.key === selectedCardKey) ??
     visibleCards[0] ??
     null;
+  const openTab = tab === "notifications" ? lastArtworkTab.current : tab;
+  const focusKey = [viewedCandidateId, selectedCard?.leadCandidateId]
+    .filter((id): id is string => Boolean(id))
+    .join(",");
+  const focusUnchecked = focusKey
+    .split(",")
+    .some((id) => id && bench?.bytes[id]?.state === "unchecked");
+  useEffect(() => {
+    deskFocus.current = {
+      tab: openTab,
+      focus: focusKey ? focusKey.split(",") : [],
+    };
+    // An open image the server has not checked yet is checked right away.
+    if (focusUnchecked) void reload();
+  }, [openTab, focusKey, focusUnchecked, reload]);
   const allowedCandidateIds = advancedOpen
     ? (selectedRequest?.candidateIds ?? [])
     : selectedCard
@@ -829,6 +893,7 @@ export function ArtDeskView() {
       const response = await fetch(`${BENCH}/sync`, { method: "POST" });
       const status = (await response.json()) as SyncInfo;
       inputsRequest.current = null;
+      refreshSelectedBuild.current();
       await reload();
       setMessage(
         `Sync ${status.status}: ${status.pendingOutbox} unsynced event(s), ${status.pendingBatches.length} partial batch(es)${status.lastError ? `; ${status.lastError}` : ""}.`,

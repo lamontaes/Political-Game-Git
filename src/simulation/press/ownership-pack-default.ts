@@ -3,15 +3,29 @@ import type { OwnershipPack } from "./ownership-packs";
 /**
  * The ownership pack this build ships: fictional owners of the kinds that hold
  * American news outlets. Every name is a fictional composition; none is a real
- * company. The likelihoods, shares and review intervals are provisional
- * authored values, not measurements, and are expected to be replaced when the
- * real-world patterns come back from research.
+ * company.
+ *
+ * PLACEHOLDERS, NOT RESEARCH. Every number here is invented to make the system
+ * run, and none is a finding: the founding weights, review intervals,
+ * likelihoods, job-cut shares and asking prices, and which kinds of owner do
+ * what. Each is an open research question, filed as
+ * `media-owners-coordinating-their-outlets` (owner kinds and market share)
+ * and `what-coordinated-owner-practices-change-in-the-news` (what each kind
+ * does, what moves it, what outlets sell for). Replace them from the answers;
+ * do not tune them by feel.
  */
 export const DEFAULT_MEDIA_OWNERSHIP_PACK: OwnershipPack = {
   id: "media-ownership.default",
   provenance: {
     kind: "authored-fiction",
     note: "Fictional media owners and provisional coordination practices. Names, likelihoods and shares are game-authored, not real companies or measured behavior.",
+  },
+  // Placeholder prices, not market research; filed for research as
+  // what-coordinated-owner-practices-change-in-the-news.
+  askingPriceDollars: {
+    small: 150_000,
+    standard: 4_000_000,
+    major: 250_000_000,
   },
   practices: [
     {
