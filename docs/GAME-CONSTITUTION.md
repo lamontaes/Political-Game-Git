@@ -66,6 +66,6 @@ Any amendment must explicitly identify the affected principle and preserve an au
 
 30. The same simulation systems should operate in Observer Mode without a player character. A player may later take control of a persistent character and may branch the world.
 
-31. Civic systems should teach through faithful operation. Where practical, authority, procedure, elections, budgeting, legislation, courts, and institutional constraints should reflect the actual rules of the modeled jurisdiction. Explanations and sources should be available on demand rather than replacing the simulation with mandatory textbook tutorials.
+31. Civic systems should teach through faithful operation. Where practical, authority, procedure, elections, budgeting, legislation, courts, and institutional constraints should reflect the actual rules of the modeled jurisdiction. Explanations should be available on demand rather than replacing the simulation with mandatory textbook tutorials. Source and provenance references never appear on any player-facing surface, on demand or otherwise; provenance stays in the records, where auditors and the developer view read it. _(Amended by D-094, 2026-09-22. Previously: "Explanations and sources should be available on demand".)_
 
 32. Life creates political stakes. Time, rest, money, households, relationships, family obligations, health and life circumstances, and personal resources should create contextual constraints and opportunities rather than grindable universal meters or simple morality bonuses.

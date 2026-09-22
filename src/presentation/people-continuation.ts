@@ -17,6 +17,7 @@ import {
   waitThenContinue,
   type SuccessorRelation,
 } from "../simulation/people-continuation";
+import { describePersonContext } from "../simulation/person-context";
 import { proseDate } from "./prose-dates";
 
 /**
@@ -29,22 +30,34 @@ import { proseDate } from "./prose-dates";
  * `world.control.personId`; the save is the same World.
  */
 
-const RELATION_LABEL: Readonly<Record<SuccessorRelation, string>> = {
-  child: "child",
-  grandchild: "grandchild",
-  sibling: "sibling",
-  partner: "partner",
-  protege: "someone they taught",
-  "close-associate": "someone they kept up with",
-  other: "no connection on record",
+/**
+ * What the successor was to the life that ended, from that life's side, when
+ * the shared relationship reader has no more specific word. Said the way the
+ * People screen and the room say it ("your housemate"), because the player
+ * choosing is the person whose life this was.
+ */
+const RELATION_LABEL: Readonly<Record<SuccessorRelation, string | null>> = {
+  child: "your child",
+  grandchild: "your grandchild",
+  sibling: "your sibling",
+  partner: "your partner",
+  parent: "your parent",
+  household: "your housemate",
+  protege: "someone you taught",
+  mentor: "your former teacher",
+  "close-associate": "someone you kept up with",
+  other: null,
 };
 
 export interface ContinuationChoice {
   readonly kind: "continue-as";
   readonly personId: EntityId;
   readonly name: string;
-  /** Their relation to the character whose life ended. */
-  readonly relation: string;
+  /**
+   * Who they were to the character whose life ended, from that life's side:
+   * "your father", "your housemate". Null for somebody with no tie on record.
+   */
+  readonly relation: string | null;
   /**
    * True for the people this life was actually bound to. The rest are offered
    * below them, as what they are: other lives, going on anyway.
@@ -100,7 +113,9 @@ export function projectLifeContinuation(
         kind: "continue-as",
         personId: candidate.personId,
         name: successorName,
-        relation: RELATION_LABEL[candidate.relation],
+        relation:
+          describePersonContext(world, playedPersonId, candidate.personId)
+            ?.relationship ?? RELATION_LABEL[candidate.relation],
         prominent: candidate.prominent,
         connection: candidate.connection,
         age: candidate.age,
