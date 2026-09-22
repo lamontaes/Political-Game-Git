@@ -47,6 +47,24 @@ promotes the next. That is four presses in a row, not four things to find.
 **The honest sentence is "the clock is unstuck", not "the life is free".** A
 committed week books four sessions and each one stops time in turn.
 
+## Confirmed in a second town, on a differently shaped week
+
+Measured 2026-09-22 10:55Z in **Denver, Colorado**, where a committed week
+holds six bookings rather than Baltimore's four. Three of them carry the
+journey refusal and are given up one at a time; the remaining three — a
+fundraising call, a journey to a public meeting, and the meeting — refuse to
+be performed and are never offered for give-up.
+
+That looked at first like the guard failing to cover this shape. It is not.
+With those three still on the calendar and no give-up control on any screen,
+the week control moves a full seven days, six presses running: 12, 19, 26
+January, 2, 9, 16 February. **A booking that refuses to be performed is not
+necessarily a booking that stops time**, and only the ones that stop time need
+a way out.
+
+So the guard holds in both towns, at three presses in Denver and four in
+Baltimore, and the number is a property of the week rather than a constant.
+
 ## The weight this puts on the design question
 
 The three options at the end of the deadlock document are still open and still

@@ -20,11 +20,11 @@ recommended in it.
 
 ## The list to click through
 
-> **Read this before you click anything: do not merge #283.** The version
-> GitHub has breaks main's typecheck, and the version that is green exists
-> only inside another session's container. It is a draft and currently
-> conflicted, so the button is not live — but if you make it live, it lands
-> broken. The full reproduction is in its entry below.
+> **The do-not-merge on #283 is LIFTED, as of 10:30Z.** An earlier version of
+> this banner said not to click it. That warning was about `eb80bbc1`, which
+> is no longer the head. The branch pushed at last and the break is gone:
+> merging **`54f9cbfe`** with `main` at `c659f256` typechecks clean, verified
+> here rather than taken on report. Its entry below says what it needs now.
 
 **Final state, refreshed against `origin/main` at `af6b379b`, 08:40Z.** The
 train has run. This section is what is left, not what was planned — where the
@@ -70,42 +70,48 @@ run.
   because that fixture asserts the _sentence_, not the verdict. Checked on
   `af6b379b` rather than taken from the hold note. It needs the fix-main lane's
   fixture patch first.
-- **#283 — DO NOT MERGE. Not "held". Do not click it.** Every state has a
-  legislature, the District governs itself — and **merging the version GitHub
-  has breaks main's typecheck.** Reproduced at 09:20Z rather than relayed:
-  merge `origin/main` at `1c4a2d85` into this pull request's pushed head
-  `eb80bbc1`, resolve the conflicts, and `npm run typecheck` fails with
+- **#283 — the do-not-merge is lifted; it is a draft until its checks
+  report.** Every state has a legislature and the District governs itself.
+  The branch is now on GitHub at **`54f9cbfe`**, and the typecheck break that
+  made an earlier version of this entry say "do not click it" is fixed in
+  that head.
 
-  ```
-  src/presentation/legislation-bundle-docket.ts(17,3): error TS2305:
-  Module '"../simulation/legislation-drafting"' has no exported member
-  'designationPrefix'.
-  ```
+  **Verified rather than relayed, at 10:30Z**, to the same standard the
+  warning was: merge `origin/main` at `c659f256` into `54f9cbfe` and
+  `npm run typecheck` is clean. Only `docs/prose-inventory/README.md` and
+  `coverage-report.md` conflict, both generated; there is no source conflict
+  at all now, where the earlier head also conflicted in
+  `office-qualification-rules.ts`.
 
-  Main added `src/presentation/legislation-bundle-docket.ts` in `bcee3aed`
-  and that file does not exist on `eb80bbc1`. `designationPrefix` is exported
-  at `src/simulation/legislation-drafting.ts:825` on main, and `eb80bbc1`
-  removes that export, because this branch relocated the prefix onto the
-  chamber record. Neither file conflicts: one is new to main, the deletion is
-  in a different hunk of the other. **Git merges them cleanly and only
-  typecheck catches it.**
+  **How the push gate opened is not established.** The nationwide lane does
+  not know, this lane did not open it, and the coordinator session states it
+  did not either. lamontae has sent nothing since 05:35Z. So the record says
+  it is unknown, rather than letting "a session approved it" become the story
+  by default.
 
-  The green the nationwide lane reports — 4,229 tests, zero failures, twice
-  over — is real and is **on a commit that only exists inside its container.**
-  That session's permission classifier refuses `git push`, so the green
-  version and the clickable version are different commits, and only the broken
-  one is reachable from the button.
+  **The near miss is worth keeping.** For roughly an hour the commit reachable
+  from this pull request's merge button would have broken `main`'s typecheck,
+  under standing authority to merge, and nothing stood between it and a merge
+  except a reproduction and a banner. It was caught by merging the two heads
+  and running the gate — not by reading the diff, which shows no conflict, and
+  not by reading the lane's own report, which was green on a commit nobody
+  else could see. That is D-087 earning its place the same night it was
+  written.
 
-  Two things currently stand between this and a broken main, and neither is
-  load-bearing on its own: it is a **draft**, and GitHub reports it
-  `mergeable_state: dirty`, so the merge button is not live at 09:20Z. Both
-  of those go away the moment somebody resolves the conflict and marks it
-  ready.
+- **#292 — ready, but NOT clickable yet: it conflicts with main.** The
+  district-residence clock. Head `c7c19744`, out of draft. GitHub reports
+  `mergeable_state: dirty` at 10:27Z, so the merge button is not available
+  until someone merges `main` into it. Stated because it reached this document
+  described as clickable as soon as its checks report, and a base merge is
+  needed first.
 
-  **What it needs:** the push gate opened in the nationwide lane's session, by
-  an approval prompt there or a Bash rule in settings, so the commit that is
-  actually green can reach GitHub. That is lamontae's to clear and nobody
-  else's.
+- **#305 — the Congress faction view, held by its own lane on purpose.** Head
+  `e1020cd6`, out of draft. Its lane declined to merge it and was right to:
+  the repository's own guidance puts consequential code with LAND, and there
+  is no CI run on the head that would actually be merged. Its one-line
+  justification, in its lane's words: the unit suite is green on its tree, and
+  every browser failure is attributed by name against the case list. So it is
+  a click for a human, not an omission.
 
 - **#305** and **#311** were reported ready earlier on heads that have since
   moved. Their evidence is older than the head each now carries, so they are
@@ -244,6 +250,36 @@ before you believe what it says about the place.
 manufactures confidence rather than merely withholding it. Every one of these
 six produced a claim, and every one of those claims then travelled.
 
+**The mirror image, from the research-audit lane, and it is the same root.**
+Checking whether a browser failure was new, its first attempt printed
+**`1 failed` — and the browser had never started.** A harness that never ran a
+test body printed the line a genuine assertion failure prints. So beside "an
+instrument that fails by measuring nothing reports it as a pass" there is:
+**an instrument that fails to start can report it as a failure.** That one
+manufactures a defect rather than hiding one, and between them the two explain
+why one night produced both phantom findings and phantom clean results. The
+defence is identical either way: the instrument must show it engaged before
+its verdict means anything.
+
+**And a substantive finding that qualifies several of tonight's claims,
+including this lane's own.** The failure that lane was chasing **passes when
+run on its own, on current `main` and on the branch alike, and fails only when
+the whole shard runs together.** That is the third independent sighting of
+test interdependence, after the nationwide lane's two tests that answer
+differently depending on what runs alongside them. Three sightings is enough
+to state plainly rather than as a caveat: **some of this suite's results
+depend on what else is running.**
+
+It weakens every same-tree attribution made tonight **in both directions** —
+this lane's nine-for-nine match between the release's `browser (6, 8)` and
+main's, and the seventy-one-of-seventy-two match another lane reported. Those
+matches are still the best available evidence and they are no longer clean
+proof, and it is the likeliest single explanation for the timeout family in
+the case list. It also makes "run it again on its own" a **real diagnostic
+here rather than a flake excuse**: the difference is that it produces a
+specific reportable fact — passes alone, fails in company — instead of a
+second opinion.
+
 ## The release is parked, on purpose, and here is the trade
 
 A branch that re-merges `main` and regenerates `docs/prose-inventory/coverage-report.md`
@@ -268,18 +304,29 @@ started executing at 09:37Z — **fifty-seven minutes queued.** It survived
 because nothing pushed to the branch in that hour. Every earlier attempt died
 pending because something did.
 
-Shard by shard, read at 10:20Z, on `eb0abea1`:
+Shard by shard, read at 10:38Z, on `eb0abea1`:
 
 | Job              | Result                      | When                     |
 | ---------------- | --------------------------- | ------------------------ |
 | `unit (5, 6)`    | **green**                   | 09:38:32–09:43:48, 5m16s |
 | `browser (6, 8)` | **red**, 9 failed 54 passed | 09:46:55–10:04:29, 17.6m |
+| `browser (2, 8)` | **red**, 1 failed 74 passed | 10:15:32–10:32:17, 16.7m |
 | `browser (4, 8)` | running                     | since 10:06:06           |
-| `browser (2, 8)` | running                     | since 10:15:32           |
-| the other eleven | **still queued**            | —                        |
+| `unit (2, 6)`    | running                     | since 10:29:51           |
+| the other ten    | **still queued**            | —                        |
 
-**Two of fifteen have reported.** `repository`, five of the six unit shards and
-five browser shards had not started at 10:20Z.
+**Three of fifteen have reported.** `repository`, four of the six unit shards
+and five browser shards had not started at 10:38Z.
+
+**`browser (2, 8)`'s single failure is main's too, matched the same way.** It
+is `tests/e2e/docket-screenshots.spec.ts:47:1 › captures the five-minute click
+path`, failing at `docket-screenshots.spec.ts:72:52` on the first screenshot of
+the walk. That exact spec, line and title is already named in main's own
+not-passing inventory at `docs/BROWSER-SUITE-CASE-LIST.md:102`, classified
+there as an assertion failure rather than as artwork or a timeout. The release
+adds nothing to it either. It was not re-run, for the same reason as the shard
+below: the one re-run this lane is allowed is worth more spent on a failure
+that is _not_ already named on main.
 
 **The one red is main's, established by title rather than by shard number.**
 `browser (6, 8)` failed with exactly the nine spec-and-title pairs main's own
@@ -287,8 +334,8 @@ five browser shards had not started at 10:20Z.
 split. The fix-main lane independently reproduced all nine at `445441a5` the
 same way. The release adds nothing to them. It was not re-run: an identical
 match against the base branch is stronger than a second run of the same shard,
-and a re-run would cost 17.6 minutes out of the queue the other eleven shards
-are still sitting in. Recorded on the pull request as
+and a re-run would cost 17.6 minutes out of the queue the rest of the run is
+still sitting in. Recorded on the pull request as
 [a comment](https://github.com/lamontaes/Political-Game-Git/pull/277#issuecomment-5774630845).
 
 **Two of those nine were this lane's and are now fixed on `main` as #351** —
@@ -305,9 +352,9 @@ the run above.
 **What this means for the morning report.** At the rate the queue is moving —
 eight browser shards at 18 to 40 minutes each against roughly three slots — the
 release will not have a complete verdict by nine o'clock. **The honest sentence
-is that the 0.4.0 release has one green unit shard and one inherited red
-browser shard on `eb0abea1`, and thirteen jobs outstanding.** Not "the release
-is verified", and not "the release is failing" either.
+is that the 0.4.0 release has one green unit shard and two red browser shards
+on `eb0abea1`, both reds inherited from `main`, and twelve jobs outstanding.**
+Not "the release is verified", and not "the release is failing" either.
 
 ## Withdrawn: the three-menu-destinations claim, which is in a merge commit
 
