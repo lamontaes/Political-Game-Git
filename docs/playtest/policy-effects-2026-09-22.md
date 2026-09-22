@@ -137,16 +137,26 @@ _"An area unemployment rate is not a person's probability of unemployment."_
 These are not figures a law is allowed to move; moving them would be writing a
 number into a slot labelled as a real agency's published reading.
 
-There is a derived economic layer built on top — `deriveLaborMarketAt`
-(unemployment from labour force and employment counts), `derivePurchasingPowerAt`
-(real purchasing power from nominal income and a cost level),
-`deriveFiscalBalanceAt` (revenue against outlays). **Outside tests, nothing in
-the tree calls any of the three.** Their input metrics
-(`labor.force-count`, `labor.employed-count`, `prices.cost-level`,
-`income.aggregate-personal`, `government.revenue`, `government.outlays`) are
-exactly the kind the boundary above refuses. So the simulated economy exists,
-takes the right inputs, and is unreachable from a player's save in both
-directions at once.
+There is a derived economic layer built on top, and it is worth naming exactly,
+because it is the closest thing the game has to the machinery this question
+needs. Three derivations in `src/simulation/economy.ts`:
+
+| Derivation                | Inputs it requires                                                                                            | What it produces                                                                                        | Could an enacted law supply the input?                                                                                                                                                                     |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `deriveLaborMarketAt`     | `population.resident-count`, `labor.force-count`, `labor.employed-count`, all exact `count:people` quantities | resident population, labour force, employed, unemployed, and an **unemployment rate** as an exact share | Not directly. A law does not hire or fire anyone. It would have to move employment through an intermediate the game does not have.                                                                         |
+| `derivePurchasingPowerAt` | `income.aggregate-personal` (money), `prices.cost-level` (an `index:cost-level` quantity)                     | real purchasing power of that income                                                                    | Partly. A law that transfers money could plausibly move aggregate personal income; nothing in the game has any claim on a cost level.                                                                      |
+| `deriveFiscalBalanceAt`   | `government.revenue`, `government.outlays`, matching scope and interval                                       | revenue against outlays                                                                                 | **Yes, and this is the one.** The tax route already collects real money into a named public account and an appropriation already spends from it. Those two are revenue and outlays in everything but name. |
+
+**Outside tests, nothing in the tree calls any of the three.** Every input metric
+above is exactly the kind `assertProductionCatalogBoundary` refuses by name. So
+the simulated economy exists, takes well-specified exact inputs, guards its own
+identities (labour force cannot exceed population, employed cannot exceed labour
+force), and is unreachable from a player's save in both directions at once: the
+save may not hold its inputs, and no code asks it for its outputs.
+
+The shortest honest path from where the game is to a law moving a figure runs
+through `deriveFiscalBalanceAt`, because its two inputs are the only quantities
+in this game a law already moves for real.
 
 **3. There is no approval rating.** Searched the whole tree: the only support
 figure in the game is `campaign.candidate-support-share`, which is a campaign's
@@ -156,21 +166,31 @@ fails to move approval; approval is not a quantity this game keeps.
 
 ## A player-facing consequence worth naming
 
-The Docket workspace offers the player a private conditional fiscal estimate on
-a bill in front of them (`src/presentation/legislation-estimate-action.ts`, used
-by `src/player/DocketWorkspace.tsx`). It validates the player's office, the
-bill's provisions, the reference period and the money, and then looks for a
+First, what does work, because the distinction matters. `legislation-analysis.ts`
+separates two things on purpose: reading what a bill's sections _say_ they cost
+is arithmetic on the bill's own text, available in every world, recomputed when
+an amendment changes the provisions — and the Docket page shows it. Forecasting
+what the programme would _do_ needs a measured series and a baseline. The module
+says so in its own words: a new game carries neither, so it names the missing
+series rather than inventing a budget, an analyst or an impact.
+
+What does not work is the second one, and the player is still offered it.
+`DocketWorkspace.tsx:495` enables the estimate control whenever the bill states
+a ceiling and either authorizes or provides money and has no annual provision —
+a test about the bill, not about whether an estimate is possible. Pressing it
+runs `legislation-estimate-action.ts`, which validates the office, the
+provisions, the reference period and the money, and then looks for a
 `government.outlays` metric and a `mechanism.linear-transition` causal mechanism.
-Neither can exist in a production save — the boundary above forbids both. So the
-route always ends at:
+Neither can exist in a production save — the boundary above forbids both. So for
+every money bill in a normal game the route ends at:
 
 > "A spending scenario cannot be calculated with the information currently
 > available."
 
 This is an honest refusal rather than a wrong number, which is the right
-failure. But it is a button a player can press, in a normal game, that can never
-produce a result, and the sentence does not say that no such estimate is
-possible in this build.
+failure. But the control is offered on the basis of the bill and refused on the
+basis of the world, so it can never succeed in a normal game, and the sentence
+reads as "not right now" when the truth is "not in this build".
 
 ## What would have to exist for an effect to be measurable
 

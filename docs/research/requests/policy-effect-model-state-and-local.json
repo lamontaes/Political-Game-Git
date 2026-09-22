@@ -5,7 +5,9 @@
   "notes": [
     "Nothing is blocked on this answer in the sense of being unable to proceed: the connection from a bill to its policy content, and from an enactment to an effect activation, can be built with a single authored contract in the way transit already is. What the answer decides is what content that connection is allowed to carry.",
     "A partial answer is useful. Even one quantity, with one response shape and one magnitude, would let the whole path be built end to end and measured, with everything else following the same pattern.",
-    "Worth challenging: the assumption that a law's effect should be on an aggregate figure at all. The tax route's effect is on one named account and it reads as consequential because the player can spend it. It may be that the right effects at state and local level are all of that kind — specific, named, spendable — and that aggregate figures are the wrong ambition."
+    "Worth challenging: the assumption that a law's effect should be on an aggregate figure at all. The tax route's effect is on one named account and it reads as consequential because the player can spend it. It may be that the right effects at state and local level are all of that kind — specific, named, spendable — and that aggregate figures are the wrong ambition.",
+    "If only one derivation can be answered, make it the fiscal one. Its two inputs, revenue and outlays, are the only quantities in this game that an enacted law already moves for real, so it is the shortest path from where the build is to a law moving a figure a player can see. A law's effect on unemployment is the hardest of the three, because a law does not hire or fire anyone and the game has no intermediate between a statute and a job.",
+    "The Docket page already shows what a bill's sections say they cost, which is arithmetic on the bill's own text and available in every world. The conditional forecast is the part that refuses. So the question is not 'can a player see a number about a bill' but 'can a number about the world respond to the bill'."
   ],
   "priority": "P1",
   "question": "When a state or local law is enacted, what should change in the world, by how much, and how long should it take? Specifically: which quantities is it defensible for a law to move at all at the state and local level; what shape does the response take over time (immediate, phased, delayed, decaying); how large should a typical effect be relative to the size of the law; and how should two laws passed close together combine when they touch the same quantity — do they add, does one dominate, or do they interact? A worked example of one ordinary state law and the figures a reasonable person would expect to see move over the following three years would settle most of this.",
@@ -28,6 +30,10 @@
     {
       "source": "src/simulation/tax-policy.ts and the funded-service route, the one working example",
       "whatItDidNotSettle": "Shows the shape of an effect that works: an enacted levy becomes operative on a date read off the enactment, collects into a named account, and an appropriation spends from that same account so the two laws interact. It is exact arithmetic on declared amounts, which is why it is defensible — and it is exactly why it cannot be the template for an effect on a population-level figure, where nothing is declared."
+    },
+    {
+      "source": "src/simulation/economy.ts, the three derivations, named exactly",
+      "whatItDidNotSettle": "deriveLaborMarketAt needs population.resident-count, labor.force-count and labor.employed-count as exact people counts and produces an unemployment rate; derivePurchasingPowerAt needs income.aggregate-personal and a prices.cost-level index; deriveFiscalBalanceAt needs government.revenue and government.outlays over a matching interval. None of the three has a caller outside tests, and every input metric is one the production boundary refuses by name. This settles what the machinery would accept and in what units. It does not say what a law should put into those slots, which is the whole question: of the three, only the fiscal-balance pair maps onto anything a law already moves, because the tax route collects real money into a named public account and an appropriation spends from it."
     }
   ],
   "title": "What a state or local law should actually do to a figure the world keeps",
