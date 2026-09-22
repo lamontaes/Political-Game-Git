@@ -54,7 +54,7 @@ Three states are distinguished throughout:
 | Episode families (life scenes with requirements) | 1 array entry, 1 file                                                                  | Developer-extensible     |
 | Episode _fact keys_ (new precondition)           | Union + producer, both in `life-episodes.ts`                                           | Developer-extensible     |
 | People traits                                    | **1 file, 1 edit — measured** (see the correction below)                               | Developer-extensible     |
-| Future-transition handlers (the scheduler)       | 1 import + 1 line in `campaigns.ts`                                                    | Developer-extensible     |
+| Future-transition handlers (the scheduler)       | 1 import + 1 line, or a composed registry from outside                                 | Developer-extensible     |
 | Decision consideration sources                   | 0 central edits — the type is open                                                     | Developer-extensible     |
 | State legislature rule packs                     | Hand-written object + 1 array line, 1 file (2566 lines)                                | Developer-extensible     |
 | Campaign/party activity forms                    | Union + parallel array + `Record` entry, 2 files                                       | Closed-ish               |
@@ -325,12 +325,36 @@ has not been done is a wiring gap, not an architectural one.
   is a deliberate, commented freeze, but it is a place where the mod API has
   already leaked into a gameplay function, and a second such leak is how a mod
   API stops being a contract.
-- **The scheduler spine is one hand-composed function.** Every system that acts
-  on its own over time registers a `FutureTransitionHandler`, which is the right
-  shape; but all ~18 registries are spread together inside one function in
-  `src/simulation/campaigns.ts:1790`. The game's entire autonomous-behaviour
-  wiring passes through one file named after campaigns, which is not where
-  anybody would look for it.
+- **The scheduler seam is open, and opening it further is not yet safe.**
+  Every system that acts on its own over time registers a
+  `FutureTransitionHandler`, and registries compose:
+  `composeFutureTransitionHandlerRegistries` is exported from
+  `src/simulation/future-transitions.ts:135` and is already used from five
+  modules outside it, including `src/presentation/life-time-handlers.ts:19`,
+  which layers a caller's own registry ahead of the ordinary one. The
+  composition root at `src/simulation/campaigns.ts:1777` composes fourteen
+  things, thirteen of which are already factored out as `create*Registry()`
+  calls or exported `*_HANDLERS` arrays, with one inline block of about ten
+  entries left. So this is a composition root, not a monolith, and a module
+  that wants to add a handler can.
+
+  The real finding is in how composition resolves, at
+  `future-transitions.ts:137-148`. **A shared key resolves first-match-wins by
+  argument order, with no duplicate detection** — the loop returns the first
+  registry that answers and nothing checks whether a later one also claimed the
+  key. And **`routine` is single-valued**: `registries.find(r => r.routine)`
+  takes the first, and every other registry's routine is silently dropped. Both
+  are safe today because one author controls the argument order in one place.
+  Both become silent shadowing the moment third-party content can register: a
+  pack could take over mortality or election day, or lose its routine entirely,
+  and nothing would say so.
+
+  This is the same shape as the headline. The extension point exists; what is
+  missing is the part that would make extending it safe. _What it would take:_
+  duplicate detection that names the two claimants, and a decision about what
+  more than one routine means. _(Corrected 2026-09-22 after the fix-main lane
+  re-measured an earlier, wrong version of this finding; every claim above was
+  re-verified here.)_
 
 ---
 
@@ -357,14 +381,14 @@ Against "modder-friendly like RimWorld and The Sims", the position is:
 
 Recorded, not fixed — this was an audit.
 
-| Finding                                                                                   | Evidence                                                       | Suggested owner                |
-| ----------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ------------------------------ |
-| `recordTraitChange` has no production caller; traits never change during play             | Measured: only 3 test files reference it                       | People and life                |
-| The played character has no trait records, so their temperament never enters any decision | Measured: all five `recordId: null` after `ensurePeopleTraits` | People and life                |
-| No legislative module produces a `mind:personality` consideration                         | Measured: 0 `traitConsiderations` in 13 of 23 decision callers | Modular legislation            |
-| Content packs refuse unknown fields rather than ignoring them with a reason               | Measured: `Content pack has missing or unsupported fields.`    | Product decision for the owner |
-| The content registry indexes content no gameplay path reads                               | Read: 2 consumers, both review surfaces                        | Hardcoded-content audit        |
-| The whole transition registry is composed inside `campaigns.ts`                           | Read: `src/simulation/campaigns.ts:1790`                       | Fix main                       |
+| Finding                                                                                                                 | Evidence                                                       | Suggested owner                |
+| ----------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ------------------------------ |
+| `recordTraitChange` has no production caller; traits never change during play                                           | Measured: only 3 test files reference it                       | People and life                |
+| The played character has no trait records, so their temperament never enters any decision                               | Measured: all five `recordId: null` after `ensurePeopleTraits` | People and life                |
+| No legislative module produces a `mind:personality` consideration                                                       | Measured: 0 `traitConsiderations` in 13 of 23 decision callers | Modular legislation            |
+| Content packs refuse unknown fields rather than ignoring them with a reason                                             | Measured: `Content pack has missing or unsupported fields.`    | Product decision for the owner |
+| The content registry indexes content no gameplay path reads                                                             | Read: 2 consumers, both review surfaces                        | Hardcoded-content audit        |
+| Registry composition resolves a duplicate key first-match-wins with no detection, and drops every routine but the first | Read: `src/simulation/future-transitions.ts:137-148`           | Fix main                       |
 
 ## Corrections to previously relayed claims
 
@@ -373,3 +397,9 @@ Recorded, not fixed — this was an audit.
   points across 3 files, and the union plus brace list are the fragile part.
 - The played build carries a runtime art snapshot layer that main does not, so
   any claim about art modularity must say which tree it was measured on.
+- **My own first version of the scheduler finding was wrong** and is corrected
+  above. It called `campaigns.ts` a monolith through which all autonomous
+  wiring passes. Thirteen of its fourteen arguments are already factored out,
+  and `composeFutureTransitionHandlerRegistries` is exported and used from five
+  other modules. Caught by the fix-main lane; the better finding underneath it
+  is the silent resolution of duplicate keys.
