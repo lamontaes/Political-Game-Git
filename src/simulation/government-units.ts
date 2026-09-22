@@ -192,6 +192,27 @@ export function countyGovernmentUnitsForPlace(
   );
 }
 
+/**
+ * The county areas a Census place lies in, largest land share first.
+ *
+ * Geography only, and deliberately distinct from
+ * `countyGovernmentUnitsForPlace`: that one answers "which county governments
+ * does this place have", and so drops a Virginia independent city, a
+ * consolidated city-county filed as a municipality, and every Connecticut
+ * place, because those places have no county government. Asking where a town
+ * physically is must not lose those places — a reader in Bristol, Virginia is
+ * still in a place with a landscape around it.
+ *
+ * Empty when the place is not in the 2020 files.
+ */
+export function countyGeoidsForPlace(placeGeoid: string): readonly string[] {
+  return [...(loadPlaceCountyParts().get(placeGeoid) ?? [])]
+    .sort(
+      (left, right) => right[1] - left[1] || left[0].localeCompare(right[0]),
+    )
+    .map(([countyGeoid]) => countyGeoid);
+}
+
 /** Every unit, in publisher id order. */
 export function allGovernmentUnits(): readonly GovernmentUnitIdentity[] {
   return [...load().byId.values()];

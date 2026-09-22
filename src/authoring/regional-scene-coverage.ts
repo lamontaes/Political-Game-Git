@@ -338,15 +338,20 @@ const MATCH_ORDER: readonly RegionalMatchLevel[] = ["place", "county", "state"];
 /**
  * Whether a county list can be reached from an ordinary town.
  *
- * It cannot, today, and the honest place for that fact is here rather than in
- * a report. A place GEOID is state plus place, not a county nesting code, so a
- * town's county cannot be derived from its identifier, and the runtime corpus
- * carries no place-to-county crosswalk. County selectors still work for a life
- * started at county scope, whose jurisdiction slug is `us-county-<geoid>`.
- * Until a crosswalk exists, a county list is coverage for fewer players than
- * it looks like, and the validator says so out loud.
+ * It can. This said otherwise until the crosswalk was found: a place GEOID is
+ * state plus place rather than a county nesting code, so a town's county
+ * genuinely cannot be derived from its identifier, and the conclusion drawn
+ * from that was that no crosswalk existed. One did —
+ * `src/simulation/place-county-relations.generated.ts`, the 2020 redistricting
+ * place-within-county parts for 31,617 places, the same vintage as the
+ * research — and nothing in this path was reading it.
+ *
+ * `regional-opening-plate.ts` now fills `countyGeoids` from it whenever the
+ * query carries a place, so a county selector reaches an ordinary town. That
+ * matters for what can be asked of research: county coverage is the form the
+ * geography is actually written in.
  */
-export const COUNTY_SELECTORS_REACH_TOWN_QUERIES = false;
+export const COUNTY_SELECTORS_REACH_TOWN_QUERIES = true;
 
 /**
  * Census divisions, as the Census Bureau draws them.

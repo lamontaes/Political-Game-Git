@@ -31,6 +31,7 @@ import {
   seasonOfIsoDate,
 } from "../authoring/regional-scene-coverage";
 import type { EntityId, World } from "../simulation";
+import { countyGeoidsForPlace } from "../simulation/government-units";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { optionalGlob } from "./optional-glob";
 
@@ -98,7 +99,7 @@ export function geoidsFromJurisdiction(
   const slug = world.jurisdictions?.[jurisdictionId]?.slug;
   if (slug) {
     const place = /^us-place-(\d{7})$/.exec(slug);
-    if (place) return { placeGeoid: place[1]! };
+    if (place) return withCounties(place[1]!);
     const county = /^us-county-(\d{5})$/.exec(slug);
     if (county) return { countyGeoids: [county[1]!] };
   }
@@ -113,9 +114,38 @@ export function geoidsFromJurisdiction(
    */
   const authored = lifePlaceByJurisdictionId(jurisdictionId);
   if (authored?.sourceGeoid && /^\d{7}$/.test(authored.sourceGeoid)) {
-    return { placeGeoid: authored.sourceGeoid };
+    return withCounties(authored.sourceGeoid);
   }
   return {};
+}
+
+/**
+ * A town and the counties it lies in, so a county selector can reach it.
+ *
+ * Without this a county selector was dead data: the query carried a place and
+ * nothing else, so a region declaring counties could never match a town, and
+ * the coverage validator warned about every one that tried. The crosswalk to
+ * resolve it was already in the repository — 2020 redistricting place-within-
+ * county parts, the same vintage as the research — and nothing was reading it
+ * here.
+ *
+ * It matters for the answer we can ask for: his geography is written in
+ * counties ("the lower, warmer parts of Pima, Pinal and Maricopa"), and a
+ * county answer is a great deal less work than enumerating every town in one.
+ *
+ * A place in several counties returns all of them, largest share first, and
+ * any of them matching is a match — a town straddling a county line is in both
+ * landscapes, and the resolver's own context filter is what decides between
+ * them.
+ */
+function withCounties(placeGeoid: string): {
+  placeGeoid: string;
+  countyGeoids?: readonly string[];
+} {
+  const counties = countyGeoidsForPlace(placeGeoid);
+  return counties.length > 0
+    ? { placeGeoid, countyGeoids: counties }
+    : { placeGeoid };
 }
 
 /**
