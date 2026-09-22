@@ -587,12 +587,23 @@ function synthesizeNationwidePlace(
   return {
     key: county ? `county:${geoid}` : geoid,
     displayName: named,
-    formalName:
-      resident === displayName
-        ? displayName === named
-          ? null
-          : displayName
-        : `${displayName}, ${stateName(usps)}`,
+    // The source row's own name, exactly as the accepted corpus carries it.
+    //
+    // This is a source-fidelity field, not a display one: `tests/county-places`
+    // projects every accepted county row and asserts this equals that row's
+    // `sourceName`. Appending the state here broke that — "Baltimore city"
+    // became "Baltimore city, Maryland" — and a qualifier being appended to a
+    // source name is precisely what that assertion exists to catch. What a
+    // resident says is `displayName`'s job and it keeps it.
+    //
+    // A county always carries its row's name, because every county row is
+    // asserted. A locality carries one only when it differs from what a
+    // resident says, since an ordinary town's formal name adds nothing.
+    formalName: county
+      ? displayName
+      : resident === displayName
+        ? null
+        : displayName,
     withinName: stateName(usps),
     context: {
       jurisdiction: {

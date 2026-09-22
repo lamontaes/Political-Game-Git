@@ -301,6 +301,20 @@
       "preservedUnits": [],
       "evidencePaths": [],
       "reason": "The preserved cargo is character components and environment plates. There is no prop in it, and no prop anywhere in the manifest: the only asset whose id matches a prop word is a seated character pose. The residence plate paints a folded newspaper on this table as its own decoration, which is the fallback this object would sit over rather than a preserved unit that could close the request."
+    },
+    {
+      "requestId": "ui-election-night-result",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Checked rather than assumed: the 20 manifest files carry 479 assets and not one id matches ui, card, panel, graph, chart, interface, newspaper or banner. The preserved packet is character components and environment plates. Election night is drawn entirely in markup today, so there is no preserved unit that could answer or restate this ask."
+    },
+    {
+      "requestId": "ui-local-party-chapter-card",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Same check, same answer: no interface artwork exists anywhere in the manifest's 479 assets, and the preserved cargo is characters and environments. The chapter card is markup and a fallback, not a plate, so nothing preserved bears on it."
     }
   ],
   "unlinkedPreservedAssets": [
