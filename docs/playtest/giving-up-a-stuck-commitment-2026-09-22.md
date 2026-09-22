@@ -85,3 +85,25 @@ did. Neither walk was wrong.
 So a walk's coverage is defined by which controls it presses, not by how much
 time it lets pass. No amount of passing time substitutes for pressing the
 thing a player would press.
+
+## What the guard was also catching, found later
+
+Walking Springfield, Illinois afterwards showed the guard doing a second job
+nobody asked it to. A player who asks a party for an organizing meeting, then
+presses "Make the journey" on the journey's own calendar row, completed the
+travel and was then offered **Give up on this** on the meeting itself — a
+commitment they had already walked to. The refusal underneath it said the game
+could not tell where they were standing.
+
+That was a separate defect, not this gap: the arrival was recorded only in the
+branch the destination's own button takes, so pressing the journey's row
+recorded nothing. It is fixed in PR #369 and written up in
+`making-the-journey-stranded-the-meeting-2026-09-22.md`.
+
+The correction to make here is about the guard, not the fix. **It was partly
+masking a bug rather than only bounding the campaign gap.** A control that
+releases any unperformable commitment will catch whatever makes one
+unperformable, including causes that are repairable — so the guard appearing
+somewhere is a signal worth chasing rather than a state to accept. It does not
+change the case for the guard, which is that a life must never have no legal
+move; it changes what seeing it should prompt.
