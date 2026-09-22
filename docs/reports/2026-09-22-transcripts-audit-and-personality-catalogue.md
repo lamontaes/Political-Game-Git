@@ -406,23 +406,40 @@ Nothing here was wired. This is a reading, not a change.
 
 ---
 
-## 4. Questions
+## 4. Both questions answered
 
-Three of the six drafted here were already answered and have been removed:
-the range rather than an average (above), whether a generated rule is visible
-in play (no — "NO references to sources in the game"), and how resistance to
-change is modelled (from the record chain, which the people-and-life lane has
-already put to him and is building).
+He answered both on 2026-09-22 at 04:11 UTC. He thinks aloud through several
+counts in that message and then lands; the final sentence is the answer.
 
-Two remain, one answer each, recommendation marked.
+**Wardrobe.**
 
-1. **The wardrobe count — is the audit's reading right?** Six outfits per body
-   profile (36 combinations) with shoes, hair and facial hair independently
-   selectable, which is where the "9 things to test" comes from.
-   *Recommendation: yes, treat the question as closed.*
+> "I wanted three formal outfits and then three regular outfits on each male
+> and female body type and then have the outfits be modular for the same
+> gender."
 
-2. **How many traits should a generated person carry?**
-   *Recommendation: three to five marked, the rest balanced.*
+So the authoring unit is **per gender, not per body**: six outfits for
+masculine (three formal, three regular) and six for feminine, each fitting all
+three bodies of its gender. **Twelve authored outfits, thirty-six fitted
+combinations.** That keeps the audit's count of 36 at ART-002 while correcting
+what has to be drawn — twelve garment sets, not thirty-six. Recolors still do
+not count toward it, and the "nine things to test" wording is superseded by his
+own correction.
+
+**Trait count.**
+
+> "start people with one or two traits and then... It will be adjusted."
+
+One or two marked traits on a generated person, explicitly provisional. My
+draft recommendation of three to five was wrong and is withdrawn. Nothing
+should be built that assumes a fixed count — which the trait proposal already
+respects, since a pack declares its own seeding spread.
+
+**And a standing instruction that changes where questions go.** He said design
+questions of that shape — how the simulated world should feel, as against a
+fact about our code or a decision only he can make — go to ChatGPT, which comes
+back to him with a report or with questions of its own. The trait count is
+filed as a research question on that basis, since he has given a starting
+answer and said plainly that it will move.
 
 ## 5. PERMANENT REMOVAL, resolved rather than asked
 
