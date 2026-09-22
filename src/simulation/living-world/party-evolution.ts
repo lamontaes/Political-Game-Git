@@ -640,6 +640,15 @@ function openInitiativeFor(world: World, personId: EntityId): boolean {
 }
 
 /**
+ * Separate occasions, not rows. The body can record the same question more than
+ * once on a day — the player route does exactly that — and two presses in one
+ * afternoon are not a dispute that keeps coming back.
+ */
+function occasionsOf(list: readonly PartyBodyDecisionRecord[]): number {
+  return new Set(list.map((decision) => decision.decidedAt)).size;
+}
+
+/**
  * An actor's own consideration of leaving to organize. Only their recorded,
  * repeated disagreement with this body's actual decisions counts, together
  * with whether anyone else on it shares that view. Staying is always there.
@@ -663,10 +672,20 @@ export function assessPartyInitiative(
     ]);
   }
   const ranked = [...disputes.entries()]
-    .filter(([, list]) => list.length >= PARTY_BODY_CADENCE.repeatedDisputes)
-    .sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]));
+    .map(
+      ([key, list]) =>
+        [key, list, occasionsOf(list)] as [
+          string,
+          PartyBodyDecisionRecord[],
+          number,
+        ],
+    )
+    .filter(
+      ([, , occasions]) => occasions >= PARTY_BODY_CADENCE.repeatedDisputes,
+    )
+    .sort((a, b) => b[2] - a[2] || a[0].localeCompare(b[0]));
   if (ranked.length === 0) return NONE;
-  const [questionKey, disputed] = ranked[0]!;
+  const [questionKey, disputed, occasions] = ranked[0]!;
   const stance = partyActorStance(world, personId, questionKey);
   if (stance.strength !== "defining") return NONE;
   const members = partyBodyMembers(world, organizationId);
@@ -713,7 +732,7 @@ export function assessPartyInitiative(
       sourceType: "institution:party-body-decision",
       direction: "supports",
       importance: "strong",
-      confidence: disputed.length >= 3 ? "high" : "medium",
+      confidence: occasions >= 3 ? "high" : "medium",
       explanation:
         "The body keeps deciding against what they hold most firmly.",
       sourceRefs: refs,

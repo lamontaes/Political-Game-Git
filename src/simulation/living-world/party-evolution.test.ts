@@ -488,3 +488,95 @@ describe("WORLD46 party organizations", () => {
     }
   });
 });
+
+describe("a member weighing whether to leave the body", () => {
+  let probe: World;
+
+  beforeAll(() => {
+    probe = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: "probe-c",
+        startAge: 30,
+        depth: "summarize-earlier-life",
+      }),
+    ).game!.world;
+  }, LONG);
+
+  /**
+   * Decide every question in one sitting, repeatedly, with no time passing.
+   * `decideInPartyBody` has no date gate, so a player can genuinely do this.
+   */
+  function decideOnce(world: World): World {
+    let next = world;
+    for (const chapter of homePartyChapters(next)) {
+      for (const question of PARTY_QUESTIONS) {
+        next = recordPartyBodyDecision(next, {
+          organizationId: chapter.organizationId,
+          questionKey: question.key,
+        });
+      }
+    }
+    return next;
+  }
+
+  function assessments(world: World) {
+    const found = [];
+    for (const chapter of homePartyChapters(world)) {
+      for (const personId of partyBodyMembers(world, chapter.organizationId)) {
+        const assessment = assessPartyInitiative(
+          world,
+          personId,
+          chapter.organizationId,
+          `test:${chapter.organizationId}:${personId}`,
+        );
+        if (assessment.kind !== "none") found.push(assessment);
+      }
+    }
+    return found;
+  }
+
+  it(
+    "does not read one afternoon of votes as a dispute that keeps coming back",
+    () => {
+      let world = probe;
+      for (let round = 0; round < 4; round += 1) world = decideOnce(world);
+      const decisions = partyBodyDecisions(
+        world,
+        homePartyChapters(world)[0]!.organizationId,
+      );
+      // Four rows per question, all on the same day: rows, not occasions.
+      expect(decisions.length).toBeGreaterThanOrEqual(8);
+      expect(
+        new Set(decisions.map((decision) => decision.decidedAt)).size,
+      ).toBe(1);
+      expect(assessments(world)).toEqual([]);
+    },
+    LONG,
+  );
+
+  it(
+    "lets somebody who keeps losing the same vote over months consider leaving",
+    () => {
+      let world = probe;
+      for (let round = 0; round < 4; round += 1) {
+        world = decideOnce(world);
+        world = advanceWorld(
+          world,
+          30,
+          createCampaignElectionTransitionRegistry(),
+        );
+      }
+      const found = assessments(world);
+      expect(found.length).toBeGreaterThan(0);
+      for (const assessment of found) {
+        expect(["founding", "split"]).toContain(assessment.kind);
+        expect(assessment.questionKey).not.toBeNull();
+        expect(assessment.allies.length).toBeGreaterThan(0);
+        expect(assessment.disputedDecisionIds.length).toBeGreaterThan(0);
+      }
+      assertWorldIntegrity(world);
+    },
+    LONG,
+  );
+});
