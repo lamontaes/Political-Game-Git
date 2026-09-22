@@ -26,20 +26,13 @@
   --pg-party-none: #8b93a1;
   --pg-orientation-open: #4a5466;
   color: var(--run-a-ink);
+}
+
+.pg-recap {
   background: linear-gradient(180deg, rgb(18 29 46 / 94%), rgb(11 19 32 / 96%));
   border: 1px solid var(--run-a-line);
   border-radius: 0.9rem;
   box-shadow: 0 1.2rem 3rem rgb(8 13 22 / 42%);
-}
-
-.pg-orientation {
-  position: relative;
-  z-index: 30;
-  width: min(40rem, calc(100vw - 2rem));
-  max-height: min(78vh, 44rem);
-  overflow-y: auto;
-  padding: 1.1rem 1.3rem 1.2rem;
-  margin: 1rem auto 0;
 }
 
 .pg-orientation-kicker {
@@ -246,7 +239,6 @@
   color: var(--run-a-muted);
 }
 
-.pg-orientation-actions,
 .pg-recap-actions {
   display: flex;
   flex-wrap: wrap;
@@ -309,123 +301,436 @@
   }
 }
 
+/*
+ * THE OPENING SEQUENCE, FULL SCREEN.
+ *
+ * Each card is the place it names: the scene fills the window, the officials
+ * stand in it, and the words sit on a scrim at the side. The layer is opaque
+ * from edge to edge so nothing of the room, a hotspot or another panel shows
+ * through a card. There is no camera motion; the one movement is the change of
+ * card, which fades the old card out to the dark ground before the new one
+ * fades in, so two cards' titles are never drawn over each other.
+ */
 .pg-orientation {
-  width: min(1000px, calc(100vw - 48px));
-  height: min(700px, calc(100dvh - 130px));
-  max-height: calc(100dvh - 130px);
+  --pg-orientation-ground: #0b1320;
+  --pg-orientation-panel: rgb(11 19 32 / 86%);
+  --pg-orientation-actions-height: 4.25rem;
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: var(--pg-orientation-ground);
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  transform: none;
+}
+
+/* A docked room layout must not pull the full-screen layer back into a
+ * window beside an NPC. */
+.life-shell .scene-backdrop-content[data-dock] > .pg-orientation {
+  position: fixed;
+  inset: 0;
+  left: 0;
+  top: 0;
+  transform: none;
+  max-width: none;
+  margin: 0;
+}
+
+.pg-scene-chapters {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  overflow: hidden;
+  background: var(--pg-orientation-ground);
+}
+.pg-scene-chapter {
+  grid-area: 1 / 1;
+  position: relative;
+  min-height: 0;
+  min-width: 0;
+  opacity: 1;
+}
+.pg-scene-chapter[data-stage="leaving"] {
+  pointer-events: none;
+}
+.pg-scene-chapters[data-ready="false"]
+  .pg-scene-chapter[data-stage="arriving"] {
+  opacity: 0;
+}
+/* Fade the old card out, then the new card in: 180ms + 20ms of ground +
+ * 200ms, inside SCENE_CHAPTER_CROSSFADE_MS (400ms). */
+.pg-scene-chapters[data-ready="true"] .pg-scene-chapter[data-stage="leaving"] {
+  animation: pg-chapter-leave 180ms ease-in both;
+}
+.pg-scene-chapters[data-ready="true"] .pg-scene-chapter[data-stage="arriving"] {
+  animation: pg-chapter-arrive 200ms ease-out 200ms both;
+}
+@keyframes pg-chapter-arrive {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes pg-chapter-leave {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* No fade at all: the arriving card is opaque and replaces the old one. */
+  .pg-scene-chapter {
+    animation: none !important;
+  }
+}
+
+/* One card. The stage is opaque on its own, so an arriving card covers the
+ * leaving one completely even when no fade runs. */
+.pg-orientation-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  isolation: isolate;
+  container-type: size;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgb(38 58 88 / 55%), transparent 60%),
+    linear-gradient(180deg, #13203a, var(--pg-orientation-ground));
+}
+
+.pg-orientation-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  margin: 0;
+}
+.pg-orientation-backdrop-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border: 0;
+  border-radius: 0;
+}
+.pg-orientation-backdrop-caption {
+  position: absolute;
+  /* Top left, clear of the people standing at the foot of the scene. */
+  left: clamp(1rem, 2.5vw, 2rem);
+  top: clamp(0.75rem, 2cqh, 1.5rem);
+  z-index: 3;
+  max-width: min(28rem, 40cqw);
+  margin: 0;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.78rem;
+  color: #d9d2c3;
+  background: rgb(11 19 32 / 72%);
+  border-radius: 3px;
+}
+
+/* The legibility scrim: darkest behind the words, clear over the people. */
+.pg-orientation-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0 38%,
+      rgb(8 13 22 / 55%) 58%,
+      rgb(8 13 22 / 82%) 100%
+    ),
+    linear-gradient(
+      0deg,
+      rgb(8 13 22 / 88%) 0,
+      transparent calc(var(--pg-orientation-actions-height) + 3rem)
+    );
+}
+.pg-orientation-stage[data-backdrop="neutral"] .pg-orientation-scrim {
+  display: none;
+}
+
+/* The words. */
+.pg-orientation-copy {
+  position: absolute;
+  z-index: 4;
+  right: clamp(1rem, 3vw, 3rem);
+  top: clamp(1rem, 4cqh, 2.5rem);
+  bottom: calc(var(--pg-orientation-actions-height) + 0.5rem);
+  width: min(34rem, 44cqw);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  justify-content: flex-end;
+  pointer-events: none;
 }
-.pg-orientation-reading {
+.pg-orientation-copy > * {
+  pointer-events: auto;
+}
+.pg-orientation-copy > .pg-orientation-kicker,
+.pg-orientation-copy > .pg-orientation-title,
+.pg-orientation-copy > .pg-orientation-summary,
+.pg-orientation-copy > .pg-orientation-reading {
+  background: var(--pg-orientation-panel);
+  padding-inline: 1.3rem;
+}
+.pg-orientation-copy > .pg-orientation-kicker {
+  margin: 0;
+  padding-top: 1.1rem;
+  padding-bottom: 0.35rem;
+  border-radius: 0.7rem 0.7rem 0 0;
+}
+.pg-orientation-copy > .pg-orientation-title {
+  margin: 0;
+  padding-bottom: 0.5rem;
+}
+.pg-orientation-copy > .pg-orientation-summary {
+  margin: 0;
+  padding-bottom: 0.8rem;
+}
+.pg-orientation-copy > .pg-orientation-reading {
   min-height: 0;
-  flex: 1;
-  overflow: auto;
+  flex: 0 1 auto;
+  overflow-y: auto;
+  padding-bottom: 1.1rem;
+  border-radius: 0 0 0.7rem 0.7rem;
+  scrollbar-gutter: stable;
 }
+.pg-orientation-copy > .pg-orientation-reading:empty {
+  padding-bottom: 0.4rem;
+}
+
+/* A card with no picture and nobody standing in it reads in the middle. */
+.pg-orientation-stage[data-layout="centered"] .pg-orientation-copy {
+  left: 50%;
+  right: auto;
+  width: min(44rem, calc(100cqw - 2rem));
+  transform: translateX(-50%);
+  justify-content: center;
+}
+
+/* The same when the only people who would stand there have no full-body art. */
+.pg-orientation-stage[data-backdrop="neutral"]:not(
+    :has([data-figure-status="ready"])
+  )
+  .pg-orientation-copy {
+  left: 50%;
+  right: auto;
+  width: min(44rem, calc(100cqw - 2rem));
+  transform: translateX(-50%);
+  justify-content: center;
+}
+
+.pg-orientation-kicker {
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--run-a-gold);
+}
+.pg-orientation-title {
+  font-size: clamp(1.45rem, 2.6cqw, 2.1rem);
+  line-height: 1.2;
+}
+.pg-orientation-title:focus-visible {
+  outline: 3px solid var(--run-a-focus);
+  outline-offset: 3px;
+}
+.pg-orientation-summary {
+  line-height: 1.5;
+}
+
+/* Back / Next / Skip, over the foot of every card. */
 .pg-orientation-actions {
-  flex-shrink: 0;
-}
-.pg-white-house-presentation {
-  position: relative;
-  min-height: 350px;
-  isolation: isolate;
-}
-.pg-opening-officials {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-  gap: 24px;
-  align-items: end;
-}
-.pg-opening-president,
-.pg-opening-vice-president {
-  min-width: 0;
-}
-.pg-opening-household {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  min-height: var(--pg-orientation-actions-height);
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  list-style: none;
-  padding: 0;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.7rem clamp(1rem, 3vw, 3rem);
+  background: linear-gradient(0deg, rgb(8 13 22 / 92%), rgb(8 13 22 / 0%));
 }
 
-.pg-opening-president {
+/* The officials who stand in a place, feet on the foot of the scene. */
+.pg-orientation-cast {
+  position: absolute;
+  z-index: 2;
+  left: clamp(1rem, 4cqw, 4rem);
+  right: calc(min(34rem, 44cqw) + clamp(2rem, 6cqw, 5rem));
+  bottom: calc(var(--pg-orientation-actions-height) + 0.5rem);
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(0.5rem, 2cqw, 2rem);
+  pointer-events: none;
+}
+.pg-orientation-cast-member {
   display: grid;
-  grid-template-columns: minmax(120px, 40%) minmax(0, 1fr);
-  align-items: end;
-  gap: 1rem;
+  justify-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+  flex: 0 1 auto;
 }
-.pg-opening-figure {
-  width: min(100%, 190px);
-  justify-self: center;
+.pg-orientation-cast-member > * {
+  pointer-events: auto;
 }
-.pg-opening-vice-president {
-  padding: 1rem;
-  border-radius: 0.6rem;
-  background: rgb(11 19 32 / 86%);
+.pg-orientation-cast-figure {
+  width: clamp(80px, min(13cqw, 26cqh), 220px);
+  filter: drop-shadow(0 0.6rem 0.8rem rgb(0 0 0 / 45%));
 }
-.pg-opening-president .pg-orientation-person {
-  background: rgb(11 19 32 / 90%);
+.pg-orientation-cast
+  .pg-orientation-cast-figure[data-figure-status="unavailable"] {
+  display: none;
+}
+.pg-orientation-cast-member[data-labelled="text"]:has(
+    [data-figure-status="unavailable"]
+  ) {
+  display: none;
+}
+.pg-orientation-cast-label,
+.pg-orientation-cast .pg-orientation-person {
+  display: grid;
+  gap: 0.05rem;
+  max-width: 14rem;
+  margin: 0;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.82rem;
+  text-align: center;
+  background: rgb(11 19 32 / 88%);
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.45rem;
+}
+.pg-orientation-cast-label span {
+  color: var(--run-a-muted);
 }
 
+/*
+ * The White House card. The measured composition covers the window the way
+ * the image would, so the two figures keep their places on the plate.
+ */
+.pg-white-house-presentation {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
 .pg-white-house-presentation[data-has-plate="true"] {
-  min-height: 0;
-  width: 100%;
+  inset: auto;
+  left: 50%;
+  top: 50%;
+  width: max(100cqw, calc(100cqh * var(--pg-plate-ratio, 1.7778)));
+  aspect-ratio: var(--pg-plate-ratio, 1.7778);
+  transform: translate(-50%, -50%);
+}
+.pg-scene-camera {
+  position: absolute;
+  inset: 0;
+  animation: none;
+  transform: none;
 }
 .pg-establishing-image {
   display: block;
   width: 100%;
-  height: auto;
-  border-radius: 0.5rem;
+  height: 100%;
+  object-fit: cover;
 }
-.pg-regional-opening-scene {
-  position: relative;
-  isolation: isolate;
-  min-height: 100cqh;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-  padding: 1rem;
-  background: #17202b;
-}
-.pg-regional-opening-backdrop {
+.pg-white-house-presentation[data-has-plate="true"] .pg-opening-officials,
+.pg-white-house-presentation[data-has-plate="true"] .pg-opening-president,
+.pg-white-house-presentation[data-has-plate="true"] .pg-opening-vice-president {
   position: absolute;
   inset: 0;
-  z-index: -1;
   display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+  padding: 0;
+  background: none;
 }
+.pg-white-house-presentation[data-has-plate="true"] .pg-opening-figure {
+  position: absolute !important;
+  left: var(--pg-figure-x);
+  top: var(--pg-figure-y);
+  width: var(--pg-figure-width);
+}
+.pg-white-house-presentation[data-has-plate="true"]
+  .pg-opening-vice-president
+  .pg-opening-figure {
+  left: 33%;
+  top: 37%;
+  width: 16%;
+}
+/* Without the plate the two officials stand at the foot of a plain ground. */
+.pg-white-house-presentation[data-has-plate="false"] .pg-opening-officials {
+  position: absolute;
+  left: clamp(1rem, 4cqw, 4rem);
+  right: calc(min(34rem, 44cqw) + clamp(2rem, 6cqw, 5rem));
+  bottom: calc(var(--pg-orientation-actions-height) + 0.5rem);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(0.5rem, 3cqw, 3rem);
+}
+.pg-white-house-presentation[data-has-plate="false"] .pg-opening-figure {
+  width: clamp(90px, min(14cqw, 30cqh), 230px);
+}
+.pg-opening-figure[data-figure-status="unavailable"] {
+  display: none;
+}
+.pg-opening-vice-president .person-portrait {
+  flex-direction: column;
+  align-items: center;
+  margin: 0 0 0.35rem;
+  text-align: center;
+}
+.pg-opening-vice-president .person-portrait figcaption > strong {
+  display: none;
+}
+.pg-opening-official-labels {
+  display: grid;
+  gap: 0.5rem;
+}
+.pg-opening-official-labels .pg-orientation-person {
+  background: rgb(24 37 58 / 80%);
+}
+
+/* The state card's reading surface: government, population, voting. */
 .pg-regional-state-information {
   display: flex;
   flex-direction: column;
-  max-height: calc(100cqh - 2rem);
-  width: min(46%, 31rem);
-  padding: 1rem;
-  border: 1px solid #7d8796;
-  border-radius: 0.5rem;
-  background: rgb(23 32 43 / 96%);
+  gap: 0.75rem;
   color: #f5efe2;
 }
-.pg-regional-card-body {
-  min-height: 0;
-  overflow-y: auto;
-  scrollbar-gutter: stable;
-}
 .pg-regional-card-body h3 {
-  margin-top: 0;
+  margin: 0 0 0.4rem;
+  font-size: 1rem;
 }
 .pg-regional-card-body a {
   color: #ead094;
   text-underline-offset: 0.15em;
 }
-.pg-regional-state-cards,
-.pg-regional-scene-navigation,
-.pg-regional-context {
-  flex-shrink: 0;
+.pg-state-overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.1rem;
+}
+.pg-state-overview > section {
+  min-width: 0;
 }
 .pg-state-voting-table-wrap {
   overflow-x: auto;
@@ -445,103 +750,12 @@
 .pg-state-voting-table-wrap td {
   white-space: nowrap;
 }
-.pg-regional-context {
-  margin: 0 0 0.75rem;
-  color: #ead094;
-  font-size: 0.875rem;
-}
 .pg-regional-scene-navigation {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
 }
-@media (max-width: 700px) {
-  .pg-regional-opening-scene {
-    min-height: 30rem;
-    padding: 0.5rem;
-    align-items: flex-end;
-  }
-  .pg-regional-opening-backdrop {
-    height: 65%;
-    object-position: top center;
-  }
-  .pg-regional-state-information {
-    width: 100%;
-  }
-}
-.pg-white-house-presentation[data-has-plate="true"] .pg-opening-officials {
-  position: absolute;
-  inset: 0;
-  display: block;
-}
-.pg-white-house-presentation[data-has-plate="true"] .pg-opening-president {
-  position: absolute;
-  inset: 0;
-  display: block;
-}
-.pg-white-house-presentation[data-has-plate="true"] .pg-opening-figure {
-  position: absolute !important;
-  left: var(--pg-figure-x);
-  top: var(--pg-figure-y);
-  width: var(--pg-figure-width);
-}
-.pg-white-house-presentation[data-has-plate="true"]
-  .pg-opening-president
-  .pg-orientation-person {
-  position: absolute;
-  left: 42%;
-  top: 64%;
-  width: 34%;
-  font-size: 0.85rem;
-}
-.pg-white-house-presentation[data-has-plate="true"] .pg-opening-vice-president {
-  position: absolute;
-  right: 2%;
-  bottom: 3%;
-  width: 21%;
-  padding: 0.4rem;
-}
-.pg-white-house-presentation[data-has-plate="true"]
-  .pg-opening-vice-president
-  .pg-orientation-person {
-  padding: 0.3rem;
-  font-size: 0.75rem;
-}
-.pg-title-establishing {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 65% center;
-}
-
-.pg-orientation-reading {
-  container-type: size;
-}
-/* The introduction is a window, so room-person docking must not squeeze it
- * into the narrow gap beside an NPC. Keep its navigation inside the viewport. */
-.life-shell .scene-backdrop-content[data-dock] > .pg-orientation {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  max-width: calc(100vw - 48px);
-  margin: 0;
-}
-.pg-opening-vice-president .person-portrait {
-  flex-direction: column;
-  align-items: center;
-  margin: 0 0 0.35rem;
-  text-align: center;
-}
-.pg-opening-vice-president .person-portrait figcaption > strong {
-  display: none;
-}
-.pg-white-house-presentation[data-has-plate="true"] {
-  width: min(100cqw, calc(100cqh * 1672 / 941));
-  margin-inline: auto;
-}
-
 .pg-regional-state-cards {
   display: flex;
   flex-wrap: wrap;
@@ -559,211 +773,94 @@
   color: #17202b;
   background: #ead094;
 }
+
+/* The population figure and its caption. */
+.pg-state-population-figure {
+  margin: 0;
+}
 .pg-state-population-number {
-  font-size: 1.4rem;
-  font-weight: 700;
-}
-.pg-regional-opening-scene[data-has-background="false"] {
-  min-height: 18rem;
-  justify-content: flex-start;
-}
-.pg-regional-opening-scene[data-has-background="false"]
-  .pg-regional-state-information {
-  width: 100%;
-}
-
-.pg-regional-opening-scene {
-  align-items: stretch;
-  padding: 1rem;
-}
-.pg-regional-state-information {
-  width: 100%;
-  max-height: none;
-  align-self: flex-end;
-}
-.pg-state-overview {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.4rem;
-  align-items: start;
-}
-.pg-state-overview > section {
-  min-width: 0;
-}
-@media (max-width: 960px) {
-  .pg-state-overview {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .pg-state-overview > section:first-child {
-    grid-column: 1 / -1;
-  }
-}
-@media (max-width: 620px) {
-  .pg-state-overview {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-.pg-opening-information-illustration {
-  margin: 0 0 1rem;
-}
-.pg-opening-information-illustration img {
-  width: 100%;
-  max-height: 46dvh;
-  object-fit: contain;
-}
-.pg-opening-information-illustration figcaption {
-  font-size: 0.8rem;
-  margin-top: 0.25rem;
-}
-
-/* Fit and camera motion are separate: every chapter's image, people and
- * surfaces belong to the same group; navigation remains outside it. */
-.pg-scene-chapters {
-  position: relative;
-  display: grid;
-  min-height: 0;
-  flex: 1;
-  overflow: hidden;
-}
-.pg-scene-chapter {
-  grid-area: 1 / 1;
-  min-height: 0;
   display: flex;
-  flex-direction: column;
-  opacity: 1;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin: 0;
 }
-.pg-scene-chapter[data-stage="leaving"] {
-  pointer-events: none;
+.pg-state-population-value {
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  color: #f5efe2;
 }
-.pg-scene-chapters[data-ready="false"]
-  .pg-scene-chapter[data-stage="arriving"] {
-  opacity: 0;
+.pg-state-population-unit {
+  font-size: 1rem;
+  color: var(--run-a-muted);
 }
-.pg-scene-chapters[data-ready="true"] .pg-scene-chapter[data-stage="arriving"] {
-  animation: pg-chapter-arrive 400ms ease both;
+.pg-state-population-caption {
+  margin: 0.35rem 0 0;
+  padding-top: 0.35rem;
+  max-width: 22rem;
+  border-top: 1px solid rgb(234 208 148 / 45%);
+  font-size: 0.8rem;
+  font-style: italic;
+  letter-spacing: 0.01em;
+  color: #d9d2c3;
 }
-.pg-scene-chapters[data-ready="true"] .pg-scene-chapter[data-stage="leaving"] {
-  opacity: 1;
+
+.pg-opening-household {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 0.8rem;
+  padding: 0;
+  list-style: none;
 }
-.pg-scene-chapters[data-motion="paused"] .pg-scene-camera {
-  animation-play-state: paused;
-}
-@keyframes pg-chapter-arrive {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .pg-scene-chapter {
-    animation: none !important;
-  }
-}
+
+.pg-congress-official-figure,
 .pg-state-official-figure {
-  width: min(100%, 110px);
-}
-.pg-congress-introduction {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-.pg-congress-official-figure {
   width: min(100%, 130px);
 }
-.pg-white-house-presentation[data-has-plate="true"] .pg-opening-vice-president {
-  inset: 0;
-  width: auto;
-  padding: 0;
-  background: none;
-}
-.pg-white-house-presentation[data-has-plate="true"]
-  .pg-opening-vice-president
-  .pg-opening-figure {
-  left: 33%;
-  top: 37%;
-  width: 16%;
-}
-.pg-white-house-presentation[data-has-plate="true"]
-  .pg-opening-vice-president
-  .pg-orientation-person {
-  position: absolute;
-  left: 55%;
-  top: 78%;
-  width: 40%;
-  font-size: 0.85rem;
-  background: rgb(11 19 32 / 90%);
-}
-.pg-white-house-presentation[data-has-plate="true"]
-  .pg-opening-president
-  .pg-orientation-person {
-  left: 55%;
-  width: 40%;
-  top: 60%;
-}
-.pg-white-house-presentation {
-  overflow: hidden;
-}
-.pg-scene-camera {
-  position: absolute;
-  inset: 0;
-  transform-origin: center;
-  animation: pg-chapter-drift 44s ease-in-out infinite alternate;
-}
-.pg-opening-official-labels {
-  position: absolute;
-  left: 55%;
-  right: 3%;
-  bottom: 8%;
-  display: grid;
-  gap: 0.6rem;
-}
-.pg-opening-official-labels .pg-orientation-person {
-  background: rgb(11 19 32 / 94%);
-}
-@keyframes pg-chapter-drift {
-  from {
-    transform: scale(1.025) translate3d(0, 0, 0);
-  }
-  to {
-    transform: scale(1.05) translate3d(-0.8%, -0.6%, 0);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .pg-scene-camera {
-    animation: none;
-  }
-}
 
-/*
- * The regional plate on the locality step.
- *
- * Bounded by viewport height as well as width so a 2500px-wide landscape
- * cannot push the place's own facts below the fold on a laptop. The caption is
- * not decoration: the plate is a regional illustration and a player who reads
- * it as a photograph of their street has been misled by us, not by the artist.
- */
-.pg-orientation-region {
-  margin: 0 0 0.75rem;
-}
-
-.pg-orientation-region-plate {
-  display: block;
+.pg-title-establishing {
   width: 100%;
-  height: auto;
-  max-height: min(38vh, 16rem);
+  height: 100%;
   object-fit: cover;
-  object-position: 30% 50%;
-  border: 1px solid var(--run-a-line);
-  border-radius: 4px;
-  background: rgb(11 19 32 / 60%);
+  object-position: 65% center;
 }
 
-.pg-orientation-region-caption {
-  margin: 0.35rem 0 0;
-  font-size: 0.8125rem;
-  color: var(--pg-party-none);
+/* Narrow windows: the words take the lower part of the card, full width. */
+@media (max-width: 760px) {
+  .pg-orientation-copy,
+  .pg-orientation-stage[data-layout="centered"] .pg-orientation-copy {
+    left: 0.75rem;
+    right: 0.75rem;
+    width: auto;
+    top: auto;
+    max-height: 62cqh;
+    transform: none;
+  }
+  .pg-orientation-scrim {
+    background: linear-gradient(
+      0deg,
+      rgb(8 13 22 / 92%) 0 45%,
+      transparent 75%
+    );
+  }
+  .pg-orientation-cast,
+  .pg-white-house-presentation[data-has-plate="false"] .pg-opening-officials {
+    right: 1rem;
+    top: 1rem;
+    bottom: auto;
+  }
+  .pg-orientation-cast-figure {
+    width: clamp(64px, 18cqw, 120px);
+  }
+  .pg-orientation-backdrop-caption {
+    max-width: calc(100cqw - 1.5rem);
+  }
+}
+
+@media (forced-colors: active) {
+  .pg-orientation-copy > * {
+    border: 1px solid CanvasText;
+  }
 }
