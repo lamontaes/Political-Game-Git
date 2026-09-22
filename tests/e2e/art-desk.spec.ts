@@ -69,7 +69,7 @@ test("new requests stay independent of a selected row; related variants copy del
   const form = page.getByTestId("art-desk-new-request");
   await expect(form).toHaveAttribute("data-mode", "related");
   await expect(page.getByTestId("art-desk-new-request-heading")).toContainText(
-    "copies its target",
+    "copies its size",
   );
   await expect(page.getByTestId("art-desk-new-consumer")).not.toHaveValue("");
 
@@ -81,7 +81,7 @@ test("new requests stay independent of a selected row; related variants copy del
   await expect(page.getByTestId("art-desk-new-consumer")).toHaveValue("");
   await expect(page.getByTestId("art-desk-new-recipe")).toHaveValue("");
   await expect(page.getByTestId("art-desk-new-references")).toContainText(
-    "unresolved is allowed",
+    "optional",
   );
   const newButton = page.getByTestId("art-desk-new-request-open");
   await newButton.focus();

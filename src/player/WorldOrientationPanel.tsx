@@ -1,20 +1,43 @@
 import "./world-orientation.css";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+  type CSSProperties,
+} from "react";
+import { projectOpeningWorldSnapshot } from "../presentation/opening-world-snapshot";
 
 import type {
   OrientationChamber,
   OrientationPerson,
   OrientationView,
+  OrientationStep,
 } from "../presentation/world-orientation";
 import type { RegionalSceneKind } from "../authoring/regional-scene-coverage";
 import type { RegionalOpeningResult } from "../presentation/regional-opening-plate";
-import type { EntityId } from "../simulation";
+import type { EntityId, World } from "../simulation";
 import { GameSelect } from "./controls/GameSelect";
+import { OpeningStatePopulation } from "./OpeningStatePopulation";
+import { OpeningStateVoting } from "./OpeningStateVoting";
+import { SavedPersonFigure } from "./SavedPersonFigure";
+import { SceneChapterTransition } from "./SceneChapterTransition";
+import { projectLivingSceneOpening } from "../presentation/living-scene-facts";
+import { candidateEstablishingPlate } from "./candidate-establishing-plate";
+import {
+  PLAYTEST65_WHITE_HOUSE_LAYOUT,
+  OPENING_INFORMATION_PLATES,
+} from "../presentation/playtest65-visual-layout";
+import {
+  OPENING_REGIONAL_CANDIDATES,
+  openingHomeRegionPreviews,
+  type OpeningRegionalPreviewCandidate,
+} from "../presentation/opening-regional-candidates";
 
 /**
- * Four short panels introducing the public world: White House, Congress, the
- * home state, the place itself.
+ * Introduce the White House, then the home state and region, Congress, and
+ * the home locality. Regional scenes are illustrations, not new World facts.
  *
  * Every word and number comes from the orientation view, which reads the saved
  * World. Choosing a name opens that person's ordinary card — the same card the
@@ -28,6 +51,11 @@ export function WorldOrientationPanel({
   mode,
   onClose,
   onOpenPerson,
+  world,
+  personId,
+  renderFigure,
+  establishingPlate,
+  regionalCandidates = OPENING_REGIONAL_CANDIDATES,
 }: {
   readonly view: OrientationView;
   readonly homeStateUsps: string | null;
@@ -41,87 +69,440 @@ export function WorldOrientationPanel({
   readonly mode: "first" | "revisit";
   readonly onClose: () => void;
   readonly onOpenPerson: (personId: EntityId) => void;
+  readonly world?: World;
+  readonly personId?: EntityId;
+  readonly renderFigure?: (personId: EntityId) => ReactNode;
+  readonly establishingPlate?: ReactNode;
+  /** Explicit preview fixtures can exercise banked, inactive candidates. */
+  readonly regionalCandidates?: readonly OpeningRegionalPreviewCandidate[];
 }) {
+  const plate = candidateEstablishingPlate(
+    PLAYTEST65_WHITE_HOUSE_LAYOUT.assetId,
+  );
+  const snapshot = useMemo(
+    () =>
+      world && personId ? projectOpeningWorldSnapshot(world, personId) : null,
+    [world, personId],
+  );
+  const living = useMemo(
+    () =>
+      world && personId ? projectLivingSceneOpening(world, personId) : null,
+    [world, personId],
+  );
+  const steps: readonly (Omit<OrientationStep, "key"> & {
+    readonly key: string;
+  })[] = useMemo(() => {
+    const order = ["executive", "state", "congress", "locality"];
+    const ordered = [...view.steps].sort(
+      (a, b) => order.indexOf(a.key) - order.indexOf(b.key),
+    );
+    if (!snapshot) return ordered;
+    const officials = [snapshot.president, snapshot.vicePresident].flatMap(
+      (holder) => {
+        if (!holder) return [];
+        const known = view.steps[0]?.people.find(
+          (person) => person.personId === holder.personId,
+        );
+        return [
+          known ?? {
+            personId: holder.personId,
+            name: holder.personName,
+            title: holder.title,
+            party: null,
+            facts: [],
+          },
+        ];
+      },
+    );
+    return [
+      ...ordered
+        .filter((step) => !(homeStateUsps === "DC" && step.key === "locality"))
+        .map((step) =>
+          step.key === "executive"
+            ? {
+                ...step,
+                people:
+                  living?.chapters
+                    .find((chapter) => chapter.key === step.key)
+                    ?.actors.map((actor) => actor.person) ?? officials,
+              }
+            : step,
+        ),
+      {
+        key: "your-life",
+        title: "Your life so far",
+        summary:
+          snapshot.beats
+            .find((beat) => beat.key === "your-life")
+            ?.facts.join(" ") ?? "",
+        people: [],
+        chambers: [],
+      },
+    ];
+  }, [snapshot, view.steps, homeStateUsps, living]);
   const [index, setIndex] = useState(0);
   const heading = useRef<HTMLHeadingElement>(null);
-  const step = view.steps[index]!;
-  const last = index === view.steps.length - 1;
-
-  useEffect(() => {
-    heading.current?.focus();
-  }, [index]);
+  const closed = useRef(false);
+  const close = () => {
+    if (closed.current) return;
+    closed.current = true;
+    onClose();
+  };
+  const [motionPaused, setMotionPaused] = useState(false);
+  const step = steps[Math.min(index, steps.length - 1)]!;
+  const chapter = living?.chapters.find((entry) => entry.key === step.key);
+  const nextStep = steps[index + 1];
+  const nextInformation = nextStep
+    ? OPENING_INFORMATION_PLATES[nextStep.key]
+    : null;
+  const nextPlateUrl =
+    nextStep?.key === "executive"
+      ? plate?.url
+      : nextInformation
+        ? candidateEstablishingPlate(
+            nextInformation.assetId,
+            nextInformation.previewRaster,
+          )?.url
+        : null;
+  const informationPlate = OPENING_INFORMATION_PLATES[step.key];
+  const illustration = informationPlate
+    ? candidateEstablishingPlate(
+        informationPlate.assetId,
+        informationPlate.previewRaster,
+      )
+    : null;
+  const last = index >= steps.length - 1;
+  const regionalContext =
+    snapshot?.beats.find(
+      (beat) => beat.key === (homeStateUsps === "DC" ? "district" : "state"),
+    )?.sceneContext ?? null;
+  const regionalPlates =
+    step.key === "state"
+      ? openingHomeRegionPreviews(
+          regionalContext,
+          regionalCandidates.flatMap((candidate) => {
+            const raster = candidateEstablishingPlate(
+              candidate.assetId,
+              candidate.previewRaster,
+            );
+            return raster ? [{ ...candidate, ...raster }] : [];
+          }),
+        )
+      : [];
+  const [chosenRegion, setChosenRegion] = useState<string | null>(null);
+  const regionIndex = Math.max(
+    0,
+    regionalPlates.findIndex((candidate) => candidate.assetId === chosenRegion),
+  );
+  // The state step's own scene picker, distinct from the locality plate the
+  // caller supplies as `regionalPlate`: this one the player can page through.
+  const regionScene = regionalPlates[regionIndex] ?? null;
 
   return (
     <section
       className="pg-orientation"
       role="dialog"
       aria-modal="false"
-      aria-labelledby="pg-orientation-title"
+      aria-labelledby={`pg-orientation-title-${step.key}`}
       data-testid="world-orientation"
       data-step={step.key}
       onKeyDown={(event) => {
         if (event.key !== "Escape") return;
         event.stopPropagation();
-        onClose();
+        close();
       }}
     >
-      <p className="pg-orientation-kicker">
-        {index + 1} of {view.steps.length} · {view.dateLabel}
-      </p>
-
-      {step.key === "locality" &&
-      regionalPlate &&
-      regionalPlate.kind === "plate" ? (
-        <figure
-          className="pg-orientation-region"
-          data-testid="orientation-region-plate"
-          data-region={regionalPlate.plate.regionKey}
-          data-matched-by={regionalPlate.plate.matchedBy}
-        >
-          <img
-            className="pg-orientation-region-plate"
-            src={regionalPlate.plate.url}
-            width={regionalPlate.plate.width}
-            height={regionalPlate.plate.height}
-            alt={`${SCENE_ALT[regionalPlate.plate.sceneKind]}: ${regionalPlate.plate.displayName.toLowerCase()}.`}
-          />
-          <figcaption className="pg-orientation-region-caption">
-            {SCENE_CAPTION[regionalPlate.plate.sceneKind]} Illustration, not
-            this address.
-          </figcaption>
-        </figure>
-      ) : null}
-
-      <h2
-        id="pg-orientation-title"
-        ref={heading}
-        tabIndex={-1}
-        className="pg-orientation-title"
-        data-testid={`orientation-step-${step.key}`}
+      <SceneChapterTransition
+        chapterKey={step.key}
+        nextPlateUrl={nextPlateUrl}
+        paused={motionPaused}
+        onReady={() => heading.current?.focus()}
       >
-        {step.title}
-      </h2>
-      <p className="pg-orientation-summary">{step.summary}</p>
+        <p className="pg-orientation-kicker">
+          {index + 1} of {steps.length} · {view.dateLabel}
+        </p>
 
-      {step.chambers.map((chamber) => (
-        <ChamberBlock
-          key={chamber.chamberKey}
-          chamber={chamber}
-          homeStateUsps={homeStateUsps}
-          onOpenPerson={onOpenPerson}
-        />
-      ))}
+        {step.key === "locality" &&
+        regionalPlate &&
+        regionalPlate.kind === "plate" ? (
+          <figure
+            className="pg-orientation-region"
+            data-testid="orientation-region-plate"
+            data-region={regionalPlate.plate.regionKey}
+            data-matched-by={regionalPlate.plate.matchedBy}
+          >
+            <img
+              className="pg-orientation-region-plate"
+              src={regionalPlate.plate.url}
+              width={regionalPlate.plate.width}
+              height={regionalPlate.plate.height}
+              alt={`${SCENE_ALT[regionalPlate.plate.sceneKind]}: ${regionalPlate.plate.displayName.toLowerCase()}.`}
+            />
+            <figcaption className="pg-orientation-region-caption">
+              {SCENE_CAPTION[regionalPlate.plate.sceneKind]} Illustration, not
+              this address.
+            </figcaption>
+          </figure>
+        ) : null}
 
-      {step.people.length > 0 ? (
-        <ul className="pg-orientation-people">
-          {step.people.map((person) => (
-            <li key={`${person.personId}:${person.title}`}>
-              <PersonButton person={person} onOpenPerson={onOpenPerson} />
-            </li>
+        <h2
+          id={`pg-orientation-title-${step.key}`}
+          ref={heading}
+          tabIndex={-1}
+          className="pg-orientation-title"
+          data-testid={`orientation-step-${step.key}`}
+        >
+          {step.title}
+        </h2>
+        {step.key !== "state" ? (
+          <p className="pg-orientation-summary">{step.summary}</p>
+        ) : null}
+
+        <div className="pg-orientation-reading">
+          {illustration ? (
+            <figure className="pg-opening-information-illustration">
+              <img
+                className="pg-establishing-image"
+                src={illustration.url}
+                width={illustration.width}
+                height={illustration.height}
+                alt={informationPlate!.caption}
+                data-asset-id={illustration.assetId}
+              />
+              <figcaption>{informationPlate!.caption}</figcaption>
+            </figure>
+          ) : null}
+          {step.key === "state" ? (
+            <div
+              className="pg-regional-opening-scene"
+              data-testid="opening-regional-scene"
+              data-has-background={Boolean(regionScene)}
+            >
+              {regionScene ? (
+                <img
+                  className="pg-regional-opening-backdrop"
+                  src={regionScene.url}
+                  width={regionScene.width}
+                  height={regionScene.height}
+                  alt="Illustrated setting from your home region"
+                  data-asset-id={regionScene.assetId}
+                  data-testid="opening-regional-plate"
+                />
+              ) : null}
+              <div className="pg-regional-state-information">
+                {regionScene ? (
+                  <p className="pg-regional-context">
+                    Your home region · Illustration
+                  </p>
+                ) : null}
+                <div className="pg-regional-card-body pg-state-overview">
+                  <section>
+                    <h3>
+                      {homeStateUsps === "DC"
+                        ? "Your District government"
+                        : "Your state government"}
+                    </h3>
+                    <p>{step.summary}</p>
+                    {world &&
+                      chapter?.actors.map((actor) => (
+                        <SavedPersonFigure
+                          key={actor.person.personId}
+                          world={world}
+                          personId={actor.person.personId}
+                          className="pg-state-official-figure"
+                        />
+                      ))}
+                    {step.people.length > 0 ? (
+                      <ul className="pg-orientation-people">
+                        {step.people.map((person) => (
+                          <li key={`${person.personId}:${person.title}`}>
+                            <PersonButton
+                              person={person}
+                              onOpenPerson={onOpenPerson}
+                            />
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </section>
+                  <OpeningStatePopulation
+                    stateUsps={homeStateUsps}
+                    asOf={world?.currentDate ?? regionalContext?.asOf ?? ""}
+                  />
+                  <OpeningStateVoting
+                    stateUsps={homeStateUsps}
+                    asOf={world?.currentDate ?? regionalContext?.asOf ?? ""}
+                  />
+                </div>
+                {regionalPlates.length > 1 ? (
+                  <nav
+                    className="pg-regional-scene-navigation"
+                    aria-label="Regional views"
+                  >
+                    <button
+                      type="button"
+                      className="ui-action"
+                      onClick={() =>
+                        setChosenRegion(
+                          regionalPlates[
+                            (regionIndex + regionalPlates.length - 1) %
+                              regionalPlates.length
+                          ]!.assetId,
+                        )
+                      }
+                    >
+                      Previous view
+                    </button>
+                    <span>
+                      View {regionIndex + 1} of {regionalPlates.length}
+                    </span>
+                    <button
+                      type="button"
+                      className="ui-action"
+                      onClick={() =>
+                        setChosenRegion(
+                          regionalPlates[
+                            (regionIndex + 1) % regionalPlates.length
+                          ]!.assetId,
+                        )
+                      }
+                    >
+                      Next view
+                    </button>
+                  </nav>
+                ) : null}
+              </div>
+            </div>
+          ) : null}
+          {step.key === "executive" ? (
+            <div
+              className="pg-white-house-presentation"
+              data-has-plate={Boolean(plate)}
+              style={
+                plate
+                  ? ({
+                      aspectRatio: `${plate.width} / ${plate.height}`,
+                      "--pg-figure-x": `${(100 * PLAYTEST65_WHITE_HOUSE_LAYOUT.president.x) / PLAYTEST65_WHITE_HOUSE_LAYOUT.canvas.width}%`,
+                      "--pg-figure-y": `${(100 * PLAYTEST65_WHITE_HOUSE_LAYOUT.president.y) / PLAYTEST65_WHITE_HOUSE_LAYOUT.canvas.height}%`,
+                      "--pg-figure-width": `${(100 * PLAYTEST65_WHITE_HOUSE_LAYOUT.president.width) / PLAYTEST65_WHITE_HOUSE_LAYOUT.canvas.width}%`,
+                    } as CSSProperties)
+                  : undefined
+              }
+            >
+              <div className="pg-scene-camera">
+                {establishingPlate ??
+                  (plate ? (
+                    <img
+                      className="pg-establishing-image"
+                      src={plate.url}
+                      width={plate.width}
+                      height={plate.height}
+                      alt="Illustrated White House exterior"
+                      data-asset-id={plate.assetId}
+                      data-testid="opening-establishing-plate"
+                    />
+                  ) : null)}
+                <div className="pg-opening-officials">
+                  {step.people.map((person, position) => (
+                    <article
+                      key={person.personId}
+                      className={
+                        position === 0
+                          ? "pg-opening-president"
+                          : "pg-opening-vice-president"
+                      }
+                    >
+                      {renderFigure?.(person.personId) ??
+                        (world ? (
+                          <SavedPersonFigure
+                            world={world}
+                            personId={person.personId}
+                            className="pg-opening-figure"
+                          />
+                        ) : null)}
+                    </article>
+                  ))}
+                </div>
+              </div>
+              <div className="pg-opening-official-labels">
+                {step.people.map((person) => (
+                  <PersonButton
+                    key={person.personId}
+                    person={person}
+                    onOpenPerson={onOpenPerson}
+                    compact
+                  />
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+          {step.key === "congress" && world && chapter?.actors.length ? (
+            <div
+              className="pg-congress-introduction"
+              aria-label="Members from your home state"
+            >
+              {chapter.actors.map((actor) => (
+                <article key={actor.slotKey}>
+                  <SavedPersonFigure
+                    world={world}
+                    personId={actor.person.personId}
+                    className="pg-congress-official-figure"
+                  />
+                  <PersonButton
+                    person={actor.person}
+                    onOpenPerson={onOpenPerson}
+                    compact
+                  />
+                </article>
+              ))}
+            </div>
+          ) : null}
+          {step.chambers.map((chamber) => (
+            <ChamberBlock
+              key={chamber.chamberKey}
+              chamber={chamber}
+              homeStateUsps={homeStateUsps}
+              onOpenPerson={onOpenPerson}
+            />
           ))}
-        </ul>
-      ) : null}
 
+          {step.people.length > 0 &&
+          step.key !== "executive" &&
+          step.key !== "state" ? (
+            <ul className="pg-orientation-people">
+              {step.people.map((person) => (
+                <li key={`${person.personId}:${person.title}`}>
+                  <PersonButton person={person} onOpenPerson={onOpenPerson} />
+                </li>
+              ))}
+            </ul>
+          ) : null}
+
+          {step.key === "your-life" && snapshot ? (
+            <>
+              <ul className="pg-opening-household">
+                {snapshot.life.household.household.map((person) => (
+                  <li key={person.personId}>
+                    <button
+                      type="button"
+                      className="ui-action"
+                      onClick={() => onOpenPerson(person.personId)}
+                    >
+                      {person.introduction}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              <p>
+                {snapshot.startingLocation
+                  ? `Begin at ${snapshot.startingLocation.label}.`
+                  : "Continue into your life."}
+              </p>
+            </>
+          ) : null}
+        </div>
+      </SceneChapterTransition>
       <div className="pg-orientation-actions">
         <button
           type="button"
@@ -138,20 +519,26 @@ export function WorldOrientationPanel({
           data-testid="orientation-next"
           onClick={() =>
             last
-              ? onClose()
-              : setIndex((current) =>
-                  Math.min(view.steps.length - 1, current + 1),
-                )
+              ? close()
+              : setIndex((current) => Math.min(steps.length - 1, current + 1))
           }
         >
           {last ? "Done" : "Next"}
+        </button>
+        <button
+          type="button"
+          className="ui-action"
+          aria-pressed={motionPaused}
+          onClick={() => setMotionPaused((value) => !value)}
+        >
+          {motionPaused ? "Resume motion" : "Pause motion"}
         </button>
         {!last ? (
           <button
             type="button"
             className="ui-action"
             data-testid="orientation-skip"
-            onClick={onClose}
+            onClick={close}
           >
             {mode === "first" ? "Skip" : "Close"}
           </button>
@@ -184,9 +571,11 @@ const SCENE_ALT: Readonly<Record<RegionalSceneKind, string>> = {
 function PersonButton({
   person,
   onOpenPerson,
+  compact = false,
 }: {
   readonly person: OrientationPerson;
   readonly onOpenPerson: (personId: EntityId) => void;
+  readonly compact?: boolean;
 }) {
   return (
     <button
@@ -200,7 +589,7 @@ function PersonButton({
         {person.title}
         {person.party ? ` · ${person.party}` : ""}
       </span>
-      {person.facts.length > 0 ? (
+      {!compact && person.facts.length > 0 ? (
         <small>{person.facts.join(" · ")}</small>
       ) : null}
     </button>
