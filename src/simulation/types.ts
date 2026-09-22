@@ -19,6 +19,7 @@ import type {
   ConstitutionalActionRecord,
   ConstitutionalRuleVersionRecord,
 } from "./constitutional-types";
+import type { RuleChangeProvisionRecord } from "./enacted-rule-changes";
 import type { PublicFundingMandate } from "./public-fiscal";
 import type { MacroEconomyStore } from "./macro-economy/types";
 import type { PartyRecord, WorldConditionRecord } from "./world-setup/types";
@@ -53,6 +54,7 @@ export type EntityKind =
   | "constitutional-action"
   | "crisis-record"
   | "constitutional-rule-version"
+  | "rule-change-provision"
   | "tax-proposal"
   | "tax-policy"
   | "tax-base"
@@ -3736,6 +3738,8 @@ export interface HistoryStore {
   readonly constitutionalMeasures?: readonly ConstitutionalMeasureRecord[];
   readonly constitutionalActions?: readonly ConstitutionalActionRecord[];
   readonly constitutionalRuleVersions?: readonly ConstitutionalRuleVersionRecord[];
+  /** Rule changes filed on ordinary bills; see `enacted-rule-changes.ts`. */
+  readonly ruleChangeProvisions?: readonly RuleChangeProvisionRecord[];
   /** Optional, preserving pre-tax snapshots without fabricating money/history. */
   readonly taxProposals?: readonly TaxProposalRecord[];
   readonly taxPolicies?: readonly TaxPolicyRecord[];

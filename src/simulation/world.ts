@@ -23,6 +23,10 @@ import {
   constitutionalEntityAvailableAt,
   assertConstitutionalIntegrity,
 } from "./constitutional-process";
+import {
+  assertRuleChangeProvisionIntegrity,
+  ruleChangeProvisionHistoryRecords,
+} from "./enacted-rule-changes";
 import { assertPublicPaymentIntegrity } from "./public-fiscal";
 import {
   assertPublicProgramIntegrity,
@@ -1637,6 +1641,7 @@ function validateHistoryIntegrity(world: World): void {
     ...campaignHistoryRecords(world),
     ...legislationHistoryRecords(world),
     ...constitutionalHistoryRecords(world),
+    ...ruleChangeProvisionHistoryRecords(world),
     ...legislativePoliticsHistoryRecords(world),
     ...draftLineageHistoryRecords(world),
     ...futureTransitionHistoryRecords(world),
@@ -1793,6 +1798,7 @@ function validateHistoryIntegrity(world: World): void {
   assertCampaignIntegrity(world, ids);
   assertLegislationIntegrity(world, ids);
   assertConstitutionalIntegrity(world, ids);
+  assertRuleChangeProvisionIntegrity(world, ids);
   assertLegislativePoliticsIntegrity(world, ids);
   assertDraftLineageIntegrity(world);
   assertFutureTransitionIntegrity(world, ids);

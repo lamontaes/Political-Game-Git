@@ -21,6 +21,18 @@ interface SkillContract {
 
 const contracts: readonly SkillContract[] = [
   {
+    name: "civic-reports",
+    trigger:
+      /report, write-up or document meant for the owner: playtest and life reports/i,
+    nontrigger: /not for player-visible game text, which is civic-prose/i,
+    links: [
+      "scripts/report-check/cli.mjs",
+      "scripts/report-check/hook.mjs",
+      ".claude/agents/civic-report-reviewer.md",
+      "docs/writing/the-next-generation-rewrite.md",
+    ],
+  },
+  {
     name: "project-operations",
     trigger: /preflight, resume, recover, take over, receive or hand off/i,
     nontrigger: /not a replacement for a feature brief/i,
