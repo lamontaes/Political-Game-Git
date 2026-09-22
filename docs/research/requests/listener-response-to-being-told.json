@@ -1,0 +1,32 @@
+{
+  "filedAt": "2026-09-22T22:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "personality and relationships",
+  "notes": [
+    "The topics are not the invented part. They are records the world already holds: a scene the player lived through that this listener was not at and has not heard of, or a plan the player has actually made. The invented part is how the listener answers, and what counts as news.",
+    "Five more reply options are not depth; ChatGPT said so on 2026-09-22. An answer that is a longer list of stock lines does not satisfy this.",
+    "The listener's side is already readable: their five-line standing toward the player, whether that standing is current or has faded, whether they want quiet, whether they know the other person in the story, whether they share the plan."
+  ],
+  "priority": "P1",
+  "question": "When a player tells somebody about something that happened to them or something they plan to do, how should the listener's answer depend on who the listener is and their history with the player, and what makes an experience still worth telling (how recent, how many at once)?",
+  "questionId": "listener-response-to-being-told",
+  "relatedQuestionIds": [
+    "relationship-fading-with-absence",
+    "relationship-dimensions-and-fading"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "lamontae, 2026-09-22 22:38Z: 'make sure questions are being written down. i dont want depth to be invented'",
+  "sourcesChecked": [
+    {
+      "source": "ChatGPT's direction relayed 2026-09-22 ~21:07Z on 'What do you want to tell me?'",
+      "whatItDidNotSettle": "Says the conversation must be about something real in the character's life and the answer must depend on the person and their history. It does not say what the answers are or how they vary."
+    },
+    {
+      "source": "src/presentation/life-talk-topics.ts, tellAnswer and tellableTopics",
+      "whatItDidNotSettle": "Carries interim answers marked as placeholders: a listener who wants quiet asks for it to wait; a strained listener says 'All right.'; a warm one asks how it went; otherwise 'Thanks for telling me.' Also a 14-day recency window and three topics at once. None of this is researched."
+    }
+  ],
+  "title": "How somebody answers when you tell them something from your life",
+  "usableAnswer": "The kinds of response a listener gives (for example asking a question, sharing their own, offering help, disapproving, passing it on), which of the recorded facts about the listener and the relationship select among them, and whether telling changes anything between the two people beyond the listener now knowing. Also how long an experience stays worth telling and whether it matters who else was involved. Behaviour, not numbers, where possible.",
+  "whyItMatters": "The game now offers the player real things to tell a person, drawn from their own recorded life, and the listener learns them. How the listener responds is currently four authored lines keyed on warmth and tension. The owner has ruled that depth must not be invented, so these stay marked placeholders until this is answered."
+}

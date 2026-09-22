@@ -71,7 +71,8 @@ export interface RelationshipAbsence {
  * established and permits labelled contextual bands for private testing. These
  * are those bands. Each is relative to the pair's own rhythm or history except
  * the floors, which only stop a pair who met twice in one week from reading as
- * lapsed a fortnight later.
+ * lapsed a fortnight later. Filed with ChatGPT as the research question
+ * `relationship-absence-thresholds`.
  */
 /** How many usual gaps may pass before a relationship stops being current. */
 const RHYTHMS_BEFORE_LESS_CURRENT = 3;

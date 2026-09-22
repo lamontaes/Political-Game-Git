@@ -28,9 +28,15 @@ import { readRelationshipStanding } from "../simulation/relationship-standing";
  */
 export const TELL_PREFIX = "tell:";
 
-/** How far back a lived moment is still news worth telling. Calibration. */
+/*
+ * PLACEHOLDER, NOT RESEARCH. What counts as news and how a listener answers are
+ * filed with ChatGPT as `listener-response-to-being-told`, and the owner has
+ * ruled that depth is not invented. The recency window, the count and every
+ * line in `tellAnswer` stand in until that answer comes back.
+ */
+/** How far back a lived moment is still news worth telling. Placeholder. */
 const RECENT_DAYS = 14;
-/** How many recent moments are offered at once. */
+/** How many recent moments are offered at once. Placeholder. */
 const MOST_RECENT = 3;
 
 const SCENE_RESOLVED = "life.scene.resolved";
@@ -188,6 +194,9 @@ export interface TellAnswer {
  * player, whether they know the other person in the story, and whether they
  * have made the same plan. Nothing here is scored or remembered beyond what
  * the conversation writes.
+ *
+ * PLACEHOLDER: the answers themselves are interim, pending the research
+ * question `listener-response-to-being-told`.
  */
 export function tellAnswer(
   world: World,

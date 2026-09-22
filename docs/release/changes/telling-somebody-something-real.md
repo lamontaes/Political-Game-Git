@@ -17,3 +17,6 @@ has an unsettled quarrel with says little. Somebody fond of the player asks how
 it went, and somebody who knows the other person in the story says their name.
 Once told, they know it, and it is not offered to them again. If there is
 nothing to tell, the player can say it can wait.
+
+How the person answers is interim for now. The answers are a small set of
+placeholder lines, and the real behavior is a question filed with ChatGPT.
