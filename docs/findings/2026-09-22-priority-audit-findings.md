@@ -453,6 +453,25 @@ is not researched twice.
 
 ## 6. Process findings, each paid for once
 
+- **A browser walk through `?art-preview=candidate` is not evidence about the
+  art it appears to show, and this lane's own evidence was affected.** The
+  private candidate manifests are owner-private and not in git, so
+  `PRIVATE_CANDIDATE_ART_AVAILABLE` is false in every checkout a runner can
+  make. When they are absent the game does not say so: `setupForArtPreview`
+  returns the setup unchanged and the player is quietly put back on the
+  ordinary appearance path with no message, no marker and no test id — while
+  the preview banner still shows. **The screen claims to be showing unreleased
+  candidate art while showing production art.** That is the one place found so
+  far where the game fails hard instead of failing soft with a stated reason,
+  against the standing rule that unknown content is skipped with a reason and
+  never silently. The unit suite already handles the same condition honestly
+  with `describe.skipIf`. Twenty-two spec files open this way, and one of them
+  is this lane's own `ui-decision-politics.spec.ts`: its assertions about the
+  chamber breakdown are text and counts and stand, but any claim made from its
+  captures about how the screen _looked_ was a claim about production art
+  behind a banner that said otherwise. Documented by the fix-main lane in
+  `docs/BROWSER-SUITE-FLOOR.md`; the correction to this lane's own evidence is
+  ours.
 - **Name what is scarce, not what is dangerous.** This is the line to take
   from the whole night, and everything else in this section follows from it.
   "Be careful about merging" is unactionable. "Two job slots for the whole
