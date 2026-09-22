@@ -38,6 +38,23 @@ Two things it cost before it was fixed, both on 2026-09-22:
   one ALIVE44 names as its current checkpoint. The far end's pointer now
   resolves to nothing.
 
+## A trash is a one-way door, and recreating the document is not the repair
+
+This connector has `trash_file` and no untrash. Once a document is trashed,
+`get_file_metadata` returns not found and `update_file` returns permission
+denied, so no session can restore it, rename it or move it. Only the owner can,
+from the Drive browser, within thirty days.
+
+His restore brings back the **original id**, and the id is what every link and
+every comment was attached to. So creating a replacement document does not fix
+a broken pointer: it makes a new id and repairs nothing, while making the folder
+look as though it had been handled. When a trash has already happened, the only
+real fix is one line in the owner's list asking him to restore that document.
+
+It follows that the archive folder is for documents we still have. Do not
+recreate a trashed render under a `SUPERSEDED — ` title; that puts something in
+the folder that looks like this convention while fixing nothing.
+
 ## This is not an exception to PERMANENT REMOVAL
 
 PERMANENT REMOVAL is about unused assets, obsolete code, packed copies and stale
