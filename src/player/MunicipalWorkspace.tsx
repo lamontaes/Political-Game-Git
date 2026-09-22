@@ -937,13 +937,20 @@ export function MunicipalWorkspace({
                     <dd>{reading.bodySize ?? "Unknown"}</dd>
                     <dt>{"Seat pattern"}</dt>
                     <dd>{reading.composition?.note ?? "Unknown"}</dd>
-                    <dt>{"Mayor"}</dt>
+                    {/*
+                      The office is named as this government names it. A place
+                      whose executive is a Mayor-President or a village
+                      president is not a mayor, and the reading already carries
+                      the title; only a reading that states none falls back to
+                      the general word.
+                    */}
+                    <dt>{reading.mayor?.title ?? "Mayor"}</dt>
                     <dd>
                       {reading.mayor
                         ? humanLabel(reading.mayor.structuralPosition)
                         : "Unknown"}
                     </dd>
-                    <dt>{"Professional manager"}</dt>
+                    <dt>{reading.manager?.title ?? "Professional manager"}</dt>
                     <dd>{reading.manager?.statedRole ?? "Unknown"}</dd>
                     <dt>{"Consolidation"}</dt>
                     <dd>

@@ -163,6 +163,58 @@ export function shortPersonName(world: World, personId: EntityId): string {
   return person.familyName;
 }
 
+/* ----------------------------------------------------------- small words */
+
+const COUNT_WORDS = [
+  "zero",
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+  "nine",
+  "ten",
+];
+
+const ORDINAL_WORDS = [
+  "",
+  "first",
+  "second",
+  "third",
+  "fourth",
+  "fifth",
+  "sixth",
+  "seventh",
+  "eighth",
+  "ninth",
+  "tenth",
+];
+
+/** "two" for a small count, the digits for anything a sentence would not spell. */
+function countWord(value: number): string {
+  return COUNT_WORDS[value] ?? String(value);
+}
+
+/** "third" for a small position, otherwise "12th" and the like. */
+function ordinalWord(value: number): string {
+  const word = ORDINAL_WORDS[value];
+  if (word) return word;
+  const remainder = value % 100;
+  if (remainder >= 11 && remainder <= 13) return `${value}th`;
+  const suffix = { 1: "st", 2: "nd", 3: "rd" }[value % 10] ?? "th";
+  return `${value}${suffix}`;
+}
+
+/** A stored phrase used to open a sentence, with nothing else changed. */
+function sentenceCase(value: string): string {
+  return value.length === 0
+    ? value
+    : `${value[0]!.toLocaleUpperCase("en-US")}${value.slice(1)}`;
+}
+
 function speakerFor(
   world: World,
   room: ConversationRoomContext,
@@ -186,7 +238,7 @@ const referralSubject: ConversationSubjectPresentation<RunBConversationProgress>
     topicLabel: () => "Constituent services",
     describeBriefing(world, room, progress) {
       const facts = progress.subjectFacts;
-      return `Three Lexington tenants asked this office for emergency-rent help. The county could not process two referrals because each lacked a required ${facts.requiredDocument}. ${shortPersonName(world, conversationRole(room, "referral-verifier"))} is checking the third. Decide whether ${shortPersonName(world, conversationRole(room, "briefing-lead"))} should back a document checklist before future referrals.`;
+      return `${sentenceCase(facts.constituentDescription)} asked this office for emergency-rent help. The county could not process ${countWord(facts.knownAffectedReferralCount)} referrals because each lacked a required ${facts.requiredDocument}. ${shortPersonName(world, conversationRole(room, "referral-verifier"))} is checking the ${ordinalWord(facts.unresolvedReferralOrdinal)}. Decide whether ${shortPersonName(world, conversationRole(room, "briefing-lead"))} should back a document checklist before future referrals.`;
     },
     availableIntents(world, room, addressee, progress, silenceIsUseful) {
       const commitmentLabel =

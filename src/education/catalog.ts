@@ -1,4 +1,5 @@
 import type { EducationInstitution } from "./types";
+import { academicYearCovers } from "./vintage";
 /** Pagination limits rendered rows, never the searchable corpus. */
 export function searchInstitutions(
   catalog: readonly EducationInstitution[],
@@ -31,11 +32,7 @@ export function institutionDateReason(
   institution: EducationInstitution,
   date: string,
 ): string | null {
-  const start =
-    institution.sourceYear === "2025-26" ? "2025-07-01" : "2024-07-01";
-  const end =
-    institution.sourceYear === "2025-26" ? "2026-06-30" : "2025-06-30";
-  if (date < start || date > end)
+  if (!academicYearCovers(institution.sourceYear, date))
     return `This directory describes ${institution.sourceYear}. Existence and offerings at this date are not established.`;
   if (
     institution.kind === "postsecondary" &&

@@ -1,3 +1,4 @@
+import type { AcademicYear } from "./vintage";
 /** Browser-safe source projection; never a student, admission or tuition record. */
 export interface EducationCapability {
   readonly code: string;
@@ -16,7 +17,8 @@ export interface EducationInstitution {
   readonly stateFips: string | null;
   readonly countyGeoid: string | null;
   readonly parentDistrictId: string | null;
-  readonly sourceYear: "2024-25" | "2025-26";
+  /** The directory vintage this row came from, e.g. `2025-26`. */
+  readonly sourceYear: AcademicYear;
   readonly release: string;
   readonly statusCode: string;
   readonly statusLabel: string;
