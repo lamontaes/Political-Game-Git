@@ -83,8 +83,8 @@ const sha256 = (text: string) =>
  * content does. LEGACY_OPENING_SHAPE below is the part that should not move.
  */
 const FED321F7_LEGACY = {
-  kentucky: "5aa3b46631f8a2adb69d69255ceeb7c8607ed6c905805a2ff6884e35343176b2",
-  peebles: "f219313a16fb4f3c47a2c9f9d79b104611a5d2e77076e5e2c1d9270667984f51",
+  kentucky: "881b3e606ea8c99e7cc9eb0187ce185cf7f149951eeb1933525f4f31162ceda5",
+  peebles: "7310342353011f3814bd433dd07af65035e31d208116b44bc8f78fb4fa4da5f6",
 } as const;
 
 /**
@@ -119,10 +119,21 @@ const FED321F7_LEGACY = {
  * are no longer called things that contradict their own pronouns. That is the
  * change being accepted, and a move here for any other reason is still a
  * regression.
+ *
+ * RE-ACCEPTED AGAIN the same day, for the second half of the same change. A
+ * name both sexes carried is no longer reserved for non-binary people
+ * (`GIVEN_NAME_POOL_REACH_V1`), so a stated man or woman can now also be given
+ * one of the 36 shared names. Measured the same way, against the hashes just
+ * above: the legacy Kentucky opening holds the same 544 people under the same
+ * ids with identical leaf paths, and exactly three things differ — 515
+ * `givenName` values, 2,054 `establishedFacts[].summary` strings each made
+ * identical by substituting one renamed person's old given name for the new
+ * one (0 unexplained), and `snapshotId`. Peebles: the same 542 people, 501
+ * given names, 2,001 summaries, 0 unexplained. 0 identities changed in either.
  */
 const LEGACY_OPENING_SHAPE = {
-  kentucky: "dee483710f4ea1611fbc6db5357cf23edb2cd2759a88794376a07c3d98065926",
-  peebles: "b03f5e89f7e67c0224215d9262e30c2926a1c9022eba032221db207713da51c9",
+  kentucky: "766f36243f412cc0d52b3d7ceb2f993414c410c3c3677211fbeeeeea548c6706",
+  peebles: "d0e617618684b70c8d9085b5570991181294a4ac089e237e94030b3dbd0a805d",
 } as const;
 
 /**

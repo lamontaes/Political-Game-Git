@@ -9,7 +9,7 @@ import { createStableId } from "./ids";
 import {
   DEFAULT_CORPUS_VERSION,
   DEMO_NAMES_V4,
-  GIVEN_NAME_GENERATION_POOLS_V1,
+  givenNamePoolForStatedGender,
   getNameCorpus,
 } from "./names-data";
 import { derivePersonAppearance } from "./person-appearance";
@@ -586,12 +586,7 @@ function statedGenderGivenName(
   gender: GenderIdentityKey | undefined,
 ): string | null {
   if (gender === undefined || gender === "unstated") return null;
-  const pool =
-    gender === "male"
-      ? GIVEN_NAME_GENERATION_POOLS_V1.male
-      : gender === "female"
-        ? GIVEN_NAME_GENERATION_POOLS_V1.female
-        : GIVEN_NAME_GENERATION_POOLS_V1.neutral;
+  const pool = givenNamePoolForStatedGender(gender);
   return new SeededRng(worldSeed)
     .fork(`${generationKey}:stated-gender-given-name`)
     .pick(pool);
@@ -784,12 +779,7 @@ export function drawCanonicalNameForGender(
 ): { readonly givenName: string; readonly familyName: string } {
   const drawn = drawUnrestrictedName(rng, corpusVersion);
   if (gender === "unstated") return drawn;
-  const pool =
-    gender === "male"
-      ? GIVEN_NAME_GENERATION_POOLS_V1.male
-      : gender === "female"
-        ? GIVEN_NAME_GENERATION_POOLS_V1.female
-        : GIVEN_NAME_GENERATION_POOLS_V1.neutral;
+  const pool = givenNamePoolForStatedGender(gender);
   if (generationVersion === LEGACY_GIVEN_NAME_GENERATION_VERSION) {
     return {
       givenName: rng.fork("canonical-name:gendered-given-name").pick(pool),
