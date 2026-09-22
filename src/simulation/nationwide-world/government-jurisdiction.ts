@@ -1,6 +1,11 @@
 import { createStableId } from "../ids";
 import { stateJurisdictionForKey } from "../life-places";
-import type { EntityId } from "../types";
+import type { EntityId, Jurisdiction } from "../types";
+import {
+  districtOfColumbiaJurisdiction,
+  districtOfColumbiaJurisdictionId,
+} from "./district-of-columbia";
+import { isDistrictOfColumbia } from "./district-of-columbia-identity";
 
 /**
  * One government unit as RULES' government-unit index (rules-capability/v1)
@@ -34,6 +39,8 @@ export type NationwideGovernmentScope =
  * government that serves it and the public account keyed on it name one
  * jurisdiction, not three:
  * - a state is its existing state jurisdiction;
+ * - the District of Columbia is one government, so its district-wide scope and
+ *   its one city unit name the SAME jurisdiction (see `district-of-columbia`);
  * - a county government is the existing Gazetteer county jurisdiction;
  * - a municipality with a Gazetteer place is that place's jurisdiction;
  * - anything else (most townships) gets an identity of its own.
@@ -45,6 +52,10 @@ export function governingJurisdictionIdFor(
   scope: NationwideGovernmentScope,
 ): EntityId | null {
   if (scope.kind === "state") {
+    // The District is not a state and does not get a second, district-wide
+    // identity beside the city government that already governs it.
+    if (isDistrictOfColumbia(scope.stateUsps))
+      return districtOfColumbiaJurisdictionId();
     return stateJurisdictionForKey(`US-${scope.stateUsps}`)?.id ?? null;
   }
   const { unit } = scope;
@@ -58,4 +69,28 @@ export function governingJurisdictionIdFor(
     return createStableId("jurisdiction", `national-place:${unit.placeGeoid}`);
   }
   return createStableId("jurisdiction", `government-unit:${unit.id}`);
+}
+
+/**
+ * The one jurisdiction a state's or the District's chief executive governs
+ * from.
+ *
+ * Every producer on the chief-executive route reads this rather than resolving
+ * `US-xx` itself, because that resolution is wrong for the District: it yields
+ * a district-wide placeholder beside the jurisdiction its one real government
+ * already governs from. An office compiled from one and a candidacy checked
+ * against the other is the duplicate identity NATIONWIDE1 forbids, and it does
+ * not show up in a test that reads only titles.
+ */
+export function chiefExecutiveJurisdiction(
+  stateUsps: string,
+): Jurisdiction | null {
+  if (isDistrictOfColumbia(stateUsps)) return districtOfColumbiaJurisdiction();
+  return stateJurisdictionForKey(`US-${stateUsps}`);
+}
+
+export function chiefExecutiveJurisdictionId(
+  stateUsps: string,
+): EntityId | null {
+  return chiefExecutiveJurisdiction(stateUsps)?.id ?? null;
 }

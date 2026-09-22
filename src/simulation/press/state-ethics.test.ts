@@ -82,9 +82,10 @@ describe("state legislative ethics routing", () => {
       NEBRASKA_CONTEXT,
     );
     const subject = someone(world);
-    // Arizona is one of the twenty-seven states nobody has read yet. A
-    // candidacy there must reach the simulated inquiry, which says on its face
-    // that it is simulated, rather than the nearest researched commission.
+    // Arizona is one of the states nobody has read yet. A candidacy there
+    // must never reach the nearest researched commission. With a state on
+    // record it reaches Arizona's generated body; this campaign names none,
+    // so it reaches the simulated inquiry, which says so on its face.
     expect(
       STATE_LEGISLATIVE_ETHICS_PROCEDURES.some(
         (entry) => entry.stateJurisdictionKey === "US-AZ",

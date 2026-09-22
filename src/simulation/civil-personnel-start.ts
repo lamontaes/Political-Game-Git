@@ -11,7 +11,7 @@ import {
   recordWorkStatus,
 } from "./life";
 import { workStatusAt } from "./life-queries";
-import { drawCanonicalName } from "./people";
+import { drawCanonicalNameForGender } from "./people";
 import { SeededRng } from "./rng";
 import { isPersonAliveAt } from "./vitality-integrity";
 import { recordWorldEvent } from "./world";
@@ -160,7 +160,10 @@ export function initializeStateAgencyStart(
       });
     };
     const contextPerson = (personKey: string, age: number) => {
-      const name = drawCanonicalName(new SeededRng(next.seed).fork(personKey));
+      const name = drawCanonicalNameForGender(
+        new SeededRng(next.seed).fork(personKey),
+        "unstated",
+      );
       next = applyCharacterHistoryPlan(next, {
         stableKey: personKey,
         mode: "authored",

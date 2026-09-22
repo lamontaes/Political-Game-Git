@@ -1,11 +1,14 @@
 import { describe, expect, it } from "vitest";
 
 import { createStableId } from "./ids";
-import { GIVEN_NAME_GENERATION_POOLS_V1, NAMES_STARTER_V1 } from "./names-data";
+import {
+  GIVEN_NAME_GENERATION_POOLS_V1,
+  givenNamePoolForStatedGender,
+  NAMES_STARTER_V1,
+} from "./names-data";
 import {
   createStartingPerson,
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
-  drawCanonicalName,
   drawCanonicalNameForGender,
   LEGACY_GIVEN_NAME_GENERATION_VERSION,
 } from "./people";
@@ -46,14 +49,14 @@ function start(gender: GenderIdentityKey | null, givenName: string | null) {
 }
 
 describe("a blank name respects the gender the player stated", () => {
-  it("draws a male-pool name when the player said male", () => {
+  it("draws a name a man can be given when the player said male", () => {
     const person = start("male", null);
-    expect(GIVEN_NAME_GENERATION_POOLS_V1.male).toContain(person.givenName);
+    expect(givenNamePoolForStatedGender("male")).toContain(person.givenName);
   });
 
-  it("draws a female-pool name when the player said female", () => {
+  it("draws a name a woman can be given when the player said female", () => {
     const person = start("female", null);
-    expect(GIVEN_NAME_GENERATION_POOLS_V1.female).toContain(person.givenName);
+    expect(givenNamePoolForStatedGender("female")).toContain(person.givenName);
   });
 
   it("draws a neutral-pool name when the player said non-binary", () => {
@@ -127,7 +130,7 @@ describe("two people drawn off one stream are two people", () => {
 
   it("still draws from the pool the stated gender names", () => {
     for (const name of drawSeveral("female", 4)) {
-      expect(GIVEN_NAME_GENERATION_POOLS_V1.female).toContain(name);
+      expect(givenNamePoolForStatedGender("female")).toContain(name);
     }
   });
 
@@ -148,7 +151,7 @@ describe("two people drawn off one stream are two people", () => {
       [first],
     ).givenName;
     expect(avoided).not.toBe(first);
-    expect(GIVEN_NAME_GENERATION_POOLS_V1.male).toContain(avoided);
+    expect(givenNamePoolForStatedGender("male")).toContain(avoided);
   });
 
   it("keeps the drawn name rather than inventing one outside the pool", () => {
@@ -159,17 +162,28 @@ describe("two people drawn off one stream are two people", () => {
       "male",
       undefined,
       DISTINCT_GIVEN_NAME_GENERATION_VERSION,
-      [...GIVEN_NAME_GENERATION_POOLS_V1.male],
+      [...givenNamePoolForStatedGender("male")],
     ).givenName;
-    expect(GIVEN_NAME_GENERATION_POOLS_V1.male).toContain(name);
+    expect(givenNamePoolForStatedGender("male")).toContain(name);
   });
 
   it("leaves a person the world says nothing about on the unrestricted draw", () => {
-    const rng = new SeededRng("unstated").fork("household");
-    const plain = new SeededRng("unstated").fork("household");
-    expect(drawCanonicalNameForGender(rng, "unstated")).toStrictEqual(
-      drawCanonicalName(plain),
+    // "unstated" is now said rather than omitted — the loose draw is no longer
+    // on the module's surface — and it still means the whole corpus, not a
+    // pool. The name it returns is a corpus name and is not the one a male
+    // draw off the same stream would have produced.
+    const unstated = drawCanonicalNameForGender(
+      new SeededRng("unstated").fork("household"),
+      "unstated",
     );
+    expect(NAMES_STARTER_V1.givenNames).toContain(unstated.givenName);
+    expect(NAMES_STARTER_V1.familyNames).toContain(unstated.familyName);
+    expect(
+      drawCanonicalNameForGender(
+        new SeededRng("unstated").fork("household"),
+        "male",
+      ).givenName,
+    ).not.toBe(unstated.givenName);
   });
 
   it("keeps the original fork when a replay does not declare version 2", () => {
@@ -203,5 +217,55 @@ describe("the generation pools are an honest partition of the corpus", () => {
     expect(pools.male.length).toBeGreaterThan(0);
     expect(pools.female.length).toBeGreaterThan(0);
     expect(pools.neutral.length).toBeGreaterThan(0);
+  });
+});
+
+describe("a name both sexes carried is not reserved for non-binary people", () => {
+  /*
+   * Until this rule the neutral pool was reachable only by a stated non-binary
+   * identity, so a woman drawn by the game could never be called Jordan by any
+   * path. Draw enough people of each stated gender that the shared pool must
+   * turn up, and prove it does, so this cannot pass by drawing nothing shared.
+   */
+  const shared = new Set(GIVEN_NAME_GENERATION_POOLS_V1.neutral);
+  const male = new Set(GIVEN_NAME_GENERATION_POOLS_V1.male);
+  const female = new Set(GIVEN_NAME_GENERATION_POOLS_V1.female);
+
+  function drawMany(gender: "male" | "female", count: number): string[] {
+    return Array.from(
+      { length: count },
+      (_, index) =>
+        drawCanonicalNameForGender(
+          new SeededRng(`shared-${gender}-${index}`),
+          gender,
+          undefined,
+          DISTINCT_GIVEN_NAME_GENERATION_VERSION,
+        ).givenName,
+    );
+  }
+
+  it("can give a stated woman or a stated man a shared name", () => {
+    expect(drawMany("female", 200).some((name) => shared.has(name))).toBe(true);
+    expect(drawMany("male", 200).some((name) => shared.has(name))).toBe(true);
+  });
+
+  it("still never gives anyone a name from the other sex's own pool", () => {
+    const women = drawMany("female", 200);
+    const men = drawMany("male", 200);
+    expect(women.filter((name) => male.has(name))).toEqual([]);
+    expect(men.filter((name) => female.has(name))).toEqual([]);
+    // Positive halves, so an empty draw cannot pass the two lines above.
+    expect(women.some((name) => female.has(name))).toBe(true);
+    expect(men.some((name) => male.has(name))).toBe(true);
+  });
+
+  it("lets the creator offer a shared name to a woman", () => {
+    const reach = givenNamePoolForStatedGender("female");
+    expect(reach).toContain("Jordan");
+    expect(reach).toContain("Taylor");
+    expect(givenNamePoolForStatedGender("male")).toContain("Jordan");
+    expect(givenNamePoolForStatedGender("nonbinary")).toEqual(
+      GIVEN_NAME_GENERATION_POOLS_V1.neutral,
+    );
   });
 });

@@ -9,7 +9,7 @@ import {
   characterHistoryContextPersonId,
   createStableId,
   createWorkItem,
-  drawCanonicalName,
+  drawCanonicalNameForGender,
   catalogPropositionIds,
   introduceMeasure,
   legislativeBlueprint,
@@ -24,10 +24,10 @@ import type {
   LegislativeDraftLineageRecord,
   World,
 } from "../simulation";
+import { chamberDesignationPrefix } from "../simulation/legislature-rules";
 import {
   compileBillDraft,
   BillConfigurationError,
-  designationPrefix,
   draftingSupportsScenario,
   type CompiledBillDraft,
 } from "../simulation/legislation-drafting";
@@ -740,7 +740,7 @@ export function previewDraft(input: DraftPreviewInput): CompiledBillDraft {
     scenarioKey: input.scenarioKey,
     jurisdictionId: input.jurisdictionId,
     rulePackId: blueprint.pack.packId,
-    designation: `${designationPrefix(chamberKey)} ${400 + input.provisionalSequence}`,
+    designation: `${chamberDesignationPrefix(blueprint.pack, chamberKey)} ${400 + input.provisionalSequence}`,
     filedOn: input.filedOn,
     ...(input.predicateAuthority !== undefined
       ? { predicateAuthority: input.predicateAuthority }
@@ -912,7 +912,7 @@ export function fileDraft(
     scenarioKey: input.scenarioKey,
     jurisdictionId: input.jurisdictionId,
     rulePackId: blueprint.pack.packId,
-    designation: `${designationPrefix(chamberKey)} ${400 + sequence}`,
+    designation: `${chamberDesignationPrefix(blueprint.pack, chamberKey)} ${400 + sequence}`,
     filedOn: world.currentDate,
     ...(authority !== null ? { predicateAuthority: authority } : {}),
   });
@@ -929,7 +929,7 @@ export function fileDraft(
     const rng = new SeededRng(next.seed).fork(
       `legislative-member:${input.scenarioKey}`,
     );
-    const name = drawCanonicalName(rng);
+    const name = drawCanonicalNameForGender(rng, "unstated");
     next = applyCharacterHistoryPlan(next, {
       stableKey: sponsorKey,
       mode: "quick-generated",

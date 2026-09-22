@@ -19,5 +19,15 @@
   ],
   "title": "When each state elects its governor, and when the term begins",
   "usableAnswer": "A table with one row per jurisdiction giving term length, cycle length and reference year, the general election day rule, and the commencement rule, each with a citation. It should be in a shape that can become verified StateExecutiveTermRule rows. A row marked unknown is acceptable and stays on the game profile.",
-  "whyItMatters": "Governor turnover now runs on its own in every save, and Kentucky, the default start, holds its race a year early. A player running for governor in Virginia or New Jersey would find the race in the wrong year, and in New Hampshire or Vermont the term would be twice as long as the real one."
+  "whyItMatters": "Governor turnover now runs on its own in every save, and Kentucky, the default start, holds its race a year early. A player running for governor in Virginia or New Jersey would find the race in the wrong year, and in New Hampshire or Vermont the term would be twice as long as the real one.",
+  "answer": {
+    "summary": "A 52-row table (50 states, the D.C. mayor, the Puerto Rico governor) giving term, reference year and cycle, general-election day, term start, official source and evidence status. Odd-year elections: Kentucky, Louisiana and Mississippi (reference 2027) and New Jersey and Virginia (2025). Two-year terms: New Hampshire and Vermont. Louisiana holds its primary on the third-to-last Saturday in October with a general six Saturdays later if needed; its 2026 Act 414 concerns term limits, not the calendar (corrected against La. Rev. Stat. 18:402). Reference 2024: DE, IN, MO, MT, ND, UT, WA, WV, PR; reference 2028: NC. Alaska and Hawaii terms start the first Monday in December at noon. Direct official text for the start date was found for DE, FL, AK, HI, LA, ME, VA and WA; most other start dates are marked 'UNVERIFIED candidate'. Only Washington is a verified runtime row in state-executive-term-rules.ts.",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-22-nationwide-2235/OCD-GOVERNOR-ELECTION-CALENDAR--NATIONWIDE-52--SOURCE-STATUS--2026-09-22.md (Drive 1L5E_saLPcPU1dsVdvl-NWpEyVVT9CMFx, SHA-256 ba2c7c59d295422ef2b1335cf7ba90d601a5e795546337e7b412cb96c42d6c56)",
+      "ChatGPT reply document 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, 'CTO RESEARCH RECEIPT — 6:27 P.M. EASTERN', read 22:40Z"
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T22:30:00.000Z",
+    "stillOpen": "'Rows marked locator still need provision-level transcription, amendment-history review, and independent election-calendar corroboration before promotion to verified.' It is 'not a claim that all 52 rows have passed that verification gate.' Puerto Rico needs checking against the Spanish controlling text; D.C.'s current effective text and noon wording need confirming. 'This is a legal research snapshot, not a game rule approval'; an unverified start date 'is a research lead, not a legal rule or approved runtime value.'"
+  }
 }

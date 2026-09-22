@@ -1,6 +1,6 @@
-import { expect, test, type Page } from "./fixtures";
+import { expect, gameMounted, test, type Page } from "./fixtures";
 
-import { enterLife, goTo, startLife } from "./support/creator";
+import { enterLife, goTo, leaveGame, startLife } from "./support/creator";
 
 /**
  * MORNING23 F: the title and creator have to be readable on the actual
@@ -194,7 +194,7 @@ test.describe("The front door stays compact and readable over the room", () => {
     });
     await enterLife(page);
     await goTo(page, "keep-world");
-    await goTo(page, "leave-game");
+    await leaveGame(page);
     await expect(page.getByTestId("continue")).toBeEnabled();
     await expect(page.getByTestId("continue")).toContainText(
       "Alexandrina-Therese",
@@ -223,6 +223,9 @@ test.describe("The front door stays compact and readable over the room", () => {
     const context = await browser.newContext({ reducedMotion: "reduce" });
     const page = await context.newPage();
     await freshBrowser(page);
+    // A page from its own context is not the fixture's, so its navigations
+    // are not held until the game has drawn.
+    await gameMounted(page);
     await expect(page.getByTestId("title-tableau")).toHaveAttribute(
       "data-motion",
       "reduced",

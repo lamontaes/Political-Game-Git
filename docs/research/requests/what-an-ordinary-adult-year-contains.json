@@ -1,0 +1,30 @@
+{
+  "filedAt": "2026-09-22T22:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "long playthrough",
+  "notes": [
+    "The American Time Use Survey is the obvious starting point for how time is spent; it does not cover how often people ask each other for things."
+  ],
+  "priority": "P1",
+  "question": "Over a year, what does an ordinary working adult's life realistically contain: how often do friends ask them to things, how often does family ask for help, how often do errands, appointments, conflicts at work and bigger events happen, and how often does the same kind of thing come back? What makes one year differ from the next?",
+  "questionId": "what-an-ordinary-adult-year-contains",
+  "relatedQuestionIds": [
+    "how-a-life-begins-and-grows-up",
+    "what-should-the-world-do-to-a-person"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "long playthrough thread (Fatima Erickson and Seth Woodward)",
+  "sourcesChecked": [
+    {
+      "source": "Long playthrough in the browser, September 22, 2026: two lives, Eastport, Maine and Ely, Nevada, three to seven years each",
+      "whatItDidNotSettle": "Measures the repetition. Says nothing about what a real year contains."
+    },
+    {
+      "source": "The life opportunities code as built",
+      "whatItDidNotSettle": "Eight fixed kinds, always with the first person in the pool, and nothing new while one is open. The frequencies are authored with no source."
+    }
+  ],
+  "title": "What an ordinary adult's weeks and years actually contain, and how often things recur",
+  "usableAnswer": "Rough frequencies per year for the kinds of things that happen to an ordinary adult, split by who is involved (family, friends, coworkers, neighbors), and how those change with age, work and household. Say which kinds should rarely or never repeat and which recur naturally, like a weekly standing meeting.",
+  "whyItMatters": "Both characters in the long playthrough saw the same five or six moments for years: the dad's picnic, proofreading the invitation, the errand list, a Saturday invitation, sit and talk, the agenda. Fatima's history had 222 lines by year three, 142 of them things that passed without an answer. lamontae ranks relationships and long-life memory first, and a life that repeats the same week cannot carry either."
+}

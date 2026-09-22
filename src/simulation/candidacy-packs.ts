@@ -1,4 +1,12 @@
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
+import {
+  legislatureForState,
+  legislatureProfilePackById,
+} from "./legislature-game-profile";
+import {
+  standInQualification,
+  standInQualificationSourceRef,
+} from "./office-qualification-profile";
 import { knownRule, notApplicableRule, unknownRule } from "./legislature-rules";
 import type {
   FormalSeatCount,
@@ -135,6 +143,19 @@ const NO_MEMBERSHIP_INSTRUMENT =
 
 const NO_DISTRICT_GEOGRAPHY =
   "A numbered district is an explicit Gazetteer identity bound on the seat. Interior points are not boundaries, and a coarse home does not prove district membership.";
+
+/**
+ * Whether this state's own instruments have been read at all.
+ *
+ * A compiled legislature pack is the evidence: it exists only because somebody
+ * retrieved and read that state's constitution. It is a coarse signal on
+ * purpose — it says research happened, not that every field was captured.
+ */
+function stateLawHasBeenRead(stateJurisdictionKey: string): boolean {
+  return LEGISLATIVE_RULE_PACKS.some(
+    (pack) => pack.jurisdictionKey === stateJurisdictionKey,
+  );
+}
 
 function officeQualification(
   packId: string,
@@ -278,6 +299,49 @@ function officeQualification(
       };
     }
   }
+  // Nothing has been compiled for this state. That used to end here, with every
+  // requirement unknown, and an office nobody can be shown to qualify for is an
+  // office nobody can stand for — which is how forty-two states ended up closed.
+  //
+  // A generated rule is offered instead, but ONLY where the state has not been
+  // researched at all. A state whose legislature is compiled has had its
+  // constitution read: Kentucky's § 32 states an age and a residence, and the
+  // reason those are not here is that the qualification corpus has not caught
+  // up, not that nobody knows. Handing that state a drawn number would put a
+  // figure in front of a player that the state's own instrument contradicts,
+  // and would hide a compile gap by making it look answered. A compile gap and
+  // a research gap are different, and only the second one is what the drawn
+  // rule is for.
+  if (officeFamily !== null && !stateLawHasBeenRead(jurisdictionKey)) {
+    const standIn = (
+      field: Parameters<typeof standInQualification>[1],
+    ): RuleValue<number> => {
+      const drawn = standInQualification(jurisdictionKey, field, officeFamily);
+      if (drawn === null) return unknownRule(NO_QUALIFICATION_CORPUS);
+      return knownRule(drawn.value, standInQualificationSourceRef(drawn));
+    };
+    const age = standIn("MINIMUM_AGE");
+    const stateResidence = standInQualification(
+      jurisdictionKey,
+      "STATE_RESIDENCE",
+      officeFamily,
+    );
+    if (age.kind === "known" || stateResidence !== null) {
+      return {
+        minimumAge: age,
+        residency:
+          stateResidence === null
+            ? unknownRule(NO_QUALIFICATION_CORPUS)
+            : knownRule(
+                `${stateResidence.value} years in the state immediately preceding filing`,
+                standInQualificationSourceRef(stateResidence),
+              ),
+        termYears: standIn("TERM_LENGTH"),
+        filing: unknownRule(NO_FILING_CORPUS),
+      };
+    }
+  }
+
   return {
     minimumAge: unknownRule(NO_QUALIFICATION_CORPUS),
     residency: unknownRule(NO_QUALIFICATION_CORPUS),
@@ -372,7 +436,9 @@ export function candidacyPackById(packId: string): CandidacyPack | null {
   return (
     CANDIDACY_PACKS.find((pack) => pack.packId === packId) ??
     stateExecutiveCandidacyPacks().find((pack) => pack.packId === packId) ??
-    localGoverningBodyPack(packId)
+    localGoverningBodyPack(packId) ??
+    generatedCandidacyPackById(packId) ??
+    null
   );
 }
 
@@ -380,6 +446,22 @@ export function candidacyPackById(packId: string): CandidacyPack | null {
 function localGoverningBodyPack(packId: string): CandidacyPack | null {
   const identity = localGoverningBodyIdentityForPackId(packId);
   return identity ? localGoverningBodyCandidacyPack(identity) : null;
+}
+
+/**
+ * The candidacy pack of a generated legislature, by id.
+ *
+ * It resolves last, so a state that gets compiled takes over the moment its own
+ * pack exists. A filed campaign records its pack id, and without this a save in
+ * an uncompiled state would reopen with its authority pointing at nothing.
+ */
+function generatedCandidacyPackById(packId: string): CandidacyPack | null {
+  const rulePackId = packId.endsWith(":candidacy")
+    ? packId.slice(0, -":candidacy".length)
+    : null;
+  if (rulePackId === null) return null;
+  const generated = legislatureProfilePackById(rulePackId);
+  return generated === null ? null : candidacyPackFromRulePack(generated);
 }
 
 /**
@@ -395,11 +477,17 @@ export function stateCandidacyPack(
   stateJurisdictionKey: string | null,
 ): CandidacyPack | null {
   if (stateJurisdictionKey === null) return null;
-  return (
-    CANDIDACY_PACKS.find(
-      (pack) => pack.jurisdictionKey === stateJurisdictionKey,
-    ) ?? null
+  const compiled = CANDIDACY_PACKS.find(
+    (pack) => pack.jurisdictionKey === stateJurisdictionKey,
   );
+  if (compiled) return compiled;
+  // No compiled pack. That used to be the end of it, and a state with no
+  // compiled legislature had no office anybody could stand for — which is the
+  // same absence-read-as-refusal that closed forty-two states. The generated
+  // legislature carries offices like any other, and its qualifications say
+  // `game-profile` rather than claiming this state's law.
+  const generated = legislatureForState(stateJurisdictionKey);
+  return generated === null ? null : candidacyPackFromRulePack(generated);
 }
 
 export function requireCandidacyPack(packId: string): CandidacyPack {

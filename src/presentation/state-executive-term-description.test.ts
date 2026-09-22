@@ -21,4 +21,20 @@ describe("the office calendar a player reads", () => {
       "on the Wednesday after the second Monday of January following the election",
     );
   });
+
+  it("reads the District's fixed January day rather than a weekday", () => {
+    const rule = stateExecutiveTermRule("DC");
+    expect(rule).not.toBeNull();
+    expect(describeStateExecutiveTerm(rule!)).toContain(
+      "the winner takes office on January 2 after the election",
+    );
+  });
+
+  it("says two years where the term is two years", () => {
+    const rule = stateExecutiveTermRule("VT");
+    expect(rule).not.toBeNull();
+    expect(describeStateExecutiveTerm(rule!)).toContain(
+      "A term here lasts two years.",
+    );
+  });
 });

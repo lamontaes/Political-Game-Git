@@ -430,6 +430,8 @@ function reduceNewsroomStaff(
   held: readonly MediaOutletRecord[],
   rng: SeededRng,
 ): { readonly world: World; readonly eventId: EntityId | null } {
+  // Placeholder fallbacks for a practice that names neither value; see the
+  // research questions named in ownership-pack-default.ts.
   const share = practice.parameters?.shareOfPositions ?? 0.25;
   const kept = practice.parameters?.minimumPositionsKept ?? 1;
   const staff = new Map<EntityId, ReporterRoleRecord[]>(
