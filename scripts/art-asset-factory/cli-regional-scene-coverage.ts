@@ -20,6 +20,8 @@ import {
   validateRegionalSceneCoverage,
   type RegionalSceneCoverageDocument,
 } from "../../src/authoring/regional-scene-coverage";
+import { knownCountyGeoids } from "../../src/simulation/government-units";
+import { lifePlaceByKey } from "../../src/simulation/life-places";
 
 const repositoryRoot = process.cwd();
 const document = coverage as RegionalSceneCoverageDocument;
@@ -52,6 +54,48 @@ for (const entry of document.regions) {
     failed = true;
     console.error(
       `ERROR ${entry.regionKey}: ${plate.path} hashes to ${actual}, not the approved ${plate.sha256}. Approval is of exact bytes.`,
+    );
+  }
+}
+
+/**
+ * Every identifier, resolved against the corpora the game really uses.
+ *
+ * The shape rules live in the validator: five characters for a county, seven
+ * for a place, quoted so a leading zero survives. Shape is not existence. The
+ * selectors are 2020 Census identifiers, the runtime place corpus is the 2025
+ * Gazetteer, and the county side comes from the 2020 place-within-county
+ * crosswalk — so a well-formed identifier from the wrong vintage, or simply
+ * mistyped, passes every shape check and then matches nobody, forever, in
+ * silence. The whole document would validate perfectly while showing no
+ * pictures.
+ *
+ * This is the join, run at authoring time. An identifier that names nothing is
+ * an error here rather than a region that quietly never appears. It matters
+ * most for research answers arriving from outside the repository, which is the
+ * next thing to land in this file.
+ */
+const counties = knownCountyGeoids();
+for (const entry of document.regions) {
+  const places = entry.places;
+  for (const geoid of [
+    ...(places.includePlaces ?? []),
+    ...(places.excludePlaces ?? []),
+  ]) {
+    if (lifePlaceByKey(geoid)) continue;
+    failed = true;
+    console.error(
+      `ERROR ${entry.regionKey}: place '${geoid}' is not in the runtime place corpus, so no life can start there and this row can never match. Check the identifier and its vintage.`,
+    );
+  }
+  for (const geoid of [
+    ...(places.includeCounties ?? []),
+    ...(places.excludeCounties ?? []),
+  ]) {
+    if (counties.has(geoid)) continue;
+    failed = true;
+    console.error(
+      `ERROR ${entry.regionKey}: county '${geoid}' names no county area in the 2020 place-within-county crosswalk, so no town resolves to it. Check the identifier and its vintage.`,
     );
   }
 }

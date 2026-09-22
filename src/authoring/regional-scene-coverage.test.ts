@@ -92,6 +92,58 @@ describe("resolveRegionalPlate", () => {
     });
   });
 
+  /**
+   * The rule that gets misread, pinned to a real pair.
+   *
+   * "Most specific wins" governs which INCLUSION is chosen; it does not let a
+   * fine inclusion survive a coarse exclusion. An exclusion at any level
+   * disqualifies the region outright, so naming Lexington explicitly does not
+   * rescue it from an excluded Fayette County. Read the two rules together and
+   * they look contradictory, which is exactly why this is a test rather than a
+   * sentence in a comment.
+   *
+   * The conservative direction is deliberate: mixed country is named by listing
+   * the towns that fit, not by excluding a county and re-including parts of it.
+   */
+  it("keeps an excluded county excluded even where a place inside it is named", () => {
+    const document = docOf(
+      region("fine-inclusion", {
+        includePlaces: ["2146027"],
+        excludeCounties: ["21067"],
+      }),
+    );
+    expect(
+      resolveRegionalPlate(document, {
+        stateKey: "US-KY",
+        placeGeoid: "2146027",
+        countyGeoids: ["21067"],
+      }),
+    ).toEqual({
+      outcome: "none",
+      reason: "no-region-covers-this-place",
+      regionKeys: [],
+    });
+  });
+
+  it("still serves a named place when the exclusion names a different county", () => {
+    // The other half of the same rule: the veto is an exclusion this query
+    // actually hits, not any exclusion anywhere in the row.
+    const document = docOf(
+      region("fine-inclusion", {
+        includePlaces: ["2146027"],
+        excludeCounties: ["21111"],
+      }),
+    );
+    const resolution = resolveRegionalPlate(document, {
+      stateKey: "US-KY",
+      placeGeoid: "2146027",
+      countyGeoids: ["21067"],
+    });
+    expect(resolution.outcome).toBe("plate");
+    if (resolution.outcome !== "plate") return;
+    expect(resolution.matchedBy).toBe("place");
+  });
+
   it("serves one plate to two states in different divisions", () => {
     const document = docOf(
       region("cross-timbers", { includeCounties: ["40109", "48097"] }),

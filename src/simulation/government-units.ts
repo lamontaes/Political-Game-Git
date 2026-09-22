@@ -213,6 +213,30 @@ export function countyGeoidsForPlace(placeGeoid: string): readonly string[] {
     .map(([countyGeoid]) => countyGeoid);
 }
 
+/**
+ * Every county area the 2020 place-within-county crosswalk names.
+ *
+ * Geography, like `countyGeoidsForPlace`, and for the same reason: it answers
+ * "is this a real county area" rather than "does this county have a
+ * government", so a Virginia independent city or a Connecticut county is in
+ * the set. Authoring tools use it to reject a county identifier that names
+ * nothing before it becomes coverage data that silently matches nobody.
+ *
+ * Only counties containing at least one Census place appear, which is every
+ * county a place-based query can ever reach.
+ */
+export function knownCountyGeoids(): ReadonlySet<string> {
+  if (countyGeoids) return countyGeoids;
+  const set = new Set<string>();
+  for (const parts of loadPlaceCountyParts().values()) {
+    for (const [countyGeoid] of parts) set.add(countyGeoid);
+  }
+  countyGeoids = set;
+  return countyGeoids;
+}
+
+let countyGeoids: ReadonlySet<string> | null = null;
+
 /** Every unit, in publisher id order. */
 export function allGovernmentUnits(): readonly GovernmentUnitIdentity[] {
   return [...load().byId.values()];
