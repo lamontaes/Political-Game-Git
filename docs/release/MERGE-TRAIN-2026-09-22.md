@@ -304,18 +304,29 @@ started executing at 09:37Z — **fifty-seven minutes queued.** It survived
 because nothing pushed to the branch in that hour. Every earlier attempt died
 pending because something did.
 
-Shard by shard, read at 10:20Z, on `eb0abea1`:
+Shard by shard, read at 10:38Z, on `eb0abea1`:
 
 | Job              | Result                      | When                     |
 | ---------------- | --------------------------- | ------------------------ |
 | `unit (5, 6)`    | **green**                   | 09:38:32–09:43:48, 5m16s |
 | `browser (6, 8)` | **red**, 9 failed 54 passed | 09:46:55–10:04:29, 17.6m |
+| `browser (2, 8)` | **red**, 1 failed 74 passed | 10:15:32–10:32:17, 16.7m |
 | `browser (4, 8)` | running                     | since 10:06:06           |
-| `browser (2, 8)` | running                     | since 10:15:32           |
-| the other eleven | **still queued**            | —                        |
+| `unit (2, 6)`    | running                     | since 10:29:51           |
+| the other ten    | **still queued**            | —                        |
 
-**Two of fifteen have reported.** `repository`, five of the six unit shards and
-five browser shards had not started at 10:20Z.
+**Three of fifteen have reported.** `repository`, four of the six unit shards
+and five browser shards had not started at 10:38Z.
+
+**`browser (2, 8)`'s single failure is main's too, matched the same way.** It
+is `tests/e2e/docket-screenshots.spec.ts:47:1 › captures the five-minute click
+path`, failing at `docket-screenshots.spec.ts:72:52` on the first screenshot of
+the walk. That exact spec, line and title is already named in main's own
+not-passing inventory at `docs/BROWSER-SUITE-CASE-LIST.md:102`, classified
+there as an assertion failure rather than as artwork or a timeout. The release
+adds nothing to it either. It was not re-run, for the same reason as the shard
+below: the one re-run this lane is allowed is worth more spent on a failure
+that is _not_ already named on main.
 
 **The one red is main's, established by title rather than by shard number.**
 `browser (6, 8)` failed with exactly the nine spec-and-title pairs main's own
@@ -323,8 +334,8 @@ five browser shards had not started at 10:20Z.
 split. The fix-main lane independently reproduced all nine at `445441a5` the
 same way. The release adds nothing to them. It was not re-run: an identical
 match against the base branch is stronger than a second run of the same shard,
-and a re-run would cost 17.6 minutes out of the queue the other eleven shards
-are still sitting in. Recorded on the pull request as
+and a re-run would cost 17.6 minutes out of the queue the rest of the run is
+still sitting in. Recorded on the pull request as
 [a comment](https://github.com/lamontaes/Political-Game-Git/pull/277#issuecomment-5774630845).
 
 **Two of those nine were this lane's and are now fixed on `main` as #351** —
@@ -341,9 +352,9 @@ the run above.
 **What this means for the morning report.** At the rate the queue is moving —
 eight browser shards at 18 to 40 minutes each against roughly three slots — the
 release will not have a complete verdict by nine o'clock. **The honest sentence
-is that the 0.4.0 release has one green unit shard and one inherited red
-browser shard on `eb0abea1`, and thirteen jobs outstanding.** Not "the release
-is verified", and not "the release is failing" either.
+is that the 0.4.0 release has one green unit shard and two red browser shards
+on `eb0abea1`, both reds inherited from `main`, and twelve jobs outstanding.**
+Not "the release is verified", and not "the release is failing" either.
 
 ## Withdrawn: the three-menu-destinations claim, which is in a merge commit
 
