@@ -1,5 +1,6 @@
 import type { AssetCompatibilityTags } from "./asset-compatibility";
 import type { AssetTargetClass } from "./asset-lineage";
+import { ASSET_TARGET_CLASSES } from "./asset-lineage";
 
 /**
  * A MISSING PICTURE, WRITTEN DOWN SO SOMEBODY CAN MAKE IT.
@@ -201,7 +202,8 @@ export type AssetRequestFindingCode =
   | "unknown-superseded-request"
   | "generator-parameter-in-identity"
   | "non-positive-minimum-width"
-  | "non-positive-request-version";
+  | "non-positive-request-version"
+  | "unknown-target-class";
 
 export interface AssetRequestFinding {
   readonly code: AssetRequestFindingCode;
@@ -332,6 +334,13 @@ export function validateAssetRequests(
         "non-positive-request-version",
         requestId,
         `requestVersion must be a positive integer.`,
+      );
+    }
+    if (!ASSET_TARGET_CLASSES.includes(request.target.targetClass)) {
+      error(
+        "unknown-target-class",
+        requestId,
+        `'${request.target.targetClass}' is not a target class. This check is here because it was not: "character-component" shipped in six entries of this file while \`AssetTargetClass\` did not list it, and nothing failed, so a figure could be requested and could not be promoted. A vocabulary that has silently diverged from the type defining it will bite something else.`,
       );
     }
     if (

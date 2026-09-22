@@ -96,12 +96,51 @@ export type AssetTargetClass =
   | "environment-plate"
   /** A title/menu tableau background. */
   | "title-plate"
+  /**
+   * A part of a person the modular composer assembles — a body, a head, a
+   * garment. Shipped, and measured differently from a plate, because a
+   * component is judged on its attachment anchors as well as its pixels.
+   *
+   * This is recorded rather than introduced. Six entries in
+   * `art/requests/asset-requests.json` already declare it — among them
+   * `person-production-seated-body` and `person-adult-lectern-pose` — and the
+   * request validator never checked `targetClass` against this list, so the
+   * shipped vocabulary and the type had drifted apart without anything
+   * failing. A figure request could be filed and could not be promoted,
+   * because the only class left for it was `reference`, which says never
+   * shipped and would have been false.
+   */
+  | "character-component"
+  /**
+   * Shipped artwork that is part of the interface rather than part of the
+   * world: a newspaper's page furniture, an icon standing for a kind of thing
+   * the shell can point at, the visual language of a chart.
+   *
+   * Unlike `character-component`, this one is INTRODUCED rather than recorded.
+   * Nothing in `art/requests/asset-requests.json` used it before it was added
+   * here, and it is added because lamontae asked on 2026-09-22 for art requests
+   * for "not just backgrounds - but things like newspapers or certain ui things
+   * or graphs", which the four existing classes cannot express: a masthead
+   * ornament is not a room the compositor paints, not a menu tableau, not a
+   * part of a person, and emphatically not `reference`, which means never
+   * shipped.
+   *
+   * The boundary that matters: an interface graphic is drawn once and reused
+   * wherever that interface element appears, and it never asserts a fact about
+   * the world. An icon for "measure" stands for the idea of a measure; it does
+   * not depict any particular bill. Anything that depicts a real, identified
+   * subject belongs in one of the other classes, where the likeness and
+   * provenance rules apply to it.
+   */
+  | "interface-graphic"
   /** Evidence and authoring reference; never shipped. */
   | "reference";
 
 export const ASSET_TARGET_CLASSES: readonly AssetTargetClass[] = [
   "environment-plate",
   "title-plate",
+  "character-component",
+  "interface-graphic",
   "reference",
 ];
 
