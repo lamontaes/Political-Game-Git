@@ -5282,8 +5282,8 @@ function renderWorkspace({
                 <ExecutiveWorkWorkspace
                   world={session.world}
                   onWorldChange={onWorldChange}
-                  onClose={close}
                   handlers={createCampaignElectionTransitionRegistry()}
+                  placement="inline"
                 />
               ) : null}
             </>
