@@ -100,7 +100,9 @@ function watchForErrors(page: Page): string[] {
 async function readJournal(page: Page): Promise<string> {
   await goTo(page, "nav-journal-entry");
   await expect(page.getByTestId("journal")).toBeVisible();
-  const text = await page.getByTestId("journal-entries").innerText();
+  // The shell's Journal is the life biography (World39Journal), which has no
+  // journal-entries list; that list belongs to the older in-scene reader.
+  const text = await page.getByTestId("world39-biography").innerText();
   await page
     .getByTestId("journal")
     .getByRole("button", { name: "Close", exact: true })
@@ -412,8 +414,10 @@ test.describe("What is written to disk is a player's world", () => {
     expect(written).not.toMatch(/validation-only/i);
     expect(written).not.toMatch(/demo-world/i);
     expect(written).toContain("production-world-v1");
-    expect(written).not.toMatch(/The week's errands/i);
-    expect(written).not.toMatch(/Whether to go to the meeting/i);
+    // By stable key, not title: the titles have been reworded twice, and a
+    // title check passes silently the moment the wording moves.
+    expect(written).not.toContain("ordinary-life:household-errands");
+    expect(written).not.toContain("ordinary-life:public-meeting");
   });
 
   test("keeps the newest revision when the player leaves straight after acting", async ({

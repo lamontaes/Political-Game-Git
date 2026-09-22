@@ -1,0 +1,39 @@
+{
+  "filedAt": "2026-09-22T21:35:00.000Z",
+  "impact": "blocks-work",
+  "lane": "climbing from council to president",
+  "priority": "P1",
+  "question": "The game offers neither a congressional nor a presidential candidacy to a player anywhere. For an ordinary person to run: (1) U.S. House and Senate: constitutional age, citizenship and inhabitancy requirements; how a home address maps to a House district; and each state's candidate filing deadlines and primary dates for the 2026 and 2028 cycles, or a rule to derive them; (2) President: age 35, 14 years' residence, natural-born citizenship; the primary and caucus calendar; how ballot access is gained state by state (filing fees, petitions, party rules); and how the nominating convention works; (3) a realistic range to use where a state's dates have not been read.",
+  "questionId": "running-for-congress-and-president-as-data",
+  "relatedQuestionIds": [
+    "new-member-transition-and-orientation",
+    "local-executive-and-council-rules"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Climbing from council to president playtest thread, filed by the research intake thread",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests on main 5860a629, checked by the climbing thread",
+      "whatItDidNotSettle": "new-member-transition-and-orientation covers only what follows a win; nothing covers filing for Congress or president."
+    },
+    {
+      "source": "ChatGPT reply document, CURRENT VERIFIED FINDINGS (20:45Z)",
+      "whatItDidNotSettle": "Confirms Congress is built at the opening and the ordinary filing route lacks it; gives no filing calendars or ballot-access rules."
+    }
+  ],
+  "title": "Running for Congress and for president as an ordinary person, in data form",
+  "usableAnswer": "A per-state table of congressional filing deadlines and primary dates for 2026 and 2028 (or a derivation rule with its statute), the constitutional qualifications with citations, a per-state presidential ballot-access table, the primary and caucus calendar, and a stated fallback range for unread states.",
+  "whyItMatters": "lamontae asked for a playtest climbing council to mayor to state legislature to Congress to president. The opening builds Congress, but the ordinary filing route (candidacy.ts electiveOfficesForJurisdiction) offers only state and local offices, so the climb stops at the state line.",
+  "answer": {
+    "summary": "Part (1), U.S. House and Senate, answered for the constitutional qualifications only, together with lamontae's clarified intent. A character who meets the Constitution's qualifications can enter a normal campaign, win the election and hold the actual House or Senate seat; the existing climb, campaign and governing owners connect the existing seats to eligibility, filing, contest, qualification, term and playable office, with Save and Continue proof. lamontae is not being asked to choose a chamber-first rollout or approve seat-id mechanics; seat-id continuity is the implementation route. Qualifications: House, minimum age 25, seven years a U.S. citizen, an inhabitant of the represented state when elected. Senate, minimum age 30, nine years a U.S. citizen, an inhabitant of the represented state when elected. Constitutional qualifications are distinct from filing and ballot-access procedure, and exact state filing rules must be verified before they are claimed.",
+    "sources": [
+      "https://history.house.gov/Institution/Qualifications/Qualifications-for-Membership-Cases/",
+      "https://www.senate.gov/senators/qualifications_termsofservice.htm",
+      "ChatGPT reply document 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, 'OWNER ANSWER — CONGRESSIONAL PLAYABLE ROUTE' and the CTO readback, read 22:12Z",
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, 'CURRENT RECEIPT — NATIONWIDE REGULATOR RESEARCH AND OWNER REVIEW', modified 21:35Z"
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T21:58:00.000Z",
+    "stillOpen": "Still open: how a home address maps to a House district; each state's 2026 and 2028 candidate filing deadlines and primary dates, or a rule to derive them; and the whole of part (2), the presidency (the primary and caucus calendar, state-by-state ballot access, and the nominating convention). ChatGPT calls this 'owner intent plus sourced qualifications, not implementation or a passed game test'."
+  }
+}
