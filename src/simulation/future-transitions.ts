@@ -37,7 +37,7 @@ import {
   worldMetricEntityAvailableAt,
   worldMetricEntityExists,
 } from "./world-metrics";
-import { assertWorldIntegrity } from "./world";
+import { assertWorldIntegrity, withWorldIntegrityDeferred } from "./world";
 import {
   vitalityEntityAvailableAt,
   vitalityEntityExists,
@@ -445,7 +445,9 @@ export function resolveFutureDueItemsThrough(
     const unchangedInput = JSON.stringify(atDueDate);
     const dueItemsBefore = atDueDate.history.futureDueItems;
     const dueStatesBefore = atDueDate.history.futureDueItemStates;
-    const result = handler(atDueDate, item);
+    // The handler's writers skip their per-write whole-world check; what it
+    // returns is validated once, in full, below, before it is kept.
+    const result = withWorldIntegrityDeferred(() => handler(atDueDate, item));
     if (JSON.stringify(atDueDate) !== unchangedInput) {
       throw new Error("Future-transition handler mutated its input world.");
     }
@@ -496,16 +498,20 @@ export function resolveFutureDueItemsThrough(
         "Future-transition handlers may only schedule new future due items.",
       );
     }
-    assertWorldIntegrity(result.world);
-    working = setFutureDueItemTerminalState(result.world, {
-      stableKey: `${item.stableKey}:state:${result.status}:${item.dueAt}`,
-      dueItemId: item.id,
-      effectiveAt: item.dueAt,
-      status: result.status,
-      reasonKey: result.reasonKey,
-      context: result.context,
-      outcomeEventId: result.outcomeEventId,
-    });
+    // Recording the item's terminal state only appends to the due history, so
+    // the handler's result and that record are validated together, once.
+    working = withWorldIntegrityDeferred(() =>
+      setFutureDueItemTerminalState(result.world, {
+        stableKey: `${item.stableKey}:state:${result.status}:${item.dueAt}`,
+        dueItemId: item.id,
+        effectiveAt: item.dueAt,
+        status: result.status,
+        reasonKey: result.reasonKey,
+        context: result.context,
+        outcomeEventId: result.outcomeEventId,
+      }),
+    );
+    assertWorldIntegrity(working);
   }
 }
 

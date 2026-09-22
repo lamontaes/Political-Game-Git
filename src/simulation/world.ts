@@ -527,8 +527,29 @@ export function createWorld(input: CreateWorldInput): World {
  */
 const VALIDATED_WORLDS = new WeakSet<World>();
 
+/*
+ * Inside one scheduled transition a handler may call dozens of writers, and
+ * each returns a new World that the next one validated again in full: a
+ * year's advance paid for a whole-world check per write, so its cost grew
+ * with the square of the world. Within `withWorldIntegrityDeferred` writers
+ * skip that check, and the caller validates the result once, in full, before
+ * anything is kept. A World that fails is still refused; it is refused at the
+ * end of the transition rather than at the write that made it.
+ */
+let integrityDeferredDepth = 0;
+
+export function withWorldIntegrityDeferred<T>(run: () => T): T {
+  integrityDeferredDepth += 1;
+  try {
+    return run();
+  } finally {
+    integrityDeferredDepth -= 1;
+  }
+}
+
 export function assertWorldIntegrity(world: World): void {
   if (VALIDATED_WORLDS.has(world)) return;
+  if (integrityDeferredDepth > 0) return;
   validateWorldIntegrity(world);
   VALIDATED_WORLDS.add(world);
 }
