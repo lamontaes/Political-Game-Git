@@ -10,6 +10,7 @@ import type {
 import { createFutureTransitionHandlerRegistry } from "../future-transitions";
 import {
   enrollMeasure,
+  introduceMeasure,
   measurePosition,
   placeMeasureOnCalendar,
   presentMeasureToExecutive,
@@ -30,10 +31,12 @@ import { chamberByKey } from "../legislature-rules";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { EntityId, IsoDate, World } from "../types";
 import { advanceWorld, recordWorldEvent } from "../world";
+import { qualificationRows } from "../office-qualification-rules";
 import {
   checkExecutiveTermLimit,
   compiledExecutiveTermLimit,
   drawnExecutiveTermLimit,
+  parseTermLimitCode,
   researchedExecutiveTermLimits,
 } from "./executive-term-limits";
 import {
@@ -87,18 +90,27 @@ function enactNebraskaBill(
   scenario: LegislativeScenario,
   world: World,
   effectiveAt: string,
+  bill: {
+    readonly measureId: EntityId;
+    readonly key: string;
+    readonly designation: string;
+  } = {
+    measureId: scenario.measureId,
+    key: "",
+    designation: "LB 1, 2026",
+  },
 ): World {
   const chamber = chamberByKey(scenario.pack, "legislature");
   const committee = chamber.committees[0]!;
   const body = bodyForChamber(scenario, "legislature");
   let next = referMeasure(world, {
-    stableKey: "referral",
-    measureId: scenario.measureId,
+    stableKey: `${bill.key}referral`,
+    measureId: bill.measureId,
     committeeKey: committee.committeeKey,
   });
   next = recordCommitteeDisposition(next, {
-    stableKey: "committee",
-    measureId: scenario.measureId,
+    stableKey: `${bill.key}committee`,
+    measureId: bill.measureId,
     recommendation: "favorable",
     dispositions: dispositionsFromCounts(
       committeeMembers(body, committee.appointedMembers),
@@ -108,14 +120,11 @@ function enactNebraskaBill(
     provenance: AUTHORED,
   });
   next = placeMeasureOnCalendar(next, {
-    stableKey: "calendar",
-    measureId: scenario.measureId,
+    stableKey: `${bill.key}calendar`,
+    measureId: bill.measureId,
   });
   for (const stage of chamber.floorStages) {
-    const until = measurePosition(
-      next,
-      scenario.measureId,
-    ).earliestNextFloorDate;
+    const until = measurePosition(next, bill.measureId).earliestNextFloorDate;
     if (until && next.currentDate < until)
       next = advanceWorld(
         next,
@@ -123,8 +132,8 @@ function enactNebraskaBill(
         createFutureTransitionHandlerRegistry([]),
       );
     next = takeFloorVote(next, {
-      stableKey: stage.stageKey,
-      measureId: scenario.measureId,
+      stableKey: `${bill.key}${stage.stageKey}`,
+      measureId: bill.measureId,
       dispositions: dispositionsFromCounts(body.members, {
         yea: body.members.length,
         nay: 0,
@@ -135,23 +144,23 @@ function enactNebraskaBill(
     });
   }
   next = enrollMeasure(next, {
-    stableKey: "enroll",
-    measureId: scenario.measureId,
+    stableKey: `${bill.key}enroll`,
+    measureId: bill.measureId,
   });
   next = presentMeasureToExecutive(next, {
-    stableKey: "present",
-    measureId: scenario.measureId,
+    stableKey: `${bill.key}present`,
+    measureId: bill.measureId,
   });
   next = recordExecutiveAction(next, {
-    stableKey: "governor",
-    measureId: scenario.measureId,
+    stableKey: `${bill.key}governor`,
+    measureId: bill.measureId,
     action: "signed",
     rationale: "The Governor signed it.",
   });
   return recordEnactment(next, {
-    stableKey: "enactment",
-    measureId: scenario.measureId,
-    actDesignation: "LB 1, 2026",
+    stableKey: `${bill.key}enactment`,
+    measureId: bill.measureId,
+    actDesignation: bill.designation,
     effectiveAt,
   });
 }
@@ -163,6 +172,7 @@ function nebraskaLaw(
   options: {
     readonly world?: (scenario: LegislativeScenario) => World;
     readonly applicability?: RuleChangeApplicability;
+    readonly effectiveAt?: string;
   } = {},
 ) {
   const scenario = createLegislativeScenario("nebraska");
@@ -178,8 +188,50 @@ function nebraskaLaw(
   return {
     scenario,
     before: filed,
-    world: enactNebraskaBill(scenario, filed, "2026-07-01"),
+    world: enactNebraskaBill(
+      scenario,
+      filed,
+      options.effectiveAt ?? "2026-07-01",
+    ),
   };
+}
+
+/** A second Nebraska bill changing the Governor's term, made law after the first. */
+function secondTermLaw(
+  scenario: LegislativeScenario,
+  world: World,
+  value: number,
+  effectiveAt: string,
+): World {
+  const first = world.history.legislativeMeasures!.find(
+    (measure) => measure.id === scenario.measureId,
+  )!;
+  let next = introduceMeasure(world, {
+    stableKey: "second:measure",
+    jurisdictionId: first.jurisdictionId,
+    rulePackId: first.rulePackId,
+    designation: "LB 2",
+    shortTitle: "Governor's term",
+    summary: "Changes the length of the Governor's term.",
+    origin: "member-introduction",
+    subjectClass: first.subjectClass,
+    sponsorPersonId: playerOf(world),
+  });
+  const measureId = next.history.legislativeMeasures!.find(
+    (measure) => measure.stableKey === "second:measure",
+  )!.id;
+  next = fileRuleChangeProvision(next, {
+    stableKey: "second:governor-term",
+    measureId,
+    officeKey: GOVERNOR,
+    field: "executive.term.years",
+    value,
+  });
+  return enactNebraskaBill(scenario, next, effectiveAt, {
+    measureId,
+    key: "second:",
+    designation: "LB 2, 2026",
+  });
 }
 
 /** The scenario's player has served two consecutive terms and sits in the second. */
@@ -379,6 +431,48 @@ describe("A governor's term length, changed by law", () => {
     ).toBe(true);
   });
 
+  it("anchors a second law on the calendar the first one left, never on a cycle projected backwards", () => {
+    // Law one: three-year terms from February 2027. The term won in 2026
+    // began in January, before it, so the first term it reaches is 2030's.
+    // Law two, a month later: five-year terms. The 2026 term still runs to
+    // January 2031, so the first term law two can reach is also 2030's.
+    // Anchoring it on law one's cycle projected backwards, over years law one
+    // never governed, put an election in 2027.
+    const law = { effectiveAt: "2027-02-01" };
+    const { scenario, world: onlyOne } = nebraskaLaw(
+      "executive.term.years",
+      3,
+      law,
+    );
+    const both = secondTermLaw(scenario, onlyOne, 5, "2027-03-01");
+    expect(isStateExecutiveElectionYearInWorld(onlyOne, "NE", 2030)).toBe(true);
+    expect(isStateExecutiveElectionYearInWorld(onlyOne, "NE", 2033)).toBe(true);
+    for (const year of [2027, 2028, 2029])
+      expect(isStateExecutiveElectionYearInWorld(both, "NE", year)).toBe(false);
+    expect(isStateExecutiveElectionYearInWorld(both, "NE", 2030)).toBe(true);
+    expect(isStateExecutiveElectionYearInWorld(both, "NE", 2033)).toBe(false);
+    expect(isStateExecutiveElectionYearInWorld(both, "NE", 2035)).toBe(true);
+    const term = termDatesAfterElectionInWorld(
+      both,
+      "NE",
+      nextRegularElectionInWorld(both, "NE", makeIsoDate("2027-01-01"))!,
+    )!;
+    expect(term.startsAt.slice(0, 4)).toBe("2031");
+    expect(term.endsAt.slice(0, 4)).toBe("2036");
+  });
+
+  it("returns to the old cycle when a later law restores the old length", () => {
+    const { scenario, world: six } = nebraskaLaw("executive.term.years", 6);
+    const restored = secondTermLaw(scenario, six, 4, "2026-08-01");
+    expect(isStateExecutiveElectionYearInWorld(six, "NE", 2030)).toBe(false);
+    expect(isStateExecutiveElectionYearInWorld(restored, "NE", 2030)).toBe(
+      true,
+    );
+    expect(isStateExecutiveElectionYearInWorld(restored, "NE", 2032)).toBe(
+      false,
+    );
+  });
+
   it("applies a law that asks to reach the sitting term from the next term, and records that it did", () => {
     const { world } = nebraskaLaw("executive.term.years", 6, {
       applicability: { appliesTo: "immediately", countsPriorService: null },
@@ -394,6 +488,21 @@ describe("A governor's term length, changed by law", () => {
 });
 
 describe("A state the game has not read", () => {
+  it("reads every researched limit it is given, rather than drawing over one it cannot parse", () => {
+    const rows = qualificationRows().filter(
+      (row) =>
+        row.officeFamily === "GOVERNOR" &&
+        row.field === "TERM_LIMIT" &&
+        row.sourceState === "KNOWN",
+    );
+    expect(rows.length).toBeGreaterThan(0);
+    for (const row of rows)
+      expect(
+        parseTermLimitCode(String(row.value)),
+        row.stateUsps,
+      ).not.toBeNull();
+  });
+
   it("draws its limit from the limits read states actually enacted, the same every time", () => {
     const read = researchedExecutiveTermLimits();
     expect(read.length).toBeGreaterThan(0);

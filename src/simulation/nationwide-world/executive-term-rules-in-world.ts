@@ -93,19 +93,25 @@ function governingTermYearChanges(
   return governing;
 }
 
-/** The first election year, under `rule`, whose term begins on or after `date`. */
+/**
+ * The first election year whose term begins on or after `date`, reading each
+ * year under the segment that governs it. A later law is anchored on the
+ * calendar as earlier laws already left it, not on the latest rule's cycle
+ * projected back over years it never governed.
+ */
 function firstElectionYearWithTermFrom(
-  rule: StateExecutiveTermRule,
+  segments: readonly TermSegment[],
   date: IsoDate,
 ): number {
   const from = Number(date.slice(0, 4)) - 1;
   for (let year = from; year < from + 40; year += 1) {
+    const { rule } = segmentForElectionYear(segments, year);
     if (!isElectionYear(rule.election, year)) continue;
     const election = generalElectionDay(rule.election, year);
     if (commencementAfter(rule.commencement, election) >= date) return year;
   }
   throw new Error(
-    `No regular term for ${rule.stateUsps} begins after ${date}.`,
+    `No regular term for ${segments[0]!.rule.stateUsps} begins after ${date}.`,
   );
 }
 
@@ -133,10 +139,11 @@ function termSegments(
   )) {
     if (typeof change.value !== "number" || change.value === rule.termYears)
       continue;
-    const year = firstElectionYearWithTermFrom(rule, change.operativeAt);
+    const year = firstElectionYearWithTermFrom(segments, change.operativeAt);
+    const reached = segmentForElectionYear(segments, year).rule;
     const firstTermStartsAt = commencementAfter(
-      rule.commencement,
-      generalElectionDay(rule.election, year),
+      reached.commencement,
+      generalElectionDay(reached.election, year),
     );
     rule = {
       ...rule,
