@@ -3,7 +3,6 @@ import { watch as watchReceived } from "node:fs";
 import { channelPath, verifyReceivedBuild } from "./received-channel.mjs";
 import {
   hasSavableLife,
-  isIdleTitle,
   saveOpenLife,
   prepareQuit,
   hasUnsavedEdits,
@@ -148,11 +147,6 @@ const DEFAULT_PACK = path.join(
   "modular41-current",
 );
 const CHROME_HEIGHT = 92;
-const requestedAutoCheck = Number(process.env.OCD_HUB_AUTO_UPDATE_INTERVAL_MS);
-const AUTO_UPDATE_INTERVAL_MS =
-  Number.isFinite(requestedAutoCheck) && requestedAutoCheck >= 5_000
-    ? requestedAutoCheck
-    : 60_000;
 
 protocol.registerSchemesAsPrivileged([APP_SCHEME_PRIVILEGES]);
 
@@ -1221,8 +1215,8 @@ function onWorkerEvent(track, event) {
         : event.outcome === "pending"
           ? "waiting"
           : "ready";
-    if (event.outcome === "pending" && hub.play.has(track))
-      void activateAtIdleTitle(track);
+    // An open game keeps playing its build; the waiting update is installed
+    // only when the owner presses Install update (or at the next start).
     if (event.outcome === "pending" && !hub.play.has(track)) {
       // Never swapped under a running game: this track has no open view.
       outcome = activateVerifiedPending(track) ? "ready" : "failed";
@@ -1239,42 +1233,6 @@ function onWorkerEvent(track, event) {
       });
   }
   broadcast();
-}
-
-const activatingIdleTitles = new Set();
-async function activateAtIdleTitle(id) {
-  if (activatingIdleTitles.has(id)) return;
-  activatingIdleTitles.add(id);
-  try {
-    await activateAtIdleTitleOnce(id);
-  } finally {
-    activatingIdleTitles.delete(id);
-  }
-}
-
-async function activateAtIdleTitleOnce(id) {
-  if (!readState()?.tracks[id]?.pending) return;
-  const contents = hub.play.get(id)?.view.webContents;
-  if (!contents || !(await isIdleTitle(contents))) return;
-  const bench = hub.views.get("artdesk")?.webContents;
-  if (bench && (await hasUnsavedEdits(bench)) !== false) return;
-  if (!(await suspendInteraction(contents, true))) return;
-  if (bench && !(await suspendInteraction(bench, true))) {
-    await suspendInteraction(contents, false);
-    return;
-  }
-  try {
-    if (
-      !(await isIdleTitle(contents)) ||
-      (await hasUnsavedEdits(contents)) !== false ||
-      (bench && (await hasUnsavedEdits(bench)) !== false)
-    )
-      return;
-    await applyPending(id);
-  } finally {
-    if (!contents.isDestroyed()) await suspendInteraction(contents, false);
-    if (bench && !bench.isDestroyed()) await suspendInteraction(bench, false);
-  }
 }
 
 function activateVerifiedPending(id) {
@@ -1667,18 +1625,6 @@ ipcMain.handle("game:request-quit", (event) => {
   return requestQuit();
 });
 
-ipcMain.on("game:title-ready", (event) => {
-  const entry = [...hub.play.entries()].find(
-    ([, game]) => game.view.webContents === event.sender,
-  );
-  if (
-    entry &&
-    event.senderFrame === event.sender.mainFrame &&
-    event.senderFrame.url.startsWith(`${APP_ORIGIN}/`)
-  )
-    void activateAtIdleTitle(entry[0]);
-});
-
 const TABS = new Set(["play", "artdesk", "agents", "settings"]);
 const trackArg = (id) =>
   id === MAIN_TRACK ||
@@ -1905,30 +1851,9 @@ handle("hub:reveal-token", (file) => {
 
 /* -------------------------------------------------------------- lifecycle */
 
-let lastForegroundCheck = 0;
-let automaticCheckTimer = null;
-function scheduleAutomaticUpdateCheck() {
-  clearTimeout(automaticCheckTimer);
-  automaticCheckTimer = setTimeout(() => {
-    automaticCheckTimer = null;
-    if (hub.quitting) return;
-    const selected = readState()?.selectedTrack;
-    if (selected) startWorker(selected);
-    scheduleAutomaticUpdateCheck();
-  }, AUTO_UPDATE_INTERVAL_MS);
-  automaticCheckTimer.unref();
-}
-
-function reconcileOnForeground() {
-  if (hub.quitting) return;
-  const selected = readState()?.selectedTrack;
-  if (!selected) return;
-  void activateAtIdleTitle(selected);
-  // macOS may emit both application activation and window focus together.
-  if (Date.now() - lastForegroundCheck < 2000) return;
-  lastForegroundCheck = Date.now();
-  startWorker(selected, false, true);
-}
+// Updates are checked like a normal game's: once when the hub opens and when
+// the owner presses Check for updates. There is no timer and no check on
+// focus — each check can compile a whole build, which stalls the game.
 
 function createWindow() {
   const win = new BaseWindow({
@@ -1948,7 +1873,6 @@ function createWindow() {
   for (const view of hub.views.values()) win.contentView.addChildView(view);
   win.contentView.addChildView(hub.chrome);
   win.on("resize", layout);
-  win.on("focus", reconcileOnForeground);
   win.on("close", (event) => {
     if (hub.quitting) return;
     event.preventDefault();
@@ -2091,7 +2015,6 @@ if (!app.requestSingleInstanceLock()) {
     if (hub.window) {
       if (hub.window.isMinimized()) hub.window.restore();
       hub.window.focus();
-      reconcileOnForeground();
     }
   });
 
@@ -2154,7 +2077,6 @@ if (!app.requestSingleInstanceLock()) {
     });
     app.once("will-quit", () => {
       clearTimeout(receivedTimer);
-      clearTimeout(automaticCheckTimer);
       receivedWatcher.close();
     });
     createWindow();
@@ -2188,8 +2110,6 @@ if (!app.requestSingleInstanceLock()) {
       startWorker(MAIN_TRACK, false, true);
       if (selected !== MAIN_TRACK) startWorker(selected, false, true);
     }
-    if (process.env.OCD_HUB_SKIP_AUTOMATIC_CHECKS !== "1")
-      scheduleAutomaticUpdateCheck();
     broadcast();
   });
 
@@ -2198,7 +2118,6 @@ if (!app.requestSingleInstanceLock()) {
       hub.window.show();
       hub.window.focus();
     }
-    reconcileOnForeground();
   });
   app.on("window-all-closed", () => {
     if (!hub.quitting) void requestQuit();
