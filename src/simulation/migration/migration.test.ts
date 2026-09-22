@@ -18,6 +18,7 @@ import type { EntityId, World } from "../types";
 import { assertWorldIntegrity } from "../world";
 import {
   MIGRATION_REVIEW_TRANSITION_KEY,
+  MIGRATION_REVIEWS_PER_YEAR,
   MIGRATION_SEAMS,
   WAVE_CATALOGUE,
   activeWavesCovering,
@@ -77,7 +78,7 @@ describe("migration scaffold", () => {
   const town = opened.world.people[opened.playerId]!.homeJurisdictionId;
   const oregon = stateJurisdictionForKey("US-OR")!.id;
 
-  it("schedules a monthly review for a current opening", () => {
+  it("schedules a quarterly review for a current opening", () => {
     expect(
       opened.world.history.futureDueItems.some(
         (item) => item.transitionKey === MIGRATION_REVIEW_TRANSITION_KEY,
@@ -161,15 +162,17 @@ describe("migration scaffold", () => {
     // Rates high enough that one review on the opening day does both, so the
     // test measures the migration step and nothing else the clock runs.
     const { world: seeded, neighbourId } = withNeighbour(opened.world, town);
-    const month = [...Array(12).keys()].find((index) => {
-      const probe = reviewTown(seeded, index, {
-        departureChancePerYear: 1,
-        arrivalsPerResidentPerYear: 0,
-      });
-      return probe.people[neighbourId]!.homeJurisdictionId !== town;
-    })!;
-    expect(month, "the neighbour is reviewed in some month").toBeDefined();
-    const world = reviewTown(seeded, month, {
+    const quarter = [...Array(MIGRATION_REVIEWS_PER_YEAR).keys()].find(
+      (index) => {
+        const probe = reviewTown(seeded, index, {
+          departureChancePerYear: 1,
+          arrivalsPerResidentPerYear: 0,
+        });
+        return probe.people[neighbourId]!.homeJurisdictionId !== town;
+      },
+    )!;
+    expect(quarter, "the neighbour is reviewed in some quarter").toBeDefined();
+    const world = reviewTown(seeded, quarter, {
       departureChancePerYear: 1,
       arrivalsPerResidentPerYear: 12,
     });
@@ -199,7 +202,7 @@ describe("migration scaffold", () => {
     // The same review on the same world decides the same thing.
     expect(
       serializeWorld(
-        reviewTown(seeded, month, {
+        reviewTown(seeded, quarter, {
           departureChancePerYear: 1,
           arrivalsPerResidentPerYear: 12,
         }),
@@ -210,15 +213,15 @@ describe("migration scaffold", () => {
   it("a wave covering the town is named as the reason people leave", () => {
     const { world: seeded, neighbourId } = withNeighbour(opened.world, town);
     const waved = startWave(seeded, "jobs-gone-exodus", town, "Test.");
-    const month = [...Array(12).keys()].find(
+    const quarter = [...Array(MIGRATION_REVIEWS_PER_YEAR).keys()].find(
       (index) =>
         reviewTown(waved, index, {
           departureChancePerYear: 0.5,
           arrivalsPerResidentPerYear: 0,
         }).people[neighbourId]!.homeJurisdictionId !== town,
     );
-    expect(month, "doubled pressure moves the neighbour").toBeDefined();
-    const world = reviewTown(waved, month!, {
+    expect(quarter, "doubled pressure moves the neighbour").toBeDefined();
+    const world = reviewTown(waved, quarter!, {
       departureChancePerYear: 0.5,
       arrivalsPerResidentPerYear: 0,
     });

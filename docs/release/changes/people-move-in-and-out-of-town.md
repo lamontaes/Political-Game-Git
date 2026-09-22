@@ -5,7 +5,7 @@ section: Added
 title: People move in and out of your town
 ---
 
-Your town no longer stands still. About once a month the world checks who is
+Your town no longer stands still. Four times a year the world checks who is
 leaving and who is arriving. A household with nothing holding it in place may
 pack up for somewhere else in the state or for another state. Newcomers
 arrive from elsewhere in the country, and each has a name and a record of

@@ -294,7 +294,7 @@ export function evaluateCause(
 }
 
 /**
- * One monthly step of the waves covering a place: end the ones whose time is
+ * One quarterly step of the waves covering a place: end the ones whose time is
  * up, begin any whose cause is met and that are not in their quiet period.
  * No integrity check (the runner owns it).
  */

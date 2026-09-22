@@ -1,16 +1,19 @@
 /**
- * The monthly migration review: waves take their step, some households in the
- * player's town leave, and some newcomers arrive.
+ * The quarterly migration review: waves take their step, some households in
+ * the player's town leave, and some newcomers arrive.
  *
  * Why the player's town only: it is the one town the world seats with
  * residents. Everybody else lives at state level (Congress, executives), is
  * tied to a seat, or is not a resident of anywhere in particular. When other
  * towns are seated this loop covers each of them the same way.
  *
- * Cost: one pass over the town's residents and one over the tie records per
- * month, a person reviewed once a year in their own month, no integrity check
- * per move (the transition runner asserts once over the result), and one
- * batched person writer for the month's arrivals.
+ * Cost: every scheduled transition costs the runner two whole-world
+ * serializations and an integrity check, so the review runs four times a year,
+ * not monthly (a monthly review measurably timed out long election tests).
+ * Inside it: one pass over the town's residents, the tie records read only
+ * when somebody's departure draw succeeds, a person reviewed once a year in
+ * their own quarter, no integrity check per move, and one batched person
+ * writer for the quarter's arrivals.
  */
 
 import {
@@ -71,7 +74,9 @@ export const BLANKET_SAME_STATE_SHARE = 0.5;
 /** BLANKET: a newcomer's age on arrival, inclusive-exclusive. Not researched. */
 export const BLANKET_ARRIVAL_AGE = [20, 66] as const;
 
-export const MIGRATION_REVIEW_INTERVAL_DAYS = 30;
+/** Reviews per year; each person is considered in one of them. */
+export const MIGRATION_REVIEWS_PER_YEAR = 4;
+export const MIGRATION_REVIEW_INTERVAL_DAYS = 91;
 
 const REVIEW_KEY_PREFIX = "migration:review:";
 
@@ -139,7 +144,7 @@ export const BLANKET_MIGRATION_RATES: MigrationRates = {
 
 /**
  * One review of the player's town on the world's current date, as the
- * monthly handler runs it. `index` is the review's month count. Exposed so a
+ * quarterly handler runs it. `index` is the review's count since opening. Exposed so a
  * scenario or a test can apply other rates; play always uses the blanket.
  */
 export function reviewTown(
@@ -163,11 +168,8 @@ export function reviewTown(
       person.birthDate <= next.currentDate
     );
   });
-  const context = {
-    ties: moveTies(next),
-    playerHousehold: playerHouseholdPeople(next),
-    dead,
-  };
+  // Read only once somebody's draw says they leave; most reviews move nobody.
+  let context: Parameters<typeof planMove>[2] | null = null;
   const destinations = destinationPool(next, town);
   const chance = rates.departureChancePerYear * departure.multiplier;
   const reason: MoveReasonKey = departure.waveKey
@@ -178,13 +180,19 @@ export function reviewTown(
   const moves: PlannedMove[] = [];
   for (const personId of residents) {
     if (moving.has(personId)) continue;
-    if (reviewMonth(personId) !== index % 12) continue;
+    if (reviewQuarter(personId) !== index % MIGRATION_REVIEWS_PER_YEAR)
+      continue;
     if (ageOnDate(next.people[personId]!.birthDate, next.currentDate) < 18)
       continue;
     const rng = new SeededRng(next.seed).fork(
       `${MIGRATION_CONTRACT_VERSION}:depart:${index}:${personId}`,
     );
     if (rng.next() >= chance) continue;
+    context ??= {
+      ties: moveTies(next),
+      playerHousehold: playerHouseholdPeople(next),
+      dead,
+    };
     const plan = planMove(
       next,
       {
@@ -254,12 +262,12 @@ export function reviewTown(
   return next;
 }
 
-/** Which month of the year a person is reviewed in: fixed per person. */
-function reviewMonth(personId: EntityId): number {
+/** Which quarter of the year a person is reviewed in: fixed per person. */
+function reviewQuarter(personId: EntityId): number {
   let hash = 0;
   for (let i = 0; i < personId.length; i += 1)
     hash = (hash * 31 + personId.charCodeAt(i)) >>> 0;
-  return hash % 12;
+  return hash % MIGRATION_REVIEWS_PER_YEAR;
 }
 
 interface DestinationPool {
@@ -293,7 +301,7 @@ function chooseDestination(rng: SeededRng, pool: DestinationPool): EntityId {
 }
 
 /**
- * This month's newcomers. BLANKET (`arrivals`, `arrival-history`,
+ * This quarter's newcomers. BLANKET (`arrivals`, `arrival-history`,
  * `arriving-families`): single adults, born where they came from, with a
  * canonical name and identity and nothing else yet.
  */
@@ -308,7 +316,8 @@ function arrivalInputs(
   const rng = new SeededRng(world.seed).fork(
     `${MIGRATION_CONTRACT_VERSION}:arrive:${index}`,
   );
-  const expected = (residentCount * ratePerResidentPerYear) / 12;
+  const expected =
+    (residentCount * ratePerResidentPerYear) / MIGRATION_REVIEWS_PER_YEAR;
   const count = Math.floor(expected) + (rng.next() < expected % 1 ? 1 : 0);
   const year = Number(world.currentDate.slice(0, 4));
   const inputs: CharacterHistoryContextPersonInput[] = [];

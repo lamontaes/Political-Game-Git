@@ -39,7 +39,7 @@ export const WAVE_BEGAN_EVENT = "migration.wave-began";
 /** A wave was recorded as over in a scope. */
 export const WAVE_ENDED_EVENT = "migration.wave-ended";
 
-export const MIGRATION_REVIEW_TRANSITION_KEY = "migration:monthly-review";
+export const MIGRATION_REVIEW_TRANSITION_KEY = "migration:quarterly-review";
 
 /**
  * Why somebody moved. Open taxonomy, namespaced like the rest of the life
@@ -91,7 +91,7 @@ export const MIGRATION_SEAMS: readonly MigrationSeam[] = [
     connects:
       "A move changes the person's home, their current residence fact and their household's location.",
     status: "built",
-    rule: "The old residence fact is closed on the move date and a new one opened; the household gets a superseding location; homeJurisdictionId follows. One integrity check per monthly step, not per move.",
+    rule: "The old residence fact is closed on the move date and a new one opened; the household gets a superseding location; homeJurisdictionId follows. One integrity check per quarterly review, not per move.",
     where: "src/simulation/migration/relocate.ts",
   },
   {
@@ -230,7 +230,7 @@ export const MIGRATION_SEAMS: readonly MigrationSeam[] = [
   },
 ];
 
-/** What a monthly review decided, for tests and for a future debugging surface. */
+/** What a quarterly review decided, for tests and for a future debugging surface. */
 export interface MigrationReviewSummary {
   readonly reviewedOn: IsoDate;
   readonly departedHouseholds: number;

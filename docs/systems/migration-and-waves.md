@@ -15,9 +15,9 @@ second.
   superseding location, and open district memberships close.
   `relocateHousehold` is the single-move writer for scenarios and future
   player routes; `recordedMoves` reads every move back.
-- **The monthly review** (`src/simulation/migration/review.ts`). Runs for
+- **The quarterly review** (`src/simulation/migration/review.ts`). Runs for
   lives opened at the current world version. In the player's town it steps
-  the waves, reviews each adult once a year in their own month, moves the
+  the waves, reviews each adult once a year in their own quarter, moves the
   households that leave, and creates newcomers as `migration.arrived`.
 - **Waves** (`src/simulation/migration/waves.ts`). A wave is a definition with
   causes, effects, a duration and a quiet period. Its life in a save is a

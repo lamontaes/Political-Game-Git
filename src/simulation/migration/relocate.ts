@@ -13,7 +13,7 @@
  *   built (see `MIGRATION_SEAMS`, `district-membership`).
  *
  * Nothing here asserts world integrity per move. `applyMoves` builds every
- * move in a step on one object; the monthly review runs inside the future
+ * move in a step on one object; the quarterly review runs inside the future
  * transition runner, which asserts integrity once over the handler's result.
  * The single-move public writer `relocateHousehold` asserts once itself.
  */
