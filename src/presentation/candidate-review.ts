@@ -492,12 +492,20 @@ export function reviewPlacementFor(
   const root = body.definition.root;
   const sole = contacts?.leftFoot ?? contacts?.rightFoot;
   if (!sole || !root) {
+    // Three different absences, and saying which is the whole value of the
+    // note. A body may now declare a seat contact and no feet — a turned seated
+    // figure occludes its own far foot — so "has contacts" no longer implies
+    // "has a sole", and reporting a missing root for a body that has one would
+    // send the next reader to the wrong place.
+    const reason = !root
+      ? "declares no rig root, so nothing can be positioned from it"
+      : contacts?.seatedPelvis
+        ? "declares a seat contact but no feet — the sole band did not resolve two — so it belongs on a seat rather than a floor line"
+        : "declares no foot contacts — the sole band did not resolve two feet";
     return {
       anchor: base,
       basis: "rig-root",
-      note: contacts
-        ? `'${bodyAssetId}' declares no rig root, so its sole cannot be placed on a floor line.`
-        : `'${bodyAssetId}' declares no foot contacts — the sole band did not resolve two feet — so it is placed by its rig root and its ground contact is unverified.`,
+      note: `'${bodyAssetId}' ${reason}, so it is placed by its rig root and its ground contact is unverified.`,
     };
   }
   const canvas = body.definition.canvas;
