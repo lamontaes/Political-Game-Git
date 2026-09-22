@@ -24,6 +24,19 @@ export interface RuntimeContentPack {
   readonly scenes: readonly (LifeSceneDefinition & {
     readonly durationRef?: string;
   })[];
+  /**
+   * Traits this pack adds, in the shape `trait-packs.ts` declares. Optional,
+   * so every pack written before traits could travel reads exactly as it did.
+   *
+   * Only the container is checked here. Each row is read by
+   * `installed-trait-packs.ts`, which skips a malformed row with its reason
+   * rather than refusing the pack: a bad trait must not take a good encounter
+   * down with it.
+   */
+  readonly traits?: {
+    readonly traits: readonly unknown[];
+    readonly effects: readonly unknown[];
+  };
 }
 export interface SavedContentPack {
   readonly pack: RuntimeContentPack;
@@ -100,17 +113,21 @@ export function assertRuntimeContentPack(
   value: unknown,
 ): asserts value is RuntimeContentPack {
   record(value);
-  shape(value, [
-    "kind",
-    "api",
-    "id",
-    "version",
-    "title",
-    "authority",
-    "dependencies",
-    "durations",
-    "scenes",
-  ]);
+  shape(
+    value,
+    [
+      "kind",
+      "api",
+      "id",
+      "version",
+      "title",
+      "authority",
+      "dependencies",
+      "durations",
+      "scenes",
+    ],
+    ["traits"],
+  );
   if (
     value.kind !== "our-civic-duty-content-pack" ||
     value.api !== CONTENT_PACK_API ||
@@ -129,6 +146,12 @@ export function assertRuntimeContentPack(
   list(value.dependencies, 16);
   list(value.durations, 32);
   list(value.scenes, 32);
+  if (value.traits !== undefined) {
+    record(value.traits);
+    shape(value.traits, ["traits", "effects"]);
+    list(value.traits.traits, 64);
+    list(value.traits.effects, 64);
+  }
   for (const dependency of value.dependencies) {
     record(dependency);
     shape(dependency, ["id", "version"]);

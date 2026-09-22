@@ -10,6 +10,7 @@ import {
   loadTraitPacks,
   packOfQualifiedKey,
   traitDefinitionFromPack,
+  type TraitPack,
 } from "./trait-packs";
 
 /** Authored fictional-life content, not a psychometric or empirical model. */
@@ -101,8 +102,8 @@ export function createLifeMindCatalog(): MindCatalog {
  * declares. Adding a pack here is the seam a mod loader would later fill; see
  * `docs/systems/traits.md`.
  */
-export function loadedTraitPacks() {
-  return loadTraitPacks([peopleTraitPack()], []);
+export function loadedTraitPacks(installed: readonly TraitPack[] = []) {
+  return loadTraitPacks([peopleTraitPack(), ...installed], []);
 }
 
 /**
@@ -123,10 +124,17 @@ export function loadedTraitPacks() {
  * A definition whose pack is not loaded is reported as exactly that. Its
  * records are preserved and simply not consulted, because removing a pack must
  * not destroy a save's history. Older empty saves remain valid.
+ *
+ * `installed` is the trait packs the life's own content packs carry, read by
+ * `installedTraitPacks`. A trait a mod declares is admitted on exactly the
+ * terms a built-in one is: its definition must be the one its pack declares.
  */
-export function assertLifeMindContent(catalog: MindCatalog): void {
+export function assertLifeMindContent(
+  catalog: MindCatalog,
+  installed: readonly TraitPack[] = [],
+): void {
   const allowed = createLifeMindCatalog();
-  const registry = loadedTraitPacks();
+  const registry = loadedTraitPacks(installed);
   const packed = new Map(
     [...registry.traits.values()].map((trait) => {
       const definition = traitDefinitionFromPack(trait);

@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { importContentPack } from "../presentation/content-pack-import";
 import { CONTENT_PACK_MAX_CHARACTERS } from "../simulation/runtime-content-packs";
+import { traitRegistryFor } from "../simulation/trait-registry";
 import type { World } from "../simulation/types";
 
 /** A mounts this leaf inside the existing on-demand settings/menu surface. */
@@ -15,12 +16,28 @@ export function ContentPackWorkspace({
   latestWorld.current = world;
   const [message, setMessage] = useState("");
   const [pending, setPending] = useState(false);
+  // What an installed pack's traits did, including the rows that were skipped:
+  // a bad row is left out and said, never silently dropped.
+  const traitRegistry = traitRegistryFor(world);
+  const installedIds = new Set(
+    world.contentPacks?.installed.map(({ pack }) => pack.id) ?? [],
+  );
+  const traitCount = (packId: string) => {
+    const count =
+      traitRegistry.report.packs.find((report) => report.pack === packId)
+        ?.traitsRegistered.length ?? 0;
+    return count === 1 ? "1 trait" : `${count} traits`;
+  };
+  const skipped = traitRegistry.report.rejections.filter((rejection) =>
+    installedIds.has(rejection.pack),
+  );
   return (
     <section aria-label="Content packs" data-testid="content-pack-workspace">
       <h2>Content packs</h2>
       <p>
-        Add an authored encounter or its settings to this life. Imported
-        definitions stay with this saved life. Importing spends no game time.
+        Add an authored encounter, its settings or a personality trait to this
+        life. Imported definitions stay with this saved life. Importing spends
+        no game time.
       </p>
       <label>
         Import content pack
@@ -66,9 +83,22 @@ export function ContentPackWorkspace({
           <li key={pack.id}>
             {pack.title} ({pack.version}) — {pack.scenes.length} encounters,{" "}
             {pack.durations.length} settings
+            {pack.traits ? `, ${traitCount(pack.id)}` : ""}
           </li>
         ))}
       </ul>
+      {skipped.length > 0 ? (
+        <>
+          <p>Left out of this life, and why:</p>
+          <ul data-testid="content-pack-skipped">
+            {skipped.map((rejection) => (
+              <li key={`${rejection.pack} ${rejection.where}`}>
+                {rejection.pack}, {rejection.where}: {rejection.reason}
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : null}
     </section>
   );
 }
