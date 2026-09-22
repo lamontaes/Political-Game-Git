@@ -209,7 +209,85 @@ So the report he asked for, written honestly today, reads: _the world diverges
 richly, and no one in it is changed by what happens_. That is the finding, and
 it is worth more than a narrative would have been.
 
-## What a divergence report should carry — proposed metric points
+## The ten-year run, complete
+
+The Kentucky state-scope save reached year 10 at 15:50Z. Sampled every two
+years from day one, no player action at any point. Seed `drift-A`, start
+2026-01-05, end 2036-01-03.
+
+|                                 | day 1 | yr 2 | yr 4 | yr 6 | yr 8 | yr 10 |
+| ------------------------------- | ----: | ---: | ---: | ---: | ---: | ----: |
+| people                          |   555 |  642 |  734 |  851 |  955 |  1053 |
+| with no party at all            |    13 |   98 |  193 |  307 |  411 |   508 |
+| major party A                   |   263 |  255 |  256 |  258 |  267 |   266 |
+| major party B                   |   279 |  287 |  283 |  284 |  275 |   277 |
+| the party founded in play       |     0 |    2 |    2 |    2 |    2 |     2 |
+| party-evolution changes         |     0 |    1 |    1 |    1 |    1 |     1 |
+| hazard episodes                 |     0 |   12 |   20 |   26 |   34 |    42 |
+| disaster responses              |     0 |   36 |   60 |   78 |  100 |   124 |
+| officeholder continuity records |     0 |   10 |   24 |   38 |   49 |    61 |
+
+**Three things this says that the six-year sample could not.**
+
+1. **The population nearly doubles and the parties do not grow at all.** Both
+   major parties are flat to within a few people across ten years while 498
+   people arrive with no political identity. By year 10, **48% of everyone alive
+   belongs to no party**, against 2% on day one. Nothing gives an arriving
+   person an affiliation, so the world is steadily becoming politically
+   unreadable. This is the clearest defect the run found.
+2. **The party that founded itself never grew.** Two members at year 2, two
+   members at year 10. The founding is real and nothing follows it.
+3. **Party evolution fires once in ten years and never again.** One founding;
+   no split, merge, rename, dissolution or platform change ever occurred. The
+   vocabulary has six changes in it and the run exercised one.
+
+The crisis figures accumulate steadily and linearly throughout, which is what a
+Poisson process at a fixed rate should look like, and is the strongest evidence
+that the hazard system is genuinely running rather than firing once at setup.
+
+## What a divergence report should carry
+
+**Superseded 15:50Z.** ChatGPT answered this directly, and its six groups
+replace the five proposed below. Its answer names this lane as owner, with the
+playtester executing browser cases, and requires **every** group to carry its
+actual source, setup/seed, initial and final game dates, unit, geography,
+coverage and intervention:
+
+1. **Material output and price levels AND rates**, with the unemployment
+   denominator stated and modeled housing separated out.
+2. **Party vote and seat shares**, with contests, incumbency, coverage and the
+   outside-top-two share, separating unlike offices rather than pooling them.
+3. **Fixed-boundary regional change**, keeping opinion and approval separate
+   from votes and seats, and showing actual information and causal propagation.
+4. **Distinct ordinary-life contact and goal chains**, reported as
+   open/lapsed/blocked/completed outcomes rather than as inflated event counts.
+5. **Usable institutional authority, roles, action and delivery** — not raw
+   person counts.
+6. **Crisis origin, exposure, response, harm and recovery** — not a count of
+   headlines.
+
+Method, in its words: use same-state and common-innovation intervention
+controls first, then explicit different seeds, and **vary the actual
+`setup.seed` rather than only the questionnaire answers**.
+
+**Two cautions it gave that bear on findings already in this document.**
+
+- On the identical figures across saves reported below: _"Exact arithmetic must
+  stay exact across seeds. The same tax rate on the same stated taxable amount
+  SHOULD produce the same receipt in different saves... 'No two saves alike'
+  never means every equal input must have a different result."_ So that finding
+  stands as a **lead** — the variation belongs in the tax base, the actors and
+  the uptake, not in the multiplication — and specifically must not be answered
+  by adding randomness.
+- _"Surface fill is NOT a target: correctly empty differs from missing
+  producer, unreachable, stale or broken. Do not generate scandals, news or
+  debt to fill panels."_ Which is the right constraint on every producer this
+  document asks for.
+
+### The five proposed before that answer arrived
+
+Kept because three of them are not in the six and are cheap to carry; the
+numbering above is what a report should be organised by.
 
 The audit lane proposed six; these are the ones theirs does not cover, so the
 two sets compose rather than compete.
