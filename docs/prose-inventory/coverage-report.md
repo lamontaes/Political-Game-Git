@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 3166 |
-| INTENTIONALLY_NON_PLAYER_FACING | 7071 |
-| DIAGNOSTIC_OR_TEST | 7504 |
-| **NEEDS_CLASSIFICATION** | **10246** |
+| INTENTIONALLY_NON_PLAYER_FACING | 7074 |
+| DIAGNOSTIC_OR_TEST | 7535 |
+| **NEEDS_CLASSIFICATION** | **10261** |
 
-Scanned 1136 files holding 111081 string
+Scanned 1139 files holding 111331 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -219,6 +219,7 @@ literals in total; the table counts only those that read like a sentence.
 | 14 | `src/simulation/incidents.ts` |
 | 14 | `src/simulation/municipal-public-work.ts` |
 | 14 | `src/simulation/public-fiscal.ts` |
+| 14 | `src/ui/CandidateAdmissionReview.tsx` |
 | 13 | `src/player/CampaignWeekPanel.tsx` |
 | 13 | `src/player/OfficeScene.tsx` |
 | 13 | `src/player/PressInterviewPanel.tsx` |
@@ -319,6 +320,7 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/player/QuickDossier.tsx` |
 | 7 | `src/player/SceneBackdrop.tsx` |
 | 7 | `src/player/education-study-display.ts` |
+| 7 | `src/presentation/candidate-review.ts` |
 | 7 | `src/presentation/civil-personnel-evidence.ts` |
 | 7 | `src/presentation/life-talk-conversation.ts` |
 | 7 | `src/presentation/player-conversation.ts` |
@@ -340,7 +342,6 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/player/PressSourceDesk.tsx` |
 | 6 | `src/player/TitleScreen.tsx` |
 | 6 | `src/player/VenueActivityPanel.tsx` |
-| 6 | `src/player/opening-life/OpeningLifePanel.tsx` |
 | 6 | `src/presentation/calendar-time-control.ts` |
 | 6 | `src/presentation/campaign-office-discovery.ts` |
 | 6 | `src/presentation/component-masters.ts` |
