@@ -6,6 +6,9 @@ else is settled and built.
 
 ## What changed for a player
 
+_Written for the owner, in the words it was put to him. Everything below this
+section is the working detail behind it._
+
 Personality is now packs of data rather than five traits written into the code,
 so a sixth can be added without touching TypeScript. Your own character has
 their own temperament, said by you rather than seeded, and unsaid until you say
@@ -13,6 +16,28 @@ it. People who have actually dealt with somebody can read them; strangers say
 nothing rather than guessing at a middle. And letting a day go by is no longer
 recorded as you turning something down, which three different surfaces were
 getting wrong.
+
+Three things are worth knowing alongside that, because each is a gap rather
+than a win, and each is small and specific.
+
+The code that feeds the one screen showing temperament walks the five traits
+written into the source and never asks the loaded packs. So a mod that adds a
+sixth trait is consulted by every decision in the game and invisible on the
+only screen that shows temperament. That is the RimWorld comparison failing at
+the very last step, and it is a one-function fix.
+
+Your own character's temperament has no screen at all. The person card
+deliberately never shows it, which was the right call back when your character
+had no temperament to show, and stopped being right last night.
+
+The day you spend the most time on has no artwork whatsoever — all twenty-eight
+player stylesheets were checked and not one references an image — and the three
+ways a thing on your calendar can end are drawn identically. A thing you turned
+down, a thing that expired without you ever being asked, and a thing still
+waiting are all the same grey dot. Both are now filed as art requests; the
+third request, for traits, is held because it would mean asking someone to draw
+for a half-built screen, and art commissioned that way constrains the screen
+instead of serving it.
 
 ---
 
