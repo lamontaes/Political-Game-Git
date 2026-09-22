@@ -808,6 +808,7 @@ export function PlayerGame() {
         {() => (
           <TitleScreen
             saves={saves}
+            damaged={damaged}
             savesUnavailable={savesUnavailable}
             problem={problem}
             onNewGame={() => {
