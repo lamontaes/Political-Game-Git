@@ -20,6 +20,7 @@ import {
 import { rulePackById } from "./legislature-rule-packs";
 import { personName } from "./people";
 import type {
+  PolicyPropositionDefinition,
   CommitteeActionRecord,
   CommitteeReferralRecord,
   CommitteeDisposition,
@@ -1335,6 +1336,8 @@ export interface IntroduceMeasureInput {
   readonly sponsorPersonId?: EntityId | null;
   readonly sourceDocumentKey?: string | null;
   readonly policyAlternativeIds?: readonly EntityId[];
+  /** The policy questions the measure is about. See the record's own note. */
+  readonly propositionIds?: readonly EntityId[];
 }
 
 /** Files a measure and gives it institutional identity. */
@@ -1382,6 +1385,18 @@ export function introduceMeasure(
     }
   }
 
+  for (const propositionId of input.propositionIds ?? []) {
+    if (!world.policyCatalog.propositions[propositionId]) {
+      // A bill about a question this world does not hold is a bill about
+      // nothing, said convincingly. Refused rather than stored, because the
+      // catalogue is what decides which questions exist and a measure cannot
+      // invent one by naming it.
+      throw new Error(
+        `Measure references a policy proposition this world's catalog does not hold: ${propositionId}`,
+      );
+    }
+  }
+
   const measure: LegislativeMeasureRecord = {
     id: createStableId(
       "legislative-measure",
@@ -1401,6 +1416,7 @@ export function introduceMeasure(
     introducedAt: world.currentDate,
     sourceDocumentKey: input.sourceDocumentKey ?? null,
     policyAlternativeIds: [...(input.policyAlternativeIds ?? [])],
+    propositionIds: [...(input.propositionIds ?? [])],
   };
 
   const withMeasure: World = {
@@ -2577,6 +2593,28 @@ export function recordAdjournmentDeath(
 // ---------------------------------------------------------------------------
 // Queries
 // ---------------------------------------------------------------------------
+
+/**
+ * The policy questions a measure says it is about, as the catalogue defines
+ * them. Pure.
+ *
+ * Empty is the truthful answer for every measure written before measures could
+ * say, and for every measure since that nobody linked — which, while no policy
+ * pack ships, is all of them. A caller that wants to describe what a bill is
+ * about has to handle "it does not say", because that is the current state of
+ * every bill in the game.
+ */
+export function measurePropositions(
+  world: World,
+  measureId: EntityId,
+): readonly PolicyPropositionDefinition[] {
+  const measure = measureById(world, measureId);
+  if (!measure) return [];
+  return (measure.propositionIds ?? []).flatMap((id) => {
+    const definition = world.policyCatalog.propositions[id];
+    return definition ? [definition] : [];
+  });
+}
 
 export function measureById(
   world: World,

@@ -1,6 +1,6 @@
 {
   "documentVersion": 1,
-  "generatedFrom": "Packet 68, reconciled against the 2026-09-03 Drive rescan and the released manifest, then extended by Packet 71's intake of the four 2026-09-04 uploads. ALIVE43 Role A added doorstep and park-winter variant requests after searching park/press/community-meeting coverage; it did not reopen closed Packet 68/71 jobs. Hand-authored; validated by src/authoring/asset-request.ts. Extended for the owner's non-background ask with three interface grounds the queue's own ui-* records do not cover: the ground behind every economic chart, the Guide term popover card, and the Politics hub tab band. Each is filed against a real runtime consumer read in the tree and inventory-checked against art/ and the released manifest; Drive was not searched from that session and each record says so.",
+  "generatedFrom": "Packet 68, reconciled against the 2026-09-03 Drive rescan and the released manifest, then extended by Packet 71's intake of the four 2026-09-04 uploads. ALIVE43 Role A added doorstep and park-winter variant requests after searching park/press/community-meeting coverage; it did not reopen closed Packet 68/71 jobs. Hand-authored; validated by src/authoring/asset-request.ts. Hardcoded-content audit thread added two interface requests on 2026-09-22 after the art bench lane closed out: the no-candidacy refusal panel and a chamber vote-margin graph. It searched the manifest and the existing requests first and did not refile the newspaper furniture, masthead ornaments or shell icons already landed in #281. Extended for the owner's non-background ask with three interface grounds the queue's own ui-* records do not cover: the ground behind every economic chart, the Guide term popover card, and the Politics hub tab band. Each is filed against a real runtime consumer read in the tree and inventory-checked against art/ and the released manifest; Drive was not searched from that session and each record says so.",
   "requests": [
     {
       "requestId": "person-production-standing-body",
@@ -1677,6 +1677,99 @@
       "scope": {
         "intendedContext": "politics-hub"
       }
+    },
+    {
+      "requestId": "ui-no-candidacy-refusal-panel",
+      "requestVersion": 1,
+      "priority": "P1",
+      "status": "queued",
+      "title": "A treatment for the moment the game will not put a character on a ballot",
+      "consumer": {
+        "consumerId": "no-declared-consumer",
+        "runtimeComponent": "src/player/PlayerGame.tsx",
+        "playerVisibleUse": "The campaign section, when the character cannot stand for anything. It is rendered as the `no-campaign` note and carries the single sentence explaining why — too young, not resident long enough, no such office in this state, or that the game does not know the rule and will not guess."
+      },
+      "whyNeeded": "Refusing a character a ballot line is one of the most significant things this game does to a player, and it currently happens in a bare paragraph of text with no visual weight at all. The player asked to run for something and the game said no; the surface gives that no less presence than an ordinary note. The sentence itself was just rewritten so it explains the rule in plain words rather than quoting a constitutional article, which means the words are now worth reading and the frame around them is the remaining gap. Jurisdiction-independent: the frame is the same wherever the player lives, and the sentence inside it is generated per state and per office.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json (all 126 assets, by asset_type and asset_id)",
+          "art/requests/asset-requests.json (all 31 existing requests)",
+          "art/requests/incoming/",
+          "art/requests/promotions/",
+          "art/ and public/ (find, for any chart, graph, ballot or icon asset)"
+        ],
+        "driveLocationsSearched": [],
+        "found": "Nothing. The manifest's 126 assets are 109 character components, 15 environment plates or masters, one foreground mask and two authored poses — no interface graphic of any kind. The only asset ids that match an interface word do so incidentally (dev_g2_eyewear_thin_frames_v1, and two standing-body frames). Of the 31 filed requests, three are interface work and all three are the newspaper and shell set landed in #281; none covers this surface.",
+        "shortfall": "The surface is finished and reachable and has no artwork. Drive was not searched: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
+      },
+      "target": {
+        "targetClass": "interface-graphic",
+        "container": "png",
+        "alphaRequired": true,
+        "minimumWidth": 1024,
+        "aspectRatio": "a wide panel or frame that stretches; the sentence inside runs to one to three lines depending on the state",
+        "styleAuthority": "the existing player shell's own type and spacing; the artwork frames the note rather than restyling it."
+      },
+      "generationRecipe": [
+        "A panel or frame that gives a refusal its own weight on the page: something closed and official rather than alarming. A closed door, a stamped edge, an unfilled line on a form.",
+        "It has to stretch, because the sentence inside is one to three lines and varies by state and office.",
+        "No words of any kind in the artwork. The sentence is generated for that character in that state and no part of it can be painted in.",
+        "Restraint. This is not an error and not a punishment — the game is saying it will not guess, which is a considered answer, and the art should read as considered."
+      ],
+      "acceptanceCriteria": [
+        "Reads as a distinct, deliberate moment at a glance, not as an ordinary note.",
+        "Contains no text of any kind. A delivery with any lettering in it is wrong however good it looks.",
+        "Stretches to one, two or three lines of contained text without distortion or a visible seam.",
+        "Leaves the sentence fully legible; the frame must not reduce the contrast of the text inside it.",
+        "Does not read as an error state or a warning."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "ui-chamber-vote-margin-graph",
+      "requestVersion": 1,
+      "priority": "P2",
+      "status": "queued",
+      "title": "A graph treatment for how a chamber divides",
+      "consumer": {
+        "consumerId": "no-declared-consumer",
+        "runtimeComponent": "no runtime consumer yet",
+        "playerVisibleUse": "A chamber view showing how a legislature divides by caucus, and the margin on a vote. No interface reads this yet: `byCaucus` is already computed for every chamber and nothing renders it."
+      },
+      "whyNeeded": "The owner listed graphs among the art he wants, and this is the graph the game already has the numbers for. Every chamber's division by caucus is computed and read by no interface, so the missing piece is one screen rather than a system — and a screen of bare numbers is not what a chamber division should look like. Filing the art now means the screen is not held up waiting for it. Jurisdiction-independent: the treatment is the same for any chamber; the caucus names, counts and colours come from the world.",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json (all 126 assets, by asset_type and asset_id)",
+          "art/requests/asset-requests.json (all 31 existing requests)",
+          "art/requests/incoming/",
+          "art/requests/promotions/",
+          "art/ and public/ (find, for any chart, graph, ballot or icon asset)"
+        ],
+        "driveLocationsSearched": [],
+        "found": "Nothing. The manifest's 126 assets are 109 character components, 15 environment plates or masters, one foreground mask and two authored poses — no interface graphic of any kind. The only asset ids that match an interface word do so incidentally (dev_g2_eyewear_thin_frames_v1, and two standing-body frames). Of the 31 filed requests, three are interface work and all three are the newspaper and shell set landed in #281; none covers this surface.",
+        "shortfall": "No chart or graph artwork exists anywhere in the project. Drive was not searched: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
+      },
+      "target": {
+        "targetClass": "interface-graphic",
+        "container": "png",
+        "alphaRequired": true,
+        "minimumWidth": 1024,
+        "aspectRatio": "component pieces rather than one finished chart: a seat mark, a division rule, a margin bracket",
+        "styleAuthority": "the existing player shell; the pieces join it rather than introducing a separate chart language."
+      },
+      "generationRecipe": [
+        "The parts a chamber division is drawn from, not a finished chart: a seat mark that reads at small size, a rule for the line a majority sits at, and a bracket or cap for the margin.",
+        "The seat mark must work when it is repeated a hundred and more times and must stay readable when it is tinted, because caucus colours are generated per world.",
+        "Neutral between sides. Nothing in the pieces may favour one caucus, and no piece may carry a party's iconography.",
+        "No words, no numbers, no percentages in the artwork. Every count and name on that screen comes from the simulation."
+      ],
+      "acceptanceCriteria": [
+        "The seat mark is legible repeated a hundred times at small size, and legible tinted any colour.",
+        "Contains no text and no numerals. A delivery with any lettering in it is wrong however good it looks.",
+        "Carries no party iconography and reads as neutral between sides.",
+        "The division rule and margin bracket read as belonging to the same set as the seat mark."
+      ],
+      "dependsOn": []
     }
   ]
 }

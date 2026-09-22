@@ -95,9 +95,27 @@ export function PersonalGoalsPanel({
               ))}
               {goal.status === "active" ? (
                 goal.opportunities.length === 0 ? (
-                  <p className="game-note">
-                    Nothing in the world offers a way toward this right now.
-                  </p>
+                  goal.obstacles.length > 0 ? (
+                    /* The reasons are the candidacy rules' own sentences, so
+                       an aim with nothing under it says why rather than
+                       leaving the player to guess. */
+                    <>
+                      <p className="game-note">
+                        Nothing offers a way toward this right now, because:
+                      </p>
+                      <ul className="pg-goals-obstacles">
+                        {goal.obstacles.map((obstacle) => (
+                          <li key={obstacle} className="game-note">
+                            {obstacle}
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  ) : (
+                    <p className="game-note">
+                      Nothing in the world offers a way toward this right now.
+                    </p>
+                  )
                 ) : (
                   <div className="pg-goals-actions">
                     {goal.opportunities.map((opportunity) => (
