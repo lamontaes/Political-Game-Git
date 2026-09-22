@@ -358,6 +358,86 @@ reader may collapse two states into one, and `requireKnown`'s rule — that the
 two absent states throw _different_ errors so a caller can never silently treat
 one as the other — is the pattern the trait reader follows.
 
+## Resistance: everybody changes, and not everybody equally
+
+**PROPOSED.** The owner's requirement: "every character should be able to
+change with varying levels of resistance." Nothing in the simulation models
+resistance today — `recordTraitChange` takes an event and a reason and applies
+the new value outright, so the same event would move every person by the same
+amount, and in fact it has no production caller at all, so nobody's temperament
+has ever moved.
+
+### Resistance is read from a life, not stored as a hidden number
+
+The tempting design is a second seeded number per person: how stubborn they
+are. It is rejected. It would be one more fact the game asserts about somebody
+without having observed it, which is the error this whole document keeps
+circling, and it would explain nothing to a player.
+
+`PersonalityTendencyRecord` already carries `supersedesTendencyId` and
+`recordedAt`, so the chain of records for one person on one trait _is_ that
+person's history on it. Resistance is read from that chain:
+
+- **How long the current value has stood.** Somebody who has been this way for
+  nine years is not moved by one afternoon. Somebody whose value was written
+  last month is.
+- **How often it has already moved.** A person whose temperament has shifted
+  twice is more movable than one whose never has, which is both true to life
+  and self-limiting: a character does not oscillate, because each move makes
+  the next one need more.
+- **What the pack says about the trait.** A pack declares how movable a trait
+  is at all, because some dispositions are more fundamental than others, and
+  that is the pack author's judgement rather than the engine's.
+
+Two people who have lived differently therefore resist differently, from
+records that already exist. Nothing is invented, and the reason is always
+sayable: _she has been like this for as long as anyone has known her._
+
+### A change is a force meeting a resistance, and the failure is a fact
+
+`recordTraitChange` gains a force: how strongly the event argues for the
+change. If force exceeds resistance the value moves, as now. If it does not,
+**the attempt is recorded rather than discarded** — an ordinary world event
+saying this happened and did not change them.
+
+That record is the point, not bookkeeping. It makes accumulated pressure the
+thing that moves people: one argument does not change somebody, and the same
+argument for the tenth time does. It also keeps the game honest about what it
+knows, because "this kept happening to her and she did not budge" is a fact
+about a life, and a system that dropped the failures could never say it.
+
+### What this does not do
+
+It does not decide for anybody. A trait that moves changes what a person
+_argues for_, never what they are allowed to do, and the additive, never-vetoing
+contract above is untouched. And it does not move the played character's traits
+from outside: see below.
+
+## The player's own temperament
+
+**PROPOSED, and a correction to the strict reading above.** The owner: the
+played character needs their own traits, because "it's how you are portrayed to
+people."
+
+The store's existing guard is right and stays. `validateMindProvenance` refuses
+a record for the controlled person whose provenance is not `player-choice` — so
+the game declines to _author_ who the player is. It never declined to let the
+player _have_ a temperament. The seeding path writes `authored`, which is why
+the played character comes back empty, and that emptiness was a side effect
+rather than a decision.
+
+What is missing is therefore not a weakening of that guard but two things it
+always allowed:
+
+- **A path that records the player's traits from the player's own choices**,
+  written with `player-choice` provenance, citing the choice that established
+  it. `conferredBy: "player"` is the pack field for this.
+- **Consumers that read them when other people size the player up.** This is
+  the owner's sentence almost word for word: a temperament matters because
+  other characters perceive it. The player's own trait never argues for the
+  player's own option — they choose — but it is available to everybody
+  deciding what they think of them.
+
 ## What this deliberately does not do
 
 Said plainly, with what the next step would be.
