@@ -393,9 +393,48 @@ Government screen in Columbus reading "U.S. House District not recorded".
 Congress is the only body in the game that is actually seated, and it is the
 one body the player is shown no connection to. That is specific and fixable,
 and it is a worse first impression than the seating gap it sits on.
-The United States Congress is seated with 535 real generated people, 435 House
-and 100 Senate, built at a new life's opening
-(`src/simulation/living-world/opening.ts:160`).
+The United States Congress is seated, 435 House seats and 100 Senate, built at
+a new life's opening (`src/simulation/living-world/opening.ts:160`).
+
+**Correcting a figure of ours: "535 generated people" is wrong, and 535 is a
+seat count.** The seating lane built five lives through the ordinary creator —
+Augusta AR, Columbus GA, Tucson AZ, Billings MO, Sitka AK — reading Congress
+through the game's own `projectCongress` and everything else from each save's
+organisation records, with no fixtures and no coverage-report rows (#331 at
+`7b5647a1`). Every seat carries a person or an explicitly recorded vacancy. The
+headcount came out 432, 435, 433, 433 and 435 in the House and 99 in the Senate
+every time — one to four short depending on seed, with which seats are vacant
+varying. That is the right shape for a real chamber, and it is a better fact
+than the round number it replaces.
+
+**And the number to put beside the 38,701.** Total population of a new world is
+**555 to 559 people**. Subtract Congress and twenty to twenty-five remain: the
+player, their household, the four or five people they know, three officeholders
+— the Presidency, the Supreme Court and the state's governor, one each — and a
+handful of press bylines. A save holds 23 or 24 organisations, of which the city
+government, the county government, three schools, a youth club and a market all
+read zero people. **No state legislature organisation exists in any save at
+all** — absent rather than empty, which is a stronger statement than "no
+compiled pack" and consistent with it.
+
+That is the entire world outside the one seated building.
+
+One limit of that method, carried from the lane that ran it: party chapters read
+zero people by this count while the playtest walk saw named organizers on the
+chapters screen, so chapters record people by a route the count does not
+follow. That zero is a limit of the measurement, not a finding. The Congress
+figures do not depend on that path.
+
+**Why a new game keeps starting in Lexington.** `DEFAULT_NEW_GAME_SETUP`
+(`src/presentation/new-game.ts:193-198`) carries `placeKey: "kentucky"`, and its
+own comment says what it is for: "Compatibility default for old callers and
+encoded replays. A fresh creator uses an empty placeKey (`freshNewGameSetup`);
+gameplay helpers must pass `explicitNewGameSetup`. This is not a player
+recommendation." So every helper, test or caller that does not name a place
+starts in Lexington, by design rather than by accident. It is the answer to "it
+always defaults to Lexington", and it is not the bug it looks like — though it
+does mean anything that forgets to name a place quietly inherits the one
+explicit scenario.
 
 **Every state chamber and every municipal body returns `holderName: null`** with
 the note "No current record of this chamber's members is kept in this save"
