@@ -1,5 +1,20 @@
 # Every race in the game had exactly one opponent
 
+> **WITHDRAWN, 2026-09-22, and left in place rather than deleted.** The fix
+> this record describes — a flat field of two to four opponents in every race —
+> was reverted before it shipped, on lamontae's ruling the same day: "You
+> should only have more than one opponent in the primary, or if there's an
+> independent, you can also have no opponent." A field belongs in a primary; a
+> general carries the nominees plus any independent who ran; and an unopposed
+> seat has to stay possible, because that is real. None of those three exist in
+> the game, and each of them needs a place on the year, which is the same thing
+> the 28-day countdown is standing in for.
+>
+> **Everything measured below still holds** and is why the ruling was asked
+> for. He also ruled on the outcome — "today you win every race 71 or 90%. That
+> should be changed, obviously" — and that is a balance question, so it goes to
+> ChatGPT as rules rather than to him as a number this lane picked.
+
 **Walked:** 2026-09-22, Chromium 141, four towns after the fix; the defect
 itself was seen in all fifteen towns of
 `docs/playtest/running-for-office-across-america-2026-09-22.md`.

@@ -417,54 +417,6 @@ export interface EnsuredOpponents {
   readonly personIds: readonly EntityId[];
 }
 
-/**
- * How many people are already standing for this seat.
- *
- * Every candidacy in the game used to draw exactly one opponent, in every
- * state and for every office, because both filing routes passed `count: 1`.
- * Walked in eleven towns on 2026-09-22 and reported; lamontae's answer settled
- * it as a defect rather than a design choice: "Of course the candidate should
- * face more than one. there's primaries. And an independent could run."
- *
- * So the floor is two, and the field varies. What it does NOT do is claim to
- * know the real shape of an American legislative field — how often a seat is
- * unopposed, how many challengers a state house race draws, whether there is
- * an incumbent — because nothing in this repository has read that. It is the
- * unresearched-jurisdiction rule applied to a ballot: a realistic range rather
- * than a refusal or a single invented number, drawn from the world's own seed
- * so a contest has the same field every time that save is loaded, and varying
- * from one contest to the next. `state-legislative-seat-calendar-and-field`
- * carries the question; when it is answered this range is what changes.
- *
- * A primary is a separate mechanism and is deliberately not faked here. These
- * are the people on the ballot beside the player, not a field the player has
- * to get through first.
- */
-export const CONTEST_FIELD_MINIMUM_OPPONENTS = 2;
-export const CONTEST_FIELD_MAXIMUM_OPPONENTS = 4;
-
-export function contestFieldOpponentCount(
-  worldSeed: string,
-  stableKey: string,
-): number {
-  return new SeededRng(worldSeed)
-    .fork(`campaign-contest-field:${stableKey}`)
-    .integer(
-      CONTEST_FIELD_MINIMUM_OPPONENTS,
-      CONTEST_FIELD_MAXIMUM_OPPONENTS + 1,
-    );
-}
-
-/**
- * Somebody to run against.
- *
- * A contest needs at least two people and a quiet life rarely contains a second
- * one already standing for the seat. So the opponent is materialized the way
- * every other background person in this world is: through the character-history
- * context-person writer, named from the versioned corpus by the world's own
- * seed, with a birth date and a residence and nothing else claimed about them.
- * They are a person in the world afterwards, not a slot in a campaign screen.
- */
 export function ensureCampaignOpponents(
   world: World,
   input: EnsureCampaignOpponentsInput,
