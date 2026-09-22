@@ -20,6 +20,8 @@ function render(state) {
   $("repo").textContent = state.repositoryPath ?? "Not chosen";
   $("pack").textContent = state.privatePackPath ?? "Not chosen";
   $("artdesk-branch").textContent = state.artDeskBranch;
+  if (document.activeElement !== $("artdesk-source"))
+    $("artdesk-source").value = state.artDeskSource ?? "published";
   if (document.activeElement !== $("artdesk-input"))
     $("artdesk-input").value = state.artDeskBranch;
   $("arch").textContent = `${state.architecture} · hub ${state.hubVersion}`;
@@ -36,11 +38,11 @@ function render(state) {
         : " · not built yet"
     }`;
   $("id-game").textContent = ids.game
-    ? `${ids.game.revision} · client ${ids.game.clientTreeSha256} · ${ids.game.architecture}${requested?.pending ? ` · ${requested.pending.revision} waiting for a restart` : ""}`
+    ? `${ids.game.revision} · client ${ids.game.clientTreeSha256} · ${ids.game.architecture}${ids.game.contentId ? ` · artwork ${ids.game.contentId}` : ""}${requested?.pending ? ` · update waiting for the title screen` : ""}`
     : "No verified build yet";
   // What is actually running, never merged with what was requested or staged.
   $("id-loaded").textContent = ids.loaded
-    ? `${ids.loaded.title} · ${ids.loaded.revision ?? "revision unknown"}${
+    ? `${ids.loaded.title} · ${ids.loaded.revision ?? "revision unknown"}${ids.loaded.contentId ? ` · artwork ${ids.loaded.contentId}` : ""}${
         ids.loaded.revision &&
         ids.loaded.selectedBuildRevision &&
         ids.loaded.revision !== ids.loaded.selectedBuildRevision
@@ -123,7 +125,14 @@ $("choose-pack").addEventListener("click", async () =>
   note((await hub.choosePack())?.message),
 );
 $("artdesk-save").addEventListener("click", async () =>
-  note((await hub.setArtDeskBranch($("artdesk-input").value.trim()))?.message),
+  note(
+    (
+      await hub.setArtDeskBranch({
+        branch: $("artdesk-input").value.trim(),
+        source: $("artdesk-source").value,
+      })
+    )?.message,
+  ),
 );
 $("artdesk-restart").addEventListener("click", async () =>
   note((await hub.restartArtDesk())?.message),

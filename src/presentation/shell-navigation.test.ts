@@ -295,9 +295,10 @@ describe("Escape", () => {
     expect(activeView(state)).toEqual({ surface: "scene" });
   });
 
-  it("does nothing at the base of the room", () => {
+  it("opens the session menu at the base of the room without changing the room", () => {
     const state = shellReducer(INITIAL_SHELL_STATE, { type: "escape" });
-    expect(state).toBe(INITIAL_SHELL_STATE);
+    expect(state.navigation).toBe("primary");
+    expect(activeView(state)).toEqual(activeView(INITIAL_SHELL_STATE));
   });
 });
 
@@ -661,8 +662,7 @@ describe("the workspace, its tabs, and a conversation waiting in the room", () =
 
     const closed = shellReducer(noMenu, { type: "escape" });
     expect(activeView(closed)).toEqual({ surface: "scene" });
-    // At the base of the room there is no layer left, and nothing happens.
-    expect(shellReducer(closed, { type: "escape" })).toBe(closed);
+    expect(shellReducer(closed, { type: "escape" }).navigation).toBe("primary");
   });
 
   it("leaves the conversation alone when Escape closes the workspace over it", () => {

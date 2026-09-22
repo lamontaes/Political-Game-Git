@@ -1,9 +1,10 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
 import type { EntityId, World } from "../../simulation";
 import type { NewsMode } from "../../presentation/shell-navigation";
 import {
   projectNewsFrontPage,
+  projectNewsArticle,
   type NewsStory,
 } from "../../presentation/news-front-page";
 import { world39Date } from "../World39News";
@@ -51,6 +52,10 @@ export function NewsDesk({
   readonly press: ReactNode;
 }) {
   const page = projectNewsFrontPage(world, mode, outletKey);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const selected = selectedId
+    ? projectNewsArticle(world, selectedId as EntityId)
+    : null;
   return (
     <div className="pg-news-desk" data-testid="news-desk">
       <nav aria-label="News" className="pg-news-sections">
@@ -136,7 +141,26 @@ export function NewsDesk({
             </header>
           )}
 
-          {page.empty ? (
+          {selected ? (
+            <section className="pg-news-article" data-testid="news-article">
+              <button
+                type="button"
+                className="ui-action"
+                onClick={() => setSelectedId(null)}
+              >
+                ← Front page
+              </button>
+              <Story
+                story={selected}
+                lead
+                expanded
+                showOutlet
+                style={0}
+                onOpenPerson={onOpenPerson}
+                onRead={() => {}}
+              />
+            </section>
+          ) : page.empty ? (
             <p className="pg-news-empty" data-testid="news-empty">
               {page.empty}
             </p>
@@ -153,6 +177,7 @@ export function NewsDesk({
                     )?.style ?? 0
                   }
                   onOpenPerson={onOpenPerson}
+                  onRead={() => setSelectedId(page.lead!.id)}
                 />
               ) : null}
               {page.stories.length > 0 ? (
@@ -168,6 +193,7 @@ export function NewsDesk({
                         )?.style ?? 0
                       }
                       onOpenPerson={onOpenPerson}
+                      onRead={() => setSelectedId(story.id)}
                     />
                   ))}
                 </div>
@@ -218,8 +244,12 @@ function Story({
   showOutlet,
   style,
   onOpenPerson,
+  onRead,
+  expanded = false,
 }: {
   readonly story: NewsStory;
+  readonly onRead: () => void;
+  readonly expanded?: boolean;
   readonly lead?: boolean;
   readonly showOutlet: boolean;
   readonly style: number;
@@ -236,7 +266,15 @@ function Story({
           {story.outletName}
         </p>
       ) : null}
-      <h3>{story.headline}</h3>
+      <h3>
+        {expanded ? (
+          story.headline
+        ) : (
+          <button className="pg-news-headline" type="button" onClick={onRead}>
+            {story.headline}
+          </button>
+        )}
+      </h3>
       <p className="pg-news-dateline">
         {story.place ? `${story.place} · ` : ""}
         <time dateTime={story.publishedAt}>
@@ -244,7 +282,11 @@ function Story({
         </time>
       </p>
       {story.body !== story.headline ? (
-        <p className="pg-news-body">{story.body}</p>
+        <p className="pg-news-body">
+          {expanded || story.body.length < 280
+            ? story.body
+            : `${story.body.slice(0, 277)}…`}
+        </p>
       ) : null}
       {story.people.length > 0 ? (
         <p className="pg-news-people">

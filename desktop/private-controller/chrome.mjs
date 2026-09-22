@@ -13,6 +13,9 @@ let chooserRequest = 0;
 let selectRequest = 0;
 let showTechnical = false;
 let showDetails = false;
+// A version picked in the chooser but not yet switched to. The switch happens
+// only when the owner presses "Play this version".
+let chosen = null;
 let last = null;
 let busy = false;
 
@@ -58,20 +61,23 @@ function renderChooser(state) {
     ...previews.map((item) => item.branch),
     ...(showTechnical ? technical.map((item) => item.branch) : []),
   ]);
-  if (previews.length) children.push(group("Feature previews", previews));
+  if (previews.length) children.push(group("Previews", previews));
   if (showTechnical && technical.length)
-    children.push(group("Technical branches", technical));
+    children.push(group("Other versions", technical));
   // A selection outside the visible groups is still shown, never dropped.
   if (!listed.has(want)) children.push(option(want, `Selected · ${want}`));
   children.push(
-    option(
-      TECHNICAL,
-      showTechnical ? "Hide technical branches" : "Show technical branches…",
-    ),
+    option(TECHNICAL, showTechnical ? "Hide older versions" : "More versions…"),
   );
+  // A pending choice stays visible in the chooser across hub broadcasts.
+  if (chosen && chosen !== want && !listed.has(chosen))
+    children.splice(-1, 0, option(chosen, `Selected · ${chosen}`));
   track.replaceChildren(...children);
-  track.value = want;
+  track.value = chosen ?? want;
 }
+
+/** The chooser value as the hub's track id. */
+const trackIdOf = (value) => (value === "main" ? "main" : `branch:${value}`);
 
 function selectedItem(state) {
   const id = state.selectedTrack;
@@ -120,7 +126,8 @@ function render(state) {
   } else if (!state.selectedBuilt) {
     // The choice stays; what is on screen is named until the first build lands.
     html += `<strong>Preparing ${esc(item.title)}</strong>`;
-    if (state.phase?.message) html += ` · ${esc(state.phase.message)}`;
+    if (state.phase?.message && showDetails)
+      html += ` · ${esc(state.phase.message)}`;
     if (state.loaded)
       html += ` · still showing ${esc(state.loaded.title)}${
         state.loaded.revision
@@ -138,7 +145,17 @@ function render(state) {
     // message is what actually happened, so it stays visible.
     // A stale "already the current build" message must not sit beside a
     // missing payload; the reason above is the only true reading then.
-    const note = state.phase?.message ?? update.detail ?? update.message;
+    const detail = state.phase?.message ?? update.detail ?? update.message;
+    const note = showDetails
+      ? detail
+      : update.kind === "failed" &&
+          /private art pack|incompatible source/i.test(detail ?? "")
+        ? "The update needs matching artwork. Your current game is still available."
+        : update.kind === "failed"
+          ? "The update could not finish. Your current game is still available."
+          : update.kind === "offline"
+            ? "Could not reach GitHub. Try again when connected."
+            : null;
     if (note && !missing && update.kind !== "current")
       html += ` · ${esc(note)}`;
   }
@@ -168,7 +185,13 @@ function render(state) {
     : "Check for updates";
   $("copy-ref").hidden = !showDetails;
   $("build-details").setAttribute("aria-expanded", String(showDetails));
-  $("apply").hidden = !(selected?.pending && selected.open);
+  if (chosen && trackIdOf(chosen) === state.selectedTrack) chosen = null;
+  const switching = Boolean(chosen) && state.activeTab === "play";
+  $("switch-version").hidden = !switching;
+  $("apply").hidden = switching || !selected?.pending;
+  $("apply").textContent = selected?.pending
+    ? `Install update ${selected.pending.revision.slice(0, 7)}`
+    : "Install update";
   $("return-main").hidden = state.selectedTrack === "main";
   $("cancel-build").hidden = !building;
   $("return-title").hidden = state.activeTab !== "play" || !state.loaded;
@@ -222,8 +245,19 @@ track.addEventListener("change", async () => {
     if (last) render(last);
     return;
   }
+  chosen = track.value;
+  if (last) render(last);
+});
+$("switch-version").addEventListener("click", async () => {
+  if (!chosen) return;
+  const value = chosen;
   const token = ++selectRequest;
-  const result = await hub.selectTrack(track.value);
+  $("switch-version").disabled = true;
+  const result = await hub.selectTrack(value).finally(() => {
+    $("switch-version").disabled = false;
+  });
+  if (token === selectRequest) chosen = null;
+  if (last) render(last);
   // A response for a choice the owner has already moved past never paints:
   // neither a later request here nor a selection superseded in the hub.
   if (token !== selectRequest || result?.superseded) return;

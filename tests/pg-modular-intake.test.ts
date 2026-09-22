@@ -23,7 +23,7 @@ import {
   PG_MASTER_SOURCE_DIRECTORY,
   runPgModularIntake,
 } from "../scripts/art-asset-factory/pg-modular-intake";
-import { measureSeatedContact } from "../scripts/art-asset-factory/seated-contact";
+import { measureSeatPlaneFromRaster } from "../scripts/art-asset-factory/seated-contact";
 import type {
   AssetManifest,
   CharacterCatalogData,
@@ -235,7 +235,11 @@ describe("PG modular asset intake", () => {
       manifest.assets.filter((a) => a.availability === "development-fixture"),
     ).toHaveLength(46);
     expect(
-      manifest.assets.filter((a) => a.availability === "production-candidate"),
+      manifest.assets.filter(
+        (a) =>
+          a.availability === "production-candidate" &&
+          a.asset_type === "character-component-candidate",
+      ),
     ).toHaveLength(35);
     // The generation signature the intake reports is over its own outputs. It
     // is the identity of the set, published so a promotion can prove it is
@@ -368,7 +372,7 @@ describe("Office seated-contact repair", () => {
         "human_candidate_B01_left_guest_seated_v1.png",
       ],
     ] as const) {
-      const measured = await measureSeatedContact(
+      const measured = await measureSeatPlaneFromRaster(
         path.join(REPO_ROOT, "art/generated/approved", file),
       );
       expect(Math.abs(recipe.root.y - measured.root.y)).toBeLessThan(0.01);

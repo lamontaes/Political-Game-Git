@@ -10,6 +10,7 @@ import type {
   PolicyPropositionDefinition,
   PoliticalPrincipleDefinition,
   PropositionParameter,
+  PropositionPrincipleBearing,
 } from "./types";
 
 export interface PolicyCatalogInput {
@@ -63,6 +64,7 @@ export function createPolicyPropositionDefinition(
   question: string,
   parameters: readonly PropositionParameter[] = [],
   tags: readonly string[] = [],
+  principles: readonly PropositionPrincipleBearing[] = [],
 ): PolicyPropositionDefinition {
   return {
     id: createStableId("proposition", `definition:${stableKey}`),
@@ -72,6 +74,14 @@ export function createPolicyPropositionDefinition(
     question,
     parameters: parameters.map((parameter) => ({ ...parameter })),
     tags: canonical(tags),
+    // Omitted, not written empty: a proposition whose pack declares no
+    // principle has to serialise byte-for-byte as it did before the field
+    // existed. See `PolicyPropositionDefinition.principles`.
+    ...(principles.length > 0
+      ? {
+          principles: principles.map((bearing) => ({ ...bearing })),
+        }
+      : {}),
   };
 }
 

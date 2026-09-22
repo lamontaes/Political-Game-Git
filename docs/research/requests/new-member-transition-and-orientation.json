@@ -1,0 +1,24 @@
+{
+  "filedAt": "2026-09-22T19:58:00.000Z",
+  "impact": "shapes-design",
+  "lane": "research intake",
+  "notes": [
+    "The owner's words: \"there are transition services like Congress has one for newly elected people. And there's something similar for state and probably city. So for the congressional ones and stuff, it would be great if those could follow like the actual guide that actual congressional people get.\"",
+    "He was explicit that missing local programs are not a reason to block the feature: a level without a program is marked as uncoded and gets a blanket rule."
+  ],
+  "priority": "P1",
+  "question": "Between election and seating, newly elected officials go through real transition programs. The owner wants the game to follow them: (1) Congress: the actual orientation and transition program the House and Senate give members-elect (the House's New Member Orientation and its handbook, the Senate's equivalent), what it covers, when it happens, and what the member-elect does and receives (office setup, staff hiring allowance, office lottery, ethics and administrative briefings); (2) states: what state legislatures and governors-elect get, as a representative sample with any common pattern; (3) localities: a few blanket patterns for city councils, mayors and county officials, plus any notable unusual cases. Where no program exists for a level, say so, so the game can mark it as uncoded and apply a blanket rule.",
+  "questionId": "new-member-transition-and-orientation",
+  "relatedQuestionIds": ["legislative-winner-between-election-and-seat"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "research intake thread, from lamontae's message of 2026-09-22T19:50Z",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests/legislative-winner-between-election-and-seat.json, ChatGPT's A08 answer (DEPTH2, 2026-09-22T18:27Z)",
+      "whatItDidNotSettle": "It settles that a transition exists and should not hide a job-acceptance trap, but gives no content from the real congressional, state or local programs."
+    }
+  ],
+  "title": "What transition and orientation do newly elected officials actually get",
+  "usableAnswer": "For Congress, the program's name, dates relative to election day, the list of sessions and administrative steps, and what a member-elect receives, with citations. For states, a sample of at least several with the common structure. For localities, two or three blanket patterns and any notable exceptions. A level with no program should be stated as having none.",
+  "whyItMatters": "ChatGPT's A08 said election victory has a transition, not a hidden job-acceptance step. The owner has asked several times for that transition to follow the real guides. Without their content the transition has no steps."
+}

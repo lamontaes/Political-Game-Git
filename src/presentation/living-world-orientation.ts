@@ -1,3 +1,9 @@
+import { municipalOrganizationFor } from "../simulation/municipal-public-work";
+import {
+  municipalOrientationHolders,
+  type MunicipalOrientationHolder,
+} from "./municipal-orientation-holder";
+import { stateJurisdictionForKey } from "../simulation/life-places";
 import {
   LIVING_WORLD_CONTRACT_VERSION,
   currentStateExecutiveHolders,
@@ -23,7 +29,7 @@ export interface LocalityGovernmentView {
   readonly organizationId: EntityId | null;
   readonly name: string;
   /** Empty when no holder is recorded; never an inferred mayor or council. */
-  readonly holders: readonly PublicHolderView[];
+  readonly holders: readonly (PublicHolderView | MunicipalOrientationHolder)[];
   /** RULES fields whose absence keeps members unrecorded. */
   readonly membershipMissing: readonly RuleFieldKey[];
 }
@@ -57,7 +63,11 @@ export interface WorldOrientation {
   readonly publicMatters: readonly never[];
 }
 
-const FEDERAL_OFFICE_KEYS = new Set(["us-president", "us-chief-justice"]);
+const FEDERAL_OFFICE_KEYS = new Set([
+  "us-president",
+  "us-vice-president",
+  "us-chief-justice",
+]);
 
 /**
  * One pure read of the public world a life opens into. It writes nothing,
@@ -113,7 +123,20 @@ export function projectWorldOrientation(
 
   const congress = projectCongress(world);
   const local = homeLocalGovernmentStatus(world, playerPersonId);
+  const localGovernments = local.governments.map((government) => ({
+    ...government,
+    organizationId: government.compiledGovernmentKey
+      ? (municipalOrganizationFor(world, government.compiledGovernmentKey)
+          ?.id ?? government.organizationId)
+      : government.organizationId,
+    holders: government.compiledGovernmentKey
+      ? municipalOrientationHolders(world, government.compiledGovernmentKey)
+      : [],
+  }));
   const holderIds = [
+    ...localGovernments.flatMap((government) =>
+      government.holders.map((holder) => holder.personId),
+    ),
     ...executive.map((holder) => holder.personId),
     ...(governor ? [governor.personId] : []),
     ...(congress
@@ -134,20 +157,20 @@ export function projectWorldOrientation(
     homeState: stateUsps
       ? {
           stateUsps,
-          jurisdictionId: governorRecord
-            ? (world.people[governorRecord.personId]?.homeJurisdictionId ??
-              null)
-            : null,
+          jurisdictionId:
+            stateUsps === "DC"
+              ? player.homeJurisdictionId
+              : (stateJurisdictionForKey(`US-${stateUsps}`)?.id ?? null),
           governor,
         }
       : null,
     locality: {
       jurisdictionId: player.homeJurisdictionId,
       name: world.jurisdictions[player.homeJurisdictionId]?.name ?? null,
-      governments: local.governments.map((government) => ({
+      governments: localGovernments.map((government) => ({
         organizationId: government.organizationId,
         name: government.name,
-        holders: [],
+        holders: government.holders,
         membershipMissing: government.membershipMissing,
       })),
     },

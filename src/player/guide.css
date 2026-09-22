@@ -206,3 +206,17 @@
   flex-wrap: wrap;
   gap: var(--pg-space-2);
 }
+
+/*
+ * The card opens under the word when there is room under it and above the word
+ * when there is not, and shifts sideways rather than off a narrow screen. The
+ * word it explains stays visible in both directions.
+ */
+.pg-guide-popover {
+  translate: var(--pg-guide-popover-shift, 0) 0;
+}
+
+.pg-guide-popover[data-placement="above"] {
+  top: auto;
+  bottom: calc(100% + var(--pg-space-1));
+}

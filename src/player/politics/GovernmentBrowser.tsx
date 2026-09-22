@@ -141,34 +141,56 @@ export function GovernmentBrowser({
         </p>
       ) : null}
 
-      <div className="pg-government-branches">
-        {view.branches.map((branch) => (
-          <section
-            key={branch.branch}
-            className="pg-government-branch"
-            aria-labelledby={`pg-government-${branch.branch}`}
-            data-testid={`government-branch-${branch.branch}`}
-          >
-            <h3 id={`pg-government-${branch.branch}`}>{branch.label}</h3>
-            {branch.absent ? (
-              <p className="pg-government-absent">{branch.absent}</p>
-            ) : (
-              <ul>
-                {branch.entries.map((entry) => (
-                  <li key={entry.key}>
-                    <EntryBody
-                      entry={entry}
-                      state={view.browsingState}
-                      onOpenPerson={onOpenPerson}
-                      onOpenMeasure={onOpenMeasure}
-                    />
-                  </li>
-                ))}
-              </ul>
-            )}
-          </section>
-        ))}
-      </div>
+      {view.localGovernments.length > 0 ? (
+        <section
+          className="pg-government-branch"
+          data-testid="government-local-identities"
+        >
+          <h3>Local government</h3>
+          <ul>
+            {view.localGovernments.map((entry) => (
+              <li key={entry.key}>
+                <EntryBody
+                  entry={entry}
+                  state={view.browsingState}
+                  onOpenPerson={onOpenPerson}
+                  onOpenMeasure={onOpenMeasure}
+                />
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+      {view.branches.length > 0 ? (
+        <div className="pg-government-branches">
+          {view.branches.map((branch) => (
+            <section
+              key={branch.branch}
+              className="pg-government-branch"
+              aria-labelledby={`pg-government-${branch.branch}`}
+              data-testid={`government-branch-${branch.branch}`}
+            >
+              <h3 id={`pg-government-${branch.branch}`}>{branch.label}</h3>
+              {branch.absent ? (
+                <p className="pg-government-absent">{branch.absent}</p>
+              ) : (
+                <ul>
+                  {branch.entries.map((entry) => (
+                    <li key={entry.key}>
+                      <EntryBody
+                        entry={entry}
+                        state={view.browsingState}
+                        onOpenPerson={onOpenPerson}
+                        onOpenMeasure={onOpenMeasure}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          ))}
+        </div>
+      ) : null}
 
       {view.alsoGoverning.length > 0 ? (
         <section
@@ -191,10 +213,6 @@ export function GovernmentBrowser({
           </ul>
         </section>
       ) : null}
-
-      <p className="pg-government-note">
-        Looking at government does not use any time or give you any power.
-      </p>
     </section>
   );
 }

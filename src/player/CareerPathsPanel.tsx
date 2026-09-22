@@ -24,7 +24,7 @@ import {
 import type { LifePathResult } from "../simulation/life-paths2";
 import { workRoleAt, workStatusAt } from "../simulation/life-queries";
 import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
-import { GameSelect } from "./controls/GameSelect";
+import { projectPracticalOpportunities } from "../presentation/practical-opportunities";
 import { InlineDayControl } from "./controls/InlineDayControl";
 export function CareerPathsPanel({
   world,
@@ -36,7 +36,9 @@ export function CareerPathsPanel({
   readonly transitionHandlers?: FutureTransitionHandlerRegistry;
 }) {
   const [selected, setSelected] = useState(CAREER_PROVIDERS[0]!.id),
-    [notice, setNotice] = useState("");
+    [notice, setNotice] = useState(""),
+    [query, setQuery] = useState(""),
+    [wide, setWide] = useState(false);
   const p = CAREER_PROVIDERS.find((p) => p.id === selected)!;
   const path = lifePathDefinition(p.pathId);
   const act = (r: LifePathResult) => {
@@ -45,6 +47,11 @@ export function CareerPathsPanel({
   };
   if (world.control.kind !== "person") return null;
   const actor = world.control.personId;
+  const opportunities = projectPracticalOpportunities(world, actor, query);
+  const choices =
+    wide || query.trim()
+      ? opportunities.careers
+      : opportunities.suggestedCareers;
   const mine = world.history.workRelationships.filter(
     (r) =>
       r.personId === actor &&
@@ -66,20 +73,40 @@ export function CareerPathsPanel({
     <section aria-label="Career opportunities">
       <h3>Career opportunities</h3>
       <label>
-        Compare work{" "}
-        <GameSelect
-          value={selected}
-          onChange={(e) => {
-            setSelected(e.target.value);
-          }}
-        >
-          {CAREER_PROVIDERS.map((p) => (
-            <option key={p.id} value={p.id}>
-              {lifePathDefinition(p.pathId).title}
-            </option>
-          ))}
-        </GameSelect>
+        Find work{" "}
+        <input
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+        />
       </label>
+      <div className="pg-opportunity-choices" aria-label="Work choices">
+        {choices.map((choice) => (
+          <button
+            type="button"
+            className="ui-action"
+            key={choice.id}
+            aria-pressed={selected === choice.id}
+            onClick={() => setSelected(choice.id)}
+          >
+            <strong>{choice.path.title}</strong>
+            <small>
+              {choice.path.organizationName} ·{" "}
+              {choice.relationshipId
+                ? choice.status
+                : (choice.unavailable ?? "Meets the listed entry requirements")}
+            </small>
+          </button>
+        ))}
+        {choices.length === 0 ? <p>No matching work is listed.</p> : null}
+      </div>
+      <button
+        type="button"
+        className="ui-action ui-action--subtle"
+        onClick={() => setWide(!wide)}
+      >
+        {wide ? "Show suggested work" : "Browse all listed work"}
+      </button>
+      <h4>{path.title}</h4>
       <p>
         {path.organizationName} pays ${(path.sessionPayMinor / 100).toFixed(2)}{" "}
         for a completed {path.sessionMinutes}-minute shift, on the following
@@ -97,25 +124,21 @@ export function CareerPathsPanel({
         Seek an offer
       </button>
       {reason && <p>{reason}</p>}
-      <details>
-        <summary>Occupation source context</summary>
+      {/*
+       * What this work pays nationally is a fact about the job, and a player
+       * choosing between two of them wants it. Where the game read it is not,
+       * so the occupation code, the record id and the publisher attribution
+       * that used to sit above it stay on the record instead of on this
+       * screen.
+       */}
+      {world.currentDate >= "2026-09-09" && source.wage && (
         <p>
-          {source.title} · {source.id} → SOC {source.soc}
+          Nationally, this work pays a median of{" "}
+          {source.wage.hourlyMedian ?? "an unlisted amount"} an hour,{" "}
+          {source.wage.annualMedian ?? "an unlisted amount"} a year. What it
+          pays here, and what anyone would offer you, is another question.
         </p>
-        <p>{source.source.attribution}</p>
-        <p>
-          O*NET 31.0, August 2026; current source context, not a claim about
-          your past. Task durations come from the employer’s authored shift.
-        </p>
-        {world.currentDate >= "2026-09-09" && source.wage && (
-          <p>
-            Nationally, this work pays a median of{" "}
-            {source.wage.hourlyMedian ?? "an unlisted amount"} an hour,{" "}
-            {source.wage.annualMedian ?? "an unlisted amount"} a year. What it
-            pays here, and what anyone would offer you, is another question.
-          </p>
-        )}
-      </details>
+      )}
       {mine.map((r) => {
         const status = workStatusAt(world, r.id)?.status;
         return (

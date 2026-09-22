@@ -28,6 +28,7 @@ import {
   doWeekSession,
   letWeekSessionGo,
   partyWorkBlockedReason,
+  partyWorkBlockingActivityId,
   requestPartyWork,
   runWeekCondensed,
 } from "./campaign-life-actions";
@@ -253,54 +254,70 @@ describe(
       expect(done.outcome?.contactPersonIds.length).toBe(1);
     });
 
-    it("an earlier commitment comes first: the same World back, with the reason", () => {
-      const life = adultLife("life-actions-a");
-      const requested = requestPartyWork(
-        life.world,
-        life.personId,
-        "town-hall",
-        life.chapterId,
-      );
-      const view = latest(requested, life.personId);
-      // A confirmed errand for the person, well before the town hall's journey.
-      const start = simulationMomentAtLocalTime({
-        date: view.start.date,
-        minuteOfDay: view.start.minuteOfDay - 120,
-        timeZone: view.start.timeZone,
-        preferredUtcOffsetMinutes: view.start.utcOffsetMinutes,
-      });
-      const end = simulationMomentAtLocalTime({
-        date: view.start.date,
-        minuteOfDay: view.start.minuteOfDay - 60,
-        timeZone: view.start.timeZone,
-        preferredUtcOffsetMinutes: view.start.utcOffsetMinutes,
-      });
-      const busy = createScheduledActivity(requested, {
-        stableKey: "actions-test:errand",
-        title: "An errand",
-        summary: "Something promised earlier.",
-        kind: "confirmed",
-        start,
-        end,
-        participantPersonIds: [life.personId],
-        responsiblePersonId: life.personId,
-        location: {
-          locationKey: "actions-test:errand",
-          label: "Across town",
-          jurisdictionId: null,
-        },
-        // Any canonical event other than the invitation itself.
-        sourceEntityIds: [requested.history.events[0]!.id],
-        flexibility: { kind: "fixed" },
-        access: { kind: "private", personIds: [life.personId] },
-      });
-      expect(
-        attendPartyWork(busy, life.personId, view.lifeActivityId, "attended"),
-      ).toBe(busy);
-      expect(
-        partyWorkBlockedReason(busy, life.personId, view.lifeActivityId),
-      ).toBe("An earlier commitment must be resolved first.");
-    });
+    it.each(["town-hall", "phone-shift"] as const)(
+      "an earlier commitment comes before %s without losing the reason",
+      (form) => {
+        const life = adultLife("life-actions-a");
+        const requested = requestPartyWork(
+          life.world,
+          life.personId,
+          form,
+          life.chapterId,
+        );
+        const view = latest(requested, life.personId);
+        // A confirmed errand for the person, well before the town hall's journey.
+        const start = simulationMomentAtLocalTime({
+          date: view.start.date,
+          minuteOfDay: view.start.minuteOfDay - 120,
+          timeZone: view.start.timeZone,
+          preferredUtcOffsetMinutes: view.start.utcOffsetMinutes,
+        });
+        const end = simulationMomentAtLocalTime({
+          date: view.start.date,
+          minuteOfDay: view.start.minuteOfDay - 60,
+          timeZone: view.start.timeZone,
+          preferredUtcOffsetMinutes: view.start.utcOffsetMinutes,
+        });
+        const busy = createScheduledActivity(requested, {
+          stableKey: "actions-test:errand",
+          title: "An errand",
+          summary: "Something promised earlier.",
+          kind: "confirmed",
+          start,
+          end,
+          participantPersonIds: [life.personId],
+          responsiblePersonId: life.personId,
+          location: {
+            locationKey: "actions-test:errand",
+            label: "Across town",
+            jurisdictionId: null,
+          },
+          // Any canonical event other than the invitation itself.
+          sourceEntityIds: [requested.history.events[0]!.id],
+          flexibility: { kind: "fixed" },
+          access: { kind: "private", personIds: [life.personId] },
+        });
+        expect(
+          attendPartyWork(busy, life.personId, view.lifeActivityId, "attended"),
+        ).toBe(busy);
+        expect(
+          partyWorkBlockedReason(busy, life.personId, view.lifeActivityId),
+        ).toBe(
+          form === "phone-shift"
+            ? "Resolve “An errand” on your calendar first."
+            : "An earlier commitment must be resolved first.",
+        );
+        expect(
+          partyWorkBlockingActivityId(busy, life.personId, view.lifeActivityId),
+        ).toBe(
+          form === "phone-shift"
+            ? busy.history.scheduledActivities.find(
+                (item) => item.stableKey === "actions-test:errand",
+              )!.id
+            : null,
+        );
+      },
+    );
 
     it("an attended chapter meeting starts the organizer's follow-up work", () => {
       const life = adultLife("life-actions-b");

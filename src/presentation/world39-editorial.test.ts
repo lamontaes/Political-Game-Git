@@ -123,10 +123,20 @@ describe("WORLD39 News editorial pass", () => {
     ).toBe(false);
     expect(newsText(after)).not.toMatch(/(Presidency|Supreme Court)[^.]* in /);
     expect(newsText(after)).not.toMatch(DATABASE_WORDING);
-    const school = after.standing.find((item) => /School/.test(item.headline));
-    expect(school?.sentence).toMatch(
-      /^.+ is a school in Minneapolis, Minnesota\.$/,
-    );
+    // Every located institution is named in plain words and placed in the
+    // town it is actually recorded in. This used to name the hometown school
+    // specifically, which an adult life no longer invents: `context-v2`
+    // declines to assume a school, employer or credential in a summarized
+    // past, so there is nothing to find and nothing false said instead. The
+    // shape is what the reader sees, and it is checked for whatever the World
+    // does record. The school itself is proven below, where a life that is
+    // actually in one can be asked about it.
+    expect(after.standing.length).toBeGreaterThan(0);
+    for (const item of after.standing) {
+      expect(item.sentence, item.headline).toMatch(
+        /^.+ is (?:a|an|the) [a-z ]+ in Minneapolis, Minnesota\.$/,
+      );
+    }
   });
 
   it("Kentucky regression: Lexington names its consolidated government in plain words", () => {

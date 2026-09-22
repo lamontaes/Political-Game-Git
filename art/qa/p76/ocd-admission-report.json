@@ -1,0 +1,525 @@
+{
+  "schema": "ocd-candidate-admission-report-v1",
+  "generator": "ocd-candidate-admission-v1",
+  "intake_source": "art/qa/p71/source_intake_dispositions.json",
+  "despill_source": "art/qa/p76/edge_despill_report.json",
+  "observation_method": "Direct inspection of each despilled raster at review scale (about 760 px tall per figure) by the character rendering triage lane, 2026-09-22, with the seated turn corroborated by the silhouette measurement below. Packet 71's prose pose descriptions were read afterwards and are carried as the prior claim; where the pixels and the prose disagree the disagreement is reported rather than resolved silently. This is a reviewable candidate observation, not owner acceptance and not a production pose certification.",
+  "release_status": "CANDIDATE_REFERENCE_ONLY",
+  "summary": {
+    "measured": 8,
+    "admitted": 6,
+    "admittedPoseFamilies": [
+      "seated-guest-three-quarter-right",
+      "standing-conversational",
+      "standing-neutral"
+    ],
+    "byDisposition": {
+      "admitted-candidate-body": 6,
+      "retained-unregistered-facing": 2
+    },
+    "lineageIntact": true,
+    "rowsDisagreeingWithPriorClaim": 2
+  },
+  "candidates": [
+    {
+      "assetId": "ocd_body_adult_fem_seated_conversational_left_v1",
+      "family": "ocd-adult-feminine",
+      "provenance": {
+        "intakePath": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_conversational_left_v1.png",
+        "intakeSha256": "ff0b01c141d1920996d9ed42ad9ea6ab1183c18577607d4c024032f165617d63",
+        "intakeDisposition": "REVISE",
+        "intakePoseFamily": "seated-guest-neutral",
+        "intakePoseDescription": "Seated three-quarter left, one hand on the lap and one extended.",
+        "despilledPath": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_conversational_left_v1.png",
+        "despilledSha256": "442fe28e13742e6e3f152c77bde0b04c57c4675bc5e5ccbd9c904a66a6f40e15",
+        "observedSha256": "442fe28e13742e6e3f152c77bde0b04c57c4675bc5e5ccbd9c904a66a6f40e15",
+        "lineageIntact": true,
+        "lineageBreaks": []
+      },
+      "priorClaim": {
+        "poseFamily": "seated-guest-neutral",
+        "poseDescription": "Seated three-quarter left, one hand on the lap and one extended."
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "three-quarter",
+        "facingDirection": "left",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high",
+        "note": "The only plate on this sheet turned the other way: shins and feet swing away from the reference plate's side, and it measures +0.328 where that plate measures -0.271. Packet 71 calls it three-quarter left, and the pixels agree."
+      },
+      "measurement": {
+        "cropWidth": 908,
+        "cropHeight": 1638,
+        "opaqueBounds": { "left": 65, "top": 66, "width": 778, "height": 1507 },
+        "opaquePixels": 516402,
+        "rig": {
+          "centerXFraction": 0.468062,
+          "crownYFraction": 0.042735,
+          "neckYFraction": 0.19475,
+          "shoulderYFraction": 0.279609,
+          "waistYFraction": 0.46398,
+          "crotchYFraction": 0.65873,
+          "soleYFraction": 0.957875,
+          "headWidthFraction": 0.215859,
+          "shoulderWidthFraction": 0.439427,
+          "waistWidthFraction": 0.39207,
+          "feetSpanFraction": 0.36674
+        },
+        "mirrorSymmetryIou": 0.266383,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.64978],
+        "widestRowWidthFraction": 0.756608,
+        "widestRowYFraction": 0.442002
+      },
+      "turnOffsetFraction": 0.32828,
+      "measuredTurnDirection": "left",
+      "seatedContact": {
+        "basis": "measured-rear-hip",
+        "x": 0.261013,
+        "y": 0.639805,
+        "reason": null
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-unregistered-facing",
+      "priorClaimDisagreements": []
+    },
+    {
+      "assetId": "ocd_body_adult_fem_seated_gesture_forward_v1",
+      "family": "ocd-adult-feminine",
+      "provenance": {
+        "intakePath": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_gesture_forward_v1.png",
+        "intakeSha256": "2ace9c305d9b3f0a78d114f7889c2ceaf7ec2768307fc26042386046cc87eb04",
+        "intakeDisposition": "REVISE",
+        "intakePoseFamily": "seated-guest-neutral",
+        "intakePoseDescription": "Seated three-quarter left, leaning slightly, both hands forward and low.",
+        "despilledPath": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_gesture_forward_v1.png",
+        "despilledSha256": "002d60e76ffd2e86a286c6111eabbe5b3ecde5c85d3a5bed81c2ba026013d76e",
+        "observedSha256": "002d60e76ffd2e86a286c6111eabbe5b3ecde5c85d3a5bed81c2ba026013d76e",
+        "lineageIntact": true,
+        "lineageBreaks": []
+      },
+      "priorClaim": {
+        "poseFamily": "seated-guest-neutral",
+        "poseDescription": "Seated three-quarter left, leaning slightly, both hands forward and low."
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "three-quarter",
+        "facingDirection": "right",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high",
+        "note": "Packet 71 describes this as three-quarter left. It is not: the shins and feet swing to the same side as the reference plate and it measures -0.226, where the one genuinely turned the other way measures +0.328. Both hands come forward and low, which is a gesture rather than a turn."
+      },
+      "measurement": {
+        "cropWidth": 826,
+        "cropHeight": 1630,
+        "opaqueBounds": { "left": 65, "top": 66, "width": 695, "height": 1499 },
+        "opaquePixels": 500493,
+        "rig": {
+          "centerXFraction": 0.503632,
+          "crownYFraction": 0.042331,
+          "neckYFraction": 0.197546,
+          "shoulderYFraction": 0.284049,
+          "waistYFraction": 0.463804,
+          "crotchYFraction": 0.954601,
+          "soleYFraction": 0.957669,
+          "headWidthFraction": 0.238499,
+          "shoulderWidthFraction": 0.496368,
+          "waistWidthFraction": 0.437046,
+          "feetSpanFraction": 0.364407
+        },
+        "mirrorSymmetryIou": 0.368574,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.417676],
+        "widestRowWidthFraction": 0.805085,
+        "widestRowYFraction": 0.437423
+      },
+      "turnOffsetFraction": -0.226388,
+      "measuredTurnDirection": "right",
+      "seatedContact": {
+        "basis": "measured-rear-hip",
+        "x": 0.723366,
+        "y": 0.643558,
+        "reason": null
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": "seated-guest-three-quarter-right",
+      "disposition": "admitted-candidate-body",
+      "priorClaimDisagreements": [
+        "Packet 71 describes this as three-quarter left; the pixels and the silhouette measurement both read three-quarter right."
+      ]
+    },
+    {
+      "assetId": "ocd_body_adult_fem_seated_guest_front_v1",
+      "family": "ocd-adult-feminine",
+      "provenance": {
+        "intakePath": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_guest_front_v1.png",
+        "intakeSha256": "0d2818c0e9a10c07b152e2cd692df3626bc124600407763fdcc815e1bbdcddbe",
+        "intakeDisposition": "REVISE",
+        "intakePoseFamily": "seated-guest-neutral",
+        "intakePoseDescription": "Seated close to square, both hands resting on the knees.",
+        "despilledPath": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_guest_front_v1.png",
+        "despilledSha256": "99784955898472f1801124e3dba0911043ddc7e663e6e9397ef5075c737d982b",
+        "observedSha256": "99784955898472f1801124e3dba0911043ddc7e663e6e9397ef5075c737d982b",
+        "lineageIntact": true,
+        "lineageBreaks": []
+      },
+      "priorClaim": {
+        "poseFamily": "seated-guest-neutral",
+        "poseDescription": "Seated close to square, both hands resting on the knees."
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "three-quarter",
+        "facingDirection": "right",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high",
+        "note": "Packet 71 describes this as close to square. It is not: at -0.276 it is turned as far as the plate named for its turn, and a genuinely square seated figure measures within a thousandth of zero. The hands rest on the knees, which is what reads as frontal."
+      },
+      "measurement": {
+        "cropWidth": 859,
+        "cropHeight": 1641,
+        "opaqueBounds": { "left": 65, "top": 66, "width": 728, "height": 1510 },
+        "opaquePixels": 517602,
+        "rig": {
+          "centerXFraction": 0.533178,
+          "crownYFraction": 0.042048,
+          "neckYFraction": 0.199269,
+          "shoulderYFraction": 0.281536,
+          "waistYFraction": 0.46496,
+          "crotchYFraction": 0.802559,
+          "soleYFraction": 0.957343,
+          "headWidthFraction": 0.233993,
+          "shoulderWidthFraction": 0.481956,
+          "waistWidthFraction": 0.416764,
+          "feetSpanFraction": 0.380675
+        },
+        "mirrorSymmetryIou": 0.326693,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.371944],
+        "widestRowWidthFraction": 0.731083,
+        "widestRowYFraction": 0.587447
+      },
+      "turnOffsetFraction": -0.276407,
+      "measuredTurnDirection": "right",
+      "seatedContact": {
+        "basis": "measured-rear-hip",
+        "x": 0.742724,
+        "y": 0.644119,
+        "reason": null
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": "seated-guest-three-quarter-right",
+      "disposition": "admitted-candidate-body",
+      "priorClaimDisagreements": [
+        "Packet 71 describes this as square to camera; the pixels read three-quarter."
+      ]
+    },
+    {
+      "assetId": "ocd_body_adult_fem_seated_guest_three_quarter_v1",
+      "family": "ocd-adult-feminine",
+      "provenance": {
+        "intakePath": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_guest_three_quarter_v1.png",
+        "intakeSha256": "0cd2829719006fb23b29c0219f72fdbe528a742017dcdd2f5a71975cdb14ef5d",
+        "intakeDisposition": "REVISE",
+        "intakePoseFamily": "seated-guest-neutral",
+        "intakePoseDescription": "Seated on an unseen chair, three-quarter right, hands resting on the thighs.",
+        "despilledPath": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_guest_three_quarter_v1.png",
+        "despilledSha256": "bc2b3c0750c1f894010bbf5f5fff492c9185989496103dd6712927bcbfa99c79",
+        "observedSha256": "bc2b3c0750c1f894010bbf5f5fff492c9185989496103dd6712927bcbfa99c79",
+        "lineageIntact": true,
+        "lineageBreaks": []
+      },
+      "priorClaim": {
+        "poseFamily": "seated-guest-neutral",
+        "poseDescription": "Seated on an unseen chair, three-quarter right, hands resting on the thighs."
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "three-quarter",
+        "facingDirection": "right",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high",
+        "note": "The reference plate the facing convention is anchored to. Hands rest on the thighs, seated on an unseen chair."
+      },
+      "measurement": {
+        "cropWidth": 817,
+        "cropHeight": 1603,
+        "opaqueBounds": { "left": 66, "top": 66, "width": 686, "height": 1472 },
+        "opaquePixels": 496218,
+        "rig": {
+          "centerXFraction": 0.516524,
+          "crownYFraction": 0.044916,
+          "neckYFraction": 0.193387,
+          "shoulderYFraction": 0.287586,
+          "waistYFraction": 0.465377,
+          "crotchYFraction": 0.777293,
+          "soleYFraction": 0.956956,
+          "headWidthFraction": 0.227662,
+          "shoulderWidthFraction": 0.526316,
+          "waistWidthFraction": 0.446756,
+          "feetSpanFraction": 0.351285
+        },
+        "mirrorSymmetryIou": 0.379487,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.301102],
+        "widestRowWidthFraction": 0.72705,
+        "widestRowYFraction": 0.584529
+      },
+      "turnOffsetFraction": -0.270956,
+      "measuredTurnDirection": "right",
+      "seatedContact": {
+        "basis": "measured-rear-hip",
+        "x": 0.725214,
+        "y": 0.638802,
+        "reason": null
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": "seated-guest-three-quarter-right",
+      "disposition": "admitted-candidate-body",
+      "priorClaimDisagreements": []
+    },
+    {
+      "assetId": "ocd_body_adult_fem_standing_conversational_a_v1",
+      "family": "ocd-adult-feminine",
+      "provenance": {
+        "intakePath": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_conversational_a_v1.png",
+        "intakeSha256": "8de64e0aad4340c248ab65ef8988ec727338d172665550363d2c75da64cd2785",
+        "intakeDisposition": "REVISE",
+        "intakePoseFamily": "standing-conversational",
+        "intakePoseDescription": "Three-quarter turn, one hand at the abdomen and one extended open.",
+        "despilledPath": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_conversational_a_v1.png",
+        "despilledSha256": "0f109bdef229104fe16ec139125a32e87c5979223e0d83cab3671967a7e366cc",
+        "observedSha256": "0f109bdef229104fe16ec139125a32e87c5979223e0d83cab3671967a7e366cc",
+        "lineageIntact": true,
+        "lineageBreaks": []
+      },
+      "priorClaim": {
+        "poseFamily": "standing-conversational",
+        "poseDescription": "Three-quarter turn, one hand at the abdomen and one extended open."
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "three-quarter",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high",
+        "note": "Genuinely turned, agreeing with Packet 71: one shoulder leads, the torso is narrowed and the far foot points away, where the neutral poses on this sheet put both feet square to camera. No direction is recorded, because the measurement that settles a seated turn says nothing about a standing one and this lane will not read a direction it cannot check. It changes nothing here: every standing family declares front, so a turned standing figure has no family whichever way it faces."
+      },
+      "measurement": {
+        "cropWidth": 864,
+        "cropHeight": 1705,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 734, "height": 1575 },
+        "opaquePixels": 490628,
+        "rig": {
+          "centerXFraction": 0.482639,
+          "crownYFraction": 0.039883,
+          "neckYFraction": 0.17654,
+          "shoulderYFraction": 0.319648,
+          "waistYFraction": 0.402346,
+          "crotchYFraction": 0.859824,
+          "soleYFraction": 0.959531,
+          "headWidthFraction": 0.209491,
+          "shoulderWidthFraction": 0.703704,
+          "waistWidthFraction": 0.37963,
+          "feetSpanFraction": 0.321759
+        },
+        "mirrorSymmetryIou": 0.2971,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.321759, 0.634259],
+        "widestRowWidthFraction": 0.792824,
+        "widestRowYFraction": 0.33607
+      },
+      "turnOffsetFraction": 0.039673,
+      "measuredTurnDirection": null,
+      "seatedContact": null,
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-unregistered-facing",
+      "priorClaimDisagreements": []
+    },
+    {
+      "assetId": "ocd_body_adult_fem_standing_conversational_b_v1",
+      "family": "ocd-adult-feminine",
+      "provenance": {
+        "intakePath": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_conversational_b_v1.png",
+        "intakeSha256": "ceb8f63c7700a5a9fdeeee73a60195dedbba2ca2afd97b5f013da26f367157fd",
+        "intakeDisposition": "REVISE",
+        "intakePoseFamily": "standing-conversational",
+        "intakePoseDescription": "Square to camera, both hands raised at waist height in an open gesture.",
+        "despilledPath": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_conversational_b_v1.png",
+        "despilledSha256": "7f7b653efec871fd25448e79a68bbd4cea67358226a4530432bedd43edfeb371",
+        "observedSha256": "7f7b653efec871fd25448e79a68bbd4cea67358226a4530432bedd43edfeb371",
+        "lineageIntact": true,
+        "lineageBreaks": []
+      },
+      "priorClaim": {
+        "poseFamily": "standing-conversational",
+        "poseDescription": "Square to camera, both hands raised at waist height in an open gesture."
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "front",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high",
+        "note": "Square to camera with both hands raised at waist height; feet symmetric and level."
+      },
+      "measurement": {
+        "cropWidth": 827,
+        "cropHeight": 1728,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 697, "height": 1598 },
+        "opaquePixels": 503175,
+        "rig": {
+          "centerXFraction": 0.49214,
+          "crownYFraction": 0.039931,
+          "neckYFraction": 0.168403,
+          "shoulderYFraction": 0.269676,
+          "waistYFraction": 0.353588,
+          "crotchYFraction": 0.935764,
+          "soleYFraction": 0.960648,
+          "headWidthFraction": 0.227328,
+          "shoulderWidthFraction": 0.551391,
+          "waistWidthFraction": 0.359129,
+          "feetSpanFraction": 0.259976
+        },
+        "mirrorSymmetryIou": 0.356428,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.247884, 0.562273],
+        "widestRowWidthFraction": 0.7763,
+        "widestRowYFraction": 0.384259
+      },
+      "turnOffsetFraction": -0.006726,
+      "measuredTurnDirection": null,
+      "seatedContact": null,
+      "rigPlausible": true,
+      "registeredPoseFamily": "standing-conversational",
+      "disposition": "admitted-candidate-body",
+      "priorClaimDisagreements": []
+    },
+    {
+      "assetId": "ocd_body_adult_fem_standing_neutral_a_v1",
+      "family": "ocd-adult-feminine",
+      "provenance": {
+        "intakePath": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_neutral_a_v1.png",
+        "intakeSha256": "333adfe7adc140b2f04be7694d6d488a574fc4379d3ae41e1f4eee33f00c6e53",
+        "intakeDisposition": "REVISE",
+        "intakePoseFamily": "standing-neutral",
+        "intakePoseDescription": "Arms relaxed at the sides, square to camera, feet together.",
+        "despilledPath": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_neutral_a_v1.png",
+        "despilledSha256": "192820a8fe1fec3b36583a6c87c2e45cbc8ceb1d2fe479960a191f986c6aaa9b",
+        "observedSha256": "192820a8fe1fec3b36583a6c87c2e45cbc8ceb1d2fe479960a191f986c6aaa9b",
+        "lineageIntact": true,
+        "lineageBreaks": []
+      },
+      "priorClaim": {
+        "poseFamily": "standing-neutral",
+        "poseDescription": "Arms relaxed at the sides, square to camera, feet together."
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "front",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high",
+        "note": "Square to camera, arms at the sides, feet together."
+      },
+      "measurement": {
+        "cropWidth": 892,
+        "cropHeight": 1703,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 762, "height": 1573 },
+        "opaquePixels": 528486,
+        "rig": {
+          "centerXFraction": 0.5,
+          "crownYFraction": 0.03993,
+          "neckYFraction": 0.168526,
+          "shoulderYFraction": 0.279507,
+          "waistYFraction": 0.357017,
+          "crotchYFraction": 0.583089,
+          "soleYFraction": 0.959483,
+          "headWidthFraction": 0.205157,
+          "shoulderWidthFraction": 0.524664,
+          "waistWidthFraction": 0.340807,
+          "feetSpanFraction": 0.241031
+        },
+        "mirrorSymmetryIou": 0.988094,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.356502, 0.642937],
+        "widestRowWidthFraction": 0.647982,
+        "widestRowYFraction": 0.510276
+      },
+      "turnOffsetFraction": 0.000813,
+      "measuredTurnDirection": null,
+      "seatedContact": null,
+      "rigPlausible": true,
+      "registeredPoseFamily": "standing-neutral",
+      "disposition": "admitted-candidate-body",
+      "priorClaimDisagreements": []
+    },
+    {
+      "assetId": "ocd_body_adult_fem_standing_neutral_b_v1",
+      "family": "ocd-adult-feminine",
+      "provenance": {
+        "intakePath": "art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_neutral_b_v1.png",
+        "intakeSha256": "036a82bd7a1ace79f8bb3160dd9d28d021e639d7ec1106aabf2d77aaa047c702",
+        "intakeDisposition": "REVISE",
+        "intakePoseFamily": "standing-neutral",
+        "intakePoseDescription": "Square to camera, arms at the sides with the hands slightly open.",
+        "despilledPath": "art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_neutral_b_v1.png",
+        "despilledSha256": "01761f913049bb3814b22a87361675e86cd085779fed1a6c7e235b8108bb276b",
+        "observedSha256": "01761f913049bb3814b22a87361675e86cd085779fed1a6c7e235b8108bb276b",
+        "lineageIntact": true,
+        "lineageBreaks": []
+      },
+      "priorClaim": {
+        "poseFamily": "standing-neutral",
+        "poseDescription": "Square to camera, arms at the sides with the hands slightly open."
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "front",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high",
+        "note": "Square to camera, arms at the sides with the hands slightly open."
+      },
+      "measurement": {
+        "cropWidth": 830,
+        "cropHeight": 1704,
+        "opaqueBounds": { "left": 66, "top": 66, "width": 699, "height": 1573 },
+        "opaquePixels": 518828,
+        "rig": {
+          "centerXFraction": 0.5,
+          "crownYFraction": 0.040493,
+          "neckYFraction": 0.171948,
+          "shoulderYFraction": 0.274648,
+          "waistYFraction": 0.370892,
+          "crotchYFraction": 0.627347,
+          "soleYFraction": 0.959507,
+          "headWidthFraction": 0.214458,
+          "shoulderWidthFraction": 0.545783,
+          "waistWidthFraction": 0.351807,
+          "feetSpanFraction": 0.26506
+        },
+        "mirrorSymmetryIou": 0.844122,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.342169, 0.641566],
+        "widestRowWidthFraction": 0.687952,
+        "widestRowYFraction": 0.5223
+      },
+      "turnOffsetFraction": 0.021534,
+      "measuredTurnDirection": null,
+      "seatedContact": null,
+      "rigPlausible": true,
+      "registeredPoseFamily": "standing-neutral",
+      "disposition": "admitted-candidate-body",
+      "priorClaimDisagreements": []
+    }
+  ]
+}

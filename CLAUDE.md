@@ -4,7 +4,7 @@
 
 Full task instructions live in the assigned Google Doc. Check its current revision, the Board's active dispatch and the relevant decision entries; then inspect live code. Use the canonical index/read-write protocol to locate missing authority, not as a compulsory tour through all historical documents before every edit.
 
-Resume the existing owner where applicable. An old PR description or active GitHub Actions run is not proof of the current code or a running coding session. Preserve the active LAND/UI boundaries.
+Resume the existing owner where applicable, in that owner's registered workspace (`npm run storage -- workspace --owner <owner>`); do not clone or add a worktree for a retry, a new chat or a new branch. An old PR description or active GitHub Actions run is not proof of the current code or a running coding session. Preserve the active LAND/UI boundaries.
 
 Use a relevant skill when its trigger matches. `.agents/skills/civic-prose/` guides prose; it is a development-time authoring process, not permission to add model calls to shipped play. Do not duplicate a renderer, save store, catalog or scheduler to bypass a missing connection.
 
