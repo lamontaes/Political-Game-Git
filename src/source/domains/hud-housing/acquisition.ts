@@ -12,6 +12,13 @@ import type { AcquisitionPlan } from "../../core/index";
 export const FMR_ARTIFACT = "hud-fy2025-fair-market-rents-xlsx";
 export const INCOME_LIMIT_ARTIFACT = "hud-fy2025-section8-income-limits-xlsx";
 
+/**
+ * Publication of the original FY2025 Fair Market Rents. The Section 8 income
+ * limits are effective 2025-04-01, but no posting date for them has been
+ * established, so they carry none and stay on the retrieval-date fallback.
+ */
+export const FMR_ORIGINAL_NOTICE_DATE = "2024-08-14";
+
 export const FMR_SHEET = "FY25_FMRs";
 export const INCOME_LIMIT_SHEET = "Section8-FY25";
 
@@ -27,7 +34,10 @@ export const hudHousingAcquisition: AcquisitionPlan = {
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       publisher: {
         statedVintage: "FY2025",
-        releaseDate: null,
+        // The original FY2025 notice, 89 FR 66127, published 2024-08-14 and
+        // effective 2024-10-01. The locked workbook was built 2024-06-28,
+        // before that notice, so it is the original edition, not a revision.
+        releaseDate: FMR_ORIGINAL_NOTICE_DATE,
         schemaVersion: "FY2025 Fair Market Rents, county level",
         documentationUrl: "https://www.huduser.gov/portal/datasets/fmr.html",
       },

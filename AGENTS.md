@@ -8,7 +8,7 @@ The assigned Google Doc and the current Assignment Board own product scope and o
 
 The Game Constitution and accepted decisions remain binding. Consult `docs/GAME-CONSTITUTION.md` and `docs/decisions/DECISION-LOG.md` for product/semantic choices; `ARCHITECTURE.md` and the relevant `docs/systems/` contract for a boundary change; release/deployment documentation for a publication change. Ordinary local repairs do not require another whole-project architecture audit. Contradictions are resolved explicitly, not by silently weakening a contract.
 
-Full command and technical reference: `.agents/rules/repository-reference.md`. Its older universal reading/verification itinerary is superseded by this task-sensitive routing; its applicable substantive constraints remain in force. Use matching `.agents/skills/` only when the task triggers them.
+Full command and technical reference: `.agents/rules/repository-reference.md`. Its older universal reading/verification itinerary is superseded by this task-sensitive routing; its applicable substantive constraints remain in force. Use matching `.agents/skills/` only when the task triggers them. Any report or write-up for the owner triggers `.agents/skills/civic-reports/`.
 
 ## Implementation boundaries
 

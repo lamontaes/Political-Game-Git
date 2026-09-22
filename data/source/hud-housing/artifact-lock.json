@@ -11,7 +11,7 @@
       "provider": "U.S. Department of Housing and Urban Development, HUD User",
       "publisher": {
         "documentationUrl": "https://www.huduser.gov/portal/datasets/fmr.html",
-        "releaseDate": null,
+        "releaseDate": "2024-08-14",
         "schemaVersion": "FY2025 Fair Market Rents, county level",
         "statedVintage": "FY2025"
       },

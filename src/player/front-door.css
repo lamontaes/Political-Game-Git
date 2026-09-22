@@ -42,10 +42,8 @@
  * soft text shadow and each control's own faint edge, over the room itself.
  */
 
-/* The build and version stamps stay fixed bottom-right, outside the column. */
-.title-tableau--art.front-door
-  .title-tableau-content
-  > *:not(.pg-version, .pg-build) {
+/* The version stamp stays fixed bottom-right, outside the column. */
+.title-tableau--art.front-door .title-tableau-content > *:not(.pg-version) {
   position: relative;
   z-index: 1;
 }
@@ -339,12 +337,6 @@
 
 .title-tableau--art.front-door .game-title code {
   color: var(--front-door-ink);
-}
-
-.front-door .pg-build {
-  color: rgb(245 235 212 / 0.84);
-  text-shadow: 0 1px 6px rgb(8 13 21 / 0.9);
-  font-family: var(--front-door-read);
 }
 
 .front-door .pg-version {
