@@ -22,20 +22,27 @@ report: the first things you will notice are also the fastest to fix.
 
 **Click these in this order.**
 
-1. **#304 — say what is behind the Politics entry.** The menu reads
+1. **#333 — main is red on a test, and this is the fix.** New, and first
+   because nothing else on this list can make main green. One test file. The
+   full reasoning is under "The one real red, and who it belonged to" below;
+   the short version is that two commits from the same sweep merged together
+   and disagree with each other about a sentence. This is the only entry here
+   that has no CI verdict of its own **on purpose** — starting its sixteen-job
+   run would have taken the two slots main's own run is using.
+2. **#304 — say what is behind the Politics entry.** The menu reads
    "Politics — Jobs and study" while behind it are your office, campaigns, the
    government where you live, parties and the budget. Most visible thing in the
    game's first two minutes, and the cheapest click here.
-2. **#325 — prove the refusal a player reads arrives at the screen clean.** It
+3. **#325 — prove the refusal a player reads arrives at the screen clean.** It
    carries no sentence fixes of its own; it is the gate. It needed #320 first,
    and **#320 is now merged**, so nothing blocks it. Its checks read red until
    it lands, which its own body explains.
-3. **The documents — #330, #331, #294 — in any order, and safe to clear
+4. **The documents — #330, #331, #294 — in any order, and safe to clear
    first.** #330 is the report updates, #331 the playtest walk at 324 lines
    under `docs/playtest/`, #294 the artbench-exchange write-up at 131 lines.
    None touches source or a shipped path. This is the part of the list you can
    clear without thinking about it.
-4. **#292 — a life that has always lived somewhere has always lived in its
+5. **#292 — a life that has always lived somewhere has always lived in its
    district too**, and **#283 — every state has a legislature, the District
    governs itself, and read law beats the draw.** Both the nationwide lane's,
    both with their dependencies and their unattributed failures named in their
@@ -53,7 +60,7 @@ most visible thing fixed first.
 **One thing to know before you start clicking.** GitHub will not let you merge
 a pull request that is still a draft, and several of the above are. Ready to
 merge right now: **#292**, **#305**, **#311**. Still draft at this refresh:
-**#304**, **#325**, **#277**, **#283**. Each of those needs its "Ready for
+**#304**, **#325**, **#277**, **#283**, **#333**. Each of those needs its "Ready for
 review" button pressed first — one extra click, not a problem, but worth
 knowing rather than discovering.
 
@@ -79,6 +86,54 @@ numbered below #262 predates this night and is not part of this train.
 world-event line pinned to the top of six different screens. Nobody had
 reported it and nothing fixes it tonight. It is a real bug and it belongs in
 the report rather than on this list.
+
+## The one real red, and who it belonged to
+
+Main's first genuine verdict of the night, on `7fc33c85` at 07:52Z, came back
+with exactly one real failure. It is worth reading because of how ordinary it
+is, and because of what made it hard to see coming.
+
+`unit (2, 6)` failed on one test out of 1197 in that shard:
+`src/presentation/campaign-projection.test.ts` line 125. The other shard that
+had reported, and the `repository` job, were both green.
+
+**Two commits from the same piece of work disagree, and they merged together.**
+Both are inside #320, the change that stops a refusal telling a player where we
+read the rule.
+
+- `0c00146f` pinned the Kentucky rule pack's seat-count note to an exact
+  sentence — "...no instrument fixing it was separately read". The reasoning
+  was sound: the note stays in the pack even once the campaign screen stops
+  reciting it, so something should still assert it is there.
+- `71623c23`, a later pass in the same lane, rewrote that very note. Its own
+  commit message says it found producers "by grep rather than by reading the
+  call graph", and it updated the test suites under `src/simulation/` that the
+  grep reached. The failing assertion lives under `src/presentation/`.
+
+So the producer now says "The game does not know how many seats Kentucky's
+chamber formally has, and it will not guess a number", and a test three
+directories away was still demanding the retired sentence.
+
+**The producer is right.** The fix is not to restore the old wording — that
+would undo the thing #320 was for. #333 asserts the refusal rather than its
+phrasing, and adds the check the sweep actually cares about: that the note
+carries no "compiled research" or "numeric fallback" vocabulary. A comment
+above it says why, so the next reader does not re-pin a sentence.
+
+**What this cost, and what it would have cost.** It was caught at 07:52Z
+because main finally had two job slots to itself and could run a unit shard
+end to end. Every earlier attempt tonight was cancelled before a test body
+executed. Had the freeze not happened, this would have reached nine o'clock
+undetected, and the first thing anyone saw would have been a red main with no
+obvious owner — a single assertion inside a merged, reviewed, deliberate
+change.
+
+**The transferable part is about the grep.** A sweep that finds its targets by
+searching for a string will update every consumer that spells the string the
+same way, and miss every consumer that spells it differently or lives where
+the search did not run. That is not carelessness; it is the known limit of the
+method. When a sweep rewrites a sentence that something else asserts, the
+thing to run afterwards is the test suite, not another grep.
 
 ## Why main could not get a verdict, which is not what we thought
 
