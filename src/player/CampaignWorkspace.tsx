@@ -4,6 +4,7 @@ import "./campaign-workspace.css";
 import { projectCampaignOffices } from "../presentation/campaign-office-discovery";
 
 import {
+  campaignElectionDate,
   fileForOffice,
   projectCampaign,
   spendAnAfternoon,
@@ -392,10 +393,11 @@ export function CampaignWorkspace({
             <details className="game-campaign-detail">
               <summary>About election dates here</summary>
               <p>
-                No national election calendar or inferred district membership is
-                supplied here. The existing campaign filing route uses its
-                28-day game scenario schedule, not a sourced real-world election
-                date.
+                A state legislative seat is elected at the state's next regular
+                legislative election under the game's calendar profile, not a
+                sourced per-state calendar; staggered senate seats and primaries
+                are not modelled. A town's own body still uses a 28-day authored
+                schedule.
               </p>
             </details>
           ) : null}
@@ -448,6 +450,9 @@ export function CampaignWorkspace({
                 : "Put your name in"}
             </span>
             <span className="game-campaign-action-note">
+              {selectedOffice && person
+                ? `The election is ${readableCampaignDate(campaignElectionDate(world, person.homeJurisdictionId, selectedOffice.officeKey))}. `
+                : ""}
               The committee opens with nothing in it.
             </span>
           </button>

@@ -146,6 +146,12 @@ async function liveUntilDecided(page: Page, maxDays = 45) {
     if (await page.getByTestId("campaign-result").isVisible()) return true;
     await pressTime(page, "shell-pass-day");
   }
+  // A legislative seat is decided on the state's election day, which can be
+  // most of a year off; the rest of the wait goes a week at a time.
+  for (let week = 0; week < 110; week += 1) {
+    if (await page.getByTestId("campaign-result").isVisible()) return true;
+    await pressTime(page, "shell-pass-week");
+  }
   return page.getByTestId("campaign-result").isVisible();
 }
 
