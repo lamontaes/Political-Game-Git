@@ -79,42 +79,92 @@ describe("browser economic context provider", () => {
     });
   });
 
-  it("uses retrieval as a conservative knowledge fallback and blocks future rows", async () => {
+  // Each locked edition is available from the day its publisher released it:
+  // county personal income 2024 on 2026-02-05, regional price parities on
+  // 2026-02-19, the original FY2025 Fair Market Rents on 2024-08-14. The
+  // income limits and unemployment series have no established release date,
+  // so they stay on the conservative retrieval-date fallback.
+  it("dates each edition by its publisher's release, not by our download", async () => {
     const provider = localProvider();
-    const before = await provider.query(LEXINGTON, "2026-09-02");
-    expect(before.observations).toEqual([]);
-    expect(before.withheldFutureObservationCount).toBeGreaterThan(250);
-    expect(before.availability).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          status: "unavailable",
-          reason: expect.stringMatching(/simulation date/i),
-        }),
-      ]),
-    );
+    const products = (result: {
+      observations: readonly { sourceProduct: string }[];
+    }) =>
+      new Set(
+        result.observations.map((item) => item.sourceProduct.split(":")[0]),
+      );
 
-    const after = await provider.query(LEXINGTON, "2026-09-03");
-    expect(after.observations.length).toBeGreaterThan(250);
-    expect(
-      after.observations.every(
-        (item) =>
-          item.vintage.publisherReleaseDate === null &&
-          item.vintage.knownAvailableOn === "2026-09-03" &&
-          item.vintage.knownAvailableOnBasis === "retrieval-date-fallback" &&
-          item.vintage.validityPeriod === null,
-      ),
-    ).toBe(true);
-    const hud = after.observations.find((item) =>
-      item.sourceProduct.startsWith("hud-"),
+    const opening = await provider.query(LEXINGTON, "2026-01-05");
+    const rents = opening.observations.filter(
+      (item) => item.source.artifactId === "hud-fy2025-fair-market-rents-xlsx",
     );
-    expect(hud?.vintage).toMatchObject({
+    expect(rents.length).toBeGreaterThan(0);
+    expect(rents[0]!.vintage).toMatchObject({
       observationAsOf: "2025-09-30",
       productVintage: "FY2025",
-      publisherReleaseDate: null,
+      publisherReleaseDate: "2024-08-14",
       sourceRetrievedAt: "2026-09-03T04:25:50.389Z",
-      knownAvailableOn: "2026-09-03",
+      knownAvailableOn: "2024-08-14",
+      knownAvailableOnBasis: "publisher-release-date",
       validityPeriod: null,
     });
+    // Nothing else is out yet: a February release describing 2024 is not
+    // readable in January, however old the year it describes.
+    expect(
+      opening.observations.every(
+        (item) =>
+          item.source.artifactId === "hud-fy2025-fair-market-rents-xlsx",
+      ),
+    ).toBe(true);
+    expect(opening.withheldFutureObservationCount).toBeGreaterThan(200);
+
+    const dayBefore = await provider.query(LEXINGTON, "2026-02-04");
+    const countyIncome = await provider.query(LEXINGTON, "2026-02-05");
+    const withIncome = (result: typeof countyIncome) =>
+      result.observations.filter(
+        (item) => item.source.artifactId === "bea-regional-cainc1-zip",
+      );
+    expect(withIncome(dayBefore)).toEqual([]);
+    expect(withIncome(countyIncome).length).toBeGreaterThan(0);
+    expect(
+      withIncome(countyIncome).every(
+        (item) =>
+          item.vintage.knownAvailableOn === "2026-02-05" &&
+          item.vintage.knownAvailableOnBasis === "publisher-release-date",
+      ),
+    ).toBe(true);
+    const parities = (result: typeof countyIncome) =>
+      result.observations.filter(
+        (item) =>
+          item.source.artifactId === "bea-regional-sarpp-zip" ||
+          item.source.artifactId === "bea-regional-marpp-zip",
+      );
+    expect(parities(countyIncome)).toEqual([]);
+    expect(
+      parities(await provider.query(LEXINGTON, "2026-02-19")).length,
+    ).toBeGreaterThan(0);
+
+    // Undated editions: withheld until the retrieval date, and labelled so.
+    const lastUndated = await provider.query(LEXINGTON, "2026-09-02");
+    expect(
+      lastUndated.observations.some(
+        (item) =>
+          item.vintage.knownAvailableOnBasis === "retrieval-date-fallback",
+      ),
+    ).toBe(false);
+    const retrieved = await provider.query(LEXINGTON, "2026-09-03");
+    const undated = retrieved.observations.filter(
+      (item) =>
+        item.vintage.knownAvailableOnBasis === "retrieval-date-fallback",
+    );
+    expect(undated.length).toBeGreaterThan(0);
+    expect(
+      undated.every(
+        (item) =>
+          item.vintage.publisherReleaseDate === null &&
+          item.vintage.knownAvailableOn === "2026-09-03",
+      ),
+    ).toBe(true);
+    expect(products(retrieved).size).toBeGreaterThan(products(opening).size);
   });
 
   it("preserves missing LAUS rows and the absent historical-parent boundary", async () => {

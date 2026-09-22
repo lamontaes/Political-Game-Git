@@ -403,6 +403,63 @@ export interface MatterResponseRecord extends PressRecordBase {
   readonly respondedAt: IsoDate;
 }
 
+/**
+ * Who owns an outlet, and what an owner decided for everything it holds.
+ *
+ * An owner is an ordinary organization; these records index it, its holdings
+ * over time, and each coordinated decision it took. Ownership is append-only:
+ * a sale supersedes the earlier holding rather than editing it.
+ */
+export const OUTLET_OWNERSHIP_BASES = [
+  "founding-owner",
+  "acquisition",
+] as const;
+export type OutletOwnershipBasis = (typeof OUTLET_OWNERSHIP_BASES)[number];
+
+export interface MediaOwnerRecord extends PressRecordBase {
+  readonly kind: "media-owner";
+  readonly organizationId: EntityId;
+  /** The ownership pack and row this owner was drawn from. */
+  readonly packId: string;
+  readonly rowKey: string;
+  readonly name: string;
+  /** Descriptive only; behavior comes from the row's practices. */
+  readonly ownerKind: string;
+  readonly establishedAt: IsoDate;
+}
+
+export interface OutletOwnershipRecord extends PressRecordBase {
+  readonly kind: "outlet-ownership";
+  readonly outletId: EntityId;
+  readonly ownerId: EntityId;
+  readonly basis: OutletOwnershipBasis;
+  readonly effectiveAt: IsoDate;
+  /** The acquisition event; null for the owner an outlet was founded under. */
+  readonly eventId: EntityId | null;
+  readonly supersedesOwnershipId: EntityId | null;
+}
+
+export interface OwnerDirectiveRecord extends PressRecordBase {
+  readonly kind: "owner-directive";
+  readonly ownerId: EntityId;
+  readonly practiceKey: string;
+  /** The rule the practice asked for, as the pack named it. */
+  readonly effect: string;
+  /**
+   * False when the effect is not coded yet. The blanket rule then applies: the
+   * decision is recorded against every outlet the owner holds and nothing
+   * downstream changes.
+   */
+  readonly simulated: boolean;
+  readonly outletIds: readonly EntityId[];
+  readonly decidedAt: IsoDate;
+  readonly eventId: EntityId;
+  /** Newsroom jobs this decision ended. */
+  readonly endedWorkRelationshipIds: readonly EntityId[];
+  /** The ownership record an acquisition wrote. */
+  readonly ownershipId: EntityId | null;
+}
+
 export type PressRecord =
   | MediaOutletRecord
   | ReporterRoleRecord
@@ -416,7 +473,10 @@ export type PressRecord =
   | MatterEvidenceLinkRecord
   | MatterProceedingRecord
   | ProceedingStepRecord
-  | MatterResponseRecord;
+  | MatterResponseRecord
+  | MediaOwnerRecord
+  | OutletOwnershipRecord
+  | OwnerDirectiveRecord;
 
 export type PressRecordKind = PressRecord["kind"];
 export type PressRecordOf<K extends PressRecordKind> = Extract<

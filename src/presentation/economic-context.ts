@@ -19,10 +19,14 @@ export interface PlayerEconomicContextLine {
   readonly providerGeographyCode: string;
   /** The conservative first date on which the locked source proves this row was available. */
   readonly knownAvailableOn: string;
-  readonly knownAvailableOnBasis: "retrieval-date-fallback";
+  readonly knownAvailableOnBasis:
+    "publisher-release-date" | "retrieval-date-fallback";
   readonly sourceRetrievedAt: string;
-  /** Null because none of the three locked products establishes a release date. */
-  readonly sourceReleaseDate: null;
+  /**
+   * The publisher's release of the locked edition, or null where none has been
+   * established (the unemployment series), which then falls back to retrieval.
+   */
+  readonly sourceReleaseDate: string | null;
   readonly interpretationBoundary:
     | "observation-not-wallet"
     | "area-rate-not-person-probability"
@@ -44,8 +48,10 @@ interface GeneratedObservation {
   readonly vintage: {
     readonly corpusAsOf: string;
     readonly knownAvailableOn: string;
-    readonly knownAvailableOnBasis: "retrieval-date-fallback";
+    readonly knownAvailableOnBasis:
+      "publisher-release-date" | "retrieval-date-fallback";
     readonly sourceRetrievedAt: string;
+    readonly publisherReleaseDate: string | null;
     readonly adjustment: string;
     readonly release: string | null;
   };
@@ -124,7 +130,7 @@ export function playerEconomicContextLines(
       knownAvailableOn: income.vintage.knownAvailableOn,
       knownAvailableOnBasis: income.vintage.knownAvailableOnBasis,
       sourceRetrievedAt: income.vintage.sourceRetrievedAt,
-      sourceReleaseDate: null,
+      sourceReleaseDate: income.vintage.publisherReleaseDate,
       interpretationBoundary: "observation-not-wallet",
     },
     {
@@ -136,7 +142,7 @@ export function playerEconomicContextLines(
       knownAvailableOn: unemployment.vintage.knownAvailableOn,
       knownAvailableOnBasis: unemployment.vintage.knownAvailableOnBasis,
       sourceRetrievedAt: unemployment.vintage.sourceRetrievedAt,
-      sourceReleaseDate: null,
+      sourceReleaseDate: unemployment.vintage.publisherReleaseDate,
       interpretationBoundary: "area-rate-not-person-probability",
     },
     {
@@ -148,7 +154,7 @@ export function playerEconomicContextLines(
       knownAvailableOn: rent.vintage.knownAvailableOn,
       knownAvailableOnBasis: rent.vintage.knownAvailableOnBasis,
       sourceRetrievedAt: rent.vintage.sourceRetrievedAt,
-      sourceReleaseDate: null,
+      sourceReleaseDate: rent.vintage.publisherReleaseDate,
       interpretationBoundary: "benchmark-not-transaction",
     },
   ];
