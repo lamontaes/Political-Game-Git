@@ -352,11 +352,15 @@ they were; the replay case waited for an `opening-life-panel` that exists
 nowhere in `src` any more; and it was reading behind the skippable world
 introduction. That file is now 11 passed, 0 failed, from 8 failed.
 
-**Worth carrying to other lanes: eight other specs call `leave-game` directly**
-and will hang the same way on an unsaved life —
-`front-door-readability.spec.ts`, `production-play.spec.ts` (six call sites),
-`title-tableau.spec.ts` and `frontdoor44.spec.ts`. The shared `leaveGame`
-helper answers the confirmation; they have not been switched to it.
+**Eight other specs call `leave-game` directly, and that is a hazard rather
+than a prediction.** Measured afterwards rather than assumed:
+`title-tableau.spec.ts` and `frontdoor44.spec.ts` both pass, so their quits do
+not meet the confirmation — they are not quitting an unsaved life. The claim
+that all eight would hang was too strong and is withdrawn. What holds is that
+the pattern is unsafe: `goTo(page, "leave-game")` is only reliable on a life
+that has been saved, and the shared `leaveGame` helper is what makes it
+reliable either way. `production-play.spec.ts` has six call sites and has not
+been checked one by one.
 
 **And a note on the timeout family.** Three of these four stale references
 presented as two-minute timeouts rather than failed assertions, because a
@@ -367,6 +371,24 @@ timeouts are stale references rather than slow walks, and the two families are
 not as separate as the table makes them look. The table below is left as
 measured, with this section as its correction, rather than rewritten to hide
 that the families crossed.
+
+## The creator has no `h1`
+
+`front-door-readability.spec.ts:152` waits for
+`getByTestId('setup-screen').locator('h1')` and spends the full budget on it.
+Measured on main: there is no `h1` inside the creator. The wordmark is an
+`h1` on the title screen; the creator's own headings are the `h2` stage
+titles, which the same case reads successfully one line later.
+
+Not classified here, because it is two different findings depending on an
+answer this lane does not own. If the creator is meant to carry a heading of
+its own, a `main` landmark with no `h1` is an accessibility gap and the test
+is right. If the collapsed-summary creator is meant to be a continuation of
+the title screen rather than a page in its own right, the test is pinning a
+heading the design removed and should read the `h2` it already reads.
+
+Either way the case is currently a two-minute wait on a missing element rather
+than a statement about contrast, which is what it was written to measure.
 
 ## Totals
 
