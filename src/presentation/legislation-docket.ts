@@ -10,6 +10,7 @@ import {
   createStableId,
   createWorkItem,
   drawCanonicalName,
+  catalogPropositionIds,
   introduceMeasure,
   legislativeBlueprint,
   makeIsoDate,
@@ -959,6 +960,7 @@ export function fileDraft(
     subjectClass: draft.subjectClass,
     sponsorPersonId,
     originChamberKey: chamberKey,
+    propositionIds: catalogPropositionIds(next, draft.propositionKeys),
   });
 
   const measureId = createStableId(

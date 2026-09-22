@@ -17,6 +17,7 @@ import {
   availableMeasureSteps,
   COMMITTEE_HEARING_TRANSITION_KEY,
   enrollMeasure,
+  catalogPropositionIds,
   introduceMeasure,
   measureActions,
   measurePosition,
@@ -724,6 +725,7 @@ export function fileLegislatureMeasure(
     subjectClass: blueprint.subjectClass,
     sponsorPersonId,
     originChamberKey: originChamber.chamberKey,
+    propositionIds: catalogPropositionIds(next, blueprint.propositionKeys),
   });
   const measure = next.history.legislativeMeasures!.at(-1)!;
   if (blueprint.subjectClass === "appropriation")

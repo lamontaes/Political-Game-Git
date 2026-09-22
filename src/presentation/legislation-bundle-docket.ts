@@ -5,6 +5,7 @@ import {
   createStableId,
   createWorkItem,
   drawCanonicalName,
+  catalogPropositionIds,
   introduceMeasure,
   legislativeBlueprint,
   makeIsoDate,
@@ -351,6 +352,14 @@ export function fileBundleDraft(
     subjectClass,
     sponsorPersonId,
     originChamberKey: chamberKey,
+    // A bill of several parts is about every question any part is about.
+    propositionIds: catalogPropositionIds(next, [
+      ...new Set(
+        bundle.components.flatMap(
+          (component) => component.draft.propositionKeys,
+        ),
+      ),
+    ]),
   });
 
   const measureId = createStableId(

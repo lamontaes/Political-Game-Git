@@ -17,6 +17,8 @@ import { createNewGameWorld } from "./new-game";
 import type { NewGameSetup } from "./new-game";
 import { resolvePlayerCapabilities } from "./player-capabilities";
 import { projectMeasureBriefing } from "./legislation-projection";
+import { fileDraft } from "./legislation-docket";
+import { measurePropositions } from "../simulation/legislation";
 
 /**
  * A bill belongs to the save it was moved through.
@@ -179,5 +181,82 @@ describe("Legislative work happens in the player's own world", () => {
       (record) => record.id === assignment.measureId,
     );
     expect(filed?.designation).toBe(briefing.designation);
+  });
+});
+
+describe("a bill says which catalogue question it bears on", () => {
+  it("opens a Kentucky staffer's bill on the free-transit question, through a reload", () => {
+    const { world, assignment } = open("bears-on-kentucky");
+    const reloaded = deserializeWorld(serializeWorld(world));
+    expect(
+      measurePropositions(reloaded, assignment.measureId).map(
+        (proposition) => proposition.stableKey,
+      ),
+    ).toEqual([
+      "us-policy-positions:transportation-infrastructure.fare-free-transit",
+    ]);
+    expect(
+      projectMeasureBriefing(reloaded, assignment.measureId).questions,
+    ).toEqual(["Should local transit be free to ride?"]);
+  });
+
+  it("links a drafted bill only where its configuration fits a shipped question", () => {
+    const { world, playerPersonId, capabilities } = staffer("bears-on-draft");
+    const draft = (variantKey: string, at: World) =>
+      fileDraft(at, {
+        scenarioKey: "kentucky",
+        playerPersonId,
+        jurisdictionId: capabilities.legislativeJurisdictionId!,
+        familyKey: "transit-access",
+        variantKey,
+      });
+    const relief = draft("enrollment-fare-relief", world);
+    const formula = draft("unserved-county-formula", relief.world);
+    expect(
+      projectMeasureBriefing(formula.world, relief.bill.measureId).questions,
+    ).toEqual(["Should local transit be free to ride?"]);
+    // The formula extension decides nothing a shipped question asks, and is
+    // left unlinked rather than pinned to the nearest-sounding one.
+    expect(
+      projectMeasureBriefing(formula.world, formula.bill.measureId).questions,
+    ).toEqual([]);
+  });
+
+  it("files unlinked in a world whose catalogue does not hold the question", () => {
+    const { world, playerPersonId, capabilities } = staffer("bears-on-older");
+    // A catalogue is fixed when its world is made, so a save from before the
+    // positions shipped holds none of them. Emptied here, the rest intact.
+    const positions = new Set(
+      Object.values(world.policyCatalog.propositions)
+        .filter((p) => p.stableKey.startsWith("us-policy-positions:"))
+        .map((p) => p.id),
+    );
+    expect(positions.size).toBeGreaterThan(0);
+    const older: World = {
+      ...world,
+      policyCatalog: {
+        ...world.policyCatalog,
+        propositions: Object.fromEntries(
+          Object.entries(world.policyCatalog.propositions).filter(
+            ([id]) => !positions.has(id),
+          ),
+        ),
+        propositionOrder: world.policyCatalog.propositionOrder.filter(
+          (id) => !positions.has(id),
+        ),
+      },
+    };
+    const filed = fileDraft(older, {
+      scenarioKey: "kentucky",
+      playerPersonId,
+      jurisdictionId: capabilities.legislativeJurisdictionId!,
+      familyKey: "transit-access",
+      variantKey: "enrollment-fare-relief",
+    });
+    expect(
+      filed.world.history.legislativeMeasures!.find(
+        (measure) => measure.id === filed.bill.measureId,
+      )!.propositionIds,
+    ).toEqual([]);
   });
 });
