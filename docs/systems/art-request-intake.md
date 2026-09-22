@@ -63,6 +63,43 @@ recognition, and recognition follows terrain. West Texas and east Oklahoma look
 much the same; El Paso and Houston are the same state and do not. Census
 divisions are kept as a coarse last-resort fallback only, never as the key.
 
+### What the picture shows is checked before where it is
+
+Geography alone is not enough. A picture carries a `context` — the seasons it
+can honestly stand in for, its landform, its vegetation and built form, and
+what kind of view it is. These are tags the resolver acts on, not prose: a
+`note` reading "summer only" documents a restriction without implementing one,
+and bare branches in July are wrong in the particular way that tells a player
+the game is not paying attention. The season comes from the saved world's own
+date; reading it moves no clock and writes nothing.
+
+Context is applied **before** geography, so a winter plate is simply not a
+candidate in July and a summer plate that only reaches the place by state can
+still win. Filtering the other way round would let the most specific row win
+and then discover it was the wrong season, blanking a screen that had a
+perfectly good picture for it.
+
+A delivered plate with no context is a validation error. An undeclared picture
+is one that can be shown in any month.
+
+### Several valid pictures are not a conflict
+
+A region can legitimately have a forest view, a town view and seasonal
+variants. Treating that as ambiguity would mean each newly approved scene made
+more screens empty, which is the opposite of what approving art is for. So when
+more than one picture is valid here, one is chosen **repeatably** — keyed on
+the place, sorted by region key first, using a small local hash rather than the
+world's seeded RNG, so a redraw, a reopened panel and a re-sorted file all show
+the same picture and none of them touch the save. The others are reported as
+`alternatives`.
+
+Contradictory data is still a blank. Two regions cannot both be true of one
+place when their landforms differ, or when one names the other in
+`neverAlongside` — the Cross Timbers oak savanna and the southern
+pine-hardwood forest are both rolling hills and are not the same country. That
+case keeps its own diagnostic rather than resolving to a coin toss, and the
+document validator catches it statically for any place claimed by both.
+
 ### Precedence
 
 Most specific first: an excluded place, then an included place, then excluded
@@ -78,13 +115,14 @@ region's `allowedReuseRegions` covers the player's division.
 A wrong region is not a weaker version of recognition, it is the opposite of
 it: a player from the Sonoran desert shown a pine forest has been told the
 game does not know where they live. So the resolver never returns a nearest
-match, an ambiguous claim resolves to nothing rather than to whichever region
-sorted first, and every miss carries its reason —
+match, and every miss carries its reason —
 
 - `no-place-known` — the save does not say where the player lives.
 - `matched-region-has-no-plate` — a region matched, its bytes are not here.
 - `no-region-covers-this-place` — nothing claims it, at any level.
-- `ambiguous-coverage` — two regions claim it equally.
+- `no-picture-fits-this-context` — a region claims it, but every picture we
+  have of it shows the wrong season or the wrong kind of view.
+- `conflicting-coverage` — two regions claim it and cannot both be true of it.
 - `plate-file-missing` — the coverage names a file this checkout lacks.
 
 The locality step renders with no picture in every one of those cases. The

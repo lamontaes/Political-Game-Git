@@ -1,28 +1,46 @@
 {
   "documentVersion": 1,
-  "generatedFrom": "Art Bench catalog store-b40dfbc0 at lastSeq 1229 (generated 2026-09-21T23:17:35Z). One entry per playtest65-region-* request. Plate bytes are present only for scenes delivered into this checkout, verified against the integration queue's sha256. Place selectors are authored by hand from location research; nothing here is inferred from a scene's title.",
+  "generatedFrom": "Art Bench catalog store-b40dfbc0 at lastSeq 1229 (generated 2026-09-21T23:17:35Z). One entry per playtest65-region-* request. Plate bytes are present only for scenes delivered into this checkout, verified against the integration queue's sha256. Context tags are transcribed from the owner's geographic and appearance briefs for all 23 scenes (research/regional-scene-research-23.json, 2026-09-22); the 32 place GEOIDs on the five approved scenes are his individually checked 2020 Census starter overlay (research/regional-scene-places-first-five.json). Nothing here is inferred from a scene's title, and the starter is a floor for coverage, not a ceiling.",
   "regions": [
     {
       "regionKey": "appalachian-town-january",
-      "displayName": "Appalachian town \u2014 dormant-season intro",
+      "displayName": "Appalachian town — dormant-season intro",
       "benchRequestId": "playtest65-region-appalachian-town-january",
       "plate": null,
+      "context": {
+        "seasons": ["winter"],
+        "landform": "valley-and-ridge",
+        "vegetation": ["bare-deciduous", "dormant-brown-ground"],
+        "builtForm": ["small-town-street"],
+        "sceneKind": "street",
+        "note": "Request is explicitly bare deciduous trees and dormant brown ground with no invented snow. See the source note: at the inspected catalogue this request selects the same bytes as pikeville-valley-street."
+      },
       "places": {
         "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
         "includePlaces": [],
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
-      }
+      },
+      "sourceNote": "At the Art Bench catalogue read 2026-09-21T22:30:35Z this request selects the same sha256 as playtest65-region-pikeville-valley-street. Until the bench says whether that record is the parent, a reference or a finished winter output, this row is not a separate seasonal scene and takes no plate."
     },
     {
       "regionKey": "basalt-coulee-steppe",
       "displayName": "Interior Northwest: basalt coulee and steppe",
       "benchRequestId": "playtest65-region-basalt-coulee-steppe",
       "plate": null,
+      "context": {
+        "seasons": ["spring", "summer", "autumn"],
+        "landform": "basalt-steppe",
+        "vegetation": ["dry-bunchgrass", "sagebrush", "basalt-talus"],
+        "sceneKind": "open-landscape",
+        "note": "Request: basalt escarpment and talus over dry grass and shrub ground."
+      },
       "places": {
         "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
         "includePlaces": [],
@@ -35,8 +53,17 @@
       "displayName": "Great Lakes / Midwest: low-rise main street",
       "benchRequestId": "playtest65-region-buchanan-small-town",
       "plate": null,
+      "context": {
+        "seasons": ["spring", "summer", "autumn"],
+        "landform": "rolling-hills",
+        "vegetation": ["street-trees"],
+        "builtForm": ["brick-commercial-main-street", "low-rise"],
+        "sceneKind": "street",
+        "note": "Request is a leaf-on, non-winter brick commercial streetscape."
+      },
       "places": {
         "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
         "includePlaces": [],
@@ -49,8 +76,16 @@
       "displayName": "Lake Champlain: broad lake and distant hills",
       "benchRequestId": "playtest65-region-champlain-lake-lowland",
       "plate": null,
+      "context": {
+        "seasons": ["summer"],
+        "landform": "lake-lowland",
+        "vegetation": ["leafy-summer-shore", "low-wooded-hills"],
+        "sceneKind": "shoreline",
+        "note": "Request is explicitly open water, leafy summer shores and low distant wooded hills; a frozen January lake is the thing it must not become."
+      },
       "places": {
         "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
         "includePlaces": [],
@@ -63,8 +98,16 @@
       "displayName": "Colorado Plateau: sandstone fins and scrub",
       "benchRequestId": "playtest65-region-colorado-plateau-redrock",
       "plate": null,
+      "context": {
+        "seasons": ["spring", "summer", "autumn", "winter"],
+        "landform": "plateau-canyon",
+        "vegetation": ["sparse-high-desert-shrub"],
+        "sceneKind": "open-landscape",
+        "note": "Request: cliffs and fins with sparse vegetation and no named landmark. Rock and sparse shrub read the same through the year."
+      },
       "places": {
         "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
         "includePlaces": [],
@@ -76,7 +119,6 @@
       "regionKey": "cross-timbers-oak-prairie",
       "displayName": "Cross Timbers: oak groves and grassland",
       "benchRequestId": "playtest65-region-cross-timbers-oak-prairie",
-      "assetId": "asset:regional-opening:cross-timbers-oak-prairie",
       "plate": {
         "path": "art/families/regional-opening/env_regional_cross_timbers_oak_prairie_v1.png",
         "sha256": "a400b48edb4b86f130b037c37f1bff87bb0b523b361b90684ff4bf6e6f7b7ce3",
@@ -84,13 +126,30 @@
         "height": 1664,
         "candidateId": "cand-c19c7773-40f1-45f8-b20f-305e0fdf0c98"
       },
+      "context": {
+        "seasons": ["spring", "summer", "autumn"],
+        "landform": "rolling-hills",
+        "vegetation": ["open-broadleaf-grove", "dry-grass"],
+        "sceneKind": "open-landscape",
+        "note": "Research: open broadleaf groves, dry grass, rolling terrain, green leaves. Leaf-on, so never a winter stand-in."
+      },
+      "neverAlongside": ["southern-pine-hardwood"],
       "places": {
         "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
-        "includePlaces": [],
+        "includePlaces": [
+          "4013500",
+          "4031700",
+          "4066800",
+          "4070300",
+          "4819528",
+          "4827984",
+          "4837168"
+        ],
         "excludePlaces": [],
-        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+        "note": "Starter regional-introduction eligibility for the central Oklahoma/north-central Texas oak-savanna and prairie mosaic. Leaf-on foliage and dry grass are asset constraints, not a winter plate. Does not describe every block of the named city. Extend through the Cross Timbers corridor, including appropriate Kansas areas, after locality checks; do not use a blanket Dallas-county exclusion or all-West-Texas inclusion."
       }
     },
     {
@@ -98,8 +157,16 @@
       "displayName": "Great Plains: open grassland and pond",
       "benchRequestId": "playtest65-region-fort-pierre-prairie-pond",
       "plate": null,
+      "context": {
+        "seasons": ["spring", "summer", "autumn"],
+        "landform": "flat-plains",
+        "vegetation": ["prairie-grass", "open-water"],
+        "sceneKind": "open-landscape",
+        "note": "Request is a non-winter grassland with open water; the winter no-pond variant is great-plains-january."
+      },
       "places": {
         "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
         "includePlaces": [],
@@ -109,11 +176,19 @@
     },
     {
       "regionKey": "great-plains-january",
-      "displayName": "Great Plains \u2014 dormant-season intro",
+      "displayName": "Great Plains — dormant-season intro",
       "benchRequestId": "playtest65-region-great-plains-january",
       "plate": null,
+      "context": {
+        "seasons": ["winter"],
+        "landform": "flat-plains",
+        "vegetation": ["dormant-straw-grass"],
+        "sceneKind": "open-landscape",
+        "note": "Request is explicitly dormant straw grass and NO pond, rather than invented ice. It is the winter counterpart to southern-high-plains and fort-pierre-prairie-pond."
+      },
       "places": {
         "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
         "includePlaces": [],
@@ -126,8 +201,16 @@
       "displayName": "Green Mountains: wooded ridges",
       "benchRequestId": "playtest65-region-green-mountain-forest",
       "plate": null,
+      "context": {
+        "seasons": ["summer"],
+        "landform": "forested-upland",
+        "vegetation": ["green-summer-canopy"],
+        "sceneKind": "open-landscape",
+        "note": "Request is explicitly a green summer canopy, not peak autumn and not snow."
+      },
       "places": {
         "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
         "includePlaces": [],
@@ -140,28 +223,50 @@
       "displayName": "Lower Mississippi Delta: marsh and bayou",
       "benchRequestId": "playtest65-region-lower-mississippi-delta-marsh",
       "plate": null,
+      "context": {
+        "seasons": ["spring", "summer", "autumn"],
+        "landform": "coastal-lowland",
+        "vegetation": ["reed-marsh", "tidal-channel"],
+        "sceneKind": "open-landscape",
+        "note": "Request: flat reed and grassy marsh with channels. The catalogue's selected record is only 688x456; see the source note on this region."
+      },
       "places": {
         "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
         "includePlaces": [],
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
-      }
+      },
+      "sourceNote": "The catalogue's selected record is 688x456. Same position as the mangrove row: find the larger original or finish the request. No enlargement."
     },
     {
       "regionKey": "norcal-oak-woodland",
       "displayName": "Northern California: oak woodland edge",
       "benchRequestId": "playtest65-region-norcal-oak-woodland",
-      "assetId": "asset:regional-opening:norcal-oak-woodland",
       "plate": null,
+      "context": {
+        "seasons": ["summer", "autumn"],
+        "landform": "rolling-hills",
+        "vegetation": ["spreading-oak-canopy", "dry-golden-grass"],
+        "sceneKind": "open-landscape",
+        "note": "Research: spreading oak canopy over dry golden understory, explicitly to be distinguished from wet-season green grass. That narrows it past leaf-on to the dry half of the year."
+      },
       "places": {
         "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
-        "includePlaces": [],
+        "includePlaces": [
+          "0630028",
+          "0633056",
+          "0670098",
+          "0672646",
+          "0685922"
+        ],
         "excludePlaces": [],
-        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+        "note": "Starter regional-introduction eligibility in the Sonoma-area oak woodland/valley-foothill mosaic. The approved pixels show green oak canopy over dry golden grass; apply seasonal appearance separately. No whole-California, wet redwood-coast, high-Sierra or desert eligibility. More qualifying North Coast/valley foothill localities should be compiled from habitat/topography, not limited forever to these five."
       }
     },
     {
@@ -169,8 +274,16 @@
       "displayName": "North Atlantic: granite ledges and sea",
       "benchRequestId": "playtest65-region-north-atlantic-granite-coast",
       "plate": null,
+      "context": {
+        "seasons": ["spring", "summer", "autumn"],
+        "landform": "rocky-shoreline",
+        "vegetation": ["exposed-granite", "open-water"],
+        "sceneKind": "shoreline",
+        "note": "Request: exposed pink and grey granite shoreline and open water, with no lighthouse or named skyline. Nothing in the request supports a winter coast, so winter is left out rather than assumed."
+      },
       "places": {
         "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
         "includePlaces": [],
@@ -183,8 +296,16 @@
       "displayName": "Northwoods: forest around an open lake",
       "benchRequestId": "playtest65-region-northwoods-lake-forest",
       "plate": null,
+      "context": {
+        "seasons": ["summer"],
+        "landform": "lake-lowland",
+        "vegetation": ["mixed-northern-forest", "rocky-shore"],
+        "sceneKind": "shoreline",
+        "note": "Request is explicitly summer with unfrozen water and a forested rocky shore, so winter ice is exactly what it must not stand in for."
+      },
       "places": {
         "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
         "includePlaces": [],
@@ -196,15 +317,22 @@
       "regionKey": "pacific-temperate-rainforest",
       "displayName": "Pacific Northwest: mossy temperate forest",
       "benchRequestId": "playtest65-region-pacific-temperate-rainforest",
-      "assetId": "asset:regional-opening:pacific-temperate-rainforest",
       "plate": null,
+      "context": {
+        "seasons": ["spring", "summer", "autumn", "winter"],
+        "landform": "coastal-lowland",
+        "vegetation": ["moss-draped-conifer", "sword-fern", "fallen-timber"],
+        "sceneKind": "open-landscape",
+        "note": "Research: moss-draped conifers, ferns, shaded damp understory, fallen timber, no snow. Evergreen lowland forest, so no season rules it out."
+      },
       "places": {
         "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
-        "includePlaces": [],
+        "includePlaces": ["5301780", "5324810", "5332650", "5356905"],
         "excludePlaces": [],
-        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+        "note": "Starter regional-introduction eligibility for western Olympic lowland rainforest surroundings. Use the moss/fern/conifer, snow-free lowland asset context, not an exact street or travel event. Do not extend the entire Clallam or Jefferson county across the Olympic rain shadow, or all Washington/Oregon. Expand suitable west-coastal sites through the ecological crosswalk."
       }
     },
     {
@@ -212,8 +340,17 @@
       "displayName": "Appalachian coal-region towns: wooded-valley street",
       "benchRequestId": "playtest65-region-pikeville-valley-street",
       "plate": null,
+      "context": {
+        "seasons": ["spring", "summer", "autumn"],
+        "landform": "valley-and-ridge",
+        "vegetation": ["leaf-on-hillside"],
+        "builtForm": ["valley-town-street"],
+        "sceneKind": "street",
+        "note": "Request is the leaf-on street, treated separately from the dormant January request. The selected image carries road-marking correction notes."
+      },
       "places": {
         "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
         "includePlaces": [],
@@ -226,8 +363,16 @@
       "displayName": "Rocky Mountains: winter meadow and conifers",
       "benchRequestId": "playtest65-region-rocky-mountain-montane",
       "plate": null,
+      "context": {
+        "seasons": ["winter"],
+        "landform": "montane-slope",
+        "vegetation": ["tawny-meadow", "pine-fir", "patchy-settled-snow"],
+        "sceneKind": "open-landscape",
+        "note": "Request is explicitly WINTER: tawny meadow, patchy settled snow, pine and fir. It is not a year-round Rockies plate and must never stand in for a summer meadow."
+      },
       "places": {
         "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
         "includePlaces": [],
@@ -239,22 +384,29 @@
       "regionKey": "socal-inland-bungalow-neighborhood",
       "displayName": "Southern California: inland bungalow neighborhood",
       "benchRequestId": "playtest65-region-socal-inland-bungalow-neighborhood",
-      "assetId": "asset:regional-opening:socal-inland-bungalow-neighborhood",
       "plate": null,
+      "context": {
+        "seasons": ["spring", "summer", "autumn"],
+        "landform": "coastal-basin",
+        "vegetation": ["broadleaf-street-trees", "planted-gardens"],
+        "builtForm": ["craftsman-bungalow-street", "front-porch", "sidewalk"],
+        "sceneKind": "street",
+        "note": "Research: modest Craftsman-like houses, front porches, planted gardens, broadleaf street trees and sidewalks; requested spring; no snow. Leaf-on."
+      },
       "places": {
         "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
-        "includePlaces": [],
+        "includePlaces": ["0656000"],
         "excludePlaces": [],
-        "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
+        "note": "Starter regional-introduction eligibility anchored by the documented Pasadena Bungalow Heaven streetscape: modest low-rise bungalows, porches and mature shade trees. This is an architectural district/setting, not a countywide biome. Do not imply that the player owns one of these houses. Expand appropriate inland Southern California neighborhoods after built-form checks; do not copy this plate across all Los Angeles, Riverside or San Bernardino counties."
       }
     },
     {
       "regionKey": "sonoran-desert",
       "displayName": "Sonoran Desert: saguaros and distant ridges",
       "benchRequestId": "playtest65-region-sonoran-desert",
-      "assetId": "asset:regional-opening:sonoran-desert",
       "plate": {
         "path": "art/families/regional-opening/env_regional_sonoran_desert_v1.png",
         "sha256": "dabdae2c70e8703f527af384b8954c22854b16dc18403312596f5858858b7485",
@@ -262,13 +414,38 @@
         "height": 1584,
         "candidateId": "cand-3b7577f8-76e5-4da0-89ad-9e422577668d"
       },
+      "context": {
+        "seasons": ["spring", "summer", "autumn", "winter"],
+        "landform": "desert-basin-and-range",
+        "vegetation": ["saguaro-desert-scrub", "ocotillo", "prickly-pear"],
+        "sceneKind": "open-landscape",
+        "note": "Research: branching saguaros, ocotillo and prickly pear, rocky dry ground, low ridges, no snow. Desert scrub does not change with the season here, so the picture is honest all year."
+      },
+      "neverAlongside": ["trans-pecos-desert-mountain"],
       "places": {
-        "includeStates": ["US-AZ"],
+        "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
-        "includePlaces": [],
+        "includePlaces": [
+          "0400870",
+          "0402830",
+          "0410180",
+          "0411160",
+          "0411230",
+          "0411300",
+          "0425300",
+          "0444270",
+          "0451600",
+          "0455000",
+          "0455300",
+          "0465000",
+          "0477000",
+          "0477035",
+          "0477179"
+        ],
         "excludePlaces": [],
-        "note": "COARSE PLACEHOLDER, state-level, pending location research. The Sonoran Desert covers most of populated Arizona including Phoenix and Tucson, so a state-level claim is right far more often than it is wrong here. It is still wrong for the Colorado Plateau and the conifer highlands around Flagstaff; those counties belong in excludeCounties once their GEOIDs are researched rather than guessed."
+        "note": "Starter eligibility for a representative regional-introduction landscape near saguaro-bearing Sonoran uplands, not a claim that the depicted scene is the player street. Apply the actual snow-free/desert terrain compatibility separately. Do not extend to all Arizona, high mountain enclaves, the Mojave, Texas or New Mexico. Not all of the Sonoran Desert supports saguaros. Broader place coverage should follow the researched corridor, not stop at these starter IDs."
       }
     },
     {
@@ -276,8 +453,17 @@
       "displayName": "Southern High Plains: open shortgrass",
       "benchRequestId": "playtest65-region-southern-high-plains",
       "plate": null,
+      "context": {
+        "seasons": ["spring", "summer", "autumn"],
+        "landform": "flat-plains",
+        "vegetation": ["shortgrass", "sparse-brush"],
+        "sceneKind": "open-landscape",
+        "note": "Request: broad flat horizon, short grass and sparse brush, no mountains. Growing-season grass; the dormant version of this country is great-plains-january."
+      },
+      "neverAlongside": ["upper-midwest-tallgrass-prairie"],
       "places": {
         "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
         "includePlaces": [],
@@ -290,8 +476,17 @@
       "displayName": "East Texas: pine and hardwood woodland",
       "benchRequestId": "playtest65-region-southern-pine-hardwood",
       "plate": null,
+      "context": {
+        "seasons": ["spring", "summer", "autumn"],
+        "landform": "rolling-hills",
+        "vegetation": ["tall-pine", "broadleaf-mixture", "leafy-forest-floor"],
+        "sceneKind": "open-landscape",
+        "note": "Request: tall pine and broadleaf mixture, gentle terrain, leafy forest floor."
+      },
+      "neverAlongside": ["cross-timbers-oak-prairie"],
       "places": {
         "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
         "includePlaces": [],
@@ -304,22 +499,40 @@
       "displayName": "South Florida: mangrove shoreline",
       "benchRequestId": "playtest65-region-subtropical-mangrove-wetland",
       "plate": null,
+      "context": {
+        "seasons": ["spring", "summer", "autumn", "winter"],
+        "landform": "coastal-lowland",
+        "vegetation": ["red-mangrove-prop-roots", "estuarine-water"],
+        "sceneKind": "shoreline",
+        "note": "Request: red-mangrove prop roots and estuarine water. Evergreen subtropical, so no season rules it out. The catalogue's selected record is only 640x432; see the source note on this region."
+      },
       "places": {
         "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
         "includePlaces": [],
         "excludePlaces": [],
         "note": "Awaiting location research. Empty lists claim no place; the intro shows nothing here rather than a wrong region."
-      }
+      },
+      "sourceNote": "The catalogue's selected record is 640x432. That is a preview or a reference, not a delivered plate. The proper original has to be found or the request finished; enlarging these pixels and calling the result native detail is not an option."
     },
     {
       "regionKey": "trans-pecos-desert-mountain",
       "displayName": "Trans-Pecos: desert basin and mountains",
       "benchRequestId": "playtest65-region-trans-pecos-desert-mountain",
       "plate": null,
+      "context": {
+        "seasons": ["spring", "summer", "autumn", "winter"],
+        "landform": "desert-basin-and-range",
+        "vegetation": ["sparse-desert-shrub", "yucca"],
+        "sceneKind": "open-landscape",
+        "note": "Request: rocky desert mountain forms, sparse shrubs and yucca, quiet daylight. Pixels not inspected in the research pass."
+      },
+      "neverAlongside": ["sonoran-desert"],
       "places": {
         "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
         "includePlaces": [],
@@ -332,8 +545,17 @@
       "displayName": "Upper Midwest: tallgrass landscape",
       "benchRequestId": "playtest65-region-upper-midwest-tallgrass-prairie",
       "plate": null,
+      "context": {
+        "seasons": ["spring", "summer", "autumn"],
+        "landform": "flat-plains",
+        "vegetation": ["tallgrass", "prairie-forbs"],
+        "sceneKind": "open-landscape",
+        "note": "Request: flowering tall grasses and open land, explicitly not winter dormant grass."
+      },
+      "neverAlongside": ["southern-high-plains"],
       "places": {
         "includeStates": [],
+        "excludeStates": [],
         "includeCounties": [],
         "excludeCounties": [],
         "includePlaces": [],

@@ -10,6 +10,11 @@ illustration of the landscape that surrounds it, drawn for a region rather than
 for a state, so a place in west Texas and a place in eastern Oklahoma can share
 a picture that looks right for both.
 
+The picture also matches the time of year: a life begun in January never opens
+on a summer canopy, and one begun in July never opens on bare branches. Where
+more than one illustration genuinely fits, your town keeps the same one every
+time you look.
+
 If nothing in the collection genuinely fits where you live, the panel shows no
 picture at all. A familiar view is the whole point, and an unfamiliar one would
 be worse than none.

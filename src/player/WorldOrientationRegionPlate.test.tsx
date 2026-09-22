@@ -35,6 +35,8 @@ const PLATE: RegionalOpeningResult = {
     width: 2208,
     height: 1584,
     matchedBy: "state",
+    sceneKind: "open-landscape",
+    alternatives: [],
   },
 };
 
@@ -68,6 +70,21 @@ describe("the regional plate on the locality step", () => {
     expect(markup).toContain("sonoran desert");
   });
 
+  it("captions a street as a street, not as countryside", () => {
+    const markup = render({
+      kind: "plate",
+      plate: {
+        ...PLATE.plate,
+        regionKey: "buchanan-small-town",
+        displayName: "Great Lakes / Midwest: low-rise main street",
+        sceneKind: "street",
+      },
+    });
+    expect(markup).toContain("A street of the kind common near here.");
+    expect(markup).not.toContain("Typical countryside");
+    expect(markup).toContain("Illustration, not this address");
+  });
+
   it("renders the step with no image when no region covers the place", () => {
     for (const miss of [
       undefined,
@@ -78,8 +95,13 @@ describe("the regional plate on the locality step", () => {
       } as RegionalOpeningResult,
       {
         kind: "none",
-        reason: "ambiguous-coverage",
+        reason: "conflicting-coverage",
         regionKeys: ["a-region", "another-region"],
+      } as RegionalOpeningResult,
+      {
+        kind: "none",
+        reason: "no-picture-fits-this-context",
+        regionKeys: ["green-mountain-forest"],
       } as RegionalOpeningResult,
       {
         kind: "none",

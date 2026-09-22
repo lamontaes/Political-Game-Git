@@ -64,6 +64,89 @@ export interface RegionalPlaceSelectors {
   readonly note?: string;
 }
 
+/** The four seasons, as the northern-hemisphere calendar draws them. */
+export type RegionalSeason = "spring" | "summer" | "autumn" | "winter";
+
+/**
+ * The shape of the land, coarse enough that a street and the hillside behind
+ * it share one and fine enough that a desert and a rainforest cannot.
+ *
+ * This is how the resolver tells legitimate variety from contradictory data.
+ * Two regions claiming one place is ordinary: a town view and the country
+ * around it are both true of Pikeville, and showing either is honest. But no
+ * place is both `desert-basin-and-range` and `coastal-lowland`, and a document
+ * that says so has an error in it that no choice between the two can repair.
+ */
+export const REGIONAL_LANDFORMS = [
+  "desert-basin-and-range",
+  "plateau-canyon",
+  "montane-slope",
+  "forested-upland",
+  "valley-and-ridge",
+  "rolling-hills",
+  "flat-plains",
+  "basalt-steppe",
+  "lake-lowland",
+  "coastal-lowland",
+  "rocky-shoreline",
+  "coastal-basin",
+] as const;
+export type RegionalLandform = (typeof REGIONAL_LANDFORMS)[number];
+
+/**
+ * What kind of view the picture is.
+ *
+ * It decides how the picture may be captioned. "Typical countryside near here"
+ * over a photograph of a main street is a small lie, and the player can see it.
+ */
+export const REGIONAL_SCENE_KINDS = [
+  "open-landscape",
+  "street",
+  "shoreline",
+] as const;
+export type RegionalSceneKind = (typeof REGIONAL_SCENE_KINDS)[number];
+
+/**
+ * What the picture actually shows, as tags the resolver can act on.
+ *
+ * Declared, never inferred. A sentence in `note` reading "summer only"
+ * documents a restriction without implementing one, and the resolver cannot
+ * read English. Bare branches in July and a green canopy in January are both
+ * wrong in the particular way that tells a player the game is not paying
+ * attention.
+ */
+export interface RegionalSceneContext {
+  /** The seasons this exact picture can honestly stand in for. */
+  readonly seasons: readonly RegionalSeason[];
+  readonly landform: RegionalLandform;
+  /** Slugs, as the research names them: `saguaro-desert-scrub`. */
+  readonly vegetation?: readonly string[];
+  /** Slugs, as the research names them: `craftsman-bungalow-street`. */
+  readonly builtForm?: readonly string[];
+  readonly sceneKind: RegionalSceneKind;
+  /** Where these tags come from, in the researcher's own words. */
+  readonly note?: string;
+}
+
+/**
+ * The season a date falls in, by the calendar the scenes were requested against.
+ *
+ * Meteorological quarters, not solstices, because the pictures were briefed in
+ * those words: "explicitly summer", "leaf-on", "January". Every scenario the
+ * game ships is in the northern hemisphere; a southern-hemisphere place would
+ * need its own reading of the same month and does not silently get this one.
+ */
+export function seasonOfIsoDate(isoDate: string): RegionalSeason | null {
+  const match = /^\d{4}-(\d{2})-\d{2}/.exec(isoDate.trim());
+  if (!match) return null;
+  const month = Number(match[1]);
+  if (month >= 3 && month <= 5) return "spring";
+  if (month >= 6 && month <= 8) return "summer";
+  if (month >= 9 && month <= 11) return "autumn";
+  if (month === 12 || month === 1 || month === 2) return "winter";
+  return null;
+}
+
 /**
  * The delivered picture, when one exists.
  *
@@ -94,6 +177,32 @@ export interface RegionalSceneEntry {
   readonly plate: RegionalPlateFile | null;
   readonly places: RegionalPlaceSelectors;
   /**
+   * What the picture shows, which is checked before geography.
+   *
+   * Optional only so an unresearched row can exist; a region with a delivered
+   * plate and no context is a validation error, because an undeclared picture
+   * is one that can be shown in any season.
+   */
+  readonly context?: RegionalSceneContext;
+  /**
+   * Regions never simultaneously true of one place, named explicitly.
+   *
+   * Landform catches most contradictions on its own. This is for the pairs it
+   * cannot: the Cross Timbers oak savanna and the southern pine-hardwood
+   * forest are both rolling hills and are not the same country, and the
+   * research says in as many words not to reuse one for the other.
+   */
+  readonly neverAlongside?: readonly string[];
+  /**
+   * What is unresolved about this scene's source bytes.
+   *
+   * Kept beside the row rather than in a report, because the fact that a
+   * selected record is a 640x432 preview is the reason the row has no plate,
+   * and the two belong in the same place or somebody will later read the empty
+   * `plate` as a delivery backlog.
+   */
+  readonly sourceNote?: string;
+  /**
    * Reuse vocabulary from `asset-compatibility.ts`. Optional while a scene is
    * still being tagged; without it the region has no census-division fallback,
    * which is a narrower claim rather than a broken one.
@@ -118,6 +227,18 @@ export interface RegionalPlaceQuery {
    * so this is a list; any of them matching is a match.
    */
   readonly countyGeoids?: readonly string[];
+  /**
+   * The season being played, from the saved world's own date.
+   *
+   * Absent means the caller is not asking about a season, and every picture is
+   * admissible. That is the right default for a tool inspecting coverage, and
+   * the wrong one for the intro, which always knows its date.
+   */
+  readonly season?: RegionalSeason;
+  /**
+   * Which kinds of view the caller can present. Absent means all of them.
+   */
+  readonly sceneKinds?: readonly RegionalSceneKind[];
 }
 
 export type RegionalPlateMissReason =
@@ -127,8 +248,18 @@ export type RegionalPlateMissReason =
   | "matched-region-has-no-plate"
   /** Nothing claims this place, at any level. */
   | "no-region-covers-this-place"
-  /** Two or more regions claim it equally. Not a tie to break. */
-  | "ambiguous-coverage";
+  /**
+   * A region claims the place but no picture it has fits the season or the
+   * kind of view being asked for. A real gap, and a different one from having
+   * no coverage at all.
+   */
+  | "no-picture-fits-this-context"
+  /**
+   * Two regions claim the place and cannot both be true of it. Not a tie to
+   * break: one of them is wrong, and picking either shows a player a place
+   * they do not live in.
+   */
+  | "conflicting-coverage";
 
 export type RegionalPlateResolution =
   | {
@@ -138,6 +269,16 @@ export type RegionalPlateResolution =
       readonly plate: RegionalPlateFile;
       /** Which rule matched, so a reviewer can check the claim. */
       readonly matchedBy: RegionalMatchLevel;
+      /** How the picture may be captioned. */
+      readonly sceneKind: RegionalSceneKind;
+      /**
+       * The other pictures that were equally valid here.
+       *
+       * Reported rather than hidden: a region with a forest view and a street
+       * view is coverage working, and a reviewer should be able to see that
+       * the choice was made among valid options rather than forced.
+       */
+      readonly alternatives: readonly string[];
     }
   | {
       readonly outcome: "none";
@@ -277,12 +418,90 @@ function judge(
 }
 
 /**
+ * Does this picture fit what is being asked for?
+ *
+ * A region with no declared context makes no claim and is not filtered out
+ * here; validation is what stops a delivered plate from staying undeclared.
+ * That split matters: silence in the data must never become a silent yes at
+ * runtime, but it also must not blank a row nobody has tagged yet.
+ */
+function fitsContext(
+  entry: RegionalSceneEntry,
+  query: RegionalPlaceQuery,
+): boolean {
+  const context = entry.context;
+  if (!context) return true;
+  if (query.season && !context.seasons.includes(query.season)) return false;
+  if (query.sceneKinds && !query.sceneKinds.includes(context.sceneKind)) {
+    return false;
+  }
+  return true;
+}
+
+/** Two regions that cannot both describe one place. */
+function conflicts(
+  left: RegionalSceneEntry,
+  right: RegionalSceneEntry,
+): boolean {
+  if ((left.neverAlongside ?? []).includes(right.regionKey)) return true;
+  if ((right.neverAlongside ?? []).includes(left.regionKey)) return true;
+  const a = left.context?.landform;
+  const b = right.context?.landform;
+  if (!a || !b) return false;
+  return a !== b;
+}
+
+/**
+ * FNV-1a, 32-bit. Here to make one choice repeatable, nothing else.
+ *
+ * Deliberately not the world's seeded RNG: choosing a picture must not consume
+ * simulation randomness, must not depend on how many times a panel has been
+ * opened, and must not differ between a first view and a redraw of the same
+ * save. A read-only screen that changed the world would be a bug however
+ * pretty the result.
+ */
+function hash32(value: string): number {
+  let hash = 0x811c9dc5;
+  for (let index = 0; index < value.length; index += 1) {
+    hash ^= value.charCodeAt(index);
+    hash = Math.imul(hash, 0x01000193) >>> 0;
+  }
+  return hash >>> 0;
+}
+
+/**
+ * Choose among pictures that are all valid here.
+ *
+ * Keyed on the place, so one place always shows the same view while two places
+ * sharing a region can show different ones. Sorted by key first, so the answer
+ * does not depend on the order rows happen to sit in the file.
+ */
+function chooseRepeatably(
+  candidates: readonly RegionalSceneEntry[],
+  query: RegionalPlaceQuery,
+): RegionalSceneEntry {
+  const sorted = [...candidates].sort((left, right) =>
+    left.regionKey.localeCompare(right.regionKey),
+  );
+  const placeKey =
+    query.placeGeoid ?? query.countyGeoids?.[0] ?? query.stateKey ?? "";
+  return sorted[hash32(placeKey) % sorted.length]!;
+}
+
+/**
  * Pick the plate for a place, or say honestly that there is none.
  *
  * Never returns a nearest match. Every "none" carries the reason, because
- * "no region covers Wyoming" and "the Rocky Mountain plate is approved but its
- * bytes are not in the repository" are different problems with different fixes,
- * and a blank intro looks identical either way.
+ * "no region covers Wyoming", "the Rocky Mountain plate is approved but its
+ * bytes are not in the repository" and "every picture we have of this place is
+ * a summer one and it is January" are three different problems with three
+ * different fixes, and a blank intro looks identical for all of them.
+ *
+ * What it will not do is blank a place merely for having more than one valid
+ * picture. A region can legitimately have a forest view, a town view and
+ * seasonal variants; treating that as a conflict would mean each new approved
+ * scene made more screens empty, which is the opposite of what approving art
+ * is for. Contradictory data is still a blank, and says so by name.
  */
 export function resolveRegionalPlate(
   document: RegionalSceneCoverageDocument,
@@ -300,24 +519,47 @@ export function resolveRegionalPlate(
    * the state inclusion one tier down would hand it back, and the exclusion
    * would read as written but do nothing.
    */
-  const eligible = document.regions.filter((entry) =>
+  const notExcluded = document.regions.filter((entry) =>
     MATCH_ORDER.every((level) => judge(entry, query, level) !== "excluded"),
   );
 
+  /**
+   * Context before geography, not after.
+   *
+   * A winter plate is not a candidate in July at all, so a summer plate that
+   * only reaches this place by state still wins over it. Filtering the other
+   * way round would let the most specific row win and then discover it was the
+   * wrong season, and blank a screen that had a perfectly good picture for it.
+   */
+  const fits = notExcluded.filter((entry) => fitsContext(entry, query));
+
   for (const level of MATCH_ORDER) {
-    const matched = eligible.filter(
+    const matched = fits.filter(
       (entry) => judge(entry, query, level) === "matched",
     );
     if (matched.length === 0) continue;
-    return settle(matched, level);
+    return settle(matched, level, query);
   }
 
   const division = censusDivisionOf(query.stateKey);
   if (division) {
-    const claiming = eligible.filter((entry) =>
+    const claiming = fits.filter((entry) =>
       entry.compatibility?.allowedReuseRegions.includes(division),
     );
-    if (claiming.length > 0) return settle(claiming, "census-division");
+    if (claiming.length > 0) return settle(claiming, "census-division", query);
+  }
+
+  const wrongContext = notExcluded.filter(
+    (entry) =>
+      !fitsContext(entry, query) &&
+      MATCH_ORDER.some((level) => judge(entry, query, level) === "matched"),
+  );
+  if (wrongContext.length > 0) {
+    return {
+      outcome: "none",
+      reason: "no-picture-fits-this-context",
+      regionKeys: wrongContext.map((entry) => entry.regionKey),
+    };
   }
 
   return {
@@ -330,33 +572,54 @@ export function resolveRegionalPlate(
 /**
  * Turn the regions that matched at one level into an answer.
  *
- * A single region with a delivered plate is the answer. A single region without
- * one is a miss that names itself, so the gap is reportable. More than one is
- * ambiguous even if only one of them has a plate: picking the delivered one
- * would quietly make delivery order decide what a player sees.
+ * Several regions matching is variety, not a tie, so long as they can all be
+ * true of the same place: the picture is chosen repeatably among them and the
+ * others are reported as alternatives. Regions that cannot both be true of the
+ * place are a contradiction in the data and blank the screen, because choosing
+ * between them would mean showing somebody a landscape they do not live in
+ * half the time.
+ *
+ * A matched region whose bytes are not delivered is a miss that names itself,
+ * so the gap stays reportable rather than looking like missing coverage.
  */
 function settle(
   matched: readonly RegionalSceneEntry[],
   level: RegionalMatchLevel,
+  query: RegionalPlaceQuery,
 ): RegionalPlateResolution {
   const keys = matched.map((entry) => entry.regionKey);
-  if (matched.length > 1) {
-    return { outcome: "none", reason: "ambiguous-coverage", regionKeys: keys };
+  for (let i = 0; i < matched.length; i += 1) {
+    for (let j = i + 1; j < matched.length; j += 1) {
+      if (conflicts(matched[i]!, matched[j]!)) {
+        return {
+          outcome: "none",
+          reason: "conflicting-coverage",
+          regionKeys: keys,
+        };
+      }
+    }
   }
-  const entry = matched[0]!;
-  if (!entry.plate) {
+
+  const delivered = matched.filter((entry) => entry.plate !== null);
+  if (delivered.length === 0) {
     return {
       outcome: "none",
       reason: "matched-region-has-no-plate",
       regionKeys: keys,
     };
   }
+
+  const entry = chooseRepeatably(delivered, query);
   return {
     outcome: "plate",
     regionKey: entry.regionKey,
     displayName: entry.displayName,
-    plate: entry.plate,
+    plate: entry.plate!,
     matchedBy: level,
+    sceneKind: entry.context?.sceneKind ?? "open-landscape",
+    alternatives: delivered
+      .filter((other) => other.regionKey !== entry.regionKey)
+      .map((other) => other.regionKey),
   };
 }
 
@@ -371,6 +634,13 @@ export type CoverageFindingCode =
   | "unknown-census-division"
   | "plate-without-sha"
   | "plate-with-non-positive-dimensions"
+  | "delivered-plate-without-context"
+  | "context-without-seasons"
+  | "unknown-season"
+  | "unknown-landform"
+  | "unknown-scene-kind"
+  | "never-alongside-unknown-region"
+  | "contradictory-place-membership"
   | "region-claims-nothing";
 
 export interface CoverageFinding {
@@ -390,6 +660,12 @@ const PLACE_GEOID = /^\d{7}$/;
 const STATE_KEY = /^US-[A-Z]{2}$/;
 const REGION_KEY = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)+$/;
 const SHA256 = /^[a-f0-9]{64}$/;
+const SEASONS: readonly RegionalSeason[] = [
+  "spring",
+  "summer",
+  "autumn",
+  "winter",
+];
 
 /**
  * Check the coverage document.
@@ -538,6 +814,52 @@ export function validateRegionalSceneCoverage(
       }
     }
 
+    const context = entry.context;
+    if (context) {
+      if (context.seasons.length === 0) {
+        error(
+          "context-without-seasons",
+          key,
+          `A context with no seasons admits the picture nowhere and blanks the region in every month of the year.`,
+        );
+      }
+      for (const season of context.seasons) {
+        if (!SEASONS.includes(season)) {
+          error("unknown-season", key, `'${season}' is not a season.`);
+        }
+      }
+      if (!REGIONAL_LANDFORMS.includes(context.landform)) {
+        error(
+          "unknown-landform",
+          key,
+          `'${context.landform}' is not a landform in the shared vocabulary. Contradiction between regions is decided by landform, so an unknown one silently stops being checked.`,
+        );
+      }
+      if (!REGIONAL_SCENE_KINDS.includes(context.sceneKind)) {
+        error(
+          "unknown-scene-kind",
+          key,
+          `'${context.sceneKind}' is not a scene kind, so the caption cannot be chosen for it.`,
+        );
+      }
+    } else if (entry.plate) {
+      error(
+        "delivered-plate-without-context",
+        key,
+        `A delivered plate must declare its seasons, landform and scene kind. An undeclared picture is one that can be shown in any month, which is how a bare-branch January scene ends up standing in for July.`,
+      );
+    }
+
+    for (const other of entry.neverAlongside ?? []) {
+      if (!document.regions.some((row) => row.regionKey === other)) {
+        error(
+          "never-alongside-unknown-region",
+          key,
+          `'${other}' is not a region in this document, so the exclusivity it declares can never fire.`,
+        );
+      }
+    }
+
     const claimsSomething =
       (places.includeStates?.length ?? 0) > 0 ||
       (places.includeCounties?.length ?? 0) > 0 ||
@@ -549,6 +871,36 @@ export function validateRegionalSceneCoverage(
         key,
         `No place, county, state or reuse division names this region, so it can never be shown. Honest for an unresearched scene; a bug for a delivered one.`,
       );
+    }
+  }
+
+  /**
+   * Two regions that cannot both be true of one place, both claiming it.
+   *
+   * Caught here rather than left to the resolver's runtime blank, because at
+   * runtime it is one silent empty panel for one player and here it is a
+   * failing check with both region keys in it.
+   */
+  const byPlace = new Map<string, RegionalSceneEntry[]>();
+  for (const entry of document.regions) {
+    for (const geoid of entry.places.includePlaces ?? []) {
+      const rows = byPlace.get(geoid) ?? [];
+      rows.push(entry);
+      byPlace.set(geoid, rows);
+    }
+  }
+  for (const [geoid, rows] of byPlace) {
+    for (let i = 0; i < rows.length; i += 1) {
+      for (let j = i + 1; j < rows.length; j += 1) {
+        const left = rows[i]!;
+        const right = rows[j]!;
+        if (!conflicts(left, right)) continue;
+        error(
+          "contradictory-place-membership",
+          left.regionKey,
+          `Place '${geoid}' is claimed by both '${left.regionKey}' and '${right.regionKey}', which cannot both describe one place. The intro will show nothing there until one of them gives it up.`,
+        );
+      }
     }
   }
 
@@ -564,6 +916,8 @@ export interface RegionalCoverageSummary {
   readonly withPlaceData: number;
   readonly countiesNamed: number;
   readonly statesNamed: number;
+  readonly placesNamed: number;
+  readonly withContext: number;
 }
 
 export function summarizeRegionalSceneCoverage(
@@ -571,15 +925,18 @@ export function summarizeRegionalSceneCoverage(
 ): RegionalCoverageSummary {
   const counties = new Set<string>();
   const states = new Set<string>();
+  const places = new Set<string>();
   let withPlaceData = 0;
   for (const entry of document.regions) {
-    const places = entry.places;
-    for (const geoid of places.includeCounties ?? []) counties.add(geoid);
-    for (const key of places.includeStates ?? []) states.add(key.toUpperCase());
+    const selectors = entry.places;
+    for (const geoid of selectors.includeCounties ?? []) counties.add(geoid);
+    for (const key of selectors.includeStates ?? [])
+      states.add(key.toUpperCase());
+    for (const geoid of selectors.includePlaces ?? []) places.add(geoid);
     if (
-      (places.includeStates?.length ?? 0) > 0 ||
-      (places.includeCounties?.length ?? 0) > 0 ||
-      (places.includePlaces?.length ?? 0) > 0
+      (selectors.includeStates?.length ?? 0) > 0 ||
+      (selectors.includeCounties?.length ?? 0) > 0 ||
+      (selectors.includePlaces?.length ?? 0) > 0
     ) {
       withPlaceData += 1;
     }
@@ -590,5 +947,7 @@ export function summarizeRegionalSceneCoverage(
     withPlaceData,
     countiesNamed: counties.size,
     statesNamed: states.size,
+    placesNamed: places.size,
+    withContext: document.regions.filter((entry) => entry.context).length,
   };
 }

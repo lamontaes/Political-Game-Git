@@ -5,6 +5,7 @@ import { GENERIC_HUMID_PARK_TAGS } from "./asset-compatibility";
 import {
   censusDivisionOf,
   resolveRegionalPlate,
+  seasonOfIsoDate,
   summarizeRegionalSceneCoverage,
   validateRegionalSceneCoverage,
   type RegionalSceneCoverageDocument,
@@ -30,6 +31,18 @@ function region(
     benchRequestId: `playtest65-region-${regionKey}`,
     plate: PLATE,
     places,
+    ...overrides,
+  };
+}
+
+/** A context that says as little as possible, so a test can vary one field. */
+function ctx(
+  overrides: Partial<NonNullable<RegionalSceneEntry["context"]>> = {},
+): NonNullable<RegionalSceneEntry["context"]> {
+  return {
+    seasons: ["spring", "summer", "autumn", "winter"],
+    landform: "valley-and-ridge",
+    sceneKind: "open-landscape",
     ...overrides,
   };
 }
@@ -88,20 +101,166 @@ describe("resolveRegionalPlate", () => {
     }
   });
 
-  it("shows nothing rather than guessing when two regions claim a place", () => {
+  it("treats two compatible pictures of one place as variety, not a conflict", () => {
     const document = docOf(
-      region("first", { includeCounties: ["48097"] }),
-      region("second", { includeCounties: ["48097"] }),
+      region(
+        "valley-forest",
+        { includeCounties: ["21195"] },
+        { context: ctx() },
+      ),
+      region(
+        "valley-street",
+        { includeCounties: ["21195"] },
+        { context: ctx({ sceneKind: "street" }) },
+      ),
+    );
+    const resolution = resolveRegionalPlate(document, {
+      stateKey: "US-KY",
+      countyGeoids: ["21195"],
+    });
+    expect(resolution.outcome).toBe("plate");
+    if (resolution.outcome !== "plate") return;
+    // Whichever it picked, the other is reported rather than hidden.
+    expect([...resolution.alternatives, resolution.regionKey].sort()).toEqual([
+      "valley-forest",
+      "valley-street",
+    ]);
+  });
+
+  it("picks the same picture every time for the same place", () => {
+    const document = docOf(
+      region(
+        "valley-forest",
+        { includeCounties: ["21195"] },
+        { context: ctx() },
+      ),
+      region(
+        "valley-street",
+        { includeCounties: ["21195"] },
+        { context: ctx({ sceneKind: "street" }) },
+      ),
+    );
+    const query = { stateKey: "US-KY", countyGeoids: ["21195"] };
+    const first = resolveRegionalPlate(document, query);
+    // Reversing the file order must not change the answer either: a redraw and
+    // a re-sorted document are the same save to the player.
+    const reversed = docOf(...[...document.regions].reverse());
+    for (const again of [
+      resolveRegionalPlate(document, query),
+      resolveRegionalPlate(reversed, query),
+    ]) {
+      expect(again).toEqual(first);
+    }
+  });
+
+  it("blanks the place when two regions cannot both be true of it", () => {
+    const document = docOf(
+      region(
+        "desert",
+        { includeCounties: ["04019"] },
+        { context: ctx({ landform: "desert-basin-and-range" }) },
+      ),
+      region(
+        "rainforest",
+        { includeCounties: ["04019"] },
+        { context: ctx({ landform: "coastal-lowland" }) },
+      ),
+    );
+    expect(
+      resolveRegionalPlate(document, {
+        stateKey: "US-AZ",
+        countyGeoids: ["04019"],
+      }),
+    ).toEqual({
+      outcome: "none",
+      reason: "conflicting-coverage",
+      regionKeys: ["desert", "rainforest"],
+    });
+  });
+
+  it("honours an explicit never-alongside where the landform cannot tell", () => {
+    const document = docOf(
+      region("oak-prairie", { includeCounties: ["48097"] }, { context: ctx() }),
+      region(
+        "pine-hardwood",
+        { includeCounties: ["48097"] },
+        { context: ctx(), neverAlongside: ["oak-prairie"] },
+      ),
     );
     const resolution = resolveRegionalPlate(document, {
       stateKey: "US-TX",
       countyGeoids: ["48097"],
     });
-    expect(resolution).toEqual({
+    expect(resolution.outcome).toBe("none");
+    if (resolution.outcome !== "none") return;
+    expect(resolution.reason).toBe("conflicting-coverage");
+  });
+
+  it("will not show a winter picture in July, or a summer one in January", () => {
+    const document = docOf(
+      region(
+        "winter-meadow",
+        { includeStates: ["US-CO"] },
+        { context: ctx({ seasons: ["winter"] }) },
+      ),
+    );
+    expect(
+      resolveRegionalPlate(document, { stateKey: "US-CO", season: "winter" })
+        .outcome,
+    ).toBe("plate");
+    expect(
+      resolveRegionalPlate(document, { stateKey: "US-CO", season: "summer" }),
+    ).toEqual({
       outcome: "none",
-      reason: "ambiguous-coverage",
-      regionKeys: ["first", "second"],
+      reason: "no-picture-fits-this-context",
+      regionKeys: ["winter-meadow"],
     });
+  });
+
+  it("prefers a fitting state picture over a more specific one in the wrong season", () => {
+    const document = docOf(
+      region(
+        "january-town",
+        { includeCounties: ["21195"] },
+        { context: ctx({ seasons: ["winter"] }) },
+      ),
+      region(
+        "leafy-state",
+        { includeStates: ["US-KY"] },
+        { context: ctx({ seasons: ["summer"] }) },
+      ),
+    );
+    const resolution = resolveRegionalPlate(document, {
+      stateKey: "US-KY",
+      countyGeoids: ["21195"],
+      season: "summer",
+    });
+    expect(resolution.outcome).toBe("plate");
+    if (resolution.outcome !== "plate") return;
+    expect(resolution.regionKey).toBe("leafy-state");
+    expect(resolution.matchedBy).toBe("state");
+  });
+
+  it("carries the scene kind through, so a street is not captioned countryside", () => {
+    const document = docOf(
+      region(
+        "main-street",
+        { includeStates: ["US-MI"] },
+        { context: ctx({ sceneKind: "street" }) },
+      ),
+    );
+    const resolution = resolveRegionalPlate(document, { stateKey: "US-MI" });
+    expect(resolution.outcome).toBe("plate");
+    if (resolution.outcome !== "plate") return;
+    expect(resolution.sceneKind).toBe("street");
+  });
+
+  it("reads the season from a date rather than from a note", () => {
+    expect(seasonOfIsoDate("2026-01-12")).toBe("winter");
+    expect(seasonOfIsoDate("2026-07-04")).toBe("summer");
+    expect(seasonOfIsoDate("2026-10-31")).toBe("autumn");
+    expect(seasonOfIsoDate("2026-04-01")).toBe("spring");
+    expect(seasonOfIsoDate("not a date")).toBeNull();
   });
 
   it("names the region when a match has no delivered plate", () => {
@@ -135,9 +294,9 @@ describe("resolveRegionalPlate", () => {
       ),
       { stateKey: "US-KY" },
     );
-    expect(two.outcome).toBe("none");
-    if (two.outcome !== "none") return;
-    expect(two.reason).toBe("ambiguous-coverage");
+    // Two regions claiming one division is coverage, not a tie, so long as
+    // they can both be true of the place.
+    expect(two.outcome).toBe("plate");
   });
 
   it("says so when the save names no place at all", () => {
@@ -220,6 +379,62 @@ describe("the shipped coverage document", () => {
 
   it("carries one entry per bench regional request", () => {
     expect(summarizeRegionalSceneCoverage(document).regions).toBe(23);
+  });
+
+  it("tags every scene with a season, a landform and a kind of view", () => {
+    for (const entry of document.regions) {
+      expect(entry.context, entry.regionKey).toBeDefined();
+      expect(entry.context!.seasons.length, entry.regionKey).toBeGreaterThan(0);
+    }
+  });
+
+  it("shows the owner's approved plates to the places he researched", () => {
+    // Tucson and Phoenix, from his 2020 Census starter overlay.
+    for (const placeGeoid of ["0477000", "0455000"]) {
+      const resolution = resolveRegionalPlate(document, {
+        stateKey: "US-AZ",
+        placeGeoid,
+        season: "summer",
+      });
+      expect(resolution.outcome, placeGeoid).toBe("plate");
+      if (resolution.outcome !== "plate") continue;
+      expect(resolution.regionKey).toBe("sonoran-desert");
+      expect(resolution.matchedBy).toBe("place");
+    }
+    // Stillwater, Oklahoma, on the Cross Timbers plate.
+    const crossTimbers = resolveRegionalPlate(document, {
+      stateKey: "US-OK",
+      placeGeoid: "4070300",
+      season: "summer",
+    });
+    expect(crossTimbers.outcome).toBe("plate");
+  });
+
+  it("shows the leaf-on Cross Timbers plate in summer and nothing in January", () => {
+    const query = { stateKey: "US-OK", placeGeoid: "4013500" };
+    expect(
+      resolveRegionalPlate(document, { ...query, season: "summer" }).outcome,
+    ).toBe("plate");
+    const january = resolveRegionalPlate(document, {
+      ...query,
+      season: "winter",
+    });
+    expect(january.outcome).toBe("none");
+    if (january.outcome !== "none") return;
+    expect(january.reason).toBe("no-picture-fits-this-context");
+  });
+
+  it("shows nothing for a place nobody has researched yet", () => {
+    // Lexington, Kentucky. No region claims it, and the intro stays blank
+    // rather than borrowing a landscape from a thousand miles away.
+    const resolution = resolveRegionalPlate(document, {
+      stateKey: "US-KY",
+      placeGeoid: "2146027",
+      season: "summer",
+    });
+    expect(resolution.outcome).toBe("none");
+    if (resolution.outcome !== "none") return;
+    expect(resolution.reason).toBe("no-region-covers-this-place");
   });
 
   it("declares a sha256 and real dimensions for every delivered plate", () => {

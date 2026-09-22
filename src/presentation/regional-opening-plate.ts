@@ -6,6 +6,9 @@
  * about the bundler. It reads the place the player actually lives in, asks the
  * resolver, and hands back a URL the panel can put in an `img`.
  *
+ * It also supplies the season, read from the saved world's date, so the
+ * resolver can rule out a picture that shows the wrong time of year.
+ *
  * Two things it deliberately does not do. It does not fall back to a nearby
  * region when the resolver says no: the resolver's "none" is the answer, and
  * the intro shows the step without a picture. And it does not invent a GEOID.
@@ -21,8 +24,12 @@ import coverageDocument from "../../art/regions/regional-scene-places.json";
 import type {
   RegionalPlaceQuery,
   RegionalSceneCoverageDocument,
+  RegionalSceneKind,
 } from "../authoring/regional-scene-coverage";
-import { resolveRegionalPlate } from "../authoring/regional-scene-coverage";
+import {
+  resolveRegionalPlate,
+  seasonOfIsoDate,
+} from "../authoring/regional-scene-coverage";
 import type { EntityId, World } from "../simulation";
 import { optionalGlob } from "./optional-glob";
 
@@ -51,13 +58,18 @@ export interface RegionalOpeningPlate {
   readonly height: number;
   /** Which rule matched: place, county, state or census-division. */
   readonly matchedBy: string;
+  /** How the picture may be captioned. */
+  readonly sceneKind: RegionalSceneKind;
+  /** The other pictures that were equally valid for this place. */
+  readonly alternatives: readonly string[];
 }
 
 export type RegionalOpeningMiss =
   | "no-place-known"
   | "matched-region-has-no-plate"
   | "no-region-covers-this-place"
-  | "ambiguous-coverage"
+  | "no-picture-fits-this-context"
+  | "conflicting-coverage"
   /** The coverage names a file this checkout does not carry. */
   | "plate-file-missing";
 
@@ -127,6 +139,8 @@ export function regionalOpeningPlateFor(
       width: resolution.plate.width,
       height: resolution.plate.height,
       matchedBy: resolution.matchedBy,
+      sceneKind: resolution.sceneKind,
+      alternatives: resolution.alternatives,
     },
   };
 }
@@ -147,5 +161,11 @@ export function regionalPlaceQuery(
   return {
     stateKey: homeStateUsps ? `US-${homeStateUsps.toUpperCase()}` : null,
     ...geoidsFromJurisdiction(world, localityJurisdictionId),
+    /**
+     * The season comes from the world's own date, so a January life never sees
+     * a green canopy and a July one never sees bare branches. Reading the date
+     * is a read: it moves no clock and writes nothing.
+     */
+    season: seasonOfIsoDate(world.currentDate) ?? undefined,
   };
 }

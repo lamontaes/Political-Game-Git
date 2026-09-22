@@ -59,8 +59,10 @@ for (const entry of document.regions) {
 const summary = summarizeRegionalSceneCoverage(document);
 console.log(
   `${summary.regions} regions; ${summary.withPlate} with a delivered plate; ` +
+    `${summary.withContext} tagged with a season and landform; ` +
     `${summary.withPlaceData} carrying place data; ` +
-    `${summary.countiesNamed} counties and ${summary.statesNamed} states named.`,
+    `${summary.placesNamed} places, ${summary.countiesNamed} counties and ` +
+    `${summary.statesNamed} states named.`,
 );
 
 for (const entry of document.regions) {
@@ -76,11 +78,16 @@ for (const entry of document.regions) {
       ? `${places.includePlaces!.length} place(s)`
       : null,
   ].filter((part): part is string => part !== null);
+  const context = entry.context;
+  const when = context
+    ? `${context.seasons.join("/")} ${context.landform}`
+    : "untagged";
   console.log(
     `  ${entry.plate ? "plate " : "no art"} ${entry.regionKey} — ${
       claims.length > 0 ? claims.join(", ") : "no place data yet"
-    }`,
+    } — ${when}`,
   );
+  if (entry.sourceNote) console.log(`         source: ${entry.sourceNote}`);
 }
 
 if (check && failed) process.exit(1);
