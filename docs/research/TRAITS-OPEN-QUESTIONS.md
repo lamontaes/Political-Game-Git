@@ -1,5 +1,11 @@
 # Traits: questions that need research, not engineering
 
+**The questions themselves are filed in the research queue**, one record each
+under `docs/research/requests/`: `player-temperament-source`,
+`ordinary-life-trait-set` and `personality-change-pace`. Those records are what
+makes the questions exist for a researcher; this document is the design-side
+reasoning behind them and is not a substitute for filing.
+
 Three questions the trait system has running on placeholder answers. Each one
 is a judgement about what a believable life looks like, which is why they are
 here rather than settled in code: the owner's standing rule is that anything
