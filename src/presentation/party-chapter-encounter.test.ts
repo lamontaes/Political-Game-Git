@@ -103,6 +103,12 @@ describe("ALIVE43 W2 home party chapters and organizer encounters", () => {
       kind: "told-by",
       sourcePersonId: chapter.organizerPersonId,
     });
+    // Their journal shows this as written, so it is said to them, with a date
+    // a person would write rather than a database field.
+    expect(knowledge.believedSummary).toMatch(
+      /^.+ invited you to the .+ open meeting on [A-Z][a-z]+ \d{1,2}, \d{4}\. Going is optional\.$/,
+    );
+    expect(knowledge.believedSummary).not.toMatch(/\bthem\b|\d{4}-\d{2}-\d{2}/);
     expect(
       offered.world.history.organizationParticipations.some(
         (p) => p.personId === player && p.kind === CHAPTER_MEMBERSHIP_KIND,
