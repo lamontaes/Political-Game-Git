@@ -21,6 +21,7 @@ import {
   createStableId,
   defaultOriginChamber,
   drawCanonicalName,
+  catalogPropositionIds,
   introduceMeasure,
   legislativeBlueprint,
   legislativeScenarioKeysForPlace,
@@ -446,6 +447,7 @@ export function openLegislativeWork(
     subjectClass: content.subjectClass,
     sponsorPersonId,
     originChamberKey,
+    propositionIds: catalogPropositionIds(next, content.propositionKeys),
   });
 
   const measureId = createStableId(
