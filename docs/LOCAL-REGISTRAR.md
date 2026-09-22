@@ -7,12 +7,12 @@ whoever is at the Mac — Lamontae, a local Claude, Codex, or ChatGPT reading it
 back — can execute an entry without asking what was meant.
 
 Each entry says what is blocked, the exact commands to run, and what to check
-afterwards. L8 is the art bench lane's; numbers are claimed as entries are
+afterwards. L8 and L11 are the art bench lane's; numbers are claimed as entries are
 written, so a gap means an entry was finished and removed. An entry is deleted
 when it is done. This file is not an archive of
 resolved items; if it is still here, it is still outstanding.
 
-Last reconciled: 2026-09-21, from the `claude/current-art-source` thread.
+Last reconciled: 2026-09-22, from the `claude/current-art-source` thread.
 
 ---
 
@@ -310,3 +310,40 @@ the Actions page. The last green packaging run was 2026-09-19 on a main-based
 branch, and every client-line run since has failed, so a one-off runner fault
 is unlikely — but one re-run rules it out before anyone spends an evening on
 it.
+
+---
+
+## L12 — Four seated plates need the chair drawn apart from the figure
+
+Four seated plates carry a chair baked into the same raster as the person.
+All four are already in the repository; nothing needs fetching.
+
+```
+art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_front_neutral_v1.png
+art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_front_chair_v1.png
+art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_front_chair_v1.png
+art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_front_neutral_v1.png
+```
+
+**What is needed:** the chair separated from the figure in the layered source,
+or painted off the plate by hand. Only what touches the body remains — a sliver
+of seat between the thighs and a stub of chair leg against each shin.
+Everything floating free is already removed by `npm run derive:seated-chairless`,
+whose derivatives land in `art/generated/candidates/wave-a-chairless`. That
+script and those four derivatives live on `claude/character-rendering-triage-19kvvz`
+(PR #289) until it merges, so check that branch out to see the current state.
+
+**Why code cannot finish it.** Both numbers were measured off these plates.
+Chair touching a thigh is inside the protection band by definition, so
+connectivity cannot reach it. And the chair's mid-tones run 96–150 while the
+figure's own sub-knee edge pixels run 64–240, so every value the chair uses the
+figure uses too. Raising the body-tone floor to 160 takes the feet and shreds
+the older woman's shins — that was tried, rendered and reverted.
+
+The wave-a source sheets are in no cloud checkout, only the ocd sheet, so the
+higher-resolution route is unavailable to a cloud session whether or not it
+would help.
+
+**Retirement condition:** the four derivatives come back with no chair against
+the legs, at which point the plates stop being retained for a baked prop and go
+through ordinary admission.
