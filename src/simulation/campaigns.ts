@@ -1,4 +1,5 @@
 import { createPressTransitionRegistry } from "./press/transitions";
+import { campaignPollingQuality } from "./campaign-polling";
 import { startingSupportAdjustment } from "./record-in-office";
 import {
   legislativeTermDates,
@@ -1099,7 +1100,8 @@ function recordSupportAfterAction(
  * Three small independent draws rather than one wide one, so the error clusters
  * near the truth and occasionally does not. The memo states a four-point margin
  * and the error can exceed it, which is true of real polling and is the whole
- * reason the number is worth arguing about.
+ * reason the number is worth arguing about. How wide the draws are depends on
+ * who on the campaign does the reading (`campaign-polling.ts`).
  */
 function recordCampaignObservation(
   world: World,
@@ -1117,8 +1119,12 @@ function recordCampaignObservation(
   const rng = new SeededRng(world.seed).fork(
     `campaign-observation:${action.id}:${candidateStateId}`,
   );
+  // How far off the memo can be depends on who on the campaign reads it.
+  const spread = campaignPollingQuality(world, campaign).drawBasisPoints;
   const error =
-    rng.integer(-200, 201) + rng.integer(-200, 201) + rng.integer(-200, 201);
+    rng.integer(-spread, spread + 1) +
+    rng.integer(-spread, spread + 1) +
+    rng.integer(-spread, spread + 1);
   const observedBasisPoints = Math.max(
     0,
     Math.min(SUPPORT_DENOMINATOR, trueBasisPoints + error),

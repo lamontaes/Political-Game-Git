@@ -27,6 +27,55 @@ export const SUPPORT_FLOOR_BASIS_POINTS = 100;
 /** Support is carried in basis points of one, so ten thousand is everybody. */
 export const SUPPORT_DENOMINATOR = 10_000;
 
+/**
+ * How far campaigning can carry one candidate's share.
+ *
+ * BLANKET RULE, not sourced. Before this, a gain was the same size at 90% as
+ * at 40%, so steady canvassing ran one playtest candidate from 48% to 96% over
+ * sixteen field weeks, and the memo reported that number honestly. Real
+ * contested races rarely end past two to one, because the voters still
+ * undecided late are the hardest to move and the other side's voters are not
+ * moved by door-knocking at all.
+ *
+ * What it applies: work moves support at full strength up to half the field.
+ * Above half, each gain is scaled by the headroom left below the ceiling, so it
+ * shrinks steadily and reaches nothing at the ceiling. It applies to every
+ * candidate, player and rival alike, and only to what campaigning earns: a
+ * share that comes from a rival's loss is not capped here.
+ *
+ * Not modelled: the size of the electorate (an afternoon on the doors is worth
+ * the same in a town of two thousand and a district of two hundred thousand),
+ * partisan lean, and turnout. Filed with ChatGPT as
+ * `campaign-activity-effects-by-race-size`, beside
+ * `realistic-vote-shares-and-how-far-a-campaign-moves-them`.
+ */
+export const CAMPAIGN_SUPPORT_CEILING_BASIS_POINTS = 7_500;
+const FULL_STRENGTH_BELOW_BASIS_POINTS = 5_000;
+
+/**
+ * The part of a requested gain that campaigning can actually earn from a
+ * candidate's current share: all of it at or below half, a shrinking part of it
+ * above half, and none of it at the ceiling.
+ */
+export function effectiveGainBasisPoints(
+  currentBasisPoints: number,
+  requestedBasisPoints: number,
+): number {
+  const requested = Math.max(0, Math.floor(requestedBasisPoints));
+  if (currentBasisPoints >= CAMPAIGN_SUPPORT_CEILING_BASIS_POINTS) return 0;
+  // The part of the gain that lands below half is taken whole.
+  const whole = Math.min(
+    requested,
+    Math.max(0, FULL_STRENGTH_BELOW_BASIS_POINTS - currentBasisPoints),
+  );
+  const from = currentBasisPoints + whole;
+  const rest = requested - whole;
+  const headroom = CAMPAIGN_SUPPORT_CEILING_BASIS_POINTS - from;
+  const span =
+    CAMPAIGN_SUPPORT_CEILING_BASIS_POINTS - FULL_STRENGTH_BELOW_BASIS_POINTS;
+  return whole + Math.min(headroom, Math.floor((rest * headroom) / span));
+}
+
 export function quantityBasisPoints(state: WorldMetricStateRecord): number {
   if (
     state.value.kind !== "quantity" ||
@@ -67,7 +116,7 @@ export function latestSupportState(
 
 /**
  * Support for every candidate after `gainerPersonId` gains up to
- * `gainBasisPoints`, taken evenly (in sorted-id order) from the rest of the
+ * `gainBasisPoints` (less as the gainer nears the campaign ceiling), taken evenly (in sorted-id order) from the rest of the
  * field and never below the floor.
  */
 export function supportAfterGain(
@@ -91,7 +140,10 @@ export function supportAfterGain(
     .map((scope) => scope.candidatePersonId)
     .filter((personId) => personId !== gainerPersonId)
     .sort();
-  let remaining = Math.max(0, Math.floor(gainBasisPoints));
+  let remaining = effectiveGainBasisPoints(
+    current[gainerPersonId]!,
+    gainBasisPoints,
+  );
   let removed = 0;
   for (let index = 0; index < others.length && remaining > 0; index += 1) {
     const otherId = others[index]!;
