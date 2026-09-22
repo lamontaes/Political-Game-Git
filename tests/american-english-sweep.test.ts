@@ -228,6 +228,10 @@ describe("the sweep bites", () => {
     expect(americanize("Centre County sits in Pennsylvania.")).toBe(
       "Centre County sits in Pennsylvania.",
     );
+    expect("Filed 22/09/2026.".match(DAY_FIRST_NUMERIC_DATE)).not.toBeNull();
+    expect(
+      "deadlines of 21/30/30/10/45 days".match(DAY_FIRST_NUMERIC_DATE),
+    ).toBeNull();
     expect(monthFirstDates("Filed 3 March 2026 and heard 15 April.")).toBe(
       "Filed March 3, 2026 and heard April 15.",
     );

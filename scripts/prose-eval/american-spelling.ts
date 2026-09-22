@@ -605,9 +605,12 @@ export const DAY_FIRST_DATE = new RegExp(
   "g",
 );
 
-/** A numeric date whose first number can only be a day: 22/09/2026. */
+/**
+ * A numeric date whose first number can only be a day: 22/09/2026. Not a run
+ * of figures like "21/30/30/10/45 days".
+ */
 export const DAY_FIRST_NUMERIC_DATE =
-  /\b(1[3-9]|2\d|3[01])[/.](0?[1-9]|1[0-2])[/.](\d{2}|\d{4})\b/g;
+  /(?<![\d/.])(1[3-9]|2\d|3[01])[/.](0?[1-9]|1[0-2])[/.](\d{2}|\d{4})(?![\d/.])/g;
 
 export function monthFirstDates(text: string): string {
   return text.replace(

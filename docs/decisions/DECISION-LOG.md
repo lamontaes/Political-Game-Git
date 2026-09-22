@@ -3266,7 +3266,7 @@ either document.
 
 - An on-demand disclosure panel is still a player-facing surface. A "Sources"
   triangle, a citation printed under a refusal, and a link out to a statute are
-  all ruled out, whatever the panel is labelled.
+  all ruled out, whatever the panel is labeled.
 - Provenance is not deleted. It stays on the records, where a reviewer, an
   auditor or the diagnostics-gated developer view reads it.
 - An explanation of how a rule works is still allowed and encouraged. What goes

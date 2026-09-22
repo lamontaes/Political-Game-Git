@@ -46,7 +46,7 @@ town — and then carries lives past the result into what follows.
 
 ## 1. What happens after you win depends on which state you are in
 
-> **Superseded as current behaviour, 2026-09-22 (transition services thread).**
+> **Superseded as current behavior, 2026-09-22 (transition services thread).**
 > What follows is history at the head it names. A legislative winner in a
 > state with no sourced term rule is no longer seated on election night: the
 > seat begins on January 1 after the election under a marked blanket rule
