@@ -1,0 +1,36 @@
+{
+  "filedAt": "2026-09-22T15:10:00.000Z",
+  "impact": "shapes-design",
+  "lane": "policy effects",
+  "notes": [
+    "Nothing is blocked on this answer in the sense of being unable to proceed: the connection from a bill to its policy content, and from an enactment to an effect activation, can be built with a single authored contract in the way transit already is. What the answer decides is what content that connection is allowed to carry.",
+    "A partial answer is useful. Even one quantity, with one response shape and one magnitude, would let the whole path be built end to end and measured, with everything else following the same pattern.",
+    "Worth challenging: the assumption that a law's effect should be on an aggregate figure at all. The tax route's effect is on one named account and it reads as consequential because the player can spend it. It may be that the right effects at state and local level are all of that kind — specific, named, spendable — and that aggregate figures are the wrong ambition."
+  ],
+  "priority": "P1",
+  "question": "When a state or local law is enacted, what should change in the world, by how much, and how long should it take? Specifically: which quantities is it defensible for a law to move at all at the state and local level; what shape does the response take over time (immediate, phased, delayed, decaying); how large should a typical effect be relative to the size of the law; and how should two laws passed close together combine when they touch the same quantity — do they add, does one dominate, or do they interact? A worked example of one ordinary state law and the figures a reasonable person would expect to see move over the following three years would settle most of this.",
+  "questionId": "policy-effect-model-state-and-local",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "policy effects thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/causal-effects.ts, the built effects engine",
+      "whatItDidNotSettle": "Establishes that the machinery exists and takes thresholds, magnitudes, response curves, contributions and aggregate metric evaluation. It is a mechanism with no values: it will faithfully apply whatever magnitude and curve it is handed, and has nothing to say about which are right."
+    },
+    {
+      "source": "src/simulation/production-catalog.ts, assertProductionCatalogBoundary",
+      "whatItDidNotSettle": "Settles that a player's save carries no world metric and no causal mechanism until a sourced or declared one exists, and that relaxing it must say where the content came from. It defines the bar an answer has to clear; it does not supply content that clears it."
+    },
+    {
+      "source": "src/presentation/economic-graphs.ts and economic-context-browser.ts",
+      "whatItDidNotSettle": "Settles that unemployment and price figures on screen are published BLS and BEA observations carried with their vintage, and that the build deliberately infers no GDP response or policy elasticity from them. It establishes that those particular figures are not a law's to move; it does not say what is."
+    },
+    {
+      "source": "src/simulation/tax-policy.ts and the funded-service route, the one working example",
+      "whatItDidNotSettle": "Shows the shape of an effect that works: an enacted levy becomes operative on a date read off the enactment, collects into a named account, and an appropriation spends from that same account so the two laws interact. It is exact arithmetic on declared amounts, which is why it is defensible — and it is exactly why it cannot be the template for an effect on a population-level figure, where nothing is declared."
+    }
+  ],
+  "title": "What a state or local law should actually do to a figure the world keeps",
+  "usableAnswer": "A defensible list of quantities a state or local law can move, each with a response shape over time and a rough magnitude expressed relative to something the game already knows (the size of an appropriation, the rate of a levy, the population covered). Where the honest answer is that a state law's effect on a national figure is not measurable, say so — that is a usable answer too, and it would tell us to keep the figure out of the game rather than model it badly. Plus a position on combination: two laws touching one quantity in the same session.",
+  "whyItMatters": "Measured 2026-09-22 at main 62368c1e: enacting a law in this build moves exactly one kind of figure, money in a named account, and only in Alaska. No GDP, inflation, unemployment or approval figure exists in a player's save for a law to move, and the derived economic layer that would compute them has no caller. The engineering to connect a bill to an effect is small and already mostly built. What is not settled is what the effect should be, and getting that wrong is worse than the current honest emptiness: an invented elasticity would give every player a world that responds confidently and wrongly, and no test would catch it because the machinery works either way. This is the gate on the whole of 'policy has consequences', which sits under the eight-or-nine-out-of-ten governing priority."
+}
