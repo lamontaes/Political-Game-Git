@@ -117,12 +117,14 @@ describe("no player-facing sentence carries a citation", () => {
 
   it("holds for a date the rule is not established on", () => {
     const offenders: string[] = [];
+    let checked = 0;
     for (const row of ALL_ROWS) {
       for (const onDate of ["1900-01-05", "1970-01-05", "2026-01-05"].map(
         makeIsoDate,
       )) {
         const applicability = qualificationTemporalApplicability(row, onDate);
         if (applicability.state === "UNKNOWN") {
+          checked += 1;
           if (CITATION.test(applicability.reason)) {
             offenders.push(
               `${row.stateUsps} ${row.field}: ${applicability.reason}`,
@@ -131,6 +133,9 @@ describe("no player-facing sentence carries a citation", () => {
         }
       }
     }
+    // An empty sample passes every assertion below it. This is the branch the
+    // test exists for, so reaching it zero times is a failure, not a pass.
+    expect(checked).toBeGreaterThan(0);
     expect(offenders).toEqual([]);
   });
 
@@ -227,6 +232,7 @@ describe("the capability resolver refuses without naming its source", () => {
 
   it("holds for every jurisdiction, action and date", () => {
     const offenders: string[] = [];
+    let checked = 0;
     for (const usps of JURISDICTIONS) {
       for (const action of ACTIONS) {
         for (const onDate of DATES) {
@@ -237,6 +243,7 @@ describe("the capability resolver refuses without naming its source", () => {
             onDate,
           });
           for (const [where, sentence] of sentencesOf(resolution)) {
+            checked += 1;
             if (CITATION.test(sentence) || INTERNAL_ID.test(sentence)) {
               offenders.push(`${usps} ${action} ${where}: ${sentence}`);
             }
@@ -244,6 +251,7 @@ describe("the capability resolver refuses without naming its source", () => {
         }
       }
     }
+    expect(checked).toBeGreaterThan(0);
     expect(offenders).toEqual([]);
   });
 
@@ -253,6 +261,7 @@ describe("the capability resolver refuses without naming its source", () => {
     const sample = units.filter((_unit, index) => index % 97 === 0);
     expect(sample.length).toBeGreaterThan(20);
     const offenders: string[] = [];
+    let checked = 0;
     for (const unit of sample) {
       for (const action of ACTIONS) {
         const resolution = resolveCapability({
@@ -262,12 +271,14 @@ describe("the capability resolver refuses without naming its source", () => {
           onDate: DATES[2]!,
         });
         for (const [where, sentence] of sentencesOf(resolution)) {
+          checked += 1;
           if (CITATION.test(sentence) || INTERNAL_ID.test(sentence)) {
             offenders.push(`${unit.id} ${action} ${where}: ${sentence}`);
           }
         }
       }
     }
+    expect(checked).toBeGreaterThan(0);
     expect(offenders).toEqual([]);
   });
 });
