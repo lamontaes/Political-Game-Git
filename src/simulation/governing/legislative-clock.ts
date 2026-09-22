@@ -48,6 +48,7 @@ import {
   type SeatedBody,
 } from "../legislation-scenarios";
 import { committeeRoster } from "./committee-assignment";
+import { decideChamberVote, seatedChamberForPack } from "./chamber-votes";
 import {
   chamberByKey,
   defaultOriginChamber,
@@ -68,6 +69,8 @@ import type {
   FutureTransitionHandlerResult,
   IsoDate,
   LegislativeMeasureRecord,
+  LegislativeQuestionIdentity,
+  LegislativeVoteDisposition,
   World,
 } from "../types";
 
@@ -240,6 +243,18 @@ function bodiesForMeasure(
   measure: LegislativeMeasureRecord,
   blueprint: LegislativeBlueprint,
 ): readonly SeatedBody[] {
+  // A legislature seated with real people is the chamber, whatever story the
+  // bill came from.
+  const seated = blueprint.pack.chambers.map((chamber) =>
+    seatedChamberForPack(
+      world,
+      blueprint.pack.packId,
+      chamber.chamberKey,
+      chamber.name,
+    ),
+  );
+  if (seated.every((chamber) => chamber !== null))
+    return seated.map((chamber) => chamber!.body);
   // An institutional legislature has no recorded roster; its votes stay
   // blocked rather than borrowing a story roster.
   if (blueprint.scenarioKey.startsWith("institution:")) return [];
@@ -294,9 +309,67 @@ function votes(
   return plan ? dispositionsFromCounts(members, plan) : null;
 }
 
-function provenance(note: string) {
+/**
+ * The members' own decisions where the chamber is seated with real people,
+ * and the authored counts otherwise. Nobody seated is voted for by a count.
+ */
+function decide(
+  world: World,
+  blueprint: LegislativeBlueprint,
+  members: SeatedBody["members"],
+  planKey: string,
+  question: Omit<
+    LegislativeQuestionIdentity,
+    "amendmentStableKey" | "provisionKey"
+  >,
+  stableKey: string,
+) {
+  const seated = members.length > 0 && members.every((m) => m.personId);
+  if (!seated || !isSeatedChamber(world, blueprint)) {
+    const authored = votes(blueprint, members, planKey);
+    return authored
+      ? { dispositions: authored, method: "authored-fixture" as const }
+      : null;
+  }
   return {
-    method: "authored-fixture" as const,
+    dispositions: decideChamberVote(world, {
+      stableKey,
+      question: {
+        question: { ...question, amendmentStableKey: null, provisionKey: null },
+        questionLabel: planKey,
+      },
+      members,
+    }),
+    method: "member-decisions" as const,
+  };
+}
+
+function isSeatedChamber(world: World, blueprint: LegislativeBlueprint) {
+  return blueprint.pack.chambers.every(
+    (chamber) =>
+      seatedChamberForPack(
+        world,
+        blueprint.pack.packId,
+        chamber.chamberKey,
+        chamber.name,
+      ) !== null,
+  );
+}
+
+/** Members who took part: everyone recorded, less those recorded absent. */
+function present(dispositions: readonly LegislativeVoteDisposition[]) {
+  return dispositions.filter(
+    (entry) =>
+      entry.disposition !== "absent" && entry.disposition !== "excused",
+  ).length;
+}
+
+function provenance(
+  note: string,
+  method: "authored-fixture" | "member-decisions" = "authored-fixture",
+) {
+  return {
+    method,
     note,
     sourceEntityIds: [],
   };
@@ -394,9 +467,11 @@ export function applyInstitutionStep(
     const committee = chamber.committees.find(
       (entry) => entry.committeeKey === position.committeeKey,
     );
+    const stableKey = key(`committee:${chamberKey}`);
     const decided =
       committee && body
-        ? votes(
+        ? decide(
+            world,
             blueprint,
             // The committee's own roster, not whoever happens to be listed
             // first in the chamber.
@@ -407,6 +482,13 @@ export function applyInstitutionStep(
               `${pack.packId}:${chamberKey}`,
             ),
             votePlanKeyForCommittee(committee.committeeKey),
+            {
+              measureId,
+              purpose: "committee-report",
+              forumKey: committee.committeeKey,
+              floorStageKey: null,
+            },
+            stableKey,
           )
         : null;
     if (!committee || !decided)
@@ -416,14 +498,15 @@ export function applyInstitutionStep(
       };
     return applied(
       recordCommitteeDisposition(world, {
-        stableKey: key(`committee:${chamberKey}`),
+        stableKey,
         measureId,
         recommendation: "favorable",
-        dispositions: decided,
+        dispositions: decided.dispositions,
         rationale:
           "The committee weighed the testimony it heard and voted on reporting the bill.",
         provenance: provenance(
           "Committee members' recorded decisions for this bill.",
+          decided.method,
         ),
       }),
       "move-committee-report",
@@ -439,11 +522,20 @@ export function applyInstitutionStep(
     );
   if (steps.includes("move-floor-vote")) {
     const stage = floorStageByKey(chamber, position.floorStageKey ?? "");
+    const stableKey = key(`floor:${chamberKey}:${stage.stageKey}`);
     const decided = body
-      ? votes(
+      ? decide(
+          world,
           blueprint,
           body.members,
           votePlanKeyForFloor(chamberKey, stage.stageKey),
+          {
+            measureId,
+            purpose: "floor-stage",
+            forumKey: chamberKey,
+            floorStageKey: stage.stageKey,
+          },
+          stableKey,
         )
       : null;
     if (!body || !decided)
@@ -453,19 +545,38 @@ export function applyInstitutionStep(
       };
     return applied(
       takeFloorVote(world, {
-        stableKey: key(`floor:${chamberKey}:${stage.stageKey}`),
+        stableKey,
         measureId,
-        dispositions: decided,
-        presentMembers: body.members.length,
+        dispositions: decided.dispositions,
+        presentMembers:
+          decided.method === "member-decisions"
+            ? present(decided.dispositions)
+            : body.members.length,
         electedMembers: body.members.length,
-        provenance: provenance("Members' recorded decisions on this question."),
+        provenance: provenance(
+          "Members' recorded decisions on this question.",
+          decided.method,
+        ),
       }),
       "move-floor-vote",
     );
   }
   if (steps.includes("move-concurrence")) {
+    const stableKey = key(`concurrence:${chamberKey}`);
     const decided = body
-      ? votes(blueprint, body.members, votePlanKeyForConcurrence(chamberKey))
+      ? decide(
+          world,
+          blueprint,
+          body.members,
+          votePlanKeyForConcurrence(chamberKey),
+          {
+            measureId,
+            purpose: "concurrence",
+            forumKey: chamberKey,
+            floorStageKey: null,
+          },
+          stableKey,
+        )
       : null;
     if (!body || !decided)
       return {
@@ -474,13 +585,17 @@ export function applyInstitutionStep(
       };
     return applied(
       recordConcurrenceVote(world, {
-        stableKey: key(`concurrence:${chamberKey}`),
+        stableKey,
         measureId,
-        dispositions: decided,
-        presentMembers: body.members.length,
+        dispositions: decided.dispositions,
+        presentMembers:
+          decided.method === "member-decisions"
+            ? present(decided.dispositions)
+            : body.members.length,
         electedMembers: body.members.length,
         provenance: provenance(
           "Members' recorded decisions on accepting the other chamber's changes.",
+          decided.method,
         ),
       }),
       "move-concurrence",
@@ -696,21 +811,44 @@ export function fileLegislatureMeasure(
     const closes = `${year}-${String(boundary.month).padStart(2, "0")}-${String(boundary.day).padStart(2, "0")}`;
     if (world.currentDate > closes) return world;
   }
-  const sponsorKey = `${stableKey}:sponsor`;
-  const age = rng.integer(34, 70);
-  let next = createCharacterHistoryContextPeople(world, [
-    {
-      stableKey: sponsorKey,
-      ...drawCanonicalName(rng.fork("name")),
-      identity: generatePersonIdentity(rng.fork("identity")),
-      birthDate: makeIsoDate(
-        `${Number(world.currentDate.slice(0, 4)) - age}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
-      ),
-      homeJurisdictionId: input.jurisdictionId,
-    },
-  ]);
-  const sponsorPersonId = characterHistoryContextPersonId(next, sponsorKey);
-  const originChamberKey = defaultOriginChamber(pack).chamberKey;
+  const originChamber = defaultOriginChamber(pack);
+  const originChamberKey = originChamber.chamberKey;
+  // Where the chamber is seated with real people, one of them carries the
+  // bill. Otherwise the legacy sponsor: a person made for the purpose.
+  const seated = seatedChamberForPack(
+    world,
+    pack.packId,
+    originChamberKey,
+    originChamber.name,
+  );
+  let next = world;
+  let sponsorPersonId: EntityId;
+  if (seated && seated.body.members.length > 0) {
+    // Any member may file an ordinary bill. The money bill is the majority's:
+    // leadership carries the budget, so its sponsor sits in the largest
+    // caucus.
+    const members =
+      blueprint.subjectClass === "appropriation"
+        ? majorityCaucus(seated.body.members)
+        : seated.body.members;
+    sponsorPersonId =
+      members[rng.fork("seated-sponsor").integer(0, members.length)]!.personId!;
+  } else {
+    const sponsorKey = `${stableKey}:sponsor`;
+    const age = rng.integer(34, 70);
+    next = createCharacterHistoryContextPeople(world, [
+      {
+        stableKey: sponsorKey,
+        ...drawCanonicalName(rng.fork("name")),
+        identity: generatePersonIdentity(rng.fork("identity")),
+        birthDate: makeIsoDate(
+          `${Number(world.currentDate.slice(0, 4)) - age}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
+        ),
+        homeJurisdictionId: input.jurisdictionId,
+      },
+    ]);
+    sponsorPersonId = characterHistoryContextPersonId(next, sponsorKey);
+  }
   next = introduceMeasure(next, {
     stableKey,
     jurisdictionId: input.jurisdictionId,
@@ -731,6 +869,17 @@ export function fileLegislatureMeasure(
   if (blueprint.subjectClass === "appropriation")
     next = attachAppropriationClauses(next, measure, stableKey);
   return scheduleInstitutionStep(next, measure.id);
+}
+
+/** The members of the chamber's largest caucus, in seat order. */
+function majorityCaucus(members: SeatedBody["members"]): SeatedBody["members"] {
+  const sizes = new Map<string, number>();
+  for (const member of members)
+    sizes.set(member.caucusLabel, (sizes.get(member.caucusLabel) ?? 0) + 1);
+  const largest = [...sizes.entries()].sort(
+    (l, r) => r[1] - l[1] || l[0].localeCompare(r[0]),
+  )[0]![0];
+  return members.filter((member) => member.caucusLabel === largest);
 }
 
 /**

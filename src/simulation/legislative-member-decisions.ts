@@ -170,6 +170,18 @@ function weight(consideration: DecisionConsideration): number {
   return importance * confidence;
 }
 
+/**
+ * The reasons a member has on one question, as considerations for the shared
+ * evaluator. Exported so a whole chamber can be asked the same way one
+ * bargaining colleague is, without each caller rebuilding the reasons.
+ */
+export function memberVoteConsiderations(
+  world: World,
+  input: DeriveMemberDispositionInput,
+): readonly DecisionConsideration[] {
+  return memberConsiderations(world, input);
+}
+
 function memberConsiderations(
   world: World,
   input: DeriveMemberDispositionInput,
@@ -346,14 +358,20 @@ function memberConsiderations(
     });
   }
 
-  // Who the member has actually been working with on this.
-  const interaction = [...world.history.relationshipInteractions]
-    .reverse()
-    .find(
-      (record) =>
-        record.personIds.includes(input.personId) &&
-        record.change === "strengthened",
-    );
+  // Who the member has actually been working with on this: the person
+  // carrying the bill, not anyone at all. A strengthened relationship with a
+  // neighbour is no reason to vote for a stranger's bill.
+  const sponsorPersonId = requireMeasure(world, measureId).sponsorPersonId;
+  const interaction = sponsorPersonId
+    ? [...world.history.relationshipInteractions]
+        .reverse()
+        .find(
+          (record) =>
+            record.personIds.includes(input.personId) &&
+            record.personIds.includes(sponsorPersonId) &&
+            record.change === "strengthened",
+        )
+    : undefined;
   if (interaction) {
     considerations.push({
       stableKey: "member:working-relationship",

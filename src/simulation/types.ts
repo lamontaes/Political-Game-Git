@@ -4107,6 +4107,12 @@ export interface LegislativeVoteDisposition {
   /** Canonical person when the member is simulated; null otherwise. */
   readonly personId: EntityId | null;
   readonly disposition: LegislativeMemberDisposition;
+  /**
+   * The member's own reason, as the key of the consideration that decided
+   * it, where the member decided for themselves. Omitted for an authored
+   * count, which has no reason to give, so older votes read as they did.
+   */
+  readonly reason?: string;
 }
 
 export interface LegislativeVoteTally {

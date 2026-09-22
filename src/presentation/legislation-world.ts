@@ -43,6 +43,7 @@ import type {
   World,
 } from "../simulation";
 import { applyLegislativeStep } from "./legislation-session";
+import { seatedChamberForPack } from "../simulation/governing/chamber-votes";
 import {
   LEGISLATIVE_INSTITUTION_STEP,
   measureSessionIsClosed,
@@ -362,10 +363,18 @@ export function openLegislativeWork(
   // The member the office serves. A staffer does not sponsor bills, so the
   // sponsor is a legislator this world actually contains rather than the
   // player with a title they do not hold.
+  //
+  // Where the state's legislature is seated with real people, the office
+  // works for one of them: a member of the chamber the bill starts in, the
+  // same one every time in this world. Otherwise the office's member is a
+  // person made for the purpose, as before.
   const sponsorKey = `legislative-work:${input.scenarioKey}:member`;
+  const seatedSponsor = institutional
+    ? null
+    : seatedOfficeMember(world, content, input.scenarioKey);
   const sponsorPersonId = institutional
     ? input.playerPersonId
-    : characterHistoryContextPersonId(world, sponsorKey);
+    : (seatedSponsor ?? characterHistoryContextPersonId(world, sponsorKey));
 
   if (existing) {
     return {
@@ -400,7 +409,8 @@ export function openLegislativeWork(
   const name = drawCanonicalName(rng);
   // The office's member is the same person for every bill it files.
   const sponsorExists =
-    !institutional && Boolean(world.people[sponsorPersonId]);
+    !institutional &&
+    (seatedSponsor !== null || Boolean(world.people[sponsorPersonId]));
   let next =
     institutional || sponsorExists
       ? world
@@ -776,6 +786,7 @@ function assignmentFor(
   sponsorPersonId: EntityId,
   playerPersonId: EntityId,
 ): LegislativeAssignment {
+  const seated = seatedBodies(world, blueprint);
   return {
     scenarioKey: blueprint.scenarioKey,
     label: blueprint.label,
@@ -785,13 +796,16 @@ function assignmentFor(
     procedure: {
       pack: blueprint.pack,
       measureId,
-      bodies: seatBodies(
-        world,
-        blueprint,
-        sponsorPersonId,
-        measureId,
-        playerPersonId,
-      ),
+      bodies:
+        seated ??
+        seatBodies(
+          world,
+          blueprint,
+          sponsorPersonId,
+          measureId,
+          playerPersonId,
+        ),
+      ...(seated ? { memberDecisions: { playerPersonId } } : {}),
       committeeMemberCount: blueprint.scenarioKey.startsWith("institution:")
         ? null
         : (blueprint.pack.chambers[0]?.committees[0]?.appointedMembers ?? null),
@@ -800,6 +814,50 @@ function assignmentFor(
       governorRationale: blueprint.governorRationale,
     },
   };
+}
+
+/**
+ * The state's own chambers, where its legislature has been seated with real
+ * people; null where it has not, so an older save keeps its authored bodies.
+ */
+function seatedBodies(
+  world: World,
+  blueprint: LegislativeBlueprint,
+): readonly SeatedBody[] | null {
+  const bodies = blueprint.pack.chambers.map(
+    (chamber) =>
+      seatedChamberForPack(
+        world,
+        blueprint.pack.packId,
+        chamber.chamberKey,
+        chamber.name,
+      )?.body ?? null,
+  );
+  return bodies.every((body) => body !== null && body.members.length > 0)
+    ? (bodies as SeatedBody[])
+    : null;
+}
+
+/** The seated member a staffer's office works for, picked once per world. */
+function seatedOfficeMember(
+  world: World,
+  blueprint: LegislativeBlueprint,
+  scenarioKey: string,
+): EntityId | null {
+  if (!seatedBodies(world, blueprint)) return null;
+  const origin = defaultOriginChamber(blueprint.pack);
+  const members =
+    seatedChamberForPack(
+      world,
+      blueprint.pack.packId,
+      origin.chamberKey,
+      origin.name,
+    )?.body.members.filter((member) => member.personId) ?? [];
+  if (members.length === 0) return null;
+  const pick = new SeededRng(world.seed)
+    .fork(`legislative-member:${scenarioKey}:seated`)
+    .integer(0, members.length);
+  return members[pick]!.personId;
 }
 
 /**

@@ -206,21 +206,34 @@ describe("GOVERNING 5: a real bill reaches the governor's desk", () => {
       measure.stableKey.startsWith(LEGISLATIVE_INTAKE_VERSION),
     );
     expect(filed.length).toBeGreaterThanOrEqual(1);
-    const measure = filed.at(-1)!;
-    expect(measure.sponsorPersonId).not.toBe(personId);
+    for (const each of filed) expect(each.sponsorPersonId).not.toBe(personId);
 
-    // The institution carries it; the desk matter appears when it arrives.
+    // The institution carries them; the seated members decide each one, so a
+    // bill may die in committee or on the floor. The desk matter appears for
+    // whichever reaches the governor.
+    const intake = (w: World) =>
+      (w.history.legislativeMeasures ?? []).filter((entry) =>
+        entry.stableKey.startsWith(LEGISLATIVE_INTAKE_VERSION),
+      );
     const desk = (w: World) =>
       governingMatters(w, office.officeKey).find(
         (m) =>
           m.family === "bill" &&
-          m.measureId === measure.id &&
+          intake(w).some((entry) => entry.id === m.measureId) &&
           m.holderPersonId === personId,
       );
     for (let step = 0; step < 12 && !desk(world); step += 1)
       world = passOrdinaryDays(world, 15);
     const matter = desk(world);
-    expect(matter, measurePosition(world, measure.id).phase).toBeDefined();
+    expect(
+      matter,
+      intake(world)
+        .map((entry) => measurePosition(world, entry.id).phase)
+        .join(", "),
+    ).toBeDefined();
+    const measure = intake(world).find(
+      (entry) => entry.id === matter!.measureId,
+    )!;
     expect(measurePosition(world, measure.id).phase).toBe("awaiting-executive");
     expect(matter!.title).toContain(measure.designation);
     // A real bill waits on the desk: no game-profile lapse applies.
