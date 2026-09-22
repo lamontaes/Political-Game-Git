@@ -37,7 +37,7 @@ function record(
     },
     disposition: "use-now",
     refusalReasons: [],
-    rationale: "Finished 2D art under a licence the archive states.",
+    rationale: "Finished 2D art under a license the archive states.",
     harvested: [],
     reviewedOn: "2026-09-03",
     reviewedBy: "test",
@@ -58,7 +58,7 @@ describe("external pack intake", () => {
     expect(result.findings).toEqual([]);
   });
 
-  it("treats only a document inside the archive as licence evidence", () => {
+  it("treats only a document inside the archive as license evidence", () => {
     expect(
       licenceIsVerified({
         spdxId: "CC0-1.0",
@@ -142,7 +142,7 @@ describe("external pack intake", () => {
         record({
           harvested: harvest,
           licence: {
-            statement: "No licence file.",
+            statement: "No license file.",
             evidence: "none",
             attributionRequired: false,
           },
@@ -218,7 +218,7 @@ describe("the three downloaded packs", () => {
   });
 
   it("separates the two reasons a pack can be unusable", () => {
-    // CC0 and unreachable: the licence is not the problem.
+    // CC0 and unreachable: the license is not the problem.
     for (const entry of [
       PACK_UNIVERSAL_BASE_CHARACTERS,
       PACK_UNIVERSAL_ANIMATION_LIBRARY,

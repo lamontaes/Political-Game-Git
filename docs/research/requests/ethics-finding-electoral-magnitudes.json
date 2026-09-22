@@ -24,5 +24,15 @@
   ],
   "title": "How much a public ethics finding costs a candidate, and what fines apply",
   "usableAnswer": "Three numbers with sources: (1) typical vote-share loss, in percentage points, for a candidate with a public adverse ethics finding during the race, ideally split between a formal finding and a substantiating report; (2) how that effect decays over later elections, as a half-life or a window in years; (3) per researched body, the civil penalty range for personal use of campaign funds, or a statement that the body has no fining power.",
-  "whyItMatters": "Until 2026-09-22 a finding against the player moved no vote, cost no money and changed no relationship. It now does, at placeholder sizes. Without researched sizes the consequence is either trivial or crushing, and every finding in every state costs the same."
+  "whyItMatters": "Until 2026-09-22 a finding against the player moved no vote, cost no money and changed no relationship. It now does, at placeholder sizes. Without researched sizes the consequence is either trivial or crushing, and every finding in every state costs the same.",
+  "answer": {
+    "summary": "No universal vote penalty for an official ethics finding is supported. Peters and Welch 1980 (House, 1968 to 1978): candidates accused of corruption lost 6 to 11 points and most were still re-elected; observational, and it measured charges, not findings. Welch and Hibbing 1997 (1982 to 1990) recaps the same range. Praino and others 2013: an immediate effect that can linger. Pereira and Waterbury 2019: only election-year scandals matter, except moral ones. The game's 300 basis points for a finding or conciliation, 150 for a supported report, and six-year window are unverified placeholders whose size and ordering are unvalidated; repayment is a separate remedy. For the 24 coded jurisdictions (the 23 bodies in src/simulation/press/state-ethics-bodies.ts plus Kentucky in procedures.ts) it lists each routing citation. Federal: 52 U.S.C. 30114(b) forbids personal use; 30109(a)(5)-(6) and 11 C.F.R. 111.24(a) cap the civil penalty at the greater of $24,885 or the amount involved, or for a knowing and willful violation the greater of $53,088 or 200% of the amount; these are ceilings, not fixed fines.",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-22-nationwide-2315/OCD-ETHICS-FINDING-ELECTORAL-MAGNITUDES--2026-09-22.md (Drive 1BfH-L3r9XZGhQftm_VnQkSJ-cmkbUUg3, SHA-256 b0a18381285a74cb6904e21b04d479e1133f856f6cef047d6987663097fd40aa)",
+      "docs/research/chatgpt-answers/2026-09-22-nationwide-2315/OCD-CTO-INTAKE--INVENTED-DEPTH-AUDIT-AND-2300Z-QUEUE--2026-09-22.md (Drive 1wYReCweJLIHRCP6y8GaWp8RhKxOrdtzw, SHA-256 905ba31340bd8d1f72bc89a09e3156e4f28cda1eae7985cf95a7624f30ed9848)"
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T23:15:00.000Z",
+    "stillOpen": "Every state body's personal-use penalty is UNKNOWN, which does not mean the state has none; no complete state review was done. The electoral rule stays a labeled design choice until the owner selects one."
+  }
 }

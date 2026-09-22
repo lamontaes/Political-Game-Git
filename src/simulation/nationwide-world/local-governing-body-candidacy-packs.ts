@@ -13,7 +13,7 @@ import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
  * establishes that this municipal government exists; the game then holds, as
  * its own disclosed profile, that a general-purpose municipal government has a
  * governing body its residents elect. That is the one thing this file adds,
- * and it is labelled as the game's, not the law's.
+ * and it is labeled as the game's, not the law's.
  *
  * Everything a real charter or statute would settle stays UNKNOWN here on
  * purpose: how many seats, whether they are at large or by ward, who may

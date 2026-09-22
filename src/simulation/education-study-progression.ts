@@ -794,7 +794,7 @@ function resolveStudyPath(
 /**
  * Import/normal-play migration seam for active studies created before period
  * progression. It is append-only: old sessions and payments remain evidence,
- * an obsolete open session is cancelled, and one canonical future due item is
+ * an obsolete open session is canceled, and one canonical future due item is
  * scheduled for the remaining period work.
  */
 export function migrateLegacyStudyProgression(world: World): World {

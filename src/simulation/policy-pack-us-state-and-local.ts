@@ -4,7 +4,7 @@ import type { PolicyPack } from "./policy-packs";
  * What state, county and city government in the United States is about.
  *
  * This is the first policy content the game has ever shipped. Until it, a new
- * world's catalogue was empty by design: the bill lifecycle underneath is the
+ * world's catalog was empty by design: the bill lifecycle underneath is the
  * deepest thing in the repository and it had nothing to be about, because
  * nobody had decided what the politics were. This pack is that decision,
  * arriving the way `policy-packs.ts` was built for content to arrive — as
@@ -27,7 +27,7 @@ import type { PolicyPack } from "./policy-packs";
  * about a particular city: whether *this* council was granted zoning power is
  * settled by its own capability record, which this pack does not touch and
  * must not be read as replacing. An issue that names no level is one no source
- * here established, which is a gap rather than a licence — a consumer that
+ * here established, which is a gap rather than a license — a consumer that
  * treats an empty list as "every level" is inventing authority.
  *
  * **This is not the synthetic catalogue.** `createSyntheticPolicyCatalog` in
@@ -90,7 +90,7 @@ export const US_STATE_AND_LOCAL_POLICY_PACK: PolicyPack = {
       key: "housing-land-use",
       name: "Housing and land use",
       description:
-        "Where people live and what may be built. Zoning, permitting, housing supply and affordability, tenant and landlord rules, building codes, homelessness, and neighbourhood planning.",
+        "Where people live and what may be built. Zoning, permitting, housing supply and affordability, tenant and landlord rules, building codes, homelessness, and neighborhood planning.",
     },
     {
       key: "transportation-infrastructure",
@@ -197,7 +197,7 @@ export const US_STATE_AND_LOCAL_POLICY_PACK: PolicyPack = {
       domain: "fiscal",
       name: "Fees and charges",
       description:
-        "What government charges for a service, a licence or a permit, and whether it covers the cost.",
+        "What government charges for a service, a license or a permit, and whether it covers the cost.",
       levels: ["state", "county", "municipality"],
     },
     {
@@ -373,7 +373,7 @@ export const US_STATE_AND_LOCAL_POLICY_PACK: PolicyPack = {
       domain: "education",
       name: "School choice",
       description:
-        "Charters, vouchers, open enrolment and what public money may follow a child out of a public school.",
+        "Charters, vouchers, open enrollment and what public money may follow a child out of a public school.",
       levels: ["state"],
     },
     {
@@ -705,7 +705,7 @@ export const US_STATE_AND_LOCAL_POLICY_PACK: PolicyPack = {
       domain: "transportation-infrastructure",
       name: "Broadband",
       description:
-        "Who is served, who is not, and whether government builds, subsidises or stays out.",
+        "Who is served, who is not, and whether government builds, subsidizes or stays out.",
       levels: ["state", "county", "municipality"],
     },
     {
@@ -737,7 +737,7 @@ export const US_STATE_AND_LOCAL_POLICY_PACK: PolicyPack = {
       domain: "business-commerce",
       name: "Occupational licensing",
       description:
-        "Which trades require a licence, what it takes to get one, and what it does to who can enter.",
+        "Which trades require a license, what it takes to get one, and what it does to who can enter.",
       levels: ["state"],
     },
     {
@@ -855,7 +855,7 @@ export const US_STATE_AND_LOCAL_POLICY_PACK: PolicyPack = {
       domain: "labor-workforce",
       name: "Collective bargaining",
       description:
-        "Who may organise, what is bargainable and what happens when talks fail.",
+        "Who may organize, what is bargainable and what happens when talks fail.",
       levels: ["state"],
     },
     {
@@ -871,7 +871,7 @@ export const US_STATE_AND_LOCAL_POLICY_PACK: PolicyPack = {
       domain: "labor-workforce",
       name: "Workforce training",
       description:
-        "Programmes connecting people to work that exists, and the shortages they are aimed at.",
+        "Programs connecting people to work that exists, and the shortages they are aimed at.",
       levels: ["state", "county"],
     },
     {
@@ -895,7 +895,7 @@ export const US_STATE_AND_LOCAL_POLICY_PACK: PolicyPack = {
       domain: "environment-energy",
       name: "Waste and recycling",
       description:
-        "Collection, landfill, diversion and what a programme costs when markets move.",
+        "Collection, landfill, diversion and what a program costs when markets move.",
       levels: ["state", "county", "municipality"],
     },
     {
@@ -926,7 +926,7 @@ export const US_STATE_AND_LOCAL_POLICY_PACK: PolicyPack = {
       domain: "environment-energy",
       name: "Energy efficiency",
       description:
-        "Standards, retrofits and programmes that reduce demand rather than adding supply.",
+        "Standards, retrofits and programs that reduce demand rather than adding supply.",
       levels: ["state", "county", "municipality"],
     },
     {
@@ -966,7 +966,7 @@ export const US_STATE_AND_LOCAL_POLICY_PACK: PolicyPack = {
       domain: "agriculture-natural-resources",
       name: "Farming and ranching",
       description:
-        "Production, land, labour, inputs and the support programmes around them.",
+        "Production, land, labor, inputs and the support programs around them.",
       levels: ["state"],
     },
     {
@@ -1076,7 +1076,7 @@ export const US_STATE_AND_LOCAL_POLICY_PACK: PolicyPack = {
       domain: "civil-family-community",
       name: "Parks and recreation",
       description:
-        "Parks, trails, pools and programmes, and the maintenance they need to stay usable.",
+        "Parks, trails, pools and programs, and the maintenance they need to stay usable.",
       levels: ["state", "county", "municipality"],
     },
     {

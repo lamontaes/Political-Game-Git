@@ -4,7 +4,7 @@
   "lane": "research intake",
   "notes": [
     "The owner's words: \"I would like to at least build the foundation to uh, have like media moguls decide to coordinate everything that they own. So, for example, um, a private equity company that owns a bunch of newspapers just laid off a bunch of people across the country.\"",
-    "Fictional names stay fictional; the research is for realistic behaviour and proportions, not real company names on player surfaces."
+    "Fictional names stay fictional; the research is for realistic behavior and proportions, not real company names on player surfaces."
   ],
   "priority": "P1",
   "question": "The owner wants the foundation for media owners who coordinate everything they own, for example a private equity firm that owns many newspapers and lays off staff across the country at once, or an owner that uses its papers in concert. What are the real patterns of group ownership in American news media: (1) the kinds of owners (chains, private equity and hedge funds, broadcast groups, family and nonprofit owners) and roughly how much of the local market each holds; (2) what coordinated actions owners actually take across their outlets (consolidated layoffs, shared or centralised content, must-run editorial segments, print-day cuts, closures and mergers, political endorsements set at the group level); (3) how much editorial independence individual outlets keep under each ownership type; and (4) what public data describes ownership and these actions, so the game can seed owners realistically.",
@@ -19,5 +19,15 @@
   ],
   "title": "How do media owners coordinate the outlets they own",
   "usableAnswer": "A short typology of owners with their real market share, a list of the coordinated actions each type actually takes with documented examples, a statement of how much independence outlets keep under each, and the named datasets that describe ownership (with what each covers and its date range).",
-  "whyItMatters": "Outlets in the game have no owner with intent today (outlets.ts says ownership implies no motive). An owner that acts across its outlets is a new actor in the political world, and building it without knowing the real patterns risks inventing either a cartoon villain or something inert."
+  "whyItMatters": "Outlets in the game have no owner with intent today (outlets.ts says ownership implies no motive). An owner that acts across its outlets is a new actor in the political world, and building it without knowing the real patterns risks inventing either a cartoon villain or something inert.",
+  "answer": {
+    "summary": "Medill's 2025 census: 47% of newspapers are independently owned (54% in 2005) and under 15% of surviving dailies; the ten largest firms hold nearly a quarter of papers and about 60% of dailies; just under 1,900 owners against 3,995 in 2005; 246 papers changed hands in 114 transactions. Over 95% of newspapers are for-profit, but 44% of standalone local digital outlets are nonprofit; INN members must have editorial-independence policies and donor agreements with no editorial input. For broadcast, FCC Forms 323 and 323-E identify owners, and station count, reach and audience are different measures. Documented coordinated actions: 246 ownership changes and 148 papers lost to closure or merger (only about a tenth of vanished papers belonged to the top ten); more than a third of home-page stories at the five largest chains came from outside the local newsroom (2024 audit); USA TODAY Co. filings show headcount cuts and conversion to mail delivery; Martin and McCrain 2019 found centrally produced must-run segments on Sinclair stations; group-level endorsements were not established (UNKNOWN by owner). Owner decision (2026-09-22): editors and staff can resist an owner directive, with consequences. Design: owner and outlet are separate actors, and the record keeps what was ordered, what the outlet did and what readers saw.",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-22-nationwide-2315/OCD-MEDIA-OWNERS-COORDINATING-OUTLETS--OWNERSHIP-AND-ACTIONS--2026-09-22.md (Drive 1FZzxbAEfP0sTi6JvOcLo64NxxAAdVoe_, SHA-256 ed0e13a4bc906b4d5727a1c7dd3ceeb8f4bcc02fe943ad7446016096a6093f35)",
+      "docs/research/chatgpt-answers/2026-09-22-nationwide-2315/OCD-CTO-INTAKE--INVENTED-DEPTH-AUDIT-AND-2300Z-QUEUE--2026-09-22.md (Drive 1wYReCweJLIHRCP6y8GaWp8RhKxOrdtzw, SHA-256 905ba31340bd8d1f72bc89a09e3156e4f28cda1eae7985cf95a7624f30ed9848)"
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T23:15:00.000Z",
+    "stillOpen": "The current private-equity share across all news media; any universal ownership-type-to-editorial-freedom coefficient; how common group endorsements are; numeric rates for layoffs, closures or resistance. The forms of resistance and their employment consequences still need bounded design and sources."
+  }
 }

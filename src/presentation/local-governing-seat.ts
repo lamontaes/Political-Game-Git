@@ -39,7 +39,7 @@ export interface LocalGoverningSeat {
   readonly hasCityScreen: boolean;
   /**
    * How many seats the body has and how long a term runs: the town's own rule
-   * where it was read, a typical value otherwise, and labelled so.
+   * where it was read, a typical value otherwise, and labeled so.
    */
   readonly seats: LocalRuleValue | null;
   readonly termYears: LocalRuleValue | null;

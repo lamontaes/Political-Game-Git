@@ -14,7 +14,7 @@ import { makeIsoDate } from "./dates";
  * Built here rather than borrowed from a shipped set. These tests used to lean
  * on Alaska's `provisionEffectiveOn` being null, which made them quietly
  * dependent on a gap in the data: the moment the date was supplied they failed,
- * though the behaviour they check had not changed at all. The observation
+ * though the behavior they check had not changed at all. The observation
  * fallback has to keep being exercised after every state has a date.
  */
 function undatedRuleSet() {

@@ -9,12 +9,12 @@
  * words, at a different threshold — which is what keeps the read model from
  * quietly hard-coding one statute's structure as the shape of campaign law.
  *
- * Nebraska's rule and Minnesota's are genuinely different rules and are modelled
+ * Nebraska's rule and Minnesota's are genuinely different rules and are modeled
  * as such. Minnesota bars accepting money above $750 in aggregate from anyone
  * but the candidate without a designated principal campaign committee. Nebraska
  * bars accepting any contribution or making any expenditure by a committee that
  * has not filed a statement of organization and has no treasurer — no threshold
- * at all. Flattening them into one parameterised rule would have invented a
+ * at all. Flattening them into one parameterized rule would have invented a
  * threshold for Nebraska or removed Minnesota's.
  *
  * The federal alternative was considered and rejected on the facts. The

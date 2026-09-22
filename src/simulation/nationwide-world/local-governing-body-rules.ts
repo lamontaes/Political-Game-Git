@@ -33,7 +33,7 @@ import { localGoverningBodyIdentity } from "./local-governing-body-candidacy-pac
  *   `town-council-size-by-town-size`.
  * - "Other" term lengths (1.9%) are left out of the draw.
  *
- * A typical value is labelled as typical wherever it is shown, and it never
+ * A typical value is labeled as typical wherever it is shown, and it never
  * enters the town's candidacy pack as though the town recorded it. Reading a
  * town's charter later replaces the typical value with the read one.
  */

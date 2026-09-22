@@ -8,7 +8,7 @@ Getting on with the day used to move the date and leave the clock alone. If you
 had spent your evening, tomorrow opened at a quarter past eight at night, and so
 did the day after that. Campaign work never books anything that would run past
 nine, so after five or six afternoons on the phones or the doors every campaign
-button went grey and stayed grey — and pressing on through a week, or twenty
+button went gray and stayed gray — and pressing on through a week, or twenty
 days, could not bring one back, because every one of those days opened at the
 same late hour.
 
@@ -92,7 +92,7 @@ offered when there's somebody at home old enough for it to be true.
 ## UNRELEASED — One life, told once
 
 The game has a name on its title screen: Our Civic Duty. New Game, Continue,
-Saved Games, Options and Quit, with Quit sitting there greyed out rather than
+Saved Games, Options and Quit, with Quit sitting there grayed out rather than
 pretending to be something it is not yet.
 
 The biggest change is one you feel rather than see a control for. Playing used
@@ -201,7 +201,7 @@ plainly instead of filling it with development mannequins: the people who belong
 in that room have not been drawn.
 
 The old placeholder office is still there, still working, and now clearly
-labelled as the development room it always was.
+labeled as the development room it always was.
 
 The two people in the development office now sit in their chairs rather than
 near them. The woman at the desk was hovering above her seat and the man in the
@@ -279,7 +279,7 @@ Repaired after an independent audit, before review:
 
 ## PRE-ALPHA 0.4.0
 
-_Released 19 September 2026._
+_Released September 19, 2026._
 
 ### Added
 
@@ -700,7 +700,7 @@ _Released 19 September 2026._
   is. It shows your current location, the places you can travel to with the time
   each one costs, and the public meetings you may attend with their duration
   stated before you commit to them. Going home is a separate action from
-  travelling, and when you are already home it says so instead of offering you a
+  traveling, and when you are already home it says so instead of offering you a
   trip you do not need. Looking at any of it changes nothing: reading the list
   does not move you, spend your time, or record anything.
 
@@ -891,7 +891,7 @@ _Released 19 September 2026._
   Anybody you click — in the room, on the People web, in a list or a pin — opens
   one card on the right with their face, what they are to you, what you actually
   know, who they are connected to, and the real actions. Conversation sits at
-  the bottom centre with the faces along the top, the speaker lit, narration in
+  the bottom center with the faces along the top, the speaker lit, narration in
   italics and one line at a time; browsing elsewhere keeps the exchange and
   offers a way back. The Calendar opens on today and what is next, keeps History
   separate, and carries the interruption checklist that decides where a day or
@@ -926,7 +926,7 @@ _Released 19 September 2026._
   real conversation, rather than refusing without one. The words come from the
   same producer the rest of the game already uses, so what is said is what this
   life actually knows. Where a conversation genuinely is not available yet, the
-  room tells you why instead of leaving the action greyed out with nothing said.
+  room tells you why instead of leaving the action grayed out with nothing said.
 
 - **Stop a previous room's art from lingering in one with none.** Switching to a
   room that has no released art no longer keeps showing the last room's picture
@@ -1277,7 +1277,7 @@ _Released 19 September 2026._
   there after you save and come back. Browsing everyone you know, rather than
   everyone in the room, is under People, and that is where you can keep somebody
   who is not standing in front of you. When an action is refused, the reason is
-  now written beside it rather than left to a greyed-out button. If you cannot
+  now written beside it rather than left to a grayed-out button. If you cannot
   talk to somebody yet, the room says why.
 
 - **Education advances by academic periods** Simplified education progression to
@@ -1295,10 +1295,10 @@ _Released 19 September 2026._
 
 ## PRE-ALPHA 0.3.0 — "A Life, Not a Fixture"
 
-_Proposed 2 September 2026, accepted as it stands. Everything below is in
+_Proposed September 2, 2026, accepted as it stands. Everything below is in
 the game: the title screen, the new-life setup, saved games and the childhood
 you play through all merged before this was accepted, so the number describes
-what is there rather than what was hoped for. Work finished after 2 September
+what is there rather than what was hoped for. Work finished after September 2
 is not part of this release and is recorded in the sections above it._
 
 Opening the game now starts a game. There is a title screen, a new life to set
@@ -1336,7 +1336,7 @@ before any of the politics arrives.
   same history and the same face. Keep several and tell them apart at a glance.
   Deleting one asks first.
 - **The growing-up years.** Fifteen situations across early childhood,
-  childhood and adolescence, each a described moment rather than a summarised
+  childhood and adolescence, each a described moment rather than a summarized
   choice, and each with a real second option. Six of them are new. What the
   character remembers afterwards is written as a memory, not as the words that
   were on the button.
@@ -1468,7 +1468,7 @@ what the team can see, not what a player can._
 
 ## PRE-ALPHA 0.2.0 — "The Bill Becomes Law"
 
-_Revised 2 September 2026 after an independent review of the legislating build._
+_Revised September 2, 2026 after an independent review of the legislating build._
 
 You can now actually legislate. Write a bill, get it through committee, win the
 floor votes, survive the other chamber, and find out what the governor does with
@@ -1484,7 +1484,7 @@ colleagues will stand with you.
   governor's desk, and — if it comes to that — a veto override. Bills that make
   it are law; bills that fail stay in the record as bills that failed.
 - **Every vote is a real vote.** Each member is counted by name and by decision:
-  in favour, against, not voting, excused, absent. The chamber's own rules
+  in favor, against, not voting, excused, absent. The chamber's own rules
   decide how many votes you need, and the game tells you the number before you
   call the question. Nothing is nudged, weighted, or smoothed.
 - **Three legislatures that genuinely work differently.**
@@ -1569,12 +1569,12 @@ colleagues will stand with you.
 
 ### Known Issues
 
-- Only three legislatures are modelled. The rest of the country is not in yet.
+- Only three legislatures are modeled. The rest of the country is not in yet.
 - Members vote from the scenario's written record. There is no bargaining,
   lobbying, whipping, or persuasion yet — the seams for it are in place, but the
   arm-twisting is not.
 - Committee substitutes, conference committees between two disagreeing chambers,
-  procedural motions on the floor, and appropriations rules are not modelled.
+  procedural motions on the floor, and appropriations rules are not modeled.
 - Adopting an amendment does not yet rewrite the bill's text. The change is
   recorded, and the other chamber really does have to agree to it, but you
   cannot read the two versions side by side.

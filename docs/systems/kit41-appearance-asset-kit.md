@@ -33,7 +33,7 @@ Each item remains private, draft/pending/unreleased. Importing does not approve 
 
 Body, Face, Hairstyle, Shirt, Trousers and Shoes share the same complete-outfit transaction before Begin and in Personal. A face needing its matching painted hair opens an explicit proposal; Cancel preserves the previous recipe. Randomize buttons affect only their named choice; the all-appearance button previews a combined change. Begin commits the selected recipe after ordinary life creation. Questionnaire answers finish before the final appearance review, because they can affect the generated identity.
 
-Colour controls only expose genuine prepared regions. Current six-body painted art retains its source colours; the UI says so. Older saved families with actual skin/hair/clothing material ramps keep those controls. Eye colour is part of the selected painted face; there is no independent iris control. Missing child art is identified honestly.
+Color controls only expose genuine prepared regions. Current six-body painted art retains its source colors; the UI says so. Older saved families with actual skin/hair/clothing material ramps keep those controls. Eye color is part of the selected painted face; there is no independent iris control. Missing child art is identified honestly.
 
 Technical validation is separate from owner visual acceptance. All captures and artwork are private review material.
 
@@ -45,4 +45,4 @@ Run `node --import tsx scripts/dev-lab/kit41-browser.ts`, then `kit41-consumers.
 
 ## LEARN
 
-Freeze source hashes before consumer captures. A screenshot receipt can be reused only when the referenced source bytes match. Keep evidence outside watched source folders to avoid hot reload during a save proof. The People Web portrait is decorative within its existing semantic circle: pointer events must reach that one action, while Enter and Space remain on the circle. Never manufacture a colour control from an unmasked painted feature.
+Freeze source hashes before consumer captures. A screenshot receipt can be reused only when the referenced source bytes match. Keep evidence outside watched source folders to avoid hot reload during a save proof. The People Web portrait is decorative within its existing semantic circle: pointer events must reach that one action, while Enter and Space remain on the circle. Never manufacture a color control from an unmasked painted feature.

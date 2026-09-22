@@ -306,7 +306,7 @@ export function isParticularizedProvision(provision: {
 /**
  * Who the provision reaches, in plain language.
  *
- * There is deliberately no judgement in this sentence. A narrowly written
+ * There is deliberately no judgment in this sentence. A narrowly written
  * provision may be a bad bargain, an obvious local necessity, or both, and the
  * game leaves that to the people arguing about it.
  */
@@ -327,7 +327,7 @@ export function describeProvisionReach(provision: {
 
 /**
  * One canonical identity for a legislative question, used everywhere a
- * question has to be recognised as the same question.
+ * question has to be recognized as the same question.
  *
  * There are two of those places and they used to disagree. Supersession asked
  * whether a member had said something newer about the same thing, and compared
@@ -737,7 +737,7 @@ export function assessCommitment(
     };
   }
 
-  // Whether anything is owed comes first. A vote cannot honour a promise that
+  // Whether anything is owed comes first. A vote cannot honor a promise that
   // was never in force, however neatly it happens to match: a member who votes
   // yes while the thing they asked for is still missing has not kept a promise
   // to vote yes, because there was no such promise to keep yet.

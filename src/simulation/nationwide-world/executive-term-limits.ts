@@ -28,7 +28,7 @@ import { stateExecutiveIdentity } from "./state-executive-candidacy-packs";
  *   Blanket rule meanwhile, per the owner's standing rule for unread states:
  *   a limit drawn from the limits the researched states actually enacted,
  *   fixed per state so it never changes between saves, and never copied from a
- *   neighbour. The draw is labelled as the game's own wherever it is recorded.
+ *   neighbor. The draw is labeled as the game's own wherever it is recorded.
  *   Real states with no limit at all exist; none has been read, so "no limit"
  *   is not in the spread yet. It enters the moment a state without one is.
  *
@@ -41,7 +41,7 @@ import { stateExecutiveIdentity } from "./state-executive-candidacy-packs";
  * - A lifetime count is every term recorded in the office, narrowed to the
  *   last `lookbackYears` where the limit gives one.
  * - A partial term served after succeeding to a vacancy counts as a term.
- *   NOT MODELLED: the many real rules that count a partial term only past a
+ *   NOT MODELED: the many real rules that count a partial term only past a
  *   share of its length. Blanket rule meanwhile: any recorded term counts.
  * - Where a changing law is silent on whether terms already served count,
  *   they count. That is the reading under which "three terms instead of two"
