@@ -1,5 +1,5 @@
 /**
- * The "Game build" chooser, projected from records the hub already has
+ * The "Game version" chooser, projected from records the hub already has
  * (CRUNCH46 H2). Pure: no Electron, no network, no git.
  *
  * - Main game is always first and recommended.
