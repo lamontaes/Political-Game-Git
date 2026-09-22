@@ -94,8 +94,11 @@ below are what is left on top of it.
 **Player-recognisable:** someone who has been a certain way for nine years is
 not moved by one afternoon, and the time you failed to move them is remembered.
 **Lane:** people-and-life. **Depends on:** the trait pack seam (built).
-**Start now:** yes — the design is written and approved in
-`docs/systems/traits.md`, marked PROPOSED.
+**Status, measured 2026-09-22 on `origin/claude/people-and-life-4qpuwb`
+`6f26b575`: BUILT.** `attemptTraitChange` in `src/simulation/people-trait-change.ts`
+is the mechanism, with `traitChangePressure` reading resistance from the
+person's own record chain and failed attempts recorded so pressure accumulates.
+Covered by `trait-resistance.test.ts`. What remains is A2.
 **His words, 2026-09-22 03:36:** *"every character should be able to change with
 varying levels of resistance."*
 **The shape, from the same document:** resistance is read from the person's own
@@ -108,9 +111,14 @@ rather than discarded**.
 
 ### A2 · Nobody's temperament has ever actually moved
 **Player-recognisable:** people are the same at sixty as at eighteen.
-**Lane:** people-and-life. **Depends on:** A1. **Start now:** yes.
-`recordTraitChange` has **no production caller at all**. A1 gives it a contract;
-this gives it a producer — at least one ordinary life event that argues for a
+**Lane:** people-and-life. **Depends on:** A1 (built). **Start now:** yes —
+this is the live 1A gap.
+**Measured on `origin/claude/people-and-life-4qpuwb` `6f26b575`:**
+`attemptTraitChange` is referenced in exactly three places — its own
+definition, `trait-resistance.test.ts`, and `docs/systems/traits.md`. Nothing
+in play calls it. The mechanism is built and the supply is not, which is this
+project's recurring failure shape rather than a new one.
+The task is a producer: at least one ordinary life event that argues for a
 change and either moves somebody or records that it did not.
 **Alive criteria:** *change without player initiation*; *save/reopen preserves
 consequences*.
@@ -120,25 +128,34 @@ consequences*.
 **Lane:** people-and-life. **Depends on:** the pack seam. **Start now:** yes.
 **His words, 2026-09-22 03:36:** *"obviously you as a character need your own.
 it's how you are portayed to people."*
-**The shape:** the existing guard stays — the game never authors who the player
-is. What is added is a path that records the player's traits from the player's
-own choices with `player-choice` provenance, and consumers that read them when
-other people size the player up. The player's own trait never argues for the
-player's own option.
+**Measured on `origin/claude/people-and-life-4qpuwb` `6f26b575`:** the writer
+is built. `recordPlayerTraitChoice` in `src/simulation/people-player-traits.ts`
+records with `player-choice` provenance and `playerTemperament` reads it back,
+with no exception added to the `mind.ts` wall. But its only callers are
+`player-traits.test.ts`, so no choice a player makes has ever written one.
+**What is left:** the same gap as A2 — a call site in play, and consumers that
+read the player's temperament when other people size the player up. The
+player's own trait never argues for the player's own option.
 **Alive criteria:** *the same matter remains coherent across people,
 conversation and Work*.
 
-### A4 · Someone gets in touch with you first
-**Player-recognisable:** the phone rings.
-**Lane:** people-and-life. **Depends on:** nothing. **Start now:** yes — this is
-a one-line-deep defect with a producer already behind it.
-`src/presentation/person-contact.ts:81` on `origin/main` `273fd2b8` reads
-`const contactAvailable = false;` and line 136 hands that straight to the panel.
-The contact producer, its 45-day spacing, its 240-day same-pair rule and its
-two-unanswered-attempt limit all exist (audit PEOPLE-004).
-**Alive criterion, named word for word in the standard:** *"at least one NPC
-initiates contact for a recorded reason."* This single constant is standing
-between the build and one of the nine.
+### A4 · Someone gets in touch with you first — WITHDRAWN, already met
+**I got this wrong and the people-and-life lane caught it.** I read
+`const contactAvailable = false;` at `src/presentation/person-contact.ts:81`
+as a producer switched off. It is not. It is the player's **outbound** Contact
+button, and the reason sitting beside it is true: *"No phone, mail or message
+channel exists in this life yet."* Flipping it would claim a producer that does
+not exist, which is the failure the Constitution names directly.
+
+**The criterion is already met.** `produceReachingOut`
+(`src/simulation/people-contact.ts`) is wired into play through
+`contextual-scene-producers.ts:530` on `origin/main` `273fd2b8` and runs while
+time passes, whether or not the player ever opens that person's page. NPCs do
+initiate contact for a recorded reason. The lane added test coverage for it
+tonight, including a negative control.
+
+**Nothing to do here.** An outbound channel is a separate feature and is not an
+aliveness task; nobody should plan work from this item.
 
 ### A5 · Your life reads back as a story, not a log
 **Player-recognisable:** the journal says you ran for governor and what it cost
@@ -507,7 +524,18 @@ itself:
   `:429`, and `character-history.ts:1159` still calls `advanceWorld` with two
   arguments while `people-continuation.ts:638` passes handlers. Whether it is
   reachable today is unmeasured. A fixture that schedules across a call
-  boundary would settle it in an hour.
+  boundary would settle it in an hour. **Update, 2026-09-22:** people-and-life
+  could not reproduce it — 24 lives across six places, 220 days each, three
+  step granularities, zero throws — and blind probing is exhausted. That is
+  consistent with 61B itself, which said the throw was *"NOT currently
+  reachable, because the only production scheduler — the committee hearing —
+  schedules and resolves inside the same call."* It named
+  `formative-play.ts:353`, `ordinary-life.ts:234` and `character-history.ts:1061`;
+  at `273fd2b8` neither `formative-play.ts` nor `ordinary-life.ts` calls
+  `advanceWorld` at all, so most of what it described no longer exists. The
+  remaining question is narrow and is not answered by walking lives: does any
+  production scheduler now create a due item that outlives the call that
+  scheduled it? If none does, this is latent and should be closed, not chased.
 - **P8, the behaviour it calls the one most responsible for "the game
   remembered that".** Callbacks that fire because preserved causal state says
   they should. It reported the ingredients present and never assembled. This is
