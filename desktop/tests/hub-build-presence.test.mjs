@@ -147,6 +147,22 @@ test("a linear cloud successor reuses the verified runtime-content pair", () => 
   assert.match(source, /received\?\.outcome !== "pending"/);
 });
 
+test("accepted main builds with runtime content once its code supports it", () => {
+  const source = read("private-update-worker.mjs");
+  // Tried before the pinned pack, so a code change cannot strand main's art.
+  assert.match(
+    source,
+    /runtimeContentFor\(state, id\)[\s\S]*?supportsRuntimeContent\(repositoryPath, targetRevision\)[\s\S]*?prepareRuntimeContentSuccessor\([\s\S]*?if \(!requestedPack/,
+  );
+  assert.match(source, /"runtime-art-v1",\s*revision,/);
+  // Main has no received channel; it records a pending build directly.
+  assert.match(
+    source,
+    /if \(isMain\) \{[\s\S]*?withPending\(latest, id, branch, build\)[\s\S]*?\}\s*publishReceivedChannel\(\{/,
+  );
+  assert.match(source, /isMain\s*\? "accepted-main"/);
+});
+
 test("the hub state reports a missing payload instead of a verified label", () => {
   const source = read("main.mjs");
   assert.match(source, /const present = buildPresentOnDisk\(track\.current\)/);
