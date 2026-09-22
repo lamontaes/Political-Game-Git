@@ -631,8 +631,15 @@ function produceNonPlayerResponses(world: World, lead: StoryLeadRecord): World {
   // deadline finds it closed, and silence is then the answer — which is what
   // the story already reports as no response, never as an admission.
   if (!openResponseRequest(next, lead.id)) return next;
+  // On an allegation, only the people it is about are asked to answer it.
+  // The lead also names whoever made or reported the allegation, and asking
+  // them had an accuser print a denial of her own account.
+  const accused = lead.matterId
+    ? requirePressRecord(next, "matter", lead.matterId).subjectPersonIds
+    : null;
   for (const personId of lead.subjectPersonIds) {
     if (personId === controlled || !next.people[personId]) continue;
+    if (accused && !accused.includes(personId)) continue;
     const answered = dispositionsForLead(next, lead.id).some(
       (record) =>
         record.decision === "subject-responded" &&

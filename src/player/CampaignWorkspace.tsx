@@ -411,7 +411,7 @@ export function CampaignWorkspace({
         </div>
       ) : null}
 
-      {view.phase === "can-file" ? (
+      {view.phase === "can-file" || view.canFileAgain ? (
         <div data-testid="campaign-offer" className="game-campaign-offer">
           <p>
             {selectedOffice
@@ -693,7 +693,7 @@ export function CampaignWorkspace({
                 {view.tallies.map((tally) => (
                   <li key={tally.candidatePersonId}>
                     {tally.candidateName}
-                    {tally.isThisCandidate ? " (them)" : ""} —{" "}
+                    {tally.isThisCandidate ? " (you)" : ""} —{" "}
                     {tally.displayedSharePercent}%
                   </li>
                 ))}
