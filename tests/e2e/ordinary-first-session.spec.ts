@@ -112,6 +112,13 @@ async function play(page: Page, tag: string, state: string, town: string) {
 }
 
 test("an ordinary first session, two contrasting places", async ({ page }) => {
+  // An exploration run by hand against a chosen build, not a pipeline gate:
+  // it prints what each surface offers rather than asserting an outcome, so
+  // CI skips it and it never reds a PR it is only riding along on.
+  test.skip(
+    Boolean(process.env.CI),
+    "manual playtest exploration; run locally against a chosen build",
+  );
   test.setTimeout(240_000);
   await play(page, "A", "Ohio", "Columbus");
   await play(page, "B", "Montana", "Bozeman");
