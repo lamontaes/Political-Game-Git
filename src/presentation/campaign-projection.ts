@@ -20,7 +20,9 @@ import {
   ensureCampaignOpponents,
   fileCampaign,
   lifePlaceByJurisdictionId,
+  localGoverningBodyIdentityForOfficeKey,
   makeCurrencyCode,
+  nextStateLegislativeElection,
   performCampaignAction,
   personName,
   requireElectionContest,
@@ -37,6 +39,7 @@ import type {
   DistrictSeatBinding,
   ElectiveOfficeOption,
   EntityId,
+  IsoDate,
   MoneyAmount,
   World,
 } from "../simulation";
@@ -344,7 +347,14 @@ export function projectCampaign(
   const placeName = place?.displayName ?? null;
   const existing = campaignForCandidate(world, personId);
 
-  if (!existing)
+  // A race that is over does not close the office list: once the player picks
+  // an office again, they are offered the filing for it, as before their
+  // first race. Until they do, the last race's result stays on the screen.
+  if (
+    !existing ||
+    (selectedOfficeKey !== null &&
+      campaignState(world, existing.id).status !== "active")
+  )
     return notYetFiled(
       world,
       personId,
@@ -652,11 +662,37 @@ function latestReading(
  * The opponent is materialized first and separately, because they are a person
  * in this world afterwards rather than a fixture belonging to a screen.
  */
+/**
+ * The election a filing for this office stands in. A state legislative seat
+ * is elected at the state's next regular legislative election, on the state's
+ * own calendar. A town's own body keeps the short authored schedule, which
+ * belongs to the local-races work and has no calendar of its own yet.
+ */
+export function campaignElectionDate(
+  world: World,
+  jurisdictionId: EntityId,
+  officeKey: string,
+) {
+  const stateKey =
+    lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey ?? null;
+  if (localGoverningBodyIdentityForOfficeKey(officeKey) || !stateKey)
+    return addDays(world.currentDate, 28);
+  return nextStateLegislativeElection(
+    stateKey.replace(/^US-/, ""),
+    world.currentDate,
+  ).electionDate;
+}
+
 export function fileForOffice(
   world: World,
   personId: EntityId,
   districtBinding: DistrictSeatBinding | null = null,
   officeKey: string | null = null,
+  /**
+   * Scenario fixtures only: an authored election date in place of the
+   * office's own calendar. Play never passes it.
+   */
+  authoredElectionDate: IsoDate | null = null,
 ): World {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
@@ -671,32 +707,12 @@ export function fileForOffice(
   const opponents = ensureCampaignOpponents(world, {
     stableKey,
     jurisdictionId,
-    // One opponent, which is a placeholder and is known to be one.
-    //
-    // A flat field of two to four was built here and withdrawn on lamontae's
-    // ruling of 2026-09-22: "You should only have more than one opponent in
-    // the primary, or if there's an independent, you can also have no
-    // opponent." A field belongs in a primary; a general carries the nominees
-    // plus any independent who ran; and an unopposed seat has to stay
-    // possible, because that is real. None of those three exist yet, and each
-    // of them needs a place on the year, which is the same thing the 28-day
-    // countdown below is standing in for. Recorded in
-    // `docs/playtest/a-real-field-of-candidates-2026-09-22.md`; the shape is
-    // filed as research in `state-legislative-seat-calendar-and-field`.
     count: 1,
     excludePersonIds: [personId],
   });
-  // Long enough to have to choose what to spend the weeks on, short enough
-  // that the election is a thing this life reaches rather than a horizon.
-  //
-  // This is a placeholder and is known to be one. The seat's real calendar is
-  // computed and tested in `legislative-election-rules.ts`, and wiring it in
-  // here fails seven tests that live the weeks to election day, because a
-  // November general can be up to four years out and nothing in this model
-  // lets a player file only when a filing window opens — no pack knows when
-  // filing opens, so the gate that would make a real date playable does not
-  // exist yet. Recorded in `docs/playtest/a-real-election-date-2026-09-22.md`.
-  const electionDate = addDays(world.currentDate, 28);
+  const electionDate =
+    authoredElectionDate ??
+    campaignElectionDate(world, jurisdictionId, officeKey);
   return fileCampaign(opponents.world, {
     stableKey,
     candidatePersonId: personId,
