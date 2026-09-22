@@ -135,12 +135,18 @@ export interface WaveAVisualObservation {
   /** `high` when the reading is unambiguous at review scale. */
   readonly confidence: "high" | "ambiguous";
   /**
-   * Which way a three-quarter figure is turned, VIEWER-RELATIVE: `left` means
-   * turned toward the viewer's left. Absent on a row nobody has read for
-   * direction, and an absent direction is not a guess of `left` — a
-   * three-quarter crop without one stays unadmitted, because a registered pose
-   * family declares one facing and filing a figure under the mirror of its own
-   * turn would seat it backwards in its chair.
+   * Which way a three-quarter figure is turned. The direction is read by
+   * MATCHING one of the project's two reference plates rather than by reasoning
+   * about left and right from scratch: `art/qa/p71/source_intake_dispositions.json`
+   * calls `ocd_body_adult_fem_seated_guest_three_quarter_v1` three-quarter right
+   * and `ocd_body_adult_fem_seated_conversational_left_v1` three-quarter left,
+   * and the two are mirror images. Every wave-a turned seated crop matches the
+   * first, so they are `right`.
+   *
+   * Absent on a row nobody has read for direction, and an absent direction is
+   * not a guess — a three-quarter crop without one stays unadmitted, because a
+   * registered pose family declares one facing and filing a figure under the
+   * mirror of its own turn would seat it backwards in its chair.
    */
   readonly facingDirection?: "left" | "right";
   readonly note?: string;
@@ -197,7 +203,7 @@ export const WAVE_A_VISUAL_OBSERVATIONS: Readonly<
       bakedProp: "none",
       extent: "complete-figure",
       confidence: "high",
-      facingDirection: "left",
+      facingDirection: "right",
     },
   "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_front_neutral_v1.png":
     {
@@ -268,7 +274,7 @@ export const WAVE_A_VISUAL_OBSERVATIONS: Readonly<
       bakedProp: "none",
       extent: "complete-figure",
       confidence: "high",
-      facingDirection: "left",
+      facingDirection: "right",
     },
   "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_seated_front_neutral_v1.png":
     {
@@ -338,7 +344,7 @@ export const WAVE_A_VISUAL_OBSERVATIONS: Readonly<
       bakedProp: "none",
       extent: "complete-figure",
       confidence: "high",
-      facingDirection: "left",
+      facingDirection: "right",
     },
   "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_front_chair_v1.png":
     {
@@ -407,7 +413,7 @@ export const WAVE_A_VISUAL_OBSERVATIONS: Readonly<
       bakedProp: "none",
       extent: "complete-figure",
       confidence: "high",
-      facingDirection: "left",
+      facingDirection: "right",
     },
   "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_front_neutral_v1.png":
     {
@@ -476,7 +482,7 @@ export const WAVE_A_VISUAL_OBSERVATIONS: Readonly<
       bakedProp: "none",
       extent: "complete-figure",
       confidence: "high",
-      facingDirection: "left",
+      facingDirection: "right",
     },
   "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_front_chair_v1.png":
     {
@@ -545,7 +551,7 @@ export const WAVE_A_VISUAL_OBSERVATIONS: Readonly<
       bakedProp: "none",
       extent: "complete-figure",
       confidence: "high",
-      facingDirection: "left",
+      facingDirection: "right",
     },
   "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_seated_front_neutral_v1.png":
     {
@@ -638,8 +644,8 @@ export function registeredPoseFamilyFor(
     // filing a figure under the mirror of its turn seats it backwards in its
     // own chair.
     if (observation.facing === "three-quarter") {
-      if (observation.facingDirection === "left")
-        return "seated-guest-three-quarter-left";
+      if (observation.facingDirection === "right")
+        return "seated-guest-three-quarter-right";
       return null;
     }
     return null;

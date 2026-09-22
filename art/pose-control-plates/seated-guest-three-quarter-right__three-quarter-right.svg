@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- pose-control-plate-v1 | pose seated-guest-three-quarter-left | posture seated | facing three-quarter-left | body canvas 1530x2048 | GENERATED, do not hand-edit; run npm run derive:pose-plates -->
+<!-- pose-control-plate-v1 | pose seated-guest-three-quarter-right | posture seated | facing three-quarter-right | body canvas 1530x2048 | GENERATED, do not hand-edit; run npm run derive:pose-plates -->
 <svg xmlns="http://www.w3.org/2000/svg" width="1530.00" height="2073.99" viewBox="0 -5.51 1530.00 2073.99">
 <rect x="0" y="-5.51" width="1530.00" height="2073.99" fill="#000000"/>
 <rect x="0.5" y="0.5" width="1529.00" height="2047.00" fill="none" stroke="#3a3a3a" stroke-width="1"/>

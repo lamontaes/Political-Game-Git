@@ -17,7 +17,7 @@
     ],
     "admittedPoseFamilies": [
       "seated-guest-neutral",
-      "seated-guest-three-quarter-left",
+      "seated-guest-three-quarter-right",
       "standing-neutral"
     ],
     "byDisposition": {
@@ -56,7 +56,7 @@
         "bakedProp": "none",
         "extent": "complete-figure",
         "confidence": "high",
-        "facingDirection": "left"
+        "facingDirection": "right"
       },
       "measurement": {
         "cropWidth": 882,
@@ -83,7 +83,7 @@
         "widestRowYFraction": 0.372195
       },
       "rigPlausible": false,
-      "registeredPoseFamily": "seated-guest-three-quarter-left",
+      "registeredPoseFamily": "seated-guest-three-quarter-right",
       "disposition": "retained-unmeasurable-rig",
       "priorClaimDisagreements": [],
       "unresolved": [
@@ -562,7 +562,7 @@
         "bakedProp": "none",
         "extent": "complete-figure",
         "confidence": "high",
-        "facingDirection": "left"
+        "facingDirection": "right"
       },
       "measurement": {
         "cropWidth": 866,
@@ -589,7 +589,7 @@
         "widestRowYFraction": 0.389706
       },
       "rigPlausible": false,
-      "registeredPoseFamily": "seated-guest-three-quarter-left",
+      "registeredPoseFamily": "seated-guest-three-quarter-right",
       "disposition": "retained-unmeasurable-rig",
       "priorClaimDisagreements": [],
       "unresolved": [
@@ -1272,7 +1272,7 @@
         "bakedProp": "none",
         "extent": "complete-figure",
         "confidence": "high",
-        "facingDirection": "left"
+        "facingDirection": "right"
       },
       "measurement": {
         "cropWidth": 872,
@@ -1299,7 +1299,7 @@
         "widestRowYFraction": 0.387968
       },
       "rigPlausible": true,
-      "registeredPoseFamily": "seated-guest-three-quarter-left",
+      "registeredPoseFamily": "seated-guest-three-quarter-right",
       "disposition": "admitted-candidate-body",
       "priorClaimDisagreements": [],
       "unresolved": [
@@ -1781,7 +1781,7 @@
         "bakedProp": "none",
         "extent": "complete-figure",
         "confidence": "high",
-        "facingDirection": "left"
+        "facingDirection": "right"
       },
       "measurement": {
         "cropWidth": 832,
@@ -1808,7 +1808,7 @@
         "widestRowYFraction": 0.589319
       },
       "rigPlausible": true,
-      "registeredPoseFamily": "seated-guest-three-quarter-left",
+      "registeredPoseFamily": "seated-guest-three-quarter-right",
       "disposition": "admitted-candidate-body",
       "priorClaimDisagreements": [],
       "unresolved": [
@@ -2283,7 +2283,7 @@
         "bakedProp": "none",
         "extent": "complete-figure",
         "confidence": "high",
-        "facingDirection": "left"
+        "facingDirection": "right"
       },
       "measurement": {
         "cropWidth": 848,
@@ -2310,7 +2310,7 @@
         "widestRowYFraction": 0.587838
       },
       "rigPlausible": true,
-      "registeredPoseFamily": "seated-guest-three-quarter-left",
+      "registeredPoseFamily": "seated-guest-three-quarter-right",
       "disposition": "admitted-candidate-body",
       "priorClaimDisagreements": [],
       "unresolved": [
@@ -2782,7 +2782,7 @@
         "bakedProp": "none",
         "extent": "complete-figure",
         "confidence": "high",
-        "facingDirection": "left"
+        "facingDirection": "right"
       },
       "measurement": {
         "cropWidth": 851,
@@ -2809,7 +2809,7 @@
         "widestRowYFraction": 0.586568
       },
       "rigPlausible": true,
-      "registeredPoseFamily": "seated-guest-three-quarter-left",
+      "registeredPoseFamily": "seated-guest-three-quarter-right",
       "disposition": "admitted-candidate-body",
       "priorClaimDisagreements": [],
       "unresolved": [

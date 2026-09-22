@@ -20,8 +20,8 @@
         "family": "wave-a-average-man",
         "layer": 20,
         "canvas": { "width": 872, "height": 1629 },
-        "pose_family": "seated-guest-three-quarter-left",
-        "head_orientation": "three-quarter-left",
+        "pose_family": "seated-guest-three-quarter-right",
+        "head_orientation": "three-quarter-right",
         "root": {
           "convention": "pelvis-hip-center",
           "x": 0.509174,
@@ -117,8 +117,8 @@
         "family": "wave-a-average-woman",
         "layer": 20,
         "canvas": { "width": 832, "height": 1629 },
-        "pose_family": "seated-guest-three-quarter-left",
-        "head_orientation": "three-quarter-left",
+        "pose_family": "seated-guest-three-quarter-right",
+        "head_orientation": "three-quarter-right",
         "root": {
           "convention": "pelvis-hip-center",
           "x": 0.543269,
@@ -285,8 +285,8 @@
         "family": "wave-a-older-woman",
         "layer": 20,
         "canvas": { "width": 848, "height": 1628 },
-        "pose_family": "seated-guest-three-quarter-left",
-        "head_orientation": "three-quarter-left",
+        "pose_family": "seated-guest-three-quarter-right",
+        "head_orientation": "three-quarter-right",
         "root": {
           "convention": "pelvis-hip-center",
           "x": 0.553066,
@@ -409,8 +409,8 @@
         "family": "wave-a-skinny-woman",
         "layer": 20,
         "canvas": { "width": 851, "height": 1623 },
-        "pose_family": "seated-guest-three-quarter-left",
-        "head_orientation": "three-quarter-left",
+        "pose_family": "seated-guest-three-quarter-right",
+        "head_orientation": "three-quarter-right",
         "root": {
           "convention": "pelvis-hip-center",
           "x": 0.526439,

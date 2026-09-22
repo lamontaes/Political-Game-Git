@@ -376,12 +376,12 @@
       }
     },
     {
-      "pose_family_id": "seated-guest-three-quarter-left",
-      "label": "Seated, guest chair, three-quarter left",
-      "intent": "Ordinary chair seating for meetings and interviews, the figure turned toward the viewer's left, hands resting naturally on the thighs, supported by an invisible chair. No furniture in the body art. This is seated-guest-neutral seen from a turned viewpoint, not a different posture.",
+      "pose_family_id": "seated-guest-three-quarter-right",
+      "label": "Seated, guest chair, three-quarter right",
+      "intent": "Ordinary chair seating for meetings and interviews, the figure turned toward the viewer's right, hands resting naturally on the thighs, supported by an invisible chair. No furniture in the body art. This is seated-guest-neutral seen from a turned viewpoint, not a different posture.",
       "priority": "P1",
       "posture_class": "seated",
-      "facing": "three-quarter-left",
+      "facing": "three-quarter-right",
       "nominal_canvas": {
         "width": 1530,
         "height": 2048
@@ -484,7 +484,7 @@
         }
       },
       "compatible_body_families": [],
-      "garment_pose_family": "seated-guest-three-quarter-left",
+      "garment_pose_family": "seated-guest-three-quarter-right",
       "required_footwear_state": "shoes-visible",
       "prop_attachment_slots": ["hand-left", "hand-right"],
       "production_status": "pending-generation",
@@ -494,12 +494,12 @@
         "reason": "The seat plane and floor line are held unchanged from seated-guest-neutral because a turn about the vertical axis does not move them. The lateral positions are a declared derivation, not a measurement, and become measured-from-art only after intake measures a real three-quarter raster."
       },
       "provenance": {
-        "derived_from": "Derived from seated-guest-neutral by turning the figure about its vertical axis toward the viewer's left. Every landmark and foot contact keeps its height and has its horizontal offset from the midline multiplied by 0.82, the lateral foreshortening of an approximately 35 degree turn; the seated pelvis, the seat plane and the floor line are held fixed so both seated guest poses share one seat height. No landmark here is measured from art.",
+        "derived_from": "Derived from seated-guest-neutral by turning the figure about its vertical axis toward the viewer's right. Every landmark and foot contact keeps its height and has its horizontal offset from the midline multiplied by 0.82, the lateral foreshortening of an approximately 35 degree turn; the seated pelvis, the seat plane and the floor line are held fixed so both seated guest poses share one seat height. No landmark here is measured from art.",
         "generation_authority": "PG_PEOPLE_FACTORY_v4_PRODUCTION.json (Drive 1Uf6MaQg6YFsuFKNhZjIulvJy0e2fhdjJ), RUN - 4 Clean Pose Sprites"
       },
       "control_plate": {
-        "path": "art/pose-control-plates/seated-guest-three-quarter-left__three-quarter-left.svg",
-        "hash": "f7d6ef7b874aba6aa574f84458777f54d5063a92c28067b4460224cc2b29e377"
+        "path": "art/pose-control-plates/seated-guest-three-quarter-right__three-quarter-right.svg",
+        "hash": "67ca29c3f8400b2fafb2884895335b6cb8f20132589302cb98fdc431ad825ee3"
       }
     },
     {
@@ -875,5 +875,5 @@
       }
     }
   ],
-  "facing_convention": "Facings are VIEWER-RELATIVE. 'three-quarter-left' means the figure is turned toward the viewer's left, so more of the figure's own right side is presented to the camera; 'three-quarter-right' is its mirror. Recorded here because the registry used the vocabulary from the start without ever defining it."
+  "facing_convention": "Facings name the direction the figure is turned, and the direction is fixed by the project's own prior usage rather than asserted here: art/qa/p71/source_intake_dispositions.json calls ocd_body_adult_fem_seated_guest_three_quarter_v1 'three-quarter right' and ocd_body_adult_fem_seated_conversational_left_v1 'three-quarter left', and those two plates are mirror images of each other. Any new plate is labelled by matching one of those two, not by reasoning about left and right from scratch. The wave-a turned seated crops match the 'right' one."
 }
