@@ -4,6 +4,7 @@ import {
   createDemoWorld,
   createMindProvenance,
   recordPersonalityTendency,
+  recordRelationshipInteraction,
 } from "./index";
 import type { EntityId, World } from "./index";
 import {
@@ -22,6 +23,36 @@ import { loadTraitPacks, traitDefinitionFromPack } from "./trait-packs";
 import type { TraitPack } from "./trait-packs";
 
 const TRAIT = `${LEGISLATURE_PACK}:showing-their-hand`;
+
+/**
+ * A world where these two have had at least one recorded dealing.
+ *
+ * A row declared `about: "subject"` rests on what the decider has actually had
+ * to do with the person across the table, not on a private record about them
+ * that the decider could never have read — `assertOwnedHistoryRecord` rejects
+ * the latter, and is right to. A stranger therefore contributes nothing, so a
+ * test that wants a subject row to fire has to establish the dealing first.
+ *
+ * Written through the canonical writer rather than spliced, so the sequence,
+ * the id and the date are the ones the engine would have produced.
+ */
+function withDealings(
+  world: World,
+  observerPersonId: EntityId,
+  subjectPersonId: EntityId,
+): World {
+  return recordRelationshipInteraction(world, {
+    stableKey: `dealing:${observerPersonId}:${subjectPersonId}`,
+    personIds: [observerPersonId, subjectPersonId],
+    eventId: null,
+    occurredAt: world.currentDate,
+    kind: "work:bill-negotiation",
+    change: "maintained",
+    significance: "meaningful",
+    summary: "They have worked a bill between them before.",
+    tags: [],
+  });
+}
 
 function personId(world: World, index = 0): EntityId {
   const id = world.personOrder[index];
@@ -157,7 +188,11 @@ describe("what a conferred manner argues for", () => {
     const base = createDemoWorld("bargaining-traits-subject");
     const member = personId(base, 0);
     const asker = personId(base, 1);
-    const world = confer(base, asker, "says-where-they-stand", "strong");
+    const world = withDealings(
+      confer(base, asker, "says-where-they-stand", "strong"),
+      member,
+      asker,
+    );
     const considerations = registeredTraitConsiderations(
       world,
       loadedTraitRegistry(),
