@@ -143,8 +143,14 @@ export function ruleSetApplicableOn(
   //
   // Each set is gated on ITS OWN instrument. Reading one state's dates against
   // another state's rows would either hide a stale rule or refuse a sound one.
-  const { legalLocator, observedCurrentOn, provisionEffectiveOn } =
-    rules.source;
+  //
+  // `legalLocator` is deliberately NOT destructured here. It stays on
+  // `rules.source`, where a reviewer and the diagnostics surfaces can still
+  // read it, and it must not reach the refusal sentences below: a player
+  // never sees which provision a refusal rests on. If you find yourself
+  // adding it back, the thing you want is `rules.source.legalLocator` in a
+  // record or a diagnostics view, not in prose.
+  const { observedCurrentOn, provisionEffectiveOn } = rules.source;
   if (provisionEffectiveOn !== null) {
     if (onDate >= provisionEffectiveOn) return rules;
     const unknownBefore = (field: string): QualificationValue<number> => ({
