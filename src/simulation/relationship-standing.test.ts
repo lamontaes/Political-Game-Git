@@ -62,16 +62,12 @@ function log(
 }
 
 describe("relationship standing", () => {
-  it("applies no fading of its own, since the pace is not answered yet", () => {
+  it("keeps what happened however long ago, and reads the distance as dormancy", () => {
     /*
-     * THIS TEST IS EXPECTED TO CHANGE. lamontae ruled on 2026-09-22 that
-     * relationships should fade with absence and that the fading must not read
-     * as a number; the shape is with ChatGPT as
-     * `relationship-fading-with-absence`. Until that answer lands, this file
-     * must not invent a pace of its own, and two worlds with the same conduct
-     * and thirty-odd years between them read identically. When the answer
-     * arrives this becomes a test of the fading it specifies, per line, rather
-     * than a test that there is none.
+     * DEPTH2 (A03), after lamontae's 2026-09-22 ruling that relationships fade
+     * with absence: thirty years apart differs from yesterday, and the exact
+     * shared history survives. So the bands, which are read from what
+     * happened, are identical; how current the bond is is not.
      */
     let recent = bareWorld("standing-no-decay");
     let distant = bareWorld("standing-no-decay");
@@ -107,6 +103,14 @@ describe("relationship standing", () => {
       );
     }
 
+    expect(
+      readRelationshipStanding(recent, recentPair[0], recentPair[1]).absence
+        .currency,
+    ).toBe("current");
+    expect(
+      readRelationshipStanding(distant, distantPair[0], distantPair[1]).absence
+        .currency,
+    ).toBe("dormant");
     for (const dimension of RELATIONSHIP_DIMENSIONS) {
       expect(
         readRelationshipStanding(distant, distantPair[0], distantPair[1])
@@ -168,6 +172,7 @@ describe("relationship standing", () => {
     );
 
     const liveTension = rawWeight(world, pair[0], pair[1], "tension");
+    // Turning up again is contact, and contact alone is not reconciliation.
     world = log(
       world,
       pair,
@@ -176,6 +181,7 @@ describe("relationship standing", () => {
       "major",
       "2025-04-01",
     );
+    expect(rawWeight(world, pair[0], pair[1], "tension")).toBe(liveTension);
     world = log(
       world,
       pair,
@@ -183,6 +189,14 @@ describe("relationship standing", () => {
       "strengthened",
       "major",
       "2025-05-01",
+    );
+    world = log(
+      world,
+      pair,
+      "care:looked-after",
+      "strengthened",
+      "major",
+      "2025-06-01",
     );
     // Settled by what they did, and only by what they did.
     expect(rawWeight(world, pair[0], pair[1], "tension")).toBeLessThan(

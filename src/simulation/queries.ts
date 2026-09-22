@@ -241,7 +241,8 @@ export interface DerivedRelationshipSummary {
  * reliance rather than any interaction at all, and "estranged" needs live
  * friction or an adverse line rather than a negative sum, so a quarrel that was
  * made up is no longer permanent and a run of work meetings is no longer a
- * friendship. Nothing here fades with time; see that file for why.
+ * friendship. Time apart is read per line; see that file and
+ * `relationship-absence.ts`.
  */
 export function deriveRelationshipSummary(
   world: World,
@@ -258,14 +259,23 @@ export function deriveRelationshipSummary(
     readings[dimension].band === "marked" ||
     readings[dimension].band === "strong";
 
+  // Time apart, per DEPTH2: warmth goes dormant rather than hostile and comes
+  // back quickly at a reunion; reliance needs current evidence; what is owed
+  // does not fade; a quarrel left alone long enough goes quiet without being
+  // settled, which is distance rather than estrangement.
+  const currency = standing.absence.currency;
+  const warmthCurrent = currency === "current" || currency === "reconnecting";
+  const trustCurrent = currency === "current";
+  const tensionLive = currency !== "dormant";
+
   const estranged =
-    marked("tension") ||
+    (marked("tension") && tensionLive) ||
     (marked("warmth") && readings.warmth.adverse) ||
     (marked("trust") && readings.trust.adverse);
   const close =
     !estranged &&
-    ((marked("warmth") && !readings.warmth.adverse) ||
-      (marked("trust") && !readings.trust.adverse) ||
+    ((marked("warmth") && !readings.warmth.adverse && warmthCurrent) ||
+      (marked("trust") && !readings.trust.adverse && trustCurrent) ||
       marked("commitment"));
 
   return {

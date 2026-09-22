@@ -1,4 +1,8 @@
 import { relationshipHistory } from "./queries";
+import {
+  readRelationshipAbsence,
+  type RelationshipAbsence,
+} from "./relationship-absence";
 import type {
   EntityId,
   RelationshipInteraction,
@@ -22,21 +26,16 @@ import type {
  * standings. Deleting this file would remove a reading, not a system, and any
  * save written before it existed reads correctly through it.
  *
- * NOTHING HERE FADES WITH TIME YET, AND THAT IS A GAP RATHER THAN THE RULE.
- *
- * The research return of 2026-09-22 section 11 ruled passive decay out — "No
- * passive relationship decay is introduced. Actual repeated choices can matter;
- * the absence of a required screen visit is not one of those choices" — and
- * `people-contact.ts` was written on that. lamontae reversed it the same day:
- * he does want relationships to fade with absence, and it must not read as a
- * number. The shape is with ChatGPT as `relationship-fading-with-absence`.
- *
- * So this file applies no fading because the pace has not been answered, not
- * because fading is wrong. Do not invent one here. When the answer lands it
- * lands as a rule per line — it is entirely plausible that warmth fades, that
- * what is owed does not, and that an unsettled quarrel does neither — and the
- * one thing worth carrying over from the old rule is its reasoning: a player
- * not opening a screen is not a choice their character made.
+ * TIME APART IS READ, NOT SUBTRACTED. lamontae ruled on 2026-09-22 that
+ * relationships fade with absence and that it must not read as a number, which
+ * reversed the earlier "no passive decay" return. ChatGPT answered the shape in
+ * DEPTH2 (A03): absence changes how current each line is, never the history it
+ * was read from. `relationship-absence.ts` reads how current the pair is from
+ * their own rhythm; this file carries that onto the lines, per line —
+ * warmth goes dormant rather than hostile, trust keeps its evidence while
+ * becoming less current, respect remembers, what is owed does not fade, and a
+ * quarrel can go quiet without ever being settled. A player not opening a
+ * screen is not absence: nothing here reads what the player looked at.
  *
  * Relationships are already neither automatic nor permanent, because every line
  * below moves on recorded conduct in both directions.
@@ -97,6 +96,8 @@ export interface RelationshipStanding {
   readonly readings: Readonly<Record<RelationshipDimension, DimensionReading>>;
   readonly interactionCount: number;
   readonly lastInteractionAt: IsoDate | null;
+  /** How current the relationship is from this side after any time apart. */
+  readonly absence: RelationshipAbsence;
 }
 
 /**
@@ -194,8 +195,9 @@ function namespaceOf(
  *
  * Tension is the one line that does not come down on its own. A quarrel stays
  * live until the two of them do something about it, and only these kinds count
- * as doing something: showing up, helping, caring, or making and keeping an
- * undertaking. Time is not on the list.
+ * as doing something: helping, caring, or making and keeping an undertaking.
+ * Time is not on the list, and since DEPTH2 neither is plain contact — "contact
+ * alone is not reconciliation", so turning up again is not settling it.
  */
 function settlesTension(interaction: RelationshipInteraction): boolean {
   const namespace = namespaceOf(interaction);
@@ -207,7 +209,6 @@ function settlesTension(interaction: RelationshipInteraction): boolean {
     return false;
   }
   return (
-    namespace === "contact" ||
     namespace === "support" ||
     namespace === "care" ||
     namespace === "commitment"
@@ -371,6 +372,7 @@ export function readRelationshipStanding(
     readings,
     interactionCount: history.length,
     lastInteractionAt: history.at(-1)?.occurredAt ?? null,
+    absence: readRelationshipAbsence(world, viewerId, subjectId),
   };
 }
 
@@ -407,13 +409,30 @@ export function describeRelationshipStanding(
   subjectName: string,
 ): string | null {
   const { readings } = standing;
+  const currency = standing.absence.currency;
+  // Warmth comes back quickly at a reunion; nothing else does.
+  const warmthCurrent = currency === "current" || currency === "reconnecting";
+  const othersCurrent = currency === "current";
+  const dormant = currency === "dormant";
   const clauses: string[] = [];
 
   const warmthAdverse = readings.warmth.adverse;
   if (readings.warmth.band === "strong" && !warmthAdverse) {
-    clauses.push(`you are glad of ${subjectName}'s company`);
+    clauses.push(
+      warmthCurrent
+        ? `you are glad of ${subjectName}'s company`
+        : dormant
+          ? `you and ${subjectName} were close once`
+          : `you are fond of ${subjectName}, though you have seen little of them lately`,
+    );
   } else if (readings.warmth.band === "marked" && !warmthAdverse) {
-    clauses.push(`you get on`);
+    clauses.push(
+      warmthCurrent
+        ? `you get on`
+        : dormant
+          ? `you used to get on`
+          : `you get on, when you see each other`,
+    );
   } else if (warmthAdverse && readings.warmth.band !== "slight") {
     clauses.push(`you would not seek ${subjectName} out`);
   }
@@ -423,7 +442,9 @@ export function describeRelationshipStanding(
     clauses.push(
       trustAdverse
         ? `you would not rely on what ${subjectName} says they will do`
-        : `you would take ${subjectName} at their word`,
+        : othersCurrent
+          ? `you would take ${subjectName} at their word`
+          : `you took ${subjectName} at their word, though a good deal may have changed since`,
     );
   }
 
@@ -435,10 +456,14 @@ export function describeRelationshipStanding(
     clauses.push(
       readings.respect.adverse
         ? `you think little of how ${subjectName} goes about things`
-        : `you rate how ${subjectName} goes about things`,
+        : othersCurrent
+          ? `you rate how ${subjectName} goes about things`
+          : `you rated how ${subjectName} went about things`,
     );
   }
 
+  // What is owed does not fade with time apart, so it reads the same however
+  // long it has been.
   if (
     clauses.length < 2 &&
     readings.commitment.band !== "none" &&
@@ -453,11 +478,21 @@ export function describeRelationshipStanding(
   }
 
   // Tension is said last and on its own, because an unsettled quarrel is not a
-  // qualifier on a friendship. It is the thing the player needs to know.
+  // qualifier on a friendship. It is the thing the player needs to know. Time
+  // apart can cool it but never settles it.
+  const quiet = currency === "less-current" || dormant;
   if (readings.tension.band === "strong") {
-    sentences.push(`Something serious between you has never been settled.`);
+    sentences.push(
+      quiet
+        ? `Something serious between you has gone quiet, but it was never settled.`
+        : `Something serious between you has never been settled.`,
+    );
   } else if (readings.tension.band === "marked") {
-    sentences.push(`There is something between you that was never settled.`);
+    sentences.push(
+      quiet
+        ? `There is something between you that has gone quiet, but was never settled.`
+        : `There is something between you that was never settled.`,
+    );
   }
 
   return sentences.length === 0 ? null : sentences.join(" ");
