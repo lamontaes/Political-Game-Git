@@ -107,7 +107,7 @@ async function play(page: Page, tag: string, state: string, town: string) {
   // Save, then confirm a continue path exists.
   const saveCount = await page.evaluate(async () => {
     const { BrowserSaveStore } = await import(
-      /* @vite-ignore */ "/src/presentation/browser-world-repository.ts"
+      /* @vite-ignore */ String("/src/presentation/browser-world-repository.ts")
     );
     const store = new BrowserSaveStore();
     return (await store.list()).length;

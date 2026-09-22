@@ -196,13 +196,13 @@ export function peerStudyApproach(
       {
         optionKey: "outline-first",
         trait: "deliberation",
-        pole: "high",
+        pole: "low",
         explanation: "They would rather know the shape before starting.",
       },
       {
         optionKey: "evidence-first",
         trait: "deliberation",
-        pole: "high",
+        pole: "low",
         explanation: "They would rather read everything before deciding.",
       },
       {
@@ -524,7 +524,7 @@ export function decideStudyPlanOutcome(
           {
             optionKey: "agrees",
             trait: "deliberation",
-            pole: "high",
+            pole: "low",
             explanation:
               "A worked-out revision is the kind of thing they take.",
           },
@@ -543,7 +543,7 @@ export function decideStudyPlanOutcome(
           {
             optionKey: "unresolved",
             trait: "deliberation",
-            pole: "low",
+            pole: "high",
             explanation: "They have not thought about it enough to say yes.",
           },
         ]
@@ -563,7 +563,7 @@ export function decideStudyPlanOutcome(
           {
             optionKey: "counterproposes",
             trait: "deliberation",
-            pole: "high",
+            pole: "low",
             explanation: "They can see a part of it they would keep.",
           },
         ],
