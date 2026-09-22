@@ -409,9 +409,19 @@ live code; the type and the counts above were re-verified here on main.)_
   This is the same shape as the headline. The extension point exists; what is
   missing is the part that would make extending it safe. _What it would take:_
   duplicate detection that names the two claimants, and a decision about what
-  more than one routine means. _(Corrected 2026-09-22 after the fix-main lane
-  re-measured an earlier, wrong version of this finding; every claim above was
-  re-verified here.)_
+  more than one routine means.
+
+  **The owner's fail-soft rule does not reach this, and the distinction is the
+  point.** Skipping an effect a build does not know is failing soft; two packs
+  silently fighting over election day is failing **silently**, which is the thing
+  his rule forbids. A collision here has to be said out loud, not absorbed.
+
+  **Open, with the owner as of 2026-09-22:** when two packs claim the same
+  transition key, does the game skip the second and report it, or refuse the
+  second pack outright? Both satisfy "say so"; they differ in whether a partly
+  working pack loads. _(Corrected 2026-09-22 after the fix-main lane re-measured
+  an earlier, wrong version of this finding; every claim above was re-verified
+  here.)_
 
 ---
 
