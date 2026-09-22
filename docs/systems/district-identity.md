@@ -31,3 +31,30 @@ proved intervals.
 
 This is not the completed geographic system. It is the supported whole-place
 membership connection plus the identity catalog already on this branch.
+
+## When a canonical-home interval starts
+
+A `canonical-home-join` interval starts when the world's own records say this
+life came to live in that place, read by `homeJurisdictionResidenceSince` from
+the same household memberships and residence facts the state-residence clock
+reads. Starting it on the day the world happened to be written made one home
+carry two clocks: resident in the state since 1985 and in its house district
+since today. Nothing in the records says that, and a residence requirement
+measured against it refuses a lifelong resident.
+
+What that dates is residence in the territory. The district lines are the
+catalog's own vintage, named in the interval's provenance note, and the
+interval claims nothing about where a boundary ran in an earlier year.
+
+Nothing here backfills: old saves are still UNKNOWN, and an interval already
+open for a district is left as it stands.
+
+## Two different unknowns
+
+A district-residence duration can be missing for two reasons, and a refusal
+says which. A town split across several districts is the join declining to
+pick one of them; anything else is the world not holding the record.
+`canonicalHomeDistrictKnowledge` answers `known`, `split` or `unknown`, and
+candidacy passes that on as `districtResidenceGap` (and `districtIsUnknown`
+on the sourced-pack path) so the player is told the real gap. Neither one
+grants anything: both still refuse.

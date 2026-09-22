@@ -18,6 +18,7 @@ import {
 import type { DistrictChamber } from "../districts/types";
 import type { ElectiveOfficeOption } from "./candidacy-packs";
 import { makeIsoDate } from "./dates";
+import { homeJurisdictionResidenceSince } from "./nationwide-world/residence-duration";
 import { createStableId } from "./ids";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { factsForPerson } from "./people";
@@ -413,6 +414,34 @@ function canonicalHomePlaceGeoid(
   return place.sourceGeoid;
 }
 
+/**
+ * What the world knows about which district of `chamber` a person's home lies
+ * in, for a screen or a rule that has to explain why it will not decide.
+ *
+ * A city split across several districts is not the same thing as a life whose
+ * homes were never recorded. Both leave the duration unknown, but only the
+ * second is the game failing to remember; the first is the join honestly
+ * declining to pick one of several districts a resident might be in.
+ */
+export type CanonicalHomeDistrictKnowledge = "known" | "split" | "unknown";
+
+export function canonicalHomeDistrictKnowledge(
+  world: World,
+  personId: EntityId,
+  chamber: DistrictChamber,
+): CanonicalHomeDistrictKnowledge {
+  const person = world.people[personId];
+  if (!person) return "unknown";
+  const join = districtMembershipFromCanonicalHome({
+    homeJurisdictionId: person.homeJurisdictionId,
+    catalog: districtIdentityCatalog(),
+    placeGeoid: canonicalHomePlaceGeoid(world, personId),
+    chamber,
+  });
+  if (join.kind === "known") return "known";
+  return join.kind === "conflicting" ? "split" : "unknown";
+}
+
 function confirmCanonicalHomeJoin(
   world: World,
   personId: EntityId,
@@ -475,6 +504,18 @@ function confirmCanonicalHomeJoin(
  * Called when a life is first placed. Old saves are not backfilled: this only
  * runs on a live world write, never on deserialize. Statewide and split homes
  * stay unknown. Authored intervals are not closed by a later unknown join.
+ *
+ * The interval starts when this life actually came to live in the place, read
+ * from the same household records the state-residence clock reads — not from
+ * the day the residence fact happened to be written. A life the world records
+ * in one town since 1985 was in that town's district since 1985 too; starting
+ * the interval today would have the game assert a duration of zero against
+ * records that say otherwise, which is the state clock and the district clock
+ * disagreeing about one home.
+ *
+ * What that dates is residence in the territory. The district lines are the
+ * catalog's own vintage, named in the interval's note, and this claims nothing
+ * about where a boundary ran in an earlier year.
  */
 export function syncDistrictMembershipFromCanonicalHome(
   world: World,
@@ -487,6 +528,15 @@ export function syncDistrictMembershipFromCanonicalHome(
   );
   if (!residence) return world;
   const placeGeoid = canonicalHomePlaceGeoid(world, personId);
+  const livedHereSince = homeJurisdictionResidenceSince(
+    world,
+    personId,
+    person.homeJurisdictionId,
+  );
+  const startedOn =
+    livedHereSince !== null && livedHereSince < residence.occurredAt
+      ? livedHereSince
+      : residence.occurredAt;
   let next = world;
   for (const chamber of HOME_JOIN_CHAMBERS) {
     const join = districtMembershipFromCanonicalHome({
@@ -529,11 +579,11 @@ export function syncDistrictMembershipFromCanonicalHome(
     const recorded = establishDistrictResidence(next, {
       personId,
       binding: join.binding,
-      startedOn: residence.occurredAt,
+      startedOn,
       provenance: {
         method: "canonical-home-join",
         sourceEventId: residence.id,
-        note: `Whole-place membership from ${SLD_PLACE_RELATION_VINTAGE} for Census place ${placeGeoid}.`,
+        note: `Whole-place membership from ${SLD_PLACE_RELATION_VINTAGE} for Census place ${placeGeoid}, held since ${startedOn}, the recorded start of this life's continuous residence in that place.`,
       },
     });
     if (recorded.kind === "recorded") next = recorded.world;

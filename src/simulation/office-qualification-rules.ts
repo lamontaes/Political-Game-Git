@@ -383,6 +383,9 @@ function requirementPhrase(row: SourcedQualification): string {
   }
 }
 
+/** What is missing when a district-residence duration cannot be measured. */
+export type DistrictResidenceGap = "unrecorded" | "district-unknown";
+
 export interface QualificationAssessmentInput {
   readonly person: Person;
   readonly stateJurisdictionKey: string | null;
@@ -391,6 +394,14 @@ export interface QualificationAssessmentInput {
   readonly stateResidenceSince: IsoDate | null;
   /** Earliest active residence in this exact district, or null when unproved. */
   readonly districtResidenceSince: IsoDate | null;
+  /**
+   * Why `districtResidenceSince` is null, when it is. Absent means the
+   * ordinary case: nothing recorded. Say `district-unknown` when the world
+   * does know where this life lives but cannot say which district that is —
+   * a city split across several of them — so the refusal names the real gap
+   * instead of blaming a memory that is not missing.
+   */
+  readonly districtResidenceGap?: DistrictResidenceGap;
   readonly onDate: IsoDate;
   /**
    * Terms this person has recorded in this exact office, from the World's
@@ -514,9 +525,12 @@ export function assessOfficeQualifications(
           field: row.field,
           verdict: "not-evaluated",
           reason:
-            held === null
-              ? `${row.citation} sets a residence requirement. The game has not recorded when this character came to live here, so it will not guess whether they qualify.`
-              : `${row.citation} states a residence requirement the game cannot read as a length of time.`,
+            held !== null
+              ? `${row.citation} states a residence requirement the game cannot read as a length of time.`
+              : row.field === "DISTRICT_RESIDENCE" &&
+                  input.districtResidenceGap === "district-unknown"
+                ? `${row.citation} sets a residence requirement for the district. This character's town lies across more than one district, so the game cannot say which one they live in, and it will not pick one to answer for them.`
+                : `${row.citation} sets a residence requirement. The game has not recorded when this character came to live here, so it will not guess whether they qualify.`,
           source: row,
         });
         continue;

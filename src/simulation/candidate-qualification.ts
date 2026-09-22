@@ -126,6 +126,12 @@ export interface CandidateQualificationAssessmentInput {
   readonly stateResidenceSince: IsoDate | null;
   /** Start of the proved, uninterrupted residence in the exact seat district. */
   readonly districtResidenceSince: IsoDate | null;
+  /**
+   * Set when the world knows where this life lives but cannot say which
+   * district that is, because the town is split across several. The refusal
+   * then names that, rather than reporting an interval the world never had.
+   */
+  readonly districtIsUnknown?: boolean;
 }
 
 function durationRefusal(
@@ -135,6 +141,7 @@ function durationRefusal(
   value: QualificationValue<number>,
   since: IsoDate | null,
   onDate: IsoDate,
+  districtIsUnknown = false,
 ): CandidateQualificationRefusal | null {
   if (
     value.state === "NOT_APPLICABLE" ||
@@ -154,7 +161,9 @@ function durationRefusal(
     return {
       kind,
       field,
-      reason: `The ${label} rule requires ${value.value} year${value.value === 1 ? "" : "s"}, but the world has no proved start date for that residence interval.`,
+      reason: districtIsUnknown
+        ? `The ${label} rule requires ${value.value} year${value.value === 1 ? "" : "s"}. This character's town lies across more than one district, so the world cannot say which district they live in.`
+        : `The ${label} rule requires ${value.value} year${value.value === 1 ? "" : "s"}, but the world has no proved start date for that residence interval.`,
       source: value.source,
     };
   }
@@ -208,6 +217,7 @@ export function assessCandidateQualification(
     rules.districtResidenceYears,
     input.districtResidenceSince,
     input.onDate,
+    input.districtIsUnknown === true,
   );
   if (district) refusals.push(district);
   return {
