@@ -134,6 +134,15 @@ export interface WaveAVisualObservation {
   readonly extent: ObservedExtent;
   /** `high` when the reading is unambiguous at review scale. */
   readonly confidence: "high" | "ambiguous";
+  /**
+   * Which way a three-quarter figure is turned, VIEWER-RELATIVE: `left` means
+   * turned toward the viewer's left. Absent on a row nobody has read for
+   * direction, and an absent direction is not a guess of `left` — a
+   * three-quarter crop without one stays unadmitted, because a registered pose
+   * family declares one facing and filing a figure under the mirror of its own
+   * turn would seat it backwards in its chair.
+   */
+  readonly facingDirection?: "left" | "right";
   readonly note?: string;
 }
 
@@ -188,6 +197,7 @@ export const WAVE_A_VISUAL_OBSERVATIONS: Readonly<
       bakedProp: "none",
       extent: "complete-figure",
       confidence: "high",
+      facingDirection: "left",
     },
   "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_front_neutral_v1.png":
     {
@@ -258,6 +268,7 @@ export const WAVE_A_VISUAL_OBSERVATIONS: Readonly<
       bakedProp: "none",
       extent: "complete-figure",
       confidence: "high",
+      facingDirection: "left",
     },
   "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_seated_front_neutral_v1.png":
     {
@@ -327,6 +338,7 @@ export const WAVE_A_VISUAL_OBSERVATIONS: Readonly<
       bakedProp: "none",
       extent: "complete-figure",
       confidence: "high",
+      facingDirection: "left",
     },
   "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_front_chair_v1.png":
     {
@@ -395,6 +407,7 @@ export const WAVE_A_VISUAL_OBSERVATIONS: Readonly<
       bakedProp: "none",
       extent: "complete-figure",
       confidence: "high",
+      facingDirection: "left",
     },
   "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_front_neutral_v1.png":
     {
@@ -463,6 +476,7 @@ export const WAVE_A_VISUAL_OBSERVATIONS: Readonly<
       bakedProp: "none",
       extent: "complete-figure",
       confidence: "high",
+      facingDirection: "left",
     },
   "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_front_chair_v1.png":
     {
@@ -531,6 +545,7 @@ export const WAVE_A_VISUAL_OBSERVATIONS: Readonly<
       bakedProp: "none",
       extent: "complete-figure",
       confidence: "high",
+      facingDirection: "left",
     },
   "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_seated_front_neutral_v1.png":
     {
@@ -609,15 +624,27 @@ export function registeredPoseFamilyFor(
   observation: WaveAVisualObservation,
   apparentPoseCategory: string,
 ): string | null {
-  if (observation.facing !== "front") return null;
   if (observation.bakedProp !== "none") return null;
   if (observation.extent !== "complete-figure") return null;
   if (observation.posture === "seated") {
     // A propless seated figure sits in a seat the SCENE owns; that is exactly
     // the guest seat contract. `seated-at-desk` additionally implies a working
     // surface, which no propless seated crop in this wave presents.
-    return "seated-guest-neutral";
+    if (observation.facing === "front") return "seated-guest-neutral";
+    // A turned seated figure is the SAME posture from a turned viewpoint, so
+    // it belongs to the guest seat contract too — but only under the family
+    // that declares its own direction. A three-quarter crop nobody has read
+    // for direction stays unadmitted rather than defaulting to one, because
+    // filing a figure under the mirror of its turn seats it backwards in its
+    // own chair.
+    if (observation.facing === "three-quarter") {
+      if (observation.facingDirection === "left")
+        return "seated-guest-three-quarter-left";
+      return null;
+    }
+    return null;
   }
+  if (observation.facing !== "front") return null;
   if (apparentPoseCategory.startsWith("standing_neutral")) {
     return "standing-neutral";
   }
@@ -911,6 +938,20 @@ export function contactsFromMeasurement(
 /** Body draw order, matching the banked pg candidates. */
 export const WAVE_A_BODY_LAYER = 20;
 
+/**
+ * The head orientation a reviewed observation presents, in the component
+ * vocabulary. Derived from the same reading that chose the pose family, so the
+ * two can never disagree.
+ */
+export function headOrientationFor(
+  observation: WaveAVisualObservation,
+): string {
+  if (observation.facing === "three-quarter" && observation.facingDirection) {
+    return `three-quarter-${observation.facingDirection}`;
+  }
+  return "front";
+}
+
 export function buildCandidateRecord(
   sweep: SweepComponentRecord,
   observation: WaveAVisualObservation,
@@ -926,7 +967,10 @@ export function buildCandidateRecord(
     layer: WAVE_A_BODY_LAYER,
     canvas: { width: measurement.cropWidth, height: measurement.cropHeight },
     pose_family: poseFamily,
-    head_orientation: "front",
+    // The head orientation IS the pose family's facing: a component whose head
+    // faces one way under a family that declares another is rejected by the
+    // pose registry, and rightly.
+    head_orientation: headOrientationFor(observation),
     root: {
       convention: "pelvis-hip-center",
       x: measurement.rig.centerXFraction,

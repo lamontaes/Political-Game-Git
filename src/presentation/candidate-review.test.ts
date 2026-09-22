@@ -51,6 +51,7 @@ interface ReportRow {
     readonly bakedProp: string;
     readonly extent: string;
     readonly confidence: string;
+    readonly facingDirection?: string;
   };
   readonly unresolved: readonly string[];
 }
@@ -141,14 +142,39 @@ describe("Wave A candidate admission", () => {
     }
   });
 
-  it("admits only propless, complete, front-facing figures", () => {
+  it("admits only propless, complete figures whose facing a family declares", () => {
     for (const row of rows) {
       if (row.disposition !== "admitted-candidate-body") continue;
       expect(row.observation.bakedProp, row.assetId).toBe("none");
       expect(row.observation.extent, row.assetId).toBe("complete-figure");
-      expect(row.observation.facing, row.assetId).toBe("front");
       expect(row.observation.confidence, row.assetId).toBe("high");
       expect(row.registeredPoseFamily, row.assetId).not.toBeNull();
+      // Facing is no longer required to be `front`, but a turned figure must
+      // have been READ for its direction. An undirected three-quarter crop
+      // filed under a family that declares the mirror of its own turn would
+      // seat the person backwards in their chair, so it stays unadmitted.
+      if (row.observation.facing !== "front") {
+        expect(row.observation.facing, row.assetId).toBe("three-quarter");
+        expect(row.observation.facingDirection, row.assetId).toBeDefined();
+      }
+    }
+  });
+
+  it("never admits a three-quarter crop nobody read for direction", () => {
+    const undirected = rows.filter(
+      (row) =>
+        row.observation.facing === "three-quarter" &&
+        row.observation.facingDirection === undefined &&
+        // A crop with a chair or desk painted in is refused before facing is
+        // ever considered, so it says nothing about the direction rule.
+        row.observation.bakedProp === "none" &&
+        row.observation.extent === "complete-figure" &&
+        row.observation.confidence === "high",
+    );
+    expect(undirected.length).toBeGreaterThan(0);
+    for (const row of undirected) {
+      expect(row.disposition, row.assetId).toBe("retained-unregistered-facing");
+      expect(row.registeredPoseFamily, row.assetId).toBeNull();
     }
   });
 
@@ -160,7 +186,13 @@ describe("Wave A candidate admission", () => {
     expect(retained.length + WAVE_A_CANDIDATE_RECORDS.length).toBe(51);
     for (const row of retained) {
       expect(row.disposition, row.assetId).toMatch(/^retained-/);
-      expect(row.registeredPoseFamily, row.assetId).toBeNull();
+      // A crop retained for an UNMEASURABLE RIG has a pose family: the pose was
+      // resolved, and the silhouette measurement is what failed. Reporting the
+      // family it would have joined is the point of the row; every other
+      // retention reason means no family was ever resolved.
+      if (row.disposition !== "retained-unmeasurable-rig") {
+        expect(row.registeredPoseFamily, row.assetId).toBeNull();
+      }
     }
   });
 
@@ -429,9 +461,11 @@ describe("Wave A review composition", () => {
 
   it("enumerates a stable review set", () => {
     const bodies = admittedCandidateBodies();
+    // Twelve front-facing bodies, plus the four turned seated figures that the
+    // three-quarter-left family made admissible.
     expect(
       bodies.filter((b) => WAVE_A_ADMITTED_ASSET_IDS.has(b.assetId)),
-    ).toHaveLength(12);
+    ).toHaveLength(16);
     expect(admittedCandidateBodies()).toEqual(bodies);
   });
 });

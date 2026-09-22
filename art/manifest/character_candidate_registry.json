@@ -6,6 +6,37 @@
   "note": "Append-only candidate registry. Nothing here is in any catalog generation, nothing here is runtime-released, and no player-facing selection can reach it. It exists so banked evidence can be composed and reviewed. Promotion is a separate authorized act; see promoteCandidateComponent.",
   "assets": [
     {
+      "asset_id": "wave_a_average_man_seated_conversational_open_hand_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_conversational_open_hand_v1.png",
+      "hash": "a8597768fc03ce7a3ccb97b5bd1162417c2d5a18a58ceb4f6b0398f1d9486fc3",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-average-man",
+        "layer": 20,
+        "canvas": { "width": 872, "height": 1629 },
+        "pose_family": "seated-guest-three-quarter-left",
+        "head_orientation": "three-quarter-left",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.509174,
+          "y": 0.496624
+        },
+        "attachment_anchors": [
+          { "id": "crown", "x": 0.509174, "y": 0.040516 },
+          { "id": "head", "x": 0.509174, "y": 0.176182 },
+          { "id": "torso", "x": 0.509174, "y": 0.267035 },
+          { "id": "hips", "x": 0.509174, "y": 0.496624 },
+          { "id": "feet", "x": 0.509174, "y": 0.958257 }
+        ]
+      }
+    },
+    {
       "asset_id": "wave_a_average_man_standing_neutral_front_a_v1",
       "asset_type": "character-component-candidate",
       "fixed_or_modular": "modular",
@@ -68,6 +99,37 @@
           { "id": "torso", "x": 0.521672, "y": 0.254879 },
           { "id": "hips", "x": 0.521672, "y": 0.494259 },
           { "id": "feet", "x": 0.521672, "y": 0.961538 }
+        ]
+      }
+    },
+    {
+      "asset_id": "wave_a_average_woman_seated_conversational_open_hand_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_seated_conversational_open_hand_v1.png",
+      "hash": "d93b36bfc7ec86cb7cf6e1fe4a7e9ad31a9bc87e22b1e29340d2c0cba515c9f1",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-average-woman",
+        "layer": 20,
+        "canvas": { "width": 832, "height": 1629 },
+        "pose_family": "seated-guest-three-quarter-left",
+        "head_orientation": "three-quarter-left",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.543269,
+          "y": 0.466544
+        },
+        "attachment_anchors": [
+          { "id": "crown", "x": 0.543269, "y": 0.04113 },
+          { "id": "head", "x": 0.543269, "y": 0.197667 },
+          { "id": "torso", "x": 0.543269, "y": 0.294045 },
+          { "id": "hips", "x": 0.543269, "y": 0.466544 },
+          { "id": "feet", "x": 0.543269, "y": 0.957643 }
         ]
       }
     },
@@ -209,6 +271,37 @@
       }
     },
     {
+      "asset_id": "wave_a_older_woman_seated_conversational_open_hand_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_conversational_open_hand_v1.png",
+      "hash": "43facda970a572eaed4d1ebba2ccfd1c923d01881b848627e29044294db86a25",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-older-woman",
+        "layer": 20,
+        "canvas": { "width": 848, "height": 1628 },
+        "pose_family": "seated-guest-three-quarter-left",
+        "head_orientation": "three-quarter-left",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.553066,
+          "y": 0.465602
+        },
+        "attachment_anchors": [
+          { "id": "crown", "x": 0.553066, "y": 0.041769 },
+          { "id": "head", "x": 0.553066, "y": 0.19656 },
+          { "id": "torso", "x": 0.553066, "y": 0.292383 },
+          { "id": "hips", "x": 0.553066, "y": 0.465602 },
+          { "id": "feet", "x": 0.553066, "y": 0.957617 }
+        ]
+      }
+    },
+    {
       "asset_id": "wave_a_older_woman_standing_neutral_front_a_v1",
       "asset_type": "character-component-candidate",
       "fixed_or_modular": "modular",
@@ -299,6 +392,37 @@
           "leftFoot": { "x": 0.291022, "y": 0.960616 },
           "rightFoot": { "x": 0.70743, "y": 0.960616 }
         }
+      }
+    },
+    {
+      "asset_id": "wave_a_skinny_woman_seated_conversational_open_hand_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_seated_conversational_open_hand_v1.png",
+      "hash": "44aa67878faa18121dbd486634db3a576372bc24eac693f479975617f7c1818b",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-skinny-woman",
+        "layer": 20,
+        "canvas": { "width": 851, "height": 1623 },
+        "pose_family": "seated-guest-three-quarter-left",
+        "head_orientation": "three-quarter-left",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.526439,
+          "y": 0.422674
+        },
+        "attachment_anchors": [
+          { "id": "crown", "x": 0.526439, "y": 0.041898 },
+          { "id": "head", "x": 0.526439, "y": 0.197782 },
+          { "id": "torso", "x": 0.526439, "y": 0.300062 },
+          { "id": "hips", "x": 0.526439, "y": 0.422674 },
+          { "id": "feet", "x": 0.526439, "y": 0.957486 }
+        ]
       }
     },
     {
