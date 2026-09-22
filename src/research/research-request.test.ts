@@ -277,3 +277,73 @@ describe("the handed-over document", () => {
     expect(codes([malformed])).toContain("answer-without-sources");
   });
 });
+
+describe("candidate answers", () => {
+  const two = [
+    {
+      label: "Treat both as genuinely unknown",
+      position:
+        "Neither jurisdiction is generated; both are declared unsupported until read.",
+      recommended: false,
+      argumentFor:
+        "The endpoints were measured from states and neither is one.",
+      argumentAgainst: "It leaves two startable jurisdictions unplayable.",
+    },
+    {
+      label: "Each gets its own instrument",
+      position:
+        "The two are decided separately, neither inheriting the state range.",
+      recommended: false,
+    },
+  ] as const;
+
+  it("accepts a brief where nothing is recommended, because the choice is the reader's", () => {
+    const validation = validateResearchRequests([
+      record({ candidateAnswers: two }),
+    ]);
+    expect(validation.valid).toBe(true);
+    expect(validation.findings).toEqual([]);
+  });
+
+  it("refuses two recommendations, because recommending everything recommends nothing", () => {
+    expect(
+      codes([
+        record({
+          candidateAnswers: two.map((candidate) => ({
+            ...candidate,
+            recommended: true,
+          })),
+        }),
+      ]),
+    ).toEqual(["several-recommended-candidates"]);
+  });
+
+  it("refuses a candidate that is a name with no position behind it", () => {
+    expect(
+      codes([
+        record({
+          candidateAnswers: [
+            {
+              label: "Range it nationally",
+              position: "  ",
+              recommended: false,
+            },
+          ],
+        }),
+      ]),
+    ).toEqual(["candidate-without-position"]);
+  });
+
+  it("renders every candidate, and says plainly that none is recommended", () => {
+    const rendered = renderOpenQuestions([record({ candidateAnswers: two })], {
+      generatedAt: "2026-09-22T07:00:00.000Z",
+      head: "05dc90a0",
+    });
+    expect(rendered).toContain("None is recommended");
+    expect(rendered).toContain("Treat both as genuinely unknown");
+    expect(rendered).toContain("Each gets its own instrument");
+    expect(rendered).toContain(
+      "For: The endpoints were measured from states and neither is one.",
+    );
+  });
+});

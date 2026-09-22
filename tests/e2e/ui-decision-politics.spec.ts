@@ -131,9 +131,56 @@ for (const size of SIZES) {
     await expect(page.getByTestId("government-governs")).toContainText(
       "United States",
     );
+    // How each chamber divides, and who sits against their own party. Both
+    // chambers are read: a breakdown that only appeared on one would be a
+    // screen that works in the Senate and is missing in the House.
+    for (const chamber of ["chamber-us-senate", "chamber-us-house"]) {
+      const parties = page.getByTestId(`government-parties-${chamber}`);
+      await expect(parties).toBeVisible();
+      const caucuses = page.getByTestId(`government-caucuses-${chamber}`);
+      await expect(caucuses).toBeVisible();
+      // The caucus names are the chamber's own, not the party labels again.
+      await expect(caucuses).toContainText(/Caucus|Conference/);
+      // The crossings are the reason this screen exists, so at least one
+      // chamber must name somebody rather than showing two tidy totals.
+      const crossings = page.getByTestId(`government-crossings-${chamber}`);
+      if ((await crossings.count()) > 0) {
+        await expect(crossings).toContainText("sits with the");
+        await expect(crossings).not.toContainText(/\bnull\b|\bnone\b/);
+      }
+    }
+    const anyCrossing = page.locator(
+      '[data-testid^="government-crossings-chamber-"]',
+    );
+    expect(await anyCrossing.count()).toBeGreaterThan(0);
+    // No source, citation or record identifier reaches the player.
+    await expect(
+      page.getByTestId("government-branch-legislative"),
+    ).not.toContainText(/https?:|organization:|stableKey/i);
+    // Bring the chamber into view before the capture: a screenshot of the
+    // viewport's top would not show the thing this case is about.
+    await page
+      .getByTestId("government-parties-chamber-us-senate")
+      .scrollIntoViewIfNeeded();
     await page.screenshot({
       path: info.outputPath("03-government-federal.png"),
     });
+
+    // A crossing opens that person, the same as any other name here.
+    const crossing = page
+      .locator('[data-testid^="government-crossing-"]')
+      .first();
+    if ((await crossing.count()) > 0) {
+      const crossingName = (await crossing.textContent())?.trim() ?? "";
+      await crossing.click();
+      const card = page.getByTestId("quick-dossier");
+      await expect(card).toBeVisible();
+      await expect(card).toContainText(crossingName);
+      await page.screenshot({
+        path: info.outputPath("04-crossing-person.png"),
+      });
+      await page.keyboard.press("Escape");
+    }
 
     // A holder opens the one card in the consistent side placement.
     const holder = page.locator('[data-testid^="government-holder-"]').first();

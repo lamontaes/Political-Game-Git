@@ -95,6 +95,85 @@ function disclosedJourneyFor(
   };
 }
 
+/**
+ * Presence, recorded the same way whichever control the player pressed.
+ *
+ * The destination's own button performs the journey and the destination
+ * together. The journey's own row is a separate control that performs only the
+ * travel — and without this, that press left a completed journey behind with
+ * no recorded arrival, so `openingLifeLocation` could not place the player and
+ * the destination refused forever. Measured in Springfield, Illinois: a party
+ * organizing meeting asked for, travelled to, and then permanently unkeepable.
+ */
+function recordJourneyArrival(
+  world: World,
+  travel: ScheduledActivityRecord,
+  destination: ScheduledActivityRecord,
+  destinationSetting: string,
+): World {
+  return recordWorldEvent(world, {
+    stableKey: `attend-journey:${travel.id}:arrival`,
+    type: "life.scene.arrived",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: destination.location.jurisdictionId,
+    involvedEntityIds: [
+      travel.id,
+      destination.id,
+      ...travel.participantPersonIds,
+    ],
+    participants: travel.participantPersonIds.map((id) => ({
+      personId: id,
+      role: "presence:participant",
+      detail: `Arrived at ${destination.location.label}`,
+    })),
+    personFactConstraints: [],
+    visibility: destination.access.kind === "office" ? "limited" : "private",
+    tags: [
+      "attend-journey-v1",
+      `route:${travel.location.locationKey}`,
+      `place:${destination.location.locationKey}`,
+      "cost:not-represented",
+    ],
+    summary: `Arrived at ${destination.location.label}.`,
+    context: {
+      location: {
+        jurisdictionId: destination.location.jurisdictionId,
+        label: destination.location.label,
+        setting: destinationSetting,
+      },
+      socialContext: null,
+      pressure: null,
+      choice: `Attend ${destination.title}`,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+}
+
+/**
+ * The destination a journey was booked for, when that journey has been made on
+ * its own. Same adapter table, read from the travel side.
+ */
+function arrivedDestinationFor(
+  world: World,
+  personId: EntityId,
+  travel: ScheduledActivityRecord,
+) {
+  const adapter = ATTEND_JOURNEYS.find(
+    (candidate) => candidate.journeyLocationKey === travel.location.locationKey,
+  );
+  if (!adapter) return null;
+  const destination = scheduledActivitiesVisibleTo(world, personId).find(
+    (candidate) =>
+      travel.sourceEntityIds.includes(candidate.id) &&
+      candidate.location.locationKey === adapter.destinationLocationKey &&
+      scheduledActivityState(world, candidate.id).status === "scheduled",
+  );
+  if (!destination) return null;
+  return { destination, destinationSetting: adapter.destinationSetting };
+}
+
 /** A player action over existing scheduled activity truth; no separate clock. */
 export function venueActivities(
   world: World,
@@ -223,11 +302,22 @@ export function performVenueActivity(
       return waited;
     // Domain hook: a completed party/campaign activity records its outcome;
     // every other activity (including a bare journey) comes back unchanged.
-    return recordDomainAttendance(
+    const performed = recordDomainAttendance(
       performScheduledActivity(waited, activityId, transitionHandlers),
       personId,
       activityId,
       attendance,
+    );
+    if (entry.activity.kind !== "travel") return performed;
+    if (scheduledActivityState(performed, activityId).status !== "completed")
+      return performed;
+    const arrived = arrivedDestinationFor(performed, personId, entry.activity);
+    if (!arrived) return performed;
+    return recordJourneyArrival(
+      performed,
+      entry.activity,
+      arrived.destination,
+      arrived.destinationSetting,
     );
   }
 
@@ -256,44 +346,12 @@ export function performVenueActivity(
   )
     return travelled;
 
-  const arrived = recordWorldEvent(travelled, {
-    stableKey: `attend-journey:${journey.activity.id}:arrival`,
-    type: "life.scene.arrived",
-    occurredAt: travelled.currentDate,
-    recordedAt: travelled.currentDate,
-    jurisdictionId: entry.activity.location.jurisdictionId,
-    involvedEntityIds: [
-      journey.activity.id,
-      entry.activity.id,
-      ...journey.activity.participantPersonIds,
-    ],
-    participants: journey.activity.participantPersonIds.map((id) => ({
-      personId: id,
-      role: "presence:participant",
-      detail: `Arrived at ${entry.activity.location.label}`,
-    })),
-    personFactConstraints: [],
-    visibility: entry.activity.access.kind === "office" ? "limited" : "private",
-    tags: [
-      "attend-journey-v1",
-      `route:${journey.activity.location.locationKey}`,
-      `place:${entry.activity.location.locationKey}`,
-      "cost:not-represented",
-    ],
-    summary: `Arrived at ${entry.activity.location.label}.`,
-    context: {
-      location: {
-        jurisdictionId: entry.activity.location.jurisdictionId,
-        label: entry.activity.location.label,
-        setting: journey.destinationSetting,
-      },
-      socialContext: null,
-      pressure: null,
-      choice: `Attend ${entry.activity.title}`,
-      motivation: null,
-      immediateReaction: null,
-    },
-  });
+  const arrived = recordJourneyArrival(
+    travelled,
+    journey.activity,
+    entry.activity,
+    journey.destinationSetting,
+  );
 
   const refreshed = venueActivities(arrived, personId).find(
     ({ activity }) => activity.id === activityId,
