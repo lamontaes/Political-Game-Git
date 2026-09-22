@@ -46,20 +46,17 @@ function currentBaselineSummary(
   if (authority.state === "IN_FORCE") {
     return `Current authority as of ${asOfDate}: ${currentTaxPermission(authority)}.`;
   }
-  if (
-    authority.state === "NOT_YET_EFFECTIVE" ||
-    authority.state === "NO_LONGER_EFFECTIVE"
-  ) {
-    return `Current authority as of ${asOfDate}: UNESTABLISHED (${authority.state}). The closest sourced record is ${authority.record.source.citation}.`;
+  if (authority.state === "NOT_YET_EFFECTIVE") {
+    return `Current authority as of ${asOfDate}: not established. The rule the game has for this does not take effect until later.`;
+  }
+  if (authority.state === "NO_LONGER_EFFECTIVE") {
+    return `Current authority as of ${asOfDate}: not established. The rule the game has for this had already lapsed by this date.`;
   }
   if (authority.state === "CONFLICTING") {
-    return `Current authority as of ${asOfDate}: UNESTABLISHED (CONFLICTING). ${authority.reason}`;
+    return `Current authority as of ${asOfDate}: not established, because the rules the game has for this disagree. ${authority.reason}`;
   }
   if (authority.state === "UNESTABLISHED") {
-    const nearest = authority.record
-      ? ` Nearest sourced record: ${authority.record.source.citation}.`
-      : "";
-    return `Current authority as of ${asOfDate}: UNESTABLISHED. ${authority.reason}${nearest}`;
+    return `Current authority as of ${asOfDate}: not established. ${authority.reason}`;
   }
   throw new Error("Unhandled fiscal-authority query state.");
 }

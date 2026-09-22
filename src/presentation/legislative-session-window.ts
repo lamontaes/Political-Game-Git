@@ -36,7 +36,7 @@ export function regularSessionActionRefusal(
 ): string | null {
   const window = regularSessionWindow(pack, onDate);
   return window.kind === "past-outer-limit"
-    ? `The configured regular session cannot continue after ${window.deadline} (${window.source.citation}). No exceptional-session record authorizes this action.`
+    ? `The regular session cannot continue after ${window.deadline}, and nothing calls this legislature into a special session.`
     : null;
 }
 
