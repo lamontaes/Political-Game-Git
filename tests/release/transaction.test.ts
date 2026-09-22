@@ -208,24 +208,37 @@ describe("release transaction rollback", { timeout: 120_000 }, () => {
     }
   });
 
-  it("preflights every target before mutation when a directory is unwritable", () => {
-    const fixture = releaseFixture();
-    const applied = prepare(fixture);
-    const paths = [
-      ...applied.writes.map((write) => write.path),
-      ...applied.deletions,
-    ];
-    const before = snapshot(fixture, paths);
-    try {
-      chmodSync(fixture.root, 0o555);
-      expect(() => commitReleaseTransaction(fixture.root, applied)).toThrow();
-      expectSnapshot(fixture, before);
-      expect(hasReleaseTransaction(fixture.root)).toBe(false);
-    } finally {
-      chmodSync(fixture.root, 0o755);
-      fixture.dispose();
-    }
-  });
+  // Mode bits do not restrain uid 0, so a root process writes into a 0o555
+  // directory and the preflight it is meant to trip never fires. The case then
+  // reports a failure that says nothing about the release transaction — which
+  // is worse than not running, because it hides whatever else the suite found.
+  // CI runs as an ordinary user and does execute it; several agent containers
+  // run as root and do not. Measured 2026-09-22: 1 failed, 99 passed locally
+  // and green on the runner at the same tree.
+  const unwritableDirectoriesBind =
+    typeof process.getuid === "function" && process.getuid() !== 0;
+
+  it.skipIf(!unwritableDirectoriesBind)(
+    "preflights every target before mutation when a directory is unwritable",
+    () => {
+      const fixture = releaseFixture();
+      const applied = prepare(fixture);
+      const paths = [
+        ...applied.writes.map((write) => write.path),
+        ...applied.deletions,
+      ];
+      const before = snapshot(fixture, paths);
+      try {
+        chmodSync(fixture.root, 0o555);
+        expect(() => commitReleaseTransaction(fixture.root, applied)).toThrow();
+        expectSnapshot(fixture, before);
+        expect(hasReleaseTransaction(fixture.root)).toBe(false);
+      } finally {
+        chmodSync(fixture.root, 0o755);
+        fixture.dispose();
+      }
+    },
+  );
 
   it("refuses a symlink target before changing any source file", () => {
     const fixture = releaseFixture();
