@@ -477,6 +477,9 @@ function requirementPhrase(row: SourcedQualification): string {
   }
 }
 
+/** What is missing when a district-residence duration cannot be measured. */
+export type DistrictResidenceGap = "unrecorded" | "district-unknown";
+
 /** The elapsed side of the same comparison, in the same unit. */
 function residedLabel(months: number): string {
   if (months >= 12 && months % 12 === 0) {
@@ -494,6 +497,14 @@ export interface QualificationAssessmentInput {
   readonly stateResidenceSince: IsoDate | null;
   /** Earliest active residence in this exact district, or null when unproved. */
   readonly districtResidenceSince: IsoDate | null;
+  /**
+   * Why `districtResidenceSince` is null, when it is. Absent means the
+   * ordinary case: nothing recorded. Say `district-unknown` when the world
+   * does know where this life lives but cannot say which district that is —
+   * a city split across several of them — so the refusal names the real gap
+   * instead of blaming a memory that is not missing.
+   */
+  readonly districtResidenceGap?: DistrictResidenceGap;
   readonly onDate: IsoDate;
   /**
    * Terms this person has recorded in this exact office, from the World's
@@ -617,9 +628,12 @@ export function assessOfficeQualifications(
           field: row.field,
           verdict: "not-evaluated",
           reason:
-            held === null
-              ? `${required === null ? "This office sets a residence requirement" : `This office requires ${required.label} of residence`}. The game has not recorded when this character came to live here, so it will not guess whether they qualify.`
-              : `The residence requirement for this office is not a length of time the game can compare against, so it will not decide on residence.`,
+            held !== null
+              ? `The residence requirement for this office is not a length of time the game can compare against, so it will not decide on residence.`
+              : row.field === "DISTRICT_RESIDENCE" &&
+                  input.districtResidenceGap === "district-unknown"
+                ? `${required === null ? "This office sets a residence requirement" : `This office requires ${required.label} of residence`} for the district. This character's town lies across more than one district, so the game cannot say which one they live in, and it will not pick one to answer for them.`
+                : `${required === null ? "This office sets a residence requirement" : `This office requires ${required.label} of residence`}. The game has not recorded when this character came to live here, so it will not guess whether they qualify.`,
           source: row,
         });
         continue;
