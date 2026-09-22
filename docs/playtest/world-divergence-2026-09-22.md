@@ -187,6 +187,33 @@ The regions themselves are real — the Census Bureau's four, sourced — and th
 region is used to share one political factor at startup. It is a birth
 condition, not a living quantity.
 
+**Answered, 16:15Z — and the answer is yes.** ChatGPT replied to
+`should-partisan-geography-move` in its 15:58Z batch (relayed through the
+coordinator session; the full text is being written back into the record by the
+research lane, and this paragraph is a summary of that relay rather than a
+quotation). A state's and a region's politics **should** move, and it approves
+building it. What it rules out is as useful as what it approves:
+
+- **Never a second swing bonus.** Aggregate a region from the same underlying
+  opinion, participation and composition that produce its parts. Aggregating
+  from local inputs and then applying a state swing on top double-counts, and
+  that is named as the bug to avoid.
+- **Never a points-per-decade drift**, and **never a guaranteed southern
+  realignment.** So the owner's own example is a thing that may happen, not a
+  scripted outcome — which is a better answer than yes.
+- **Migration and cohort replacement can move a result with nobody changing a
+  belief.** Worth holding onto here, because this save creates roughly a
+  hundred adults a year and kills off officeholders on a real life table, so
+  some drift is already earnable without any persuasion mechanism at all.
+- **Store geography vintages**, so a redistricting does not masquerade as
+  persuasion.
+- **Keep four quantities distinct**: presidential approval, party
+  identification, candidate preference, and recorded votes. The game currently
+  has the fourth and none of the first three.
+
+So the finding above stands unchanged as a measurement — the lean is drawn once
+and never rewritten — and it now has a design answer behind it.
+
 **"The US having a true third-party system."** Half of it happens already: a
 party founded itself in an ordinary save inside two years. The other half
 cannot. `partyBallotStatusAt()` (`living-world/party-evolution.ts:417`) takes no
