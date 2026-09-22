@@ -3,24 +3,31 @@
   "impact": "shapes-design",
   "lane": "hardcoded-content audit",
   "notes": [
-    "Only the identity of the body and the name of the proceeding are needed to make the rendered line place-specific. The full procedural sequence is a larger question and is not being asked here."
+    "Narrowed on 2026-09-22 from all 51 jurisdictions to the 27 still unanswered. The original wording would have bought back 24 rows that are already sitting in the project folder.",
+    "Only the identity of the body and the name of the proceeding are needed to make the rendered line place-specific. The full procedural sequence is a larger question and is not being asked here.",
+    "The existing research is worth reading for its cautions as much as its rows: it records that a state prefix alone does not establish the competent body, and that filing, investigation, findings, publicity and sanctions are not the same event. A row that says which of those its citation covers is more useful than one that does not.",
+    "A jurisdiction whose honest answer is that no single body can be named should come back saying so. That is the current behaviour, which routes to a generic inquiry, and it costs nothing to leave in place."
   ],
   "priority": "P2",
-  "question": "In each state and the District of Columbia, which body receives and hears an ethics complaint against a sitting legislator, what is that procedure called in the state's own words, and which constitutional provision, statute or chamber rule establishes it?",
+  "question": "In each of the 27 jurisdictions still unresearched — AR, AZ, CA, CO, DE, GA, IA, ID, IN, KS, LA, MA, ME, MI, MS, MT, ND, NH, NM, OK, SD, TN, UT, VA, VT, WV, WY — which body receives and hears an ethics complaint against a sitting legislator, what is that proceeding called in the state's own words, whether the two chambers run separate panels or share one, and which constitutional provision, statute or chamber rule establishes it?",
   "questionId": "state-legislative-ethics-procedure",
   "requestVersion": "research-request/v1",
   "requestedBy": "hardcoded-content audit thread",
   "sourcesChecked": [
     {
-      "source": "src/simulation/press/state-ethics.ts and the compiled jurisdiction corpus",
-      "whatItDidNotSettle": "Carries jurisdiction identity and names only. It records no ethics procedure for any state other than the one Kentucky row authored by hand."
+      "source": "/mnt/project-files/research/ethics-routing-research.json, asOf 2026-09-22",
+      "whatItDidNotSettle": "Answers 24 of the 51 from primary official sources, with bodies, proceeding term, chamber arrangement, statutory authority and routing notes per row — AK, KY, NE, MN, IL, MD, MO, NV, OH, DC, NC, WA, AL, CT, FL, HI, NJ, NY, PA, RI, SC, OR, WI and TX. It names the other 27 as unresearched itself, which is what this question is now narrowed to. Asking for the 24 again would spend somebody's time re-answering what is already in the project folder."
+    },
+    {
+      "source": "src/simulation/press/state-ethics.ts and src/simulation/press/procedures.ts:197, on main 273fd2b8",
+      "whatItDidNotSettle": "The registry is built and keyed by jurisdiction and holds one authored row, Kentucky. It establishes that rows are all that is missing and that nothing here is blocked on engineering. It carries no procedure for any other state, answered or not."
     },
     {
       "source": "The legislative rule packs under src/simulation/legislature",
       "whatItDidNotSettle": "Describe chamber composition and how a measure moves. They say nothing about discipline or ethics proceedings, and exist for nine states in any case."
     }
   ],
-  "title": "Which body hears a legislative ethics complaint, state by state",
-  "usableAnswer": "A row per state: the body's own name, the term the state uses for the proceeding, whether the two chambers run separate panels or share one, and the citation that establishes it. Where a state routes legislator complaints to a general ethics commission rather than a legislative panel, say so rather than leaving the row blank.",
-  "whyItMatters": "A press matter about a legislator picks its procedure from a registry that currently holds one entry, Kentucky. Everywhere else the game falls through to a generic inquiry, so the same story reads identically in fifty states and the one place-specific detail a player would recognise is missing. The registry is built and keyed by jurisdiction; the rows are what is absent."
+  "title": "Which body hears a legislative ethics complaint, in the 27 states still unanswered",
+  "usableAnswer": "A row per jurisdiction in the list above: the body's own name, the term the state uses for the proceeding, whether the chambers run separate panels or share one, and the citation that establishes it. Where a state routes legislator complaints to a general ethics commission rather than a legislative panel, say so rather than leaving the row blank. The 24 rows already in ethics-routing-research.json are the shape to match, including its habit of recording what a source does not establish.",
+  "whyItMatters": "A press matter about a legislator picks its procedure from a registry that holds one entry, Kentucky, so the same story reads identically almost everywhere and the one place-specific detail a player would recognise is missing. Twenty-four jurisdictions are already answered and are being admitted to the runtime as retrieval rather than research. These 27 are what is left, and until they land those states keep falling through to a generic inquiry."
 }
