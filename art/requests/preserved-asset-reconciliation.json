@@ -1808,30 +1808,6 @@
       ],
       "reason": "An outdoor public park pavilion at 5504x3072: picnic tables under an open shelter, a path, bins and a blank notice board. No open request asks for an exterior, and the earlier record describing it as an empty civic or work interior was wrong about what the picture shows.",
       "nextRequiredAction": "Run environment intake with a declared source lineage and judge it for style. It is an exterior and does not substitute for any interior room."
-    },
-    {
-      "preservedUnit": "family:female-tops",
-      "evidencePaths": [
-        "art/generated/candidates/recent-drive-sweep/female-tops"
-      ],
-      "reason": "Twelve feminine garment candidates, banked and hashed. No open request asks for garments, because garments composite over a production body that does not exist yet.",
-      "nextRequiredAction": "Hold as candidate intake. Do not commission garment generation; the fit question belongs to the garment morphology work, not to a new source."
-    },
-    {
-      "preservedUnit": "family:male-tops",
-      "evidencePaths": [
-        "art/generated/candidates/recent-drive-sweep/male-tops"
-      ],
-      "reason": "Twelve masculine top candidates, banked and hashed, with no open request behind them for the same reason.",
-      "nextRequiredAction": "Hold as candidate intake."
-    },
-    {
-      "preservedUnit": "family:male-bottoms",
-      "evidencePaths": [
-        "art/generated/candidates/recent-drive-sweep/male-bottoms"
-      ],
-      "reason": "Twelve masculine bottom candidates, banked and hashed, with no open request behind them for the same reason.",
-      "nextRequiredAction": "Hold as candidate intake."
     }
   ]
 }
