@@ -7,7 +7,7 @@
     ],
     "answeredBy": "ChatGPT",
     "answeredAt": "2026-09-22T15:58:00.000Z",
-    "stillOpen": "It answers where alternatives come from and gates the wiring, but does not name the consumer of policyAlternativeIds — that trace is ours to do. ChatGPT asks that this be received beside the existing law-effect work rather than as another compiler, and says the entry is source and worker evidence, not implementation or a passing test."
+    "stillOpen": "It answers where alternatives come from and gates the wiring, but does not name the consumer of policyAlternativeIds — that trace is ours to do. ChatGPT asks that this be received beside the existing law-effect work rather than as another compiler, and says the entry is source and worker evidence, not implementation or a passing test.\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
   },
   "filedAt": "2026-09-22T15:20:00.000Z",
   "impact": "blocks-work",

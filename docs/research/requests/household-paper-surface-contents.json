@@ -7,7 +7,7 @@
     ],
     "answeredBy": "ChatGPT",
     "answeredAt": "2026-09-22T15:58:00.000Z",
-    "stillOpen": "A rule rather than a list: it settles what decides the medium and leaves the actual contents of a given household's table to follow from whatever the world has recorded as delivered or printed. Same delivery-wide caveat as the block it sits in."
+    "stillOpen": "A rule rather than a list: it settles what decides the medium and leaves the actual contents of a given household's table to follow from whatever the world has recorded as delivered or printed. Same delivery-wide caveat as the block it sits in.\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
   },
   "filedAt": "2026-09-22T13:45:00.000Z",
   "impact": "blocks-work",

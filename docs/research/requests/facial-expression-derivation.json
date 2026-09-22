@@ -6,7 +6,7 @@
     ],
     "answeredBy": "ChatGPT",
     "answeredAt": "2026-09-22T15:58:00.000Z",
-    "stillOpen": "\"Exact new artwork remains owner acceptance.\""
+    "stillOpen": "\"Exact new artwork remains owner acceptance.\"\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
   },
   "filedAt": "2026-09-22T05:00:07.000Z",
   "impact": "shapes-design",

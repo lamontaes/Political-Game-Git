@@ -7,7 +7,7 @@
     ],
     "answeredBy": "ChatGPT",
     "answeredAt": "2026-09-22T15:58:00.000Z",
-    "stillOpen": "Answered in four sentences inside a short-answers block rather than as a worked contract, so the boundary cases our record listed are settled by principle rather than case by case. The entry carries a delivery-wide caveat that it is source inspection and a systems brief, with no production code, merge or coefficient approved.\n\nGates on the C11 extension, its words: \"Approved simulated rule profiles remain valid despite incomplete real-law surveys.\""
+    "stillOpen": "Answered in four sentences inside a short-answers block rather than as a worked contract, so the boundary cases our record listed are settled by principle rather than case by case. The entry carries a delivery-wide caveat that it is source inspection and a systems brief, with no production code, merge or coefficient approved.\n\nGates on the C11 extension, its words: \"Approved simulated rule profiles remain valid despite incomplete real-law surveys.\"\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
   },
   "filedAt": "2026-09-22T04:32:00.000Z",
   "impact": "shapes-design",
