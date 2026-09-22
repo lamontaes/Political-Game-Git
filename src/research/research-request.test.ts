@@ -3,8 +3,11 @@ import { describe, expect, it } from "vitest";
 import {
   RESEARCH_REQUEST_VERSION,
   answeredRequests,
+  droppedQuestionIds,
+  filedRecordNotice,
   openRequests,
   renderOpenQuestions,
+  renderedQuestionIds,
   sortForReading,
   summarizeOpenQuestions,
   validateResearchRequests,
@@ -217,6 +220,57 @@ describe("reading the queue", () => {
   });
 });
 
+describe("what filing tells the asker about where the record is", () => {
+  const notice = (
+    over: Partial<Parameters<typeof filedRecordNotice>[1]> = {},
+  ) =>
+    filedRecordNotice("county-treasurer-selection", {
+      branch: "claude/a-lane",
+      isDefaultBranch: false,
+      pushed: true,
+      pullRequest: "none",
+      ...over,
+    }).join("\n");
+
+  it("says nothing alarming when the record is on the branch the render is built from", () => {
+    const quiet = notice({ branch: "main", isDefaultBranch: true });
+    expect(quiet).toContain("the next render carries it");
+    expect(quiet).not.toContain("NOT YET ASKED");
+  });
+
+  it("says plainly that a record on an unmerged branch has asked nobody", () => {
+    // Nine records were found stranded this way on 2026-09-22, each written by
+    // somebody who believed they had asked a question.
+    const warned = notice();
+    expect(warned).toContain("FILED, AND NOT YET ASKED");
+    expect(warned).toContain("claude/a-lane");
+    expect(warned).toContain("asked nobody anything");
+    expect(warned).toContain("no open pull request");
+  });
+
+  it("does not report an unchecked pull request as a missing one", () => {
+    // We cannot always reach GitHub. A warning that overstates what it knows
+    // is one people learn to scroll past, which costs the real ones.
+    const unsure = notice({ pullRequest: "unknown" });
+    expect(unsure).toContain("could not be");
+    expect(unsure).not.toContain("no open pull request");
+  });
+
+  it("says when the branch is not on the remote at all", () => {
+    expect(notice({ pushed: false })).toContain("not on the remote at all");
+  });
+
+  it("still warns when it cannot name the branch", () => {
+    const detached = filedRecordNotice("county-treasurer-selection", {
+      isDefaultBranch: false,
+      pushed: false,
+      pullRequest: "unknown",
+    }).join("\n");
+    expect(detached).toContain("FILED, AND NOT YET ASKED");
+    expect(detached).toContain("in this checkout,");
+  });
+});
+
 describe("the handed-over document", () => {
   it("carries each question's why, acceptance and ruled-out sources", () => {
     const document = renderOpenQuestions(
@@ -245,6 +299,152 @@ describe("the handed-over document", () => {
     expect(
       renderOpenQuestions([record()], "2026-09-22T00:00:00.000Z"),
     ).not.toContain("rendered from");
+  });
+
+  it("names the branch it was rendered from, not only the commit", () => {
+    const document = renderOpenQuestions(
+      [record()],
+      "2026-09-22T00:00:00.000Z",
+      "a9b99fc0",
+      "claude/project-thread-k8w14s",
+    );
+    expect(document).toContain("branch claude/project-thread-k8w14s");
+  });
+
+  it("points at the owner's own questions before the bands", () => {
+    // Three dozen questions bury the handful he measured himself and asked to
+    // have confirmed first. The pointer moves nothing: the question stays in
+    // the band its impact puts it in.
+    const document = renderOpenQuestions(
+      [
+        record({ questionId: "somebody-elses", requestedBy: "audit thread" }),
+        record({
+          questionId: "his-own",
+          title: "Six built systems that cannot happen",
+          requestedBy: "lamontae",
+          impact: "shapes-design",
+        }),
+      ],
+      "2026-09-22T00:00:00.000Z",
+    );
+    expect(document).toContain("## Read these first");
+    expect(document).toContain(
+      "- **Six built systems that cannot happen** — `his-own`",
+    );
+    expect(document).not.toContain("- **How a county treasurer takes office**");
+    // Still in its own band, with everything it carries.
+    expect(document.indexOf("## Read these first")).toBeLessThan(
+      document.indexOf("## Shaping a design decision"),
+    );
+    expect(document).toContain("**The question.**");
+  });
+
+  it("lifts a question he read and asked to be put first, with his words", () => {
+    // The bands are ordered by what an answer would change and must not bend
+    // to who asked. What he says when he reads a finding is different
+    // evidence, so it lifts the question into the lead and carries the reason.
+    const document = renderOpenQuestions(
+      [
+        record({ questionId: "somebody-elses", requestedBy: "audit thread" }),
+        record({
+          questionId: "he-read-this",
+          title: "What the simulated people are a sample of",
+          requestedBy: "people and life thread",
+          readFirst: {
+            words: "wow. put this at the top of the list",
+            saidBy: "lamontae",
+            saidAt: "2026-09-22T15:49:34.000Z",
+          },
+        }),
+      ],
+      "2026-09-22T00:00:00.000Z",
+    );
+    expect(document).toContain("## Read these first");
+    expect(document).toContain(
+      '"wow. put this at the top of the list" (2026-09-22 15:49Z)',
+    );
+    expect(document).toContain(
+      "- **What the simulated people are a sample of**",
+    );
+    expect(document).not.toContain("- **How a county treasurer takes office**");
+  });
+
+  it("puts what he read above what he filed", () => {
+    const document = renderOpenQuestions(
+      [
+        record({
+          questionId: "he-filed-it",
+          title: "Filed by him",
+          requestedBy: "lamontae",
+        }),
+        record({
+          questionId: "he-read-it",
+          title: "Read by him",
+          requestedBy: "people and life thread",
+          readFirst: {
+            words: "put this at the top",
+            saidBy: "lamontae",
+            saidAt: "2026-09-22T15:49:34.000Z",
+          },
+        }),
+      ],
+      "2026-09-22T00:00:00.000Z",
+    );
+    expect(document.indexOf("- **Read by him**")).toBeLessThan(
+      document.indexOf("- **Filed by him**"),
+    );
+  });
+
+  it("says nothing about reading first when he filed none of them", () => {
+    expect(
+      renderOpenQuestions([record()], "2026-09-22T00:00:00.000Z"),
+    ).not.toContain("Read these first");
+  });
+
+  it("lists every question id it contains, answered ones included", () => {
+    // The header is a count, and a render produced on a branch holding half
+    // the queue carries an authoritative-looking one. Ids are what let a
+    // reader see the half that is missing.
+    const document = renderOpenQuestions(
+      [
+        record({ questionId: "still-open" }),
+        record({
+          questionId: "already-answered",
+          answer: {
+            summary: "Elected in thirty-eight states.",
+            sources: ["Census Government Units Survey 2025"],
+            answeredBy: "ChatGPT",
+            answeredAt: "2026-09-22T00:00:00.000Z",
+          },
+        }),
+      ],
+      "2026-09-22T00:00:00.000Z",
+    );
+    expect(document).toContain("## What this document contains");
+    expect(renderedQuestionIds(document)).toEqual([
+      "still-open",
+      "already-answered",
+    ]);
+  });
+
+  it("names the questions a shorter render would delete from the published copy", () => {
+    const published = renderOpenQuestions(
+      [
+        record({ questionId: "kept" }),
+        record({ questionId: "only-on-a-branch" }),
+      ],
+      "2026-09-22T00:00:00.000Z",
+    );
+    expect(
+      droppedQuestionIds(published, [record({ questionId: "kept" })]),
+    ).toEqual(["only-on-a-branch"]);
+    expect(
+      droppedQuestionIds(published, [
+        record({ questionId: "kept" }),
+        record({ questionId: "only-on-a-branch" }),
+        record({ questionId: "filed-since" }),
+      ]),
+    ).toEqual([]);
   });
 
   it("says so plainly when nothing is open", () => {

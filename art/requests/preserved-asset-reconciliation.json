@@ -1840,6 +1840,13 @@
       "preservedUnits": [],
       "evidencePaths": [],
       "reason": "Nothing preserved bears on this, for the same measured reason as the page-furniture request above: none of the 20 preserved units is interface artwork, and the manifest holds none either. These are three state marks on the player's own list, which no character component or environment plate could stand in for."
+    },
+    {
+      "requestId": "ui-temperament-marks-ten-poles",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved bears on this. The preserved packet is character components and a small number of environment plates, and a search of the 126-asset manifest for trait, personality, temperament, icon, glyph, badge, symbol and mark returns only character layers and the two seated candidate renders. There is no interface glyph in the project at all, preserved or shipped, so no preserved asset could answer or restate an ask for marks standing for the ends of the five temperaments."
     }
   ],
   "unlinkedPreservedAssets": [

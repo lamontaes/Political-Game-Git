@@ -17,6 +17,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import path from "node:path";
+import { setPriority } from "node:os";
 import { fileURLToPath } from "node:url";
 
 import { createHash } from "node:crypto";
@@ -64,6 +65,15 @@ const HARNESS_FILES = [
   "saved-identity-proof.mjs",
   "creator-drive.mjs",
 ];
+
+// Builds run beside a game the owner may be playing. Low priority (inherited
+// by every npm, tsc and vite child) keeps the game responsive; the build only
+// takes longer.
+try {
+  setPriority(10);
+} catch {
+  // An unprivileged lower priority can fail on some hosts; the build still runs.
+}
 
 const args = process.argv.slice(2);
 const valueAfter = (name) => {

@@ -1,0 +1,41 @@
+{
+  "answer": {
+    "summary": "what-should-the-world-do-to-a-person: event→known exposure→memory/appraisal→relevance to an actual proposition→existing belief evaluator. Retain no-opinion/defer/conflicted outcomes. Same hurricane can motivate different policy interpretations or no opinion. Public stance, promise and vote are separate. No auto-belief change for the controlled player, no magical knowledge, no new age cutoff or numeric response schedule.",
+    "sources": [
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C03, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:58:00.000Z",
+    "stillOpen": "\"No auto-belief change for the controlled player, no magical knowledge, no new age cutoff or numeric response schedule.\"\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
+  },
+  "filedAt": "2026-09-22T15:12:00.000Z",
+  "impact": "shapes-design",
+  "lane": "world divergence",
+  "notes": [
+    "Nothing is blocked on this in the sense of being unable to proceed: the connection can be built with one authored rule and measured. What the answer decides is what that rule is allowed to say.",
+    "A partial answer is useful. One event class — a disaster in the person's own county — with one magnitude rule and one decay rule would let the whole path be built end to end and measured against a ten-year save.",
+    "Worth challenging: the assumption that events should move beliefs at all rather than moving what a person NOTICES. The game already records subject knowledge separately from belief, and it may be that a hurricane makes somebody pay attention to flood policy without changing what they think about it — which is both more defensible and more interesting than a slider moving."
+  ],
+  "priority": "P1",
+  "question": "When something happens in a person's world — a hurricane destroys their neighbour's house, a party is founded in their county, a governor dies in office, prices rise for three years — what should it do to them? Specifically: (1) which kinds of event should move a private belief at all, and which should leave a person unchanged, since most events in most lives leave no political mark; (2) how large should the change be relative to how strongly the person already holds the view, and how close the event was to them — their own home, their street, their state, the news; (3) how long should it last, and should an event that is later contradicted by experience decay faster than one that is reinforced; (4) at what age does an event stop forming somebody and start merely confirming them. And a question behind all of these: should an event move what a person believes, or only what they are willing to SAY, since the game records those as separate things.",
+  "questionId": "what-should-the-world-do-to-a-person",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "world divergence thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/political-belief-formation.ts, politics.ts and queries.ts, the built apparatus",
+      "whatItDidNotSettle": "Establishes that belief formation, public positions, campaign commitments, principles and subject knowledge all exist as typed records with writers and a complete read API, and that evaluatePoliticalBeliefFormation refuses to do anything without a policy proposition. It settles the shape an answer has to fit. It contains no rule about what should cause a belief to form or change, because that was never authored."
+    },
+    {
+      "source": "Two ordinary saves run forward, one to two years and one to ten",
+      "whatItDidNotSettle": "Establishes that there is plenty for a person to react to: 12 hazard episodes in two years in one state, 17 officeholders dead in office, a party founded, 98 and then 193 people arriving with no political identity at all. It establishes the supply of events. It says nothing about which of them should matter to somebody."
+    },
+    {
+      "source": "The owner's decision of 2026-09-22 that personality change pace depends on how strongly that person holds the trait, and that the permanent per-move hardening goes",
+      "whatItDidNotSettle": "Settles the principle for traits and strongly suggests the same shape for beliefs. It does not say which events supply the pressure, how proximity works, or whether a belief and a stated position move together."
+    }
+  ],
+  "title": "What an event in the world should do to the person who lived through it",
+  "usableAnswer": "A rule for which event classes move a belief and which do not, with proximity mattering. A magnitude expressed relative to how firmly the belief is already held, since the owner has already decided that personality change pace depends on how strongly a person holds the trait and the same principle should govern beliefs. A persistence or decay rule. A position on formative age. And a clear answer on belief versus stated position. Worked examples are worth more than parameters here: two people in the same town, the same hurricane, and why one comes out of it differently from the other. If the honest answer for some event classes is that no defensible rule exists and they should leave no mark, say which — that is usable, and it keeps the game from asserting something about a person it never observed.",
+  "whyItMatters": "Measured 2026-09-22 at main 62368c1e by running ordinary saves forward. The world diverges richly on its own — two saves differ in population, deaths, disasters, seats fallen vacant, party meetings and what the player learns, and one of them founded a new political party without any player involvement. And nobody in any of those worlds is changed by any of it. The apparatus for a person's inner politics is fully built: private beliefs, public positions, campaign commitments, principles, whether somebody has changed their private position, what their public position was on a given date. The writers have no caller outside the demo world; the readers have no caller outside their own tests. Both ends are finished and neither is connected. So this is not a request to design a system. It is a request for the values and rules that a built system needs before it can be switched on — and the owner's stated first priority is relationships, personality, private goals and long-life memory, all of which run through this same layer."
+}

@@ -127,6 +127,25 @@ export interface ResearchCandidateAnswer {
   readonly argumentAgainst?: string;
 }
 
+/**
+ * The product owner asking for a question to be read before the rest.
+ *
+ * His own words and when he said them, not a priority band. The bands are
+ * sorted by what an answer would change, and that ordering should not bend to
+ * who asked — but when he reads a finding and says to put it first, that tells
+ * a researcher what he weights, which is worth more to an instruction than our
+ * ordering is. So it lifts the question into the lead and carries the reason
+ * with it, rather than moving it out of its band.
+ */
+export interface ReadFirst {
+  /** Verbatim. Paraphrasing it here would be putting words in his mouth. */
+  readonly words: string;
+  /** Who said it. */
+  readonly saidBy: string;
+  /** ISO 8601 instant. */
+  readonly saidAt: string;
+}
+
 export interface ResearchRequestRecord {
   readonly requestVersion: typeof RESEARCH_REQUEST_VERSION;
   /** A stable semantic slug. Never a seed, a hash or a single word. */
@@ -169,6 +188,8 @@ export interface ResearchRequestRecord {
   /** ISO 8601 instant the question was filed. */
   readonly filedAt: string;
   readonly priority: ResearchPriority;
+  /** Set when the owner asked for this one to be read before the rest. */
+  readonly readFirst?: ReadFirst;
   /** Anything else worth knowing: constraints, a hunch, a related question. */
   readonly notes?: readonly string[];
   /** Question ids this one depends on or follows from. */
@@ -573,6 +594,142 @@ const IMPACT_HEADINGS: Readonly<Record<ResearchImpact, string>> = {
   background: "Background",
 };
 
+const MANIFEST_HEADING = "## What this document contains";
+const MANIFEST_OPEN_PREFIX = "Open:";
+const MANIFEST_ANSWERED_PREFIX = "Answered:";
+
+/**
+ * Every question id this copy carries, open and answered, on the page.
+ *
+ * Without it the header is the only thing a reader has, and a header is a
+ * count: a render produced on a branch holding two thirds of the queue looks
+ * exactly like a complete one, and publishing it deletes the rest from the
+ * copy people actually read. Ids make a drop visible to a reader and checkable
+ * by a machine — see `droppedQuestionIds`, which is what the renderer uses to
+ * refuse rather than to hope somebody notices.
+ *
+ * Answered ids are listed too. An answered question is still the record of an
+ * answer, and dropping one loses the answer as surely as dropping an open one
+ * loses the question.
+ */
+function renderContentsManifest(
+  records: readonly ResearchRequestRecord[],
+): readonly string[] {
+  const open = openRequests(records).map((record) => record.questionId);
+  const answered = answeredRequests(records).map((record) => record.questionId);
+  const asList = (ids: readonly string[]): string =>
+    ids.length === 0
+      ? "none"
+      : [...ids]
+          .sort((left, right) => left.localeCompare(right))
+          .map((id) => `\`${id}\``)
+          .join(", ");
+  return [
+    MANIFEST_HEADING,
+    "",
+    "Every question in the queue at the commit above, so that a reader can see",
+    "a missing one rather than trust a count. If a question you filed is not",
+    "listed here, this copy came off a branch that did not hold it.",
+    "",
+    `${MANIFEST_OPEN_PREFIX} ${asList(open)}`,
+    "",
+    `${MANIFEST_ANSWERED_PREFIX} ${asList(answered)}`,
+    "",
+  ];
+}
+
+/** The owner of the project, whose own questions lead the document. */
+const OWNER_REQUESTER = "lamontae";
+
+/**
+ * A pointer to the questions the owner filed himself, if any are open.
+ *
+ * Not a reordering. The bands below are sorted by what an answer would change
+ * and nothing about who asked should quietly move a question out of the band
+ * it belongs to. But a document of three dozen questions buries the handful he
+ * measured himself and asked to have confirmed first, so it says where they
+ * are and leaves them where they are.
+ */
+function renderOwnerLead(
+  open: readonly ResearchRequestRecord[],
+): readonly string[] {
+  // Two ways in, and the order matters: something he read and told us to put
+  // first comes above something he filed himself.
+  const flagged = open.filter((record) => record.readFirst !== undefined);
+  const his = open.filter(
+    (record) =>
+      record.readFirst === undefined && record.requestedBy === OWNER_REQUESTER,
+  );
+  if (flagged.length === 0 && his.length === 0) return [];
+  const lines = [
+    "## Read these first",
+    "",
+    `Questions ${OWNER_REQUESTER} either filed himself or read and asked to`,
+    "have put first. They are listed again in their own bands below with",
+    "everything they carry; the bands are ordered by what an answer would",
+    "change, which is not the same thing and does not bend to who asked.",
+    "",
+  ];
+  for (const record of flagged) {
+    const said = record.readFirst!;
+    lines.push(
+      `- **${record.title}** — \`${record.questionId}\``,
+      `  ${said.saidBy} read this and said: "${said.words}" (${said.saidAt.slice(0, 16).replace("T", " ")}Z)`,
+    );
+  }
+  for (const record of his) {
+    lines.push(`- **${record.title}** — \`${record.questionId}\``);
+  }
+  lines.push("");
+  return lines;
+}
+
+/**
+ * The question ids a rendered document says it contains.
+ *
+ * Reads the manifest back off the page rather than out of a sidecar file,
+ * because the page is the thing that travels: the copy in Drive is the one a
+ * drop would happen to, and it has to be checkable on its own.
+ */
+export function renderedQuestionIds(document: string): readonly string[] {
+  const ids: string[] = [];
+  for (const line of document.split("\n")) {
+    const trimmed = line.trim();
+    if (
+      !trimmed.startsWith(MANIFEST_OPEN_PREFIX) &&
+      !trimmed.startsWith(MANIFEST_ANSWERED_PREFIX)
+    ) {
+      continue;
+    }
+    for (const match of trimmed.matchAll(/`([^`]+)`/g)) {
+      const id = match[1];
+      if (id !== undefined) ids.push(id);
+    }
+  }
+  return ids;
+}
+
+/**
+ * What a previously published document carried and this set of records does
+ * not — in reading order, sorted, deduplicated.
+ *
+ * A non-empty result means publishing this render would remove a question
+ * somebody filed from the copy people read, which has nearly happened twice.
+ * It is not by itself an error: a record can be deliberately withdrawn. It is
+ * something a human has to say yes to, which is why this returns ids rather
+ * than throwing.
+ */
+export function droppedQuestionIds(
+  previousDocument: string,
+  records: readonly ResearchRequestRecord[],
+): readonly string[] {
+  const present = new Set(records.map((record) => record.questionId));
+  const dropped = new Set(
+    renderedQuestionIds(previousDocument).filter((id) => !present.has(id)),
+  );
+  return [...dropped].sort((left, right) => left.localeCompare(right));
+}
+
 /**
  * The whole open queue as one document.
  *
@@ -592,6 +749,15 @@ export function renderOpenQuestions(
    * commit cannot tell a fresh copy from a stale one.
    */
   renderedFromCommit?: string,
+  /**
+   * The branch it was rendered from, which matters more than the commit. This
+   * document is mechanically a function of whichever request files the
+   * rendering checkout happens to hold, so any branch can produce a copy that
+   * is short, complete-looking and stamped with an authoritative count. Naming
+   * the branch is what lets a reader ask whether that branch was the one
+   * holding every question.
+   */
+  renderedFromBranch?: string,
 ): string {
   const open = openRequests(records);
   const lines: string[] = [
@@ -602,8 +768,11 @@ export function renderOpenQuestions(
     "rebuilt from them.",
     "",
     `Generated ${generatedAt} · ${open.length} open · ${records.length - open.length} answered` +
+      (renderedFromBranch ? ` · branch ${renderedFromBranch}` : "") +
       (renderedFromCommit ? ` · rendered from ${renderedFromCommit}` : ""),
     "",
+    ...renderContentsManifest(records),
+    ...renderOwnerLead(open),
   ];
 
   if (open.length === 0) {
@@ -727,4 +896,91 @@ export function summarizeOpenQuestions(
     (record) =>
       `${record.priority} ${record.impact} ${record.questionId} — ${record.title} (${record.lane})`,
   );
+}
+
+/**
+ * Where a just-filed record actually is, as far as anybody else is concerned.
+ *
+ * `pullRequest` is deliberately three-valued. We cannot always ask GitHub — no
+ * `gh`, no token, no network — and "we did not check" must never render as
+ * "there is none", because a warning that cries wolf is one people learn to
+ * scroll past.
+ */
+export interface FiledRecordPlacement {
+  /** The branch it was written on, or undefined outside a checkout. */
+  readonly branch?: string;
+  /** Whether that branch is the one the published render is built from. */
+  readonly isDefaultBranch: boolean;
+  /** Whether the branch exists on the remote at all. */
+  readonly pushed: boolean;
+  /** Commits this branch carries that the default branch does not. */
+  readonly commitsAhead?: number;
+  readonly pullRequest: "open" | "none" | "unknown";
+}
+
+/**
+ * What to print after filing, so nobody leaves a question sitting on a branch.
+ *
+ * This exists because of a measurement, not a hunch: on 2026-09-22 two sweeps
+ * an hour apart found nine filed records stranded on four different branches,
+ * none of which had ever appeared in a published document. Every one of them
+ * had been written carefully by somebody who believed they had asked a
+ * question. The queue's whole premise is that filing commissions the research,
+ * and that premise is false for a record that never reaches the branch the
+ * render is built from.
+ *
+ * It warns rather than refuses on purpose. Filing early on a branch whose pull
+ * request is about to open is a reasonable thing to do, and a tool that
+ * refuses there teaches people to write the JSON by hand instead — which loses
+ * the validator, which is the part that actually protects the researcher.
+ */
+export function filedRecordNotice(
+  questionId: string,
+  placement: FiledRecordPlacement,
+): readonly string[] {
+  const rule = "─".repeat(72);
+  if (placement.isDefaultBranch) {
+    return [
+      `${questionId} is on the default branch, so the next render carries it.`,
+    ];
+  }
+  const lines = [
+    rule,
+    `  FILED, AND NOT YET ASKED.`,
+    "",
+    `  ${questionId} is`,
+    placement.branch
+      ? `  on branch ${placement.branch},`
+      : `  in this checkout,`,
+    `  and the document the researchers read is built from whichever`,
+    `  branch renders it. Until this reaches the default branch it has`,
+    `  asked nobody anything.`,
+    "",
+  ];
+  if (!placement.pushed) {
+    lines.push(`  This branch is not on the remote at all.`);
+  } else if (placement.pullRequest === "none") {
+    lines.push(`  This branch is pushed and has no open pull request.`);
+  } else if (placement.pullRequest === "open") {
+    lines.push(
+      `  This branch has an open pull request, so merging it is enough.`,
+    );
+  } else {
+    lines.push(
+      `  Whether this branch has an open pull request could not be`,
+      `  checked from here, so check it yourself.`,
+    );
+  }
+  if (placement.commitsAhead !== undefined && placement.commitsAhead > 0) {
+    lines.push(
+      `  It is ${placement.commitsAhead} commit(s) ahead of the default branch.`,
+    );
+  }
+  lines.push(
+    "",
+    `  Before you stop: get this branch merged, or tell the research`,
+    `  queue lane the record is here so the next publish carries it.`,
+    rule,
+  );
+  return lines;
 }

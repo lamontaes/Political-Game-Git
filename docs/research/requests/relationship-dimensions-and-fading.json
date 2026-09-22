@@ -1,12 +1,29 @@
 {
-  "requestVersion": "research-request/v1",
-  "questionId": "relationship-dimensions-and-fading",
-  "title": "What a relationship between two people should be made of, and whether it fades",
-  "question": "Which distinct dimensions should a relationship between two simulated people carry — affection, trust, respect, obligation, rivalry and whatever else earns a place — how do they move independently of one another, and what happens to each across years of no contact?",
-  "whyItMatters": "Every interaction between two people is already logged with a namespace, a direction and a significance, but the only reading of that log collapses it to a single hidden sum and four buckets, and the code states outright that nothing decays. So a friend who has not been seen in thirty years reads exactly as close as one seen yesterday, and a person cannot be trusted professionally while disliked personally. A player who spends a long life with these people will notice that before anything else in the game.",
+  "answer": {
+    "answeredAt": "2026-09-22T13:30:00.000Z",
+    "answeredBy": "ChatGPT (research director), overnight 2026-09-22, confirmed by lamontae",
+    "sources": [
+      "ALIVE44 — LIVING WORLD EXPANSION RESEARCH — CURRENT, Google Drive 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section LIVING PLAY — RELATIONSHIP DIMENSIONS WITHOUT PASSIVE DECAY",
+      "CHATGPT REPLIES TO CLAUDE — CURRENT, Google Drive 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, sections LIVING PLAY — RELATIONSHIP STATE RECEIVING ANSWER and OVERNIGHT LIVING-PLAY ANSWER — RELATIONSHIP DIMENSIONS AND FADING",
+      "lamontae, recorded as a resolved decision in CHATGPT REPLIES TO CLAUDE — CURRENT, Google Drive 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, section OWNER AWAKE"
+    ],
+    "stillOpen": "No numerical relationship penalties are selected. Remembering someone accurately and current affection are separate states and must stay separate in implementation.",
+    "summary": "Answered: five actor-specific standing interpretations, and no passive decay. The dimensions are warmth or affection (positive regard and desire for closeness); trust or reliance (willingness to depend, based on actual honesty, kept commitments and help, domain-specific where needed); respect or esteem (regard for judgement, conduct and competence, able to coexist with dislike); commitment or obligation (intention or role to maintain and support, while explicit promises, debts and duties stay canonical records rather than a score); and unresolved tension. They are asymmetric and history-grounded — each actor's own reading, not one shared number. Explicitly rejected: a five-bar upkeep UI, and any passive contact-decay penalty. It corrected the question from live source: queries.ts still compresses all RelationshipInteraction history into one signed hidden score and four closeness buckets, but relationship-integration.ts already records participant-specific memory and appraisal and separately assesses recent contact, long gap, reconnection and tension context, while people-contact.ts explicitly says nothing there decays. So the repair is richer interpretation of evidence that already exists plus continuity, not an affection timer. lamontae confirmed the same five meanings as a product decision on 2026-09-22."
+  },
+  "filedAt": "2026-09-22T05:00:01.000Z",
   "impact": "shapes-design",
-  "lane": "personality and relationships",
-  "usableAnswer": "A named set of dimensions with a one-line definition of each and what raises and lowers it; for each, whether it fades with absence, is preserved, or hardens, and at roughly what pace; the precedent behind each choice, naming the game or the finding it comes from; and an explicit statement of which dimensions the researcher considered and rejected, with the reason.",
+  "lane": "people and life",
+  "notes": [
+    "Fading and forgetting are different. A person can remember someone perfectly and still feel less about them, and the memory record and the relationship state are stored separately here, so the answer can treat them separately too.",
+    "Asymmetry is wanted where it is real: A may rely on B while B barely notices A. Say whether each dimension is held per person or shared between the pair.",
+    "Keep the dimension count to what a player could actually perceive through behaviour. A dimension nothing can show is a number in a file."
+  ],
+  "priority": "P1",
+  "question": "Which distinct dimensions should a relationship between two simulated people carry — affection, trust, respect, obligation, rivalry and whatever else earns a place — how do they move independently of one another, and what happens to each across years of no contact?",
+  "questionId": "relationship-dimensions-and-fading",
+  "relatedQuestionIds": ["ordinary-life-trait-set"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "research audit thread (technical team lead)",
   "sourcesChecked": [
     {
       "source": "src/simulation/queries.ts lines 221-263, deriveRelationshipSummary on main at 273fd2b8",
@@ -25,13 +42,7 @@
       "whatItDidNotSettle": "Separates relationships from temperament and says relationships belong in their own layer. It does not say what that layer holds."
     }
   ],
-  "requestedBy": "research audit thread (technical team lead)",
-  "filedAt": "2026-09-22T05:00:01.000Z",
-  "priority": "P1",
-  "notes": [
-    "Fading and forgetting are different. A person can remember someone perfectly and still feel less about them, and the memory record and the relationship state are stored separately here, so the answer can treat them separately too.",
-    "Asymmetry is wanted where it is real: A may rely on B while B barely notices A. Say whether each dimension is held per person or shared between the pair.",
-    "Keep the dimension count to what a player could actually perceive through behavior. A dimension nothing can show is a number in a file."
-  ],
-  "relatedQuestionIds": ["ordinary-life-trait-set"]
+  "title": "What a relationship between two people should be made of, and whether it fades",
+  "usableAnswer": "A named set of dimensions with a one-line definition of each and what raises and lowers it; for each, whether it fades with absence, is preserved, or hardens, and at roughly what pace; the precedent behind each choice, naming the game or the finding it comes from; and an explicit statement of which dimensions the researcher considered and rejected, with the reason.",
+  "whyItMatters": "Every interaction between two people is already logged with a namespace, a direction and a significance, but the only reading of that log collapses it to a single hidden sum and four buckets, and the code states outright that nothing decays. So a friend who has not been seen in thirty years reads exactly as close as one seen yesterday, and a person cannot be trusted professionally while disliked personally. A player who spends a long life with these people will notice that before anything else in the game."
 }

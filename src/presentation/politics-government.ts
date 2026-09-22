@@ -747,9 +747,11 @@ export function projectGovernmentBrowser(
   const homeId = person?.homeJurisdictionId ?? null;
   const location = openingLifeLocation(world, personId);
   const hereId = location?.jurisdictionId ?? homeId;
+  // The place's own name first: a scene location's label names a setting
+  // ("Home"), not where it is, and "Here: Home" names neither.
   const here: GovernmentPlaceRef = {
     jurisdictionId: hereId,
-    label: location?.label ?? placeLabel(hereId) ?? "Where you are",
+    label: placeLabel(hereId) ?? location?.label ?? "Where you are",
   };
   const home: GovernmentPlaceRef = {
     jurisdictionId: homeId,

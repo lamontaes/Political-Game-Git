@@ -23,5 +23,15 @@
   "notes": [
     "Worked example for the schema. Delete or supersede it once a real question is filed.",
     "A state that leaves this to each county's charter is a real answer, not a gap — say so rather than leaving the row blank."
-  ]
+  ],
+  "answer": {
+    "summary": "The record explicitly labels itself a worked example for the request schema. Do not commission a 50-state treasurer survey from it. The queue owner should keep examples in example/test documentation rather than publish them as live asks, and remove this example from the active generated queue. If a real implementation later needs a specific selection rule, file that real need with its actual institution and field.\n\nAcceptance ChatGPT requests (not executed): Generated live queue excludes a clearly marked schema example; genuine current requests remain present.",
+    "sources": [
+      "ChatGPT DEPTH1 package, 2026-09-22 (uploaded 17:39Z), answers.json entry 'example-county-treasurer-selection'; kept verbatim in docs/research/chatgpt-answers/2026-09-22-depth1/ with its SHA256SUMS (14 of 14 verified).",
+      "current-queue: https://docs.google.com/document/d/1yVVxtG0YNaKsb85O5TF9ZkxGWWU5N9sSoQWM1qa_FVM/edit — Read complete 16:34Z / 22-open / 44-answered render. Worker caller counts beyond independently inspected bodies remain reports."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T17:39:00.000Z",
+    "stillOpen": "Status 'not-a-research-assignment'; receiver: existing source-owned research queue publisher. Not a research question: a schema example. It should leave the live queue.\n\nScope limits of the whole DEPTH1 batch, in its own words: evidenceStatus \"read-source-and-research-not-production-test\"; its 12 passing tests are \"research structure and isolated arithmetic only; NOT repository/game tests\"; it read source at main 4965f63c and the 16:34Z render (22 open), not the 15 questions filed since. Any number in it is \"labelled, adjustable private-playtest calibration\", not an empirical fact or an exact number chosen by lamontae. The Acceptance paragraph is a test somebody still has to write, not one that ran."
+  }
 }

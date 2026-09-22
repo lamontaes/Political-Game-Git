@@ -1,12 +1,32 @@
 {
-  "requestVersion": "research-request/v1",
-  "questionId": "policy-issue-taxonomy-state-and-local",
-  "title": "What state and local politics is actually about, as a list of issues",
-  "question": "Across recent American state legislative sessions and city councils, what are the subjects that legislators genuinely spend their time on, in what proportions, and how do those subjects differ between a state capitol, a county board and a city council?",
-  "whyItMatters": "A new player world ships with an entirely empty policy catalog — no domains, no issues, no propositions, no subjects and no principles — and an invariant refuses to let anything be put there that has not been established. So the political simulation currently has nothing for politics to be about, and every other governing system that is built and reachable is arguing over an empty set. This is the single largest empty vocabulary in the game and it sits directly under the owner's eight-or-nine-out-of-ten priority.",
+  "answer": {
+    "answeredAt": "2026-09-22T13:30:00.000Z",
+    "answeredBy": "ChatGPT (research director), overnight 2026-09-22",
+    "sources": [
+      "CHATGPT REPLIES TO CLAUDE — CURRENT, Google Drive 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, section OVERNIGHT RESEARCH — WHAT STATE AND LOCAL POLITICS IS ACTUALLY ABOUT",
+      "CHATGPT REPLIES TO CLAUDE — CURRENT, Google Drive 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, section OVERNIGHT RESEARCH REPLY — P0 STATE/LOCAL POLICY VOCABULARY",
+      "ALIVE44 — LIVING WORLD EXPANSION RESEARCH — CURRENT, Google Drive 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section LIVING PLAY — STATE AND LOCAL POLICY ISSUE TAXONOMY",
+      "https://fiscalnote.com/reports/2026-states-session-recap-report",
+      "https://www.ncsl.org/technology-and-communication/ncsl-50-state-searchable-bill-tracking-databases",
+      "https://www.nlc.org/post/2026/07/10/new-national-league-of-cities-report-highlights-top-priorities-and-challenges-facing-americas-communities/",
+      "https://www.naco.org/page/county-roles-responsibilities"
+    ],
+    "stillOpen": "Two different domain lists were published for this question, one of fourteen domains and one of thirteen, and they disagree structurally rather than in wording. Which list to load is open as policy-domain-list-reconciliation. The per-level attention percentages are a director proposal, not measurement, and are not approved; how to put that choice to a reader is open as policy-attention-weights-in-play.",
+    "summary": "Answered with a sourced domain hierarchy, per-level attention priors and a level-of-government routing rule. Core finding: no national source measures state legislative, county-board and city-council attention on one common basis, so the game must not claim a measured share. FiscalNote's 2026 session classification is usable as a quantitative anchor (its top 15 enactment states produced about 60% of enacted state legislation, with Social 30.2% and Other 28.2% both too coarse to ship as game issues), with NCSL for state subject breadth, NLC for municipal priorities and NACo for county responsibilities. The routing rule matters as much as the list: criminal code and sentencing are primarily state, jails commonly county while prisons are state, Medicaid and insurance regulation primarily state while counties often deliver public and behavioural health, zoning usually municipal or county under state enabling and preemption law, election rules state-heavy with administration often local, and tax authority existing locally only within powers the state grants. Existing government-unit capability records must filter an issue before generation, so a county without zoning authority does not generate zoning fights. A policy domain is not itself a crisis: the priors weight candidate matters and must not guarantee quotas or force one issue from every domain."
+  },
+  "filedAt": "2026-09-22T05:00:04.000Z",
   "impact": "blocks-work",
   "lane": "governing and legislative",
-  "usableAnswer": "A hierarchy of policy domains and the issues within each, in the terms American legislators themselves use, with a rough share of legislative attention per domain and a note of which level of government each issue actually belongs to. Where an issue is genuinely a state matter in some states and a local one in others, say so rather than picking one.",
+  "notes": [
+    "The proportions matter as much as the list. A game where every session is about the same three famous national arguments will not read as a state legislature, where most of the calendar is roads, licensing, school funding and local bills.",
+    "Issues become data rows a modder can edit, so a defensible starting list is worth more than an exhaustive one.",
+    "No source or provenance reference reaches the player, so citations are for the record and will not appear on any screen."
+  ],
+  "priority": "P0",
+  "question": "Across recent American state legislative sessions and city councils, what are the subjects that legislators genuinely spend their time on, in what proportions, and how do those subjects differ between a state capitol, a county board and a city council?",
+  "questionId": "policy-issue-taxonomy-state-and-local",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "research audit thread (technical team lead)",
   "sourcesChecked": [
     {
       "source": "src/simulation/production-catalog.ts lines 88-97 and 146-190 on main at 273fd2b8",
@@ -25,12 +45,7 @@
       "whatItDidNotSettle": "Read for exactly this. It describes primitive shapes a policy can take rather than the subject matter politics is about, so it is a grammar without a vocabulary."
     }
   ],
-  "requestedBy": "research audit thread (technical team lead)",
-  "filedAt": "2026-09-22T05:00:04.000Z",
-  "priority": "P0",
-  "notes": [
-    "The proportions matter as much as the list. A game where every session is about the same three famous national arguments will not read as a state legislature, where most of the calendar is roads, licensing, school funding and local bills.",
-    "Issues become data rows a modder can edit, so a defensible starting list is worth more than an exhaustive one.",
-    "No source or provenance reference reaches the player, so citations are for the record and will not appear on any screen."
-  ]
+  "title": "What state and local politics is actually about, as a list of issues",
+  "usableAnswer": "A hierarchy of policy domains and the issues within each, in the terms American legislators themselves use, with a rough share of legislative attention per domain and a note of which level of government each issue actually belongs to. Where an issue is genuinely a state matter in some states and a local one in others, say so rather than picking one.",
+  "whyItMatters": "A new player world ships with an entirely empty policy catalogue — no domains, no issues, no propositions, no subjects and no principles — and an invariant refuses to let anything be put there that has not been established. So the political simulation currently has nothing for politics to be about, and every other governing system that is built and reachable is arguing over an empty set. This is the single largest empty vocabulary in the game and it sits directly under the owner's eight-or-nine-out-of-ten priority."
 }

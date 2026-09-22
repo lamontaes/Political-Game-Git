@@ -1,0 +1,27 @@
+{
+  "filedAt": "2026-09-22T19:58:00.000Z",
+  "impact": "shapes-design",
+  "lane": "research intake",
+  "notes": [
+    "The owner's words: \"governor term lengths. What if someone passes a bill to give them three terms instead of two? That needs to be added.\""
+  ],
+  "priority": "P2",
+  "question": "The owner wants governor term lengths and limits to be changeable in play, for example a bill or amendment giving a governor three terms instead of two. How have states actually done this: (1) the history of changes to governors' term lengths and term limits (lengthening two-year terms to four, adding, loosening, tightening or repealing limits, consecutive versus lifetime limits); (2) the legal route each used (constitutional amendment by legislative referral, citizen initiative, statute where permitted) and whether a change applies to the sitting governor; (3) the same for other statewide executives if the pattern differs; and (4) which states currently fix term rules in the constitution versus statute.",
+  "questionId": "changing-governor-term-limits",
+  "relatedQuestionIds": [
+    "governor-term-length-outside-washington",
+    "executive-terms-and-incumbency-turnover",
+    "modern-state-constitutions-fully-mutable"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "research intake thread, from lamontae's message of 2026-09-22T19:50Z",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests/governor-term-length-outside-washington.json and executive-terms-and-incumbency-turnover.json, ChatGPT's DEPTH2 answers (2026-09-22T18:27Z)",
+      "whatItDidNotSettle": "They give current term lengths and incumbency turnover, not how term rules have been changed or by what route."
+    }
+  ],
+  "title": "How have states actually changed their governors' term limits",
+  "usableAnswer": "A table of historical changes by state with dates and the route used, a per-state statement of where the current rule lives (constitution or statute) and how it can be changed, and the rule on whether a change applies to the sitting office-holder.",
+  "whyItMatters": "Term rules are read today as fixed values. Making them mutable means knowing which route changes them in each state and whether a change binds the incumbent, or a player could grant themselves a third term by a route no state allows."
+}

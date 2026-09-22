@@ -186,7 +186,9 @@ test("supported-date browser proof shows exact economic and fiscal graph metadat
   ).toBeVisible();
 });
 
-test("Politics Budget route keeps an unmatched place unavailable instead of borrowing Lexington", async ({
+// Carson City had no binding until every town was bound through its own
+// county relation; it now reads its own figures, and still never Lexington's.
+test("Politics Budget route binds Carson City to its own area instead of borrowing Lexington", async ({
   page,
 }) => {
   await page.goto("/?seed=recovery25-budget-unmatched");
@@ -203,10 +205,10 @@ test("Politics Budget route keeps an unmatched place unavailable instead of borr
   await goToBudget(page);
   const budget = page.getByTestId("budget-economy-workspace");
   await expect(budget).toContainText("Carson City, Nevada");
-  await expect(page.getByTestId("economic-binding-unavailable")).toContainText(
-    "another city, county, metro, or state have not been substituted",
-  );
-  await expect(page.getByTestId("economic-context-panel")).toHaveCount(0);
+  await expect(page.getByTestId("economic-binding-unavailable")).toHaveCount(0);
+  const panel = page.getByTestId("economic-context-panel");
+  await expect(panel).toBeVisible();
+  await expect(panel).toContainText("Carson City");
   await expect(page.getByText("Lexington, Kentucky")).toHaveCount(0);
   await saveLife(page);
   expect(await savedWorldPayload(page)).toBe(before);

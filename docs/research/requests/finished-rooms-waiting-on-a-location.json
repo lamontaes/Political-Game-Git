@@ -1,4 +1,14 @@
 {
+  "answer": {
+    "summary": "finished-rooms-waiting-on-a-location: scheduled event→responsible body/committee→real or approved generated venue→room instance→compatible artwork. Floor/committee may share building but not room; player hometown is not every institution's venue. One generic plate can represent distinct rooms without collapsing their location identity. Travel/attendance are separate transitions.",
+    "sources": [
+      "ChatGPT stress-test connection answers, 2026-09-22, at source head 1c4992e8: /mnt/project-files/chatgpt-stress-test-answers-2026-09-22/STRESS-TEST-CONNECTION-ANSWERS.md",
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C14, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT (technical director), stress-test connection answers batch",
+    "answeredAt": "2026-09-22T15:57:02.000Z",
+    "stillOpen": "Nothing is flagged as left open on this one. The batch as a whole parks: extensive regional selector reconstruction; PuertoRico profile survey; federal issue expansion; trait prevalence; exact personality bands; school-naming distribution; three unread ethics details; extensive standalone research is parked behind these; 7hold only extensive/quantitative detail; Exact state thresholds/dates remain factual inputs, not supplied by this paragraph ... while that broader compilation is queued; Rate and disposition percentages remain unselected (C04); Player-as-initiator control and exact frequencies remain separate unresolved matters (C09); Existing0.05pp/0.01pp/0.6 placeholders are not confirmed (C02)\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
+  },
   "filedAt": "2026-09-22T14:58:00.000Z",
   "impact": "shapes-design",
   "lane": "hardcoded-content audit",
@@ -29,15 +39,6 @@
     }
   ],
   "title": "Where a floor vote and a committee hearing physically happen",
-  "usableAnswer": "One rule, plus a worked example for a state legislature and for a city council. Name the record the location is read from, say whether the floor and the committee room are two locations or one, and say what should happen for a jurisdiction where no capitol or chamber place exists yet — the honest fallback is presumably no location and therefore no room, which is the current behavior and is acceptable as an answer.",
-  "whyItMatters": "lamontae rates governing and legislative play 8 to 9 out of 10, and the two rooms where legislating visibly happens are finished and dark. The artwork exists and is registered; the venue table already knows which room each belongs to; the only missing fact is a location key on the activity. Both rooms are gated by one shared, small cause, so one answer lights both. This is the cheapest large gain the environment audit found.",
-  "answer": {
-    "summary": "Answered as C14 in the 2026-09-22 stress-test batch. The full text is in the batch document under that heading.",
-    "sources": [
-      "ChatGPT stress-test connection answers, 2026-09-22, at source head 1c4992e8: /mnt/project-files/chatgpt-stress-test-answers-2026-09-22/STRESS-TEST-CONNECTION-ANSWERS.md"
-    ],
-    "answeredBy": "ChatGPT (technical director), stress-test connection answers batch",
-    "answeredAt": "2026-09-22T15:57:02.000Z",
-    "stillOpen": "Recorded here so the queue stops listing this as open. The implementing lane should read C14 in full rather than this line."
-  }
+  "usableAnswer": "One rule, plus a worked example for a state legislature and for a city council. Name the record the location is read from, say whether the floor and the committee room are two locations or one, and say what should happen for a jurisdiction where no capitol or chamber place exists yet — the honest fallback is presumably no location and therefore no room, which is the current behaviour and is acceptable as an answer.",
+  "whyItMatters": "lamontae rates governing and legislative play 8 to 9 out of 10, and the two rooms where legislating visibly happens are finished and dark. The artwork exists and is registered; the venue table already knows which room each belongs to; the only missing fact is a location key on the activity. Both rooms are gated by one shared, small cause, so one answer lights both. This is the cheapest large gain the environment audit found."
 }

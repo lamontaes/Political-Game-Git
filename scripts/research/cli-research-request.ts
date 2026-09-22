@@ -3,13 +3,22 @@
  *   cli-research-request.ts file <record.json>   file one question into the queue
  *   cli-research-request.ts list                 show the open queue, one line each
  *   cli-research-request.ts check                validate every record, as a gate
- *   cli-research-request.ts render [--write]     the open queue as one document
+ *   cli-research-request.ts render [--write] [--allow-drop]
+ *                                                the open queue as one document
+ *   cli-research-request.ts built-since <rev> [--ref <ref>]
+ *                                                merges to main since <rev>, for review
  *
  * `file` takes the record as JSON on disk rather than as a wall of flags, so a
  * thread can write it with the tools it already has and so the thing that was
  * filed is exactly the thing that was reviewed. It exits non-zero on an invalid
  * record and writes nothing, because a queue nobody trusts is worse than no
  * queue.
+ *
+ * `render` refuses when this checkout holds fewer questions than the document
+ * already on disk, because the document is a function of whichever request
+ * files the branch happens to hold and a short render is indistinguishable
+ * from a complete one. `--allow-drop` says the missing ones were withdrawn on
+ * purpose.
  *
  * `render` prints the document to stdout. `--write` puts it at
  * docs/research/OPEN-QUESTIONS.md, which is generated: if two branches both
@@ -22,11 +31,19 @@ import fs from "fs";
 import path from "path";
 
 import {
+  droppedQuestionIds,
+  filedRecordNotice,
   renderOpenQuestions,
   summarizeOpenQuestions,
   validateResearchRequests,
+  type FiledRecordPlacement,
   type ResearchRequestRecord,
 } from "../../src/research/research-request";
+import {
+  renderBuiltSince,
+  type ChangedFile,
+  type MergedChange,
+} from "../../src/research/built-since";
 import {
   ResearchRequestExistsError,
   loadResearchRequests,
@@ -69,6 +86,99 @@ function currentCommit(): string | undefined {
   }
 }
 
+/**
+ * The branch this render came from, because the document is a function of
+ * whichever request files this checkout holds and not of the queue as a whole.
+ */
+function currentBranch(): string | undefined {
+  try {
+    const branch = execFileSync("git", ["rev-parse", "--abbrev-ref", "HEAD"], {
+      cwd: repositoryRoot,
+      encoding: "utf8",
+    }).trim();
+    return branch === "HEAD" ? undefined : branch;
+  } catch {
+    return undefined;
+  }
+}
+
+function git(...args: readonly string[]): string | undefined {
+  try {
+    return execFileSync("git", [...args], {
+      cwd: repositoryRoot,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * The default branch this repository publishes from, read rather than assumed:
+ * a fork or a rename should not make the warning lie.
+ */
+function defaultBranch(): string {
+  const head = git(
+    "symbolic-ref",
+    "--quiet",
+    "--short",
+    "refs/remotes/origin/HEAD",
+  );
+  return head?.replace(/^origin\//, "") ?? "main";
+}
+
+/**
+ * Where the record just written can actually be seen from. The pull-request
+ * half needs the network, so it is allowed to come back unknown; see
+ * `filedRecordNotice` for why that must not read as "there is none".
+ */
+function placeFiledRecord(): FiledRecordPlacement {
+  const base = defaultBranch();
+  const branch = currentBranch();
+  if (branch === undefined) {
+    return { isDefaultBranch: false, pushed: false, pullRequest: "unknown" };
+  }
+  if (branch === base) {
+    return { branch, isDefaultBranch: true, pushed: true, pullRequest: "none" };
+  }
+  const pushed =
+    git("rev-parse", "--verify", `refs/remotes/origin/${branch}`) !== undefined;
+  const aheadCount = git("rev-list", "--count", `origin/${base}..HEAD`);
+  const ahead = aheadCount === undefined ? undefined : Number(aheadCount);
+  return {
+    branch,
+    isDefaultBranch: false,
+    pushed,
+    commitsAhead: Number.isFinite(ahead) ? ahead : undefined,
+    pullRequest: pushed ? openPullRequest(branch) : "none",
+  };
+}
+
+/**
+ * Whether the branch has an open pull request, when that can be established
+ * without a network call we may not be able to make. `gh` is the only probe
+ * tried: a missing binary, no credentials or no network all mean unknown, and
+ * unknown is reported as unknown.
+ */
+function openPullRequest(branch: string): "open" | "none" | "unknown" {
+  try {
+    const found = execFileSync(
+      "gh",
+      ["pr", "list", "--head", branch, "--state", "open", "--json", "number"],
+      {
+        cwd: repositoryRoot,
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "ignore"],
+      },
+    ).trim();
+    const parsed: unknown = JSON.parse(found);
+    return Array.isArray(parsed) && parsed.length > 0 ? "open" : "none";
+  } catch {
+    return "unknown";
+  }
+}
+
 function loadAll(): readonly ResearchRequestRecord[] {
   const loaded = loadResearchRequests(repositoryRoot);
   for (const bad of loaded.unreadable) {
@@ -93,10 +203,20 @@ if (command === "file") {
     process.exit(1);
   }
   try {
-    const written = writeResearchRequest(repositoryRoot, record);
+    const written = await writeResearchRequest(repositoryRoot, record);
     console.log(
       `Filed ${record.questionId} at ${path.relative(repositoryRoot, written)}`,
     );
+    // A filed record that never reaches the branch the render is built from
+    // has asked nobody anything. Two sweeps an hour apart on 2026-09-22 found
+    // nine of them stranded across four branches, every one written by
+    // somebody who thought the question had been asked.
+    for (const line of filedRecordNotice(
+      record.questionId,
+      placeFiledRecord(),
+    )) {
+      console.warn(line);
+    }
   } catch (cause) {
     if (cause instanceof ResearchRequestExistsError) {
       console.error(cause.message);
@@ -116,19 +236,95 @@ if (command === "file") {
   console.log("Every research question is complete enough to act on.");
 } else if (command === "render") {
   const records = loadAll();
+  const target = path.join(repositoryRoot, RENDERED_DOCUMENT);
+  // Compare against the document already on disk before producing a new one.
+  // The failure this guards against is not a bad record, it is a branch that
+  // never held one: the render is complete-looking either way, so the only
+  // moment the loss is visible is right here.
+  if (fs.existsSync(target)) {
+    const dropped = droppedQuestionIds(
+      fs.readFileSync(target, "utf8"),
+      records,
+    );
+    if (dropped.length > 0) {
+      const allowed = rest.includes("--allow-drop");
+      console.error(
+        `${allowed ? "warn " : "ERROR"} this render drops ${dropped.length} question(s) the last one carried:`,
+      );
+      for (const id of dropped) console.error(`  ${id}`);
+      console.error(
+        allowed
+          ? "Continuing because --allow-drop was given."
+          : [
+              "This branch does not hold them. Fetch the branches that do, or",
+              "pass --allow-drop if they were withdrawn on purpose. Publishing",
+              "this document as it stands would delete them from the copy",
+              "people read.",
+            ].join("\n"),
+      );
+      if (!allowed) process.exit(1);
+    }
+  }
   const document = renderOpenQuestions(
     records,
     new Date().toISOString(),
     currentCommit(),
+    currentBranch(),
   );
   if (rest.includes("--write")) {
-    const target = path.join(repositoryRoot, RENDERED_DOCUMENT);
     fs.mkdirSync(path.dirname(target), { recursive: true });
     fs.writeFileSync(target, document);
     console.log(`Wrote ${RENDERED_DOCUMENT}`);
   } else {
     process.stdout.write(document);
   }
+} else if (command === "built-since") {
+  // Every first-parent merge on the published branch since <rev>: what was
+  // built, for ChatGPT to review. Read from history so no lane has to report.
+  const [since] = rest;
+  const refIndex = rest.indexOf("--ref");
+  const ref = refIndex >= 0 ? rest[refIndex + 1] : "origin/main";
+  if (!since || since.startsWith("--")) {
+    console.error(
+      "Usage: cli-research-request.ts built-since <rev> [--ref <ref>]",
+    );
+    process.exit(2);
+  }
+  const git = (...args: string[]): string =>
+    execFileSync("git", args, {
+      cwd: repositoryRoot,
+      encoding: "utf8",
+      maxBuffer: 64 * 1024 * 1024,
+    });
+  const shas = git("rev-list", "--first-parent", "--merges", `${since}..${ref}`)
+    .split("\n")
+    .filter(Boolean);
+  const changes: MergedChange[] = shas.map((sha) => {
+    const [subject, mergedAt] = git(
+      "show",
+      "-s",
+      "--format=%s%n%cI",
+      sha,
+    ).split("\n");
+    const body = git("show", "-s", "--format=%b", sha);
+    const messages = git("log", "--format=%B", `${sha}^1..${sha}^2`);
+    const files: ChangedFile[] = git("diff", "--numstat", `${sha}^1`, sha)
+      .split("\n")
+      .filter(Boolean)
+      .map((line) => {
+        const [added, removed, ...rest] = line.split("\t");
+        const lines = added === "-" ? 0 : Number(added) + Number(removed);
+        return { path: rest.join("\t"), linesChanged: lines };
+      });
+    const lastCommitSubject = git("show", "-s", "--format=%s", `${sha}^2`);
+    return { sha, mergedAt, subject, body, messages, lastCommitSubject, files };
+  });
+  process.stdout.write(
+    renderBuiltSince(changes, {
+      sinceLabel: `since \`${git("rev-parse", "--short", since).trim()}\``,
+      knownQuestionIds: loadAll().map((record) => record.questionId),
+    }),
+  );
 } else {
   console.error(
     [
@@ -136,7 +332,8 @@ if (command === "file") {
       "  cli-research-request.ts file <record.json>",
       "  cli-research-request.ts list",
       "  cli-research-request.ts check",
-      "  cli-research-request.ts render [--write]",
+      "  cli-research-request.ts render [--write] [--allow-drop]",
+      "  cli-research-request.ts built-since <rev> [--ref <ref>]",
     ].join("\n"),
   );
   process.exit(2);

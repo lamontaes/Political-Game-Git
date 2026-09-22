@@ -1,0 +1,53 @@
+{
+  "runAt": "2026-09-22T20:15:13.778830+00:00",
+  "kind": "research-data-structure-not-game-test",
+  "checks": [
+    {
+      "check": "nine unique scoped rules",
+      "passed": true
+    },
+    {
+      "check": "all clock sources resolve",
+      "passed": true
+    },
+    {
+      "check": "all applicability limits present",
+      "passed": true
+    },
+    {
+      "check": "no production admission claim",
+      "passed": true
+    },
+    {
+      "check": "reading event count differs from elapsed-hours",
+      "passed": true
+    },
+    {
+      "check": "NY unit retained",
+      "passed": true
+    },
+    {
+      "check": "TX general appropriation wait differentiated",
+      "passed": true
+    },
+    {
+      "check": "FL unresolved denominator explicit",
+      "passed": true
+    },
+    {
+      "check": "CA waiver requires distinct conditions",
+      "passed": true
+    },
+    {
+      "check": "tax source and periods distinguishable",
+      "passed": true
+    },
+    {
+      "check": "twelve requested cases not claimed executed",
+      "passed": true
+    }
+  ],
+  "passed": 11,
+  "failed": 0,
+  "requestedGameCasesRun": 0
+}

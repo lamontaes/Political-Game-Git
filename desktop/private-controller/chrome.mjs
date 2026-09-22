@@ -13,6 +13,9 @@ let chooserRequest = 0;
 let selectRequest = 0;
 let showTechnical = false;
 let showDetails = false;
+// A version picked in the chooser but not yet switched to. The switch happens
+// only when the owner presses "Play this version".
+let chosen = null;
 let last = null;
 let busy = false;
 
@@ -66,9 +69,15 @@ function renderChooser(state) {
   children.push(
     option(TECHNICAL, showTechnical ? "Hide older versions" : "More versions…"),
   );
+  // A pending choice stays visible in the chooser across hub broadcasts.
+  if (chosen && chosen !== want && !listed.has(chosen))
+    children.splice(-1, 0, option(chosen, `Selected · ${chosen}`));
   track.replaceChildren(...children);
-  track.value = want;
+  track.value = chosen ?? want;
 }
+
+/** The chooser value as the hub's track id. */
+const trackIdOf = (value) => (value === "main" ? "main" : `branch:${value}`);
 
 function selectedItem(state) {
   const id = state.selectedTrack;
@@ -92,6 +101,14 @@ function timeText(iso) {
         hour: "numeric",
         minute: "2-digit",
       });
+}
+
+/** The player-facing release number of a build record, or null. */
+function releaseVersion(build) {
+  return typeof build?.version === "string" &&
+    /^\d+\.\d+\.\d+$/.test(build.version)
+    ? `v${build.version}`
+    : null;
 }
 
 function render(state) {
@@ -127,6 +144,8 @@ function render(state) {
       }`;
   } else {
     html += `<strong>${esc(item.title)}</strong>`;
+    const shownVersion = releaseVersion(selected?.current);
+    if (shownVersion) html += ` · ${esc(shownVersion)}`;
     // A recorded build whose payload is gone says so here, not "verified".
     // The pill above already carries the needs-rebuild wording, so the
     // sentence names the reason instead of repeating it.
@@ -176,7 +195,17 @@ function render(state) {
     : "Check for updates";
   $("copy-ref").hidden = !showDetails;
   $("build-details").setAttribute("aria-expanded", String(showDetails));
-  $("apply").hidden = !(selected?.pending && selected.open);
+  if (chosen && trackIdOf(chosen) === state.selectedTrack) chosen = null;
+  const switching = Boolean(chosen) && state.activeTab === "play";
+  $("switch-version").hidden = !switching;
+  $("apply").hidden = switching || !selected?.pending;
+  // A pending build that carries a newer release number names it; one that
+  // is the same release rebuilt from newer main is just "Install update".
+  const pendingVersion = releaseVersion(selected?.pending);
+  $("apply").textContent =
+    pendingVersion && pendingVersion !== releaseVersion(selected?.current)
+      ? `Install update ${pendingVersion}`
+      : "Install update";
   $("return-main").hidden = state.selectedTrack === "main";
   $("cancel-build").hidden = !building;
   $("return-title").hidden = state.activeTab !== "play" || !state.loaded;
@@ -230,8 +259,19 @@ track.addEventListener("change", async () => {
     if (last) render(last);
     return;
   }
+  chosen = track.value;
+  if (last) render(last);
+});
+$("switch-version").addEventListener("click", async () => {
+  if (!chosen) return;
+  const value = chosen;
   const token = ++selectRequest;
-  const result = await hub.selectTrack(track.value);
+  $("switch-version").disabled = true;
+  const result = await hub.selectTrack(value).finally(() => {
+    $("switch-version").disabled = false;
+  });
+  if (token === selectRequest) chosen = null;
+  if (last) render(last);
   // A response for a choice the owner has already moved past never paints:
   // neither a later request here nor a selection superseded in the hub.
   if (token !== selectRequest || result?.superseded) return;

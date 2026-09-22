@@ -1,4 +1,15 @@
 {
+  "answer": {
+    "summary": "lamontae owns How the World Changes, with the existing playtester executing browser cases. Report six measured groups, each carrying actual source, setup and seed, initial and final game dates, unit, geography, coverage and intervention: material output and price levels AND rates, with the unemployment denominator and modelled housing; party vote and seat shares with contests, incumbency, coverage and outside-top-two share, keeping unlike offices apart; fixed-boundary regional change, with opinion and approval separate from votes and seats and with actual information and causal propagation; distinct ordinary-life contact and goal chains including open, lapsed, blocked and completed outcomes rather than inflated event counts; usable institutional authority, roles, action and delivery rather than raw person counts; and crisis origin, exposure, response, harm and recovery rather than a count of headlines. On method: use same-state and common-innovation intervention controls first, then explicit different seeds, and vary the actual setup.seed rather than only the questionnaire answers.\n\nExtended 2026-09-22 15:58Z, answer C24 of ChatGPT's stress-test batch: divergence-metrics-and-what-to-test / what-should-we-be-testing: keep the already-acknowledged six groups; add eligible→considered→initiated→communicated→reachable→committed→applied→observed counts. Distinguish absent opportunity, unknown data, invalid authority, broken producer and invisible result. Match cohorts, exposure, time, geography and real setup.seed; use controlled positive fixtures separately from ordinary play. Do not force all rare event counts positive.",
+    "sources": [
+      "ChatGPT stress-test connection answers, 2026-09-22, at source head 1c4992e8: /mnt/project-files/chatgpt-stress-test-answers-2026-09-22/STRESS-TEST-CONNECTION-ANSWERS.md",
+      "ChatGPT reply document 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, entry 'COUPLED WORLD — LIVE AUDIT PRIORITY AND ECONOMY CORRECTION', read 2026-09-22, paragraph 'DIVERGENCE ANSWER'",
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C24, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT (technical director), stress-test connection answers batch",
+    "answeredAt": "2026-09-22T15:57:02.000Z",
+    "stillOpen": "Two warnings worth keeping in front of whoever builds this. Equal exact arithmetic and legal constants are correct, so a constant-looking result is a lead rather than a failure to be cured by adding randomness. And surface fill is not a target: correctly empty differs from a missing producer, from unreachable, from stale and from broken, and scandals, news or debt must not be generated to fill a panel. ChatGPT also states that the 2-to-4 uniform opponent-count proposal in PR #393 is NOT approved by this answer.\n\nGates on the C24 extension, its words: \"Do not force all rare event counts positive.\"\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
+  },
   "filedAt": "2026-09-22T15:55:00.000Z",
   "impact": "shapes-design",
   "lane": "hardcoded-content audit",
@@ -32,14 +43,5 @@
   ],
   "title": "What to measure to show two saves diverging, and what ChatGPT wants tested",
   "usableAnswer": "A shortlist: the measures worth carrying in every report, each with what counts as a meaningful difference rather than noise, and anything proposed below that would mislead and why. Plus whatever ChatGPT wants tested, as concretely as it can put it — a named quantity, or a route through the game and what to look at when you get there.",
-  "whyItMatters": "lamontae asked on 2026-09-22 for divergence to be tracked and for metric points to start appearing in these reports, and he named what he is most interested in: regional or local drift that ends up affecting the larger region. His examples were a very popular president turning the South reliably Democratic, the country developing a true third-party system, and how the crisis system behaves. Without agreed measures, every report says two saves 'felt different', which is exactly the claim-travels-further-than-its-measurement failure this project keeps paying for. He also asked directly that ChatGPT be given the chance to name what it wants tested rather than only answering what we bring.",
-  "answer": {
-    "summary": "Answered as C24 in the 2026-09-22 stress-test batch, which also answers what-should-we-be-testing. The full text is in the batch document under that heading. The executable form this lane defined for it is docs/playtest/divergence-metrics-2026-09-22.md.",
-    "sources": [
-      "ChatGPT stress-test connection answers, 2026-09-22, at source head 1c4992e8: /mnt/project-files/chatgpt-stress-test-answers-2026-09-22/STRESS-TEST-CONNECTION-ANSWERS.md"
-    ],
-    "answeredBy": "ChatGPT (technical director), stress-test connection answers batch",
-    "answeredAt": "2026-09-22T15:57:02.000Z",
-    "stillOpen": "Recorded here so the queue stops listing this as open. The playtest lane should read C24 in full before running the points."
-  }
+  "whyItMatters": "lamontae asked on 2026-09-22 for divergence to be tracked and for metric points to start appearing in these reports, and he named what he is most interested in: regional or local drift that ends up affecting the larger region. His examples were a very popular president turning the South reliably Democratic, the country developing a true third-party system, and how the crisis system behaves. Without agreed measures, every report says two saves 'felt different', which is exactly the claim-travels-further-than-its-measurement failure this project keeps paying for. He also asked directly that ChatGPT be given the chance to name what it wants tested rather than only answering what we bring."
 }

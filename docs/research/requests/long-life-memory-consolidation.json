@@ -1,12 +1,30 @@
 {
-  "requestVersion": "research-request/v1",
-  "questionId": "long-life-memory-consolidation",
-  "title": "How a person's memory of sixty years should compress without emptying",
-  "question": "Across a played lifetime of decades, which moments should a person still be able to recall unprompted, which should survive only as a general impression of a period or a person, and which should be gone entirely — and what makes the difference between the three?",
-  "whyItMatters": "Memories are appended and never pruned, superseded or weighted by age, so a sixty-year life ends with tens of thousands of equally live recollections and the journal and life record read as an undifferentiated log. The player's own sense of having lived a life depends on this more than on any other system, and the four strength levels the records already carry are set once at writing and never revisited.",
+  "answer": {
+    "answeredAt": "2026-09-22T13:30:00.000Z",
+    "answeredBy": "ChatGPT (research director), overnight 2026-09-22",
+    "sources": [
+      "ALIVE44 — LIVING WORLD EXPANSION RESEARCH — CURRENT, Google Drive 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section LIVING PLAY — LONG-LIFE MEMORY CONSOLIDATION RESEARCH",
+      "CHATGPT REPLIES TO CLAUDE — CURRENT, Google Drive 1vlgDEUqGySnfb5xFEUNC-yrDJ29QsqxJ3afxKkSoQGc, section OVERNIGHT LIVING-PLAY RESEARCH — LONG-LIFE MEMORY CONSOLIDATION",
+      "Conway and Pleydell-Pearce, Self-Memory System, https://pubmed.ncbi.nlm.nih.gov/10789197/",
+      "Singer et al., self-defining memories and narrative identity, https://pubmed.ncbi.nlm.nih.gov/22925032/",
+      "Kensinger and Ford, emotional-memory retrieval review, https://doi.org/10.1146/annurev-psych-010419-051123"
+    ],
+    "stillOpen": "No numerical half-life, decay constant, chapter-size limit or per-strength timer is approved. Deterministic grouping and retrieval from existing records can proceed; any consequential tuning is a separate proposal. The answer does not authorise false-memory generation or distortion.",
+    "summary": "Answered as a four-tier presentation and retrieval contract rather than a decay score. Landmark or self-defining memories stay available without a narrow cue: major relationship and family events, moves, education, job and office transitions, major successes and failures, severe crises, and events still tied to a durable goal or relationship. Accessible episodes need not stay on the top-level list but return when the current person, place, organisation, topic, role, goal or related event legitimately cues them. Chapter or gist compresses related routine episodes into a derived period summary with every underlying event still anchored, and chapter boundaries come from actual transitions — moves, role, relationship and household starts and ends, campaigns, terms, major family, health or world events — not arbitrary decades. Dormant traces are not listed and not treated as on the person's mind, but stay in append-only evidence and return under a strong cue, so 'gone' in ordinary play means not surfaced, never erased from the save. Accessibility uses represented facts (existing strength, recency, cue match, actual consequence, chapter-boundary status, meaningful later use) rather than a fake-precision universal decay number, and reopening the Journal, hovering, searching or Save/Continue is explicitly NOT rehearsal and may not refresh strength or age. It also corrected the question's premise from live source: MemoryRecord already carries faint/moderate/strong/defining strength, relevanceTags and supersedesMemoryId, and world39-journal already suppresses superseded memories, so this is extending existing seams upward, not a second memory engine."
+  },
+  "filedAt": "2026-09-22T05:00:03.000Z",
   "impact": "shapes-design",
-  "lane": "personality and relationships",
-  "usableAnswer": "A rule for what raises a moment above the rest and what lets one fade, expressed in terms the game can observe — how recent it was, how strongly it was felt, how often it has been revisited, who else was there, whether it changed the course of a life. Plus what a faded memory should leave behind, since an impression of a decade is not the same as nothing.",
+  "lane": "people and life",
+  "notes": [
+    "Nothing may be deleted. The history store is append-only on purpose and the save has to keep its evidence, so the answer is about what surfaces and how strongly, not about erasing rows.",
+    "Distortion is a separate question and is not being asked here. This is about what is recalled, not about whether the recollection is accurate."
+  ],
+  "priority": "P1",
+  "question": "Across a played lifetime of decades, which moments should a person still be able to recall unprompted, which should survive only as a general impression of a period or a person, and which should be gone entirely — and what makes the difference between the three?",
+  "questionId": "long-life-memory-consolidation",
+  "relatedQuestionIds": ["relationship-dimensions-and-fading"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "research audit thread (technical team lead)",
   "sourcesChecked": [
     {
       "source": "src/simulation/types.ts lines 555-569, MemoryRecord and MemoryStrength, on main at 273fd2b8",
@@ -21,12 +39,7 @@
       "whatItDidNotSettle": "Confirms the layer belongs to the person rather than to their traits. It offers no account of how the layer behaves over time."
     }
   ],
-  "requestedBy": "research audit thread (technical team lead)",
-  "filedAt": "2026-09-22T05:00:03.000Z",
-  "priority": "P1",
-  "notes": [
-    "Nothing may be deleted. The history store is append-only on purpose and the save has to keep its evidence, so the answer is about what surfaces and how strongly, not about erasing rows.",
-    "Distortion is a separate question and is not being asked here. This is about what is recalled, not about whether the recollection is accurate."
-  ],
-  "relatedQuestionIds": ["relationship-dimensions-and-fading"]
+  "title": "How a person's memory of sixty years should compress without emptying",
+  "usableAnswer": "A rule for what raises a moment above the rest and what lets one fade, expressed in terms the game can observe — how recent it was, how strongly it was felt, how often it has been revisited, who else was there, whether it changed the course of a life. Plus what a faded memory should leave behind, since an impression of a decade is not the same as nothing.",
+  "whyItMatters": "Memories are appended and never pruned, superseded or weighted by age, so a sixty-year life ends with tens of thousands of equally live recollections and the journal and life record read as an undifferentiated log. The player's own sense of having lived a life depends on this more than on any other system, and the four strength levels the records already carry are set once at writing and never revisited."
 }

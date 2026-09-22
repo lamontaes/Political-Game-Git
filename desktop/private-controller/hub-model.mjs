@@ -436,7 +436,7 @@ export function updateStatus({ phase, check, build, building }) {
     case "ready":
       return at("ready", "Ready to use");
     case "waiting":
-      return at("waiting", "Update ready — restart Play to use it");
+      return at("waiting", "Update ready — press Install update");
     case "offline":
       return at(
         "offline",

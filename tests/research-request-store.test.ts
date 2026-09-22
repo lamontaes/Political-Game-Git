@@ -5,7 +5,10 @@ import path from "path";
 import { afterEach, describe, expect, it } from "vitest";
 
 import { writeResearchRequest } from "../scripts/research/request-store";
-import { RESEARCH_REQUEST_DIRECTORY } from "../src/research/research-request";
+import {
+  RESEARCH_REQUEST_DIRECTORY,
+  type ResearchRequestRecord,
+} from "../src/research/research-request";
 
 const temporaryRoots: string[] = [];
 
@@ -34,7 +37,7 @@ afterEach(() => {
  * through this one function, so one wrong byte here is every lane's problem.
  */
 describe("A filed research question is written the way the repository stores files", () => {
-  const record = {
+  const record: ResearchRequestRecord = {
     filedAt: "2026-09-22T05:00:00.000Z",
     impact: "shapes-design",
     lane: "modular legislation",
@@ -50,24 +53,18 @@ describe("A filed research question is written the way the repository stores fil
     whyItMatters: "Not applicable; this record exists to be written.",
   };
 
-  it("ends with exactly one newline, so the format job has nothing to remove", () => {
+  it("ends with exactly one newline, so the format job has nothing to remove", async () => {
     const root = scratchRepository();
-    const filePath = writeResearchRequest(
-      root,
-      record as Parameters<typeof writeResearchRequest>[1],
-    );
+    const filePath = await writeResearchRequest(root, record);
     const written = fs.readFileSync(filePath, "utf8");
 
     expect(written.endsWith("}\n")).toBe(true);
     expect(written.endsWith("}\n\n")).toBe(false);
   });
 
-  it("round-trips as the record it was handed", () => {
+  it("round-trips as the record it was handed", async () => {
     const root = scratchRepository();
-    const filePath = writeResearchRequest(
-      root,
-      record as Parameters<typeof writeResearchRequest>[1],
-    );
+    const filePath = await writeResearchRequest(root, record);
 
     expect(JSON.parse(fs.readFileSync(filePath, "utf8"))).toEqual(record);
   });

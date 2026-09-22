@@ -1,0 +1,36 @@
+{
+  "answer": {
+    "summary": "should-partisan-geography-move: yes, consistent with the owner's living world. Preserve startup conditions but let current opinion, participation, candidate alternatives and population composition develop. Aggregate regions from the same underlying quantities instead of applying a second swing bonus. Keep approval, belief, party affiliation and votes separate; no fixed points-per-year drift or guaranteed regional conversion.",
+    "sources": [
+      "ALIVE44 1wDpqx3b9a_O0iqLgxm3YREJNN469pC4LPyJ2eJWD_jA, section 'STRESS-TEST CONNECTION ANSWERS — 31 TARGETED ANSWERS, CURRENT RECEIVING', answer C05, published 2026-09-22 15:58Z. Full text of the whole batch is kept in docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json."
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T15:58:00.000Z",
+    "stillOpen": "\"no fixed points-per-year drift or guaranteed regional conversion.\"\n\nTwo scope limits on this whole batch, in ChatGPT's own words, and they bind every answer from it: testsExecuted is \"Artifact validation only. Acceptance entries are requests, NOT game tests run by the director.\" — so an Acceptance paragraph is a test somebody still has to write, never a measurement that passed — and \"Numeric rates, thresholds and empirical response magnitudes are NOT approved by this batch.\""
+  },
+  "filedAt": "2026-09-22T15:29:00.000Z",
+  "impact": "shapes-design",
+  "lane": "world divergence",
+  "notes": [
+    "This one is a design decision first and an empirical question second; the contract says the omission was on purpose, so the answer needs to engage with that rather than route around it.",
+    "Related: [[what-should-the-world-do-to-a-person]]. If individual beliefs move, an aggregate lean could be computed from them rather than asserted, which would be the honest version and is worth an opinion on."
+  ],
+  "priority": "P1",
+  "question": "A state's partisan lean is drawn once when the world is born and is never written again, and the living-world contract says seat-level partisan geography is deliberately not modelled rather than guessed at. The owner's example is a very popular president turning the South reliably one way over a career. So: (1) should a state's lean move at all during a forty-year life, and at what pace — the real answer over the last fifty years is that some states moved a great deal and most moved slowly; (2) what should move it, expressed over things this world records — who has won there, how long they held it, whether the party that holds it changed its platform, whether people moved in or out; (3) should it move by region as well as by state, since the owner's example is regional and a region is not a thing the simulation currently reasons about; (4) how much of a real state's movement is people changing their minds versus people moving house and dying, since this game simulates births, deaths and arrivals and could earn part of the drift honestly rather than asserting it; and (5) is there a defensible source for the pace, or is any figure here an invention?",
+  "questionId": "should-partisan-geography-move",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "world divergence thread",
+  "sourcesChecked": [
+    {
+      "source": "src/presentation/opening-life.ts and src/simulation/living-world/contract.ts",
+      "whatItDidNotSettle": "Establishes that the lean is a startup constant by construction and that the absence of seat-level lean is a deliberate contract decision, not an omission. Settles that changing this is a decision against a stated design position and needs to be made explicitly. Says nothing about the pace."
+    },
+    {
+      "source": "Two ordinary saves run forward, sampled every two years",
+      "whatItDidNotSettle": "Establishes that everything else about the world diverges — population, deaths, disasters, seats, parties — while the partisan figures do not move at all. It measures the gap without saying whether it should be closed."
+    }
+  ],
+  "title": "Whether a state or a region should be able to change its politics over a life",
+  "usableAnswer": "A yes or no on whether lean should move. If yes: a pace with a source, expressed as a rate per election cycle or per decade, and a short list of what drives it drawn from records this world already keeps. If part of the drift should be earned from population change rather than asserted, say which part. And if the honest answer is that no defensible pace exists and the lean should stay fixed, that is usable and settles the question rather than leaving it open.",
+  "whyItMatters": "Measured 2026-09-22 at main 62368c1e. WHAT EXISTS: regionSwingPp and stateSwingPp, drawn at opening-life.ts:57 when a world is created. THE ONE MISSING LINK: they are never written again, anywhere, and there is no presidential popularity of any kind in the tree, so the owner's example is impossible three ways over. THE SMALLEST HONEST CHANGE: one writer that moves the drawn figure at an authored pace on an authored trigger. WHAT A PLAYER WOULD SEE: a state that was safe for one party when they were born being contested by the time they hold office — which over a multi-generation game is the difference between a world and a backdrop, and multi-generation play is something the owner has said must ship."
+}
