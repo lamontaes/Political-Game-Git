@@ -39,7 +39,7 @@ an options screen; and six mandatory play-proof paths proven deterministically.
   surface ever built lives behind `?view=office-fixture`. Exactly **one**
   production-class asset is released in the whole game (an office plate a player
   cannot reach), while **25 approved production character masters sit
-  unreleased**. There are 372 hex literals and zero colour tokens, no `:active`
+  unreleased**. There are 372 hex literals and zero color tokens, no `:active`
   state on any control, and zero ARIA attributes in the entire production UI.
 - **60C.** Of five conversation subjects, **one is reachable in play**, and of
   fifteen intents **two** cause an NPC to actually decide anything — both on a
@@ -669,7 +669,7 @@ shipped.
 | 60D_OUR_CIVIC_DUTY_ENGINE_AND_SYSTEMS_FIELD_GUIDE              | [`1Ay9c2BtbucI4WtPcrLA73oJPbTUgSXYv4yBV5Eu84DI`](https://docs.google.com/document/d/1Ay9c2BtbucI4WtPcrLA73oJPbTUgSXYv4yBV5Eu84DI/edit) | `docs/60D-our-civic-duty-engine-and-systems-field-guide.md`       |
 
 **60B** covers the seven-route map, six screens, control-state matrix,
-typography, colour, motion and accessibility, the 111-asset manifest census,
+typography, color, motion and accessibility, the 111-asset manifest census,
 scenes, poses and raster tiers; a coverage/disposition matrix over 62 numbered
 visual requirements sorted into categories A–E; a P0/P1/P2 backlog; and a final
 "IF I SAT DOWN TO GENERATE ART TOMORROW" with exact generation specifications.
@@ -687,7 +687,7 @@ IMPROVEMENTS BY PLAYER VALUE", and 15 content-expansion rules.
 LEARNS ABOUT THE PLAYER", "HOW THE GAME CAN CREATE A 50-YEAR LIFE WITHOUT A
 SCRIPT", "THE ENGINE'S UNUSED MUSCLE", "WHAT WOULD BREAK IF WE DID THIS WRONG?"
 and "HOW I CAN TEST THIS GAME WITHOUT READING CODE"), eight plain-text diagrams
-A–H, a catalogue of 44 named systems described with the same eleven points each,
+A–H, a catalog of 44 named systems described with the same eleven points each,
 and a glossary. It is written to be read without opening any source file.
 
 One defect was found by the audits and fixed inside this wave rather than filed:

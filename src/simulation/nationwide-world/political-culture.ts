@@ -5,7 +5,7 @@ import { US_STATE_USPS } from "./state-executive-candidacy-packs";
 
 /**
  * A place's political culture: which way the people who live there tend to
- * lean on the principles the policy catalogue names, and how strongly.
+ * lean on the principles the policy catalog names, and how strongly.
  *
  * AWAITING RESEARCH, and deliberately empty. Every jurisdiction has a record,
  * so the culture has a place to live and a reader that uses it, but no
@@ -38,7 +38,7 @@ export const POLITICAL_CULTURE_JURISDICTIONS: readonly string[] = [
 
 /** One principle a place's people tend to lean on, and which way. */
 export interface PoliticalCultureLeaning {
-  /** The catalogue principle's stable key, for example "fiscal-restraint". */
+  /** The catalog principle's stable key, for example "fiscal-restraint". */
   readonly principleKey: string;
   readonly direction: "toward" | "against";
   readonly strength: "slight" | "moderate" | "strong";

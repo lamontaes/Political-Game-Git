@@ -124,7 +124,7 @@
         "src/simulation/demo.ts": {
           "classification": "legitimate-data-label",
           "reached_by": "the src/simulation barrel, and createScenarioWorld from legislation-scenarios",
-          "finding": "`createScenarioWorld` requires an explicit jurisdiction context and defaults nothing. `createDemoWorld` DOES default its context to Lexington, which would make Kentucky a universal normal start \u2014 but ordinary New Game never calls it: its only runtime callers are the Run-A fixture and three src/ui developer proof routes. Pinned behaviourally by src/presentation/dehardwire-place-binding.test.ts, which starts named non-Kentucky lives and asserts neither the jurisdiction nor the clock falls back to Lexington."
+          "finding": "`createScenarioWorld` requires an explicit jurisdiction context and defaults nothing. `createDemoWorld` DOES default its context to Lexington, which would make Kentucky a universal normal start \u2014 but ordinary New Game never calls it: its only runtime callers are the Run-A fixture and three src/ui developer proof routes. Pinned behaviorally by src/presentation/dehardwire-place-binding.test.ts, which starts named non-Kentucky lives and asserts neither the jurisdiction nor the clock falls back to Lexington."
         },
         "src/simulation/portability-fixture.ts": {
           "classification": "dev-or-test-only-fixture",
@@ -136,7 +136,7 @@
     },
     "placeNamingOnThePlayerDossier": {
       "classification": "production-hardcode (FIXED in this increment)",
-      "was": "src/presentation/run-a-projection.ts rendered every birthplace and residence on the player's Quick Dossier through `runAPlaceDisplayName`, the Run-A development fixture's helper, which recognised exactly one place by literal (\"Lexington-Fayette, Kentucky\" to \"Lexington, Kentucky\") and passed every other place through as its filing name.",
+      "was": "src/presentation/run-a-projection.ts rendered every birthplace and residence on the player's Quick Dossier through `runAPlaceDisplayName`, the Run-A development fixture's helper, which recognized exactly one place by literal (\"Lexington-Fayette, Kentucky\" to \"Lexington, Kentucky\") and passed every other place through as its filing name.",
       "now": "Bound to the place catalog: `lifePlaceByJurisdictionId(id)?.displayName ?? jurisdiction.name`. Every playable place \u2014 the four named ones and every row of the national corpus \u2014 already carries its resident-facing name beside its formal filing name. A jurisdiction the catalog does not list keeps its own recorded name.",
       "proof": "src/presentation/dehardwire-place-binding.test.ts",
       "consumers_affected": "QuickDossier, PlayerOffice, OfficeScene, PinRail, MeasureFloorSurface"

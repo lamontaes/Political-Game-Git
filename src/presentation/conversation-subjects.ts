@@ -564,7 +564,7 @@ export function advanceSchoolProject(
 }
 
 /* -------------------------------------------------------------------------- */
-/* A notice on a board, and a neighbour on a doorstep.                         */
+/* A notice on a board, and a neighbor on a doorstep.                         */
 /* -------------------------------------------------------------------------- */
 
 const neighborhoodMeetingSubject: ConversationSubjectPresentation<NeighborhoodMeetingConversationProgress> =
@@ -635,7 +635,7 @@ const neighborhoodMeetingSubject: ConversationSubjectPresentation<NeighborhoodMe
     },
   };
 
-/** Moves the neighbourhood subject along. Nobody here has authority over anybody. */
+/** Moves the neighborhood subject along. Nobody here has authority over anybody. */
 export function advanceNeighborhoodMeeting(
   progress: NeighborhoodMeetingConversationProgress,
   intent: ConversationIntent,
@@ -903,7 +903,7 @@ function contextualPresentation(
  * Subjects where saying it to the room means something.
  *
  * A kitchen with two other people in it can be addressed as a room. A doorstep
- * with one neighbour on it cannot: offering "say it to everyone" there would be
+ * with one neighbor on it cannot: offering "say it to everyone" there would be
  * offering to address a group of one, which is a lie about the room told by a
  * control. Group address is therefore a property of the subject *and* of how
  * many people the room actually has, and both have to agree.
@@ -1518,7 +1518,7 @@ const COMMIT_CONTRACTS: Readonly<
     subjectTag: "conversation.subject.neighborhood-meeting",
     setting: "A doorstep, on the way past",
     socialContext:
-      "A conversation between neighbours about a meeting that has been posted.",
+      "A conversation between neighbors about a meeting that has been posted.",
     interactionTags: ["conversation.neighborhood", "relationship.shared-place"],
     interactionKind: (consequence) =>
       consequence === "strengthened"
@@ -1643,7 +1643,7 @@ const COMMIT_CONTRACTS: Readonly<
       declineProposal: ({ addresseeName }) =>
         `The player declined ${addresseeName}'s proposed activity.`,
       cancelProposal: ({ addresseeName }) =>
-        `The player cancelled the activity agreed with ${addresseeName}.`,
+        `The player canceled the activity agreed with ${addresseeName}.`,
     }),
   },
 };

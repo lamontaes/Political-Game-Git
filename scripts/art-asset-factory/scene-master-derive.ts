@@ -62,7 +62,7 @@ export function sniffContainer(bytes: Buffer): MasterContainer {
   if (bytes.subarray(0, 4).equals(PNG_MAGIC)) return "png";
   if (bytes.subarray(0, 3).equals(JPEG_MAGIC)) return "jpeg";
   throw new Error(
-    `Unrecognised image container; leading bytes were ${bytes.subarray(0, 4).toString("hex")}. Only PNG and JPEG masters are accepted.`,
+    `Unrecognized image container; leading bytes were ${bytes.subarray(0, 4).toString("hex")}. Only PNG and JPEG masters are accepted.`,
   );
 }
 

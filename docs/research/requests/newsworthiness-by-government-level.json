@@ -23,5 +23,14 @@
   ],
   "title": "Does one newsworthiness test apply to local, state and federal news",
   "usableAnswer": "A per-level statement of the newsworthiness criteria (local, state, federal), saying which are shared and which differ, with an escalation rule for when an event at one level becomes a story at another. A ruling that one test with outlet-specific thresholds is enough is also a complete answer.",
-  "whyItMatters": "The press desk scores every public event with one weekly formula across all outlets. If the test should differ by level, that is a structural change to how stories are picked, not a tuning of weights, and it decides whether a player's local actions ever reach a state or national paper."
+  "whyItMatters": "The press desk scores every public event with one weekly formula across all outlets. If the test should differ by level, that is a structural change to how stories are picked, not a tuning of weights, and it decides whether a player's local actions ever reach a state or national paper.",
+  "answer": {
+    "summary": "One test, applied by each outlet, with no universal score. Record the event once (place, people, office, stakes, evidence); stories read that event and never create facts. Each outlet decides whether it can learn and verify it and whether it fits its audience, beat and space, using shared terms: consequence, timeliness, accountability, novelty, conflict, human stakes. A town paper covers what directly affects its residents; a state outlet picks a story up for state policy, many communities, state officials or a pattern; a national outlet for federal action, broad consequence, national figures, precedent or a cross-state pattern; stories also move down as local outlets localize federal news. Syndication and follow-ups keep provenance. Owner decision: reach helps a newsroom discover a story; broader relevance and editorial judgment decide national coverage, and attention alone never triggers it. Places with little press still have outlets, and a missing municipal government does not erase a local paper. Sources: AP News Values, AP's 2020 statehouse network, AP 'When national becomes local', Pew 2015, ProPublica's Local Reporting Network.",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-22-nationwide-2315/OCD-NEWSWORTHINESS-BY-GOVERNMENT-LEVEL--2026-09-22.md (Drive 19VMXkxVOtPPOYdgGJ5vySllEt4BJHnDh, SHA-256 28a0dff9c8343b66fc637980fbb84ee971869cf94fc95c8c178c8c9cc0b81ca2)"
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T23:15:00.000Z",
+    "stillOpen": "Pending lamontae: whether there is any numeric threshold. Sources give no numeric thresholds or outlet coverage probabilities; newsroom capacity, syndication and beats vary."
+  }
 }

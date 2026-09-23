@@ -1919,19 +1919,142 @@
 .pg-workspace-head button {
   cursor: pointer;
 }
+/*
+ * The frame resizes from any edge or corner: thin invisible strips carry the
+ * resize cursor. The corner button stays for keyboard resizing but is only
+ * drawn while it has keyboard focus.
+ */
+.pg-window-edge {
+  position: absolute;
+  z-index: 2;
+  touch-action: none;
+}
+.pg-window-edge[data-edge="n"],
+.pg-window-edge[data-edge="s"] {
+  left: 10px;
+  right: 10px;
+  height: 7px;
+  cursor: ns-resize;
+}
+.pg-window-edge[data-edge="n"] {
+  top: -3px;
+}
+.pg-window-edge[data-edge="s"] {
+  bottom: -3px;
+}
+.pg-window-edge[data-edge="e"],
+.pg-window-edge[data-edge="w"] {
+  top: 10px;
+  bottom: 10px;
+  width: 7px;
+  cursor: ew-resize;
+}
+.pg-window-edge[data-edge="e"] {
+  right: -3px;
+}
+.pg-window-edge[data-edge="w"] {
+  left: -3px;
+}
+.pg-window-edge[data-edge="ne"],
+.pg-window-edge[data-edge="nw"],
+.pg-window-edge[data-edge="se"],
+.pg-window-edge[data-edge="sw"] {
+  width: 14px;
+  height: 14px;
+}
+.pg-window-edge[data-edge="ne"] {
+  top: -3px;
+  right: -3px;
+  cursor: nesw-resize;
+}
+.pg-window-edge[data-edge="sw"] {
+  bottom: -3px;
+  left: -3px;
+  cursor: nesw-resize;
+}
+.pg-window-edge[data-edge="nw"] {
+  top: -3px;
+  left: -3px;
+  cursor: nwse-resize;
+}
+.pg-window-edge[data-edge="se"] {
+  bottom: -3px;
+  right: -3px;
+  cursor: nwse-resize;
+}
 .pg-window-resize {
   position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 26px;
-  height: 26px;
+  z-index: 3;
+  right: 2px;
+  bottom: 2px;
+  width: 14px;
+  height: 14px;
   padding: 0;
   cursor: nwse-resize;
   touch-action: none;
-  color: var(--pg-brass);
-  background: var(--pg-glass-strong);
+  opacity: 0;
+  background: transparent;
   border: 0;
-  border-radius: 0 0 var(--pg-radius) 0;
+  border-right: 2px solid var(--pg-brass);
+  border-bottom: 2px solid var(--pg-brass);
+  border-radius: 0 0 4px 0;
+}
+.pg-window-resize:focus-visible {
+  opacity: 1;
+}
+.pg-workspace-keep {
+  font: inherit;
+  font-size: 0.78rem;
+  padding: 0.2rem 0.55rem;
+  color: var(--pg-brass);
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--pg-brass) 45%, transparent);
+  border-radius: 999px;
+  animation: pg-workspace-arrive 160ms ease-out both;
+}
+.pg-workspace-keep:hover,
+.pg-workspace-keep:focus-visible {
+  background: color-mix(in srgb, var(--pg-brass) 16%, transparent);
+}
+
+/* Workspaces arrive and leave with a short fade and settle. */
+.pg-workspace {
+  animation: pg-workspace-arrive 180ms ease-out both;
+}
+.pg-workspace[data-closing] {
+  animation: pg-workspace-leave 160ms ease-in both;
+  pointer-events: none;
+}
+@keyframes pg-workspace-arrive {
+  from {
+    opacity: 0;
+    translate: 0 6px;
+    scale: 0.985;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+}
+@keyframes pg-workspace-leave {
+  from {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+  to {
+    opacity: 0;
+    translate: 0 6px;
+    scale: 0.985;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pg-workspace,
+  .pg-workspace[data-closing],
+  .pg-workspace-keep {
+    animation: none;
+  }
 }
 
 /* When the card sits over a workspace it must not hide the frame's controls. */

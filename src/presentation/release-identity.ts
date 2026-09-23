@@ -42,7 +42,7 @@ export interface PatchNoteSection {
   /**
    * The release date as the notes state it, or null when they do not.
    *
-   * `renderReleaseSection` writes `_Released 8 September 2026._` as the first
+   * `renderReleaseSection` writes `_Released September 8, 2026._` as the first
    * line of every section it creates, so releases made through the tooling
    * carry one. The two hand-written historical sections do not, and the date is
    * left null for them rather than guessed at: 0.2.0 carries a REVISION date in

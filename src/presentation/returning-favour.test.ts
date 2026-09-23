@@ -20,9 +20,9 @@ import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
 
 /**
- * A favour that comes back larger.
+ * A favor that comes back larger.
  *
- * `adult.old-favour-returns` was withheld because an earlier favour-family
+ * `adult.old-favor-returns` was withheld because an earlier favor-family
  * choice may have been a refusal, so it established no help given, no new
  * request and no recurrence. All three are records now, and the one that does
  * the work is `life.favour-performed`, which a refusal never produces.
@@ -46,11 +46,11 @@ function life(seed: string) {
 }
 
 /**
- * Answer everything already open, without touching the returning favour.
+ * Answer everything already open, without touching the returning favor.
  *
  * The writer only gives a life something when nothing is in front of it, which
  * is the rule that keeps a quiet stretch from turning into an inbox. So a
- * favour comes back when the life is quiet, and a test that did not quieten it
+ * favor comes back when the life is quiet, and a test that did not quieten it
  * would be testing the cap rather than the producer.
  */
 function answerEverythingElse(world: World, personId: EntityId): World {
@@ -80,7 +80,7 @@ function offeredKeys(world: World, personId: EntityId): readonly string[] {
   );
 }
 
-describe("a favour actually performed can come back larger", () => {
+describe("a favor actually performed can come back larger", () => {
   it("returns from the person who was helped, naming them", () => {
     const { world, personId } = life("returning-favour-performed");
     const entry = favorEntries(world, personId)[0]!;
@@ -116,7 +116,7 @@ describe("a favour actually performed can come back larger", () => {
     expect(deserializeWorld(serializeWorld(quiet))).toEqual(quiet);
   });
 
-  it("does not come back when the favour was refused", () => {
+  it("does not come back when the favor was refused", () => {
     const { world, personId } = life("returning-favour-declined");
     const declined = chooseAdultOption(world, {
       personId,
@@ -133,7 +133,7 @@ describe("a favour actually performed can come back larger", () => {
     );
   });
 
-  it("does not come back when the favour was only agreed to, not carried out", () => {
+  it("does not come back when the favor was only agreed to, not carried out", () => {
     const { world, personId } = life("returning-favour-agreed");
     const agreed = chooseAdultOption(world, {
       personId,

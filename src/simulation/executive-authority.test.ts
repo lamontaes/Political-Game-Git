@@ -765,7 +765,7 @@ describe("executive-authority: rejected national-matrix values are absent", () =
     }
   });
 
-  it("keeps board-exclusive and board-required as distinct modelled families", () => {
+  it("keeps board-exclusive and board-required as distinct modeled families", () => {
     // The contract must be able to say a board holds the power itself, so that
     // a later verified Nebraska encoding is not forced into the wrong enum.
     const boardExclusive: ExecutiveAuthorityRulePack = {

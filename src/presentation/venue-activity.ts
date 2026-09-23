@@ -16,6 +16,7 @@ import {
   type World,
 } from "../simulation";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
+import { CONTACT_LOCATION_KEY } from "../simulation/people-contact";
 import { recordDomainAttendance } from "./activity-attendance";
 import { openingLifeLocation } from "./life-scene-flow";
 import { completedActivityHere } from "./scene-venues";
@@ -113,7 +114,7 @@ function disclosedJourneyFor(
  * travel — and without this, that press left a completed journey behind with
  * no recorded arrival, so `openingLifeLocation` could not place the player and
  * the destination refused forever. Measured in Springfield, Illinois: a party
- * organizing meeting asked for, travelled to, and then permanently unkeepable.
+ * organizing meeting asked for, traveled to, and then permanently unkeepable.
  */
 /**
  * `choice` is a parameter, from the client line, and must stay one. A journey
@@ -243,13 +244,27 @@ export function venueActivities(
           );
           if (blockers.length)
             refusal = "An earlier commitment must be resolved first.";
-          if (!refusal && activity.kind !== "travel" && !journey) {
+          /*
+           * A meeting two people arranged between themselves is held wherever
+           * they meet; it names no venue to travel to, so it asks for no
+           * journey. Before this, Attend on such a meeting compared the
+           * player's home with the label "Arranged in person", found no route
+           * between them, and did nothing (owner's playtest, 2026-09-22).
+           */
+          const metWhereverTheyMeet =
+            activity.location.locationKey === CONTACT_LOCATION_KEY;
+          if (
+            !refusal &&
+            activity.kind !== "travel" &&
+            !journey &&
+            !metWhereverTheyMeet
+          ) {
             const origin = openingLifeLocation(world, personId);
             if (!origin) {
-              refusal = `The current location is not recorded, so the game cannot establish a journey to ${activity.location.label}.`;
+              refusal = `You have no way to get to ${activity.location.label} from where you are yet.`;
               unperformable = true;
             } else if (origin.label !== activity.location.label) {
-              refusal = `No authored journey connects ${origin.label} to ${activity.location.label}. The supported office-to-East-End route does not establish this distance, time, or cost.`;
+              refusal = `You have no way to get from ${origin.label} to ${activity.location.label} yet.`;
               unperformable = true;
             }
           }

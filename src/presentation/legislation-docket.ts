@@ -399,7 +399,7 @@ export function nextDocketSequence(world: World, scenarioKey: string): number {
 /* -------------------------------------------------------------------------- */
 
 export interface DocketQuery {
-  /** Restrict to one programme family. */
+  /** Restrict to one program family. */
   readonly familyKey?: string;
   /** Restrict to one kind of legal act. */
   readonly instrument?: LegalInstrument;
@@ -561,7 +561,7 @@ const DOCKET_AUTHORITY_PREFIX = "docket:";
  * Everything a bill in this legislature could be written against.
  *
  * Two sources, kept visibly apart. The standing statutes are authored
- * background — the programmes this state is assumed already to run — and they
+ * background — the programs this state is assumed already to run — and they
  * exist so an appropriation is playable before the player has authorized
  * anything. The docket measures are the player's own earlier bills, and they
  * are the point of the whole arrangement: a second bill that funds, narrows or
@@ -637,7 +637,7 @@ function measureStatedCeiling(
   measureId: EntityId,
 ): number | null {
   const provisions = currentMeasureProvisions(world, measureId);
-  // An annual cap cannot be compared with a whole-programme appropriation.
+  // An annual cap cannot be compared with a whole-program appropriation.
   if (provisions.some((record) => record.fiscalPeriod === "annual"))
     return null;
   const amounts = provisions

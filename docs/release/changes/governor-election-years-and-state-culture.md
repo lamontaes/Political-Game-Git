@@ -13,7 +13,7 @@ years come from a nationwide calendar with each state's constitutional
 provision. The dates a term begins stay the game's own until they are
 verified.
 
-Not modelled, and marked so in the code: Louisiana's October primary. Its
+Not modeled, and marked so in the code: Louisiana's October primary. Its
 governor is elected on the November general election day of its odd years.
 
 A governor is now term-limited only where the state's law says so. Before

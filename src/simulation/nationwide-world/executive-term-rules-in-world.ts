@@ -32,7 +32,7 @@ import type {
  *   or after the operative date; the election for that term is the first under
  *   the new cycle, so the calendar re-anchors there and elections continue
  *   every new-length years from it.
- * - **NOT MODELLED: a change that lengthens or shortens the SITTING term**
+ * - **NOT MODELED: a change that lengthens or shortens the SITTING term**
  *   (`appliesTo: "immediately"`). It needs a sitting term's end to move, and
  *   the saved term's expiry is a scheduled due item that nothing reschedules
  *   yet. Blanket rule meanwhile: an "immediately" change is applied as
@@ -54,7 +54,7 @@ export interface AppliedExecutiveTermChange {
   readonly firstTermStartsAt: IsoDate;
   /**
    * True when the law asked to reach the sitting term and the game applied it
-   * from the next term instead, because moving a sitting term is not modelled.
+   * from the next term instead, because moving a sitting term is not modeled.
    */
   readonly deferredFromImmediate: boolean;
 }

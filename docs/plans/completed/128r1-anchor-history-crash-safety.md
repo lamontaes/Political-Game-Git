@@ -44,7 +44,7 @@ collapsing two bindings into one. L is write ordering.
 
 ### Established history is required, and its loss is detectable
 
-History now lives in **two independent files**, and neither alone authorises an
+History now lives in **two independent files**, and neither alone authorizes an
 allocation:
 
 1. `computed-anchor-ledger.json` — every id ever issued, in full. Append-only.
@@ -178,7 +178,7 @@ unchanged. The passing non-gating preflight disk/heading cargo is untouched.
 
 **A lagging ledger is no longer silently absorbed.** PORK-01 seeded the ledger
 from the live sidecar on every run and called an empty or lagging ledger safe.
-That is exactly the behaviour that made a destroyed ledger survivable, because
+That is exactly the behavior that made a destroyed ledger survivable, because
 the retired ids are precisely the ones the sidecar does not contain.
 
 So after a merge that brings in another branch's minted anchors, a mint now
@@ -194,7 +194,7 @@ no longer being able to re-seed itself out of thin air.
 
 ## Path override
 
-The three anchor paths honour `PROSE_ANCHOR_FILE`,
+The three anchor paths honor `PROSE_ANCHOR_FILE`,
 `PROSE_ANCHOR_LEDGER_FILE` and `PROSE_ANCHOR_BASELINE_FILE`. This exists so the
 regressions can drive the **real command** against disposable copies rather
 than the sidecar an owner's review is pinned to. It relocates the files and
@@ -202,7 +202,7 @@ relaxes nothing: every load runs the full validation, and the CLI prints the
 paths whenever they are not the defaults, so a scratch run cannot be mistaken
 for a real one.
 
-## Ledger synchronisation at integration
+## Ledger synchronization at integration
 
 This repair does **not** rewrite the live computed-anchor sidecar or ledger;
 both are byte-identical to `b13ba7c8`. The new checkpoint was derived from the

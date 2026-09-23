@@ -18,7 +18,7 @@ import {
  * **Evidence class travels with the reading.** A government that appears in
  * both corpora — Carson City does — is exported twice, once as the enacted text
  * this repository read and once as the research pass's transcription, each
- * labelled. They are never merged. A merge would let a venue somebody reported
+ * labeled. They are never merged. A merge would let a venue somebody reported
  * sit inside a record that claims to be the charter, and the whole point of the
  * production boundary is that those two things stay apart.
  *

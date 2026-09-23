@@ -15,7 +15,7 @@ import type { ActiveWorkRelationship, EntityId, World } from "../simulation";
 /**
  * Who actually holds a seat, established from the records that seated them.
  *
- * A work relationship labelled `employment:legislative-member` is a claim, not
+ * A work relationship labeled `employment:legislative-member` is a claim, not
  * an authority: any canonical writer can record that label without an election
  * behind it. Voting membership at the bargaining boundary is derived instead
  * from the accepted winner chain that `seatTheWinner` actually writes —

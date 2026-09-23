@@ -20,6 +20,6 @@ law that is silent on terms already served counts them.
 Refusals are plain sentences with no citations. The governor turnover no
 longer retires every incumbent after two terms; it asks the same limit.
 
-Not modelled, and marked so in the code: a law that shortens or lengthens the
+Not modeled, and marked so in the code: a law that shortens or lengthens the
 sitting term is applied from the next term instead, and records that it was.
 A partial term served after a vacancy counts as a whole term.

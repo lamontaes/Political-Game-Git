@@ -15,8 +15,8 @@ teacher of a summarized earlier life, the seated Congress and its turnover,
 party chapters and party evolution, state executives and their turnover, bill
 sponsors, office continuity, campaign contacts and the opposing campaign's
 field lead — drew a name on one stream and a gender on another and never
-introduced them, so each person was a coin flip. The draw that honours a gender
-had existed since the decision that settled the ordering, but honouring it was
+introduced them, so each person was a coin flip. The draw that honors a gender
+had existed since the decision that settled the ordering, but honoring it was
 optional and these routes did not.
 
 The two draws are now one call, so a route cannot take the name without the

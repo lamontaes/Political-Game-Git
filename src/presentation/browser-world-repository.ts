@@ -75,7 +75,7 @@ export {
  *
  * So durability is now decided from the record on disk, inside one IndexedDB
  * transaction that reads the slot, compares it, and writes — which the browser
- * serializes across tabs. Every acknowledgement this store gives means the
+ * serializes across tabs. Every acknowledgment this store gives means the
  * intended world is represented in the shared store, not that this tab
  * finished a request. A writer whose belief about the slot is stale is told
  * so, by name, instead of being allowed to overwrite work it never saw. The
@@ -800,7 +800,7 @@ export class BrowserSaveStore {
         reason: SLOT_MESSAGES.deleted,
       } as const;
     }
-    // Two ways this request is honoured: its own world is on disk, or a
+    // Two ways this request is honored: its own world is on disk, or a
     // request made after it has landed and superseded it. Both mean the
     // player has lost nothing; neither is a statement about actionSequence.
     if (this.#durableContent.get(saveId) === content) {
@@ -1140,7 +1140,7 @@ export function readStoredRecord(value: unknown): ReadRecord {
     return damaged(
       saveId,
       "unreadable-record",
-      "One saved game is not in a form this game recognises, and has been set aside.",
+      "One saved game is not in a form this game recognizes, and has been set aside.",
       false,
       savedAt,
     );

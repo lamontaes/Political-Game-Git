@@ -19,7 +19,7 @@ import { politicalCultureFactors } from "../nationwide-world/political-culture";
  * A person comes to hold a political view, in the ordinary course of living.
  *
  * The weighing engine for this has existed since Stage 4 and has had exactly
- * one caller: `demo.ts`. So a world could load a full catalogue of propositions
+ * one caller: `demo.ts`. So a world could load a full catalog of propositions
  * and still contain nobody who held an opinion about any of them, which is the
  * empty-surface pattern — a screen a player reaches that is blank on an
  * ordinary day with nothing saying why.
@@ -167,7 +167,7 @@ function openQuestionFor(
  * nothing and people form views exactly as before.
  *
  * Nothing else is supplied, and that is the finding rather than a stub. A
- * factor has to favour one of the engine's outcomes, so supplying one means
+ * factor has to favor one of the engine's outcomes, so supplying one means
  * asserting which way something points. A memory does not carry a direction;
  * neither does a temperament. Mapping either to support or oppose would be a
  * theory of politics written by an engineer and then, in a save,

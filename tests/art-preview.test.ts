@@ -299,7 +299,7 @@ describe.runIf(REVIEW_BANK_PRESENT)(
     }
 
     it("does not let a leap-day birthday turn seventeen into eighteen early", () => {
-      // Born 29 February 2008. In 2026, a common year, the birthday falls on the
+      // Born February 29, 2008. In 2026, a common year, the birthday falls on the
       // 28th; the 27th is still seventeen and the 28th is eighteen.
       expect(
         previewArtRefusal(
@@ -454,7 +454,7 @@ describe.runIf(REVIEW_BANK_PRESENT)(
       expect(Math.abs(bottom - contact)).toBeLessThan(0.001);
     });
 
-    it("centres the figure's footprint on the anchor's x", () => {
+    it("centers the figure's footprint on the anchor's x", () => {
       const left = Math.min(...drawn!.layers.map((layer) => layer.leftPercent));
       const right = Math.max(
         ...drawn!.layers.map((layer) => layer.leftPercent + layer.widthPercent),
