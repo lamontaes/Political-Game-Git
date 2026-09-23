@@ -121,15 +121,19 @@ describe("a town's figures after the last real edition", () => {
       // The latest jobless figure reached the world in-game, so it moves by
       // what the world's rate did from that month on.
       const unemployment = byKey.unemployment!;
-      const base = macroConditionsAt(
-        world,
-        "national",
-        (context.observations.find(
-          (o) =>
-            o.referencePeriod === unemployment.realPeriod &&
-            o.sourceSeriesKey.endsWith("03"),
-        )!.vintage.knownAvailableOn ?? "") as IsoDate,
-      );
+      const arrived = (context.observations.find(
+        (o) =>
+          o.referencePeriod === unemployment.realPeriod &&
+          o.sourceSeriesKey.endsWith("03"),
+      )!.vintage.knownAvailableOn ?? "") as IsoDate;
+      // Measured in the same economy as `now`: the town's own where it has
+      // one, as the carried figure is.
+      const base =
+        macroConditionsAt(
+          world,
+          macroScopeForJurisdiction(homeOf(world)),
+          arrived,
+        ) ?? macroConditionsAt(world, "national", arrived);
       if (base)
         expect(unemployment.carriedValue).toBeCloseTo(
           unemployment.realValue + now.unemploymentPct - base.unemploymentPct,
