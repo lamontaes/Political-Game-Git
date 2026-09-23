@@ -494,6 +494,12 @@ export function CampaignWorkspace({
           {view.reading ? (
             <p className="game-campaign-memo" data-testid="campaign-memo">
               {view.reading.summary}
+              {view.reading.change ? (
+                <span data-testid="campaign-memo-change">
+                  {" "}
+                  {view.reading.change}
+                </span>
+              ) : null}
               {view.reading.marginPercent !== null ? (
                 <small>
                   Somebody&rsquo;s estimate from the calls they made. The margin
