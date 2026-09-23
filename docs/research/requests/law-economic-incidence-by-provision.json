@@ -1,0 +1,31 @@
+{
+  "filedAt": "2026-09-23T03:55:00.000Z",
+  "impact": "shapes-design",
+  "lane": "Laws that change the world",
+  "notes": [
+    "Owner's words, 9/22/2026 at 11:46 p.m. Eastern: 'the machinery for every law to affect the system and pieces of laws ... if one thing lowers a tax rate but raises tariffs, that's still effectively a tax, but paid in a different way, and so it'll affect different things' and 'if you go completely on electric power ... West Virginia should suffer consequences'.",
+    "Place data the answer may need (industry mix by county) may not exist in the game yet. Saying which series is needed is enough."
+  ],
+  "priority": "P1",
+  "question": "When one law carries several parts, each part should reach the economy by its real channel, not by its label. The owner's two examples: (1) a law that lowers a tax rate but raises tariffs still taxes people, but collects it differently and reaches different people and industries; (2) a law that moves a state or the country off coal power should hurt West Virginia's economy. So, for each kind of provision (income, sales, excise and property tax rates; tariffs; subsidies and appropriations; a mandate or ban on an activity, such as a fuel or an energy source; a license or permit rule; a minimum wage or labor rule; a criminal penalty or policing and sentencing change), please give: who bears it (households by income, businesses by industry, places by their industry mix), the channel it moves through (prices, wages, jobs, public revenue, a regional industry's output, crime), the geographic scope (a city's, a state's or the national series), and whether a STATE law may move a NATIONAL series at all. The game already has a monthly national economy moved by 'shocks', including regional-industry-downturn and regional-industry-boom, which nothing can reach today. Which provisions should emit which shock, scaled by what feature of the bill? For crime: the Local crime thread now runs a monthly crime pass in every town. Which provisions should change its rates or its arrests, and in which direction?",
+  "questionId": "law-economic-incidence-by-provision",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Laws that change the world thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/macro-economy/policy.ts: eleven shock kinds with placeholder impulse profiles",
+      "whatItDidNotSettle": "The kernel exists and the magnitudes are marked unconfirmed. Nothing maps a provision to a shock, and regional-industry-downturn and regional-industry-boom are unreachable."
+    },
+    {
+      "source": "ChatGPT's answer to policy-effect-model-state-and-local (2026-09-22)",
+      "whatItDidNotSettle": "It says more tax revenue is not automatically a positive GDP shock, an appropriation is not spending, and geography must match. It does not say who bears each provision kind or which shock each emits. It also left the 0.05pp, 0.01pp and 0.6 placeholders unconfirmed."
+    },
+    {
+      "source": "who-pays-which-taxes-56-places (answered as coverage)",
+      "whatItDidNotSettle": "It says which taxes apply where. It does not cover tariffs, energy mandates or how a change in a rate moves who is better or worse off."
+    }
+  ],
+  "title": "Who really pays for, and who gains from, each part of a law",
+  "usableAnswer": "A table, one row per provision kind: who bears it, the channel, scope, the shock kind (or 'none'), and what in the bill sets the intensity. A worked example for each of the owner's two cases (a tariff-for-tax swap, and a coal phase-out reaching West Virginia) would settle the pattern for the rest. Magnitudes may be ranges marked provisional; say UNKNOWN rather than guess.",
+  "whyItMatters": "The owner wants every law, and every separate part of a law, to affect the system by its real economic effect, so saves drift apart in believable ways. Without this answer the game can only record that a law passed and collected or spent money. It cannot say who got poorer, which region lost jobs, or whether crime moved. Inventing incidence would put the wrong people in the wrong mood about the wrong law."
+}

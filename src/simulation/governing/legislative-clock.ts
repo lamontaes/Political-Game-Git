@@ -8,7 +8,7 @@ import {
 import { recordFiledProvision } from "../legislative-politics";
 import { legislativeWorkKey } from "../legislative-work-key";
 import { rulePackById } from "../legislature-rule-packs";
-import { appropriationFromEnactedMeasure } from "./program-governing";
+import { applyEnactedLawEffects } from "../enacted-law-effects";
 import {
   scheduleFutureDueItem,
   futureDueItemStateAt,
@@ -621,9 +621,10 @@ export function applyInstitutionStep(
     );
   if (steps.includes("record-enactment"))
     return applied(
-      // Enactment is also where an appropriation becomes spending authority
-      // the executive can commit; a measure without an amount writes nothing.
-      appropriationFromEnactedMeasure(
+      // Enactment is also where the law changes what it governs: an
+      // appropriation becomes spending authority the executive can commit, a
+      // levy becomes a tax policy. A measure without either writes nothing.
+      applyEnactedLawEffects(
         recordEnactment(world, { stableKey: key("enactment"), measureId }),
         measureId,
       ),

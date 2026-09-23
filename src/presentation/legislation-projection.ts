@@ -18,6 +18,7 @@ import {
   nextChamberKey,
 } from "../simulation/legislature-rules";
 import { personName } from "../simulation/people";
+import { lawEffectSentences } from "./law-effects-prose";
 import type {
   EntityId,
   LegislativeActionKind,
@@ -99,6 +100,11 @@ export interface MeasureBriefing {
   readonly votes: readonly MeasureVoteSummary[];
   readonly finished: boolean;
   readonly outcomeNote: string | null;
+  /**
+   * What the law changed in the world, one sentence per effect, and which of
+   * its parts nothing acts on yet. Empty until the bill is law.
+   */
+  readonly whatItChanged: readonly string[];
 }
 
 const PHASE_SENTENCES: Readonly<Record<MeasurePhase, string>> = {
@@ -537,5 +543,6 @@ export function projectMeasureBriefing(
     votes: voteSummaries,
     finished: position.terminal,
     outcomeNote,
+    whatItChanged: lawEffectSentences(world, measureId),
   };
 }

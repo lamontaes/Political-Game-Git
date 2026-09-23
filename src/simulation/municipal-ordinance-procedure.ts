@@ -23,6 +23,7 @@
  */
 
 import { addDays } from "./dates";
+import { applyEnactedLawEffects } from "./enacted-law-effects";
 import type { MunicipalPassageInterval } from "./municipal-government";
 import {
   enrollMeasure,
@@ -381,6 +382,8 @@ export function passMunicipalOrdinance(
     actDesignation: measure.designation,
     effectiveAt: effectiveFromPassage ? next.currentDate : null,
   });
+  // Every enactment passes through the one effects step, a council's too.
+  next = applyEnactedLawEffects(next, measure.id);
   return { ok: true, world: next };
 }
 
