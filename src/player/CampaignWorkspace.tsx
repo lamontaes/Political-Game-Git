@@ -23,7 +23,7 @@ import type {
   MoneyAmount,
   World,
 } from "../simulation";
-import { districtSeatMustBeNamed } from "../simulation";
+import { candidacyEligibility, districtSeatMustBeNamed } from "../simulation";
 import { CampaignLifePanel } from "./CampaignLifePanel";
 import { DistrictResidencePanel } from "./DistrictResidencePanel";
 import { CampaignWeekPanel } from "./CampaignWeekPanel";
@@ -168,6 +168,23 @@ export function CampaignWorkspace({
       selectedOffice.officeKey,
       world.currentDate,
     );
+  // The office list is checked before a seat is named, so it can say
+  // "eligible" for a seat the named district then refuses. Ask again with the
+  // seat, and say why beside the button rather than only after a click.
+  const boundRefusal = useMemo(() => {
+    if (!person || !selectedOffice || !needsDistrict || !districtBinding)
+      return null;
+    const check = candidacyEligibility(world, {
+      personId,
+      jurisdictionId: person.homeJurisdictionId,
+      officeKey: selectedOffice.officeKey,
+      alreadyACandidate: false,
+      districtBinding,
+    });
+    return check.eligible
+      ? null
+      : check.blocks.map((block) => block.reason).join(" ");
+  }, [world, personId, person, selectedOffice, needsDistrict, districtBinding]);
 
   function run<T>(work: () => T, apply: (value: T) => void) {
     try {
@@ -440,7 +457,9 @@ export function CampaignWorkspace({
             data-testid="file-candidacy"
             className="game-campaign-action"
             disabled={
-              !selectedOffice?.eligible || (needsDistrict && !districtBinding)
+              !selectedOffice?.eligible ||
+              (needsDistrict && !districtBinding) ||
+              boundRefusal !== null
             }
             onClick={file}
           >
@@ -462,6 +481,11 @@ export function CampaignWorkspace({
               The committee opens with nothing in it.
             </span>
           </button>
+          {boundRefusal ? (
+            <p className="game-note" data-testid="file-candidacy-refusal">
+              {boundRefusal}
+            </p>
+          ) : null}
           {DIAGNOSTICS && authorityDetail.length > 0 ? (
             <details className="game-campaign-gaps game-campaign-detail">
               <summary>What the game does not know about this</summary>

@@ -169,7 +169,16 @@ export function districtResidenceSince(
         (interval.endedOn === null || interval.endedOn > onDate),
     )
     .sort((left, right) => left.startedOn.localeCompare(right.startedOn));
-  return covering[0]?.startedOn ?? null;
+  const earliest = covering[0];
+  if (!earliest) return null;
+  // A seat bound to the district the world joined this home to is the same
+  // membership `recordedDistrictResidenceSince` reads, so it gets the same
+  // household correction. Without it, choosing your own district on the
+  // candidacy screen dated your residence from the game's first day, and a
+  // lifelong Kotzebue resident failed a one-year rule (playtest, 2026-09-22).
+  return earliest.provenance.method === "canonical-home-join"
+    ? householdCorrectedStart(world, personId, earliest.startedOn, onDate)
+    : earliest.startedOn;
 }
 
 /**
@@ -227,18 +236,30 @@ export function recordedDistrictResidenceSince(
    * catalog's vintage, and nothing here claims where a boundary ran in an
    * earlier year.
    */
+  return householdCorrectedStart(world, personId, membership.startedOn, onDate);
+}
+
+/**
+ * A home-join interval's start, corrected from the household records as
+ * explained above: the earlier of the interval's own start and the day the
+ * records show this life came to live in its current home place.
+ */
+function householdCorrectedStart(
+  world: World,
+  personId: EntityId,
+  startedOn: IsoDate,
+  onDate: IsoDate,
+): IsoDate {
   const person = world.people[personId];
-  if (!person) return membership.startedOn;
+  if (!person) return startedOn;
   const livedHereSince = homeJurisdictionResidenceSince(
     world,
     personId,
     person.homeJurisdictionId,
     onDate,
   );
-  if (livedHereSince === null) return membership.startedOn;
-  return livedHereSince < membership.startedOn
-    ? livedHereSince
-    : membership.startedOn;
+  if (livedHereSince === null) return startedOn;
+  return livedHereSince < startedOn ? livedHereSince : startedOn;
 }
 
 /**

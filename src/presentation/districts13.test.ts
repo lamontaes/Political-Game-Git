@@ -24,6 +24,7 @@ import {
   deserializeWorld,
   districtResidenceIntervals,
   districtResidenceSince,
+  recordedDistrictResidenceSince,
   establishDistrictResidence,
   serializeWorld,
   type EntityId,
@@ -348,4 +349,29 @@ describe("DISTRICTS13 residence, filing, and fiscal consumer", () => {
       expect(seat.kind).toBe("unseated");
     }
   }, 180_000);
+
+  it("dates a chosen home district from when the life came to live there, not the game's first day", () => {
+    // Kotzebue playtest, 2026-09-22: a forty-year-old bound her own House
+    // district and was refused a one-year rule, residence "since" the day the
+    // game started. A bound seat on the home join reads the household records
+    // exactly as the unbound question does.
+    const { world, personId } = adakLife("districts13-bound-home");
+    const bound = recordDesiredDistrict(world, personId, akHouseThirtySeven());
+    const since = districtResidenceSince(
+      bound,
+      personId,
+      akHouseThirtySeven(),
+      bound.currentDate,
+    );
+    expect(since).not.toBeNull();
+    expect(since! < bound.currentDate).toBe(true);
+    expect(since).toBe(
+      recordedDistrictResidenceSince(
+        bound,
+        personId,
+        "state-lower",
+        bound.currentDate,
+      ),
+    );
+  });
 });
