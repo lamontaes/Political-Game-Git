@@ -13,7 +13,7 @@ import {
   scheduleLegislativeTerm,
   createLegislativeTermTransitionRegistry,
 } from "./legislative-office-terms";
-import { STATE_GOVERNING_HANDLERS } from "./governing/state-governing";
+import { stateGoverningHandlers } from "./governing/state-governing";
 import { PUBLIC_PROGRAM_HANDLERS } from "./governing/public-program";
 import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
 import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
@@ -2013,7 +2013,7 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
       createFutureTransitionHandlerRegistry([
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
         // GOVERNING: state office matters, their deadlines and reports.
-        ...STATE_GOVERNING_HANDLERS,
+        ...stateGoverningHandlers(),
         ...GOVERNOR_TURNOVER_HANDLERS,
         // A legislature and voters changing the governor's term limit.
         ...CONSTITUTIONAL_REFORM_HANDLERS,

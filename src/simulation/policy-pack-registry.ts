@@ -6,6 +6,7 @@ import {
 import { US_STATE_AND_LOCAL_POLICY_PACK } from "./policy-pack-us-state-and-local";
 import { US_POLICY_POSITIONS_PACK } from "./policy-pack-us-policy-positions";
 import { US_FEDERAL_POLICY_PACK } from "./policy-pack-us-federal";
+import { US_FEDERAL_POSITIONS_PACK } from "./policy-pack-us-federal-positions";
 
 /**
  * The policy packs this build loads.
@@ -35,6 +36,10 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
   // only where its rows sit in the catalog order: after, so every id the
   // state and local catalog already had keeps its position.
   US_FEDERAL_POLICY_PACK,
+  // Positions on federal questions. Last, because it points into both packs
+  // above: the federal issues and the principles the state and local
+  // positions declare.
+  US_FEDERAL_POSITIONS_PACK,
 ];
 
 let cached: PolicyRegistry | null = null;
