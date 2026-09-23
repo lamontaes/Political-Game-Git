@@ -30,7 +30,6 @@ import { candidacyEligibility, districtSeatMustBeNamed } from "./candidacy";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
 import { congressSeatIdentityForOfficeKey } from "./nationwide-world/congress-candidacy-packs";
-import type { GovernmentUnitIdentity } from "./government-units";
 import type { LocalGoverningBodyIdentity } from "./nationwide-world/local-governing-body-candidacy-packs";
 import {
   ensureLocalGovernmentOrganization,
