@@ -793,6 +793,11 @@ const SCHOOL_TROUBLE: EpisodeFamily = {
          * is offered something the records can ground instead.
          */
         { kind: "role", role: "school-peer" },
+        {
+          kind: "withheld",
+          reason:
+            "Withdrawn by the owner, 2026-09-23 (PR #564 comment): the school-breakage blame story reached 16 of 16 lives and is rejected as life-defining material.",
+        },
       ],
       lines: [
         "{detail:incident} is broken at school, and the office has your name for it.",

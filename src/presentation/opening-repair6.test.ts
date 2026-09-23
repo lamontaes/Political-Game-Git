@@ -12,6 +12,7 @@ import {
   OPENING_LIFE_FAMILIES,
   OPENING_LIFE_FOLLOWUPS,
   OPENING_LIFE_PREMISE_GATED_KEYS,
+  OPENING_LIFE_LATER_WITHHELD,
   OPENING_LIFE_WITHHELD,
   OPENING_SCENE_TIME_WINDOWS,
 } from "../simulation/opening-life-content";
@@ -27,10 +28,11 @@ import {
 describe("every authored opening continuation depends on the saved answer", () => {
   it.each(
     OPENING_LIFE_ADDITIONS.filter(
-      // A scene the owner withdrew has no playable branches to preserve.
+      // A scene or continuation taken out of play has no branches to preserve.
       (definition) =>
         !OPENING_LIFE_PREMISE_GATED_KEYS.has(definition.key) &&
-        !(definition.key in OPENING_LIFE_WITHHELD),
+        !(definition.key in OPENING_LIFE_WITHHELD) &&
+        !(definition.key in OPENING_LIFE_LATER_WITHHELD),
     ).map((definition) => [definition.key, definition] as const),
   )(
     "%s preserves positive and negative branches across reload",

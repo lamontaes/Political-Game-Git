@@ -1,5 +1,6 @@
 import { expect, it } from "vitest";
 import { eligibleEpisodeBeats } from "../simulation";
+import { EPISODE_FAMILIES } from "../simulation/episode-bank";
 import {
   OPENING_LIFE_ADDITIONS,
   OPENING_LIFE_FAMILIES,
@@ -79,4 +80,39 @@ it("offers free time beside the moment and never as the moment itself", () => {
       );
   }
   expect(offered).toBeGreaterThan(0);
+});
+
+const withheldKinds = (requires: readonly { kind: string }[]) =>
+  requires.filter((r) => r.kind === "withheld").length;
+
+it("never offers the lost-pet cat, at any stage", () => {
+  const family = OPENING_LIFE_FAMILIES.find(
+    (entry) => entry.key === "opening.early.community.lost-pet-flyer",
+  )!;
+  expect(family.stages.length).toBeGreaterThan(0);
+  for (const stage of family.stages)
+    expect(withheldKinds(stage.requires), stage.key).toBe(1);
+});
+
+it("keeps the question about a guardian's school days but not the wait for an answer nobody gives", () => {
+  const family = OPENING_LIFE_FAMILIES.find(
+    (entry) => entry.key === "opening.young.home.ask-about-childhood",
+  )!;
+  const [first, ...later] = family.stages;
+  expect(withheldKinds(first!.requires)).toBe(0);
+  expect(later.length).toBeGreaterThan(0);
+  for (const stage of later)
+    expect(withheldKinds(stage.requires), stage.key).toBe(1);
+});
+
+it("withdraws only the school-blame stage from its family", () => {
+  const family = EPISODE_FAMILIES.find(
+    (entry) => entry.key === "school.the-thing-you-got-blamed-for",
+  )!;
+  const withheld = family.stages
+    .filter((stage) => withheldKinds(stage.requires) > 0)
+    .map((stage) => stage.key);
+  expect(withheld).toContain("blamed");
+  // The other school stages that share the family stay in play.
+  expect(family.stages.length - withheld.length).toBeGreaterThan(1);
 });

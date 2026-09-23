@@ -1331,6 +1331,19 @@ export function isOptionalOpeningActivity(episodeKey: string): boolean {
 export const OPENING_LIFE_WITHHELD: Readonly<Record<string, string>> = {
   "early.school.crayon-sharing":
     "Withdrawn by the owner, 2026-09-22 (ChatGPT dialogue review 2026-09-23): the blue-crayon premise is rejected.",
+  "early.community.lost-pet-flyer":
+    "Withdrawn by the owner, 2026-09-23 (PR #564 comment): every life met the same cat, and nothing records a lost pet or a flyer.",
+};
+
+/**
+ * Continuations (the follow-through and any later stage) taken out of play
+ * while the first moment stays. Nothing
+ * produces the other person's side of these, so the later moment would wait
+ * on an answer that never comes.
+ */
+export const OPENING_LIFE_LATER_WITHHELD: Readonly<Record<string, string>> = {
+  "young.home.ask-about-childhood":
+    "Withheld 2026-09-23 (round 3 roll call): the guardian's answer has no producer, and the question stood unanswered for months.",
 };
 
 export function openingLifeFamily(
@@ -1376,6 +1389,10 @@ export function openingLifeFamily(
   // means — so requiring the same fact again on the continuation would make
   // the continuation unreachable. The continuation already requires the
   // saved answer to the moment, which is the stronger claim anyway.
+  const continuationReason = OPENING_LIFE_LATER_WITHHELD[scene.key];
+  const continuationWithheld: readonly EpisodeRequirement[] = continuationReason
+    ? [{ kind: "withheld", reason: continuationReason }]
+    : [];
   const circumstance: readonly EpisodeRequirement[] =
     scene.key === "early.family.packing-boxes"
       ? [{ kind: "fact", fact: "household.move-preparation" }]
@@ -1429,6 +1446,7 @@ export function openingLifeFamily(
               key: "follow-through",
               requires: [
                 ...requirements,
+                ...continuationWithheld,
                 {
                   kind: "after-choice" as const,
                   stage: "moment",
@@ -1475,6 +1493,7 @@ export function openingLifeFamily(
             ...(withheld
               ? [{ kind: "withheld" as const, reason: withheld }]
               : []),
+            ...continuationWithheld,
             // A later answer may land a little after the first moment's own
             // age window closes; the window is for when the moment can
             // start, not for when its consequences may still arrive.
