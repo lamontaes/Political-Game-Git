@@ -64,4 +64,31 @@ describe("the people who govern a home are named", () => {
     );
     expect(president).toBeDefined();
   }, 900_000);
+
+  it("seats Puerto Rico's Legislative Assembly at 51 and 27, with its districts and at-large members", () => {
+    const { world, personId } = adultLifeIn("PR", "puerto-rico-assembly");
+    const members = stateLegislators(
+      world,
+      stateCandidacyPack("US-PR")!.packId,
+    );
+    const count = (pattern: RegExp) =>
+      members.filter((member) => pattern.test(member.title)).length;
+    expect(count(/House of Representatives, District /)).toBe(40);
+    expect(count(/House of Representatives, At Large$/)).toBe(11);
+    expect(count(/Senate, District /)).toBe(16);
+    expect(count(/Senate, At Large$/)).toBe(11);
+
+    const rows = projectGovernmentBrowser(world, personId).representedBy!;
+    const house = rows.find((row) => row.key === "state:house");
+    const senate = rows.find((row) => row.key === "state:senate");
+    for (const [row, district] of [
+      [house, 1],
+      [senate, 2],
+    ] as const) {
+      if (!row || row.district === null) continue;
+      // The home's district members, then the eleven elected at large.
+      expect(row.holders).toHaveLength(district + 11);
+      expect(row.note).toMatch(/^11 of them are elected at large/);
+    }
+  }, 900_000);
 });

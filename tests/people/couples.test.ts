@@ -31,6 +31,7 @@ import {
 import { CONTACT_LOCATION_KEY } from "../../src/simulation/people-contact";
 import { describePersonContext } from "../../src/simulation/person-context";
 import { introducedPeople } from "../../src/simulation/social-introductions";
+import { scheduledActivityState } from "../../src/simulation";
 import type { EntityId, World } from "../../src/simulation";
 import {
   deserializeWorld,
@@ -135,6 +136,19 @@ describe("two people become a couple", () => {
         action(world, playerId, otherId, "ask-to-be-a-couple")?.available,
       ).toBe(true);
 
+      // A date asked of somebody else just before, still unanswered.
+      const thirdId = projectContacts(world, playerId).contacts.find(
+        (entry) =>
+          entry.personId !== otherId &&
+          action(world, playerId, entry.personId, "ask-on-a-date")?.available,
+      )?.personId;
+      if (thirdId) {
+        world = askOnADate(world, {
+          personId: playerId,
+          otherPersonId: thirdId,
+          on: projectContacts(world, playerId).earliestMeetingOn,
+        });
+      }
       const answered = askToBeTogether(world, {
         personId: playerId,
         otherPersonId: otherId,
@@ -142,6 +156,23 @@ describe("two people become a couple", () => {
       expect(answered.said).toMatch(/said yes/);
       world = answered.world;
       const couple = coupleBetween(world, playerId, otherId)!;
+      if (thirdId) {
+        // The earlier ask does not become a date now; it is withdrawn, and
+        // the row says so rather than an answer the other person never gave.
+        world = passOrdinaryDays(world, 1);
+        const row = projectContacts(world, playerId).contacts.find(
+          (entry) => entry.personId === thirdId,
+        );
+        expect(row?.lastAnswer).toMatch(/^The date on .+ did not go ahead\.$/);
+        expect(
+          world.history.scheduledActivities.some(
+            (activity) =>
+              activity.location.locationKey === CONTACT_LOCATION_KEY &&
+              activity.participantPersonIds.includes(thirdId) &&
+              scheduledActivityState(world, activity.id).status === "scheduled",
+          ),
+        ).toBe(false);
+      }
       expect(couple.kind).toBe(COUPLE_KIND);
       // One couple at a time (Massachusetts roll call, two partners at once).
       // Saved and reopened, nobody else is offered a date or a couple, and
