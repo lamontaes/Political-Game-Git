@@ -1,3 +1,4 @@
+import { jailTermOn } from "./justice/jail-terms";
 import {
   MIGRATION_REVIEW_TRANSITION_KEY,
   migrationReviewHandler,
@@ -384,7 +385,8 @@ function recordInitialSupport(world: World, campaign: CampaignRecord): World {
   // A first-time filer starts behind somebody who is already known. Nothing
   // here is a handicap the player can read; it is a starting position.
   // A candidate's past moves where they start: a remembered ethics finding,
-  // or a sitting governor's record on the economy (`record-in-office.ts`).
+  // a sitting governor's record on the economy, or how the voters here see
+  // their votes on the questions they hold views about (`record-in-office.ts`).
   const weights = campaign.candidateSupportScopes.map((scope) => ({
     id: scope.candidatePersonId,
     weight: Math.max(
@@ -396,6 +398,7 @@ function recordInitialSupport(world: World, campaign: CampaignRecord): World {
           world,
           scope.candidatePersonId,
           campaign.filedAt,
+          campaign.jurisdictionId,
         ),
     ),
   }));
@@ -900,6 +903,16 @@ export function scheduleCampaignAction(
   const campaign = requireCampaign(world, input.campaignId);
   if (campaignState(world, campaign.id).status !== "active") {
     throw new Error("A finished campaign cannot take on more work.");
+  }
+  const jailed = jailTermOn(
+    world,
+    campaign.candidatePersonId,
+    input.plan.start.date,
+  );
+  if (jailed) {
+    throw new Error(
+      `The candidate is in jail until ${jailed.until} and cannot campaign.`,
+    );
   }
   if (input.kind === "advertising") {
     if (!input.spend || input.spend.minorUnits <= 0) {
