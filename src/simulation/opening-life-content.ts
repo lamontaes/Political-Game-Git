@@ -101,19 +101,19 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "make-secret-swap",
         label: "Make the swap quietly",
-        aftermath: "You and {person} exchange snacks under the table.",
+        aftermath: "You and {person} exchanged snacks under the table.",
       },
       {
         key: "decline-cite-rule",
         label: "Say trading isn't allowed",
         aftermath:
-          "You tell {person} what the monitor said and keep your snack.",
+          "You told {person} what the monitor said and kept your snack.",
         approach: "direct",
       },
       {
         key: "eat-own-food",
         label: "Keep the snack you brought",
-        aftermath: "You tell {person} you prefer your own snack.",
+        aftermath: "You told {person} you preferred your own snack.",
       },
     ],
     5,
@@ -128,20 +128,21 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "compromise-rule",
         label: "Suggest trying the rule for one round",
-        aftermath: "You suggest one trial round to {person} before deciding.",
+        aftermath: "You suggested one trial round to {person} before deciding.",
         approach: "ask",
       },
       {
         key: "insist-house-rules",
         label: "Ask to keep the rules you agreed",
         aftermath:
-          "You remind {person} of the rules you agreed before starting.",
+          "You reminded {person} of the rules you agreed on before starting.",
         approach: "direct",
       },
       {
         key: "give-in-play",
         label: "Try their rule",
-        aftermath: "You play the next round using the rule {person} suggested.",
+        aftermath:
+          "You played the next round using the rule {person} suggested.",
         approach: "listen",
       },
     ],
@@ -157,18 +158,18 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
         key: "keep-secret",
         label: "Say it sounds unkind",
         aftermath:
-          "You tell {person} the story sounds unkind and turn back to the book.",
+          "You told {person} the story sounded unkind and turned back to the book.",
         approach: "direct",
       },
       {
         key: "decline-to-pass",
         label: "Keep it to yourself",
-        aftermath: "You don't repeat what {person} told you.",
+        aftermath: "You didn't repeat what {person} told you.",
       },
       {
         key: "question-story",
         label: "Ask how they know",
-        aftermath: "You ask {person} how they know the story is true.",
+        aftermath: "You asked {person} how they knew the story was true.",
         approach: "ask",
       },
     ],
@@ -184,19 +185,19 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "break-half-share",
         label: "Offer some of your snack",
-        aftermath: "You offer {person} a clean piece of your snack.",
+        aftermath: "You offered {person} a clean piece of your snack.",
       },
       {
         key: "comfort-words",
         label: "Stay and comfort them",
         aftermath:
-          "You stay beside {person} and say you're sorry their snack fell.",
+          "You stayed beside {person} and said you were sorry their snack fell.",
         approach: "listen",
       },
       {
         key: "walk-past-eat",
         label: "Move away quietly",
-        aftermath: "You move away from {person} with your own snack.",
+        aftermath: "You moved away from {person} with your own snack.",
       },
     ],
     5,
@@ -211,18 +212,19 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "state-boundary",
         label: "Say, “Don’t push me”",
-        aftermath: "You tell {person} you don't want to be pushed during tag.",
+        aftermath: "You told {person} you didn't want to be pushed during tag.",
         approach: "direct",
       },
       {
         key: "stop-playing",
         label: "Stop playing for now",
-        aftermath: "You tell {person} you're stopping the game and step away.",
+        aftermath:
+          "You told {person} you were stopping the game and stepped away.",
       },
       {
         key: "brush-off-tough",
         label: "Get up and keep playing",
-        aftermath: "You get up and rejoin the game with {person}.",
+        aftermath: "You got up and rejoined the game with {person}.",
       },
     ],
     5,
@@ -237,19 +239,19 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "stifle-face",
         label: "Try to hold in the laugh",
-        aftermath: "You cover your mouth and turn back to the book.",
+        aftermath: "You covered your mouth and turned back to the book.",
       },
       {
         key: "laugh-out-loud",
         label: "Laugh with them",
         aftermath:
-          "You laugh out loud with {person} during the quiet reading activity.",
+          "You laughed out loud with {person} during the quiet reading activity.",
       },
       {
         key: "scoot-away",
         label: "Move a little farther away",
         aftermath:
-          "You move away from {person} so you can listen to the reading.",
+          "You moved away from {person} so you could listen to the reading.",
         approach: "listen",
       },
     ],
@@ -266,18 +268,18 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
         key: "hand-over",
         label: "Hand over the crayon",
         aftermath:
-          "You hand {person} the blue crayon and choose another color.",
+          "You handed {person} the blue crayon and chose another color.",
       },
       {
         key: "finish-first",
         label: "Ask to finish coloring first",
-        aftermath: "You ask {person} to wait while you finish coloring.",
+        aftermath: "You asked {person} to wait while you finished coloring.",
         approach: "ask",
       },
       {
         key: "keep",
         label: "Keep using it",
-        aftermath: "You keep the blue crayon. {person} chooses another color.",
+        aftermath: "You kept the blue crayon. {person} chose another color.",
       },
     ],
   ),
@@ -291,18 +293,18 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "ask-turn",
         label: "Ask for a turn",
-        aftermath: "You ask {person} when you can have a turn.",
+        aftermath: "You asked {person} when you could have a turn.",
         approach: "ask",
       },
       {
         key: "wait",
         label: "Wait beside the swing",
-        aftermath: "You wait beside the swing.",
+        aftermath: "You waited beside the swing.",
       },
       {
         key: "leave",
         label: "Choose another game",
-        aftermath: "You leave the swing and play on the slide.",
+        aftermath: "You left the swing and played on the slide.",
       },
     ],
   ),
@@ -316,18 +318,18 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "apologize",
         label: "Apologize and help blot it",
-        aftermath: "You apologize and blot the wet paper with towels.",
+        aftermath: "You apologized and blotted the wet paper with towels.",
       },
       {
         key: "explain",
         label: "Explain it was an accident",
-        aftermath: "You tell {person} your elbow knocked the cup over.",
+        aftermath: "You told {person} your elbow knocked the cup over.",
         approach: "direct",
       },
       {
         key: "freeze",
         label: "Stand still",
-        aftermath: "You stand still beside the wet drawing.",
+        aftermath: "You stood still beside the wet drawing.",
       },
     ],
   ),
@@ -346,13 +348,13 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "ask",
         label: "Ask for a few more minutes",
-        aftermath: "You ask {person} for a few more minutes to play.",
+        aftermath: "You asked {person} for a few more minutes to play.",
         approach: "ask",
       },
       {
         key: "continue",
         label: "Keep playing with the toy",
-        aftermath: "You keep playing with the toy.",
+        aftermath: "You kept playing with the toy.",
       },
     ],
   ),
@@ -366,19 +368,19 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "tell",
         label: "Say you knocked it over",
-        aftermath: "You tell {person} that your sleeve caught the mug.",
+        aftermath: "You told {person} that your sleeve caught the mug.",
         approach: "direct",
       },
       {
         key: "help",
         label: "Ask for help with the pieces",
-        aftermath: "You ask {person} to help with the broken pieces.",
+        aftermath: "You asked {person} to help with the broken pieces.",
         approach: "ask",
       },
       {
         key: "quiet",
         label: "Say nothing",
-        aftermath: "You don't answer the question.",
+        aftermath: "You didn't answer the question.",
       },
     ],
   ),
@@ -392,18 +394,18 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "try",
         label: "Try a bite",
-        aftermath: "You try a bite of broccoli.",
+        aftermath: "You tried a bite of broccoli.",
       },
       {
         key: "no",
         label: "Say you don't want it",
-        aftermath: "You tell {person} you don't want the broccoli.",
+        aftermath: "You told {person} you didn't want the broccoli.",
         approach: "direct",
       },
       {
         key: "ask",
         label: "Ask to leave it",
-        aftermath: "You ask {person} if you can leave the broccoli.",
+        aftermath: "You asked {person} if you could leave the broccoli.",
         approach: "ask",
       },
     ],
@@ -418,17 +420,17 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "lamp",
         label: "Turn on the lamp",
-        aftermath: "You turn on the lamp and look at the closet door.",
+        aftermath: "You turned on the lamp and looked at the closet door.",
       },
       {
         key: "covers",
         label: "Pull up the covers",
-        aftermath: "You pull the covers up.",
+        aftermath: "You pulled the covers up.",
       },
       {
         key: "look",
         label: "Look out the window",
-        aftermath: "You look through the window at the branch.",
+        aftermath: "You looked through the window at the branch.",
       },
     ],
   ),
@@ -442,13 +444,13 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "show",
         label: "Show them the wheel",
-        aftermath: "You show {person} the broken wheel and apologize.",
+        aftermath: "You showed {person} the broken wheel and apologized.",
         approach: "direct",
       },
       {
         key: "repair",
         label: "Try putting it back",
-        aftermath: "You try to fit the wheel back onto the truck.",
+        aftermath: "You tried to fit the wheel back onto the truck.",
       },
       {
         key: "hide",
@@ -467,7 +469,7 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "draw",
         label: "Draw something",
-        aftermath: "You draw for the fifteen minutes.",
+        aftermath: "You drew for the fifteen minutes.",
       },
       {
         key: "read",
@@ -477,7 +479,7 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "rest",
         label: "Take a quiet break",
-        aftermath: "You sit quietly until the fifteen minutes are up.",
+        aftermath: "You sat quietly until the fifteen minutes were up.",
       },
     ],
     15,
@@ -493,7 +495,7 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "ask",
         label: "Ask what school was like",
-        aftermath: "You ask {person} what school was like for them.",
+        aftermath: "You asked {person} what school was like for them.",
         approach: "ask",
       },
       {
@@ -505,7 +507,7 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "own",
         label: "Talk about your day",
-        aftermath: "You talk to {person} about your day.",
+        aftermath: "You talked to {person} about your day.",
         approach: "direct",
       },
     ],
@@ -520,17 +522,17 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "read",
         label: "Read",
-        aftermath: "You spend the fifteen minutes reading.",
+        aftermath: "You spent the fifteen minutes reading.",
       },
       {
         key: "rest",
         label: "Rest",
-        aftermath: "You rest for the fifteen minutes.",
+        aftermath: "You rested for the fifteen minutes.",
       },
       {
         key: "draw",
         label: "Sketch",
-        aftermath: "You spend the fifteen minutes sketching.",
+        aftermath: "You spent the fifteen minutes sketching.",
       },
     ],
     15,
@@ -546,7 +548,7 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "ask",
         label: "Ask about their day",
-        aftermath: "You ask {person} how their day is going.",
+        aftermath: "You asked {person} how their day was going.",
         approach: "ask",
       },
       {
@@ -558,7 +560,7 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "quiet",
         label: "Ask for some quiet",
-        aftermath: "You tell {person} you'd like a little quiet time.",
+        aftermath: "You told {person} you'd like a little quiet time.",
         approach: "direct",
       },
     ],
@@ -579,17 +581,17 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "learning",
         label: "Make time to learn something",
-        aftermath: "You decide to set aside some time to learn something.",
+        aftermath: "You decided to set aside some time to learn something.",
       },
       {
         key: "connection",
         label: "Make time for people you know",
-        aftermath: "You decide to make time for people you know.",
+        aftermath: "You decided to make time for people you know.",
       },
       {
         key: "privacy",
         label: "Make some time for yourself",
-        aftermath: "You decide to make some time for yourself.",
+        aftermath: "You decided to make some time for yourself.",
       },
     ],
     5,
@@ -606,19 +608,19 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "show",
         label: "Point out the cat",
-        aftermath: "You point out the cat and the flyer to {person}.",
+        aftermath: "You pointed out the cat and the flyer to {person}.",
         approach: "direct",
       },
       {
         key: "watch",
         label: "Stop and watch",
-        aftermath: "You stop beside {person} and watch the cat.",
+        aftermath: "You stopped beside {person} and watched the cat.",
       },
       {
         key: "ask",
         label: "Ask if it might be the missing cat",
         aftermath:
-          "You ask {person} whether this might be the cat on the flyer.",
+          "You asked {person} whether this might be the cat on the flyer.",
         approach: "ask",
       },
     ],
@@ -634,18 +636,18 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "wait",
         label: "Stop and wait",
-        aftermath: "You stop at the curb. {person} catches up.",
+        aftermath: "You stopped at the curb. {person} caught up.",
       },
       {
         key: "look",
         label: "Look around the corner",
         aftermath:
-          "You look around the corner while keeping your feet on the sidewalk.",
+          "You looked around the corner while keeping your feet on the sidewalk.",
       },
       {
         key: "back",
         label: "Walk back beside them",
-        aftermath: "You turn back and walk beside {person}.",
+        aftermath: "You turned back and walked beside {person}.",
       },
     ],
     5,
@@ -661,18 +663,18 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
         key: "answer-politely",
         label: "Give your first name and grade",
         aftermath:
-          "You tell the neighbor your first name and grade, then step back beside {person}.",
+          "You told the neighbor your first name and grade, then stepped back beside {person}.",
         approach: "direct",
       },
       {
         key: "wave-say-nothing",
         label: "Wave and stay quiet",
-        aftermath: "You wave at the neighbor and stay beside {person}.",
+        aftermath: "You waved at the neighbor and stayed beside {person}.",
       },
       {
         key: "let-adult-answer",
         label: "Let the adult answer",
-        aftermath: "You stay quiet and let {person} speak to the neighbor.",
+        aftermath: "You stayed quiet and let {person} speak to the neighbor.",
         approach: "listen",
       },
     ],
@@ -689,18 +691,18 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
         key: "cling-old-toy",
         label: "Keep a toy from the donation pile",
         aftermath:
-          "You take a worn toy out of the donation bag and hold onto it.",
+          "You took a worn toy out of the donation bag and held onto it.",
         approach: "direct",
       },
       {
         key: "help-label",
         label: "Help write labels on the boxes",
-        aftermath: "You help {person} write labels on the boxes.",
+        aftermath: "You helped {person} write labels on the boxes.",
       },
       {
         key: "stay-out-way",
         label: "Stay out of the way",
-        aftermath: "You sit in the corner and stay out of the way.",
+        aftermath: "You sat in the corner and stayed out of the way.",
       },
     ],
     10,
@@ -715,19 +717,19 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       {
         key: "lean-study",
         label: "Say you want to keep studying",
-        aftermath: "You tell {person} you want to keep studying.",
+        aftermath: "You told {person} you wanted to keep studying.",
         approach: "direct",
       },
       {
         key: "lean-work",
         label: "Say you want to start working",
-        aftermath: "You tell {person} you want to start working full time.",
+        aftermath: "You told {person} you wanted to start working full time.",
         approach: "direct",
       },
       {
         key: "ask-time",
         label: "Ask for more time to decide",
-        aftermath: "You ask {person} for more time before deciding.",
+        aftermath: "You asked {person} for more time before deciding.",
         approach: "ask",
       },
     ],
@@ -744,21 +746,21 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
         key: "keep-lab",
         label: "Keep the class, turn down the shift",
         aftermath:
-          "You tell {person} you will keep the class and turn down the shift.",
+          "You told {person} you would keep the class and turn down the shift.",
         approach: "direct",
       },
       {
         key: "change-shifts",
         label: "Take the shift, miss the class",
         aftermath:
-          "You tell {person} you will take the shift and miss the class.",
+          "You told {person} you would take the shift and miss the class.",
         approach: "direct",
       },
       {
         key: "ask-supervisor",
         label: "Ask your supervisor for another shift",
         aftermath:
-          "You tell {person} you will ask your supervisor for a different shift first.",
+          "You told {person} you would ask your supervisor for a different shift first.",
         approach: "ask",
       },
     ],
@@ -785,12 +787,12 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       {
         key: "return",
         label: "Offer to undo the snack trade",
-        aftermath: "You offer {person} their snack back and ask for yours.",
+        aftermath: "You offered {person} their snack back and asked for yours.",
       },
       {
         key: "keep",
         label: "Keep the exchanged snack",
-        aftermath: "You keep the snack you received from {person}.",
+        aftermath: "You kept the snack you received from {person}.",
       },
     ],
   },
@@ -802,13 +804,13 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       {
         key: "trial",
         label: "Try one round",
-        aftermath: "You play one round with the new rule alongside {person}.",
+        aftermath: "You played one round with the new rule alongside {person}.",
       },
       {
         key: "original",
         label: "Ask to use the original rules",
         aftermath:
-          "You tell {person} you want to stick with the rules you agreed first.",
+          "You told {person} you wanted to stick with the rules you agreed on first.",
       },
     ],
   },
@@ -820,13 +822,13 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
         key: "leave",
         label: "Go back to the reading",
         aftermath:
-          "You stop asking about the story and turn back to the reading.",
+          "You stopped asking about the story and turned back to the reading.",
       },
       {
         key: "boundary",
         label: "Say you won’t pass the story on",
         aftermath:
-          "You tell {person} you will not repeat the story without knowing it is true.",
+          "You told {person} you would not repeat the story without knowing it was true.",
       },
     ],
   },
@@ -838,12 +840,12 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       {
         key: "offer",
         label: "Share your snack with them",
-        aftermath: "You offer {person} a piece of your snack.",
+        aftermath: "You offered {person} a piece of your snack.",
       },
       {
         key: "stay",
         label: "Stay with them",
-        aftermath: "You stay with {person} and keep your snack.",
+        aftermath: "You stayed with {person} and kept your snack.",
       },
     ],
   },
@@ -855,12 +857,12 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       {
         key: "return",
         label: "Play again, but say no pushing",
-        aftermath: "You rejoin the game. “No pushing,” you tell {person}.",
+        aftermath: "You rejoined the game. “No pushing,” you told {person}.",
       },
       {
         key: "end",
         label: "Stop playing tag",
-        aftermath: "You tell {person} you are done with tag for now.",
+        aftermath: "You told {person} you were done with tag for now.",
       },
     ],
   },
@@ -872,12 +874,13 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       {
         key: "settle",
         label: "Stop laughing and listen",
-        aftermath: "You stop laughing and listen to the reading.",
+        aftermath: "You stopped laughing and listened to the reading.",
       },
       {
         key: "move",
         label: "Move away and listen",
-        aftermath: "You move away from {person} and listen from another spot.",
+        aftermath:
+          "You moved away from {person} and listened from another spot.",
       },
     ],
   },
@@ -889,13 +892,13 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       {
         key: "other",
         label: "Keep drawing",
-        aftermath: "You keep drawing with the color you chose after sharing.",
+        aftermath: "You kept drawing with the color you chose after sharing.",
       },
       {
         key: "ask",
         label: "Ask for the blue crayon when they finish",
         aftermath:
-          "You ask {person} to pass the blue crayon back when they finish.",
+          "You asked {person} to pass the blue crayon back when they finished.",
       },
     ],
   },
@@ -906,12 +909,12 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       {
         key: "wait",
         label: "Wait for a turn",
-        aftermath: "You stay beside the swing to wait for a turn.",
+        aftermath: "You stayed beside the swing to wait for a turn.",
       },
       {
         key: "leave",
         label: "Go and play somewhere else",
-        aftermath: "You tell {person} you are going to play somewhere else.",
+        aftermath: "You told {person} you were going to play somewhere else.",
       },
     ],
   },
@@ -922,12 +925,12 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       {
         key: "offer",
         label: "Offer a fresh sheet of paper",
-        aftermath: "You offer {person} a fresh sheet of paper.",
+        aftermath: "You offered {person} a fresh sheet of paper.",
       },
       {
         key: "ask",
         label: "Ask what you can do to help",
-        aftermath: "You ask {person} what they want you to do next.",
+        aftermath: "You asked {person} what they wanted you to do next.",
       },
     ],
   },
@@ -943,7 +946,8 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       {
         key: "clarify",
         label: "Ask again for a few minutes",
-        aftermath: "You ask {person} whether a few more minutes are possible.",
+        aftermath:
+          "You asked {person} whether a few more minutes were possible.",
       },
     ],
   },
@@ -955,13 +959,14 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       {
         key: "step",
         label: "Step away from the pieces",
-        aftermath: "You step away from the pieces and leave them for an adult.",
+        aftermath:
+          "You stepped away from the pieces and left them for an adult.",
       },
       {
         key: "warn",
         label: "Point out the broken pieces",
         aftermath:
-          "You point out the broken pieces to {person} without touching them.",
+          "You pointed out the broken pieces to {person} without touching them.",
       },
     ],
   },
@@ -972,13 +977,13 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       {
         key: "another",
         label: "Take another bite",
-        aftermath: "You take another bite of broccoli.",
+        aftermath: "You took another bite of broccoli.",
       },
       {
         key: "enough",
         label: "Say you’ve had enough",
         aftermath:
-          "You tell {person} you have tried it and do not want another bite.",
+          "You told {person} you had tried it and did not want another bite.",
       },
     ],
   },
@@ -991,12 +996,12 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
         key: "look",
         label: "Watch the branch’s shadow",
         aftermath:
-          "You look from the window to the door and watch the shadow move.",
+          "You looked from the window to the door and watched the shadow move.",
       },
       {
         key: "leave-on",
         label: "Leave the lamp on and settle back down",
-        aftermath: "You leave the lamp on and settle back down.",
+        aftermath: "You left the lamp on and settled back down.",
       },
     ],
   },
@@ -1009,12 +1014,12 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
         key: "help",
         label: "Ask if they want help fixing it",
         aftermath:
-          "You ask {person} whether they want you to try putting the wheel back.",
+          "You asked {person} whether they wanted you to try putting the wheel back.",
       },
       {
         key: "return",
         label: "Give back the truck and wheel",
-        aftermath: "You give {person} the truck and its loose wheel.",
+        aftermath: "You gave {person} the truck and its loose wheel.",
       },
     ],
   },
@@ -1025,7 +1030,7 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       {
         key: "add",
         label: "Add to the picture",
-        aftermath: "You add another detail to your drawing.",
+        aftermath: "You added another detail to your drawing.",
       },
       {
         key: "keep",
@@ -1041,13 +1046,13 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       {
         key: "space",
         label: "Wait for their answer",
-        aftermath: "You wait for {person} to answer.",
+        aftermath: "You waited for {person} to answer.",
       },
       {
         key: "change",
         label: "Offer to talk about something else",
         aftermath:
-          "You ask {person} whether they would rather talk about something else.",
+          "You asked {person} whether they would rather talk about something else.",
       },
     ],
   },
@@ -1064,7 +1069,7 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       {
         key: "mark",
         label: "Mark your place and stop",
-        aftermath: "You mark your place and put it aside.",
+        aftermath: "You marked your place and put it aside.",
       },
     ],
   },
@@ -1076,7 +1081,7 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       {
         key: "read",
         label: "Start by reading now",
-        aftermath: "You spend the five minutes reading.",
+        aftermath: "You spent the five minutes reading.",
       },
       {
         key: "later",
@@ -1092,12 +1097,12 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       {
         key: "alone",
         label: "Say you’d like to be alone",
-        aftermath: "You tell {person} you’d like to be alone for a while.",
+        aftermath: "You told {person} you’d like to be alone for a while.",
       },
       {
         key: "explain",
         label: "Say you’d like to talk later",
-        aftermath: "You tell {person} you would like to talk another time.",
+        aftermath: "You told {person} you would like to talk another time.",
       },
     ],
   },
@@ -1110,13 +1115,13 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
         key: "watch",
         label: "Watch from here",
         aftermath:
-          "You stay beside {person} and watch the cat from a distance.",
+          "You stayed beside {person} and watched the cat from a distance.",
       },
       {
         key: "compare",
         label: "Ask if the cat matches the picture",
         aftermath:
-          "You ask {person} to look at the flyer and the cat together.",
+          "You asked {person} to look at the flyer and the cat together.",
       },
     ],
   },
@@ -1128,12 +1133,12 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       {
         key: "beside",
         label: "Walk beside them",
-        aftermath: "You continue along the sidewalk beside {person}.",
+        aftermath: "You continued along the sidewalk beside {person}.",
       },
       {
         key: "hand",
         label: "Ask to hold hands",
-        aftermath: "You ask {person} to hold your hand before going farther.",
+        aftermath: "You asked {person} to hold your hand before going farther.",
       },
     ],
   },
@@ -1144,17 +1149,18 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       {
         key: "say-yes",
         label: "Say you like your teacher",
-        aftermath: "You tell the neighbor you like your teacher.",
+        aftermath: "You told the neighbor you liked your teacher.",
       },
       {
         key: "say-not-really",
         label: "Say not really",
-        aftermath: "You tell the neighbor you do not really like your teacher.",
+        aftermath:
+          "You told the neighbor you did not really like your teacher.",
       },
       {
         key: "shrug",
         label: "Shrug",
-        aftermath: "You shrug and stay beside {person}.",
+        aftermath: "You shrugged and stayed beside {person}.",
       },
     ],
   },
@@ -1171,7 +1177,7 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       {
         key: "keep-holding",
         label: "Keep holding it",
-        aftermath: "You keep holding the toy.",
+        aftermath: "You kept holding the toy.",
       },
     ],
   },
@@ -1182,12 +1188,12 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       {
         key: "certificate",
         label: "Mention the certificate path",
-        aftermath: "You mention the certificate path.",
+        aftermath: "You mentioned the certificate path.",
       },
       {
         key: "unsure-yet",
         label: "Say you are still comparing options",
-        aftermath: "You say you are still comparing options.",
+        aftermath: "You said you were still comparing options.",
       },
     ],
   },
@@ -1199,12 +1205,12 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       {
         key: "tell-them",
         label: "Say you will tell them today",
-        aftermath: "You tell {person} you will tell your supervisor today.",
+        aftermath: "You told {person} you would tell your supervisor today.",
       },
       {
         key: "not-yet",
         label: "Say you have not told them yet",
-        aftermath: "You tell {person} you have not told your supervisor yet.",
+        aftermath: "You told {person} you had not told your supervisor yet.",
       },
     ],
   },

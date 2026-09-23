@@ -25,7 +25,10 @@ import {
   playCalendarActivity,
   type CalendarTimeResult,
 } from "./calendar-time-control";
-import { interruptionHandlers } from "./interruption-policy";
+import {
+  advanceStoppingForPressRequests,
+  interruptionHandlers,
+} from "./interruption-policy";
 import { nextOwnElection, ownElectionResultsBetween } from "./own-election";
 import { letStoryTimePass, quietStepDays } from "./life-story";
 import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
@@ -261,10 +264,16 @@ function run(
       interruptions,
     );
   const advance = (current: World, days: number) =>
-    passOrdinaryDays(current, days, {
-      handlers: interruptionHandlers(interruptions),
-      stopForTentativeHolds: interruptions.stopForTentativeHolds,
-    });
+    advanceStoppingForPressRequests(
+      current,
+      request.personId,
+      days,
+      (from, n) =>
+        passOrdinaryDays(from, n, {
+          handlers: interruptionHandlers(interruptions),
+          stopForTentativeHolds: interruptions.stopForTentativeHolds,
+        }),
+    );
   const next =
     command.kind === "quiet-stretch"
       ? formativeIntervalAt(world, request.personId) !== null

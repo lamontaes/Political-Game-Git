@@ -385,7 +385,7 @@ function readSourced<T extends FiscalRuleValue>(
       );
     case "CONFLICTING":
       return unknown(
-        "The research records conflicting authorities, but CONFLICTING requires claims from two distinct artifacts and this matrix is one artifact. Carried unresolved rather than synthesised.",
+        "The research records conflicting authorities, but CONFLICTING requires claims from two distinct artifacts and this matrix is one artifact. Carried unresolved rather than synthesized.",
         [evidence],
       );
     case "UNKNOWN":
