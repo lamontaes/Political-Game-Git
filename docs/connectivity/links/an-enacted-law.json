@@ -59,12 +59,13 @@
     {
       "reader": "A law changing a rule of government, such as a term limit or a filing requirement",
       "readerOwner": "Legislation",
-      "state": "open",
-      "detail": "The readers are finished (candidacy.ts:363, executive-term-limits.ts:175). The producers are not reached: fileRuleChangeProvision has no caller, and the constitutional workspace only creates proposal-threshold changes (ConstitutionalWorkspace.tsx:91-95).",
-      "readerAt": "src/simulation/enacted-rule-changes.ts#fileRuleChangeProvision"
+      "state": "in-flight",
+      "detail": "The readers are finished (candidacy.ts:363, executive-term-limits.ts:175). #461 connected constitutional measures to the enacted-rule reader. fileRuleChangeProvision still has no caller on main. The recall route (#520) and a branch that carries a proposition into a constitutional measure are building the producers.",
+      "readerAt": "src/simulation/enacted-rule-changes.ts#fileRuleChangeProvision",
+      "inFlight": "The rule-changing laws thread: #520 (recall route), then propositions into constitutional measures"
     },
     {
-      "reader": "An income tax in the other 51 places",
+      "reader": "An income tax everywhere but Alaska",
       "readerOwner": "Nationwide government",
       "state": "open",
       "detail": "Collection needs a tax power for the jurisdiction, and the generated file carries only US-AK with no script that writes it.",
