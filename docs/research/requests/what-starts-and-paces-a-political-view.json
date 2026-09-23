@@ -1,0 +1,30 @@
+{
+  "candidateAnswers": [],
+  "filedAt": "2026-09-23T01:05:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "PLEASE PUT THIS LIST TO THE OWNER (lamontae). His words, 2026-09-22 8:46 p.m. ET: 'there should be some more ways and it should ask me um like if you go to a rally or if your parents get sick or cancer or a health care bill passes and it, that kind of thing And it should take more than, or it should be variable. Sometimes they think it over in one day. Sometimes it takes a week. Sometimes it's triggered by something later on.'",
+    "BUILT, on the people-and-life branch (src/simulation/living-world/political-reflection.ts): a person meets a question when they file a bill or are told about one; people who met a bill think it over again when it is signed, vetoed, enacted or dies; and VIEW_TRIGGERS is a table of life events that bring back questions a person has met, by policy domain. A new row needs no code. Its one row is the owner's own example: a serious or chronic illness of the person, or of close family who know about it, brings back health and human services questions.",
+    "PLACEHOLDER PACING (REFLECTION_PACE): half of meetings are thought over the next day, 35% within two to seven days, and 15% are left until something later brings the question back.",
+    "Candidate triggers not yet built, for the owner to confirm or strike: going to a rally or a party meeting; losing a job or a workplace closing; a tax bill or a rent or price rise; a disaster in their county and how it was handled; a child starting or leaving school, or a school closing; a crime against them or someone close; a death in the family; a move to another state; becoming a parent; turning eighteen and being registered to vote; a news story they read; an argument with someone whose view they respect."
+  ],
+  "priority": "P1",
+  "question": "What in a person's life starts them thinking about a political question, or brings one back, and how long do people take to settle where they stand? For each kind of event: which policy areas it bears on, whose life it reaches (only theirs, or family and friends who know about it), and how often it actually changes or firms up a view.",
+  "questionId": "what-starts-and-paces-a-political-view",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "people and life lane",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests/nobody-is-changed-by-what-happens.json (answered)",
+      "whatItDidNotSettle": "It names the first occasions (conversation, report, office briefing, experience of a policy) and says to reconsider when new facts arrive, but not the list of life events, what each bears on, or the pace."
+    },
+    {
+      "source": "docs/research/requests/what-should-the-world-do-to-a-person.json (answered)",
+      "whatItDidNotSettle": "It covers what an event does to a person, not which political questions it brings to mind."
+    }
+  ],
+  "title": "What starts a political view, and how long it takes",
+  "usableAnswer": "A list of life events, each with the policy domains it bears on (from the game's 13 state-and-local domains), whether it reaches only the person or also close family and friends who know, and a rough likelihood that it firms up or changes a view. A distribution for how long people take to settle a view after first meeting a question, including how often they never do until something else happens. The owner's own answers to which triggers belong in the game come first.",
+  "whyItMatters": "Views now form in play and can come back when something happens, but only two triggers exist and the pacing is a guess. The owner wants more ways, variable timing, and to be asked."
+}

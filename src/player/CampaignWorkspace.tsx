@@ -36,6 +36,7 @@ import {
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import { OpponentActivityPanel } from "./OpponentActivityPanel";
 import { CampaignSpendingReports } from "./CampaignSpendingReports";
+import { MogulOffersPanel } from "./MogulOffersPanel";
 
 /**
  * Running for something.
@@ -695,6 +696,12 @@ export function CampaignWorkspace({
           {view.phase === "active" ? (
             <OpponentActivityPanel world={world} personId={personId} />
           ) : null}
+
+          <MogulOffersPanel
+            world={world}
+            personId={personId}
+            onWorldChange={onWorldChange}
+          />
 
           <CampaignSpendingReports world={world} personId={personId} />
 
