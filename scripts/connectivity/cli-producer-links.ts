@@ -52,7 +52,7 @@ function head(): string {
       }).trim();
     const commit = run("rev-parse", "--short", "HEAD");
     const dirty = run("status", "--porcelain", "--", PRODUCER_LINK_DIRECTORY);
-    return dirty ? `${commit} (links modified)` : commit;
+    return dirty ? `${commit}, with link entries not yet committed,` : commit;
   } catch {
     return "an unknown commit";
   }

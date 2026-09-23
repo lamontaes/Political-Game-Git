@@ -6,6 +6,7 @@ import { fileURLToPath, URL } from "node:url";
 
 import {
   barPill,
+  activatePending,
   cleanChecks,
   cleanHubState,
   createGeneration,
@@ -44,6 +45,75 @@ const mainOnly = () => ({
       previous: null,
     },
   },
+});
+
+test("install then restart does not retain an instruction for a consumed update", () => {
+  const check = recordCheck({}, "main", {
+    outcome: "waiting",
+    at: "2026-09-23T01:37:49.314Z",
+    revision: SHA_B,
+    message: "Verified and waiting to be activated.",
+  }).main;
+  const waiting = withPending(mainOnly(), "main", "main", build(SHA_B));
+  assert.equal(
+    updateStatus({
+      check,
+      build: waiting.tracks.main.current,
+      pending: waiting.tracks.main.pending,
+      building: false,
+    }).text,
+    "Update ready — press Install update",
+  );
+  const restarted = cleanHubState(
+    JSON.parse(JSON.stringify(activatePending(waiting, "main"))),
+  );
+  assert.equal(restarted.tracks.main.pending, null);
+  assert.deepEqual(
+    updateStatus({
+      check,
+      build: restarted.tracks.main.current,
+      pending: restarted.tracks.main.pending,
+      building: false,
+    }),
+    { kind: "current", text: "Up to date", detail: "Update installed." },
+  );
+});
+
+test("a removed pending update cannot offer installation or claim the old build current", () => {
+  const status = updateStatus({
+    check: { outcome: "waiting", revision: SHA_B },
+    build: build(SHA_A),
+    pending: null,
+    building: false,
+  });
+  assert.equal(status.kind, "unchecked");
+  assert.doesNotMatch(status.text, /Install|Up to date/);
+});
+
+test("a real pending payload is installable even before a check is persisted", () => {
+  for (const check of [null, { outcome: "up-to-date", revision: SHA_A }]) {
+    assert.equal(
+      updateStatus({
+        check,
+        build: build(SHA_A),
+        pending: build(SHA_B),
+        building: false,
+      }).text,
+      "Update ready — press Install update",
+    );
+  }
+});
+
+test("installation progress replaces the install instruction while activation runs", () => {
+  const status = updateStatus({
+    check: { outcome: "waiting", revision: SHA_B },
+    build: build(SHA_A),
+    pending: build(SHA_B),
+    building: false,
+    phase: { phase: "installing", message: "Verifying update…" },
+  });
+  assert.equal(status.text, "Verifying update…");
+  assert.equal(status.kind, "preparing");
 });
 
 test("an unbuilt branch selection survives a read (the snap-back)", () => {
