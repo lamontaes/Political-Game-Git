@@ -20,6 +20,7 @@ import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import type { NewGameSetup } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
 import { CONTACT_LOCATION_KEY } from "../simulation/people-contact";
+import { venueActivities } from "./venue-activity";
 import {
   goableToday,
   isCivicHold,
@@ -354,5 +355,24 @@ describe("a commitment due now", () => {
     })!;
     for (const id of ids)
       expect(scheduledActivityState(cleared, id).status).toBe("cancelled");
+  });
+
+  it("does not push a commitment later today it cannot reach from here", () => {
+    const { world: opened, personId } = renoLife();
+    const { world, activityId } = hold(opened, personId, {
+      key: "unreachable-tomorrow",
+      title: "Meeting across town",
+      daysAhead: 0,
+      startMinute: opened.currentMoment.minuteOfDay + 120,
+      locationKey: "quiet-stretch-test:nowhere",
+      kind: "confirmed",
+    });
+    // The Places screen may still offer giving it up; the moment does not.
+    expect(
+      venueActivities(world, personId).find(
+        (entry) => entry.activity.id === activityId,
+      )?.abandonable,
+    ).toBe(true);
+    expect(todayCalendarOptions(world, personId)).toEqual([]);
   });
 });

@@ -224,6 +224,10 @@ export const EARLIER_COMMITMENT_REFUSAL =
 export const LATE_COMMITMENT_REFUSAL =
   "Its time has passed, so it can no longer be kept. You can let it go.";
 
+/** The same, for a session of a campaign's week. */
+const LATE_CAMPAIGN_SESSION_REFUSAL =
+  "The time for that session has already passed, so it can no longer be done as planned. Let it go from the campaign's week.";
+
 /** What the clock says when asked to start an activity after its start. */
 const LATE_START_ERROR =
   "A scheduled activity cannot be started after its interval began.";
@@ -337,8 +341,7 @@ export function venueActivities(
                 world.currentMoment,
               ) < 0
             )
-              refusal =
-                "The time for that session has already passed, so it can no longer be done as planned. Let it go from the campaign's week.";
+              refusal = LATE_CAMPAIGN_SESSION_REFUSAL;
           } else if (!refusal && workedFromHome) {
             const origin = openingLifeLocation(world, personId);
             if (origin?.setting !== "home") {
@@ -373,16 +376,24 @@ export function venueActivities(
            * The raw error used to be shown as the reason, with no button
            * beside it (Southeast lives; a D.C. save held four of them).
            */
+          const lateStart =
+            error instanceof Error && error.message === LATE_START_ERROR;
+          // A campaign week's session is let go from that week, which records
+          // it the campaign's way, so it keeps the campaign's own sentence.
+          const campaignSession =
+            lateStart && campaignActionForActivity(world, activity.id) !== null;
           const late =
-            error instanceof Error &&
-            error.message === LATE_START_ERROR &&
+            lateStart &&
+            !campaignSession &&
             activity.kind !== "tentative" &&
             activity.kind !== "travel";
-          refusal = late
-            ? LATE_COMMITMENT_REFUSAL
-            : error instanceof Error
-              ? error.message
-              : "This activity cannot be performed now.";
+          refusal = campaignSession
+            ? LATE_CAMPAIGN_SESSION_REFUSAL
+            : late
+              ? LATE_COMMITMENT_REFUSAL
+              : error instanceof Error
+                ? error.message
+                : "This activity cannot be performed now.";
           if (late) unperformable = true;
         }
       }

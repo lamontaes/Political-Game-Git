@@ -234,8 +234,9 @@ export function blockingHoldsToday(
 }
 
 /**
- * Commitments the game has no way to let the player keep, which they may
- * therefore give up: one whose start has gone by, or one with no route to it.
+ * Commitments due now or already past that the game has no way to let the
+ * player keep, which they may therefore give up: one whose start has gone by,
+ * or one due now with no route to it.
  * Offered wherever the player can act, because time will not step over a
  * confirmed commitment and a life holding one has no other move.
  */
@@ -243,7 +244,17 @@ export function lettableGo(
   world: World,
   personId: EntityId,
 ): readonly ScheduledActivityRecord[] {
+  // Only what is due now or already past. A later commitment the player
+  // cannot reach from here may be reachable by then, and giving it up is the
+  // Places screen's decision, not something every moment should push.
   return venueActivities(world, personId)
-    .filter((entry) => entry.abandonable)
+    .filter(
+      (entry) =>
+        entry.abandonable &&
+        compareSimulationMoments(
+          scheduledActivityState(world, entry.activity.id).start,
+          world.currentMoment,
+        ) <= 0,
+    )
     .map((entry) => entry.activity);
 }
