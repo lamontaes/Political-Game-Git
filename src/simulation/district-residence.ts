@@ -3,13 +3,15 @@
  *
  * Gazetteer identities are looked up. Whole-place membership is written from a
  * published SLDL/SLDU–place join when the canonical home is a Census place
- * wholly inside one district. A selected district is a desired seat identity,
+ * wholly inside one district, and — for a life that declares
+ * `CONGRESSIONAL_HOME_JOIN_V1` — from the 119th CD–place join when the file
+ * lists the place with exactly one congressional district. A selected district is a desired seat identity,
  * not that join. World stepping does not resample these records. Old saves
  * without intervals stay UNKNOWN.
  */
 
 import { districtIdentityCatalog } from "../districts/catalog";
-import { SLD_PLACE_RELATION_VINTAGE } from "../districts/place-membership";
+import { placeRelationVintageFor } from "../districts/place-membership";
 import {
   districtMembershipFromCanonicalHome,
   gazetteerChamberForOfficeChamberKey,
@@ -34,9 +36,23 @@ import type {
 } from "./types";
 import { assertWorldIntegrity } from "./world";
 
-const HOME_JOIN_CHAMBERS: readonly DistrictChamber[] = [
+/**
+ * Declared by New Game: the canonical home join also writes the U.S. House
+ * district. Absent keeps the state chambers only, so a replay descriptor
+ * written before this rebuilds the same history.
+ */
+export const CONGRESSIONAL_HOME_JOIN_V1 = "congressional-home-join-v1" as const;
+export type DistrictHomeJoinVersion = typeof CONGRESSIONAL_HOME_JOIN_V1;
+
+const LEGACY_HOME_JOIN_CHAMBERS: readonly DistrictChamber[] = [
   "state-lower",
   "state-upper",
+];
+
+/** Congressional last, so the state chambers' records keep their order. */
+const HOME_JOIN_CHAMBERS: readonly DistrictChamber[] = [
+  ...LEGACY_HOME_JOIN_CHAMBERS,
+  "congressional",
 ];
 
 const MEMBERSHIP_PROVENANCE_METHODS =
@@ -504,6 +520,27 @@ export function canonicalHomeDistrictKnowledge(
   return join.kind === "conflicting" ? "split" : "unknown";
 }
 
+/**
+ * The districts a split home place intersects, where the relationship catalog
+ * names them (the U.S. House). Empty when the home is not a split place. These
+ * are candidates for a screen to offer, never a residence.
+ */
+export function canonicalHomeDistrictCandidates(
+  world: World,
+  personId: EntityId,
+  chamber: DistrictChamber,
+): readonly string[] {
+  const person = world.people[personId];
+  if (!person) return [];
+  const join = districtMembershipFromCanonicalHome({
+    homeJurisdictionId: person.homeJurisdictionId,
+    catalog: districtIdentityCatalog(),
+    placeGeoid: canonicalHomePlaceGeoid(world, personId),
+    chamber,
+  });
+  return join.kind === "conflicting" ? (join.candidateGeoids ?? []) : [];
+}
+
 function confirmCanonicalHomeJoin(
   world: World,
   personId: EntityId,
@@ -582,6 +619,7 @@ function confirmCanonicalHomeJoin(
 export function syncDistrictMembershipFromCanonicalHome(
   world: World,
   personId: EntityId,
+  homeJoinVersion?: DistrictHomeJoinVersion,
 ): World {
   const person = world.people[personId];
   if (!person) return world;
@@ -592,7 +630,11 @@ export function syncDistrictMembershipFromCanonicalHome(
   const placeGeoid = canonicalHomePlaceGeoid(world, personId);
   const startedOn = residence.occurredAt;
   let next = world;
-  for (const chamber of HOME_JOIN_CHAMBERS) {
+  const chambers =
+    homeJoinVersion === CONGRESSIONAL_HOME_JOIN_V1
+      ? HOME_JOIN_CHAMBERS
+      : LEGACY_HOME_JOIN_CHAMBERS;
+  for (const chamber of chambers) {
     const join = districtMembershipFromCanonicalHome({
       homeJurisdictionId: person.homeJurisdictionId,
       catalog: districtIdentityCatalog(),
@@ -637,7 +679,7 @@ export function syncDistrictMembershipFromCanonicalHome(
       provenance: {
         method: "canonical-home-join",
         sourceEventId: residence.id,
-        note: `Whole-place membership from ${SLD_PLACE_RELATION_VINTAGE} for Census place ${placeGeoid}.`,
+        note: `Whole-place membership from ${placeRelationVintageFor(chamber)} for Census place ${placeGeoid}.`,
       },
     });
     if (recorded.kind === "recorded") next = recorded.world;

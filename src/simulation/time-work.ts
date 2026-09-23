@@ -214,6 +214,10 @@ const LATEST_ACTIVITY_STATE = new WeakMap<
   readonly ScheduledActivityStateRecord[],
   Map<EntityId, ScheduledActivityStateRecord>
 >();
+const ACTIVITY_BY_ID = new WeakMap<
+  readonly ScheduledActivityRecord[],
+  Map<EntityId, ScheduledActivityRecord>
+>();
 const LATEST_WORK_STATE = new WeakMap<
   readonly WorkItemStateRecord[],
   Map<EntityId, WorkItemStateRecord>
@@ -236,9 +240,11 @@ export function scheduledActivityState(
   world: World,
   activityId: EntityId,
 ): ScheduledActivityStateRecord {
-  const activity = world.history.scheduledActivities.find(
-    (candidate) => candidate.id === activityId,
-  );
+  const activity = latestIndex(
+    ACTIVITY_BY_ID,
+    world.history.scheduledActivities,
+    (candidate) => candidate.id,
+  ).get(activityId);
   const state = latestActivityStateUnchecked(world, activityId);
   if (!activity || !state) {
     throw new Error(`Missing scheduled activity or state: ${activityId}`);
@@ -932,21 +938,59 @@ export function workPendingEntriesFor(
     );
 }
 
+/**
+ * Answers by activity list, then state list, then person. A redraw asks this
+ * once for every activity on the calendar, and each answer used to filter and
+ * sort the whole life's activities, looking each one up by scanning the list
+ * again.
+ */
+const VISIBLE_ACTIVITIES = new WeakMap<
+  readonly ScheduledActivityRecord[],
+  WeakMap<
+    readonly ScheduledActivityStateRecord[],
+    Map<EntityId, readonly ScheduledActivityRecord[]>
+  >
+>();
+
 export function scheduledActivitiesVisibleTo(
   world: World,
   personId: EntityId,
 ): readonly ScheduledActivityRecord[] {
-  return world.history.scheduledActivities
+  const activities = world.history.scheduledActivities;
+  const states = world.history.scheduledActivityStates;
+  let byStates = VISIBLE_ACTIVITIES.get(activities);
+  if (!byStates) {
+    byStates = new WeakMap();
+    VISIBLE_ACTIVITIES.set(activities, byStates);
+  }
+  let byPerson = byStates.get(states);
+  if (!byPerson) {
+    byPerson = new Map();
+    byStates.set(states, byPerson);
+  }
+  const cached = byPerson.get(personId);
+  if (cached) return cached;
+  const mine = activities
     .filter((activity) => canPersonAccess(activity.access, personId))
-    .filter((activity) => activity.participantPersonIds.includes(personId))
-    .sort((left, right) => {
-      const leftState = scheduledActivityState(world, left.id);
-      const rightState = scheduledActivityState(world, right.id);
-      return (
-        compareSimulationMoments(leftState.start, rightState.start) ||
-        left.id.localeCompare(right.id)
-      );
-    });
+    .filter((activity) => activity.participantPersonIds.includes(personId));
+  // A single activity needs no ordering, and was never looked up for it.
+  const visible =
+    mine.length < 2
+      ? mine
+      : mine
+          .map((activity) => ({
+            activity,
+            start: scheduledActivityState(world, activity.id).start,
+          }))
+          .sort(
+            (left, right) =>
+              compareSimulationMoments(left.start, right.start) ||
+              left.activity.id.localeCompare(right.activity.id),
+          )
+          .map((entry) => entry.activity);
+  Object.freeze(visible);
+  byPerson.set(personId, visible);
+  return visible;
 }
 
 function deriveWorkPendingGroup(

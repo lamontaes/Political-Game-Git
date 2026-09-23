@@ -103,7 +103,7 @@ export function PersonalRoutinePanel({
         <>
           <p id="personal-routine-period-target">
             {tuitionDeadline
-              ? "The disclosed tuition grace deadline is "
+              ? "Your tuition must be paid by "
               : "The next accepted study period ends "}
             {proseDate(nextPeriod.dueAt)}.{" "}
             {periodTarget ? `${skipToLabel(periodTarget.target)}. ` : ""}
