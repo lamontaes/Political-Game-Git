@@ -18,6 +18,7 @@ import {
 } from "../presentation/nationwide-candidacy";
 import type { StateExecutiveEntryStatus } from "../simulation";
 import { readableCampaignDate } from "./CampaignWorkspace";
+import { CongressCandidacySection } from "./CongressCandidacySection";
 import { ownElectionResultSentence } from "../presentation/own-election";
 
 /**
@@ -250,6 +251,12 @@ export function NationwideCandidacyWorkspace({
           executive office to stand for.
         </p>
       )}
+      <CongressCandidacySection
+        world={world}
+        personId={personId}
+        campaignActive={campaignPhase === "active"}
+        onWorldChange={onWorldChange}
+      />
     </section>
   );
 }
