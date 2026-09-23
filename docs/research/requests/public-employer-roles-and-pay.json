@@ -1,0 +1,35 @@
+{
+  "candidateAnswers": [
+    {
+      "label": "Census ASPEP by function",
+      "position": "Use the Annual Survey of Public Employment and Payroll to pick which functions a government of a given size staffs and what it pays per full-time employee, by state.",
+      "recommended": true
+    }
+  ],
+  "filedAt": "2026-09-23T04:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "Jobs (job market)",
+  "notes": [
+    "The placeholder is PUBLIC_BODY_ROLE_PLACEHOLDER in src/simulation/job-market.ts.",
+    "Puerto Rico and the other territories are not in the Census listing, so no public body is named there yet."
+  ],
+  "priority": "P1",
+  "question": "A town's county and city governments now appear on Jobs as employers, named from the Census 2025 Government Units listing. Each offers one placeholder role, an office clerk at the national median for general office clerks ($21.64 an hour, BLS OEWS May 2025), 37 to 40 hours a week, the same in every place. Which roles should a general-purpose local government post (for example clerks, public works, parks, water, police and fire, library), how does that mix change with the government's size, and what should each pay by state or area? Are hourly or salaried terms usual for each? Do any need a credential or license?",
+  "questionId": "public-employer-roles-and-pay",
+  "relatedQuestionIds": ["employers-and-job-listings"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Jobs thread, for lamontae (owner)",
+  "sourcesChecked": [
+    {
+      "source": "Our Civic Duty - public employer roster source intake - 2026-09-22.md, on PR #531",
+      "whatItDidNotSettle": "It verifies public body names for 50 states and D.C. and says the listing does not establish staffing, openings or pay. It names no roles."
+    },
+    {
+      "source": "src/presentation/generated/career-occupations.json",
+      "whatItDidNotSettle": "Holds national medians for three occupations only, not local-government pay."
+    }
+  ],
+  "title": "Which jobs a county, city or town government posts, and what they pay",
+  "usableAnswer": "A short list of roles by government size, each with hourly or salaried terms, a pay range and its source (OEWS local-government ownership rows, the Census Annual Survey of Public Employment and Payroll, or a state salary schedule), and any credential required.",
+  "whyItMatters": "Public bodies are the only employers every town in the 50 states and D.C. has on the screen today, so their one repeated role is most of what a player sees until the town businesses land."
+}
