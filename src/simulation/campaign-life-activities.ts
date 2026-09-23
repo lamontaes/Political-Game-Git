@@ -919,6 +919,39 @@ export function requestCampaignLifeActivity(
   personId: EntityId,
   input: RequestCampaignLifeActivityInput,
 ): World {
+  return offerCampaignLifeActivity(
+    world,
+    planCampaignLifeRequest(world, personId, input),
+  );
+}
+
+/**
+ * Why asking for this would be refused right now, in the writer's own
+ * sentence, or null when it would be arranged. Pure: the same planning the
+ * request writer does, without writing, so a surface can say so before the
+ * player presses (two of 180 test lives in Georgia and Colorado were offered a
+ * phone shift that could only answer that no shared evening existed). The
+ * writer keeps its own guard.
+ */
+export function campaignLifeRequestRefusal(
+  world: World,
+  personId: EntityId,
+  input: RequestCampaignLifeActivityInput,
+): string | null {
+  try {
+    planCampaignLifeRequest(world, personId, input);
+    return null;
+  } catch (error) {
+    return error instanceof Error ? error.message : String(error);
+  }
+}
+
+/** Finds the host and the first shared free evening; throws one sentence. */
+function planCampaignLifeRequest(
+  world: World,
+  personId: EntityId,
+  input: RequestCampaignLifeActivityInput,
+): OfferCampaignLifeActivityInput {
   if (!controlled(world, personId)) {
     throw new Error("Only the person you are playing can ask for this.");
   }
@@ -1000,7 +1033,7 @@ export function requestCampaignLifeActivity(
         : addSimulationMinutes(start, -entry.journeyMinutes);
     if (subjectBusy(world, personId, entry, leave, end)) continue;
     if (busy(world, [hostPersonId], start, end)) continue;
-    return offerCampaignLifeActivity(world, {
+    return {
       form: input.form,
       hostOrganizationId: input.hostOrganizationId,
       hostPersonId,
@@ -1009,7 +1042,7 @@ export function requestCampaignLifeActivity(
       origin: "subject-request",
       start,
       stableKey: `${organizationKey}:campaign-life:request:${personId}:${input.form}:${ordinal}`,
-    });
+    };
   }
   throw new Error(
     `Neither you nor ${parties.hostName} has a shared free evening in the next two weeks for a ${entry.title.toLowerCase()}.`,

@@ -2,6 +2,7 @@ import {
   CAMPAIGN_LIFE_CATALOG,
   CHAPTER_MEETING_ATTENDED_EVENT,
   campaignById,
+  campaignLifeRequestRefusal,
   homePartyChapters,
   oldEnoughForCampaignLife,
   personName,
@@ -154,6 +155,11 @@ export interface PartyWorkRequestOption {
   readonly hostOrganizationId: EntityId;
   readonly hostName: string;
   readonly organizationName: string;
+  /**
+   * Why asking would be refused now (for example, no evening in the next two
+   * weeks free for both), in the writer's words; null when it can be asked.
+   */
+  readonly unavailableReason: string | null;
 }
 
 export interface PartyAndCommunityWorkView {
@@ -386,6 +392,10 @@ export function projectPartyAndCommunityWork(
           hostOrganizationId: chapter.organizationId,
           hostName: nameOf(world, hostId),
           organizationName: chapter.name,
+          unavailableReason: campaignLifeRequestRefusal(world, personId, {
+            form,
+            hostOrganizationId: chapter.organizationId,
+          }),
         });
       }
     }
@@ -402,6 +412,10 @@ export function projectPartyAndCommunityWork(
           hostOrganizationId: campaign.organizationId,
           hostName: nameOf(world, committeeHost),
           organizationName: organizationName(world, campaign.organizationId),
+          unavailableReason: campaignLifeRequestRefusal(world, personId, {
+            form,
+            hostOrganizationId: campaign.organizationId,
+          }),
         });
       }
     }
