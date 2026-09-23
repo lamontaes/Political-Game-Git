@@ -6294,9 +6294,9 @@
       "anchor": "projectCampaign-0001",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} lost{resultMargin(result,personId)}. That is a thing that happened to them, not the end of them — tomorrow is still there.",
+      "text": "{candidateName} lost{resultMargin(result,personId)}. That is a thing that happened to {pronouns.object}, not the end of {pronouns.object} — tomorrow is still there.",
       "occurrence": 0,
-      "textRevision": "3d0e0d36028a"
+      "textRevision": "7cd60596906c"
     },
     {
       "anchor": "projectCampaign-0002",
@@ -6310,9 +6310,9 @@
       "anchor": "projectCampaign-0003",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} won{resultMargin(result,personId)}. The term begins {proseDate(term.startsAt)}; until then the office is not theirs.",
+      "text": "{candidateName} won{resultMargin(result,personId)}. The term begins {proseDate(term.startsAt)}; until then the office is not {pronouns.possessivePronoun}.",
       "occurrence": 0,
-      "textRevision": "82d601f954f4"
+      "textRevision": "e865b44e5412"
     },
     {
       "anchor": "projectDisclosure-0001",

@@ -1,3 +1,4 @@
+import { personPronouns } from "../simulation/person-identity";
 import { enterSupportedTerm } from "../../tests/fixtures/recorded-legislative-term";
 import { describe, expect, it } from "vitest";
 
@@ -361,7 +362,8 @@ describe("election day, and the morning after", () => {
     const view = projectCampaign(played.world, played.personId);
     expect(view.afterword).not.toBeNull();
     if (view.phase === "lost") {
-      expect(view.afterword).toMatch(/not the end of them/i);
+      const them = personPronouns(played.world.people[played.personId]).object;
+      expect(view.afterword).toContain(`not the end of ${them}`);
     }
 
     const nextWeek = passCampaignDays(played.world, played.personId, 7);

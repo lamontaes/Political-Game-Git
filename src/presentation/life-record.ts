@@ -13,6 +13,7 @@ import {
   type World,
 } from "../simulation";
 import { openThreadRecaps, recurringPeople } from "./life-narration";
+import { ownElectionResultsDecided } from "./own-election";
 
 /**
  * The life so far, as something a player chooses to read.
@@ -258,6 +259,25 @@ function recordEntries(
           note: "The event this line is the summary of.",
         },
       ],
+    });
+  }
+
+  // The player's own races, decided. The outcome event is not a choice the
+  // player made, so the filter above leaves it out, and a lost race was
+  // missing from the life it happened in.
+  for (const line of ownElectionResultsDecided(
+    world,
+    personId,
+    null,
+    world.currentDate,
+  )) {
+    if (seenEvents.has(line.anchor.recordId)) continue;
+    entries.push({
+      key: `election-result:${line.resultId}`,
+      at: line.resolvedAt,
+      age: ageOnDate(person.birthDate, line.resolvedAt),
+      sentence: line.sentence,
+      anchors: [line.anchor],
     });
   }
 

@@ -53,6 +53,7 @@ import type {
   World,
 } from "../simulation";
 import { moneyText } from "../simulation/money-text";
+import { personPronouns } from "../simulation/person-identity";
 
 /**
  * What a candidate can actually see.
@@ -456,6 +457,8 @@ export function projectCampaign(
       .filter((profile) => profile.organizationId === campaign.organizationId)
       .at(-1)?.name ?? null;
   const result = electionContestResult(world, campaign.contestId);
+  // The candidate's recorded pronouns; they/them only when the record is silent.
+  const pronouns = personPronouns(world.people[personId]);
 
   return {
     phase: state.status,
@@ -503,7 +506,7 @@ export function projectCampaign(
       state.status === "won"
         ? ((term) =>
             term
-              ? `${candidateName} won${resultMargin(result, personId)}. The term begins ${proseDate(term.startsAt)}; until then the office is not theirs.`
+              ? `${candidateName} won${resultMargin(result, personId)}. The term begins ${proseDate(term.startsAt)}; until then the office is not ${pronouns.possessivePronoun}.`
               : `${candidateName} won${resultMargin(result, personId)}.`)(
             legislativeTermDates(
               contest.office.officeKey,
@@ -511,7 +514,7 @@ export function projectCampaign(
             ) ?? executiveTermStart(world, personId, contest.id),
           )
         : state.status === "lost"
-          ? `${candidateName} lost${resultMargin(result, personId)}. That is a thing that happened to them, not the end of them — tomorrow is still there.`
+          ? `${candidateName} lost${resultMargin(result, personId)}. That is a thing that happened to ${pronouns.object}, not the end of ${pronouns.object} — tomorrow is still there.`
           : null,
   };
 }
