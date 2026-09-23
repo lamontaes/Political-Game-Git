@@ -964,12 +964,23 @@ export function playGame(spec: GameSpec): GameResult {
           error instanceof TypeError ||
           error instanceof RangeError ||
           /Cannot read|is not a function|undefined/.test(error.message);
-        if (choice.offered || internal)
+        if (choice.offered || internal) {
           note({
             kind: internal ? "crash" : "offered-action-threw",
             signature: `${choice.name}: ${signatureOf(error)}`,
             detail: stack.slice(0, 1500),
           });
+          // The world before the refused action, to replay the refusal.
+          if (process.env.MASS_PLAY_DUMP)
+            writeFileSync(
+              `${process.env.MASS_PLAY_DUMP}/${spec.id}-refused.json`,
+              JSON.stringify({
+                personId,
+                action: choice.name,
+                save: serializeWorld(world),
+              }),
+            );
+        }
       }
       if (world.currentDate < before)
         note({
