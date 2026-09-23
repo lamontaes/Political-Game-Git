@@ -80,7 +80,7 @@ describe("officeholder principles", () => {
     for (const record of drawn.history.principles.slice(
       world.history.principles.length,
     ))
-      expect(record.formation.reason).toBe("reflection:initial");
+      expect(record.formation.reason).toBe("other:drawn-before-play");
   });
 
   it("is seeded and draws only once", () => {

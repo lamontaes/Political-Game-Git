@@ -69,8 +69,9 @@ const CONVICTION_WEIGHT: Readonly<Record<BeliefConviction, number>> = {
 const VOTE_IMPORTANCE = { moderate: 3, strong: 6, decisive: 9 } as const;
 
 /**
- * Draws principles for officeholders who hold none yet. Idempotent: a person
- * with any principle on record keeps what they have.
+ * Draws principles for officeholders this draw has not reached yet.
+ * Idempotent. A principle a person already holds from any other writer is
+ * kept as it is and not drawn.
  */
 export function ensureOfficeholderPrinciples(
   world: World,
@@ -78,12 +79,26 @@ export function ensureOfficeholderPrinciples(
 ): World {
   const catalog = world.policyCatalog;
   const inputs: PrincipleRecordInput[] = [];
-  const held = new Set(world.history.principles.map((row) => row.personId));
+  // Keyed on this draw's own rows, not on any principle: a person another
+  // writer gave a single principle still gets the rest of the draw.
+  const held = new Set(
+    world.history.principles
+      .filter((row) =>
+        row.stableKey.startsWith(`${OFFICEHOLDER_PRINCIPLES_VERSION}:`),
+      )
+      .map((row) => row.personId),
+  );
   for (const personId of new Set(personIds)) {
     if (held.has(personId) || !world.people[personId]) continue;
     if (world.control.kind === "person" && world.control.personId === personId)
       continue;
+    const own = new Set(
+      world.history.principles
+        .filter((row) => row.personId === personId)
+        .map((row) => row.principleId),
+    );
     for (const principleId of catalog.principleOrder) {
+      if (own.has(principleId)) continue;
       const principle = catalog.principles[principleId]!;
       const stableKey = `${OFFICEHOLDER_PRINCIPLES_VERSION}:${personId}:${principle.stableKey}`;
       const rng = new SeededRng(world.seed).fork(stableKey);
@@ -105,8 +120,8 @@ export function ensureOfficeholderPrinciples(
         conviction,
         flexibility: FLEXIBILITY_FOR[conviction],
         qualification: null,
-        formation: createFormationContext("reflection:initial", {
-          note: "A sitting officeholder's own principles, drawn before play; see member-agenda.ts.",
+        formation: createFormationContext("other:drawn-before-play", {
+          note: "A sitting officeholder's own principles, drawn before play with no sources behind them; see officeholder-principles.ts. formedAt is the day the draw ran: read these rows as held before play by their reason, not their date.",
         }),
         supersedesPrincipleRecordId: null,
       });
