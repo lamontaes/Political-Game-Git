@@ -90,7 +90,7 @@ describe("buying a home", () => {
     expect(view).toEqual({
       kind: "owns",
       headline: "Your household owns its home.",
-      mortgageLine: "$200,000.00 is left on the mortgage.",
+      mortgageLine: "$200,000 is left on the mortgage.",
     });
     expect(homePurchaseReason(bought, personId)).toBe(
       "Your household already owns its home.",

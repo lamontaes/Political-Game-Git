@@ -48,7 +48,7 @@ describe("campaign life display strings", () => {
     expect(dollars({ minorUnits: 123_450, currency: "USD" as never })).toBe(
       "$1,234.50",
     );
-    expect(dollars({ minorUnits: 0, currency: "USD" as never })).toBe("$0.00");
+    expect(dollars({ minorUnits: 0, currency: "USD" as never })).toBe("$0");
     expect(parseDollars("50")).toBe(5_000);
     expect(parseDollars("$1,250.5")).toBe(125_050);
     expect(parseDollars("0")).toBeNull();
@@ -135,7 +135,7 @@ describe(
       const panel = projectCampaignWeekPanel(filed, player)!;
       expect(panel.attribution).toBe("Planning without campaign staff.");
       expect(panel.proposal).toBeNull();
-      expect(panel.treasuryLabel).toBe("Your committee has $0.00.");
+      expect(panel.treasuryLabel).toBe("Your committee has $0.");
       expect(panel.cards.map((card) => card.emphasis)).toEqual([
         "field",
         "relationships",
@@ -143,7 +143,7 @@ describe(
       expect(panel.cards.every((card) => !card.proposed)).toBe(true);
       expect(panel.channels.every((channel) => !channel.affordable)).toBe(true);
       expect(panel.channels[0]!.limitLabel).toBe(
-        "Up to 3 buys a week; the smallest buy is $50.00.",
+        "Up to 3 buys a week; the smallest buy is $50.",
       );
       expect(panel.reachNote).toMatch(/is not modeled/);
       expect(allText(panel.cards)).not.toMatch(/\b\d{4}-\d{2}-\d{2}\b/);
@@ -177,9 +177,7 @@ describe(
       });
       const refusal = projectCampaignWeekPanel(refused, player)!.refusal!;
       expect(refusal.explanation).toMatch(/did not have enough money/);
-      expect(refusal.moneyNote).toMatch(
-        /had \$0\.00; that money was not touched/,
-      );
+      expect(refusal.moneyNote).toMatch(/had \$0; that money was not touched/);
 
       const again = projectCampaignWeek(refused, player)!;
       const committed = commitCampaignWeek(refused, player, {
