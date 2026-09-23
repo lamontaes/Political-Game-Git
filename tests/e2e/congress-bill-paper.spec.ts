@@ -27,8 +27,8 @@ test("a player can read a bill Congress passed, printed as Congress prints it", 
   await enterLife(page);
 
   // Congress files on the first of each month, and a bill takes about eight
-  // weeks from filing to the President; fourteen weeks reaches April.
-  for (let week = 0; week < 14; week++) await passShellTime(page, "week");
+  // weeks from filing to the President; sixteen weeks reaches late April.
+  for (let week = 0; week < 16; week++) await passShellTime(page, "week");
 
   const openFederal = async () => {
     await openPoliticsHub(page, "nav-politics-government");

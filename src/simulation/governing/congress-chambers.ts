@@ -12,8 +12,18 @@ import {
 import { projectCongress } from "../living-world/congress";
 import type { ChamberKey } from "../living-world/contract";
 import { activePartyUnitsAt } from "../living-world/party-registry";
-import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
-import type { EntityId, LegislativeMeasureRecord, World } from "../types";
+import { addDays } from "../dates";
+import { scheduleFutureDueItem } from "../future-transitions";
+import {
+  ensureNationalElectionJurisdiction,
+  NATIONAL_ELECTION_JURISDICTION,
+} from "../national-election-geography";
+import type {
+  EntityId,
+  IsoDate,
+  LegislativeMeasureRecord,
+  World,
+} from "../types";
 
 /**
  * Congress as a seated legislature: the real members the save already holds
@@ -46,10 +56,55 @@ export function nationalPartyKeys(world: World): ReadonlyMap<EntityId, string> {
  * today. Vacant seats are not members; they lower the count, as a vacancy
  * does. Null for a save whose Congress was never seated.
  */
+type SeatedCongress = { readonly body: SeatedBody; readonly seats: number };
+
+// A world is immutable, so the chambers seated in it are too. One legislative
+// step reads them several times over (who sits, each member's party, whether
+// the chamber is seated at all); projecting Congress each time was most of the
+// cost of a sitting.
+const SEATED_BY_WORLD = new WeakMap<
+  World,
+  Map<string, SeatedCongress | null>
+>();
+
+// Seating held fixed for the length of one sitting. Taking a step on a bill
+// records actions and votes; it never seats or unseats a member, so the
+// chambers read at the start of a sitting are the chambers all day.
+let pinnedSeating: Map<string, SeatedCongress | null> | null = null;
+
+/** Runs `fn` with each House seated once, as it stands in `world`. */
+export function withSittingSeating<T>(world: World, fn: () => T): T {
+  const outer = pinnedSeating;
+  pinnedSeating = new Map(
+    ["house", "senate"].map((key) => [key, seatCongressChamber(world, key)]),
+  );
+  try {
+    return fn();
+  } finally {
+    pinnedSeating = outer;
+  }
+}
+
 export function seatedCongressChamber(
   world: World,
   chamberKey: string,
-): { readonly body: SeatedBody; readonly seats: number } | null {
+): SeatedCongress | null {
+  if (pinnedSeating?.has(chamberKey)) return pinnedSeating.get(chamberKey)!;
+  let cached = SEATED_BY_WORLD.get(world);
+  if (!cached) {
+    cached = new Map();
+    SEATED_BY_WORLD.set(world, cached);
+  }
+  if (cached.has(chamberKey)) return cached.get(chamberKey)!;
+  const seated = seatCongressChamber(world, chamberKey);
+  cached.set(chamberKey, seated);
+  return seated;
+}
+
+function seatCongressChamber(
+  world: World,
+  chamberKey: string,
+): SeatedCongress | null {
   const congressChamber = CHAMBER_FOR_PACK[chamberKey];
   if (!congressChamber) return null;
   const congress = projectCongress(world);
@@ -160,4 +215,49 @@ export function measureCosponsors(
         ids.push(participant.personId);
   }
   return ids;
+}
+
+/* ------------------------------------------------------------------ *
+ * Sittings
+ * ------------------------------------------------------------------ */
+
+export const CONGRESS_SITTING_TRANSITION = "congress:sitting" as const;
+const CONGRESS_SITTING_VERSION = "congress-sitting/v1";
+
+/**
+ * PLACEHOLDER (the game's calendar, not Congress's): Congress takes up its
+ * bills on Tuesdays and Thursdays. Every open bill takes its next step at a
+ * sitting, together, rather than each bill keeping a date of its own; with a
+ * few dozen bills open at once that is the difference between a handful of
+ * clock stops a month and several dozen.
+ */
+const SITTING_WEEKDAYS: readonly number[] = [2, 4];
+
+function weekday(date: IsoDate): number {
+  return new Date(`${date}T00:00:00Z`).getUTCDay();
+}
+
+export function nextCongressSitting(after: IsoDate): IsoDate {
+  let date = addDays(after, 1);
+  while (!SITTING_WEEKDAYS.includes(weekday(date))) date = addDays(date, 1);
+  return date;
+}
+
+/** Puts Congress's next sitting on the calendar, once. */
+export function scheduleCongressSitting(world: World): World {
+  const dueAt = nextCongressSitting(world.currentDate);
+  const stableKey = `${CONGRESS_SITTING_VERSION}:${dueAt}`;
+  if (world.history.futureDueItems.some((due) => due.stableKey === stableKey))
+    return world;
+  return scheduleFutureDueItem(ensureNationalElectionJurisdiction(world), {
+    stableKey,
+    dueAt,
+    transitionKey: CONGRESS_SITTING_TRANSITION,
+    entityIds: [NATIONAL_ELECTION_JURISDICTION.id],
+    jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+    provenance: {
+      kind: "authored",
+      note: "congress-sitting/v1: Congress takes up its open bills on Tuesdays and Thursdays. The game's calendar, not Congress's.",
+    },
+  });
 }

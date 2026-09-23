@@ -30,12 +30,17 @@ import type {
 } from "../types";
 import { recordWorldEvent } from "../world";
 import {
+  CONGRESS_SITTING_TRANSITION,
   COSPONSOR_EVENT,
+  isCongressMeasure,
   measureCosponsors,
   nationalPartyKeys,
+  scheduleCongressSitting,
   seatedCongressChamber,
+  withSittingSeating,
 } from "./congress-chambers";
 import {
+  applyInstitutionStep,
   recordGovernorDecisionOnMeasure,
   scheduleInstitutionStep,
 } from "./legislative-clock";
@@ -452,8 +457,51 @@ export function congressIntakeHandler(
   };
 }
 
+/**
+ * A sitting of Congress: every open federal bill takes its next step, in the
+ * order it was filed, and the next sitting goes on the calendar while any bill
+ * is still open.
+ */
+export function congressSittingHandler(
+  world: World,
+  _due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  let next = world;
+  let steps = 0;
+  const open = (next.history.legislativeMeasures ?? []).filter(
+    (measure) =>
+      isCongressMeasure(measure) && !measurePosition(next, measure.id).terminal,
+  );
+  withSittingSeating(world, () => {
+    for (const measure of open) {
+      const result = applyInstitutionStep(next, measure.id, (w, m) =>
+        presidentDesk(w, m),
+      );
+      if (result.kind === "applied" || result.kind === "executive") {
+        next = result.world;
+        steps += 1;
+      } else if (result.kind === "wait-until" && result.world) {
+        next = result.world;
+      }
+    }
+  });
+  const stillOpen = (next.history.legislativeMeasures ?? []).some(
+    (measure) =>
+      isCongressMeasure(measure) && !measurePosition(next, measure.id).terminal,
+  );
+  if (stillOpen) next = scheduleCongressSitting(next);
+  return {
+    world: next,
+    status: "resolved",
+    reasonKey: null,
+    context: `Congress sat and took ${steps} step${steps === 1 ? "" : "s"} on its bills.`,
+    outcomeEventId: null,
+  };
+}
+
 export const CONGRESS_LAWMAKING_HANDLERS = [
   [CONGRESS_INTAKE_TRANSITION, congressIntakeHandler],
+  [CONGRESS_SITTING_TRANSITION, congressSittingHandler],
 ] as const;
 
 function emptyContext() {

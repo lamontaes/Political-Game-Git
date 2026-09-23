@@ -54,6 +54,7 @@ import {
   congressBlueprint,
   congressReferralCommittee,
   isCongressMeasure,
+  scheduleCongressSitting,
 } from "./congress-chambers";
 import {
   chamberByKey,
@@ -768,6 +769,11 @@ export function scheduleInstitutionStep(
   const measure = requireMeasure(world, measureId);
   const owner = effectiveOwner(world, measure);
   if (owner === null || owner === "sponsor-office") return world;
+  // Congress's bills move together at its sittings, not on dates of their own.
+  if (isCongressMeasure(measure))
+    return measureSessionIsClosed(world, measureId).closed
+      ? world
+      : scheduleCongressSitting(world);
   if (pendingInstitutionStep(world, measureId, excludeDueItemId)) return world;
   if (measureSessionIsClosed(world, measureId).closed) return world;
   const dueAt =
