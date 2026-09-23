@@ -5,6 +5,7 @@ import {
 import { createPressTransitionRegistry } from "./press/transitions";
 import { recordElectionSpeech } from "./campaign-speeches";
 import { campaignPollingQuality } from "./campaign-polling";
+import { doorKnockingReturn } from "./campaign-recognition";
 import { startingSupportAdjustment } from "./record-in-office";
 import {
   legislativeTermDates,
@@ -1050,9 +1051,16 @@ function requestedGainBasisPoints(
     (candidate) => candidate.id === action.scheduledActivityId,
   );
   const workers = Math.max(1, activity?.participantPersonIds.length ?? 1);
+  // Who is knocking changes what a door returns: see `campaign-recognition.ts`.
   const base =
     action.kind === "outreach"
-      ? Math.floor((minutes * workers * 3) / 2)
+      ? Math.floor(
+          (minutes *
+            workers *
+            3 *
+            doorKnockingReturn(world, campaign, action.id).percent) /
+            200,
+        )
       : Math.floor((action.plannedSpend?.minorUnits ?? 0) / 500);
   const swing = new SeededRng(world.seed)
     .fork(`campaign-action-effect:${action.id}`)
