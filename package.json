@@ -22,6 +22,7 @@
     "source:replay": "node --import tsx scripts/source/replay.ts",
     "source:check-fiscal-disposition": "node --import tsx scripts/source/fiscal-authority-inventory.ts --check",
     "export:economic-context": "node --import tsx scripts/source/export-economic-context.ts",
+    "export:regional-measures": "node --import tsx scripts/source/export-regional-measures.ts",
     "export:economic-context-browser": "node --import tsx scripts/source/export-economic-context-browser.ts",
     "export:state-voting-context": "node --import tsx scripts/source/export-state-voting-context.ts",
     "reconcile:r3h": "node --import tsx scripts/source/r3h-reconciliation.ts",

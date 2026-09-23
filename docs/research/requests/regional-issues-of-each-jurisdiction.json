@@ -1,0 +1,39 @@
+{
+  "candidateAnswers": [],
+  "filedAt": "2026-09-23T05:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "regional issues",
+  "notes": [
+    "OWNER DIRECTION, 2026-09-23 12:49 a.m. ET: 'Something I've now realized needs to be made is regional issues. Like, for instance, I know in Rhode Island housing is an issue. It's a big issue.'",
+    "BUILT, awaiting this answer: src/simulation/regional-issues/regional-issues.ts holds one record for each of the fifty-six places (fifty states, D.C., Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands). Every record is marked awaiting-research with no issues. A researched record lists catalog issue keys, each with a prominence of leading, major or notable, optional places inside the jurisdiction where it is concentrated, and cited sources. A record that names a key outside the catalog or cites nothing is refused.",
+    "MEASURED ALREADY, for the researcher to use: src/simulation/regional-issues/regional-measures.generated.json carries, for every state, BEA's housing and all-items price parities (2019, 2023, 2024), per capita personal income, HUD's FY2025 two-bedroom Fair Market Rent and area median family income (population-weighted), and the BLS statewide unemployment rate by month through July 2026. The player now sees these when choosing a hometown.",
+    "WHY THE FIGURES CANNOT DECIDE IT: Rhode Island's housing price parity was 105.6 against the nation's 100.6 in 2024 (it was 108.7 in 2019), and its population-weighted two-bedroom Fair Market Rent is $1,645 against $1,675 nationally, while its median family income is above the nation's. On price level alone Rhode Island would not stand out, yet the owner names housing as its big issue. A rule such as 'housing is an issue where rent is X percent above the nation' would be an invented number; the ranking has to come from what people there say and what their politics fight about.",
+    "Places with thin data: the four smaller territories have HUD figures only; BEA publishes nothing for any territory, and LAUS covers Puerto Rico but not the other four."
+  ],
+  "priority": "P1",
+  "question": "For each of the fifty states, D.C., Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands, which public issues dominate its politics today, how prominent is each (the one or two a place's politics turn on, broadly shared ones, and ones that matter to a real part of the place), and where inside the place is each concentrated?",
+  "questionId": "regional-issues-of-each-jurisdiction",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "regional issues lane",
+  "sourcesChecked": [
+    {
+      "source": "BEA regional price parities and personal income, HUD FY2025 Fair Market Rents and income limits, BLS LAUS unemployment (all locked in data/source/)",
+      "whatItDidNotSettle": "They measure cost, income and joblessness. They do not say what people in a place consider their biggest problems, and Rhode Island shows that price level alone gives the wrong answer."
+    },
+    {
+      "source": "docs/research/requests/political-culture-of-each-jurisdiction.json (open)",
+      "whatItDidNotSettle": "It asks which way a place's people lean on principles, not which issues top their agenda."
+    },
+    {
+      "source": "docs/research/requests/which-issues-people-care-about.json (open)",
+      "whatItDidNotSettle": "It asks how attention is spread across people nationally, not how it differs from place to place."
+    },
+    {
+      "source": "The policy catalog on main: 13 domains, 127 issues",
+      "whatItDidNotSettle": "It says what state and local politics can be about, not which of it matters most where."
+    }
+  ],
+  "title": "Which issues dominate politics in each state and territory",
+  "usableAnswer": "For each of the fifty-six places, a short list of the policy catalog's issue keys (for example housing-land-use.housing-affordability), each marked leading, major or notable, with the cities or regions where it is concentrated when it is not statewide, and the sources behind it (state polls such as 'most important problem' questions, governors' State of the State priorities, legislative session summaries, ballot measures). Say where a place has no good source rather than filling it in. Include the year the answer describes, and whether any issue has risen or faded in recent years.",
+  "whyItMatters": "The owner wants each place to have its own politics: housing in Rhode Island, for example. The game can now carry which issues top each place's agenda, and that is meant to feed what its voters care about, what its governor and legislators pursue, and why people move. Today every record is empty, so no place ranks any issue above another."
+}
