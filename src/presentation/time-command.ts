@@ -29,6 +29,7 @@ import {
   advanceStoppingForPressRequests,
   interruptionHandlers,
 } from "./interruption-policy";
+import { deathNewsBetween } from "./death-news";
 import { nextOwnElection, ownElectionResultsBetween } from "./own-election";
 import { letStoryTimePass, quietStepDays } from "./life-story";
 import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
@@ -285,6 +286,12 @@ function run(
     reached: next.currentMoment,
     outcome: [
       ...ownElectionResultsBetween(world, next, request.personId),
+      ...deathNewsBetween(
+        next,
+        request.personId,
+        world.currentDate,
+        next.currentDate,
+      ).map((news) => news.sentence),
       describeRoutineOutcome(
         world,
         next,

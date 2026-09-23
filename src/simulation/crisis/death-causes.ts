@@ -36,6 +36,12 @@ export const DEATH_CAUSE_KEYS: Readonly<
   injury: DEATH_CAUSE_INJURY,
 };
 
+/**
+ * The cause key every K1 death carried before causes were drawn. Saves keep
+ * it; it renders as a plain "died" and is never reinterpreted.
+ */
+export const MORTALITY_CAUSE_KEY = "crisis-mortality:all-cause-unresolved";
+
 const CAUSE_VERSION = "crisis-death-cause-v1";
 
 /** The due item that records a fatal illness ahead of its death. */

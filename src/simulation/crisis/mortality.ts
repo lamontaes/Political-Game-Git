@@ -3,6 +3,7 @@ import {
   scheduleFutureDueItem,
   scheduledFutureDueItemsThrough,
 } from "../future-transitions";
+import { tellOfDeath } from "../people-bereavement";
 import { SeededRng } from "../rng";
 import type {
   EntityId,
@@ -58,11 +59,7 @@ import {
 
 export const MORTALITY_WINDOW_KEY = "crisis:mortality-window" as const;
 export const MORTALITY_DEATH_KEY = "crisis:mortality-death" as const;
-/**
- * The cause key every K1 death carried before causes were drawn. Saves keep
- * it; it renders as a plain "died" and is never reinterpreted.
- */
-export const MORTALITY_CAUSE_KEY = "crisis-mortality:all-cause-unresolved";
+export { MORTALITY_CAUSE_KEY } from "./death-causes";
 
 const THRESHOLD_VERSION = "crisis-mortality-threshold-v1";
 
@@ -361,7 +358,11 @@ function recordMortalityDeath(
   });
   const death = withDeath.history.personDeaths.at(-1)!;
   const closed = closeHealthEpisodesForDeath(withDeath, personId, death.id);
-  return recordOfficialContinuity(world, closed, personId, "death");
+  // The family learns of it the day it happens.
+  return tellOfDeath(
+    recordOfficialContinuity(world, closed, personId, "death"),
+    death.id,
+  );
 }
 
 export const mortalityWindowHandler: FutureTransitionHandler = (

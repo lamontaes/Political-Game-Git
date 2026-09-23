@@ -1,4 +1,5 @@
 import { addDays, daysBetween, makeIsoDate } from "../dates";
+import { tellOfDeath } from "../people-bereavement";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { SeededRng } from "../rng";
 import type {
@@ -949,12 +950,10 @@ export function recordViolenceAttempt(
       summary: "Killed in an attack.",
       provenance: { kind: "simulated", sourceEntityIds: [attemptId] },
     });
-    next = closeHealthEpisodesForDeath(
-      next,
-      target.id,
-      next.history.personDeaths.at(-1)!.id,
-    );
+    const deathId = next.history.personDeaths.at(-1)!.id;
+    next = closeHealthEpisodesForDeath(next, target.id, deathId);
     next = recordOfficialContinuity(before, next, target.id, "death");
+    next = tellOfDeath(next, deathId);
   } else if (outcome === "injured") {
     next = beginHealthEpisode(next, {
       stableKey: `${input.stableKey}:violence-injury`,

@@ -36,7 +36,11 @@ import {
   type DeathCauseGroup,
 } from "../simulation/crisis";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
+import { BEREAVEMENT_NOTICE_EVENT } from "../simulation/people-bereavement";
 import { knownHealthNotices } from "./crisis-shell";
+import { deathNewsBetween } from "./death-news";
+import { composeConnectiveNarration } from "./life-narration";
+import { projectWorld39Journal } from "./world39-journal";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { requireLocalityInState } from "./new-game-geography";
 import { projectObserverPerson } from "./observer-world";
@@ -53,6 +57,10 @@ import { letStoryTimePass, nextQuietMoment } from "./life-story";
  */
 
 const SLOW = 600_000;
+
+function daysBetweenDates(from: IsoDate, to: IsoDate): number {
+  return Math.round((Date.parse(to) - Date.parse(from)) / 864e5);
+}
 
 function hagerstownLife(seed: string) {
   const home = requireLocalityInState("US-MD", "Hagerstown");
@@ -248,6 +256,125 @@ describe("a hazard death has a cause (Hagerstown, Maryland)", () => {
         "after a serious illness",
       );
       assertWorldIntegrity(deserializeWorld(serializeWorld(after)));
+    },
+    SLOW,
+  );
+
+  it(
+    "a sibling's death in a multi-week stretch reaches the player once, with relation, name, cause and date",
+    () => {
+      const { world, playerId } = hagerstownLife("md-death-notice");
+      const candidate = findHazardDeath(world, "illness-with-course", "notice");
+      const stranger = findHazardDeath(world, "injury", "stranger");
+      let start = addSibling(world, playerId, candidate);
+      // Somebody in the same town with no tie to the player.
+      start = createCharacterHistoryContextPerson(start, {
+        stableKey: stranger.key,
+        givenName: "Casey",
+        familyName: "Morrow",
+        birthDate: stranger.birthDate,
+        homeJurisdictionId: world.people[playerId]!.homeJurisdictionId,
+      });
+      // Up to shortly before the death, then one long quiet stretch across it.
+      let current = passUntil(start, addDays(candidate.diesOn, -20));
+      const stretchFrom = current;
+      while (!deathOf(current, candidate.personId))
+        current = letStoryTimePass(current, playerId);
+      expect(
+        daysBetweenDates(stretchFrom.currentDate, current.currentDate),
+      ).toBeGreaterThan(14);
+      current = passUntil(
+        current,
+        stranger.diesOn > current.currentDate
+          ? addDays(stranger.diesOn, 1)
+          : addDays(current.currentDate, 1),
+      );
+      expect(deathOf(current, stranger.personId)).toBeDefined();
+
+      const expected = `Your younger sibling, Dana Keller, died after a serious illness on ${proseDate(candidate.diesOn)}.`;
+      const told = (w: World) =>
+        w.history.events.filter(
+          (event) =>
+            event.type === BEREAVEMENT_NOTICE_EVENT &&
+            event.participants.some(
+              (entry) =>
+                entry.personId === playerId && entry.role === "focus:told",
+            ),
+        );
+      // Exactly one notice, for the sibling, dated the day of the death.
+      expect(told(current)).toHaveLength(1);
+      expect(told(current)[0]!.occurredAt).toBe(candidate.diesOn);
+      expect(
+        told(current)[0]!.involvedEntityIds.includes(stranger.personId),
+      ).toBe(false);
+      // Said once where the player reads their life, and on return.
+      const journal = (w: World) =>
+        projectWorld39Journal(w, playerId).entries.filter(
+          (entry) => entry.text === expected,
+        );
+      expect(journal(current)).toHaveLength(1);
+      expect(
+        deathNewsBetween(
+          current,
+          playerId,
+          stretchFrom.currentDate,
+          current.currentDate,
+        ).map((news) => news.sentence),
+      ).toEqual([expected]);
+      expect(
+        composeConnectiveNarration({
+          world: current,
+          personId: playerId,
+          since: stretchFrom.currentDate,
+        }).sentences,
+      ).toContain(expected);
+      // It persists across save and reopen, still once.
+      const reopened = deserializeWorld(serializeWorld(current));
+      assertWorldIntegrity(reopened);
+      expect(told(reopened)).toHaveLength(1);
+      expect(journal(reopened)).toHaveLength(1);
+      // Time going on does not tell it again.
+      expect(told(passOrdinaryDays(reopened, 30))).toHaveLength(1);
+    },
+    SLOW,
+  );
+
+  it(
+    "a death already in a save is not announced after the fact",
+    () => {
+      const { world, playerId } = hagerstownLife("md-death-no-flood");
+      const candidate = findHazardDeath(world, "injury", "old-save");
+      const withSibling = addSibling(world, playerId, candidate);
+      // Recorded the way a save from before notices held it: the death, and no
+      // family notice.
+      const old = recordPersonDeath(withSibling, {
+        stableKey: "test:old-save-death",
+        personId: candidate.personId,
+        diedAt: withSibling.currentDate,
+        causeKey: MORTALITY_CAUSE_KEY,
+        sourceEntityIds: [withSibling.id],
+        summary:
+          "Died. The cause is not represented; ordinary all-cause mortality applied.",
+        provenance: { kind: "simulated", sourceEntityIds: [withSibling.id] },
+      });
+      const reopened = deserializeWorld(serializeWorld(old));
+      const later = passOrdinaryDays(reopened, 120);
+      // Deaths that happen from here on are told as they happen; the one
+      // already in the save is never told.
+      expect(
+        later.history.events.filter(
+          (event) =>
+            event.type === BEREAVEMENT_NOTICE_EVENT &&
+            event.involvedEntityIds.includes(candidate.personId),
+        ),
+      ).toEqual([]);
+      expect(
+        later.history.knowledge.filter(
+          (row) =>
+            row.personId === playerId &&
+            row.eventId === deathOf(later, candidate.personId)!.eventId,
+        ),
+      ).toEqual([]);
     },
     SLOW,
   );
