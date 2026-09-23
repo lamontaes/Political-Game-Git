@@ -1,6 +1,7 @@
 /* global Buffer, process */
 import test from "node:test";
 import { execFileSync } from "node:child_process";
+import { URL } from "node:url";
 import { leaseUpdateWorkspace } from "../private-controller/update-workspace.mjs";
 import assert from "node:assert/strict";
 import {
