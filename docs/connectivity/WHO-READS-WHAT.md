@@ -2,14 +2,13 @@
 
 Every system in the game that writes something, what it writes, what reads it, and what should read it and does not. A missing link is a defect, and names the thread that owns each end.
 
-13 producers, 27 missing links: 9 open, nobody has taken it, 4 being built in an open pull request, 6 handed to its owner, 7 waiting on research, 1 closed.
+13 producers, 27 missing links: 8 open, nobody has taken it, 5 being built in an open pull request, 5 handed to its owner, 7 waiting on research, 2 closed.
 
 ## Open defects, by the thread that owns the reading end
 
 ### Consequences for corruption
 
 1. **A complaint about anyone who is not the player.** From a complaint opened against an officeholder (producer owned by Consequences for corruption). handed to its owner.
-2. **A player facing a finding choosing how to answer, or resigning.** From answering for your office, and resigning it (producer owned by Consequences for corruption). handed to its owner.
 
 ### Every town in America
 
@@ -24,7 +23,7 @@ Every system in the game that writes something, what it writes, what reads it, a
 ### Legislation
 
 1. **A legislator's views deciding their floor vote.** From a person forming a political view (producer owned by People and life). being built in an open pull request.
-2. **A law changing a rule of government, such as a term limit or a filing requirement.** From an enacted law (producer owned by Legislation). open, nobody has taken it.
+2. **A law changing a rule of government, such as a term limit or a filing requirement.** From an enacted law (producer owned by Legislation). being built in an open pull request.
 3. **A player drafting a bill with several subjects, or delegating routine steps.** From bills with several subjects, and delegated bill steps (producer owned by Legislation). open, nobody has taken it.
 
 ### Local crime
@@ -175,7 +174,7 @@ Every system in the game that writes something, what it writes, what reads it, a
 1. **A measured effect on the world: prices, jobs, coverage, crime, anything a law is about** (How the world changes; waiting on research). assertProductionCatalogBoundary (production-catalog.ts:165) refuses every world metric except campaign support and transit hours, and every causal mechanism except transit's. ChatGPT answered the model (passage, effective rule, covered base, actual payment or service, scoped aggregate response); nothing is built from it. (hook: `src/simulation/production-catalog.ts#assertProductionCatalogBoundary`; question: `policy-effect-model-state-and-local`)
 2. **A bill's sponsor meeting the questions it is about** (Legislation; closed). introduceMeasure now records a proposition exposure for the sponsor on each of the bill's propositions, with the filing event as its provenance. It records that they met the question and nothing about which way they lean. (hook: `src/simulation/legislation.ts#exposeSponsorToQuestions`; proved by `src/simulation/legislation-measure-subject.test.ts`)
 3. **Everyone else learning what a bill is about: members who vote on it, and the public who read about it** (People and life; handed to its owner). Members who cast a floor vote are not on the vote event's involved people, so their exposure needs the per-member vote record (which #440 changes). Public exposure needs who-learned-what from the press, which the answer to what-should-the-world-do-to-a-person routes through known exposure. (hook: `src/simulation/politics.ts#recordPropositionExposure`; handed off: September 23, 2026, brief sent to People and life)
-4. **A law changing a rule of government, such as a term limit or a filing requirement** (Legislation; open, nobody has taken it). The readers are finished (candidacy.ts:363, executive-term-limits.ts:175). The producers are not reached: fileRuleChangeProvision has no caller, and the constitutional workspace only creates proposal-threshold changes (ConstitutionalWorkspace.tsx:91-95). (hook: `src/simulation/enacted-rule-changes.ts#fileRuleChangeProvision`)
+4. **A law changing a rule of government, such as a term limit or a filing requirement** (Legislation; being built in an open pull request). The readers are finished (candidacy.ts:363, executive-term-limits.ts:175). #461 connected constitutional measures to the enacted-rule reader. fileRuleChangeProvision still has no caller on main; the recall route (#520) and a branch that carries a proposition into a constitutional measure are building the producers. (hook: `src/simulation/enacted-rule-changes.ts#fileRuleChangeProvision`; in flight: The rule-changing laws thread: #520 (recall route), then propositions into constitutional measures)
 5. **An income tax in the other 51 places** (Nationwide government; open, nobody has taken it). Collection needs a tax power for the jurisdiction, and the generated file carries only US-AK with no script that writes it. (hook: `src/fiscal-authority/tax-powers.generated.json`)
 
 ### An ethics finding
@@ -216,11 +215,11 @@ Every system in the game that writes something, what it writes, what reads it, a
 
 ### Answering for your office, and resigning it
 
-`resigning-an-office` · counted at main at 130dd113, measured September 23, 2026 · producer owned by Consequences for corruption
+`resigning-an-office` · counted at main at 21587d7c, measured September 23, 2026 · producer owned by Consequences for corruption
 
 **Writes.** A governing.office-consequence event that closes a term when the officeholder resigns. (`src/simulation/governing/office-consequence.ts#recordOfficeConsequence`)
 
-**Runs in an ordinary save.** No. No caller. presentation/office-response.ts builds the five answers (explain, stand by your account, cooperate, decline, resign) and is reached by no screen.
+**Runs in an ordinary save.** Yes. The press desk offers the five answers (explain, stand by your account, cooperate, decline, resign) when a finding names the player: PressDeskPanel.tsx:403 calls answerForOfficeOnDesk, which writes through recordOfficeConsequence.
 
 **Read by.**
 
@@ -228,7 +227,7 @@ Every system in the game that writes something, what it writes, what reads it, a
 
 **Should be read by, and is not.**
 
-1. **A player facing a finding choosing how to answer, or resigning** (Consequences for corruption; handed to its owner). The screen and the writer are both built; the answer surface needs a place in the office panel. (handed off: September 23, 2026: Consequences for corruption took it, next after the spending reports)
+1. **A player facing a finding choosing how to answer, or resigning** (Consequences for corruption; closed). Built by Consequences for corruption (#523). The press desk now carries the answer surface. (proved by `src/player/PressDeskPanel.office.test.ts`)
 
 ### Bills with several subjects, and delegated bill steps
 
@@ -295,4 +294,4 @@ Every system in the game that writes something, what it writes, what reads it, a
 
 ## How this document is made
 
-Rendered September 23, 2026 from commit 53f0e1a6 (links modified) by `npm run connectivity:links -- render --write`, one entry per file in `docs/connectivity/links/`. Do not edit it by hand.
+Rendered September 23, 2026 from commit 21587d7cf (links modified) by `npm run connectivity:links -- render --write`, one entry per file in `docs/connectivity/links/`. Do not edit it by hand.
