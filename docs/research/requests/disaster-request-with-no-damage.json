@@ -1,0 +1,25 @@
+{
+  "filedAt": "2026-09-23T04:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "crises and political violence",
+  "notes": [
+    "A playtest governor of Maine was asked in 2031 whether to request federal disaster help after a flood that damaged 0 homes and destroyed 0.",
+    "Placeholder now on the branch claude/project-thread-o9kxmq (src/simulation/crisis/disaster.ts, nothingToRequest): when a disaster damaged or destroyed nothing, hurt no one, and is below the game's own standard (minor, or moderate with no homes destroyed), the played governor is not asked and the governor's office records no request.",
+    "The game's standard (src/simulation/crisis/disaster-warrants.ts) treats any major or catastrophic event as warranting a request, whatever the recorded home damage, because homes are the only damage the game records."
+  ],
+  "priority": "P2",
+  "question": "In the United States, when does a governor request a federal disaster declaration, and what damage assessment comes first? (1) What does a preliminary damage assessment count (homes, public infrastructure, costs per person), and what per-capita thresholds do FEMA and states use? (2) How often do governors request a declaration when few or no homes were damaged, for example for damage to roads, utilities or public buildings only? (3) How often are requests denied, and for what reasons? (4) How long after an event is a request usually made, and what is the legal deadline?",
+  "questionId": "disaster-request-with-no-damage",
+  "relatedQuestionIds": ["disaster-handling-reactions"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "crises and political violence thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/crisis/disaster-warrants.ts on main, September 23, 2026",
+      "whatItDidNotSettle": "It sets the game's own standard from the event's magnitude and destroyed homes only, with no source and no infrastructure damage."
+    }
+  ],
+  "title": "When a governor asks for federal disaster help, and whether damage must come first",
+  "usableAnswer": "Short answers to 1 to 4, each with a number and a source, or a plain statement that the evidence is weak. For (1), the thresholds in dollars per person. For (4), days.",
+  "whyItMatters": "The game now skips asking the played governor about a disaster that damaged nothing. Whether a real governor would ever ask, and what damage makes a request reasonable, decides when the player should face this choice."
+}
