@@ -254,6 +254,7 @@ import { OfficeOnboardingWorkspace } from "./OfficeOnboardingWorkspace";
 import { OfficeTransitionPanel } from "./OfficeTransitionPanel";
 import { congressSeatStatus } from "../presentation/congress-candidacy";
 import { congressStatusText } from "./CongressCandidacySection";
+import { congressCommitteeMembership } from "../presentation/legislative-office-context";
 import {
   projectOfficeTransition,
   projectSwearingIn,
@@ -5530,11 +5531,21 @@ function renderWorkspace({
           body: (
             <div data-testid="congress-seat-held">
               <p>{congressStatusText(congressSeat)}</p>
+              <p data-testid="congress-committees">
+                {committeeText(
+                  congressCommitteeMembership(
+                    session.world,
+                    session.personId,
+                    congressSeat.identity.seat.chamberKey,
+                  ),
+                )}
+              </p>
               <p className="game-note">
                 Your seat, its term and your record in it are real, and the seat
                 is decided again at its next election; file for it under
-                Campaigns to keep it. Floor votes, committees and a member's
-                office staff are not yet something you can take part in.
+                Campaigns to keep it. Floor votes, committee votes and a
+                member's office staff are not yet something you can take part
+                in.
               </p>
             </div>
           ),
@@ -6332,3 +6343,11 @@ function WorkLayout({
   );
 }
 import { NationalElectionResults } from "./NationalElectionResults";
+
+function committeeText(
+  membership: ReturnType<typeof congressCommitteeMembership>,
+): string {
+  return membership.kind === "committees"
+    ? membership.label
+    : membership.reason;
+}

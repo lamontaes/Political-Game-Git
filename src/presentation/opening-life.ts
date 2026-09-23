@@ -1,4 +1,5 @@
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
+import { ensureTownResidents } from "../simulation/living-world/town-residents";
 import { ensureOpeningPriorLocalRecords } from "../simulation/living-world/developments";
 import { ensureStateLegislatureOpening } from "../simulation/nationwide-world/state-legislature-opening";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
@@ -173,8 +174,15 @@ function ensureHomeStateLegislature(
 function openedWorld(world: World, playerPersonId: EntityId): World {
   // Migration is scheduled only for a current opening too, so a legacy replay
   // keeps the world it always built (MIGRATION_SEAMS "old-saves").
+  // The town's residents are seated before migration is scheduled, so the
+  // first quarterly review already has neighbors who might leave.
   return pressOpeningApplies(world)
-    ? ensureMigrationSchedule(ensurePressOpening(world, playerPersonId))
+    ? ensureMigrationSchedule(
+        ensureTownResidents(
+          ensurePressOpening(world, playerPersonId),
+          playerPersonId,
+        ),
+      )
     : world;
 }
 
