@@ -1297,9 +1297,9 @@ export const CONTACT_CALLED_OFF_KIND = "contact:called-off";
  * want to go was stuck on that day (New Jersey and New Hampshire playtests,
  * 2026-09-23).
  *
- * The meeting is cancelled on both calendars, the other person is told, and
+ * The meeting is canceled on both calendars, the other person is told, and
  * the call-off is kept in their history. It is recorded as maintained, so it
- * moves nothing by itself. PLACEHOLDER, NOT RESEARCH: how much a cancelled
+ * moves nothing by itself. PLACEHOLDER, NOT RESEARCH: how much a canceled
  * plan costs a relationship is part of `what-moves-a-relationship`; nothing
  * is invented for it here.
  */
