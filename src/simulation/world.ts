@@ -5,6 +5,8 @@ import { applyCongressTurnover } from "./living-world/congress-turnover";
 import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
 import { applyCongressLawmaking } from "./governing/congress-lawmaking";
 import { applyConstitutionalReform } from "./living-world/constitutional-reform";
+import { applyFederalReform } from "./living-world/federal-reform";
+import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
 import { assertAppearanceMaterial } from "./appearance-material";
 import { applyNationalTermTransitions } from "./national-election-consumer";
 import {
@@ -34,6 +36,10 @@ import {
   assertPublicProgramIntegrity,
   publicProgramRecords,
 } from "./public-program-integrity";
+import {
+  assertJobMarketIntegrity,
+  jobMarketHistoryRecords,
+} from "./job-market-integrity";
 import {
   assertTaxIntegrity,
   taxEntityExists,
@@ -1098,13 +1104,19 @@ function advanceWorldUnchecked(
     applyCrisisOfficeContinuity(
       applyCongressLawmaking(
         world.currentDate,
-        applyConstitutionalReform(
+        applyFederalReform(
           world.currentDate,
-          applyGovernorTurnover(
+          applyConstitutionalReform(
             world.currentDate,
-            applyCongressTurnover(
+            applyPresidentialTurnover(
               world.currentDate,
-              applyNationalTermTransitions(advanced),
+              applyGovernorTurnover(
+                world.currentDate,
+                applyCongressTurnover(
+                  world.currentDate,
+                  applyNationalTermTransitions(advanced),
+                ),
+              ),
             ),
           ),
         ),
@@ -1690,6 +1702,7 @@ function validateHistoryIntegrity(world: World): void {
   }
   const records = [
     ...taxHistoryRecords(world),
+    ...jobMarketHistoryRecords(world),
     ...lifeHistoryRecords(world),
     ...resourceHousingHistoryRecords(world),
     ...worldMetricHistoryRecords(world),
@@ -1848,6 +1861,7 @@ function validateHistoryIntegrity(world: World): void {
   assertLifeHistoryIntegrity(world, ids);
   assertResourceHousingIntegrity(world, ids);
   assertTaxIntegrity(world, ids);
+  assertJobMarketIntegrity(world, ids);
   assertPublicPaymentIntegrity(world);
   assertWorldMetricIntegrity(world, ids);
   assertCausalEffectIntegrity(world, ids);

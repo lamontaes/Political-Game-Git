@@ -1,10 +1,14 @@
 import { recordOrdinaryMeetingPresence } from "../simulation/ordinary-meeting-presence";
 import {
   CAMPAIGN_LIFE_CATALOG,
+  campaignActionForActivity,
+  campaignWeeklyPlanForAction,
   canPersonAccess,
   advanceWorldMinutes,
   compareSimulationMoments,
   controlledCommitmentsBlockingActivityPerformance,
+  performCampaignAction,
+  performCampaignWeekSession,
   performScheduledActivity,
   recordWorldEvent,
   scheduledActivitiesVisibleTo,
@@ -302,7 +306,29 @@ export function venueActivities(
           const workedFromHome =
             activity.location.locationKey ===
             CAMPAIGN_LIFE_CATALOG["phone-shift"].locationKey;
-          if (!refusal && workedFromHome) {
+          /*
+           * A campaign session — a field shift, a call session, an advertising
+           * sign-off — is done where the campaign does it, by the campaign's
+           * own writer, as the Campaigns tab has always done it. Its label
+           * ("The campaign's call desk") names no place the game has a
+           * journey to, so comparing labels refused every one of them and
+           * left a confirmed hold nobody could keep: a mayoral run in
+           * Eufaula, Alabama had no route to the call desk or to a field
+           * shift. No travel is invented for it; it is performed in place.
+           */
+          const campaignAction = campaignActionForActivity(world, activity.id);
+          if (!refusal && campaignAction) {
+            const plan = campaignWeeklyPlanForAction(world, campaignAction.id);
+            if (
+              plan &&
+              compareSimulationMoments(
+                scheduledActivityState(world, activity.id).start,
+                world.currentMoment,
+              ) < 0
+            )
+              refusal =
+                "The time for that session has already passed, so it can no longer be done as planned. Let it go from the campaign's week.";
+          } else if (!refusal && workedFromHome) {
             const origin = openingLifeLocation(world, personId);
             if (origin?.setting !== "home") {
               refusal = `This is worked from home, and you are at ${origin?.label ?? "a place the game has not recorded"}.`;
@@ -424,6 +450,16 @@ function performVenueActivityOnce(
         : world;
     if (compareSimulationMoments(waited.currentMoment, start) < 0)
       return waited;
+    // Campaign work is done in place by the campaign's own writer, so its
+    // money and outreach are recorded; the bare calendar completion below
+    // would mark it done with neither. No arrival is recorded: nobody went
+    // anywhere the game has a route for.
+    const campaignAction = campaignActionForActivity(waited, activityId);
+    if (campaignAction) {
+      return campaignWeeklyPlanForAction(waited, campaignAction.id)
+        ? performCampaignWeekSession(waited, personId, campaignAction.id)
+        : performCampaignAction(waited, campaignAction.id);
+    }
     // Existing campaign outcomes and bounded ordinary-meeting presence are
     // written only after successful completion; bare journeys add neither.
     const performed = recordOrdinaryMeetingPresence(

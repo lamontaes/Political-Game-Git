@@ -1,4 +1,5 @@
 import { receiveExecutiveWorkIfCurrentOffice } from "../simulation/incident-response";
+import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { publishPublicEvent } from "../simulation/public-information";
 import {
   composeExecutiveWorkHandlers,
@@ -71,6 +72,9 @@ export function applyExecutivePlayTransition(
   before: World,
   after: World,
 ): World {
-  const routed = synchronizeExecutiveInbox(after);
-  return publishExecutivePublicOutcomes(before, routed);
+  // Every publication is a write that would otherwise validate the whole
+  // World on its own; on a long save that ran to minutes after one press.
+  return advanceWithWorldIntegrityAtEnd(() =>
+    publishExecutivePublicOutcomes(before, synchronizeExecutiveInbox(after)),
+  );
 }
