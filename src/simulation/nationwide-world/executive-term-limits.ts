@@ -39,7 +39,7 @@ import { stateExecutiveIdentity } from "./state-executive-candidacy-packs";
  * - A lifetime count is every term recorded in the office, narrowed to the
  *   last `lookbackYears` where the limit gives one.
  * - A partial term served after succeeding to a vacancy counts as a term.
- *   NOT MODELLED: the many real rules that count a partial term only past a
+ *   NOT MODELED: the many real rules that count a partial term only past a
  *   share of its length. Blanket rule meanwhile: any recorded term counts.
  * - Where a changing law is silent on whether terms already served count,
  *   they count. That is the reading under which "three terms instead of two"

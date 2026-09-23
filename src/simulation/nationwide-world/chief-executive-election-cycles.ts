@@ -12,7 +12,7 @@
  * start as an UNVERIFIED candidate, so commencement stays on the game's
  * disclosed profile; taking an unverified date as law would be inventing it.
  *
- * NOT MODELLED: Louisiana's own election calendar, a fall primary on the
+ * NOT MODELED: Louisiana's own election calendar, a fall primary on the
  * third-to-last Saturday of October and a general six Saturdays later if
  * needed. Blanket rule meanwhile: Louisiana elects on the November general
  * election day of its odd-numbered election years, which gets the year right
