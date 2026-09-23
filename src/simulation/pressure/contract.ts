@@ -169,7 +169,8 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
   },
   {
     key: "state-flows",
-    connects: "People moving between the 52 jurisdictions each year.",
+    connects:
+      "People moving each year between the states the world holds (50 in an Idaho opening; the District of Columbia and Puerto Rico are not state jurisdictions in it).",
     status: "built",
     rule: "BLANKET: a state loses a base share of its people a year, raised by its pressure to leave. Movers spread over the other states in proportion to each one's pull, which starts equal for all.",
     where: "src/simulation/pressure/flows.ts",
