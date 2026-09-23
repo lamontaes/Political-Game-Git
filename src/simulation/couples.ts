@@ -101,6 +101,25 @@ export function dateRefusal(
   }
   if (areKin(world, personId, otherId)) return "You are family.";
   if (everInTheirCare(world, personId, otherId)) return "You are family.";
+  /*
+   * One person at a time. A Massachusetts life asked a second person to be a
+   * couple while still with the first, heard yes, and had two partners; then
+   * she was offered a third date (roll call, 2026-09-23). Whether anyone in
+   * the game steps out on a partner is the owner's open question, so nothing
+   * here offers it: the existing couple stands, and nothing new begins until
+   * it has ended.
+   */
+  const current = withSomebodyElse(world, personId, otherId);
+  if (current) {
+    const partnerId = current.personIds.find((id) => id !== personId);
+    const partner = partnerId ? world.people[partnerId] : undefined;
+    return partner
+      ? `You are with ${partner.givenName}. That would have to end first.`
+      : "You are with somebody else. That would have to end first.";
+  }
+  if (withSomebodyElse(world, otherId, personId)) {
+    return `${world.people[otherId]!.givenName} is with somebody.`;
+  }
   return null;
 }
 
@@ -251,20 +270,6 @@ export function coupleAskRefusal(
   if (refusal) return refusal;
   if (coupleBetween(world, personId, otherId))
     return "You are already together.";
-  /*
-   * Being a couple is with one person at a time. A Massachusetts life asked a
-   * second person while still with the first, was told yes, and had two
-   * partners (roll call, 2026-09-23). Going out with somebody else is still
-   * possible; becoming their couple waits until the first has ended.
-   */
-  const current = withSomebodyElse(world, personId, otherId);
-  if (current) {
-    const partnerId = current.personIds.find((id) => id !== personId);
-    const partner = partnerId ? world.people[partnerId] : undefined;
-    return partner
-      ? `You are with ${partner.givenName}. That would have to end first.`
-      : "You are with somebody else. That would have to end first.";
-  }
   const dates = keptDates(world, personId, otherId).length;
   if (dates < DATES_BEFORE_ASKING) {
     return dates === 0

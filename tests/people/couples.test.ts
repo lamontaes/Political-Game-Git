@@ -32,6 +32,13 @@ import { CONTACT_LOCATION_KEY } from "../../src/simulation/people-contact";
 import { describePersonContext } from "../../src/simulation/person-context";
 import { introducedPeople } from "../../src/simulation/social-introductions";
 import type { EntityId, World } from "../../src/simulation";
+import {
+  deserializeWorld,
+  serializeWorld,
+} from "../../src/simulation/serialization";
+
+const KIN =
+  /\b(mom|dad|mother|father|sister|brother|son|daughter|grand|aunt|uncle|cousin)/;
 
 /**
  * Two people going out and becoming a couple, played through the People
@@ -136,20 +143,31 @@ describe("two people become a couple", () => {
       world = answered.world;
       const couple = coupleBetween(world, playerId, otherId)!;
       expect(couple.kind).toBe(COUPLE_KIND);
-      // One couple at a time: nobody else can be asked while this lasts
-      // (Massachusetts roll call, two partners at once).
-      const partnerName = world.people[otherId]!.givenName;
-      const others = projectContacts(world, playerId).contacts.filter(
+      // One couple at a time (Massachusetts roll call, two partners at once).
+      // Saved and reopened, nobody else is offered a date or a couple, and
+      // the couple itself still stands.
+      const reopened = deserializeWorld(serializeWorld(world));
+      const partnerName = reopened.people[otherId]!.givenName;
+      const others = projectContacts(reopened, playerId).contacts.filter(
         (entry) =>
-          entry.personId !== otherId &&
-          dateRefusal(world, playerId, entry.personId) === null,
+          entry.personId !== otherId && !entry.relationshipLabel?.match(KIN),
       );
       expect(others.length).toBeGreaterThan(0);
       for (const entry of others) {
-        expect(coupleAskRefusal(world, playerId, entry.personId)).toBe(
-          `You are with ${partnerName}. That would have to end first.`,
+        // Neither a date nor a couple is offered with anyone else.
+        expect(
+          action(reopened, playerId, entry.personId, "ask-on-a-date"),
+        ).toBe(undefined);
+        expect(
+          action(reopened, playerId, entry.personId, "ask-to-be-a-couple"),
+        ).toBe(undefined);
+        expect(coupleAskRefusal(reopened, playerId, entry.personId)).toMatch(
+          new RegExp(
+            `^You are with ${partnerName}\\.|^You are family\\.|^Dates are between adults\\.`,
+          ),
         );
       }
+      expect(coupleBetween(reopened, playerId, otherId)).not.toBe(null);
       // Every system that asks after a partner now finds one.
       expect(
         describePersonContext(world, playerId, otherId)?.relationship,
@@ -171,8 +189,6 @@ describe("two people become a couple", () => {
   }
 
   it("never offers a date with family, or to anyone under eighteen", () => {
-    const KIN =
-      /\b(mom|dad|mother|father|sister|brother|son|daughter|grand|aunt|uncle|cousin)/;
     let kinSeen = 0;
     for (const startAge of [26, 15]) {
       const game = generateOpeningLife(
