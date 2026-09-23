@@ -7,21 +7,14 @@ import {
 
 import { spawn } from "node:child_process";
 import {
-  cpSync,
-  existsSync,
   mkdirSync,
   readFileSync,
   realpathSync,
   renameSync,
-  rmSync,
   writeFileSync,
 } from "node:fs";
 import path from "node:path";
 import { setPriority } from "node:os";
-import { fileURLToPath } from "node:url";
-
-import { createHash } from "node:crypto";
-import { assertProvenanceMatches } from "../../scripts/client-provenance.mjs";
 
 import {
   MAIN_TRACK,
@@ -39,36 +32,18 @@ import {
 import {
   assessUpdateTarget,
   buildPresentOnDisk,
-  buildRecord,
   controllerPaths,
   repositoryIsExpected,
-  privateInputIgnoreRules,
   runtimeContentFor,
 } from "./private-update.mjs";
 
 const EXPECTED_PACKAGE_NAME = "political-life-rpg";
-const PACK_SCHEMA = "ocd-private-pack/v1";
-// The health check is the hub's own trusted harness, not the target
-// source's copy: a selected branch cannot weaken the check that admits it.
 /** Files a revision must contain for the hub to package it. */
 const DESKTOP_SHELL_FILES = [
   "desktop/package.json",
   "desktop/scripts/stage.mjs",
   "desktop/scripts/package.mjs",
   "scripts/client-provenance.mjs",
-];
-
-const HARNESS_ROOT = path.join(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "..",
-  "scripts",
-);
-const HARNESS_FILES = [
-  "smoke-test.mjs",
-  "game-launch-environment.mjs",
-  "drawn-appearance-proof.mjs",
-  "saved-identity-proof.mjs",
-  "creator-drive.mjs",
 ];
 
 // Builds run beside a game the owner may be playing. Low priority (inherited
@@ -88,9 +63,7 @@ const valueAfter = (name) => {
 const dataRoot = valueAfter("--data-root");
 const requestedRepository = valueAfter("--repo");
 const requestedTrack = valueAfter("--track") ?? MAIN_TRACK;
-const requestedPack = valueAfter("--pack");
 const receivedFirst = args.includes("--received-first");
-const hubExecutable = valueAfter("--hub-executable") ?? process.execPath;
 
 let activeChild = null;
 let updateLease = null;
@@ -273,44 +246,6 @@ function readState(statePath) {
   }
 }
 
-function sha256File(file) {
-  return createHash("sha256").update(readFileSync(file)).digest("hex");
-}
-
-/** Verify the private pack's own recorded manifest identity before use. */
-function verifyPrivatePack(packRoot) {
-  const pack = JSON.parse(
-    readFileSync(path.join(packRoot, "pack.json"), "utf8"),
-  );
-  if (pack.schemaVersion !== PACK_SCHEMA)
-    throw new Error("The private art pack has an unknown schema.");
-  if (pack.visibility !== "private-local-only")
-    throw new Error("The private art pack is not marked private-local-only.");
-  const manifest = path.join(packRoot, pack.manifest ?? "sha256.txt");
-  const actual = sha256File(manifest);
-  if (actual !== pack.manifestSha256)
-    throw new Error("The private art pack manifest does not match its record.");
-  if (!existsSync(path.join(packRoot, "stage-into-worktree.sh")))
-    throw new Error("The private art pack has no installer.");
-  /*
-   * `generation` is optional and additive. A pack that states which kit
-   * generation it was composed from says so here, so the activated record can
-   * name it instead of a reader taking the number out of DELIVERY.md prose. A
-   * pack without it — every pack built before the field existed — verifies and
-   * records exactly what it always did.
-   */
-  const generation =
-    Number.isInteger(pack.generation) && pack.generation >= 0
-      ? pack.generation
-      : null;
-  return {
-    packId: String(pack.packId),
-    manifestSha256: actual,
-    fileCount: pack.fileCount ?? null,
-    generation,
-  };
-}
-
 function writeState(statePath, state) {
   mkdirSync(path.dirname(statePath), { recursive: true });
   const temporary = `${statePath}.next-${process.pid}`;
@@ -349,29 +284,6 @@ async function verifyRepository(candidate) {
   return canonicalRoot;
 }
 
-async function removeOwnedStaging(paths, repositoryPath) {
-  if (!existsSync(paths.stagingRoot)) return;
-  const marker = path.join(
-    paths.stagingRoot,
-    ".ocd-private-controller-staging",
-  );
-  if (!existsSync(marker))
-    throw new Error(
-      "The update workspace already exists and is not owned by this controller.",
-    );
-  if (existsSync(paths.sourcePath)) {
-    await run(
-      "/usr/bin/git",
-      ["worktree", "remove", "--force", paths.sourcePath],
-      {
-        cwd: repositoryPath,
-        label: "Removing the controller's interrupted update workspace",
-      },
-    );
-  }
-  rmSync(paths.stagingRoot, { recursive: true, force: true });
-}
-
 /** Whether a revision compiles in runtime-content mode (art loaded at run
  * time from a snapshot, not staged into the source tree). */
 async function supportsRuntimeContent(repositoryPath, revision) {
@@ -405,7 +317,7 @@ async function prepareRuntimeContentSuccessor({
   repositoryPath,
   statePath,
   targetRevision,
-  content = existing.current.content,
+  content = existing?.current?.content,
 }) {
   // Refuses a snapshot whose blobs are missing or altered before any build.
   loadContent(content);
@@ -445,11 +357,13 @@ async function prepareRuntimeContentSuccessor({
     dataRoot,
     repositoryPath,
     revision: targetRevision,
-    preferredSource: controllerPaths(
-      dataRoot,
-      existing.current.revision,
-      content.id.slice(0, 12),
-    ).sourcePath,
+    preferredSource: existing?.current
+      ? controllerPaths(
+          dataRoot,
+          existing.current.revision,
+          content.id.slice(0, 12),
+        ).sourcePath
+      : null,
     run: runPreparation,
     capture,
   });
@@ -536,26 +450,32 @@ async function prepareRuntimeContentSuccessor({
     revision: targetRevision,
     version: identity.version,
     content,
+    ownedUpdate: true,
   });
-  if (isMain) {
-    // Main has no received channel: record the verified build as pending,
+  if (isMain || !existing?.current) {
+    // Main and a new preview have no received channel: record the verified build as pending,
     // exactly as the pack path does, unless the track moved meanwhile.
     const latest = readState(statePath);
     const prior = latest?.tracks[id];
     if (
-      prior &&
-      (prior.current.revision !== existing.current.revision ||
-        prior.current.clientTreeSha256 !== existing.current.clientTreeSha256)
+      prior?.current?.revision !== existing?.current?.revision ||
+      prior?.current?.clientTreeSha256 !== existing?.current?.clientTreeSha256
     )
-      throw new Error("Accepted main changed while its update was built.");
+      throw new Error("The selected build changed while its update was built.");
     writeState(statePath, {
       ...withPending(latest, id, branch, build),
       repositoryPath,
     });
     return emit(
       "complete",
-      `The ${label} build ${targetRevision.slice(0, 12)} is verified and waiting to be activated.`,
-      { outcome: "pending", track: id, revision: targetRevision },
+      prior
+        ? `The ${label} build ${targetRevision.slice(0, 12)} is verified and waiting to be activated.`
+        : `The ${label} build is verified and ready to play.`,
+      {
+        outcome: prior ? "pending" : "activated",
+        track: id,
+        revision: targetRevision,
+      },
     );
   }
   publishReceivedChannel({
@@ -600,7 +520,7 @@ async function main(received = null) {
   }
 }
 
-async function prepareUpdate(received = null) {
+async function prepareUpdate() {
   const statePath = path.join(path.resolve(dataRoot), "state.json");
   const initialState = readState(statePath);
   if (!initialState)
@@ -701,10 +621,7 @@ async function prepareUpdate(received = null) {
           : true,
     });
     if (
-      (received?.outcome === "up-to-date" ||
-        (existing?.current?.preparedLocally === true &&
-          existing.current.content)) &&
-      currentRevision === targetRevision &&
+      assessment.action === "none" &&
       buildPresentOnDisk(existing?.current).ok
     ) {
       writeState(statePath, { ...state, repositoryPath });
@@ -748,12 +665,10 @@ async function prepareUpdate(received = null) {
       );
     }
 
-    // Main moves to runtime content as soon as its code supports it: the
-    // build pairs with a snapshot another track already plays, so accepted
-    // main no longer depends on a pack pinned to one source revision.
-    const runtimeContent = isMain ? runtimeContentFor(state, id) : null;
+    // Every compatible track reuses the one preparation workspace and an
+    // installed artwork snapshot, including a preview with no current build.
+    const runtimeContent = runtimeContentFor(state, id);
     if (
-      existing?.current &&
       runtimeContent &&
       assessment.action !== "refuse" &&
       (await supportsRuntimeContent(repositoryPath, targetRevision))
@@ -776,285 +691,11 @@ async function prepareUpdate(received = null) {
       });
     }
 
-    if (!requestedPack || !path.isAbsolute(requestedPack))
-      return fail(
-        "No private art pack is configured. A public-only build is not a private Play build.",
-        "missing-private-pack",
-      );
-    const pack = verifyPrivatePack(requestedPack);
-    emit("progress", `Private art pack ${pack.packId} verified.`, {
-      phase: "verifying",
-    });
-    const samePack =
-      existing?.current?.privatePack?.manifestSha256 === pack.manifestSha256;
-    // A recorded build only counts as already done when its payload is
-    // actually on disk and names this revision and profile; otherwise this
-    // falls through and rebuilds instead of reporting a build that is gone.
-    const pendingMatches =
-      existing?.pending?.revision === targetRevision &&
-      existing.pending.privatePack?.manifestSha256 === pack.manifestSha256 &&
-      buildPresentOnDisk(existing.pending).ok;
-    if (pendingMatches) {
-      writeState(statePath, { ...state, repositoryPath });
-      return emit(
-        "complete",
-        `The ${label} build ${targetRevision.slice(0, 12)} is already verified and waiting to be activated.`,
-        { outcome: "pending", track: id, revision: targetRevision },
-      );
-    }
-    if (
-      assessment.action === "none" &&
-      samePack &&
-      buildPresentOnDisk(existing?.current).ok
-    ) {
-      writeState(statePath, { ...state, repositoryPath });
-      return emit("complete", `This is already the current ${label} build.`, {
-        outcome: "up-to-date",
-        track: id,
-        revision: targetRevision,
-      });
-    }
-    if (assessment.action === "refuse") {
-      return fail(
-        assessment.reason === "unsupported-downgrade-or-fork"
-          ? "The installed game contains work that is not on the selected GitHub branch. Your current version has been kept."
-          : "The update target could not be verified.",
-        assessment.reason,
-      );
-    }
-
-    if (existing?.current?.preparedLocally === true)
-      return fail(
-        "The prepared game needs repair. Your saves have been kept; a verified replacement must be installed in this console.",
-        "failed",
-      );
-
-    const paths = controllerPaths(
-      dataRoot,
-      targetRevision,
-      pack.manifestSha256.slice(0, 12),
-    );
-    await removeOwnedStaging(paths, repositoryPath);
-    mkdirSync(paths.stagingRoot, { recursive: true });
-    writeFileSync(
-      path.join(paths.stagingRoot, ".ocd-private-controller-staging"),
-      "1\n",
-    );
-
-    await run(
-      "/usr/bin/git",
-      ["worktree", "add", "--detach", paths.sourcePath, targetRevision],
-      {
-        cwd: repositoryPath,
-        label: "Creating a clean versioned build workspace",
-      },
-    );
-    const exactHead = await capture("/usr/bin/git", ["rev-parse", "HEAD"], {
-      cwd: paths.sourcePath,
-      label: "Verifying the build revision",
-    });
-    const dirty = await capture(
-      "/usr/bin/git",
-      ["status", "--porcelain", "--untracked-files=all"],
-      { cwd: paths.sourcePath, label: "Verifying the clean build workspace" },
-    );
-    if (exactHead !== targetRevision || dirty)
-      throw new Error("The versioned build workspace is not exact and clean.");
-
-    emit("progress", "Staging private art inputs…", { phase: "preparing" });
-    await run(
-      "/bin/sh",
-      [path.join(requestedPack, "stage-into-worktree.sh"), paths.sourcePath],
-      { label: "Staging and verifying the private art pack" },
-    );
-    const trackedAfterPack = await capture(
-      "/usr/bin/git",
-      ["status", "--porcelain", "--untracked-files=no"],
-      { cwd: paths.sourcePath, label: "Verifying tracked source is unchanged" },
-    );
-    if (trackedAfterPack)
-      throw new Error("Staging the private pack changed tracked source.");
-
-    // Older revisions predate the private-art ignore rules. Exclude only
-    // checksummed, verified inputs for this build; unknown files still fail.
-    const packMetadata = JSON.parse(
-      readFileSync(path.join(requestedPack, "pack.json"), "utf8"),
-    );
-    const inputs = privateInputIgnoreRules(
-      readFileSync(
-        path.join(requestedPack, packMetadata.manifest ?? "sha256.txt"),
-        "utf8",
-      ),
-    );
-    for (const input of inputs)
-      if (sha256File(path.join(paths.sourcePath, input.path)) !== input.sha256)
-        throw new Error(`The staged private input changed: ${input.path}`);
-    const excludesPath = path.join(
-      paths.stagingRoot,
-      "verified-private-inputs.ignore",
-    );
-    writeFileSync(
-      excludesPath,
-      `${inputs.map((input) => input.rule).join("\n")}\n`,
-    );
-    const configIndex = Number(process.env.GIT_CONFIG_COUNT ?? 0);
-    const buildEnvironment = {
-      GIT_CONFIG_COUNT: String(configIndex + 1),
-      [`GIT_CONFIG_KEY_${configIndex}`]: "core.excludesFile",
-      [`GIT_CONFIG_VALUE_${configIndex}`]: excludesPath,
-      VITE_OCD_BUILD_PROFILE: "internal-art-review",
-    };
-    const unexpectedFiles = await capture(
-      "/usr/bin/git",
-      ["status", "--porcelain", "--untracked-files=all"],
-      {
-        cwd: paths.sourcePath,
-        env: buildEnvironment,
-      },
-    );
-    if (unexpectedFiles)
-      throw new Error(
-        "The build workspace contains changes beyond its verified private inputs.",
-      );
-
-    await run("/usr/bin/env", ["npm", "ci", "--no-audit", "--no-fund"], {
-      cwd: paths.sourcePath,
-      label: "Installing pinned game dependencies",
-      phase: "preparing",
-    });
-    await run("/usr/bin/env", ["npm", "run", "build"], {
-      cwd: paths.sourcePath,
-      env: buildEnvironment,
-      label: "Compiling the internal art-review game",
-      phase: "preparing",
-    });
-    const desktopPath = path.join(paths.sourcePath, "desktop");
-    await run(
-      process.execPath,
-      [
-        "scripts/stage.mjs",
-        "--composition",
-        isMain
-          ? "accepted-main"
-          : `branch-preview:${branch}@${targetRevision.slice(0, 12)}`,
-      ],
-      {
-        cwd: desktopPath,
-        env: buildEnvironment,
-        label: "Verifying and staging the compiled game",
-      },
-    );
-    const builtApp = path.join(
-      paths.stagingRoot,
-      "prepared",
-      "Our Civic Duty.app",
-    );
-    const resources = path.join(builtApp, "Contents", "Resources");
-    mkdirSync(resources, { recursive: true });
-    cpSync(
-      path.join(desktopPath, "staged", "client"),
-      path.join(resources, "client"),
-      { recursive: true },
-    );
-    cpSync(
-      path.join(desktopPath, "staged", "build-identity.json"),
-      path.join(resources, "build-identity.json"),
-    );
-    const identity = JSON.parse(
-      readFileSync(path.join(resources, "build-identity.json"), "utf8"),
-    );
-    const verified = assertProvenanceMatches({
-      clientDir: path.join(resources, "client"),
-      expectedRevision: targetRevision,
-      expectedDirty: false,
-    });
-    if (
-      identity.revision !== targetRevision ||
-      identity.profile !== "internal-art-review" ||
-      identity.clientTreeSha256 !== verified.treeSha256
-    )
-      throw new Error("The prepared game does not match the requested update.");
-    const architecture = process.arch;
-    if (architecture !== "arm64")
-      throw new Error("This update requires Apple Silicon.");
-
-    const harness = path.join(
-      paths.sourcePath,
-      ".hub-harness",
-      "desktop",
-      "scripts",
-    );
-    mkdirSync(harness, { recursive: true });
-    for (const file of HARNESS_FILES)
-      cpSync(path.join(HARNESS_ROOT, file), path.join(harness, file));
-    await run(
-      process.execPath,
-      [
-        path.join(harness, "smoke-test.mjs"),
-        "--hub",
-        hubExecutable,
-        "--payload",
-        builtApp,
-      ],
-      {
-        cwd: desktopPath,
-        env: { OCD_EXPECT_ART_PREVIEW: "1" },
-        label:
-          "Launching and health-checking the candidate-profile application",
-      },
-    );
-    emit("progress", "Health check passed.", { phase: "verifying" });
-
-    mkdirSync(paths.versionPath, { recursive: true });
-    const temporaryApp = `${paths.appPath}.installing-${process.pid}`;
-    rmSync(temporaryApp, { recursive: true, force: true });
-    cpSync(builtApp, temporaryApp, {
-      recursive: true,
-      verbatimSymlinks: true,
-    });
-    rmSync(paths.appPath, { recursive: true, force: true });
-    renameSync(temporaryApp, paths.appPath);
-    const record = {
-      delivery: "console-client-payload",
-      ...buildRecord(
-        identity,
-        paths.appPath,
-        architecture,
-        new Date().toISOString(),
-      ),
-      clientTreeSha256: identity.clientTreeSha256 ?? "unknown",
-      privatePack: {
-        packId: pack.packId,
-        manifestSha256: pack.manifestSha256,
-      },
-    };
-    // Re-read: the hub may have changed selection while this build ran.
-    const latest = readState(statePath) ?? state;
-    const prior = latest.tracks[id];
-    const next = {
-      ...latest,
-      repositoryPath,
-      tracks: {
-        ...latest.tracks,
-        [id]: prior
-          ? { ...prior, pending: record }
-          : { branch, current: record, pending: null, previous: null },
-      },
-    };
-    // Never swap code beneath a running game: the hub activates the pending
-    // build only after the Play view for this track is closed.
-    const firstBuild = !prior;
-    writeState(statePath, next);
-    emit(
-      "complete",
-      firstBuild
-        ? `The ${label} build is verified and ready to play.`
-        : `The ${label} build ${record.revision.slice(0, 12)} is verified and waiting to be activated.`,
-      {
-        outcome: firstBuild ? "activated" : "pending",
-        track: id,
-        revision: record.revision,
-      },
+    return fail(
+      assessment.action === "refuse"
+        ? "The selected source cannot replace your installed game. Your current game has been kept."
+        : "This source needs the older private-pack installer. Automatic preparation is unavailable because it would create another project copy. Your installed games remain ready to play.",
+      "unsupported",
     );
   } catch (error) {
     if (cancelled)

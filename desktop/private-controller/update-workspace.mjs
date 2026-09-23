@@ -47,6 +47,24 @@ function childAlive(owner) {
   }
 }
 
+const heldLeases = new Map();
+
+export function withUpdateWorkspaceLease(dataRoot, callback) {
+  const key = realpathSync(dataRoot);
+  const held = heldLeases.get(key);
+  if (
+    held &&
+    readJson(path.join(key, "update-workspace.lock/owner.json")).token === held
+  )
+    return callback();
+  const release = leaseUpdateWorkspace(key);
+  try {
+    return callback();
+  } finally {
+    release();
+  }
+}
+
 export function leaseUpdateWorkspace(dataRoot) {
   const lock = path.join(dataRoot, "update-workspace.lock");
   const recovery = `${lock}.recovery`;
@@ -78,11 +96,14 @@ export function leaseUpdateWorkspace(dataRoot) {
     }
   }
   writeJson(owner, { pid: process.pid, token });
+  const key = realpathSync(dataRoot);
+  heldLeases.set(key, token);
   const release = () => {
     if (readJson(owner).token !== token)
       throw new Error("Update lease ownership changed");
     unlinkSync(owner);
     rmdirSync(lock);
+    heldLeases.delete(key);
   };
   release.setChild = (childPid, childGroup = false) => {
     if (readJson(owner).token !== token)

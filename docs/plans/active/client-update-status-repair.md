@@ -88,3 +88,32 @@ Synthetic repeated updates kept one staging directory; adoption created zero
 additional checkouts. No installed update speedup has been measured.
 Read-only inventory lists 29 existing staging directories and 25 installed-version
 directories. Their count and contents were not changed by this task.
+
+## September 23 native delivery continuation
+
+The owner renewed the client repair and standing merge permission. O granted
+this task the bounded controller and native delivery slot. The existing marked
+staging source was adopted and advanced cleanly to the isolated publication
+composition. Its 29 staging directories did not increase. Desktop dependencies
+were reused through verified matching-input references.
+
+The packaged d3e7c4ef composition passed native fixture installation and reopen.
+The install control was visible at three widths, with pointer installation and
+keyboard tab switching. Owner state was unchanged. Installation measured
+38.662 seconds; a standalone complete artwork verification measured 7.710
+seconds and code verification 1.563 seconds. These are different operations,
+not an end-to-end speedup measurement.
+
+O requested future accumulation prevention in the same repair. Compatible new
+previews now use the shared workspace too. Obsolete private-pack source can
+continue playing if already installed, but new automatic preparation is refused
+because that path created additional checkouts. Only new automatic updater
+payloads receive an ownership receipt. Retirement preserves every track's
+current, previous and pending build, received deliveries and their base, live
+Play revisions, modified payloads and pinned evidence. Receipt-less historical
+folders remain for O's separate review. Publication and retirement share the
+exclusive updater lease; standalone receiver staging is not auto-adopted.
+
+Final package, installed identity and live update measurements are recorded in
+output/client-update-repair. Earlier non-installation statements above describe
+the prior source-only increment, not the current authorization.
