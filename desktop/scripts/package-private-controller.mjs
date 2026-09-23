@@ -167,6 +167,8 @@ const CONTROLLER_FILES = [
   "styles.css",
   "private-update.mjs",
   "private-update-worker.mjs",
+  "update-workspace.mjs",
+  "update-retention.mjs",
   "received-channel.mjs",
   "package.json",
 ];
