@@ -11,6 +11,10 @@ import {
   localGoverningBodyRulesForUnitId,
 } from "../simulation/nationwide-world/local-governing-body-rules";
 import type { LocalRuleValue } from "../simulation/nationwide-world/local-governing-body-rules";
+import {
+  localChiefExecutiveRulesForUnitId,
+  readMayorTerm,
+} from "../simulation/nationwide-world/local-chief-executive-rules";
 import type { EntityId, IsoDate, World } from "../simulation";
 
 /**
@@ -22,6 +26,10 @@ import type { EntityId, IsoDate, World } from "../simulation";
  */
 export interface LocalGoverningSeat {
   readonly organizationId: EntityId;
+  /** A seat on the body, or the town's mayoralty. */
+  readonly office: "member" | "mayor";
+  /** "Mayor", or the title the town's own government gives it. */
+  readonly mayorTitle: string | null;
   /** "City of Paducah", or the town's own name where its government was read. */
   readonly governmentName: string;
   /**
@@ -39,7 +47,8 @@ export interface LocalGoverningSeat {
   readonly hasCityScreen: boolean;
   /**
    * How many seats the body has and how long a term runs: the town's own rule
-   * where it was read, a typical value otherwise, and labeled so.
+   * where it was read, a typical value otherwise, and labeled so. For a mayor,
+   * `seats` is null and the term is the mayor's own.
    */
   readonly seats: LocalRuleValue | null;
   readonly termYears: LocalRuleValue | null;
@@ -49,13 +58,17 @@ export function localGoverningSeatFor(
   world: World,
   personId: EntityId,
 ): LocalGoverningSeat | null {
-  const held = activeOrganizationParticipationsAt(world, personId).find(
+  const seats = activeOrganizationParticipationsAt(world, personId).filter(
     ({ participation, state }) =>
       participation.kind === "leadership:municipal-office" &&
       state.roleKind !== null &&
       state.roleKind !== "leader:municipal-clerk" &&
       state.roleKind !== "leader:municipal-manager",
   );
+  // A mayor who also sits on the body is read as the mayor first.
+  const held =
+    seats.find(({ state }) => state.roleKind === "leader:municipal-mayor") ??
+    seats[0];
   if (!held) return null;
   const organization = world.history.organizations.find(
     (candidate) => candidate.id === held.participation.organizationId,
@@ -74,8 +87,26 @@ export function localGoverningSeatFor(
           organization.stableKey.slice("local-government:".length),
         )
       : null;
+  const mayor = held.state.roleKind === "leader:municipal-mayor";
+  const chief =
+    mayor && rules ? localChiefExecutiveRulesForUnitId(rules.unitId) : null;
+  const readMayorYears = mayor && reading ? readMayorTerm(reading) : null;
+  const mayorTerm: LocalRuleValue | null = !mayor
+    ? null
+    : readMayorYears !== null
+      ? { value: readMayorYears, basis: "read" }
+      : chief
+        ? {
+            value: chief.termYears.value,
+            basis: chief.termYears.basis === "read" ? "read" : "typical",
+          }
+        : null;
   return {
     organizationId: held.participation.organizationId,
+    office: mayor ? "mayor" : "member",
+    mayorTitle: mayor
+      ? (reading?.mayor?.title ?? chief?.title.value ?? "Mayor")
+      : null,
     governmentName:
       reading?.displayName ??
       organizationProfileAt(world, held.participation.organizationId)?.name ??
@@ -84,8 +115,8 @@ export function localGoverningSeatFor(
     since: held.participation.startedAt as IsoDate,
     seatContext: held.state.context,
     hasCityScreen: compiled !== null,
-    seats: rules?.seats ?? null,
-    termYears: rules?.termYears ?? null,
+    seats: mayor ? null : (rules?.seats ?? null),
+    termYears: mayor ? mayorTerm : (rules?.termYears ?? null),
   };
 }
 
@@ -95,8 +126,16 @@ export function localGoverningSeatFor(
  * is known at all.
  */
 export function townSeatRulesSentence(
-  seat: Pick<LocalGoverningSeat, "seats" | "termYears">,
+  seat: Pick<LocalGoverningSeat, "seats" | "termYears"> &
+    Partial<Pick<LocalGoverningSeat, "office">>,
 ): string | null {
+  if (seat.office === "mayor") {
+    if (!seat.termYears) return null;
+    const term = `${seat.termYears.value}-year terms`;
+    return seat.termYears.basis === "read"
+      ? `By the town's own rules the mayor serves ${term}.`
+      : `The game has not read how long this town's mayor serves, so it gives the office ${term}, as towns across the country commonly have.`;
+  }
   const seats = seat.seats
     ? `${seat.seats.value} ${seat.seats.value === 1 ? "seat" : "seats"}`
     : null;
