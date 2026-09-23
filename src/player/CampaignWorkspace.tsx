@@ -36,6 +36,7 @@ import {
 } from "./campaign-planning-layout";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import { OpponentActivityPanel } from "./OpponentActivityPanel";
+import { CampaignOwnMoney } from "./CampaignOwnMoney";
 import { CampaignSpendingReports } from "./CampaignSpendingReports";
 import { MogulOffersPanel } from "./MogulOffersPanel";
 
@@ -497,6 +498,13 @@ export function CampaignWorkspace({
           <p data-testid="campaign-treasury">
             The committee has {money(view.treasury)}.
           </p>
+          {view.phase === "active" ? (
+            <CampaignOwnMoney
+              world={world}
+              personId={personId}
+              onWorldChange={onWorldChange}
+            />
+          ) : null}
 
           {view.reading ? (
             <p className="game-campaign-memo" data-testid="campaign-memo">
