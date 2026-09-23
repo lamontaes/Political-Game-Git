@@ -376,18 +376,23 @@ function continuityOutcomes(event: HistoricalEvent): readonly string[] {
     if (cut < 0) continue;
     const office = body.slice(0, cut);
     const outcome = body.slice(cut + 1);
+    const senate = office.startsWith("us-senate");
     const sentence =
-      outcome === "special-election"
-        ? "A special election will be held to fill the seat."
-        : outcome === "vacant"
-          ? "The seat will stay vacant until the next regular election."
-          : outcome === "blocked" && office.startsWith("us-senate")
-            ? "The seat is vacant, and no temporary senator has been appointed."
-            : outcome === "blocked" && office.startsWith("president")
-              ? "The presidency is vacant."
-              : outcome === "succeeded" && office.startsWith("president")
-                ? "The vice president has succeeded to the presidency."
-                : null;
+      outcome === "special-election" && senate
+        ? "The governor will appoint a temporary senator until a special election fills the seat."
+        : outcome === "vacant" && senate
+          ? "The governor will appoint a temporary senator to serve until the next regular election."
+          : outcome === "special-election"
+            ? "A special election will be held to fill the seat."
+            : outcome === "vacant"
+              ? "The seat will stay vacant until the next regular election."
+              : outcome === "blocked" && office.startsWith("us-senate")
+                ? "The seat is vacant, and no temporary senator has been appointed."
+                : outcome === "blocked" && office.startsWith("president")
+                  ? "The presidency is vacant."
+                  : outcome === "succeeded" && office.startsWith("president")
+                    ? "The vice president has succeeded to the presidency."
+                    : null;
     if (sentence && !sentences.includes(sentence)) sentences.push(sentence);
   }
   return sentences;
