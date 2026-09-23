@@ -81,8 +81,9 @@ import { recordWorldEvent } from "../world";
  * Representative's seat is vacant until a special election; the President
  * nominates a new Vice President or Chief Justice). Where the route is law
  * but its pace or choices are not compiled, a marked placeholder fills the
- * gap (a governor's successor, the nominee and the confirmation). Where it
- * does not know the route at all (Senate appointments, the statutory line of
+ * gap (a governor's successor, a temporary senator, the nominee and the
+ * confirmation). Where it
+ * does not know the route at all (the statutory line of
  * succession) it writes a public record saying exactly what is missing and
  * leaves the office unfilled rather than inventing a successor.
  */
@@ -97,6 +98,27 @@ export const HOUSE_SPECIAL_ELECTION_PROFILE = {
   daysFromVacancyToElection: 90,
   samePartyPermille: 750,
 } as const;
+
+/**
+ * A VACANT U.S. SENATE SEAT. The Seventeenth Amendment has the state's
+ * governor issue writs of election, and lets the state's legislature let the
+ * governor make a temporary appointment until the people fill the seat.
+ *
+ * PLACEHOLDER (filed as `us-senate-vacancy-appointment-and-special-election`).
+ * Blanket rule until each state's law is compiled: the governor appoints a
+ * drawn person of the departed senator's party ten days after the vacancy,
+ * and a special election at the next regular November congressional election
+ * chooses who serves the rest of the term. When the term ends at that
+ * election anyway, the regular election fills the seat and no special is held.
+ */
+export const SENATE_APPOINTMENT = "governing:senate-appointment";
+
+export const SENATE_VACANCY_PROFILE = {
+  id: "ocd-senate-vacancy-game-profile/v1",
+  daysFromVacancyToAppointment: 10,
+} as const;
+
+const APPOINTED_FOR_TAG = "appointed-for-vacancy:";
 
 export const OFFICE_CONTINUITY_SOURCES = {
   amendment25: {
@@ -274,15 +296,13 @@ function vacateSeat(
       context: CONTEXT,
     });
   if (seat.chamberKey === "us-senate")
-    return {
-      world: next,
-      ruling: {
-        officeKey: seat.seatKey,
-        title,
-        outcome: "blocked",
-        sentence: `The seat is vacant. The Seventeenth Amendment lets ${seat.stateUsps}'s legislature allow its governor to appoint a temporary senator, but the game has not compiled ${seat.stateUsps}'s rule, so no one is appointed.`,
-      },
-    };
+    return openSenateVacancy(
+      next,
+      seat,
+      notice.effectiveDate,
+      chamberId,
+      stateId,
+    );
   const window = seatTermWindow(seat, notice.effectiveDate);
   const electionDay = addDays(
     next.currentDate > notice.effectiveDate
@@ -327,10 +347,106 @@ function vacateSeat(
   };
 }
 
+/** The first regular November congressional election after a date. */
+function nextCongressionalElectionAfter(date: IsoDate): IsoDate {
+  let year = Number(date.slice(0, 4));
+  if (year % 2 === 1) year += 1;
+  let day = congressionalElectionDay(year);
+  if (day <= date) day = congressionalElectionDay(year + 2);
+  return day;
+}
+
+/** PLACEHOLDER (SENATE_VACANCY_PROFILE): appointment, then a special election. */
+function openSenateVacancy(
+  world: World,
+  seat: CongressSeat,
+  vacancyDate: IsoDate,
+  chamberId: EntityId,
+  stateId: EntityId,
+): { world: World; ruling: OfficeContinuityRuling } {
+  const title = congressSeatTitle(seat);
+  const from =
+    world.currentDate > vacancyDate ? world.currentDate : vacancyDate;
+  const appointmentDay = addDays(
+    from,
+    SENATE_VACANCY_PROFILE.daysFromVacancyToAppointment,
+  );
+  const window = seatTermWindow(seat, vacancyDate);
+  const regular = congressionalElectionDay(
+    Number(window.endExclusive.slice(0, 4)) - 1,
+  );
+  let next = world;
+  const appointmentKey = `${OFFICE_CONTINUITY_VERSION}:appointment:${seat.seatKey}:${vacancyDate}`;
+  if (
+    appointmentDay < window.endExclusive &&
+    !next.history.futureDueItems.some((due) => due.stableKey === appointmentKey)
+  )
+    next = scheduleFutureDueItem(next, {
+      stableKey: appointmentKey,
+      dueAt: appointmentDay,
+      transitionKey: SENATE_APPOINTMENT,
+      entityIds: [chamberId],
+      jurisdictionId: stateId,
+      provenance: {
+        kind: "authored",
+        note: `${SENATE_VACANCY_PROFILE.id}: the governor makes a temporary appointment (U.S. Const. amend. XVII); the appointment, its party and its ${SENATE_VACANCY_PROFILE.daysFromVacancyToAppointment}-day interval are a game profile.`,
+      },
+    });
+  const special = nextCongressionalElectionAfter(appointmentDay);
+  if (special >= regular)
+    return {
+      world: next,
+      ruling: {
+        officeKey: seat.seatKey,
+        title,
+        outcome: "vacant",
+        sentence: `The seat is vacant. The governor appoints a senator to serve until the regular election on ${regular} fills it for the next term.`,
+      },
+    };
+  const dueKey = specialElectionKey(seat, vacancyDate);
+  if (!next.history.futureDueItems.some((due) => due.stableKey === dueKey))
+    next = scheduleFutureDueItem(next, {
+      stableKey: dueKey,
+      dueAt: special,
+      transitionKey: HOUSE_SPECIAL_ELECTION,
+      entityIds: [chamberId],
+      jurisdictionId: stateId,
+      provenance: {
+        kind: "authored",
+        note: `${SENATE_VACANCY_PROFILE.id}: the governor issues writs of election (U.S. Const. amend. XVII); holding it at the next regular November election is a game profile.`,
+      },
+    });
+  return {
+    world: next,
+    ruling: {
+      officeKey: seat.seatKey,
+      title,
+      outcome: "special-election",
+      sentence: `The seat is vacant. The governor appoints a senator to serve until a special election on ${special}.`,
+    },
+  };
+}
+
+/** The governor's temporary appointee takes the seat. */
+export function senateAppointmentHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  return seatNewMember(world, due, "appointment");
+}
+
 /** Special election day: choose the member who serves out the term. */
 export function houseSpecialElectionHandler(
   world: World,
   due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  return seatNewMember(world, due, "special-election");
+}
+
+function seatNewMember(
+  world: World,
+  due: FutureDueItem,
+  mode: "appointment" | "special-election",
 ): FutureTransitionHandlerResult {
   const done = (
     next: World,
@@ -343,14 +459,23 @@ export function houseSpecialElectionHandler(
     context,
     outcomeEventId,
   });
-  const match = /:special:(.+):(\d{4}-\d{2}-\d{2})$/.exec(due.stableKey);
+  const match = /:(?:special|appointment):(.+):(\d{4}-\d{2}-\d{2})$/.exec(
+    due.stableKey,
+  );
   const seat = match
     ? congressSeats().find((candidate) => candidate.seatKey === match[1])
     : undefined;
   if (!seat || !match) return done(world, "No seat matches.", null);
   const vacancyDate = makeIsoDate(match[2]!);
   const latest = latestSeatRecord(world, seat.seatKey);
-  if (latest?.type !== SEAT_VACANCY_EVENT || latest.occurredAt !== vacancyDate)
+  const stillVacant =
+    latest?.type === SEAT_VACANCY_EVENT && latest.occurredAt === vacancyDate;
+  // A special election also replaces the governor's temporary appointee.
+  const heldByAppointee =
+    mode === "special-election" &&
+    latest?.type === SEAT_TENURE_EVENT &&
+    latest.tags.includes(`${APPOINTED_FOR_TAG}${vacancyDate}`);
+  if (!stillVacant && !heldByAppointee)
     return done(world, "The seat was already filled.", null);
   const window = seatTermWindow(seat, world.currentDate);
   if (world.currentDate >= window.endExclusive)
@@ -368,12 +493,17 @@ export function houseSpecialElectionHandler(
     )
     .at(-1);
   const priorParty = previous ? tagValue(previous, SEAT_PARTY_TAG) : null;
+  // PLACEHOLDER (SENATE_VACANCY_PROFILE): an appointee shares the departed
+  // member's party.
   const party =
-    priorParty && majors.includes(priorParty)
-      ? rng.integer(0, 1000) < HOUSE_SPECIAL_ELECTION_PROFILE.samePartyPermille
-        ? priorParty
-        : majors.find((key) => key !== priorParty)!
-      : rng.pick(majors);
+    mode === "appointment" && priorParty
+      ? priorParty
+      : priorParty && majors.includes(priorParty)
+        ? rng.integer(0, 1000) <
+          HOUSE_SPECIAL_ELECTION_PROFILE.samePartyPermille
+          ? priorParty
+          : majors.find((key) => key !== priorParty)!
+        : rng.pick(majors);
   const memberKey = `${due.stableKey}:member`;
   const age = rng.integer(MINIMUM_AGE[seat.chamberKey] + 3, 70);
   const year = Number(world.currentDate.slice(0, 4));
@@ -411,15 +541,25 @@ export function houseSpecialElectionHandler(
       `service-since:${next.currentDate}`,
       `${SEAT_PARTY_TAG}${party}`,
       `${SEAT_CAUCUS_TAG}${party}`,
-      `provenance:${HOUSE_SPECIAL_ELECTION_PROFILE.id}`,
+      ...(mode === "appointment"
+        ? [
+            `${APPOINTED_FOR_TAG}${vacancyDate}`,
+            `provenance:${SENATE_VACANCY_PROFILE.id}`,
+          ]
+        : [`provenance:${HOUSE_SPECIAL_ELECTION_PROFILE.id}`]),
       `provenance:${CONGRESS_TURNOVER_PROFILE.id}`,
     ],
-    summary: `${personName(next.people[winner]!)} won the special election and serves the rest of the term as ${title}.`,
+    summary:
+      mode === "appointment"
+        ? `${personName(next.people[winner]!)} was appointed by the governor as ${title} until the seat is filled by election.`
+        : `${personName(next.people[winner]!)} won the special election and serves the rest of the term as ${title}.`,
     context: CONTEXT,
   });
   return done(
     next,
-    "The special election filled the seat.",
+    mode === "appointment"
+      ? "The governor's appointee took the seat."
+      : "The special election filled the seat.",
     next.history.events.at(-1)!.id,
   );
 }
@@ -1148,6 +1288,7 @@ export function officeContinuityRulings(
 
 export const OFFICE_CONTINUITY_HANDLERS = [
   [HOUSE_SPECIAL_ELECTION, houseSpecialElectionHandler],
+  [SENATE_APPOINTMENT, senateAppointmentHandler],
   [VICE_PRESIDENT_NOMINATION, vicePresidentNominationHandler],
   [VICE_PRESIDENT_CONFIRMATION, vicePresidentConfirmationHandler],
   [CHIEF_JUSTICE_NOMINATION, chiefJusticeNominationHandler],

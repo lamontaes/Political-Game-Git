@@ -1,0 +1,20 @@
+{
+  "filedAt": "2026-09-23T04:55:00.000Z",
+  "impact": "shapes-design",
+  "lane": "empty offices and term dates",
+  "priority": "P1",
+  "question": "For each of the 50 states: when a U.S. Senate seat falls vacant (death or resignation), may the governor appoint a temporary senator under the Seventeenth Amendment? If so, within what time, and must the appointee be of the departed senator's party (or be chosen from a list the party submits)? When is the special election held (the next regular general election, a date the governor sets, or within a fixed number of days), and is there a cutoff before a regular election after which the seat waits for it? Give the statutory citation for each state.",
+  "questionId": "us-senate-vacancy-appointment-and-special-election",
+  "relatedQuestionIds": ["gubernatorial-succession-in-every-state"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Empty offices and term dates thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/governing/office-continuity.ts (SENATE_VACANCY_PROFILE), this branch",
+      "whatItDidNotSettle": "The game now fills a vacant Senate seat by a blanket rule: the governor appoints a drawn person of the departed senator's party ten days after the vacancy, and a special election at the next regular November congressional election chooses who serves the rest of the term. Whether each state allows the appointment, its party requirement and its special-election timing are not compiled."
+    }
+  ],
+  "title": "How each state fills a vacant U.S. Senate seat",
+  "usableAnswer": "A table with one row per state: appointment allowed (yes or no), deadline, party requirement, special-election timing rule and cutoff, and the citation.",
+  "whyItMatters": "A playthrough set in Detroit found Michigan's Class I seat vacant from September 2033 with no appointment or special election, and eight Senate seats vacant nationally. The game now fills them by a stand-in rule until this is answered."
+}
