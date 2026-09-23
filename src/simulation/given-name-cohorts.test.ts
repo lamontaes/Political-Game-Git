@@ -158,19 +158,34 @@ describe("a new world's people are named for the year they were born", () => {
     return { counted, share: matched / counted };
   }
 
-  it("gives older people the names of their generation", () => {
-    const before = people(
-      {
-        givenNameGenerationVersion: "given-name-v2",
-        livingWorldMemberNameVersion: "identity-v1",
-      },
-      "cohort-world",
+  // Each world is a full opening (a seated Congress), about two seconds apiece,
+  // so each is built once, by whichever test first needs it, and the work is
+  // split so no one test builds both.
+  const worlds = new Map<string, readonly Person[]>();
+  const once = (key: string, build: () => readonly Person[]) => {
+    if (!worlds.has(key)) worlds.set(key, build());
+    return worlds.get(key)!;
+  };
+  const before = () =>
+    once("before", () =>
+      people(
+        {
+          givenNameGenerationVersion: "given-name-v2",
+          livingWorldMemberNameVersion: "identity-v1",
+        },
+        "cohort-world",
+      ),
     );
-    const after = people({}, "cohort-world");
-    const was = periodShare(before);
-    const now = periodShare(after);
+  const after = () => once("after", () => people({}, "cohort-world"));
+
+  it("measures the old draw over hundreds of people", () => {
     // Proof the measurement reaches people: a seated Congress is hundreds.
-    expect(now.counted).toBeGreaterThan(150);
+    expect(periodShare(before()).counted).toBeGreaterThan(150);
+  });
+
+  it("gives older people the names of their generation", () => {
+    const was = periodShare(before());
+    const now = periodShare(after());
     expect(now.counted).toBe(was.counted);
     // Measured on this head: see the declaration for the numbers.
     expect(now.share).toBeGreaterThan(was.share + 0.3);
