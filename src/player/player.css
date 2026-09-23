@@ -8307,3 +8307,63 @@ body:where(.pg-game) .game-campaign-tallies {
   white-space: pre-line;
   line-height: 1.6;
 }
+
+/* A Congress bill, printed. */
+.bill-paper {
+  margin-bottom: 1rem;
+  color: #1f1a12;
+}
+
+.bill-paper-masthead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.bill-paper-masthead p {
+  margin: 0;
+}
+
+.bill-paper-designation {
+  font-size: 1rem;
+}
+
+.bill-paper-chamber,
+.bill-paper-kind {
+  margin: 0.8rem 0 0.4rem;
+  text-align: center;
+  letter-spacing: 0.08em;
+  font-size: 0.74rem;
+}
+
+.bill-paper-kind {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.bill-paper-introduction,
+.bill-paper-clause {
+  font-size: 0.76rem;
+  line-height: 1.55;
+}
+
+.bill-paper-clause {
+  font-style: italic;
+}
+
+.bill-paper .measure-section[data-missing="true"] p {
+  color: rgba(70, 52, 26, 0.75);
+  font-style: italic;
+}
+
+.bill-paper-record {
+  margin: 0.9rem 0 0;
+  padding: 0.6rem 0 0 1.1rem;
+  border-top: 1px solid rgba(120, 96, 56, 0.28);
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
