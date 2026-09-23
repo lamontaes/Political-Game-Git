@@ -379,7 +379,9 @@ function handlerFor(
  * without it and keeps the cheap shape check below, which still catches a
  * record pushed onto, or a field reassigned on, the input.
  */
-let deepTransitionInputGuard = false;
+let deepTransitionInputGuard =
+  (globalThis as { readonly __civicDeepTransitionGuard?: boolean })
+    .__civicDeepTransitionGuard === true;
 
 export function setDeepTransitionInputGuard(enabled: boolean): void {
   deepTransitionInputGuard = enabled;
