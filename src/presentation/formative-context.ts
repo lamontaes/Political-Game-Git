@@ -357,10 +357,44 @@ export function formativeEligibilityProvider(
         }
       }
 
+      // "There is a new child in the house" is a birth, and a birth is a
+      // record: somebody in this child's household born in the last two
+      // years. Caribou, 2026-09-23, played it for a child with no new sibling.
+      if (situationKey === "formative.household-transition") {
+        const asOf = request.asOfDate as IsoDate;
+        const householdIds = new Set(
+          world.history.householdMemberships
+            .filter((membership) => membership.personId === person.id)
+            .map((membership) => membership.householdId),
+        );
+        const newChild = world.history.householdMemberships.some(
+          (membership) => {
+            if (!householdIds.has(membership.householdId)) return false;
+            const other = world.people[membership.personId];
+            return (
+              !!other &&
+              other.id !== person.id &&
+              other.birthDate > person.birthDate &&
+              other.birthDate <= asOf &&
+              other.birthDate > yearsBefore(asOf, NEW_CHILD_YEARS)
+            );
+          },
+        );
+        if (!newChild) {
+          return blocked(
+            "context:no-household",
+            "Nobody has been born into this household recently.",
+          );
+        }
+      }
+
       return { status: "allowed", reasons: [] };
     },
   };
 }
+
+/** PLACEHOLDER, pacing only: how long a baby is still "a new child". */
+const NEW_CHILD_YEARS = 2;
 
 const SCHOOL_SITUATIONS: readonly LifeSituationKey[] = [
   "formative.school-entry",

@@ -486,7 +486,14 @@ const FRIEND_OVER_YEARS: EpisodeFamily = {
     ...LIFE_CONTENT_92C_COMPANIONSHIP_STAGES,
     {
       key: "the-year-you-were-inseparable",
-      requires: [needsFamiliar, { kind: "age-below", age: 18 }],
+      requires: [
+        needsFamiliar,
+        { kind: "age-below", age: 18 },
+        // A child's friend is another child. "Familiar" binds anybody with a
+        // running thread, and in Seattle and Juneau (2026-09-23) that was the
+        // child's teacher, "in each other's houses" all year.
+        { kind: "role-age-below", role: "familiar", age: 18 },
+      ],
       lines: [
         "You and {role:familiar} have spent most of this year in each other's houses.",
         "This afternoon they want you to come somewhere you have already said you would not go.",

@@ -1,0 +1,28 @@
+{
+  "candidateAnswers": [],
+  "filedAt": "2026-09-23T04:58:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "Filed by the 'Grounding scenes in real events' thread, 2026-09-23 12:58 a.m. ET. The only favor and confidence the game wrote were one fixed story for every friend in every life: proofreading a two-paragraph family picnic invitation, then privately backing out of organizing the picnic. Both are retired from new play. A request now needs to come from something recorded in the asker's own life, the way the invitation now comes from a real birthday, move or new job.",
+    "What the world records about an ordinary person today: birth date, household and its location (with moves), kin, work (employer and start date), school enrollment, care responsibilities, a private goal (learning, connection or privacy) and temperament traits."
+  ],
+  "priority": "P1",
+  "question": "When an ordinary American adult asks a friend, relative, coworker or neighbor for help, what in the asker's own life usually prompts it, what is asked, how much time or money it costs the helper, and how far ahead is it asked?",
+  "questionId": "what-ordinary-requests-come-from",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "people and life lane",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/life-opportunities.ts, the favour-request and confidence-disclosed writers (retired 2026-09-23)",
+      "whatItDidNotSettle": "Wrote the same picnic request for everyone; nothing about what actually prompts a request."
+    },
+    {
+      "source": "docs/research/requests/what-ordinary-invitations-are-for.json",
+      "whatItDidNotSettle": "Covers invitations to occasions, not requests for help."
+    }
+  ],
+  "title": "What prompts an ordinary request for help",
+  "usableAnswer": "A short list of common prompts that map onto records the game keeps (a move, a new baby or a new job, a car or appliance breaking down, an illness in the family, a child needing a ride or care, a deadline at work or school), each with what is typically asked, a typical time or money cost for the helper, typical notice, and how the relationship (kin, friend, coworker, neighbor) changes what is asked. A realistic range is enough.",
+  "whyItMatters": "Without it a friend's request is either one fixed story or nothing. The owner's rule is that dialogue grows from what the world recorded; this list decides which recorded circumstances may produce a request, so none is invented."
+}
