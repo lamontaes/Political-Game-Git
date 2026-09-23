@@ -1,0 +1,31 @@
+{
+  "linkVersion": "producer-links/v1",
+  "linkId": "a-scandal-about-somebody",
+  "title": "A complaint opened against an officeholder",
+  "producer": {
+    "at": "src/simulation/press/matters.ts#produceRivalComplaints",
+    "owner": "Consequences for corruption",
+    "writes": "A rival's decision to file, an ethics matter and a proceeding before the state's commission.",
+    "runsInPlay": true,
+    "runsDetail": "Weekly press sweep, but only against the player, only when the player's campaign paid a vendor, and at most one per campaign."
+  },
+  "readers": [
+    {
+      "at": "src/simulation/press/procedures.ts#advanceProceeding",
+      "owner": "Consequences for corruption",
+      "reads": "Runs the proceeding on statutory deadlines."
+    }
+  ],
+  "missing": [
+    {
+      "reader": "A complaint about anyone who is not the player",
+      "readerOwner": "Consequences for corruption",
+      "state": "closed",
+      "detail": "Built by Consequences for corruption (#535). Every campaign-money scrutiny producer now runs for each living person with a recorded campaign-money occurrence as well as the person the player controls (scrutinySubjects in press/matters.ts:1040). Other kinds of incident still name only the player.",
+      "researchQuestionId": "what-opens-a-scandal-about-somebody-else",
+      "proofTest": "src/presentation/ethics-finding-consequences.test.ts"
+    }
+  ],
+  "measuredAt": "main at 130dd113, measured 2026-09-23",
+  "recordedAt": "2026-09-23T03:25:00.000Z"
+}

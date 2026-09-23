@@ -109,6 +109,12 @@ export interface LegislativeProcedureContext {
   readonly votePlan: Readonly<Record<string, AuthoredVoteCounts>>;
   readonly governorAction: "signed" | "vetoed" | null;
   readonly governorRationale: string;
+  /**
+   * Present where the bodies are the state's seated legislators: each member
+   * then decides every question for their own reasons and the vote plan is
+   * not consulted. The player is never voted for.
+   */
+  readonly memberDecisions?: { readonly playerPersonId: EntityId | null };
 }
 
 export function votePlanKeyForCommittee(committeeKey: string): string {

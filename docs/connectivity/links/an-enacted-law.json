@@ -1,0 +1,77 @@
+{
+  "linkVersion": "producer-links/v1",
+  "linkId": "an-enacted-law",
+  "title": "An enacted law",
+  "producer": {
+    "at": "src/simulation/legislation.ts#recordEnactment",
+    "owner": "Legislation",
+    "writes": "An enactment action, a legislation.measure-enacted event and a record in history.legislativeEnactments. Nothing about the world itself.",
+    "runsInPlay": true,
+    "runsDetail": "Every bill that passes in play goes through it."
+  },
+  "readers": [
+    {
+      "at": "src/presentation/tax-policy-transition.ts#recordNewlyEnactedTaxPolicies",
+      "owner": "Legislation",
+      "reads": "Adopts an enacted tax and schedules collection. Collection works in Alaska only: src/fiscal-authority/tax-powers.generated.json holds one jurisdiction."
+    },
+    {
+      "at": "src/simulation/governing/legislative-clock.ts:511 (appropriationFromEnactedMeasure)",
+      "owner": "Nationwide government",
+      "reads": "Records an appropriation as a public program, read by openAppropriationsFor at state-governing.ts:973."
+    },
+    {
+      "at": "src/simulation/transit-funding.ts#resolveTransitFunding",
+      "owner": "Legislation",
+      "reads": "Transit service hours, the one causal mechanism the production boundary allows."
+    },
+    {
+      "at": "src/simulation/enacted-rule-changes.ts#enactedRuleChangeAt",
+      "owner": "Nationwide government",
+      "reads": "Candidacy, term-limit and capability rules read an enacted rule change, but see the missing producer below."
+    }
+  ],
+  "missing": [
+    {
+      "reader": "A measured effect on the world: prices, jobs, coverage, crime, anything a law is about",
+      "readerOwner": "How the world changes",
+      "state": "needs-research",
+      "detail": "assertProductionCatalogBoundary (production-catalog.ts:165) refuses every world metric except campaign support and transit hours, and every causal mechanism except transit's. ChatGPT answered the model (passage, effective rule, covered base, actual payment or service, scoped aggregate response); nothing is built from it.",
+      "researchQuestionId": "policy-effect-model-state-and-local",
+      "readerAt": "src/simulation/production-catalog.ts#assertProductionCatalogBoundary"
+    },
+    {
+      "reader": "A bill's sponsor meeting the questions it is about",
+      "readerOwner": "Legislation",
+      "state": "closed",
+      "detail": "introduceMeasure now records a proposition exposure for the sponsor on each of the bill's propositions, with the filing event as its provenance. It records that they met the question and nothing about which way they lean.",
+      "proofTest": "src/simulation/legislation-measure-subject.test.ts",
+      "readerAt": "src/simulation/legislation.ts#exposeSponsorToQuestions"
+    },
+    {
+      "reader": "Everyone else learning what a bill is about: members who vote on it, and the public who read about it",
+      "readerOwner": "People and life",
+      "state": "handed-off",
+      "detail": "Members who cast a floor vote are not on the vote event's involved people, so their exposure needs the per-member vote record (which #440 changes). Public exposure needs who-learned-what from the press, which the answer to what-should-the-world-do-to-a-person routes through known exposure.",
+      "readerAt": "src/simulation/politics.ts#recordPropositionExposure",
+      "handedOff": "2026-09-23, brief sent to People and life"
+    },
+    {
+      "reader": "A law changing a rule of government, such as a term limit or a filing requirement",
+      "readerOwner": "Legislation",
+      "state": "in-flight",
+      "detail": "The readers are finished (candidacy.ts:363, executive-term-limits.ts:175). #461 connected constitutional measures to the enacted-rule reader. fileRuleChangeProvision still has no caller on main; the recall route (#520) and a branch that carries a proposition into a constitutional measure are building the producers.",
+      "readerAt": "src/simulation/enacted-rule-changes.ts#fileRuleChangeProvision",
+      "inFlight": "The rule-changing laws thread: #520 (recall route), then propositions into constitutional measures"
+    },
+    {
+      "reader": "An income tax in the other 51 places",
+      "readerOwner": "Nationwide government",
+      "state": "open",
+      "detail": "Collection needs a tax power for the jurisdiction, and the generated file carries only US-AK with no script that writes it.",
+      "readerAt": "src/fiscal-authority/tax-powers.generated.json"
+    }
+  ],
+  "measuredAt": "main at 130dd113, measured 2026-09-23",
+  "recordedAt": "2026-09-23T02:00:00.000Z"
+}

@@ -46,6 +46,7 @@ import type {
   World,
 } from "./types";
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
+import { moneyText } from "./money-text";
 
 export type {
   CampaignAdChannel,
@@ -329,7 +330,7 @@ export interface CommitCampaignWeekInput {
 /* -------------------------------------------------------------------------- */
 
 function money(amount: MoneyAmount): string {
-  return `${amount.currency} ${(amount.minorUnits / 100).toFixed(2)}`;
+  return moneyText(amount);
 }
 
 function activeStaff(
