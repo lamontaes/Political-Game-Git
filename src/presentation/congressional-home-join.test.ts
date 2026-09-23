@@ -11,6 +11,7 @@ import type { NewGameSetup } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { projectLivingSceneOpening } from "./living-scene-facts";
 import { projectGovernmentBrowser } from "./politics-government";
+import { congressCandidacyForPerson } from "./congress-candidacy";
 
 /*
  * The U.S. House district of a home, from the Census 119th Congress–2020 place
@@ -181,5 +182,30 @@ describe("congressional home join from the 119th CD–place file", () => {
       .districtHomeJoinVersion;
     const { world, personId } = lifeAt(ELKO, "cd-join-legacy", legacy);
     expect(congressionalIntervals(world, personId)).toEqual([]);
+  }, 120_000);
+
+  it("marks the player's own House district among the candidacy seats, and a split place's candidates as possible", () => {
+    const marks = (placeKey: string, seed: string) => {
+      const { world, personId } = lifeAt(placeKey, seed);
+      return Object.fromEntries(
+        (congressCandidacyForPerson(world, personId)?.seats ?? [])
+          .filter((seat) => seat.identity.seat.chamberKey === "us-house")
+          .map((seat) => [seat.identity.officeKey, seat.homeDistrict]),
+      );
+    };
+    const elko = marks(ELKO, "cd-join-candidacy-elko");
+    expect(Object.keys(elko)).toHaveLength(4);
+    expect(elko).toEqual({
+      "us-house:NV-01": null,
+      "us-house:NV-02": "recorded",
+      "us-house:NV-03": null,
+      "us-house:NV-04": null,
+    });
+    const peoria = marks(PEORIA, "cd-join-candidacy-peoria");
+    expect(Object.keys(peoria)).toHaveLength(17);
+    expect(Object.entries(peoria).filter(([, mark]) => mark !== null)).toEqual([
+      ["us-house:IL-16", "candidate"],
+      ["us-house:IL-17", "candidate"],
+    ]);
   }, 120_000);
 });
