@@ -692,12 +692,12 @@ export function npcContactAnswer(
   // person. Either of them: an asker who asked two people for the same
   // evening and heard yes from the first cannot be met by the second, and
   // agreeing anyway used to throw from inside passing time.
-  const window = meetingWindow(world, on);
+  const evening = meetingWindow(world, on);
   const busy = scheduledConflictExists(
     world,
     [from, to],
-    window.start,
-    window.end,
+    evening.start,
+    evening.end,
   );
   if (busy) {
     considerations.push({

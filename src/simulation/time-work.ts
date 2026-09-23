@@ -352,7 +352,7 @@ function conflictingActivityIds(
 
 /**
  * Whether any of these people already holds something scheduled that overlaps
- * this window: the same test `createScheduledActivity` refuses on, asked
+ * this span of time: the same test `createScheduledActivity` refuses on, asked
  * before anything is written.
  */
 export function scheduledConflictExists(
