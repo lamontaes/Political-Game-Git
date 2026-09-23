@@ -67,7 +67,7 @@ const age = (world: World, id: EntityId) =>
   Number(world.currentDate.slice(0, 4)) -
   Number(world.people[id]!.birthDate.slice(0, 4));
 
-describe("the personality catalogue", () => {
+describe("the personality catalog", () => {
   it("loads every scale the research sent, less the four the five already mean", () => {
     const registry = traitRegistryFor(
       openAt("0200065", "catalogue-load").world,

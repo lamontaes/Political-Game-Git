@@ -7460,6 +7460,66 @@ body:where(.pg-game) .game-campaign-tallies {
   border-color: var(--run-a-gold);
 }
 
+/*
+ * The reached public meeting, docked beside the moment opener.
+ *
+ * Unstyled, its buttons ran as one long row from the dock's centre and landed
+ * over the corner Day and Week controls at 1440x900 and 1280x800 (Eastport,
+ * January 6, 2026). A bounded card with its choices stacked keeps them
+ * together, and it rides above the corner cluster's measured reserve so the
+ * two never share a band. No backdrop-filter or transform here: the agenda
+ * reader is a fixed child and must stay positioned against the window.
+ */
+.pg-meeting-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.45rem;
+  align-self: flex-end;
+  box-sizing: border-box;
+  width: min(22rem, 100%);
+  margin-bottom: var(--pg-nav-reserve, 5.5rem);
+  padding: 0.8rem 0.9rem 0.9rem;
+  color: var(--run-a-ink);
+  background: linear-gradient(180deg, rgb(18 29 46 / 92%), rgb(11 19 32 / 94%));
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.7rem;
+  box-shadow: 0 0.8rem 2rem rgb(8 13 22 / 42%);
+  font-family: var(--pg-font-ui);
+  font-size: 0.95rem;
+}
+
+.pg-meeting-panel > h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.pg-meeting-panel > p {
+  margin: 0;
+  color: var(--run-a-muted);
+  font-size: 0.85rem;
+}
+
+.pg-meeting-panel > .ui-action {
+  width: 100%;
+  white-space: normal;
+  text-align: left;
+}
+
+/* Between these widths the dock itself already sits above the cluster. */
+@media (min-width: 761px) and (max-width: 1100px) {
+  .pg-meeting-panel {
+    margin-bottom: 0;
+  }
+}
+
+/* On a phone the dock is in the page flow, not over the corner cluster. */
+@media (width <= 52rem) {
+  .pg-meeting-panel {
+    margin-bottom: 0;
+  }
+}
+
 /* --- The compact moment panel ------------------------------------------ */
 
 .life-moment {

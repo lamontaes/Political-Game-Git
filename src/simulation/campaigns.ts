@@ -14,6 +14,7 @@ import { STATE_GOVERNING_HANDLERS } from "./governing/state-governing";
 import { PUBLIC_PROGRAM_HANDLERS } from "./governing/public-program";
 import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
 import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
+import { CONSTITUTIONAL_REFORM_HANDLERS } from "./living-world/constitutional-reform";
 import {
   createNationalElectionTransitionRegistry,
   linkedNationalUnitTransition,
@@ -28,7 +29,7 @@ import { requireCandidacyPack } from "./candidacy-packs";
 import { candidacyEligibility, districtSeatMustBeNamed } from "./candidacy";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
-import type { GovernmentUnitIdentity } from "./government-units";
+import type { LocalGoverningBodyIdentity } from "./nationwide-world/local-governing-body-candidacy-packs";
 import {
   ensureLocalGovernmentOrganization,
   localGovernmentOrganizationKey,
@@ -79,6 +80,7 @@ import {
   createOrganization,
   createOrganizationParticipation,
   createWorkRelationship,
+  recordOrganizationParticipationState,
   recordWorkStatus,
 } from "./life";
 import { LIFE_TRANSITION_HANDLERS } from "./life-callbacks";
@@ -106,6 +108,7 @@ import {
 } from "./living-world/party-evolution";
 import {
   activeOrganizationParticipationsAt,
+  organizationParticipationStateAt,
   workStatusAt,
   workStatusHistory,
 } from "./life-queries";
@@ -1571,7 +1574,7 @@ function seatTheWinner(
       world,
       campaign,
       contest,
-      local.unit,
+      local,
       effectiveAt,
       outcomeEventId,
       winnerPersonId,
@@ -1673,27 +1676,37 @@ function seatTheWinner(
 }
 
 /**
- * A seat on a town's governing body, taken up in that town's own government.
+ * A seat on a town's governing body, or its mayoralty, taken up in that town's
+ * own government.
  *
- * Recorded the way every municipal seat in this game is recorded — a member's
- * participation in the town government's organization — so the city screens
- * that already read seats read this one. A town the game has read in depth
- * keeps its own compiled government and its own seat limit; any other town
- * gets the government the Census listing records, placed once.
+ * Recorded the way every municipal seat in this game is recorded — a
+ * participation in the town government's organization, as a member or as
+ * mayor — so the city screens that already read seats read this one. A town
+ * the game has read in depth keeps its own compiled government and its own
+ * seat limit; any other town gets the government the Census listing records,
+ * placed once.
  *
  * No term, ward or seat number is written, because none has been read. When a
  * read body is already full the result still stands and nobody is seated over
  * the limit, since the record's seat count is a fact and this election is not.
+ *
+ * A town has one mayor, so a new mayor's term begins the day the sitting
+ * mayor's ends. A council member who wins the mayoralty keeps the council
+ * seat: whether the town's law makes them give it up has not been read
+ * (PLACEHOLDER, see local-chief-executive-rules.ts).
  */
 function seatOnLocalGoverningBody(
   world: World,
   campaign: CampaignRecord,
   contest: ElectionContestRecord,
-  unit: GovernmentUnitIdentity,
+  office: LocalGoverningBodyIdentity,
   effectiveAt: string,
   outcomeEventId: EntityId,
   winnerPersonId: EntityId,
 ): World {
+  const unit = office.unit;
+  const mayor = office.seat === "chief-executive";
+  const roleKind = mayor ? "leader:municipal-mayor" : "leader:municipal-member";
   const compiled = municipalGovernmentForUnit(unit);
   let next = world;
   let organizationId: EntityId | undefined;
@@ -1705,11 +1718,13 @@ function seatOnLocalGoverningBody(
       formedAt: next.currentDate,
     });
     organizationId = municipalOrganizationFor(next, compiled.key)?.id;
-    const bodySize = primaryReading(compiled).bodySize;
-    const seated = municipalSeats(next, compiled.key).filter(
-      (seat) => seat.role === "member" || seat.role === "presiding-member",
-    ).length;
-    if (bodySize !== null && seated >= bodySize) return next;
+    if (!mayor) {
+      const bodySize = primaryReading(compiled).bodySize;
+      const seated = municipalSeats(next, compiled.key).filter(
+        (seat) => seat.role === "member" || seat.role === "presiding-member",
+      ).length;
+      if (bodySize !== null && seated >= bodySize) return next;
+    }
     stableKey = municipalSeatKey(compiled.key, winnerPersonId);
   } else {
     next = ensureLocalGovernmentOrganization(next, unit);
@@ -1719,20 +1734,42 @@ function seatOnLocalGoverningBody(
     )?.id;
     stableKey = `local-government-seat:${unit.id}:${winnerPersonId}`;
   }
+  if (mayor) stableKey = `${stableKey}:mayor`;
   if (!organizationId)
     throw new Error(
       `The town government ${unit.id} cannot be placed in this world, so nobody can be seated on it.`,
     );
-  // Re-elected: a member who still sits on the body keeps the seat they hold.
+  // Re-elected: somebody who still holds this office keeps the seat they hold.
   // Writing a second seat for the same person used to refuse the whole result.
   if (
     activeOrganizationParticipationsAt(next, winnerPersonId).some(
       (active) =>
         active.participation.organizationId === organizationId &&
-        active.state.roleKind === "leader:municipal-member",
+        active.state.roleKind === roleKind,
     )
   )
     return next;
+  if (mayor) {
+    // The sitting mayor's term ends as the new one's begins.
+    for (const participation of next.history.organizationParticipations) {
+      if (participation.organizationId !== organizationId) continue;
+      const state = organizationParticipationStateAt(next, participation.id);
+      if (state?.status !== "active" || state.roleKind !== roleKind) continue;
+      next = recordOrganizationParticipationState(next, {
+        stableKey: `${participation.stableKey}:state:succeeded:${contest.id}`,
+        participationId: participation.id,
+        effectiveAt:
+          effectiveAt > participation.startedAt
+            ? effectiveAt
+            : participation.startedAt,
+        status: "ended",
+        roleKind: state.roleKind,
+        context: `Succeeded after the election of ${contest.electionDate}`,
+        provenance: { kind: "simulated-event", eventId: outcomeEventId },
+        supersedesStateId: state.id,
+      });
+    }
+  }
   // Returning after time away: a new seat, so the earlier one stays as it was.
   if (
     next.history.organizationParticipations.some(
@@ -1746,7 +1783,7 @@ function seatOnLocalGoverningBody(
     organizationId,
     startedAt: effectiveAt,
     kind: "leadership:municipal-office",
-    roleKind: "leader:municipal-member",
+    roleKind,
     context: `Elected ${contest.electionDate}`,
     provenance: { kind: "simulated-event", eventId: outcomeEventId },
   });
@@ -1939,6 +1976,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         // GOVERNING: state office matters, their deadlines and reports.
         ...STATE_GOVERNING_HANDLERS,
         ...GOVERNOR_TURNOVER_HANDLERS,
+        // A legislature and voters changing the governor's term limit.
+        ...CONSTITUTIONAL_REFORM_HANDLERS,
         ...PUBLIC_PROGRAM_HANDLERS,
         ...OFFICE_CONTINUITY_HANDLERS,
         // ALIVE43 W2: a local chapter organizer acts while ordinary time passes.

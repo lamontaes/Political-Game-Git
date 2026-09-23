@@ -1,5 +1,9 @@
 import { legislativeTermDates } from "../simulation/legislative-office-terms";
 import { proseDate } from "./prose-dates";
+import {
+  FILING_LEAD_DAYS,
+  nextTownElection,
+} from "../simulation/nationwide-world/town-election-calendar";
 
 import {
   activeCampaignForCandidate,
@@ -88,6 +92,65 @@ export interface CampaignSessionRecord {
   readonly spent: MoneyAmount | null;
   /** Somebody else's commitment is standing in the way of this one. */
   readonly blockedBy: readonly string[];
+}
+
+/**
+ * The campaign's sessions as a log a person can read.
+ *
+ * A Presque Isle race held about three hundred door-knocking sessions, and
+ * the log printed every one with the same sentence, above the result. Sessions
+ * with the same title and state are said once, with how many there were and
+ * when. A session still waiting on somebody else's commitment stays on its own
+ * line, because what it is waiting on is different each time.
+ */
+export interface CampaignSessionGroup {
+  readonly key: string;
+  readonly title: string;
+  readonly count: number;
+  readonly firstOn: string;
+  readonly lastOn: string;
+  readonly done: boolean;
+  /** The recorded sentence when every session in the group said the same. */
+  readonly outcome: string | null;
+  readonly blockedBy: readonly string[];
+}
+
+export function groupCampaignSessions(
+  sessions: readonly CampaignSessionRecord[],
+): readonly CampaignSessionGroup[] {
+  const groups = new Map<
+    string,
+    { rows: CampaignSessionRecord[]; blockedBy: readonly string[] }
+  >();
+  for (const session of sessions) {
+    const key =
+      session.blockedBy.length > 0
+        ? `waiting:${session.id}`
+        : `${session.done ? "done" : "planned"}:${session.title}`;
+    const group = groups.get(key);
+    if (group) group.rows.push(session);
+    else groups.set(key, { rows: [session], blockedBy: session.blockedBy });
+  }
+  return [...groups.entries()]
+    .map(([key, { rows, blockedBy }]) => {
+      const dates = rows.map((row) => row.on).sort();
+      const outcomes = new Set(rows.map((row) => row.outcome));
+      return {
+        key,
+        title: rows[0]!.title,
+        count: rows.length,
+        firstOn: dates[0]!,
+        lastOn: dates.at(-1)!,
+        done: rows[0]!.done,
+        outcome: outcomes.size === 1 ? rows[0]!.outcome : null,
+        blockedBy,
+      };
+    })
+    .sort(
+      (left, right) =>
+        left.lastOn.localeCompare(right.lastOn) ||
+        left.key.localeCompare(right.key),
+    );
 }
 
 /** The field memo, and nothing stronger than a field memo. */
@@ -665,8 +728,9 @@ function latestReading(
 /**
  * The election a filing for this office stands in. A state legislative seat
  * is elected at the state's next regular legislative election, on the state's
- * own calendar. A town's own body keeps the short authored schedule, which
- * belongs to the local-races work and has no calendar of its own yet.
+ * own calendar. A town's own body is elected on the November general election
+ * day where the state's municipal election law puts it there, and otherwise
+ * on the short placeholder schedule until the town's calendar is read.
  */
 export function campaignElectionDate(
   world: World,
@@ -675,8 +739,19 @@ export function campaignElectionDate(
 ) {
   const stateKey =
     lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey ?? null;
-  if (localGoverningBodyIdentityForOfficeKey(officeKey) || !stateKey)
-    return addDays(world.currentDate, 28);
+  const town = localGoverningBodyIdentityForOfficeKey(officeKey);
+  if (town) {
+    // The state's municipal election law where it fixes the day; otherwise
+    // the marked placeholder in town-election-calendar.ts.
+    const placeGeoid = town.unit.placeGeoid;
+    return (
+      (placeGeoid
+        ? nextTownElection(town.unit.stateUsps, placeGeoid, world.currentDate)
+            ?.electionDate
+        : null) ?? addDays(world.currentDate, FILING_LEAD_DAYS)
+    );
+  }
+  if (!stateKey) return addDays(world.currentDate, 28);
   return nextStateLegislativeElection(
     stateKey.replace(/^US-/, ""),
     world.currentDate,
@@ -723,8 +798,13 @@ export function fileForOffice(
     rivalPersonIds: opponents.personIds,
     existingContestId: null,
     // What a committee is actually called: the candidate and the body they
-    // want a seat in, rather than the game's own description of the seat.
-    committeeName: `${person.familyName} for the ${option.chamberName}`,
+    // want a seat in, rather than the game's own description of the seat. A
+    // mayor sits in no body, so the committee is named for the office.
+    committeeName:
+      localGoverningBodyIdentityForOfficeKey(option.officeKey)?.seat ===
+      "chief-executive"
+        ? `${person.familyName} for ${option.office.title}`
+        : `${person.familyName} for the ${option.chamberName}`,
     donorPoolName: "People who might give",
     advertisingVendorName: "Whoever sells the advertising",
     staffPersonIds: [],
