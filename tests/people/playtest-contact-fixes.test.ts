@@ -27,7 +27,8 @@ import {
   CONTACT_LOCATION_KEY,
 } from "../../src/simulation/people-contact";
 import { introducedPeople } from "../../src/simulation/social-introductions";
-import { ageOnDate } from "../../src/simulation/dates";
+import { addDays, ageOnDate } from "../../src/simulation/dates";
+import { proseWeekdayDate } from "../../src/presentation/prose-dates";
 import type { EntityId, World } from "../../src/simulation";
 
 /**
@@ -126,7 +127,7 @@ describe("asking somebody out, and calling it off", () => {
         const given = world.people[otherId]!.givenName;
         expect(note).toMatch(
           new RegExp(
-            `^You asked ${given} out on .+\\. ${given} will answer by .+\\.$`,
+            `^You asked ${given} to go out on .+\\. ${given} will answer by .+\\.$`,
           ),
         );
         world = askOnADate(world, {
@@ -221,5 +222,26 @@ describe("an answer of another day reaches the person who asked", () => {
           ?.available,
       ).toBe(true);
     }
+  }, 300_000);
+});
+
+describe("the note after asking names the evening, then the answer day", () => {
+  // Buffalo: "You asked Justin out on Thursday, January 31, 2041. Justin will
+  // answer by Wednesday, January 30, 2041." read as asking on Thursday.
+  it("puts the asked-for evening after the answer day, and says which is which", () => {
+    const { world, playerId } = openLife("3260600", "note:reno", 26);
+    const other = projectContacts(world, playerId).contacts.find(
+      (contact) => !contact.livesWithYou,
+    )!;
+    const on = addDays(world.currentDate, 10);
+    const note = askedNote(world, {
+      otherPersonId: other.personId,
+      on,
+      date: true,
+    });
+    const given = world.people[other.personId]!.givenName;
+    expect(note).toBe(
+      `You asked ${given} to go out on ${proseWeekdayDate(on)}. ${given} will answer by ${proseWeekdayDate(addDays(world.currentDate, 1))}.`,
+    );
   }, 300_000);
 });
