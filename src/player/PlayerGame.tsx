@@ -254,6 +254,7 @@ import { TaxWorkWorkspace } from "./TaxWorkWorkspace";
 import { NationwideCandidacyWorkspace } from "./NationwideCandidacyWorkspace";
 import { projectTransitWork } from "../presentation/transit-work";
 import { DocketWorkspace } from "./DocketWorkspace";
+import { MemberVotesPanel } from "./MemberVotesPanel";
 import { OfficeOnboardingWorkspace } from "./OfficeOnboardingWorkspace";
 import { OfficeTransitionPanel } from "./OfficeTransitionPanel";
 import { congressSeatStatus } from "../presentation/congress-candidacy";
@@ -5249,6 +5250,11 @@ function renderWorkspace({
                 {floorNote}
               </p>
             ) : null}
+            <MemberVotesPanel
+              world={session.world}
+              personId={session.personId}
+              onWorldChange={onLegislativeChange}
+            />
             {capabilities.legislativeJurisdictionId ? (
               <DocketWorkspace
                 world={session.world}

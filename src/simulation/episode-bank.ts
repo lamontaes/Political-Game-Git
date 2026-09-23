@@ -827,7 +827,7 @@ const SCHOOL_TROUBLE: EpisodeFamily = {
         { kind: "role", role: "school-peer" },
       ],
       lines: [
-        "{detail:incident} is broken at school, and the office has your name for it.",
+        "{detail:incident} is broken at {school}, and the office has your name for it.",
         "You were standing next to it when it happened, and so was {who:school-peer}.",
         "{they:school-peer} broke it. {they:school-peer} {has:school-peer} not said so, and nobody has asked you what you saw.",
       ],
@@ -898,7 +898,7 @@ const SCHOOL_TROUBLE: EpisodeFamily = {
         { kind: "role", role: "school-peer" },
       ],
       lines: [
-        "A year on, the school record still says you broke {detail:incident}, in a sentence somebody else wrote.",
+        "A year on, your record at {school} still says you broke {detail:incident}, in a sentence somebody else wrote.",
         "It comes up again in a meeting nobody who was in the corridor is at.",
       ],
       stakes: "notable",

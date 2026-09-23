@@ -25,7 +25,10 @@ import {
 } from "./legislative-office-context";
 
 describe("a legislator's committees", () => {
-  it("says so plainly where a chamber has no committees in the game", () => {
+  it("says so plainly where a chamber's committee has nobody to seat on it", () => {
+    // Nevada's committees are unread, so the game stands in one standing
+    // committee (standing-committee.ts); a supplied seat has no seated
+    // chamber to deal its members from.
     const member = suppliedLegislativeSeat("US-NV", "assembly");
     const context = projectLegislativeOfficeContext(
       member.world,
@@ -34,7 +37,7 @@ describe("a legislator's committees", () => {
     expect(context.committeeMembership).toEqual({
       kind: "unavailable",
       reason:
-        "The Assembly has no committees in the game yet, so nobody sits on one.",
+        "The Assembly does not have its full membership in the game yet, so its committees have no members.",
     });
   });
 

@@ -79,17 +79,25 @@ describe("institutional entry independently of story fixtures", () => {
         expect(
           body.members.some((member) => member.personId === seat.personId),
         ).toBe(true);
-      const before = serializeWorld(opened.world);
-      expect(() =>
-        applyLegislativeCommand(opened.world, opened.assignment, {
-          kind: "take-step",
-          step: "request-referral",
-        }),
-      ).toThrow(/committee identity/);
-      expect(serializeWorld(opened.world)).toBe(before);
+      // A chamber whose committees are unread refers to the stand-in
+      // standing committee (owner decision 2026-09-23), never to none.
+      const chamber = opened.assignment.procedure.pack.chambers.find(
+        (entry) => entry.chamberKey === chamberKey,
+      )!;
+      expect(chamber.committees.length).toBeGreaterThan(0);
+      const referred = applyLegislativeCommand(
+        opened.world,
+        opened.assignment,
+        { kind: "take-step", step: "request-referral" },
+      );
+      const position = measurePosition(
+        referred.world,
+        opened.assignment.measureId,
+      );
+      expect(position.phase).toBe("in-committee");
       expect(
-        measurePosition(opened.world, opened.assignment.measureId).phase,
-      ).toBe("awaiting-referral");
+        chamber.committees.map((committee) => committee.committeeKey),
+      ).toContain(position.committeeKey);
       const ended = endSuppliedSeat(opened.world);
       expect(resolveLegislativeFilingEntry(ended, seat.personId).kind).toBe(
         "unavailable",
@@ -147,8 +155,17 @@ describe("institutional entry independently of story fixtures", () => {
       jurisdictionId: seat.jurisdictionId,
       playerPersonId: seat.personId,
     });
+    // A pack with no committee at all (a mod's, say): the stand-in covers
+    // every shipped pack, so the absence is supplied here.
     const procedure = {
       ...opened.assignment.procedure,
+      pack: {
+        ...opened.assignment.procedure.pack,
+        chambers: opened.assignment.procedure.pack.chambers.map((chamber) => ({
+          ...chamber,
+          committees: [],
+        })),
+      },
       bodies: [
         seatBodyForPack(
           "house",
