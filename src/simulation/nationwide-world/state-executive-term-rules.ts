@@ -1,3 +1,5 @@
+import { chiefExecutiveCommencement } from "./chief-executive-commencements";
+import { chiefExecutiveElectionCycle } from "./chief-executive-election-cycles";
 import { makeIsoDate } from "../dates";
 import type { IsoDate } from "../types";
 import {
@@ -54,6 +56,17 @@ export type TermCommencementRule =
    */
   | {
       readonly kind: "january-weekday-following-election";
+      readonly ordinal: 1 | 2 | 3 | 4;
+      readonly weekday: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+      readonly offsetDays: number;
+    }
+  /**
+   * The `ordinal`-th `weekday` of December in the election year itself, then
+   * `offsetDays` later. Alaska and Hawaii seat their governors on the first
+   * Monday of December, a month after the vote rather than in the new year.
+   */
+  | {
+      readonly kind: "december-weekday-of-election-year";
       readonly ordinal: 1 | 2 | 3 | 4;
       readonly weekday: 0 | 1 | 2 | 3 | 4 | 5 | 6;
       readonly offsetDays: number;
@@ -165,7 +178,9 @@ export function commencementDescription(rule: TermCommencementRule): string {
   if (rule.kind === "january-first-following-election") return "January 1st";
   if (rule.kind === "january-fixed-day-following-election")
     return dayOfMonth(rule.day);
-  const anchor = `the ${ORDINAL_NAMES[rule.ordinal - 1]} ${WEEKDAY_NAMES[rule.weekday]} of January`;
+  const month =
+    rule.kind === "december-weekday-of-election-year" ? "December" : "January";
+  const anchor = `the ${ORDINAL_NAMES[rule.ordinal - 1]} ${WEEKDAY_NAMES[rule.weekday]} of ${month}`;
   if (rule.offsetDays === 0) return anchor;
   const shifted = WEEKDAY_NAMES[(rule.weekday + rule.offsetDays) % 7];
   return `the ${shifted} after ${anchor}`;
@@ -358,11 +373,20 @@ export function stateExecutiveTermRule(
   const row = chiefExecutiveBaseline(stateUsps);
   const termYears =
     row?.ordinaryTermYears ?? STATE_EXECUTIVE_GAME_PROFILE.termYears;
+  // Which years hold the election, from the researched calendar where the
+  // office is not on the cycle containing 2026 (Kentucky, New Jersey and
+  // Virginia among them); see chief-executive-election-cycles.ts.
+  const cycle = chiefExecutiveElectionCycle(stateUsps);
+  // When the term begins, where the state's clause was read in official text;
+  // see chief-executive-commencements.ts.
+  const start = chiefExecutiveCommencement(stateUsps);
+  const calibrated = row
+    ? `${STATE_EXECUTIVE_GAME_PROFILE_VERSION}+calibrated:${row.key}:${termYears}y`
+    : STATE_EXECUTIVE_GAME_PROFILE_VERSION;
+  const version = start ? `${calibrated}+start:official-text` : calibrated;
   return {
     stateUsps,
-    ruleVersion: row
-      ? `${STATE_EXECUTIVE_GAME_PROFILE_VERSION}+calibrated:${row.key}:${termYears}y`
-      : STATE_EXECUTIVE_GAME_PROFILE_VERSION,
+    ruleVersion: cycle ? `${version}+cycle:${cycle.referenceYear}` : version,
     basis: {
       termYears: "game-profile",
       commencement: "game-profile",
@@ -370,10 +394,15 @@ export function stateExecutiveTermRule(
     },
     ...STATE_EXECUTIVE_GAME_PROFILE,
     termYears,
+    commencement:
+      start?.commencement ?? STATE_EXECUTIVE_GAME_PROFILE.commencement,
     election: {
       ...STATE_EXECUTIVE_GAME_PROFILE.election,
       // An office cannot be elected less often than its term ends.
       cycleYears: termYears,
+      referenceYear:
+        cycle?.referenceYear ??
+        STATE_EXECUTIVE_GAME_PROFILE.election.referenceYear,
     },
     sources: [],
     calibration: row
@@ -441,20 +470,21 @@ export function nextRegularElection(
   return generalElectionDay(rule.election, year + rule.election.cycleYears);
 }
 
-/** The commencement in the year after an election held on `electionDate`. */
+/**
+ * The commencement that follows an election held on `electionDate`: in the
+ * new year for a January rule, in the same year for a December one.
+ */
 export function commencementAfter(
   rule: TermCommencementRule,
   electionDate: IsoDate,
 ): IsoDate {
-  const year = Number(electionDate.slice(0, 4)) + 1;
-  if (rule.kind === "january-first-following-election")
-    return makeIsoDate(`${year}-01-01`);
-  if (rule.kind === "january-fixed-day-following-election")
-    return iso(utcDate(year, 0, rule.day));
-  const first = utcDate(year, 0, 1);
-  const toWeekday = (rule.weekday - first.getUTCDay() + 7) % 7;
-  const day = 1 + toWeekday + (rule.ordinal - 1) * 7 + rule.offsetDays;
-  return iso(utcDate(year, 0, day));
+  const electionYear = Number(electionDate.slice(0, 4));
+  return commencementInYear(
+    rule,
+    rule.kind === "december-weekday-of-election-year"
+      ? electionYear
+      : electionYear + 1,
+  );
 }
 
 /** The commencement that falls in `year` under the rule. */
@@ -462,7 +492,15 @@ export function commencementInYear(
   rule: TermCommencementRule,
   year: number,
 ): IsoDate {
-  return commencementAfter(rule, makeIsoDate(`${year - 1}-12-31`));
+  if (rule.kind === "january-first-following-election")
+    return makeIsoDate(`${year}-01-01`);
+  if (rule.kind === "january-fixed-day-following-election")
+    return iso(utcDate(year, 0, rule.day));
+  const monthIndex = rule.kind === "december-weekday-of-election-year" ? 11 : 0;
+  const first = utcDate(year, monthIndex, 1);
+  const toWeekday = (rule.weekday - first.getUTCDay() + 7) % 7;
+  const day = 1 + toWeekday + (rule.ordinal - 1) * 7 + rule.offsetDays;
+  return iso(utcDate(year, monthIndex, day));
 }
 
 export interface PlannedTermDates {

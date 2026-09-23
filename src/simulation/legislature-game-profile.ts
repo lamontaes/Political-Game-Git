@@ -307,9 +307,17 @@ const ORIGINATION_SOURCE = profileSource(
   "Origination",
   "A measure may start in either chamber. The game applies this where a state's own origination rule has not been read; a state that confines a class of measure to one chamber will say so once its instruments are compiled.",
 );
+/**
+ * PLACEHOLDER, not law. How often an unresearched legislature sits and whether
+ * a pending measure survives adjournment are unknown: several real states meet
+ * only every other year, and some carry bills over within a biennium. Filed as
+ * `generated-legislature-session-frequency-and-carryover`. Until it is
+ * answered the game applies one blanket rule — an annual session whose pending
+ * measures die at sine die — so that bills can finish at all, and says so.
+ */
 const SESSION_SOURCE = profileSource(
   "Session",
-  "The legislature sits in a regular annual session and a measure still pending when it adjourns sine die does not carry over.",
+  "The game's standing rule until this state's session calendar is researched: the legislature sits in a regular annual session and a measure still pending when it adjourns sine die does not carry over. This is not a reading of the state's law.",
 );
 
 function profileChamber(
@@ -516,6 +524,7 @@ export function legislatureProfilePack(
       "The chamber names and bill prefixes are the ordinary American ones. A state whose lower chamber is an Assembly or a House of Delegates will say so once its instruments are compiled.",
       "Committee structure, referral among committees, hearing guarantees and report thresholds come from chamber rules that have not been read.",
       "Conference between the chambers is not modelled.",
+      "How often this legislature meets and whether a pending measure carries over after adjournment have not been read; the annual session with bills dying at adjournment is the game's standing rule until they are.",
       "Whether this state overrides a veto in joint session rather than chamber by chamber has not been read; the generated pack uses the chamber-by-chamber form every compiled state but one uses.",
       ...override.unexpressed,
     ],

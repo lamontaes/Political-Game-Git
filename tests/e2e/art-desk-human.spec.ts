@@ -20,6 +20,90 @@ const SIZES = [
   { name: "1024x768", width: 1024, height: 768 },
 ] as const;
 
+test("art-team conversation and next step stay above the artwork", async ({
+  page,
+  request,
+  baseURL,
+}, testInfo) => {
+  await page.goto("/art-desk.html");
+  const state = await (await request.get(`${BENCH}/state`)).json();
+  const entry = (
+    Object.values(state.projection.requests) as {
+      qa?: boolean;
+      request: { requestId: string };
+    }[]
+  ).find((item) => !item.qa && item.request.requestId !== "inbox");
+  expect(entry).toBeTruthy();
+  const requestId = entry!.request.requestId;
+  const candidate = await intake(page, png(96, 64, 241), {
+    requestId,
+    originalName: "conversation-layout.png",
+  });
+  for (const text of ["First fit note.", "I am checking its fit."]) {
+    const response = await request.post(`${BENCH}/events`, {
+      headers: { Origin: baseURL! },
+      data: {
+        type: "message.posted",
+        actor: { kind: "agent", id: "art-team" },
+        payload: { requestId, candidateId: candidate, kind: "note", text },
+      },
+    });
+    expect(response.status()).toBe(201);
+  }
+  await page.reload();
+  await page.getByTestId("art-desk-tab-in-progress").click();
+  await page.getByTestId(`art-desk-row-${requestId}`).click();
+  const discussion = page.getByTestId("art-desk-discussion");
+  await expect(discussion).toBeVisible();
+  await expect(
+    discussion.getByTestId("art-desk-message").first(),
+  ).toContainText("I am checking its fit.");
+  await expect(page.getByTestId("art-desk-next-step")).toBeVisible();
+  expect(
+    await page.evaluate(() => {
+      const discussion = document.querySelector(
+        '[data-testid="art-desk-discussion"]',
+      );
+      const preview = document.querySelector(
+        '[data-testid="art-desk-preview"]',
+      );
+      return Boolean(
+        discussion &&
+        preview &&
+        discussion.compareDocumentPosition(preview) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+      );
+    }),
+  ).toBe(true);
+  for (const viewport of [
+    { width: 1440, height: 900 },
+    { width: 1024, height: 768 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await expect(discussion).toBeVisible();
+    const previewBox = await page.getByTestId("art-desk-preview").boundingBox();
+    const discussionBox = await discussion.boundingBox();
+    expect(previewBox).not.toBeNull();
+    expect(discussionBox).not.toBeNull();
+    expect(previewBox!.y).toBeLessThan(viewport.height);
+    const imageBox = await page
+      .getByTestId("art-desk-preview")
+      .locator("img")
+      .first()
+      .boundingBox();
+    expect(imageBox).not.toBeNull();
+    expect(imageBox!.y + imageBox!.height).toBeLessThanOrEqual(viewport.height);
+    expect(discussionBox!.y).toBeLessThan(viewport.height);
+    expect(discussionBox!.y + discussionBox!.height).toBeLessThanOrEqual(
+      viewport.height,
+    );
+    expect(discussionBox!.x).toBeGreaterThan(previewBox!.x);
+    await page.screenshot({
+      path: testInfo.outputPath(`conversation-${viewport.width}.png`),
+    });
+  }
+});
+
 function png(width: number, height: number, seed: number): Buffer {
   const { PNG } = require("pngjs") as {
     PNG: new (o: { width: number; height: number }) => { data: Buffer };
@@ -245,6 +329,7 @@ test("the human Art Desk: named cards, lineage, small filters, brief copy and do
     "hash verified",
   );
 
+  await page.getByText("Ask or reply", { exact: true }).click();
   await page
     .getByTestId("art-desk-question")
     .fill("Is this an image to review or a request?");
@@ -254,6 +339,23 @@ test("the human Art Desk: named cards, lineage, small filters, brief copy and do
   await expect(page.getByTestId("art-desk-message")).toContainText(
     "Is this an image to review or a request?",
   );
+  await expect(page.getByTestId("art-desk-next-step")).toBeVisible();
+  expect(
+    await page.evaluate(() => {
+      const discussion = document.querySelector(
+        '[data-testid="art-desk-discussion"]',
+      );
+      const preview = document.querySelector(
+        '[data-testid="art-desk-preview"]',
+      );
+      return Boolean(
+        discussion &&
+        preview &&
+        discussion.compareDocumentPosition(preview) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+      );
+    }),
+  ).toBe(true);
   await page.reload();
   await expect(page.getByTestId("art-desk-message")).toContainText(
     "Is this an image to review or a request?",
@@ -464,12 +566,15 @@ test("notifications show team replies, retain unread on failure and reopen the e
     expect(response.status()).toBe(201);
     return (await response.json()).events[0];
   };
-  const question = await post(ACTOR, {
-    requestId,
-    candidateId: candidate,
-    kind: "question",
-    text: "Can I use this version?",
-  });
+  const question = await post(
+    { kind: "owner", id: session.ownerId },
+    {
+      requestId,
+      candidateId: candidate,
+      kind: "question",
+      text: "Can I use this version?",
+    },
+  );
   const reply = await post(
     { kind: "agent", id: "art-team" },
     {
@@ -491,6 +596,7 @@ test("notifications show team replies, retain unread on failure and reopen the e
   const tab = page.getByTestId("art-desk-tab-notifications");
   await page.getByTestId("art-desk-tab-discussion").click();
   await page.getByTestId("art-desk-list").getByRole("button").first().click();
+  await page.getByText("Ask or reply", { exact: true }).click();
   const draft = page.getByTestId("art-desk-question");
   await draft.fill("Please keep this unfinished question.");
   await tab.click();
@@ -539,6 +645,9 @@ test("notifications show team replies, retain unread on failure and reopen the e
   await expect(
     page.getByTestId(`art-desk-notification-${reply.eventId}`),
   ).toHaveAttribute("data-unread", "false");
+  const unreadBefore = Number(
+    (await tab.textContent())?.match(/\d+/)?.[0] ?? 0,
+  );
   const incoming = await post(
     { kind: "agent", id: "art-team" },
     {
@@ -551,12 +660,13 @@ test("notifications show team replies, retain unread on failure and reopen the e
   const incomingItem = page.getByTestId(
     `art-desk-notification-${incoming.eventId}`,
   );
+  await page.getByRole("button", { name: "Sync now" }).click();
   await expect(incomingItem).toHaveAttribute("data-unread", "true", {
     timeout: 22_000,
   });
-  await expect(page.getByTestId("art-desk-tab-notifications")).toContainText(
-    "1",
-  );
+  await expect
+    .poll(async () => Number((await tab.textContent())?.match(/\d+/)?.[0] ?? 0))
+    .toBe(unreadBefore + 1);
   await page.getByRole("button", { name: "Mark all read" }).click();
   await expect(incomingItem).toHaveAttribute("data-unread", "false");
   await page.screenshot({ path: info.outputPath("notifications-read.png") });

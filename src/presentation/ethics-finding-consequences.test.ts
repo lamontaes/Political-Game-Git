@@ -9,6 +9,7 @@ import {
   fileCampaign,
   deserializeWorld,
   makeCurrencyCode,
+  personName,
   publicOrganizationKey,
   searchLifePlaces,
   serializeWorld,
@@ -22,6 +23,7 @@ import {
 } from "../simulation/claim-stances";
 import {
   answerPressRequest,
+  campaignSpendingReports,
   CANDIDATE_PAYMENTS_REPORTED_EVENT,
   generatedStateOversightBody,
   pressAnswerStance,
@@ -37,6 +39,7 @@ import { canonicalSupportBasisPoints } from "../simulation/campaigns";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { supportAfterLoss } from "../simulation/campaign-support";
 import { spendAnAfternoon } from "./campaign-projection";
+import { projectCampaignSpendingReports } from "./campaign-spending-reports";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
@@ -493,6 +496,46 @@ describe("a Washington candidate who lies to reporters about the money", () => {
         lead.subjectPersonIds.includes(run.personId),
     );
     expect(followUps.length).toBeGreaterThan(0);
+  });
+});
+
+describe("a Washington candidate's spending reports", () => {
+  const run = washingtonFinding();
+
+  it("files every payment out of the committee, and the reader can see who got it", () => {
+    const reports = campaignSpendingReports(
+      run.after,
+      run.campaign.organizationId,
+    );
+    expect(reports.length).toBeGreaterThan(0);
+    const lines = reports.flatMap((report) => report.lines);
+    const toCandidate = lines.filter(
+      (line) => line.purpose === "paid-to-candidate",
+    );
+    expect(toCandidate.map((line) => line.amountMinorUnits)).toEqual([
+      20_000, 20_000,
+    ]);
+    expect(new Set(toCandidate.map((line) => line.date)).size).toBe(2);
+    // Each payment is on exactly one report.
+    const flows = lines.map((line) => line.flowId);
+    expect(new Set(flows).size).toBe(flows.length);
+    for (const report of reports)
+      expect(report.totalMinorUnits).toBe(
+        report.lines.reduce((sum, line) => sum + line.amountMinorUnits, 0),
+      );
+  });
+
+  it("shows them on the campaign screen in plain words", () => {
+    const committees = projectCampaignSpendingReports(run.after, run.personId);
+    const own = committees.find((committee) => committee.yours)!;
+    const lines = own.reports.flatMap((report) => report.lines);
+    const paid = lines.filter(
+      (line) => line.purpose === "Paid to the candidate",
+    );
+    expect(paid).toHaveLength(2);
+    expect(paid.every((line) => line.amount === "$200")).toBe(true);
+    const name = personName(run.after.people[run.personId]!);
+    expect(paid.every((line) => line.payee === name)).toBe(true);
   });
 });
 
