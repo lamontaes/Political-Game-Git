@@ -77,8 +77,8 @@ describe("GOVERNING state executive journey, once per compiled mechanism", () =>
       // Never occupied on election night.
       expect(governingOfficeForPerson(decided, personId)).toBeNull();
       const planned = stateExecutiveEntryStatus(decided, personId);
-      expect(planned.kind).toBe("awaiting-qualification");
-      if (planned.kind !== "awaiting-qualification") return;
+      expect(planned.kind).toBe("qualified-awaiting-entry");
+      if (planned.kind !== "qualified-awaiting-entry") return;
       const expected = termDatesAfterElection(rule, contest.electionDate);
       expect(planned.startsAt).toBe(expected.startsAt);
       expect(planned.endsAt).toBe(expected.endsAt);

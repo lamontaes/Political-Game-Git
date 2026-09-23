@@ -1,3 +1,4 @@
+import { InterruptionChecklist } from "./InterruptionChecklist";
 import { dollars } from "../presentation/campaign-life-surface";
 import { UX39CalendarGrid, useCalendarDateOrder } from "./UX39CalendarGrid";
 import {
@@ -60,10 +61,7 @@ import {
   isPinned,
   type InterruptionPreferences,
 } from "../presentation/shell-navigation";
-import {
-  INTERRUPTION_CATEGORIES,
-  interruptionHandlers,
-} from "../presentation/interruption-policy";
+import { interruptionHandlers } from "../presentation/interruption-policy";
 import { PeopleRelationshipWeb } from "./PeopleRelationshipWeb";
 import { PersonPortrait } from "./PersonPortrait";
 import {
@@ -969,42 +967,10 @@ export function CalendarWorkspaceSurface({
             time. A preference here never spends money, casts a vote or commits
             you to anything; it only decides where a skip pauses.
           </p>
-          <ul className="pg-interruption-list">
-            {INTERRUPTION_CATEGORIES.map((category) =>
-              category.key === "always" ? (
-                <li key={category.key} data-testid="interruption-always">
-                  <label className="pg-check pg-check--fixed">
-                    <input type="checkbox" checked disabled readOnly />
-                    <span>
-                      <strong>{category.label}</strong>
-                      <small>{category.detail}</small>
-                    </span>
-                  </label>
-                </li>
-              ) : (
-                <li key={category.key}>
-                  <label className="pg-check">
-                    <input
-                      type="checkbox"
-                      data-testid={`interruption-${category.key}`}
-                      checked={interruptions[category.key]}
-                      disabled={!onInterruptionChange}
-                      onChange={(event) =>
-                        onInterruptionChange?.(
-                          category.key as keyof InterruptionPreferences,
-                          event.target.checked,
-                        )
-                      }
-                    />
-                    <span>
-                      <strong>{category.label}</strong>
-                      <small>{category.detail}</small>
-                    </span>
-                  </label>
-                </li>
-              ),
-            )}
-          </ul>
+          <InterruptionChecklist
+            interruptions={interruptions}
+            onChange={onInterruptionChange}
+          />
         </div>
       ) : null}
     </>

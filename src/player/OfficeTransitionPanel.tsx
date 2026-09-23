@@ -33,13 +33,11 @@ export function OfficeTransitionPanel({
         {days === 1 ? "tomorrow" : `in ${days} days`}. Until then the office and
         its powers are not yours. {transition.entry}
       </p>
-      {transition.qualification === "needed" ? (
+      {transition.qualification === "blocked" ? (
         <p className="game-note" data-testid="office-transition-qualify">
-          You still have to qualify for the term under Campaigns before it
-          begins. A term that begins unqualified is not taken up late.
+          A requirement of the office is not met, and until it is you cannot
+          take it up. Campaigns says which.
         </p>
-      ) : transition.qualification === "done" ? (
-        <p className="game-note">You have qualified for the term.</p>
       ) : null}
       {transition.services.length > 0 ? (
         <ul className="office-transition-services">
