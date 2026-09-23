@@ -4,7 +4,7 @@ import {
   householdMembershipsAt,
   kinshipRelationshipsAt,
 } from "./life-queries";
-import { CONTACT_PROPOSED_EVENT } from "./people-contact";
+import { CONTACT_PROPOSED_EVENT } from "./people-contact-events";
 import { relationshipHistory } from "./queries";
 import type { EntityId, IsoDate, World } from "./types";
 
