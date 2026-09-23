@@ -12,6 +12,7 @@ import {
 } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
+import { URL } from "node:url";
 import {
   contentHash,
   receiveContent,

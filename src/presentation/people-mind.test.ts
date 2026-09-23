@@ -457,8 +457,10 @@ describe("PEOPLE P2 aims tell the truth about what they offer", () => {
     }
   });
 
-  it("no two aim families are offered about the same person", () => {
-    for (const placeKey of ["kentucky", "state:US-OH", "nebraska", "alaska"]) {
+  // One opening per case: four in one test ran past the time limit.
+  it.each(["kentucky", "state:US-OH", "nebraska", "alaska"])(
+    "no two aim families are offered about the same person in %s",
+    (placeKey) => {
       const life = placeLife(placeKey, `aims-overlap-${placeKey}`);
       const { choices } = projectPersonalGoals(life.world, life.playerPersonId);
       const seen = new Map<string, string>();
@@ -473,8 +475,8 @@ describe("PEOPLE P2 aims tell the truth about what they offer", () => {
           seen.set(target.targetEntityId, choice.family);
         }
       }
-    }
-  });
+    },
+  );
 
   it("says contact has lapsed rather than claiming there is nobody", () => {
     // The seeded acquaintances are all out of touch on the first day, so the
