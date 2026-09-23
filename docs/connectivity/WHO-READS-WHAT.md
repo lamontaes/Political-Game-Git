@@ -2,7 +2,7 @@
 
 Every system in the game that writes something, what it writes, what reads it, and what should read it and does not. A missing link is a defect, and names the thread that owns each end.
 
-13 producers, 27 missing links: 9 open, nobody has taken it, 3 being built in an open pull request, 7 handed to its owner, 7 waiting on research, 1 closed.
+13 producers, 27 missing links: 9 open, nobody has taken it, 4 being built in an open pull request, 6 handed to its owner, 7 waiting on research, 1 closed.
 
 ## Open defects, by the thread that owns the reading end
 
@@ -43,14 +43,14 @@ Every system in the game that writes something, what it writes, what reads it, a
 ### People and life
 
 1. **A disaster shaping what people believe.** From a disaster (producer owned by How the world changes). waiting on research.
-2. **The reflection pass on the ordinary clock.** From a person forming a political view (producer owned by People and life). handed to its owner.
+2. **The reflection pass on the ordinary clock.** From a person forming a political view (producer owned by People and life). being built in an open pull request.
 3. **Where a person's principles come from.** From a person forming a political view (producer owned by People and life). waiting on research.
-4. **A party's stances coming from its members' views.** From a person forming a political view (producer owned by People and life). open, nobody has taken it.
+4. **A party's stances coming from its members' views.** From a person forming a political view (producer owned by People and life). handed to its owner.
 5. **Everyone else learning what a bill is about: members who vote on it, and the public who read about it.** From an enacted law (producer owned by Legislation). handed to its owner.
 6. **The party's standing with the member: endorsements withdrawn, a primary challenge, leadership calling for resignation.** From an ethics finding (producer owned by Consequences for corruption). waiting on research.
 7. **Newcomers bringing their politics, and places changing because of who lives there.** From someone moving in or out of town (producer owned by Migration and big social movements). open, nobody has taken it.
 8. **A wave feeding party evolution.** From someone moving in or out of town (producer owned by Migration and big social movements). open, nobody has taken it.
-9. **Real census households for a new character's family.** From two people becoming partners (producer owned by Relationships). handed to its owner.
+9. **Real census households for a new character's family.** From two people becoming partners (producer owned by Relationships). open, nobody has taken it.
 
 ### Relationships
 
@@ -78,7 +78,7 @@ Every system in the game that writes something, what it writes, what reads it, a
 
 **Should be read by, and is not.**
 
-1. **A complaint about anyone who is not the player** (Consequences for corruption; handed to its owner). openMatter accepts any subject, but no producer ever names an NPC. ChatGPT answered: broaden the actors and incidents on the existing weekly route; no quota. (question: `what-opens-a-scandal-about-somebody-else`; handed off: September 23, 2026, brief sent to Consequences for corruption)
+1. **A complaint about anyone who is not the player** (Consequences for corruption; handed to its owner). openMatter accepts any subject, but no producer ever names an NPC. ChatGPT answered: broaden the actors and incidents on the existing weekly route; no quota. (question: `what-opens-a-scandal-about-somebody-else`; handed off: September 23, 2026: Consequences for corruption took it, after the office response)
 
 ### A disaster
 
@@ -131,11 +131,11 @@ Every system in the game that writes something, what it writes, what reads it, a
 
 **Should be read by, and is not.**
 
-1. **The reflection pass on the ordinary clock** (People and life; handed to its owner). Register politicalReflectionTransitionHandler and schedule each NPC's first reflection. 66 propositions now exist (US_POLICY_POSITIONS_PACK, authored fiction), each naming the principles it engages, which was the first unblock the pass's own comment names. It still has no exposures to reflect on and no person holds a principle. (handed off: September 23, 2026, brief sent to People and life)
+1. **The reflection pass on the ordinary clock** (People and life; being built in an open pull request). Register politicalReflectionTransitionHandler and schedule each NPC's first reflection. 66 propositions now exist (US_POLICY_POSITIONS_PACK, authored fiction), each naming the principles it engages, which was the first unblock the pass's own comment names. It still has no exposures to reflect on and no person holds a principle. (in flight: People and life's next PR after #475 registers the pass. Its factor source is held principles; its proof test is src/presentation/political-views.test.ts)
 2. **Where a person's principles come from** (People and life; waiting on research). recordPrinciple has no caller outside demo.ts. D-093 says a person's own character and history decide; the weighting from temperament to principle is the research. (question: `what-should-the-world-do-to-a-person`)
 3. **A voter's views deciding a vote** (Running for office; being built in an open pull request). An election result reads a support score plus a seeded swing (campaigns.ts:1494) or seeded random votes (election-contests.ts:142). No view of any voter is read. (in flight: #489 weighs an officeholder's record question by question; it does not read voters' own beliefs)
 4. **A legislator's views deciding their floor vote** (Legislation; being built in an open pull request). Floor and committee votes come from authored vote plans (legislation-session.ts:69, legislative-clock.ts:288). (in flight: #440 lets every seated legislator cast their own vote)
-5. **A party's stances coming from its members' views** (People and life; open, nobody has taken it). partyActorStance (living-world/party-evolution.ts:161) is a seeded random pick.
+5. **A party's stances coming from its members' views** (People and life; handed to its owner). partyActorStance (living-world/party-evolution.ts:161) is a seeded random pick. (handed off: September 23, 2026: People and life took it (A06, party business from real causes), after the childhood generator)
 
 ### An act of political violence
 
@@ -228,7 +228,7 @@ Every system in the game that writes something, what it writes, what reads it, a
 
 **Should be read by, and is not.**
 
-1. **A player facing a finding choosing how to answer, or resigning** (Consequences for corruption; handed to its owner). The screen and the writer are both built; the answer surface needs a place in the office panel. (handed off: September 23, 2026, brief sent to Consequences for corruption)
+1. **A player facing a finding choosing how to answer, or resigning** (Consequences for corruption; handed to its owner). The screen and the writer are both built; the answer surface needs a place in the office panel. (handed off: September 23, 2026: Consequences for corruption took it, next after the spending reports)
 
 ### Bills with several subjects, and delegated bill steps
 
@@ -291,8 +291,8 @@ Every system in the game that writes something, what it writes, what reads it, a
 **Should be read by, and is not.**
 
 1. **Two people who grow close becoming a couple, including a one-night stand** (Relationships; being built in an open pull request). The owner answered on September 23, 2026: both, all the way, and one-night stands exist. (in flight: the Relationships thread is building it)
-2. **Real census households for a new character's family** (People and life; handed to its owner). selectAcsPumsHouseholdDonor and applyAcsPumsCharacterHistoryBridge (1,628 lines) have no caller; the family odds at the opening are made up instead. (handed off: September 23, 2026, brief sent to People and life)
+2. **Real census households for a new character's family** (People and life; open, nobody has taken it). selectAcsPumsHouseholdDonor and applyAcsPumsCharacterHistoryBridge (1,628 lines) have no caller; the family odds at the opening are made up instead. People and life declined it for now on September 23, 2026.
 
 ## How this document is made
 
-Rendered September 23, 2026 from commit 947c366d by `npm run connectivity:links -- render --write`, one entry per file in `docs/connectivity/links/`. Do not edit it by hand.
+Rendered September 23, 2026 from commit 53f0e1a6 (links modified) by `npm run connectivity:links -- render --write`, one entry per file in `docs/connectivity/links/`. Do not edit it by hand.

@@ -1,0 +1,19 @@
+{
+  "filedAt": "2026-09-23T00:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "How the world changes (world pace)",
+  "priority": "P1",
+  "question": "Of the events the NOAA/NCEI Storm Events database records for a county (thunderstorm wind reports, floods, flash floods), which ones would a resident actually experience as a storm or flood worth talking about, which cause damage a local government responds to, and which would local news cover? How should a game thin a county's recorded report rate down to felt events, damaging events and disasters, and on which day of the month do they fall?",
+  "questionId": "which-storm-reports-a-town-experiences-as-a-disaster",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "How the world changes thread, on lamontae's 2026-09-23 00:20Z message ('I feel like there's a lot of natural disasters going on too') and playtests counting 19 storms in 27 months in Stapleton, Alabama and five floods or storms in one year in a Washington town",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/crisis/hazard-producer.ts (CRUNCH47 C2) and storm-catalog.generated.json",
+      "whatItDidNotSettle": "Rates are read from the NCEI Storm Events catalog for 2000-2024 and thinned to a county, so the counts are realistic for recorded reports. But every report becomes a declared hazard episode with damage, response and news, the catalog's thunderstorm wind reports dominate, several land on the same day, and every episode is dated the first of its month. In a two-year observed Columbus run Delaware County, Ohio recorded about 30 episodes."
+    }
+  ],
+  "title": "Which recorded storm reports a town experiences as a storm, and which as a disaster",
+  "usableAnswer": "For a typical county, the yearly count of NCEI reports, of events residents notice, of damaging events, and of locally declared emergencies, with sources; a rule for which report attributes (magnitude, property damage, deaths or injuries, episode size) separate those tiers; and whether episodes should be spread over the month by their recorded start day.",
+  "whyItMatters": "Playtesters and the owner read the stream as too many disasters. The rate is sourced; what is not is treating every recorded wind report as an event the town lives through. Until this is answered the producer is unchanged."
+}

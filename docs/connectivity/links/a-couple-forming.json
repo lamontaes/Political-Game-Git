@@ -27,9 +27,8 @@
     {
       "reader": "Real census households for a new character's family",
       "readerOwner": "People and life",
-      "state": "handed-off",
-      "detail": "selectAcsPumsHouseholdDonor and applyAcsPumsCharacterHistoryBridge (1,628 lines) have no caller; the family odds at the opening are made up instead.",
-      "handedOff": "2026-09-23, brief sent to People and life"
+      "state": "open",
+      "detail": "selectAcsPumsHouseholdDonor and applyAcsPumsCharacterHistoryBridge (1,628 lines) have no caller; the family odds at the opening are made up instead. People and life declined it for now on September 23, 2026."
     }
   ],
   "measuredAt": "main at 130dd113, measured 2026-09-23",

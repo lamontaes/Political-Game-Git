@@ -25,9 +25,9 @@
     {
       "reader": "The reflection pass on the ordinary clock",
       "readerOwner": "People and life",
-      "state": "handed-off",
+      "state": "in-flight",
       "detail": "Register politicalReflectionTransitionHandler and schedule each NPC's first reflection. 66 propositions now exist (US_POLICY_POSITIONS_PACK, authored fiction), each naming the principles it engages, which was the first unblock the pass's own comment names. It still has no exposures to reflect on and no person holds a principle.",
-      "handedOff": "2026-09-23, brief sent to People and life"
+      "inFlight": "People and life's next PR after #475 registers the pass. Its factor source is held principles; its proof test is src/presentation/political-views.test.ts"
     },
     {
       "reader": "Where a person's principles come from",
@@ -53,8 +53,9 @@
     {
       "reader": "A party's stances coming from its members' views",
       "readerOwner": "People and life",
-      "state": "open",
-      "detail": "partyActorStance (living-world/party-evolution.ts:161) is a seeded random pick."
+      "state": "handed-off",
+      "detail": "partyActorStance (living-world/party-evolution.ts:161) is a seeded random pick.",
+      "handedOff": "September 23, 2026: People and life took it (A06, party business from real causes), after the childhood generator"
     }
   ],
   "measuredAt": "main at 130dd113, measured 2026-09-23",
