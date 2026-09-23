@@ -13,6 +13,14 @@ import { displayMoney } from "./money-display";
 const PURPOSE_LABELS: Readonly<Record<SpendingPurpose, string>> = {
   advertising: "Advertising",
   "paid-to-candidate": "Paid to the candidate",
+  office: "Office rent and utilities",
+  printing: "Signs and printing",
+  postage: "Postage",
+  travel: "Travel",
+  events: "Events",
+  "phones-and-software": "Phones and software",
+  food: "Food",
+  "bank-fees": "Bank fees",
   other: "Other spending",
 };
 
@@ -22,6 +30,8 @@ export interface SpendingReportLineView {
   readonly payee: string;
   readonly purpose: string;
   readonly amount: string;
+  /** Everything the committee has reported spending, through this line. */
+  readonly runningTotal: string;
 }
 
 export interface SpendingReportView {
@@ -69,26 +79,44 @@ export function projectCampaignSpendingReports(
       heading: yours
         ? "Your committee's spending reports"
         : `${candidate ? personName(candidate) : "A rival"}'s committee${name ? ` (${name})` : ""}`,
-      reports: [...reports].reverse().map((report) => ({
-        key: report.eventId,
-        filedOn: report.filedAt,
-        total: report.lines[0]
-          ? displayMoney({
-              minorUnits: report.totalMinorUnits,
-              currency: report.lines[0].currency,
-            })
-          : "$0",
-        lines: report.lines.map((line) => ({
-          key: line.flowId,
-          date: line.date,
-          payee: line.payee,
-          purpose: PURPOSE_LABELS[line.purpose],
-          amount: displayMoney({
-            minorUnits: line.amountMinorUnits,
-            currency: line.currency,
-          }),
-        })),
-      })),
+      reports: withRunningTotals(reports).reverse(),
     };
   });
+}
+
+/**
+ * Each report as a reader sees it, oldest first, with every line carrying the
+ * committee's total reported spending through that payment.
+ */
+function withRunningTotals(
+  reports: ReturnType<typeof campaignSpendingReports>,
+): SpendingReportView[] {
+  let running = 0;
+  return reports.map((report) => ({
+    key: report.eventId,
+    filedOn: report.filedAt,
+    total: report.lines[0]
+      ? displayMoney({
+          minorUnits: report.totalMinorUnits,
+          currency: report.lines[0].currency,
+        })
+      : "$0",
+    lines: report.lines.map((line) => {
+      running += line.amountMinorUnits;
+      return {
+        key: line.flowId,
+        date: line.date,
+        payee: line.payee,
+        purpose: PURPOSE_LABELS[line.purpose],
+        amount: displayMoney({
+          minorUnits: line.amountMinorUnits,
+          currency: line.currency,
+        }),
+        runningTotal: displayMoney({
+          minorUnits: running,
+          currency: line.currency,
+        }),
+      };
+    }),
+  }));
 }
