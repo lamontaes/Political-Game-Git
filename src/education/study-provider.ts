@@ -32,6 +32,7 @@ import {
 } from "../simulation/education-study-terms";
 import type { AcceptedEducationTerms } from "../simulation/education-study-terms";
 import { addDays } from "../simulation/dates";
+import { stillInGradeSchool } from "../simulation/school-stages";
 const provenance = {
   kind: "authored",
   note: "EDU-PATH7 v1 simulated noncredit opportunity and terms. Source supports only institution/category; admission, schedule, fees and completion below are game-authored, not official institutional policy.",
@@ -139,6 +140,8 @@ export function studyPathFor(
     studyDefinition(institution, capability)
   );
 }
+export const GRADE_SCHOOL_REASON =
+  "College comes after high school. For now, school is where you study.";
 /** Whether the game can take an application for this listed capability. */
 export function canApplyFor(capability: EducationCapability): boolean {
   return (
@@ -155,6 +158,10 @@ export function educationOptionReason(
   if (world.control.kind !== "person") return "Choose a person to study.";
   const dateReason = institutionDateReason(institution, world.currentDate);
   if (dateReason) return dateReason;
+  // A child still in school applies to college once high school is behind
+  // them; somebody grown who has left school applies as anybody would.
+  if (stillInGradeSchool(world, world.control.personId))
+    return GRADE_SCHOOL_REASON;
   if (institution.kind !== "postsecondary" || !canApplyFor(capability))
     return "This college does not take applications for this through the game.";
   const path = studyPathFor(institution, capability);
