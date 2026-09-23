@@ -5,7 +5,7 @@
   "producer": {
     "at": "src/simulation/life.ts#createPartnership",
     "owner": "Relationships",
-    "writes": "A partnership record that twelve other systems ask about.",
+    "writes": "A partnership record. Heirs and households read it.",
     "runsInPlay": false,
     "runsDetail": "Its only caller is the partnership case of applyCharacterHistoryPlan (character-history.ts:661), whose only producer of that case is the census household bridge, acs-pums-character-history.ts, which nothing imports. No ordinary week forms a couple."
   },
