@@ -97,6 +97,7 @@ export function conversationExchangeTurns(
     (turn) => {
       const event = byId.get(turn.eventId);
       if (!event) return [];
+      const spokenStatement = claimStanceOf(event)?.statement;
       const speaker =
         event.participants.find((entry) => entry.role === "focus:respondent")
           ?.personId ?? null;
@@ -107,7 +108,7 @@ export function conversationExchangeTurns(
           date: event.occurredAt,
           current: event.occurredAt === world.currentDate,
           playerLine:
-            claimStanceOf(event)?.statement ??
+            (spokenStatement?.trim() ? spokenStatement : null) ??
             (event.context.choice ? secondPerson(event.context.choice) : null),
           speakerPersonId: speaker,
           speakerName: speaker ? nameOf(world, speaker) : null,
