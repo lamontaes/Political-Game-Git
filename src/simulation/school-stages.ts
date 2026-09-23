@@ -1,4 +1,4 @@
-import { addDays, makeIsoDate } from "./dates";
+import { addDays, ageOnDate, makeIsoDate } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
 import {
   createEducationEnrollment,
@@ -292,6 +292,88 @@ function openSchooling(
       enrollment.personId === personId &&
       enrollment.programKind.startsWith("schooling:") &&
       educationEnrollmentStateAt(world, enrollment.id)?.status === status,
+  );
+}
+
+/**
+ * The grade the school calendar puts a child in on a date: 0 for
+ * kindergarten, then 1 through 12, or null before kindergarten or after
+ * senior year.
+ *
+ * The same calendar that moves children through school: kindergarten in the
+ * fall after they are five by September 1. The summer counts as the grade
+ * just finished, until this child's next school year starts.
+ */
+export function schoolGradeOn(
+  world: World,
+  personId: EntityId,
+  date: IsoDate = world.currentDate,
+): number | null {
+  const person = world.people[personId];
+  if (!person) return null;
+  const year = Number(date.slice(0, 4));
+  const starts = onCalendar(
+    world,
+    personId,
+    year,
+    SCHOOL_STAGE_CALENDAR.termStarts,
+    "starts",
+  );
+  const schoolYear = date >= starts ? year : year - 1;
+  const grade = schoolYear - kindergartenYear(person.birthDate);
+  return grade >= 0 && grade <= 12 ? grade : null;
+}
+
+export interface CurrentSchooling {
+  readonly enrollment: EducationEnrollment;
+  /** "expected" is a place waiting for the next school year. */
+  readonly status: "active" | "expected";
+  readonly schoolName: string | null;
+  /** From the calendar on the day they attend it; null when it says none. */
+  readonly grade: number | null;
+}
+
+/**
+ * The school a child attends now or, over the summer, the one waiting for
+ * them in the fall. Null for a life with no schooling enrollment open.
+ */
+export function currentSchooling(
+  world: World,
+  personId: EntityId,
+): CurrentSchooling | null {
+  const active = openSchooling(world, personId, "active");
+  const enrollment = active ?? openSchooling(world, personId, "expected");
+  if (!enrollment) return null;
+  return {
+    enrollment,
+    status: active ? "active" : "expected",
+    schoolName:
+      organizationProfileAt(world, enrollment.organizationId)?.name ?? null,
+    grade: schoolGradeOn(
+      world,
+      personId,
+      active || enrollment.startedAt < world.currentDate
+        ? world.currentDate
+        : enrollment.startedAt,
+    ),
+  };
+}
+
+/**
+ * Whether this person is still a school-age pupil rather than somebody who
+ * could apply to college: at a school or waiting on one, or under sixteen
+ * without a high-school diploma.
+ */
+export function stillInGradeSchool(world: World, personId: EntityId): boolean {
+  if (currentSchooling(world, personId)) return true;
+  const person = world.people[personId];
+  if (!person) return false;
+  if (ageOnDate(person.birthDate, world.currentDate) >= 16) return false;
+  return !world.history.educationEnrollments.some(
+    (enrollment) =>
+      enrollment.personId === personId &&
+      enrollment.programKind === PROGRAM.high &&
+      educationEnrollmentStateAt(world, enrollment.id)?.status === "completed",
   );
 }
 

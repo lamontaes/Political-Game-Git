@@ -1188,7 +1188,7 @@ Seed `p85c-owner-clock`, start age 34, Luke Vance.
 ### Campaign
 
 - Filed: true
-- Office: Seat in the House of Representatives
+- Office: Seat in the Kentucky House of Representatives
 - Sessions: 6
 - Resolved: true (won)
 
@@ -1291,7 +1291,7 @@ Seed `corpus-campaign-b`, start age 41, Nadia Tillman.
 ### Campaign
 
 - Filed: true
-- Office: Seat in the House of Representatives
+- Office: Seat in the Kentucky House of Representatives
 - Sessions: 6
 - Resolved: true (lost)
 
@@ -1383,7 +1383,7 @@ Seed `p85c-owner-clock`, start age 34, Luke Vance.
 ### Campaign
 
 - Filed: true
-- Office: Seat in the House of Representatives
+- Office: Seat in the Kentucky House of Representatives
 - Sessions: 0
 - Resolved: true (lost)
 

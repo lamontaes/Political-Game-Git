@@ -83,6 +83,7 @@ import {
 } from "../presentation/local-governing-seat";
 import { World39News } from "./World39News";
 import { World39Journal } from "./World39Journal";
+import { personPronouns } from "../simulation/person-identity";
 import { PlacesWorkspace } from "./PlacesWorkspace";
 import { GovernmentBrowser } from "./politics/GovernmentBrowser";
 import { PublicServicePanel } from "./politics/PublicServicePanel";
@@ -5196,7 +5197,8 @@ function renderWorkspace({
             <p>
               {capabilities.person.givenName} works for the{" "}
               {capabilities.workPlace?.displayName} legislature, so what is in
-              front of the chamber is in front of them too.
+              front of the chamber is in front of{" "}
+              {personPronouns(capabilities.person).object} too.
             </p>
             <OfficeOnboardingWorkspace
               world={session.world}
