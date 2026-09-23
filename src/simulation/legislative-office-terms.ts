@@ -57,6 +57,21 @@ export function supportedLegislativeTermDates(
 }
 
 /**
+ * A state legislative office by key, from a compiled pack or from the
+ * generated legislature of a state the game has not compiled (Maine, and every
+ * other state #283 opened). A town's governing body is not a legislature and
+ * is not found here.
+ */
+function legislativeOfficeOption(officeKey: string) {
+  const rulePackId = officeKey.slice(0, officeKey.lastIndexOf(":"));
+  const pack =
+    candidacyPacks().find((candidate) =>
+      candidate.offices.some((office) => office.officeKey === officeKey),
+    ) ?? candidacyPackById(`${rulePackId}:candidacy`);
+  return pack?.offices.find((office) => office.officeKey === officeKey) ?? null;
+}
+
+/**
  * When a legislative term won on `electionDate` begins and ends: the sourced
  * rule where there is one, otherwise the marked blanket rule. Never the
  * result date. `basis` says which.
@@ -64,9 +79,7 @@ export function supportedLegislativeTermDates(
 export function legislativeTermDates(officeKey: string, electionDate: IsoDate) {
   const supported = supportedLegislativeTermDates(officeKey, electionDate);
   if (supported) return { ...supported, basis: "sourced" as const };
-  const office = candidacyPacks()
-    .flatMap((pack) => pack.offices)
-    .find((candidate) => candidate.officeKey === officeKey);
+  const office = legislativeOfficeOption(officeKey);
   if (!office) return null;
   const termYears = office.qualification.termYears;
   const years = blanketLegislativeTermYears(
