@@ -14,7 +14,8 @@ declaration.") instead of "something came up".
 
 Dates in these lines read the way people say them, "January 16, 2028", in
 special-election notices, press deadlines, story threads, bill stages, term
-notices and the district-residence panel. That panel also speaks to you
+notices, the district-residence panel, the life history under Who you are and
+a judge's office history. The district panel also speaks to you
 directly now: "You have lived in this chamber's district since …".
 
 Choices that take no time no longer carry a "No time passes" label. "In this
