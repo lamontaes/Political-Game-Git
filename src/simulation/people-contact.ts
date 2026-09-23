@@ -64,7 +64,8 @@ import type {
  * hour like any other activity.
  */
 
-export const CONTACT_PROPOSED_EVENT = "life.meeting-proposed";
+import { CONTACT_PROPOSED_EVENT } from "./people-contact-events";
+export { CONTACT_PROPOSED_EVENT };
 export const CONTACT_ACCEPTED_EVENT = "life.meeting-accepted";
 export const CONTACT_COUNTERED_EVENT = "life.meeting-counter-offered";
 export const CONTACT_DECLINED_EVENT = "life.meeting-declined";
