@@ -10,6 +10,7 @@ import { personName } from "../people";
 import type { EntityId, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { currentGoverningOffices } from "./state-governing";
+import { scheduleSeatFilling } from "./office-continuity";
 import { congressSeats } from "../living-world/congress-seats";
 import { projectCongress } from "../living-world/congress";
 import {
@@ -230,6 +231,8 @@ export function recordOfficeConsequence(
         immediateReaction: null,
       },
     });
+    const filling = scheduleSeatFilling(next, seat, input.effectiveAt);
+    next = filling.world;
     outcome = {
       changed: true,
       kind: "term-closed",
@@ -239,7 +242,7 @@ export function recordOfficeConsequence(
           : (input.officeKey as EntityId),
       termRecordId: next.history.events.at(-1)!.id,
       effectiveAt: input.effectiveAt,
-      note: `${personName(subject)} ${removed ? "was removed from" : "resigned"} the seat of the ${congressSeatTitle(seat)}. It is vacant from ${spokenDate(input.effectiveAt)} until it is filled.`,
+      note: `${personName(subject)} ${removed ? "was removed from" : "resigned"} the seat of the ${congressSeatTitle(seat)}. ${filling.ruling.sentence}`,
     };
     tags.push(
       `term-closed:${outcome.workRelationshipId}:${outcome.termRecordId}:${input.effectiveAt}`,
