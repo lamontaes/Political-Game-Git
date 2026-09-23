@@ -1,0 +1,24 @@
+{
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Running for office across America thread",
+  "lane": "campaigns",
+  "impact": "shapes-design",
+  "filedAt": "2026-09-22T23:10:00.000Z",
+  "questionId": "campaign-polling-accuracy-by-who-does-it",
+  "priority": "P1",
+  "title": "How accurate a campaign's own polling is, depending on who does it",
+  "question": "How far off is a campaign's internal read of its own support, depending on who produces it? Specifically: a volunteer's count from doors knocked, a staffer with some survey experience, and a professional pollster the campaign pays for. For each, what is the typical error against the final result, is there a systematic lean toward the candidate who commissioned it, how does sample size (and so cost) change the error, and how does accuracy differ between a small local race and a statewide one.",
+  "whyItMatters": "The campaign's field memo was always within about six points of the truth, whoever wrote it, so a playtest candidate's 93% was simply reported. The owner asked that polling not be automatic or always right, and that it depend on the skill of whoever does it. The game now reads the most experienced survey worker on the campaign and allows up to twelve, nine or six points of error; those tiers are invented.",
+  "usableAnswer": "For each kind of poller, a typical absolute error in points with a range, the direction and size of any lean toward the sponsor, and how the error scales with sample size or cost, with a note on race size.",
+  "notes": [
+    "Asked by the owner on 2026-09-22 at 22:52Z: 'Polling and stuff like that from your campaign should not be automatic or always correct. It needs to depend on the skill of the people doing the polling.'",
+    "What the game does now: src/simulation/campaign-polling.ts finds the candidate or active staff member with the most time in a survey occupation (SOC 19-3022, 15-2041, 13-1161, 19-3094). With none, each of three error draws is up to four points; under three years, three; three years or more, two. The memo still states a four-point margin whoever writes it.",
+    "Not modelled and part of the question: hiring a professional pollster, sample size and cost, and a sponsor's lean toward good news. A memo is still written after every outreach afternoon."
+  ],
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/campaigns.ts, recordCampaignObservation",
+      "whatItDidNotSettle": "Shows how the memo is drawn; carries no claim about real internal polling."
+    }
+  ]
+}
