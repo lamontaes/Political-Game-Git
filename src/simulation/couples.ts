@@ -251,6 +251,20 @@ export function coupleAskRefusal(
   if (refusal) return refusal;
   if (coupleBetween(world, personId, otherId))
     return "You are already together.";
+  /*
+   * Being a couple is with one person at a time. A Massachusetts life asked a
+   * second person while still with the first, was told yes, and had two
+   * partners (roll call, 2026-09-23). Going out with somebody else is still
+   * possible; becoming their couple waits until the first has ended.
+   */
+  const current = withSomebodyElse(world, personId, otherId);
+  if (current) {
+    const partnerId = current.personIds.find((id) => id !== personId);
+    const partner = partnerId ? world.people[partnerId] : undefined;
+    return partner
+      ? `You are with ${partner.givenName}. That would have to end first.`
+      : "You are with somebody else. That would have to end first.";
+  }
   const dates = keptDates(world, personId, otherId).length;
   if (dates < DATES_BEFORE_ASKING) {
     return dates === 0
@@ -314,7 +328,12 @@ export function askToBeACouple(
     randomness: "close-choices",
     retention: "ephemeral",
   });
-  const accepted = evaluation.selectedOptionKey === "accept";
+  // Somebody already with another person does not become a second couple;
+  // what weighs on their answer is in `romanticConsiderations`, and this is
+  // the one outcome it cannot be.
+  const accepted =
+    evaluation.selectedOptionKey === "accept" &&
+    !withSomebodyElse(world, otherPersonId, personId);
   const summary = accepted
     ? `${personName(asker)} asked ${personName(asked)} to be a couple, and ${asked.givenName} said yes.`
     : `${personName(asker)} asked ${personName(asked)} to be a couple, and ${asked.givenName} said no.`;

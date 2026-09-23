@@ -23,6 +23,7 @@ import {
 } from "../../src/presentation/venue-activity";
 import {
   COUPLE_KIND,
+  coupleAskRefusal,
   dateRefusal,
   coupleBetween,
   keptDates,
@@ -135,6 +136,20 @@ describe("two people become a couple", () => {
       world = answered.world;
       const couple = coupleBetween(world, playerId, otherId)!;
       expect(couple.kind).toBe(COUPLE_KIND);
+      // One couple at a time: nobody else can be asked while this lasts
+      // (Massachusetts roll call, two partners at once).
+      const partnerName = world.people[otherId]!.givenName;
+      const others = projectContacts(world, playerId).contacts.filter(
+        (entry) =>
+          entry.personId !== otherId &&
+          dateRefusal(world, playerId, entry.personId) === null,
+      );
+      expect(others.length).toBeGreaterThan(0);
+      for (const entry of others) {
+        expect(coupleAskRefusal(world, playerId, entry.personId)).toBe(
+          `You are with ${partnerName}. That would have to end first.`,
+        );
+      }
       // Every system that asks after a partner now finds one.
       expect(
         describePersonContext(world, playerId, otherId)?.relationship,
