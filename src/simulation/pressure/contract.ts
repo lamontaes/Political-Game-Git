@@ -227,6 +227,34 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     where: "src/simulation/legislation.ts",
   },
   {
+    key: "cause-failed-disaster-handling",
+    connects: "A governor or President failing a disaster the state suffered.",
+    status: "built",
+    rule: "BLANKET: each disaster decision judged a failure adds anger in the struck state, scaled by the disaster's magnitude.",
+    where: "src/simulation/pressure/anger.ts",
+  },
+  {
+    key: "cause-unemployment-rise",
+    connects: "People losing work.",
+    status: "built",
+    rule: "BLANKET: a rise in the published national unemployment rate over the quarter adds anger in every state alike, because unemployment is recorded nationally.",
+    where: "src/simulation/pressure/anger.ts",
+  },
+  {
+    key: "cause-displacement",
+    connects: "People driven from their homes.",
+    status: "not-built",
+    rule: "Not read by anger or fear. Displacement is being built by the migration lane.",
+    where: "src/simulation/migration/",
+  },
+  {
+    key: "cause-polarization",
+    connects: "People pulling apart politically.",
+    status: "not-built",
+    rule: "Not read. Nothing in the world measures how divided a place is.",
+    where: "src/simulation/pressure/anger.ts",
+  },
+  {
     key: "fade",
     connects: "Pressure passing when nothing keeps feeding it.",
     status: "built",
@@ -265,18 +293,41 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
   },
   {
     key: "unrest",
-    connects: "Anger crossing a line in a city and unrest beginning there.",
+    connects: "Anger crossing a line in a state and unrest beginning there.",
+    status: "built",
+    rule: "BLANKET: anger over its line in a state gives a chance of a public unrest event each quarter, rising with how far over the line it is. Unrest is recorded per state, not per city, because pressure is read per state.",
+    where: "src/simulation/pressure/events.ts",
+  },
+  {
+    key: "unrest-spreads",
+    connects: "Unrest in one place carrying anger into nearby places.",
     status: "not-built",
-    rule: "Anger, fear and hope are recorded and nothing reads them. The simulation has no unrest.",
-    where: "src/simulation/pressure/",
+    rule: "Unrest adds nothing to any other state. The world holds no record of which states border which.",
+    where: "src/simulation/pressure/events.ts",
+  },
+  {
+    key: "political-threats",
+    connects:
+      "Lasting unrest turning into a threat against a prominent political person there.",
+    status: "built",
+    rule: "BLANKET: unrest this quarter and in an earlier recent quarter gives a chance of a threat against the state's governor, a member of Congress from it, or a party chapter organizer living there, drawn evenly. The player can be one of them.",
+    where: "src/simulation/pressure/events.ts",
   },
   {
     key: "violent-death-of-prominent-people",
     connects:
       "The killing of a prominent political person, office or not, and the reaction.",
-    status: "not-built",
-    rule: "The simulation has no violent death.",
-    where: "src/simulation/crisis/mortality.ts",
+    status: "built",
+    rule: "BLANKET: an open threat, while anger there stays over its line, gives a chance of an attempt through the existing attempt writer, which can injure or kill and leaves a vacancy by the ordinary rules. The attempt feeds anger and fear back into the target's state.",
+    where: "src/simulation/pressure/events.ts",
+  },
+  {
+    key: "international-crises",
+    connects:
+      "An international development that stays open while strain builds at home becoming a crisis the President must handle.",
+    status: "built",
+    rule: "BLANKET: an open development's reports, the rise in national unemployment since it was reported and the average anger across states make its friction. Over its line, each quarter gives a chance of one crisis over that development, never a second.",
+    where: "src/simulation/pressure/events.ts",
   },
   {
     key: "calming-presence",

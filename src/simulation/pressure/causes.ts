@@ -8,6 +8,7 @@
 import type { HazardMagnitude } from "../crisis/types";
 import { stateKeyForJurisdiction } from "../life-places";
 import type { EntityId, IsoDate, World } from "../types";
+import { angerCausesInPeriod } from "./anger";
 import type { PressureContribution } from "./contract";
 
 /**
@@ -126,5 +127,23 @@ export function causesInPeriod(
       sourceId: row.key as EntityId,
     });
   }
+
+  // Anger and fear, read in `anger.ts`.
+  const stateKeys = [
+    ...new Set(
+      world.jurisdictionOrder.flatMap((id) => {
+        const jurisdiction = world.jurisdictions[id];
+        const key = jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null;
+        return key ? [key] : [];
+      }),
+    ),
+  ];
+  for (const [stateKey, list] of angerCausesInPeriod(
+    world,
+    periodStart,
+    periodEnd,
+    stateKeys,
+  ))
+    for (const contribution of list) add(stateKey, contribution);
   return byState;
 }

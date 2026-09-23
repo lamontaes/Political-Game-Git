@@ -1,0 +1,26 @@
+{
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Running for office across America thread",
+  "lane": "campaigns",
+  "impact": "shapes-design",
+  "filedAt": "2026-09-23T00:25:00.000Z",
+  "questionId": "how-a-campaign-can-be-paid-for",
+  "priority": "P1",
+  "title": "Every way a campaign can be paid for, and the limits on each",
+  "question": "What are the legal ways to pay for a campaign for local, state legislative, statewide and federal office? Specifically: individual contributions and their limits; the candidate's own money and loans to their own campaign, including repayment limits; party committee contributions and coordinated spending; PACs, super PACs and independent expenditures (which the campaign does not control); bank loans; public financing programs (by state and city, with matching ratios and spending caps); in-kind contributions; and leftover funds from an earlier campaign. For each, the typical share of a winning campaign's money by office level, and what must be reported.",
+  "whyItMatters": "The owner, 2026-09-22 at 8:20 p.m. ET: 'What are the options to pay for the campaign money?' Today a campaign has one source: fundraising sessions that draw on an aggregate pool of supporters. The candidate cannot put in their own money, borrow, take party money, qualify for public financing or benefit from outside spending.",
+  "usableAnswer": "A list of sources with the office levels each applies to, the limits (federal figures and a state range, or per state where it matters), the typical share of a campaign's money, and what the campaign's reports must show for each, so misuse can be spotted in them.",
+  "notes": [
+    "What the game does, read at the running-for-office branch: fileCampaign creates one donor pool described as 'an aggregate pool of supporters' (src/simulation/campaigns.ts around line 697); money reaches the treasury only through fundraising sessions, recorded as custom:campaign-contribution."
+  ],
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests/state-campaign-finance-regulators.json",
+      "whatItDidNotSettle": "Covers who enforces the rules, not what sources exist or their limits."
+    },
+    {
+      "source": "docs/research/requests/sitting-governor-and-earlier-campaign-finance-misuse.json",
+      "whatItDidNotSettle": "Covers misuse, not the legal sources."
+    }
+  ]
+}

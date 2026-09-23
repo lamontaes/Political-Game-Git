@@ -36,16 +36,32 @@ builds, not from a script" (source copy
   them. Leaving for a while and coming back is not built
   (`displacement-and-return` in `MIGRATION_SEAMS`); the research question is
   `disaster-displacement-and-return`.
+- **Anger and fear** (`src/simulation/pressure/anger.ts`). A disaster decision
+  the game judges a failure, a rise in the published national unemployment
+  rate, and an attack on a person feed anger, and an attack feeds fear.
+- **What pressure sets off** (`src/simulation/pressure/events.ts`), right after
+  each quarterly step. Anger over its line in a state gives a chance of public
+  unrest there. Unrest in this quarter and an earlier recent one gives a
+  chance of a threat against a prominent political person in the state, in
+  office or not. A threat from an earlier quarter, while anger holds, gives a
+  chance of an attempt through `recordViolenceAttempt`, which cites the threat
+  and the unrest as its evidence. An open international development whose
+  friction runs high gives a chance of one crisis through
+  `declareInternationalCrisis`. Each chance grows with how far the pressure is
+  over its line; with nothing over a line, nothing happens.
 
 ## What is not
 
 `PRESSURE_SEAMS` in `src/simulation/pressure/contract.ts` lists every cause and
 effect with the rule the code follows meanwhile. Not built: starting state
 taxes, state economies, living costs, climate, opinion of laws, state
-populations, a screen showing the flows, unrest, violent death of prominent
-people, a calming presence, generational memory, civil war and revolution.
+populations, a screen showing the flows, displacement and polarization as
+causes of anger, unrest spreading between states, a calming presence,
+generational memory, civil war and revolution.
 
 Every number marked BLANKET is a placeholder. The research questions are
 `state-to-state-moves-what-pushes-and-pulls`,
-`unrest-what-builds-it-and-what-calms-it` and
-`civil-war-and-revolution-preconditions`.
+`unrest-what-builds-it-and-what-calms-it`,
+`civil-war-and-revolution-preconditions`,
+`political-violence-what-builds-to-an-attack` and
+`international-crisis-what-escalates-a-dispute`.
