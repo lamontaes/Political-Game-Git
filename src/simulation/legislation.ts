@@ -1,4 +1,4 @@
-import { addDays, makeIsoDate } from "./dates";
+import { addDays, makeIsoDate, spokenDate } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { createStableId } from "./ids";
 import {
@@ -397,7 +397,7 @@ function applyRecordedAction(
         action.occurredAt < state.earliestNextFloorDate
       ) {
         return illegal(
-          `this stage may not be taken before ${state.earliestNextFloorDate}, because the chamber's stages fall on separate legislative days`,
+          `this stage may not be taken before ${spokenDate(state.earliestNextFloorDate)}, because the chamber's stages fall on separate legislative days`,
         );
       }
       if (action.kind === "floor-stage-failed") {

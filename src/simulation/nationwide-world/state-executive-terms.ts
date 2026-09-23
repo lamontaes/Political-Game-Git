@@ -1,6 +1,6 @@
 import { candidacyEligibility } from "../candidacy";
 import type { CandidacyBlock } from "../candidacy";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate, spokenDate } from "../dates";
 import {
   electionContestById,
   electionContestResult,
@@ -468,7 +468,7 @@ export function stateExecutiveEntryStatus(
         kind: "won-off-cycle",
         contestId: contest.id,
         electionDate: contest.electionDate,
-        reason: `This victory was recorded on ${contest.electionDate}, before the ${identity.displayName} followed a regular election calendar in this game. The result stands. You can take up a full term that begins on ${recovery.startsAt}.`,
+        reason: `This victory came on ${spokenDate(contest.electionDate)}, before the ${identity.displayName} was elected on a regular calendar. The result stands. You can take up a full term that begins on ${spokenDate(recovery.startsAt)}.`,
         recovery: {
           version: OFF_CYCLE_RECOVERY_VERSION,
           ...recovery,
@@ -484,7 +484,7 @@ export function stateExecutiveEntryStatus(
     return {
       kind: "won-term-unavailable",
       contestId: contest.id,
-      reason: `The result stands, but when a term of the ${identity.displayName} begins is not established in this game yet.`,
+      reason: `The result stands, but when a term of the ${identity.displayName} begins is not yet known.`,
       missing: dates.kind === "unknown" ? dates.unknownFields : ["term.start"],
     };
   }

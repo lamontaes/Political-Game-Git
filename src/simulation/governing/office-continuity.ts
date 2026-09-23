@@ -7,6 +7,7 @@ import {
   compareSimulationMoments,
   makeIsoDate,
   simulationMomentOnLocalDate,
+  spokenDate,
 } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { stateJurisdictionForKey } from "../life-places";
@@ -283,7 +284,7 @@ function vacateSeat(
       officeKey: seat.seatKey,
       title,
       outcome: "special-election",
-      sentence: `The seat is vacant. ${seat.stateUsps}'s governor calls a special election, held on ${electionDay} in this game.`,
+      sentence: `The seat is vacant. The governor of ${stateJurisdictionForKey(`US-${seat.stateUsps}`)!.name} calls a special election for ${spokenDate(electionDay)}.`,
     },
   };
 }

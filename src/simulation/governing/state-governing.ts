@@ -78,6 +78,11 @@ import {
 
 export const STATE_GOVERNING_VERSION = "state-governing/v1";
 
+/** A sentence used as the opening clause of a longer one: no stop mid-sentence. */
+function clause(sentence: string): string {
+  return sentence.replace(/\.$/, "");
+}
+
 export const GOVERNING_MATTER_OPENED = "governing.matter-opened" as const;
 export const GOVERNING_MATTER_DECIDED = "governing.matter-decided" as const;
 export const GOVERNING_OUTCOME = "governing.outcome" as const;
@@ -326,7 +331,7 @@ function optionsFor(
               label: `Hire ${personName(person)}`,
               effect:
                 "Becomes chief of staff, recommends choices and can take matters you hand over.",
-              tradeoff: `${assessment.background}; ${assessment.strength}, but ${assessment.caution}.`,
+              tradeoff: `${clause(assessment.background)}; ${assessment.strength}, but ${assessment.caution}.`,
               personId,
               assessment,
             },
@@ -640,7 +645,7 @@ export function staffRecommendation(
       return {
         optionKey: pick.key,
         byPersonId: chief,
-        reason: `${assessment.background}, and thinks ${pick.label.toLowerCase()} is where the office can show results.`,
+        reason: `${clause(assessment.background)}, and thinks ${pick.label.toLowerCase()} is where the office can show results.`,
       };
     }
     case "budget": {
@@ -672,7 +677,7 @@ export function staffRecommendation(
           ? {
               optionKey: "bill:sign",
               byPersonId: chief,
-              reason: `${assessment.background}, and sees no reason to pick this fight.`,
+              reason: `${clause(assessment.background)}, and sees no reason to pick this fight.`,
             }
           : {
               optionKey: "bill:return",
