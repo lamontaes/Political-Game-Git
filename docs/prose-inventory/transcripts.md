@@ -431,9 +431,9 @@ Seed `corpus-ordinary-adult`, start age 34, Zachary Todd.
 
 #### Beat 0 — 2026-01-05, age 34 (episode, home.the-week-that-does-not-balance/the-first-time-it-is-said)
 
-> You're 34, and you live in Kentucky.
-> You live with Gage Terrell.
-> You belong to Community Service Club.
+> 29 years later, and you're 34 now.
+> You and Judith Lewis were in and out of each other's business more than once.
+> You and Edward Miles were in and out of each other's business more than once.
 
 Gage Terrell says, not for the first time but for the first time out loud, that the week does not divide evenly. They are right, and they have picked a bad evening to be right on.
 
@@ -483,19 +483,7 @@ You've been reading for the last fifteen minutes. You can read for five more, or
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-01-05._
 
-#### Beat 4 — 2026-01-05, age 34 (episode, civic.the-thing-nobody-else-turned-up-for/the-meeting)
-
-
-
-There is a notice on the door of the building at the end of the road about what is going to happen to it. The meeting is on Tuesday and nobody you know is going.
-
-- **Go on Tuesday** ← chosen
-- Read the notice properly
-- Leave it to whoever turns up
-
-_Grounded by: Age 34; needs at least 18._
-
-#### Beat 5 — 2026-01-05, age 34 (episode, opening.adult.home.plan-week/moment)
+#### Beat 4 — 2026-01-05, age 34 (episode, opening.adult.home.plan-week/moment)
 
 
 
@@ -507,7 +495,7 @@ You're at home, thinking about what to make time for in the days ahead.
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household._
 
-#### Beat 6 — 2026-01-05, age 34 (episode, opening.adult.home.plan-week/follow-through)
+#### Beat 5 — 2026-01-05, age 34 (episode, opening.adult.home.plan-week/follow-through)
 
 
 
@@ -517,6 +505,18 @@ You've just made a plan to learn something, and there are five minutes open righ
 - Leave it for another time
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; At moment they chose learning, on 2026-01-05._
+
+#### Beat 6 — 2026-01-05, age 34 (episode, civic.the-thing-nobody-else-turned-up-for/the-meeting)
+
+
+
+There is a notice on the door of the building at the end of the road about what is going to happen to it. The meeting is on Tuesday and nobody you know is going.
+
+- **Go on Tuesday** ← chosen
+- Read the notice properly
+- Leave it to whoever turns up
+
+_Grounded by: Age 34; needs at least 18._
 
 #### Beat 7 — 2026-01-05, age 34 (ordinary-stretch)
 
@@ -1199,7 +1199,7 @@ _Grounded by: Stage tattle-boundary was played on 2026-01-05.; 248 day(s) since 
 **Intent.** The PR #85 spine: filing a candidacy, running the campaign, and whatever the contest resolves to.
 
 Seed `p85c-owner-clock`, start age 34, Luke Vance.
-6 beats, 27 realized lines, 21 linked back to a template.
+6 beats, 25 realized lines, 21 linked back to a template.
 
 **Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:civic.the-thing-nobody-else-turned-up-for, episode:home.the-week-that-does-not-balance, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, legislative-measure-briefing, persistent-instance-continuation, person-introduction, scene:episode, thread-recap
 
@@ -1226,9 +1226,7 @@ Seed `p85c-owner-clock`, start age 34, Luke Vance.
 
 #### Beat 0 — 2026-01-05, age 34 (episode, home.the-week-that-does-not-balance/the-first-time-it-is-said)
 
-> You're 34, and you live in Lexington, Kentucky.
-> You live with Mark Mullins.
-> You belong to Community Service Club.
+> 19 years later, and you're 34 now.
 
 Mark Mullins says, not for the first time but for the first time out loud, that the week does not divide evenly. They are right, and they have picked a bad evening to be right on.
 
@@ -1255,7 +1253,19 @@ _Present: Mark Mullins, your housemate_
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; household-companion is Mark Mullins: Resident on the same household record._
 
-#### Beat 2 — 2026-01-05, age 34 (episode, opening.adult.home.free-time/moment)
+#### Beat 2 — 2026-01-05, age 34 (episode, civic.the-thing-nobody-else-turned-up-for/the-meeting)
+
+
+
+There is a notice on the door of the building at the end of the road about what is going to happen to it. The meeting is on Tuesday and nobody you know is going.
+
+- **Go on Tuesday** ← chosen
+- Read the notice properly
+- Leave it to whoever turns up
+
+_Grounded by: Age 34; needs at least 18._
+
+#### Beat 3 — 2026-01-05, age 34 (episode, opening.adult.home.free-time/moment)
 
 
 
@@ -1267,7 +1277,7 @@ You're at home with fifteen minutes free.
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household._
 
-#### Beat 3 — 2026-01-05, age 34 (episode, opening.adult.home.free-time/follow-through)
+#### Beat 4 — 2026-01-05, age 34 (episode, opening.adult.home.free-time/follow-through)
 
 
 
@@ -1277,18 +1287,6 @@ You've been reading for the last fifteen minutes. You can read for five more, or
 - Mark your place and stop
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-01-05._
-
-#### Beat 4 — 2026-01-05, age 34 (episode, civic.the-thing-nobody-else-turned-up-for/the-meeting)
-
-
-
-There is a notice on the door of the building at the end of the road about what is going to happen to it. The meeting is on Tuesday and nobody you know is going.
-
-- **Go on Tuesday** ← chosen
-- Read the notice properly
-- Leave it to whoever turns up
-
-_Grounded by: Age 34; needs at least 18._
 
 #### Beat 5 — 2026-01-05, age 34 (episode, opening.adult.home.plan-week/moment)
 
@@ -1310,7 +1308,7 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 **Intent.** A second candidacy on a different seed, so a contest outcome is not read from one run.
 
 Seed `corpus-campaign-b`, start age 41, Nadia Tillman.
-6 beats, 22 realized lines, 17 linked back to a template.
+6 beats, 21 realized lines, 17 linked back to a template.
 
 **Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:civic.the-thing-nobody-else-turned-up-for, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, legislative-measure-briefing, persistent-instance-continuation, scene:episode, scene:ordinary-stretch, thread-recap
 
@@ -1335,33 +1333,9 @@ Seed `corpus-campaign-b`, start age 41, Nadia Tillman.
 
 ### Beats
 
-#### Beat 0 — 2026-01-05, age 41 (episode, opening.adult.home.plan-week/moment)
+#### Beat 0 — 2026-01-05, age 41 (episode, opening.adult.home.free-time/moment)
 
-> You're 41, and you live in Lexington, Kentucky.
-> You belong to Community Service Club.
-
-You're at home, thinking about what to make time for in the days ahead.
-
-- **Make time to learn something** ← chosen
-- Make time for people you know
-- Make some time for yourself
-
-_Grounded by: Age 41; needs at least 18.; Age 41; needs to be under 111.; Requires a recorded current household._
-
-#### Beat 1 — 2026-01-05, age 41 (episode, opening.adult.home.plan-week/follow-through)
-
-
-
-You've just made a plan to learn something, and there are five minutes open right now.
-
-- **Start by reading now** ← chosen
-- Leave it for another time
-
-_Grounded by: Age 41; needs at least 18.; Age 41; needs to be under 111.; Requires a recorded current household.; At moment they chose learning, on 2026-01-05._
-
-#### Beat 2 — 2026-01-05, age 41 (episode, opening.adult.home.free-time/moment)
-
-
+> 25 years later, and you're 41 now.
 
 You're at home with fifteen minutes free.
 
@@ -1371,7 +1345,7 @@ You're at home with fifteen minutes free.
 
 _Grounded by: Age 41; needs at least 18.; Age 41; needs to be under 111.; Requires a recorded current household._
 
-#### Beat 3 — 2026-01-05, age 41 (episode, opening.adult.home.free-time/follow-through)
+#### Beat 1 — 2026-01-05, age 41 (episode, opening.adult.home.free-time/follow-through)
 
 
 
@@ -1381,6 +1355,29 @@ You've been reading for the last fifteen minutes. You can read for five more, or
 - Mark your place and stop
 
 _Grounded by: Age 41; needs at least 18.; Age 41; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-01-05._
+
+#### Beat 2 — 2026-01-05, age 41 (episode, opening.adult.home.plan-week/moment)
+
+
+
+You're at home, thinking about what to make time for in the days ahead.
+
+- **Make time to learn something** ← chosen
+- Make time for people you know
+- Make some time for yourself
+
+_Grounded by: Age 41; needs at least 18.; Age 41; needs to be under 111.; Requires a recorded current household._
+
+#### Beat 3 — 2026-01-05, age 41 (episode, opening.adult.home.plan-week/follow-through)
+
+
+
+You've just made a plan to learn something, and there are five minutes open right now.
+
+- **Start by reading now** ← chosen
+- Leave it for another time
+
+_Grounded by: Age 41; needs at least 18.; Age 41; needs to be under 111.; Requires a recorded current household.; At moment they chose learning, on 2026-01-05._
 
 #### Beat 4 — 2026-01-05, age 41 (episode, civic.the-thing-nobody-else-turned-up-for/the-meeting)
 
@@ -1410,7 +1407,7 @@ _Grounded by: Age 41; needs at least 18._
 **Intent.** A filed candidacy that is never worked: the same control seed and the same life as `campaign-and-office`, with the campaign left alone. It is here so the matrix demonstrates a defeat for a reason it can name.
 
 Seed `p85c-owner-clock`, start age 34, Luke Vance.
-6 beats, 27 realized lines, 21 linked back to a template.
+6 beats, 25 realized lines, 21 linked back to a template.
 
 **Actually demonstrated:** age-band:adult, candidacy-filed, connective-narration, election-lost, episode:civic.the-thing-nobody-else-turned-up-for, episode:home.the-week-that-does-not-balance, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, persistent-instance-continuation, person-introduction, scene:episode, thread-recap
 
@@ -1428,9 +1425,7 @@ _No legislative surface: the capability layer did not open one for this run._
 
 #### Beat 0 — 2026-01-05, age 34 (episode, home.the-week-that-does-not-balance/the-first-time-it-is-said)
 
-> You're 34, and you live in Lexington, Kentucky.
-> You live with Mark Mullins.
-> You belong to Community Service Club.
+> 19 years later, and you're 34 now.
 
 Mark Mullins says, not for the first time but for the first time out loud, that the week does not divide evenly. They are right, and they have picked a bad evening to be right on.
 
@@ -1457,7 +1452,19 @@ _Present: Mark Mullins, your housemate_
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; household-companion is Mark Mullins: Resident on the same household record._
 
-#### Beat 2 — 2026-01-05, age 34 (episode, opening.adult.home.free-time/moment)
+#### Beat 2 — 2026-01-05, age 34 (episode, civic.the-thing-nobody-else-turned-up-for/the-meeting)
+
+
+
+There is a notice on the door of the building at the end of the road about what is going to happen to it. The meeting is on Tuesday and nobody you know is going.
+
+- **Go on Tuesday** ← chosen
+- Read the notice properly
+- Leave it to whoever turns up
+
+_Grounded by: Age 34; needs at least 18._
+
+#### Beat 3 — 2026-01-05, age 34 (episode, opening.adult.home.free-time/moment)
 
 
 
@@ -1469,7 +1476,7 @@ You're at home with fifteen minutes free.
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household._
 
-#### Beat 3 — 2026-01-05, age 34 (episode, opening.adult.home.free-time/follow-through)
+#### Beat 4 — 2026-01-05, age 34 (episode, opening.adult.home.free-time/follow-through)
 
 
 
@@ -1479,18 +1486,6 @@ You've been reading for the last fifteen minutes. You can read for five more, or
 - Mark your place and stop
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-01-05._
-
-#### Beat 4 — 2026-01-05, age 34 (episode, civic.the-thing-nobody-else-turned-up-for/the-meeting)
-
-
-
-There is a notice on the door of the building at the end of the road about what is going to happen to it. The meeting is on Tuesday and nobody you know is going.
-
-- **Go on Tuesday** ← chosen
-- Read the notice properly
-- Leave it to whoever turns up
-
-_Grounded by: Age 34; needs at least 18._
 
 #### Beat 5 — 2026-01-05, age 34 (episode, opening.adult.home.plan-week/moment)
 
