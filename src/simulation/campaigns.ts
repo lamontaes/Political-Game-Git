@@ -1,3 +1,4 @@
+import { jailTermOn } from "./justice/jail-terms";
 import {
   MIGRATION_REVIEW_TRANSITION_KEY,
   migrationReviewHandler,
@@ -904,6 +905,16 @@ export function scheduleCampaignAction(
   const campaign = requireCampaign(world, input.campaignId);
   if (campaignState(world, campaign.id).status !== "active") {
     throw new Error("A finished campaign cannot take on more work.");
+  }
+  const jailed = jailTermOn(
+    world,
+    campaign.candidatePersonId,
+    input.plan.start.date,
+  );
+  if (jailed) {
+    throw new Error(
+      `The candidate is in jail until ${jailed.until} and cannot campaign.`,
+    );
   }
   if (input.kind === "advertising") {
     if (!input.spend || input.spend.minorUnits <= 0) {

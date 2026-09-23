@@ -1,0 +1,32 @@
+{
+  "filedAt": "2026-09-23T02:10:00.000Z",
+  "impact": "shapes-design",
+  "lane": "crises and political violence",
+  "notes": [
+    "ChatGPT C08 (2026-09-22): a development with actors, interests, commitments and escalation state feeds the existing declaration route; one persistent crisis per development; no quota.",
+    "The game now computes friction for each open international development from what its reports added, the rise in the published national unemployment rate since it was reported and the average anger across states. Over a line, each quarter gives a chance of one crisis. Placeholders are in BLANKET_INTERNATIONAL_FRICTION, src/simulation/pressure/events.ts.",
+    "The only international developments the game writes are two authored subjects: shipping delays on a trade route, and fishing-rights talks. Each moves on a timer and an even draw (src/simulation/living-world/developments.ts)."
+  ],
+  "priority": "P2",
+  "question": "The game lets an international dispute the news has reported become a crisis the President must handle, when it stays open while strain builds at home. (1) Of post-1945 international disputes involving the United States that the press covered as trade, fishing or shipping disputes, what share escalated into a crisis requiring a presidential decision, and after how long? (2) Does domestic economic strain or unrest in the United States make escalation more likely (the diversionary-conflict literature), or less likely, and how strong is that evidence? (3) Do foreign governments test the United States more when it is divided or in unrest at home? (4) What should make a dispute ease instead of escalating?",
+  "questionId": "international-crisis-what-escalates-a-dispute",
+  "relatedQuestionIds": [
+    "when-should-an-international-crisis-begin",
+    "civil-war-and-revolution-preconditions"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "crises and political violence thread",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json C08",
+      "whatItDidNotSettle": "It settles the route, not what escalates a dispute or how often."
+    },
+    {
+      "source": "src/simulation/living-world/developments.ts on main, September 23, 2026",
+      "whatItDidNotSettle": "Developments move by timer and even draw, with no actors or interests."
+    }
+  ],
+  "title": "What turns a reported international dispute into a crisis, and does trouble at home matter",
+  "usableAnswer": "A share and a typical time to escalation for (1), and short answers to 2 to 4, each with a source or a plain statement that the evidence is weak.",
+  "whyItMatters": "Whether domestic anger and unemployment should raise the chance of a crisis at all is itself unsettled. The game currently assumes they do, as a placeholder."
+}
