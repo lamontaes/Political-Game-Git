@@ -74,10 +74,10 @@ for (const life of LIVES) {
       const first = text.split("\n").slice(0, 3).join(" / ");
       note(`- ${await clock.innerText()}: ${first}`);
       const whole = await page.locator("body").innerText();
-      if (/I turn \d+|moved on|I started at/.test(whole) && !text) {
+      if (/I turn \d+|moved on|I started at|on my own anymore|getting the new place/.test(whole) && !text) {
         note(`  (an invitation is on the page outside the moment)`);
       }
-      if (/I turn \d+|moved on|I started at/.test(text)) {
+      if (/I turn \d+|moved on|I started at|on my own anymore|getting the new place/.test(text)) {
         invitation = text;
         break;
       }
