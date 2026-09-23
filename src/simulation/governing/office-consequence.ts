@@ -288,6 +288,13 @@ export function recordOfficeConsequence(
       );
     }
   }
+  if (input.kind === "resignation" && outcome.changed) {
+    const importance = resignationImportance(
+      holds ? input.officeKey : null,
+      seatIsTheirs ? (seat?.chamberKey ?? null) : null,
+    );
+    if (importance) tags.push(importance);
+  }
   next = recordWorldEvent(next, {
     stableKey,
     type: OFFICE_CONSEQUENCE_EVENT,
@@ -319,6 +326,27 @@ export function recordOfficeConsequence(
   });
   const eventId = next.history.events.at(-1)!.id;
   return { world: next, eventId, outcome };
+}
+
+/**
+ * How big news a resignation is, by the office given up. A resignation in
+ * this game is never announced ahead, so every one is treated as a surprise.
+ * A governor's reaches national papers; a statewide officer's or a member of
+ * Congress's is notable; an ordinary recorded office adds nothing beyond
+ * naming its holder.
+ *
+ * PLACEHOLDER(research: how-much-coverage-a-resignation-gets): the tiers are
+ * the owner's direction ("if a governor or ... a president ... resigns, it
+ * should be massive news"), not a sourced scale. The president is not a
+ * holdable office yet.
+ */
+function resignationImportance(
+  stateOfficeKey: string | null,
+  congressChamberKey: string | null,
+): string | null {
+  if (stateOfficeKey?.endsWith("-governor")) return "importance:major";
+  if (stateOfficeKey || congressChamberKey) return "importance:notable";
+  return null;
 }
 
 /** Everything recorded about one office, newest first. */
