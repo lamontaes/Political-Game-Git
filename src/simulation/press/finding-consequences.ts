@@ -16,6 +16,10 @@ import {
 import { ensureTaxPublicAccount, publicOrganizationKey } from "../tax-policy";
 import type { EntityId, HistoricalEvent, MoneyAmount, World } from "../types";
 import { recordWorldEvent } from "../world";
+import {
+  referForProsecution,
+  UNRESEARCHED_PROSECUTION,
+} from "../justice/prosecution";
 import { generatedStateOversightBody } from "./generated-state-oversight";
 import {
   isAdversePublicStep,
@@ -80,10 +84,44 @@ export function applyFindingConsequences(
     if (outcome === "finding" || outcome === "conciliation") {
       next = restitutionConsequence(next, proceeding, respondentId, step);
     }
+    if (outcome === "finding") {
+      next = referralConsequence(next, proceeding, respondentId, step, event);
+    }
     next = socialConsequence(next, proceeding, respondentId, event);
     next = deniedToConsequence(next, proceeding, respondentId, event);
   }
   return next;
+}
+
+/**
+ * A repeat finding that somebody took campaign money for themselves goes to
+ * prosecutors (`justice/prosecution.ts`). When a regulator refers, and
+ * everything after, is an UNRESEARCHED placeholder.
+ */
+function referralConsequence(
+  world: World,
+  proceeding: MatterProceedingRecord,
+  respondentId: EntityId,
+  step: ProceedingStepRecord,
+  event: HistoricalEvent,
+): World {
+  const matter = requirePressRecord(world, "matter", proceeding.matterId);
+  if (matter.family !== "M1") return world;
+  const standing = priorAdverseFindings(world, respondentId, step).length + 1;
+  if (standing < UNRESEARCHED_PROSECUTION.referAtFinding) return world;
+  return referForProsecution(world, {
+    stableKey: `${step.stableKey}:${respondentId}`,
+    subjectPersonId: respondentId,
+    jurisdictionId: matter.jurisdictionId,
+    offenseKey: "campaign-funds-personal-use",
+    referredBy: {
+      kind: "regulator",
+      label: proceeding.institutionLabel,
+      personId: null,
+    },
+    basisEventIds: [event.id],
+    standingFindings: standing,
+  }).world;
 }
 
 /**

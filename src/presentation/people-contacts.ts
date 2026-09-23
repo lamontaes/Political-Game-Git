@@ -20,6 +20,13 @@ import {
   describeRelationshipStanding,
   readRelationshipStanding,
 } from "../simulation/relationship-standing";
+import {
+  introducedPeople,
+  introductionCandidates,
+  introductionSettingPhrase,
+  meetSomebodyNew,
+} from "../simulation/social-introductions";
+import type { IntroductionSetting } from "../simulation/social-introductions";
 import { proseDate } from "./prose-dates";
 
 /**
@@ -285,4 +292,82 @@ function lastAnswerBetween(
   return theyAnswered
     ? `${name} could not meet on ${day}.`
     : `You told ${name} you could not meet on ${day}.`;
+}
+
+/** One way the played person can go and meet somebody new today. */
+export interface MeetingNewOption {
+  readonly key: string;
+  readonly setting: IntroductionSetting;
+  readonly viaPersonId: EntityId | null;
+  readonly label: string;
+}
+
+const MEETING_NEW_LABELS: Record<
+  Exclude<IntroductionSetting, "group" | "friend-of-friend">,
+  string
+> = {
+  work: "Get to know somebody at work",
+  study: "Get to know somebody on your program",
+};
+
+/**
+ * Where the played person could go and meet somebody new: one choice per
+ * setting the world gives them, and one per friend with people to introduce.
+ * Only settings with somebody real in them are offered. Pure.
+ */
+export function meetingNewOptions(
+  world: World,
+  personId: EntityId,
+): readonly MeetingNewOption[] {
+  const options: MeetingNewOption[] = [];
+  const seen = new Set<string>();
+  for (const candidate of introductionCandidates(world, personId)) {
+    const via =
+      candidate.setting === "friend-of-friend" ? candidate.viaPersonId : null;
+    const key = `${candidate.setting}:${via ?? ""}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const label =
+      candidate.setting === "group"
+        ? `Meet somebody ${introductionSettingPhrase(world, candidate)}`
+        : candidate.setting === "friend-of-friend"
+          ? `Ask ${world.people[via!]!.givenName} to introduce you to somebody`
+          : MEETING_NEW_LABELS[candidate.setting];
+    options.push({ key, setting: candidate.setting, viaPersonId: via, label });
+  }
+  return options;
+}
+
+/**
+ * Go and meet somebody new. Who it is belongs to the world: one of the real
+ * people in that setting. Returns the new World and the sentence saying who.
+ */
+export function goMeetSomebodyNew(
+  world: World,
+  input: {
+    readonly personId: EntityId;
+    readonly setting: IntroductionSetting;
+    readonly viaPersonId: EntityId | null;
+  },
+): { readonly world: World; readonly said: string } {
+  if (
+    world.control.kind !== "person" ||
+    world.control.personId !== input.personId
+  ) {
+    throw new Error("Only the character being played can go and meet people.");
+  }
+  const before = new Set(introducedPeople(world, input.personId));
+  const next = meetSomebodyNew(
+    world,
+    input.personId,
+    input.setting,
+    input.viaPersonId,
+  );
+  const met = introducedPeople(next, input.personId).find(
+    (id) => !before.has(id),
+  );
+  const said = met
+    ? `You met ${personName(next.people[met]!)}.`
+    : "You met nobody new.";
+  return { world: next, said };
 }
