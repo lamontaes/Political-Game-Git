@@ -1,0 +1,24 @@
+{
+  "filedAt": "2026-09-23T03:05:00.000Z",
+  "impact": "shapes-design",
+  "lane": "empty offices and term dates",
+  "priority": "P1",
+  "question": "For each of the 50 states and the District of Columbia: when the governor (or mayor of D.C.) dies, resigns or is removed, who takes the office or acts in it (lieutenant governor, president of the senate, secretary of state, council chair or other officer), does that person become governor or only act as governor, for how long (the rest of the term, or until a special election), and when is any special election held? Give the constitutional or statutory citation for each, and the order of succession beyond the first officer.",
+  "questionId": "gubernatorial-succession-in-every-state",
+  "relatedQuestionIds": [],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Empty offices and term dates thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/nationwide-world/governor-succession.ts (GOVERNOR_SUCCESSION_PROFILE), this branch",
+      "whatItDidNotSettle": "The game now seats a successor when a governor dies, but by a blanket rule: a drawn person, the state's next officer in line, serves the rest of the term with no special election, and the successor's former title is not named."
+    },
+    {
+      "source": "data/source and data/research in the repository",
+      "whatItDidNotSettle": "No compiled source names any state's line of gubernatorial succession."
+    }
+  ],
+  "title": "Who succeeds a governor in every state",
+  "usableAnswer": "A table with one row per state and D.C.: first successor's office, becomes or acts, rest of term or special election (with timing), the next two officers in line, and the citation.",
+  "whyItMatters": "Nationwide playtests left Hawaii without a governor from 2027 and Missouri without one from 2039 to 2041 after the governors died. The game now fills the office, but with a stand-in rule; states without a lieutenant governor, and states that hold special elections, play wrong until this is answered."
+}
