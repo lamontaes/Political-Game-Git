@@ -2590,6 +2590,7 @@
           "chamberFamily": "unicameral",
           "citations": [
             "Lawmaking in Nebraska",
+            "Neb. Const. Art. III, Sec. 6",
             "Neb. Const. art. III, § 8"
           ],
           "missing": [
@@ -2616,7 +2617,7 @@
             "term.years"
           ],
           "officeKey": "us-ne-legislature-v1:legislature",
-          "seats": null,
+          "seats": 49,
           "standForOffice": "refused",
           "standForOfficeMissing": [
             "qualification.stateResidenceYears"
