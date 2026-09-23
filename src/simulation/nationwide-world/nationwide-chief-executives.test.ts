@@ -145,14 +145,19 @@ describe("the game profile, calibrated by that research", () => {
     expect(vt.election.cycleYears).toBe(2);
   });
 
-  it("has not compiled Puerto Rico's Governor, and invents nothing in its place", () => {
-    // Puerto Rico elects a Governor. Nothing here says otherwise: this branch
-    // has not compiled that office, so the rule is absent, and an absent
-    // answer is not the claim that the office does not exist. The factual
-    // compilation is parked and approved; when it lands it replaces this
-    // absence outright. What must keep holding until then is that a territory
-    // is never handed a manufactured US-state governorship to fill the hole.
-    expect(stateExecutiveTermRule("PR")).toBeNull();
+  it("dates Puerto Rico's Governor on the game's own profile, never a state's law", () => {
+    // Puerto Rico elects its own Governor. Its term law has not been read, so
+    // like every unread jurisdiction its calendar is the game's national-range
+    // profile, disclosed as the game's own; when the territory research lands
+    // a verified rule replaces it outright. What must keep holding is that a
+    // territory is never counted as a state or handed one state's law.
+    const rule = stateExecutiveTermRule("PR")!;
+    expect(rule.sources).toEqual([]);
+    expect(termRuleBasis(rule)).toBe("game-profile");
+    expect([...US_STATE_USPS]).not.toContain("PR");
+    expect(stateExecutiveIdentity("PR")!.displayName).toBe(
+      "Governor of Puerto Rico",
+    );
   });
 });
 
@@ -160,7 +165,8 @@ describe("the District of Columbia is one government, counted separately", () =>
   it("keeps the fifty-state lists at fifty and adds itself beside them", () => {
     expect(US_STATE_USPS).toHaveLength(50);
     expect([...US_STATE_USPS]).not.toContain(DISTRICT_OF_COLUMBIA_USPS);
-    expect(CHIEF_EXECUTIVE_JURISDICTIONS).toHaveLength(51);
+    // Fifty states, the District and the five territories.
+    expect(CHIEF_EXECUTIVE_JURISDICTIONS).toHaveLength(56);
     expect([...CHIEF_EXECUTIVE_JURISDICTIONS]).toContain(
       DISTRICT_OF_COLUMBIA_USPS,
     );

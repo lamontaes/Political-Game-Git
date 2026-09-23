@@ -374,7 +374,7 @@ export function validatePhysicalSceneFamily(
     push(
       "unknown-access-class",
       "error",
-      `Family '${family.familyId}' declares access class '${family.accessClass}', which is not one this contract recognises.`,
+      `Family '${family.familyId}' declares access class '${family.accessClass}', which is not one this contract recognizes.`,
     );
   }
   for (const stage of family.lifeStageSuitability) {
@@ -382,7 +382,7 @@ export function validatePhysicalSceneFamily(
       push(
         "unknown-life-stage",
         "error",
-        `Family '${family.familyId}' declares life stage '${stage}', which is not one this contract recognises.`,
+        `Family '${family.familyId}' declares life stage '${stage}', which is not one this contract recognizes.`,
       );
     }
   }

@@ -1,0 +1,31 @@
+{
+  "filedAt": "2026-09-23T11:04:00.000Z",
+  "impact": "blocks-work",
+  "lane": "nationwide government",
+  "notes": [
+    "The owner's words, 2026-09-23: the territories should be done at all three levels of government.",
+    "The four-island answer (OCD-INHABITED-TERRITORIES-AND-STATEHOOD--FOUR-ISLAND-AREAS, 2026-09-22) gives each legislature's structure and lists exact qualifications and terms as a known gap."
+  ],
+  "priority": "P1",
+  "question": "For Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands, the numbers the game needs to seat each government. FIRST, the legislature: how many members each chamber has; whether they are elected by district, at large or both (with the districts and how many each elects); the term length and election calendar (month and day of the general election, when terms begin); the qualifications to serve (age, citizenship or nationality, years of residence in the territory and in the district); and how American Samoa's Senate is chosen by county councils under Samoan custom. SECOND, local government: Guam's village mayors and vice mayors (how many villages, terms, qualifications, election date); the Northern Mariana Islands' municipal mayors and councils (Saipan, Tinian, Rota and the Northern Islands); American Samoa's district governors, county chiefs and village offices; and confirmation that the Virgin Islands have no municipal government below the territory. THIRD, each territory's Delegate to the U.S. House: term, election date and qualifications, from 48 U.S.C. and territory law.",
+  "questionId": "island-territory-legislatures-and-local-offices",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Nationwide government thread",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/chatgpt-answers/2026-09-22-nationwide-2235/OCD-INHABITED-TERRITORIES-AND-STATEHOOD--FOUR-ISLAND-AREAS--2026-09-22.md",
+      "whatItDidNotSettle": "Structure only: American Samoa's bicameral Fono, Guam's unicameral legislature and village mayors, the Northern Marianas' bicameral legislature and municipalities, and the Virgin Islands' unicameral legislature. No seat counts, terms or qualifications to serve; its own gap list names them."
+    },
+    {
+      "source": "src/simulation/legislature-game-profile.ts, NO_STATE_LEGISLATURE",
+      "whatItDidNotSettle": "Guam, the Virgin Islands, American Samoa and the Northern Marianas are excluded, so no legislature is seated there and no player can run for one."
+    },
+    {
+      "source": "src/simulation/territory-places.ts",
+      "whatItDidNotSettle": "Places are placeholders and say no village mayor or council is seated."
+    }
+  ],
+  "title": "The island territories' legislatures, local offices and Delegates, as numbers the game can seat",
+  "usableAnswer": "A table per territory: each chamber's seats, district and at-large mix, term, election date and qualifications with citations to the territory's organic act, constitution or code; the same for each local office; and each Delegate's term and qualifications. Say plainly where a value is not in the law.",
+  "whyItMatters": "The owner wants the territories playable at all three levels. Puerto Rico's legislature is now seated at its constitutional size, but the four island territories have no legislature, no local offices and no Delegate holder, and the game must not invent their sizes."
+}

@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { addDays } from "./dates";
 import { evaluateDecision } from "./decisions";
 import {
@@ -255,9 +256,7 @@ function answerFamilyPlan(
   world: World,
   intentionId: EntityId,
 ): { world: World; eventId: EntityId; agreed: boolean } {
-  const intention = world.history.events.find(
-    (event) => event.id === intentionId,
-  )!;
+  const intention = eventById(world, intentionId)!;
   const proposer = intention.participants.find(
     (entry) => entry.role === "agency:actor",
   )!.personId;
@@ -387,9 +386,7 @@ function resolveFamilyPlan(
   world: World,
   intentionId: EntityId,
 ): { world: World; eventId: EntityId } | null {
-  const intention = world.history.events.find(
-    (event) => event.id === intentionId,
-  )!;
+  const intention = eventById(world, intentionId)!;
   const parents = [...intention.involvedEntityIds];
   if (!parents.every((id: EntityId) => alive(world, id))) return null;
   const kind: FamilyPlanKind = intention.tags.includes(
@@ -469,9 +466,7 @@ export function familyPlanTransitionHandler(
     ),
   );
   if (!intentionId) return done("family-plan-missing");
-  const intention = world.history.events.find(
-    (event) => event.id === intentionId,
-  )!;
+  const intention = eventById(world, intentionId)!;
   if (!intention.involvedEntityIds.every((id) => alive(world, id))) {
     return done("family-plan-lapsed");
   }

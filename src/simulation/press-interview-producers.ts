@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import {
   assertNpcAutonomousApplication,
   evaluateDecision,
@@ -339,7 +340,7 @@ export function recordPressRequest(
   });
   for (const basisId of basisIds) {
     if (reporterKnowsEvent(next, input.reporterPersonId, basisId)) continue;
-    const basis = next.history.events.find((event) => event.id === basisId);
+    const basis = eventById(next, basisId);
     if (!basis || resolvePublicationSource(next, basis) === null) {
       throw new Error(
         "A press request cannot convey a private, future or missing basis.",
@@ -943,7 +944,7 @@ export function producePressAdviserFeedback(
     (candidate) => candidate.id === input.activityId,
   );
   const arrangement = activity?.sourceEntityIds
-    .map((id) => world.history.events.find((event) => event.id === id))
+    .map((id) => eventById(world, id))
     .find((event) => event?.type === "press.interview-arranged");
   const story = world.history.events.find(
     (event) =>
@@ -1004,9 +1005,7 @@ export function producePressAdviserFeedback(
 }
 
 function requireRequest(world: World, eventId: EntityId): HistoricalEvent {
-  const event = world.history.events.find(
-    (candidate) => candidate.id === eventId,
-  );
+  const event = eventById(world, eventId);
   if (
     !event ||
     event.type !== "press.interview-requested" ||
@@ -1025,9 +1024,7 @@ function requireResponse(
   acceptedTag: string,
   message: string,
 ): HistoricalEvent {
-  const event = world.history.events.find(
-    (candidate) => candidate.id === eventId,
-  );
+  const event = eventById(world, eventId);
   if (
     !event ||
     event.type !== type ||
@@ -1077,9 +1074,7 @@ function reporterKnowsEvent(
   reporterPersonId: EntityId,
   eventId: EntityId,
 ): boolean {
-  const event = world.history.events.find(
-    (candidate) => candidate.id === eventId,
-  );
+  const event = eventById(world, eventId);
   if (!event || event.occurredAt > world.currentDate) return false;
   return (
     world.history.knowledge.some(
@@ -1103,9 +1098,7 @@ function reporterCanBeAskedAbout(
   eventId: EntityId,
 ): boolean {
   if (reporterKnowsEvent(world, reporterPersonId, eventId)) return true;
-  const event = world.history.events.find(
-    (candidate) => candidate.id === eventId,
-  );
+  const event = eventById(world, eventId);
   if (!event || event.occurredAt > world.currentDate) return false;
   return resolvePublicationSource(world, event) !== null;
 }

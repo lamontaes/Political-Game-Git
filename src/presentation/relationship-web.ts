@@ -64,6 +64,8 @@ export interface LaidOutNode extends RelationshipNode {
   readonly x: number;
   readonly y: number;
   readonly depth: 0 | 1 | 2;
+  /** Whether the ring leaves room to print the name without overlapping. */
+  readonly labeled: boolean;
 }
 
 export interface RelationshipWebLayout {
@@ -71,6 +73,8 @@ export interface RelationshipWebLayout {
   readonly height: number;
   readonly nodes: readonly LaidOutNode[];
   readonly edges: readonly RelationshipEdge[];
+  /** People in view who did not fit in the drawing; the list shows them. */
+  readonly hiddenCount: number;
 }
 
 const EDGE_RANK: Readonly<Record<RelationshipEdgeKind, number>> = {
@@ -456,6 +460,20 @@ export function neighborhoodIds(
   return ids;
 }
 
+/** How far apart two faces must sit on a ring to be told apart. */
+const WEB_FACE_SPACING = 58;
+/** How far apart they must sit for their names to print without touching. */
+const WEB_LABEL_SPACING = 120;
+/** Room kept between the outermost ring and the drawing's edge, for a name. */
+const WEB_EDGE_MARGIN = 44;
+/**
+ * The rings, as shares of the room between the center and that margin. Named
+ * faces need a name's height between rings, so they get two rings; faces
+ * alone fit three.
+ */
+const WEB_NAMED_RING_SCALES: readonly number[] = [0.5, 1];
+const WEB_FACE_RING_SCALES: readonly number[] = [0.45, 0.72, 1];
+
 export function layoutRelationshipWeb(
   web: RelationshipWeb,
   expanded: boolean,
@@ -466,59 +484,121 @@ export function layoutRelationshipWeb(
   const visible = neighborhoodIds(web, expanded, alsoAround);
   const cx = width / 2;
   const cy = height / 2;
-  // Leaves room for a readable face and its name inside the drawing's edge.
-  const inner = Math.min(width, height) * 0.28;
-  const outer = Math.min(width, height) * 0.4;
 
-  const innerIds: EntityId[] = [];
-  const outerIds: EntityId[] = [];
-  for (const node of web.nodes) {
-    if (!visible.has(node.personId) || node.personId === web.focusId) continue;
-    const adjacent = web.edges.some(
-      (edge) =>
-        (edge.fromId === web.focusId && edge.toId === node.personId) ||
-        (edge.toId === web.focusId && edge.fromId === node.personId),
-    );
-    if (adjacent) innerIds.push(node.personId);
-    else outerIds.push(node.personId);
+  const edgeToFocus = new Map<EntityId, RelationshipEdgeKind>();
+  for (const edge of web.edges) {
+    const other =
+      edge.fromId === web.focusId
+        ? edge.toId
+        : edge.toId === web.focusId
+          ? edge.fromId
+          : null;
+    if (other === null) continue;
+    const known = edgeToFocus.get(other);
+    if (known === undefined || EDGE_RANK[edge.kind] < EDGE_RANK[known]) {
+      edgeToFocus.set(other, edge.kind);
+    }
   }
-  innerIds.sort();
-  outerIds.sort();
+
+  // Closest first: the people joined to the center, by how they are joined,
+  // then everybody else. Names break ties so the drawing is the same each time.
+  const byName = new Map(web.nodes.map((node) => [node.personId, node.name]));
+  const ranked = web.nodes
+    .filter(
+      (node) => visible.has(node.personId) && node.personId !== web.focusId,
+    )
+    .map((node) => node.personId)
+    .sort((left, right) => {
+      const leftRank =
+        EDGE_RANK[edgeToFocus.get(left) ?? "acquaintance"] +
+        (edgeToFocus.has(left) ? 0 : 10);
+      const rightRank =
+        EDGE_RANK[edgeToFocus.get(right) ?? "acquaintance"] +
+        (edgeToFocus.has(right) ? 0 : 10);
+      if (leftRank !== rightRank) return leftRank - rightRank;
+      return (byName.get(left) ?? "").localeCompare(byName.get(right) ?? "");
+    });
+
+  /*
+   * Rings sized to what fits. Each ring is an ellipse that uses the drawing's
+   * width, holds as many faces as its length allows at WEB_FACE_SPACING, and
+   * prints names only when its faces are at least WEB_LABEL_SPACING apart.
+   * Whoever does not fit is counted rather than squeezed in: a ring of two
+   * hundred overlapping faces told the player nothing (Texas House playtest,
+   * 2026-09-23).
+   */
+  const shorter = Math.min(width, height);
+  const ringsAt = (scales: readonly number[]) =>
+    scales
+      .map((scale) => ({
+        rx: (width / 2 - WEB_EDGE_MARGIN) * scale,
+        ry: (height / 2 - WEB_EDGE_MARGIN) * scale,
+      }))
+      .filter((ring) => ring.ry > shorter * 0.1);
+  const perimeter = (rx: number, ry: number) =>
+    Math.PI * (3 * (rx + ry) - Math.sqrt((3 * rx + ry) * (rx + 3 * ry)));
 
   const positions = new Map<EntityId, LaidOutNode>();
   const focus = web.nodes.find((node) => node.personId === web.focusId);
   if (focus) {
-    positions.set(focus.personId, { ...focus, x: cx, y: cy, depth: 0 });
+    positions.set(focus.personId, {
+      ...focus,
+      x: cx,
+      y: cy,
+      depth: 0,
+      labeled: true,
+    });
   }
 
-  const placeRing = (
-    ids: readonly EntityId[],
-    radius: number,
-    depth: 1 | 2,
-  ) => {
+  // Names for everybody when everybody fits at name spacing; faces only, and
+  // more of them, when they do not.
+  const namedRings = ringsAt(WEB_NAMED_RING_SCALES);
+  const labeledRoom = namedRings.reduce(
+    (sum, ring) =>
+      sum + Math.floor(perimeter(ring.rx, ring.ry) / WEB_LABEL_SPACING),
+    0,
+  );
+  const labeled = ranked.length <= labeledRoom;
+  const rings = labeled ? namedRings : ringsAt(WEB_FACE_RING_SCALES);
+  const lengths = rings.map((ring) => perimeter(ring.rx, ring.ry));
+  const spacing = labeled ? WEB_LABEL_SPACING : WEB_FACE_SPACING;
+
+  let next = 0;
+  rings.forEach((ring, ringIndex) => {
+    const capacity = Math.floor(lengths[ringIndex]! / spacing);
+    const ids = ranked.slice(next, next + capacity);
+    next += ids.length;
+    if (ids.length === 0) return;
     ids.forEach((personId, index) => {
       const node = web.nodes.find((entry) => entry.personId === personId);
       if (!node) return;
       const angle =
-        ((index + hashAngle(personId)) / Math.max(ids.length, 1)) * Math.PI * 2;
+        ((index + (ids.length < 4 ? hashAngle(personId) : 0.5)) / ids.length) *
+          Math.PI *
+          2 +
+        ringIndex * 0.35;
       positions.set(personId, {
         ...node,
-        x: cx + Math.cos(angle) * radius,
-        y: cy + Math.sin(angle) * radius,
-        depth,
+        x: cx + Math.cos(angle) * ring.rx,
+        y: cy + Math.sin(angle) * ring.ry,
+        depth: ringIndex === 0 ? 1 : 2,
+        labeled,
       });
     });
-  };
-
-  placeRing(innerIds, inner, 1);
-  placeRing(outerIds, outer, 2);
+  });
 
   const laid = [...positions.values()];
   const visibleEdges = web.edges.filter(
     (edge) => positions.has(edge.fromId) && positions.has(edge.toId),
   );
 
-  return { width, height, nodes: laid, edges: visibleEdges };
+  return {
+    width,
+    height,
+    nodes: laid,
+    edges: visibleEdges,
+    hiddenCount: ranked.length - next,
+  };
 }
 
 export const EDGE_KIND_LABELS: Readonly<Record<RelationshipEdgeKind, string>> =

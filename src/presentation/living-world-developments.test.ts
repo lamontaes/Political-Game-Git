@@ -42,13 +42,18 @@ describe("ALIVE43 W3 background developments", () => {
 
   it("opens with a modest recent public past, already published", () => {
     const matters = projectPublicMatters(life.world);
+    // The opening no longer adds the two fixed, already-concluded
+    // "playtest65:prior-local" matters; what remains is the living world's own.
     expect(matters.map((m) => m.family).sort()).toEqual([
       "international",
       "local-matter",
-      "local-matter",
-      "local-matter",
     ]);
-    expect(matters.filter((matter) => matter.concluded)).toHaveLength(2);
+    expect(
+      matters.some((matter) =>
+        matter.matterId.startsWith("playtest65:prior-local"),
+      ),
+    ).toBe(false);
+    expect(matters.filter((matter) => matter.concluded)).toHaveLength(0);
     const digest = projectPublicInformationDigest(life.world);
     for (const matter of matters)
       expect(

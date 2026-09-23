@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { ageOnDate, makeIsoDate } from "./dates";
 import {
   didPeopleShareOrganizationWork,
@@ -300,9 +301,7 @@ export function hasCloseRelationshipWithPersonAffectedByEvent(
   personId: EntityId,
   eventId: EntityId,
 ): boolean {
-  const event = world.history.events.find(
-    (candidate) => candidate.id === eventId,
-  );
+  const event = eventById(world, eventId);
   if (!event) {
     return false;
   }

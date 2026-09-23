@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { createStableId } from "./ids";
 import {
   measureActions,
@@ -489,9 +490,7 @@ export function recordLegislativeCommitment(
   ) {
     throw new Error(`Duplicate legislative commitment: ${input.stableKey}`);
   }
-  const event = world.history.events.find(
-    (record) => record.id === input.eventId,
-  );
+  const event = eventById(world, input.eventId);
   if (!event) {
     throw new Error(
       "A legislative commitment must cite the event it was made at.",

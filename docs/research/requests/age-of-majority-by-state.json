@@ -1,0 +1,23 @@
+{
+  "filedAt": "2026-09-23T10:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "ordinary adult life",
+  "notes": [
+    "A playtest found a twenty-seven-year-old who owned her house still listed with \"your guardian\" at home: nothing in play ended the authority a new game gives a child's guardian or parent. The game now ends it on the child's state's age of majority, read from a lookup that ships empty (AGE_OF_MAJORITY_RULES in src/simulation/age-of-majority.ts). Until a state has a sourced entry, nothing is ended there; only the label stops calling a grown person's guardian \"your guardian\", from eighteen (GROWN_UP_PRESENTATION_AGE_PLACEHOLDER)."
+  ],
+  "priority": "P2",
+  "question": "At what age does a person reach the age of majority in each state, and so stop being subject to a parent's or guardian's authority? Alabama and Nebraska are commonly given as nineteen and Mississippi as twenty-one. Does a guardianship or a support order ordinarily run past that age (for example, to the end of high school), and does marriage, military enlistment or emancipation end it earlier?",
+  "questionId": "age-of-majority-by-state",
+  "relatedQuestionIds": [],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "ordinary adult life thread",
+  "sourcesChecked": [
+    {
+      "source": "The game's child authority records and the summarized earlier life (src/simulation/character-history.ts), which end a childhood authority at eighteen",
+      "whatItDidNotSettle": "Both use one national age with no source. Neither carries a state's own age of majority or the exceptions to it."
+    }
+  ],
+  "title": "The age of majority, by state",
+  "usableAnswer": "For each of the 52 jurisdictions (50 states, D.C. and Puerto Rico): the age of majority, whether parental authority or support ordinarily continues past it while the person is still in high school and until when, the ordinary ways it ends earlier (marriage, military service, court emancipation), and a named public source for each so the game can refresh it.",
+  "whyItMatters": "AGE_OF_MAJORITY_RULES in src/simulation/age-of-majority.ts is empty, so no played character's guardianship or parental authority ever ends on the record: the end is unknown, and the game writes nothing rather than guess. Each state entry needs an age and a checkable source; once one is filled in, lives in that state are caught up the next time days pass, dated to the right birthday. Until then only the label changes at eighteen, which is wrong by a year or three in the states that use nineteen or twenty-one."
+}

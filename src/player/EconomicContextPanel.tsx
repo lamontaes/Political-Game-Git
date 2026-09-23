@@ -16,6 +16,8 @@ import { proseDate } from "../presentation/prose-dates";
 import {
   carriedLocalFigureLine,
   carriedLocalFigures,
+  periodInWords,
+  placeInWords,
 } from "../presentation/local-economy-carried";
 import type { CarriedLocalFigure } from "../presentation/local-economy-carried";
 import type { World } from "../simulation";
@@ -195,15 +197,17 @@ export function EconomicContextView({
       ) : null}
 
       {/*
-        Ordinary play lists the figures this place actually has. A product with
-        nothing behind it is left out rather than listed with the binding
-        failure that explains it, because an absent measure is not news and its
-        cause is not the player's business.
+        Which products stand behind these figures, and how many observations
+        each holds, is the ingestion record, not something a resident knows.
+        Ordinary play shows the figures themselves, below; the list stays for
+        the diagnostic view.
       */}
-      <ul className="economic-availability" aria-label="Figures for this place">
-        {context.availability
-          .filter((item) => diagnostics || item.status === "available")
-          .map((item) => (
+      {diagnostics ? (
+        <ul
+          className="economic-availability"
+          aria-label="Figures for this place"
+        >
+          {context.availability.map((item) => (
             <li key={item.product} data-status={item.status}>
               <strong>{productLabel(item.product)}</strong>
               <span>
@@ -213,19 +217,19 @@ export function EconomicContextView({
               </span>
             </li>
           ))}
-      </ul>
+        </ul>
+      ) : null}
 
       {carried.length > 0 ? (
         <section
           className="economic-carried"
-          aria-label="Since the last published figures"
+          aria-label="Where things stand now"
           data-testid="economic-carried"
         >
-          <h3>Since the last published figures</h3>
+          <h3>Where things stand now</h3>
           <p className="game-note">
-            No newer figures have been published in this world, so these follow
-            its own economy: prices, output and jobs since then. They are this
-            world&apos;s conditions, not an agency&apos;s release.
+            These have moved with prices, output and jobs in this world since
+            the time each one started from.
           </p>
           <ul>
             {carried.map((figure) => (
@@ -261,8 +265,8 @@ export function EconomicContextView({
                 context.withheldFutureObservationCount === 1
                   ? "figure is"
                   : "figures are"
-              } recorded for this place, and the game cannot establish that any had been published by this date, so it is not showing you numbers nobody here could have seen yet.`
-            : "Nothing has been published for this date yet."}
+              } recorded for this place, and none is known to have come out by this date, so none is shown yet.`
+            : "No figures for this place reach this date yet."}
         </p>
       )}
 
@@ -330,17 +334,33 @@ export function EconomicGraph({
       <figcaption>
         <strong>{graph.title}</strong>
         <span>{graph.description}</span>
+        {/*
+          Ordinary play names the place and the unit. The provider's level
+          vocabulary, its footnote mark and the day the figure reached the
+          simulation are the ingestion record.
+        */}
         <span className="economic-graph-scope">
-          {graph.geography
-            ? `${graph.geography.providerName} · ${graph.geography.level}`
-            : "Geography not supplied"}
-          {` · ${graph.unit} · ${graph.referenceLabel}`}
+          {diagnostics
+            ? `${
+                graph.geography
+                  ? `${graph.geography.providerName} · ${graph.geography.level}`
+                  : "Geography not supplied"
+              } · ${graph.unit} · ${graph.referenceLabel}`
+            : `${
+                graph.geography
+                  ? `${placeInWords(graph.geography.providerName)} · `
+                  : ""
+              }${graph.unit}`}
         </span>
       </figcaption>
       <svg
         viewBox="0 0 640 220"
         role="img"
-        aria-label={`${graph.title}. ${graph.unit}. ${graph.referenceLabel}.`}
+        aria-label={
+          diagnostics
+            ? `${graph.title}. ${graph.unit}. ${graph.referenceLabel}.`
+            : `${graph.title}. ${graph.unit}.`
+        }
       >
         <line className="economic-axis" x1="52" y1="12" x2="52" y2="184" />
         <line className="economic-axis" x1="52" y1="184" x2="626" y2="184" />
@@ -411,7 +431,9 @@ export function EconomicGraph({
                 series.points.map((point) => (
                   <tr key={point.pointKey}>
                     <th scope="row">{series.label}</th>
-                    <td>{point.period}</td>
+                    <td>
+                      {diagnostics ? point.period : periodInWords(point.period)}
+                    </td>
                     {diagnostics ? (
                       <td>{recordClassLabel(point.recordClass)}</td>
                     ) : null}

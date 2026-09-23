@@ -1,6 +1,8 @@
 import { useState } from "react";
 import type { EntityId, World } from "../simulation";
 import {
+  HOME_DISTRICT_CANDIDATE_LABEL,
+  HOME_DISTRICT_RECORDED_LABEL,
   congressCandidacyForPerson,
   congressSeatStatus,
   fileForCongressSeat,
@@ -74,12 +76,24 @@ export function CongressCandidacySection({
                 <option
                   key={entry.identity.officeKey}
                   value={entry.identity.officeKey}
+                  data-home-district={entry.homeDistrict ?? undefined}
                 >
-                  {entry.identity.displayName}
+                  {entry.homeDistrict === "recorded"
+                    ? `${entry.identity.displayName} (${HOME_DISTRICT_RECORDED_LABEL})`
+                    : entry.homeDistrict === "candidate"
+                      ? `${entry.identity.displayName} (may be yours)`
+                      : entry.identity.displayName}
                 </option>
               ))}
             </select>
           </label>
+          {seat.homeDistrict ? (
+            <p data-testid="congress-home-district">
+              {seat.homeDistrict === "recorded"
+                ? `${HOME_DISTRICT_RECORDED_LABEL}.`
+                : HOME_DISTRICT_CANDIDATE_LABEL}
+            </p>
+          ) : null}
           {seat.eligible ? (
             <p>
               {seat.identity.title === "U.S. Senator"

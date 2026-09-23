@@ -245,6 +245,54 @@ describe("What the player is told about a bill", () => {
     expect(briefing.history.at(-1)?.headline).toBe("Became law");
   });
 
+  it("tells the player how the roll call records them, and only from the roll", () => {
+    const { world, scenario } = playThrough("kentucky", LAST);
+    if (world.control.kind !== "person") throw new Error("No player.");
+    const playerId = world.control.personId;
+    const votes = world.history.legislativeVotes ?? [];
+    const floor = votes.find(
+      (vote) =>
+        vote.purpose === "floor-stage" && vote.measureId === scenario.measureId,
+    )!;
+    // Whether this scenario seats the player is its own business; the line is
+    // read from whichever roll names them, so name them on one roll here.
+    const named = (disposition: "nay" | "absent"): World => ({
+      ...world,
+      history: {
+        ...world.history,
+        legislativeVotes: votes.map((vote) =>
+          vote.id !== floor.id
+            ? {
+                ...vote,
+                dispositions: vote.dispositions.filter(
+                  (row) => row.personId !== playerId,
+                ),
+              }
+            : {
+                ...vote,
+                dispositions: vote.dispositions.map((row, index) =>
+                  index === 0
+                    ? { ...row, personId: playerId, disposition }
+                    : row,
+                ),
+              },
+        ),
+      },
+    });
+
+    const nay = projectMeasureBriefing(named("nay"), scenario.measureId);
+    expect(nay.votes.map((vote) => vote.yours)).toEqual(
+      votes
+        .filter((vote) => vote.measureId === scenario.measureId)
+        .map((vote) => (vote.id === floor.id ? "You voted No." : null)),
+    );
+    const absent = projectMeasureBriefing(named("absent"), scenario.measureId);
+    expect(absent.votes.filter((vote) => vote.yours)).toHaveLength(1);
+    expect(absent.votes.find((vote) => vote.yours)?.yours).toBe(
+      "You were recorded absent.",
+    );
+  });
+
   it("keeps internal vocabulary out of everything a player reads", () => {
     const forbidden = [
       "run a",

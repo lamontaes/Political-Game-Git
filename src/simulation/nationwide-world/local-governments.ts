@@ -1,10 +1,12 @@
 import {
+  countyEquivalentTerm,
   governmentUnitDisplayName,
   governmentUnitRecordedName,
 } from "./government-unit-names";
+import type { CountyEquivalentTerm } from "./government-unit-names";
+
 import {
   GOVERNMENT_UNITS_META,
-  PLACE_COUNTY_RELATIONS_META,
   countyGovernmentUnit,
   countyGeoidsForPlace,
   countyGovernmentUnitsForPlace,
@@ -33,6 +35,9 @@ import type { RuleFieldKey } from "./rule-capability-port";
  * listing records without a county government is said to have none.
  */
 
+export { countyEquivalentTerm };
+export type { CountyEquivalentTerm };
+
 export const LOCAL_GOVERNMENT_WRITER_VERSION = "nationwide-local-government-v1";
 
 export type CountyGovernmentStatus =
@@ -57,7 +62,12 @@ export interface HomeLocalGovernmentUnits {
     | null;
 }
 
-const COUNTY_RELATION_EMPTY = `No county government is recorded for this place's county areas as the Census described them on ${PLACE_COUNTY_RELATIONS_META.geographyAsOf}, or the place is not in those files, so its county government is not established.`;
+// Said to the player in the state's own word for a county, and without the
+// files behind it: which geography was read, and when, stays with
+// the government-units module's metadata for an auditor.
+function countyRelationEmpty(term: CountyEquivalentTerm): string {
+  return `Which ${term.singular} government serves this place is not known.`;
+}
 
 /** Which government units serve the place this person lives in. Reads only. */
 export function homeLocalGovernmentUnits(
@@ -82,6 +92,7 @@ export function homeLocalGovernmentUnits(
   });
   if (!place) return none(null, "not-applicable", null);
   if (place.scope === "state") return none("state", "not-applicable", null);
+  const term = countyEquivalentTerm(place.stateJurisdictionKey);
   if (place.scope === "county") {
     const geoid = place.key.startsWith("county:")
       ? place.key.slice("county:".length)
@@ -99,7 +110,7 @@ export function homeLocalGovernmentUnits(
       : none(
           "county",
           "no-county-government",
-          "The Census Government Units listing records no county government for this county area.",
+          `This ${term.singular} has no government of its own.`,
         );
   }
   const municipal = place.sourceGeoid
@@ -125,7 +136,7 @@ export function homeLocalGovernmentUnits(
       })),
     };
   if (municipal.length === 0)
-    return none("locality", "not-established", COUNTY_RELATION_EMPTY);
+    return none("locality", "not-established", countyRelationEmpty(term));
   const counties = new Map<string, GovernmentUnitIdentity>();
   for (const unit of municipal) {
     const county = unit.countyGeoid
@@ -141,9 +152,21 @@ export function homeLocalGovernmentUnits(
     countyReason:
       counties.size > 0
         ? null
-        : "The Census Government Units listing records no county government for this city's county area.",
+        : `No separate ${term.singular} government serves this city.`,
     countyShares: null,
   };
+}
+
+/** What the state this person lives in calls its counties. */
+export function homeCountyEquivalentTerm(
+  world: World,
+  personId: EntityId,
+): CountyEquivalentTerm {
+  const person = world.people[personId];
+  const place = person
+    ? lifePlaceByJurisdictionId(person.homeJurisdictionId)
+    : null;
+  return countyEquivalentTerm(place?.stateJurisdictionKey ?? null);
 }
 
 /** The unit's name as people write it; see `governmentUnitDisplayName`. */
