@@ -3,6 +3,12 @@ import { describe, expect, it } from "vitest";
 import { personName, type EntityId, type World } from "../simulation";
 import { recordEventKnowledge } from "../simulation/records";
 import { recordWorldEvent } from "../simulation/world";
+import { deserializeWorld, serializeWorld } from "../simulation";
+import {
+  introductionCandidates,
+  introductionSettingPhrase,
+  recordIntroduction,
+} from "../simulation/social-introductions";
 import {
   commitLifeConversation,
   projectLifeConversation,
@@ -66,6 +72,11 @@ describe("the Journal speaks to its own subject", () => {
         (entry) => entry.text,
       );
       expect(texts).toContain(`You said hello to ${otherName}.`);
+      // The account is read from the saved record, so it survives a reload.
+      const restored = deserializeWorld(serializeWorld(next));
+      expect(projectWorld39Journal(restored, playerPersonId)).toEqual(
+        projectWorld39Journal(next, playerPersonId),
+      );
       expect(texts).toContain(`You said goodbye to ${otherName}.`);
       const ownName = personName(next.people[playerPersonId]!);
       expect(texts.filter((text) => text.includes(`${ownName}:`))).toEqual([]);
@@ -209,6 +220,40 @@ describe("the Journal speaks to its own subject", () => {
     expect(texts).toContain("You were assaulted.");
     expect(texts.filter((text) => text.startsWith("Police in town"))).toEqual(
       [],
+    );
+  });
+
+  it("says who you met, and where, from the introduction's own record", () => {
+    const { world, playerPersonId } = createNewGameWorld({
+      ...setup,
+      seed: "journal-own-voice-met",
+      startAge: 16,
+    });
+    const candidate = introductionCandidates(world, playerPersonId)[0];
+    expect(candidate).toBeDefined();
+    const next = deserializeWorld(
+      serializeWorld(
+        recordIntroduction(world, {
+          personId: playerPersonId,
+          otherPersonId: candidate!.personId,
+          setting: candidate!.setting,
+          how: "happened",
+        }),
+      ),
+    );
+    const otherName = personName(next.people[candidate!.personId]!);
+    const phrase = introductionSettingPhrase(world, candidate!);
+    expect(
+      projectWorld39Journal(next, playerPersonId).entries.map(
+        (entry) => entry.text,
+      ),
+    ).toContain(`You met ${otherName} ${phrase}.`);
+    expect(
+      projectWorld39Journal(next, candidate!.personId).entries.map(
+        (entry) => entry.text,
+      ),
+    ).toContain(
+      `You met ${personName(next.people[playerPersonId]!)} ${phrase}.`,
     );
   });
 });

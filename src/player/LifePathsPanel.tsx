@@ -365,7 +365,7 @@ export function LifePathsPanel({
                   {tuition.paused
                     ? "Study paused for unfunded tuition. Work and the World continue."
                     : tuition.deadline
-                      ? `Tuition remains unfunded; disclosed deadline ${tuition.deadline}. Study only pauses at that deadline.`
+                      ? `Tuition is still unpaid, and it is due by ${proseDate(tuition.deadline)}. If it is not paid by then, only your study pauses.`
                       : "Tuition remains unfunded. Legacy terms have no new grace deadline; completion waits for funding."}{" "}
                   This accepted period requires $
                   {(tuition.amountMinor / 100).toFixed(2)} USD.
