@@ -12,7 +12,7 @@ import {
   takeProjectedOrdinanceVote,
   takeProjectedOverrideVote,
 } from "../presentation/municipal-governing";
-import { addDays } from "./dates";
+import { addDays, makeIsoDate } from "./dates";
 import { dcCouncilActTitle } from "./dc-council-sittings";
 import { lifePlaceSearch } from "./life-places";
 import { recordOrganizationParticipationState } from "./life";
@@ -140,9 +140,9 @@ describe("the D.C. Council's procedure, compiled from the Home Rule Act", () => 
 
   it("counts the 30-day review in weekdays from the day of transmittal", () => {
     // Tuesday, March 31, 2026 is day 1; Monday, May 11 is day 30.
-    expect(congressionalReviewEffectiveOn("2026-03-31", 30)).toBe("2026-05-12");
+    expect(congressionalReviewEffectiveOn(makeIsoDate("2026-03-31"), 30)).toBe("2026-05-12");
     // Transmitted on a Saturday: counting starts Monday.
-    expect(congressionalReviewEffectiveOn("2026-03-28", 1)).toBe("2026-03-31");
+    expect(congressionalReviewEffectiveOn(makeIsoDate("2026-03-28"), 1)).toBe("2026-03-31");
   });
 
   it("titles an act from its question", () => {
