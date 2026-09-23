@@ -538,6 +538,12 @@ export function answerContact(
     (entry) => entry.role === "focus:asked-of",
   )!.personId;
   const meetingId = meetingFor(world, proposal.id);
+  // A date asked for before one of them was with somebody cannot now be
+  // agreed to (see `dateRefusal`); saying no, or another day, still can.
+  if (input.answer !== "decline" && proposal.tags.includes(DATE_OCCASION_TAG)) {
+    const refusal = dateRefusal(world, from, to);
+    if (refusal) throw new Error(refusal);
+  }
   const on = proposal.tags
     .find((tag) => tag.startsWith("contact.on:"))!
     .slice("contact.on:".length) as IsoDate;
@@ -1161,6 +1167,45 @@ export function produceReachingOut(
   return world;
 }
 
+/** A date that can no longer go ahead, closed without anyone's answer. */
+function withdrawDate(world: World, proposal: HistoricalEvent): World {
+  const from = proposal.participants.find(
+    (entry) => entry.role === "agency:asked",
+  )!.personId;
+  const to = proposal.participants.find(
+    (entry) => entry.role === "focus:asked-of",
+  )!.personId;
+  let next = recordWorldEvent(world, {
+    stableKey: `contact:${proposal.id}:withdrawn`,
+    type: CONTACT_DECLINED_EVENT,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: proposal.jurisdictionId,
+    involvedEntityIds: [from, to],
+    participants: [
+      { personId: from, role: "agency:actor", detail: "Asked for the date" },
+      { personId: to, role: "focus:asked-of", detail: "Had been asked out" },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [CONTACT_TAG, `contact.proposal:${proposal.id}`, "contact.withdrawn"],
+    summary: `The date ${personName(world.people[from]!)} asked ${personName(world.people[to]!)} for did not go ahead.`,
+    context: {
+      location: null,
+      socialContext: "A date that could no longer happen.",
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const meeting = meetingFor(next, proposal.id);
+  if (meeting && scheduledActivityState(next, meeting).status === "scheduled") {
+    next = cancelScheduledActivity(next, meeting);
+  }
+  return next;
+}
+
 export function contactAnswerTransitionHandler(
   world: World,
   dueItem: FutureDueItem,
@@ -1200,6 +1245,18 @@ export function contactAnswerTransitionHandler(
       ?.answered
   ) {
     return done("already-answered");
+  }
+  /*
+   * A date asked for before either of them was with somebody, and still
+   * unanswered, does not go ahead now. It is withdrawn and recorded as such,
+   * not answered as if the other person had chosen (Massachusetts roll call,
+   * 2026-09-23: asks made while already in a couple).
+   */
+  if (
+    proposal.tags.includes(DATE_OCCASION_TAG) &&
+    dateRefusal(world, from, to)
+  ) {
+    return done("date-withdrawn", withdrawDate(world, proposal));
   }
   const decided = npcContactAnswer(world, proposalId);
   /*

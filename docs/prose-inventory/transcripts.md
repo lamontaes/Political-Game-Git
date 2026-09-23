@@ -746,7 +746,7 @@ Zoe Fleming has just pulled what you were playing with right out of your hands. 
 
 _Present: Zoe Fleming, your younger sister_
 
-_Grounded by: household.shared: Somebody else is on the household record.; household-peer is Zoe Fleming, 3, young enough (under 5).; answers-for-themselves does not hold, as required.; Age 7; needs at least 5.; Age 7; needs to be under 8._
+_Grounded by: household.shared: Somebody else is on the household record.; household-peer is Zoe Fleming, 2, young enough (under 5).; answers-for-themselves does not hold, as required.; Age 7; needs at least 5.; Age 7; needs to be under 8._
 
 #### Beat 5 — 2026-01-05, age 7 (episode, opening.early.community.curious-neighbor/moment)
 
