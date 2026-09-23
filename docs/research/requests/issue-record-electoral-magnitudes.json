@@ -1,0 +1,27 @@
+{
+  "filedAt": "2026-09-23T00:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "issue voting and city taxes",
+  "notes": [
+    "The game now reads an officeholder's recorded yea and nay votes, and a governor's signatures and vetoes, on bills that say which way they answer a policy question, and compares each with every adult resident's own view on that question (src/simulation/issue-record.ts). A voter who agrees counts +1 times a salience weight (low 1, moderate 2, high 3, central 4); one who disagrees counts the same negative; no view, uncertain or conflicted counts 0. The net over all adult residents, times 150, capped at plus or minus 150, adds to the candidate's 850 to 1150 starting weight. All of these numbers are UNRESEARCHED_ISSUE_RECORD placeholders.",
+    "The owner asked on 2026-09-22 at 4:22 p.m. ET for voters to weigh an officeholder's actual votes and actions issue by issue. Related answered record: record-in-office-electoral-magnitudes (economic voting and incumbency), which does not cover issue voting."
+  ],
+  "priority": "P1",
+  "question": "How much does an incumbent's roll-call record on specific issues move voters who hold a view on those issues? Specifically: (1) the size of the vote-share or approval effect of casting a vote against a constituent's own position, for state legislators and governors; (2) whether the effect scales with how much the issue matters to the voter, and roughly by how much between a low-importance and a top-importance issue; (3) what share of voters know how their own state legislator voted on a given bill, since a voter who never learns of a vote cannot react to it; and (4) whether a mixed record on one issue (voting both ways over a term) is read as neutral, as the latest vote, or as a penalty of its own.",
+  "questionId": "issue-record-electoral-magnitudes",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Issue voting and city taxes thread",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests/record-in-office-electoral-magnitudes.json answer (Warshaw 2017; Ebeid and Rodden 2006; Uppal)",
+      "whatItDidNotSettle": "Covers economic voting and incumbency only. Says nothing about a vote on a particular issue, voter awareness of roll calls, or how issue importance scales the reaction."
+    },
+    {
+      "source": "src/simulation/types.ts PrivateBeliefRecord",
+      "whatItDidNotSettle": "Gives each voter a position, conviction, salience and flexibility on a question. Nothing in the repository says how any of those translate into an electoral reaction."
+    }
+  ],
+  "title": "How much a vote on one issue moves a voter who cares about it",
+  "usableAnswer": "A per-issue effect size in vote-share or approval points for a legislator's or governor's vote against a voter's position, with the study it comes from; a ratio or ordering for low versus top issue importance; the share of voters who know their state legislator's vote on a salient and on an ordinary bill; and how studies treat a record that went both ways. Each with its source and the office level it was measured for.",
+  "whyItMatters": "The owner wants support won or lost on the record in office. The game now does that at placeholder sizes: too large and one unpopular vote ends a career, too small and a legislator's votes never matter. It also assumes every voter knows every recorded vote, which is surely wrong."
+}
