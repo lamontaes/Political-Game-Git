@@ -1,4 +1,6 @@
 import { ensureOpeningPriorLocalRecords } from "../simulation/living-world/developments";
+import { ensureStateLegislatureOpening } from "../simulation/nationwide-world/state-legislature-opening";
+import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
 import {
   canonicalJson,
   householdMembershipsAt,
@@ -99,19 +101,31 @@ export function generateOpeningLife(
       // start it on their first ordinary-day pass, as before.
       world: openedWorld(
         ensureOpeningMortality(
+<<<<<<< HEAD
           ensureCrimeProduction(
             ensureHazardProduction(
               ensureLivingWorldDevelopments(
                 // Standing chapter committees exist only in current openings.
                 ensurePartyGoverningBodies(
                   ensureHomePartyChapters(
+=======
+          ensureHazardProduction(
+            ensureLivingWorldDevelopments(
+              // Standing chapter committees exist only in current openings.
+              ensurePartyGoverningBodies(
+                ensureHomePartyChapters(
+                  ensureHomeStateLegislature(
+>>>>>>> origin/main
                     ensureLivingWorldOpening(
                       withPriorRecords,
                       game.playerPersonId,
                       session.setup.livingWorldMemberNameVersion,
                     ),
                     game.playerPersonId,
+<<<<<<< HEAD
                     session.setup.partyChapterNameVersion,
+=======
+>>>>>>> origin/main
                   ),
                   game.playerPersonId,
                 ),
@@ -125,6 +139,24 @@ export function generateOpeningLife(
       ),
     },
   };
+}
+
+/**
+ * The home state's legislature, seated with real members, for a current
+ * opening only: a legacy replay keeps exactly the world it always built.
+ * After the living world so the national parties its members join exist.
+ */
+function ensureHomeStateLegislature(
+  world: World,
+  playerPersonId: EntityId,
+): World {
+  if (worldOpeningVersionOf(world) !== CRUNCH46_WORLD_OPENING_VERSION) {
+    return world;
+  }
+  const stateUsps = homeStateUsps(world, playerPersonId);
+  return stateUsps
+    ? ensureStateLegislatureOpening(world, playerPersonId, stateUsps)
+    : world;
 }
 
 /**
