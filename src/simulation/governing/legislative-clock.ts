@@ -762,10 +762,12 @@ export function recordGovernorDecisionOnMeasure(
   measureId: EntityId,
   action: "signed" | "vetoed",
   rationale: string,
+  actorPersonId?: EntityId,
 ): World {
   if (measurePosition(world, measureId).phase !== "awaiting-executive")
     return world;
   return recordExecutiveAction(world, {
+    ...(actorPersonId !== undefined ? { actorPersonId } : {}),
     stableKey: nextMeasureStableKey(
       world,
       measureId,

@@ -1,0 +1,34 @@
+{
+  "filedAt": "2026-09-23T09:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "nationwide government",
+  "notes": [
+    "Codex dispatch, 2026-09-23: the Acting President under 3 U.S.C. § 19 (a seed where the Vice President dies 2026-04-05 and the President 2026-05-20 leaves both offices empty), the 269-269 tie, and whether a bill presented to a vacant presidency waits or follows the ten-day rule."
+  ],
+  "priority": "P1",
+  "question": "Three gaps around an empty or undecided presidency. FIRST, the line of succession past the Vice President (3 U.S.C. § 19): how the House elects its Speaker and the Senate its President pro tempore (when, by what vote, how often the choice is contested, and how quickly a vacancy in either post is filled); what the Speaker or President pro tempore must do to act as President (resigning the office and the seat, § 19(a)(1) and (b)), and what happens to their seat afterward; the Cabinet order in § 19(d)(1) today, which officers are eligible (confirmed, not acting, constitutionally qualified), and whether a later-qualified Speaker can bump a Cabinet officer acting as President (§ 19(d)(2)); and the Article II qualifications that apply to each. SECOND, a bill presented to the President while the presidency is empty and nobody is acting: does the ten-day clock of Art. I, § 7 run (so it becomes law without a signature, or is pocket-vetoed at an adjournment), or does it wait for a President or Acting President; what authority or precedent there is. THIRD, how members vote in a contingent election under the Twelfth Amendment: how state delegations have decided their single vote (1801, 1825), what the House rules say about a divided delegation, whether the Senate's 'whole number' counts vacant seats, and whether members are expected to follow party, their state's popular vote, or the national popular vote.",
+  "questionId": "when-the-presidency-and-vice-presidency-are-both-empty",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Nationwide government thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/governing/office-continuity.ts, the presidency branch of rulingFor",
+      "whatItDidNotSettle": "With no Vice President the ruling is 'blocked' and the presidency stays empty; the game has no Speaker, President pro tempore or Cabinet record for a § 19 successor to come from."
+    },
+    {
+      "source": "src/simulation/nationwide-world/presidential-turnover.ts, holdContingentElections",
+      "whatItDidNotSettle": "The procedure follows the Twelfth Amendment, but every member votes for their own party's nominee and a vacant Senate seat counts against the 51-vote majority. Both are placeholders."
+    },
+    {
+      "source": "docs/research/requests/how-a-presidential-election-plays-out.json",
+      "whatItDidNotSettle": "Asks how an election with nobody played is decided at the polls, not what Congress does with a tie or who succeeds past the Vice President."
+    },
+    {
+      "source": "docs/research/requests/vice-presidential-vacancy-nomination-and-confirmation.json",
+      "whatItDidNotSettle": "Covers filling the vice presidency under the Twenty-Fifth Amendment, not who acts as President while both offices are empty."
+    }
+  ],
+  "title": "When the presidency and vice presidency are both empty, and when Congress decides the election",
+  "usableAnswer": "Rules with citations: the § 19 order as the game should read it, with each step's eligibility and resignation condition; the Speaker and President pro tempore elections as steps with timing; the Cabinet order today; a sourced answer (or a stated gap) on the ten-day rule during a vacancy; and the historical and procedural record for contingent-election voting. Where the owner's intent needs a choice (for example whether the player can become Speaker), say so as a question for him.",
+  "whyItMatters": "A world where both the President and the Vice President die leaves the presidency empty forever, because nothing chooses a Speaker, a President pro tempore or a Cabinet. Bills presented meanwhile have no rule. A 269-269 tie is now settled by the House and Senate, but how members vote is the game's own guess."
+}
