@@ -856,10 +856,6 @@ export function playGame(spec: GameSpec): GameResult {
     steps += 1;
 
     // The life may have ended: the continuation screen.
-    if (shellReadOnly(world) || !world.people[personId]) {
-      ended = "read-only";
-      break;
-    }
     let continuation: ReturnType<typeof projectLifeContinuation> = null;
     try {
       continuation = projectLifeContinuation(world, personId);
@@ -915,6 +911,11 @@ export function playGame(spec: GameSpec): GameResult {
         break;
       }
       continue;
+    }
+    // Read-only with no continuation offered: nothing left to press.
+    if (shellReadOnly(world) || !world.people[personId]) {
+      ended = "read-only";
+      break;
     }
 
     // Press a few buttons.
