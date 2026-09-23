@@ -160,6 +160,8 @@ export interface DriftSnapshot {
   readonly executiveWinners: readonly string[];
   /** Who holds the Presidency on this date, or null when none is seated. */
   readonly president: string | null;
+  /** The player's school record: start date, program and school name. */
+  readonly schooling: readonly string[];
 }
 
 export interface GameResult {
@@ -1161,6 +1163,16 @@ export function driftSnapshot(
     inflationPct,
     executiveWinners,
     president: presidentName(world),
+    schooling: world.history.educationEnrollments
+      .filter((e) => e.personId === personId)
+      .map((e) => {
+        const profile = world.history.organizationProfiles
+          .filter((o) => o.organizationId === e.organizationId)
+          .at(-1);
+        return `${e.startedAt} ${e.programKind} ${profile?.name ?? "unknown school"}`;
+      })
+      .sort()
+      .slice(-8),
   };
 }
 
