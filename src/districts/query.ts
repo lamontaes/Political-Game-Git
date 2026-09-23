@@ -93,14 +93,24 @@ export type DistrictHomeMembership =
       readonly identity: DistrictIdentity;
     }
   | { readonly kind: "unknown"; readonly reason: string }
-  | { readonly kind: "conflicting"; readonly reason: string };
+  | {
+      readonly kind: "conflicting";
+      readonly reason: string;
+      /**
+       * Districts the place intersects, where the relationship catalog names
+       * them (congressional). A home in the place is in one of these; which one
+       * stays unknown until an address or other grounded location exists.
+       */
+      readonly candidateGeoids?: readonly string[];
+    };
 
 /**
  * Join a Census place GEOID to a numbered district of one chamber.
  *
  * The home jurisdiction id alone is never membership. Statewide and county
  * homes stay unknown. A split place is conflicting, not a nearest-district
- * guess. Congressional chambers have no published place relationship here.
+ * guess. A congressional split also names the districts the place
+ * intersects, and only those, as candidates.
  */
 export function districtMembershipFromCanonicalHome(input: {
   readonly homeJurisdictionId: string;
@@ -117,7 +127,13 @@ export function districtMembershipFromCanonicalHome(input: {
     return { kind: "unknown", reason: DISTRICT_HOME_JOIN_UNKNOWN };
   }
   if (joined.kind === "split") {
-    return { kind: "conflicting", reason: DISTRICT_HOME_JOIN_SPLIT };
+    return {
+      kind: "conflicting",
+      reason: DISTRICT_HOME_JOIN_SPLIT,
+      ...(joined.candidateDistrictGeoids
+        ? { candidateGeoids: joined.candidateDistrictGeoids }
+        : {}),
+    };
   }
   const identity = districtIdentityByRecordId(
     input.catalog,

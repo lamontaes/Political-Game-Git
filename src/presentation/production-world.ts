@@ -57,6 +57,7 @@ import {
 import { establishLifePersonality } from "../simulation/life-personality";
 import type {
   CharacterHistoryTransition,
+  DistrictHomeJoinVersion,
   EntityId,
   GivenNameGenerationVersion,
   IsoDate,
@@ -161,6 +162,8 @@ export interface ProductionWorldInput {
   readonly schoolNameVersion?: SchoolNameVersion;
   /** Absent keeps an old replay's child in the school they started at. */
   readonly schoolStageVersion?: SchoolStageVersion;
+  /** Absent keeps an old replay's home join to the state chambers. */
+  readonly districtHomeJoinVersion?: DistrictHomeJoinVersion;
   /** Absent keeps an old replay's family, every one born on the player's birthday. */
   readonly familyBirthdayVersion?: FamilyBirthdayVersion;
   /** Absent keeps an old replay's parents unlinked to each other. */
@@ -329,7 +332,11 @@ export function buildProductionWorld(
     });
   }
   world = { ...world, control: { kind: "person", personId: player.id } };
-  world = syncDistrictMembershipFromCanonicalHome(world, player.id);
+  world = syncDistrictMembershipFromCanonicalHome(
+    world,
+    player.id,
+    input.districtHomeJoinVersion,
+  );
   assertWorldIntegrity(world);
   return { world, playerPersonId: player.id, player };
 }

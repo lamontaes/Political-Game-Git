@@ -1,5 +1,5 @@
 import { personName } from "../simulation";
-import type { EntityId, World } from "../simulation";
+import type { EntityId, IsoDate, World } from "../simulation";
 import { municipalSeats } from "../simulation/municipal-public-work";
 import {
   lifePlaceByJurisdictionId,
@@ -37,12 +37,16 @@ import {
   stateLegislators,
   stateSeatTitle,
 } from "../simulation/nationwide-world/state-legislature-opening";
+import { nextStateSeatFilling } from "../simulation/nationwide-world/state-legislature-turnover";
 import { isTerritoryUsps } from "../simulation/state-reference";
 import {
   US_TERRITORY_GOVERNED_NAMES,
   isUsTerritoryWithGovernor,
 } from "../simulation/nationwide-world/state-executive-candidacy-packs";
-import { districtResidenceIntervals } from "../simulation/district-residence";
+import {
+  canonicalHomeDistrictCandidates,
+  districtResidenceIntervals,
+} from "../simulation/district-residence";
 import { districtIdentityCatalog } from "../districts/catalog";
 import {
   districtIdentityByRecordId,
@@ -800,6 +804,29 @@ function seatHolder(seat: SeatView) {
   };
 }
 
+/**
+ * Why no House member is named. A home place the Census file splits between
+ * districts names those districts, and only those, without choosing one.
+ */
+function houseNote(
+  world: World,
+  personId: EntityId,
+  state: string,
+  houseSeats: readonly SeatView[],
+): string {
+  const candidates = canonicalHomeDistrictCandidates(
+    world,
+    personId,
+    "congressional",
+  ).flatMap((geoid) => {
+    const seat = houseSeats.find((entry) => entry.district === geoid.slice(2));
+    return seat ? [seatLabelFor(seat)] : [];
+  });
+  return candidates.length > 1
+    ? `Your home place is split between ${candidates.slice(0, -1).join(", ")} and ${candidates.at(-1)!} (Census place–district relationship), and the save does not record which one your home is in.`
+    : `Your congressional district in ${state} is not recorded for your home.`;
+}
+
 const chamberPlanCache = new Map<
   string,
   ReturnType<typeof planStateChambers>["chambers"]
@@ -841,10 +868,28 @@ function seatedStateRoster(
       holderPersonId: seat.member?.personId ?? null,
       note: seat.member
         ? null
-        : seat.holderDiedOn
-          ? `Vacant since ${proseDate(seat.holderDiedOn)}, when the member died. State legislative elections are not held yet, so no one has filled the seat.`
-          : "Vacant. State legislative elections are not held yet, so no one has filled the seat.",
+        : stateVacancyNote(world, candidacy.packId, seat),
     }));
+}
+
+function stateVacancyNote(
+  world: World,
+  packId: string,
+  seat: { officeKey: string; ordinal: number; holderDiedOn: IsoDate | null },
+): string {
+  const since = seat.holderDiedOn
+    ? `Vacant since ${proseDate(seat.holderDiedOn)}, when the member died.`
+    : "Vacant.";
+  const filling = nextStateSeatFilling(
+    world,
+    packId,
+    seat.officeKey,
+    seat.ordinal,
+  );
+  if (!filling) return since;
+  return filling.takesOfficeOn
+    ? `${since} The member elected on ${proseDate(filling.electedOn)} takes the seat on ${proseDate(filling.takesOfficeOn)}.`
+    : `${since} The seat is filled at the regular election on ${proseDate(filling.electedOn)}.`;
 }
 
 function representedBy(
@@ -908,9 +953,7 @@ function representedBy(
       office: "U.S. House",
       district: shownSeat ? seatLabelFor(shownSeat) : null,
       holders: shownSeat ? [seatHolder(shownSeat)] : [],
-      note: shownSeat
-        ? null
-        : `Your congressional district in ${state} is not recorded for your home.`,
+      note: shownSeat ? null : houseNote(world, personId, state, houseSeats),
     });
 
     const senateSeats =
