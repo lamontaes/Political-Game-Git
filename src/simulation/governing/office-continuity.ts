@@ -2,6 +2,7 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
+import { stateName } from "../office-qualification-rules";
 import {
   addDays,
   compareSimulationMoments,
@@ -296,7 +297,7 @@ function vacateSeat(
       outcome: "special-election",
       // The interval to the special election is a game profile, not the
       // state's law (see HOUSE_SPECIAL_ELECTION_PROFILE).
-      sentence: `The seat is vacant. The governor has called a special election for ${formatStatutoryDate(electionDay)}.`,
+      sentence: `The seat is vacant. ${stateName(seat.stateUsps)}'s governor has called a special election for ${formatStatutoryDate(electionDay)}.`,
     },
   };
 }

@@ -1,4 +1,5 @@
 import { applyCharacterHistoryPlan } from "../character-history";
+import { stateName } from "../office-qualification-rules";
 import { addDays, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { createStableId } from "../ids";
@@ -1745,7 +1746,7 @@ function recordMissingLegislatureNote(
     // The legislature itself may well be compiled (Nevada's and Illinois's
     // are, and a player can sit in them): what is missing is written bills
     // for its other members to file. Saying "not compiled" was untrue there.
-    summary: `No bill reached ${office.title} this session: the game has no bills written for ${office.stateUsps}'s legislature yet, so none were filed. The office's other work is unaffected.`,
+    summary: `No bill reached ${office.title} this session. None were filed in ${stateName(office.stateUsps)}'s legislature. The office's other work is unaffected.`,
     context: emptyContext(),
   });
 }

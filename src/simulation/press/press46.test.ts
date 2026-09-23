@@ -595,6 +595,17 @@ describe("PRESS46 established finding, leak and ground rules", () => {
     expect(delegated).toHaveLength(1);
   });
 
+  it("prints dates in words and no game wording in any story", () => {
+    const stories = (concluded.history.publications ?? []).filter((p) =>
+      p.outletKey.startsWith("media:"),
+    );
+    expect(stories.length).toBeGreaterThan(0);
+    for (const story of stories)
+      expect(`${story.headline}\n${story.body}`).not.toMatch(
+        /\b\d{4}-\d{2}-\d{2}\b|in this game|the game has/,
+      );
+  });
+
   it("asks the subject about one case once at a time, never twice in a day", () => {
     const requests = concluded.history.events.filter(
       (e) =>

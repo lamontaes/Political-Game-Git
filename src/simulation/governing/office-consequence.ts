@@ -1,4 +1,6 @@
 import { currentLifeCutoff, workStatusAt } from "../life-queries";
+import { stateName } from "../office-qualification-rules";
+import { formatStatutoryDate } from "../legislation-content-contracts";
 import { recordWorkStatus } from "../life";
 import { personName } from "../people";
 import type { EntityId, IsoDate, World } from "../types";
@@ -225,7 +227,7 @@ export function recordOfficeConsequence(
           : (input.officeKey as EntityId),
       termRecordId: next.history.events.at(-1)!.id,
       effectiveAt: input.effectiveAt,
-      note: `${personName(subject)} resigned the seat of the ${congressSeatTitle(seat)}. It is vacant from ${input.effectiveAt} until it is filled.`,
+      note: `${personName(subject)} resigned the seat of the ${congressSeatTitle(seat)}. It is vacant from ${formatStatutoryDate(input.effectiveAt)} until it is filled.`,
     };
     tags.push(
       `term-closed:${outcome.workRelationshipId}:${outcome.termRecordId}:${input.effectiveAt}`,
@@ -251,7 +253,7 @@ export function recordOfficeConsequence(
         workRelationshipId: job.id,
         termRecordId: job.id,
         effectiveAt: input.effectiveAt,
-        note: `${personName(subject)} resigned. The office is vacant from ${input.effectiveAt}; who fills it is decided by rules the game has not compiled for this body.`,
+        note: `${personName(subject)} resigned. The office is vacant from ${formatStatutoryDate(input.effectiveAt)} until the body fills it under its own rules.`,
       };
       tags.push(`term-closed:${job.id}:${job.id}:${input.effectiveAt}`);
     }
@@ -281,7 +283,7 @@ export function recordOfficeConsequence(
         workRelationshipId: office.termId,
         termRecordId: office.termId,
         effectiveAt: input.effectiveAt,
-        note: `${personName(subject)} resigned as ${office.title}. The office is vacant from ${input.effectiveAt}; who fills it is decided by this state's own rules, which the game has not compiled.`,
+        note: `${personName(subject)} resigned as ${office.title}. The office is vacant from ${formatStatutoryDate(input.effectiveAt)} until it is filled under ${stateName(office.stateUsps)}'s own rules.`,
       };
       tags.push(
         `term-closed:${office.termId}:${office.termId}:${input.effectiveAt}`,

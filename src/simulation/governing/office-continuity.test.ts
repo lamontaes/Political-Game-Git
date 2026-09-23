@@ -113,6 +113,15 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     expect(officeContinuityRulings(next, seat.seatKey)[0]!.outcome).toBe(
       "special-election",
     );
+    // Printed as news: the state by name and the date in words.
+    const ruling = officeContinuityRulings(next, seat.seatKey)[0]!;
+    const summary = next.history.events.find(
+      (event) => event.id === ruling.eventId,
+    )!.summary;
+    expect(summary).toMatch(
+      /The seat is vacant\. [A-Z][a-z]+( [A-Z][a-z]+)*'s governor has called a special election for [A-Z][a-z]+ \d{1,2}, \d{4}\./,
+    );
+    expect(summary).not.toMatch(/\d{4}-\d{2}-\d{2}|in this game/);
     next = passOrdinaryDays(next, 89);
     expect(
       projectCongress(next)!.house.seats.find(

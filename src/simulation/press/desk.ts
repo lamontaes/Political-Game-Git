@@ -1,4 +1,5 @@
 import { addDays } from "../dates";
+import { formatStatutoryDate } from "../legislation-content-contracts";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { personName } from "../people";
@@ -386,11 +387,11 @@ export function requestSubjectResponse(world: World, leadId: EntityId): World {
       `${PRESS_STORY_LEAD_TAG}${lead.id}`,
       ...(lead.matterId ? [`${PRESS_MATTER_TAG}${lead.matterId}`] : []),
     ],
-    summary: `${personName(reporter)} of ${outlet.name} asked for a response before ${dueAt}.`,
+    summary: `${personName(reporter)} of ${outlet.name} asked for a response before ${formatStatutoryDate(dueAt)}.`,
     context: {
       location: null,
       socialContext: question,
-      pressure: `Responses received by ${dueAt} can be included. No response is reported as no response, not as an admission.`,
+      pressure: `Responses received by ${formatStatutoryDate(dueAt)} can be included. No response is reported as no response, not as an admission.`,
       choice: null,
       motivation: "Seek the subject's response before publishing.",
       immediateReaction: null,

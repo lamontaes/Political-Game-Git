@@ -87,7 +87,8 @@ describe("GOVERNING D2: what an office does about an allegation", () => {
     if (resigned.outcome.changed) {
       expect(resigned.outcome.kind).toBe("term-closed");
       expect(resigned.outcome.effectiveAt).toBe(world.currentDate);
-      expect(resigned.outcome.note).toMatch(/not compiled/);
+      expect(resigned.outcome.note).toMatch(/own rules/);
+      expect(resigned.outcome.note).not.toMatch(/\d{4}-\d{2}-\d{2}|the game/);
     }
     // A governor resigning is national news: the record carries the weight
     // a national paper reads (a placeholder until the research answers).
