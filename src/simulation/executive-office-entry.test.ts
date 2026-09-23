@@ -321,6 +321,14 @@ describe("ordinary elected executive entry", () => {
       withControl(resolved, result.winnerPersonId),
     );
     expect(resolveExecutiveOffice(connected.world)).toBeNull();
+    // The public record names who qualified and for what, not a form's field.
+    const qualified = connected.world.history.events.find(
+      (event) => event.type === "election.executive-qualification",
+    );
+    expect(qualified?.summary).toMatch(
+      /^\S.* qualified to take office as .+\.$/,
+    );
+    expect(qualified?.summary).not.toMatch(/Recorded|dated executive term/);
     const entered = advanceWorld(
       connected.world,
       daysBetween(connected.world.currentDate, connected.startsAt),

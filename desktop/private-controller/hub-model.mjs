@@ -409,7 +409,15 @@ export function recordCheck(checks, id, { outcome, at, revision, message }) {
  * successful check whose remote revision equals the loaded, verified build;
  * anything else is Checking / Preparing / Ready / Could not check.
  */
-export function updateStatus({ phase, check, build, building }) {
+export function updateStatus({
+  phase,
+  check,
+  build,
+  pending = null,
+  building,
+}) {
+  if (phase?.phase === "installing")
+    return { kind: "preparing", text: phase.message ?? "Installing update…" };
   // A recorded terminal failure outranks a worker that is still winding down:
   // an offline or refused check must not keep reading "Checking for updates…".
   const settledFailure =
@@ -422,8 +430,16 @@ export function updateStatus({ phase, check, build, building }) {
   ) {
     if (!phase || phase.phase === "fetching")
       return { kind: "checking", text: "Checking for updates…" };
-    return { kind: "preparing", text: "Preparing the update…" };
+    return {
+      kind: "preparing",
+      text:
+        phase.phase === "verifying"
+          ? "Verifying the update…"
+          : "Preparing the update on this Mac…",
+    };
   }
+  if (pending && !settledFailure)
+    return { kind: "waiting", text: "Update ready — press Install update" };
   if (!check) return { kind: "unchecked", text: "Not checked yet" };
   // The persisted message travels as a detail so a restarted hub, whose
   // in-memory phase is empty, can still say what happened and when.
@@ -444,7 +460,20 @@ export function updateStatus({ phase, check, build, building }) {
     case "ready":
       return at("ready", "Ready to use");
     case "waiting":
-      return at("waiting", "Update ready — press Install update");
+      // Checks survive activation and restart. Only a real pending build can
+      // offer installation; a historical waiting result is not an action.
+      if (pending) return at("waiting", "Update ready — press Install update");
+      if (build && check.revision === build.revision)
+        return {
+          kind: "current",
+          text: "Up to date",
+          detail: "Update installed.",
+        };
+      return {
+        kind: "unchecked",
+        text: "Check for updates",
+        detail: "The previously prepared update is no longer waiting.",
+      };
     case "offline":
       return at(
         "offline",

@@ -33,6 +33,12 @@
  */
 
 import { addDays, makeIsoDate } from "./dates";
+import {
+  BLANKET_STATE_OATH_VERSION,
+  isOathSwornOn,
+  OATH_FORMS,
+} from "./oath-of-office";
+import type { OathForm, OathSwornOn } from "./oath-of-office";
 import { recordWorldEvent } from "./world";
 import type { EntityId, IsoDate, World } from "./types";
 
@@ -92,6 +98,7 @@ export interface OfficeTransitionProfile {
 
 const COMMON_NOT_CODED = [
   "Taking the oath is recorded as a public event; not taking it does not yet withhold the office's powers, and no jurisdiction's deadline for taking it is coded. Each jurisdiction's actual ceremony (who administers it, where, the oath's text) is filed with research.",
+  "What the oath is taken on, and whether it is sworn or affirmed, is recorded; nothing reacts to the choice yet. Past the federal minimum (4 U.S.C. 101), the oath's words are a blanket shared by every state, not any state's own text.",
   "Attending a service is recorded; no later office consumer reads the attendance yet, so it changes no staff, knowledge or standing.",
   "Attendance costs no game time yet; the services are not calendar activities.",
   "Other winners' transitions are not simulated; they take up office on the start date.",
@@ -286,7 +293,7 @@ const STATE_EXECUTIVE_BLANKET: OfficeTransitionProfile = {
   coverage: "blanket",
   electTitle: (officeTitle) => `${officeTitle}-elect`,
   entry:
-    "The office is yours from the first day of the term, and only once you have qualified for it.",
+    "The office is yours from the first day of the term, when you take the oath. The office's requirements are checked for you; nothing has to be filed.",
   swearingIn:
     "At the inauguration, before a public audience at the capitol, a judge administers the oath of office.",
   services: [
@@ -515,6 +522,27 @@ function oathKey(personId: EntityId, contestId: EntityId) {
   return `office-oath:${contestId}:${personId}`;
 }
 
+const OATH_SWORN_ON_TAG = "oath-sworn-on:";
+const OATH_FORM_TAG = "oath-form:";
+
+/**
+ * What an oath was taken on, and whether it was sworn or affirmed. Null for
+ * an oath recorded before the choice existed: that is unknown, not "nothing".
+ */
+export function oathChoiceOf(event: {
+  readonly tags: readonly string[];
+}): { readonly swornOn: OathSwornOn; readonly form: OathForm } | null {
+  const swornOn = event.tags
+    .find((tag) => tag.startsWith(OATH_SWORN_ON_TAG))
+    ?.slice(OATH_SWORN_ON_TAG.length);
+  const form = event.tags
+    .find((tag) => tag.startsWith(OATH_FORM_TAG))
+    ?.slice(OATH_FORM_TAG.length);
+  if (!swornOn || !isOathSwornOn(swornOn)) return null;
+  if (form !== "swear" && form !== "affirm") return null;
+  return { swornOn, form };
+}
+
 /** The recorded swearing-in for this term, if the officeholder has taken it. */
 export function oathOfOfficeRecord(
   world: World,
@@ -545,9 +573,14 @@ export function takeOathOfOffice(
     readonly officeTitle: string;
     readonly startsAt: IsoDate;
     readonly profile: OfficeTransitionProfile;
+    /** What the officeholder places a hand on, and whether they swear or affirm. */
+    readonly swornOn: OathSwornOn;
+    readonly form: OathForm;
   },
 ): World {
   if (oathOfOfficeRecord(world, input.personId, input.contestId)) return world;
+  if (!isOathSwornOn(input.swornOn) || !OATH_FORMS.includes(input.form))
+    throw new Error("Choose what to swear on, and whether to swear or affirm.");
   if (world.currentDate < input.startsAt)
     throw new Error(
       `The term does not begin until ${input.startsAt}; there is no oath to take yet.`,
@@ -569,13 +602,19 @@ export function takeOathOfOffice(
     ],
     personFactConstraints: [],
     visibility: "public",
-    tags: [`office-transition:${input.profile.key}`, "office-oath"],
+    tags: [
+      `office-transition:${input.profile.key}`,
+      "office-oath",
+      `${OATH_SWORN_ON_TAG}${input.swornOn}`,
+      `${OATH_FORM_TAG}${input.form}`,
+      BLANKET_STATE_OATH_VERSION,
+    ],
     summary,
     context: {
       location: null,
       socialContext: null,
       pressure: null,
-      choice: null,
+      choice: `${input.form}:${input.swornOn}`,
       motivation: null,
       immediateReaction: null,
     },

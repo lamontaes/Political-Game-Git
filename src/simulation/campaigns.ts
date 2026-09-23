@@ -1,8 +1,11 @@
+import { jailTermOn } from "./justice/jail-terms";
 import {
   MIGRATION_REVIEW_TRANSITION_KEY,
   migrationReviewHandler,
 } from "./migration";
 import { createPressTransitionRegistry } from "./press/transitions";
+import { recordElectionSpeech } from "./campaign-speeches";
+import { campaignPollingQuality } from "./campaign-polling";
 import { startingSupportAdjustment } from "./record-in-office";
 import {
   legislativeTermDates,
@@ -15,6 +18,7 @@ import { PUBLIC_PROGRAM_HANDLERS } from "./governing/public-program";
 import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
 import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
 import { CONSTITUTIONAL_REFORM_HANDLERS } from "./living-world/constitutional-reform";
+import { RECALL_HANDLERS } from "./recall";
 import {
   createNationalElectionTransitionRegistry,
   linkedNationalUnitTransition,
@@ -175,6 +179,7 @@ import {
   quantityBasisPoints,
   recordSupportShift,
 } from "./campaign-support";
+import { moneyText } from "./money-text";
 
 /**
  * Standing for office.
@@ -382,7 +387,8 @@ function recordInitialSupport(world: World, campaign: CampaignRecord): World {
   // A first-time filer starts behind somebody who is already known. Nothing
   // here is a handicap the player can read; it is a starting position.
   // A candidate's past moves where they start: a remembered ethics finding,
-  // or a sitting governor's record on the economy (`record-in-office.ts`).
+  // a sitting governor's record on the economy, or how the voters here see
+  // their votes on the questions they hold views about (`record-in-office.ts`).
   const weights = campaign.candidateSupportScopes.map((scope) => ({
     id: scope.candidatePersonId,
     weight: Math.max(
@@ -394,6 +400,7 @@ function recordInitialSupport(world: World, campaign: CampaignRecord): World {
           world,
           scope.candidatePersonId,
           campaign.filedAt,
+          campaign.jurisdictionId,
         ),
     ),
   }));
@@ -791,13 +798,13 @@ export function fileCampaign(
       {
         personId: input.candidatePersonId,
         role: "agency:candidate",
-        detail: `Filed for a ${option.office.title}`,
+        detail: `Filed to run for ${option.office.title}`,
       },
     ],
     personFactConstraints: [],
     visibility: "public",
     tags: ["campaign.filing", "election.candidacy"],
-    summary: `${candidate.givenName} ${candidate.familyName} filed as a candidate for a ${option.office.title}.`,
+    summary: `${candidate.givenName} ${candidate.familyName} filed to run for ${option.office.title}.`,
     context: {
       location: {
         jurisdictionId: input.jurisdictionId,
@@ -898,6 +905,16 @@ export function scheduleCampaignAction(
   const campaign = requireCampaign(world, input.campaignId);
   if (campaignState(world, campaign.id).status !== "active") {
     throw new Error("A finished campaign cannot take on more work.");
+  }
+  const jailed = jailTermOn(
+    world,
+    campaign.candidatePersonId,
+    input.plan.start.date,
+  );
+  if (jailed) {
+    throw new Error(
+      `The candidate is in jail until ${jailed.until} and cannot campaign.`,
+    );
   }
   if (input.kind === "advertising") {
     if (!input.spend || input.spend.minorUnits <= 0) {
@@ -1096,7 +1113,8 @@ function recordSupportAfterAction(
  * Three small independent draws rather than one wide one, so the error clusters
  * near the truth and occasionally does not. The memo states a four-point margin
  * and the error can exceed it, which is true of real polling and is the whole
- * reason the number is worth arguing about.
+ * reason the number is worth arguing about. How wide the draws are depends on
+ * who on the campaign does the reading (`campaign-polling.ts`).
  */
 function recordCampaignObservation(
   world: World,
@@ -1114,8 +1132,12 @@ function recordCampaignObservation(
   const rng = new SeededRng(world.seed).fork(
     `campaign-observation:${action.id}:${candidateStateId}`,
   );
+  // How far off the memo can be depends on who on the campaign reads it.
+  const spread = campaignPollingQuality(world, campaign).drawBasisPoints;
   const error =
-    rng.integer(-200, 201) + rng.integer(-200, 201) + rng.integer(-200, 201);
+    rng.integer(-spread, spread + 1) +
+    rng.integer(-spread, spread + 1) +
+    rng.integer(-spread, spread + 1);
   const observedBasisPoints = Math.max(
     0,
     Math.min(SUPPORT_DENOMINATOR, trueBasisPoints + error),
@@ -1178,7 +1200,7 @@ function actionCompletionEvent(world: World, activityId: EntityId): EntityId {
 }
 
 function moneyLabel(amount: MoneyAmount): string {
-  return `${amount.currency} ${(amount.minorUnits / 100).toFixed(2)}`;
+  return moneyText(amount);
 }
 
 function actionMoney(
@@ -1858,6 +1880,16 @@ function closeCampaignAfterElection(
     next = cancelScheduledActivity(next, action.scheduledActivityId);
   }
   const closedContest = requireElectionContest(next, campaign.contestId);
+  // Rivals give their election-night speeches now; the person the player
+  // controls gives theirs only by choosing to.
+  for (const candidatePersonId of closedContest.candidatePersonIds) {
+    if (
+      next.control.kind === "person" &&
+      next.control.personId === candidatePersonId
+    )
+      continue;
+    next = recordElectionSpeech(next, closedContest.id, candidatePersonId);
+  }
   if (stateExecutiveIdentityForOfficeKey(closedContest.office.officeKey)) {
     // A state executive office is not a legislative seat. The winner, whoever
     // it is, gets a dated term only through the admitted term facts and the
@@ -1950,7 +1982,7 @@ export function campaignElectionTransitionHandler(
     world: closed,
     status: "resolved",
     reasonKey: null,
-    context: `The contest for a ${requireElectionContest(closed, campaign.contestId).office.title} was decided.`,
+    context: `The contest for ${requireElectionContest(closed, campaign.contestId).office.title} was decided.`,
     outcomeEventId: result.outcomeEventId,
   };
 }
@@ -1978,6 +2010,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         ...GOVERNOR_TURNOVER_HANDLERS,
         // A legislature and voters changing the governor's term limit.
         ...CONSTITUTIONAL_REFORM_HANDLERS,
+        // Voters recalling a town official: petition, then recall election.
+        ...RECALL_HANDLERS,
         ...PUBLIC_PROGRAM_HANDLERS,
         ...OFFICE_CONTINUITY_HANDLERS,
         // ALIVE43 W2: a local chapter organizer acts while ordinary time passes.

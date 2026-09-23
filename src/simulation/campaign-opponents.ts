@@ -1,3 +1,4 @@
+import { jailTermOn } from "./justice/jail-terms";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
@@ -19,6 +20,7 @@ import {
   campaignState,
   requireCampaign,
 } from "./campaign-queries";
+import { planCampaignOperatingWeek } from "./campaign-operating-costs";
 import { recordSupportShift } from "./campaign-support";
 import { addDays, makeIsoDate } from "./dates";
 import { evaluateDecision } from "./decisions";
@@ -1362,6 +1364,9 @@ export function campaignWeeklyEvaluationHandler(
     .filter(
       (personId) => world.people[personId] && !isDeceased(world, personId),
     )
+    // Nobody campaigns from jail (UNRESEARCHED_JAIL_EFFECTS); they stay on
+    // the ballot and their support stands where it was.
+    .filter((personId) => !jailTermOn(world, personId, weekStart))
     .sort();
   for (const rivalId of rivals) {
     const ensured = ensureOpponent(next, campaign, contest, rivalId);
@@ -1399,6 +1404,8 @@ export function campaignWeeklyEvaluationHandler(
       ]);
     }
   }
+  // The week's bills for this committee and each one running against it.
+  next = planCampaignOperatingWeek(next, campaign, weekStart);
   return {
     world: next,
     status: "resolved",

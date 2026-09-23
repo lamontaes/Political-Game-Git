@@ -394,23 +394,28 @@ export type CrisisStopTarget = "health" | "authority";
 export interface CrisisStop {
   readonly sentence: string;
   readonly target: CrisisStopTarget;
+  /** The protected decisions it names, so it can close once none is open. */
+  readonly decisionKeys: readonly string[];
 }
 
+// Each names the decision itself, as a direction to the one person who can
+// make it. A frame like "something came up" hides a decision the record
+// already names.
 const STOP_TEXT = {
   "own-health-disclosure": {
-    text: "a health matter only you can disclose",
+    text: "Decide whether to disclose your health matter.",
     target: "health",
   },
   "disaster-state-request": {
-    text: "a federal disaster request only the governor can make",
+    text: "Decide whether to request a federal disaster declaration.",
     target: "authority",
   },
   "disaster-federal-declaration": {
-    text: "a disaster declaration only the President can decide",
+    text: "Decide whether to grant the requested federal disaster declaration.",
     target: "authority",
   },
   "international-decision": {
-    text: "an international decision only the President can make",
+    text: "Decide the international matter waiting on you.",
     target: "authority",
   },
 } as const satisfies Record<
@@ -431,19 +436,31 @@ export function crisisStopAfter(
   const raised = crisisProtectedDecisions(world, afterSequence).flatMap(
     (decision) =>
       decision.kind in STOP_TEXT
-        ? [STOP_TEXT[decision.kind as keyof typeof STOP_TEXT]]
+        ? [
+            {
+              ...STOP_TEXT[decision.kind as keyof typeof STOP_TEXT],
+              key: decision.key,
+            },
+          ]
         : [],
   );
   if (raised.length === 0) return null;
-  const unique = [...new Set(raised.map((entry) => entry.text))];
-  const list =
-    unique.length === 1
-      ? unique[0]!
-      : `${unique.slice(0, -1).join(", ")} and ${unique.at(-1)!}`;
   return {
-    sentence: `While time was passing, something came up that only you can decide: ${list}.`,
+    sentence: [...new Set(raised.map((entry) => entry.text))].join(" "),
     target: raised[0]!.target,
+    decisionKeys: raised.map((entry) => entry.key),
   };
+}
+
+/**
+ * Whether any decision `stop` names is still waiting on the player. A request
+ * window that closed, or a decision already made, closes the stop.
+ */
+export function crisisStopStillOpen(world: World, stop: CrisisStop): boolean {
+  const open = new Set(
+    crisisProtectedDecisions(world, -1).map((decision) => decision.key),
+  );
+  return stop.decisionKeys.some((key) => open.has(key));
 }
 
 /** The history sequence a later `crisisStopAfter` should read from. */

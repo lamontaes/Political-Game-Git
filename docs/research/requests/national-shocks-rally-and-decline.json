@@ -1,0 +1,34 @@
+{
+  "filedAt": "2026-09-23T04:35:00.000Z",
+  "impact": "shapes-design",
+  "lane": "crises and political violence",
+  "notes": [
+    "The owner (September 23, 2026, 12:19 a.m. ET) wants rare crises on the scale of Pearl Harbor, September 11, and the killings of John F. Kennedy and Martin Luther King Jr. to be possible: caused by pressure, able to hit anyone prominent, with a moment for the player to respond (as Robert F. Kennedy's speech did), and lasting effects on approval and the economy, including a Bush-style rally followed by a decline in a downturn.",
+    "Today on main: an attack targets one governor, member of Congress or party organizer and can kill, injure or miss. A killing opens a succession. An international crisis gives the President three options. No leader has an approval rating, no attack or crisis moves the economy, and nobody gets a response moment after an attack.",
+    "ChatGPT C09 still applies: keep depiction abstract and non-operational. This request asks for historical shape and public reaction only, never methods."
+  ],
+  "priority": "P1",
+  "question": "The game will make rare national shocks possible: a surprise attack by a foreign power, a mass-casualty attack at home, and the killing of a national figure who may hold no office, such as a movement leader. Each must come from built-up pressure, never a timer. We need the historical shape, not methods. (1) Since 1900, how often has the United States had a shock of each kind, and what conditions came before each? (2) Among assassinations and attempts on prominent Americans since 1960, what share targeted people holding no office (movement leaders, activists, journalists, candidates)? (3) After a national shock, how large was the rally in the President's approval, how fast did it fade, and what explained differences in size (for example Roosevelt in 1941, Kennedy in 1962, Bush in 2001)? (4) After a leader was killed, did public statements from other leaders measurably calm or inflame unrest, for example Robert F. Kennedy in Indianapolis in April 1968 compared with cities that rioted? (5) How much do approval ratings fall per point of rising unemployment or inflation, and how did a downturn late in a term, as in 2008, interact with an earlier rally? (6) How much did each shock move the economy (unemployment, markets, consumer confidence), and for how long?",
+  "questionId": "national-shocks-rally-and-decline",
+  "relatedQuestionIds": [
+    "political-violence-what-builds-to-an-attack",
+    "international-crisis-what-escalates-a-dispute",
+    "unrest-what-builds-it-and-what-calms-it",
+    "disaster-handling-reactions"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "crises and political violence thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/crisis/international.ts on main, September 23, 2026",
+      "whatItDidNotSettle": "Attacks target one person, with provisional injury and death shares. Nothing records a mass-casualty attack, an approval rating or an economic effect of a crisis."
+    },
+    {
+      "source": "src/simulation/crisis/handling-reactions.ts on main, September 23, 2026",
+      "whatItDidNotSettle": "Disaster handling moves a later race's starting weight by unresearched amounts. There is no standing approval to rally or decline."
+    }
+  ],
+  "title": "How often national shocks happen, who they hit, and how approval rallies and falls",
+  "usableAnswer": "Short answers to questions 1 to 6, each with a number and a source, or a plain statement that the evidence is weak. For (1), a rate per decade for each kind. For (3) and (5), approval points and months. Nothing about methods.",
+  "whyItMatters": "The owner wants these events possible but rare and caused. Without base rates and rally sizes the game would make them either routine or impossible, and approval would have nothing to move."
+}

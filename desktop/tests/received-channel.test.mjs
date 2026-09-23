@@ -1,5 +1,8 @@
-/* global Buffer */
+/* global Buffer, process, URL */
 import test from "node:test";
+import { execFileSync } from "node:child_process";
+import { URL } from "node:url";
+import { leaseUpdateWorkspace } from "../private-controller/update-workspace.mjs";
 import assert from "node:assert/strict";
 import {
   mkdtempSync,
@@ -219,4 +222,27 @@ test("code-only successor cannot replace a concurrently changed current build", 
     "superseded",
   );
   assert.ok(readFileSync(f.dataRoot + "/state.json").equals(before));
+});
+
+test("channel publication nests under its updater lease and refuses a competing process", (t) => {
+  const f = fixture(t),
+    build = { ...f.build, content: f.content() };
+  const release = leaseUpdateWorkspace(f.dataRoot);
+  try {
+    const module = new URL(
+      "../private-controller/received-channel.mjs",
+      import.meta.url,
+    ).href;
+    const source = `import {publishReceivedChannel} from ${JSON.stringify(module)}; try { publishReceivedChannel(${JSON.stringify({ dataRoot: f.dataRoot, track: f.track, build })}); process.exitCode=9; } catch(error) { if(!error.message.includes("Another update")) throw error; }`;
+    execFileSync(process.execPath, ["--input-type=module", "-e", source], {
+      stdio: "pipe",
+    });
+    publishReceivedChannel({ ...f, build });
+    assert.equal(
+      reconcileReceivedChannel(f.dataRoot, f.track).outcome,
+      "pending",
+    );
+  } finally {
+    release();
+  }
 });

@@ -67,7 +67,7 @@ describe("buying a home", () => {
   it("says what the down payment is when there is not enough saved", () => {
     const { world, personId } = lifeWithSavings(1_000_000);
     expect(homePurchaseReason(world, personId)).toBe(
-      "The down payment is $50,000.00. You have $10,000.00.",
+      "The down payment is $50,000. You have $10,000.",
     );
     const result = buyHome(world, personId);
     expect(result.status).toBe("not-bought");
@@ -90,7 +90,7 @@ describe("buying a home", () => {
     expect(view).toEqual({
       kind: "owns",
       headline: "Your household owns its home.",
-      mortgageLine: "$200,000.00 is left on the mortgage.",
+      mortgageLine: "$200,000 is left on the mortgage.",
     });
     expect(homePurchaseReason(bought, personId)).toBe(
       "Your household already owns its home.",
@@ -155,7 +155,7 @@ describe("buying a home", () => {
     );
     expect(missed).toHaveLength(1);
     expect(missed[0]!.summary).toMatch(
-      /^[A-Z][a-z]+'s mortgage payment was \$1,200\.00, and you could not pay any of it\.$/,
+      /^[A-Z][a-z]+'s mortgage payment was \$1,200, and you could not pay any of it\.$/,
     );
   });
 

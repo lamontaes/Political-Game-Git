@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   campaignForCandidate,
   deserializeWorld,
+  nextStateLegislativeElection,
   requireElectionContest,
   requireLifePlace,
   serializeWorld,
@@ -29,7 +30,7 @@ function life() {
 }
 
 describe("deliberate supported office discovery", () => {
-  it("lists established alternatives without writing or inventing timing or connections", () => {
+  it("lists established alternatives with their election date, without writing or inventing connections", () => {
     const { world, personId } = life();
     const before = serializeWorld(world);
     const offices = projectCampaignOffices(world, personId);
@@ -40,9 +41,15 @@ describe("deliberate supported office discovery", () => {
     expect(
       offices.every((office) => office.governmentLevel === "State government"),
     ).toBe(true);
-    expect(
-      offices.every((office) => office.timing.includes("not established")),
-    ).toBe(true);
+    // Both chambers are on the state's regular election before anyone files.
+    const election = nextStateLegislativeElection(
+      "KY",
+      world.currentDate,
+    ).electionDate;
+    expect(offices.map((office) => office.timing)).toEqual([
+      election,
+      election,
+    ]);
     expect(offices.every((office) => office.connections.length === 0)).toBe(
       true,
     );

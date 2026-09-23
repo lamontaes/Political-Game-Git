@@ -3,6 +3,7 @@ import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { applyNationalTermTransitions } from "./national-election-consumer";
 import { applyCongressTurnover } from "./living-world/congress-turnover";
 import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
+import { applyCongressLawmaking } from "./governing/congress-lawmaking";
 import { applyConstitutionalReform } from "./living-world/constitutional-reform";
 import { workStatusAt } from "./life-queries";
 import {
@@ -348,6 +349,23 @@ function conflictingActivityIds(
     })
     .map((activity) => activity.id)
     .sort();
+}
+
+/**
+ * Whether any of these people already holds something scheduled that overlaps
+ * this span of time: the same test `createScheduledActivity` refuses on, asked
+ * before anything is written.
+ */
+export function scheduledConflictExists(
+  world: World,
+  participantPersonIds: readonly EntityId[],
+  start: SimulationMoment,
+  end: SimulationMoment,
+): boolean {
+  return (
+    conflictingActivityIds(world, participantPersonIds, start, end, null)
+      .length > 0
+  );
 }
 
 export function createScheduledActivity(
@@ -1652,11 +1670,14 @@ function setCurrentMoment(
   // office the day it happens. The consumer applies each notice once.
   return applyCrisisRepairFunding(
     applyCrisisOfficeContinuity(
-      applyConstitutionalReform(
+      applyCongressLawmaking(
         crossedFrom,
-        applyGovernorTurnover(
+        applyConstitutionalReform(
           crossedFrom,
-          applyCongressTurnover(crossedFrom, moved),
+          applyGovernorTurnover(
+            crossedFrom,
+            applyCongressTurnover(crossedFrom, moved),
+          ),
         ),
       ),
     ),

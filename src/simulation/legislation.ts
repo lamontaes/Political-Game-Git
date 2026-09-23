@@ -1,4 +1,4 @@
-import { addDays, makeIsoDate } from "./dates";
+import { addDays, makeIsoDate, spokenDate } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { createStableId } from "./ids";
 import {
@@ -19,6 +19,7 @@ import {
 } from "./legislature-rules";
 import { rulePackById } from "./legislature-rule-packs";
 import { personName } from "./people";
+import { recordPropositionExposure } from "./politics";
 import type {
   PolicyPropositionDefinition,
   CommitteeActionRecord,
@@ -396,7 +397,7 @@ function applyRecordedAction(
         action.occurredAt < state.earliestNextFloorDate
       ) {
         return illegal(
-          `this stage may not be taken before ${state.earliestNextFloorDate}, because the chamber's stages fall on separate legislative days`,
+          `this stage may not be taken before ${spokenDate(state.earliestNextFloorDate)}, because the chamber's stages fall on separate legislative days`,
         );
       }
       if (action.kind === "floor-stage-failed") {
@@ -1338,6 +1339,8 @@ export interface IntroduceMeasureInput {
   readonly policyAlternativeIds?: readonly EntityId[];
   /** The policy questions the measure is about. See the record's own note. */
   readonly propositionIds?: readonly EntityId[];
+  /** Which way it answers each of them. See the record's own note. */
+  readonly propositionAnswers?: LegislativeMeasureRecord["propositionAnswers"];
 }
 
 /** Files a measure and gives it institutional identity. */
@@ -1397,6 +1400,22 @@ export function introduceMeasure(
     }
   }
 
+  const answered = new Set<EntityId>();
+  for (const row of input.propositionAnswers ?? []) {
+    // A direction is a claim about one of the bill's own questions, once.
+    if (!(input.propositionIds ?? []).includes(row.propositionId)) {
+      throw new Error(
+        `Measure answers a question it is not about: ${row.propositionId}`,
+      );
+    }
+    if (answered.has(row.propositionId)) {
+      throw new Error(
+        `Measure answers the same question twice: ${row.propositionId}`,
+      );
+    }
+    answered.add(row.propositionId);
+  }
+
   const measure: LegislativeMeasureRecord = {
     id: createStableId(
       "legislative-measure",
@@ -1417,6 +1436,16 @@ export function introduceMeasure(
     sourceDocumentKey: input.sourceDocumentKey ?? null,
     policyAlternativeIds: [...(input.policyAlternativeIds ?? [])],
     propositionIds: [...(input.propositionIds ?? [])],
+    // Written only when given, so a measure that says nothing keeps the bytes
+    // every measure had before bills could say which way they answer.
+    ...(input.propositionAnswers && input.propositionAnswers.length > 0
+      ? {
+          propositionAnswers: input.propositionAnswers.map((row) => ({
+            propositionId: row.propositionId,
+            answer: row.answer,
+          })),
+        }
+      : {}),
   };
 
   const withMeasure: World = {
@@ -1435,7 +1464,7 @@ export function introduceMeasure(
     ? withMeasure.people[measure.sponsorPersonId]
     : null;
 
-  return appendAction(withMeasure, {
+  const introduced = appendAction(withMeasure, {
     measure,
     kind: "introduced",
     stableKey: `${input.stableKey}:introduced`,
@@ -1457,6 +1486,44 @@ export function introduceMeasure(
         ]
       : [],
   });
+  return exposeSponsorToQuestions(introduced, measure, input.stableKey);
+}
+
+/**
+ * The sponsor of a bill has met the questions it is about.
+ *
+ * A bill carries the propositions it bears on (`propositionIds`), and nothing
+ * read them: the only proposition exposures in any save were the demo's, so
+ * the belief pass had nothing to reflect on. Filing a bill is the one moment
+ * we know for a fact that a particular person encountered those questions, so
+ * the sponsor's exposure is recorded here, on the filing event itself. It
+ * says only that they met the question, never which way they lean.
+ */
+function exposeSponsorToQuestions(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  stableKey: string,
+): World {
+  const sponsorId = measure.sponsorPersonId;
+  const propositionIds = measure.propositionIds ?? [];
+  if (!sponsorId || propositionIds.length === 0) return world;
+  const filing = world.history.events.find(
+    (event) => event.stableKey === `event:${stableKey}:introduced`,
+  );
+  if (!filing) return world;
+  let next = world;
+  for (const propositionId of propositionIds) {
+    const proposition = next.policyCatalog.propositions[propositionId];
+    next = recordPropositionExposure(next, {
+      stableKey: `${stableKey}:sponsor-exposure:${propositionId}`,
+      personId: sponsorId,
+      propositionId,
+      encounteredAt: filing.occurredAt,
+      summary: `Sponsored ${measure.designation}, which bears on the question${proposition ? ` "${proposition.name}"` : ""}.`,
+      provenance: { kind: "direct-experience", eventId: filing.id },
+    });
+  }
+  return next;
 }
 
 export interface ReferMeasureInput {
