@@ -1,0 +1,49 @@
+{
+  "candidateAnswers": [
+    {
+      "argumentAgainst": "A well-known city whose compiled record does not say how its mayor is chosen can draw a council-chosen mayor. Philadelphia, Saint Paul, Las Vegas, Reno, Wichita, Fort Wayne, Mobile, Concord NH, Laramie, Cheyenne and Grand Island NE do so today, and New York, Grand Forks and Bloomington IN draw one-year mayoral terms.",
+      "argumentFor": "Already built. It uses ChatGPT's reported ICMA shares, is stable per town, and is labeled typical wherever it shows.",
+      "label": "Keep the national shares for every unread town",
+      "position": "An unread town elects its mayor directly 75.6% of the time, and its mayor's term is drawn 1 year 13.5%, 2 years 28.6%, 3 years 6.1%, 4 years 49.4%, whatever the town's size.",
+      "recommended": false
+    },
+    {
+      "argumentAgainst": "Needs the named cities read one by one, and shares by population band that ICMA does not publish in the summary ChatGPT found.",
+      "argumentFor": "Large cities get the mayor they really have on the start date, and small towns draw from shares for towns their size.",
+      "label": "Read the compiled cities, draw the rest by size",
+      "position": "Each compiled city gets its real mayor selection method and term. Every other town draws from shares for its population band.",
+      "recommended": true
+    }
+  ],
+  "filedAt": "2026-09-23T00:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "nationwide coverage",
+  "notes": [
+    "Measured on branch claude/project-thread-l04zry-mayor, which builds mayor races. A town offers a mayor race only when its voters elect the mayor directly. That is read where a compiled city's record says so: the executive-selection text, a separate chief executive, a mayor-council form, or a town meeting form, which has no mayor. Every other town draws from ICMA 2018 as ChatGPT reported it in its answer to local-executive-and-council-rules. Of 19,402 unread towns, 75.4% draw a directly elected mayor.",
+    "The 37 compiled cities whose records leave the mayor's selection unstated: Santa Fe NM, Grand Forks ND, Cheyenne WY, Bridgeport CT, Savannah GA, Shreveport LA, Annapolis MD, Philadelphia PA, Milwaukee WI, Casper WY, Mobile AL, Tucson AZ, Tallahassee FL, Meridian ID, Fort Wayne IN, Lewiston ME, Portland ME, Saint Paul MN, Springfield MO, Missoula MT, Las Vegas NV, Reno NV, Albuquerque NM, Raleigh NC, Burlington VT, Huntington WV, Laramie WY, Grand Island NE, Jersey City NJ, Augusta-Richmond County GA, New York NY, Wichita KS, Concord NH, Columbus OH, Oklahoma City OK, Aberdeen SD and Madison WI. Large cities with no compiled government at all draw the same way; Atlanta GA and San Antonio TX both draw a council-chosen mayor today.",
+    "Also open: ICMA's term shares describe every chief elected official, including council presidents chosen for one year, so a one-year term drawn for a directly elected mayor may be wrong. Term limits (8.6% in the same survey) are not applied. Whether a sitting council member who wins the mayoralty must give up the council seat is not settled, so the game leaves the seat in place."
+  ],
+  "priority": "P1",
+  "question": "For each named city whose compiled record leaves it out, how is the mayor chosen today (directly by voters, or by the council from its members), and how long is the mayor's term? For towns the game has not read, what share elect their mayor directly, and what is the mayor's term, by population band? And where the mayor is directly elected, does a sitting council member who wins give up the council seat?",
+  "questionId": "town-mayor-rules-by-town-size",
+  "relatedQuestionIds": [
+    "local-executive-and-council-rules",
+    "town-council-size-by-town-size",
+    "town-election-calendar-from-state-municipal-law"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "every-town-in-america thread (technical team lead)",
+  "sourcesChecked": [
+    {
+      "source": "ChatGPT's answer to local-executive-and-council-rules (ICMA 2018 Municipal Form of Government Survey shares)",
+      "whatItDidNotSettle": "Shares by population band, and the rules of any named city. It also warns that its term shares cover every chief elected official, not only directly elected mayors."
+    },
+    {
+      "source": "The compiled municipal governments' readings (executive selection, mayor position, form, terms)",
+      "whatItDidNotSettle": "Thirty-seven of the compiled cities state none of these for the mayor."
+    }
+  ],
+  "title": "How a town's mayor is chosen, and for how long",
+  "usableAnswer": "One line per named city: how the mayor is chosen and the term in years, with the charter or statute named. Then, for each population band (for example under 1,000; 1,000 to 10,000; 10,000 to 50,000; over 50,000), the share of towns that elect the mayor directly and the shares of each term length. Anything unknown stays marked unknown.",
+  "whyItMatters": "The owner wants the starting world to match today's country. A mayor race is offered only where the town elects one, and a city that really elects its mayor must not start with no race."
+}
