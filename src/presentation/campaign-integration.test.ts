@@ -102,11 +102,21 @@ describe("every adult story route carries the world's pending election", () => {
 
   it("a free canonical episode choice leaves it pending, then explicit time dispatches it", () => {
     const life = filedLife();
+    // The first offered beat used to be the neighborhood meeting, which costs
+    // nothing to decide. The dialogue review of 2026-09-23 withheld it (no
+    // building, notice or meeting is recorded), and the first offered beat is
+    // now fifteen minutes of free time, which is an activity that spends its
+    // own minutes. Planning the week is still a free choice, so it carries the
+    // claim.
     const beat = eligibleEpisodeBeats({
       world: life.world,
       personId: life.personId,
       families: EPISODE_FAMILIES,
-    }).beats[0]!;
+    }).beats.find(
+      (candidate) =>
+        candidate.episodeKey === "opening.adult.home.plan-week" &&
+        candidate.stageKey === "moment",
+    )!;
     expect(beat).toBeDefined();
     const next = chooseStoryOption(life.world, {
       personId: life.personId,

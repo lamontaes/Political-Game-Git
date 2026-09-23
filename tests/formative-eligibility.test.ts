@@ -20,11 +20,17 @@ import {
  * life card because it was: the stage asked only that a household peer exist,
  * never that the peer was old enough for what the stage says they are doing.
  *
- * These tests hold the fix. The "someone at home is not all right" family's
- * opening beat is now gated on a peer at least thirteen — see the
+ * These tests held the fix. The "someone at home is not all right" family's
+ * opening beat was gated on a peer at least thirteen — see the
  * `role-age-at-least` requirement — so a household whose only peer is a younger
- * child is offered something the records can ground instead. The scenario is
- * refused, not fabricated onto a child who could not plausibly be its subject.
+ * child is offered something the records can ground instead.
+ *
+ * The dialogue review of 2026-09-23 then withheld that opening beat outright:
+ * nothing records a peer's late returns, curfews or whereabouts, so no age
+ * makes it grounded. What these tests hold now is that it is never offered and
+ * that the exclusion carries the bank's reason; the age-gate mechanic itself
+ * is held on the family's younger-sibling beat ("sibling-toy-snatch", a
+ * household peer under five), which play still offers.
  *
  * The worlds are built through the custom route, which is where an explicit
  * shared household is honored; a normal start generates the household from the
@@ -33,14 +39,17 @@ import {
 
 const SOMEONE_AT_HOME = "home.someone-is-not-all-right";
 
-function childWithSibling(seed: string): {
+function childWithSibling(
+  seed: string,
+  startAge = 10,
+): {
   readonly world: World;
   readonly personId: EntityId;
 } {
   const game = createNewGameWorld({
     startKind: "custom",
     placeKey: "kentucky",
-    startAge: 10,
+    startAge,
     depth: "play-formative-years",
     startingLife: "ordinary-life",
     household: "shares-a-home",
@@ -60,16 +69,31 @@ function householdPeerAge(world: World, personId: EntityId): number | null {
   return peer ? peer.age : null;
 }
 
-function noticingIsOffered(world: World, personId: EntityId): boolean {
+function homeEligibility(world: World, personId: EntityId) {
   const family = episodeFamily(SOMEONE_AT_HOME);
   if (!family)
     throw new Error(`${SOMEONE_AT_HOME} is no longer an authored family.`);
-  const eligibility = eligibleEpisodeBeats({
+  return eligibleEpisodeBeats({
     world,
     personId,
     families: [family],
   });
-  return eligibility.beats.some((beat) => beat.stageKey === "noticing");
+}
+
+function noticingIsOffered(world: World, personId: EntityId): boolean {
+  return homeEligibility(world, personId).beats.some(
+    (beat) => beat.stageKey === "noticing",
+  );
+}
+
+/** The reason the bank gives for withholding the "coming in late" beat. */
+function noticingWithheldReason(): string {
+  const requirement = episodeFamily(SOMEONE_AT_HOME)!
+    .stages.find((stage) => stage.key === "noticing")!
+    .requires.find((candidate) => candidate.kind === "withheld");
+  if (!requirement || requirement.kind !== "withheld")
+    throw new Error("The noticing beat is no longer withheld.");
+  return requirement.reason;
 }
 
 describe("A formative situation is grounded in who is actually there", () => {
@@ -89,7 +113,8 @@ describe("A formative situation is grounded in who is actually there", () => {
   it("does not offer the 'coming in late' beat when the only peer is a younger child", () => {
     // Seed "s1" puts a seven-year-old at home with the ten-year-old. A seven
     // year old does not come in after everyone else from a different place each
-    // night, so the beat that says one does is not offered.
+    // night, so the beat that says one does is not offered. (Since 2026-09-23
+    // it is withheld for every household; the next test holds that reason.)
     const { world, personId } = childWithSibling("s1");
     const peerAge = householdPeerAge(world, personId);
     expect(peerAge).not.toBeNull();
@@ -97,31 +122,57 @@ describe("A formative situation is grounded in who is actually there", () => {
     expect(noticingIsOffered(world, personId)).toBe(false);
   });
 
-  it("offers it when the peer is old enough to be out on their own", () => {
-    // Seed "proof-6" puts a fourteen-year-old older sibling at home. A ten
-    // year old noticing their teenage sibling's late nights is plausible, and
-    // the records ground it, so the beat is offered.
+  it("withholds it even when the peer is old enough, and says why", () => {
+    // Seed "proof-6" puts a fourteen-year-old older sibling at home. This beat
+    // used to be offered here. It is withheld now for every household, because
+    // nothing records where the sibling was or when they came in, and the
+    // exclusion carries that reason rather than an age.
     const { world, personId } = childWithSibling("proof-6");
     const peerAge = householdPeerAge(world, personId);
     expect(peerAge).not.toBeNull();
     expect(peerAge!).toBeGreaterThanOrEqual(13);
-    expect(noticingIsOffered(world, personId)).toBe(true);
+    expect(noticingIsOffered(world, personId)).toBe(false);
+    const exclusion = homeEligibility(world, personId).exclusions.find(
+      (entry) => entry.stageKey === "noticing",
+    );
+    expect(exclusion?.requirement.kind).toBe("withheld");
+    expect(exclusion?.detail).toBe(noticingWithheldReason());
   });
 
-  it("refuses the beat rather than fabricating an older peer", () => {
-    // The exclusion says why in so many words: no peer is old enough. The game
-    // does not reach for a stranger or invent an age to make the card work.
-    const { world, personId } = childWithSibling("s1");
-    const family = episodeFamily(SOMEONE_AT_HOME)!;
-    const eligibility = eligibleEpisodeBeats({
-      world,
-      personId,
-      families: [family],
-    });
-    const excluded = eligibility.exclusions.some((exclusion) =>
-      /at least 13/i.test(exclusion.detail),
+  it("refuses a beat rather than fabricating a peer of the right age", () => {
+    // The same gate, on the beat that still plays: "sibling-toy-snatch" needs a
+    // household peer under five. Seed "s2" puts an eleven-year-old at home
+    // with the seven-year-old, and the exclusion says why in so many words;
+    // the game does not reach for a stranger or invent an age to make the card
+    // work.
+    const refused = childWithSibling("s2", 7);
+    expect(
+      householdPeerAge(refused.world, refused.personId)!,
+    ).toBeGreaterThanOrEqual(5);
+    const eligibility = homeEligibility(refused.world, refused.personId);
+    expect(
+      eligibility.beats.some((beat) => beat.stageKey === "sibling-toy-snatch"),
+    ).toBe(false);
+    expect(
+      eligibility.exclusions.some(
+        (exclusion) =>
+          exclusion.stageKey === "sibling-toy-snatch" &&
+          exclusion.requirement.kind === "role-age-below" &&
+          /under 5/i.test(exclusion.detail),
+      ),
+    ).toBe(true);
+
+    // Seed "s1" puts a four-year-old at home with the seven-year-old, and the
+    // beat is offered about exactly that child.
+    const offered = childWithSibling("s1", 7);
+    const beat = homeEligibility(offered.world, offered.personId).beats.find(
+      (candidate) => candidate.stageKey === "sibling-toy-snatch",
     );
-    expect(excluded).toBe(true);
+    expect(beat).toBeDefined();
+    const peer = beat!.bindings.find(
+      (binding) => binding.role === "household-peer",
+    )!;
+    expect(peer.age).toBeLessThan(5);
   });
 
   it("is deterministic: the same seed decides the same way twice", () => {

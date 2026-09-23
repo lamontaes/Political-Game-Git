@@ -45,18 +45,38 @@ function childSetup(overrides: Partial<NewGameSetup> = {}): NewGameSetup {
   } as NewGameSetup;
 }
 
-function blamedBeat(world: World, personId: EntityId): EpisodeBeat {
+/**
+ * A school episode beat with a classmate physically present.
+ *
+ * This used to be the corridor beat ("blamed"). The dialogue review of
+ * 2026-09-23 withheld it, because choosing it created the incident it
+ * described, so ordinary play no longer offers it. What these tests prove is
+ * the scene context of a school beat — no apartment behind it, the classmate
+ * in it, the same after a reload — so they read the first school-set beat a
+ * six-year-old in the same generated life is actually offered, with a
+ * classmate in the room.
+ */
+function schoolBeat(world: World, personId: EntityId): EpisodeBeat {
   const beat = eligibleEpisodeBeats({
     world,
     personId,
     families: EPISODE_FAMILIES,
   }).beats.find(
     (entry) =>
-      entry.episodeKey === "school.the-thing-you-got-blamed-for" &&
-      entry.stageKey === "blamed",
+      entry.sceneSetting === "school" &&
+      entry.bindings.some(
+        (binding) =>
+          binding.role === "school-peer" &&
+          entry.physicallyPresentPersonIds.includes(binding.personId),
+      ),
   );
-  if (!beat) throw new Error("The corridor beat was not offered.");
+  if (!beat) throw new Error("No school beat with a classmate was offered.");
   return beat;
+}
+
+/** A child at the age the school beats with a classmate are offered. */
+function schoolChildSetup(): NewGameSetup {
+  return childSetup({ startAge: 6 });
 }
 
 function episodeScene(beat: EpisodeBeat): StoryScene {
@@ -169,9 +189,9 @@ describe("School scenes are not household apartments", () => {
     expect(venue!.reason).toMatch(/not a school/i);
   });
 
-  it("does not paint the apartment behind the named corridor beat", () => {
-    const game = createNewGameWorld(childSetup());
-    const beat = blamedBeat(game.world, game.playerPersonId);
+  it("does not paint the apartment behind a school beat with a named classmate", () => {
+    const game = createNewGameWorld(schoolChildSetup());
+    const beat = schoolBeat(game.world, game.playerPersonId);
     expect(beat.sceneSetting).toBe("school");
     expect(beat.physicallyPresentPersonIds.length).toBeGreaterThan(0);
 
@@ -202,8 +222,8 @@ describe("School scenes are not household apartments", () => {
   });
 
   it("keeps the same school context after save and reload", () => {
-    const game = createNewGameWorld(childSetup());
-    const beat = blamedBeat(game.world, game.playerPersonId);
+    const game = createNewGameWorld(schoolChildSetup());
+    const beat = schoolBeat(game.world, game.playerPersonId);
     const once = resolvePlaySceneContext(
       game.world,
       game.playerPersonId,
@@ -213,14 +233,14 @@ describe("School scenes are not household apartments", () => {
     const again = resolvePlaySceneContext(
       reloaded,
       game.playerPersonId,
-      episodeScene(blamedBeat(reloaded, game.playerPersonId)),
+      episodeScene(schoolBeat(reloaded, game.playerPersonId)),
     );
     expect(again).toEqual(once);
   });
 
   it("omits a stale supporting-person reference instead of breaking play", () => {
-    const game = createNewGameWorld(childSetup());
-    const beat = blamedBeat(game.world, game.playerPersonId);
+    const game = createNewGameWorld(schoolChildSetup());
+    const beat = schoolBeat(game.world, game.playerPersonId);
     const missingId = "person_missing_after_generation_repair" as EntityId;
     const scene = episodeScene({
       ...beat,

@@ -27,16 +27,21 @@ const LIVES = [
   { state: "Oregon", place: "Bend", seed: "walk-bend" },
   { state: "Vermont", place: "Burlington", seed: "walk-burlington" },
 ] as const;
-const MAX_STRETCHES = 90;
+const MAX_STRETCHES = 400;
 
 for (const life of LIVES) {
   test(`an invitation with a reason, in ${life.place}, ${life.state}`, async ({
     page,
   }) => {
     test.skip(!OUT, "walk evidence only; set OCD_WALK_OUT");
-    test.setTimeout(1_800_000);
+    test.setTimeout(5_400_000);
     const log: string[] = [];
-    const note = (line: string) => log.push(line);
+    const logFile = path.join(OUT || ".", `${life.seed}.md`);
+    if (OUT) fs.writeFileSync(logFile, "");
+    const note = (line: string) => {
+      log.push(line);
+      if (OUT) fs.appendFileSync(logFile, line + "\n");
+    };
     const clock = page
       .getByRole("navigation", { name: "Time, place and navigation" })
       .getByRole("button")
@@ -68,6 +73,10 @@ for (const life of LIVES) {
       const text = (await section.count()) ? await section.innerText() : "";
       const first = text.split("\n").slice(0, 3).join(" / ");
       note(`- ${await clock.innerText()}: ${first}`);
+      const whole = await page.locator("body").innerText();
+      if (/I turn \d+|moved on|I started at/.test(whole) && !text) {
+        note(`  (an invitation is on the page outside the moment)`);
+      }
       if (/I turn \d+|moved on|I started at/.test(text)) {
         invitation = text;
         break;
@@ -116,7 +125,12 @@ for (const life of LIVES) {
 
     await goTo(page, "elsewhere-day");
     note("## Calendar after Continue");
-    note((await page.locator("main").innerText()).split("\n").slice(0, 20).join("\n"));
+    note(
+      (await page.locator("main").innerText())
+        .split("\n")
+        .slice(0, 20)
+        .join("\n"),
+    );
     await shot("03-calendar-after-continue");
 
     // Let the days run to the afternoon itself and past it.
@@ -124,7 +138,9 @@ for (const life of LIVES) {
       await openMoment(page);
       const section = page.getByTestId("story-section");
       const text = (await section.count()) ? await section.innerText() : "";
-      note(`- ${await clock.innerText()}: ${text.split("\n").slice(0, 3).join(" / ")}`);
+      note(
+        `- ${await clock.innerText()}: ${text.split("\n").slice(0, 3).join(" / ")}`,
+      );
       if (/afternoon at .+'s|spent the afternoon/.test(text)) break;
       const pass = page.getByTestId("story-let-time-pass");
       if (!(await pass.count())) break;
@@ -133,9 +149,12 @@ for (const life of LIVES) {
     }
     await goTo(page, "nav-journal-entry");
     note("## Journal at the end (first lines)");
-    note((await page.locator("main").innerText()).split("\n").slice(0, 16).join("\n"));
+    note(
+      (await page.locator("main").innerText())
+        .split("\n")
+        .slice(0, 16)
+        .join("\n"),
+    );
     await shot("04-journal-end");
-
-    fs.writeFileSync(path.join(OUT, `${life.seed}.md`), log.join("\n") + "\n");
   });
 }

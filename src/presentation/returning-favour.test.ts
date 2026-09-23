@@ -13,7 +13,10 @@ import {
   buildAdultLifeContext,
 } from "../simulation/adult-situations";
 import { favorEntries, performFavor } from "../simulation/life-favors";
-import { lifeOpportunitiesFor } from "../simulation/life-opportunities";
+import {
+  lifeOpportunitiesFor,
+  writeLegacyFamiliarRequest,
+} from "../simulation/life-opportunities";
 import { personName } from "../simulation/people";
 import { chooseAdultOption } from "./adult-life";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -39,10 +42,14 @@ function life(seed: string) {
     placeKey: "lexington-fayette",
     household: "shares-a-home",
   });
-  return {
-    world: openOrdinaryLife(game.world, game.playerPersonId),
-    personId: game.playerPersonId,
-  };
+  // Play no longer writes the picnic favor; this reproduces a save made
+  // before 2026-09-23 that carries one, which is the favor these tests follow.
+  const world = writeLegacyFamiliarRequest(
+    openOrdinaryLife(game.world, game.playerPersonId),
+    game.playerPersonId,
+    "favour-request",
+  );
+  return { world, personId: game.playerPersonId };
 }
 
 /**
