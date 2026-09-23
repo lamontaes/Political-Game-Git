@@ -51,6 +51,9 @@ import {
   STATE_GOVERNING_CALENDAR,
   scheduleGoverningSeasons,
 } from "./governing-calendar";
+import { ensureStateLegislatureOpening } from "../nationwide-world/state-legislature-opening";
+import { worldOpeningVersionOf } from "../world-setup/conditions";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { fileMemberAgendaBill } from "./member-agenda";
 import {
   ensureOfficeholderPrinciples,
@@ -1825,6 +1828,15 @@ export function governingSeasonHandler(
         jurisdictionId: office.jurisdictionId,
         intakeKey: `${office.officeKey}:${due.dueAt}`,
       };
+      // Every state's legislature sits, not only the home state's: one not
+      // yet seated is seated on its first bill day, the same way the home
+      // state's is at the opening. A legacy replay keeps the world it built.
+      if (worldOpeningVersionOf(next) === CRUNCH46_WORLD_OPENING_VERSION)
+        next = ensureStateLegislatureOpening(
+          next,
+          office.holderPersonId,
+          office.stateUsps,
+        );
       const filedBefore = next.history.legislativeMeasures?.length ?? 0;
       // A legislature with written measures files a real bill; it reaches
       // the governor through the legislative clock.

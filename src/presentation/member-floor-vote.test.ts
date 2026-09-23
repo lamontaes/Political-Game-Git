@@ -13,6 +13,7 @@ import {
   releasePlayerRequiredWork,
   scheduledActivityState,
 } from "../simulation/time-work";
+import { stateJurisdictionForKey } from "../simulation/life-places";
 import { recordWorldEvent } from "../simulation/world";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -64,12 +65,16 @@ describe("a seated player's own vote", () => {
       questionnaire: "skipped",
     }),
   ).game!;
+  const alaska = stateJurisdictionForKey("US-AK")!.id;
   let world: World = openOrdinaryLife(game.world, game.playerPersonId);
   // Pass time until some bill has a question for seated members ahead of it.
   let pending: ReturnType<typeof pendingChamberQuestions>[number] | undefined;
   for (let day = 0; day < 400 && !pending; day += 1) {
     world = passOrdinaryDays(world, 1);
-    for (const measure of world.history.legislativeMeasures ?? []) {
+    for (const measure of (world.history.legislativeMeasures ?? []).filter(
+      // A state chamber's own bills; Congress's are covered where it is.
+      (entry) => entry.jurisdictionId === alaska,
+    )) {
       pending = pendingChamberQuestions(world, measure.id).find((forum) =>
         forum.members.some(
           (member) =>

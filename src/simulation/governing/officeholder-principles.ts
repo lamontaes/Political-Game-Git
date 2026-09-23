@@ -93,9 +93,9 @@ export function ensureOfficeholderPrinciples(
     if (world.control.kind === "person" && world.control.personId === personId)
       continue;
     const own = new Set(
-      world.history.principles
-        .filter((row) => row.personId === personId)
-        .map((row) => row.principleId),
+      (principlesByPerson(world).get(personId) ?? []).map(
+        (row) => row.principleId,
+      ),
     );
     for (const principleId of catalog.principleOrder) {
       if (own.has(principleId)) continue;
@@ -131,6 +131,32 @@ export function ensureOfficeholderPrinciples(
 }
 
 /**
+ * Every person's principle records, indexed once per principle history. A
+ * chamber reads its members' leanings on every question, and a full scan per
+ * reading made a seated nation's bill day take minutes.
+ */
+const principleIndex = new WeakMap<
+  readonly PrincipleRecord[],
+  ReadonlyMap<EntityId, readonly PrincipleRecord[]>
+>();
+
+function principlesByPerson(
+  world: World,
+): ReadonlyMap<EntityId, readonly PrincipleRecord[]> {
+  const records = world.history.principles;
+  const cached = principleIndex.get(records);
+  if (cached) return cached;
+  const index = new Map<EntityId, PrincipleRecord[]>();
+  for (const record of records) {
+    const list = index.get(record.personId);
+    if (list) list.push(record);
+    else index.set(record.personId, [record]);
+  }
+  principleIndex.set(records, index);
+  return index;
+}
+
+/**
  * Which way a person's principles lean on a question, and how hard: a score
  * positive toward yes, negative toward no, zero where nothing they hold bears
  * on it, with the principle records it was read from. A later record for the
@@ -144,9 +170,8 @@ export function principledLeaning(
   const proposition = world.policyCatalog.propositions[propositionId];
   if (!proposition?.principles) return { score: 0, recordIds: [] };
   const latest = new Map<EntityId, PrincipleRecord>();
-  for (const record of world.history.principles) {
-    if (record.personId !== personId || record.formedAt > world.currentDate)
-      continue;
+  for (const record of principlesByPerson(world).get(personId) ?? []) {
+    if (record.formedAt > world.currentDate) continue;
     const prior = latest.get(record.principleId);
     if (!prior || prior.sequence < record.sequence)
       latest.set(record.principleId, record);

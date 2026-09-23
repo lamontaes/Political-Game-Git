@@ -118,6 +118,10 @@ export function fileMemberAgendaBill(
     const j = rng.fork(`order:${i}`).integer(0, i + 1);
     [order[i], order[j]] = [order[j]!, order[i]!];
   }
+  // Read once per question, not once per member: nothing is filed until the
+  // loop returns.
+  const lawAnswers = new Map<EntityId, "yes" | "no" | null>();
+  const pending = new Map<EntityId, boolean>();
   for (const member of order) {
     let best: {
       propositionId: EntityId;
@@ -131,19 +135,29 @@ export function fileMemberAgendaBill(
         propositionId,
       ).score;
       if (Math.abs(leaning) < FILING_THRESHOLD) continue;
-      const law = lawInForce(next, input.jurisdictionId, propositionId);
+      if (!lawAnswers.has(propositionId))
+        lawAnswers.set(
+          propositionId,
+          lawInForce(next, input.jurisdictionId, propositionId)?.answer ?? null,
+        );
+      const lawAnswer = lawAnswers.get(propositionId);
       // Support files a bill to enact unless the law already says yes;
       // opposition files only a repeal of a law that says yes.
       const answer: "yes" | "no" | null =
         leaning > 0
-          ? law?.answer === "yes"
+          ? lawAnswer === "yes"
             ? null
             : "yes"
-          : law?.answer === "yes"
+          : lawAnswer === "yes"
             ? "no"
             : null;
       if (!answer) continue;
-      if (pendingBillOn(next, input.jurisdictionId, propositionId)) continue;
+      if (!pending.has(propositionId))
+        pending.set(
+          propositionId,
+          pendingBillOn(next, input.jurisdictionId, propositionId),
+        );
+      if (pending.get(propositionId)) continue;
       if (!best || Math.abs(leaning) > best.weight)
         best = { propositionId, answer, weight: Math.abs(leaning) };
     }
