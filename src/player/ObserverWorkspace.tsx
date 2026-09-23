@@ -242,6 +242,7 @@ export function ObserverRecordWorkspace({
               <li key={amendment.id}>
                 <strong>{amendment.status}</strong>, {proseDate(amendment.at)}:{" "}
                 {amendment.text}
+                {amendment.cause ? ` (${amendment.cause}.)` : ""}
               </li>
             ))}
           </ul>
