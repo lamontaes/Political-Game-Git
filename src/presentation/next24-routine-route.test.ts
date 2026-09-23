@@ -155,7 +155,7 @@ describe("NEXT24 combined private-citizen routine route", () => {
       ),
     ).toHaveLength(1);
     expect(describeRoutineOutcome(loaded, paid, personId)).toContain(
-      "Received $72.00",
+      "Received $72",
     );
     expect(
       passOrdinaryDays(paid).history.resourceTransferOutcomes.filter(

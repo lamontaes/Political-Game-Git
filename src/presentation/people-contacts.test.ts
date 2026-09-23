@@ -14,6 +14,7 @@ import {
   CONTACT_PROPOSED_EVENT,
   contactProposals,
 } from "../simulation/people-contact";
+import { recordRelationshipInteraction } from "../simulation/records";
 import { recordPersonDeath } from "../simulation/vitality";
 import { letAdultTimePass } from "./adult-life";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -332,5 +333,51 @@ describe("PEOPLE P3: the call, answered in the conversation", () => {
       "contact:arranged-to-meet",
     );
     assertWorldIntegrity(agreed);
+  });
+});
+
+describe("what the People screen says about somebody", () => {
+  it("says a housemate lives with you, not when you last spoke", () => {
+    // Found in a replay: a housemate read "Last in touch June 26, 2026"
+    // seven months later, while they still lived together.
+    for (const seed of [
+      "contacts-home-a",
+      "contacts-home-b",
+      "contacts-home-c",
+    ]) {
+      const { player, world } = adultLife(seed);
+      const later = { ...world, currentDate: addDays(world.currentDate, 400) };
+      const view = projectContacts(later, player);
+      const home = view.contacts.filter((contact) => contact.livesWithYou);
+      if (home.length === 0) continue;
+      for (const contact of home) {
+        expect(contact.outOfTouch).toBe(false);
+      }
+      return;
+    }
+    throw new Error("No seed gave the player somebody to live with.");
+  });
+
+  it("shows a relationship that has gone wrong, not only its date", () => {
+    const { player, world } = adultLife("contacts-strained");
+    const other = projectContacts(world, player).contacts[0]!.personId;
+    let next = world;
+    for (const days of [0, 1]) {
+      next = recordRelationshipInteraction(next, {
+        stableKey: `contacts-strained:${days}`,
+        personIds: [player, other],
+        eventId: null,
+        occurredAt: addDays(world.currentDate, -days),
+        kind: "exchange:matter-party-response",
+        change: "strained",
+        significance: "meaningful",
+        summary: "They distanced themselves.",
+        tags: [],
+      });
+    }
+    const contact = projectContacts(next, player).contacts.find(
+      (entry) => entry.personId === other,
+    )!;
+    expect(contact.standing).toMatch(/would not rely on/);
   });
 });

@@ -1,0 +1,35 @@
+{
+  "requestVersion": "research-request/v1",
+  "questionId": "state-legislature-chamber-sizes-and-quorum",
+  "title": "How many members every state legislative chamber has, how its districts map to seats, and what makes a quorum",
+  "question": "For each of the 50 states, the District of Columbia and Puerto Rico: how many members sit in each legislative chamber, how do its districts map to seats (single-member, or multi-member and how many per district), what is the quorum rule for doing business on the floor, and what is the present party composition of each chamber?",
+  "whyItMatters": "The owner ruled that every seat in a chamber must be a real person who votes for their own reasons. Today state chambers start empty and floor votes are pre-written head counts. To seat a chamber the game has to know its size, and the simulation holds a sourced size for only six states (AK, IL, MD, MN, MO, OH); Kentucky and Nebraska use unsourced fallbacks and Nevada has no size at all, so it cannot seat a chamber. Everything else would be drawn from a national range until this is answered. Quorum is needed because a floor vote without one is not a vote, and the state floor path checks none today. Composition sets how a newly opened world's chambers divide by party.",
+  "impact": "shapes-design",
+  "lane": "governing and legislative",
+  "usableAnswer": "A table, one row per chamber (Nebraska and D.C. are unicameral): jurisdiction, chamber name, seat count, district arrangement (single-member, or the multi-member pattern with seats per district), quorum rule as written (for example 'a majority of members elected' or 'two-thirds of members'), and current party composition with an as-of date. A citation per row to the constitution or statute for size and quorum.",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/legislature-rule-packs.ts on main at d10dd525, the nine procedural packs",
+      "whatItDidNotSettle": "Seat counts are known for AK 40/20, MN 134/67, IL 118/59, MD 141/47, MO 163/34 and OH 99/33 only. Kentucky and Nebraska are marked unknown and fall back to an unsourced table in legislation-scenarios.ts:345-349; Nevada is unknown with no fallback."
+    },
+    {
+      "source": "data/source/state-legislatures/coverage.json and src/source/domains/state-legislatures/declarations.ts on main at d10dd525",
+      "whatItDidNotSettle": "Covers all states for identity, but both chamber counts are known only for AK, CA, HI, IL, MN and NC, and one for DE and ID. No quorum rule and no composition."
+    },
+    {
+      "source": "src/simulation/districts/identities.generated.json on main at d10dd525 (Census Gazetteer)",
+      "whatItDidNotSettle": "4,879 state-lower and 1,964 state-upper districts across 50 states, DC and PR. A district is not a seat: multi-member districts exist, and the corpus does not say how many members each elects."
+    }
+  ],
+  "requestedBy": "modular legislation thread (technical team lead)",
+  "filedAt": "2026-09-22T20:40:00.000Z",
+  "priority": "P0",
+  "notes": [
+    "The game generates its own people, so only the counts, arrangement, quorum rule and composition shares are wanted, not the names of sitting members.",
+    "Where a chamber's size changes after a scheduled redistricting, give the size in force now and the date of the change."
+  ],
+  "relatedQuestionIds": [
+    "state-legislative-seat-calendar-and-field",
+    "legislative-caucus-and-coalition-formation"
+  ]
+}

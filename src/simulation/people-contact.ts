@@ -1,10 +1,7 @@
 import { homePartyChapters } from "./living-world/party-chapters";
 import { addDays } from "./dates";
 import { evaluateDecision } from "./decisions";
-import {
-  createFutureTransitionHandlerRegistry,
-  scheduleFutureDueItem,
-} from "./future-transitions";
+import { scheduleFutureDueItem } from "./future-transitions";
 import {
   activeOrganizationParticipationsAt,
   activeWorkRelationshipsAt,
@@ -66,20 +63,23 @@ import type {
 
 import {
   CONTACT_ACCEPTED_EVENT,
+  CONTACT_ANSWER_TRANSITION_KEY,
   CONTACT_COUNTERED_EVENT,
   CONTACT_DECLINED_EVENT,
+  CONTACT_LOCATION_KEY,
   CONTACT_PROPOSED_EVENT,
+  CONTACT_TAG,
 } from "./people-contact-events";
 
 export {
   CONTACT_ACCEPTED_EVENT,
+  CONTACT_ANSWER_TRANSITION_KEY,
   CONTACT_COUNTERED_EVENT,
   CONTACT_DECLINED_EVENT,
+  CONTACT_LOCATION_KEY,
   CONTACT_PROPOSED_EVENT,
+  CONTACT_TAG,
 };
-export const CONTACT_ANSWER_TRANSITION_KEY = "people:contact-answer";
-export const CONTACT_TAG = "contact.v1";
-export const CONTACT_LOCATION_KEY = "people-contact:meeting";
 
 /** How long an unanswered proposal waits before the other person answers. */
 const ANSWER_DELAY_DAYS = 1;
@@ -1129,7 +1129,12 @@ export function contactAnswerTransitionHandler(
   return done(`contact-${decided.answer}`, answered.world, answered.eventId);
 }
 
-export const PEOPLE_CONTACT_HANDLERS: FutureTransitionHandlerRegistry =
-  createFutureTransitionHandlerRegistry([
-    [CONTACT_ANSWER_TRANSITION_KEY, contactAnswerTransitionHandler],
-  ]);
+// Built without createFutureTransitionHandlerRegistry: this module sits in
+// an import cycle with future-transitions, and calling into it while this
+// module initializes crashed every tsx script (corpus:prose among them).
+export const PEOPLE_CONTACT_HANDLERS: FutureTransitionHandlerRegistry = {
+  get: (transitionKey) =>
+    transitionKey === CONTACT_ANSWER_TRANSITION_KEY
+      ? contactAnswerTransitionHandler
+      : undefined,
+};

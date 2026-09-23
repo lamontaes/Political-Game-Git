@@ -1,0 +1,49 @@
+{
+  "filedAt": "2026-09-22T23:55:00.000Z",
+  "impact": "blocks-work",
+  "lane": "dialogue and choices depth",
+  "notes": [
+    "THE OWNER'S WORDS, 2026-09-22 7:44 p.m. ET: \"the journal is something else. It needs to be written in a literally like a chronicle, like you can read it back and it's not just a list of stuff, but it's this year you did this and, you know, who you didn't like it, but who would have known that you would do this? And then all of a sudden you were nominated for this. You had no clue what you were in for, et cetera. It should be written like that, like a story. Obviously, every date should not fall in January. It should be throughout the year.\"",
+    "WHAT THE JOURNAL IS TODAY (read at main cecb4e2f): `projectWorld39Journal` in src/presentation/world39-journal.ts builds one entry per record: birth and established facts from fixed templates, school and work status from fixed templates, and events, memories and secondhand knowledge from their raw summaries. `groupWorld39Chapters` groups them by calendar year and src/player/World39Journal.tsx prints each year as one paragraph of those sentences back to back. Nothing folds a repeated routine item, nothing connects one entry to the next, and the file's own contract (world39-journal.ts:32-40, journal-views.ts:9-16) forbids adding a motive or a feeling and forbids merging entries.",
+    "WHAT THIS LANE WILL BUILD MEANWHILE, and what it will not: a chronicle view beside the current one that, for each year, orders what the record holds, folds repeats of the same kind of thing into one counted sentence, and joins entries with connectives that the record itself supports (the month, 'later that year', 'after that'). It will not write retrospective irony, surprise or a feeling ('who would have known', 'you had no clue') until this question says when that is allowed, because those are claims about the person's expectations that no record holds today.",
+    "THE JANUARY DATES are a separate producer defect: the journal prints each record's own date, so a year whose entries all fall in January is a world-generation issue, not a presentation one. Filed separately if the walk confirms it."
+  ],
+  "priority": "P1",
+  "question": "How should the Journal read as a chronicle of a life, and which narrative devices is it allowed to use when every sentence must still come from the record?",
+  "questionId": "journal-chronicle-voice",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "dialogue and choices depth lane",
+  "sourcesChecked": [
+    {
+      "source": "src/presentation/world39-journal.ts and journal-views.ts at main cecb4e2f",
+      "whatItDidNotSettle": "They define what may be listed and forbid invented motive and feeling, and say nothing about voice, folding repeats, connectives or retrospective framing."
+    },
+    {
+      "source": "src/presentation/life-narration.ts composeConnectiveNarration, the connective 'time passing' prose between moments",
+      "whatItDidNotSettle": "Closest existing chronicle-like writer; it covers the gap between two scenes, not a year read back."
+    },
+    {
+      "source": ".agents/skills/civic-prose owner authoring contract",
+      "whatItDidNotSettle": "Written for scenes and in-world documents; it has no register for a retrospective life chronicle."
+    }
+  ],
+  "title": "The Journal as a chronicle you can read back",
+  "usableAnswer": "Five short rulings, each usable on its own. (1) Register and person: second person past tense or something else, and how long a year may run. (2) Retrospective devices: may the chronicle contrast an earlier record with a later one ('you had turned down the job; within the year you were running for the seat'), and may it use framing such as 'who would have known' or 'you had no idea what you were in for', and if so on what recorded evidence (for example: only when no earlier record shows the person planning or wanting the later thing). (3) Feelings: may it name a feeling only where a record holds one, and which records count. (4) Folding: which routine items fold into one sentence with a count, and which always stand alone. (5) Selection: whether a year names everything or chooses its turning points, and if it chooses, by what rule. Two or three sample paragraphs written against a real record would settle most of it.",
+  "whyItMatters": "The owner reads the Journal to see his life back. Today it is a list with the joins taken out, and the only way to make it a story without breaking the no-invented-facts rule is to know which storytelling moves the record can carry.",
+  "candidateAnswers": [
+    {
+      "label": "Grounded chronicle, contrast allowed",
+      "position": "Second person, past tense, a paragraph or two per year. Order and fold what happened; connect with time and with contrasts between two recorded things; allow 'you had no idea' framing only where no earlier record shows the person expecting the later thing; name a feeling only where a record holds it.",
+      "recommended": true,
+      "argumentFor": "Gets the owner's example almost word for word while every clause still points at a record, and the one inferred device has a checkable rule.",
+      "argumentAgainst": "The 'no idea' rule is an inference from absence, and a sparse record could make a planned choice read as a surprise."
+    },
+    {
+      "label": "Grounded chronicle, no retrospective framing",
+      "position": "Same ordering, folding and connectives, but no surprise or irony devices at all.",
+      "recommended": false,
+      "argumentFor": "Nothing inferred, so nothing can be wrong.",
+      "argumentAgainst": "Reads as a tidier list; misses the tone the owner asked for."
+    }
+  ]
+}

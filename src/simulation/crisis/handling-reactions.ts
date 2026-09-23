@@ -13,42 +13,15 @@ import { electionContestStatus } from "../election-contests";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { crisisRecords } from "./records";
+import {
+  federalDeclarationWarranted,
+  stateRequestWarranted,
+} from "./disaster-warrants";
 import type {
   DisasterAssessmentRecord,
   DisasterResponseRecord,
   HazardEpisodeRecord,
-  HazardMagnitude,
 } from "./types";
-
-const MAGNITUDE_RANK: Record<HazardMagnitude, number> = {
-  minor: 0,
-  moderate: 1,
-  major: 2,
-  catastrophic: 3,
-};
-
-/**
- * Whether damage warranted asking for a federal declaration. This is the
- * game's own standard, the one every governor the player does not control
- * already follows (`disaster.ts`): a major or worse event, or a moderate one
- * that destroyed homes.
- */
-export function stateRequestWarranted(
-  magnitude: HazardMagnitude,
-  destroyedHomes: number,
-): boolean {
-  return (
-    MAGNITUDE_RANK[magnitude] >= MAGNITUDE_RANK.major ||
-    (magnitude === "moderate" && destroyedHomes > 0)
-  );
-}
-
-/** The standard a President the player does not control follows. */
-export function federalDeclarationWarranted(
-  magnitude: HazardMagnitude,
-): boolean {
-  return MAGNITUDE_RANK[magnitude] >= MAGNITUDE_RANK.major;
-}
 
 /**
  * UNRESEARCHED. How far handling a disaster well or badly moves voters, and
@@ -239,6 +212,69 @@ export function applyDisasterHandlingReactions(
   );
   for (const [readerId, role] of readers) {
     next = react(next, { response, event, verdict, personId, readerId, role });
+  }
+  return next;
+}
+
+/**
+ * UNRESEARCHED. How long after a decision the weekly sweep still reacts to
+ * it. Longer than a week so no decision falls between two sweeps; decisions
+ * made before this existed are not reacted to after the fact.
+ */
+const REACTION_WINDOW_DAYS = 14;
+
+const JUDGED_EVENT = "crisis.disaster-reaction-settled";
+
+/**
+ * Reacts once to each judged disaster decision made in the last two weeks.
+ * Run by the weekly press sweep, the same tick that puts the decision in the
+ * paper; a marker event keeps a decision from being reacted to twice.
+ */
+export function applyPendingDisasterHandlingReactions(world: World): World {
+  let next = world;
+  const since = addDays(world.currentDate, -REACTION_WINDOW_DAYS);
+  for (const record of crisisRecords(world)) {
+    if (
+      record.kind !== "disaster-response" ||
+      record.effectiveAt < since ||
+      record.effectiveAt > world.currentDate ||
+      !record.actorPersonId
+    )
+      continue;
+    const stableKey = `${record.stableKey}:handling-judged`;
+    if (next.history.events.some((event) => event.stableKey === stableKey))
+      continue;
+    next = applyDisasterHandlingReactions(next, record);
+    const decided = next.history.events.find(
+      (event) => event.id === record.eventId,
+    );
+    next = recordWorldEvent(next, {
+      stableKey,
+      type: JUDGED_EVENT,
+      occurredAt: next.currentDate,
+      recordedAt: next.currentDate,
+      jurisdictionId: decided?.jurisdictionId ?? null,
+      involvedEntityIds: [record.actorPersonId],
+      participants: [
+        {
+          personId: record.actorPersonId,
+          role: "focus:decision-maker",
+          detail: "Made the decision",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "private",
+      tags: [UNRESEARCHED_DISASTER_HANDLING.version, "time-neutral"],
+      summary: "The reaction to a disaster decision was settled.",
+      context: {
+        location: null,
+        socialContext: decided?.summary ?? null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
   }
   return next;
 }

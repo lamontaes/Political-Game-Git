@@ -117,7 +117,7 @@ for (const viewport of [
         })
         .click();
     await expect(routine.getByTestId("personal-routine-outcome")).toContainText(
-      "Received $72.00",
+      "Received $72",
     );
     await study
       .getByRole("button", {
@@ -243,7 +243,7 @@ for (const viewport of [
       })
       .press("Space");
     await expect(routine.getByTestId("personal-routine-outcome")).toContainText(
-      "Received $72.00",
+      "Received $72",
     );
     await study
       .getByRole("button", { name: "Return", exact: true })

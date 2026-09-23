@@ -9,6 +9,7 @@ import {
   fileCampaign,
   deserializeWorld,
   makeCurrencyCode,
+  publicOrganizationKey,
   searchLifePlaces,
   serializeWorld,
   stateExecutiveIdentity,
@@ -208,7 +209,7 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
     ).toBe(UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints.finding);
   });
 
-  it("orders both payments repaid to the committee", () => {
+  it("orders both payments paid to the state, not back to the committee", () => {
     const order = run.after.history.events.find(
       (event) =>
         event.type === "matter.restitution-ordered" &&
@@ -222,10 +223,15 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
       (row) => row.resourceFlowId === flow.id,
     )!;
     expect(repaid.attemptedAmount.minorUnits).toBe(40_000);
+    // Paid to Washington, where it cannot be withdrawn again.
+    const state = stateJurisdictionForKey("US-WA")!.id;
     expect(flow.recipient).toEqual({
       kind: "organization",
-      organizationId: run.campaign.organizationId,
+      organizationId: run.after.history.organizations.find(
+        (row) => row.stableKey === publicOrganizationKey(state),
+      )!.id,
     });
+    expect(order.summary).toContain("to the state of Washington");
   });
 
   it("fines the candidate per payment, paid to the state", () => {
