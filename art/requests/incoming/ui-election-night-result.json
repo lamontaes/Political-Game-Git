@@ -1,0 +1,34 @@
+{
+  "alreadySearched": [
+    "art/manifest/asset_manifest.json — all 126 assets read, by asset_type: 109 character components, 13 environment plates and masters, 1 foreground mask, 2 authored poses. There is no interface graphic of any kind in the manifest.",
+    "art/requests/asset-requests.json — all 37 filed requests read. Seven are interface work: the newspaper page furniture and masthead ornaments, the shell reference icons, the economic graph ground, the Guide popover card, the Politics hub tab band, and the chamber vote-margin graph. None of them covers an election result.",
+    "art/requests/incoming/ and art/requests/promotions/ — every record read by requestId; nothing for an election night or a result board.",
+    "src/player/CampaignWorkspace.tsx:677-690 — the surface itself. `campaign-result` is a `<div>` holding one sentence and a plain `<ul className=\"game-campaign-tallies\">` of `<li>` rows. There is no artwork behind any of it."
+  ],
+  "consumerSite": {
+    "consumerId": "no-declared-consumer",
+    "playerVisibleUse": "Election night. The moment the player finds out whether they won the seat they spent the campaign on. It shows one sentence naming the winner, then one line per candidate with their share.",
+    "runtimeComponent": "src/player/CampaignWorkspace.tsx"
+  },
+  "filedAt": "2026-09-22T14:40:00.000Z",
+  "intakeVersion": "art-request-intake/v1",
+  "jurisdiction": {
+    "reason": "A result is a result in every state and for every office. The sentence and the rows inside it are generated per contest; the treatment around them is the same wherever the seat is.",
+    "scope": "jurisdiction-independent"
+  },
+  "missing": "The end of a campaign is an unstyled bulleted list. Walked on 2026-09-22 in eleven towns across five states — Chicago, Galena, Lexington, Paducah, Reno, Ely, Kansas City, Hannibal, Baltimore, Cumberland and Sitka — and in every one of them the result reads as four lines of ordinary body text, indistinguishable from a note about groceries.",
+  "notes": [
+    "Deliberately generic. One treatment serves every state, every office and every result: nothing in it may be specific to a jurisdiction, a party or an outcome.",
+    "The number of rows is NOT fixed. It was two everywhere until 2026-09-22, when the single hardcoded opponent was replaced with a field of two to four, so the artwork must hold three to five rows and cannot assume a head-to-head.",
+    "A losing result uses the same treatment as a winning one. The game's own line is that a lost election leaves the life running, so the artwork must not read as a trophy or as a defeat.",
+    "No party marks. The parties in this game are real organizations and their emblems are not ours to draw."
+  ],
+  "origin": "inspection",
+  "priority": "P1",
+  "requestId": "ui-election-night-result",
+  "requestedBy": "playtest thread",
+  "targetClass": "interface-graphic",
+  "title": "A treatment for the night a player finds out whether they won",
+  "whyNeeded": "Winning or losing an election is the single largest thing that happens to a character in this game, and it is the payoff for every week the player spent on the campaign. It currently arrives with no more visual weight than a line about a meeting. A refusal to put a character on a ballot already has a request filed for it (ui-no-candidacy-refusal-panel) on exactly this reasoning; the result at the other end of the same campaign has nothing. Measured rather than assumed: eleven candidacies played to a decided result on 2026-09-22 and every one of them ended on the same four plain lines.",
+  "promotedToRequestId": "ui-election-night-result"
+}

@@ -19,6 +19,14 @@ const SHA = /^[0-9a-f]{40}$/;
  * a window. AppKit rejects those bounds and leaves every view blank, so the
  * hub clamps that transient state and lays out normally on the next resize.
  */
+/**
+ * How tall the hub's bar is. Playing full screen gives the game the whole
+ * screen, so the bar steps aside; every other tab, and a windowed game, keep it.
+ */
+export function hubChromeHeight({ fullScreen, activeTab }, chromeHeight = 92) {
+  return fullScreen && activeTab === "play" ? 0 : chromeHeight;
+}
+
 export function hubViewLayout(bounds, chromeHeight = 92) {
   const finite = (value) =>
     Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0;

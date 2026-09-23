@@ -7399,7 +7399,7 @@
         "No words, no numbers, no percentages in the artwork. Every count and name on that screen comes from the simulation."
       ],
       "acceptanceCriteria": [
-        "The seat mark is legible repeated a hundred times at small size, and legible tinted any colour.",
+        "The seat mark is legible repeated a hundred times at small size, and legible tinted any color.",
         "Contains no text and no numerals. A delivery with any lettering in it is wrong however good it looks.",
         "Carries no party iconography and reads as neutral between sides.",
         "The division rule and margin bracket read as belonging to the same set as the seat mark."
@@ -7662,6 +7662,106 @@
       "dependsOn": []
     },
     {
+      "requestId": "ui-election-night-result",
+      "requestVersion": 1,
+      "priority": "P1",
+      "status": "queued",
+      "title": "A treatment for the night a player finds out whether they won",
+      "consumer": {
+        "consumerId": "no-declared-consumer",
+        "runtimeComponent": "src/player/CampaignWorkspace.tsx",
+        "playerVisibleUse": "Election night. The moment the player finds out whether they won the seat they spent the campaign on. It shows one sentence naming the winner, then one line per candidate with their share."
+      },
+      "whyNeeded": "Winning or losing an election is the single largest thing that happens to a character in this game, and it is the payoff for every week the player spent on the campaign. It currently arrives with no more visual weight than a line about a meeting. A refusal to put a character on a ballot already has a request filed for it (ui-no-candidacy-refusal-panel) on exactly this reasoning; the result at the other end of the same campaign has nothing. Measured rather than assumed: eleven candidacies played to a decided result on 2026-09-22 and every one of them ended on the same four plain lines. Jurisdiction-independent: A result is a result in every state and for every office. The sentence and the rows inside it are generated per contest; the treatment around them is the same wherever the seat is. Filed by playtest thread on 2026-09-22T14:40:00.000Z (inspection).",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/requests/asset-requests.json",
+          "art/requests/incoming/",
+          "art/requests/promotions/",
+          "src/player/CampaignWorkspace.tsx"
+        ],
+        "driveLocationsSearched": [],
+        "found": "Nothing. All 126 records in the asset manifest were read by asset_type: 109 character components (character-component 46, candidate 35, master 28), 13 environment records (environment-plate 11, environment-master 2), 1 environment-foreground-mask, 1 environment-reference-master and 2 authored-character-pose. There is no interface graphic of any kind in the manifest. All 37 filed requests were read by requestId: seven are interface work — ui-newspaper-page-furniture, ui-masthead-ornaments-four-families, ui-shell-reference-icons, economic-graph-panel-ground, guide-popover-card-ground, politics-hub-tab-band and ui-chamber-vote-margin-graph — and none of them is an election result. ui-chamber-vote-margin-graph is the nearest and is a different thing: how a chamber divides on a measure, not how a contest ended.",
+        "shortfall": "The surface is finished, reachable and played to the end eleven times on 2026-09-22, and it has no artwork. `campaign-result` in src/player/CampaignWorkspace.tsx is a bare <div> with one sentence and a plain <ul> of <li> rows. Drive was not searched: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
+      },
+      "target": {
+        "minimumWidth": 1780,
+        "aspectRatio": "a wide panel that stretches vertically; measured at 890 CSS pixels of content width in the Campaigns panel at a 1440x900 viewport, so 1780 is that at 2x device pixels",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "the existing player shell's own type and spacing, as the newspaper page furniture and the Guide popover card were judged; the artwork frames the result rather than restyling it.",
+        "targetClass": "interface-graphic"
+      },
+      "generationRecipe": [
+        "A ruled ground for a short table of results: a returns board or a printed canvass sheet, the thing results were read off before there was a screen. Counted and official rather than celebratory.",
+        "It must hold THREE TO FIVE rows without distortion or a visible seam. Two was the only case until 2026-09-22, when the single hardcoded opponent was replaced with a field of two to four; measured in the browser the same day, Chicago returned five candidates and Galena five.",
+        "A sentence sits above the rows, one to two lines, naming who won.",
+        "No words, numerals or lettering of any kind in the artwork. Every name and every share is generated for that contest.",
+        "No party marks, emblems or colors. The parties in this game are real organizations and their branding is not ours to draw.",
+        "The same treatment is used whether the player won or lost, so nothing in it may read as a trophy or as a defeat. The game's own position is that a lost election leaves the life running."
+      ],
+      "acceptanceCriteria": [
+        "Reads at a glance as the end of something, distinct from the ordinary notes above it on the same panel.",
+        "Holds three, four and five rows equally well; a delivery that only composes at two candidates is wrong.",
+        "Contains no text, numerals or lettering. A delivery with any lettering in it is wrong however good it looks.",
+        "Carries no party emblem, color coding or anything that could be read as one.",
+        "Reads the same for a win and for a loss.",
+        "Does not reduce the contrast of the names and percentages sitting on it."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "ui-local-party-chapter-card",
+      "requestVersion": 1,
+      "priority": "P2",
+      "status": "queued",
+      "title": "Card ground for a local party chapter and what it is doing this week",
+      "consumer": {
+        "consumerId": "no-declared-consumer",
+        "runtimeComponent": "src/player/CampaignWorkspace.tsx",
+        "playerVisibleUse": "The Party and community work block on the campaign surface, and the chapter listing on Politics ▸ Parties. It names the local chapter and its organizer and offers five things the player can ask to come to."
+      },
+      "whyNeeded": "Party evolution is one of the systems lamontae has said must ship, and the chapter block is where an ordinary player meets it first — before any office, in every town in the country, including the ones where the game refuses them a ballot. It is currently the only thing on some of those screens that is not a refusal, and it looks like a list. Measured rather than assumed: fifteen towns walked on 2026-09-22, two chapters with named organizers and five activities in every single one. Jurisdiction-independent: A chapter is the same object in every town the game has walked, from Galena, Illinois to Chicago, and the artwork carries no party mark, so nothing in it can be jurisdiction-specific. Filed by playtest thread on 2026-09-22T14:40:00.000Z (inspection).",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/requests/asset-requests.json",
+          "art/requests/incoming/",
+          "art/requests/promotions/",
+          "src/player/CampaignWorkspace.tsx"
+        ],
+        "driveLocationsSearched": [],
+        "found": "Nothing. All 126 manifest records were read by asset_type and none is an interface graphic; all 38 filed requests were read by requestId and the eight interface ones cover the newspaper, the masthead ornaments, the shell icons, the economic graph ground, the Guide popover card, the Politics hub tab band, the chamber vote-margin graph and the election night result filed alongside this one. ui-shell-reference-icons is the nearest neighbor: it includes a small icon standing for an organization such as a local party chapter, which is a pin-rail mark rather than a ground for the chapter's own block.",
+        "shortfall": "The block is reachable in every town the game has walked and has nothing behind it. Measured on 2026-09-22: fifteen towns, from Chicago to Galena, Illinois at about three thousand people, and every one of them rendered two chapters with a named organizer and five activities — including Nashville, Helena and San Juan, where the game refuses the player a ballot and the chapter is the only thing on the screen that is not a refusal. Drive was not searched: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
+      },
+      "target": {
+        "minimumWidth": 1780,
+        "aspectRatio": "a wide card that stretches vertically; measured at 890 CSS pixels of content width in the Campaigns panel at a 1440x900 viewport, so 1780 is that at 2x device pixels",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "the existing player shell's own type and spacing, as the Guide popover card ground was judged; the artwork grounds the block rather than restyling the controls on it.",
+        "targetClass": "interface-graphic"
+      },
+      "generationRecipe": [
+        "A card ground for a block that names a local chapter, its organizer, and the things it is doing. The reference is the noticeboard in a hired room: a pinned sheet, a taped corner, a folding table. Local and provisional rather than institutional.",
+        "It must stretch. The chapter name runs long — 'County of Jo Daviess Democrats' and 'Nashville-Davidson metropolitan government Democrats' are both real strings this surface has rendered — and the activity controls below it wrap to two rows at a 1440-wide viewport.",
+        "No party marks, emblems, colors or names of any kind. One ground serves both parties and any third, and the emblems of real organizations are not ours to draw.",
+        "Nothing that implies a scale. The chapter is the same object in a town of three thousand and a city of two point seven million.",
+        "Nothing that reads as a membership card, a badge or a pledge. The surface says in its own words that coming to any of this is not joining, endorsing or voting, and the artwork must not contradict it.",
+        "No words, numerals or lettering of any kind in the artwork."
+      ],
+      "acceptanceCriteria": [
+        "Reads as a local, temporary gathering rather than an institution or a party organ.",
+        "Carries no party emblem, color coding, or anything a player could read as one; the identical ground under a Democratic and a Republican chapter must look deliberate rather than like a missing variant.",
+        "Stretches to a chapter name of up to about sixty characters and to one or two rows of activity controls without distortion or a visible seam.",
+        "Contains no text, numerals or lettering.",
+        "Does not read as a membership card, a badge or an endorsement.",
+        "Does not reduce the contrast of the organizer's name or the controls sitting on it."
+      ],
+      "dependsOn": []
+    },
+    {
       "requestId": "ui-temperament-marks-ten-poles",
       "requestVersion": 1,
       "priority": "P2",
@@ -7709,6 +7809,55 @@
         "Sits inline in the temperament line without pushing the card's layout around or out-weighing the person's name."
       ],
       "dependsOn": ["ui-shell-reference-icons"]
+    },
+    {
+      "requestId": "env-domestic-small-town-house-living-room",
+      "requestVersion": 1,
+      "priority": "P1",
+      "status": "queued",
+      "title": "A small-town house living room, for lives that do not start in a city",
+      "consumer": {
+        "consumerId": "ordinary-domestic-life",
+        "runtimeComponent": "src/presentation/life-scene.ts",
+        "playerVisibleUse": "The household room shown behind everyday life at home, which is most of play. Seen on a walk in Presque Isle, Maine (about 9,000 people): the home showed a city apartment with brick blocks outside the window."
+      },
+      "whyNeeded": "Home is where ordinary life happens, so this is the room most small-town and rural players see most often. A city apartment in a town of 9,000 tells the player the game does not know where they live. Jurisdiction-independent: The gap is the kind of settlement, not a state: every life outside a large city gets a city apartment today. One ordinary small-town house interior serves towns across the country; regional look is carried by the opening plate, and a window view should show nothing region-specific (a yard, a street of houses, trees), so it does not claim a climate. Filed by art bench and regional scenes thread on 2026-09-22T23:45:00.000Z (playtest).",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/families/apartment-ordinary/",
+          "art/families/",
+          "art/requests/asset-requests.json",
+          "src/presentation/scene-registry.ts (DOMESTIC_SCENE_IDS)",
+          "src/presentation/life-scene.ts"
+        ],
+        "driveLocationsSearched": [],
+        "found": "Every home interior in the project is an apartment. The manifest's 134 assets hold three domestic records, all in the apartment-ordinary family: canonical 03 and ordinary 02 (released, measured on disk at 1376x768 RGBA PNG, with 5504x3072 masters) and modest 01 (a 1376x768 master, unreleased). No other art family under art/families/ is residential. DOMESTIC_SCENE_IDS lists only canonical 03 and ordinary 02, and resolveLifeScene picks between them by hashing the household id, so where a life is has no bearing on the room.",
+        "shortfall": "An apartment with brick blocks outside the window cannot stand for a house in a town of a few thousand. Drive was not searched: the bench exchange is the return path for delivered artwork, not a store of art nobody has asked for, and no request for a house interior has ever been filed."
+      },
+      "target": {
+        "targetClass": "environment-plate",
+        "minimumWidth": 4608,
+        "aspectRatio": "16:9",
+        "alphaRequired": false,
+        "container": "either",
+        "styleAuthority": "The released apartment living rooms, art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png and env_residence_apartment_living_ordinary_02_v1.png, which are the style reference the existing domestic request (env-domestic-living-room-4k-masters) was judged against."
+      },
+      "generationRecipe": [
+        "The living room of an ordinary detached single-family house in an American small town, seen first person from where a resident would stand, in the same drawn style as the released apartment living rooms.",
+        "Modest and lived-in: a couch, an armchair, a coffee table, a lamp, a television or bookshelf, a rug over wood or carpet. Nothing wealthy and nothing run-down.",
+        "Windows show a yard, a neighboring house or trees, framed so the season is not stated: no snow, no autumn color, no bare branches, or curtains drawn part-way. No apartment blocks, no city skyline, no brick street wall.",
+        "No people and no pets drawn in. Present household members are rendered separately on top.",
+        "No text, flags, party signs or anything that names a state or region."
+      ],
+      "acceptanceCriteria": [
+        "Reads as a house, not an apartment: nothing visible through the window is a multi-story residential block or city street wall.",
+        "The window view states no season: a snowy, bare-branch or autumn-colored view is wrong for this request.",
+        "Empty of people and animals.",
+        "At least 4608 pixels wide at 16:9, measured from the delivered file, not upscaled from a smaller original.",
+        "Matches the drawing style of the released apartment living rooms closely enough to sit in the same game."
+      ],
+      "dependsOn": []
     }
   ]
 }

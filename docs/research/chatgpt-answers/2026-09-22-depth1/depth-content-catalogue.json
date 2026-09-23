@@ -782,7 +782,7 @@
         "service delivery"
       ],
       "requiredResult": "Cancellations/delays/repair are attributed to shared conditions with valid rescheduling.",
-      "forbiddenShortcut": "Advance a traveler past a meeting and leave the meeting pending forever.",
+      "forbiddenShortcut": "Advance a traveller past a meeting and leave the meeting pending forever.",
       "existingIssueKey": null,
       "status": "design-ready-receiving-input-not-executable-schema"
     },
@@ -900,7 +900,7 @@
         "household",
         "beliefs"
       ],
-      "requiredResult": "Care availability and costs respond before separately modeled outcomes.",
+      "requiredResult": "Care availability and costs respond before separately modelled outcomes.",
       "forbiddenShortcut": "Invent named disease clinical rates or automatically force civil restrictions.",
       "existingIssueKey": null,
       "status": "design-ready-receiving-input-not-executable-schema"
