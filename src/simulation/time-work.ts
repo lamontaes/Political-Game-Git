@@ -350,6 +350,23 @@ function conflictingActivityIds(
     .sort();
 }
 
+/**
+ * Whether any of these people already holds something scheduled that overlaps
+ * this span of time: the same test `createScheduledActivity` refuses on, asked
+ * before anything is written.
+ */
+export function scheduledConflictExists(
+  world: World,
+  participantPersonIds: readonly EntityId[],
+  start: SimulationMoment,
+  end: SimulationMoment,
+): boolean {
+  return (
+    conflictingActivityIds(world, participantPersonIds, start, end, null)
+      .length > 0
+  );
+}
+
 export function createScheduledActivity(
   world: World,
   input: CreateScheduledActivityInput,

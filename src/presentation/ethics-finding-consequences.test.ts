@@ -36,6 +36,13 @@ import {
   UNRESEARCHED_STATE_OVERSIGHT,
 } from "../simulation/press";
 import { canonicalSupportBasisPoints } from "../simulation/campaigns";
+import {
+  jailTermsOf,
+  PROSECUTION_CHARGED_EVENT,
+  PROSECUTION_REFERRED_EVENT,
+  PROSECUTION_SENTENCED_EVENT,
+  UNRESEARCHED_PROSECUTION,
+} from "../simulation/justice/prosecution";
 import { successorCandidates } from "../simulation/people-continuation";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { supportAfterLoss } from "../simulation/campaign-support";
@@ -462,6 +469,53 @@ describe("a Washington candidate who keeps taking after a finding", () => {
         lead.matterId !== null,
     );
     expect(leads.length).toBeGreaterThan(0);
+  });
+
+  it("is sent to prosecutors after the second finding, charged, and jailed", () => {
+    const ofType = (w: World, type: string) =>
+      w.history.events.filter(
+        (event) =>
+          event.type === type &&
+          event.participants.some((entry) => entry.personId === run.personId),
+      );
+    // A first finding stays civil.
+    expect(ofType(run.after, PROSECUTION_REFERRED_EVENT)).toHaveLength(0);
+    let later = world;
+    for (
+      let month = 0;
+      month < 12 && ofType(later, PROSECUTION_SENTENCED_EVENT).length === 0;
+      month += 1
+    )
+      later = passOrdinaryDays(later, 30);
+    const [referral] = ofType(later, PROSECUTION_REFERRED_EVENT);
+    expect(referral!.occurredAt).toBe(findings[1]!.at);
+    expect(referral!.visibility).toBe("private");
+    expect(referral!.summary).toBe(
+      `The Washington State Public Disclosure Commission referred ${personName(later.people[run.personId]!)} to prosecutors for taking campaign money for personal use.`,
+    );
+    const [charged] = ofType(later, PROSECUTION_CHARGED_EVENT);
+    expect(charged!.visibility).toBe("public");
+    expect(charged!.occurredAt).toBe(
+      addDays(referral!.occurredAt, UNRESEARCHED_PROSECUTION.chargeAfterDays),
+    );
+    const [sentenced] = ofType(later, PROSECUTION_SENTENCED_EVENT);
+    expect(sentenced!.visibility).toBe("public");
+    // Two standing findings: twice the placeholder months.
+    const months = 2 * UNRESEARCHED_PROSECUTION.jailMonthsPerFinding;
+    expect(sentenced!.summary).toContain(
+      `sentenced to ${months} months in jail`,
+    );
+    // The charge and the sentence are public records the papers cover.
+    const covered = new Set(
+      pressRecordsOfKind(later, "story-lead").flatMap(
+        (lead) => lead.basisEventIds,
+      ),
+    );
+    expect(covered.has(charged!.id)).toBe(true);
+    expect(covered.has(sentenced!.id)).toBe(true);
+    expect(jailTermsOf(later, run.personId)).toEqual([
+      expect.objectContaining({ months, from: sentenced!.occurredAt }),
+    ]);
   });
 });
 

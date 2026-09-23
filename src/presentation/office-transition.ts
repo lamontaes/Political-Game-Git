@@ -51,10 +51,12 @@ export interface OfficeTransitionView {
   readonly daysUntilStart: number;
   readonly entry: string;
   /**
-   * Only a state executive term needs a recorded qualification before entry;
-   * a legislative seat has none in this game. Qualifying stays on Campaigns.
+   * Whether the office's requirements are met, checked for the winner rather
+   * than pressed (there is no Qualify step). "blocked" means one the game can
+   * test fails; the reason is on Campaigns. A legislative seat re-reads its
+   * requirements on the first day instead.
    */
-  readonly qualification: "not-required" | "needed" | "done";
+  readonly qualification: "not-required" | "blocked" | "done";
   readonly services: readonly OfficeTransitionServiceView[];
 }
 
@@ -135,7 +137,7 @@ function executiveTransition(
     startsAt: status.startsAt,
     profile,
     qualification:
-      status.kind === "qualified-awaiting-entry" ? "done" : "needed",
+      status.kind === "qualified-awaiting-entry" ? "done" : "blocked",
     services: datedTransitionServices(
       profile,
       contest.electionDate,
