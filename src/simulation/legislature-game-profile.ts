@@ -462,7 +462,7 @@ export function legislatureProfilePack(
         PASSAGE_SOURCE,
       ),
       conference: unknownRule(
-        "How this legislature resolves a difference between its chambers is set by joint rules that have not been read, so conference is not modelled.",
+        "How this legislature resolves a difference between its chambers is set by joint rules that have not been read, so conference is not modeled.",
       ),
       source: PASSAGE_SOURCE,
     },
@@ -537,7 +537,7 @@ export function legislatureProfilePack(
       "This legislature has not been compiled from its state's own constitution or rules. Its structure, seat counts, veto windows and override threshold are the game's own, drawn from the range the compiled states span, and none of them is a claim about this state's law.",
       "The chamber names and bill prefixes are the ordinary American ones. A state whose lower chamber is an Assembly or a House of Delegates will say so once its instruments are compiled.",
       "Committee structure, referral among committees, hearing guarantees and report thresholds come from chamber rules that have not been read.",
-      "Conference between the chambers is not modelled.",
+      "Conference between the chambers is not modeled.",
       "How often this legislature meets and whether a pending measure carries over after adjournment have not been read; the annual session with bills dying at adjournment is the game's standing rule until they are.",
       "Whether this state overrides a veto in joint session rather than chamber by chamber has not been read; the generated pack uses the chamber-by-chamber form every compiled state but one uses.",
       ...override.unexpressed,
