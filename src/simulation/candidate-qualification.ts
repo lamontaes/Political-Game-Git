@@ -1,4 +1,8 @@
 import { ageOnDate } from "./dates";
+import type {
+  RuleAuthorityLayer,
+  RuleVerificationStatus,
+} from "./legislature-rules";
 import type { IsoDate } from "./types";
 
 /** The four research states kept distinct all the way into the consumer. */
@@ -26,6 +30,20 @@ export interface QualificationSourceRef {
   readonly observedCurrentOn: IsoDate;
   /** The research row that led to this first-party verification. */
   readonly researchLineage: string;
+  /**
+   * What kind of instrument this is. Absent means a state constitution, which
+   * is what every set carried before a second kind of source was admitted.
+   */
+  readonly authority?: RuleAuthorityLayer;
+  /**
+   * Absent means `verified`: the instrument's words were retrieved and held.
+   * `partial` means the values were stated by the cited official source but
+   * its text is not held in this repository.
+   */
+  readonly verification?: Extract<
+    RuleVerificationStatus,
+    "verified" | "partial"
+  >;
 }
 
 export interface CandidateQualificationRuleSet {
@@ -72,6 +90,52 @@ const AK_CONSTITUTION: QualificationSourceRef = {
   researchLineage: "31A Alaska legislative-office qualification rows",
 };
 
+/**
+ * Alabama's Secretary of State publishes the qualifications for each state
+ * office on one page. Its words were routed by the project owner on
+ * 2026-09-23; this environment's proxy refused the page itself, so the text is
+ * not held here and every value is `partial`. The Governor's age and residence
+ * agree with the repository's own primary check of the Alabama Constitution of
+ * 2022, §§ 117–118 (docs/research/chatgpt-answers/
+ * 2026-09-23-governor-and-alaska-0024/GOVERNOR-QUALIFICATIONS-56-PRIMARY-CHECK-2026-09-22.md).
+ *
+ * Commencement: the requirements are applied from 2023-01-01, when the
+ * Alabama Constitution of 2022 became operative. That date is not stated on
+ * the Secretary of State's page and was not retrieved here; it is recorded so
+ * that a life starting before the page was read is not refused outright, and
+ * it is the first thing to confirm when the constitution's text is acquired.
+ * A date before it leaves the rule unknown, as it does for any set.
+ */
+const AL_SECRETARY_OF_STATE: QualificationSourceRef = {
+  sourceTitle: "Alabama Secretary of State, Qualifications for Public Office",
+  sourceUrl:
+    "https://www.sos.alabama.gov/alabama-votes/candidates/qualifications-public-office",
+  legalLocator:
+    "Qualifications for Public Office: Governor; State Senator; State Representative",
+  retrievedAt: "2026-09-23T00:00:00.000Z",
+  provisionEffectiveOn: "2023-01-01" as IsoDate,
+  observedCurrentOn: "2026-09-23" as IsoDate,
+  researchLineage:
+    "Owner-routed Alabama playtest defect (Eufaula), 2026-09-23; governor corroborated by GOVERNOR-QUALIFICATIONS-56-PRIMARY-CHECK-2026-09-22",
+  authority: "research-reference",
+  verification: "partial",
+};
+
+/**
+ * Alabama's page does not state a term of office here, and a set does not
+ * borrow one. The candidacy pack keeps whatever term it already carried.
+ */
+const AL_TERM_NOT_STATED =
+  "The term of this office is not part of the qualifications read for it.";
+
+/**
+ * Only a governor has no district to live in. The ten-year United States
+ * citizenship the Governor must also have is not a field this set carries,
+ * because the world does not record when a character became a citizen.
+ */
+const NO_DISTRICT_FOR_STATEWIDE_OFFICE =
+  "A statewide office has no district of its own to live in.";
+
 function known<T>(
   value: T,
   source: QualificationSourceRef,
@@ -102,6 +166,42 @@ export const CANDIDATE_QUALIFICATION_RULE_SETS: readonly CandidateQualificationR
       stateResidenceYears: known(3, AK_CONSTITUTION),
       districtResidenceYears: known(1, AK_CONSTITUTION),
       termYears: known(4, AK_CONSTITUTION),
+    },
+    {
+      ruleSetId: "us-al-governor-qualifications-v1",
+      source: AL_SECRETARY_OF_STATE,
+      candidacyPackId: "us-al-governor:candidacy",
+      officeKey: "us-al-governor",
+      jurisdictionKey: "US-AL",
+      minimumAge: known(30, AL_SECRETARY_OF_STATE),
+      stateResidenceYears: known(7, AL_SECRETARY_OF_STATE),
+      districtResidenceYears: {
+        state: "NOT_APPLICABLE",
+        reason: NO_DISTRICT_FOR_STATEWIDE_OFFICE,
+      },
+      termYears: { state: "UNKNOWN", reason: AL_TERM_NOT_STATED },
+    },
+    {
+      ruleSetId: "us-al-senate-qualifications-v1",
+      source: AL_SECRETARY_OF_STATE,
+      candidacyPackId: "us-al-legislature-profile-v1:candidacy",
+      officeKey: "us-al-legislature-profile-v1:senate",
+      jurisdictionKey: "US-AL",
+      minimumAge: known(25, AL_SECRETARY_OF_STATE),
+      stateResidenceYears: known(3, AL_SECRETARY_OF_STATE),
+      districtResidenceYears: known(1, AL_SECRETARY_OF_STATE),
+      termYears: { state: "UNKNOWN", reason: AL_TERM_NOT_STATED },
+    },
+    {
+      ruleSetId: "us-al-house-qualifications-v1",
+      source: AL_SECRETARY_OF_STATE,
+      candidacyPackId: "us-al-legislature-profile-v1:candidacy",
+      officeKey: "us-al-legislature-profile-v1:house",
+      jurisdictionKey: "US-AL",
+      minimumAge: known(21, AL_SECRETARY_OF_STATE),
+      stateResidenceYears: known(3, AL_SECRETARY_OF_STATE),
+      districtResidenceYears: known(1, AL_SECRETARY_OF_STATE),
+      termYears: { state: "UNKNOWN", reason: AL_TERM_NOT_STATED },
     },
   ];
 
@@ -248,7 +348,7 @@ function durationRefusal(
     return {
       kind,
       field,
-      reason: `The recorded ${label} interval does not yet satisfy the sourced ${value.value}-year requirement.`,
+      reason: `Not resident long enough: the ${label} rule for this office requires ${value.value} year${value.value === 1 ? "" : "s"}.`,
       source: value.source,
     };
   }
