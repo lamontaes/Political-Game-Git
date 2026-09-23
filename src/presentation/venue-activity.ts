@@ -22,6 +22,7 @@ import {
 } from "../simulation";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import { CONTACT_LOCATION_KEY } from "../simulation/people-contact";
+import { MEMBER_BALLOT_LOCATION_KEY } from "../simulation/governing/member-ballots";
 import { recordDomainAttendance } from "./activity-attendance";
 import {
   openingLifeLocation,
@@ -317,7 +318,9 @@ export function venueActivities(
            * between them, and did nothing (owner's playtest, 2026-09-22).
            */
           const metWhereverTheyMeet =
-            activity.location.locationKey === CONTACT_LOCATION_KEY;
+            activity.location.locationKey === CONTACT_LOCATION_KEY ||
+            // Deciding a ballot is done wherever the member is.
+            activity.location.locationKey === MEMBER_BALLOT_LOCATION_KEY;
           /*
            * A phone shift is worked from home. Its label names no place to
            * travel to, so comparing labels refused it everywhere, at home
