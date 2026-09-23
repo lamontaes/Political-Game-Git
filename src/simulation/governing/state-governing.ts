@@ -23,6 +23,11 @@ import type {
   WorkItemStateRecord,
 } from "../types";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
+import { isCongressMeasure } from "./congress-chambers";
+import {
+  CONGRESS_LAWMAKING_HANDLERS,
+  presidentDesk,
+} from "./congress-lawmaking";
 import {
   currentStateExecutiveHolders,
   type StateExecutiveHolderRecord,
@@ -77,6 +82,11 @@ import {
  */
 
 export const STATE_GOVERNING_VERSION = "state-governing/v1";
+
+/** A sentence used as the opening clause of a longer one: no stop mid-sentence. */
+function clause(sentence: string): string {
+  return sentence.replace(/\.$/, "");
+}
 
 export const GOVERNING_MATTER_OPENED = "governing.matter-opened" as const;
 export const GOVERNING_MATTER_DECIDED = "governing.matter-decided" as const;
@@ -210,7 +220,6 @@ export function chiefOfStaffFor(
 import {
   generateStaffCandidateHistory,
   staffAssessment,
-  staffAssessmentSummary,
   staffKnowsLegislature,
 } from "./staff-evidence";
 import type { StaffAssessment } from "./staff-evidence";
@@ -327,7 +336,7 @@ function optionsFor(
               label: `Hire ${personName(person)}`,
               effect:
                 "Becomes chief of staff, recommends choices and can take matters you hand over.",
-              tradeoff: staffAssessmentSummary(personName(person), assessment),
+              tradeoff: `${clause(assessment.background)}; ${assessment.strength}, but ${assessment.caution}.`,
               personId,
               assessment,
             },
@@ -641,7 +650,7 @@ export function staffRecommendation(
       return {
         optionKey: pick.key,
         byPersonId: chief,
-        reason: `${assessment.background} Thinks ${pick.label.toLowerCase()} is where the office can show results.`,
+        reason: `${clause(assessment.background)}, and thinks ${pick.label.toLowerCase()} is where the office can show results.`,
       };
     }
     case "budget": {
@@ -676,7 +685,7 @@ export function staffRecommendation(
           ? {
               optionKey: "bill:sign",
               byPersonId: chief,
-              reason: `${assessment.background} Sees no reason to pick this fight.`,
+              reason: `${clause(assessment.background)}, and sees no reason to pick this fight.`,
             }
           : {
               optionKey: "bill:return",
@@ -1859,8 +1868,14 @@ export const governorDesk: ExecutiveDeskHandler = (
  * enacted an appropriation puts that money in front of its executive the same
  * day, rather than waiting for the next season.
  */
+/** The governor's desk for a state bill, the President's for a federal one. */
+const executiveDesk: ExecutiveDeskHandler = (world, measure, blueprint) =>
+  isCongressMeasure(measure)
+    ? presidentDesk(world, measure)
+    : governorDesk(world, measure, blueprint);
+
 const institutionStepWithProgramMatters = (() => {
-  const step = createInstitutionStepHandler(governorDesk);
+  const step = createInstitutionStepHandler(executiveDesk);
   return (world: World, due: FutureDueItem): FutureTransitionHandlerResult => {
     const result = step(world, due);
     // Reading every office on every legislative step would cost the clock a
@@ -1883,6 +1898,7 @@ const institutionStepWithProgramMatters = (() => {
 
 export const STATE_GOVERNING_HANDLERS = [
   [LEGISLATIVE_INSTITUTION_STEP, institutionStepWithProgramMatters],
+  ...CONGRESS_LAWMAKING_HANDLERS,
   [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
   [GOVERNING_SEASON, governingSeasonHandler],
   [GOVERNING_TRANSITION, governingTransitionHandler],

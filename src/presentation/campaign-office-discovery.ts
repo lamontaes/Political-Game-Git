@@ -4,7 +4,9 @@ import {
   candidacyAuthority,
   candidacyEligibility,
   electiveOfficesForJurisdiction,
+  lifePlaceByJurisdictionId,
   localGoverningBodyIdentityForOfficeKey,
+  nextStateLegislativeElection,
   personName,
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
@@ -15,6 +17,10 @@ export function projectCampaignOffices(world: World, personId: EntityId) {
   if (!person) throw new Error("This character is not in the world.");
   const authority = candidacyAuthority(person.homeJurisdictionId);
   const campaign = campaignForCandidate(world, personId);
+  const stateKey =
+    lifePlaceByJurisdictionId(
+      person.homeJurisdictionId,
+    )?.stateJurisdictionKey?.replace(/^US-/, "") ?? null;
   return electiveOfficesForJurisdiction(person.homeJurisdictionId).map(
     (option) => {
       const eligibility = candidacyEligibility(world, {
@@ -57,14 +63,15 @@ export function projectCampaignOffices(world: World, personId: EntityId) {
         eligibility: eligibility.eligible
           ? "Currently eligible under the represented rules. Filing rechecks them."
           : eligibility.blocks.map((block) => block.reason).join(" "),
-        timing: upcoming.length
-          ? upcoming
-              .map(
-                (contest) =>
-                  `${contest.electionDate} — recorded ${contest.provenance.method} contest`,
-              )
-              .join("; ")
-          : "Upcoming election timing is not established in this save.",
+        // The date alone: the player needs when, not how the contest was
+        // recorded. A state seat is on the state's regular election before
+        // anyone files; a town seat is decided four weeks after filing.
+        timing:
+          upcoming[0]?.electionDate ??
+          (localGoverningBodyIdentityForOfficeKey(option.officeKey) || !stateKey
+            ? "The election is four weeks after you file."
+            : nextStateLegislativeElection(stateKey, world.currentDate)
+                .electionDate),
         connections: [
           ...(own ? ["Your recorded campaign is for this office."] : []),
           ...[...new Set(contacts)].map(

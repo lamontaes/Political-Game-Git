@@ -23,7 +23,7 @@
       "whatItDidNotSettle": "Holds the Kentucky term length only; the first election's date was an authored 28-day schedule."
     }
   ],
-  "title": "When each state legislature is elected, and how many run",
+  "title": "When each state legislature is elected",
   "usableAnswer": "A table of the fifty states, with the chamber election years and, for staggered senates, the rule that decides which districts are up (by district number, or by a lot drawn after redistricting); the general election day; the filing deadline and primary date as days before the general election (a national default with the named exceptions); and a realistic range for the number of general-election candidates per legislative race, including the uncontested share. Approximate primary and filing figures are fine; the election years and the staggering rule must be exact.",
   "whyItMatters": "A legislative race was decided about a month after filing, so a candidate filed in August and was elected in September. The calendar is now the right shape but is a profile, not each state's law, and every race has exactly one rival."
 }
