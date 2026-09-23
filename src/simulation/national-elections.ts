@@ -8,7 +8,6 @@ import { compareSimulationMoments, makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import {
   nationalElectionRules,
-  NATIONAL_ALLOCATION_VERSION,
   CONTINGENT_STATES,
 } from "./national-election-rules";
 import type {
@@ -143,7 +142,7 @@ export function registerNationalElection(
     id: createStableId("national-election", `${world.id}:${input.stableKey}`),
     sequence: world.history.nextSequence,
     recordedAt: world.currentDate,
-    ruleVersion: NATIONAL_ALLOCATION_VERSION,
+    ruleVersion: nationalElectionRules(input.cycle).version,
   };
   return {
     ...world,

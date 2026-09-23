@@ -429,3 +429,21 @@ export function staffAssessment(
     ),
   };
 }
+
+/**
+ * One reading of an assessment for a person weighing a hire. The background
+ * is already a full sentence; the strength and caution follow it as a second
+ * one, with the person named, rather than being spliced onto its period.
+ */
+export function staffAssessmentSummary(
+  name: string,
+  assessment: StaffAssessment,
+): string {
+  return assessment.evidence === "limited"
+    ? `${assessment.background} ${capitalize(assessment.strength)}, and ${assessment.caution}.`
+    : `${assessment.background} ${name} ${assessment.strength}, but ${assessment.caution}.`;
+}
+
+function capitalize(text: string): string {
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
