@@ -41,11 +41,20 @@
       "readerAt": "src/simulation/production-catalog.ts#assertProductionCatalogBoundary"
     },
     {
-      "reader": "People learning what a bill is about, so they can form a view on it",
+      "reader": "A bill's sponsor meeting the questions it is about",
+      "readerOwner": "Legislation",
+      "state": "closed",
+      "detail": "introduceMeasure now records a proposition exposure for the sponsor on each of the bill's propositions, with the filing event as its provenance. It records that they met the question and nothing about which way they lean.",
+      "proofTest": "src/simulation/legislation-measure-subject.test.ts",
+      "readerAt": "src/simulation/legislation.ts#exposeSponsorToQuestions"
+    },
+    {
+      "reader": "Everyone else learning what a bill is about: members who vote on it, and the public who read about it",
       "readerOwner": "People and life",
-      "state": "open",
-      "detail": "Four callers of introduceMeasure attach propositionIds (legislation-docket.ts:963, legislation-world.ts:451, legislation-bundle-docket.ts:356, legislative-clock.ts:730). The only reader is the integrity check at legislation-integrity.ts:156. recordPropositionExposure has no caller outside demo.ts, so a bill never exposes anybody to its question.",
-      "readerAt": "src/simulation/politics.ts#recordPropositionExposure"
+      "state": "handed-off",
+      "detail": "Members who cast a floor vote are not on the vote event's involved people, so their exposure needs the per-member vote record (which #440 changes). Public exposure needs who-learned-what from the press, which the answer to what-should-the-world-do-to-a-person routes through known exposure.",
+      "readerAt": "src/simulation/politics.ts#recordPropositionExposure",
+      "handedOff": "2026-09-23, brief sent to People and life"
     },
     {
       "reader": "A law changing a rule of government, such as a term limit or a filing requirement",
