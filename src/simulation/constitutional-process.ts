@@ -28,6 +28,7 @@ import { activeWorkRelationshipsAt } from "./life-queries";
 import { stateJurisdictionForKey } from "./life-places";
 import type { ConstitutionalProcessKind } from "./constitutional-types";
 import { assertConstitutionalRuleFieldDelta } from "./enacted-rule-changes";
+import { assertPolicyProvisionDelta } from "./policy-provisions";
 import {
   legislatureForState,
   seatsForChamber,
@@ -415,6 +416,8 @@ export function proposeConstitutionalMeasure(
     });
   } else if (input.ruleDelta.kind === "rule-field") {
     assertConstitutionalRuleFieldDelta(input.jurisdictionKey, input.ruleDelta);
+  } else if (input.ruleDelta.kind === "policy-provision") {
+    assertPolicyProvisionDelta(world, input.jurisdictionKey, input.ruleDelta);
   } else if (
     input.ruleDelta.kind !== "text-only" ||
     !input.ruleDelta.unsupportedEffect.trim()
@@ -615,12 +618,14 @@ export function constitutionalPosition(
   };
 }
 /** Two deltas that set the same rule, so both passing at once conflict. */
-function sameRuleChanged(
+export function sameRuleChanged(
   a: ConstitutionalMeasureRecord["ruleDelta"],
   b: ConstitutionalMeasureRecord["ruleDelta"],
 ): boolean {
   if (a.kind === "proposal-threshold" && b.kind === "proposal-threshold")
     return true;
+  if (a.kind === "policy-provision" && b.kind === "policy-provision")
+    return a.propositionId === b.propositionId;
   return (
     a.kind === "rule-field" &&
     b.kind === "rule-field" &&

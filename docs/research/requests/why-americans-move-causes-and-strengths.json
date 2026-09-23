@@ -1,0 +1,33 @@
+{
+  "filedAt": "2026-09-23T04:20:00.000Z",
+  "impact": "shapes-design",
+  "lane": "migration and settlement",
+  "notes": [
+    "The owner's goal, 2026-09-22 11:46 p.m. Eastern, relayed by the coordinator: migration should have more causes than floods and taxes, including jobs, cost of living, crime, family, schools, climate and policy, plus whatever else the research supports.",
+    "The owner, same message: \"if you go completely on electric power, you know, coal, you know, West Virginia should suffer consequences.\" A law that hurts an industry concentrated in one state belongs in this answer.",
+    "This question widens `state-to-state-moves-what-pushes-and-pulls` (taxes, costs, jobs, disasters, climate, laws) and `disaster-displacement-and-return`; answer the overlap once."
+  ],
+  "priority": "P1",
+  "question": "Why do Americans move, and how strongly does each reason act? For each reason below, say (a) how much it changes the chance that a household leaves its town or state in a year, as an effect size where one exists, (b) whether it mostly moves people within a state or between states, (c) who it moves most by age, income and household type, and (d) how fast the effect fades. The reasons: losing a job; a place's unemployment compared with the nation's; wages; housing costs and rents; overall cost of living; violent and property crime; being near family (parents, grown children, siblings), following a partner, and caring for an aging parent; school quality; climate and weather, including heat, sea level and a warming trend; disasters; state and local taxes; a law people strongly like or dislike; a law or market change that hits an industry concentrated in one state (for example coal in West Virginia); political fit with the neighbors; life stage (college, first job, marriage, children, retirement, old age); and military service. Add any other reason the research shows moves at least as many people as the weakest of these, and say which reasons are too weak or too uncertain to model.",
+  "questionId": "why-americans-move-causes-and-strengths",
+  "relatedQuestionIds": [
+    "state-to-state-moves-what-pushes-and-pulls",
+    "disaster-displacement-and-return",
+    "migration-rates-and-reasons"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "migration and settlement thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/pressure/contract.ts PRESSURE_SEAMS on claude/project-thread-ltkqvu",
+      "whatItDidNotSettle": "Lists every reason the game reads or does not read, with a placeholder strength for each one it reads: job loss triples the chance of leaving, each point of excess unemployment adds 5 percent, each unusual violent crime report adds 5 percent, and a relative's state weighs three times as much. None of these numbers is researched."
+    },
+    {
+      "source": "src/simulation/crime/contract.ts UNRESEARCHED_LOCAL_CRIME",
+      "whatItDidNotSettle": "Gives the same crime rates in every town, so crime cannot yet explain why people leave one place rather than another."
+    }
+  ],
+  "title": "Why Americans move, and how much each reason matters",
+  "usableAnswer": "One table with a row per reason: the effect size on the yearly chance of moving (or a plain statement that no defensible figure exists), within-state or between-state, who it moves most, how fast it fades, and a source. Then a short list of any reasons we missed and any we should leave out.",
+  "whyItMatters": "The game now moves people for several reasons it can read: floods and taxes at the state level; losing a job, unemployment in town, an unusually bad quarter of crime, and a relative in another state for people in the player's town. Every strength is a placeholder the code marks as unresearched. School quality, housing costs, climate, how people feel about laws, political fit, life stage and military service are marked slots the game does not read yet. Until the real strengths come back, the game cannot show the owner's picture of people leaving California for Texas, or West Virginia losing people when coal is abandoned, for the right reasons."
+}
