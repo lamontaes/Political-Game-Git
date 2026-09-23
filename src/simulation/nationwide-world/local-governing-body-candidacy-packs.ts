@@ -3,6 +3,7 @@ import { governmentUnit } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
 import { unknownRule } from "../legislature-rules";
 import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
+import { localChiefExecutiveRules } from "./local-chief-executive-rules";
 
 /**
  * A town's own governing body as a candidacy pack, for every municipal
@@ -19,9 +20,13 @@ import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
  * purpose: how many seats, whether they are at large or by ward, who may
  * stand, for how long, and whether a mayor is elected separately. Candidacy
  * eligibility reads those from RULES at filing time, so admitting a town's
- * facts changes behavior with no edit to this file. A mayor is deliberately
- * not offered: a directly elected mayor is one form among several, and which
- * form a town has is exactly the fact the game has not read.
+ * facts changes behavior with no edit to this file.
+ *
+ * A mayor is offered where the town elects one directly
+ * (`local-chief-executive-rules.ts`): read where the town's government was
+ * read, and otherwise drawn from ICMA's national shares, which ChatGPT
+ * supplied on 2026-09-22. This file used to leave the mayor out because which
+ * form a town has had not been read; that answer is what lets it in now.
  */
 
 export const LOCAL_GOVERNING_BODY_PROFILE_NOTE =
@@ -34,17 +39,32 @@ const NO_FILING_PROCEDURE =
 const NO_FORM =
   "The town's form of government has not been read, so whether its seats are at large or by ward, and whether a mayor is elected separately, is not known.";
 
+const MAYOR_FORM =
+  "The town elects one mayor. Its charter has not been read, so the mayor's powers and who may stand are not known here.";
+const NO_MAYOR_FILING =
+  "No filing deadline, filing officer, nomination or ballot-access procedure has been read for this town's mayor.";
+
 const OFFICE_PREFIX = "local-government-";
 const OFFICE_SUFFIX = "-governing-body";
+const CHIEF_SUFFIX = "-chief-executive";
+
+/** Which of a town's elected offices: a seat on its body, or its mayor. */
+export type LocalElectedSeat = "governing-body" | "chief-executive";
 
 export interface LocalGoverningBodyIdentity {
   readonly unit: GovernmentUnitIdentity;
+  readonly seat: LocalElectedSeat;
   readonly officeKey: string;
   readonly candidacyPackId: string;
   /** "City of Bowling Green", the publisher's name in ordinary capitals. */
   readonly governmentName: string;
-  /** "City of Bowling Green governing body". */
+  /**
+   * "City of Bowling Green governing body", or for a mayor the government
+   * itself, since a mayor sits on no body of that name.
+   */
   readonly bodyName: string;
+  /** "Member of the governing body", or the mayor's title, such as "Mayor". */
+  readonly officeTitle: string;
 }
 
 const displayName = governmentUnitDisplayName;
@@ -62,28 +82,65 @@ export function localGoverningBodyIdentity(
   const governmentName = displayName(unit);
   return {
     unit,
+    seat: "governing-body",
     officeKey,
     candidacyPackId: `${officeKey}:candidacy`,
     governmentName,
     bodyName: `${governmentName} governing body`,
+    officeTitle: "Member of the governing body",
   };
 }
 
-/** The municipal governing body this office key names, or null. */
+/**
+ * The town's mayor as an office anybody may file for, or null where the town
+ * does not elect one directly (its council chooses, or it is not a town).
+ */
+export function localChiefExecutiveIdentity(
+  unit: GovernmentUnitIdentity,
+): LocalGoverningBodyIdentity | null {
+  const rules = localChiefExecutiveRules(unit);
+  if (!rules?.directlyElected.value) return null;
+  const officeKey = `${OFFICE_PREFIX}${unit.publisherId}${CHIEF_SUFFIX}`;
+  const governmentName = displayName(unit);
+  return {
+    unit,
+    seat: "chief-executive",
+    officeKey,
+    candidacyPackId: `${officeKey}:candidacy`,
+    governmentName,
+    bodyName: governmentName,
+    officeTitle: rules.title.value,
+  };
+}
+
+/** A town's elected offices: its governing body, then its mayor if elected. */
+export function localElectedOffices(
+  unit: GovernmentUnitIdentity,
+): readonly LocalGoverningBodyIdentity[] {
+  return [
+    localGoverningBodyIdentity(unit),
+    localChiefExecutiveIdentity(unit),
+  ].filter((identity) => identity !== null);
+}
+
+/** The town office (governing body or mayor) this office key names, or null. */
 export function localGoverningBodyIdentityForOfficeKey(
   officeKey: string,
 ): LocalGoverningBodyIdentity | null {
-  if (
-    !officeKey.startsWith(OFFICE_PREFIX) ||
-    !officeKey.endsWith(OFFICE_SUFFIX)
-  )
-    return null;
-  const publisherId = officeKey.slice(
-    OFFICE_PREFIX.length,
-    -OFFICE_SUFFIX.length,
-  );
+  if (!officeKey.startsWith(OFFICE_PREFIX)) return null;
+  const suffix = officeKey.endsWith(OFFICE_SUFFIX)
+    ? OFFICE_SUFFIX
+    : officeKey.endsWith(CHIEF_SUFFIX)
+      ? CHIEF_SUFFIX
+      : null;
+  if (!suffix) return null;
+  const publisherId = officeKey.slice(OFFICE_PREFIX.length, -suffix.length);
   const unit = governmentUnit(`gus2025:${publisherId}`);
-  const identity = unit ? localGoverningBodyIdentity(unit) : null;
+  if (!unit) return null;
+  const identity =
+    suffix === OFFICE_SUFFIX
+      ? localGoverningBodyIdentity(unit)
+      : localChiefExecutiveIdentity(unit);
   return identity?.officeKey === officeKey ? identity : null;
 }
 
@@ -99,16 +156,17 @@ export function localGoverningBodyIdentityForPackId(
 export function localGoverningBodyCandidacyPack(
   identity: LocalGoverningBodyIdentity,
 ): CandidacyPack {
+  const mayor = identity.seat === "chief-executive";
   const option: ElectiveOfficeOption = {
     officeKey: identity.officeKey,
     chamberName: identity.bodyName,
     office: {
       officeKey: identity.officeKey,
-      title: "Member of the governing body",
+      title: identity.officeTitle,
       seatKey: null,
       occupationClassification: "service:elected-local-official",
     },
-    seats: unknownRule(NO_FORM),
+    seats: unknownRule(mayor ? MAYOR_FORM : NO_FORM),
     recordedBy: {
       packId: identity.candidacyPackId,
       packName: identity.governmentName,
@@ -117,9 +175,9 @@ export function localGoverningBodyCandidacyPack(
       minimumAge: unknownRule(QUALIFICATION_AT_FILING),
       residency: unknownRule(QUALIFICATION_AT_FILING),
       termYears: unknownRule(QUALIFICATION_AT_FILING),
-      filing: unknownRule(NO_FILING_PROCEDURE),
+      filing: unknownRule(mayor ? NO_MAYOR_FILING : NO_FILING_PROCEDURE),
     },
-    unresolvedGaps: [NO_FORM, NO_FILING_PROCEDURE],
+    unresolvedGaps: mayor ? [NO_MAYOR_FILING] : [NO_FORM, NO_FILING_PROCEDURE],
   };
   return {
     packId: identity.candidacyPackId,

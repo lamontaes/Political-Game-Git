@@ -32,6 +32,7 @@ import {
   purchaseOutlet,
   reporterIsCurrent,
   reporterRoles,
+  type OwnershipOwnerRow,
   type OwnershipPack,
   type OwnershipPracticeRow,
   type OwnershipRegistry,
@@ -198,6 +199,66 @@ describe("media ownership packs", () => {
     expect(registry.owners.map((row) => row.names[0])).toEqual([
       "Replacement Family Papers",
     ]);
+  });
+});
+
+describe("founding owners by product", () => {
+  function owner(
+    key: string,
+    weights: OwnershipOwnerRow["foundingWeightByProduct"],
+  ): OwnershipOwnerRow {
+    return {
+      key,
+      ownerKind: "family-chain",
+      names: [key],
+      holds: {},
+      foundingWeight: 0,
+      foundingWeightByProduct: weights,
+      reviewEveryDays: 182,
+      sellsOutlets: false,
+      practices: [],
+    };
+  }
+
+  it("uses an owner's weight for the outlet's product, and skips a weight it cannot read", () => {
+    const registry = loadOwnershipPacks([
+      {
+        id: "test.by-product",
+        provenance: PROVENANCE,
+        owners: [
+          owner("owner.newsroom-only", { "state-newsroom": 1 }),
+          owner("owner.everything-else", {
+            "general-newspaper": 1,
+            "public-affairs-broadcaster": 1,
+            "politics-publication": 1,
+            "community-outlet": 1,
+          }),
+          owner("owner.unknown-product", { "town-crier": 1 } as never),
+          owner("owner.negative", { "state-newsroom": -1 }),
+        ],
+      },
+    ]);
+    expect(
+      registry.report.rejections.map(
+        (entry) => `${entry.where}: ${entry.reason}`,
+      ),
+    ).toEqual([
+      'owners[2] owner.unknown-product: weights the unknown product "town-crier"',
+      'owners[3] owner.negative: has a negative founding weight for "state-newsroom"',
+    ]);
+    const { world } = withOutlets("ownership-by-product");
+    const owned = ensureMediaOwnership(world, registry);
+    const outlets = mediaOutlets(owned);
+    expect(outlets.some((outlet) => outlet.product === "state-newsroom")).toBe(
+      true,
+    );
+    for (const outlet of outlets) {
+      expect(outletOwner(owned, outlet.id)!.name).toBe(
+        outlet.product === "state-newsroom"
+          ? "owner.newsroom-only"
+          : "owner.everything-else",
+      );
+    }
   });
 });
 
