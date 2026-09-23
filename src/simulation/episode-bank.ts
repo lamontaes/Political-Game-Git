@@ -1244,7 +1244,7 @@ const WORK_STANDING: EpisodeFamily = {
         },
         {
           key: "escalate",
-          label: "Put it up the line",
+          label: "Pass the decision to a manager",
           description: "It sits with somebody else, and it takes two weeks.",
           nudges: [
             nudge("institutional-trust", 0.4),
@@ -1253,7 +1253,7 @@ const WORK_STANDING: EpisodeFamily = {
           ],
           aftermath: null,
           memory:
-            "You put the decision up the line rather than making it, and it took two weeks.",
+            "You passed the decision to a manager rather than making it, and it took two weeks.",
         },
       ],
     },
@@ -1455,7 +1455,7 @@ const WORK_STANDING: EpisodeFamily = {
         {
           key: "decide-it-next-time",
           label: "Decide the next one yourself",
-          description: "And do not put it up the line.",
+          description: "Without asking a manager first.",
           nudges: [
             nudge("decision-style", 0.45),
             nudge("risk-appetite", 0.3),
@@ -1463,7 +1463,7 @@ const WORK_STANDING: EpisodeFamily = {
           ],
           aftermath: null,
           memory:
-            "You decided that the next one like it would not be going up the line.",
+            "You decided that you would make the next one like it yourself.",
         },
         {
           key: "leave-the-process-alone",
@@ -1530,7 +1530,7 @@ const MONEY_OWED: EpisodeFamily = {
           ],
           aftermath: "obligation",
           memory:
-            "You rang the number on the letter and said what you could actually manage.",
+            "You called the number on the letter and said what you could actually manage.",
         },
         {
           key: "pay-part",
@@ -1779,7 +1779,7 @@ const CARING: EpisodeFamily = {
           nudges: [nudge("care-obligation", 0.4), nudge("personal-ties", 0.3)],
           aftermath: null,
           memory:
-            "You went on answering whenever {role:relative} rang, whoever's week it was.",
+            "You went on answering whenever {role:relative} called, whoever's week it was.",
         },
         {
           key: "redirect",

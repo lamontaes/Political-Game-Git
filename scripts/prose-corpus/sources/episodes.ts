@@ -259,13 +259,19 @@ export function episodeProseRecords(): readonly ProseRecord[] {
             surface: "option-label",
             text: option.label,
           }),
-          record({
-            family,
-            stage,
-            field: `option:${option.key}:description`,
-            surface: "option-description",
-            text: option.description,
-          }),
+          // An instant choice is deliberately unlabeled (owner, 2026-09-22):
+          // there is no description for a player to read, so none is listed.
+          ...(option.description
+            ? [
+                record({
+                  family,
+                  stage,
+                  field: `option:${option.key}:description`,
+                  surface: "option-description",
+                  text: option.description,
+                }),
+              ]
+            : []),
           record({
             family,
             stage,

@@ -5717,7 +5717,7 @@ function StoryView({
             }
           >
             {option.label}
-            <small>{option.description}</small>
+            {option.description ? <small>{option.description}</small> : null}
           </button>
         ))}
         {moment.scene.kind === "ordinary-stretch" ? null : (

@@ -1307,6 +1307,15 @@ export const OPENING_LIFE_ADDITIONS = OPENING_LIFE_SCENES.filter(
       (kernel) => kernel.kernelId === scene.key && kernel.isKernel,
     ),
 );
+/**
+ * Opening scenes the owner has taken out of play. Each stays authored so a
+ * save that already holds one still reads, and is never offered again.
+ */
+export const OPENING_LIFE_WITHHELD: Readonly<Record<string, string>> = {
+  "early.school.crayon-sharing":
+    "Withdrawn by the owner, 2026-09-22 (ChatGPT dialogue review 2026-09-23): the blue-crayon premise is rejected.",
+};
+
 export function openingLifeFamily(
   scene: LifeSceneDefinition,
   sourceDocument = "OPENING-LIFE1 / 92C",
@@ -1325,7 +1334,9 @@ export function openingLifeFamily(
             ? "household-companion"
             : "guardian";
   const slot = role ? `{role:${role}}` : "";
+  const withheld = OPENING_LIFE_WITHHELD[scene.key];
   const requirements: EpisodeRequirement[] = [
+    ...(withheld ? [{ kind: "withheld" as const, reason: withheld }] : []),
     { kind: "age-at-least", age: scene.ages[0] },
     { kind: "age-below", age: scene.ages[1] + 1 },
     ...(scene.setting === "home" ? [{ kind: "home-recorded" as const }] : []),
@@ -1389,7 +1400,7 @@ export function openingLifeFamily(
           label: choice.label.replaceAll("{person}", slot),
           description: openingChoiceMinutes(scene, choice)
             ? `${openingChoiceMinutes(scene, choice)} minutes`
-            : "No time passes",
+            : "",
           memory: choice.aftermath.replaceAll("{person}", slot),
           nudges: [],
           aftermath: null,
@@ -1426,7 +1437,7 @@ export function openingLifeFamily(
                     choice,
                   )
                     ? `${openingChoiceMinutes({ ...scene, minutes: 5 }, choice)} minutes`
-                    : "No time passes",
+                    : "",
                   memory: choice.aftermath.replaceAll("{person}", slot),
                   nudges: [],
                   aftermath: null,
@@ -1444,6 +1455,9 @@ export function openingLifeFamily(
         return {
           key: openingLaterStageKey(later),
           requires: [
+            ...(withheld
+              ? [{ kind: "withheld" as const, reason: withheld }]
+              : []),
             // A later answer may land a little after the first moment's own
             // age window closes; the window is for when the moment can
             // start, not for when its consequences may still arrive.
@@ -1481,7 +1495,7 @@ export function openingLifeFamily(
             label: choice.label.replaceAll("{person}", slot),
             description: openingChoiceMinutes(atStage, choice)
               ? `${openingChoiceMinutes(atStage, choice)} minutes`
-              : "No time passes",
+              : "",
             memory: choice.aftermath.replaceAll("{person}", slot),
             nudges: [],
             aftermath: null,

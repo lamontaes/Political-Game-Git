@@ -102,7 +102,9 @@ export function ChildhoodMomentPanel({
                   onClick={() => play(option.key)}
                 >
                   <span>{option.label}</span>
-                  <small>{option.description}</small>
+                  {option.description ? (
+                    <small>{option.description}</small>
+                  ) : null}
                 </button>
               ))}
             </div>

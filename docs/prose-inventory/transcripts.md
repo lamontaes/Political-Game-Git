@@ -674,7 +674,7 @@ _Present: David Todd, your dad_
 Seed `corpus-long-tail`, start age 7, Peter Fleming.
 40 beats, 147 realized lines, 111 linked back to a template.
 
-**Actually demonstrated:** age-band:childhood, connective-narration, episode:companionship.the-friend-you-named, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:opening.early.community.curious-neighbor, episode:opening.early.community.lost-pet-flyer, episode:opening.early.home.broken-mug, episode:opening.early.peer.dropped-treat, episode:opening.early.peer.roughhouse-line, episode:opening.early.peer.secret-whisper, episode:opening.early.peer.sidewalk-game, episode:opening.early.peer.toy-damage-accidental, episode:opening.early.school.crayon-sharing, episode:opening.early.school.lunchbox-swap, episode:opening.early.school.playground-turn, episode:opening.early.school.spilled-paint, episode:opening.young.home.choose-activity, episode:school.the-thing-you-got-blamed-for, persistent-instance-continuation, person-introduction, scene:episode, scene:formative, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:childhood, connective-narration, episode:companionship.the-friend-you-named, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:opening.early.community.curious-neighbor, episode:opening.early.community.lost-pet-flyer, episode:opening.early.home.broken-mug, episode:opening.early.peer.dropped-treat, episode:opening.early.peer.roughhouse-line, episode:opening.early.peer.secret-whisper, episode:opening.early.peer.sidewalk-game, episode:opening.early.peer.toy-damage-accidental, episode:opening.early.school.lunchbox-swap, episode:opening.early.school.playground-turn, episode:opening.early.school.spilled-paint, episode:opening.young.home.ask-about-childhood, episode:opening.young.home.choose-activity, episode:school.the-thing-you-got-blamed-for, persistent-instance-continuation, person-introduction, scene:episode, scene:formative, scene:ordinary-stretch, thread-recap
 
 
 
@@ -938,32 +938,32 @@ _Present: Vanessa Hunter, your classmate_
 
 _Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose state-boundary, on 2026-01-05._
 
-#### Beat 19 — 2026-01-05, age 7 (episode, opening.early.school.crayon-sharing/moment)
+#### Beat 19 — 2026-01-05, age 7 (episode, opening.early.school.lunchbox-swap/moment)
 
 
 
-You're drawing with the blue crayon. Vanessa Hunter asks for it to draw water.
+At lunch, Vanessa Hunter offers to swap snacks. The lunch monitor has just said to keep your own food.
 
-- **Hand over the crayon** ← chosen
-- Ask to finish coloring first
-- Keep using it
+- **Make the swap quietly** ← chosen
+- Say trading isn't allowed
+- Keep the snack you brought
 
 _Present: Vanessa Hunter, your classmate_
 
 _Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
-#### Beat 20 — 2026-01-05, age 7 (episode, opening.early.school.crayon-sharing/follow-through)
+#### Beat 20 — 2026-01-05, age 7 (episode, opening.early.school.lunchbox-swap/follow-through)
 
 
 
-You handed the blue crayon to Vanessa Hunter and chose another color. Your drawing is still in front of you.
+You traded snacks with Vanessa Hunter despite the lunch rule. The exchanged snack is still in front of you.
 
-- **Keep drawing** ← chosen
-- Ask for the blue crayon when they finish
+- **Offer to undo the snack trade** ← chosen
+- Keep the exchanged snack
 
 _Present: Vanessa Hunter, your classmate_
 
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose hand-over, on 2026-01-05._
+_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose make-secret-swap, on 2026-01-05._
 
 #### Beat 21 — 2026-01-05, age 7 (episode, opening.early.peer.secret-whisper/moment)
 
@@ -1060,34 +1060,7 @@ _Present: Vanessa Hunter, your classmate_
 
 _Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose show, on 2026-01-05._
 
-#### Beat 28 — 2026-01-05, age 7 (episode, opening.early.school.lunchbox-swap/moment)
-
-
-
-At lunch, Vanessa Hunter offers to swap snacks. The lunch monitor has just said to keep your own food.
-
-- **Make the swap quietly** ← chosen
-- Say trading isn't allowed
-- Keep the snack you brought
-
-_Present: Vanessa Hunter, your classmate_
-
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
-
-#### Beat 29 — 2026-01-05, age 7 (episode, opening.early.school.lunchbox-swap/follow-through)
-
-
-
-You traded snacks with Vanessa Hunter despite the lunch rule. The exchanged snack is still in front of you.
-
-- **Offer to undo the snack trade** ← chosen
-- Keep the exchanged snack
-
-_Present: Vanessa Hunter, your classmate_
-
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose make-secret-swap, on 2026-01-05._
-
-#### Beat 30 — 2026-01-05, age 7 (episode, opening.young.home.choose-activity/moment)
+#### Beat 28 — 2026-01-05, age 7 (episode, opening.young.home.choose-activity/moment)
 
 
 
@@ -1099,7 +1072,7 @@ You're at home, and the next fifteen minutes are yours.
 
 _Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 18.; Requires a recorded current household._
 
-#### Beat 31 — 2026-01-05, age 7 (episode, opening.young.home.choose-activity/follow-through)
+#### Beat 29 — 2026-01-05, age 7 (episode, opening.young.home.choose-activity/follow-through)
 
 
 
@@ -1110,7 +1083,7 @@ Your drawing is in front of you. Do you want to add anything?
 
 _Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2026-01-05._
 
-#### Beat 32 — 2026-01-05, age 7 (formative)
+#### Beat 30 — 2026-01-05, age 7 (formative)
 
 
 
@@ -1119,7 +1092,7 @@ A room of children you do not know, a coat hook with your name on it, and an adu
 - **Join in** ← chosen
 - Hang back and watch
 
-#### Beat 33 — 2026-01-05, age 7 (formative)
+#### Beat 31 — 2026-01-05, age 7 (formative)
 
 
 
@@ -1130,7 +1103,7 @@ Something that mattered is in pieces on the floor. An adult is in the doorway as
 
 _Present: Tracy Fleming, your mom_
 
-#### Beat 34 — 2026-01-05, age 7 (formative)
+#### Beat 32 — 2026-01-05, age 7 (formative)
 
 
 
@@ -1139,7 +1112,7 @@ Someone at home has been in bed for days. The mornings are quieter than they sho
 - **Stay near them** ← chosen
 - Keep everything else going
 
-#### Beat 35 — 2026-01-05, age 7 (formative)
+#### Beat 33 — 2026-01-05, age 7 (formative)
 
 
 
@@ -1149,7 +1122,7 @@ A little money of your own, in a pocket, and nobody telling you what it is for.
 - Put it away
 - Share it
 
-#### Beat 36 — 2026-01-05, age 7 (formative)
+#### Beat 34 — 2026-01-05, age 7 (formative)
 
 
 
@@ -1159,7 +1132,7 @@ There is a new child in the house. The nights are louder, and the adults are tir
 - Keep to your own corner
 - Make yourself useful
 
-#### Beat 37 — 2026-01-05, age 7 (ordinary-stretch)
+#### Beat 35 — 2026-01-05, age 7 (ordinary-stretch)
 
 
 
@@ -1167,7 +1140,7 @@ There is a new child in the house. The nights are louder, and the adults are tir
 
 - **Let the year run on** ← chosen
 
-#### Beat 38 — 2026-09-10, age 8 (episode, school.the-thing-you-got-blamed-for/it-came-out)
+#### Beat 36 — 2026-09-10, age 8 (episode, school.the-thing-you-got-blamed-for/it-came-out)
 
 > A year on, and you're 8 now.
 
@@ -1180,7 +1153,7 @@ _Present: Vanessa Hunter, your classmate_
 
 _Grounded by: At blamed they chose name-them, on 2026-01-05.; 248 day(s) since blamed; needs 200.; school-peer is Vanessa Hunter: Active enrollment in the same school._
 
-#### Beat 39 — 2026-09-10, age 8 (episode, school.the-thing-you-got-blamed-for/it-was-still-there)
+#### Beat 37 — 2026-09-10, age 8 (episode, school.the-thing-you-got-blamed-for/it-was-still-there)
 
 
 
@@ -1190,6 +1163,33 @@ It's quiet work, and a kid is at the window again. You remember what you did the
 - Stay at your table
 
 _Grounded by: Stage tattle-boundary was played on 2026-01-05.; 248 day(s) since tattle-boundary; needs 180.; school.enrolled: An active education enrollment.; answers-for-themselves does not hold, as required.; Age 8; needs to be under 9._
+
+#### Beat 38 — 2026-09-10, age 8 (episode, opening.young.home.ask-about-childhood/moment)
+
+
+
+You and Tracy Fleming have time for a conversation.
+
+- **Ask what school was like** ← chosen
+- Let them choose a topic
+- Talk about your day
+
+_Present: Tracy Fleming, your mom_
+
+_Grounded by: Age 8; needs at least 8.; Age 8; needs to be under 18.; Requires a recorded current household.; guardian is Tracy Fleming: A parental:primary authority record over the player._
+
+#### Beat 39 — 2026-09-10, age 8 (episode, opening.young.home.ask-about-childhood/follow-through)
+
+
+
+You’ve asked Tracy Fleming what school was like for them.
+
+- **Wait for their answer** ← chosen
+- Offer to talk about something else
+
+_Present: Tracy Fleming, your mom_
+
+_Grounded by: Age 8; needs at least 8.; Age 8; needs to be under 18.; Requires a recorded current household.; guardian is Tracy Fleming: A parental:primary authority record over the player.; At moment they chose ask, on 2026-09-10._
 
 
 ---

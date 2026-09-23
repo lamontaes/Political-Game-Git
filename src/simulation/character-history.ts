@@ -1343,7 +1343,7 @@ const AUTHORED_SITUATIONS: readonly Omit<
         label: "Make room",
         description: "Invite the other child to join the table.",
         memory:
-          "You slid down the bench and made a space, and the table closed back up around one more person.",
+          "You slid down the bench and made room for one more person at the table.",
         witnessed: "They moved along the bench and made room at the table.",
       },
       {
@@ -1385,15 +1385,14 @@ const AUTHORED_SITUATIONS: readonly Omit<
         key: "withdraw",
         label: "Step back",
         description: "Take space rather than force a resolution.",
-        memory: "You let the silence stand. It cooled, but it did not close.",
-        witnessed: "Neither of them raised it again, and the quiet stayed.",
+        memory: "You stepped back and let the silence stand.",
+        witnessed: "They stepped back and let it drop.",
       },
       {
         key: "ask-someone",
         label: "Get somebody else involved",
         description: "Bring in a third person rather than manage it alone.",
-        memory:
-          "You brought somebody else into it, which fixed it and also changed what it had been.",
+        memory: "You brought somebody else in to help.",
         witnessed: "They brought somebody else into it.",
         stance: "engaged",
         relationalChange: "maintained",
@@ -1537,8 +1536,7 @@ const AUTHORED_SITUATIONS: readonly Omit<
         key: "send-others",
         label: "Get other people to go",
         description: "Find the hands rather than be them.",
-        memory:
-          "You found other people to go instead of going, which worked, and which one of them mentioned later.",
+        memory: "You found other people to go instead of going yourself.",
         stance: "engaged",
       },
     ],
@@ -1710,15 +1708,14 @@ const AUTHORED_SITUATIONS: readonly Omit<
         label: "Say what you can manage",
         description: "Name the limit before it becomes assumed.",
         memory:
-          "You said what you could actually manage before it became assumed, and the household worked around the answer.",
+          "You said what you could actually manage before it became assumed.",
       },
       {
         key: "look-outside",
         label: "Look for help from outside the house",
         description:
           "Find somebody who is not in the family to carry part of it.",
-        memory:
-          "You went looking for help outside the house, which took a long time and eventually worked.",
+        memory: "You went looking for help outside the house.",
         stance: "engaged",
       },
     ],

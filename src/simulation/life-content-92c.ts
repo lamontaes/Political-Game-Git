@@ -892,7 +892,7 @@ const FRIEND_YOU_NAMED: EpisodeFamily = {
         { kind: "age-at-least", age: 17 },
       ],
       lines: [
-        "You're both in the queue at the checkout, and {role:familiar} has recognized you.",
+        "You're both in line at the checkout, and {role:familiar} has recognized you.",
         "You remember telling {role:familiar} it would be just the two of you.",
       ],
       stakes: "ordinary",
@@ -908,7 +908,7 @@ const FRIEND_YOU_NAMED: EpisodeFamily = {
         {
           key: "say-hello",
           label: "Say hello",
-          description: "Speak to {role:familiar} in the queue.",
+          description: "Speak to {role:familiar} in line.",
           nudges: [nudge("personal-ties", 0.3)],
           aftermath: null,
           memory: "You said hello to {role:familiar} at the checkout.",
@@ -1332,14 +1332,14 @@ const THE_LONG_WAY_IN: EpisodeFamily = {
       ],
       lines: [
         "The bus that gets you to class on time leaves before your shift ends.",
-        "It's a long ride each way, and the timetable and your shift don't fit together.",
+        "It's a long ride each way, and the schedule and your shift don't fit together.",
       ],
       stakes: "notable",
       tensions: [
         tension(
           ["achievement-ambition", "security-stability"],
           [1, 1],
-          "One of the two has to give, every week, and the timetable will not move.",
+          "One of the two has to give, every week, and the schedule will not move.",
         ),
       ],
       mayLeadTo: [],
