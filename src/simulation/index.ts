@@ -258,6 +258,7 @@ export * from "./late-term-entry-events";
 export * from "./constitutional-process";
 export type * from "./constitutional-types";
 export * from "./enacted-rule-changes";
+export * from "./policy-provisions";
 export * from "./law-hierarchy";
 export * from "./tax-policy";
 export type * from "./tax-types";
