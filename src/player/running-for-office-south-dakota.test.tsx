@@ -92,8 +92,11 @@ describe("Running for office from Rapid City, South Dakota, at eighteen", () => 
     const offices = projectCampaignOffices(world, personId);
     expect(offices.map((office) => office.officeKey)).toEqual(elective);
     expect(offices.map((office) => [office.provider, office.title])).toEqual([
-      ["South Dakota Legislature", "Seat in the House of Representatives"],
-      ["South Dakota Legislature", "Seat in the Senate"],
+      [
+        "South Dakota Legislature",
+        "Seat in the South Dakota House of Representatives",
+      ],
+      ["South Dakota Legislature", "Seat in the South Dakota Senate"],
       ["City of Rapid City", "Member of the governing body"],
       ["City of Rapid City", "Mayor"],
     ]);

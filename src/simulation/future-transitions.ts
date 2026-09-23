@@ -136,6 +136,9 @@ export function composeFutureTransitionHandlerRegistries(
   ...registries: readonly FutureTransitionHandlerRegistry[]
 ): FutureTransitionHandlerRegistry {
   const routine = registries.find((registry) => registry.routine)?.routine;
+  const stopAtNewTentativeHold = registries.find(
+    (registry) => registry.stopAtNewTentativeHold,
+  )?.stopAtNewTentativeHold;
   return {
     get: (transitionKey) => {
       for (const registry of registries) {
@@ -147,6 +150,7 @@ export function composeFutureTransitionHandlerRegistries(
       return undefined;
     },
     ...(routine ? { routine } : {}),
+    ...(stopAtNewTentativeHold ? { stopAtNewTentativeHold } : {}),
   };
 }
 

@@ -78,7 +78,7 @@ describe("after an election", () => {
       "scene-campaign-reaction",
     )!;
     expect(view.briefing).toMatch(
-      /^You won the election for a seat in the House of Representatives\. The term begins on January 1, 2027\.$/,
+      /^You won the election for a seat in the Kentucky House of Representatives\. The term begins on January 1, 2027\.$/,
     );
     expect(view.openingLine).toMatch(/Congratulations|You actually won/);
     const date = view.intents.find((intent) => intent.key === "give-date")!;
