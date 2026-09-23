@@ -89,69 +89,33 @@ export const PARTY_QUESTIONS = [
     key: "strategy:cross-party-cooperation",
     label: "Working with other parties",
     options: [
-      {
-        key: "cooperate",
-        label: "Cooperate on shared measures",
-        groupName: "Cooperation League",
-      },
-      {
-        key: "keep-distance",
-        label: "Keep a clear distance",
-        groupName: "Independence League",
-      },
+      { key: "cooperate", label: "Cooperate on shared measures" },
+      { key: "keep-distance", label: "Keep a clear distance" },
     ],
   },
   {
     key: "procedure:candidate-selection",
     label: "Choosing candidates",
     options: [
-      {
-        key: "open-contests",
-        label: "Open contests",
-        groupName: "Open Contests League",
-      },
-      {
-        key: "committee-slate",
-        label: "Committee slate",
-        groupName: "Slate League",
-      },
+      { key: "open-contests", label: "Open contests" },
+      { key: "committee-slate", label: "Committee slate" },
     ],
   },
   {
     key: "platform:first-priority",
     label: "First priority",
     options: [
-      {
-        key: "institutional-reform",
-        label: "Institutional reform first",
-        groupName: "Reform League",
-      },
-      {
-        key: "household-costs",
-        label: "Household costs first",
-        groupName: "Household Costs League",
-      },
-      {
-        key: "local-services",
-        label: "Local services first",
-        groupName: "Local Services League",
-      },
+      { key: "institutional-reform", label: "Institutional reform first" },
+      { key: "household-costs", label: "Household costs first" },
+      { key: "local-services", label: "Local services first" },
     ],
   },
   {
     key: "procedure:local-autonomy",
     label: "Local positions",
     options: [
-      {
-        key: "chapters-decide",
-        label: "Chapters set their own line",
-        groupName: "Chapter Rights League",
-      },
-      {
-        key: "follow-party-line",
-        label: "Follow the wider party line",
-        groupName: "Party Unity League",
-      },
+      { key: "chapters-decide", label: "Chapters set their own line" },
+      { key: "follow-party-line", label: "Follow the wider party line" },
     ],
   },
 ] as const;
@@ -1996,22 +1960,17 @@ export function partyBodyReviewTransitionHandler(
     );
     if (assessment.kind === "none") continue;
     const stance = partyActorStance(next, personId, assessment.questionKey!);
-    /*
-     * A founded group takes the authored name of the position it breaks away
-     * over. Pasting the option label after "League for" printed "League for
-     * follow the wider party line" in Clarksdale and "League for keep a clear
-     * distance" in Detroit.
-     */
-    const groupName = question(assessment.questionKey!).options.find(
-      (option) => option.key === stance.optionKey,
-    )!.groupName;
+    const optionLabel = question(assessment.questionKey!)
+      .options.find((option) => option.key === stance.optionKey)!
+      .label.toLowerCase();
     const proposed = proposePartyInitiative(next, {
       initiativeKind: assessment.kind,
       proposerPersonId: personId,
       subjectOrganizationIds: [unit.organizationId],
       questionKey: assessment.questionKey,
       disputedDecisionIds: assessment.disputedDecisionIds,
-      proposedName: assessment.kind === "founding" ? groupName : null,
+      proposedName:
+        assessment.kind === "founding" ? `League for ${optionLabel}` : null,
       level: unit.level,
       jurisdictionId: unit.jurisdictionId,
       reasonKeys: assessment.reasonKeys,
