@@ -997,6 +997,160 @@
         "status": "public-domain-government-edict"
       },
       "storage": "committed"
+    },
+    {
+      "artifactId": "dc-code-1-204-04",
+      "bytes": {
+        "length": 25620,
+        "sha256": "3374f87ef76d93fcb1fb360519d79dc4dba823cdb47092a0068b6816954d2517"
+      },
+      "localPath": "data/source/municipal-governance/raw/dc-code-1-204-04.xml",
+      "mediaType": "text/html",
+      "provider": "Council of the District of Columbia, D.C. Law Library (law-xml-codified)",
+      "publisher": {
+        "documentationUrl": "https://raw.githubusercontent.com/DCCouncil/law-xml-codified/master/us/dc/council/code/titles/1/sections/1-204.04.xml",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 25620,
+        "retrievedAt": "2026-09-23T07:40:09.270Z",
+        "url": "https://raw.githubusercontent.com/DCCouncil/law-xml-codified/master/us/dc/council/code/titles/1/sections/1-204.04.xml"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "United States Congress",
+          "instrumentKind": "statute",
+          "instrumentTitle": "D.C. Code § 1-204.04 Powers of the Council",
+          "jurisdictionKey": "US-DC",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1315,
+              "sha256": "526a5a857bcb8c37ad7f7cf643bce3dfde9882ee6978f99ebbf7ccbbc44ce8f7"
+            },
+            "regions": [
+              {
+                "beginsWith": "An act passed by the Council shall be presented by the Chairman of the Council to the Mayor,",
+                "endsWith": "two-thirds of the members of the Council present and voting vote to reenact such act, the act so reenacted shall become law subject to the provisions of § 1-206.02(c) ."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "dc-code-1-204-12",
+      "bytes": {
+        "length": 7696,
+        "sha256": "340363b65399c1f2ae5aadd3f20df87433d1c63ba15b228a35e59c657bae330a"
+      },
+      "localPath": "data/source/municipal-governance/raw/dc-code-1-204-12.xml",
+      "mediaType": "text/html",
+      "provider": "Council of the District of Columbia, D.C. Law Library (law-xml-codified)",
+      "publisher": {
+        "documentationUrl": "https://raw.githubusercontent.com/DCCouncil/law-xml-codified/master/us/dc/council/code/titles/1/sections/1-204.12.xml",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 7696,
+        "retrievedAt": "2026-09-23T07:40:10.863Z",
+        "url": "https://raw.githubusercontent.com/DCCouncil/law-xml-codified/master/us/dc/council/code/titles/1/sections/1-204.12.xml"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "United States Congress",
+          "instrumentKind": "statute",
+          "instrumentTitle": "D.C. Code § 1-204.12 Acts, resolutions, and requirements for quorum",
+          "jurisdictionKey": "US-DC",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1087,
+              "sha256": "e27c156e7b84ccd13c8781419afb3f6d4c842239d6bcf1d9195e2f83e145ec41"
+            },
+            "regions": [
+              {
+                "beginsWith": "The Council, to discharge the powers and duties imposed herein,",
+                "endsWith": "such act shall be effective for a period of not to exceed 90 days."
+              },
+              {
+                "beginsWith": "A majority of the Council shall constitute a quorum",
+                "endsWith": "except a lesser number may hold hearings."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "dc-code-1-206-02",
+      "bytes": {
+        "length": 20811,
+        "sha256": "e393d8d0372b2261a76f3d085d5a8b0ed8ff92190fe387c553b60db8a4cdb12a"
+      },
+      "localPath": "data/source/municipal-governance/raw/dc-code-1-206-02.xml",
+      "mediaType": "text/html",
+      "provider": "Council of the District of Columbia, D.C. Law Library (law-xml-codified)",
+      "publisher": {
+        "documentationUrl": "https://raw.githubusercontent.com/DCCouncil/law-xml-codified/master/us/dc/council/code/titles/1/sections/1-206.02.xml",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 20811,
+        "retrievedAt": "2026-09-23T07:40:12.737Z",
+        "url": "https://raw.githubusercontent.com/DCCouncil/law-xml-codified/master/us/dc/council/code/titles/1/sections/1-206.02.xml"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "United States Congress",
+          "instrumentKind": "statute",
+          "instrumentTitle": "D.C. Code § 1-206.02 Limitations on the Council",
+          "jurisdictionKey": "US-DC",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1183,
+              "sha256": "68315c7e3a08d5a74583245a04fff289715747df44463f9ba6d566eddbdecf23"
+            },
+            "regions": [
+              {
+                "beginsWith": "the Chairman of the Council shall transmit to the Speaker of the House of Representatives, and the President of the Senate, a copy of each act passed by the Council",
+                "endsWith": "unless during such 30-day period, there has been enacted into law a joint resolution disapproving such act."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
     }
   ],
   "domain": "municipal-governance"
