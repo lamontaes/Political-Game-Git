@@ -132,6 +132,13 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     where: "src/simulation/pressure/causes.ts",
   },
   {
+    key: "cause-local-crime",
+    connects: "Crime reported to police in a town in the state.",
+    status: "built",
+    rule: "BLANKET: each reported offense in the quarter beyond the town's ordinary police log adds fear to its state, double for assault and robbery. Pressure to leave a town over crime is the town push in migration, not here. Unreported offenses add nothing.",
+    where: "src/simulation/pressure/causes.ts",
+  },
+  {
     key: "cause-starting-taxes",
     connects:
       "Each state's real tax level at the start (Texas has no income tax, California's is high).",
