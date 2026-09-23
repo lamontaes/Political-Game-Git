@@ -1,5 +1,6 @@
 import { describePersonContext, personName } from "../simulation";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../simulation";
+import { claimStanceOf } from "../simulation/claim-stances";
 import { recordedConversationTurns } from "./conversation-continuity";
 import { currentOpeningLifeScene } from "./life-scene-flow";
 import type { ConversationSubjectKey } from "./run-b-conversation-progress";
@@ -27,10 +28,7 @@ export interface ConversationExchangeTurn {
   readonly date: IsoDate;
   /** True when the turn belongs to the exchange going on right now. */
   readonly current: boolean;
-  /**
-   * What the player did, in the second person. Null only when the record
-   * holds no player action at all.
-   */
+  /** The player's recorded words when available, otherwise their action. */
   readonly playerLine: string | null;
   /** Who answered, when somebody did. */
   readonly speakerPersonId: EntityId | null;
@@ -108,9 +106,9 @@ export function conversationExchangeTurns(
           sequence: event.sequence,
           date: event.occurredAt,
           current: event.occurredAt === world.currentDate,
-          playerLine: event.context.choice
-            ? secondPerson(event.context.choice)
-            : null,
+          playerLine:
+            claimStanceOf(event)?.statement ??
+            (event.context.choice ? secondPerson(event.context.choice) : null),
           speakerPersonId: speaker,
           speakerName: speaker ? nameOf(world, speaker) : null,
           reply: event.context.immediateReaction ?? "",
