@@ -1,0 +1,48 @@
+{
+  "candidateAnswers": [
+    {
+      "argumentAgainst": "An odd-year-November state puts every town's election in every odd year, so a Detroit life is shown a council election on November 2, 2027, and no seats are staggered or held for four years.",
+      "argumentFor": "Already built from the state municipal-election corpus; needs no city-level research.",
+      "label": "Keep the state timing for every town",
+      "position": "A town's election falls on its state's general municipal election timing, in every year that timing allows.",
+      "recommended": false
+    },
+    {
+      "argumentAgainst": "Needs each city's charter or election code read, starting with the 100 largest.",
+      "argumentFor": "A city elects in the years it really does, on its own day, with staggered seats where they are staggered.",
+      "label": "Read each city's cycle, term and date rule",
+      "position": "Record per city the next election year after 2026, the cycle length, the council's and mayor's term lengths, whether seats are staggered, and the election-day rule (including spring or August dates); the state timing remains the fallback for unread towns.",
+      "recommended": true
+    }
+  ],
+  "filedAt": "2026-09-23T14:05:00.000Z",
+  "impact": "shapes-design",
+  "lane": "campaigns",
+  "notes": [
+    "Detroit's city elections are believed to be in 2025 and 2029, on four-year terms, but that was checked from memory, not a source.",
+    "The game dates a town's election in src/simulation/nationwide-world/town-election-calendar.ts (nextTownElection) from the state's municipal-election timing only; no city's own cycle, term or staggering is read. This request does not change that code."
+  ],
+  "priority": "P1",
+  "question": "For each municipality, and at least the 100 largest US cities, what are the council's and the mayor's election years and term lengths, are council seats staggered, and on what day does the election fall (including spring or August dates)?",
+  "questionId": "municipal-election-cycle-and-term-length-by-city",
+  "relatedQuestionIds": [
+    "town-election-calendar-from-state-municipal-law",
+    "town-mayor-rules-by-town-size",
+    "town-council-size-by-town-size"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Running for office across America thread",
+  "sourcesChecked": [
+    {
+      "source": "town-election-calendar-from-state-municipal-law (research request and the state municipal-election corpus it concerns)",
+      "whatItDidNotSettle": "Settles, at most, a state's general municipal election timing (for example November of odd-numbered years). It does not say in which of those years a particular city votes, how long its council and mayor serve, whether its seats are staggered, or whether a charter city votes on its own spring or August date."
+    },
+    {
+      "source": "src/simulation/nationwide-world/town-election-calendar.ts, nextTownElection",
+      "whatItDidNotSettle": "Reads the state timing only, so every town in an odd-year-November state has an election every odd year."
+    }
+  ],
+  "title": "When each city's council and mayor are elected, and for how long",
+  "usableAnswer": "Per city: the next council and mayoral election year after 2026, the cycle length, the term length for council and for mayor, whether and how council seats are staggered, and the date rule (for example the first Tuesday after the first Monday in November of odd years, or the first Tuesday in April), each with the charter or statute read. Anything unknown stays marked unknown.",
+  "whyItMatters": "A player's town race is scheduled from this. Dating every town from its state's timing alone shows elections in years a city does not vote, such as a Detroit council election in 2027, and gives no city a four-year term or staggered seats."
+}

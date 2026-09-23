@@ -11,6 +11,8 @@ import {
   localGoverningBodyRulesForUnitId,
 } from "../simulation/nationwide-world/local-governing-body-rules";
 import type { LocalRuleValue } from "../simulation/nationwide-world/local-governing-body-rules";
+import { localGoverningBodyName } from "../simulation/nationwide-world/local-governing-body-names";
+import { governmentUnit } from "../simulation/government-units";
 import {
   localChiefExecutiveRulesForUnitId,
   readMayorTerm,
@@ -34,7 +36,8 @@ export interface LocalGoverningSeat {
   readonly governmentName: string;
   /**
    * The body's own name where the game has read it, such as "Board of
-   * Commissioners"; otherwise "governing body".
+   * Commissioners"; otherwise the game's placeholder for the town's kind of
+   * government, such as "City Council" (`local-governing-body-names.ts`).
    */
   readonly bodyName: string;
   readonly since: IsoDate;
@@ -87,6 +90,7 @@ export function localGoverningSeatFor(
           organization.stableKey.slice("local-government:".length),
         )
       : null;
+  const unit = rules ? governmentUnit(rules.unitId) : null;
   const mayor = held.state.roleKind === "leader:municipal-mayor";
   const chief =
     mayor && rules ? localChiefExecutiveRulesForUnitId(rules.unitId) : null;
@@ -111,7 +115,9 @@ export function localGoverningSeatFor(
       reading?.displayName ??
       organizationProfileAt(world, held.participation.organizationId)?.name ??
       "the town government",
-    bodyName: reading?.bodyName ?? "governing body",
+    bodyName:
+      reading?.bodyName ??
+      (unit ? localGoverningBodyName(unit).shortBodyName : "governing body"),
     since: held.participation.startedAt as IsoDate,
     seatContext: held.state.context,
     hasCityScreen: compiled !== null,
