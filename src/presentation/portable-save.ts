@@ -1,6 +1,7 @@
 import { deserializeWorld } from "../simulation/serialization";
 import { migrateLegacyStudyProgression } from "../simulation/education-study-progression";
 import { catchUpTerritoryGovernor } from "../simulation/nationwide-world/territory-governor-catch-up";
+import { catchUpLegacySchoolStages } from "../simulation/school-stages";
 import type { EntityId } from "../simulation/types";
 import {
   EMPTY_SHELL_STATE,
@@ -360,7 +361,9 @@ export async function importPortableSave(
   if (checked.status === "error") return checked;
   bundle = checked.bundle;
   const world = catchUpTerritoryGovernor(
-    migrateLegacyStudyProgression(deserializeWorld(bundle.world.payload)),
+    catchUpLegacySchoolStages(
+      migrateLegacyStudyProgression(deserializeWorld(bundle.world.payload)),
+    ),
   );
   const saveId = store.newSaveId(world);
   const existing = options.existingSaveIds

@@ -7,6 +7,8 @@ import {
 import { legislationEntityExists } from "./legislation";
 import { legislativePoliticsEntityExists } from "./legislative-politics";
 import { lifeEntityExists } from "./life-integrity";
+import { eventById } from "./event-index";
+import { historyIndex } from "./history-index";
 import { resourceHousingEntityExists } from "./resource-integrity";
 import { factsForPerson } from "./people";
 import {
@@ -1393,10 +1395,24 @@ function entityExists(world: World, id: EntityId): boolean {
     resourceHousingEntityExists(world, id) ||
     legislationEntityExists(world, id) ||
     legislativePoliticsEntityExists(world, id) ||
-    world.history.events.some((record) => record.id === id) ||
-    world.history.goalStates.some((record) => record.goalId === id) ||
-    world.history.decisionTraces.some((record) => record.decisionId === id)
+    eventById(world, id) !== undefined ||
+    mindRecordIds(world).has(id)
   );
+}
+
+/**
+ * Goal and decision ids, built once per history. Every trace this pass
+ * checks asks about its sources, and each question used to scan both
+ * families from the first record.
+ */
+function mindRecordIds(world: World): ReadonlySet<EntityId> {
+  return historyIndex(world, "mind-integrity:goal-and-decision-ids", () => {
+    const ids = new Set<EntityId>();
+    for (const record of world.history.goalStates) ids.add(record.goalId);
+    for (const record of world.history.decisionTraces)
+      ids.add(record.decisionId);
+    return ids;
+  });
 }
 
 function canonicalSourceRefs(
