@@ -1071,7 +1071,42 @@
     "evidence": "and it"
   },
   {
+    "id": "prose:life:episode:opening.adult.home.free-time/follow-through#option:mark:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Mark your place and stop"
+  },
+  {
     "id": "prose:life:episode:opening.adult.home.plan-week/follow-through#line:0",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "something"
+  },
+  {
+    "id": "prose:life:episode:opening.adult.home.plan-week/follow-through#option:later:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Leave it for another time"
+  },
+  {
+    "id": "prose:life:episode:opening.adult.home.plan-week/moment#option:connection:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Make time for people you know"
+  },
+  {
+    "id": "prose:life:episode:opening.adult.home.plan-week/moment#option:learning:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Make time to learn something"
+  },
+  {
+    "id": "prose:life:episode:opening.adult.home.plan-week/moment#option:learning:description",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
@@ -1092,11 +1127,732 @@
     "evidence": "something"
   },
   {
+    "id": "prose:life:episode:opening.adult.home.plan-week/moment#option:privacy:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Make some time for yourself"
+  },
+  {
+    "id": "prose:life:episode:opening.adult.home.shared-time/follow-through#option:alone:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Say you’d like to be alone"
+  },
+  {
+    "id": "prose:life:episode:opening.adult.home.shared-time/follow-through#option:explain:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Say you’d like to talk later"
+  },
+  {
+    "id": "prose:life:episode:opening.adult.home.shared-time/moment#option:ask:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Ask about their day"
+  },
+  {
+    "id": "prose:life:episode:opening.adult.home.shared-time/moment#option:listen:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Let them pick the topic"
+  },
+  {
+    "id": "prose:life:episode:opening.adult.home.shared-time/moment#option:quiet:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Ask for some quiet"
+  },
+  {
+    "id": "prose:life:episode:opening.adult.trans.college-vs-work/follow-through#option:certificate:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Mention the certificate path"
+  },
+  {
+    "id": "prose:life:episode:opening.adult.trans.college-vs-work/follow-through#option:unsure-yet:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Say you are still comparing options"
+  },
+  {
+    "id": "prose:life:episode:opening.adult.trans.college-vs-work/moment#option:ask-time:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Ask for more time to decide"
+  },
+  {
+    "id": "prose:life:episode:opening.adult.trans.college-vs-work/moment#option:lean-study:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Say you want to keep studying"
+  },
+  {
+    "id": "prose:life:episode:opening.adult.trans.college-vs-work/moment#option:lean-work:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Say you want to start working"
+  },
+  {
+    "id": "prose:life:episode:opening.adult.trans.drop-class-keep-job/follow-through#option:not-yet:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Say you have not told them yet"
+  },
+  {
+    "id": "prose:life:episode:opening.adult.trans.drop-class-keep-job/follow-through#option:tell-them:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Say you will tell them today"
+  },
+  {
+    "id": "prose:life:episode:opening.adult.trans.drop-class-keep-job/moment#option:ask-supervisor:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Ask your supervisor for another shift"
+  },
+  {
+    "id": "prose:life:episode:opening.adult.trans.drop-class-keep-job/moment#option:change-shifts:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Take the shift, miss the class"
+  },
+  {
+    "id": "prose:life:episode:opening.adult.trans.drop-class-keep-job/moment#option:keep-lab:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Keep the class, turn down the shift"
+  },
+  {
+    "id": "prose:life:episode:opening.early.community.curious-neighbor/follow-through#option:say-not-really:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Say not really"
+  },
+  {
+    "id": "prose:life:episode:opening.early.community.curious-neighbor/follow-through#option:say-yes:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Say you like your teacher"
+  },
+  {
+    "id": "prose:life:episode:opening.early.community.curious-neighbor/follow-through#option:shrug:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Shrug"
+  },
+  {
     "id": "prose:life:episode:opening.early.community.curious-neighbor/moment#line:0",
     "severity": "REVIEW_WARNING",
     "family": "anonymous-actor",
     "message": "Names a person by category while the record binds a canonical person for that role.",
     "evidence": "A neighbor"
+  },
+  {
+    "id": "prose:life:episode:opening.early.community.curious-neighbor/moment#option:answer-politely:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Give your first name and grade"
+  },
+  {
+    "id": "prose:life:episode:opening.early.community.curious-neighbor/moment#option:let-adult-answer:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Let the adult answer"
+  },
+  {
+    "id": "prose:life:episode:opening.early.community.curious-neighbor/moment#option:wave-say-nothing:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Wave and stay quiet"
+  },
+  {
+    "id": "prose:life:episode:opening.early.community.library-quiet/follow-through#option:move:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Move away and listen"
+  },
+  {
+    "id": "prose:life:episode:opening.early.community.library-quiet/follow-through#option:settle:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Stop laughing and listen"
+  },
+  {
+    "id": "prose:life:episode:opening.early.community.library-quiet/moment#option:laugh-out-loud:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Laugh with them"
+  },
+  {
+    "id": "prose:life:episode:opening.early.community.library-quiet/moment#option:scoot-away:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Move a little farther away"
+  },
+  {
+    "id": "prose:life:episode:opening.early.community.library-quiet/moment#option:stifle-face:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Try to hold in the laugh"
+  },
+  {
+    "id": "prose:life:episode:opening.early.community.lost-pet-flyer/follow-through#option:compare:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Ask if the cat matches the picture"
+  },
+  {
+    "id": "prose:life:episode:opening.early.community.lost-pet-flyer/follow-through#option:watch:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Watch from here"
+  },
+  {
+    "id": "prose:life:episode:opening.early.community.lost-pet-flyer/moment#option:ask:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Ask if it might be the missing cat"
+  },
+  {
+    "id": "prose:life:episode:opening.early.community.lost-pet-flyer/moment#option:show:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Point out the cat"
+  },
+  {
+    "id": "prose:life:episode:opening.early.community.lost-pet-flyer/moment#option:watch:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Stop and watch"
+  },
+  {
+    "id": "prose:life:episode:opening.early.community.sidewalk-curb/follow-through#option:beside:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Walk beside them"
+  },
+  {
+    "id": "prose:life:episode:opening.early.community.sidewalk-curb/follow-through#option:hand:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Ask to hold hands"
+  },
+  {
+    "id": "prose:life:episode:opening.early.community.sidewalk-curb/moment#option:back:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Walk back beside them"
+  },
+  {
+    "id": "prose:life:episode:opening.early.community.sidewalk-curb/moment#option:look:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Look around the corner"
+  },
+  {
+    "id": "prose:life:episode:opening.early.community.sidewalk-curb/moment#option:wait:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Stop and wait"
+  },
+  {
+    "id": "prose:life:episode:opening.early.family.packing-boxes/follow-through#option:keep-holding:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Keep holding it"
+  },
+  {
+    "id": "prose:life:episode:opening.early.family.packing-boxes/follow-through#option:put-in-crate:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Put it in the crate"
+  },
+  {
+    "id": "prose:life:episode:opening.early.family.packing-boxes/moment#option:cling-old-toy:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Keep a toy from the donation pile"
+  },
+  {
+    "id": "prose:life:episode:opening.early.family.packing-boxes/moment#option:stay-out-way:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Stay out of the way"
+  },
+  {
+    "id": "prose:life:episode:opening.early.home.bedtime-delay/follow-through#option:clarify:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Ask again for a few minutes"
+  },
+  {
+    "id": "prose:life:episode:opening.early.home.bedtime-delay/follow-through#option:put-away:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Put the toy away now"
+  },
+  {
+    "id": "prose:life:episode:opening.early.home.bedtime-delay/moment#option:ask:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Ask for a few more minutes"
+  },
+  {
+    "id": "prose:life:episode:opening.early.home.bedtime-delay/moment#option:stop:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Put the toy away"
+  },
+  {
+    "id": "prose:life:episode:opening.early.home.broken-mug/follow-through#option:step:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Step away from the pieces"
+  },
+  {
+    "id": "prose:life:episode:opening.early.home.broken-mug/follow-through#option:warn:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Point out the broken pieces"
+  },
+  {
+    "id": "prose:life:episode:opening.early.home.broken-mug/moment#option:help:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Ask for help with the pieces"
+  },
+  {
+    "id": "prose:life:episode:opening.early.home.broken-mug/moment#option:quiet:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Say nothing"
+  },
+  {
+    "id": "prose:life:episode:opening.early.home.broken-mug/moment#option:tell:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Say you knocked it over"
+  },
+  {
+    "id": "prose:life:episode:opening.early.home.closet-fear/follow-through#option:leave-on:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Leave the lamp on and settle back down"
+  },
+  {
+    "id": "prose:life:episode:opening.early.home.closet-fear/follow-through#option:look:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Watch the branch’s shadow"
+  },
+  {
+    "id": "prose:life:episode:opening.early.home.closet-fear/moment#option:covers:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Pull up the covers"
+  },
+  {
+    "id": "prose:life:episode:opening.early.home.closet-fear/moment#option:lamp:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Turn on the lamp"
+  },
+  {
+    "id": "prose:life:episode:opening.early.home.closet-fear/moment#option:look:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Look out the window"
+  },
+  {
+    "id": "prose:life:episode:opening.early.home.food-refusal/follow-through#option:another:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Take another bite"
+  },
+  {
+    "id": "prose:life:episode:opening.early.home.food-refusal/follow-through#option:enough:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Say you’ve had enough"
+  },
+  {
+    "id": "prose:life:episode:opening.early.home.food-refusal/moment#option:ask:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Ask to leave it"
+  },
+  {
+    "id": "prose:life:episode:opening.early.home.food-refusal/moment#option:no:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Say you don't want it"
+  },
+  {
+    "id": "prose:life:episode:opening.early.home.food-refusal/moment#option:try:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Try a bite"
+  },
+  {
+    "id": "prose:life:episode:opening.early.peer.dropped-treat/follow-through#option:offer:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Share your snack with them"
+  },
+  {
+    "id": "prose:life:episode:opening.early.peer.dropped-treat/follow-through#option:stay:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Stay with them"
+  },
+  {
+    "id": "prose:life:episode:opening.early.peer.dropped-treat/moment#option:break-half-share:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Offer some of your snack"
+  },
+  {
+    "id": "prose:life:episode:opening.early.peer.dropped-treat/moment#option:comfort-words:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Stay and comfort them"
+  },
+  {
+    "id": "prose:life:episode:opening.early.peer.dropped-treat/moment#option:walk-past-eat:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Move away quietly"
+  },
+  {
+    "id": "prose:life:episode:opening.early.peer.roughhouse-line/follow-through#option:end:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Stop playing tag"
+  },
+  {
+    "id": "prose:life:episode:opening.early.peer.roughhouse-line/moment#option:state-boundary:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Say, “Don’t push me”"
+  },
+  {
+    "id": "prose:life:episode:opening.early.peer.roughhouse-line/moment#option:stop-playing:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Stop playing for now"
+  },
+  {
+    "id": "prose:life:episode:opening.early.peer.secret-whisper/follow-through#option:boundary:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Say you won’t pass the story on"
+  },
+  {
+    "id": "prose:life:episode:opening.early.peer.secret-whisper/follow-through#option:leave:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Go back to the reading"
+  },
+  {
+    "id": "prose:life:episode:opening.early.peer.secret-whisper/moment#option:decline-to-pass:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Keep it to yourself"
+  },
+  {
+    "id": "prose:life:episode:opening.early.peer.secret-whisper/moment#option:keep-secret:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Say it sounds unkind"
+  },
+  {
+    "id": "prose:life:episode:opening.early.peer.secret-whisper/moment#option:question-story:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Ask how they know"
+  },
+  {
+    "id": "prose:life:episode:opening.early.peer.sidewalk-game/follow-through#option:original:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Ask to use the original rules"
+  },
+  {
+    "id": "prose:life:episode:opening.early.peer.sidewalk-game/moment#option:compromise-rule:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Suggest trying the rule for one round"
+  },
+  {
+    "id": "prose:life:episode:opening.early.peer.sidewalk-game/moment#option:insist-house-rules:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Ask to keep the rules you agreed"
+  },
+  {
+    "id": "prose:life:episode:opening.early.peer.toy-damage-accidental/follow-through#option:help:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Ask if they want help fixing it"
+  },
+  {
+    "id": "prose:life:episode:opening.early.peer.toy-damage-accidental/follow-through#option:return:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Give back the truck and wheel"
+  },
+  {
+    "id": "prose:life:episode:opening.early.peer.toy-damage-accidental/moment#option:hide:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Put the truck aside"
+  },
+  {
+    "id": "prose:life:episode:opening.early.peer.toy-damage-accidental/moment#option:repair:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Try putting it back"
+  },
+  {
+    "id": "prose:life:episode:opening.early.peer.toy-damage-accidental/moment#option:show:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Show them the wheel"
+  },
+  {
+    "id": "prose:life:episode:opening.early.school.crayon-sharing/follow-through#option:ask:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Ask for the blue crayon when they finish"
+  },
+  {
+    "id": "prose:life:episode:opening.early.school.crayon-sharing/follow-through#option:other:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Keep drawing"
+  },
+  {
+    "id": "prose:life:episode:opening.early.school.crayon-sharing/moment#option:finish-first:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Ask to finish coloring first"
+  },
+  {
+    "id": "prose:life:episode:opening.early.school.crayon-sharing/moment#option:hand-over:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Hand over the crayon"
+  },
+  {
+    "id": "prose:life:episode:opening.early.school.crayon-sharing/moment#option:keep:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Keep using it"
+  },
+  {
+    "id": "prose:life:episode:opening.early.school.lunchbox-swap/follow-through#option:keep:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Keep the exchanged snack"
+  },
+  {
+    "id": "prose:life:episode:opening.early.school.lunchbox-swap/follow-through#option:return:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Offer to undo the snack trade"
+  },
+  {
+    "id": "prose:life:episode:opening.early.school.lunchbox-swap/moment#option:decline-cite-rule:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Say trading isn't allowed"
+  },
+  {
+    "id": "prose:life:episode:opening.early.school.lunchbox-swap/moment#option:eat-own-food:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Keep the snack you brought"
+  },
+  {
+    "id": "prose:life:episode:opening.early.school.lunchbox-swap/moment#option:make-secret-swap:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Make the swap quietly"
+  },
+  {
+    "id": "prose:life:episode:opening.early.school.playground-turn/follow-through#option:leave:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Go and play somewhere else"
+  },
+  {
+    "id": "prose:life:episode:opening.early.school.playground-turn/follow-through#option:wait:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Wait for a turn"
+  },
+  {
+    "id": "prose:life:episode:opening.early.school.playground-turn/moment#option:ask-turn:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Ask for a turn"
+  },
+  {
+    "id": "prose:life:episode:opening.early.school.playground-turn/moment#option:leave:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Choose another game"
+  },
+  {
+    "id": "prose:life:episode:opening.early.school.playground-turn/moment#option:wait:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Wait beside the swing"
+  },
+  {
+    "id": "prose:life:episode:opening.early.school.spilled-paint/follow-through#option:ask:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Ask what you can do to help"
+  },
+  {
+    "id": "prose:life:episode:opening.early.school.spilled-paint/follow-through#option:offer:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Offer a fresh sheet of paper"
+  },
+  {
+    "id": "prose:life:episode:opening.early.school.spilled-paint/moment#option:apologize:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Apologize and help blot it"
+  },
+  {
+    "id": "prose:life:episode:opening.early.school.spilled-paint/moment#option:explain:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Explain it was an accident"
+  },
+  {
+    "id": "prose:life:episode:opening.early.school.spilled-paint/moment#option:freeze:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Stand still"
+  },
+  {
+    "id": "prose:life:episode:opening.young.home.ask-about-childhood/follow-through#option:change:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Offer to talk about something else"
+  },
+  {
+    "id": "prose:life:episode:opening.young.home.ask-about-childhood/follow-through#option:change:description",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "something"
   },
   {
     "id": "prose:life:episode:opening.young.home.ask-about-childhood/follow-through#option:change:label",
@@ -1111,6 +1867,41 @@
     "family": "vague-referent",
     "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "something"
+  },
+  {
+    "id": "prose:life:episode:opening.young.home.ask-about-childhood/follow-through#option:space:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Wait for their answer"
+  },
+  {
+    "id": "prose:life:episode:opening.young.home.ask-about-childhood/moment#option:ask:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Ask what school was like"
+  },
+  {
+    "id": "prose:life:episode:opening.young.home.ask-about-childhood/moment#option:listen:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Let them choose a topic"
+  },
+  {
+    "id": "prose:life:episode:opening.young.home.ask-about-childhood/moment#option:own:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Talk about your day"
+  },
+  {
+    "id": "prose:life:episode:opening.young.home.choose-activity/follow-through#option:keep:description",
+    "severity": "REVIEW_WARNING",
+    "family": "label-restated-in-description",
+    "message": "The description repeats 100% of its own label's words.",
+    "evidence": "Put your picture somewhere safe"
   },
   {
     "id": "prose:life:episode:opening.young.home.choose-activity/moment#option:draw:label",
