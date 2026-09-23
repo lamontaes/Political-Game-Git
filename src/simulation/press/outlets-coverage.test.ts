@@ -9,7 +9,9 @@ import { createOrganization, createWorkRelationship } from "../life";
 import { stateJurisdictionForKey } from "../life-places";
 import { ensureStateJurisdictionForKey } from "../nationwide-world/state-executives";
 import type { World } from "../types";
+import { newsworthiness, outletCovers } from "./desk";
 import { ensurePressHomeCoverage, mediaOutlets } from "./outlets";
+import { recordWorldEvent } from "../world";
 
 /**
  * Who gets a newsroom. Every town a player lives in has local journalism, a
@@ -127,5 +129,52 @@ describe("press coverage", () => {
     );
     expect(kinds.size).toBeGreaterThan(1);
     expect(local("4865384").name).toBe(local("4865384").name);
+  }, 120_000);
+
+  it("Nome's paper covers its own resident even when the record is the state's", () => {
+    const game = opening("0254920", "press-coverage-nome");
+    const world = game.world;
+    const person = world.people[game.playerPersonId]!;
+    const local = mediaOutlets(world).find(
+      (outlet) =>
+        outlet.scope === "local" &&
+        outlet.primaryJurisdictionIds.includes(person.homeJurisdictionId),
+    )!;
+    const alaska = stateJurisdictionForKey("US-AK")!.id;
+    const decided = (key: string, named: boolean) =>
+      recordWorldEvent(world, {
+        stableKey: `press-coverage-nome:${key}`,
+        type: "governing.matter-decided",
+        occurredAt: world.currentDate,
+        recordedAt: world.currentDate,
+        jurisdictionId: alaska,
+        involvedEntityIds: named ? [person.id] : [alaska],
+        participants: named
+          ? [{ personId: person.id, role: "focus:subject", detail: null }]
+          : [],
+        personFactConstraints: [],
+        visibility: "public",
+        tags: ["office:us-ak-governor"],
+        summary: "The governor decided a matter.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+    const plain = decided("plain", false);
+    const named = decided("named", true);
+    expect(local).toBeDefined();
+    expect(outletCovers(plain, local, plain.history.events.at(-1)!)).toBe(
+      false,
+    );
+    const event = named.history.events.at(-1)!;
+    expect(outletCovers(named, local, event)).toBe(true);
+    expect(
+      newsworthiness(named, local, event).reasons.map((reason) => reason.key),
+    ).toContain("resident");
   }, 120_000);
 });

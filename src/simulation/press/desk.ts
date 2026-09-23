@@ -1392,6 +1392,11 @@ export function outletCovers(
     );
   }
   if (hometownMatter(world, outlet, event)) return true;
+  // A local paper covers its own people wherever the news about them
+  // happens: Nome's paper never covered its resident governor in four years
+  // because every record about her was filed under the state.
+  if (outlet.scope === "local" && residentSubjects(world, outlet, event) > 0)
+    return true;
   if (event.jurisdictionId === null) return false;
   if (outlet.primaryJurisdictionIds.includes(event.jurisdictionId)) return true;
   if (outlet.scope === "state") {
@@ -1489,6 +1494,7 @@ export interface Newsworthiness {
  * - `public-office` +2: it concerns a public office by name.
  * - `audience` +1: it happened in the outlet's own primary jurisdiction.
  * - `beat` +1: it falls on one of the outlet's beats.
+ * - `resident` +2 (local outlets): it names someone who lives there.
  */
 export function newsworthiness(
   world: World,
@@ -1510,6 +1516,11 @@ export function newsworthiness(
     reasons.push({ key: "audience", weight: 1 });
   if (outlet.beats.includes(beatForEventType(event.type)))
     reasons.push({ key: "beat", weight: 1 });
+  // PLACEHOLDER weight: a local outlet's own resident named in the news. The
+  // hometown angle is ordinary newsroom practice; how much it should weigh
+  // is part of `how-much-coverage-an-election-result-gets`.
+  if (outlet.scope === "local" && residentSubjects(world, outlet, event) > 0)
+    reasons.push({ key: "resident", weight: 2 });
   return {
     score: reasons.reduce((total, reason) => total + reason.weight, 0),
     reasons,
@@ -1521,6 +1532,7 @@ const SUBSTANTIVE_SCALE = 2;
 
 const SUBSTANTIVE_REASONS: ReadonlySet<string> = new Set([
   "matter",
+  "resident",
   "named-people",
   "scale",
   "public-office",
@@ -1562,6 +1574,19 @@ const ACCOUNT_BEARER_ROLES: ReadonlySet<string> = new Set([
   "agency:reporter",
   "agency:witness",
 ]);
+
+/** How many of an event's subjects live in a local outlet's own place. */
+function residentSubjects(
+  world: World,
+  outlet: MediaOutletRecord,
+  event: HistoricalEvent,
+): number {
+  return subjectsOf(world, event).filter((personId) =>
+    outlet.primaryJurisdictionIds.includes(
+      world.people[personId]!.homeJurisdictionId,
+    ),
+  ).length;
+}
 
 function subjectsOf(world: World, event: HistoricalEvent): EntityId[] {
   return sortedUnique(
