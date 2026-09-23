@@ -36,6 +36,7 @@ import {
   scheduleCampaignAction,
   scheduledActivityState,
   simulationMomentAtLocalTime,
+  stateExecutiveEntryStatus,
 } from "../simulation";
 import type {
   CampaignActionKind,
@@ -50,6 +51,7 @@ import type {
   MoneyAmount,
   World,
 } from "../simulation";
+import { moneyText } from "../simulation/money-text";
 
 /**
  * What a candidate can actually see.
@@ -499,11 +501,11 @@ export function projectCampaign(
         ? ((term) =>
             term
               ? `${candidateName} won${resultMargin(result, personId)}. The term begins ${proseDate(term.startsAt)}; until then the office is not theirs.`
-              : `${candidateName} won${resultMargin(result, personId)}. The seat is theirs, and so is everything that came before it.`)(
+              : `${candidateName} won${resultMargin(result, personId)}.`)(
             legislativeTermDates(
               contest.office.officeKey,
               contest.electionDate,
-            ),
+            ) ?? executiveTermStart(world, personId, contest.id),
           )
         : state.status === "lost"
           ? `${candidateName} lost${resultMargin(result, personId)}. That is a thing that happened to them, not the end of them — tomorrow is still there.`
@@ -677,7 +679,7 @@ function offersFor(
 }
 
 function money(amount: MoneyAmount): string {
-  return `${amount.currency} ${(amount.minorUnits / 100).toFixed(2)}`;
+  return moneyText(amount);
 }
 
 function sessionsFor(
@@ -976,4 +978,16 @@ export function giveElectionSpeech(world: World, personId: EntityId): World {
   if (!electionContestResult(world, campaign.contestId))
     throw new Error("The race has not been decided yet.");
   return recordElectionSpeech(world, campaign.contestId, personId);
+}
+
+/** When a won state executive term begins, where the game has dated it. */
+function executiveTermStart(
+  world: World,
+  personId: EntityId,
+  contestId: EntityId,
+): { readonly startsAt: IsoDate } | null {
+  const status = stateExecutiveEntryStatus(world, personId);
+  return "startsAt" in status && status.contestId === contestId
+    ? { startsAt: status.startsAt }
+    : null;
 }
