@@ -307,9 +307,17 @@ const ORIGINATION_SOURCE = profileSource(
   "Origination",
   "A measure may start in either chamber. The game applies this where a state's own origination rule has not been read; a state that confines a class of measure to one chamber will say so once its instruments are compiled.",
 );
+/**
+ * PLACEHOLDER, NOT LAW. Whether an unread state's legislature meets every year
+ * or every other year, and whether a pending bill carries over, is research
+ * question `generated-legislature-session-frequency-and-carryover`. Blanket
+ * rule meanwhile: a regular session each year, and pending measures die at
+ * adjournment sine die. Real states differ on both, so this is recorded as
+ * the game's own rule rather than as the state's.
+ */
 const SESSION_SOURCE = profileSource(
   "Session",
-  "The legislature sits in a regular annual session and a measure still pending when it adjourns sine die does not carry over.",
+  "Not researched for this state. The game's own rule until it is: a regular session each year, and a measure still pending when the legislature adjourns sine die does not carry over.",
 );
 
 function profileChamber(
@@ -515,6 +523,7 @@ export function legislatureProfilePack(
       "This legislature has not been compiled from its state's own constitution or rules. Its structure, seat counts, veto windows and override threshold are the game's own, drawn from the range the compiled states span, and none of them is a claim about this state's law.",
       "The chamber names and bill prefixes are the ordinary American ones. A state whose lower chamber is an Assembly or a House of Delegates will say so once its instruments are compiled.",
       "Committee structure, referral among committees, hearing guarantees and report thresholds come from chamber rules that have not been read.",
+      "How often this legislature meets and whether a pending bill carries over have not been read; the generated pack meets every year and lets pending measures die at adjournment.",
       "Conference between the chambers is not modelled.",
       "Whether this state overrides a veto in joint session rather than chamber by chamber has not been read; the generated pack uses the chamber-by-chamber form every compiled state but one uses.",
       ...override.unexpressed,

@@ -19,8 +19,10 @@ export interface NationalElection {
   readonly sequence: number;
   readonly recordedAt: IsoDate;
   readonly jurisdictionId: EntityId;
-  readonly cycle: 2024 | 2028;
-  readonly ruleVersion: "nara-2020-census-v1";
+  /** A presidential election year: 2024, 2028, and every fourth year after. */
+  readonly cycle: number;
+  readonly ruleVersion:
+    "nara-2020-census-v1" | "nara-2020-census-carried-forward-v1";
   readonly tickets: readonly PresidentialTicket[];
   readonly provenance: ElectionContestProvenance;
 }

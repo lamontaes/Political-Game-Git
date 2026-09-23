@@ -8,6 +8,46 @@ export const NATIONAL_ELECTION_SOURCES = {
   timeline: "https://www.archives.gov/electoral-college/key-dates",
 } as const;
 export const NATIONAL_ALLOCATION_VERSION = "nara-2020-census-v1" as const;
+/**
+ * NOT MODELED: reapportionment after the 2030 census. NARA's allocation
+ * covers 2024 and 2028 only. Blanket rule meanwhile: every later cycle carries
+ * the 2020-census allocation forward, under its own version label so a save
+ * says which elections used a carried-forward allocation.
+ */
+export const CARRIED_FORWARD_ALLOCATION_VERSION =
+  "nara-2020-census-carried-forward-v1" as const;
+export type NationalAllocationVersion =
+  | typeof NATIONAL_ALLOCATION_VERSION
+  | typeof CARRIED_FORWARD_ALLOCATION_VERSION;
+
+/** The first presidential cycle this rule set covers. */
+export const FIRST_NATIONAL_CYCLE = 2024;
+
+export function isNationalElectionCycle(year: number): boolean {
+  return (
+    Number.isSafeInteger(year) && year >= FIRST_NATIONAL_CYCLE && year % 4 === 0
+  );
+}
+
+function pad(value: number): string {
+  return value.toString().padStart(2, "0");
+}
+
+function utcDay(year: number, month: number, day: number): number {
+  return new Date(Date.UTC(year, month - 1, day)).getUTCDay();
+}
+
+/** 3 U.S.C. § 1: the Tuesday next after the first Monday in November. */
+export function presidentialElectionDay(year: number): string {
+  const firstMonday = 1 + ((8 - utcDay(year, 11, 1)) % 7);
+  return `${year}-11-${pad(firstMonday + 1)}`;
+}
+
+/** 3 U.S.C. § 7: the first Tuesday after the second Wednesday in December. */
+export function electorMeetingDay(year: number): string {
+  const firstWednesday = 1 + ((10 - utcDay(year, 12, 1)) % 7);
+  return `${year}-12-${pad(firstWednesday + 7 + 6)}`;
+}
 export const ELECTORAL_ALLOCATION: Readonly<Record<string, number>> =
   Object.freeze({
     AL: 9,
@@ -67,11 +107,9 @@ export const CONTINGENT_STATES = Object.freeze(
     .filter((key) => key !== "DC")
     .sort(),
 );
-function buildNationalElectionRules(cycle: 2024 | 2028) {
-  if (cycle !== 2024 && cycle !== 2028)
-    throw new Error(
-      "National allocation is unsupported for this cycle; a new dated source version is required.",
-    );
+function buildNationalElectionRules(cycle: number) {
+  if (!isNationalElectionCycle(cycle))
+    throw new Error("Not a presidential election year.");
   const units = Object.keys(ELECTORAL_ALLOCATION)
     .sort()
     .flatMap((state) => {
@@ -98,13 +136,13 @@ function buildNationalElectionRules(cycle: 2024 | 2028) {
       ];
     });
   return {
-    version: NATIONAL_ALLOCATION_VERSION,
+    version: (cycle <= 2028
+      ? NATIONAL_ALLOCATION_VERSION
+      : CARRIED_FORWARD_ALLOCATION_VERSION) as NationalAllocationVersion,
     cycle,
     units,
-    electionDate: makeIsoDate(cycle === 2024 ? "2024-11-05" : "2028-11-07"),
-    electorMeetingDate: makeIsoDate(
-      cycle === 2024 ? "2024-12-17" : "2028-12-19",
-    ),
+    electionDate: makeIsoDate(presidentialElectionDay(cycle)),
+    electorMeetingDate: makeIsoDate(electorMeetingDay(cycle)),
     countDate: makeIsoDate(`${cycle + 1}-01-06`),
     startsAt: simulationMomentAtLocalTime({
       date: `${cycle + 1}-01-20`,
@@ -119,24 +157,18 @@ function buildNationalElectionRules(cycle: 2024 | 2028) {
   };
 }
 
-// Immutable derived rule data: timezone conversion and unit construction occur once,
-// not once per elector during every integrity replay.
-const RULES = {
-  2024: buildNationalElectionRules(2024),
-  2028: buildNationalElectionRules(2028),
-};
-for (const rules of Object.values(RULES)) {
+// Immutable derived rule data, built once per cycle: timezone conversion and
+// unit construction occur once, not once per elector during integrity replay.
+const RULES = new Map<number, ReturnType<typeof buildNationalElectionRules>>();
+export function nationalElectionRules(cycle: number) {
+  const cached = RULES.get(cycle);
+  if (cached) return cached;
+  const rules = buildNationalElectionRules(cycle);
   rules.units.forEach(Object.freeze);
   Object.freeze(rules.units);
   Object.freeze(rules.startsAt);
   Object.freeze(rules.endsAt);
   Object.freeze(rules);
-}
-Object.freeze(RULES);
-export function nationalElectionRules(cycle: number) {
-  if (cycle !== 2024 && cycle !== 2028)
-    throw new Error(
-      "National allocation is unsupported for this cycle; a new dated source version is required.",
-    );
-  return RULES[cycle];
+  RULES.set(cycle, rules);
+  return rules;
 }
