@@ -17,11 +17,7 @@
   "sourcesChecked": [
     {
       "source": "docs/research/requests/how-an-election-night-should-come-out.json (A09)",
-<<<<<<< HEAD
-      "whatItDidNotSettle": "Sets the modelling approach and supplies no coefficients."
-=======
       "whatItDidNotSettle": "Sets the modeling approach and supplies no coefficients."
->>>>>>> origin/main
     }
   ]
 }
