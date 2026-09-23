@@ -1,0 +1,39 @@
+{
+  "candidateAnswers": [
+    {
+      "argumentAgainst": "Six states' rules are a guess until read; a town committee may sit under a county committee the player never meets.",
+      "argumentFor": "Matches how New England towns govern themselves, and keeps every other state on its county, parish or borough.",
+      "label": "Keep the blanket rule",
+      "position": "Town committees in the six New England states; the county, parish or borough everywhere else, including where that area has no separate government.",
+      "recommended": true
+    },
+    {
+      "argumentAgainst": "Names a Boston life's chapter for Suffolk County, whose government Massachusetts abolished.",
+      "argumentFor": "One rule for every state, no exceptions to maintain.",
+      "label": "County area everywhere",
+      "position": "Name every chapter for the county area the town lies in, New England included.",
+      "recommended": false
+    }
+  ],
+  "filedAt": "2026-09-22T23:55:00.000Z",
+  "impact": "shapes-design",
+  "lane": "Names that match the person",
+  "notes": [
+    "Consolidated city-counties are named for the county where the county carries a different name (Nashville is Davidson County, Houma is Terrebonne Parish) and for the city where they share one (Denver, Juneau, Richmond).",
+    "Alaska's Census Areas are statistical, so a town in one is named for itself. Alaska's parties may organize by state house district instead; that is part of the question."
+  ],
+  "priority": "P2",
+  "question": "A new life meets its home party chapter, named for the local unit that party organizes at. The game names it for the county, parish or borough the town lies in, even where that area has no separate government, and for the town in the six New England states. For each of the 52 jurisdictions, what is the local unit of the two major parties' organization (county, parish, borough, town, ward, legislative district), and what does a local chapter call itself?",
+  "questionId": "party-local-organizing-unit-by-state",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Names that match the person thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/nationwide-world/local-governments.ts homeLocalPartyAreaName, and the Census 2025 Government Units listing it reads",
+      "whatItDidNotSettle": "The listing records governments, not party organization. It files Terrebonne Parish's consolidated government as a municipality and records no county government for Connecticut, Rhode Island or most of Massachusetts, so it cannot say which unit a party organizes by."
+    }
+  ],
+  "title": "Which local unit each state's parties organize by",
+  "usableAnswer": "One row per jurisdiction: the major parties' local organizing unit, whether it differs between the two parties, and the usual form of a local committee's name (for example, 'Terrebonne Parish Democratic Executive Committee', 'Hartford Democratic Town Committee').",
+  "whyItMatters": "A player's first party contact is named for the wrong place when the unit is wrong, and outreach, meetings and later party politics hang off that chapter."
+}
