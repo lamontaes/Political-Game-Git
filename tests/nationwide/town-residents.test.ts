@@ -7,6 +7,7 @@ import {
 import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
 import { organizationProfileAt } from "../../src/simulation/life-queries";
 import {
+  NEIGHBOR_CONTACT_TAG,
   NEIGHBOR_HOUSEHOLDS,
   PEOPLE_PER_HOUSEHOLD,
   TOWN_RESIDENTS_VERSION,
@@ -156,6 +157,31 @@ describe("a new game's town has residents", { timeout: 180_000 }, () => {
     ).toBe(true);
     expect(staff.length).toBeGreaterThan(0);
     for (const work of staff) expect(work.authority).toBe("directed");
+  });
+
+  it("the player knows the grown-ups next door, and nobody else in town yet", () => {
+    const { world, personId } = openAt(RENO, "residents-neighbors");
+    const otherThan = (ids: readonly EntityId[]) =>
+      ids.find((id) => id !== personId)!;
+    const met = world.history.relationshipInteractions.filter((interaction) =>
+      interaction.tags.includes(NEIGHBOR_CONTACT_TAG),
+    );
+    expect(met.length).toBeGreaterThanOrEqual(NEIGHBOR_HOUSEHOLDS);
+    const town = world.people[personId]!.homeJurisdictionId;
+    const today = Number(world.currentDate.slice(0, 4));
+    for (const interaction of met) {
+      expect(interaction.personIds).toContain(personId);
+      const neighbor = world.people[otherThan(interaction.personIds)]!;
+      expect(neighbor.homeJurisdictionId).toBe(town);
+      expect(
+        today - Number(neighbor.birthDate.slice(0, 4)),
+      ).toBeGreaterThanOrEqual(18);
+    }
+    // Each grown-up is met once.
+    const neighbors = new Set(
+      met.map((interaction) => otherThan(interaction.personIds)),
+    );
+    expect(neighbors.size).toBe(met.length);
   });
 
   it("seats a town once", () => {
