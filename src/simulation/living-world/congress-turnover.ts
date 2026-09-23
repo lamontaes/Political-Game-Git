@@ -236,6 +236,11 @@ export function seatCandidacyIntent(
   return event ? event.tags.includes("intent:seeking") : null;
 }
 
+/** Whether this is the person being played, whose seat only their own race decides. */
+function isControlled(world: World, personId: EntityId): boolean {
+  return world.control.kind === "person" && world.control.personId === personId;
+}
+
 function decideSeat(
   world: World,
   seat: CongressSeat,
@@ -283,6 +288,24 @@ function decideSeat(
           record?.occurredAt ??
           newStart)
         : newStart,
+    };
+  }
+  // The person being played keeps a seat only by winning it. With no contest
+  // of theirs on the ballot, the background model neither returns them nor
+  // retires them by chance: they did not file, so the seat goes to someone
+  // new, the same as any member who stands down.
+  if (incumbent !== undefined && isControlled(world, incumbent)) {
+    const party =
+      recordedParty && majors.includes(recordedParty)
+        ? recordedParty
+        : rng.pick(majors);
+    return {
+      seat,
+      incumbentPersonId: null,
+      successorKey: `${LIVING_WORLD_KEYS.seat(seat.seatKey)}:term:${newStart}:member`,
+      party,
+      caucus: party,
+      serviceSince: newStart,
     };
   }
   const intent = seatCandidacyIntent(world, seat.seatKey, year);
@@ -353,12 +376,16 @@ function holdCongressElection(world: World, year: number): World {
       ageOn(person.birthDate, electionDay) >=
         CONGRESS_TURNOVER_PROFILE.retirementAge;
     const alive = incumbent ? aliveOn(intents, incumbent, electionDay) : false;
+    const played = incumbent !== null && isControlled(intents, incumbent);
+    const filed = recordedSeatContest(intents, seat, electionDay) !== undefined;
     const seeking =
       incumbent !== null &&
       alive &&
       !tooOld &&
-      rng.integer(0, 1000) <
-        CONGRESS_TURNOVER_PROFILE.incumbentReturnPermille[seat.chamberKey];
+      (played ? filed : true) &&
+      (played ||
+        rng.integer(0, 1000) <
+          CONGRESS_TURNOVER_PROFILE.incumbentReturnPermille[seat.chamberKey]);
     intents = recordSeatCandidacyIntent(
       intents,
       seat,
@@ -369,9 +396,11 @@ function holdCongressElection(world: World, year: number): World {
         ? "the seat has no sitting member."
         : !alive
           ? "the seat is vacant."
-          : tooOld
-            ? `they are ${CONGRESS_TURNOVER_PROFILE.retirementAge} or older.`
-            : "they are standing down.",
+          : played && !filed
+            ? "they did not file for another term."
+            : tooOld
+              ? `they are ${CONGRESS_TURNOVER_PROFILE.retirementAge} or older.`
+              : "they are standing down.",
     );
   }
   // A seat whose own contest has not been decided yet is left undecided here:

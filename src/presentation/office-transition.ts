@@ -21,6 +21,7 @@ import {
   officeTransitionProfile,
   stateExecutiveEntryStatus,
   stateExecutiveIdentityForOfficeKey,
+  stateJurisdictionForKey,
   takeOathOfOffice,
   transitionServiceStatus,
   workRelationshipHistoryForPerson,
@@ -28,6 +29,7 @@ import {
   workStatusAt,
 } from "../simulation";
 import { electedExecutiveOfficeJurisdiction } from "../simulation/executive-work-context";
+import { congressSeatStatus } from "./congress-candidacy";
 import type {
   DatedTransitionService,
   EntityId,
@@ -153,13 +155,44 @@ function executiveTransition(
   };
 }
 
+function congressTransition(
+  world: World,
+  personId: EntityId,
+): ResolvedTransition | null {
+  const status = congressSeatStatus(world, personId);
+  if (status.kind !== "won-awaiting-term") return null;
+  const jurisdiction = stateJurisdictionForKey(status.identity.jurisdictionKey);
+  if (!jurisdiction) return null;
+  const profile = officeTransitionProfile(
+    status.identity.seat.chamberKey === "us-house"
+      ? "federal-house"
+      : "federal-senate",
+  );
+  return {
+    contestId: status.contestId,
+    jurisdictionId: jurisdiction.id,
+    officeTitle: status.identity.displayName,
+    electTitle: profile.electTitle(status.identity.title),
+    electedOn: status.electionDate,
+    startsAt: status.startsAt,
+    profile,
+    qualification: "not-required",
+    services: datedTransitionServices(
+      profile,
+      status.electionDate,
+      status.startsAt,
+    ),
+  };
+}
+
 function resolveTransition(
   world: World,
   personId: EntityId,
 ): ResolvedTransition | null {
   return (
     legislativeTransition(world, personId) ??
-    executiveTransition(world, personId)
+    executiveTransition(world, personId) ??
+    congressTransition(world, personId)
   );
 }
 

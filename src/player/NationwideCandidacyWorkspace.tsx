@@ -19,6 +19,7 @@ import {
 import type { StateExecutiveEntryStatus } from "../simulation";
 import { readableCampaignDate } from "./CampaignWorkspace";
 import { ownElectionResultSentence } from "../presentation/own-election";
+import { CongressCandidacySection } from "./CongressCandidacySection";
 
 /**
  * Feature-local Politics mount for NATIONWIDE's home-government and state
@@ -251,6 +252,12 @@ export function NationwideCandidacyWorkspace({
           executive office to stand for.
         </p>
       )}
+      <CongressCandidacySection
+        world={world}
+        personId={personId}
+        campaignActive={campaignPhase === "active"}
+        onWorldChange={onWorldChange}
+      />
     </section>
   );
 }

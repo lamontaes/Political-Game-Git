@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import {
   campaignForCandidate,
   deserializeWorld,
-  nextStateLegislativeElection,
   requireElectionContest,
   requireLifePlace,
   serializeWorld,
