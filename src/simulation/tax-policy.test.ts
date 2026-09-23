@@ -262,7 +262,9 @@ describe("SYSTEMS30-F sourced proposal to enacted policy to due collection", () 
           ...world.history,
           taxProposals: world.history.taxProposals!.map((row) => ({
             ...row,
-            power: { ...row.power, jurisdictionKey: "US-KY" },
+            power: row.power
+              ? { ...row.power, jurisdictionKey: "US-KY" }
+              : null,
           })),
         },
       },

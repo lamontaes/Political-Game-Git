@@ -13,6 +13,7 @@ import {
 } from "./deterministic-math";
 import { WORLD_CONDITION_ID_KIND, worldConditionRecords } from "./integrity";
 import { CRUNCH46_POLICY } from "./policy";
+import { drawStateTaxServiceStartingConditions } from "./state-tax-service-profiles";
 import type {
   MacroStartingConditionsRecord,
   PoliticalStartingConditionsRecord,
@@ -226,6 +227,7 @@ export function ensureWorldStartingConditions(
       regime,
     },
     drawMacroStartingConditions(world, regime),
+    drawStateTaxServiceStartingConditions(world),
   ];
   if (options.political) drafts.push(options.political(world, regime));
   return appendWorldConditions(world, drafts);

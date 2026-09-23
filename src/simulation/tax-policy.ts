@@ -11,6 +11,12 @@ import {
 import { createOrganization } from "./life";
 import { rulePackById } from "./legislature-rule-packs";
 import { stateJurisdictionForKey } from "./life-places";
+import { stateFundedServiceGameProfileForJurisdictionKey } from "./state-funded-service-game-profiles";
+import {
+  stateTaxServiceProfileByRef,
+  stateTaxServiceProfileForJurisdictionKey,
+  stateTaxServiceStartingConditions,
+} from "./world-setup/state-tax-service-profiles";
 import { resourcePositionAt, resourceFlowTermsAt } from "./resource-queries";
 import {
   createResourceFlow,
@@ -39,6 +45,7 @@ import type {
   TaxPolicyRecord,
   TaxPowerEvidence,
   TaxProposalRecord,
+  TaxGameProfileRef,
   TaxTerms,
 } from "./tax-types";
 
@@ -129,7 +136,8 @@ export function attachTaxProposal(
     stableKey: string;
     measureId: EntityId;
     sponsorPersonId: EntityId;
-    power: TaxPowerEvidence;
+    power: TaxPowerEvidence | null;
+    gameProfileRef?: TaxGameProfileRef | null;
     terms: TaxTerms;
   },
 ): World {
@@ -144,20 +152,57 @@ export function attachTaxProposal(
     throw new Error(
       "A tax proposal requires the actual sponsor of a canonical revenue measure.",
     );
-  const expected = taxPowerEvidenceFor(input.power.jurisdictionKey);
-  if (!expected || canonicalJson(expected) !== canonicalJson(input.power))
-    throw new Error("The tax power is not a supported sourced contract.");
-  const jurisdiction = world.jurisdictions[measure.jurisdictionId];
+  const gameProfileRef = input.gameProfileRef ?? null;
+  if ((input.power === null) === (gameProfileRef === null))
+    throw new Error(
+      "A tax proposal requires exactly one sourced power or versioned game-profile reference.",
+    );
+  const expected = input.power
+    ? taxPowerEvidenceFor(input.power.jurisdictionKey)
+    : null;
   if (
-    !jurisdiction ||
+    input.power &&
+    (!expected || canonicalJson(expected) !== canonicalJson(input.power))
+  )
+    throw new Error("The tax power is not a supported sourced contract.");
+  const profile = gameProfileRef
+    ? stateTaxServiceProfileByRef(world, gameProfileRef)
+    : null;
+  if (
+    gameProfileRef &&
+    (!profile ||
+      canonicalJson(profile.ref) !== canonicalJson(gameProfileRef) ||
+      profile.jurisdictionKey !==
+        rulePackById(measure.rulePackId).jurisdictionKey ||
+      profile.jurisdictionId !== measure.jurisdictionId ||
+      canonicalJson(profile.taxTerms) !== canonicalJson(input.terms))
+  )
+    throw new Error(
+      "The tax proposal must match this save's exact fictional state profile, including its terms and digest.",
+    );
+  const jurisdiction = world.jurisdictions[measure.jurisdictionId];
+  if (!jurisdiction)
+    throw new Error("The tax proposal belongs to an unknown jurisdiction.");
+  if (
+    input.power &&
     jurisdiction.id !== stateJurisdictionForKey(input.power.jurisdictionKey)?.id
   )
     throw new Error("The tax power belongs to another jurisdiction.");
-  if (world.currentDate < input.power.asOf)
+  if (input.power && world.currentDate < input.power.asOf)
     throw new Error(
       "The acquired tax-power baseline is not available at this date.",
     );
   assertTaxTerms(input.terms);
+  if (
+    input.power &&
+    (input.terms.legalBaselineAssumption !==
+      "carry-forward-acquired-baseline-in-game" ||
+      (input.terms.effectiveDelayDays !== undefined &&
+        input.terms.effectiveDelayDays !== 90))
+  )
+    throw new Error(
+      "Source-backed tax proposals must retain the acquired-baseline assumption and ninety-day default.",
+    );
   if (world.history.taxProposals?.some((row) => row.measureId === measure.id))
     throw new Error("This measure already has a tax proposal.");
   if (
@@ -200,7 +245,8 @@ export function attachTaxProposal(
     sponsorPersonId: input.sponsorPersonId,
     jurisdictionId: measure.jurisdictionId,
     publicOrganizationId: organization.id,
-    power: structuredClone(input.power),
+    power: input.power ? structuredClone(input.power) : null,
+    gameProfileRef: gameProfileRef ? structuredClone(gameProfileRef) : null,
     terms: structuredClone(input.terms),
     levyProvisionId: levy.id,
   };
@@ -210,12 +256,45 @@ export function attachTaxProposal(
 }
 
 export function taxLevyText(terms: TaxTerms): string {
-  return `An authored selective excise at ${terms.rateNumerator}/${terms.rateDenominator} of the declared ${terms.baseLabel} base is imposed for ${terms.publicPurpose}. Excluded base classes: ${terms.exemptBaseKeys.join(", ") || "none additional"}. Allowance: ${terms.allowanceMinorUnits} ${terms.currency} minor units per modeled occurrence. This tax takes effect ninety days after enactment. Settlement is due ${terms.collectionLagDays} days after each taxable occurrence and receipts enter the general public account. ${TAX_MODEL_NOTE} Game-only legal assumption: carry the acquired constitutional baseline forward until a supported canonical amendment changes it; no future real-world legal continuity is asserted. ${terms.assumptionNote}`;
+  const effectiveDelayDays = terms.effectiveDelayDays ?? 90;
+  const effectiveDelay =
+    effectiveDelayDays === 90 ? "ninety days" : `${effectiveDelayDays} days`;
+  const legalAssumption =
+    terms.legalBaselineAssumption === "carry-forward-acquired-baseline-in-game"
+      ? "Game-only legal assumption: carry the acquired constitutional baseline forward until a supported canonical amendment changes it; no future real-world legal continuity is asserted."
+      : "Game-only authority assumption: this fictional, versioned state profile supplies the modeled tax authority; it makes no claim about current state law or acquired source evidence.";
+  const effectiveRule =
+    terms.legalBaselineAssumption === "authored-state-game-profile"
+      ? `This tax takes effect no earlier than ${effectiveDelay} after enactment or the law's own effective date, whichever is later.`
+      : `This tax takes effect ${effectiveDelay} after enactment.`;
+  return `An authored selective excise at ${terms.rateNumerator}/${terms.rateDenominator} of the declared ${terms.baseLabel} base is imposed for ${terms.publicPurpose}. Excluded base classes: ${terms.exemptBaseKeys.join(", ") || "none additional"}. Allowance: ${terms.allowanceMinorUnits} ${terms.currency} minor units per modeled occurrence. ${effectiveRule} Settlement is due ${terms.collectionLagDays} days after each taxable occurrence and receipts enter the general public account. ${TAX_MODEL_NOTE} ${legalAssumption} ${terms.assumptionNote}`;
+}
+
+/** A profile delay cannot make the modeled tax effective before the enacted
+ * law itself. Alaska retains its existing ninety-day source-backed date rule.
+ */
+export function taxPolicyEffectiveDate(
+  enactment: {
+    readonly resolvedAt: IsoDate;
+    readonly effectiveAt: IsoDate | null;
+  },
+  terms: TaxTerms,
+): IsoDate {
+  const profileDate = addDays(
+    enactment.resolvedAt,
+    terms.effectiveDelayDays ?? 90,
+  );
+  if (
+    terms.legalBaselineAssumption !== "authored-state-game-profile" ||
+    !enactment.effectiveAt ||
+    enactment.effectiveAt <= profileDate
+  )
+    return profileDate;
+  return enactment.effectiveAt;
 }
 
 /** The existing enactment and its adopted text must precede any policy version.
- * The tax provision expressly uses Alaska's default ninety-day route. A null
- * generic enactment date is resolved here from that provision and its source;
+ * A null generic enactment date is resolved here from the filed tax terms;
  * no early-effective-date vote, executive signature or appropriation is invented.
  */
 export function adoptEnactedTaxPolicy(
@@ -245,10 +324,14 @@ export function adoptEnactedTaxPolicy(
     throw new Error(
       "The adopted tax text changed; its effects require an explicit supported revision.",
     );
-  const effectiveAt = addDays(enactment.resolvedAt, 90);
-  if (enactment.effectiveAt !== null && enactment.effectiveAt !== effectiveAt)
+  const effectiveAt = taxPolicyEffectiveDate(enactment, proposal.terms);
+  if (
+    proposal.terms.legalBaselineAssumption !== "authored-state-game-profile" &&
+    enactment.effectiveAt !== null &&
+    enactment.effectiveAt !== effectiveAt
+  )
     throw new Error(
-      "The enacted effective date disagrees with the filed default-date tax provision.",
+      "The enacted effective date disagrees with the filed tax provision.",
     );
   if (effectiveAt < world.currentDate)
     throw new Error(
@@ -270,7 +353,7 @@ export function adoptEnactedTaxPolicy(
     proposal.jurisdictionId,
     [proposal.measureId, proposal.publicOrganizationId],
     "public",
-    `The authored tax measure became law; its ${proposal.terms.baseLabel} tax takes effect on ${effectiveAt}. No money has been collected. Legal power baseline: ${proposal.power.asOf}; ${proposal.power.citations.join("; ")}. ${TAX_MODEL_NOTE}`,
+    `The authored tax measure became law; its ${proposal.terms.baseLabel} tax takes effect on ${effectiveAt}. No money has been collected. ${proposal.power ? `Legal power baseline: ${proposal.power.asOf}; ${proposal.power.citations.join("; ")}.` : `Fictional game-profile authority: ${proposal.gameProfileRef?.profileId ?? "missing profile reference"} version ${proposal.gameProfileRef?.version ?? "unknown"}; this is not acquired source evidence or a claim about current law.`} ${TAX_MODEL_NOTE}`,
   );
   const event = next.history.events.at(-1)!;
   const key = `${proposal.stableKey}:policy`;
@@ -759,6 +842,15 @@ export function assertTaxTerms(terms: TaxTerms) {
       "The modeled tax share requires a positive exact denominator and a share from zero through one. This is a model bound, not a statutory rate cap.",
     );
   assertAmount(terms.allowanceMinorUnits, "Tax allowance");
+  if (
+    terms.effectiveDelayDays !== undefined &&
+    (!Number.isSafeInteger(terms.effectiveDelayDays) ||
+      terms.effectiveDelayDays < 0 ||
+      terms.effectiveDelayDays > 3650)
+  )
+    throw new Error(
+      "The modeled effective-date delay must be an exact nonnegative number of days no greater than ten years.",
+    );
   assertAmount(terms.collectionLagDays, "Collection lag");
   if (terms.collectionLagDays < 1)
     throw new Error(
@@ -769,10 +861,12 @@ export function assertTaxTerms(terms: TaxTerms) {
       "The bounded modeled settlement lag cannot exceed ten years.",
     );
   if (
-    terms.legalBaselineAssumption !== "carry-forward-acquired-baseline-in-game"
+    terms.legalBaselineAssumption !==
+      "carry-forward-acquired-baseline-in-game" &&
+    terms.legalBaselineAssumption !== "authored-state-game-profile"
   )
     throw new Error(
-      "The acquired legal baseline requires an explicit game carry-forward assumption.",
+      "Tax terms require an explicit source-backed or fictional game-profile legal assumption.",
     );
   money(0, terms.currency);
   assertText(terms.publicPurpose, "Tax public purpose");
@@ -860,20 +954,59 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
         row.organizationId === proposal.publicOrganizationId &&
         row.effectiveAt <= proposal.recordedAt,
     );
-    const expected = taxPowerEvidenceFor(proposal.power.jurisdictionKey);
+    const sourcePower = proposal.power;
+    const expected = sourcePower
+      ? taxPowerEvidenceFor(sourcePower.jurisdictionKey)
+      : null;
+    const measureJurisdictionKey = measure
+      ? rulePackById(measure.rulePackId).jurisdictionKey
+      : null;
+    const gameProfile =
+      !sourcePower && measureJurisdictionKey
+        ? (stateTaxServiceProfileForJurisdictionKey(
+            world,
+            measureJurisdictionKey,
+          ) ??
+          (stateTaxServiceStartingConditions(world)
+            ? null
+            : stateFundedServiceGameProfileForJurisdictionKey(
+                measureJurisdictionKey,
+              )))
+        : null;
+    const sourceAuthorityValid = Boolean(
+      sourcePower &&
+      expected &&
+      measure &&
+      canonicalJson(expected) === canonicalJson(sourcePower) &&
+      rulePackById(measure.rulePackId).jurisdictionKey ===
+        sourcePower.jurisdictionKey &&
+      proposal.jurisdictionId ===
+        stateJurisdictionForKey(sourcePower.jurisdictionKey)?.id &&
+      proposal.recordedAt >= sourcePower.asOf &&
+      proposal.terms.legalBaselineAssumption ===
+        "carry-forward-acquired-baseline-in-game" &&
+      (proposal.terms.effectiveDelayDays === undefined ||
+        proposal.terms.effectiveDelayDays === 90) &&
+      !proposal.gameProfileRef,
+    );
+    const profileAuthorityValid = Boolean(
+      !sourcePower &&
+      gameProfile &&
+      proposal.gameProfileRef &&
+      canonicalJson(gameProfile.ref) ===
+        canonicalJson(proposal.gameProfileRef) &&
+      gameProfile.jurisdictionKey === measureJurisdictionKey &&
+      (!("jurisdictionId" in gameProfile) ||
+        gameProfile.jurisdictionId === proposal.jurisdictionId) &&
+      canonicalJson(gameProfile.taxTerms) === canonicalJson(proposal.terms),
+    );
     if (
       !measure ||
       measure.sequence >= proposal.sequence ||
       measure.sponsorPersonId !== proposal.sponsorPersonId ||
       measure.subjectClass !== "revenue" ||
-      rulePackById(measure.rulePackId).jurisdictionKey !==
-        proposal.power.jurisdictionKey ||
       measure.jurisdictionId !== proposal.jurisdictionId ||
-      proposal.jurisdictionId !==
-        stateJurisdictionForKey(proposal.power.jurisdictionKey)?.id ||
-      !expected ||
-      canonicalJson(expected) !== canonicalJson(proposal.power) ||
-      proposal.recordedAt < proposal.power.asOf ||
+      (!sourceAuthorityValid && !profileAuthorityValid) ||
       !provision ||
       provision.sequence >= proposal.sequence ||
       provision.measureId !== measure.id ||
@@ -894,7 +1027,7 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
       )
     )
       throw new Error(
-        "Tax proposal lost its sourced power, sponsor, provision or public-account binding.",
+        "Tax proposal lost its exact authority, sponsor, provision or public-account binding.",
       );
   }
   const enacted = new Set<EntityId>();
@@ -933,7 +1066,8 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
       enactment.sequence >= policy.sequence ||
       enactment.outcome !== "enacted" ||
       enactment.measureId !== proposal.measureId ||
-      policy.effectiveAt !== addDays(enactment.resolvedAt, 90) ||
+      policy.effectiveAt !==
+        taxPolicyEffectiveDate(enactment, proposal.terms) ||
       (enactment.effectiveAt !== null &&
         enactment.effectiveAt !== policy.effectiveAt) ||
       policy.recordedAt > policy.effectiveAt ||

@@ -19,6 +19,15 @@ export interface TaxPowerEvidence {
   readonly constraints: readonly string[];
 }
 
+/** Immutable identity for an explicitly fictional, versioned game profile.
+ * This is never substituted for sourced legal-power evidence.
+ */
+export interface TaxGameProfileRef {
+  readonly profileId: string;
+  readonly version: string;
+  readonly digest: string;
+}
+
 export interface TaxTerms {
   readonly seriesKey: string;
   readonly baseKey: string;
@@ -29,10 +38,15 @@ export interface TaxTerms {
   readonly exemptBaseKeys: readonly string[];
   readonly allowanceMinorUnits: number;
   readonly currency: MoneyAmount["currency"];
+  /** Prospective enactment delay. Alaska source-backed terms omit this and
+   * retain the historical ninety-day default.
+   */
+  readonly effectiveDelayDays?: number;
   readonly collectionLagDays: number;
   readonly publicPurpose: string;
   readonly assumptionNote: string;
-  readonly legalBaselineAssumption: "carry-forward-acquired-baseline-in-game";
+  readonly legalBaselineAssumption:
+    "carry-forward-acquired-baseline-in-game" | "authored-state-game-profile";
 }
 
 interface TaxHistoryRoot {
@@ -47,7 +61,9 @@ export interface TaxProposalRecord extends TaxHistoryRoot {
   readonly sponsorPersonId: EntityId;
   readonly jurisdictionId: EntityId;
   readonly publicOrganizationId: EntityId;
-  readonly power: TaxPowerEvidence;
+  /** Exactly one of `power` (sourced authority) or `gameProfileRef` is set. */
+  readonly power: TaxPowerEvidence | null;
+  readonly gameProfileRef?: TaxGameProfileRef | null;
   readonly terms: TaxTerms;
   readonly levyProvisionId: EntityId;
 }
