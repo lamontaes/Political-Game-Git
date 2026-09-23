@@ -14,7 +14,9 @@ import {
   disasterStateReviewHandler,
 } from "./disaster";
 import {
+  HAZARD_EPISODE_TRANSITION_KEY,
   HAZARD_SAMPLE_TRANSITION_KEY,
+  hazardEpisodeHandler,
   hazardSampleHandler,
 } from "./hazard-producer";
 import {
@@ -55,6 +57,7 @@ export function createCrisisTransitionRegistry() {
     [HEALTH_REVIEW_KEY, healthReviewHandler],
     [NPC_DISCLOSURE_KEY, npcHealthDisclosureHandler],
     [HAZARD_SAMPLE_TRANSITION_KEY, hazardSampleHandler],
+    [HAZARD_EPISODE_TRANSITION_KEY, hazardEpisodeHandler],
     [DISASTER_STATE_REVIEW_KEY, disasterStateReviewHandler],
     [DISASTER_FEDERAL_REVIEW_KEY, disasterFederalReviewHandler],
     [DISASTER_REPAIR_CYCLE_KEY, disasterRepairCycleHandler],
