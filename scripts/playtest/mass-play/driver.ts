@@ -28,6 +28,7 @@ import { crimeIncidents } from "../../../src/simulation/crime/producer";
 import { measurePosition } from "../../../src/simulation/legislation";
 import { electionContestResult } from "../../../src/simulation/election-contests";
 import { currentPresidentOf } from "../../../src/simulation/crisis/offices";
+import { composeFutureTransitionHandlerRegistries } from "../../../src/simulation/future-transitions";
 import { projectWorld39Journal } from "../../../src/presentation/world39-journal";
 import { openingNeighborhoodWalkOffer } from "../../../src/presentation/life-scene-flow";
 import {
@@ -762,7 +763,17 @@ export function playGame(spec: GameSpec): GameResult {
             offered: true,
             weight: w(0.8, { terrible: 0.1, idle: 0.05 }),
             run: (world) =>
-              performCareerWork(world, r.id, p, LIFE_PATHS2_HANDLERS).world,
+              // The shell's Life paths panel composes the ordinary-day
+              // registry on top of the life-path handlers.
+              performCareerWork(
+                world,
+                r.id,
+                p,
+                composeFutureTransitionHandlerRegistries(
+                  LIFE_PATHS2_HANDLERS,
+                  handlers,
+                ),
+              ).world,
           });
           list.push({
             name: "work:resign",
