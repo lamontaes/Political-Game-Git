@@ -694,19 +694,26 @@ export class BrowserSaveStore {
       // generation where it is, so opening a save in a second tab does not
       // take the slot away from the tab that is playing it. And it is
       // conditional, so it cannot land on top of a newer save.
-      await this.#commit(saveId, (current) => {
-        const now = readSlotState(current);
-        if (now.kind !== "present" || now.generation !== record.generation) {
-          return { write: null, result: undefined };
-        }
-        return {
-          write: {
-            ...record,
-            metadata: { ...record.metadata, lastPlayedAt },
-          },
-          result: undefined,
-        };
-      });
+      try {
+        await this.#commit(saveId, (current) => {
+          const now = readSlotState(current);
+          if (now.kind !== "present" || now.generation !== record.generation) {
+            return { write: null, result: undefined };
+          }
+          return {
+            write: {
+              ...record,
+              metadata: { ...record.metadata, lastPlayedAt },
+            },
+            result: undefined,
+          };
+        });
+      } catch {
+        // The world is already read and whole. Writing the stamp rewrites the
+        // record, and a long life's record can be refused or run out of room;
+        // that must not turn a save that opened into one that "could not be
+        // opened". The stored record is unchanged, so the slot stays ours.
+      }
       return migrateUnpinnedAppearanceCatalog(world);
     });
   }
@@ -1102,9 +1109,29 @@ export class BrowserSaveStore {
     return this.#databasePromise;
   }
 
+  /**
+   * One record, read again if the browser refuses it.
+   *
+   * Chromium sometimes will not read a large value ("Failed to read large
+   * IndexedDB value") and reads the same value a moment later. A 40 MB Juneau
+   * life opened in three fresh browsers out of four; in the fourth it stayed
+   * "needs attention" because one refusal was taken as the answer. A read
+   * changes nothing, so asking again is safe; after the last try the refusal
+   * stands and the caller reports it.
+   */
   async #get(saveId: IDBValidKey): Promise<unknown | undefined> {
     const database = await this.#database();
-    return runRequest(database, "readonly", (store) => store.get(saveId));
+    for (let attempt = 0; ; attempt += 1) {
+      try {
+        return await runRequest(database, "readonly", (store) =>
+          store.get(saveId),
+        );
+      } catch (error) {
+        const wait = READ_RETRY_DELAYS_MS[attempt];
+        if (wait === undefined) throw error;
+        await this.#delay(wait);
+      }
+    }
   }
 
   async #commit<T>(
@@ -1378,6 +1405,9 @@ function migrateRecord(
 /* -------------------------------------------------------------------------- */
 /* Summaries.                                                                  */
 /* -------------------------------------------------------------------------- */
+
+/** Pauses before each further read of a record the browser refused. */
+const READ_RETRY_DELAYS_MS: readonly number[] = [500, 2000];
 
 /** A summary built for one list only, never stored, carries no generation. */
 const UNKNOWN_GENERATION = -1;
