@@ -5,6 +5,7 @@ import { municipalGovernments, primaryReading } from "../municipal-government";
 import type { MunicipalGovernment } from "../municipal-government";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import { localGoverningBodyIdentity } from "./local-governing-body-candidacy-packs";
+import { isMayorSeatClass } from "./local-chief-executive-rules";
 
 /**
  * How big a town's governing body is and how long its terms run, for every
@@ -141,11 +142,15 @@ function draw(
   return { value: table.at(-1)!.value, basis: "typical" };
 }
 
-/** A single term length the reading states, or null where it states several. */
+/**
+ * A single term length the reading states for the body's seats, or null where
+ * it states several. A mayor's own term is not a council term.
+ */
 function readTerm(government: MunicipalGovernment): number | null {
   const reading = primaryReading(government);
   const years = new Set(
     (reading?.terms ?? [])
+      .filter((term) => !isMayorSeatClass(term.seatClass))
       .map((term) => term.years)
       .filter((value): value is number => value !== null && value > 0),
   );
