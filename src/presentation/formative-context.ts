@@ -1,3 +1,4 @@
+import { teenWorkPossible } from "../simulation/job-market";
 import {
   SeededRng,
   activeChildAuthoritiesAt,
@@ -323,6 +324,12 @@ export function formativeEligibilityProvider(
           return blocked(
             "context:no-school",
             "This job is offered around a school week, and this character is not at school.",
+          );
+        }
+        if (!teenWorkPossible(world, person.id)) {
+          return blocked(
+            "context:no-employer",
+            "Nobody in this town is taking anyone on.",
           );
         }
       }

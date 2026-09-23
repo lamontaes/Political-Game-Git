@@ -120,24 +120,31 @@ describe("PT3 an offer of work that has not been answered", () => {
     expect(role.sentence).toMatch(/waiting for your answer/);
   });
 
-  it("is waiting on the player, and still is twelve weeks later", () => {
+  it("is waiting on the player until its reply date, then lapses and says so", () => {
     // The reported session: an offer sought on the first day, then twelve
-    // weeks passed with nothing on screen ever mentioning it again.
+    // weeks passed with nothing on screen ever mentioning it again. It is on
+    // screen while it can be answered; after its reply window it lapses, the
+    // owner's rule for every offer (9/22), rather than waiting forever.
     const { world, personId } = lifeWithAnOfferSought();
     const waitingNow = projectToday(world, personId).waiting;
     expect(
       waitingNow.some((entry) => entry.key.startsWith("work-offer:")),
     ).toBe(true);
-    const later = passOrdinaryDays(world, 84);
-    expect(later.currentDate > world.currentDate).toBe(true);
-    const waitingLater = projectToday(later, personId).waiting;
-    const offer = waitingLater.find((entry) =>
+    const soon = passOrdinaryDays(world, 2);
+    const offer = projectToday(soon, personId).waiting.find((entry) =>
       entry.key.startsWith("work-offer:"),
     );
     expect(offer).toBeDefined();
     expect(offer!.sentence).toMatch(/waiting for your answer/);
-    // The world wrote it once and it has not moved on its own.
-    expect(projectWorkRole(later, personId).awaitingAnswer).toHaveLength(1);
+    const later = passOrdinaryDays(world, 84);
+    expect(projectWorkRole(later, personId).awaitingAnswer).toHaveLength(0);
+    expect(
+      later.history.events.filter(
+        (event) =>
+          event.type === "career-path7.offer-lapsed" &&
+          event.involvedEntityIds.includes(personId),
+      ),
+    ).toHaveLength(1);
   });
 
   it("stops quoting a start date once that date has gone by", () => {
@@ -152,10 +159,10 @@ describe("PT3 an offer of work that has not been answered", () => {
     )!;
     expect(offerNow.sentence).toMatch(/to start on/);
 
-    // Twelve weeks later that date is eleven weeks in the past. Repeating it
-    // tells the player something untrue, which is worse than the silence this
-    // replaced, so it is not repeated.
-    const later = passOrdinaryDays(world, 84);
+    // Two days later that date is behind us while the offer can still be
+    // answered. Repeating it tells the player something untrue, which is
+    // worse than the silence this replaced, so it is not repeated.
+    const later = passOrdinaryDays(world, 2);
     expect(startsOn < later.currentDate).toBe(true);
     const offerLaterEntry = projectWorkRole(later, personId).awaitingAnswer[0]!;
     // The recorded date has not moved, and nothing here pretends it has. What

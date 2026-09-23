@@ -1,13 +1,22 @@
 import { addDays } from "./dates";
 /** Career content composes LIFE's canonical work, calendar and earned-pay writers. */
-import type { EntityId, World, FutureTransitionHandlerRegistry } from "./types";
+import type {
+  EntityId,
+  IsoDate,
+  World,
+  FutureTransitionHandlerRegistry,
+} from "./types";
 import {
   createOrganization,
   createWorkRelationship,
   recordWorkStatus,
   recordWorkRole,
 } from "./life";
-import { workStatusAt, workRoleAt } from "./life-queries";
+import {
+  organizationProfileAt,
+  workStatusAt,
+  workRoleAt,
+} from "./life-queries";
 import {
   createWorkCompensation,
   recordResourceFlowTerms,
@@ -15,6 +24,8 @@ import {
 } from "./resources";
 import { resourceFlowTermsAt } from "./resource-queries";
 import { recordWorldEvent } from "./world";
+import { SeededRng } from "./rng";
+import { JOB_MARKET_PLACEHOLDER, JOB_TIMING, spoken } from "./job-market";
 import { employerName, lifePathDefinition } from "./life-paths2-catalog";
 import {
   lifePathEntryReason,
@@ -93,7 +104,50 @@ export function careerEligibility(w: World, p: CareerProvider): string | null {
     return "This provider has no authored civilian hiring context.";
   if (p.tasks.length === 0)
     return "No supported responsibilities are available.";
+  const clash = overlappingWork(w, a, path);
+  if (clash) return clash;
   return lifePathEntryReason(w, a, path);
+}
+
+function clock(minute: number): string {
+  const hour = Math.floor(minute / 60) % 24;
+  const minutes = minute % 60;
+  const suffix = hour < 12 ? "a.m." : "p.m.";
+  const twelve = hour % 12 === 0 ? 12 : hour % 12;
+  return minutes === 0
+    ? `${twelve} ${suffix}`
+    : `${twelve}:${minutes.toString().padStart(2, "0")} ${suffix}`;
+}
+
+/**
+ * A second job whose daily shift overlaps one already held or agreed to.
+ * Both cannot be worked, and the routine would only ever work one of them,
+ * so a Casper life held a repair job for three years that almost never paid.
+ */
+function overlappingWork(
+  w: World,
+  personId: EntityId,
+  path: ReturnType<typeof lifePathDefinition>,
+): string | null {
+  const start = path.sessionStartMinute;
+  const end = start + path.sessionMinutes;
+  for (const work of w.history.workRelationships) {
+    if (work.personId !== personId) continue;
+    const held = pathForRelationship(w, work.id);
+    if (!held || held.id === path.id) continue;
+    if (held.kind !== "work" || held.scope !== "personal") continue;
+    const status = workStatusAt(w, work.id)?.status;
+    if (
+      status !== "active" &&
+      !(status === "expected" && careerOfferAccepted(w, work.id))
+    )
+      continue;
+    const heldStart = held.sessionStartMinute;
+    const heldEnd = heldStart + held.sessionMinutes;
+    if (start < heldEnd && heldStart < end)
+      return `This job's ${clock(start)} to ${clock(end)} shift overlaps the ${clock(heldStart)} to ${clock(heldEnd)} shift you work as ${held.title.toLowerCase()}.`;
+  }
+  return null;
 }
 /** Explicit inquiry creates an issued offer at a real canonical fictional employer, never on read. */
 export function seekCareerOffer(w: World, p: CareerProvider): LifePathResult {
@@ -451,4 +505,144 @@ export function resignCareer(
 ): LifePathResult {
   if (!owned(w, id, p)) return result(w, false, "This is not your engagement.");
   return changeLifePathStatus(w, id, "leave");
+}
+
+/** When an accepted offer's employer last expected the person to begin. */
+function expectedStartOf(w: World, id: EntityId, startedAt: IsoDate): IsoDate {
+  const followUps = w.history.events.filter(
+    (e) =>
+      e.type === "career-path7.followed-up" && e.involvedEntityIds.includes(id),
+  );
+  const latest = followUps.at(-1);
+  return (
+    (latest?.tags.find((tag) => tag.startsWith("start:"))?.slice(6) as
+      IsoDate | undefined) ?? startedAt
+  );
+}
+
+/** The date an older offer was answered by, drawn once from its own id. */
+function replyByOf(w: World, id: EntityId, offeredOn: IsoDate): IsoDate {
+  const rng = new SeededRng(`${w.seed}:career-reply:${id}`);
+  const { minimum, maximum } = JOB_TIMING.offerReplyDays;
+  return addDays(
+    offeredOn,
+    minimum + Math.floor(rng.next() * (maximum - minimum + 1)),
+  );
+}
+
+function endOffer(
+  w: World,
+  id: EntityId,
+  personId: EntityId,
+  reason: string,
+  type: string,
+  summary: string,
+): World {
+  const prev = workStatusAt(w, id)!;
+  const n = recordWorkStatus(w, {
+    stableKey: key(w, type),
+    workRelationshipId: id,
+    effectiveAt: w.currentDate,
+    status: "ended",
+    reason,
+    provenance: authored,
+    supersedesStatusId: prev.id,
+  });
+  return event(n, type, [personId, id], summary);
+}
+
+/**
+ * What an employer on the older work list does as days pass, by the rule the
+ * owner set for every job (9/22, answer five): an offer nobody answers lapses
+ * after its reply window, and an accepted job nobody begins gets one call
+ * with a new start date, or is withdrawn. Before this, an accepted shop job
+ * in San Antonio waited three years for someone to press Begin.
+ */
+export function settleCareerOffers(w: World, personId: EntityId): World {
+  let n = w;
+  const grace = JOB_MARKET_PLACEHOLDER.missedStartGraceDays;
+  for (const r of w.history.workRelationships) {
+    if (r.personId !== personId || !r.stableKey.startsWith("career-path7:"))
+      continue;
+    if (workStatusAt(n, r.id)?.status !== "expected") continue;
+    if (
+      !n.history.events.some(
+        (e) =>
+          e.type === "career-path7.offer" && e.involvedEntityIds.includes(r.id),
+      )
+    )
+      continue;
+    const employer =
+      (r.organizationId && organizationProfileAt(n, r.organizationId)?.name) ||
+      "The employer";
+    const title = workRoleAt(n, r.id)?.title ?? "the job";
+    if (!careerOfferAccepted(n, r.id)) {
+      const replyBy = replyByOf(n, r.id, addDays(r.startedAt, -1));
+      if (n.currentDate > replyBy)
+        n = endOffer(
+          n,
+          r.id,
+          personId,
+          "The offer lapsed unanswered.",
+          "offer-lapsed",
+          `The offer of work as ${title.toLowerCase()} lapsed: you did not answer by ${spoken(replyBy)}.`,
+        );
+      continue;
+    }
+    const due = expectedStartOf(n, r.id, r.startedAt);
+    if (n.currentDate <= addDays(due, grace)) continue;
+    const calledAlready = n.history.events.some(
+      (e) =>
+        e.type === "career-path7.followed-up" &&
+        e.involvedEntityIds.includes(r.id),
+    );
+    const rng = new SeededRng(`${n.seed}:career-missed-start:${r.id}`);
+    if (!calledAlready && rng.next() < JOB_MARKET_PLACEHOLDER.followUpChance) {
+      const { minimum, maximum } = JOB_MARKET_PLACEHOLDER.followUpStartDays;
+      const startAt = addDays(
+        n.currentDate,
+        minimum + Math.floor(rng.next() * (maximum - minimum + 1)),
+      );
+      const summary = `${employer} called when you did not come in to start as ${title.toLowerCase()}. They still want you, starting ${spoken(startAt)}.`;
+      n = recordWorldEvent(n, {
+        stableKey: key(n, "followed-up"),
+        type: "career-path7.followed-up",
+        occurredAt: n.currentDate,
+        recordedAt: n.currentDate,
+        jurisdictionId: null,
+        involvedEntityIds: [personId, r.id],
+        participants: [
+          { personId, role: "agency:participant", detail: summary },
+        ],
+        personFactConstraints: [],
+        visibility: "private",
+        tags: ["career-path7", `start:${startAt}`],
+        summary,
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: summary,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      continue;
+    }
+    n = endOffer(
+      n,
+      r.id,
+      personId,
+      "The employer withdrew the offer after a missed start.",
+      "withdrawn",
+      `${employer} withdrew the offer of work as ${title.toLowerCase()} after you did not come in to start.`,
+    );
+  }
+  return n;
+}
+
+/** The start date an accepted older offer is waiting on now. */
+export function careerExpectedStart(w: World, id: EntityId): IsoDate | null {
+  const r = w.history.workRelationships.find((row) => row.id === id);
+  return r ? expectedStartOf(w, id, r.startedAt) : null;
 }

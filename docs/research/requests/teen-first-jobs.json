@@ -1,0 +1,36 @@
+{
+  "candidateAnswers": [
+    {
+      "label": "Youth employment by industry",
+      "position": "Use BLS Current Population Survey or OEWS teen-heavy occupations to pick which part-time jobs 14- to 17-year-olds hold, weighted by the town's industry mix once the county file is in, with state rules on hours for minors.",
+      "recommended": true
+    }
+  ],
+  "filedAt": "2026-09-23T10:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "Jobs (job market)",
+  "notes": [
+    "The placeholder is TEEN_PUBLIC_ROLE_PLACEHOLDER in src/simulation/job-market.ts: a library page or recreation aide at the town's county or city government, 8 to 14 hours a week, at the federal minimum of $7.25 an hour.",
+    "A town business with part-time staff is used first; none exist on main yet, so every teen first job today is with a public body.",
+    "Puerto Rico and the other territories have no public body on file, so no first job is offered there yet."
+  ],
+  "priority": "P2",
+  "question": "A teenager's first job now comes from the town's own employers. Until town businesses exist, it is one of two placeholder public-body roles (library page or recreation aide) at the federal minimum wage, 8 to 14 hours a week. Which first jobs do 14- to 17-year-olds actually hold, how does that vary by place and industry, what do they pay by state, and what hour limits apply to minors during the school year?",
+  "questionId": "teen-first-jobs",
+  "relatedQuestionIds": [
+    "public-employer-roles-and-pay",
+    "minimum-wages-by-place",
+    "job-market-calibration"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Jobs thread, for lamontae (owner)",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/job-market.ts FEDERAL_MINIMUM_HOURLY_MINOR",
+      "whatItDidNotSettle": "It is the federal floor only; state minimums and youth rules are not on file."
+    }
+  ],
+  "title": "Which first jobs teenagers hold, and what they pay",
+  "usableAnswer": "A short list of first jobs by place type or industry, each with a typical hourly pay range by state and its source, plus the hour limits for 14- and 15-year-olds and for 16- and 17-year-olds during the school year.",
+  "whyItMatters": "Every life that takes a job as a teenager goes through this, and today every one of them is a library page or recreation aide at minimum wage."
+}
