@@ -270,8 +270,14 @@ export function CampaignWorkspace({
     strategy?.priorityChoices.find(
       (choice) => choice.key === strategy.proposedPriorityKey,
     )?.label ?? null;
+  // With the office browser on screen and nothing chosen, each office already
+  // carries its own requirement beside its name. Joining every office's
+  // refusal into one unlabeled paragraph below it read as contradictory ages
+  // ("at least 24", "at least 30", "at least 21") with no office attached.
   const unavailable =
-    view.phase === "unavailable" && view.unavailableReason
+    view.phase === "unavailable" &&
+    view.unavailableReason &&
+    (offices.length === 0 || selectedOfficeKey !== null)
       ? splitEligibilityText(view.unavailableReason)
       : null;
   const authorityDetail = [
@@ -425,7 +431,7 @@ export function CampaignWorkspace({
         <div data-testid="campaign-offer" className="game-campaign-offer">
           <p>
             {selectedOffice
-              ? `There is a ${selectedOffice.title} to be filled${view.placeName ? ` in ${view.placeName}` : ""}. Nobody has asked ${view.candidateName} to stand for it. That is not usually how it starts.`
+              ? `There is a ${selectedOffice.title} to be filled${view.placeName ? ` in ${view.placeName}` : ""}.`
               : "Choose one of the offices above to see whether you can file for it."}
           </p>
           {needsDistrict && selectedOffice ? (

@@ -2,6 +2,7 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
+import { scheduleSeatFilling } from "../governing/office-continuity";
 import type { CharacterHistoryContextPersonInput } from "../character-history";
 import { makeIsoDate } from "../dates";
 import { electionContestResult } from "../election-contests";
@@ -11,6 +12,10 @@ import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
+import {
+  endCongressSeatWork,
+  takeCongressSeatWork,
+} from "./congress-member-work";
 import { LIVING_WORLD_SCENARIO_PROFILE as PROFILE } from "./contract";
 import { MINIMUM_AGE, congressSeats, seatTermWindow } from "./congress-seats";
 import type { CongressSeat } from "./congress-seats";
@@ -539,6 +544,16 @@ function seatCongressWinners(world: World, year: number): World {
       immediateReaction: null,
     };
     const title = congressSeatTitle(seat);
+    // The last term's job ends as the new one begins, unless its holder
+    // was returned to the seat.
+    next = endCongressSeatWork(next, {
+      seatKey: seat.seatKey,
+      continuingPersonId: aliveOn(next, participant.personId, newStart)
+        ? participant.personId
+        : null,
+      effectiveAt: newStart,
+      sourceEventId: results.id,
+    });
     if (!aliveOn(next, participant.personId, newStart)) {
       next = recordWorldEvent(next, {
         stableKey: vacancyKey,
@@ -554,6 +569,7 @@ function seatCongressWinners(world: World, year: number): World {
         summary: `The seat of the ${title} is vacant: the member-elect died before the term began.`,
         context,
       });
+      next = scheduleSeatFilling(next, seat, newStart).world;
       continue;
     }
     next = recordWorldEvent(next, {
@@ -582,6 +598,18 @@ function seatCongressWinners(world: World, year: number): World {
       summary: `${personName(next.people[participant.personId]!)} begins a term as ${title}.`,
       context,
     });
+    if (isControlled(next, participant.personId))
+      next = takeCongressSeatWork(next, {
+        personId: participant.personId,
+        seatKey: seat.seatKey,
+        title,
+        chamberOrganizationId: chamberId,
+        jurisdictionId,
+        startsAt: newStart,
+        tenureEventId: next.history.events.find(
+          (event) => event.stableKey === stableKey,
+        )!.id,
+      });
   }
   return next;
 }

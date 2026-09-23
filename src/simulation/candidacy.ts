@@ -10,6 +10,7 @@ import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
 } from "./life-places";
+import { isTerritoryUsps } from "./state-reference";
 import { chiefExecutiveJurisdictionId } from "./nationwide-world/government-jurisdiction";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import {
@@ -246,6 +247,14 @@ function noSourcedOfficeReason(authority: CandidacyAuthority): string {
   if (authority.stateJurisdictionKey === null) {
     return "The game has not read any elected office for this place, and it will not borrow another jurisdiction's rules to fill the gap.";
   }
+  if (
+    authority.pack === null &&
+    isTerritoryUsps(authority.stateJurisdictionKey.slice(3))
+  ) {
+    // A territory's Governor stands apart from this list; its legislature and
+    // local offices are not on record until the territory research lands.
+    return "None of this territory's legislative or local offices is on record yet, so there is no seat to stand for here. Its Governor is below.";
+  }
   if (authority.pack === null) {
     return "The game has not read this state's elected offices yet, so there is nothing to stand for here. It will not borrow another state's rules to fill the gap.";
   }
@@ -404,7 +413,7 @@ function assessEnactedQualification(
       verdict: meets ? "meets" : "fails",
       reason: meets
         ? `Old enough: ${law} this office has a minimum age of ${change.value}.`
-        : `Too young to stand: ${law} this office has a minimum age of ${change.value}, and this character is ${person.age}.`,
+        : `You must be at least ${change.value} to stand for this office, ${law.slice(0, -1)}.`,
       source: null,
     };
   }
@@ -721,7 +730,7 @@ export function candidacyEligibility(
         // as a sourced one is: the player is not told that this office's rule
         // was drawn, and the provenance stays in the record where an auditor
         // looks for it.
-        reason: `This office asks for a candidate to be at least ${profileMinimumAge}.`,
+        reason: `You must be at least ${profileMinimumAge} to stand for this office.`,
       });
     }
   } else if (
@@ -729,9 +738,18 @@ export function candidacyEligibility(
     !sourcedMinimumAge &&
     age < GAME_ADULT_CANDIDACY_AGE
   ) {
+    // PLACEHOLDER RULE: no minimum age has been read for this office, so the
+    // game's own adult floor (GAME_ADULT_CANDIDACY_AGE) stands in for it. The
+    // real values are already requested under docs/research/requests/:
+    // governor-qualifications-in-every-state (and its primary-law
+    // verification), state-legislator-qualifications-in-every-unread-state
+    // and local-executive-and-council-rules.
+    // The player reads the requirement they are held to, worded exactly as a
+    // read or drawn rule is; where the number came from stays with the block's
+    // kind and this comment, not on the screen.
     blocks.push({
       kind: "below-game-adult-age",
-      reason: `The game has not read this state's minimum age for the office, so it holds to its own adult rule and will not put anyone under ${GAME_ADULT_CANDIDACY_AGE} on a ballot.`,
+      reason: `You must be at least ${GAME_ADULT_CANDIDACY_AGE} to stand for this office.`,
     });
   }
   // Every chief executive's office has a term limit in one of three states:

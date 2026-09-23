@@ -18,7 +18,11 @@ import { PUBLIC_PROGRAM_HANDLERS } from "./governing/public-program";
 import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
 import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
 import { CONSTITUTIONAL_REFORM_HANDLERS } from "./living-world/constitutional-reform";
+import { FEDERAL_REFORM_HANDLERS } from "./living-world/federal-reform";
+import { PRESIDENTIAL_TURNOVER_HANDLERS } from "./nationwide-world/presidential-turnover";
 import { RECALL_HANDLERS } from "./recall";
+import { COUNCIL_ACT_HANDLERS } from "./municipal-ordinance-procedure";
+import { DC_COUNCIL_SITTING_HANDLERS } from "./dc-council-sittings";
 import {
   createNationalElectionTransitionRegistry,
   linkedNationalUnitTransition,
@@ -2015,8 +2019,15 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         ...GOVERNOR_TURNOVER_HANDLERS,
         // A legislature and voters changing the governor's term limit.
         ...CONSTITUTIONAL_REFORM_HANDLERS,
+        // Congress and the states amending the U.S. Constitution.
+        ...FEDERAL_REFORM_HANDLERS,
+        ...PRESIDENTIAL_TURNOVER_HANDLERS,
         // Voters recalling a town official: petition, then recall election.
         ...RECALL_HANDLERS,
+        // A council act on the executive's desk, or returned to the council.
+        ...COUNCIL_ACT_HANDLERS,
+        // The Council of the District of Columbia sitting on its own.
+        ...DC_COUNCIL_SITTING_HANDLERS,
         ...PUBLIC_PROGRAM_HANDLERS,
         ...OFFICE_CONTINUITY_HANDLERS,
         // ALIVE43 W2: a local chapter organizer acts while ordinary time passes.

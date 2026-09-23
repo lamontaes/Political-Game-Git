@@ -54,10 +54,18 @@ describe("state executive term rules", () => {
     // own rule, for its own office, asserted in
     // `nationwide-chief-executives.test.ts`.
     expect(stateExecutiveTermRule("DC")).not.toBeNull();
-    // Puerto Rico's Governor is real and is not compiled yet, so this is a
-    // gap rather than a finding. See
+    // The territories' Governors are real and their law is not read yet, so
+    // each is on the game's profile, citing nothing. See
     // `nationwide-chief-executives.test.ts`.
-    expect(stateExecutiveTermRule("PR")).toBeNull();
+    for (const usps of ["PR", "GU", "VI", "AS", "MP"]) {
+      const rule = stateExecutiveTermRule(usps)!;
+      expect(rule.sources).toEqual([]);
+      expect(Object.values(rule.basis)).toEqual([
+        "game-profile",
+        "game-profile",
+        "game-profile",
+      ]);
+    }
   });
 
   it("dates Washington from RCW 43.01.010: Wednesday after the second Monday of January", () => {

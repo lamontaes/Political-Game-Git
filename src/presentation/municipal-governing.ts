@@ -20,10 +20,13 @@ import { addSimulationMinutes } from "../simulation/dates";
 import { stableHash } from "../simulation/ids";
 import { requireMeasure } from "../simulation/legislation";
 import {
+  actOnCouncilMeasure,
   municipalOrdinanceStatuses,
+  overrideCouncilVeto,
   passMunicipalOrdinance,
   placeMunicipalOrdinanceOnAgenda,
 } from "../simulation/municipal-ordinance-procedure";
+import { nextDcCouncilDesignation } from "../simulation/dc-council-sittings";
 import { scheduledActivityState } from "../simulation/time-work";
 import { resolvePlayerCapabilities } from "./player-capabilities";
 import type {
@@ -72,6 +75,9 @@ export function projectMunicipalGoverning(
   });
   return {
     governmentKey: government.key,
+    measureNoun: councilMeasureNoun(government.key),
+    /** "the Mayor", as the executive is named in ordinary prose. */
+    executiveName: `the ${(reading.mayor?.title ?? "mayor").split(" of ")[0]}`,
     displayName: reading.displayName,
     bodyName: reading.bodyName,
     evidence: reading.evidence,
@@ -230,11 +236,68 @@ export function introduceProjectedOrdinance(
   shortTitle?: string,
 ) {
   const title = shortTitle?.trim() || designation;
+  const noun = councilMeasureNoun(governmentKey);
   return introduceMunicipalOrdinance(world, {
     governmentKey,
     designation,
     shortTitle: title,
-    summary: `A general ordinance a councilor introduced: ${title}.`,
+    summary: `${noun === "act" ? "An act" : "A general ordinance"} a councilor introduced: ${title}.`,
+  });
+}
+
+/**
+ * What this council's measures are called: the District's Council passes
+ * acts (D.C. Code § 1-204.12(a)), a town council ordinances.
+ */
+export function councilMeasureNoun(governmentKey: string): "act" | "ordinance" {
+  const government = municipalGovernmentByKey(governmentKey);
+  const types = government
+    ? primaryReading(government).procedure.measureTypes
+    : null;
+  return types?.includes("act") && !types.includes("ordinance")
+    ? "act"
+    : "ordinance";
+}
+
+/** The executive signs, or returns, an act on their desk. */
+export function actOnProjectedCouncilMeasure(
+  world: World,
+  governmentKey: string,
+  measureId: EntityId,
+  decision: "sign" | "return",
+) {
+  return actOnCouncilMeasure(world, { governmentKey, measureId, decision });
+}
+
+/** The council's vote on reenacting a measure the executive returned. */
+export function takeProjectedOverrideVote(
+  world: World,
+  governmentKey: string,
+  measureId: EntityId,
+  own: OwnOrdinanceBallot,
+) {
+  const preview = previewAuthoredCouncilBallots(
+    world,
+    governmentKey,
+    measureId,
+    own,
+  );
+  if (!preview) {
+    return {
+      ok: false as const,
+      world,
+      reason: "Only a seated councilor votes to reenact it.",
+    };
+  }
+  return overrideCouncilVeto(world, {
+    governmentKey,
+    measureId,
+    dispositions: preview.dispositions,
+    provenance: {
+      method: "authored-fixture",
+      note: AUTHORED_COUNCIL_BALLOT_NOTE,
+      sourceEntityIds: [measureId],
+    },
   });
 }
 
@@ -243,6 +306,8 @@ export function nextOrdinanceDesignation(
   world: World,
   governmentKey: string,
 ): string {
+  if (councilMeasureNoun(governmentKey) === "act")
+    return nextDcCouncilDesignation(world);
   const year = world.currentDate.slice(2, 4);
   const taken = new Set(
     municipalOrdinanceStatuses(world, governmentKey).map(
@@ -381,5 +446,7 @@ export function mountOrdinaryMunicipalRoute() {
     placeOrdinanceOnAgenda: placeProjectedOrdinanceOnAgenda,
     previewOrdinanceVote: previewAuthoredCouncilBallots,
     takeOrdinanceVote: takeProjectedOrdinanceVote,
+    actOnCouncilMeasure: actOnProjectedCouncilMeasure,
+    takeOverrideVote: takeProjectedOverrideVote,
   };
 }
