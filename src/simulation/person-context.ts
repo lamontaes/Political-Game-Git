@@ -6,6 +6,8 @@ import {
   activeOrganizationParticipationsAt,
   activePartnershipsAt,
   activeWorkRelationshipsAt,
+  childAuthorityHistoryForChild,
+  childAuthorityStateHistory,
   currentLifeCutoff,
   didPeopleShareEducationOrganization,
   educationEnrollmentHistoryForPerson,
@@ -179,6 +181,7 @@ const RESOLVERS: readonly Resolver[] = [
   resolveSibling,
   resolvePartner,
   resolveOtherKin,
+  resolveRaisedBy,
   resolveHousehold,
   resolveMentorship,
   resolveSchool,
@@ -445,6 +448,73 @@ function resolveOtherKin(
       basis: `A ${kinship.kind} kinship record, of a kind the game has no more specific word for.`,
       anchors: [kinshipAnchor(kinship)],
     };
+  }
+  return null;
+}
+
+/**
+ * Somebody who held authority over the other as a child, and no longer does.
+ *
+ * A guardianship ends when the child grows up (see `coming-of-age.ts`), but
+ * the person who raised them did not become a stranger. A parental authority
+ * is named as a parent, read off the authority record's own kind; a
+ * guardianship is named as that and nothing more, because a guardian with no
+ * kinship record is not anybody's mom. It comes after kinship, so a record
+ * that says more (a parent-child kinship) still says it.
+ */
+function resolveRaisedBy(
+  world: World,
+  viewerId: EntityId,
+  subjectId: EntityId,
+): Resolved | null {
+  const cutoff = currentLifeCutoff(world);
+  const pairs: readonly [EntityId, EntityId, boolean][] = [
+    [viewerId, subjectId, true],
+    [subjectId, viewerId, false],
+  ];
+  for (const [childId, holderId, viewerWasChild] of pairs) {
+    for (const authority of childAuthorityHistoryForChild(
+      world,
+      childId,
+      cutoff,
+    )) {
+      if (
+        authority.holder.kind !== "person" ||
+        authority.holder.personId !== holderId
+      )
+        continue;
+      const ended = childAuthorityStateHistory(world, authority.id, cutoff)
+        .filter((state) => state.status === "ended")
+        .at(-1);
+      if (!ended) continue;
+      const parental = authority.kind.startsWith("parental:");
+      const subject = world.people[subjectId]!;
+      return {
+        relationship: viewerWasChild
+          ? parental
+            ? parentWord(subject)
+            : "the guardian who raised you"
+          : parental
+            ? childWord(subject)
+            : "someone you raised",
+        basis: `A ${authority.kind} authority record, since ended, ${
+          viewerWasChild
+            ? "over the player held by this person"
+            : "over this person held by the player"
+        }.`,
+        anchors: [
+          {
+            store: "childAuthorities",
+            recordId: authority.id,
+            stableKey: authority.stableKey,
+            at: authority.establishedAt,
+            sequence: authority.sequence,
+            role: "context",
+            note: `The authority record from when they were a child, ended ${ended.effectiveAt}.`,
+          },
+        ],
+      };
+    }
   }
   return null;
 }
