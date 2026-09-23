@@ -27,6 +27,8 @@ import {
   openingLifeLocation,
   openingNeighborhoodWalkOffer,
 } from "./life-scene-flow";
+import { proseWeekdayDate } from "./prose-dates";
+import { formatRoutineElapsedMinutes, proseClockTime } from "./routine-outcome";
 import { releaseMissedHolds } from "./scheduled-activity-choice";
 import { completedActivityHere } from "./scene-venues";
 import {
@@ -422,6 +424,30 @@ export function performVenueActivity(
   // The wait before it can cross days in which an organizer booked something
   // for a time already gone; see `releaseMissedHolds`.
   return performed === world ? world : releaseMissedHolds(performed, personId);
+}
+
+/**
+ * When a commitment starts and how long it takes, as a person would say it.
+ *
+ * The row used to print the whole time until it was over as one number of
+ * minutes: a 15-minute trip to a friend's on Saturday, seen on Tuesday, read
+ * "6090 minutes, including any wait before it begins" (Elko playtest,
+ * 2026-09-23). Null where the timing cannot be read.
+ */
+export function venueTimingLabel(
+  world: World,
+  activityId: EntityId,
+): string | null {
+  try {
+    const timing = scheduledActivityPerformanceTiming(world, activityId);
+    const start = scheduledActivityState(world, activityId).start;
+    const takes = formatRoutineElapsedMinutes(timing.activityMinutes);
+    return timing.waitMinutes > 0
+      ? `Starts ${proseWeekdayDate(start.date)} at ${proseClockTime(start.minuteOfDay)} and takes ${takes}.`
+      : `Takes ${takes}.`;
+  } catch {
+    return null;
+  }
 }
 
 /**
