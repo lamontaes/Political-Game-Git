@@ -84,7 +84,7 @@ export function regionalIssuesFor(
 }
 
 const CATALOG_ISSUE_KEYS: ReadonlySet<string> = new Set(
-  US_STATE_AND_LOCAL_POLICY_PACK.issues.map((issue) => issue.key),
+  (US_STATE_AND_LOCAL_POLICY_PACK.issues ?? []).map((issue) => issue.key),
 );
 
 /** Every problem with a set of regional issue records; empty when they are sound. */
