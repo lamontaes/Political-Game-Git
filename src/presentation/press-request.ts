@@ -27,11 +27,11 @@ export const PRESS_REQUEST_INTENT_COPY: Readonly<
 > = {
   "request-exchange": {
     label: "Request an exchange",
-    clause: "asks to arrange an exchange",
+    clause: "asks to arrange",
   },
   "offer-statement": {
     label: "Offer a statement",
-    clause: "offers a statement without adding unrecorded claims",
+    clause: "offers",
   },
 };
 
@@ -43,15 +43,17 @@ export const PRESS_REQUEST_STANCE_COPY: Readonly<
 > = {
   "report-what-is-recorded": {
     label: "Stay with the recorded file",
-    clause: "will speak only to what the public record already establishes",
+    clause:
+      "They will speak only to what the public record already establishes.",
   },
   "refuse-speculation": {
     label: "Refuse speculation",
-    clause: "will not speculate beyond the recorded file",
+    clause: "They will not speculate beyond what is on the public record.",
   },
   "correct-an-unsupported-claim": {
     label: "Correct an unsupported claim",
-    clause: "will separate the recorded development from unsupported claims",
+    clause:
+      "They will separate what has been recorded from claims the record does not support.",
   },
 };
 
@@ -127,14 +129,34 @@ export function composePressRequestPitch(input: {
     };
   const intent = PRESS_REQUEST_INTENT_COPY[input.intent];
   const stance = PRESS_REQUEST_STANCE_COPY[input.stance];
-  const attributionClause =
+  const kind = input.intent === "offer-statement" ? "statement" : "exchange";
+  const channel = CHANNEL_WORDS[input.channel] ?? input.channel;
+  const terms =
     input.terms === "on-background"
-      ? ` to be attributed as “${attribution}”`
-      : "";
+      ? `on background, to be attributed to ${attribution},`
+      : TERMS_WORDS[input.terms];
+  // The development is its own recorded sentence; it follows a colon rather
+  // than sitting inside quotation marks, where its full stop read as a nested
+  // quote (Maine playthrough, 2026-09-22).
   return {
     ok: true,
-    statement: `The source ${intent.clause} about “${subject}” on ${input.terms} ${input.channel} terms${attributionClause} and ${stance.clause}.`,
+    statement: `The source ${intent.clause} ${articleFor(channel)} ${channel} ${kind} ${terms} about this development: ${subject} ${stance.clause}`,
   };
+}
+
+const CHANNEL_WORDS: Readonly<Record<string, string>> = {
+  written: "written",
+  spoken: "spoken",
+};
+
+const TERMS_WORDS: Readonly<Record<PressRecordTerms, string>> = {
+  "on-record": "on the record",
+  "on-background": "on background",
+  "off-record": "off the record",
+};
+
+function articleFor(word: string): string {
+  return /^[aeiou]/i.test(word) ? "an" : "a";
 }
 
 /** Reporter-owned question grounded in the selected public development. */
@@ -155,7 +177,7 @@ export function composeReporterQuestion(input: {
     };
   return {
     ok: true,
-    statement: `What is established about “${subject}”, and what remains open, on ${input.terms} terms?`,
+    statement: `${subject} Asked ${TERMS_WORDS[input.terms]}: what is established about this, and what remains open?`,
   };
 }
 

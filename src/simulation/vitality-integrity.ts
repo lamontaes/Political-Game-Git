@@ -1,5 +1,7 @@
 import { crisisEntityAvailableAt } from "./crisis/records";
 import { ageOnDate, dateAtAge, makeIsoDate, yearOf } from "./dates";
+import { eventById } from "./event-index";
+import { historyIndex } from "./history-index";
 import { createStableId } from "./ids";
 import { assertExactQuantity } from "./quantity";
 import { SeededRng } from "./rng";
@@ -55,8 +57,24 @@ export function vitalityHistoryRecords(
   ];
 }
 
+/**
+ * Vitality records by id, the first in `vitalityHistoryRecords` order, built
+ * once per history. The integrity pass asks this for every source it checks,
+ * and each answer copied four families into one array and scanned it.
+ */
+function vitalityRecordIndex(
+  world: World,
+): ReadonlyMap<EntityId, VitalityHistoryRecord> {
+  return historyIndex(world, "vitality:records-by-id", () => {
+    const index = new Map<EntityId, VitalityHistoryRecord>();
+    for (const record of vitalityHistoryRecords(world))
+      if (!index.has(record.id)) index.set(record.id, record);
+    return index;
+  });
+}
+
 export function vitalityEntityExists(world: World, id: EntityId): boolean {
-  return vitalityHistoryRecords(world).some((record) => record.id === id);
+  return vitalityRecordIndex(world).has(id);
 }
 
 export function vitalityEntityAvailableAt(
@@ -65,9 +83,7 @@ export function vitalityEntityAvailableAt(
   asOfDate: string,
   sequenceExclusive: number,
 ): boolean {
-  const record = vitalityHistoryRecords(world).find(
-    (candidate) => candidate.id === id,
-  );
+  const record = vitalityRecordIndex(world).get(id);
   if (!record || record.sequence >= sequenceExclusive) return false;
   return vitalityRecordDate(record) <= asOfDate;
 }
@@ -900,7 +916,7 @@ function sourceAvailable(
   }
   if (crisisEntityAvailableAt(world, id, asOfDate, sequenceExclusive))
     return true;
-  const event = world.history.events.find((record) => record.id === id);
+  const event = eventById(world, id);
   if (event) {
     return event.occurredAt <= asOfDate && event.sequence < sequenceExclusive;
   }

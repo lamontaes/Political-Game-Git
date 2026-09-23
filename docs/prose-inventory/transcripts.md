@@ -320,16 +320,6 @@ Somebody at home needs more looking after than the household can spread around, 
 
 
 
-There is a sign-up sheet, a practice schedule, and only so many afternoons in a week.
-
-- **Join the activity** ← chosen
-- Leave the activity
-- Stay, but do less of it
-
-#### Beat 8 — 2026-01-05, age 15 (formative)
-
-
-
 Someone you respect says something you think is wrong, and says it as though it settles the matter.
 
 - **Say you disagree** ← chosen
@@ -337,7 +327,7 @@ Someone you respect says something you think is wrong, and says it as though it 
 
 _Present: Maria Nielsen_
 
-#### Beat 9 — 2026-01-05, age 15 (formative)
+#### Beat 8 — 2026-01-05, age 15 (formative)
 
 
 
@@ -346,7 +336,7 @@ There is a job going. The hours are real, and the law has something to say about
 - **Accept the opportunity** ← chosen
 - Decline for now
 
-#### Beat 10 — 2026-01-05, age 15 (formative)
+#### Beat 9 — 2026-01-05, age 15 (formative)
 
 
 
@@ -356,7 +346,7 @@ There is a rule at work that nobody follows, and today somebody older is telling
 - Say nobody does that
 - Do it, then say something after
 
-#### Beat 11 — 2026-01-05, age 15 (formative)
+#### Beat 10 — 2026-01-05, age 15 (formative)
 
 
 
@@ -365,7 +355,7 @@ Something at school is wrong enough that people are talking about doing somethin
 - **Help organize it** ← chosen
 - Stay out of it
 
-#### Beat 12 — 2026-01-05, age 15 (ordinary-stretch)
+#### Beat 11 — 2026-01-05, age 15 (ordinary-stretch)
 
 
 
@@ -373,7 +363,7 @@ Something at school is wrong enough that people are talking about doing somethin
 
 - **Let the year run on** ← chosen
 
-#### Beat 13 — 2026-01-28, age 15 (episode, opening.young.home.choose-activity/moment)
+#### Beat 12 — 2026-01-28, age 15 (episode, opening.young.home.choose-activity/moment)
 
 
 
@@ -385,7 +375,7 @@ You're at home, and the next fifteen minutes are yours.
 
 _Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires a recorded current household._
 
-#### Beat 14 — 2026-01-28, age 15 (episode, opening.young.home.choose-activity/follow-through)
+#### Beat 13 — 2026-01-28, age 15 (episode, opening.young.home.choose-activity/follow-through)
 
 
 
@@ -396,13 +386,25 @@ Your drawing is in front of you. Do you want to add anything?
 
 _Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2026-01-28._
 
-#### Beat 15 — 2026-01-28, age 15 (ordinary-stretch)
+#### Beat 14 — 2026-01-28, age 15 (ordinary-stretch)
 
 
 
 
 
 - **Let the year run on** ← chosen
+
+#### Beat 15 — 2026-01-29, age 15 (episode, opening.young.home.choose-activity/moment)
+
+
+
+You're at home, and the next fifteen minutes are yours.
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires a recorded current household._
 
 
 ---

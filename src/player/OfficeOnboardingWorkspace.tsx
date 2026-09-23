@@ -15,9 +15,11 @@ import {
   OFFICE_CASEWORK_CHOICES,
   OFFICE_INSTRUCTION_CHOICES,
   OFFICE_VOTING_CHOICES,
+  memberStaffOffice,
   officeOnboardingDraftResetKey,
   projectOfficeOnboarding,
 } from "../presentation/office-onboarding";
+import { OfficeStaffHiring } from "./OfficeStaffHiring";
 import "./office-onboarding.css";
 
 export interface OfficeOnboardingWorkspaceProps {
@@ -325,6 +327,11 @@ export function OfficeOnboardingWorkspace({
           </ul>
         ) : null}
       </section>
+      <OfficeStaffHiring
+        world={world}
+        office={memberStaffOffice(world, seat, playerPersonId)}
+        onWorldChange={onWorldChange}
+      />
       {error ? (
         <p role="status" data-testid="office-onboarding-error">
           {error}
