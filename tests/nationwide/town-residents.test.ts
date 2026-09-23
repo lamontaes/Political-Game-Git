@@ -7,11 +7,14 @@ import {
 import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
 import { organizationProfileAt } from "../../src/simulation/life-queries";
 import {
-  MAX_SEATED_HOUSEHOLDS,
+  NEIGHBOR_HOUSEHOLDS,
   TOWN_RESIDENTS_VERSION,
-  UNKNOWN_SIZE_HOUSEHOLDS,
+  UNKNOWN_TOWN_POPULATION,
+  describeTownResidents,
   ensureTownResidents,
-  seatedHouseholdCount,
+  materializeTownHousehold,
+  townHouseholdSkeleton,
+  townRoster,
 } from "../../src/simulation/living-world/town-residents";
 import type { EntityId, World } from "../../src/simulation";
 
@@ -46,7 +49,7 @@ function townOrganizations(world: World, town: EntityId, kind: string) {
   });
 }
 
-describe("a new game's town has residents", () => {
+describe("a new game's town has residents", { timeout: 180_000 }, () => {
   it.each([
     ["Houma, Louisiana", HOUMA],
     ["Reno, Nevada", RENO],
@@ -56,7 +59,9 @@ describe("a new game's town has residents", () => {
       const { world, personId } = openAt(placeKey, `residents-${placeKey}`);
       const town = world.people[personId]!.homeJurisdictionId;
       const households = seated(world);
-      expect(households).toHaveLength(MAX_SEATED_HOUSEHOLDS);
+      expect(households.length).toBeGreaterThanOrEqual(NEIGHBOR_HOUSEHOLDS);
+      // Only a small part of the town is written out.
+      expect(households.length).toBeLessThan(townRoster(town).households / 100);
 
       // Everyone seated lives in the town and in exactly one of its homes.
       const members = world.history.householdMemberships.filter((membership) =>
@@ -104,7 +109,7 @@ describe("a new game's town has residents", () => {
         town,
         "community:congregation",
       );
-      expect(congregations).toHaveLength(2);
+      expect(congregations).toHaveLength(4);
       const congregants = world.history.organizationParticipations.filter(
         (participation) =>
           congregations.some((c) => c.id === participation.organizationId),
@@ -128,11 +133,29 @@ describe("a new game's town has residents", () => {
   });
 });
 
-describe("how many households are written", () => {
-  it("scales with a small town, caps for a large one, and has a floor for an unknown one", () => {
-    expect(seatedHouseholdCount(0)).toBe(0);
-    expect(seatedHouseholdCount(50)).toBe(20);
-    expect(seatedHouseholdCount(283_621)).toBe(MAX_SEATED_HOUSEHOLDS);
-    expect(seatedHouseholdCount(null)).toBe(UNKNOWN_SIZE_HOUSEHOLDS);
+describe("the town's size", { timeout: 180_000 }, () => {
+  it("follows the Census reference, and a place it does not cover gets a marked placeholder", () => {
+    const { world, personId } = openAt(RENO, "residents-size");
+    const town = world.people[personId]!.homeJurisdictionId;
+    const roster = townRoster(town);
+    expect(roster.referencePopulation).toBe(283_621);
+    expect(roster.households).toBe(Math.ceil(283_621 / 2.5));
+    const described = describeTownResidents(world, town);
+    // The sampled estimate lands near the reference it was generated from.
+    expect(described.estimated.people / 283_621).toBeGreaterThan(0.8);
+    expect(described.estimated.people / 283_621).toBeLessThan(1.2);
+    expect(UNKNOWN_TOWN_POPULATION).toBeGreaterThan(0);
+  });
+
+  it("writes a household once, as the same people its skeleton describes", () => {
+    const { world, personId } = openAt(HOUMA, "residents-write");
+    const town = world.people[personId]!.homeJurisdictionId;
+    const index = townRoster(town).households - 1;
+    const once = materializeTownHousehold(world, town, index);
+    expect(materializeTownHousehold(once, town, index)).toBe(once);
+    const members = townHouseholdSkeleton(once, town, index).members;
+    expect(once.personOrder.length - world.personOrder.length).toBe(
+      members.length,
+    );
   });
 });

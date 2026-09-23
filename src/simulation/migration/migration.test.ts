@@ -32,7 +32,7 @@ import { factsForPerson } from "../people";
 import { stateJurisdictionForKey } from "../life-places";
 import { serializeWorld } from "../serialization";
 import type { EntityId, World } from "../types";
-import { assertWorldIntegrity } from "../world";
+import { advanceWithWorldIntegrityAtEnd, assertWorldIntegrity } from "../world";
 import {
   MIGRATION_REVIEW_TRANSITION_KEY,
   MIGRATION_REVIEWS_PER_YEAR,
@@ -50,6 +50,13 @@ import {
   startWave,
   wavePressure,
 } from ".";
+
+/**
+ * A review as the clock runs it: writers' checks deferred inside the scheduled
+ * transition, and the whole world checked once at the end.
+ */
+const review = (...args: Parameters<typeof reviewTown>) =>
+  advanceWithWorldIntegrityAtEnd(() => reviewTown(...args));
 
 /** Charlottesville, Virginia; Kentucky is deliberately not the test place. */
 const VIRGINIA_TOWN = "5114968";
@@ -185,7 +192,7 @@ describe("migration scaffold", () => {
     const { world: seeded, neighborId } = withNeighbor(opened.world, town);
     const quarter = [...Array(MIGRATION_REVIEWS_PER_YEAR).keys()].find(
       (index) => {
-        const probe = reviewTown(seeded, index, {
+        const probe = review(seeded, index, {
           departureChancePerYear: 1,
           arrivalsPerResidentPerYear: 0,
         });
@@ -193,7 +200,7 @@ describe("migration scaffold", () => {
       },
     )!;
     expect(quarter, "the neighbor is reviewed in some quarter").toBeDefined();
-    const world = reviewTown(seeded, quarter, {
+    const world = review(seeded, quarter, {
       departureChancePerYear: 1,
       arrivalsPerResidentPerYear: 12,
     });
@@ -223,7 +230,7 @@ describe("migration scaffold", () => {
     // The same review on the same world decides the same thing.
     expect(
       serializeWorld(
-        reviewTown(seeded, quarter, {
+        review(seeded, quarter, {
           departureChancePerYear: 1,
           arrivalsPerResidentPerYear: 12,
         }),
@@ -264,7 +271,7 @@ describe("migration scaffold", () => {
 
   it("a disaster that wrecks newcomers' homes sends some away for good", () => {
     // A year of arrivals, so the town holds households a disaster can reach.
-    const settled = reviewTown(opened.world, 0, {
+    const settled = review(opened.world, 0, {
       departureChancePerYear: 0,
       arrivalsPerResidentPerYear: 6,
     });
@@ -329,17 +336,24 @@ describe("migration scaffold", () => {
     expect(wrecked.length).toBeGreaterThan(0);
 
     // Everybody whose home was hit leaves, and nobody else does.
-    const after = reviewTown(struck, 1, {
+    const after = review(struck, 1, {
       departureChancePerYear: 0,
       arrivalsPerResidentPerYear: 0,
       displacedLeaveChance: { destroyed: 1, damaged: 1 },
     });
     assertWorldIntegrity(after);
     const moves = recordedMoves(after);
+    // The flood can kill; a household it left nobody alive in moves nowhere.
+    const died = new Set(
+      struck.history.personDeaths.map((death) => death.personId),
+    );
     const freeWrecked = wrecked.filter(
       (record) =>
         peopleInHouseholdAt(struck, record.targetId).every(
           (id) => !moveTieReader(struck).bindingTie(id),
+        ) &&
+        peopleInHouseholdAt(struck, record.targetId).some(
+          (id) => !died.has(id),
         ) &&
         !peopleInHouseholdAt(struck, record.targetId).includes(opened.playerId),
     );
@@ -367,7 +381,7 @@ describe("migration scaffold", () => {
     // With the blanket chance, a destroyed home is left more often than a
     // damaged one, and some households stay to rebuild.
     const blanket = recordedMoves(
-      reviewTown(struck, 1, {
+      review(struck, 1, {
         departureChancePerYear: 0,
         arrivalsPerResidentPerYear: 0,
       }),
@@ -380,13 +394,13 @@ describe("migration scaffold", () => {
     const waved = startWave(seeded, "jobs-gone-exodus", town, "Test.");
     const quarter = [...Array(MIGRATION_REVIEWS_PER_YEAR).keys()].find(
       (index) =>
-        reviewTown(waved, index, {
+        review(waved, index, {
           departureChancePerYear: 0.5,
           arrivalsPerResidentPerYear: 0,
         }).people[neighborId]!.homeJurisdictionId !== town,
     );
     expect(quarter, "doubled pressure moves the neighbor").toBeDefined();
-    const world = reviewTown(waved, quarter!, {
+    const world = review(waved, quarter!, {
       departureChancePerYear: 0.5,
       arrivalsPerResidentPerYear: 0,
     });

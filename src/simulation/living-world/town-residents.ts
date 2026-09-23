@@ -1,27 +1,31 @@
 /**
- * The player's town gets residents: households in homes, children in its
- * schools, workers at its employers, and members in its congregations.
+ * Everyone who lives in the player's town, and the few of them written out.
  *
- * Before this, a new game's town held only the player's own household. Every
- * other person in the world was a member of Congress, an executive, a chapter
- * organizer or a reporter, and the town's market, schools and club had nobody
- * in them, so no one could be met through work, school or worship.
+ * Before this, a new game's town held only the player's own household: its
+ * market, schools and club had nobody in them, and nobody could be met through
+ * work, school or worship.
  *
- * How many people are seated follows the owner's decision of 2026-09-22 (the
- * research handoff's "READ FIRST" note): the Census estimate is a reference,
- * not the world's live count, and the world's own people and events move the
- * population from there. So the town's size (`place-population.ts`) is kept
- * behind the scenes, and a bounded working set of households is written here
- * as ordinary lightweight people (decision D-005, progressive materialization).
- * They carry only identity, a home, and the ties below; detail comes later,
- * when somebody meets them. The set is not the town: most of its people are
- * never written down, and no screen counts these records as its population.
+ * The owner's rules (research handoff "READ FIRST", 2026-09-22; thread
+ * direction 2026-09-23): the Census estimate is a reference, never shown as a
+ * live count; a town's people follow its real size, not a fixed number; they
+ * should be there in a light form, with detail only when it matters. That is
+ * decision D-005 (progressive materialization) applied to a whole town:
+ *
+ * 1. The TOWN ROSTER is procedural. Household `h` of the town is a pure
+ *    function of the world seed, the town and `h`: its shape, and its members'
+ *    ages. Nothing is stored for it. There are as many households as the
+ *    town's size calls for, so Reno has about 113,000 and Rugby about 1,000.
+ * 2. Each town ORGANIZATION (market, school, congregation) fills its places
+ *    from those households, by the same pure function (`townRosterPlace`).
+ * 3. A household is MATERIALIZED, written into the world through the ordinary
+ *    person and household writers, only when somebody in it is needed: today,
+ *    the people who staff the town's employers, the first members of its
+ *    congregations, and the player's nearest neighbors.
+ *    `materializeTownHousehold` is the one way in; a household written once is
+ *    the same people forever after.
  *
  * Every share and count below is a marked PLACEHOLDER pending the research
  * questions named beside it, except the employment share, which is BLS's.
- * Where a figure is unknown the step writes nothing rather than guessing:
- * a resident with no work record has an employer the game does not hold,
- * not no job.
  */
 
 import {
@@ -67,17 +71,13 @@ const PROVENANCE = {
   generatorKey: TOWN_RESIDENTS_VERSION,
 };
 
-/**
- * PLACEHOLDER (engineering bound, not research): the most households written
- * for one town. Every person costs each later save and every scheduled
- * transition, so the working set is capped; a town smaller than the cap gets
- * about one household per 2.5 residents.
- */
-export const MAX_SEATED_HOUSEHOLDS = 40;
-/** PLACEHOLDER: households seated when the town's size is unknown. */
-export const UNKNOWN_SIZE_HOUSEHOLDS = 12;
 /** PLACEHOLDER pending `town-household-composition`: people per household. */
 const PEOPLE_PER_HOUSEHOLD = 2.5;
+/**
+ * PLACEHOLDER: the size used for a place the Census estimates do not cover
+ * (a census-designated place, or one not matched). Never shown to the player.
+ */
+export const UNKNOWN_TOWN_POPULATION = 1_000;
 
 type HouseholdShape =
   | "alone"
@@ -88,8 +88,8 @@ type HouseholdShape =
 
 /**
  * PLACEHOLDER pending `town-household-composition`: the share of households of
- * each shape. Not read from any source; replace with the Census Bureau's
- * household-type table once filed research returns.
+ * each shape, and the age bands in `townHouseholdSkeleton`. Not read from any
+ * source.
  */
 const HOUSEHOLD_SHAPES: readonly (readonly [HouseholdShape, number])[] = [
   ["alone", 0.28],
@@ -102,35 +102,45 @@ const HOUSEHOLD_SHAPES: readonly (readonly [HouseholdShape, number])[] = [
 /**
  * BLS Current Population Survey, 2025 annual average: 59.7% of the civilian
  * population aged 16 and over was employed (Table 57, research handoff
- * "ordinary adult year national source intake"). Applied to the seated adults
- * as a cohort, never as one person's chance.
+ * "ordinary adult year national source intake"). It sizes the town's workforce
+ * as a cohort; it is never one person's chance.
  */
 export const EMPLOYED_SHARE_16_PLUS = 0.597;
 
 /**
  * PLACEHOLDER pending `town-congregations`: how many congregations a town has,
- * what they are, and what share of households belongs to one. Two generically
- * named congregations and 45% of households until then.
+ * what they are, how many belong, and how many are written out at the start.
+ * One congregation per 1,500 residents (at least one; at most four written as
+ * organizations), 45% of households belonging, and eight member households of
+ * each written out.
  */
-const CONGREGATION_NAMES = [
-  (town: string) => `First Community Church of ${town}`,
-  (town: string) => `${town} Community Fellowship`,
-] as const;
+const RESIDENTS_PER_CONGREGATION = 1_500;
+const MAX_CONGREGATIONS = 4;
 const CONGREGATION_HOUSEHOLD_SHARE = 0.45;
+const CONGREGATION_HOUSEHOLDS_WRITTEN = 8;
+const CONGREGATION_NAMES: readonly ((town: string) => string)[] = [
+  (town) => `First Community Church of ${town}`,
+  (town) => `${town} Community Fellowship`,
+  (town) => `Grace Chapel of ${town}`,
+  (town) => `${town} Friends Meeting`,
+];
 
-/** PLACEHOLDER: how many residents each kind of town employer is staffed with. */
+/** PLACEHOLDER: residents each kind of town employer is staffed with. */
 const STAFF_PER_EMPLOYER: Readonly<Record<string, number>> = {
   "enterprise:retail": 4,
   "service:school": 3,
 };
+
+/** PLACEHOLDER: the player's nearest neighbors, written out at the start. */
+export const NEIGHBOR_HOUSEHOLDS = 6;
 
 const EMPLOYER_ROLES: Readonly<
   Record<
     string,
     {
       readonly title: string;
-      readonly occupation: string;
-      readonly kind: string;
+      readonly occupation: OccupationClassification;
+      readonly kind: WorkRelationshipKind;
     }
   >
 > = {
@@ -146,35 +156,65 @@ const EMPLOYER_ROLES: Readonly<
   },
 };
 
-interface SeatedPerson {
-  readonly input: CharacterHistoryContextPersonInput;
+interface SkeletonMember {
   readonly age: number;
   readonly role: "adult" | "child";
 }
 
-interface SeatedHousehold {
-  readonly key: string;
+/** One household of the town, before anyone in it is written out. */
+export interface TownHouseholdSkeleton {
+  readonly index: number;
   readonly shape: HouseholdShape;
-  readonly people: readonly SeatedPerson[];
+  /** Ages today, adults first. */
+  readonly members: readonly SkeletonMember[];
+}
+
+/** What the world holds about a town's size. */
+export interface TownRoster {
+  readonly town: EntityId;
+  /** The Census reference, or null when the estimates do not cover it. */
+  readonly referencePopulation: number | null;
+  /** The size the town's people are generated from. */
+  readonly population: number;
+  readonly households: number;
 }
 
 /** The player's town, when the player lives in a town the world can seat. */
-function seatedTown(world: World, playerPersonId: EntityId): EntityId | null {
-  const home = world.people[playerPersonId]?.homeJurisdictionId;
+export function playerTown(world: World, personId: EntityId): EntityId | null {
+  const home = world.people[personId]?.homeJurisdictionId;
   if (!home) return null;
-  return world.jurisdictions[home]?.kind === "census-place" ? home : null;
+  // A territory town (kind "territory-place", from the territories lane) is
+  // seated the same way; it has no Census figure, so it takes the marked
+  // placeholder size.
+  const kind: string | undefined = world.jurisdictions[home]?.kind;
+  return kind === "census-place" || kind === "territory-place" ? home : null;
 }
 
-/** How many households to write for the town. */
-export function seatedHouseholdCount(population: number | null): number {
-  if (population === null) return UNKNOWN_SIZE_HOUSEHOLDS;
-  return Math.max(
-    0,
-    Math.min(
-      MAX_SEATED_HOUSEHOLDS,
-      Math.ceil(population / PEOPLE_PER_HOUSEHOLD),
-    ),
-  );
+/**
+ * The town's size and household count. PLACEHOLDER: the owner decided the
+ * world starts from the Census figure with realistic drift, but no drift
+ * amount is set, so none is applied yet.
+ */
+export function townRoster(town: EntityId): TownRoster {
+  const place = lifePlaceByJurisdictionId(town);
+  const reference = place?.sourceGeoid
+    ? placePopulation(place.sourceGeoid)
+    : null;
+  const population = reference ?? UNKNOWN_TOWN_POPULATION;
+  return {
+    town,
+    referencePopulation: reference,
+    population,
+    households: Math.ceil(population / PEOPLE_PER_HOUSEHOLD),
+  };
+}
+
+function householdKey(town: EntityId, index: number): string {
+  return `${TOWN_RESIDENTS_VERSION}:${town}:household:${index}`;
+}
+
+function householdRng(world: World, town: EntityId, index: number) {
+  return new SeededRng(world.seed).fork(householdKey(town, index));
 }
 
 function pickShape(rng: SeededRng): HouseholdShape {
@@ -184,6 +224,73 @@ function pickShape(rng: SeededRng): HouseholdShape {
     if (point < 0) return shape;
   }
   return HOUSEHOLD_SHAPES.at(-1)![0];
+}
+
+/** Household `index` of the town: its shape and its members' ages. Cheap. */
+export function townHouseholdSkeleton(
+  world: World,
+  town: EntityId,
+  index: number,
+): TownHouseholdSkeleton {
+  const rng = householdRng(world, town, index);
+  const shape = pickShape(rng.fork("shape"));
+  const members: SkeletonMember[] = [];
+  const adult = (n: number, min: number, max: number) => {
+    const age = rng.fork(`age:${n}`).integer(min, max + 1);
+    members.push({ age, role: "adult" });
+    return age;
+  };
+  if (shape === "alone") adult(0, 20, 88);
+  else if (shape === "housemates") {
+    adult(0, 19, 40);
+    adult(1, 19, 40);
+  } else {
+    const head = shape === "couple" ? adult(0, 22, 85) : adult(0, 26, 52);
+    if (shape !== "parent-with-children")
+      adult(1, Math.max(19, head - 6), Math.min(90, head + 6));
+    if (shape === "couple-with-children" || shape === "parent-with-children") {
+      const children = rng.fork("children").integer(1, 4);
+      const youngest = Math.max(0, head - 45);
+      for (let c = 0; c < children; c += 1)
+        members.push({
+          age: rng
+            .fork(`child-age:${c}`)
+            .integer(youngest, Math.min(17, head - 20) + 1),
+          role: "child",
+        });
+    }
+  }
+  return { index, shape, members };
+}
+
+/** The stable key of member `member` of household `index`. */
+export function townResidentKey(
+  town: EntityId,
+  index: number,
+  member: number,
+): string {
+  return `${householdKey(town, index)}:person:${member}`;
+}
+
+/** The person id member `member` of household `index` has once written out. */
+export function townResidentId(
+  world: World,
+  town: EntityId,
+  index: number,
+  member: number,
+): EntityId {
+  return characterHistoryContextPersonId(
+    world,
+    townResidentKey(town, index, member),
+  );
+}
+
+export function townHouseholdMaterialized(
+  world: World,
+  town: EntityId,
+  index: number,
+): boolean {
+  return !!world.people[townResidentId(world, town, index, 0)];
 }
 
 function birthDateForAge(rng: SeededRng, today: IsoDate, age: number): IsoDate {
@@ -197,102 +304,162 @@ function birthDateForAge(rng: SeededRng, today: IsoDate, age: number): IsoDate {
     : makeIsoDate(`${year - 1}-${month}-${day}`);
 }
 
-function drawPerson(
+function namedMembers(
   world: World,
-  rng: SeededRng,
-  stableKey: string,
   town: EntityId,
-  age: number,
-  familyName: string | null,
-): CharacterHistoryContextPersonInput {
-  const named = drawCanonicalNamedIdentity(
-    rng.fork("name"),
-    generatePersonIdentity(rng.fork("identity")),
-  );
-  const birthDate = birthDateForAge(rng.fork("birth"), world.currentDate, age);
-  const surname = familyName ?? named.familyName;
-  return {
-    stableKey,
-    givenName: birthCohortGivenName(world.seed, stableKey, {
-      givenName: named.givenName,
+  skeleton: TownHouseholdSkeleton,
+): readonly CharacterHistoryContextPersonInput[] {
+  const rng = householdRng(world, town, skeleton.index);
+  let familyName: string | null = null;
+  return skeleton.members.map((member, n) => {
+    const personRng = rng.fork(`person:${n}`);
+    const stableKey = townResidentKey(town, skeleton.index, n);
+    const named = drawCanonicalNamedIdentity(
+      personRng.fork("name"),
+      generatePersonIdentity(personRng.fork("identity")),
+    );
+    const birthDate = birthDateForAge(
+      personRng.fork("birth"),
+      world.currentDate,
+      member.age,
+    );
+    // Housemates keep their own names; a family shares the first adult's.
+    const surname =
+      skeleton.shape === "housemates" || familyName === null
+        ? named.familyName
+        : familyName;
+    if (familyName === null) familyName = surname;
+    return {
+      stableKey,
+      givenName: birthCohortGivenName(world.seed, stableKey, {
+        givenName: named.givenName,
+        familyName: surname,
+        birthDate,
+        gender: named.identity.gender,
+      }),
       familyName: surname,
+      identity: named.identity,
       birthDate,
-      gender: named.identity.gender,
-    }),
-    familyName: surname,
-    identity: named.identity,
-    birthDate,
-    homeJurisdictionId: town,
-  };
+      homeJurisdictionId: town,
+    };
+  });
 }
 
-/** PLACEHOLDER pending `town-household-composition`: ages by role. */
-function planHousehold(
+/**
+ * Write household `index` of the town into the world: its people, its home,
+ * and who they are to each other. A household already written is returned
+ * unchanged, so the same person is never written twice.
+ */
+export function materializeTownHousehold(
   world: World,
-  rng: SeededRng,
-  key: string,
   town: EntityId,
-): SeatedHousehold {
-  const shape = pickShape(rng.fork("shape"));
-  const people: SeatedPerson[] = [];
-  const adult = (
-    n: number,
-    min: number,
-    max: number,
-    family: string | null,
-  ) => {
-    const age = rng.fork(`age:${n}`).integer(min, max + 1);
-    const input = drawPerson(
-      world,
-      rng.fork(`person:${n}`),
-      `${key}:person:${n}`,
-      town,
-      age,
-      family,
-    );
-    people.push({ input, age, role: "adult" });
-    return input;
-  };
-  if (shape === "alone") adult(0, 20, 88, null);
-  else if (shape === "housemates") {
-    adult(0, 19, 40, null);
-    adult(1, 19, 40, null);
-  } else {
-    const parentAges: readonly [number, number] =
-      shape === "couple" ? [22, 85] : [26, 52];
-    const head = adult(0, parentAges[0], parentAges[1], null);
-    if (shape !== "parent-with-children") {
-      const headAge = people[0]!.age;
-      adult(
-        1,
-        Math.max(19, headAge - 6),
-        Math.min(90, headAge + 6),
-        head.familyName,
-      );
+  index: number,
+): World {
+  if (townHouseholdMaterialized(world, town, index)) return world;
+  const skeleton = townHouseholdSkeleton(world, town, index);
+  const inputs = namedMembers(world, town, skeleton);
+  let next = createCharacterHistoryContextPeople(world, inputs);
+  const today = next.currentDate;
+  const key = householdKey(town, index);
+  const ids = inputs.map((input) =>
+    characterHistoryContextPersonId(next, input.stableKey),
+  );
+  return withWorldIntegrityDeferred(() => {
+    next = createHousehold(next, {
+      stableKey: key,
+      formedAt: today,
+      label: `${inputs[0]!.familyName} household`,
+      provenance: PROVENANCE,
+    });
+    const householdId = createStableId("household", `${next.id}:${key}`);
+    next = recordHouseholdLocation(next, {
+      stableKey: `${key}:location`,
+      householdId,
+      effectiveAt: today,
+      jurisdictionId: town,
+      label: lifePlaceByJurisdictionId(town)?.displayName ?? "Home",
+      kind: "residence:home",
+      provenance: PROVENANCE,
+      supersedesLocationId: null,
+    });
+    skeleton.members.forEach((member, n) => {
+      next = startHouseholdMembership(next, {
+        stableKey: `${key}:membership:${n}`,
+        personId: ids[n]!,
+        householdId,
+        startedAt: today,
+        residenceRole: "primary",
+        kind:
+          member.role === "child"
+            ? "resident:child"
+            : skeleton.shape === "housemates"
+              ? "resident:roommate"
+              : n === 1
+                ? "resident:spouse"
+                : "resident:member",
+        provenance: PROVENANCE,
+      });
+    });
+    const adults = skeleton.members
+      .map((member, n) => ({ ...member, n }))
+      .filter((member) => member.role === "adult");
+    if (
+      skeleton.shape === "couple" ||
+      skeleton.shape === "couple-with-children"
+    ) {
+      // PLACEHOLDER pending `town-household-composition`: every couple is
+      // recorded as married, from the younger partner's twenty-fourth year.
+      const younger = Math.min(adults[0]!.age, adults[1]!.age);
+      next = createPartnership(next, {
+        stableKey: `${key}:partnership`,
+        personIds: [ids[0]!, ids[1]!],
+        startedAt: yearsBefore(today, Math.max(0, younger - 24)),
+        kind: "legal:marriage",
+        provenance: PROVENANCE,
+      });
     }
-    if (shape === "couple-with-children" || shape === "parent-with-children") {
-      const children = rng.fork("children").integer(1, 4);
-      const youngest = Math.max(0, people[0]!.age - 45);
-      for (let c = 0; c < children; c += 1) {
-        const age = rng
-          .fork(`child-age:${c}`)
-          .integer(youngest, Math.min(17, people[0]!.age - 20) + 1);
-        people.push({
-          input: drawPerson(
-            world,
-            rng.fork(`child:${c}`),
-            `${key}:child:${c}`,
-            town,
-            age,
-            head.familyName,
-          ),
-          age,
-          role: "child",
+    skeleton.members.forEach((member, c) => {
+      if (member.role !== "child") return;
+      for (const parent of adults)
+        next = recordKinship(next, {
+          stableKey: `${key}:kinship:${c}:${parent.n}`,
+          personIds: [ids[c]!, ids[parent.n]!],
+          establishedAt: inputs[c]!.birthDate,
+          kind: "lineal:parent-child",
+          provenance: PROVENANCE,
         });
-      }
-    }
+    });
+    return next;
+  });
+}
+
+/**
+ * Place `slot` of an organization's roster: a household and member of the
+ * town whose age fits, drawn from the whole town by a pure function. Null for
+ * a town with nobody who fits after a bounded search.
+ */
+export function townRosterPlace(
+  world: World,
+  town: EntityId,
+  organizationKey: string,
+  slot: number,
+  fits: (member: SkeletonMember) => boolean,
+  taken: ReadonlySet<string> = new Set(),
+): { readonly household: number; readonly member: number } | null {
+  const { households } = townRoster(town);
+  if (households === 0) return null;
+  const rng = new SeededRng(world.seed).fork(
+    `${TOWN_RESIDENTS_VERSION}:${town}:roster:${organizationKey}:${slot}`,
+  );
+  for (let attempt = 0; attempt < 64; attempt += 1) {
+    const household = rng.integer(0, households);
+    const members = townHouseholdSkeleton(world, town, household).members;
+    const member = members.findIndex(
+      (candidate, m) => fits(candidate) && !taken.has(`${household}:${m}`),
+    );
+    if (member >= 0) return { household, member };
   }
-  return { key, shape, people };
+  return null;
 }
 
 /** Town organizations of one classification, in the order the world made them. */
@@ -312,23 +479,6 @@ function townOrganizations(
     .map((organization) => organization.id);
 }
 
-/** The program a town school teaches, read from who already attended it. */
-function schoolProgram(world: World, schoolId: EntityId): string | null {
-  const kinds = new Set(
-    world.history.educationEnrollments
-      .filter((enrollment) => enrollment.organizationId === schoolId)
-      .map((enrollment) => enrollment.programKind),
-  );
-  return kinds.size === 1 ? [...kinds][0]! : null;
-}
-
-const SCHOOL_AGES: Readonly<Record<string, readonly [number, number]>> = {
-  "schooling:elementary": [5, 10],
-  "schooling:middle": [11, 13],
-  "schooling:secondary": [14, 17],
-  "schooling:general": [5, 17],
-};
-
 function workTimeDemand(
   town: EntityId,
 ): CreateWorkRelationshipInput["initialRole"]["timeDemand"] {
@@ -342,244 +492,257 @@ function workTimeDemand(
   };
 }
 
+const workingAge = (member: SkeletonMember) =>
+  member.role === "adult" && member.age >= 18 && member.age <= 66;
+
+/** How many congregations the town has, of which the first few are written. */
+export function townCongregationCount(population: number): number {
+  return Math.max(1, Math.round(population / RESIDENTS_PER_CONGREGATION));
+}
+
 /**
- * Seat the player's town once. A world whose town already has seated
- * residents, or whose player lives outside a town, is returned unchanged.
+ * Seat the player's town once: its employers staffed, its congregations
+ * founded with their first member households, and the player's nearest
+ * neighbors written out. Everybody else stays in the roster. A world whose
+ * town is already seated, or whose player lives outside a town, is unchanged.
  */
 export function ensureTownResidents(
   world: World,
   playerPersonId: EntityId,
 ): World {
-  const town = seatedTown(world, playerPersonId);
+  const town = playerTown(world, playerPersonId);
   if (!town) return world;
   const prefix = `${TOWN_RESIDENTS_VERSION}:${town}`;
   if (
-    world.history.households.some((household) =>
-      household.stableKey.startsWith(`${prefix}:`),
+    world.history.organizations.some((organization) =>
+      organization.stableKey.startsWith(`${prefix}:congregation:`),
     )
   )
     return world;
-  const place = lifePlaceByJurisdictionId(town);
-  const population = place?.sourceGeoid
-    ? placePopulation(place.sourceGeoid)
-    : null;
-  const count = seatedHouseholdCount(population);
-  if (count === 0) return world;
-
-  const rng = new SeededRng(world.seed).fork(prefix);
-  const households = Array.from({ length: count }, (_, index) =>
-    planHousehold(
-      world,
-      rng.fork(`household:${index}`),
-      `${prefix}:household:${index}`,
-      town,
-    ),
-  );
+  const roster = townRoster(town);
+  if (roster.households === 0) return world;
+  const townName =
+    lifePlaceByJurisdictionId(town)?.displayName.split(",")[0]!.trim() ??
+    "Town";
   const today = world.currentDate;
-  const townName = place?.displayName.split(",")[0]!.trim() ?? "Town";
+  const taken = new Set<string>();
+  let next = world;
 
-  let next = createCharacterHistoryContextPeople(
-    world,
-    households.flatMap((household) =>
-      household.people.map((person) => person.input),
-    ),
-  );
-  const idOf = (person: SeatedPerson) =>
-    characterHistoryContextPersonId(next, person.input.stableKey);
-
-  next = withWorldIntegrityDeferred(() => {
-    let w = next;
-    // Homes, and who each person is to the others in it.
-    for (const household of households) {
-      w = createHousehold(w, {
-        stableKey: household.key,
-        formedAt: today,
-        label: `${household.people[0]!.input.familyName} household`,
-        provenance: PROVENANCE,
-      });
-      const householdId = createStableId(
-        "household",
-        `${w.id}:${household.key}`,
-      );
-      w = recordHouseholdLocation(w, {
-        stableKey: `${household.key}:location`,
-        householdId,
-        effectiveAt: today,
-        jurisdictionId: town,
-        label: place?.displayName ?? townName,
-        kind: "residence:home",
-        provenance: PROVENANCE,
-        supersedesLocationId: null,
-      });
-      const adults = household.people.filter((p) => p.role === "adult");
-      const children = household.people.filter((p) => p.role === "child");
-      household.people.forEach((person, n) => {
-        w = startHouseholdMembership(w, {
-          stableKey: `${household.key}:membership:${n}`,
-          personId: idOf(person),
-          householdId,
-          startedAt: today,
-          residenceRole: "primary",
-          kind:
-            person.role === "child"
-              ? "resident:child"
-              : household.shape === "housemates"
-                ? "resident:roommate"
-                : n === 1
-                  ? "resident:spouse"
-                  : "resident:member",
-          provenance: PROVENANCE,
-        });
-      });
-      if (
-        household.shape === "couple" ||
-        household.shape === "couple-with-children"
-      ) {
-        // PLACEHOLDER pending `town-household-composition`: every couple is
-        // recorded as married, from the younger partner's twenty-fourth year.
-        const younger = Math.min(adults[0]!.age, adults[1]!.age);
-        w = createPartnership(w, {
-          stableKey: `${household.key}:partnership`,
-          personIds: [idOf(adults[0]!), idOf(adults[1]!)],
-          startedAt: addYears(today, -Math.max(0, younger - 24)),
-          kind: "legal:marriage",
-          provenance: PROVENANCE,
-        });
-      }
-      for (const [c, child] of children.entries()) {
-        for (const [a, parent] of adults.entries()) {
-          w = recordKinship(w, {
-            stableKey: `${household.key}:kinship:${c}:${a}`,
-            personIds: [idOf(child), idOf(parent)],
-            establishedAt: child.input.birthDate,
-            kind: "lineal:parent-child",
-            provenance: PROVENANCE,
-          });
-        }
-      }
-    }
-
-    // Children in the town's schools, by the ages each school teaches.
-    const schools = townOrganizations(w, town, "service:school")
-      .map((id) => ({ id, program: schoolProgram(w, id) }))
-      .filter(
-        (school): school is { id: EntityId; program: string } =>
-          school.program !== null && school.program in SCHOOL_AGES,
-      );
-    for (const household of households) {
-      for (const person of household.people) {
-        if (person.role !== "child") continue;
-        const age = ageOnDate(person.input.birthDate, today);
-        const school = schools.find(({ program }) => {
-          const [min, max] = SCHOOL_AGES[program]!;
-          return age >= min && age <= max;
-        });
-        if (!school) continue;
-        w = createEducationEnrollment(w, {
-          stableKey: `${person.input.stableKey}:school`,
-          personId: idOf(person),
-          organizationId: school.id,
-          startedAt: today,
-          programKind: school.program as EducationProgramKind,
-          contextKind: "stage:school",
-          provenance: PROVENANCE,
-        });
-      }
-    }
-
-    // Workers at the town's employers, from the employed share of adults.
-    const workingAge = households
-      .flatMap((household) => household.people)
-      .filter((person) => {
-        const age = ageOnDate(person.input.birthDate, today);
-        return age >= 18 && age <= 66;
-      });
-    const adults16 = households
-      .flatMap((household) => household.people)
-      .filter((person) => ageOnDate(person.input.birthDate, today) >= 16);
-    const employed = Math.min(
-      workingAge.length,
-      Math.round(adults16.length * EMPLOYED_SHARE_16_PLUS),
+  const seat = (
+    organizationKey: string,
+    slot: number,
+    fits: (member: SkeletonMember) => boolean,
+  ) => {
+    const found = townRosterPlace(
+      next,
+      town,
+      organizationKey,
+      slot,
+      fits,
+      taken,
     );
-    const order = rng.fork("workers");
-    const workers = workingAge
-      .map((person) => ({ person, draw: order.next() }))
-      .sort((a, b) => a.draw - b.draw)
-      .slice(0, employed)
-      .map(({ person }) => person);
-    let cursor = 0;
-    for (const classification of Object.keys(STAFF_PER_EMPLOYER)) {
-      const role = EMPLOYER_ROLES[classification]!;
-      for (const organizationId of townOrganizations(w, town, classification)) {
-        for (let s = 0; s < STAFF_PER_EMPLOYER[classification]!; s += 1) {
-          const worker = workers[cursor];
-          if (!worker) break;
-          cursor += 1;
-          w = createWorkRelationship(w, {
-            stableKey: `${worker.input.stableKey}:work`,
-            personId: idOf(worker),
-            organizationId,
-            startedAt: today,
-            kind: role.kind as WorkRelationshipKind,
-            compensation: "paid",
-            authority: "directs-others",
-            dependency: "dependent",
-            economicRisk: "organization-borne",
-            provenance: PROVENANCE,
-            initialRole: {
-              title: role.title,
-              occupationClassification:
-                role.occupation as OccupationClassification,
-              locationJurisdictionId: town,
-              timeDemand: workTimeDemand(town),
-            },
-          });
-        }
+    if (!found) return null;
+    taken.add(`${found.household}:${found.member}`);
+    next = materializeTownHousehold(next, town, found.household);
+    return {
+      ...found,
+      personId: townResidentId(next, town, found.household, found.member),
+    };
+  };
+
+  // The player's nearest neighbors.
+  for (let n = 0; n < Math.min(NEIGHBOR_HOUSEHOLDS, roster.households); n += 1)
+    seat("neighbors", n, () => true);
+
+  // Staff for the town's employers.
+  for (const [classification, staff] of Object.entries(STAFF_PER_EMPLOYER)) {
+    const role = EMPLOYER_ROLES[classification]!;
+    for (const organizationId of townOrganizations(
+      next,
+      town,
+      classification,
+    )) {
+      for (let s = 0; s < staff; s += 1) {
+        const worker = seat(organizationId, s, workingAge);
+        if (!worker) break;
+        next = createWorkRelationship(next, {
+          stableKey: `${townResidentKey(town, worker.household, worker.member)}:work`,
+          personId: worker.personId,
+          organizationId,
+          startedAt: today,
+          kind: role.kind,
+          compensation: "paid",
+          authority: "directs-others",
+          dependency: "dependent",
+          economicRisk: "organization-borne",
+          provenance: PROVENANCE,
+          initialRole: {
+            title: role.title,
+            occupationClassification: role.occupation,
+            locationJurisdictionId: town,
+            timeDemand: workTimeDemand(town),
+          },
+        });
       }
     }
+  }
 
-    // Congregations, and the households that belong to one.
-    const congregations = CONGREGATION_NAMES.map((name, index) => {
-      const stableKey = `${prefix}:congregation:${index}`;
-      w = createOrganization(w, {
-        stableKey,
-        formedAt: today,
-        provenance: PROVENANCE,
-        initialProfile: {
-          name: name(townName),
-          classification: "community:congregation",
-          locationJurisdictionId: town,
-        },
-      });
-      return createStableId("organization", `${w.id}:${stableKey}`);
+  // Congregations, each with its first member households.
+  const congregations = Math.min(
+    MAX_CONGREGATIONS,
+    townCongregationCount(roster.population),
+  );
+  for (let c = 0; c < congregations; c += 1) {
+    const stableKey = `${prefix}:congregation:${c}`;
+    next = createOrganization(next, {
+      stableKey,
+      formedAt: today,
+      provenance: PROVENANCE,
+      initialProfile: {
+        name: CONGREGATION_NAMES[c]!(townName),
+        classification: "community:congregation",
+        locationJurisdictionId: town,
+      },
     });
-    const faith = rng.fork("congregations");
-    for (const household of households) {
-      const draw = faith.fork(household.key);
-      if (draw.next() >= CONGREGATION_HOUSEHOLD_SHARE) continue;
-      const congregation =
-        congregations[draw.integer(0, congregations.length)]!;
-      for (const person of household.people) {
-        w = createOrganizationParticipation(w, {
-          stableKey: `${person.input.stableKey}:congregation`,
-          personId: idOf(person),
-          organizationId: congregation,
+    const organizationId = createStableId(
+      "organization",
+      `${next.id}:${stableKey}`,
+    );
+    for (let h = 0; h < CONGREGATION_HOUSEHOLDS_WRITTEN; h += 1) {
+      const found = seat(stableKey, h, (member) => member.role === "adult");
+      if (!found) break;
+      const members = townHouseholdSkeleton(
+        next,
+        town,
+        found.household,
+      ).members;
+      members.forEach((_, m) => {
+        taken.add(`${found.household}:${m}`);
+        next = createOrganizationParticipation(next, {
+          stableKey: `${townResidentKey(town, found.household, m)}:congregation`,
+          personId: townResidentId(next, town, found.household, m),
+          organizationId,
           startedAt: today,
           kind: "membership:congregation",
           roleKind: "member:congregant",
           context: null,
           provenance: PROVENANCE,
         });
-      }
+      });
     }
-    return w;
-  });
+  }
+
+  // Children of the written households go to the town's schools.
+  next = enrollWrittenChildren(next, town);
   assertWorldIntegrity(next);
   return next;
 }
 
-function addYears(date: IsoDate, years: number): IsoDate {
-  const year = Number(date.slice(0, 4)) + years;
+const SCHOOL_AGES: Readonly<Record<string, readonly [number, number]>> = {
+  "schooling:elementary": [5, 10],
+  "schooling:middle": [11, 13],
+  "schooling:secondary": [14, 17],
+  "schooling:general": [5, 17],
+};
+
+/** The program a town school teaches, read from who already attended it. */
+function schoolProgram(world: World, schoolId: EntityId): string | null {
+  const kinds = new Set(
+    world.history.educationEnrollments
+      .filter((enrollment) => enrollment.organizationId === schoolId)
+      .map((enrollment) => enrollment.programKind),
+  );
+  return kinds.size === 1 ? [...kinds][0]! : null;
+}
+
+function enrollWrittenChildren(world: World, town: EntityId): World {
+  const schools = townOrganizations(world, town, "service:school")
+    .map((id) => ({ id, program: schoolProgram(world, id) }))
+    .filter(
+      (school): school is { id: EntityId; program: string } =>
+        school.program !== null && school.program in SCHOOL_AGES,
+    );
+  const prefix = `${TOWN_RESIDENTS_VERSION}:${town}:household:`;
+  const written = new Set(
+    world.history.households
+      .filter((household) => household.stableKey.startsWith(prefix))
+      .map((household) => household.id),
+  );
+  const enrolled = new Set(
+    world.history.educationEnrollments.map((enrollment) => enrollment.personId),
+  );
+  let next = world;
+  for (const membership of world.history.householdMemberships) {
+    if (!written.has(membership.householdId)) continue;
+    const person = next.people[membership.personId];
+    if (!person || enrolled.has(person.id)) continue;
+    const age = ageOnDate(person.birthDate, next.currentDate);
+    const school = schools.find(({ program }) => {
+      const [min, max] = SCHOOL_AGES[program]!;
+      return age >= min && age <= max;
+    });
+    if (!school) continue;
+    next = createEducationEnrollment(next, {
+      stableKey: `${membership.stableKey}:school`,
+      personId: person.id,
+      organizationId: school.id,
+      startedAt: next.currentDate,
+      programKind: school.program as EducationProgramKind,
+      contextKind: "stage:school",
+      provenance: PROVENANCE,
+    });
+  }
+  return next;
+}
+
+/**
+ * The town's people as the world knows them, for a report. Roster figures are
+ * estimated from an even sample of households, not from a stored list;
+ * `written` counts the people actually in the world.
+ */
+export function describeTownResidents(
+  world: World,
+  town: EntityId,
+  sample = 2_000,
+) {
+  const roster = townRoster(town);
+  const n = Math.min(sample, roster.households);
+  let people = 0;
+  let children = 0;
+  let adults16 = 0;
+  for (let i = 0; i < n; i += 1) {
+    const index = Math.floor((i * roster.households) / n);
+    for (const member of townHouseholdSkeleton(world, town, index).members) {
+      people += 1;
+      if (member.role === "child" && member.age >= 5) children += 1;
+      if (member.age >= 16) adults16 += 1;
+    }
+  }
+  const scale = n === 0 ? 0 : roster.households / n;
+  const prefix = `${TOWN_RESIDENTS_VERSION}:${town}:household:`;
+  const written = new Set(
+    world.history.households
+      .filter((household) => household.stableKey.startsWith(prefix))
+      .map((household) => household.id),
+  );
+  return {
+    roster,
+    writtenHouseholds: written.size,
+    writtenPeople: world.history.householdMemberships.filter((membership) =>
+      written.has(membership.householdId),
+    ).length,
+    estimated: {
+      people: Math.round(people * scale),
+      schoolAgeChildren: Math.round(children * scale),
+      workers: Math.round(adults16 * scale * EMPLOYED_SHARE_16_PLUS),
+      congregants: Math.round(people * scale * CONGREGATION_HOUSEHOLD_SHARE),
+      congregations: townCongregationCount(roster.population),
+    },
+  };
+}
+
+function yearsBefore(date: IsoDate, years: number): IsoDate {
+  const year = Number(date.slice(0, 4)) - years;
   const rest = date.slice(4);
   return makeIsoDate(`${year}${rest === "-02-29" ? "-02-28" : rest}`);
 }
