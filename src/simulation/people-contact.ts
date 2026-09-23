@@ -858,6 +858,11 @@ export function counterWithNewDay(
     on: input.on,
     purpose: proposal.context.motivation ?? proposal.summary,
     date: proposal.tags.includes(DATE_OCCASION_TAG),
+    // The person being played answers on their own screen; nobody answers
+    // for them.
+    answerInPerson:
+      answered.world.control.kind === "person" &&
+      answered.world.control.personId === asker,
   }).world;
 }
 
@@ -1197,6 +1202,26 @@ export function contactAnswerTransitionHandler(
     return done("already-answered");
   }
   const decided = npcContactAnswer(world, proposalId);
+  /*
+   * "Not that day, but this one" is an answer and a new request together.
+   * Answered here, it used to write only the answer, so the asker saw
+   * nothing: no reply on the row and no day offered back. A Peoria life asked
+   * the same person out five times in a year that way (playtest on main
+   * 15dbdd4f, 2026-09-23). It goes through the same writer a player's own
+   * counter-offer uses.
+   */
+  if (decided.answer === "counter" && decided.counterOn) {
+    const countered = counterWithNewDay(decided.world, {
+      proposalEventId: proposalId,
+      on: decided.counterOn,
+    });
+    const answerEvent = countered.history.events.find(
+      (event) =>
+        event.type === CONTACT_COUNTERED_EVENT &&
+        event.tags.includes(`contact.proposal:${proposalId}`),
+    );
+    return done("contact-counter", countered, answerEvent?.id ?? null);
+  }
   const answered = answerContact(decided.world, {
     proposalEventId: proposalId,
     answer: decided.answer,
