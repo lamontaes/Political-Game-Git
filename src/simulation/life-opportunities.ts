@@ -24,6 +24,7 @@ import {
 } from "./time-work";
 import { settleLivingCosts } from "./cost-of-living";
 import { settleOfficeSalaries } from "./office-salary";
+import { refreshLocalEconomy } from "./local-economy";
 import { settleMortgages } from "./home-purchase";
 import { recordWorldEvent } from "./world";
 import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
@@ -504,7 +505,8 @@ export function refreshLifeOpportunities(
   if (!person) return world;
   if (formativeIntervalAt(world, personId) !== null) return world;
 
-  let next = replenishHouseholdWeek(world, personId);
+  let next = refreshLocalEconomy(world, personId);
+  next = replenishHouseholdWeek(next, personId);
   next = settleOfficeSalaries(next, personId);
   next = settleMortgages(next, personId);
   next = settleLivingCosts(next, personId);

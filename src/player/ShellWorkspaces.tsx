@@ -9,6 +9,7 @@ import type { PointerEvent as ReactPointerEvent } from "react";
 import { PinToggle } from "./controls/PinToggle";
 import { calendarDisplayDate } from "./ux39-calendar-dates";
 import { EconomicContextPanel } from "./EconomicContextPanel";
+import { TownBusinessesPanel } from "./TownBusinessesPanel";
 import {
   economicContextBindingForPlace,
   economicContextUnavailableReason,
@@ -1668,6 +1669,12 @@ export function PersonalWorkspace({
           <p className="game-note" data-testid="economic-context-unavailable">
             {economicContextUnavailableReason(economicPlace.key)}
           </p>
+        ) : null}
+        {economicPlace ? (
+          <TownBusinessesPanel
+            world={world}
+            jurisdictionId={economicPlace.context.jurisdiction.id}
+          />
         ) : null}
       </section>
     </>
