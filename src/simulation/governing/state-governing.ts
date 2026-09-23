@@ -1745,10 +1745,10 @@ function recordMissingLegislatureNote(
       `office:${office.officeKey}`,
       "governing:no-compiled-legislature",
     ],
-    // The legislature itself may well be compiled (Nevada's and Illinois's
-    // are, and a player can sit in them): what is missing is written bills
-    // for its other members to file. Saying "not compiled" was untrue there.
-    summary: `No bill reached ${office.title} this session: the game has no bills written for ${office.stateUsps}'s legislature yet, so none were filed. The office's other work is unaffected.`,
+    // What is missing is bills for the legislature's members to file; the
+    // tag says so for development. The player reads only what the office
+    // saw, never how the game is built.
+    summary: `No bill reached ${office.title} this session.`,
     context: emptyContext(),
   });
 }

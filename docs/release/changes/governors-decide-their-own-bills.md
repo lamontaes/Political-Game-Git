@@ -17,3 +17,6 @@ When a governor does veto a bill, the legislature now votes on overriding
 it, with each member deciding and the state's own override rule counting
 the result. Before, nobody ever tried. A player who sits in the chamber is
 never voted for; until they cast their own ballot they are recorded absent.
+
+A governor's office history no longer tells the player that the game has no
+bills written for their state; it says only that no bill reached the desk.
