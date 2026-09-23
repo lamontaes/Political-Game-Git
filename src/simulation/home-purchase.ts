@@ -1,4 +1,5 @@
 import { makeIsoDate } from "./dates";
+import { moneyText } from "./money-text";
 import { householdMembershipsAt } from "./life-queries";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { createOrganization } from "./life";
@@ -74,10 +75,7 @@ export type HomePurchaseResult =
     };
 
 function dollars(minor: number): string {
-  return (minor / 100).toLocaleString("en-US", {
-    style: "currency",
-    currency: "USD",
-  });
+  return moneyText({ minorUnits: minor, currency: "USD" });
 }
 
 function primaryHouseholdId(world: World, personId: EntityId): EntityId | null {
