@@ -5690,9 +5690,19 @@ function StoryView({
         </p>
       ) : null}
 
-      <h3 className="game-choices-heading" data-testid="story-choices-heading">
-        What do you do?
-      </h3>
+      {/*
+        Asked only when there is something to choose. With no scene, the only
+        button is letting time pass, and the question read as broken (round 3
+        roll call, Delaware and Virginia).
+      */}
+      {moment.scene.options.length > 0 ? (
+        <h3
+          className="game-choices-heading"
+          data-testid="story-choices-heading"
+        >
+          What do you do?
+        </h3>
+      ) : null}
       <div className="game-choices life-choices" data-testid="story-options">
         {moment.scene.options.map((option) => (
           <button
