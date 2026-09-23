@@ -189,6 +189,22 @@ describe("EDU canonical LIFE composition", () => {
         institution.capabilities[0]!,
       ),
     ).toMatch(/2024/);
+    // After the directory's year the listing carries forward, so somebody who
+    // started young can apply when they are grown; before it, still refused.
+    expect(
+      educationOptionReason(
+        { ...w, currentDate: "2038-12-01" as World["currentDate"] },
+        institution,
+        institution.capabilities[0]!,
+      ) ?? "",
+    ).not.toMatch(/directory describes/);
+    expect(
+      educationOptionReason(
+        { ...w, currentDate: "2024-06-30" as World["currentDate"] },
+        institution,
+        institution.capabilities[0]!,
+      ),
+    ).toMatch(/directory describes 2024-25/);
   });
   it("declines without enrollment and leaves catalog-only LIFE behavior intact", () => {
     let w = fixture();

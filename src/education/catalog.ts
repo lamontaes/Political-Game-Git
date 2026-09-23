@@ -1,5 +1,5 @@
 import type { EducationInstitution } from "./types";
-import { academicYearCovers } from "./vintage";
+import { academicYearCovers, academicYearWindow } from "./vintage";
 /** Pagination limits rendered rows, never the searchable corpus. */
 export function searchInstitutions(
   catalog: readonly EducationInstitution[],
@@ -27,12 +27,24 @@ export function searchInstitutions(
     rows: matches.slice(Math.max(0, offset), Math.max(0, offset) + pageSize),
   };
 }
-/** Observed year is not a founding date or authorization for historical attendance. */
+/**
+ * Observed year is not a founding date or authorization for historical
+ * attendance: before the directory's year, the listing is refused.
+ *
+ * PLACEHOLDER, NOT RESEARCHED: after the directory's year, the latest row is
+ * carried forward unchanged, so somebody who starts young can still apply to
+ * college when they are grown. How a future year should inherit a directory
+ * (closures, openings, changed offerings) is filed as
+ * `how-a-future-year-inherits-the-school-directory`.
+ */
 export function institutionDateReason(
   institution: EducationInstitution,
   date: string,
 ): string | null {
-  if (!academicYearCovers(institution.sourceYear, date))
+  if (
+    !academicYearCovers(institution.sourceYear, date) &&
+    date < academicYearWindow(institution.sourceYear).start
+  )
     return `This directory describes ${institution.sourceYear}. Existence and offerings at this date are not established.`;
   if (
     institution.kind === "postsecondary" &&
