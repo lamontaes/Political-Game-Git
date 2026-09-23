@@ -37,6 +37,7 @@ import {
   resolveFormativeCompanion,
 } from "./formative-context";
 import type { ConversationRoomContext } from "./run-b-conversation";
+import { payFirstJob } from "../simulation/job-market";
 
 /**
  * The growing-up years, played.
@@ -306,7 +307,10 @@ export function chooseFormativeOption(
   if (result.status === "blocked") {
     return result.world;
   }
-  return result.world;
+  // The job is paid, so it is paid from the day it is taken.
+  return takingTheJob
+    ? payFirstJob(result.world, input.personId)
+    : result.world;
 }
 
 /**
