@@ -140,9 +140,13 @@ describe("the D.C. Council's procedure, compiled from the Home Rule Act", () => 
 
   it("counts the 30-day review in weekdays from the day of transmittal", () => {
     // Tuesday, March 31, 2026 is day 1; Monday, May 11 is day 30.
-    expect(congressionalReviewEffectiveOn(makeIsoDate("2026-03-31"), 30)).toBe("2026-05-12");
+    expect(congressionalReviewEffectiveOn(makeIsoDate("2026-03-31"), 30)).toBe(
+      "2026-05-12",
+    );
     // Transmitted on a Saturday: counting starts Monday.
-    expect(congressionalReviewEffectiveOn(makeIsoDate("2026-03-28"), 1)).toBe("2026-03-31");
+    expect(congressionalReviewEffectiveOn(makeIsoDate("2026-03-28"), 1)).toBe(
+      "2026-03-31",
+    );
   });
 
   it("titles an act from its question", () => {
