@@ -51,6 +51,7 @@ import type { CreateWorkRelationshipInput } from "../life";
 import { organizationProfileAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { placePopulation } from "../nationwide-world/place-population";
+import { recordRelationshipInteraction } from "../records";
 import { drawCanonicalNamedIdentity } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
@@ -151,6 +152,9 @@ const STAFF_PER_EMPLOYER: Readonly<Record<string, number>> = {
 
 /** PLACEHOLDER: the player's nearest neighbors, written out at the start. */
 export const NEIGHBOR_HOUSEHOLDS = 6;
+
+/** Marks the first contact between the player and a neighbor's grown-ups. */
+export const NEIGHBOR_CONTACT_TAG = "town-residents.neighbor";
 
 const EMPLOYER_ROLES: Readonly<
   Record<
@@ -596,9 +600,40 @@ function seatTownResidents(world: World, playerPersonId: EntityId): World {
     };
   };
 
-  // The player's nearest neighbors.
-  for (let n = 0; n < Math.min(NEIGHBOR_HOUSEHOLDS, roster.households); n += 1)
-    seat("neighbors", n, () => true);
+  // The player's nearest neighbors, and the grown-ups in them know the player
+  // by sight: they live on the same street. It is what lets a neighbor later
+  // ask the player over or for a hand (`familiarPersonIds`).
+  const metHouseholds = new Set<number>();
+  for (
+    let n = 0;
+    n < Math.min(NEIGHBOR_HOUSEHOLDS, roster.households);
+    n += 1
+  ) {
+    const neighbor = seat("neighbors", n, () => true);
+    // Two slots can land in one household; its grown-ups are met once.
+    if (!neighbor || metHouseholds.has(neighbor.household)) continue;
+    metHouseholds.add(neighbor.household);
+    const members = townHouseholdSkeleton(
+      next,
+      town,
+      neighbor.household,
+    ).members;
+    members.forEach((member, m) => {
+      if (member.role !== "adult") return;
+      const residentId = townResidentId(next, town, neighbor.household, m);
+      next = recordRelationshipInteraction(next, {
+        stableKey: `${townResidentKey(town, neighbor.household, m)}:neighbor-of:${playerPersonId}`,
+        personIds: [playerPersonId, residentId],
+        eventId: null,
+        occurredAt: today,
+        kind: "contact:neighbourhood",
+        change: "formed",
+        significance: "minor",
+        summary: "Lives on the same street.",
+        tags: [NEIGHBOR_CONTACT_TAG],
+      });
+    });
+  }
 
   // Staff for the town's employers.
   for (const [classification, staff] of Object.entries(STAFF_PER_EMPLOYER)) {

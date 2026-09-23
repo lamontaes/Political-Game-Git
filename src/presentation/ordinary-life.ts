@@ -4,6 +4,7 @@ import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import { seatWinnersOwedTheirTerm } from "../simulation/office-entry-repair";
 import { refreshContextualScenes } from "./contextual-scene-producers";
 import { migrateLegacyStudyProgression } from "../simulation/education-study-progression";
+import { migrateLegacyLegislativeSeats } from "../simulation/legislative-office-terms";
 import { catchUpTerritoryGovernor } from "../simulation/nationwide-world/territory-governor-catch-up";
 import { catchUpLegacySchoolStages } from "../simulation/school-stages";
 import { catchUpComingOfAge } from "../simulation/coming-of-age";
@@ -404,8 +405,10 @@ function advanceOrdinaryDays(
   // Somebody grown is nobody's child to answer for; see catchUpComingOfAge.
   const migrated = ensureCrisisMortality(
     catchUpComingOfAge(
-      catchUpTerritoryGovernor(
-        catchUpLegacySchoolStages(migrateLegacyStudyProgression(world)),
+      migrateLegacyLegislativeSeats(
+        catchUpTerritoryGovernor(
+          catchUpLegacySchoolStages(migrateLegacyStudyProgression(world)),
+        ),
       ),
     ),
   );
