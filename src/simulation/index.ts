@@ -5,6 +5,7 @@ export * from "./causal-effects";
 export * from "./candidacy-packs";
 export * from "./candidacy";
 export * from "./district-residence";
+export * from "./migration";
 export * from "./campaign-queries";
 export * from "./campaign-compliance";
 export * from "./campaign-compliance-rules";
@@ -248,6 +249,7 @@ export * from "./national-election-geography";
 
 export * from "./national-election-offices";
 
+export * from "./legislative-election-rules";
 export * from "./legislative-office-terms";
 export * from "./office-transition";
 export * from "./constitutional-process";

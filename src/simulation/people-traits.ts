@@ -9,9 +9,15 @@ import {
   type TraitValue,
 } from "./people-trait-definitions";
 import { createMindProvenance, recordPersonalityTendency } from "./mind";
-import { latestPersonalityTendency } from "./queries";
+import { ageOnDate } from "./dates";
+import { catalogueFamilies, PERSONALITY_PACK } from "./personality-catalogue";
+import {
+  latestPersonalityTendenciesForPerson,
+  latestPersonalityTendency,
+} from "./queries";
 import { SeededRng } from "./rng";
 import {
+  isOneSided,
   strengthForMagnitude,
   traitDefinitionFromPack,
   type RegisteredTrait,
@@ -178,7 +184,16 @@ export function observedTraitLabels(
   world: World,
   personId: EntityId,
 ): readonly string[] {
+  // One pass over the person's records first: most of the catalogue is
+  // unrecorded for anybody, and reading each trait separately would scan the
+  // whole history once per trait on every render of a card.
+  const recorded = new Set(
+    latestPersonalityTendenciesForPerson(world, personId).map(
+      (record) => record.tendencyId,
+    ),
+  );
   return [...traitRegistryFor(world).traits.values()].flatMap((trait) => {
+    if (!recorded.has(traitDefinitionFromPack(trait).id)) return [];
     const reading = readTrait(world, personId, trait);
     return reading.state === "recorded" && reading.label !== null
       ? [reading.label]
@@ -187,48 +202,85 @@ export function observedTraitLabels(
 }
 
 /**
- * The seeded traits this life's installed content packs declare. The build's
- * own five are not here: they keep their own stream and their own writer
- * below, so a life with nothing installed is written exactly as before.
+ * Every seeded trait this life has loaded beyond the build's own five: the
+ * build's other packs and whatever its content packs install. The five are not
+ * here: they keep their own stream and their own writer below, so a life is
+ * written exactly as before for them. A catalogue added as a pack is seeded
+ * here without a line of code naming it.
  */
-function installedSeededTraits(world: World): readonly RegisteredTrait[] {
-  const installed = new Set(
-    world.contentPacks?.installed.map(({ pack }) => pack.id) ?? [],
-  );
-  if (installed.size === 0) return [];
+function registeredSeededTraits(world: World): readonly RegisteredTrait[] {
   return [...traitRegistryFor(world).traits.values()].filter(
     (trait) =>
-      installed.has(trait.pack) &&
+      trait.pack !== PEOPLE_MIND_VERSION &&
       trait.conferredBy === "seeded" &&
       trait.seed !== null,
   );
 }
 
 /**
- * Writes one installed trait's seeded value for one person, from their own
+ * Writes one registered trait's seeded value for one person, from their own
  * stream under the trait's qualified key, in the magnitudes its pack declares.
  */
-function seedInstalledTrait(
+/** Adds a registered trait's definition to a world that does not carry it. */
+export function ensureTraitDefinition(
+  world: World,
+  trait: RegisteredTrait,
+): World {
+  const definition = traitDefinitionFromPack(trait);
+  if (world.mindCatalog.tendencies[definition.id]) return world;
+  return {
+    ...world,
+    mindCatalog: {
+      ...world.mindCatalog,
+      tendencies: {
+        ...world.mindCatalog.tendencies,
+        [definition.id]: definition,
+      },
+      tendencyOrder: [...world.mindCatalog.tendencyOrder, definition.id],
+    },
+  };
+}
+
+/**
+ * A signed value on a registered trait's own scale, as the record stores it.
+ * Refuses a magnitude the scale does not declare rather than rounding it to
+ * one it does: a value nobody declared is not a value.
+ */
+export function encodeRegisteredTrait(trait: RegisteredTrait, value: number) {
+  if (value === 0) {
+    return {
+      expressionKey: trait.scale.balancedKey,
+      strength: "subtle" as const,
+    };
+  }
+  if (value < 0 && isOneSided(trait)) {
+    throw new Error(
+      `The trait "${trait.qualifiedKey}" is one-sided and has no opposite to lean toward.`,
+    );
+  }
+  const strength = strengthForMagnitude(trait.scale, Math.abs(value));
+  if (strength === null) {
+    throw new Error(
+      `The trait "${trait.qualifiedKey}" declares no step of magnitude ${Math.abs(value)}.`,
+    );
+  }
+  return {
+    expressionKey: value < 0 ? trait.poles.low.key : trait.poles.high.key,
+    strength,
+  };
+}
+
+function seedRegisteredTrait(
   world: World,
   personId: EntityId,
   trait: RegisteredTrait,
 ): World {
   const definition = traitDefinitionFromPack(trait);
-  let next = world;
-  if (!next.mindCatalog.tendencies[definition.id]) {
-    next = {
-      ...next,
-      mindCatalog: {
-        ...next.mindCatalog,
-        tendencies: {
-          ...next.mindCatalog.tendencies,
-          [definition.id]: definition,
-        },
-        tendencyOrder: [...next.mindCatalog.tendencyOrder, definition.id],
-      },
-    };
-  }
-  if (readTrait(next, personId, trait).state === "recorded") return next;
+  const next = ensureTraitDefinition(world, trait);
+  // Anything already on record, even a record this pack's scale no longer
+  // reads, is theirs: a seed written over it would claim a first value for
+  // somebody who already has a history on this trait.
+  if (latestPersonalityTendency(next, personId, definition.id)) return next;
   const spread = trait.seed!.spread;
   const value =
     spread[
@@ -238,23 +290,16 @@ function seedInstalledTrait(
     ]!;
   // The loader refused any spread value the scale does not declare, so a
   // nonzero value always has a strength here.
-  const encoded =
-    value === 0
-      ? { expressionKey: trait.scale.balancedKey, strength: "subtle" as const }
-      : {
-          expressionKey: value < 0 ? trait.poles.low.key : trait.poles.high.key,
-          strength: strengthForMagnitude(trait.scale, Math.abs(value))!,
-        };
   return recordPersonalityTendency(next, {
     stableKey: `${trait.qualifiedKey}:${personId}:seed`,
     personId,
     tendencyId: definition.id,
     recordedAt: laterOf(next.people[personId]!.birthDate, next.currentDate),
-    ...encoded,
+    ...encodeRegisteredTrait(trait, value),
     confidence: "medium",
     scopeTags: [`${PEOPLE_MIND_VERSION}.seed`],
     provenance: createMindProvenance("authored", {
-      note: `Seeded once from this person's own stream, as the installed pack ${trait.pack} declares.`,
+      note: `Seeded once from this person's own stream, as the pack ${trait.pack} declares.`,
     }),
     supersedesTendencyId: null,
   });
@@ -294,9 +339,89 @@ export function ensurePeopleTraits(
         supersedesTendencyId: null,
       });
     }
-    for (const trait of installedSeededTraits(next)) {
-      next = seedInstalledTrait(next, personId, trait);
+    for (const trait of registeredSeededTraits(next)) {
+      next = seedRegisteredTrait(next, personId, trait);
     }
+    next = seedSalientQualities(next, personId);
+  }
+  return next;
+}
+
+const CATALOGUE_FAMILIES = catalogueFamilies();
+
+/** The age a person is known for qualities of their own rather than a child's. */
+const SALIENT_QUALITIES_FROM_AGE = 18;
+
+/**
+ * Writes the one or two qualities an adult is known for, once, from their own
+ * stream, out of the personality catalogue.
+ *
+ * Sparse on purpose: every other scale in the catalogue stays unrecorded,
+ * which reads as unknown, not as "not like that". The draw picks a family
+ * before a scale inside it, so a family the catalogue holds many words for is
+ * no more common for that, and it reads nothing about the person but who they
+ * are: not their sex, race, income, schooling or party.
+ *
+ * A one-sided quality is only ever written at its marked end; a two-ended one
+ * leans either way with equal odds. How many qualities and how strongly held
+ * are PRIVATE CALIBRATION, not researched: one or two with equal odds, and
+ * strongly held one time in four.
+ *
+ * Anybody holding any catalogue record already has theirs, so this writes
+ * nothing twice and never over a quality a life has since moved. Children are
+ * left until they are adults, because these are adult descriptors, not an
+ * infant's nature.
+ */
+function seedSalientQualities(world: World, personId: EntityId): World {
+  const person = world.people[personId]!;
+  if (
+    ageOnDate(person.birthDate, world.currentDate) < SALIENT_QUALITIES_FROM_AGE
+  ) {
+    return world;
+  }
+  const catalogue = [...traitRegistryFor(world).traits.values()].filter(
+    (trait) => trait.pack === PERSONALITY_PACK,
+  );
+  if (catalogue.length === 0) return world;
+  const definitionIds = new Set(
+    catalogue.map((trait) => traitDefinitionFromPack(trait).id),
+  );
+  if (
+    latestPersonalityTendenciesForPerson(world, personId).some((record) =>
+      definitionIds.has(record.tendencyId),
+    )
+  ) {
+    return world;
+  }
+  const byKey = new Map(catalogue.map((trait) => [trait.key, trait]));
+  const rng = new SeededRng(world.seed).fork(
+    `${PERSONALITY_PACK}:salient:${personId}`,
+  );
+  const families = [...CATALOGUE_FAMILIES];
+  const count = rng.integer(1, 3);
+  let next = world;
+  for (let index = 0; index < count && families.length > 0; index += 1) {
+    const [family] = families.splice(rng.integer(0, families.length), 1);
+    const row = rng.pick(family!.scales);
+    const trait = byKey.get(row.key);
+    if (!trait) continue;
+    const magnitude = rng.integer(0, 4) === 0 ? 2 : 1;
+    const value =
+      isOneSided(trait) || rng.integer(0, 2) === 1 ? magnitude : -magnitude;
+    next = ensureTraitDefinition(next, trait);
+    next = recordPersonalityTendency(next, {
+      stableKey: `${trait.qualifiedKey}:${personId}:salient`,
+      personId,
+      tendencyId: traitDefinitionFromPack(trait).id,
+      recordedAt: laterOf(person.birthDate, next.currentDate),
+      ...encodeRegisteredTrait(trait, value),
+      confidence: "medium",
+      scopeTags: [`${PERSONALITY_PACK}.salient`],
+      provenance: createMindProvenance("authored", {
+        note: `One of the qualities this person is known for, drawn once from their own stream.`,
+      }),
+      supersedesTendencyId: null,
+    });
   }
   return next;
 }

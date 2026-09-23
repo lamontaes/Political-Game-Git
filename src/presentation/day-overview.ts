@@ -1,3 +1,4 @@
+import { localGoverningSeatFor } from "./local-governing-seat";
 import {
   activeEducationEnrollmentsAt,
   activeWorkRelationshipsAt,
@@ -272,12 +273,20 @@ export function projectWorkRole(world: World, personId: EntityId): WorkRole {
   // A seat in Congress is held through the Congress record, not a work
   // relationship, so it is read from there and named alongside any job.
   const congress = congressSeatStatus(world, personId);
+  // A town council seat is held through the town government's organization,
+  // not a work relationship, so it is added here by name. Leaving it out had a
+  // member who won in Ely, Minnesota read "You do not hold a job or an office"
+  // directly above the line saying which body they sat on.
+  const townSeat = localGoverningSeatFor(world, personId);
   const roles = [
     ...new Set([
       ...activeWorkRelationshipsAt(world, personId).map(
         (entry) => entry.role.title,
       ),
       ...(congress.kind === "in-office" ? [congress.identity.displayName] : []),
+      ...(townSeat
+        ? [`Member of the ${townSeat.bodyName}, ${townSeat.governmentName}`]
+        : []),
     ]),
   ];
   const congressElect =
