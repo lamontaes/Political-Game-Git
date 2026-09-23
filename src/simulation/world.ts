@@ -528,8 +528,50 @@ export function createWorld(input: CreateWorldInput): World {
  */
 const VALIDATED_WORLDS = new WeakSet<World>();
 
+/*
+ * Inside one scheduled transition a handler may call dozens of writers, and
+ * each returns a new World that the next one validated again in full: a
+ * year's advance paid for a whole-world check per write, so its cost grew
+ * with the square of the world. Within `withWorldIntegrityDeferred` writers
+ * skip that check, and the caller validates the result once, in full, before
+ * anything is kept. A World that fails is still refused; it is refused at the
+ * end of the transition rather than at the write that made it.
+ *
+ * So a writer's own entry checks must not lean on the whole-world check: a
+ * handler that catches a writer's error to fall back must get that error
+ * from the writer itself, since the full check no longer runs mid-scope.
+ */
+let integrityDeferredDepth = 0;
+
+/** True inside a scope whose result will be validated whole before it is kept. */
+export function worldIntegrityDeferred(): boolean {
+  return integrityDeferredDepth > 0;
+}
+
+export function withWorldIntegrityDeferred<T>(run: () => T): T {
+  integrityDeferredDepth += 1;
+  try {
+    return run();
+  } finally {
+    integrityDeferredDepth -= 1;
+  }
+}
+
+/**
+ * Runs one whole advance of the clock — a press of a time control — with
+ * writers' checks deferred, then validates the World it produced once, in
+ * full. The advance either yields a valid World or throws; nothing between
+ * is ever returned to a caller.
+ */
+export function advanceWithWorldIntegrityAtEnd(run: () => World): World {
+  const result = withWorldIntegrityDeferred(run);
+  assertWorldIntegrity(result);
+  return result;
+}
+
 export function assertWorldIntegrity(world: World): void {
   if (VALIDATED_WORLDS.has(world)) return;
+  if (integrityDeferredDepth > 0) return;
   validateWorldIntegrity(world);
   VALIDATED_WORLDS.add(world);
 }

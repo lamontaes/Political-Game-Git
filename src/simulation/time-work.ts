@@ -45,7 +45,11 @@ import {
   EMPTY_FUTURE_TRANSITION_HANDLERS,
   resolveFutureDueItemsThrough,
 } from "./future-transitions";
-import { assertWorldIntegrity, recordWorldEvent } from "./world";
+import {
+  advanceWithWorldIntegrityAtEnd,
+  assertWorldIntegrity,
+  recordWorldEvent,
+} from "./world";
 
 export interface CreateScheduledActivityInput {
   readonly stableKey: string;
@@ -943,16 +947,18 @@ export function advanceWorldMinutes(
   minutes: number,
   transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
 ): World {
-  if (!transitionHandlers.routine) {
-    if (controlledCommitmentsBlockingMinuteAdvance(world, minutes).length > 0)
-      return world;
-    return advanceCanonicalMinutes(world, minutes, null, transitionHandlers);
-  }
-  return resolveAdvanceWithRoutine(
-    world,
-    addSimulationMinutes(world.currentMoment, minutes),
-    transitionHandlers,
-  );
+  return advanceWithWorldIntegrityAtEnd(() => {
+    if (!transitionHandlers.routine) {
+      if (controlledCommitmentsBlockingMinuteAdvance(world, minutes).length > 0)
+        return world;
+      return advanceCanonicalMinutes(world, minutes, null, transitionHandlers);
+    }
+    return resolveAdvanceWithRoutine(
+      world,
+      addSimulationMinutes(world.currentMoment, minutes),
+      transitionHandlers,
+    );
+  });
 }
 
 function nonRoutineBlockingIds(
