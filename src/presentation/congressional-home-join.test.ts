@@ -159,7 +159,7 @@ describe("congressional home join from the 119th CD–place file", () => {
     );
     expect(house?.district).toBeNull();
     expect(house?.note).toBe(
-      "Your home place is split between Illinois, district 16 and Illinois, district 17 (Census place–district relationship), and the save does not record which one your home is in.",
+      "Your home place is split between Illinois, district 16 and Illinois, district 17, and the save does not record which one your home is in.",
     );
   }, 120_000);
 
