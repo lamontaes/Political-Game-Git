@@ -1,0 +1,23 @@
+{
+  "filedAt": "2026-09-23T01:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "Local crime",
+  "priority": "P1",
+  "question": "For every U.S. place the game can start in (all 50 states, D.C. and Puerto Rico), what are the real rates of assault, robbery, burglary and vandalism: offenses known to police per 1,000 residents per year, the share of each offense victims report to police, and the share of reported offenses that end in an arrest? Where a place-level figure does not exist, what is the nearest honest level (county, state, or a size band of similar places), and what is the resident population the rate should be applied to?",
+  "questionId": "local-crime-rates-by-place",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Local crime thread, after lamontae said on 2026-09-22 at 8:53 p.m. ET that there should be local crime; stress runs had found none in any town",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/crime/contract.ts (placeholder tables authored 2026-09-23)",
+      "whatItDidNotSettle": "Every rate, reporting share and arrest share there is a blanket placeholder, the same in every town. They were chosen to be roughly the right order of magnitude and are not sourced."
+    },
+    {
+      "source": "src/simulation/national-places.generated.ts and src/simulation/place-demography.ts",
+      "whatItDidNotSettle": "The simulation holds no population figure for a place. The Gazetteer rows carry identity only, and place population reaches the player's screen only through a browser-side county-equivalent fetch, so the town-wide police log cannot be scaled to a town's size."
+    }
+  ],
+  "title": "Real crime rates, reporting and arrest shares, and population for every place",
+  "usableAnswer": "One table covering all 52 jurisdictions, with a row for each state plus Puerto Rico and D.C.: for each of the four offenses, a rate per 1,000 residents per year, a reported-to-police share, and an arrest (clearance) share, each with its source and year. Then either a place-level table for places over a stated population, or a rule for size bands within a state (for example, under 2,500, 2,500 to 50,000, and over 50,000) with the multiplier to apply. Include a population source per place that the game can compile, such as Census population estimates by place GEOID. Where no measured figure exists, say so rather than estimate.",
+  "whyItMatters": "Crime now happens in the game, but at blanket rates. Every town's police log gets the same two reports a month, so a village of 1,700 people and a city of 400,000 are equally busy. That is wrong, and the fix needs both real rates and each place's population. Research answers replace the placeholder tables under a new version, so old saves keep the rules they were made under."
+}
