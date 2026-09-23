@@ -570,7 +570,7 @@ const FRIEND_OVER_YEARS: EpisodeFamily = {
             nudge("achievement-ambition", 0.25),
           ],
           aftermath: null,
-          memory: "You and {role:familiar} stopped ringing each other.",
+          memory: "You and {role:familiar} stopped calling each other.",
         },
       ],
     },
@@ -1530,7 +1530,7 @@ const MONEY_OWED: EpisodeFamily = {
           ],
           aftermath: "obligation",
           memory:
-            "You rang the number on the letter and said what you could actually manage.",
+            "You called the number on the letter and said what you could actually manage.",
         },
         {
           key: "pay-part",
@@ -1760,7 +1760,7 @@ const CARING: EpisodeFamily = {
       ],
       lines: [
         "Some of it did get taken off you, and some of it came back within the month.",
-        "{role:relative} has started ringing you first regardless of whose week it is.",
+        "{role:relative} has started calling you first regardless of whose week it is.",
       ],
       stakes: "ordinary",
       tensions: [
@@ -1779,7 +1779,7 @@ const CARING: EpisodeFamily = {
           nudges: [nudge("care-obligation", 0.4), nudge("personal-ties", 0.3)],
           aftermath: null,
           memory:
-            "You went on answering whenever {role:relative} rang, whoever's week it was.",
+            "You went on answering whenever {role:relative} called, whoever's week it was.",
         },
         {
           key: "redirect",
