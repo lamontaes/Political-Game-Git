@@ -1,0 +1,38 @@
+{
+  "filedAt": "2026-09-23T04:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "civil rights and protest movements",
+  "notes": [
+    "The owner (September 23, 2026, 12:19 a.m. ET) asked whether civil rights is in the game and how it works, and whether someone who holds no office, like Martin Luther King Jr., can lead and be targeted. The answer on main was no: the only mass movements were a jobs exodus, a flight from cities and a religious revival, none with a leader.",
+    "The game is building movements that grow out of recorded unrest and anger in a state. Each has a leader (who may hold no office), members, a demand tied to one policy question, marches, backlash, and an end: it wins when a law answering its demand is enacted, or it fades. The player can found, join, lead, oppose or speak about one.",
+    "Every rate is a marked placeholder until this is answered. ChatGPT C09 still applies: anything touching violence against leaders is historical shape and public reaction only, never methods."
+  ],
+  "priority": "P1",
+  "question": "How do real American social and rights movements form, grow, meet backlash, win and end? Use the civil rights movement, labor, women's suffrage, the farm workers, disability rights, LGBT rights, the Tea Party, Occupy and Black Lives Matter as the reference set, plus smaller state-level movements where evidence exists. (1) What conditions came before a movement formed: a recorded grievance, a triggering event, existing organizations such as churches, unions or colleges? How long did grievance build before organizing began? (2) Who became leaders: how often were they officeholders, clergy, students, workers or lawyers, and how old were they? How often did a movement have one recognized leader, several, or none? (3) How fast did membership or participation grow in the first years, and what share of a state's adults ever took part? (4) How often did marches, boycotts and sit-ins happen at a movement's peak, and how did each change public opinion? Did disciplined nonviolent action and violent repression shown on television (Selma, 1965) move opinion more than disorder did? (5) What backlash followed: counter-movements, opposing laws, arrests, loss of jobs, and how large was it relative to the movement? (6) How often did movements win a law, how long after forming, and at what level first (city, state, federal)? What share faded without winning, and how did winners change afterward (institutionalized, split, radicalized, declined)? (7) When a leader was killed or jailed, did the movement grow, split or collapse, and who succeeded them? (8) How did an officeholder's response (joining, opposing, meeting leaders, speaking) change that officeholder's standing and the movement's chances?",
+  "questionId": "movements-how-they-form-spread-and-win",
+  "relatedQuestionIds": [
+    "unrest-what-builds-it-and-what-calms-it",
+    "national-shocks-rally-and-decline",
+    "political-violence-what-builds-to-an-attack",
+    "where-a-persons-politics-comes-from"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "civil rights and protest movements thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/pressure/events.ts on main, September 23, 2026",
+      "whatItDidNotSettle": "Unrest is a state-level event from anger over a placeholder line. It has no cause, leader, members, demand or end."
+    },
+    {
+      "source": "src/simulation/migration/waves.ts on main, September 23, 2026",
+      "whatItDidNotSettle": "The three mass waves (jobs exodus, flight from cities, religious revival) move people and have no leader, demand or backlash."
+    },
+    {
+      "source": "src/simulation/policy-pack-us-policy-positions.ts on main, September 23, 2026",
+      "whatItDidNotSettle": "The catalog holds the policy questions a movement could demand (for example banning discrimination in housing and work, civilian oversight of police, restoring voting after a sentence, raising the minimum wage), but nothing says which grievance leads to which demand."
+    }
+  ],
+  "title": "How rights and protest movements form, grow, meet backlash, win and end",
+  "usableAnswer": "Short answers to questions 1 to 8, each with a number and a source or a plain statement that evidence is weak. For (1) a typical span in years. For (2) shares by background. For (3) a growth rate per year and a peak share of adults. For (4) actions per quarter at peak and opinion points moved. For (5) backlash size relative to the movement. For (6) shares that won, by level, and years to a win. For (7) shares that grew, split or collapsed. For (8) approval or standing points moved.",
+  "whyItMatters": "The owner wants civil rights and other movements to exist, to be led by people who may hold no office, to march, meet backlash, win laws and change over time, and to be something the player can join, lead, oppose or answer. Without base rates the game would make movements either constant or impossible, and every win would look the same."
+}

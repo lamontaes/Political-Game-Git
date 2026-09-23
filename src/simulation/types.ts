@@ -23,6 +23,7 @@ import type { RuleChangeProvisionRecord } from "./enacted-rule-changes";
 import type { PublicFundingMandate } from "./public-fiscal";
 import type { MacroEconomyStore } from "./macro-economy/types";
 import type { PressureStore } from "./pressure/contract";
+import type { MovementStore } from "./movements/contract";
 import type { PartyRecord, WorldConditionRecord } from "./world-setup/types";
 import type {
   TaxProposalRecord,
@@ -4803,4 +4804,9 @@ export interface World {
    * before it existed has no readings and is never retrofitted.
    */
   readonly pressure?: PressureStore;
+  /**
+   * Rights and protest movements (2026-09-23). Optional and additive: a world
+   * written before them has none and is never retrofitted.
+   */
+  readonly movements?: MovementStore;
 }

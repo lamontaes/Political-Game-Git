@@ -66,6 +66,7 @@ import {
   stepPressure,
   stepPressureEvents,
 } from "../pressure";
+import { stepMovements } from "../movements/step";
 import { activeWavesCovering, stepWaves, wavePressure } from "./waves";
 
 /**
@@ -134,9 +135,10 @@ export function migrationReviewHandler(
   // The state pressures step first, so this review's movers read this
   // quarter's pull and push. What a new quarter's pressure sets off (unrest,
   // threats, attacks, international crises) follows it once.
+  // Movements step last, so they read this quarter's unrest.
   const stepped = stepPressure(world);
   let next = reviewTown(
-    stepped === world ? world : stepPressureEvents(stepped),
+    stepped === world ? world : stepMovements(stepPressureEvents(stepped)),
     index,
   );
   next = scheduleFutureDueItem(next, {

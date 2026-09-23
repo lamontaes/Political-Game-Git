@@ -64,6 +64,7 @@ import {
 import { routineOutcomeAfterClock } from "../presentation/routine-outcome";
 import { authorityDecisions } from "../presentation/crisis-shell";
 import { CrisisNoticesPanel } from "./CrisisNoticesPanel";
+import { MovementsPanel } from "./MovementsPanel";
 import { useCrisisStop } from "./use-crisis-stop";
 import {
   TimeCommandProvider,
@@ -4590,6 +4591,11 @@ function renderWorkspace({
                 personId={session.personId}
                 onWorldChange={onWorldChange}
                 scope="personal"
+              />
+              <MovementsPanel
+                world={session.world}
+                personId={session.personId}
+                onWorldChange={onWorldChange}
               />
             </>
           )}
