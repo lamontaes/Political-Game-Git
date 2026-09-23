@@ -39,6 +39,7 @@ import {
   taxEntityAvailableAt,
   taxHistoryRecords,
 } from "./tax-policy";
+import { assertStatutoryTaxIntegrity } from "./statutory-tax";
 import {
   addDays,
   assertSimulationMoment,
@@ -1831,6 +1832,7 @@ function validateHistoryIntegrity(world: World): void {
   assertLifeHistoryIntegrity(world, ids);
   assertResourceHousingIntegrity(world, ids);
   assertTaxIntegrity(world, ids);
+  assertStatutoryTaxIntegrity(world, ids);
   assertPublicPaymentIntegrity(world);
   assertWorldMetricIntegrity(world, ids);
   assertCausalEffectIntegrity(world, ids);

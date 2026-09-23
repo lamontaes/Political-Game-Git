@@ -89,3 +89,39 @@ export interface TaxCollectionRecord extends TaxHistoryRoot {
   readonly outcomeEventId: EntityId;
   readonly reason: "missing-payer-position" | "insufficient-funds" | null;
 }
+
+/**
+ * What one taxable occurrence owes under a tax that already exists in law
+ * (`statutory-tax.ts`). A lawful zero is `not-imposed` with a $0 liability.
+ * An unknown rule or base keeps `liability` null: it is never read as zero.
+ */
+export type StatutoryTaxStatus =
+  "assessed" | "not-imposed" | "rule-unknown" | "base-unknown";
+
+export interface StatutoryTaxLiabilityRecord extends TaxHistoryRoot {
+  readonly taxKey: string;
+  /** "US" for the federal layer, or the place key such as "US-NV". */
+  readonly authorityKey: string;
+  readonly payer: ResourcePositionOwner;
+  /** The pay transfer this occurrence is. */
+  readonly sourceOutcomeId: EntityId;
+  readonly occurredAt: IsoDate;
+  readonly taxYear: number;
+  readonly wages: MoneyAmount;
+  readonly taxableAmount: MoneyAmount | null;
+  readonly liability: MoneyAmount | null;
+  readonly status: StatutoryTaxStatus;
+  readonly collection: "withheld-from-pay" | "payable-by-payer" | "none";
+  /** Null where the research does not give the due date. */
+  readonly dueAt: IsoDate | null;
+  readonly sourceUrl: string | null;
+  readonly researchQuestionId: string | null;
+}
+
+/** Money that actually moved against one liability. */
+export interface StatutoryTaxPaymentRecord extends TaxHistoryRoot {
+  readonly liabilityId: EntityId;
+  readonly method: "withholding";
+  readonly amount: MoneyAmount;
+  readonly resourceOutcomeId: EntityId;
+}

@@ -1,3 +1,4 @@
+import { assessPaycheckTaxes } from "./statutory-tax";
 import {
   acceptedEducationPath,
   legacyAcceptedEducationPath,
@@ -1050,7 +1051,10 @@ const LIFE_PATHS2_CORE_HANDLERS = createFutureTransitionHandlerRegistry(
           provenance: authored,
         });
         return {
-          world: next,
+          world: assessPaycheckTaxes(
+            next,
+            next.history.resourceTransferOutcomes.at(-1)!.id,
+          ),
           status: "resolved",
           reasonKey: null,
           context: "Completed shift paid.",

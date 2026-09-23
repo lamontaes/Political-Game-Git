@@ -29,6 +29,8 @@ import type {
   TaxBaseRecord,
   TaxAssessmentRecord,
   TaxCollectionRecord,
+  StatutoryTaxLiabilityRecord,
+  StatutoryTaxPaymentRecord,
 } from "./tax-types";
 declare const entityIdBrand: unique symbol;
 declare const isoDateBrand: unique symbol;
@@ -60,6 +62,8 @@ export type EntityKind =
   | "tax-base"
   | "tax-assessment"
   | "tax-collection"
+  | "statutory-tax-liability"
+  | "statutory-tax-payment"
   | "appraisal"
   | "belief"
   | "causal-mechanism-definition"
@@ -3746,6 +3750,9 @@ export interface HistoryStore {
   readonly taxBases?: readonly TaxBaseRecord[];
   readonly taxAssessments?: readonly TaxAssessmentRecord[];
   readonly taxCollections?: readonly TaxCollectionRecord[];
+  /** Taxes that exist in law, assessed per occurrence; see `statutory-tax.ts`. */
+  readonly statutoryTaxLiabilities?: readonly StatutoryTaxLiabilityRecord[];
+  readonly statutoryTaxPayments?: readonly StatutoryTaxPaymentRecord[];
   readonly nextSequence: number;
   readonly organizations: readonly Organization[];
   readonly organizationProfiles: readonly OrganizationProfileRecord[];

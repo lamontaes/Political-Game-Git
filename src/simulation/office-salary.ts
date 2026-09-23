@@ -1,3 +1,4 @@
+import { assessPaycheckTaxes } from "./statutory-tax";
 import { addDays, daysBetween } from "./dates";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { currentLifeCutoff, workStatusAt } from "./life-queries";
@@ -143,6 +144,10 @@ function settleOne(world: World, work: WorkRelationship): World {
       note: "Salary for the week.",
       provenance: flow.provenance,
     });
+    next = assessPaycheckTaxes(
+      next,
+      next.history.resourceTransferOutcomes.at(-1)!.id,
+    );
   }
   return next;
 }
