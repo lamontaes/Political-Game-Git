@@ -150,7 +150,7 @@ export function CampaignWeekPanel({
         return;
       }
       if (!geography || !channel?.geographyKinds.includes(geography.kind)) {
-        setMessage("Choose a place that channel can reach in this game.");
+        setMessage("Choose a place that channel can reach.");
         return;
       }
       advertising = {

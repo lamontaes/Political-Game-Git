@@ -115,6 +115,15 @@ function ratifyOneTermLimit(world: World): World {
   });
 }
 
+/** Measures on the governor's term limit; background amendments aside. */
+function termLimitMeasures(world: World) {
+  return (world.history.constitutionalMeasures ?? []).filter(
+    (measure) =>
+      measure.ruleDelta.kind === "rule-field" &&
+      measure.ruleDelta.field === "executive.term.limit",
+  );
+}
+
 function review(world: World, year: number): FutureDueItem {
   return {
     ...world.history.futureDueItems.find(
@@ -144,8 +153,7 @@ describe("a state amending its governor's term limit on its own", () => {
         world,
         review(world, year),
       );
-      if ((result.world.history.constitutionalMeasures ?? []).length)
-        proposals += 1;
+      if (termLimitMeasures(result.world).length) proposals += 1;
     }
     expect(proposals).toBe(0);
   });
@@ -186,8 +194,8 @@ describe("a state amending its governor's term limit on its own", () => {
           review(limited, year),
         );
         if (
-          (result.world.history.constitutionalMeasures ?? []).length >
-          (limited.history.constitutionalMeasures ?? []).length
+          termLimitMeasures(result.world).length >
+          termLimitMeasures(limited).length
         )
           proposedYears.push(year);
       }
@@ -200,14 +208,14 @@ describe("a state amending its governor's term limit on its own", () => {
           limited,
           review(limited, year),
         ).world;
-        const id = world.history.constitutionalMeasures!.at(-1)!.id;
+        const id = termLimitMeasures(world).at(-1)!.id;
         return { world, phase: constitutionalPosition(world, id).phase };
       });
       expect(
         outcomes.every((o) => ["ratification", "rejected"].includes(o.phase)),
       ).toBe(true);
       const proposed = outcomes.find((o) => o.phase === "ratification")!.world;
-      const measure = proposed.history.constitutionalMeasures!.at(-1)!;
+      const measure = termLimitMeasures(proposed).at(-1)!;
       expect(measure.ruleDelta).toMatchObject({
         kind: "rule-field",
         field: "executive.term.limit",

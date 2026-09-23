@@ -1,9 +1,16 @@
-import { currentLifeCutoff, workStatusAt } from "../life-queries";
+import {
+  activeWorkRelationshipsAt,
+  currentLifeCutoff,
+  workStatusAt,
+} from "../life-queries";
+import { stateName } from "../office-qualification-rules";
+import { spokenDate } from "../dates";
 import { recordWorkStatus } from "../life";
 import { personName } from "../people";
 import type { EntityId, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { currentGoverningOffices } from "./state-governing";
+import { scheduleSeatFilling } from "./office-continuity";
 import { congressSeats } from "../living-world/congress-seats";
 import { projectCongress } from "../living-world/congress";
 import {
@@ -54,7 +61,14 @@ export type OfficeConsequenceKind =
   | "defense-recorded"
   | "cooperation-agreed"
   | "cooperation-declined"
-  | "resignation";
+  | "resignation"
+  /** The holder was sentenced to jail (`justice/prosecution.ts`). */
+  | "removed-on-sentence";
+
+/** The kinds that end a term. */
+function endsTerm(kind: OfficeConsequenceKind): boolean {
+  return kind === "resignation" || kind === "removed-on-sentence";
+}
 
 export interface OfficeConsequenceInput {
   readonly stableKey: string;
@@ -87,7 +101,7 @@ export interface OfficeConsequenceResult {
 }
 
 const UNCHANGED: Record<
-  Exclude<OfficeConsequenceKind, "resignation">,
+  Exclude<OfficeConsequenceKind, "resignation" | "removed-on-sentence">,
   string
 > = {
   "explanation-requested":
@@ -150,11 +164,12 @@ export function recordOfficeConsequence(
   const subject = world.people[input.subjectPersonId];
   if (!subject) throw new Error("That person is not in this world.");
   const holds = office?.holderPersonId === input.subjectPersonId;
+  const removed = input.kind === "removed-on-sentence";
   let next = world;
   let outcome: OfficeConsequenceOutcome = {
     changed: false,
     note:
-      input.kind === "resignation"
+      input.kind === "resignation" || input.kind === "removed-on-sentence"
         ? "They do not hold this office, so there is no term to end."
         : UNCHANGED[input.kind],
   };
@@ -169,7 +184,7 @@ export function recordOfficeConsequence(
   // to reach whichever of those this key names, or say plainly that it named
   // none of them.
   const seat =
-    input.kind === "resignation" && !holds
+    endsTerm(input.kind) && !holds
       ? congressSeats().find(
           (candidate) => candidate.seatKey === input.officeKey,
         )
@@ -183,7 +198,7 @@ export function recordOfficeConsequence(
     heldSeat?.occupant.kind === "member" &&
     heldSeat.occupant.member.personId === input.subjectPersonId;
   const job =
-    input.kind === "resignation" && !holds && !seatIsTheirs
+    endsTerm(input.kind) && !holds && !seatIsTheirs
       ? world.history.workRelationships.find(
           (relationship) =>
             (relationship.id === input.officeKey ||
@@ -191,7 +206,7 @@ export function recordOfficeConsequence(
             relationship.personId === input.subjectPersonId,
         )
       : undefined;
-  if (input.kind === "resignation" && seat && seatIsTheirs) {
+  if (endsTerm(input.kind) && seat && seatIsTheirs) {
     next = recordWorldEvent(world, {
       stableKey: `${stableKey}:seat-vacant`,
       type: SEAT_VACANCY_EVENT,
@@ -204,9 +219,9 @@ export function recordOfficeConsequence(
       visibility: "public",
       tags: [
         ...congressSeatVacancyTags(seat, input.effectiveAt),
-        "vacancy-cause:resigned",
+        removed ? "vacancy-cause:removed" : "vacancy-cause:resigned",
       ],
-      summary: `The seat of the ${congressSeatTitle(seat)} is vacant: the member resigned.`,
+      summary: `The seat of the ${congressSeatTitle(seat)} is vacant: the member ${removed ? "was removed after being sentenced to jail" : "resigned"}.`,
       context: {
         location: null,
         socialContext: null,
@@ -216,6 +231,8 @@ export function recordOfficeConsequence(
         immediateReaction: null,
       },
     });
+    const filling = scheduleSeatFilling(next, seat, input.effectiveAt);
+    next = filling.world;
     outcome = {
       changed: true,
       kind: "term-closed",
@@ -225,12 +242,12 @@ export function recordOfficeConsequence(
           : (input.officeKey as EntityId),
       termRecordId: next.history.events.at(-1)!.id,
       effectiveAt: input.effectiveAt,
-      note: `${personName(subject)} resigned the seat of the ${congressSeatTitle(seat)}. It is vacant from ${input.effectiveAt} until it is filled.`,
+      note: `${personName(subject)} ${removed ? "was removed from" : "resigned"} the seat of the ${congressSeatTitle(seat)}. ${filling.ruling.sentence}`,
     };
     tags.push(
       `term-closed:${outcome.workRelationshipId}:${outcome.termRecordId}:${input.effectiveAt}`,
     );
-  } else if (input.kind === "resignation" && job) {
+  } else if (endsTerm(input.kind) && job) {
     const jobStatus = workStatusAt(world, job.id, currentLifeCutoff(world));
     if (jobStatus && jobStatus.status !== "ended") {
       next = recordWorkStatus(world, {
@@ -238,10 +255,12 @@ export function recordOfficeConsequence(
         workRelationshipId: job.id,
         effectiveAt: input.effectiveAt,
         status: "ended",
-        reason: "Resigned the office.",
+        reason: removed
+          ? "Removed on a jail sentence."
+          : "Resigned the office.",
         provenance: {
           kind: "authored",
-          note: `${OFFICE_CONSEQUENCE_VERSION}: the holder resigned this recorded office.`,
+          note: `${OFFICE_CONSEQUENCE_VERSION}: the holder ${removed ? "was removed from" : "resigned"} this recorded office.`,
         },
         supersedesStatusId: jobStatus.id,
       });
@@ -251,11 +270,11 @@ export function recordOfficeConsequence(
         workRelationshipId: job.id,
         termRecordId: job.id,
         effectiveAt: input.effectiveAt,
-        note: `${personName(subject)} resigned. The office is vacant from ${input.effectiveAt}; who fills it is decided by rules the game has not compiled for this body.`,
+        note: `${personName(subject)} ${removed ? "was removed from office after being sentenced to jail" : "resigned"}. The office is vacant from ${spokenDate(input.effectiveAt)} until the body fills it under its own rules.`,
       };
       tags.push(`term-closed:${job.id}:${job.id}:${input.effectiveAt}`);
     }
-  } else if (input.kind === "resignation" && office && holds) {
+  } else if (endsTerm(input.kind) && office && holds) {
     // An elected term is a work relationship and ends through the work
     // writer. An opening incumbent's term is a recorded tenure with no
     // relationship behind it; the office is vacated by this record alone,
@@ -268,10 +287,12 @@ export function recordOfficeConsequence(
           workRelationshipId: office.termId,
           effectiveAt: input.effectiveAt,
           status: "ended",
-          reason: "Resigned the office.",
+          reason: removed
+            ? "Removed on a jail sentence."
+            : "Resigned the office.",
           provenance: {
             kind: "authored",
-            note: `${OFFICE_CONSEQUENCE_VERSION}: the holder resigned; the office is vacant from this date.`,
+            note: `${OFFICE_CONSEQUENCE_VERSION}: the holder ${removed ? "was removed" : "resigned"}; the office is vacant from this date.`,
           },
           supersedesStatusId: status.id,
         });
@@ -281,12 +302,19 @@ export function recordOfficeConsequence(
         workRelationshipId: office.termId,
         termRecordId: office.termId,
         effectiveAt: input.effectiveAt,
-        note: `${personName(subject)} resigned as ${office.title}. The office is vacant from ${input.effectiveAt}; who fills it is decided by this state's own rules, which the game has not compiled.`,
+        note: `${personName(subject)} ${removed ? "was removed as" : "resigned as"} ${office.title}${removed ? " after being sentenced to jail" : ""}. The office is vacant from ${spokenDate(input.effectiveAt)} until it is filled under ${stateName(office.stateUsps)}'s own rules.`,
       };
       tags.push(
         `term-closed:${office.termId}:${office.termId}:${input.effectiveAt}`,
       );
     }
+  }
+  if (input.kind === "resignation" && outcome.changed) {
+    const importance = resignationImportance(
+      holds ? input.officeKey : null,
+      seatIsTheirs ? (seat?.chamberKey ?? null) : null,
+    );
+    if (importance) tags.push(importance);
   }
   next = recordWorldEvent(next, {
     stableKey,
@@ -303,7 +331,7 @@ export function recordOfficeConsequence(
       },
     ],
     personFactConstraints: [],
-    visibility: input.kind === "resignation" ? "public" : "limited",
+    visibility: endsTerm(input.kind) ? "public" : "limited",
     tags,
     summary: outcome.changed
       ? outcome.note
@@ -319,6 +347,76 @@ export function recordOfficeConsequence(
   });
   const eventId = next.history.events.at(-1)!.id;
   return { world: next, eventId, outcome };
+}
+
+/**
+ * How big news a resignation is, by the office given up. A resignation in
+ * this game is never announced ahead, so every one is treated as a surprise.
+ * A governor's reaches national papers; a statewide officer's or a member of
+ * Congress's is notable; an ordinary recorded office adds nothing beyond
+ * naming its holder.
+ *
+ * PLACEHOLDER(research: how-much-coverage-a-resignation-gets): the tiers are
+ * the owner's direction ("if a governor or ... a president ... resigns, it
+ * should be massive news"), not a sourced scale. The president is not a
+ * holdable office yet.
+ */
+function resignationImportance(
+  stateOfficeKey: string | null,
+  congressChamberKey: string | null,
+): string | null {
+  if (stateOfficeKey?.endsWith("-governor")) return "importance:major";
+  if (stateOfficeKey || congressChamberKey) return "importance:notable";
+  return null;
+}
+
+/** The work kinds that are a public office rather than an ordinary job. */
+export const OFFICE_EMPLOYMENT_KINDS: readonly string[] = [
+  "employment:legislative-member",
+  "employment:executive-office",
+  "employment:state-agency-director",
+  "employment:judicial-office",
+];
+
+/**
+ * Every office `personId` holds today, by the key `recordOfficeConsequence`
+ * accepts: a state executive office, a seat in Congress, or a recorded office
+ * job. Read-only.
+ */
+export function officesHeldBy(
+  world: World,
+  personId: EntityId,
+): readonly { readonly officeKey: string; readonly title: string }[] {
+  const held: { officeKey: string; title: string }[] = [];
+  for (const office of currentGoverningOffices(world))
+    if (office.holderPersonId === personId)
+      held.push({ officeKey: office.officeKey, title: office.title });
+  const congress = projectCongress(world);
+  for (const chamber of congress ? [congress.house, congress.senate] : [])
+    for (const seat of chamber.seats)
+      if (
+        seat.occupant.kind === "member" &&
+        seat.occupant.member.personId === personId
+      ) {
+        const known = congressSeats().find(
+          (candidate) => candidate.seatKey === seat.seatKey,
+        );
+        held.push({
+          officeKey: seat.seatKey,
+          title: known ? congressSeatTitle(known) : seat.seatKey,
+        });
+      }
+  for (const entry of activeWorkRelationshipsAt(world, personId)) {
+    const title = entry.role.title;
+    const officeKey = entry.relationship.stableKey;
+    if (!title || !officeKey) continue;
+    if (
+      OFFICE_EMPLOYMENT_KINDS.includes(entry.relationship.kind) ||
+      entry.relationship.kind.startsWith("office:")
+    )
+      held.push({ officeKey, title });
+  }
+  return held;
 }
 
 /** Everything recorded about one office, newest first. */

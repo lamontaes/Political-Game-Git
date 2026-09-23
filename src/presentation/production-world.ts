@@ -8,6 +8,12 @@ import {
 } from "../simulation/character-history";
 import { residentNameForJurisdiction } from "../simulation/life-places";
 import {
+  SCHOOL_STAGES_V1,
+  scheduleSchoolStageEnd,
+  type SchoolStageKey,
+  type SchoolStageVersion,
+} from "../simulation/school-stages";
+import {
   generateSchoolNames,
   stateUsps,
   type SchoolNameVersion,
@@ -144,7 +150,22 @@ export interface ProductionWorldInput {
   readonly childhoodGenerationVersion?: ChildhoodGenerationVersion;
   /** Absent keeps an old replay's school names (the v1 draw). */
   readonly schoolNameVersion?: SchoolNameVersion;
+  /** Absent keeps an old replay's child in the school they started at. */
+  readonly schoolStageVersion?: SchoolStageVersion;
+  /** Absent keeps an old replay's family, every one born on the player's birthday. */
+  readonly familyBirthdayVersion?: FamilyBirthdayVersion;
 }
+
+/**
+ * The family, housemates and classmates a start writes used to share the
+ * player's birthday: each was born a whole number of years before or after
+ * them, to the day. Under this version each has a birthday of their own, up
+ * to half a year either side, drawn apart from every other draw so the rest
+ * of the family comes out the same. A brother or sister only ever moves
+ * further from the player, never closer.
+ */
+export const FAMILY_BIRTHDAYS_V1 = "family-birthdays-v1" as const;
+export type FamilyBirthdayVersion = typeof FAMILY_BIRTHDAYS_V1;
 
 export interface ProductionWorld {
   readonly world: World;
@@ -245,6 +266,8 @@ export function buildProductionWorld(
     input.earlierLifeGenerationVersion,
     input.childhoodGenerationVersion,
     input.schoolNameVersion,
+    input.schoolStageVersion,
+    input.familyBirthdayVersion,
   );
   if (input.startingLife === "legislative-office") {
     world = employInLegislativeOffice(world, player.id, place);
@@ -344,9 +367,29 @@ function establishAgeEligibleState(
   earlierLifeGenerationVersion?: EarlierLifeGenerationVersion,
   childhoodGenerationVersion?: ChildhoodGenerationVersion,
   schoolNameVersion?: SchoolNameVersion,
+  schoolStageVersion?: SchoolStageVersion,
+  familyBirthdayVersion?: FamilyBirthdayVersion,
 ): World {
   const jurisdictionId = place.context.jurisdiction.id;
   const age = ageOnDate(player.birthDate, world.currentDate);
+  /**
+   * Born `years` before the player (after them, when negative), on a birthday
+   * of their own under the family-birthday version. `awayFrom` keeps a
+   * sibling on their side of the player, only ever further away.
+   */
+  const bornBefore = (
+    key: string,
+    years: number,
+    awayFrom = false,
+  ): IsoDate => {
+    const date = yearsBefore(player.birthDate, years);
+    if (familyBirthdayVersion !== FAMILY_BIRTHDAYS_V1) return date;
+    const drawn = new SeededRng(world.seed)
+      .fork(`${key}:birthday`)
+      .integer(-182, 183);
+    const shift = awayFrom ? (years > 0 ? -1 : 1) * Math.abs(drawn) : drawn;
+    return addDays(date, shift);
+  };
   const dependent = age < DEPENDENT_AGE_CEILING;
   const stableKey = "production:initial-life";
   const householdKey = `${stableKey}:household`;
@@ -445,7 +488,7 @@ function establishAgeEligibleState(
             stableKey: otherKey,
             ...otherName,
             identity: generatedIdentityFor(world.seed, otherKey),
-            birthDate: yearsBefore(player.birthDate, rng.integer(-6, 7)),
+            birthDate: bornBefore(otherKey, rng.integer(-6, 7)),
             homeJurisdictionId: jurisdictionId,
           },
         },
@@ -534,8 +577,8 @@ function establishAgeEligibleState(
   // firm moves both ends later and one that leaned toward disruption moves them
   // earlier. The generator still draws. See `setup-generation-inputs.ts`.
   const [guardianAgeFloor, guardianAgeCeiling] = guardianAgeBand(generation);
-  const guardianBirthDate = yearsBefore(
-    player.birthDate,
+  const guardianBirthDate = bornBefore(
+    guardianKey,
     rng.integer(guardianAgeFloor, guardianAgeCeiling),
   );
 
@@ -638,7 +681,7 @@ function establishAgeEligibleState(
     // the candidates sit on is tilted by the care lean; the pick is still the
     // generator's.
     const yearsApart = rng.pick([...siblingAgeGaps(generation)]);
-    const siblingBirthDate = yearsBefore(player.birthDate, yearsApart);
+    const siblingBirthDate = bornBefore(siblingKey, yearsApart, true);
     // A record cannot predate either person in it, so a sibling born after the
     // player establishes the kinship on the day the younger of them arrived.
     const siblingKinshipDate =
@@ -725,7 +768,7 @@ function establishAgeEligibleState(
           stableKey: otherKey,
           ...secondParentName,
           identity: generatedIdentityFor(world.seed, otherKey),
-          birthDate: yearsBefore(player.birthDate, otherRng.integer(24, 41)),
+          birthDate: bornBefore(otherKey, otherRng.integer(24, 41)),
           homeJurisdictionId: jurisdictionId,
         },
       },
@@ -794,7 +837,7 @@ function establishAgeEligibleState(
           stableKey: otherParentKey,
           ...otherParentName,
           identity: generatedIdentityFor(world.seed, otherParentKey),
-          birthDate: yearsBefore(player.birthDate, otherRng.integer(24, 41)),
+          birthDate: bornBefore(otherParentKey, otherRng.integer(24, 41)),
           homeJurisdictionId: jurisdictionId,
         },
       },
@@ -818,6 +861,12 @@ function establishAgeEligibleState(
   // biography. Gating this on the version left a ten-year-old with no
   // enrollment, so `in-school` did not hold, every early.school and early.peer
   // opening became ineligible, and the town had no school in it.
+  //
+  // Under the school-stage repair the child also moves on through school
+  // while the game is played: the schools of the stages still ahead are in
+  // town already, and the end of the stage the child is in now is scheduled
+  // once the plan is applied.
+  let advancing: { readonly stage: SchoolStageKey } | null = null;
   if (age >= SCHOOL_ENTRY_AGE) {
     const schoolKey = `${stableKey}:school`;
     const schooling = childSchooling(
@@ -842,7 +891,7 @@ function establishAgeEligibleState(
           provenance: PROVENANCE,
           initialProfile: {
             name: schooling.current.name,
-            classification: "sector:education",
+            classification: "service:school",
             locationJurisdictionId: jurisdictionId,
           },
         },
@@ -860,6 +909,27 @@ function establishAgeEligibleState(
         },
       },
     );
+
+    if (
+      schoolStageVersion === SCHOOL_STAGES_V1 &&
+      childhoodGenerationVersion === CHILDHOOD_GENERATION_V2
+    ) {
+      advancing = { stage: schooling.current.key };
+      for (const stage of schooling.later)
+        transitions.push({
+          kind: "organization",
+          input: {
+            stableKey: `${schoolKey}:${stage.key}`,
+            formedAt: world.currentDate,
+            provenance: PROVENANCE,
+            initialProfile: {
+              name: stage.name,
+              classification: "service:school",
+              locationJurisdictionId: jurisdictionId,
+            },
+          },
+        });
+    }
 
     // Two other children at the same school.
     //
@@ -886,7 +956,7 @@ function establishAgeEligibleState(
             stableKey: classmateKey,
             ...classmateName,
             identity: generatedIdentityFor(world.seed, classmateKey),
-            birthDate: yearsBefore(player.birthDate, rng.integer(-1, 2)),
+            birthDate: bornBefore(classmateKey, rng.integer(-1, 2)),
             homeJurisdictionId: jurisdictionId,
           },
         },
@@ -906,7 +976,7 @@ function establishAgeEligibleState(
     }
   }
 
-  const householdWorld = applyCharacterHistoryPlan(world, {
+  const planned = applyCharacterHistoryPlan(world, {
     stableKey,
     mode: "quick-generated",
     personId: player.id,
@@ -917,6 +987,14 @@ function establishAgeEligibleState(
       givenNameGenerationVersion,
     ),
   }).world;
+  const householdWorld = advancing
+    ? scheduleSchoolStageEnd(planned, {
+        schoolKey: `${stableKey}:school`,
+        personId: player.id,
+        stage: advancing.stage,
+        jurisdictionId,
+      })
+    : planned;
   return otherParentState === "deceased"
     ? recordPersonDeath(householdWorld, {
         stableKey: `${otherParentKey}:death`,
@@ -1103,7 +1181,7 @@ function summarizeEarlierLife(
  * seventeen-year-old has finished the first two and is in the third.
  */
 interface ChildSchoolStage {
-  readonly key: "elementary" | "middle" | "high";
+  readonly key: SchoolStageKey;
   readonly name: string;
   readonly entryAge: number;
 }
@@ -1118,6 +1196,8 @@ function childSchooling(
 ): {
   readonly current: ChildSchoolStage;
   readonly finished: readonly ChildSchoolStage[];
+  /** The stages still ahead, whose schools a child moves on to in play. */
+  readonly later: readonly ChildSchoolStage[];
 } {
   if (version !== CHILDHOOD_GENERATION_V2) {
     return {
@@ -1127,6 +1207,7 @@ function childSchooling(
         entryAge: SCHOOL_ENTRY_AGE,
       },
       finished: [],
+      later: [],
     };
   }
   const jurisdiction = world.jurisdictions[jurisdictionId];
@@ -1145,7 +1226,11 @@ function childSchooling(
     { key: "high", name: names.high, entryAge: 14 },
   ];
   const reached = stages.filter((stage) => age >= stage.entryAge);
-  return { current: reached.at(-1)!, finished: reached.slice(0, -1) };
+  return {
+    current: reached.at(-1)!,
+    finished: reached.slice(0, -1),
+    later: stages.filter((stage) => age < stage.entryAge),
+  };
 }
 
 /**
@@ -1173,7 +1258,7 @@ function earlierSchooling(
           provenance: PROVENANCE,
           initialProfile: {
             name: stage.name,
-            classification: "sector:education",
+            classification: "service:school",
             locationJurisdictionId: jurisdictionId,
           },
         },

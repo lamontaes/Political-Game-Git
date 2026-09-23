@@ -1,0 +1,34 @@
+{
+  "filedAt": "2026-09-23T01:55:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "The four questions a party body decides are in PARTY_QUESTIONS in src/simulation/living-world/party-evolution.ts: working with other parties (cooperate or keep distance), choosing candidates (open contests or committee slate), first priority (institutional reform, household costs, local services), and local positions (chapters decide or follow the wider party line).",
+    "Today each member's answer and how firmly they hold it is a seeded draw, stable per person (partyActorStance). ChatGPT's A06 says members should weigh actual alternatives with their own goals, concerns, relationships and information. The draw is kept as a marked blanket rule until this is answered.",
+    "What a person has on record that could bear on it: the five ordinary-life traits, one or two catalog qualities, held political views on propositions (where they exist), the issues they care about (a placeholder), their office or party role, how long they have belonged, and relationships with other members.",
+    "Since this change a body takes up a question only when it has never settled it, or when one of its own has lost an election since it last settled how it chooses candidates. Otherwise the review is quiet."
+  ],
+  "priority": "P2",
+  "question": "When a member of a local or national party body weighs each of the four procedural questions, which of the person's recorded qualities, roles and relationships should lean them toward each option, which way, and how firmly? And after an election loss, how should a member's lean on how the party chooses candidates move, if at all?",
+  "questionId": "what-leans-a-party-member-on-each-question",
+  "relatedQuestionIds": [
+    "what-makes-a-party-body-take-up-a-question",
+    "party-body-dispute-cadence",
+    "where-a-persons-politics-comes-from"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "ChatGPT's A06 answer (what-makes-a-party-body-take-up-a-question): 'Participants evaluate actual alternatives using their own goals, concerns, relationships and information.' lamontae, 2026-09-22: 'i dont want depth to be invented'.",
+  "sourcesChecked": [
+    {
+      "source": "DEPTH2 A06, docs/research/chatgpt-answers/2026-09-22-depth2/DEPTH2-ANSWERS.md",
+      "whatItDidNotSettle": "Says what brings business before a body and that members weigh alternatives themselves. It does not say which of a person's qualities lean them toward which option."
+    },
+    {
+      "source": "party-body-dispute-cadence (C18)",
+      "whatItDidNotSettle": "Says stakes, voice, attachments and feasible alternatives matter to leaving. It does not cover how a member forms a stance on the question in the first place."
+    }
+  ],
+  "title": "What leans a party member toward each option on the body's four questions",
+  "usableAnswer": "For each question and option, the recorded qualities, roles or relationships that lean a member toward it, with a direction and a firmness (subtle, moderate, strong). 'Nothing recorded bears on it; keep a per-person draw' is an acceptable answer for any question.",
+  "whyItMatters": "Whether a member dissents, and so whether a party can split, depends on how they vote on these questions. Today the vote is a seeded coin flip that reads nothing about the person."
+}

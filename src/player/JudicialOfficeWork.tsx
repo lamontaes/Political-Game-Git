@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { proseDate } from "../presentation/prose-dates";
 import {
   projectJudicialOffice,
   receiveNextJudicialOfficeWork,
@@ -139,15 +140,20 @@ export function JudicialOfficeWork({
           .filter((a) => a.response)
           .map((a) => (
             <p key={a.item.id}>
-              <time>{a.response!.occurredAt}</time> —{" "}
-              {a.response!.context.choice}
+              <time dateTime={a.response!.occurredAt}>
+                {proseDate(a.response!.occurredAt)}
+              </time>{" "}
+              — {a.response!.context.choice}
             </p>
           ))}
         {view.followUps
           .filter((f) => f.completion)
           .map((f) => (
             <p key={f.item.id}>
-              <time>{f.completion!.occurredAt}</time> — {f.completion!.summary}
+              <time dateTime={f.completion!.occurredAt}>
+                {proseDate(f.completion!.occurredAt)}
+              </time>{" "}
+              — {f.completion!.summary}
             </p>
           ))}
       </details>

@@ -37,19 +37,28 @@ import {
 } from "../simulation/press";
 import { canonicalSupportBasisPoints } from "../simulation/campaigns";
 import {
-  jailTermsOf,
+  caseCourse,
+  jailTermOn,
   PROSECUTION_CHARGED_EVENT,
+  PROSECUTION_DECLINED_EVENT,
+  PROSECUTION_ENDED_EVENT,
   PROSECUTION_REFERRED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
+  referForProsecution,
+  referralStableKey,
+  regulatorRefers,
   UNRESEARCHED_PROSECUTION,
 } from "../simulation/justice/prosecution";
 import { successorCandidates } from "../simulation/people-continuation";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { supportAfterLoss } from "../simulation/campaign-support";
-import { spendAnAfternoon } from "./campaign-projection";
+import { projectCampaign, spendAnAfternoon } from "./campaign-projection";
 import { projectCampaignSpendingReports } from "./campaign-spending-reports";
 import { continueAs, retireFromPlay } from "./people-continuation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import { projectPeopleDirectory } from "./people-directory";
+import { projectPersonDossier } from "./person-dossier";
+import { proseDate } from "./prose-dates";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 
@@ -342,6 +351,39 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
     }
   });
 
+  it("shows on the People screen who kept away after it became public", () => {
+    const distanced = pressRecordsOfKind(run.after, "matter-response").filter(
+      (response) => response.response === "distance",
+    );
+    // An empty loop below would pass on nothing, so somebody must distance.
+    expect(distanced.length).toBeGreaterThan(0);
+    const people = projectPeopleDirectory(run.after, run.personId).people;
+    for (const response of distanced) {
+      const given = run.after.people[response.actorPersonId]!.givenName;
+      const line = `${given} has kept away from you since ${proseDate(response.respondedAt)}, after the case against you became public.`;
+      expect(
+        people.find((row) => row.personId === response.actorPersonId)?.strain,
+      ).toBe(line);
+      expect(
+        projectPersonDossier(run.after, run.personId, response.actorPersonId)
+          .strain,
+      ).toBe(line);
+    }
+  });
+
+  it("shows the next count's move since the one before the finding", () => {
+    const before = projectCampaign(run.after, run.personId).reading!;
+    const counted = spendAnAfternoon(run.after, run.personId, "outreach");
+    const after = projectCampaign(counted, run.personId).reading!;
+    expect(after.on).not.toBe(before.on);
+    const points = Math.round((after.percent - before.percent) * 10) / 10;
+    expect(after.change).toBe(
+      points === 0
+        ? null
+        : `${points > 0 ? "Up" : "Down"} ${Math.abs(points).toFixed(1)} points since the count on ${proseDate(before.on)}.`,
+    );
+  }, 900_000);
+
   it("survives a save", () => {
     const reopened = deserializeWorld(serializeWorld(run.after));
     expect(publicAdverseFindingsAgainst(reopened, run.personId)).toEqual(
@@ -471,52 +513,105 @@ describe("a Washington candidate who keeps taking after a finding", () => {
     expect(leads.length).toBeGreaterThan(0);
   });
 
-  it("is sent to prosecutors after the second finding, charged, and jailed", () => {
-    const ofType = (w: World, type: string) =>
+  it("may go to prosecutors, and the case runs the course drawn for it", () => {
+    // Whether each finding is referred, and how a case ends, are chances
+    // drawn from the world's seed: this run's own draws, not a fixed rule.
+    const events = (w: World, type: string) =>
       w.history.events.filter(
         (event) =>
           event.type === type &&
           event.participants.some((entry) => entry.personId === run.personId),
       );
-    // A first finding stays civil.
-    expect(ofType(run.after, PROSECUTION_REFERRED_EVENT)).toHaveLength(0);
+    const expected = findings.filter((step, index) =>
+      regulatorRefers(world, `${step.stableKey}:${run.personId}`, index + 1),
+    );
+    const referrals = events(world, PROSECUTION_REFERRED_EVENT);
+    expect(referrals.map((event) => event.occurredAt)).toEqual(
+      expected.map((step) => step.at),
+    );
     let later = world;
-    for (
-      let month = 0;
-      month < 12 && ofType(later, PROSECUTION_SENTENCED_EVENT).length === 0;
-      month += 1
-    )
+    for (let month = 0; month < 7; month += 1)
       later = passOrdinaryDays(later, 30);
-    const [referral] = ofType(later, PROSECUTION_REFERRED_EVENT);
-    expect(referral!.occurredAt).toBe(findings[1]!.at);
-    expect(referral!.visibility).toBe("private");
-    expect(referral!.summary).toBe(
-      `The Washington State Public Disclosure Commission referred ${personName(later.people[run.personId]!)} to prosecutors for taking campaign money for personal use.`,
+    for (const referral of events(later, PROSECUTION_REFERRED_EVENT)) {
+      expect(referral.visibility).toBe("private");
+      const course = caseCourse(
+        later,
+        referral.stableKey,
+        "documentary",
+        Number(
+          referral.tags
+            .find((tag) => tag.startsWith("justice.standing-findings:"))!
+            .split(":")[1],
+        ),
+      );
+      const after = (type: string) =>
+        later.history.events.filter(
+          (event) =>
+            event.type === type &&
+            event.tags.includes(`justice.referral:${referral.id}`),
+        );
+      expect(after(PROSECUTION_CHARGED_EVENT)).toHaveLength(
+        course.charged ? 1 : 0,
+      );
+      expect(after(PROSECUTION_DECLINED_EVENT)).toHaveLength(
+        course.charged ? 0 : 1,
+      );
+      expect(after(PROSECUTION_ENDED_EVENT).map((e) => e.tags)).toEqual(
+        course.outcome
+          ? [expect.arrayContaining([`justice.outcome:${course.outcome}`])]
+          : [],
+      );
+      expect(after(PROSECUTION_SENTENCED_EVENT)).toHaveLength(
+        course.sentence ? 1 : 0,
+      );
+    }
+  }, 900_000);
+
+  it("takes a jailed candidate off the campaign trail but not the ballot", () => {
+    // A referral whose drawn course ends in jail, made directly.
+    let key = "";
+    for (let index = 0; index < 500 && !key; index += 1) {
+      const course = caseCourse(
+        run.after,
+        referralStableKey(`jail-test:${index}`),
+        "documentary",
+        1,
+      );
+      if (course.sentence?.kind === "jail") key = `jail-test:${index}`;
+    }
+    expect(key).not.toBe("");
+    const referred = referForProsecution(run.after, {
+      stableKey: key,
+      subjectPersonId: run.personId,
+      jurisdictionId: run.campaign.jurisdictionId,
+      offenseKey: "campaign-funds-personal-use",
+      referredBy: {
+        kind: "regulator",
+        label: "Washington State Public Disclosure Commission",
+        personId: null,
+      },
+      basisEventIds: [],
+      evidence: "documentary",
+      standingFindings: 1,
+    }).world;
+    const jailed = passOrdinaryDays(
+      referred,
+      UNRESEARCHED_PROSECUTION.chargeDecisionDays +
+        UNRESEARCHED_PROSECUTION.resolveAfterDays +
+        14,
     );
-    const [charged] = ofType(later, PROSECUTION_CHARGED_EVENT);
-    expect(charged!.visibility).toBe("public");
-    expect(charged!.occurredAt).toBe(
-      addDays(referral!.occurredAt, UNRESEARCHED_PROSECUTION.chargeAfterDays),
-    );
-    const [sentenced] = ofType(later, PROSECUTION_SENTENCED_EVENT);
-    expect(sentenced!.visibility).toBe("public");
-    // Two standing findings: twice the placeholder months.
-    const months = 2 * UNRESEARCHED_PROSECUTION.jailMonthsPerFinding;
-    expect(sentenced!.summary).toContain(
-      `sentenced to ${months} months in jail`,
-    );
-    // The charge and the sentence are public records the papers cover.
-    const covered = new Set(
-      pressRecordsOfKind(later, "story-lead").flatMap(
-        (lead) => lead.basisEventIds,
-      ),
-    );
-    expect(covered.has(charged!.id)).toBe(true);
-    expect(covered.has(sentenced!.id)).toBe(true);
-    expect(jailTermsOf(later, run.personId)).toEqual([
-      expect.objectContaining({ months, from: sentenced!.occurredAt }),
-    ]);
-  });
+    const term = jailTermOn(jailed, run.personId)!;
+    expect(term.kind).toBe("jail");
+    const view = projectCampaign(jailed, run.personId);
+    expect(view.phase).toBe("active");
+    expect(view.offers.length).toBeGreaterThan(0);
+    for (const offer of view.offers)
+      expect(offer.unavailable).toMatch(
+        /^You are in jail until .*you cannot campaign\.$/,
+      );
+    // Still on the ballot.
+    expect(view.opponentNames.length).toBeGreaterThan(0);
+  }, 900_000);
 });
 
 describe("a Washington candidate who lies to reporters about the money", () => {

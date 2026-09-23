@@ -1,0 +1,29 @@
+{
+  "candidateAnswers": [],
+  "filedAt": "2026-09-23T00:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "OWNER DIRECTION, 2026-09-22 8:20 p.m. ET, relayed: most people hold no view on most questions. Of about a hundred issues an average person really cares about maybe two to six, or five or six, and those overlap a lot ('it's the economy, stupid'). Some people hold serious views about a few things, some are misguided about reality on some things, and some have niche interests such as aviation regulation or taxing billionaires.",
+    "PLACEHOLDER IN CODE, marked in src/simulation/living-world/political-reflection.ts (CARED_ABOUT_ISSUE_COUNT, issuesTheyCareAbout): every adult 18 or over cares about between 2 and 6 of the catalog's issues, drawn with every issue equally likely. That uniform draw gives far less overlap than the owner describes, because nothing says which issues are common and which are niche.",
+    "What caring changes today: a view formed on a question under one of those issues is recorded with high salience, otherwise low. Caring never says which way a person leans."
+  ],
+  "priority": "P1",
+  "question": "Among American adults, how many public issues does a typical person really care about, which issues are commonly cared about and which are niche, and how does that differ by age, work, income, place and life events? And how common is it for people to hold a firm view that rests on a factual misunderstanding?",
+  "questionId": "which-issues-people-care-about",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "people and life lane",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests/where-a-persons-politics-comes-from.json and nobody-is-changed-by-what-happens.json (answered)",
+      "whatItDidNotSettle": "They settle what a view is formed from and when, not how many issues a person cares about, which ones, or how often a view rests on a misunderstanding."
+    },
+    {
+      "source": "The policy catalog on main: 13 domains, 127 issues, 66 propositions",
+      "whatItDidNotSettle": "It says what politics is about, not how attention to it is spread across people."
+    }
+  ],
+  "title": "Which issues people care about, and how many",
+  "usableAnswer": "A distribution for how many issues an adult cares about (with its spread), a relative weight for each of the 127 catalog issues or at least each of the 13 domains saying how commonly it is cared about, how that shifts with age, work, income, place and life events such as a job loss or a disaster, and a rough rate at which people hold a firm view on a matter of fact that is wrong. Survey data ('most important problem', issue salience) is enough; say where it comes from.",
+  "whyItMatters": "People can now form political views when they meet a proposal. How strongly a view is held depends on whether the question touches something they care about, and today that is a uniform draw from a guess. The owner wants most people to have few views, with heavy overlap on common concerns and a few niche ones."
+}

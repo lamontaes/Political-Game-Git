@@ -52,7 +52,7 @@ export function projectRecall(
   governmentKey: string,
   petitionerPersonId: EntityId,
 ): RecallView {
-  const rule = municipalRecallRule(governmentKey);
+  const rule = municipalRecallRule(governmentKey, world);
   const petitions = recallPetitions(world)
     .filter((petition) => petition.governmentKey === governmentKey)
     .map((petition) => petitionLine(world, petition));

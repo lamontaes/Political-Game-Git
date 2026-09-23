@@ -41,5 +41,8 @@
     "answeredBy": "ChatGPT",
     "answeredAt": "2026-09-22T23:15:00.000Z",
     "stillOpen": "No validated effect sizes, onset or decay for any driver, and no mapping from approval to re-election odds. No national starting value for any state or local office; those are UNKNOWN."
-  }
+  },
+  "notes": [
+    "OWNER DECISION carried in ChatGPT's 10:30 p.m. handoff of 2026-09-22 (docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/READ FIRST - Our Civic Duty research handoff - 2026-09-22 2230 ET.md): show an officeholder's approval percentage only when an in-world poll measured it; news and voters react when the information reaches them, and each person may respond differently."
+  ]
 }

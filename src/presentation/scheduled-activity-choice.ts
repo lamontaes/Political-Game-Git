@@ -3,11 +3,13 @@ import {
   ACTIVITY_LAPSED_EVENT,
   canPersonAccess,
   cancelScheduledActivity,
+  compareSimulationMoments,
   CHOSEN_TAG,
   recordWorldEvent,
   scheduledActivityState,
   type EntityId,
   type ScheduledActivityRecord,
+  type SimulationMoment,
   type World,
 } from "../simulation";
 
@@ -104,6 +106,61 @@ export function lapseVenueActivity(
     },
   });
   return releaseHold(recorded, personId, activityId);
+}
+
+/**
+ * Clears the optional holds time has already gone past.
+ *
+ * Ordinary time lapses a hold at the exact minute it is reached. A hold booked
+ * while the clock was already jumping ahead — an organizer's outreach written
+ * in the middle of a multi-day wait — is never reached that way, so it and its
+ * journey stayed "scheduled" for good. Mass play in Bisbee, Arizona found ten
+ * such journeys under Places, each refusing because its time had begun.
+ *
+ * A hold is missed once the time to leave for it has passed: the journey's
+ * start when it has one, its own start otherwise. It is lapsed the same way as
+ * one reached exactly, with no choice recorded. A leftover journey whose
+ * destination is no longer on the calendar is released too. Confirmed
+ * commitments are never touched; the player still resolves those.
+ */
+export function releaseMissedHolds(world: World, personId: EntityId): World {
+  if (world.control.kind !== "person" || world.control.personId !== personId)
+    return world;
+  const past = (moment: SimulationMoment) =>
+    compareSimulationMoments(moment, world.currentMoment) < 0;
+  let next = world;
+  for (const hold of world.history.scheduledActivities) {
+    if (
+      hold.kind !== "tentative" ||
+      !hold.participantPersonIds.includes(personId) ||
+      scheduledActivityState(next, hold.id).status !== "scheduled"
+    )
+      continue;
+    const journey = next.history.scheduledActivities.find(
+      (candidate) =>
+        candidate.kind === "travel" &&
+        candidate.sourceEntityIds.includes(hold.id) &&
+        scheduledActivityState(next, candidate.id).status === "scheduled",
+    );
+    const leave = scheduledActivityState(next, (journey ?? hold).id).start;
+    if (past(leave)) next = lapseVenueActivity(next, personId, hold.id);
+  }
+  for (const journey of next.history.scheduledActivities) {
+    if (
+      journey.kind !== "travel" ||
+      journey.responsiblePersonId !== personId ||
+      scheduledActivityState(next, journey.id).status !== "scheduled" ||
+      !past(scheduledActivityState(next, journey.id).start)
+    )
+      continue;
+    const destinationLive = next.history.scheduledActivities.some(
+      (candidate) =>
+        journey.sourceEntityIds.includes(candidate.id) &&
+        scheduledActivityState(next, candidate.id).status === "scheduled",
+    );
+    if (!destinationLive) next = cancelScheduledActivity(next, journey.id);
+  }
+  return next;
 }
 
 /** Explicitly releases an optional hold; no time passes and no work is faked. */

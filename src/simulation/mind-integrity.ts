@@ -7,6 +7,8 @@ import {
 import { legislationEntityExists } from "./legislation";
 import { legislativePoliticsEntityExists } from "./legislative-politics";
 import { lifeEntityExists } from "./life-integrity";
+import { eventById } from "./event-index";
+import { indexOverArrays } from "./history-index";
 import { resourceHousingEntityExists } from "./resource-integrity";
 import { factsForPerson } from "./people";
 import {
@@ -1393,11 +1395,32 @@ function entityExists(world: World, id: EntityId): boolean {
     resourceHousingEntityExists(world, id) ||
     legislationEntityExists(world, id) ||
     legislativePoliticsEntityExists(world, id) ||
-    world.history.events.some((record) => record.id === id) ||
-    world.history.goalStates.some((record) => record.goalId === id) ||
-    world.history.decisionTraces.some((record) => record.decisionId === id)
+    eventById(world, id) !== undefined ||
+    mindRecordIds(world).has(id)
   );
 }
+
+/**
+ * Goal and decision ids, rebuilt only when either family changes. Every trace this pass
+ * checks asks about its sources, and each question used to scan both
+ * families from the first record.
+ */
+function mindRecordIds(world: World): ReadonlySet<EntityId> {
+  const history = world.history;
+  return indexOverArrays(
+    MIND_IDS_ANCHOR,
+    [history.goalStates, history.decisionTraces],
+    () => {
+      const ids = new Set<EntityId>();
+      for (const record of history.goalStates) ids.add(record.goalId);
+      for (const record of history.decisionTraces) ids.add(record.decisionId);
+      return ids;
+    },
+  );
+}
+
+/** Anchors the index above; its identity is all that matters. */
+const MIND_IDS_ANCHOR = {};
 
 function canonicalSourceRefs(
   references: readonly MindSourceReference[],

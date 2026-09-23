@@ -502,7 +502,9 @@ export function validatePressRecords(
           earlier(id, seq, "occurrence evidence");
         }
         if (
-          (record.family === "M1" || record.family === "M7") &&
+          (record.family === "M1" ||
+            record.family === "M4" ||
+            record.family === "M7") &&
           record.resourceFlowIds.length === 0
         ) {
           throw new Error(

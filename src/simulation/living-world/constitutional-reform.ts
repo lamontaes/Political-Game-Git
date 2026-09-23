@@ -5,13 +5,29 @@ import {
   proposeConstitutionalMeasure,
   recordConstitutionalProposalVote,
   recordStatewideRatification,
+  sameRuleChanged,
   stateAmendmentProfile,
 } from "../constitutional-process";
+import type {
+  ConstitutionalMeasureRecord,
+  ConstitutionalRuleDelta,
+} from "../constitutional-types";
 import { addDays, makeIsoDate } from "../dates";
 import {
   describeRuleChangeValue,
+  municipalLawOfficeKey,
+  ruleValueInWorld,
   type TermLimitRule,
 } from "../enacted-rule-changes";
+import {
+  municipalRecallNationalSpread,
+  resolveMunicipalRecallRule,
+} from "../municipal-ballot-rules";
+import type { MunicipalRecallDoctrine } from "../municipal-election-rules";
+import {
+  constitutionalPolicyProvisions,
+  stateDecidedPropositions,
+} from "../policy-provisions";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { dispositionsFromCounts } from "../legislation-scenarios";
 import { SeededRng } from "../rng";
@@ -52,9 +68,23 @@ import {
  * When the answers come back, they replace `CONSTITUTIONAL_REFORM_PROFILE`
  * and `reformCause`; nothing else here should need to change.
  *
+ * BACKGROUND AMENDMENTS. The same review also proposes, at a rarer
+ * placeholder rate, an amendment on another subject a state constitution can
+ * change in the game today: a policy written in or taken out
+ * (`policy-provisions.ts`, Prohibition's kind), or how the state's towns may
+ * recall their officials (`municipal.recall.doctrine`). No cause for these is
+ * modeled yet, so the subject is drawn and the record says "No recorded
+ * cause" (`reformMeasureCause`). A policy already in force is proposed for
+ * repeal, one not in force for adoption; a recall doctrine is drawn from the
+ * range the read states span, never the one in force.
+ *
  * NOT MODELED, with the blanket rule applied meanwhile:
  * - Other subjects of amendment (legislature size, terms, qualifications).
- *   Only the governor's term limit is reviewed.
+ *   A drawn value for these would be invented; they wait on
+ *   `constitutional-amendment-causes-by-subject`.
+ * - Causes for background amendments, and which subjects come up how often,
+ *   pending `constitutional-policy-amendments`. Every eligible subject is
+ *   equally likely.
  * - Initiatives, conventions and commissions. Every proposal is a legislative
  *   referral.
  * - Members' own positions. A chamber's vote is a keyed draw, and members are
@@ -87,6 +117,11 @@ export const CONSTITUTIONAL_REFORM_PROFILE = {
   reviewMonthDay: "02-01",
   /** Chance, per mille, that a qualifying year produces a proposal. */
   proposalPermille: 30,
+  /**
+   * Chance, per mille, that a state's year also brings an amendment on some
+   * other subject, with no recorded cause.
+   */
+  backgroundProposalPermille: 15,
   /** A governor who has served this many terms is a cause to restore a limit. */
   longTenureTerms: 3,
   /** The limit a restoring proposal sets. */
@@ -99,6 +134,7 @@ export const CONSTITUTIONAL_REFORM_PROFILE = {
   ballotYesPermille: {
     extend: [300, 600],
     restore: [500, 800],
+    background: [350, 650],
   },
   /** The ballot is at least this many days after the last chamber vote. */
   ballotLeadDays: 90,
@@ -106,7 +142,7 @@ export const CONSTITUTIONAL_REFORM_PROFILE = {
 
 const PLACEHOLDER_NOTE = `${CONSTITUTIONAL_REFORM_PROFILE.id}: a placeholder pending research (governor-term-limit-amendment-causes), not any state's record.`;
 
-type ReformDirection = "extend" | "restore";
+type ReformDirection = "extend" | "restore" | "background";
 
 interface ReformCause {
   readonly direction: ReformDirection;
@@ -121,6 +157,26 @@ function reviewKey(stateUsps: string, year: number): string {
 
 function measureKey(stateUsps: string, year: number): string {
   return `${CONSTITUTIONAL_REFORM_VERSION}:${stateUsps}:${year}`;
+}
+
+const BACKGROUND_SUFFIX = ":background";
+
+function backgroundMeasureKey(stateUsps: string, year: number): string {
+  return `${measureKey(stateUsps, year)}${BACKGROUND_SUFFIX}`;
+}
+
+/**
+ * Why the world proposed this amendment, in plain words, for a measure this
+ * review proposed; null for anyone else's measure.
+ */
+export function reformMeasureCause(
+  measure: Pick<ConstitutionalMeasureRecord, "stableKey">,
+): string | null {
+  if (!measure.stableKey.startsWith(`${CONSTITUTIONAL_REFORM_VERSION}:`))
+    return null;
+  return measure.stableKey.endsWith(BACKGROUND_SUFFIX)
+    ? "No recorded cause"
+    : "The sitting governor's tenure";
 }
 
 /** Governorships a review covers: materialized, and a state's. */
@@ -273,21 +329,124 @@ export function reformCause(
 }
 
 /**
- * Whether any measure on the governor's term limit in this state, the
- * player's included, is still before the legislature or the voters.
+ * Whether any measure changing the same rule in this state, the player's
+ * included, is still before the legislature or the voters.
  */
-function hasOpenReform(world: World, stateUsps: string): boolean {
-  const officeKey = stateExecutiveOffice(stateUsps)?.officeKey;
+function hasOpenMeasureOn(
+  world: World,
+  stateUsps: string,
+  delta: ConstitutionalRuleDelta,
+): boolean {
   return (world.history.constitutionalMeasures ?? []).some(
     (measure) =>
       measure.jurisdictionKey === `US-${stateUsps}` &&
-      measure.ruleDelta.kind === "rule-field" &&
-      measure.ruleDelta.field === "executive.term.limit" &&
-      measure.ruleDelta.officeKey === officeKey &&
+      sameRuleChanged(measure.ruleDelta, delta) &&
       ["consideration", "ratification"].includes(
         constitutionalPosition(world, measure.id).phase,
       ),
   );
+}
+
+function hasOpenReform(world: World, stateUsps: string): boolean {
+  const officeKey = stateExecutiveOffice(stateUsps)?.officeKey;
+  if (!officeKey) return false;
+  return hasOpenMeasureOn(world, stateUsps, {
+    kind: "rule-field",
+    officeKey,
+    field: "executive.term.limit",
+    value: null,
+  });
+}
+
+/** What a proposed amendment says and changes. */
+interface AmendmentSpec {
+  readonly key: string;
+  readonly shortTitle: string;
+  readonly text: string;
+  readonly ruleDelta: ConstitutionalRuleDelta;
+}
+
+/** The doctrine on town recall a state's law holds today, enacted or compiled. */
+function recallDoctrineInForce(
+  world: World,
+  stateUsps: string,
+): MunicipalRecallDoctrine {
+  const enacted = ruleValueInWorld(
+    world,
+    {
+      jurisdiction: stateUsps,
+      officeKey: municipalLawOfficeKey(stateUsps),
+      field: "municipal.recall.doctrine",
+      onDate: world.currentDate,
+    },
+    null,
+  );
+  return resolveMunicipalRecallRule(
+    stateUsps,
+    enacted.source === "enacted"
+      ? (enacted.value as MunicipalRecallDoctrine)
+      : null,
+  ).doctrine;
+}
+
+/**
+ * A subject for an amendment with no recorded cause, drawn evenly among the
+ * subjects a state constitution can change in the game. Placeholder.
+ */
+function backgroundAmendment(
+  world: World,
+  stateUsps: string,
+  year: number,
+  rng: SeededRng,
+): AmendmentSpec {
+  const stateName =
+    world.jurisdictions[chiefExecutiveJurisdictionId(stateUsps)!]?.name ??
+    stateUsps;
+  const key = backgroundMeasureKey(stateUsps, year);
+  const propositions = stateDecidedPropositions(world);
+  const pick = rng.fork("subject").integer(0, propositions.length + 1);
+  const proposition = propositions[pick];
+  if (!proposition) {
+    const current = recallDoctrineInForce(world, stateUsps);
+    const choices = municipalRecallNationalSpread().doctrines.filter(
+      (entry) => entry.doctrine !== current,
+    );
+    let draw = rng.fork("doctrine").integer(
+      0,
+      choices.reduce((sum, entry) => sum + entry.weight, 0),
+    );
+    const doctrine =
+      choices.find((entry) => (draw -= entry.weight) < 0)?.doctrine ??
+      choices.at(-1)!.doctrine;
+    return {
+      key,
+      shortTitle: "Recall of town officials",
+      text: `How the towns of ${stateName} may recall an official: ${describeRuleChangeValue(doctrine)}.`,
+      ruleDelta: {
+        kind: "rule-field",
+        officeKey: municipalLawOfficeKey(stateUsps),
+        field: "municipal.recall.doctrine",
+        value: doctrine,
+      },
+    };
+  }
+  const inForce = constitutionalPolicyProvisions(world, stateUsps).find(
+    (provision) => provision.propositionId === proposition.id,
+  );
+  const stance = inForce?.stance === "adopt" ? "repeal" : "adopt";
+  return {
+    key,
+    shortTitle: proposition.name,
+    text:
+      stance === "adopt"
+        ? `"${proposition.name}" becomes part of the Constitution of ${stateName}.`
+        : `The provision "${proposition.name}" is removed from the Constitution of ${stateName}.`,
+    ruleDelta: {
+      kind: "policy-provision",
+      propositionId: proposition.id,
+      stance,
+    },
+  };
 }
 
 function drawPermille(
@@ -335,30 +494,104 @@ export function constitutionalReformReviewHandler(
   if (!found) return done(world, "No state matches this review.");
   const { stateUsps, year } = found;
   const next = scheduleNextReview(world, stateUsps, world.currentDate);
+  // A route this World cannot use today (California's sourced process before
+  // its observation date) is not attempted: a refusal inside a handler would
+  // stop the clock.
+  const routeOpen = () =>
+    constitutionalProposalRuleForWorld(next, {
+      jurisdictionId: chiefExecutiveJurisdictionId(stateUsps)!,
+      processKind: "state-amendment",
+    });
+  const termLimit = reviewTermLimit(next, stateUsps, year, routeOpen);
+  if (typeof termLimit !== "string") return termLimit;
+  const background = reviewBackground(next, stateUsps, year, routeOpen);
+  return typeof background === "string"
+    ? done(next, `${termLimit} ${background}`)
+    : background;
+}
+
+type RouteCheck = () =>
+  | { readonly available: true }
+  | { readonly available: false; readonly reason: string };
+
+/** The governor's term limit: a proposal only with a cause on the record. */
+function reviewTermLimit(
+  world: World,
+  stateUsps: string,
+  year: number,
+  routeOpen: RouteCheck,
+): FutureTransitionHandlerResult | string {
   // The draw comes first: it is independent of the cause, so drawing before
   // looking changes no outcome and spares the lookups in most years.
   const key = measureKey(stateUsps, year);
-  const rng = new SeededRng(next.seed).fork(key);
+  const rng = new SeededRng(world.seed).fork(key);
   if (
     rng.fork("propose").integer(0, 1000) >=
     CONSTITUTIONAL_REFORM_PROFILE.proposalPermille
   )
-    return done(next, "No amendment was proposed this year.");
-  if (hasOpenReform(next, stateUsps))
-    return done(next, "An amendment on this is already pending.");
-  const cause = reformCause(next, stateUsps);
-  if (!cause) return done(next, "No cause for an amendment is on the record.");
-  // A route this World cannot use today (California's sourced process before
-  // its observation date) is not attempted: a refusal inside a handler would
-  // stop the clock.
-  const route = constitutionalProposalRuleForWorld(next, {
-    jurisdictionId: chiefExecutiveJurisdictionId(stateUsps)!,
-    processKind: "state-amendment",
-  });
-  if (!route.available) return done(next, route.reason);
+    return "No amendment was proposed this year.";
+  if (hasOpenReform(world, stateUsps))
+    return "An amendment on this is already pending.";
+  const cause = reformCause(world, stateUsps);
+  if (!cause) return "No cause for an amendment is on the record.";
+  const route = routeOpen();
+  if (!route.available) return route.reason;
+  const office = stateExecutiveOffice(stateUsps)!;
+  const stateName =
+    world.jurisdictions[chiefExecutiveJurisdictionId(stateUsps)!]?.name ??
+    stateUsps;
   return done(
-    proposeAndVote(next, stateUsps, year, cause, rng),
+    proposeAndVote(
+      world,
+      stateUsps,
+      year,
+      {
+        key,
+        shortTitle: "The governor's term limit",
+        text: `The Governor of ${stateName} may serve no more than ${describeRuleChangeValue(cause.value)}.`,
+        ruleDelta: {
+          kind: "rule-field",
+          officeKey: office.officeKey,
+          field: "executive.term.limit",
+          value: cause.value,
+          applicability:
+            cause.direction === "extend"
+              ? { appliesTo: "immediately", countsPriorService: true }
+              : {
+                  appliesTo: "terms-beginning-after",
+                  countsPriorService: false,
+                },
+        },
+      },
+      rng,
+    ),
     `An amendment on the governor's term limit was proposed because ${cause.reason}.`,
+  );
+}
+
+/** Another subject, at a rarer rate, with no recorded cause. Placeholder. */
+function reviewBackground(
+  world: World,
+  stateUsps: string,
+  year: number,
+  routeOpen: RouteCheck,
+): FutureTransitionHandlerResult | string {
+  const rng = new SeededRng(world.seed).fork(
+    backgroundMeasureKey(stateUsps, year),
+  );
+  if (
+    rng.fork("propose").integer(0, 1000) >=
+    CONSTITUTIONAL_REFORM_PROFILE.backgroundProposalPermille
+  )
+    return "Nothing else came up.";
+  const route = routeOpen();
+  if (!route.available) return route.reason;
+  const spec = backgroundAmendment(world, stateUsps, year, rng);
+  if (hasOpenMeasureOn(world, stateUsps, spec.ruleDelta))
+    return `An amendment on ${spec.shortTitle.toLowerCase()} is already pending.`;
+  return done(
+    proposeAndVote(world, stateUsps, year, spec, rng),
+    `An amendment on ${spec.shortTitle.toLowerCase()} was proposed, with no recorded cause.`,
   );
 }
 
@@ -366,38 +599,32 @@ function proposeAndVote(
   world: World,
   stateUsps: string,
   year: number,
-  cause: ReformCause,
+  spec: AmendmentSpec,
   rng: SeededRng,
 ): World {
   const profile = stateAmendmentProfile(`US-${stateUsps}`)!;
-  const office = stateExecutiveOffice(stateUsps)!;
   const stateId = chiefExecutiveJurisdictionId(stateUsps)!;
   const stateName = world.jurisdictions[stateId]?.name ?? stateUsps;
-  const key = measureKey(stateUsps, year);
+  const key = spec.key;
+  const background = key.endsWith(BACKGROUND_SUFFIX);
   let next = proposeConstitutionalMeasure(world, {
     stableKey: key,
     jurisdictionId: stateId,
     jurisdictionKey: `US-${stateUsps}`,
     processKind: "state-amendment",
-    designation: `Proposed Amendment (${year})`,
-    shortTitle: "The governor's term limit",
-    text: `The Governor of ${stateName} may serve no more than ${describeRuleChangeValue(cause.value)}.`,
+    // A second amendment in one state and year needs its own designation.
+    designation: background
+      ? `Proposed Amendment (${year}): ${spec.shortTitle}`
+      : `Proposed Amendment (${year})`,
+    shortTitle: spec.shortTitle,
+    text: spec.text,
     textVersion: "v1",
     sponsoringAuthority: `The ${stateName} Legislature`,
     sponsorPersonId: null,
     ratificationMode: "statewide-electors",
     deadlineAt: null,
     delayedOperativeAt: null,
-    ruleDelta: {
-      kind: "rule-field",
-      officeKey: office.officeKey,
-      field: "executive.term.limit",
-      value: cause.value,
-      applicability:
-        cause.direction === "extend"
-          ? { appliesTo: "immediately", countsPriorService: true }
-          : { appliesTo: "terms-beginning-after", countsPriorService: false },
-    },
+    ruleDelta: spec.ruleDelta,
     ordinaryMeasureId: null,
   });
   const measureId = next.history.constitutionalMeasures!.at(-1)!.id;
@@ -455,9 +682,12 @@ export function constitutionalReformBallotHandler(
   if (constitutionalPosition(world, measure.id).phase !== "ratification")
     return done(world, "The amendment is no longer before the voters.");
   const delta = measure.ruleDelta;
-  const direction: ReformDirection =
-    delta.kind === "rule-field" &&
-    delta.applicability?.appliesTo === "immediately"
+  const direction: ReformDirection = measure.stableKey.endsWith(
+    BACKGROUND_SUFFIX,
+  )
+    ? "background"
+    : delta.kind === "rule-field" &&
+        delta.applicability?.appliesTo === "immediately"
       ? "extend"
       : "restore";
   const yesPermille = drawPermille(
@@ -473,10 +703,7 @@ export function constitutionalReformBallotHandler(
     (other) =>
       other.id !== measure.id &&
       other.jurisdictionKey === measure.jurisdictionKey &&
-      other.ruleDelta.kind === "rule-field" &&
-      delta.kind === "rule-field" &&
-      other.ruleDelta.field === delta.field &&
-      other.ruleDelta.officeKey === delta.officeKey &&
+      sameRuleChanged(other.ruleDelta, delta) &&
       constitutionalActions(world, other.id).some(
         (action) =>
           action.detail.kind === "statewide-vote" &&

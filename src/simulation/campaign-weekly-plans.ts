@@ -1,3 +1,4 @@
+import { jailTermOn } from "./justice/jail-terms";
 import {
   activeCampaignForCandidate,
   campaignActionById,
@@ -979,6 +980,12 @@ export function commitCampaignWeek(
   if (electionContestStatus(world, campaign.contestId) !== "pending") {
     throw new Error("This contest has already been decided.");
   }
+  const jailed = jailTermOn(world, personId);
+  if (jailed) {
+    throw new Error(
+      `You are in jail until ${jailed.until} and cannot campaign.`,
+    );
+  }
   const context = weekContext(world, campaign);
   if (input.weekStart !== context.weekStart) {
     throw new Error(
@@ -1022,9 +1029,7 @@ export function commitCampaignWeek(
       throw new Error("That campaign geography is not available.");
     }
     if (!channel.geographyKinds.includes(place.kind)) {
-      throw new Error(
-        `${channel.label} cannot be bought for that geography in this game.`,
-      );
+      throw new Error(`${channel.label} cannot be bought for that place.`);
     }
     const amount = input.advertising.amount;
     if (

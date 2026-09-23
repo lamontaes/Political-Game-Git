@@ -26,5 +26,15 @@
   ],
   "title": "What an ordinary adult's weeks and years actually contain, and how often things recur",
   "usableAnswer": "Rough frequencies per year for the kinds of things that happen to an ordinary adult, split by who is involved (family, friends, coworkers, neighbors), and how those change with age, work and household. Say which kinds should rarely or never repeat and which recur naturally, like a weekly standing meeting.",
-  "whyItMatters": "Both characters in the long playthrough saw the same five or six moments for years: the dad's picnic, proofreading the invitation, the errand list, a Saturday invitation, sit and talk, the agenda. Fatima's history had 222 lines by year three, 142 of them things that passed without an answer. lamontae ranks relationships and long-life memory first, and a life that repeats the same week cannot carry either."
+  "whyItMatters": "Both characters in the long playthrough saw the same five or six moments for years: the dad's picnic, proofreading the invitation, the errand list, a Saturday invitation, sit and talk, the agenda. Fatima's history had 222 lines by year three, 142 of them things that passed without an answer. lamontae ranks relationships and long-life memory first, and a life that repeats the same week cannot carry either.",
+  "answer": {
+    "summary": "National official sources describe the settings of an adult year, not one person's event calendar. Anchors, each with its own population and year: 2025 labor-force participation 62.4 percent, employment 59.7 percent, unemployment 4.3 percent (BLS CPS, age 16 and up; unemployment is not a job-loss chance); 11.8 percent lived at a different residence in 2024, 8.9 percent within the state and 2.1 percent from another state (ACS; not a per-person move roll); 3,628,934 births in 2024, 10.7 per 1,000 (NCHS final); marriage tables only through 2023; 54.2 percent helped or exchanged favors with neighbors and 28.3 percent formally volunteered in the year to September 2023 (CPS civic supplement); on an average 2025 day 30.4 percent of people 15 and up socialized as a primary activity, averaging 1.92 hours, and 5.3 percent volunteered (ATUS). Rule: use these to choose plausible settings and check population-level background; build each person's event pacing from authored rules labeled as calibration. Owner decision carried in the handoff: routine work can be summarized without penalizing a player who chooses to simulate it.",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty - ordinary adult year national source intake - 2026-09-22.md",
+      "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/READ FIRST - Our Civic Duty research handoff - 2026-09-22 2230 ET.md"
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-23T02:11:30.000Z",
+    "stillOpen": "No source gives how often friends invite a person out, how often family asks for help, or the rate of errands, appointments, workplace conflict or job changes for an individual. Those stay UNKNOWN unless the game labels a number as its own calibration. The datasets have different years and populations and must not be merged as one person's year."
+  }
 }

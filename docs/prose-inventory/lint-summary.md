@@ -1,6 +1,6 @@
 # Prose diagnostics — current main baseline
 
-**0 hard errors. 272 review warnings.**
+**0 hard errors. 386 review warnings.**
 
 A hard error is objectively wrong: an ID collision, a slot the record's own
 grounding cannot bind, a withheld record with no reason. A review warning is a
@@ -13,19 +13,19 @@ defect than the one it was aimed at.
 
 | Family | Count |
 | --- | --- |
-| vague-referent | 189 |
-| and-it-scaffold | 39 |
+| vague-referent | 191 |
+| label-restated-in-description | 120 |
+| and-it-scaffold | 40 |
 | rather-than-scaffold | 24 |
 | third-person-player | 10 |
-| label-restated-in-description | 9 |
 | anonymous-actor | 1 |
 
 ## Repetition
 
-- 3257 templates, 3040 distinct texts.
-- 84 exact duplicate groups.
-- 95 normalized duplicate groups.
-- 36 near-duplicate clusters (Jaccard ≥ 0.72).
+- 3270 templates, 3051 distinct texts.
+- 193 exact duplicate groups.
+- 204 normalized duplicate groups.
+- 29 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each
 keeps its own ID, and two banks may legitimately both offer "Say nothing".
@@ -34,17 +34,16 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 
 | N-gram | Count | Banks |
 | --- | --- | --- |
-| `no time passes` | 111 | 1 |
+| `you told you` | 25 | 2 |
 | `in front of` | 24 | 7 |
 | `no instrument read` | 22 | 1 |
 | `the player asked` | 21 | 2 |
 | `there is a` | 20 | 4 |
+| `out of the` | 19 | 5 |
 | `it is not` | 18 | 4 |
-| `out of the` | 18 | 5 |
 | `asked you to` | 17 | 6 |
-| `you want to` | 17 | 4 |
 | `the end of` | 16 | 5 |
-| `you tell you` | 16 | 1 |
+| `you want to` | 16 | 4 |
 | `at the end` | 15 | 4 |
 | `at the end of` | 15 | 4 |
 | `a long time` | 14 | 4 |
@@ -59,25 +58,26 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `proof of income` | 12 | 2 |
 | `the two of you` | 12 | 4 |
 | `two of you` | 12 | 4 |
+| `you did not` | 12 | 4 |
 
 ### Most repeated sentence openings
 
 | Opening | Count |
 | --- | --- |
-| `no time passes` | 111 |
+| `you told you` | 24 |
 | `no instrument read` | 21 |
 | `the player asked` | 21 |
-| `you tell you` | 16 |
 | `there is a` | 12 |
+| `say you will` | 10 |
 | `the bill is` | 10 |
 | `the player told` | 10 |
-| `say you will` | 9 |
+| `you asked to` | 10 |
+| `you said you` | 10 |
+| `ask for a` | 9 |
 | `that file is` | 9 |
 | `you put the` | 9 |
-| `you said you` | 9 |
-| `you took the` | 8 |
-| `ask about the` | 7 |
-| `ask for a` | 7 |
-| `stay out of` | 7 |
+| `stay out of` | 8 |
+| `you asked for` | 8 |
+| `you told the` | 8 |
 
 Every finding with its exact semantic ID is in `lint-findings.json`.

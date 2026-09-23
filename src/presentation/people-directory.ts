@@ -1,3 +1,4 @@
+import { recentStrain } from "./relationship-strain";
 import {
   activeOrganizationParticipationsAt,
   activeWorkRelationshipsAt,
@@ -62,6 +63,8 @@ export interface DirectoryPerson {
   readonly context: string | null;
   /** The date of the last recorded thing between you, when there is one. */
   readonly lastAt: string | null;
+  /** When the last thing between you strained it, said plainly. */
+  readonly strain: string | null;
 }
 
 export interface PeopleDirectory {
@@ -195,6 +198,7 @@ export function projectPeopleDirectory(
       categories: [...set].sort(),
       context: contexts.get(personId) ?? null,
       lastAt: summary.lastInteractionAt,
+      strain: recentStrain(world, playerId, personId),
     });
   }
   people.sort((left, right) => left.name.localeCompare(right.name));

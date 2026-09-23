@@ -28,6 +28,18 @@ or null for no limit. A change may carry `applicability`
 (`appliesTo: terms-beginning-after | immediately`, `countsPriorService`); null
 in either part means the law is silent and the consumer decides.
 
+`municipal.recall.doctrine` (added 2026-09-23) is a choice field: one of the
+`MunicipalRecallDoctrine` values, recorded under the office key
+`us-xx-municipal-law` (`municipalLawOfficeKey`). A statute or a state
+amendment can change whether and how a state's towns recall their
+officials. `recall.ts` reads it when a petition starts
+(`municipalRecallRule(governmentKey, world)`), and the resolver
+(`resolveMunicipalRecallRule(state, enactedDoctrine)`) marks the doctrine
+`enacted-in-game`. Where the new doctrine is the one the state's pack reads,
+the pack's window, threshold and grounds stand; otherwise the new law
+borrows nothing and its window is drawn from the national range. A petition
+already circulating runs its course under the rule it started under.
+
 ## Reader
 
 `enactedRuleChangeAt(world, { stateUsps, officeKey, field, onDate })` returns
@@ -127,3 +139,31 @@ Chamber votes are drawn and recorded by seat, since members' own positions
 are not modeled; the statewide result is in shares of 10,000, since turnout
 is not modeled; only the governor's term limit is reviewed; D.C. and Puerto
 Rico are not.
+
+## Other subjects, and policy (added 2026-09-23)
+
+The owner asked that any state-specific rule be changeable or repealable by a
+law or an amendment wherever that is realistic, and that amendments carry
+policy (Prohibition and its repeal were his examples).
+
+- **Town recall** is now an amendable field (above).
+- **Policy provisions.** A state amendment may carry a `policy-provision`
+  delta: one proposition from the World's policy catalog, adopted or
+  repealed (`src/simulation/policy-provisions.ts`). Only questions whose
+  issue the catalog says a state decides qualify (64 of the shipped
+  propositions); an issue with no recorded level is refused, since an
+  unknown fact is not permission. `constitutionalPolicyProvisions` reads what
+  a state's constitution holds on a date. **Not modeled:** what a provision
+  does. It is recorded and read and changes nothing else. Also not modeled:
+  federal and charter policy amendments.
+- **Background amendments.** The yearly review also proposes, at a
+  placeholder rate of 15 per mille per state-year, an amendment on one of
+  those subjects, drawn evenly, and labels it "No recorded cause"
+  (`reformMeasureCause`, shown in the world record). A policy in force is
+  proposed for repeal, one not in force for adoption; a recall doctrine is
+  drawn from the national spread, never the one in force.
+- **Held back:** legislature size, term length and qualifications at the
+  background rate. A drawn value for them would be invented; they wait on
+  `constitutional-amendment-causes-by-subject`.
+
+All of it is filed as `constitutional-policy-amendments`.

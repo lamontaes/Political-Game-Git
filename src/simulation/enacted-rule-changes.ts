@@ -35,6 +35,7 @@ import { createStableId } from "./ids";
 import { requireMeasure } from "./legislation";
 import { lawLevelRank, type LawLevel } from "./law-hierarchy";
 import { rulePackById } from "./legislature-rule-packs";
+import type { MunicipalRecallDoctrine } from "./municipal-election-rules";
 import type { EntityId, IsoDate, World } from "./types";
 
 /**
@@ -80,7 +81,29 @@ export const AMENDABLE_RULE_FIELDS = {
    * Read by the executive-term consumer, which owns what the limit means.
    */
   "executive.term.limit": { kind: "term-limit", family: "executive" },
+  /**
+   * Whether and how a state lets its towns' voters recall an official, as a
+   * `MunicipalRecallDoctrine`. The office key is the state's municipal law,
+   * `us-xx-municipal-law`. Read by `recall.ts` through the municipal rule
+   * resolver, which draws a petition window where the new law is silent.
+   */
+  "municipal.recall.doctrine": {
+    kind: "choice",
+    options: [
+      "two-question-standalone",
+      "simultaneous-incumbent-replacement",
+      "yes-no-retention",
+      "judicial-cause-removal-trial",
+      "prohibited",
+    ] satisfies readonly MunicipalRecallDoctrine[],
+    family: "municipal",
+  },
 } as const;
+
+/** The office key a state's law on its towns is recorded under. */
+export function municipalLawOfficeKey(stateUsps: string): string {
+  return `us-${stateUsps.toLowerCase()}-municipal-law`;
+}
 
 /** A term limit as a law states it; null in any part means the law is silent on it. */
 export interface TermLimitRule {
@@ -89,8 +112,11 @@ export interface TermLimitRule {
   readonly lookbackYears: number | null;
 }
 
-/** A whole number for most rules; a term limit or null ("no limit") for one. */
-export type RuleChangeValue = number | TermLimitRule | null;
+/**
+ * A whole number for most rules; a term limit or null ("no limit") for one;
+ * one of a fixed set of named choices for a choice rule.
+ */
+export type RuleChangeValue = number | TermLimitRule | string | null;
 
 /**
  * Whom a change reaches, as the law says. Null in either part means the law
@@ -140,12 +166,25 @@ const AMENDABLE_RULE_FIELD_LABELS: Readonly<
     "the years of district residence required to serve",
   "executive.term.years": "the length of the chief executive's term in years",
   "executive.term.limit": "the chief executive's term limit",
+  "municipal.recall.doctrine": "how towns' voters may recall an official",
+};
+
+const CHOICE_WORDS: Readonly<Record<string, string>> = {
+  "two-question-standalone":
+    "a recall vote with the replacement chosen on the same ballot",
+  "simultaneous-incumbent-replacement":
+    "a recall race in which the official runs against challengers",
+  "yes-no-retention": "a keep-or-remove recall vote",
+  "judicial-cause-removal-trial":
+    "removal by a court for cause, with no recall vote",
+  prohibited: "no recall of town officials",
 };
 
 /** Plain words for a changed value, for a player-facing sentence. */
 export function describeRuleChangeValue(value: RuleChangeValue): string {
   if (value === null) return "no limit";
   if (typeof value === "number") return String(value);
+  if (typeof value === "string") return CHOICE_WORDS[value] ?? value;
   const parts = [
     value.maxConsecutiveTerms === null
       ? null
@@ -197,8 +236,9 @@ export interface RuleChangeProvisionRecord {
 
 /** An operative-dated change, derived from what was enacted. */
 export interface EnactedRuleChange {
+  /** The state's postal code, or `US` for a federal amendment. */
   readonly stateUsps: string;
-  /** `US-` plus the postal code, as jurisdictions are keyed elsewhere. */
+  /** `US-` plus the postal code, as jurisdictions are keyed elsewhere; `US` for a federal amendment. */
   readonly jurisdictionKey: string;
   readonly officeKey: string;
   readonly field: AmendableRuleField;
@@ -257,6 +297,13 @@ export function assertAmendableRuleValue(
       throw new Error(
         `${field} must be a whole number from ${spec.min} to ${spec.max}.`,
       );
+    }
+  } else if (spec.kind === "choice") {
+    if (
+      typeof value !== "string" ||
+      !(spec.options as readonly string[]).includes(value)
+    ) {
+      throw new Error(`${field} must be one of: ${spec.options.join(", ")}.`);
     }
   } else if (value !== null) {
     const keys =
@@ -476,13 +523,16 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
   for (const measure of world.history.constitutionalMeasures ?? []) {
     const delta = measure.ruleDelta;
     if (delta.kind !== "rule-field") continue;
-    const stateUsps = constitutionalStateUsps(measure.jurisdictionKey);
+    const federal = measure.jurisdictionKey === FEDERAL_JURISDICTION_KEY;
+    const stateUsps = federal
+      ? FEDERAL_JURISDICTION_KEY
+      : constitutionalStateUsps(measure.jurisdictionKey);
     if (!stateUsps) continue;
     const position = constitutionalPosition(world, measure.id);
     if (!position.operativeAt) continue;
     changes.push({
       stateUsps,
-      jurisdictionKey: `US-${stateUsps}`,
+      jurisdictionKey: federal ? FEDERAL_JURISDICTION_KEY : `US-${stateUsps}`,
       officeKey: delta.officeKey,
       field: delta.field,
       value: structuredClone(delta.value),
@@ -490,7 +540,7 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       operativeAt: position.operativeAt,
       operativeBasis: "enacted-date",
       instrument: "constitutional-amendment",
-      level: "state-constitution",
+      level: federal ? "federal-constitution" : "state-constitution",
       measureId: measure.id,
       designation: measure.designation,
       sequence: measure.sequence,
@@ -501,6 +551,15 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       a.operativeAt.localeCompare(b.operativeAt) || a.sequence - b.sequence,
   );
 }
+
+/**
+ * The key federal constitutional changes carry in place of a state's postal
+ * code, so one reader serves both: `ruleValueInWorld(world, { jurisdiction:
+ * "US", ... })`.
+ */
+export const FEDERAL_JURISDICTION_KEY = "US";
+/** National offices an Article V amendment can reach in the game. */
+export const FEDERAL_AMENDABLE_OFFICES: readonly string[] = ["us-president"];
 
 /** The state a constitutional process amends, when it amends a state's rules. */
 export function constitutionalStateUsps(
@@ -670,10 +729,39 @@ export function assertConstitutionalRuleFieldDelta(
     readonly applicability?: RuleChangeApplicability;
   },
 ): void {
+  if (jurisdictionKey === FEDERAL_JURISDICTION_KEY) {
+    // An Article V amendment reaches the national offices only. NOT MODELED:
+    // any other federal rule (House size, Senate terms, qualifications).
+    if (
+      delta.field !== "executive.term.limit" ||
+      !FEDERAL_AMENDABLE_OFFICES.includes(delta.officeKey)
+    )
+      throw new Error(
+        "A federal amendment can change the President's term limit; no other federal rule is modeled yet.",
+      );
+    // The Twenty-Second Amendment counts terms over a lifetime, and that is
+    // the only count the presidency's reader keeps.
+    const limit = delta.value as TermLimitRule | null;
+    if (
+      limit !== null &&
+      typeof limit === "object" &&
+      (limit.maxConsecutiveTerms !== null || limit.lookbackYears !== null)
+    )
+      throw new Error(
+        "A presidential term limit is counted over a lifetime; consecutive and look-back limits are not modeled.",
+      );
+    assertAmendableRuleValue(
+      delta.field,
+      delta.value,
+      delta.officeKey,
+      delta.applicability,
+    );
+    return;
+  }
   const stateUsps = constitutionalStateUsps(jurisdictionKey);
   if (!stateUsps)
     throw new Error(
-      "Only a state constitution's amendment can change these rules yet; federal and charter changes are not modeled.",
+      "Only a state or federal constitutional amendment can change these rules yet; charter changes are not modeled.",
     );
   assertAmendableRuleValue(
     delta.field,

@@ -2,8 +2,8 @@ import { applyCharacterHistoryPlan } from "../character-history";
 import { addDays, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { createStableId } from "../ids";
-import { createWorkRelationship } from "../life";
-import { activeWorkRelationshipsAt } from "../life-queries";
+import { createWorkRelationship, recordWorkStatus } from "../life";
+import { activeWorkRelationshipsAt, workStatusAt } from "../life-queries";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng, pickDistinct } from "../rng";
@@ -23,6 +23,11 @@ import type {
   WorkItemStateRecord,
 } from "../types";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
+import { isCongressMeasure } from "./congress-chambers";
+import {
+  CONGRESS_LAWMAKING_HANDLERS,
+  presidentDesk,
+} from "./congress-lawmaking";
 import {
   currentStateExecutiveHolders,
   type StateExecutiveHolderRecord,
@@ -77,6 +82,11 @@ import {
  */
 
 export const STATE_GOVERNING_VERSION = "state-governing/v1";
+
+/** A sentence used as the opening clause of a longer one: no stop mid-sentence. */
+function clause(sentence: string): string {
+  return sentence.replace(/\.$/, "");
+}
 
 export const GOVERNING_MATTER_OPENED = "governing.matter-opened" as const;
 export const GOVERNING_MATTER_DECIDED = "governing.matter-decided" as const;
@@ -192,18 +202,37 @@ export const CHIEF_OF_STAFF_CLASSIFICATION =
 /** The office's current chief of staff, if one has been hired. */
 export function chiefOfStaffFor(
   world: World,
-  office: GoverningOffice,
+  office: Pick<GoverningOffice, "organizationId">,
 ): EntityId | null {
-  for (const personId of world.personOrder) {
-    const active = activeWorkRelationshipsAt(world, personId).some(
-      ({ relationship, role }) =>
-        relationship.organizationId === office.organizationId &&
-        relationship.kind === "employment:executive-staff" &&
-        role.occupationClassification === CHIEF_OF_STAFF_CLASSIFICATION,
-    );
-    if (active) return personId;
-  }
-  return null;
+  return chiefOfStaffWork(world, office.organizationId)[0]?.personId ?? null;
+}
+
+/** Every active chief-of-staff job in the office, in person order. */
+function chiefOfStaffWork(
+  world: World,
+  organizationId: EntityId,
+): readonly { readonly personId: EntityId; readonly workId: EntityId }[] {
+  return world.personOrder.flatMap((personId) =>
+    activeWorkRelationshipsAt(world, personId)
+      .filter(
+        ({ relationship, role }) =>
+          relationship.organizationId === organizationId &&
+          relationship.kind === "employment:executive-staff" &&
+          role.occupationClassification === CHIEF_OF_STAFF_CLASSIFICATION,
+      )
+      .map(({ relationship }) => ({ personId, workId: relationship.id })),
+  );
+}
+
+/** Whether this person is already a chief of staff in this office. */
+function isSittingChief(
+  world: World,
+  organizationId: EntityId,
+  personId: EntityId,
+): boolean {
+  return chiefOfStaffWork(world, organizationId).some(
+    (work) => work.personId === personId,
+  );
 }
 
 /** Qualitative, seeded from the person: never a number shown to the player. */
@@ -320,13 +349,17 @@ function optionsFor(
           const person = world.people[personId];
           if (!person) return [];
           const assessment = staffAssessment(world, personId);
+          const sitting = event.involvedEntityIds.some((organizationId) =>
+            isSittingChief(world, organizationId, personId),
+          );
           return [
             {
               key: `hire:${personId}`,
-              label: `Hire ${personName(person)}`,
-              effect:
-                "Becomes chief of staff, recommends choices and can take matters you hand over.",
-              tradeoff: `${assessment.background}; ${assessment.strength}, but ${assessment.caution}.`,
+              label: `${sitting ? "Keep" : "Hire"} ${personName(person)}`,
+              effect: sitting
+                ? "Stays on as chief of staff from the last administration, recommends choices and can take matters you hand over."
+                : "Becomes chief of staff, recommends choices and can take matters you hand over.",
+              tradeoff: `${clause(assessment.background)}; ${assessment.strength}, but ${assessment.caution}.`,
               personId,
               assessment,
             },
@@ -640,7 +673,7 @@ export function staffRecommendation(
       return {
         optionKey: pick.key,
         byPersonId: chief,
-        reason: `${assessment.background}, and thinks ${pick.label.toLowerCase()} is where the office can show results.`,
+        reason: `${clause(assessment.background)}, and thinks ${pick.label.toLowerCase()} is where the office can show results.`,
       };
     }
     case "budget": {
@@ -668,11 +701,14 @@ export function staffRecommendation(
             byPersonId: chief,
             reason: "It moves the office's own priority.",
           }
-        : rng.integer(0, 3) > 0
+        : // PLACEHOLDER: three signatures in four. How often a governor signs
+          // what reaches the desk is filed as
+          // `why-a-governor-signs-or-vetoes`; no rate is approved.
+          rng.integer(0, 3) > 0
           ? {
               optionKey: "bill:sign",
               byPersonId: chief,
-              reason: `${assessment.background}, and sees no reason to pick this fight.`,
+              reason: `${clause(assessment.background)}, and sees no reason to pick this fight.`,
             }
           : {
               optionKey: "bill:return",
@@ -753,9 +789,9 @@ function pad(value: number): string {
   return value.toString().padStart(2, "0");
 }
 
-function createCandidates(
+export function createCandidates(
   world: World,
-  office: GoverningOffice,
+  office: Pick<GoverningOffice, "holderPersonId" | "jurisdictionId">,
   matterKey: string,
   count: number,
 ): { world: World; personIds: EntityId[] } {
@@ -937,10 +973,15 @@ export function openTransitionMatters(world: World, officeKey: string): World {
   // what makes an unfilled one findable by somebody looking for the work.
   const staffed = establishOfficeStaffPositions(world, office);
   const candidates = createCandidates(staffed.world, office, key, 3);
+  // A chief of staff who served the last holder is still employed; the new
+  // holder keeps them or replaces them, and does not end up with two.
+  const sitting = chiefOfStaffFor(staffed.world, office);
   let next = openMatter(candidates.world, office, {
     family: "chief-of-staff",
     instance: "transition",
-    candidatePersonIds: candidates.personIds,
+    candidatePersonIds: sitting
+      ? [sitting, ...candidates.personIds]
+      : candidates.personIds,
   });
   const rng = new SeededRng(`${key}:agenda`);
   const pool = PROGRAM_FAMILIES.map((family) => family.familyKey);
@@ -1050,6 +1091,14 @@ function decisionSummary(
   switch (matter.family) {
     case "chief-of-staff": {
       const hired = option.personId ? world.people[option.personId] : null;
+      if (
+        hired &&
+        isSittingChief(world, office.organizationId, option.personId!)
+      )
+        return {
+          summary: `${who}, ${office.title}, kept ${personName(hired)} on as chief of staff.`,
+          visibility: "public",
+        };
       return {
         summary: `${who}, ${office.title}, named ${hired ? personName(hired) : "a new"} chief of staff.`,
         visibility: "public",
@@ -1129,8 +1178,25 @@ function applyConsequence(
   switch (matter.family) {
     case "chief-of-staff": {
       if (!option.personId || !world.people[option.personId]) return world;
+      if (isSittingChief(world, office.organizationId, option.personId))
+        return world;
+      // Whoever held the job before leaves it when somebody else is hired.
+      let replaced = world;
+      for (const departing of chiefOfStaffWork(world, office.organizationId)) {
+        const status = workStatusAt(replaced, departing.workId);
+        if (!status) continue;
+        replaced = recordWorkStatus(replaced, {
+          stableKey: `${matter.stableKey}:replaced:${departing.personId}`,
+          workRelationshipId: departing.workId,
+          effectiveAt: replaced.currentDate,
+          status: "ended",
+          reason: "Replaced as chief of staff by the new officeholder.",
+          supersedesStatusId: status.id,
+          provenance: { kind: "simulated-event", eventId: decisionEventId },
+        });
+      }
       const workStableKey = `${matter.stableKey}:hire`;
-      const employed = createWorkRelationship(world, {
+      const employed = createWorkRelationship(replaced, {
         stableKey: workStableKey,
         personId: option.personId,
         organizationId: office.organizationId,
@@ -1742,10 +1808,10 @@ function recordMissingLegislatureNote(
       `office:${office.officeKey}`,
       "governing:no-compiled-legislature",
     ],
-    // The legislature itself may well be compiled (Nevada's and Illinois's
-    // are, and a player can sit in them): what is missing is written bills
-    // for its other members to file. Saying "not compiled" was untrue there.
-    summary: `No bill reached ${office.title} this session: the game has no bills written for ${office.stateUsps}'s legislature yet, so none were filed. The office's other work is unaffected.`,
+    // What is missing is bills for the legislature's members to file; the
+    // tag says so for development. The player reads only what the office
+    // saw, never how the game is built.
+    summary: `No bill reached ${office.title} this session.`,
     context: emptyContext(),
   });
 }
@@ -1803,11 +1869,18 @@ export function governingSeasonHandler(
 }
 
 /**
- * A bill on the governor's desk. The player governor gets a bound matter; a
- * non-player governor acts on an authored disposition where the bill carries
- * one, and otherwise decides in the ordinary course through the same matter.
- * Without a materialized governorship, an authored disposition still stands
- * and nothing is invented.
+ * A bill on the governor's desk. Whoever holds the governorship, player or
+ * not, decides it through the same bound matter. Only where no governorship
+ * has been materialized does a bill's authored disposition still stand, so an
+ * older save keeps its scripted ending and nothing is invented for it.
+ *
+ * The authored dispositions were written for developer scenarios that set out
+ * to demonstrate a veto and an override, so almost all of them are vetoes. A
+ * sitting non-player governor used to replay them, which is how an observed
+ * Nebraska world saw 31 of 32 bills vetoed in 13 years and nothing become law.
+ * How often a real governor signs is not settled here: the ordinary decision
+ * this now reaches is a marked placeholder, filed as
+ * `why-a-governor-signs-or-vetoes`.
  */
 export const governorDesk: ExecutiveDeskHandler = (
   world,
@@ -1825,7 +1898,7 @@ export const governorDesk: ExecutiveDeskHandler = (
       event.tags.includes("matter-family:bill"),
   );
   if (alreadyOpen) return world;
-  if (office && (office.controlledByPlayer || !blueprint.governorAction))
+  if (office)
     return openMatter(world, office, {
       family: "bill",
       instance: `measure:${measure.id}`,
@@ -1848,8 +1921,14 @@ export const governorDesk: ExecutiveDeskHandler = (
  * enacted an appropriation puts that money in front of its executive the same
  * day, rather than waiting for the next season.
  */
+/** The governor's desk for a state bill, the President's for a federal one. */
+const executiveDesk: ExecutiveDeskHandler = (world, measure, blueprint) =>
+  isCongressMeasure(measure)
+    ? presidentDesk(world, measure)
+    : governorDesk(world, measure, blueprint);
+
 const institutionStepWithProgramMatters = (() => {
-  const step = createInstitutionStepHandler(governorDesk);
+  const step = createInstitutionStepHandler(executiveDesk);
   return (world: World, due: FutureDueItem): FutureTransitionHandlerResult => {
     const result = step(world, due);
     // Reading every office on every legislative step would cost the clock a
@@ -1872,6 +1951,7 @@ const institutionStepWithProgramMatters = (() => {
 
 export const STATE_GOVERNING_HANDLERS = [
   [LEGISLATIVE_INSTITUTION_STEP, institutionStepWithProgramMatters],
+  ...CONGRESS_LAWMAKING_HANDLERS,
   [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
   [GOVERNING_SEASON, governingSeasonHandler],
   [GOVERNING_TRANSITION, governingTransitionHandler],

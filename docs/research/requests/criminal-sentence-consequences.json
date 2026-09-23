@@ -1,0 +1,28 @@
+{
+  "filedAt": "2026-09-23T04:05:00.000Z",
+  "impact": "shapes-design",
+  "lane": "consequences for corruption and laws",
+  "notes": [
+    "The game now runs a placeholder criminal case: a regulator may refer a finding, prosecutors may charge, and the case ends dismissed, acquitted, in a plea or at trial, with probation or jail (src/simulation/justice/prosecution.ts, UNRESEARCHED_PROSECUTION). The owner (2026-09-23, 11:46 p.m. ET) asked that jail be one outcome among several and depend on the case, not a fixed rule.",
+    "Until this is answered, one blanket rule applies everywhere (UNRESEARCHED_JAIL_EFFECTS): a jail sentence removes the person from every office they hold, and a jailed candidate stays on the ballot but cannot campaign.",
+    "Companion to campaign-money-criminal-referral, which asks when the conduct is a crime and who prosecutes it. This asks what a sentence does to an officeholder or candidate once it is imposed."
+  ],
+  "priority": "P1",
+  "question": "For each of the 50 states, D.C., Puerto Rico and the federal government, and for state legislators, statewide executives, local officials and members of Congress: (1) does a criminal conviction or a jail or prison sentence remove an officeholder from office automatically, allow expulsion or removal, or leave them in office, and at what point (charge, conviction, sentence, exhausted appeals); (2) is the offense class relevant (felony versus misdemeanor, offenses involving public trust or election law); (3) can a person who is charged, convicted or serving a sentence file as a candidate, stay on a ballot already printed, and take office if elected; (4) for how long after a conviction is a person barred from holding office or running, if at all; (5) what sentencing ranges and typical outcomes (dismissal, acquittal, plea, trial conviction, probation, jail) look like for public officials convicted of misusing campaign or public money, with real cases where available: who, year, amount, charge, outcome, sentence served.",
+  "questionId": "criminal-sentence-consequences",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Consequences for corruption and laws thread",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests/campaign-money-criminal-referral.json (open)",
+      "whatItDidNotSettle": "Asks which conduct is a crime, who refers and prosecutes, and statutory penalties; does not ask what a sentence does to an office or a candidacy."
+    },
+    {
+      "source": "docs/research/chatgpt-answers/2026-09-22-nationwide-2340/Our-Civic-Duty--prior-campaign-fund-misuse-after-taking-office-52-jurisdictions--2026-09-22.md",
+      "whatItDidNotSettle": "Covers civil consequences of earlier campaign-fund misuse after taking office; no removal on conviction, ballot eligibility or disqualification periods."
+    }
+  ],
+  "title": "What a criminal sentence does to an officeholder or a candidate, state by state",
+  "usableAnswer": "One row per jurisdiction and office type: removal trigger and stage, offense classes that count, candidacy and ballot rules for the charged, convicted and jailed, disqualification period, and outcome distributions with real cases. UNKNOWN where no source settles it; no invented probabilities.",
+  "whyItMatters": "A jailed official currently loses every office and a jailed candidate stays on the ballot everywhere, by one blanket placeholder. Real rules differ by state and office, and they decide whether a conviction ends a career or not."
+}

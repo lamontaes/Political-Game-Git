@@ -225,13 +225,19 @@ export function PersonCard({
     isYou || dossier.personId === played || !world.people[dossier.personId]
       ? []
       : observedTraitLabels(world, dossier.personId);
+  /*
+   * Somebody who has died is not reached in any way, so the card offers
+   * nothing, not even disabled buttons with reasons under them (Ketchikan
+   * playtest on main 22b4f13e, 2026-09-23).
+   */
+  const reachable = !isYou && alive;
   const unavailableReasons = [
-    !isYou && onTalk && !contact.talk.available ? contact.talk.reason : null,
-    !isYou && !contact.travel.available && !presentNow
+    reachable && onTalk && !contact.talk.available ? contact.talk.reason : null,
+    reachable && !contact.travel.available && !presentNow
       ? contact.travel.reason
       : null,
-    !isYou && !presentNow ? contact.meet.reason : null,
-    !isYou ? contact.contact.reason : null,
+    reachable && !presentNow ? contact.meet.reason : null,
+    reachable ? contact.contact.reason : null,
   ].filter((reason): reason is string => reason !== null);
 
   return (
@@ -356,6 +362,14 @@ export function PersonCard({
             >
               {dossier.lastInteraction}
             </p>
+            {dossier.strain === null ? null : (
+              <p
+                className="pg-person-card-read"
+                data-testid={expanded ? "dossier-strain" : "quick-strain"}
+              >
+                {dossier.strain}
+              </p>
+            )}
             {dossier.standing === null ? null : (
               <p
                 className="pg-person-card-read"
@@ -491,7 +505,7 @@ export function PersonCard({
         className="pg-person-card-actions"
         data-testid="person-contact-actions"
       >
-        {!isYou && onTalk ? (
+        {reachable && onTalk ? (
           <button
             type="button"
             className="ui-action ui-action--primary"
@@ -503,7 +517,7 @@ export function PersonCard({
             Talk
           </button>
         ) : null}
-        {!isYou ? (
+        {reachable ? (
           <button
             type="button"
             className="ui-action"
@@ -515,7 +529,7 @@ export function PersonCard({
             Travel to
           </button>
         ) : null}
-        {!isYou ? (
+        {reachable ? (
           <button
             type="button"
             className="ui-action"
@@ -527,7 +541,7 @@ export function PersonCard({
             Meet
           </button>
         ) : null}
-        {!isYou ? (
+        {reachable ? (
           <button
             type="button"
             className="ui-action"
@@ -563,7 +577,7 @@ export function PersonCard({
       <p className="sr-only" id={`person-travel-reason-${dossier.personId}`}>
         {contact.travel.reason}
       </p>
-      {contact.travel.available && !isYou ? (
+      {contact.travel.available && reachable ? (
         <p className="pg-person-card-note" data-testid="person-contact-reason">
           {contact.travel.reason}
         </p>

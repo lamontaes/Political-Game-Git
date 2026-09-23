@@ -76,6 +76,7 @@ export const DEFAULT_POLICY = Object.freeze({
     "workspace-create": 4 * GiB,
     install: 1.5 * GiB,
     build: 1 * GiB,
+    test: 1 * GiB,
     "desktop-stage": 2 * GiB,
     "desktop-package": 8 * GiB,
     "e2e-capture": 2 * GiB,
@@ -717,6 +718,75 @@ export function createStorageGuard(options = {}) {
     return workspace;
   }
 
+  /** Release a retired owner's exact workspace only after every other
+   * retirement guard passes. This records a state transition; it removes no
+   * files. A separate byte-manifest plan is still required for deletion.
+   */
+  function releaseWorkspace({ owner, folder }) {
+    return locked(() => {
+      if (!owner || !folder)
+        throw new StorageRefusal(
+          "workspace-release-terms",
+          "Release requires an exact owner and path.",
+        );
+      const target = real(folder);
+      if (path.resolve(folder) !== target)
+        throw new StorageRefusal(
+          "workspace-alias",
+          `Use the registered real workspace path, not an alias: ${folder}.`,
+        );
+      const current = registry();
+      const entry = current.workspaces.find(
+        (candidate) =>
+          candidate.path === target &&
+          candidate.owner === owner &&
+          candidate.state === "active",
+      );
+      if (!entry)
+        throw new StorageRefusal(
+          "workspace-not-owned",
+          `No active workspace at ${target} is registered to ${owner}.`,
+        );
+      const overlapping = current.workspaces.find(
+        (candidate) =>
+          candidate !== entry &&
+          candidate.state === "active" &&
+          (isInside(candidate.path, target) ||
+            isInside(target, candidate.path)),
+      );
+      if (overlapping)
+        throw new StorageRefusal(
+          "workspace-overlap",
+          `${target} overlaps active workspace ${overlapping.path}.`,
+        );
+      const output = (current.outputRoots ?? []).find((root) =>
+        isInside(root.path, target),
+      );
+      if (output)
+        throw new StorageRefusal(
+          "workspace-has-output-root",
+          `${target} still owns registered output ${output.path}.`,
+        );
+      const blockers = retirementBlockers(target).filter(
+        (blocker) => blocker.code !== "active-workspace",
+      );
+      if (blockers.length)
+        throw new StorageRefusal(
+          "workspace-not-releasable",
+          `${target} cannot be released: ${blockers.map((b) => `${b.code}: ${b.detail}`).join("; ")}`,
+          { blockers },
+        );
+      const released = { ...entry, state: "released", releasedAt: now() };
+      saveRegistry({
+        ...current,
+        workspaces: current.workspaces.map((candidate) =>
+          candidate === entry ? released : candidate,
+        ),
+      });
+      return released;
+    });
+  }
+
   function protect(folder, reason) {
     locked(() => {
       const current = registry();
@@ -806,6 +876,15 @@ export function createStorageGuard(options = {}) {
       }
       for (const name of entries) {
         const sibling = path.join(root, name);
+        try {
+          if (lstatSync(sibling).isSymbolicLink()) {
+            if (isInside(real(sibling), folder))
+              dependents.push(`${sibling} → ${real(sibling)}`);
+            continue;
+          }
+        } catch {
+          continue;
+        }
         if ((real(sibling) + path.sep).startsWith(inside)) continue;
         for (const holder of [sibling, path.join(sibling, "desktop")]) {
           let links = [];
@@ -1132,12 +1211,17 @@ export function createStorageGuard(options = {}) {
   /** Why one run directory must stay, or null when it is eligible. */
   function keepReason(run, registration) {
     if (holdsPin(run.path)) return "pinned";
+    for (const entry of registry().workspaces)
+      if (entry.state === "active" && isInside(entry.path, run.path))
+        return `active-workspace: ${entry.owner}`;
     for (const entry of protectedList())
       if (isInside(entry.path, run.path) || isInside(run.path, entry.path))
         return `protected: ${entry.path}`;
     for (const entry of liveReservations()) {
       if ((entry.outputPaths ?? []).some((held) => isInside(held, run.path)))
         return `live: ${entry.operation} by ${entry.owner} is writing it`;
+      if (isInside(entry.target, run.path))
+        return `live: ${entry.operation} by ${entry.owner} targets this run`;
       if (isInside(run.path, entry.target) && run.mtimeMs >= entry.createdAt)
         return `live: written since ${entry.operation} by ${entry.owner} began`;
     }
@@ -1147,6 +1231,42 @@ export function createStorageGuard(options = {}) {
       run.mtimeMs < registration.registeredAt
     )
       return "historical: older than this root's registration, no disposition recorded";
+    return null;
+  }
+
+  /** A run may be ordinary output only while it holds no source or external
+   * dependency. Scan only at a deletion boundary, never merely to measure a
+   * root for admission. Symlinks inside the run are not traversed.
+   */
+  function sourceOrDependencyReason(folder, root) {
+    const current = registry();
+    const nestedRoot = (current.outputRoots ?? []).find(
+      (entry) => entry.path !== root && isInside(entry.path, folder),
+    );
+    if (nestedRoot) return `registered-output-root: ${nestedRoot.path}`;
+    const searchRoots = [
+      ...new Set([
+        path.dirname(root),
+        ...current.workspaces.map((entry) => entry.path),
+      ]),
+    ];
+    const linked = symlinkDependents(folder, searchRoots);
+    if (linked.length) return `symlink-target: ${linked.join(", ")}`;
+    const pending = [folder];
+    while (pending.length) {
+      const directory = pending.pop();
+      let entries;
+      try {
+        entries = readdirSync(directory, { withFileTypes: true });
+      } catch {
+        return `unreadable-output: ${directory}`;
+      }
+      for (const entry of entries) {
+        if (entry.name === ".git") return `holds-source: ${directory}`;
+        if (entry.isDirectory() && !entry.isSymbolicLink())
+          pending.push(path.join(directory, entry.name));
+      }
+    }
     return null;
   }
 
@@ -1222,10 +1342,17 @@ export function createStorageGuard(options = {}) {
         });
         continue;
       }
+      const structural = sourceOrDependencyReason(run.path, base);
+      if (structural !== null) {
+        kept.push({ ...run, pinned: false, reason: structural });
+        continue;
+      }
       if (apply) {
         // Recheck at the moment of removal: a pin, a protection or a live
         // producer may have appeared since the listing above.
-        const late = keepReason(run, registration);
+        const late =
+          keepReason(run, registration) ??
+          sourceOrDependencyReason(run.path, base);
         const still = real(run.path);
         if (late !== null || !isInside(still, base) || still === base) {
           kept.push({ ...run, pinned: late === "pinned", reason: late });
@@ -1243,6 +1370,107 @@ export function createStorageGuard(options = {}) {
       removed,
       overBudget: totalBytes > policy.outputBudgetBytes,
     };
+  }
+
+  /**
+   * Retire only the named immediate children of a registered output root.
+   * A recorded content manifest is the disposition for an older run; it does
+   * not make any other historical run disposable. Validate the whole plan
+   * before touching anything, then revalidate each run at removal time.
+   */
+  function retireOutputRuns(root, items, { apply = false } = {}) {
+    const lexical = path.resolve(root);
+    const base = real(lexical);
+    const registration =
+      (registry().outputRoots ?? []).find((entry) => entry.path === base) ??
+      null;
+    if (!registration || lstatSync(lexical).isSymbolicLink())
+      throw new StorageRefusal(
+        "unregistered-output-root",
+        `Refused: ${lexical} is not an exact registered disposable output root. Nothing was removed.`,
+      );
+    if (!Array.isArray(items) || items.length === 0)
+      throw new StorageRefusal(
+        "empty-output-plan",
+        "Refused: no output runs were named.",
+      );
+
+    const seen = new Set();
+    const inspect = (item, checkDuplicate = true) => {
+      const lexicalName = path.resolve(item.path);
+      // macOS exposes /var as /private/var. Resolve the parent only, so a
+      // symlinked child is still detectable rather than silently followed.
+      const named = path.join(
+        real(path.dirname(lexicalName)),
+        path.basename(lexicalName),
+      );
+      if (
+        path.dirname(named) !== base ||
+        (checkDuplicate && seen.has(named)) ||
+        !Array.isArray(item.expectedManifest)
+      )
+        throw new StorageRefusal(
+          "invalid-output-plan",
+          `Refused: ${named} is not one unique manifest-bound immediate run in ${base}.`,
+        );
+      const stats = lstatSync(named);
+      if (
+        !stats.isDirectory() ||
+        stats.isSymbolicLink() ||
+        real(named) !== named
+      )
+        throw new StorageRefusal(
+          "invalid-output-run",
+          `Refused: ${named} is not a real run directory.`,
+        );
+      const run = { path: named, mtimeMs: stats.mtimeMs };
+      // The exact manifest is a deliberate disposition of this one historical
+      // run. Pins, protections and live writers still take precedence.
+      const reason = keepReason(run, {
+        ...registration,
+        historical: "disposable",
+      });
+      if (reason !== null)
+        throw new StorageRefusal(
+          "held-output-run",
+          `Refused: ${named} is ${reason}.`,
+        );
+      const structural = sourceOrDependencyReason(named, base);
+      if (structural !== null)
+        throw new StorageRefusal(
+          "held-output-run",
+          `Refused: ${named} is ${structural}.`,
+        );
+      const actual = contentManifest(named);
+      if (
+        actual === null ||
+        JSON.stringify(actual) !== JSON.stringify(item.expectedManifest)
+      )
+        throw new StorageRefusal(
+          "changed-output-run",
+          `Refused: ${named} changed since its manifest was recorded.`,
+        );
+      const bytes = measure(named);
+      if (item.expectedBytes !== undefined && bytes !== item.expectedBytes)
+        throw new StorageRefusal(
+          "changed-output-run",
+          `Refused: ${named} changed size since its plan was recorded.`,
+        );
+      return { path: named, bytes };
+    };
+    const checked = items.map((item) => {
+      const result = inspect(item);
+      seen.add(result.path);
+      return result;
+    });
+    if (!apply) return checked.map((entry) => ({ ...entry, removed: false }));
+    return checked.map((entry, index) => {
+      // A fresh check also catches a pin or producer that appeared after the
+      // initial validation. Earlier removals never authorize later ones.
+      inspect(items[index], false);
+      rmSync(entry.path, { recursive: true, force: false });
+      return { ...entry, removed: true };
+    });
   }
 
   /** The gate an entry point calls: outputs bounded, then headroom reserved. */
@@ -1275,12 +1503,14 @@ export function createStorageGuard(options = {}) {
     liveReservations,
     ensureWorkspace,
     register,
+    releaseWorkspace,
     protect,
     registerOutputRoot,
     protectedList,
     retirementBlockers,
     retire,
     pruneOutputs,
+    retireOutputRuns,
     gate,
   };
 }
