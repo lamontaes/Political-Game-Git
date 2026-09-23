@@ -20,7 +20,11 @@
 
 import { createStableId } from "../ids";
 import { buildHouseholdLocationRecord } from "../life";
+import { activeCampaignForCandidate } from "../campaign-queries";
 import {
+  activeEducationEnrollmentsAt,
+  activeOrganizationParticipationsAt,
+  activeWorkRelationshipsAt,
   currentLifeCutoff,
   householdLocationAt,
   householdMembershipsAt,
@@ -34,6 +38,14 @@ import type {
   PersonFact,
   World,
 } from "../types";
+import {
+  recordDwellingOccupancyState,
+  recordHousingTenureState,
+} from "../resources";
+import {
+  dwellingOccupancyStateHistory,
+  housingTenureStateHistory,
+} from "../resource-queries";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import {
   MIGRATION_CONTRACT_VERSION,
@@ -51,6 +63,14 @@ export interface MoveRequest {
   readonly reason: MoveReasonKey;
   /** Set when a wave's pressure is what moved them. */
   readonly waveKey: string | null;
+  /**
+   * End the household's occupancy and tenure on the move instead of refusing
+   * it. Set only when the home is gone or unlivable (`disaster-displacement`);
+   * an ordinary move still treats housing as a tie (`who-may-move`).
+   */
+  readonly endsHousing?: boolean;
+  /** The record that caused the move, such as a disaster's damage to the home. */
+  readonly causeId?: EntityId;
 }
 
 /** A move checked against the world and ready to write. */
@@ -62,52 +82,143 @@ export interface PlannedMove {
   readonly toJurisdictionId: EntityId;
   readonly reason: MoveReasonKey;
   readonly waveKey: string | null;
+  /** Occupancies and tenures the move ends, each with an ended state. */
+  readonly endsOccupancyIds: readonly EntityId[];
+  readonly endsTenureIds: readonly EntityId[];
+  readonly causeId: EntityId | null;
 }
 
 export type MovePlan =
   | { readonly kind: "planned"; readonly move: PlannedMove }
   | { readonly kind: "refused"; readonly reason: string };
 
+/** The housing a person or their household holds today, which a move can end. */
+export interface HeldHousing {
+  readonly occupancyIds: readonly EntityId[];
+  readonly tenureIds: readonly EntityId[];
+}
+
 /**
- * People held to their place by a record the move writer cannot close.
+ * Reads what holds people to their place today. Built once per review and
+ * read per person, only for somebody whose departure draw succeeded.
  *
- * BLANKET RULE (`who-may-move`): a job, a school enrollment, a housing
- * tenure, an organization or party membership, a dwelling occupancy or a
- * campaign keeps a person where they are. Closing those on a move is somebody
- * else's writer and is not built, so a move that would strand one is refused
- * rather than half-done. Computed once per step, not once per candidate.
+ * Only records active today count: a job that ended, a school a person
+ * finished, a lease that closed or a campaign that is over holds nobody.
  */
-export function moveTies(world: World): ReadonlyMap<EntityId, string> {
-  const ties = new Map<EntityId, string>();
-  const tie = (personId: EntityId, reason: string) => {
-    if (!ties.has(personId)) ties.set(personId, reason);
+export interface MoveTieReader {
+  /**
+   * A job, a school enrollment, an organization or party membership or a
+   * running campaign. Ending those on a move is somebody else's writer and is
+   * not built, so such a move is refused rather than half-done.
+   */
+  readonly bindingTie: (personId: EntityId) => string | null;
+  /** A dwelling occupancy or a housing tenure, the person's or the household's. */
+  readonly housingTie: (personId: EntityId) => string | null;
+  readonly housingOf: (personId: EntityId) => HeldHousing;
+}
+
+export function moveTieReader(world: World): MoveTieReader {
+  const date = world.currentDate;
+  const latest = <T extends { readonly effectiveAt: IsoDate }>(
+    states: readonly T[],
+    idOf: (state: T) => EntityId,
+  ): ReadonlyMap<EntityId, T> => {
+    const map = new Map<EntityId, T>();
+    for (const state of states)
+      if (state.effectiveAt <= date) map.set(idOf(state), state);
+    return map;
   };
-  const h = world.history;
-  for (const record of h.workRelationships) tie(record.personId, "has a job");
-  for (const record of h.educationEnrollments)
-    tie(record.personId, "is enrolled in school");
-  for (const record of h.organizationParticipations)
-    tie(record.personId, "belongs to an organization or party");
-  for (const record of h.campaigns ?? [])
-    tie(record.candidatePersonId, "has run a campaign");
-  const householdTenure = new Set<EntityId>();
-  for (const record of h.housingTenures) {
-    if (record.holder.kind === "person")
-      tie(record.holder.personId, "holds a housing tenure");
-    else if (record.holder.kind === "household")
-      householdTenure.add(record.holder.householdId);
-  }
-  const occupiedHouseholds = new Set<EntityId>();
-  for (const record of h.dwellingOccupancies) {
-    if (record.occupant.kind === "person")
-      tie(record.occupant.personId, "occupies a recorded dwelling");
-    else occupiedHouseholds.add(record.occupant.householdId);
-  }
-  for (const membership of h.householdMemberships) {
-    if (householdTenure.has(membership.householdId))
-      tie(membership.personId, "their household holds a housing tenure");
-    if (occupiedHouseholds.has(membership.householdId))
-      tie(membership.personId, "their household occupies a recorded dwelling");
+  let index: {
+    readonly occupancies: ReadonlyMap<EntityId, EntityId[]>;
+    readonly tenures: ReadonlyMap<EntityId, EntityId[]>;
+  } | null = null;
+  const housingIndex = () => {
+    if (index) return index;
+    const h = world.history;
+    const add = (map: Map<EntityId, EntityId[]>, key: EntityId, id: EntityId) =>
+      map.set(key, [...(map.get(key) ?? []), id]);
+    const occupancyStates = latest(
+      h.dwellingOccupancyStates,
+      (state) => state.dwellingOccupancyId,
+    );
+    const occupancies = new Map<EntityId, EntityId[]>();
+    for (const record of h.dwellingOccupancies) {
+      if (record.startedAt > date) continue;
+      if (occupancyStates.get(record.id)?.status !== "active") continue;
+      add(
+        occupancies,
+        record.occupant.kind === "person"
+          ? record.occupant.personId
+          : record.occupant.householdId,
+        record.id,
+      );
+    }
+    const tenureStates = latest(
+      h.housingTenureStates,
+      (state) => state.housingTenureId,
+    );
+    const tenures = new Map<EntityId, EntityId[]>();
+    for (const record of h.housingTenures) {
+      if (record.startedAt > date) continue;
+      if (tenureStates.get(record.id)?.status !== "active") continue;
+      if (record.holder.kind === "person")
+        add(tenures, record.holder.personId, record.id);
+      else if (record.holder.kind === "household")
+        add(tenures, record.holder.householdId, record.id);
+    }
+    index = { occupancies, tenures };
+    return index;
+  };
+  const housingOf = (personId: EntityId): HeldHousing => {
+    const { occupancies, tenures } = housingIndex();
+    const holders = [
+      personId,
+      ...householdMembershipsAt(world, personId).map(
+        (active) => active.household.id,
+      ),
+    ];
+    return {
+      occupancyIds: holders.flatMap((id) => occupancies.get(id) ?? []),
+      tenureIds: holders.flatMap((id) => tenures.get(id) ?? []),
+    };
+  };
+  return {
+    bindingTie: (personId) => {
+      if (activeWorkRelationshipsAt(world, personId).length > 0)
+        return "has a job";
+      if (activeEducationEnrollmentsAt(world, personId).length > 0)
+        return "is enrolled in school";
+      if (activeOrganizationParticipationsAt(world, personId).length > 0)
+        return "belongs to an organization or party";
+      if (activeCampaignForCandidate(world, personId))
+        return "is running a campaign";
+      return null;
+    },
+    housingTie: (personId) => {
+      const held = housingOf(personId);
+      if (held.tenureIds.length > 0)
+        return "holds a housing tenure, alone or with their household";
+      if (held.occupancyIds.length > 0)
+        return "occupies a recorded dwelling, alone or with their household";
+      return null;
+    },
+    housingOf,
+  };
+}
+
+/**
+ * Everybody tied to their place today, with the reason. For tests and
+ * scenarios; the review reads one person at a time through `moveTieReader`.
+ */
+export function moveTies(
+  world: World,
+  personIds: readonly EntityId[] = world.personOrder,
+): ReadonlyMap<EntityId, string> {
+  const reader = moveTieReader(world);
+  const ties = new Map<EntityId, string>();
+  for (const id of personIds) {
+    const tie = reader.bindingTie(id) ?? reader.housingTie(id);
+    if (tie) ties.set(id, tie);
   }
   return ties;
 }
@@ -144,7 +255,7 @@ export function planMove(
   world: World,
   request: MoveRequest,
   context: {
-    readonly ties: ReadonlyMap<EntityId, string>;
+    readonly ties: MoveTieReader;
     readonly playerHousehold: ReadonlySet<EntityId>;
     readonly dead: ReadonlySet<EntityId>;
   },
@@ -181,7 +292,9 @@ export function planMove(
       return refused(
         "The player's household moves only when the player chooses to.",
       );
-    const tie = context.ties.get(id);
+    const tie =
+      context.ties.bindingTie(id) ??
+      (request.endsHousing ? null : context.ties.housingTie(id));
     if (tie)
       return refused(
         `${member.givenName} ${member.familyName} ${tie}, and closing that on a move is not built.`,
@@ -205,7 +318,21 @@ export function planMove(
       toJurisdictionId: request.toJurisdictionId,
       reason: request.reason,
       waveKey: request.waveKey,
+      causeId: request.causeId ?? null,
+      ...endedHousing(personIds, request.endsHousing ? context.ties : null),
     },
+  };
+}
+
+function endedHousing(
+  personIds: readonly EntityId[],
+  ties: MoveTieReader | null,
+): Pick<PlannedMove, "endsOccupancyIds" | "endsTenureIds"> {
+  if (!ties) return { endsOccupancyIds: [], endsTenureIds: [] };
+  const held = personIds.map((id) => ties.housingOf(id));
+  return {
+    endsOccupancyIds: [...new Set(held.flatMap((h) => h.occupancyIds))],
+    endsTenureIds: [...new Set(held.flatMap((h) => h.tenureIds))],
   };
 }
 
@@ -222,7 +349,7 @@ export function applyMoves(world: World, moves: readonly PlannedMove[]): World {
 /** One move, checked, written and integrity-asserted. For scenarios, tests and future player routes. */
 export function relocateHousehold(world: World, request: MoveRequest): World {
   const plan = planMove(world, request, {
-    ties: moveTies(world),
+    ties: moveTieReader(world),
     playerHousehold: playerHouseholdPeople(world),
     dead: deadPeople(world),
   });
@@ -241,6 +368,8 @@ export interface RecordedMove {
   readonly toJurisdictionId: EntityId;
   readonly reason: MoveReasonKey;
   readonly waveKey: string | null;
+  /** The record that caused the move, when one did. */
+  readonly causeId: EntityId | null;
 }
 
 export function recordedMoves(world: World): readonly RecordedMove[] {
@@ -262,6 +391,7 @@ function readMove(event: HistoricalEvent): RecordedMove {
     toJurisdictionId: event.context.location!.jurisdictionId!,
     reason: tag("reason:") as MoveReasonKey,
     waveKey: tag("wave:"),
+    causeId: tag("cause:") as EntityId | null,
   };
 }
 
@@ -292,6 +422,7 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
       `from:${move.fromJurisdictionId}`,
       `to:${move.toJurisdictionId}`,
       ...(move.waveKey ? [`wave:${move.waveKey}`] : []),
+      ...(move.causeId ? [`cause:${move.causeId}`] : []),
     ],
     summary:
       move.personIds.length === 1
@@ -313,6 +444,35 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
   const event = next.history.events.at(-1)!;
   if (event.stableKey !== eventStableKey)
     throw new Error("The move event was not the last event written.");
+
+  // Housing ends before the people move, so each writer's integrity check
+  // sees a world that is whole: the event written, nobody half-moved.
+  for (const occupancyId of move.endsOccupancyIds) {
+    const previous = dwellingOccupancyStateHistory(next, occupancyId).at(-1)!;
+    next = recordDwellingOccupancyState(next, {
+      stableKey: `${eventStableKey}:occupancy:${occupancyId}`,
+      dwellingOccupancyId: occupancyId,
+      effectiveAt: date,
+      status: "ended",
+      residenceRole: previous.residenceRole,
+      kind: previous.kind,
+      reason: move.reason,
+      provenance: { kind: "simulated-event", eventId: event.id },
+      supersedesStateId: previous.id,
+    });
+  }
+  for (const tenureId of move.endsTenureIds) {
+    const previous = housingTenureStateHistory(next, tenureId).at(-1)!;
+    next = recordHousingTenureState(next, {
+      stableKey: `${eventStableKey}:tenure:${tenureId}`,
+      housingTenureId: tenureId,
+      effectiveAt: date,
+      status: "ended",
+      context: move.reason,
+      provenance: { kind: "simulated-event", eventId: event.id },
+      supersedesStateId: previous.id,
+    });
+  }
 
   const people = { ...next.people };
   for (const personId of move.personIds) {

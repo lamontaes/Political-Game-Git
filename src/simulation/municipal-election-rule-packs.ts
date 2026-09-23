@@ -52,7 +52,7 @@
  * {@link MUNICIPAL_RULES_AUDIT_GATE} before consuming any of it.
  */
 
-import corpus from "../../data/municipal-elections/92O-national-state-baseline.json";
+import corpus from "../../data/municipal-elections/92O-national-state-baseline.json" with { type: "json" };
 import {
   MUNICIPAL_RULES_AUDIT_GATE,
   assertMunicipalElectionRulePack,

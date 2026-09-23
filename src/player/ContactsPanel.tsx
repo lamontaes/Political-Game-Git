@@ -3,6 +3,8 @@ import type { EntityId, IsoDate, World } from "../simulation";
 import {
   answerMeeting,
   askToMeet,
+  goMeetSomebodyNew,
+  meetingNewOptions,
   offerAnotherDay,
   projectContacts,
 } from "../presentation/people-contacts";
@@ -76,6 +78,11 @@ export function ContactsPanel({
     }
   }
 
+  const newOptions = useMemo(
+    () => (focused ? [] : meetingNewOptions(world, personId)),
+    [world, personId, focused],
+  );
+
   const shown = (contactEntry ? [contactEntry] : view.contacts).filter(
     (contact) => contact.name.toLowerCase().includes(query.toLowerCase()),
   );
@@ -139,6 +146,38 @@ export function ContactsPanel({
           ))}
         </ul>
       )}
+      {newOptions.length > 0 ? (
+        <div className="pg-contacts-new" data-testid="meet-new">
+          <h4>Meet somebody new</h4>
+          <ul className="pg-contacts-new-list">
+            {newOptions.map((option) => (
+              <li key={option.key}>
+                <button
+                  type="button"
+                  data-testid={`meet-new-${option.key}`}
+                  onClick={() => {
+                    try {
+                      const met = goMeetSomebodyNew(world, {
+                        personId,
+                        setting: option.setting,
+                        viaPersonId: option.viaPersonId,
+                      });
+                      setNote(met.said);
+                      if (met.world !== world) onWorldChange(met.world);
+                    } catch (error) {
+                      setNote(
+                        error instanceof Error ? error.message : String(error),
+                      );
+                    }
+                  }}
+                >
+                  {option.label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
       {note ? (
         <p
           role="status"
