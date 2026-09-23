@@ -1,4 +1,3 @@
-import { ensureOpeningPriorLocalRecords } from "../simulation/living-world/developments";
 import { ensureStateLegislatureOpening } from "../simulation/nationwide-world/state-legislature-opening";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
 import {
@@ -78,10 +77,6 @@ export function generateOpeningLife(
     datedTerms: session.setup.worldOpeningVersion !== undefined,
     includeVicePresident: session.setup.openingDataVersion === "playtest65-v1",
   });
-  const withPriorRecords =
-    session.setup.openingDataVersion === "playtest65-v1"
-      ? ensureOpeningPriorLocalRecords(staffed, game.playerPersonId)
-      : staffed;
   return {
     ...session,
     phase: "world",
@@ -109,7 +104,7 @@ export function generateOpeningLife(
                   ensureHomePartyChapters(
                     ensureHomeStateLegislature(
                       ensureLivingWorldOpening(
-                        withPriorRecords,
+                        staffed,
                         game.playerPersonId,
                         session.setup.livingWorldMemberNameVersion,
                       ),

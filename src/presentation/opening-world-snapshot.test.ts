@@ -1,7 +1,3 @@
-import {
-  ensureOpeningPriorLocalRecords,
-  projectPublicMatters,
-} from "../simulation/living-world/developments";
 import { describe, expect, it } from "vitest";
 import { serializeWorld, deserializeWorld } from "../simulation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -49,7 +45,7 @@ describe("PLAYTEST65 canonical opening", () => {
     },
   );
 
-  it("introduces distinct saved executives without travel, knowledge or time writes", () => {
+  it("introduces distinct saved executives without fixed archived local stories or time writes", () => {
     const { world, playerPersonId } = generateOpeningLife(
       prepareOpeningLife({
         ...DEFAULT_NEW_GAME_SETUP,
@@ -108,33 +104,7 @@ describe("PLAYTEST65 canonical opening", () => {
     const prior = world.history.events.filter((event) =>
       event.stableKey.startsWith("playtest65:prior-local"),
     );
-    expect(prior).toHaveLength(4);
-    expect(
-      prior.every(
-        (event) =>
-          event.occurredAt < world.currentDate &&
-          event.participants.length === 0 &&
-          !event.involvedEntityIds.includes(playerPersonId),
-      ),
-    ).toBe(true);
-    expect(
-      projectPublicMatters(world)
-        .filter((matter) =>
-          matter.matterId.startsWith("playtest65:prior-local"),
-        )
-        .every((matter) => matter.concluded && !matter.openForComment),
-    ).toBe(true);
-    expect(ensureOpeningPriorLocalRecords(world, playerPersonId)).toBe(world);
-    const archivedPublications = (world.history.publications ?? []).filter(
-      (publication) =>
-        prior.some((event) => event.id === publication.sourceEventId),
-    );
-    expect(archivedPublications).toHaveLength(4);
-    expect(
-      archivedPublications.every(
-        (publication) => publication.publishedAt < world.currentDate,
-      ),
-    ).toBe(true);
+    expect(prior).toHaveLength(0);
     expect(serializeWorld(world)).toBe(before);
     expect(
       projectOpeningWorldSnapshot(deserializeWorld(before), playerPersonId),
