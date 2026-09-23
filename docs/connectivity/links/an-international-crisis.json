@@ -7,7 +7,7 @@
     "owner": "How the world changes",
     "writes": "A crisis record, a pending decision for the acting office, response stages, war-powers clocks and a conflict-spillover envelope the economy reads.",
     "runsInPlay": false,
-    "runsDetail": "No caller outside tests. The decision handlers are registered (crisis/index.ts:61-63) and the screen is mounted (CrisisNoticesPanel.tsx at PlayerGame.tsx:4582), so everything after the start works and nothing starts it."
+    "runsDetail": "No caller outside tests. The decision handlers are registered (crisis/index.ts:61-63) and the screen is mounted (CrisisNoticesPanel.tsx at PlayerGame.tsx:4582); only the start is missing."
   },
   "readers": [
     {

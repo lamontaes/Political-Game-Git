@@ -1,19 +1,18 @@
 # Who writes what, and who reads it
 
-Every system in the game that writes something, what it writes, what reads it, and what should read it and does not. A missing link is a defect, and names the thread that owns each end.
+Every system in the game that writes something, what it writes, what reads it, and what should read it and does not. Each missing link is a defect, and each one names the thread that owns each end.
 
-13 producers, 27 missing links: 9 open, nobody has taken it, 4 being built in an open pull request, 6 handed to its owner, 7 waiting on research, 1 closed.
+14 producers, and 6 of them never run in an ordinary game. 31 missing links: 10 open with nobody on it; 6 being built in an open pull request; 5 handed to its owner; 7 waiting on research; 3 closed.
+
+Nothing here waits on the owner. An open link needs a thread to take it; the others are already with a thread or with research.
 
 ## Open defects, by the thread that owns the reading end
 
-### Consequences for corruption
-
-1. **A complaint about anyone who is not the player.** From a complaint opened against an officeholder (producer owned by Consequences for corruption). handed to its owner.
-2. **A player facing a finding choosing how to answer, or resigning.** From answering for your office, and resigning it (producer owned by Consequences for corruption). handed to its owner.
-
 ### Every town in America
 
-1. **A city election using its own counting rule.** From sourced local election and ballot rules (producer owned by Every town in America). open, nobody has taken it.
+1. **A city election using its own counting rule.** From sourced local election and ballot rules (producer owned by Every town in America). open with nobody on it.
+2. **Coworkers, classmates and fellow members who live in the town.** From taking a job, enrolling in a program, or joining a group (producer owned by People and life). open with nobody on it.
+3. **A congregation to join.** From taking a job, enrolling in a program, or joining a group (producer owned by People and life). open with nobody on it.
 
 ### How the world changes
 
@@ -24,12 +23,12 @@ Every system in the game that writes something, what it writes, what reads it, a
 ### Legislation
 
 1. **A legislator's views deciding their floor vote.** From a person forming a political view (producer owned by People and life). being built in an open pull request.
-2. **A law changing a rule of government, such as a term limit or a filing requirement.** From an enacted law (producer owned by Legislation). open, nobody has taken it.
-3. **A player drafting a bill with several subjects, or delegating routine steps.** From bills with several subjects, and delegated bill steps (producer owned by Legislation). open, nobody has taken it.
+2. **A law changing a rule of government, such as a term limit or a filing requirement.** From an enacted law (producer owned by Legislation). being built in an open pull request.
+3. **A player drafting a bill with several subjects, or delegating routine steps.** From bills with several subjects, and delegated bill steps (producer owned by Legislation). open with nobody on it.
 
 ### Local crime
 
-1. **Local crime of any kind.** From an act of political violence (producer owned by How the world changes). open, nobody has taken it.
+1. **Local crime of any kind.** From an act of political violence (producer owned by How the world changes). open with nobody on it.
 
 ### Migration and big social movements
 
@@ -38,7 +37,7 @@ Every system in the game that writes something, what it writes, what reads it, a
 
 ### Nationwide government
 
-1. **An income tax in the other 51 places.** From an enacted law (producer owned by Legislation). open, nobody has taken it.
+1. **An income tax everywhere but Alaska.** From an enacted law (producer owned by Legislation). open with nobody on it.
 
 ### People and life
 
@@ -48,18 +47,20 @@ Every system in the game that writes something, what it writes, what reads it, a
 4. **A party's stances coming from its members' views.** From a person forming a political view (producer owned by People and life). handed to its owner.
 5. **Everyone else learning what a bill is about: members who vote on it, and the public who read about it.** From an enacted law (producer owned by Legislation). handed to its owner.
 6. **The party's standing with the member: endorsements withdrawn, a primary challenge, leadership calling for resignation.** From an ethics finding (producer owned by Consequences for corruption). waiting on research.
-7. **Newcomers bringing their politics, and places changing because of who lives there.** From someone moving in or out of town (producer owned by Migration and big social movements). open, nobody has taken it.
-8. **A wave feeding party evolution.** From someone moving in or out of town (producer owned by Migration and big social movements). open, nobody has taken it.
-9. **Real census households for a new character's family.** From two people becoming partners (producer owned by Relationships). open, nobody has taken it.
+7. **Newcomers bringing their politics, and places changing because of who lives there.** From someone moving in or out of town (producer owned by Migration and big social movements). open with nobody on it.
+8. **A wave feeding party evolution.** From someone moving in or out of town (producer owned by Migration and big social movements). open with nobody on it.
+9. **A high-school classmate who has finished high school.** From taking a job, enrolling in a program, or joining a group (producer owned by People and life). handed to its owner.
+10. **Real census households for a new character's family.** From two people becoming partners (producer owned by Relationships). open with nobody on it.
 
 ### Relationships
 
-1. **Two people who grow close becoming a couple, including a one-night stand.** From two people becoming partners (producer owned by Relationships). being built in an open pull request.
+1. **Meeting coworkers, classmates and fellow members.** From taking a job, enrolling in a program, or joining a group (producer owned by People and life). being built in an open pull request.
+2. **Two people who grow close becoming a couple, including a one-night stand.** From two people becoming partners (producer owned by Relationships). being built in an open pull request.
 
 ### Running for office
 
 1. **Voters in the stricken place judging the damage itself, not only the handling.** From a disaster (producer owned by How the world changes). waiting on research.
-2. **A new party getting onto a ballot.** From a party founding itself (producer owned by People and life). open, nobody has taken it.
+2. **A new party getting onto a ballot.** From a party founding itself (producer owned by People and life). open with nobody on it.
 3. **A voter's views deciding a vote.** From a person forming a political view (producer owned by People and life). being built in an open pull request.
 
 ## Every producer
@@ -70,7 +71,7 @@ Every system in the game that writes something, what it writes, what reads it, a
 
 **Writes.** A rival's decision to file, an ethics matter and a proceeding before the state's commission. (`src/simulation/press/matters.ts#produceRivalComplaints`)
 
-**Runs in an ordinary save.** Yes. Weekly press sweep, but only against the player, only when the player's campaign paid a vendor, and at most one per campaign.
+**Runs in an ordinary save.** Yes. Weekly press sweep. Campaign-money scrutiny runs for every living person with a recorded campaign-money occurrence and for the player (#535), at most one matter per campaign.
 
 **Read by.**
 
@@ -78,7 +79,7 @@ Every system in the game that writes something, what it writes, what reads it, a
 
 **Should be read by, and is not.**
 
-1. **A complaint about anyone who is not the player** (Consequences for corruption; handed to its owner). openMatter accepts any subject, but no producer ever names an NPC. ChatGPT answered: broaden the actors and incidents on the existing weekly route; no quota. (question: `what-opens-a-scandal-about-somebody-else`; handed off: September 23, 2026: Consequences for corruption took it, after the office response)
+1. **A complaint about anyone who is not the player** (Consequences for corruption; closed). Built by Consequences for corruption (#535). Every campaign-money scrutiny producer now runs for each living person with a recorded campaign-money occurrence as well as the person the player controls (scrutinySubjects in press/matters.ts:1040). Other kinds of incident still name only the player. (question: `what-opens-a-scandal-about-somebody-else`; proved by `src/presentation/ethics-finding-consequences.test.ts`)
 
 ### A disaster
 
@@ -114,7 +115,7 @@ Every system in the game that writes something, what it writes, what reads it, a
 
 **Should be read by, and is not.**
 
-1. **A new party getting onto a ballot** (Running for office; open, nobody has taken it). partyBallotStatusAt (party-evolution.ts:419) takes no arguments, returns the literal not-represented, and has no caller. (hook: `src/simulation/living-world/party-evolution.ts#partyBallotStatusAt`)
+1. **A new party getting onto a ballot** (Running for office; open with nobody on it). partyBallotStatusAt (party-evolution.ts:419) takes no arguments, returns the literal not-represented, and has no caller. (hook: `src/simulation/living-world/party-evolution.ts#partyBallotStatusAt`)
 
 ### A person forming a political view
 
@@ -153,7 +154,7 @@ Every system in the game that writes something, what it writes, what reads it, a
 **Should be read by, and is not.**
 
 1. **Someone, including the player, attempting or ordering violence** (How the world changes; handed to its owner). The owner decided the player may initiate or order political violence, shown through existing scenes and text with the violence offscreen. No actor decides to. (question: `political-violence-what-to-ask-the-owner`; handed off: September 23, 2026, brief sent to How the world changes)
-2. **Local crime of any kind** (Local crime; open, nobody has taken it). There is no crime system. incident-response.ts is reached only by its fixture, and the incident catalog has no crime kind.
+2. **Local crime of any kind** (Local crime; open with nobody on it). There is no crime system. incident-response.ts is reached only by its fixture, and the incident catalog has no crime kind.
 
 ### An enacted law
 
@@ -175,8 +176,8 @@ Every system in the game that writes something, what it writes, what reads it, a
 1. **A measured effect on the world: prices, jobs, coverage, crime, anything a law is about** (How the world changes; waiting on research). assertProductionCatalogBoundary (production-catalog.ts:165) refuses every world metric except campaign support and transit hours, and every causal mechanism except transit's. ChatGPT answered the model (passage, effective rule, covered base, actual payment or service, scoped aggregate response); nothing is built from it. (hook: `src/simulation/production-catalog.ts#assertProductionCatalogBoundary`; question: `policy-effect-model-state-and-local`)
 2. **A bill's sponsor meeting the questions it is about** (Legislation; closed). introduceMeasure now records a proposition exposure for the sponsor on each of the bill's propositions, with the filing event as its provenance. It records that they met the question and nothing about which way they lean. (hook: `src/simulation/legislation.ts#exposeSponsorToQuestions`; proved by `src/simulation/legislation-measure-subject.test.ts`)
 3. **Everyone else learning what a bill is about: members who vote on it, and the public who read about it** (People and life; handed to its owner). Members who cast a floor vote are not on the vote event's involved people, so their exposure needs the per-member vote record (which #440 changes). Public exposure needs who-learned-what from the press, which the answer to what-should-the-world-do-to-a-person routes through known exposure. (hook: `src/simulation/politics.ts#recordPropositionExposure`; handed off: September 23, 2026, brief sent to People and life)
-4. **A law changing a rule of government, such as a term limit or a filing requirement** (Legislation; open, nobody has taken it). The readers are finished (candidacy.ts:363, executive-term-limits.ts:175). The producers are not reached: fileRuleChangeProvision has no caller, and the constitutional workspace only creates proposal-threshold changes (ConstitutionalWorkspace.tsx:91-95). (hook: `src/simulation/enacted-rule-changes.ts#fileRuleChangeProvision`)
-5. **An income tax in the other 51 places** (Nationwide government; open, nobody has taken it). Collection needs a tax power for the jurisdiction, and the generated file carries only US-AK with no script that writes it. (hook: `src/fiscal-authority/tax-powers.generated.json`)
+4. **A law changing a rule of government, such as a term limit or a filing requirement** (Legislation; being built in an open pull request). The readers are finished (candidacy.ts:363, executive-term-limits.ts:175). #461 connected constitutional measures to the enacted-rule reader. fileRuleChangeProvision still has no caller on main. The recall route (#520) and a branch that carries a proposition into a constitutional measure are building the producers. (hook: `src/simulation/enacted-rule-changes.ts#fileRuleChangeProvision`; in flight: The rule-changing laws thread: #520 (recall route), then propositions into constitutional measures)
+5. **An income tax everywhere but Alaska** (Nationwide government; open with nobody on it). Collection needs a tax power for the jurisdiction, and the generated file carries only US-AK with no script that writes it. (hook: `src/fiscal-authority/tax-powers.generated.json`)
 
 ### An ethics finding
 
@@ -184,7 +185,7 @@ Every system in the game that writes something, what it writes, what reads it, a
 
 **Writes.** For an adverse public outcome: lost campaign support, restitution, knowledge of the finding for party contacts, colleagues and close contacts, their private responses, and a recheck of earlier denials. (`src/simulation/press/finding-consequences.ts#applyFindingConsequences`)
 
-**Runs in an ordinary save.** Yes. Weekly press sweep through pressProceedingStepHandler (procedures.ts:1007). A complaint can only be about the player; see a-scandal-about-somebody.
+**Runs in an ordinary save.** Yes. Weekly press sweep through pressProceedingStepHandler (procedures.ts:1007). Since #535 a campaign-money complaint can name anyone with a recorded campaign-money occurrence; other complaints still name only the player.
 
 **Read by.**
 
@@ -203,7 +204,7 @@ Every system in the game that writes something, what it writes, what reads it, a
 
 **Writes.** A crisis record, a pending decision for the acting office, response stages, war-powers clocks and a conflict-spillover envelope the economy reads. (`src/simulation/crisis/international.ts#declareInternationalCrisis`)
 
-**Runs in an ordinary save.** No. No caller outside tests. The decision handlers are registered (crisis/index.ts:61-63) and the screen is mounted (CrisisNoticesPanel.tsx at PlayerGame.tsx:4582), so everything after the start works and nothing starts it.
+**Runs in an ordinary save.** No. No caller outside tests. The decision handlers are registered (crisis/index.ts:61-63) and the screen is mounted (CrisisNoticesPanel.tsx at PlayerGame.tsx:4582); only the start is missing.
 
 **Read by.**
 
@@ -216,19 +217,19 @@ Every system in the game that writes something, what it writes, what reads it, a
 
 ### Answering for your office, and resigning it
 
-`resigning-an-office` · counted at main at 130dd113, measured September 23, 2026 · producer owned by Consequences for corruption
+`resigning-an-office` · counted at main at 21587d7c, measured September 23, 2026 · producer owned by Consequences for corruption
 
 **Writes.** A governing.office-consequence event that closes a term when the officeholder resigns. (`src/simulation/governing/office-consequence.ts#recordOfficeConsequence`)
 
-**Runs in an ordinary save.** No. No caller. presentation/office-response.ts builds the five answers (explain, stand by your account, cooperate, decline, resign) and is reached by no screen.
+**Runs in an ordinary save.** Yes. The press desk offers the five answers (explain, stand by your account, cooperate, decline, resign) when a finding names the player: PressDeskPanel.tsx:403 calls answerForOfficeOnDesk, which writes through recordOfficeConsequence.
 
 **Read by.**
 
-1. `src/simulation/nationwide-world/state-executives.ts:398 (stateExecutiveVacatedOn)` (Nationwide government): Honors a resignation when naming who holds a state office. It filters on an event type nothing in play writes, so it never matches.
+1. `src/simulation/nationwide-world/state-executives.ts:398 (stateExecutiveVacatedOn)` (Nationwide government): Honors a resignation when naming who holds a state office. The press desk now writes the event it filters on (#523), so a resigning state executive leaves the office.
 
 **Should be read by, and is not.**
 
-1. **A player facing a finding choosing how to answer, or resigning** (Consequences for corruption; handed to its owner). The screen and the writer are both built; the answer surface needs a place in the office panel. (handed off: September 23, 2026: Consequences for corruption took it, next after the spending reports)
+1. **A player facing a finding choosing how to answer, or resigning** (Consequences for corruption; closed). Built by Consequences for corruption (#523). The press desk now carries the answer surface. (proved by `src/player/PressDeskPanel.office.test.ts`)
 
 ### Bills with several subjects, and delegated bill steps
 
@@ -242,7 +243,7 @@ Every system in the game that writes something, what it writes, what reads it, a
 
 **Should be read by, and is not.**
 
-1. **A player drafting a bill with several subjects, or delegating routine steps** (Legislation; open, nobody has taken it). About 2,560 lines built with no route. Wire into DocketWorkspace or trim; the Legislation thread decides.
+1. **A player drafting a bill with several subjects, or delegating routine steps** (Legislation; open with nobody on it). About 2,560 lines built with no route. Wire into DocketWorkspace or trim; the Legislation thread decides.
 
 ### Someone moving in or out of town
 
@@ -258,8 +259,8 @@ Every system in the game that writes something, what it writes, what reads it, a
 
 **Should be read by, and is not.**
 
-1. **Newcomers bringing their politics, and places changing because of who lives there** (People and life; open, nobody has taken it). An arrival has a name, an identity and a home state, and no party or belief. This keeps growing the unaffiliated population measured on September 22, 2026 (307 of 851 by year six). (hook: `MIGRATION_SEAMS beliefs-carried`)
-2. **A wave feeding party evolution** (People and life; open, nobody has taken it). Party evolution reads nothing from waves. (hook: `MIGRATION_SEAMS wave-parties`)
+1. **Newcomers bringing their politics, and places changing because of who lives there** (People and life; open with nobody on it). An arrival has a name, an identity and a home state, and no party or belief. This keeps growing the unaffiliated population measured on September 22, 2026 (307 of 851 by year six). (hook: `MIGRATION_SEAMS beliefs-carried`)
+2. **A wave feeding party evolution** (People and life; open with nobody on it). Party evolution reads nothing from waves. (hook: `MIGRATION_SEAMS wave-parties`)
 3. **Moving for work, family or cost** (Migration and big social movements; waiting on research). A flat yearly chance with the reason life-course:unrecorded; only unemployment is read, and only through a wave. (hook: `src/simulation/migration/review.ts:174`; question: `migration-rates-and-reasons`)
 
 ### Sourced local election and ballot rules
@@ -274,13 +275,30 @@ Every system in the game that writes something, what it writes, what reads it, a
 
 **Should be read by, and is not.**
 
-1. **A city election using its own counting rule** (Every town in America; open, nobody has taken it). Gated, not forgotten: the source audit is what closes it, then the election handler reads the tabulator. (hook: `src/simulation/municipal-election-rules.ts#MUNICIPAL_RULES_AUDIT_GATE`)
+1. **A city election using its own counting rule** (Every town in America; open with nobody on it). A source audit must promote the rule values first. Then the election handler reads the tabulator. (hook: `src/simulation/municipal-election-rules.ts#MUNICIPAL_RULES_AUDIT_GATE`)
+
+### Taking a job, enrolling in a program, or joining a group
+
+`joining-a-workplace-program-or-group` · counted at main at 64753b47, measured September 23, 2026 · producer owned by People and life
+
+**Writes.** A work relationship at an employer, an education enrollment at an institution, or an organization participation. (`src/simulation/career-path7.ts#seekCareerOffer, src/education/study-provider.ts#respondToEducationOffer, src/presentation/ordinary-community.ts#joinOrdinaryGroup`)
+
+**Runs in an ordinary save.** Yes. Jobs and study offers three authored jobs (career-path7.ts:91) and a real college directory (EducationOptionsPanel.tsx:277). The life screen offers the walking group (LifeScenePanel.tsx:349).
+
+**Read by.** Nothing outside tests.
+
+**Should be read by, and is not.**
+
+1. **Meeting coworkers, classmates and fellow members** (Relationships; being built in an open pull request). social-introductions.ts reads a shared active employer, studyPeers at the same institution, and a shared active organization participation. (hook: `src/simulation/social-introductions.ts#introductionCandidates`; in flight: Relationships: #527)
+2. **Coworkers, classmates and fellow members who live in the town** (Every town in America; open with nobody on it). On the real new-game route for a 24-year-old in Houma or Reno on January 5, 2026, the world has about 560 people but only 2 households, and only the player's own household has a residence. Nobody who lives in town works, studies or belongs anywhere; the market, the service club and the parish government have no one. The authored employers have no location, and the player enrolls at a college alone. Nothing changes after 30 days. (hook: `src/presentation/production-world.ts`)
+3. **A congregation to join** (Every town in America; open with nobody on it). No organization classification exists for a congregation (taxonomy.ts:149-157), so nothing can be joined or attended. ChatGPT's answer names a place of worship as where 21% of adults met a close friend. (hook: `src/simulation/taxonomy.ts`)
+4. **A high-school classmate who has finished high school** (People and life; handed to its owner). A summarized earlier life opens the classmate's high-school enrollment and never closes it (character-history.ts:2664-2678), so a 25-year-old is still enrolled at Houma High. (handed off: September 23, 2026: sent to People and life with a reproduction; it needs a new childhood generation version)
 
 ### Two people becoming partners
 
 `a-couple-forming` · counted at main at 130dd113, measured September 23, 2026 · producer owned by Relationships
 
-**Writes.** A partnership record that twelve other systems ask about. (`src/simulation/life.ts#createPartnership`)
+**Writes.** A partnership record. Heirs and households read it. (`src/simulation/life.ts#createPartnership`)
 
 **Runs in an ordinary save.** No. Its only caller is the partnership case of applyCharacterHistoryPlan (character-history.ts:661), whose only producer of that case is the census household bridge, acs-pums-character-history.ts, which nothing imports. No ordinary week forms a couple.
 
@@ -291,8 +309,8 @@ Every system in the game that writes something, what it writes, what reads it, a
 **Should be read by, and is not.**
 
 1. **Two people who grow close becoming a couple, including a one-night stand** (Relationships; being built in an open pull request). The owner answered on September 23, 2026: both, all the way, and one-night stands exist. (in flight: the Relationships thread is building it)
-2. **Real census households for a new character's family** (People and life; open, nobody has taken it). selectAcsPumsHouseholdDonor and applyAcsPumsCharacterHistoryBridge (1,628 lines) have no caller; the family odds at the opening are made up instead. People and life declined it for now on September 23, 2026.
+2. **Real census households for a new character's family** (People and life; open with nobody on it). selectAcsPumsHouseholdDonor and applyAcsPumsCharacterHistoryBridge (1,628 lines) have no caller; the family odds at the opening are made up instead. People and life declined it for now on September 23, 2026.
 
 ## How this document is made
 
-Rendered September 23, 2026 from commit 53f0e1a6 (links modified) by `npm run connectivity:links -- render --write`, one entry per file in `docs/connectivity/links/`. Do not edit it by hand.
+Rendered September 23, 2026 from commit 240e7419d, with link entries not yet committed, by `npm run connectivity:links -- render --write`, one entry per file in `docs/connectivity/links/`. Do not edit it by hand. Each producer was counted at the commit its line names, which can be older than the render.
