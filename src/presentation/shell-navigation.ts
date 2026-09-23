@@ -93,6 +93,8 @@ export type ShellSurface =
   | "patch-notes"
   /** The term catalog, searchable: what the words on the other screens mean. */
   | "guide"
+  /** Observer Mode: everything in the world, not one person's view of it. */
+  | "world-record"
   | "options";
 
 /**

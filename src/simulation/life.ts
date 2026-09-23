@@ -1065,6 +1065,26 @@ export function recordHouseholdLocation(
   world: World,
   input: RecordHouseholdLocationInput,
 ): World {
+  return appendOne(
+    world,
+    "householdLocations",
+    buildHouseholdLocationRecord(world, input),
+  );
+}
+
+/**
+ * The validated record `recordHouseholdLocation` would append, without
+ * appending it.
+ *
+ * For a writer that moves several households in one step and asserts world
+ * integrity once over the result (migration), rather than once per household.
+ * The record takes `world.history.nextSequence`; a batch caller must advance
+ * the sequence itself between records.
+ */
+export function buildHouseholdLocationRecord(
+  world: World,
+  input: RecordHouseholdLocationInput,
+): HouseholdLocationRecord {
   const household = requireRecord(
     world.history.households,
     input.householdId,
@@ -1095,14 +1115,18 @@ export function recordHouseholdLocation(
     );
   }
   validateLifeProvenance(world, input.provenance, effectiveAt);
-  const record: HouseholdLocationRecord = {
+  assertUniqueStableKey(
+    world.history.householdLocations,
+    input.stableKey,
+    "householdLocations",
+  );
+  return {
     ...input,
     id: createStableId("household-location", `${world.id}:${input.stableKey}`),
     sequence: world.history.nextSequence,
     effectiveAt,
     provenance: cloneLifeProvenance(input.provenance),
   };
-  return appendOne(world, "householdLocations", record);
 }
 
 export function startHouseholdMembership(

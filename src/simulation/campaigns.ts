@@ -1,3 +1,7 @@
+import {
+  MIGRATION_REVIEW_TRANSITION_KEY,
+  migrationReviewHandler,
+} from "./migration";
 import { createPressTransitionRegistry } from "./press/transitions";
 import { recordElectionSpeech } from "./campaign-speeches";
 import { campaignPollingQuality } from "./campaign-polling";
@@ -1977,6 +1981,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         [MACRO_MONTHLY_STEP_KEY, macroMonthlyStepHandler],
         // CRUNCH46 WORLD: party governing bodies meet and may change.
         [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
+        // MIGRATION: households leave town, newcomers arrive, waves step.
+        [MIGRATION_REVIEW_TRANSITION_KEY, migrationReviewHandler],
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
         ...CAMPAIGN_LIFE_HANDLERS,
       ]),
