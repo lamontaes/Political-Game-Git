@@ -5,6 +5,9 @@ import {
   type FutureTransitionHandlerRegistry,
   type World,
 } from "../simulation";
+import { addDays, daysBetween } from "../simulation/dates";
+import { scheduledFutureDueItemsThrough } from "../simulation/future-transitions";
+import { PRESS_DESK_SWEEP_TRANSITION_KEY } from "../simulation/press";
 import {
   DEFAULT_INTERRUPTIONS,
   type InterruptionPreferences,
@@ -99,4 +102,56 @@ export function tentativeHoldDueNow(
       return activity.id;
   }
   return null;
+}
+
+/** How many times a reporter has asked this person to respond before print. */
+function pressRequestsTo(world: World, personId: EntityId): number {
+  let count = 0;
+  for (const event of world.history.events) {
+    if (event.type !== "press.response-requested") continue;
+    if (
+      event.participants.some(
+        (participant) =>
+          participant.personId === personId &&
+          participant.role === "focus:story-subject",
+      )
+    )
+      count += 1;
+  }
+  return count;
+}
+
+/**
+ * A reporter asking the player to respond before print stops the clock.
+ *
+ * The response window is two days and the desk decides once a week, so a
+ * skip of a week or more used to carry the player straight past the question
+ * and the story ran with "did not respond". A longer skip now stops at each
+ * weekly desk review, and ends there when a reporter has just asked the
+ * player something. This is not a preference: a question with a deadline is
+ * a decision that needs the player.
+ */
+export function advanceStoppingForPressRequests(
+  world: World,
+  personId: EntityId,
+  days: number,
+  advance: (current: World, days: number) => World,
+): World {
+  const target = addDays(world.currentDate, Math.max(1, Math.trunc(days)));
+  let current = world;
+  while (current.currentDate < target) {
+    const sweep = scheduledFutureDueItemsThrough(
+      current,
+      addDays(current.currentDate, 1),
+      target,
+    ).find((item) => item.transitionKey === PRESS_DESK_SWEEP_TRANSITION_KEY);
+    const stepTo = sweep && sweep.dueAt < target ? sweep.dueAt : target;
+    const before = pressRequestsTo(current, personId);
+    const next = advance(current, daysBetween(current.currentDate, stepTo));
+    // Stopped for something else (a commitment, a hold): that stop stands.
+    if (next === current || next.currentDate < stepTo) return next;
+    if (pressRequestsTo(next, personId) > before) return next;
+    current = next;
+  }
+  return current;
 }
