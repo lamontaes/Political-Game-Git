@@ -7,7 +7,7 @@ in, and this record says why.
 ## What the player sees
 
 Every contest in every town counts down 28 days, whatever the office, the
-state or the month. Filing on 4 March and filing on 20 October both produce an
+state or the month. Filing on March 4 and filing on October 20 both produce an
 election 28 days later. Measured in all fifteen towns of
 `docs/playtest/running-for-office-across-america-2026-09-22.md`.
 
@@ -52,7 +52,7 @@ campaign-projection.test.ts  > puts the winner in the seat, through the same wor
 
 Each of them lives the weeks to election day. With a real calendar the wait is
 up to four years of game time, and "reaches a result by living the weeks" is
-exactly the behaviour the 28 days was standing in for.
+exactly the behavior the 28 days was standing in for.
 
 The missing piece is not the calendar. It is the **filing window**. In the real
 world you cannot file four years early; filing opens and closes. Every pack in

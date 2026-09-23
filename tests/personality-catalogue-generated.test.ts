@@ -8,7 +8,7 @@ import {
   renderCatalogueData,
 } from "../scripts/traits/personality-catalogue";
 
-describe("the generated personality catalogue", () => {
+describe("the generated personality catalog", () => {
   it("is exactly what the generator writes from the received file", () => {
     const rendered = renderCatalogueData(catalogueSourceText());
     // Proves the comparison has something to compare.
