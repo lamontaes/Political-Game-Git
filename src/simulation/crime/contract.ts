@@ -86,6 +86,8 @@ export const UNRESEARCHED_LOCAL_CRIME = {
  * town's size: EVERY local place gets the same blanket expectation until
  * place population and crime rates are researched (`local-crime-rates-by-place`).
  * That makes a village and a city equally busy, which is known to be wrong.
+ * When `placePopulation(placeGeoid)` (nationwide-world/place-population.ts,
+ * filed as `place-population-today`) holds a figure, scale by it here.
  */
 export const UNRESEARCHED_TOWN_POLICE_LOG = {
   version: CRIME_CONTRACT_VERSION,

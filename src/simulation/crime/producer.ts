@@ -393,27 +393,55 @@ export function offenseOf(event: HistoricalEvent): CrimeOffense | null {
 }
 
 /**
- * The justice hand-off. PLACEHOLDER: prosecution, courts and sentencing are
- * built by the corruption-consequences route so an officeholder's case and a
- * street arrest go through the same charge, trial and sentence. Until that
- * route exists this records nothing, and an arrest simply ends here.
+ * The justice hand-off, in the shape the justice route (`src/simulation/justice/`,
+ * built by the corruption-consequences lane) will export, so an officeholder's
+ * case and a street arrest go through one charge, trial and sentence.
+ * PLACEHOLDER until that module merges: it records nothing.
+ *
+ * A referral names the person charged. Today no arrest names one (see
+ * `OFFENDERS_ARE_NOT_REPRESENTED`), so `arrestReferral` returns null and
+ * nothing is referred; the call site is ready for the day offenders exist.
  */
-export interface ProsecutionReferral {
-  readonly incidentEventId: EntityId;
-  readonly arrestEventId: EntityId;
-  readonly offense: CrimeOffense;
+export interface ProsecutionReferralInput {
+  readonly stableKey: string;
+  readonly subjectPersonId: EntityId;
   readonly jurisdictionId: EntityId;
-  /** Always null today; see `OFFENDERS_ARE_NOT_REPRESENTED`. */
-  readonly offenderPersonId: EntityId | null;
+  readonly offenseKey: string;
+  readonly referredBy: {
+    readonly kind: "regulator" | "police" | "prosecutor-own-motion";
+    readonly label: string;
+    readonly personId: EntityId | null;
+  };
+  readonly basisEventIds: readonly EntityId[];
 }
 
 export function referForProsecution(
   world: World,
-  referral: ProsecutionReferral,
-): World {
-  // PLACEHOLDER: the referral is dropped until the justice route consumes it.
-  void referral;
-  return world;
+  input: ProsecutionReferralInput,
+): { readonly world: World; readonly referralId: EntityId | null } {
+  void input;
+  return { world, referralId: null };
+}
+
+function arrestReferral(
+  incident: HistoricalEvent,
+  arrest: HistoricalEvent,
+  offense: CrimeOffense,
+  offenderPersonId: EntityId | null,
+): ProsecutionReferralInput | null {
+  if (offenderPersonId === null) return null;
+  return {
+    stableKey: `${arrest.stableKey}:referral:${offenderPersonId}`,
+    subjectPersonId: offenderPersonId,
+    jurisdictionId: incident.jurisdictionId!,
+    offenseKey: `crime:${offense}`,
+    referredBy: {
+      kind: "police",
+      label: `Police in ${placeName(incident.jurisdictionId!)}`,
+      personId: null,
+    },
+    basisEventIds: [incident.id, arrest.id],
+  };
 }
 
 /**
@@ -470,13 +498,8 @@ function recordArrests(
         source: { kind: "direct" },
       });
     }
-    next = referForProsecution(next, {
-      incidentEventId: incident.id,
-      arrestEventId: arrest.id,
-      offense,
-      jurisdictionId: incident.jurisdictionId!,
-      offenderPersonId: null,
-    });
+    const referral = arrestReferral(incident, arrest, offense, null);
+    if (referral) next = referForProsecution(next, referral).world;
   }
   return next;
 }
