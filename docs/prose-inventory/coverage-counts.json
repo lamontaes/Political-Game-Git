@@ -1,10 +1,10 @@
 {
-  "scannedFiles": 1477,
-  "totalLiterals": 134894,
+  "scannedFiles": 1478,
+  "totalLiterals": 134981,
   "counts": {
     "INVENTORIED": 3414,
-    "INTENTIONALLY_NON_PLAYER_FACING": 7655,
+    "INTENTIONALLY_NON_PLAYER_FACING": 7658,
     "DIAGNOSTIC_OR_TEST": 9825,
-    "NEEDS_CLASSIFICATION": 13104
+    "NEEDS_CLASSIFICATION": 13121
   }
 }
