@@ -6,10 +6,7 @@ import {
 import type { CandidacyPack, ElectiveOfficeOption } from "./candidacy-packs";
 import { ageOnDate, completedMonthsBetween } from "./dates";
 import { enactedRuleChangeAt } from "./enacted-rule-changes";
-import {
-  lifePlaceByJurisdictionId,
-  stateJurisdictionForKey,
-} from "./life-places";
+import { lifePlaceByJurisdictionId } from "./life-places";
 import { chiefExecutiveJurisdictionId } from "./nationwide-world/government-jurisdiction";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import {
