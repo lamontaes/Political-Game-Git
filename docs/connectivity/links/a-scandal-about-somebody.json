@@ -7,7 +7,7 @@
     "owner": "Consequences for corruption",
     "writes": "A rival's decision to file, an ethics matter and a proceeding before the state's commission.",
     "runsInPlay": true,
-    "runsDetail": "Weekly press sweep, but only against the player, only when the player's campaign paid a vendor, and at most one per campaign."
+    "runsDetail": "Weekly press sweep. Campaign-money scrutiny runs for every living person with a recorded campaign-money occurrence and for the player (#535), at most one matter per campaign."
   },
   "readers": [
     {
