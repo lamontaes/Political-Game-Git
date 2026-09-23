@@ -66,18 +66,16 @@ for (const viewport of [
         }),
       })
       .last();
-    await expect(study).toContainText(
-      "45 simulated-day authored tuition grace",
-    );
+    await expect(study).toContainText("45 days of tuition grace");
     await routine
       .getByRole("button", {
         name: "Continue to next study period",
         exact: true,
       })
       .click();
-    await expect(study).toContainText("disclosed deadline");
+    await expect(study).toContainText("to pay it before your studies pause");
     await expect(routine.getByTestId("personal-routine-outcome")).toContainText(
-      "Tuition is unpaid",
+      "Your tuition is unpaid",
     );
     await saveLife(page);
     const accepted = await readSavedLegislativeWorld(page);
@@ -106,7 +104,9 @@ for (const viewport of [
         exact: true,
       })
       .press("Space");
-    await expect(study).toContainText("Study paused for unfunded tuition");
+    await expect(study).toContainText(
+      "Your studies are paused until this tuition is paid",
+    );
     await expect(
       study.getByRole("button", { name: "Return", exact: true }),
     ).toHaveCount(0);

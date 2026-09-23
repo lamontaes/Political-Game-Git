@@ -5,6 +5,7 @@ import {
 } from "../simulation";
 import { congressSeatStatus } from "./congress-candidacy";
 import {
+  organizationProfileAt,
   workRelationshipHistoryForPerson,
   workRoleAt,
   workStatusAt,
@@ -330,12 +331,23 @@ export function projectWorkRole(world: World, personId: EntityId): WorkRole {
     congress.kind === "won-awaiting-term"
       ? `You won the race for ${congress.identity.displayName}. You take the seat on ${proseDate(congress.startsAt)}.`
       : "";
-  const studying = activeEducationEnrollmentsAt(world, personId).length;
+  const enrollments = activeEducationEnrollmentsAt(world, personId);
+  const studying = enrollments.length;
+  // Named, because a bare "You are a student." under a life that has just
+  // said it wants to start working read as a college place nobody took. At
+  // eighteen it is usually the last year of high school, and it says so.
+  const school =
+    studying === 1
+      ? (organizationProfileAt(world, enrollments[0]!.enrollment.organizationId)
+          ?.name ?? null)
+      : null;
   const study =
     studying === 0
       ? ""
       : studying === 1
-        ? "You are a student."
+        ? school
+          ? `You are a student at ${school}.`
+          : "You are a student."
         : `You are enrolled in ${studying} programs.`;
   // An unanswered offer is not a role and is never reported as one. It is
   // added to the same sentence because that sentence is the only thing this

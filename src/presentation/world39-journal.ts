@@ -1,3 +1,4 @@
+import { readableTuitionSummary } from "../simulation/education-study-progression";
 import {
   ageOnDate,
   electionContestResult,
@@ -240,7 +241,13 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
       crimeLine ??
         (event.type === "life.conversation"
           ? conversationSentence(world, event, personId)
-          : inOwnVoice(ownWords ?? event.summary, ownName)),
+          : inOwnVoice(
+              ownWords ??
+                (event.type.startsWith("life-paths2.tuition-")
+                  ? readableTuitionSummary(event.summary)
+                  : event.summary),
+              ownName,
+            )),
     );
     if (!text) continue;
     covered.add(event.id);
