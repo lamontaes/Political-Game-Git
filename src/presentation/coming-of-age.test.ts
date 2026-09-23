@@ -6,9 +6,10 @@ import {
   characterHistoryContextPersonId,
 } from "../simulation/character-history";
 import {
-  AGE_OF_MAJORITY_PLACEHOLDER,
-  catchUpComingOfAge,
-} from "../simulation/coming-of-age";
+  AGE_OF_MAJORITY_RULES,
+  type AgeOfMajorityRules,
+} from "../simulation/age-of-majority";
+import { catchUpComingOfAge } from "../simulation/coming-of-age";
 import { dateAtAge } from "../simulation/dates";
 import {
   buyHome,
@@ -27,7 +28,7 @@ import { describePersonContext } from "../simulation/person-context";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { createResourcePosition, money } from "../simulation/resources";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
-import type { EntityId, World } from "../simulation/types";
+import type { EntityId, IsoDate, World } from "../simulation/types";
 import { assertWorldIntegrity, advanceWorld } from "../simulation/world";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import type { NewGameSetup } from "./new-game";
@@ -88,8 +89,8 @@ function daysUntil(from: string, to: string): number {
   return Math.round((Date.parse(to) - Date.parse(from)) / 86_400_000);
 }
 
-/** A life started at seventeen and played on for ten years before any repair. */
-function grownBeforeTheRepair(seed: string) {
+/** A life started at seventeen and played on for ten years. */
+function grownUp(seed: string) {
   const { world: start, playerId } = newLife("Casper", "WY", seed, 17);
   const birthday27 = dateAtAge(start.people[playerId]!.birthDate, 27);
   const world = advanceWorld(
@@ -116,82 +117,131 @@ function withSavings(world: World, personId: EntityId, minor: number): World {
   });
 }
 
+/** A sourced-looking rule for tests only. Play ships no rules at all. */
+const MISSISSIPPI_AT_21: AgeOfMajorityRules = {
+  "US-MS": {
+    age: 21,
+    source: {
+      citation: "Test fixture, not a source",
+      url: "https://example.invalid/test-only",
+      retrievedAt: "2026-01-01" as IsoDate,
+    },
+  },
+};
+
 describe("coming of age", () => {
-  it("ends a dependent start's guardianship on the eighteenth birthday", () => {
-    const { world, playerId } = newLife(
-      "Fargo",
-      "ND",
-      "coming-of-age:fargo",
-      17,
-    );
-    const { authority } = openingGuardian(world, playerId);
-    expect(activeChildAuthoritiesAt(world, playerId)).toHaveLength(1);
-    const birthday = dateAtAge(
-      world.people[playerId]!.birthDate,
-      AGE_OF_MAJORITY_PLACEHOLDER,
-    );
-    const days = daysUntil(world.currentDate, birthday);
-    expect(days).toBeGreaterThan(0);
-
-    // The day before, still a child in somebody's care.
-    const eve = passOrdinaryDays(world, days - 1);
-    expect(activeChildAuthoritiesAt(eve, playerId)).toHaveLength(1);
-
-    const grown = passOrdinaryDays(eve, 1);
-    assertWorldIntegrity(grown);
-    expect(grown.currentDate).toBe(birthday);
-    expect(activeChildAuthoritiesAt(grown, playerId)).toHaveLength(0);
-    const ended = childAuthorityStateHistory(grown, authority.id).at(-1)!;
-    expect(ended).toMatchObject({
-      status: "ended",
-      effectiveAt: birthday,
-      context: "Reached adulthood",
-      basisKind: "custom:generated-start",
-    });
-    // Running it again changes nothing.
-    expect(serializeWorld(catchUpComingOfAge(grown))).toBe(
-      serializeWorld(grown),
-    );
+  it("ships no age-of-majority rules, so no authority ends by itself", () => {
+    expect(Object.keys(AGE_OF_MAJORITY_RULES)).toEqual([]);
   });
 
-  it("repairs an older save whose grown character is still somebody's child", () => {
+  it("leaves a grown character's authority open where the age is unknown, and stops calling the guardian theirs", () => {
     // A guardian rather than a parent, as in the playtest.
-    const { world, playerId } = grownBeforeTheRepair("coming-of-age:casper-2");
-    const { authority, guardianId } = openingGuardian(world, playerId);
-    // The old shape: twenty-seven, with the childhood authority still open.
-    expect(activeChildAuthoritiesAt(world, playerId)).toHaveLength(1);
+    const { world: child, playerId } = newLife(
+      "Casper",
+      "WY",
+      "coming-of-age:casper-2",
+      17,
+    );
+    const { guardianId: childGuardian } = openingGuardian(child, playerId);
     expect(
-      describePersonContext(world, playerId, guardianId)?.relationship,
+      describePersonContext(child, playerId, childGuardian)?.relationship,
     ).toBe("your guardian");
 
+    const { world, playerId: grownId } = grownUp("coming-of-age:casper-2");
+    const { authority, guardianId } = openingGuardian(world, grownId);
+    expect(activeChildAuthoritiesAt(world, grownId)).toHaveLength(1);
     // Loading alone writes nothing.
     expect(serializeWorld(reload(world))).toBe(serializeWorld(world));
 
     const moved = passOrdinaryDays(world, 1);
     assertWorldIntegrity(moved);
-    expect(activeChildAuthoritiesAt(moved, playerId)).toHaveLength(0);
-    const ended = childAuthorityStateHistory(moved, authority.id).at(-1)!;
-    // Back-dated to the birthday, not the day it was noticed.
-    expect(ended.effectiveAt).toBe(
-      dateAtAge(moved.people[playerId]!.birthDate, 18),
+    // Wyoming has no rule: when the authority ends is unknown, so the record
+    // is left exactly as it was.
+    expect(activeChildAuthoritiesAt(moved, grownId)).toHaveLength(1);
+    expect(childAuthorityStateHistory(moved, authority.id)).toEqual(
+      childAuthorityStateHistory(world, authority.id),
     );
-    expect(ended.context).toBe("Reached adulthood");
-    // Named by kinship now, not by an authority that ended.
+    expect(serializeWorld(catchUpComingOfAge(moved))).toBe(
+      serializeWorld(moved),
+    );
+
+    // The label is presentation, and a grown woman's guardian is not
+    // "your guardian" to her.
     expect(
-      describePersonContext(moved, playerId, guardianId)?.relationship,
+      describePersonContext(moved, grownId, guardianId)?.relationship,
     ).toBe("the guardian who raised you");
-    // Whoever asks whether she ever raised them still reads the whole record.
-    expect(dateRefusal(moved, playerId, guardianId)).toBe("You are family.");
+    expect(
+      projectPersonalRecord(moved, grownId)!.household.find(
+        (line) => line.personId === guardianId,
+      )?.relationship,
+    ).toBe("the guardian who raised you");
+    // Whoever asks whether she ever raised them still reads the record.
+    expect(dateRefusal(moved, grownId, guardianId)).toBe("You are family.");
+  });
+
+  it("ends the authority on the birthday a state's rule names", () => {
+    const { world: start, playerId } = newLife(
+      "Jackson",
+      "MS",
+      "coming-of-age:jackson",
+      17,
+    );
+    const { authority, guardianId } = openingGuardian(start, playerId);
+    const birthDate = start.people[playerId]!.birthDate;
+    const at = (years: number, extraDays: number) =>
+      advanceWorld(
+        start,
+        daysUntil(start.currentDate, dateAtAge(birthDate, years)) + extraDays,
+        createCampaignElectionTransitionRegistry(),
+      );
+
+    // Twenty in Mississippi: still a minor there, so nothing ends.
+    const twenty = at(20, 3);
+    expect(serializeWorld(catchUpComingOfAge(twenty, MISSISSIPPI_AT_21))).toBe(
+      serializeWorld(twenty),
+    );
+
+    const older = at(21, 40);
+    // Another state's rule says nothing about a Mississippi life.
+    expect(
+      serializeWorld(
+        catchUpComingOfAge(older, {
+          "US-WY": MISSISSIPPI_AT_21["US-MS"],
+        }),
+      ),
+    ).toBe(serializeWorld(older));
+
+    const ended = catchUpComingOfAge(older, MISSISSIPPI_AT_21);
+    assertWorldIntegrity(ended);
+    expect(activeChildAuthoritiesAt(ended, playerId)).toHaveLength(0);
+    expect(
+      childAuthorityStateHistory(ended, authority.id).at(-1),
+    ).toMatchObject({
+      status: "ended",
+      // Back-dated to the twenty-first birthday, not the day it was noticed.
+      effectiveAt: dateAtAge(birthDate, 21),
+      context: "Reached adulthood",
+      basisKind: "custom:generated-start",
+    });
+    // Once only.
+    expect(serializeWorld(catchUpComingOfAge(ended, MISSISSIPPI_AT_21))).toBe(
+      serializeWorld(ended),
+    );
+    // Still somebody who raised them.
+    expect(dateRefusal(ended, playerId, guardianId)).toBe("You are family.");
+    expect(
+      describePersonContext(ended, playerId, guardianId)?.relationship,
+    ).toMatch(/^(the guardian who raised you|your (mom|dad|parent))$/);
   });
 });
 
 describe("buying a home as a grown child", () => {
   it("moves the buyer into a home of their own and leaves the guardian behind", () => {
-    const { world: old, playerId } = grownBeforeTheRepair(
-      "coming-of-age:casper-home",
-    );
+    const { world: old, playerId } = grownUp("coming-of-age:casper-home");
     const { guardianId } = openingGuardian(old, playerId);
     const world = withSavings(passOrdinaryDays(old, 1), playerId, 10_000_000);
+    // Moving out does not wait for the authority to end, and here it has not.
+    expect(activeChildAuthoritiesAt(world, playerId)).toHaveLength(1);
     const childhoodHome = householdMembershipsAt(world, playerId)[0]!.household
       .id;
     const stayed = peopleInHouseholdAt(world, childhoodHome).filter(
@@ -230,9 +280,7 @@ describe("buying a home as a grown child", () => {
   });
 
   it("takes a partner who lives there along, and nobody else", () => {
-    const { world: old, playerId } = grownBeforeTheRepair(
-      "coming-of-age:casper-partner",
-    );
+    const { world: old, playerId } = grownUp("coming-of-age:casper-partner");
     const { guardianId } = openingGuardian(old, playerId);
     const grown = passOrdinaryDays(old, 1);
     const childhoodHome = householdMembershipsAt(grown, playerId)[0]!.household

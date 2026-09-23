@@ -14,7 +14,7 @@ import {
   recordHouseholdMembershipState,
   startHouseholdMembership,
 } from "./life";
-import { AGE_OF_MAJORITY_PLACEHOLDER } from "./coming-of-age";
+import { GROWN_UP_PRESENTATION_AGE_PLACEHOLDER } from "./age-of-majority";
 import { personName } from "./people";
 import {
   createDwelling,
@@ -115,8 +115,12 @@ function movesOutToBuy(
 ): boolean {
   const person = world.people[personId];
   if (!person) return false;
+  // PLACEHOLDER(research: age-of-majority-by-state). Leaving home to buy one
+  // reads the same threshold the labels do. It does not wait for the
+  // authority to end, and whether it has ended is not asked.
   if (
-    ageOnDate(person.birthDate, world.currentDate) < AGE_OF_MAJORITY_PLACEHOLDER
+    ageOnDate(person.birthDate, world.currentDate) <
+    GROWN_UP_PRESENTATION_AGE_PLACEHOLDER
   )
     return false;
   const residents = new Set(peopleInHouseholdAt(world, householdId));

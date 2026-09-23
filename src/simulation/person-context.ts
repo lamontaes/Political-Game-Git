@@ -1,3 +1,7 @@
+import {
+  ageOfMajorityFor,
+  GROWN_UP_PRESENTATION_AGE_PLACEHOLDER,
+} from "./age-of-majority";
 import { ageOnDate } from "./dates";
 import {
   activeCareResponsibilitiesAt,
@@ -212,12 +216,32 @@ function siblingWord(person: Person, older: boolean | null): string {
   return `your ${older ? "older" : "younger"} ${noun}`;
 }
 
+/**
+ * Whether somebody is too old to be described as anybody's dependent, even
+ * while an authority over them is still open on the record.
+ *
+ * Presentation only. Where the person's state has a sourced age of majority
+ * that age is used; where it has none, the authority's end is unknown and the
+ * record stays open (see `coming-of-age.ts`), but a twenty-seven-year-old is
+ * still not introduced as having "your guardian". The fallback is
+ * PLACEHOLDER(research: age-of-majority-by-state), and it writes nothing.
+ */
+function grownForPresentation(world: World, personId: EntityId): boolean {
+  const person = world.people[personId];
+  if (!person) return false;
+  const age =
+    ageOfMajorityFor(world, personId)?.age ??
+    GROWN_UP_PRESENTATION_AGE_PLACEHOLDER;
+  return ageOnDate(person.birthDate, world.currentDate) >= age;
+}
+
 function resolveGuardian(
   world: World,
   viewerId: EntityId,
   subjectId: EntityId,
 ): Resolved | null {
   const cutoff = currentLifeCutoff(world);
+  const grown = grownForPresentation(world, viewerId);
   for (const { authority } of activeChildAuthoritiesAt(
     world,
     viewerId,
@@ -233,7 +257,10 @@ function resolveGuardian(
     return {
       relationship: authority.kind.startsWith("parental:")
         ? parentWord(subject)
-        : "your guardian",
+        : // A grown player's guardian raised them; they are not a dependent.
+          grown
+          ? "the guardian who raised you"
+          : "your guardian",
       basis: `A ${authority.kind} authority record over the player, held by this person.`,
       anchors: [
         {
@@ -257,6 +284,7 @@ function resolveDependent(
   subjectId: EntityId,
 ): Resolved | null {
   const cutoff = currentLifeCutoff(world);
+  const grown = grownForPresentation(world, subjectId);
   for (const { authority } of activeChildAuthoritiesAt(
     world,
     subjectId,
@@ -271,7 +299,10 @@ function resolveDependent(
     return {
       relationship: authority.kind.startsWith("parental:")
         ? childWord(world.people[subjectId]!)
-        : "in your care",
+        : // Somebody grown is not in anybody's care for being young.
+          grown
+          ? "someone you raised"
+          : "in your care",
       basis: `A ${authority.kind} authority record over this person, held by the player.`,
       anchors: [
         {
@@ -455,12 +486,14 @@ function resolveOtherKin(
 /**
  * Somebody who held authority over the other as a child, and no longer does.
  *
- * A guardianship ends when the child grows up (see `coming-of-age.ts`), but
- * the person who raised them did not become a stranger. A parental authority
- * is named as a parent, read off the authority record's own kind; a
- * guardianship is named as that and nothing more, because a guardian with no
- * kinship record is not anybody's mom. It comes after kinship, so a record
- * that says more (a parent-child kinship) still says it.
+ * An authority ends where the child's state has a sourced age of majority
+ * (see `coming-of-age.ts`), but the person who raised them did not become a
+ * stranger. A parental authority is named as a parent, read off the authority
+ * record's own kind; a guardianship is named as that and nothing more,
+ * because a guardian with no kinship record is not anybody's mom. It comes
+ * after kinship, so a record that says more still says it. An authority still
+ * open over somebody grown is worded the same way by `resolveGuardian` and
+ * `resolveDependent`; see `grownForPresentation`.
  */
 function resolveRaisedBy(
   world: World,
@@ -483,10 +516,11 @@ function resolveRaisedBy(
         authority.holder.personId !== holderId
       )
         continue;
-      const ended = childAuthorityStateHistory(world, authority.id, cutoff)
-        .filter((state) => state.status === "ended")
-        .at(-1);
-      if (!ended) continue;
+      const latest = childAuthorityStateHistory(world, authority.id, cutoff).at(
+        -1,
+      );
+      // An authority still open is named by resolveGuardian/resolveDependent.
+      if (latest?.status !== "ended") continue;
       const parental = authority.kind.startsWith("parental:");
       const subject = world.people[subjectId]!;
       return {
@@ -510,7 +544,7 @@ function resolveRaisedBy(
             at: authority.establishedAt,
             sequence: authority.sequence,
             role: "context",
-            note: `The authority record from when they were a child, ended ${ended.effectiveAt}.`,
+            note: `The authority record from when they were a child, ended ${latest.effectiveAt}.`,
           },
         ],
       };
