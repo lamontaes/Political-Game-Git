@@ -1,3 +1,4 @@
+import { personPronouns } from "../simulation/person-identity";
 import { afterEach, describe, expect, it } from "vitest";
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import {
@@ -82,8 +83,11 @@ describe("a legislative term in a state with no sourced term rule", () => {
       BLANKET_LEGISLATIVE_TERM_RULE_VERSION,
     );
     expect(activeLegislativeTermEvidence(decided, seat.id)).toBeNull();
+    const theirs = personPronouns(decided.people[personId]).possessivePronoun;
     expect(projectCampaign(decided, personId).afterword).toMatch(
-      /The term begins January 1, \d{4}; until then the office is not theirs\./,
+      new RegExp(
+        `The term begins January 1, \\d{4}; until then the office is not ${theirs}\\.`,
+      ),
     );
     expect(projectOfficeTransition(decided, personId)?.startsAt).toBe(
       term.startsAt,

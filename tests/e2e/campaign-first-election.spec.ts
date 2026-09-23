@@ -312,7 +312,7 @@ test.describe("A life can stand for something", () => {
     // The committee is named after the body, not after the game's description
     // of the seat.
     await expect(page.getByTestId("campaign-band")).toContainText(
-      /for the House of Representatives/i,
+      /for the [A-Z][a-z]+( [A-Z][a-z]+)? House of Representatives/,
     );
     await expect(page.getByTestId("campaign-treasury")).toContainText("$0.");
     await expect(page.getByTestId("campaign-no-memo")).toBeVisible();
@@ -421,12 +421,12 @@ test.describe("A life can stand for something", () => {
     await expect(page.getByTestId("day-date")).not.toHaveText(before);
     await expect(page.getByTestId("play-screen")).toBeVisible();
 
-    if (/lost\./i.test(afterword)) {
-      // Losing is a thing that happened, said plainly. The afterword is in
-      // Work, where the campaign is, not on the day.
+    if (/\blost[,.]/i.test(afterword)) {
+      // Losing is a thing that happened, said in those words. The afterword
+      // is in Work, where the campaign is, not on the day.
       await openCampaign(page);
-      await expect(page.getByTestId("campaign-afterword")).toHaveText(
-        / lost\.$/,
+      await expect(page.getByTestId("campaign-afterword")).toContainText(
+        /not the end of (them|him|her)\b/i,
       );
       // And it opens no office it did not earn.
       await expect(page.getByTestId("office-section")).toHaveCount(0);
