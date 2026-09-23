@@ -1,4 +1,7 @@
 import { createStableId } from "../ids";
+import { LEGISLATIVE_STARTING_PROCEDURES_VERSION } from "../legislative-starting-procedures";
+import { canonicalStateJurisdictionId } from "../state-jurisdiction-id";
+import { STATES, TERRITORY_USPS } from "../state-reference";
 import type { EntityId, EntityKind, World } from "../types";
 import type { PartyRecord, WorldConditionRecord } from "./types";
 
@@ -69,6 +72,89 @@ function finite(value: number | null, label: string): void {
   }
 }
 
+const STATE_KEYS = Object.keys(STATES)
+  .filter((usps) => usps !== "DC" && !TERRITORY_USPS.has(usps))
+  .map((usps) => `US-${usps}`);
+
+function checkLegislativeStartingProcedures(
+  record: Extract<
+    WorldConditionRecord,
+    { readonly kind: "legislative-starting-procedures" }
+  >,
+): void {
+  if (record.contractVersion !== LEGISLATIVE_STARTING_PROCEDURES_VERSION) {
+    throw new Error("Unsupported legislative starting procedures version.");
+  }
+  const keys = Object.keys(record.procedures);
+  if (keys.length !== STATE_KEYS.length) {
+    throw new Error("Legislative starting procedures must cover 50 states.");
+  }
+  for (const jurisdictionKey of STATE_KEYS) {
+    const entry = record.procedures[jurisdictionKey];
+    if (!entry || entry.jurisdictionKey !== jurisdictionKey) {
+      throw new Error(`Missing legislative procedure for ${jurisdictionKey}.`);
+    }
+    if (
+      entry.jurisdictionId !== canonicalStateJurisdictionId(jurisdictionKey)
+    ) {
+      throw new Error(
+        `Legislative procedure has the wrong ${jurisdictionKey} ID.`,
+      );
+    }
+    if (
+      entry.baselinePack?.jurisdictionKey !== jurisdictionKey ||
+      !entry.baselinePack.packId.startsWith(
+        `us-${jurisdictionKey.slice(3).toLowerCase()}-`,
+      )
+    ) {
+      throw new Error(
+        `Legislative baseline does not match ${jurisdictionKey}.`,
+      );
+    }
+    if (
+      entry.procedureProvenance?.kind !== "game-profile" ||
+      entry.procedureProvenance.version !== record.contractVersion
+    ) {
+      throw new Error(
+        `Legislative procedure provenance is invalid for ${jurisdictionKey}.`,
+      );
+    }
+    if (![75, 90, 105].includes(entry.effectiveDateDays)) {
+      throw new Error(
+        `Legislative effective days are invalid for ${jurisdictionKey}.`,
+      );
+    }
+    if (
+      entry.sessionCadence === "annual"
+        ? entry.sessionYearParity !== null
+        : entry.sessionCadence !== "biennial" ||
+          !["odd", "even"].includes(entry.sessionYearParity ?? "")
+    ) {
+      throw new Error(
+        `Legislative session cadence is invalid for ${jurisdictionKey}.`,
+      );
+    }
+    const cutoff = entry.regularSessionCutoff;
+    const sourceCutoff =
+      entry.baselinePack.session?.regularSessionLatestAdjournment !== undefined;
+    if (
+      sourceCutoff
+        ? cutoff !== null
+        : cutoff === null ||
+          !["5-31", "6-30", "7-31"].includes(`${cutoff.month}-${cutoff.day}`)
+    ) {
+      throw new Error(
+        `Legislative session cutoff is invalid for ${jurisdictionKey}.`,
+      );
+    }
+    if (typeof entry.measuresCarryOver !== "boolean") {
+      throw new Error(
+        `Legislative carryover is invalid for ${jurisdictionKey}.`,
+      );
+    }
+  }
+}
+
 export function assertWorldSetupIntegrity(
   world: World,
   ids: Set<EntityId>,
@@ -108,6 +194,9 @@ export function assertWorldSetupIntegrity(
       ]) {
         finite(value, "Macro starting condition");
       }
+    }
+    if (record.kind === "legislative-starting-procedures") {
+      checkLegislativeStartingProcedures(record);
     }
   }
 
