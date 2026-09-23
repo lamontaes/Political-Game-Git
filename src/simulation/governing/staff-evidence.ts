@@ -401,7 +401,7 @@ export function staffAssessment(
     posts.length > 1
       ? `, after ${posts.length - 1} earlier post${posts.length > 2 ? "s" : ""} there`
       : ""
-  }${degrees.length > 0 ? ", with a completed degree on file" : ""}.`;
+  }${degrees.length > 0 ? ", with a completed degree" : ""}.`;
   const strength = budget
     ? "reads a budget quickly, and the record shows years of doing it"
     : legislative
