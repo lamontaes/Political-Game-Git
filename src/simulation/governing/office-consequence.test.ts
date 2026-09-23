@@ -5,7 +5,10 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../../presentation/opening-life";
-import { openOrdinaryLife } from "../../presentation/ordinary-life";
+import {
+  openOrdinaryLife,
+  passOrdinaryDays,
+} from "../../presentation/ordinary-life";
 import { serializeWorld } from "../serialization";
 import type { World } from "../types";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
@@ -124,6 +127,34 @@ describe("GOVERNING D2: what an office does about an allegation", () => {
     expect(again.eventId).toBe(resigned.eventId);
   }, 600_000);
 
+  it("a senator who resigns is replaced by the governor's appointee", () => {
+    const world = openingWorld("office-consequence-senate");
+    const seat = projectCongress(world)!.senate.seats.find(
+      (row) => row.occupant.kind === "member",
+    )!;
+    if (seat.occupant.kind !== "member") throw new Error("fixture");
+    const member = seat.occupant.member.personId;
+    const result = recordOfficeConsequence(world, {
+      stableKey: "press:senate-resignation",
+      officeKey: seat.seatKey,
+      subjectPersonId: member,
+      kind: "resignation",
+      effectiveAt: world.currentDate,
+      statedReason: "I am leaving the Senate.",
+      evidenceEventIds: [],
+    });
+    expect(result.outcome.changed).toBe(true);
+    if (result.outcome.changed)
+      expect(result.outcome.note).toMatch(/governor appoints a senator/);
+    const next = passOrdinaryDays(result.world, 11);
+    const view = projectCongress(next)!.senate.seats.find(
+      (row) => row.seatKey === seat.seatKey,
+    )!;
+    expect(view.occupant.kind).toBe("member");
+    if (view.occupant.kind === "member")
+      expect(view.occupant.member.personId).not.toBe(member);
+  }, 600_000);
+
   it("a seat in Congress and an ordinary recorded office can be resigned too", () => {
     const world = openingWorld("office-consequence-seat");
     const seat = projectCongress(world)!.house.seats.find(
@@ -148,6 +179,12 @@ describe("GOVERNING D2: what an office does about an allegation", () => {
       (row) => row.seatKey === seat.seatKey,
     )!;
     expect(view.occupant.kind).toBe("vacancy");
+    // The seat is scheduled to be filled, as after a death.
+    expect(
+      result.world.history.futureDueItems.some((due) =>
+        due.stableKey.endsWith(`:${seat.seatKey}:${world.currentDate}`),
+      ),
+    ).toBe(true);
     expect(
       result.world.history.events.find((event) => event.id === result.eventId)!
         .tags,
