@@ -399,6 +399,15 @@ export function formativeEligibilityProvider(
           "No club, team or group is recorded for this character to join or leave.",
         );
       }
+      // "Help organize it", offered three times in Fairbanks (2026-09-23), about
+      // "something at school" that no record names: no school issue, protest
+      // or petition is written for students, so there is nothing to organize.
+      if (situationKey === "formative.student-organizing") {
+        return blocked(
+          "context:no-school-issue",
+          "No school issue is recorded for students to organize around.",
+        );
+      }
 
       return { status: "allowed", reasons: [] };
     },
