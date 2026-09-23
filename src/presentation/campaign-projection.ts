@@ -166,6 +166,8 @@ export interface CampaignReading {
   /** The sentence the candidate was actually told. */
   readonly summary: string;
   readonly on: string;
+  /** How far the count moved since the one before, when it moved. */
+  readonly change: string | null;
 }
 
 export interface CampaignTallyLine extends CandidateTally {
@@ -738,12 +740,11 @@ function sessionsFor(
  * but has not recorded anybody reading is not something the player knows, and
  * the difference matters on the day somebody else reads it first.
  */
-function latestReading(
+function readingFrom(
   world: World,
   campaign: CampaignRecord,
-): CampaignReading | null {
-  const result = campaignResultsFor(world, campaign.id).at(-1);
-  if (!result) return null;
+  result: ReturnType<typeof campaignResultsFor>[number],
+): Omit<CampaignReading, "change"> | null {
   const knowledge = world.history.knowledge.find(
     (candidate) =>
       candidate.id === result.feedbackKnowledgeId &&
@@ -764,6 +765,31 @@ function latestReading(
         : null,
     summary: knowledge.believedSummary,
     on: result.completedAt,
+  };
+}
+
+function latestReading(
+  world: World,
+  campaign: CampaignRecord,
+): CampaignReading | null {
+  const readings = campaignResultsFor(world, campaign.id).flatMap((result) => {
+    const reading = readingFrom(world, campaign, result);
+    return reading ? [reading] : [];
+  });
+  const latest = readings.at(-1);
+  if (!latest) return null;
+  const previous = readings.at(-2);
+  // A count is an estimate, so a move between two of them is the estimate's
+  // move, not a measurement of what caused it. Said only when it moved.
+  const points = previous
+    ? Math.round((latest.percent - previous.percent) * 10) / 10
+    : 0;
+  return {
+    ...latest,
+    change:
+      previous && points !== 0
+        ? `${points > 0 ? "Up" : "Down"} ${Math.abs(points).toFixed(1)} points since the count on ${proseDate(previous.on)}.`
+        : null,
   };
 }
 
