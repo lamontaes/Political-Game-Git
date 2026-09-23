@@ -676,6 +676,82 @@ function favourActuallyPerformedFor(
 }
 
 /**
+ * The evening "sit and talk" invitation, as a save written before 2026-09-22
+ * holds it. Play no longer writes one (the owner removed it: accepting led to
+ * no conversation, only a calendar hold). Kept so the records such a save
+ * carries, and the scenes that still answer them, can be reproduced exactly.
+ */
+function householdEveningCandidate(
+  world: World,
+  personId: EntityId,
+  householdCompanionId: EntityId,
+  jurisdictionId: EntityId | null,
+): OpportunityCandidate {
+  return {
+    kind: "household-evening",
+    counterpartPersonId: householdCompanionId,
+    write: (current, stableKey) =>
+      writeAsk(current, {
+        stableKey,
+        kind: "household-evening",
+        personId,
+        askerPersonId: householdCompanionId,
+        jurisdictionId,
+        type: "life.household-evening-proposed",
+        summary: `${personName(world.people[householdCompanionId]!)} said they would be home this evening and invited them to sit and talk.`,
+        detail: "Invited them to sit and talk this evening",
+        details: {
+          version: 1,
+          task: "sit and talk at home this evening",
+          opening:
+            "I will be home this evening. Would you like to sit and talk?",
+          condition: null,
+          minutes: 120,
+        },
+        believed:
+          "The evening is free at home and the other person will be in.",
+        // A particular evening, and it is tonight. Without the date this is
+        // not a free evening at all but a standing offer, and a standing
+        // offer would sit unanswered in the life forever while the world
+        // waited for it to be taken up.
+        occasion: {
+          title: "An evening in",
+          summary:
+            "The evening at home, with the person who lives here saying they would be in for it.",
+          date: world.currentDate,
+          startHour: 20,
+          endHour: 22,
+          label: "Home",
+        },
+      }),
+  };
+}
+
+/** Writes a pre-removal evening invitation the way play used to. */
+export function writeLegacyHouseholdEveningInvitation(
+  world: World,
+  personId: EntityId,
+): World {
+  const companionId = askerChooser(world, personId)(
+    world,
+    householdCompanionIds(world, personId, currentLifeCutoff(world)),
+  );
+  if (!companionId) return world;
+  const place = lifePlaceByJurisdictionId(
+    world.people[personId]!.homeJurisdictionId,
+  );
+  return householdEveningCandidate(
+    world,
+    personId,
+    companionId,
+    place?.context.jurisdiction.id ?? null,
+  ).write(
+    world,
+    `life-opportunity:${personId}:${world.currentDate}:household-evening`,
+  );
+}
+
+/**
  * Which of the eight this world can support today.
  *
  * Every one of them needs a real person, a real record or both, and a kind
@@ -708,10 +784,6 @@ function eligibleOpportunities(
   };
 
   const firstOf = askerChooser(world, personId);
-  const householdCompanionId = firstOf(
-    world,
-    householdCompanionIds(world, personId, cutoff),
-  );
   const localId = firstOf(world, localNeighbourIds(world, personId, cutoff));
   const familiarId = firstOf(world, familiarPersonIds(world, personId, cutoff));
   const colleagueId = firstOf(world, colleagueIds(world, personId, cutoff));
@@ -720,45 +792,9 @@ function eligibleOpportunities(
     communityMemberIds(world, personId, cutoff),
   );
 
-  if (householdCompanionId) {
-    push({
-      kind: "household-evening",
-      counterpartPersonId: householdCompanionId,
-      write: (current, stableKey) =>
-        writeAsk(current, {
-          stableKey,
-          kind: "household-evening",
-          personId,
-          askerPersonId: householdCompanionId,
-          jurisdictionId,
-          type: "life.household-evening-proposed",
-          summary: `${personName(world.people[householdCompanionId]!)} will be home this evening and asked if you would like to sit and talk.`,
-          detail: "Invited them to sit and talk this evening",
-          details: {
-            version: 1,
-            task: "sit and talk at home this evening",
-            opening:
-              "I will be home this evening. Would you like to sit and talk?",
-            condition: null,
-            minutes: 120,
-          },
-          believed: `${personName(world.people[householdCompanionId]!)} will be home this evening and asked if you would like to sit and talk.`,
-          // A particular evening, and it is tonight. Without the date this is
-          // not a free evening at all but a standing offer, and a standing
-          // offer would sit unanswered in the life forever while the world
-          // waited for it to be taken up.
-          occasion: {
-            title: "An evening in",
-            summary:
-              "The evening at home, with the person who lives here saying they would be in for it.",
-            date: world.currentDate,
-            startHour: 20,
-            endHour: 22,
-            label: "Home",
-          },
-        }),
-    });
-  }
+  // Removed by the owner, 2026-09-22: accepting the evening led to no
+  // conversation, only a calendar hold. No new invitation is written; one
+  // already in a save still reads and resolves through its old records.
 
   if (localId) {
     const asker = personName(world.people[localId]!);
