@@ -26,6 +26,8 @@ import {
 import {
   attendOfficeTransitionService,
   projectOfficeTransition,
+  projectSwearingIn,
+  takeOathForHeldOffice,
 } from "./office-transition";
 
 afterEach(() => bindRuleCapabilityResolver(unadmittedRuleCapabilityResolver));
@@ -183,8 +185,15 @@ describe("a governor-elect", () => {
     expect(projectOfficeTransition(qualified, personId)!.qualification).toBe(
       "done",
     );
+    const inOffice = passUntil(qualified, view.startsAt);
+    expect(projectOfficeTransition(inOffice, personId)).toBeNull();
+    // A governor is sworn in too, at an inauguration rather than in a chamber.
+    const swearingIn = projectSwearingIn(inOffice, personId)!;
+    expect(swearingIn.officeTitle).toBe("Governor");
+    expect(swearingIn.ceremony).toMatch(/inauguration/);
     expect(
-      projectOfficeTransition(passUntil(qualified, view.startsAt), personId),
-    ).toBeNull();
+      projectSwearingIn(takeOathForHeldOffice(inOffice, personId), personId)!
+        .swornInOn,
+    ).toBe(inOffice.currentDate);
   }, 240_000);
 });
