@@ -50,7 +50,22 @@ import {
   recordHouseholdLocation,
   startHouseholdMembership,
 } from "../life";
-import { peopleInHouseholdAt } from "../life-queries";
+import {
+  activeWorkRelationshipsAt,
+  kinshipRelationshipsAt,
+  peopleInHouseholdAt,
+  workRelationshipHistoryForPerson,
+  workStatusAt,
+} from "../life-queries";
+import {
+  UNRESEARCHED_LOCAL_CRIME,
+  UNRESEARCHED_TOWN_POLICE_LOG,
+} from "../crime/contract";
+import { localCrimeFigures } from "../crime/producer";
+import {
+  macroConditionsAt,
+  macroScopeForJurisdiction,
+} from "../macro-economy/readers";
 import { activeDwellingOccupanciesAt } from "../resource-queries";
 import {
   applyMoves,
@@ -100,6 +115,33 @@ export const BLANKET_DISPLACED_LEAVE_CHANCE = {
   destroyed: 0.4,
   damaged: 0.05,
 } as const;
+
+/**
+ * BLANKET: how much more likely somebody is to leave town in the year after
+ * losing a job, when they have not found another. Not researched; filed as
+ * `why-americans-move-causes-and-strengths`.
+ */
+export const BLANKET_JOB_LOSS_MULTIPLIER = 3;
+
+/**
+ * BLANKET: how much a reported assault or robbery in town beyond the police
+ * log's usual quarter adds to the chance a free household leaves. Not
+ * researched.
+ */
+export const BLANKET_TOWN_CRIME_PUSH_PER_EXCESS_REPORT = 0.05;
+
+/**
+ * BLANKET: how much more a leaving household weighs a state where a relative
+ * lives. Not researched.
+ */
+export const BLANKET_FAMILY_PULL = 3;
+
+/**
+ * BLANKET: how much each percentage point of the town's recorded unemployment
+ * above the nation's adds to the chance a free household leaves (and below
+ * it, takes away, never below half). Not researched.
+ */
+export const BLANKET_TOWN_UNEMPLOYMENT_GAP_PUSH = 0.05;
 
 /** Reviews per year; each person is considered in one of them. */
 export const MIGRATION_REVIEWS_PER_YEAR = 4;
@@ -221,7 +263,9 @@ export function reviewTown(
   const chance =
     rates.departureChancePerYear *
     departure.multiplier *
-    statePushOnTown(next, town);
+    statePushOnTown(next, town) *
+    townCrimePush(next, town) *
+    townJobsPush(next, town);
   const reason: MoveReasonKey = departure.waveKey
     ? `wave:${departure.waveKey}`
     : "life-course:unrecorded";
@@ -284,22 +328,35 @@ export function reviewTown(
     const rng = new SeededRng(next.seed).fork(
       `${MIGRATION_CONTRACT_VERSION}:depart:${index}:${personId}`,
     );
-    if (rng.next() >= chance) continue;
+    const jobLost = lostJobWithinYear(next, personId);
+    const own = jobLost ? chance * BLANKET_JOB_LOSS_MULTIPLIER : chance;
+    if (rng.next() >= own) continue;
     context ??= {
       ties: moveTieReader(next),
       playerHousehold: playerHouseholdPeople(next),
       dead,
     };
+    const kin = kinStates(next, personId, destinations);
+    const to = chooseDestination(
+      rng.fork("destination"),
+      destinations,
+      "pull",
+      kin,
+    );
+    const why: MoveReasonKey = departure.waveKey
+      ? reason
+      : jobLost
+        ? "work:job-lost"
+        : kin.has(to)
+          ? "family:near-kin"
+          : reason;
     const plan = planMove(
       next,
       {
         stableKey: `${index}:${personId}`,
         personId,
-        toJurisdictionId: chooseDestination(
-          rng.fork("destination"),
-          destinations,
-        ),
-        reason,
+        toJurisdictionId: to,
+        reason: why,
         waveKey: departure.waveKey,
       },
       context,
@@ -457,6 +514,112 @@ function displacedHomes(
   return homes;
 }
 
+/**
+ * Crime in town beyond the usual (`cause-crime`): 1 when the last review
+ * period's reported assaults and robberies are no more than the police log's
+ * expected share, rising by a blanket step for each report beyond it. Every
+ * town has the same expected log today, so only an unusually bad quarter
+ * pushes anyone.
+ */
+export function townCrimePush(world: World, town: EntityId): number {
+  const figures = localCrimeFigures(
+    world,
+    town,
+    addDays(world.currentDate, 1 - MIGRATION_REVIEW_INTERVAL_DAYS),
+    world.currentDate,
+  );
+  const violent = figures.reported.assault + figures.reported.robbery;
+  const weight = (offense: string) => {
+    const rule = UNRESEARCHED_LOCAL_CRIME.offenses.find(
+      (row) => row.offense === offense,
+    )!;
+    return rule.annualRate * rule.reportedShare;
+  };
+  const all = UNRESEARCHED_LOCAL_CRIME.offenses.reduce(
+    (sum, rule) => sum + weight(rule.offense),
+    0,
+  );
+  const expected =
+    ((UNRESEARCHED_TOWN_POLICE_LOG.reportedPerMonth *
+      MIGRATION_REVIEW_INTERVAL_DAYS) /
+      30.4) *
+    ((weight("assault") + weight("robbery")) / all);
+  const excess = Math.max(0, violent - expected);
+  return 1 + excess * BLANKET_TOWN_CRIME_PUSH_PER_EXCESS_REPORT;
+}
+
+/**
+ * Jobs in town against the nation (`cause-state-economy`, town side): 1 when
+ * the economy records no month of the town's own, which is the case until a
+ * disaster or public spending there gives it one.
+ */
+export function townJobsPush(world: World, town: EntityId): number {
+  const local = macroConditionsAt(
+    world,
+    macroScopeForJurisdiction(town),
+    world.currentDate,
+  );
+  if (!local) return 1;
+  const nation = (world.macroEconomy?.months ?? []).find(
+    (row) => row.scope === "national" && row.periodEnd === local.periodEnd,
+  );
+  if (!nation) return 1;
+  const gap = local.unemploymentPct - nation.unemploymentPct;
+  return Math.max(0.5, 1 + gap * BLANKET_TOWN_UNEMPLOYMENT_GAP_PUSH);
+}
+
+/**
+ * Somebody whose job ended in the last year and who has no other job
+ * (`cause-job-loss`). Reviewed once a year, so the whole year counts.
+ */
+export function lostJobWithinYear(world: World, personId: EntityId): boolean {
+  if (activeWorkRelationshipsAt(world, personId).length > 0) return false;
+  const since = addDays(world.currentDate, -365);
+  return workRelationshipHistoryForPerson(world, personId).some((job) => {
+    const status = workStatusAt(world, job.id);
+    return status?.status === "ended" && status.effectiveAt > since;
+  });
+}
+
+/**
+ * Other states where a living relative of this person lives today
+ * (`cause-family`). A relative in town or in the town's own state adds
+ * nothing to the choice between other states.
+ */
+function kinStates(
+  world: World,
+  personId: EntityId,
+  pool: DestinationPool,
+): ReadonlySet<EntityId> {
+  const others = new Set(pool.otherStates);
+  const states = new Set<EntityId>();
+  for (const relationship of kinshipRelationshipsAt(world, personId)) {
+    const kinId = relationship.personIds.find((id) => id !== personId)!;
+    const kin = world.people[kinId];
+    if (!kin || world.history.personDeaths.some((d) => d.personId === kinId))
+      continue;
+    const state = stateOf(world, kin.homeJurisdictionId);
+    if (state && others.has(state)) states.add(state);
+  }
+  return states;
+}
+
+/** The other states where this person has a living relative, for `town`. */
+export function statesWithRelatives(
+  world: World,
+  personId: EntityId,
+  town: EntityId,
+): ReadonlySet<EntityId> {
+  return kinStates(world, personId, destinationPool(world, town));
+}
+
+function stateOf(world: World, jurisdictionId: EntityId): EntityId | null {
+  if (world.jurisdictions[jurisdictionId]?.kind === "state-placeholder")
+    return jurisdictionId;
+  const key = lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey;
+  return key ? (stateJurisdictionForKey(key)?.id ?? null) : null;
+}
+
 /** Which quarter of the year a person is reviewed in: fixed per person. */
 function reviewQuarter(personId: EntityId): number {
   let hash = 0;
@@ -505,10 +668,14 @@ function chooseDestination(
   rng: SeededRng,
   pool: DestinationPool,
   weighting: "pull" | "push" = "pull",
+  kin: ReadonlySet<EntityId> = new Set(),
 ): EntityId {
   if (pool.ownState && rng.next() < BLANKET_SAME_STATE_SHARE)
     return pool.ownState;
-  const weights = weighting === "pull" ? pool.pull : pool.push;
+  const weights = (weighting === "pull" ? pool.pull : pool.push).map(
+    (weight, index) =>
+      kin.has(pool.otherStates[index]!) ? weight * BLANKET_FAMILY_PULL : weight,
+  );
   const total = weights.reduce((sum, weight) => sum + weight, 0);
   let draw = rng.next() * total;
   for (let index = 0; index < pool.otherStates.length; index += 1) {

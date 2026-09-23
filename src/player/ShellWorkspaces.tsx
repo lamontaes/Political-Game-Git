@@ -42,6 +42,7 @@ import {
   type CalendarHorizon,
 } from "../presentation/player-calendar";
 import { projectLifeRecord } from "../presentation/life-record";
+import { proseDate } from "../presentation/prose-dates";
 import { projectMeasureBriefing } from "../presentation/legislation-projection";
 import { projectOpeningLife } from "../presentation/opening-life";
 import { projectPersonalRecord } from "../presentation/personal-record";
@@ -564,6 +565,11 @@ export function PeopleWorkspace({
                     <small>{person.relationship}</small>
                   ) : person.context ? (
                     <small>{person.context}</small>
+                  ) : null}
+                  {person.strain ? (
+                    <small data-testid={`people-strain-${person.personId}`}>
+                      {person.strain}
+                    </small>
                   ) : null}
                 </button>
                 <PinToggle
@@ -1529,7 +1535,8 @@ export function PersonalWorkspace({
                 <h4>{chapter.heading}</h4>
                 {chapter.entries.map((entry) => (
                   <p key={entry.key}>
-                    <time>{entry.at}</time> · {entry.sentence}
+                    <time dateTime={entry.at}>{proseDate(entry.at)}</time> ·{" "}
+                    {entry.sentence}
                   </p>
                 ))}
               </section>
