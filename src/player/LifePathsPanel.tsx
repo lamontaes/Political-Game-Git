@@ -3,6 +3,7 @@ import { proseDate } from "../presentation/prose-dates";
 import { formatMinute } from "../presentation/player-calendar";
 import { useState } from "react";
 import { CareerPathsPanel } from "./CareerPathsPanel";
+import { JobListingsPanel } from "./JobListingsPanel";
 import { EducationOptionsPanel } from "./EducationOptionsPanel";
 import type {
   EntityId,
@@ -92,6 +93,19 @@ export function LifePathsPanel({
     ...world.history.educationEnrollments,
     ...world.history.workRelationships,
   ].filter((r) => r.personId === actor && pathForRelationship(world, r.id));
+  // An offer or job from the older work list stays in view: folding it away
+  // hid the only "Begin accepted work" button a Greenwich life had.
+  const olderWorkInPlay = world.history.workRelationships.some(
+    (w) =>
+      w.personId === actor &&
+      ["expected", "active"].includes(
+        workStatusAt(world, w.id)?.status ?? "",
+      ) &&
+      world.history.events.some(
+        (e) =>
+          e.type === "career-path7.offer" && e.involvedEntityIds.includes(w.id),
+      ),
+  );
   const offers = world.history.workRelationships.filter(
     (w) =>
       w.personId !== actor &&
@@ -220,11 +234,20 @@ export function LifePathsPanel({
         </button>
       </div>
       <div hidden={browse !== "work"}>
-        <CareerPathsPanel
-          world={world}
-          onWorldChange={onWorldChange}
-          transitionHandlers={handlers}
-        />
+        <JobListingsPanel world={world} onWorldChange={onWorldChange} />
+        {/*
+          The three authored jobs every town used to show. Kept, folded away,
+          so a life already working one still reaches it; the town's own
+          listings above are the Jobs screen now.
+        */}
+        <details open={olderWorkInPlay}>
+          <summary>Other work</summary>
+          <CareerPathsPanel
+            world={world}
+            onWorldChange={onWorldChange}
+            transitionHandlers={handlers}
+          />
+        </details>
       </div>
       <div hidden={browse !== "study"}>
         {/*
