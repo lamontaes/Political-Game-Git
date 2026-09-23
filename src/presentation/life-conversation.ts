@@ -832,7 +832,10 @@ export function commitLifeConversation(
   if (raised)
     for (const personId of currentLifeTalkScene(world, input.playerPersonId)!
       .presentPersonIds)
-      if (personId !== input.playerPersonId)
+      if (
+        personId !== input.playerPersonId &&
+        ageOnDate(next.people[personId]!.birthDate, next.currentDate) >= 18
+      )
         next = encounterProposalsInEvent(next, {
           personId,
           event: raised,

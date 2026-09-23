@@ -11,10 +11,12 @@ import type {
   PoliticalBeliefFormationOutcome,
 } from "../political-belief-formation";
 import { recordPropositionExposure } from "../politics";
-import { latestPrinciple } from "../queries";
+import { latestPrinciple, latestPrivateBelief } from "../queries";
 import { SeededRng } from "../rng";
 import type {
   BeliefConviction,
+  BeliefPosition,
+  PrivateBeliefRecord,
   DecisionImportance,
   EntityId,
   FutureDueItem,
@@ -164,7 +166,20 @@ export function encounterProposalsInEvent(
     const controlled =
       next.control.kind === "person" &&
       next.control.personId === input.personId;
-    if (!controlled) next = schedulePoliticalReflection(next, exposure);
+    // Two tellings on one day are one evening's thinking, not two.
+    const alreadyDue = next.history.futureDueItems.some(
+      (item) =>
+        item.transitionKey === POLITICAL_REFLECTION_TRANSITION_KEY &&
+        item.entityIds.includes(input.personId) &&
+        item.dueAt === addDays(exposure.encounteredAt, 1) &&
+        next.history.propositionExposures.some(
+          (other) =>
+            item.stableKey === `${V}:considers:${other.id}` &&
+            other.propositionId === propositionId,
+        ),
+    );
+    if (!controlled && !alreadyDue)
+      next = schedulePoliticalReflection(next, exposure);
   }
   return next;
 }
@@ -245,6 +260,7 @@ export function politicalReflectionTransitionHandler(
         issuesTheyCareAbout(world, personId).includes(
           world.policyCatalog.propositions[exposure.propositionId]!.issueId,
         ),
+        latestPrivateBelief(world, personId, exposure.propositionId) ?? null,
       ),
   });
   const next = applyNpcPoliticalBeliefFormation(world, proposal);
@@ -336,6 +352,19 @@ const IMPORTANCE_BY_CONVICTION: Readonly<
   settled: "strong",
 };
 
+const POSITION_OF: Readonly<
+  Record<
+    Exclude<PoliticalBeliefFormationOutcome, "no-opinion" | "defer">,
+    BeliefPosition
+  >
+> = {
+  support: "support",
+  "tentative-support": "support",
+  opposition: "oppose",
+  "tentative-opposition": "oppose",
+  conflicted: "conflicted",
+};
+
 const CONVICTION_ORDER: readonly BeliefConviction[] = [
   "tentative",
   "moderate",
@@ -356,7 +385,24 @@ function dimensionsFor(
   outcome: Exclude<PoliticalBeliefFormationOutcome, "no-opinion" | "defer">,
   factors: readonly PrincipleFactor[],
   caresAboutIssue: boolean,
+  prior: PrivateBeliefRecord | null,
 ): PoliticalBeliefDimensions {
+  // Meeting a question again and landing where they already stood, for no
+  // reason of principle, keeps the view as firmly as it was held: hearing
+  // about a bill once more does not wear a conviction down.
+  const tentativeOutcome =
+    outcome === "tentative-support" || outcome === "tentative-opposition";
+  if (
+    prior &&
+    prior.position === POSITION_OF[outcome] &&
+    (prior.conviction === "tentative") === tentativeOutcome &&
+    !factors.some((entry) => entry.factor.favors === outcome)
+  )
+    return {
+      conviction: prior.conviction,
+      salience: prior.salience,
+      flexibility: prior.flexibility,
+    };
   const carried = factors
     .filter((entry) => entry.factor.favors === outcome)
     .map((entry) => entry.principle)

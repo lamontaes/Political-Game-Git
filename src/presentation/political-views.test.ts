@@ -10,6 +10,7 @@ import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 import {
   createFormationContext,
   recordPrinciple,
+  recordPrivateBelief,
 } from "../simulation/politics";
 import type { EntityId, FutureDueItem, World } from "../simulation/types";
 import {
@@ -239,6 +240,41 @@ describe("people form political views from what they meet", () => {
       expect(beliefs[0]!.salience).toBe(cares ? "high" : "low");
     },
   );
+
+  it("meeting a bill again does not wear down a view already held", () => {
+    const { world, sponsor, proposition, event } = withBill("kept");
+    const held = recordPrivateBelief(world, {
+      stableKey: "reflection-test:held",
+      personId: sponsor,
+      propositionId: proposition.id,
+      formedAt: world.currentDate,
+      position: "support",
+      conviction: "settled",
+      salience: "central",
+      flexibility: "firm",
+      rationale: null,
+      formation: createFormationContext("reflection:initial", {
+        note: "Test fixture: a view the person already holds.",
+      }),
+      supersedesBeliefId: null,
+    });
+    const met = encounterProposalsInEvent(held, {
+      personId: sponsor,
+      event,
+      summary: event.summary,
+      provenance: { kind: "direct-experience", eventId: event.id },
+    });
+    const result = reflect(met, dueFor(met, sponsor)[0]!);
+    const latest = result.world.history.privateBeliefs
+      .filter((belief) => belief.personId === sponsor)
+      .at(-1)!;
+    expect([
+      latest.position,
+      latest.conviction,
+      latest.salience,
+      latest.flexibility,
+    ]).toEqual(["support", "settled", "central", "firm"]);
+  });
 
   it("an adult cares about a handful of issues, the same ones on every reading", () => {
     const { world, sponsor } = withBill("cares");
