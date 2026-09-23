@@ -113,6 +113,9 @@ describe("office discovery's election date", () => {
         /recorded|contest|simulated|authored|\d{4}-\d{2}-\d{2}/,
       );
     }
+    // Eligibility is said plainly, not in the rules' own vocabulary.
+    for (const office of offices.filter((office) => office.eligible))
+      expect(office.eligibility).toBe("You can stand for this office.");
     expect(serializeWorld(world)).toBe(before);
 
     const filed = fileForOffice(world, personId);
