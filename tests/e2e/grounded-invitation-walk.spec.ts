@@ -77,32 +77,47 @@ for (const life of LIVES) {
         : "(no scene prose)";
       note(`- ${await clock.innerText()}: ${first}`);
       const whole = await page.locator("body").innerText();
-      if (/I turn \d+|moved on|I started at|on my own anymore|getting the new place/.test(whole) && !text) {
+      if (
+        /I turn \d+|moved on|I started at|on my own anymore|getting the new place/.test(
+          whole,
+        ) &&
+        !text
+      ) {
         note(`  (an invitation is on the page outside the moment)`);
       }
-      if (/I turn \d+|moved on|I started at|on my own anymore|getting the new place/.test(text)) {
+      if (
+        /I turn \d+|moved on|I started at|on my own anymore|getting the new place/.test(
+          text,
+        )
+      ) {
         invitation = text;
         break;
       }
-      const pass = page.getByTestId("story-let-time-pass");
-      if (await pass.count()) {
-        await pass.click();
-      } else {
-        // A scene with no quiet option: take the first answer, as a player
-        // pressing on would, and note it.
-        const option = page
-          .getByTestId("story-options")
-          .getByRole("button")
-          .first();
-        note(`  (answered: ${(await option.innerText()).split("\n")[0]})`);
-        await option.click();
-      }
+      // Played the way a person plays it: answer what is in front of you
+      // (the first answer), and let time pass only when nothing is. Letting
+      // time pass over a scene shows the same scene again next time, so a walk
+      // that only ever passed time would never meet anybody's request.
+      const option = page
+        .getByTestId("story-options")
+        .getByRole("button")
+        .first();
+      note(`  (answered: ${(await option.innerText()).split("\n")[0]})`);
+      await option.click();
       await waitForClockIdle(page);
     }
     expect(invitation, "no invitation with a reason arrived").not.toBeNull();
     note("");
     note("## The invitation, as shown");
     note(invitation!);
+    const host =
+      /\n([^\n:]+?)(?:, your [^:]+)?: “/.exec(invitation!)?.[1] ?? "";
+    note(`Host: ${host}`);
+    const hostLines = (whole: string) =>
+      whole
+        .split("\n")
+        .filter((line) => host && line.includes(host.split(" ")[0]!))
+        .slice(0, 12)
+        .join("\n");
     await shot("01-invitation");
 
     const yes = page
@@ -114,8 +129,8 @@ for (const life of LIVES) {
 
     await goTo(page, "nav-journal-entry");
     const journal = await page.locator("main").innerText();
-    note("## Journal after answering (first lines)");
-    note(journal.split("\n").slice(0, 12).join("\n"));
+    note("## Journal after answering (lines naming the host)");
+    note(hostLines(journal));
     await shot("02-journal");
 
     await saveLife(page);
@@ -127,37 +142,39 @@ for (const life of LIVES) {
     note(`After Continue: ${await clock.innerText()}`);
 
     await goTo(page, "elsewhere-day");
-    note("## Calendar after Continue");
-    note(
-      (await page.locator("main").innerText())
-        .split("\n")
-        .slice(0, 20)
-        .join("\n"),
-    );
+    note("## Calendar after Continue (lines naming the host)");
+    note(hostLines(await page.locator("main").innerText()));
     await shot("03-calendar-after-continue");
 
-    // Let the days run to the afternoon itself and past it.
-    for (let stretch = 0; stretch < 12; stretch += 1) {
+    // Play on through the Saturday, answering what comes, and note each scene.
+    const saturday = /afternoon of ([A-Z][a-z]+ \d+, \d{4})/.exec(
+      await page.locator("body").innerText(),
+    )?.[1];
+    for (let stretch = 0; stretch < 30; stretch += 1) {
       await openMoment(page);
-      const section = page.getByTestId("story-section");
-      const text = (await section.count()) ? await section.innerText() : "";
-      note(
-        `- ${await clock.innerText()}: ${text.split("\n").slice(0, 3).join(" / ")}`,
-      );
-      if (/afternoon at .+'s|spent the afternoon/.test(text)) break;
-      const pass = page.getByTestId("story-let-time-pass");
-      if (!(await pass.count())) break;
-      await pass.click();
+      const prose = page.getByTestId("story-prose");
+      const line = (await prose.count())
+        ? (await prose.first().innerText()).slice(0, 200)
+        : "(no scene prose)";
+      const date = await clock.innerText();
+      note(`- ${date.replace(/\n/g, " ")}: ${line}`);
+      if (
+        saturday &&
+        Date.parse(date.split("\n").find((l) => /\d{4}/.test(l)) ?? "") >
+          Date.parse(saturday) + 86_400_000
+      )
+        break;
+      const option = page
+        .getByTestId("story-options")
+        .getByRole("button")
+        .first();
+      note(`  (answered: ${(await option.innerText()).split("\n")[0]})`);
+      await option.click();
       await waitForClockIdle(page);
     }
     await goTo(page, "nav-journal-entry");
-    note("## Journal at the end (first lines)");
-    note(
-      (await page.locator("main").innerText())
-        .split("\n")
-        .slice(0, 16)
-        .join("\n"),
-    );
+    note("## Journal at the end (lines naming the host)");
+    note(hostLines(await page.locator("main").innerText()));
     await shot("04-journal-end");
   });
 }

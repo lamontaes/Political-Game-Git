@@ -388,6 +388,18 @@ export function formativeEligibilityProvider(
         }
       }
 
+      // "Join the activity" and "Leave the activity" about an activity nobody
+      // names, offered together to somebody who belongs to nothing (Ketchikan,
+      // 2026-09-23). Nothing records a school club or team for a teenager, so
+      // there is no activity to name, join or leave, and the scene waits until
+      // one is recorded.
+      if (situationKey === "formative.activity-choice") {
+        return blocked(
+          "context:no-activity",
+          "No club, team or group is recorded for this character to join or leave.",
+        );
+      }
+
       return { status: "allowed", reasons: [] };
     },
   };

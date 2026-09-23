@@ -131,6 +131,17 @@ describe("Who is actually in the scene", () => {
 });
 
 describe("Whether a scene can happen at all", () => {
+  it("offers no unnamed activity to join or leave while none is recorded", () => {
+    const { world, playerPersonId } = child(15, "activity-choice");
+    expect(
+      formativeSituationAvailable(
+        world,
+        playerPersonId,
+        "formative.activity-choice",
+      ),
+    ).toBe(false);
+  });
+
   it("keeps a workplace scene away from a character with no job", () => {
     const { world, playerPersonId } = child(15);
     expect(
