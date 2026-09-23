@@ -11,6 +11,7 @@ import {
   type IsoDate,
   type World,
 } from "../simulation";
+import { plainCandidateGuidance } from "./candidate-guidance-prose";
 import { INTRODUCTION_EVENT } from "../simulation/social-introductions";
 import { crimeJournalLine } from "../simulation/crime/journal";
 import { ownElectionResultSentence } from "./own-election";
@@ -51,7 +52,7 @@ const INVENTED_CAUSE_OR_FEELING =
 export function livedWorld39Sentence(raw: string): string | null {
   const trimmed = raw.trim();
   if (!trimmed) return null;
-  const stripped = trimmed
+  const stripped = plainCandidateGuidance(trimmed)
     .replace(/^You chose to /i, "You ")
     .replace(/^You decided to /i, "You ")
     .replace(/^I remember /, "You remember ");
@@ -315,7 +316,10 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
       at: account.learnedAt,
       sequence: account.sequence,
       kind: "account",
-      text: inOwnVoice(account.believedSummary, ownName),
+      text: inOwnVoice(
+        plainCandidateGuidance(account.believedSummary),
+        ownName,
+      ),
       sourceId: account.id,
     });
   }

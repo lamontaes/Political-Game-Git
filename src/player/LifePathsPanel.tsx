@@ -11,8 +11,8 @@ import type {
   World,
 } from "../simulation/types";
 import {
-  employerName,
   LIFE_PATHS2_CATALOG,
+  employerName,
 } from "../simulation/life-paths2-catalog";
 import {
   acceptLifePathCounteroffer,
