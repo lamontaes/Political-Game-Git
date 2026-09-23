@@ -46,7 +46,16 @@ import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
+import { seatGovernorSuccessor } from "../nationwide-world/governor-succession";
 import { stateExecutiveOffice } from "../nationwide-world/state-executives";
+import {
+  CHIEF_JUSTICE_CONFIRMATION,
+  CHIEF_JUSTICE_NOMINATION,
+  CHIEF_JUSTICESHIP_VACANT_SENTENCE,
+  chiefJusticeNominationHandler,
+  confirmChiefJustice,
+  openChiefJusticeVacancy,
+} from "./chief-justice-vacancy";
 import type {
   EntityId,
   EventVisibility,
@@ -65,8 +74,11 @@ import { recordWorldEvent } from "../world";
  * CRISIS reports the fact; this module decides what the law the game has
  * compiled says follows, once per notice. Where the game has the rule it acts
  * (a Vice President succeeds under the Twenty-Fifth Amendment, § 1; a dead
- * Representative's seat is vacant until a special election). Where it does not
- * (Senate appointments, governors' successors, the statutory line of
+ * Representative's seat is vacant until a special election; the President
+ * nominates a new Vice President or Chief Justice). Where the route is law
+ * but its pace or choices are not compiled, a marked placeholder fills the
+ * gap (a governor's successor, the nominee and the confirmation). Where it
+ * does not know the route at all (Senate appointments, the statutory line of
  * succession) it writes a public record saying exactly what is missing and
  * leaves the office unfilled rather than inventing a successor.
  */
@@ -631,18 +643,53 @@ function rulingFor(
       },
     };
   }
+  if (office.officeKey === "us-chief-justice") {
+    const opened = openChiefJusticeVacancy(world, {
+      vacancyDate: notice.effectiveDate,
+      formerHolderId: notice.personId,
+    });
+    return {
+      world: opened.world,
+      ruling: {
+        ...base,
+        outcome: "vacant",
+        sentence: opened.presidentId
+          ? CHIEF_JUSTICESHIP_VACANT_SENTENCE
+          : "The office of Chief Justice is vacant, and with no sitting President there is nobody to nominate a successor.",
+      },
+    };
+  }
   const seat = seatFor(office.officeKey);
   if (seat) return vacateSeat(world, seat, MEMBER_DIED(notice.effectiveDate));
   const governorship = governorOffice(office.officeKey);
-  if (governorship)
-    return {
-      world,
-      ruling: {
-        ...base,
-        outcome: "blocked",
-        sentence: `${governorship.displayName} is vacant. ${governorship.stateUsps}'s constitution names the successor, but the game has not compiled that rule, so no one takes office.`,
-      },
-    };
+  if (governorship) {
+    // PLACEHOLDER (governor-succession.ts): the next officer in line serves
+    // the rest of the term.
+    const seated = seatGovernorSuccessor(world, governorship, {
+      vacancyDate: notice.effectiveDate,
+      formerHolderId: notice.personId,
+    });
+    const successor = seated.successorId
+      ? seated.world.people[seated.successorId]
+      : undefined;
+    return successor
+      ? {
+          world: seated.world,
+          ruling: {
+            ...base,
+            outcome: "succeeded",
+            sentence: `${personName(successor)} succeeded to the office of ${governorship.displayName} and serves the rest of the term.`,
+          },
+        }
+      : {
+          world,
+          ruling: {
+            ...base,
+            outcome: "blocked",
+            sentence: `${governorship.displayName} is vacant, and the state's office is not in this World, so no one takes office.`,
+          },
+        };
+  }
   return {
     world,
     ruling: {
@@ -888,6 +935,42 @@ export function vicePresidentNominationHandler(
   return resolved(next, `${nomineeName} was nominated.`, nominatedEventId);
 }
 
+/** The seat in Congress a person holds today, if any. */
+function congressSeatHeldBy(
+  world: World,
+  personId: EntityId,
+): CongressSeat | undefined {
+  const congress = projectCongress(world);
+  const held = [
+    ...(congress?.house.seats ?? []),
+    ...(congress?.senate.seats ?? []),
+  ].find(
+    (seat) =>
+      seat.occupant.kind === "member" &&
+      seat.occupant.member.personId === personId,
+  );
+  return held
+    ? congressSeats().find((candidate) => candidate.seatKey === held.seatKey)
+    : undefined;
+}
+
+/** The Senate confirms a Chief Justice, who leaves any seat in Congress. */
+export function chiefJusticeConfirmationHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  return confirmChiefJustice(world, due, (next, personId) => {
+    const seat = congressSeatHeldBy(next, personId);
+    return seat
+      ? vacateSeat(next, seat, {
+          effectiveDate: next.currentDate,
+          key: "member-became-chief-justice",
+          clause: "after the member became Chief Justice",
+        }).world
+      : next;
+  });
+}
+
 /** Both houses confirm; the nominee takes office for the rest of the term. */
 export function vicePresidentConfirmationHandler(
   world: World,
@@ -920,15 +1003,7 @@ export function vicePresidentConfirmationHandler(
   }
   // The seat in Congress the nominee leaves, if any, read before they take
   // the new office.
-  const congress = projectCongress(world);
-  const heldSeat = [
-    ...(congress?.house.seats ?? []),
-    ...(congress?.senate.seats ?? []),
-  ].find(
-    (seat) =>
-      seat.occupant.kind === "member" &&
-      seat.occupant.member.personId === nomineeId,
-  );
+  const heldSeat = congressSeatHeldBy(world, nomineeId);
   let next = recordWorldEvent(world, {
     stableKey: `${due.stableKey}:confirmed`,
     type: FEDERAL_TENURE_EVENT,
@@ -957,13 +1032,8 @@ export function vicePresidentConfirmationHandler(
     context: CONTEXT,
   });
   const confirmedEventId = next.history.events.at(-1)!.id;
-  const seat = heldSeat
-    ? congressSeats().find(
-        (candidate) => candidate.seatKey === heldSeat.seatKey,
-      )
-    : undefined;
-  if (seat)
-    next = vacateSeat(next, seat, {
+  if (heldSeat)
+    next = vacateSeat(next, heldSeat, {
       effectiveDate: next.currentDate,
       key: "member-became-vice-president",
       clause: "after the member became Vice President",
@@ -1069,4 +1139,6 @@ export const OFFICE_CONTINUITY_HANDLERS = [
   [HOUSE_SPECIAL_ELECTION, houseSpecialElectionHandler],
   [VICE_PRESIDENT_NOMINATION, vicePresidentNominationHandler],
   [VICE_PRESIDENT_CONFIRMATION, vicePresidentConfirmationHandler],
+  [CHIEF_JUSTICE_NOMINATION, chiefJusticeNominationHandler],
+  [CHIEF_JUSTICE_CONFIRMATION, chiefJusticeConfirmationHandler],
 ] as const;
