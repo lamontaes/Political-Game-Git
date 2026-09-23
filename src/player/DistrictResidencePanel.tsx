@@ -120,11 +120,7 @@ export function DistrictResidencePanel({
           </GameSelect>
         </label>
       )}
-      <p>
-        Published Gazetteer identities only. Choosing a numbered district is not
-        proof that this character's home lies in it. An interior point is not a
-        boundary, and living in this state is not living in a numbered district.
-      </p>
+      <p>Choosing a district does not move you into it.</p>
       {districts.length === 0 ? (
         <p data-testid="district-residence-empty">
           No supported district identities are published for the office offered
