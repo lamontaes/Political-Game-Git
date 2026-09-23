@@ -1,0 +1,33 @@
+# Census public payroll data can inform sampled public-unit context, with a crosswalk check still needed
+
+The Census Bureau’s 2025 Annual Survey of Public Employment & Payroll (ASPEP) individual-unit file contains sampled state and local government units, employment and payroll by government function, and a new six-digit unit identifier. Many of those identifiers also appear as PID6 values in the 2025 Government Units Listing. The sources do not document those fields as a formal crosswalk, and the comparison surfaced state mismatches. Treat a matching ID as a candidate only; verify the state, unit type, and name before linking records.
+
+## Coverage and sample
+
+The official [2025 ASPEP dataset page](https://www.census.gov/data/datasets/2025/econ/apes/annual-apes.html) links an [individual-unit archive](https://www2.census.gov/programs-surveys/apes/datasets/2025/2025_individual_unit_files.zip), an Excel file, fixed-width data and ID files, a disclaimer, and technical documentation. The [2025 methodology](https://www.census.gov/programs-surveys/apes/technical-documentation/methodology/annual/2025.html) says ASPEP measures 50 state governments and local governments, including D.C. It excludes federal agencies and institutions. The documented 2025 ID code list and inspected workbook have no records for Puerto Rico or the four Island Areas. This product does not provide territorial ASPEP coverage.
+
+2025 is a sample year, not a Census of Governments year. Census says the individual-unit files include only governments sampled in non-census years. The methodology estimates approximately 79,000 local governments eligible for sampling and approximately 11,400 sampled state and local governments. It excludes local governments Census determines are nonemployers. It treats all 50 state governments, all Hawaii local units, and D.C. as certainty units; other local units are sampled. The workbook has 82,589 function rows representing 11,421 distinct unit IDs, counted from the downloaded file. These counts describe the file, not an annual census of local employers.
+
+The survey reference period is the pay period that includes March 12, 2025. Payroll in the individual-unit files is converted to a 31-day March equivalent, in current whole dollars. Employment includes full-time and part-time employee counts. ASPEP also publishes full-time-equivalent totals in its statistical tables, but the individual-unit workbook’s listed employment fields are full-time and part-time counts by function. Part-time hours have not been collected since 2019. The figures are not annual salary rates, occupation-level pay, schedules, or specific job offers.
+
+## Fields and matchability
+
+The 2025 Excel file names the government, state, type, and function. It reports full-time and part-time employee counts and payroll, with data flags. It also includes a legacy 14-character ID and a new six-digit unit ID. Geographic and descriptive fields include FIPS state and county, county name, population or enrollment with year, school level, probability of selection, and worksheet code. The paired fixed-width ID file has one descriptive row per surveyed unit. Census documentation says it added the new six-digit ID in May 2024 as a unique identifier; the legacy ID will be retired.
+
+I compared distinct ASPEP New Individual Unit ID values with GUS PID6 values. **Measured:** 11,185 of the 11,421 ASPEP unit IDs appear as a GUS PID6. **Measured:** eight ID-only matches point to a GUS record in a different state. For example, ASPEP lists Texarkana, Arkansas, under ID `100413`. The GUS record with that PID6 is in Texas. The [2025 GUS listing](https://www.census.gov/data/datasets/2025/econ/gus/public-use-files.html) names its identifier `CENSUS_ID_PID6`. The ASPEP documentation reviewed here does not state that New Individual Unit ID is the same identifier system as GUS PID6. These observations rule out a blind ID-only join. A verified crosswalk should require agreement on jurisdiction and unit type, then check the source name and location fields. The unmatched and discordant records’ causes are **UNKNOWN**.
+
+The ASPEP workbook repeats a government unit for each reported function. Grouping rows by unit ID is necessary to count units, but summing function rows without using the total-function item correctly would double count employees and payroll. Data flags distinguish reported, adjusted, and imputed values. Preserve them if the file is later used.
+
+Census’s [individual-unit archive, including the disclaimer](https://www2.census.gov/programs-surveys/apes/datasets/2025/2025_individual_unit_files.zip) warns that the unit data were reviewed to improve state- and government-type estimates, not to create accurate time series for every individual unit. The public file may contain reported and imputed fields. The presence of an employment/payroll row does not establish a current vacancy, a specific occupation, a worker’s schedule, or a game character’s pay.
+
+## Safe use and open gaps
+
+- The aggregate ASPEP tables can support state-level and government-function public-employment context. Individual-unit records can supply additional context for a sampled unit after its match and data flags are checked.
+- Do not use the individual-unit sample as a complete named public-employer inventory. It omits most local governments in the sample year, and the 2025 individual-unit product has no records for Puerto Rico or the four Island Areas.
+- Do not treat one sampled unit’s function totals as an open position, a count of jobs available to a player, or pay for a named occupation.
+- Do not use payroll as hourly, annual, or per-job compensation. It is a 31-day monthly equivalent gross payroll for all counted employees in a function.
+- A GUS-to-ASPEP crosswalk remains **UNKNOWN** as an official source relationship. The observed ID overlap supports candidate matching only, with state/type/name validation and exception review.
+
+## Sources and method
+
+The ASPEP archive was downloaded from the Census Bureau’s official 2025 dataset page on September 22, 2026. The comparison roster is Census’s [2025 Government Units Listing archive](https://www2.census.gov/programs-surveys/gus/datasets/2025/gov_units_2025.zip). Its SHA-256 is `4cc9e6ee37293f5154e63bd82c657b0901f0d9beaf3efeb6cdfbd150a76b03ff`. The included Excel workbook SHA-256 is `37906b316db742382e2520f254046f1c1a42d4d760918d29c38b4d93e23831fd`. I inspected the workbook and the included technical documentation, disclaimer, and readme. The identifier comparison used distinct ASPEP unit IDs and the published GUS PID6 field; no employment or payroll values were extracted into a separate file, and no vacancies or job-specific pay were inferred.

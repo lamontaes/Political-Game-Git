@@ -33,5 +33,15 @@
       "source": "src/simulation/tax-policy.ts at main",
       "whatItDidNotSettle": "Collection works, but the only tax base in play is the player's own declared income."
     }
-  ]
+  ],
+  "answer": {
+    "summary": "One nationwide set: a federal layer plus all 50 states, D.C. and the five inhabited territories, each marked YES (an official source establishes the tax), NO (an official statement of absence) or UNKNOWN. The federal layer gives TY2026 individual brackets (10 to 37 percent, single thresholds $12,400 to $640,600, standard deduction $16,100 single, $32,200 joint), Social Security 6.2 percent each side to $184,500, Medicare 1.45 percent each side with 0.9 percent additional withholding over $200,000, FUTA 6 percent on the first $7,000 less a credit of up to 5.4 percent, and a 21 percent corporate rate. Each place gets its headline individual income and general sales rates where verified (for example Iowa 3.8 percent flat and 6 percent sales, Michigan 4.25 percent and 6 percent). Rules for use: a state rate is not a local combined rate; tax year, filing year, fiscal year and effective date are separate; withholding is not final liability; territories need their own sources plus IRS Publication 570. Owner decisions (September 22): assess every person and business under the taxes that apply to them, where a lawful amount may be $0; liability and payment are separate records; unpaid balances persist, and any notice, plan, penalty or enforcement follows that place's actual law. No one is charged a tax just for existing.",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/RESEARCH-taxes-nationwide-56-jurisdictions-and-federal-2026-09-22.md",
+      "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/OWNER-DECISION-tax-assessment-and-payment-2026-09-22.md"
+    ],
+    "answeredBy": "ChatGPT (several research passes, seven priority gaps and one Vermont claim corrected against official sources)",
+    "answeredAt": "2026-09-23T02:11:30.000Z",
+    "stillOpen": "This is coverage, not a rate table. Still UNKNOWN nearly everywhere: property bills, excise bases and rates, unemployment insurance rates and wage bases, exemptions and credits, collection dates, which government receives the money, local rates, and most territorial rates. Before a tax is charged in a place, that place's rule must be verified and tested through a real pay period, purchase, parcel bill or business filing in a saved game."
+  }
 }
