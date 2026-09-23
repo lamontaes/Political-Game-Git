@@ -33,6 +33,11 @@ import {
   seatsForChamber,
 } from "./legislature-game-profile";
 
+/**
+ * The federal jurisdiction's canonical slugs: `us-federal` is the one every
+ * World's national election records use (`national-election-geography.ts`).
+ */
+const FEDERAL_SLUGS: readonly string[] = ["united-states", "us", "us-federal"];
 export const ARTICLE_V_STATE_KEYS = Object.freeze(
   "AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY"
     .split(" ")
@@ -242,7 +247,7 @@ export function constitutionalProposalRuleForWorld(
   const profile = stateKey ? stateAmendmentProfile(stateKey) : null;
   if (
     (!federal && !state) ||
-    (federal && !["united-states", "us"].includes(j.slug)) ||
+    (federal && !FEDERAL_SLUGS.includes(j.slug)) ||
     (state && !profile)
   )
     return {
@@ -251,8 +256,14 @@ export function constitutionalProposalRuleForWorld(
         "This jurisdiction/process has no supported constitutional proposal rule.",
     };
   // A sourced rule applies from its observation; a game-profile rule claims no
-  // source and so no observation date.
-  if (world.currentDate < "2026-09-13" && profile?.basis !== "game-profile")
+  // source and so no observation date. Article V's route is older than any
+  // start: its text is unchanged since 1789 and its two-thirds reading dates
+  // from 1920, so the federal route has no observation gate.
+  if (
+    !federal &&
+    world.currentDate < "2026-09-13" &&
+    profile?.basis !== "game-profile"
+  )
     return {
       available: false,
       reason:
@@ -355,13 +366,17 @@ export function proposeConstitutionalMeasure(
     );
   // Canonical slugs, not name matching or a supplied access tag.
   const slugs = federal
-    ? ["united-states", "us"]
+    ? FEDERAL_SLUGS
     : charter
       ? ["carson-city", "us-nv-carson-city"]
       : [];
   if (!slugs.includes(j.slug) && !profile)
     throw Error("Canonical jurisdiction identity does not match the process.");
-  if (world.currentDate < "2026-09-13" && profile?.basis !== "game-profile")
+  if (
+    !federal &&
+    world.currentDate < "2026-09-13" &&
+    profile?.basis !== "game-profile"
+  )
     throw Error(
       "This current-source process is supported from its 2026-09-13 observation; earlier applicability is not established.",
     );

@@ -1,0 +1,29 @@
+{
+  "filedAt": "2026-09-23T01:55:00.000Z",
+  "impact": "shapes-design",
+  "lane": "nationwide government",
+  "notes": [
+    "The owner's rule: never invent depth. Congress can now propose, and state legislatures ratify, an amendment to the U.S. Constitution with no player involved. The only subject wired is the President's term limit, since it is the one federal rule the game reads through its rule layer. Every cause, rate and margin in that route is a marked placeholder in src/simulation/living-world/federal-reform.ts until this is answered.",
+    "Placeholders an answer replaces: (1) Congress considers extending the limit only while the sitting President is barred from another term; (2) it considers restoring a two-term limit only once a President has served three or more terms; (3) either happens in about 3 percent of years with such a cause; (4) each house's yes share is drawn between 50 and 80 percent; (5) each state legislature ratifies an extension with a chance drawn between 30 and 70 percent per measure, and a restoration between 60 and 95 percent; (6) states act between 30 and 900 days after Congress; (7) Congress allows seven years.",
+    "Measured on the placeholders, across ten worlds and two hundred years each with a barred President: 56 proposals, 13 cleared both houses, and none reached 38 states (the most was 35).",
+    "State amendment procedures are asked separately in constitutional-amendment-and-city-charter-procedures-everywhere; state governor term-limit causes in governor-term-limit-amendment-causes."
+  ],
+  "priority": "P2",
+  "question": "When has Congress seriously considered amending the Constitution, what set each attempt off, how did the House, Senate and state legislatures divide, and how long did ratification take? In particular, every attempt to repeal or change the Twenty-Second Amendment, and which other subjects recur (balanced budget, Electoral College, flag, equal rights, term limits for Congress).",
+  "questionId": "federal-amendment-causes-and-pace",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Nationwide government thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/constitutional-process.ts",
+      "whatItDidNotSettle": "It holds Article V's procedure (two-thirds of each house present, 38 of 50 states) but nothing about when Congress acts or how the votes divide."
+    },
+    {
+      "source": "docs/research/requests/constitutional-amendment-frequency.json",
+      "whatItDidNotSettle": "It asks how often state constitutions are amended, not what drives a federal proposal or how states act on one."
+    }
+  ],
+  "title": "What makes Congress propose a constitutional amendment, and how the states answer",
+  "usableAnswer": "A table of amendment joint resolutions that reached a floor vote since 1945 (year, subject, cause on the record, House and Senate yes/no, states ratifying and rejecting with dates, outcome), plus every resolution introduced to repeal or modify the Twenty-Second Amendment with how far it got. Then the pattern: how often a proposal clears Congress, how fast states act, what share of states act at all, and which subjects the game should model next. Cite a source per row.",
+  "whyItMatters": "Without it the game decides for itself when Congress amends the Constitution and how states respond, which is the invented depth the owner has ruled out."
+}

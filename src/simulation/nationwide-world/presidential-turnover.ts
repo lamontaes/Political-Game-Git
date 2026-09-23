@@ -56,6 +56,11 @@ import { roundTo, standardNormal } from "../world-setup/deterministic-math";
 import { CRUNCH46_POLICY } from "../world-setup/policy";
 import { applySwing, calibrationRow } from "../world-setup/political-start";
 import { recordWorldEvent } from "../world";
+import {
+  FEDERAL_JURISDICTION_KEY,
+  ruleValueInWorld,
+  type TermLimitRule,
+} from "../enacted-rule-changes";
 import type {
   EntityId,
   FutureDueItem,
@@ -81,6 +86,9 @@ import type {
  * What is law here: the dates (3 U.S.C. §§ 1, 7, 15; U.S. Const. amend. XX),
  * the elector allocation, the Twelfth Amendment's two-state rule, the
  * Twenty-Second Amendment's two-term limit, and the Article II minimum age.
+ * The term limit is read through the rule layer (`presidentialTermLimitAt`),
+ * so an amendment ratified in the World (`living-world/federal-reform.ts`)
+ * replaces it.
  *
  * PLACEHOLDERS, NOT LAW OR RESEARCH, each filed as research question
  * `how-a-presidential-election-plays-out`:
@@ -129,8 +137,15 @@ export const PRESIDENTIAL_TURNOVER_PROFILE = {
 
 /** U.S. Const. art. II, § 1, cl. 5. */
 export const PRESIDENTIAL_MINIMUM_AGE = 35;
-/** U.S. Const. amend. XXII, § 1. */
-export const PRESIDENTIAL_ELECTED_TERM_LIMIT = 2;
+/** U.S. Const. amend. XXII, § 1: elected no more than twice. */
+export const TWENTY_SECOND_AMENDMENT_LIMIT: TermLimitRule = {
+  maxConsecutiveTerms: null,
+  maxLifetimeTerms: 2,
+  lookbackYears: null,
+};
+
+/** The office key the rule layer and constitutional measures use for the presidency. */
+export const PRESIDENT_OFFICE_KEY = "us-president";
 
 export const PRESIDENTIAL_FIELD_CLOSE =
   "governing:presidential-field-close" as const;
@@ -201,7 +216,7 @@ function fieldClosingDate(electionDay: IsoDate): IsoDate {
  * demo, and fixtures that register their own national elections) keep
  * exactly the records they supply.
  */
-function hasPresidency(world: World): boolean {
+export function hasPresidency(world: World): boolean {
   return world.history.events.some(
     (event) =>
       event.type === "world.office-tenure" &&
@@ -269,11 +284,15 @@ function currentVicePresident(world: World): EntityId | null {
 export function presidentialTermsCounted(
   world: World,
   personId: EntityId,
+  /** Count only terms beginning on or after this date (an amendment that does not count prior service). */
+  since: IsoDate | null = null,
 ): number {
+  const counts = (startsAt: IsoDate) => since === null || startsAt >= since;
   const opening = world.history.events.filter(
     (event) =>
       event.type === "world.office-tenure" &&
       event.tags.includes("office:us-president") &&
+      counts(event.occurredAt) &&
       event.participants.some(
         (participant) =>
           participant.role === "focus:subject" &&
@@ -285,10 +304,15 @@ export function presidentialTermsCounted(
     (record) =>
       record.kind === "term-plan" &&
       record.office === "president" &&
-      record.personId === personId,
+      record.personId === personId &&
+      counts(record.startsAt.date),
   ).length;
   const succeeded = records.filter((record) => {
-    if (record.kind !== "succession" || record.personId !== personId)
+    if (
+      record.kind !== "succession" ||
+      record.personId !== personId ||
+      !counts(record.effectiveAt.date)
+    )
       return false;
     const vacated = records.find(
       (plan): plan is NationalTermPlan =>
@@ -300,6 +324,63 @@ export function presidentialTermsCounted(
     );
   }).length;
   return opening + elected + succeeded;
+}
+
+/** The presidential term limit governing a term beginning on a date, as this World's law has it. */
+export interface PresidentialTermLimit {
+  /** Null: no limit. */
+  readonly limit: TermLimitRule | null;
+  /** The instrument that sets it, for a plain reason. */
+  readonly designation: string;
+  /** Terms beginning before this date are not counted; null counts every term. */
+  readonly countsFrom: IsoDate | null;
+}
+
+export function presidentialTermLimitAt(
+  world: World,
+  termStartsAt: IsoDate,
+): PresidentialTermLimit {
+  const resolved = ruleValueInWorld(
+    world,
+    {
+      jurisdiction: FEDERAL_JURISDICTION_KEY,
+      officeKey: PRESIDENT_OFFICE_KEY,
+      field: "executive.term.limit",
+      onDate: termStartsAt,
+    },
+    TWENTY_SECOND_AMENDMENT_LIMIT as TermLimitRule | null,
+  );
+  if (resolved.source === "compiled")
+    return {
+      limit: resolved.value,
+      designation: "the Twenty-Second Amendment",
+      countsFrom: null,
+    };
+  return {
+    limit: resolved.value as TermLimitRule | null,
+    designation: resolved.designation,
+    countsFrom:
+      resolved.applicability.countsPriorService === false
+        ? resolved.effectiveAt
+        : null,
+  };
+}
+
+/** Why a person may not be elected President for a term, or null when they may. */
+export function presidentialTermBar(
+  world: World,
+  personId: EntityId,
+  termStartsAt: IsoDate,
+): string | null {
+  const { limit, designation, countsFrom } = presidentialTermLimitAt(
+    world,
+    termStartsAt,
+  );
+  const cap = limit?.maxLifetimeTerms ?? null;
+  if (cap === null) return null;
+  return presidentialTermsCounted(world, personId, countsFrom) >= cap
+    ? `they have served the ${cap === 1 ? "one term" : `${cap} terms`} ${designation} allows.`
+    : null;
 }
 
 function unitStates(): readonly string[] {
@@ -455,10 +536,14 @@ function incumbentStands(
     ((politicalStartingConditions(world)?.presidency.winner ??
       null) as MajorParty | null);
   const rng = new SeededRng(world.seed).fork(`${cycleKey(cycle)}:incumbent`);
+  const bar = presidentialTermBar(
+    world,
+    president,
+    makeIsoDate(`${cycle + 1}-01-20`),
+  );
   const reason =
-    presidentialTermsCounted(world, president) >=
-    PRESIDENTIAL_ELECTED_TERM_LIMIT
-      ? "they have served the two terms the Constitution allows."
+    bar !== null
+      ? bar
       : ageOn(person.birthDate, electionDay) >=
           PRESIDENTIAL_TURNOVER_PROFILE.retirementAge
         ? "they are retiring."

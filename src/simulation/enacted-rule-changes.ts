@@ -197,8 +197,9 @@ export interface RuleChangeProvisionRecord {
 
 /** An operative-dated change, derived from what was enacted. */
 export interface EnactedRuleChange {
+  /** The state's postal code, or `US` for a federal amendment. */
   readonly stateUsps: string;
-  /** `US-` plus the postal code, as jurisdictions are keyed elsewhere. */
+  /** `US-` plus the postal code, as jurisdictions are keyed elsewhere; `US` for a federal amendment. */
   readonly jurisdictionKey: string;
   readonly officeKey: string;
   readonly field: AmendableRuleField;
@@ -476,13 +477,16 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
   for (const measure of world.history.constitutionalMeasures ?? []) {
     const delta = measure.ruleDelta;
     if (delta.kind !== "rule-field") continue;
-    const stateUsps = constitutionalStateUsps(measure.jurisdictionKey);
+    const federal = measure.jurisdictionKey === FEDERAL_JURISDICTION_KEY;
+    const stateUsps = federal
+      ? FEDERAL_JURISDICTION_KEY
+      : constitutionalStateUsps(measure.jurisdictionKey);
     if (!stateUsps) continue;
     const position = constitutionalPosition(world, measure.id);
     if (!position.operativeAt) continue;
     changes.push({
       stateUsps,
-      jurisdictionKey: `US-${stateUsps}`,
+      jurisdictionKey: federal ? FEDERAL_JURISDICTION_KEY : `US-${stateUsps}`,
       officeKey: delta.officeKey,
       field: delta.field,
       value: structuredClone(delta.value),
@@ -490,7 +494,7 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       operativeAt: position.operativeAt,
       operativeBasis: "enacted-date",
       instrument: "constitutional-amendment",
-      level: "state-constitution",
+      level: federal ? "federal-constitution" : "state-constitution",
       measureId: measure.id,
       designation: measure.designation,
       sequence: measure.sequence,
@@ -501,6 +505,15 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       a.operativeAt.localeCompare(b.operativeAt) || a.sequence - b.sequence,
   );
 }
+
+/**
+ * The key federal constitutional changes carry in place of a state's postal
+ * code, so one reader serves both: `ruleValueInWorld(world, { jurisdiction:
+ * "US", ... })`.
+ */
+export const FEDERAL_JURISDICTION_KEY = "US";
+/** National offices an Article V amendment can reach in the game. */
+export const FEDERAL_AMENDABLE_OFFICES: readonly string[] = ["us-president"];
 
 /** The state a constitutional process amends, when it amends a state's rules. */
 export function constitutionalStateUsps(
@@ -670,10 +683,39 @@ export function assertConstitutionalRuleFieldDelta(
     readonly applicability?: RuleChangeApplicability;
   },
 ): void {
+  if (jurisdictionKey === FEDERAL_JURISDICTION_KEY) {
+    // An Article V amendment reaches the national offices only. NOT MODELED:
+    // any other federal rule (House size, Senate terms, qualifications).
+    if (
+      delta.field !== "executive.term.limit" ||
+      !FEDERAL_AMENDABLE_OFFICES.includes(delta.officeKey)
+    )
+      throw new Error(
+        "A federal amendment can change the President's term limit; no other federal rule is modeled yet.",
+      );
+    // The Twenty-Second Amendment counts terms over a lifetime, and that is
+    // the only count the presidency's reader keeps.
+    const limit = delta.value as TermLimitRule | null;
+    if (
+      limit !== null &&
+      typeof limit === "object" &&
+      (limit.maxConsecutiveTerms !== null || limit.lookbackYears !== null)
+    )
+      throw new Error(
+        "A presidential term limit is counted over a lifetime; consecutive and look-back limits are not modeled.",
+      );
+    assertAmendableRuleValue(
+      delta.field,
+      delta.value,
+      delta.officeKey,
+      delta.applicability,
+    );
+    return;
+  }
   const stateUsps = constitutionalStateUsps(jurisdictionKey);
   if (!stateUsps)
     throw new Error(
-      "Only a state constitution's amendment can change these rules yet; federal and charter changes are not modeled.",
+      "Only a state or federal constitutional amendment can change these rules yet; charter changes are not modeled.",
     );
   assertAmendableRuleValue(
     delta.field,
