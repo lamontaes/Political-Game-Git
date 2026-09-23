@@ -12,7 +12,7 @@ declare is reported as undeclared rather than filled in from a guess.
 
 | Family | Templates | Withheld | Undeclared grounding | Canonical concerns |
 | --- | --- | --- | --- | --- |
-| `campaign/campaign-status` | 25 | 0 | 0 | candidacy |
+| `campaign/campaign-status` | 26 | 0 | 0 | candidacy |
 | `conversation/commit-contract` | 110 | 0 | 0 | — |
 | `conversation/contextual-scene` | 257 | 0 | 0 | — |
 | `conversation/conversation-subject` | 64 | 0 | 0 | — |
@@ -22,7 +22,7 @@ declare is reported as undeclared rather than filled in from a guess.
 | `governing/municipal-institution-record` | 2 | 0 | 0 | activity-evidence |
 | `governing/municipal-law-projection` | 48 | 0 | 0 | — |
 | `governing/municipal-work-and-session` | 7 | 0 | 0 | activity-evidence, work-standing |
-| `governing/municipal-workspace` | 77 | 0 | 0 | — |
+| `governing/municipal-workspace` | 81 | 0 | 0 | — |
 | `legislative/measure-briefing` | 94 | 0 | 0 | measure |
 | `life/adult` | 358 | 238 | 0 | colleague-identity, household-kinship, persistent-cast |
 | `life/callback` | 39 | 0 | 0 | — |

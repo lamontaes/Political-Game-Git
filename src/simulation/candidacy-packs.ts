@@ -1,3 +1,4 @@
+import { settledQualification } from "./settled-qualifications";
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import {
   legislatureForState,
@@ -320,6 +321,14 @@ function officeQualification(
     const standIn = (
       field: Parameters<typeof standInQualification>[1],
     ): RuleValue<number> => {
+      // A value the state's constitution states plainly is applied before the
+      // corpus reaches it, instead of a draw that would contradict it.
+      const settled = settledQualification(
+        jurisdictionKey,
+        field,
+        officeFamily,
+      );
+      if (settled !== null) return knownRule(settled.value, settled.source);
       const drawn = standInQualification(jurisdictionKey, field, officeFamily);
       if (drawn === null) return unknownRule(NO_QUALIFICATION_CORPUS);
       return knownRule(drawn.value, standInQualificationSourceRef(drawn));

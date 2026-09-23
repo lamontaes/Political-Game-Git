@@ -10,15 +10,16 @@ import {
 } from "../presentation/campaign-projection";
 import {
   fileForStateExecutiveOffice,
-  qualifyForStateExecutiveTerm,
   recoverOffCycleStateExecutiveTerm,
   stateExecutiveCandidacyForPerson,
   stateExecutiveEntryStatus,
   stateExecutiveOfficeCalendar,
+  stateExecutiveReelection,
 } from "../presentation/nationwide-candidacy";
 import type { StateExecutiveEntryStatus } from "../simulation";
 import { readableCampaignDate } from "./CampaignWorkspace";
 import { CongressCandidacySection } from "./CongressCandidacySection";
+import { ownElectionResultSentence } from "../presentation/own-election";
 
 /**
  * Feature-local Politics mount for NATIONWIDE's home-government and state
@@ -75,11 +76,13 @@ export function NationwideCandidacyWorkspace({
       setProblem(error instanceof Error ? error.message : String(error));
     }
   };
+  const reelection = stateExecutiveReelection(world, personId);
   const canStand =
     campaignPhase !== "active" &&
     (status.kind === "none" ||
       status.kind === "lost" ||
-      status.kind === "term-over-or-not-entered");
+      status.kind === "term-over-or-not-entered" ||
+      reelection?.canStand === true);
 
   return (
     <section className="game-campaign" data-testid="candidacy-section">
@@ -145,7 +148,19 @@ export function NationwideCandidacyWorkspace({
           data-eligible={candidacy.eligible ? "true" : "false"}
         >
           <h3>{candidacy.identity.displayName}</h3>
-          <StatusLine status={status} />
+          <StatusLine
+            status={status}
+            result={
+              status.kind === "none" || status.kind === "pending-election"
+                ? null
+                : ownElectionResultSentence(world, status.contestId, personId)
+            }
+          />
+          {reelection?.reason ? (
+            <p className="game-note" data-testid="state-executive-term-limit">
+              {reelection.reason}
+            </p>
+          ) : null}
           {canStand ? (
             <>
               {candidacy.eligible ? (
@@ -216,22 +231,7 @@ export function NationwideCandidacyWorkspace({
             </button>
           ) : null}
           {status.kind === "awaiting-qualification" ? (
-            <>
-              <BlockList blocks={status.qualificationBlocks} />
-              <button
-                type="button"
-                className="game-campaign-action"
-                data-testid="qualify-state-executive"
-                disabled={status.qualificationBlocks.length > 0}
-                onClick={() =>
-                  act(() => qualifyForStateExecutiveTerm(world, personId))
-                }
-              >
-                <span className="game-campaign-action-label">
-                  Qualify for the term
-                </span>
-              </button>
-            </>
+            <BlockList blocks={status.qualificationBlocks} />
           ) : null}
           {problem ? (
             <p
@@ -273,8 +273,14 @@ function BlockList({ blocks }: { blocks: readonly CandidacyBlock[] }) {
   );
 }
 
-function StatusLine({ status }: { status: StateExecutiveEntryStatus }) {
-  const text = statusText(status);
+function StatusLine({
+  status,
+  result,
+}: {
+  status: StateExecutiveEntryStatus;
+  result: string | null;
+}) {
+  const text = statusText(status, result);
   return text ? (
     <p data-testid="state-executive-status" data-status={status.kind}>
       {text}
@@ -282,22 +288,33 @@ function StatusLine({ status }: { status: StateExecutiveEntryStatus }) {
   ) : null;
 }
 
-function statusText(status: StateExecutiveEntryStatus): string | null {
+/**
+ * `result` is the race's own outcome with its vote shares ("You won the race
+ * for Governor, 52.3% to 47.7%."), which replaces a bare "You won." where the
+ * contest has a recorded result.
+ */
+function statusText(
+  status: StateExecutiveEntryStatus,
+  result: string | null,
+): string | null {
+  const won = result ?? "You won.";
   switch (status.kind) {
     case "none":
       return null;
     case "pending-election":
       return "You are on the ballot. The campaign itself is run from your office and campaigns.";
     case "lost":
-      return "The last election for this office went to someone else.";
+      return (
+        result ?? "The last election for this office went to someone else."
+      );
     case "won-term-unavailable":
-      return `You won the election. ${status.reason}`;
+      return `${won} ${status.reason}`;
     case "won-off-cycle":
-      return `You won. ${status.reason}`;
+      return `${won} ${status.reason}`;
     case "awaiting-qualification":
-      return `You won. The term runs from ${readableCampaignDate(status.startsAt)} to ${readableCampaignDate(status.endsAt)}, and you must qualify before it begins.`;
+      return `${won} The term runs from ${readableCampaignDate(status.startsAt)} to ${readableCampaignDate(status.endsAt)}, but a requirement of the office is not met, and until it is you cannot take it up.`;
     case "qualified-awaiting-entry":
-      return `You have qualified. The term begins ${readableCampaignDate(status.startsAt)}.`;
+      return `You won. The term begins ${readableCampaignDate(status.startsAt)}, and you take the oath that day.`;
     case "in-office":
       return `You hold this office until ${readableCampaignDate(status.endsAt)}.`;
     case "term-over-or-not-entered":

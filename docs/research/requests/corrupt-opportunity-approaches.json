@@ -1,15 +1,17 @@
 {
   "filedAt": "2026-09-22T23:20:00.000Z",
   "impact": "shapes-design",
-  "lane": "consequences for corruption and laws",
+  "lane": "moguls and their offers",
   "notes": [
-    "Nothing is built yet beyond the findings, repayments and fines. The approach will be built on the existing decision, event and knowledge records once the shape is known; its rates stay marked placeholders until answered."
+    "Built 2026-09-23 in src/simulation/moguls.ts. A mogul is anybody with money of their own and an interest recorded as a goal on a policy question. Each week they weigh the running campaigns in their state (the player's and opponents') and decide to give, to offer money for a public stance, or to wait; a candidate's public ethics finding makes a deal likelier.",
+    "An accepted deal is recorded as misconduct family M4 with the mogul's message and the committee ledger entry as its records. When the stance is never said, the mogul decides whether to go public, which opens an M4 matter through the respondent's state body.",
+    "Every rate is UNRESEARCHED_MOGUL_OFFERS: reconsider every 28 days, an offer stands 21 days, a bought stance is awaited 90 days, offers are 0.1% of the giver's balance between $1,000 and $500,000, and reach is the giver's home state. Each is a placeholder until answered."
   ],
   "priority": "P2",
   "question": "When a candidate or official has a public record of misusing money or other ethics findings, who in real politics tends to approach them for corrupt or quiet arrangements (wealthy donors, business owners with matters before them, lobbyists, media owners), what do they typically offer (money through committees or outside groups, jobs for relatives, favorable coverage) and ask in return (votes, contracts, appointments), and how are such arrangements usually discovered?",
   "questionId": "corrupt-opportunity-approaches",
   "requestVersion": "research-request/v1",
-  "requestedBy": "Consequences for corruption and laws thread",
+  "requestedBy": "Moguls and their offers thread (taken over from Consequences for corruption and laws, 2026-09-23)",
   "sourcesChecked": [
     {
       "source": "chatgpt-stress-test-answers-2026-09-22, C04 (scandals)",
@@ -17,6 +19,6 @@
     }
   ],
   "title": "Who approaches a candidate known to be corrupt, and with what",
-  "usableAnswer": "A short list of approacher kinds with what each typically offers and wants, rough conditions that make an approach likelier (public finding, office with contracts or regulation, financial trouble), and the usual discovery routes, so the game can build the approach and its exposure from real patterns.",
+  "usableAnswer": "A short list of approacher kinds with what each typically offers and wants, rough conditions that make an approach likelier (public finding, office with contracts or regulation, financial trouble), and the usual discovery routes, so the game can build the approach and its exposure from real patterns. Also: how often a very rich person with a policy interest approaches a candidate or official, how large an offer is relative to the giver's wealth and to contribution limits, whether their reach is their own state or national, and how often a payer who did not get what they paid for exposes the arrangement themselves.",
   "whyItMatters": "The owner asked on 2026-09-22 that being corrupt also open opportunities: a mogul who sees you are corrupt might approach you with more money or offer to work together behind the scenes. Building that without a researched basis would mean inventing who approaches, what they offer and how often."
 }

@@ -14,13 +14,14 @@ import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import { traitRegistryFor } from "./trait-registry";
 import { registeredTraitConsiderations } from "./trait-readings";
 import { CONTACT_ANSWER_DECISION } from "./people-contact-decisions";
-import { recordEventKnowledge } from "./records";
+import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
 import { assessRelationshipContinuity } from "./relationship-integration";
 import { simulationMomentAtLocalTime } from "./dates";
 import {
   cancelScheduledActivity,
   createScheduledActivity,
   scheduledActivityState,
+  scheduledConflictExists,
 } from "./time-work";
 import { isPersonAliveAt } from "./vitality-integrity";
 import {
@@ -29,6 +30,12 @@ import {
   recordGoalStepTaken,
 } from "./people-goal-pursuit";
 import { recordWorldEvent } from "./world";
+import {
+  DATE_KIND,
+  DATE_OCCASION_TAG,
+  dateRefusal,
+  romanticConsiderations,
+} from "./couples";
 import type {
   DecisionConsideration,
   EntityId,
@@ -38,6 +45,7 @@ import type {
   IsoDate,
   World,
   HistoricalEvent,
+  SimulationMoment,
 } from "./types";
 
 /**
@@ -268,6 +276,8 @@ export interface ContactProposal {
   readonly on: IsoDate;
   readonly purpose: string;
   readonly answered: boolean;
+  /** Whether both of them were asked to treat it as a date. */
+  readonly date: boolean;
 }
 
 /** A proposal between these two that nobody has answered yet. */
@@ -325,6 +335,7 @@ export function contactProposals(
           on,
           purpose: event.summary,
           answered,
+          date: event.tags.includes(DATE_OCCASION_TAG),
         },
       ];
     });
@@ -339,6 +350,12 @@ export interface ProposeContactInput {
   readonly purpose: string;
   /** Skip the scheduled answer: the other person answers in the scene itself. */
   readonly answerInPerson?: boolean;
+  /**
+   * Asked as a date. The other person answers it as one (see
+   * `romanticConsiderations`), and the evening, once kept, is recorded as a
+   * date between them.
+   */
+  readonly date?: boolean;
 }
 
 /**
@@ -371,6 +388,10 @@ export function proposeContact(
   if (!input.purpose.trim()) throw new Error("A meeting needs a reason.");
   if (openProposal(world, input.fromPersonId, input.toPersonId)) {
     throw new Error("There is already an unanswered proposal between them.");
+  }
+  if (input.date) {
+    const refusal = dateRefusal(world, input.fromPersonId, input.toPersonId);
+    if (refusal) throw new Error(refusal);
   }
   const start = simulationMomentAtLocalTime({
     date: input.on,
@@ -405,7 +426,11 @@ export function proposeContact(
     ],
     personFactConstraints: [],
     visibility: "private",
-    tags: [CONTACT_TAG, `contact.on:${input.on}`],
+    tags: [
+      CONTACT_TAG,
+      `contact.on:${input.on}`,
+      ...(input.date ? [DATE_OCCASION_TAG] : []),
+    ],
     summary: `${personName(asker)} asked ${personName(asked)} to meet on ${input.on}: ${input.purpose}`,
     context: {
       location: null,
@@ -455,6 +480,7 @@ export function proposeContact(
       on: input.on,
       purpose: input.purpose,
       answered: false,
+      date: !!input.date,
     },
   };
 }
@@ -576,21 +602,17 @@ export function answerContact(
     next = cancelScheduledActivity(next, meetingId);
   }
   if (input.answer === "accept") {
-    const start = simulationMomentAtLocalTime({
-      date: on,
-      minuteOfDay: MEETING_START_MINUTE,
-      timeZone: next.currentMoment.timeZone,
-      preferredUtcOffsetMinutes: next.currentMoment.utcOffsetMinutes,
-    });
-    const end = simulationMomentAtLocalTime({
-      date: on,
-      minuteOfDay: MEETING_START_MINUTE + MEETING_MINUTES,
-      timeZone: next.currentMoment.timeZone,
-      preferredUtcOffsetMinutes: next.currentMoment.utcOffsetMinutes,
-    });
+    const { start, end } = meetingWindow(next, on);
     next = createScheduledActivity(next, {
       stableKey: `contact:${proposal.id}:meeting`,
-      title: `Meeting with ${personName(asker)}`,
+      // Named for the other person as the played one sees it. It used to be
+      // the asker's name always, so a player who asked put "Meeting with"
+      // their own name on their calendar.
+      title: `Meeting with ${personName(
+        next.control.kind === "person" && next.control.personId === from
+          ? asked
+          : asker,
+      )}`,
       summary: proposal.context.motivation ?? proposal.summary,
       kind: "confirmed",
       start,
@@ -626,6 +648,24 @@ export function answerContact(
     source: { kind: "told-by", sourcePersonId: to, claimId: null },
   });
   return { world: next, eventId: answerEvent.id };
+}
+
+/** The evening a meeting on this day holds. */
+function meetingWindow(
+  world: World,
+  on: IsoDate,
+): { readonly start: SimulationMoment; readonly end: SimulationMoment } {
+  const at = (minuteOfDay: number) =>
+    simulationMomentAtLocalTime({
+      date: on,
+      minuteOfDay,
+      timeZone: world.currentMoment.timeZone,
+      preferredUtcOffsetMinutes: world.currentMoment.utcOffsetMinutes,
+    });
+  return {
+    start: at(MEETING_START_MINUTE),
+    end: at(MEETING_START_MINUTE + MEETING_MINUTES),
+  };
 }
 
 /**
@@ -672,13 +712,16 @@ export function npcContactAnswer(
       sourceRefs: [{ kind: "relationship-interaction", interactionId }],
     });
   }
-  // Somebody already has that evening: the day is the problem, not the person.
-  const busy = world.history.scheduledActivities.some(
-    (activity) =>
-      activity.participantPersonIds.includes(to) &&
-      activity.kind === "confirmed" &&
-      scheduledActivityState(world, activity.id).status === "scheduled" &&
-      scheduledActivityState(world, activity.id).start.date === on,
+  // Somebody already has that evening: the day is the problem, not the
+  // person. Either of them: an asker who asked two people for the same
+  // evening and heard yes from the first cannot be met by the second, and
+  // agreeing anyway used to throw from inside passing time.
+  const evening = meetingWindow(world, on);
+  const busy = scheduledConflictExists(
+    world,
+    [from, to],
+    evening.start,
+    evening.end,
   );
   if (busy) {
     considerations.push({
@@ -691,6 +734,18 @@ export function npcContactAnswer(
       explanation: "They already have something that evening.",
       sourceRefs: [],
     });
+  }
+  // A date is answered as one: who they are with, whether they want company,
+  // and how the two of them stand.
+  if (proposal.tags.includes(DATE_OCCASION_TAG)) {
+    considerations.push(
+      ...romanticConsiderations(
+        world,
+        `contact:${proposalEventId}:date`,
+        to,
+        from,
+      ),
+    );
   }
   // The answerer's own temperament is established here, because they are the
   // one deciding and a decision may rest on who they are.
@@ -746,7 +801,10 @@ export function npcContactAnswer(
     randomness: "close-choices",
     retention: "ephemeral",
   });
-  const answer = (evaluation.selectedOptionKey ?? "decline") as ContactAnswer;
+  const chosen = (evaluation.selectedOptionKey ?? "decline") as ContactAnswer;
+  // Weighed, but not optional: an evening already taken cannot be agreed to.
+  const answer: ContactAnswer =
+    busy && chosen === "accept" ? "counter" : chosen;
   return {
     answer,
     counterOn: answer === "counter" ? addDays(on, 7) : null,
@@ -790,6 +848,7 @@ export function counterWithNewDay(
     toPersonId: asker,
     on: input.on,
     purpose: proposal.context.motivation ?? proposal.summary,
+    date: proposal.tags.includes(DATE_OCCASION_TAG),
   }).world;
 }
 
@@ -1146,3 +1205,76 @@ export const PEOPLE_CONTACT_HANDLERS: FutureTransitionHandlerRegistry = {
       ? contactAnswerTransitionHandler
       : undefined,
 };
+
+/** The interaction a kept meeting between two people writes. */
+export const CONTACT_MEETING_KEPT_KIND = "experience:time-together";
+
+/**
+ * Two people who arranged to meet and then did have spent an evening
+ * together, and that is what builds warmth between them (DEPTH1
+ * `what-moves-a-relationship`: contact alone does not, time actually spent
+ * does). Written once per meeting, only after the calendar says it was kept.
+ * Any other activity, or one not completed, returns the same World.
+ *
+ * PLACEHOLDER, NOT RESEARCH: how much one evening together counts for is
+ * part of `relationship-absence-thresholds` and `what-moves-a-relationship`
+ * calibration. It is recorded as a minor strengthening until that lands.
+ */
+export function recordContactMeetingKept(
+  world: World,
+  activityId: EntityId,
+): World {
+  const activity = world.history.scheduledActivities.find(
+    (candidate) => candidate.id === activityId,
+  );
+  if (!activity || activity.location.locationKey !== CONTACT_LOCATION_KEY) {
+    return world;
+  }
+  if (scheduledActivityState(world, activityId).status !== "completed") {
+    return world;
+  }
+  const personIds = [...new Set(activity.participantPersonIds)];
+  if (personIds.length !== 2) return world;
+  const stableKey = `contact-meeting:${activityId}:kept`;
+  if (
+    world.history.relationshipInteractions.some(
+      (interaction) => interaction.stableKey === stableKey,
+    )
+  ) {
+    return world;
+  }
+  const [first, second] = personIds as [EntityId, EntityId];
+  const summary = `${personName(world.people[first]!)} and ${personName(world.people[second]!)} spent the evening together.`;
+  const wasDate = world.history.events.some(
+    (event) =>
+      activity.sourceEntityIds.includes(event.id) &&
+      event.type === CONTACT_PROPOSED_EVENT &&
+      event.tags.includes(DATE_OCCASION_TAG),
+  );
+  const next = wasDate
+    ? recordRelationshipInteraction(world, {
+        stableKey: `contact-meeting:${activityId}:date`,
+        personIds: [first, second],
+        eventId: null,
+        occurredAt: world.currentDate,
+        kind: DATE_KIND,
+        // Marks the evening as a date; the time together below is what moves
+        // how they stand, as with any evening kept.
+        change: "maintained",
+        significance: "meaningful",
+        summary: `${personName(world.people[first]!)} and ${personName(world.people[second]!)} went out on a date.`,
+        tags: [CONTACT_TAG, DATE_OCCASION_TAG],
+      })
+    : world;
+  return recordRelationshipInteraction(next, {
+    stableKey,
+    personIds: [first, second],
+    eventId: null,
+    occurredAt: world.currentDate,
+    kind: CONTACT_MEETING_KEPT_KIND,
+    change: "strengthened",
+    significance: "minor",
+    summary,
+    tags: [CONTACT_TAG],
+  });
+}
