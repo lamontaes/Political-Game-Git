@@ -138,6 +138,23 @@ const LOWERCASE_AFTER_LEAD = new Set([
   "Someone",
   "Nobody",
   "Privately",
+  "At",
+  "On",
+  "After",
+  "Before",
+  "During",
+  "When",
+  "While",
+  "This",
+  "That",
+  "It",
+  "They",
+  "Their",
+  "There",
+  "Everyone",
+  "Everybody",
+  "Nothing",
+  "Something",
 ]);
 
 /**
@@ -153,10 +170,16 @@ export function withChronicleLead(lead: string | null, text: string): string {
   return `${lead}, ${body}`;
 }
 
-/** Whether a sentence already says when it happened near its start. */
+/**
+ * Whether a sentence already says when it happened: a month near its start,
+ * or a month with its day or year anywhere ("finished in May 1998").
+ */
 function datesItself(text: string): boolean {
   const opening = text.split(/\s+/).slice(0, 6).join(" ");
-  return MONTH_NAMES.some((month) => opening.includes(month));
+  return MONTH_NAMES.some(
+    (month) =>
+      opening.includes(month) || new RegExp(`\\b${month} \\d`).test(text),
+  );
 }
 
 export function chronicleLines(
