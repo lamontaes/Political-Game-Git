@@ -791,6 +791,89 @@ export function writeLegacyHouseholdEveningInvitation(
 }
 
 /**
+ * The picnic favor and confidence, as a save written before 2026-09-23 holds
+ * them. Play no longer writes either (dialogue review: one fixed story for
+ * every friend in every life). Kept, like the evening invitation above, so the
+ * records such a save carries and the scenes that still answer them can be
+ * reproduced exactly — and so the request, agreement, performance and
+ * follow-through machinery a grounded request will reuse stays proven.
+ */
+export function writeLegacyFamiliarRequest(
+  world: World,
+  personId: EntityId,
+  kind: "favour-request" | "confidence-disclosed",
+): World {
+  const cutoff = currentLifeCutoff(world);
+  const familiarId = askerChooser(world, personId)(
+    world,
+    familiarPersonIds(world, personId, cutoff),
+  );
+  if (!familiarId) return world;
+  const place = lifePlaceByJurisdictionId(
+    world.people[personId]!.homeJurisdictionId,
+  );
+  const jurisdictionId = place?.context.jurisdiction.id ?? null;
+  const candidates: OpportunityCandidate[] = [];
+  const push = (candidate: OpportunityCandidate) => candidates.push(candidate);
+
+  push({
+    kind: "favour-request",
+    counterpartPersonId: familiarId,
+    write: (current, stableKey) =>
+      writeAsk(current, {
+        stableKey,
+        kind: "favour-request",
+        personId,
+        askerPersonId: familiarId,
+        jurisdictionId,
+        type: "life.favour-requested",
+        summary: `${personName(world.people[familiarId]!)} asked for help proofreading a two-paragraph invitation to a family picnic.`,
+        detail: "Asked for help proofreading the picnic invitation",
+        details: {
+          version: 1,
+          task: "proofread the two-paragraph picnic invitation",
+          opening:
+            "Could you look over my invitation to the family picnic? Just two paragraphs. I want to make sure the wording is clear.",
+          condition: "Wording only; I will not contact the guests",
+          minutes: 20,
+        },
+        believed: `${personName(world.people[familiarId]!)} asked them to proofread the picnic invitation, a 20-minute authored activity.`,
+        occasion: null,
+      }),
+  });
+  push({
+    kind: "confidence-disclosed",
+    counterpartPersonId: familiarId,
+    write: (current, stableKey) =>
+      writeAsk(current, {
+        stableKey,
+        kind: "confidence-disclosed",
+        personId,
+        askerPersonId: familiarId,
+        jurisdictionId,
+        type: "life.confidence-disclosed",
+        summary: `${personName(world.people[familiarId]!)} privately said they had agreed to organize a family picnic and were unsure how to tell the guests they could no longer do it.`,
+        detail: "Privately disclosed difficulty organizing the family picnic",
+        details: {
+          version: 1,
+          task: "tell the picnic guests they can no longer organize it",
+          opening:
+            "I agreed to organize the family picnic, and now I need to back out. I have not told the guests. Please keep this between us for now.",
+          condition: "Keep this conversation private",
+          minutes: null,
+        },
+        believed: `${personName(world.people[familiarId]!)} told them privately about needing to withdraw from organizing the family picnic.`,
+        occasion: null,
+      }),
+  });
+  const candidate = candidates.find((entry) => entry.kind === kind)!;
+  return candidate.write(
+    world,
+    `life-opportunity:${personId}:${world.currentDate}:${kind}`,
+  );
+}
+
+/**
  * Which of the eight this world can support today.
  *
  * Every one of them needs a real person, a real record or both, and a kind
